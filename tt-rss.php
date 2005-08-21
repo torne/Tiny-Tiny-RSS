@@ -17,7 +17,7 @@
 <tr>
 	<td class="toolbar" valign="middle" colspan="2">	
 		<a class="button">Preferences</a>
-		<a class="button" href="javascript:reload()">Refresh</a>
+		<a class="button" href="javascript:refresh()">Refresh</a>
 	</td>
 </tr>
 <tr>
@@ -25,11 +25,11 @@
 		Here be feeds
 	</td>
 	<td id="headlines" class="headlines" valign="top">
-			Here be headlines
+		Please select the feed.
 	</td>
 </tr>
 	<td class="content" id="content" valign="top">
-		Here be content	
+		&nbsp;
 	</td>
 </tr>
 <tr>

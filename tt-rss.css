@@ -62,7 +62,10 @@ table.main td.toolbar {
 
 table.main td.header {
 	font-size : 18pt;
-	background : #f0f0f0;
+	background-color : #f0f0f0;
+	background-image : url("header.png");
+	background-position : top left;
+	background-repeat : repeat-x;
 	height : 50px;
 	padding-left : 80px;
 	padding-top : 30px;
@@ -126,4 +129,8 @@ ul {
 	margin : 0px;
 	padding : 0px;
 	border : 1px solid #f0f0f0;
+}
+
+.invisible {
+	display : none;
 }

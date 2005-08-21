@@ -50,7 +50,6 @@ function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
-	} else {
 	}
 }
 
@@ -58,7 +57,28 @@ function viewfeed_callback() {
 	var container = document.getElementById('headlines');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML = xmlhttp.responseText;
-	} else {
+
+		var factive = document.getElementById("FACTIVE");
+		var funread = document.getElementById("FUNREAD");
+		var ftotal = document.getElementById("FTOTAL");
+
+		if (ftotal && factive && funread) {
+			var feed_id = factive.innerHTML;
+
+			var feedr = document.getElementById("FEEDR-" + feed_id);
+			var feedt = document.getElementById("FEEDT-" + feed_id);
+			var feedu = document.getElementById("FEEDU-" + feed_id);
+
+			feedt.innerHTML = ftotal.innerHTML;
+			feedu.innerHTML = funread.innerHTML;
+
+			if (feedu.innerHTML > 0 && !feedr.className.match("Unread")) {
+					feedr.className = feedr.className + "Unread";
+			} else if (feedu.innerHTML <= 0) {	
+					feedr.className = feedr.className.replace("Unread", "");
+			}
+
+		}
 	}
 }
 
@@ -66,7 +86,6 @@ function view_callback() {
 	var container = document.getElementById('content');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;		
-	} else {
 	}
 }
 
@@ -79,28 +98,34 @@ function update_feed_list() {
 
 }
 
-function viewfeed(feed, skip) {
+function viewfeed(feed, skip, ext) {
 
 	notify("view-feed: " + feed);
 
 	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
+	document.getElementById('content').innerHTML='&nbsp;';		
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-		"&skip=" + skip, true);
+		"&skip=" + param_escape(skip) + "&ext=" + param_escape(ext) , true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
 	xmlhttp.send(null);
 
 }
 
-function view(id) {
+function view(id,feed_id) {
 
 	var crow = document.getElementById("RROW-" + id);
 
-	if (crow) {
+	if (crow.className.match("Unread")) {
+		var umark = document.getElementById("FEEDU-" + feed_id);
+		umark.innerHTML = umark.innerHTML - 1;
 		crow.className = crow.className.replace("Unread", "");
-	}
 
-	notify(crow.className);
+		if (umark.innerHTML == "0") {
+			var feedr = document.getElementById("FEEDR-" + feed_id);
+			feedr.className = feedr.className.replace("Unread", "");
+		}
+	}
 
 	document.getElementById('content').innerHTML='Loading, please wait...';		
 
