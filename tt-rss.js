@@ -92,6 +92,8 @@ function view_callback() {
 
 function update_feed_list() {
 
+	document.getElementById("feeds").innerHTML = "Updating feeds, please wait...";
+
 	xmlhttp.open("GET", "backend.php?op=feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);

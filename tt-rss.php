@@ -17,12 +17,12 @@
 <tr>
 	<td class="toolbar" valign="middle" colspan="2">	
 		<a class="button">Preferences</a>
-		<a class="button" href="javascript:refresh()">Refresh</a>
+		<!-- <a class="button" href="javascript:refresh()">Refresh</a> -->
 	</td>
 </tr>
 <tr>
 	<td valign="top" rowspan="2" id="feeds" class="feeds"> 
-		Here be feeds
+		&nbsp;
 	</td>
 	<td id="headlines" class="headlines" valign="top">
 		Please select the feed.

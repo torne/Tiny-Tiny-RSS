@@ -10,7 +10,6 @@ insert into ttrss_feeds (id,title,feed_url) values (0, 'Daily Strips', 'http://n
 insert into ttrss_feeds (id,title,feed_url) values (1, 'Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (id,title,feed_url) values (2, 'Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (3, 'Planet Debian', 'http://planet.debian.org/rss20.xml');
-insert into ttrss_feeds (id,title,feed_url) values (4, 'Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (5, 'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (6, 'Monologue', 'http://www.go-mono.com/monologue/index.rss');
 insert into ttrss_feeds (id,title,feed_url) values (7, 'Art.Gnome.Org Releases', 'http://art.gnome.org/backend.php');
