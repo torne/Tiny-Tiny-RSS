@@ -14,10 +14,11 @@ insert into ttrss_feeds (id,title,feed_url) values (4, 'Planet Ubuntu', 'http://
 insert into ttrss_feeds (id,title,feed_url) values (5, 'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (6, 'Monologue', 'http://www.go-mono.com/monologue/index.rss');
 
-
 create table ttrss_entries (id serial not null primary key, 
 	feed_id int references ttrss_feeds(id), 
 	entry_time timestamp not null, 
 	headline varchar(250) not null, 
 	guid varchar(300) not null unique, 
-	content text not null);
+	content text not null
+	unread boolean default true);
+	

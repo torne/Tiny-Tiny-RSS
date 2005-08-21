@@ -1,19 +1,24 @@
 <?
 	header("Content-Type: application/xml");
 
-	$op = $_GET["op"];
+	include "config.php";
 
+	$link = pg_connect(DB_CONN);
+	
+	$op = $_GET["op"];
+	
 	if ($op == "feeds") {
 
-		$feeds = array("Art.Gnome.Org Releases", "Footnotes", "Freedesktop.org",	
-				"Planet Debian", "Planet Gnome");
-
+		$result = pg_query("SELECT * FROM ttrss_feeds ORDER BY title");			
 
 		print "<ul>";
 
 		$lnum = 0;
 
-		foreach ($feeds as $feed) {
+		while ($line = pg_fetch_assoc($result)) {
+
+			$feed = $line["title"];
+				  
 			$class = ($lnum % 2) ? "even" : "odd";
 			
 //			if ($lnum == 2 || $lnum == 0) $feed = "<b>$feed</b>";
