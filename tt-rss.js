@@ -47,20 +47,26 @@ function notify(msg) {
 }
 
 function feedlist_callback() {
+	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
-		document.getElementById('feeds').innerHTML=xmlhttp.responseText;
+		container.innerHTML=xmlhttp.responseText;
+	} else {
 	}
 }
 
 function viewfeed_callback() {
+	var container = document.getElementById('headlines');
 	if (xmlhttp.readyState == 4) {
-		document.getElementById('headlines').innerHTML=xmlhttp.responseText;
+		container.innerHTML = xmlhttp.responseText;
+	} else {
 	}
 }
 
 function view_callback() {
+	var container = document.getElementById('content');
 	if (xmlhttp.readyState == 4) {
-		document.getElementById('content').innerHTML=xmlhttp.responseText;		
+		container.innerHTML=xmlhttp.responseText;		
+	} else {
 	}
 }
 
@@ -73,22 +79,32 @@ function update_feed_list() {
 
 }
 
-function viewfeed(feed) {
+function viewfeed(feed, skip) {
 
 	notify("view-feed: " + feed);
 
-	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) , true);
+	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
+
+	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
+		"&skip=" + skip, true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
 	xmlhttp.send(null);
 
 }
 
-function view(feed, post) {
+function view(id) {
 
-	notify("view: " + feed + ", " + post);
+	var crow = document.getElementById("RROW-" + id);
 
-	xmlhttp.open("GET", "backend.php?op=view&feed=" + param_escape(feed) +
-		"&post=" + post, true);
+	if (crow) {
+		crow.className = crow.className.replace("Unread", "");
+	}
+
+	notify(crow.className);
+
+	document.getElementById('content').innerHTML='Loading, please wait...';		
+
+	xmlhttp.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
 	xmlhttp.onreadystatechange=view_callback;
 	xmlhttp.send(null);
 

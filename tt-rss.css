@@ -18,7 +18,7 @@ a.button {
 	border : 1px solid #d0d0d0;
 	background : white;
 	color : black;
-	padding : 5px 10px 5px 10px;
+	padding : 2px 10px 2px 10px;
 }
 
 a.button:hover {
@@ -26,14 +26,41 @@ a.button:hover {
 	text-decoration : none;
 }
 
-td.toolbar {
+table.feedOverview {
+	margin : 5px;
+	border : 1px solid #c0c0c0;
+	background : #f0f0f0;
+	-moz-border-radius : 5px;
+	padding : 5px;
+	font-size : small;
+}
+
+td.headlineToolbar {
+	padding-top : 10px;
+}
+
+table.headlines td.title {
+	font-weight : bold;
+	font-size : large;
+	border-width : 0px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
+	text-align : right;
+}
+
+table.headlines td.headlineUpdated {
+	width : 200px;
+
+}
+
+table.main td.toolbar {
 	height : 40px;
 	text-align : right;
 	background : #f0f0f0;
 	padding-right : 5px;
 }
 
-td.header {
+table.main td.header {
 	font-size : 18pt;
 	background : #f0f0f0;
 	height : 50px;
@@ -42,15 +69,15 @@ td.header {
 	font-weight : bold;
 }
 
-td.feeds {
-	width : 180px;
+table.main td.feeds {
+	width : 250px;
 	border-width : 1px 1px 0px 0px;
 	border-color : #c0c0c0;
 	border-style : solid;
 	padding : 10px;
 }
 
-td.headlines {
+table.main td.headlines {
 	height : 25%;
 	padding : 10px;
 	border-width : 1px 0px 0px 0px;
@@ -59,7 +86,7 @@ td.headlines {
 	overflow : scroll;
 }
 
-td.content {
+table.main td.content {
 	padding : 10px;
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
@@ -67,7 +94,7 @@ td.content {
 	overflow : scroll;
 }
 
-td.notify {
+table.main td.notify {
 	height : 40px;
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
@@ -81,11 +108,14 @@ td.notify {
 	background-color : #f0f0f0;
 }
 
-.odd {
-
-
+.evenUnread {
+	background-color : #f0f0f0;
+	font-weight : bold;
 }
 
+.oddUnread {
+	font-weight : bold;
+}
 
 li {
 	list-style-type : none;

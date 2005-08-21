@@ -3,11 +3,12 @@
 	<title>Tiny Tiny RSS</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 	<script type="text/javascript" src="tt-rss.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body onload="init()">
 
-<table width="100%" height="100%" cellspacing=0 cellpadding=0>
+<table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
 <tr>
 	<td class="header" valign="middle" colspan="2">	
 			Tiny Tiny RSS
@@ -16,7 +17,7 @@
 <tr>
 	<td class="toolbar" valign="middle" colspan="2">	
 		<a class="button">Preferences</a>
-		<a class="button">Refresh</a>
+		<a class="button" href="javascript:reload()">Refresh</a>
 	</td>
 </tr>
 <tr>
