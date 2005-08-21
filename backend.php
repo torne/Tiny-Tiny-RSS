@@ -43,8 +43,10 @@
 
 			$feed = "<a href=\"javascript:viewfeed($feed_id, 0);\">$feed</a>";
 			print "<td id=\"FEEDN-$feed_id\">$feed</td>";
-			print "<td id=\"FEEDU-$feed_id\">$unread</td>";
-			print "<td id=\"FEEDT-$feed_id\">$total</td>";
+			print "<td>";
+			print "<span id=\"FEEDU-$feed_id\">$unread</span>&nbsp;/&nbsp;";
+			print "<span id=\"FEEDT-$feed_id\">$total</span>";
+			print "</td>";
 
 			print "</tr>";
 			++$lnum;
