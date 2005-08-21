@@ -144,7 +144,21 @@ function timeout() {
 
 	update_feed_list(true);
 
-	setTimeout("timeout()", 120*1000);
+	setTimeout("timeout()", 1800*1000);
+
+}
+
+function search(feed, sender) {
+
+	notify("Search: " + feed + ", " + sender.value)
+
+	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
+	document.getElementById('content').innerHTML='&nbsp;';		
+
+	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
+		"&search=" + param_escape(sender.value) + "&ext=SEARCH", true);
+	xmlhttp.onreadystatechange=viewfeed_callback;
+	xmlhttp.send(null);
 
 }
 
@@ -154,6 +168,6 @@ function init() {
 
 	update_feed_list();
 
-	setTimeout("timeout()", 120*1000);
+	setTimeout("timeout()", 1800*1000);
 
 }

@@ -16,13 +16,17 @@ a:hover {
 
 a.button {
 	border : 1px solid #d0d0d0;
-	background : white;
-	color : black;
+	background-image : url("button.png");
+	background-position : top;
+	background-repeat : repeat-x;
+	background-color : white;
+	color : black;	
 	padding : 2px 10px 2px 10px;
+	font-size : small;
 }
 
 a.button:hover {
-	background : #f0f0f0;
+	background : white;
 	text-decoration : none;
 }
 
@@ -48,6 +52,14 @@ table.feeds td.footer {
 	font-size : small;
 }
 
+table.headlines td.search {
+	font-size : small;
+/*	border-width : 0px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
+	padding-bottom : 3px; */
+}
+
 table.headlines td.title {
 	font-weight : bold;
 	font-size : large;
@@ -55,6 +67,7 @@ table.headlines td.title {
 	border-color : #d0d0d0;
 	border-style : solid;
 	text-align : right;
+	padding-bottom : 3px;
 }
 
 table.headlines td.headlineUpdated {
@@ -62,11 +75,16 @@ table.headlines td.headlineUpdated {
 
 }
 
+input {
+	border : 1px solid #a0a0a0;
+}
+
 table.main td.toolbar {
 	height : 40px;
-	text-align : right;
 	background : #f0f0f0;
 	padding-right : 5px;
+	font-size : small;
+	text-align : right;
 }
 
 table.main td.header {

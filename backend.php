@@ -88,7 +88,11 @@
 		$skip = $_GET["skip"];
 		$ext = $_GET["ext"];
 
+		if (!$skip) $skip = 0;
+
 		if ($ext == "undefined") $ext = "";
+
+		// FIXME: check for null value here
 
 		$result = pg_query("SELECT *,
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
@@ -113,11 +117,24 @@
 		}
 
 		print "<table class=\"headlines\" width=\"100%\">";
+/*		print "<tr><td class=\"search\">
+			Search: <input onchange=\"javascript:search($feed,this);\"></td>";
+		print "<td class=\"title\">" . $line["title"] . "</td></tr>"; */
+
+		print "<tr><td class=\"search\" colspan=\"2\">
+			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>";
 		print "<tr><td colspan=\"2\" class=\"title\">" . $line["title"] . "</td></tr>";
+
+		if ($ext == "SEARCH") {
+			$search = $_GET["search"];
+			$search_query_part = "(upper(title) LIKE upper('%$search%') 
+				OR content LIKE '%$search%') AND";
+		}
 
 		$result = pg_query("SELECT id,title,updated,unread,feed_id FROM
 			ttrss_entries WHERE
-			feed_id = '$feed' ORDER BY updated LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
+			$search_query_part
+			feed_id = '$feed' ORDER BY updated DESC LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
 
 		$lnum = 0;
 
@@ -139,6 +156,11 @@
 			++$lnum;
 		}
 
+		if ($lnum == 0) {
+			print "<tr><td align='center'>No entries found.</td></tr>";
+
+		}
+
 		print "<tr><td colspan=\"2\" class=\"headlineToolbar\">";
 
 		$next_skip = $skip + HEADLINES_PER_PAGE;
@@ -150,7 +172,10 @@
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
 		print "&nbsp;&nbsp;&nbsp;";
-		
+
+		print "<a class=\"button\" 
+			href=\"javascript:viewfeed($feed, 0, '');\">Refresh</a>";
+		print "&nbsp;&nbsp;&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, 0, 'MarkAllRead');\">Mark all as read</a>";
 

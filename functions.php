@@ -74,13 +74,17 @@
 					$md5_hash = pg_fetch_result($result, 0, "md5_hash");
 				
 					if ($md5_hash != $content_md5) 
-						$unread = "false";
+						$unread = "true";
+				
+					if ($unread) {
+						$updated_query_part = "updated = '$entry_timestamp',";
+					}
 				
 					$query = "UPDATE ttrss_entries 
 						SET 
 							title ='$entry_title', 
 							link = '$entry_link', 
-							updated = '$entry_timestamp', 
+							$updated_query_part
 							content = '$entry_content',
 							md5_hash = '$content_md5',
 							unread = '$unread'
@@ -90,8 +94,8 @@
 					$result = pg_query($link, $query);
 	
 
-	//						print "$entry_guid - $entry_timestamp - $entry_title - 
-	//							$entry_link - $entry_id<br>";
+//						print "$entry_guid - $entry_timestamp - $entry_title - 
+//							$entry_link - $entry_id<br>";
 	
 				}
 	
