@@ -11,7 +11,7 @@ a {
 }
 
 a:hover {
-	text-decoration : underline;
+	color : #5050aa;
 }
 
 a.button {
@@ -122,6 +122,15 @@ table.main td.content {
 	border-color : #c0c0c0;
 	border-style : solid;
 	overflow : scroll;
+}
+
+td.content a {
+	color : #5050aa;
+	text-decoration : none;
+}
+
+td.content a:hover {
+	text-decoration : underline;
 }
 
 table.main td.notify {
