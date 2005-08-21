@@ -90,13 +90,16 @@ function view_callback() {
 }
 
 
-function update_feed_list() {
+function update_feed_list(called_from_timer) {
 
-	document.getElementById("feeds").innerHTML = "Updating feeds, please wait...";
+	if (called_from_timer != true) {
+		document.getElementById("feeds").innerHTML = "Updating feeds, please wait...";
+	}
 
 	xmlhttp.open("GET", "backend.php?op=feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
+
 
 }
 
@@ -137,10 +140,20 @@ function view(id,feed_id) {
 
 }
 
+function timeout() {
+
+	update_feed_list(true);
+
+	setTimeout("timeout()", 120*1000);
+
+}
+
 function init() {
 
 	notify("init");
 
 	update_feed_list();
+
+	setTimeout("timeout()", 120*1000);
 
 }
