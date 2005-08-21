@@ -37,7 +37,7 @@
 </tr>
 <tr>
 	<td colspan="2" id="notify" class="notify">
-		[Status Message Placeholder]
+		<a href="">Tiny-Tiny RSS</a> v0.1 &copy; 2005 Andrew Dolgov
 	</td>
 </td>
 </table>

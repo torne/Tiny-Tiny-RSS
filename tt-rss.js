@@ -164,8 +164,6 @@ function search(feed, sender) {
 
 function init() {
 
-	notify("init");
-
 	update_feed_list();
 
 	setTimeout("timeout()", 1800*1000);
