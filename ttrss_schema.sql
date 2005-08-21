@@ -19,6 +19,7 @@ create table ttrss_entries (id serial not null primary key,
 	entry_time timestamp not null, 
 	headline varchar(250) not null, 
 	guid varchar(300) not null unique, 
+	link varchar(300) not null, 
 	content text not null
 	unread boolean default true);
 	
