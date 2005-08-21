@@ -72,8 +72,8 @@
 	
 					$unread = pg_fetch_result($result, 0, "unread");
 					$md5_hash = pg_fetch_result($result, 0, "md5_hash");
-				
-					if ($md5_hash != $content_md5) 
+					
+					if ($md5_hash != $content_md5 && CONTENT_CHECK_MD5) 
 						$unread = "true";
 				
 					if ($unread) {
