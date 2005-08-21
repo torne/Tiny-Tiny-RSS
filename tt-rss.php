@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Tiny Tiny RSS</title>
+	<link rel="stylesheet" href="tt-rss.css" type="text/css">
+	<script type="text/javascript" src="tt-rss.js"></script>
+</head>
+
+<body onload="init()">
+
+<table width="100%" height="100%" cellspacing=0 cellpadding=0>
+<tr>
+	<td class="header" valign="middle" colspan="2">
+		Tiny Tiny RSS
+	</td>
+</tr>
+<tr>
+	<td valign="top" rowspan="2" id="feeds" class="feeds"> 
+		Here be feeds
+	</td>
+	<td id="headlines" class="headlines" valign="top">
+			Here be headlines
+	</td>
+</tr>
+	<td class="content" id="content" valign="top">
+		Here be content	
+	</td>
+</tr>
+<tr>
+	<td colspan="2" id="notify" class="notify">
+		[Status Message Placeholder]
+	</td>
+</td>
+</table>
+
+
+</body>
+</html>
