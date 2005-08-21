@@ -12,7 +12,18 @@ insert into ttrss_feeds (id,title,feed_url) values (2, 'Freedesktop.org', 'http:
 insert into ttrss_feeds (id,title,feed_url) values (3, 'Planet Debian', 'http://planet.debian.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (5, 'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
 insert into ttrss_feeds (id,title,feed_url) values (6, 'Monologue', 'http://www.go-mono.com/monologue/index.rss');
-insert into ttrss_feeds (id,title,feed_url) values (7, 'Art.Gnome.Org Releases', 'http://art.gnome.org/backend.php');
+
+insert into ttrss_feeds (id,title,feed_url) values (8, 'Latest Linux Kernel Versions', 
+	'http://kernel.org/kdist/rss.xml');
+
+insert into ttrss_feeds (id,title,feed_url) values (9, 'RPGDot Newsfeed', 
+	'http://www.rpgdot.com/team/rss/rss0.xml');
+
+insert into ttrss_feeds (id,title,feed_url) values (10, 'Digg.com News', 
+	'http://digg.com/rss/index.xml');
+
+insert into ttrss_feeds (id,title,feed_url) values (11, 'Technocrat.net', 
+	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
 	feed_id int references ttrss_feeds(id) not null, 
