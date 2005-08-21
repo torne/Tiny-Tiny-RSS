@@ -76,7 +76,7 @@
 					if ($md5_hash != $content_md5 && CONTENT_CHECK_MD5) 
 						$unread = "true";
 				
-					if ($unread) {
+					if ($unread || !CONTENT_CHECK_MD5) {
 						$updated_query_part = "updated = '$entry_timestamp',";
 					}
 				
