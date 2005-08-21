@@ -18,12 +18,13 @@
 		while ($line = pg_fetch_assoc($result)) {
 
 			$feed = $line["title"];
-				  
+			$feed_id = $line["id"];	  
+			
 			$class = ($lnum % 2) ? "even" : "odd";
 			
 //			if ($lnum == 2 || $lnum == 0) $feed = "<b>$feed</b>";
 			
-			$feed = "<a href=\"javascript:viewfeed('$feed')\">$feed</a>";
+			$feed = "<a href=\"javascript:viewfeed($feed_id);\">$feed</a>";
 			
 			print "<li class=\"$class\">$feed</li>";
 			++$lnum;

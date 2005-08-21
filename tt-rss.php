@@ -9,8 +9,14 @@
 
 <table width="100%" height="100%" cellspacing=0 cellpadding=0>
 <tr>
-	<td class="header" valign="middle" colspan="2">
-		Tiny Tiny RSS
+	<td class="header" valign="middle" colspan="2">	
+			Tiny Tiny RSS
+	</td>
+</tr>
+<tr>
+	<td class="toolbar" valign="middle" colspan="2">	
+		<a class="button">Preferences</a>
+		<a class="button">Refresh</a>
 	</td>
 </tr>
 <tr>

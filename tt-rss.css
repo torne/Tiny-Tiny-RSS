@@ -12,14 +12,33 @@ a {
 
 a:hover {
 	text-decoration : underline;
+}
 
+a.button {
+	border : 1px solid #d0d0d0;
+	background : white;
+	color : black;
+	padding : 5px 10px 5px 10px;
+}
+
+a.button:hover {
+	background : #f0f0f0;
+	text-decoration : none;
+}
+
+td.toolbar {
+	height : 40px;
+	text-align : right;
+	background : #f0f0f0;
+	padding-right : 5px;
 }
 
 td.header {
 	font-size : 18pt;
 	background : #f0f0f0;
-	height : 100px;
+	height : 50px;
 	padding-left : 80px;
+	padding-top : 30px;
 	font-weight : bold;
 }
 
