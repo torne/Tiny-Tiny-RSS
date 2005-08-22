@@ -1,0 +1,21 @@
+Tiny Tiny RSS
+=============
+
+Server-side RSS feed aggregator written in PHP and heavily based
+on XmlHttpRequest and related technologies for user interface and
+operation.
+
+Licensed under GPL version 2.
+
+Warning: This is alpha quality experimental code.
+
+Requirements:
+	
+	- PHP4;
+	- Magpie RSS (http://magpierss.sourceforge.net/) - place it into
+	  magpierss/ subdirectory;
+	- PostgreSQL (example schema and configuration in ttrss_schema.sql)
+
+Don't forget to copy config.php-dist to config.php and edit it.
+
+Send your questions, comments, patches to Andrew Dolgov <cthulhoo@gmail.com>
