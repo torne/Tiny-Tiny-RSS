@@ -26,6 +26,10 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 }
 
+function printLockingError() {
+	notify("Please wait until operation finishes");
+}
+
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -105,14 +109,14 @@ function updateFeedList(called_from_timer, fetch) {
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.send(null);
 	} else {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 	}
 }
 
 function catchupPage(feed) {
 
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 		return
 	}
 
@@ -153,7 +157,7 @@ function catchupPage(feed) {
 function catchupAllFeeds() {
 
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 		return
 	}
 	var query_str = "backend.php?op=feeds&subop=catchupAll";
@@ -172,7 +176,7 @@ function viewfeed(feed, skip, subop) {
 //	document.getElementById('content').innerHTML='&nbsp;';		
 
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 		return
 	}
 
@@ -188,7 +192,7 @@ function viewfeed(feed, skip, subop) {
 function view(id,feed_id) {
 
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 		return
 	}
 
@@ -234,7 +238,7 @@ function timeout() {
 function search(feed, sender) {
 
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		notify("Please wait until operation finishes.");
+		printLockingError();
 		return
 	}
 

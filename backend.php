@@ -261,7 +261,7 @@
 			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
 		print "&nbsp;";
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
+			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update Feed</a>";
 		
 		print "&nbsp;&nbsp;Mark as read: ";
 		
