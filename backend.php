@@ -207,19 +207,17 @@
 
 	}
 
-	if ($op == "pref-feeds") {
-	
-		$subop = $_GET["subop"];
+	if ($op == "pref-rpc") {
 
-		if ($subop == "edit") {
-			print "<p>[Edit feed placeholder]</p>";
-		}
+		$subop = $_GET["subop"];
 
 		if ($subop == "unread") {
 			$ids = split(",", $_GET["ids"]);
 			foreach ($ids as $id) {
 				pg_query("UPDATE ttrss_entries SET unread = true WHERE feed_id = '$id'");
 			}
+
+			print "Marked selected feeds as read.";
 		}
 
 		if ($subop == "read") {
@@ -227,6 +225,19 @@
 			foreach ($ids as $id) {
 				pg_query("UPDATE ttrss_entries SET unread = false WHERE feed_id = '$id'");
 			}
+
+			print "Marked selected feeds as unread.";
+
+		}
+
+	}
+
+	if ($op == "pref-feeds") {
+	
+		$subop = $_GET["subop"];
+
+		if ($subop == "edit") {
+			print "<p>[Edit feed placeholder]</p>";
 		}
 
 		if ($subop == "remove") {

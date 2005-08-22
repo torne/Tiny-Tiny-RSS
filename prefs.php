@@ -42,6 +42,8 @@
 				href="javascript:readSelectedFeeds()">Mark as read</a>&nbsp;
 			<a class="button" 
 				href="javascript:unreadSelectedFeeds()">Mark as unread</a>&nbsp;
+			<a class="button" 
+				href="javascript:updateFeedList()">Refresh</a>&nbsp;
 
 		<hr>
 

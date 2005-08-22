@@ -32,7 +32,14 @@ function feedlist_callback() {
 	}
 }
 
-function update_feeds() {
+function notify_callback() {
+	var container = document.getElementById('notify');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+	}
+}
+
+function updateFeedList() {
 
 	document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
 
@@ -111,9 +118,9 @@ function readSelectedFeeds() {
 
 		notify("Marking selected feeds as read...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=unread&ids="+
+		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=unread&ids="+
 			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.onreadystatechange=notify_callback;
 		xmlhttp.send(null);
 
 	} else {
@@ -131,9 +138,9 @@ function unreadSelectedFeeds() {
 
 		notify("Marking selected feeds as unread...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=unread&ids="+
+		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=unread&ids="+
 			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.onreadystatechange=notify_callback;
 		xmlhttp.send(null);
 
 	} else {
@@ -166,7 +173,7 @@ function removeSelectedFeeds() {
 
 function init() {
 	
-	update_feeds();
+	updateFeedList();
 
 	notify("");
 
