@@ -44,6 +44,12 @@ function notify(msg) {
 
 	n.innerHTML = msg;
 
+	if (msg.length == 0) {
+		n.style.display = "none";
+	} else {
+		n.style.display = "block";
+	}
+
 }
 
 function feedlist_callback() {
@@ -91,9 +97,9 @@ function addFeed() {
 }
 
 function init() {
-
-	notify("init");
-
+	
 	update_feeds();
+
+	notify("");
 
 }
