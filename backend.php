@@ -41,9 +41,8 @@
 			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
 		}
 
-		if ($fetch) update_all_feeds($link, $fetch);
+		update_all_feeds($link, $fetch);
 		
-
 		$result = pg_query("SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
 				WHERE feed_id = ttrss_feeds.id) AS total,
