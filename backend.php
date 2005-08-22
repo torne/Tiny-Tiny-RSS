@@ -15,7 +15,14 @@
 		
 	if ($op == "feeds") {
 
+		$subop = $_GET["subop"];
+
+		if ($subop == "catchupAll") {
+			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
+		}
+
 		if ($fetch) update_all_feeds($link, $fetch);
+		
 
 		$result = pg_query("SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
@@ -57,10 +64,20 @@
 			++$lnum;
 		}
 
-		print "<tr><td class=\"footer\" colspan=\"3\">
-			<a href=\"javascript:update_feed_list(false,true)\">Update all feeds</a></td></tr>";
+//		print "<tr><td class=\"footer\" colspan=\"3\">
+//			<a href=\"javascript:update_feed_list(false,true)\">Update all feeds</a></td></tr>";
+
+//		print "<tr><td class=\"footer\" colspan=\"2\">&nbsp;";
+//		print "</td></tr>";
 
 		print "</table>";
+
+		print "<p align=\"center\">All feeds: 
+			<a class=\"button\" 
+				href=\"javascript:updateFeedList(false,true)\">Update</a>";
+
+		print "&nbsp;<a class=\"button\" 
+				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
 
@@ -95,11 +112,11 @@
 
 		$feed = $_GET["feed"];
 		$skip = $_GET["skip"];
-		$ext = $_GET["ext"];
+		$subop = $_GET["subop"];
 
 		if (!$skip) $skip = 0;
 
-		if ($ext == "undefined") $ext = "";
+		if ($subop == "undefined") $subop = "";
 
 		// FIXME: check for null value here
 
@@ -111,20 +128,20 @@
 
 			$line = pg_fetch_assoc($result);
 
-			if ($ext == "ForceUpdate" || 
-				(!$ext && $line["update_timeout"] > MIN_UPDATE_TIME)) {
+			if ($subop == "ForceUpdate" || 
+				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {
 				
 				update_rss_feed($link, $line["feed_url"], $feed);
 
 			} else {
 
-				if ($ext == "MarkAllRead")  {
+				if ($subop == "MarkAllRead")  {
 
 					pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() 
 						WHERE feed_id = '$feed'");
 				}
 
-				if ($ext == "MarkPageRead")  {
+				if ($subop == "MarkPageRead")  {
 
 //					pg_query("UPDATE ttrss_entries SET unread = false 
 //						WHERE feed_id = '$feed' ORDER BY updated OFFSET $skip LIMIT 1");
