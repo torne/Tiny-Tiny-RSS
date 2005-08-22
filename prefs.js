@@ -77,6 +77,18 @@ function toggleSelectRow(sender) {
 	}
 }
 
+function addFeed() {
+
+	var link = document.getElementById("fadd_link").value;
+	var title = document.getElementById("fadd_title").value;
+
+	if (link.length == 0 || title.length == 0) {
+		notify("Error: all fields must be filled in.");
+	} else {
+		notify("addFeed : " + link + ", " + title);
+	}
+
+}
 
 function init() {
 

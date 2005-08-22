@@ -10,35 +10,46 @@
 
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
 <tr>
-	<td class="header" valign="middle" colspan="1">	
+	<td class="header" valign="middle" colspan="2">	
 			Preferences
 	</td>
 </tr>
 <tr>
-	<td class="toolbar" valign="middle" colspan="1">	
-		<a class="button">Close</a>
+	<td class="toolbar" valign="middle">
+		 <div id="notify">&nbsp;</div>
+	</td>
+	<td class="toolbar" valign="middle" colspan="2" align="right">	
+		<a href="tt-rss.php" class="button">Return to main</a>
 	</td>
 </tr>
 </tr>
-	<td class="content" id="content" valign="top">
+	<td class="content" id="content" valign="top" colspan="2">
 		<h2>Feed Configuration</h2>
 
-		<table class="prefAddFeed">
+		<!-- <input type="submit" value="Add feed"> -->
+
+		<!-- <table class="prefAddFeed">
 			<tr><td>Title:</td><td><input id="fadd_title"></td></tr>
 			<tr><td>Link:</td><td><input id="fadd_link"></td></tr>
 			<tr><td colspan="2" align="right">
 				<a class="button" href="javascript:addFeed()">Add feed</a></td></tr>
+		</table> -->
+
+		<table class="prefAddFeed">
+			<tr><td>Title:</td><td><input id="fadd_title"></td>
+			<td>Link:</td><td><input id="fadd_link"></td></tr>
+			<tr><td colspan="4" align="right">
+				<a class="button" href="javascript:addFeed()">Add feed</a></td></tr>
 		</table>
 
-		<!-- <input type="submit" value="Add feed"> -->
-		
 		<div id="feeds">&nbsp;</div>
 
 		<hr>
+
 	</td>
 </tr>
 <tr>
-	<td colspan="2" id="notify" class="notify">
+	<td colspan="2" class="notify">
 		<a href="">Tiny-Tiny RSS</a> v0.1 &copy; 2005 Andrew Dolgov
 	</td>
 </td>

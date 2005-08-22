@@ -32,10 +32,15 @@
 				if (!$entry_timestamp) $entry_timestamp = $item["updated"];
 	
 				$entry_timestamp = strtotime($entry_timestamp);
-	
+
+				if (!$entry_timestamp) continue;
+
 				$entry_title = $item["title"];
 				$entry_link = $item["link"];
-	
+
+				if (!$entry_title) continue;
+				if (!$entry_link) continue;
+
 				$entry_content = $item["description"];
 				if (!$entry_content) $entry_content = $item["content"];
 	

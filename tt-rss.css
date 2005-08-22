@@ -103,13 +103,24 @@ table.main td.toolbar {
 	/* background-image : url("shadow_top.png");
 	background-position : bottom left;
 	background-repeat : repeat-x; */
-	padding-right : 5px;
+	padding-right : 10px;
+	padding-left : 10px;
 	font-size : small;
-	text-align : right;
+}
+
+#notify {
+	font-weight : bold;
+	border : 1px solid #c0c0c0;
+	font-size : small;
+	display : block;
+	background : white;
+	-moz-border-radius : 5px;
+	padding : 3px 10px 3px 10px;
+	width : 300px;
 }
 
 table.main td.header {
-	font-size : 18pt;
+	font-size : 21pt;
 	background-color : #f0f0f0;
 	background-image : url("header.png");
 	background-position : top left;
@@ -118,6 +129,7 @@ table.main td.header {
 	padding-left : 80px;
 	padding-top : 30px;
 	font-weight : bold;
+	color : black;
 }
 
 table.main td.feeds {
@@ -150,9 +162,10 @@ td.content a {
 	text-decoration : none;
 }
 
+/*
 td.content a:hover {
 	text-decoration : underline;
-}
+} */
 
 table.main td.notify {
 	height : 40px;

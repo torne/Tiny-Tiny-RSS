@@ -19,7 +19,7 @@
 		Search: <input name="q" onclick=\"javascript:search(this);\">
 	</td> -->
 	<td class="toolbar" valign="middle" colspan="2">	
-		<a class="button">Preferences</a>
+		<a href="prefs.php" class="button">Preferences</a>
 		<!-- <a class="button" href="javascript:refresh()">Refresh</a> -->
 	</td>
 </tr>
