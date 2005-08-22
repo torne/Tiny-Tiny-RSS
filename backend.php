@@ -199,5 +199,35 @@
 
 	}
 
+	if ($op == "pref-feeds") {
+	
+		$result = pg_query("SELECT * FROM ttrss_feeds ORDER by title");
 
+		print "<p><table width=\"100%\" class=\"prefFeedList\">";
+		print "<tr class=\"title\">
+					<td>Select</td><td>Title</td><td>Link</td><td>Last Updated</td></tr>";
+		
+		$lnum = 0;
+		
+		while ($line = pg_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+
+			print "<tr class=\"$class\">";
+
+			print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"FROW-".$line["id"]."\"></td>";
+			print "<td>" . $line["title"] . "</td>";		
+			print "<td>" . $line["feed_url"] . "</td>";		
+			print "<td>" . $line["last_updated"] . "</td>";
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		print "</table>";
+
+	}
+
+	pg_close($link);
 ?>

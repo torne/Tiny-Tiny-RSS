@@ -5,6 +5,24 @@ body {
 	padding : 0px;
 }
 
+h1 {
+	font-size : 16pt;	
+}
+
+h2 {
+	font-size : 14pt;
+	font-color : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+hr {
+	border-width : 0px 0px 1px 0px;
+	border-style : dashed;
+	border-color : #e0e0e0;
+}
+
 a {
 	color : black;
 	text-decoration : none;
@@ -178,3 +196,34 @@ ul {
 .invisible {
 	display : none;
 }
+
+table.prefAddFeed td {
+	padding : 2px;
+}
+
+table.prefAddFeed input {
+	width : 250px;
+}
+
+table.prefAddFeed {
+	background : #f0f0f0;
+	border : 1px solid #c0c0c0;
+	padding : 10px;
+	-moz-border-radius : 5px;
+}
+
+table.prefFeedList tr.title td {
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-color : #f0f0f0;
+	border-style : solid;
+}
+
+.evenSelected {
+	background-color : #c0c0c0;
+}
+
+.oddSelected {
+	background-color : #c0c0c0;
+}
+
