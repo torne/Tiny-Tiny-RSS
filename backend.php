@@ -256,12 +256,13 @@
 		} else {
 			print "<a class=\"disabledButton\">Next Page</a>";
 		}			
-		print "&nbsp;";
+		print "&nbsp;&nbsp;Feed: ";
+//		print "<a class=\"button\" 
+//			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
+//		print "&nbsp;";
+
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
-		print "&nbsp;";
-		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update Feed</a>";
+			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
 		
 		print "&nbsp;&nbsp;Mark as read: ";
 		
