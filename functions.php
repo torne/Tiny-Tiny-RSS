@@ -8,8 +8,10 @@
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
 			MIN_UPDATE_TIME);
 
+		$num_unread = 0;
+
 		while ($line = pg_fetch_assoc($result)) {
-			update_rss_feed($link, $line["feed_url"], $line["id"]);
+			$num_unread += update_rss_feed($link, $line["feed_url"], $line["id"]);
 		}
 
 	}
@@ -17,6 +19,8 @@
 	function update_rss_feed($link, $feed_url, $feed) {
 
 		$rss = fetch_rss($feed_url);
+
+		$num_unread = 0;
 	
 		if ($rss) {
 	
@@ -80,7 +84,9 @@
 								'$entry_timestamp', '$entry_content', '$feed', 
 								'$content_md5')";
 	
-					pg_query($link, $query);
+					$result = pg_query($link, $query);
+
+					if ($result) ++$num_unread;
 	
 				} else {
 	
@@ -110,15 +116,15 @@
 	
 					$result = pg_query($link, $query);
 	
-
-//						print "$entry_guid - $entry_timestamp - $entry_title - 
-//							$entry_link - $entry_id<br>";
+					if ($result) ++$num_unread;
 	
 				}
 	
 			}
 
-			$result = pg_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
+			if ($result) {
+				$result = pg_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
+			}
 
 		}
 

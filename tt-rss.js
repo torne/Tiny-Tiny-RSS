@@ -5,6 +5,8 @@
 
 var xmlhttp = false;
 
+var total_unread = 0;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -28,6 +30,13 @@ function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
+
+		var feedtu = document.getElementById("FEEDTU");
+
+		if (feedtu) {
+			total_unread = feedtu.innerHTML;
+			update_title();
+		}
 	}
 }
 
@@ -112,7 +121,11 @@ function view(id,feed_id) {
 			var feedr = document.getElementById("FEEDR-" + feed_id);
 			feedr.className = feedr.className.replace("Unread", "");
 		}
-	}
+		
+		total_unread--;
+
+		update_title();
+	}	
 
 	document.getElementById('content').innerHTML='Loading, please wait...';		
 
@@ -144,11 +157,11 @@ function search(feed, sender) {
 
 }
 
+function update_title() {
+	//document.title = "Tiny Tiny RSS (" + total_unread + " unread)";
+}
+
 function init() {
-
 	update_feed_list(false, false);
-
 	setTimeout("timeout()", 1800*1000);
-
-
 }

@@ -28,6 +28,8 @@
 
 		$lnum = 0;
 
+		$total_unread = 0;
+
 		while ($line = pg_fetch_assoc($result)) {
 		
 			$feed = $line["title"];
@@ -39,6 +41,8 @@
 			$class = ($lnum % 2) ? "even" : "odd";
 
 			if ($unread > 0) $class .= "Unread";
+
+			$total_unread += $unread;
 
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
@@ -57,6 +61,8 @@
 			<a href=\"javascript:update_feed_list(false,true)\">Update all feeds</a></td></tr>";
 
 		print "</table>";
+
+		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
 
 	}
 
