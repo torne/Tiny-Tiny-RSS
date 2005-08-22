@@ -77,7 +77,7 @@
 	
 				$result = pg_query($link, "
 					SELECT 
-						id,unread,md5_hash,
+						id,unread,md5_hash,last_read,
 						EXTRACT(EPOCH FROM updated) as updated_timestamp
 					FROM
 						ttrss_entries 
@@ -104,13 +104,20 @@
 					$entry_id = pg_fetch_result($result, 0, "id");
 					$updated_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
 					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
+					$last_read = pg_fetch_result($result, 0, "last_read");
 	
 					$unread = pg_fetch_result($result, 0, "unread");
 					$md5_hash = pg_fetch_result($result, 0, "md5_hash");
 					
-					if ($md5_hash != $content_md5 && CONTENT_CHECK_MD5) 
-						$unread = "true";
-				
+//					if ($md5_hash != $content_md5 && CONTENT_CHECK_MD5) 
+//						$unread = "true";
+
+					if ($md5_hash != $content_md5) {
+						$last_read = 'null';
+					} else {
+						$last_read = "'$last_read'";
+					}
+
 //					if ($unread || !CONTENT_CHECK_MD5) {
 //						$updated_query_part = "updated = '$entry_timestamp',";
 //					}
@@ -127,6 +134,7 @@
 							updated = '$entry_timestamp_fmt',
 							content = '$entry_content',
 							md5_hash = '$content_md5',
+							last_read = $last_read,
 							unread = '$unread'
 						WHERE
 							id = '$entry_id'";
