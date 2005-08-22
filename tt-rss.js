@@ -90,7 +90,7 @@ function view_callback() {
 
 
 function updateFeedList(called_from_timer, fetch) {
-
+	
 	if (called_from_timer != true) {
 		//document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
 		notify("Updating feeds...");
@@ -100,13 +100,21 @@ function updateFeedList(called_from_timer, fetch) {
 
 	if (fetch) query_str = query_str + "&fetch=yes";
 
-	xmlhttp.open("GET", query_str, true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null);
-
+	if (xmlhttp.readyState == 4 || xmlhttp.readyState == 0) {
+		xmlhttp.open("GET", query_str, true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+	} else {
+		notify("Please wait until operation finishes.");
+	}
 }
 
 function catchupPage(feed) {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		notify("Please wait until operation finishes.");
+		return
+	}
 
 	var content = document.getElementById("headlinesList");
 
@@ -143,6 +151,11 @@ function catchupPage(feed) {
 }
 
 function catchupAllFeeds() {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		notify("Please wait until operation finishes.");
+		return
+	}
 	var query_str = "backend.php?op=feeds&subop=catchupAll";
 
 	notify("Marking all feeds as read...");
@@ -158,6 +171,11 @@ function viewfeed(feed, skip, subop) {
 //	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
 //	document.getElementById('content').innerHTML='&nbsp;';		
 
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		notify("Please wait until operation finishes.");
+		return
+	}
+
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) , true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
@@ -168,6 +186,11 @@ function viewfeed(feed, skip, subop) {
 }
 
 function view(id,feed_id) {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		notify("Please wait until operation finishes.");
+		return
+	}
 
 	var crow = document.getElementById("RROW-" + id);
 
@@ -209,6 +232,11 @@ function timeout() {
 }
 
 function search(feed, sender) {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		notify("Please wait until operation finishes.");
+		return
+	}
 
 	notify("Search: " + feed + ", " + sender.value)
 
