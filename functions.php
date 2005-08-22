@@ -53,11 +53,13 @@
 				$rss_2_date = $item['pubdate'];
 				$rss_1_date = $item['dc']['date'];
 				$atom_date = $item['issued'];
-				
+			
 				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
 				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
 				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
-				if ($entry_timestamp == "") $entry_timestamp = time();
+				if ($entry_timestamp == "") $entry_timestamp = 0;
+
+				if (!$entry_timestamp) continue;
 
 				$entry_title = $item["title"];
 				$entry_link = $item["link"];
@@ -75,7 +77,8 @@
 	
 				$result = pg_query($link, "
 					SELECT 
-						id,unread,md5_hash
+						id,unread,md5_hash,
+						EXTRACT(EPOCH FROM updated) as updated_timestamp
 					FROM
 						ttrss_entries 
 					WHERE
@@ -99,7 +102,8 @@
 				} else {
 	
 					$entry_id = pg_fetch_result($result, 0, "id");
-					$entry_timestamp = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
+					$updated_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
+					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 	
 					$unread = pg_fetch_result($result, 0, "unread");
 					$md5_hash = pg_fetch_result($result, 0, "md5_hash");
@@ -107,15 +111,20 @@
 					if ($md5_hash != $content_md5 && CONTENT_CHECK_MD5) 
 						$unread = "true";
 				
-					if ($unread || !CONTENT_CHECK_MD5) {
-						$updated_query_part = "updated = '$entry_timestamp',";
-					}
-				
+//					if ($unread || !CONTENT_CHECK_MD5) {
+//						$updated_query_part = "updated = '$entry_timestamp',";
+//					}
+
+//					if ($updated_timestamp > $entry_timestamp) {
+//						$unread = "true";
+//						print "$updated_timestamp : $entry_timestamp<br>";
+//					}			
+
 					$query = "UPDATE ttrss_entries 
 						SET 
 							title ='$entry_title', 
 							link = '$entry_link', 
-							$updated_query_part
+							updated = '$entry_timestamp_fmt',
 							content = '$entry_content',
 							md5_hash = '$content_md5',
 							unread = '$unread'

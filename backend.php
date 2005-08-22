@@ -70,7 +70,7 @@
 
 		$id = $_GET["id"];
 
-		$result = pg_query("UPDATE ttrss_entries SET unread = false WHERE id = '$id'");
+		$result = pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
 		$result = pg_query("SELECT title,link,content FROM ttrss_entries
 			WHERE	id = '$id'");
@@ -120,7 +120,7 @@
 
 				if ($ext == "MarkAllRead")  {
 
-					pg_query("UPDATE ttrss_entries SET unread = false 
+					pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() 
 						WHERE feed_id = '$feed'");
 				}
 
@@ -137,7 +137,7 @@
 
 		print "<tr><td class=\"search\" colspan=\"2\">
 			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
-		print "<tr><td colspan=\"2\" class=\"title\">" . $line["title"] . "</td></tr>"; 
+		print "<tr><td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
 		if ($ext == "SEARCH") {
 			$search = $_GET["search"];
@@ -145,8 +145,13 @@
 				OR content LIKE '%$search%') AND";
 		}
 
-		$result = pg_query("SELECT id,title,updated,unread,feed_id FROM
-			ttrss_entries WHERE
+		$result = pg_query("SELECT 
+				id,title,updated,unread,feed_id,
+				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
+				EXTRACT(EPOCH FROM updated) AS updated_ts
+			FROM
+				ttrss_entries 
+			WHERE
 			$search_query_part
 			feed_id = '$feed' ORDER BY updated DESC LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
 
@@ -156,12 +161,25 @@
 
 			$class = ($lnum % 2) ? "even" : "odd";
 
+			if ($line["last_read_ts"] < $line["updated_ts"] && $line["unread"] == "f") {
+				$update_pic = "<img src=\"updated.png\" alt=\"Updated\">";
+			} else {
+				$update_pic = "&nbsp;";
+			}
+
 			if ($line["unread"] == "t") 
 				$class .= "Unread";
 
-			$content_link = "<a href=\"javascript:view(".$line["id"].",".$line["feed_id"].");\">".$line["title"]."</a>";
-			
-			print "<tr class='$class' id='RROW-".$line["id"]."'>";
+			$id = $line["id"];
+			$feed_id = $line["feed_id"];
+
+			$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
+				$line["title"] . "</a>";
+				
+			print "<tr class='$class' id='RROW-$id'>";
+
+			print "<td id='FUPDPIC-$id' valign='center' class='headlineUpdateMark'>$update_pic</td>";
+
 			print "<td class='headlineUpdated'>".$line["updated"]."</td>";
 			print "<td class='headlineTitle'>$content_link</td>";
 
@@ -175,7 +193,7 @@
 
 		}
 
-		print "<tr><td colspan=\"2\" class=\"headlineToolbar\">";
+		print "<tr><td colspan=\"3\" class=\"headlineToolbar\">";
 
 		$next_skip = $skip + HEADLINES_PER_PAGE;
 		$prev_skip = $skip - HEADLINES_PER_PAGE;
@@ -187,9 +205,9 @@
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
 		print "&nbsp;";
-//		print "<a class=\"button\" 
-//			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh</a>";
-//		print "&nbsp;";
+		print "<a class=\"button\" 
+			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
+		print "&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
 		print "&nbsp;&nbsp;Mark as read: ";
@@ -233,7 +251,8 @@
 		if ($subop == "read") {
 			$ids = split(",", $_GET["ids"]);
 			foreach ($ids as $id) {
-				pg_query("UPDATE ttrss_entries SET unread = false WHERE feed_id = '$id'");
+				pg_query("UPDATE ttrss_entries 
+					SET unread = false,last_read = NOW() WHERE feed_id = '$id'");
 			}
 
 			print "Marked selected feeds as unread.";

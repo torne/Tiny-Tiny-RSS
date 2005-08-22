@@ -33,5 +33,6 @@ create table ttrss_entries (id serial not null primary key,
 	link varchar(300) not null unique, 
 	md5_hash varchar(200) not null unique,
 	content text not null,
+	last_read timestamp,
 	unread boolean default true);
 	

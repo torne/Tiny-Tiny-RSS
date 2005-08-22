@@ -121,11 +121,17 @@ function view(id,feed_id) {
 			var feedr = document.getElementById("FEEDR-" + feed_id);
 			feedr.className = feedr.className.replace("Unread", "");
 		}
-		
+	
 		total_unread--;
 
-		update_title();
+		update_title(); 
 	}	
+
+	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+
+	if (upd_img_pic) {
+		upd_img_pic.innerHTML = "";
+	} 
 
 	document.getElementById('content').innerHTML='Loading, please wait...';		
 
