@@ -162,6 +162,11 @@
 				OR content LIKE '%$search%') AND";
 		}
 
+		$result = pg_query("SELECT count(id) AS total_entries 
+			FROM ttrss_entries WHERE feed_id = '$feed'");
+
+		$total_entries = pg_fetch_result($result, 0, "total_entries");
+
 		$result = pg_query("SELECT 
 				id,title,updated,unread,feed_id,
 				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
@@ -216,11 +221,21 @@
 		$prev_skip = $skip - HEADLINES_PER_PAGE;
 	
 		print "Navigate: ";
-		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
+
+		if ($prev_skip >= 0) {
+			print "<a class=\"button\" 
+				href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
+		} else {
+			print "<a class=\"disabledButton\">Previous Page</a>";
+		}
 		print "&nbsp;";
-		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
+
+		if ($next_skip < $total_entries) {		
+			print "<a class=\"button\" 
+				href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
+		} else {
+			print "<a class=\"disabledButton\">Next Page</a>";
+		}			
 		print "&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
