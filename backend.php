@@ -111,7 +111,8 @@
 
 			$line = pg_fetch_assoc($result);
 
-			if (!$ext && $line["update_timeout"] > MIN_UPDATE_TIME) {
+			if ($ext == "ForceUpdate" || 
+				(!$ext && $line["update_timeout"] > MIN_UPDATE_TIME)) {
 				
 				update_rss_feed($link, $line["feed_url"], $feed);
 
@@ -186,8 +187,11 @@
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
 		print "&nbsp;";
+//		print "<a class=\"button\" 
+//			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh</a>";
+//		print "&nbsp;";
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh</a>";
+			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
 		print "&nbsp;&nbsp;Mark as read: ";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $skip, 'MarkPageRead');\">This Page</a>";
