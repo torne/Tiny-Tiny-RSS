@@ -152,7 +152,7 @@
 
 		print "<table class=\"headlines\" width=\"100%\">";
 
-		print "<tr><td class=\"search\" colspan=\"2\">
+		print "<tr><td class=\"search\" colspan=\"3\">
 			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
 		print "<tr><td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 

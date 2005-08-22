@@ -68,7 +68,10 @@ function viewfeed_callback() {
 			}
 
 		}
-	}
+
+		notify("");
+
+	}	
 }
 
 function view_callback() {
@@ -109,13 +112,15 @@ function catchupAllFeeds() {
 
 function viewfeed(feed, skip, subop) {
 
-	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
-	document.getElementById('content').innerHTML='&nbsp;';		
+//	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
+//	document.getElementById('content').innerHTML='&nbsp;';		
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) , true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
 	xmlhttp.send(null);
+
+	notify("Loading headlines...");
 
 }
 
