@@ -12,7 +12,27 @@
 
 	$op = $_GET["op"];
 	$fetch = $_GET["fetch"];
+
+	if ($op == "rpc") {
+
+		$subop = $_GET["subop"];
 		
+		if ($subop == "catchupPage") {
+
+			$ids = split(",", $_GET["ids"]);
+
+			foreach ($ids as $id) {
+
+				pg_query("UPDATE ttrss_entries SET unread=false,last_read = NOW()
+					WHERE id = '$id'");
+
+			}
+
+			print "Marked active page as read.";
+		}
+
+	}
+	
 	if ($op == "feeds") {
 
 		$subop = $_GET["subop"];
@@ -150,7 +170,7 @@
 			}
 		}
 
-		print "<table class=\"headlines\" width=\"100%\">";
+		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
 
 		print "<tr><td class=\"search\" colspan=\"3\">
 			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
@@ -242,9 +262,11 @@
 		print "&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
+		
 		print "&nbsp;&nbsp;Mark as read: ";
+		
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $skip, 'MarkPageRead');\">This Page</a>";
+			href=\"javascript:catchupPage($feed);\">This Page</a>";
 		print "&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";

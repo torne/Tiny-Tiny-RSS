@@ -39,6 +39,7 @@ function notify_callback() {
 	}
 }
 
+
 function updateFeedList() {
 
 	document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";

@@ -26,6 +26,13 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 }
 
+function notify_callback() {
+	var container = document.getElementById('notify');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+	}
+}
+
 function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
@@ -95,6 +102,42 @@ function updateFeedList(called_from_timer, fetch) {
 
 	xmlhttp.open("GET", query_str, true);
 	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function catchupPage(feed) {
+
+	var content = document.getElementById("headlinesList");
+
+	var rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		var row_id = content.rows[i].id.replace("RROW-", "");
+		if (row_id.length > 0) {
+			rows.push(row_id);	
+			content.rows[i].className = content.rows[i].className.replace("Unread", "");
+		}
+	}
+
+	var feedr = document.getElementById("FEEDR-" + feed);
+	var feedu = document.getElementById("FEEDU-" + feed);
+
+	feedu.innerHTML = feedu.innerHTML - rows.length;
+
+	if (feedu.innerHTML > 0 && !feedr.className.match("Unread")) {
+			feedr.className = feedr.className + "Unread";
+	} else if (feedu.innerHTML <= 0) {	
+			feedr.className = feedr.className.replace("Unread", "");
+	} 
+
+	var query_str = "backend.php?op=rpc&subop=catchupPage&ids=" + 
+		param_escape(rows.toString());
+
+	notify("Marking this page as read...");
+
+	xmlhttp.open("GET", query_str, true);
+	xmlhttp.onreadystatechange=notify_callback;
 	xmlhttp.send(null);
 
 }
