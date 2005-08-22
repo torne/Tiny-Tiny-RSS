@@ -35,7 +35,13 @@
 
 		<div id="feeds">&nbsp;</div>
 
-		<p><a class="button" href="javascript:removeSelectedFeeds()">Remove Selected</a>&nbsp;
+		<p>Selection:&nbsp;
+			<a class="buttonWarn" 
+				href="javascript:removeSelectedFeeds()">Remove</a>&nbsp;
+			<a class="button" 
+				href="javascript:readSelectedFeeds()">Mark as read</a>&nbsp;
+			<a class="button" 
+				href="javascript:unreadSelectedFeeds()">Mark as unread</a>&nbsp;
 
 		<hr>
 

@@ -116,17 +116,21 @@
 					pg_query("UPDATE ttrss_entries SET unread = false 
 						WHERE feed_id = '$feed'");
 				}
+
+				if ($ext == "MarkPageRead")  {
+
+//					pg_query("UPDATE ttrss_entries SET unread = false 
+//						WHERE feed_id = '$feed' ORDER BY updated OFFSET $skip LIMIT 1");
+				}
+
 			}
 		}
 
 		print "<table class=\"headlines\" width=\"100%\">";
-/*		print "<tr><td class=\"search\">
-			Search: <input onchange=\"javascript:search($feed,this);\"></td>";
-		print "<td class=\"title\">" . $line["title"] . "</td></tr>"; */
 
 		print "<tr><td class=\"search\" colspan=\"2\">
-			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>";
-		print "<tr><td colspan=\"2\" class=\"title\">" . $line["title"] . "</td></tr>";
+			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
+		print "<tr><td colspan=\"2\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
 		if ($ext == "SEARCH") {
 			$search = $_GET["search"];
@@ -168,19 +172,22 @@
 
 		$next_skip = $skip + HEADLINES_PER_PAGE;
 		$prev_skip = $skip - HEADLINES_PER_PAGE;
-
+	
+		print "Navigate: ";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
 		print "&nbsp;";
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
-		print "&nbsp;&nbsp;&nbsp;";
-
+		print "&nbsp;";
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, 0, '');\">Refresh</a>";
-		print "&nbsp;&nbsp;&nbsp;";
+			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh</a>";
+		print "&nbsp;&nbsp;Mark as read: ";
 		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, 0, 'MarkAllRead');\">Mark all as read</a>";
+			href=\"javascript:viewfeed($feed, $skip, 'MarkPageRead');\">This Page</a>";
+		print "&nbsp;";
+		print "<a class=\"button\" 
+			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
 
 		print "</td></tr>";
 		print "</table>";
@@ -206,6 +213,20 @@
 
 		if ($subop == "edit") {
 			print "<p>[Edit feed placeholder]</p>";
+		}
+
+		if ($subop == "unread") {
+			$ids = split(",", $_GET["ids"]);
+			foreach ($ids as $id) {
+				pg_query("UPDATE ttrss_entries SET unread = true WHERE feed_id = '$id'");
+			}
+		}
+
+		if ($subop == "read") {
+			$ids = split(",", $_GET["ids"]);
+			foreach ($ids as $id) {
+				pg_query("UPDATE ttrss_entries SET unread = false WHERE feed_id = '$id'");
+			}
 		}
 
 		if ($subop == "remove") {

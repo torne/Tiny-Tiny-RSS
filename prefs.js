@@ -60,8 +60,8 @@ function addFeed() {
 
 	var link = document.getElementById("fadd_link");
 
-	if (link.length == 0) {
-		notify("Missing feed URL.");
+	if (link.value.length == 0) {
+		notify("Error: Missing feed URL.");
 	} else {
 		notify("Adding feed...");
 
@@ -87,8 +87,7 @@ function editFeed(feed) {
 
 }
 
-
-function removeSelectedFeeds() {
+function getSelectedFeeds() {
 
 	var content = document.getElementById("prefFeedList");
 
@@ -101,6 +100,53 @@ function removeSelectedFeeds() {
 		}
 	}
 
+	return sel_rows;
+}
+
+function readSelectedFeeds() {
+
+	var sel_rows = getSelectedFeeds();
+
+	if (sel_rows.length > 0) {
+
+		notify("Marking selected feeds as read...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=unread&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+
+		notify("Error: Please select some feeds first.");
+
+	}
+}
+
+function unreadSelectedFeeds() {
+
+	var sel_rows = getSelectedFeeds();
+
+	if (sel_rows.length > 0) {
+
+		notify("Marking selected feeds as unread...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=unread&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+
+		notify("Error: Please select some feeds first.");
+
+	}
+}
+
+function removeSelectedFeeds() {
+
+	var sel_rows = getSelectedFeeds();
+
 	if (sel_rows.length > 0) {
 
 		notify("Removing selected feeds...");
@@ -112,7 +158,7 @@ function removeSelectedFeeds() {
 
 	} else {
 
-		notify("Please select some feeds first.");
+		notify("Error: Please select some feeds first.");
 
 	}
 
