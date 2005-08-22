@@ -15,7 +15,7 @@
 		
 	if ($op == "feeds") {
 
-		if ($fetch) update_all_feeds($link);
+		if ($fetch) update_all_feeds($link, $fetch);
 
 		$result = pg_query("SELECT *,
 			(SELECT count(id) FROM ttrss_entries 

@@ -1,12 +1,19 @@
 <?
 	require_once 'config.php';
 
-	function update_all_feeds($link) {
+	function update_all_feeds($link, $fetch) {
 
-		$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
-			last_updated is null OR title = '' OR
-			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
-			MIN_UPDATE_TIME);
+		if (!$fetch) {
+
+			$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
+				last_updated is null OR title = '' OR
+				EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
+				MIN_UPDATE_TIME);
+
+		} else {
+
+			$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds");
+		}
 
 		$num_unread = 0;
 
@@ -41,15 +48,16 @@
 				if (!$entry_guid) $entry_guid = $item["guid"];
 				if (!$entry_guid) $entry_guid = $item["link"];
 	
-				$entry_timestamp = $item["pubdate"];
-				if (!$entry_timestamp) $entry_timestamp = $item["modified"];
-				if (!$entry_timestamp) $entry_timestamp = $item["updated"];
-
-				if (!$entry_timestamp) continue;
-
-				$entry_timestamp = strtotime($entry_timestamp);
-
-				if (!$entry_timestamp) continue;
+				$entry_timestamp = "";
+				
+				$rss_2_date = $item['pubdate'];
+				$rss_1_date = $item['dc']['date'];
+				$atom_date = $item['issued'];
+				
+				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
+				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
+				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
+				if ($entry_timestamp == "") $entry_timestamp = time();
 
 				$entry_title = $item["title"];
 				$entry_link = $item["link"];
