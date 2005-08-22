@@ -24,28 +24,6 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 }
 
-function param_escape(arg) {
-	if (typeof encodeURIComponent != 'undefined')
-		return encodeURIComponent(arg);	
-	else
-		return escape(arg);
-}
-
-function param_unescape(arg) {
-	if (typeof decodeURIComponent != 'undefined')
-		return decodeURIComponent(arg);	
-	else
-		return unescape(arg);
-}
-
-function notify(msg) {
-
-	var n = document.getElementById("notify");
-
-	n.innerHTML = msg;
-
-}
-
 function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
@@ -90,13 +68,17 @@ function view_callback() {
 }
 
 
-function update_feed_list(called_from_timer) {
+function update_feed_list(called_from_timer, fetch) {
 
 	if (called_from_timer != true) {
-		document.getElementById("feeds").innerHTML = "Updating feeds, please wait...";
+		document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
 	}
 
-	xmlhttp.open("GET", "backend.php?op=feeds", true);
+	var query_str = "backend.php?op=feeds";
+
+	if (fetch) query_str = query_str + "&fetch=yes";
+
+	xmlhttp.open("GET", query_str, true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 
@@ -105,7 +87,7 @@ function update_feed_list(called_from_timer) {
 
 function viewfeed(feed, skip, ext) {
 
-	notify("view-feed: " + feed);
+//	notify("view-feed: " + feed);
 
 	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
 	document.getElementById('content').innerHTML='&nbsp;';		
@@ -164,8 +146,9 @@ function search(feed, sender) {
 
 function init() {
 
-	update_feed_list();
+	update_feed_list(false, false);
 
 	setTimeout("timeout()", 1800*1000);
+
 
 }

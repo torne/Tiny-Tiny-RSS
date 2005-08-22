@@ -4,7 +4,7 @@
 	function update_all_feeds($link) {
 
 		$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
-			last_updated is null OR
+			last_updated is null OR title = '' OR
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
 			MIN_UPDATE_TIME);
 
@@ -19,6 +19,16 @@
 		$rss = fetch_rss($feed_url);
 	
 		if ($rss) {
+	
+			$result = pg_query("SELECT title FROM ttrss_feeds WHERE id = '$feed'");
+
+			$registered_title = pg_fetch_result($result, 0, "title");
+
+			if (!$registered_title) {
+
+				$feed_title = $rss->channel["title"];
+				pg_query("UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
+			}
 
 			foreach ($rss->items as $item) {
 	
@@ -30,7 +40,9 @@
 				$entry_timestamp = $item["pubdate"];
 				if (!$entry_timestamp) $entry_timestamp = $item["modified"];
 				if (!$entry_timestamp) $entry_timestamp = $item["updated"];
-	
+
+				if (!$entry_timestamp) continue;
+
 				$entry_timestamp = strtotime($entry_timestamp);
 
 				if (!$entry_timestamp) continue;

@@ -2,6 +2,7 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
+	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="tt-rss.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -15,12 +16,12 @@
 	</td>
 </tr>
 <tr>
-	<!-- <td class="toolbar" valign="middle" >	
-		Search: <input name="q" onclick=\"javascript:search(this);\">
-	</td> -->
-	<td class="toolbar" valign="middle" colspan="2">	
-		<a href="prefs.php" class="button">Preferences</a>
-		<!-- <a class="button" href="javascript:refresh()">Refresh</a> -->
+	<td class="toolbar" colspan="2">
+		<table width="100%" cellspacing="0" cellpadding="0">
+		<td valign="middle"> <div id="notify">&nbsp;</div></td>
+		<td class="toolbar" valign="middle" align="right">
+			<a href="prefs.php" class="button">Preferences</a></td>
+		</tr></table>
 	</td>
 </tr>
 <tr>
@@ -36,7 +37,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" id="notify" class="notify">
+	<td colspan="2" class="notify">
 		<a href="">Tiny-Tiny RSS</a> v0.1 &copy; 2005 Andrew Dolgov
 	</td>
 </td>

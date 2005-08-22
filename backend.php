@@ -11,10 +11,11 @@
 	pg_query("set client_encoding = 'utf-8'");
 
 	$op = $_GET["op"];
+	$fetch = $_GET["fetch"];
 		
 	if ($op == "feeds") {
 
-		update_all_feeds($link);
+		if ($fetch) update_all_feeds($link);
 
 		$result = pg_query("SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
@@ -53,7 +54,7 @@
 		}
 
 		print "<tr><td class=\"footer\" colspan=\"3\">
-			<a href=\"javascript:update_feed_list()\">Update all feeds</a></td></tr>";
+			<a href=\"javascript:update_feed_list(false,true)\">Update all feeds</a></td></tr>";
 
 		print "</table>";
 
@@ -201,9 +202,43 @@
 
 	if ($op == "pref-feeds") {
 	
+		$subop = $_GET["subop"];
+
+		if ($subop == "edit") {
+			print "<p>[Edit feed placeholder]</p>";
+		}
+
+		if ($subop == "remove") {
+			$ids = split(",", $_GET["ids"]);
+
+			foreach ($ids as $id) {
+				pg_query("BEGIN");
+				pg_query("DELETE FROM ttrss_entries WHERE feed_id = '$id'");
+				pg_query("DELETE FROM ttrss_feeds WHERE id = '$id'");
+				pg_query("COMMIT");
+
+			}
+		}
+
+		if ($subop == "add") {
+			$feed_link = pg_escape_string($_GET["link"]);
+				
+			$result = pg_query(
+				"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
+
+			$result = pg_query("SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
+
+			$feed_id = pg_fetch_result($result, 0, "id");
+
+			if ($feed_id) {
+				update_rss_feed($link, $feed_link, $feed_id);
+			}
+
+		}
+	
 		$result = pg_query("SELECT * FROM ttrss_feeds ORDER by title");
 
-		print "<p><table width=\"100%\" class=\"prefFeedList\">";
+		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
 					<td>Select</td><td>Title</td><td>Link</td><td>Last Updated</td></tr>";
 		
@@ -212,13 +247,18 @@
 		while ($line = pg_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
-
-			print "<tr class=\"$class\">";
+			
+			$feed_id = $line["id"];
+			
+			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
 			print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"FROW-".$line["id"]."\"></td>";
-			print "<td>" . $line["title"] . "</td>";		
-			print "<td>" . $line["feed_url"] . "</td>";		
+				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+				$line["title"] . "</td>";		
+			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+				$line["feed_url"] . "</td>";		
+				
 			print "<td>" . $line["last_updated"] . "</td>";
 			print "</tr>";
 

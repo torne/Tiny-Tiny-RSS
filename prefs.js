@@ -24,33 +24,6 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 }
 
-function param_escape(arg) {
-	if (typeof encodeURIComponent != 'undefined')
-		return encodeURIComponent(arg);	
-	else
-		return escape(arg);
-}
-
-function param_unescape(arg) {
-	if (typeof decodeURIComponent != 'undefined')
-		return decodeURIComponent(arg);	
-	else
-		return unescape(arg);
-}
-
-function notify(msg) {
-
-	var n = document.getElementById("notify");
-
-	n.innerHTML = msg;
-
-	if (msg.length == 0) {
-		n.style.display = "none";
-	} else {
-		n.style.display = "block";
-	}
-
-}
 
 function feedlist_callback() {
 	var container = document.getElementById('feeds');
@@ -85,13 +58,62 @@ function toggleSelectRow(sender) {
 
 function addFeed() {
 
-	var link = document.getElementById("fadd_link").value;
-	var title = document.getElementById("fadd_title").value;
+	var link = document.getElementById("fadd_link");
 
-	if (link.length == 0 || title.length == 0) {
-		notify("Error: all fields must be filled in.");
+	if (link.length == 0) {
+		notify("Missing feed URL.");
 	} else {
-		notify("addFeed : " + link + ", " + title);
+		notify("Adding feed...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&link=" +
+			param_escape(link.value), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+		link.value = "";
+
+	}
+
+}
+
+function editFeed(feed) {
+
+	notify("Editing feed...");
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
+		param_escape(feed), true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+
+function removeSelectedFeeds() {
+
+	var content = document.getElementById("prefFeedList");
+
+	var sel_rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].className.match("Selected")) {
+			var row_id = content.rows[i].id.replace("FEEDR-", "");
+			sel_rows.push(row_id);	
+		}
+	}
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected feeds...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+
+		notify("Please select some feeds first.");
+
 	}
 
 }
