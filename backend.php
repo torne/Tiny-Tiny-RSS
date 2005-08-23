@@ -5,7 +5,6 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
-
 	$link = pg_connect(DB_CONN);	
 
 	pg_query("set client_encoding = 'utf-8'");
@@ -340,31 +339,37 @@
 		}
 
 		if ($subop == "remove") {
-			$ids = split(",", $_GET["ids"]);
 
-			foreach ($ids as $id) {
-				pg_query("BEGIN");
-				pg_query("DELETE FROM ttrss_entries WHERE feed_id = '$id'");
-				pg_query("DELETE FROM ttrss_feeds WHERE id = '$id'");
-				pg_query("COMMIT");
+			if (!WEB_DEMO_MODE) {
 
+				$ids = split(",", $_GET["ids"]);
+
+				foreach ($ids as $id) {
+					pg_query("BEGIN");
+					pg_query("DELETE FROM ttrss_entries WHERE feed_id = '$id'");
+					pg_query("DELETE FROM ttrss_feeds WHERE id = '$id'");
+					pg_query("COMMIT");
+				}
 			}
 		}
 
 		if ($subop == "add") {
-			$feed_link = pg_escape_string($_GET["link"]);
-				
-			$result = pg_query(
-				"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
+		
+			if (!WEB_DEMO_MODE) {
 
-			$result = pg_query("SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
+				$feed_link = pg_escape_string($_GET["link"]);
+					
+				$result = pg_query(
+					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
 
-			$feed_id = pg_fetch_result($result, 0, "id");
+				$result = pg_query("SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
 
-			if ($feed_id) {
-				update_rss_feed($link, $feed_link, $feed_id);
+				$feed_id = pg_fetch_result($result, 0, "id");
+
+				if ($feed_id) {
+					update_rss_feed($link, $feed_link, $feed_id);
+				}
 			}
-
 		}
 	
 		$result = pg_query("SELECT * FROM ttrss_feeds ORDER by title");

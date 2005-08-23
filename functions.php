@@ -3,6 +3,8 @@
 
 	function update_all_feeds($link, $fetch) {
 
+		if (WEB_DEMO_MODE) return;
+
 		pg_query("BEGIN");
 
 		if (!$fetch) {
@@ -26,6 +28,8 @@
 	}
 
 	function update_rss_feed($link, $feed_url, $feed) {
+
+		if (WEB_DEMO_MODE) return;
 
 		error_reporting(0);
 		$rss = fetch_rss($feed_url);
