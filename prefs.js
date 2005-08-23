@@ -69,7 +69,7 @@ function addFeed() {
 	var link = document.getElementById("fadd_link");
 
 	if (link.value.length == 0) {
-		notify("Error: Missing feed URL.");
+		notify("Missing feed URL.");
 	} else {
 		notify("Adding feed...");
 
@@ -126,7 +126,7 @@ function readSelectedFeeds() {
 
 	} else {
 
-		notify("Error: Please select some feeds first.");
+		notify("Please select some feeds first.");
 
 	}
 }
@@ -146,7 +146,7 @@ function unreadSelectedFeeds() {
 
 	} else {
 
-		notify("Error: Please select some feeds first.");
+		notify("Please select some feeds first.");
 
 	}
 }
@@ -166,7 +166,7 @@ function removeSelectedFeeds() {
 
 	} else {
 
-		notify("Error: Please select some feeds first.");
+		notify("Please select some feeds first.");
 
 	}
 
