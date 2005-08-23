@@ -4,8 +4,10 @@
 */
 
 var xmlhttp = false;
+var xmlhttp_rpc = false;
 
 var total_unread = 0;
+var first_run = true;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -24,6 +26,8 @@ try {
 
 if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
+	xmlhttp_rpc = new XMLHttpRequest();
+
 }
 
 function printLockingError() {
@@ -49,7 +53,12 @@ function feedlist_callback() {
 			update_title();
 		}
 
-		notify("");
+		if (first_run) {
+			scheduleFeedUpdate();
+			first_run = false;
+		} else {
+			notify("");
+		}
 	}
 }
 
@@ -92,12 +101,33 @@ function view_callback() {
 	}
 }
 
+function refetch_callback() {
+	if (xmlhttp_rpc.readyState == 4) {
+		// feeds are updated in background
+		updateFeedList(false, false);
+//		notify("All feeds updated");
+	}
+}
 
-function updateFeedList(called_from_timer, fetch) {
+function scheduleFeedUpdate() {
+
+	notify("Updating feeds in background...");
+
+	var query_str = "backend.php?op=rpc&subop=forceUpdateAllFeeds";
+
+	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {
+		xmlhttp_rpc.open("GET", query_str, true);
+		xmlhttp_rpc.onreadystatechange=refetch_callback;
+		xmlhttp_rpc.send(null);
+	} else {
+		printLockingError();
+	}
+}
+
+function updateFeedList(silent, fetch) {
 	
-	if (called_from_timer != true) {
-		//document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
-		notify("Updating feeds...");
+	if (silent != true) {
+		notify("Updating feed list...");
 	}
 
 	var query_str = "backend.php?op=feeds";

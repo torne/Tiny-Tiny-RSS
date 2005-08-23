@@ -17,11 +17,13 @@
 
 		$subop = $_GET["subop"];
 
-		if ($subop == "forceUpdateAll") {
-			update_all_feeds($link, true);
+		if ($subop == "forceUpdateAllFeeds") {
+			print "[rpc] forceUpdateAll";
+			update_all_feeds($link, true);			
 		}
 
-		if ($subop == "updateAll") {
+		if ($subop == "updateAllFeeds") {
+			print "[rpc] updateAll";
 			update_all_feeds($link, false);
 		}
 		
@@ -49,7 +51,7 @@
 			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
 		}
 
-		update_all_feeds($link, $fetch);
+	//	update_all_feeds($link, $fetch);
 		
 		$result = pg_query("SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
@@ -101,7 +103,7 @@
 
 		print "<p align=\"center\">All feeds: 
 			<a class=\"button\" 
-				href=\"javascript:updateFeedList(false,true)\">Update</a>";
+				href=\"javascript:scheduleFeedUpdate()\">Update</a>";
 
 		print "&nbsp;<a class=\"button\" 
 				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
