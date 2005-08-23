@@ -260,8 +260,14 @@
 
 		if ($lnum == 0) {
 			print "<tr><td align='center'>No entries found.</td></tr>";
-
 		}
+
+		while ($lnum < HEADLINES_PER_PAGE) {
+			++$lnum;
+			print "<tr><td>&nbsp;</td></tr>";
+		}
+
+		// start unholy navbar block
 
 		print "<tr><td colspan=\"3\" class=\"headlineToolbar\">";
 
@@ -277,9 +283,6 @@
 			print "<a class=\"disabledButton\">Previous Page</a>";
 		}
 		print "&nbsp;";
-
-		// start unholy navbar block
-
 
 		if ($next_skip < $total_entries) {		
 			print "<a class=\"button\" 
@@ -303,6 +306,7 @@
 		print "</td></tr>";
 
 		// end unholy navbar block
+
 		
 		print "</table>";
 
