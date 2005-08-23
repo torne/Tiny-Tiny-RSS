@@ -54,7 +54,7 @@ function feedlist_callback() {
 		}
 
 		if (first_run) {
-			scheduleFeedUpdate();
+			scheduleFeedUpdate(false);
 			first_run = false;
 		} else {
 			notify("");
@@ -103,17 +103,21 @@ function view_callback() {
 
 function refetch_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
-		// feeds are updated in background
-		updateFeedList(false, false);
-//		notify("All feeds updated");
+		updateFeedList(true, false);
 	}
 }
 
-function scheduleFeedUpdate() {
+function scheduleFeedUpdate(force) {
 
 	notify("Updating feeds in background...");
 
-	var query_str = "backend.php?op=rpc&subop=forceUpdateAllFeeds";
+	var query_str = "backend.php?op=rpc&subop=";
+
+	if (force) {
+		query_str = query_str = "forceUpdateAllFeeds";
+	} else {
+		query_str = query_str = "updateAllFeeds";
+	}
 
 	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {
 		xmlhttp_rpc.open("GET", query_str, true);
@@ -259,7 +263,7 @@ function view(id,feed_id) {
 
 function timeout() {
 
-	scheduleFeedUpdate();
+	scheduleFeedUpdate(true);
 
 	setTimeout("timeout()", 1800*1000);
 

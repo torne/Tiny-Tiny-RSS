@@ -103,7 +103,7 @@
 
 		print "<p align=\"center\">All feeds: 
 			<a class=\"button\" 
-				href=\"javascript:scheduleFeedUpdate()\">Update</a>";
+				href=\"javascript:scheduleFeedUpdate(true)\">Update</a>";
 
 		print "&nbsp;<a class=\"button\" 
 				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
