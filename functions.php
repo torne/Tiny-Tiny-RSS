@@ -31,6 +31,7 @@
 		$rss = fetch_rss($feed_url);
 		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
+		pg_query("BEGIN");
 	
 		if ($rss) {
 
@@ -146,9 +147,9 @@
 						$last_read_qpart = 'last_read = null,';
 					}
 
-					if ($orig_timestamp < $entry_timestamp) {
-						$last_read_qpart = 'last_read = null,';
-					}
+//					if ($orig_timestamp < $entry_timestamp) {
+//						$last_read_qpart = 'last_read = null,';
+//					}
 
 					$entry_content = pg_escape_string($entry_content);
 					$entry_title = pg_escape_string($entry_title);
@@ -175,6 +176,8 @@
 			}
 
 		}
+
+		pg_query("COMMIT");
 
 	}
 
