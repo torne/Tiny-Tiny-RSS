@@ -16,6 +16,14 @@
 	if ($op == "rpc") {
 
 		$subop = $_GET["subop"];
+
+		if ($subop == "forceUpdateAll") {
+			update_all_feeds($link, true);
+		}
+
+		if ($subop == "updateAll") {
+			update_all_feeds($link, false);
+		}
 		
 		if ($subop == "catchupPage") {
 

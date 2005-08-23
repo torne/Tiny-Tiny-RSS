@@ -34,5 +34,6 @@ create table ttrss_entries (id serial not null primary key,
 	md5_hash varchar(200) not null unique,
 	content text not null,
 	last_read timestamp,
-	unread boolean default true);
+	no_orig_date boolean not null default false,
+	unread boolean not null default true);
 	
