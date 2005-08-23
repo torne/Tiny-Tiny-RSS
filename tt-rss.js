@@ -259,7 +259,7 @@ function view(id,feed_id) {
 
 function timeout() {
 
-	updateFeedList(true, true);
+	scheduleFeedUpdate();
 
 	setTimeout("timeout()", 1800*1000);
 

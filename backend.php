@@ -169,13 +169,6 @@
 					pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() 
 						WHERE feed_id = '$feed'");
 				}
-
-				if ($subop == "MarkPageRead")  {
-
-//					pg_query("UPDATE ttrss_entries SET unread = false 
-//						WHERE feed_id = '$feed' ORDER BY updated OFFSET $skip LIMIT 1");
-				}
-
 			}
 		}
 
