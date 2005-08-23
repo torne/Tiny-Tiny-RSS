@@ -7,6 +7,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
+<? require_once "config.php" ?>
+
 <body onload="init()">
 
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
@@ -39,6 +41,9 @@
 <tr>
 	<td colspan="2" class="notify">
 		<a href="">Tiny-Tiny RSS</a> v0.2-pre &copy; 2005 Andrew Dolgov
+		<? if (WEB_DEMO_MODE) { ?>
+		<br>Running in demo mode, some functionality is disabled.
+		<? } ?>
 	</td>
 </td>
 </table>
