@@ -29,7 +29,9 @@
 
 	function update_rss_feed($link, $feed_url, $feed) {
 
+		error_reporting(0);
 		$rss = fetch_rss($feed_url);
+		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 		$num_unread = 0;
 	
