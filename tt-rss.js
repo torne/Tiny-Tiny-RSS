@@ -46,12 +46,11 @@ function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
-		var feedtu = document.getElementById("FEEDTU");
-
-		if (feedtu) {
-			total_unread = feedtu.innerHTML;
-			update_title();
-		}
+//		var feedtu = document.getElementById("FEEDTU");
+//		if (feedtu) {
+//			total_unread = feedtu.innerHTML;
+//			update_title();
+//		}
 
 		if (first_run) {
 			scheduleFeedUpdate(false);
@@ -103,7 +102,13 @@ function view_callback() {
 
 function refetch_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
-		updateFeedList(true, false);
+		notify("All feeds updated");
+		
+		var container = document.getElementById('feeds');
+
+		container.innerHTML = xmlhttp_rpc.responseText;
+
+		//updateFeedList(true, false);
 	}
 }
 
@@ -114,9 +119,9 @@ function scheduleFeedUpdate(force) {
 	var query_str = "backend.php?op=rpc&subop=";
 
 	if (force) {
-		query_str = query_str = "forceUpdateAllFeeds";
+		query_str = query_str + "forceUpdateAllFeeds";
 	} else {
-		query_str = query_str = "updateAllFeeds";
+		query_str = query_str + "updateAllFeeds";
 	}
 
 	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {

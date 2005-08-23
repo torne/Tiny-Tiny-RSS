@@ -13,47 +13,9 @@
 	$op = $_GET["op"];
 	$fetch = $_GET["fetch"];
 
-	if ($op == "rpc") {
+	function outputFeedList($link) {
 
-		$subop = $_GET["subop"];
-
-		if ($subop == "forceUpdateAllFeeds") {
-			print "[rpc] forceUpdateAll";
-			update_all_feeds($link, true);			
-		}
-
-		if ($subop == "updateAllFeeds") {
-			print "[rpc] updateAll";
-			update_all_feeds($link, false);
-		}
-		
-		if ($subop == "catchupPage") {
-
-			$ids = split(",", $_GET["ids"]);
-
-			foreach ($ids as $id) {
-
-				pg_query("UPDATE ttrss_entries SET unread=false,last_read = NOW()
-					WHERE id = '$id'");
-
-			}
-
-			print "Marked active page as read.";
-		}
-
-	}
-	
-	if ($op == "feeds") {
-
-		$subop = $_GET["subop"];
-
-		if ($subop == "catchupAll") {
-			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
-		}
-
-	//	update_all_feeds($link, $fetch);
-		
-		$result = pg_query("SELECT *,
+		$result = pg_query($link, "SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
 				WHERE feed_id = ttrss_feeds.id) AS total,
 			(SELECT count(id) FROM ttrss_entries
@@ -109,6 +71,51 @@
 				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
+
+
+
+	}
+
+
+	if ($op == "rpc") {
+
+		$subop = $_GET["subop"];
+
+		if ($subop == "forceUpdateAllFeeds") {
+			update_all_feeds($link, true);			
+			outputFeedList($link);
+		}
+
+		if ($subop == "updateAllFeeds") {
+			update_all_feeds($link, false);
+			outputFeedList($link);
+		}
+		
+		if ($subop == "catchupPage") {
+
+			$ids = split(",", $_GET["ids"]);
+
+			foreach ($ids as $id) {
+
+				pg_query("UPDATE ttrss_entries SET unread=false,last_read = NOW()
+					WHERE id = '$id'");
+
+			}
+
+			print "Marked active page as read.";
+		}
+
+	}
+	
+	if ($op == "feeds") {
+
+		$subop = $_GET["subop"];
+
+		if ($subop == "catchupAll") {
+			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
+		}
+
+		outputFeedList($link);
 
 	}
 
