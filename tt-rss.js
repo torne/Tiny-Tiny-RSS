@@ -108,6 +108,8 @@ function refetch_callback() {
 
 		container.innerHTML = xmlhttp_rpc.responseText;
 
+		document.title = "Tiny Tiny RSS";
+
 		//updateFeedList(true, false);
 	}
 }
@@ -115,6 +117,8 @@ function refetch_callback() {
 function scheduleFeedUpdate(force) {
 
 	notify("Updating feeds in background...");
+
+	document.title = "Tiny Tiny RSS - Updating...";
 
 	var query_str = "backend.php?op=rpc&subop=";
 
