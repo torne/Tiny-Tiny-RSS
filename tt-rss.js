@@ -127,7 +127,7 @@ function scheduleFeedUpdate() {
 function updateFeedList(silent, fetch) {
 	
 	if (silent != true) {
-		notify("Updating feed list...");
+		notify("Loading feed list...");
 	}
 
 	var query_str = "backend.php?op=feeds";
