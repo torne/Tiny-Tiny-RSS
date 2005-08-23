@@ -88,9 +88,9 @@
 
 				$entry_content = pg_escape_string($entry_content);
 				$entry_title = pg_escape_string($entry_title);
-	
-				$content_md5 = md5($entry_content);
-	
+
+				$content_md5 = md5(strip_tags($entry_content));
+
 				$result = pg_query($link, "
 					SELECT 
 						id,unread,md5_hash,last_read,no_orig_date,title,
@@ -128,49 +128,30 @@
 					$no_orig_date = pg_fetch_result($result, 0, "no_orig_date");
 					$orig_title = pg_fetch_result($result, 0, "title");
 
-					// disable update detection for posts which didn't have correct
-					// publishment date, because they will always register as updated
-					// sadly this doesn't catch feed generators which input current date 
-					// in posts all the time (some planets do this)
-
-					if ($no_orig_date != 't' && (!$last_read || $md5_hash != $content_md5)) {
-						$last_read_qpart = 'last_read = null,';
-					} else {
-						$last_read_qpart = '';
-					}
-
-					// mark post as updated on title change
-					// maybe we should mark it as unread instead?
-
-					if ($orig_title != $entry_title) {
-						$last_read_qpart = 'last_read = null,';
-					}
-
-					// don't bother updating timestamps on posts with broken pubDate
-					
-					if ($no_orig_date != 't') {
-						$update_timestamp_qpart = "updated = '$entry_timestamp_fmt',";
-					}
-
-//					print "$content_md5 vs $md5_hash [$entry_title vs $orig_title, $entry_id, $feed_id]<br>";
-
 					if ($content_md5 != $md5_hash) {
 						$update_md5_qpart = "md5_hash = '$content_md5',";
+						$last_read_qpart = 'last_read = null,';
+						$update_content_qpart = "content = '$entry_content',";
+					}
+
+					if ($orig_title != $entry_title) {
+						print "[$orig_title] : [$entry_title]";
+						$entry_title_qpart = "title ='$entry_title',";
 					}
 
 					$query = "UPDATE ttrss_entries 
 						SET 
-							title ='$entry_title', 
+							$entry_title_qpart
 							link = '$entry_link', 
 							$update_timestamp_qpart
 							$last_read_qpart
 							$update_md5_qpart
-							content = '$entry_content',
+							$update_content_qpart
 							unread = '$unread'
 						WHERE
 							id = '$entry_id'";
 
-//					print "<pre>".htmlspecialchars($query)."</pre>";
+					print "<pre>".htmlspecialchars($query)."</pre>";
 
 					$result = pg_query($link, $query);
 	
