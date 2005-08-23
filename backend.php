@@ -5,7 +5,16 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
+	error_reporting(0);
+
 	$link = pg_connect(DB_CONN);	
+
+	error_reporting (E_ERROR | E_WARNING | E_PARSE);
+
+	if (!$link) {
+		print "Could not connect to database. Please check local configuration.";
+		return;
+	}
 
 	pg_query("set client_encoding = 'utf-8'");
 
@@ -131,15 +140,23 @@
 
 			$line = pg_fetch_assoc($result);
 
-			print "<table class=\"feedOverview\">";
+/*			print "<table class=\"feedOverview\">";
 			print "<tr><td><b>Title:</b></td><td>".$line["title"]."</td></tr>";
 			print "<tr><td><b>Link:</b></td><td><a href=\"".$line["link"]."\">".$line["link"]."</a></td></tr>";
-
 			print "</table>";
 
-			print $line["content"];
+			print $line["content"]; */
 
 
+			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">";
+			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
+				<td width=\"100%\">".$line["title"]."</td></tr>";
+				
+			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
+				<td><a href=\"".$line["link"]."\">".$line["link"]."</a></td></tr>";
+				
+			print "<tr><td class=\"post\" colspan=\"2\">" . $line["content"] . "</td></tr>";
+			print "</table>";	
 		}
 	}
 

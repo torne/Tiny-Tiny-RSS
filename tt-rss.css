@@ -151,7 +151,7 @@ table.main td.prefContent {
 }
 
 table.main td.content {
-	padding : 10px;
+	padding : 0px;
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
 	border-style : solid;
@@ -293,4 +293,30 @@ td.headlineUpdateMark {
 	text-align : center;
 }
 
+div.errorBox {
+	border : 1px solid #c0c0c0;
+	padding : 20px;
+	margin : 20px;
+	background : #f0f0f0;
+}
 
+table.postTable tr.titleTop, table.postTable tr.titleBottom {
+	background : #f0f0f0;
+}
+
+table.postTable tr.titleTop td {
+	padding : 5px 10px 0px 10px;
+}
+
+table.postTable tr.titleBottom td {
+	padding : 3px 10px 5px 10px;
+	border-width : 0px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
+
+}
+
+table.postTable td.post {
+	padding : 20px;
+
+}

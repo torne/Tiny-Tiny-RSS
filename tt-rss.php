@@ -40,7 +40,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="notify">
-		<a href="">Tiny-Tiny RSS</a> v0.2-pre &copy; 2005 Andrew Dolgov
+		<a href="">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
 		<? } ?>

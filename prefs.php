@@ -9,6 +9,8 @@
 
 <body onload="init()">
 
+<? require_once "config.php" ?>
+
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
 <tr>
 	<td class="header" valign="middle" colspan="2">	
@@ -51,7 +53,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="notify">
-		<a href="">Tiny-Tiny RSS</a> v0.1 &copy; 2005 Andrew Dolgov
+		<a href="">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 	</td>
 </td>
 </table>
