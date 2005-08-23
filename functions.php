@@ -37,8 +37,6 @@
 	
 		if ($rss) {
 
-			pg_query("BEGIN");
-
 			$result = pg_query("SELECT title FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = pg_fetch_result($result, 0, "title");
@@ -47,6 +45,8 @@
 				$feed_title = $rss->channel["title"];
 				pg_query("UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
 			}
+
+			pg_query("BEGIN");
 
 			foreach ($rss->items as $item) {
 	
@@ -83,7 +83,9 @@
 
 				$entry_content = $item["description"];
 				if (!$entry_content) $entry_content = $item["content"];
-	
+
+				if (!$entry_content) continue;
+
 				$entry_content = pg_escape_string($entry_content);
 				$entry_title = pg_escape_string($entry_title);
 	
@@ -96,7 +98,7 @@
 					FROM
 						ttrss_entries 
 					WHERE
-						guid = '$entry_guid' OR md5_hash = '$content_md5'");
+						guid = '$entry_guid'");
 				
 				if (pg_num_rows($result) == 0) {
 	
@@ -150,24 +152,32 @@
 						$update_timestamp_qpart = "updated = '$entry_timestamp_fmt',";
 					}
 
+//					print "$content_md5 vs $md5_hash [$entry_title vs $orig_title, $entry_id, $feed_id]<br>";
+
+					if ($content_md5 != $md5_hash) {
+						$update_md5_qpart = "md5_hash = '$content_md5',";
+					}
+
 					$query = "UPDATE ttrss_entries 
 						SET 
 							title ='$entry_title', 
 							link = '$entry_link', 
 							$update_timestamp_qpart
 							$last_read_qpart
+							$update_md5_qpart
 							content = '$entry_content',
-							md5_hash = '$content_md5',
 							unread = '$unread'
 						WHERE
 							id = '$entry_id'";
-	
+
+//					print "<pre>".htmlspecialchars($query)."</pre>";
+
 					$result = pg_query($link, $query);
 	
 					if ($result) ++$num_unread;
 	
 				}
-	
+
 			}
 
 			if ($result) {

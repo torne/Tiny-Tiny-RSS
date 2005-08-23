@@ -1,5 +1,5 @@
 <?
-	header("Content-Type: application/xml");
+//	header("Content-Type: application/xml");
 
 	require_once "config.php";
 	require_once "functions.php";
@@ -156,7 +156,7 @@
 
 		// FIXME: check for null value here
 
-		$result = pg_query("SELECT *,
+		$result = pg_query("SELECT *,SUBSTRING(last_updated,1,16) as last_updated,
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
 			FROM ttrss_feeds WHERE id = '$feed'");
 
@@ -181,9 +181,12 @@
 
 		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
 
+		$feed_last_updated = "Updated: " . $line["last_updated"];
+
 		print "<tr><td class=\"search\" colspan=\"3\">
 			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
-		print "<tr><td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
+		print "<tr>
+		<td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
 		if ($ext == "SEARCH") {
 			$search = $_GET["search"];
@@ -259,6 +262,9 @@
 		}
 		print "&nbsp;";
 
+		// start unholy navbar block
+
+
 		if ($next_skip < $total_entries) {		
 			print "<a class=\"button\" 
 				href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
@@ -266,9 +272,6 @@
 			print "<a class=\"disabledButton\">Next Page</a>";
 		}			
 		print "&nbsp;&nbsp;Feed: ";
-//		print "<a class=\"button\" 
-//			href=\"javascript:viewfeed($feed, $skip, '');\">Refresh Page</a>";
-//		print "&nbsp;";
 
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
@@ -282,6 +285,9 @@
 			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
 
 		print "</td></tr>";
+
+		// end unholy navbar block
+		
 		print "</table>";
 
 		$result = pg_query("SELECT id, (SELECT count(id) FROM ttrss_entries 
