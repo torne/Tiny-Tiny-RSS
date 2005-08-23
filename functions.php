@@ -17,10 +17,8 @@
 			$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds");
 		}
 
-		$num_unread = 0;
-
 		while ($line = pg_fetch_assoc($result)) {
-			$num_unread += update_rss_feed($link, $line["feed_url"], $line["id"]);
+			update_rss_feed($link, $line["feed_url"], $line["id"]);
 		}
 
 		pg_query("COMMIT");
@@ -33,7 +31,6 @@
 		$rss = fetch_rss($feed_url);
 		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
-		$num_unread = 0;
 	
 		if ($rss) {
 
@@ -46,14 +43,14 @@
 				pg_query("UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			pg_query("BEGIN");
-
 			foreach ($rss->items as $item) {
 	
 				$entry_guid = $item["id"];
 	
 				if (!$entry_guid) $entry_guid = $item["guid"];
 				if (!$entry_guid) $entry_guid = $item["link"];
+
+				if (!$entry_guid) continue;
 	
 				$entry_timestamp = "";
 
@@ -61,19 +58,18 @@
 				$rss_1_date = $item['dc']['date'];
 				$atom_date = $item['issued'];
 			
-				$no_orig_date = 'false';
-			
 				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
 				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
 				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
-//				if ($rss_3_date != "") $entry_timestamp = strtotime($rss_3_date);
 				
 				if ($entry_timestamp == "") {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
+				} else {
+					$no_orig_date = 'false';
 				}
 
-				if (!$entry_timestamp) continue;
+				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 
 				$entry_title = $item["title"];
 				$entry_link = $item["link"];
@@ -82,90 +78,101 @@
 				if (!$entry_link) continue;
 
 				$entry_content = $item["description"];
+				if (!$entry_content) $entry_content = $item["content:escaped"];
 				if (!$entry_content) $entry_content = $item["content"];
 
 				if (!$entry_content) continue;
 
-				$entry_content = pg_escape_string($entry_content);
-				$entry_title = pg_escape_string($entry_title);
-
-				$content_md5 = md5(strip_tags($entry_content));
+				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
 				$result = pg_query($link, "
 					SELECT 
-						id,unread,md5_hash,last_read,no_orig_date,title,
+						id,last_read,no_orig_date,title,feed_id,content_hash,
 						EXTRACT(EPOCH FROM updated) as updated_timestamp
 					FROM
 						ttrss_entries 
 					WHERE
 						guid = '$entry_guid'");
-				
+
 				if (pg_num_rows($result) == 0) {
-	
-					$entry_timestamp = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
-	
-					$query = "INSERT INTO ttrss_entries 
-							(title, guid, link, updated, content, feed_id, 
-								md5_hash, no_orig_date) 
+
+					$entry_content = pg_escape_string($entry_content);
+					$entry_title = pg_escape_string($entry_title);
+					$entry_link = pg_escape_string($entry_link);
+
+					$query = "INSERT 
+						INTO ttrss_entries 
+							(title, 
+							guid, 
+							link, 
+							updated, 
+							content, 
+							content_hash,
+							feed_id, 
+							no_orig_date) 
 						VALUES
-							('$entry_title', '$entry_guid', '$entry_link', 
-								'$entry_timestamp', '$entry_content', '$feed', 
-								'$content_md5', $no_orig_date)";
-	
+							('$entry_title', 
+							'$entry_guid', 
+							'$entry_link', 
+							'$entry_timestamp_fmt', 
+							'$entry_content', 
+							'$content_hash',
+							'$feed', 
+							$no_orig_date)";
+
 					$result = pg_query($link, $query);
 
-					if ($result) ++$num_unread;
-	
 				} else {
-	
-					$entry_id = pg_fetch_result($result, 0, "id");
-					$updated_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
-					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
-					$last_read = pg_fetch_result($result, 0, "last_read");
-	
-					$unread = pg_fetch_result($result, 0, "unread");
-					$md5_hash = pg_fetch_result($result, 0, "md5_hash");
-					$no_orig_date = pg_fetch_result($result, 0, "no_orig_date");
+
+					$orig_entry_id = pg_fetch_result($result, 0, "id");			
+					$orig_feed_id = pg_fetch_result($result, 0, "feed_id");
+
+					if ($orig_feed_id != $feed) {
+//						print "<p>Update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
+						continue;
+					}
+					
+					$orig_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
+					$orig_content_hash = pg_fetch_result($result, 0, "content_hash");
+					$orig_last_read = pg_fetch_result($result, 0, "last_read");	
+					$orig_no_orig_date = pg_fetch_result($result, 0, "no_orig_date");
 					$orig_title = pg_fetch_result($result, 0, "title");
 
-					if ($content_md5 != $md5_hash) {
-						$update_md5_qpart = "md5_hash = '$content_md5',";
+					if ($orig_title != $entry_title) {
 						$last_read_qpart = 'last_read = null,';
-						$update_content_qpart = "content = '$entry_content',";
 					}
 
-					if ($orig_title != $entry_title) {
-						print "[$orig_title] : [$entry_title]";
-						$entry_title_qpart = "title ='$entry_title',";
+					if ($orig_content_hash != $content_hash) {
+						$last_read_qpart = 'last_read = null,';
 					}
+
+					if ($orig_timestamp < $entry_timestamp) {
+						$last_read_qpart = 'last_read = null,';
+					}
+
+					$entry_content = pg_escape_string($entry_content);
+					$entry_title = pg_escape_string($entry_title);
+					$entry_link = pg_escape_string($entry_link);
 
 					$query = "UPDATE ttrss_entries 
 						SET 
-							$entry_title_qpart
+							$last_read_qpart 
+							title = '$entry_title',
 							link = '$entry_link', 
-							$update_timestamp_qpart
-							$last_read_qpart
-							$update_md5_qpart
-							$update_content_qpart
-							unread = '$unread'
+							updated = '$entry_timestamp_fmt',
+							content = '$entry_content',
+							content_hash = '$content_hash'
 						WHERE
-							id = '$entry_id'";
-
-					print "<pre>".htmlspecialchars($query)."</pre>";
+							id = '$orig_entry_id'";
 
 					$result = pg_query($link, $query);
-	
-					if ($result) ++$num_unread;
-	
-				}
 
+				}
 			}
 
 			if ($result) {
 				$result = pg_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
 			}
-
-			pg_query("COMMIT");
 
 		}
 

@@ -10,6 +10,8 @@ insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedeskt
 insert into ttrss_feeds (title,feed_url) values ('Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
 insert into ttrss_feeds (title,feed_url) values ('Planet Debian', 'http://planet.debian.org/rss20.xml');
 insert into ttrss_feeds (title,feed_url) values ('Planet GNOME', 'http://planet.gnome.org/rss20.xml');
+insert into ttrss_feeds (title,feed_url) values ('Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
+
 insert into ttrss_feeds (title,feed_url) values ('Monologue', 'http://www.go-mono.com/monologue/index.rss');
 
 insert into ttrss_feeds (title,feed_url) values ('Latest Linux Kernel Versions', 
@@ -30,8 +32,8 @@ create table ttrss_entries (id serial not null primary key,
 	title varchar(250) not null, 
 	guid varchar(300) not null unique, 
 	link varchar(300) not null unique, 
-	md5_hash varchar(200) not null,
 	content text not null,
+	content_hash varchar(250) not null,
 	last_read timestamp,
 	no_orig_date boolean not null default false,
 	unread boolean not null default true);
