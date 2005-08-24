@@ -200,7 +200,9 @@
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
 		print "<tr><td class=\"search\" colspan=\"3\">
-			Search: <input onchange=\"javascript:search($feed,this);\"></td></tr>"; 
+			Search: <input onchange=\"javascript:search($feed,this);\">
+			<a class=\"button\" href=\"javascript:viewfeed($feed,0)\">Reset</a>
+			</td></tr>"; 
 		print "<tr>
 		<td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
