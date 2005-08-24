@@ -204,7 +204,7 @@
 		print "<tr>
 		<td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
-		if ($ext == "SEARCH") {
+		if ($subop == "search") {
 			$search = $_GET["search"];
 			$search_query_part = "(upper(title) LIKE upper('%$search%') 
 				OR content LIKE '%$search%') AND";

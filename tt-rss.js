@@ -297,7 +297,7 @@ function search(feed, sender) {
 	document.getElementById('content').innerHTML='&nbsp;';		
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-		"&search=" + param_escape(sender.value) + "&ext=SEARCH", true);
+		"&search=" + param_escape(sender.value) + "&subop=search", true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
 	xmlhttp.send(null);
 
