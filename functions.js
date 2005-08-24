@@ -12,6 +12,14 @@ function param_unescape(arg) {
 		return unescape(arg);
 }
 
+function delay(gap) {
+	var then,now; 
+	then=new Date().getTime();
+	now=then;
+	while((now-then)<gap) {
+		now=new Date().getTime();
+	}
+}
 
 function notify(msg) {
 
@@ -25,6 +33,10 @@ function notify(msg) {
 		n.style.display = "block";
 	}
 
+}
+
+function printLockingError() {
+	notify("Please wait until operation finishes");
 }
 
 

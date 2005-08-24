@@ -42,6 +42,11 @@ function notify_callback() {
 
 function updateFeedList() {
 
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
 	document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
@@ -66,6 +71,11 @@ function toggleSelectRow(sender) {
 
 function addFeed() {
 
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
 	var link = document.getElementById("fadd_link");
 
 	if (link.value.length == 0) {
@@ -86,7 +96,12 @@ function addFeed() {
 
 function editFeed(feed) {
 
-	notify("Editing feed...");
+//	notify("Editing feed...");
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
 		param_escape(feed), true);
@@ -113,6 +128,11 @@ function getSelectedFeeds() {
 
 function readSelectedFeeds() {
 
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
 	var sel_rows = getSelectedFeeds();
 
 	if (sel_rows.length > 0) {
@@ -132,6 +152,11 @@ function readSelectedFeeds() {
 }
 
 function unreadSelectedFeeds() {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
 
 	var sel_rows = getSelectedFeeds();
 
@@ -153,6 +178,11 @@ function unreadSelectedFeeds() {
 
 function removeSelectedFeeds() {
 
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
 	var sel_rows = getSelectedFeeds();
 
 	if (sel_rows.length > 0) {
@@ -172,10 +202,101 @@ function removeSelectedFeeds() {
 
 }
 
+function feedEditCancel() {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
+	notify("Operation cancelled.");
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function feedEditSave(feed) {
+
+	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+		printLockingError();
+		return
+	}
+
+	notify("Saving feed.");
+
+	var link = document.getElementById("fedit_link").value;
+	var title = document.getElementById("fedit_title").value;
+
+	if (link.length == 0) {
+		notify("Feed link cannot be blank.");
+		return;
+	}
+
+	if (title.length == 0) {
+		notify("Feed title cannot be blank.");
+		return;
+	}
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
+		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) ,true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function editSelectedFeed() {
+	var rows = getSelectedFeeds();
+
+	if (rows.length == 0) {
+		notify("No feeds are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one feed.");
+		return;
+	}
+
+	editFeed(rows[0]);
+
+}
+
+var seq = "";
+
+function hotkey_handler(e) {
+	var keycode;
+
+	if (window.event) {
+		keycode = window.event.keyCode;
+	} else if (e) {
+		keycode = e.which;
+	}
+
+	if (keycode == 13 || keycode == 27) {
+		seq = "";
+	} else {
+		seq = seq + "" + keycode;
+	}
+
+	var piggie = document.getElementById("piggie");
+
+	if (seq.match("807371717369")) {
+		piggie.style.display = "block";
+		seq = "";
+		notify("I loveded it!!!");
+	} else {
+		piggie.style.display = "none";
+		notify("");
+	}
+
+}
+
 function init() {
 	
 	updateFeedList();
-
+	document.onkeydown = hotkey_handler;
 	notify("");
 
 }

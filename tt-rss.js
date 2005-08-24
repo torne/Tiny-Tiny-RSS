@@ -18,8 +18,10 @@ try {
 } catch (e) {
 	try {
 		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
 	} catch (E) {
 		xmlhttp = false;
+		xmlhttp_rpc = false;
 	}
 }
 @end @*/
@@ -28,10 +30,6 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp_rpc = new XMLHttpRequest();
 
-}
-
-function printLockingError() {
-	notify("Please wait until operation finishes");
 }
 
 function notify_callback() {

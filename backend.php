@@ -356,7 +356,42 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "edit") {
-			print "<p>[Edit feed placeholder]</p>";
+
+			$feed_id = $_GET["id"];
+
+			$result = pg_query("SELECT title,feed_url 
+				FROM ttrss_feeds WHERE id = '$feed_id'");
+
+			$fedit_link = pg_fetch_result($result, 0, "feed_url");
+			$fedit_title = pg_fetch_result($result, 0, "title");
+		
+			print "<table class=\"prefAddFeed\">
+			<td>Title:</td><td><input id=\"fedit_title\" value=\"$fedit_title\"></td></tr>
+			<td>Link:</td><td><input id=\"fedit_link\" value=\"$fedit_link\"></td></tr>		
+			<tr><td colspan=\"2\" align=\"right\">
+				<a class=\"button\" href=\"javascript:feedEditCancel()\">Cancel</a>
+				<a class=\"button\" href=\"javascript:feedEditSave($feed_id)\">Save</a>
+				</td></tr>
+			</table>";
+
+		} else {
+
+			print "<table class=\"prefAddFeed\">
+			<td><input id=\"fadd_link\"></td>
+			<td colspan=\"4\" align=\"right\">
+				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
+			</table>";
+
+		}
+
+		if ($subop == "editSave") {
+			$feed_title = pg_escape_string($_GET["t"]);
+			$feed_link = pg_escape_string($_GET["l"]);
+			$feed_id = $_GET["id"];
+
+			$result = pg_query("UPDATE ttrss_feeds SET 
+				title = '$feed_title', feed_url = '$feed_link' WHERE id = '$feed_id'");			
+
 		}
 
 		if ($subop == "remove") {

@@ -29,15 +29,20 @@
 	<td class="prefContent" valign="top" colspan="2">
 		<h2>Feed Configuration</h2>
 
+<!--
 		<table class="prefAddFeed">
 			<td><input id="fadd_link"></td>
 			<td colspan="4" align="right">
 				<a class="button" href="javascript:addFeed()">Add feed</a></td></tr>
-		</table>
+		</table> 
+-->
+		<div id="piggie">&nbsp;</div>
 
 		<div id="feeds">&nbsp;</div>
 
 		<p>Selection:&nbsp;
+			<a class="button" 
+				href="javascript:editSelectedFeed()">Edit</a>&nbsp;
 			<a class="buttonWarn" 
 				href="javascript:removeSelectedFeeds()">Remove</a>&nbsp;
 			<a class="button" 
