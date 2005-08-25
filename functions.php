@@ -35,7 +35,7 @@
 		$icon_file = ICONS_DIR . "/$feed.ico";
 
 		if (!file_exists($icon_file)) {
-		
+				
 			error_reporting(0);
 			$r = fopen($icon_url, "r");
 			error_reporting (E_ERROR | E_WARNING | E_PARSE);
@@ -53,7 +53,11 @@
 				fclose($r);
 				fclose($t);
 
-				rename($tmpfname, $icon_file);
+				error_reporting(0);
+				if (!rename($tmpfname, $icon_file)) {
+					unlink($tmpfname);
+				}
+				error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 			}	
 		}

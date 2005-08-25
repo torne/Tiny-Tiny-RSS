@@ -254,7 +254,7 @@
 			$class = ($lnum % 2) ? "even" : "odd";
 
 			if ($line["last_read_ts"] < $line["updated_ts"] && $line["unread"] == "f") {
-				$update_pic = "<img src=\"updated.png\" alt=\"Updated\">";
+				$update_pic = "<img src=\"images/updated.png\" alt=\"Updated\">";
 			} else {
 				$update_pic = "&nbsp;";
 			}
