@@ -1,3 +1,13 @@
+var hotkeys_enabled = true;
+
+function disableHotkeys() {
+	hotkeys_enabled = false;
+}
+
+function enableHotkeys() {
+	hotkeys_enabled = true;
+}
+
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -56,7 +66,10 @@ function printLockingError() {
 var seq = "";
 
 function hotkey_handler(e) {
+
 	var keycode;
+
+	if (!hotkeys_enabled) return;
 
 	if (window.event) {
 		keycode = window.event.keyCode;

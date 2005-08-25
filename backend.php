@@ -245,7 +245,9 @@
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
 		print "<tr><td class=\"search\" colspan=\"3\">
-			Search: <input id=\"searchbox\" onchange=\"javascript:search($feed);\">
+			Search: <input id=\"searchbox\"
+			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
+			onchange=\"javascript:search($feed);\">
 			<a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>
 			</td></tr>"; 
 		print "<tr>
