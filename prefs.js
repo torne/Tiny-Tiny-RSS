@@ -278,11 +278,7 @@ function init() {
 
 	// IE kludge
 
-	if (xmlhttp && !xmlhttp_rpc) {
-		xmlhttp_rpc = xmlhttp;
-	}
-
-	if (!xmlhttp || !xmlhttp_rpc) {
+	if (!xmlhttp) {
 		document.getElementById("prefContent").innerHTML = 
 			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
 			"to function properly. Your browser doesn't seem to support it.";
