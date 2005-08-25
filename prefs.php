@@ -9,6 +9,7 @@
 
 <body onload="init()">
 
+<? require_once "version.php" ?>
 <? require_once "config.php" ?>
 
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
