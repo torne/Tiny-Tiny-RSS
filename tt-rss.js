@@ -5,12 +5,19 @@
 
 var xmlhttp = false;
 var xmlhttp_rpc = false;
+var xmlhttp_view = false;
 
 var total_unread = 0;
 var first_run = true;
 
 var active_post_id = false;
 var active_feed_id = false;
+var active_offset = false;
+
+var total_feed_entries = false;
+
+var _viewfeed_autoselect_first = false;
+var _viewfeed_autoselect_last = false;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -22,9 +29,11 @@ try {
 	try {
 		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
+		xmlhttp_view = new ActiveXObject("Microsoft.XMLHTTP");
 	} catch (E) {
 		xmlhttp = false;
 		xmlhttp_rpc = false;
+		xmlhttp_view = false;
 	}
 }
 @end @*/
@@ -32,7 +41,7 @@ try {
 if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp_rpc = new XMLHttpRequest();
-
+	xmlhttp_view = new XMLHttpRequest();
 }
 
 function feedlist_callback() {
@@ -64,6 +73,16 @@ function viewfeed_callback() {
 		var funread = document.getElementById("FUNREAD");
 		var ftotal = document.getElementById("FTOTAL");
 
+		if (_viewfeed_autoselect_first == true) {
+			_viewfeed_autoselect_first = false;
+			view(getFirstVisibleHeadlineId(), active_feed_id);
+		}
+
+		if (_viewfeed_autoselect_last == true) {
+			_viewfeed_autoselect_last = false;
+			view(getLastVisibleHeadlineId(), active_feed_id);
+		}
+
 		if (ftotal && factive && funread) {
 			var feed_id = factive.innerHTML;
 
@@ -73,6 +92,8 @@ function viewfeed_callback() {
 
 			feedt.innerHTML = ftotal.innerHTML;
 			feedu.innerHTML = funread.innerHTML;
+
+			total_feed_entries = ftotal.innerHTML;	
 
 			if (feedu.innerHTML > 0 && !feedr.className.match("Unread")) {
 					feedr.className = feedr.className + "Unread";
@@ -89,8 +110,8 @@ function viewfeed_callback() {
 
 function view_callback() {
 	var container = document.getElementById('content');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;		
+	if (xmlhttp_view.readyState == 4) {
+		container.innerHTML=xmlhttp_view.responseText;		
 	}
 }
 
@@ -220,13 +241,18 @@ function viewfeed(feed, skip, subop) {
 //	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
 //	document.getElementById('content').innerHTML='&nbsp;';		
 
+	if (skip < 0 || skip > total_feed_entries) {
+		return;
+	}
+
 	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
 		printLockingError();
 		return
 	}
-	
+
 	active_feed_id = feed;
 	active_post_id = false;
+	active_offset = skip;
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) , true);
@@ -250,7 +276,7 @@ function cleanSelectedHeadlines() {
 
 function view(id,feed_id) {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (xmlhttp_view.readyState != 4 && xmlhttp_view.readyState != 0) {
 		printLockingError();
 		return
 	}
@@ -286,9 +312,9 @@ function view(id,feed_id) {
 
 	active_post_id = id;
 
-	xmlhttp.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
-	xmlhttp.onreadystatechange=view_callback;
-	xmlhttp.send(null);
+	xmlhttp_view.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
+	xmlhttp_view.onreadystatechange=view_callback;
+	xmlhttp_view.send(null);
 
 }
 
@@ -356,63 +382,91 @@ function getVisibleHeadlineIds() {
 				rows.push(row_id);	
 		}
 	}
-
 	return rows;
+}
 
+function getFirstVisibleHeadlineId() {
+	var rows = getVisibleHeadlineIds();
+	return rows[0];
+}
+
+function getLastVisibleHeadlineId() {
+	var rows = getVisibleHeadlineIds();
+	return rows[rows.length-1];
 }
 
 function moveToPost(mode) {
-
-/*	var query_str = "backend.php?op=rpc&subop=getRelativeId&mode=" + mode + 
-		"&feed=" + active_feed_id + "&id=" + active_post_id;
-
-//	notify(query_str);
-
-	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {
-		xmlhttp_rpc.open("GET", query_str, true);
-		xmlhttp_rpc.onreadystatechange=relativeid_callback;
-		xmlhttp_rpc.send(null);
-	} else {
-		printLockingError();
-	} */
 
 	var rows = getVisibleHeadlineIds();
 
 	var prev_id;
 	var next_id;
 
-	for (var i = 0; i < rows.length; i++) {
-		if (rows[i] == active_post_id) {
-			prev_id = rows[i-1];
-			next_id = rows[i+1];			
+	if (active_post_id == false) {
+		next_id = getFirstVisibleHeadlineId();
+		prev_id = getLastVisibleHeadlineId();
+	} else {	
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i] == active_post_id) {
+				prev_id = rows[i-1];
+				next_id = rows[i+1];			
+			}
 		}
 	}
 
-	if (mode == "next" && next_id != undefined) {
-		view(next_id, active_feed_id);
+	var content = document.getElementById("headlinesList");
+
+	if (mode == "next") {
+	 	if (next_id != undefined) {
+			view(next_id, active_feed_id);
+		} else {
+			_viewfeed_autoselect_first = true;
+			viewfeed(active_feed_id, active_offset+15);
+		}
 	}
 
-	if (mode == "prev" && prev_id != undefined) {
-		view(prev_id, active_feed_id);
+	if (mode == "prev") {
+		if ( prev_id != undefined) {
+			view(prev_id, active_feed_id);
+		} else {
+			_viewfeed_autoselect_last = true;
+			viewfeed(active_feed_id, active_offset-15);
+		}
 	}
 
 }
 
 function localHotkeyHandler(keycode) {
 
-//	notify(keycode);
-
 	if (keycode == 78) {
-		moveToPost('next');
+		return moveToPost('next');
 	}
 
 	if (keycode == 80) {
-		moveToPost('prev');
+		return moveToPost('prev');
 	}
+
+	if (keycode == 82) {
+		return scheduleFeedUpdate(true);
+	}
+
+	if (keycode == 85) {
+		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
+	}
+
+//	notify("KC: " + keycode);
+
 }
 
 
 function init() {
+	if (!xmlhttp) {
+		document.getElementById("headlines").innerHTML = 
+			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
+			"to function properly. Your browser doesn't seem to support it.";
+		return;
+	}
+
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
 	setTimeout("timeout()", 1800*1000);

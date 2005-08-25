@@ -1,6 +1,13 @@
 <?
 	require_once 'config.php';
 
+	function purge_old_posts() {
+		if (PURGE_OLD_DAYS) {
+			$result = pg_query("DELETE FROM ttrss_entries WHERE
+				date_entered < NOW() - INTERVAL '30 days'");
+		}
+	}
+
 	function update_all_feeds($link, $fetch) {
 
 		if (WEB_DEMO_MODE) return;
@@ -22,6 +29,8 @@
 		while ($line = pg_fetch_assoc($result)) {
 			update_rss_feed($link, $line["feed_url"], $line["id"]);
 		}
+
+		purge_old_posts();
 
 		pg_query("COMMIT");
 

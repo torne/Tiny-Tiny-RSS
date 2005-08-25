@@ -317,10 +317,10 @@
 		// start unholy navbar block
 
 		print "<tr><td colspan=\"3\" class=\"headlineToolbar\">";
-
+		
 		$next_skip = $skip + HEADLINES_PER_PAGE;
 		$prev_skip = $skip - HEADLINES_PER_PAGE;
-	
+
 		print "Navigate: ";
 
 		if ($prev_skip >= 0) {
@@ -353,7 +353,6 @@
 		print "</td></tr>";
 
 		// end unholy navbar block
-
 		
 		print "</table>";
 
