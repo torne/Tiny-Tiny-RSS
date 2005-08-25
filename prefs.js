@@ -275,7 +275,20 @@ function localPiggieFunction(enable) {
 }
 
 function init() {
-	
+
+	// IE kludge
+
+	if (xmlhttp && !xmlhttp_rpc) {
+		xmlhttp_rpc = xmlhttp;
+	}
+
+	if (!xmlhttp || !xmlhttp_rpc) {
+		document.getElementById("prefContent").innerHTML = 
+			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
+			"to function properly. Your browser doesn't seem to support it.";
+		return;
+	}
+
 	updateFeedList();
 	document.onkeydown = hotkey_handler;
 	notify("");
