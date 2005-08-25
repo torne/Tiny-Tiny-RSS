@@ -109,6 +109,31 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "getRelativeId") {
+			$mode = $_GET["mode"];
+			$id = $_GET["id"];
+			$feed_id = $_GET["feed"];
+
+			if ($id != 'false' && $feed_id != 'false') {
+
+				if ($mode == 'next') {
+					$check_qpart = "updated >= ";
+				} else {
+					$idcheck_qpart = "id < '$id'";
+				}
+
+				$result = pg_query("SELECT id FROM ttrss_entries WHERE
+					$check_qpart AND
+					feed_id = '$feed_id'
+					ORDER BY updated DESC LIMIT 1");
+
+				$result_id = pg_fetch_result($result, 0, "id");
+
+				print "M $mode : P $id -> P $result_id : F $feed_id";
+
+			}
+		}
+
 		if ($subop == "forceUpdateAllFeeds") {
 			update_all_feeds($link, true);			
 			outputFeedList($link);

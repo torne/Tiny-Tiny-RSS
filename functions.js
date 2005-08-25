@@ -1,3 +1,17 @@
+function notify_callback() {
+	var container = document.getElementById('notify');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+	}
+}
+
+function rpc_notify_callback() {
+	var container = document.getElementById('notify');
+	if (xmlhttp_rpc.readyState == 4) {
+		container.innerHTML=xmlhttp_rpc.responseText;
+	}
+}
+
 function param_escape(arg) {
 	if (typeof encodeURIComponent != 'undefined')
 		return encodeURIComponent(arg);	
@@ -62,6 +76,10 @@ function hotkey_handler(e) {
 		localPiggieFunction(true);
 	} else {
 		localPiggieFunction(false);
+	}
+
+	if (typeof localHotkeyHandler != 'undefined') {
+		localHotkeyHandler(keycode);
 	}
 
 }

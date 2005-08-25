@@ -9,6 +9,9 @@ var xmlhttp_rpc = false;
 var total_unread = 0;
 var first_run = true;
 
+var active_post_id = false;
+var active_feed_id = false;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -30,13 +33,6 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp_rpc = new XMLHttpRequest();
 
-}
-
-function notify_callback() {
-	var container = document.getElementById('notify');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-	}
 }
 
 function feedlist_callback() {
@@ -228,6 +224,9 @@ function viewfeed(feed, skip, subop) {
 		printLockingError();
 		return
 	}
+	
+	active_feed_id = feed;
+	active_post_id = false;
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) , true);
@@ -235,6 +234,17 @@ function viewfeed(feed, skip, subop) {
 	xmlhttp.send(null);
 
 	notify("Loading headlines...");
+
+}
+
+function cleanSelectedHeadlines() {
+	var content = document.getElementById("headlinesList");
+
+	var rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		content.rows[i].className = content.rows[i].className.replace("Selected", "");
+	}
 
 }
 
@@ -256,11 +266,15 @@ function view(id,feed_id) {
 			var feedr = document.getElementById("FEEDR-" + feed_id);
 			feedr.className = feedr.className.replace("Unread", "");
 		}
-	
+
 		total_unread--;
 
 		update_title(); 
 	}	
+
+	cleanSelectedHeadlines();
+
+	crow.className = crow.className + "Selected";
 
 	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
 
@@ -269,6 +283,8 @@ function view(id,feed_id) {
 	} 
 
 	document.getElementById('content').innerHTML='Loading, please wait...';		
+
+	active_post_id = id;
 
 	xmlhttp.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
 	xmlhttp.onreadystatechange=view_callback;
@@ -317,6 +333,81 @@ function localPiggieFunction(enable) {
 			xmlhttp.onreadystatechange=feedlist_callback;
 			xmlhttp.send(null);
 		}
+	}
+}
+
+function relativeid_callback() {
+
+	if (xmlhttp_rpc.readyState == 4) {
+		notify(xmlhttp_rpc.responseText);
+	}
+
+}
+
+function getVisibleHeadlineIds() {
+
+	var content = document.getElementById("headlinesList");
+
+	var rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		var row_id = content.rows[i].id.replace("RROW-", "");
+		if (row_id.length > 0) {
+				rows.push(row_id);	
+		}
+	}
+
+	return rows;
+
+}
+
+function moveToPost(mode) {
+
+/*	var query_str = "backend.php?op=rpc&subop=getRelativeId&mode=" + mode + 
+		"&feed=" + active_feed_id + "&id=" + active_post_id;
+
+//	notify(query_str);
+
+	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {
+		xmlhttp_rpc.open("GET", query_str, true);
+		xmlhttp_rpc.onreadystatechange=relativeid_callback;
+		xmlhttp_rpc.send(null);
+	} else {
+		printLockingError();
+	} */
+
+	var rows = getVisibleHeadlineIds();
+
+	var prev_id;
+	var next_id;
+
+	for (var i = 0; i < rows.length; i++) {
+		if (rows[i] == active_post_id) {
+			prev_id = rows[i-1];
+			next_id = rows[i+1];			
+		}
+	}
+
+	if (mode == "next" && next_id != undefined) {
+		view(next_id, active_feed_id);
+	}
+
+	if (mode == "prev" && prev_id != undefined) {
+		view(prev_id, active_feed_id);
+	}
+
+}
+
+function localHotkeyHandler(keycode) {
+
+//	notify(keycode);
+
+	if (keycode == 78) {
+		moveToPost('next');
+	}
+
+	if (keycode == 80) {
+		moveToPost('prev');
 	}
 }
 
