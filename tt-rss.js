@@ -244,6 +244,8 @@ function catchupAllFeeds() {
 
 function viewfeed(feed, skip, subop) {
 
+	enableHotkeys();
+
 	var searchbox = document.getElementById("searchbox");
 
 	if (searchbox) {
@@ -297,6 +299,8 @@ function cleanSelectedHeadlines() {
 }
 
 function view(id,feed_id) {
+
+	enableHotkeys();
 
 	if (xmlhttp_view.readyState != 4 && xmlhttp_view.readyState != 0) {
 		printLockingError();

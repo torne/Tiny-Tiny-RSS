@@ -195,8 +195,10 @@
 					if ($orig_title != $entry_title) {
 						$last_read_qpart = 'last_read = null,';
 					}
+					
+					if (UPDATE_POST_ON_CHECKSUM_CHANGE && 
+							$orig_content_hash != $content_hash) {
 
-					if ($orig_content_hash != $content_hash) {
 						$last_read_qpart = 'last_read = null,';
 					}
 

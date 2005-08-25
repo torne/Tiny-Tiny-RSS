@@ -261,7 +261,9 @@
 		}
 
 		$result = pg_query("SELECT count(id) AS total_entries 
-			FROM ttrss_entries WHERE feed_id = '$feed'");
+			FROM ttrss_entries WHERE 
+			$search_query_part
+			feed_id = '$feed'");
 
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
