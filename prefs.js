@@ -263,26 +263,8 @@ function editSelectedFeed() {
 
 }
 
-var seq = "";
-
-function hotkey_handler(e) {
-	var keycode;
-
-	if (window.event) {
-		keycode = window.event.keyCode;
-	} else if (e) {
-		keycode = e.which;
-	}
-
-	if (keycode == 13 || keycode == 27) {
-		seq = "";
-	} else {
-		seq = seq + "" + keycode;
-	}
-
-	var piggie = document.getElementById("piggie");
-
-	if (seq.match("807371717369")) {
+function localPiggieFunction(enable) {
+	if (enable) {
 		piggie.style.display = "block";
 		seq = "";
 		notify("I loveded it!!!");
@@ -290,7 +272,6 @@ function hotkey_handler(e) {
 		piggie.style.display = "none";
 		notify("");
 	}
-
 }
 
 function init() {

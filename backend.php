@@ -40,6 +40,8 @@
 		
 			$feed = $line["title"];
 			$feed_id = $line["id"];	  
+
+			$subop = $_GET["subop"];
 			
 			$total = $line["total"];
 			$unread = $line["unread"];
@@ -53,14 +55,20 @@
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
 			$icon_file = ICONS_DIR . "/$feed_id.ico";
-	
-			if (file_exists($icon_file) && filesize($icon_file) > 0) {
-				$feed_icon = "<img width=\"16\" height=\"16\"
-					src=\"" . ICONS_URL . "/$feed_id.ico\">";
+
+			if ($subop != "piggie") {
+
+				if (file_exists($icon_file) && filesize($icon_file) > 0) {
+						$feed_icon = "<img width=\"16\" height=\"16\"
+							src=\"" . ICONS_URL . "/$feed_id.ico\">";
+				} else {
+					$feed_icon = "&nbsp;";
+				}
 			} else {
-				$feed_icon = "&nbsp;";
+				$feed_icon = "<img width=\"16\" height=\"16\"
+					src=\"http://madoka.spb.ru/stuff/fox/tiny_piggie.png\">";
 			}
-			
+		
 			$feed = "<a href=\"javascript:viewfeed($feed_id, 0);\">$feed</a>";
 			if (ENABLE_FEED_ICONS) {
 				print "<td>$feed_icon</td>";

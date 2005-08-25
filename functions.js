@@ -39,4 +39,32 @@ function printLockingError() {
 	notify("Please wait until operation finishes");
 }
 
+var seq = "";
+
+function hotkey_handler(e) {
+	var keycode;
+
+	if (window.event) {
+		keycode = window.event.keyCode;
+	} else if (e) {
+		keycode = e.which;
+	}
+
+	if (keycode == 13 || keycode == 27) {
+		seq = "";
+	} else {
+		seq = seq + "" + keycode;
+	}
+
+	var piggie = document.getElementById("piggie");
+
+	if (seq.match("807371717369")) {
+		localPiggieFunction(true);
+	} else {
+		localPiggieFunction(false);
+	}
+
+}
+
+
 

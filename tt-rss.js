@@ -307,7 +307,22 @@ function update_title() {
 	//document.title = "Tiny Tiny RSS (" + total_unread + " unread)";
 }
 
+function localPiggieFunction(enable) {
+	if (enable) {
+		var query_str = "backend.php?op=feeds&subop=piggie";
+
+		if (xmlhttp.readyState == 4 || xmlhttp.readyState == 0) {
+
+			xmlhttp.open("GET", query_str, true);
+			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.send(null);
+		}
+	}
+}
+
+
 function init() {
 	updateFeedList(false, false);
+	document.onkeydown = hotkey_handler;
 	setTimeout("timeout()", 1800*1000);
 }
