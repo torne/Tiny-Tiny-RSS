@@ -42,7 +42,7 @@ function notify_callback() {
 
 function updateFeedList() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -71,7 +71,7 @@ function toggleSelectRow(sender) {
 
 function addFeed() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -98,7 +98,7 @@ function editFeed(feed) {
 
 //	notify("Editing feed...");
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -128,7 +128,7 @@ function getSelectedFeeds() {
 
 function readSelectedFeeds() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -153,7 +153,7 @@ function readSelectedFeeds() {
 
 function unreadSelectedFeeds() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -178,7 +178,7 @@ function unreadSelectedFeeds() {
 
 function removeSelectedFeeds() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -204,7 +204,7 @@ function removeSelectedFeeds() {
 
 function feedEditCancel() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -219,7 +219,7 @@ function feedEditCancel() {
 
 function feedEditSave(feed) {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}

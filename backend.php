@@ -479,11 +479,14 @@
 			}
 		}
 	
-		$result = pg_query("SELECT * FROM ttrss_feeds ORDER by title");
+		$result = pg_query("SELECT 
+				id,title,feed_url,substring(last_updated,1,16) as last_updated
+			FROM 
+				ttrss_feeds ORDER by title");
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
-					<td>Select</td><td>Title</td><td>Link</td><td>Last Updated</td></tr>";
+					<td>&nbsp;</td><td>Select</td><td>Title</td><td>Link</td><td>Last Updated</td></tr>";
 		
 		$lnum = 0;
 		
@@ -495,8 +498,19 @@
 			
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
+			$icon_file = ICONS_DIR . "/$feed_id.ico";
+
+			if (file_exists($icon_file) && filesize($icon_file) > 0) {
+					$feed_icon = "<img width=\"16\" height=\"16\"
+						src=\"" . ICONS_URL . "/$feed_id.ico\">";
+			} else {
+				$feed_icon = "&nbsp;";
+			}
+			print "<td align='center'>$feed_icon</td>";		
+
 			print "<td><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+		
 			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 				$line["title"] . "</td>";		
 			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 

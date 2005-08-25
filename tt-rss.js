@@ -51,19 +51,13 @@ function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
-//		var feedtu = document.getElementById("FEEDTU");
-//		if (feedtu) {
-//			total_unread = feedtu.innerHTML;
-//			update_title();
-//		}
-
 		if (first_run) {
 			scheduleFeedUpdate(false);
 			first_run = false;
 		} else {
 			notify("");
-		}
-	}
+		} 
+	} 
 }
 
 function viewfeed_callback() {
@@ -122,17 +116,13 @@ function view_callback() {
 }
 
 function refetch_callback() {
+
 	if (xmlhttp_rpc.readyState == 4) {
 		notify("All feeds updated");
-		
 		var container = document.getElementById('feeds');
-
 		container.innerHTML = xmlhttp_rpc.responseText;
-
 		document.title = "Tiny Tiny RSS";
-
-		//updateFeedList(true, false);
-	}
+	} 
 }
 
 function scheduleFeedUpdate(force) {
@@ -149,17 +139,17 @@ function scheduleFeedUpdate(force) {
 		query_str = query_str + "updateAllFeeds";
 	}
 
-	if (xmlhttp_rpc.readyState == 4 || xmlhttp_rpc.readyState == 0) {
+	if (xmlhttp_ready(xmlhttp_rpc)) {
 		xmlhttp_rpc.open("GET", query_str, true);
 		xmlhttp_rpc.onreadystatechange=refetch_callback;
 		xmlhttp_rpc.send(null);
 	} else {
 		printLockingError();
-	}
+	}   
 }
 
 function updateFeedList(silent, fetch) {
-	
+
 	if (silent != true) {
 		notify("Loading feed list...");
 	}
@@ -168,7 +158,7 @@ function updateFeedList(silent, fetch) {
 
 	if (fetch) query_str = query_str + "&fetch=yes";
 
-	if (xmlhttp.readyState == 4 || xmlhttp.readyState == 0) {
+	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.send(null);
@@ -179,7 +169,7 @@ function updateFeedList(silent, fetch) {
 
 function catchupPage(feed) {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -228,7 +218,7 @@ function catchupPage(feed) {
 
 function catchupAllFeeds() {
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -263,7 +253,7 @@ function viewfeed(feed, skip, subop) {
 		return;
 	}
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
@@ -302,7 +292,7 @@ function view(id,feed_id) {
 
 	enableHotkeys();
 
-	if (xmlhttp_view.readyState != 4 && xmlhttp_view.readyState != 0) {
+	if (!xmlhttp_ready(xmlhttp_view)) {
 		printLockingError();
 		return
 	}
@@ -320,8 +310,6 @@ function view(id,feed_id) {
 		}
 
 		total_unread--;
-
-		update_title(); 
 	}	
 
 	cleanSelectedHeadlines();
@@ -342,14 +330,12 @@ function view(id,feed_id) {
 	xmlhttp_view.onreadystatechange=view_callback;
 	xmlhttp_view.send(null);
 
+
 }
 
 function timeout() {
-
 	scheduleFeedUpdate(true);
-
 	setTimeout("timeout()", 1800*1000);
-
 }
 
 function resetSearch() {
@@ -358,35 +344,14 @@ function resetSearch() {
 }
 
 function search(feed) {
-
-//	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-//		printLockingError();
-//		return
-//	}
-
-//	notify("Search: " + feed + ", " + sender.value)
-
-/*	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
-	document.getElementById('content').innerHTML='&nbsp;';		
-
-	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-		"&search=" + param_escape(sender.value) + "&subop=search", true);
-	xmlhttp.onreadystatechange=viewfeed_callback;
-	xmlhttp.send(null); */
-
 	viewfeed(feed, 0, "");
-
-}
-
-function update_title() {
-	//document.title = "Tiny Tiny RSS (" + total_unread + " unread)";
 }
 
 function localPiggieFunction(enable) {
 	if (enable) {
 		var query_str = "backend.php?op=feeds&subop=piggie";
 
-		if (xmlhttp.readyState == 4 || xmlhttp.readyState == 0) {
+		if (xmlhttp_ready(xmlhttp)) {
 
 			xmlhttp.open("GET", query_str, true);
 			xmlhttp.onreadystatechange=feedlist_callback;
@@ -493,7 +458,15 @@ function localHotkeyHandler(keycode) {
 
 
 function init() {
-	if (!xmlhttp) {
+
+	// IE kludge
+
+	if (xmlhttp && !xmlhttp_rpc) {
+		xmlhttp_rpc = xmlhttp;
+		xmlhttp_view = xmlhttp;
+	}
+
+	if (!xmlhttp || !xmlhttp_rpc || !xmlhttp_view) {
 		document.getElementById("headlines").innerHTML = 
 			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
 			"to function properly. Your browser doesn't seem to support it.";

@@ -8,6 +8,11 @@ function enableHotkeys() {
 	hotkeys_enabled = true;
 }
 
+function xmlhttp_ready(obj) {
+	return obj.readyState == 4 || obj.readyState == 0 || !obj.readyState;
+}
+
+
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
