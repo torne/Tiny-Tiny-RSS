@@ -27,6 +27,38 @@
 
 	}
 
+	function check_feed_favicon($feed_url, $feed) {
+		$feed_url = str_replace("http://", "", $feed_url);
+		$feed_url = preg_replace("/\/.*$/", "", $feed_url);
+		
+		$icon_url = "http://$feed_url/favicon.ico";
+		$icon_file = ICONS_DIR . "/$feed.ico";
+
+		if (!file_exists($icon_file)) {
+		
+			error_reporting(0);
+			$r = fopen($icon_url, "r");
+			error_reporting (E_ERROR | E_WARNING | E_PARSE);
+
+			if ($r) {
+				$tmpfname = tempnam("/tmp", "ttrssicon");
+			
+				$t = fopen($tmpfname, "w");
+				
+				while (!feof($r)) {
+					$buf = fread($r, 16384);
+					fwrite($t, $buf);
+				}
+				
+				fclose($r);
+				fclose($t);
+
+				rename($tmpfname, $icon_file);
+
+			}	
+		}
+	}
+
 	function update_rss_feed($link, $feed_url, $feed) {
 
 		if (WEB_DEMO_MODE) return;
@@ -39,6 +71,10 @@
 	
 		if ($rss) {
 
+			if (ENABLE_FEED_ICONS) {	
+				check_feed_favicon($feed_url, $feed);
+			}
+		
 			$result = pg_query("SELECT title FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = pg_fetch_result($result, 0, "title");
@@ -184,8 +220,6 @@
 		pg_query("COMMIT");
 
 	}
-
-
 
 
 ?>
