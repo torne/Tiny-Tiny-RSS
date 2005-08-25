@@ -19,6 +19,8 @@ var total_feed_entries = false;
 var _viewfeed_autoselect_first = false;
 var _viewfeed_autoselect_last = false;
 
+var search_query = "";
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -102,6 +104,10 @@ function viewfeed_callback() {
 			}
 
 		}
+
+		var searchbox = document.getElementById("searchbox");
+
+		searchbox.value = search_query;
 
 		notify("");
 
@@ -238,8 +244,18 @@ function catchupAllFeeds() {
 
 function viewfeed(feed, skip, subop) {
 
-//	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
-//	document.getElementById('content').innerHTML='&nbsp;';		
+	var searchbox = document.getElementById("searchbox");
+
+	if (searchbox) {
+		search_query = searchbox.value;
+	} else {
+		search_query = "";
+	} 
+
+/*	if (active_feed_id == feed && subop != "ForceUpdate") {
+		notify("This feed is currently selected.");
+		return;
+	} */
 
 	if (skip < 0 || skip > total_feed_entries) {
 		return;
@@ -254,8 +270,14 @@ function viewfeed(feed, skip, subop) {
 	active_post_id = false;
 	active_offset = skip;
 
-	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) , true);
+	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
+		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop);
+
+	if (search_query != "") {
+		query = query + "&search=" + param_escape(search_query);
+	}
+	
+	xmlhttp.open("GET", query, true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
 	xmlhttp.send(null);
 
@@ -326,22 +348,29 @@ function timeout() {
 
 }
 
-function search(feed, sender) {
+function resetSearch() {
+	document.getElementById("searchbox").value = "";
+	viewfeed(active_feed_id, 0, "");
+}
 
-	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
-		printLockingError();
-		return
-	}
+function search(feed) {
 
-	notify("Search: " + feed + ", " + sender.value)
+//	if (xmlhttp.readyState != 4 && xmlhttp.readyState != 0) {
+//		printLockingError();
+//		return
+//	}
 
-	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
+//	notify("Search: " + feed + ", " + sender.value)
+
+/*	document.getElementById('headlines').innerHTML='Loading headlines, please wait...';		
 	document.getElementById('content').innerHTML='&nbsp;';		
 
 	xmlhttp.open("GET", "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&search=" + param_escape(sender.value) + "&subop=search", true);
 	xmlhttp.onreadystatechange=viewfeed_callback;
-	xmlhttp.send(null);
+	xmlhttp.send(null); */
+
+	viewfeed(feed, 0, "");
 
 }
 

@@ -245,14 +245,15 @@
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
 		print "<tr><td class=\"search\" colspan=\"3\">
-			Search: <input onchange=\"javascript:search($feed,this);\">
-			<a class=\"button\" href=\"javascript:viewfeed($feed,0)\">Reset</a>
+			Search: <input id=\"searchbox\" onchange=\"javascript:search($feed);\">
+			<a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>
 			</td></tr>"; 
 		print "<tr>
 		<td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
-		if ($subop == "search") {
-			$search = $_GET["search"];
+		$search = $_GET["search"];
+
+		if (search) {
 			$search_query_part = "(upper(title) LIKE upper('%$search%') 
 				OR content LIKE '%$search%') AND";
 		}
