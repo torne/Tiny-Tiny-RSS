@@ -203,7 +203,8 @@
 			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
 				<td><a href=\"".$line["link"]."\">".$line["link"]."</a></td>
 				<td>&nbsp;</td> </tr>";
-			print "<tr><td class=\"post\" colspan=\"2\">" . $line["content"] . "</td>			
+			print "<tr><td valign=\"top\" class=\"post\" 
+				colspan=\"2\">" . $line["content"] . "</td>
 				<td valign=\"top\">$feed_icon</td>
 			</tr>";
 			print "</table>";	 
