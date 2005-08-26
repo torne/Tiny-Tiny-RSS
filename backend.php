@@ -464,6 +464,10 @@
 					pg_query("DELETE FROM ttrss_entries WHERE feed_id = '$id'");
 					pg_query("DELETE FROM ttrss_feeds WHERE id = '$id'");
 					pg_query("COMMIT");
+					
+					if (file_exists(ICONS_DIR . "/$id.ico")) {
+						unlink(ICONS_DIR . "/$id.ico");
+					}
 				}
 			}
 		}
