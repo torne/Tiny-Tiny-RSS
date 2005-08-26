@@ -192,12 +192,16 @@
 					$orig_no_orig_date = pg_fetch_result($result, 0, "no_orig_date");
 					$orig_title = pg_fetch_result($result, 0, "title");
 
-					if ($orig_title != $entry_title) {
-						$last_read_qpart = 'last_read = null,';
-					}
-					
+					$last_read_qpart = "";
+
+//					if ("$orig_title" != "$entry_title") {
+//						$last_read_qpart = 'last_read = null,';
+//					}
+				
 					if (UPDATE_POST_ON_CHECKSUM_CHANGE && 
 							$orig_content_hash != $content_hash) {
+
+					print "$orig_content_hash : $content_hash";
 
 						$last_read_qpart = 'last_read = null,';
 					}
