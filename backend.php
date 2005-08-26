@@ -293,6 +293,8 @@
 			feed_id = '$feed' ORDER BY updated DESC LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
 
 		$lnum = 0;
+		
+		$num_unread = 0;
 
 		while ($line = pg_fetch_assoc($result)) {
 
@@ -300,12 +302,15 @@
 
 			if ($line["last_read_ts"] < $line["updated_ts"] && $line["unread"] == "f") {
 				$update_pic = "<img src=\"images/updated.png\" alt=\"Updated\">";
+				++$num_unread;
 			} else {
 				$update_pic = "&nbsp;";
 			}
 
-			if ($line["unread"] == "t") 
+			if ($line["unread"] == "t") {
 				$class .= "Unread";
+				++$num_unread;
+			}
 
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
@@ -365,9 +370,15 @@
 		
 		print "&nbsp;&nbsp;Mark as read: ";
 		
-		print "<a class=\"button\" 
-			href=\"javascript:catchupPage($feed);\">This Page</a>";
-		print "&nbsp;";
+		if ($num_unread > 0) {
+			print "<a class=\"button\" id=\"btnCatchupPage\" 
+				href=\"javascript:catchupPage($feed);\">This Page</a>";
+			print "&nbsp;";
+		} else {
+			print "<a class=\"disabledButton\">This Page</a>";
+			print "&nbsp;";
+		}
+		
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
 

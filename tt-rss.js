@@ -210,6 +210,11 @@ function catchupPage(feed) {
 			param_escape(rows.toString());
 	
 		notify("Marking this page as read...");
+
+		var button = document.getElementById("btnCatchupPage");
+
+		button.className = "disabledButton";
+		button.href = "";
 	
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=notify_callback;
