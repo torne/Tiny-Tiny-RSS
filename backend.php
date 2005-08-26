@@ -433,35 +433,6 @@
 	
 		$subop = $_GET["subop"];
 
-/*		if ($subop == "old_edit") {
-
-			$feed_id = $_GET["id"];
-
-			$result = pg_query("SELECT title,feed_url 
-				FROM ttrss_feeds WHERE id = '$feed_id'");
-
-			$fedit_link = pg_fetch_result($result, 0, "feed_url");
-			$fedit_title = pg_fetch_result($result, 0, "title");
-		
-			print "<table class=\"prefAddFeed\">
-			<td>Title:</td><td><input id=\"fedit_title\" value=\"$fedit_title\"></td></tr>
-			<td>Link:</td><td><input id=\"fedit_link\" value=\"$fedit_link\"></td></tr>		
-			<tr><td colspan=\"2\" align=\"right\">
-				<a class=\"button\" href=\"javascript:feedEditCancel()\">Cancel</a>
-				<a class=\"button\" href=\"javascript:feedEditSave($feed_id)\">Save</a>
-				</td></tr>
-			</table>";
-
-		} else {
-
-			print "<table class=\"prefAddFeed\">
-			<td><input id=\"fadd_link\"></td>
-			<td colspan=\"4\" align=\"right\">
-				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
-			</table>";
-
-		} */
-
 		if ($subop == "editSave") {
 			$feed_title = pg_escape_string($_GET["t"]);
 			$feed_link = pg_escape_string($_GET["l"]);
@@ -500,7 +471,8 @@
 				$result = pg_query(
 					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
 
-				$result = pg_query("SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
+				$result = pg_query(
+					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
 
 				$feed_id = pg_fetch_result($result, 0, "id");
 
@@ -559,14 +531,15 @@
 
 			} else if ($feed_id != $edit_feed_id) {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\" 
+					id=\"FRCHK-".$line["id"]."\"></td>";
 
 				print "<td>".$line["title"]."</td>";		
 				print "<td>".$line["feed_url"]."</td>";		
 
 			} else {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
 
 				print "<td><input id=\"iedit_title\" value=\"".$line["title"]."\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"".$line["feed_url"]."\"></td>";
@@ -590,20 +563,20 @@
 					<a class=\"button\" href=\"javascript:feedEditSave()\">Save</a>";
 			} else {
 
-//			<a class=\"button\" 
-//				href=\"javascript:editSelectedFeed()\">Edit</a>&nbsp;
-
-//			<a class=\"button\" 
-//				href=\"javascript:updateFeedList()\">Refresh</a>";
-
 			print "
 				Selection:&nbsp;
+			<a class=\"button\" 
+				href=\"javascript:editSelectedFeed()\">Edit</a>&nbsp;
 			<a class=\"buttonWarn\" 
 				href=\"javascript:removeSelectedFeeds()\">Remove</a>&nbsp;
 			<a class=\"button\" 
 				href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
 			<a class=\"button\" 
-				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>";
+				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;
+			Page: 
+				<a class=\"button\" 
+				href=\"javascript:updateFeedList()\">Refresh</a>";
+			
 
 			}
 
