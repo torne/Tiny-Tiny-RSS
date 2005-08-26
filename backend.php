@@ -433,7 +433,7 @@
 	
 		$subop = $_GET["subop"];
 
-		if ($subop == "edit") {
+/*		if ($subop == "old_edit") {
 
 			$feed_id = $_GET["id"];
 
@@ -460,7 +460,7 @@
 				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
 			</table>";
 
-		}
+		} */
 
 		if ($subop == "editSave") {
 			$feed_title = pg_escape_string($_GET["t"]);
@@ -517,7 +517,8 @@
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
-					<td>&nbsp;</td><td>Select</td><td>Title</td><td>Link</td><td>Last Updated</td></tr>";
+					<td>&nbsp;</td><td>Select</td><td width=\"40%\">Title</td>
+					<td width=\"40%\">Link</td><td>Last Updated</td></tr>";
 		
 		$lnum = 0;
 		
@@ -526,7 +527,9 @@
 			$class = ($lnum % 2) ? "even" : "odd";
 			
 			$feed_id = $line["id"];
-			
+
+			$edit_feed_id = $_GET["id"];
+
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
 			$icon_file = ICONS_DIR . "/$feed_id.ico";
@@ -539,21 +542,57 @@
 			}
 			print "<td align='center'>$feed_icon</td>";		
 
-			print "<td><input onclick='toggleSelectRow(this);' 
+			if ($feed_id != $edit_feed_id || $subop != "edit" ) {
+
+				print "<td><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
-		
-			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-				$line["title"] . "</td>";		
-			print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-				$line["feed_url"] . "</td>";		
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["title"] . "</td>";		
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["feed_url"] . "</td>";		
+			} else {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+
+				print "<td><input id=\"iedit_title\" value=\"".$line["title"]."\"></td>";
+				print "<td><input id=\"iedit_link\" value=\"".$line["feed_url"]."\"></td>";
+						
+			}
 				
 			print "<td>" . $line["last_updated"] . "</td>";
+			
 			print "</tr>";
 
 			++$lnum;
 		}
 
 		print "</table>";
+
+		print "<p>";
+
+		if ($subop == "edit") {
+			print "Edit feed:&nbsp;
+					<a class=\"button\" href=\"javascript:feedEditCancel()\">Cancel</a>&nbsp;
+					<a class=\"button\" href=\"javascript:feedEditSave()\">Save</a>";
+			} else {
+
+//			<a class=\"button\" 
+//				href=\"javascript:editSelectedFeed()\">Edit</a>&nbsp;
+
+//			<a class=\"button\" 
+//				href=\"javascript:updateFeedList()\">Refresh</a>";
+
+			print "
+				Selection:&nbsp;
+			<a class=\"buttonWarn\" 
+				href=\"javascript:removeSelectedFeeds()\">Remove</a>&nbsp;
+			<a class=\"button\" 
+				href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
+			<a class=\"button\" 
+				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>";
+
+			}
 
 	}
 

@@ -236,17 +236,19 @@ function feedEditCancel() {
 
 }
 
-function feedEditSave(feed) {
+function feedEditSave() {
+
+	var feed = active_feed;
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
 
-	notify("Saving feed.");
+	var link = document.getElementById("iedit_link").value;
+	var title = document.getElementById("iedit_title").value;
 
-	var link = document.getElementById("fedit_link").value;
-	var title = document.getElementById("fedit_title").value;
+//	notify("Saving feed.");
 
 	if (link.length == 0) {
 		notify("Feed link cannot be blank.");
@@ -257,6 +259,8 @@ function feedEditSave(feed) {
 		notify("Feed title cannot be blank.");
 		return;
 	}
+
+	active_feed = false;
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
 		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) ,true);
