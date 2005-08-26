@@ -559,8 +559,7 @@
 
 			} else if ($feed_id != $edit_feed_id) {
 
-				print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				print "<td>".$line["title"]."</td>";		
 				print "<td>".$line["feed_url"]."</td>";		
