@@ -1,6 +1,8 @@
 <?
 	require_once 'config.php';
 
+	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+
 	function purge_old_posts() {
 		if (PURGE_OLD_DAYS) {
 			$result = pg_query("DELETE FROM ttrss_entries WHERE

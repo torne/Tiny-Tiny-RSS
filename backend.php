@@ -30,7 +30,7 @@
 				WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
 			FROM ttrss_feeds ORDER BY title");			
 
-		print "<table width=\"100%\" class=\"feeds\">";
+		print "<table width=\"100%\" class=\"feeds\" id=\"feedsList\">";
 
 		$lnum = 0;
 
@@ -302,7 +302,8 @@
 
 			print "<td id='FUPDPIC-$id' valign='center' class='headlineUpdateMark'>$update_pic</td>";
 
-			print "<td class='headlineUpdated'>".$line["updated"]."</td>";
+			print "<td class='headlineUpdated'>
+				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
 			print "<td class='headlineTitle'>$content_link</td>";
 
 			print "</tr>";

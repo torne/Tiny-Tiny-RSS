@@ -97,10 +97,12 @@ function viewfeed_callback() {
 					feedr.className = feedr.className.replace("Unread", "");
 			}
 
+			cleanSelected("feedsList");
+
+			feedr.className = feedr.className + "Selected";
 		}
 
 		var searchbox = document.getElementById("searchbox");
-
 		searchbox.value = search_query;
 
 		notify("");
@@ -277,8 +279,8 @@ function viewfeed(feed, skip, subop) {
 
 }
 
-function cleanSelectedHeadlines() {
-	var content = document.getElementById("headlinesList");
+function cleanSelected(element) {
+	var content = document.getElementById(element);
 
 	var rows = new Array();
 
@@ -312,7 +314,7 @@ function view(id,feed_id) {
 		total_unread--;
 	}	
 
-	cleanSelectedHeadlines();
+	cleanSelected("headlinesList");
 
 	crow.className = crow.className + "Selected";
 
