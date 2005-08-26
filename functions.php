@@ -153,6 +153,8 @@
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
+				$entry_comments = $item["comments"];
+
 				$result = pg_query($link, "
 					SELECT 
 						id,last_read,no_orig_date,title,feed_id,content_hash,
@@ -164,9 +166,11 @@
 
 				if (pg_num_rows($result) == 0) {
 
+					$entry_guid = pg_escape_string($entry_guid);
 					$entry_content = pg_escape_string($entry_content);
 					$entry_title = pg_escape_string($entry_title);
 					$entry_link = pg_escape_string($entry_link);
+					$entry_comments = pg_escape_string($entry_comments);
 
 					$query = "INSERT 
 						INTO ttrss_entries 
@@ -177,6 +181,7 @@
 							content, 
 							content_hash,
 							feed_id, 
+							comments,
 							no_orig_date) 
 						VALUES
 							('$entry_title', 
@@ -186,6 +191,7 @@
 							'$entry_content', 
 							'$content_hash',
 							'$feed', 
+							'$entry_comments',
 							$no_orig_date)";
 
 					$result = pg_query($link, $query);
@@ -217,14 +223,15 @@
 						$last_read_qpart = 'last_read = null,';
 					}
 
-//					if ($orig_timestamp < $entry_timestamp) {
+//					if (!$no_orig_date && $orig_timestamp < $entry_timestamp) {
 //						$last_read_qpart = 'last_read = null,';
 //					}
 
+					$entry_comments = pg_escape_string($entry_comments);
 					$entry_content = pg_escape_string($entry_content);
-					$entry_title = pg_escape_string($entry_title);
+					$entry_title = pg_escape_string($entry_title);					
 					$entry_link = pg_escape_string($entry_link);
-
+			
 					$query = "UPDATE ttrss_entries 
 						SET 
 							$last_read_qpart 
@@ -232,6 +239,7 @@
 							link = '$entry_link', 
 							updated = '$entry_timestamp_fmt',
 							content = '$entry_content',
+							comments = '$entry_comments',
 							content_hash = '$content_hash'
 						WHERE
 							id = '$orig_entry_id'";

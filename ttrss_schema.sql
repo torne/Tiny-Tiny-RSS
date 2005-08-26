@@ -38,5 +38,6 @@ create table ttrss_entries (id serial not null primary key,
 	last_read timestamp,
 	date_entered timestamp not null default NOW(),
 	no_orig_date boolean not null default false,
+	comments varchar(250) not null default '',
 	unread boolean not null default true);
 	

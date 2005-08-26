@@ -178,7 +178,7 @@
 
 		$result = pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
-		$result = pg_query("SELECT title,link,content,feed_id,
+		$result = pg_query("SELECT title,link,content,feed_id,comments,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
 			FROM ttrss_entries
 			WHERE	id = '$id'");
@@ -199,10 +199,18 @@
 			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
 				<td width=\"100%\">".$line["title"]."</td>
 				<td>&nbsp;</td></tr>";
-				
+
+			if ($line["comments"] && $line["comments"] != $line["link"]) {
+//				print "<tr class=\"titleInner\"><td align=\"right\"><b>Comments:</b></td>
+//					<td><a href=\"".$line["comments"]."\">".$line["comments"]."</a></td>
+//					<td>&nbsp;</td> </tr>";
+
+				$comments_prompt = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+			}
+			
 			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
-				<td><a href=\"".$line["link"]."\">".$line["link"]."</a></td>
-				<td>&nbsp;</td> </tr>";
+				<td><a href=\"".$line["link"]."\">".$line["link"]."</a> $comments_prompt</td>
+				<td>&nbsp;</td></tr>";
 			print "<tr><td valign=\"top\" class=\"post\" 
 				colspan=\"2\">" . $line["content"] . "</td>
 				<td valign=\"top\">$feed_icon</td>
