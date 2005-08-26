@@ -525,10 +525,14 @@
 		while ($line = pg_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
-			
+
 			$feed_id = $line["id"];
 
 			$edit_feed_id = $_GET["id"];
+
+			if ($subop == "edit" && $feed_id != $edit_feed_id) {
+				$class .= "Grayed";
+			}
 
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
@@ -542,7 +546,7 @@
 			}
 			print "<td align='center'>$feed_icon</td>";		
 
-			if ($feed_id != $edit_feed_id || $subop != "edit" ) {
+			if (!$edit_feed_id || $subop != "edit") {
 
 				print "<td><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
@@ -551,6 +555,16 @@
 					$line["title"] . "</td>";		
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$line["feed_url"] . "</td>";		
+			
+
+			} else if ($feed_id != $edit_feed_id) {
+
+				print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+
+				print "<td>".$line["title"]."</td>";		
+				print "<td>".$line["feed_url"]."</td>";		
+
 			} else {
 
 				print "<td><input disabled=\"true\" type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
