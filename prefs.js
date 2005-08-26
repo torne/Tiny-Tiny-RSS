@@ -5,6 +5,8 @@
 
 var xmlhttp = false;
 
+var active_feed = false;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -29,6 +31,19 @@ function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
+
+		if (active_feed) {
+			var row = document.getElementById("FEEDR-" + active_feed);
+			if (row) {
+				if (!row.className.match("Selected")) {
+					row.className = row.className + "Selected";
+				}		
+			}
+			var checkbox = document.getElementById("FRCHK-" + active_feed);
+			if (checkbox) {
+				checkbox.checked = true;
+			}
+		}
 	}
 }
 
@@ -102,6 +117,8 @@ function editFeed(feed) {
 		printLockingError();
 		return
 	}
+
+	active_feed = feed;
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
 		param_escape(feed), true);
@@ -208,6 +225,8 @@ function feedEditCancel() {
 		printLockingError();
 		return
 	}
+
+	active_feed = false;
 
 	notify("Operation cancelled.");
 
