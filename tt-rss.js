@@ -105,6 +105,8 @@ function viewfeed_callback() {
 		var searchbox = document.getElementById("searchbox");
 		searchbox.value = search_query;
 
+		markHeadline(active_post_id);
+
 		notify("");
 
 	}	
@@ -260,8 +262,10 @@ function viewfeed(feed, skip, subop) {
 		return
 	}
 
+	if (active_feed_id != feed) 
+		active_post_id = false;
+
 	active_feed_id = feed;
-	active_post_id = false;
 	active_offset = skip;
 
 	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
@@ -277,6 +281,13 @@ function viewfeed(feed, skip, subop) {
 
 	notify("Loading headlines...");
 
+}
+
+function markHeadline(id) {
+	var row = document.getElementById("RROW-" + id);
+	if (row) {
+		row.className = row.className + "Selected";
+	}
 }
 
 function cleanSelected(element) {

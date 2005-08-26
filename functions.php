@@ -214,9 +214,6 @@
 				
 					if (UPDATE_POST_ON_CHECKSUM_CHANGE && 
 							$orig_content_hash != $content_hash) {
-
-					print "$orig_content_hash : $content_hash";
-
 						$last_read_qpart = 'last_read = null,';
 					}
 
