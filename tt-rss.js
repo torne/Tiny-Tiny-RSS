@@ -336,7 +336,7 @@ function view(id,feed_id) {
 		upd_img_pic.innerHTML = "";
 	} 
 
-	document.getElementById('content').innerHTML='Loading, please wait...';		
+//	document.getElementById('content').innerHTML='Loading, please wait...';		
 
 	active_post_id = id;
 
