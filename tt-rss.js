@@ -262,8 +262,9 @@ function viewfeed(feed, skip, subop) {
 		return
 	}
 
-	if (active_feed_id != feed) 
+	if (active_feed_id != feed || skip != active_offset) {
 		active_post_id = false;
+	}
 
 	active_feed_id = feed;
 	active_offset = skip;
