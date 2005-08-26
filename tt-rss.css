@@ -315,9 +315,14 @@ div.errorBox {
 	margin : 20px;
 	background : #f0f0f0;
 }
-
 table.postTable tr.titleTop, table.postTable tr.titleBottom {
 	background : #f0f0f0;
+}
+
+table.postTable td.titleIcon {
+	border-width : 0px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
 }
 
 table.postTable tr.titleTop td {
@@ -331,6 +336,22 @@ table.postTable tr.titleBottom td {
 	border-style : solid;
 
 }
+
+/*
+table.postTable tr.titleTop td {
+	padding : 5px 10px 0px 10px;
+}
+
+table.postTable tr.titleBottom td {
+	padding : 3px 10px 5px 10px;	
+}
+
+table.postTable tr.headerRow td.headers, table.postTable tr.headerRow td.iconBox {
+	background : #f0f0f0;
+	border-width : 0px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
+}*/
 
 table.postTable td.post {
 	padding : 20px;
@@ -353,4 +374,9 @@ table.postTable td.post {
 	margin-right : auto;
 	-moz-border-radius : 10px;
 	opacity : 0.8;
+}
+
+img.feedIcon {
+	margin : 3px;
+	border : 1px solid #c0c0c0;
 }

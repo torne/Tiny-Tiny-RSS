@@ -178,30 +178,36 @@
 
 		$result = pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
-		$result = pg_query("SELECT title,link,content FROM ttrss_entries
+		$result = pg_query("SELECT title,link,content,feed_id,
+			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
+			FROM ttrss_entries
 			WHERE	id = '$id'");
 
 		if ($result) {
 
 			$line = pg_fetch_assoc($result);
 
-/*			print "<table class=\"feedOverview\">";
-			print "<tr><td><b>Title:</b></td><td>".$line["title"]."</td></tr>";
-			print "<tr><td><b>Link:</b></td><td><a href=\"".$line["link"]."\">".$line["link"]."</a></td></tr>";
-			print "</table>";
+			if ($line["icon_url"]) {
+				$feed_icon = "<img class=\"feedIcon\" src=\"" . $line["icon_url"] . "\">";
+			} else {
+				$feed_icon = "&nbsp;";
+			}
 
-			print $line["content"]; */
-
-
-			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">";
+			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" 
+				cellpadding=\"0\">";
+				
 			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
-				<td width=\"100%\">".$line["title"]."</td></tr>";
+				<td width=\"100%\">".$line["title"]."</td>
+				<td>&nbsp;</td></tr>";
 				
 			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
-				<td><a href=\"".$line["link"]."\">".$line["link"]."</a></td></tr>";
-				
-			print "<tr><td class=\"post\" colspan=\"2\">" . $line["content"] . "</td></tr>";
-			print "</table>";	
+				<td><a href=\"".$line["link"]."\">".$line["link"]."</a></td>
+				<td>&nbsp;</td> </tr>";
+			print "<tr><td class=\"post\" colspan=\"2\">" . $line["content"] . "</td>			
+				<td valign=\"top\">$feed_icon</td>
+			</tr>";
+			print "</table>";	 
+
 		}
 	}
 

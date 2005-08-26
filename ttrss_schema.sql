@@ -4,6 +4,7 @@ drop table ttrss_feeds;
 create table ttrss_feeds (id serial not null primary key,
 	title varchar(200) not null unique, 
 	feed_url varchar(250) unique not null, 
+	icon_url varchar(250) not null default '',
 	last_updated timestamp default null);
 
 insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedesktop.org/node/feed');

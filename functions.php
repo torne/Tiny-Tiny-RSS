@@ -83,6 +83,8 @@
 		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 		pg_query("BEGIN");
+
+		$feed = pg_escape_string($feed);
 	
 		if ($rss) {
 
@@ -90,13 +92,23 @@
 				check_feed_favicon($feed_url, $feed);
 			}
 		
-			$result = pg_query("SELECT title FROM ttrss_feeds WHERE id = '$feed'");
+			$result = pg_query("SELECT title,icon_url FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = pg_fetch_result($result, 0, "title");
+			$orig_icon_url = pg_fetch_result($result, 0, "icon_url");
 
 			if (!$registered_title) {
 				$feed_title = $rss->channel["title"];
 				pg_query("UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
+			}
+
+//			print "I: " . $rss->channel["image"]["url"];
+
+			$icon_url = $rss->image["url"];
+
+			if ($icon_url && !$orig_icon_url) {
+				$icon_url = pg_escape_string($icon_url);
+				pg_query("UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
 			foreach ($rss->items as $item) {
