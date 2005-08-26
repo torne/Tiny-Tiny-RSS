@@ -116,6 +116,7 @@ function view_callback() {
 	var container = document.getElementById('content');
 	if (xmlhttp_view.readyState == 4) {
 		container.innerHTML=xmlhttp_view.responseText;		
+		markHeadline(active_post_id);
 	}
 }
 
@@ -327,8 +328,7 @@ function view(id,feed_id) {
 	}	
 
 	cleanSelected("headlinesList");
-
-	crow.className = crow.className + "Selected";
+//	crow.className = crow.className + "Selected";
 
 	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
 
