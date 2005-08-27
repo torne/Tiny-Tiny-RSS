@@ -24,7 +24,7 @@ insert into ttrss_feeds (title,feed_url) values ('RPGDot Newsfeed',
 insert into ttrss_feeds (title,feed_url) values ('Digg.com News', 
 	'http://digg.com/rss/index.xml');
 
-insert into ttrss_feeds (id,title,feed_url) values ('Technocrat.net', 
+insert into ttrss_feeds (title,feed_url) values ('Technocrat.net', 
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
