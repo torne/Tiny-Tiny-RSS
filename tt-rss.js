@@ -431,8 +431,6 @@ function moveToPost(mode) {
 		}
 	}
 
-	var content = document.getElementById("headlinesList");
-
 	if (mode == "next") {
 	 	if (next_id != undefined) {
 			view(next_id, active_feed_id);
