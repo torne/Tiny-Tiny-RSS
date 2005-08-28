@@ -91,6 +91,9 @@
 
 		print "</table>";
 
+		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
+
+/*
 		print "<p align=\"center\">All feeds: 
 			<a class=\"button\" 
 				href=\"javascript:scheduleFeedUpdate(true)\">Update</a>";
@@ -99,7 +102,7 @@
 				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
-
+*/
 
 
 	}
@@ -109,29 +112,20 @@
 
 		$subop = $_GET["subop"];
 
-		if ($subop == "getRelativeId") {
-			$mode = $_GET["mode"];
-			$id = $_GET["id"];
+		if ($subop == "updateFeed") {
 			$feed_id = $_GET["feed"];
 
-			if ($id != 'false' && $feed_id != 'false') {
+			$result = pg_query($link, 
+				"SELECT feed_url FROM ttrss_feeds WHERE id = '$feed_id'");
 
-				if ($mode == 'next') {
-					$check_qpart = "updated >= ";
-				} else {
-					$idcheck_qpart = "id < '$id'";
-				}
-
-				$result = pg_query("SELECT id FROM ttrss_entries WHERE
-					$check_qpart AND
-					feed_id = '$feed_id'
-					ORDER BY updated DESC LIMIT 1");
-
-				$result_id = pg_fetch_result($result, 0, "id");
-
-				print "M $mode : P $id -> P $result_id : F $feed_id";
-
+			if (pg_num_rows($result) > 0) {			
+				$feed_url = pg_fetch_result($result, 0, "feed_url");
+//				update_rss_feed($link, $feed_url, $feed_id);
 			}
+
+			print "DONE-$feed_id";
+
+			return;
 		}
 
 		if ($subop == "forceUpdateAllFeeds") {

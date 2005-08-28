@@ -28,8 +28,18 @@
 	</td>
 </tr>
 <tr>
-	<td valign="top" rowspan="2" id="feeds" class="feeds"> 
-		&nbsp;
+	<td valign="top" rowspan="2" class="feeds"> 
+		
+		<div id="feeds">&nbsp;</div>
+	
+		<p align="center">All feeds:
+		
+		<a class="button" 
+				href="javascript:scheduleFeedUpdate(true)">Update</a>
+
+		<a class="button" 
+				href="javascript:catchupAllFeeds()">Mark as read</a></p>
+
 	</td>
 	<td id="headlines" class="headlines" valign="top">
 		Please select the feed.

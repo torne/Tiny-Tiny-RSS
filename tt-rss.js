@@ -19,6 +19,9 @@ var total_feed_entries = false;
 var _viewfeed_autoselect_first = false;
 var _viewfeed_autoselect_last = false;
 
+var _update_ids;
+var _update_num_ids;
+
 var search_query = "";
 
 /*@cc_on @*/
@@ -58,6 +61,14 @@ function feedlist_callback() {
 			notify("");
 		} 
 	} 
+}
+
+function feed_update_callback() {
+	if (xmlhttp_rpc.readyState == 4) {
+		var result = xmlhttp_rpc.responseText;
+		notify(_update_ids);
+		updateFeed(_update_ids.shift());
+	}
 }
 
 function viewfeed_callback() {
@@ -128,6 +139,30 @@ function refetch_callback() {
 		container.innerHTML = xmlhttp_rpc.responseText;
 		document.title = "Tiny Tiny RSS";
 	} 
+}
+
+function updateFeed(feed_id) {
+
+	var query_str = "backend.php?op=rpc&subop=updateFeed&feed=" + feed_id;
+
+	if (xmlhttp_ready(xmlhttp_rpc)) {
+		xmlhttp_rpc.open("GET", query_str, true);
+		xmlhttp_rpc.onreadystatechange=feed_update_callback;
+		xmlhttp_rpc.send(null);
+	} else {
+		printLockingError();
+	}   
+
+}
+
+function scheduleSepFeedUpdate(force) {
+	notify("Updating feeds in background (M2)...");
+
+	_update_ids = getFeedIds();
+	_update_num_ids = _update_ids.length;
+
+	updateFeed(_update_ids.pop());
+
 }
 
 function scheduleFeedUpdate(force) {
@@ -295,6 +330,21 @@ function markHeadline(id) {
 	if (row) {
 		row.className = row.className + "Selected";
 	}
+}
+
+function getFeedIds() {
+	var content = document.getElementById("feedsList");
+
+	var rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		var id = content.rows[i].id.replace("FEEDR-", "");
+		if (id.length > 0) {
+			rows.push(id);
+		}
+	}
+
+	return rows;
 }
 
 function cleanSelected(element) {
