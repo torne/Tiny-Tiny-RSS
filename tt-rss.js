@@ -393,6 +393,14 @@ function view(id,feed_id) {
 
 //	document.getElementById('content').innerHTML='Loading, please wait...';		
 
+	var unread_rows = getVisibleUnreadHeadlines();
+
+	if (unread_rows.length == 0) {
+		var button = document.getElementById("btnCatchupPage");
+		button.className = "disabledButton";
+		button.href = "";
+	}
+
 	active_post_id = id;
 
 	xmlhttp_view.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
@@ -435,6 +443,20 @@ function relativeid_callback() {
 		notify(xmlhttp_rpc.responseText);
 	}
 
+}
+
+function getVisibleUnreadHeadlines() {
+	var content = document.getElementById("headlinesList");
+
+	var rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		var row_id = content.rows[i].id.replace("RROW-", "");
+		if (row_id.length > 0 && content.rows[i].className.match("Unread")) {
+				rows.push(row_id);	
+		}
+	}
+	return rows;
 }
 
 function getVisibleHeadlineIds() {
