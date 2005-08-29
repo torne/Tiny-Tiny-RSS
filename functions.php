@@ -119,7 +119,7 @@
 				if (!$entry_guid) $entry_guid = $item["link"];
 
 				if (!$entry_guid) continue;
-	
+
 				$entry_timestamp = "";
 
 				$rss_2_date = $item['pubdate'];
@@ -149,7 +149,7 @@
 				if (!$entry_content) $entry_content = $item["content:escaped"];
 				if (!$entry_content) $entry_content = $item["content"];
 
-				if (!$entry_content) continue;
+//				if (!$entry_content) continue;
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
