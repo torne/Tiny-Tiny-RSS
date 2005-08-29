@@ -205,6 +205,8 @@
 //						print "<p>Update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
 						continue;
 					}
+
+					$entry_is_modified = false;
 					
 					$orig_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
 					$orig_content_hash = pg_fetch_result($result, 0, "content_hash");
@@ -218,34 +220,48 @@
 //						$last_read_qpart = 'last_read = null,';
 //					}
 				
-					if (UPDATE_POST_ON_CHECKSUM_CHANGE && 
-							$orig_content_hash != $content_hash) {
-						$last_read_qpart = 'last_read = null,';
+					if ($orig_content_hash != $content_hash) {
+						if (UPDATE_POST_ON_CHECKSUM_CHANGE) {
+							$last_read_qpart = 'last_read = null,';
+						}
+						$entry_is_modified = true;						
+					}
+
+					if ($orig_title != $entry_title) {
+						$entry_is_modified = true;
+					}
+
+					if ($orig_timestamp != $entry_timestamp && !$orig_no_orig_date) {
+						$entry_is_modified = true;
 					}
 
 //					if (!$no_orig_date && $orig_timestamp < $entry_timestamp) {
 //						$last_read_qpart = 'last_read = null,';
 //					}
 
-					$entry_comments = pg_escape_string($entry_comments);
-					$entry_content = pg_escape_string($entry_content);
-					$entry_title = pg_escape_string($entry_title);					
-					$entry_link = pg_escape_string($entry_link);
-			
-					$query = "UPDATE ttrss_entries 
-						SET 
-							$last_read_qpart 
-							title = '$entry_title',
-							link = '$entry_link', 
-							updated = '$entry_timestamp_fmt',
-							content = '$entry_content',
-							comments = '$entry_comments',
-							content_hash = '$content_hash'
-						WHERE
-							id = '$orig_entry_id'";
+					if ($entry_is_modified) {
 
-					$result = pg_query($link, $query);
+						$entry_comments = pg_escape_string($entry_comments);
+						$entry_content = pg_escape_string($entry_content);
+						$entry_title = pg_escape_string($entry_title);					
+						$entry_link = pg_escape_string($entry_link);
 
+//						print "update object $entry_guid<br>";
+
+						$query = "UPDATE ttrss_entries 
+							SET 
+								$last_read_qpart 
+								title = '$entry_title',
+								link = '$entry_link', 
+								updated = '$entry_timestamp_fmt',
+								content = '$entry_content',
+								comments = '$entry_comments',
+								content_hash = '$content_hash'
+							WHERE
+								id = '$orig_entry_id'";
+
+						$result = pg_query($link, $query);
+					}
 				}
 			}
 
