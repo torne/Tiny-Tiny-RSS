@@ -248,8 +248,10 @@ function catchupPage(feed) {
 
 		var button = document.getElementById("btnCatchupPage");
 
-		button.className = "disabledButton";
-		button.href = "";
+		if (button) {
+			button.className = "disabledButton";
+			button.href = "";
+		}
 	
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=notify_callback;
@@ -397,8 +399,10 @@ function view(id,feed_id) {
 
 	if (unread_rows.length == 0) {
 		var button = document.getElementById("btnCatchupPage");
-		button.className = "disabledButton";
-		button.href = "";
+		if (button) {
+			button.className = "disabledButton";
+			button.href = "";
+		}
 	}
 
 	active_post_id = id;
