@@ -1,13 +1,27 @@
 <?
 	define(DB_CONN, "host=localhost dbname=fox user=fox password=XXXXXXXXXXX");
+	// DB connection string, PostgreSQL must be configured to accept connections
+	// via TCP/IP and authentified by password.
+	
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
-	define(HEADLINES_PER_PAGE, 15);
+	// Local cache directory for RSS feeds
+
+	define(HEADLINES_PER_PAGE, 15);	
 	define(MIN_UPDATE_TIME, 1800);
+	
 	define(WEB_DEMO_MODE, false);
-	define(ENABLE_FEED_ICONS, true);
+	
+	define(ENABLE_FEED_ICONS, true);	
 	define(ICONS_DIR, "icons");
 	define(ICONS_URL, "icons");
+	
 	define(PURGE_OLD_DAYS, 30);
+	// Articles older than this number of days will be deleted automatically
+	
 	define(UPDATE_POST_ON_CHECKSUM_CHANGE, true);
+	
+	define(ENABLE_PREFS_CATCHUP_UNCATCHUP, false);
+	// enable "Mark as read/unread" buttons in preferences dialog
+	
 ?>
 

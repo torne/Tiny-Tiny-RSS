@@ -562,11 +562,15 @@
 			<a class=\"button\" 
 				href=\"javascript:editSelectedFeed()\">Edit</a>&nbsp;
 			<a class=\"buttonWarn\" 
-				href=\"javascript:removeSelectedFeeds()\">Remove</a>&nbsp;
-			<a class=\"button\" 
-				href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
-			<a class=\"button\" 
-				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;
+				href=\"javascript:removeSelectedFeeds()\">Remove</a>&nbsp;";
+			if (ENABLE_PREFS_CATCHUP_UNCATCHUP) {
+				print "
+				<a class=\"button\" 
+					href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
+				<a class=\"button\" 
+					href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;";
+			}
+			print "
 			All feeds:&nbsp; 
 				<a class=\"button\" href=\"opml.php?op=Export\">Export OPML</a>";
 		
