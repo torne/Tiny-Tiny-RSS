@@ -567,12 +567,8 @@
 				href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
 			<a class=\"button\" 
 				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;
-			Page: 
-				<a class=\"button\" 
-				href=\"javascript:updateFeedList()\">Refresh</a>&nbsp;
-			OPML: 
-				<a class=\"button\" href=\"opml.php?op=Export\">Export all</a>
-				";
+			All feeds:&nbsp; 
+				<a class=\"button\" href=\"opml.php?op=Export\">Export OPML</a>";
 		
 			}
 
