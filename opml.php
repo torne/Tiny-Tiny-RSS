@@ -36,6 +36,8 @@
 			$title = pg_escape_string($attrs['TEXT']);
 			$url = pg_escape_string($attrs['XMLURL']);
 
+			if (!$title || !$url) return;
+
 			print "Feed <b>$title</b> ($url)... ";
 
 			$result = pg_query("SELECT id FROM ttrss_feeds WHERE
