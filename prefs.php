@@ -32,7 +32,7 @@
 
 		<div id="piggie">&nbsp;</div>
 
-		<table class="prefAddFeed">
+		<table class="prefAddFeed"><tr>
 			<td><input id="fadd_link"></td>
 			<td colspan="4" align="right">
 				<a class="button" href="javascript:addFeed()">Add feed</a></td></tr>
@@ -40,6 +40,16 @@
 		
 		<div id="feeds">&nbsp;</div>
 
+		<hr>
+
+		<h2>Import OPML</h2>
+
+		<form	enctype="multipart/form-data" method="POST" action="opml.php">
+			<input type="hidden" name="MAX_FILE_SIZE" value="30000">
+			File: <input id="opml_file" name="opml_file" type="file">&nbsp;
+			<input class="button" name="op" onclick="return validateOpmlImport();"
+				type="submit" value="Import">
+			</form>
 	</td>
 </tr>
 <tr>

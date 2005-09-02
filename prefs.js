@@ -297,6 +297,18 @@ function localPiggieFunction(enable) {
 	}
 }
 
+function validateOpmlImport() {
+	
+	var opml_file = document.getElementById("opml_file");
+
+	if (opml_file.value.length == 0) {
+		notify("Please select OPML file to upload.");
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function init() {
 
 	// IE kludge

@@ -1,8 +1,8 @@
 <?
 	// FIXME there are some brackets issues here
 
-	$op = $_GET["op"];
-	if ($op == "export") {
+	$op = $_REQUEST["op"];
+	if ($op == "Export") {
 		header("Content-type: application/xml");
 	}
 
@@ -10,10 +10,10 @@
 	require_once "functions.php";
 
 	$link = pg_connect(DB_CONN);
-	
+
 	pg_query($link, "set client_encoding = 'utf-8'");
 
-	if ($op == "export") {
+	if ($op == "Export") {
 		print "<?xml version=\"1.0\"?>";
 		print "<opml version=\"1.0\">";
 		print "<head><dateCreated>" . date("r", time()) . "</dateCreated></head>"; 
@@ -30,5 +30,90 @@
 
 		print "</body></opml>";
 	}
+
+	function startElement($parser, $name, $attrs) {
+		if ($name == "OUTLINE") {
+			$title = pg_escape_string($attrs['TEXT']);
+			$url = pg_escape_string($attrs['XMLURL']);
+
+			print "Feed <b>$title</b> ($url)... ";
+
+			$result = pg_query("SELECT id FROM ttrss_feeds WHERE
+				title = '$title' OR feed_url = '$url'");
+
+			if (pg_num_rows($result) > 0) {
+				
+				print " Already imported.<br>";
+
+			} else {
+
+				$result = pg_query("INSERT INTO ttrss_feeds (title, feed_url) VALUES
+					('$title', '$url')");
+
+				print "<b>Done.</b><br>";
+
+			}
+
+		}
+	}
+
+	function endElement($parser, $name) {
+
+
+	}
+
+	if ($op == "Import") {
+		print "<html>
+			<head>
+				<link rel=\"stylesheet\" href=\"opml.css\" type=\"text/css\">
+			</head>
+			<body><h1>Importing OPML...</h1>
+			<div>";
+
+		 if (is_file($_FILES['opml_file']['tmp_name'])) {
+		 
+			$xml_parser = xml_parser_create();
+
+			xml_set_element_handler($xml_parser, "startElement", "endElement");
+
+			$fp = fopen($_FILES['opml_file']['tmp_name'], "r");
+
+			if ($fp) {
+
+				while ($data = fread($fp, 4096)) {
+
+					if (!xml_parse($xml_parser, $data, feof($fp))) {
+						
+						print sprintf("Unable to parse OPML file, XML error: %s at line %d",
+							xml_error_string(xml_get_error_code($xml_parser)),
+							xml_get_current_line_number($xml_parser));
+
+						print "<p><a class=\"button\" href=\"prefs.php\">
+							Return to preferences</a>";
+
+						return;
+
+					}
+				}
+
+				xml_parser_free($xml_parser);
+				fclose($fp);
+
+			} else {
+				print("Error: Could not open OPML input.");
+			}
+
+		} else {	
+			print "Error: please upload OPML file.";
+		}
+
+		print "<p><a class=\"button\" href=\"prefs.php\">
+			Return to preferences</a>";
+
+		print "</div></body></html>";
+
+	}
+
+	pg_close($link);
 
 ?>

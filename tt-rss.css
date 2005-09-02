@@ -218,6 +218,17 @@ table.prefAddFeed input {
 	width : 250px;
 }
 
+form.prefForm {
+	border : 1px solid #c0c0c0;
+	padding : 10px;
+	-moz-border-radius : 5px;
+	background-color : #f0f0f0;
+	background-image : url("images/form.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
+	width : 500px;
+}
+
 table.prefAddFeed {
 	border : 1px solid #c0c0c0;
 	padding : 10px;
@@ -269,7 +280,7 @@ a.disabledButton:hover {
 	color : #909090;
 }
 
-a.button {
+.button {
 	font-family : tahoma, sans-serif;
 	border : 1px solid #d0d0d0;
 	background-image : url("images/button.png");
@@ -281,13 +292,13 @@ a.button {
 	font-size : small;
 }
 
-a.button:hover {
+.button:hover {
 	background : white;
 	text-decoration : none;
 	color : black;
 }
 
-a.buttonWarn {
+.buttonWarn {
 	font-family : tahoma, sans-serif;
 	border : 1px solid #d0d0d0;
 	background-image : url("images/button.png");
@@ -299,7 +310,7 @@ a.buttonWarn {
 	font-size : small;
 }
 
-a.buttonWarn:hover {
+.buttonWarn:hover {
 	background : #fff0f0;
 	text-decoration : none;
 	color : black;
