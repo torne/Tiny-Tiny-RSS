@@ -4,6 +4,7 @@
 	$op = $_REQUEST["op"];
 	if ($op == "Export") {
 		header("Content-type: application/xml");
+		print "<?xml version=\"1.0\"?>";
 	}
 
 	require_once "config.php";
@@ -14,7 +15,6 @@
 	pg_query($link, "set client_encoding = 'utf-8'");
 
 	if ($op == "Export") {
-		print "<?xml version=\"1.0\"?>";
 		print "<opml version=\"1.0\">";
 		print "<head><dateCreated>" . date("r", time()) . "</dateCreated></head>"; 
 		print "<body>";
@@ -63,6 +63,7 @@
 	}
 
 	if ($op == "Import") {
+
 		print "<html>
 			<head>
 				<link rel=\"stylesheet\" href=\"opml.css\" type=\"text/css\">
@@ -70,7 +71,15 @@
 			<body><h1>Importing OPML...</h1>
 			<div>";
 
-		 if (is_file($_FILES['opml_file']['tmp_name'])) {
+		if (WEB_DEMO_MODE) {
+			print "OPML import is disabled in demo-mode.";
+			print "<p><a class=\"button\" href=\"prefs.php\">
+			Return to preferences</a></div></body></html>";
+
+			return;
+		}
+
+		if (is_file($_FILES['opml_file']['tmp_name'])) {
 		 
 			$xml_parser = xml_parser_create();
 
