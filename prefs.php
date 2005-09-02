@@ -40,8 +40,6 @@
 		
 		<div id="feeds">&nbsp;</div>
 
-		<hr>
-
 	</td>
 </tr>
 <tr>

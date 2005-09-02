@@ -569,8 +569,13 @@
 				href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;
 			Page: 
 				<a class=\"button\" 
-				href=\"javascript:updateFeedList()\">Refresh</a>";
-			
+				href=\"javascript:updateFeedList()\">Refresh</a>&nbsp;
+			OPML: 
+				<a class=\"button\" 
+				href=\"javascript:exportOPML()\">Import</a>&nbsp;
+				<a class=\"button\" 
+				href=\"javascript:exportOPML()\">Export</a>";
+		
 
 			}
 

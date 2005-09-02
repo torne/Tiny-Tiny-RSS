@@ -297,6 +297,17 @@ function localPiggieFunction(enable) {
 	}
 }
 
+function exportOPML() {
+
+
+}
+
+function importOPML() {
+
+
+}
+
+
 function init() {
 
 	// IE kludge
