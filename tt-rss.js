@@ -225,6 +225,11 @@ function catchupPage(feed) {
 				rows.push(row_id);	
 				content.rows[i].className = content.rows[i].className.replace("Unread", "");
 			}
+
+			var upd_img_pic = document.getElementById("FUPDPIC-" + row_id);
+			if (upd_img_pic) {
+				upd_img_pic.innerHTML = "";
+			} 
 		}
 	}
 
