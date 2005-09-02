@@ -572,11 +572,10 @@
 				href=\"javascript:updateFeedList()\">Refresh</a>&nbsp;
 			OPML: 
 				<a class=\"button\" 
-				href=\"javascript:exportOPML()\">Import</a>&nbsp;
+				href=\"opml.php?op=import\">Import</a>&nbsp;
 				<a class=\"button\" 
-				href=\"javascript:exportOPML()\">Export</a>";
+				href=\"opml.php?op=export\">Export</a>";
 		
-
 			}
 
 	}
