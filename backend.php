@@ -571,7 +571,7 @@
 				<a class=\"button\" 
 				href=\"javascript:updateFeedList()\">Refresh</a>&nbsp;
 			OPML: 
-				<a class=\"button\" href=\"opml.php?op=Export\">Export</a>
+				<a class=\"button\" href=\"opml.php?op=Export\">Export all</a>
 				";
 		
 			}
