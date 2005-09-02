@@ -155,6 +155,8 @@
 
 				$entry_comments = $item["comments"];
 
+				$entry_guid = pg_escape_string($entry_guid);
+
 				$result = pg_query($link, "
 					SELECT 
 						id,last_read,no_orig_date,title,feed_id,content_hash,
@@ -166,7 +168,7 @@
 
 				if (pg_num_rows($result) == 0) {
 
-					$entry_guid = pg_escape_string($entry_guid);
+					//$entry_guid = pg_escape_string($entry_guid);
 					$entry_content = pg_escape_string($entry_content);
 					$entry_title = pg_escape_string($entry_title);
 					$entry_link = pg_escape_string($entry_link);
