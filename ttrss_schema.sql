@@ -52,7 +52,7 @@ create table ttrss_filter_types (id integer primary key,
 insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title');
 insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
 insert into ttrss_filter_types (id,name,description) values (3, 'both', 
-	'Title and Content');
+	'Title or Content');
 
 create table ttrss_filters (id serial primary key, 
 	filter_type integer not null references ttrss_filter_types(id), 

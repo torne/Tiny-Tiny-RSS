@@ -648,7 +648,7 @@
 		print "<table class=\"prefAddFeed\"><tr>
 			<td><input id=\"fadd_regexp\"></td>
 			<td>";
-			print_select("fadd_match", "", $filter_types);	
+			print_select("fadd_match", "Title", $filter_types);	
 	
 		print"</td><td colspan=\"4\" align=\"right\">
 				<a class=\"button\" href=\"javascript:addFilter()\">Add filter</a></td></tr>
