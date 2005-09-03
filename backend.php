@@ -613,22 +613,16 @@
 
 		if ($subop == "add") {
 		
-/*			if (!WEB_DEMO_MODE) {
+			if (!WEB_DEMO_MODE) {
 
-				$feed_link = pg_escape_string($_GET["link"]);
+				$regexp = pg_escape_string($_GET["regexp"]);
+				$match = pg_escape_string($_GET["match"]);
 					
 				$result = pg_query(
-					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
-
-				$result = pg_query(
-					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
-
-				$feed_id = pg_fetch_result($result, 0, "id");
-
-				if ($feed_id) {
-					update_rss_feed($link, $feed_link, $feed_id);
-				}
-			} */
+					"INSERT INTO ttrss_filters (regexp,filter_type) VALUES 
+						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
+							description = '$match'))");
+			} 
 		}
 
 		$result = pg_query("SELECT description 

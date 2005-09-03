@@ -106,6 +106,31 @@ function toggleSelectRow(sender) {
 	}
 }
 
+function addFilter() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var regexp = document.getElementById("fadd_regexp");
+	var match = document.getElementById("fadd_match");
+
+	if (regexp.value.length == 0) {
+		notify("Missing filter expression.");
+	} else {
+		notify("Adding filter...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=add&regexp=" +
+			param_escape(regexp.value) + "&match=" + match.value, true);			
+			
+		xmlhttp.onreadystatechange=filterlist_callback;
+		xmlhttp.send(null);
+
+		regexp.value = "";
+	}
+
+}
 function addFeed() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
