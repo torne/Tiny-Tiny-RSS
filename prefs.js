@@ -7,7 +7,6 @@ var xmlhttp = false;
 
 var active_feed = false;
 var active_filter = false;
-var active_pane = false;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -497,12 +496,6 @@ function expandPane(id) {
 
 	var container;
 
-/*	if (active_pane) {
-		container = document.getElementById(active_pane);
-		container.innerHTML = "<a href=\"javascript:expandPane('" +
-			active_pane + "')\">Click to expand...</a>";
-	} */
-
 	container = document.getElementById(id);
 
 	if (id == "feedConfPane") {
@@ -510,8 +503,6 @@ function expandPane(id) {
 	} else if (id == "filterConfPane") {
 		updateFilterList();
 	}
-
-	active_pane = id;
 }
 
 function init() {
