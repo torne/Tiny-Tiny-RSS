@@ -59,7 +59,3 @@ create table ttrss_filters (id serial primary key,
 	regexp varchar(250) not null,
 	description varchar(250) not null default '');
 
-COPY ttrss_filters (id, filter_type, regexp, description) FROM stdin;
-1	3	PIGGIES	MOORE! MOOOOORE PIGGIES!
-\.
-

@@ -111,6 +111,19 @@
 				pg_query("UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
+
+			$filters = array();
+
+			$result = pg_query("SELECT regexp,
+				(SELECT name FROM ttrss_filter_types
+					WHERE id = filter_type) as name
+				FROM ttrss_filters");
+
+			while ($line = pg_fetch_assoc($result)) {
+				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
+				array_push($filters[$line["name"]], $line["regexp"]);
+			}
+
 			foreach ($rss->items as $item) {
 	
 				$entry_guid = $item["id"];
@@ -167,6 +180,12 @@
 						guid = '$entry_guid'");
 
 				if (pg_num_rows($result) == 0) {
+
+					error_reporting(0);
+					if (is_filtered($entry_title, $entry_content, $filters)) {
+						continue;
+					}
+					error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 					//$entry_guid = pg_escape_string($entry_guid);
 					$entry_content = pg_escape_string($entry_content);
@@ -288,6 +307,32 @@
 			print "<option$sel>$v</option>";
 		}
 		print "</select>";
+	}
+
+	function is_filtered($title, $content, $filters) {
+
+		if ($filters["title"]) {
+			foreach ($filters["title"] as $title_filter) {			
+				if (preg_match("/$title_filter/i", $title)) 
+					return true;
+			}
+		}
+
+		if ($filters["content"]) {
+			foreach ($filters["content"] as $content_filter) {			
+				if (preg_match("/$content_filter/i", $content)) 
+					return true;
+			}
+		}
+
+		if ($filters["both"]) {
+			foreach ($filters["both"] as $filter) {			
+				if (preg_match("/$filter/i", $title) || preg_match("/$filter/i", $content)) 
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 ?>
