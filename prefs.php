@@ -28,28 +28,32 @@
 </tr>
 </tr>
 	<td id="prefContent" class="prefContent" valign="top" colspan="2">
+
 		<h2>Feed Configuration</h2>
 
-		<div id="piggie">&nbsp;</div>
+		<div class="expPane" id="feedConfPane">
+			<a href="javascript:expandPane('feedConfPane')">Click to expand &gt;&gt;</a>
+		</div>
 
-		<table class="prefAddFeed"><tr>
-			<td><input id="fadd_link"></td>
-			<td colspan="4" align="right">
-				<a class="button" href="javascript:addFeed()">Add feed</a></td></tr>
-		</table> 
-		
-		<div id="feeds">&nbsp;</div>
+		<h2>OPML Import</h2>
 
-		<hr>
-
-		<h2>Import OPML</h2>
-
+		<div class="expPane">
+	
 		<form	enctype="multipart/form-data" method="POST" action="opml.php">
 			<input type="hidden" name="MAX_FILE_SIZE" value="30000">
 			File: <input id="opml_file" name="opml_file" type="file">&nbsp;
 			<input class="button" name="op" onclick="return validateOpmlImport();"
 				type="submit" value="Import">
 			</form>
+
+		</div>
+
+		<h2>Content filtering</h2>
+
+		<div class="expPane" id="filterConfPane">
+			<a href="javascript:expandPane('filterConfPane')">Click to expand &gt;&gt;</a>
+		</div>
+
 	</td>
 </tr>
 <tr>

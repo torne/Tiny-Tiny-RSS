@@ -277,5 +277,17 @@
 
 	}
 
+	function print_select($id, $default, $values) {
+		print "<select id=\"$id\">";
+		foreach ($values as $v) {
+			if ($v == $default)
+				$sel = " selected";
+			 else
+			 	$sel = "";
+			
+			print "<option$sel>$v</option>";
+		}
+		print "</select>";
+	}
 
 ?>

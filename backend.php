@@ -475,7 +475,13 @@
 				}
 			}
 		}
-	
+
+		print "<table class=\"prefAddFeed\"><tr>
+			<td><input id=\"fadd_link\"></td>
+			<td colspan=\"4\" align=\"right\">
+				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
+		</table>";
+
 		$result = pg_query("SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated
 			FROM 
@@ -576,6 +582,165 @@
 		
 			}
 
+	}
+
+	if ($op == "pref-filters") {
+
+		$subop = $_GET["subop"];
+
+		if ($subop == "editSave") {
+/*			$feed_title = pg_escape_string($_GET["t"]);
+			$feed_link = pg_escape_string($_GET["l"]);
+			$feed_id = $_GET["id"];
+
+			$result = pg_query("UPDATE ttrss_feeds SET 
+				title = '$feed_title', feed_url = '$feed_link' WHERE id = '$feed_id'"); */
+
+		}
+
+		if ($subop == "remove") {
+
+			if (!WEB_DEMO_MODE) {
+
+				$ids = split(",", $_GET["ids"]);
+
+				foreach ($ids as $id) {
+					pg_query("DELETE FROM ttrss_filters WHERE id = '$id'");
+					
+				}
+			}
+		}
+
+		if ($subop == "add") {
+		
+/*			if (!WEB_DEMO_MODE) {
+
+				$feed_link = pg_escape_string($_GET["link"]);
+					
+				$result = pg_query(
+					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
+
+				$result = pg_query(
+					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
+
+				$feed_id = pg_fetch_result($result, 0, "id");
+
+				if ($feed_id) {
+					update_rss_feed($link, $feed_link, $feed_id);
+				}
+			} */
+		}
+
+		$result = pg_query("SELECT description 
+			FROM ttrss_filter_types ORDER BY description");
+
+		$filter_types = array();
+
+		while ($line = pg_fetch_assoc($result)) {
+			array_push($filter_types, $line["description"]);
+		}
+
+		print "<table class=\"prefAddFeed\"><tr>
+			<td>Expr: <input id=\"fadd_regexp\"></td>
+			<td>";
+			print_select("fadd_match", "", $filter_types);	
+	
+		print"</td><td colspan=\"4\" align=\"right\">
+				<a class=\"button\" href=\"javascript:addFilter()\">Add filter</a></td></tr>
+		</table>";
+
+		$result = pg_query("SELECT 
+				id,regexp,description,
+				(SELECT name FROM ttrss_filter_types WHERE 
+					id = filter_type) as filter_type_name,
+				(SELECT description FROM ttrss_filter_types 
+					WHERE id = filter_type) as filter_type_descr
+			FROM 
+				ttrss_filters ORDER by id");
+
+		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
+
+		print "<tr class=\"title\">
+					<td>Select</td><td width=\"40%\">Filter Expression</td>
+					<td width=\"40%\">Description</td><td>Match</td></tr>";
+		
+		$lnum = 0;
+		
+		while ($line = pg_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+
+			$filter_id = $line["id"];
+			$edit_filter_id = $_GET["id"];
+
+			if ($subop == "edit" && $filter_id != $edit_filter_id) {
+				$class .= "Grayed";
+			}
+
+			print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
+
+			if (!$edit_filter_id || $subop != "edit") {
+
+				print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
+
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["regexp"] . "</td>";		
+					
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["description"] . "</td>";			
+
+				print "<td>".$line["filter_type_descr"]."</td>";
+
+			} else if ($filter_id != $edit_filter_id) {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" 
+					id=\"FICHK-".$line["id"]."\"></td>";
+
+				print "<td>".$line["regexp"]."</td>";		
+				print "<td>".$line["description"]."</td>";		
+				print "<td>".$line["filter_type_descr"]."</td>";
+
+			} else {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
+
+				print "<td><input id=\"iedit_regexp\" value=\"".$line["regexp"].
+					"\"></td>";
+
+				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+					"\"></td>";
+
+				print "<td>";
+				print_select("iedit_match", $line["filter_type_descr"], $filter_types);
+				print "</td>";
+						
+			}
+				
+			
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		print "</table>";
+
+		print "<p>";
+
+		if ($subop == "edit") {
+			print "Edit feed:&nbsp;
+					<a class=\"button\" href=\"javascript:filterEditCancel()\">Cancel</a>&nbsp;
+					<a class=\"button\" href=\"javascript:filterEditSave()\">Save</a>";
+					
+		} else {
+
+			print "
+				Selection:&nbsp;
+			<a class=\"button\" 
+				href=\"javascript:editSelectedFilter()\">Edit</a>&nbsp;
+			<a class=\"buttonWarn\" 
+				href=\"javascript:removeSelectedFilters()\">Remove</a>&nbsp;";
+		}
 	}
 
 	pg_close($link);

@@ -240,7 +240,7 @@ table.prefAddFeed {
 
 }
 
-table.prefFeedList tr.title td {
+table.prefFeedList tr.title td, table.prefFilterList tr.title td {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-color : #f0f0f0;
@@ -377,9 +377,13 @@ img.feedIcon {
 	border : 1px solid #c0c0c0;
 }
 
-#iedit_title, #iedit_link {
+#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr {
 	width : 100%;
 	padding-left : 2px;
+}
+
+div.expPane {
+	margin : 15px;
 }
 
 

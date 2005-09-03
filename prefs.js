@@ -6,6 +6,8 @@
 var xmlhttp = false;
 
 var active_feed = false;
+var active_filter = false;
+var active_pane = false;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -26,9 +28,8 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
 }
 
-
 function feedlist_callback() {
-	var container = document.getElementById('feeds');
+	var container = document.getElementById('feedConfPane');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
@@ -40,6 +41,27 @@ function feedlist_callback() {
 				}		
 			}
 			var checkbox = document.getElementById("FRCHK-" + active_feed);
+			if (checkbox) {
+				checkbox.checked = true;
+			}
+		}
+	}
+}
+
+function filterlist_callback() {
+	var container = document.getElementById('filterConfPane');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+
+		if (active_filter) {
+			var row = document.getElementById("FILRR-" + active_filter);
+			if (row) {
+				if (!row.className.match("Selected")) {
+					row.className = row.className + "Selected";
+				}		
+			}
+			var checkbox = document.getElementById("FICHK-" + active_filter);
+			
 			if (checkbox) {
 				checkbox.checked = true;
 			}
@@ -62,7 +84,7 @@ function updateFeedList() {
 		return
 	}
 
-	document.getElementById("feeds").innerHTML = "Loading feeds, please wait...";
+	document.getElementById("feedConfPane").innerHTML = "Loading feeds, please wait...";
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
@@ -109,6 +131,22 @@ function addFeed() {
 
 }
 
+function editFilter(id) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_filter = id;
+
+	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=edit&id=" +
+		param_escape(id), true);
+	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.send(null);
+
+}
+
 function editFeed(feed) {
 
 //	notify("Editing feed...");
@@ -125,6 +163,22 @@ function editFeed(feed) {
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 
+}
+
+function getSelectedFilters() {
+
+	var content = document.getElementById("prefFilterList");
+
+	var sel_rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].className.match("Selected")) {
+			var row_id = content.rows[i].id.replace("FILRR-", "");
+			sel_rows.push(row_id);	
+		}
+	}
+
+	return sel_rows;
 }
 
 function getSelectedFeeds() {
@@ -269,6 +323,96 @@ function feedEditSave() {
 
 }
 
+function filterEditCancel() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_filter = false;
+
+	notify("Operation cancelled.");
+
+	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
+	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function filterEditSave() {
+
+	var filter = active_filter;
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var regexp = document.getElementById("iedit_regexp").value;
+	var descr = document.getElementById("iedit_descr").value;
+	var match = document.getElementById("iedit_match").value;
+
+//	notify("Saving filter " + filter + ": " + regexp + ", " + descr + ", " + match);
+
+	if (regexp.length == 0) {
+		notify("Filter expression cannot be blank.");
+		return;
+	}
+
+	active_filter = false;
+
+	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
+		filter + "&r=" + param_escape(regexp) + "&d=" + param_escape(descr) +
+		"&m=" + param_escape(match), true);
+		
+	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.send(null); 
+
+}
+
+function removeSelectedFilters() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFilters();
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected filters...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=filterlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+		notify("Please select some filters first.");
+	}
+}
+
+
+function editSelectedFilter() {
+	var rows = getSelectedFilters();
+
+	if (rows.length == 0) {
+		notify("No filters are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one filter.");
+		return;
+	}
+
+	editFilter(rows[0]);
+
+}
+
+
 function editSelectedFeed() {
 	var rows = getSelectedFeeds();
 
@@ -309,6 +453,42 @@ function validateOpmlImport() {
 	}
 }
 
+function updateFilterList() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	document.getElementById("filterConfPane").innerHTML = "Loading filters, please wait...";
+
+	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
+	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function expandPane(id) {
+
+	var container;
+
+/*	if (active_pane) {
+		container = document.getElementById(active_pane);
+		container.innerHTML = "<a href=\"javascript:expandPane('" +
+			active_pane + "')\">Click to expand...</a>";
+	} */
+
+	container = document.getElementById(id);
+
+	if (id == "feedConfPane") {
+		updateFeedList();
+	} else if (id == "filterConfPane") {
+		updateFilterList();
+	}
+
+	active_pane = id;
+}
+
 function init() {
 
 	// IE kludge
@@ -320,7 +500,7 @@ function init() {
 		return;
 	}
 
-	updateFeedList();
+//	updateFeedList();
 	document.onkeydown = hotkey_handler;
 	notify("");
 

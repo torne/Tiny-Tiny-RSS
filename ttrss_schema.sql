@@ -41,4 +41,21 @@ create table ttrss_entries (id serial not null primary key,
 	no_orig_date boolean not null default false,
 	comments varchar(250) not null default '',
 	unread boolean not null default true);
-	
+
+drop table ttrss_filters;
+drop table ttrss_filter_types;
+
+create table ttrss_filter_types (id integer primary key, 
+	name varchar(120) unique not null, 
+	description varchar(250) not null unique);
+
+insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title');
+insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
+insert into ttrss_filter_types (id,name,description) values (3, 'both', 
+	'Title and Content');
+
+create table ttrss_filters (id serial primary key, 
+	filter_type integer not null references ttrss_filter_types(id), 
+	regexp varchar(250) not null,
+	description varchar(250) not null default '');
+
