@@ -28,8 +28,8 @@
 </tr>
 </tr>
 	<td id="prefContent" class="prefContent" valign="top" colspan="2">
+		<h2>Feed Configuration</h2> 		<div id="piggie">&nbsp;</div>
 
-		<h2>Feed Configuration</h2>
 
 		<div class="expPane" id="feedConfPane">
 			<a href="javascript:expandPane('feedConfPane')">Click to expand &gt;&gt;</a>

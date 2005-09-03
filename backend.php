@@ -490,7 +490,7 @@
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
 					<td>&nbsp;</td><td>Select</td><td width=\"40%\">Title</td>
-					<td width=\"40%\">Link</td><td>Last Updated</td></tr>";
+					<td width=\"40%\">Link</td><td>Last updated</td></tr>";
 		
 		$lnum = 0;
 		
@@ -545,12 +545,18 @@
 				print "<td><input id=\"iedit_link\" value=\"".$line["feed_url"]."\"></td>";
 						
 			}
-				
+
+			if (!$line["last_updated"]) $line["last_updated"] = "Never";
+
 			print "<td>" . $line["last_updated"] . "</td>";
 			
 			print "</tr>";
 
 			++$lnum;
+		}
+
+		if ($lnum == 0) {
+			print "<tr><td colspan=\"5\" align=\"center\">No feeds defined.</td></tr>";
 		}
 
 		print "</table>";
@@ -589,13 +595,18 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "editSave") {
-/*			$feed_title = pg_escape_string($_GET["t"]);
-			$feed_link = pg_escape_string($_GET["l"]);
-			$feed_id = $_GET["id"];
 
-			$result = pg_query("UPDATE ttrss_feeds SET 
-				title = '$feed_title', feed_url = '$feed_link' WHERE id = '$feed_id'"); */
-
+			$regexp = pg_escape_string($_GET["r"]);
+			$descr = pg_escape_string($_GET["d"]);
+			$match = pg_escape_string($_GET["m"]);
+			$filter_id = pg_escape_string($_GET["id"]);
+			
+			$result = pg_query("UPDATE ttrss_filters SET 
+				regexp = '$regexp', 
+				description = '$descr',
+				filter_type = (SELECT id FROM ttrss_filter_types WHERE
+					description = '$match')
+				WHERE id = '$filter_id'");
 		}
 
 		if ($subop == "remove") {
@@ -655,8 +666,8 @@
 		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
 
 		print "<tr class=\"title\">
-					<td>Select</td><td width=\"40%\">Filter Expression</td>
-					<td width=\"40%\">Description</td><td>Match</td></tr>";
+					<td width=\"5%\">Select</td><td width=\"40%\">Filter expression</td>
+					<td width=\"40%\">Description</td><td width=\"10%\">Match</td></tr>";
 		
 		$lnum = 0;
 		
@@ -675,6 +686,8 @@
 
 			if (!$edit_filter_id || $subop != "edit") {
 
+				if (!$line["description"]) $line["description"] = "[No description]";
+
 				print "<td><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 
@@ -687,6 +700,8 @@
 				print "<td>".$line["filter_type_descr"]."</td>";
 
 			} else if ($filter_id != $edit_filter_id) {
+
+				if (!$line["description"]) $line["description"] = "[No description]";
 
 				print "<td><input disabled=\"true\" type=\"checkbox\" 
 					id=\"FICHK-".$line["id"]."\"></td>";
@@ -715,6 +730,10 @@
 			print "</tr>";
 
 			++$lnum;
+		}
+
+		if ($lnum == 0) {
+			print "<tr><td colspan=\"4\" align=\"center\">No filters defined.</td></tr>";
 		}
 
 		print "</table>";
