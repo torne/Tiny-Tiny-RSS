@@ -28,11 +28,12 @@
 </tr>
 </tr>
 	<td id="prefContent" class="prefContent" valign="top" colspan="2">
-		<h2>Feed Configuration</h2> 		<div id="piggie">&nbsp;</div>
+		<h2>Feed Configuration</h2><div id="piggie">&nbsp;</div>
 
 
 		<div class="expPane" id="feedConfPane">
-			<a href="javascript:expandPane('feedConfPane')">Click to expand &gt;&gt;</a>
+			<a class="button" 
+				href="javascript:expandPane('feedConfPane')">Expand section &gt;</a>
 		</div>
 
 		<h2>OPML Import</h2>
@@ -48,10 +49,12 @@
 
 		</div>
 
-		<h2>Content filtering</h2>
+		<h2>Content Filtering</h2>
 
 		<div class="expPane" id="filterConfPane">
-			<a href="javascript:expandPane('filterConfPane')">Click to expand &gt;&gt;</a>
+			<a class="button" 
+				href="javascript:expandPane('filterConfPane')">Expand section &gt;</a>
+
 		</div>
 
 	</td>

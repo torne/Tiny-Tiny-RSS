@@ -646,7 +646,7 @@
 		}
 
 		print "<table class=\"prefAddFeed\"><tr>
-			<td>Expr: <input id=\"fadd_regexp\"></td>
+			<td><input id=\"fadd_regexp\"></td>
 			<td>";
 			print_select("fadd_match", "", $filter_types);	
 	
@@ -661,7 +661,7 @@
 				(SELECT description FROM ttrss_filter_types 
 					WHERE id = filter_type) as filter_type_descr
 			FROM 
-				ttrss_filters ORDER by id");
+				ttrss_filters ORDER by regexp");
 
 		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
 
@@ -683,6 +683,9 @@
 			}
 
 			print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
+
+			$line["regexp"] = htmlspecialchars($line["regexp"]);
+			$line["description"] = htmlspecialchars($line["description"]);
 
 			if (!$edit_filter_id || $subop != "edit") {
 
