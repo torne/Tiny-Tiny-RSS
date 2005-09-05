@@ -194,13 +194,11 @@
 			WHERE	id = '$id'");
 
 		if ($addheader) {
-			
-		print "<html>
-			<head>
+			print "<html><head>
 				<title>Tiny Tiny RSS : Article $id</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body>";
+				</head><body>";
 		}
 
 		if ($result) {
@@ -250,10 +248,21 @@
 		$skip = $_GET["skip"];
 		$subop = $_GET["subop"];
 		$view_mode = $_GET["view"];
+		$addheader = $_GET["addheader"];
 
 		if (!$skip) $skip = 0;
 
 		if ($subop == "undefined") $subop = "";
+
+		if ($addheader) {
+			print "<html><head>
+				<title>Tiny Tiny RSS : Article $id</title>
+				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+				<script type=\"text/javascript\" src=\"functions.js\"></script>
+				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
+				</head><body>";
+		}
 
 		// FIXME: check for null value here
 
@@ -265,11 +274,11 @@
 
 			$line = pg_fetch_assoc($result);
 
-			if ($subop == "ForceUpdate" || 
-				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {
-				
-				update_rss_feed($link, $line["feed_url"], $feed);
+			if ($subop == "ForceUpdate") {
+//				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {				
 
+				update_rss_feed($link, $line["feed_url"], $feed);
+				
 			} else {
 
 				if ($subop == "MarkAllRead")  {
@@ -284,22 +293,26 @@
 
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
-		print "<tr><td class=\"search\" colspan=\"4\">
-			Search: <input id=\"searchbox\"
-			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-			onchange=\"javascript:search($feed);\"> ";
+		if (!$addheader) {
 
-		print " <a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>";
-	
-		print "&nbsp;&nbsp;View: ";
-	
-		print_select("viewbox", $view_mode, array("All Posts", "Starred"),
-			"onchange=\"javascript:viewfeed('$feed', '0', '');\"");
+			print "<tr><td class=\"search\" colspan=\"4\">
+				Search: <input id=\"searchbox\"
+				onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
+				onchange=\"javascript:search($feed);\"> ";
 
-		print "</td></tr>"; 
+			print " <a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>";
+	
+			print "&nbsp;&nbsp;View: ";
+	
+			print_select("viewbox", $view_mode, array("All Posts", "Starred"),
+				"onchange=\"javascript:viewfeed('$feed', '0', '');\"");
+
+			print "</td></tr>"; 
 		
-		print "<tr>
-		<td colspan=\"4\" class=\"title\">" . $line["title"] . "</td></tr>"; 
+			print "<tr>
+			<td colspan=\"4\" class=\"title\">" . $line["title"] . "</td></tr>"; 
+
+		}
 
 		$search = $_GET["search"];
 
@@ -323,6 +336,10 @@
 
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
+		if (!$addheader) {
+			$limit_query_part = "LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip";
+		}
+
 		$result = pg_query("SELECT 
 				id,title,updated,unread,feed_id,marked,
 				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
@@ -332,7 +349,8 @@
 			WHERE
 			$search_query_part
 			$view_query_part
-			feed_id = '$feed' ORDER BY updated DESC LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
+			feed_id = '$feed' ORDER BY updated DESC 
+			$limit_query_part");
 
 		$lnum = 0;
 		
@@ -396,45 +414,49 @@
 
 		// start unholy navbar block
 
-		print "<tr><td colspan=\"4\" class=\"headlineToolbar\">";
-		
-		$next_skip = $skip + HEADLINES_PER_PAGE;
-		$prev_skip = $skip - HEADLINES_PER_PAGE;
+		if (!$addheader) {
 
-		print "Navigate: ";
-
-		if ($prev_skip >= 0) {
-			print "<a class=\"button\" 
-				href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
-		} else {
-			print "<a class=\"disabledButton\">Previous Page</a>";
-		}
-		print "&nbsp;";
-
-		if ($next_skip < $total_entries) {		
-			print "<a class=\"button\" 
-				href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
-		} else {
-			print "<a class=\"disabledButton\">Next Page</a>";
-		}			
-		print "&nbsp;&nbsp;Feed: ";
-
-		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
-		
-		print "&nbsp;&nbsp;Mark as read: ";
-		
-		if ($num_unread > 0) {
-			print "<a class=\"button\" id=\"btnCatchupPage\" 
-				href=\"javascript:catchupPage($feed);\">This Page</a>";
-			print "&nbsp;";
-		} else {
-			print "<a class=\"disabledButton\">This Page</a>";
-			print "&nbsp;";
-		}
+			print "<tr><td colspan=\"4\" class=\"headlineToolbar\">";
+			
+			$next_skip = $skip + HEADLINES_PER_PAGE;
+			$prev_skip = $skip - HEADLINES_PER_PAGE;
 	
-		print "<a class=\"button\" 
-			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
+			print "Navigate: ";
+	
+			if ($prev_skip >= 0) {
+				print "<a class=\"button\" 
+					href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
+			} else {
+				print "<a class=\"disabledButton\">Previous Page</a>";
+			}
+			print "&nbsp;";
+	
+			if ($next_skip < $total_entries) {		
+				print "<a class=\"button\" 
+					href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
+			} else {
+				print "<a class=\"disabledButton\">Next Page</a>";
+			}			
+			print "&nbsp;&nbsp;Feed: ";
+	
+			print "<a class=\"button\" 
+				href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
+			
+			print "&nbsp;&nbsp;Mark as read: ";
+			
+			if ($num_unread > 0) {
+				print "<a class=\"button\" id=\"btnCatchupPage\" 
+					href=\"javascript:catchupPage($feed);\">This Page</a>";
+				print "&nbsp;";
+			} else {
+				print "<a class=\"disabledButton\">This Page</a>";
+				print "&nbsp;";
+			}
+		
+			print "<a class=\"button\" 
+				href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
+
+		}
 
 /*		print "&nbsp;&nbsp;Unmark: ";
 
@@ -463,6 +485,10 @@
 		print "<div class=\"invisible\" id=\"FACTIVE\">$feed</div>";
 		print "<div class=\"invisible\" id=\"FTOTAL\">$total</div>";
 		print "<div class=\"invisible\" id=\"FUNREAD\">$unread</div>";
+
+		if ($addheader) {
+			print "</body></html>";
+		}
 
 	}
 

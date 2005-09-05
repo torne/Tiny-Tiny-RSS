@@ -28,7 +28,7 @@
 	</td>
 </tr>
 <tr>
-	<td valign="top" rowspan="2" class="feeds"> 
+	<td valign="top" rowspan="3" class="feeds"> 
 		
 		<div id="feeds">&nbsp;</div>
 	
@@ -41,14 +41,41 @@
 				href="javascript:catchupAllFeeds()">Mark as read</a></p>
 
 	</td>
+	<td valign="top" class="headlinesToolbarBox">
+		<table width="100%">
+		<!-- <tr><td id="headlinesTitle" class="headlinesTitle">
+			&nbsp;
+		</td></tr> -->
+		<tr><td class="headlinesToolbar">
+			Search: <input id="searchbox"
+			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
+			onchange="javascript:search()">
+		<a class="button" href="javascript:resetSearch()">Reset</a>
+
+		&nbsp;View: 
+		
+		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
+			<option>All Posts</option>
+			<option>Starred</option>
+		</select>
+
+		&nbsp;Feed: <a class="button" 
+			href="javascript:viewCurrentFeed(0, 'ForceUpdate')">Update</a>
+
+		<a class="button" 
+			href="javascript:viewCurrentFeed(0, 'MarkAllRead')">Mark as read</a>
+
+		</td></tr>
+		</table>
+	</td> 
+</tr><tr>
 	<td id="headlines" class="headlines" valign="top">
-		Please select the feed.
+		<iframe name="headlines-frame" 
+			id="headlines-frame" class="headlinesFrame"> </iframe>
 	</td>
 </tr>
 	<td class="content" id="content" valign="top">
-		<? if (ENABLE_CONTENT_IFRAME) { ?>
-		<iframe id="content-frame" class="contentFrame"> </iframe>
-		<? } ?>
+		<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
 <tr>

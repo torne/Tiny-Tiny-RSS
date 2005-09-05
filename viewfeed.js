@@ -1,0 +1,103 @@
+var active_post_id;
+var total_unread = 0;
+
+var xmlhttp_rpc = false;
+
+/*@cc_on @*/
+/*@if (@_jscript_version >= 5)
+// JScript gives us Conditional compilation, we can cope with old IE versions.
+// and security blocked creation of the objects.
+try {
+	xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+} catch (e) {
+	try {
+		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
+	} catch (E) {
+		xmlhttp_rpc = false;
+	}
+}
+@end @*/
+
+if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
+	xmlhttp_rpc = new XMLHttpRequest();
+}
+
+function view(id,feed_id) {
+
+	enableHotkeys();
+
+	var crow = document.getElementById("RROW-" + id);
+
+	if (crow.className.match("Unread")) {
+		var umark = parent.document.getElementById("FEEDU-" + feed_id);
+		umark.innerHTML = umark.innerHTML - 1;
+		crow.className = crow.className.replace("Unread", "");
+
+		if (umark.innerHTML == "0") {
+			var feedr = parent.document.getElementById("FEEDR-" + feed_id);
+			feedr.className = feedr.className.replace("Unread", "");
+		}
+
+		total_unread--;
+	}	
+
+	cleanSelected("headlinesList");
+
+	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+
+	if (upd_img_pic) {
+		upd_img_pic.innerHTML = "";
+	} 
+
+	var unread_rows = getVisibleUnreadHeadlines();
+
+	if (unread_rows.length == 0) {
+		var button = document.getElementById("btnCatchupPage");
+		if (button) {
+			button.className = "disabledButton";
+			button.href = "";
+		}
+	}
+
+	active_post_id = id; 
+
+	var content = parent.document.getElementById("content-frame");
+
+	if (content) {
+		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id);
+		markHeadline(active_post_id);
+	}
+}
+
+function toggleMark(id, toggle) {
+
+//	notify("Toggle mark: " + id + ", " + toggle);
+
+	if (!xmlhttp_ready(xmlhttp_rpc)) {
+		printLockingError();
+		return;
+	}
+
+	var mark_img = document.getElementById("FMARKPIC-" + id);
+
+	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
+
+	if (toggle == true) {
+		mark_img.src = "images/mark_set.png";
+		mark_img.alt = "Reset mark";
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', false)');
+		query = query + "&mark=1";
+	} else {
+		mark_img.src = "images/mark_unset.png";
+		mark_img.alt = "Set mark";
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', true)');
+		query = query + "&mark=0";
+	}
+
+	xmlhttp_rpc.open("GET", query, true);
+	xmlhttp_rpc.onreadystatechange=rpc_notify_callback;
+	xmlhttp_rpc.send(null);
+
+}
+
+

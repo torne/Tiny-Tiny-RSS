@@ -42,10 +42,6 @@ table.feedOverview {
 	font-size : small;
 }
 
-td.headlineToolbar {
-	padding-top : 10px;
-}
-
 table.feeds {
 	font-size : small;
 }
@@ -67,7 +63,17 @@ table.headlinesList td.search {
 	padding-bottom : 3px; */
 }
 
-table.headlinesList td.title {
+td.headlinesToolbar {
+	padding : 10px;
+}
+
+td.headlinesTitle {
+	text-align : right;
+	font-size : large;
+	font-weight : bold;
+}
+
+table.headlinesList td.title, table.headlinesHeader td.title {
 	font-weight : bold;
 	font-size : large;
 	border-width : 0px 0px 1px 0px;
@@ -135,13 +141,18 @@ table.main td.feeds {
 	padding : 10px;
 }
 
-table.main td.headlines {
-	height : 10%;
-	padding : 10px;
+div.headlineToolbar {
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
 	border-style : solid;
-	overflow : scroll;
+	padding : 10px;
+}
+
+table.main td.headlines {
+	height : 25%;
+	border-width : 1px 0px 0px 0px;
+	border-color : #c0c0c0;
+	border-style : solid;
 }
 
 table.main td.prefContent {
@@ -150,6 +161,14 @@ table.main td.prefContent {
 	border-color : #c0c0c0;
 	border-style : solid;
 
+}
+
+table.main td.headlinesToolbarBox {
+	padding : 0px;
+	height : 20px;
+	border-width : 1px 0px 0px 0px;
+	border-color : #c0c0c0;
+	border-style : solid;
 }
 
 table.main td.content {
@@ -375,10 +394,11 @@ div.expPane {
 	margin : 15px;
 }
 
-iframe.contentFrame {
+iframe.contentFrame, iframe.headlinesFrame {
 	width : 100%;
 	border-width : 0px;
 	padding : 0px;
 	margin : 0px;
 	height : 100%;
 }
+
