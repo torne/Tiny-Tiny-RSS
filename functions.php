@@ -238,10 +238,6 @@
 
 					$last_read_qpart = "";
 
-//					if ("$orig_title" != "$entry_title") {
-//						$last_read_qpart = 'last_read = null,';
-//					}
-				
 					if ($orig_content_hash != $content_hash) {
 						if (UPDATE_POST_ON_CHECKSUM_CHANGE) {
 							$last_read_qpart = 'last_read = null,';
@@ -257,18 +253,12 @@
 						$entry_is_modified = true;
 					}
 
-//					if (!$no_orig_date && $orig_timestamp < $entry_timestamp) {
-//						$last_read_qpart = 'last_read = null,';
-//					}
-
 					if ($entry_is_modified) {
 
 						$entry_comments = pg_escape_string($entry_comments);
 						$entry_content = pg_escape_string($entry_content);
 						$entry_title = pg_escape_string($entry_title);					
 						$entry_link = pg_escape_string($entry_link);
-
-//						print "update object $entry_guid<br>";
 
 						$query = "UPDATE ttrss_entries 
 							SET 

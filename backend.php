@@ -486,6 +486,8 @@
 		// kludge, because iframe doesn't seem to support onload() 
 		
 		print "<script type=\"text/javascript\">
+			document.onkeydown = hotkey_handler;
+
 			var feedr = parent.document.getElementById(\"FEEDR-\" + $feed);
 			var feedt = parent.document.getElementById(\"FEEDT-\" + $feed);
 			var feedu = parent.document.getElementById(\"FEEDU-\" + $feed);

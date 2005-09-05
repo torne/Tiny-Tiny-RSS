@@ -91,12 +91,15 @@ function hotkey_handler(e) {
 
 	var piggie = document.getElementById("piggie");
 
-	if (seq.match("807371717369")) {
-		localPiggieFunction(true);
-	} else {
-		localPiggieFunction(false);
-	}
+	if (piggie) {
 
+		if (seq.match("807371717369")) {
+			localPiggieFunction(true);
+		} else {
+			localPiggieFunction(false);
+		}
+	}
+	
 	if (typeof localHotkeyHandler != 'undefined') {
 		localHotkeyHandler(keycode);
 	}

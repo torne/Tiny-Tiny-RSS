@@ -1,4 +1,5 @@
-var active_post_id;
+var active_feed_id = false;
+var active_post_id = false;
 var total_unread = 0;
 
 var xmlhttp_rpc = false;
@@ -22,7 +23,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
-function view(id,feed_id) {
+function view(id, feed_id) {
 
 	enableHotkeys();
 
@@ -60,6 +61,7 @@ function view(id,feed_id) {
 	}
 
 	active_post_id = id; 
+	active_feed_id = feed_id;
 
 	var content = parent.document.getElementById("content-frame");
 
@@ -100,4 +102,53 @@ function toggleMark(id, toggle) {
 
 }
 
+function moveToPost(mode) {
 
+	var rows = getVisibleHeadlineIds();
+
+	var prev_id;
+	var next_id;
+
+	if (active_post_id == false) {
+		next_id = getFirstVisibleHeadlineId();
+		prev_id = getLastVisibleHeadlineId();
+	} else {	
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i] == active_post_id) {
+				prev_id = rows[i-1];
+				next_id = rows[i+1];			
+			}
+		}
+	}
+
+	if (mode == "next") {
+	 	if (next_id != undefined) {
+			view(next_id, active_feed_id);
+		}
+	}
+
+	if (mode == "prev") {
+		if ( prev_id != undefined) {
+			view(prev_id, active_feed_id);
+		}
+	} 
+}
+
+function localHotkeyHandler(keycode) {
+
+	if (keycode == 78) {
+		return moveToPost('next');
+	}
+
+	if (keycode == 80) {
+		return moveToPost('prev');
+	} 
+
+// FIXME
+//	if (keycode == 85) {
+//		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
+//	}
+
+//	alert("KC: " + keycode);
+
+}

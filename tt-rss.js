@@ -57,59 +57,6 @@ function feedlist_callback() {
 	} 
 }
 
-/*
-function viewfeed_callback() {
-	var container = document.getElementById('headlines');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML = xmlhttp.responseText;
-
-		var factive = document.getElementById("FACTIVE");
-		var funread = document.getElementById("FUNREAD");
-		var ftotal = document.getElementById("FTOTAL");
-
-		if (_viewfeed_autoselect_first == true) {
-			_viewfeed_autoselect_first = false;
-			view(getFirstVisibleHeadlineId(), active_feed_id);
-		}
-
-		if (_viewfeed_autoselect_last == true) {
-			_viewfeed_autoselect_last = false;
-			view(getLastVisibleHeadlineId(), active_feed_id);
-		}
-
-		if (ftotal && factive && funread) {
-			var feed_id = factive.innerHTML;
-
-			var feedr = document.getElementById("FEEDR-" + feed_id);
-			var feedt = document.getElementById("FEEDT-" + feed_id);
-			var feedu = document.getElementById("FEEDU-" + feed_id);
-
-			feedt.innerHTML = ftotal.innerHTML;
-			feedu.innerHTML = funread.innerHTML;
-
-			total_feed_entries = ftotal.innerHTML;	
-
-			if (feedu.innerHTML > 0 && !feedr.className.match("Unread")) {
-					feedr.className = feedr.className + "Unread";
-			} else if (feedu.innerHTML <= 0) {	
-					feedr.className = feedr.className.replace("Unread", "");
-			}
-
-			cleanSelected("feedsList");
-
-			feedr.className = feedr.className + "Selected";
-		}
-
-		var searchbox = document.getElementById("searchbox");
-		searchbox.value = search_query;
-
-		markHeadline(active_post_id);
-
-		notify("");
-
-	}	
-} */
-
 function refetch_callback() {
 
 	if (xmlhttp_rpc.readyState == 4) {
@@ -336,62 +283,6 @@ function viewfeed(feed, skip, subop) {
 	notify("");
 
 }
-
-/*
-function view(id,feed_id) {
-
-	enableHotkeys();
-
-	if (!xmlhttp_ready(xmlhttp_view)) {
-		printLockingError();
-		return
-	}
-
-	var crow = document.getElementById("RROW-" + id);
-
-	if (crow.className.match("Unread")) {
-		var umark = document.getElementById("FEEDU-" + feed_id);
-		umark.innerHTML = umark.innerHTML - 1;
-		crow.className = crow.className.replace("Unread", "");
-
-		if (umark.innerHTML == "0") {
-			var feedr = document.getElementById("FEEDR-" + feed_id);
-			feedr.className = feedr.className.replace("Unread", "");
-		}
-
-		total_unread--;
-	}	
-
-	cleanSelected("headlinesList");
-//	crow.className = crow.className + "Selected";
-
-	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
-
-	if (upd_img_pic) {
-		upd_img_pic.innerHTML = "";
-	} 
-
-//	document.getElementById('content').innerHTML='Loading, please wait...';		
-
-	var unread_rows = getVisibleUnreadHeadlines();
-
-	if (unread_rows.length == 0) {
-		var button = document.getElementById("btnCatchupPage");
-		if (button) {
-			button.className = "disabledButton";
-			button.href = "";
-		}
-	}
-
-	active_post_id = id;
-
-	var content = document.getElementById("content-frame");
-
-	content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id);
-	markHeadline(active_post_id);
-
-}
-*/
 
 function timeout() {
 	scheduleFeedUpdate(true);

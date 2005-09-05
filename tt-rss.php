@@ -73,7 +73,7 @@
 		<iframe name="headlines-frame" 
 			id="headlines-frame" class="headlinesFrame"> </iframe>
 	</td>
-</tr>
+</tr><tr>
 	<td class="content" id="content" valign="top">
 		<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
 	</td>
