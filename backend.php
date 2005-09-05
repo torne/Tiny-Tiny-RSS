@@ -294,27 +294,6 @@
 
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
-		if (!$addheader) {
-
-			print "<tr><td class=\"search\" colspan=\"4\">
-				Search: <input id=\"searchbox\"
-				onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-				onchange=\"javascript:search($feed);\"> ";
-
-			print " <a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>";
-	
-			print "&nbsp;&nbsp;View: ";
-	
-			print_select("viewbox", $view_mode, array("All Posts", "Starred"),
-				"onchange=\"javascript:viewfeed('$feed', '0', '');\"");
-
-			print "</td></tr>"; 
-		
-			print "<tr>
-			<td colspan=\"4\" class=\"title\">" . $line["title"] . "</td></tr>"; 
-
-		}
-
 		$search = $_GET["search"];
 
 		if ($search) {
@@ -337,12 +316,8 @@
 
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
-		if (!$addheader) {
-			$limit_query_part = "LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip";
-		} else {			
-			if ($limit != "All") {
-				$limit_query_part = "LIMIT " . $limit;
-			}
+		if ($limit != "All") {
+			$limit_query_part = "LIMIT " . $limit;
 		}
 
 		$result = pg_query("SELECT 
@@ -416,65 +391,6 @@
 			++$lnum;
 			print "<tr><td>&nbsp;</td></tr>";
 		}
-
-		// start unholy navbar block
-
-		if (!$addheader) {
-
-			print "<tr><td colspan=\"4\" class=\"headlineToolbar\">";
-			
-			$next_skip = $skip + HEADLINES_PER_PAGE;
-			$prev_skip = $skip - HEADLINES_PER_PAGE;
-	
-			print "Navigate: ";
-	
-			if ($prev_skip >= 0) {
-				print "<a class=\"button\" 
-					href=\"javascript:viewfeed($feed, $prev_skip);\">Previous Page</a>";
-			} else {
-				print "<a class=\"disabledButton\">Previous Page</a>";
-			}
-			print "&nbsp;";
-	
-			if ($next_skip < $total_entries) {		
-				print "<a class=\"button\" 
-					href=\"javascript:viewfeed($feed, $next_skip);\">Next Page</a>";
-			} else {
-				print "<a class=\"disabledButton\">Next Page</a>";
-			}			
-			print "&nbsp;&nbsp;Feed: ";
-	
-			print "<a class=\"button\" 
-				href=\"javascript:viewfeed($feed, 0, 'ForceUpdate');\">Update</a>";
-			
-			print "&nbsp;&nbsp;Mark as read: ";
-			
-			if ($num_unread > 0) {
-				print "<a class=\"button\" id=\"btnCatchupPage\" 
-					href=\"javascript:catchupPage($feed);\">This Page</a>";
-				print "&nbsp;";
-			} else {
-				print "<a class=\"disabledButton\">This Page</a>";
-				print "&nbsp;";
-			}
-		
-			print "<a class=\"button\" 
-				href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
-
-		}
-
-/*		print "&nbsp;&nbsp;Unmark: ";
-
-		print "<a class=\"button\" 
-			href=\"javascript:unmarkPosts(false);\">This Page</a>";
-		print "&nbsp;";
-
-		print "<a class=\"button\" 
-			href=\"javascript:unmarkPosts(true);\">All Posts</a>"; */
-
-		print "</td></tr>";
-
-		// end unholy navbar block
 		
 		print "</table>";
 
