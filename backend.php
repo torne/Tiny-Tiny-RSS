@@ -186,10 +186,22 @@
 
 		$result = pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
+		$addheader = $_GET["addheader"];
+
 		$result = pg_query("SELECT title,link,content,feed_id,comments,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
 			FROM ttrss_entries
 			WHERE	id = '$id'");
+
+		if ($addheader) {
+			
+		print "<html>
+			<head>
+				<title>Tiny Tiny RSS : Article $id</title>
+				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body>";
+		}
 
 		if ($result) {
 
@@ -225,6 +237,10 @@
 			</tr>";
 			print "</table>";	 
 
+		}
+
+		if ($addheader) {
+			print "</body></html>";
 		}
 	}
 

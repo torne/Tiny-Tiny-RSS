@@ -46,7 +46,9 @@
 	</td>
 </tr>
 	<td class="content" id="content" valign="top">
-		&nbsp;
+		<? if (ENABLE_CONTENT_IFRAME) { ?>
+		<iframe id="content-frame" class="contentFrame">		
+		<? } ?>
 	</td>
 </tr>
 <tr>

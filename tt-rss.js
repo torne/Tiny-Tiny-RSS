@@ -423,11 +423,16 @@ function view(id,feed_id) {
 
 	active_post_id = id;
 
-	xmlhttp_view.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
-	xmlhttp_view.onreadystatechange=view_callback;
-	xmlhttp_view.send(null);
+	var content = document.getElementById("content-frame");
 
-
+	if (content) {
+		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id);
+		markHeadline(active_post_id);
+	} else {
+		xmlhttp_view.open("GET", "backend.php?op=view&id=" + param_escape(id), true);
+		xmlhttp_view.onreadystatechange=view_callback;
+		xmlhttp_view.send(null);
+	}
 }
 
 function timeout() {
@@ -615,4 +620,6 @@ function init() {
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
 	setTimeout("timeout()", 1800*1000);
+
+	var content = document.getElementById("content");
 }
