@@ -554,6 +554,36 @@ function localHotkeyHandler(keycode) {
 
 }
 
+function toggleMark(id, toggle) {
+
+//	notify("Toggle mark: " + id + ", " + toggle);
+
+	if (!xmlhttp_ready(xmlhttp_rpc)) {
+		printLockingError();
+		return;
+	}
+
+	var mark_img = document.getElementById("FMARKPIC-" + id);
+
+	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
+
+	if (toggle == true) {
+		mark_img.src = "images/mark_set.png";
+		mark_img.alt = "Reset mark";
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', false)');
+		query = query + "&mark=1";
+	} else {
+		mark_img.src = "images/mark_unset.png";
+		mark_img.alt = "Set mark";
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', true)');
+		query = query + "&mark=0";
+	}
+
+	xmlhttp_rpc.open("GET", query, true);
+	xmlhttp_rpc.onreadystatechange=rpc_notify_callback;
+	xmlhttp_rpc.send(null);
+
+}
 
 function init() {
 

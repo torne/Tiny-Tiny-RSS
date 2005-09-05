@@ -6,6 +6,7 @@
 	function purge_old_posts() {
 		if (PURGE_OLD_DAYS > 0) {
 			$result = pg_query("DELETE FROM ttrss_entries WHERE
+				marked = false AND 
 				date_entered < NOW() - INTERVAL '".PURGE_OLD_DAYS." days'");
 		}
 	}

@@ -112,8 +112,22 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "mark") {
+			$mark = $_GET["mark"];
+			$id = pg_escape_string($_GET["id"]);
+
+			if ($mark == "1") {
+				$mark = "true";
+			} else {
+				$mark = "false";
+			}
+
+			$result = pg_query("UPDATE ttrss_entries SET marked = $mark
+				WHERE id = '$id'");
+		}
+
 		if ($subop == "updateFeed") {
-			$feed_id = $_GET["feed"];
+			$feed_id = pg_escape_string($_GET["feed"]);
 
 			$result = pg_query($link, 
 				"SELECT feed_url FROM ttrss_feeds WHERE id = '$feed_id'");
@@ -253,14 +267,14 @@
 
 		$feed_last_updated = "Updated: " . $line["last_updated"];
 
-		print "<tr><td class=\"search\" colspan=\"3\">
+		print "<tr><td class=\"search\" colspan=\"4\">
 			Search: <input id=\"searchbox\"
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
 			onchange=\"javascript:search($feed);\">
 			<a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>
 			</td></tr>"; 
 		print "<tr>
-		<td colspan=\"3\" class=\"title\">" . $line["title"] . "</td></tr>"; 
+		<td colspan=\"4\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
 		$search = $_GET["search"];
 
@@ -277,7 +291,7 @@
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
 		$result = pg_query("SELECT 
-				id,title,updated,unread,feed_id,
+				id,title,updated,unread,feed_id,marked,
 				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
 				EXTRACT(EPOCH FROM updated) AS updated_ts
 			FROM
@@ -309,12 +323,24 @@
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
 
+			if ($line["marked"] == "t") {
+				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
+					alt=\"Reset mark\" onclick='javascript:toggleMark($id, false)'>";
+			} else {
+				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
+					alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
+			}
+
 			$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
 				$line["title"] . "</a>";
 				
 			print "<tr class='$class' id='RROW-$id'>";
 
-			print "<td id='FUPDPIC-$id' valign='center' class='headlineUpdateMark'>$update_pic</td>";
+			print "<td id='FUPDPIC-$id' valign='center' 
+				class='headlineUpdateMark'>$update_pic</td>";
+
+			print "<td valign='center' 
+				class='headlineUpdateMark'>$marked_pic</td>";
 
 			print "<td class='headlineUpdated'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
@@ -336,7 +362,7 @@
 
 		// start unholy navbar block
 
-		print "<tr><td colspan=\"3\" class=\"headlineToolbar\">";
+		print "<tr><td colspan=\"4\" class=\"headlineToolbar\">";
 		
 		$next_skip = $skip + HEADLINES_PER_PAGE;
 		$prev_skip = $skip - HEADLINES_PER_PAGE;
