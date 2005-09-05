@@ -249,6 +249,7 @@
 		$subop = $_GET["subop"];
 		$view_mode = $_GET["view"];
 		$addheader = $_GET["addheader"];
+		$limit = $_GET["limit"];
 
 		if (!$skip) $skip = 0;
 
@@ -338,6 +339,10 @@
 
 		if (!$addheader) {
 			$limit_query_part = "LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip";
+		} else {			
+			if ($limit != "All") {
+				$limit_query_part = "LIMIT " . $limit;
+			}
 		}
 
 		$result = pg_query("SELECT 

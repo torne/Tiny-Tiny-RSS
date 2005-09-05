@@ -229,6 +229,16 @@ function viewfeed(feed, skip, subop) {
 		view_mode = "All Posts";
 	}
 
+	var limitbox = document.getElementById("limitbox");
+
+	var limit;
+
+	if (limitbox) {
+		limit = limitbox.value;
+	} else {
+		limit = "All";
+	}
+
 	if (skip < 0 || skip > total_feed_entries) {
 		return;
 	}
@@ -260,7 +270,7 @@ function viewfeed(feed, skip, subop) {
 
 	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
-		"&view=" + param_escape(view_mode);
+		"&view=" + param_escape(view_mode) + "&limit=" + limit;
 
 	if (search_query != "") {
 		query = query + "&search=" + param_escape(search_query);

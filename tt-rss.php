@@ -59,6 +59,15 @@
 			<option>Starred</option>
 		</select>
 
+		&nbsp;Limit:
+
+		<select id="limitbox" onchange="javascript:viewCurrentFeed(0, '')">
+			<option>15</option>
+			<option>30</option>
+			<option>60</option>
+			<option>All</option>
+		</select>
+
 		&nbsp;Feed: <a class="button" 
 			href="javascript:viewCurrentFeed(0, 'ForceUpdate')">Update</a>
 
