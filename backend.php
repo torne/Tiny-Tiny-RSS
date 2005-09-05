@@ -233,6 +233,7 @@
 		$feed = $_GET["feed"];
 		$skip = $_GET["skip"];
 		$subop = $_GET["subop"];
+		$view_mode = $_GET["view"];
 
 		if (!$skip) $skip = 0;
 
@@ -270,17 +271,33 @@
 		print "<tr><td class=\"search\" colspan=\"4\">
 			Search: <input id=\"searchbox\"
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-			onchange=\"javascript:search($feed);\">
-			<a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>
-			</td></tr>"; 
+			onchange=\"javascript:search($feed);\"> ";
+
+		print " <a class=\"button\" href=\"javascript:resetSearch()\">Reset</a>";
+	
+		print "&nbsp;&nbsp;View: ";
+	
+		print_select("viewbox", $view_mode, array("All Posts", "Starred"),
+			"onchange=\"javascript:viewfeed('$feed', '$skip', '');\"");
+
+		print "</td></tr>"; 
+		
 		print "<tr>
 		<td colspan=\"4\" class=\"title\">" . $line["title"] . "</td></tr>"; 
 
 		$search = $_GET["search"];
 
-		if (search) {
+		if ($search) {
 			$search_query_part = "(upper(title) LIKE upper('%$search%') 
 				OR content LIKE '%$search%') AND";
+		} else {
+			$search_query_part = "";
+		}
+
+		$view_query_part = "";
+
+		if ($view_mode == "Starred") {
+			$view_query_part = " marked = true AND ";
 		}
 
 		$result = pg_query("SELECT count(id) AS total_entries 
@@ -298,6 +315,7 @@
 				ttrss_entries 
 			WHERE
 			$search_query_part
+			$view_query_part
 			feed_id = '$feed' ORDER BY updated DESC LIMIT ".HEADLINES_PER_PAGE." OFFSET $skip");
 
 		$lnum = 0;

@@ -296,6 +296,16 @@ function viewfeed(feed, skip, subop) {
 		search_query = "";
 	} 
 
+	var viewbox = document.getElementById("viewbox");
+
+	var view_mode;
+
+	if (viewbox) {
+		view_mode = viewbox.value;
+	} else {
+		view_mode = "All Posts";
+	}
+
 /*	if (active_feed_id == feed && subop != "ForceUpdate") {
 		notify("This feed is currently selected.");
 		return;
@@ -318,7 +328,8 @@ function viewfeed(feed, skip, subop) {
 	active_offset = skip;
 
 	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop);
+		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
+		"&view=" + param_escape(view_mode);
 
 	if (search_query != "") {
 		query = query + "&search=" + param_escape(search_query);

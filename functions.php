@@ -297,8 +297,8 @@
 
 	}
 
-	function print_select($id, $default, $values) {
-		print "<select id=\"$id\">";
+	function print_select($id, $default, $values, $attributes = "") {
+		print "<select id=\"$id\" $attributes>";
 		foreach ($values as $v) {
 			if ($v == $default)
 				$sel = " selected";
