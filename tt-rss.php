@@ -21,7 +21,11 @@
 <tr>
 	<td class="toolbar" colspan="2">
 		<table width="100%" cellspacing="0" cellpadding="0">
-		<td valign="middle"> <div id="notify">&nbsp;</div></td>
+		<td valign="middle">
+			<table id="notify"><tr><td width="100%" id="notify_body">&nbsp;</td>
+			<td><img onclick="javascript:notify('')" alt="Close" 
+				src="images/close.png"></td></table>		
+		</td>
 		<td class="toolbar" valign="middle" align="right">
 			<a href="prefs.php" class="button">Preferences</a></td>
 		</tr></table>

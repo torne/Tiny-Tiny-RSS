@@ -197,6 +197,7 @@
 			print "<html><head>
 				<title>Tiny Tiny RSS : Article $id</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+				<script type=\"text/javascript\" src=\"functions.js\"></script>
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				</head><body>";
 		}
@@ -232,6 +233,10 @@
 			print "</table>";	 
 
 		}
+
+/*		print "<script type=\"text/javascript\">
+			p_notify(''); -- FLICKER
+		</script>"; */
 
 		if ($addheader) {
 			print "</body></html>";
@@ -417,6 +422,8 @@
 			} else if ($unread <= 0) {	
 					feedr.className = feedr.className.replace(\"Unread\", \"\");
 			}	
+
+			//p_notify('');
 		</script>";
 
 		if ($addheader) {

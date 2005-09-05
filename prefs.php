@@ -20,7 +20,9 @@
 </tr>
 <tr>
 	<td class="toolbar" valign="middle">
-		 <div id="notify">&nbsp;</div>
+		<table id="notify"><tr><td width="100%" id="notify_body">&nbsp;</td>
+		<td><img onclick="javascript:notify('')" alt="Close" 
+			src="images/close.png"></td></table>		
 	</td>
 	<td class="toolbar" valign="middle" colspan="2" align="right">	
 		<a href="tt-rss.php" class="button">Return to main</a>

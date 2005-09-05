@@ -25,6 +25,8 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function view(id, feed_id) {
 
+//	p_notify("Loading article...");
+
 	enableHotkeys();
 
 	var crow = document.getElementById("RROW-" + id);
@@ -71,9 +73,8 @@ function view(id, feed_id) {
 	}
 }
 
-function toggleMark(id, toggle) {
 
-//	notify("Toggle mark: " + id + ", " + toggle);
+function toggleMark(id, toggle) {
 
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
 		printLockingError();

@@ -209,6 +209,8 @@ function viewCurrentFeed(skip, subop) {
 
 function viewfeed(feed, skip, subop) {
 
+//	notify("Loading headlines...");
+
 	enableHotkeys();
 
 	var searchbox = document.getElementById("searchbox");
@@ -290,7 +292,7 @@ function viewfeed(feed, skip, subop) {
 
 	ftitle_d.innerHTML = ftitle_s.innerHTML;
 	
-	notify("");
+//	notify("");
 
 }
 

@@ -50,13 +50,31 @@ function delay(gap) {
 	}
 }
 
+function p_notify(msg) {
+
+	var n = parent.document.getElementById("notify");
+	var nb = parent.document.getElementById("notify_body");
+
+	if (!n || !nb) return;
+
+	nb.innerHTML = msg;
+
+	if (msg.length == 0) {
+		n.style.display = "none";
+	} else {
+		n.style.display = "block";
+	}
+
+}
+
 function notify(msg) {
 
 	var n = document.getElementById("notify");
+	var nb = document.getElementById("notify_body");
 
-	if (!n) return;
+	if (!n || !nb) return;
 
-	n.innerHTML = msg;
+	nb.innerHTML = msg;
 
 	if (msg.length == 0) {
 		n.style.display = "none";
