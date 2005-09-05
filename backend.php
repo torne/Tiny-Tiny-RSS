@@ -398,9 +398,18 @@
 			print "<a class=\"disabledButton\">This Page</a>";
 			print "&nbsp;";
 		}
-		
+	
 		print "<a class=\"button\" 
 			href=\"javascript:viewfeed($feed, $skip, 'MarkAllRead');\">All Posts</a>";
+
+/*		print "&nbsp;&nbsp;Unmark: ";
+
+		print "<a class=\"button\" 
+			href=\"javascript:unmarkPosts(false);\">This Page</a>";
+		print "&nbsp;";
+
+		print "<a class=\"button\" 
+			href=\"javascript:unmarkPosts(true);\">All Posts</a>"; */
 
 		print "</td></tr>";
 
