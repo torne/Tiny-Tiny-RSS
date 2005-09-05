@@ -47,7 +47,7 @@
 </tr>
 	<td class="content" id="content" valign="top">
 		<? if (ENABLE_CONTENT_IFRAME) { ?>
-		<iframe id="content-frame" class="contentFrame">		
+		<iframe id="content-frame" class="contentFrame"> </iframe>
 		<? } ?>
 	</td>
 </tr>
