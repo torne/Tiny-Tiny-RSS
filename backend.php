@@ -219,10 +219,6 @@
 				<td>&nbsp;</td></tr>";
 
 			if ($line["comments"] && $line["comments"] != $line["link"]) {
-//				print "<tr class=\"titleInner\"><td align=\"right\"><b>Comments:</b></td>
-//					<td><a href=\"".$line["comments"]."\">".$line["comments"]."</a></td>
-//					<td>&nbsp;</td> </tr>";
-
 				$comments_prompt = "(<a href=\"".$line["comments"]."\">Comments</a>)";
 			}
 			
