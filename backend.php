@@ -274,8 +274,8 @@
 
 			$line = pg_fetch_assoc($result);
 
-			if ($subop == "ForceUpdate") {
-//				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {				
+			if ($subop == "ForceUpdate" ||
+				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {				
 
 				update_rss_feed($link, $line["feed_url"], $feed);
 				
@@ -482,9 +482,23 @@
 		$total = pg_fetch_result($result, 0, "total");
 		$unread = pg_fetch_result($result, 0, "unread");
 
-		print "<div class=\"invisible\" id=\"FACTIVE\">$feed</div>";
-		print "<div class=\"invisible\" id=\"FTOTAL\">$total</div>";
-		print "<div class=\"invisible\" id=\"FUNREAD\">$unread</div>";
+		// update unread/total counters and status for active feed in the feedlist 
+		// kludge, because iframe doesn't seem to support onload() 
+		
+		print "<script type=\"text/javascript\">
+			var feedr = parent.document.getElementById(\"FEEDR-\" + $feed);
+			var feedt = parent.document.getElementById(\"FEEDT-\" + $feed);
+			var feedu = parent.document.getElementById(\"FEEDU-\" + $feed);
+
+			feedt.innerHTML = \"$total\";
+			feedu.innerHTML = \"$unread\";
+
+			if ($unread > 0 && !feedr.className.match(\"Unread\")) {
+					feedr.className = feedr.className + \"Unread\";
+			} else if ($unread <= 0) {	
+					feedr.className = feedr.className.replace(\"Unread\", \"\");
+			}	
+		</script>";
 
 		if ($addheader) {
 			print "</body></html>";
