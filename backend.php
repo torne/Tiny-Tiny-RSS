@@ -367,7 +367,8 @@
 			$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
 				$line["title"] . "</a>";
 				
-			print "<tr class='$class' id='RROW-$id'>";
+			print "<tr class='$class' id='RROW-$id' 
+				onclick=\"javascript:view($id,$feed_id)\">";
 
 			print "<td id='FUPDPIC-$id' valign='center' 
 				class='headlineUpdateMark'>$update_pic</td>";
