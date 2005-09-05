@@ -278,7 +278,7 @@
 		print "&nbsp;&nbsp;View: ";
 	
 		print_select("viewbox", $view_mode, array("All Posts", "Starred"),
-			"onchange=\"javascript:viewfeed('$feed', '$skip', '');\"");
+			"onchange=\"javascript:viewfeed('$feed', '0', '');\"");
 
 		print "</td></tr>"; 
 		
