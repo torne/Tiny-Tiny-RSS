@@ -42,7 +42,9 @@
 			onclick="javascript:scheduleFeedUpdate(true)" value="Update">
 				
 		<input class="button" type="submit"	
-			onclick="javascript:catchupAllFeeds()" value="Mark as read"> 
+			onclick="javascript:catchupAllFeeds()" value="Mark as read">
+
+		</p>
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
