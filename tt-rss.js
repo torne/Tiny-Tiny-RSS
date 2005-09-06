@@ -48,6 +48,9 @@ function feedlist_callback() {
 
 		if (first_run) {
 			scheduleFeedUpdate(false);
+			if (getCookie("ttrss_vf_actfeed")) {
+				viewfeed(getCookie("ttrss_vf_actfeed"), 0, "");
+			}
 			first_run = false;
 		} else {
 			notify("");
@@ -62,6 +65,14 @@ function refetch_callback() {
 		var container = document.getElementById('feeds');
 		container.innerHTML = xmlhttp_rpc.responseText;
 		document.title = "Tiny Tiny RSS";
+
+		cleanSelected("feedsList");
+		
+		var feedr = document.getElementById("FEEDR-" + active_feed_id);
+		if (feedr) {
+			feedr.className = feedr.className + "Selected";
+		}
+
 	} 
 }
 
@@ -276,10 +287,11 @@ function viewfeed(feed, skip, subop) {
 	
 	headlines_frame.src = query + "&addheader=true";
 
-	var feedr = document.getElementById("FEEDR-" + feed);
-
 	cleanSelected("feedsList");
-	feedr.className = feedr.className + "Selected";
+	var feedr = document.getElementById("FEEDR-" + feed);
+	if (feedr) {
+		feedr.className = feedr.className + "Selected";
+	}
 	
 	disableContainerChildren("headlinesToolbar", false);
 
@@ -416,10 +428,6 @@ function init() {
 		viewbox.value = getCookie("ttrss_vf_vmode");
 	}
 
-	if (getCookie("ttrss_vf_actfeed")) {
-		viewfeed(getCookie("ttrss_vf_actfeed"), 0, "");
-	}
-		
 }
 
 
