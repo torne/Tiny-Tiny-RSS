@@ -214,7 +214,7 @@
 
 			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" 
 				cellpadding=\"0\">";
-/*				
+				
 			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
 				<td width=\"100%\">".$line["title"]."</td>
 				<td>&nbsp;</td></tr>";
@@ -225,18 +225,14 @@
 			
 			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
 				<td><a href=\"".$line["link"]."\">".$line["link"]."</a> $comments_prompt</td>
-				<td>&nbsp;</td></tr>"; */
+				<td>&nbsp;</td></tr>"; 
 			print "<tr><td valign=\"top\" class=\"post\" 
-				colspan=\"2\">" . $line["content"] . "</td>
+				colspan=\"2\" width=\"100%\">" . $line["content"] . "</td>
 				<td valign=\"top\">$feed_icon</td>
 			</tr>";
 			print "</table>";	 
 
 		}
-
-/*		print "<script type=\"text/javascript\">
-			p_notify(''); -- FLICKER
-		</script>"; */
 
 		if ($addheader) {
 			print "</body></html>";
@@ -258,7 +254,7 @@
 
 		if ($addheader) {
 			print "<html><head>
-				<title>Tiny Tiny RSS : Article $id</title>
+				<title>Tiny Tiny RSS : Feed $feed</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				<script type=\"text/javascript\" src=\"functions.js\"></script>
@@ -310,6 +306,10 @@
 			$view_query_part = " marked = true AND ";
 		}
 
+		if ($view_mode == "Unread") {
+			$view_query_part = " unread = true AND ";
+		}
+
 		$result = pg_query("SELECT count(id) AS total_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part
@@ -317,12 +317,23 @@
 
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
+		$result = pg_query("SELECT count(id) AS unread_entries 
+			FROM ttrss_entries WHERE 
+			$search_query_part
+			unread = true AND
+			feed_id = '$feed'");
+
+		$unread_entries = pg_fetch_result($result, 0, "unread_entries");
+
+/*		if ($limit < $unread_entries) 
+			$limit = $unread_entries;
+
 		if ($limit != "All") {
 			$limit_query_part = "LIMIT " . $limit;
-		}
+		} */
 
 		$result = pg_query("SELECT 
-				id,title,updated,unread,feed_id,marked,
+				id,title,updated,unread,feed_id,marked,link,
 				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
 				EXTRACT(EPOCH FROM updated) AS updated_ts
 			FROM
@@ -364,7 +375,7 @@
 					alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
 			}
 
-			$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
+			$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
 				$line["title"] . "</a>";
 				
 			print "<tr class='$class' id='RROW-$id'";
@@ -379,6 +390,8 @@
 			print "<td class='headlineUpdated'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
 			print "<td class='headlineTitle'>$content_link</td>";
+
+			print "<td class=\"invisible\" id=\"FLINK-$id\">".$line["link"]."</td>";
 
 			print "</tr>";
 

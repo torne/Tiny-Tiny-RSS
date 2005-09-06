@@ -202,7 +202,7 @@ function catchupAllFeeds() {
 }
 
 function viewCurrentFeed(skip, subop) {
-	if (active_feed_id) {
+	if (active_feed_id ) {
 		viewfeed(active_feed_id, skip, subop);
 	}
 }
@@ -231,12 +231,15 @@ function viewfeed(feed, skip, subop) {
 		view_mode = "All Posts";
 	}
 
+	setCookie("ttrss_vf_vmode", view_mode);
+
 	var limitbox = document.getElementById("limitbox");
 
 	var limit;
 
 	if (limitbox) {
 		limit = limitbox.value;
+		setCookie("ttrss_vf_limit", limit);
 	} else {
 		limit = "All";
 	}
@@ -256,6 +259,8 @@ function viewfeed(feed, skip, subop) {
 
 	active_feed_id = feed;
 	active_offset = skip;
+
+	setCookie("ttrss_vf_actfeed", feed);
 
 	if (subop == "MarkAllRead") {
 
@@ -286,12 +291,9 @@ function viewfeed(feed, skip, subop) {
 
 	cleanSelected("feedsList");
 	feedr.className = feedr.className + "Selected";
-
-	var ftitle_d = document.getElementById("headlinesTitle");
-	var ftitle_s = document.getElementById("FEEDN-" + feed);
-
-	ftitle_d.innerHTML = ftitle_s.innerHTML;
 	
+	disableContainerChildren("headlinesToolbar", false);
+
 //	notify("");
 
 }
@@ -303,7 +305,9 @@ function timeout() {
 
 function resetSearch() {
 	document.getElementById("searchbox").value = "";
-	viewfeed(active_feed_id, 0, "");
+	if (active_feed_id) {
+		viewfeed(active_feed_id, 0, "");
+	}
 }
 
 function search() {
@@ -392,6 +396,8 @@ function localHotkeyHandler(keycode) {
 
 function init() {
 
+	disableContainerChildren("headlinesToolbar", true);
+
 	// IE kludge
 
 	if (xmlhttp && !xmlhttp_rpc) {
@@ -411,4 +417,16 @@ function init() {
 	setTimeout("timeout()", 1800*1000);
 
 	var content = document.getElementById("content");
+
+//	active_feed_id = getCookie("ttrss_vf_actfeed");
+
+	var limitbox = document.getElementById("limitbox");
+
+	if (getCookie("ttrss_vf_vmode")) {
+		var viewbox = document.getElementById("viewbox");
+		viewbox.value = getCookie("ttrss_vf_vmode");
+	}
+		
 }
+
+

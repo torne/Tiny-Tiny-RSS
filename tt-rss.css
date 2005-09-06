@@ -281,16 +281,16 @@ table.prefFeedList tr.title td, table.prefFilterList tr.title td,
 	background-color : #e0e0ff;
 }
 
-a.disabledButton {
+.disabledButton {
 	font-family : tahoma, sans-serif;
 	border : 1px solid #d0d0d0;
-	background-color : white;
+	background : white;
 	color : #909090;	
-	padding : 2px 10px 2px 10px;
+	padding : 1px 10px 1px 10px;
 	font-size : small;
 }
 
-a.disabledButton:hover {
+.disabledButton:hover {
 	background : white;
 	text-decoration : none;
 	color : #909090;
@@ -304,15 +304,19 @@ a.disabledButton:hover {
 	background-repeat : repeat-x;
 	background-color : white;
 	color : black;	
-	padding : 2px 10px 2px 10px;
-	font-size : small;
+	padding : 1px 10px 1px 10px;
 }
 
-.button:hover {
+/* .button:hover {
 	background : white;
 	text-decoration : none;
 	color : black;
+} */
+
+a.button {
+	padding : 2px 10px 2px 10px;
 }
+
 
 .buttonWarn {
 	font-family : tahoma, sans-serif;
@@ -344,7 +348,7 @@ div.errorBox {
 	background : #f0f0f0;
 }
 
-tr.titleTop, tr.titleBottom {
+tr.titleTop, tr.titleBottom, tr.titleTopBottom {
 	background : #f0f0f0;
 }
 
@@ -363,7 +367,13 @@ tr.titleBottom td {
 	border-width : 0px 0px 1px 0px;
 	border-color : #d0d0d0;
 	border-style : solid;
+}
 
+tr.titleTopBottom td {
+	padding : 3px 10px 5px 10px;
+	border-width : 1px 0px 1px 0px;
+	border-color : #d0d0d0;
+	border-style : solid;
 }
 
 td.post {

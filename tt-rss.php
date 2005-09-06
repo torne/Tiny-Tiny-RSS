@@ -38,45 +38,48 @@
 	
 		<p align="center">All feeds:
 		
-		<a class="button" 
-				href="javascript:scheduleFeedUpdate(true)">Update</a>
-
-		<a class="button" 
-				href="javascript:catchupAllFeeds()">Mark as read</a></p>
+		<input class="button" type="submit"	
+			onclick="javascript:scheduleFeedUpdate(true)" value="Update">
+				
+		<input class="button" type="submit"	
+			onclick="javascript:catchupAllFeeds()" value="Mark as read"> 
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
 		<table width="100%">
+		
 		<!-- <tr><td id="headlinesTitle" class="headlinesTitle">
 			&nbsp;
 		</td></tr> -->
-		<tr><td class="headlinesToolbar">
+		<tr><td class="headlinesToolbar" id="headlinesToolbar">
 			Search: <input id="searchbox"
 			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
 			onchange="javascript:search()">
-		<a class="button" href="javascript:resetSearch()">Reset</a>
+		<input type="submit" 
+			class="button" onclick="javascript:resetSearch()" value="Reset">
 
 		&nbsp;View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
 			<option>All Posts</option>
 			<option>Starred</option>
+			<option selected>Unread</option>
 		</select>
 
 		&nbsp;Limit:
 
 		<select id="limitbox" onchange="javascript:viewCurrentFeed(0, '')">
 			<option>15</option>
-			<option>30</option>
+			<option selected>30</option>
 			<option>60</option>
 			<option>All</option>
 		</select>
 
-		&nbsp;Feed: <a class="button" 
-			href="javascript:viewCurrentFeed(0, 'ForceUpdate')">Update</a>
+		&nbsp;Feed: <input class="button" type="submit"
+			onclick="javascript:viewCurrentFeed(0, 'ForceUpdate')" value="Update">
 
-		<a class="button" 
-			href="javascript:viewCurrentFeed(0, 'MarkAllRead')">Mark as read</a>
+		<input class="button" type="submit"
+			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read">
 
 		</td></tr>
 		</table>
@@ -88,15 +91,7 @@
 	</td>
 </tr><tr>
 	<td class="content" id="content" valign="top">
-		<table width="100%" height="100%" cellspacing="0" cellpadding="0">
-		<tr>
-		<tr class="titleTop"><td align="right"><b>Title:</b></td>
-			<td width="100%">-FIXME-</td></tr>
-		<tr class="titleBottom"><td align="right"><b>Link:</b></td>
-			<td>-FIXME-</td></tr>
-		<tr><td height="100%" colspan="2">
-			<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
-		</td></tr></table>
+		<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
 <tr>
