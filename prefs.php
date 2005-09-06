@@ -43,7 +43,6 @@
 		<div class="expPane">
 	
 		<form	enctype="multipart/form-data" method="POST" action="opml.php">
-			<input type="hidden" name="MAX_FILE_SIZE" value="30000">
 			File: <input id="opml_file" name="opml_file" type="file">&nbsp;
 			<input class="button" name="op" onclick="return validateOpmlImport();"
 				type="submit" value="Import">
