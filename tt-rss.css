@@ -148,6 +148,13 @@ div.headlineToolbar {
 	padding : 10px;
 }
 
+td.articleToolbar {
+	border-width : 0px 0px 1px 0px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	padding : 10px;
+	background : #f0f0f0;
+}
 table.main td.headlines {
 	height : 25%;
 	border-width : 1px 0px 0px 0px;
@@ -336,21 +343,22 @@ div.errorBox {
 	margin : 20px;
 	background : #f0f0f0;
 }
-table.postTable tr.titleTop, table.postTable tr.titleBottom {
+
+tr.titleTop, tr.titleBottom {
 	background : #f0f0f0;
 }
 
-table.postTable td.titleIcon {
+td.titleIcon {
 	border-width : 0px 0px 1px 0px;
 	border-color : #d0d0d0;
 	border-style : solid;
 }
 
-table.postTable tr.titleTop td {
+tr.titleTop td {
 	padding : 5px 10px 0px 10px;
 }
 
-table.postTable tr.titleBottom td {
+tr.titleBottom td {
 	padding : 3px 10px 5px 10px;
 	border-width : 0px 0px 1px 0px;
 	border-color : #d0d0d0;
@@ -358,9 +366,8 @@ table.postTable tr.titleBottom td {
 
 }
 
-table.postTable td.post {
+td.post {
 	padding : 20px;
-
 }
 
 #piggie {

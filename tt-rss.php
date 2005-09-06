@@ -88,7 +88,15 @@
 	</td>
 </tr><tr>
 	<td class="content" id="content" valign="top">
-		<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
+		<table width="100%" height="100%" cellspacing="0" cellpadding="0">
+		<tr>
+		<tr class="titleTop"><td align="right"><b>Title:</b></td>
+			<td width="100%">-FIXME-</td></tr>
+		<tr class="titleBottom"><td align="right"><b>Link:</b></td>
+			<td>-FIXME-</td></tr>
+		<tr><td height="100%" colspan="2">
+			<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
+		</td></tr></table>
 	</td>
 </tr>
 <tr>

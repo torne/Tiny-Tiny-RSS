@@ -214,7 +214,7 @@
 
 			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" 
 				cellpadding=\"0\">";
-				
+/*				
 			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
 				<td width=\"100%\">".$line["title"]."</td>
 				<td>&nbsp;</td></tr>";
@@ -225,7 +225,7 @@
 			
 			print "<tr class=\"titleBottom\"><td align=\"right\"><b>Link:</b></td>
 				<td><a href=\"".$line["link"]."\">".$line["link"]."</a> $comments_prompt</td>
-				<td>&nbsp;</td></tr>";
+				<td>&nbsp;</td></tr>"; */
 			print "<tr><td valign=\"top\" class=\"post\" 
 				colspan=\"2\">" . $line["content"] . "</td>
 				<td valign=\"top\">$feed_icon</td>
@@ -367,8 +367,8 @@
 			$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
 				$line["title"] . "</a>";
 				
-			print "<tr class='$class' id='RROW-$id' 
-				onclick=\"javascript:view($id,$feed_id)\">";
+			print "<tr class='$class' id='RROW-$id'";
+			// onclick=\"javascript:view($id,$feed_id)\">
 
 			print "<td id='FUPDPIC-$id' valign='center' 
 				class='headlineUpdateMark'>$update_pic</td>";
