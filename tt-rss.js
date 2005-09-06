@@ -419,15 +419,15 @@ function init() {
 
 	var content = document.getElementById("content");
 
-//	active_feed_id = getCookie("ttrss_vf_actfeed");
-
-	var limitbox = document.getElementById("limitbox");
-
 	if (getCookie("ttrss_vf_vmode")) {
 		var viewbox = document.getElementById("viewbox");
 		viewbox.value = getCookie("ttrss_vf_vmode");
 	}
 
+	if (getCookie("ttrss_vf_limit")) {
+		var limitbox = document.getElementById("limitbox");
+		limitbox.value = getCookie("ttrss_vf_limit");
+	}
 }
 
 
