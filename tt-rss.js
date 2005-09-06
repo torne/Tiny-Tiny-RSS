@@ -14,8 +14,6 @@ var active_post_id = false;
 var active_feed_id = false;
 var active_offset = false;
 
-var total_feed_entries = false;
-
 var search_query = "";
 
 /*@cc_on @*/
@@ -244,15 +242,6 @@ function viewfeed(feed, skip, subop) {
 		limit = "All";
 	}
 
-	if (skip < 0 || skip > total_feed_entries) {
-		return;
-	}
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	if (active_feed_id != feed || skip != active_offset) {
 		active_post_id = false;
 	}
@@ -425,6 +414,10 @@ function init() {
 	if (getCookie("ttrss_vf_vmode")) {
 		var viewbox = document.getElementById("viewbox");
 		viewbox.value = getCookie("ttrss_vf_vmode");
+	}
+
+	if (getCookie("ttrss_vf_actfeed")) {
+		viewfeed(getCookie("ttrss_vf_actfeed"), 0, "");
 	}
 		
 }
