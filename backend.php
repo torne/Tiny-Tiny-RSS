@@ -317,13 +317,13 @@
 
 		$total_entries = pg_fetch_result($result, 0, "total_entries");
 
-		$result = pg_query("SELECT count(id) AS unread_entries 
+/*		$result = pg_query("SELECT count(id) AS unread_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part
 			unread = true AND
 			feed_id = '$feed'");
 
-		$unread_entries = pg_fetch_result($result, 0, "unread_entries");
+		$unread_entries = pg_fetch_result($result, 0, "unread_entries"); */
 
 /*		if ($limit < $unread_entries) 
 			$limit = $unread_entries;
