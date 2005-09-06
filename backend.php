@@ -391,8 +391,6 @@
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
 			print "<td class='headlineTitle'>$content_link</td>";
 
-			print "<td class=\"invisible\" id=\"FLINK-$id\">".$line["link"]."</td>";
-
 			print "</tr>";
 
 			++$lnum;
