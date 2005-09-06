@@ -305,8 +305,10 @@ function timeout() {
 }
 
 function resetSearch() {
-	document.getElementById("searchbox").value = "";
-	if (active_feed_id) {
+	var searchbox = document.getElementById("searchbox")
+
+	if (searchbox.value != "" && active_feed_id) {	
+		searchbox.value = "";
 		viewfeed(active_feed_id, 0, "");
 	}
 }
