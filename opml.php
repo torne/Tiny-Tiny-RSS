@@ -61,6 +61,8 @@
 
 			}
 
+			if ($link) db_close($link);
+
 		}
 	}
 
