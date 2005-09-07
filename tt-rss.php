@@ -15,12 +15,20 @@
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
 <tr>
 	<td class="header" valign="middle" colspan="2">	
-			Tiny Tiny RSS
+		<img src="images/ttrss_logo.png" alt="logo">	
 	</td>
 </tr>
 <tr>
-	<td class="toolbar" colspan="2">
-		<table width="100%" cellspacing="0" cellpadding="0">
+	<td class="mainToolbar" colspan="2">
+	
+		<table width='100%' cellspacing='0' cellpadding='0'>	
+			<td><span id="notify"><span id="notify_body"></span></td>
+			<td align='right'>
+				<input type="submit" onclick="gotoPreferences()" 
+					class="button" value="Preferences"></td>
+		</table>
+	
+		<!-- <table width="100%" cellspacing="0" cellpadding="0">
 		<td valign="middle">
 			<table id="notify"><tr><td width="100%" id="notify_body">&nbsp;</td>
 			<td><img onclick="javascript:notify('')" alt="Close" 
@@ -28,7 +36,7 @@
 		</td>
 		<td class="toolbar" valign="middle" align="right">
 			<a href="prefs.php" class="button">Preferences</a></td>
-		</tr></table>
+		</tr></table> -->
 	</td>
 </tr>
 <tr>
@@ -50,7 +58,7 @@
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
-		<table width="100%">
+		<table width="100%" cellpadding="0" cellspacing="0">
 		
 		<!-- <tr><td id="headlinesTitle" class="headlinesTitle">
 			&nbsp;
@@ -91,7 +99,8 @@
 </tr><tr>
 	<td id="headlines" class="headlines" valign="top">
 		<iframe name="headlines-frame" 
-			id="headlines-frame" class="headlinesFrame"> </iframe>
+			id="headlines-frame" class="headlinesFrame" 
+				src="backend.php?op=error&msg=No%20feed%20selected."></iframe>
 	</td>
 </tr><tr>
 	<td class="content" id="content" valign="top">
@@ -99,7 +108,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" class="notify">
+	<td colspan="2" class="footer">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.

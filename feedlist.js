@@ -74,11 +74,12 @@ function viewfeed(feed, skip, subop, doc) {
 
 	headlines_frame.location.href = query + "&addheader=true";
 
-	cleanSelected("feedsList");
+	cleanSelectedList("feedList");
+
 	var feedr = document.getElementById("FEEDR-" + feed);
 	if (feedr) {
 		feedr.className = feedr.className + "Selected";
-	}
+	} 
 	
 	disableContainerChildren("headlinesToolbar", false, doc);
 

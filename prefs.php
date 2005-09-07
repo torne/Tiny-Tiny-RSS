@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tiny Tiny RSS</title>
+	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="prefs.js"></script>
@@ -12,26 +12,25 @@
 <? require_once "version.php" ?>
 <? require_once "config.php" ?>
 
-<table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <tr>
-	<td class="header" valign="middle" colspan="2">	
-			Preferences
+	<td class="header" valign="middle">	
+		<img src="images/ttrss_logo.png" alt="logo">	
 	</td>
 </tr>
 <tr>
-	<td class="toolbar" valign="middle">
-		<table id="notify"><tr><td width="100%" id="notify_body">&nbsp;</td>
-		<td><img onclick="javascript:notify('')" alt="Close" 
-			src="images/close.png"></td></table>		
-	</td>
-	<td class="toolbar" valign="middle" colspan="2" align="right">	
-		<a href="tt-rss.php" class="button">Return to main</a>
-	</td>
-</tr>
-</tr>
-	<td id="prefContent" class="prefContent" valign="top" colspan="2">
-		<h2>Feed Configuration</h2><div id="piggie">&nbsp;</div>
+	<td class="mainToolbar" valign="middle">
 
+		<table width='100%' cellspacing='0' cellpadding='0'>	
+			<td><span id="notify"><span id="notify_body"></span></td>
+			<td align='right'>
+				<input type="submit" onclick="gotoMain()" 
+					class="button" value="Return to main"></td>
+		</table>
+</tr>
+</tr>
+	<td id="prefContent" class="prefContent" valign="top">
+		<h2>Feed Configuration</h2><div id="piggie">&nbsp;</div>
 
 		<div class="expPane" id="feedConfPane">
 			<a class="button" 
@@ -61,7 +60,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" class="notify">
+	<td class="footer">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.

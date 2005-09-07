@@ -62,7 +62,7 @@ function feedlist_callback() {
 function refetch_callback() {
 
 	if (xmlhttp_rpc.readyState == 4) {
-		notify("All feeds updated");
+		notify("All feeds updated.");
 
 		active_feed_id = frames["feeds-frame"].document.getElementById("ACTFEEDID").innerHTML;
 		

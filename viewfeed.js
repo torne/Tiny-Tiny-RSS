@@ -31,18 +31,28 @@ function view(id, feed_id) {
 
 	var crow = document.getElementById("RROW-" + id);
 
+	var f_doc = parent.frames["feeds-frame"].document;
+
 	if (crow.className.match("Unread")) {
-		var umark = parent.frames["feeds-frame"].document.getElementById("FEEDU-" + feed_id);
+		var umark = f_doc.getElementById("FEEDU-" + feed_id);
+		
 		umark.innerHTML = umark.innerHTML - 1;
 		crow.className = crow.className.replace("Unread", "");
 
 		if (umark.innerHTML == "0") {
-			var feedr = parent.frames["feeds-frame"].document.getElementById("FEEDR-" + feed_id);			
+			var feedr = f_doc.getElementById("FEEDR-" + feed_id);	
 			feedr.className = feedr.className.replace("Unread", "");
+
+			var feedctr = f_doc.getElementById("FEEDCTR-" + feed_id);
+
+			if (feedctr) {
+				feedctr.innerHTML = "";
+			}
 		}
 
 		total_unread--;
 	}	
+
 
 	cleanSelected("headlinesList");
 

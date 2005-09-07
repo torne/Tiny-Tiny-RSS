@@ -124,10 +124,18 @@ function hotkey_handler(e) {
 
 }
 
-function cleanSelected(element) {
+function cleanSelectedList(element) {
 	var content = document.getElementById(element);
 
-	var rows = new Array();
+	for (i = 0; i < content.childNodes.length; i++) {
+		content.childNodes[i].className = content.childNodes[i].className.replace("Selected", "");
+	}
+
+}
+
+
+function cleanSelected(element) {
+	var content = document.getElementById(element);
 
 	for (i = 0; i < content.rows.length; i++) {
 		content.rows[i].className = content.rows[i].className.replace("Selected", "");
@@ -245,6 +253,14 @@ function disableContainerChildren(id, disable, doc) {
 		}
 	}
 
+}
+
+function gotoPreferences() {
+	document.location.href = "prefs.php";
+}
+
+function gotoMain() {
+	document.location.href = "tt-rss.php";
 }
 
 

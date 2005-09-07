@@ -40,7 +40,9 @@
 
 		$actid = $_GET["actid"];
 
-		print "<table width=\"100%\" class=\"feedsList\" id=\"feedsList\">";
+//		print "<table width=\"100%\" class=\"feedsList\" id=\"feedsList\">";
+
+		print "<ul class=\"feedList\" id=\"feedList\">";
 
 		$lnum = 0;
 
@@ -56,7 +58,9 @@
 			$total = $line["total"];
 			$unread = $line["unread"];
 			
-			$class = ($lnum % 2) ? "even" : "odd";
+//			$class = ($lnum % 2) ? "even" : "odd";
+
+			$class = "odd";
 
 			if ($unread > 0) $class .= "Unread";
 
@@ -66,17 +70,16 @@
 
 			$total_unread += $unread;
 
-			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
+//			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
 			$icon_file = ICONS_DIR . "/$feed_id.ico";
 
 			if ($subop != "piggie") {
 
 				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img width=\"16\" height=\"16\"
-							src=\"" . ICONS_URL . "/$feed_id.ico\">";
+						$feed_icon = "<img src=\"" . ICONS_URL . "/$feed_id.ico\">";
 				} else {
-					$feed_icon = "&nbsp;";
+					$feed_icon = "<img src=\"images/blank_icon.png\">";
 				}
 			} else {
 				$feed_icon = "<img width=\"16\" height=\"16\"
@@ -84,42 +87,39 @@
 			}
 		
 			$feed = "<a href=\"javascript:viewfeed($feed_id, 0);\">$feed</a>";
-			if (ENABLE_FEED_ICONS) {
+			
+/*			if (ENABLE_FEED_ICONS) {
 				print "<td>$feed_icon</td>";
 			}
+			
 			print "<td id=\"FEEDN-$feed_id\">$feed</td>";
 			print "<td>";
 			print "<span id=\"FEEDU-$feed_id\">$unread</span>&nbsp;/&nbsp;";
 			print "<span id=\"FEEDT-$feed_id\">$total</span>";
 			print "</td>";
 
-			print "</tr>";
+			print "</tr>"; */
+
+			print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
+			if (ENABLE_FEED_ICONS) {
+				print "$feed_icon";
+			}
+			print "<span id=\"FEEDN-$feed_id\">$feed</span>";
+
+			if ($unread > 0) {
+				print "<span id=\"FEEDCTR-$feed_id\">
+					&nbsp;(<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
+			}
+			
+			print "</li>";
+
 			++$lnum;
 		}
-
-//		print "<tr><td class=\"footer\" colspan=\"3\">
-//			<a href=\"javascript:update_feed_list(false,true)\">Update all feeds</a></td></tr>";
-
-//		print "<tr><td class=\"footer\" colspan=\"2\">&nbsp;";
-//		print "</td></tr>";
 
 		print "</table>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
 		print "<div class=\"invisible\" id=\"ACTFEEDID\">$actid</div>";
-
-/*
-		print "<p align=\"center\">All feeds: 
-			<a class=\"button\" 
-				href=\"javascript:scheduleFeedUpdate(true)\">Update</a>";
-
-		print "&nbsp;<a class=\"button\" 
-				href=\"javascript:catchupAllFeeds()\">Mark as read</a></p>";
-
-		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
-*/
-
-	
 
 	}
 
@@ -226,7 +226,23 @@
 				$feed_icon = "&nbsp;";
 			}
 
-			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" 
+			print "<div class=\"postReply\">";
+
+			print "<div class=\"postHeader\"><table>";
+
+			print "<tr><td><b>Title:</b></td>
+				<td width='100%'>" . $line["title"] . "</td></tr>";
+			print "<tr><td><b>Link:</b></td>
+				<td width='100%'>" . $line["link"] . "</td></tr>";
+					
+			print "</table></div>";
+
+			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
+			print "<div class=\"postContent\">" . $line["content"] . "</div>";
+			
+			print "</div>";
+
+/*			print "<table class=\"postTable\" width=\"100%\" cellspacing=\"0\" 
 				cellpadding=\"0\">";
 				
 			print "<tr class=\"titleTop\"><td align=\"right\"><b>Title:</b></td>
@@ -244,7 +260,7 @@
 				colspan=\"2\" width=\"100%\">" . $line["content"] . "</td>
 				<td valign=\"top\">$feed_icon</td>
 			</tr>";
-			print "</table>";	 
+			print "</table>";	 */
 
 		}
 
@@ -629,26 +645,30 @@
 
 		if ($subop == "edit") {
 			print "Edit feed:&nbsp;
-					<a class=\"button\" href=\"javascript:feedEditCancel()\">Cancel</a>&nbsp;
-					<a class=\"button\" href=\"javascript:feedEditSave()\">Save</a>";
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:feedEditCancel()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+					onclickf=\"javascript:feedEditSave()\" value=\"Save\">";
 			} else {
 
 			print "
 				Selection:&nbsp;
-			<a class=\"button\" 
-				href=\"javascript:editSelectedFeed()\">Edit</a>&nbsp;
-			<a class=\"buttonWarn\" 
-				href=\"javascript:removeSelectedFeeds()\">Remove</a>&nbsp;";
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
+				
 			if (ENABLE_PREFS_CATCHUP_UNCATCHUP) {
 				print "
-				<a class=\"button\" 
-					href=\"javascript:readSelectedFeeds()\">Mark as read</a>&nbsp;
-				<a class=\"button\" 
-					href=\"javascript:unreadSelectedFeeds()\">Mark as unread</a>&nbsp;";
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:readSelectedFeeds()\" value=\"Mark as read\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:unreadSelectedFeeds()\" value=\"Mark as unread\">&nbsp;";
 			}
 			print "
-			All feeds:&nbsp; 
-				<a class=\"button\" href=\"opml.php?op=Export\">Export OPML</a>";
+			All feeds: 
+				<input type=\"submit\" 
+					class=\"button\" onclick=\"opml.php?op=Export\" value=\"Export OPML\">";
 		
 			}
 
@@ -808,19 +828,28 @@
 		print "<p>";
 
 		if ($subop == "edit") {
-			print "Edit feed:&nbsp;
-					<a class=\"button\" href=\"javascript:filterEditCancel()\">Cancel</a>&nbsp;
-					<a class=\"button\" href=\"javascript:filterEditSave()\">Save</a>";
+			print "Edit feed:
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:filterEditSave()\" value=\"Save\">";
 					
 		} else {
 
 			print "
-				Selection:&nbsp;
-			<a class=\"button\" 
-				href=\"javascript:editSelectedFilter()\">Edit</a>&nbsp;
-			<a class=\"buttonWarn\" 
-				href=\"javascript:removeSelectedFilters()\">Remove</a>&nbsp;";
+				Selection:
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
 		}
+	}
+
+	if ($op == "error") {
+		print "<div width=\"100%\" align='center'>";
+		$msg = $_GET["msg"];
+		print $msg;
+		print "</div>";
 	}
 
 	pg_close($link);

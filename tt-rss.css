@@ -6,6 +6,143 @@ body {
 	font-family : sans-serif;
 }
 
+/* common styles */
+
+table.main td.header {
+	padding : 10px 10px 10px 50px;
+	height : 90px;
+	font-size : 24pt;
+	font-weight : bold;	
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+table.main td.mainToolbar {
+	border-width : 0px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 10px 25px 10px 10px;
+}
+
+table.main td.feeds {
+	width : 300px;
+	height : 100%;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 5px;
+}
+
+table.main td.headlinesToolbarBox {
+	padding : 10px;
+	border-width : 0px 0px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	background-image : url("images/vgrad_light.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
+}
+
+table.main td.footer {
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 10px;
+	text-align : center;
+	font-size : x-small;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	color : gray;
+}
+
+table.main td.footer a {
+	color : gray;
+}
+
+table.main td.footer a:hover {
+	color : #5050aa;
+}
+
+table.main td.headlines {
+	height : 25%;
+	border-width : 0px 0px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
+table.main td.content {
+	height : 100%;
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	border-width : 0px 0px 0px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
+table.main td.prefContent {
+	height : 100%;
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 20px;
+}
+
+div.postReply {
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	height : 100%;
+	padding : 10px;
+}
+
+div.postReply div.postHeader {
+	background : white;
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+}
+
+div.postReply div.postContent {
+	padding : 10px;
+}
+
+div.postReply div.postIcon {
+	float : right;
+	border : 0px;
+	margin : 10px;
+}
+
+ul.feedList {
+	list-style-type : none;
+	margin : 0px;
+	padding : 10px;	
+}
+
+ul.feedList li {
+	margin : 2px;
+}
+
+ul.feedList li.oddSelected, ul.feedList li.evenSelected,
+	li.oddUnreadSelected, li.evenUnreadSelected {
+	background-color : white;
+} 
+
+li.oddSelected a, li.evenSelected a,
+	li.oddUnreadSelected a, li.evenUnreadSelected a {
+	color : #5050aa;
+} 
+
+ul.feedList img {
+	margin : 0px 3px 0px 0px;
+	width : 16px;
+	height : 16px;
+}
+
 h1 {
 	font-size : 16pt;	
 }
@@ -33,190 +170,75 @@ a:hover {
 	color : #5050aa;
 }
 
-table.postTable a {
-	color : #5050aa;
+#piggie {
+	width : 400;
+	height : 400;
+	left : 50;
+	background-color : white;
+	display : none;
+	z-index : 3;
+	background-image : url("http://madoka.spb.ru/stuff/fox/piggie.png");
+	background-position : center center;
+	background-repeat : no-repeat;
+	position : absolute;
+	border : 1px solid pink;	
+	margin-left : auto;
+	margin-right : auto;
+	-moz-border-radius : 10px;
+	opacity : 0.8;
 }
 
-table.postTable a:hover {
-	color : black;
-}
-
-td.headlinesToolbar {
-	padding : 10px;
-}
-
-table.headlinesList td.title, table.headlinesHeader td.title {
-	font-weight : bold;
-	font-size : large;
-	border-width : 0px 0px 1px 0px;
-	border-color : #d0d0d0;
-	border-style : solid;
-	text-align : right;
-	padding-bottom : 3px;
-}
-
-table.headlinesList td.feedLastUpdateNotice {
-	font-size : x-small;
-	border-width : 0px 0px 1px 0px;
-	border-color : #d0d0d0;
-	border-style : solid;
-	text-align : left;
-	padding-bottom : 3px;
-	color : #a0a0a0;
-}
-
-table.headlinesList td.headlineUpdated {
-	width : 200px;
-}
-
-input {
-	border : 1px solid #a0a0a0;
-}
-
-table.main td.toolbar {
-	height : 40px;
-	background-color : #f0f0f0;
-	padding-right : 10px;
-	padding-left : 10px;
-	font-size : small;
+#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr {
+	width : 100%;
+	padding-left : 2px;
 }
 
 #notify {
 	font-weight : bold;
-	border : 1px solid #c0c0c0;
 	font-size : small;
 	display : none;
-	background : white;
-	-moz-border-radius : 5px;
-	padding : 2px 5px 2px 5px;
-	width : 300px;
+	width : 350px;
+	color : gray;
 }
 
-table.feedsList td {
-	font-size : x-small;
+div.expPane {
+	margin : 15px;
 }
 
-table.main td.header {
-	font-size : 21pt;
-	background-color : #f0f0f0;
-	background-image : url("images/header.png");
-	background-position : top left;
+iframe.feedsFrame {
+	width : 100%;
+	height : 90%;
+	border-width : 0px;
+	margin : 0px;
+	padding : 0px;
+}
+
+iframe.contentFrame, iframe.headlinesFrame {
+	width : 100%;
+	border-width : 0px;
+	padding : 0px;
+	margin : 0px;
+	height : 100%;
+}
+
+.button {
+	border : 1px solid #d0d0d0;
+	background-image : url("images/button.png");
+	background-position : top;
 	background-repeat : repeat-x;
-	height : 50px;
-	padding-left : 80px;
-	padding-top : 30px;
-	font-weight : bold;
+	background-color : white;
+	color : black;	
+}
+
+.button:hover {
+	background : white;
+	text-decoration : none;
 	color : black;
 }
 
-table.main td.feeds {
-	width : 300px;
-	border-width : 1px 1px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	padding : 5px;
-}
-
-div.headlineToolbar {
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	padding : 10px;
-}
-
-td.articleToolbar {
-	border-width : 0px 0px 1px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	padding : 10px;
-	background : #f0f0f0;
-}
-table.main td.headlines {
-	height : 25%;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
+a.button {
+	padding : 2px 5px 2px 5px;
 	font-size : small;
-}
-
-table.main td.prefContent {
-	padding : 10px;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-
-}
-
-table.main td.headlinesToolbarBox {
-	padding : 0px;
-	height : 20px;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-}
-
-table.main td.content {
-	padding : 0px;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-}
-
-table.main td.notify {
-	height : 40px;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	font-size : x-small;
-	text-align : center;
-	color : gray;
-	background-color : #f0f0f0;
-	background-image : url("images/header_rev.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-
-}
-
-.evenGrayed {
-	background-color : #f0f0f0;
-	color : #909090;
-}
-
-.oddGrayed {
-	color : #909090;
-}
-
-.even {
-	background-color : #f0f0f0;
-}
-
-.evenUnread {
-	background-color : #f0f0f0;
-	font-weight : bold;
-}
-
-.oddUnread {
-	font-weight : bold;
-}
-
-.invisible {
-	display : none;
-}
-
-table.prefAddFeed td {
-	padding : 2px;
-}
-
-table.prefAddFeed input {
-	width : 250px;
-}
-
-table.prefFeedList tr.title td, table.prefFilterList tr.title td,
-	table.headlinesList tr.title td {
-	font-weight : bold;
-	border-width : 0px 0px 1px 0px;
-	border-color : #f0f0f0;
-	border-style : solid;
 }
 
 .evenUnreadSelected, .evenSelectedUnread {
@@ -251,132 +273,51 @@ table.prefFeedList tr.title td, table.prefFilterList tr.title td,
 	color : #909090;
 }
 
-.button {
-	border : 1px solid #d0d0d0;
-	background-image : url("images/button.png");
-	background-position : top;
-	background-repeat : repeat-x;
-	background-color : white;
-	color : black;	
+.evenGrayed {
+	background-color : #f0f0f0;
+	color : #909090;
 }
 
-/* .button:hover {
-	background : white;
-	text-decoration : none;
-	color : black;
-} */
-
-a.button {
-	padding : 2px 5px 2px 5px;
+.oddGrayed {
+	color : #909090;
 }
 
-
-.buttonWarn {
-	border : 1px solid #d0d0d0;
-	background-image : url("images/button.png");
-	background-position : top;
-	background-repeat : repeat-x;
-	background-color : white;
-	color : black;	
-	padding : 2px 5px 2px 5px;
-	font-size : small;
+.even {
+	background-color : #f0f0f0;
 }
 
-.buttonWarn:hover {
-	background : #fff0f0;
-	text-decoration : none;
-	color : black;
+.evenUnread {
+	background-color : #f0f0f0;
+	font-weight : bold;
 }
 
-td.headlineUpdateMark {
-	width : 25px;
-	text-align : center;
+.oddUnread {
+	font-weight : bold;
 }
 
-div.errorBox {
-	border : 1px solid #c0c0c0;
-	padding : 20px;
-	margin : 20px;
-	background : #f0f0f0;
-}
-
-tr.titleTop, tr.titleBottom, tr.titleTopBottom {
-	background : #f0f0f0;
-}
-
-td.titleIcon {
-	border-width : 0px 0px 1px 0px;
-	border-color : #d0d0d0;
-	border-style : solid;
-}
-
-tr.titleTop td {
-	padding : 5px 10px 0px 10px;
-}
-
-tr.titleBottom td {
-	padding : 3px 10px 5px 10px;
-	border-width : 0px 0px 1px 0px;
-	border-color : #d0d0d0;
-	border-style : solid;
-}
-
-tr.titleTopBottom td {
-	padding : 3px 10px 5px 10px;
-	border-width : 1px 0px 1px 0px;
-	border-color : #d0d0d0;
-	border-style : solid;
-}
-
-td.post {
-	padding : 20px;
-}
-
-#piggie {
-	width : 400;
-	height : 400;
-	left : 50;
-	background-color : white;
+.invisible {
 	display : none;
-	z-index : 3;
-	background-image : url("http://madoka.spb.ru/stuff/fox/piggie.png");
-	background-position : center center;
-	background-repeat : no-repeat;
-	position : absolute;
-	border : 1px solid pink;	
-	margin-left : auto;
-	margin-right : auto;
-	-moz-border-radius : 10px;
-	opacity : 0.8;
 }
 
-img.feedIcon {
-	margin : 3px;
-	border : 1px solid #c0c0c0;
+input {
+	border : 1px solid #a0a0a0;
 }
 
-#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr {
-	width : 100%;
-	padding-left : 2px;
+/* preferences */
+
+table.prefAddFeed td {
+	padding : 2px;
 }
 
-div.expPane {
-	margin : 15px;
+table.prefAddFeed input {
+	width : 250px;
 }
 
-iframe.feedsFrame {
-	width : 100%;
-	height : 90%;
-	border-width : 0px;
-	margin : 0px;
-	padding : 0px;
-}
-
-iframe.contentFrame, iframe.headlinesFrame {
-	width : 100%;
-	border-width : 0px;
-	padding : 0px;
-	margin : 0px;
-	height : 100%;
+table.prefFeedList tr.title td, table.prefFilterList tr.title td,
+	table.headlinesList tr.title td {
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-color : #f0f0f0;
+	border-style : solid;
 }
 
