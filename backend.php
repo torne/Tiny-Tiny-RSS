@@ -360,12 +360,9 @@
 
 		$unread_entries = pg_fetch_result($result, 0, "unread_entries"); */
 
-/*		if ($limit < $unread_entries) 
-			$limit = $unread_entries;
-
 		if ($limit != "All") {
 			$limit_query_part = "LIMIT " . $limit;
-		} */
+		} 
 
 		$result = pg_query("SELECT 
 				id,title,updated,unread,feed_id,marked,link,
