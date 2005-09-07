@@ -159,7 +159,7 @@ function viewCurrentFeed(skip, subop) {
 
 function viewfeed(feed, skip, subop) {
 
-	notify("Loading headlines...");
+//	notify("Loading headlines...");
 
 	enableHotkeys();
 
@@ -201,7 +201,7 @@ function viewfeed(feed, skip, subop) {
 	f_doc.getElementById("ACTFEEDID").innerHTML = feed;
 
 	setCookie("ttrss_vf_actfeed", feed);
-	
+
 	if (subop == "MarkAllRead") {
 
 		var feedr = f_doc.getElementById("FEEDR-" + feed);
