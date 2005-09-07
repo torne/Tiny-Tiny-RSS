@@ -8,20 +8,22 @@
 	}
 
 	require_once "config.php";
-	require_once "functions.php";
+	require_once "db.php";
 
-	$link = pg_connect(DB_CONN);
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	pg_query($link, "set client_encoding = 'utf-8'");
+	if (DB_TYPE == "pgsql") {
+		pg_query($link, "set client_encoding = 'utf-8'");
+	}
 
 	if ($op == "Export") {
 		print "<opml version=\"1.0\">";
 		print "<head><dateCreated>" . date("r", time()) . "</dateCreated></head>"; 
 		print "<body>";
 
-		$result = pg_query("SELECT * FROM ttrss_feeds ORDER BY title");
+		$result = db_query($link, "SELECT * FROM ttrss_feeds ORDER BY title");
 
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 			$title = $line["title"];
 			$url = $line["feed_url"];
 
@@ -32,24 +34,25 @@
 	}
 
 	function startElement($parser, $name, $attrs) {
+
 		if ($name == "OUTLINE") {
-			$title = pg_escape_string($attrs['TEXT']);
-			$url = pg_escape_string($attrs['XMLURL']);
+			$title = db_escape_string($attrs['TEXT']);
+			$url = db_escape_string($attrs['XMLURL']);
 
 			if (!$title || !$url) return;
 
 			print "Feed <b>$title</b> ($url)... ";
 
-			$result = pg_query("SELECT id FROM ttrss_feeds WHERE
+			$result = db_query_2("SELECT id FROM ttrss_feeds WHERE
 				title = '$title' OR feed_url = '$url'");
 
-			if (pg_num_rows($result) > 0) {
+			if (db_num_rows($result) > 0) {
 				
 				print " Already imported.<br>";
 
 			} else {
 
-				$result = pg_query("INSERT INTO ttrss_feeds (title, feed_url) VALUES
+				$result = db_query_2("INSERT INTO ttrss_feeds (title, feed_url) VALUES
 					('$title', '$url')");
 
 				print "<b>Done.</b><br>";
@@ -125,6 +128,6 @@
 
 	}
 
-	pg_close($link);
+	db_close($link);
 
 ?>

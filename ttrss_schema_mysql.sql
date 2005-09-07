@@ -5,7 +5,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	title varchar(200) not null unique, 
 	feed_url varchar(250) unique not null, 
 	icon_url varchar(250) not null default '',
-	last_updated timestamp default null) TYPE=InnoDB;
+	last_updated datetime default '') TYPE=InnoDB;
 
 insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (title,feed_url) values ('Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
@@ -28,19 +28,19 @@ insert into ttrss_feeds (title,feed_url) values ('Technocrat.net',
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
-	feed_id integer not null, 
-	updated timestamp not null, 
+	feed_id integer not null references ttrss_feeds(id), 
+	updated datetime not null, 
 	title varchar(250) not null, 
 	guid varchar(250) not null unique, 
 	link varchar(250) not null, 
 	content text not null,
 	content_hash varchar(250) not null,
-	last_read timestamp,
-	marked bool not null default 'false',
-	date_entered timestamp not null,
-	no_orig_date bool not null default 'false',
+	last_read datetime,
+	marked bool not null default 0,
+	date_entered datetime not null,
+	no_orig_date bool not null default 0,
 	comments varchar(250) not null default '',
-	unread bool not null default 'true') TYPE=InnoDB;
+	unread bool not null default 1) TYPE=InnoDB;
 
 drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
@@ -56,7 +56,7 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 	'Title or Content');
 
 create table ttrss_filters (id integer primary key auto_increment, 
-	filter_type integer not null, 
+	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '') TYPE=InnoDB;
 

@@ -58,16 +58,18 @@ function feedlist_callback() {
 }
 */
 
+function checkActiveFeedId() {
+
+	var actfeedid = frames["feeds-frame"].document.getElementById("ACTFEEDID");
+
+	if (actfeedid) {
+		active_feed_id = actfeedid.innerHTML;
+	}
+}
 
 function refetch_callback() {
 
 	if (xmlhttp_rpc.readyState == 4) {
-
-		var actfeedid = frames["feeds-frame"].document.getElementById("ACTFEEDID");
-
-		if (actfeedid) {
-			active_feed_id = actfeedid.innerHTML;
-		}
 
 		document.title = "Tiny Tiny RSS";
 		notify("All feeds updated.");
@@ -253,6 +255,7 @@ function resetSearch() {
 }
 
 function search() {
+	checkActiveFeedId();
 	if (active_feed_id) {
 		viewfeed(active_feed_id, 0, "");
 	} else {
@@ -315,9 +318,9 @@ function init() {
 
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
-	setTimeout("timeout()", 1800*1000);
 
-	scheduleFeedUpdate(true);
+//	setTimeout("timeout()", 1800*1000);
+//	scheduleFeedUpdate(true);
 
 	var content = document.getElementById("content");
 

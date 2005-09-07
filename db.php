@@ -20,7 +20,7 @@ function db_escape_string($s) {
 	if (DB_TYPE == "pgsql") {	
 		return pg_escape_string($s);
 	} else {
-		return mysql_escape_string($s);
+		return mysql_real_escape_string($s);
 	}
 }
 
@@ -29,6 +29,14 @@ function db_query($link, $query) {
 		return pg_query($link, $query);
 	} else if (DB_TYPE == "mysql") {
 		return mysql_query($query, $link);
+	}
+}
+
+function db_query_2($query) {
+	if (DB_TYPE == "pgsql") {
+		return pg_query($query);
+	} else if (DB_TYPE == "mysql") {
+		return mysql_query($link);
 	}
 }
 
@@ -43,9 +51,9 @@ function db_fetch_assoc($result) {
 
 function db_num_rows($result) {
 	if (DB_TYPE == "pgsql") {
-		return pg_num_rows($link, $query);
+		return pg_num_rows($result);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_num_rows($link, $query);
+		return mysql_num_rows($result);
 	}
 }
 

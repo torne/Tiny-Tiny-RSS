@@ -288,11 +288,16 @@
 				</head><body>";
 		}
 
-		// FIXME: check for null value here
-
-		$result = db_query($link, "SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
-			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
-			FROM ttrss_feeds WHERE id = '$feed'");
+		if (DB_TYPE == "pgsql") {
+			$result = db_query($link, 
+				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
+				EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
+				FROM ttrss_feeds WHERE id = '$feed'");
+		} else {
+			$result = db_query($link, 
+				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s
+				FROM ttrss_feeds WHERE id = '$feed'");
+		}
 
 		if ($result) {
 
@@ -356,10 +361,15 @@
 			$limit_query_part = "LIMIT " . $limit;
 		} 
 
+		if (DB_TYPE == "pgsql") {
+			$extract_epoch_qpart = "
+			,EXTRACT(EPOCH FROM last_read) AS last_read_ts,
+			EXTRACT(EPOCH FROM updated) AS updated_ts";
+		}
+
 		$result = db_query($link, "SELECT 
-				id,title,updated,unread,feed_id,marked,link,
-				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
-				EXTRACT(EPOCH FROM updated) AS updated_ts
+				id,title,updated,unread,feed_id,marked,link
+				$extract_epoch_qpart
 			FROM
 				ttrss_entries 
 			WHERE
@@ -388,12 +398,12 @@
 					alt=\"Updated\">";
 			}
 
-			if ($line["unread"] == "t") {
+			if ($line["unread"] == "t" || $line["unread"] == "1") {
 				$class .= "Unread";
 				++$num_unread;
 			}
 
-			if ($line["marked"] == "t") {
+			if ($line["marked"] == "t" || $line["marked"] == "1") {
 				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
 					alt=\"Reset mark\" onclick='javascript:toggleMark($id, false)'>";
 			} else {
@@ -648,7 +658,7 @@
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:feedEditCancel()\" value=\"Cancel\">
 				<input type=\"submit\" class=\"button\" 
-					onclickf=\"javascript:feedEditSave()\" value=\"Save\">";
+					onclick=\"javascript:feedEditSave()\" value=\"Save\">";
 			} else {
 
 			print "
@@ -668,7 +678,7 @@
 			print "
 			All feeds: 
 				<input type=\"submit\" 
-					class=\"button\" onclick=\"opml.php?op=Export\" value=\"Export OPML\">";
+					class=\"button\" onclick=\"gotoExportOpml()\" value=\"Export OPML\">";
 		
 			}
 
@@ -710,7 +720,7 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$regexp = db_escape_string($_GET["reg_exp"]);
+				$regexp = db_escape_string($_GET["regexp"]);
 				$match = db_escape_string($_GET["match"]);
 					
 				$result = db_query($link,

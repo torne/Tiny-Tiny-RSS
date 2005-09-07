@@ -263,4 +263,6 @@ function gotoMain() {
 	document.location.href = "tt-rss.php";
 }
 
-
+function gotoExportOpml() {
+	document.location.href = "opml.php?op=Export";
+}

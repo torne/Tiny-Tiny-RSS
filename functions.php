@@ -171,10 +171,14 @@
 
 				$entry_guid = db_escape_string($entry_guid);
 
+				if (DB_TYPE == "pgsql") {
+					$extract_ts_qpart = ",EXTRACT(EPOCH FROM updated) as updated_timestamp";
+				}
+
 				$result = db_query($link, "
 					SELECT 
-						id,last_read,no_orig_date,title,feed_id,content_hash,
-						EXTRACT(EPOCH FROM updated) as updated_timestamp
+						id,last_read,no_orig_date,title,feed_id,content_hash
+						$extract_ts_qpart
 					FROM
 						ttrss_entries 
 					WHERE
