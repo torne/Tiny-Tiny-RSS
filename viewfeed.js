@@ -25,7 +25,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function view(id, feed_id) {
 
-	p_notify("Loading article...");
+//	p_notify("Loading article...");
 
 	enableHotkeys();
 

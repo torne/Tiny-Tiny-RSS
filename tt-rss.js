@@ -157,7 +157,7 @@ function viewCurrentFeed(skip, subop) {
 
 function viewfeed(feed, skip, subop) {
 
-	notify("Loading headlines...");
+//	notify("Loading headlines...");
 
 	enableHotkeys();
 

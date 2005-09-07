@@ -5,7 +5,7 @@ function viewfeed(feed, skip, subop, doc) {
 
 	if (!doc) doc = parent.document;
 
-	p_notify("Loading headlines...");
+//	p_notify("Loading headlines...");
 
 	enableHotkeys();
 
