@@ -2,12 +2,13 @@
 //	header("Content-Type: application/xml");
 
 	require_once "config.php";
+	require_once "db.php";
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
 	error_reporting(0);
 
-	$link = pg_connect(DB_CONN);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
@@ -16,7 +17,9 @@
 		return;
 	}
 
-	pg_query("set client_encoding = 'utf-8'");
+	if (DB_TYPE == "pgsql") {
+		pg_query("set client_encoding = 'utf-8'");
+	}
 
 	$op = $_GET["op"];
 	$fetch = $_GET["fetch"];
@@ -31,7 +34,7 @@
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body>";
 			
-		$result = pg_query($link, "SELECT *,
+		$result = db_query($link, "SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
 				WHERE feed_id = ttrss_feeds.id) AS total,
 			(SELECT count(id) FROM ttrss_entries
@@ -48,7 +51,7 @@
 
 		$total_unread = 0;
 
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 		
 			$feed = $line["title"];
 			$feed_id = $line["id"];	  
@@ -134,7 +137,7 @@
 
 		if ($subop == "mark") {
 			$mark = $_GET["mark"];
-			$id = pg_escape_string($_GET["id"]);
+			$id = db_escape_string($_GET["id"]);
 
 			if ($mark == "1") {
 				$mark = "true";
@@ -142,18 +145,18 @@
 				$mark = "false";
 			}
 
-			$result = pg_query("UPDATE ttrss_entries SET marked = $mark
+			$result = db_query($link, "UPDATE ttrss_entries SET marked = $mark
 				WHERE id = '$id'");
 		}
 
 		if ($subop == "updateFeed") {
-			$feed_id = pg_escape_string($_GET["feed"]);
+			$feed_id = db_escape_string($_GET["feed"]);
 
-			$result = pg_query($link, 
+			$result = db_query($link, 
 				"SELECT feed_url FROM ttrss_feeds WHERE id = '$feed_id'");
 
-			if (pg_num_rows($result) > 0) {			
-				$feed_url = pg_fetch_result($result, 0, "feed_url");
+			if (db_num_rows($result) > 0) {			
+				$feed_url = db_fetch_result($result, 0, "feed_url");
 //				update_rss_feed($link, $feed_url, $feed_id);
 			}
 
@@ -176,7 +179,7 @@
 
 			foreach ($ids as $id) {
 
-				pg_query("UPDATE ttrss_entries SET unread=false,last_read = NOW()
+				db_query($link, "UPDATE ttrss_entries SET unread=false,last_read = NOW()
 					WHERE id = '$id'");
 
 			}
@@ -191,7 +194,7 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "catchupAll") {
-			pg_query("UPDATE ttrss_entries SET last_read = NOW(),unread = false");
+			db_query($link, "UPDATE ttrss_entries SET last_read = NOW(),unread = false");
 		}
 
 		outputFeedList($link);
@@ -202,11 +205,11 @@
 
 		$id = $_GET["id"];
 
-		$result = pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
+		$result = db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
 		$addheader = $_GET["addheader"];
 
-		$result = pg_query("SELECT title,link,content,feed_id,comments,
+		$result = db_query($link, "SELECT title,link,content,feed_id,comments,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
 			FROM ttrss_entries
 			WHERE	id = '$id'");
@@ -222,7 +225,7 @@
 
 		if ($result) {
 
-			$line = pg_fetch_assoc($result);
+			$line = db_fetch_assoc($result);
 
 			if ($line["icon_url"]) {
 				$feed_icon = "<img class=\"feedIcon\" src=\"" . $line["icon_url"] . "\">";
@@ -287,13 +290,13 @@
 
 		// FIXME: check for null value here
 
-		$result = pg_query("SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
+		$result = db_query($link, "SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
 			FROM ttrss_feeds WHERE id = '$feed'");
 
 		if ($result) {
 
-			$line = pg_fetch_assoc($result);
+			$line = db_fetch_assoc($result);
 
 			if ($subop == "ForceUpdate" ||
 				$line["last_updated"] == "" ||
@@ -305,7 +308,7 @@
 
 				if ($subop == "MarkAllRead")  {
 
-					pg_query("UPDATE ttrss_entries SET unread = false,last_read = NOW() 
+					db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() 
 						WHERE feed_id = '$feed'");
 				}
 			}
@@ -334,26 +337,26 @@
 			$view_query_part = " unread = true AND ";
 		}
 
-		$result = pg_query("SELECT count(id) AS total_entries 
+		$result = db_query($link, "SELECT count(id) AS total_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part
 			feed_id = '$feed'");
 
-		$total_entries = pg_fetch_result($result, 0, "total_entries");
+		$total_entries = db_fetch_result($result, 0, "total_entries");
 
-/*		$result = pg_query("SELECT count(id) AS unread_entries 
+/*		$result = db_query("SELECT count(id) AS unread_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part
 			unread = true AND
 			feed_id = '$feed'");
 
-		$unread_entries = pg_fetch_result($result, 0, "unread_entries"); */
+		$unread_entries = db_fetch_result($result, 0, "unread_entries"); */
 
 		if ($limit != "All") {
 			$limit_query_part = "LIMIT " . $limit;
 		} 
 
-		$result = pg_query("SELECT 
+		$result = db_query($link, "SELECT 
 				id,title,updated,unread,feed_id,marked,link,
 				EXTRACT(EPOCH FROM last_read) AS last_read_ts,
 				EXTRACT(EPOCH FROM updated) AS updated_ts
@@ -369,7 +372,7 @@
 		
 		$num_unread = 0;
 
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
 
@@ -430,14 +433,14 @@
 		
 		print "</table>";
 
-		$result = pg_query("SELECT id, (SELECT count(id) FROM ttrss_entries 
+		$result = db_query($link, "SELECT id, (SELECT count(id) FROM ttrss_entries 
 			WHERE feed_id = ttrss_feeds.id) AS total,
 		(SELECT count(id) FROM ttrss_entries
 			WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
 		FROM ttrss_feeds WHERE id = '$feed'");			
 
-		$total = pg_fetch_result($result, 0, "total");
-		$unread = pg_fetch_result($result, 0, "unread");
+		$total = db_fetch_result($result, 0, "total");
+		$unread = db_fetch_result($result, 0, "unread");
 
 		// update unread/total counters and status for active feed in the feedlist 
 		// kludge, because iframe doesn't seem to support onload() 
@@ -481,7 +484,7 @@
 		if ($subop == "unread") {
 			$ids = split(",", $_GET["ids"]);
 			foreach ($ids as $id) {
-				pg_query("UPDATE ttrss_entries SET unread = true WHERE feed_id = '$id'");
+				db_query($link, "UPDATE ttrss_entries SET unread = true WHERE feed_id = '$id'");
 			}
 
 			print "Marked selected feeds as read.";
@@ -490,7 +493,7 @@
 		if ($subop == "read") {
 			$ids = split(",", $_GET["ids"]);
 			foreach ($ids as $id) {
-				pg_query("UPDATE ttrss_entries 
+				db_query($link, "UPDATE ttrss_entries 
 					SET unread = false,last_read = NOW() WHERE feed_id = '$id'");
 			}
 
@@ -505,11 +508,11 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "editSave") {
-			$feed_title = pg_escape_string($_GET["t"]);
-			$feed_link = pg_escape_string($_GET["l"]);
+			$feed_title = db_escape_string($_GET["t"]);
+			$feed_link = db_escape_string($_GET["l"]);
 			$feed_id = $_GET["id"];
 
-			$result = pg_query("UPDATE ttrss_feeds SET 
+			$result = db_query($link, "UPDATE ttrss_feeds SET 
 				title = '$feed_title', feed_url = '$feed_link' WHERE id = '$feed_id'");			
 
 		}
@@ -521,10 +524,10 @@
 				$ids = split(",", $_GET["ids"]);
 
 				foreach ($ids as $id) {
-					pg_query("BEGIN");
-					pg_query("DELETE FROM ttrss_entries WHERE feed_id = '$id'");
-					pg_query("DELETE FROM ttrss_feeds WHERE id = '$id'");
-					pg_query("COMMIT");
+					db_query($link, "BEGIN");
+					db_query($link, "DELETE FROM ttrss_entries WHERE feed_id = '$id'");
+					db_query($link, "DELETE FROM ttrss_feeds WHERE id = '$id'");
+					db_query($link, "COMMIT");
 					
 					if (file_exists(ICONS_DIR . "/$id.ico")) {
 						unlink(ICONS_DIR . "/$id.ico");
@@ -537,15 +540,15 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$feed_link = pg_escape_string($_GET["link"]);
+				$feed_link = db_escape_string($_GET["link"]);
 					
-				$result = pg_query(
+				$result = db_query($link,
 					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
 
-				$result = pg_query(
+				$result = db_query($link,
 					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
 
-				$feed_id = pg_fetch_result($result, 0, "id");
+				$feed_id = db_fetch_result($result, 0, "id");
 
 				if ($feed_id) {
 					update_rss_feed($link, $feed_link, $feed_id);
@@ -559,7 +562,7 @@
 				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
 		</table>";
 
-		$result = pg_query("SELECT 
+		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated
 			FROM 
 				ttrss_feeds ORDER by title");
@@ -571,7 +574,7 @@
 		
 		$lnum = 0;
 		
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
 
@@ -677,12 +680,12 @@
 
 		if ($subop == "editSave") {
 
-			$regexp = pg_escape_string($_GET["r"]);
-			$descr = pg_escape_string($_GET["d"]);
-			$match = pg_escape_string($_GET["m"]);
-			$filter_id = pg_escape_string($_GET["id"]);
+			$regexp = db_escape_string($_GET["r"]);
+			$descr = db_escape_string($_GET["d"]);
+			$match = db_escape_string($_GET["m"]);
+			$filter_id = db_escape_string($_GET["id"]);
 			
-			$result = pg_query("UPDATE ttrss_filters SET 
+			$result = db_query($link, "UPDATE ttrss_filters SET 
 				regexp = '$regexp', 
 				description = '$descr',
 				filter_type = (SELECT id FROM ttrss_filter_types WHERE
@@ -697,7 +700,7 @@
 				$ids = split(",", $_GET["ids"]);
 
 				foreach ($ids as $id) {
-					pg_query("DELETE FROM ttrss_filters WHERE id = '$id'");
+					db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id'");
 					
 				}
 			}
@@ -707,22 +710,22 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$regexp = pg_escape_string($_GET["regexp"]);
-				$match = pg_escape_string($_GET["match"]);
+				$regexp = db_escape_string($_GET["regexp"]);
+				$match = db_escape_string($_GET["match"]);
 					
-				$result = pg_query(
+				$result = db_query($link,
 					"INSERT INTO ttrss_filters (regexp,filter_type) VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
 							description = '$match'))");
 			} 
 		}
 
-		$result = pg_query("SELECT description 
+		$result = db_query($link, "SELECT description 
 			FROM ttrss_filter_types ORDER BY description");
 
 		$filter_types = array();
 
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 			array_push($filter_types, $line["description"]);
 		}
 
@@ -735,7 +738,7 @@
 				<a class=\"button\" href=\"javascript:addFilter()\">Add filter</a></td></tr>
 		</table>";
 
-		$result = pg_query("SELECT 
+		$result = db_query($link, "SELECT 
 				id,regexp,description,
 				(SELECT name FROM ttrss_filter_types WHERE 
 					id = filter_type) as filter_type_name,
@@ -752,7 +755,7 @@
 		
 		$lnum = 0;
 		
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
 
