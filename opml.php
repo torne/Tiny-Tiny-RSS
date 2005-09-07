@@ -43,16 +43,20 @@
 
 			print "Feed <b>$title</b> ($url)... ";
 
-			$result = db_query_2("SELECT id FROM ttrss_feeds WHERE
+			if (DB_TYPE == "mysql") {
+				$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+			}
+
+			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 				title = '$title' OR feed_url = '$url'");
 
-			if (db_num_rows($result) > 0) {
+			if ($result && db_num_rows($result) > 0) {
 				
 				print " Already imported.<br>";
 
 			} else {
-
-				$result = db_query_2("INSERT INTO ttrss_feeds (title, feed_url) VALUES
+					  
+				$result = db_query($link, "INSERT INTO ttrss_feeds (title, feed_url) VALUES
 					('$title', '$url')");
 
 				print "<b>Done.</b><br>";
