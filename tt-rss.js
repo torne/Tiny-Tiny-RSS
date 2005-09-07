@@ -62,12 +62,16 @@ function feedlist_callback() {
 function refetch_callback() {
 
 	if (xmlhttp_rpc.readyState == 4) {
+
+		var actfeedid = frames["feeds-frame"].document.getElementById("ACTFEEDID");
+
+		if (actfeedid) {
+			active_feed_id = actfeedid.innerHTML;
+		}
+
+		document.title = "Tiny Tiny RSS";
 		notify("All feeds updated.");
 
-		active_feed_id = frames["feeds-frame"].document.getElementById("ACTFEEDID").innerHTML;
-		
-		document.title = "Tiny Tiny RSS";
-		
 		updateFeedList();
 		
 	} 
