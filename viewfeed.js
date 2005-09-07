@@ -25,7 +25,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function view(id, feed_id) {
 
-//	p_notify("Loading article...");
+	p_notify("Loading article...");
 
 	enableHotkeys();
 
@@ -46,7 +46,7 @@ function view(id, feed_id) {
 			var feedctr = f_doc.getElementById("FEEDCTR-" + feed_id);
 
 			if (feedctr) {
-				feedctr.innerHTML = "";
+				feedctr.className = "invisible";
 			}
 		}
 

@@ -106,10 +106,14 @@
 			}
 			print "<span id=\"FEEDN-$feed_id\">$feed</span>";
 
-			if ($unread > 0) {
-				print "<span id=\"FEEDCTR-$feed_id\">
-					&nbsp;(<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
+			if ($unread != 0) {
+				$fctr_class = "";
+			} else {
+				$fctr_class = "class=\"invisible\"";
 			}
+
+			print "<span $fctr_class id=\"FEEDCTR-$feed_id\">
+				 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
 			
 			print "</li>";
 
@@ -456,19 +460,24 @@
 			var p_document = parent.frames['feeds-frame'].document;
 
 			var feedr = p_document.getElementById(\"FEEDR-\" + $feed);
-			var feedt = p_document.getElementById(\"FEEDT-\" + $feed);
 			var feedu = p_document.getElementById(\"FEEDU-\" + $feed);
 
-			feedt.innerHTML = \"$total\";
-			feedu.innerHTML = \"$unread\";
+			if (feedu) {
+				feedu.innerHTML = \"$unread\";
+			}
+
+			var feedctr = p_document.getElementById(\"FEEDCTR-\" + $feed);
 
 			if ($unread > 0 && !feedr.className.match(\"Unread\")) {
 					feedr.className = feedr.className + \"Unread\";
+					feedctr.className = '';
 			} else if ($unread <= 0) {	
 					feedr.className = feedr.className.replace(\"Unread\", \"\");
+					feedctr.className = 'invisible';
 			}	
 
-			//p_notify('');
+			p_notify(\"\");
+
 		</script>";
 
 		if ($addheader) {
