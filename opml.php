@@ -132,6 +132,6 @@
 
 	}
 
-	db_close($link);
+	if ($link) db_close($link);
 
 ?>
