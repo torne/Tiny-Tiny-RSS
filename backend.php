@@ -230,14 +230,23 @@
 				$feed_icon = "&nbsp;";
 			}
 
+			if ($line["comments"] && $line["link"] != $line["comments"]) {
+				$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+			} else {
+				$entry_comments = "";
+			}
+
 			print "<div class=\"postReply\">";
 
 			print "<div class=\"postHeader\"><table>";
 
 			print "<tr><td><b>Title:</b></td>
 				<td width='100%'>" . $line["title"] . "</td></tr>";
+				
 			print "<tr><td><b>Link:</b></td>
-				<td width='100%'>" . $line["link"] . "</td></tr>";
+				<td width='100%'>
+				<a href=\"" . $line["link"] . "\">".$line["link"]."</a>
+				$entry_comments</td></tr>";
 					
 			print "</table></div>";
 
