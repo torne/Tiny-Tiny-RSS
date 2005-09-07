@@ -373,20 +373,22 @@
 
 			$class = ($lnum % 2) ? "even" : "odd";
 
+			$id = $line["id"];
+			$feed_id = $line["feed_id"];
+
 			if ($line["last_read_ts"] < $line["updated_ts"] && $line["unread"] == "f") {
-				$update_pic = "<img src=\"images/updated.png\" alt=\"Updated\">";
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+					alt=\"Updated\">";
 				++$num_unread;
 			} else {
-				$update_pic = "<img src=\"images/blank_icon.png\" alt=\"Updated\">";
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.png\" 
+					alt=\"Updated\">";
 			}
 
 			if ($line["unread"] == "t") {
 				$class .= "Unread";
 				++$num_unread;
 			}
-
-			$id = $line["id"];
-			$feed_id = $line["feed_id"];
 
 			if ($line["marked"] == "t") {
 				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
@@ -402,7 +404,7 @@
 			print "<tr class='$class' id='RROW-$id'";
 			// onclick=\"javascript:view($id,$feed_id)\">
 
-			print "<td id='FUPDPIC-$id' valign='center' align='center'
+			print "<td valign='center' align='center'
 				class='headlineUpdateMark'>$update_pic</td>";
 
 			print "<td valign='center' align='center'
