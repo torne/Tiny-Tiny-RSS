@@ -23,6 +23,14 @@
 
 	function outputFeedList($link) {
 
+		print "<html><head>
+			<title>Tiny Tiny RSS : Feedlist</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+			<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
+			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body>";
+			
 		$result = pg_query($link, "SELECT *,
 			(SELECT count(id) FROM ttrss_entries 
 				WHERE feed_id = ttrss_feeds.id) AS total,
@@ -30,7 +38,9 @@
 				WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
 			FROM ttrss_feeds ORDER BY title");			
 
-		print "<table width=\"100%\" class=\"feeds\" id=\"feedsList\">";
+		$actid = $_GET["actid"];
+
+		print "<table width=\"100%\" class=\"feedsList\" id=\"feedsList\">";
 
 		$lnum = 0;
 
@@ -49,6 +59,10 @@
 			$class = ($lnum % 2) ? "even" : "odd";
 
 			if ($unread > 0) $class .= "Unread";
+
+			if ($actid == $feed_id) {
+				$class .= "Selected";
+			}
 
 			$total_unread += $unread;
 
@@ -92,6 +106,7 @@
 		print "</table>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
+		print "<div class=\"invisible\" id=\"ACTFEEDID\">$actid</div>";
 
 /*
 		print "<p align=\"center\">All feeds: 
@@ -104,6 +119,7 @@
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
 */
 
+	
 
 	}
 
@@ -144,12 +160,10 @@
 
 		if ($subop == "forceUpdateAllFeeds") {
 			update_all_feeds($link, true);			
-			outputFeedList($link);
 		}
 
 		if ($subop == "updateAllFeeds") {
 			update_all_feeds($link, false);
-			outputFeedList($link);
 		}
 		
 		if ($subop == "catchupPage") {
@@ -264,7 +278,7 @@
 
 		// FIXME: check for null value here
 
-		$result = pg_query("SELECT *,SUBSTRING(last_updated,1,16) as last_updated,
+		$result = pg_query("SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
 			EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
 			FROM ttrss_feeds WHERE id = '$feed'");
 
@@ -273,7 +287,8 @@
 			$line = pg_fetch_assoc($result);
 
 			if ($subop == "ForceUpdate" ||
-				(!$subop && $line["update_timeout"] > MIN_UPDATE_TIME)) {				
+				$line["last_updated"] == "" ||
+				$line["update_timeout"] > MIN_UPDATE_TIME) {		
 
 				update_rss_feed($link, $line["feed_url"], $feed);
 				
@@ -422,9 +437,11 @@
 		print "<script type=\"text/javascript\">
 			document.onkeydown = hotkey_handler;
 
-			var feedr = parent.document.getElementById(\"FEEDR-\" + $feed);
-			var feedt = parent.document.getElementById(\"FEEDT-\" + $feed);
-			var feedu = parent.document.getElementById(\"FEEDU-\" + $feed);
+			var p_document = parent.frames['feeds-frame'].document;
+
+			var feedr = p_document.getElementById(\"FEEDR-\" + $feed);
+			var feedt = p_document.getElementById(\"FEEDT-\" + $feed);
+			var feedu = p_document.getElementById(\"FEEDU-\" + $feed);
 
 			feedt.innerHTML = \"$total\";
 			feedu.innerHTML = \"$unread\";

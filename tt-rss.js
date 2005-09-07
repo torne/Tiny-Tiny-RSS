@@ -10,9 +10,7 @@ var xmlhttp_view = false;
 var total_unread = 0;
 var first_run = true;
 
-var active_post_id = false;
 var active_feed_id = false;
-var active_offset = false;
 
 var search_query = "";
 
@@ -41,6 +39,7 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_view = new XMLHttpRequest();
 }
 
+/*
 function feedlist_callback() {
 	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
@@ -57,24 +56,23 @@ function feedlist_callback() {
 		} 
 	} 
 }
+*/
+
 
 function refetch_callback() {
 
 	if (xmlhttp_rpc.readyState == 4) {
 		notify("All feeds updated");
-		var container = document.getElementById('feeds');
-		container.innerHTML = xmlhttp_rpc.responseText;
-		document.title = "Tiny Tiny RSS";
 
-		cleanSelected("feedsList");
+		active_feed_id = frames["feeds-frame"].document.getElementById("ACTFEEDID").innerHTML;
 		
-		var feedr = document.getElementById("FEEDR-" + active_feed_id);
-		if (feedr) {
-			feedr.className = feedr.className + "Selected";
-		}
-
+		document.title = "Tiny Tiny RSS";
+		
+		updateFeedList();
+		
 	} 
 }
+
 
 function updateFeed(feed_id) {
 
@@ -115,110 +113,47 @@ function scheduleFeedUpdate(force) {
 
 function updateFeedList(silent, fetch) {
 
-	if (silent != true) {
-		notify("Loading feed list...");
-	}
+//	if (silent != true) {
+//		notify("Loading feed list...");
+//	}
 
 	var query_str = "backend.php?op=feeds";
 
+	if (active_feed_id) {
+		query_str = query_str + "&actid=" + active_feed_id;
+	}
+
 	if (fetch) query_str = query_str + "&fetch=yes";
 
-	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
-	} else {
-		printLockingError();
-	}
+	var feeds_frame = document.getElementById("feeds-frame");
+
+	feeds_frame.src = query_str;
 }
-
-/*
-function catchupPage(feed) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var content = document.getElementById("headlinesList");
-
-	var rows = new Array();
-
-	for (i = 0; i < content.rows.length; i++) {
-		var row_id = content.rows[i].id.replace("RROW-", "");
-		if (row_id.length > 0) {
-			if (content.rows[i].className.match("Unread")) {
-				rows.push(row_id);	
-				content.rows[i].className = content.rows[i].className.replace("Unread", "");
-			}
-
-			var upd_img_pic = document.getElementById("FUPDPIC-" + row_id);
-			if (upd_img_pic) {
-				upd_img_pic.innerHTML = "";
-			} 
-		}
-	}
-
-	if (rows.length > 0) {
-
-		var feedr = document.getElementById("FEEDR-" + feed);
-		var feedu = document.getElementById("FEEDU-" + feed);
-	
-		feedu.innerHTML = feedu.innerHTML - rows.length;
-	
-		if (feedu.innerHTML > 0 && !feedr.className.match("Unread")) {
-				feedr.className = feedr.className + "Unread";
-		} else if (feedu.innerHTML <= 0) {	
-				feedr.className = feedr.className.replace("Unread", "");
-		} 
-
-		var query_str = "backend.php?op=rpc&subop=catchupPage&ids=" + 
-			param_escape(rows.toString());
-	
-		notify("Marking this page as read...");
-
-		var button = document.getElementById("btnCatchupPage");
-
-		if (button) {
-			button.className = "disabledButton";
-			button.href = "";
-		}
-	
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=notify_callback;
-		xmlhttp.send(null);
-
-	} else {
-		notify("No unread items on this page.");
-
-	}
-} */
 
 function catchupAllFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
 	var query_str = "backend.php?op=feeds&subop=catchupAll";
 
 	notify("Marking all feeds as read...");
 
-	xmlhttp.open("GET", query_str, true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null);
+	var feeds_frame = document.getElementById("feeds-frame");
+
+	feeds_frame.src = query_str;
 
 }
 
 function viewCurrentFeed(skip, subop) {
-	if (active_feed_id ) {
+
+	active_feed_id = frames["feeds-frame"].document.getElementById("ACTFEEDID").innerHTML;
+
+	if (active_feed_id) {
 		viewfeed(active_feed_id, skip, subop);
 	}
 }
 
 function viewfeed(feed, skip, subop) {
 
-//	notify("Loading headlines...");
+	notify("Loading headlines...");
 
 	enableHotkeys();
 
@@ -253,21 +188,20 @@ function viewfeed(feed, skip, subop) {
 		limit = "All";
 	}
 
-	if (active_feed_id != feed || skip != active_offset) {
-		active_post_id = false;
-	}
-
 	active_feed_id = feed;
-	active_offset = skip;
+
+	var f_doc = frames["feeds-frame"].document;
+
+	f_doc.getElementById("ACTFEEDID").innerHTML = feed;
 
 	setCookie("ttrss_vf_actfeed", feed);
 
 	if (subop == "MarkAllRead") {
 
-		var feedr = document.getElementById("FEEDR-" + feed);
-		var feedt = document.getElementById("FEEDT-" + feed);
-		var feedu = document.getElementById("FEEDU-" + feed);
-
+		var feedr = f_doc.getElementById("FEEDR-" + feed);
+		var feedt = f_doc.getElementById("FEEDT-" + feed);
+		var feedu = f_doc.getElementById("FEEDU-" + feed);
+		
 		feedu.innerHTML = "0";
 
 		if (feedr.className.match("Unread")) {
@@ -283,9 +217,9 @@ function viewfeed(feed, skip, subop) {
 		query = query + "&search=" + param_escape(search_query);
 	}
 	
-	var headlines_frame = document.getElementById("headlines-frame");
-	
-	headlines_frame.src = query + "&addheader=true";
+	var headlines_frame = parent.frames["headlines-frame"];
+
+	headlines_frame.location.href = query + "&addheader=true";
 
 	cleanSelected("feedsList");
 	var feedr = document.getElementById("FEEDR-" + feed);
@@ -293,11 +227,12 @@ function viewfeed(feed, skip, subop) {
 		feedr.className = feedr.className + "Selected";
 	}
 	
-	disableContainerChildren("headlinesToolbar", false);
+	disableContainerChildren("headlinesToolbar", false, doc);
 
 //	notify("");
 
 }
+
 
 function timeout() {
 	scheduleFeedUpdate(true);
@@ -333,47 +268,6 @@ function localPiggieFunction(enable) {
 		}
 	}
 }
-
-/*
-function moveToPost(mode) {
-
-	var rows = getVisibleHeadlineIds();
-
-	var prev_id;
-	var next_id;
-
-	if (active_post_id == false) {
-		next_id = getFirstVisibleHeadlineId();
-		prev_id = getLastVisibleHeadlineId();
-	} else {	
-		for (var i = 0; i < rows.length; i++) {
-			if (rows[i] == active_post_id) {
-				prev_id = rows[i-1];
-				next_id = rows[i+1];			
-			}
-		}
-	}
-
-	if (mode == "next") {
-	 	if (next_id != undefined) {
-			view(next_id, active_feed_id);
-		} else {
-			_viewfeed_autoselect_first = true;
-			viewfeed(active_feed_id, active_offset+15);
-		}
-	}
-
-	if (mode == "prev") {
-		if ( prev_id != undefined) {
-			view(prev_id, active_feed_id);
-		} else {
-			_viewfeed_autoselect_last = true;
-			viewfeed(active_feed_id, active_offset-15);
-		}
-	}
-
-}
-*/
 
 function localHotkeyHandler(keycode) {
 
@@ -418,6 +312,8 @@ function init() {
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
 	setTimeout("timeout()", 1800*1000);
+
+	scheduleFeedUpdate(true);
 
 	var content = document.getElementById("content");
 

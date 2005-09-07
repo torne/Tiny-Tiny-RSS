@@ -223,8 +223,11 @@ function getCookie(name) {
 	return unescape(dc.substring(begin + prefix.length, end));
 }
 
-function disableContainerChildren(id, disable) {
-	var container = document.getElementById(id);
+function disableContainerChildren(id, disable, doc) {
+
+	if (!doc) doc = document;
+
+	var container = doc.getElementById(id);
 
 	for (var i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
@@ -243,4 +246,5 @@ function disableContainerChildren(id, disable) {
 	}
 
 }
+
 

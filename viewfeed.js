@@ -32,12 +32,12 @@ function view(id, feed_id) {
 	var crow = document.getElementById("RROW-" + id);
 
 	if (crow.className.match("Unread")) {
-		var umark = parent.document.getElementById("FEEDU-" + feed_id);
+		var umark = parent.frames["feeds-frame"].document.getElementById("FEEDU-" + feed_id);
 		umark.innerHTML = umark.innerHTML - 1;
 		crow.className = crow.className.replace("Unread", "");
 
 		if (umark.innerHTML == "0") {
-			var feedr = parent.document.getElementById("FEEDR-" + feed_id);
+			var feedr = parent.frames["feeds-frame"].document.getElementById("FEEDR-" + feed_id);			
 			feedr.className = feedr.className.replace("Unread", "");
 		}
 

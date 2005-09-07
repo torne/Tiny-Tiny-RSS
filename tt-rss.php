@@ -34,7 +34,9 @@
 <tr>
 	<td valign="top" rowspan="3" class="feeds"> 
 		
-		<div id="feeds">&nbsp;</div>
+		<!-- <div id="feeds">&nbsp;</div> -->
+
+		<iframe id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 	
 		<p align="center">All feeds:
 		
