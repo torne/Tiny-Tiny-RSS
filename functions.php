@@ -3,9 +3,9 @@
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
-	function purge_old_posts() {
+	function purge_old_posts($link) {
 		if (PURGE_OLD_DAYS > 0) {
-			$result = pg_query("DELETE FROM ttrss_entries WHERE
+			$result = db_query($link, "DELETE FROM ttrss_entries WHERE
 				marked = false AND 
 				date_entered < NOW() - INTERVAL '".PURGE_OLD_DAYS." days'");
 		}
@@ -15,27 +15,27 @@
 
 		if (WEB_DEMO_MODE) return;
 
-		pg_query("BEGIN");
+		db_query($link, "BEGIN");
 
 		if (!$fetch) {
 
-			$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
+			$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
 				last_updated is null OR title = '' OR
 				EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
 				MIN_UPDATE_TIME);
 
 		} else {
 
-			$result = pg_query($link, "SELECT feed_url,id FROM ttrss_feeds");
+			$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds");
 		}
 
-		while ($line = pg_fetch_assoc($result)) {
+		while ($line = db_fetch_assoc($result)) {
 			update_rss_feed($link, $line["feed_url"], $line["id"]);
 		}
 
-		purge_old_posts();
+		purge_old_posts($link);
 
-		pg_query("COMMIT");
+		db_query($link, "COMMIT");
 
 	}
 
@@ -83,9 +83,9 @@
 		$rss = fetch_rss($feed_url);
 		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
-		pg_query("BEGIN");
+		db_query($link, "BEGIN");
 
-		$feed = pg_escape_string($feed);
+		$feed = db_escape_string($feed);
 	
 		if ($rss) {
 
@@ -93,14 +93,14 @@
 				check_feed_favicon($feed_url, $feed);
 			}
 		
-			$result = pg_query("SELECT title,icon_url FROM ttrss_feeds WHERE id = '$feed'");
+			$result = db_query($link, "SELECT title,icon_url FROM ttrss_feeds WHERE id = '$feed'");
 
-			$registered_title = pg_fetch_result($result, 0, "title");
-			$orig_icon_url = pg_fetch_result($result, 0, "icon_url");
+			$registered_title = db_fetch_result($result, 0, "title");
+			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
 
 			if (!$registered_title) {
 				$feed_title = $rss->channel["title"];
-				pg_query("UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
+				db_query($link, "UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
 			}
 
 //			print "I: " . $rss->channel["image"]["url"];
@@ -108,19 +108,19 @@
 			$icon_url = $rss->image["url"];
 
 			if ($icon_url && !$orig_icon_url) {
-				$icon_url = pg_escape_string($icon_url);
-				pg_query("UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
+				$icon_url = db_escape_string($icon_url);
+				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
 
 			$filters = array();
 
-			$result = pg_query("SELECT regexp,
+			$result = db_query($link, "SELECT regexp,
 				(SELECT name FROM ttrss_filter_types
 					WHERE id = filter_type) as name
 				FROM ttrss_filters");
 
-			while ($line = pg_fetch_assoc($result)) {
+			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
 				array_push($filters[$line["name"]], $line["regexp"]);
 			}
@@ -169,9 +169,9 @@
 
 				$entry_comments = $item["comments"];
 
-				$entry_guid = pg_escape_string($entry_guid);
+				$entry_guid = db_escape_string($entry_guid);
 
-				$result = pg_query($link, "
+				$result = db_query($link, "
 					SELECT 
 						id,last_read,no_orig_date,title,feed_id,content_hash,
 						EXTRACT(EPOCH FROM updated) as updated_timestamp
@@ -180,7 +180,7 @@
 					WHERE
 						guid = '$entry_guid'");
 
-				if (pg_num_rows($result) == 0) {
+				if (db_num_rows($result) == 0) {
 
 					error_reporting(0);
 					if (is_filtered($entry_title, $entry_content, $filters)) {
@@ -188,11 +188,11 @@
 					}
 					error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
-					//$entry_guid = pg_escape_string($entry_guid);
-					$entry_content = pg_escape_string($entry_content);
-					$entry_title = pg_escape_string($entry_title);
-					$entry_link = pg_escape_string($entry_link);
-					$entry_comments = pg_escape_string($entry_comments);
+					//$entry_guid = db_escape_string($entry_guid);
+					$entry_content = db_escape_string($entry_content);
+					$entry_title = db_escape_string($entry_title);
+					$entry_link = db_escape_string($entry_link);
+					$entry_comments = db_escape_string($entry_comments);
 
 					$query = "INSERT 
 						INTO ttrss_entries 
@@ -216,12 +216,12 @@
 							'$entry_comments',
 							$no_orig_date)";
 
-					$result = pg_query($link, $query);
+					$result = db_query($link, $query);
 
 				} else {
 
-					$orig_entry_id = pg_fetch_result($result, 0, "id");			
-					$orig_feed_id = pg_fetch_result($result, 0, "feed_id");
+					$orig_entry_id = db_fetch_result($result, 0, "id");			
+					$orig_feed_id = db_fetch_result($result, 0, "feed_id");
 
 					if ($orig_feed_id != $feed) {
 //						print "<p>Update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
@@ -230,11 +230,11 @@
 
 					$entry_is_modified = false;
 					
-					$orig_timestamp = pg_fetch_result($result, 0, "updated_timestamp");
-					$orig_content_hash = pg_fetch_result($result, 0, "content_hash");
-					$orig_last_read = pg_fetch_result($result, 0, "last_read");	
-					$orig_no_orig_date = pg_fetch_result($result, 0, "no_orig_date");
-					$orig_title = pg_fetch_result($result, 0, "title");
+					$orig_timestamp = db_fetch_result($result, 0, "updated_timestamp");
+					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
+					$orig_last_read = db_fetch_result($result, 0, "last_read");	
+					$orig_no_orig_date = db_fetch_result($result, 0, "no_orig_date");
+					$orig_title = db_fetch_result($result, 0, "title");
 
 					$last_read_qpart = "";
 
@@ -255,10 +255,10 @@
 
 					if ($entry_is_modified) {
 
-						$entry_comments = pg_escape_string($entry_comments);
-						$entry_content = pg_escape_string($entry_content);
-						$entry_title = pg_escape_string($entry_title);					
-						$entry_link = pg_escape_string($entry_link);
+						$entry_comments = db_escape_string($entry_comments);
+						$entry_content = db_escape_string($entry_content);
+						$entry_title = db_escape_string($entry_title);					
+						$entry_link = db_escape_string($entry_link);
 
 						$query = "UPDATE ttrss_entries 
 							SET 
@@ -272,18 +272,18 @@
 							WHERE
 								id = '$orig_entry_id'";
 
-						$result = pg_query($link, $query);
+						$result = db_query($link, $query);
 					}
 				}
 			}
 
 			if ($result) {
-				$result = pg_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
+				$result = db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
 			}
 
 		}
 
-		pg_query("COMMIT");
+		db_query($link, "COMMIT");
 
 	}
 
