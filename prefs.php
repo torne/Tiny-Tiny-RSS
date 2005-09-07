@@ -19,7 +19,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="mainToolbar" valign="middle">
+	<td class="prefsToolbar" valign="middle">
 
 		<table width='100%' cellspacing='0' cellpadding='0'>	
 			<td><span id="notify"><span id="notify_body"></span></td>
