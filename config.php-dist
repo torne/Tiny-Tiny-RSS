@@ -1,9 +1,8 @@
 <?
-	// define(DB_CONN, "host=localhost dbname=fox user=fox password=XXXXXXXXXXX");
-	// DB connection string, PostgreSQL must be configured to accept connections
+	// PostgreSQL must be configured to accept connections
 	// via TCP/IP and authentified by password.
 
-	define(DB_TYPE, "pgsql");
+	define(DB_TYPE, "pgsql"); // or mysql
 	define(DB_HOST, "localhost");
 	define(DB_USER, "fox");
 	define(DB_NAME, "fox");
