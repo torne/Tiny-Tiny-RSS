@@ -5,9 +5,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	title varchar(200) not null unique, 
 	feed_url varchar(250) unique not null, 
 	icon_url varchar(250) not null default '',
-	last_updated timestamp default null);
-
-alter table ttrss_feeds ENGINE=InnoDB;
+	last_updated timestamp default null) TYPE=InnoDB;
 
 insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (title,feed_url) values ('Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
@@ -30,7 +28,7 @@ insert into ttrss_feeds (title,feed_url) values ('Technocrat.net',
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
-	feed_id int id not null, 
+	feed_id integer not null, 
 	updated timestamp not null, 
 	title varchar(250) not null, 
 	guid varchar(250) not null unique, 
@@ -38,32 +36,28 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	content text not null,
 	content_hash varchar(250) not null,
 	last_read timestamp,
-	marked boolean not null default 'false',
+	marked bool not null default 'false',
 	date_entered timestamp not null,
-	no_orig_date boolean not null default 'false',
+	no_orig_date bool not null default 'false',
 	comments varchar(250) not null default '',
-	unread boolean not null default true);
-
-alter table ttrss_entries ENGINE=InnoDB;
+	unread bool not null default 'true') TYPE=InnoDB;
 
 drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
 
 create table ttrss_filter_types (id integer primary key, 
 	name varchar(120) unique not null, 
-	description varchar(250) not null unique);
+	description varchar(250) not null unique) TYPE=InnoDB;
 
-alter table ttrss_filter_types ENGINE=InnoDB;
 
 insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title');
 insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
 insert into ttrss_filter_types (id,name,description) values (3, 'both', 
 	'Title or Content');
 
-create table ttrss_filters (id serial primary key, 
+create table ttrss_filters (id integer primary key auto_increment, 
 	filter_type integer not null, 
-	regexp varchar(250) not null,
-	description varchar(250) not null default '');
+	reg_exp varchar(250) not null,
+	description varchar(250) not null default '') TYPE=InnoDB;
 
-alter table ttrss_filters ENGINE=InnoDB;
 

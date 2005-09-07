@@ -115,14 +115,14 @@
 
 			$filters = array();
 
-			$result = db_query($link, "SELECT regexp,
+			$result = db_query($link, "SELECT reg_exp,
 				(SELECT name FROM ttrss_filter_types
 					WHERE id = filter_type) as name
 				FROM ttrss_filters");
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-				array_push($filters[$line["name"]], $line["regexp"]);
+				array_push($filters[$line["name"]], $line["reg_exp"]);
 			}
 
 			foreach ($rss->items as $item) {

@@ -56,6 +56,6 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 
 create table ttrss_filters (id serial primary key, 
 	filter_type integer not null references ttrss_filter_types(id), 
-	regexp varchar(250) not null,
+	reg_exp varchar(250) not null,
 	description varchar(250) not null default '');
 

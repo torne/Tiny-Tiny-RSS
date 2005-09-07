@@ -686,7 +686,7 @@
 			$filter_id = db_escape_string($_GET["id"]);
 			
 			$result = db_query($link, "UPDATE ttrss_filters SET 
-				regexp = '$regexp', 
+				reg_exp = '$regexp', 
 				description = '$descr',
 				filter_type = (SELECT id FROM ttrss_filter_types WHERE
 					description = '$match')
@@ -710,11 +710,11 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$regexp = db_escape_string($_GET["regexp"]);
+				$regexp = db_escape_string($_GET["reg_exp"]);
 				$match = db_escape_string($_GET["match"]);
 					
 				$result = db_query($link,
-					"INSERT INTO ttrss_filters (regexp,filter_type) VALUES 
+					"INSERT INTO ttrss_filters (reg_exp,filter_type) VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
 							description = '$match'))");
 			} 
@@ -739,13 +739,13 @@
 		</table>";
 
 		$result = db_query($link, "SELECT 
-				id,regexp,description,
+				id,reg_exp,description,
 				(SELECT name FROM ttrss_filter_types WHERE 
 					id = filter_type) as filter_type_name,
 				(SELECT description FROM ttrss_filter_types 
 					WHERE id = filter_type) as filter_type_descr
 			FROM 
-				ttrss_filters ORDER by regexp");
+				ttrss_filters ORDER by reg_exp");
 
 		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
 
@@ -768,7 +768,7 @@
 
 			print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
 
-			$line["regexp"] = htmlspecialchars($line["regexp"]);
+			$line["regexp"] = htmlspecialchars($line["reg_exp"]);
 			$line["description"] = htmlspecialchars($line["description"]);
 
 			if (!$edit_filter_id || $subop != "edit") {
@@ -779,7 +779,7 @@
 				type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["regexp"] . "</td>";		
+					$line["reg_exp"] . "</td>";		
 					
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["description"] . "</td>";			
@@ -793,7 +793,7 @@
 				print "<td><input disabled=\"true\" type=\"checkbox\" 
 					id=\"FICHK-".$line["id"]."\"></td>";
 
-				print "<td>".$line["regexp"]."</td>";		
+				print "<td>".$line["reg_exp"]."</td>";		
 				print "<td>".$line["description"]."</td>";		
 				print "<td>".$line["filter_type_descr"]."</td>";
 
@@ -801,7 +801,7 @@
 
 				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
 
-				print "<td><input id=\"iedit_regexp\" value=\"".$line["regexp"].
+				print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
 					"\"></td>";
 
 				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
@@ -852,5 +852,5 @@
 		print "</div>";
 	}
 
-	pg_close($link);
+	db_close($link);
 ?>
