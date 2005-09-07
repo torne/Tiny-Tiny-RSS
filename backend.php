@@ -387,7 +387,7 @@
 				$update_pic = "<img src=\"images/updated.png\" alt=\"Updated\">";
 				++$num_unread;
 			} else {
-				$update_pic = "&nbsp;";
+				$update_pic = "<img src=\"images/blank_icon.png\" alt=\"Updated\">";
 			}
 
 			if ($line["unread"] == "t") {
@@ -412,15 +412,15 @@
 			print "<tr class='$class' id='RROW-$id'";
 			// onclick=\"javascript:view($id,$feed_id)\">
 
-			print "<td id='FUPDPIC-$id' valign='center' 
+			print "<td id='FUPDPIC-$id' valign='center' align='center'
 				class='headlineUpdateMark'>$update_pic</td>";
 
-			print "<td valign='center' 
+			print "<td valign='center' align='center'
 				class='headlineUpdateMark'>$marked_pic</td>";
 
-			print "<td class='headlineUpdated'>
+			print "<td class='headlineUpdated' width='25%'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
-			print "<td class='headlineTitle'>$content_link</td>";
+			print "<td width='70%' class='headlineTitle'>$content_link</td>";
 
 			print "</tr>";
 

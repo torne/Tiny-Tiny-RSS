@@ -59,7 +59,7 @@ function view(id, feed_id) {
 	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
 
 	if (upd_img_pic) {
-		upd_img_pic.innerHTML = "";
+		upd_img_pic.src = "images/blank_icon.png";
 	} 
 
 	var unread_rows = getVisibleUnreadHeadlines();
