@@ -6,16 +6,7 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
-	error_reporting(0);
-
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-
-	error_reporting (E_ERROR | E_WARNING | E_PARSE);
-
-	if (!$link) {
-		print "Could not connect to database. Please check local configuration.";
-		return;
-	}
 
 	if (DB_TYPE == "pgsql") {
 		pg_query("set client_encoding = 'utf-8'");
