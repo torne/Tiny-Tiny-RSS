@@ -159,7 +159,7 @@ function viewCurrentFeed(skip, subop) {
 
 function viewfeed(feed, skip, subop) {
 
-//	notify("Loading headlines...");
+	notify("Loading headlines...");
 
 	enableHotkeys();
 
@@ -201,14 +201,13 @@ function viewfeed(feed, skip, subop) {
 	f_doc.getElementById("ACTFEEDID").innerHTML = feed;
 
 	setCookie("ttrss_vf_actfeed", feed);
-
+	
 	if (subop == "MarkAllRead") {
 
 		var feedr = f_doc.getElementById("FEEDR-" + feed);
-		var feedt = f_doc.getElementById("FEEDT-" + feed);
-		var feedu = f_doc.getElementById("FEEDU-" + feed);
+		var feedctr = f_doc.getElementById("FEEDCTR-" + feed);
 		
-		feedu.innerHTML = "0";
+		feedctr.className = "invisible";
 
 		if (feedr.className.match("Unread")) {
 			feedr.className = feedr.className.replace("Unread", "");

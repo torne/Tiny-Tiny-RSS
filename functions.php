@@ -17,17 +17,7 @@
 
 		db_query($link, "BEGIN");
 
-		if (!$fetch) {
-
-			$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds WHERE
-				last_updated is null OR title = '' OR
-				EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) > " . 
-				MIN_UPDATE_TIME);
-
-		} else {
-
-			$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds");
-		}
+		$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds");
 
 		while ($line = db_fetch_assoc($result)) {
 			update_rss_feed($link, $line["feed_url"], $line["id"]);
@@ -207,7 +197,7 @@
 							content, 
 							content_hash,
 							feed_id, 
-							comments,
+							comments,							
 							no_orig_date) 
 						VALUES
 							('$entry_title', 

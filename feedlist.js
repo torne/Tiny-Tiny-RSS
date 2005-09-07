@@ -50,10 +50,9 @@ function viewfeed(feed, skip, subop, doc) {
 	if (subop == "MarkAllRead") {
 
 		var feedr = document.getElementById("FEEDR-" + feed);
-		var feedt = document.getElementById("FEEDT-" + feed);
-		var feedu = document.getElementById("FEEDU-" + feed);
-
-		feedu.innerHTML = "0";
+		var feedctr = document.getElementById("FEEDCTR-" + feed);
+	
+		feedctr.className = "invisible";
 
 		if (feedr.className.match("Unread")) {
 			feedr.className = feedr.className.replace("Unread", "");

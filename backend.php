@@ -303,19 +303,12 @@
 
 			$line = db_fetch_assoc($result);
 
-			if ($subop == "ForceUpdate" ||
-				$line["last_updated"] == "" ||
-				$line["update_timeout"] > MIN_UPDATE_TIME) {		
-
-				update_rss_feed($link, $line["feed_url"], $feed);
+			update_rss_feed($link, $line["feed_url"], $feed);
 				
-			} else {
+			if ($subop == "MarkAllRead")  {
 
-				if ($subop == "MarkAllRead")  {
-
-					db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() 
-						WHERE feed_id = '$feed'");
-				}
+				db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() 
+					WHERE feed_id = '$feed'");
 			}
 		}
 
@@ -361,15 +354,8 @@
 			$limit_query_part = "LIMIT " . $limit;
 		} 
 
-		if (DB_TYPE == "pgsql") {
-			$extract_epoch_qpart = "
-			,EXTRACT(EPOCH FROM last_read) AS last_read_ts,
-			EXTRACT(EPOCH FROM updated) AS updated_ts";
-		}
-
 		$result = db_query($link, "SELECT 
-				id,title,updated,unread,feed_id,marked,link
-				$extract_epoch_qpart
+				id,title,updated,unread,feed_id,marked,link,last_read
 			FROM
 				ttrss_entries 
 			WHERE
@@ -389,7 +375,12 @@
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
 
-			if ($line["last_read_ts"] < $line["updated_ts"] && $line["unread"] == "f") {
+//			printf("%d %s - %d %s<br>", strtotime($line["last_read"]), $line["last_read"],
+//				strtotime($line["updated"]), $line["updated"]);
+
+			if (strtotime($line["last_read"]) < strtotime($line["updated"]) && 
+				($line["unread"] == "f" || $line["unread"] == "0")) {
+						  
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
 					alt=\"Updated\">";
 				++$num_unread;
