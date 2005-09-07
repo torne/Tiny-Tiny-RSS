@@ -319,8 +319,8 @@ function init() {
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
 
-//	setTimeout("timeout()", 1800*1000);
-//	scheduleFeedUpdate(true);
+	setTimeout("timeout()", 1800*1000);
+	scheduleFeedUpdate(true);
 
 	var content = document.getElementById("content");
 
