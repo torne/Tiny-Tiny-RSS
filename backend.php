@@ -369,7 +369,8 @@
 //			printf("%d %s - %d %s<br>", strtotime($line["last_read"]), $line["last_read"],
 //				strtotime($line["updated"]), $line["updated"]);
 
-			if (strtotime($line["last_read"]) < strtotime($line["updated"]) && 
+			if ($line["last_read"] && $line["updated"] &&			
+				strtotime($line["last_read"]) < strtotime($line["updated"]) && 
 				($line["unread"] == "f" || $line["unread"] == "0")) {
 						  
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 

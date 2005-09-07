@@ -43,9 +43,7 @@
 
 			print "Feed <b>$title</b> ($url)... ";
 
-			if (DB_TYPE == "mysql") {
-				$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-			}
+			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 				title = '$title' OR feed_url = '$url'");
