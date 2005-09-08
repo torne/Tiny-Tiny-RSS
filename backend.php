@@ -531,9 +531,9 @@
 		if ($feed >= 0) {
 
 			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
-				WHERE feed_id = ttrss_feeds.id AND $query_strategy_part
+				WHERE feed_id = '$feed' AND $query_strategy_part
 				AND unread = true");			
-
+			
 			$unread = db_fetch_result($result, 0, "unread");
 
 		} else if ($feed == -1) {
