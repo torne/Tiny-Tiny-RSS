@@ -274,16 +274,34 @@ function localHotkeyHandler(keycode) {
 
 }
 
-function init() {
-
-	disableContainerChildren("headlinesToolbar", true);
+function genericSanityCheck() {
 
 	if (!xmlhttp) {
 		document.getElementById("headlines").innerHTML = 
 			"<b>Fatal error:</b> This program requires XmlHttpRequest " + 
 			"to function properly. Your browser doesn't seem to support it.";
-		return;
+		return false;
 	}
+
+	setCookie("ttrss_vf_test", "TEST");
+	if (getCookie("ttrss_vf_test") != "TEST") {
+
+		document.getElementById("headlines").innerHTML = 
+			"<b>Fatal error:</b> This program requires cookies " + 
+			"to function properly. Your browser doesn't seem to support them.";
+
+		return false;
+	}
+
+	return true;
+}
+
+function init() {
+
+	disableContainerChildren("headlinesToolbar", true);
+
+	if (!genericSanityCheck()) 
+		return;
 
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
