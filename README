@@ -31,7 +31,15 @@ Requirements:
 	
 	- Magpie RSS (http://magpierss.sourceforge.net/) - place it into
 	  magpierss/ subdirectory;
-	- PostgreSQL (example schema and configuration in ttrss_schema.sql)
+	  
+	- RDBMS backend:
+	
+			a) PostgreSQL
+			
+			b) MySQL (InnoDB and server version 4.1+ required)
+
+	  example DB schemas and configuration in ttrss_schema.sql and
+	  ttrss_schema_mysql.sql
 
 Don't forget to copy config.php-dist to config.php and edit it.
 
