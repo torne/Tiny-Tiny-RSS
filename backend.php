@@ -265,6 +265,11 @@
 		$addheader = $_GET["addheader"];
 		$limit = $_GET["limit"];
 
+		if (!$feed) {
+			print "Error: no feed to display.";
+			return;
+		}
+
 		if (!$skip) $skip = 0;
 
 		if ($subop == "undefined") $subop = "";
@@ -279,17 +284,10 @@
 				</head><body>";
 		}
 
-		if (DB_TYPE == "pgsql") {
-			$result = db_query($link, 
-				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s,
-				EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM last_updated) as update_timeout
-				FROM ttrss_feeds WHERE id = '$feed'");
-		} else {
-			$result = db_query($link, 
-				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s
-				FROM ttrss_feeds WHERE id = '$feed'");
-		}
-
+		$result = db_query($link, 
+			"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s
+			FROM ttrss_feeds WHERE id = '$feed'");
+	
 		if ($result) {
 
 			$line = db_fetch_assoc($result);
@@ -341,7 +339,7 @@
 
 		$unread_entries = db_fetch_result($result, 0, "unread_entries"); */
 
-		if ($limit != "All") {
+		if ($limit && $limit != "All") {
 			$limit_query_part = "LIMIT " . $limit;
 		} 
 
@@ -403,15 +401,12 @@
 			print "<tr class='$class' id='RROW-$id'";
 			// onclick=\"javascript:view($id,$feed_id)\">
 
-			print "<td valign='center' align='center'
-				class='headlineUpdateMark'>$update_pic</td>";
+			print "<td valign='center' align='center'>$update_pic</td>";
+			print "<td valign='center' align='center'>$marked_pic</td>";
 
-			print "<td valign='center' align='center'
-				class='headlineUpdateMark'>$marked_pic</td>";
-
-			print "<td class='headlineUpdated' width='25%'>
+			print "<td width='25%'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
-			print "<td width='70%' class='headlineTitle'>$content_link</td>";
+			print "<td width='70%'>$content_link</td>";
 
 			print "</tr>";
 
