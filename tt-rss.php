@@ -77,7 +77,7 @@
 		&nbsp;View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
-			<option>All Posts</option>
+			<option>All Articles</option>
 			<option>Starred</option>
 			<option selected>Unread</option>
 		</select>
