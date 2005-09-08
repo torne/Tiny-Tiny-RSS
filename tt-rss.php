@@ -47,7 +47,8 @@
 		
 		<!-- <div id="feeds">&nbsp;</div> -->
 
-		<iframe id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
+		<iframe frameborder="0" 
+			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 	
 		<p align="center">All feeds:
 		
@@ -101,13 +102,14 @@
 	</td> 
 </tr><tr>
 	<td id="headlines" class="headlines" valign="top">
-		<iframe name="headlines-frame" 
+		<iframe frameborder="0" name="headlines-frame" 
 			id="headlines-frame" class="headlinesFrame" 
 				src="backend.php?op=error&msg=No%20feed%20selected."></iframe>
 	</td>
 </tr><tr>
 	<td class="content" id="content" valign="top">
-		<iframe name="content-frame" id="content-frame" class="contentFrame"> </iframe>
+		<iframe frameborder="0" name="content-frame" 
+			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
 <tr>

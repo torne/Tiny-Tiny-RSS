@@ -73,7 +73,7 @@
 				if (file_exists($icon_file) && filesize($icon_file) > 0) {
 						$feed_icon = "<img src=\"" . ICONS_URL . "/$feed_id.ico\">";
 				} else {
-					$feed_icon = "<img src=\"images/blank_icon.png\">";
+					$feed_icon = "<img src=\"images/blank_icon.gif\">";
 				}
 			} else {
 				$feed_icon = "<img width=\"16\" height=\"16\"
@@ -379,7 +379,7 @@
 
 			} else {
 
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.png\" 
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
 					alt=\"Updated\">";
 
 			}
