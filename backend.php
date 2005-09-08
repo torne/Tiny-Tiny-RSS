@@ -23,7 +23,7 @@
 		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
 			WHERE marked = true");
 
-		$count = pg_fetch_result($result, 0, "count");
+		$count = db_fetch_result($result, 0, "count");
 
 		print "<label id=\"-1\" counter=\"$count\"/>";
 
@@ -35,11 +35,11 @@
 			$id = -$line["id"] - 11;
 
 			error_reporting (0);
-	
-			$tmp_result = pg_query("SELECT count(id) as count FROM ttrss_entries
+
+			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
 				WHERE " . $line["sql_exp"]);
 
-			$count = pg_fetch_result($tmp_result, 0, "count");
+			$count = db_fetch_result($tmp_result, 0, "count");
 
 			print "<feed id=\"$id\" counter=\"$count\"/>";
 
@@ -97,10 +97,10 @@
 
 				error_reporting (0);
 	
-				$tmp_result = pg_query("SELECT count(id) as count FROM ttrss_entries
+				$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
 					WHERE " . $line["sql_exp"]);
 
-				$count = pg_fetch_result($tmp_result, 0, "count");
+				$count = db_fetch_result($tmp_result, 0, "count");
 				
 				error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
