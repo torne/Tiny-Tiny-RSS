@@ -4,8 +4,6 @@
 */
 
 var xmlhttp = false;
-var xmlhttp_rpc = false;
-var xmlhttp_view = false;
 
 var total_unread = 0;
 var first_run = true;
@@ -23,20 +21,14 @@ try {
 } catch (e) {
 	try {
 		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
-		xmlhttp_view = new ActiveXObject("Microsoft.XMLHTTP");
 	} catch (E) {
 		xmlhttp = false;
-		xmlhttp_rpc = false;
-		xmlhttp_view = false;
 	}
 }
 @end @*/
 
 if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
-	xmlhttp_rpc = new XMLHttpRequest();
-	xmlhttp_view = new XMLHttpRequest();
 }
 
 /*
@@ -69,7 +61,7 @@ function checkActiveFeedId() {
 
 function refetch_callback() {
 
-	if (xmlhttp_rpc.readyState == 4) {
+	if (xmlhttp.readyState == 4) {
 
 		document.title = "Tiny Tiny RSS";
 		notify("All feeds updated.");
@@ -84,10 +76,10 @@ function updateFeed(feed_id) {
 
 	var query_str = "backend.php?op=rpc&subop=updateFeed&feed=" + feed_id;
 
-	if (xmlhttp_ready(xmlhttp_rpc)) {
-		xmlhttp_rpc.open("GET", query_str, true);
-		xmlhttp_rpc.onreadystatechange=feed_update_callback;
-		xmlhttp_rpc.send(null);
+	if (xmlhttp_ready(xmlhttp)) {
+		xmlhttp.open("GET", query_str, true);
+		xmlhttp.onreadystatechange=feed_update_callback;
+		xmlhttp.send(null);
 	} else {
 		printLockingError();
 	}   
@@ -108,10 +100,10 @@ function scheduleFeedUpdate(force) {
 		query_str = query_str + "updateAllFeeds";
 	}
 
-	if (xmlhttp_ready(xmlhttp_rpc)) {
-		xmlhttp_rpc.open("GET", query_str, true);
-		xmlhttp_rpc.onreadystatechange=refetch_callback;
-		xmlhttp_rpc.send(null);
+	if (xmlhttp_ready(xmlhttp)) {
+		xmlhttp.open("GET", query_str, true);
+		xmlhttp.onreadystatechange=refetch_callback;
+		xmlhttp.send(null);
 	} else {
 		printLockingError();
 	}   
@@ -301,16 +293,9 @@ function init() {
 
 	disableContainerChildren("headlinesToolbar", true);
 
-	// IE kludge
-
-	if (xmlhttp && !xmlhttp_rpc) {
-		xmlhttp_rpc = xmlhttp;
-		xmlhttp_view = xmlhttp;
-	}
-
-	if (!xmlhttp || !xmlhttp_rpc || !xmlhttp_view) {
+	if (!xmlhttp) {
 		document.getElementById("headlines").innerHTML = 
-			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
+			"<b>Fatal error:</b> This program requires XmlHttpRequest " + 
 			"to function properly. Your browser doesn't seem to support it.";
 		return;
 	}
