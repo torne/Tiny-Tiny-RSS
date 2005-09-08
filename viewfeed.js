@@ -1,4 +1,3 @@
-var active_feed_id = false;
 var active_post_id = false;
 var total_unread = 0;
 
@@ -73,7 +72,7 @@ function view(id, feed_id) {
 	}
 
 	active_post_id = id; 
-	active_feed_id = feed_id;
+	setActiveFeedId(feed_id);
 
 	var content = parent.document.getElementById("content-frame");
 
@@ -134,13 +133,13 @@ function moveToPost(mode) {
 
 	if (mode == "next") {
 	 	if (next_id != undefined) {
-			view(next_id, active_feed_id);
+			view(next_id, getActiveFeedId());
 		}
 	}
 
 	if (mode == "prev") {
 		if ( prev_id != undefined) {
-			view(prev_id, active_feed_id);
+			view(prev_id, getActiveFeedId());
 		}
 	} 
 }

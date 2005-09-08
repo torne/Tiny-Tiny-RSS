@@ -117,7 +117,7 @@
 		print "</table>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
-		print "<div class=\"invisible\" id=\"ACTFEEDID\">$actid</div>";
+//		print "<div class=\"invisible\" id=\"ACTFEEDID\">$actid</div>";
 
 	}
 

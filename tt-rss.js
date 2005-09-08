@@ -8,8 +8,6 @@ var xmlhttp = false;
 var total_unread = 0;
 var first_run = true;
 
-var active_feed_id = false;
-
 var search_query = "";
 
 /*@cc_on @*/
@@ -49,15 +47,6 @@ function feedlist_callback() {
 	} 
 }
 */
-
-function checkActiveFeedId() {
-
-	var actfeedid = frames["feeds-frame"].document.getElementById("ACTFEEDID");
-
-	if (actfeedid) {
-		active_feed_id = actfeedid.innerHTML;
-	}
-}
 
 function refetch_callback() {
 
@@ -117,8 +106,8 @@ function updateFeedList(silent, fetch) {
 
 	var query_str = "backend.php?op=feeds";
 
-	if (active_feed_id) {
-		query_str = query_str + "&actid=" + active_feed_id;
+	if (getActiveFeedId()) {
+		query_str = query_str + "&actid=" + getActiveFeedId();
 	}
 
 	if (fetch) query_str = query_str + "&fetch=yes";
@@ -142,10 +131,8 @@ function catchupAllFeeds() {
 
 function viewCurrentFeed(skip, subop) {
 
-	active_feed_id = frames["feeds-frame"].document.getElementById("ACTFEEDID").innerHTML;
-
-	if (active_feed_id) {
-		viewfeed(active_feed_id, skip, subop);
+	if (getActiveFeedId()) {
+		viewfeed(getActiveFeedId(), skip, subop);
 	}
 }
 
@@ -186,13 +173,11 @@ function viewfeed(feed, skip, subop) {
 		limit = "All";
 	}
 
-	active_feed_id = feed;
+	setActiveFeedId(feed);
 
 	var f_doc = frames["feeds-frame"].document;
 
-	f_doc.getElementById("ACTFEEDID").innerHTML = feed;
-
-	setCookie("ttrss_vf_actfeed", feed);
+//	f_doc.getElementById("ACTFEEDID").innerHTML = feed;
 
 	if (subop == "MarkAllRead") {
 
@@ -239,16 +224,16 @@ function timeout() {
 function resetSearch() {
 	var searchbox = document.getElementById("searchbox")
 
-	if (searchbox.value != "" && active_feed_id) {	
+	if (searchbox.value != "" && getActiveFeedId()) {	
 		searchbox.value = "";
-		viewfeed(active_feed_id, 0, "");
+		viewfeed(getActiveFeedId(), 0, "");
 	}
 }
 
 function search() {
 	checkActiveFeedId();
-	if (active_feed_id) {
-		viewfeed(active_feed_id, 0, "");
+	if (getActiveFeedId()) {
+		viewfeed(getActiveFeedId(), 0, "");
 	} else {
 		notify("Please select some feed first.");
 	}
@@ -282,7 +267,7 @@ function localHotkeyHandler(keycode) {
 	}
 
 	if (keycode == 85) {
-		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
+		return viewfeed(getActiveFeedId(), 0, "ForceUpdate");
 	}
 
 //	notify("KC: " + keycode);
@@ -317,6 +302,13 @@ function init() {
 		var limitbox = document.getElementById("limitbox");
 		limitbox.value = getCookie("ttrss_vf_limit");
 	}
+
+//	if (getCookie("ttrss_vf_actfeed")) {
+//		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
+//	}
+
+	setCookie("ttrss_vf_actfeed", "");
+
 }
 
 

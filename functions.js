@@ -270,3 +270,11 @@ function gotoMain() {
 function gotoExportOpml() {
 	document.location.href = "opml.php?op=Export";
 }
+
+function getActiveFeedId() {
+	return getCookie("ttrss_vf_actfeed");
+}
+
+function setActiveFeedId(id) {
+	return setCookie("ttrss_vf_actfeed", id);
+}

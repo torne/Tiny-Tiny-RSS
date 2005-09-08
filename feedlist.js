@@ -1,5 +1,3 @@
-var active_feed_id = 666;
-var active_offset;
 
 function viewfeed(feed, skip, subop, doc) {
 
@@ -40,12 +38,9 @@ function viewfeed(feed, skip, subop, doc) {
 		limit = "All";
 	}
 
-	active_feed_id = feed;
-	active_offset = skip;
+//	document.getElementById("ACTFEEDID").innerHTML = feed;
 
-	document.getElementById("ACTFEEDID").innerHTML = feed;
-
-	setCookie("ttrss_vf_actfeed", feed);
+	setActiveFeedId(feed);
 
 	if (subop == "MarkAllRead") {
 
