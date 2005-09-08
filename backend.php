@@ -364,9 +364,6 @@
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
 
-//			printf("%d %s - %d %s<br>", strtotime($line["last_read"]), $line["last_read"],
-//				strtotime($line["updated"]), $line["updated"]);
-
 /*			if ($line["last_read"] && $line["updated"] &&			
 				strtotime($line["last_read"]) < strtotime($line["updated"]) && 
 				($line["unread"] == "f" || $line["unread"] == "0")) {
@@ -379,8 +376,23 @@
 					alt=\"Updated\">";
 			} */
 
-			$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.png\" 
-				alt=\"Updated\">";
+//			printf("L %d (%s) &gt; U %d (%s) = %d<br>", 
+//				strtotime($line["last_read"]), $line["last_read"],
+//				strtotime($line["updated"]), $line["updated"],
+//				strtotime($line["last_read"]) >= strtotime($line["updated"]));
+
+			if ($line["last_read"] != "" && $line["updated"] != "" &&
+				strtotime($line["last_read"]) < strtotime($line["updated"])) {
+
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+					alt=\"Updated\">";
+
+			} else {
+
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.png\" 
+					alt=\"Updated\">";
+
+			}
 
 			if ($line["unread"] == "t" || $line["unread"] == "1") {
 				$class .= "Unread";
