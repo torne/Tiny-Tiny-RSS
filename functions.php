@@ -320,4 +320,34 @@
 		return false;
 	}
 
+	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file) {
+
+		if (file_exists($icon_file) && filesize($icon_file) > 0) {
+				$feed_icon = "<img src=\"$icon_file\">";
+		} else {
+			$feed_icon = "<img src=\"images/blank_icon.gif\">";
+		}
+
+		$feed = "<a href=\"javascript:viewfeed($feed_id, 0);\">$feed_title</a>";
+
+		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
+		if (ENABLE_FEED_ICONS) {
+			print "$feed_icon";
+		}
+
+		print "<span id=\"FEEDN-$feed_id\">$feed</span>";
+
+		if ($unread != 0) {
+			$fctr_class = "";
+		} else {
+			$fctr_class = "class=\"invisible\"";
+		}
+
+		print "<span $fctr_class id=\"FEEDCTR-$feed_id\">
+			 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
+		
+		print "</li>";
+
+	}
+
 ?>

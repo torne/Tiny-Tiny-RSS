@@ -94,16 +94,36 @@ function toggleMark(id, toggle) {
 
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
+	var f_doc = parent.frames["feeds-frame"].document;
+
+	var vfeedu = f_doc.getElementById("FEEDU--1");
+
 	if (toggle == true) {
 		mark_img.src = "images/mark_set.png";
 		mark_img.alt = "Reset mark";
 		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', false)');
 		query = query + "&mark=1";
+
+		if (vfeedu) vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
+		
 	} else {
 		mark_img.src = "images/mark_unset.png";
 		mark_img.alt = "Set mark";
 		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', true)');
 		query = query + "&mark=0";
+
+		if (vfeedu) vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
+
+	}
+
+	var vfeedctr = f_doc.getElementById("FEEDCTR--1");
+
+	if (vfeedu && vfeedctr) {
+		if ((+vfeedu.innerHTML) > 0) {
+			vfeedctr.className = "odd";
+		} else {
+			vfeedctr.className = "invisible";
+		}
 	}
 
 	xmlhttp_rpc.open("GET", query, true);
