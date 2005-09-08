@@ -168,7 +168,7 @@ function viewfeed(feed, skip, subop) {
 	var view_mode;
 
 	if (viewbox) {
-		view_mode = viewbox.value;
+		view_mode = viewbox[viewbox.selectedIndex].text;
 	} else {
 		view_mode = "All Posts";
 	}
@@ -180,7 +180,7 @@ function viewfeed(feed, skip, subop) {
 	var limit;
 
 	if (limitbox) {
-		limit = limitbox.value;
+		limit = limitbox[limitbox.selectedIndex].text;
 		setCookie("ttrss_vf_limit", limit);
 	} else {
 		limit = "All";

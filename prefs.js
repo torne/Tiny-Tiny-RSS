@@ -120,8 +120,10 @@ function addFilter() {
 	} else {
 		notify("Adding filter...");
 
+		var v_match = match[match.selectedIndex].text;
+
 		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=add&regexp=" +
-			param_escape(regexp.value) + "&match=" + match.value, true);			
+			param_escape(regexp.value) + "&match=" + v_match, true);			
 			
 		xmlhttp.onreadystatechange=filterlist_callback;
 		xmlhttp.send(null);
@@ -375,7 +377,9 @@ function filterEditSave() {
 
 	var regexp = document.getElementById("iedit_regexp").value;
 	var descr = document.getElementById("iedit_descr").value;
-	var match = document.getElementById("iedit_match").value;
+	var match = document.getElementById("iedit_match");
+
+	var v_match = match[match.selectedIndex].text;
 
 //	notify("Saving filter " + filter + ": " + regexp + ", " + descr + ", " + match);
 
@@ -388,7 +392,7 @@ function filterEditSave() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
 		filter + "&r=" + param_escape(regexp) + "&d=" + param_escape(descr) +
-		"&m=" + param_escape(match), true);
+		"&m=" + param_escape(v_match), true);
 		
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null); 
