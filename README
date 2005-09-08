@@ -39,7 +39,10 @@ Requirements:
 			b) MySQL (InnoDB and server version 4.1+ required)
 
 	  example DB schemas and configuration in ttrss_schema.sql and
-	  ttrss_schema_mysql.sql
+	  ttrss_schema_mysql.sql.
+
+	  For PostgreSQL don't forget to create database with UTF-8 encoding
+	  (createdb -E UTF-8 -O owner_user database).
 
 Don't forget to copy config.php-dist to config.php and edit it.
 
