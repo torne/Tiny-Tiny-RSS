@@ -344,7 +344,9 @@
 		} 
 
 		$result = db_query($link, "SELECT 
-				id,title,updated,unread,feed_id,marked,link,last_read
+				id,title,updated,unread,feed_id,marked,link,last_read,
+				SUBSTRING(last_read,1,19) as last_read_noms,
+				SUBSTRING(updated,1,19) as updated_noms
 			FROM
 				ttrss_entries 
 			WHERE
@@ -364,25 +366,13 @@
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
 
-/*			if ($line["last_read"] && $line["updated"] &&			
-				strtotime($line["last_read"]) < strtotime($line["updated"]) && 
-				($line["unread"] == "f" || $line["unread"] == "0")) {
-						  
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
-					alt=\"Updated\">";
-				++$num_unread;
-			} else {
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.png\" 
-					alt=\"Updated\">";
-			} */
-
 //			printf("L %d (%s) &gt; U %d (%s) = %d<br>", 
-//				strtotime($line["last_read"]), $line["last_read"],
+//				strtotime($line["last_read_noms"]), $line["last_read_noms"],
 //				strtotime($line["updated"]), $line["updated"],
 //				strtotime($line["last_read"]) >= strtotime($line["updated"]));
 
 			if ($line["last_read"] != "" && $line["updated"] != "" &&
-				strtotime($line["last_read"]) < strtotime($line["updated"])) {
+				strtotime($line["last_read_noms"]) < strtotime($line["updated_noms"])) {
 
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
 					alt=\"Updated\">";
