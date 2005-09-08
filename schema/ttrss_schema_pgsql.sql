@@ -59,3 +59,15 @@ create table ttrss_filters (id serial primary key,
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '');
 
+drop table ttrss_labels;
+
+create table ttrss_labels (id serial primary key, 
+	sql_exp varchar(250) not null,
+	description varchar(250) not null);
+
+insert into ttrss_labels (sql_exp,description) values ('title = \'Interesting Topic\'',
+	'Example Label');
+
+insert into ttrss_labels (sql_exp,description) values ('unread = true', 
+	'Unread articles');
+

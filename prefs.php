@@ -60,6 +60,18 @@
 
 		</div>
 
+		<? if (ENABLE_LABELS) { ?>
+
+		<h2>Label Editor</h2>
+
+		<div class="expPane" id="labelConfPane">
+			<a class="button" 
+				href="javascript:expandPane('labelConfPane')">Expand section &gt;</a>
+
+		</div>
+
+		<? } ?>
+
 	</td>
 </tr>
 <tr>

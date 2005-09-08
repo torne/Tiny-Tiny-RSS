@@ -7,6 +7,7 @@ var xmlhttp = false;
 
 var active_feed = false;
 var active_filter = false;
+var active_label = false;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -68,6 +69,26 @@ function filterlist_callback() {
 	}
 }
 
+function labellist_callback() {
+	var container = document.getElementById('labelConfPane');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+
+		if (active_filter) {
+			var row = document.getElementById("LILRR-" + active_label);
+			if (row) {
+				if (!row.className.match("Selected")) {
+					row.className = row.className + "Selected";
+				}		
+			}
+			var checkbox = document.getElementById("LICHK-" + active_label);
+			
+			if (checkbox) {
+				checkbox.checked = true;
+			}
+		}
+	}
+}
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -105,6 +126,31 @@ function toggleSelectRow(sender) {
 	}
 }
 
+function addLabel() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sqlexp = document.getElementById("ladd_expr");
+
+	if (sqlexp.value.length == 0) {
+		notify("Missing SQL expression.");
+	} else {
+		notify("Adding label...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&exp=" +
+			param_escape(sqlexp.value), true);			
+			
+		xmlhttp.onreadystatechange=labellist_callback;
+		xmlhttp.send(null);
+
+		sqlexp.value = "";
+	}
+
+}
+
 function addFilter() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -132,6 +178,7 @@ function addFilter() {
 	}
 
 }
+
 function addFeed() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -154,6 +201,22 @@ function addFeed() {
 		link.value = "";
 
 	}
+
+}
+
+function editLabel(id) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_label = id;
+
+	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
+		param_escape(id), true);
+	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.send(null);
 
 }
 
@@ -190,6 +253,23 @@ function editFeed(feed) {
 	xmlhttp.send(null);
 
 }
+
+function getSelectedLabels() {
+
+	var content = document.getElementById("prefLabelList");
+
+	var sel_rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].className.match("Selected")) {
+			var row_id = content.rows[i].id.replace("LILRR-", "");
+			sel_rows.push(row_id);	
+		}
+	}
+
+	return sel_rows;
+}
+
 
 function getSelectedFilters() {
 
@@ -273,6 +353,53 @@ function unreadSelectedFeeds() {
 	}
 }
 
+function removeSelectedLabels() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedLabels();
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected labels...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=labellist_callback;
+		xmlhttp.send(null);
+
+	} else {
+		notify("Please select some labels first.");
+	}
+}
+
+function removeSelectedFilters() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFilters();
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected filters...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=filterlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+		notify("Please select some filters first.");
+	}
+}
+
+
 function removeSelectedFeeds() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -349,6 +476,24 @@ function feedEditSave() {
 
 }
 
+function labelEditCancel() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_label = false;
+
+	notify("Operation cancelled.");
+
+	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
+	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.send(null);
+
+}
+
+
 function filterEditCancel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -362,6 +507,41 @@ function filterEditCancel() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
 	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function labelEditSave() {
+
+	var label = active_label;
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sqlexp = document.getElementById("iedit_expr").value;
+	var descr = document.getElementById("iedit_descr").value;
+
+//	notify("Saving label " + sqlexp + ": " + descr);
+
+	if (sqlexp.length == 0) {
+		notify("SQL expression cannot be blank.");
+		return;
+	}
+
+	if (descr.length == 0) {
+		notify("Caption cannot be blank.");
+		return;
+	}
+
+	active_label = false;
+
+	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=editSave&id=" +
+		label + "&s=" + param_escape(sqlexp) + "&d=" + param_escape(descr),
+		true);
+		
+	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 
 }
@@ -399,27 +579,21 @@ function filterEditSave() {
 
 }
 
-function removeSelectedFilters() {
+function editSelectedLabel() {
+	var rows = getSelectedLabels();
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	if (rows.length == 0) {
+		notify("No labels are selected.");
+		return;
 	}
 
-	var sel_rows = getSelectedFilters();
-
-	if (sel_rows.length > 0) {
-
-		notify("Removing selected filters...");
-
-		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=filterlist_callback;
-		xmlhttp.send(null);
-
-	} else {
-		notify("Please select some filters first.");
+	if (rows.length > 1) {
+		notify("Please select one label.");
+		return;
 	}
+
+	editLabel(rows[0]);
+
 }
 
 
@@ -496,6 +670,22 @@ function updateFilterList() {
 
 }
 
+function updateLabelList() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	document.getElementById("labelConfPane").innerHTML = "Loading labels, please wait...";
+
+	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
+	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.send(null);
+
+}
+
+
 function expandPane(id) {
 
 	var container;
@@ -506,6 +696,8 @@ function expandPane(id) {
 		updateFeedList();
 	} else if (id == "filterConfPane") {
 		updateFilterList();
+	} else if (id == "labelConfPane") {
+		updateLabelList();
 	}
 }
 

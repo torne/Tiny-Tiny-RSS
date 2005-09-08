@@ -35,6 +35,23 @@
 
 		printFeedEntry(-1, "odd", "Starred articles", $num_starred, "images/mark_set.png");
 
+		if (ENABLE_LABELS) {
+
+			$result = db_query($link, "SELECT id,description FROM
+				ttrss_labels ORDER by description");
+	
+			if (db_num_rows($result) > 0) {
+				print "<li><hr></li>";
+			}
+	
+			while ($line = db_fetch_assoc($result)) {
+	
+				printFeedEntry(-$line["id"]-11, 
+					"odd", $line["description"], 0, "images/label.png");
+	
+			}
+		}
+
 		print "<li><hr></li>";
 
 		$result = db_query($link, "SELECT *,
@@ -312,13 +329,25 @@
 
 		if ($feed >= 0) {
 			$query_strategy_part = "feed_id = '$feed'";
-		} else if ($feed == -1) {
+		} else if ($feed == -1) { // starred virtual feed
 			$query_strategy_part = "marked = true";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
+		} else if ($feed <= -10) { // labels
+			$label_id = -$feed - 11;
+
+			$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
+				WHERE id = '$label_id'");
+		
+			$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
+	
+			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
+				id = feed_id) as feed_title,";
 		} else {
-			$query_strategy_part = "id => 0"; // dumb
+			$query_strategy_part = "id > 0"; // dumb
 		}
+
+		if ($feed < -10) error_reporting (0);
 
 		$result = db_query($link, "SELECT 
 				id,title,updated,unread,feed_id,marked,link,last_read,
@@ -333,8 +362,16 @@
 			$query_strategy_part ORDER BY updated DESC 
 			$limit_query_part");
 
+		if (!$result) {
+			print "<tr><td colspan='4' align='center'>
+				Could not display feed (query failed). Please check match syntax or local configuration.</td></tr>";
+			return;
+		}
+
 		$lnum = 0;
-		
+
+		error_reporting (E_ERROR | E_WARNING | E_PARSE);
+
 		$num_unread = 0;
 
 		while ($line = db_fetch_assoc($result)) {
@@ -415,15 +452,19 @@
 			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
 				WHERE feed_id = ttrss_feeds.id AND $query_strategy_part
 				AND unread = true");			
+
+			$unread = db_fetch_result($result, 0, "unread");
+
 		} else if ($feed == -1) {
 			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
 				WHERE $query_strategy_part");			
 
-		} else {
-			print "[viewfeed] feed type not implemented<br>";			
-		}				
+			$unread = db_fetch_result($result, 0, "unread");
 
-		$unread = db_fetch_result($result, 0, "unread");
+		} else {
+//			print "[viewfeed] feed type not implemented<br>";			
+			$unread = 0;
+		}				
 
 		// update unread/total counters and status for active feed in the feedlist 
 		// kludge, because iframe doesn't seem to support onload() 
@@ -825,6 +866,152 @@
 				onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
+		}
+	}
+
+	if ($op == "pref-labels") {
+
+		$subop = $_GET["subop"];
+
+		if ($subop == "editSave") {
+
+			$sql_exp = $_GET["s"];
+			$descr = $_GET["d"];
+			$label_id = db_escape_string($_GET["id"]);
+			
+//			print "$sql_exp : $descr : $label_id";
+			
+			$result = db_query($link, "UPDATE ttrss_labels SET 
+				sql_exp = '$sql_exp', 
+				description = '$descr'
+				WHERE id = '$label_id'");
+		}
+
+		if ($subop == "remove") {
+
+			if (!WEB_DEMO_MODE) {
+
+				$ids = split(",", $_GET["ids"]);
+
+				foreach ($ids as $id) {
+					db_query($link, "DELETE FROM ttrss_labels WHERE id = '$id'");
+					
+				}
+			}
+		}
+
+		if ($subop == "add") {
+		
+			if (!WEB_DEMO_MODE) {
+
+				$exp = $_GET["exp"];
+					
+				$result = db_query($link,
+					"INSERT INTO ttrss_labels (sql_exp,description) 
+						VALUES ('$exp', '$exp')");
+			} 
+		}
+
+		print "<table class=\"prefAddFeed\"><tr>
+			<td><input id=\"ladd_expr\"></td>";
+			
+		print"<td colspan=\"4\" align=\"right\">
+				<a class=\"button\" href=\"javascript:addLabel()\">Add label</a></td></tr>
+		</table>";
+
+		$result = db_query($link, "SELECT 
+				id,sql_exp,description
+			FROM 
+				ttrss_labels ORDER by description");
+
+		print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
+
+		print "<tr class=\"title\">
+					<td width=\"5%\">Select</td><td width=\"40%\">SQL expression</td>
+					<td width=\"40%\">Caption</td></tr>";
+		
+		$lnum = 0;
+		
+		while ($line = db_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+
+			$label_id = $line["id"];
+			$edit_label_id = $_GET["id"];
+
+			if ($subop == "edit" && $label_id != $edit_label_id) {
+				$class .= "Grayed";
+			}
+
+			print "<tr class=\"$class\" id=\"LILRR-$label_id\">";
+
+			$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
+			$line["description"] = htmlspecialchars($line["description"]);
+
+			if (!$edit_label_id || $subop != "edit") {
+
+				if (!$line["description"]) $line["description"] = "[No caption]";
+
+				print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
+
+				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+					$line["sql_exp"] . "</td>";		
+					
+				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+					$line["description"] . "</td>";			
+
+			} else if ($label_id != $edit_label_id) {
+
+				if (!$line["description"]) $line["description"] = "[No description]";
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" 
+					id=\"LICHK-".$line["id"]."\"></td>";
+
+				print "<td>".$line["sql_exp"]."</td>";		
+				print "<td>".$line["description"]."</td>";		
+
+			} else {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
+
+				print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
+					"\"></td>";
+
+				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+					"\"></td>";
+						
+			}
+				
+			
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		if ($lnum == 0) {
+			print "<tr><td colspan=\"4\" align=\"center\">No labels defined.</td></tr>";
+		}
+
+		print "</table>";
+
+		print "<p>";
+
+		if ($subop == "edit") {
+			print "Edit label:
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:labelEditSave()\" value=\"Save\">";
+					
+		} else {
+
+			print "
+				Selection:
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
 		}
 	}
 
