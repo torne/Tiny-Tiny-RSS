@@ -33,7 +33,7 @@
 			FROM ttrss_entries WHERE marked = true");
 		$num_starred = db_fetch_result($result, 0, "num_starred");
 
-		printFeedEntry(-1, "odd", "Starred items", $num_starred, "images/mark_set.png");
+		printFeedEntry(-1, "odd", "Starred articles", $num_starred, "images/mark_set.png");
 
 		print "<li><hr></li>";
 
