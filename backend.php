@@ -437,7 +437,7 @@
 		}
 
 		if ($lnum == 0) {
-			print "<tr><td align='center'>No entries found.</td></tr>";
+			print "<tr><td align='center'>No articles found.</td></tr>";
 		}
 
 /*		while ($lnum < HEADLINES_PER_PAGE) {
