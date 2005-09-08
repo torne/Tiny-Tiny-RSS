@@ -49,17 +49,37 @@ function feedlist_callback() {
 */
 
 function refetch_callback() {
-
 	if (xmlhttp.readyState == 4) {
 
 		document.title = "Tiny Tiny RSS";
 		notify("All feeds updated.");
 
-		updateFeedList();
-		
-	} 
-}
+		var reply = xmlhttp.responseXML.firstChild;
 
+		var f_document = window.frames["feeds-frame"].document;
+
+		for (var l = 0; l < reply.childNodes.length; l++) {
+			var id = reply.childNodes[l].getAttribute("id");
+			var ctr = reply.childNodes[l].getAttribute("counter");
+
+			var feedctr = f_document.getElementById("FEEDCTR-" + id);
+			var feedu = f_document.getElementById("FEEDU-" + id);
+			var feedr = f_document.getElementById("FEEDR-" + id);
+
+			feedu.innerHTML = ctr;
+
+			if (ctr > 0) {
+				feedctr.className = "odd";
+				if (id > 0 && !feedr.className.match("Unread")) {
+					feedr.className = feedr.className + "Unread";
+				}
+			} else {
+				feedctr.className = "invisible";
+				feedr.className = feedr.className.replace("Unread", "");
+			}
+		}  
+	}
+}
 
 function updateFeed(feed_id) {
 

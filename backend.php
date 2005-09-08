@@ -1,5 +1,9 @@
 <?
-//	header("Content-Type: application/xml");
+	$op = $_GET["op"];
+
+	if ($op == "rpc") {
+		header("Content-Type: application/xml");
+	}
 
 	require_once "config.php";
 	require_once "db.php";
@@ -11,9 +15,54 @@
 	if (DB_TYPE == "pgsql") {
 		pg_query("set client_encoding = 'utf-8'");
 	}
-
-	$op = $_GET["op"];
+	
 	$fetch = $_GET["fetch"];
+
+	function getLabelCounters($link) {
+
+		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
+			WHERE marked = true");
+
+		$count = pg_fetch_result($result, 0, "count");
+
+		print "<label id=\"-1\" counter=\"$count\"/>";
+
+		$result = db_query($link, "SELECT id,sql_exp,description FROM
+			ttrss_labels ORDER by description");
+	
+		while ($line = db_fetch_assoc($result)) {
+
+			$id = -$line["id"] - 11;
+
+			error_reporting (0);
+	
+			$tmp_result = pg_query("SELECT count(id) as count FROM ttrss_entries
+				WHERE " . $line["sql_exp"]);
+
+			$count = pg_fetch_result($tmp_result, 0, "count");
+
+			print "<feed id=\"$id\" counter=\"$count\"/>";
+
+			error_reporting (E_ERROR | E_WARNING | E_PARSE);
+	
+		}
+	}
+
+	function getFeedCounters($link) {
+
+		$result = db_query($link, "SELECT id,
+			(SELECT count(id) FROM ttrss_entries WHERE feed_id = ttrss_feeds.id 
+				AND unread = true) as count
+			FROM ttrss_feeds");
+	
+		while ($line = db_fetch_assoc($result)) {
+		
+			$id = $line["id"];
+			$count = $line["count"];
+
+			print "<feed id=\"$id\" counter=\"$count\"/>";
+		}
+	}
 
 	function outputFeedList($link) {
 
@@ -37,7 +86,7 @@
 
 		if (ENABLE_LABELS) {
 
-			$result = db_query($link, "SELECT id,description FROM
+			$result = db_query($link, "SELECT id,sql_exp,description FROM
 				ttrss_labels ORDER by description");
 	
 			if (db_num_rows($result) > 0) {
@@ -45,9 +94,18 @@
 			}
 	
 			while ($line = db_fetch_assoc($result)) {
+
+				error_reporting (0);
 	
+				$tmp_result = pg_query("SELECT count(id) as count FROM ttrss_entries
+					WHERE " . $line["sql_exp"]);
+
+				$count = pg_fetch_result($tmp_result, 0, "count");
+				
+				error_reporting (E_ERROR | E_WARNING | E_PARSE);
+
 				printFeedEntry(-$line["id"]-11, 
-					"odd", $line["description"], 0, "images/label.png");
+					"odd", $line["description"], $count, "images/label.png");
 	
 			}
 		}
@@ -107,6 +165,26 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "getLabelCounters") {
+			print "<rpc-reply>";
+			getLabelCounters($link);
+			print "</rpc-reply>";
+		}
+
+		if ($subop == "getFeedCounters") {
+			print "<rpc-reply>";
+			getFeedCounters($link);
+			print "</rpc-reply>";
+		}
+
+		if ($subop == "getAllCounters") {
+			print "<rpc-reply>";
+			getLabelCounters($link);
+			getFeedCounters($link);
+			print "</rpc-reply>";
+
+		}
+
 		if ($subop == "mark") {
 			$mark = $_GET["mark"];
 			$id = db_escape_string($_GET["id"]);
@@ -137,12 +215,13 @@
 			return;
 		}
 
-		if ($subop == "forceUpdateAllFeeds") {
+		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 			update_all_feeds($link, true);			
-		}
 
-		if ($subop == "updateAllFeeds") {
-			update_all_feeds($link, false);
+			print "<rpc-reply>";
+			getLabelCounters($link);
+			getFeedCounters($link);
+			print "</rpc-reply>";
 		}
 		
 		if ($subop == "catchupPage") {
@@ -158,7 +237,6 @@
 
 			print "Marked active page as read.";
 		}
-
 	}
 	
 	if ($op == "feeds") {
@@ -230,6 +308,9 @@
 			
 			print "</div>";
 
+			print "<script type=\"text/javascript\">
+				update_label_counters();
+			</script>";
 		}
 
 		if ($addheader) {
@@ -463,8 +544,17 @@
 
 		} else {
 //			print "[viewfeed] feed type not implemented<br>";			
-			$unread = 0;
+
+			error_reporting(0);
+			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
+				WHERE $query_strategy_part");			
+
+			$unread = db_fetch_result($result, 0, "unread");
+
+			error_reporting (E_ERROR | E_WARNING | E_PARSE);
 		}				
+
+		if (!$unread) $unread = 0;
 
 		// update unread/total counters and status for active feed in the feedlist 
 		// kludge, because iframe doesn't seem to support onload() 
@@ -483,13 +573,15 @@
 
 			var feedctr = p_document.getElementById(\"FEEDCTR-\" + $feed);
 
-			if ($unread > 0 && $feed != -1 && !feedr.className.match(\"Unread\")) {
+			if ($unread > 0 && $feed >= 0 && !feedr.className.match(\"Unread\")) {
 					feedr.className = feedr.className + \"Unread\";
 					feedctr.className = '';
 			} else if ($unread <= 0) {	
 					feedr.className = feedr.className.replace(\"Unread\", \"\");
 					feedctr.className = 'invisible';
 			}	
+
+			update_label_counters();
 
 //			p_notify(\"\");
 

@@ -8,7 +8,7 @@ var xmlhttp_rpc = false;
 // JScript gives us Conditional compilation, we can cope with old IE versions.
 // and security blocked creation of the objects.
 try {
-	xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+	xmlhttp_rpc = new ActiveXObject("Msxml2.XMLHTTP");
 } catch (e) {
 	try {
 		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
@@ -26,23 +26,25 @@ function view(id, feed_id) {
 
 //	p_notify("Loading article...");
 
+	var f_document = parent.frames["feeds-frame"].document;
+	var h_document = document;
+	var m_document = parent.document;
+
 	enableHotkeys();
 
-	var crow = document.getElementById("RROW-" + id);
-
-	var f_doc = parent.frames["feeds-frame"].document;
+	var crow = h_document.getElementById("RROW-" + id);
 
 	if (crow.className.match("Unread")) {
-		var umark = f_doc.getElementById("FEEDU-" + feed_id);
+		var umark = f_document.getElementById("FEEDU-" + feed_id);
 		
 		umark.innerHTML = umark.innerHTML - 1;
 		crow.className = crow.className.replace("Unread", "");
 
 		if (umark.innerHTML == "0") {
-			var feedr = f_doc.getElementById("FEEDR-" + feed_id);	
+			var feedr = f_document.getElementById("FEEDR-" + feed_id);	
 			feedr.className = feedr.className.replace("Unread", "");
 
-			var feedctr = f_doc.getElementById("FEEDCTR-" + feed_id);
+			var feedctr = f_document.getElementById("FEEDCTR-" + feed_id);
 
 			if (feedctr) {
 				feedctr.className = "invisible";
@@ -55,7 +57,7 @@ function view(id, feed_id) {
 
 	cleanSelected("headlinesList");
 
-	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+	var upd_img_pic = h_document.getElementById("FUPDPIC-" + id);
 
 	if (upd_img_pic) {
 		upd_img_pic.src = "images/blank_icon.gif";
@@ -64,7 +66,7 @@ function view(id, feed_id) {
 	var unread_rows = getVisibleUnreadHeadlines();
 
 	if (unread_rows.length == 0) {
-		var button = document.getElementById("btnCatchupPage");
+		var button = h_document.getElementById("btnCatchupPage");
 		if (button) {
 			button.className = "disabledButton";
 			button.href = "";
@@ -74,16 +76,19 @@ function view(id, feed_id) {
 	active_post_id = id; 
 	setActiveFeedId(feed_id);
 
-	var content = parent.document.getElementById("content-frame");
+	var content = m_document.getElementById("content-frame");
 
 	if (content) {
 		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id);
 		markHeadline(active_post_id);
 	}
+
 }
 
 
 function toggleMark(id, toggle) {
+
+	var f_document = parent.frames["feeds-frame"].document;
 
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
 		printLockingError();
@@ -94,9 +99,9 @@ function toggleMark(id, toggle) {
 
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
-	var f_doc = parent.frames["feeds-frame"].document;
+	var vfeedu = f_document.getElementById("FEEDU--1");
 
-	var vfeedu = f_doc.getElementById("FEEDU--1");
+//	alert(vfeedu);
 
 	if (toggle == true) {
 		mark_img.src = "images/mark_set.png";
@@ -116,7 +121,7 @@ function toggleMark(id, toggle) {
 
 	}
 
-	var vfeedctr = f_doc.getElementById("FEEDCTR--1");
+	var vfeedctr = f_document.getElementById("FEEDCTR--1");
 
 	if (vfeedu && vfeedctr) {
 		if ((+vfeedu.innerHTML) > 0) {
