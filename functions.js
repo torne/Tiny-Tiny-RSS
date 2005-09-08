@@ -240,7 +240,11 @@ function disableContainerChildren(id, disable, doc) {
 	for (var i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
-		child.disabled = disable;
+		try {
+			child.disabled = disable;
+		} catch (E) {
+
+		}
 
 		if (disable) {
 			if (child.className && child.className.match("button")) {
@@ -250,7 +254,7 @@ function disableContainerChildren(id, disable, doc) {
 			if (child.className && child.className.match("disabledButton")) {
 				child.className = "button";
 			}
-		}
+		} 
 	}
 
 }

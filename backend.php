@@ -400,7 +400,7 @@
 			$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
 				$line["title"] . "</a>";
 				
-			print "<tr class='$class' id='RROW-$id'";
+			print "<tr class='$class' id='RROW-$id'>";
 			// onclick=\"javascript:view($id,$feed_id)\">
 
 			print "<td valign='center' align='center'>$update_pic</td>";

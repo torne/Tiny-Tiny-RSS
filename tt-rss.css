@@ -38,7 +38,7 @@ table.main td.feeds {
 	border-width : 1px 0px 0px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
-	padding : 5px;
+	padding : 0px;
 }
 
 table.main td.headlinesToolbarBox {
@@ -211,7 +211,7 @@ a:hover {
 
 #notify {
 	font-weight : bold;
-	font-size : small;
+	font-size : 10pt;
 	display : none;
 	width : 350px;
 	color : gray;
@@ -276,17 +276,9 @@ a.button {
 }
 
 .disabledButton {
-	border : 1px solid #d0d0d0;
-	background : white;
-	color : #909090;	
-	padding : 1px 5px 1px 5px;
-	font-size : small;
-}
-
-.disabledButton:hover {
-	background : white;
-	text-decoration : none;
-	color : #909090;
+	border : 1px solid #c0c0c0;
+	background-color : white;
+	color : gray;	
 }
 
 .evenGrayed {

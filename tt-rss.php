@@ -4,6 +4,9 @@
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="tt-rss.js"></script>
+	<!--[if gte IE 5.5000]>
+		<script type="text/javascript" src="pngfix.js"></script>
+	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
