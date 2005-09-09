@@ -1,3 +1,4 @@
+drop table if exists ttrss_tags;
 drop table if exists ttrss_entries;
 drop table if exists ttrss_feeds;
 
@@ -68,4 +69,8 @@ create table ttrss_labels (id integer primary key auto_increment,
 
 insert into ttrss_labels (sql_exp,description) values ('unread = true', 
 	'Unread articles');
+
+create table ttrss_tags (id integer primary key auto_increment, 
+	tag_name varchar(250) not null,
+	post_id integer references ttrss_entries(id)) TYPE=InnoDB;
 

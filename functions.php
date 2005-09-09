@@ -269,11 +269,46 @@
 						$result = db_query($link, $query);
 					}
 				}
+
+				/* taaaags */
+				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
+
+				$entry_tags = null;
+
+				preg_match_all("/<a.*?rel=.tag.*?>([^>]+)<\/a>/i", $entry_content,
+					$entry_tags);
+
+				$entry_tags = $entry_tags[1];
+
+				if (count($entry_tags) > 0) {
+				
+					$result = db_query($link, "SELECT id FROM ttrss_entries 
+						WHERE guid = '$entry_guid'");
+
+					if (!$result || db_num_rows($result) != 1) {
+						return;
+					}
+
+					$entry_id = db_fetch_result($result, 0, "id");
+				
+					foreach ($entry_tags as $tag) {
+						$tag = db_escape_string(strtolower($tag));
+
+						$result = db_query($link, "SELECT id FROM ttrss_tags		
+							WHERE tag_name = '$tag' AND post_id = '$entry_id' LIMIT 1");
+
+						if ($result && db_num_rows($result) == 0) {
+							
+//							print "tagging $entry_id as $tag<br>";
+
+							db_query($link, "INSERT INTO ttrss_tags (tag_name,post_id)
+								VALUES ('$tag', '$entry_id')");
+						}							
+					}
+				}
 			}
 
-			if ($result) {
-				$result = db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
-			}
+			db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW()");
 
 		}
 

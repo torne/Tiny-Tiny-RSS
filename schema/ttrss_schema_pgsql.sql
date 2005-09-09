@@ -1,3 +1,4 @@
+drop table ttrss_tags;
 drop table ttrss_entries;
 drop table ttrss_feeds;
 
@@ -28,7 +29,7 @@ insert into ttrss_feeds (title,feed_url) values ('Technocrat.net',
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
-	feed_id int references ttrss_feeds(id) not null, 
+	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	updated timestamp not null, 
 	title varchar(250) not null, 
 	guid varchar(300) not null unique, 
@@ -67,4 +68,8 @@ create table ttrss_labels (id serial primary key,
 
 insert into ttrss_labels (sql_exp,description) values ('unread = true', 
 	'Unread articles');
+
+create table ttrss_tags (id serial primary key, 
+	tag_name varchar(250) not null,
+	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
 

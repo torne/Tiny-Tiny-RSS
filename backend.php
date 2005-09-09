@@ -668,10 +668,7 @@
 				$ids = split(",", $_GET["ids"]);
 
 				foreach ($ids as $id) {
-					db_query($link, "BEGIN");
-					db_query($link, "DELETE FROM ttrss_entries WHERE feed_id = '$id'");
 					db_query($link, "DELETE FROM ttrss_feeds WHERE id = '$id'");
-					db_query($link, "COMMIT");
 					
 					if (file_exists(ICONS_DIR . "/$id.ico")) {
 						unlink(ICONS_DIR . "/$id.ico");
