@@ -87,11 +87,11 @@ function toggleMark(id, toggle) {
 		return;
 	}
 
-	var mark_img = document.getElementById("FMARKPIC-" + id);
-
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
+	var mark_img = document.getElementById("FMARKPIC-" + id);
 	var vfeedu = f_document.getElementById("FEEDU--1");
+	var crow = document.getElementById("RROW-" + id);
 
 //	alert(vfeedu);
 
@@ -101,15 +101,19 @@ function toggleMark(id, toggle) {
 		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', false)');
 		query = query + "&mark=1";
 
-		if (vfeedu) vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
-		
+		if (vfeedu && crow.className.match("Unread")) {
+			vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
+		}
+
 	} else {
 		mark_img.src = "images/mark_unset.png";
 		mark_img.alt = "Set mark";
 		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', true)');
 		query = query + "&mark=0";
 
-		if (vfeedu) vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
+		if (vfeedu && crow.className.match("Unread")) {
+			vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
+		}
 
 	}
 
@@ -118,9 +122,9 @@ function toggleMark(id, toggle) {
 
 	if (vfeedu && vfeedctr) {
 		if ((+vfeedu.innerHTML) > 0) {
-			vfeedctr.className = "odd";
-			if (!vfeedr.className.match("Unread")) {
+			if (crow.className.match("Unread") && !vfeedr.className.match("Unread")) {
 				vfeedr.className = vfeedr.className + "Unread";
+				vfeedctr.className = "odd";
 			}
 		} else {
 			vfeedctr.className = "invisible";
