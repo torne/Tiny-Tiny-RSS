@@ -47,6 +47,10 @@
 		
 		<!-- <div id="feeds">&nbsp;</div> -->
 
+		<div id="dispSwitch"> 
+			<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
+		</div>
+
 		<iframe frameborder="0" 
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 	

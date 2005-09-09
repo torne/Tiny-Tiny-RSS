@@ -10,6 +10,8 @@ var first_run = true;
 
 var search_query = "";
 
+var display_tags = false;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -27,6 +29,20 @@ try {
 
 if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
+}
+
+function toggleTags() {
+	display_tags = !display_tags;
+
+	var p = document.getElementById("dispSwitchPrompt");
+
+	if (display_tags) {
+		p.innerHTML = "display feeds";
+	} else {
+		p.innerHTML = "display tags";
+	}
+	
+	updateFeedList();
 }
 
 /*
@@ -66,16 +82,19 @@ function refetch_callback() {
 			var feedu = f_document.getElementById("FEEDU-" + id);
 			var feedr = f_document.getElementById("FEEDR-" + id);
 
-			feedu.innerHTML = ctr;
+			if (feedctr && feedu && feedr) {
 
-			if (ctr > 0) {
-				feedctr.className = "odd";
-				if (!feedr.className.match("Unread")) {
-					feedr.className = feedr.className + "Unread";
+				feedu.innerHTML = ctr;
+	
+				if (ctr > 0) {
+					feedctr.className = "odd";
+					if (!feedr.className.match("Unread")) {
+						feedr.className = feedr.className + "Unread";
+					}
+				} else {
+					feedctr.className = "invisible";
+					feedr.className = feedr.className.replace("Unread", "");
 				}
-			} else {
-				feedctr.className = "invisible";
-				feedr.className = feedr.className.replace("Unread", "");
 			}
 		}  
 	}
@@ -125,6 +144,10 @@ function updateFeedList(silent, fetch) {
 //	}
 
 	var query_str = "backend.php?op=feeds";
+
+	if (display_tags) {
+		query_str = query_str + "&tags=1";
+	}
 
 	if (getActiveFeedId()) {
 		query_str = query_str + "&actid=" + getActiveFeedId();

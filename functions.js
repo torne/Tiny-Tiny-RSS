@@ -314,24 +314,27 @@ function label_counters_callback() {
 			var feedu = f_document.getElementById("FEEDU-" + id);
 			var feedr = f_document.getElementById("FEEDR-" + id);
 
-			feedu.innerHTML = ctr;
+			if (feedctr && feedu && feedr) {
 
-			if (ctr > 0) {
-				feedctr.className = "odd";
-				if (!feedr.className.match("Unread")) {
-					feedr.className = feedr.className + "Unread";
-				}
-			} else {
-				feedctr.className = "invisible";
-				feedr.className = feedr.className.replace("Unread", "");
-			}			
+				feedu.innerHTML = ctr;
+	
+				if (ctr > 0) {
+					feedctr.className = "odd";
+					if (!feedr.className.match("Unread")) {
+						feedr.className = feedr.className + "Unread";
+					}
+				} else {
+					feedctr.className = "invisible";
+					feedr.className = feedr.className.replace("Unread", "");
+				}			
+			}
 		}
 	}
 }
 
 function update_label_counters(feed) {
 	if (xmlhttp_ready(xmlhttp_rpc)) {
-		var query = "backend.php?op=rpc&subop=getLabelCounters";
+		var query = "backend.php?op=rpc&subop=getAllCounters";
 
 		if (feed > 0) {
 			query = query + "&aid=" + feed;

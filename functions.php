@@ -17,10 +17,12 @@
 
 		db_query($link, "BEGIN");
 
-		$result = db_query($link, "SELECT feed_url,id FROM ttrss_feeds");
+		$result = db_query($link, "SELECT feed_url,id,last_updated FROM ttrss_feeds");
 
 		while ($line = db_fetch_assoc($result)) {
-			update_rss_feed($link, $line["feed_url"], $line["id"]);
+			if ($line["last_updated"] && time() - strtotime($line["last_updated"]) > 1800) {
+				update_rss_feed($link, $line["feed_url"], $line["id"]);
+			}
 		}
 
 		purge_old_posts($link);
@@ -363,7 +365,7 @@
 			$feed_icon = "<img src=\"images/blank_icon.gif\">";
 		}
 
-		$feed = "<a href=\"javascript:viewfeed($feed_id, 0);\">$feed_title</a>";
+		$feed = "<a href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (ENABLE_FEED_ICONS) {

@@ -18,6 +18,29 @@
 	
 	$fetch = $_GET["fetch"];
 
+	/* FIXME this needs reworking */
+
+	function getTagCounters($link) {
+		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
+			FROM ttrss_tags,ttrss_entries WHERE
+			post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
+		UNION
+			select tag_name,0 as count FROM ttrss_tags");
+
+		$tags = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$tags[$line["tag_name"]] += $line["count"];
+		}
+
+		foreach (array_keys($tags) as $tag) {
+			$unread = $tags[$tag];			
+
+			$tag = htmlspecialchars($tag);
+			print "<tag id=\"$tag\" counter=\"$unread\"/>";
+		} 
+	}
+
 	function getLabelCounters($link) {
 
 		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
@@ -75,7 +98,7 @@
 		}
 	}
 
-	function outputFeedList($link) {
+	function outputFeedList($link, $tags = false) {
 
 		print "<html><head>
 			<title>Tiny Tiny RSS : Feedlist</title>
@@ -87,91 +110,125 @@
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
 
-		/* virtual feeds */
+		if (!$tags) {
 
-		$result = db_query($link, "SELECT count(id) as num_starred 
-			FROM ttrss_entries WHERE marked = true AND unread = true");
-		$num_starred = db_fetch_result($result, 0, "num_starred");
+			/* virtual feeds */
 
-		printFeedEntry(-1, "odd", "Starred articles", $num_starred, "images/mark_set.png");
+			$result = db_query($link, "SELECT count(id) as num_starred 
+				FROM ttrss_entries WHERE marked = true AND unread = true");
+			$num_starred = db_fetch_result($result, 0, "num_starred");
 
-		if (ENABLE_LABELS) {
+			printFeedEntry(-1, "odd", "Starred articles", $num_starred, 
+				"images/mark_set.png");
 
-			$result = db_query($link, "SELECT id,sql_exp,description FROM
-				ttrss_labels ORDER by description");
+			if (ENABLE_LABELS) {
 	
-			if (db_num_rows($result) > 0) {
-				print "<li><hr></li>";
+				$result = db_query($link, "SELECT id,sql_exp,description FROM
+					ttrss_labels ORDER by description");
+		
+				if (db_num_rows($result) > 0) {
+					print "<li><hr></li>";
+				}
+		
+				while ($line = db_fetch_assoc($result)) {
+	
+					error_reporting (0);
+		
+					$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
+						WHERE (" . $line["sql_exp"] . ") AND unread = true");
+	
+					$count = db_fetch_result($tmp_result, 0, "count");
+	
+					$class = "odd";
+	
+					if ($count > 0) {
+						$class .= "Unread";
+					}
+					
+					error_reporting (E_ERROR | E_WARNING | E_PARSE);
+	
+					printFeedEntry(-$line["id"]-11, 
+						$class, $line["description"], $count, "images/label.png");
+		
+				}
 			}
+	
+			print "<li><hr></li>";
+
+			$result = db_query($link, "SELECT *,
+				(SELECT count(id) FROM ttrss_entries 
+					WHERE feed_id = ttrss_feeds.id) AS total,
+				(SELECT count(id) FROM ttrss_entries
+					WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
+				FROM ttrss_feeds ORDER BY title");			
+	
+			$actid = $_GET["actid"];
+	
+			/* real feeds */
+	
+			$lnum = 0;
+	
+			$total_unread = 0;
 	
 			while ($line = db_fetch_assoc($result)) {
-
-				error_reporting (0);
+			
+				$feed = $line["title"];
+				$feed_id = $line["id"];	  
 	
-				$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-					WHERE (" . $line["sql_exp"] . ") AND unread = true");
-
-				$count = db_fetch_result($tmp_result, 0, "count");
-
+				$subop = $_GET["subop"];
+				
+				$total = $line["total"];
+				$unread = $line["unread"];
+				
+	//			$class = ($lnum % 2) ? "even" : "odd";
+	
 				$class = "odd";
+	
+				if ($unread > 0) $class .= "Unread";
+	
+				if ($actid == $feed_id) {
+					$class .= "Selected";
+				}
+	
+				$total_unread += $unread;
+	
+				printFeedEntry($feed_id, $class, $feed, $unread, "icons/$feed_id.ico");
+	
+				++$lnum;
+			}
+		} else {
 
-				if ($count > 0) {
+			// tags
+
+			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
+				FROM ttrss_tags,ttrss_entries WHERE
+				post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
+			UNION
+				select tag_name,0 as count FROM ttrss_tags");
+	
+			$tags = array();
+	
+			while ($line = db_fetch_assoc($result)) {
+				$tags[$line["tag_name"]] += $line["count"];
+			}
+	
+			foreach (array_keys($tags) as $tag) {
+	
+				$unread = $tags[$tag];
+	
+				$class = "odd";
+	
+				if ($unread > 0) {
 					$class .= "Unread";
 				}
-				
-				error_reporting (E_ERROR | E_WARNING | E_PARSE);
-
-				printFeedEntry(-$line["id"]-11, 
-					$class, $line["description"], $count, "images/label.png");
 	
-			}
+				printFeedEntry($tag, $class, $tag, $unread, "images/tag.png");
+	
+			} 
+
 		}
 
-		print "<li><hr></li>";
-
-		$result = db_query($link, "SELECT *,
-			(SELECT count(id) FROM ttrss_entries 
-				WHERE feed_id = ttrss_feeds.id) AS total,
-			(SELECT count(id) FROM ttrss_entries
-				WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
-			FROM ttrss_feeds ORDER BY title");			
-
-		$actid = $_GET["actid"];
-
-		/* real feeds */
-
-		$lnum = 0;
-
-		$total_unread = 0;
-
-		while ($line = db_fetch_assoc($result)) {
-		
-			$feed = $line["title"];
-			$feed_id = $line["id"];	  
-
-			$subop = $_GET["subop"];
-			
-			$total = $line["total"];
-			$unread = $line["unread"];
-			
-//			$class = ($lnum % 2) ? "even" : "odd";
-
-			$class = "odd";
-
-			if ($unread > 0) $class .= "Unread";
-
-			if ($actid == $feed_id) {
-				$class .= "Selected";
-			}
-
-			$total_unread += $unread;
-
-			printFeedEntry($feed_id, $class, $feed, $unread, "icons/$feed_id.ico");
-
-			++$lnum;
-		}
-
-		print "</table>";
+		print "</ul>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
 
@@ -202,6 +259,7 @@
 			print "<rpc-reply>";
 			getLabelCounters($link);
 			getFeedCounters($link);
+			getTagCounters($link);
 			print "</rpc-reply>";
 
 		}
@@ -242,6 +300,7 @@
 			print "<rpc-reply>";
 			getLabelCounters($link);
 			getFeedCounters($link);
+			getTagCounters($link);
 			print "</rpc-reply>";
 		}
 		
@@ -262,13 +321,15 @@
 	
 	if ($op == "feeds") {
 
+		$tags = $_GET["tags"];
+
 		$subop = $_GET["subop"];
 
 		if ($subop == "catchupAll") {
 			db_query($link, "UPDATE ttrss_entries SET last_read = NOW(),unread = false");
 		}
 
-		outputFeedList($link);
+		outputFeedList($link, $tags);
 
 	}
 
@@ -331,7 +392,7 @@
 			print "</div>";
 
 			print "<script type=\"text/javascript\">
-				update_label_counters($feed_id);
+				update_label_counters('$feed_id');
 			</script>";
 		}
 
@@ -368,7 +429,7 @@
 				</head><body>";
 		}
 
-		if ($feed >= 0) {
+		if (sprintf("%d", $feed) != 0 && $feed >= 0) {
 
 			$result = db_query($link, 
 				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s
@@ -430,7 +491,11 @@
 
 		$vfeed_query_part = "";
 
-		if ($feed >= 0) {
+		if (sprintf("%d", $feed) == 0) {
+			$query_strategy_part = "ttrss_entries.id > 0";
+			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
+				id = feed_id) as feed_title,";
+		} else if ($feed >= 0) {
 			$query_strategy_part = "feed_id = '$feed'";
 		} else if ($feed == -1) { // starred virtual feed
 			$query_strategy_part = "marked = true";
@@ -458,18 +523,39 @@
 
 		if ($feed < -10) error_reporting (0);
 
-		$result = db_query($link, "SELECT 
-				id,title,updated,unread,feed_id,marked,link,last_read,
+		if (sprintf("%d", $feed) != 0) {
+
+			$result = db_query($link, "SELECT 
+					id,title,updated,unread,feed_id,marked,link,last_read,
+					SUBSTRING(last_read,1,19) as last_read_noms,
+					$vfeed_query_part
+					SUBSTRING(updated,1,19) as updated_noms
+				FROM
+					ttrss_entries 
+				WHERE
+				$search_query_part
+				$view_query_part
+				$query_strategy_part ORDER BY $order_by
+				$limit_query_part");
+
+		} else {
+			// browsing by tag
+
+			$result = db_query($link, "SELECT
+				ttrss_entries.id as id,title,updated,unread,feed_id,
+				marked,link,last_read,
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
 				SUBSTRING(updated,1,19) as updated_noms
-			FROM
-				ttrss_entries 
-			WHERE
-			$search_query_part
-			$view_query_part
-			$query_strategy_part ORDER BY $order_by
-			$limit_query_part");
+				FROM
+					ttrss_entries,ttrss_tags
+				WHERE
+					post_id = ttrss_entries.id AND tag_name = '$feed' AND
+					$view_query_part
+					$search_query_part
+					$query_strategy_part ORDER BY $order_by
+				$limit_query_part");	
+		}
 
 		if (!$result) {
 			print "<tr><td colspan='4' align='center'>
@@ -548,71 +634,12 @@
 		if ($lnum == 0) {
 			print "<tr><td align='center'>No articles found.</td></tr>";
 		}
-
-/*		while ($lnum < HEADLINES_PER_PAGE) {
-			++$lnum;
-			print "<tr><td>&nbsp;</td></tr>";
-		} */
 		
 		print "</table>";
-
-		if ($feed >= 0) {
-
-			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
-				WHERE feed_id = '$feed' AND $query_strategy_part
-				AND unread = true");			
-			
-			$unread = db_fetch_result($result, 0, "unread");
-
-		} else if ($feed == -1) {
-			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
-				WHERE $query_strategy_part");			
-
-			$unread = db_fetch_result($result, 0, "unread");
-
-		} else {
-//			print "[viewfeed] feed type not implemented<br>";			
-
-			error_reporting(0);
-			$result = db_query($link, "SELECT count(id) as unread FROM ttrss_entries
-				WHERE $query_strategy_part");			
-
-			$unread = db_fetch_result($result, 0, "unread");
-
-			error_reporting (E_ERROR | E_WARNING | E_PARSE);
-		}				
-
-		if (!$unread) $unread = 0;
-
-		// update unread/total counters and status for active feed in the feedlist 
-		// kludge, because iframe doesn't seem to support onload() 
 		
 		print "<script type=\"text/javascript\">
 			document.onkeydown = hotkey_handler;
-
-			var p_document = parent.frames['feeds-frame'].document;
-
-			var feedr = p_document.getElementById(\"FEEDR-\" + $feed);
-			var feedu = p_document.getElementById(\"FEEDU-\" + $feed);
-
-			if (feedu) {
-				feedu.innerHTML = \"$unread\";
-			}
-
-			var feedctr = p_document.getElementById(\"FEEDCTR-\" + $feed);
-
-			if ($unread > 0 && $feed >= 0 && !feedr.className.match(\"Unread\")) {
-					feedr.className = feedr.className + \"Unread\";
-					feedctr.className = '';
-			} else if ($unread <= 0) {	
-					feedr.className = feedr.className.replace(\"Unread\", \"\");
-					feedctr.className = 'invisible';
-			}	
-
-			update_label_counters($feed);
-
-//			p_notify(\"\");
-
+			update_label_counters('$feed');
 		</script>";
 
 		if ($addheader) {
