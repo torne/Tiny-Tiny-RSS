@@ -118,7 +118,11 @@
 				FROM ttrss_entries WHERE marked = true AND unread = true");
 			$num_starred = db_fetch_result($result, 0, "num_starred");
 
-			printFeedEntry(-1, "odd", "Starred articles", $num_starred, 
+			$class = "odd";
+
+			if ($num_starred > 0) $class .= "Unread";
+
+			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
 				"images/mark_set.png");
 
 			if (ENABLE_LABELS) {

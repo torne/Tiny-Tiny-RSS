@@ -114,12 +114,17 @@ function toggleMark(id, toggle) {
 	}
 
 	var vfeedctr = f_document.getElementById("FEEDCTR--1");
+	var vfeedr = f_document.getElementById("FEEDR--1");
 
 	if (vfeedu && vfeedctr) {
 		if ((+vfeedu.innerHTML) > 0) {
 			vfeedctr.className = "odd";
+			if (!vfeedr.className.match("Unread")) {
+				vfeedr.className = vfeedr.className + "Unread";
+			}
 		} else {
 			vfeedctr.className = "invisible";
+			vfeedr.className = vfeedr.className.replace("Unread", "");
 		}
 	}
 

@@ -20,7 +20,7 @@
 		$result = db_query($link, "SELECT feed_url,id,last_updated FROM ttrss_feeds");
 
 		while ($line = db_fetch_assoc($result)) {
-			if ($line["last_updated"] && time() - strtotime($line["last_updated"]) > 1800) {
+			if (!$line["last_updated"] || time() - strtotime($line["last_updated"]) > 1800) {
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
 			}
 		}
@@ -156,6 +156,11 @@
 				if (!$entry_content) $entry_content = $item["content"];
 
 //				if (!$entry_content) continue;
+
+				// WTF
+				if (is_array($entry_content)) {
+					$entry_content = $entry_content["encoded"];
+				}
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
