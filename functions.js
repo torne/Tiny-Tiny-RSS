@@ -331,7 +331,12 @@ function label_counters_callback() {
 
 function update_label_counters(feed) {
 	if (xmlhttp_ready(xmlhttp_rpc)) {
-		var query = "backend.php?op=rpc&subop=getLabelCounters&aid=" + feed;	
+		var query = "backend.php?op=rpc&subop=getLabelCounters";
+
+		if (feed > 0) {
+			query = query + "&aid=" + feed;
+		}
+
 		xmlhttp_rpc.open("GET", query, true);
 		xmlhttp_rpc.onreadystatechange=label_counters_callback;
 		xmlhttp_rpc.send(null);
