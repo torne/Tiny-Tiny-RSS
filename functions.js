@@ -312,14 +312,19 @@ function label_counters_callback() {
 
 			var feedctr = f_document.getElementById("FEEDCTR-" + id);
 			var feedu = f_document.getElementById("FEEDU-" + id);
+			var feedr = f_document.getElementById("FEEDR-" + id);
 
 			feedu.innerHTML = ctr;
 
 			if (ctr > 0) {
 				feedctr.className = "odd";
+				if (!feedr.className.match("Unread") && id != -1) {
+					feedr.className = feedr.className + "Unread";
+				}
 			} else {
 				feedctr.className = "invisible";
-			}
+				feedr.className = feedr.className.replace("Unread", "");
+			}			
 		}
 	}
 }

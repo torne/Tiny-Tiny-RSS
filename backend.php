@@ -37,7 +37,7 @@
 			error_reporting (0);
 
 			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-				WHERE " . $line["sql_exp"]);
+				WHERE (" . $line["sql_exp"] . ") AND unread = true");
 
 			$count = db_fetch_result($tmp_result, 0, "count");
 
@@ -98,14 +98,20 @@
 				error_reporting (0);
 	
 				$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-					WHERE " . $line["sql_exp"]);
+					WHERE (" . $line["sql_exp"] . ") AND unread = true");
 
 				$count = db_fetch_result($tmp_result, 0, "count");
+
+				$class = "odd";
+
+				if ($count > 0) {
+					$class .= "Unread";
+				}
 				
 				error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 				printFeedEntry(-$line["id"]-11, 
-					"odd", $line["description"], $count, "images/label.png");
+					$class, $line["description"], $count, "images/label.png");
 	
 			}
 		}
