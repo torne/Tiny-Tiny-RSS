@@ -450,6 +450,12 @@
 			$query_strategy_part = "id > 0"; // dumb
 		}
 
+		$order_by = "updated DESC";
+
+//		if ($feed < -10) {
+//			$order_by = "feed_id,updated DESC";
+//		}
+
 		if ($feed < -10) error_reporting (0);
 
 		$result = db_query($link, "SELECT 
@@ -462,7 +468,7 @@
 			WHERE
 			$search_query_part
 			$view_query_part
-			$query_strategy_part ORDER BY updated DESC 
+			$query_strategy_part ORDER BY $order_by
 			$limit_query_part");
 
 		if (!$result) {
