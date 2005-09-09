@@ -318,7 +318,7 @@ function label_counters_callback() {
 
 			if (ctr > 0) {
 				feedctr.className = "odd";
-				if (!feedr.className.match("Unread") && id != -1) {
+				if (!feedr.className.match("Unread")) {
 					feedr.className = feedr.className + "Unread";
 				}
 			} else {
@@ -329,9 +329,9 @@ function label_counters_callback() {
 	}
 }
 
-function update_label_counters() {
+function update_label_counters(feed) {
 	if (xmlhttp_ready(xmlhttp_rpc)) {
-		var query = "backend.php?op=rpc&subop=getLabelCounters";	
+		var query = "backend.php?op=rpc&subop=getLabelCounters&aid=" + feed;	
 		xmlhttp_rpc.open("GET", query, true);
 		xmlhttp_rpc.onreadystatechange=label_counters_callback;
 		xmlhttp_rpc.send(null);

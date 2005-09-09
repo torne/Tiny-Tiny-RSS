@@ -70,7 +70,7 @@ function refetch_callback() {
 
 			if (ctr > 0) {
 				feedctr.className = "odd";
-				if (id != -1 && !feedr.className.match("Unread")) {
+				if (!feedr.className.match("Unread")) {
 					feedr.className = feedr.className + "Unread";
 				}
 			} else {

@@ -19,6 +19,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
+/*
 function label_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		var reply = xmlhttp_rpc.responseXML.firstChild;
@@ -51,3 +52,4 @@ function update_label_counters() {
 		xmlhttp_rpc.send(null);
 	}
 }
+*/

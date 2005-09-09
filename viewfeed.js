@@ -34,7 +34,7 @@ function view(id, feed_id) {
 
 	var crow = h_document.getElementById("RROW-" + id);
 
-	if (crow.className.match("Unread")) {
+/*	if (crow.className.match("Unread")) {
 		var umark = f_document.getElementById("FEEDU-" + feed_id);
 		
 		umark.innerHTML = umark.innerHTML - 1;
@@ -52,8 +52,9 @@ function view(id, feed_id) {
 		}
 
 		total_unread--;
-	}	
+	}	 */
 
+	crow.className = crow.className.replace("Unread", "");
 
 	cleanSelected("headlinesList");
 
@@ -63,23 +64,14 @@ function view(id, feed_id) {
 		upd_img_pic.src = "images/blank_icon.gif";
 	} 
 
-	var unread_rows = getVisibleUnreadHeadlines();
-
-	if (unread_rows.length == 0) {
-		var button = h_document.getElementById("btnCatchupPage");
-		if (button) {
-			button.className = "disabledButton";
-			button.href = "";
-		}
-	}
-
 	active_post_id = id; 
 	setActiveFeedId(feed_id);
 
 	var content = m_document.getElementById("content-frame");
 
 	if (content) {
-		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id);
+		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id) +
+			"&feed=" + param_escape(feed_id);
 		markHeadline(active_post_id);
 	}
 

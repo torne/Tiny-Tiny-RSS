@@ -21,7 +21,7 @@
 	function getLabelCounters($link) {
 
 		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-			WHERE marked = true");
+			WHERE marked = true AND unread = true");
 
 		$count = db_fetch_result($result, 0, "count");
 
@@ -48,8 +48,19 @@
 		}
 	}
 
-	function getFeedCounters($link) {
+	function getFeedCounter($link, $id) {
+	
+		$result = db_query($link, "SELECT 
+				count(id) as count FROM ttrss_entries
+			WHERE feed_id = '$id'	AND unread = true");
+	
+			$count = db_fetch_result($result, 0, "count");
+			
+			print "<feed id=\"$id\" counter=\"$count\"/>";		
+	}
 
+	function getFeedCounters($link) {
+	
 		$result = db_query($link, "SELECT id,
 			(SELECT count(id) FROM ttrss_entries WHERE feed_id = ttrss_feeds.id 
 				AND unread = true) as count
@@ -79,7 +90,7 @@
 		/* virtual feeds */
 
 		$result = db_query($link, "SELECT count(id) as num_starred 
-			FROM ttrss_entries WHERE marked = true");
+			FROM ttrss_entries WHERE marked = true AND unread = true");
 		$num_starred = db_fetch_result($result, 0, "num_starred");
 
 		printFeedEntry(-1, "odd", "Starred articles", $num_starred, "images/mark_set.png");
@@ -172,8 +183,12 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "getLabelCounters") {
+			$aid = $_GET["aid"];		
 			print "<rpc-reply>";
 			getLabelCounters($link);
+			if ($aid) {
+				getFeedCounter($link, $aid);
+			}
 			print "</rpc-reply>";
 		}
 
@@ -260,6 +275,7 @@
 	if ($op == "view") {
 
 		$id = $_GET["id"];
+		$feed_id = $_GET["feed"];
 
 		$result = db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
 
@@ -315,7 +331,7 @@
 			print "</div>";
 
 			print "<script type=\"text/javascript\">
-				update_label_counters();
+				update_label_counters($feed_id);
 			</script>";
 		}
 
@@ -587,7 +603,7 @@
 					feedctr.className = 'invisible';
 			}	
 
-			update_label_counters();
+			update_label_counters($feed);
 
 //			p_notify(\"\");
 
