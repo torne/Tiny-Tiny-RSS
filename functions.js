@@ -128,7 +128,8 @@ function cleanSelectedList(element) {
 	var content = document.getElementById(element);
 
 	for (i = 0; i < content.childNodes.length; i++) {
-		content.childNodes[i].className = content.childNodes[i].className.replace("Selected", "");
+		content.childNodes[i].className = 
+			content.childNodes[i].className.replace("Selected", "");
 	}
 
 }

@@ -274,12 +274,7 @@ function resetSearch() {
 }
 
 function search() {
-	checkActiveFeedId();
-	if (getActiveFeedId()) {
-		viewfeed(getActiveFeedId(), 0, "");
-	} else {
-		notify("Please select some feed first.");
-	}
+	viewCurrentFeed(0, "");
 }
 
 function localPiggieFunction(enable) {

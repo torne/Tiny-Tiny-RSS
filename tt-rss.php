@@ -72,11 +72,13 @@
 			&nbsp;
 		</td></tr> -->
 		<tr><td class="headlinesToolbar" id="headlinesToolbar">
-			Search: <input id="searchbox"
+			<input id="searchbox"
 			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
 			onchange="javascript:search()">
 		<input type="submit" 
-			class="button" onclick="javascript:resetSearch()" value="Reset">
+			class="button" onclick="javascript:search()" value="Search">
+		<!-- <input type="submit" 
+			class="button" onclick="javascript:resetSearch()" value="Reset"> -->
 
 		&nbsp;View: 
 		
