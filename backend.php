@@ -12,6 +12,14 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
+	if (!$link) {
+		if (DB_TYPE == "mysql") {
+			print mysql_error();
+		}
+		// PG seems to display its own errors just fine by default.		
+		return;
+	}
+
 	if (DB_TYPE == "pgsql") {
 		pg_query("set client_encoding = 'utf-8'");
 	}
