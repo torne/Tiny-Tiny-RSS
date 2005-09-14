@@ -8,8 +8,7 @@ function db_connect($host, $user, $pass, $db) {
 		$string = "dbname=$db user=$user password=$pass";
 		
 		if ($host) {
-		
-			$stripng .= "host=$host";
+			$string .= "host=$host";
 		}
 
 		return pg_connect($string);
