@@ -5,7 +5,14 @@ require_once "config.php";
 function db_connect($host, $user, $pass, $db) {
 	if (DB_TYPE == "pgsql") {	
 			  
-		return pg_connect("host=$host dbname=$db user=$user password=$pass");
+		$string = "dbname=$db user=$user password=$pass";
+		
+		if ($host) {
+		
+			$stripng .= "host=$host";
+		}
+
+		return pg_connect($string);
 
 	} else if (DB_TYPE == "mysql") {
 		$link = mysql_connect($host, $user, $pass);
