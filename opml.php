@@ -36,8 +36,15 @@
 	function startElement($parser, $name, $attrs) {
 
 		if ($name == "OUTLINE") {
-			$title = db_escape_string($attrs['TEXT']);
-			$url = db_escape_string($attrs['XMLURL']);
+			if ($name == "OUTLINE") {
+
+				$title = $attrs["TEXT"];
+				$url = $attrs["XMLURL"];
+
+				if (!$title) {
+					$title = $attrs['TITLE'];
+				}
+			}
 
 			if (!$title || !$url) return;
 
