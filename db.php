@@ -14,9 +14,9 @@ function db_connect($host, $user, $pass, $db) {
 		return pg_connect($string);
 
 	} else if (DB_TYPE == "mysql") {
-		$link = mysql_connect($host, $user, $pass);
+		$link = mysql_connect($host, $user, $pass) or die(mysql_error());
 		if ($link) {
-			mysql_select_db($db, $link);
+			mysql_select_db($db, $link) or die(mysql_error());
 		}
 		return $link;
 	}
@@ -34,7 +34,7 @@ function db_query($link, $query) {
 	if (DB_TYPE == "pgsql") {
 		return pg_query($link, $query);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_query($query, $link);
+		return mysql_query($query, $link) or die(mysql_error());
 	}
 }
 
@@ -42,7 +42,7 @@ function db_query_2($query) {
 	if (DB_TYPE == "pgsql") {
 		return pg_query($query);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_query($link);
+		return mysql_query($link) or die(mysql_error());
 	}
 }
 
@@ -50,7 +50,7 @@ function db_fetch_assoc($result) {
 	if (DB_TYPE == "pgsql") {
 		return pg_fetch_assoc($result);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_fetch_assoc($result);
+		return mysql_fetch_assoc($result) or die(mysql_error());
 	}
 }
 
