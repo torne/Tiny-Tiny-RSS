@@ -11,14 +11,25 @@ function db_connect($host, $user, $pass, $db) {
 			$string .= " host=$host";
 		}
 
-		return pg_connect($string);
+		$link = pg_connect($string);
+
+		if (!$link) {
+			die("Connection failed: " . pg_last_error($link));
+		}
+
+		return $link;
 
 	} else if (DB_TYPE == "mysql") {
-		$link = mysql_connect($host, $user, $pass) or die(mysql_error());
+		$link = mysql_connect($host, $user, $pass);
 		if ($link) {
-			mysql_select_db($db, $link) or die(mysql_error());
+			$result = mysql_select_db($db, $link);			
+			if (!$result) {
+				die("Can't select DB: " . mysql_error($link));
+			}			
+			return $link;
+		} else {
+			die("Connection failed: " . mysql_error($link));
 		}
-		return $link;
 	}
 }
 
@@ -32,9 +43,17 @@ function db_escape_string($s) {
 
 function db_query($link, $query) {
 	if (DB_TYPE == "pgsql") {
-		return pg_query($link, $query);
+		$result = pg_query($link, $query);
+		if (!$result) {
+		  	die("Query <i>$query</i> failed: " . pg_last_error($link));			
+		}
+		return $result;
 	} else if (DB_TYPE == "mysql") {
-		return mysql_query($query, $link) or die(mysql_error());
+		$result = mysql_query($query, $link);
+		if (!$result) {
+		  	die("Query <i>$query</i> failed: " . mysql_error($link));
+		}
+		return $result;
 	}
 }
 
@@ -42,7 +61,7 @@ function db_query_2($query) {
 	if (DB_TYPE == "pgsql") {
 		return pg_query($query);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_query($link) or die(mysql_error());
+		return mysql_query($link);
 	}
 }
 
@@ -50,7 +69,7 @@ function db_fetch_assoc($result) {
 	if (DB_TYPE == "pgsql") {
 		return pg_fetch_assoc($result);
 	} else if (DB_TYPE == "mysql") {
-		return mysql_fetch_assoc($result) or die(mysql_error());
+		return mysql_fetch_assoc($result);
 	}
 }
 
