@@ -91,7 +91,7 @@
 			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
 
 			if (!$registered_title) {
-				$feed_title = $rss->channel["title"];
+				$feed_title = db_escape_string($rss->channel["title"]);
 				db_query($link, "UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
 			}
 
