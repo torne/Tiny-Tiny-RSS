@@ -5,9 +5,16 @@
 
 	function purge_old_posts($link) {
 		if (PURGE_OLD_DAYS > 0) {
-			$result = db_query($link, "DELETE FROM ttrss_entries WHERE
-				marked = false AND 
-				date_entered < NOW() - INTERVAL '".PURGE_OLD_DAYS." days'");
+
+			if (DB_TYPE == "pgsql") {
+				$result = db_query($link, "DELETE FROM ttrss_entries WHERE
+					marked = false AND 
+					date_entered < NOW() - INTERVAL '".PURGE_OLD_DAYS." days'");
+			} else {
+				$result = db_query($link, "DELETE FROM ttrss_entries WHERE
+					marked = false AND 
+					date_entered < DATE_SUB(NOW(), INTERVAL ".PURGE_OLD_DAYS." DAY)");
+			}
 		}
 	}
 
@@ -205,7 +212,8 @@
 							content_hash,
 							feed_id, 
 							comments,							
-							no_orig_date) 
+							no_orig_date,
+							date_entered) 
 						VALUES
 							('$entry_title', 
 							'$entry_guid', 
@@ -215,7 +223,8 @@
 							'$content_hash',
 							'$feed', 
 							'$entry_comments',
-							$no_orig_date)";
+							$no_orig_date,
+							NOW())";
 
 					$result = db_query($link, $query);
 
