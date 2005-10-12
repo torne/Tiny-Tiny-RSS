@@ -29,7 +29,7 @@ insert into ttrss_feeds (title,feed_url) values ('Technocrat.net',
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
-	feed_id integer not null references ttrss_feeds(id) ON DELETE CASCADE, 
+	feed_id integer not null,
 	updated datetime not null, 
 	title text not null, 
 	guid varchar(255) not null unique, 
@@ -41,7 +41,9 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	date_entered datetime not null,
 	no_orig_date bool not null default 0,
 	comments varchar(250) not null default '',
-	unread bool not null default 1) TYPE=InnoDB;
+	unread bool not null default 1,
+	index (feed_id),
+	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
@@ -72,5 +74,7 @@ insert into ttrss_labels (sql_exp,description) values ('unread = true',
 
 create table ttrss_tags (id integer primary key auto_increment, 
 	tag_name varchar(250) not null,
-	post_id integer references ttrss_entries(id) ON DELETE CASCADE) TYPE=InnoDB;
+	post_id integer not null,
+	index (post_id),
+	foreign key (post_id) references ttrss_entries(id) ON DELETE CASCADE) TYPE=InnoDB;
 

@@ -27,9 +27,9 @@
 		$result = db_query($link, "SELECT feed_url,id,last_updated FROM ttrss_feeds");
 
 		while ($line = db_fetch_assoc($result)) {
-			if (!$line["last_updated"] || time() - strtotime($line["last_updated"]) > 1800) {
+//			if (!$line["last_updated"] || time() - strtotime($line["last_updated"]) > 1800) {
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
-			}
+//			}
 		}
 
 		purge_old_posts($link);
@@ -158,16 +158,22 @@
 				if (!$entry_title) continue;
 				if (!$entry_link) continue;
 
-				$entry_content = $item["description"];
-				if (!$entry_content) $entry_content = $item["content:escaped"];
+				$entry_content = $item["content:escaped"];
+
+				if (!$entry_content) $entry_content = $item["content:encoded"];
 				if (!$entry_content) $entry_content = $item["content"];
+				if (!$entry_content) $entry_content = $item["description"];
 
 //				if (!$entry_content) continue;
 
 				// WTF
 				if (is_array($entry_content)) {
 					$entry_content = $entry_content["encoded"];
+					if (!$entry_content) $entry_content = $entry_content["escaped"];
 				}
+
+//				print_r($item);
+//				print_r($entry_content);
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
@@ -187,6 +193,8 @@
 						ttrss_entries 
 					WHERE
 						guid = '$entry_guid'");
+
+//				print db_num_rows($result) . "$entry_guid<br/>";
 
 				if (db_num_rows($result) == 0) {
 
