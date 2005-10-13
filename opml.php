@@ -46,11 +46,18 @@
 				}
 			}
 
+			/* this is suboptimal */
+
+			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+			if (!$link) return;
+
+			$title = db_escape_string_2($title, $link);
+			$url = db_escape_string_2($url, $link);
+
 			if (!$title || !$url) return;
 
 			print "Feed <b>$title</b> ($url)... ";
-
-			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 				title = '$title' OR feed_url = '$url'");

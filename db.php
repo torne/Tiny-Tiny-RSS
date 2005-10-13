@@ -41,6 +41,16 @@ function db_escape_string($s) {
 	}
 }
 
+/* I hate MySQL :( */
+
+function db_escape_string_2($s, $link) {
+	if (DB_TYPE == "pgsql") {	
+		return pg_escape_string($s);
+	} else {
+		return mysql_real_escape_string($s, $link);
+	}
+}
+
 function db_query($link, $query) {
 	if (DB_TYPE == "pgsql") {
 		$result = pg_query($link, $query);
