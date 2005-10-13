@@ -454,8 +454,15 @@ function feedEditSave() {
 
 	var link = document.getElementById("iedit_link").value;
 	var title = document.getElementById("iedit_title").value;
+	var upd_intl = document.getElementById("iedit_updintl").value;
 
 //	notify("Saving feed.");
+
+	if (upd_intl < 0) {
+		notify("Update interval must be &gt;= 0 (0 = default)");
+		return;
+	}
+
 
 	if (link.length == 0) {
 		notify("Feed link cannot be blank.");
@@ -470,7 +477,8 @@ function feedEditSave() {
 	active_feed = false;
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
-		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) ,true);
+		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
+		"&ui=" + param_escape(upd_intl), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 

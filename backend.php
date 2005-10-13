@@ -693,10 +693,15 @@
 		if ($subop == "editSave") {
 			$feed_title = db_escape_string($_GET["t"]);
 			$feed_link = db_escape_string($_GET["l"]);
+			$upd_intl = db_escape_string($_GET["ui"]);
 			$feed_id = $_GET["id"];
 
+			if (strtoupper($upd_intl) == "DEFAULT")
+				$upd_intl = 0;
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
-				title = '$feed_title', feed_url = '$feed_link' WHERE id = '$feed_id'");			
+				title = '$feed_title', feed_url = '$feed_link',
+				update_interval = '$upd_intl' WHERE id = '$feed_id'");			
 
 		}
 
@@ -743,14 +748,16 @@
 		</table>";
 
 		$result = db_query($link, "SELECT 
-				id,title,feed_url,substring(last_updated,1,16) as last_updated
+				id,title,feed_url,substring(last_updated,1,16) as last_updated,
+				update_interval
 			FROM 
 				ttrss_feeds ORDER by title");
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
 					<td>&nbsp;</td><td>Select</td><td width=\"40%\">Title</td>
-					<td width=\"40%\">Link</td><td>Last updated</td></tr>";
+					<td width=\"30%\">Link</td><td width=\"10%\">Update Interval</td>
+					<td>Last updated</td></tr>";
 		
 		$lnum = 0;
 		
@@ -787,7 +794,12 @@
 					$line["title"] . "</td>";		
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$line["feed_url"] . "</td>";		
-			
+
+				if ($line["update_interval"] == "0")
+					$line["update_interval"] = "Default";
+
+				print "<td>" . $line["update_interval"] . "</td>";
+
 
 			} else if ($feed_id != $edit_feed_id) {
 
@@ -797,13 +809,19 @@
 				print "<td>".$line["title"]."</td>";		
 				print "<td>".$line["feed_url"]."</td>";		
 
+				if ($line["update_interval"] == "0")
+					$line["update_interval"] = "Default";
+
+				print "<td>" . $line["update_interval"] . "</td>";
+
 			} else {
 
 				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
 
 				print "<td><input id=\"iedit_title\" value=\"".$line["title"]."\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"".$line["feed_url"]."\"></td>";
-						
+				print "<td><input id=\"iedit_updintl\" value=\"".$line["update_interval"]."\"></td>";
+					
 			}
 
 			if (!$line["last_updated"]) $line["last_updated"] = "Never";

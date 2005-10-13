@@ -24,12 +24,20 @@
 
 		db_query($link, "BEGIN");
 
-		$result = db_query($link, "SELECT feed_url,id,last_updated FROM ttrss_feeds");
+		$result = db_query($link, "SELECT feed_url,id,
+			substring(last_updated,1,19) as last_updated,
+			update_interval FROM ttrss_feeds");
 
 		while ($line = db_fetch_assoc($result)) {
-//			if (!$line["last_updated"] || time() - strtotime($line["last_updated"]) > 1800) {
+			$upd_intl = $line["update_interval"];
+
+			if (!$upd_intl) $upd_intl = MIN_UPDATE_INTERVAL;
+
+			if (!$line["last_updated"] || 
+				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
+			
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
-//			}
+			}
 		}
 
 		purge_old_posts($link);
