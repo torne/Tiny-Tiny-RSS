@@ -341,6 +341,8 @@ function init() {
 	if (!genericSanityCheck()) 
 		return;
 
+	setCookie("ttrss_vf_actfeed", "");
+
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
 
@@ -362,8 +364,6 @@ function init() {
 //	if (getCookie("ttrss_vf_actfeed")) {
 //		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
 //	}
-
-	setCookie("ttrss_vf_actfeed", "");
 
 }
 
