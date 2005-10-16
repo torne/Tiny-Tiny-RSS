@@ -72,7 +72,7 @@
 
 			$count = db_fetch_result($tmp_result, 0, "count");
 
-			print "<feed id=\"$id\" counter=\"$count\"/>";
+			print "<label id=\"$id\" counter=\"$count\"/>";
 
 			error_reporting (E_ERROR | E_WARNING | E_PARSE);
 	
@@ -313,10 +313,14 @@
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 			update_all_feeds($link, true);			
 
+			$omode = $_GET["omode"];
+
+			if (!$omode) $omode = "tfl";
+
 			print "<rpc-reply>";
-			getLabelCounters($link);
-			getFeedCounters($link);
-			getTagCounters($link);
+			if (strchr($omode, "l")) getLabelCounters($link);
+			if (strchr($omode, "f")) getFeedCounters($link);
+			if (strchr($omode, "t")) getTagCounters($link);
 			print "</rpc-reply>";
 		}
 		
