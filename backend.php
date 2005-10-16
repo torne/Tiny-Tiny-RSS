@@ -240,6 +240,10 @@
 
 		}
 
+		if (db_num_rows($result) == 0) {
+			print "<li>No tags to display.</li>";
+		}
+
 		print "</ul>";
 
 		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
