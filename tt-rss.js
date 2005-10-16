@@ -70,7 +70,17 @@ function refetch_callback() {
 		document.title = "Tiny Tiny RSS";
 		notify("All feeds updated.");
 
+		if (!xmlhttp.responseXML) {
+			notify("refetch_callback: backend did not return valid XML");
+			return;
+		}
+
 		var reply = xmlhttp.responseXML.firstChild;
+
+		if (!reply) {
+			notify("refetch_callback: backend did not return expected XML object");
+			return;
+		}
 
 		var f_document = window.frames["feeds-frame"].document;
 

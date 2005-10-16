@@ -307,6 +307,12 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function label_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
+
+		if (!xmlhttp.responseXML) {
+			notify("label_counters_callback: backend did not return valid XML");
+			return;
+		}
+
 		var reply = xmlhttp_rpc.responseXML.firstChild;
 
 		var f_document = parent.frames["feeds-frame"].document;
