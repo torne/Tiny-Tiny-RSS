@@ -90,6 +90,7 @@
 			<option>All Articles</option>
 			<option>Starred</option>
 			<option selected>Unread</option>
+			<option>Unread or Starred</option>
 		</select>
 
 		&nbsp;Limit:

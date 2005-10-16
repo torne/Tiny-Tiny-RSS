@@ -489,6 +489,10 @@
 			$view_query_part = " unread = true AND ";
 		}
 
+		if ($view_mode == "Unread or Starred") {
+			$view_query_part = " (unread = true OR marked = true) AND ";
+		}
+
 /*		$result = db_query($link, "SELECT count(id) AS total_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part
