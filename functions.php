@@ -189,14 +189,10 @@
 
 				$entry_guid = db_escape_string($entry_guid);
 
-				if (DB_TYPE == "pgsql") {
-					$extract_ts_qpart = ",EXTRACT(EPOCH FROM updated) as updated_timestamp";
-				}
-
 				$result = db_query($link, "
 					SELECT 
-						id,last_read,no_orig_date,title,feed_id,content_hash
-						$extract_ts_qpart
+						id,last_read,no_orig_date,title,feed_id,content_hash,
+						substring(updated,1,19) as updated
 					FROM
 						ttrss_entries 
 					WHERE
@@ -249,14 +245,17 @@
 					$orig_entry_id = db_fetch_result($result, 0, "id");			
 					$orig_feed_id = db_fetch_result($result, 0, "feed_id");
 
+//					print "OED: $orig_entry_id; OID: $orig_feed_id ; FID: $feed<br>";
+
 					if ($orig_feed_id != $feed) {
-//						print "<p>Update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
+//						print "<p>GUID $entry_guid: update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
 						continue;
 					}
 
 					$entry_is_modified = false;
 					
-					$orig_timestamp = db_fetch_result($result, 0, "updated_timestamp");
+					$orig_timestamp = strtotime(db_fetch_result($result, 0, "updated"));
+						
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_last_read = db_fetch_result($result, 0, "last_read");	
 					$orig_no_orig_date = db_fetch_result($result, 0, "no_orig_date");
@@ -265,6 +264,8 @@
 					$last_read_qpart = "";
 
 					if ($orig_content_hash != $content_hash) {
+//						print "$orig_content_hash :: $content_hash<br>";
+
 						if (UPDATE_POST_ON_CHECKSUM_CHANGE) {
 							$last_read_qpart = 'last_read = null,';
 						}
@@ -280,6 +281,8 @@
 					}
 
 					if ($entry_is_modified) {
+
+//						print "$entry_guid Modified!<br>";
 
 						$entry_comments = db_escape_string($entry_comments);
 						$entry_content = db_escape_string($entry_content);

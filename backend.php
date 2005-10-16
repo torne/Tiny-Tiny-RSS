@@ -597,7 +597,7 @@
 //				strtotime($line["updated"]), $line["updated"],
 //				strtotime($line["last_read"]) >= strtotime($line["updated"]));
 
-			if ($line["last_read"] != "" && $line["updated"] != "" &&
+/*			if ($line["last_read"] != "" && $line["updated"] != "" &&
 				strtotime($line["last_read_noms"]) < strtotime($line["updated_noms"])) {
 
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
@@ -608,6 +608,14 @@
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
 					alt=\"Updated\">";
 
+			} */
+
+			if ($line["last_read"] == "") {
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+					alt=\"Updated\">";
+			} else {
+				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
+					alt=\"Updated\">";
 			}
 
 			if ($line["unread"] == "t" || $line["unread"] == "1") {
