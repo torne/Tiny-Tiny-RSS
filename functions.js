@@ -57,13 +57,15 @@ function p_notify(msg) {
 
 	if (!n || !nb) return;
 
+	if (msg == "") msg = "&nbsp;";
+
 	nb.innerHTML = msg;
 
-	if (msg.length == 0) {
+/*	if (msg.length == 0) {
 		n.style.display = "none";
 	} else {
 		n.style.display = "block";
-	}
+	} */
 
 }
 
@@ -74,13 +76,15 @@ function notify(msg) {
 
 	if (!n || !nb) return;
 
+	if (msg == "") msg = "&nbsp;";
+
 	nb.innerHTML = msg;
 
-	if (msg.length == 0) {
+/*	if (msg.length == 0) {
 		n.style.display = "none";
 	} else {
 		n.style.display = "block";
-	}
+	} */
 
 }
 

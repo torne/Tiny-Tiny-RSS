@@ -10,7 +10,7 @@ body {
 
 table.main td.header {
 	padding : 10px 10px 10px 50px;
-	height : 80px;
+	height : 70px;
 	font-size : 24pt;
 	font-weight : bold;	
 	background-image : url("images/vgrad_light_rev2.png");
@@ -210,11 +210,15 @@ a:hover {
 }
 
 #notify {
-	font-weight : bold;
 	font-size : 10pt;
-	display : none;
-	width : 350px;
+	text-align : right;
 	color : gray;
+	border-style : solid;
+	border-width : 0px 0px 1px 1px;
+	border-color : #c0c0c0;
+	background-color : white;
+	padding : 3px;
+	width : 350px;
 }
 
 #dispSwitch {

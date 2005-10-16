@@ -18,20 +18,22 @@
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (DISPLAY_HEADER) { ?>
 <tr>
-	<td class="header" valign="middle">	
-		<img src="images/ttrss_logo.png" alt="logo">	
+	<td colspan="2">
+		<table cellspacing="0" cellpadding="0" width="100%"><tr>
+			<td class="header" valign="middle">	
+				<img src="images/ttrss_logo.png" alt="logo">	
+			</td>
+			<td align="right" valign="top">
+				<div id="notify"><span id="notify_body"></div>
+			</td>
+		</tr></table>
 	</td>
 </tr>
 <? } ?>
 <tr>
-	<td class="prefsToolbar" valign="middle">
-
-		<table width='100%' cellspacing='0' cellpadding='0'>	
-			<td><span id="notify"><span id="notify_body"></span></td>
-			<td align='right'>
-				<input type="submit" onclick="gotoMain()" 
-					class="button" value="Return to main"></td>
-		</table>
+	<td class="prefsToolbar" valign="middle" align="right">
+		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
+	</td>
 </tr>
 </tr>
 	<td id="prefContent" class="prefContent" valign="top">
