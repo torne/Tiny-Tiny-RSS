@@ -55,12 +55,14 @@ function db_query($link, $query) {
 	if (DB_TYPE == "pgsql") {
 		$result = pg_query($link, $query);
 		if (!$result) {
+			$query = htmlspecialchars($query); // just in case
 		  	die("Query <i>$query</i> failed: " . pg_last_error($link));			
 		}
 		return $result;
 	} else if (DB_TYPE == "mysql") {
 		$result = mysql_query($query, $link);
 		if (!$result) {
+			$query = htmlspecialchars($query);
 		  	die("Query <i>$query</i> failed: " . mysql_error($link));
 		}
 		return $result;
