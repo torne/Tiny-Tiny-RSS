@@ -34,7 +34,7 @@
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (DISPLAY_HEADER) { ?>
 <tr>
-	<td colspan="2">
+	<td colspan="2" class="headerBox">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	
