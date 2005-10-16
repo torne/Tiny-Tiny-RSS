@@ -806,15 +806,18 @@
 			}
 			print "<td align='center'>$feed_icon</td>";		
 
+			$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+			$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
+
 			if (!$edit_feed_id || $subop != "edit") {
 
 				print "<td><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["title"] . "</td>";		
+					$edit_title . "</td>";		
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["feed_url"] . "</td>";		
+					$edit_link . "</td>";		
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -827,8 +830,8 @@
 				print "<td><input disabled=\"true\" type=\"checkbox\" 
 					id=\"FRCHK-".$line["id"]."\"></td>";
 
-				print "<td>".$line["title"]."</td>";		
-				print "<td>".$line["feed_url"]."</td>";		
+				print "<td>$edit_title</td>";		
+				print "<td>$edit_link</td>";		
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -839,8 +842,8 @@
 
 				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
 
-				print "<td><input id=\"iedit_title\" value=\"".$line["title"]."\"></td>";
-				print "<td><input id=\"iedit_link\" value=\"".$line["feed_url"]."\"></td>";
+				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
+				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
 				print "<td><input id=\"iedit_updintl\" value=\"".$line["update_interval"]."\"></td>";
 					
 			}

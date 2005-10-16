@@ -24,8 +24,8 @@
 		$result = db_query($link, "SELECT * FROM ttrss_feeds ORDER BY title");
 
 		while ($line = db_fetch_assoc($result)) {
-			$title = $line["title"];
-			$url = $line["feed_url"];
+			$title = htmlspecialchars($line["title"]);
+			$url = htmlspecialchars($line["feed_url"]);
 
 			print "<outline text=\"$title\" xmlUrl=\"$url\"/>";
 		}

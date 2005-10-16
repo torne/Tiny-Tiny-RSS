@@ -103,6 +103,12 @@ function db_fetch_result($result, $row, $param) {
 	}
 }
 
+function db_unescape_string($str) {
+	$tmp = str_replace("\\\"", "\"", $str);
+	$tmp = str_replace("\\'", "'", $tmp);
+	return $tmp;
+}
+
 function db_close($link) {
 	if (DB_TYPE == "pgsql") {
 
