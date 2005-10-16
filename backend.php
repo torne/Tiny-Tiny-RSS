@@ -453,10 +453,9 @@
 		
 			if ($result) {
 	
-				$line = db_fetch_assoc($result);
-	
-				update_rss_feed($link, $line["feed_url"], $feed);
-					
+//				$line = db_fetch_assoc($result);
+//				update_rss_feed($link, $line["feed_url"], $feed);
+
 				if ($subop == "MarkAllRead")  {
 	
 					db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() 
