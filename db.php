@@ -96,9 +96,8 @@ function db_fetch_result($result, $row, $param) {
 	if (DB_TYPE == "pgsql") {
 		return pg_fetch_result($result, $row, $param);
 	} else if (DB_TYPE == "mysql") {
-		// FIXME
-		$line = mysql_fetch_assoc($result);
-		return $line[$param];
+		// I hate incoherent naming of PHP functions
+		return mysql_result($result, $row, $param);
 	}
 }
 
