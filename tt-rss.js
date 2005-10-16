@@ -80,7 +80,7 @@ function refetch_callback() {
 		if (!reply) {
 			notify("refetch_callback: backend did not return expected XML object");
 			return;
-		}
+		} 
 
 		var f_document = window.frames["feeds-frame"].document;
 

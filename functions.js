@@ -308,7 +308,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 function label_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 
-		if (!xmlhttp.responseXML) {
+		if (!xmlhttp_rpc.responseXML) {
 			notify("label_counters_callback: backend did not return valid XML");
 			return;
 		}
