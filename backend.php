@@ -610,7 +610,9 @@
 
 			} */
 
-			if ($line["last_read"] == "") {
+			if ($line["last_read"] == "" && 
+					($line["unread"] != "t" && $line["unread"] != "1")) {
+
 				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
 					alt=\"Updated\">";
 			} else {
