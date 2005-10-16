@@ -1244,7 +1244,7 @@
 		<h2>Description</h2>
 
 		<p>The &laquo;SQL expression&raquo; is added to WHERE clause of
-			view feed query. You can match on most fields of ttrss_entries table
+			view feed query. You can match on ttrss_entries table fields
 			and even use subselect to query additional information. This 
 			functionality is considered to be advanced and requires basic
 			understanding of SQL.</p>
