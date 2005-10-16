@@ -79,6 +79,11 @@
 			<input id="searchbox"
 			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
 			onchange="javascript:search()">
+		<select id="searchmodebox">
+			<option>This feed</option>
+			<option>All feeds</option>
+		</select>
+		
 		<input type="submit" 
 			class="button" onclick="javascript:search()" value="Search">
 		<!-- <input type="submit" 

@@ -472,6 +472,8 @@
 
 		$search = $_GET["search"];
 
+		$search_mode = $_GET["smode"];
+
 		if ($search) {
 			$search_query_part = "(upper(title) LIKE upper('%$search%') 
 				OR content LIKE '%$search%') AND";
@@ -514,7 +516,12 @@
 
 		$vfeed_query_part = "";
 
-		if (sprintf("%d", $feed) == 0) {
+		// override query strategy and enable feed display when searching globally
+		if ($search_mode == "All feeds") {
+			$query_strategy_part = "id > 0";
+			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
+				id = feed_id) as feed_title,";
+		} else if (sprintf("%d", $feed) == 0) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
@@ -537,6 +544,7 @@
 		} else {
 			$query_strategy_part = "id > 0"; // dumb
 		}
+
 
 		$order_by = "updated DESC";
 

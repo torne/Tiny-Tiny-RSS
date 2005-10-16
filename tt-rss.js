@@ -9,6 +9,7 @@ var total_unread = 0;
 var first_run = true;
 
 var search_query = "";
+var search_mode = "";
 
 var display_tags = false;
 
@@ -203,6 +204,16 @@ function viewfeed(feed, skip, subop) {
 		search_query = "";
 	} 
 
+	var searchmodebox = document.getElementById("searchmodebox");
+
+	if (searchmodebox) {
+		search_mode = searchmodebox.value;
+	} else {
+		search_mode = "";
+	}
+
+	setCookie("ttrss_vf_smode", search_mode);
+
 	var viewbox = document.getElementById("viewbox");
 
 	var view_mode;
@@ -246,7 +257,8 @@ function viewfeed(feed, skip, subop) {
 
 	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
-		"&view=" + param_escape(view_mode) + "&limit=" + limit;
+		"&view=" + param_escape(view_mode) + "&limit=" + limit + 
+		"&smode=" + param_escape(search_mode);
 
 	if (search_query != "") {
 		query = query + "&search=" + param_escape(search_query);
