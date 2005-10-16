@@ -16,11 +16,13 @@
 <? require_once "config.php" ?>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
+<? if (DISPLAY_HEADER) { ?>
 <tr>
 	<td class="header" valign="middle">	
 		<img src="images/ttrss_logo.png" alt="logo">	
 	</td>
 </tr>
+<? } ?>
 <tr>
 	<td class="prefsToolbar" valign="middle">
 
@@ -74,6 +76,7 @@
 
 	</td>
 </tr>
+<? if (DISPLAY_FOOTER) { ?>
 <tr>
 	<td class="footer">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
@@ -82,6 +85,7 @@
 		<? } ?>
 	</td>
 </td>
+<? } ?>
 </table>
 
 

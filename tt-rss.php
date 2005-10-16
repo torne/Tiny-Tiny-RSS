@@ -1,7 +1,26 @@
+<? require_once "version.php" ?>
+<? require_once "config.php" ?>
+
 <html>
 <head>
 	<title>Tiny Tiny RSS</title>
-	<link rel="stylesheet" href="tt-rss.css" type="text/css">
+
+	<? if (USE_COMPACT_STYLESHEET) { ?>
+
+	<link title="Compact Stylesheet" 
+		rel="stylesheet" href="tt-rss_compact.css" type="text/css">
+	<link title="Normal Stylesheet" rel="alternate stylesheet" 
+		type="text/css" href="tt-rss.css"/>
+
+	<? } else { ?>
+
+	<link title="Normal Stylesheet" 
+		rel="stylesheet" href="tt-rss.css" type="text/css">
+	<link title="Compact Stylesheet" rel="alternate stylesheet" 
+		type="text/css" href="tt-rss_compact.css"/>
+
+	<? } ?>
+	
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="tt-rss.js"></script>
 	<!--[if gte IE 5.5000]>
@@ -10,17 +29,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
-<? require_once "version.php" ?>
-<? require_once "config.php" ?>
-
 <body onload="init()">
 
 <table width="100%" height="100%" cellspacing=0 cellpadding=0 class="main">
+<? if (DISPLAY_HEADER) { ?>
 <tr>
 	<td class="header" valign="middle" colspan="2">	
 		<img src="images/ttrss_logo.png" alt="logo">	
 	</td>
 </tr>
+<? } ?>
 <tr>
 	<td class="mainToolbar" colspan="2">
 	
@@ -118,6 +136,7 @@
 			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
+<? if (DISPLAY_FOOTER) { ?>
 <tr>
 	<td colspan="2" class="footer">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
@@ -126,6 +145,7 @@
 		<? } ?>
 	</td>
 </td>
+<? } ?>
 </table>
 
 
