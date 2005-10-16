@@ -1125,7 +1125,9 @@
 		print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
 
 		print "<tr class=\"title\">
-					<td width=\"5%\">Select</td><td width=\"40%\">SQL expression</td>
+					<td width=\"5%\">Select</td><td width=\"40%\">SQL expression
+					<a class=\"helpLink\" href=\"javascript:popupHelp(1)\">(?)</a>
+					</td>
 					<td width=\"40%\">Caption</td></tr>";
 		
 		$lnum = 0;
@@ -1218,6 +1220,58 @@
 		$msg = $_GET["msg"];
 		print $msg;
 		print "</div>";
+	}
+
+	if ($op == "help") {
+		print "<html><head>
+			<title>Tiny Tiny RSS : Help</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+			<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
+			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body>";
+
+		$tid = sprintf("%d", $_GET["tid"]);
+
+		/* FIXME this badly needs real implementation */
+
+		print "<div class='helpResponse'>";
+
+		?>
+
+		<h1>Help for SQL expressions</h1>
+
+		<h2>Description</h2>
+
+		<p>The &laquo;SQL expression&raquo; is added to WHERE clause of
+			view feed query. You can match on most fields of ttrss_entries table
+			and even use subselect to query additional information. This 
+			functionality is considered to be advanced and requires basic
+			understanding of SQL.</p>
+			
+		<h2>Examples</h2>
+
+		<pre>unread = true</pre>
+
+		Matches all unread articles
+
+		<pre>title like '%Linux%'</pre>
+
+		Matches all articles which mention Linux in the title. You get the idea.
+
+		<p>See the database schema included in the distribution package for gruesome
+		details.</p>
+
+		<?
+
+		print "<div align='center'>
+			<a class=\"helpLink\"
+			href=\"javascript:window.close()\">(Close this window)</a></div>";
+
+		print "</div>";
+
+		print "</body></html>";
+
 	}
 
 	db_close($link);

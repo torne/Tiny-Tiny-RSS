@@ -356,3 +356,9 @@ function update_label_counters(feed) {
 		xmlhttp_rpc.send(null);
 	}
 }
+
+function popupHelp(tid) {
+	var w = window.open("backend.php?op=help&tid=" + tid,
+		"Popup Help", 
+		"menubar=no,location=no,resizable=yes,scrollbars=yes,status=no");
+}
