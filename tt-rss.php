@@ -47,27 +47,6 @@
 </tr>
 <? } ?>
 <tr>
-	<td class="mainToolbar" colspan="2">
-	
-		<table width='100%' cellspacing='0' cellpadding='0'>	
-			<td><!-- <span id="notify"><span id="notify_body"></span> --></td>
-			<td align='right'>
-				<input type="submit" onclick="gotoPreferences()" 
-					class="button" value="Preferences"></td>
-		</table>
-	
-		<!-- <table width="100%" cellspacing="0" cellpadding="0">
-		<td valign="middle">
-			<table id="notify"><tr><td width="100%" id="notify_body">&nbsp;</td>
-			<td><img onclick="javascript:notify('')" alt="Close" 
-				src="images/close.png"></td></table>
-		</td>
-		<td class="toolbar" valign="middle" align="right">
-			<a href="prefs.php" class="button">Preferences</a></td>
-		</tr></table> -->
-	</td>
-</tr>
-<tr>
 	<td valign="top" rowspan="3" class="feeds"> 
 		
 		<!-- <div id="feeds">&nbsp;</div> -->
@@ -128,7 +107,12 @@
 		<input class="button" type="submit"
 			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read">
 
-		</td></tr>
+		</td>
+		<td align="right">
+			<input type="submit" onclick="gotoPreferences()" 
+				class="button" value="Preferences"></td>
+		</td>
+		</tr>
 		</table>
 	</td> 
 </tr><tr>
