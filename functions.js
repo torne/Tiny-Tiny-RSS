@@ -362,3 +362,37 @@ function popupHelp(tid) {
 		"Popup Help", 
 		"menubar=no,location=no,resizable=yes,scrollbars=yes,status=no");
 }
+
+/** * @(#)isNumeric.js * * Copyright (c) 2000 by Sundar Dorai-Raj
+  * * @author Sundar Dorai-Raj
+  * * Email: sdoraira@vt.edu
+  * * This program is free software; you can redistribute it and/or
+  * * modify it under the terms of the GNU General Public License 
+  * * as published by the Free Software Foundation; either version 2 
+  * * of the License, or (at your option) any later version, 
+  * * provided that any use properly credits the author. 
+  * * This program is distributed in the hope that it will be useful,
+  * * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * * GNU General Public License for more details at http://www.gnu.org * * */
+
+  var numbers=".0123456789";
+  function isNumeric(x) {
+    // is x a String or a character?
+    if(x.length>1) {
+      // remove negative sign
+      x=Math.abs(x)+"";
+      for(j=0;j<x.length;j++) {
+        // call isNumeric recursively for each character
+        number=isNumeric(x.substring(j,j+1));
+        if(!number) return number;
+      }
+      return number;
+    }
+    else {
+      // if x is number return true
+      if(numbers.indexOf(x)>=0) return true;
+      return false;
+    }
+  }
+
