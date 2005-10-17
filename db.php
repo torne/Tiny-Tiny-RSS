@@ -118,3 +118,5 @@ function db_close($link) {
 		return mysql_close($link);
 	}
 }
+
+?>
