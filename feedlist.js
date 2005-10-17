@@ -77,6 +77,13 @@ function viewfeed(feed, skip, subop, doc) {
 	
 	disableContainerChildren("headlinesToolbar", false, doc);
 
+	var btnMarkAsRead = doc.getElementById("btnMarkFeedAsRead");
+
+	if (btnMarkAsRead && (feed < 0 || !isNumeric(feed))) {
+		btnMarkAsRead.disabled = true;
+		btnMarkAsRead.className = "disabledButton";
+	}
+
 //	notify("");
 
 }

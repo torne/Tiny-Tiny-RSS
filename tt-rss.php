@@ -110,7 +110,7 @@
 		&nbsp;Feed: <input class="button" type="submit"
 			onclick="javascript:viewCurrentFeed(0, 'ForceUpdate')" value="Update">
 
-		<input class="button" type="submit"
+		<input class="button" type="submit" id="btnMarkFeedAsRead"
 			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read">
 
 		</td>
