@@ -56,6 +56,7 @@
 		</div>
 
 		<iframe frameborder="0" 
+			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 	
 		<p align="center">All feeds:
