@@ -70,6 +70,9 @@ create table ttrss_labels (id serial primary key,
 insert into ttrss_labels (sql_exp,description) values ('unread = true', 
 	'Unread articles');
 
+insert into ttrss_labels (sql_exp,description) values (
+	'last_read is null and unread = false', 'Updated articles');
+
 create table ttrss_tags (id serial primary key, 
 	tag_name varchar(250) not null,
 	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);

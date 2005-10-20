@@ -73,6 +73,9 @@ create table ttrss_labels (id integer primary key auto_increment,
 insert into ttrss_labels (sql_exp,description) values ('unread = true', 
 	'Unread articles');
 
+insert into ttrss_labels (sql_exp,description) values (
+	'last_read is null and unread = false', 'Updated articles');
+
 create table ttrss_tags (id integer primary key auto_increment, 
 	tag_name varchar(250) not null,
 	post_id integer not null,
