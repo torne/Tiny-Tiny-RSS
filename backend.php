@@ -10,6 +10,8 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
+	$script_started = getmicrotime();
+
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	if (!$link) {
@@ -1296,3 +1298,6 @@
 
 	db_close($link);
 ?>
+
+<!-- <?= sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
+
