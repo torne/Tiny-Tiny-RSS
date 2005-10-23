@@ -13,6 +13,8 @@ var search_mode = "";
 
 var display_tags = false;
 
+var global_unread = 0;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -68,8 +70,7 @@ function feedlist_callback() {
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
 
-		document.title = "Tiny Tiny RSS";
-		notify("All feeds updated.");
+//		document.title = "Tiny Tiny RSS";
 
 		if (!xmlhttp.responseXML) {
 			notify("refetch_callback: backend did not return valid XML");
@@ -93,6 +94,13 @@ function refetch_callback() {
 			var feedu = f_document.getElementById("FEEDU-" + id);
 			var feedr = f_document.getElementById("FEEDR-" + id);
 
+/*			TODO figure out how to update this from viewfeed.js->view()
+			disabled for now...
+
+			if (id == "global-unread") {
+				global_unread = ctr;
+			} */
+
 			if (feedctr && feedu && feedr) {
 
 				feedu.innerHTML = ctr;
@@ -108,6 +116,10 @@ function refetch_callback() {
 				}
 			}
 		}  
+
+		updateTitle("");
+		notify("All feeds updated.");
+
 	}
 }
 
@@ -129,7 +141,9 @@ function scheduleFeedUpdate(force) {
 
 	notify("Updating feeds in background...");
 
-	document.title = "Tiny Tiny RSS - Updating...";
+//	document.title = "Tiny Tiny RSS - Updating...";
+
+	updateTitle("Updating...");
 
 	var query_str = "backend.php?op=rpc&subop=";
 
@@ -180,6 +194,9 @@ function catchupAllFeeds() {
 	var feeds_frame = document.getElementById("feeds-frame");
 
 	feeds_frame.src = query_str;
+
+	global_unread = 0;
+	updateTitle();
 
 }
 
@@ -339,6 +356,19 @@ function localHotkeyHandler(keycode) {
 
 //	notify("KC: " + keycode);
 
+}
+
+function updateTitle(s) {
+	var tmp = "Tiny Tiny RSS";
+	
+	if (global_unread > 0) {
+		tmp = tmp + " (" + global_unread + ")";
+	}
+
+	if (s) {
+		tmp = tmp + " - " + s;
+	}
+	document.title = tmp;
 }
 
 function genericSanityCheck() {

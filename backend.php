@@ -28,6 +28,13 @@
 
 	/* FIXME this needs reworking */
 
+	function getGlobalCounters($link) {
+		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries
+			WHERE unread = true");
+		$c_id = db_fetch_result($result, 0, "c_id");
+		print "<counter id='global-unread' counter='$c_id'/>";
+	}
+
 	function getTagCounters($link) {
 		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 			FROM ttrss_tags,ttrss_entries WHERE
@@ -276,8 +283,8 @@
 			getLabelCounters($link);
 			getFeedCounters($link);
 			getTagCounters($link);
+			getGlobalCounters($link);
 			print "</rpc-reply>";
-
 		}
 
 		if ($subop == "mark") {
@@ -321,6 +328,7 @@
 			if (strchr($omode, "l")) getLabelCounters($link);
 			if (strchr($omode, "f")) getFeedCounters($link);
 			if (strchr($omode, "t")) getTagCounters($link);
+			getGlobalCounters($link);
 			print "</rpc-reply>";
 		}
 		
