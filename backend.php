@@ -495,6 +495,10 @@
 			$view_query_part = " (unread = true OR marked = true) AND ";
 		}
 
+		if ($view_mode == "Unread or Updated") {
+			$view_query_part = " (unread = true OR last_read is NULL) AND ";
+		}
+
 /*		$result = db_query($link, "SELECT count(id) AS total_entries 
 			FROM ttrss_entries WHERE 
 			$search_query_part

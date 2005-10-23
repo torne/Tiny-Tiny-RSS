@@ -97,6 +97,7 @@
 			<option>Starred</option>
 			<option selected>Unread</option>
 			<option>Unread or Starred</option>
+			<option>Unread or Updated</option>
 		</select>
 
 		&nbsp;Limit:
