@@ -295,7 +295,7 @@ function viewfeed(feed, skip, subop) {
 
 	var btnMarkAsRead = document.getElementById("btnMarkFeedAsRead");
 
-	if (btnMarkAsRead && (feed < 0 || !isNumeric(feed))) {
+	if (btnMarkAsRead && !isNumeric(feed)) {
 		btnMarkAsRead.disabled = true;
 		btnMarkAsRead.className = "disabledButton";
 	}
