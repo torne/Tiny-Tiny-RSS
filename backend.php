@@ -478,8 +478,18 @@
 			
 				} else if ($feed < -10) { // label
 
-					// FIXME, implement catchup for labels
+					$label_id = -$feed - 11;
 
+					$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
+						WHERE id = '$label_id'");
+
+					if ($tmp_result) {
+						$sql_exp = db_fetch_result($tmp_result, 0, "sql_exp");
+
+						db_query($link, "UPDATE ttrss_entries 
+							SET unread = false,last_read = NOW()
+							WHERE $sql_exp");
+					}
 				}
 			} else { // tag
 				// FIXME, implement catchup for tags
