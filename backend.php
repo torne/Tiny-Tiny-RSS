@@ -459,23 +459,32 @@
 				</head><body>";
 		}
 
-		if (sprintf("%d", $feed) != 0 && $feed >= 0) {
+		if ($subop == "MarkAllRead")  {
 
-			$result = db_query($link, 
-				"SELECT *,SUBSTRING(last_updated,1,16) as last_updated_s
-				FROM ttrss_feeds WHERE id = '$feed'");
-		
-			if ($result) {
-	
-//				$line = db_fetch_assoc($result);
-//				update_rss_feed($link, $line["feed_url"], $feed);
-
-				if ($subop == "MarkAllRead")  {
-	
-					db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() 
+			if (sprintf("%d", $feed) != 0) {
+			
+				if ($feed > 0) {
+					db_query($link, "UPDATE ttrss_entries 
+						SET unread = false,last_read = NOW() 
 						WHERE feed_id = '$feed'");
+						
+				} else if ($feed < 0 && $feed > -10) { // special, like starred
+
+					if ($feed == -1) {
+						db_query($link, "UPDATE ttrss_entries 
+							SET unread = false,last_read = NOW()
+							WHERE marked = true");
+					}
+			
+				} else if ($feed < -10) { // label
+
+					// FIXME, implement catchup for labels
+
 				}
+			} else { // tag
+				// FIXME, implement catchup for tags
 			}
+
 		}
 
 		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
