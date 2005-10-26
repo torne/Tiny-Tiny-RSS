@@ -31,7 +31,7 @@
 		while ($line = db_fetch_assoc($result)) {
 			$upd_intl = $line["update_interval"];
 
-			if (!$upd_intl) $upd_intl = MIN_UPDATE_INTERVAL;
+			if (!$upd_intl || $upd_intl == 0) $upd_intl = DEFAULT_UPDATE_INTERVAL;
 
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
