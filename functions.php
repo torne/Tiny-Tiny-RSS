@@ -347,7 +347,7 @@
 				}
 			}
 
-			db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = $feed");
+			db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = '$feed'");
 
 		}
 
