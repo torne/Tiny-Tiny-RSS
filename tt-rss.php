@@ -44,13 +44,8 @@
 			</td>
 		</tr></table>
 
-		<div id="qafDialog">
-			Feed URL: <input id="qafInput">
-			<input class="button"
-				type="submit" onclick="javascript:qafAdd()" value="Add feed">
-			<input class="button"
-				type="submit" onclick="javascript:cancelDialog(this)" value="Cancel">
-		</div>
+		<div id="userDlg">&nbsp;</div>
+
 	</td>
 </tr>
 <? } ?>

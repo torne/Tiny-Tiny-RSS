@@ -1315,6 +1315,19 @@
 
 	}
 
+	if ($op == "dlg") {
+		$id = $_GET["id"];
+
+		if ($id == "quickAddFeed") {
+			print "Feed URL: <input id=\"qafInput\">
+			<input class=\"button\"
+				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Add feed\">
+			<input class=\"button\"
+				type=\"submit\" onclick=\"javascript:closeDlg()\" 
+				value=\"Cancel\">";
+		}
+	}
+
 	db_close($link);
 ?>
 

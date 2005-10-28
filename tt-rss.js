@@ -49,15 +49,20 @@ function toggleTags() {
 }
 
 function qaf_add_callback() {
-	var container = document.getElementById('feeds');
 	if (xmlhttp.readyState == 4) {
 		updateFeedList(false, false);
-		var qafDialog = document.getElementById("qafDialog");
-		qafDialog.style.display = "none";
-
+		closeDlg();
 	} 
 }
 
+function dialog_refresh_callback() {
+	if (xmlhttp.readyState == 4) {
+		var dlg = document.getElementById("userDlg");
+
+		dlg.innerHTML = xmlhttp.responseText;
+		dlg.style.display = "block";
+	} 
+}
 
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
@@ -428,8 +433,7 @@ function quickMenuGo() {
 	}
 
 	if (opname == "Add new feed") {
-		var qafDialog = document.getElementById("qafDialog");
-		qafDialog.style.display = "block";
+		displayDlg("quickAddFeed");
 	}
 }
 
@@ -459,6 +463,19 @@ function qafAdd() {
 		link.value = "";
 
 	}
+}
 
+function displayDlg(id) {
+
+	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
+		param_escape(id), true);
+	xmlhttp.onreadystatechange=dialog_refresh_callback;
+	xmlhttp.send(null);
 
 }
+
+function closeDlg() {
+	var dlg = document.getElementById("userDlg");
+	dlg.style.display = "none";
+}
+
