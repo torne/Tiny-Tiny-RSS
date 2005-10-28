@@ -396,3 +396,8 @@ function popupHelp(tid) {
     }
   }
 
+function cancelDialog(sender) {
+
+	sender.offsetParent.style.display = "none";
+	
+}
