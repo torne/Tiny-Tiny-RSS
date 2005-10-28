@@ -481,6 +481,8 @@ function qafAdd() {
 
 function displayDlg(id, param) {
 
+	notify("");
+
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param), true);
 	xmlhttp.onreadystatechange=dialog_refresh_callback;
