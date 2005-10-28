@@ -9,6 +9,8 @@ var active_feed = false;
 var active_filter = false;
 var active_label = false;
 
+var active_tab = false;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -29,10 +31,9 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 }
 
 function feedlist_callback() {
-	var container = document.getElementById('feedConfPane');
+	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
-
 		if (active_feed) {
 			var row = document.getElementById("FEEDR-" + active_feed);
 			if (row) {
@@ -45,12 +46,14 @@ function feedlist_callback() {
 				checkbox.checked = true;
 			}
 		}
+		p_notify("");
 	}
 }
 
 function filterlist_callback() {
-	var container = document.getElementById('filterConfPane');
+	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
+
 		container.innerHTML=xmlhttp.responseText;
 
 		if (active_filter) {
@@ -66,11 +69,12 @@ function filterlist_callback() {
 				checkbox.checked = true;
 			}
 		}
+		p_notify("");
 	}
 }
 
 function labellist_callback() {
-	var container = document.getElementById('labelConfPane');
+	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
@@ -87,6 +91,7 @@ function labellist_callback() {
 				checkbox.checked = true;
 			}
 		}
+		p_notify("");
 	}
 }
 function notify_callback() {
@@ -104,7 +109,9 @@ function updateFeedList() {
 		return
 	}
 
-	document.getElementById("feedConfPane").innerHTML = "Loading feeds, please wait...";
+//	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
+
+	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
@@ -670,7 +677,9 @@ function updateFilterList() {
 		return
 	}
 
-	document.getElementById("filterConfPane").innerHTML = "Loading filters, please wait...";
+//	document.getElementById("prefContent").innerHTML = "Loading filters, please wait...";
+
+	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
 	xmlhttp.onreadystatechange=filterlist_callback;
@@ -685,28 +694,43 @@ function updateLabelList() {
 		return
 	}
 
-	document.getElementById("labelConfPane").innerHTML = "Loading labels, please wait...";
+	p_notify("Loading, please wait...");
+
+//	document.getElementById("prefContent").innerHTML = "Loading labels, please wait...";
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
-
 }
 
+function selectTab(id) {
 
-function expandPane(id) {
-
-	var container;
-
-	container = document.getElementById(id);
-
-	if (id == "feedConfPane") {
+	if (id == "feedConfig") {
 		updateFeedList();
-	} else if (id == "filterConfPane") {
+	} else if (id == "filterConfig") {
 		updateFilterList();
-	} else if (id == "labelConfPane") {
+	} else if (id == "labelConfig") {
 		updateLabelList();
 	}
+
+	var tab = document.getElementById(active_tab + "Tab");
+
+	if (tab) {
+		if (tab.className.match("Selected")) {
+			tab.className = "prefsTab";
+		}
+	}
+
+	tab = document.getElementById(id + "Tab");
+
+	if (tab) {
+		if (!tab.className.match("Selected")) {
+			tab.className = tab.className + "Selected";
+		}
+	}
+
+	active_tab = id;
+
 }
 
 function init() {
@@ -720,7 +744,8 @@ function init() {
 		return;
 	}
 
-//	updateFeedList();
+	selectTab("feedConfig");
+
 	document.onkeydown = hotkey_handler;
 	notify("");
 

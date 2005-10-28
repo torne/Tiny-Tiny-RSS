@@ -947,6 +947,13 @@
 		
 			}
 
+		print "<h3>OPML Import</h3>
+		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
+			File: <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
+			<input class=\"button\" name=\"op\" onclick=\"return validateOpmlImport();\"
+				type=\"submit\" value=\"Import\">
+			</form>";
+
 	}
 
 	if ($op == "pref-filters") {

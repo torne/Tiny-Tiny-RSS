@@ -29,10 +29,7 @@ table.main td.mainToolbar {
 }
 
 table.main td.prefsToolbar {
-	border-width : 0px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 0px 10px 10px 5px;
+	padding : 0px 5px 5px 0px;
 }
 
 table.main td.feeds {
@@ -168,6 +165,14 @@ h1 {
 
 h2 {
 	font-size : 14pt;
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+h3 {
+	font-size : 12pt;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -405,4 +410,36 @@ pre {
 
 input.extSearch {
 	width : 200px;
+}
+
+table.main td.prefsTabs {
+	padding-left : 15px;
+}
+
+input.prefsTab {
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;	
+	padding : 2px 7px 2px 7px;
+	margin : 0px 1px 0px 0px;
+	width : 150px;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+input.prefsTabSelected {
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;	
+	padding : 2px 7px 2px 7px;
+	margin : 0px 1px 0px 0px;
+	width : 150px;
+	background : white;
+	font-weight : bold;
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+
+input.prefsTab:hover {
+	background : white;
 }

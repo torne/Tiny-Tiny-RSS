@@ -31,50 +31,24 @@
 </tr>
 <? } ?>
 <tr>
-	<td class="prefsToolbar" valign="middle" align="right">
+	<td class="prefsTabs" align="left" valign="bottom">
+		<input id="feedConfigTab" class="prefsTab" type="submit" value="Feed Configuration"
+			onclick="selectTab('feedConfig')">
+		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
+			onclick="selectTab('filterConfig')">
+		<? if (ENABLE_LABELS) { ?>
+		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
+			onclick="selectTab('labelConfig')">
+		<? } ?>
+	</td>
+	<td class="prefsToolbar" valign="middle" align="right">	
 		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
 	</td>
+	</tr>
 </tr>
-</tr>
-	<td id="prefContent" class="prefContent" valign="top">
-		<h2>Feed Configuration</h2><div id="piggie">&nbsp;</div>
+	<td id="prefContent" class="prefContent" valign="top" colspan="2">
 
-		<div class="expPane" id="feedConfPane">
-			<a class="button" 
-				href="javascript:expandPane('feedConfPane')">Expand section &gt;</a>
-		</div>
-
-		<h2>OPML Import</h2>
-
-		<div class="expPane">
-	
-		<form	enctype="multipart/form-data" method="POST" action="opml.php">
-			File: <input id="opml_file" name="opml_file" type="file">&nbsp;
-			<input class="button" name="op" onclick="return validateOpmlImport();"
-				type="submit" value="Import">
-			</form>
-
-		</div>
-
-		<h2>Content Filtering</h2>
-
-		<div class="expPane" id="filterConfPane">
-			<a class="button" 
-				href="javascript:expandPane('filterConfPane')">Expand section &gt;</a>
-
-		</div>
-
-		<? if (ENABLE_LABELS) { ?>
-
-		<h2>Label Editor</h2>
-
-		<div class="expPane" id="labelConfPane">
-			<a class="button" 
-				href="javascript:expandPane('labelConfPane')">Expand section &gt;</a>
-
-		</div>
-
-		<? } ?>
+		<p>Loading, please wait...</p>
 
 	</td>
 </tr>
