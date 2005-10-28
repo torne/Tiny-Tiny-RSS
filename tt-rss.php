@@ -43,6 +43,14 @@
 				<div id="notify"><span id="notify_body"></div>
 			</td>
 		</tr></table>
+
+		<div id="qafDialog">
+			Feed URL: <input id="qafInput">
+			<input class="button"
+				type="submit" onclick="javascript:qafAdd()" value="Add feed">
+			<input class="button"
+				type="submit" onclick="javascript:cancelDialog(this)" value="Cancel">
+		</div>
 	</td>
 </tr>
 <? } ?>
@@ -135,8 +143,12 @@
 
 		</td>
 		<td align="right">
-			<input type="submit" onclick="gotoPreferences()" 
-				class="button" value="Preferences"></td>
+			<select id="quickMenuChooser">
+				<option selected>Preferences</option>
+				<option>Add new feed</option>
+				<!-- <option>Edit this feed</option> -->
+			</select>
+			<input type="submit" class="button" onclick="quickMenuGo()" value="Go">
 		</td>
 		</tr>
 		</table>
