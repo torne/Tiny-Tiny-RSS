@@ -103,10 +103,28 @@
 		&nbsp;Limit:
 
 		<select id="limitbox" onchange="javascript:viewCurrentFeed(0, '')">
-			<option>15</option>
-			<option selected>30</option>
-			<option>60</option>
-			<option>All</option>
+		
+		<?
+			$limits = array(15 => 15, 30 => 30, 60 => 60);
+			
+			if (DEFAULT_ARTILE_LIMIT >= 0) {
+				$limits[DEFAULT_ARTICLE_LIMIT] = DEFAULT_ARTICLE_LIMIT; 
+			}
+			
+			asort($limits);
+
+			array_push($limits, 0);
+
+			foreach ($limits as $key) {
+				print "<option";
+				if ($key == DEFAULT_ARTICLE_LIMIT) { print " selected"; }
+				print ">";
+				
+				if ($limits[$key] == 0) { print "All"; } else { print $limits[$key]; }
+				
+				print "</option>";
+			} ?>
+			
 		</select>
 
 		&nbsp;Feed: <input class="button" type="submit"
