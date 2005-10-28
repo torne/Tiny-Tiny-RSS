@@ -22,8 +22,10 @@
 
 		if (WEB_DEMO_MODE) return;
 
-		if (! ($_GET["daemon"] && DAEMON_REFRESH_ONLY)) {
-			return;
+		if (DAEMON_REFRESH_ONLY) {
+			if (!$_GET["daemon"]) {
+				return;
+			}
 		}
 
 		db_query($link, "BEGIN");
@@ -39,7 +41,7 @@
 
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
-			
+
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
 			}
 		}

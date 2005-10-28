@@ -320,6 +320,7 @@
 		}
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
+		
 			update_all_feeds($link, true);			
 
 			$omode = $_GET["omode"];
