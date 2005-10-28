@@ -49,6 +49,17 @@
 	define(USE_COMPACT_STYLESHEET, false);
 	// use stylesheet with more compact layout (if combined with two previous 
 	// options may improve UI on small screens)
-	
+
+	define(DAEMON_REFRESH_ONLY, false);
+	// updates to all feeds will only run when the backend script is
+	// invoked with a "daemon" option on the URI stem. An example wget
+	// command line below will invoke an update every 30 minutes, with
+	// output being sent to /dev/null and the timeout set to 10 minutes
+	// so that wget does not time out. Substitute your site name, tt-rss
+	// path, and username/password as necessary.
+	//
+	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://username:password@www.your-site.xxx/tt-rss/backend.php?op=rpc&subop=updateAllFeeds&daemon=1"
+	//
+
 ?>
 

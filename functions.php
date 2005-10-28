@@ -22,6 +22,10 @@
 
 		if (WEB_DEMO_MODE) return;
 
+		if (! ($_GET["daemon"] && DAEMON_REFRESH_ONLY)) {
+			return;
+		}
+
 		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT feed_url,id,
