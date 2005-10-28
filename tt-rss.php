@@ -138,9 +138,12 @@
 
 		</td>
 		<td align="right">
-			<select id="quickMenuChooser">
+			Actions: <select id="quickMenuChooser">
 				<option selected>Preferences</option>
-				<option>Add new feed</option>
+				<option disabled>-----</option>
+				<option disabled>Feed actions:</option>
+				<option>&nbsp;&nbsp;Add new feed</option>
+				<option>&nbsp;&nbsp;Remove this feed</option>
 				<!-- <option>Edit this feed</option> -->
 			</select>
 			<input type="submit" class="button" onclick="quickMenuGo()" value="Go">

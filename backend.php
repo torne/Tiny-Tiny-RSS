@@ -1317,6 +1317,7 @@
 
 	if ($op == "dlg") {
 		$id = $_GET["id"];
+		$param = $_GET["param"];
 
 		if ($id == "quickAddFeed") {
 			print "Feed URL: <input id=\"qafInput\">
@@ -1326,6 +1327,31 @@
 				type=\"submit\" onclick=\"javascript:closeDlg()\" 
 				value=\"Cancel\">";
 		}
+
+		if ($id == "quickDelFeed") {
+
+			$param = db_escape_string($param);
+
+			$result = db_query($link, "SELECT title FROM ttrss_feeds WHERE id = '$param'");
+
+			if ($result) {
+
+				$f_title = db_fetch_result($result, 0, "title");
+		
+				print "Remove current feed ($f_title)?&nbsp;
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:qfdDelete($param)\" value=\"Remove\">
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:closeDlg()\" 
+					value=\"Cancel\">";
+			} else {
+				print "Error: Feed $param not found.&nbsp;
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:closeDlg()\" 
+					value=\"Cancel\">";		
+			}
+		}
+
 	}
 
 	db_close($link);

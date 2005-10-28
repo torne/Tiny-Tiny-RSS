@@ -48,7 +48,7 @@ function toggleTags() {
 	updateFeedList();
 }
 
-function qaf_add_callback() {
+function dlg_frefresh_callback() {
 	if (xmlhttp.readyState == 4) {
 		updateFeedList(false, false);
 		closeDlg();
@@ -428,13 +428,27 @@ function quickMenuGo() {
 
 	var opname = chooser[chooser.selectedIndex].text;
 
-	if (opname == "Preferences") {
+	if (opname.match("Preferences")) {
 		gotoPreferences();
 	}
 
-	if (opname == "Add new feed") {
+	if (opname.match("Add new feed")) {
 		displayDlg("quickAddFeed");
+		return;
 	}
+
+	if (opname.match("Remove this feed")) {
+		var actid = getActiveFeedId();
+
+		if (!actid) {
+			notify("Please select some feed first.");
+			return;
+		}
+	
+		displayDlg("quickDelFeed", actid);
+		return;
+	}
+
 }
 
 function qafAdd() {
@@ -457,7 +471,7 @@ function qafAdd() {
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&link=" +
 			param_escape(link.value), true);
-		xmlhttp.onreadystatechange=qaf_add_callback;
+		xmlhttp.onreadystatechange=dlg_frefresh_callback;
 		xmlhttp.send(null);
 
 		link.value = "";
@@ -465,10 +479,10 @@ function qafAdd() {
 	}
 }
 
-function displayDlg(id) {
+function displayDlg(id, param) {
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
-		param_escape(id), true);
+		param_escape(id) + "&param=" + param_escape(param), true);
 	xmlhttp.onreadystatechange=dialog_refresh_callback;
 	xmlhttp.send(null);
 
@@ -479,3 +493,15 @@ function closeDlg() {
 	dlg.style.display = "none";
 }
 
+function qfdDelete(feed_id) {
+
+	notify("Removing feed...");
+
+	var feeds_doc = window.frames["feeds-frame"].document;
+	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids=" + feed_id);
+	xmlhttp.onreadystatechange=dlg_frefresh_callback;
+	xmlhttp.send(null);
+
+}
