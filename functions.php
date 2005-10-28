@@ -97,7 +97,7 @@
 		db_query($link, "BEGIN");
 
 		$feed = db_escape_string($feed);
-	
+
 		if ($rss) {
 
 			if (ENABLE_FEED_ICONS) {	

@@ -459,6 +459,17 @@
 				</head><body>";
 		}
 
+		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+
+			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+				WHERE id = '$feed'");
+
+			$feed_url = db_fetch_result($tmp_result, 0, "feed_url");
+
+			update_rss_feed($link, $feed_url, $feed);
+
+		}
+
 		if ($subop == "MarkAllRead")  {
 
 			if (sprintf("%d", $feed) != 0) {
