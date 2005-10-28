@@ -1320,7 +1320,9 @@
 		$param = $_GET["param"];
 
 		if ($id == "quickAddFeed") {
-			print "Feed URL: <input id=\"qafInput\">
+			print "Feed URL: <input 
+			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
+			id=\"qafInput\">
 			<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Add feed\">
 			<input class=\"button\"
@@ -1350,6 +1352,23 @@
 					type=\"submit\" onclick=\"javascript:closeDlg()\" 
 					value=\"Cancel\">";		
 			}
+		}
+
+		if ($id == "search") {
+
+			print "<input id=\"searchbox\" class=\"extSearch\"			
+			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
+			onchange=\"javascript:search()\">
+			<select id=\"searchmodebox\">
+				<option selected>All feeds</option>
+				<option>This feed</option>
+			</select>		
+			<input type=\"submit\" 
+				class=\"button\" onclick=\"javascript:search()\" value=\"Search\">
+			<input class=\"button\"
+				type=\"submit\" onclick=\"javascript:closeDlg()\" 
+				value=\"Close\">";
+
 		}
 
 	}

@@ -201,6 +201,9 @@ function viewCurrentFeed(skip, subop) {
 
 	if (getActiveFeedId()) {
 		viewfeed(getActiveFeedId(), skip, subop);
+	} else {
+		disableContainerChildren("headlinesToolbar", false, document);
+		viewfeed(-1, skip, subop); // FIXME
 	}
 }
 
@@ -428,8 +431,13 @@ function quickMenuGo() {
 
 	var opname = chooser[chooser.selectedIndex].text;
 
-	if (opname.match("Preferences")) {
+	if (opname == "Preferences") {
 		gotoPreferences();
+	}
+
+	if (opname == "Extended search") {
+		displayDlg("search");
+		return;
 	}
 
 	if (opname.match("Add new feed")) {
@@ -448,7 +456,6 @@ function quickMenuGo() {
 		displayDlg("quickDelFeed", actid);
 		return;
 	}
-
 }
 
 function qafAdd() {
@@ -505,5 +512,6 @@ function qfdDelete(feed_id) {
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids=" + feed_id);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
-
 }
+
+

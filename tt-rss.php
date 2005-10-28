@@ -76,9 +76,6 @@
 	<td valign="top" class="headlinesToolbarBox">
 		<table width="100%" cellpadding="0" cellspacing="0">
 		
-		<!-- <tr><td id="headlinesTitle" class="headlinesTitle">
-			&nbsp;
-		</td></tr> -->
 		<tr><td class="headlinesToolbar" id="headlinesToolbar">
 			<input id="searchbox"
 			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
@@ -90,10 +87,10 @@
 		
 		<input type="submit" 
 			class="button" onclick="javascript:search()" value="Search">
-		<!-- <input type="submit" 
-			class="button" onclick="javascript:resetSearch()" value="Reset"> -->
 
-		&nbsp;View: 
+		&nbsp; 
+		
+		View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
 			<option>All Articles</option>
