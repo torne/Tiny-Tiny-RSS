@@ -92,8 +92,11 @@
 
 		if (WEB_DEMO_MODE) return;
 
+		$feed = db_escape_string($feed);
+
 		error_reporting(0);
 		$rss = fetch_rss($feed_url);
+
 		error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 		db_query($link, "BEGIN");
@@ -349,8 +352,13 @@
 				}
 			}
 
-			db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = '$feed'");
+			db_query($link, "UPDATE ttrss_feeds 
+				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
+		} else {
+			$error_msg = db_escape_string(magpie_error());
+			db_query($link, 
+				"UPDATE ttrss_feeds SET last_error = '$error_msg' WHERE id = '$feed'");
 		}
 
 		db_query($link, "COMMIT");

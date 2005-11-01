@@ -815,6 +815,27 @@
 			}
 		}
 
+		$result = db_query($link, "SELECT id,title,feed_url,last_error 
+			FROM ttrss_feeds WHERE last_error != ''");
+
+		if (db_num_rows($result) > 0) {
+		
+			print "<div class=\"warning\">";
+		
+			print "<b>Feeds with update errors:</b>";
+
+			print "<ul class=\"nomarks\">";
+						
+			while ($line = db_fetch_assoc($result)) {
+				print "<li>" . $line["title"] . " (" . $line["feed_url"] . "): " . 
+					$line["last_error"];
+			}
+
+			print "</ul>";
+			print "</div>";
+
+		}
+
 		print "<table class=\"prefAddFeed\"><tr>
 			<td><input id=\"fadd_link\"></td>
 			<td colspan=\"4\" align=\"right\">
