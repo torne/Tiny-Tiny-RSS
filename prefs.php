@@ -54,7 +54,7 @@
 </tr>
 <? if (DISPLAY_FOOTER) { ?>
 <tr>
-	<td class="footer">
+	<td class="footer" colspan="2">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
