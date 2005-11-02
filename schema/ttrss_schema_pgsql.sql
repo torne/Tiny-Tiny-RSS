@@ -8,7 +8,8 @@ create table ttrss_feeds (id serial not null primary key,
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
 	last_updated timestamp default null,
-	last_error text not null default '');
+	last_error text not null default '',
+	site_url varchar(250) not null default '');
 
 insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (title,feed_url) values ('Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
