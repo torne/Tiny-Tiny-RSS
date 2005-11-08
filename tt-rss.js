@@ -150,6 +150,16 @@ function scheduleFeedUpdate(force) {
 		query_str = query_str + "updateAllFeeds";
 	}
 
+	var omode;
+
+	if (display_tags) {
+		omode = "t";
+	} else {
+		omode = "fl";
+	}
+
+	query_str = query_str + "&omode=" + omode;
+
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=refetch_callback;
