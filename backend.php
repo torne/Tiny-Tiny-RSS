@@ -1,4 +1,6 @@
 <?
+	define(SCHEMA_VERSION, 2);
+
 	$op = $_GET["op"];
 
 	if ($op == "rpc") {
@@ -24,6 +26,16 @@
 
 	if (DB_TYPE == "pgsql") {
 		pg_query("set client_encoding = 'utf-8'");
+	}
+
+	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
+
+	$schema_version = db_fetch_result($result, 0, "schema_version");
+
+	if ($schema_version != SCHEMA_VERSION) {
+		print "Error: database schema is invalid
+			(got version $schema_version; expected ".SCHEMA_VERSION.")";
+		return;
 	}
 	
 	$fetch = $_GET["fetch"];
