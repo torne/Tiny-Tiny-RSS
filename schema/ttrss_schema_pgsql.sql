@@ -79,3 +79,9 @@ create table ttrss_tags (id serial primary key,
 	tag_name varchar(250) not null,
 	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
 
+drop table ttrss_version;
+
+create table ttrss_version (schema_version int not null);
+
+insert into ttrss_version values (1);
+

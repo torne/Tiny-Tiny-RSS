@@ -12,4 +12,8 @@ alter table ttrss_feeds alter column last_error set default '';
 alter table ttrss_feeds alter column site_url set not null;
 alter table ttrss_feeds alter column site_url set default '';
 
+create table ttrss_version (schema_version int not null);
+
+insert into ttrss_version values (1);
+
 commit;

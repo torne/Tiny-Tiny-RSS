@@ -84,3 +84,10 @@ create table ttrss_tags (id integer primary key auto_increment,
 	index (post_id),
 	foreign key (post_id) references ttrss_entries(id) ON DELETE CASCADE) TYPE=InnoDB;
 
+drop table ttrss_version;
+
+create table ttrss_version (schema_version int not null) TYPE=InnoDB;
+
+insert into ttrss_version values (1);
+
+
