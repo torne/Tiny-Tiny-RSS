@@ -1,5 +1,5 @@
 <?
-	define(SCHEMA_VERSION, 2);
+	define(SCHEMA_VERSION, 1);
 
 	$op = $_GET["op"];
 
