@@ -524,4 +524,3 @@ function qfdDelete(feed_id) {
 	xmlhttp.send(null);
 }
 
-

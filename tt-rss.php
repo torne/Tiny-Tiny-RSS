@@ -7,20 +7,20 @@
 
 	<? if (USE_COMPACT_STYLESHEET) { ?>
 
-	<link title="Compact Stylesheet" 
-		rel="stylesheet" href="tt-rss_compact.css" type="text/css">
-	<link title="Normal Stylesheet" rel="alternate stylesheet" 
-		type="text/css" href="tt-rss.css"/>
+	<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
+		
+	<link rel="alternate stylesheet" title="Normal Stylesheet" 
+		type="text/css" href="tt-rss.css">
 
 	<? } else { ?>
 
-	<link title="Normal Stylesheet" 
-		rel="stylesheet" href="tt-rss.css" type="text/css">
+	<link	rel="stylesheet" href="tt-rss.css" type="text/css">
+	
 	<link title="Compact Stylesheet" rel="alternate stylesheet" 
-		type="text/css" href="tt-rss_compact.css"/>
+		type="text/css" href="tt-rss_compact.css"/> 
 
 	<? } ?>
-	
+
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="tt-rss.js"></script>
 	<!--[if gte IE 5.5000]>
