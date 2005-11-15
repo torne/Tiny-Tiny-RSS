@@ -61,5 +61,10 @@
 	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://username:password@www.your-site.xxx/tt-rss/backend.php?op=rpc&subop=updateAllFeeds&daemon=1"
 	//
 
+	define(DISPLAY_FEEDLIST_ACTIONS, false);
+	// display actions dropbox in feedlist, if disabled these actions are
+	// available in the global actions dropbox
+	
+
 ?>
 

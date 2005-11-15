@@ -467,6 +467,22 @@ function quickMenuGo() {
 		displayDlg("quickDelFeed", actid);
 		return;
 	}
+
+	if (opname.match("Update")) {
+		scheduleFeedUpdate(true);
+		return;
+	}
+
+	if (opname.match("Mark as read")) {
+		catchupAllFeeds();
+		return;
+	}
+
+	if (opname.match("Toggle display read")) {
+		toggleDispRead();
+		return;
+	}
+
 }
 
 function qafAdd() {

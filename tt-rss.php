@@ -61,7 +61,9 @@
 		<iframe frameborder="0" 
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
-	
+
+		<? if (DISPLAY_FEEDLIST_ACTIONS) { ?>
+
 		<div align="center">All feeds: 
 		
 		<select id="allFeedsChooser">
@@ -73,6 +75,8 @@
 		<input type="submit" class="button" onclick="allFeedsMenuGo()" value="Go">
 
 		</div>
+
+		<? } ?>
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
@@ -139,11 +143,16 @@
 		<td align="right">
 			Actions: <select id="quickMenuChooser">
 				<option selected>Preferences</option>
-				<option disabled>-----</option>
-				<option disabled>Feed actions:</option>
+				<option disabled>--------</option>
+				<option style="color : #5050aa" disabled>Feed actions:</option>
 				<option>&nbsp;&nbsp;Add new feed</option>
 				<option>&nbsp;&nbsp;Remove this feed</option>
 				<!-- <option>Edit this feed</option> -->
+				<option disabled>--------</option>
+				<option style="color : #5050aa" disabled>All feeds:</option>
+				<option>&nbsp;&nbsp;Update</option>
+				<option>&nbsp;&nbsp;Mark as read</option>
+				<option>&nbsp;&nbsp;Toggle display read</option>
 			</select>
 			<input type="submit" class="button" onclick="quickMenuGo()" value="Go">
 		</td>
