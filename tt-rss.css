@@ -151,7 +151,32 @@ ul.feedList li.oddSelected, ul.feedList li.evenSelected,
 li.oddSelected a, li.evenSelected a,
 	li.oddUnreadSelected a, li.evenUnreadSelected a {
 	color : #5050aa;
-} 
+}
+
+ul.feedlist 
+	li.virtSelected,
+	li.virtUnreadSelected,
+	li.feedSelected, 
+	li.labelSelected, 
+	li.feedUnreadSelected, 
+	li.labelUnreadSelected {
+	background-color : white;
+}
+
+ul.feedlist 
+	li.feedSelected a, 
+	li.labelSelected a, 
+	li.feedUnreadSelected a, 
+	li.labelUnreadSelected a, 
+	li.virtSelected a, 
+	li.virtUnreadSelected a,
+	li.virtSelectedUnread a {
+	color : #5050aa;
+}
+
+ul.feedList li.feed {
+	display : block;
+}
 
 ul.feedList img {
 	margin : 0px 3px 0px 0px;
@@ -285,12 +310,12 @@ a.button {
 	font-size : small;
 }
 
-.evenUnreadSelected, .evenSelectedUnread {
+.evenUnreadSelected, .evenSelectedUnread, {
 	background-color : #e0e0ff;
 	font-weight : bold;
 }
 
-.oddUnreadSelected, .oddSelectedUnread {
+.oddUnreadSelected, .oddSelectedUnread, .feedSelectedUnread,  {
 	background-color : #e0e0ff;
 	font-weight : bold;
 }
@@ -301,6 +326,17 @@ a.button {
 
 .oddSelected {
 	background-color : #e0e0ff;
+} 
+
+.feedUnreadSelected, .feedSelectedUnread, 
+.virtUnreadSelected, .virtSelectedUnread,
+.labelUnreadSelected, .labelSelectedUnread {
+	background-color : #e0e0ff;
+	font-weight : bold;
+}
+
+.feedUnread, .labelUnread, .virtUnread {
+	font-weight : bold;
 }
 
 .disabledButton {

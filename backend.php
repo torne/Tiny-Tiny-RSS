@@ -135,7 +135,7 @@
 			<script type=\"text/javascript\" src=\"functions.js\"></script>
 			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body>";
+			</head><body onload=\"init()\">";
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
 
@@ -147,7 +147,7 @@
 				FROM ttrss_entries WHERE marked = true AND unread = true");
 			$num_starred = db_fetch_result($result, 0, "num_starred");
 
-			$class = "odd";
+			$class = "virt";
 
 			if ($num_starred > 0) $class .= "Unread";
 
@@ -172,7 +172,7 @@
 	
 					$count = db_fetch_result($tmp_result, 0, "count");
 	
-					$class = "odd";
+					$class = "label";
 	
 					if ($count > 0) {
 						$class .= "Unread";
@@ -215,7 +215,7 @@
 				
 	//			$class = ($lnum % 2) ? "even" : "odd";
 	
-				$class = "odd";
+				$class = "feed";
 	
 				if ($unread > 0) $class .= "Unread";
 	

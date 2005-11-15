@@ -62,15 +62,17 @@
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 	
-		<p align="center">All feeds:
+		<div align="center">All feeds: 
 		
-		<input class="button" type="submit"	
-			onclick="javascript:scheduleFeedUpdate(true)" value="Update">
-				
-		<input class="button" type="submit"	
-			onclick="javascript:catchupAllFeeds()" value="Mark as read">
+		<select id="allFeedsChooser">
+			<option>Update</option>
+			<option>Mark as read</option>
+			<option>Toggle display read</option>
+		</select>
 
-		</p>
+		<input type="submit" class="button" onclick="allFeedsMenuGo()" value="Go">
+
+		</div>
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">

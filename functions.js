@@ -396,3 +396,24 @@ function popupHelp(tid) {
     }
   }
 
+
+function hideOrShowFeeds(doc, hide) {
+
+	var css_rules = doc.styleSheets[0].cssRules;
+
+	for (i = 0; i < css_rules.length; i++) {
+		var rule = css_rules[i];
+
+		if (rule.selectorText == "ul.feedList li.feed") {
+			if (!hide) {
+				rule.style.display = "block";
+			} else {
+				rule.style.display = "none";
+			}
+		}
+
+	} 
+
+}
+
+

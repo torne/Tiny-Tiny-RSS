@@ -88,4 +88,8 @@ function viewfeed(feed, skip, subop, doc) {
 
 }
 
+function init() {
 
+	hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
+
+}

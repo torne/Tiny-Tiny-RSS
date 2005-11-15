@@ -12,6 +12,7 @@ var search_query = "";
 var search_mode = "";
 
 var display_tags = false;
+//var display_read_feeds = true;
 
 var global_unread = 0;
 
@@ -524,3 +525,42 @@ function qfdDelete(feed_id) {
 	xmlhttp.send(null);
 }
 
+
+function allFeedsMenuGo() {
+	var chooser = document.getElementById("allFeedsChooser");
+
+	var opname = chooser[chooser.selectedIndex].text;
+
+	if (opname == "Update") {
+		scheduleFeedUpdate(true);
+		return;
+	}
+
+	if (opname == "Mark as read") {
+		catchupAllFeeds();
+		return;
+	}
+
+	if (opname == "Toggle display read") {
+		toggleDispRead();
+		return;
+	}
+
+}
+
+function toggleDispRead() {
+	var hide_read_feeds = (getCookie("ttrss_vf_hreadf") == 1);
+
+	hide_read_feeds = !hide_read_feeds;
+
+	var feeds_doc = window.frames["feeds-frame"].document;
+
+	hideOrShowFeeds(feeds_doc, hide_read_feeds);
+
+	if (hide_read_feeds) {
+		setCookie("ttrss_vf_hreadf", 1);
+	} else {
+		setCookie("ttrss_vf_hreadf", 0);
+	}
+
+}

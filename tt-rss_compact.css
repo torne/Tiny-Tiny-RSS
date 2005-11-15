@@ -176,6 +176,10 @@ li.oddSelected a, li.evenSelected a,
 	font-size:8pt;
 } 
 
+ul.feedList li.even, li.odd {
+	display : block;
+}
+
 ul.feedList img {
 	margin : 0px 3px 0px 0px;
 	width : 16px;
@@ -327,6 +331,18 @@ a.button {
 .oddSelected {
 	background-color : #e0e0ff;
 }
+
+.feedUnreadSelected, .feedSelectedUnread, 
+.virtUnreadSelected, .virtSelectedUnread,
+.labelUnreadSelected, .labelSelectedUnread {
+	background-color : #e0e0ff;
+	font-weight : bold;
+}
+
+.feedUnread, .labelUnread, .virtUnread {
+	font-weight : bold;
+}
+
 
 .disabledButton {
 	border : 1px solid #c0c0c0;
