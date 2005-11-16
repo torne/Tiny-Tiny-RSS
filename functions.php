@@ -22,7 +22,7 @@
 						date_entered < NOW() - INTERVAL '$purge_interval days'");
 				} else {
 					db_query($link, "DELETE FROM ttrss_entries WHERE
-						marked = false AND AND feed_id = '$feed_id' AND
+						marked = false AND feed_id = '$feed_id' AND
 						date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
 				}
 			}
