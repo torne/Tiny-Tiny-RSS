@@ -9,12 +9,14 @@
 
 	require_once "config.php";
 	require_once "db.php";
+	require_once "db-prefs.php";
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
 	$script_started = getmicrotime();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$dbprefs_link = $link;
 
 	if (!$link) {
 		if (DB_TYPE == "mysql") {
