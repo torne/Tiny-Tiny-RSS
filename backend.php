@@ -825,6 +825,9 @@
 			if (strtoupper($purge_intl) == "DEFAULT")
 				$purge_intl = 0;
 
+			if (strtoupper($purge_intl) == "DISABLED")
+				$purge_intl = -1;
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
@@ -958,6 +961,9 @@
 				if ($line["purge_interval"] == "0")
 					$line["purge_interval"] = "Default";
 
+				if ($line["purge_interval"] < 0)
+					$line["purge_interval"] = "Disabled";
+
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$line["purge_interval"] . "</a></td>";
 
@@ -976,6 +982,9 @@
 
 				if ($line["purge_interval"] == "0")
 					$line["purge_interval"] = "Default";
+
+				if ($line["purge_interval"] < 0)
+					$line["purge_interval"] = "Disabled";
 
 				print "<td>" . $line["purge_interval"] . "</td>";
 

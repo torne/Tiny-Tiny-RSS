@@ -14,7 +14,7 @@
 
 			if ($purge_interval == 0) $purge_interval = PURGE_OLD_DAYS;
 
-			if ($purge_interval != 0) {
+			if ($purge_interval > 0) {
 
 				if (DB_TYPE == "pgsql") {
 					db_query($link, "DELETE FROM ttrss_entries WHERE

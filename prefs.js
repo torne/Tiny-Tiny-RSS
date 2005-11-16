@@ -466,7 +466,7 @@ function feedEditSave() {
 
 //	notify("Saving feed.");
 
-	if (upd_intl < 0) {
+/*	if (upd_intl < 0) {
 		notify("Update interval must be &gt;= 0 (0 = default)");
 		return;
 	}
@@ -474,7 +474,7 @@ function feedEditSave() {
 	if (purge_intl < 0) {
 		notify("Purge days must be &gt;= 0 (0 = default)");
 		return;
-	}
+	} */
 
 	if (link.length == 0) {
 		notify("Feed link cannot be blank.");
