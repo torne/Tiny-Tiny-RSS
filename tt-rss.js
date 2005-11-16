@@ -438,25 +438,25 @@ function init() {
 }
 
 function quickMenuGo() {
+
 	var chooser = document.getElementById("quickMenuChooser");
+	var opid = chooser[chooser.selectedIndex].id;
 
-	var opname = chooser[chooser.selectedIndex].text;
-
-	if (opname == "Preferences") {
+	if (opid == "qmcPrefs") {
 		gotoPreferences();
 	}
 
-	if (opname == "Extended search") {
+	if (opid == "qmcAdvSearch") {
 		displayDlg("search");
 		return;
 	}
 
-	if (opname.match("Add new feed")) {
+	if (opid == "qmcAddFeed") {
 		displayDlg("quickAddFeed");
 		return;
 	}
 
-	if (opname.match("Remove this feed")) {
+	if (opid == "qmcRemoveFeed") {
 		var actid = getActiveFeedId();
 
 		if (!actid) {
@@ -468,17 +468,17 @@ function quickMenuGo() {
 		return;
 	}
 
-	if (opname.match("Update")) {
+	if (opid == "qmcUpdateFeeds") {
 		scheduleFeedUpdate(true);
 		return;
 	}
 
-	if (opname.match("Mark as read")) {
+	if (opid == "qmcCatchupAll") {
 		catchupAllFeeds();
 		return;
 	}
 
-	if (opname.match("Toggle display read")) {
+	if (opid == "qmcShowOnlyUnread") {
 		toggleDispRead();
 		return;
 	}
@@ -557,7 +557,7 @@ function allFeedsMenuGo() {
 		return;
 	}
 
-	if (opname == "Toggle display read") {
+	if (opname == "Show only read") {
 		toggleDispRead();
 		return;
 	}
