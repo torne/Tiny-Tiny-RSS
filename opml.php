@@ -9,6 +9,7 @@
 
 	require_once "config.php";
 	require_once "db.php";
+	require_once "db-prefs.php";
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
@@ -94,7 +95,7 @@
 			<body><h1>Importing OPML...</h1>
 			<div>";
 
-		if (WEB_DEMO_MODE) {
+		if (get_pref($link, 'WEB_DEMO_MODE')) {
 			print "OPML import is disabled in demo-mode.";
 			print "<p><a class=\"button\" href=\"prefs.php\">
 			Return to preferences</a></div></body></html>";
