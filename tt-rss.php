@@ -1,13 +1,17 @@
-<? require_once "version.php" ?>
-<? require_once "config.php" ?>
+<?
+	require_once "version.php"; 
+	require_once "config.php";
+	require_once "db-prefs.php";
 
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+?>
 <html>
 <head>
 	<title>Tiny Tiny RSS</title>
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
 
-	<? if (USE_COMPACT_STYLESHEET) { ?>
+	<? if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
 
 		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
 
@@ -28,7 +32,7 @@
 
 <body onload="init()">
 
-<? if (ENABLE_SPLASH) { ?>
+<? if (get_pref($link, 'ENABLE_SPLASH')) { ?>
 <div id="splash">
 	<table width='100%' height='100%'><tr>
 		<td class="innerSplash" valign="middle" align="center">
@@ -39,7 +43,7 @@
 <? } ?>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<? if (DISPLAY_HEADER) { ?>
+<? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
 	<td colspan="2" class="headerBox">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
@@ -69,7 +73,7 @@
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 
-		<? if (DISPLAY_FEEDLIST_ACTIONS) { ?>
+		<? if (get_pref($link, 'DISPLAY_FEEDLIST_ACTIONS')) { ?>
 
 		<div align="center">All feeds: 
 		
@@ -120,8 +124,12 @@
 		<?
 			$limits = array(15 => 15, 30 => 30, 60 => 60);
 			
-			if (DEFAULT_ARTILE_LIMIT >= 0) {
-				$limits[DEFAULT_ARTICLE_LIMIT] = DEFAULT_ARTICLE_LIMIT; 
+			$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
+
+			print $def_art_limit;
+	
+			if ($def_art_limit >= 0) {
+				$limits[$def_art_limit] = $def_art_limit; 
 			}
 			
 			asort($limits);
@@ -130,14 +138,14 @@
 
 			foreach ($limits as $key) {
 				print "<option";
-				if ($key == DEFAULT_ARTICLE_LIMIT) { print " selected"; }
+				if ($key == $def_art_limit) { print " selected"; }
 				print ">";
 				
 				if ($limits[$key] == 0) { print "All"; } else { print $limits[$key]; }
 				
 				print "</option>";
 			} ?>
-			
+		
 		</select>
 
 		&nbsp;Feed: <input class="button" type="submit"
@@ -178,7 +186,7 @@
 			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
-<? if (DISPLAY_FOOTER) { ?>
+<? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td colspan="2" class="footer">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
