@@ -58,7 +58,7 @@
 	// so that wget does not time out. Substitute your site name, tt-rss
 	// path, and username/password as necessary.
 	//
-	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://username:password@www.your-site.xxx/tt-rss/backend.php?op=rpc&subop=updateAllFeeds&daemon=1"
+	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://username:password@www.your-site.xxx/tt-rss/backend.php?op=updateAllFeeds&daemon=1"
 	//
 
 	define(DISPLAY_FEEDLIST_ACTIONS, false);

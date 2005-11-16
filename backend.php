@@ -3,7 +3,7 @@
 
 	$op = $_GET["op"];
 
-	if ($op == "rpc") {
+	if ($op == "rpc" || $op == "updateAllFeeds") {
 		header("Content-Type: application/xml");
 	}
 
@@ -1486,6 +1486,18 @@
 				value=\"Close\">";
 
 		}
+
+	}
+
+	if ($op == "updateAllFeeds") {
+		update_all_feeds($link, true);			
+
+		print "<rpc-reply>";
+		getLabelCounters($link);
+		getFeedCounters($link);
+		getTagCounters($link);
+		getGlobalCounters($link);
+		print "</rpc-reply>";
 
 	}
 
