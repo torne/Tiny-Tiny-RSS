@@ -387,7 +387,7 @@ function init_second_stage() {
 //		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
 //	}
 
-	setTimeout("timeout()", 2*1000);
+//	setTimeout("timeout()", 2*1000);
 //	scheduleFeedUpdate(true);
 
 	var splash = document.getElementById("splash");

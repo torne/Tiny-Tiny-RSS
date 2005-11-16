@@ -111,4 +111,5 @@ function localHotkeyHandler(keycode) {
 function init() {
 	hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
 	document.onkeydown = hotkey_handler;
+	parent.setTimeout("timeout()", 1000);
 }
