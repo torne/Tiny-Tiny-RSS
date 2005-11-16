@@ -136,7 +136,7 @@
 			<title>Tiny Tiny RSS : Feedlist</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
-		if (USE_COMPACT_STYLESHEET) {
+		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
 			print "<link rel=\"stylesheet\" type=\"text/css\" 
 				href=\"tt-rss_compact.css\"/>";
 		} else {
@@ -166,7 +166,7 @@
 			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
 				"images/mark_set.png");
 
-			if (ENABLE_LABELS) {
+			if (get_pref($link, 'ENABLE_LABELS')) {
 	
 				$result = db_query($link, "SELECT id,sql_exp,description FROM
 					ttrss_labels ORDER by description");
@@ -494,7 +494,7 @@
 				<title>Tiny Tiny RSS : Feed $feed</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
-			if (USE_COMPACT_STYLESHEET) {
+			if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
 				print "<link rel=\"stylesheet\" 
 						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 
@@ -845,9 +845,11 @@
 
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_feeds WHERE id = '$id'");
+
+					$icons_dir = get_pref($link, 'ICONS_DIR');
 					
-					if (file_exists(ICONS_DIR . "/$id.ico")) {
-						unlink(ICONS_DIR . "/$id.ico");
+					if (file_exists($icons_dir . "/$id.ico")) {
+						unlink($icons_dir . "/$id.ico");
 					}
 				}
 			}
@@ -930,11 +932,11 @@
 
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
-			$icon_file = ICONS_DIR . "/$feed_id.ico";
+			$icon_file = get_pref($link, 'ICONS_DIR') . "/$feed_id.ico";
 
 			if (file_exists($icon_file) && filesize($icon_file) > 0) {
 					$feed_icon = "<img width=\"16\" height=\"16\"
-						src=\"" . ICONS_URL . "/$feed_id.ico\">";
+						src=\"" . get_pref($link, 'ICONS_URL') . "/$feed_id.ico\">";
 			} else {
 				$feed_icon = "&nbsp;";
 			}
@@ -1032,7 +1034,7 @@
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
 				
-			if (ENABLE_PREFS_CATCHUP_UNCATCHUP) {
+			if (get_pref($link, 'ENABLE_PREFS_CATCHUP_UNCATCHUP')) {
 				print "
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:readSelectedFeeds()\" value=\"Mark as read\">

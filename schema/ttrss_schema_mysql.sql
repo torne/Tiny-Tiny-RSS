@@ -115,13 +115,12 @@ create table ttrss_prefs (pref_name varchar(250) primary key,
 
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('CONTENT_CHECK_MD5', 1, 'false', 'false');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('MIN_UPDATE_TIME', 3, '1800', '1800');
-insert into ttrss_prefs (pref_name,type_id,value,def_value) values('WEB_DEMO_MODE', 1, 'false', 'false');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_FEED_ICONS', 1, 'true', 'true');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ICONS_DIR', 2, 'icons', 'icons');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ICONS_URL', 2, 'icons', 'icons');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('PURGE_OLD_DAYS', 3, '60', '60');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'true');
-insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'false', 'false');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_LABELS', 1, 'false', 'false');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DEFAULT_UPDATE_INTERVAL', 3, '30', '30');
 insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DISPLAY_HEADER', 1, 'true', 'true');

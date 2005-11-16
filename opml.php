@@ -95,7 +95,7 @@
 			<body><h1>Importing OPML...</h1>
 			<div>";
 
-		if (get_pref($link, 'WEB_DEMO_MODE')) {
+		if (WEB_DEMO_MODE) {
 			print "OPML import is disabled in demo-mode.";
 			print "<p><a class=\"button\" href=\"prefs.php\">
 			Return to preferences</a></div></body></html>";

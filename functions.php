@@ -32,7 +32,7 @@
 
 	function update_all_feeds($link, $fetch) {
 
-		if (get_pref($link, 'WEB_DEMO_MODE')) return;
+		if (WEB_DEMO_MODE) return;
 
 		if (get_pref($link, 'DAEMON_REFRESH_ONLY')) {
 			if (!$_GET["daemon"]) {
@@ -104,7 +104,7 @@
 
 	function update_rss_feed($link, $feed_url, $feed) {
 
-		if (get_pref($link, 'WEB_DEMO_MODE')) return;
+		if (WEB_DEMO_MODE) return;
 
 		$feed = db_escape_string($feed);
 
