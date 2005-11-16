@@ -5,19 +5,16 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
+	<link rel="stylesheet" type="text/css" href="tt-rss.css">
+
 	<? if (USE_COMPACT_STYLESHEET) { ?>
 
-	<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
-		
-	<link rel="alternate stylesheet" title="Normal Stylesheet" 
-		type="text/css" href="tt-rss.css">
+		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
 
 	<? } else { ?>
 
-	<link	rel="stylesheet" href="tt-rss.css" type="text/css">
-	
-	<link title="Compact Stylesheet" rel="alternate stylesheet" 
-		type="text/css" href="tt-rss_compact.css"/> 
+		<link title="Compact Stylesheet" rel="alternate stylesheet" 
+			type="text/css" href="tt-rss_compact.css"/> 
 
 	<? } ?>
 

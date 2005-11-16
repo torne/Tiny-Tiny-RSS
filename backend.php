@@ -133,8 +133,17 @@
 
 		print "<html><head>
 			<title>Tiny Tiny RSS : Feedlist</title>
-			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
-			<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
+
+		if (USE_COMPACT_STYLESHEET) {
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"tt-rss_compact.css\"/>";
+		} else {
+			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
+					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
 			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body onload=\"init()\">";
@@ -482,8 +491,17 @@
 		if ($addheader) {
 			print "<html><head>
 				<title>Tiny Tiny RSS : Feed $feed</title>
-				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
-				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
+
+			if (USE_COMPACT_STYLESHEET) {
+				print "<link rel=\"stylesheet\" 
+						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+
+			} else {
+				print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
+						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+			}
+			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
 				<script type=\"text/javascript\" src=\"functions.js\"></script>
 				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
 				</head><body onload='init()'>";
