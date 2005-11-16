@@ -170,6 +170,11 @@ function moveToPost(mode) {
 	} 
 }
 
+function viewfeed(id) {
+	var f = parent.frames["feeds-frame"];
+	f.viewfeed(id, 0);
+}
+
 function localHotkeyHandler(keycode) {
 
 	if (keycode == 78) {

@@ -719,7 +719,8 @@
 
 			if ($line["feed_title"]) {			
 				print "<td width='50%'>$content_link</td>";
-				print "<td width='20%'>".$line["feed_title"]."</td>";
+				print "<td width='20%'>
+					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
 			} else {
 				print "<td width='70%'>$content_link</td>";
 			}
