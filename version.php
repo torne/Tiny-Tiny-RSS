@@ -1,4 +1,4 @@
 <?
-	define(VERSION, "1.0.7");
+	define(VERSION, "1.0.7.99");
 ?>
 
