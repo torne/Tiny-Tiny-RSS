@@ -164,7 +164,7 @@
 			if ($num_starred > 0) $class .= "Unread";
 
 			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
-				"images/mark_set.png");
+				"images/mark_set.png", $link);
 
 			if (get_pref($link, 'ENABLE_LABELS')) {
 	
@@ -193,7 +193,7 @@
 					error_reporting (E_ERROR | E_WARNING | E_PARSE);
 	
 					printFeedEntry(-$line["id"]-11, 
-						$class, $line["description"], $count, "images/label.png");
+						$class, $line["description"], $count, "images/label.png", $link);
 		
 				}
 			}
@@ -237,7 +237,7 @@
 	
 				$total_unread += $unread;
 	
-				printFeedEntry($feed_id, $class, $feed, $unread, "icons/$feed_id.ico");
+				printFeedEntry($feed_id, $class, $feed, $unread, "icons/$feed_id.ico", $link);
 	
 				++$lnum;
 			}
@@ -267,7 +267,7 @@
 					$class .= "Unread";
 				}
 	
-				printFeedEntry($tag, $class, $tag, $unread, "images/tag.png");
+				printFeedEntry($tag, $class, $tag, $unread, "images/tag.png", $link);
 	
 			} 
 

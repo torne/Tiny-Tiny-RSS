@@ -419,7 +419,7 @@
 		return false;
 	}
 
-	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file) {
+	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link) {
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img src=\"$icon_file\">";
