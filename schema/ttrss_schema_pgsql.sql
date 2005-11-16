@@ -7,6 +7,7 @@ create table ttrss_feeds (id serial not null primary key,
 	feed_url varchar(250) unique not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
+	purge_interval integer not null default 0,
 	last_updated timestamp default null,
 	last_error text not null default '',
 	site_url varchar(250) not null default '');
@@ -83,5 +84,5 @@ drop table ttrss_version;
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (1);
+insert into ttrss_version values (2);
 

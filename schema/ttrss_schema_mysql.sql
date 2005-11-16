@@ -7,6 +7,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	feed_url varchar(250) unique not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
+	purge_interval integer not null default 0,
 	last_updated datetime default '',
 	last_error text not null default '',
 	site_url varchar(250) not null default '') TYPE=InnoDB;
@@ -88,6 +89,6 @@ drop table ttrss_version;
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (1);
+insert into ttrss_version values (2);
 
 
