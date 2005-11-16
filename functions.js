@@ -416,4 +416,7 @@ function hideOrShowFeeds(doc, hide) {
 
 }
 
+function fatalError(code) {
+	window.location = "error.php?c=" + param_escape(code);
 
+}

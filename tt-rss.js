@@ -121,6 +121,32 @@ function refetch_callback() {
 	}
 }
 
+function backend_sanity_check_callback() {
+
+	if (xmlhttp.readyState == 4) {
+		
+		if (!xmlhttp.responseXML) {
+			fatalError(3);
+			return;
+		}
+
+		var reply = xmlhttp.responseXML.firstChild;
+
+		if (!reply) {
+			fatalError(3);
+			return;
+		}
+
+		var error_code = reply.getAttribute("code");
+	
+		if (error_code && error_code != 0) {
+			return fatalError(error_code);
+		}
+
+		init_second_stage();
+	} 
+}
+
 function updateFeed(feed_id) {
 
 	var query_str = "backend.php?op=rpc&subop=updateFeed&feed=" + feed_id;
@@ -297,7 +323,15 @@ function updateTitle(s) {
 
 function genericSanityCheck() {
 
-	if (!xmlhttp) {
+	if (!xmlhttp) fatalError(1);
+
+	setCookie("ttrss_vf_test", "TEST");
+	
+	if (getCookie("ttrss_vf_test") != "TEST") {
+		fatalError(2);
+	}
+
+/*	if (!xmlhttp) {
 		document.getElementById("headlines").innerHTML = 
 			"<b>Fatal error:</b> This program requires XmlHttpRequest " + 
 			"to function properly. Your browser doesn't seem to support it.";
@@ -312,7 +346,7 @@ function genericSanityCheck() {
 			"to function properly. Your browser doesn't seem to support them.";
 
 		return false;
-	}
+	} */
 
 	return true;
 }
@@ -324,13 +358,18 @@ function init() {
 	if (!genericSanityCheck()) 
 		return;
 
+	xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
+	xmlhttp.onreadystatechange=backend_sanity_check_callback;
+	xmlhttp.send(null);
+
+}
+
+function init_second_stage() {
+
 	setCookie("ttrss_vf_actfeed", "");
 
 	updateFeedList(false, false);
 	document.onkeydown = hotkey_handler;
-
-	setTimeout("timeout()", 1800*1000);
-	scheduleFeedUpdate(true);
 
 	var content = document.getElementById("content");
 
@@ -347,6 +386,10 @@ function init() {
 //	if (getCookie("ttrss_vf_actfeed")) {
 //		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
 //	}
+
+	setTimeout("timeout()", 2*1000);
+//	scheduleFeedUpdate(true);
+
 
 }
 
@@ -493,3 +536,5 @@ function toggleDispRead() {
 	}
 
 }
+
+

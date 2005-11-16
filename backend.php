@@ -1,5 +1,5 @@
 <?
-	define(SCHEMA_VERSION, 1);
+	define(SCHEMA_VERSION, 2);
 
 	$op = $_GET["op"];
 
@@ -28,6 +28,7 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+/*
 	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 
 	$schema_version = db_fetch_result($result, 0, "schema_version");
@@ -37,7 +38,8 @@
 			(got version $schema_version; expected ".SCHEMA_VERSION.")";
 		return;
 	}
-	
+*/
+
 	$fetch = $_GET["fetch"];
 
 	/* FIXME this needs reworking */
@@ -359,6 +361,21 @@
 			}
 
 			print "Marked active page as read.";
+		}
+
+		if ($subop == "sanityCheck") {
+
+			$error_code = 0;
+
+			$result = db_query($link, "SELECT schema_version FROM ttrss_version");
+
+			$schema_version = db_fetch_result($result, 0, "schema_version");
+
+			if ($schema_version != SCHEMA_VERSION) {
+				$error_code = 5;
+			}
+
+			print "<error code='$error_code'/>";
 		}
 	}
 	
