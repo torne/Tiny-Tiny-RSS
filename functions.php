@@ -1,5 +1,6 @@
 <?
 	require_once 'config.php';
+	require_once 'db-prefs.php';
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
@@ -12,7 +13,7 @@
 			$feed_id = $line["id"];
 			$purge_interval = $line["purge_interval"];
 
-			if ($purge_interval == 0) $purge_interval = PURGE_OLD_DAYS;
+			if ($purge_interval == 0) $purge_interval = get_pref($link, 'PURGE_OLD_DAYS');
 
 			if ($purge_interval > 0) {
 
@@ -27,27 +28,13 @@
 				}
 			}
 		}	
-
-	/*	
-		if (PURGE_OLD_DAYS > 0) {
-
-			if (DB_TYPE == "pgsql") {
-				$result = db_query($link, "DELETE FROM ttrss_entries WHERE
-					marked = false AND feed_id = '$feed_id' AND
-					date_entered < NOW() - INTERVAL '".PURGE_OLD_DAYS." days'");
-			} else {
-				$result = db_query($link, "DELETE FROM ttrss_entries WHERE
-					marked = false AND AND feed_id = '$feed_id' AND
-					date_entered < DATE_SUB(NOW(), INTERVAL ".PURGE_OLD_DAYS." DAY)");
-			}
-		} */
 	}
 
 	function update_all_feeds($link, $fetch) {
 
-		if (WEB_DEMO_MODE) return;
+		if (get_pref($link, 'WEB_DEMO_MODE')) return;
 
-		if (DAEMON_REFRESH_ONLY) {
+		if (get_pref($link, 'DAEMON_REFRESH_ONLY')) {
 			if (!$_GET["daemon"]) {
 				return;
 			}
@@ -62,7 +49,9 @@
 		while ($line = db_fetch_assoc($result)) {
 			$upd_intl = $line["update_interval"];
 
-			if (!$upd_intl || $upd_intl == 0) $upd_intl = DEFAULT_UPDATE_INTERVAL;
+			if (!$upd_intl || $upd_intl == 0) {
+				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL');
+			}
 
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
@@ -82,7 +71,7 @@
 		$feed_url = preg_replace("/\/.*$/", "", $feed_url);
 		
 		$icon_url = "http://$feed_url/favicon.ico";
-		$icon_file = ICONS_DIR . "/$feed.ico";
+		$icon_file = get_pref($link, 'ICONS_DIR') . "/$feed.ico";
 
 		if (!file_exists($icon_file)) {
 				
@@ -115,7 +104,7 @@
 
 	function update_rss_feed($link, $feed_url, $feed) {
 
-		if (WEB_DEMO_MODE) return;
+		if (get_pref($link, 'WEB_DEMO_MODE')) return;
 
 		$feed = db_escape_string($feed);
 
@@ -130,7 +119,7 @@
 
 		if ($rss) {
 
-			if (ENABLE_FEED_ICONS) {	
+			if (get_pref($link, 'ENABLE_FEED_ICONS')) {	
 				check_feed_favicon($feed_url, $feed);
 			}
 		
@@ -300,7 +289,7 @@
 					if ($orig_content_hash != $content_hash) {
 //						print "$orig_content_hash :: $content_hash<br>";
 
-						if (UPDATE_POST_ON_CHECKSUM_CHANGE) {
+						if (get_pref($link, 'UPDATE_POST_ON_CHECKSUM_CHANGE')) {
 							$last_read_qpart = 'last_read = null,';
 						}
 						$entry_is_modified = true;						
@@ -441,7 +430,7 @@
 		$feed = "<a href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
-		if (ENABLE_FEED_ICONS) {
+		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
 			print "$feed_icon";
 		}
 
