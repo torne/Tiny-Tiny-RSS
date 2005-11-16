@@ -86,3 +86,44 @@ create table ttrss_version (schema_version int not null);
 
 insert into ttrss_version values (2);
 
+drop table ttrss_prefs;
+drop table ttrss_prefs_types;
+drop table ttrss_prefs_sections;
+
+create table ttrss_prefs_types (id integer primary key, 
+	type_name varchar(100) not null);
+
+insert into ttrss_prefs_types (id, type_name) values (1, 'bool');
+insert into ttrss_prefs_types (id, type_name) values (2, 'string');
+insert into ttrss_prefs_types (id, type_name) values (3, 'integer');
+
+create table ttrss_prefs_sections (id integer primary key, 
+	section_name varchar(100) not null);
+
+insert into ttrss_prefs_sections (id, section_name) values (1, 'PLACEHOLDER');
+
+create table ttrss_prefs (pref_name varchar(250) primary key,
+	type_id integer not null references ttrss_prefs_types(id),
+	section_id integer not null references ttrss_prefs_sections(id) default 1,
+	def_value text not null,
+	value text not null);
+
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('CONTENT_CHECK_MD5', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('MIN_UPDATE_TIME', 3, '1800', '1800');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('WEB_DEMO_MODE', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_FEED_ICONS', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ICONS_DIR', 2, 'icons', 'icons');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ICONS_URL', 2, 'icons', 'icons');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('PURGE_OLD_DAYS', 3, '60', '60');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_LABELS', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DEFAULT_UPDATE_INTERVAL', 3, '30', '30');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DISPLAY_HEADER', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DISPLAY_FOOTER', 1, 'true', 'true');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('USE_COMPACT_STYLESHEET', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DEFAULT_ARTICLE_LIMIT', 3, '0', '0');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'false');
+insert into ttrss_prefs (pref_name,type_id,value,def_value) values('ENABLE_SPLASH', 1, 'false', 'false');
+
