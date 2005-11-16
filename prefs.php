@@ -45,6 +45,9 @@
 		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
 			onclick="selectTab('labelConfig')">
 		<? } ?>
+		<input id="genConfigTab" class="prefsTab" type="submit" value="User Preferences"
+			onclick="selectTab('genConfig')">
+
 	</td>
 	<td class="prefsToolbar" valign="middle" align="right">	
 		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">

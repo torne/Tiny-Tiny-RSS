@@ -94,6 +94,19 @@ function labellist_callback() {
 		p_notify("");
 	}
 }
+
+function prefslist_callback() {
+	var container = document.getElementById('prefContent');
+	if (xmlhttp.readyState == 4) {
+
+		container.innerHTML=xmlhttp.responseText;
+
+		p_notify("");
+	}
+}
+
+
+
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -708,6 +721,21 @@ function updateLabelList() {
 	xmlhttp.send(null);
 }
 
+function updatePrefsList() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	p_notify("Loading, please wait...");
+
+	xmlhttp.open("GET", "backend.php?op=pref-prefs", true);
+	xmlhttp.onreadystatechange=prefslist_callback;
+	xmlhttp.send(null);
+
+}
+
 function selectTab(id) {
 
 	if (id == "feedConfig") {
@@ -716,6 +744,8 @@ function selectTab(id) {
 		updateFilterList();
 	} else if (id == "labelConfig") {
 		updateLabelList();
+	} else if (id == "genConfig") {
+		updatePrefsList();
 	}
 
 	var tab = document.getElementById(active_tab + "Tab");
