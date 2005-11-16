@@ -177,13 +177,27 @@ function viewfeed(id) {
 
 function localHotkeyHandler(keycode) {
 
-	if (keycode == 78) {
+	if (keycode == 78) { // n
 		return moveToPost('next');
 	}
 
-	if (keycode == 80) {
+	if (keycode == 80) { // p
 		return moveToPost('prev');
 	} 
+
+	if (keycode == 65) { // a
+		return parent.toggleDispRead();
+	}
+
+	if (keycode == 85) { // u
+		if (parent.getActiveFeedId()) {
+			return parent.viewfeed(parent.getActiveFeedId(), 0, "ForceUpdate");
+		}
+	}
+
+	if (keycode == 82) { // r
+		return parent.scheduleFeedUpdate(true);
+	}
 
 // FIXME
 //	if (keycode == 85) {
@@ -192,4 +206,8 @@ function localHotkeyHandler(keycode) {
 
 //	alert("KC: " + keycode);
 
+}
+
+function init() {
+	document.onkeydown = hotkey_handler;
 }

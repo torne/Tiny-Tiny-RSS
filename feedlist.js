@@ -88,8 +88,27 @@ function viewfeed(feed, skip, subop, doc) {
 
 }
 
+function localHotkeyHandler(keycode) {
+
+	if (keycode == 65) { // a
+		return parent.toggleDispRead();
+	}
+
+	if (keycode == 85) { // u
+		if (parent.getActiveFeedId()) {
+			return viewfeed(parent.getActiveFeedId(), 0, "ForceUpdate");
+		}
+	}
+
+	if (keycode == 82) { // r
+		return parent.scheduleFeedUpdate(true);
+	}
+
+//	alert("KC: " + keycode);
+
+}
+
 function init() {
-
 	hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
-
+	document.onkeydown = hotkey_handler;
 }

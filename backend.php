@@ -469,7 +469,7 @@
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				<script type=\"text/javascript\" src=\"functions.js\"></script>
 				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
-				</head><body>";
+				</head><body onload='init()'>";
 		}
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
@@ -1321,7 +1321,6 @@
 			<title>Tiny Tiny RSS : Help</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
 			<script type=\"text/javascript\" src=\"functions.js\"></script>
-			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body>";
 

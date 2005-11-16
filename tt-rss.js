@@ -264,12 +264,18 @@ function localHotkeyHandler(keycode) {
 		return moveToPost('prev');
 	} */
 
-	if (keycode == 82) {
+	if (keycode == 82) { // r
 		return scheduleFeedUpdate(true);
 	}
 
-	if (keycode == 85) {
-		return viewfeed(getActiveFeedId(), 0, "ForceUpdate");
+	if (keycode == 85) { // u
+		if (getActiveFeedId()) {
+			return viewfeed(getActiveFeedId(), 0, "ForceUpdate");
+		}
+	}
+
+	if (keycode == 65) { // a
+		return toggleDispRead();
 	}
 
 //	notify("KC: " + keycode);
