@@ -177,11 +177,11 @@ function viewfeed(id) {
 
 function localHotkeyHandler(keycode) {
 
-	if (keycode == 78) { // n
+	if (keycode == 78 || keycode == 40) { // n, down
 		return moveToPost('next');
 	}
 
-	if (keycode == 80) { // p
+	if (keycode == 80 || keycode == 38) { // p, up
 		return moveToPost('prev');
 	} 
 
