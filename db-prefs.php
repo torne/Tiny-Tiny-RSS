@@ -1,4 +1,5 @@
 <?
+	// TODO cache last query results
 
 	require_once "config.php";
 	require_once "db.php";

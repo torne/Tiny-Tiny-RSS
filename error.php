@@ -1,7 +1,10 @@
-<? require_once "version.php" ?>
-<? require_once "config.php" ?>
-
 <?
+	require_once "version.php"
+	require_once "config.php"
+	require_once "db-prefs.php"
+
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
 	$ERRORS[0] = "Unknown error";
 
 	$ERRORS[1] = "This program requires XmlHttpRequest " .
@@ -32,7 +35,7 @@
 </head>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<? if (DISPLAY_HEADER) { ?>
+<? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
 	<td colspan="2">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
@@ -55,7 +58,7 @@
 
 	</td>
 </tr>
-<? if (DISPLAY_FOOTER) { ?>
+<? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td class="footer" colspan="2">
 		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
