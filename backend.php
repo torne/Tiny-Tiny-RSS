@@ -816,14 +816,20 @@
 			$feed_title = db_escape_string($_GET["t"]);
 			$feed_link = db_escape_string($_GET["l"]);
 			$upd_intl = db_escape_string($_GET["ui"]);
+			$purge_intl = db_escape_string($_GET["pi"]);
 			$feed_id = $_GET["id"];
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
 
+			if (strtoupper($purge_intl) == "DEFAULT")
+				$purge_intl = 0;
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
 				title = '$feed_title', feed_url = '$feed_link',
-				update_interval = '$upd_intl' WHERE id = '$feed_id'");			
+				update_interval = '$upd_intl',
+				purge_interval = '$purge_intl' 
+				WHERE id = '$feed_id'");			
 
 		}
 
@@ -892,14 +898,16 @@
 
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
-				update_interval
+				update_interval,purge_interval
 			FROM 
 				ttrss_feeds ORDER by title");
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
-					<td>&nbsp;</td><td>Select</td><td width=\"40%\">Title</td>
-					<td width=\"30%\">Link</td><td width=\"10%\">Update Interval</td>
+					<td>&nbsp;</td><td>Select</td><td width=\"30%\">Title</td>
+					<td width=\"30%\">Link</td>
+					<td width=\"10%\">Update Interval</td>
+					<td width=\"10%\">Purge Days</td>
 					<td>Last updated</td></tr>";
 		
 		$lnum = 0;
@@ -937,15 +945,21 @@
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_title . "</td>";		
+					$edit_title . "</a></td>";		
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_link . "</td>";		
+					$edit_link . "</a></td>";		
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
 
-				print "<td>" . $line["update_interval"] . "</td>";
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["update_interval"] . "</a></td>";
 
+				if ($line["purge_interval"] == "0")
+					$line["purge_interval"] = "Default";
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["purge_interval"] . "</a></td>";
 
 			} else if ($feed_id != $edit_feed_id) {
 
@@ -960,6 +974,11 @@
 
 				print "<td>" . $line["update_interval"] . "</td>";
 
+				if ($line["purge_interval"] == "0")
+					$line["purge_interval"] = "Default";
+
+				print "<td>" . $line["purge_interval"] . "</td>";
+
 			} else {
 
 				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
@@ -967,6 +986,7 @@
 				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
 				print "<td><input id=\"iedit_updintl\" value=\"".$line["update_interval"]."\"></td>";
+				print "<td><input id=\"iedit_purgintl\" value=\"".$line["purge_interval"]."\"></td>";
 					
 			}
 
