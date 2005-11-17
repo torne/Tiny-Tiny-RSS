@@ -1506,7 +1506,7 @@
 
 	if ($op == "pref-prefs") {
 
-		$subop = $_POST["subop"];
+		$subop = $_REQUEST["subop"];
 
 		if ($subop == "Save configuration") {
 
@@ -1544,6 +1544,20 @@
 
 				header("Location: prefs.php");
 
+			}
+
+		} else if ($subop == "getHelp") {
+
+			$pref_name = db_escape_string($_GET["pn"]);
+
+			$result = db_query($link, "SELECT help_text FROM ttrss_prefs
+				WHERE pref_name = '$pref_name'");
+
+			if (db_num_rows($result) > 0) {
+				$help_text = db_fetch_result($result, 0, "help_text");
+				print $help_text;
+			} else {
+				print "Unknown option: $pref_name";
 			}
 
 		} else if ($subop == "Reset to defaults") {
@@ -1589,12 +1603,17 @@
 
 				print "<tr class=\"$class\">";
 
-				print "<td width=\"40%\">" . $line["short_desc"] . "</td>";
-
 				$type_name = $line["type_name"];
 				$pref_name = $line["pref_name"];
 				$value = $line["value"];
 				$def_value = $line["def_value"];
+				$help_text = $line["help_text"];
+
+				print "<td width=\"40%\" id=\"$pref_name\">" . $line["short_desc"];
+
+				if ($help_text) print "<div class=\"prefHelp\">$help_text</div>";
+				
+				print "</td>";
 
 				print "<td>";
 

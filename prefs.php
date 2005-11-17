@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="prefs.js"></script>
+
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 	<![endif]-->
@@ -23,7 +24,7 @@
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
-	<td colspan="2">
+	<td>
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	

@@ -105,6 +105,15 @@ function prefslist_callback() {
 	}
 }
 
+function gethelp_callback() {
+	var container = document.getElementById('prefHelpBox');
+	if (xmlhttp.readyState == 4) {
+
+		container.innerHTML = xmlhttp.responseText;
+		container.style.display = "block";
+
+	}
+}
 
 
 function notify_callback() {
@@ -785,3 +794,27 @@ function init() {
 	notify("");
 
 }
+
+/*
+var help_topic_id = false;
+
+function do_dispOptionHelp() {
+
+	if (!xmlhttp_ready(xmlhttp))
+		return;
+
+	xmlhttp.open("GET", "backend.php?op=pref-prefs&subop=getHelp&pn=" +
+		param_escape(help_topic_id), true);
+	xmlhttp.onreadystatechange=gethelp_callback;
+	xmlhttp.send(null);
+
+}
+
+function dispOptionHelp(event, sender) {
+
+	help_topic_id = sender.id;
+
+//	document.setTimeout("do_dispOptionHelp()", 100);
+
+} */
+
