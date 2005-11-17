@@ -66,7 +66,7 @@
 
 	}
 
-	function check_feed_favicon($feed_url, $feed) {
+	function check_feed_favicon($feed_url, $feed, $link) {
 		$feed_url = str_replace("http://", "", $feed_url);
 		$feed_url = preg_replace("/\/.*$/", "", $feed_url);
 		
@@ -120,7 +120,7 @@
 		if ($rss) {
 
 			if (get_pref($link, 'ENABLE_FEED_ICONS')) {	
-				check_feed_favicon($feed_url, $feed);
+				check_feed_favicon($feed_url, $feed, $link);
 			}
 		
 			$result = db_query($link, "SELECT title,icon_url FROM ttrss_feeds WHERE id = '$feed'");
