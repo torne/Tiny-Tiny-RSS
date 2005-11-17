@@ -1,4 +1,8 @@
 <?
+	session_start();
+
+	$_SESSION["uid"] = 1; // FIXME: placeholder
+
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 
@@ -6,7 +10,10 @@
 
 	function purge_old_posts($link) {
 
-		$result = db_query($link, "SELECT id,purge_interval FROM ttrss_feeds");
+		$user_id = $_SESSION["uid"];
+	
+		$result = db_query($link, "SELECT id,purge_interval FROM ttrss_feeds 
+			WHERE owner_uid = '$user_id'");
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -42,9 +49,11 @@
 
 		db_query($link, "BEGIN");
 
+		$user_id = $_SESSION["uid"];
+
 		$result = db_query($link, "SELECT feed_url,id,
 			substring(last_updated,1,19) as last_updated,
-			update_interval FROM ttrss_feeds");
+			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'");
 
 		while ($line = db_fetch_assoc($result)) {
 			$upd_intl = $line["update_interval"];
