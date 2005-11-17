@@ -13,11 +13,13 @@ create table ttrss_users (id serial primary key,
 	access_level integer not null default 0);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
+insert into ttrss_users (login,pwd_hash,access_level) values ('user-1', 'password1', 0);
+insert into ttrss_users (login,pwd_hash,access_level) values ('user-2', 'password2', 0);
 
 create table ttrss_feeds (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	title varchar(200) not null unique, 
-	feed_url varchar(250) unique not null, 
+	title varchar(200) not null, 
+	feed_url varchar(250) not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
 	purge_interval integer not null default 0,
