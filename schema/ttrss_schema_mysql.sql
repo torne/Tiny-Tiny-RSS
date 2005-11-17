@@ -128,7 +128,7 @@ insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('D
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DISPLAY_FOOTER', 1, 'true', 'true', 'Display footer');
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('USE_COMPACT_STYLESHEET', 1, 'false', 'false', 'Use compact stylesheet by default');
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DEFAULT_ARTICLE_LIMIT', 3, '0', '0', 'Default article limit');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh onky');
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh only');
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'false', 'Display feedlist actions');
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ENABLE_SPLASH', 1, 'false', 'false', 'Enable loading splashscreen');
 
