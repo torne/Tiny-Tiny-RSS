@@ -1,0 +1,53 @@
+FIXME: this needs to be moved to built-in help system
+
+
+	define(ENABLE_FEED_ICONS, true);	
+	define(ICONS_DIR, "icons");
+	define(ICONS_URL, "icons");
+	
+	define(PURGE_OLD_DAYS, 30);
+	// Articles older than this number of days will be deleted automatically
+	
+	define(UPDATE_POST_ON_CHECKSUM_CHANGE, true);
+	
+	define(ENABLE_PREFS_CATCHUP_UNCATCHUP, false);
+	// enable "Mark as read/unread" buttons in preferences dialog
+
+	define(ENABLE_LABELS, false);
+	// experimental support for virtual feeds or labels based on user
+	// crafted SQL queries. This feature is highly experimental and
+	// at this point not user friendly. Use with caution.
+
+	define(DEFAULT_ARTICLE_LIMIT, 0);
+	// default limit for articles to display. Set to 0 for no limit. Not
+	// limited to the default 15, 30, 60 article limits - you may use
+	// any number you want and it will be added to the list. Negative
+	// numbers will be ignored. Anything that evaluates numerically to
+	// zero will be interpreted as 0.
+
+	define(DEFAULT_UPDATE_INTERVAL, 30);
+	// default interval between feed updates, minutes
+
+ 	define(DISPLAY_HEADER, true);
+ 	// enable/disable the display of the header graphic
+ 
+ 	define(DISPLAY_FOOTER, true);
+ 	// enable/disable the display of the footer
+
+	define(USE_COMPACT_STYLESHEET, false);
+	// use stylesheet with more compact layout (if combined with two previous 
+	// options may improve UI on small screens)
+
+	define(DAEMON_REFRESH_ONLY, false);
+	// updates to all feeds will only run when the backend script is
+	// invoked with a "daemon" option on the URI stem. An example wget
+	// command line below will invoke an update every 30 minutes, with
+	// output being sent to /dev/null and the timeout set to 10 minutes
+	// so that wget does not time out. Substitute your site name, tt-rss
+	// path, and username/password as necessary.
+	//
+	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://username:password@www.your-site.xxx/tt-rss/backend.php?op=updateAllFeeds&daemon=1"
+	//
+
+	define(DISPLAY_FEEDLIST_ACTIONS, false);
+	// display actions dropbox in feedlist, if disabled these actions are
