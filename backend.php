@@ -1573,10 +1573,16 @@
 			while ($line = db_fetch_assoc($result)) {
 
 				if ($active_section != $line["section_name"]) {
-					$active_section = $line["section_name"];
+
+					if ($active_section != "") {
+						print "</table><p><table width=\"100%\" class=\"prefPrefsList\">";
+					}
+				
+					$active_section = $line["section_name"];				
+					
 					print "<tr><td colspan=\"3\"><h3>$active_section</h3></td></tr>";
-					print "<tr class=\"title\">
-						<td width=\"25%\">Option</td><td>Value</td></tr>";
+//					print "<tr class=\"title\">
+//						<td width=\"25%\">Option</td><td>Value</td></tr>";
 				}
 
 				$class = ($lnum % 2) ? "even" : "odd";
