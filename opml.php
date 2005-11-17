@@ -1,4 +1,6 @@
 <?
+	session_start();
+
 	// FIXME there are some brackets issues here
 
 	$op = $_REQUEST["op"];
@@ -10,6 +12,8 @@
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
+
+	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
@@ -61,7 +65,7 @@
 			print "Feed <b>$title</b> ($url)... ";
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-				title = '$title' OR feed_url = '$url'");
+				(title = '$title' OR feed_url = '$url') AND owner_uid = ".$_SESSION["uid"]);
 
 			if ($result && db_num_rows($result) > 0) {
 				
@@ -69,8 +73,8 @@
 
 			} else {
 					  
-				$result = db_query($link, "INSERT INTO ttrss_feeds (title, feed_url) VALUES
-					('$title', '$url')");
+				$result = db_query($link, "INSERT INTO ttrss_feeds (title, feed_url,owner_uid) VALUES
+					('$title', '$url', '".$_SESSION["uid"]."')");
 
 				print "<b>Done.</b><br>";
 
