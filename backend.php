@@ -1510,6 +1510,8 @@
 
 		if ($subop == "Save configuration") {
 
+			if (WEB_DEMO_MODE) return;
+
 			foreach (array_keys($_POST) as $pref_name) {
 			
 				$pref_name = db_escape_string($pref_name);
@@ -1561,6 +1563,8 @@
 			}
 
 		} else if ($subop == "Reset to defaults") {
+
+			if (WEB_DEMO_MODE) return;
 
 			db_query($link, "UPDATE ttrss_prefs SET value = def_value");
 
