@@ -1,17 +1,21 @@
 <?
+	session_start();
+
 	define(SCHEMA_VERSION, 2);
-
-	$op = $_REQUEST["op"];
-
-	if ($op == "rpc" || $op == "updateAllFeeds") {
-		header("Content-Type: application/xml");
-	}
 
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
+
+	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+
+	$op = $_REQUEST["op"];
+
+	if ($op == "rpc" || $op == "updateAllFeeds") {
+		header("Content-Type: application/xml");
+	}
 
 	$script_started = getmicrotime();
 
@@ -47,7 +51,7 @@
 
 	function getGlobalCounters($link) {
 		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries
-			WHERE unread = true");
+			WHERE unread = true AND owner_uid = " . $_SESSION["uid"]);
 		$c_id = db_fetch_result($result, 0, "c_id");
 		print "<counter id='global-unread' counter='$c_id'/>";
 	}
@@ -55,9 +59,11 @@
 	function getTagCounters($link) {
 		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 			FROM ttrss_tags,ttrss_entries WHERE
+			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
 			post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
 		UNION
-			select tag_name,0 as count FROM ttrss_tags");
+			select tag_name,0 as count FROM ttrss_tags
+			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]);
 
 		$tags = array();
 
@@ -76,14 +82,14 @@
 	function getLabelCounters($link) {
 
 		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-			WHERE marked = true AND unread = true");
+			WHERE marked = true AND unread = true AND owner_uid = ".$_SESSION["uid"]);
 
 		$count = db_fetch_result($result, 0, "count");
 
 		print "<label id=\"-1\" counter=\"$count\"/>";
 
-		$result = db_query($link, "SELECT id,sql_exp,description FROM
-			ttrss_labels ORDER by description");
+		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
+			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
 	
 		while ($line = db_fetch_assoc($result)) {
 
@@ -107,7 +113,7 @@
 	
 		$result = db_query($link, "SELECT 
 				count(id) as count FROM ttrss_entries
-			WHERE feed_id = '$id'	AND unread = true");
+			WHERE feed_id = '$id' AND unread = true");
 	
 			$count = db_fetch_result($result, 0, "count");
 			
@@ -119,7 +125,7 @@
 		$result = db_query($link, "SELECT id,
 			(SELECT count(id) FROM ttrss_entries WHERE feed_id = ttrss_feeds.id 
 				AND unread = true) as count
-			FROM ttrss_feeds");
+			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 	
 		while ($line = db_fetch_assoc($result)) {
 		
@@ -151,12 +157,14 @@
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
 
+		$owner_uid = $_SESSION["uid"];
+
 		if (!$tags) {
 
 			/* virtual feeds */
 
 			$result = db_query($link, "SELECT count(id) as num_starred 
-				FROM ttrss_entries WHERE marked = true AND unread = true");
+				FROM ttrss_entries WHERE marked = true AND unread = true AND owner_uid = '$owner_uid'");
 			$num_starred = db_fetch_result($result, 0, "num_starred");
 
 			$class = "virt";
@@ -169,7 +177,7 @@
 			if (get_pref($link, 'ENABLE_LABELS')) {
 	
 				$result = db_query($link, "SELECT id,sql_exp,description FROM
-					ttrss_labels ORDER by description");
+					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
 		
 				if (db_num_rows($result) > 0) {
 					print "<li><hr></li>";
@@ -205,7 +213,7 @@
 					WHERE feed_id = ttrss_feeds.id) AS total,
 				(SELECT count(id) FROM ttrss_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
-				FROM ttrss_feeds ORDER BY title");			
+				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY title");			
 	
 			$actid = $_GET["actid"];
 	
@@ -247,9 +255,10 @@
 
 			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 				FROM ttrss_tags,ttrss_entries WHERE
-				post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
+				post_id = ttrss_entries.id AND unread = true 
+				AND ttrss_tags.owner_uid = '$owner_uid' GROUP BY tag_name 				
 			UNION
-				select tag_name,0 as count FROM ttrss_tags");
+				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'");
 	
 			$tags = array();
 	
@@ -274,7 +283,7 @@
 		}
 
 		if (db_num_rows($result) == 0) {
-			print "<li>No tags to display.</li>";
+			print "<li>No tags/feeds to display.</li>";
 		}
 
 		print "</ul>";
@@ -862,7 +871,7 @@
 				$feed_link = db_escape_string($_GET["link"]);
 					
 				$result = db_query($link,
-					"INSERT INTO ttrss_feeds (feed_url,title) VALUES ('$feed_link', '')");
+					"INSERT INTO ttrss_feeds (owner_uid,feed_url,title) VALUES ('".$_SESSION["uid"]."', '$feed_link', '')");
 
 				$result = db_query($link,
 					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
@@ -906,7 +915,7 @@
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
 				update_interval,purge_interval
 			FROM 
-				ttrss_feeds ORDER by title");
+				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' ORDER by title");
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
@@ -1097,9 +1106,9 @@
 				$match = db_escape_string($_GET["match"]);
 					
 				$result = db_query($link,
-					"INSERT INTO ttrss_filters (reg_exp,filter_type) VALUES 
+					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid) VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
-							description = '$match'))");
+							description = '$match'),'".$_SESSION["uid"]."')");
 			} 
 		}
 
@@ -1128,7 +1137,10 @@
 				(SELECT description FROM ttrss_filter_types 
 					WHERE id = filter_type) as filter_type_descr
 			FROM 
-				ttrss_filters ORDER by reg_exp");
+				ttrss_filters
+			WHERE
+				owner_uid = ".$_SESSION["uid"]."
+			ORDER by reg_exp");
 
 		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
 
@@ -1266,8 +1278,8 @@
 				$exp = $_GET["exp"];
 					
 				$result = db_query($link,
-					"INSERT INTO ttrss_labels (sql_exp,description) 
-						VALUES ('$exp', '$exp')");
+					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
+						VALUES ('$exp', '$exp', '".$_SESSION["uid"]."')");
 			} 
 		}
 
@@ -1281,7 +1293,10 @@
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
 			FROM 
-				ttrss_labels ORDER by description");
+				ttrss_labels 
+			WHERE 
+				owner_uid = ".$_SESSION["uid"]."
+			ORDER by description");
 
 		print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
 
