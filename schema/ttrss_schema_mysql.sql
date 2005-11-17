@@ -116,19 +116,19 @@ create table ttrss_prefs (pref_name varchar(250) primary key,
 	index(section_id),
 	foreign key (section_id) references ttrss_prefs_sections(id)) TYPE=InnoDB;
 
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ENABLE_FEED_ICONS', 1, 'true', 'true', 'Enable icons in feedlist');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ICONS_DIR', 2, 'icons', 'icons', 'Local directory for feed icons');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ICONS_URL', 2, 'icons', 'icons', 'Local URL for icons');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('PURGE_OLD_DAYS', 3, '60', '60', 'Purge old posts after this number of days (0 - disables)');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'true', 'Update post on checksum change');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'false', 'false', 'Enable catchup/uncatchup buttons in feed editor');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ENABLE_LABELS', 1, 'false', 'false', 'Enable experimental support for labels');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DEFAULT_UPDATE_INTERVAL', 3, '30', '30', 'Default interval between feed updates (in minutes)');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DISPLAY_HEADER', 1, 'true', 'true', 'Display header');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DISPLAY_FOOTER', 1, 'true', 'true', 'Display footer');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('USE_COMPACT_STYLESHEET', 1, 'false', 'false', 'Use compact stylesheet by default');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DEFAULT_ARTICLE_LIMIT', 3, '0', '0', 'Default article limit');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh only');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'false', 'Display feedlist actions');
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc) values('ENABLE_SPLASH', 1, 'false', 'false', 'Enable loading splashscreen');
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ENABLE_FEED_ICONS', 1, 'true', 'true', 'Enable icons in feedlist',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ICONS_DIR', 2, 'icons', 'icons', 'Local directory for feed icons',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ICONS_URL', 2, 'icons', 'icons', 'Local URL for icons',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('PURGE_OLD_DAYS', 3, '60', '60', 'Purge old posts after this number of days (0 - disables)',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'true', 'Update post on checksum change',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'false', 'false', 'Enable catchup/uncatchup buttons in feed editor',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ENABLE_LABELS', 1, 'false', 'false', 'Enable experimental support for labels',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DEFAULT_UPDATE_INTERVAL', 3, '30', '30', 'Default interval between feed updates (in minutes)',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DISPLAY_HEADER', 1, 'true', 'true', 'Display header',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DISPLAY_FOOTER', 1, 'true', 'true', 'Display footer',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('USE_COMPACT_STYLESHEET', 1, 'false', 'false', 'Use compact stylesheet by default',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DEFAULT_ARTICLE_LIMIT', 3, '0', '0', 'Default article limit',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh only',1);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'false', 'Display feedlist actions',2);
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_name) values('ENABLE_SPLASH', 1, 'false', 'false', 'Enable loading splashscreen',2);
 
