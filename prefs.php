@@ -1,7 +1,27 @@
+<?
+	require_once "version.php"; 
+	require_once "config.php";
+	require_once "db-prefs.php";
+
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+?>
 <html>
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
+
+	<? if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
+
+		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
+
+	<? } else { ?>
+
+		<link title="Compact Stylesheet" rel="alternate stylesheet" 
+			type="text/css" href="tt-rss_compact.css"/> 
+
+	<? } ?>
+
+	
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="prefs.js"></script>
 
@@ -12,14 +32,6 @@
 </head>
 
 <body onload="init()">
-
-<?
-	require_once "version.php"; 
-	require_once "config.php";
-	require_once "db-prefs.php";
-
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-?>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
@@ -72,6 +84,7 @@
 <? } ?>
 </table>
 
+<? db_close($link); ?>
 
 </body>
 </html>

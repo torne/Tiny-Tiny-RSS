@@ -198,6 +198,7 @@
 <? } ?>
 </table>
 
+<? db_close($link); ?>
 
 </body>
 </html>
