@@ -1523,8 +1523,10 @@
 
 					$type_name = db_fetch_result($result, 0, "type_name");
 
+//					print "$pref_name : $type_name : $value<br>";
+
 					if ($type_name == "bool") {
-						if ($value == 1) {
+						if ($value == "1") {
 							$value = "true";
 						} else {
 							$value = "false";
@@ -1545,6 +1547,8 @@
 			}
 
 		} else if ($subop == "Reset to defaults") {
+
+			db_query($link, "UPDATE ttrss_prefs SET value = def_value");
 
 			header("Location: prefs.php");
 

@@ -458,9 +458,15 @@
 		foreach ($values as $v) {
 		
 			if ($v == $default)
-				$sel = "checked value=\"1\"";
+				$sel = "checked";
 			 else
-			 	$sel = "value=\"0\"";
+			 	$sel = "";
+
+			if ($v == "Yes") {
+				$sel .= " value=\"1\"";
+			} else {
+				$sel .= " value=\"0\"";
+			}
 			
 			print "<input type=\"radio\" $sel $attributes name=\"$id\">&nbsp;$v&nbsp;";
 
