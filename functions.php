@@ -1,10 +1,10 @@
 <?
 	session_start();
 
-	$_SESSION["uid"] = 1; // FIXME: placeholder
-
 	require_once 'config.php';
 	require_once 'db-prefs.php';
+
+	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
@@ -157,7 +157,7 @@
 			$result = db_query($link, "SELECT reg_exp,
 				(SELECT name FROM ttrss_filter_types
 					WHERE id = filter_type) as name
-				FROM ttrss_filters");
+				FROM ttrss_filters WHERE owner_uid = ".$_SESSION["uid"]);
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
@@ -228,7 +228,7 @@
 					FROM
 						ttrss_entries 
 					WHERE
-						guid = '$entry_guid'");
+						guid = '$entry_guid' AND owner_uid = " . $_SESSION["uid"]);
 
 //				print db_num_rows($result) . "$entry_guid<br/>";
 
@@ -257,7 +257,8 @@
 							feed_id, 
 							comments,							
 							no_orig_date,
-							date_entered) 
+							date_entered,
+							owner_uid) 
 						VALUES
 							('$entry_title', 
 							'$entry_guid', 
@@ -268,7 +269,7 @@
 							'$feed', 
 							'$entry_comments',
 							$no_orig_date,
-							NOW())";
+							NOW(),".$_SESSION["uid"].")";
 
 					$result = db_query($link, $query);
 
@@ -362,14 +363,14 @@
 						$tag = db_escape_string(strtolower($tag));
 
 						$result = db_query($link, "SELECT id FROM ttrss_tags		
-							WHERE tag_name = '$tag' AND post_id = '$entry_id' LIMIT 1");
+							WHERE tag_name = '$tag' AND post_id = '$entry_id' AND owner_uid = ".$_SESSION["uid"]." LIMIT 1");
 
 						if ($result && db_num_rows($result) == 0) {
 							
 //							print "tagging $entry_id as $tag<br>";
 
-							db_query($link, "INSERT INTO ttrss_tags (tag_name,post_id)
-								VALUES ('$tag', '$entry_id')");
+							db_query($link, "INSERT INTO ttrss_tags (owner_uid,tag_name,post_id)
+								VALUES ('".$_SESSION["uid"]."','$tag', '$entry_id')");
 						}							
 					}
 				}
