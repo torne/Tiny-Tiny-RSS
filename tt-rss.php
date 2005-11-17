@@ -1,4 +1,6 @@
 <?
+	session_start();
+
 	require_once "version.php"; 
 	require_once "config.php";
 	require_once "db-prefs.php";
