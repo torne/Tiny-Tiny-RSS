@@ -1,7 +1,7 @@
 begin;
 
 alter table ttrss_feeds add column last_error text;
-alter table ttrss_feeds add column site_url varchar(250) not null default '';
+alter table ttrss_feeds add column site_url varchar(250);
 
 update ttrss_feeds set last_error = '';
 update ttrss_feeds set site_url = '';
