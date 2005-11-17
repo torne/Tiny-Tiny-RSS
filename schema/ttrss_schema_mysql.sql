@@ -91,6 +91,10 @@ create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
 insert into ttrss_version values (2);
 
+drop table ttrss_prefs;
+drop table ttrss_prefs_types;
+drop table ttrss_prefs_sections;
+
 create table ttrss_prefs_types (id integer primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
 
