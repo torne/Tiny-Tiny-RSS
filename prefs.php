@@ -37,6 +37,8 @@
 <? } ?>
 <tr>
 	<td class="prefsTabs" align="left" valign="bottom">
+		<input id="genConfigTab" class="prefsTab" type="submit" value="User Preferences"
+			onclick="selectTab('genConfig')">
 		<input id="feedConfigTab" class="prefsTab" type="submit" value="Feed Configuration"
 			onclick="selectTab('feedConfig')">
 		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
@@ -45,9 +47,6 @@
 		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
 			onclick="selectTab('labelConfig')">
 		<? } ?>
-		<input id="genConfigTab" class="prefsTab" type="submit" value="User Preferences"
-			onclick="selectTab('genConfig')">
-
 	</td>
 	<td class="prefsToolbar" valign="middle" align="right">	
 		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
