@@ -107,6 +107,7 @@ create table ttrss_prefs_sections (id integer primary key,
 
 insert into ttrss_prefs_sections (id, section_name) values (1, 'General');
 insert into ttrss_prefs_sections (id, section_name) values (2, 'Interface');
+insert into ttrss_prefs_sections (id, section_name) values (3, 'Advanced');
 
 create table ttrss_prefs (pref_name varchar(250) primary key,
 	type_id integer not null,
@@ -126,7 +127,7 @@ insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', '60', 'Purge old posts after this number of days (0 - disables)',1);
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'true', 'Update post on checksum change',1);
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'false', 'false', 'Enable catchup/uncatchup buttons in feed editor',2);
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('ENABLE_LABELS', 1, 'false', 'false', 'Enable labels',1,
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('ENABLE_LABELS', 1, 'false', 'false', 'Enable labels',3,
 	'Experimental support for virtual feeds based on user crafted SQL queries. This feature is highly experimental and at this point not user friendly. Use with caution.');
 	
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', '30', 'Default interval between feed updates (in minutes)',1);
@@ -136,7 +137,7 @@ insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('DEFAULT_ARTICLE_LIMIT', 3, '0', '0', 'Default article limit',2,
 	'Default limit for articles to display, any custom number you like (0 - disables).');
 	
-insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh only',1,
+insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('DAEMON_REFRESH_ONLY', 1, 'false', 'false', 'Daemon refresh only', 3,
 	'Updates to all feeds will only run when the backend script is invoked with a "daemon" option on the URI stem.');
 
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id,help_text) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'false', 'Display feedlist actions',2,

@@ -1578,7 +1578,7 @@
 				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections 
 				WHERE type_id = ttrss_prefs_types.id AND 
 					section_id = ttrss_prefs_sections.id 
-				ORDER BY section_name,short_desc");
+				ORDER BY section_id,short_desc");
 
 			print "<form action=\"backend.php\" method=\"POST\">";
 
@@ -1605,9 +1605,9 @@
 					$lnum = 0;
 				}
 
-				$class = ($lnum % 2) ? "even" : "odd";
+//				$class = ($lnum % 2) ? "even" : "odd";
 
-				print "<tr class=\"$class\">";
+				print "<tr>";
 
 				$type_name = $line["type_name"];
 				$pref_name = $line["pref_name"];
