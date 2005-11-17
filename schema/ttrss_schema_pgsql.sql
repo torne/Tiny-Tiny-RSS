@@ -2,7 +2,18 @@ drop table ttrss_tags;
 drop table ttrss_entries;
 drop table ttrss_feeds;
 
+drop table ttrss_user_prefs;
+drop table ttrss_users;
+
+create table ttrss_users (id serial primary key,
+	login varchar(120) not null unique,
+	pwd_hash varchar(250) not null,
+	access_level integer not null default 0);
+
+insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
+
 create table ttrss_feeds (id serial not null primary key,
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	title varchar(200) not null unique, 
 	feed_url varchar(250) unique not null, 
 	icon_url varchar(250) not null default '',
@@ -12,31 +23,31 @@ create table ttrss_feeds (id serial not null primary key,
 	last_error text not null default '',
 	site_url varchar(250) not null default '');
 
-insert into ttrss_feeds (title,feed_url) values ('Footnotes', 'http://gnomedesktop.org/node/feed');
-insert into ttrss_feeds (title,feed_url) values ('Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
-insert into ttrss_feeds (title,feed_url) values ('Planet Debian', 'http://planet.debian.org/rss20.xml');
-insert into ttrss_feeds (title,feed_url) values ('Planet GNOME', 'http://planet.gnome.org/rss20.xml');
-insert into ttrss_feeds (title,feed_url) values ('Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Debian', 'http://planet.debian.org/rss20.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
 
-insert into ttrss_feeds (title,feed_url) values ('Monologue', 'http://www.go-mono.com/monologue/index.rss');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Monologue', 'http://www.go-mono.com/monologue/index.rss');
 
-insert into ttrss_feeds (title,feed_url) values ('Latest Linux Kernel Versions', 
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions', 
 	'http://kernel.org/kdist/rss.xml');
 
-insert into ttrss_feeds (title,feed_url) values ('RPGDot Newsfeed', 
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed', 
 	'http://www.rpgdot.com/team/rss/rss0.xml');
 
-insert into ttrss_feeds (title,feed_url) values ('Digg.com News', 
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Digg.com News', 
 	'http://digg.com/rss/index.xml');
 
-insert into ttrss_feeds (title,feed_url) values ('Technocrat.net', 
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net', 
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	updated timestamp not null, 
 	title text not null, 
-	guid text not null unique, 
+	guid text not null, 
 	link text not null, 
 	content text not null,
 	content_hash varchar(250) not null,
@@ -60,6 +71,7 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 	'Title or Content');
 
 create table ttrss_filters (id serial primary key, 
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '');
@@ -67,6 +79,7 @@ create table ttrss_filters (id serial primary key,
 drop table ttrss_labels;
 
 create table ttrss_labels (id serial primary key, 
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	sql_exp varchar(250) not null,
 	description varchar(250) not null);
 
@@ -135,4 +148,10 @@ insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id
 	'Display separate dropbox for feedlist actions, if disabled these actions are available in global actions menu.');
 
 insert into ttrss_prefs (pref_name,type_id,value,def_value,short_desc,section_id) values('ENABLE_SPLASH', 1, 'false', 'false', 'Enable loading splashscreen',2);
+
+create table ttrss_user_prefs (
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
+	pref_name varchar(250) not null references ttrss_prefs(pref_name),
+	value text not null);
+
 
