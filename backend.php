@@ -1597,6 +1597,8 @@
 					print "<tr><td colspan=\"3\"><h3>$active_section</h3></td></tr>";
 //					print "<tr class=\"title\">
 //						<td width=\"25%\">Option</td><td>Value</td></tr>";
+
+					$lnum = 0;
 				}
 
 				$class = ($lnum % 2) ? "even" : "odd";
