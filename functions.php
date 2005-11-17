@@ -454,4 +454,17 @@
 		return ((float)$usec + (float)$sec);
 	}
 
+	function print_radio($id, $default, $values, $attributes = "") {
+		foreach ($values as $v) {
+		
+			if ($v == $default)
+				$sel = "checked value=\"1\"";
+			 else
+			 	$sel = "value=\"0\"";
+			
+			print "<input type=\"radio\" $sel $attributes name=\"$id\">&nbsp;$v&nbsp;";
+
+		}
+	}
+
 ?>

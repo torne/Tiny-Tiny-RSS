@@ -779,7 +779,7 @@ function init() {
 		return;
 	}
 
-	selectTab("feedConfig");
+	selectTab("genConfig");
 
 	document.onkeydown = hotkey_handler;
 	notify("");

@@ -1,7 +1,7 @@
 <?
 	define(SCHEMA_VERSION, 2);
 
-	$op = $_GET["op"];
+	$op = $_REQUEST["op"];
 
 	if ($op == "rpc" || $op == "updateAllFeeds") {
 		header("Content-Type: application/xml");
@@ -1501,6 +1501,128 @@
 		getTagCounters($link);
 		getGlobalCounters($link);
 		print "</rpc-reply>";
+
+	}
+
+	if ($op == "pref-prefs") {
+
+		$subop = $_POST["subop"];
+
+		if ($subop == "Save configuration") {
+
+			foreach (array_keys($_POST) as $pref_name) {
+			
+				$pref_name = db_escape_string($pref_name);
+				$value = db_escape_string($_POST[$pref_name]);
+
+				$result = db_query($link, "SELECT type_name 
+					FROM ttrss_prefs,ttrss_prefs_types 
+					WHERE pref_name = '$pref_name' AND type_id = ttrss_prefs_types.id");
+
+				if (db_num_rows($result) > 0) {
+
+					$type_name = db_fetch_result($result, 0, "type_name");
+
+					if ($type_name == "bool") {
+						if ($value == 1) {
+							$value = "true";
+						} else {
+							$value = "false";
+						}
+					} else if ($type_name == "integer") {
+						$value = sprintf("%d", $value);
+					}
+
+//					print "$pref_name : $type_name : $value<br>";
+
+					db_query($link, "UPDATE ttrss_prefs SET value = '$value' 
+						WHERE pref_name = '$pref_name'");
+
+				}
+
+				header("Location: prefs.php");
+
+			}
+
+		} else if ($subop == "Reset to defaults") {
+
+			header("Location: prefs.php");
+
+		} else {
+
+			$result = db_query($link, "SELECT 
+				pref_name,short_desc,help_text,value,type_name,
+				section_name,def_value
+				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections 
+				WHERE type_id = ttrss_prefs_types.id AND 
+					section_id = ttrss_prefs_sections.id 
+				ORDER BY section_name,short_desc");
+
+			print "<form action=\"backend.php\" method=\"POST\">";
+
+			print "<table width=\"100%\" class=\"prefPrefsList\">";
+	
+			$lnum = 0;
+
+			$active_section = "";
+	
+			while ($line = db_fetch_assoc($result)) {
+
+				if ($active_section != $line["section_name"]) {
+					$active_section = $line["section_name"];
+					print "<tr><td colspan=\"3\"><h3>$active_section</h3></td></tr>";
+					print "<tr class=\"title\">
+						<td width=\"25%\">Option</td><td>Value</td></tr>";
+				}
+
+				$class = ($lnum % 2) ? "even" : "odd";
+
+				print "<tr class=\"$class\">";
+
+				print "<td width=\"40%\">" . $line["short_desc"] . "</td>";
+
+				$type_name = $line["type_name"];
+				$pref_name = $line["pref_name"];
+				$value = $line["value"];
+				$def_value = $line["def_value"];
+
+				print "<td>";
+
+				if ($type_name == "bool") {
+//					print_select($pref_name, $value, array("true", "false"));
+
+					if ($value == "true") {
+						$value = "Yes";
+					} else {
+						$value = "No";
+					}
+
+					print_radio($pref_name, $value, array("Yes", "No"));
+			
+				} else {
+					print "<input class=\"editbox\" name=\"$pref_name\" value=\"$value\">";
+				}
+
+				print "</td>";
+
+				print "</tr>";
+
+				$lnum++;
+			}
+
+			print "</table>";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+
+			print "<p><input class=\"button\" type=\"submit\" 
+				name=\"subop\" value=\"Save configuration\">";
+				
+			print "&nbsp;<input class=\"button\" type=\"submit\" 
+				name=\"subop\" value=\"Reset to defaults\"></p>";
+
+			print "</form>";
+
+		}
 
 	}
 
