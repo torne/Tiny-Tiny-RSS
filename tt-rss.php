@@ -6,6 +6,10 @@
 	require_once "db-prefs.php";
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+	$_SESSION["name"] = PLACEHOLDER_NAME;
+
 ?>
 <html>
 <head>
@@ -47,18 +51,17 @@
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
-	<td colspan="2" class="headerBox">
+	<td colspan="2">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
-			<td class="header" valign="middle">	
+			<td rowspan="2" class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	
 			</td>
 			<td align="right" valign="top">
 				<div id="notify"><span id="notify_body"></div>
 			</td>
+		</tr><tr><td class="welcomePrompt">
+			Hello, <b><?= $_SESSION["name"] ?></b> (<a href="logout.php">Logout</a>)</td>
 		</tr></table>
-
-		<div id="userDlg">&nbsp;</div>
-
 	</td>
 </tr>
 <? } ?>

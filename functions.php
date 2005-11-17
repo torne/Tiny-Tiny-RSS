@@ -5,6 +5,7 @@
 	require_once 'db-prefs.php';
 
 	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+	$_SESSION["name"] = PLACEHOLDER_NAME;
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 

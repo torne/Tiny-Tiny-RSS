@@ -10,6 +10,7 @@
 	require_once "magpierss/rss_fetch.inc";
 
 	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+	$_SESSION["name"] = PLACEHOLDER_NAME;
 
 	$op = $_REQUEST["op"];
 
