@@ -46,6 +46,7 @@ insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
 	'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	updated timestamp not null, 
 	title text not null, 
