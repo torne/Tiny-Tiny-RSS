@@ -1,6 +1,8 @@
 drop table ttrss_tags;
 drop table ttrss_entries;
 drop table ttrss_feeds;
+drop table ttrss_labels;
+drop table ttrss_filters;
 
 drop table ttrss_user_prefs;
 drop table ttrss_users;
@@ -83,14 +85,15 @@ create table ttrss_labels (id serial primary key,
 	sql_exp varchar(250) not null,
 	description varchar(250) not null);
 
-insert into ttrss_labels (sql_exp,description) values ('unread = true', 
+insert into ttrss_labels (owner_uid,sql_exp,description) values (1,'unread = true', 
 	'Unread articles');
 
-insert into ttrss_labels (sql_exp,description) values (
+insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
 	'last_read is null and unread = false', 'Updated articles');
 
 create table ttrss_tags (id serial primary key, 
 	tag_name varchar(250) not null,
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
 
 drop table ttrss_version;
