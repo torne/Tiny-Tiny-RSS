@@ -23,9 +23,6 @@
 		$_SESSION["name"] = "admin";
 	}
 
-	initialize_user_prefs($link, $_SESSION["uid"]); 
-	// FIXME this needs to be moved somewhere after user creation
-
 ?>
 <html>
 <head>

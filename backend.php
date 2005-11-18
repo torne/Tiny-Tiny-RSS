@@ -1009,7 +1009,7 @@
 
 			} else {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
 
 				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
@@ -1201,7 +1201,7 @@
 
 			} else {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
 
 				print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
 					"\"></td>";
@@ -1356,7 +1356,7 @@
 
 			} else {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\"></td>";
+				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
 
 				print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
 					"\"></td>";
@@ -1742,6 +1742,192 @@
 		}
 
 	}
+
+	if ($op == "pref-users") {
+
+		$subop = $_GET["subop"];
+
+		if ($subop == "editSave") {
+	
+			if (!WEB_DEMO_MODE) {
+
+				$login = db_escape_string($_GET["l"]);
+				$uid = db_escape_string($_GET["id"]);
+				$access_level = sprintf("%d", $_GET["al"]);
+
+				db_query($link, "UPDATE ttrss_users SET login = '$login', access_level = '$access_level' WHERE id = '$uid'");
+
+			}
+		} else if ($subop == "remove") {
+
+			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+
+				$ids = split(",", $_GET["ids"]);
+
+				foreach ($ids as $id) {
+					db_query($link, "DELETE FROM ttrss_users WHERE id = '$id' AND id != " . $_SESSION["uid"]);
+					
+				}
+			}
+		} else if ($subop == "add") {
+		
+			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+
+				$login = db_escape_string($_GET["login"]);
+				$tmp_user_pwd = make_password(8);
+				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
+
+				db_query($link, "INSERT INTO ttrss_users (login,pwd_hash,access_level)
+					VALUES ('$login', '$pwd_hash', 0)");
+
+
+				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+					login = '$login' AND pwd_hash = '$pwd_hash'");
+
+				if (db_num_rows($result) == 1) {
+
+					$new_uid = db_fetch_result($result, 0, "id");
+
+					print "<div class=\"notice\">Added user <b>".$_GET["login"].
+						"</b> with password <b>$tmp_user_pwd</b>.</div>";
+
+					initialize_user($link, $new_uid);
+
+				} else {
+				
+					print "<div class=\"warning\">Error while adding user <b>".
+					$_GET["login"].".</b></div>";
+
+				}
+			} 
+		} else if ($subop == "resetPass") {
+
+			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+
+				$uid = db_escape_string($_GET["id"]);
+
+				$result = db_query($link, "SELECT login FROM ttrss_users WHERE id = '$uid'");
+
+				$login = db_fetch_result($result, 0, "login");
+				$tmp_user_pwd = make_password(8);
+				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
+
+				db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
+					WHERE id = '$uid'");
+
+				print "<div class=\"notice\">Changed password of 
+					user <b>$login</b> to <b>$tmp_user_pwd</b>.</div>";				
+
+			}
+		}
+
+		print "<table class=\"prefAddFeed\"><tr>
+			<td><input id=\"uadd_box\"></td>";
+			
+		print"<td colspan=\"4\" align=\"right\">
+				<a class=\"button\" href=\"javascript:addUser()\">Add user</a></td></tr>
+		</table>";
+
+		$result = db_query($link, "SELECT 
+				id,login,access_level
+			FROM 
+				ttrss_users
+			ORDER by login");
+
+		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
+
+		print "<tr class=\"title\">
+					<td width=\"5%\">Select</td><td width='40%'>Login
+					</td>
+					<td width='40%'>Access Level</td></tr>";
+		
+		$lnum = 0;
+		
+		while ($line = db_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+
+			$uid = $line["id"];
+			$edit_uid = $_GET["id"];
+
+			if ($uid == $_SESSION["uid"] || ($subop == "edit" && $uid != $edit_uid)) {
+				$class .= "Grayed";
+			}
+		
+			print "<tr class=\"$class\" id=\"UMRR-$uid\">";
+
+			$line["login"] = htmlspecialchars($line["login"]);
+
+			if ($uid == $_SESSION["uid"]) {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" 
+					id=\"UMCHK-".$line["id"]."\"></td>";
+
+				print "<td>".$line["login"]."</td>";		
+				print "<td>".$line["access_level"]."</td>";		
+			
+
+			} else if (!$edit_uid || $subop != "edit") {
+
+				print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"UMCHK-".$line["id"]."\"></td>";
+
+				print "<td><a href=\"javascript:editUser($uid);\">" . 
+					$line["login"] . "</td>";		
+					
+				print "<td><a href=\"javascript:editUser($uid);\">" . 
+					$line["access_level"] . "</td>";			
+
+			} else if ($uid != $edit_uid) {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" 
+					id=\"UMCHK-".$line["id"]."\"></td>";
+
+				print "<td>".$line["login"]."</td>";		
+				print "<td>".$line["access_level"]."</td>";		
+
+			} else {
+
+				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+
+				print "<td><input id=\"iedit_ulogin\" value=\"".$line["login"].
+					"\"></td>";
+
+				print "<td><input id=\"iedit_ulevel\" value=\"".$line["access_level"].
+					"\"></td>";
+						
+			}
+				
+			
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		print "</table>";
+
+		print "<p>";
+
+		if ($subop == "edit") {
+			print "Edit label:
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:userEditCancel()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:userEditSave()\" value=\"Save\">";
+					
+		} else {
+
+			print "
+				Selection:
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:editSelectedUser()\" value=\"Edit\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:removeSelectedUsers()\" value=\"Remove\">";
+		}
+	}
+
 
 	db_close($link);
 ?>

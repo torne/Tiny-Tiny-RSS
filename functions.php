@@ -553,4 +553,41 @@
 		}		
 	}
 
+	function make_password($length = 8) {
+
+		$password = "";
+		$possible = "0123456789bcdfghjkmnpqrstvwxyz"; 
+    
+		$i = 0; 
+    
+		while ($i < $length) { 
+			$char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+        
+			if (!strstr($password, $char)) { 
+				$password .= $char;
+				$i++;
+			}
+		}
+		return $password;
+	}
+
+	// this is called after user is created to initialize default feeds, labels
+	// or whatever else
+	
+	// user preferences are checked on every login, not here
+
+	function initialize_user($link, $uid) {
+
+		db_query($link, "insert into ttrss_labels (owner_uid,sql_exp,description) 
+			values ('$uid','unread = true', 'Unread articles')");
+
+		db_query($link, "insert into ttrss_labels (owner_uid,sql_exp,description) 
+			values ('$uid','last_read is null and unread = false', 'Updated articles')");
+		
+		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
+			values ('$uid', 'Tiny Tiny RSS Dev. Feed',
+			'http://bah.spb.su/darcsweb/darcsweb.cgi?r=tt-rss;a=rss')");
+		
+		}
+
 ?>

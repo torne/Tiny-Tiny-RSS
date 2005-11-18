@@ -241,7 +241,7 @@ a:hover {
 }
 
 #iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
-#iedit_purgintl {
+#iedit_purgintl, #iedit_ulogin, #iedit_ulevel {
 	width : 100%;
 	padding-left : 2px;
 }
@@ -492,6 +492,14 @@ input.prefsTab:hover {
 
 div.warning {
 	background : #fffff0;
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+	margin : 5px;
+	font-size : x-small;
+}
+
+div.notice {
+	background : #ffffff;
 	border : 1px solid #c0c0c0;
 	padding : 5px;
 	margin : 5px;

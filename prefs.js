@@ -8,6 +8,7 @@ var xmlhttp = false;
 var active_feed = false;
 var active_filter = false;
 var active_label = false;
+var active_user = false;
 
 var active_tab = false;
 
@@ -95,6 +96,28 @@ function labellist_callback() {
 	}
 }
 
+function userlist_callback() {
+	var container = document.getElementById('prefContent');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+
+/*		if (active_filter) {
+			var row = document.getElementById("ULRR-" + active_label);
+			if (row) {
+				if (!row.className.match("Selected")) {
+					row.className = row.className + "Selected";
+				}		
+			}
+			var checkbox = document.getElementById("LICHK-" + active_label);
+			
+			if (checkbox) {
+				checkbox.checked = true;
+			}
+		} */
+		p_notify("");
+	}
+}
+
 function prefslist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
@@ -137,6 +160,23 @@ function updateFeedList() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function updateUsersList() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+//	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
+
+	p_notify("Loading, please wait...");
+
+	xmlhttp.open("GET", "backend.php?op=pref-users", true);
+	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
 
 }
@@ -233,6 +273,31 @@ function addFeed() {
 
 }
 
+function addUser() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sqlexp = document.getElementById("uadd_box");
+
+	if (sqlexp.value.length == 0) {
+		notify("Missing user login.");
+	} else {
+		notify("Adding user...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-users&subop=add&login=" +
+			param_escape(sqlexp.value), true);			
+			
+		xmlhttp.onreadystatechange=userlist_callback;
+		xmlhttp.send(null);
+
+		sqlexp.value = "";
+	}
+
+}
+
 function editLabel(id) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -245,6 +310,22 @@ function editLabel(id) {
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
 		param_escape(id), true);
 	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.send(null);
+
+}
+
+function editUser(id) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_user = id;
+
+	xmlhttp.open("GET", "backend.php?op=pref-users&subop=edit&id=" +
+		param_escape(id), true);
+	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
 
 }
@@ -292,6 +373,22 @@ function getSelectedLabels() {
 	for (i = 0; i < content.rows.length; i++) {
 		if (content.rows[i].className.match("Selected")) {
 			var row_id = content.rows[i].id.replace("LILRR-", "");
+			sel_rows.push(row_id);	
+		}
+	}
+
+	return sel_rows;
+}
+
+function getSelectedUsers() {
+
+	var content = document.getElementById("prefUserList");
+
+	var sel_rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].className.match("Selected")) {
+			var row_id = content.rows[i].id.replace("UMRR-", "");
 			sel_rows.push(row_id);	
 		}
 	}
@@ -398,6 +495,29 @@ function removeSelectedLabels() {
 		xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
 			param_escape(sel_rows.toString()), true);
 		xmlhttp.onreadystatechange=labellist_callback;
+		xmlhttp.send(null);
+
+	} else {
+		notify("Please select some labels first.");
+	}
+}
+
+function removeSelectedUsers() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedUsers();
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected users...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-users&subop=remove&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=userlist_callback;
 		xmlhttp.send(null);
 
 	} else {
@@ -535,6 +655,22 @@ function labelEditCancel() {
 
 }
 
+function userEditCancel() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_user = false;
+
+	notify("Operation cancelled.");
+
+	xmlhttp.open("GET", "backend.php?op=pref-users", true);
+	xmlhttp.onreadystatechange=userlist_callback;
+	xmlhttp.send(null);
+
+}
 
 function filterEditCancel() {
 
@@ -588,6 +724,40 @@ function labelEditSave() {
 
 }
 
+function userEditSave() {
+
+	var user = active_user;
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var login = document.getElementById("iedit_ulogin").value;
+	var level = document.getElementById("iedit_ulevel").value;
+
+	if (login.length == 0) {
+		notify("Login cannot be blank.");
+		return;
+	}
+
+	if (level.length == 0) {
+		notify("User level cannot be blank.");
+		return;
+	}
+
+	active_user = false;
+
+	xmlhttp.open("GET", "backend.php?op=pref-users&subop=editSave&id=" +
+		user + "&l=" + param_escape(login) + "&al=" + param_escape(level),
+		true);
+		
+	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.send(null);
+
+}
+
+
 function filterEditSave() {
 
 	var filter = active_filter;
@@ -637,6 +807,47 @@ function editSelectedLabel() {
 	editLabel(rows[0]);
 
 }
+
+function editSelectedUser() {
+	var rows = getSelectedUsers();
+
+	if (rows.length == 0) {
+		notify("No users are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one user.");
+		return;
+	}
+
+	editUser(rows[0]);
+}
+
+function resetSelectedUserPass() {
+	var rows = getSelectedUsers();
+
+	if (rows.length == 0) {
+		notify("No users are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one user.");
+		return;
+	}
+
+	notify("Resetting password for selected user...");
+
+	var id = rows[0];
+
+	xmlhttp.open("GET", "backend.php?op=pref-users&subop=resetPass&id=" +
+		param_escape(id), true);
+	xmlhttp.onreadystatechange=userlist_callback;
+	xmlhttp.send(null);
+
+}
+
 
 
 function editSelectedFilter() {
@@ -755,6 +966,8 @@ function selectTab(id) {
 		updateLabelList();
 	} else if (id == "genConfig") {
 		updatePrefsList();
+	} else if (id == "userConfig") {
+		updateUsersList();
 	}
 
 	var tab = document.getElementById(active_tab + "Tab");

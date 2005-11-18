@@ -12,6 +12,7 @@
 
 	if ($login && $password) {
 		if (authenticate_user($link, $login, $password)) {
+			initialize_user_prefs($link, $_SESSION["uid"]); 
 			header("Location: tt-rss.php");
 		}
 	}

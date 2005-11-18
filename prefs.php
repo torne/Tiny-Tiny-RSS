@@ -23,10 +23,6 @@
 		$_SESSION["name"] = "admin";
 	}
 
-
-	initialize_user_prefs($link, $_SESSION["uid"]); 
-	// FIXME this needs to be moved somewhere after user creation
-
 ?>
 <html>
 <head>
@@ -77,7 +73,7 @@
 <? } ?>
 <tr>
 	<td class="prefsTabs" align="left" valign="bottom">
-		<input id="genConfigTab" class="prefsTab" type="submit" value="User Preferences"
+		<input id="genConfigTab" class="prefsTab" type="submit" value="Preferences"
 			onclick="selectTab('genConfig')">
 		<input id="feedConfigTab" class="prefsTab" type="submit" value="Feed Configuration"
 			onclick="selectTab('feedConfig')">
@@ -87,6 +83,10 @@
 		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
 			onclick="selectTab('labelConfig')">
 		<? } ?>
+		<? if ($_SESSION["access_level"] >= 10) { ?>
+		<input id="userConfigTab" class="prefsTab" type="submit" value="User Manager"
+			onclick="selectTab('userConfig')">
+		<? } ?>		
 	</td>
 	<td class="prefsToolbar" valign="middle" align="right">	
 		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
