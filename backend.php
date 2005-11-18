@@ -1654,7 +1654,8 @@
 				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
 				WHERE type_id = ttrss_prefs_types.id AND 
 					section_id = ttrss_prefs_sections.id AND
-					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name
+					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
+					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
 
 			print "<form action=\"backend.php\" method=\"POST\">";
