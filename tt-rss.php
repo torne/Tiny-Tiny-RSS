@@ -72,6 +72,9 @@
 			<td align="right" valign="top">
 				<div id="notify"><span id="notify_body"></div>
 			</td>
+
+			<div id="userDlg">&nbsp;</div>
+
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
 			Hello, <b><?= $_SESSION["name"] ?></b> (<a href="logout.php">Logout</a>)</td>
@@ -79,6 +82,8 @@
 		</tr></table>
 	</td>
 </tr>
+<? } else { ?>
+	<div id="userDlg">&nbsp;</div>
 <? } ?>
 <tr>
 	<td valign="top" rowspan="3" class="feeds"> 
