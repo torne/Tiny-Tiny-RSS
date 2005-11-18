@@ -10,6 +10,7 @@ drop table ttrss_users;
 create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
+	last_login timestamp default null,
 	access_level integer not null default 0);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
