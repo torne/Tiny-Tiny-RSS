@@ -55,7 +55,7 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	feed_id integer not null,
 	updated datetime not null, 
 	title text not null, 
-	guid varchar(255) not null unique, 
+	guid varchar(255) not null, 
 	link text not null, 
 	content text not null,
 	content_hash varchar(250) not null,
@@ -153,8 +153,6 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	foreign key (section_id) references ttrss_prefs_sections(id)) TYPE=InnoDB;
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_FEED_ICONS', 1, 'true', 'Enable icons in feedlist',2);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ICONS_DIR', 2, 'icons', 'Local directory for feed icons',1);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ICONS_URL', 2, 'icons', 'Local URL for icons',1);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge old posts after this number of days (0 - disables)',1);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'Update post on checksum change',1);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_PREFS_CATCHUP_UNCATCHUP', 1, 'false', 'Enable catchup/uncatchup buttons in feed editor',2);

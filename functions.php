@@ -81,7 +81,7 @@
 		$feed_url = preg_replace("/\/.*$/", "", $feed_url);
 		
 		$icon_url = "http://$feed_url/favicon.ico";
-		$icon_file = get_pref($link, 'ICONS_DIR') . "/$feed.ico";
+		$icon_file = ICONS_DIR . "/$feed.ico";
 
 		if (!file_exists($icon_file)) {
 				

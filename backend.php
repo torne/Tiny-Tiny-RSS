@@ -858,7 +858,7 @@
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_feeds WHERE id = '$id'");
 
-					$icons_dir = get_pref($link, 'ICONS_DIR');
+					$icons_dir = ICONS_DIR;
 					
 					if (file_exists($icons_dir . "/$id.ico")) {
 						unlink($icons_dir . "/$id.ico");
@@ -944,11 +944,11 @@
 
 			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
 
-			$icon_file = get_pref($link, 'ICONS_DIR') . "/$feed_id.ico";
+			$icon_file = ICONS_DIR . "/$feed_id.ico";
 
 			if (file_exists($icon_file) && filesize($icon_file) > 0) {
 					$feed_icon = "<img width=\"16\" height=\"16\"
-						src=\"" . get_pref($link, 'ICONS_URL') . "/$feed_id.ico\">";
+						src=\"" . ICONS_URL . "/$feed_id.ico\">";
 			} else {
 				$feed_icon = "&nbsp;";
 			}
