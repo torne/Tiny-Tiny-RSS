@@ -1847,6 +1847,8 @@
 				ttrss_users
 			ORDER by login");
 
+		print "<div id=\"prefUserDetails\">PLACEHOLDER</div>";
+
 		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
 
 		print "<tr class=\"title\">
@@ -1883,7 +1885,7 @@
 			} else if (!$edit_uid || $subop != "edit") {
 
 				print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"UMCHK-".$line["id"]."\"></td>";
+				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$line["login"] . "</td>";		
@@ -1951,15 +1953,13 @@
 			return;
 		}
 			  
-		print "<html><head>
+/*		print "<html><head>
 			<title>Tiny Tiny RSS : User Details</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body>";
+			</head><body>"; */
 
 		$uid = sprintf("%d", $_GET["id"]);
-
-		/* FIXME this badly needs real implementation */
 
 		print "<div class='userDetails'>";
 
@@ -2023,12 +2023,13 @@
 
 		print "</ul>";
 
-		print "<p align='center'>
-			<a	href=\"javascript:window.close()\">(Close this window)</a></p>";
-
 		print "</div>";
 
-		print "</body></html>";
+		print "<div align='center'>
+			<input type='submit' class='button'			
+			onclick=\"closeUserDetails()\" value=\"Close this window\"></div>";
+
+//		print "</body></html>"; 
 
 	}
 

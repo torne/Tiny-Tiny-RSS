@@ -411,12 +411,21 @@ a.helpLink:hover {
 	color : #5050aa;
 }
 
-div.helpResponse, div.userDetails {
+div.helpResponse {
 	margin : 10px;
 	background-image : url("images/vgrad_light_rev2.png");
 	background-position : top left;
 	background-repeat : repeat-x;
 	padding : 10px 20px 10px 20px;
+	border : 1px solid #f0f0f0;
+}
+
+div.userDetails {
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	padding : 5px;
+	margin-bottom : 10px;
 	border : 1px solid #f0f0f0;
 }
 
@@ -565,4 +574,15 @@ table.innerLoginForm {
 
 table.innerLoginForm td {
 	padding : 3px 3px 5px 3px;
+}
+
+#prefUserDetails {
+	position : absolute;
+	margin-left : 30%;
+	background-color : white;
+	width : 30%;
+	z-index : 3;
+	border : 1px solid #c0c0c0;
+	display : none;
+	padding-bottom : 10px;
 }

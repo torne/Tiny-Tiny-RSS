@@ -101,22 +101,32 @@ function userlist_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
-/*		if (active_filter) {
-			var row = document.getElementById("ULRR-" + active_label);
+		if (active_user) {
+			var row = document.getElementById("UMRR-" + active_user);
 			if (row) {
 				if (!row.className.match("Selected")) {
 					row.className = row.className + "Selected";
 				}		
 			}
-			var checkbox = document.getElementById("LICHK-" + active_label);
+			var checkbox = document.getElementById("UMCHK-" + active_user);
 			
 			if (checkbox) {
 				checkbox.checked = true;
 			}
-		} */
+		} 
+
 		p_notify("");
 	}
 }
+
+function userdetails_callback() {
+	var container = document.getElementById('prefUserDetails');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+		container.style.display = "block";
+	}
+}
+
 
 function prefslist_callback() {
 	var container = document.getElementById('prefContent');
@@ -850,6 +860,11 @@ function resetSelectedUserPass() {
 
 function selectedUserDetails() {
 
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
@@ -864,9 +879,9 @@ function selectedUserDetails() {
 
 	var id = rows[0];
 
-	var w = window.open("backend.php?op=user-details&id=" + id,
-		"User Details", 
-		"menubar=no,location=no,resizable=yes,scrollbars=yes,status=no");
+	xmlhttp.open("GET", "backend.php?op=user-details&id=" + id, true);
+	xmlhttp.onreadystatechange=userdetails_callback;
+	xmlhttp.send(null);
 
 }
 
@@ -1051,4 +1066,7 @@ function dispOptionHelp(event, sender) {
 
 } */
 
-
+function closeUserDetails() {
+	var d = document.getElementById('prefUserDetails');
+	d.style.display = "none";
+}
