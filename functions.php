@@ -394,7 +394,9 @@
 				if (count($entry_tags) > 0) {
 				
 					$result = db_query($link, "SELECT id FROM ttrss_entries 
-						WHERE guid = '$entry_guid' AND owner_uid = " . $_SESSION["uid"]);
+						WHERE guid = '$entry_guid' 
+						AND feed_id = '$feed' 
+						AND owner_uid = " . $_SESSION["uid"]);
 
 					if (!$result || db_num_rows($result) != 1) {
 						return;
