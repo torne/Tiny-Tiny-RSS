@@ -8,13 +8,19 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	if (!USE_HTTP_AUTH) {
-		if (!$_SESSION["uid"]) {
-			header("Location: login.php");
-			exit;
+	if (!SINGLE_USER_MODE) {
+
+		if (!USE_HTTP_AUTH) {
+			if (!$_SESSION["uid"]) {
+				header("Location: login.php");
+				exit;
+			}
+		} else {
+			authenticate_user($link);
 		}
 	} else {
-		authenticate_user($link);
+		$_SESSION["uid"] = 1;
+		$_SESSION["name"] = "admin";
 	}
 
 	initialize_user_prefs($link, $_SESSION["uid"]); 
@@ -70,7 +76,9 @@
 				<div id="notify"><span id="notify_body"></div>
 			</td>
 		</tr><tr><td class="welcomePrompt">
+			<? if (!SINGLE_USER_MODE) { ?>
 			Hello, <b><?= $_SESSION["name"] ?></b> (<a href="logout.php">Logout</a>)</td>
+			<? } ?>
 		</tr></table>
 	</td>
 </tr>

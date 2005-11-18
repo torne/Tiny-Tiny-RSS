@@ -1621,28 +1621,32 @@
 
 		} else {
 
-			print "<form action=\"backend.php\" method=\"POST\">";
+			if (!SINGLE_USER_MODE) {
 
-			print "<table width=\"100%\" class=\"prefPrefsList\">";
- 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
+				print "<form action=\"backend.php\" method=\"POST\">";
+	
+				print "<table width=\"100%\" class=\"prefPrefsList\">";
+	 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
+	
+				print "<tr><td width=\"40%\">Old password</td>";
+				print "<td><input class=\"editbox\" type=\"password\"
+					name=\"OLD_PASSWORD\"></td></tr>";
+	
+				print "<tr><td width=\"40%\">New password</td>";
+				
+				print "<td><input class=\"editbox\" type=\"password\"
+					name=\"NEW_PASSWORD\"></td></tr>";
+	
+				print "</table>";
+	
+				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+	
+				print "<p><input class=\"button\" type=\"submit\" 
+					value=\"Change password\" name=\"subop\">";
+	
+				print "</form>";
 
-			print "<tr><td width=\"40%\">Old password</td>";
-			print "<td><input class=\"editbox\" type=\"password\"
-				name=\"OLD_PASSWORD\"></td></tr>";
-
-			print "<tr><td width=\"40%\">New password</td>";
-			
-			print "<td><input class=\"editbox\" type=\"password\"
-				name=\"NEW_PASSWORD\"></td></tr>";
-
-			print "</table>";
-
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-
-			print "<p><input class=\"button\" type=\"submit\" 
-				value=\"Change password\" name=\"subop\">";
-
-			print "</form>";
+			}
 
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,

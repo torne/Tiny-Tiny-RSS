@@ -16,5 +16,9 @@
 
 	define(USE_HTTP_AUTH, false);
 	// use HTTP Basic authentication
-?>
 
+	define(SINGLE_USER_MODE, true);
+	// disable all multi-user stuff altogether and just assume admin user
+	// is always logged in
+
+?>
