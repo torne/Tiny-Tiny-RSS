@@ -125,7 +125,7 @@
 	
 		$result = db_query($link, "SELECT id,
 			(SELECT count(id) FROM ttrss_entries WHERE feed_id = ttrss_feeds.id 
-				AND unread = true) as count
+				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 	
 		while ($line = db_fetch_assoc($result)) {
@@ -212,9 +212,10 @@
 
 			$result = db_query($link, "SELECT *,
 				(SELECT count(id) FROM ttrss_entries 
-					WHERE feed_id = ttrss_feeds.id) AS total,
+					WHERE feed_id = ttrss_feeds.id AND owner_uid = '$owner_uid') AS total,
 				(SELECT count(id) FROM ttrss_entries
-					WHERE feed_id = ttrss_feeds.id AND unread = true) as unread
+					WHERE feed_id = ttrss_feeds.id AND unread = true
+						AND owner_uid = '$owner_uid') as unread
 				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY title");			
 	
 			$actid = $_GET["actid"];
