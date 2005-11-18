@@ -671,6 +671,7 @@
 				FROM
 					ttrss_entries 
 				WHERE
+				owner_uid = '".$_SESSION["uid"]."' AND
 				$search_query_part
 				$view_query_part
 				$query_strategy_part ORDER BY $order_by
@@ -688,6 +689,7 @@
 				FROM
 					ttrss_entries,ttrss_tags
 				WHERE
+					ttrss_entries.owner_uid = '".$_SESSION["uid"]."' AND
 					post_id = ttrss_entries.id AND tag_name = '$feed' AND
 					$view_query_part
 					$search_query_part
