@@ -79,7 +79,7 @@ function labellist_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 
-		if (active_filter) {
+		if (active_label) {
 			var row = document.getElementById("LILRR-" + active_label);
 			if (row) {
 				if (!row.className.match("Selected")) {
