@@ -398,6 +398,15 @@
 
 			print "<error code='$error_code'/>";
 		}
+
+		if ($subop == "globalPurge") {
+
+			print "<rpc-reply>";
+			global_purge_old_posts($link, true);
+			print "</rpc-reply>";
+
+		}
+
 	}
 	
 	if ($op == "feeds") {
@@ -2022,7 +2031,6 @@
 		print "</body></html>";
 
 	}
-
 
 	db_close($link);
 ?>
