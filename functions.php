@@ -352,19 +352,22 @@
 				if (count($entry_tags) > 0) {
 				
 					$result = db_query($link, "SELECT id FROM ttrss_entries 
-						WHERE guid = '$entry_guid'");
+						WHERE guid = '$entry_guid' AND owner_uid = " . $_SESSION["uid"]);
 
 					if (!$result || db_num_rows($result) != 1) {
 						return;
 					}
 
 					$entry_id = db_fetch_result($result, 0, "id");
-				
+					
 					foreach ($entry_tags as $tag) {
 						$tag = db_escape_string(strtolower($tag));
 
 						$result = db_query($link, "SELECT id FROM ttrss_tags		
-							WHERE tag_name = '$tag' AND post_id = '$entry_id' AND owner_uid = ".$_SESSION["uid"]." LIMIT 1");
+							WHERE tag_name = '$tag' AND post_id = '$entry_id' AND 
+							owner_uid = ".$_SESSION["uid"]." LIMIT 1");
+
+//						print db_fetch_result($result, 0, "id");
 
 						if ($result && db_num_rows($result) == 0) {
 							
