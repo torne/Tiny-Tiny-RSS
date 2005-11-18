@@ -3,9 +3,18 @@
 
 	require_once "version.php"; 
 	require_once "config.php";
+	require_once "functions.php";
 
-	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-	$_SESSION["name"] = PLACEHOLDER_NAME;
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+	$login = $_POST["login"];
+	$password = $_POST["password"];
+
+	if ($login && $password) {
+		if (authenticate_user($link, $login, $password)) {
+			header("Location: tt-rss.php");
+		}
+	}
 
 ?>
 <html>
@@ -19,6 +28,8 @@
 </head>
 
 <body>
+
+<form action="login.php" method="POST">
 
 <table width='100%' height='100%' class="loginForm">
 
@@ -34,9 +45,17 @@
 		<td><input name="login"></td></tr>
 	<tr><td align="right">Password:</td>
 		<td><input type="password" name="password"></td></tr>
+
+	<tr><td colspan="2" align="center">
+		<input type="submit" class="button" value="Login">
+	</td></tr>
 	
 	</table></td></tr>
 </table>
+
+</form>
+
+<? db_close($link); ?>
 
 </body>
 </html>
