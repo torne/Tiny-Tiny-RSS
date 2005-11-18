@@ -7,7 +7,7 @@ drop table ttrss_filters;
 drop table ttrss_user_prefs;
 drop table ttrss_users;
 
-create table ttrss_users (id serial primary key,
+create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
 	access_level integer not null default 0);
@@ -66,7 +66,7 @@ create table ttrss_entries (id serial not null primary key,
 drop table ttrss_filters;
 drop table ttrss_filter_types;
 
-create table ttrss_filter_types (id integer primary key, 
+create table ttrss_filter_types (id integer not null primary key, 
 	name varchar(120) unique not null, 
 	description varchar(250) not null unique);
 
@@ -75,7 +75,7 @@ insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Cont
 insert into ttrss_filter_types (id,name,description) values (3, 'both', 
 	'Title or Content');
 
-create table ttrss_filters (id serial primary key, 
+create table ttrss_filters (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
@@ -83,7 +83,7 @@ create table ttrss_filters (id serial primary key,
 
 drop table ttrss_labels;
 
-create table ttrss_labels (id serial primary key, 
+create table ttrss_labels (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	sql_exp varchar(250) not null,
 	description varchar(250) not null);
@@ -94,7 +94,7 @@ insert into ttrss_labels (owner_uid,sql_exp,description) values (1,'unread = tru
 insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
 	'last_read is null and unread = false', 'Updated articles');
 
-create table ttrss_tags (id serial primary key, 
+create table ttrss_tags (id serial not null primary key, 
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
@@ -109,21 +109,21 @@ drop table ttrss_prefs;
 drop table ttrss_prefs_types;
 drop table ttrss_prefs_sections;
 
-create table ttrss_prefs_types (id integer primary key, 
+create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
 
 insert into ttrss_prefs_types (id, type_name) values (1, 'bool');
 insert into ttrss_prefs_types (id, type_name) values (2, 'string');
 insert into ttrss_prefs_types (id, type_name) values (3, 'integer');
 
-create table ttrss_prefs_sections (id integer primary key, 
+create table ttrss_prefs_sections (id integer not null primary key, 
 	section_name varchar(100) not null);
 
 insert into ttrss_prefs_sections (id, section_name) values (1, 'General');
 insert into ttrss_prefs_sections (id, section_name) values (2, 'Interface');
 insert into ttrss_prefs_sections (id, section_name) values (3, 'Advanced');
 
-create table ttrss_prefs (pref_name varchar(250) primary key,
+create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	type_id integer not null references ttrss_prefs_types(id),
 	section_id integer not null references ttrss_prefs_sections(id) default 1,
 	short_desc text not null,
