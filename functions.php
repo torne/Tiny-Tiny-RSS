@@ -269,7 +269,9 @@
 					FROM
 						ttrss_entries 
 					WHERE
-						guid = '$entry_guid' AND owner_uid = " . $_SESSION["uid"]);
+						guid = '$entry_guid' AND 
+						owner_uid = " . $_SESSION["uid"]." AND
+						feed_id = '$feed'");
 
 //				print db_num_rows($result) . "$entry_guid<br/>";
 
