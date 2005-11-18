@@ -258,9 +258,10 @@
 			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 				FROM ttrss_tags,ttrss_entries WHERE
 				post_id = ttrss_entries.id AND unread = true 
-				AND ttrss_tags.owner_uid = '$owner_uid' GROUP BY tag_name 				
+				AND ttrss_tags.owner_uid = '$owner_uid' GROUP BY tag_name	
 			UNION
-				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'");
+				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'
+			ORDER BY tag_name");
 	
 			$tags = array();
 	

@@ -403,6 +403,8 @@
 					foreach ($entry_tags as $tag) {
 						$tag = db_escape_string(strtolower($tag));
 
+						$tag = str_replace("technorati tag: ", "", $tag);
+
 						$result = db_query($link, "SELECT id FROM ttrss_tags		
 							WHERE tag_name = '$tag' AND post_id = '$entry_id' AND 
 							owner_uid = ".$_SESSION["uid"]." LIMIT 1");
