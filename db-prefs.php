@@ -15,6 +15,7 @@
 			WHERE 
 				ttrss_user_prefs.pref_name = '$pref_name' AND 
 				ttrss_prefs_types.id = type_id AND
+				owner_uid = ".$_SESSION["uid"]." AND
 				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name");
 
 		if (db_num_rows($result) > 0) {
