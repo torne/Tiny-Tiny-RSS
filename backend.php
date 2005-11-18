@@ -556,7 +556,7 @@
 					if ($feed == -1) {
 						db_query($link, "UPDATE ttrss_entries 
 							SET unread = false,last_read = NOW()
-							WHERE marked = true");
+							WHERE marked = true AND owner_uid = ".$_SESSION["uid"]);
 					}
 			
 				} else if ($feed < -10) { // label
@@ -571,7 +571,7 @@
 
 						db_query($link, "UPDATE ttrss_entries 
 							SET unread = false,last_read = NOW()
-							WHERE $sql_exp");
+							WHERE $sql_exp AND owner_uid = ".$_SESSION["uid"]);
 					}
 				}
 			} else { // tag
