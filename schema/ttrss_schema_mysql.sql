@@ -10,7 +10,7 @@ drop table if exists ttrss_users;
 create table ttrss_users (id integer primary key not null auto_increment,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
-	last_login timestamp default null,
+	last_login datetime default null,
 	access_level integer not null default 0) TYPE=InnoDB;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
