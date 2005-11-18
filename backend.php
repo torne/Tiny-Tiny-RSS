@@ -1829,7 +1829,7 @@
 		</table>";
 
 		$result = db_query($link, "SELECT 
-				id,login,access_level
+				id,login,access_level,last_login
 			FROM 
 				ttrss_users
 			ORDER by login");
@@ -1837,9 +1837,10 @@
 		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
 
 		print "<tr class=\"title\">
-					<td width=\"5%\">Select</td><td width='40%'>Login
-					</td>
-					<td width='40%'>Access Level</td></tr>";
+					<td width=\"5%\">Select</td>
+					<td width='30%'>Username</td>
+					<td width='30%'>Access Level</td>
+					<td width='30%'>Last login</td></tr>";
 		
 		$lnum = 0;
 		
@@ -1865,7 +1866,6 @@
 
 				print "<td>".$line["login"]."</td>";		
 				print "<td>".$line["access_level"]."</td>";		
-			
 
 			} else if (!$edit_uid || $subop != "edit") {
 
@@ -1898,7 +1898,8 @@
 						
 			}
 				
-			
+			print "<td>".$line["last_login"]."</td>";		
+		
 			print "</tr>";
 
 			++$lnum;

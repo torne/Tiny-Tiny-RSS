@@ -528,6 +528,9 @@
 			$_SESSION["name"] = db_fetch_result($result, 0, "login");
 			$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
 
+			db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
+				$_SESSION["uid"]);
+
 			return true;
 		}
 
