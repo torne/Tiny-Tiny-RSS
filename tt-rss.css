@@ -142,10 +142,14 @@ ul.feedList li {
 	margin : 2px;
 }
 
-ul.feedList li.oddSelected, ul.feedList li.evenSelected,
-	li.oddUnreadSelected, li.evenUnreadSelected, li.evenSelectedUnread,
+li.oddSelected, li.evenSelected {
+	background-color : white;
+}
+
+li.oddUnreadSelected, li.evenUnreadSelected, li.evenSelectedUnread,
 	li.oddSelectedUnread {
 	background-color : white;
+	font-weight : bold;
 } 
 
 li.oddSelected a, li.evenSelected a,
