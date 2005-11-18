@@ -11,9 +11,6 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
-//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-//	$_SESSION["name"] = PLACEHOLDER_NAME;
-
 	$op = $_REQUEST["op"];
 
 	if ($op == "rpc" || $op == "updateAllFeeds") {
@@ -1928,12 +1925,102 @@
 			print "
 				Selection:
 			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">
+				onclick=\"javascript:selectedUserDetails()\" value=\"User details\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:editSelectedUser()\" value=\"Edit\">
 			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:removeSelectedUsers()\" value=\"Remove\">";
+				onclick=\"javascript:removeSelectedUsers()\" value=\"Remove\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">";
+
 		}
+	}
+
+	if ($op == "user-details") {
+
+		if (WEB_DEMO_MODE || $_SESSION["access_level"] < 10) {
+			return;
+		}
+			  
+		print "<html><head>
+			<title>Tiny Tiny RSS : User Details</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body>";
+
+		$uid = sprintf("%d", $_GET["id"]);
+
+		/* FIXME this badly needs real implementation */
+
+		print "<div class='userDetails'>";
+
+		$result = db_query($link, "SELECT login,last_login,access_level
+			FROM ttrss_users 
+			WHERE id = '$uid'");
+			
+		if (db_num_rows($result) == 0) {
+			print "<h1>User not found</h1>";
+			return;
+		}
+		
+		print "<h1>User Details</h1>";
+
+		print "<table width='100%'>";
+
+		$login = db_fetch_result($result, 0, "login");
+		$last_login = db_fetch_result($result, 0, "last_login");
+		$access_level = db_fetch_result($result, 0, "access_level");
+
+		print "<tr><td>Username</td><td>$login</td></tr>";
+		print "<tr><td>Access level</td><td>$access_level</td></tr>";
+		print "<tr><td>Last logged in</td><td>$last_login</td></tr>";
+
+		$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
+			WHERE owner_uid = '$uid'");
+
+		$num_feeds = db_fetch_result($result, 0, "num_feeds");
+
+		print "<tr><td>Subscribed feeds count</td><td>$num_feeds</td></tr>";
+
+		$result = db_query($link, "SELECT 
+			SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
+			FROM ttrss_entries WHERE owner_uid = '$uid'");
+
+		$db_size = db_fetch_result($result, 0, "db_size");
+
+		print "<tr><td>Approx. DB size</td><td>$db_size bytes</td></tr>";
+
+		print "</table>";
+
+		print "<h1>Subscribed feeds</h1>";
+
+		$result = db_query($link, "SELECT id,title,feed_url FROM ttrss_feeds
+			WHERE owner_uid = '$uid'");
+
+		print "<ul class=\"nomarks\">";
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$icon_file = ICONS_URL."/".$line["id"].".ico";
+
+			if (file_exists($icon_file) && filesize($icon_file) > 0) {
+				$feed_icon = "<img class=\"feedIcon\" src=\"$icon_file\">";
+			} else {
+				$feed_icon = "<img class=\"feedIcon\" src=\"images/blank_icon.gif\">";
+			}
+
+			print "<li>$feed_icon&nbsp;<a href=\"".$line["feed_url"]."\">".$line["title"]."</a></li>";
+		}
+
+		print "</ul>";
+
+		print "<p align='center'>
+			<a	href=\"javascript:window.close()\">(Close this window)</a></p>";
+
+		print "</div>";
+
+		print "</body></html>";
+
 	}
 
 

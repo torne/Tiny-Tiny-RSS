@@ -848,7 +848,27 @@ function resetSelectedUserPass() {
 
 }
 
+function selectedUserDetails() {
 
+	var rows = getSelectedUsers();
+
+	if (rows.length == 0) {
+		notify("No users are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one user.");
+		return;
+	}
+
+	var id = rows[0];
+
+	var w = window.open("backend.php?op=user-details&id=" + id,
+		"User Details", 
+		"menubar=no,location=no,resizable=yes,scrollbars=yes,status=no");
+
+}
 
 function editSelectedFilter() {
 	var rows = getSelectedFilters();

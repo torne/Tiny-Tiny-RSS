@@ -106,6 +106,9 @@
 				if (!rename($tmpfname, $icon_file)) {
 					unlink($tmpfname);
 				}
+
+				chmod($icon_file, 0644);
+				
 				error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 			}	
