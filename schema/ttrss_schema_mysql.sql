@@ -14,8 +14,6 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	access_level integer not null default 0) TYPE=InnoDB;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
-insert into ttrss_users (login,pwd_hash,access_level) values ('user-1', 'password1', 0);
-insert into ttrss_users (login,pwd_hash,access_level) values ('user-2', 'password2', 0);
 
 create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
