@@ -1996,16 +1996,16 @@
 			SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
 			FROM ttrss_entries WHERE owner_uid = '$uid'");
 
-		$db_size = db_fetch_result($result, 0, "db_size");
+		$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
 
-		print "<tr><td>Approx. DB size</td><td>$db_size bytes</td></tr>";
+		print "<tr><td>Approx. DB size</td><td>$db_size KBytes</td></tr>";
 
 		print "</table>";
 
 		print "<h1>Subscribed feeds</h1>";
 
 		$result = db_query($link, "SELECT id,title,feed_url FROM ttrss_feeds
-			WHERE owner_uid = '$uid'");
+			WHERE owner_uid = '$uid' ORDER BY title");
 
 		print "<ul class=\"nomarks\">";
 
