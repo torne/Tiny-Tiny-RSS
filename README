@@ -12,20 +12,20 @@ this program wide open to the whole internet. It belongs to (host or password)
 protected directory on your webserver. There could be SQL-injection or other
 remote vulnerabilities, so beware.
 
-Also, TT-rss at present is not multi-user. It is designed for one person to
-read news consistently from different locations, one location at a time. Otherwise,
-last-read information will get messed up and other bad stuff could happen.
+Version 1.1 adds experimental support for multi-user operation. This doesn't mean
+that TT-RSS is suitable for large-scale open internet installations. It still
+continues to be personal application, just in the looser definition, e.g. not just for
+you, but for your friends too, who won't DOS you or try to hack in each other accounts.
+
 
 Interface:
 
 	There is (incomplete) support for keyboard navigation.
-
-	"n" and "p" moves between next/previous posts when feed is opened, switching
-	pages as needed.
-
-	"r" refreshes feed list
-
-	"u" refreshes currently selected feed
+	
+	"n" and "p" moves between next/previous posts when feed is opened;
+	"r" refreshes feed list;
+	"u" refreshes currently selected feed;
+	"a" hides or shows only unread feeds in the feedlist;
 
 Requirements:
 	
