@@ -101,7 +101,8 @@
 			error_reporting (0);
 
 			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-				WHERE (" . $line["sql_exp"] . ") AND unread = true");
+				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+				owner_uid = ".$_SESSION["uid"]);
 
 			$count = db_fetch_result($tmp_result, 0, "count");
 
@@ -191,7 +192,8 @@
 					error_reporting (0);
 		
 					$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-						WHERE (" . $line["sql_exp"] . ") AND unread = true");
+						WHERE (" . $line["sql_exp"] . ") AND unread = true 
+						AND owner_uid = '$owner_uid'");
 	
 					$count = db_fetch_result($tmp_result, 0, "count");
 	
