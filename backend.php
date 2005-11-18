@@ -1555,8 +1555,8 @@
 
 //					print "$pref_name : $type_name : $value<br>";
 
-					db_query($link, "UPDATE ttrss_prefs SET value = '$value' 
-						WHERE pref_name = '$pref_name'");
+					db_query($link, "UPDATE ttrss_user_prefs SET value = '$value' 
+						WHERE pref_name = '$pref_name' AND owner_uid = ".$_SESSION["uid"]);
 
 				}
 
@@ -1582,18 +1582,22 @@
 
 			if (WEB_DEMO_MODE) return;
 
-			db_query($link, "UPDATE ttrss_prefs SET value = def_value");
+			db_query($link,"UPDATE ttrss_user_prefs 
+				SET value = ttrss_prefs.def_value 
+				WHERE owner_uid = '".$_SESSION["uid"]."' AND
+				ttrss_prefs.pref_name = ttrss_user_prefs.pref_name");
 
 			header("Location: prefs.php");
 
 		} else {
 
 			$result = db_query($link, "SELECT 
-				pref_name,short_desc,help_text,value,type_name,
+				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
 				section_name,def_value
-				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections 
+				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
 				WHERE type_id = ttrss_prefs_types.id AND 
-					section_id = ttrss_prefs_sections.id 
+					section_id = ttrss_prefs_sections.id AND
+					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name
 				ORDER BY section_id,short_desc");
 
 			print "<form action=\"backend.php\" method=\"POST\">";

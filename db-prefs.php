@@ -10,8 +10,12 @@
 
 		$result = db_query($link, "SELECT 
 			value,ttrss_prefs_types.type_name as type_name 
-			FROM ttrss_prefs,ttrss_prefs_types
-			WHERE pref_name = '$pref_name' AND ttrss_prefs_types.id = type_id");
+			FROM 
+				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
+			WHERE 
+				ttrss_user_prefs.pref_name = '$pref_name' AND 
+				ttrss_prefs_types.id = type_id AND
+				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name");
 
 		if (db_num_rows($result) > 0) {
 			$value = db_fetch_result($result, 0, "value");
