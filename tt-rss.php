@@ -1,6 +1,6 @@
 <?
 	session_start();
-
+	
 	require_once "version.php"; 
 	require_once "config.php";
 	require_once "db-prefs.php";
@@ -8,9 +8,10 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-	$_SESSION["name"] = PLACEHOLDER_NAME;
+	authenticate_user($link);
 
+//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+//	$_SESSION["name"] = PLACEHOLDER_NAME;
 
 	initialize_user_prefs($link, $_SESSION["uid"]); 
 	// FIXME this needs to be moved somewhere after user creation

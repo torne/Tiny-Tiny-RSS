@@ -4,8 +4,8 @@
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 
-	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-	$_SESSION["name"] = PLACEHOLDER_NAME;
+//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+//	$_SESSION["name"] = PLACEHOLDER_NAME;
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
@@ -514,6 +514,31 @@
 
 		db_query($link, "COMMIT");
 
+	}
+
+	function authenticate_user($link) {
+
+		if (!$_SERVER['PHP_AUTH_USER']) {
+
+			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
+			header('HTTP/1.0 401 Unauthorized');
+			print "<h1>401 Unathorized</h1>";
+			exit;
+			
+		} else {
+
+			$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
+			$password = db_escape_string($_SERVER['PHP_AUTH_PW']);
+			$pwd_hash = 'SHA1:' . sha1($password);
+
+			$result = db_query($link, "SELECT id,login FROM ttrss_users WHERE 
+				login = '$login' AND (pwd_hash = '$password' OR pwd_hash = '$pwd_hash')");
+
+			if (db_num_rows($result) == 1) {
+				$_SESSION["uid"] = db_fetch_result($result, 0, "id");
+				$_SESSION["name"] = db_fetch_result($result, 0, "login");
+			}			
+		}
 	}
 
 ?>

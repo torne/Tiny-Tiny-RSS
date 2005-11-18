@@ -13,7 +13,7 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 

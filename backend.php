@@ -1,6 +1,8 @@
 <?
 	session_start();
 
+	if (!$_SESSION["uid"]) { exit; }
+
 	define(SCHEMA_VERSION, 2);
 
 	require_once "config.php";
@@ -9,8 +11,8 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
-	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-	$_SESSION["name"] = PLACEHOLDER_NAME;
+//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
+//	$_SESSION["name"] = PLACEHOLDER_NAME;
 
 	$op = $_REQUEST["op"];
 
@@ -1578,6 +1580,34 @@
 				print "Unknown option: $pref_name";
 			}
 
+		} else if ($subop == "Change password") {
+
+			if (WEB_DEMO_MODE) return;
+
+			$old_pw = $_POST["OLD_PASSWORD"];
+			$new_pw = $_POST["OLD_PASSWORD"];
+
+			$old_pw_hash = 'SHA1:' . sha1($_POST["OLD_PASSWORD"]);
+			$new_pw_hash = 'SHA1:' . sha1($_POST["NEW_PASSWORD"]);
+
+			$active_uid = $_SESSION["uid"];
+
+			if ($old_pw && $new_pw) {
+
+				$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
+
+				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+					id = '$active_uid' AND (pwd_hash = '$old_pw' OR 
+						pwd_hash = '$old_pw_hash')");
+
+				if (db_num_rows($result) == 1) {
+					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
+						WHERE id = '$active_uid'");				
+				}
+			}
+
+			header("Location: prefs.php");
+	
 		} else if ($subop == "Reset to defaults") {
 
 			if (WEB_DEMO_MODE) return;
@@ -1591,6 +1621,29 @@
 
 		} else {
 
+			print "<form action=\"backend.php\" method=\"POST\">";
+
+			print "<table width=\"100%\" class=\"prefPrefsList\">";
+ 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
+
+			print "<tr><td width=\"40%\">Old password</td>";
+			print "<td><input class=\"editbox\" type=\"password\"
+				name=\"OLD_PASSWORD\"></td></tr>";
+
+			print "<tr><td width=\"40%\">New password</td>";
+			
+			print "<td><input class=\"editbox\" type=\"password\"
+				name=\"NEW_PASSWORD\"></td></tr>";
+
+			print "</table>";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+
+			print "<p><input class=\"button\" type=\"submit\" 
+				value=\"Change password\" name=\"subop\">";
+
+			print "</form>";
+
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
 				section_name,def_value
@@ -1602,8 +1655,6 @@
 
 			print "<form action=\"backend.php\" method=\"POST\">";
 
-			print "<table width=\"100%\" class=\"prefPrefsList\">";
-	
 			$lnum = 0;
 
 			$active_section = "";
@@ -1613,8 +1664,10 @@
 				if ($active_section != $line["section_name"]) {
 
 					if ($active_section != "") {
-						print "</table><p><table width=\"100%\" class=\"prefPrefsList\">";
+						print "</table>";
 					}
+
+					print "<p><table width=\"100%\" class=\"prefPrefsList\">";
 				
 					$active_section = $line["section_name"];				
 					
