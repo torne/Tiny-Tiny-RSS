@@ -410,7 +410,8 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "catchupAll") {
-			db_query($link, "UPDATE ttrss_entries SET last_read = NOW(),unread = false");
+			db_query($link, "UPDATE ttrss_entries SET 
+				last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
 		}
 
 		outputFeedList($link, $tags);
