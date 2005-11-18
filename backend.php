@@ -1616,10 +1616,16 @@
 
 			if (WEB_DEMO_MODE) return;
 
-			db_query($link,"UPDATE ttrss_user_prefs 
-				SET value = ttrss_prefs.def_value 
-				WHERE owner_uid = '".$_SESSION["uid"]."' AND
-				ttrss_prefs.pref_name = ttrss_user_prefs.pref_name");
+			if (DB_TYPE == "pgsql") {
+				db_query($link,"UPDATE ttrss_user_prefs 
+					SET value = ttrss_prefs.def_value 
+					WHERE owner_uid = '".$_SESSION["uid"]."' AND
+					ttrss_prefs.pref_name = ttrss_user_prefs.pref_name");
+			} else {
+				db_query($link, "DELETE FROM ttrss_user_prefs 
+					WHERE owner_uid = ".$_SESSION["uid"]);
+				initialize_user_prefs($link, $_SESSION["uid"]);
+			}
 
 			header("Location: prefs.php");
 
