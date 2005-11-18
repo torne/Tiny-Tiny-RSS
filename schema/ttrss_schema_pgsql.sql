@@ -28,24 +28,13 @@ create table ttrss_feeds (id serial not null primary key,
 	site_url varchar(250) not null default '');
 
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Debian', 'http://planet.debian.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Monologue', 'http://www.go-mono.com/monologue/index.rss');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions', 
-	'http://kernel.org/kdist/rss.xml');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed', 
-	'http://www.rpgdot.com/team/rss/rss0.xml');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Digg.com News', 
-	'http://digg.com/rss/index.xml');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net', 
-	'http://syndication.technocrat.net/rss');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed',
+   'http://www.rpgdot.com/team/rss/rss0.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Digg.com News',
+   'http://digg.com/rss/index.xml');
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
+   'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,

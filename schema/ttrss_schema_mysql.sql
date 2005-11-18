@@ -30,25 +30,13 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Freedesktop.org', 'http://planet.freedesktop.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Debian', 'http://planet.debian.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet GNOME', 'http://planet.gnome.org/rss20.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Planet Ubuntu', 'http://planet.ubuntulinux.org/rss20.xml');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Monologue', 'http://www.go-mono.com/monologue/index.rss');
-
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions',
-   'http://kernel.org/kdist/rss.xml');
-
+insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed',
    'http://www.rpgdot.com/team/rss/rss0.xml');
-
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Digg.com News',
    'http://digg.com/rss/index.xml');
-
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
    'http://syndication.technocrat.net/rss');
-
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
 	owner_uid integer not null,
