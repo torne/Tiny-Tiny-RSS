@@ -520,12 +520,13 @@
 
 		$pwd_hash = 'SHA1:' . sha1($password);
 
-		$result = db_query($link, "SELECT id,login FROM ttrss_users WHERE 
+		$result = db_query($link, "SELECT id,login,access_level FROM ttrss_users WHERE 
 			login = '$login' AND (pwd_hash = '$password' OR pwd_hash = '$pwd_hash')");
 
 		if (db_num_rows($result) == 1) {
 			$_SESSION["uid"] = db_fetch_result($result, 0, "id");
 			$_SESSION["name"] = db_fetch_result($result, 0, "login");
+			$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
 
 			return true;
 		}
