@@ -57,16 +57,13 @@ function p_notify(msg) {
 
 	if (!n || !nb) return;
 
-	if (msg == "") msg = "&nbsp;";
-
-	nb.innerHTML = msg;
-
-/*	if (msg.length == 0) {
-		n.style.display = "none";
+	if (msg == "") {
+		nb.innerHTML = "&nbsp;";
+		n.style.background = "#ffffff";
 	} else {
-		n.style.display = "block";
-	} */
-
+		nb.innerHTML = msg;
+		n.style.background = "#fffff0";
+	}
 }
 
 function notify(msg) {
@@ -76,15 +73,13 @@ function notify(msg) {
 
 	if (!n || !nb) return;
 
-	if (msg == "") msg = "&nbsp;";
-
-	nb.innerHTML = msg;
-
-/*	if (msg.length == 0) {
-		n.style.display = "none";
+	if (msg == "") {
+		nb.innerHTML = "&nbsp;";
+		n.style.background = "#ffffff";
 	} else {
-		n.style.display = "block";
-	} */
+		nb.innerHTML = msg;
+		n.style.background = "#fffff0";
+	}
 
 }
 
