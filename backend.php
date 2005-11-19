@@ -1011,6 +1011,8 @@
 			FROM 
 				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' ORDER by title");
 
+		print "<div id=\"infoBox\">PLACEHOLDER</div>";
+
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
 					<td>&nbsp;</td><td>Select</td><td width=\"30%\">Title</td>
@@ -1132,6 +1134,8 @@
 
 			print "
 				Selection:&nbsp;
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:selectedFeedDetails()\" value=\"Details\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
 			<input type=\"submit\" class=\"button\" 
@@ -1927,7 +1931,7 @@
 				ttrss_users
 			ORDER by login");
 
-		print "<div id=\"prefUserDetails\">PLACEHOLDER</div>";
+		print "<div id=\"infoBox\">PLACEHOLDER</div>";
 
 		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
 
@@ -2041,9 +2045,11 @@
 
 		$uid = sprintf("%d", $_GET["id"]);
 
-		print "<div class='userDetails'>";
+		print "<div class='infoBoxContents'>";
 
-		$result = db_query($link, "SELECT login,last_login,access_level
+		$result = db_query($link, "SELECT login,last_login,access_level,
+			(SELECT COUNT(int_id) FROM ttrss_user_entries 
+				WHERE owner_uid = id) AS stored_articles
 			FROM ttrss_users 
 			WHERE id = '$uid'");
 			
@@ -2059,10 +2065,12 @@
 		$login = db_fetch_result($result, 0, "login");
 		$last_login = db_fetch_result($result, 0, "last_login");
 		$access_level = db_fetch_result($result, 0, "access_level");
+		$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
 		print "<tr><td>Username</td><td>$login</td></tr>";
 		print "<tr><td>Access level</td><td>$access_level</td></tr>";
 		print "<tr><td>Last logged in</td><td>$last_login</td></tr>";
+		print "<tr><td>Stored articles</td><td>$stored_articles</td></tr>";
 
 		$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
 			WHERE owner_uid = '$uid'");
@@ -2073,11 +2081,12 @@
 
 /*		$result = db_query($link, "SELECT 
 			SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
-			FROM ttrss_entries WHERE owner_uid = '$uid'");
+			FROM ttrss_user_entries,ttrss_entries 
+				WHERE owner_uid = '$uid' AND ref_id = id");
 
 		$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
 
-		print "<tr><td>Approx. DB size</td><td>$db_size KBytes</td></tr>"; */
+		print "<tr><td>Approx. used DB size</td><td>$db_size KBytes</td></tr>";  */
 
 		print "</table>";
 
@@ -2107,9 +2116,54 @@
 
 		print "<div align='center'>
 			<input type='submit' class='button'			
-			onclick=\"closeUserDetails()\" value=\"Close this window\"></div>";
+			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
 
 //		print "</body></html>"; 
+
+	}
+
+	if ($op == "feed-details") {
+
+		$feed_id = $_GET["id"];
+
+		$result = db_query($link, 
+			"SELECT 
+				title,feed_url,last_updated,
+				(SELECT COUNT(int_id) FROM ttrss_user_entries 
+					WHERE feed_id = id) AS total,
+				(SELECT COUNT(int_id) FROM ttrss_user_entries 
+					WHERE feed_id = id AND unread = true) AS unread,
+				(SELECT COUNT(int_id) FROM ttrss_user_entries 
+					WHERE feed_id = id AND marked = true) AS marked
+			FROM ttrss_feeds
+			WHERE id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
+
+		if (db_num_rows($result) == 0) return;
+
+		$title = db_fetch_result($result, 0, "title");
+		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$feed_url = db_fetch_result($result, 0, "feed_url");
+		$total = db_fetch_result($result, 0, "total");
+		$unread = db_fetch_result($result, 0, "unread");
+		$marked = db_fetch_result($result, 0, "marked");
+
+		print "<div class=\"infoBoxContents\"><h1>$title</h1>";
+
+		print "<table width='100%'>";
+
+		print "<tr><td>Feed URL</td><td><a href=\"$feed_url\">$feed_url</a></td></tr>";
+		print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
+		print "<tr><td>Total articles</td><td>$total</td></tr>";
+		print "<tr><td>Unread articles</td><td>$unread</td></tr>";
+		print "<tr><td>Starred articles</td><td>$marked</td></tr>";
+
+		print "</table>";
+
+		print "</div>";
+
+		print "<div align='center'>
+			<input type='submit' class='button'			
+			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
 
 	}
 

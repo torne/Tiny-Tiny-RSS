@@ -425,7 +425,7 @@ div.helpResponse {
 	border : 1px solid #f0f0f0;
 }
 
-div.userDetails {
+div.infoBoxContents {
 	background-image : url("images/vgrad_light_rev2.png");
 	background-position : top left;
 	background-repeat : repeat-x;
@@ -434,14 +434,14 @@ div.userDetails {
 	border : 1px solid #f0f0f0;
 }
 
-div.helpResponse h1, div.userDetails h1 {
+div.helpResponse h1, div.infoBoxContents h1 {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	font-size : 16pt;
 }
 
-div.helpResponse h2, div.userDetails h2 {
+div.helpResponse h2, div.infoBoxContents h2 {
 	border-width : 0px 0px 0px 0px;
 	font-size : 12pt;
 }
@@ -581,13 +581,17 @@ table.innerLoginForm td {
 	padding : 3px 3px 5px 3px;
 }
 
-#prefUserDetails {
+#infoBox {
 	position : absolute;
 	margin-left : 30%;
 	background-color : white;
 	width : 30%;
 	z-index : 3;
 	border : 1px solid #c0c0c0;
-	display : none;
 	padding-bottom : 10px;
+	display : none;
+}
+
+div.small, p.small {
+	font-size : x-small;
 }

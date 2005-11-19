@@ -119,11 +119,13 @@ function userlist_callback() {
 	}
 }
 
-function userdetails_callback() {
-	var container = document.getElementById('prefUserDetails');
+function infobox_callback() {
+	var container = document.getElementById('infoBox');
 	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-		container.style.display = "block";
+		if (container) {
+			container.innerHTML=xmlhttp.responseText;
+			container.style.display = "block";
+		}
 	}
 }
 
@@ -880,7 +882,34 @@ function selectedUserDetails() {
 	var id = rows[0];
 
 	xmlhttp.open("GET", "backend.php?op=user-details&id=" + id, true);
-	xmlhttp.onreadystatechange=userdetails_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
+
+}
+
+function selectedFeedDetails() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var rows = getSelectedFeeds();
+
+	if (rows.length == 0) {
+		notify("No feeds are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one feed.");
+		return;
+	}
+
+	var id = rows[0];
+
+	xmlhttp.open("GET", "backend.php?op=feed-details&id=" + id, true);
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 }
@@ -993,6 +1022,11 @@ function updatePrefsList() {
 
 function selectTab(id) {
 
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
 	if (id == "feedConfig") {
 		updateFeedList();
 	} else if (id == "filterConfig") {
@@ -1066,7 +1100,7 @@ function dispOptionHelp(event, sender) {
 
 } */
 
-function closeUserDetails() {
-	var d = document.getElementById('prefUserDetails');
+function closeInfoBox() {
+	var d = document.getElementById('infoBox');
 	d.style.display = "none";
 }
