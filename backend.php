@@ -399,14 +399,14 @@
 			print "</rpc-reply>";
 		}
 		
-		if ($subop == "catchupPage") {
+		if ($subop == "catchupSelected") {
 
 			$ids = split(",", $_GET["ids"]);
 
 			foreach ($ids as $id) {
 
-				db_query($link, "UPDATE ttrss_entries SET unread=false,last_read = NOW()
-					WHERE id = '$id'");
+				db_query($link, "UPDATE ttrss_user_entries SET unread=false,last_read = NOW()
+					WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 			}
 
@@ -445,7 +445,7 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "catchupAll") {
-			db_query($link, "UPDATE ttrss_entries SET 
+			db_query($link, "UPDATE ttrss_user_entries SET 
 				last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
 		}
 
