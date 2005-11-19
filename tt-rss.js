@@ -149,6 +149,7 @@ function backend_sanity_check_callback() {
 	} 
 }
 
+/* wtf this is obsolete
 function updateFeed(feed_id) {
 
 	var query_str = "backend.php?op=rpc&subop=updateFeed&feed=" + feed_id;
@@ -162,6 +163,7 @@ function updateFeed(feed_id) {
 	}   
 
 }
+*/
 
 function scheduleFeedUpdate(force) {
 
