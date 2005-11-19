@@ -314,10 +314,20 @@
 
 				// now it should exist, if not - bad luck then
 
-				$result = db_query($link, "SELECT id FROM ttrss_entries WHERE 
-					guid = '$entry_guid'");
+				$result = db_query($link, "SELECT 
+						id,content_hash,no_orig_date,title,
+						substring(updated,1,19) as updated
+					FROM 
+						ttrss_entries 
+					WHERE guid = '$entry_guid'");
 
 				if (db_num_rows($result) == 1) {
+
+						// this will be used below in update handler
+						$orig_content_hash = db_fetch_result($result, 0, "content_hash");
+//						$orig_timestamp = strtotime(db_fetch_result($result, 0, "updated"));
+//						$orig_no_orig_date = db_fetch_result($result, 0, "no_orig_date");
+						$orig_title = db_fetch_result($result, 0, "title");
 
 						$ref_id = db_fetch_result($result, 0, "id");
 
@@ -342,6 +352,42 @@
 									(ref_id, owner_uid, feed_id) 
 								VALUES ('$ref_id', '$owner_uid', '$feed')");
 						}
+
+					$post_needs_update = false;
+
+					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE") &&
+						($content_hash != $orig_content_hash)) {
+						$post_needs_update = true;
+					}
+
+					if ($orig_title != $entry_title) {
+						$post_needs_update = true;
+					}
+
+//					this doesn't seem to be very reliable
+//
+//					if ($orig_timestamp != $entry_timestamp && !$orig_no_orig_date) {
+//						$post_needs_update = true;
+//					}
+
+					// if post needs update, update it and mark all user entries 
+					// linking to this post as updated
+					
+					if ($post_needs_update) {
+
+//						print "<!-- post $orig_title needs update : $post_needs_update -->";
+
+						$entry_content = db_escape_string($entry_content);
+						$entry_title = db_escape_string($entry_title);
+
+						db_query($link, "UPDATE ttrss_entries 
+							SET title = '$entry_title', content = '$entry_content'
+							WHERE id = '$ref_id'");
+
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
+
+					}
 				}
 
 /*				$result = db_query($link, "
