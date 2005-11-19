@@ -921,7 +921,7 @@
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl' 
-				WHERE id = '$feed_id'");			
+				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
 
 		}
 
@@ -932,7 +932,8 @@
 				$ids = split(",", $_GET["ids"]);
 
 				foreach ($ids as $id) {
-					db_query($link, "DELETE FROM ttrss_feeds WHERE id = '$id'");
+					db_query($link, "DELETE FROM ttrss_feeds 
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 					$icons_dir = ICONS_DIR;
 					
@@ -953,7 +954,7 @@
 					"INSERT INTO ttrss_feeds (owner_uid,feed_url,title) VALUES ('".$_SESSION["uid"]."', '$feed_link', '')");
 
 				$result = db_query($link,
-					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link'");
+					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' AND owner_uid = " . $_SESSION["uid"]);
 
 				$feed_id = db_fetch_result($result, 0, "id");
 
