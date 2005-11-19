@@ -951,7 +951,7 @@
 		}
 
 		$result = db_query($link, "SELECT id,title,feed_url,last_error 
-			FROM ttrss_feeds WHERE last_error != ''");
+			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
 		if (db_num_rows($result) > 0) {
 		
