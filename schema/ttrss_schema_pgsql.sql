@@ -1,4 +1,5 @@
 drop table ttrss_tags;
+drop table ttrss_user_entries;
 drop table ttrss_entries;
 drop table ttrss_feeds;
 drop table ttrss_labels;
@@ -36,19 +37,22 @@ insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
    'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
-	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
-	updated timestamp not null, 
 	title text not null, 
-	guid text not null, 
+	guid text not null unique, 
 	link text not null, 
+	updated timestamp not null, 
 	content text not null,
 	content_hash varchar(250) not null,
-	last_read timestamp,
-	marked boolean not null default false,
-	date_entered timestamp not null default NOW(),
 	no_orig_date boolean not null default false,
-	comments varchar(250) not null default '',
+	date_entered timestamp not null default NOW(),
+	comments varchar(250) not null default '');
+
+create table ttrss_user_entries (
+	id integer unique not null references ttrss_entries(id) ON DELETE CASCADE,
+	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	marked boolean not null default false,
+	last_read timestamp,
 	unread boolean not null default true);
 
 drop table ttrss_filters;
