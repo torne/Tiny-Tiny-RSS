@@ -1,5 +1,8 @@
 drop table if exists ttrss_tags;
+
+drop table if exists ttrss_user_entries;
 drop table if exists ttrss_entries;
+
 drop table if exists ttrss_feeds;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
@@ -38,20 +41,26 @@ insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
    'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
-	owner_uid integer not null,
-	feed_id integer not null,
-	updated datetime not null, 
 	title text not null, 
-	guid varchar(255) not null, 
+	guid varchar(255) not null unique, 
 	link text not null, 
+	updated datetime not null, 
 	content text not null,
 	content_hash varchar(250) not null,
-	last_read datetime,
-	marked bool not null default 0,
-	date_entered datetime not null,
 	no_orig_date bool not null default 0,
-	comments varchar(250) not null default '',
+	date_entered datetime not null,
+	comments varchar(250) not null default '') TYPE=InnoDB;
+
+create table ttrss_user_entries (
+	int_id integer not null primary key auto_increment,
+	ref_id integer not null,
+	feed_id int not null, 
+	owner_uid integer not null,
+	marked bool not null default 0,
+	last_read datetime,
 	unread bool not null default 1,
+	index (ref_id),
+	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
 	index (owner_uid),
@@ -63,7 +72,6 @@ drop table if exists ttrss_filter_types;
 create table ttrss_filter_types (id integer primary key, 
 	name varchar(120) unique not null, 
 	description varchar(250) not null unique) TYPE=InnoDB;
-
 
 insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title');
 insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
@@ -98,9 +106,9 @@ insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
 create table ttrss_tags (id integer primary key auto_increment, 
 	owner_uid integer not null, 
 	tag_name varchar(250) not null,
-	post_id integer not null,
-	index (post_id),
-	foreign key (post_id) references ttrss_entries(id) ON DELETE CASCADE,
+	post_int_id integer not null,
+	index (post_int_id),
+	foreign key (post_int_id) references ttrss_user_entries(int_id) ON DELETE CASCADE,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
