@@ -565,36 +565,61 @@
 
 		if ($subop == "MarkAllRead")  {
 
-			return; // FIXME disabled
-
 			if (sprintf("%d", $feed) != 0) {
 			
 				if ($feed > 0) {
-					db_query($link, "UPDATE ttrss_entries 
+					db_query($link, "UPDATE ttrss_user_entries 
 						SET unread = false,last_read = NOW() 
-						WHERE feed_id = '$feed'");
+						WHERE feed_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 						
 				} else if ($feed < 0 && $feed > -10) { // special, like starred
 
 					if ($feed == -1) {
-						db_query($link, "UPDATE ttrss_entries 
+						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW()
 							WHERE marked = true AND owner_uid = ".$_SESSION["uid"]);
 					}
 			
 				} else if ($feed < -10) { // label
 
+					// TODO make this more efficient
+
 					$label_id = -$feed - 11;
 
 					$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
-						WHERE id = '$label_id'");
+						WHERE id = '$label_id'");					
 
 					if ($tmp_result) {
 						$sql_exp = db_fetch_result($tmp_result, 0, "sql_exp");
 
-						db_query($link, "UPDATE ttrss_entries 
+						db_query($link, "BEGIN");
+
+						$tmp2_result = db_query($link,
+							"SELECT 
+								int_id 
+							FROM 
+								ttrss_user_entries,ttrss_entries 
+							WHERE
+								ref_id = id AND 
+								$sql_exp AND
+								owner_uid = " . $_SESSION["uid"]);
+
+						while ($tmp_line = db_fetch_assoc($tmp2_result)) {
+							db_query($link, "UPDATE 
+								ttrss_user_entries 
+							SET 
+								unread = false, last_read = NOW()
+							WHERE
+								int_id = " . $tmp_line["int_id"]);
+						}
+								
+						db_query($link, "COMMIT");
+
+/*						db_query($link, "UPDATE ttrss_user_entries,ttrss_entries 
 							SET unread = false,last_read = NOW()
-							WHERE $sql_exp AND owner_uid = ".$_SESSION["uid"]);
+							WHERE $sql_exp
+							AND ref_id = id
+							AND owner_uid = ".$_SESSION["uid"]); */
 					}
 				}
 			} else { // tag
