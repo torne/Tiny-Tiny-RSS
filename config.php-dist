@@ -1,5 +1,5 @@
 <?
-	// PostgreSQL must be configured to accept connections
+	// Your RDBMS must be configured to accept connections
 	// via TCP/IP and authentified by password.
 
 	define(DB_TYPE, "pgsql"); // or mysql
@@ -12,15 +12,16 @@
 	// Local cache directory for RSS feeds
 	
 	define(WEB_DEMO_MODE, false);
+	// Demo mode with reduced functionality.
 
 	define(ICONS_DIR, "icons");
 	define(ICONS_URL, "icons");
 
 	define(USE_HTTP_AUTH, false);
-	// use HTTP Basic authentication
+	// Use HTTP Basic authentication instead of login form. Has some problems.
 
 	define(SINGLE_USER_MODE, true);
-	// disable all multi-user stuff altogether and just assume admin user
-	// is always logged in
-
+	// Operate in single user mode, disables all functionality related to
+	// multiple users.
+	
 ?>
