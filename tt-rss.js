@@ -8,11 +8,7 @@ var xmlhttp = false;
 var total_unread = 0;
 var first_run = true;
 
-var search_query = "";
-var search_mode = "";
-
 var display_tags = false;
-//var display_read_feeds = true;
 
 var global_unread = 0;
 

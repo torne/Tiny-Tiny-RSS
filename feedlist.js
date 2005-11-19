@@ -15,12 +15,24 @@ function viewfeed(feed, skip, subop, doc) {
 		search_query = "";
 	} 
 
+	var searchmodebox = doc.getElementById("searchmodebox");
+
+	var search_mode;
+	
+	if (searchmodebox) {
+		search_mode = searchmodebox[searchmodebox.selectedIndex].text;
+	} else {
+		search_mode = "";
+	}
+
+	setCookie("ttrss_vf_smode", search_mode);
+
 	var viewbox = doc.getElementById("viewbox");
 
 	var view_mode;
 
 	if (viewbox) {
-		view_mode = viewbox.value;
+		view_mode = viewbox[viewbox.selectedIndex].text;
 	} else {
 		view_mode = "All Posts";
 	}
@@ -32,7 +44,7 @@ function viewfeed(feed, skip, subop, doc) {
 	var limit;
 
 	if (limitbox) {
-		limit = limitbox.value;
+		limit = limitbox[limitbox.selectedIndex].text;
 		setCookie("ttrss_vf_limit", limit);
 	} else {
 		limit = "All";
@@ -56,7 +68,8 @@ function viewfeed(feed, skip, subop, doc) {
 
 	var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 		"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
-		"&view=" + param_escape(view_mode) + "&limit=" + limit;
+		"&view=" + param_escape(view_mode) + "&limit=" + limit + 
+		"&smode=" + param_escape(search_mode);
 
 	if (search_query != "") {
 		query = query + "&search=" + param_escape(search_query);
