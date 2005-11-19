@@ -70,13 +70,19 @@ function refetch_callback() {
 			notify("refetch_callback: backend did not return valid XML");
 			return;
 		}
-
+	
 		var reply = xmlhttp.responseXML.firstChild;
 
 		if (!reply) {
 			notify("refetch_callback: backend did not return expected XML object");
 			return;
 		} 
+
+		var error_code = reply.getAttribute("error-code");
+	
+		if (error_code && error_code != 0) {
+			return fatalError(error_code);
+		}
 
 		var f_document = window.frames["feeds-frame"].document;
 
@@ -133,7 +139,7 @@ function backend_sanity_check_callback() {
 			return;
 		}
 
-		var error_code = reply.getAttribute("code");
+		var error_code = reply.getAttribute("error-code");
 	
 		if (error_code && error_code != 0) {
 			return fatalError(error_code);

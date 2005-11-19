@@ -1,7 +1,21 @@
 <?
 	session_start();
 
-	if (!$_SESSION["uid"]) { exit; }
+	$op = $_REQUEST["op"];
+
+	if (($op == "rpc" || $op == "updateAllFeeds" || 
+			$op == "forceUpdateAllFeeds") && !$_REQUEST["noxml"]) {
+		header("Content-Type: application/xml");
+	}
+
+	if (!$_SESSION["uid"]) {
+
+		if (($op == "rpc" || $op == "updateAllFeeds" || 
+			$op == "forceUpdateAllFeeds")) {
+			print "<error error-code=\"6\"/>";
+		}
+		exit;
+	}
 
 	define(SCHEMA_VERSION, 2);
 
@@ -10,12 +24,6 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
-
-	$op = $_REQUEST["op"];
-
-	if (($op == "rpc" || $op == "updateAllFeeds") && !$_REQUEST["noxml"]) {
-		header("Content-Type: application/xml");
-	}
 
 	$script_started = getmicrotime();
 
@@ -417,7 +425,7 @@
 				$error_code = 5;
 			}
 
-			print "<error code='$error_code'/>";
+			print "<error error-code='$error_code'/>";
 		}
 
 		if ($subop == "globalPurge") {

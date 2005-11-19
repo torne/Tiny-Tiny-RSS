@@ -17,6 +17,12 @@
 
 	$ERRORS[5] = "Incorrect database schema version.";
 
+	$ERRORS[6] = "Not authorized.";
+
+	if ($_GET["c"] == 6) {
+		header("Location: login.php");
+	}
+
 ?>
 
 <html>
