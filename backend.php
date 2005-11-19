@@ -681,7 +681,7 @@
 		$vfeed_query_part = "";
 
 		// override query strategy and enable feed display when searching globally
-		if ($search_mode == "All feeds") {
+		if ($search && $search_mode == "All feeds") {
 			$query_strategy_part = "id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
