@@ -13,7 +13,7 @@
 
 	$op = $_REQUEST["op"];
 
-	if ($op == "rpc" || $op == "updateAllFeeds") {
+	if (($op == "rpc" || $op == "updateAllFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml");
 	}
 
