@@ -1,6 +1,8 @@
 drop table ttrss_tags;
+
 drop table ttrss_user_entries;
 drop table ttrss_entries;
+
 drop table ttrss_feeds;
 drop table ttrss_labels;
 drop table ttrss_filters;
@@ -27,6 +29,8 @@ create table ttrss_feeds (id serial not null primary key,
 	last_error text not null default '',
 	site_url varchar(250) not null default '');
 
+create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
+
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed',
@@ -45,7 +49,8 @@ create table ttrss_entries (id serial not null primary key,
 	content_hash varchar(250) not null,
 	no_orig_date boolean not null default false,
 	date_entered timestamp not null default NOW(),
-	comments varchar(250) not null default '');
+	comments varchar(250) not null default '',
+	index (guid), index(title));
 
 create table ttrss_user_entries (
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
@@ -54,6 +59,10 @@ create table ttrss_user_entries (
 	marked boolean not null default false,
 	last_read timestamp,
 	unread boolean not null default true);
+
+create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
+create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
+create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
 
 drop table ttrss_filters;
 drop table ttrss_filter_types;
@@ -80,6 +89,8 @@ create table ttrss_labels (id serial not null primary key,
 	sql_exp varchar(250) not null,
 	description varchar(250) not null);
 
+create index ttrss_labels_owner_uid_index on ttrss_labels(owner_uid);
+
 insert into ttrss_labels (owner_uid,sql_exp,description) values (1,'unread = true', 
 	'Unread articles');
 
@@ -90,6 +101,8 @@ create table ttrss_tags (id serial not null primary key,
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
+
+create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 drop table ttrss_version;
 
@@ -148,5 +161,8 @@ create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	pref_name varchar(250) not null references ttrss_prefs(pref_name),
 	value text not null);
+
+create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
+create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
 
 
