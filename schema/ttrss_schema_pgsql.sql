@@ -37,7 +37,6 @@ insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
    'http://syndication.technocrat.net/rss');
 
 create table ttrss_entries (id serial not null primary key, 
-	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	title text not null, 
 	guid text not null unique, 
 	link text not null, 
@@ -49,7 +48,8 @@ create table ttrss_entries (id serial not null primary key,
 	comments varchar(250) not null default '');
 
 create table ttrss_user_entries (
-	id integer unique not null references ttrss_entries(id) ON DELETE CASCADE,
+	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
+	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
 	last_read timestamp,

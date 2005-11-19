@@ -4,12 +4,11 @@
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 
-//	$_SESSION["uid"] = PLACEHOLDER_UID; // FIXME: placeholder
-//	$_SESSION["name"] = PLACEHOLDER_NAME;
-
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
 	function purge_feed($link, $feed_id, $purge_interval) {
+
+		return; // FIXME disabled for now
 	
 		if (DB_TYPE == "pgsql") {
 			db_query($link, "DELETE FROM ttrss_entries WHERE
@@ -262,7 +261,75 @@
 
 				$entry_guid = db_escape_string($entry_guid);
 
-				$result = db_query($link, "
+				$result = db_query($link, "SELECT id FROM	ttrss_entries WHERE guid = '$entry_guid'");
+
+				$owner_uid = $_SESSION["uid"];
+
+				if (db_num_rows($result) == 0) {
+
+					// base post entry does not exist, create it
+
+					error_reporting(0);
+					if (is_filtered($entry_title, $entry_content, $filters)) {
+						continue;
+					}
+					error_reporting (E_ERROR | E_WARNING | E_PARSE);
+
+					$entry_content = db_escape_string($entry_content);
+					$entry_title = db_escape_string($entry_title);
+					$entry_link = db_escape_string($entry_link);
+					$entry_comments = db_escape_string($entry_comments);
+
+					$result = db_query($link,
+						"INSERT INTO ttrss_entries 
+							(title,
+							guid,
+							link,
+							updated,
+							content,
+							content_hash,
+							no_orig_date,
+							date_entered,
+							comments)
+						VALUES
+							('$entry_title', 
+							'$entry_guid', 
+							'$entry_link',
+							'$entry_timestamp_fmt', 
+							'$entry_content', 
+							'$content_hash',
+							$no_orig_date, 
+							NOW(), 
+							'$entry_comments')");
+				}
+
+				// now it should exist, if not - bad luck then
+
+				$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$entry_guid'");
+
+				if (db_num_rows($result) == 1) {
+
+						$ref_id = db_fetch_result($result, 0, "id");
+
+						// check for user post link to main table
+
+						$result = db_query($link,
+							"SELECT ref_id FROM ttrss_user_entries WHERE
+								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND feed_id = '$feed'");
+
+						// okay it doesn't exist - create user entry
+
+						if (db_num_rows($result) == 0) {
+
+							$result = db_query($link,
+								"INSERT INTO ttrss_user_entries 
+									(ref_id, owner_uid, feed_id) 
+								VALUES ('$ref_id', '$owner_uid', '$feed')");
+
+						}
+				}
+
+/*				$result = db_query($link, "
 					SELECT 
 						id,last_read,no_orig_date,title,feed_id,content_hash,
 						substring(updated,1,19) as updated
@@ -272,8 +339,6 @@
 						guid = '$entry_guid' AND 
 						owner_uid = " . $_SESSION["uid"]." AND
 						feed_id = '$feed'");
-
-//				print db_num_rows($result) . "$entry_guid<br/>";
 
 				if (db_num_rows($result) == 0) {
 
@@ -379,12 +444,12 @@
 
 						$result = db_query($link, $query);
 					}
-				}
+				} */
 
 				/* taaaags */
 				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
 
-				$entry_tags = null;
+/*				$entry_tags = null;
 
 				preg_match_all("/<a.*?rel=.tag.*?>([^>]+)<\/a>/i", $entry_content,
 					$entry_tags);
@@ -423,8 +488,8 @@
 								VALUES ('".$_SESSION["uid"]."','$tag', '$entry_id')");
 						}							
 					}
-				}
-			}
+				} */
+			} 
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");

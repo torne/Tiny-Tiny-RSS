@@ -50,15 +50,18 @@
 	/* FIXME this needs reworking */
 
 	function getGlobalCounters($link) {
-		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries
-			WHERE unread = true AND owner_uid = " . $_SESSION["uid"]);
+		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries,ttrss_user_entries
+			WHERE unread = true AND 
+			ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			owner_uid = " . $_SESSION["uid"]);
 		$c_id = db_fetch_result($result, 0, "c_id");
 		print "<counter id='global-unread' counter='$c_id'/>";
 	}
 
 	function getTagCounters($link) {
 		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
-			FROM ttrss_tags,ttrss_entries WHERE
+			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
+			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
 			post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
 		UNION
@@ -81,8 +84,9 @@
 
 	function getLabelCounters($link) {
 
-		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-			WHERE marked = true AND unread = true AND owner_uid = ".$_SESSION["uid"]);
+		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
+			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			unread = true AND owner_uid = ".$_SESSION["uid"]);
 
 		$count = db_fetch_result($result, 0, "count");
 
@@ -97,8 +101,9 @@
 
 			error_reporting (0);
 
-			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
+			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_user_entries,ttrss_entries
 				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+				ttrss_user_entries.ref_id = ttrss_entries.id AND 
 				owner_uid = ".$_SESSION["uid"]);
 
 			$count = db_fetch_result($tmp_result, 0, "count");
@@ -113,8 +118,9 @@
 	function getFeedCounter($link, $id) {
 	
 		$result = db_query($link, "SELECT 
-				count(id) as count FROM ttrss_entries
-			WHERE feed_id = '$id' AND unread = true");
+				count(id) as count FROM ttrss_entries,ttrss_user_entries
+			WHERE feed_id = '$id' AND unread = true
+			AND ttrss_user_entries.ref_id = ttrss_entries.id");
 	
 			$count = db_fetch_result($result, 0, "count");
 			
@@ -124,7 +130,9 @@
 	function getFeedCounters($link) {
 	
 		$result = db_query($link, "SELECT id,
-			(SELECT count(id) FROM ttrss_entries WHERE feed_id = ttrss_feeds.id 
+			(SELECT count(id) 
+				FROM ttrss_entries,ttrss_user_entries 
+				WHERE feed_id = ttrss_feeds.id AND ttrss_user_entries.ref_id = ttrss_entries.id
 				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 	
@@ -165,7 +173,10 @@
 			/* virtual feeds */
 
 			$result = db_query($link, "SELECT count(id) as num_starred 
-				FROM ttrss_entries WHERE marked = true AND unread = true AND owner_uid = '$owner_uid'");
+				FROM ttrss_entries,ttrss_user_entries 
+				WHERE marked = true AND 
+				ttrss_user_entries.ref_id = ttrss_entries.id AND
+				unread = true AND owner_uid = '$owner_uid'");
 			$num_starred = db_fetch_result($result, 0, "num_starred");
 
 			$class = "virt";
@@ -188,8 +199,9 @@
 	
 					error_reporting (0);
 		
-					$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries
-						WHERE (" . $line["sql_exp"] . ") AND unread = true 
+					$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
+						WHERE (" . $line["sql_exp"] . ") AND unread = true AND
+						ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid'");
 	
 					$count = db_fetch_result($tmp_result, 0, "count");
@@ -211,10 +223,13 @@
 			print "<li><hr></li>";
 
 			$result = db_query($link, "SELECT *,
-				(SELECT count(id) FROM ttrss_entries 
-					WHERE feed_id = ttrss_feeds.id AND owner_uid = '$owner_uid') AS total,
-				(SELECT count(id) FROM ttrss_entries
+				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
+					WHERE feed_id = ttrss_feeds.id AND 
+					ttrss_user_entries.ref_id = ttrss_entries.id AND
+					owner_uid = '$owner_uid') AS total,
+				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
+						AND ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid') as unread
 				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY title");			
 	
@@ -431,14 +446,16 @@
 		$id = $_GET["id"];
 		$feed_id = $_GET["feed"];
 
-		$result = db_query($link, "UPDATE ttrss_entries SET unread = false,last_read = NOW() WHERE id = '$id'");
+		$result = db_query($link, "UPDATE ttrss_user_entries 
+			SET unread = false,last_read = NOW() 
+			WHERE ref_id = '$id' AND feed_id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$addheader = $_GET["addheader"];
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
-			FROM ttrss_entries
-			WHERE	id = '$id'");
+			FROM ttrss_entries,ttrss_user_entries
+			WHERE	id = '$id' AND ref_id = id");
 
 		if ($addheader) {
 			print "<html><head>
@@ -678,8 +695,9 @@
 					$vfeed_query_part
 					SUBSTRING(updated,1,19) as updated_noms
 				FROM
-					ttrss_entries 
+					ttrss_entries,ttrss_user_entries
 				WHERE
+				ttrss_user_entries.ref_id = ttrss_entries.id AND
 				owner_uid = '".$_SESSION["uid"]."' AND
 				$search_query_part
 				$view_query_part
