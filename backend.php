@@ -2065,7 +2065,7 @@
 			$icon_file = ICONS_URL."/".$line["id"].".ico";
 
 			if (file_exists($icon_file) && filesize($icon_file) > 0) {
-				$feed_icon = "<img class=\"feedIcon\" src=\"$icon_file\">";
+				$feed_icon = "<img class=\"tinyFeedIcon\" src=\"$icon_file\">";
 			} else {
 				$feed_icon = "<img class=\"feedIcon\" src=\"images/blank_icon.gif\">";
 			}
