@@ -371,8 +371,7 @@
 //					}
 
 					// if post needs update, update it and mark all user entries 
-					// linking to this post as updated
-					
+					// linking to this post as updated					
 					if ($post_needs_update) {
 
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";
@@ -389,123 +388,6 @@
 
 					}
 				}
-
-/*				$result = db_query($link, "
-					SELECT 
-						id,last_read,no_orig_date,title,feed_id,content_hash,
-						substring(updated,1,19) as updated
-					FROM
-						ttrss_entries 
-					WHERE
-						guid = '$entry_guid' AND 
-						owner_uid = " . $_SESSION["uid"]." AND
-						feed_id = '$feed'");
-
-				if (db_num_rows($result) == 0) {
-
-					error_reporting(0);
-					if (is_filtered($entry_title, $entry_content, $filters)) {
-						continue;
-					}
-					error_reporting (E_ERROR | E_WARNING | E_PARSE);
-
-					//$entry_guid = db_escape_string($entry_guid);
-					$entry_content = db_escape_string($entry_content);
-					$entry_title = db_escape_string($entry_title);
-					$entry_link = db_escape_string($entry_link);
-					$entry_comments = db_escape_string($entry_comments);
-
-					$query = "INSERT 
-						INTO ttrss_entries 
-							(title, 
-							guid, 
-							link, 
-							updated, 
-							content, 
-							content_hash,
-							feed_id, 
-							comments,							
-							no_orig_date,
-							date_entered,
-							owner_uid) 
-						VALUES
-							('$entry_title', 
-							'$entry_guid', 
-							'$entry_link', 
-							'$entry_timestamp_fmt', 
-							'$entry_content', 
-							'$content_hash',
-							'$feed', 
-							'$entry_comments',
-							$no_orig_date,
-							NOW(),".$_SESSION["uid"].")";
-
-					$result = db_query($link, $query);
-
-				} else {
-
-					$orig_entry_id = db_fetch_result($result, 0, "id");			
-					$orig_feed_id = db_fetch_result($result, 0, "feed_id");
-
-//					print "OED: $orig_entry_id; OID: $orig_feed_id ; FID: $feed<br>";
-
-					if ($orig_feed_id != $feed) {
-//						print "<p>GUID $entry_guid: update from different feed ($orig_feed_id, $feed): $entry_guid [$entry_title]";
-						continue;
-					}
-
-					$entry_is_modified = false;
-					
-					$orig_timestamp = strtotime(db_fetch_result($result, 0, "updated"));
-						
-					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
-					$orig_last_read = db_fetch_result($result, 0, "last_read");	
-					$orig_no_orig_date = db_fetch_result($result, 0, "no_orig_date");
-					$orig_title = db_fetch_result($result, 0, "title");
-
-					$last_read_qpart = "";
-
-					if ($orig_content_hash != $content_hash) {
-//						print "$orig_content_hash :: $content_hash<br>";
-
-						if (get_pref($link, 'UPDATE_POST_ON_CHECKSUM_CHANGE')) {
-							$last_read_qpart = 'last_read = null,';
-						}
-						$entry_is_modified = true;						
-					}
-
-					if ($orig_title != $entry_title) {
-						$entry_is_modified = true;
-					}
-
-					if ($orig_timestamp != $entry_timestamp && !$orig_no_orig_date) {
-						$entry_is_modified = true;
-					}
-
-					if ($entry_is_modified) {
-
-//						print "$entry_guid Modified!<br>";
-
-						$entry_comments = db_escape_string($entry_comments);
-						$entry_content = db_escape_string($entry_content);
-						$entry_title = db_escape_string($entry_title);					
-						$entry_link = db_escape_string($entry_link);
-
-						$query = "UPDATE ttrss_entries 
-							SET 
-								$last_read_qpart 
-								title = '$entry_title',
-								link = '$entry_link', 
-								updated = '$entry_timestamp_fmt',
-								content = '$entry_content',
-								comments = '$entry_comments',
-								content_hash = '$content_hash'
-							WHERE
-								id = '$orig_entry_id'";
-
-						$result = db_query($link, $query);
-					}
-				} */
 
 				/* taaaags */
 				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
