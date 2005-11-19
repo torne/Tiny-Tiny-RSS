@@ -100,8 +100,8 @@
 				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL');
 			}
 
-			if (!$line["last_updated"] || 
-				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
+			if ($fetch || (!$line["last_updated"] || 
+				time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
 
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
 			}
