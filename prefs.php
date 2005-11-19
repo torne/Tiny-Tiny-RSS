@@ -12,7 +12,7 @@
 
 		if (!USE_HTTP_AUTH) {
 			if (!$_SESSION["uid"]) {
-				header("Location: login.php");
+				header("Location: login.php?rt=prefs.php");
 				exit;
 			}
 		} else {

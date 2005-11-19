@@ -13,8 +13,18 @@
 	if ($login && $password) {
 		if (authenticate_user($link, $login, $password)) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
-			header("Location: tt-rss.php");
+			
+			if ($_SESSION["login_redirect"]) {
+				$redirect_to = $_SESSION["login_redirect"];
+			} else {
+				$redirect_to = "tt-rss.php";
+			}
+			header("Location: $redirect_to");
 		}
+	}
+
+	if ($_GET["rt"]) {
+		$_SESSION["login_redirect"] = $_GET["rt"];
 	}
 
 ?>
