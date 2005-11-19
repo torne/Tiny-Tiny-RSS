@@ -160,6 +160,10 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SPLASH', 1, 'false', 'Enable loading splashscreen',2);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ALLOW_DUPLICATE_POSTS', 1, 'true', 'Allow duplicate posts',1,
+	'This option is useful when you are reading several planet-type aggregators with partially colliding userbase. 
+	When disabled, it forces same posts from different sources to appear only once');
+
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	pref_name varchar(250) not null references ttrss_prefs(pref_name),

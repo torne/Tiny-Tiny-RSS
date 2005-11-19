@@ -52,6 +52,10 @@
 			}
 		}	
 
+		// purge orphaned posts in main content table
+		db_query($link, "DELETE FROM ttrss_entries WHERE 
+			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+
 	}
 
 	function purge_old_posts($link) {
@@ -72,6 +76,10 @@
 				purge_feed($link, $feed_id, $purge_interval);
 			}
 		}	
+
+		// purge orphaned posts in main content table
+		db_query($link, "DELETE FROM ttrss_entries WHERE 
+			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 	}
 
 	function update_all_feeds($link, $fetch) {
@@ -315,20 +323,24 @@
 
 						// check for user post link to main table
 
+						// do we allow duplicate posts with same GUID in different feeds?
+						if (get_pref($link, "ALLOW_DUPLICATE_POSTS")) {
+							$dupcheck_qpart = "AND feed_id = '$feed'";
+						} else { 
+							$dupcheck_qpart = "";
+						}
+
 						$result = db_query($link,
 							"SELECT ref_id FROM ttrss_user_entries WHERE
-								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND 
-								feed_id = '$feed'");
+								ref_id = '$ref_id' AND owner_uid = '$owner_uid'
+								$dupcheck_qpart");
 
 						// okay it doesn't exist - create user entry
-
 						if (db_num_rows($result) == 0) {
-
 							$result = db_query($link,
 								"INSERT INTO ttrss_user_entries 
 									(ref_id, owner_uid, feed_id) 
 								VALUES ('$ref_id', '$owner_uid', '$feed')");
-
 						}
 				}
 
