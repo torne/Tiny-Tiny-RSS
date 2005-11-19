@@ -2043,13 +2043,13 @@
 
 		print "<tr><td>Subscribed feeds count</td><td>$num_feeds</td></tr>";
 
-		$result = db_query($link, "SELECT 
+/*		$result = db_query($link, "SELECT 
 			SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
 			FROM ttrss_entries WHERE owner_uid = '$uid'");
 
 		$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
 
-		print "<tr><td>Approx. DB size</td><td>$db_size KBytes</td></tr>";
+		print "<tr><td>Approx. DB size</td><td>$db_size KBytes</td></tr>"; */
 
 		print "</table>";
 
