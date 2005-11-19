@@ -261,7 +261,8 @@
 
 				$entry_guid = db_escape_string($entry_guid);
 
-				$result = db_query($link, "SELECT id FROM	ttrss_entries WHERE guid = '$entry_guid'");
+				$result = db_query($link, "SELECT id FROM	ttrss_entries 
+					WHERE guid = '$entry_guid'");
 
 				$owner_uid = $_SESSION["uid"];
 
@@ -305,7 +306,8 @@
 
 				// now it should exist, if not - bad luck then
 
-				$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$entry_guid'");
+				$result = db_query($link, "SELECT id FROM ttrss_entries WHERE 
+					guid = '$entry_guid'");
 
 				if (db_num_rows($result) == 1) {
 
@@ -315,7 +317,8 @@
 
 						$result = db_query($link,
 							"SELECT ref_id FROM ttrss_user_entries WHERE
-								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND feed_id = '$feed'");
+								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND 
+								feed_id = '$feed'");
 
 						// okay it doesn't exist - create user entry
 
@@ -449,7 +452,7 @@
 				/* taaaags */
 				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
 
-/*				$entry_tags = null;
+				$entry_tags = null;
 
 				preg_match_all("/<a.*?rel=.tag.*?>([^>]+)<\/a>/i", $entry_content,
 					$entry_tags);
@@ -458,9 +461,10 @@
 
 				if (count($entry_tags) > 0) {
 				
-					$result = db_query($link, "SELECT id FROM ttrss_entries 
+					$result = db_query($link, "SELECT id,int_id 
+						FROM ttrss_entries,ttrss_user_entries 
 						WHERE guid = '$entry_guid' 
-						AND feed_id = '$feed' 
+						AND feed_id = '$feed' AND ref_id = id
 						AND owner_uid = " . $_SESSION["uid"]);
 
 					if (!$result || db_num_rows($result) != 1) {
@@ -468,6 +472,7 @@
 					}
 
 					$entry_id = db_fetch_result($result, 0, "id");
+					$entry_int_id = db_fetch_result($result, 0, "int_id");
 					
 					foreach ($entry_tags as $tag) {
 						$tag = db_escape_string(strtolower($tag));
@@ -475,7 +480,7 @@
 						$tag = str_replace("technorati tag: ", "", $tag);
 
 						$result = db_query($link, "SELECT id FROM ttrss_tags		
-							WHERE tag_name = '$tag' AND post_id = '$entry_id' AND 
+							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
 							owner_uid = ".$_SESSION["uid"]." LIMIT 1");
 
 //						print db_fetch_result($result, 0, "id");
@@ -484,11 +489,12 @@
 							
 //							print "tagging $entry_id as $tag<br>";
 
-							db_query($link, "INSERT INTO ttrss_tags (owner_uid,tag_name,post_id)
-								VALUES ('".$_SESSION["uid"]."','$tag', '$entry_id')");
+							db_query($link, "INSERT INTO ttrss_tags 
+								(owner_uid,tag_name,post_int_id)
+								VALUES ('".$_SESSION["uid"]."','$tag', '$entry_int_id')");
 						}							
 					}
-				} */
+				} 
 			} 
 
 			db_query($link, "UPDATE ttrss_feeds 

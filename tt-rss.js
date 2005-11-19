@@ -250,7 +250,7 @@ function viewfeed(feed, skip, subop) {
 }
 
 function timeout() {
-	scheduleFeedUpdate(true);
+	scheduleFeedUpdate(false);
 	setTimeout("timeout()", 1800*1000);
 }
 

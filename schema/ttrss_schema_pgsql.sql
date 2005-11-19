@@ -53,6 +53,7 @@ create table ttrss_entries (id serial not null primary key,
 	index (guid), index(title));
 
 create table ttrss_user_entries (
+	int_id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
@@ -100,7 +101,7 @@ insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
 create table ttrss_tags (id serial not null primary key, 
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	post_id integer references ttrss_entries(id) ON DELETE CASCADE not null);
+	post_int_id integer references ttrss_user_entries(int_id) ON DELETE CASCADE not null);
 
 create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 

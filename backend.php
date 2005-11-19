@@ -59,11 +59,12 @@
 	}
 
 	function getTagCounters($link) {
+	
 		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
-			post_id = ttrss_entries.id AND unread = true GROUP BY tag_name 
+			post_int_id = ttrss_user_entries.int_id AND unread = true GROUP BY tag_name 
 		UNION
 			select tag_name,0 as count FROM ttrss_tags
 			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]);
@@ -272,8 +273,9 @@
 			// tags
 
 			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
-				FROM ttrss_tags,ttrss_entries WHERE
-				post_id = ttrss_entries.id AND unread = true 
+				FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
+				post_int_id = ttrss_user_entries.int_id AND 
+				unread = true AND ref_id = ttrss_entries.id
 				AND ttrss_tags.owner_uid = '$owner_uid' GROUP BY tag_name	
 			UNION
 				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'
@@ -375,7 +377,7 @@
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 		
-			update_all_feeds($link, true);			
+			update_all_feeds($link, $subop == "forceUpdateAllFeeds");			
 
 			$omode = $_GET["omode"];
 
@@ -718,10 +720,11 @@
 				$vfeed_query_part
 				SUBSTRING(updated,1,19) as updated_noms
 				FROM
-					ttrss_entries,ttrss_tags
+					ttrss_entries,ttrss_user_entries,ttrss_tags
 				WHERE
-					ttrss_entries.owner_uid = '".$_SESSION["uid"]."' AND
-					post_id = ttrss_entries.id AND tag_name = '$feed' AND
+					ref_id = ttrss_entries.id AND
+					ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
+					post_int_id = int_id AND tag_name = '$feed' AND
 					$view_query_part
 					$search_query_part
 					$query_strategy_part ORDER BY $order_by
