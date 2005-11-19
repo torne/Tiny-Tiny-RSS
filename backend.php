@@ -351,8 +351,10 @@
 				$mark = "false";
 			}
 
-			$result = db_query($link, "UPDATE ttrss_entries SET marked = $mark
-				WHERE id = '$id'");
+			// FIXME this needs collision testing
+
+			$result = db_query($link, "UPDATE ttrss_user_entries SET marked = $mark
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
 		if ($subop == "updateFeed") {
@@ -560,6 +562,8 @@
 		}
 
 		if ($subop == "MarkAllRead")  {
+
+			return; // FIXME disabled
 
 			if (sprintf("%d", $feed) != 0) {
 			
