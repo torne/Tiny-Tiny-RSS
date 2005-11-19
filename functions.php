@@ -274,6 +274,11 @@
 
 				$owner_uid = $_SESSION["uid"];
 
+				$entry_content = db_escape_string($entry_content);
+				$entry_title = db_escape_string($entry_title);
+				$entry_link = db_escape_string($entry_link);
+				$entry_comments = db_escape_string($entry_comments);
+
 				if (db_num_rows($result) == 0) {
 
 					// base post entry does not exist, create it
@@ -283,11 +288,6 @@
 						continue;
 					}
 					error_reporting (E_ERROR | E_WARNING | E_PARSE);
-
-					$entry_content = db_escape_string($entry_content);
-					$entry_title = db_escape_string($entry_title);
-					$entry_link = db_escape_string($entry_link);
-					$entry_comments = db_escape_string($entry_comments);
 
 					$result = db_query($link,
 						"INSERT INTO ttrss_entries 
@@ -375,9 +375,6 @@
 					if ($post_needs_update) {
 
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";
-
-						$entry_content = db_escape_string($entry_content);
-						$entry_title = db_escape_string($entry_title);
 
 						db_query($link, "UPDATE ttrss_entries 
 							SET title = '$entry_title', content = '$entry_content'
