@@ -8,16 +8,16 @@
 
 	function purge_feed($link, $feed_id, $purge_interval) {
 
-		return; // FIXME disabled for now
-	
 		if (DB_TYPE == "pgsql") {
-			db_query($link, "DELETE FROM ttrss_entries WHERE
+			db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
-				date_entered < NOW() - INTERVAL '$purge_interval days'");
+				(SELECT date_entered FROM ttrss_entries WHERE
+					id = ref_id) < NOW() - INTERVAL '$purge_interval days'");
 		} else {
-			db_query($link, "DELETE FROM ttrss_entries WHERE
+			db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
-				date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
+				(SELECT date_entered FROM ttrss_entries WHERE 
+					id = ref_id) < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
 		}
 	}
 
