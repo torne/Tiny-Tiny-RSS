@@ -66,7 +66,19 @@
 			</td>
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
-			Hello, <b><?= $_SESSION["name"] ?></b> (<a href="logout.php">Logout</a>)</td>
+			<? if (USE_HTTP_AUTH) { ?>
+				<table align="right"><tr>
+				<td class="httpWelcomePrompt">Hello, <b> <?= $_SESSION["name"] ?></b></td>
+				<td><form action="tt-rss.php" method="POST">
+					<input type="hidden" name="ForceLogout" value="yes">
+					<input type="submit" class="button" value="Logout">
+				</form>
+				</td></tr></table>
+			<? } else { ?>
+				Hello, <b><?= $_SESSION["name"] ?></b>
+				(<a href="logout.php">Logout</a>)
+			<? } ?>
+			</td>			
 			<? } ?>
 		</tr></table>
 	</td>

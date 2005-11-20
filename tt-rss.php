@@ -80,14 +80,15 @@
 			<? if (!SINGLE_USER_MODE) { ?>
 			<? if (USE_HTTP_AUTH) { ?>
 				<table align="right"><tr>
-				<td class="httpWelcomePrompt">Hello, <b><?= $_SESSION["name"] ?></b></td>
+				<td class="httpWelcomePrompt">Hello, <b> <?= $_SESSION["name"] ?></b></td>
 				<td><form action="tt-rss.php" method="POST">
 					<input type="hidden" name="ForceLogout" value="yes">
 					<input type="submit" class="button" value="Logout">
 				</form>
 				</td></tr></table>
 			<? } else { ?>
-				Hello, <b><?= $_SESSION["name"] ?></b>(<a href="logout.php">Logout</a>)
+				Hello, <b><?= $_SESSION["name"] ?></b>
+				(<a href="logout.php">Logout</a>)
 			<? } ?>
 			</td>			
 			<? } ?>
