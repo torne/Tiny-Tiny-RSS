@@ -678,12 +678,8 @@
 					exit;
 				}
 			} else {
-				$force_logout = $_POST["ForceLogout"];
-	
-				if (!http_authenticate_user($link, $force_logout == "yes")) {
-					if (!http_authenticate_user($link, true)) {
-						exit;
-					}
+				if (!http_authenticate_user($link, false)) {
+					exit;
 				}
 			}
 		} else {
