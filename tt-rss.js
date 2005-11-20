@@ -522,7 +522,7 @@ function allFeedsMenuGo() {
 		return;
 	}
 
-	if (opname == "Show only read") {
+	if (opname == "Show only unread") {
 		toggleDispRead();
 		return;
 	}
