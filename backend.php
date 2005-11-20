@@ -2221,12 +2221,30 @@
 
 		print "</table>";
 
-		print "</div>";
+		$result = db_query($link, "SELECT title,updated 
+			FROM ttrss_entries,ttrss_user_entries
+			WHERE ref_id = id AND feed_id = '$feed_id' 
+			ORDER BY date_entered LIMIT 5");
 
-		print "<div align='center'>
-			<input type='submit' class='button'			
-			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+		if (db_num_rows($result) > 0) {
 
+			print "<h1>Latest headlines</h1>";
+
+			print "<ul class=\"nomarks\">";
+	
+			while ($line = db_fetch_assoc($result)) {
+				print "<li>" . $line["title"].
+				"&nbsp;<span class=\"insensitive\">(" .$line["updated"].")</span></li>";
+			}
+	
+			print "</ul>";
+	
+			print "</div>";
+	
+			print "<div align='center'>
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+		}
 	}
 
 	db_close($link);
