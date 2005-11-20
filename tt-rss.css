@@ -425,14 +425,37 @@ div.helpResponse {
 	border : 1px solid #f0f0f0;
 }
 
+#infoBox {
+	border : 1px solid #c0c0c0;
+	padding-bottom : 10px;
+	font-size : small;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	background-color : white;
+}
+
+#infoBoxShadow {
+	background-image : url("images/shadow.png");
+	position : absolute;
+	margin-left : 30%;
+	width : 30%;
+	z-index : 3;
+	display : none;
+}
+
 div.infoBoxContents {
 	background-image : url("images/vgrad_light_rev2.png");
 	background-position : top left;
 	background-repeat : repeat-x;
 	padding : 5px;
-	margin-bottom : 10px;
-	border : 1px solid #f0f0f0;
+	margin-bottom : 5px;
 }
+
+div.infoBoxContents td {
+	font-size : small;
+}
+
 
 div.helpResponse h1, div.infoBoxContents h1 {
 	border-width : 0px 0px 1px 0px;
@@ -579,22 +602,6 @@ table.innerLoginForm {
 
 table.innerLoginForm td {
 	padding : 3px 3px 5px 3px;
-}
-
-#infoBox {
-	position : absolute;
-	margin-left : 30%;
-	background-color : white;
-	width : 30%;
-	z-index : 3;
-	border : 1px solid #c0c0c0;
-	padding-bottom : 10px;
-	display : none;
-	font-size : small;
-}
-
-div.infoBoxContents td {
-	font-size : small;
 }
 
 div.small, p.small {

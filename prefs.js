@@ -120,11 +120,17 @@ function userlist_callback() {
 }
 
 function infobox_callback() {
-	var container = document.getElementById('infoBox');
 	if (xmlhttp.readyState == 4) {
-		if (container) {
-			container.innerHTML=xmlhttp.responseText;
-			container.style.display = "block";
+		var box = document.getElementById('infoBox');
+		var shadow = document.getElementById('infoBoxShadow');
+
+		if (box) {
+			box.innerHTML=xmlhttp.responseText;
+			if (shadow) {
+				shadow.style.display = "block";
+			} else {
+				box.style.display = "block";
+			}
 		}
 	}
 }
@@ -1121,6 +1127,12 @@ function dispOptionHelp(event, sender) {
 } */
 
 function closeInfoBox() {
-	var d = document.getElementById('infoBox');
-	d.style.display = "none";
+	var box = document.getElementById('infoBox');
+	var shadow = document.getElementById('infoBoxShadow');
+
+	if (shadow) {
+		shadow.style.display = "none";
+	} else if (box) {
+		box.style.display = "none";
+	}
 }

@@ -1011,7 +1011,7 @@
 			FROM 
 				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' ORDER by title");
 
-		print "<div id=\"infoBox\">PLACEHOLDER</div>";
+		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
@@ -1978,7 +1978,7 @@
 				ttrss_users
 			ORDER by login");
 
-		print "<div id=\"infoBox\">PLACEHOLDER</div>";
+		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
 
