@@ -180,12 +180,14 @@
 				check_feed_favicon($feed_url, $feed, $link);
 			}
 		
-			$result = db_query($link, "SELECT title,icon_url,site_url 
+			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid 
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = db_fetch_result($result, 0, "title");
 			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
 			$orig_site_url = db_fetch_result($result, 0, "site_url");
+
+			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			if (!$registered_title) {
 				$feed_title = db_escape_string($rss->channel["title"]);
@@ -214,7 +216,7 @@
 			$result = db_query($link, "SELECT reg_exp,
 				(SELECT name FROM ttrss_filter_types
 					WHERE id = filter_type) as name
-				FROM ttrss_filters WHERE owner_uid = ".$_SESSION["uid"]);
+				FROM ttrss_filters WHERE owner_uid = $owner_uid");
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
@@ -280,8 +282,6 @@
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries 
 					WHERE guid = '$entry_guid'");
-
-				$owner_uid = $_SESSION["uid"];
 
 				$entry_content = db_escape_string($entry_content);
 				$entry_title = db_escape_string($entry_title);
@@ -411,7 +411,7 @@
 						FROM ttrss_entries,ttrss_user_entries 
 						WHERE guid = '$entry_guid' 
 						AND feed_id = '$feed' AND ref_id = id
-						AND owner_uid = " . $_SESSION["uid"]);
+						AND owner_uid = '$owner_uid'");
 
 					if (!$result || db_num_rows($result) != 1) {
 						return;
@@ -427,7 +427,7 @@
 
 						$result = db_query($link, "SELECT id FROM ttrss_tags		
 							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
-							owner_uid = ".$_SESSION["uid"]." LIMIT 1");
+							owner_uid = '$owner_uid' LIMIT 1");
 
 //						print db_fetch_result($result, 0, "id");
 
@@ -437,7 +437,7 @@
 
 							db_query($link, "INSERT INTO ttrss_tags 
 								(owner_uid,tag_name,post_int_id)
-								VALUES ('".$_SESSION["uid"]."','$tag', '$entry_int_id')");
+								VALUES ('$owner_uid','$tag', '$entry_int_id')");
 						}							
 					}
 				} 
