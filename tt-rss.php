@@ -8,21 +8,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	if (!SINGLE_USER_MODE) {
-
-		if (!USE_HTTP_AUTH) {
-			if (!$_SESSION["uid"]) {
-				header("Location: login.php?rt=tt-rss.php");
-				exit;
-			}
-		} else {
-			$force_logout = $_POST["ForceLogout"];
-			http_authenticate_user($link, $force_logout == "yes");
-		}
-	} else {
-		$_SESSION["uid"] = 1;
-		$_SESSION["name"] = "admin";
-	}
+	login_sequence($link);
 
 ?>
 <html>

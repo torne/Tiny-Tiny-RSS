@@ -608,9 +608,12 @@
 
 		if (!$_SERVER['PHP_AUTH_USER'] || $force_logout) {
 
+			if ($force_logout) logout_user();
+
 			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
 			header('HTTP/1.0 401 Unauthorized');
 			print "<h1>401 Unathorized</h1>";
+			
 			exit;
 			
 		} else {
@@ -619,7 +622,7 @@
 			$password = db_escape_string($_SERVER['PHP_AUTH_PW']);
 
 			return authenticate_user($link, $login, $password);
-		}		
+		}
 	}
 
 	function make_password($length = 8) {
@@ -659,4 +662,33 @@
 		
 		}
 
+	function logout_user() {
+		$_SESSION["uid"] = null;
+		$_SESSION["name"] = null;
+		$_SESSION["access_level"] = null;
+		session_destroy();
+	}
+
+	function login_sequence($link) {
+		if (!SINGLE_USER_MODE) {
+	
+			if (!USE_HTTP_AUTH) {
+				if (!$_SESSION["uid"]) {
+					header("Location: login.php?rt=tt-rss.php");
+					exit;
+				}
+			} else {
+				$force_logout = $_POST["ForceLogout"];
+	
+				if (!http_authenticate_user($link, $force_logout == "yes")) {
+					if (!http_authenticate_user($link, true)) {
+						exit;
+					}
+				}
+			}
+		} else {
+			$_SESSION["uid"] = 1;
+			$_SESSION["name"] = "admin";
+		}
+	}
 ?>

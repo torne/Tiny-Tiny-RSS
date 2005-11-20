@@ -2,12 +2,9 @@
 	session_start();
 
 	require_once "config.php";
+	require_once "functions.php";
 
-	$_SESSION["uid"] = null;
-	$_SESSION["name"] = null;
-	$_SESSION["access_level"] = null;
-
-	session_destroy();
+	logout_user();
 
 	if (!USE_HTTP_AUTH) {
 		header("Location: login.php");
