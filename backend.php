@@ -948,7 +948,7 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$feed_link = db_escape_string($_GET["link"]);
+				$feed_link = db_escape_string(trim($_GET["link"]));
 
 				$result = db_query($link,
 					"SELECT id FROM ttrss_feeds 
@@ -1200,8 +1200,8 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$regexp = db_escape_string($_GET["regexp"]);
-				$match = db_escape_string($_GET["match"]);
+				$regexp = db_escape_string(trim($_GET["regexp"]));
+				$match = db_escape_string(trim($_GET["match"]));
 					
 				$result = db_query($link,
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid) VALUES 
@@ -1373,7 +1373,7 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$exp = $_GET["exp"];
+				$exp = db_escape_string(trim($_GET["exp"]));
 					
 				$result = db_query($link,
 					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
@@ -1916,7 +1916,7 @@
 		
 			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
 
-				$login = db_escape_string($_GET["login"]);
+				$login = db_escape_string(trim($_GET["login"]));
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
 
