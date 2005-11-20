@@ -642,6 +642,8 @@ function feedEditSave() {
 
 	active_feed = false;
 
+	notify("");
+
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
 		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
 		"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl), true);
@@ -725,6 +727,8 @@ function labelEditSave() {
 		return;
 	}
 
+	notify("");
+
 	active_label = false;
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=editSave&id=" +
@@ -760,11 +764,13 @@ function userEditSave() {
 
 	active_user = false;
 
+	notify("");
+
 	xmlhttp.open("GET", "backend.php?op=pref-users&subop=editSave&id=" +
 		user + "&l=" + param_escape(login) + "&al=" + param_escape(level),
 		true);
 		
-	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
 
 }
@@ -797,7 +803,9 @@ function filterEditSave() {
 	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
 		filter + "&r=" + param_escape(regexp) + "&d=" + param_escape(descr) +
 		"&m=" + param_escape(v_match), true);
-		
+
+	notify("");
+
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null); 
 
@@ -816,6 +824,8 @@ function editSelectedLabel() {
 		return;
 	}
 
+	notify("");
+
 	editLabel(rows[0]);
 
 }
@@ -832,6 +842,8 @@ function editSelectedUser() {
 		notify("Please select one user.");
 		return;
 	}
+
+	notify("");
 
 	editUser(rows[0]);
 }
@@ -881,6 +893,8 @@ function selectedUserDetails() {
 
 	var id = rows[0];
 
+	notify("");
+
 	xmlhttp.open("GET", "backend.php?op=user-details&id=" + id, true);
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
@@ -908,6 +922,8 @@ function selectedFeedDetails() {
 
 	var id = rows[0];
 
+	notify("");
+
 	xmlhttp.open("GET", "backend.php?op=feed-details&id=" + id, true);
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
@@ -927,6 +943,8 @@ function editSelectedFilter() {
 		return;
 	}
 
+	notify("");
+
 	editFilter(rows[0]);
 
 }
@@ -944,6 +962,8 @@ function editSelectedFeed() {
 		notify("Please select one feed.");
 		return;
 	}
+
+	notify("");
 
 	editFeed(rows[0]);
 
