@@ -2221,7 +2221,8 @@
 
 		print "</table>";
 
-		$result = db_query($link, "SELECT title,updated,unread
+		$result = db_query($link, "SELECT title,
+			SUBSTRING(updated,1,16) AS updated,unread
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE ref_id = id AND feed_id = '$feed_id' 
 			ORDER BY date_entered DESC LIMIT 5");
