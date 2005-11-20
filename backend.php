@@ -2175,7 +2175,7 @@
 
 		$result = db_query($link, 
 			"SELECT 
-				title,feed_url,last_updated,
+				title,feed_url,last_updated,icon_url,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
 					WHERE feed_id = id) AS total,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
@@ -2190,19 +2190,39 @@
 		$title = db_fetch_result($result, 0, "title");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$feed_url = db_fetch_result($result, 0, "feed_url");
+		$icon_url = db_fetch_result($result, 0, "icon_url");
 		$total = db_fetch_result($result, 0, "total");
 		$unread = db_fetch_result($result, 0, "unread");
 		$marked = db_fetch_result($result, 0, "marked");
 
-		print "<div class=\"infoBoxContents\"><h1>$title</h1>";
+
+		$result = db_query($link, "SELECT COUNT(id) AS subscribed
+					FROM ttrss_feeds WHERE feed_url = '$feed_url'");
+
+		$subscribed = db_fetch_result($result, 0, "subscribed");
+
+		print "<div class=\"infoBoxContents\">";
+
+		$icon_file = ICONS_DIR . "/$feed_id.ico";
+
+		if (file_exists($icon_file) && filesize($icon_file) > 0) {
+				$feed_icon = "<img width=\"16\" height=\"16\"
+					src=\"" . ICONS_URL . "/$feed_id.ico\">";
+		} else {
+			$feed_icon = "";
+		}
+
+		print "<h1>$feed_icon $title</h1>";
 
 		print "<table width='100%'>";
 
-		print "<tr><td>Feed URL</td><td><a href=\"$feed_url\">$feed_url</a></td></tr>";
+		print "<tr><td width='30%'>Feed URL</td>
+			<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
 		print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
 		print "<tr><td>Total articles</td><td>$total</td></tr>";
 		print "<tr><td>Unread articles</td><td>$unread</td></tr>";
 		print "<tr><td>Starred articles</td><td>$marked</td></tr>";
+		print "<tr><td>Subscribed users</td><td>$subscribed</td></tr>";
 
 		print "</table>";
 
