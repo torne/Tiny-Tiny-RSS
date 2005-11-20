@@ -1202,7 +1202,7 @@
 
 				$regexp = db_escape_string(trim($_GET["regexp"]));
 				$match = db_escape_string(trim($_GET["match"]));
-					
+
 				$result = db_query($link,
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid) VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
@@ -1373,7 +1373,8 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$exp = db_escape_string(trim($_GET["exp"]));
+				// no escaping is done here on purpose
+				$exp = trim($_GET["exp"]);
 					
 				$result = db_query($link,
 					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
