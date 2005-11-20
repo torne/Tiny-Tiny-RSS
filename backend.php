@@ -2221,10 +2221,10 @@
 
 		print "</table>";
 
-		$result = db_query($link, "SELECT title,updated 
+		$result = db_query($link, "SELECT title,updated,unread
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE ref_id = id AND feed_id = '$feed_id' 
-			ORDER BY date_entered LIMIT 5");
+			ORDER BY date_entered DESC LIMIT 5");
 
 		if (db_num_rows($result) > 0) {
 
@@ -2233,6 +2233,9 @@
 			print "<ul class=\"nomarks\">";
 	
 			while ($line = db_fetch_assoc($result)) {
+				if ($line["unread"] == "t" || $line["unread"] == "1") {
+					$line["title"] = "<b>" . $line["title"] . "</b>";
+				}				
 				print "<li>" . $line["title"].
 				"&nbsp;<span class=\"insensitive\">(" .$line["updated"].")</span></li>";
 			}
