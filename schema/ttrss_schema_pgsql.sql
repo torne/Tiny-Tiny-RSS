@@ -162,7 +162,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ALLOW_DUPLICATE_POSTS', 1, 'true', 'Allow duplicate posts',1,
 	'This option is useful when you are reading several planet-type aggregators with partially colliding userbase. 
-	When disabled, it forces same posts from different feeds to appear only once');
+	When disabled, it forces same posts from different feeds to appear only once.');
 
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
