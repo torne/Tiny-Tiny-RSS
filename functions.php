@@ -180,14 +180,23 @@
 				check_feed_favicon($feed_url, $feed, $link);
 			}
 		
-			$result = db_query($link, "SELECT title,icon_url FROM ttrss_feeds WHERE id = '$feed'");
+			$result = db_query($link, "SELECT title,icon_url,site_url 
+				FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = db_fetch_result($result, 0, "title");
 			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
+			$orig_site_url = db_fetch_result($result, 0, "site_url");
 
 			if (!$registered_title) {
 				$feed_title = db_escape_string($rss->channel["title"]);
-				db_query($link, "UPDATE ttrss_feeds SET title = '$feed_title' WHERE id = '$feed'");
+				db_query($link, "UPDATE ttrss_feeds SET 
+					title = '$feed_title' WHERE id = '$feed'");
+			}
+
+			if (!$orig_site_url && $rss->channel["link"]) {
+				$site_url = db_escape_string($rss->channel["link"]);
+				db_query($link, "UPDATE ttrss_feeds SET 
+					site_url = '$site_url' WHERE id = '$feed'");
 			}
 
 //			print "I: " . $rss->channel["image"]["url"];

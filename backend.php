@@ -2175,7 +2175,7 @@
 
 		$result = db_query($link, 
 			"SELECT 
-				title,feed_url,last_updated,icon_url,
+				title,feed_url,last_updated,icon_url,site_url,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
 					WHERE feed_id = id) AS total,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
@@ -2194,7 +2194,7 @@
 		$total = db_fetch_result($result, 0, "total");
 		$unread = db_fetch_result($result, 0, "unread");
 		$marked = db_fetch_result($result, 0, "marked");
-
+		$site_url = db_fetch_result($result, 0, "site_url");
 
 		$result = db_query($link, "SELECT COUNT(id) AS subscribed
 					FROM ttrss_feeds WHERE feed_url = '$feed_url'");
@@ -2216,8 +2216,15 @@
 
 		print "<table width='100%'>";
 
-		print "<tr><td width='30%'>Feed URL</td>
-			<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
+		if ($site_url) {
+			print "<tr><td width='30%'>Link</td>
+				<td><a href=\"$site_url\">$site_url</a>
+				<a href=\"$feed_url\">(feed)</a></td>
+				</td></tr>";
+		} else {
+			print "<tr><td width='30%'>Feed URL</td>
+				<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
+		}
 		print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
 		print "<tr><td>Total articles</td><td>$total</td></tr>";
 		print "<tr><td>Unread articles</td><td>$unread</td></tr>";
