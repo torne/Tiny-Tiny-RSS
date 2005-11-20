@@ -12,11 +12,12 @@
 
 		if (!USE_HTTP_AUTH) {
 			if (!$_SESSION["uid"]) {
-				header("Location: login.php?rt=prefs.php");
+				header("Location: login.php?rt=tt-rss.php");
 				exit;
 			}
 		} else {
-			authenticate_user($link);
+			$force_logout = $_POST["ForceLogout"];
+			http_authenticate_user($link, $force_logout == "yes");
 		}
 	} else {
 		$_SESSION["uid"] = 1;

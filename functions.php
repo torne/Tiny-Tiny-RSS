@@ -604,9 +604,9 @@
 
 	}
 
-	function http_authenticate_user($link) {
+	function http_authenticate_user($link, $force_logout) {
 
-		if (!$_SERVER['PHP_AUTH_USER']) {
+		if (!$_SERVER['PHP_AUTH_USER'] || $force_logout) {
 
 			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
 			header('HTTP/1.0 401 Unauthorized');
