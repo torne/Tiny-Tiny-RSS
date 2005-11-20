@@ -1724,6 +1724,16 @@
 
 			if (!SINGLE_USER_MODE) {
 
+				$result = db_query($link, "SELECT id FROM ttrss_users
+					WHERE id = ".$_SESSION["uid"]." AND (pwd_hash = 'password' OR
+						pwd_hash = 'SHA1:".sha1("password")."')");
+
+				if (db_num_rows($result) != 0) {
+					print "<div class=\"warning\"><b>Warning</b>: 
+						Your password is at default value, please change it.
+					</div>";
+				}
+
 				print "<form action=\"backend.php\" method=\"POST\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
