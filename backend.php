@@ -1625,6 +1625,8 @@
 
 			if (WEB_DEMO_MODE) return;
 
+			$_SESSION["prefs_op_result"] = "save-config";
+
 			foreach (array_keys($_POST) as $pref_name) {
 			
 				$pref_name = db_escape_string($pref_name);
@@ -1711,6 +1713,8 @@
 
 			if (WEB_DEMO_MODE) return;
 
+			$_SESSION["prefs_op_result"] = "reset-to-defaults";
+
 			if (DB_TYPE == "pgsql") {
 				db_query($link,"UPDATE ttrss_user_prefs 
 					SET value = ttrss_prefs.def_value 
@@ -1751,6 +1755,20 @@
 				}
 
 				$_SESSION["pwd_change_result"] = "";
+
+				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
+					print "<div class=\"notice\"> 
+							Your configuration was reset to defaults.
+						</div>";
+				}
+
+				if ($_SESSION["prefs_op_result"] == "save-config") {
+					print "<div class=\"notice\"> 
+							Your configuration was saved successfully.
+						</div>";
+				}
+
+				$_SESSION["prefs_op_result"] = "";
 
 				print "<form action=\"backend.php\" method=\"POST\">";
 	
