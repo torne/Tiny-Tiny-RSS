@@ -1,6 +1,7 @@
 drop table ttrss_tags;
 
 drop table ttrss_user_entries;
+drop table ttrss_entry_comments;
 drop table ttrss_entries;
 
 drop table ttrss_feeds;
@@ -66,6 +67,15 @@ create table ttrss_user_entries (
 create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
 create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
 create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
+
+create table ttrss_entry_comments (id serial not null primary key,
+	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
+	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	private boolean not null default false,
+	date_entered timestamp not null);
+	
+create index ttrss_entry_comments_ref_id_index on ttrss_entry_comments(ref_id);
+create index ttrss_entry_comments_owner_uid_index on ttrss_entry_comments(owner_uid);
 
 drop table ttrss_filters;
 drop table ttrss_filter_types;

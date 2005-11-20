@@ -1,6 +1,7 @@
 drop table if exists ttrss_tags;
 
 drop table if exists ttrss_user_entries;
+drop table if exists ttrss_entry_comments;
 drop table if exists ttrss_entries;
 
 drop table if exists ttrss_feeds;
@@ -63,6 +64,16 @@ create table ttrss_user_entries (
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
+	index (owner_uid),
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+
+create table ttrss_entry_comments (id integer not null primary key,
+	ref_id integer not null,
+	owner_uid integer not null,
+	private bool not null default 0,
+	date_entered datetime not null,
+	index (ref_id),
+	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
