@@ -1698,11 +1698,15 @@
 				if (db_num_rows($result) == 1) {
 					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
 						WHERE id = '$active_uid'");				
+
+					$_SESSION["pwd_change_result"] = "ok";
+				} else {
+					$_SESSION["pwd_change_result"] = "failed";					
 				}
 			}
 
 			header("Location: prefs.php");
-	
+
 		} else if ($subop == "Reset to defaults") {
 
 			if (WEB_DEMO_MODE) return;
@@ -1729,10 +1733,24 @@
 						pwd_hash = 'SHA1:".sha1("password")."')");
 
 				if (db_num_rows($result) != 0) {
-					print "<div class=\"warning\"><b>Warning</b>: 
+					print "<div class=\"warning\"> 
 						Your password is at default value, please change it.
 					</div>";
 				}
+
+				if ($_SESSION["pwd_change_result"] == "failed") {
+					print "<div class=\"warning\"> 
+							There was an error while changing your password.
+						</div>";
+				}
+
+				if ($_SESSION["pwd_change_result"] == "ok") {
+					print "<div class=\"notice\"> 
+							Password changed successfully.
+						</div>";
+				}
+
+				$_SESSION["pwd_change_result"] = "";
 
 				print "<form action=\"backend.php\" method=\"POST\">";
 	
