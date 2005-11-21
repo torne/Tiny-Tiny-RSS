@@ -990,11 +990,10 @@
 
 		}
 
-		print "<table class=\"prefAddFeed\"><tr>
-			<td><input id=\"fadd_link\"></td>
-			<td colspan=\"4\" align=\"right\">
-				<a class=\"button\" href=\"javascript:addFeed()\">Add feed</a></td></tr>
-		</table>";
+		print "<div class=\"prefGenericAddBox\">
+			<input id=\"fadd_link\" size=\"40\">&nbsp;<input 
+				type=\"submit\" class=\"button\" 
+				onclick=\"javascript:addFeed()\" value=\"Add feed\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
@@ -1225,9 +1224,9 @@
 			array_push($filter_types, $line["description"]);
 		}
 
-		print "<table class=\"prefAddFeed\"><tr>
-			<td><input id=\"fadd_regexp\"></td>
-			<td>";
+		print "<div class=\"prefGenericAddBox\">
+		<input id=\"fadd_regexp\" size=\"40\">&nbsp;";
+		
 		print_select("fadd_match", "Title", $filter_types);	
 
 		print "&nbsp;<select id=\"fadd_feed\">";
@@ -1245,11 +1244,11 @@
 			printf("<option id='%d'>%s</option>", $line["id"], $line["title"]);
 		}
 
-		print "</select>";
+		print "</select>&nbsp;";
 	
-		print"</td><td colspan=\"4\" align=\"right\">
-				<a class=\"button\" href=\"javascript:addFilter()\">Add filter</a></td></tr>
-		</table>";
+		print "<input type=\"submit\" 
+			class=\"button\" onclick=\"javascript:addFilter()\" 
+			value=\"Add filter\">";
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -1269,8 +1268,8 @@
 
 		print "<tr class=\"title\">
 					<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
-					<td width=\"30%\">Description</td><td width=\"10%\">Match</td>
-					<td width=\"30%\">Feed</td></tr>";
+					<td width=\"30%\">Feed</td><td width=\"10%\">Match</td>
+					<td width=\"30%\">Description</td></tr>";
 		
 		$lnum = 0;
 		
@@ -1301,15 +1300,15 @@
 
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["reg_exp"] . "</td>";		
-					
+
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["description"] . "</td>";			
+					$line["feed_title"] . "</td>";			
 
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["filter_type_descr"] . "</td>";		
 					
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["feed_title"] . "</td>";			
+					$line["description"] . "</td>";			
 
 			} else if ($filter_id != $edit_filter_id) {
 
@@ -1319,9 +1318,9 @@
 					id=\"FICHK-".$line["id"]."\"></td>";
 
 				print "<td>".$line["reg_exp"]."</td>";		
-				print "<td>".$line["description"]."</td>";		
-				print "<td>".$line["filter_type_descr"]."</td>";
 				print "<td>".$line["feed_title"]."</td>";
+				print "<td>".$line["filter_type_descr"]."</td>";
+				print "<td>".$line["description"]."</td>";		
 
 			} else {
 
@@ -1329,13 +1328,6 @@
 
 				print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
 					"\"></td>";
-
-				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
-					"\"></td>";
-
-				print "<td>";
-				print_select("iedit_match", $line["filter_type_descr"], $filter_types);
-				print "</td>";
 
 				print "<td>";
 
@@ -1360,7 +1352,14 @@
 						$tmp_line["id"], $tmp_line["title"]);
 				}
 
-				print "</select>";
+				print "</select></td>";
+
+				print "<td>";
+				print_select("iedit_match", $line["filter_type_descr"], $filter_types);
+				print "</td>";
+
+				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+					"\"></td>";
 
 				print "</td>";
 			}
@@ -1440,12 +1439,11 @@
 			} 
 		}
 
-		print "<table class=\"prefAddFeed\"><tr>
-			<td><input id=\"ladd_expr\"></td>";
+		print "<div class=\"prefGenericAddBox\">
+			<input size=\"40\" id=\"ladd_expr\">&nbsp;";
 			
-		print"<td colspan=\"4\" align=\"right\">
-				<a class=\"button\" href=\"javascript:addLabel()\">Add label</a></td></tr>
-		</table>";
+		print"<input type=\"submit\" class=\"button\" 
+			onclick=\"javascript:addLabel()\" value=\"Add label\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
@@ -2028,12 +2026,11 @@
 			}
 		}
 
-		print "<table class=\"prefAddFeed\"><tr>
-			<td><input id=\"uadd_box\"></td>";
+		print "<div class=\"prefGenericAddBox\">
+			<input id=\"uadd_box\" size=\"40\">&nbsp;";
 			
-		print"<td colspan=\"4\" align=\"right\">
-				<a class=\"button\" href=\"javascript:addUser()\">Add user</a></td></tr>
-		</table>";
+		print"<input type=\"submit\" class=\"button\" 
+			onclick=\"javascript:addUser()\" value=\"Add user\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,login,access_level,
