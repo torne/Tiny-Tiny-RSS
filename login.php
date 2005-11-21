@@ -5,6 +5,11 @@
 	require_once "config.php";
 	require_once "functions.php";
 
+	if (SINGLE_USER_MODE) {
+		header("Location: tt-rss.php");
+		exit;
+	}
+
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	$login = $_POST["login"];
