@@ -685,6 +685,7 @@
 		} else {
 			$_SESSION["uid"] = 1;
 			$_SESSION["name"] = "admin";
+			initialize_user_prefs($link, 1); 
 		}
 	}
 ?>
