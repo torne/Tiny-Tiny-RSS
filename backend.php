@@ -1685,7 +1685,10 @@
 
 		if ($subop == "Save configuration") {
 
-			if (WEB_DEMO_MODE) return;
+			if (WEB_DEMO_MODE) {
+				header("Location: prefs.php");
+				return;
+			}
 
 			$_SESSION["prefs_op_result"] = "save-config";
 
@@ -1741,7 +1744,10 @@
 
 		} else if ($subop == "Change password") {
 
-			if (WEB_DEMO_MODE) return;
+			if (WEB_DEMO_MODE) {
+				header("Location: prefs.php");
+				return;
+			}
 
 			$old_pw = $_POST["OLD_PASSWORD"];
 			$new_pw = $_POST["OLD_PASSWORD"];
@@ -1773,7 +1779,10 @@
 
 		} else if ($subop == "Reset to defaults") {
 
-			if (WEB_DEMO_MODE) return;
+			if (WEB_DEMO_MODE) {
+				header("Location: prefs.php");
+				return;
+			}
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
