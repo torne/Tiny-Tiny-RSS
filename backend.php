@@ -3,17 +3,20 @@
 
 	$op = $_REQUEST["op"];
 
-	if (($op == "rpc" || $op == "updateAllFeeds" || 
-			$op == "forceUpdateAllFeeds") && !$_REQUEST["noxml"]) {
+	if ((!$op || $op == "rpc" || $op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml");
 	}
 
-	if (!$_SESSION["uid"]) {
+	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds") {
 
-		if (($op == "rpc" || $op == "updateAllFeeds" || 
-			$op == "forceUpdateAllFeeds")) {
+		if ($op == "rpc") {
 			print "<error error-code=\"6\"/>";
 		}
+		exit;
+	}
+
+	if (!$op) {
+		print "<error error-code=\"7\"/>";
 		exit;
 	}
 
@@ -1594,15 +1597,20 @@
 
 	}
 
-	if ($op == "updateAllFeeds") {
-		update_all_feeds($link, true);			
+	// update feeds of all users, may be used anonymously
+	if ($op == "globalUpdateFeeds") {
 
-		print "<rpc-reply>";
-		getLabelCounters($link);
-		getFeedCounters($link);
-		getTagCounters($link);
-		getGlobalCounters($link);
-		print "</rpc-reply>";
+		$result = db_query($link, "SELECT id FROM ttrss_users");
+
+		while ($line = db_fetch_assoc($result)) {
+			$user_id = $line["id"];
+//			print "<!-- updating feeds of uid $user_id -->";
+			update_all_feeds($link, false, $user_id);
+		}
+
+		print "<rpc-reply>
+			<message msg=\"All feeds updated\"/>
+		</rpc-reply>";
 
 	}
 

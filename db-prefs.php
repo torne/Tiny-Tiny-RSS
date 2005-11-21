@@ -4,9 +4,15 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	function get_pref($link, $pref_name) {
+	function get_pref($link, $pref_name, $user_id = false) {
 
 		$pref_name = db_escape_string($pref_name);
+
+		if (!$user_id) {
+			$user_id = $_SESSION["uid"];
+		} else {
+			$user_id = sprintf("%d", $user_id);
+		}
 
 		$result = db_query($link, "SELECT 
 			value,ttrss_prefs_types.type_name as type_name 
@@ -15,7 +21,7 @@
 			WHERE 
 				ttrss_user_prefs.pref_name = '$pref_name' AND 
 				ttrss_prefs_types.id = type_id AND
-				owner_uid = ".$_SESSION["uid"]." AND
+				owner_uid = '$user_id' AND
 				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name");
 
 		if (db_num_rows($result) > 0) {

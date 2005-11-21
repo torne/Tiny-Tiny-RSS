@@ -23,6 +23,8 @@
 		header("Location: login.php");
 	}
 
+	$ERRORS[7] = "No operation to perform.";
+
 ?>
 
 <html>

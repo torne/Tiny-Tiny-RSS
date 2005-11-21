@@ -82,19 +82,22 @@
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 	}
 
-	function update_all_feeds($link, $fetch) {
+	function update_all_feeds($link, $fetch, $user_id = false) {
 
 		if (WEB_DEMO_MODE) return;
 
-		if (get_pref($link, 'DAEMON_REFRESH_ONLY')) {
+		if (!$user_id) {
+			$user_id = $_SESSION["uid"];
+			purge_old_posts($link);
+		}
+
+		if (get_pref($link, 'DAEMON_REFRESH_ONLY', $user_id)) {
 			if (!$_GET["daemon"]) {
 				return;
 			}
 		}
 
 		db_query($link, "BEGIN");
-
-		$user_id = $_SESSION["uid"];
 
 		$result = db_query($link, "SELECT feed_url,id,
 			substring(last_updated,1,19) as last_updated,
@@ -104,7 +107,7 @@
 			$upd_intl = $line["update_interval"];
 
 			if (!$upd_intl || $upd_intl == 0) {
-				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL');
+				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
 			}
 
 			if ($fetch || (!$line["last_updated"] || 
@@ -113,8 +116,6 @@
 				update_rss_feed($link, $line["feed_url"], $line["id"]);
 			}
 		}
-
-		purge_old_posts($link);
 
 		db_query($link, "COMMIT");
 
@@ -176,10 +177,6 @@
 
 		if ($rss) {
 
-			if (get_pref($link, 'ENABLE_FEED_ICONS')) {	
-				check_feed_favicon($feed_url, $feed, $link);
-			}
-		
 			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid 
 				FROM ttrss_feeds WHERE id = '$feed'");
 
@@ -188,6 +185,10 @@
 			$orig_site_url = db_fetch_result($result, 0, "site_url");
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+
+			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid)) {	
+				check_feed_favicon($feed_url, $feed, $link);
+			}
 
 			if (!$registered_title) {
 				$feed_title = db_escape_string($rss->channel["title"]);
@@ -343,7 +344,7 @@
 						// check for user post link to main table
 
 						// do we allow duplicate posts with same GUID in different feeds?
-						if (get_pref($link, "ALLOW_DUPLICATE_POSTS")) {
+						if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid)) {
 							$dupcheck_qpart = "AND feed_id = '$feed'";
 						} else { 
 							$dupcheck_qpart = "";
@@ -364,7 +365,7 @@
 
 					$post_needs_update = false;
 
-					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE") &&
+					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid) &&
 						($content_hash != $orig_content_hash)) {
 						$post_needs_update = true;
 					}
