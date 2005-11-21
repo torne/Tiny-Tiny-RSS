@@ -414,32 +414,31 @@
 						AND feed_id = '$feed' AND ref_id = id
 						AND owner_uid = '$owner_uid'");
 
-					if (!$result || db_num_rows($result) != 1) {
-						return;
-					}
+					if (db_num_rows($result) == 1) {
 
-					$entry_id = db_fetch_result($result, 0, "id");
-					$entry_int_id = db_fetch_result($result, 0, "int_id");
-					
-					foreach ($entry_tags as $tag) {
-						$tag = db_escape_string(strtolower($tag));
-
-						$tag = str_replace("technorati tag: ", "", $tag);
-
-						$result = db_query($link, "SELECT id FROM ttrss_tags		
-							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
-							owner_uid = '$owner_uid' LIMIT 1");
-
-//						print db_fetch_result($result, 0, "id");
-
-						if ($result && db_num_rows($result) == 0) {
-							
-//							print "tagging $entry_id as $tag<br>";
-
-							db_query($link, "INSERT INTO ttrss_tags 
-								(owner_uid,tag_name,post_int_id)
-								VALUES ('$owner_uid','$tag', '$entry_int_id')");
-						}							
+						$entry_id = db_fetch_result($result, 0, "id");
+						$entry_int_id = db_fetch_result($result, 0, "int_id");
+						
+						foreach ($entry_tags as $tag) {
+							$tag = db_escape_string(strtolower($tag));
+	
+							$tag = str_replace("technorati tag: ", "", $tag);
+	
+							$result = db_query($link, "SELECT id FROM ttrss_tags		
+								WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
+								owner_uid = '$owner_uid' LIMIT 1");
+	
+	//						print db_fetch_result($result, 0, "id");
+	
+							if ($result && db_num_rows($result) == 0) {
+								
+	//							print "tagging $entry_id as $tag<br>";
+	
+								db_query($link, "INSERT INTO ttrss_tags 
+									(owner_uid,tag_name,post_int_id)
+									VALUES ('$owner_uid','$tag', '$entry_int_id')");
+							}							
+						}
 					}
 				} 
 			} 

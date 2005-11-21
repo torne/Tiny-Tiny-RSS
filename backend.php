@@ -1969,7 +1969,8 @@
 		</table>";
 
 		$result = db_query($link, "SELECT 
-				id,login,access_level,last_login
+				id,login,access_level,
+				SUBSTRING(last_login,1,16) as last_login
 			FROM 
 				ttrss_users
 			ORDER by login");
@@ -2090,7 +2091,9 @@
 
 		print "<div class='infoBoxContents'>";
 
-		$result = db_query($link, "SELECT login,last_login,access_level,
+		$result = db_query($link, "SELECT login,
+			SUBSTRING(last_login,1,16) AS last_login,
+			access_level,
 			(SELECT COUNT(int_id) FROM ttrss_user_entries 
 				WHERE owner_uid = id) AS stored_articles
 			FROM ttrss_users 
