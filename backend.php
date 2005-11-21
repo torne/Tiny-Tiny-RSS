@@ -1165,10 +1165,18 @@
 			$descr = db_escape_string($_GET["d"]);
 			$match = db_escape_string($_GET["m"]);
 			$filter_id = db_escape_string($_GET["id"]);
+			$feed_id = db_escape_string($_GET["fid"]);
+
+			if (!$feed_id) {
+				$feed_id = 'NULL';
+			} else {
+				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+			}
 			
 			$result = db_query($link, "UPDATE ttrss_filters SET 
 				reg_exp = '$regexp', 
 				description = '$descr',
+				feed_id = $feed_id,
 				filter_type = (SELECT id FROM ttrss_filter_types WHERE
 					description = '$match')
 				WHERE id = '$filter_id'");
@@ -1193,11 +1201,18 @@
 
 				$regexp = db_escape_string(trim($_GET["regexp"]));
 				$match = db_escape_string(trim($_GET["match"]));
+				$feed_id = db_escape_string($_GET["fid"]);
+
+				if (!$feed_id) {
+					$feed_id = 'NULL';
+				} else {
+					$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+				}
 
 				$result = db_query($link,
-					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid) VALUES 
+					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id) VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
-							description = '$match'),'".$_SESSION["uid"]."')");
+							description = '$match'),'".$_SESSION["uid"]."', $feed_id)");
 			} 
 		}
 
@@ -1213,29 +1228,49 @@
 		print "<table class=\"prefAddFeed\"><tr>
 			<td><input id=\"fadd_regexp\"></td>
 			<td>";
-			print_select("fadd_match", "Title", $filter_types);	
+		print_select("fadd_match", "Title", $filter_types);	
+
+		print "&nbsp;<select id=\"fadd_feed\">";
+
+		print "<option selected id=\"0\">All feeds</option>";
+
+		$result = db_query($link, "SELECT id,title FROM ttrss_feeds
+			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+		if (db_num_rows($result) > 0) {
+			print "<option disabled>--------</option>";
+		}
+
+		while ($line = db_fetch_assoc($result)) {
+			printf("<option id='%d'>%s</option>", $line["id"], $line["title"]);
+		}
+
+		print "</select>";
 	
 		print"</td><td colspan=\"4\" align=\"right\">
 				<a class=\"button\" href=\"javascript:addFilter()\">Add filter</a></td></tr>
 		</table>";
 
 		$result = db_query($link, "SELECT 
-				id,reg_exp,description,
-				(SELECT name FROM ttrss_filter_types WHERE 
-					id = filter_type) as filter_type_name,
-				(SELECT description FROM ttrss_filter_types 
-					WHERE id = filter_type) as filter_type_descr
+				ttrss_filters.id AS id,reg_exp,
+				ttrss_filters.description AS description,
+				ttrss_filter_types.name AS filter_type_name,
+				ttrss_filter_types.description AS filter_type_descr,
+				feed_id,
+				(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
 			FROM 
-				ttrss_filters
+				ttrss_filters,ttrss_filter_types
 			WHERE
-				owner_uid = ".$_SESSION["uid"]."
+				filter_type = ttrss_filter_types.id AND
+				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
 			ORDER by reg_exp");
 
 		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
 
 		print "<tr class=\"title\">
-					<td width=\"5%\">Select</td><td width=\"40%\">Filter expression</td>
-					<td width=\"40%\">Description</td><td width=\"10%\">Match</td></tr>";
+					<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
+					<td width=\"30%\">Description</td><td width=\"10%\">Match</td>
+					<td width=\"30%\">Feed</td></tr>";
 		
 		$lnum = 0;
 		
@@ -1255,6 +1290,8 @@
 			$line["regexp"] = htmlspecialchars($line["reg_exp"]);
 			$line["description"] = htmlspecialchars($line["description"]);
 
+			if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
+
 			if (!$edit_filter_id || $subop != "edit") {
 
 				if (!$line["description"]) $line["description"] = "[No description]";
@@ -1268,7 +1305,11 @@
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["description"] . "</td>";			
 
-				print "<td>".$line["filter_type_descr"]."</td>";
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["filter_type_descr"] . "</td>";		
+					
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["feed_title"] . "</td>";			
 
 			} else if ($filter_id != $edit_filter_id) {
 
@@ -1280,6 +1321,7 @@
 				print "<td>".$line["reg_exp"]."</td>";		
 				print "<td>".$line["description"]."</td>";		
 				print "<td>".$line["filter_type_descr"]."</td>";
+				print "<td>".$line["feed_title"]."</td>";
 
 			} else {
 
@@ -1294,9 +1336,34 @@
 				print "<td>";
 				print_select("iedit_match", $line["filter_type_descr"], $filter_types);
 				print "</td>";
-						
+
+				print "<td>";
+
+				print "<select id=\"iedit_feed\">";
+
+				print "<option id=\"0\">All feeds</option>";
+
+				if (db_num_rows($result) > 0) {
+					print "<option disabled>--------</option>";
+				}
+
+				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
+					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					if ($tmp_line["id"] == $line["feed_id"]) {
+						$is_selected = "selected";
+					} else {
+						$is_selected = "";
+					}
+					printf("<option $is_selected id='%d'>%s</option>", 
+						$tmp_line["id"], $tmp_line["title"]);
+				}
+
+				print "</select>";
+
+				print "</td>";
 			}
-				
 			
 			print "</tr>";
 

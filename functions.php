@@ -217,7 +217,9 @@
 			$result = db_query($link, "SELECT reg_exp,
 				(SELECT name FROM ttrss_filter_types
 					WHERE id = filter_type) as name
-				FROM ttrss_filters WHERE owner_uid = $owner_uid");
+				FROM ttrss_filters WHERE 
+				owner_uid = $owner_uid AND
+				(feed_id IS NULL OR feed_id = '$feed')");
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
