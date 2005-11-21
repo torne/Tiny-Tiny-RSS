@@ -82,13 +82,16 @@ insert into ttrss_filter_types (id,name,description) values (4, 'link',
 
 create table ttrss_filters (id integer not null primary key auto_increment,
 	owner_uid integer not null, 
+	feed_id integer default null,
 	filter_type integer not null,
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '',
 	index (filter_type),
 	foreign key (filter_type) references ttrss_filter_types(id) ON DELETE CASCADE,
 	index (owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
+	index (feed_id),
+	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 drop table if exists ttrss_labels;
 
