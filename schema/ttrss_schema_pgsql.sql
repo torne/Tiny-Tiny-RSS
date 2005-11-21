@@ -83,7 +83,7 @@ insert into ttrss_filter_types (id,name,description) values (4, 'link',
 
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	feed_id integer references ttrss_filters(id) on delete cascade default null,
+	feed_id integer references ttrss_feeds(id) on delete cascade default null,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '');
