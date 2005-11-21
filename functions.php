@@ -293,12 +293,6 @@
 
 					// base post entry does not exist, create it
 
-					error_reporting(0);
-					if (is_filtered($entry_title, $entry_content, $filters)) {
-						continue;
-					}
-					error_reporting (E_ERROR | E_WARNING | E_PARSE);
-
 					$result = db_query($link,
 						"INSERT INTO ttrss_entries 
 							(title,
@@ -349,6 +343,12 @@
 						} else { 
 							$dupcheck_qpart = "";
 						}
+
+						error_reporting(0);
+						if (is_filtered($entry_title, $entry_content, $entry_link, $filters)) {
+							continue;
+						}
+						error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 						$result = db_query($link,
 							"SELECT ref_id FROM ttrss_user_entries WHERE
@@ -470,7 +470,7 @@
 		print "</select>";
 	}
 
-	function is_filtered($title, $content, $filters) {
+	function is_filtered($title, $content, $link, $filters) {
 
 		if ($filters["title"]) {
 			foreach ($filters["title"] as $title_filter) {			
@@ -489,6 +489,13 @@
 		if ($filters["both"]) {
 			foreach ($filters["both"] as $filter) {			
 				if (preg_match("/$filter/i", $title) || preg_match("/$filter/i", $content)) 
+					return true;
+			}
+		}
+
+		if ($filters["link"]) {
+			foreach ($filters["link"] as $link_filter) {			
+				if (preg_match("/$link_filter/i", $link)) 
 					return true;
 			}
 		}

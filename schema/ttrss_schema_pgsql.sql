@@ -78,6 +78,8 @@ insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title'
 insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
 insert into ttrss_filter_types (id,name,description) values (3, 'both', 
 	'Title or Content');
+insert into ttrss_filter_types (id,name,description) values (4, 'link', 
+	'Link');
 
 create table ttrss_filters (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
