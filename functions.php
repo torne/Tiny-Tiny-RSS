@@ -196,7 +196,9 @@
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			if (!$orig_site_url && $rss->channel["link"]) {
+			$site_url = $rss->channel["link"];
+
+			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
 				$site_url = db_escape_string($rss->channel["link"]);
 				db_query($link, "UPDATE ttrss_feeds SET 
 					site_url = '$site_url' WHERE id = '$feed'");
@@ -206,7 +208,7 @@
 
 			$icon_url = $rss->image["url"];
 
-			if ($icon_url && !$orig_icon_url) {
+			if ($icon_url && !$orig_icon_url != db_escape_string($icon_url)) {
 				$icon_url = db_escape_string($icon_url);
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
