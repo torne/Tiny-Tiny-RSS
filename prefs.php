@@ -15,6 +15,11 @@
 	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 
+	<? $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
+	<? if ($user_css_url) { ?>
+		<link type="text/css" href="<?= $user_css_url ?>"/> 
+	<? } ?>
+
 	<? if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
 
 		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
