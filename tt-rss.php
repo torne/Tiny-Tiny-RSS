@@ -203,7 +203,7 @@
 <? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td colspan="2" class="footer">
-		<a href="http://bah.spb.su/~fox/tt-rss/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
+		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
 		<? } ?>
