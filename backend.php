@@ -1273,8 +1273,10 @@
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		
 
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_cat . "</a></td>";		
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$edit_cat . "</a></td>";		
+				}
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -1298,7 +1300,10 @@
 
 				print "<td>$edit_title</td>";		
 				print "<td>$edit_link</td>";		
-				print "<td>$edit_cat</td>";		
+
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					print "<td>$edit_cat</td>";		
+				}
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -1320,32 +1325,33 @@
 				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
 
-				print "<td>";
-				
-				print "<select id=\"iedit_fcat\">";
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-				print "<option id=\"0\">Uncategorized</option>";
-
-				if (db_num_rows($result) > 0) {
-					print "<option disabled>--------</option>";
-				}
-
-				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
-					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {
-					if ($tmp_line["id"] == $line["cat_id"]) {
-						$is_selected = "selected";
-					} else {
-						$is_selected = "";
+					print "<td>";
+					print "<select id=\"iedit_fcat\">";
+					print "<option id=\"0\">Uncategorized</option>";
+	
+					if (db_num_rows($result) > 0) {
+						print "<option disabled>--------</option>";
 					}
-					printf("<option $is_selected id='%d'>%s</option>", 
-						$tmp_line["id"], $tmp_line["title"]);
-				}
+	
+					$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
+						WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+	
+					while ($tmp_line = db_fetch_assoc($tmp_result)) {
+						if ($tmp_line["id"] == $line["cat_id"]) {
+							$is_selected = "selected";
+						} else {
+							$is_selected = "";
+						}
+						printf("<option $is_selected id='%d'>%s</option>", 
+							$tmp_line["id"], $tmp_line["title"]);
+					}
+	
+					print "</select></td>";
+					print "</td>";
 
-				print "</select></td>";
-			
-				print "</td>";
+				}
 				
 				print "<td><input id=\"iedit_updintl\" 
 					value=\"".$line["update_interval"]."\"></td>";
