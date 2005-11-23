@@ -580,7 +580,6 @@
 		$limit = $_GET["limit"];
 
 		if (!$feed) {
-			print "Error: no feed to display.";
 			return;
 		}
 

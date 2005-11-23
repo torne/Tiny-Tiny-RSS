@@ -266,6 +266,8 @@
 				if (!$entry_content) $entry_content = $item["content"];
 				if (!$entry_content) $entry_content = $item["description"];
 
+				$entry_content_unescaped = $entry_content;
+
 //				if (!$entry_content) continue;
 
 				// WTF
@@ -403,8 +405,11 @@
 
 				$entry_tags = null;
 
-				preg_match_all("/<a.*?rel=.tag.*?>([^>]+)<\/a>/i", $entry_content,
-					$entry_tags);
+				preg_match_all("/<a.*?rel=.tag.*?>([^>]+)<\/a>/i", 
+					$entry_content_unescaped, $entry_tags);
+
+//				print "<br>$entry_title : $entry_content_unescaped<br>";
+//				print_r($entry_tags);
 
 				$entry_tags = $entry_tags[1];
 
