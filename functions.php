@@ -606,32 +606,13 @@
 			db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
 				$_SESSION["uid"]);
 
+			initialize_user_prefs($link, $_SESSION["uid"]);
+
 			return true;
 		}
 
 		return false;
 
-	}
-
-	function http_authenticate_user($link, $force_logout) {
-
-		if (!$_SERVER['PHP_AUTH_USER'] || $force_logout) {
-
-			if ($force_logout) logout_user();
-
-			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
-			header('HTTP/1.0 401 Unauthorized');
-			print "<h1>401 Unathorized</h1>";
-			
-			exit;
-			
-		} else {
-
-			$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
-			$password = db_escape_string($_SERVER['PHP_AUTH_PW']);
-
-			return authenticate_user($link, $login, $password);
-		}
 	}
 
 	function make_password($length = 8) {
@@ -672,10 +653,7 @@
 		}
 
 	function logout_user() {
-		$_SESSION["uid"] = null;
-		$_SESSION["name"] = null;
-		$_SESSION["access_level"] = null;
-		session_destroy();
+		session_destroy();		
 	}
 
 	function login_sequence($link) {
@@ -687,9 +665,24 @@
 					exit;
 				}
 			} else {
-				if (!http_authenticate_user($link, false)) {
-					exit;
-				}
+				if (!$_SESSION["uid"]) {
+					if (!$_SERVER["PHP_AUTH_USER"]) {
+
+						header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
+						header('HTTP/1.0 401 Unauthorized');
+						exit;
+						
+					} else {
+						$auth_result = authenticate_user($link, 
+							$_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]);
+
+						if (!$auth_result) {
+							header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
+							header('HTTP/1.0 401 Unauthorized');
+							exit;
+						}
+					}
+				}				
 			}
 		} else {
 			$_SESSION["uid"] = 1;
