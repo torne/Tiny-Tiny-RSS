@@ -1088,27 +1088,6 @@
 			}
 		}
 
-		$result = db_query($link, "SELECT id,title,feed_url,last_error 
-			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
-
-		if (db_num_rows($result) > 0) {
-		
-			print "<div class=\"warning\">";
-		
-			print "<b>Feeds with update errors:</b>";
-
-			print "<ul class=\"nomarks\">";
-						
-			while ($line = db_fetch_assoc($result)) {
-				print "<li>" . $line["title"] . " (" . $line["feed_url"] . "): " . 
-					$line["last_error"];
-			}
-
-			print "</ul>";
-			print "</div>";
-
-		}
-
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 	//		print "<h3>Categories</h3>";
@@ -1201,6 +1180,27 @@
 //		print "<h3>Feeds</h3>";
 
 		print "<hr><p>";
+
+		$result = db_query($link, "SELECT id,title,feed_url,last_error 
+			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+
+		if (db_num_rows($result) > 0) {
+		
+			print "<div class=\"warning\">";
+		
+			print "<b>Feeds with update errors:</b>";
+
+			print "<ul class=\"nomarks\">";
+						
+			while ($line = db_fetch_assoc($result)) {
+				print "<li>" . $line["title"] . " (" . $line["feed_url"] . "): " . 
+					$line["last_error"];
+			}
+
+			print "</ul>";
+			print "</div>";
+
+		}
 
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"fadd_link\" size=\"40\">&nbsp;<input 
