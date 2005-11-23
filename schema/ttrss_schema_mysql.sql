@@ -25,7 +25,7 @@ create table ttrss_feed_categories(id integer not null primary key,
 	owner_uid integer not null,
 	title varchar(200) not null,
 	index(owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE);
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
