@@ -356,7 +356,12 @@
 		}
 
 		if (db_num_rows($result) == 0) {
-			print "<li>No tags/feeds to display.</li>";
+			if ($tags) {
+				$what = "tags";
+			} else {
+				$what = "feeds";
+			}
+			print "<li>No $what to display.</li>";
 		}
 
 		print "</ul>";
