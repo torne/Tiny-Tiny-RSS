@@ -22,6 +22,7 @@
 
 	define(SCHEMA_VERSION, 2);
 
+	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";

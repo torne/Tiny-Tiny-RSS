@@ -1,6 +1,7 @@
 <?
 	session_start();
 
+	require_once "sanity_check.php";
 	require_once "version.php"; 
 	require_once "config.php";
 	require_once "functions.php";

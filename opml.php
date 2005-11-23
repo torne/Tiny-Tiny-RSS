@@ -1,6 +1,8 @@
 <?
 	session_start();
 
+	require_once "sanity_check.php";
+
 	// FIXME there are some brackets issues here
 
 	$op = $_REQUEST["op"];
