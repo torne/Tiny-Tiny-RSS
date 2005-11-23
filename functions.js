@@ -415,3 +415,27 @@ function fatalError(code) {
 	window.location = "error.php?c=" + param_escape(code);
 
 }
+
+function getSelectedTableRowIds(content_id, prefix) {
+
+	var content = document.getElementById(content_id);
+
+	if (!content) {
+		alert("[getSelectedTableRowIds] Element " + content_id + " not found.");
+		return;
+	}
+
+	var sel_rows = new Array();
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].className.match("Selected")) {
+			var row_id = content.rows[i].id.replace(prefix + "-", "");
+			sel_rows.push(row_id);	
+		}
+	}
+
+	return sel_rows;
+
+}
+
+

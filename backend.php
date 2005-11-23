@@ -172,6 +172,11 @@
 
 			/* virtual feeds */
 
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<li class=\"feedCat\">Special</li>";
+				print "<ul class=\"feedCatList\">";
+			}
+
 			$result = db_query($link, "SELECT count(id) as num_starred 
 				FROM ttrss_entries,ttrss_user_entries 
 				WHERE marked = true AND 
@@ -186,13 +191,22 @@
 			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
 				"images/mark_set.png", $link);
 
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "</ul>";
+			}
+
 			if (get_pref($link, 'ENABLE_LABELS')) {
 	
 				$result = db_query($link, "SELECT id,sql_exp,description FROM
 					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
 		
 				if (db_num_rows($result) > 0) {
-					print "<li><hr></li>";
+					if (get_pref($link, 'ENABLE_FEED_CATS')) {
+						print "<li class=\"feedCat\">Labels</li>";
+						print "<ul class=\"feedCatList\">";
+					} else {
+						print "<li><hr></li>";
+					}
 				}
 		
 				while ($line = db_fetch_assoc($result)) {
@@ -218,9 +232,24 @@
 						$class, $line["description"], $count, "images/label.png", $link);
 		
 				}
+
+				if (db_num_rows($result) > 0) {
+					if (get_pref($link, 'ENABLE_FEED_CATS')) {
+						print "</ul>";
+					}
+				}
+
 			}
-	
-			print "<li><hr></li>";
+
+//			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<li><hr></li>";
+//			}
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				$order_by_qpart = "category,title";
+			} else {
+				$order_by_qpart = "title";
+			}
 
 			$result = db_query($link, "SELECT *,
 				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
@@ -230,8 +259,10 @@
 				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
 						AND ttrss_user_entries.ref_id = ttrss_entries.id
-						AND owner_uid = '$owner_uid') as unread
-				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY title");			
+						AND owner_uid = '$owner_uid') as unread,
+				(SELECT title FROM ttrss_feed_categories 
+					WHERE id = cat_id) AS category
+				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY $order_by_qpart");			
 	
 			$actid = $_GET["actid"];
 	
@@ -240,6 +271,8 @@
 			$lnum = 0;
 	
 			$total_unread = 0;
+
+			$category = "";
 	
 			while ($line = db_fetch_assoc($result)) {
 			
@@ -250,6 +283,12 @@
 				
 				$total = $line["total"];
 				$unread = $line["unread"];
+
+				$tmp_category = $line["category"];
+
+				if (!$tmp_category) {
+					$tmp_category = "Uncategorized";
+				}
 				
 	//			$class = ($lnum % 2) ? "even" : "odd";
 	
@@ -262,11 +301,25 @@
 				}
 	
 				$total_unread += $unread;
+
+				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
+				
+					if ($category) {
+						print "</li></ul></li>";
+					}
+				
+					$category = $tmp_category;
+					
+					print "<li class=\"feedCat\">$category</li>";
+					print "<li><ul class=\"feedCatList\">";
+				}
 	
-				printFeedEntry($feed_id, $class, $feed, $unread, "icons/$feed_id.ico", $link);
+				printFeedEntry($feed_id, $class, $feed, $unread, 
+					"icons/$feed_id.ico", $link);
 	
 				++$lnum;
 			}
+
 		} else {
 
 			// tags
@@ -897,7 +950,8 @@
 			$feed_link = db_escape_string($_GET["l"]);
 			$upd_intl = db_escape_string($_GET["ui"]);
 			$purge_intl = db_escape_string($_GET["pi"]);
-			$feed_id = $_GET["id"];
+			$feed_id = db_escape_string($_GET["id"]);
+			$cat_id = db_escape_string($_GET["catid"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
@@ -908,10 +962,17 @@
 			if (strtoupper($purge_intl) == "DISABLED")
 				$purge_intl = -1;
 
+			if ($cat_id != 0) {
+				$category_qpart = "cat_id = '$cat_id'";
+			} else {
+				$category_qpart = 'cat_id = NULL';
+			}
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
+				$category_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
-				purge_interval = '$purge_intl' 
+				purge_interval = '$purge_intl'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
 
 		}
@@ -969,6 +1030,64 @@
 			}
 		}
 
+		if ($subop == "addCat") {
+
+			if (!WEB_DEMO_MODE) {
+
+				$feed_cat = db_escape_string(trim($_GET["cat"]));
+
+				$result = db_query($link,
+					"SELECT id FROM ttrss_feed_categories
+					WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+					
+					$result = db_query($link,
+						"INSERT INTO ttrss_feed_categories (owner_uid,title) 
+						VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
+
+				} else {
+
+					print "<div class=\"warning\">
+						Category <b>$feed_cat</b> already exists in the database.
+					</div>";
+				}
+
+
+			}
+		}
+
+		if ($subop == "removeCats") {
+
+			if (!WEB_DEMO_MODE) {
+
+				$ids = split(",", $_GET["ids"]);
+
+				foreach ($ids as $id) {
+
+					db_query($link, "BEGIN");
+
+					$result = db_query($link, 
+						"SELECT count(id) as num_feeds FROM ttrss_feeds 
+							WHERE cat_id = '$id'");
+
+					$num_feeds = db_fetch_result($result, 0, "num_feeds");
+
+					if ($num_feeds == 0) {
+						db_query($link, "DELETE FROM ttrss_feed_categories
+							WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+					} else {
+
+						print "<div class=\"warning\">
+							Unable to delete non empty feed categories.</div>";
+							
+					}
+
+					db_query($link, "COMMIT");
+				}
+			}
+		}
+
 		$result = db_query($link, "SELECT id,title,feed_url,last_error 
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
@@ -990,6 +1109,99 @@
 
 		}
 
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+	//		print "<h3>Categories</h3>";
+
+			print "<div class=\"prefGenericAddBox\">
+				<input id=\"fadd_cat\" size=\"40\">&nbsp;<input 
+					type=\"submit\" class=\"button\" 
+					onclick=\"javascript:addFeedCat()\" value=\"Add category\"></div>";
+	
+			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
+				WHERE owner_uid = ".$_SESSION["uid"]."
+				ORDER BY title");
+	
+			print "<p><table width=\"100%\" class=\"prefFeedCatList\" id=\"prefFeedCatList\">";
+			print "<tr class=\"title\">
+						<td width=\"10%\">Select</td><td width=\"80%\">Title</td>
+					</tr>";
+					
+			$lnum = 0;
+			
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$cat_id = $line["id"];
+	
+				$edit_cat_id = $_GET["id"];
+	
+				if ($subop == "editCat" && $cat_id != $edit_cat_id) {
+					$class .= "Grayed";
+				}
+	
+				print "<tr class=\"$class\" id=\"FCATR-$cat_id\">";
+	
+				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+	
+				if (!$edit_cat_id || $subop != "editCat") {
+	
+					print "<td><input onclick='toggleSelectRow(this);' 
+					type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
+	
+					print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
+						$edit_title . "</a></td>";		
+	
+				} else if ($cat_id != $edit_cat_id) {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" 
+						id=\"FRCHK-".$line["id"]."\"></td>";
+	
+					print "<td>$edit_title</td>";		
+	
+				} else {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+	
+					print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
+					
+				}
+				
+				print "</tr>";
+	
+				++$lnum;
+			}
+	
+			if ($lnum == 0) {
+				print "<tr><td colspan=\"5\" align=\"center\">No categories defined.</td></tr>";
+			}
+	
+			print "</table>";
+	
+			print "<p>";
+	
+			if ($subop == "editCat") {
+				print "Edit category:&nbsp;
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:feedCatEditSave()\" value=\"Save\">";
+				} else {
+	
+				print "
+					Selection:&nbsp;
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:editSelectedFeedCat()\" value=\"Edit\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:removeSelectedFeedCats()\" value=\"Remove\">";
+			}
+		}
+
+//		print "<h3>Feeds</h3>";
+
+		print "<hr><p>";
+
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"fadd_link\" size=\"40\">&nbsp;<input 
 				type=\"submit\" class=\"button\" 
@@ -997,7 +1209,9 @@
 
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
-				update_interval,purge_interval
+				update_interval,purge_interval,
+				(SELECT title FROM ttrss_feed_categories 
+					WHERE id = cat_id) AS category
 			FROM 
 				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' ORDER by title");
 
@@ -1005,9 +1219,14 @@
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
-					<td>&nbsp;</td><td>Select</td><td width=\"30%\">Title</td>
-					<td width=\"30%\">Link</td>
-					<td width=\"10%\">Update Interval</td>
+					<td>&nbsp;</td><td>Select</td><td width=\"20%\">Title</td>
+					<td width=\"20%\">Link</td>";
+
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			print "<td width=\"10%\">Category</td>";
+		}
+		
+		print "<td width=\"10%\">Update Interval</td>
 					<td width=\"10%\">Purge Days</td>
 					<td>Last updated</td></tr>";
 		
@@ -1039,6 +1258,9 @@
 
 			$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
 			$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
+			$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
+
+			if (!$edit_cat) $edit_cat = "Uncategorized";
 
 			if (!$edit_feed_id || $subop != "edit") {
 
@@ -1047,8 +1269,12 @@
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_title . "</a></td>";		
+					
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$edit_cat . "</a></td>";		
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -1072,6 +1298,7 @@
 
 				print "<td>$edit_title</td>";		
 				print "<td>$edit_link</td>";		
+				print "<td>$edit_cat</td>";		
 
 				if ($line["update_interval"] == "0")
 					$line["update_interval"] = "Default";
@@ -1092,8 +1319,38 @@
 
 				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
 				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
-				print "<td><input id=\"iedit_updintl\" value=\"".$line["update_interval"]."\"></td>";
-				print "<td><input id=\"iedit_purgintl\" value=\"".$line["purge_interval"]."\"></td>";
+
+				print "<td>";
+				
+				print "<select id=\"iedit_fcat\">";
+
+				print "<option id=\"0\">Uncategorized</option>";
+
+				if (db_num_rows($result) > 0) {
+					print "<option disabled>--------</option>";
+				}
+
+				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
+					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					if ($tmp_line["id"] == $line["cat_id"]) {
+						$is_selected = "selected";
+					} else {
+						$is_selected = "";
+					}
+					printf("<option $is_selected id='%d'>%s</option>", 
+						$tmp_line["id"], $tmp_line["title"]);
+				}
+
+				print "</select></td>";
+			
+				print "</td>";
+				
+				print "<td><input id=\"iedit_updintl\" 
+					value=\"".$line["update_interval"]."\"></td>";
+				print "<td><input id=\"iedit_purgintl\" 
+					value=\"".$line["purge_interval"]."\"></td>";
 					
 			}
 

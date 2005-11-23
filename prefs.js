@@ -6,6 +6,7 @@
 var xmlhttp = false;
 
 var active_feed = false;
+var active_feed_cat = false;
 var active_filter = false;
 var active_label = false;
 var active_user = false;
@@ -295,6 +296,30 @@ function addFeed() {
 
 }
 
+function addFeedCat() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var cat = document.getElementById("fadd_cat");
+
+	if (cat.value.length == 0) {
+		notify("Missing feed category.");
+	} else {
+		notify("Adding feed category...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=addCat&cat=" +
+			param_escape(cat.value), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+		link.value = "";
+
+	}
+
+}
 function addUser() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -386,70 +411,42 @@ function editFeed(feed) {
 
 }
 
-function getSelectedLabels() {
+function editFeedCat(cat) {
 
-	var content = document.getElementById("prefLabelList");
-
-	var sel_rows = new Array();
-
-	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].className.match("Selected")) {
-			var row_id = content.rows[i].id.replace("LILRR-", "");
-			sel_rows.push(row_id);	
-		}
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
 	}
 
-	return sel_rows;
+	active_feed_cat = cat;
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCat&id=" +
+		param_escape(cat), true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function getSelectedLabels() {
+	return getSelectedTableRowIds("prefLabelList", "LILRR");
 }
 
 function getSelectedUsers() {
-
-	var content = document.getElementById("prefUserList");
-
-	var sel_rows = new Array();
-
-	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].className.match("Selected")) {
-			var row_id = content.rows[i].id.replace("UMRR-", "");
-			sel_rows.push(row_id);	
-		}
-	}
-
-	return sel_rows;
-}
-
-
-function getSelectedFilters() {
-
-	var content = document.getElementById("prefFilterList");
-
-	var sel_rows = new Array();
-
-	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].className.match("Selected")) {
-			var row_id = content.rows[i].id.replace("FILRR-", "");
-			sel_rows.push(row_id);	
-		}
-	}
-
-	return sel_rows;
+	return getSelectedTableRowIds("prefUserList", "UMRR");
 }
 
 function getSelectedFeeds() {
-
-	var content = document.getElementById("prefFeedList");
-
-	var sel_rows = new Array();
-
-	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].className.match("Selected")) {
-			var row_id = content.rows[i].id.replace("FEEDR-", "");
-			sel_rows.push(row_id);	
-		}
-	}
-
-	return sel_rows;
+	return getSelectedTableRowIds("prefFeedList", "FEEDR");
 }
+
+function getSelectedFilters() {
+	return getSelectedTableRowIds("prefFilterList", "FILRR");
+}
+
+function getSelectedFeedCats() {
+	return getSelectedTableRowIds("prefFeedCatList", "FCATR");
+}
+
 
 function readSelectedFeeds() {
 
@@ -597,6 +594,32 @@ function removeSelectedFeeds() {
 
 }
 
+function removeSelectedFeedCats() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFeedCats();
+
+	if (sel_rows.length > 0) {
+
+		notify("Removing selected categories...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=removeCats&ids="+
+			param_escape(sel_rows.toString()), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+
+		notify("Please select some feeds first.");
+
+	}
+
+}
+
 function feedEditCancel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -605,6 +628,23 @@ function feedEditCancel() {
 	}
 
 	active_feed = false;
+
+	notify("Operation cancelled.");
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+}
+
+function feedCatEditCancel() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	active_feed_cat = false;
 
 	notify("Operation cancelled.");
 
@@ -627,6 +667,9 @@ function feedEditSave() {
 	var title = document.getElementById("iedit_title").value;
 	var upd_intl = document.getElementById("iedit_updintl").value;
 	var purge_intl = document.getElementById("iedit_purgintl").value;
+	var fcat = document.getElementById("iedit_fcat");
+
+	var fcat_id = fcat[fcat.selectedIndex].id;
 
 //	notify("Saving feed.");
 
@@ -656,7 +699,8 @@ function feedEditSave() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
 		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
-		"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl), true);
+		"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
+		"&catid=" + param_escape(fcat_id), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 
@@ -979,6 +1023,25 @@ function editSelectedFeed() {
 	notify("");
 
 	editFeed(rows[0]);
+
+}
+
+function editSelectedFeedCat() {
+	var rows = getSelectedFeedCats();
+
+	if (rows.length == 0) {
+		notify("No categories are selected.");
+		return;
+	}
+
+	if (rows.length > 1) {
+		notify("Please select one category.");
+		return;
+	}
+
+	notify("");
+
+	editFeedCat(rows[0]);
 
 }
 

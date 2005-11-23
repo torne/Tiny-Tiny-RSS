@@ -134,12 +134,32 @@ div.postReply div.postIcon {
 
 ul.feedList {
 	list-style-type : none;
+	margin : 5px;
+	padding : 0px 0px 0px 10px;
+}
+
+ul.feedList li.feedCat {
 	margin : 0px;
-	padding : 10px;	
+	padding : 3px 0px 3px 0px;
+/*	border-width : 0px 0px 1px 0px;
+	border-color : #f0f0f0;
+	border-style : solid; */
+	color : #707070;
+}
+
+ul.feedCatList {
+	list-style-type : none;
+	margin : 0px;
+	padding : 0px 0px 0px 10px;	
+}
+
+ul.feedCatList li {
+	margin : 0px;
+	padding : 0px 0px 0px 0px;
 }
 
 ul.feedList li {
-	margin : 2px;
+	margin : 0px;
 }
 
 li.oddSelected, li.evenSelected {
@@ -245,7 +265,8 @@ a:hover {
 }
 
 #iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
-#iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed {
+#iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed,
+#iedit_fcat {
 	width : 100%;
 	padding-left : 2px;
 }
@@ -393,7 +414,8 @@ input {
 
 table.prefFeedList tr.title td, table.prefFilterList tr.title td,
 	table.headlinesList tr.title td, table.prefLabelList tr.title td,
-	table.prefPrefsList tr.title td {
+	table.prefPrefsList tr.title td, 
+	table.prefFeedCatList tr.title td {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-color : #f0f0f0;
