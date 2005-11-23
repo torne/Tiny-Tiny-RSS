@@ -7,6 +7,7 @@ drop table ttrss_entries;
 drop table ttrss_feeds;
 drop table ttrss_labels;
 drop table ttrss_filters;
+drop table ttrss_feed_categories;
 
 drop table ttrss_user_prefs;
 drop table ttrss_users;
@@ -19,9 +20,13 @@ create table ttrss_users (id serial not null primary key,
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
 
+create table ttrss_feed_categories(id serial not null primary key,
+	title varchar(200) not null);
+
 create table ttrss_feeds (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	title varchar(200) not null, 
+	cat_id integer references ttrss_feed_categories(id) default null,
 	feed_url varchar(250) not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,

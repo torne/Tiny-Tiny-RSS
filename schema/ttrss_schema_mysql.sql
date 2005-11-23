@@ -7,6 +7,7 @@ drop table if exists ttrss_entries;
 drop table if exists ttrss_feeds;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
+drop table if exists ttrss_feed_categories;
 
 drop table if exists ttrss_user_prefs;
 drop table if exists ttrss_users;
@@ -19,9 +20,13 @@ create table ttrss_users (id integer primary key not null auto_increment,
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
 
+create table ttrss_feed_categories(id integer not null primary key,
+	title varchar(200) not null);
+
 create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
 	title varchar(200) not null, 
+	cat_id integer default null,
 	feed_url varchar(250) not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
@@ -30,7 +35,9 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	last_error text not null default '',
 	site_url varchar(250) not null default '',
 	index(owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
+	index(cat_id),
+	foreign key (cat_id) references ttrss_feed_categories(id)) TYPE=InnoDB;
 
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
