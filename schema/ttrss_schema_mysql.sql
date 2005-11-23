@@ -1,16 +1,17 @@
-drop table if exists ttrss_tags;
-
-drop table if exists ttrss_user_entries;
-drop table if exists ttrss_entry_comments;
-drop table if exists ttrss_entries;
-
-drop table if exists ttrss_feeds;
+drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
-drop table if exists ttrss_feed_categories;
-drop table if exists ttrss_feeds;
-
+drop table if exists ttrss_filter_types;
 drop table if exists ttrss_user_prefs;
+drop table if exists ttrss_prefs;
+drop table if exists ttrss_prefs_types;
+drop table if exists ttrss_prefs_sections; 
+drop table if exists ttrss_tags;
+drop table if exists ttrss_entry_comments;
+drop table if exists ttrss_user_entries;
+drop table if exists ttrss_entries;
+drop table if exists ttrss_feeds;
+drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
 
 create table ttrss_users (id integer primary key not null auto_increment,
@@ -88,9 +89,6 @@ create table ttrss_entry_comments (id integer not null primary key,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
-drop table if exists ttrss_filters;
-drop table if exists ttrss_filter_types;
-
 create table ttrss_filter_types (id integer primary key, 
 	name varchar(120) unique not null, 
 	description varchar(250) not null unique) TYPE=InnoDB;
@@ -115,8 +113,6 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
 
-drop table if exists ttrss_labels;
-
 create table ttrss_labels (id integer not null primary key auto_increment, 
 	owner_uid integer not null, 
 	sql_exp varchar(250) not null,
@@ -139,15 +135,9 @@ create table ttrss_tags (id integer primary key auto_increment,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
-drop table if exists ttrss_version;
-
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
 insert into ttrss_version values (2);
-
-drop table if exists ttrss_prefs;
-drop table if exists ttrss_prefs_types;
-drop table if exists ttrss_prefs_sections;
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
