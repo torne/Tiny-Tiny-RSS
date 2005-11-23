@@ -172,9 +172,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DEFAULT_ARTICLE_LIMIT', 3, '0', 'Default article limit',2,
 	'Default limit for articles to display, any custom number you like (0 - disables).');
 	
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DAEMON_REFRESH_ONLY', 1, 'false', 'Daemon refresh only', 3,
-	'Updates to all feeds will only run when the backend script is invoked with a "daemon" option on the URI stem.');
-
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DISPLAY_FEEDLIST_ACTIONS', 1, 'false', 'Display feedlist actions',2,
 	'Display separate dropbox for feedlist actions, if disabled these actions are available in global actions menu.');
 

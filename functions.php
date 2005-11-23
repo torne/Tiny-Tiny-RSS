@@ -91,10 +91,8 @@
 			purge_old_posts($link);
 		}
 
-		if (get_pref($link, 'DAEMON_REFRESH_ONLY', $user_id)) {
-			if (!$_GET["daemon"]) {
-				return;
-			}
+		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"]) {
+			return;			
 		}
 
 		db_query($link, "BEGIN");
