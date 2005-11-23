@@ -126,11 +126,25 @@ function hotkey_handler(e) {
 function cleanSelectedList(element) {
 	var content = document.getElementById(element);
 
-	for (i = 0; i < content.childNodes.length; i++) {
-		content.childNodes[i].className = 
-			content.childNodes[i].className.replace("Selected", "");
-	}
+	if (!document.getElementById("feedCatHolder")) {
+		for (i = 0; i < content.childNodes.length; i++) {
+			var child = content.childNodes[i];
+			child.className = child.className.replace("Selected", "");
+		}
+	} else {
+		for (i = 0; i < content.childNodes.length; i++) {
+			var child = content.childNodes[i];
 
+			if (child.id == "feedCatHolder") {
+				var fcat = child.firstChild;
+				for (j = 0; j < fcat.childNodes.length; j++) {
+					var feed = fcat.childNodes[j];
+					feed.className = feed.className.replace("Selected", "");
+				}		
+			}
+		}
+
+	}
 }
 
 

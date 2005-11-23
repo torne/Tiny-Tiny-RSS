@@ -174,7 +174,7 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<li class=\"feedCat\">Special</li>";
-				print "<ul class=\"feedCatList\">";
+				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
 			$result = db_query($link, "SELECT count(id) as num_starred 
@@ -192,7 +192,7 @@
 				"images/mark_set.png", $link);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "</ul>";
+				print "</li></ul>";
 			}
 
 			if (get_pref($link, 'ENABLE_LABELS')) {
@@ -203,7 +203,7 @@
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 						print "<li class=\"feedCat\">Labels</li>";
-						print "<ul class=\"feedCatList\">";
+						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 					} else {
 						print "<li><hr></li>";
 					}
@@ -235,7 +235,7 @@
 
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "</ul>";
+						print "</li></ul>";
 					}
 				}
 
@@ -311,7 +311,7 @@
 					$category = $tmp_category;
 					
 					print "<li class=\"feedCat\">$category</li>";
-					print "<li><ul class=\"feedCatList\">";
+					print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
