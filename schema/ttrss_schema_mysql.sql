@@ -8,6 +8,7 @@ drop table if exists ttrss_feeds;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
 drop table if exists ttrss_feed_categories;
+drop table if exists ttrss_feeds;
 
 drop table if exists ttrss_user_prefs;
 drop table if exists ttrss_users;

@@ -8,6 +8,7 @@ drop table ttrss_feeds;
 drop table ttrss_labels;
 drop table ttrss_filters;
 drop table ttrss_feed_categories;
+drop table ttrss_feeds;
 
 drop table ttrss_user_prefs;
 drop table ttrss_users;
