@@ -202,6 +202,9 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('USER_STYLESHEET_URL', 2, '', 'User stylesheet URL',2,
 	'Link to user stylesheet to override default style, disabled if empty.');
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_FEED_CATS', 1, 'false', 'Enable feed categories',1);
+
+
 create table ttrss_user_prefs (
    owner_uid integer not null,
    pref_name varchar(250),
