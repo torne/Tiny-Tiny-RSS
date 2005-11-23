@@ -90,12 +90,12 @@ function viewfeed(feed, skip, subop, doc) {
 	
 	disableContainerChildren("headlinesToolbar", false, doc);
 
-	var btnMarkAsRead = doc.getElementById("btnMarkFeedAsRead");
+/*	var btnMarkAsRead = doc.getElementById("btnMarkFeedAsRead");
 
 	if (btnMarkAsRead && !isNumeric(feed)) {
 		btnMarkAsRead.disabled = true;
 		btnMarkAsRead.className = "disabledButton";
-	}
+	} */
 
 //	notify("");
 

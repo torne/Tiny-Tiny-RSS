@@ -677,7 +677,19 @@
 					}
 				}
 			} else { // tag
-				// FIXME, implement catchup for tags
+				db_query($link, "BEGIN");
+
+				$tag_name = db_escape_string($feed);
+
+				$result = db_query($link, "SELECT post_int_id FROM ttrss_tags
+					WHERE tag_name = '$tag_name' AND owner_uid = " . $_SESSION["uid"]);
+
+				while ($line = db_fetch_assoc($result)) {
+					db_query($link, "UPDATE ttrss_user_entries SET
+						unread = false, last_read = NOW() 
+						WHERE int_id = " . $line["post_int_id"]);
+				}
+				db_query($link, "COMMIT");
 			}
 
 		}
