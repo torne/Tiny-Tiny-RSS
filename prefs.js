@@ -165,8 +165,7 @@ function notify_callback() {
 	}
 }
 
-
-function updateFeedList() {
+function updateFeedList(sort_key) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -177,7 +176,8 @@ function updateFeedList() {
 
 	p_notify("Loading, please wait...");
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
+	xmlhttp.open("GET", "backend.php?op=pref-feeds" +
+		"&sort=" + param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 

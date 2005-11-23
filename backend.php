@@ -1116,28 +1116,52 @@
 				type=\"submit\" class=\"button\" 
 				onclick=\"javascript:addFeed()\" value=\"Add feed\"></div>";
 
+		$feeds_sort = db_escape_string($_GET["sort"]);
+
+		if (!$feeds_sort || $feeds_sort == "undefined") {
+			$feeds_sort = $_SESSION["pref_sort_feeds"];			
+			if (!$feeds_sort) $feeds_sort = "title";
+		}
+
+		$_SESSION["pref_sort_feeds"] = $feeds_sort;
+
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
 				update_interval,purge_interval,
 				(SELECT title FROM ttrss_feed_categories 
 					WHERE id = cat_id) AS category
 			FROM 
-				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' ORDER by title");
+				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' 
+			ORDER by $feeds_sort,title");
 
 		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 		print "<tr class=\"title\">
-					<td>&nbsp;</td><td>Select</td><td width=\"20%\">Title</td>
-					<td width=\"20%\">Link</td>";
+					<td>&nbsp;</td>
+					<td>Select</td>
+					<td width=\"20%\">
+						<a href=\"javascript:updateFeedList('title')\">Title</a></td>
+					<td width=\"20%\">
+						<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
+					</td>";
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<td width=\"10%\">Category</td>";
+			print "<td width=\"10%\">
+				<a href=\"javascript:updateFeedList('category')\">Category</a></td>";
 		}
 		
-		print "<td width=\"10%\">Update Interval</td>
-					<td width=\"10%\">Purge Days</td>
-					<td>Last updated</td></tr>";
+		print "
+			<td width=\"10%\">
+				<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
+			</td>
+			<td width=\"10%\">
+				<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
+			</td>
+			<td>
+				<a href=\"javascript:updateFeedList('last_updated')\">Last updated</a>
+			</td>				
+		</tr>";
 		
 		$lnum = 0;
 		
