@@ -1,6 +1,14 @@
 <?
 	session_start();
 
+	if ($_GET["debug"]) {
+		define('DEFAULT_ERROR_LEVEL', E_ALL);
+	} else {
+		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
+	}
+
+	error_reporting(DEFAULT_ERROR_LEVEL);
+
 	$op = $_REQUEST["op"];
 
 	if ((!$op || $op == "rpc" || $op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
@@ -20,7 +28,7 @@
 		exit;
 	}
 
-	define(SCHEMA_VERSION, 2);
+	define('SCHEMA_VERSION', 2);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
@@ -111,7 +119,7 @@
 
 			print "<label id=\"$id\" counter=\"$count\"/>";
 
-			error_reporting (E_ERROR | E_WARNING | E_PARSE);
+			error_reporting (DEFAULT_ERROR_LEVEL);
 	
 		}
 	}
@@ -227,7 +235,7 @@
 						$class .= "Unread";
 					}
 					
-					error_reporting (E_ERROR | E_WARNING | E_PARSE);
+					error_reporting (DEFAULT_ERROR_LEVEL);
 	
 					printFeedEntry(-$line["id"]-11, 
 						$class, $line["description"], $count, "images/label.png", $link);
@@ -836,7 +844,7 @@
 
 		$lnum = 0;
 
-		error_reporting (E_ERROR | E_WARNING | E_PARSE);
+		error_reporting (DEFAULT_ERROR_LEVEL);
 
 		$num_unread = 0;
 

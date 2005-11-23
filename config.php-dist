@@ -2,29 +2,29 @@
 	// Your RDBMS must be configured to accept connections
 	// via TCP/IP and authentified by password.
 
-	define(DB_TYPE, "pgsql"); // or mysql
-	define(DB_HOST, "localhost");
-	define(DB_USER, "fox");
-	define(DB_NAME, "fox");
-	define(DB_PASS, "XXXXXX");
+	define('DB_TYPE', "pgsql"); // or mysql
+	define('DB_HOST', "localhost");
+	define('DB_USER', "fox");
+	define('DB_NAME', "fox");
+	define('DB_PASS', "XXXXXX");
 
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
 	// Local cache directory for RSS feeds
 	
-	define(WEB_DEMO_MODE, false);
+	define('WEB_DEMO_MODE', false);
 	// Demo mode with reduced functionality.
 
-	define(ICONS_DIR, "icons");
-	define(ICONS_URL, "icons");
+	define('ICONS_DIR', "icons");
+	define('ICONS_URL', "icons");
 
-	define(USE_HTTP_AUTH, false);
+	define('USE_HTTP_AUTH', false);
 	// Use HTTP Basic authentication instead of login form. Has some problems.
 
-	define(SINGLE_USER_MODE, true);
+	define('SINGLE_USER_MODE', true);
 	// Operate in single user mode, disables all functionality related to
 	// multiple users.
 
-	define(DAEMON_REFRESH_ONLY, false);
+	define('DAEMON_REFRESH_ONLY', false);
 	// updates to all feeds will only run when the backend script is
 	// invoked with a "daemon" option on the URI stem. This is useful when you
 	// are hosting multi-user system and want to control how often 

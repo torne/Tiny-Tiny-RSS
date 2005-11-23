@@ -1,6 +1,12 @@
 <?
 	session_start();
 
+	if ($_GET["debug"]) {
+		define('DEFAULT_ERROR_LEVEL', E_ALL);
+	} else {
+		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
+	}
+
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 
@@ -130,7 +136,7 @@
 				
 			error_reporting(0);
 			$r = fopen($icon_url, "r");
-			error_reporting (E_ERROR | E_WARNING | E_PARSE);
+			error_reporting (DEFAULT_ERROR_LEVEL);
 
 			if ($r) {
 				$tmpfname = tempnam("/tmp", "ttrssicon");
@@ -152,7 +158,7 @@
 
 				chmod($icon_file, 0644);
 				
-				error_reporting (E_ERROR | E_WARNING | E_PARSE);
+				error_reporting (DEFAULT_ERROR_LEVEL);
 
 			}	
 		}
@@ -167,7 +173,7 @@
 		error_reporting(0);
 		$rss = fetch_rss($feed_url);
 
-		error_reporting (E_ERROR | E_WARNING | E_PARSE);
+		error_reporting (DEFAULT_ERROR_LEVEL);
 
 		db_query($link, "BEGIN");
 
@@ -352,7 +358,7 @@
 						if (is_filtered($entry_title, $entry_content, $entry_link, $filters)) {
 							continue;
 						}
-						error_reporting (E_ERROR | E_WARNING | E_PARSE);
+						error_reporting (DEFAULT_ERROR_LEVEL);
 
 						$result = db_query($link,
 							"SELECT ref_id FROM ttrss_user_entries WHERE
