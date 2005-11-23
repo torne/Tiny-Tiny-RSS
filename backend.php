@@ -1134,216 +1134,220 @@
 				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' 
 			ORDER by $feeds_sort,title");
 
-		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+		if (db_num_rows($result) != 0) {
 
-		print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
-		print "<tr class=\"title\">
-					<td>&nbsp;</td>
-					<td>Select</td>
-					<td width=\"20%\">
-						<a href=\"javascript:updateFeedList('title')\">Title</a></td>
-					<td width=\"20%\">
-						<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
-					</td>";
-
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<td width=\"10%\">
-				<a href=\"javascript:updateFeedList('category')\">Category</a></td>";
-		}
-		
-		print "
-			<td width=\"10%\">
-				<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
-			</td>
-			<td width=\"10%\">
-				<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
-			</td>
-			<td>
-				<a href=\"javascript:updateFeedList('last_updated')\">Last updated</a>
-			</td>				
-		</tr>";
-		
-		$lnum = 0;
-		
-		while ($line = db_fetch_assoc($result)) {
-
-			$class = ($lnum % 2) ? "even" : "odd";
-
-			$feed_id = $line["id"];
-
-			$edit_feed_id = $_GET["id"];
-
-			if ($subop == "edit" && $feed_id != $edit_feed_id) {
-				$class .= "Grayed";
+			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+	
+			print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
+			print "<tr class=\"title\">
+						<td>&nbsp;</td>
+						<td>Select</td>
+						<td width=\"20%\">
+							<a href=\"javascript:updateFeedList('title')\">Title</a></td>
+						<td width=\"20%\">
+							<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
+						</td>";
+	
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<td width=\"10%\">
+					<a href=\"javascript:updateFeedList('category')\">Category</a></td>";
 			}
-
-			print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
-
-			$icon_file = ICONS_DIR . "/$feed_id.ico";
-
-			if (file_exists($icon_file) && filesize($icon_file) > 0) {
-					$feed_icon = "<img width=\"16\" height=\"16\"
-						src=\"" . ICONS_URL . "/$feed_id.ico\">";
-			} else {
-				$feed_icon = "&nbsp;";
-			}
-			print "<td align='center'>$feed_icon</td>";		
-
-			$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
-			$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
-			$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
-
-			if (!$edit_cat) $edit_cat = "Uncategorized";
-
-			if (!$edit_feed_id || $subop != "edit") {
-
-				print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
-
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_title . "</a></td>";		
-					
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_link . "</a></td>";		
-
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$edit_cat . "</a></td>";		
-				}
-
-				if ($line["update_interval"] == "0")
-					$line["update_interval"] = "Default";
-
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["update_interval"] . "</a></td>";
-
-				if ($line["purge_interval"] == "0")
-					$line["purge_interval"] = "Default";
-
-				if ($line["purge_interval"] < 0)
-					$line["purge_interval"] = "Disabled";
-
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["purge_interval"] . "</a></td>";
-
-			} else if ($feed_id != $edit_feed_id) {
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" 
-					id=\"FRCHK-".$line["id"]."\"></td>";
-
-				print "<td>$edit_title</td>";		
-				print "<td>$edit_link</td>";		
-
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					print "<td>$edit_cat</td>";		
-				}
-
-				if ($line["update_interval"] == "0")
-					$line["update_interval"] = "Default";
-
-				print "<td>" . $line["update_interval"] . "</td>";
-
-				if ($line["purge_interval"] == "0")
-					$line["purge_interval"] = "Default";
-
-				if ($line["purge_interval"] < 0)
-					$line["purge_interval"] = "Disabled";
-
-				print "<td>" . $line["purge_interval"] . "</td>";
-
-			} else {
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
-
-				print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
-				print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
-
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-
-					print "<td>";
-					print "<select id=\"iedit_fcat\">";
-					print "<option id=\"0\">Uncategorized</option>";
-	
-					if (db_num_rows($result) > 0) {
-						print "<option disabled>--------</option>";
-					}
-	
-					$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
-						WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-	
-					while ($tmp_line = db_fetch_assoc($tmp_result)) {
-						if ($tmp_line["id"] == $line["cat_id"]) {
-							$is_selected = "selected";
-						} else {
-							$is_selected = "";
-						}
-						printf("<option $is_selected id='%d'>%s</option>", 
-							$tmp_line["id"], $tmp_line["title"]);
-					}
-	
-					print "</select></td>";
-					print "</td>";
-
-				}
-				
-				print "<td><input id=\"iedit_updintl\" 
-					value=\"".$line["update_interval"]."\"></td>";
-				print "<td><input id=\"iedit_purgintl\" 
-					value=\"".$line["purge_interval"]."\"></td>";
-					
-			}
-
-			if (!$line["last_updated"]) $line["last_updated"] = "Never";
-
-			print "<td>" . $line["last_updated"] . "</td>";
 			
-			print "</tr>";
-
-			++$lnum;
-		}
-
-		if ($lnum == 0) {
-			print "<tr><td colspan=\"5\" align=\"center\">No feeds defined.</td></tr>";
-		}
-
-		print "</table>";
-
-		print "<p>";
-
-		if ($subop == "edit") {
-			print "Edit feed:&nbsp;
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:feedEditCancel()\" value=\"Cancel\">
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:feedEditSave()\" value=\"Save\">";
-			} else {
-
 			print "
-				Selection:&nbsp;
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:selectedFeedDetails()\" value=\"Details\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
-				
-			if (get_pref($link, 'ENABLE_PREFS_CATCHUP_UNCATCHUP')) {
-				print "
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:readSelectedFeeds()\" value=\"Mark as read\">
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:unreadSelectedFeeds()\" value=\"Mark as unread\">&nbsp;";
-			}
-			print "
-			All feeds: 
-				<input type=\"submit\" 
-					class=\"button\" onclick=\"gotoExportOpml()\" value=\"Export OPML\">";
+				<td width=\"10%\">
+					<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
+				</td>
+				<td width=\"10%\">
+					<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
+				</td>
+				<td>
+					<a href=\"javascript:updateFeedList('last_updated')\">Last updated</a>
+				</td>				
+			</tr>";
+			
+			$lnum = 0;
+			
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$feed_id = $line["id"];
+	
+				$edit_feed_id = $_GET["id"];
+	
+				if ($subop == "edit" && $feed_id != $edit_feed_id) {
+					$class .= "Grayed";
+				}
+	
+				print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
+	
+				$icon_file = ICONS_DIR . "/$feed_id.ico";
+	
+				if (file_exists($icon_file) && filesize($icon_file) > 0) {
+						$feed_icon = "<img width=\"16\" height=\"16\"
+							src=\"" . ICONS_URL . "/$feed_id.ico\">";
+				} else {
+					$feed_icon = "&nbsp;";
+				}
+				print "<td align='center'>$feed_icon</td>";		
+	
+				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
+				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
+	
+				if (!$edit_cat) $edit_cat = "Uncategorized";
+	
+				if (!$edit_feed_id || $subop != "edit") {
+	
+					print "<td><input onclick='toggleSelectRow(this);' 
+					type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+	
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$edit_title . "</a></td>";		
+						
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$edit_link . "</a></td>";		
+	
+					if (get_pref($link, 'ENABLE_FEED_CATS')) {
+						print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+							$edit_cat . "</a></td>";		
+					}
+	
+					if ($line["update_interval"] == "0")
+						$line["update_interval"] = "Default";
+	
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$line["update_interval"] . "</a></td>";
+	
+					if ($line["purge_interval"] == "0")
+						$line["purge_interval"] = "Default";
+	
+					if ($line["purge_interval"] < 0)
+						$line["purge_interval"] = "Disabled";
+	
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$line["purge_interval"] . "</a></td>";
+	
+				} else if ($feed_id != $edit_feed_id) {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" 
+						id=\"FRCHK-".$line["id"]."\"></td>";
+	
+					print "<td>$edit_title</td>";		
+					print "<td>$edit_link</td>";		
+	
+					if (get_pref($link, 'ENABLE_FEED_CATS')) {
+						print "<td>$edit_cat</td>";		
+					}
+	
+					if ($line["update_interval"] == "0")
+						$line["update_interval"] = "Default";
+	
+					print "<td>" . $line["update_interval"] . "</td>";
+	
+					if ($line["purge_interval"] == "0")
+						$line["purge_interval"] = "Default";
+	
+					if ($line["purge_interval"] < 0)
+						$line["purge_interval"] = "Disabled";
+	
+					print "<td>" . $line["purge_interval"] . "</td>";
+	
+				} else {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+	
+					print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
+					print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
+	
+					if (get_pref($link, 'ENABLE_FEED_CATS')) {
+	
+						print "<td>";
+						print "<select id=\"iedit_fcat\">";
+						print "<option id=\"0\">Uncategorized</option>";
 		
-			}
+						$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
+							WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+		
+						if (db_num_rows($tmp_result) > 0) {
+							print "<option disabled>--------</option>";
+						}
 
-		print "<h3>Edit Categories</h3>";
+						while ($tmp_line = db_fetch_assoc($tmp_result)) {
+							if ($tmp_line["id"] == $line["cat_id"]) {
+								$is_selected = "selected";
+							} else {
+								$is_selected = "";
+							}
+							printf("<option $is_selected id='%d'>%s</option>", 
+								$tmp_line["id"], $tmp_line["title"]);
+						}
+		
+						print "</select></td>";
+						print "</td>";
+	
+					}
+					
+					print "<td><input id=\"iedit_updintl\" 
+						value=\"".$line["update_interval"]."\"></td>";
+					print "<td><input id=\"iedit_purgintl\" 
+						value=\"".$line["purge_interval"]."\"></td>";
+						
+				}
+	
+				if (!$line["last_updated"]) $line["last_updated"] = "Never";
+	
+				print "<td>" . $line["last_updated"] . "</td>";
+				
+				print "</tr>";
+	
+				++$lnum;
+			}
+	
+			print "</table>";
+
+			print "<p>";
+	
+			if ($subop == "edit") {
+				print "Edit feed:&nbsp;
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:feedEditCancel()\" value=\"Cancel\">
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:feedEditSave()\" value=\"Save\">";
+			} else {
+	
+				print "
+					Selection:&nbsp;
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:selectedFeedDetails()\" value=\"Details\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
+					
+				if (get_pref($link, 'ENABLE_PREFS_CATCHUP_UNCATCHUP')) {
+					print "
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:readSelectedFeeds()\" value=\"Mark as read\">
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:unreadSelectedFeeds()\" 
+						value=\"Mark as unread\">&nbsp;";
+				}
+				
+				print "
+					All feeds: <input type=\"submit\" 
+							class=\"button\" onclick=\"gotoExportOpml()\" 
+							value=\"Export OPML\">";			
+				}
+		} else {
+
+			print "<p>No feeds defined.</p>";
+
+		}
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+			print "<h3>Edit Categories</h3>";
 
 	//		print "<h3>Categories</h3>";
 
@@ -1355,81 +1359,84 @@
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
 				ORDER BY title");
+
+			if (db_num_rows($result) != 0) {
 	
-			print "<p><table width=\"100%\" class=\"prefFeedCatList\" id=\"prefFeedCatList\">";
-			print "<tr class=\"title\">
-						<td width=\"10%\">Select</td><td width=\"80%\">Title</td>
-					</tr>";
-					
-			$lnum = 0;
-			
-			while ($line = db_fetch_assoc($result)) {
-	
-				$class = ($lnum % 2) ? "even" : "odd";
-	
-				$cat_id = $line["id"];
-	
-				$edit_cat_id = $_GET["id"];
-	
-				if ($subop == "editCat" && $cat_id != $edit_cat_id) {
-					$class .= "Grayed";
-				}
-	
-				print "<tr class=\"$class\" id=\"FCATR-$cat_id\">";
-	
-				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
-	
-				if (!$edit_cat_id || $subop != "editCat") {
-	
-					print "<td><input onclick='toggleSelectRow(this);' 
-					type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
-	
-					print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
-						$edit_title . "</a></td>";		
-	
-				} else if ($cat_id != $edit_cat_id) {
-	
-					print "<td><input disabled=\"true\" type=\"checkbox\" 
-						id=\"FRCHK-".$line["id"]."\"></td>";
-	
-					print "<td>$edit_title</td>";		
-	
-				} else {
-	
-					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
-	
-					print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
-					
-				}
+				print "<p><table width=\"100%\" class=\"prefFeedCatList\" id=\"prefFeedCatList\">";
+				print "<tr class=\"title\">
+							<td width=\"10%\">Select</td><td width=\"80%\">Title</td>
+						</tr>";
+						
+				$lnum = 0;
 				
-				print "</tr>";
+				while ($line = db_fetch_assoc($result)) {
+		
+					$class = ($lnum % 2) ? "even" : "odd";
+		
+					$cat_id = $line["id"];
+		
+					$edit_cat_id = $_GET["id"];
+		
+					if ($subop == "editCat" && $cat_id != $edit_cat_id) {
+						$class .= "Grayed";
+					}
+		
+					print "<tr class=\"$class\" id=\"FCATR-$cat_id\">";
+		
+					$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+		
+					if (!$edit_cat_id || $subop != "editCat") {
+		
+						print "<td><input onclick='toggleSelectRow(this);' 
+						type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
+		
+						print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
+							$edit_title . "</a></td>";		
+		
+					} else if ($cat_id != $edit_cat_id) {
+		
+						print "<td><input disabled=\"true\" type=\"checkbox\" 
+							id=\"FRCHK-".$line["id"]."\"></td>";
+		
+						print "<td>$edit_title</td>";		
+		
+					} else {
+		
+						print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+		
+						print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
+						
+					}
+					
+					print "</tr>";
+		
+					++$lnum;
+				}
 	
-				++$lnum;
-			}
+				print "</table>";
 	
-			if ($lnum == 0) {
-				print "<tr><td colspan=\"5\" align=\"center\">No categories defined.</td></tr>";
-			}
+				print "<p>";
 	
-			print "</table>";
-	
-			print "<p>";
-	
-			if ($subop == "editCat") {
-				print "Edit category:&nbsp;
+				if ($subop == "editCat") {
+					print "Edit category:&nbsp;
+						<input type=\"submit\" class=\"button\" 
+							onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">
+						<input type=\"submit\" class=\"button\" 
+							onclick=\"javascript:feedCatEditSave()\" value=\"Save\">";
+					} else {
+		
+					print "
+						Selection:&nbsp;
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">
+						onclick=\"javascript:editSelectedFeedCat()\" value=\"Edit\">
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:feedCatEditSave()\" value=\"Save\">";
-				} else {
+						onclick=\"javascript:removeSelectedFeedCats()\" value=\"Remove\">";
 	
-				print "
-					Selection:&nbsp;
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:editSelectedFeedCat()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:removeSelectedFeedCats()\" value=\"Remove\">";
-			}
+				}
+	
+			} else {
+				print "<p>No feed categories defined.</p>";
+ 			}
 		}
 
 		print "<h3>Import OPML</h3>
@@ -1551,134 +1558,142 @@
 				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
 			ORDER by reg_exp");
 
-		print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
+		if (db_num_rows($result) != 0) {
 
-		print "<tr class=\"title\">
-					<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
-					<td width=\"30%\">Feed</td><td width=\"10%\">Match</td>
-					<td width=\"30%\">Description</td></tr>";
+			print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
+	
+			print "<tr class=\"title\">
+						<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
+						<td width=\"30%\">Feed</td><td width=\"10%\">Match</td>
+						<td width=\"30%\">Description</td></tr>";
 		
-		$lnum = 0;
-		
-		while ($line = db_fetch_assoc($result)) {
-
-			$class = ($lnum % 2) ? "even" : "odd";
-
-			$filter_id = $line["id"];
-			$edit_filter_id = $_GET["id"];
-
-			if ($subop == "edit" && $filter_id != $edit_filter_id) {
-				$class .= "Grayed";
-			}
-
-			print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
-
-			$line["regexp"] = htmlspecialchars($line["reg_exp"]);
-			$line["description"] = htmlspecialchars($line["description"]);
-
-			if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
-
-			if (!$edit_filter_id || $subop != "edit") {
-
-				if (!$line["description"]) $line["description"] = "[No description]";
-
-				print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
-
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["reg_exp"] . "</td>";		
-
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["feed_title"] . "</td>";			
-
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["filter_type_descr"] . "</td>";		
-					
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["description"] . "</td>";			
-
-			} else if ($filter_id != $edit_filter_id) {
-
-				if (!$line["description"]) $line["description"] = "[No description]";
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" 
-					id=\"FICHK-".$line["id"]."\"></td>";
-
-				print "<td>".$line["reg_exp"]."</td>";		
-				print "<td>".$line["feed_title"]."</td>";
-				print "<td>".$line["filter_type_descr"]."</td>";
-				print "<td>".$line["description"]."</td>";		
-
-			} else {
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
-
-				print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
-					"\"></td>";
-
-				print "<td>";
-
-				print "<select id=\"iedit_feed\">";
-
-				print "<option id=\"0\">All feeds</option>";
-
-				if (db_num_rows($result) > 0) {
-					print "<option disabled>--------</option>";
-				}
-
-				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {
-					if ($tmp_line["id"] == $line["feed_id"]) {
-						$is_selected = "selected";
-					} else {
-						$is_selected = "";
-					}
-					printf("<option $is_selected id='%d'>%s</option>", 
-						$tmp_line["id"], $tmp_line["title"]);
-				}
-
-				print "</select></td>";
-
-				print "<td>";
-				print_select("iedit_match", $line["filter_type_descr"], $filter_types);
-				print "</td>";
-
-				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
-					"\"></td>";
-
-				print "</td>";
-			}
+			$lnum = 0;
 			
-			print "</tr>";
-
-			++$lnum;
-		}
-
-		if ($lnum == 0) {
-			print "<tr><td colspan=\"4\" align=\"center\">No filters defined.</td></tr>";
-		}
-
-		print "</table>";
-
-		print "<p>";
-
-		if ($subop == "edit") {
-			print "Edit feed:
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$filter_id = $line["id"];
+				$edit_filter_id = $_GET["id"];
+	
+				if ($subop == "edit" && $filter_id != $edit_filter_id) {
+					$class .= "Grayed";
+				}
+	
+				print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
+	
+				$line["regexp"] = htmlspecialchars($line["reg_exp"]);
+				$line["description"] = htmlspecialchars($line["description"]);
+	
+				if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
+	
+				if (!$edit_filter_id || $subop != "edit") {
+	
+					if (!$line["description"]) $line["description"] = "[No description]";
+	
+					print "<td><input onclick='toggleSelectRow(this);' 
+					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
+	
+					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+						$line["reg_exp"] . "</td>";		
+	
+					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+						$line["feed_title"] . "</td>";			
+	
+					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+						$line["filter_type_descr"] . "</td>";		
+						
+					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+						$line["description"] . "</td>";			
+	
+				} else if ($filter_id != $edit_filter_id) {
+	
+					if (!$line["description"]) $line["description"] = "[No description]";
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" 
+						id=\"FICHK-".$line["id"]."\"></td>";
+	
+					print "<td>".$line["reg_exp"]."</td>";		
+					print "<td>".$line["feed_title"]."</td>";
+					print "<td>".$line["filter_type_descr"]."</td>";
+					print "<td>".$line["description"]."</td>";		
+	
+				} else {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+	
+					print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
+						"\"></td>";
+	
+					print "<td>";
+	
+					print "<select id=\"iedit_feed\">";
+	
+					print "<option id=\"0\">All feeds</option>";
+	
+					if (db_num_rows($result) > 0) {
+						print "<option disabled>--------</option>";
+					}
+	
+					$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
+						WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+	
+					while ($tmp_line = db_fetch_assoc($tmp_result)) {
+						if ($tmp_line["id"] == $line["feed_id"]) {
+							$is_selected = "selected";
+						} else {
+							$is_selected = "";
+						}
+						printf("<option $is_selected id='%d'>%s</option>", 
+							$tmp_line["id"], $tmp_line["title"]);
+					}
+	
+					print "</select></td>";
+	
+					print "<td>";
+					print_select("iedit_match", $line["filter_type_descr"], $filter_types);
+					print "</td>";
+	
+					print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+						"\"></td>";
+	
+					print "</td>";
+				}
+				
+				print "</tr>";
+	
+				++$lnum;
+			}
+	
+			if ($lnum == 0) {
+				print "<tr><td colspan=\"4\" align=\"center\">No filters defined.</td></tr>";
+			}
+	
+			print "</table>";
+	
+			print "<p>";
+	
+			if ($subop == "edit") {
+				print "Edit feed:
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:filterEditSave()\" value=\"Save\">";
+						
+			} else {
+	
+				print "
+					Selection:
 				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">
+					onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:filterEditSave()\" value=\"Save\">";
-					
+					onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
+			}
+
 		} else {
 
-			print "
-				Selection:
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
+			print "<p>No filters defined.</p>";
+
 		}
 	}
 
@@ -1740,96 +1755,101 @@
 				owner_uid = ".$_SESSION["uid"]."
 			ORDER by description");
 
-		print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
+		if (db_num_rows($result) != 0) {
 
-		print "<tr class=\"title\">
-					<td width=\"5%\">Select</td><td width=\"40%\">SQL expression
-					<a class=\"helpLink\" href=\"javascript:popupHelp(1)\">(?)</a>
-					</td>
-					<td width=\"40%\">Caption</td></tr>";
-		
-		$lnum = 0;
-		
-		while ($line = db_fetch_assoc($result)) {
-
-			$class = ($lnum % 2) ? "even" : "odd";
-
-			$label_id = $line["id"];
-			$edit_label_id = $_GET["id"];
-
-			if ($subop == "edit" && $label_id != $edit_label_id) {
-				$class .= "Grayed";
-			}
-
-			print "<tr class=\"$class\" id=\"LILRR-$label_id\">";
-
-			$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
-			$line["description"] = htmlspecialchars($line["description"]);
-
-			if (!$edit_label_id || $subop != "edit") {
-
-				if (!$line["description"]) $line["description"] = "[No caption]";
-
-				print "<td><input onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
-
-				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-					$line["sql_exp"] . "</td>";		
-					
-				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-					$line["description"] . "</td>";			
-
-			} else if ($label_id != $edit_label_id) {
-
-				if (!$line["description"]) $line["description"] = "[No description]";
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" 
-					id=\"LICHK-".$line["id"]."\"></td>";
-
-				print "<td>".$line["sql_exp"]."</td>";		
-				print "<td>".$line["description"]."</td>";		
-
-			} else {
-
-				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
-
-				print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
-					"\"></td>";
-
-				print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
-					"\"></td>";
-						
-			}
-				
+			print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
+	
+			print "<tr class=\"title\">
+						<td width=\"5%\">Select</td><td width=\"40%\">SQL expression
+						<a class=\"helpLink\" href=\"javascript:popupHelp(1)\">(?)</a>
+						</td>
+						<td width=\"40%\">Caption</td></tr>";
 			
-			print "</tr>";
-
-			++$lnum;
-		}
-
-		if ($lnum == 0) {
-			print "<tr><td colspan=\"4\" align=\"center\">No labels defined.</td></tr>";
-		}
-
-		print "</table>";
-
-		print "<p>";
-
-		if ($subop == "edit") {
-			print "Edit label:
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:labelEditSave()\" value=\"Save\">";
+			$lnum = 0;
+			
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$label_id = $line["id"];
+				$edit_label_id = $_GET["id"];
+	
+				if ($subop == "edit" && $label_id != $edit_label_id) {
+					$class .= "Grayed";
+				}
+	
+				print "<tr class=\"$class\" id=\"LILRR-$label_id\">";
+	
+				$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
+				$line["description"] = htmlspecialchars($line["description"]);
+	
+				if (!$edit_label_id || $subop != "edit") {
+	
+					if (!$line["description"]) $line["description"] = "[No caption]";
+	
+					print "<td><input onclick='toggleSelectRow(this);' 
+					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
+	
+					print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+						$line["sql_exp"] . "</td>";		
+						
+					print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+						$line["description"] . "</td>";			
+	
+				} else if ($label_id != $edit_label_id) {
+	
+					if (!$line["description"]) $line["description"] = "[No description]";
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" 
+						id=\"LICHK-".$line["id"]."\"></td>";
+	
+					print "<td>".$line["sql_exp"]."</td>";		
+					print "<td>".$line["description"]."</td>";		
+	
+				} else {
+	
+					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+	
+					print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
+						"\"></td>";
+	
+					print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+						"\"></td>";
+							
+				}
 					
+				
+				print "</tr>";
+	
+				++$lnum;
+			}
+	
+			if ($lnum == 0) {
+				print "<tr><td colspan=\"4\" align=\"center\">No labels defined.</td></tr>";
+			}
+	
+			print "</table>";
+	
+			print "<p>";
+	
+			if ($subop == "edit") {
+				print "Edit label:
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:labelEditSave()\" value=\"Save\">";
+						
+			} else {
+	
+				print "
+					Selection:
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
+				<input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
+			}
 		} else {
-
-			print "
-				Selection:
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
+			print "<p>No labels defined.</p>";
 		}
 	}
 

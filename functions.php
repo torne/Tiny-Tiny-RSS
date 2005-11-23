@@ -649,8 +649,8 @@
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS Dev. Feed',
 			'http://bah.spb.su/darcsweb/darcsweb.cgi?r=tt-rss;a=rss')");
-		
-		}
+
+	}
 
 	function logout_user() {
 		session_destroy();		
