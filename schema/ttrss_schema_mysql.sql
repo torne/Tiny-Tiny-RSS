@@ -22,7 +22,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
 
-create table ttrss_feed_categories(id integer not null primary key,
+create table ttrss_feed_categories(id integer not null primary key auto_increment,
 	owner_uid integer not null,
 	title varchar(200) not null,
 	index(owner_uid),
