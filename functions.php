@@ -652,8 +652,8 @@
 			values ('$uid','last_read is null and unread = false', 'Updated articles')");
 		
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
-			values ('$uid', 'Tiny Tiny RSS Dev. Feed',
-			'http://bah.spb.su/darcsweb/darcsweb.cgi?r=tt-rss;a=rss')");
+			values ('$uid', 'Tiny Tiny RSS - Releases',
+			'http://tt-rss.spb.ru/releases.rss')");
 
 	}
 
