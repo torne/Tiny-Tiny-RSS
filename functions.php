@@ -701,4 +701,12 @@
 			initialize_user_prefs($link, 1); 
 		}
 	}
+
+	function truncate_string($str, $max_len) {
+		if (strlen($str) > $max_len) {
+			return substr($str, 0, $max_len) . "...";
+		} else {
+			return $str;
+		}
+	}
 ?>

@@ -1165,8 +1165,8 @@
 	
 			print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
 			print "<tr class=\"title\">
-						<td>&nbsp;</td>
-						<td>Select</td>
+						<td width=\"3%\">&nbsp;</td>
+						<td width=\"3%\">Select</td>
 						<td width=\"20%\">
 							<a href=\"javascript:updateFeedList('title')\">Title</a></td>
 						<td width=\"20%\">
@@ -1185,9 +1185,6 @@
 				<td width=\"10%\">
 					<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
 				</td>
-				<td>
-					<a href=\"javascript:updateFeedList('last_updated')\">Last updated</a>
-				</td>				
 			</tr>";
 			
 			$lnum = 0;
@@ -1226,6 +1223,9 @@
 	
 					print "<td><input onclick='toggleSelectRow(this);' 
 					type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+
+					$edit_title = truncate_string($edit_title, 40);
+					$edit_link = truncate_string($edit_link, 60);
 	
 					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 						$edit_title . "</a></td>";		
@@ -1257,7 +1257,10 @@
 	
 					print "<td><input disabled=\"true\" type=\"checkbox\" 
 						id=\"FRCHK-".$line["id"]."\"></td>";
-	
+
+					$edit_title = truncate_string($edit_title, 40);
+					$edit_link = truncate_string($edit_link, 60);
+
 					print "<td>$edit_title</td>";		
 					print "<td>$edit_link</td>";		
 	
@@ -1320,9 +1323,9 @@
 						
 				}
 	
-				if (!$line["last_updated"]) $line["last_updated"] = "Never";
+/*				if (!$line["last_updated"]) $line["last_updated"] = "Never";
 	
-				print "<td>" . $line["last_updated"] . "</td>";
+				print "<td>" . $line["last_updated"] . "</td>"; */
 				
 				print "</tr>";
 	
