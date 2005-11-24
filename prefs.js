@@ -706,6 +706,19 @@ function feedEditSave() {
 
 }
 
+function labelTest() {
+
+	var sqlexp = document.getElementById("iedit_expr").value;
+	var descr = document.getElementById("iedit_descr").value;
+
+	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
+		param_escape(sqlexp) + "&descr=" + param_escape(descr), true);
+
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
+
+}
+
 function labelEditCancel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {

@@ -1726,6 +1726,58 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "test") {
+
+			$expr = $_GET["expr"];
+			$descr = $_GET["descr"];
+
+			print "<div class='infoBoxContents'>";
+		
+			print "<h1>Label &laquo;$descr&raquo;</h1>";
+
+//			print "<p><b>Expression</b>: $expr</p>";
+
+			$result = db_query($link, 
+				"SELECT count(id) AS num_matches
+					FROM ttrss_entries,ttrss_user_entries
+					WHERE ($expr) AND 
+						ttrss_user_entries.ref_id = ttrss_entries.id AND
+						owner_uid = " . $_SESSION["uid"]);
+
+			$num_matches = db_fetch_result($result, 0, "num_matches");;
+			
+			if ($num_matches > 0) { 
+
+				print "<p>Query returned <b>$num_matches</b> matches, first 5:</p>";
+
+				$result = db_query($link, 
+					"SELECT title, 
+						(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
+					FROM ttrss_entries,ttrss_user_entries
+							WHERE ($expr) AND 
+							ttrss_user_entries.ref_id = ttrss_entries.id
+							AND owner_uid = " . $_SESSION["uid"] . " 
+							ORDER BY date_entered DESC LIMIT 5");
+
+				print "<ul class=\"nomarks\">";
+				while ($line = db_fetch_assoc($result)) {
+					print "<li>".$line["title"].
+						" <span class=\"insensitive\">(".$line["feed_title"].")</span></li>";
+				}
+				print "</ul>";
+
+			} else {
+				print "<p>Query didn't return any matches.</p>";
+			}
+
+			print "</div>";
+
+			print "<div align='center'>
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+			return;
+		}
+
 		if ($subop == "editSave") {
 
 			$sql_exp = $_GET["s"];
@@ -1779,6 +1831,8 @@
 			WHERE 
 				owner_uid = ".$_SESSION["uid"]."
 			ORDER by description");
+
+		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		if (db_num_rows($result) != 0) {
 
@@ -1859,6 +1913,8 @@
 	
 			if ($subop == "edit") {
 				print "Edit label:
+					<input type=\"submit\" class=\"button\" 
+						onclick=\"javascript:labelTest()\" value=\"Test\">
 					<input type=\"submit\" class=\"button\" 
 						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">
 					<input type=\"submit\" class=\"button\" 
