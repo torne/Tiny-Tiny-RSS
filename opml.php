@@ -37,6 +37,8 @@
 					ttrss_feeds.title AS title,
 					(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title
 					FROM ttrss_feeds
+				WHERE
+					owner_uid = '$owner_uid'
 				ORDER BY cat_title,title");
 		} else {
 			$result = db_query($link, "SELECT * FROM ttrss_feeds 
