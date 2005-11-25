@@ -36,8 +36,7 @@
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			$cat_mode = true;
 			$result = db_query($link, "SELECT 
-					ttrss_feeds.feed_url AS feed_url,
-					ttrss_feeds.title AS title,
+					title,feed_url,site_url,
 					(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title
 					FROM ttrss_feeds
 				WHERE
@@ -53,6 +52,7 @@
 		while ($line = db_fetch_assoc($result)) {
 			$title = htmlspecialchars($line["title"]);
 			$url = htmlspecialchars($line["feed_url"]);
+			$site_url = htmlspecialchars($line["site_url"]);
 
 			if ($cat_mode) {
 				$cat_title = htmlspecialchars($line["cat_title"]);
@@ -70,7 +70,13 @@
 				}
 			}
 
-			print "<outline text=\"$title\" xmlUrl=\"$url\"/>\n";
+			if ($site_url) {
+				$html_url_qpart = "htmlUrl=\"$site_url\"";
+			} else {
+				$html_url_qpart = "";
+			}
+
+			print "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
 		}
 
 		if ($cat_mode && $old_cat_title) {
@@ -116,7 +122,7 @@
 						$cat_title = db_escape_string($outline->get_attribute('title'));
 						$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
 
-						if ($cat_title) {
+						if ($cat_title && !$feed_url) {
 
 							db_query($link, "BEGIN");
 							
