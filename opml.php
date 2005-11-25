@@ -59,7 +59,7 @@
 						print "</outline>";	
 					}
 
-					print "<outline text=\"$cat_title\">";
+					print "<outline title=\"$cat_title\">";
 
 					$old_cat_title = $cat_title;
 				}
