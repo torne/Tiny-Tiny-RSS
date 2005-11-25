@@ -559,8 +559,7 @@
 
 			print "<div class=\"postHeader\"><table width=\"100%\">";
 
-			print "<tr><td width='5%'><b>Title:</b></td>
-				<td colspan='2'>" . $line["title"] . "</td></tr>";
+			print "<tr><td colspan='2'>" . $line["title"] . "</td></tr>";
 
 			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
 				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
@@ -570,13 +569,12 @@
 
 			while ($tmp_line = db_fetch_assoc($tmp_result)) {
 				$tag = $tmp_line["tag_name"];
-				$tags_str .= "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a> / "; 
+				$tags_str .= "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
 			}		
 
-			$tags_str = preg_replace("/ \/ $/", "", $tags_str);			
+			$tags_str = preg_replace("/, $/", "", $tags_str);			
 
-			print "<tr><td><b>Link:</b></td>
-				<td width='50%'>
+			print "<tr><td width='50%'>
 				<a href=\"" . $line["link"] . "\">".$line["link"]."</a>
 				$entry_comments</td>
 				<td align=\"right\">$tags_str</td></tr>";
