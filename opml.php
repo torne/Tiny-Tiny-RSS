@@ -25,7 +25,10 @@
 
 	if ($op == "Export") {
 		print "<opml version=\"1.0\">";
-		print "<head><dateCreated>" . date("r", time()) . "</dateCreated></head>"; 
+		print "<head>
+			<dateCreated>" . date("r", time()) . "</dateCreated>
+			<title>Tiny Tiny RSS Feed Export</title>
+		</head>"; 
 		print "<body>";
 
 		$cat_mode = false;
