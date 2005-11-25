@@ -59,10 +59,10 @@ function p_notify(msg) {
 
 	if (msg == "") {
 		nb.innerHTML = "&nbsp;";
-		n.style.background = "#ffffff";
+//		n.style.background = "#ffffff";
 	} else {
 		nb.innerHTML = msg;
-		n.style.background = "#fffff0";
+//		n.style.background = "#fffff0";
 	}
 }
 
@@ -75,10 +75,10 @@ function notify(msg) {
 
 	if (msg == "") {
 		nb.innerHTML = "&nbsp;";
-		n.style.background = "#ffffff";
+//		n.style.background = "#ffffff";
 	} else {
 		nb.innerHTML = msg;
-		n.style.background = "#fffff0";
+//		n.style.background = "#fffff0";
 	}
 
 }
