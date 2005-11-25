@@ -525,8 +525,8 @@
 
 		$addheader = $_GET["addheader"];
 
-		$result = db_query($link, "SELECT title,link,content,feed_id,comments,
-			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url 
+		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id");
 
@@ -557,16 +557,35 @@
 
 			print "<div class=\"postReply\">";
 
-			print "<div class=\"postHeader\"><table>";
+			print "<div class=\"postHeader\"><table width=\"100%\">";
 
-			print "<tr><td><b>Title:</b></td>
-				<td width='100%'>" . $line["title"] . "</td></tr>";
-				
+			print "<tr><td width='5%'><b>Title:</b></td>
+				<td colspan='2'>" . $line["title"] . "</td></tr>";
+
+			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
+				ORDER BY tag_name");
+	
+			$tags_str = "";
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				$tag = $tmp_line["tag_name"];
+				$tags_str .= "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a> / "; 
+			}		
+
+			$tags_str = preg_replace("/ \/ $/", "", $tags_str);			
+
 			print "<tr><td><b>Link:</b></td>
-				<td width='100%'>
+				<td width='50%'>
 				<a href=\"" . $line["link"] . "\">".$line["link"]."</a>
-				$entry_comments</td></tr>";
-					
+				$entry_comments</td>
+				<td align=\"right\">$tags_str</td></tr>";
+
+/*			if ($tags_str) {
+				print "<tr><td><b>Tags:</b></td>
+					<td width='100%'>$tags_str</td></tr>";
+			} */
+
 			print "</table></div>";
 
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
@@ -800,6 +819,12 @@
 
 		if (sprintf("%d", $feed) != 0) {
 
+			if ($feed > 0) {			
+				$feed_kind = "Feeds";
+			} else {
+				$feed_kind = "Labels";
+			}
+
 			$result = db_query($link, "SELECT 
 					id,title,updated,unread,feed_id,marked,link,last_read,
 					SUBSTRING(last_read,1,19) as last_read_noms,
@@ -817,6 +842,8 @@
 
 		} else {
 			// browsing by tag
+
+			$feed_kind = "Tags";
 
 			$result = db_query($link, "SELECT
 				ttrss_entries.id as id,title,updated,unread,feed_id,

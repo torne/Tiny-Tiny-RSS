@@ -12,6 +12,10 @@ var display_tags = false;
 
 var global_unread = 0;
 
+var active_title_text = "";
+
+var current_subtitle = "";
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -171,7 +175,7 @@ function scheduleFeedUpdate(force) {
 
 //	document.title = "Tiny Tiny RSS - Updating...";
 
-	updateTitle("Updating...");
+	updateTitle("Updating");
 
 	var query_str = "backend.php?op=rpc&subop=";
 
@@ -234,7 +238,7 @@ function catchupAllFeeds() {
 	feeds_frame.src = query_str;
 
 	global_unread = 0;
-	updateTitle();
+	updateTitle("");
 
 }
 
@@ -314,14 +318,23 @@ function localHotkeyHandler(keycode) {
 
 function updateTitle(s) {
 	var tmp = "Tiny Tiny RSS";
-	
+
+	if (s && s.length > 0) {
+		current_subtitle = s;
+	}
+
 	if (global_unread > 0) {
 		tmp = tmp + " (" + global_unread + ")";
 	}
 
 	if (s) {
-		tmp = tmp + " - " + s;
+		tmp = tmp + " - " + current_subtitle;
 	}
+
+	if (active_title_text.length > 0) {
+		tmp = tmp + " > " + active_title_text;
+	}
+
 	document.title = tmp;
 }
 
@@ -527,6 +540,11 @@ function allFeedsMenuGo() {
 		return;
 	}
 
+}
+
+function updateFeedTitle(t) {
+	active_title_text = t;
+	updateTitle();
 }
 
 function toggleDispRead() {
