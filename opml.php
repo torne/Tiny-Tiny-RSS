@@ -40,7 +40,7 @@
 				ORDER BY cat_title,title");
 		} else {
 			$result = db_query($link, "SELECT * FROM ttrss_feeds 
-				ORDER BY title");
+				ORDER BY title WHERE owner_uid = '$owner_uid'");
 		}
 
 		$old_cat_title = "";
