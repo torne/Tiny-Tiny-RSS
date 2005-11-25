@@ -54,20 +54,22 @@
 
 				if ($old_cat_title != $cat_title) {
 					if ($old_cat_title) {
-						print "</outline>";	
+						print "</outline>\n";	
 					}
 
-					print "<outline title=\"$cat_title\">";
+					if ($cat_title) {
+						print "<outline title=\"$cat_title\">\n";
+					}
 
 					$old_cat_title = $cat_title;
 				}
 			}
 
-			print "<outline text=\"$title\" xmlUrl=\"$url\"/>";
+			print "<outline text=\"$title\" xmlUrl=\"$url\"/>\n";
 		}
 
 		if ($cat_mode && $old_cat_title) {
-			print "</outline>";	
+			print "</outline>\n";	
 		}
 
 		print "</body></opml>";
