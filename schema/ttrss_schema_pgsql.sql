@@ -13,12 +13,18 @@ drop table ttrss_entries;
 drop table ttrss_feeds;
 drop table ttrss_feed_categories;
 drop table ttrss_users;
+drop table ttrss_themes;
+
+create table ttrss_themes(id serial not null primary key,
+	theme_name varchar(200) not null,
+	theme_path varchar(200) not null);
 
 create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
 	last_login timestamp default null,
-	access_level integer not null default 0);
+	access_level integer not null default 0
+	theme_id integer references ttrss_themes(id) default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
 

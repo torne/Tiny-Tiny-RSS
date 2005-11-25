@@ -13,12 +13,20 @@ drop table if exists ttrss_entries;
 drop table if exists ttrss_feeds;
 drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
+drop table if exists ttrss_themes;
+
+create table ttrss_themes(id integer not null primary key auto_increment,
+	theme_name varchar(200) not null,
+	theme_path varchar(200) not null) TYPE=InnoDB;
 
 create table ttrss_users (id integer primary key not null auto_increment,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
 	last_login datetime default null,
-	access_level integer not null default 0) TYPE=InnoDB;
+	access_level integer not null default 0,
+	theme_id integer default null,
+	index (theme_id),
+	foreign key (theme_id) references ttrss_themes(id)) TYPE=InnoDB;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
 
