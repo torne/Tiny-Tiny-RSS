@@ -101,7 +101,7 @@
 			return;			
 		}
 
-		db_query($link, "BEGIN");
+//		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT feed_url,id,
 			substring(last_updated,1,19) as last_updated,
@@ -121,7 +121,7 @@
 			}
 		}
 
-		db_query($link, "COMMIT");
+//		db_query($link, "COMMIT");
 
 	}
 
