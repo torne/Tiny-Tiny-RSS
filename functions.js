@@ -328,11 +328,11 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
-function label_counters_callback() {
+function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 
 		if (!xmlhttp_rpc.responseXML) {
-			notify("label_counters_callback: backend did not return valid XML");
+			notify("[all_counters_callback] backend did not return valid XML");
 			return;
 		}
 
@@ -355,7 +355,17 @@ function label_counters_callback() {
 				if (ctr > 0) {
 					feedctr.className = "odd";
 					if (!feedr.className.match("Unread")) {
+						var is_selected = feedr.className.match("Selected");
+
+						feedr.className = feedr.className.replace("Selected", "");
+						feedr.className = feedr.className.replace("Unread", "");
+
 						feedr.className = feedr.className + "Unread";
+
+						if (is_selected) {
+							feedr.className = feedr.className + "Selected";
+						}
+
 					}
 				} else {
 					feedctr.className = "invisible";
@@ -366,7 +376,7 @@ function label_counters_callback() {
 	}
 }
 
-function update_label_counters(feed) {
+function update_all_counters(feed) {
 	if (xmlhttp_ready(xmlhttp_rpc)) {
 		var query = "backend.php?op=rpc&subop=getAllCounters";
 
@@ -375,7 +385,7 @@ function update_label_counters(feed) {
 		}
 
 		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=label_counters_callback;
+		xmlhttp_rpc.onreadystatechange=all_counters_callback;
 		xmlhttp_rpc.send(null);
 	}
 }

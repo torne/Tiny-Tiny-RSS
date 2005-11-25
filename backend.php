@@ -592,7 +592,7 @@
 			print "</div>";
 
 			print "<script type=\"text/javascript\">
-				update_label_counters('$feed_id');
+				update_all_counters('$feed_id');
 			</script>";
 		}
 
@@ -954,7 +954,7 @@
 		
 		print "<script type=\"text/javascript\">
 			document.onkeydown = hotkey_handler;
-			update_label_counters('$feed');
+			update_all_counters('$feed');
 		</script>";
 
 		if ($addheader) {
@@ -1389,9 +1389,9 @@
 				if (get_pref($link, 'ENABLE_PREFS_CATCHUP_UNCATCHUP')) {
 					print "
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:readSelectedFeeds()\" value=\"Mark as read\">
+						onclick=\"javascript:readSelectedFeeds(true)\" value=\"Mark as read\">
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:unreadSelectedFeeds()\" 
+						onclick=\"javascript:readSelectedFeeds(false)\" 
 						value=\"Mark as unread\">&nbsp;";
 				}
 				

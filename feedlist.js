@@ -84,7 +84,7 @@ function viewfeed(feed, skip, subop, doc) {
 	cleanSelectedList("feedList");
 
 	var feedr = document.getElementById("FEEDR-" + feed);
-	if (feedr) {
+	if (feedr) {	
 		feedr.className = feedr.className + "Selected";
 	} 
 	

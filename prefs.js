@@ -448,7 +448,7 @@ function getSelectedFeedCats() {
 }
 
 
-function readSelectedFeeds() {
+function readSelectedFeeds(read) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -459,34 +459,15 @@ function readSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Marking selected feeds as read...");
+		if (!read) {
+			op = "unread";
+		} else {
+			op = "read";
+		}
 
-		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=unread&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=notify_callback;
-		xmlhttp.send(null);
+		notify("Marking selected feeds as " + op + "...");
 
-	} else {
-
-		notify("Please select some feeds first.");
-
-	}
-}
-
-function unreadSelectedFeeds() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var sel_rows = getSelectedFeeds();
-
-	if (sel_rows.length > 0) {
-
-		notify("Marking selected feeds as unread...");
-
-		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=unread&ids="+
+		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=" + op + "&ids="+
 			param_escape(sel_rows.toString()), true);
 		xmlhttp.onreadystatechange=notify_callback;
 		xmlhttp.send(null);

@@ -163,6 +163,7 @@ ul.feedList li {
 	margin : 0px;
 }
 
+/*
 li.oddSelected, li.evenSelected {
 	background-color : white;
 }
@@ -200,6 +201,24 @@ ul.feedlist
 	li.virtUnreadSelected a,
 	li.virtSelectedUnread a {
 	color : #5050aa;
+} */
+
+ul.feedlist li.feedSelected a,
+ul.feedlist li.labelSelected a,
+ul.feedlist li.virtSelected a {
+	color : #5050aa;
+}
+
+ul.feedlist li.feedUnreadSelected a,
+ul.feedlist li.labelUnreadSelected a,
+ul.feedlist li.virtUnreadSelected a {
+	color : #5050aa;
+}
+
+ul.feedlist li.feedUnreadSelected ,
+ul.feedlist li.labelUnreadSelected,
+ul.feedlist li.virtUnreadSelected{
+	font-weight : bold;
 }
 
 ul.feedList li.feed {
@@ -346,12 +365,12 @@ a.button {
 	font-size : small;
 }
 
-.evenUnreadSelected, .evenSelectedUnread, {
+.evenUnreadSelected, .evenSelectedUnread {
 	background-color : #e0e0ff;
 	font-weight : bold;
 }
 
-.oddUnreadSelected, .oddSelectedUnread, .feedSelectedUnread,  {
+.oddUnreadSelected, .oddSelectedUnread  {
 	background-color : #e0e0ff;
 	font-weight : bold;
 }
@@ -364,12 +383,13 @@ a.button {
 	background-color : #e0e0ff;
 } 
 
+/*
 .feedUnreadSelected, .feedSelectedUnread, 
 .virtUnreadSelected, .virtSelectedUnread,
 .labelUnreadSelected, .labelSelectedUnread {
 	background-color : #e0e0ff;
 	font-weight : bold;
-}
+} */
 
 .feedUnread, .labelUnread, .virtUnread {
 	font-weight : bold;
