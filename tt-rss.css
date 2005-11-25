@@ -203,21 +203,32 @@ ul.feedlist
 	color : #5050aa;
 } */
 
+ul.feedlist li.feedUnread, 
+ul.feedlist li.labelUnread, 
+ul.feedlist li.virtUnread,
+ul.feedlist li.tagUnread {
+	font-weight : bold;
+}
+
+
 ul.feedlist li.feedSelected a,
 ul.feedlist li.labelSelected a,
-ul.feedlist li.virtSelected a {
+ul.feedlist li.virtSelected a,
+ul.feedlist li.tagSelected a {
 	color : #5050aa;
 }
 
 ul.feedlist li.feedUnreadSelected a,
 ul.feedlist li.labelUnreadSelected a,
-ul.feedlist li.virtUnreadSelected a {
+ul.feedlist li.virtUnreadSelected a,
+ul.feedlist li.tagUnreadSelected a {
 	color : #5050aa;
 }
 
 ul.feedlist li.feedUnreadSelected ,
 ul.feedlist li.labelUnreadSelected,
-ul.feedlist li.virtUnreadSelected{
+ul.feedlist li.virtUnreadSelected,
+ul.feedlist li.tagUnreadSelected {
 	font-weight : bold;
 }
 
@@ -390,10 +401,6 @@ a.button {
 	background-color : #e0e0ff;
 	font-weight : bold;
 } */
-
-.feedUnread, .labelUnread, .virtUnread {
-	font-weight : bold;
-}
 
 .disabledButton {
 	border : 1px solid #c0c0c0;

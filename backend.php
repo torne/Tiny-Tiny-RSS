@@ -352,7 +352,7 @@
 	
 				$unread = $tags[$tag];
 	
-				$class = "odd";
+				$class = "tag";
 	
 				if ($unread > 0) {
 					$class .= "Unread";
