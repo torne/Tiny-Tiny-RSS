@@ -1,8 +1,3 @@
-/*
-	This program is Copyright (c) 2003-2005 Andrew Dolgov <cthulhoo@gmail.com>		
-	Licensed under GPL v.2 or (at your preference) any later version.
-*/
-
 var xmlhttp = false;
 
 var total_unread = 0;
