@@ -82,16 +82,23 @@
 <? } ?>
 <tr>
 	<td valign="top" rowspan="3" class="feeds"> 
+		<table class="innerFeedTable" 
+			cellspacing="0" cellpadding="0" height="100%" width="100%">
+		<tr><td>
+			<div id="dispSwitch"> 
+			<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
+		</div>
+		</td></tr>	
+		<tr><td height="100%" width="100%" valign="top">
 		
 		<!-- <div id="feeds">&nbsp;</div> -->
 
-		<div id="dispSwitch"> 
-			<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
-		</div>
 
 		<iframe frameborder="0" 
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
+
+		</td></tr></table>
 
 		<? if (get_pref($link, 'DISPLAY_FEEDLIST_ACTIONS')) { ?>
 
@@ -106,6 +113,7 @@
 		<input type="submit" class="button" onclick="allFeedsMenuGo()" value="Go">
 
 		</div>
+		
 
 		<? } ?>
 
