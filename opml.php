@@ -35,11 +35,9 @@
 			$result = db_query($link, "SELECT 
 					ttrss_feeds.feed_url AS feed_url,
 					ttrss_feeds.title AS title,
-					ttrss_feed_categories.title AS cat_title
-				FROM ttrss_feeds,ttrss_feed_categories 
-				WHERE
-					cat_id = ttrss_feed_categories.id
-				ORDER BY ttrss_feed_categories.title,ttrss_feeds.title");
+					(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title
+					FROM ttrss_feeds
+				ORDER BY cat_title,title");
 		} else {
 			$result = db_query($link, "SELECT * FROM ttrss_feeds 
 				ORDER BY title");
