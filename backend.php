@@ -1187,8 +1187,16 @@
 		if (db_num_rows($result) != 0) {
 
 			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
-	
+
 			print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
+			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
+						'FEEDR-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
+						'FEEDR-', false)\">None</a>
+				</td</tr>";
+
 			print "<tr class=\"title\">
 						<td width=\"3%\">&nbsp;</td>
 						<td width=\"3%\">Select</td>
@@ -1415,7 +1423,17 @@
 
 			if (db_num_rows($result) != 0) {
 	
-				print "<p><table width=\"100%\" class=\"prefFeedCatList\" id=\"prefFeedCatList\">";
+				print "<p><table width=\"100%\" class=\"prefFeedCatList\" 
+					id=\"prefFeedCatList\">";
+
+				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
+						'FCATR-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
+						'FCATR-', false)\">None</a>
+				</td</tr>";
+
 				print "<tr class=\"title\">
 							<td width=\"10%\">Select</td><td width=\"80%\">Title</td>
 						</tr>";
@@ -1614,7 +1632,15 @@
 		if (db_num_rows($result) != 0) {
 
 			print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
-	
+
+			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
+						'FILRR-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
+						'FILRR-', false)\">None</a>
+				</td</tr>";
+
 			print "<tr class=\"title\">
 						<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
 						<td width=\"30%\">Feed</td><td width=\"10%\">Match</td>
@@ -1865,7 +1891,15 @@
 		if (db_num_rows($result) != 0) {
 
 			print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
-	
+
+			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
+						'LILRR-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
+						'LILRR-', false)\">None</a>
+				</td</tr>";
+
 			print "<tr class=\"title\">
 						<td width=\"5%\">Select</td><td width=\"40%\">SQL expression
 						<a class=\"helpLink\" href=\"javascript:popupHelp(1)\">(?)</a>
@@ -2467,6 +2501,14 @@
 		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
+
+		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
+						'UMRR-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
+						'UMRR-', false)\">None</a>
+				</td</tr>";
 
 		print "<tr class=\"title\">
 					<td width=\"5%\">Select</td>

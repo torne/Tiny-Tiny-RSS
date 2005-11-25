@@ -199,7 +199,21 @@ function getLastVisibleHeadlineId() {
 function markHeadline(id) {
 	var row = document.getElementById("RROW-" + id);
 	if (row) {
-		row.className = row.className + "Selected";
+		var is_active = false;
+	
+		if (row.className.match("Active")) {
+			is_active = true;
+		}
+		row.className = row.className.replace("Selected", "");
+		row.className = row.className.replace("Active", "");
+		row.className = row.className.replace("Insensitive", "");
+		
+		if (is_active) {
+			row.className = row.className = "Active";
+		}
+		
+		row.className = row.className + "Selected"; 
+		
 	}
 }
 
@@ -427,7 +441,30 @@ function hideOrShowFeeds(doc, hide) {
 
 function fatalError(code) {
 	window.location = "error.php?c=" + param_escape(code);
+}
 
+function selectTableRow(r, do_select) {
+	r.className = r.className.replace("Selected", "");
+	
+	if (do_select) {
+		r.className = r.className + "Selected";
+	}
+}
+
+function selectTableRowsByIdPrefix(content_id, prefix, do_select) {
+
+	var content = document.getElementById(content_id);
+
+	if (!content) {
+		alert("[selectTableRows] Element " + content_id + " not found.");
+		return;
+	}
+
+	for (i = 0; i < content.rows.length; i++) {
+		if (content.rows[i].id.match(prefix)) {
+			selectTableRow(content.rows[i], do_select);
+		}
+	}
 }
 
 function getSelectedTableRowIds(content_id, prefix) {
