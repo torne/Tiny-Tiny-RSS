@@ -83,8 +83,9 @@
 			<head>
 				<link rel=\"stylesheet\" href=\"opml.css\" type=\"text/css\">
 			</head>
-			<body><h1>Importing OPML...</h1>
-			<div>";
+			<body>
+			<h1>Importing OPML...</h1>
+			<div class=\"opmlBody\">";
 
 		if (WEB_DEMO_MODE) {
 			print "OPML import is disabled in demo-mode.";
@@ -107,15 +108,12 @@
 
 					$outlines = $body->get_elements_by_tagname('outline');
 
-					$active_category = '';
-
 					foreach ($outlines as $outline) {
-						$feed_title = $outline->get_attribute('text');
-						$cat_title = $outline->get_attribute('title');
-						$feed_url = $outline->get_attribute('xmlUrl');
+						$feed_title = db_escape_string($outline->get_attribute('text'));
+						$cat_title = db_escape_string($outline->get_attribute('title'));
+						$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
 
 						if ($cat_title) {
-							$active_category = $cat_title;
 
 							db_query($link, "BEGIN");
 							
@@ -142,10 +140,18 @@
 
 						$cat_id = null;
 
-						if ($active_category) {
+						$parent_node = $outline->parent_node();
+
+						if ($parent_node && $parent_node->node_name() == "outline") {
+							$element_category = $parent_node->get_attribute('title');
+						} else {
+							$element_category = '';
+						}
+
+						if ($element_category) {
 
 							$result = db_query($link, "SELECT id FROM
-									ttrss_feed_categories WHERE title = '$active_category' AND
+									ttrss_feed_categories WHERE title = '$element_category' AND
 									owner_uid = '$owner_uid' LIMIT 1");								
 
 							if (db_num_rows($result) == 1) {	
@@ -174,7 +180,7 @@
 									('$feed_title', '$feed_url', '$owner_uid')";
 
 							}
-							
+
 							db_query($link, $add_query);
 							
 							print "<b>Done.</b><br>";
@@ -184,14 +190,14 @@
 					}
 
 				} else {
-					print "Error: can't find body element.";
+					print "<div class=\"error\">Error: can't find body element.</div>";
 				}
 			} else {
-				print "Error while parsing document.";
+				print "<div class=\"error\">Error while parsing document.</div>";
 			}
 
 		} else {
-			print "Error: please upload OPML file.";
+			print "<div class=\"error\">Error: please upload OPML file.</div>";
 		}
 
 		print "<p><a class=\"button\" href=\"prefs.php\">

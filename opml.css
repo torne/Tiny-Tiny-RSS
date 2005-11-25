@@ -7,23 +7,27 @@ body {
 
 h1 {
 	font-size : 21pt;
-	background-color : #f0f0f0;
-	background-image : url("images/header.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	height : 50px;
-	padding-left : 80px;
-	padding-top : 30px;
 	font-weight : bold;
+	padding : 10px 0px 10px 30px;
 	color : black;
 	border-width : 0px 0px 1px 0px;
 	border-color : #c0c0c0;
 	border-style : solid;
-
+	background-color : white;
+	background-image : url("images/vgrad_light.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
 }
 
-div {
-	margin : 30px;
+div.opmlBody {
+	margin : 30px;	
+}
+
+div.error {
+	background : #fff0f0;
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+	font-size : x-small;
 }
 
 a {
