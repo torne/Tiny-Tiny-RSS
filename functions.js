@@ -461,7 +461,7 @@ function selectTableRow(r, do_select) {
 	}
 }
 
-function selectTableRowsByIdPrefix(content_id, prefix, do_select) {
+function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select) {
 
 	var content = document.getElementById(content_id);
 
@@ -473,6 +473,13 @@ function selectTableRowsByIdPrefix(content_id, prefix, do_select) {
 	for (i = 0; i < content.rows.length; i++) {
 		if (content.rows[i].id.match(prefix)) {
 			selectTableRow(content.rows[i], do_select);
+		}
+
+		var row_id = content.rows[i].id.replace(prefix, "");
+		var check = document.getElementById(check_prefix + row_id);
+
+		if (check) {
+			check.checked = do_select;
 		}
 	}
 }

@@ -1192,9 +1192,9 @@
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
-						'FEEDR-', true)\">All</a>,
+						'FEEDR-', 'FRCHK-', true)\">All</a>,
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
-						'FEEDR-', false)\">None</a>
+						'FEEDR-', 'FRCHK-', false)\">None</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">
@@ -1429,9 +1429,9 @@
 				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
-						'FCATR-', true)\">All</a>,
+						'FCATR-', 'FCCHK-', true)\">All</a>,
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
-						'FCATR-', false)\">None</a>
+						'FCATR-', 'FCCHK-', false)\">None</a>
 				</td</tr>";
 
 				print "<tr class=\"title\">
@@ -1636,9 +1636,9 @@
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
-						'FILRR-', true)\">All</a>,
+						'FILRR-', 'FICHK-', true)\">All</a>,
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
-						'FILRR-', false)\">None</a>
+						'FILRR-', 'FICHK-', false)\">None</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">
@@ -1895,9 +1895,9 @@
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
-						'LILRR-', true)\">All</a>,
+						'LILRR-', 'LICHK-', true)\">All</a>,
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
-						'LILRR-', false)\">None</a>
+						'LILRR-', 'LICHK-', false)\">None</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">
@@ -2505,9 +2505,9 @@
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
-						'UMRR-', true)\">All</a>,
+						'UMRR-', 'UMCHK-', true)\">All</a>,
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
-						'UMRR-', false)\">None</a>
+						'UMRR-', 'UMCHK-', false)\">None</a>
 				</td</tr>";
 
 		print "<tr class=\"title\">
