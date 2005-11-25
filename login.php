@@ -46,11 +46,11 @@
 
 <body>
 
-<form action="login.php" method="POST">
-
 <table width='100%' height='100%' class="loginForm">
 
 	<tr><td align='center' valign='middle'>
+
+	<form action="login.php" method="POST">
 	
 	<table class="innerLoginForm">
 
@@ -67,10 +67,12 @@
 		<input type="submit" class="button" value="Login">
 	</td></tr>
 	
-	</table></td></tr>
-</table>
+	</table>
+	
+	</form>
 
-</form>
+	</td></tr>
+</table>
 
 <? db_close($link); ?>
 
