@@ -175,11 +175,11 @@
 
 		error_reporting (DEFAULT_ERROR_LEVEL);
 
-		db_query($link, "BEGIN");
-
 		$feed = db_escape_string($feed);
 
 		if ($rss) {
+
+			db_query($link, "BEGIN");
 
 			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid 
 				FROM ttrss_feeds WHERE id = '$feed'");
@@ -459,14 +459,14 @@
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
+			db_query($link, "COMMIT");
+
 		} else {
 			$error_msg = db_escape_string(magpie_error());
 			db_query($link, 
 				"UPDATE ttrss_feeds SET last_error = '$error_msg', 
 					last_updated = NOW() WHERE id = '$feed'");
 		}
-
-		db_query($link, "COMMIT");
 
 	}
 
