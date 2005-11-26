@@ -709,4 +709,15 @@
 			return $str;
 		}
 	}
+
+	function get_user_theme_path($link) {
+		$result = db_query($link, "SELECT theme_path FROM ttrss_themes
+			WHERE id = (SELECT theme_id FROM ttrss_users 
+				WHERE id = " . $_SESSION["uid"] . ")");
+		if (db_num_rows($result) != 0) {
+			return db_fetch_result($result, 0, "theme_path");
+		} else {
+			return null;
+		}
+	}
 ?>
