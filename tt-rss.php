@@ -49,16 +49,6 @@
 
 <body onload="init()">
 
-<? if (get_pref($link, 'ENABLE_SPLASH')) { ?>
-<div id="splash">
-	<table width='100%' height='100%'><tr>
-		<td class="innerSplash" valign="middle" align="center">
-		<img src="images/ttrss_logo.png" alt="logo">		
-		<p>Loading, please wait...</p>
-	</td></tr></table>
-</div>
-<? } ?>
-
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>

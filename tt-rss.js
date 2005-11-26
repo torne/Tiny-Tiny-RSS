@@ -383,11 +383,6 @@ function init_second_stage() {
 	//	setTimeout("timeout()", 2*1000);
 	//	scheduleFeedUpdate(true);
 	
-		var splash = document.getElementById("splash");
-	
-		if (splash) {
-			splash.style.display = "none";
-		}
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
