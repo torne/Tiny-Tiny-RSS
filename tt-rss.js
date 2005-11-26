@@ -62,107 +62,98 @@ function dialog_refresh_callback() {
 
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
+		try {
 
-//		document.title = "Tiny Tiny RSS";
-
-		if (!xmlhttp.responseXML) {
-			notify("refetch_callback: backend did not return valid XML");
-			return;
-		}
-	
-		var reply = xmlhttp.responseXML.firstChild;
-
-		if (!reply) {
-			notify("refetch_callback: backend did not return expected XML object");
-			return;
-		} 
-
-		var error_code = reply.getAttribute("error-code");
-	
-		if (error_code && error_code != 0) {
-			return fatalError(error_code);
-		}
-
-		var f_document = window.frames["feeds-frame"].document;
-
-		for (var l = 0; l < reply.childNodes.length; l++) {
-			var id = reply.childNodes[l].getAttribute("id");
-			var ctr = reply.childNodes[l].getAttribute("counter");
-
-			var feedctr = f_document.getElementById("FEEDCTR-" + id);
-			var feedu = f_document.getElementById("FEEDU-" + id);
-			var feedr = f_document.getElementById("FEEDR-" + id);
-
-/*			TODO figure out how to update this from viewfeed.js->view()
-			disabled for now...
-
-			if (id == "global-unread") {
-				global_unread = ctr;
-			} */
-
-			if (feedctr && feedu && feedr) {
-
-				feedu.innerHTML = ctr;
-	
-				if (ctr > 0) {
-					feedctr.className = "odd";
-					if (!feedr.className.match("Unread")) {
-						feedr.className = feedr.className + "Unread";
-					}
-				} else {
-					feedctr.className = "invisible";
-					feedr.className = feedr.className.replace("Unread", "");
-				}
+			if (!xmlhttp.responseXML) {
+				notify("refetch_callback: backend did not return valid XML");
+				return;
 			}
-		}  
-
-		updateTitle("");
-		notify("All feeds updated.");
-
+		
+			var reply = xmlhttp.responseXML.firstChild;
+	
+			if (!reply) {
+				notify("refetch_callback: backend did not return expected XML object");
+				return;
+			} 
+	
+			var error_code = reply.getAttribute("error-code");
+		
+			if (error_code && error_code != 0) {
+				return fatalError(error_code);
+			}
+	
+			var f_document = window.frames["feeds-frame"].document;
+	
+			for (var l = 0; l < reply.childNodes.length; l++) {
+				var id = reply.childNodes[l].getAttribute("id");
+				var ctr = reply.childNodes[l].getAttribute("counter");
+	
+				var feedctr = f_document.getElementById("FEEDCTR-" + id);
+				var feedu = f_document.getElementById("FEEDU-" + id);
+				var feedr = f_document.getElementById("FEEDR-" + id);
+	
+	/*			TODO figure out how to update this from viewfeed.js->view()
+				disabled for now...
+	
+				if (id == "global-unread") {
+					global_unread = ctr;
+				} */
+	
+				if (feedctr && feedu && feedr) {
+	
+					feedu.innerHTML = ctr;
+		
+					if (ctr > 0) {
+						feedctr.className = "odd";
+						if (!feedr.className.match("Unread")) {
+							feedr.className = feedr.className + "Unread";
+						}
+					} else {
+						feedctr.className = "invisible";
+						feedr.className = feedr.className.replace("Unread", "");
+					}
+				}
+			}  
+	
+			updateTitle("");
+			notify("All feeds updated.");
+		} catch (e) {
+			exception_error("refetch_callback", e);
+		}
 	}
 }
 
 function backend_sanity_check_callback() {
 
 	if (xmlhttp.readyState == 4) {
+
+		try {
 		
-		if (!xmlhttp.responseXML) {
-			fatalError(3);
-			return;
-		}
-
-		var reply = xmlhttp.responseXML.firstChild;
-
-		if (!reply) {
-			fatalError(3);
-			return;
-		}
-
-		var error_code = reply.getAttribute("error-code");
+			if (!xmlhttp.responseXML) {
+				fatalError(3);
+				return;
+			}
 	
-		if (error_code && error_code != 0) {
-			return fatalError(error_code);
-		}
+			var reply = xmlhttp.responseXML.firstChild;
+	
+			if (!reply) {
+				fatalError(3);
+				return;
+			}
+	
+			var error_code = reply.getAttribute("error-code");
+		
+			if (error_code && error_code != 0) {
+				return fatalError(error_code);
+			}
+	
+			init_second_stage();
 
-		init_second_stage();
+		} catch (e) {
+			exception_error("backend_sanity_check_callback", e);
+		}
 	} 
 }
-
-/* wtf this is obsolete
-function updateFeed(feed_id) {
-
-	var query_str = "backend.php?op=rpc&subop=updateFeed&feed=" + feed_id;
-
-	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=feed_update_callback;
-		xmlhttp.send(null);
-	} else {
-		printLockingError();
-	}   
-
-}
-*/
 
 function scheduleFeedUpdate(force) {
 
@@ -343,71 +334,63 @@ function genericSanityCheck() {
 		fatalError(2);
 	}
 
-/*	if (!xmlhttp) {
-		document.getElementById("headlines").innerHTML = 
-			"<b>Fatal error:</b> This program requires XmlHttpRequest " + 
-			"to function properly. Your browser doesn't seem to support it.";
-		return false;
-	}
-
-	setCookie("ttrss_vf_test", "TEST");
-	if (getCookie("ttrss_vf_test") != "TEST") {
-
-		document.getElementById("headlines").innerHTML = 
-			"<b>Fatal error:</b> This program requires cookies " + 
-			"to function properly. Your browser doesn't seem to support them.";
-
-		return false;
-	} */
-
 	return true;
 }
 
 function init() {
 
-	disableContainerChildren("headlinesToolbar", true);
+	try {
 
-	if (!genericSanityCheck()) 
-		return;
+		disableContainerChildren("headlinesToolbar", true);
 
-	xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
-	xmlhttp.onreadystatechange=backend_sanity_check_callback;
-	xmlhttp.send(null);
+		if (!genericSanityCheck()) 
+			return;
 
+		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
+		xmlhttp.onreadystatechange=backend_sanity_check_callback;
+		xmlhttp.send(null);
+
+	} catch (e) {
+		exception_error("init", e);
+	}
 }
 
 function init_second_stage() {
 
-	setCookie("ttrss_vf_actfeed", "");
+	try {
 
-	updateFeedList(false, false);
-	document.onkeydown = hotkey_handler;
-
-	var content = document.getElementById("content");
-
-	if (getCookie("ttrss_vf_vmode")) {
-		var viewbox = document.getElementById("viewbox");
-		viewbox.value = getCookie("ttrss_vf_vmode");
+		setCookie("ttrss_vf_actfeed", "");
+	
+		updateFeedList(false, false);
+		document.onkeydown = hotkey_handler;
+	
+		var content = document.getElementById("content");
+	
+		if (getCookie("ttrss_vf_vmode")) {
+			var viewbox = document.getElementById("viewbox");
+			viewbox.value = getCookie("ttrss_vf_vmode");
+		}
+	
+		if (getCookie("ttrss_vf_limit")) {
+			var limitbox = document.getElementById("limitbox");
+			limitbox.value = getCookie("ttrss_vf_limit");
+		}
+	
+	//	if (getCookie("ttrss_vf_actfeed")) {
+	//		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
+	//	}
+	
+	//	setTimeout("timeout()", 2*1000);
+	//	scheduleFeedUpdate(true);
+	
+		var splash = document.getElementById("splash");
+	
+		if (splash) {
+			splash.style.display = "none";
+		}
+	} catch (e) {
+		exception_error("init_second_stage", e);
 	}
-
-	if (getCookie("ttrss_vf_limit")) {
-		var limitbox = document.getElementById("limitbox");
-		limitbox.value = getCookie("ttrss_vf_limit");
-	}
-
-//	if (getCookie("ttrss_vf_actfeed")) {
-//		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');
-//	}
-
-//	setTimeout("timeout()", 2*1000);
-//	scheduleFeedUpdate(true);
-
-	var splash = document.getElementById("splash");
-
-	if (splash) {
-		splash.style.display = "none";
-	}
-
 }
 
 function quickMenuGo() {

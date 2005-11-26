@@ -1,5 +1,10 @@
 var hotkeys_enabled = true;
 
+function exception_error(location, e) {
+	alert("Exception: " + e.name + "\nMessage: " + e.message + 
+		"\nLocation: " + location);
+}
+
 function disableHotkeys() {
 	hotkeys_enabled = false;
 }
@@ -330,48 +335,51 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
-
-		if (!xmlhttp_rpc.responseXML) {
-			notify("[all_counters_callback] backend did not return valid XML");
-			return;
-		}
-
-		var reply = xmlhttp_rpc.responseXML.firstChild;
-
-		var f_document = parent.frames["feeds-frame"].document;
-
-		for (var l = 0; l < reply.childNodes.length; l++) {
-			var id = reply.childNodes[l].getAttribute("id");
-			var ctr = reply.childNodes[l].getAttribute("counter");
-
-			var feedctr = f_document.getElementById("FEEDCTR-" + id);
-			var feedu = f_document.getElementById("FEEDU-" + id);
-			var feedr = f_document.getElementById("FEEDR-" + id);
-
-			if (feedctr && feedu && feedr) {
-
-				feedu.innerHTML = ctr;
-	
-				if (ctr > 0) {
-					feedctr.className = "odd";
-					if (!feedr.className.match("Unread")) {
-						var is_selected = feedr.className.match("Selected");
-
-						feedr.className = feedr.className.replace("Selected", "");
-						feedr.className = feedr.className.replace("Unread", "");
-
-						feedr.className = feedr.className + "Unread";
-
-						if (is_selected) {
-							feedr.className = feedr.className + "Selected";
-						}
-
-					}
-				} else {
-					feedctr.className = "invisible";
-					feedr.className = feedr.className.replace("Unread", "");
-				}			
+		try {
+			if (!xmlhttp_rpc.responseXML) {
+				notify("[all_counters_callback] backend did not return valid XML");
+				return;
 			}
+	
+			var reply = xmlhttp_rpc.responseXML.firstChild;
+	
+			var f_document = parent.frames["feeds-frame"].document;
+	
+			for (var l = 0; l < reply.childNodes.length; l++) {
+				var id = reply.childNodes[l].getAttribute("id");
+				var ctr = reply.childNodes[l].getAttribute("counter");
+	
+				var feedctr = f_document.getElementById("FEEDCTR-" + id);
+				var feedu = f_document.getElementById("FEEDU-" + id);
+				var feedr = f_document.getElementById("FEEDR-" + id);
+	
+				if (feedctr && feedu && feedr) {
+	
+					feedu.innerHTML = ctr;
+		
+					if (ctr > 0) {
+						feedctr.className = "odd";
+						if (!feedr.className.match("Unread")) {
+							var is_selected = feedr.className.match("Selected");
+	
+							feedr.className = feedr.className.replace("Selected", "");
+							feedr.className = feedr.className.replace("Unread", "");
+	
+							feedr.className = feedr.className + "Unread";
+	
+							if (is_selected) {
+								feedr.className = feedr.className + "Selected";
+							}
+	
+						}
+					} else {
+						feedctr.className = "invisible";
+						feedr.className = feedr.className.replace("Unread", "");
+					}			
+				}
+			}
+		} catch (e) {
+			exception_error("all_counters_callback", e);
 		}
 	}
 }
@@ -505,5 +513,4 @@ function getSelectedTableRowIds(content_id, prefix) {
 	return sel_rows;
 
 }
-
 

@@ -28,8 +28,8 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 }
 
 function feedlist_callback() {
-	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
+		var container = document.getElementById('prefContent');	
 		container.innerHTML=xmlhttp.responseText;
 		if (active_feed) {
 			var row = document.getElementById("FEEDR-" + active_feed);
@@ -1146,44 +1146,24 @@ function selectTab(id) {
 
 function init() {
 
-	// IE kludge
-
-	if (!xmlhttp) {
-		document.getElementById("prefContent").innerHTML = 
-			"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
-			"to function properly. Your browser doesn't seem to support it.";
-		return;
+	try {
+	
+		// IE kludge
+		if (!xmlhttp) {
+			document.getElementById("prefContent").innerHTML = 
+				"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
+				"to function properly. Your browser doesn't seem to support it.";
+			return;
+		}
+	
+		selectTab("genConfig");
+	
+		document.onkeydown = hotkey_handler;
+		notify("");
+	} catch (e) {
+		exception_error("init", e);
 	}
-
-	selectTab("genConfig");
-
-	document.onkeydown = hotkey_handler;
-	notify("");
-
 }
-
-/*
-var help_topic_id = false;
-
-function do_dispOptionHelp() {
-
-	if (!xmlhttp_ready(xmlhttp))
-		return;
-
-	xmlhttp.open("GET", "backend.php?op=pref-prefs&subop=getHelp&pn=" +
-		param_escape(help_topic_id), true);
-	xmlhttp.onreadystatechange=gethelp_callback;
-	xmlhttp.send(null);
-
-}
-
-function dispOptionHelp(event, sender) {
-
-	help_topic_id = sender.id;
-
-//	document.setTimeout("do_dispOptionHelp()", 100);
-
-} */
 
 function closeInfoBox() {
 	var box = document.getElementById('infoBox');
