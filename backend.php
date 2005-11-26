@@ -2249,6 +2249,22 @@
 
 			header("Location: prefs.php");
 
+		} else if ($subop == "Change theme") {
+
+			$theme = db_escape_string($_POST["theme"]);
+
+			if ($theme == "Default") {
+				$theme_qpart = 'NULL';
+			} else {
+				$theme_qpart = "'$theme'";
+			}
+
+			db_query($link, "UPDATE ttrss_users SET
+				theme_id = (SELECT id FROM ttrss_themes WHERE
+					theme_name = '$theme') WHERE id = " . $_SESSION["uid"]);
+
+			header("Location: prefs.php");
+
 		} else {
 
 			if (!SINGLE_USER_MODE) {
@@ -2315,6 +2331,44 @@
 				print "</form>";
 
 			}
+
+			print "<form action=\"backend.php\" method=\"POST\">";
+
+			print "<table width=\"100%\" class=\"prefPrefsList\">";
+ 			print "<tr><td colspan='3'><h3>Themes</h3></tr></td>";
+
+			print "<tr><td width=\"40%\">Select theme</td>";
+
+			print "<td><select name=\"theme\">";
+
+			print "<option>Default</option>";
+
+			$result = db_query($link, "SELECT
+				theme_id FROM ttrss_users WHERE id = " . $_SESSION["uid"]);
+
+			$user_theme_id = db_fetch_result($result, 0, "theme_id");
+
+			$result = db_query($link, "SELECT
+				id,theme_name FROM ttrss_themes ORDER BY theme_name");
+
+			if (db_num_rows($result) > 0) {
+				print "<option disabled>--------</option>";				
+				while ($line = db_fetch_assoc($result)) {	
+					if ($line["id"] == $user_theme_id) {
+						$selected = "selected";
+					} else {
+						$selected = "";
+					}
+					print "<option $selected>" . $line["theme_name"] . "</option>";
+				}
+			}
+
+			print "</select></td></tr>";
+			print "</table>";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+			print "<p><input class=\"button\" type=\"submit\" 
+				value=\"Change theme\" name=\"subop\">";
+			print "</form>";
 
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
