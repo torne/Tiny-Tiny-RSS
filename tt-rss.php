@@ -18,6 +18,11 @@
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
 
+	<?	$user_theme = $_SESSION["theme"];
+		if ($user_theme) { ?>
+		<link rel="stylesheet" type="text/css" href="themes/<?= $user_theme ?>/theme.css">
+	<? } ?>
+
 	<? $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
 	<? if ($user_css_url) { ?>
 		<link type="text/css" href="<?= $user_css_url ?>"/> 

@@ -617,6 +617,10 @@
 			db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
 				$_SESSION["uid"]);
 
+			$user_theme = get_user_theme_path($link);
+
+			$_SESSION["theme"] = $user_theme;
+
 			initialize_user_prefs($link, $_SESSION["uid"]);
 
 			return true;
