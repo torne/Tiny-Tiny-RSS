@@ -1260,9 +1260,12 @@
 	
 				if ($subop == "edit" && $feed_id != $edit_feed_id) {
 					$class .= "Grayed";
+					$this_row_id = "";
+				} else {
+					$this_row_id = "id=\"FEEDR-$feed_id\"";
 				}
 	
-				print "<tr class=\"$class\" id=\"FEEDR-$feed_id\">";
+				print "<tr class=\"$class\" $this_row_id>";
 	
 				$icon_file = ICONS_DIR . "/$feed_id.ico";
 	
@@ -1478,9 +1481,12 @@
 		
 					if ($subop == "editCat" && $cat_id != $edit_cat_id) {
 						$class .= "Grayed";
+						$this_row_id = "";
+					} else {
+						$this_row_id = "id=\"FCATR-$cat_id\"";
 					}
 		
-					print "<tr class=\"$class\" id=\"FCATR-$cat_id\">";
+					print "<tr class=\"$class\" $this_row_id>";
 		
 					$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
 		
@@ -1685,9 +1691,12 @@
 	
 				if ($subop == "edit" && $filter_id != $edit_filter_id) {
 					$class .= "Grayed";
+					$this_row_id = "";
+				} else {
+					$this_row_id = "id=\"FILRR-$filter_id\"";
 				}
 	
-				print "<tr class=\"$class\" id=\"FILRR-$filter_id\">";
+				print "<tr class=\"$class\" $this_row_id>";
 	
 				$line["regexp"] = htmlspecialchars($line["reg_exp"]);
 				$line["description"] = htmlspecialchars($line["description"]);
@@ -1945,9 +1954,12 @@
 	
 				if ($subop == "edit" && $label_id != $edit_label_id) {
 					$class .= "Grayed";
+					$this_row_id = "";
+				} else {
+					$this_row_id = "id=\"LILRR-$label_id\"";
 				}
 	
-				print "<tr class=\"$class\" id=\"LILRR-$label_id\">";
+				print "<tr class=\"$class\" $this_row_id>";
 	
 				$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
 				$line["description"] = htmlspecialchars($line["description"]);
@@ -2617,9 +2629,12 @@
 
 			if ($uid == $_SESSION["uid"] || ($subop == "edit" && $uid != $edit_uid)) {
 				$class .= "Grayed";
-			}
-		
-			print "<tr class=\"$class\" id=\"UMRR-$uid\">";
+				$this_row_id = "";
+			} else {
+				$this_row_id = "id=\"UMRR-$uid\"";
+			}		
+			
+			print "<tr class=\"$class\" $this_row_id>";
 
 			$line["login"] = htmlspecialchars($line["login"]);
 
