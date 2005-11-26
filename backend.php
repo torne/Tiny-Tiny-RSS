@@ -2287,11 +2287,21 @@
 				$theme_qpart = "'$theme'";
 			}
 
-			db_query($link, "UPDATE ttrss_users SET
-				theme_id = (SELECT id FROM ttrss_themes WHERE
-					theme_name = '$theme') WHERE id = " . $_SESSION["uid"]);
+			$result = db_query($link, "SELECT id,theme_path FROM ttrss_themes
+				WHERE theme_name = '$theme'");
 
-			$_SESSION["theme"] = $theme;
+			if (db_num_rows($result) == 1) {
+				$theme_id = db_fetch_result($result, 0, "id");
+				$theme_path = db_fetch_result($result, 0, "theme_path");
+			} else {
+				$theme_id = "NULL";
+				$theme_path = "";
+			}
+
+			db_query($link, "UPDATE ttrss_users SET
+				theme_id = $theme_id WHERE id = " . $_SESSION["uid"]);
+
+			$_SESSION["theme"] = $theme_path;
 
 			header("Location: prefs.php");
 
@@ -2362,17 +2372,6 @@
 
 			}
 
-			print "<form action=\"backend.php\" method=\"POST\">";
-
-			print "<table width=\"100%\" class=\"prefPrefsList\">";
- 			print "<tr><td colspan='3'><h3>Themes</h3></tr></td>";
-
-			print "<tr><td width=\"40%\">Select theme</td>";
-
-			print "<td><select name=\"theme\">";
-
-			print "<option>Default</option>";
-
 			$result = db_query($link, "SELECT
 				theme_id FROM ttrss_users WHERE id = " . $_SESSION["uid"]);
 
@@ -2382,7 +2381,15 @@
 				id,theme_name FROM ttrss_themes ORDER BY theme_name");
 
 			if (db_num_rows($result) > 0) {
+
+				print "<form action=\"backend.php\" method=\"POST\">";
+				print "<table width=\"100%\" class=\"prefPrefsList\">";
+	 			print "<tr><td colspan='3'><h3>Themes</h3></tr></td>";
+				print "<tr><td width=\"40%\">Select theme</td>";
+				print "<td><select name=\"theme\">";
+				print "<option>Default</option>";
 				print "<option disabled>--------</option>";				
+				
 				while ($line = db_fetch_assoc($result)) {	
 					if ($line["id"] == $user_theme_id) {
 						$selected = "selected";
@@ -2391,14 +2398,13 @@
 					}
 					print "<option $selected>" . $line["theme_name"] . "</option>";
 				}
+				print "</select></td></tr>";
+				print "</table>";
+				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+				print "<p><input class=\"button\" type=\"submit\" 
+					value=\"Change theme\" name=\"subop\">";
+				print "</form>";
 			}
-
-			print "</select></td></tr>";
-			print "</table>";
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-			print "<p><input class=\"button\" type=\"submit\" 
-				value=\"Change theme\" name=\"subop\">";
-			print "</form>";
 
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
