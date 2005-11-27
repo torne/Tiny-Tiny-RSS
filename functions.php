@@ -203,9 +203,10 @@
 			}
 
 			$site_url = $rss->channel["link"];
+			// weird, weird Magpie
+			if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
 
 			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
-				$site_url = db_escape_string($rss->channel["link"]);
 				db_query($link, "UPDATE ttrss_feeds SET 
 					site_url = '$site_url' WHERE id = '$feed'");
 			}
