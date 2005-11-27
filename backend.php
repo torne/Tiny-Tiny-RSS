@@ -1338,7 +1338,8 @@
 
 			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
-			print "<p><table width=\"100%\" class=\"prefFeedList\" id=\"prefFeedList\">";
+			print "<p><table width=\"100%\" cellspacing=\"0\" 
+				class=\"prefFeedList\" id=\"prefFeedList\">";
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
 					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
@@ -1577,7 +1578,7 @@
 			if (db_num_rows($result) != 0) {
 	
 				print "<p><table width=\"100%\" class=\"prefFeedCatList\" 
-					id=\"prefFeedCatList\">";
+					cellspacing=\"0\" id=\"prefFeedCatList\">";
 
 				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
@@ -1787,7 +1788,8 @@
 
 		if (db_num_rows($result) != 0) {
 
-			print "<p><table width=\"100%\" class=\"prefFilterList\" id=\"prefFilterList\">";
+			print "<p><table width=\"100%\" cellspacing=\"0\" class=\"prefFilterList\" 
+				id=\"prefFilterList\">";
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
@@ -2049,7 +2051,8 @@
 
 		if (db_num_rows($result) != 0) {
 
-			print "<p><table width=\"100%\" class=\"prefLabelList\" id=\"prefLabelList\">";
+			print "<p><table width=\"100%\" cellspacing=\"0\" 
+				class=\"prefLabelList\" id=\"prefLabelList\">";
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
@@ -2706,7 +2709,8 @@
 
 		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
-		print "<p><table width=\"100%\" class=\"prefUserList\" id=\"prefUserList\">";
+		print "<p><table width=\"100%\" cellspacing=\"0\" 
+			class=\"prefUserList\" id=\"prefUserList\">";
 
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
