@@ -1839,7 +1839,7 @@
 			
 			if ($num_matches > 0) { 
 
-				print "<p>Query returned <b>$num_matches</b> matches, first 5:</p>";
+				print "<p>Query returned <b>$num_matches</b> matches, first 5 follow:</p>";
 
 				$result = db_query($link, 
 					"SELECT title, 
