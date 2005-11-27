@@ -959,14 +959,20 @@
 				$feed_kind = "Labels";
 			}
 
+			if (!$vfeed_query_part) {
+				$content_query_part = "content as content_preview,";
+			} else {
+				$content_query_part = "";
+			}
+
 			$result = db_query($link, "SELECT 
 					id,title,
 					SUBSTRING(updated,1,16) as updated,
 					unread,feed_id,marked,link,last_read,
 					SUBSTRING(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
-					SUBSTRING(updated,1,19) as updated_noms,
-					content as content_preview
+					$content_query_part
+					SUBSTRING(updated,1,19) as updated_noms
 				FROM
 					ttrss_entries,ttrss_user_entries
 				WHERE
@@ -989,8 +995,8 @@
 				marked,link,last_read,
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
-				SUBSTRING(updated,1,19) as updated_noms,
-				content
+				$content_query_part
+				SUBSTRING(updated,1,19) as updated_noms
 				FROM
 					ttrss_entries,ttrss_user_entries,ttrss_tags
 				WHERE
