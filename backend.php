@@ -945,7 +945,8 @@
 		print "</td>";
 		print "</tr></table>";
 		
-		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
+		print "<table class=\"headlinesList\" id=\"headlinesList\" 
+			cellspacing=\"0\" width=\"100%\">";
 
 
 		if ($feed < -10) error_reporting (0);
