@@ -463,6 +463,29 @@ div.helpResponse {
 	border : 1px solid #f0f0f0;
 }
 
+#userDlgShadow {
+	z-index : 3;
+	position : absolute;
+	left : 30%;
+	top : 30%;
+	display : none;
+	background-image : url("images/shadow.png");
+}
+
+#userDlg {
+	background : #fffff0;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	padding : 15px;
+	border : 1px solid #c0c0c0;
+}
+
+#qafInput {
+	width : 300px;
+}
+
+
 #infoBox {
 	border : 1px solid #c0c0c0;
 	padding-bottom : 10px;
@@ -511,21 +534,6 @@ pre {
 	border : 1px solid #c0c0c0;
 	padding : 5px;
 	background : #f0f0f0;
-}
-
-#userDlg {
-	left : 400px;
-	top : 18px;
-	background : #fffff0;
-	z-index : 3;
-	position : absolute;
-	border : 1px solid #c0c0c0;
-	padding : 10px;
-	display : none;
-}
-
-#qafInput {
-	width : 300px;
 }
 
 input.extSearch {

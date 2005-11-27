@@ -54,9 +54,10 @@ function dlg_frefresh_callback() {
 function dialog_refresh_callback() {
 	if (xmlhttp.readyState == 4) {
 		var dlg = document.getElementById("userDlg");
+		var dlg_s = document.getElementById("userDlgShadow");
 
 		dlg.innerHTML = xmlhttp.responseText;
-		dlg.style.display = "block";
+		dlg_s.style.display = "block";
 	} 
 }
 
@@ -476,7 +477,7 @@ function displayDlg(id, param) {
 }
 
 function closeDlg() {
-	var dlg = document.getElementById("userDlg");
+	var dlg = document.getElementById("userDlgShadow");
 	dlg.style.display = "none";
 }
 

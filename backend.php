@@ -2099,7 +2099,8 @@
 		$param = $_GET["param"];
 
 		if ($id == "quickAddFeed") {
-			print "Feed URL: <input 
+			print "
+			Feed URL: <input 
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
 			id=\"qafInput\">
 			<input class=\"button\"
@@ -2119,7 +2120,7 @@
 
 				$f_title = db_fetch_result($result, 0, "title");
 		
-				print "Remove current feed ($f_title)?&nbsp;
+				print "Remove current feed (<b>$f_title</b>)?&nbsp;
 				<input class=\"button\"
 					type=\"submit\" onclick=\"javascript:qfdDelete($param)\" value=\"Remove\">
 				<input class=\"button\"

@@ -61,7 +61,7 @@
 				<div id="notify"><span id="notify_body"></div>
 			</td>
 
-			<div id="userDlg">&nbsp;</div>
+			<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
@@ -73,7 +73,7 @@
 	</td>
 </tr>
 <? } else { ?>
-	<div id="userDlg">&nbsp;</div>
+	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 <? } ?>
 <tr>
 	<td valign="top" rowspan="3" class="feeds"> 
