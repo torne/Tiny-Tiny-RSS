@@ -1050,24 +1050,21 @@
 			print "<tr class='$class' id='RROW-$id'>";
 			// onclick=\"javascript:view($id,$feed_id)\">
 
-			print "<td valign='center' align='center'>$update_pic</td>";
+			print "<td valign='center' class='hlUpdatePic'>$update_pic</td>";
 
-			print "<td valign='center' align='center'>
+			print "<td valign='center' class='hlSelectRow'>
 				<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
 					class=\"feedCheckBox\" id=\"RCHK-$id\">
 				</td>";
 
-			print "<td valign='center' align='center'>$marked_pic</td>";
-
-			print "<td width='15%'>
-				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
+			print "<td valign='center' class='hlMarkedPic'>$marked_pic</td>";
 
 			if ($line["feed_title"]) {			
-				print "<td width='65%'>$content_link</td>";
-				print "<td width='20%'>
+				print "<td class='hlContent'>$content_link</td>";
+				print "<td class='hlFeed'>
 					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
 			} else {			
-				print "<td width='85%'>$content_link";
+				print "<td class='hlContent'>$content_link";
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
 						100);
@@ -1075,6 +1072,9 @@
 				}
 				print "</td>";
 			}
+
+			$updated_fmt = date("M d, G:i", strtotime($line["updated"]));
+			print "<td class=\"hlUpdated\"><nobr>$updated_fmt</nobr></td>";
 
 			print "</tr>";
 
