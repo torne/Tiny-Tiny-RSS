@@ -1065,13 +1065,20 @@
 				print "<td class='hlFeed'>
 					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
 			} else {			
-				print "<td class='hlContent'>$content_link";
+				print "<td class='hlContent'>";
+
+				print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+					$line["title"];
+
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+				
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
 						101);
-
+						
 					print "<span class=\"contentPreview\"> - $content_preview</span>";
 				}
+
+				print "</a>";
 				print "</td>";
 			}
 
