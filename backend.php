@@ -964,7 +964,8 @@
 					unread,feed_id,marked,link,last_read,
 					SUBSTRING(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
-					SUBSTRING(updated,1,19) as updated_noms
+					SUBSTRING(updated,1,19) as updated_noms,
+					SUBSTRING(content,1,101) as content_preview
 				FROM
 					ttrss_entries,ttrss_user_entries
 				WHERE
@@ -987,7 +988,8 @@
 				marked,link,last_read,
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
-				SUBSTRING(updated,1,19) as updated_noms
+				SUBSTRING(updated,1,19) as updated_noms,
+				SUBSTRING(content,1,101) as content_preview
 				FROM
 					ttrss_entries,ttrss_user_entries,ttrss_tags
 				WHERE
@@ -1018,24 +1020,6 @@
 
 			$id = $line["id"];
 			$feed_id = $line["feed_id"];
-
-//			printf("L %d (%s) &gt; U %d (%s) = %d<br>", 
-//				strtotime($line["last_read_noms"]), $line["last_read_noms"],
-//				strtotime($line["updated"]), $line["updated"],
-//				strtotime($line["last_read"]) >= strtotime($line["updated"]));
-
-/*			if ($line["last_read"] != "" && $line["updated"] != "" &&
-				strtotime($line["last_read_noms"]) < strtotime($line["updated_noms"])) {
-
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
-					alt=\"Updated\">";
-
-			} else {
-
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
-					alt=\"Updated\">";
-
-			} */
 
 			if ($line["last_read"] == "" && 
 					($line["unread"] != "t" && $line["unread"] != "1")) {
@@ -1075,15 +1059,21 @@
 
 			print "<td valign='center' align='center'>$marked_pic</td>";
 
-			print "<td width='20%'>
+			print "<td width='15%'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
 
 			if ($line["feed_title"]) {			
-				print "<td width='55%'>$content_link</td>";
+				print "<td width='65%'>$content_link</td>";
 				print "<td width='20%'>
 					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
-			} else {
-				print "<td width='75%'>$content_link</td>";
+			} else {			
+				print "<td width='85%'>$content_link";
+				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
+						100);
+					print "<span class=\"contentPreview\"> - $content_preview</span>";
+				}
+				print "</td>";
 			}
 
 			print "</tr>";

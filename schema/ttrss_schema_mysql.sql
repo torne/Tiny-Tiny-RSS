@@ -198,6 +198,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_FEED_CATS', 1, 'false', 'Enable feed categories',2);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('SHOW_CONTENT_PREVIEW', 1, 'true', 'Show content preview in headlines list',2);
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
