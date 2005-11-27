@@ -966,7 +966,7 @@
 					SUBSTRING(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
 					SUBSTRING(updated,1,19) as updated_noms,
-					SUBSTRING(content,1,101) as content_preview
+					content as content_preview
 				FROM
 					ttrss_entries,ttrss_user_entries
 				WHERE
@@ -990,7 +990,7 @@
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
 				SUBSTRING(updated,1,19) as updated_noms,
-				SUBSTRING(content,1,101) as content_preview
+				content
 				FROM
 					ttrss_entries,ttrss_user_entries,ttrss_tags
 				WHERE
@@ -1068,7 +1068,8 @@
 				print "<td class='hlContent'>$content_link";
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
-						100);
+						101);
+
 					print "<span class=\"contentPreview\"> - $content_preview</span>";
 				}
 				print "</td>";
