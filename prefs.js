@@ -195,20 +195,6 @@ function updateUsersList() {
 
 }
 
-function toggleSelectRow(sender) {
-	var parent_row = sender.parentNode.parentNode;
-
-	if (sender.checked) {
-		if (!parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className + "Selected";
-		}
-	} else {
-		if (parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className.replace("Selected", "");
-		}
-	}
-}
-
 function addLabel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {

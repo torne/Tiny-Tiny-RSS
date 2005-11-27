@@ -131,9 +131,7 @@
 		<input type="submit" 
 			class="button" onclick="javascript:search()" value="Search">
 
-		&nbsp; 
-		
-		View: 
+		&nbsp;View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
 			<option>All Articles</option>
@@ -174,11 +172,19 @@
 		
 		</select>
 
+<!--		&nbsp;Selection:
+
+		<select id="headopbox">
+			<option id="hopToggleRead">Toggle (un)read</option>
+		</select>
+
+		<input class="button" type="submit" onclick="headopGo()" value="Go"> -->
+
 		&nbsp;Feed: <input class="button" type="submit"
 			onclick="javascript:viewCurrentFeed(0, 'ForceUpdate')" value="Update">
 
 		<input class="button" type="submit" id="btnMarkFeedAsRead"
-			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read">
+			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read"> 
 
 		</td>
 		<td align="right">

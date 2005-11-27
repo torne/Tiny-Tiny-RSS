@@ -55,6 +55,13 @@
 
 	$fetch = $_GET["fetch"];
 
+	function getAllCounters($link) {
+		getLabelCounters($link);
+		getFeedCounters($link);
+		getTagCounters($link);
+		getGlobalCounters($link);
+	}	
+
 	/* FIXME this needs reworking */
 
 	function getGlobalCounters($link) {
@@ -408,10 +415,7 @@
 
 		if ($subop == "getAllCounters") {
 			print "<rpc-reply>";
-			getLabelCounters($link);
-			getFeedCounters($link);
-			getTagCounters($link);
-			getGlobalCounters($link);
+			getAllCounters($link);
 			print "</rpc-reply>";
 		}
 
@@ -465,19 +469,60 @@
 			getGlobalCounters($link);
 			print "</rpc-reply>";
 		}
-		
+	
+		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
 
 			$ids = split(",", $_GET["ids"]);
 
+			$cmode = sprintf("%d", $_GET["cmode"]);
+
 			foreach ($ids as $id) {
 
-				db_query($link, "UPDATE ttrss_user_entries SET unread=false,last_read = NOW()
-					WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
+				if ($cmode == 0) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					unread = false,last_read = NOW()
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				} else if ($cmode == 1) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					unread = true
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				} else {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					unread = NOT unread,last_read = NOW()
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				}
 			}
+			print "<rpc-reply>";
+			getAllCounters($link);
+			print "</rpc-reply>";
+		}
 
-			print "Marked active page as read.";
+		if ($subop == "markSelected") {
+
+			$ids = split(",", $_GET["ids"]);
+
+			$cmode = sprintf("%d", $_GET["cmode"]);
+
+			foreach ($ids as $id) {
+
+				if ($cmode == 0) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					marked = false
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				} else if ($cmode == 1) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					marked = true
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				} else {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+					marked = NOT marked
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+			print "<rpc-reply>";
+			getAllCounters($link);
+			print "</rpc-reply>";
 		}
 
 		if ($subop == "sanityCheck") {
@@ -753,8 +798,6 @@
 
 		}
 
-		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
-
 		$search = $_GET["search"];
 
 		$search_mode = $_GET["smode"];
@@ -834,12 +877,76 @@
 			$query_strategy_part = "id > 0"; // dumb
 		}
 
-
 		$order_by = "updated DESC";
 
 //		if ($feed < -10) {
 //			$order_by = "feed_id,updated DESC";
 //		}
+
+		$feed_title = "";
+
+		if ($search && $search_mode == "All feeds") {
+			$feed_title = "Search results";
+		} else if (sprintf("%d", $feed) == 0) {
+			$feed_title = $feed;
+		} else if ($feed > 0) {
+			$result = db_query($link, "SELECT title,site_url FROM ttrss_feeds 
+				WHERE id = '$feed'");
+
+			$feed_title = db_fetch_result($result, 0, "title");
+			$feed_site_url = db_fetch_result($result, 0, "site_url");
+
+		} else if ($feed == -1) {
+			$feed_title = "Starred articles";
+		} else if ($feed < -10) {
+			$label_id = -$feed - 11;
+			$result = db_query($link, "SELECT description FROM ttrss_labels
+				WHERE id = '$label_id'");
+			$feed_title = db_fetch_result($result, 0, "description");
+		} else {
+			$feed_title = "?";
+		}
+
+		print "<table class=\"headlinesSubToolbar\" 
+			width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		
+		print "<td class=\"headlineActions\">
+			Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', false)\">None</a>
+			&nbsp;&nbsp;
+			Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
+					<a href=\"javascript:toggleStarred()\">Starred</a>";
+
+/*		print "&nbsp;&nbsp;
+			View:
+				<a href=\"javascript:limitView('All')\">All</a>,
+				<a href=\"javascript:limitView('Unread')\">Unread</a>,
+				<a href=\"javascript:limitView('Starred')\">Starred</a>
+			&nbsp;&nbsp;
+			Feed:
+				<a href=\"javascript:updateCurrentFeed()\">Update</a>,
+				<a href=\"javascript:catchupCurrentFeed()\">Mark as read</a>"; */
+
+		print "</td>";
+
+		print "<td class=\"headlineTitle\">";
+
+		if ($feed_site_url) {
+			print "<a href=\"$feed_site_url\">$feed_title</a>";
+		} else {
+			print $feed_title;
+		}
+		
+		print "</td>";
+		print "</tr></table>";
+		
+		print "<table class=\"headlinesList\" id=\"headlinesList\" width=\"100%\">";
+
 
 		if ($feed < -10) error_reporting (0);
 
@@ -852,7 +959,9 @@
 			}
 
 			$result = db_query($link, "SELECT 
-					id,title,updated,unread,feed_id,marked,link,last_read,
+					id,title,
+					SUBSTRING(updated,1,16) as updated,
+					unread,feed_id,marked,link,last_read,
 					SUBSTRING(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
 					SUBSTRING(updated,1,19) as updated_noms
@@ -872,7 +981,9 @@
 			$feed_kind = "Tags";
 
 			$result = db_query($link, "SELECT
-				ttrss_entries.id as id,title,updated,unread,feed_id,
+				ttrss_entries.id as id,title,
+				SUBSTRING(updated,1,16) as updated,
+				unread,feed_id,
 				marked,link,last_read,
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
@@ -956,17 +1067,23 @@
 			// onclick=\"javascript:view($id,$feed_id)\">
 
 			print "<td valign='center' align='center'>$update_pic</td>";
+
+			print "<td valign='center' align='center'>
+				<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
+					class=\"feedCheckBox\" id=\"RCHK-$id\">
+				</td>";
+
 			print "<td valign='center' align='center'>$marked_pic</td>";
 
-			print "<td width='25%'>
+			print "<td width='20%'>
 				<a href=\"javascript:view($id,$feed_id);\">".$line["updated"]."</a></td>";
 
 			if ($line["feed_title"]) {			
-				print "<td width='50%'>$content_link</td>";
+				print "<td width='55%'>$content_link</td>";
 				print "<td width='20%'>
 					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
 			} else {
-				print "<td width='70%'>$content_link</td>";
+				print "<td width='75%'>$content_link</td>";
 			}
 
 			print "</tr>";

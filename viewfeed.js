@@ -77,6 +77,11 @@ function view(id, feed_id) {
 
 }
 
+function rowToggleMark(row) {
+
+
+
+}
 
 function toggleMark(id, toggle) {
 
@@ -133,7 +138,7 @@ function toggleMark(id, toggle) {
 	}
 
 	xmlhttp_rpc.open("GET", query, true);
-	xmlhttp_rpc.onreadystatechange=rpc_notify_callback;
+	xmlhttp_rpc.onreadystatechange=rpc_pnotify_callback;
 	xmlhttp_rpc.send(null);
 
 }
@@ -206,6 +211,92 @@ function localHotkeyHandler(keycode) {
 
 //	alert("KC: " + keycode);
 
+}
+
+function toggleUnread() {
+	try {
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+			return;
+		}
+	
+		var rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+
+		for (i = 0; i < rows.length; i++) {
+			var row = document.getElementById("RROW-" + rows[i]);
+			if (row) {
+				var nc = row.className;
+				nc = nc.replace("Unread", "");
+				nc = nc.replace("Selected", "");
+
+				if (row.className.match("Unread")) {
+					row.className = nc + "Selected";
+				} else {
+					row.className = nc + "UnreadSelected";
+				}
+			}
+		}
+
+		if (rows.length > 0) {
+
+			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
+				param_escape(rows.toString()) + "&cmode=2";
+
+			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);
+
+		}
+
+	} catch (e) {
+		exception_error(e);
+	}
+}
+
+function toggleStarred() {
+	try {
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+			return;
+		}
+	
+		var rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+
+		for (i = 0; i < rows.length; i++) {
+			var row = document.getElementById("RROW-" + rows[i]);
+			var mark_img = document.getElementById("FMARKPIC-" + rows[i]);
+
+			if (row && mark_img) {
+
+				if (mark_img.alt == "Set mark") {
+					mark_img.src = "images/mark_set.png";
+					mark_img.alt = "Reset mark";
+					mark_img.setAttribute('onclick', 
+						'javascript:toggleMark('+rows[i]+', false)');
+
+				} else {
+					mark_img.src = "images/mark_unset.png";
+					mark_img.alt = "Set mark";
+					mark_img.setAttribute('onclick', 
+						'javascript:toggleMark('+rows[i]+', true)');
+				}
+			}
+		}
+
+		if (rows.length > 0) {
+
+			var query = "backend.php?op=rpc&subop=markSelected&ids=" +
+				param_escape(rows.toString()) + "&cmode=2";
+
+			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);
+
+		}
+
+	} catch (e) {
+		exception_error(e);
+	}
 }
 
 function init() {

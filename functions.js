@@ -32,6 +32,13 @@ function rpc_notify_callback() {
 	}
 }
 
+function rpc_pnotify_callback() {
+	var container = parent.document.getElementById('notify');
+	if (xmlhttp_rpc.readyState == 4) {
+		container.innerHTML=xmlhttp_rpc.responseText;
+	}
+}
+
 function param_escape(arg) {
 	if (typeof encodeURIComponent != 'undefined')
 		return encodeURIComponent(arg);	
@@ -469,7 +476,8 @@ function selectTableRow(r, do_select) {
 	}
 }
 
-function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select) {
+function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select, 
+	classcheck) {
 
 	var content = document.getElementById(content_id);
 
@@ -479,15 +487,18 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select) 
 	}
 
 	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].id.match(prefix)) {
-			selectTableRow(content.rows[i], do_select);
-		}
+		if (!classcheck || content.rows[i].className.match(classcheck)) {
+	
+			if (content.rows[i].id.match(prefix)) {
+				selectTableRow(content.rows[i], do_select);
+			}
 
-		var row_id = content.rows[i].id.replace(prefix, "");
-		var check = document.getElementById(check_prefix + row_id);
+			var row_id = content.rows[i].id.replace(prefix, "");
+			var check = document.getElementById(check_prefix + row_id);
 
-		if (check) {
-			check.checked = do_select;
+			if (check) {
+				check.checked = do_select;
+			}
 		}
 	}
 }
@@ -504,7 +515,9 @@ function getSelectedTableRowIds(content_id, prefix) {
 	var sel_rows = new Array();
 
 	for (i = 0; i < content.rows.length; i++) {
-		if (content.rows[i].className.match("Selected")) {
+		if (content.rows[i].id.match(prefix) && 
+				content.rows[i].className.match("Selected")) {
+				
 			var row_id = content.rows[i].id.replace(prefix + "-", "");
 			sel_rows.push(row_id);	
 		}
@@ -513,4 +526,19 @@ function getSelectedTableRowIds(content_id, prefix) {
 	return sel_rows;
 
 }
+
+function toggleSelectRow(sender) {
+	var parent_row = sender.parentNode.parentNode;
+
+	if (sender.checked) {
+		if (!parent_row.className.match("Selected")) {
+			parent_row.className = parent_row.className + "Selected";
+		}
+	} else {
+		if (parent_row.className.match("Selected")) {
+			parent_row.className = parent_row.className.replace("Selected", "");
+		}
+	}
+}
+
 
