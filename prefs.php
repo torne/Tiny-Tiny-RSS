@@ -69,6 +69,11 @@
 		</tr></table>
 	</td>
 </tr>
+<? } else { ?>
+<tr><td colspan="2" align="right">
+	<div id="notify"><span id="notify_body"></div>
+	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
+</td></tr>
 <? } ?>
 <tr>
 	<td class="prefsTabs" align="left" valign="bottom">

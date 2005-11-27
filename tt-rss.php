@@ -52,7 +52,7 @@
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
-	<td colspan="2">
+	<td colspan="2" class="headerBox">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	
@@ -73,7 +73,10 @@
 	</td>
 </tr>
 <? } else { ?>
+<tr><td align="right" colspan="2">
+	<div id="notify"><span id="notify_body"></div>
 	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
+</td></tr>
 <? } ?>
 <tr>
 	<td valign="top" rowspan="3" class="feeds"> 
