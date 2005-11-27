@@ -97,10 +97,6 @@
 			purge_old_posts($link);
 		}
 
-		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"]) {
-			return;			
-		}
-
 //		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT feed_url,id,
@@ -167,6 +163,10 @@
 	function update_rss_feed($link, $feed_url, $feed) {
 
 		if (WEB_DEMO_MODE) return;
+
+		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"]) {
+			return;			
+		}
 
 		$feed = db_escape_string($feed);
 
