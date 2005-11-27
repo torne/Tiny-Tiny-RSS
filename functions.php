@@ -10,6 +10,8 @@
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 
+	require_once 'magpierss/rss_utils.inc';
+
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
 	function purge_feed($link, $feed_id, $purge_interval) {
