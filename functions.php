@@ -160,11 +160,11 @@
 		}
 	}
 
-	function update_rss_feed($link, $feed_url, $feed) {
+	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
 		if (WEB_DEMO_MODE) return;
 
-		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"]) {
+		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"] && !$ignore_daemon) {
 			return;			
 		}
 
@@ -232,7 +232,12 @@
 				array_push($filters[$line["name"]], $line["reg_exp"]);
 			}
 
-			foreach ($rss->items as $item) {
+			$iterator = $rss->items;
+
+			if (!$iterator) $iterator = $rss->entries;
+			if (!$iterator) $iterator = $rss;			
+
+			foreach ($iterator as $item) {
 	
 				$entry_guid = $item["id"];
 	
@@ -261,13 +266,17 @@
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 
 				$entry_title = $item["title"];
-				$entry_link = $item["link"];
+
+				// strange Magpie workaround
+				$entry_link = $item["link_"];
+				if (!$entry_link) $entry_link = $item["link"];
 
 				if (!$entry_title) continue;
 				if (!$entry_link) continue;
 
 				$entry_content = $item["content:escaped"];
 
+				if (!$entry_content) $entry_content = $item["summary"];
 				if (!$entry_content) $entry_content = $item["content:encoded"];
 				if (!$entry_content) $entry_content = $item["content"];
 				if (!$entry_content) $entry_content = $item["description"];

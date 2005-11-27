@@ -1219,7 +1219,7 @@
 					$feed_id = db_fetch_result($result, 0, "id");
 
 					if ($feed_id) {
-						update_rss_feed($link, $feed_link, $feed_id);
+						update_rss_feed($link, $feed_link, $feed_id, true);
 					}
 				} else {
 
