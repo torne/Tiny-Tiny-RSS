@@ -577,6 +577,7 @@
 		$addheader = $_GET["addheader"];
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+			SUBSTRING(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id");
@@ -625,7 +626,14 @@
 
 			print "<div class=\"postHeader\"><table width=\"100%\">";
 
-			print "<tr><td colspan='2'>" . $line["title"] . "</td></tr>";
+			print "<tr><td>" . $line["title"] . "</td>";
+
+			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
+				strtotime($line["updated"]));
+		
+			print "<td class=\"postDate\">$parsed_updated</td>";
+						
+			print "</tr>";
 
 			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
 				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
@@ -1088,7 +1096,8 @@
 				print "</td>";
 			}
 
-			$updated_fmt = date("M d, G:i", strtotime($line["updated"]));
+			$updated_fmt = date(get_pref($link, 'SHORT_DATE_FORMAT'), 
+				strtotime($line["updated"]));
 			print "<td class=\"hlUpdated\"><nobr>$updated_fmt</nobr></td>";
 
 			print "</tr>";
