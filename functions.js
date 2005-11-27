@@ -343,7 +343,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
-			if (!xmlhttp_rpc.responseXML) {
+			if (!xmlhttp_rpc.responseXML || !xmlhttp_rpc.responseXML.firstChild) {
 				notify("[all_counters_callback] backend did not return valid XML");
 				return;
 			}
@@ -541,4 +541,7 @@ function toggleSelectRow(sender) {
 	}
 }
 
+function openExternalUrl(url) {
+	var w = window.open(url);
+}
 
