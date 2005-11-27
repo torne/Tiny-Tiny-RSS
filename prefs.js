@@ -695,6 +695,16 @@ function labelTest() {
 
 }
 
+function displayHelpInfobox(topic_id) {
+
+	xmlhttp.open("GET", "backend.php?op=help&tid=" +
+		param_escape(topic_id) + "&noheaders=1", true);
+
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
+
+}
+
 function labelEditCancel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
