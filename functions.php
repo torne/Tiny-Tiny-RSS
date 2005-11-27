@@ -253,6 +253,7 @@
 				$rss_2_date = $item['pubdate'];
 				$rss_1_date = $item['dc']['date'];
 				$atom_date = $item['issued'];
+				if (!$atom_date) $atom_date = $item['updated'];
 			
 				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
 				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
