@@ -1069,7 +1069,7 @@
 						alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
 				}
 	
-				$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+				$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
 					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
@@ -1104,7 +1104,7 @@
 					} else {			
 						print "<td class='hlContent'>";
 		
-						print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+						print "<a href=\"javascript:view($id,$feed_id);\">" .
 							$line["title"];
 		
 						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
