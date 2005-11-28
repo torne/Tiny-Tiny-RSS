@@ -1105,7 +1105,7 @@
 				$updated_fmt = date($short_date, strtotime($line["updated"]));
 			}				
 			
-			print "<td class=\"hlUpdated\"><nobr>$updated_fmt</nobr></td>";
+			print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
 
 			print "</tr>";
 
