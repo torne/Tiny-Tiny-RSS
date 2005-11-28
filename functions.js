@@ -130,7 +130,11 @@ function hotkey_handler(e) {
 	}
 	
 	if (typeof localHotkeyHandler != 'undefined') {
-		localHotkeyHandler(keycode);
+		try {
+			localHotkeyHandler(keycode);
+		} catch (e) {
+			exception_error(e);
+		}
 	}
 
 }
@@ -545,3 +549,126 @@ function openExternalUrl(url) {
 	var w = window.open(url);
 }
 
+
+function getRelativeFeedId(list, id, direction) {	
+	if (!id) {
+		if (direction == "next") {
+			for (i = 0; i < list.childNodes.length; i++) {
+				var child = list.childNodes[i];
+				if (child.id == "feedCatHolder") {
+					if (child.firstChild) {
+						var cr = getRelativeFeedId(child.firstChild, id, direction);
+						if (cr) return cr;					
+					}
+				} else if (child.id.match("FEEDR-")) {
+					return child.id.replace('FEEDR-', '');
+				}				
+			}
+		}
+
+		// FIXME select last feed doesn't work when only unread feeds are visible
+
+		if (direction == "prev") {
+			for (i = list.childNodes.length-1; i >= 0; i--) {
+				var child = list.childNodes[i];				
+				if (child.id == "feedCatHolder") {
+					if (child.firstChild) {
+						var cr = getRelativeFeedId(child.firstChild, id, direction);
+						if (cr) return cr;					
+					}
+				} else if (child.id.match("FEEDR-")) {
+				
+					if (getCookie("ttrss_vf_hreadf") == 1) {
+						if (child.className != "feed") {
+							alert(child.className);
+							return child.id.replace('FEEDR-', '');						
+						}							
+					} else {
+							return child.id.replace('FEEDR-', '');						
+					}				
+				}				
+			}
+		}
+	} else {
+	
+		var feed = list.ownerDocument.getElementById("FEEDR-" + getActiveFeedId());
+		
+		if (direction == "next") {
+
+			if (feed.nextSibling) {
+
+				var next_feed = feed.nextSibling;
+
+				while (!next_feed.id && next_feed.nextSibling) {
+					next_feed = next_feed.nextSibling;
+				}
+
+				if (getCookie("ttrss_vf_hreadf") == 1) {
+						while (next_feed && next_feed.className == "feed") {
+							next_feed = next_feed.nextSibling;
+						}
+					}
+
+				if (next_feed && next_feed.id.match("FEEDR-")) {
+					return next_feed.id.replace("FEEDR-", "");
+				}				
+			}
+
+			var this_cat = feed.parentNode.parentNode;
+			
+			if (this_cat && this_cat.nextSibling) {
+				while (this_cat = this_cat.nextSibling) {
+					if (this_cat.firstChild && this_cat.firstChild.firstChild) {
+						var next_feed = this_cat.firstChild.firstChild;
+							if (getCookie("ttrss_vf_hreadf") == 1) {
+							while (next_feed && next_feed.className == "feed") {
+								next_feed = next_feed.nextSibling;
+							}
+						}
+						if (next_feed && next_feed.id.match("FEEDR-")) {
+							return next_feed.id.replace("FEEDR-", "");
+						}
+					}
+				}				
+			}
+		} else if (direction == "prev") {
+
+			if (feed.previousSibling) {
+			
+				var prev_feed = feed.previousSibling;
+
+				if (getCookie("ttrss_vf_hreadf") == 1) {
+						while (prev_feed && prev_feed.className == "feed") {
+							prev_feed = prev_feed.previousSibling;
+						}
+					}
+
+				while (!prev_feed.id && prev_feed.previousSibling) {
+					prev_feed = prev_feed.previousSibling;
+				}
+
+				if (prev_feed && prev_feed.id.match("FEEDR-")) {
+					return prev_feed.id.replace("FEEDR-", "");
+				}				
+			}
+
+			var this_cat = feed.parentNode.parentNode;
+			
+			if (this_cat && this_cat.previousSibling) {
+				while (this_cat = this_cat.previousSibling) {
+					if (this_cat.lastChild && this_cat.firstChild.lastChild) {
+						var prev_feed = this_cat.firstChild.lastChild;
+							if (getCookie("ttrss_vf_hreadf") == 1) {
+							while (prev_feed && prev_feed.className == "feed") {
+								prev_feed = prev_feed.previousSibling;
+							}
+						}
+						if (prev_feed && prev_feed.id.match("FEEDR-")) {
+							return prev_feed.id.replace("FEEDR-", "");
+						}
+					}
+				}				
+			}	
+		}
+	}
+}
