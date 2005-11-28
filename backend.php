@@ -1098,8 +1098,13 @@
 				print "</td>";
 			}
 
-			$updated_fmt = date(get_pref($link, 'SHORT_DATE_FORMAT'), 
-				strtotime($line["updated"]));
+			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				$updated_fmt = smart_date_time(strtotime($line["updated"]));
+			} else {
+				$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+				$updated_fmt = date($short_date, strtotime($line["updated"]));
+			}				
+			
 			print "<td class=\"hlUpdated\"><nobr>$updated_fmt</nobr></td>";
 
 			print "</tr>";
