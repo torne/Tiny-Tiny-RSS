@@ -1089,7 +1089,9 @@
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
 						101);
 						
-					print "<span class=\"contentPreview\"> - $content_preview</span>";
+					if ($content_preview) {
+						print "<span class=\"contentPreview\"> - $content_preview</span>";
+					}
 				}
 
 				print "</a>";
