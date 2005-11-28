@@ -683,6 +683,11 @@
 		$view_mode = $_GET["view"];
 		$addheader = $_GET["addheader"];
 		$limit = $_GET["limit"];
+		$omode = $_GET["omode"];
+
+		if ($omode == "xml") {
+			header("Content-Type: application/xml");
+		}
 
 		if (!$feed) {
 			return;
@@ -976,44 +981,54 @@
 		}
 
 		if (!$result) {
-			print "<div align='center'>
-				Could not display feed (query failed). Please check match syntax or local configuration.</div>";
-			return;
-		}
+			if ($omode != "xml") {
+				print "<div align='center'>
+					Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
+				return;
+			} else {
+				print "<error error-code=\"8\"/>";
 
+			}
+		}
+	
 		if (db_num_rows($result) > 0) {
 
-			print "<table class=\"headlinesSubToolbar\" 
-				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-			
-			print "<td class=\"headlineActions\">
-				Select: 
-						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-							'RROW-', 'RCHK-', true)\">All</a>,
-						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-							'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
-						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-							'RROW-', 'RCHK-', false)\">None</a>
-				&nbsp;&nbsp;
-				Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
-						<a href=\"javascript:toggleStarred()\">Starred</a>";
-	
-			print "</td>";
-	
-			print "<td class=\"headlineTitle\">";
-	
-			if ($feed_site_url) {
-				print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+			if ($omode != "xml") {
+
+				print "<table class=\"headlinesSubToolbar\" 
+					width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+				
+				print "<td class=\"headlineActions\">
+					Select: 
+							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+								'RROW-', 'RCHK-', true)\">All</a>,
+							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+								'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+								'RROW-', 'RCHK-', false)\">None</a>
+					&nbsp;&nbsp;
+					Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
+							<a href=\"javascript:toggleStarred()\">Starred</a>";
+		
+				print "</td>";
+		
+				print "<td class=\"headlineTitle\">";
+		
+				if ($feed_site_url) {
+					print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+				} else {
+					print $feed_title;
+				}
+				
+				print "</td>";
+				print "</tr></table>";
+		
+				print "<table class=\"headlinesList\" id=\"headlinesList\" 
+					cellspacing=\"0\" width=\"100%\">";
+
 			} else {
-				print $feed_title;
+				print "<headlines feed=\"$feed\" title=\"$feed_title\" site_url=\"$feed_site_url\">";
 			}
-			
-			print "</td>";
-			print "</tr></table>";
-	
-	
-			print "<table class=\"headlinesList\" id=\"headlinesList\" 
-				cellspacing=\"0\" width=\"100%\">";
 	
 			$lnum = 0;
 	
@@ -1022,7 +1037,7 @@
 			$num_unread = 0;
 	
 			while ($line = db_fetch_assoc($result)) {
-	
+
 				$class = ($lnum % 2) ? "even" : "odd";
 	
 				$id = $line["id"];
@@ -1041,6 +1056,9 @@
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
 					$class .= "Unread";
 					++$num_unread;
+					$is_unread = 'true';
+				} else {
+					$is_unread = 'false';
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
@@ -1053,72 +1071,99 @@
 	
 				$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
 					$line["title"] . "</a>";
-					
-				print "<tr class='$class' id='RROW-$id'>";
-				// onclick=\"javascript:view($id,$feed_id)\">
-	
-				print "<td class='hlUpdatePic'>$update_pic</td>";
-	
-				print "<td class='hlSelectRow'>
-					<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
-						class=\"feedCheckBox\" id=\"RCHK-$id\">
-					</td>";
-	
-				print "<td class='hlMarkedPic'>$marked_pic</td>";
-	
-				if ($line["feed_title"]) {			
-					print "<td class='hlContent'>$content_link</td>";
-					print "<td class='hlFeed'>
-						<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
-				} else {			
-					print "<td class='hlContent'>";
-	
-					print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
-						$line["title"];
-	
-					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
-					
-						$content_preview = truncate_string(strip_tags($line["content_preview"]), 
-							101);
-							
-						if ($content_preview) {
-							print "<span class=\"contentPreview\"> - $content_preview</span>";
-						}
-					}
-	
-					print "</a>";
-					print "</td>";
-				}
-	
+
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$updated_fmt = smart_date_time(strtotime($line["updated"]));
 				} else {
 					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
 					$updated_fmt = date($short_date, strtotime($line["updated"]));
 				}				
+
+				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+					$content_preview = truncate_string(strip_tags($line["content_preview"]), 101);
+				}
+
+				if ($omode != "xml") {
+					
+					print "<tr class='$class' id='RROW-$id'>";
+					// onclick=\"javascript:view($id,$feed_id)\">
+		
+					print "<td class='hlUpdatePic'>$update_pic</td>";
+		
+					print "<td class='hlSelectRow'>
+						<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
+							class=\"feedCheckBox\" id=\"RCHK-$id\">
+						</td>";
+		
+					print "<td class='hlMarkedPic'>$marked_pic</td>";
+		
+					if ($line["feed_title"]) {			
+						print "<td class='hlContent'>$content_link</td>";
+						print "<td class='hlFeed'>
+							<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
+					} else {			
+						print "<td class='hlContent'>";
+		
+						print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+							$line["title"];
+		
+						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+								
+							if ($content_preview) {
+								print "<span class=\"contentPreview\"> - $content_preview</span>";
+							}
+						}
+		
+						print "</a>";
+						print "</td>";
+					}
+					
+					print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+		
+					print "</tr>";
+
+				} else {
+
+					print "<entry unread='$is_unread' id='$id'>";
+					print "<title><![CDATA[" . $line["title"] . "]]></title>";
+					print "<link>" . $line["link"] . "</link>";
+					print "<updated>$updated_fmt</updated>";
+					if ($content_preview) {
+						print "<preview><![CDATA[ $content_preview ]]></preview>";
+					}					
+
+					if ($line["feed_title"]) {
+					print "<feed id='$feed_id'><![CDATA[" . $line["feed_title"] . "]]></feed>";
+					}
+					print "</entry>";
+
+				}
 				
-				print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
-	
-				print "</tr>";
 	
 				++$lnum;
 			}
-			
-			print "</table>";
+
+			if ($omode != "xml") {			
+				print "</table>";
+			} else {
+				print "</headlines>";
+			}
 
 		} else {
 			print "<div width='100%' align='center'>No articles found.</div>";
 		}
 
-		print "<script type=\"text/javascript\">
-			document.onkeydown = hotkey_handler;
-			update_all_counters('$feed');
-		</script>";
+		if ($omode != "xml") {
 
-		if ($addheader) {
-			print "</body></html>";
+			print "<script type=\"text/javascript\">
+				document.onkeydown = hotkey_handler;
+				update_all_counters('$feed');
+			</script>";
+	
+			if ($addheader) {
+				print "</body></html>";
+			}
 		}
-
 	}
 
 	if ($op == "pref-rpc") {

@@ -26,6 +26,8 @@
 
 	$ERRORS[7] = "No operation to perform.";
 
+	$ERRORS[8] = "Could not display feed: query failed. Please check label match syntax or local configuration.";
+
 ?>
 
 <html>
