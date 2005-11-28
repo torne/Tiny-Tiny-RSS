@@ -983,136 +983,133 @@
 
 		if (db_num_rows($result) > 0) {
 
-		print "<table class=\"headlinesSubToolbar\" 
-			width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-		
-		print "<td class=\"headlineActions\">
-			Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', false)\">None</a>
-			&nbsp;&nbsp;
-			Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
-					<a href=\"javascript:toggleStarred()\">Starred</a>";
-
-		print "</td>";
-
-		print "<td class=\"headlineTitle\">";
-
-		if ($feed_site_url) {
-			print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
-		} else {
-			print $feed_title;
-		}
-		
-		print "</td>";
-		print "</tr></table>";
-
-		}
-
-		print "<table class=\"headlinesList\" id=\"headlinesList\" 
-			cellspacing=\"0\" width=\"100%\">";
-
-
-
-		$lnum = 0;
-
-		error_reporting (DEFAULT_ERROR_LEVEL);
-
-		$num_unread = 0;
-
-		while ($line = db_fetch_assoc($result)) {
-
-			$class = ($lnum % 2) ? "even" : "odd";
-
-			$id = $line["id"];
-			$feed_id = $line["feed_id"];
-
-			if ($line["last_read"] == "" && 
-					($line["unread"] != "t" && $line["unread"] != "1")) {
-
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
-					alt=\"Updated\">";
-			} else {
-				$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
-					alt=\"Updated\">";
-			}
-
-			if ($line["unread"] == "t" || $line["unread"] == "1") {
-				$class .= "Unread";
-				++$num_unread;
-			}
-
-			if ($line["marked"] == "t" || $line["marked"] == "1") {
-				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
-					alt=\"Reset mark\" onclick='javascript:toggleMark($id, false)'>";
-			} else {
-				$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
-					alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
-			}
-
-			$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
-				$line["title"] . "</a>";
-				
-			print "<tr class='$class' id='RROW-$id'>";
-			// onclick=\"javascript:view($id,$feed_id)\">
-
-			print "<td valign='center' class='hlUpdatePic'>$update_pic</td>";
-
-			print "<td valign='center' class='hlSelectRow'>
-				<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
-					class=\"feedCheckBox\" id=\"RCHK-$id\">
-				</td>";
-
-			print "<td valign='center' class='hlMarkedPic'>$marked_pic</td>";
-
-			if ($line["feed_title"]) {			
-				print "<td class='hlContent'>$content_link</td>";
-				print "<td class='hlFeed'>
-					<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
-			} else {			
-				print "<td class='hlContent'>";
-
-				print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
-					$line["title"];
-
-				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
-				
-					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
-						101);
-						
-					if ($content_preview) {
-						print "<span class=\"contentPreview\"> - $content_preview</span>";
-					}
-				}
-
-				print "</a>";
-				print "</td>";
-			}
-
-			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-				$updated_fmt = smart_date_time(strtotime($line["updated"]));
-			} else {
-				$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-				$updated_fmt = date($short_date, strtotime($line["updated"]));
-			}				
+			print "<table class=\"headlinesSubToolbar\" 
+				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 			
-			print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+			print "<td class=\"headlineActions\">
+				Select: 
+						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+							'RROW-', 'RCHK-', true)\">All</a>,
+						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+							'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+						<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+							'RROW-', 'RCHK-', false)\">None</a>
+				&nbsp;&nbsp;
+				Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
+						<a href=\"javascript:toggleStarred()\">Starred</a>";
+	
+			print "</td>";
+	
+			print "<td class=\"headlineTitle\">";
+	
+			if ($feed_site_url) {
+				print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+			} else {
+				print $feed_title;
+			}
+			
+			print "</td>";
+			print "</tr></table>";
+	
+	
+			print "<table class=\"headlinesList\" id=\"headlinesList\" 
+				cellspacing=\"0\" width=\"100%\">";
+	
+			$lnum = 0;
+	
+			error_reporting (DEFAULT_ERROR_LEVEL);
+	
+			$num_unread = 0;
+	
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$id = $line["id"];
+				$feed_id = $line["feed_id"];
+	
+				if ($line["last_read"] == "" && 
+						($line["unread"] != "t" && $line["unread"] != "1")) {
+	
+					$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+						alt=\"Updated\">";
+				} else {
+					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
+						alt=\"Updated\">";
+				}
+	
+				if ($line["unread"] == "t" || $line["unread"] == "1") {
+					$class .= "Unread";
+					++$num_unread;
+				}
+	
+				if ($line["marked"] == "t" || $line["marked"] == "1") {
+					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
+						alt=\"Reset mark\" onclick='javascript:toggleMark($id, false)'>";
+				} else {
+					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
+						alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
+				}
+	
+				$content_link = "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+					$line["title"] . "</a>";
+					
+				print "<tr class='$class' id='RROW-$id'>";
+				// onclick=\"javascript:view($id,$feed_id)\">
+	
+				print "<td class='hlUpdatePic'>$update_pic</td>";
+	
+				print "<td class='hlSelectRow'>
+					<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
+						class=\"feedCheckBox\" id=\"RCHK-$id\">
+					</td>";
+	
+				print "<td class='hlMarkedPic'>$marked_pic</td>";
+	
+				if ($line["feed_title"]) {			
+					print "<td class='hlContent'>$content_link</td>";
+					print "<td class='hlFeed'>
+						<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
+				} else {			
+					print "<td class='hlContent'>";
+	
+					print "<a id=\"FTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+						$line["title"];
+	
+					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+					
+						$content_preview = truncate_string(strip_tags($line["content_preview"]), 
+							101);
+							
+						if ($content_preview) {
+							print "<span class=\"contentPreview\"> - $content_preview</span>";
+						}
+					}
+	
+					print "</a>";
+					print "</td>";
+				}
+	
+				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+					$updated_fmt = smart_date_time(strtotime($line["updated"]));
+				} else {
+					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+					$updated_fmt = date($short_date, strtotime($line["updated"]));
+				}				
+				
+				print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+	
+				print "</tr>";
+	
+				++$lnum;
+			}
+			
+			print "</table>";
 
-			print "</tr>";
-
-			++$lnum;
+		} else {
+			print "<div width='100%' align='center'>No articles found.</div>";
 		}
 
-		if ($lnum == 0) {
-			print "<tr><td align='center'>No articles found.</td></tr>";
-		}
-		
-		print "</table>";
-		
 		print "<script type=\"text/javascript\">
 			document.onkeydown = hotkey_handler;
 			update_all_counters('$feed');
