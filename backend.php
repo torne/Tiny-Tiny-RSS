@@ -915,48 +915,6 @@
 			$feed_title = "?";
 		}
 
-		print "<table class=\"headlinesSubToolbar\" 
-			width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-		
-		print "<td class=\"headlineActions\">
-			Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-						'RROW-', 'RCHK-', false)\">None</a>
-			&nbsp;&nbsp;
-			Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
-					<a href=\"javascript:toggleStarred()\">Starred</a>";
-
-/*		print "&nbsp;&nbsp;
-			View:
-				<a href=\"javascript:limitView('All')\">All</a>,
-				<a href=\"javascript:limitView('Unread')\">Unread</a>,
-				<a href=\"javascript:limitView('Starred')\">Starred</a>
-			&nbsp;&nbsp;
-			Feed:
-				<a href=\"javascript:updateCurrentFeed()\">Update</a>,
-				<a href=\"javascript:catchupCurrentFeed()\">Mark as read</a>"; */
-
-		print "</td>";
-
-		print "<td class=\"headlineTitle\">";
-
-		if ($feed_site_url) {
-			print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
-		} else {
-			print $feed_title;
-		}
-		
-		print "</td>";
-		print "</tr></table>";
-		
-		print "<table class=\"headlinesList\" id=\"headlinesList\" 
-			cellspacing=\"0\" width=\"100%\">";
-
-
 		if ($feed < -10) error_reporting (0);
 
 		if (sprintf("%d", $feed) != 0) {
@@ -1018,10 +976,47 @@
 		}
 
 		if (!$result) {
-			print "<tr><td colspan='4' align='center'>
-				Could not display feed (query failed). Please check match syntax or local configuration.</td></tr>";
+			print "<div align='center'>
+				Could not display feed (query failed). Please check match syntax or local configuration.</div>";
 			return;
 		}
+
+		if (db_num_rows($result) > 0) {
+
+		print "<table class=\"headlinesSubToolbar\" 
+			width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		
+		print "<td class=\"headlineActions\">
+			Select: 
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', true)\">All</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+					<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+						'RROW-', 'RCHK-', false)\">None</a>
+			&nbsp;&nbsp;
+			Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
+					<a href=\"javascript:toggleStarred()\">Starred</a>";
+
+		print "</td>";
+
+		print "<td class=\"headlineTitle\">";
+
+		if ($feed_site_url) {
+			print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+		} else {
+			print $feed_title;
+		}
+		
+		print "</td>";
+		print "</tr></table>";
+
+		}
+
+		print "<table class=\"headlinesList\" id=\"headlinesList\" 
+			cellspacing=\"0\" width=\"100%\">";
+
+
 
 		$lnum = 0;
 
