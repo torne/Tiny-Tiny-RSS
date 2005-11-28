@@ -118,6 +118,20 @@ function localHotkeyHandler(keycode) {
 		return parent.scheduleFeedUpdate(true);
 	}
 
+	var feedlist = document.getElementById('feedList');
+
+	if (keycode == 74) { // j
+		var feed = getActiveFeedId();
+		var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
+		if (new_feed) viewfeed(new_feed, 0, '');
+	}
+
+	if (keycode == 75) { // k
+		var feed = getActiveFeedId();
+		var new_feed = getRelativeFeedId(feedlist, feed, 'next');
+		if (new_feed) viewfeed(new_feed, 0, '');
+	}
+
 //	alert("KC: " + keycode);
 
 }

@@ -204,6 +204,21 @@ function localHotkeyHandler(keycode) {
 		return parent.scheduleFeedUpdate(true);
 	}
 
+	var f_doc = parent.frames["feeds-frame"].document;
+	var feedlist = f_doc.getElementById('feedList');
+
+	if (keycode == 74) { // j
+		var feed = getActiveFeedId();
+		var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
+		if (new_feed) viewfeed(new_feed, 0, '');
+	}
+
+	if (keycode == 75) { // k
+		var feed = getActiveFeedId();
+		var new_feed = getRelativeFeedId(feedlist, feed, 'next');
+		if (new_feed) viewfeed(new_feed, 0, '');
+	}
+
 // FIXME
 //	if (keycode == 85) {
 //		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
