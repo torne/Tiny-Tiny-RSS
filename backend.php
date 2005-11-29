@@ -473,7 +473,7 @@
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
 
-			$ids = split(",", $_GET["ids"]);
+			$ids = split(",", db_escape_string($_GET["ids"]));
 
 			$cmode = sprintf("%d", $_GET["cmode"]);
 
@@ -500,7 +500,7 @@
 
 		if ($subop == "markSelected") {
 
-			$ids = split(",", $_GET["ids"]);
+			$ids = split(",", db_escape_string($_GET["ids"]));
 
 			$cmode = sprintf("%d", $_GET["cmode"]);
 
@@ -811,9 +811,8 @@
 
 		}
 
-		$search = $_GET["search"];
-
-		$search_mode = $_GET["smode"];
+		$search = db_escape_string($_GET["search"]);
+		$search_mode = db_escape_string($_GET["smode"]);
 
 		if ($search) {
 			$search_query_part = "(upper(title) LIKE upper('%$search%') 
@@ -1171,7 +1170,7 @@
 		$subop = $_GET["subop"];
 
 		if ($subop == "unread") {
-			$ids = split(",", $_GET["ids"]);
+			$ids = split(",", db_escape_string($_GET["ids"]));
 			foreach ($ids as $id) {
 				db_query($link, "UPDATE ttrss_user_entries SET unread = true 
 					WHERE feed_id = '$id' AND owner_uid = ".$_SESSION["uid"]);
@@ -1181,7 +1180,7 @@
 		}
 
 		if ($subop == "read") {
-			$ids = split(",", $_GET["ids"]);
+			$ids = split(",", db_escape_string($_GET["ids"]));
 			foreach ($ids as $id) {
 				db_query($link, "UPDATE ttrss_user_entries 
 					SET unread = false,last_read = NOW() WHERE 
@@ -1234,7 +1233,7 @@
 
 			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", $_GET["ids"]);
+				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_feeds 
@@ -1314,7 +1313,7 @@
 
 			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", $_GET["ids"]);
+				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
 
@@ -1341,6 +1340,33 @@
 			}
 		}
 
+		if ($subop == "categorize") {
+
+			if (!WEB_DEMO_MODE) {
+
+				$ids = split(",", db_escape_string($_GET["ids"]));
+
+				$cat_id = db_escape_string($_GET["cat_id"]);
+
+				if ($cat_id == 0) {
+					$cat_id_qpart = 'NULL';
+				} else {
+					$cat_id_qpart = "'$cat_id'";
+				}
+
+				db_query($link, "BEGIN");
+
+				foreach ($ids as $id) {
+				
+					db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				}
+
+				db_query($link, "COMMIT");
+			}
+
+		}
+
 //		print "<h3>Edit Feeds</h3>";
 
 		$result = db_query($link, "SELECT id,title,feed_url,last_error 
@@ -1364,10 +1390,30 @@
 
 		}
 
-		print "<p><div class=\"prefGenericAddBox\">
-			<input id=\"fadd_link\" size=\"40\">&nbsp;<input 
-				type=\"submit\" class=\"button\" 
-				onclick=\"javascript:addFeed()\" value=\"Add feed\"></div>";
+		$feed_search = db_escape_string($_GET["search"]);
+
+		if (array_key_exists("search", $_GET)) {
+			$_SESSION["prefs_feed_search"] = $feed_search;
+		} else {
+			$feed_search = $_SESSION["prefs_feed_search"];
+		}
+
+		print "<table width='100%' class=\"prefGenericAddBox\" 
+			cellspacing='0' cellpadding='0'><tr>
+			<td>
+				<input id=\"fadd_link\" 
+				onchange=\"javascript:addFeed()\"
+				size=\"40\">
+				<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:addFeed()\" value=\"Add feed\">
+			</td><td align='right'>
+				<input id=\"feed_search\" size=\"20\"  
+				onchange=\"javascript:updateFeedList()\"
+				value=\"$feed_search\">
+				<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateFeedList()\" value=\"Search\">
+			</td>			
+			</tr></table>";
 
 		$feeds_sort = db_escape_string($_GET["sort"]);
 
@@ -1378,13 +1424,21 @@
 
 		$_SESSION["pref_sort_feeds"] = $feeds_sort;
 
+		if ($feed_search) {
+			$search_qpart = "UPPER(title) LIKE UPPER('%$feed_search%') AND";
+		} else {
+			$search_qpart = "";
+		}
+
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
 				update_interval,purge_interval,
 				(SELECT title FROM ttrss_feed_categories 
 					WHERE id = cat_id) AS category
 			FROM 
-				ttrss_feeds WHERE owner_uid = '".$_SESSION["uid"]."' 
+				ttrss_feeds 
+			WHERE 
+				$search_qpart owner_uid = '".$_SESSION["uid"]."' 			
 			ORDER by $feeds_sort,title");
 
 		if (db_num_rows($result) != 0) {
@@ -1592,7 +1646,35 @@
 					onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
-					
+
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+					print "&nbsp;&nbsp;";				
+
+					$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
+						WHERE owner_uid = ".$_SESSION["uid"]."
+						ORDER BY title");
+
+					print "<select id=\"sfeed_set_fcat\">";
+					print "<option id=\"0\">Uncategorized</option>";
+
+					if (db_num_rows($result) != 0) {
+		
+						print "<option disabled>--------</option>";
+
+						while ($line = db_fetch_assoc($result)) {
+							printf("<option id='%d'>%s</option>", 
+								$line["id"], $line["title"]);
+						}		
+					}
+
+					print "</select>";
+
+					print " <input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Set category\">";
+
+				}
+
 				if (get_pref($link, 'ENABLE_PREFS_CATCHUP_UNCATCHUP')) {
 					print "
 					<input type=\"submit\" class=\"button\" 
@@ -1603,7 +1685,7 @@
 				}
 				
 				print "
-					All feeds: <input type=\"submit\" 
+					&nbsp;All feeds: <input type=\"submit\" 
 							class=\"button\" onclick=\"gotoExportOpml()\" 
 							value=\"Export OPML\">";			
 				}
@@ -1620,7 +1702,10 @@
 	//		print "<h3>Categories</h3>";
 
 			print "<div class=\"prefGenericAddBox\">
-				<input id=\"fadd_cat\" size=\"40\">&nbsp;<input 
+				<input id=\"fadd_cat\" 
+					onchange=\"javascript:addFeedCat()\"
+					size=\"40\">&nbsp;
+				<input 
 					type=\"submit\" class=\"button\" 
 					onclick=\"javascript:addFeedCat()\" value=\"Add category\"></div>";
 	
@@ -1760,7 +1845,7 @@
 
 			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", $_GET["ids"]);
+				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id'");
@@ -1800,7 +1885,7 @@
 		}
 
 		print "<div class=\"prefGenericAddBox\">
-		<input id=\"fadd_regexp\" size=\"40\">&nbsp;";
+		<input id=\"fadd_regexp\" onchange=\"javascript:addFilter()\" size=\"40\">&nbsp;";
 		
 		print_select("fadd_match", "Title", $filter_types);	
 
@@ -2064,7 +2149,7 @@
 
 			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", $_GET["ids"]);
+				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_labels WHERE id = '$id'");
@@ -2688,7 +2773,7 @@
 
 			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
 
-				$ids = split(",", $_GET["ids"]);
+				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
 					db_query($link, "DELETE FROM ttrss_users WHERE id = '$id' AND id != " . $_SESSION["uid"]);
@@ -2748,7 +2833,7 @@
 		}
 
 		print "<div class=\"prefGenericAddBox\">
-			<input id=\"uadd_box\" size=\"40\">&nbsp;";
+			<input id=\"uadd_box\" onchange=\"javascript:addUser()\" size=\"40\">&nbsp;";
 			
 		print"<input type=\"submit\" class=\"button\" 
 			onclick=\"javascript:addUser()\" value=\"Add user\"></div>";

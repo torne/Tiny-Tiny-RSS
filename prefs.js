@@ -171,8 +171,13 @@ function updateFeedList(sort_key) {
 
 	p_notify("Loading, please wait...");
 
+	var feed_search = document.getElementById("feed_search");
+	var search = "";
+	if (feed_search) { search = feed_search.value; }
+
 	xmlhttp.open("GET", "backend.php?op=pref-feeds" +
-		"&sort=" + param_escape(sort_key), true);
+		"&sort=" + param_escape(sort_key) + 
+		"&search=" + param_escape(search), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 
@@ -1170,4 +1175,33 @@ function closeInfoBox() {
 	} else if (box) {
 		box.style.display = "none";
 	}
+}
+
+function categorizeSelectedFeeds() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFeeds();
+
+	var cat_sel = document.getElementById("sfeed_set_fcat");
+	var cat_id = cat_sel[cat_sel.selectedIndex].id;
+
+	if (sel_rows.length > 0) {
+
+		notify("Changing category of selected feeds...");
+
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=categorize&ids="+
+			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id), true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+
+	} else {
+
+		notify("Please select some feeds first.");
+
+	}
+
 }
