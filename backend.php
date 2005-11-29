@@ -640,13 +640,25 @@
 				ORDER BY tag_name");
 	
 			$tags_str = "";
+			$f_tags_str = "";
+
+			$num_tags = 0;
 
 			while ($tmp_line = db_fetch_assoc($tmp_result)) {
-				$tag = $tmp_line["tag_name"];
-				$tags_str .= "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
-			}		
+				$num_tags++;
+				$tag = $tmp_line["tag_name"];				
+				$tag_str = "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
+				
+				if ($num_tags == 5) {
+					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
+				} else if ($num_tags < 5) {
+					$tags_str .= $tag_str;
+				}
+				$f_tags_str .= $tag_str;
+			}
 
-			$tags_str = preg_replace("/, $/", "", $tags_str);			
+			$tags_str = preg_replace("/, $/", "", $tags_str);
+			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
 
 			print "<tr><td width='50%'>
 				<a href=\"" . $line["link"] . "\">".$line["link"]."</a>
@@ -661,7 +673,13 @@
 			print "</table></div>";
 
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
-			print "<div class=\"postContent\">" . $line["content"] . "</div>";
+			print "<div class=\"postContent\">";
+			
+			if (db_num_rows($tmp_result) > 5) {
+				print "<div id=\"allEntryTags\">Tags: $f_tags_str</div>";
+			}
+
+			print $line["content"] . "</div>";
 			
 			print "</div>";
 
@@ -1099,7 +1117,7 @@
 					if ($line["feed_title"]) {			
 						print "<td class='hlContent'>$content_link</td>";
 						print "<td class='hlFeed'>
-							<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a></td>";
+							<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>&nbsp;</td>";
 					} else {			
 						print "<td class='hlContent'>";
 		
