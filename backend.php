@@ -73,8 +73,18 @@
 		print "<counter id='global-unread' counter='$c_id'/>";
 	}
 
-	function getTagCounters($link) {
-	
+	function getTagCounters($link, $smart_mode = true) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["tctr_last_value"]) {
+				$_SESSION["tctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["tctr_last_value"];
+
+		$tctrs_modified = false;
+
 		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
@@ -94,8 +104,19 @@
 			$unread = $tags[$tag];			
 
 			$tag = htmlspecialchars($tag);
-			print "<tag id=\"$tag\" counter=\"$unread\"/>";
+
+			if (!$smart_mode || $old_counters[$tag] != $unread) {			
+				$old_counters[$tag] = $unread;
+				$tctrs_modified = true;
+				print "<tag id=\"$tag\" counter=\"$unread\"/>";
+			}
+
 		} 
+
+		if ($smart_mode && $tctrs_modified) {
+			$_SESSION["tctr_last_value"] = $old_counters;
+		}
+
 	}
 
 	function getLabelCounters($link) {
@@ -143,21 +164,39 @@
 			print "<feed id=\"$id\" counter=\"$count\"/>";		
 	}
 
-	function getFeedCounters($link) {
-	
+	function getFeedCounters($link, $smart_mode = true) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["fctr_last_value"]) {
+				$_SESSION["fctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["fctr_last_value"];
+
 		$result = db_query($link, "SELECT id,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
 				WHERE feed_id = ttrss_feeds.id AND ttrss_user_entries.ref_id = ttrss_entries.id
 				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
-	
+
+		$fctrs_modified = false;
+
 		while ($line = db_fetch_assoc($result)) {
 		
 			$id = $line["id"];
 			$count = $line["count"];
 
-			print "<feed id=\"$id\" counter=\"$count\"/>";
+			if (!$smart_mode || $old_counters[$id] != $count) {
+				$old_counters[$id] = $count;
+				$fctrs_modified = true;
+				print "<feed id=\"$id\" counter=\"$count\"/>";
+			}
+		}
+
+		if ($smart_mode && $fctrs_modified) {
+			$_SESSION["fctr_last_value"] = $old_counters;
 		}
 	}
 
