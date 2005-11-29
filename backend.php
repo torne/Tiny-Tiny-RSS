@@ -388,8 +388,6 @@
 
 		print "</ul>";
 
-		print "<div class=\"invisible\" id=\"FEEDTU\">$total_unread</div>";
-
 	}
 
 
