@@ -16,6 +16,7 @@
 
 	define('ICONS_DIR', "icons");
 	define('ICONS_URL', "icons");
+	// Local and URL path to the directory, where feed favicons are stored.
 
 	define('USE_HTTP_AUTH', false);
 	// Use HTTP Basic authentication instead of login form. Has some problems.
@@ -42,5 +43,6 @@
 	// If enabled, stores feed counter information on the server side and sends
 	// only diffs to the client. In the nutshell, it saves your bandwidth and
 	// makes UI more responsive, but eats server memory.	
+	// If you experience weird feedlist refresh bugs, disable this option.
 
 ?>
