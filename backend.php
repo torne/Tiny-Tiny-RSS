@@ -739,7 +739,7 @@
 				</head><body onload='init()'>";
 		}
 
-		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+		if ($subop == "ForceUpdate" && is_int($feed)) {
 
 			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
 				WHERE id = '$feed'");
@@ -752,7 +752,7 @@
 
 		if ($subop == "MarkAllRead")  {
 
-			if (sprintf("%d", $feed) != 0) {
+			if (is_int($feed)) {
 			
 				if ($feed > 0) {
 					db_query($link, "UPDATE ttrss_user_entries 
@@ -881,7 +881,7 @@
 			$query_strategy_part = "id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
-		} else if (sprintf("%d", $feed) == 0) {
+		} else if (is_int($feed)) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
@@ -915,7 +915,7 @@
 
 		if ($search && $search_mode == "All feeds") {
 			$feed_title = "Search results";
-		} else if (sprintf("%d", $feed) == 0) {
+		} else if (is_int($feed)) {
 			$feed_title = $feed;
 		} else if ($feed > 0) {
 			$result = db_query($link, "SELECT title,site_url FROM ttrss_feeds 
@@ -937,7 +937,7 @@
 
 		if ($feed < -10) error_reporting (0);
 
-		if (sprintf("%d", $feed) != 0) {
+		if (is_int($feed) != 0) {
 
 			if ($feed > 0) {			
 				$feed_kind = "Feeds";
