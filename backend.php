@@ -1208,6 +1208,9 @@
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
 
+			if (strtoupper($upd_intl) == "DISABLED")
+				$upd_intl = -1;
+
 			if (strtoupper($purge_intl) == "DEFAULT")
 				$purge_intl = 0;
 
@@ -1535,6 +1538,9 @@
 					if ($line["update_interval"] == "0")
 						$line["update_interval"] = "Default";
 	
+					if ($line["update_interval"] == "-1")
+						$line["update_interval"] = "Disabled";
+
 					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 						$line["update_interval"] . "</a></td>";
 	
@@ -3021,7 +3027,7 @@
 		print "<h1>Subscribed feeds</h1>";
 
 		$result = db_query($link, "SELECT id,title,feed_url FROM ttrss_feeds
-			WHERE owner_uid = '$uid' ORDER BY title");
+			WHERE owner_uid = '$uid' ORDER BY title LIMIT 20");
 
 		print "<ul class=\"nomarks\">";
 
@@ -3038,6 +3044,12 @@
 			print "<li>$feed_icon&nbsp;<a href=\"".$line["feed_url"]."\">".$line["title"]."</a></li>";
 		}
 
+		if (db_num_rows($result) < $num_feeds) {
+			 // FIXME - add link to show ALL subscribed feeds here somewhere
+			print "<li><img 
+				class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">&nbsp;...</li>";
+		}
+		
 		print "</ul>";
 
 		print "</div>";

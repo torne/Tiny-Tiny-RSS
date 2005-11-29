@@ -170,6 +170,13 @@
 			return;			
 		}
 
+		$result = db_query($link, "SELECT update_interval
+			FROM ttrss_feeds WHERE id = '$feed'");
+
+		$update_interval = db_fetch_result($result, 0, "update_interval");
+
+		if ($update_interval < 0) { return; }
+
 		$feed = db_escape_string($feed);
 
 		error_reporting(0);
@@ -183,7 +190,7 @@
 
 			db_query($link, "BEGIN");
 
-			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid 
+			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = db_fetch_result($result, 0, "title");
