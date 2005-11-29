@@ -89,16 +89,11 @@
 		</td></tr>	
 		<tr><td height="100%" width="100%" valign="top">
 		
-		<!-- <div id="feeds">&nbsp;</div> -->
-
+		<? if (get_pref($link, 'DISPLAY_FEEDLIST_ACTIONS')) { ?>
 
 		<iframe frameborder="0" 
 			src="backend.php?op=error&msg=Loading,%20please wait..."
-			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
-
-		</td></tr></table>
-
-		<? if (get_pref($link, 'DISPLAY_FEEDLIST_ACTIONS')) { ?>
+			id="feeds-frame" name="feeds-frame" class="feedsFrameWithActions"> </iframe>
 
 		<div align="center">All feeds: 
 		
@@ -112,8 +107,15 @@
 
 		</div>
 		
+		<? } else { ?>
+
+		<iframe frameborder="0" 
+			src="backend.php?op=error&msg=Loading,%20please wait..."
+			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
 
 		<? } ?>
+
+		</td></tr></table>
 
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
