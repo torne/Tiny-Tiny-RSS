@@ -2,6 +2,7 @@ drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
+drop table if exists ttrss_filter_actions;
 drop table if exists ttrss_user_prefs;
 drop table if exists ttrss_prefs;
 drop table if exists ttrss_prefs_types;
@@ -108,18 +109,31 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 insert into ttrss_filter_types (id,name,description) values (4, 'link', 
 	'Link');
 
+create table ttrss_filter_actions (id integer not null primary key, 
+	name varchar(120) unique not null, 
+	description varchar(250) not null unique) TYPE=InnoDB;
+
+insert into ttrss_filter_actions (id,name,description) values (1, 'filter', 
+	'Filter article');
+
+insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
+	'Mark as read');
+
 create table ttrss_filters (id integer not null primary key auto_increment,
 	owner_uid integer not null, 
 	feed_id integer default null,
 	filter_type integer not null,
 	reg_exp varchar(250) not null,
 	description varchar(250) not null default '',
+	action_id integer not null default 1,
 	index (filter_type),
 	foreign key (filter_type) references ttrss_filter_types(id) ON DELETE CASCADE,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index (feed_id),
-	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
+	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
+	index (action_id),
+	foreign key (action_id) references ttrss_filter_actions(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 create table ttrss_labels (id integer not null primary key auto_increment, 
 	owner_uid integer not null, 

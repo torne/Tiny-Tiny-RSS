@@ -2,6 +2,7 @@ drop table ttrss_version;
 drop table ttrss_labels;
 drop table ttrss_filters;
 drop table ttrss_filter_types;
+drop table ttrss_filter_actions;
 drop table ttrss_user_prefs;
 drop table ttrss_prefs;
 drop table ttrss_prefs_types;
@@ -23,7 +24,7 @@ create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
 	last_login timestamp default null,
-	access_level integer not null default 0
+	access_level integer not null default 0,
 	theme_id integer references ttrss_themes(id) default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
@@ -102,12 +103,23 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 insert into ttrss_filter_types (id,name,description) values (4, 'link', 
 	'Link');
 
+create table ttrss_filter_actions (id integer not null primary key, 
+	name varchar(120) unique not null, 
+	description varchar(250) not null unique);
+
+insert into ttrss_filter_actions (id,name,description) values (1, 'filter', 
+	'Filter article');
+
+insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
+	'Mark as read');
+
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
-	description varchar(250) not null default '');
+	description varchar(250) not null default '',
+	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade);
 
 create table ttrss_labels (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
