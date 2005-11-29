@@ -359,6 +359,12 @@ function all_counters_callback() {
 			for (var l = 0; l < reply.childNodes.length; l++) {
 				var id = reply.childNodes[l].getAttribute("id");
 				var ctr = reply.childNodes[l].getAttribute("counter");
+
+				if (id == "global-unread") {
+					parent.global_unread = ctr;
+					parent.updateTitle();
+					continue;
+				}
 	
 				var feedctr = f_document.getElementById("FEEDCTR-" + id);
 				var feedu = f_document.getElementById("FEEDU-" + id);

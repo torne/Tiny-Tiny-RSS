@@ -5,7 +5,7 @@ var first_run = true;
 
 var display_tags = false;
 
-var global_unread = 0;
+var global_unread = -1;
 
 var active_title_text = "";
 
@@ -93,12 +93,10 @@ function refetch_callback() {
 				var feedu = f_document.getElementById("FEEDU-" + id);
 				var feedr = f_document.getElementById("FEEDR-" + id);
 	
-	/*			TODO figure out how to update this from viewfeed.js->view()
-				disabled for now...
-	
 				if (id == "global-unread") {
 					global_unread = ctr;
-				} */
+					continue;
+				}
 	
 				if (feedctr && feedu && feedr) {
 	
@@ -318,6 +316,8 @@ function localHotkeyHandler(keycode) {
 
 }
 
+// if argument is undefined, current subtitle is not updated
+// use blank string to clear subtitle
 function updateTitle(s) {
 	var tmp = "Tiny Tiny RSS";
 
