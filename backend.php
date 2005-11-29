@@ -1379,9 +1379,10 @@
 		
 			print "<div class=\"warning\">";
 		
-			print "<b>Feeds with update errors:</b>";
+			print "<a href=\"javascript:showBlockElement('feedUpdateErrors')\">
+				<b>Feeds with update errors</b> (click to expand)</a>";
 
-			print "<ul class=\"nomarks\">";
+			print "<ul id=\"feedUpdateErrors\" class=\"nomarks\">";
 						
 			while ($line = db_fetch_assoc($result)) {
 				print "<li>" . $line["title"] . " (" . $line["feed_url"] . "): " . 

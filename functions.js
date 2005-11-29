@@ -672,3 +672,14 @@ function getRelativeFeedId(list, id, direction) {
 		}
 	}
 }
+
+function showBlockElement(id) {
+	var elem = document.getElementById(id);
+
+	if (elem) {
+		elem.style.display = "block";
+	} else {
+		alert("[showBlockElement] can't find element with id " + id);
+	} 
+}
+
