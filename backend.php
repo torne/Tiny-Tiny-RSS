@@ -73,7 +73,7 @@
 		print "<counter id='global-unread' counter='$c_id'/>";
 	}
 
-	function getTagCounters($link, $smart_mode = true) {
+	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
 
 		if ($smart_mode) {
 			if (!$_SESSION["tctr_last_value"]) {
@@ -119,7 +119,16 @@
 
 	}
 
-	function getLabelCounters($link) {
+	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["lctr_last_value"]) {
+				$_SESSION["lctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["lctr_last_value"];
+		$lctrs_modified = false;
 
 		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
 			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
@@ -145,10 +154,17 @@
 
 			$count = db_fetch_result($tmp_result, 0, "count");
 
-			print "<label id=\"$id\" counter=\"$count\"/>";
+			if (!$smart_mode || $old_counters[$id] != $count) {	
+				$old_counters[$id] = $count;
+				$lctrs_modified = true;
+				print "<label id=\"$id\" counter=\"$count\"/>";
+			}
 
 			error_reporting (DEFAULT_ERROR_LEVEL);
-	
+		}
+
+		if ($smart_mode && $lctrs_modified) {
+			$_SESSION["lctr_last_value"] = $old_counters;
 		}
 	}
 
@@ -164,7 +180,7 @@
 			print "<feed id=\"$id\" counter=\"$count\"/>";		
 	}
 
-	function getFeedCounters($link, $smart_mode = true) {
+	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
 
 		if ($smart_mode) {
 			if (!$_SESSION["fctr_last_value"]) {
