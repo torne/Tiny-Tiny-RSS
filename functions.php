@@ -232,14 +232,20 @@
 
 			$result = db_query($link, "SELECT reg_exp,
 				(SELECT name FROM ttrss_filter_types
-					WHERE id = filter_type) as name
+					WHERE id = filter_type) as name,
+				(SELECT name FROM ttrss_filter_actions
+					WHERE id = action_id) as action
 				FROM ttrss_filters WHERE 
 				owner_uid = $owner_uid AND
 				(feed_id IS NULL OR feed_id = '$feed')");
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-				array_push($filters[$line["name"]], $line["reg_exp"]);
+
+				$filter["reg_exp"] = $line["reg_exp"];
+				$filter["action"] = $line["action"];
+				
+				array_push($filters[$line["name"]], $filter);
 			}
 
 			$iterator = $rss->items;
@@ -374,11 +380,16 @@
 							$dupcheck_qpart = "";
 						}
 
-						error_reporting(0);
-						if (is_filtered($entry_title, $entry_content, $entry_link, $filters)) {
+//						error_reporting(0);
+
+						$filter_name = get_filter_name($entry_title, $entry_content, 
+							$entry_link, $filters);
+
+						if ($filter_name == "filter") {
 							continue;
 						}
-						error_reporting (DEFAULT_ERROR_LEVEL);
+
+//						error_reporting (DEFAULT_ERROR_LEVEL);
 
 						$result = db_query($link,
 							"SELECT ref_id FROM ttrss_user_entries WHERE
@@ -387,10 +398,20 @@
 
 						// okay it doesn't exist - create user entry
 						if (db_num_rows($result) == 0) {
+
+							if ($filter_name != 'catchup') {
+								$unread = 'true';
+								$last_read_qpart = 'NULL';
+							} else {
+								$unread = 'false';
+								$last_read_qpart = 'NOW()';
+							}						
+						
 							$result = db_query($link,
 								"INSERT INTO ttrss_user_entries 
-									(ref_id, owner_uid, feed_id) 
-								VALUES ('$ref_id', '$owner_uid', '$feed')");
+									(ref_id, owner_uid, feed_id, unread, last_read) 
+								VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
+									$last_read_qpart)");
 						}
 
 					$post_needs_update = false;
@@ -503,33 +524,43 @@
 		print "</select>";
 	}
 
-	function is_filtered($title, $content, $link, $filters) {
+	function get_filter_name($title, $content, $link, $filters) {
 
 		if ($filters["title"]) {
-			foreach ($filters["title"] as $title_filter) {			
-				if (preg_match("/$title_filter/i", $title)) 
-					return true;
+			foreach ($filters["title"] as $filter) {
+				$reg_exp = $filter["reg_exp"];			
+				if (preg_match("/$reg_exp/i", $title)) {
+					return $filter["action"];
+				}
 			}
 		}
 
 		if ($filters["content"]) {
-			foreach ($filters["content"] as $content_filter) {			
-				if (preg_match("/$content_filter/i", $content)) 
-					return true;
+			foreach ($filters["content"] as $filter) {
+				$reg_exp = $filter["reg_exp"];			
+				if (preg_match("/$reg_exp/i", $content)) {
+					return $filter["action"];
+				}		
 			}
 		}
 
 		if ($filters["both"]) {
 			foreach ($filters["both"] as $filter) {			
-				if (preg_match("/$filter/i", $title) || preg_match("/$filter/i", $content)) 
-					return true;
+				$reg_exp = $filter["reg_exp"];		
+				if (preg_match("/$reg_exp/i", $title) || 
+					preg_match("/$reg_exp/i", $content)) {
+					return $filter["action"];
+				}
 			}
 		}
 
 		if ($filters["link"]) {
-			foreach ($filters["link"] as $link_filter) {			
-				if (preg_match("/$link_filter/i", $link)) 
-					return true;
+			$reg_exp = $filter["reg_exp"];
+			foreach ($filters["link"] as $filter) {
+				$reg_exp = $filter["reg_exp"];
+				if (preg_match("/$reg_exp/i", $link)) {
+					return $filter["action"];
+				}
 			}
 		}
 

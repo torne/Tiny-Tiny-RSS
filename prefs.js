@@ -235,6 +235,7 @@ function addFilter() {
 	var regexp = document.getElementById("fadd_regexp");
 	var match = document.getElementById("fadd_match");
 	var feed = document.getElementById("fadd_feed");
+	var action = document.getElementById("fadd_action");
 
 	if (regexp.value.length == 0) {
 		notify("Missing filter expression.");
@@ -242,12 +243,12 @@ function addFilter() {
 		notify("Adding filter...");
 
 		var v_match = match[match.selectedIndex].text;
-
 		var feed_id = feed[feed.selectedIndex].id;
+		var action_id = action[action.selectedIndex].id;
 
 		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=add&regexp=" +
 			param_escape(regexp.value) + "&match=" + v_match +
-			"&fid=" + param_escape(feed_id), true);			
+			"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
 			
 		xmlhttp.onreadystatechange=filterlist_callback;
 		xmlhttp.send(null);
@@ -832,11 +833,14 @@ function filterEditSave() {
 	var regexp = document.getElementById("iedit_regexp").value;
 	var descr = document.getElementById("iedit_descr").value;
 	var match = document.getElementById("iedit_match");
-	
+
 	var v_match = match[match.selectedIndex].text;
 
 	var feed = document.getElementById("iedit_feed");
 	var feed_id = feed[feed.selectedIndex].id;
+
+	var action = document.getElementById("iedit_filter_action");
+	var action_id = action[action.selectedIndex].id;
 
 //	notify("Saving filter " + filter + ": " + regexp + ", " + descr + ", " + match);
 
@@ -849,7 +853,8 @@ function filterEditSave() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
 		filter + "&r=" + param_escape(regexp) + "&d=" + param_escape(descr) +
-		"&m=" + param_escape(v_match) + "&fid=" + param_escape(feed_id), true);
+		"&m=" + param_escape(v_match) + "&fid=" + param_escape(feed_id) + 
+		"&aid=" + param_escape(action_id), true);
 
 	notify("");
 

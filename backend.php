@@ -1903,6 +1903,7 @@
 			$match = db_escape_string($_GET["m"]);
 			$filter_id = db_escape_string($_GET["id"]);
 			$feed_id = db_escape_string($_GET["fid"]);
+			$action_id = db_escape_string($_GET["aid"]); 
 
 			if (!$feed_id) {
 				$feed_id = 'NULL';
@@ -1914,6 +1915,7 @@
 				reg_exp = '$regexp', 
 				description = '$descr',
 				feed_id = $feed_id,
+				action_id = '$action_id',
 				filter_type = (SELECT id FROM ttrss_filter_types WHERE
 					description = '$match')
 				WHERE id = '$filter_id'");
@@ -1939,6 +1941,7 @@
 				$regexp = db_escape_string(trim($_GET["regexp"]));
 				$match = db_escape_string(trim($_GET["match"]));
 				$feed_id = db_escape_string($_GET["fid"]);
+				$action_id = db_escape_string($_GET["aid"]); 
 
 				if (!$feed_id) {
 					$feed_id = 'NULL';
@@ -1947,9 +1950,12 @@
 				}
 
 				$result = db_query($link,
-					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id) VALUES 
+					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
+						action_id) 
+					VALUES 
 						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
-							description = '$match'),'".$_SESSION["uid"]."', $feed_id)");
+							description = '$match'),'".$_SESSION["uid"]."', 
+							$feed_id, '$action_id')");
 			} 
 		}
 
@@ -1983,10 +1989,25 @@
 		}
 
 		print "</select>&nbsp;";
-	
+
+		print "&nbsp;Action: ";
+
+		print "<select id=\"fadd_action\">";
+
+		$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+			ORDER BY name");
+
+		while ($line = db_fetch_assoc($result)) {			
+			printf("<option id='%d'>%s</option>", $line["id"], $line["description"]);
+		}
+
+		print "</select>&nbsp;";
+
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"javascript:addFilter()\" 
 			value=\"Add filter\">";
+
+		print "</div>";
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -1994,11 +2015,13 @@
 				ttrss_filter_types.name AS filter_type_name,
 				ttrss_filter_types.description AS filter_type_descr,
 				feed_id,
+				ttrss_filter_actions.description AS action_description,
 				(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
 			FROM 
-				ttrss_filters,ttrss_filter_types
+				ttrss_filters,ttrss_filter_types,ttrss_filter_actions
 			WHERE
 				filter_type = ttrss_filter_types.id AND
+				ttrss_filter_actions.id = action_id AND
 				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
 			ORDER by reg_exp");
 
@@ -2016,8 +2039,11 @@
 				</td</tr>";
 
 			print "<tr class=\"title\">
-						<td width=\"5%\">Select</td><td width=\"30%\">Filter expression</td>
-						<td width=\"30%\">Feed</td><td width=\"10%\">Match</td>
+						<td width=\"5%\">Select</td>
+						<td width=\"20%\">Filter expression</td>
+						<td width=\"20%\">Feed</td>
+						<td width=\"15%\">Match</td>
+						<td width=\"15%\">Action</td>
 						<td width=\"30%\">Description</td></tr>";
 		
 			$lnum = 0;
@@ -2058,7 +2084,10 @@
 	
 					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 						$line["filter_type_descr"] . "</td>";		
-						
+		
+					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+						$line["action_description"] . "</td>";			
+
 					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 						$line["description"] . "</td>";			
 	
@@ -2072,8 +2101,9 @@
 					print "<td>".$line["reg_exp"]."</td>";		
 					print "<td>".$line["feed_title"]."</td>";
 					print "<td>".$line["filter_type_descr"]."</td>";
+					print "<td>".$line["action_description"]."</td>";		
 					print "<td>".$line["description"]."</td>";		
-	
+
 				} else {
 	
 					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
@@ -2082,18 +2112,16 @@
 						"\"></td>";
 	
 					print "<td>";
-	
 					print "<select id=\"iedit_feed\">";
-	
 					print "<option id=\"0\">All feeds</option>";
-	
-					if (db_num_rows($result) > 0) {
-						print "<option disabled>--------</option>";
-					}
 	
 					$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
 						WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-	
+
+					if (db_num_rows($tmp_result) > 0) {
+						print "<option disabled>--------</option>";
+					}
+
 					while ($tmp_line = db_fetch_assoc($tmp_result)) {
 						if ($tmp_line["id"] == $line["feed_id"]) {
 							$is_selected = "selected";
@@ -2109,7 +2137,26 @@
 					print "<td>";
 					print_select("iedit_match", $line["filter_type_descr"], $filter_types);
 					print "</td>";
+
+					print "<td>";
+					print "<select id=\"iedit_filter_action\">";
 	
+					$tmp_result = db_query($link, "SELECT id,description FROM ttrss_filter_actions
+						ORDER BY description");
+
+					while ($tmp_line = db_fetch_assoc($tmp_result)) {
+						if ($tmp_line["description"] == $line["action_description"]) {
+							$is_selected = "selected";
+						} else {
+							$is_selected = "";
+						}
+						printf("<option $is_selected id='%d'>%s</option>", 
+							$tmp_line["id"], $tmp_line["description"]);
+					}
+	
+					print "</select></td>";
+
+
 					print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
 						"\"></td>";
 	
