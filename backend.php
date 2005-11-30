@@ -1150,7 +1150,8 @@
 				}				
 
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
-					$content_preview = truncate_string(strip_tags($line["content_preview"]), 101);
+					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
+						60);
 				}
 
 				if ($omode != "xml") {
