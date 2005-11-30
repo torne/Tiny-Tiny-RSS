@@ -17,3 +17,9 @@ Unpack and configure TT-RSS 1.1. You may need to remove old tables manualy
  * Import your feeds OPML
  * Run xml-import.php and import your old starred articles
 
+== Q&A ==
+
+=== Can I export all articles this way? ===
+
+Yes, just tweak the relevant SQL query in xml-export.php (remove "AND marked = true").
+
