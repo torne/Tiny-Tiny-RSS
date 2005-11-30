@@ -795,4 +795,12 @@
 			return date("Y/m/d");
 		}
 	}
+
+	function sql_bool_to_string($s) {
+		if ($s == "t" || $s == "1") {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
 ?>

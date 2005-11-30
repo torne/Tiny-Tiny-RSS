@@ -34,14 +34,15 @@
 
 	function import_article($link, $data) {
 
-		print "Processing article " . $data["title"] . "<br>";
+		print "Processing article <b>".$data["title"].
+		"</b> (".$data["feed_title"].")<br>";
 
 		$owner_uid = $_SESSION["uid"];
 
 		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE feed_url = '".
-			$data["feed_url"] . "' AND owner_uid = '$owner_uid'");
+			db_escape_string($data["feed_url"]) . "' AND owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) == 0) {
 			return false;
@@ -56,14 +57,14 @@
 
 			print "Not found, adding base entry...<br>";
 
-			$entry_title = $data["title"];
-			$entry_guid = $data["guid"];
-			$entry_link = $data["link"];
-			$updated = $data["updated"];
-			$date_entered = $data["date_entered"];
-			$entry_content = $data["content"];
+			$entry_title = db_escape_string($data["title"]);
+			$entry_guid = db_escape_string($data["guid"]);
+			$entry_link = db_escape_string($data["link"]);
+			$updated = db_escape_string($data["updated"]);
+			$date_entered = db_escape_string($data["date_entered"]);
+			$entry_content = db_escape_string($data["content"]);
 			$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
-			$entry_comments = $data["comments"];
+			$entry_comments = db_escape_string($data["comments"]);
 
 			$result = db_query($link,
 				"INSERT INTO ttrss_entries 
@@ -103,9 +104,9 @@
 		if (db_num_rows($result) == 0) {
 			print "User table entry not found, creating...<br>";
 
-			$unread = $data["unread"];
-			$marked = $data["marked"];
-			$last_read = $data["last_read"];
+			$unread = sql_bool_to_string(db_escape_string($data["unread"]));
+			$marked = sql_bool_to_string(db_escape_string($data["marked"]));
+			$last_read = db_escape_string($data["last_read"]);
 
 			if (!$last_read) {
 				$last_read_qpart = 'NULL';
@@ -116,7 +117,7 @@
 			$result = db_query($link,
 				"INSERT INTO ttrss_user_entries 
 					(ref_id, owner_uid, feed_id, unread, marked, last_read) 
-				VALUES ('$entry_id', '$owner_uid', '$feed_id', '$unread', '$marked',
+				VALUES ('$entry_id', '$owner_uid', '$feed_id', $unread, $marked,
 					$last_read_qpart)");
 
 		} else {
