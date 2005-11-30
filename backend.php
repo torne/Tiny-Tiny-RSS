@@ -1001,7 +1001,7 @@
 			}
 
 			if (!$vfeed_query_part) {
-				$content_query_part = "content as content_preview,";
+				$content_query_part = "SUBSTRING(content,1,300) as content_preview,";
 			} else {
 				$content_query_part = "";
 			}
