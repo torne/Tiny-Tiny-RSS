@@ -34,8 +34,9 @@
 	$schema_version = db_fetch_result($result, 0, "schema_version");
 
 	if ($schema_version != SCHEMA_VERSION) {
-		print "Error: database schema is invalid
-			(got version $schema_version; expected ".SCHEMA_VERSION.")";
+		print "<error>Source database schema is invalid
+			(got version $schema_version; expected ".SCHEMA_VERSION.")</error>";
+		print "</xmldb>";
 		return;
 	}
 
