@@ -133,7 +133,7 @@
 
 	<? if ($_REQUEST["op"] != "Import") { ?>
 
-	<h1>Import XMLDB (your login is <?= $_SESSION["login"] ?>)</h1>
+	<h1>Import XMLDB (your login is <?= $_SESSION["name"] ?>)</h1>
 
 	<form	enctype="multipart/form-data" method="POST" action="xml-import.php">
 	File: <input name="xmldb" type="file">&nbsp;
