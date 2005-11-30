@@ -1,0 +1,19 @@
+= Upgrading from TT-RSS 1.0.7 =
+
+There is, unfortunately, no direct database schema upgrade script. Starred articles
+and feed subscriptions may be transferred the following way:
+
+== 1.0.7 ==
+
+ * Export your feed subscriptions to OPML
+ * Copy xml-export.php from TT-RSS 1.1 tarball to your 1.0.7 directory and run it. This script exports your starred articles in neutral XML format.
+ * Save resulting XML file somewhere
+
+Unpack and configure TT-RSS 1.1. You may need to remove old tables manualy 
+(or choose the different database, etc.)
+
+== 1.1 ==
+
+ * Import your feeds OPML
+ * Run xml-import.php and import your old starred articles
+
