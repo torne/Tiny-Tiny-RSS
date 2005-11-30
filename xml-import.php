@@ -99,7 +99,7 @@
 		print "Found base ID: $entry_id<br>";
 
 		$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
-			ref_id = '$entry_id'");
+			ref_id = '$entry_id' AND owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) == 0) {
 			print "User table entry not found, creating...<br>";
