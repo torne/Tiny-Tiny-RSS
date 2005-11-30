@@ -3009,6 +3009,9 @@
 
 			$line["login"] = htmlspecialchars($line["login"]);
 
+			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
+				strtotime($line["last_login"]));
+
 			if ($uid == $_SESSION["uid"]) {
 
 				print "<td><input disabled=\"true\" type=\"checkbox\" 
@@ -3116,7 +3119,8 @@
 		print "<table width='100%'>";
 
 		$login = db_fetch_result($result, 0, "login");
-		$last_login = db_fetch_result($result, 0, "last_login");
+		$last_login = date(get_pref($link, 'LONG_DATE_FORMAT'),
+			strtotime(db_fetch_result($result, 0, "last_login")));
 		$access_level = db_fetch_result($result, 0, "access_level");
 		$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
@@ -3187,7 +3191,9 @@
 
 		$result = db_query($link, 
 			"SELECT 
-				title,feed_url,last_updated,icon_url,site_url,
+				title,feed_url,
+				SUBSTRING(last_updated,1,16) as last_updated,
+				icon_url,site_url,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
 					WHERE feed_id = id) AS total,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
@@ -3200,7 +3206,8 @@
 		if (db_num_rows($result) == 0) return;
 
 		$title = db_fetch_result($result, 0, "title");
-		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$last_updated = date(get_pref($link, 'LONG_DATE_FORMAT'),
+			strtotime(db_fetch_result($result, 0, "last_updated")));
 		$feed_url = db_fetch_result($result, 0, "feed_url");
 		$icon_url = db_fetch_result($result, 0, "icon_url");
 		$total = db_fetch_result($result, 0, "total");
@@ -3262,7 +3269,10 @@
 					$line["title"] = "<b>" . $line["title"] . "</b>";
 				}				
 				print "<li>" . $line["title"].
-				"&nbsp;<span class=\"insensitive\">(" .$line["updated"].")</span></li>";
+				"&nbsp;<span class=\"insensitive\">(" .
+					date(get_pref($link, 'SHORT_DATE_FORMAT'), 
+						strtotime($line["updated"])).
+				")</span></li>";
 			}
 	
 			print "</ul>";
