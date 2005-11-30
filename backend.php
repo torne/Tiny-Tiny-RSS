@@ -1969,7 +1969,7 @@
 		}
 
 		print "<div class=\"prefGenericAddBox\">
-		<input id=\"fadd_regexp\" onchange=\"javascript:addFilter()\" size=\"40\">&nbsp;";
+		<input id=\"fadd_regexp\" size=\"40\">&nbsp;";
 		
 		print_select("fadd_match", "Title", $filter_types);	
 
