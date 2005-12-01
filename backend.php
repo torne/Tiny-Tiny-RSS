@@ -1133,10 +1133,10 @@
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
 					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
-						alt=\"Reset mark\" onclick='javascript:toggleMark($id, false)'>";
+						alt=\"Reset mark\" onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
-						alt=\"Set mark\" onclick='javascript:toggleMark($id, true)'>";
+						alt=\"Set mark\" onclick='javascript:toggleMark($id)'>";
 				}
 	
 				$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .

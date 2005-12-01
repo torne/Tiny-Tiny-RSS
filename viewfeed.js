@@ -77,13 +77,7 @@ function view(id, feed_id) {
 
 }
 
-function rowToggleMark(row) {
-
-
-
-}
-
-function toggleMark(id, toggle) {
+function toggleMark(id) {
 
 	var f_document = parent.frames["feeds-frame"].document;
 
@@ -100,10 +94,10 @@ function toggleMark(id, toggle) {
 
 //	alert(vfeedu);
 
-	if (toggle == true) {
+	if (mark_img.alt != "Reset mark") {
 		mark_img.src = "images/mark_set.png";
 		mark_img.alt = "Reset mark";
-		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', false)');
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+')');
 		query = query + "&mark=1";
 
 		if (vfeedu && crow.className.match("Unread")) {
@@ -113,7 +107,7 @@ function toggleMark(id, toggle) {
 	} else {
 		mark_img.src = "images/mark_unset.png";
 		mark_img.alt = "Set mark";
-		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+', true)');
+		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+')');
 		query = query + "&mark=0";
 
 		if (vfeedu && crow.className.match("Unread")) {
@@ -224,6 +218,10 @@ function localHotkeyHandler(keycode) {
 //		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
 //	}
 
+	if (keycode == 83) { // s
+		if (active_post_id) toggleMark(active_post_id);
+	}
+	
 //	alert("KC: " + keycode);
 
 }
