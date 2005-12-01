@@ -2,25 +2,30 @@
 	session_start();
 
 	require_once "sanity_check.php";
-
-	// FIXME there are some brackets issues here
-
-	$op = $_REQUEST["op"];
-	if ($op == "Export") {
-		header("Content-type: application/xml");
-		print "<?xml version=\"1.0\"?>";
-	}
-
+	require_once "functions.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-
-	$owner_uid = $_SESSION["uid"];
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	if (DB_TYPE == "pgsql") {
 		pg_query($link, "set client_encoding = 'utf-8'");
+	}
+
+	login_sequence($link);
+
+	$owner_uid = $_SESSION["uid"];
+
+	// FIXME there are some brackets issues here
+
+	$op = $_REQUEST["op"];
+	
+	if (!$op) $op = "Export";
+	
+	if ($op == "Export") {
+		header("Content-type: application/xml");
+		print "<?xml version=\"1.0\"?>";
 	}
 
 	if ($op == "Export") {
@@ -93,8 +98,9 @@
 				<link rel=\"stylesheet\" href=\"opml.css\" type=\"text/css\">
 			</head>
 			<body>
-			<h1>Importing OPML...</h1>
-			<div class=\"opmlBody\">";
+			<h1><img src=\"images/ttrss_logo.png\"></h1>
+			<div class=\"opmlBody\">
+			<h2>Importing OPML...</h2>";
 
 		if (WEB_DEMO_MODE) {
 			print "OPML import is disabled in demo-mode.";
@@ -117,10 +123,13 @@
 
 					$outlines = $body->get_elements_by_tagname('outline');
 
+					print "<table>";
+
 					foreach ($outlines as $outline) {
 						$feed_title = db_escape_string($outline->get_attribute('text'));
 						$cat_title = db_escape_string($outline->get_attribute('title'));
 						$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
+						$site_url = db_escape_string($outline->get_attribute('htmlUrl'));
 
 						if ($cat_title && !$feed_url) {
 
@@ -135,7 +144,8 @@
 								print "Adding category <b>$cat_title</b>...<br>";
 
 								db_query($link, "INSERT INTO ttrss_feed_categories
-									(title,owner_uid) VALUES ('$cat_title', '$owner_uid')");
+									(title,owner_uid,site_url) 
+								VALUES ('$cat_title', '$owner_uid', '$site_url')");
 							}
 
 							db_query($link, "COMMIT");
@@ -172,10 +182,11 @@
 							(title = '$feed_title' OR feed_url = '$feed_url') 
 							AND owner_uid = '$owner_uid'");
 
-						print "Feed <b>$feed_title</b> ($feed_url)... ";
+						print "<tr><td><a href='$site_url'><b>$feed_title</b></a></b> 
+							(<a href=\"$feed_url\">rss</a>)</td>";
 
 						if (db_num_rows($result) > 0) {
-							print " Already imported.<br>";
+							print "<td>Already imported.</td>";
 						} else {
 
 							if ($cat_id) {
@@ -192,11 +203,15 @@
 
 							db_query($link, $add_query);
 							
-							print "<b>Done.</b><br>";
+							print "<td><b>Done.</b></td>";
 						}
+
+						print "</tr>";
 						
 						db_query($link, "COMMIT");
 					}
+
+					print "</table>";
 
 				} else {
 					print "<div class=\"error\">Error: can't find body element.</div>";
