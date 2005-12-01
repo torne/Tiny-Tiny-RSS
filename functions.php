@@ -475,7 +475,8 @@
 						
 						foreach ($entry_tags as $tag) {
 							$tag = db_escape_string(strtolower($tag));
-	
+
+							$tag = str_replace("+", " ", $tag);	
 							$tag = str_replace("technorati tag: ", "", $tag);
 	
 							$result = db_query($link, "SELECT id FROM ttrss_tags		
