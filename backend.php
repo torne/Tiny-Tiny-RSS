@@ -1508,7 +1508,7 @@
 
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
-				update_interval,purge_interval,
+				update_interval,purge_interval,cat_id,
 				(SELECT title FROM ttrss_feed_categories 
 					WHERE id = cat_id) AS category
 			FROM 
