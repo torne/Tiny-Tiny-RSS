@@ -236,18 +236,7 @@ function toggleUnread() {
 		var rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
 
 		for (i = 0; i < rows.length; i++) {
-			var row = document.getElementById("RROW-" + rows[i]);
-			if (row) {
-				var nc = row.className;
-				nc = nc.replace("Unread", "");
-				nc = nc.replace("Selected", "");
-
-				if (row.className.match("Unread")) {
-					row.className = nc + "Selected";
-				} else {
-					row.className = nc + "UnreadSelected";
-				}
-			}
+			toggleMark(i);
 		}
 
 		if (rows.length > 0) {
