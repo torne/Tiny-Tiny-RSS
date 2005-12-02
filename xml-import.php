@@ -34,7 +34,7 @@
 
 	function import_article($link, $data) {
 
-		print "Processing article <b>".$data["title"].
+		print "<p>Article: <b>".$data["title"].
 		"</b> (".$data["feed_title"].")<br>";
 
 		$owner_uid = $_SESSION["uid"];
@@ -55,7 +55,7 @@
 
 		if (db_num_rows($result) == 0) {
 
-			print "Not found, adding base entry...<br>";
+			print "Adding base entry...<br>";
 
 			$entry_title = db_escape_string($data["title"]);
 			$entry_guid = db_escape_string($data["guid"]);
@@ -138,9 +138,9 @@
 
 	<h1><img src="images/ttrss_logo.png"></h1>
 
-	<? if ($_REQUEST["op"] != "Import") { ?>
-
 	<div class="opmlBody">
+
+	<? if ($_REQUEST["op"] != "Import") { ?>
 	
 	<h2>Import XMLDB</h2>
 
@@ -178,8 +178,10 @@
 						$article_data[$child->tagname()] = $child->get_content();
 					}
 
-					import_article($link, $article_data);
+					$is_imported = import_article($link, $article_data);
 				}
+
+				print "<p><a class=\"button\" href=\"prefs.php\">Return to preferences</a>";
 			} else {
 				print "Error: could not parse document.";
 			}
