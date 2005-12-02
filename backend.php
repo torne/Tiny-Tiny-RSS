@@ -272,7 +272,7 @@
 				print "</li></ul>";
 			}
 
-			if (get_pref($link, 'ENABLE_LABELS')) {
+			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
 	
 				$result = db_query($link, "SELECT id,sql_exp,description FROM
 					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
@@ -2202,6 +2202,10 @@
 	}
 
 	if ($op == "pref-labels") {
+
+		if (!GLOBAL_ENABLE_LABELS) { 
+			return; 
+		}
 
 		$subop = $_GET["subop"];
 
