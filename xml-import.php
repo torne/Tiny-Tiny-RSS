@@ -130,11 +130,19 @@
 
 ?>
 <html>
+<head>
+	<title>XML Import</title>
+	<link rel="stylesheet" href="opml.css" type="text/css">
+</head>
 <body>
+
+	<h1><img src="images/ttrss_logo.png"></h1>
 
 	<? if ($_REQUEST["op"] != "Import") { ?>
 
-	<h1>Import XMLDB (your login is <?= $_SESSION["name"] ?>)</h1>
+	<div class="opmlBody">
+	
+	<h2>Import XMLDB</h2>
 
 	<form	enctype="multipart/form-data" method="POST" action="xml-import.php">
 	File: <input name="xmldb" type="file">&nbsp;
@@ -143,7 +151,7 @@
 
 	<? } else {
 
-		print "<h1>Importing data (your login is ".$_SESSION["name"].")</h1>";
+		print "<h2>Importing data</h2>";
 
 		if (is_file($_FILES['xmldb']['tmp_name'])) {
 			$dom = domxml_open_file($_FILES['xmldb']['tmp_name']);
@@ -180,6 +188,7 @@
 		}
 
 	} ?>
+</div>
 </body>
 </html>
 

@@ -15,13 +15,22 @@
 <? if (!$_GET["export"]) { ?>
 
 <html>
+<head>
+	<title>XML Export</title>
+	<link rel="stylesheet" href="opml.css" type="text/css">
+</head>
 <body>
-<h1>XML Export</h1>
-<form method="GET">
-<input type="checkbox" checked name="marked"> Export only starred<br>
-<input type="checkbox" name="unread"> Export only unread<br>
-<p><input type="submit" name="export" value="Export"></p>
-</form>
+<h1><img src="images/ttrss_logo.png"></h1>
+
+<div class="opmlBody">
+	<h2>XML Export</h2>
+	<form method="GET">
+		Limit to: <input type="checkbox" checked name="marked"> starred,
+		<input type="checkbox" name="unread"> unread.<br>
+		<p><input type="submit" class="button" name="export" value="Export"></p>
+	</form>
+</div>
+
 </body>
 </html>
 
