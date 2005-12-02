@@ -93,15 +93,16 @@
 				updated,
 				guid,
 				link,
-				date_entered,
-				last_read,
+				SUBSTRING(date_entered,1,16) AS date_entered,
+				SUBSTRING(last_read,1,16) AS last_read, 
 				comments,
 				ttrss_feeds.feed_url AS feed_url,
 				ttrss_feeds.title AS feed_title
 			FROM 
 				ttrss_entries,ttrss_feeds
 			WHERE
-				feed_id = ttrss_feeds.id $marked_qpart $unread_qpart");
+				feed_id = ttrss_feeds.id $marked_qpart $unread_qpart 
+			ORDER BY ttrss_entries.id");
 				
 	} else if ($schema_version == 2) {
 
@@ -113,8 +114,8 @@
 				updated,
 				guid,
 				link,
-				date_entered,
-				last_read,
+				SUBSTRING(date_entered,1,16) AS date_entered,
+				SUBSTRING(last_read,1,16) AS last_read, 
 				comments,
 				ttrss_feeds.feed_url AS feed_url,
 				ttrss_feeds.title AS feed_title
@@ -123,7 +124,8 @@
 			WHERE
 				ttrss_user_entries.owner_uid = '$owner_uid' AND
 				ref_id = ttrss_entries.id AND
-				feed_id = ttrss_feeds.id $marked_qpart $unread_qpart");
+				feed_id = ttrss_feeds.id $marked_qpart $unread_qpart
+			ORDER BY ttrss_entries.id");
 
 	} else {
 
