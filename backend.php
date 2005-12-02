@@ -2201,6 +2201,10 @@
 		}
 	}
 
+	// We need to accept raw SQL data in label queries, so not everything is escaped
+	// here, this is by design. If you don't like the whole idea, disable labels
+	// altogether with GLOBAL_ENABLE_LABELS = false
+
 	if ($op == "pref-labels") {
 
 		if (!GLOBAL_ENABLE_LABELS) { 
