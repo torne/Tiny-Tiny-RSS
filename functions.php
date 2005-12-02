@@ -293,12 +293,10 @@
 
 				$entry_content = $item["content:escaped"];
 
-				if (!$entry_content) $entry_content = $item["summary"];
 				if (!$entry_content) $entry_content = $item["content:encoded"];
 				if (!$entry_content) $entry_content = $item["content"];
+				if (!$entry_content) $entry_content = $item["summary"];
 				if (!$entry_content) $entry_content = $item["description"];
-
-				$entry_content_unescaped = $entry_content;
 
 //				if (!$entry_content) continue;
 
@@ -309,8 +307,10 @@
 				}
 
 //				print_r($item);
-//				print_r($entry_content);
+//				print_r(htmlspecialchars($entry_content));
+//				print "<br>";
 
+				$entry_content_unescaped = $entry_content;
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
 				$entry_comments = $item["comments"];
@@ -452,11 +452,12 @@
 
 				$entry_tags = null;
 
-				preg_match_all("/<a.*?href=.http:\/\/technorati.com\/tag\/([^\"\'>]+)/i", 
+				preg_match_all("/<a.*?href=.http:\/\/.*?technorati.com\/tag\/([^\"\'>]+)/i", 
 					$entry_content_unescaped, $entry_tags);
 
 //				print "<br>$entry_title : $entry_content_unescaped<br>";
 //				print_r($entry_tags);
+//				print "<br>";
 
 				$entry_tags = $entry_tags[1];
 
