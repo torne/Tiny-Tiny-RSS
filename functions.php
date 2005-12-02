@@ -781,7 +781,7 @@
 	function smart_date_time($timestamp) {
 		if (date("Y.m.d", $timestamp) == date("Y.m.d")) {
 			return date("G:i", $timestamp);
-		} else if (date("Y.m", $timestamp) == date("Y.m")) {
+		} else if (date("Y", $timestamp) == date("Y")) {
 			return date("M d, G:i", $timestamp);
 		} else {
 			return date("Y/m/d G:i");
@@ -791,7 +791,7 @@
 	function smart_date($timestamp) {
 		if (date("Y.m.d", $timestamp) == date("Y.m.d")) {
 			return "Today";
-		} else if (date("Y.m", $timestamp) == date("Y.m")) {
+		} else if (date("Y", $timestamp) == date("Y")) {
 			return date("D m", $timestamp);
 		} else {
 			return date("Y/m/d");
