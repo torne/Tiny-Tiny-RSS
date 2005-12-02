@@ -3,7 +3,7 @@
 	require_once "functions.php";
 	require_once "db.php";
 
-	define('SOURCE_SCHEMA_VERSION', 1);
+	define('MAX_SOURCE_SCHEMA_VERSION', 2);
 	define('TARGET_SCHEMA_VERSION', 2);
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
@@ -155,7 +155,7 @@
 				$schema_version = $root->get_elements_by_tagname('schema_version');
 				$schema_version = $schema_version[0]->get_content();
 
-				if ($schema_version != SOURCE_SCHEMA_VERSION) {
+				if ($schema_version != MAX_SOURCE_SCHEMA_VERSION) {
 					die("Incorrect source schema version");
 				}
 
