@@ -1077,8 +1077,8 @@
 							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
 								'RROW-', 'RCHK-', false)\">None</a>
 					&nbsp;&nbsp;
-					Toggle: <a href=\"javascript:toggleUnread()\">Unread</a>,
-							<a href=\"javascript:toggleStarred()\">Starred</a>";
+					Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
+							<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
 		
 				print "</td>";
 		

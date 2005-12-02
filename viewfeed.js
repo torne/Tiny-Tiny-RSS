@@ -226,7 +226,7 @@ function localHotkeyHandler(keycode) {
 
 }
 
-function toggleUnread() {
+function selectionToggleUnread() {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
@@ -266,7 +266,7 @@ function toggleUnread() {
 	}
 }
 
-function toggleStarred() {
+function selectionToggleMarked() {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
