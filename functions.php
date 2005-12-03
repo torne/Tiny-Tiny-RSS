@@ -1,5 +1,4 @@
 <?
-	session_start();
 
 	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
@@ -90,7 +89,7 @@
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 	}
 
-	function update_all_feeds($link, $fetch, $user_id = false) {
+	function update_all_feeds($link, $fetch, $user_id = false, $force_daemon = false) {
 
 		if (WEB_DEMO_MODE) return;
 
@@ -115,7 +114,7 @@
 			if ($fetch || (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
 
-				update_rss_feed($link, $line["feed_url"], $line["id"]);
+				update_rss_feed($link, $line["feed_url"], $line["id"], $force_daemon);
 			}
 		}
 

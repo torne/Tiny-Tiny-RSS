@@ -39,6 +39,9 @@
 	// */30 * * * * /usr/bin/wget -O /dev/null -T 600 "http://www.your-site.xxx/tt-rss/backend.php?op=globalUpdateFeeds&daemon=1"
 	//
 
+	// The alternative approach is to run update_feeds.php from your crontab
+	// with command line PHP interpreter.
+
 	define('SMART_RPC_COUNTERS', true);
 	// If enabled, stores feed counter information on the server side and sends
 	// only diffs to the client. In the nutshell, it saves your bandwidth and
