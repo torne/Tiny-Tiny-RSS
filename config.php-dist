@@ -40,8 +40,11 @@
 	//
 
 	// The alternative approach is to run update_feeds.php from your crontab
-	// with command line PHP interpreter.
-
+	// with command line PHP interpreter. Don't forget to chdir() into TT-RSS
+	// directory or it won't be able to find includes. E.g.
+	//
+	// */30 * * * * cd $TTRSS_DIRECTORY && ./update_feeds.php >/dev/null 2>&1
+	
 	define('SMART_RPC_COUNTERS', true);
 	// If enabled, stores feed counter information on the server side and sends
 	// only diffs to the client. In the nutshell, it saves your bandwidth and
