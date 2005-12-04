@@ -3158,7 +3158,7 @@
 
 		print "<h1>Subscribed feeds</h1>";
 
-		$result = db_query($link, "SELECT id,title,feed_url FROM ttrss_feeds
+		$result = db_query($link, "SELECT id,title,site_url FROM ttrss_feeds
 			WHERE owner_uid = '$uid' ORDER BY title LIMIT 20");
 
 		print "<ul class=\"nomarks\">";
@@ -3173,7 +3173,7 @@
 				$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 			}
 
-			print "<li>$feed_icon&nbsp;<a href=\"".$line["feed_url"]."\">".$line["title"]."</a></li>";
+			print "<li>$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
 		}
 
 		if (db_num_rows($result) < $num_feeds) {
