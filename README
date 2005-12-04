@@ -44,13 +44,14 @@ Requirements:
 	- RDBMS backend:
 	
 			a) PostgreSQL
-			
 			b) MySQL (InnoDB and server version 4.1+ required)
 
 	  Example DB schemas and configuration are in schema/ subdirectory.
 	  
 	  For PostgreSQL don't forget to create database with UTF-8 encoding
 	  (createdb -E UTF-8 -O owner_user database).
+
+	- PHP4 DOMXML extension is required for some functions
 
 Don't forget to copy config.php-dist to config.php and edit it.
 
