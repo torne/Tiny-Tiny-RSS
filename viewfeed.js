@@ -219,7 +219,7 @@ function localHotkeyHandler(keycode) {
 //	}
 
 	if (keycode == 83) { // s
-		if (active_post_id) toggleMark(active_post_id);
+		selectionToggleMarked();
 	}
 	
 //	alert("KC: " + keycode);
