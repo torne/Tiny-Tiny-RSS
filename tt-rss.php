@@ -58,7 +58,7 @@
 				<img src="images/ttrss_logo.png" alt="logo">	
 			</td>
 			<td align="right" valign="top">
-				<div id="notify"><span id="notify_body"></div>
+				<div id="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 
 			<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
@@ -74,7 +74,7 @@
 </tr>
 <? } else { ?>
 <tr><td align="right" colspan="2">
-	<div id="notify"><span id="notify_body"></div>
+	<div id="notify"><span id="notify_body">&nbsp;</span></div>
 	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 </td></tr>
 <? } ?>

@@ -58,7 +58,7 @@
 				<img src="images/ttrss_logo.png" alt="logo">	
 			</td>
 			<td align="right" valign="top">
-				<div id="notify"><span id="notify_body"></div>
+				<div id="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
@@ -71,7 +71,7 @@
 </tr>
 <? } else { ?>
 <tr><td colspan="2" align="right">
-	<div id="notify"><span id="notify_body"></div>
+	<div id="notify"><span id="notify_body">&nbsp;</span></div>
 	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 </td></tr>
 <? } ?>
