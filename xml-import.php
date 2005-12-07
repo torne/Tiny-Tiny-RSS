@@ -163,7 +163,7 @@
 				$schema_version = $root->get_elements_by_tagname('schema_version');
 				$schema_version = $schema_version[0]->get_content();
 
-				if ($schema_version != MAX_SOURCE_SCHEMA_VERSION) {
+				if ($schema_version > MAX_SOURCE_SCHEMA_VERSION) {
 					die("Incorrect source schema version");
 				}
 
