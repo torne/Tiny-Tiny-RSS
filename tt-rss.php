@@ -194,14 +194,17 @@
 				<option id="qmcPrefs" selected>Preferences...</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Feed actions:</option>
-				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed</option>
-				<option id="qmcRemoveFeed">&nbsp;&nbsp;Remove this feed</option>
+				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed...</option>
+				<option id="qmcRemoveFeed">&nbsp;&nbsp;Remove this feed...</option>
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
 				<option id="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
 				<option id="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>
 				<option id="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
+				<option disabled>--------</option>
+				<option style="color : #5050aa" disabled>Other actions:</option>				
+				<option id="qmcAddFilter">&nbsp;&nbsp;Add filter...</option>
 			</select>
 			<input type="submit" class="button" onclick="quickMenuGo()" value="Go">
 		</td>

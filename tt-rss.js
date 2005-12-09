@@ -46,12 +46,20 @@ function toggleTags() {
 
 function dlg_frefresh_callback() {
 	if (xmlhttp.readyState == 4) {
+		notify(xmlhttp.responseText);
 		updateFeedList(false, false);
 		closeDlg();
 	} 
 }
 
-function dialog_refresh_callback() {
+function dlg_submit_callback() {
+	if (xmlhttp.readyState == 4) {
+		notify(xmlhttp.responseText);
+		closeDlg();
+	} 
+}
+
+function dlg_display_callback() {
 	if (xmlhttp.readyState == 4) {
 		var dlg = document.getElementById("userDlg");
 		var dlg_s = document.getElementById("userDlgShadow");
@@ -450,6 +458,10 @@ function quickMenuGo() {
 		return;
 	}
 
+	if (opid == "qmcAddFilter") {
+		displayDlg("quickAddFilter", getActiveFeedId());
+	}
+
 }
 
 function qafAdd() {
@@ -470,7 +482,7 @@ function qafAdd() {
 
 		feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&link=" +
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=add&link=" +
 			param_escape(link.value), true);
 		xmlhttp.onreadystatechange=dlg_frefresh_callback;
 		xmlhttp.send(null);
@@ -480,13 +492,47 @@ function qafAdd() {
 	}
 }
 
+function qaddFilter() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var regexp = document.getElementById("fadd_regexp");
+	var match = document.getElementById("fadd_match");
+	var feed = document.getElementById("fadd_feed");
+	var action = document.getElementById("fadd_action");
+
+	if (regexp.value.length == 0) {
+		notify("Missing filter expression.");
+	} else {
+		notify("Adding filter...");
+
+		var v_match = match[match.selectedIndex].text;
+		var feed_id = feed[feed.selectedIndex].id;
+		var action_id = action[action.selectedIndex].id;
+
+		xmlhttp.open("GET", "backend.php?op=pref-filters&quiet=1&subop=add&regexp=" +
+			param_escape(regexp.value) + "&match=" + v_match +
+			"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
+			
+		xmlhttp.onreadystatechange=dlg_submit_callback;
+		xmlhttp.send(null);
+
+		regexp.value = "";
+	}
+
+}
+
+
 function displayDlg(id, param) {
 
 	notify("");
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param), true);
-	xmlhttp.onreadystatechange=dialog_refresh_callback;
+	xmlhttp.onreadystatechange=dlg_display_callback;
 	xmlhttp.send(null);
 
 }

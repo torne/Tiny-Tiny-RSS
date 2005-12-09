@@ -1268,6 +1268,7 @@
 	if ($op == "pref-feeds") {
 	
 		$subop = $_GET["subop"];
+		$quiet = $_GET["quiet"];
 
 		if ($subop == "editSave") {
 			$feed_title = db_escape_string($_GET["t"]);
@@ -1441,6 +1442,8 @@
 			}
 
 		}
+
+		if ($quiet) return;
 
 //		print "<h3>Edit Feeds</h3>";
 
@@ -1896,6 +1899,7 @@
 	if ($op == "pref-filters") {
 
 		$subop = $_GET["subop"];
+		$quiet = $_GET["quiet"];
 
 		if ($subop == "editSave") {
 
@@ -1959,6 +1963,8 @@
 							$feed_id, '$action_id')");
 			} 
 		}
+
+		if ($quiet) return;
 
 		$result = db_query($link, "SELECT description 
 			FROM ttrss_filter_types ORDER BY description");
@@ -2529,6 +2535,71 @@
 
 		}
 
+		if ($id == "quickAddFilter") {
+
+			$result = db_query($link, "SELECT description 
+				FROM ttrss_filter_types ORDER BY description");
+	
+			$filter_types = array();
+	
+			while ($line = db_fetch_assoc($result)) {
+				array_push($filter_types, $line["description"]);
+			}
+
+			print "<table>";
+
+			print "<tr><td>Match:</td><td><input id=\"fadd_regexp\" size=\"40\">&nbsp;";
+			
+			print_select("fadd_match", "Title", $filter_types);	
+	
+			print "</td></tr>";
+			print "<tr><td>Feed:</td><td><select id=\"fadd_feed\">";
+	
+			print "<option selected id=\"0\">All feeds</option>";
+	
+			$result = db_query($link, "SELECT id,title FROM ttrss_feeds
+				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+	
+			if (db_num_rows($result) > 0) {
+				print "<option disabled>--------</option>";
+			}
+	
+			while ($line = db_fetch_assoc($result)) {
+				if ($param == $line["id"]) {
+					$selected = "selected";
+				} else {
+					$selected = "";
+				}
+				printf("<option id='%d' %s>%s</option>", $line["id"], $selected, $line["title"]);
+			}
+	
+			print "</select></td></tr>";
+	
+			print "<tr><td>Action:</td>";
+	
+			print "<td><select id=\"fadd_action\">";
+	
+			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+				ORDER BY name");
+
+			while ($line = db_fetch_assoc($result)) {
+				printf("<option id='%d'>%s</option>", $line["id"], $line["description"]);
+			}
+	
+			print "</select>";
+	
+			print "</td></tr><tr><td colspan=\"2\" align=\"right\">";
+	
+			print "<input type=\"submit\" 
+				class=\"button\" onclick=\"javascript:qaddFilter()\" 
+				value=\"Add filter\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"javascript:closeDlg()\" 
+				value=\"Close\">";
+
+			print "</td></tr></table>";
+		}
 	}
 
 	// update feeds of all users, may be used anonymously
