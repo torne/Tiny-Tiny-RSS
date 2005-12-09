@@ -723,12 +723,34 @@
 		session_destroy();		
 	}
 
+	function get_script_urlpath() {
+		$request_uri = $_SERVER["REQUEST_URI"];
+		return preg_replace('/\/[^\/]+$/', "", $request_uri);
+	}
+
+	function get_login_redirect() {
+		$server = $_SERVER["SERVER_NAME"];
+
+		if (ENABLE_LOGIN_SSL) {
+			$protocol = "https";
+		} else {
+			$protocol = "http";
+		}		
+
+		$url_path = get_script_urlpath();
+
+		$redirect_uri = "$protocol://$server$url_path/login.php";
+
+		return $redirect_uri;
+	}
+
 	function login_sequence($link) {
 		if (!SINGLE_USER_MODE) {
-	
+
 			if (!USE_HTTP_AUTH) {
 				if (!$_SESSION["uid"]) {
-					header("Location: login.php?rt=tt-rss.php");
+					$redirect_uri = get_login_redirect();
+					header("Location: $redirect_uri?rt=tt-rss.php");
 					exit;
 				}
 			} else {

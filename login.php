@@ -6,8 +6,11 @@
 	require_once "config.php";
 	require_once "functions.php";
 
+	$url_path = get_script_urlpath();
+	$redirect_base = "http://" . $_SERVER["SERVER_NAME"] . $url_path;
+
 	if (SINGLE_USER_MODE) {
-		header("Location: tt-rss.php");
+		header("Location: $redirect_base/tt-rss.php");
 		exit;
 	}
 
@@ -25,7 +28,7 @@
 			} else {
 				$redirect_to = "tt-rss.php";
 			}
-			header("Location: $redirect_to");
+			header("Location: $redirect_base/$redirect_to");
 		}
 	}
 

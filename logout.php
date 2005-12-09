@@ -7,7 +7,17 @@
 	logout_user();
 
 	if (!USE_HTTP_AUTH) {
-		header("Location: login.php");
+		$url_path = get_script_urlpath();
+
+		if (ENABLE_LOGIN_SSL) {
+			$protocol = "https";
+		} else {
+			$protocol = "http";
+		}		
+
+		$redirect_base = "$protocol://" . $_SERVER["SERVER_NAME"] . $url_path;
+
+		header("Location: $redirect_base/login.php");
 	} else { ?>
 	
 	<html>
