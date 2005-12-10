@@ -65,6 +65,7 @@ create table ttrss_entries (id serial not null primary key,
 	content_hash varchar(250) not null,
 	no_orig_date boolean not null default false,
 	date_entered timestamp not null default NOW(),
+	num_comments integer not null default 0,
 	comments varchar(250) not null default '');
 
 create index ttrss_entries_guid_index on ttrss_entries(guid);
