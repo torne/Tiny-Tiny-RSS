@@ -1649,22 +1649,12 @@
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<tr class=\"title\">
-							<td width=\"3%\">&nbsp;</td>
-							<td width=\"3%\">Select</td>
-							<td width=\"20%\">
-								<a href=\"javascript:updateFeedList('title')\">Title</a></td>
-							<td width=\"20%\">
-								<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
-							</td>";
-		
-				print "
-					<td width=\"10%\">
-						<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
-					</td>
-					<td width=\"10%\">
-						<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
-					</td>
-				</tr>";
+					<td width='1%'>&nbsp;</td>
+					<td width='5%' align='center'>Select</td>
+					<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
+					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
+					<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
+					<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
 			}
 			
 			$lnum = 0;
@@ -1694,19 +1684,12 @@
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
-							<td width=\"3%\">&nbsp;</td>
-							<td width=\"3%\">Select</td>
-							<td width=\"20%\">
-								<a href=\"javascript:updateFeedList('title')\">Title</a></td>
-							<td width=\"20%\">
-								<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
-							</td>
-							<td width=\"10%\">
-								<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
-							</td>
-							<td width=\"10%\">
-								<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
-							</td></tr>";
+						<td width='1%'>&nbsp;</td>
+						<td width='5%' align='center'>Select</td>
+						<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
+						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
+						<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
+						<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -1724,9 +1707,9 @@
 				} else {
 					$feed_icon = "&nbsp;";
 				}
-				print "<td align='center'>$feed_icon</td>";		
+				print "<td class='feedIcon'>$feed_icon</td>";		
 	
-				print "<td><input onclick='toggleSelectRow(this);' 
+				print "<td class='feedSelect'><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				$edit_title = truncate_string($edit_title, 40);
