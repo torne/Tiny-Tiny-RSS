@@ -1168,7 +1168,7 @@
 
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
-						60);
+						200);
 				}
 
 				if ($omode != "xml") {
@@ -1190,7 +1190,7 @@
 						print "<td class='hlFeed'>
 							<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>&nbsp;</td>";
 					} else {			
-						print "<td class='hlContent'>";
+						print "<td class='hlContent' valign='middle'>";
 		
 						print "<a href=\"javascript:view($id,$feed_id);\">" .
 							$line["title"];
