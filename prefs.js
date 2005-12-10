@@ -391,9 +391,18 @@ function editFeed(feed) {
 
 	active_feed = feed;
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
+/*	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
 		param_escape(feed), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null); */
+
+	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
+	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-'+feed, 'FRCHK-'+feed, true);
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
+		param_escape(active_feed), true);
+
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 }

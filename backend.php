@@ -1287,6 +1287,102 @@
 		$subop = $_GET["subop"];
 		$quiet = $_GET["quiet"];
 
+		if ($subop == "editfeed") {
+			$feed_id = db_escape_string($_GET["id"]);
+
+			$result = db_query($link, 
+				"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
+					owner_uid = " . $_SESSION["uid"]);
+
+			$title = htmlspecialchars(db_unescape_string(db_fetch_result($result,
+				0, "title")));
+
+			print "<div class=\"infoBoxContents\">";
+
+			$icon_file = ICONS_DIR . "/$feed_id.ico";
+	
+			if (file_exists($icon_file) && filesize($icon_file) > 0) {
+					$feed_icon = "<img width=\"16\" height=\"16\"
+						src=\"" . ICONS_URL . "/$feed_id.ico\">";
+			} else {
+				$feed_icon = "";
+			}
+	
+			print "<h1>$feed_icon $title</h1>";
+
+			print "<table width='100%'>";
+
+			$row_class = "odd";
+
+			print "<tr class='$row_class'><td>Title:</td>";
+			print "<td><input id=\"iedit_title\" value=\"$title\"></td></tr>";
+
+			$feed_url = db_fetch_result($result, 0, "feed_url");
+			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
+				0, "feed_url")));
+			$row_class = toggleEvenOdd($row_class);
+
+			print "<tr class='$row_class'><td>Feed URL:</td>";
+			print "<td><input id=\"iedit_link\" value=\"$feed_url\"></td></tr>";
+	
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+				$cat_id = db_fetch_result($result, 0, "cat_id");
+
+				$row_class = toggleEvenOdd($row_class);
+
+				print "<tr class='$row_class'><td>Category:</td>";
+				print "<td>";
+				print "<select id=\"iedit_fcat\">";
+				print "<option id=\"0\">Uncategorized</option>";
+
+				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
+					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+				if (db_num_rows($tmp_result) > 0) {
+					print "<option disabled>--------</option>";
+				}
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					if ($tmp_line["id"] == $cat_id) {
+						$is_selected = "selected";
+					} else {
+						$is_selected = "";
+					}
+					printf("<option $is_selected id='%d'>%s</option>", 
+						$tmp_line["id"], $tmp_line["title"]);
+				}
+
+				print "</select></td>";
+				print "</td></tr>";
+	
+			}
+
+			$update_interval = db_fetch_result($result, 0, "update_interval");
+			$row_class = toggleEvenOdd($row_class);
+
+			print "<tr class='$row_class'><td>Update Interval:</td>";
+			print "<td><input id=\"iedit_updintl\" 
+				value=\"$update_interval\"></td></tr>";
+
+			$purge_interval = db_fetch_result($result, 0, "purge_interval");
+			$row_class = toggleEvenOdd($row_class);
+
+			print "<tr class='$row_class'><td>Purge Days:</td>";
+			print "<td><input id=\"iedit_purgintl\" 
+				value=\"$purge_interval\"></td></tr>";
+
+			print "</table>";
+			print "</div>";
+
+			print "<div align='center'>
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:feedEditSave()\" value=\"Save\"></div>";
+			return;
+		}
+
 		if ($subop == "editSave") {
 			$feed_title = db_escape_string($_GET["t"]);
 			$feed_link = db_escape_string($_GET["l"]);
@@ -1535,7 +1631,7 @@
 				ttrss_feeds 
 			WHERE 
 				$search_qpart owner_uid = '".$_SESSION["uid"]."' 			
-			ORDER by $feeds_sort,title");
+			ORDER by category,$feeds_sort,title");
 
 		if (db_num_rows($result) != 0) {
 
@@ -1551,46 +1647,72 @@
 						'FEEDR-', 'FRCHK-', false)\">None</a>
 				</td</tr>";
 
-			print "<tr class=\"title\">
-						<td width=\"3%\">&nbsp;</td>
-						<td width=\"3%\">Select</td>
-						<td width=\"20%\">
-							<a href=\"javascript:updateFeedList('title')\">Title</a></td>
-						<td width=\"20%\">
-							<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
-						</td>";
-	
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<td width=\"10%\">
-					<a href=\"javascript:updateFeedList('category')\">Category</a></td>";
+			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<tr class=\"title\">
+							<td width=\"3%\">&nbsp;</td>
+							<td width=\"3%\">Select</td>
+							<td width=\"20%\">
+								<a href=\"javascript:updateFeedList('title')\">Title</a></td>
+							<td width=\"20%\">
+								<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
+							</td>";
+		
+				print "
+					<td width=\"10%\">
+						<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
+					</td>
+					<td width=\"10%\">
+						<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
+					</td>
+				</tr>";
 			}
 			
-			print "
-				<td width=\"10%\">
-					<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
-				</td>
-				<td width=\"10%\">
-					<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
-				</td>
-			</tr>";
-			
 			$lnum = 0;
+
+			$cur_cat_id = -1;
 			
 			while ($line = db_fetch_assoc($result)) {
 	
 				$class = ($lnum % 2) ? "even" : "odd";
 	
 				$feed_id = $line["id"];
+				$cat_id = $line["cat_id"];
+
+				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
+				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
 	
-				$edit_feed_id = $_GET["id"];
-	
-				if ($subop == "edit" && $feed_id != $edit_feed_id) {
-					$class .= "Grayed";
-					$this_row_id = "";
-				} else {
-					$this_row_id = "id=\"FEEDR-$feed_id\"";
+				if ($line["update_interval"] == "0") $line["update_interval"] = "Default";
+				if ($line["update_interval"] == "-1") $line["update_interval"] = "Disabled";
+				if ($line["purge_interval"] == "0") $line["purge_interval"] = "Default";
+				if ($line["purge_interval"] < 0)	$line["purge_interval"] = "Disabled";
+
+				if (!$edit_cat) $edit_cat = "Uncategorized";
+
+
+				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {
+					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
+
+					print "<tr class=\"title\">
+							<td width=\"3%\">&nbsp;</td>
+							<td width=\"3%\">Select</td>
+							<td width=\"20%\">
+								<a href=\"javascript:updateFeedList('title')\">Title</a></td>
+							<td width=\"20%\">
+								<a href=\"javascript:updateFeedList('feed_url')\">Link</a>
+							</td>
+							<td width=\"10%\">
+								<a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a>
+							</td>
+							<td width=\"10%\">
+								<a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a>
+							</td></tr>";
+
+					$cur_cat_id = $cat_id;
 				}
-	
+
+				$this_row_id = "id=\"FEEDR-$feed_id\"";
+
 				print "<tr class=\"$class\" $this_row_id>";
 	
 				$icon_file = ICONS_DIR . "/$feed_id.ico";
@@ -1603,123 +1725,29 @@
 				}
 				print "<td align='center'>$feed_icon</td>";		
 	
-				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
-				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
-				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
-	
-				if (!$edit_cat) $edit_cat = "Uncategorized";
-	
-				if (!$edit_feed_id || $subop != "edit") {
-	
-					print "<td><input onclick='toggleSelectRow(this);' 
-					type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+				print "<td><input onclick='toggleSelectRow(this);' 
+				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
-					$edit_title = truncate_string($edit_title, 40);
-					$edit_link = truncate_string($edit_link, 60);
-	
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$edit_title . "</a></td>";		
-						
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$edit_link . "</a></td>";		
-	
-					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-							$edit_cat . "</a></td>";		
-					}
-	
-					if ($line["update_interval"] == "0")
-						$line["update_interval"] = "Default";
-	
-					if ($line["update_interval"] == "-1")
-						$line["update_interval"] = "Disabled";
+				$edit_title = truncate_string($edit_title, 40);
+				$edit_link = truncate_string($edit_link, 60);
 
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$line["update_interval"] . "</a></td>";
-	
-					if ($line["purge_interval"] == "0")
-						$line["purge_interval"] = "Default";
-	
-					if ($line["purge_interval"] < 0)
-						$line["purge_interval"] = "Disabled";
-	
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$line["purge_interval"] . "</a></td>";
-	
-				} else if ($feed_id != $edit_feed_id) {
-	
-					print "<td><input disabled=\"true\" type=\"checkbox\" 
-						id=\"FRCHK-".$line["id"]."\"></td>";
-
-					$edit_title = truncate_string($edit_title, 40);
-					$edit_link = truncate_string($edit_link, 60);
-
-					print "<td>$edit_title</td>";		
-					print "<td>$edit_link</td>";		
-	
-					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<td>$edit_cat</td>";		
-					}
-	
-					if ($line["update_interval"] == "0")
-						$line["update_interval"] = "Default";
-	
-					print "<td>" . $line["update_interval"] . "</td>";
-	
-					if ($line["purge_interval"] == "0")
-						$line["purge_interval"] = "Default";
-	
-					if ($line["purge_interval"] < 0)
-						$line["purge_interval"] = "Disabled";
-	
-					print "<td>" . $line["purge_interval"] . "</td>";
-	
-				} else {
-	
-					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
-	
-					print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
-					print "<td><input id=\"iedit_link\" value=\"$edit_link\"></td>";
-	
-					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-	
-						print "<td>";
-						print "<select id=\"iedit_fcat\">";
-						print "<option id=\"0\">Uncategorized</option>";
-		
-						$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
-							WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-		
-						if (db_num_rows($tmp_result) > 0) {
-							print "<option disabled>--------</option>";
-						}
-
-						while ($tmp_line = db_fetch_assoc($tmp_result)) {
-							if ($tmp_line["id"] == $line["cat_id"]) {
-								$is_selected = "selected";
-							} else {
-								$is_selected = "";
-							}
-							printf("<option $is_selected id='%d'>%s</option>", 
-								$tmp_line["id"], $tmp_line["title"]);
-						}
-		
-						print "</select></td>";
-						print "</td>";
-	
-					}
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$edit_title . "</a></td>";		
 					
-					print "<td><input id=\"iedit_updintl\" 
-						value=\"".$line["update_interval"]."\"></td>";
-					print "<td><input id=\"iedit_purgintl\" 
-						value=\"".$line["purge_interval"]."\"></td>";
-						
-				}
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$edit_link . "</a></td>";		
+
+/*				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+						$edit_cat . "</a></td>";		
+				} */
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["update_interval"] . "</a></td>";
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					$line["purge_interval"] . "</a></td>";
 	
-/*				if (!$line["last_updated"]) $line["last_updated"] = "Never";
-	
-				print "<td>" . $line["last_updated"] . "</td>"; */
-				
 				print "</tr>";
 	
 				++$lnum;

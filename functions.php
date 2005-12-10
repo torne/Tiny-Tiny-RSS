@@ -836,4 +836,11 @@
 			return "false";
 		}
 	}
+	
+	function toggleEvenOdd($a) {
+		if ($a == "even") 
+			return "odd";
+		else
+			return "even";
+	}
 ?>
