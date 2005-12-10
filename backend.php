@@ -1673,8 +1673,6 @@
 			
 			while ($line = db_fetch_assoc($result)) {
 	
-				$class = ($lnum % 2) ? "even" : "odd";
-	
 				$feed_id = $line["id"];
 				$cat_id = $line["cat_id"];
 
@@ -1691,6 +1689,8 @@
 
 
 				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {
+					$lnum = 0;
+				
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
@@ -1711,6 +1711,7 @@
 					$cur_cat_id = $cat_id;
 				}
 
+				$class = ($lnum % 2) ? "even" : "odd";
 				$this_row_id = "id=\"FEEDR-$feed_id\"";
 
 				print "<tr class=\"$class\" $this_row_id>";
