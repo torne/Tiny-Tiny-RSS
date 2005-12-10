@@ -604,13 +604,15 @@ function feedEditCancel() {
 		return
 	}
 
+	closeInfoBox();
+
 	active_feed = false;
 
 	notify("Operation cancelled.");
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
+/*	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null);
+	xmlhttp.send(null); */
 
 }
 

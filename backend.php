@@ -1377,9 +1377,9 @@
 
 			print "<div align='center'>
 				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Cancel\">
+				onclick=\"feedEditCancel()\" value=\"Cancel\">
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:feedEditSave()\" value=\"Save\"></div>";
+				onclick=\"feedEditSave()\" value=\"Save\"></div>";
 			return;
 		}
 
@@ -1649,7 +1649,6 @@
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<tr class=\"title\">
-					<td width='1%'>&nbsp;</td>
 					<td width='5%' align='center'>Select</td>
 					<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
@@ -1684,7 +1683,6 @@
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
-						<td width='1%'>&nbsp;</td>
 						<td width='5%' align='center'>Select</td>
 						<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
@@ -1702,12 +1700,11 @@
 				$icon_file = ICONS_DIR . "/$feed_id.ico";
 	
 				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img width=\"16\" height=\"16\"
-							src=\"" . ICONS_URL . "/$feed_id.ico\">";
+						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . "/$feed_id.ico\">";
 				} else {
-					$feed_icon = "&nbsp;";
+					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
-				print "<td class='feedIcon'>$feed_icon</td>";		
+//				print "<td class='feedIcon'>$feed_icon</td>";		
 	
 				print "<td class='feedSelect'><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
@@ -1716,7 +1713,7 @@
 				$edit_link = truncate_string($edit_link, 60);
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_title . "</a></td>";		
+					"$feed_icon $edit_title" . "</a></td>";		
 					
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		

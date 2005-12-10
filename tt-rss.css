@@ -238,6 +238,7 @@ ul.feedList img, img.tinyFeedIcon {
 	margin : 0px 3px 0px 0px;
 	width : 16px;
 	height : 16px;
+	border-width : 0px;
 }
 
 h1 {
@@ -442,11 +443,7 @@ input {
 
 /* preferences */
 
-table.prefFeedList tr.title td, table.prefFilterList tr.title td,
-	table.headlinesList tr.title td, table.prefLabelList tr.title td,
-	table.prefPrefsList tr.title td, 
-	table.prefFeedCatList tr.title td, 
-	table.prefUserList tr.title td {
+tr.title td {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-color : #f0f0f0;
@@ -454,10 +451,10 @@ table.prefFeedList tr.title td, table.prefFilterList tr.title td,
 	font-size : x-small;
 }
 
+
 table.prefFeedList td.feedEditCat {
 	font-size : large;
 	font-weight : bold;
-	color : black;
 	padding : 5px 0px 5px 0px;
 }
 
