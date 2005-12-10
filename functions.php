@@ -737,8 +737,7 @@
 	}
 
 	function get_script_urlpath() {
-		$request_uri = $_SERVER["REQUEST_URI"];
-		return preg_replace('/\/[^\/]+$/', "", $request_uri);
+		return preg_replace('/\/[^\/]*$/', "", $_SERVER["REQUEST_URI"]);
 	}
 
 	function get_login_redirect() {
