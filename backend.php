@@ -1617,7 +1617,8 @@
 		$_SESSION["pref_sort_feeds"] = $feeds_sort;
 
 		if ($feed_search) {
-			$search_qpart = "UPPER(title) LIKE UPPER('%$feed_search%') AND";
+			$search_qpart = "(UPPER(title) LIKE UPPER('%$feed_search%') OR
+				UPPER(feed_url) LIKE UPPER('%$feed_search%')) AND";
 		} else {
 			$search_qpart = "";
 		}
