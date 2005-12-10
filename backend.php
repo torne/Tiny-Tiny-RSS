@@ -631,7 +631,8 @@
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			SUBSTRING(updated,1,16) as updated,
-			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url
+			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
+			num_comments
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id");
 
@@ -669,10 +670,26 @@
 				$feed_icon = "&nbsp;";
 			}
 
-			if ($line["comments"] && $line["link"] != $line["comments"]) {
+/*			if ($line["comments"] && $line["link"] != $line["comments"]) {
 				$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
 			} else {
 				$entry_comments = "";
+			} */
+
+			$num_comments = $line["num_comments"];
+			$entry_comments = "";
+
+			if ($num_comments > 0) {
+				if ($line["comments"]) {
+					$comments_url = $line["comments"];
+				} else {
+					$comments_url = $line["link"];
+				}
+				$entry_comments = "(<a href=\"$comments_url\">$num_comments comments</a>)";
+			} else {
+				if ($line["comments"] && $line["link"] != $line["comments"]) {
+					$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+				}				
 			}
 
 			print "<div class=\"postReply\">";

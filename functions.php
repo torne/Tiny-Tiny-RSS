@@ -324,6 +324,12 @@
 				$entry_link = db_escape_string($entry_link);
 				$entry_comments = db_escape_string($entry_comments);
 
+				$num_comments = 0;
+
+				if ($item["slash"]) {
+					$num_comments = db_escape_string($item["slash"]["comments"]);
+				}
+
 				if (db_num_rows($result) == 0) {
 
 					// base post entry does not exist, create it
@@ -338,7 +344,8 @@
 							content_hash,
 							no_orig_date,
 							date_entered,
-							comments)
+							comments,
+							num_comments)
 						VALUES
 							('$entry_title', 
 							'$entry_guid', 
@@ -348,71 +355,72 @@
 							'$content_hash',
 							$no_orig_date, 
 							NOW(), 
-							'$entry_comments')");
+							'$entry_comments',
+							'$num_comments')");
 				}
 
 				// now it should exist, if not - bad luck then
 
 				$result = db_query($link, "SELECT 
 						id,content_hash,no_orig_date,title,
-						substring(updated,1,19) as updated
+						substring(updated,1,19) as updated,
+						num_comments
 					FROM 
 						ttrss_entries 
 					WHERE guid = '$entry_guid'");
 
 				if (db_num_rows($result) == 1) {
 
-						// this will be used below in update handler
-						$orig_content_hash = db_fetch_result($result, 0, "content_hash");
-//						$orig_timestamp = strtotime(db_fetch_result($result, 0, "updated"));
-//						$orig_no_orig_date = db_fetch_result($result, 0, "no_orig_date");
-						$orig_title = db_fetch_result($result, 0, "title");
+					// this will be used below in update handler
+					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
+					$orig_title = db_fetch_result($result, 0, "title");
+					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
 
-						$ref_id = db_fetch_result($result, 0, "id");
+					$ref_id = db_fetch_result($result, 0, "id");
 
-						// check for user post link to main table
+					// check for user post link to main table
 
-						// do we allow duplicate posts with same GUID in different feeds?
-						if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid)) {
-							$dupcheck_qpart = "AND feed_id = '$feed'";
-						} else { 
-							$dupcheck_qpart = "";
-						}
+					// do we allow duplicate posts with same GUID in different feeds?
+					if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid)) {
+						$dupcheck_qpart = "AND feed_id = '$feed'";
+					} else { 
+						$dupcheck_qpart = "";
+					}
 
-//						error_reporting(0);
+//					error_reporting(0);
 
-						$filter_name = get_filter_name($entry_title, $entry_content, 
-							$entry_link, $filters);
+					$filter_name = get_filter_name($entry_title, $entry_content, 
+						$entry_link, $filters);
 
-						if ($filter_name == "filter") {
-							continue;
-						}
+					if ($filter_name == "filter") {
+						continue;
+					}
 
-//						error_reporting (DEFAULT_ERROR_LEVEL);
+//					error_reporting (DEFAULT_ERROR_LEVEL);
 
-						$result = db_query($link,
-							"SELECT ref_id FROM ttrss_user_entries WHERE
-								ref_id = '$ref_id' AND owner_uid = '$owner_uid'
-								$dupcheck_qpart");
+					$result = db_query($link,
+						"SELECT ref_id FROM ttrss_user_entries WHERE
+							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
+							$dupcheck_qpart");
+							
+					// okay it doesn't exist - create user entry
+					if (db_num_rows($result) == 0) {
 
-						// okay it doesn't exist - create user entry
-						if (db_num_rows($result) == 0) {
-
-							if ($filter_name != 'catchup') {
-								$unread = 'true';
-								$last_read_qpart = 'NULL';
-							} else {
-								$unread = 'false';
-								$last_read_qpart = 'NOW()';
-							}						
+						if ($filter_name != 'catchup') {
+							$unread = 'true';
+							$last_read_qpart = 'NULL';
+						} else {
+							$unread = 'false';
+							$last_read_qpart = 'NOW()';
+						}						
 						
-							$result = db_query($link,
-								"INSERT INTO ttrss_user_entries 
-									(ref_id, owner_uid, feed_id, unread, last_read) 
-								VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-									$last_read_qpart)");
-						}
-
+						$result = db_query($link,
+							"INSERT INTO ttrss_user_entries 
+								(ref_id, owner_uid, feed_id, unread, last_read) 
+							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
+								$last_read_qpart)");
+					}
+					
 					$post_needs_update = false;
 
 					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid) &&
@@ -421,6 +429,10 @@
 					}
 
 					if ($orig_title != $entry_title) {
+						$post_needs_update = true;
+					}
+
+					if ($orig_num_comments != $num_comments) {
 						$post_needs_update = true;
 					}
 
@@ -437,7 +449,8 @@
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";
 
 						db_query($link, "UPDATE ttrss_entries 
-							SET title = '$entry_title', content = '$entry_content'
+							SET title = '$entry_title', content = '$entry_content',
+								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
 						db_query($link, "UPDATE ttrss_user_entries 
