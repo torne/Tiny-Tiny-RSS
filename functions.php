@@ -324,11 +324,11 @@
 				$entry_link = db_escape_string($entry_link);
 				$entry_comments = db_escape_string($entry_comments);
 
-				$num_comments = 0;
-
-				if ($item["slash"]) {
+				if (defined($item["slash"])) {
 					$num_comments = db_escape_string($item["slash"]["comments"]);
 				}
+
+				if (!$num_comments) $num_comments = 0;
 
 				if (db_num_rows($result) == 0) {
 
