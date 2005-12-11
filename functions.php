@@ -760,7 +760,8 @@
 			if (!USE_HTTP_AUTH) {
 				if (!$_SESSION["uid"]) {
 					$redirect_uri = get_login_redirect();
-					header("Location: $redirect_uri?rt=tt-rss.php");
+					$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
+					header("Location: $redirect_uri?rt=$return_to");
 					exit;
 				}
 			} else {
