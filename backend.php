@@ -1415,6 +1415,14 @@
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
+		}
+
+		if ($subop == "saveCat") {
+			$cat_title = db_escape_string($_GET["title"]);
+			$cat_id = db_escape_string($_GET["id"]);
+
+			$result = db_query($link, "UPDATE ttrss_feed_categories SET
+				title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
 
 		}
 

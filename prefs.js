@@ -685,6 +685,28 @@ function feedEditSave() {
 
 }
 
+function feedCatEditSave() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	notify("");
+
+	var cat_title = document.getElementById("iedit_title").value;
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=saveCat&id=" +
+		param_escape(active_feed_cat) + "&title=" + param_escape(cat_title), 
+		true);
+	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.send(null);
+
+	active_feed_cat = false;
+
+}
+
+
 function labelTest() {
 
 	var sqlexp = document.getElementById("iedit_expr").value;
