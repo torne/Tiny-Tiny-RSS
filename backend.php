@@ -1660,7 +1660,7 @@
 				print "<tr class=\"title\">
 					<td width='5%' align='center'></td>
 					<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
+					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 					<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
 					<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
 			}
@@ -1694,7 +1694,7 @@
 					print "<tr class=\"title\">
 						<td width='5%' align='center'></td>
 						<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Link</a></td>
+						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 						<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
 						<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
 
@@ -3320,7 +3320,7 @@
 
 		if (db_num_rows($result) == 0) return;
 
-		$title = db_fetch_result($result, 0, "title");
+		$title = db_unescape_string(db_fetch_result($result, 0, "title"));
 		$last_updated = date(get_pref($link, 'LONG_DATE_FORMAT'),
 			strtotime(db_fetch_result($result, 0, "last_updated")));
 		$feed_url = db_fetch_result($result, 0, "feed_url");
