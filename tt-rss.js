@@ -438,8 +438,11 @@ function quickMenuGo() {
 			notify("Please select some feed first.");
 			return;
 		}
+
+		if (confirm("Remove current feed?")) {
+			qfdDelete(actid);
+		}
 	
-		displayDlg("quickDelFeed", actid);
 		return;
 	}
 
@@ -546,10 +549,10 @@ function qfdDelete(feed_id) {
 
 	notify("Removing feed...");
 
-	var feeds_doc = window.frames["feeds-frame"].document;
-	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
+//	var feeds_doc = window.frames["feeds-frame"].document;
+//	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids=" + feed_id);
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
 }

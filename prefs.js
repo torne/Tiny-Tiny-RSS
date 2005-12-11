@@ -486,13 +486,16 @@ function removeSelectedLabels() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Removing selected labels...");
+		var ok = confirm("Remove selected labels?");
 
-		xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=labellist_callback;
-		xmlhttp.send(null);
-
+		if (ok) {
+			notify("Removing selected labels...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=labellist_callback;
+			xmlhttp.send(null);
+		}
 	} else {
 		notify("Please select some labels first.");
 	}
@@ -509,12 +512,16 @@ function removeSelectedUsers() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Removing selected users...");
+		var ok = confirm("Remove selected users?");
 
-		xmlhttp.open("GET", "backend.php?op=pref-users&subop=remove&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=userlist_callback;
-		xmlhttp.send(null);
+		if (ok) {
+			notify("Removing selected users...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-users&subop=remove&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=userlist_callback;
+			xmlhttp.send(null);
+		}
 
 	} else {
 		notify("Please select some labels first.");
@@ -532,13 +539,16 @@ function removeSelectedFilters() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Removing selected filters...");
+		var ok = confirm("Remove selected filters?");
 
-		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=filterlist_callback;
-		xmlhttp.send(null);
-
+		if (ok) {
+			notify("Removing selected filters...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=filterlist_callback;
+			xmlhttp.send(null);
+		}
 	} else {
 		notify("Please select some filters first.");
 	}
@@ -556,12 +566,17 @@ function removeSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Removing selected feeds...");
+		var ok = confirm("Remove selected feeds?");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
+		if (ok) {
+
+			notify("Removing selected feeds...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.send(null);
+		}
 
 	} else {
 
@@ -582,12 +597,16 @@ function removeSelectedFeedCats() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Removing selected categories...");
+		var ok = confirm("Remove selected categories?");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=removeCats&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
+		if (ok) {
+			notify("Removing selected categories...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=removeCats&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.send(null);
+		}
 
 	} else {
 
@@ -946,15 +965,18 @@ function resetSelectedUserPass() {
 		return;
 	}
 
-	notify("Resetting password for selected user...");
+	var ok = confirm("Reset password of selected user?");
 
-	var id = rows[0];
-
-	xmlhttp.open("GET", "backend.php?op=pref-users&subop=resetPass&id=" +
-		param_escape(id), true);
-	xmlhttp.onreadystatechange=userlist_callback;
-	xmlhttp.send(null);
-
+	if (ok) {
+		notify("Resetting password for selected user...");
+	
+		var id = rows[0];
+	
+		xmlhttp.open("GET", "backend.php?op=pref-users&subop=resetPass&id=" +
+			param_escape(id), true);
+		xmlhttp.onreadystatechange=userlist_callback;
+		xmlhttp.send(null);
+	}
 }
 
 function selectedUserDetails() {
@@ -1247,4 +1269,8 @@ function categorizeSelectedFeeds() {
 
 	}
 
+}
+
+function validatePrefsReset() {
+	return confirm("Reset to defaults?");
 }

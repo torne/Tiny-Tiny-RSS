@@ -353,7 +353,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 			
-				$feed = $line["title"];
+				$feed = db_unescape_string($line["title"]);
 				$feed_id = $line["id"];	  
 	
 				$subop = $_GET["subop"];
@@ -2986,7 +2986,8 @@
 				name=\"subop\" value=\"Save configuration\">";
 				
 			print "&nbsp;<input class=\"button\" type=\"submit\" 
-				name=\"subop\" value=\"Reset to defaults\"></p>";
+				name=\"subop\" onclick=\"return validatePrefsReset()\" 
+				value=\"Reset to defaults\"></p>";
 
 			print "</form>";
 
