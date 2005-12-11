@@ -3302,103 +3302,109 @@
 
 	if ($op == "feed-details") {
 
-		$feed_id = $_GET["id"];
+//		$feed_id = $_GET["id"];
 
-		$result = db_query($link, 
-			"SELECT 
-				title,feed_url,
-				SUBSTRING(last_updated,1,16) as last_updated,
-				icon_url,site_url,
-				(SELECT COUNT(int_id) FROM ttrss_user_entries 
-					WHERE feed_id = id) AS total,
-				(SELECT COUNT(int_id) FROM ttrss_user_entries 
-					WHERE feed_id = id AND unread = true) AS unread,
-				(SELECT COUNT(int_id) FROM ttrss_user_entries 
-					WHERE feed_id = id AND marked = true) AS marked
-			FROM ttrss_feeds
-			WHERE id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
-
-		if (db_num_rows($result) == 0) return;
-
-		$title = db_unescape_string(db_fetch_result($result, 0, "title"));
-		$last_updated = date(get_pref($link, 'LONG_DATE_FORMAT'),
-			strtotime(db_fetch_result($result, 0, "last_updated")));
-		$feed_url = db_fetch_result($result, 0, "feed_url");
-		$icon_url = db_fetch_result($result, 0, "icon_url");
-		$total = db_fetch_result($result, 0, "total");
-		$unread = db_fetch_result($result, 0, "unread");
-		$marked = db_fetch_result($result, 0, "marked");
-		$site_url = db_fetch_result($result, 0, "site_url");
-
-		$result = db_query($link, "SELECT COUNT(id) AS subscribed
-					FROM ttrss_feeds WHERE feed_url = '$feed_url'");
-
-		$subscribed = db_fetch_result($result, 0, "subscribed");
+		$feed_ids = split(",", db_escape_string($_GET["id"]));
 
 		print "<div class=\"infoBoxContents\">";
 
-		$icon_file = ICONS_DIR . "/$feed_id.ico";
+		foreach ($feed_ids as $feed_id) {
 
-		if (file_exists($icon_file) && filesize($icon_file) > 0) {
-				$feed_icon = "<img width=\"16\" height=\"16\"
-					src=\"" . ICONS_URL . "/$feed_id.ico\">";
-		} else {
-			$feed_icon = "";
-		}
-
-		print "<h1>$feed_icon $title</h1>";
-
-		print "<table width='100%'>";
-
-		if ($site_url) {
-			print "<tr><td width='30%'>Link</td>
-				<td><a href=\"$site_url\">$site_url</a>
-				<a href=\"$feed_url\">(feed)</a></td>
-				</td></tr>";
-		} else {
-			print "<tr><td width='30%'>Feed URL</td>
-				<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
-		}
-		print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
-		print "<tr><td>Total articles</td><td>$total</td></tr>";
-		print "<tr><td>Unread articles</td><td>$unread</td></tr>";
-		print "<tr><td>Starred articles</td><td>$marked</td></tr>";
-		print "<tr><td>Subscribed users</td><td>$subscribed</td></tr>";
-
-		print "</table>";
-
-		$result = db_query($link, "SELECT title,
-			SUBSTRING(updated,1,16) AS updated,unread
-			FROM ttrss_entries,ttrss_user_entries
-			WHERE ref_id = id AND feed_id = '$feed_id' 
-			ORDER BY date_entered DESC LIMIT 5");
-
-		if (db_num_rows($result) > 0) {
-
-			print "<h1>Latest headlines</h1>";
-
-			print "<ul class=\"nomarks\">";
+			$result = db_query($link, 
+				"SELECT 
+					title,feed_url,
+					SUBSTRING(last_updated,1,16) as last_updated,
+					icon_url,site_url,
+					(SELECT COUNT(int_id) FROM ttrss_user_entries 
+						WHERE feed_id = id) AS total,
+					(SELECT COUNT(int_id) FROM ttrss_user_entries 
+						WHERE feed_id = id AND unread = true) AS unread,
+					(SELECT COUNT(int_id) FROM ttrss_user_entries 
+						WHERE feed_id = id AND marked = true) AS marked
+				FROM ttrss_feeds
+				WHERE id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
 	
-			while ($line = db_fetch_assoc($result)) {
-				if ($line["unread"] == "t" || $line["unread"] == "1") {
-					$line["title"] = "<b>" . $line["title"] . "</b>";
-				}				
-				print "<li>" . $line["title"].
-				"&nbsp;<span class=\"insensitive\">(" .
-					date(get_pref($link, 'SHORT_DATE_FORMAT'), 
-						strtotime($line["updated"])).
-				")</span></li>";
+			if (db_num_rows($result) == 0) return;
+	
+			$title = db_unescape_string(db_fetch_result($result, 0, "title"));
+			$last_updated = date(get_pref($link, 'LONG_DATE_FORMAT'),
+				strtotime(db_fetch_result($result, 0, "last_updated")));
+			$feed_url = db_fetch_result($result, 0, "feed_url");
+			$icon_url = db_fetch_result($result, 0, "icon_url");
+			$total = db_fetch_result($result, 0, "total");
+			$unread = db_fetch_result($result, 0, "unread");
+			$marked = db_fetch_result($result, 0, "marked");
+			$site_url = db_fetch_result($result, 0, "site_url");
+	
+			$result = db_query($link, "SELECT COUNT(id) AS subscribed
+						FROM ttrss_feeds WHERE feed_url = '$feed_url'");
+	
+			$subscribed = db_fetch_result($result, 0, "subscribed");
+	
+			$icon_file = ICONS_DIR . "/$feed_id.ico";
+	
+			if (file_exists($icon_file) && filesize($icon_file) > 0) {
+					$feed_icon = "<img width=\"16\" height=\"16\"
+						src=\"" . ICONS_URL . "/$feed_id.ico\">";
+			} else {
+				$feed_icon = "";
 			}
 	
-			print "</ul>";
+			print "<h1>$feed_icon $title</h1>";
 	
-			print "</div>";
+			print "<table width='100%'>";
 	
-			print "<div align='center'>
-				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+			if ($site_url) {
+				print "<tr><td width='30%'>Link</td>
+					<td><a href=\"$site_url\">$site_url</a>
+					<a href=\"$feed_url\">(feed)</a></td>
+					</td></tr>";
+			} else {
+				print "<tr><td width='30%'>Feed URL</td>
+					<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
+			}
+			print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
+			print "<tr><td>Total articles</td><td>$total</td></tr>";
+			print "<tr><td>Unread articles</td><td>$unread</td></tr>";
+			print "<tr><td>Starred articles</td><td>$marked</td></tr>";
+			print "<tr><td>Subscribed users</td><td>$subscribed</td></tr>";
+	
+			print "</table>";
+	
+/*			$result = db_query($link, "SELECT title,
+				SUBSTRING(updated,1,16) AS updated,unread
+				FROM ttrss_entries,ttrss_user_entries
+				WHERE ref_id = id AND feed_id = '$feed_id' 
+				ORDER BY date_entered DESC LIMIT 5");
+	
+			if (db_num_rows($result) > 0) {
+	
+				print "<h1>Latest headlines</h1>";
+	
+				print "<ul class=\"nomarks\">";
+		
+				while ($line = db_fetch_assoc($result)) {
+					if ($line["unread"] == "t" || $line["unread"] == "1") {
+						$line["title"] = "<b>" . $line["title"] . "</b>";
+					}				
+					print "<li>" . $line["title"].
+					"&nbsp;<span class=\"insensitive\">(" .
+						date(get_pref($link, 'SHORT_DATE_FORMAT'), 
+							strtotime($line["updated"])).
+					")</span></li>";
+				}
+		
+				print "</ul>";
+		
+			} */
 		}
-	}
+
+		print "</div>";
+	
+		print "<div align='center'>
+			<input type='submit' class='button'			
+			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+	}	
 
 	db_close($link);
 ?>

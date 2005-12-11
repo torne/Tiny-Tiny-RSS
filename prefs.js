@@ -1000,16 +1000,17 @@ function selectedFeedDetails() {
 		return;
 	}
 
-	if (rows.length > 1) {
-		notify("Please select one feed.");
-		return;
-	}
+//	if (rows.length > 1) {
+//		notify("Please select one feed.");
+//		return;
+//	}
 
-	var id = rows[0];
+//	var id = rows[0];
 
 	notify("");
 
-	xmlhttp.open("GET", "backend.php?op=feed-details&id=" + id, true);
+	xmlhttp.open("GET", "backend.php?op=feed-details&id=" + 
+		param_escape(rows.toString()), true);
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
