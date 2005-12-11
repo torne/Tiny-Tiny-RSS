@@ -125,7 +125,7 @@ function infobox_callback() {
 			if (shadow) {
 				shadow.style.display = "block";
 			} else {
-				box.style.display = "block";
+				box.style.display = "block";				
 			}
 		}
 	}
