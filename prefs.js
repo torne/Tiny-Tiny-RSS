@@ -693,7 +693,7 @@ function feedEditSave() {
 
 	active_feed = false;
 
-	notify("");
+	notify("Saving feed...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
 		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
@@ -711,7 +711,7 @@ function feedCatEditSave() {
 		return
 	}
 
-	notify("");
+	notify("Saving category...");
 
 	var cat_title = document.getElementById("iedit_title").value;
 
@@ -824,7 +824,7 @@ function labelEditSave() {
 		return;
 	}
 
-	notify("");
+	notify("Saving label...");
 
 	active_label = false;
 
@@ -861,7 +861,7 @@ function userEditSave() {
 
 	active_user = false;
 
-	notify("");
+	notify("Saving user...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-users&subop=editSave&id=" +
 		user + "&l=" + param_escape(login) + "&al=" + param_escape(level),
@@ -908,7 +908,7 @@ function filterEditSave() {
 		"&m=" + param_escape(v_match) + "&fid=" + param_escape(feed_id) + 
 		"&aid=" + param_escape(action_id), true);
 
-	notify("");
+	notify("Saving filter...");
 
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null); 
