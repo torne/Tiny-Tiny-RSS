@@ -444,13 +444,20 @@ input {
 /* preferences */
 
 tr.title td {
-	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-color : #f0f0f0;
 	border-style : solid;
 	font-size : x-small;
+	color : gray;
 }
 
+tr.title td a {
+	color : gray;
+}
+
+tr.title td a:hover {
+	color : #5050aa;
+}
 
 table.prefFeedList td.feedEditCat {
 	font-size : large;
