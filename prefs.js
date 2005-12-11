@@ -1181,6 +1181,8 @@ function selectTab(id) {
 
 	active_tab = id;
 
+	setCookie('ttrss_pref_acttab', active_tab);
+
 }
 
 function init() {
@@ -1194,8 +1196,10 @@ function init() {
 				"to function properly. Your browser doesn't seem to support it.";
 			return;
 		}
-	
-		selectTab("genConfig");
+
+		active_tab = getCookie("ttrss_pref_acttab");
+		if (!active_tab) active_tab = "genConfig";
+		selectTab(active_tab);
 	
 		document.onkeydown = hotkey_handler;
 		notify("");
