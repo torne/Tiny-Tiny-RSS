@@ -1701,7 +1701,7 @@
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<tr class=\"title\">
-					<td width='5%' align='center'></td>
+					<td width='5%' align='center'>&nbsp;</td>
 					<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 					<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
@@ -1735,7 +1735,7 @@
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
-						<td width='5%' align='center'></td>
+						<td width='5%' align='center'>&nbsp;</td>
 						<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 						<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
@@ -2124,7 +2124,7 @@
 				</td</tr>";
 
 			print "<tr class=\"title\">
-						<td align='center' width=\"5%\"></td>
+						<td align='center' width=\"5%\">&nbsp;</td>
 						<td width=\"20%\">Filter expression</td>
 						<td width=\"20%\">Feed</td>
 						<td width=\"15%\">Match</td>
@@ -2419,7 +2419,8 @@
 				</td</tr>";
 
 			print "<tr class=\"title\">
-						<td align='center' width=\"5%\"></td><td width=\"40%\">SQL expression
+						<td align='center' width=\"5%\">&nbsp;</td>
+						<td width=\"40%\">SQL expression
 						<a class=\"helpLink\" href=\"javascript:displayHelpInfobox(1)\">(?)</a>
 						</td>
 						<td width=\"40%\">Caption</td></tr>";
@@ -3143,7 +3144,7 @@
 				</td</tr>";
 
 		print "<tr class=\"title\">
-					<td align='center' width=\"5%\"></td>
+					<td align='center' width=\"5%\">&nbsp;</td>
 					<td width='30%'>Username</td>
 					<td width='30%'>Access Level</td>
 					<td width='30%'>Last login</td></tr>";
