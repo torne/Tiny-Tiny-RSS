@@ -719,10 +719,10 @@
 				} else {
 					$comments_url = $line["link"];
 				}
-				$entry_comments = "(<a href=\"$comments_url\">$num_comments comments</a>)";
+				$entry_comments = "<a href=\"$comments_url\">$num_comments comments</a>";
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+					$entry_comments = "<a href=\"".$line["comments"]."\">Comments</a>";
 				}				
 			}
 
@@ -730,7 +730,7 @@
 
 			print "<div class=\"postHeader\"><table width=\"100%\">";
 
-			print "<tr><td>" . $line["title"] . "</td>";
+			print "<tr><td><a href=\"" . $line["link"] . "\">" . $line["title"] . "</a></td>";
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));
@@ -764,15 +764,13 @@
 			$tags_str = preg_replace("/, $/", "", $tags_str);
 			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
 
-			print "<tr><td width='50%'>
-				<a href=\"" . $line["link"] . "\">".$line["link"]."</a>
-				$entry_comments</td>
-				<td align=\"right\">$tags_str</td></tr>";
+//			$truncated_link = truncate_string($line["link"], 60);
 
-/*			if ($tags_str) {
-				print "<tr><td><b>Tags:</b></td>
-					<td width='100%'>$tags_str</td></tr>";
-			} */
+			if ($tags_str || $entry_comments) {
+				print "<tr><td width='50%'>
+					$entry_comments</td>
+					<td align=\"right\">$tags_str</td></tr>";
+			}
 
 			print "</table></div>";
 
