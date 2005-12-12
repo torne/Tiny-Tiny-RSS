@@ -136,11 +136,10 @@
 		&nbsp;View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
+			<option selected>Adaptive</option>
 			<option>All Articles</option>
 			<option>Starred</option>
-			<option selected>Unread</option>
-			<option>Unread or Starred</option>
-			<option>Unread or Updated</option>
+			<option>Unread</option>
 		</select>
 
 		&nbsp;Limit:

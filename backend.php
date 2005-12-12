@@ -62,6 +62,40 @@
 		getGlobalCounters($link);
 	}	
 
+	function getFeedUnread($link, $feed) {
+		$n_feed = sprintf("%d", $feed);
+	
+		if ($n_feed == -1) {
+			$match_part = "marked = true";
+		} else if ($feed > 0) {
+			$match_part = "feed_id = '$n_feed'";
+		} else if ($feed < -10) {
+			$label_id = -$feed - 11;
+
+			$result = db_query($link, "SELECT sql_exp FROM ttrss_labels WHERE
+				id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
+
+			$match_part = db_fetch_result($result, 0, "sql_exp");
+		}
+
+		if ($match_part) {
+		
+			$result = db_query($link, "SELECT count(int_id) AS unread 
+				FROM ttrss_user_entries 
+				WHERE	unread = true AND $match_part AND owner_uid = " . $_SESSION["uid"]);
+				
+		} else {
+		
+			$result = db_query($link, "SELECT COUNT(post_int_id) AS unread
+				FROM ttrss_tags,ttrss_user_entries 
+				WHERE tag_name = '$feed' AND post_int_id = int_id AND unread = true AND
+					ttrss_tags.owner_uid = " . $_SESSION["uid"]);
+		}
+		
+		$unread = db_fetch_result($result, 0, "unread");
+		return $unread;
+	}
+
 	/* FIXME this needs reworking */
 
 	function getGlobalCounters($link) {
@@ -911,6 +945,15 @@
 
 		$view_query_part = "";
 
+		if ($view_mode == "Adaptive") {
+			if ($feed != -1) {
+				$unread = getFeedUnread($link, $feed);
+				if ($unread > 0) {
+					$view_query_part = " unread = true AND ";
+				}
+			}
+		}
+
 		if ($view_mode == "Starred") {
 			$view_query_part = " marked = true AND ";
 		}
@@ -919,13 +962,13 @@
 			$view_query_part = " unread = true AND ";
 		}
 
-		if ($view_mode == "Unread or Starred") {
+/*		if ($view_mode == "Unread or Starred") {
 			$view_query_part = " (unread = true OR marked = true) AND ";
 		}
 
 		if ($view_mode == "Unread or Updated") {
 			$view_query_part = " (unread = true OR last_read is NULL) AND ";
-		}
+		} */
 
 /*		$result = db_query($link, "SELECT count(id) AS total_entries 
 			FROM ttrss_entries WHERE 
