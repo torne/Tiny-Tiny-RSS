@@ -45,11 +45,13 @@
 	//
 	// */30 * * * * cd $TTRSS_DIRECTORY && ./update_feeds.php >/dev/null 2>&1
 	
-	define('SMART_RPC_COUNTERS', true);
+	define('SMART_RPC_COUNTERS', false);
 	// If enabled, stores feed counter information on the server side and sends
 	// only diffs to the client. In the nutshell, it saves your bandwidth and
-	// makes UI more responsive, but eats server memory.	
-	// If you experience weird feedlist refresh bugs, disable this option.
+	// makes UI more responsive, but eats server memory.
+	// This option can introduce a lot of weird interface glitches in
+	// some use-cases (if you have more than one tt-rss window open, for example)
+	// so it is disabled by default.
 
 	define('GLOBAL_ENABLE_LABELS', false);
 	// Labels are a security risk, so this option can globally disable them for all users.
