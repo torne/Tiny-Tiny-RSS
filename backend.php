@@ -797,7 +797,7 @@
 				$entry_comments = "<a href=\"$comments_url\">$num_comments comments</a>";
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "<a href=\"".$line["comments"]."\">Comments</a>";
+					$entry_comments = "<a href=\"".$line["comments"]."\">comments</a>";
 				}				
 			}
 
