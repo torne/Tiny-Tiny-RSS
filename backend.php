@@ -60,7 +60,22 @@
 		getFeedCounters($link);
 		getTagCounters($link);
 		getGlobalCounters($link);
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			getCategoryCounters($link);
+		}
 	}	
+
+	function getCategoryCounters($link) {
+		$result = db_query($link, "SELECT COUNT(int_id) AS unread,cat_id 
+			FROM ttrss_user_entries,ttrss_feeds WHERE unread = true AND feed_id = id
+				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+
+		while ($line = db_fetch_assoc($result)) {
+			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
+			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
+				$line["unread"]."\"/>";
+		}
+	}
 
 	function getFeedUnread($link, $feed) {
 		$n_feed = sprintf("%d", $feed);
@@ -104,7 +119,7 @@
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			owner_uid = " . $_SESSION["uid"]);
 		$c_id = db_fetch_result($result, 0, "c_id");
-		print "<counter id='global-unread' counter='$c_id'/>";
+		print "<counter type=\"global\" id='global-unread' counter='$c_id'/>";
 	}
 
 	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
@@ -142,7 +157,7 @@
 			if (!$smart_mode || $old_counters[$tag] != $unread) {			
 				$old_counters[$tag] = $unread;
 				$tctrs_modified = true;
-				print "<tag id=\"$tag\" counter=\"$unread\"/>";
+				print "<counter type=\"tag\" id=\"$tag\" counter=\"$unread\"/>";
 			}
 
 		} 
@@ -170,7 +185,7 @@
 
 		$count = db_fetch_result($result, 0, "count");
 
-		print "<label id=\"-1\" counter=\"$count\"/>";
+		print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
 
 		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
 			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
@@ -191,7 +206,7 @@
 			if (!$smart_mode || $old_counters[$id] != $count) {	
 				$old_counters[$id] = $count;
 				$lctrs_modified = true;
-				print "<label id=\"$id\" counter=\"$count\"/>";
+				print "<counter type=\"label\" id=\"$id\" counter=\"$count\"/>";
 			}
 
 			error_reporting (DEFAULT_ERROR_LEVEL);
@@ -211,7 +226,7 @@
 	
 			$count = db_fetch_result($result, 0, "count");
 			
-			print "<feed id=\"$id\" counter=\"$count\"/>";		
+			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\"/>";		
 	}
 
 	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
@@ -241,7 +256,7 @@
 			if (!$smart_mode || $old_counters[$id] != $count) {
 				$old_counters[$id] = $count;
 				$fctrs_modified = true;
-				print "<feed id=\"$id\" counter=\"$count\"/>";
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\"/>";
 			}
 		}
 
@@ -324,7 +339,8 @@
 	
 					error_reporting (0);
 		
-					$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
+					$tmp_result = db_query($link, "SELECT count(id) as count 
+						FROM ttrss_entries,ttrss_user_entries
 						WHERE (" . $line["sql_exp"] . ") AND unread = true AND
 						ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid'");
@@ -433,11 +449,30 @@
 						$tmp_category .= "...";
 					} else {
 						$holder_class = "";
-					}						
+					}
+
+					if ($cat_id) {
+						$cat_id_qpart = "cat_id = '$cat_id'";
+					} else {
+						$cat_id_qpart = "cat_id IS NULL";
+					}
+
+					$tmp_result = db_query($link, "SELECT count(int_id) AS unread
+						FROM ttrss_user_entries,ttrss_feeds WHERE
+							unread = true AND
+							feed_id = ttrss_feeds.id AND $cat_id_qpart AND
+							ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
+
+					$cat_unread = db_fetch_result($tmp_result, 0, "unread");
+
+					$cat_id = sprintf("%d", $cat_id);
 					
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a></li>";
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\">";
+						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category
+							<span id=\"FCATCTR-$cat_id\" 
+							class=\"$catctr_class\">($cat_unread unread)</span></a></li>";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\">
+						<ul class=\"feedCatList\">";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
@@ -665,6 +700,7 @@
 
 		if ($subop == "collapse") {
 			$cat_id = db_escape_string($_GET["cid"]);
+
 			db_query($link, "UPDATE ttrss_feed_categories SET
 				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
 				$_SESSION["uid"]);

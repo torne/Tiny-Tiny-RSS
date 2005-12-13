@@ -358,11 +358,18 @@ function all_counters_callback() {
 	
 			for (var l = 0; l < reply.childNodes.length; l++) {
 				var id = reply.childNodes[l].getAttribute("id");
+				var t = reply.childNodes[l].getAttribute("type");
 				var ctr = reply.childNodes[l].getAttribute("counter");
 
 				if (id == "global-unread") {
 					parent.global_unread = ctr;
 					parent.updateTitle();
+					continue;
+				}
+
+				if (t == "category") {
+					var catctr = f_document.getElementById("FCATCTR-" + id);
+					catctr.innerHTML = "(" + ctr + " unread)";
 					continue;
 				}
 	
@@ -374,7 +381,7 @@ function all_counters_callback() {
 	
 					feedu.innerHTML = ctr;
 		
-					if (ctr > 0) {
+					if (ctr > 0) {					
 						feedctr.className = "odd";
 						if (!feedr.className.match("Unread")) {
 							var is_selected = feedr.className.match("Selected");
