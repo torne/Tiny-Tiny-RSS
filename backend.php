@@ -66,12 +66,10 @@
 	}	
 
 	function getCategoryCounters($link) {
-		$result = db_query($link, "SELECT COUNT(int_id) AS unread,cat_id 
-			FROM ttrss_user_entries,ttrss_feeds WHERE unread = true AND feed_id = id
-				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id
-			UNION
-			SELECT 0,cat_id FROM ttrss_feeds 
-			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
+				FROM ttrss_user_entries WHERE feed_id = ttrss_feeds.id 
+					AND unread = true)) AS unread FROM ttrss_feeds 
+			WHERE owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
@@ -137,15 +135,20 @@
 
 		$tctrs_modified = false;
 
-		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
+/*		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
 			post_int_id = ttrss_user_entries.int_id AND unread = true GROUP BY tag_name 
 		UNION
 			select tag_name,0 as count FROM ttrss_tags
-			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]);
+			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]); */
 
+		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
+			FROM ttrss_user_entries WHERE int_id = post_int_id 
+				AND unread = true)) AS count FROM ttrss_tags 
+			WHERE owner_uid = 2 GROUP BY tag_name ORDER BY tag_name");
+			
 		$tags = array();
 
 		while ($line = db_fetch_assoc($result)) {
@@ -490,15 +493,20 @@
 
 			// tags
 
-			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
+/*			$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
 				FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
 				post_int_id = ttrss_user_entries.int_id AND 
 				unread = true AND ref_id = ttrss_entries.id
 				AND ttrss_tags.owner_uid = '$owner_uid' GROUP BY tag_name	
 			UNION
 				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'
-			ORDER BY tag_name");
-	
+			ORDER BY tag_name"); */
+
+			$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
+				FROM ttrss_user_entries WHERE int_id = post_int_id 
+					AND unread = true)) AS count FROM ttrss_tags 
+				WHERE owner_uid = 2 GROUP BY tag_name ORDER BY tag_name");
+
 			$tags = array();
 	
 			while ($line = db_fetch_assoc($result)) {
