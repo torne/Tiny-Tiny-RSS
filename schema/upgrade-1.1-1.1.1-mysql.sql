@@ -15,6 +15,6 @@ alter table ttrss_feed_categories add column collapsed bool;
 update ttrss_feed_categories set collapsed = false;
 
 alter table ttrss_feed_categories change collapsed collapsed bool not null;
-alter table ttrss_feed_categories alter column collapsed set default false;
+alter table ttrss_feed_categories alter column collapsed set default 0;
 
 commit;
