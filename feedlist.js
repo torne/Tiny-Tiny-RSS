@@ -1,3 +1,23 @@
+var xmlhttp = false;
+
+/*@cc_on @*/
+/*@if (@_jscript_version >= 5)
+// JScript gives us Conditional compilation, we can cope with old IE versions.
+// and security blocked creation of the objects.
+try {
+	xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+} catch (e) {
+	try {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} catch (E) {
+		xmlhttp = false;
+	}
+}
+@end @*/
+
+if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+	xmlhttp = new XMLHttpRequest();
+}
 
 function viewfeed(feed, skip, subop, doc) {
 	try {
@@ -134,6 +154,35 @@ function localHotkeyHandler(keycode) {
 
 //	alert("KC: " + keycode);
 
+}
+
+function toggleCollapseCat(cat) {
+	try {
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return;
+		}
+	
+		var cat_elem = document.getElementById("FCAT-" + cat);
+		var cat_list = cat_elem.nextSibling;
+		var caption = cat_elem.lastChild;
+		
+		if (cat_list.className.match("invisible")) {
+			cat_list.className = "";
+			caption.innerHTML = caption.innerHTML.replace("...", "");
+		} else {
+			cat_list.className = "invisible";
+			caption.innerHTML = caption.innerHTML + "...";
+		}
+
+		xmlhttp_rpc.open("GET", "backend.php?op=feeds&subop=collapse&cid=" + 
+			param_escape(cat), true);
+		xmlhttp_rpc.onreadystatechange=rpc_pnotify_callback;
+		xmlhttp_rpc.send(null);
+
+	} catch (e) {
+		exception_error(e);
+	}
 }
 
 function init() {

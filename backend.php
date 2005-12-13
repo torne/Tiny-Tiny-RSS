@@ -372,7 +372,10 @@
 						AND ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid') as unread,
 				(SELECT title FROM ttrss_feed_categories 
-					WHERE id = cat_id) AS category
+					WHERE id = cat_id) AS category,
+				cat_id,
+				(SELECT collapsed FROM ttrss_feed_categories
+					WHERE id = cat_id) AS collapsed
 				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY $order_by_qpart");			
 	
 			$actid = $_GET["actid"];
@@ -394,6 +397,8 @@
 				
 				$total = $line["total"];
 				$unread = $line["unread"];
+
+				$cat_id = $line["cat_id"];
 
 				$tmp_category = $line["category"];
 
@@ -420,9 +425,19 @@
 					}
 				
 					$category = $tmp_category;
+
+					$collapsed = $line["collapsed"];
+
+					if ($collapsed == "t" || $collapsed == "1") {
+						$holder_class = "invisible";
+						$tmp_category .= "...";
+					} else {
+						$holder_class = "";
+					}						
 					
-					print "<li class=\"feedCat\">$category</li>";
-					print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
+						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a></li>";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\">";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
@@ -646,6 +661,14 @@
 		if ($subop == "catchupAll") {
 			db_query($link, "UPDATE ttrss_user_entries SET 
 				last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
+		}
+
+		if ($subop == "collapse") {
+			$cat_id = db_escape_string($_GET["cid"]);
+			db_query($link, "UPDATE ttrss_feed_categories SET
+				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
+				$_SESSION["uid"]);
+			return;
 		}
 
 		outputFeedList($link, $tags);
