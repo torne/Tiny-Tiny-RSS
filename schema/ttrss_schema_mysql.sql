@@ -34,6 +34,7 @@ insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password
 create table ttrss_feed_categories(id integer not null primary key auto_increment,
 	owner_uid integer not null,
 	title varchar(200) not null,
+	collapsed bool not null default false,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 

@@ -31,6 +31,7 @@ insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password
 
 create table ttrss_feed_categories(id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
+	collapsed boolean not null default false,
 	title varchar(200) not null);
 
 create table ttrss_feeds (id serial not null primary key,
