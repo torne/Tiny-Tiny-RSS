@@ -471,8 +471,10 @@
 						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category
 							<span id=\"FCATCTR-$cat_id\" 
 							class=\"$catctr_class\">($cat_unread unread)</span></a></li>";
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\">
-						<ul class=\"feedCatList\">";
+
+					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
+					// -> keyboard navigation, etc.
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\">";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 

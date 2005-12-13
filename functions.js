@@ -152,7 +152,7 @@ function cleanSelectedList(element) {
 			var child = content.childNodes[i];
 
 			if (child.id == "feedCatHolder") {
-				var fcat = child.firstChild;
+				var fcat = child.lastChild;
 				for (j = 0; j < fcat.childNodes.length; j++) {
 					var feed = fcat.childNodes[j];
 					feed.className = feed.className.replace("Selected", "");
@@ -584,7 +584,7 @@ function getRelativeFeedId(list, id, direction) {
 			for (i = 0; i < list.childNodes.length; i++) {
 				var child = list.childNodes[i];
 				if (child.id == "feedCatHolder") {
-					if (child.firstChild) {
+					if (child.lastChild) {
 						var cr = getRelativeFeedId(child.firstChild, id, direction);
 						if (cr) return cr;					
 					}
