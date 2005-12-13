@@ -537,6 +537,21 @@ function getSelectedTableRowIds(content_id, prefix) {
 
 }
 
+function toggleSelectRowById(sender, id) {
+	var row = document.getElementById(id);
+
+	if (sender.checked) {
+		if (!row.className.match("Selected")) {
+			row.className = row.className + "Selected";
+		}
+	} else {
+		if (row.className.match("Selected")) {
+			row.className = row.className.replace("Selected", "");
+		}
+	}
+}
+
+
 function toggleSelectRow(sender) {
 	var parent_row = sender.parentNode.parentNode;
 

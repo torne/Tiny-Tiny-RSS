@@ -226,14 +226,20 @@ function localHotkeyHandler(keycode) {
 
 }
 
-function selectionToggleUnread() {
+function selectionToggleUnread(cdm_mode) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
 			return;
 		}
 	
-		var rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		var rows;
+
+		if (cdm_mode) {
+			rows = cdmGetSelectedArticles();
+		} else {	
+			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		}
 
 		for (i = 0; i < rows.length; i++) {
 			var row = document.getElementById("RROW-" + rows[i]);
@@ -266,14 +272,20 @@ function selectionToggleUnread() {
 	}
 }
 
-function selectionToggleMarked() {
+function selectionToggleMarked(cdm_mode) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
 			return;
 		}
 	
-		var rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		var rows;
+		
+		if (cdm_mode) {
+			rows = cdmGetSelectedArticles();
+		} else {	
+			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		}	
 
 		for (i = 0; i < rows.length; i++) {
 			var row = document.getElementById("RROW-" + rows[i]);
@@ -309,6 +321,46 @@ function selectionToggleMarked() {
 
 	} catch (e) {
 		exception_error(e);
+	}
+}
+
+function cdmGetSelectedArticles() {
+	var sel_articles = new Array();
+	var container = document.getElementById("headlinesContainer");
+
+	for (i = 0; i < container.childNodes.length; i++) {
+		var child = container.childNodes[i];
+
+		if (child.id.match("RROW-") && child.className.match("Selected")) {
+			var c_id = child.id.replace("RROW-", "");
+			sel_articles.push(c_id);
+		}
+	}
+
+	return sel_articles;
+}
+
+// mode = all,none,unread
+function cdmSelectArticles(mode) {
+	var container = document.getElementById("headlinesContainer");
+
+	for (i = 0; i < container.childNodes.length; i++) {
+		var child = container.childNodes[i];
+
+		if (child.id.match("RROW-")) {
+//			var aid = child.id.replace("RROW-", "");
+			if (mode == "all") {
+				if (!child.className.match("Selected")) {
+					child.className = child.className + "Selected";
+				}
+			} else if (mode == "unread") {
+				if (child.className.match("Unread") && !child.className.match("Selected")) {
+					child.className = child.className + "Selected";
+				}
+			} else {
+				child.className = child.className.replace("Selected", "");
+			}
+		}		
 	}
 }
 

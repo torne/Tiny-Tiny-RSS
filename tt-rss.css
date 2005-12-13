@@ -77,6 +77,13 @@ table.main td.headlines {
 	border-color : #c0c0c0;
 }
 
+table.main td.headlines2 {
+	height : 100%;
+	border-width : 0px 0px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
 table.main td.content {
 	height : 100%;
 	background-image : url("images/vgrad_light_rev.png");
@@ -824,4 +831,58 @@ td.hlContent {
 
 td.hlMarkedPic, td.hlSelectRow, td.hlUpdated, td.hlFeed {
 	height : 1em;
+}
+
+div.cdmArticle {
+	border : 1px solid #f0f0f0;
+	background-color : #fafafa;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleUnread {
+	border : 1px solid #d5f1f4;
+	background-color : #fafeff;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+	border : 1px solid #d0d0f6;
+	background-color : #eaeaff;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleUnread div.cdmHeader a, div.cdmArticleUnreadSelected div.cdmHeader a {
+	font-weight : bold;
+}
+
+div.cdmHeader {
+	padding-bottom : 5px;
+}
+
+div.cdmFooter {
+	font-size : x-small;
+	color : gray;
+	padding-top : 5px;
+}
+
+div.cdmFooter input, div.cdmHeader input, div.cdmFooter img {
+	margin : 0px;
+}
+
+div.cdmHeader, div.cdmHeader a {
+	color : gray;
+	font-size : x-small;
+}
+
+div.cdmHeader a:hover {
+	color : #5050aa;
+}
+
+div.cdmContent {
 }

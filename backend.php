@@ -803,11 +803,6 @@
 		$view_mode = $_GET["view"];
 		$addheader = $_GET["addheader"];
 		$limit = $_GET["limit"];
-		$omode = $_GET["omode"];
-
-		if ($omode == "xml") {
-			header("Content-Type: application/xml");
-		}
 
 		if (!$feed) {
 			return;
@@ -1050,6 +1045,8 @@
 
 		if ($feed < -10) error_reporting (0);
 
+		print "<div id=\"headlinesContainer\">";
+
 		if (sprintf("%d", $feed) != 0) {
 
 			if ($feed > 0) {			
@@ -1058,11 +1055,11 @@
 				$feed_kind = "Labels";
 			}
 
-			if (!$vfeed_query_part) {
-				$content_query_part = "SUBSTRING(content,1,300) as content_preview,";
-			} else {
-				$content_query_part = "";
-			}
+//			if (!$vfeed_query_part) {
+			$content_query_part = "content as content_preview,";
+//			} else {
+//				$content_query_part = "";
+//			}
 
 			$result = db_query($link, "SELECT 
 					id,title,
@@ -1109,55 +1106,64 @@
 		}
 
 		if (!$result) {
-			if ($omode != "xml") {
-				print "<div align='center'>
-					Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
-				return;
-			} else {
-				print "<error error-code=\"8\"/>";
-
-			}
+			print "<div align='center'>
+				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
+			return;
 		}
 	
 		if (db_num_rows($result) > 0) {
 
-			if ($omode != "xml") {
+			print "<table class=\"headlinesSubToolbar\" 
+				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 
-				print "<table class=\"headlinesSubToolbar\" 
-					width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-				
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+
 				print "<td class=\"headlineActions\">
 					Select: 
-							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-								'RROW-', 'RCHK-', true)\">All</a>,
-							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-								'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
-							<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-								'RROW-', 'RCHK-', false)\">None</a>
-					&nbsp;&nbsp;
-					Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
-							<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
-		
+								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+									'RROW-', 'RCHK-', true)\">All</a>,
+								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+									'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
+									'RROW-', 'RCHK-', false)\">None</a>
+						&nbsp;&nbsp;
+						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
+								<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
+			
 				print "</td>";
-		
-				print "<td class=\"headlineTitle\">";
-		
-				if ($feed_site_url) {
-					print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
-				} else {
-					print $feed_title;
-				}
-				
-				print "</td>";
-				print "</tr></table>";
-		
-				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\" width=\"100%\">";
 
 			} else {
-				print "<headlines feed=\"$feed\" title=\"$feed_title\" site_url=\"$feed_site_url\">";
+
+				print "<td class=\"headlineActions\">
+					Select: 
+								<a href=\"javascript:cdmSelectArticles('all')\">All</a>,
+								<a href=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
+								<a href=\"javascript:cdmSelectArticles('none')\">None</a>
+						&nbsp;&nbsp;
+						Toggle: <a href=\"javascript:selectionToggleUnread(true)\">Unread</a>,
+								<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>";
+			
+				print "</td>";
+
+
 			}
-	
+
+			print "<td class=\"headlineTitle\">";
+		
+			if ($feed_site_url) {
+				print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+			} else {
+				print $feed_title;
+			}
+				
+			print "</td>";
+			print "</tr></table>";
+
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+				print "<table class=\"headlinesList\" id=\"headlinesList\" 
+					cellspacing=\"0\" width=\"100%\">";
+			}
+
 			$lnum = 0;
 	
 			error_reporting (DEFAULT_ERROR_LEVEL);
@@ -1184,9 +1190,9 @@
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
 					$class .= "Unread";
 					++$num_unread;
-					$is_unread = 'true';
+					$is_unread = true;
 				} else {
-					$is_unread = 'false';
+					$is_unread = false;
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
@@ -1212,10 +1218,9 @@
 						200);
 				}
 
-				if ($omode != "xml") {
+				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 					
 					print "<tr class='$class' id='RROW-$id'>";
-					// onclick=\"javascript:view($id,$feed_id)\">
 		
 					print "<td class='hlUpdatePic'>$update_pic</td>";
 		
@@ -1252,46 +1257,58 @@
 					print "</tr>";
 
 				} else {
+					
+					if ($is_unread) {
+						$add_class = "Unread";
+					} else {
+						$add_class = "";
+					}	
+					
+					print "<div class=\"cdmArticle$add_class\" id=\"RROW-$id\">";
 
-					print "<entry unread='$is_unread' id='$id'>";
-					print "<title><![CDATA[" . $line["title"] . "]]></title>";
-					print "<link>" . $line["link"] . "</link>";
-					print "<updated>$updated_fmt</updated>";
-					if ($content_preview) {
-						print "<preview><![CDATA[ $content_preview ]]></preview>";
-					}					
+					print "<div class=\"cdmHeader\">";
 
-					if ($line["feed_title"]) {
-					print "<feed id='$feed_id'><![CDATA[" . $line["feed_title"] . "]]></feed>";
+					print "<div style=\"float : right\">$updated_fmt</div>";
+					
+					print "<a href=\"".$line["link"]."\">".$line["title"]."</a>";
+
+					if ($line["feed_title"]) {	
+						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
 					}
-					print "</entry>";
 
-				}
-				
+					print "</div>";
+
+					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div>";
+	
+					print "<div style=\"float : right\">$marked_pic</div>
+						<div class=\"cdmFooter\">
+							<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
+							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"></div>";
+
+					print "</div>";	
+
+				}				
 	
 				++$lnum;
 			}
 
-			if ($omode != "xml") {			
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {			
 				print "</table>";
-			} else {
-				print "</headlines>";
 			}
 
 		} else {
 			print "<div width='100%' align='center'>No articles found.</div>";
 		}
 
-		if ($omode != "xml") {
+		print "</div>";
 
-			print "<script type=\"text/javascript\">
-				document.onkeydown = hotkey_handler;
-				update_all_counters('$feed');
-			</script>";
+		print "<script type=\"text/javascript\">
+			document.onkeydown = hotkey_handler;
+			update_all_counters('$feed');
+		</script>";
 	
-			if ($addheader) {
-				print "</body></html>";
-			}
+		if ($addheader) {
+			print "</body></html>";
 		}
 	}
 

@@ -209,8 +209,18 @@
 		</td>
 		</tr>
 		</table>
-	</td> 
-</tr><tr>
+	</td>
+</tr>
+<? if (get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
+<tr>
+	<td id="headlines" class="headlines2" valign="top">
+		<iframe frameborder="0" name="headlines-frame" 
+			id="headlines-frame" class="headlinesFrame" 
+				src="backend.php?op=error&msg=No%20feed%20selected."></iframe>
+	</td>
+</tr>
+<? } else { ?>
+<tr>
 	<td id="headlines" class="headlines" valign="top">
 		<iframe frameborder="0" name="headlines-frame" 
 			id="headlines-frame" class="headlinesFrame" 
@@ -222,6 +232,7 @@
 			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
+<? } ?>
 <? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td colspan="2" class="footer">
