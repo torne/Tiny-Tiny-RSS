@@ -68,7 +68,10 @@
 	function getCategoryCounters($link) {
 		$result = db_query($link, "SELECT COUNT(int_id) AS unread,cat_id 
 			FROM ttrss_user_entries,ttrss_feeds WHERE unread = true AND feed_id = id
-				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id
+			UNION
+			SELECT 0,cat_id FROM ttrss_feeds 
+			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
