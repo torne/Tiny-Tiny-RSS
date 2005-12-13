@@ -79,7 +79,11 @@
 </td></tr>
 <? } ?>
 <tr>
-	<td valign="top" rowspan="3" class="feeds"> 
+	<? if (get_pref($link, 'COMBINED_DISPLAY_MODE')) 
+			$feeds_rowspan = 2;
+		else 
+			$feeds_rowspan = 3; ?>
+	<td valign="top" rowspan="<?= $feeds_rowspan ?>" class="feeds"> 
 		<table class="innerFeedTable" 
 			cellspacing="0" cellpadding="0" height="100%" width="100%">
 		<tr><td>
