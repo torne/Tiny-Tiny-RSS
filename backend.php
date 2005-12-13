@@ -608,6 +608,9 @@
 			if (strchr($omode, "l")) getLabelCounters($link);
 			if (strchr($omode, "f")) getFeedCounters($link);
 			if (strchr($omode, "t")) getTagCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
 			getGlobalCounters($link);
 			print "</rpc-reply>";
 		}
