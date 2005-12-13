@@ -92,35 +92,8 @@ function refetch_callback() {
 			}
 	
 			var f_document = window.frames["feeds-frame"].document;
-	
-			for (var l = 0; l < reply.childNodes.length; l++) {
-				var id = reply.childNodes[l].getAttribute("id");
-				var ctr = reply.childNodes[l].getAttribute("counter");
-	
-				var feedctr = f_document.getElementById("FEEDCTR-" + id);
-				var feedu = f_document.getElementById("FEEDU-" + id);
-				var feedr = f_document.getElementById("FEEDR-" + id);
-	
-				if (id == "global-unread") {
-					global_unread = ctr;
-					continue;
-				}
-	
-				if (feedctr && feedu && feedr) {
-	
-					feedu.innerHTML = ctr;
-		
-					if (ctr > 0) {
-						feedctr.className = "odd";
-						if (!feedr.className.match("Unread")) {
-							feedr.className = feedr.className + "Unread";
-						}
-					} else {
-						feedctr.className = "invisible";
-						feedr.className = feedr.className.replace("Unread", "");
-					}
-				}
-			}  
+
+			parse_counters(reply, f_document);
 	
 			updateTitle("");
 			notify("All feeds updated.");
