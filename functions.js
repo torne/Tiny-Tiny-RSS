@@ -369,7 +369,9 @@ function all_counters_callback() {
 
 				if (t == "category") {
 					var catctr = f_document.getElementById("FCATCTR-" + id);
-					catctr.innerHTML = "(" + ctr + " unread)";
+					if (catctr) {
+						catctr.innerHTML = "(" + ctr + " unread)";
+					}
 					continue;
 				}
 	
