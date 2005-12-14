@@ -268,7 +268,7 @@ function selectionToggleUnread(cdm_mode) {
 		}
 
 	} catch (e) {
-		exception_error(e);
+		exception_error("selectionToggleUnread", e);
 	}
 }
 
@@ -320,7 +320,7 @@ function selectionToggleMarked(cdm_mode) {
 		}
 
 	} catch (e) {
-		exception_error(e);
+		exception_error("selectionToggleMarked", e);
 	}
 }
 

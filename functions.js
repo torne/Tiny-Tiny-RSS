@@ -1,8 +1,19 @@
 var hotkeys_enabled = true;
 
 function exception_error(location, e) {
-	alert("Exception: " + e.name + "\nMessage: " + e.message + 
-		"\nLocation: " + location);
+	var msg;
+
+	if (e.fileName) {
+		var base_fname = e.fileName.substring(e.fileName.lastIndexOf("/") + 1);
+	
+		msg = "Exception: " + e.name + ", " + e.message + 
+			"\nFunction: " + location + "()" +
+			"\nLocation: " + base_fname + ":" + e.lineNumber;
+	} else {
+		msg = "Exception: " + e + "\nFunction: " + location + "()";
+	}
+
+	alert(msg);
 }
 
 function disableHotkeys() {
@@ -133,7 +144,7 @@ function hotkey_handler(e) {
 		try {
 			localHotkeyHandler(keycode);
 		} catch (e) {
-			exception_error(e);
+			exception_error("hotkey_handler", e);
 		}
 	}
 
@@ -395,7 +406,7 @@ function parse_counters(reply, f_document) {
 			}
 		}
 	} catch (e) {
-		exception_error(e);
+		exception_error("parse_counters", e);
 	}
 }
 

@@ -181,7 +181,7 @@ function toggleCollapseCat(cat) {
 		xmlhttp_rpc.send(null);
 
 	} catch (e) {
-		exception_error(e);
+		exception_error("toggleCollapseCat", e);
 	}
 }
 
