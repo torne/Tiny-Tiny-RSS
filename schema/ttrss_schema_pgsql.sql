@@ -44,7 +44,9 @@ create table ttrss_feeds (id serial not null primary key,
 	purge_interval integer not null default 0,
 	last_updated timestamp default null,
 	last_error text not null default '',
-	site_url varchar(250) not null default '');
+	site_url varchar(250) not null default '',
+	auth_login varchar(250) not null default '',
+	auth_pass varchar(250) not null default '');
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 

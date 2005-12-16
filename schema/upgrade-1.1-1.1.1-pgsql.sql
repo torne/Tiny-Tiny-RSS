@@ -17,4 +17,16 @@ update ttrss_feed_categories set collapsed = false;
 alter table ttrss_feed_categories alter column collapsed set not null;
 alter table ttrss_feed_categories alter column collapsed set default false;
 
+alter table ttrss_feeds add column auth_login varchar(250);
+alter table ttrss_feeds add column auth_pass varchar(250);
+
+update ttrss_feeds set auth_login = '';
+update ttrss_feeds set auth_pass = '';
+
+alter table ttrss_feeds alter column auth_login set not null;
+alter table ttrss_feeds alter column auth_login set default '';
+
+alter table ttrss_feeds alter column auth_pass set not null;
+alter table ttrss_feeds alter column auth_pass set default '';
+
 commit;
