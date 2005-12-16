@@ -55,6 +55,8 @@
 
 	$fetch = $_GET["fetch"];
 
+	setcookie("ttrss_icons_url", ICONS_URL);
+
 	function getAllCounters($link) {
 		getLabelCounters($link);
 		getFeedCounters($link);
@@ -264,6 +266,8 @@
 			$count = $line["count"];
 			$last_error = $line["last_error"];	
 
+			$has_img = is_file(ICONS_DIR . "/$id.ico");
+
 			if (!$smart_mode || $old_counters[$id] != $count) {
 				$old_counters[$id] = $count;
 				$fctrs_modified = true;
@@ -273,8 +277,14 @@
 				} else {
 					$error_part = "";
 				}
-				
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $error_part/>";
+
+				if ($has_img) {
+					$has_img_part = "hi=\"$has_img\"";
+				} else {
+					$has_img_part = "";
+				}				
+
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part/>";
 			}
 		}
 
@@ -407,7 +417,7 @@
 						AND owner_uid = '$owner_uid') as unread,
 				(SELECT title FROM ttrss_feed_categories 
 					WHERE id = cat_id) AS category,
-				cat_id,
+				cat_id,last_error,
 				(SELECT collapsed FROM ttrss_feed_categories
 					WHERE id = cat_id) AS collapsed
 				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY $order_by_qpart");			
@@ -441,8 +451,12 @@
 				}
 				
 	//			$class = ($lnum % 2) ? "even" : "odd";
-	
-				$class = "feed";
+
+				if ($line["last_error"]) {
+					$class = "error";
+				} else {
+					$class = "feed";
+				}
 	
 				if ($unread > 0) $class .= "Unread";
 	

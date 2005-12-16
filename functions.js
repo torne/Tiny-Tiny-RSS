@@ -361,6 +361,8 @@ function parse_counters(reply, f_document) {
 			var id = reply.childNodes[l].getAttribute("id");
 			var t = reply.childNodes[l].getAttribute("type");
 			var ctr = reply.childNodes[l].getAttribute("counter");
+			var error = reply.childNodes[l].getAttribute("error");
+			var has_img = reply.childNodes[l].getAttribute("hi");
 	
 			if (id == "global-unread") {
 				parent.global_unread = ctr;
@@ -379,10 +381,25 @@ function parse_counters(reply, f_document) {
 			var feedctr = f_document.getElementById("FEEDCTR-" + id);
 			var feedu = f_document.getElementById("FEEDU-" + id);
 			var feedr = f_document.getElementById("FEEDR-" + id);
-		
+			var feed_img = f_document.getElementById("FIMG-" + id);
+
 			if (feedctr && feedu && feedr) {
 		
 				feedu.innerHTML = ctr;
+
+				if (has_img && feed_img) {
+					if (error) {
+//						feed_img.src = "images/update_error.png";
+						feedr.className = feedr.className.replace("feed", "error");
+					} else if (id > 0) {
+						feedr.className = feedr.className.replace("error", "feed");
+//						if (has_img) {
+//							feed_img.src = getCookie("ttrss_icons_url") + "/" + id + ".ico";
+//						} else {
+//							feed_img.src = "images/blank_icon.gif";
+//						}
+					}
+				}
 	
 				if (ctr > 0) {					
 					feedctr.className = "odd";

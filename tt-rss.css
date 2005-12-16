@@ -217,12 +217,18 @@ ul.feedlist
 } */
 
 ul.feedlist li.feedUnread, 
+ul.feedlist li.errorUnread, 
 ul.feedlist li.labelUnread, 
 ul.feedlist li.virtUnread,
 ul.feedlist li.tagUnread {
 	font-weight : bold;
 }
 
+ul.feedlist li.errorSelected a,
+ul.feedlist li.errorUnread a,
+ul.feedlist li.errorUnreadSelected a {
+	color : #f04040;
+}
 
 ul.feedlist li.feedSelected a,
 ul.feedlist li.labelSelected a,
@@ -238,7 +244,8 @@ ul.feedlist li.tagUnreadSelected a {
 	color : #5050aa;
 }
 
-ul.feedlist li.feedUnreadSelected ,
+ul.feedlist li.feedUnreadSelected,
+ul.feedlist li.errorUnreadSelected,
 ul.feedlist li.labelUnreadSelected,
 ul.feedlist li.virtUnreadSelected,
 ul.feedlist li.tagUnreadSelected {

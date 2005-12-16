@@ -596,9 +596,9 @@
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link) {
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
-				$feed_icon = "<img src=\"$icon_file\">";
+				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
 		} else {
-			$feed_icon = "<img src=\"images/blank_icon.gif\">";
+			$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"images/blank_icon.gif\">";
 		}
 
 		$feed = "<a href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
