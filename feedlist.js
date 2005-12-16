@@ -170,9 +170,15 @@ function toggleCollapseCat(cat) {
 		if (cat_list.className.match("invisible")) {
 			cat_list.className = "";
 			caption.innerHTML = caption.innerHTML.replace("...", "");
+			if (cat == 0) {
+				setCookie("ttrss_vf_uclps", "0");
+			}
 		} else {
 			cat_list.className = "invisible";
 			caption.innerHTML = caption.innerHTML + "...";
+			if (cat == 0) {
+				setCookie("ttrss_vf_uclps", "1");
+			}
 		}
 
 		xmlhttp_rpc.open("GET", "backend.php?op=feeds&subop=collapse&cid=" + 

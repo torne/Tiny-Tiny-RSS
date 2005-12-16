@@ -450,11 +450,19 @@
 
 					$collapsed = $line["collapsed"];
 
+					// workaround for NULL category
+					if ($category == "Uncategorized") {
+						if ($_COOKIE["ttrss_vf_uclps"] == 1) {
+							$collapsed = "t";
+						}
+					}
+
 					if ($collapsed == "t" || $collapsed == "1") {
 						$holder_class = "invisible";
-						$tmp_category .= "...";
+						$ellipsis = "...";
 					} else {
 						$holder_class = "";
+						$ellipsis = "";
 					}
 
 					if ($cat_id) {
@@ -476,7 +484,7 @@
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
 						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category
 							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread unread)</span></a></li>";
+							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
