@@ -1135,11 +1135,12 @@
 		} else if (sprintf("%d", $feed) == 0) {
 			$feed_title = $feed;
 		} else if ($feed > 0) {
-			$result = db_query($link, "SELECT title,site_url FROM ttrss_feeds 
+			$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
 				WHERE id = '$feed'");
 
 			$feed_title = db_fetch_result($result, 0, "title");
 			$feed_site_url = db_fetch_result($result, 0, "site_url");
+			$last_error = db_fetch_result($result, 0, "last_error");
 
 		} else if ($feed == -1) {
 			$feed_title = "Starred articles";
@@ -1197,7 +1198,7 @@
 				ttrss_entries.id as id,title,
 				SUBSTRING(updated,1,16) as updated,
 				unread,feed_id,
-				marked,link,last_read,
+				marked,link,last_read,				
 				SUBSTRING(last_read,1,19) as last_read_noms,
 				$vfeed_query_part
 				$content_query_part
@@ -1238,7 +1239,11 @@
 						&nbsp;&nbsp;
 						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
 								<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
-			
+				if ($last_error) {
+					print "&nbsp;&nbsp;
+						<a class=\"warning\" href=\"javascript:alert('Could not update 
+							feed: $last_error')\">Could not update this feed...</a>";
+				}	
 				print "</td>";
 
 			} else {
