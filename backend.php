@@ -226,13 +226,16 @@
 	function getFeedCounter($link, $id) {
 	
 		$result = db_query($link, "SELECT 
-				count(id) as count FROM ttrss_entries,ttrss_user_entries
+				count(id) as count,last_error
+			FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 			WHERE feed_id = '$id' AND unread = true
+			AND ttrss_user_entries.feed_id = ttrss_feeds.id
 			AND ttrss_user_entries.ref_id = ttrss_entries.id");
 	
 			$count = db_fetch_result($result, 0, "count");
+			$last_error = db_fetch_result($result, 0, "last_error");
 			
-			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\"/>";		
+			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
 	}
 
 	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
@@ -245,10 +248,11 @@
 
 		$old_counters = $_SESSION["fctr_last_value"];
 
-		$result = db_query($link, "SELECT id,
+		$result = db_query($link, "SELECT id,last_error,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
-				WHERE feed_id = ttrss_feeds.id AND ttrss_user_entries.ref_id = ttrss_entries.id
+				WHERE feed_id = ttrss_feeds.id AND 
+					ttrss_user_entries.ref_id = ttrss_entries.id
 				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 
@@ -258,11 +262,19 @@
 		
 			$id = $line["id"];
 			$count = $line["count"];
+			$last_error = $line["last_error"];	
 
 			if (!$smart_mode || $old_counters[$id] != $count) {
 				$old_counters[$id] = $count;
 				$fctrs_modified = true;
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\"/>";
+
+				if ($last_error) {
+					$error_part = "error=\"$last_error\"";
+				} else {
+					$error_part = "";
+				}
+				
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $error_part/>";
 			}
 		}
 
