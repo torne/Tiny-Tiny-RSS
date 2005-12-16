@@ -1425,8 +1425,8 @@
 
 	if ($op == "pref-feeds") {
 	
-		$subop = $_GET["subop"];
-		$quiet = $_GET["quiet"];
+		$subop = $_REQUEST["subop"];
+		$quiet = $_REQUEST["quiet"];
 
 		if ($subop == "editfeed") {
 			$feed_id = db_escape_string($_GET["id"]);
@@ -1513,6 +1513,22 @@
 			print "<td><input id=\"iedit_purgintl\" 
 				value=\"$purge_interval\"></td></tr>";
 
+//			print "<tr><td colspan=\"2\"><b>Authentication</b></td></tr>";
+
+			$row_class = toggleEvenOdd($row_class);
+			$auth_login = db_fetch_result($result, 0, "auth_login");
+
+			print "<tr class='$row_class'><td>Login:</td>";
+			print "<td><input id=\"iedit_login\" 
+				value=\"$auth_login\"></td></tr>";
+
+			$row_class = toggleEvenOdd($row_class);
+			$auth_pass = db_fetch_result($result, 0, "auth_pass");
+
+			print "<tr class='$row_class'><td>Password:</td>";
+			print "<td><input type=\"password\" id=\"iedit_pass\" 
+				value=\"$auth_pass\"></td></tr>";
+
 			print "</table>";
 			print "</div>";
 
@@ -1525,12 +1541,14 @@
 		}
 
 		if ($subop == "editSave") {
-			$feed_title = db_escape_string($_GET["t"]);
-			$feed_link = db_escape_string($_GET["l"]);
-			$upd_intl = db_escape_string($_GET["ui"]);
-			$purge_intl = db_escape_string($_GET["pi"]);
-			$feed_id = db_escape_string($_GET["id"]);
-			$cat_id = db_escape_string($_GET["catid"]);
+			$feed_title = db_escape_string($_POST["t"]);
+			$feed_link = db_escape_string($_POST["l"]);
+			$upd_intl = db_escape_string($_POST["ui"]);
+			$purge_intl = db_escape_string($_POST["pi"]);
+			$feed_id = db_escape_string($_POST["id"]);
+			$cat_id = db_escape_string($_POST["catid"]);
+			$auth_login = db_escape_string($_POST["login"]);
+			$auth_pass = db_escape_string($_POST["pass"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
@@ -1554,7 +1572,9 @@
 				$category_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
-				purge_interval = '$purge_intl'
+				purge_interval = '$purge_intl',
+				auth_login = '$auth_login',
+				auth_pass = '$auth_pass'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
 		}
 

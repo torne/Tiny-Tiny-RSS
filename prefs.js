@@ -29,21 +29,25 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 
 function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
-		var container = document.getElementById('prefContent');	
-		container.innerHTML=xmlhttp.responseText;
-		if (active_feed) {
-			var row = document.getElementById("FEEDR-" + active_feed);
-			if (row) {
-				if (!row.className.match("Selected")) {
-					row.className = row.className + "Selected";
-				}		
+		try {	
+			var container = document.getElementById('prefContent');	
+			container.innerHTML=xmlhttp.responseText;
+			if (active_feed) {
+				var row = document.getElementById("FEEDR-" + active_feed);
+				if (row) {
+					if (!row.className.match("Selected")) {
+						row.className = row.className + "Selected";
+					}		
+				}
+				var checkbox = document.getElementById("FRCHK-" + active_feed);
+				if (checkbox) {
+					checkbox.checked = true;
+				}
 			}
-			var checkbox = document.getElementById("FRCHK-" + active_feed);
-			if (checkbox) {
-				checkbox.checked = true;
-			}
+			p_notify("");
+		} catch (e) {
+			exception_error("feedlist_callback", e);
 		}
-		p_notify("");
 	}
 }
 
@@ -654,54 +658,66 @@ function feedCatEditCancel() {
 
 function feedEditSave() {
 
-	var feed = active_feed;
+	try {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+		var feed = active_feed;
+	
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
+	
+		var link = document.getElementById("iedit_link").value;
+		var title = document.getElementById("iedit_title").value;
+		var upd_intl = document.getElementById("iedit_updintl").value;
+		var purge_intl = document.getElementById("iedit_purgintl").value;
+		var fcat = document.getElementById("iedit_fcat");
+	
+		var fcat_id = fcat[fcat.selectedIndex].id;
+	
+	//	notify("Saving feed.");
+	
+	/*	if (upd_intl < 0) {
+			notify("Update interval must be &gt;= 0 (0 = default)");
+			return;
+		}
+	
+		if (purge_intl < 0) {
+			notify("Purge days must be &gt;= 0 (0 = default)");
+			return;
+		} */
+	
+		if (link.length == 0) {
+			notify("Feed link cannot be blank.");
+			return;
+		}
+	
+		if (title.length == 0) {
+			notify("Feed title cannot be blank.");
+			return;
+		}
+	
+		var auth_login = document.getElementById("iedit_login").value;
+		var auth_pass = document.getElementById("iedit_pass").value;
+	
+		active_feed = false;
+	
+		notify("Saving feed...");
+
+		var query = "op=pref-feeds&subop=editSave&id=" +
+			feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
+			"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
+			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +
+			"&pass=" + param_escape(auth_pass);
+
+		xmlhttp.open("POST", "backend.php", true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xmlhttp.send(query);
+	
+	} catch (e) {
+		exception_error("feedEditSave", e);
 	}
-
-	var link = document.getElementById("iedit_link").value;
-	var title = document.getElementById("iedit_title").value;
-	var upd_intl = document.getElementById("iedit_updintl").value;
-	var purge_intl = document.getElementById("iedit_purgintl").value;
-	var fcat = document.getElementById("iedit_fcat");
-
-	var fcat_id = fcat[fcat.selectedIndex].id;
-
-//	notify("Saving feed.");
-
-/*	if (upd_intl < 0) {
-		notify("Update interval must be &gt;= 0 (0 = default)");
-		return;
-	}
-
-	if (purge_intl < 0) {
-		notify("Purge days must be &gt;= 0 (0 = default)");
-		return;
-	} */
-
-	if (link.length == 0) {
-		notify("Feed link cannot be blank.");
-		return;
-	}
-
-	if (title.length == 0) {
-		notify("Feed title cannot be blank.");
-		return;
-	}
-
-	active_feed = false;
-
-	notify("Saving feed...");
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editSave&id=" +
-		feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
-		"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
-		"&catid=" + param_escape(fcat_id), true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null);
-
 }
 
 function feedCatEditSave() {

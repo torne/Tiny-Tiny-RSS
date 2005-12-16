@@ -169,8 +169,11 @@
 			return;			
 		}
 
-		$result = db_query($link, "SELECT update_interval
+		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
 			FROM ttrss_feeds WHERE id = '$feed'");
+
+		$auth_login = db_fetch_result($result, 0, "auth_login");
+		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
 
@@ -178,8 +181,19 @@
 
 		$feed = db_escape_string($feed);
 
+		$fetch_url = $feed_url;
+
+		if ($auth_login && $auth_pass) {
+			$url_parts = array();
+			preg_match("/(^[^:]*):\/\/(.*)/", $fetch_url, $url_parts);
+
+			if ($url_parts[1] && $url_parts[2]) {
+				$fetch_url = $url_parts[1] . "://$auth_login:$auth_pass@" . $url_parts[2];
+			}
+
+		}
 		error_reporting(0);
-		$rss = fetch_rss($feed_url);
+		$rss = fetch_rss($fetch_url);
 
 		error_reporting (DEFAULT_ERROR_LEVEL);
 
