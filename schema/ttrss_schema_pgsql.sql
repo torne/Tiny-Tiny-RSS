@@ -16,6 +16,8 @@ drop table ttrss_feed_categories;
 drop table ttrss_users;
 drop table ttrss_themes;
 
+begin;
+
 create table ttrss_themes(id serial not null primary key,
 	theme_name varchar(200) not null,
 	theme_path varchar(200) not null);
@@ -214,4 +216,4 @@ create table ttrss_user_prefs (
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
 create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
 
-
+commit;

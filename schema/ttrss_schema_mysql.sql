@@ -16,6 +16,8 @@ drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
 drop table if exists ttrss_themes;
 
+begin;
+
 create table ttrss_themes(id integer not null primary key auto_increment,
 	theme_name varchar(200) not null,
 	theme_path varchar(200) not null) TYPE=InnoDB;
@@ -235,4 +237,4 @@ create table ttrss_user_prefs (
 	index (pref_name),
 	foreign key (pref_name) references ttrss_prefs(pref_name) ON DELETE CASCADE) TYPE=InnoDB;
 
-
+commit;
