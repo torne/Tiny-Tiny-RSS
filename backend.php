@@ -1239,11 +1239,6 @@
 						&nbsp;&nbsp;
 						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
 								<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
-				if ($last_error) {
-					print "&nbsp;&nbsp;
-						<a class=\"warning\" href=\"javascript:alert('Could not update 
-							feed: $last_error')\">Could not update this feed...</a>";
-				}	
 				print "</td>";
 
 			} else {
@@ -1261,6 +1256,11 @@
 
 
 			}
+
+			if ($last_error) {
+					print "<td align='center' class='small'>
+						<a class=\"warning\" href=\"javascript:alert('TT-RSS encountered an error while trying to update this feed.\\n\\n$last_error')\">Could not update this feed.</a></td>";
+				}	
 
 			print "<td class=\"headlineTitle\">";
 		
