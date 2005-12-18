@@ -511,11 +511,13 @@ function displayDlg(id, param) {
 	xmlhttp.onreadystatechange=dlg_display_callback;
 	xmlhttp.send(null);
 
+	disableHotkeys();
 }
 
 function closeDlg() {
 	var dlg = document.getElementById("userDlgShadow");
 	dlg.style.display = "none";
+	enableHotkeys();
 }
 
 function qfdDelete(feed_id) {
