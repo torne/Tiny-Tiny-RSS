@@ -225,7 +225,7 @@ function viewfeed(feed, skip, subop) {
 
 function timeout() {
 	scheduleFeedUpdate(false);
-	setTimeout("timeout()", 1800*1000);
+	setTimeout("timeout()", 900*1000);
 }
 
 function resetSearch() {
