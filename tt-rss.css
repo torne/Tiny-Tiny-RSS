@@ -329,18 +329,21 @@ input.editbox {
 	padding-left : 2px;
 }
 
-#notify {
+td.notifyBox {
 	font-size : 10pt;
 	text-align : right;
+}
+
+#notify {
 	color : black;
 	font-weight : bold;
 	padding : 3px;
 }
 
 #dispSwitch {
-	text-align : right;
 	padding : 5px 5px 5px 0px;
 	font-size : x-small;
+	text-align : right;
 }
 
 #dispSwitch a {
@@ -692,10 +695,6 @@ table.innerLoginForm td {
 	padding : 3px 3px 5px 3px;
 }
 
-div.small, p.small {
-	font-size : x-small;
-}
-
 span.insensitive {
 	color : gray;
 }
@@ -730,7 +729,7 @@ div.logoutContent {
 }
 
 .small {
-	font-size : small;
+	font-size : x-small;
 }
 
 table.innerFeedTable td {

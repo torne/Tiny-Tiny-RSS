@@ -57,7 +57,7 @@
 			<td rowspan="2" class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	
 			</td>
-			<td align="right" valign="top">
+			<td valign="top" class="notifyBox">
 				<div id="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 
@@ -73,9 +73,15 @@
 	</td>
 </tr>
 <? } else { ?>
-<tr><td align="right" colspan="2">
-	<div id="notify"><span id="notify_body">&nbsp;</span></div>
-	<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
+<tr>
+	<td class="small">
+		<div id="notify"><span id="notify_body">&nbsp;</span></div>
+		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
+	</td><td class="welcomePrompt">
+		<? if (!SINGLE_USER_MODE) { ?>
+			Hello, <b><?= $_SESSION["name"] ?></b>
+			(<a href="logout.php">Logout</a>)
+		<? } ?>
 </td></tr>
 <? } ?>
 <tr>
