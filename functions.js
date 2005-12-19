@@ -387,18 +387,10 @@ function parse_counters(reply, f_document) {
 		
 				feedu.innerHTML = ctr;
 
-				if (has_img && feed_img) {
-					if (error) {
-//						feed_img.src = "images/update_error.png";
-						feedr.className = feedr.className.replace("feed", "error");
-					} else if (id > 0) {
-						feedr.className = feedr.className.replace("error", "feed");
-//						if (has_img) {
-//							feed_img.src = getCookie("ttrss_icons_url") + "/" + id + ".ico";
-//						} else {
-//							feed_img.src = "images/blank_icon.gif";
-//						}
-					}
+				if (error) {
+					feedr.className = feedr.className.replace("feed", "error");
+				} else if (id > 0) {
+					feedr.className = feedr.className.replace("error", "feed");
 				}
 	
 				if (ctr > 0) {					
