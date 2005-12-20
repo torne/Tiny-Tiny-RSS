@@ -216,7 +216,7 @@
 				check_feed_favicon($feed_url, $feed, $link);
 			}
 
-			if (!$registered_title) {
+			if (!$registered_title || $registered_title == "[Unknown]") {
 				$feed_title = db_escape_string($rss->channel["title"]);
 				db_query($link, "UPDATE ttrss_feeds SET 
 					title = '$feed_title' WHERE id = '$feed'");
