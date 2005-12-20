@@ -29,4 +29,11 @@ alter table ttrss_feeds alter column auth_login set default '';
 alter table ttrss_feeds change auth_pass auth_pass varchar(250) not null;
 alter table ttrss_feeds alter column auth_pass set default '';
 
+alter table ttrss_users add column email varchar(250);
+
+update ttrss_users set email = '';
+
+alter table ttrss_users change email email varchar(250) not null;
+alter table ttrss_users alter column email set default '';
+
 commit;

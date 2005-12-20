@@ -27,6 +27,7 @@ create table ttrss_users (id serial not null primary key,
 	pwd_hash varchar(250) not null,
 	last_login timestamp default null,
 	access_level integer not null default 0,
+	email varchar(250) not null default '',
 	theme_id integer references ttrss_themes(id) default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
