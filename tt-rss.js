@@ -1,15 +1,12 @@
 var xmlhttp = false;
-
 var total_unread = 0;
 var first_run = true;
-
 var display_tags = false;
-
 var global_unread = -1;
-
 var active_title_text = "";
-
 var current_subtitle = "";
+
+var _qfd_deleted_feed = 0;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -48,6 +45,12 @@ function dlg_frefresh_callback() {
 	if (xmlhttp.readyState == 4) {
 		notify(xmlhttp.responseText);
 		updateFeedList(false, false);
+		if (_qfd_deleted_feed) {
+			var hframe = document.getElementById("headlines-frame");
+			if (hframe) {
+				hframe.src = "backend.php?op=error&msg=No%20feed%20selected.";
+			}
+		}
 		closeDlg();
 	} 
 }
@@ -453,13 +456,22 @@ function qafAdd() {
 		notify("Missing feed URL.");
 	} else {
 		notify("Adding feed...");
+	
+		var cat = document.getElementById("qafCat");
+		var cat_id = "";
 		
+		if (cat) {
+			cat_id = cat[cat.selectedIndex].id;
+		} else {
+			cat_id = 0;
+		}
+
 		var feeds_doc = window.frames["feeds-frame"].document;
 
 		feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=add&link=" +
-			param_escape(link.value), true);
+			param_escape(link.value) + "&cid=" + param_escape(cat_id), true);
 		xmlhttp.onreadystatechange=dlg_frefresh_callback;
 		xmlhttp.send(null);
 
@@ -526,6 +538,8 @@ function qfdDelete(feed_id) {
 
 //	var feeds_doc = window.frames["feeds-frame"].document;
 //	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
+
+	_qfd_deleted_feed = feed_id;
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;

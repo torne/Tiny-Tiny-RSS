@@ -1642,6 +1642,13 @@
 			if (!WEB_DEMO_MODE) {
 
 				$feed_link = db_escape_string(trim($_GET["link"]));
+				$cat_id = db_escape_string($_GET["cid"]);
+
+				if ($cat_id == "0") {
+					$cat_qpart = "NULL";
+				} else {
+					$cat_qpart = "'$cat_id'";
+				}
 
 				$result = db_query($link,
 					"SELECT id FROM ttrss_feeds 
@@ -1650,8 +1657,8 @@
 				if (db_num_rows($result) == 0) {
 					
 					$result = db_query($link,
-						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title) 
-						VALUES ('".$_SESSION["uid"]."', '$feed_link', '')");
+						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+						VALUES ('".$_SESSION["uid"]."', '$feed_link', '', $cat_qpart)");
 
 					$result = db_query($link,
 					"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' 
@@ -2714,8 +2721,30 @@
 			print "
 			Feed URL: <input 
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-			id=\"qafInput\">
-			<input class=\"button\"
+			id=\"qafInput\">";
+		
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
+					WHERE owner_uid = ".$_SESSION["uid"]."
+					ORDER BY title");
+
+				print " <select id=\"qafCat\">";
+				print "<option id=\"0\">Uncategorized</option>";
+
+				if (db_num_rows($result) != 0) {
+	
+					print "<option disabled>--------</option>";
+
+					while ($line = db_fetch_assoc($result)) {
+						printf("<option id='%d'>%s</option>", 
+							$line["id"], $line["title"]);
+					}		
+				}
+
+				print "</select>";
+			}
+			
+			print "&nbsp;<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Add feed\">
 			<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:closeDlg()\" 
