@@ -36,4 +36,6 @@ update ttrss_users set email = '';
 alter table ttrss_users alter column email set not null;
 alter table ttrss_users alter column email set default '';
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SEARCH_TOOLBAR', 1, 'false', 'Enable search toolbar',2);
+
 commit;

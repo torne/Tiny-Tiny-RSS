@@ -130,9 +130,12 @@
 	</td>
 	<td valign="top" class="headlinesToolbarBox">
 		<table width="100%" cellpadding="0" cellspacing="0">
-		
+
 		<tr><td class="headlinesToolbar" id="headlinesToolbar">
-			<input id="searchbox"
+
+		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
+
+		<input id="searchbox"
 			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
 			onchange="javascript:search()">
 		<select id="searchmodebox">
@@ -143,7 +146,11 @@
 		<input type="submit" 
 			class="button" onclick="javascript:search()" value="Search">
 
-		&nbsp;View: 
+		&nbsp;
+		
+		<? } ?>
+		
+		View: 
 		
 		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
 			<option selected>Adaptive</option>
