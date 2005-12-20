@@ -318,6 +318,7 @@
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			<!--[if gte IE 5.5000]>
 			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
 			<![endif]-->
 			</head><body onload=\"init()\">";
 
@@ -949,6 +950,7 @@
 				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
 				<!--[if gte IE 5.5000]>
 				<script type=\"text/javascript\" src=\"pngfix.js\"></script>
+				<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
 				<![endif]-->
 				</head><body onload='init()'>";
 		}
