@@ -4,11 +4,7 @@ Tiny Tiny RSS
 Web-based news feed aggregator, designed to allow you to read news from 
 any location, while feeling as close to a real desktop application as possible.
 
-Please read UPGRADING for upgrade instructions from version 1.0.7
-
-Other Installation/upgrade notes:
-
-http://tt-rss.spb.ru/trac/wiki/InstallationNotes
+	http://tt-rss.spb.ru
 
 Copyright (C) 2005 Andrew Dolgov unless stated otherwise.
 
@@ -17,48 +13,66 @@ Portions (C):
 	Bob Osola <bobosola@gmail.com> (pngfix.js)
 	Sundar Dorai-Raj <sdoraira@vt.edu> (isNumeric() in functions.js)
 
-Licensed under GPL version 2.
+Licensed under GNU GPL version 2
 
-Warning: I don't know how to stress it enough - please do not install
-this program wide open to the whole internet. It belongs to (host or password)
-protected directory on your webserver. There could be SQL-injection or other
-remote vulnerabilities, so beware.
+Features Overview
+=================
 
-Version 1.1 adds support for multi-user operation, disable option SINGLE_USER_MODE 
-to access it. Default user is "admin" with password "password", don't forget to 
-change it.
+	Updates: http://tt-rss.spb.ru/trac/wiki/FeatureList
 
-Interface:
+	* Server-side application, user only needs a web browser
+	* Supports RSS, RDF, Atom feeds using Magpie library
+	* Supports OPML import/export
+	* Easy setup and configuration
+	* Streamlined interface using XmlHttpRequest (or AJAX for laypeople)
 
-	There is (incomplete) support for keyboard navigation.
-	
-	"n" and "p" moves between next/previous posts when feed is opened;
-	"r" refreshes feed list;
-	"u" refreshes currently selected feed;
-	"a" hides or shows only unread feeds in the feedlist;
-	"j" move to previous feed
-	"k" move to next feed
-	"s" star/unstar selected article(s)
+Requirements
+============
 
-Requirements:
-	
-	- Magpie RSS (http://magpierss.sourceforge.net/) - place it into
-	  magpierss/ subdirectory;
-	  
-	- RDBMS backend:
-	
-			a) PostgreSQL
-			b) MySQL (InnoDB and server version 4.1+ required)
+	* Compatible browser on the client side
 
-	  Example DB schemas and configuration are in schema/ subdirectory.
-	  
-	  For PostgreSQL don't forget to create database with UTF-8 encoding
-	  (createdb -E UTF-8 -O owner_user database).
+		Basically, Firefox, Konqueror or MSIE6 are okay. See here
+		for more information:
 
-	- PHP4 DOMXML extension is required for some functions
+		http://tt-rss.spb.ru/trac/wiki/CompatibleBrowsers
 
-Don't forget to copy config.php-dist to config.php and edit it.
+	* Web server, for example Apache
+	* PHP (requires PHP4 DOMXML extension)
+	* MagpieRSS feed parser (http://magpierss.sourceforge.net/)
 
-icons/ directory should be writable for your httpd user.
+	* PostgreSQL (tested on 7.4) or MySQL (InnoDB and version 4.1+ required)
+
+Installation Notes
+==================
+
+	Updates: http://tt-rss.spb.ru/trac/wiki/InstallationNotes
+
+	* If you are upgrading from the previous version, don't forget to update 
+	schema and logout.
+
+	* icons directory should be writable to your httpd user if you plan on 
+	using feed icons
+
+	* Leave DB_HOST empty if you want to connect to database via unix socket
+
+	* For PostgreSQL don't forget to create database with UTF-8 encoding 
+
+			createdb -E utf-8 -O owner_user database)
+
+	* Don't forget to change your password from default value on your first login
+
+	* Check your config.php for blank lines out of PHP code tags (e.g. 
+	before <? and after ?>), See #1 
+
+See also
+========
+
+	* FAQ:				http://tt-rss.spb.ru/trac/wiki/FrequentlyAskedQuestions
+	* Forum:				http://tt-rss.spb.ru/forum
+	* Wiki:				http://tt-rss.spb.ru/trac/wiki/WikiStart
+	* Bug Tracker:		http://tt-rss.spb.ru/trac/report
+
+Contact
+=======
 
 Send your questions, comments, patches to Andrew Dolgov <cthulhoo@gmail.com>

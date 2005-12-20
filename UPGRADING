@@ -1,18 +1,23 @@
-= Upgrading TT-RSS 1.0.7 to 1.1 =
+Updates: http://tt-rss.spb.ru/trac/wiki/Upgrading107to11
+
+Upgrading TT-RSS 1.0.7 to 1.1
+=============================
 
 Unfortunately, there is no simple database upgrade script, the schema is just too different. Yet, your articles and feed subscriptions may be transferred the following way:
 
-== 1.0.7 ==
+1.0.7
+=====
 
- * Export your feed subscriptions to OPML
- * Copy xml-export.php from TT-RSS 1.1 tarball to your 1.0.7 directory and open it in the browser. This script exports your articles in neutral XML format.
- * Save resulting XML file somewhere
+	* Export your feed subscriptions to OPML
+	* Copy xml-export.php from TT-RSS 1.1 tarball to your 1.0.7 directory and open it in the browser. This script exports your articles in neutral XML format.
+	* Save resulting XML file somewhere
 
 Unpack and configure TT-RSS 1.1. You may need to remove old tables manualy 
 (or choose the different database, etc.)
 
-== 1.1 ==
+1.1
+===
 
- * Import your feeds OPML
- * Run xml-import.php and import your old starred articles
+	* Import your feeds OPML
+	* Run xml-import.php and import your old starred articles
 
