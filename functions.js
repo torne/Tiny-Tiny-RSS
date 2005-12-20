@@ -496,6 +496,8 @@ function hideOrShowFeeds(doc, hide) {
 
 	var css_rules = doc.styleSheets[0].cssRules;
 
+	if (!css_rules || !css_rules.length) return;
+
 	for (i = 0; i < css_rules.length; i++) {
 		var rule = css_rules[i];
 

@@ -197,6 +197,6 @@ function init() {
 		document.onkeydown = hotkey_handler;
 		parent.setTimeout("timeout()", 1000);
 	} catch (e) {
-		exception_error("feedlist/init()", e);
+		exception_error("feedlist/init", e);
 	}
 }
