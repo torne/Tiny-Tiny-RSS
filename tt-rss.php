@@ -209,6 +209,7 @@
 		<td align="right">
 			Actions: <select id="quickMenuChooser">
 				<option id="qmcPrefs" selected>Preferences...</option>
+				<option id="qmcSearch">Search...</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Feed actions:</option>
 				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed...</option>
