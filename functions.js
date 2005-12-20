@@ -741,4 +741,6 @@ function showBlockElement(id) {
 	} 
 }
 
-
+function hideParentElement(e) {
+	e.parentNode.style.display = "none";
+}
