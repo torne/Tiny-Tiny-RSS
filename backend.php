@@ -235,7 +235,7 @@
 			AND ttrss_user_entries.ref_id = ttrss_entries.id");
 	
 			$count = db_fetch_result($result, 0, "count");
-			$last_error = db_fetch_result($result, 0, "last_error");
+			$last_error = htmlspecialchars(db_fetch_result($result, 0, "last_error"));
 			
 			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
 	}
@@ -264,7 +264,7 @@
 		
 			$id = $line["id"];
 			$count = $line["count"];
-			$last_error = $line["last_error"];	
+			$last_error = htmlspecialchars($line["last_error"]);	
 
 			$has_img = is_file(ICONS_DIR . "/$id.ico");
 
