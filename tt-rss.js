@@ -365,16 +365,20 @@ function init_second_stage() {
 		document.onkeydown = hotkey_handler;
 	
 		var content = document.getElementById("content");
+
+		dropboxSelect(viewbox, getCookie("ttrss_vf_vmode"));
 	
-		if (getCookie("ttrss_vf_vmode")) {
-			var viewbox = document.getElementById("viewbox");
-			viewbox.value = getCookie("ttrss_vf_vmode");
+/*		if (getCookie("ttrss_vf_vmode")) {
+			var viewbox = document.getElementById("viewbox");			
+			if (getCookie("ttrss_vf_vmode")) {
+				viewbox.value = getCookie("ttrss_vf_vmode");
+			}
 		}
 	
 		if (getCookie("ttrss_vf_limit")) {
 			var limitbox = document.getElementById("limitbox");
 			limitbox.value = getCookie("ttrss_vf_limit");
-		}
+		} */
 	
 	//	if (getCookie("ttrss_vf_actfeed")) {
 	//		viewfeed(getCookie("ttrss_vf_actfeed"), 0, '');

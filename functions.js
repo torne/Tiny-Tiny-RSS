@@ -744,3 +744,12 @@ function showBlockElement(id) {
 function hideParentElement(e) {
 	e.parentNode.style.display = "none";
 }
+
+function dropboxSelect(e, v) {
+	for (i = 0; i < e.length; i++) {
+		if (e[i].value == v) {
+			e.selectedIndex = i;
+			break;
+		}
+	}
+}
