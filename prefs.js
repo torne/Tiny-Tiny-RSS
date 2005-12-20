@@ -864,6 +864,7 @@ function userEditSave() {
 
 	var login = document.getElementById("iedit_ulogin").value;
 	var level = document.getElementById("iedit_ulevel").value;
+	var email = document.getElementById("iedit_email").value;
 
 	if (login.length == 0) {
 		notify("Login cannot be blank.");
@@ -880,8 +881,8 @@ function userEditSave() {
 	notify("Saving user...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-users&subop=editSave&id=" +
-		user + "&l=" + param_escape(login) + "&al=" + param_escape(level),
-		true);
+		user + "&l=" + param_escape(login) + "&al=" + param_escape(level) +
+		"&e=" + param_escape(email), true);
 		
 	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);

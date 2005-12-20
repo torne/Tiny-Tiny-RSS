@@ -3199,8 +3199,10 @@
 				$login = db_escape_string($_GET["l"]);
 				$uid = db_escape_string($_GET["id"]);
 				$access_level = sprintf("%d", $_GET["al"]);
+				$email = db_escape_string($_GET["e"]);
 
-				db_query($link, "UPDATE ttrss_users SET login = '$login', access_level = '$access_level' WHERE id = '$uid'");
+				db_query($link, "UPDATE ttrss_users SET login = '$login', 
+					access_level = '$access_level', email = '$email' WHERE id = '$uid'");
 
 			}
 		} else if ($subop == "remove") {
@@ -3251,9 +3253,11 @@
 
 				$uid = db_escape_string($_GET["id"]);
 
-				$result = db_query($link, "SELECT login FROM ttrss_users WHERE id = '$uid'");
+				$result = db_query($link, "SELECT login,email 
+					FROM ttrss_users WHERE id = '$uid'");
 
 				$login = db_fetch_result($result, 0, "login");
+				$email = db_fetch_result($result, 0, "email");
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
 
@@ -3261,7 +3265,24 @@
 					WHERE id = '$uid'");
 
 				print "<div class=\"notice\">Changed password of 
-					user <b>$login</b> to <b>$tmp_user_pwd</b>.</div>";				
+					user <b>$login</b> to <b>$tmp_user_pwd</b>.";
+
+				if (MAIL_RESET_PASS && $email) {
+					print " Notifying <b>$email</b>.";
+
+					mail("$login <$email>", "Password reset notification",
+						"Hi, $login.\n".
+						"\n".
+						"Your password for this TT-RSS installation was reset by".
+							" an administrator.\n".
+						"\n".
+						"Your new password is $tmp_user_pwd, please remember".
+							" it for later reference.\n".
+						"\n".
+						"Sincerely, TT-RSS Mail Daemon.", "From: " . MAIL_FROM);
+				}
+					
+				print "</div>";				
 
 			}
 		}
@@ -3273,7 +3294,7 @@
 			onclick=\"javascript:addUser()\" value=\"Add user\"></div>";
 
 		$result = db_query($link, "SELECT 
-				id,login,access_level,
+				id,login,access_level,email,
 				SUBSTRING(last_login,1,16) as last_login
 			FROM 
 				ttrss_users
@@ -3294,9 +3315,10 @@
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width='30%'>Username</td>
-					<td width='30%'>Access Level</td>
-					<td width='30%'>Last login</td></tr>";
+					<td width='20%'>Username</td>
+					<td width='20%'>E-mail</td>
+					<td width='20%'>Access Level</td>
+					<td width='20%'>Last login</td></tr>";
 		
 		$lnum = 0;
 		
@@ -3321,38 +3343,47 @@
 			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
 				strtotime($line["last_login"]));
 
-			if ($uid == $_SESSION["uid"]) {
+/*			if ($uid == $_SESSION["uid"]) {
 
 				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 					id=\"UMCHK-".$line["id"]."\"></td>";
 
-				print "<td>".$line["login"]."</td>";		
-				print "<td>".$line["access_level"]."</td>";		
+				print "<td>".$line["login"]."</td>";
+				print "<td>".$line["email"]."</td>";
+				print "<td>".$line["access_level"]."</td>";
 
-			} else if (!$edit_uid || $subop != "edit") {
+			} else */ if (!$edit_uid || $subop != "edit") {
 
 				print "<td align='center'><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$line["login"] . "</td>";		
-					
+
+				print "<td><a href=\"javascript:editUser($uid);\">" . 
+					$line["email"] . "</td>";			
+
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$line["access_level"] . "</td>";			
 
 			} else if ($uid != $edit_uid) {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\" 
+				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 					id=\"UMCHK-".$line["id"]."\"></td>";
 
 				print "<td>".$line["login"]."</td>";		
+				print "<td>".$line["email"]."</td>";		
 				print "<td>".$line["access_level"]."</td>";		
 
 			} else {
 
-				print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+				print "<td align='center'>
+					<input disabled=\"true\" type=\"checkbox\" checked></td>";
 
 				print "<td><input id=\"iedit_ulogin\" value=\"".$line["login"].
+					"\"></td>";
+
+				print "<td><input id=\"iedit_email\" value=\"".$line["email"].
 					"\"></td>";
 
 				print "<td><input id=\"iedit_ulevel\" value=\"".$line["access_level"].
