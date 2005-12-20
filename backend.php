@@ -947,6 +947,9 @@
 			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
 				<script type=\"text/javascript\" src=\"functions.js\"></script>
 				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
+				<!--[if gte IE 5.5000]>
+				<script type=\"text/javascript\" src=\"pngfix.js\"></script>
+				<![endif]-->
 				</head><body onload='init()'>";
 		}
 
