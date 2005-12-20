@@ -518,7 +518,7 @@
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\">";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 

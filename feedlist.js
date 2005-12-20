@@ -164,7 +164,7 @@ function toggleCollapseCat(cat) {
 		}
 	
 		var cat_elem = document.getElementById("FCAT-" + cat);
-		var cat_list = cat_elem.nextSibling;
+		var cat_list = document.getElementById("FCATLIST-" + cat).parentNode;
 		var caption = cat_elem.lastChild;
 		
 		if (cat_list.className.match("invisible")) {
