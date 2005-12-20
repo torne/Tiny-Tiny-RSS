@@ -316,6 +316,9 @@
 		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
 			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			<!--[if gte IE 5.5000]>
+			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
+			<![endif]-->
 			</head><body onload=\"init()\">";
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
