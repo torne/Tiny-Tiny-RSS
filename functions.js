@@ -494,6 +494,8 @@ function popupHelp(tid) {
 
 function hideOrShowFeeds(doc, hide) {
 
+	if (!doc.styleSheets) return;
+
 	var css_rules = doc.styleSheets[0].cssRules;
 
 	if (!css_rules || !css_rules.length) return;
