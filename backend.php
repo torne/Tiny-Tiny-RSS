@@ -2951,6 +2951,23 @@
 				print "Unknown option: $pref_name";
 			}
 
+		} else if ($subop == "Change e-mail") {
+
+			if (WEB_DEMO_MODE) {
+				header("Location: prefs.php");
+				return;
+			}
+
+			$email = db_escape_string($_GET["email"]);
+			$active_uid = $_SESSION["uid"];
+
+			if ($email) {
+				db_query($link, "UPDATE ttrss_users SET email = '$email' 
+						WHERE id = '$active_uid'");				
+			}
+
+			header("Location: prefs.php");
+
 		} else if ($subop == "Change password") {
 
 			if (WEB_DEMO_MODE) {
@@ -3040,7 +3057,7 @@
 
 			if (!SINGLE_USER_MODE) {
 
-				$result = db_query($link, "SELECT id FROM ttrss_users
+				$result = db_query($link, "SELECT id,email FROM ttrss_users
 					WHERE id = ".$_SESSION["uid"]." AND (pwd_hash = 'password' OR
 						pwd_hash = 'SHA1:".sha1("password")."')");
 
@@ -3077,6 +3094,27 @@
 				}
 
 				$_SESSION["prefs_op_result"] = "";
+
+				print "<form action=\"backend.php\" method=\"GET\">";
+	
+				print "<table width=\"100%\" class=\"prefPrefsList\">";
+	 			print "<tr><td colspan='3'><h3>Personal data</h3></tr></td>";
+
+				$result = db_query($link, "SELECT email FROM ttrss_users
+					WHERE id = ".$_SESSION["uid"]);
+					
+				$email = db_fetch_result($result, 0, "email");
+	
+				print "<tr><td width=\"40%\">E-mail</td>";
+				print "<td><input class=\"editbox\" name=\"email\" 
+					value=\"$email\"></td></tr>";
+	
+				print "</table>";
+	
+				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+	
+				print "<p><input class=\"button\" type=\"submit\" 
+					value=\"Change e-mail\" name=\"subop\">";
 
 				print "<form action=\"backend.php\" method=\"POST\">";
 	
