@@ -169,15 +169,16 @@
 			
 			$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
 
-			print $def_art_limit;
-	
-			if ($def_art_limit >= 0) {
+			if ($def_art_limit >= 0 && !array_key_exists($def_art_limit, $limits)) {
 				$limits[$def_art_limit] = $def_art_limit; 
 			}
-			
-			asort($limits);
 
+			asort($limits);
 			array_push($limits, 0);
+
+			if (!$def_art_limit) {
+				$def_art_limit = 30;
+			}
 
 			foreach ($limits as $key) {
 				print "<option";
