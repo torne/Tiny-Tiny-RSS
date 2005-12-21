@@ -96,7 +96,7 @@ function refetch_callback() {
 	
 			var f_document = window.frames["feeds-frame"].document;
 
-			parse_counters(reply, f_document);
+			parse_counters(reply, f_document, window);
 	
 			updateTitle("");
 			notify("All feeds updated.");

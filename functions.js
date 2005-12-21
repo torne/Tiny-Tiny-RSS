@@ -355,7 +355,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
-function parse_counters(reply, f_document) {
+function parse_counters(reply, f_document, title_obj) {
 	try {
 		for (var l = 0; l < reply.childNodes.length; l++) {
 			var id = reply.childNodes[l].getAttribute("id");
@@ -365,8 +365,8 @@ function parse_counters(reply, f_document) {
 			var has_img = reply.childNodes[l].getAttribute("hi");
 	
 			if (id == "global-unread") {
-				parent.global_unread = ctr;
-				parent.updateTitle();
+				title_obj.global_unread = ctr;
+				title_obj.updateTitle();
 				continue;
 			}
 	
@@ -419,6 +419,9 @@ function parse_counters(reply, f_document) {
 	}
 }
 
+// this one is called from feedlist context
+// thus title_obj passed to parse_counters is parent (e.g. main ttrss window)
+
 function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
@@ -430,7 +433,7 @@ function all_counters_callback() {
 			var reply = xmlhttp_rpc.responseXML.firstChild;
 			var f_document = parent.frames["feeds-frame"].document;
 
-			parse_counters(reply, f_document);
+			parse_counters(reply, f_document, parent);
 	
 		} catch (e) {
 			exception_error("all_counters_callback", e);
