@@ -102,7 +102,8 @@
 
 		$result = db_query($link, "SELECT feed_url,id,
 			substring(last_updated,1,19) as last_updated,
-			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'");
+			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'
+			ORDER BY last_updated DESC");
 
 		while ($line = db_fetch_assoc($result)) {
 			$upd_intl = $line["update_interval"];
