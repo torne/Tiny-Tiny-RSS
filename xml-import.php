@@ -5,8 +5,8 @@
 	require_once "functions.php";
 	require_once "db.php";
 
-	define('MAX_SOURCE_SCHEMA_VERSION', 2);
-	define('TARGET_SCHEMA_VERSION', 2);
+	define('MAX_SOURCE_SCHEMA_VERSION', 3);
+	define('TARGET_SCHEMA_VERSION', 3);
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
