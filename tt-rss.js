@@ -140,7 +140,7 @@ function backend_sanity_check_callback() {
 
 function scheduleFeedUpdate(force) {
 
-	notify("Updating feeds in background...");
+	notify("Updating feeds, please wait.");
 
 //	document.title = "Tiny Tiny RSS - Updating...";
 
