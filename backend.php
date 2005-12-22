@@ -1643,7 +1643,7 @@
 				$feed_link = db_escape_string(trim($_GET["link"]));
 				$cat_id = db_escape_string($_GET["cid"]);
 
-				if ($cat_id == "0") {
+				if ($cat_id == "0" || !$cat_id) {
 					$cat_qpart = "NULL";
 				} else {
 					$cat_qpart = "'$cat_id'";
