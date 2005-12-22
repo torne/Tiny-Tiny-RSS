@@ -53,11 +53,11 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
-	if (!sanity_check($link)) { return; }
-
 	$fetch = $_GET["fetch"];
 
 	setcookie("ttrss_icons_url", ICONS_URL);
+
+	if (!sanity_check($link)) { return; }
 
 	function getAllCounters($link) {
 		getLabelCounters($link);
