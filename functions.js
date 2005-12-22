@@ -358,7 +358,8 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 function parse_counters(reply, f_document, title_obj) {
 	try {
 		for (var l = 0; l < reply.childNodes.length; l++) {
-			if (!reply.childNodes[l] || !reply.childNodes[l].getAttribute) {
+			if (!reply.childNodes[l] ||
+				typeof(reply.childNodes[l].getAttribute) == "undefined") {
 				// where did this come from?
 				continue;
 			}
