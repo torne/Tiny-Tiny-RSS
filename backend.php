@@ -53,6 +53,8 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	if (!sanity_check($link)) { return; }
+
 	$fetch = $_GET["fetch"];
 
 	setcookie("ttrss_icons_url", ICONS_URL);
@@ -717,18 +719,7 @@
 		}
 
 		if ($subop == "sanityCheck") {
-
-			$error_code = 0;
-
-			$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-
-			$schema_version = db_fetch_result($result, 0, "schema_version");
-
-			if ($schema_version != SCHEMA_VERSION) {
-				$error_code = 5;
-			}
-
-			print "<error error-code='$error_code'/>";
+			sanity_check();
 		}
 
 		if ($subop == "globalPurge") {

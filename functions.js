@@ -358,6 +358,11 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 function parse_counters(reply, f_document, title_obj) {
 	try {
 		for (var l = 0; l < reply.childNodes.length; l++) {
+			if (!reply.childNodes[l] || !reply.childNodes[l].getAttribute) {
+				// where did this come from?
+				continue;
+			}
+
 			var id = reply.childNodes[l].getAttribute("id");
 			var t = reply.childNodes[l].getAttribute("type");
 			var ctr = reply.childNodes[l].getAttribute("counter");
