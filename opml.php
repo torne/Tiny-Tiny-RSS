@@ -126,7 +126,13 @@
 					print "<table>";
 
 					foreach ($outlines as $outline) {
+
 						$feed_title = db_escape_string($outline->get_attribute('text'));
+
+						if (!$feed_title) {
+							$feed_title = db_escape_string($outline->get_attribute('title'));
+						}
+					
 						$cat_title = db_escape_string($outline->get_attribute('title'));
 						$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
 						$site_url = db_escape_string($outline->get_attribute('htmlUrl'));
@@ -144,14 +150,14 @@
 								print "Adding category <b>$cat_title</b>...<br>";
 
 								db_query($link, "INSERT INTO ttrss_feed_categories
-									(title,owner_uid,site_url) 
-								VALUES ('$cat_title', '$owner_uid', '$site_url')");
+									(title,owner_uid) 
+								VALUES ('$cat_title', '$owner_uid')");
 							}
 
 							db_query($link, "COMMIT");
 						}
 
-//						print "$active_category : $feed_title : $xmlurl<br>";
+//						print "$active_category : $feed_title : $feed_url<br>";
 
 						if (!$feed_title || !$feed_url) continue;
 
@@ -191,13 +197,14 @@
 
 							if ($cat_id) {
 								$add_query = "INSERT INTO ttrss_feeds 
-									(title, feed_url, owner_uid, cat_id) VALUES
-									('$feed_title', '$feed_url', '$owner_uid', '$cat_id')";
+									(title, feed_url, owner_uid, cat_id, site_url) VALUES
+									('$feed_title', '$feed_url', '$owner_uid', 
+										'$cat_id', '$site_url')";
 
 							} else {
 								$add_query = "INSERT INTO ttrss_feeds 
-									(title, feed_url, owner_uid) VALUES
-									('$feed_title', '$feed_url', '$owner_uid')";
+									(title, feed_url, owner_uid, site_url) VALUES
+									('$feed_title', '$feed_url', '$owner_uid', '$site_url')";
 
 							}
 
