@@ -401,7 +401,10 @@ function editFeed(feed) {
 	xmlhttp.send(null); */
 
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
-	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-'+feed, 'FRCHK-'+feed, true);
+//	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-'+feed, 'FRCHK-'+feed, 
+//		true, false);
+
+	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
 		param_escape(active_feed), true);

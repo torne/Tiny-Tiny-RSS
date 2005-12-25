@@ -536,6 +536,26 @@ function selectTableRow(r, do_select) {
 	}
 }
 
+function selectTableRowById(elem_id, check_id, do_select) {
+
+	try {
+
+		var row = document.getElementById(elem_id);
+
+		if (row) {
+			selectTableRow(row, do_select);
+		}		
+
+		var check = document.getElementById(check_id);
+
+		if (check) {
+			check.checked = do_select;
+		}
+	} catch (e) {
+		exception_error("selectTableRowById", e);
+	}
+}
+
 function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select, 
 	classcheck) {
 
