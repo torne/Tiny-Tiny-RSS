@@ -139,6 +139,10 @@ function toggleMark(id) {
 
 function moveToPost(mode) {
 
+	// check for combined mode
+	if (!document.getElementById("headlinesList"))
+		return;
+
 	var rows = getVisibleHeadlineIds();
 
 	var prev_id;
