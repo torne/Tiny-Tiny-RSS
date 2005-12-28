@@ -73,7 +73,8 @@
 		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
 				FROM ttrss_user_entries WHERE feed_id = ttrss_feeds.id 
 					AND unread = true)) AS unread FROM ttrss_feeds 
-			WHERE owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+			WHERE 
+				owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
@@ -426,7 +427,9 @@
 				cat_id,last_error,
 				(SELECT collapsed FROM ttrss_feed_categories
 					WHERE id = cat_id) AS collapsed
-				FROM ttrss_feeds WHERE owner_uid = '$owner_uid' ORDER BY $order_by_qpart");			
+				FROM ttrss_feeds WHERE 
+					owner_uid = '$owner_uid' AND parent_feed IS NULL
+				ORDER BY $order_by_qpart");			
 	
 			$actid = $_GET["actid"];
 	
@@ -1063,29 +1066,6 @@
 			$view_query_part = " unread = true AND ";
 		}
 
-/*		if ($view_mode == "Unread or Starred") {
-			$view_query_part = " (unread = true OR marked = true) AND ";
-		}
-
-		if ($view_mode == "Unread or Updated") {
-			$view_query_part = " (unread = true OR last_read is NULL) AND ";
-		} */
-
-/*		$result = db_query($link, "SELECT count(id) AS total_entries 
-			FROM ttrss_entries WHERE 
-			$search_query_part
-			feed_id = '$feed'");
-
-		$total_entries = db_fetch_result($result, 0, "total_entries"); */
-
-/*		$result = db_query("SELECT count(id) AS unread_entries 
-			FROM ttrss_entries WHERE 
-			$search_query_part
-			unread = true AND
-			feed_id = '$feed'");
-
-		$unread_entries = db_fetch_result($result, 0, "unread_entries"); */
-
 		if ($limit && $limit != "All") {
 			$limit_query_part = "LIMIT " . $limit;
 		} 
@@ -1095,18 +1075,34 @@
 		// override query strategy and enable feed display when searching globally
 		if ($search && $search_mode == "All feeds") {
 			$query_strategy_part = "id > 0";
-			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
-				id = feed_id) as feed_title,";
+			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 		} else if (sprintf("%d", $feed) == 0) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
 		} else if ($feed >= 0) {
-			$query_strategy_part = "feed_id = '$feed'";
+		
+			$tmp_result = db_query($link, "SELECT id 
+				FROM ttrss_feeds WHERE parent_feed = '$feed'
+				ORDER BY cat_id,title");
+
+			$parent_ids = array();
+
+			if (db_num_rows($tmp_result) > 0) {
+				while ($p = db_fetch_assoc($tmp_result)) {
+					array_push($parent_ids, "feed_id = " . $p["id"]);
+				}
+
+				$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
+					$feed, implode(" OR ", $parent_ids));
+	
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else {
+				$query_strategy_part = "feed_id = '$feed'";
+			}
 		} else if ($feed == -1) { // starred virtual feed
 			$query_strategy_part = "marked = true";
-			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
-				id = feed_id) as feed_title,";
+			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 		} else if ($feed <= -10) { // labels
 			$label_id = -$feed - 11;
 
@@ -1115,8 +1111,7 @@
 		
 			$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
 	
-			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
-				id = feed_id) as feed_title,";
+			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 		} else {
 			$query_strategy_part = "id > 0"; // dumb
 		}
@@ -1171,7 +1166,7 @@
 //			}
 
 			$result = db_query($link, "SELECT 
-					id,title,
+					ttrss_entries.id,ttrss_entries.title,
 					SUBSTRING(updated,1,16) as updated,
 					unread,feed_id,marked,link,last_read,
 					SUBSTRING(last_read,1,19) as last_read_noms,
@@ -1179,10 +1174,11 @@
 					$content_query_part
 					SUBSTRING(updated,1,19) as updated_noms
 				FROM
-					ttrss_entries,ttrss_user_entries
+					ttrss_entries,ttrss_user_entries,ttrss_feeds
 				WHERE
+				ttrss_user_entries.feed_id = ttrss_feeds.id AND
 				ttrss_user_entries.ref_id = ttrss_entries.id AND
-				owner_uid = '".$_SESSION["uid"]."' AND
+				ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
 				$search_query_part
 				$view_query_part
 				$query_strategy_part ORDER BY $order_by
