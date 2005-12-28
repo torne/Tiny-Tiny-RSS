@@ -54,10 +54,13 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	site_url varchar(250) not null default '',
 	auth_login varchar(250) not null default '',
 	auth_pass varchar(250) not null default '',
+	parent_feed integer default null,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index(cat_id),
-	foreign key (cat_id) references ttrss_feed_categories(id)) TYPE=InnoDB;
+	foreign key (cat_id) references ttrss_feed_categories(id),
+	index(parent_feed),
+	foreign key (parent_feed) references ttrss_feeds(id) ON DELETE SET NULL) TYPE=InnoDB;
 
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
 insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
