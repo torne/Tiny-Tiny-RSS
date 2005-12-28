@@ -1536,6 +1536,34 @@
 			print "<td><input id=\"iedit_updintl\" 
 				value=\"$update_interval\"></td></tr>";
 
+			$row_class = toggleEvenOdd($row_class);
+			print "<tr class='$row_class'><td>Link to:</td>";
+
+			$parent_feed = db_fetch_result($result, 0, "parent_feed");
+		
+			print "<select id=\"iedit_parent_feed\">";
+			print "<option id=\"0\">None</option>";
+
+			$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
+				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+				if (db_num_rows($tmp_result) > 0) {
+					print "<option disabled>--------</option>";
+				}
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					if ($tmp_line["id"] == $parent_feed) {
+						$is_selected = "selected";
+					} else {
+						$is_selected = "";
+					}
+					printf("<option $is_selected id='%d'>%s</option>", 
+						$tmp_line["id"], $tmp_line["title"]);
+				}
+
+				print "</select></td>";
+				print "</td></tr>";
+
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 			$row_class = toggleEvenOdd($row_class);
 
@@ -1579,6 +1607,7 @@
 			$cat_id = db_escape_string($_POST["catid"]);
 			$auth_login = db_escape_string($_POST["login"]);
 			$auth_pass = db_escape_string($_POST["pass"]);
+			$parent_feed = db_escape_string($_POST["pfeed"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
@@ -1598,8 +1627,15 @@
 				$category_qpart = 'cat_id = NULL';
 			}
 
+			if ($parent_feed != 0) {
+				$parent_qpart = "parent_feed = '$parent_feed'";
+			} else {
+				$parent_qpart = 'parent_feed = NULL';
+			}
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
 				$category_qpart,
+				$parent_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl',
@@ -1836,8 +1872,11 @@
 		$result = db_query($link, "SELECT 
 				id,title,feed_url,substring(last_updated,1,16) as last_updated,
 				update_interval,purge_interval,cat_id,
+				parent_feed AS parent_feed_id,
 				(SELECT title FROM ttrss_feed_categories 
-					WHERE id = cat_id) AS category
+					WHERE id = cat_id) AS category,
+				(SELECT title FROM ttrss_feeds 
+					WHERE id = parent_feed_id) AS parent_title				
 			FROM 
 				ttrss_feeds 
 			WHERE 
@@ -1923,8 +1962,14 @@
 				$edit_title = truncate_string($edit_title, 40);
 				$edit_link = truncate_string($edit_link, 60);
 
+				$parent_title = $line["parent_title"];
+				if ($parent_title) {
+					$parent_title = "<span class='groupPrompt'>(linked to 
+						$parent_title)</span>";
+				}
+
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					"$feed_icon $edit_title" . "</a></td>";		
+					"$feed_icon $edit_title $parent_title" . "</a></td>";		
 					
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		

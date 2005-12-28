@@ -320,7 +320,8 @@ a:hover {
 
 #iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
 #iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed,
-#iedit_fcat, #iedit_filter_action, #iedit_login, #iedit_pass, #iedit_email {
+#iedit_fcat, #iedit_filter_action, #iedit_login, #iedit_pass, #iedit_email,
+#iedit_parent_feed {
 	width : 100%;
 	padding-left : 2px;
 }
@@ -909,4 +910,9 @@ a.warning {
 img.closeButton {
 	border-width : 0px;
 	float : right;
+}
+
+span.groupPrompt {
+	font-size : x-small;
+	color : #505050;
 }
