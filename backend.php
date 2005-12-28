@@ -1540,8 +1540,16 @@
 			print "<select id=\"iedit_parent_feed\">";
 			print "<option id=\"0\">None</option>";
 
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				if ($cat_id) {
+					$cat_qpart = "AND cat_id = '$cat_id'";
+				} else {
+					$cat_qpart = "AND cat_id IS NULL";
+				}
+			}
+
 			$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+				WHERE owner_uid = ".$_SESSION["uid"]." $cat_qpart ORDER BY title");
 
 				if (db_num_rows($tmp_result) > 0) {
 					print "<option disabled>--------</option>";
