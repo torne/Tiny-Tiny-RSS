@@ -1535,10 +1535,20 @@
 				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
 			
 			print "<ul class='browseFeedList' id='browseFeedList'>";
+
+			$feedctr = 0;
 			
 			while ($line = db_fetch_assoc($result)) {
 				$feed_url = $line["feed_url"];
 				$subscribers = $line["subscribers"];
+
+				$sub_result = db_query($link, "SELECT id
+					FROM ttrss_feeds WHERE feed_url = '$feed_url' AND owner_uid =" . 
+					$_SESSION["uid"]);
+
+				if (db_num_rows($sub_result) > 0) {
+					continue; // already subscribed
+				}
 			
 				$det_result = db_query($link, "SELECT site_url,title,id 
 					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
@@ -1560,7 +1570,13 @@
 				print "<li id=\"FBROW-".$details["id"]."\">$check_box $feed_icon" . 
 					$details["title"] . 
 					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
-								}
+
+					++$feedctr;
+			}
+
+			if ($feedctr == 0) {
+				print "<li>No feeds found to subscribe.</li>";
+			}
 
 			print "</ul>";
 
