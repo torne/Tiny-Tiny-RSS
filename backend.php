@@ -1501,6 +1501,56 @@
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
 
+		if ($subop == "browse") {
+			
+			print "<div class=\"infoBoxContents\">";
+
+			print "<h1>Feed browser</h1>";
+
+			print "<p>Showing top 50 registered feeds, sorted by popularity:</p>";
+
+			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
+				FROM ttrss_feeds WHERE auth_login = '' AND auth_pass = '' 
+				GROUP BY feed_url ORDER BY subscribers LIMIT 50");
+			
+			print "<ul class='browseFeedList' id='browseFeedList'>";
+			
+			while ($line = db_fetch_assoc($result)) {
+				$feed_url = $line["feed_url"];
+				$subscribers = $line["subscribers"];
+			
+				$det_result = db_query($link, "SELECT site_url,title,id 
+					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+
+				$details = db_fetch_assoc($det_result);
+			
+				$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+
+				if (file_exists($icon_file) && filesize($icon_file) > 0) {
+						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+							"/".$details["id"].".ico\">";
+				} else {
+					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+				}
+
+				$check_box = "<input class='feedBrowseCB' type=\"checkbox\" id=\"BFCHK-" . $details["id"] . "\">";
+
+				print "<li>$check_box $feed_icon" . $details["title"] . 
+					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
+								}
+
+			print "</ul>";
+
+			print "<div align='center'>
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Cancel\">
+				<input type=\"submit\" class=\"button\" 
+				onclick=\"feedBrowserSubscribe()\" value=\"Subscribe\"></div>";
+
+			print "</div>";
+			return;
+		}
+
 		if ($subop == "editfeed") {
 			$feed_id = db_escape_string($_GET["id"]);
 
@@ -1895,6 +1945,8 @@
 				size=\"40\">
 				<input type=\"submit\" class=\"button\"
 				onclick=\"javascript:addFeed()\" value=\"Add feed\">
+				&nbsp;
+				(<a href='javascript:browseFeeds()'>Browse feeds</a>)
 			</td><td align='right'>
 				<input id=\"feed_search\" size=\"20\"  
 				onchange=\"javascript:updateFeedList()\"

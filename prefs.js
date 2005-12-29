@@ -1285,3 +1285,11 @@ function categorizeSelectedFeeds() {
 function validatePrefsReset() {
 	return confirm("Reset to defaults?");
 }
+
+function browseFeeds() {
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=browse", true);
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
+
+}
