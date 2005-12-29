@@ -245,12 +245,12 @@
 			$filters = array();
 
 			$result = db_query($link, "SELECT reg_exp,
-				(SELECT name FROM ttrss_filter_types
-					WHERE id = filter_type) as name,
-				(SELECT name FROM ttrss_filter_actions
-					WHERE id = action_id) as action
-				FROM ttrss_filters WHERE 
-				owner_uid = $owner_uid AND
+				ttrss_filter_types.name AS name,
+				ttrss_filter_actions.name AS action
+				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
+					owner_uid = $owner_uid AND
+					ttrss_filter_types.id = filter_type AND
+					ttrss_filter_actions.id = action_id AND
 				(feed_id IS NULL OR feed_id = '$feed')");
 
 			while ($line = db_fetch_assoc($result)) {

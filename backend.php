@@ -228,7 +228,7 @@
 		}
 	}
 
-	function getFeedCounter($link, $id) {
+/*	function getFeedCounter($link, $id) {
 	
 		$result = db_query($link, "SELECT 
 				count(id) as count,last_error
@@ -241,7 +241,7 @@
 			$last_error = htmlspecialchars(db_fetch_result($result, 0, "last_error"));
 			
 			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
-	}
+	} */
 
 	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
 
@@ -253,13 +253,14 @@
 
 		$old_counters = $_SESSION["fctr_last_value"];
 
-		$result = db_query($link, "SELECT id,last_error,
+		$result = db_query($link, "SELECT id,last_error,parent_feed,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
 				WHERE feed_id = ttrss_feeds.id AND 
 					ttrss_user_entries.ref_id = ttrss_entries.id
 				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
-			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
+			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"] . "
+				AND parent_feed IS NULL");
 
 		$fctrs_modified = false;
 
@@ -267,9 +268,21 @@
 		
 			$id = $line["id"];
 			$count = $line["count"];
-			$last_error = htmlspecialchars($line["last_error"]);	
-
+			$last_error = htmlspecialchars($line["last_error"]);
+	
 			$has_img = is_file(ICONS_DIR . "/$id.ico");
+
+			$tmp_result = db_query($link,
+				"SELECT id,COUNT(unread) AS unread
+				FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
+					ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
+				WHERE parent_feed = '$id' AND unread = true GROUP BY ttrss_feeds.id");
+			
+			if (db_num_rows($tmp_result) > 0) {				
+				while ($l = db_fetch_assoc($tmp_result)) {
+					$count += $l["unread"];
+				}
+			}
 
 			if (!$smart_mode || $old_counters[$id] != $count) {
 				$old_counters[$id] = $count;
@@ -413,24 +426,24 @@
 				$order_by_qpart = "title";
 			}
 
-			$result = db_query($link, "SELECT *,
-				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
+			$result = db_query($link, "SELECT ttrss_feeds.*,
+				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND 
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					owner_uid = '$owner_uid') AS total,
-				(SELECT count(id) FROM ttrss_entries,ttrss_user_entries
+				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
 						AND ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid') as unread,
-				(SELECT title FROM ttrss_feed_categories 
-					WHERE id = cat_id) AS category,
 				cat_id,last_error,
-				(SELECT collapsed FROM ttrss_feed_categories
-					WHERE id = cat_id) AS collapsed
-				FROM ttrss_feeds WHERE 
-					owner_uid = '$owner_uid' AND parent_feed IS NULL
-				ORDER BY $order_by_qpart");			
-	
+				ttrss_feed_categories.title AS category,
+				ttrss_feed_categories.collapsed	
+				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
+					ON (ttrss_feed_categories.id = cat_id)				
+				WHERE 
+					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
+				ORDER BY $order_by_qpart"); 
+
 			$actid = $_GET["actid"];
 	
 			/* real feeds */
@@ -450,6 +463,19 @@
 				
 				$total = $line["total"];
 				$unread = $line["unread"];
+
+				$tmp_result = db_query($link,
+					"SELECT id,COUNT(unread) AS unread
+					FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
+						ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
+					WHERE parent_feed = '$feed_id' AND unread = true 
+					GROUP BY ttrss_feeds.id");
+			
+				if (db_num_rows($tmp_result) > 0) {				
+					while ($l = db_fetch_assoc($tmp_result)) {
+						$unread += $l["unread"];
+					}
+				}
 
 				$cat_id = $line["cat_id"];
 
@@ -1874,17 +1900,24 @@
 		}
 
 		$result = db_query($link, "SELECT 
-				id,title,feed_url,substring(last_updated,1,16) as last_updated,
-				update_interval,purge_interval,cat_id,
-				parent_feed AS parent_feed_id,
-				(SELECT title FROM ttrss_feed_categories 
-					WHERE id = cat_id) AS category,
-				(SELECT title FROM ttrss_feeds 
-					WHERE id = parent_feed_id) AS parent_title				
+				F1.id,
+				F1.title,
+				F1.feed_url,
+				substring(F1.last_updated,1,16) AS last_updated,
+				F1.parent_feed,
+				F1.update_interval,
+				F1.purge_interval,
+				F1.cat_id,
+				F2.title AS parent_title,
+				C1.title AS category				
 			FROM 
-				ttrss_feeds 
+				ttrss_feeds AS F1 
+				LEFT JOIN ttrss_feeds AS F2
+					ON (F1.parent_feed = F2.id)
+				LEFT JOIN ttrss_feed_categories AS C1
+					ON (F1.cat_id = C1.id)
 			WHERE 
-				$search_qpart owner_uid = '".$_SESSION["uid"]."' 			
+				$search_qpart F1.owner_uid = '".$_SESSION["uid"]."' 			
 			ORDER by category,$feeds_sort,title");
 
 		if (db_num_rows($result) != 0) {
