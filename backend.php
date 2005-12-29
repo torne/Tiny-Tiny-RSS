@@ -1914,8 +1914,8 @@
 		$_SESSION["pref_sort_feeds"] = $feeds_sort;
 
 		if ($feed_search) {
-			$search_qpart = "(UPPER(title) LIKE UPPER('%$feed_search%') OR
-				UPPER(feed_url) LIKE UPPER('%$feed_search%')) AND";
+			$search_qpart = "(UPPER(F1.title) LIKE UPPER('%$feed_search%') OR
+				UPPER(F1.feed_url) LIKE UPPER('%$feed_search%')) AND";
 		} else {
 			$search_qpart = "";
 		}
@@ -2363,9 +2363,10 @@
 				ttrss_filter_types.description AS filter_type_descr,
 				feed_id,
 				ttrss_filter_actions.description AS action_description,
-				(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
+				ttrss_feeds.title AS feed_title
 			FROM 
-				ttrss_filters,ttrss_filter_types,ttrss_filter_actions
+				ttrss_filters,ttrss_filter_types,ttrss_filter_actions LEFT JOIN
+					ttrss_feeds ON (feed_id = ttrss_feeds.id)
 			WHERE
 				filter_type = ttrss_filter_types.id AND
 				ttrss_filter_actions.id = action_id AND
@@ -2994,6 +2995,8 @@
 			}
 
 			$_SESSION["prefs_op_result"] = "save-config";
+
+			$_SESSION["prefs_cache"] = false;
 
 			foreach (array_keys($_POST) as $pref_name) {
 			

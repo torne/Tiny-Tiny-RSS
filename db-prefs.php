@@ -1,8 +1,11 @@
 <?
-	// TODO cache last query results
-
 	require_once "config.php";
 	require_once "db.php";
+
+	session_start();
+
+	if (!$_SESSION["prefs_cache"])
+		$_SESSION["prefs_cache"] = array();
 
 	function get_pref($link, $pref_name, $user_id = false) {
 
@@ -12,6 +15,11 @@
 			$user_id = $_SESSION["uid"];
 		} else {
 			$user_id = sprintf("%d", $user_id);
+			$prefs_cache = false;
+		}
+	
+		if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
+			return $_SESSION["prefs_cache"][$pref_name];
 		}
 
 		$result = db_query($link, "SELECT 
@@ -29,12 +37,17 @@
 			$type_name = db_fetch_result($result, 0, "type_name");
 
 			if ($type_name == "bool") {			
-				return $value == "true";				
+				$retv = $value == "true";				
 			} else if ($type_name == "integer") {			
-				return sprintf("%d", $value);				
+				$retv = sprintf("%d", $value);				
 			} else {
-				return $value;
+				$retv = $value;
 			}
+
+			if ($user_id = $_SESSION["uid"]) {
+				$_SESSION["prefs_cache"][$pref_name] = $value;
+			}
+			return $value;
 			
 		} else {		
 			die("Fatal error, unknown preferences key: $pref_name");			
