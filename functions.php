@@ -101,7 +101,7 @@
 //		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT feed_url,id,
-			substring(last_updated,1,19) as last_updated,
+			SUBSTRING(last_updated,1,19) AS last_updated,
 			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'
 			ORDER BY last_updated DESC");
 
@@ -712,9 +712,9 @@
 	function make_password($length = 8) {
 
 		$password = "";
-		$possible = "0123456789bcdfghjkmnpqrstvwxyz"; 
-    
-		$i = 0; 
+		$possible = "0123456789abcdfghjkmnpqrstvwxyzABCDFGHJKMNPQRSTVWXYZ"; 
+		
+   	$i = 0; 
     
 		while ($i < $length) { 
 			$char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
@@ -816,9 +816,10 @@
 	}
 
 	function get_user_theme_path($link) {
-		$result = db_query($link, "SELECT theme_path FROM ttrss_themes
-			WHERE id = (SELECT theme_id FROM ttrss_users 
-				WHERE id = " . $_SESSION["uid"] . ")");
+		$result = db_query($link, "SELECT theme_path 
+			FROM 
+				ttrss_themes,ttrss_users
+			WHERE ttrss_themes.id = theme_id AND ttrss_users.id = " . $_SESSION["uid"]);
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "theme_path");
 		} else {
