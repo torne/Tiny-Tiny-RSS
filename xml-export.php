@@ -66,7 +66,7 @@
 
 	print "<schema_version>$schema_version</schema_version>";
 
-	if ($schema_version > MAX_SCHEMA_VERSION) {
+	if ($schema_version > 1) {
 		$owner_uid = $_SESSION["uid"];
 		print "<owner_uid>$owner_uid</owner_uid>";
 	}
@@ -104,7 +104,7 @@
 				feed_id = ttrss_feeds.id $marked_qpart $unread_qpart 
 			ORDER BY ttrss_entries.id");
 				
-	} else if ($schema_version == 2) {
+	} else if ($schema_version >= 2 && $schema_version <= MAX_SCHEMA_VERSION) {
 
 		$result = db_query($link, "SELECT
 				ttrss_entries.title AS title,
