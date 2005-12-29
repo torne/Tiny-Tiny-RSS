@@ -991,9 +991,30 @@
 			if (sprintf("%d", $feed) != 0) {
 			
 				if ($feed > 0) {
-					db_query($link, "UPDATE ttrss_user_entries 
-						SET unread = false,last_read = NOW() 
-						WHERE feed_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+					$tmp_result = db_query($link, "SELECT id 
+						FROM ttrss_feeds WHERE parent_feed = '$feed'
+						ORDER BY cat_id,title");
+
+					$parent_ids = array();
+
+					if (db_num_rows($tmp_result) > 0) {
+						while ($p = db_fetch_assoc($tmp_result)) {
+							array_push($parent_ids, "feed_id = " . $p["id"]);
+						}
+
+						$children_qpart = implode(" OR ", $parent_ids);
+						
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW() 
+							WHERE (feed_id = '$feed' OR $children_qpart) 
+							AND owner_uid = " . $_SESSION["uid"]);
+
+					} else {						
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW() 
+							WHERE feed_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+					}
 						
 				} else if ($feed < 0 && $feed > -10) { // special, like starred
 
