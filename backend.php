@@ -1511,7 +1511,7 @@
 
 			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 				FROM ttrss_feeds WHERE auth_login = '' AND auth_pass = '' 
-				GROUP BY feed_url ORDER BY subscribers LIMIT 50");
+				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
 			
 			print "<ul class='browseFeedList' id='browseFeedList'>";
 			
