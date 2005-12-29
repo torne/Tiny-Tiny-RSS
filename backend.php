@@ -2417,8 +2417,8 @@
 				ttrss_filter_actions.description AS action_description,
 				ttrss_feeds.title AS feed_title
 			FROM 
-				ttrss_filters,ttrss_filter_types,ttrss_filter_actions LEFT JOIN
-					ttrss_feeds ON (feed_id = ttrss_feeds.id)
+				ttrss_filter_types,ttrss_filter_actions,ttrss_filters LEFT JOIN
+					ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id)
 			WHERE
 				filter_type = ttrss_filter_types.id AND
 				ttrss_filter_actions.id = action_id AND
