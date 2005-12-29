@@ -1542,10 +1542,10 @@
 			print "</ul>";
 
 			print "<div align='center'>
-				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Cancel\">
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"feedBrowserSubscribe()\" value=\"Subscribe\"></div>";
+				onclick=\"feedBrowserSubscribe()\" value=\"Subscribe\">
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Cancel\"></div>";
 
 			print "</div>";
 			return;
@@ -1692,10 +1692,10 @@
 			print "</div>";
 
 			print "<div align='center'>
-				<input type='submit' class='button'			
-				onclick=\"feedEditCancel()\" value=\"Cancel\">
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"feedEditSave()\" value=\"Save\"></div>";
+				onclick=\"feedEditSave()\" value=\"Save\">
+				<input type='submit' class='button'			
+				onclick=\"feedEditCancel()\" value=\"Cancel\"></div>";
 			return;
 		}
 
@@ -2577,11 +2577,11 @@
 			print "<p>";
 	
 			if ($subop == "edit") {
-				print "Edit feed:
+				print "Edit filter:
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">
+						onclick=\"javascript:filterEditSave()\" value=\"Save\">
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:filterEditSave()\" value=\"Save\">";
+						onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">";
 						
 			} else {
 	
@@ -2815,9 +2815,9 @@
 					<input type=\"submit\" class=\"button\" 
 						onclick=\"javascript:labelTest()\" value=\"Test\">
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">
+						onclick=\"javascript:labelEditSave()\" value=\"Save\">
 					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:labelEditSave()\" value=\"Save\">";
+						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">";
 						
 			} else {
 	
@@ -3631,11 +3631,11 @@
 		print "<p>";
 
 		if ($subop == "edit") {
-			print "Edit label:
+			print "Edit user:
 				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:userEditCancel()\" value=\"Cancel\">
+					onclick=\"javascript:userEditSave()\" value=\"Save\">
 				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:userEditSave()\" value=\"Save\">";
+					onclick=\"javascript:userEditCancel()\" value=\"Cancel\">";
 					
 		} else {
 
