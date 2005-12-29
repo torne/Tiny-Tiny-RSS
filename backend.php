@@ -3505,7 +3505,7 @@
 			$uid = $line["id"];
 			$edit_uid = $_GET["id"];
 
-			if ($uid == $_SESSION["uid"] || ($subop == "edit" && $uid != $edit_uid)) {
+			if ($subop == "edit" && $uid != $edit_uid) {
 				$class .= "Grayed";
 				$this_row_id = "";
 			} else {
