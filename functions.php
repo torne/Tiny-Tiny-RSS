@@ -370,12 +370,23 @@
 							NOW(), 
 							'$entry_comments',
 							'$num_comments')");
+				} else {
+					// we keep encountering the entry in feeds, so we need to
+					// update date_entered column so that we don't get horrible
+					// dupes when the entry gets purged and reinserted again e.g.
+					// in the case of SLOW SLOW OMG SLOW updating feeds
+
+					$base_entry_id = db_fetch_result($result, 0, "id");
+
+					db_query($link, "UPDATE ttrss_entries SET date_entered = NOW()
+						WHERE id = '$base_entry_id'");
 				}
 
 				// now it should exist, if not - bad luck then
 
 				$result = db_query($link, "SELECT 
 						id,content_hash,no_orig_date,title,
+						substring(date_entered,1,19) as date_entered,
 						substring(updated,1,19) as updated,
 						num_comments
 					FROM 
@@ -388,6 +399,8 @@
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_title = db_fetch_result($result, 0, "title");
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
+					$orig_date_entered = strtotime(db_fetch_result($result, 
+						0, "date_entered"));
 
 					$ref_id = db_fetch_result($result, 0, "id");
 
