@@ -1585,7 +1585,7 @@
 			$parent_feed = db_fetch_result($result, 0, "parent_feed");
 		
 			print "<select id=\"iedit_parent_feed\">";
-			print "<option id=\"0\">None</option>";
+			print "<option id=\"0\">Not linked</option>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id) {
