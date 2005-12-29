@@ -1568,7 +1568,7 @@
 					$details["id"] . "\">";
 
 				print "<li id=\"FBROW-".$details["id"]."\">$check_box $feed_icon" . 
-					$details["title"] . 
+					db_unescape_string($details["title"]) . 
 					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
 
 					++$feedctr;
