@@ -1273,9 +1273,9 @@
 				print "<td class=\"headlineActions\">
 					Select: 
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-									'RROW-', 'RCHK-', true)\">All</a>,
+									'RROW-', 'RCHK-', true, '', true)\">All</a>,
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-									'RROW-', 'RCHK-', true, 'Unread')\">Unread</a>,
+									'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
 									'RROW-', 'RCHK-', false)\">None</a>
 						&nbsp;&nbsp;

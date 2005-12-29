@@ -557,7 +557,7 @@ function selectTableRowById(elem_id, check_id, do_select) {
 }
 
 function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select, 
-	classcheck) {
+	classcheck, reset_others) {
 
 	var content = document.getElementById(content_id);
 
@@ -571,14 +571,18 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 	
 			if (content.rows[i].id.match(prefix)) {
 				selectTableRow(content.rows[i], do_select);
-			}
+			
+				var row_id = content.rows[i].id.replace(prefix, "");
+				var check = document.getElementById(check_prefix + row_id);
 
-			var row_id = content.rows[i].id.replace(prefix, "");
-			var check = document.getElementById(check_prefix + row_id);
-
-			if (check) {
-				check.checked = do_select;
+				if (check) {
+					check.checked = do_select;
+				}
+			} else if (reset_others) {
+				selectTableRow(content.rows[i], false);
 			}
+		} else if (reset_others) {
+			selectTableRow(content.rows[i], false);
 		}
 	}
 }
