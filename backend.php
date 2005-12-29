@@ -1501,6 +1501,27 @@
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
 
+		if ($subop == "massSubscribe") {
+			$ids = split(",", db_escape_string($_GET["ids"]));
+
+			foreach ($ids as $id) {
+				$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
+					WHERE id = '$id'");
+
+				$feed_url = db_fetch_result($result, 0, "feed_url");
+				$title = db_fetch_result($result, 0, "title");
+
+				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {			
+					$result = db_query($link,
+						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+						VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+				}
+			}
+		}		
+
 		if ($subop == "browse") {
 			
 			print "<div class=\"infoBoxContents\">";
@@ -1533,9 +1554,11 @@
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 
-				$check_box = "<input class='feedBrowseCB' type=\"checkbox\" id=\"BFCHK-" . $details["id"] . "\">";
+				$check_box = "<input class='feedBrowseCB' type=\"checkbox\" id=\"FBCHK-" . 
+					$details["id"] . "\">";
 
-				print "<li>$check_box $feed_icon" . $details["title"] . 
+				print "<li id=\"FBROW-".$details["id"]."\">$check_box $feed_icon" . 
+					$details["title"] . 
 					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
 								}
 

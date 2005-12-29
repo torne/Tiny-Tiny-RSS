@@ -1293,3 +1293,37 @@ function browseFeeds() {
 	xmlhttp.send(null);
 
 }
+
+function feedBrowserSubscribe() {
+	try {
+		var list = document.getElementById("browseFeedList");
+
+		var selected = new Array();
+
+		for (i = 0; i < list.childNodes.length; i++) {
+			var child = list.childNodes[i];
+			if (child.id && child.id.match("FBROW-")) {
+				var id = child.id.replace("FBROW-", "");
+				
+				var cb = document.getElementById("FBCHK-" + id);
+
+				if (cb.checked) {
+					selected.push(id);
+				}
+			}
+		}
+
+		if (selected.length > 0) {
+			closeInfoBox();
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=massSubscribe&ids="+
+				param_escape(selected.toString()), true);
+			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.send(null);
+		} else {
+			alert("No feeds are selected.");
+		}
+
+	} catch (e) {
+		exception_error("feedBrowserSubscribe", e);
+	}
+}
