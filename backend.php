@@ -1632,9 +1632,20 @@
 			$row_class = toggleEvenOdd($row_class);
 			print "<tr class='$row_class'><td>Link to:</td>";
 
+			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
+				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
+
+			$linked_count = db_fetch_result($tmp_result, 0, "count");
+
+
 			$parent_feed = db_fetch_result($result, 0, "parent_feed");
-		
-			print "<select id=\"iedit_parent_feed\">";
+
+			if ($linked_count > 0) {
+				$disabled = "disabled";
+			}
+
+			print "<select $disabled  id=\"iedit_parent_feed\">";
+			
 			print "<option id=\"0\">Not linked</option>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
