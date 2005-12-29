@@ -3666,9 +3666,9 @@
 		print "<h1>Subscribed feeds</h1>";
 
 		$result = db_query($link, "SELECT id,title,site_url FROM ttrss_feeds
-			WHERE owner_uid = '$uid' ORDER BY title LIMIT 20");
+			WHERE owner_uid = '$uid' ORDER BY title");
 
-		print "<ul class=\"nomarks\">";
+		print "<ul class=\"userFeedList\">";
 
 		while ($line = db_fetch_assoc($result)) {
 
