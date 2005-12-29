@@ -1,6 +1,8 @@
 <?
 	session_start();
 
+	define('MAX_SCHEMA_VERSION', 4);
+
 	require_once "config.php";
 	require_once "functions.php";
 	require_once "db.php";
@@ -64,7 +66,7 @@
 
 	print "<schema_version>$schema_version</schema_version>";
 
-	if ($schema_version > 1) {
+	if ($schema_version > MAX_SCHEMA_VERSION) {
 		$owner_uid = $_SESSION["uid"];
 		print "<owner_uid>$owner_uid</owner_uid>";
 	}
