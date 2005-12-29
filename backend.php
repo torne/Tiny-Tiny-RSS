@@ -28,7 +28,7 @@
 		exit;
 	}
 
-	define('SCHEMA_VERSION', 3);
+	define('SCHEMA_VERSION', 4);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
