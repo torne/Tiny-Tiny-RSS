@@ -19,7 +19,8 @@
 		}
 	
 		if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
-			return $_SESSION["prefs_cache"][$pref_name];
+			$tuple = $_SESSION["prefs_cache"][$pref_name];
+			return convert_pref_type($tuple["value"], $tuple["type"]);
 		}
 
 		$result = db_query($link, "SELECT 
@@ -36,22 +37,24 @@
 			$value = db_fetch_result($result, 0, "value");
 			$type_name = db_fetch_result($result, 0, "type_name");
 
-			if ($type_name == "bool") {			
-				$retv = $value == "true";				
-			} else if ($type_name == "integer") {			
-				$retv = sprintf("%d", $value);				
-			} else {
-				$retv = $value;
-			}
-
 			if ($user_id = $_SESSION["uid"]) {
-				$_SESSION["prefs_cache"][$pref_name] = $value;
+				$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
+				$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
 			}
-			return $value;
+			return convert_pref_type($value, $type_name);
 			
 		} else {		
 			die("Fatal error, unknown preferences key: $pref_name");			
 		}
 	}
 
+	function convert_pref_type($value, $type_name) {
+		if ($type_name == "bool") {			
+			return $value == "true";				
+		} else if ($type_name == "integer") {			
+			return sprintf("%d", $value);				
+		} else {
+			return $value;
+		}
+	}
 ?>
