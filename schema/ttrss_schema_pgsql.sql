@@ -50,6 +50,7 @@ create table ttrss_feeds (id serial not null primary key,
 	site_url varchar(250) not null default '',
 	auth_login varchar(250) not null default '',
 	parent_feed integer default null references ttrss_feeds(id) on delete set null,
+	private boolean not null default false,
 	auth_pass varchar(250) not null default '');	
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
