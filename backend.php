@@ -3940,8 +3940,6 @@
 	
 		print "<div class=\"warning\">Under construction</div>";
 
-		print "<h1>Feed browser</h1>";
-
 		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 			FROM ttrss_feeds 
 			WHERE auth_login = '' AND auth_pass = '' AND private = false
