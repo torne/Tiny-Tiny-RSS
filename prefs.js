@@ -676,7 +676,11 @@ function feedEditSave() {
 		var purge_intl = document.getElementById("iedit_purgintl").value;
 		var fcat = document.getElementById("iedit_fcat");
 	
-		var fcat_id = fcat[fcat.selectedIndex].id;
+		var fcat_id = 0;
+	
+		if (fcat) {	
+			fcat_id = fcat[fcat.selectedIndex].id;
+		}
 
 		var pfeed = document.getElementById("iedit_parent_feed");
 		var parent_feed_id = pfeed[pfeed.selectedIndex].id;
