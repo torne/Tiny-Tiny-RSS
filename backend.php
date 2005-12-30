@@ -4010,13 +4010,13 @@
 				
 			return;
 		}
-	
+
 		print "<div class=\"warning\">Under construction</div>";
 
 		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 			FROM ttrss_feeds 
 			WHERE auth_login = '' AND auth_pass = '' AND private = false
-			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
+			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 100");
 		
 		print "<ul class='nomarks' id='browseBigFeedList'>";
 
