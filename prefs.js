@@ -45,6 +45,8 @@ function feedlist_callback() {
 		try {	
 			var container = document.getElementById('prefContent');	
 			container.innerHTML=xmlhttp.responseText;
+			selectTab("feedConfig", true);
+
 			if (active_feed) {
 				var row = document.getElementById("FEEDR-" + active_feed);
 				if (row) {
@@ -1206,25 +1208,30 @@ function updatePrefsList() {
 
 }
 
-function selectTab(id) {
+function selectTab(id, noupdate) {
+
+//	alert(id);
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
 
-	if (id == "feedConfig") {
-		updateFeedList();
-	} else if (id == "filterConfig") {
-		updateFilterList();
-	} else if (id == "labelConfig") {
-		updateLabelList();
-	} else if (id == "genConfig") {
-		updatePrefsList();
-	} else if (id == "userConfig") {
-		updateUsersList();
-	} else if (id == "feedBrowser") {
-		updateBigFeedBrowser();
+	if (!noupdate) {
+
+		if (id == "feedConfig") {
+			updateFeedList();
+		} else if (id == "filterConfig") {
+			updateFilterList();
+		} else if (id == "labelConfig") {
+			updateLabelList();
+		} else if (id == "genConfig") {
+			updatePrefsList();
+		} else if (id == "userConfig") {
+			updateUsersList();
+		} else if (id == "feedBrowser") {
+			updateBigFeedBrowser();
+		}
 	}
 
 	var tab = document.getElementById(active_tab + "Tab");

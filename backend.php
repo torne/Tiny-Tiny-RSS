@@ -1504,6 +1504,8 @@
 		if ($subop == "massSubscribe") {
 			$ids = split(",", db_escape_string($_GET["ids"]));
 
+			$subscribed = array();
+
 			foreach ($ids as $id) {
 				$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
 					WHERE id = '$id'");
@@ -1518,7 +1520,20 @@
 					$result = db_query($link,
 						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
 						VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+
+					array_push($subscribed, $title);
 				}
+			}
+
+			if (count($subscribed) > 0) {
+				print "<div class=\"notice\">";
+				print "<b>Subscribed to feeds:</b>";
+				print "<ul class=\"nomarks\">";
+				foreach ($subscribed as $title) {
+					print "<li>$title</li>";
+				}
+				print "</ul>";
+				print "</div>";
 			}
 		}		
 
