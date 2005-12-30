@@ -1373,7 +1373,7 @@
 
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
-						200);
+						100);
 				}
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
