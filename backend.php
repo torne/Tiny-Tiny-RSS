@@ -2015,7 +2015,7 @@
 				<input type=\"submit\" class=\"button\"
 				onclick=\"javascript:addFeed()\" value=\"Add feed\">
 				&nbsp;
-				(<a href='javascript:browseFeeds()'>Browse feeds</a>)
+				(<a href='javascript:browseFeeds()'>Top 50</a>)
 			</td><td align='right'>
 				<input id=\"feed_search\" size=\"20\"  
 				onchange=\"javascript:updateFeedList()\"
@@ -3927,6 +3927,88 @@
 			<input type='submit' class='button'			
 			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
 	}	
+
+	if ($op == "pref-feed-browser") {
+
+		$subop = $_REQUEST["subop"];
+
+		if ($subop == "details") {
+			$id = db_escape_string($_GET["id"]);
+			print "-- nasty details about feed $id --";			
+			return;
+		}
+	
+		print "<div class=\"warning\">Under construction</div>";
+
+		print "<h1>Feed browser</h1>";
+
+		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
+			FROM ttrss_feeds 
+			WHERE auth_login = '' AND auth_pass = '' AND private = false
+			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
+		
+		print "<ul class='nomarks' id='browseFeedList'>";
+
+		$feedctr = 0;
+		
+		while ($line = db_fetch_assoc($result)) {
+			$feed_url = $line["feed_url"];
+			$subscribers = $line["subscribers"];
+
+			$sub_result = db_query($link, "SELECT id
+				FROM ttrss_feeds WHERE feed_url = '$feed_url' AND owner_uid =" . 
+				$_SESSION["uid"]);
+
+			if (db_num_rows($sub_result) > 0) {
+				continue; // already subscribed
+			}
+		
+			$det_result = db_query($link, "SELECT site_url,title,id 
+				FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+
+			$details = db_fetch_assoc($det_result);
+		
+			$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+
+			if (file_exists($icon_file) && filesize($icon_file) > 0) {
+					$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+						"/".$details["id"].".ico\">";
+			} else {
+				$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+			}
+
+			$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+				type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
+
+			$class = ($feedctr % 2) ? "even" : "odd";
+
+			print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+				"$feed_icon ";
+				
+			print "<a href=\"javascript:browserExpand('".$details["id"]."')\">" . 
+				$details["title"] ."</a>&nbsp;" .
+				"<span class='subscribers'>($subscribers)</span>";
+			
+			print "<div class=\"browserDetails\" id=\"BRDET-" . $details["id"] . "\">";
+			print "</div>";
+				
+			print "</li>";
+
+				++$feedctr;
+		}
+
+		if ($feedctr == 0) {
+			print "<li>No feeds found to subscribe.</li>";
+		}
+
+		print "</ul>";
+
+		print "<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
+			value=\"Subscribe\">";
+
+		print "</div>";
+
+	}
 
 	db_close($link);
 ?>

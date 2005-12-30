@@ -5,8 +5,8 @@ var active_feed_cat = false;
 var active_filter = false;
 var active_label = false;
 var active_user = false;
-
 var active_tab = false;
+var feed_to_expand = false;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -25,6 +25,19 @@ try {
 
 if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp = new XMLHttpRequest();
+}
+
+function expand_feed_callback() {
+	if (xmlhttp.readyState == 4) {
+		try {	
+			var container = document.getElementById("BRDET-" + feed_to_expand);	
+			container.innerHTML=xmlhttp.responseText;
+			container.style.display = "block";
+			p_notify("");
+		} catch (e) {
+			exception_error("expand_feed_callback", e);
+		}
+	}
 }
 
 function feedlist_callback() {
@@ -92,6 +105,14 @@ function labellist_callback() {
 				checkbox.checked = true;
 			}
 		}
+		p_notify("");
+	}
+}
+
+function feed_browser_callback() {
+	var container = document.getElementById('prefContent');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
 		p_notify("");
 	}
 }
@@ -1202,6 +1223,8 @@ function selectTab(id) {
 		updatePrefsList();
 	} else if (id == "userConfig") {
 		updateUsersList();
+	} else if (id == "feedBrowser") {
+		updateBigFeedBrowser();
 	}
 
 	var tab = document.getElementById(active_tab + "Tab");
@@ -1332,5 +1355,39 @@ function feedBrowserSubscribe() {
 
 	} catch (e) {
 		exception_error("feedBrowserSubscribe", e);
+	}
+}
+
+function updateBigFeedBrowser() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	p_notify("Loading, please wait...");
+
+	xmlhttp.open("GET", "backend.php?op=pref-feed-browser", true);
+	xmlhttp.onreadystatechange=feed_browser_callback;
+	xmlhttp.send(null);
+
+}
+
+function browserExpand(id) {
+	try {
+/*		if (feed_to_expand && feed_to_expand != id) {
+			var d = document.getElementById("BRDET-" + feed_to_expand);
+			d.style.display = "none";
+		} */
+	
+		feed_to_expand = id;
+
+		xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
+			+ param_escape(id), true);
+		xmlhttp.onreadystatechange=expand_feed_callback;
+		xmlhttp.send(null);
+
+	} catch (e) {
+		exception_error("browserExpand", e);
 	}
 }
