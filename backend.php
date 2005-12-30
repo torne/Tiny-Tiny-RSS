@@ -1565,11 +1565,13 @@
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 
-				$check_box = "<input class='feedBrowseCB' type=\"checkbox\" id=\"FBCHK-" . 
-					$details["id"] . "\">";
+				$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+					type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
 
-				print "<li id=\"FBROW-".$details["id"]."\">$check_box $feed_icon" . 
-					db_unescape_string($details["title"]) . 
+				$class = ($feedctr % 2) ? "even" : "odd";
+
+				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+					"$feed_icon " . db_unescape_string($details["title"]) . 
 					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
 
 					++$feedctr;
