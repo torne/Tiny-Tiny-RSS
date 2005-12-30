@@ -1752,7 +1752,8 @@
 
 			print "<tr class='$row_class'><td>Options:</td>";
 			print "<td><input type=\"checkbox\" id=\"iedit_private\" 
-				$checked> Hide from feed browser</td></tr>";
+				$checked><label for=\"iedit_private\">Hide from feed browser</label>
+				</td></tr>";
 
 			print "</table>";
 			print "</div>";
