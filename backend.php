@@ -3874,7 +3874,7 @@
 			$site_url = db_fetch_result($result, 0, "site_url");
 	
 			$result = db_query($link, "SELECT COUNT(id) AS subscribed
-						FROM ttrss_feeds WHERE feed_url = '$feed_url'");
+						FROM ttrss_feeds WHERE feed_url = '$feed_url' AND private = false");
 	
 			$subscribed = db_fetch_result($result, 0, "subscribed");
 	
