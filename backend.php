@@ -1697,7 +1697,6 @@
 
 			$linked_count = db_fetch_result($tmp_result, 0, "count");
 
-
 			$parent_feed = db_fetch_result($result, 0, "parent_feed");
 
 			if ($linked_count > 0) {
@@ -1717,7 +1716,8 @@
 			}
 
 			$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-				WHERE owner_uid = ".$_SESSION["uid"]." $cat_qpart ORDER BY title");
+				WHERE id != '$feed_id' AND owner_uid = ".$_SESSION["uid"]." 
+					$cat_qpart ORDER BY title");
 
 				if (db_num_rows($tmp_result) > 0) {
 					print "<option disabled>--------</option>";
