@@ -111,8 +111,6 @@ function backend_sanity_check_callback() {
 	if (xmlhttp.readyState == 4) {
 
 		try {
-
-			alert(xmlhttp.responseText);
 		
 			if (!xmlhttp.responseXML) {
 				fatalError(3);
