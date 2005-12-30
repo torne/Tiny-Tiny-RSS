@@ -580,9 +580,25 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 				}
 			} else if (reset_others) {
 				selectTableRow(content.rows[i], false);
+
+				var row_id = content.rows[i].id.replace(prefix, "");
+				var check = document.getElementById(check_prefix + row_id);
+
+				if (check) {
+					check.checked = false;
+				}
+
 			}
 		} else if (reset_others) {
 			selectTableRow(content.rows[i], false);
+
+			var row_id = content.rows[i].id.replace(prefix, "");
+			var check = document.getElementById(check_prefix + row_id);
+
+			if (check) {
+				check.checked = false;
+			}
+
 		}
 	}
 }
