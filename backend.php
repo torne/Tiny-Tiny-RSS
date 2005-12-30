@@ -748,7 +748,9 @@
 		}
 
 		if ($subop == "sanityCheck") {
-			sanity_check($link);
+			if (sanity_check($link)) {
+				print "<error error-code=\"0\"/>";
+			}
 		}
 
 		if ($subop == "globalPurge") {
