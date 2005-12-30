@@ -1392,7 +1392,8 @@
 					if ($line["feed_title"]) {			
 						print "<td class='hlContent'>$content_link</td>";
 						print "<td class='hlFeed'>
-							<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>&nbsp;</td>";
+							<a href='javascript:viewfeed($feed_id)'>".
+								$line["feed_title"]."</a>&nbsp;</td>";
 					} else {			
 						print "<td class='hlContent' valign='middle'>";
 		
@@ -4012,8 +4013,6 @@
 				
 			return;
 		}
-
-		print "<div class=\"warning\">Under construction</div>";
 
 		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 			FROM ttrss_feeds 
