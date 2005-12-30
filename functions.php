@@ -867,7 +867,16 @@
 			return "false";
 		}
 	}
+
+	function sql_bool_to_bool($s) {
+		if ($s == "t" || $s == "1") {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
+
 	function toggleEvenOdd($a) {
 		if ($a == "even") 
 			return "odd";

@@ -1531,7 +1531,8 @@
 			print "<p>Showing top 50 registered feeds, sorted by popularity:</p>";
 
 			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
-				FROM ttrss_feeds WHERE auth_login = '' AND auth_pass = '' 
+				FROM ttrss_feeds 
+				WHERE auth_login = '' AND auth_pass = '' AND private = false
 				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
 			
 			print "<ul class='browseFeedList' id='browseFeedList'>";
@@ -1738,6 +1739,19 @@
 			print "<td><input type=\"password\" id=\"iedit_pass\" 
 				value=\"$auth_pass\"></td></tr>";
 
+			$row_class = toggleEvenOdd($row_class);
+			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
+
+			if ($private) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<tr class='$row_class'><td>Options:</td>";
+			print "<td><input type=\"checkbox\" id=\"iedit_private\" 
+				$checked> Hide from feed browser</td></tr>";
+
 			print "</table>";
 			print "</div>";
 
@@ -1759,6 +1773,7 @@
 			$auth_login = db_escape_string($_POST["login"]);
 			$auth_pass = db_escape_string($_POST["pass"]);
 			$parent_feed = db_escape_string($_POST["pfeed"]);
+			$private = db_escape_string($_POST["private"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
@@ -1791,7 +1806,8 @@
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl',
 				auth_login = '$auth_login',
-				auth_pass = '$auth_pass'
+				auth_pass = '$auth_pass',
+				private = '$private'				
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
 		}
 

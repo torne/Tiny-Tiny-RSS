@@ -675,6 +675,8 @@ function feedEditSave() {
 		var upd_intl = document.getElementById("iedit_updintl").value;
 		var purge_intl = document.getElementById("iedit_purgintl").value;
 		var fcat = document.getElementById("iedit_fcat");
+
+		var private = document.getElementById("iedit_private").checked;
 	
 		var fcat_id = 0;
 	
@@ -705,8 +707,9 @@ function feedEditSave() {
 		var query = "op=pref-feeds&subop=editSave&id=" +
 			feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
 			"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
-			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +
-			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass);
+			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +			
+			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass) +
+			"&private=" + param_escape(private);
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;
