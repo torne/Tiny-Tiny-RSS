@@ -3991,7 +3991,7 @@
 			WHERE auth_login = '' AND auth_pass = '' AND private = false
 			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
 		
-		print "<ul class='nomarks' id='browseFeedList'>";
+		print "<ul class='nomarks' id='browseBigFeedList'>";
 
 		$feedctr = 0;
 		
