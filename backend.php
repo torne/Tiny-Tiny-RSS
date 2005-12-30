@@ -748,7 +748,7 @@
 		}
 
 		if ($subop == "sanityCheck") {
-			sanity_check();
+			sanity_check($link);
 		}
 
 		if ($subop == "globalPurge") {
