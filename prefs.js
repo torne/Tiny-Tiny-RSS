@@ -1335,6 +1335,8 @@ function feedBrowserSubscribe() {
 	try {
 		var list = document.getElementById("browseFeedList");
 
+		if (!list) list = document.getElementById("browseBigFeedList");
+
 		var selected = new Array();
 
 		for (i = 0; i < list.childNodes.length; i++) {
