@@ -4016,8 +4016,9 @@
 
 		print "</ul>";
 
-		print "<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
-			value=\"Subscribe\">";
+		print "<p>Selection: 
+			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
+			value=\"Subscribe\"></p>";
 
 		print "</div>";
 
