@@ -1380,19 +1380,27 @@ function updateBigFeedBrowser() {
 
 }
 
-function browserExpand(id) {
+function browserToggleExpand(id) {
 	try {
 /*		if (feed_to_expand && feed_to_expand != id) {
 			var d = document.getElementById("BRDET-" + feed_to_expand);
 			d.style.display = "none";
 		} */
-	
-		feed_to_expand = id;
 
-		xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
-			+ param_escape(id), true);
-		xmlhttp.onreadystatechange=expand_feed_callback;
-		xmlhttp.send(null);
+		var d = document.getElementById("BRDET-" + id);
+
+		if (d.style.display == "block") {		
+			d.style.display = "none";
+			
+		} else {
+	
+			feed_to_expand = id;
+
+			xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
+				+ param_escape(id), true);
+			xmlhttp.onreadystatechange=expand_feed_callback;
+			xmlhttp.send(null);
+		}
 
 	} catch (e) {
 		exception_error("browserExpand", e);

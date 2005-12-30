@@ -3949,7 +3949,38 @@
 
 		if ($subop == "details") {
 			$id = db_escape_string($_GET["id"]);
-			print "-- nasty details about feed $id --";			
+
+			$result = db_query($link, "SELECT title,content,
+					substring(date_entered,1,19) as date_entered,
+					substring(updated,1,19) as updated
+				FROM ttrss_entries,ttrss_user_entries 
+				WHERE	id = ref_id AND feed_id = '$id'
+				ORDER BY updated DESC LIMIT 5");
+
+			if (db_num_rows($result) > 0) {
+
+				print "<b>Feed information:</b>";
+				print "<div class=\"detailsPart\">FIXME</div>";
+				
+				print "<b>Last headlines:</b><br>";
+				
+				print "<div class=\"detailsPart\">";
+				print "<ul class=\"compact\">";
+				while ($line = db_fetch_assoc($result)) {
+
+					if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+						$entry_dt = smart_date_time(strtotime($line["updated"]));
+					} else {
+						$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+						$entry_dt = date($short_date, strtotime($line["updated"]));
+					}				
+		
+					print "<li>" . $line["title"] . 
+						"&nbsp;<span class=\"insensitive\">($entry_dt)</span></li>";	
+				}		
+				print "</ul></div>";
+			}
+				
 			return;
 		}
 	
@@ -3998,7 +4029,7 @@
 			print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
 				"$feed_icon ";
 				
-			print "<a href=\"javascript:browserExpand('".$details["id"]."')\">" . 
+			print "<a href=\"javascript:browserToggleExpand('".$details["id"]."')\">" . 
 				$details["title"] ."</a>&nbsp;" .
 				"<span class='subscribers'>($subscribers)</span>";
 			
