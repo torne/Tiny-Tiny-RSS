@@ -3376,6 +3376,8 @@
 				print "<p><input class=\"button\" type=\"submit\" 
 					value=\"Change e-mail\" name=\"subop\">";
 
+				print "</form>";
+
 				print "<form action=\"backend.php\" method=\"POST\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
