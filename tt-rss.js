@@ -72,6 +72,31 @@ function dlg_display_callback() {
 	} 
 }
 
+function hide_unread_callback() {
+	if (xmlhttp.readyState == 4) {
+
+		try {
+
+			var reply = xmlhttp.responseXML.firstChild.firstChild;
+			var value = reply.getAttribute("value");
+			var hide_read_feeds = (value != "false")
+			var feeds_doc = window.frames["feeds-frame"].document;
+	
+			hideOrShowFeeds(feeds_doc, hide_read_feeds);
+	
+			if (hide_read_feeds) {
+				setCookie("ttrss_vf_hreadf", 1);
+			} else {
+				setCookie("ttrss_vf_hreadf", 0);
+			} 
+
+		} catch (e) {
+			exception_error("hide_unread_callback", e);
+		}
+
+	} 
+}
+
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {
@@ -504,6 +529,11 @@ function qaddFilter() {
 
 function displayDlg(id, param) {
 
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
 	notify("");
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
@@ -523,6 +553,11 @@ function closeDlg() {
 function qfdDelete(feed_id) {
 
 	notify("Removing feed...");
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
 
 //	var feeds_doc = window.frames["feeds-frame"].document;
 //	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
@@ -563,19 +598,26 @@ function updateFeedTitle(t) {
 }
 
 function toggleDispRead() {
-	var hide_read_feeds = (getCookie("ttrss_vf_hreadf") == 1);
+	try {
 
-	hide_read_feeds = !hide_read_feeds;
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
 
-	var feeds_doc = window.frames["feeds-frame"].document;
+		var hide_read_feeds = (getCookie("ttrss_vf_hreadf") == 1);
 
-	hideOrShowFeeds(feeds_doc, hide_read_feeds);
+		hide_read_feeds = !hide_read_feeds;
+	
+		var query = "backend.php?op=rpc&subop=setpref" +
+			"&key=HIDE_READ_FEEDS&value=" + param_escape(hide_read_feeds);
 
-	if (hide_read_feeds) {
-		setCookie("ttrss_vf_hreadf", 1);
-	} else {
-		setCookie("ttrss_vf_hreadf", 0);
+		xmlhttp.open("GET", query);
+		xmlhttp.onreadystatechange=hide_unread_callback;
+		xmlhttp.send(null);
+		
+	} catch (e) {
+		exception_error("toggleDispRead", e);
 	}
-
 }
 

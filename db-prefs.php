@@ -57,4 +57,18 @@
 			return $value;
 		}
 	}
+
+	// doesn't peform any type checking, be vigilant
+	
+	function set_pref($link, $key, $value) {
+		$key = db_escape_string($key);
+		$value = db_escape_string($value);
+	
+		db_query($link, "UPDATE ttrss_user_prefs SET 
+			value = '$value' WHERE pref_name = '$key' 
+				AND owner_uid = " . $_SESSION["uid"]);
+
+		$_SESSION["prefs_cache"] = array();
+
+	}
 ?>

@@ -53,6 +53,12 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	if (get_pref($link, "HIDE_READ_FEEDS") == "true") {
+		setcookie("ttrss_vf_hreadf", 1);
+	} else {
+		setcookie("ttrss_vf_hreadf", 0);
+	}  
+
 	$fetch = $_GET["fetch"];
 
 	setcookie("ttrss_icons_url", ICONS_URL);
@@ -615,6 +621,24 @@
 	if ($op == "rpc") {
 
 		$subop = $_GET["subop"];
+
+		if ($subop == "setpref") {
+			if (WEB_DEMO_MODE) {
+				return;
+			}
+
+			print "<rpc-reply>";
+
+			$key = db_escape_string($_GET["key"]);
+			$value = db_escape_string($_GET["value"]);
+
+			set_pref($link, $key, $value);
+
+			print "<param-set key=\"$key\" value=\"$value\"/>";
+
+			print "</rpc-reply>";
+
+		}
 
 		if ($subop == "getLabelCounters") {
 			$aid = $_GET["aid"];		

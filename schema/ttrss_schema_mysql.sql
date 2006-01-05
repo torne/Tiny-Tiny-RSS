@@ -235,6 +235,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SEARCH_TOOLBAR', 1, 'false', 'Enable search toolbar',2);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_FEEDS', 1, 'false', 'Hide feeds with no unread messages',2);
+
 create table ttrss_user_prefs (
    owner_uid integer not null,
    pref_name varchar(250),
