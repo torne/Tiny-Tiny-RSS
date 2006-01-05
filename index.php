@@ -1,0 +1,1 @@
+<? require "tt-rss.php" ?>
