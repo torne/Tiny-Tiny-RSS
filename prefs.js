@@ -699,7 +699,11 @@ function feedEditSave() {
 		var purge_intl = document.getElementById("iedit_purgintl").value;
 		var fcat = document.getElementById("iedit_fcat");
 
-		var private = document.getElementById("iedit_private").checked;
+		var is_pvt = document.getElementById("iedit_is_pvt");
+
+		if (is_pvt) {
+			is_pvt = is_pvt.checked;
+		}
 	
 		var fcat_id = 0;
 	
@@ -732,16 +736,16 @@ function feedEditSave() {
 			"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
 			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +			
 			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass) +
-			"&private=" + param_escape(private);
+			"&is_pvt=" + param_escape(is_pvt);
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query);
+		xmlhttp.send(query); 
 	
 	} catch (e) {
 		exception_error("feedEditSave", e);
-	}
+	} 
 }
 
 function feedCatEditSave() {
