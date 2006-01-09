@@ -1199,7 +1199,7 @@
 
 		if ($search && $search_mode == "All feeds") {
 			$feed_title = "Global search results ($search)";
-		} else if (sprintf("%d", $feed) == 0) {
+		} else if ($search && sprintf("%d", $feed) == 0) {
 			$feed_title = "Feed search results ($search, $feed)";
 		} else if ($feed > 0) {
 			$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
