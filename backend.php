@@ -1455,7 +1455,7 @@
 
 					print "<div style=\"float : right\">$updated_fmt</div>";
 					
-					print "<a href=\"".$line["link"]."\">".$line["title"]."</a>";
+					print "<a target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
 
 					if ($line["feed_title"]) {	
 						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
