@@ -132,8 +132,13 @@
 						if (!$feed_title) {
 							$feed_title = db_escape_string($outline->get_attribute('title'));
 						}
-					
+
 						$cat_title = db_escape_string($outline->get_attribute('title'));
+
+						if (!$cat_title) {
+							$cat_title = db_escape_string($outline->get_attribute('text'));
+						}
+	
 						$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
 						$site_url = db_escape_string($outline->get_attribute('htmlUrl'));
 
