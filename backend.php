@@ -1198,9 +1198,9 @@
 		$feed_title = "";
 
 		if ($search && $search_mode == "All feeds") {
-			$feed_title = "Search results";
+			$feed_title = "Global search results ($search)";
 		} else if (sprintf("%d", $feed) == 0) {
-			$feed_title = $feed;
+			$feed_title = "Feed search results ($search, $feed)";
 		} else if ($feed > 0) {
 			$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
 				WHERE id = '$feed'");
@@ -3047,13 +3047,21 @@
 
 		if ($id == "search") {
 
+			$active_feed_id = db_escape_string($_GET["param"]);
+
 			print "<input id=\"searchbox\" class=\"extSearch\"			
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
 			onchange=\"javascript:search()\">
 			<select id=\"searchmodebox\">
-				<option selected>All feeds</option>
-				<option>This feed</option>
-			</select>		
+				<option selected>All feeds</option>";
+				
+			if ($active_feed_id) {				
+				print "<option>This feed</option>";
+			} else {
+				print "<option disabled>This feed</option>";
+			}
+			
+			print "</select>		
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" value=\"Search\">
 			<input class=\"button\"

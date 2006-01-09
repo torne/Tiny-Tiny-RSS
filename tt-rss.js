@@ -266,7 +266,7 @@ function resetSearch() {
 }
 
 function search() {
-	closeDlg();
+	closeDlg();	
 	viewCurrentFeed(0, "");
 }
 
@@ -411,7 +411,7 @@ function quickMenuGo() {
 	}
 
 	if (opid == "qmcSearch") {
-		displayDlg("search");
+		displayDlg("search", getActiveFeedId());
 		return;
 	}
 

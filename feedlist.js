@@ -95,6 +95,7 @@ function viewfeed(feed, skip, subop, doc) {
 	
 		if (search_query != "") {
 			query = query + "&search=" + param_escape(search_query);
+			searchbox.value = "";
 		}
 		
 		var headlines_frame = parent.frames["headlines-frame"];
