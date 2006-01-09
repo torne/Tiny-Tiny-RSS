@@ -1123,7 +1123,9 @@
 		$view_query_part = "";
 
 		if ($view_mode == "Adaptive") {
-			if ($feed != -1) {
+			if ($search) {
+				$view_query_part = " ";
+			} else if ($feed != -1) {
 				$unread = getFeedUnread($link, $feed);
 				if ($unread > 0) {
 					$view_query_part = " unread = true AND ";
