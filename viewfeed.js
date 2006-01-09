@@ -352,17 +352,23 @@ function cdmSelectArticles(mode) {
 		var child = container.childNodes[i];
 
 		if (child.id.match("RROW-")) {
-//			var aid = child.id.replace("RROW-", "");
+			var aid = child.id.replace("RROW-", "");
+
+			var cb = document.getElementById("RCHK-" + aid);
+
 			if (mode == "all") {
 				if (!child.className.match("Selected")) {
 					child.className = child.className + "Selected";
+					cb.checked = true;
 				}
 			} else if (mode == "unread") {
 				if (child.className.match("Unread") && !child.className.match("Selected")) {
 					child.className = child.className + "Selected";
+					cb.checked = true;
 				}
 			} else {
 				child.className = child.className.replace("Selected", "");
+				cb.checked = false;
 			}
 		}		
 	}
