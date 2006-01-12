@@ -82,7 +82,6 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	no_orig_date bool not null default 0,
 	date_entered datetime not null,
 	num_comments integer not null default 0,
-	audio_enclosure varchar(250) not null default '',
 	comments varchar(250) not null default '') TYPE=InnoDB;
 
 create table ttrss_user_entries (
