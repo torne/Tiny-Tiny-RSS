@@ -1567,6 +1567,11 @@
 		}		
 
 		if ($subop == "browse") {
+
+			if (!ENABLE_FEED_BROWSER) {
+				print "Feed browser is administratively disabled.";
+				return;
+			}
 			
 			print "<div class=\"infoBoxContents\">";
 
@@ -2057,10 +2062,13 @@
 				onchange=\"javascript:addFeed()\"
 				size=\"40\">
 				<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:addFeed()\" value=\"Add feed\">
-				&nbsp;
-				(<a href='javascript:browseFeeds()'>Top 50</a>)
-			</td><td align='right'>
+				onclick=\"javascript:addFeed()\" value=\"Add feed\">";
+
+		if (ENABLE_FEED_BROWSER) {
+			print "&nbsp;(<a href='javascript:browseFeeds()'>Top 50</a>)";
+		}
+		
+		print "</td><td align='right'>
 				<input id=\"feed_search\" size=\"20\"  
 				onchange=\"javascript:updateFeedList()\"
 				value=\"$feed_search\">
@@ -3983,6 +3991,11 @@
 	}	
 
 	if ($op == "pref-feed-browser") {
+
+		if (!ENABLE_FEED_BROWSER) {
+			print "Feed browser is administratively disabled.";
+			return;
+		}
 
 		$subop = $_REQUEST["subop"];
 

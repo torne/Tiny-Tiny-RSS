@@ -87,8 +87,10 @@
 			onclick="selectTab('genConfig')">
 		<input id="feedConfigTab" class="prefsTab" type="submit" value="Feed Configuration"
 			onclick="selectTab('feedConfig')">
+		<? if (ENABLE_FEED_BROWSER) { ?>
 		<input id="feedBrowserTab" class="prefsTab" type="submit" value="Feed Browser"
 			onclick="selectTab('feedBrowser')">
+		<? } ?>
 		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
 			onclick="selectTab('filterConfig')">
 		<? if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) { ?>
