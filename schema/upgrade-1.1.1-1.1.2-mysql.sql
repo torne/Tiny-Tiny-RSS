@@ -1,5 +1,3 @@
-begin;
-
 alter table ttrss_feeds add column parent_feed integer;
 alter table ttrss_feeds add foreign key (parent_feed) references ttrss_feeds(id) on delete set null;
 
@@ -14,4 +12,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 update ttrss_version set schema_version = 4;
 
-commit;
+alter table ttrss_entries add column audio_enclosure varchar(250);
+update ttrss_entries set audio_enclosure = '';
+alter table ttrss_entries change audio_enclosure private varchar(250) not null;
+alter table ttrss_entries alter column audio_enclosure set default '';
+

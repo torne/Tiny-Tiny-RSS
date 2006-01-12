@@ -12,6 +12,11 @@ alter table ttrss_feeds alter column private set default false;
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_FEEDS', 1, 'false', 'Hide feeds with no unread messages',2);
 
+alter table ttrss_entries add column audio_enclosure varchar(250);
+update ttrss_entries set audio_enclosure = '';
+alter table ttrss_entries alter column audio_enclosure set not null;
+alter table ttrss_entries alter column audio_enclosure set default '';
+
 update ttrss_version set schema_version = 4;
 
 commit;
