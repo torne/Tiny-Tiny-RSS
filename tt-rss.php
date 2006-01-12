@@ -106,15 +106,14 @@
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrameWithActions"> </iframe>
 
-		<div align="center">All feeds: 
+		<div align="center"> 
 		
-		<select id="allFeedsChooser">
+		<select id="allFeedsChooser" onchange="allFeedsMenuChange()">
+			<option selected>All feeds...</option>
 			<option>Update</option>
 			<option>Mark as read</option>
 			<option>Show only unread</option>
 		</select>
-
-		<input type="submit" class="button" onclick="allFeedsMenuGo()" value="Go">
 
 		</div>
 		
@@ -208,13 +207,14 @@
 
 		</td>
 		<td align="right">
-			Actions: <select id="quickMenuChooser">
-				<option id="qmcPrefs" selected>Preferences...</option>
-				<option id="qmcSearch">Search...</option>
+			<select id="quickMenuChooser" onchange="quickMenuChange()">
+				<option id="qmcDefault" selected>Actions...</option>
+				<option id="qmcPrefs">Preferences</option>
+				<option id="qmcSearch">Search</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Feed actions:</option>
-				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed...</option>
-				<option id="qmcRemoveFeed">&nbsp;&nbsp;Remove this feed...</option>
+				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed</option>
+				<option id="qmcRemoveFeed">&nbsp;&nbsp;Remove this feed</option>
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
@@ -223,9 +223,8 @@
 				<option id="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Other actions:</option>				
-				<option id="qmcAddFilter">&nbsp;&nbsp;Add filter...</option>
+				<option id="qmcAddFilter">&nbsp;&nbsp;Add filter</option>
 			</select>
-			<input type="submit" class="button" onclick="quickMenuGo()" value="Go">
 		</td>
 		</tr>
 		</table>

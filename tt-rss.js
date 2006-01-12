@@ -401,10 +401,16 @@ function init_second_stage() {
 	}
 }
 
-function quickMenuGo() {
-
+function quickMenuChange() {
 	var chooser = document.getElementById("quickMenuChooser");
 	var opid = chooser[chooser.selectedIndex].id;
+
+	chooser.selectedIndex = 0;
+	quickMenuGo(opid);
+}
+
+function quickMenuGo(opid) {
+
 
 	if (opid == "qmcPrefs") {
 		gotoPreferences();
@@ -570,10 +576,12 @@ function qfdDelete(feed_id) {
 }
 
 
-function allFeedsMenuGo() {
+function allFeedsMenuChange() {
 	var chooser = document.getElementById("allFeedsChooser");
 
 	var opname = chooser[chooser.selectedIndex].text;
+
+	chooser.selectedIndex = 0;
 
 	if (opname == "Update") {
 		scheduleFeedUpdate(true);
