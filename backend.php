@@ -53,11 +53,13 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
-	if (get_pref($link, "HIDE_READ_FEEDS") == "true") {
-		setcookie("ttrss_vf_hreadf", 1);
-	} else {
-		setcookie("ttrss_vf_hreadf", 0);
-	}  
+	if ($_SESSION["uid"]) {
+		if (get_pref($link, "HIDE_READ_FEEDS") == "true") {
+			setcookie("ttrss_vf_hreadf", 1);
+		} else {
+			setcookie("ttrss_vf_hreadf", 0);
+		}  
+	}
 
 	$fetch = $_GET["fetch"];
 
