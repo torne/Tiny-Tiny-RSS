@@ -3585,8 +3585,9 @@
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
 
-				db_query($link, "INSERT INTO ttrss_users (login,pwd_hash,access_level)
-					VALUES ('$login', '$pwd_hash', 0)");
+				db_query($link, "INSERT INTO ttrss_users 
+					(login,pwd_hash,access_level,last_login)
+					VALUES ('$login', '$pwd_hash', 0, NOW())");
 
 
 				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
