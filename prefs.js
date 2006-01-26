@@ -699,7 +699,7 @@ function feedEditSave() {
 		var purge_intl = document.getElementById("iedit_purgintl").value;
 		var fcat = document.getElementById("iedit_fcat");
 
-		var is_pvt = document.getElementById("iedit_is_pvt");
+		var is_pvt = document.getElementById("iedit_private");
 
 		if (is_pvt) {
 			is_pvt = is_pvt.checked;

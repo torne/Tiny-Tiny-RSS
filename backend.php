@@ -1827,7 +1827,7 @@
 			$auth_login = db_escape_string($_POST["login"]);
 			$auth_pass = db_escape_string($_POST["pass"]);
 			$parent_feed = db_escape_string($_POST["pfeed"]);
-			$private = db_escape_string($_POST["private"]);
+			$private = db_escape_string($_POST["is_pvt"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
