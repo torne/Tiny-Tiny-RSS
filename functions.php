@@ -8,6 +8,7 @@
 
 	require_once 'config.php';
 	require_once 'db-prefs.php';
+	require_once 'compat.php';
 
 	require_once 'magpierss/rss_utils.inc';
 
