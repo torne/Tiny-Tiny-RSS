@@ -59,6 +59,8 @@
 		} else {
 			setcookie("ttrss_vf_hreadf", 0);
 		}  
+
+		setcookie('ttrss_vf_refresh', FEEDS_FRAME_REFRESH);
 	}
 
 	$fetch = $_GET["fetch"];

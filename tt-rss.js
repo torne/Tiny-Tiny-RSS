@@ -253,7 +253,12 @@ function viewfeed(feed, skip, subop) {
 
 function timeout() {
 	scheduleFeedUpdate(false);
-	setTimeout("timeout()", 900*1000);
+
+	var refresh_time = getCookie('ttrss_vf_refresh');
+
+	if (!refresh_time) refresh_time = 600;
+
+	setTimeout("timeout()", refresh_time*1000);
 }
 
 function resetSearch() {
