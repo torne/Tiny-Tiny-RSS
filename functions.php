@@ -138,7 +138,7 @@
 			error_reporting (DEFAULT_ERROR_LEVEL);
 
 			if ($r) {
-				$tmpfname = tempnam("/tmp", "ttrssicon");
+				$tmpfname = tempnam(TMP_DIRECTORY, "ttrssicon");
 			
 				$t = fopen($tmpfname, "w");
 				
