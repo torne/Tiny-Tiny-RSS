@@ -703,23 +703,27 @@
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 	
-			if ($subop == "forceUpdateAllFeeds" && ENABLE_FEED_CATS
-	
-			update_all_feeds($link, $subop == "forceUpdateAllFeeds");			
+			if (ENABLE_UPDATE_SCHEDULER) {
 
-			$omode = $_GET["omode"];
+				// FIXME schedule update
 
-			if (!$omode) $omode = "tfl";
+			} else {	
+				update_all_feeds($link, $subop == "forceUpdateAllFeeds");			
 
-			print "<rpc-reply>";
-			if (strchr($omode, "l")) getLabelCounters($link);
-			if (strchr($omode, "f")) getFeedCounters($link);
-			if (strchr($omode, "t")) getTagCounters($link);
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				getCategoryCounters($link);
+				$omode = $_GET["omode"];
+
+				if (!$omode) $omode = "tfl";
+
+				print "<rpc-reply>";
+				if (strchr($omode, "l")) getLabelCounters($link);
+				if (strchr($omode, "f")) getFeedCounters($link);
+				if (strchr($omode, "t")) getTagCounters($link);
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					getCategoryCounters($link);
+				}
+				getGlobalCounters($link);
+				print "</rpc-reply>";
 			}
-			getGlobalCounters($link);
-			print "</rpc-reply>";
 		}
 	
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
