@@ -705,7 +705,27 @@
 	
 			if (ENABLE_UPDATE_SCHEDULER) {
 
-				// FIXME schedule new update entry (with rate limit check)
+				$result = db_query($link, "SELECT count(id) AS cid FROM
+					ttrss_scheduled_updates WHERE feed_id IS NULL AND
+						owner_uid = " . $_SESSION["uid"]);
+
+				$cid = db_fetch_result($result, 0, "cid");
+
+				print "<rpc-reply>";
+
+				if ($cid == 0) {
+
+					db_query($link, "INSERT INTO ttrss_scheduled_updates
+						(owner_uid, feed_id, entered) VALUES
+						(".$_SESSION["uid"].", NULL, NOW())");
+						
+					print "<message>ScheduledOK</message>";
+					
+				} else {
+					print "<message>RequestAlreadyInQueue</message>";
+				}
+
+				print "</rpc-reply>";
 				
 			} else {	
 				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
@@ -1017,7 +1037,13 @@
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 
 			if (ENABLE_UPDATE_SCHEDULER) {
-				// FIXME Schedule new feed entry for updating (w/rate limiting)
+
+				if ($cid == 0) {
+
+					db_query($link, "INSERT INTO ttrss_scheduled_updates
+						(owner_uid, feed_id, entered) VALUES
+						(".$_SESSION["uid"].", '$feed', NOW())");
+				}
 
 			} else {
 				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
