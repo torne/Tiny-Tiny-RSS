@@ -705,10 +705,13 @@
 	
 			if (ENABLE_UPDATE_SCHEDULER) {
 
-				// FIXME schedule update
-
+				// FIXME schedule new update entry (with rate limit check)
+				
 			} else {	
-				update_all_feeds($link, $subop == "forceUpdateAllFeeds");			
+				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
+			}
+
+			if (!(ENABLE_UPDATE_SCHEDULER && $subop == "forceUpdateAllFeeds")) {
 
 				$omode = $_GET["omode"];
 
@@ -1013,13 +1016,15 @@
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 
-			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
-				WHERE id = '$feed'");
+			if (ENABLE_UPDATE_SCHEDULER) {
+				// FIXME Schedule new feed entry for updating (w/rate limiting)
 
-			$feed_url = db_fetch_result($tmp_result, 0, "feed_url");
-
-			update_rss_feed($link, $feed_url, $feed);
-
+			} else {
+				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+					WHERE id = '$feed'");
+				$feed_url = db_fetch_result($tmp_result, 0, "feed_url");
+				update_rss_feed($link, $feed_url, $feed);
+			}
 		}
 
 		if ($subop == "MarkAllRead")  {

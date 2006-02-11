@@ -3,7 +3,7 @@
 	// this daemon runs in the background and updates all feeds
 	// continuously
 
-	define('SLEEP_INTERVAL', 30); // seconds
+	define('SLEEP_INTERVAL', 10); // seconds
 
 	// TODO: allow update scheduling from users
 
@@ -32,36 +32,47 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
-	$result = db_query($link, "SELECT feed_url,id,owner_uid,
-		SUBSTRING(last_updated,1,19) AS last_updated,
-		update_interval FROM ttrss_feeds ORDER BY last_updated DESC");
+	while (true) {
 
-	while ($line = db_fetch_assoc($result)) {
+		// FIXME: get all schedule updates w/forced refetch
 
-		print "Checking feed: " . $line["feed_url"] . "\n";
+		print "Checking schedules updates (NOT IMPLEMENTED YET)\n";
+	
+		// Process all other feeds using last_updated and interval parameters
 
-		$upd_intl = $line["update_interval"];
-
-		$user_id = $line["owner_uid"];
-
-		if (!$upd_intl || $upd_intl == 0) {
-			$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
+		$result = db_query($link, "SELECT feed_url,id,owner_uid,
+			SUBSTRING(last_updated,1,19) AS last_updated,
+			update_interval FROM ttrss_feeds ORDER BY last_updated DESC");
+	
+		while ($line = db_fetch_assoc($result)) {
+	
+			print "Checking feed: " . $line["feed_url"] . "\n";
+	
+			$upd_intl = $line["update_interval"];
+	
+			$user_id = $line["owner_uid"];
+	
+			if (!$upd_intl || $upd_intl == 0) {
+				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
+			}
+	
+	#		printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
+	#			$upd_intl*60);
+	
+			if (!$line["last_updated"] || 
+				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
+	
+				print "Updating...\n";
+	
+				update_rss_feed($link, $line["feed_url"], $line["id"], true);
+	
+			}
 		}
 
-#		printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
-#			$upd_intl*60);
-
-		if (!$line["last_updated"] || 
-			time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
-
-			print "Updating...\n";
-
-			update_rss_feed($link, $line["feed_url"], $line["id"], true);
-
-		}
+		print "Sleeping for " . SLEEP_INTERVAL . " seconds...\n";
+		
+		sleep(SLEEP_INTERVAL);
 	}
-
-//	sleep(SLEEP_INTERVAL);
 
 	db_close($link);
 
