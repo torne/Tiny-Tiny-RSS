@@ -110,6 +110,7 @@ function refetch_callback() {
 	
 			if (!reply) {
 				notify("refetch_callback: backend did not return expected XML object");
+				updateTitle("");
 				return;
 			} 
 	
@@ -127,6 +128,7 @@ function refetch_callback() {
 			notify("All feeds updated.");
 		} catch (e) {
 			exception_error("refetch_callback", e);
+			updateTitle("");
 		}
 	}
 }
