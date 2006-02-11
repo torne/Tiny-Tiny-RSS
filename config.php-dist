@@ -44,6 +44,10 @@
 	// directory or it won't be able to find includes. E.g.
 	//
 	// */30 * * * * cd $TTRSS_DIRECTORY && ./update_feeds.php >/dev/null 2>&1
+
+	// Another alternative approach is to run update_daemon.php in the background
+	// on the server, which allows user-scheduled updates and continous
+	// feed updating in the background. This is the recommended way at the moment.
 	
 	define('SMART_RPC_COUNTERS', false);
 	// If enabled, stores feed counter information on the server side and sends
@@ -83,9 +87,12 @@
 	// It is also recommended to set FEEDS_FRAME_REFRESH to a lower value if using
 	// this option.
 
-	define('DISABLE_SESSIONS', false);
-	// Disables sessions (this is ONLY useful for commandline daemons using
-	// tt-rss code, DON'T enable this option EVER)
-
+	define('ENABLE_UPDATE_SCHEDULER', false);
+	// This enables different mechanism for user-triggered updates designed
+	// for update daemon running in background on the server.
+	
+	// This option _REQUIRES_ DAEMON_REFRESH_ONLY to be enabled and it is
+	// suggested to set FEEDS_FRAME_REFRESH to a small value (like 15-30 seconds).
+	
 	// vim:ft=php
 ?>
