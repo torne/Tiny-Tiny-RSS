@@ -1036,7 +1036,7 @@
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 
-			if (ENABLE_UPDATE_SCHEDULER) {
+/*			if (ENABLE_UPDATE_SCHEDULER) {
 
 				if ($cid == 0) {
 
@@ -1045,12 +1045,14 @@
 						(".$_SESSION["uid"].", '$feed', NOW())");
 				}
 
-			} else {
-				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
-					WHERE id = '$feed'");
-				$feed_url = db_fetch_result($tmp_result, 0, "feed_url");
-				update_rss_feed($link, $feed_url, $feed);
-			}
+			} else { 
+				// fixme update_rss_feed...
+			} */
+
+			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+				WHERE id = '$feed'");
+			$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
+			update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_SCHEDULER);
 		}
 
 		if ($subop == "MarkAllRead")  {
