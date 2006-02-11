@@ -170,7 +170,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (4);
+insert into ttrss_version values (5);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -245,5 +245,12 @@ create table ttrss_user_prefs (
  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index (pref_name),
 	foreign key (pref_name) references ttrss_prefs(pref_name) ON DELETE CASCADE) TYPE=InnoDB;
+
+create table ttrss_scheduled_updates (id integer not null primary key auto_increment,
+	owner_uid integer not null,
+	feed_id integer default null,
+	entered datetime not null,
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
+	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 commit;

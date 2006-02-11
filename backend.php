@@ -1,6 +1,6 @@
 <?
 	session_start();
-
+	
 	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {

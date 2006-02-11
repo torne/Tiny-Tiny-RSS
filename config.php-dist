@@ -82,6 +82,10 @@
 	// If this option is enabled (non-zero) feeds are updated in random order.
 	// It is also recommended to set FEEDS_FRAME_REFRESH to a lower value if using
 	// this option.
-	
+
+	define('DISABLE_SESSIONS', false);
+	// Disables sessions (this is ONLY useful for commandline daemons using
+	// tt-rss code, DON'T enable this option EVER)
+
 	// vim:ft=php
 ?>

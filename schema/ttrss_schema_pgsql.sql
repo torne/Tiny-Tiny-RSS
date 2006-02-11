@@ -152,7 +152,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (4);
+insert into ttrss_version values (5);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
@@ -222,5 +222,10 @@ create table ttrss_user_prefs (
 
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
 create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
+
+create table ttrss_scheduled_updates (id serial not null primary key,
+	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	feed_id integer default null references ttrss_feeds(id) ON DELETE CASCADE,
+	entered timestamp not null default NOW());
 
 commit;

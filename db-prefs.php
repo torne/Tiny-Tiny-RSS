@@ -2,10 +2,12 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	session_start();
-
-	if (!$_SESSION["prefs_cache"])
-		$_SESSION["prefs_cache"] = array();
+	if (! DISABLE_SESSIONS) {	
+		session_start();
+		
+		if (!$_SESSION["prefs_cache"])
+			$_SESSION["prefs_cache"] = array();
+	}
 
 	function get_pref($link, $pref_name, $user_id = false) {
 
