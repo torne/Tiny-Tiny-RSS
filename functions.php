@@ -101,10 +101,22 @@
 
 //		db_query($link, "BEGIN");
 
+		if (MAX_UPDATE_TIME > 0) {
+			if (DB_TYPE == "mysql") {
+				$q_order = "RAND()";
+			} else {
+				$q_order = "RANDOM()";
+			}
+		} else {
+			$q_order = "last_updated DESC";
+		}
+
 		$result = db_query($link, "SELECT feed_url,id,
 			SUBSTRING(last_updated,1,19) AS last_updated,
 			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'
-			ORDER BY last_updated DESC");
+			ORDER BY $q_order");
+
+		$upd_start = time();
 
 		while ($line = db_fetch_assoc($result)) {
 			$upd_intl = $line["update_interval"];
@@ -116,7 +128,15 @@
 			if ($fetch || (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
 
+//				print "<!-- feed: ".$line["feed_url"]." -->";
+
 				update_rss_feed($link, $line["feed_url"], $line["id"], $force_daemon);
+
+				$upd_elapsed = time() - $upd_start;
+
+				if (MAX_UPDATE_TIME > 0 && $upd_elapsed > MAX_UPDATE_TIME) {
+					return;
+				}
 			}
 		}
 
