@@ -702,7 +702,9 @@
 		}
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
-		
+	
+			if ($subop == "forceUpdateAllFeeds" && ENABLE_FEED_CATS
+	
 			update_all_feeds($link, $subop == "forceUpdateAllFeeds");			
 
 			$omode = $_GET["omode"];

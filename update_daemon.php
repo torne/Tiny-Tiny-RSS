@@ -48,8 +48,11 @@
 			$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
 		}
 
-		if ($fetch || (!$line["last_updated"] || 
-			time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
+#		printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
+#			$upd_intl*60);
+
+		if (!$line["last_updated"] || 
+			time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
 
 			print "Updating...\n";
 
@@ -58,7 +61,7 @@
 		}
 	}
 
-	sleep(SLEEP_INTERVAL);
+//	sleep(SLEEP_INTERVAL);
 
 	db_close($link);
 
