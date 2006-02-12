@@ -1,11 +1,9 @@
 begin;
 
-create table ttrss_scheduled_updates (id integer not null primary key auto_increment,
-	owner_uid integer not null,
-	feed_id integer default null,
-	entered datetime not null,
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
-	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
+create table ttrss_scheduled_updates (id serial not null primary key,
+	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	feed_id integer default null references ttrss_feeds(id) ON DELETE CASCADE,
+	entered timestamp not null default NOW());
 
 update ttrss_version set schema_version = 5;
 
