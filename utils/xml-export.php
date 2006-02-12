@@ -1,7 +1,7 @@
 <?
 	session_start();
 
-	define('MAX_SCHEMA_VERSION', 4);
+	define('MAX_SCHEMA_VERSION', 5);
 
 	require_once "config.php";
 	require_once "functions.php";
@@ -10,6 +10,27 @@
 	if ($_GET["export"]) {
 		header("Content-Type: application/xml");
 	}
+
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+	if (!$link) {
+		if (DB_TYPE == "mysql") {
+			print mysql_error();
+		}
+		// PG seems to display its own errors just fine by default.		
+		return;
+	}
+
+	if (DB_TYPE == "pgsql") {
+		pg_query("set client_encoding = 'utf-8'");
+	}
+
+	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
+
+	$schema_version = db_fetch_result($result, 0, "schema_version");
+
+	if ($schema_version > 1) login_sequence($link);
+
 ?>
 
 <? if (!$_GET["export"]) { ?>
@@ -39,23 +60,6 @@
 <xmldb>
 
 <?
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
-		}
-		// PG seems to display its own errors just fine by default.		
-		return;
-	}
-
-	if (DB_TYPE == "pgsql") {
-		pg_query("set client_encoding = 'utf-8'");
-	}
-
-	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-
-	$schema_version = db_fetch_result($result, 0, "schema_version");
 
 /*	if ($schema_version != SCHEMA_VERSION) {
 		print "<error>Source database schema is invalid
