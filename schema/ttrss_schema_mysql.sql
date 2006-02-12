@@ -15,6 +15,7 @@ drop table if exists ttrss_feeds;
 drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
 drop table if exists ttrss_themes;
+drop table if exists ttrss_scheduled_updates;
 
 begin;
 

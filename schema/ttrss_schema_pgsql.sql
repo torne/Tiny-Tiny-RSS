@@ -15,6 +15,7 @@ drop table ttrss_feeds;
 drop table ttrss_feed_categories;
 drop table ttrss_users;
 drop table ttrss_themes;
+drop table ttrss_scheduled_updates;
 
 begin;
 
