@@ -68,10 +68,7 @@
 	
 		while ($line = db_fetch_assoc($result)) {
 	
-			print "Feed: " . $line["feed_url"] . ": ";
-	
 			$upd_intl = $line["update_interval"];
-	
 			$user_id = $line["owner_uid"];
 	
 			if (!$upd_intl || $upd_intl == 0) {
@@ -79,12 +76,14 @@
 			}
 
 			if ($upd_intl < 0) { 
-				print "Updates disabled.\n";
+#				print "Updates disabled.\n";
 				continue; 
 			}
 	
-#			printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
-#				$upd_intl*60);
+			print "Feed: " . $line["feed_url"] . ": ";
+
+			printf("(%d ? %d) ", time() - strtotime($line["last_updated"]),
+				$upd_intl*60);
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
