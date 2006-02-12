@@ -65,8 +65,8 @@
 				continue; 
 			}
 	
-			printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
-				$upd_intl*60);
+#			printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
+#				$upd_intl*60);
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
