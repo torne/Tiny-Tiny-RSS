@@ -12,4 +12,11 @@
 		subdirectory of TT-RSS tree.";
 		exit;
 	}
+
+	if (file_exists("xml-export.php") || file_exists("xml-import.php")) {
+		print "<b>Fatal Error</b>: XML Import/Export tools (<b>xml-export.php</b>
+		and <b>xml-import.php</b>) could be used maliciously. Please remove them 
+		from your TT-RSS instance.";
+		exit;
+	}
 ?>
