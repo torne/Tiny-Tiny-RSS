@@ -705,27 +705,30 @@
 	
 			if (ENABLE_UPDATE_DAEMON) {
 
-				$result = db_query($link, "SELECT count(id) AS cid FROM
-					ttrss_scheduled_updates WHERE feed_id IS NULL AND
-						owner_uid = " . $_SESSION["uid"]);
+				if ($subop == "forceUpdateAllFeeds") {				
 
-				$cid = db_fetch_result($result, 0, "cid");
-
-				print "<rpc-reply>";
-
-				if ($cid == 0) {
-
-					db_query($link, "INSERT INTO ttrss_scheduled_updates
-						(owner_uid, feed_id, entered) VALUES
-						(".$_SESSION["uid"].", NULL, NOW())");
+					$result = db_query($link, "SELECT count(id) AS cid FROM
+						ttrss_scheduled_updates WHERE feed_id IS NULL AND
+							owner_uid = " . $_SESSION["uid"]);
+	
+					$cid = db_fetch_result($result, 0, "cid");
+	
+#					print "<rpc-reply>";
+	
+					if ($cid == 0) {
+	
+						db_query($link, "INSERT INTO ttrss_scheduled_updates
+							(owner_uid, feed_id, entered) VALUES
+							(".$_SESSION["uid"].", NULL, NOW())");
+							
+						print "<!-- ScheduledOK -->";
 						
-					print "<message>ScheduledOK</message>";
-					
-				} else {
-					print "<message>RequestAlreadyInQueue</message>";
+					} else {
+						print "<!-- RequestAlreadyInQueue -->";
+					}
+	
+#					print "</rpc-reply>";
 				}
-
-				print "</rpc-reply>";
 				
 			} else {	
 				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
