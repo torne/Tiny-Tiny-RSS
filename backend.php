@@ -130,13 +130,20 @@
 
 	/* FIXME this needs reworking */
 
-	function getGlobalCounters($link) {
+	function getGlobalUnread($link) {
 		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries,ttrss_user_entries
 			WHERE unread = true AND 
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			owner_uid = " . $_SESSION["uid"]);
 		$c_id = db_fetch_result($result, 0, "c_id");
-		print "<counter type=\"global\" id='global-unread' counter='$c_id'/>";
+		return $c_id;
+	}
+
+	function getGlobalCounters($link, $global_unread = -1) {
+		if ($global_unread == -1) {	
+			$global_unread = getGlobalUnread($link);
+		}
+		print "<counter type=\"global\" id='global-unread' counter='$global_unread'/>";
 	}
 
 	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
@@ -735,18 +742,26 @@
 				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
 			}
 
-			$omode = $_GET["omode"];
-
-			if (!$omode) $omode = "tfl";
+			$global_unread_caller = sprintf("%d", $_GET["uctr"]);
+			$global_unread = getGlobalUnread($link);
 
 			print "<rpc-reply>";
-			if (strchr($omode, "l")) getLabelCounters($link);
-			if (strchr($omode, "f")) getFeedCounters($link);
-			if (strchr($omode, "t")) getTagCounters($link);
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				getCategoryCounters($link);
+
+			if ($global_unread_caller != $global_unread) {
+
+	 			$omode = $_GET["omode"];
+	 
+	 			if (!$omode) $omode = "tfl";
+	 
+	 			if (strchr($omode, "l")) getLabelCounters($link);
+	 			if (strchr($omode, "f")) getFeedCounters($link);
+	 			if (strchr($omode, "t")) getTagCounters($link);
+	 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+	 				getCategoryCounters($link);
+	 			}
+	 			getGlobalCounters($link, $global_unread);
 			}
-			getGlobalCounters($link);
+			
 			print "</rpc-reply>";
 
 		}

@@ -97,5 +97,8 @@
 	define('DISABLE_SESSIONS', false);
 	// Never enable this option (kludge for daemon using tt-rss code)
 
+	define('DAEMON_SLEEP_INTERVAL', 120);
+	// Interval between update daemon update runs
+
 	// vim:ft=php
 ?>

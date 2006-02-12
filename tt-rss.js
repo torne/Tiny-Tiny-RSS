@@ -191,6 +191,7 @@ function scheduleFeedUpdate(force) {
 	}
 
 	query_str = query_str + "&omode=" + omode;
+	query_str = query_str + "&uctr=" + global_unread;
 
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);

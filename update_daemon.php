@@ -5,7 +5,6 @@
 
 	declare(ticks = 1);
 
-	define('SLEEP_INTERVAL', 60); // seconds between update runs
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
@@ -82,8 +81,8 @@
 	
 			print "Feed: " . $line["feed_url"] . ": ";
 
-			printf("(%d ? %d) ", time() - strtotime($line["last_updated"]),
-				$upd_intl*60);
+			printf("(%d/%d, %d) ", time() - strtotime($line["last_updated"]),
+				$upd_intl*60, $owner_uid);
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
@@ -95,9 +94,9 @@
 			}
 		}
 
-		print "Sleeping for " . SLEEP_INTERVAL . " seconds...\n";
+		print "Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...\n";
 		
-		sleep(SLEEP_INTERVAL);
+		sleep(DAEMON_SLEEP_INTERVAL);
 	}
 
 	db_close($link);
