@@ -29,11 +29,14 @@
 <h2>Counters</h2>
 
 <?
-	$result = db_query($link, "SELECT count(int_id) as cid FROM ttrss_user_entries");
+	$result = db_query($link, "SELECT count(id) AS cid,
+		SUM(LENGTH(content)) AS size
+		FROM ttrss_entries");
 
 	$total_articles = db_fetch_result($result, 0, "cid");
+	$articles_size = round(db_fetch_result($result, 0, "size") / 1024);
 
-	print "<p>Total articles stored: $total_articles</p>";
+	print "<p>Total articles stored: $total_articles (${articles_size}K)</p>";
 
 	$result = db_query($link, "SELECT COUNT(int_id) as cid,owner_uid,login 
 		FROM ttrss_user_entries 
