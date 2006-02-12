@@ -342,7 +342,7 @@ function localHotkeyHandler(keycode) {
 function updateTitle(s) {
 	var tmp = "Tiny Tiny RSS";
 
-	if (s != undefined) {
+	if (s && s.length > 0) {
 		current_subtitle = s;
 	}
 
@@ -350,7 +350,7 @@ function updateTitle(s) {
 		tmp = tmp + " (" + global_unread + ")";
 	}
 
-	if (current_subtitle) {
+	if (s) {
 		tmp = tmp + " - " + current_subtitle;
 	}
 

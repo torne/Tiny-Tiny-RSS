@@ -1549,7 +1549,6 @@
 
 		print "<script type=\"text/javascript\">
 			document.onkeydown = hotkey_handler;
-			if (parent.daemon_enabled) parent.updateTitle('$feed_title');
 			update_all_counters('$feed');
 		</script>";
 	
