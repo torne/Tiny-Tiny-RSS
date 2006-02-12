@@ -125,6 +125,11 @@
 				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
 			}
 
+			if ($upd_intl < 0) { 
+				// Updates for this feed are disabled
+				continue; 
+			}
+
 			if ($fetch || (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
 

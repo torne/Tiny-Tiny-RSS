@@ -59,9 +59,14 @@
 			if (!$upd_intl || $upd_intl == 0) {
 				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
 			}
+
+			if ($upd_intl < 0) { 
+				print "Updates disabled.\n";
+				continue; 
+			}
 	
-	#		printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
-	#			$upd_intl*60);
+			printf("%d ? %d\n", time() - strtotime($line["last_updated"]) > $upd_intl*60,
+				$upd_intl*60);
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
