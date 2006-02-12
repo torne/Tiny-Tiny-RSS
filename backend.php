@@ -61,6 +61,7 @@
 		}  
 
 		setcookie('ttrss_vf_refresh', FEEDS_FRAME_REFRESH);
+		setcookie('ttrss_vf_daemon', ENABLE_UPDATE_DAEMON);
 	}
 
 	$fetch = $_GET["fetch"];

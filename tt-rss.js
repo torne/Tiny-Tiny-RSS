@@ -5,7 +5,7 @@ var display_tags = false;
 var global_unread = -1;
 var active_title_text = "";
 var current_subtitle = "";
-
+var daemon_enabled = false;
 var _qfd_deleted_feed = 0;
 
 /*@cc_on @*/
@@ -123,9 +123,11 @@ function refetch_callback() {
 			var f_document = window.frames["feeds-frame"].document;
 
 			parse_counters(reply, f_document, window);
-	
-			updateTitle("");
-			notify("All feeds updated.");
+
+			if (!daemon_enabled) {
+				updateTitle("");
+				notify("All feeds updated.");
+			}
 		} catch (e) {
 			exception_error("refetch_callback", e);
 			updateTitle("");
@@ -167,11 +169,10 @@ function backend_sanity_check_callback() {
 
 function scheduleFeedUpdate(force) {
 
-	notify("Updating feeds, please wait.");
-
-//	document.title = "Tiny Tiny RSS - Updating...";
-
-	updateTitle("Updating");
+	if (!daemon_enabled) {
+		notify("Updating feeds, please wait.");
+		updateTitle("Updating");
+	}
 
 	var query_str = "backend.php?op=rpc&subop=";
 
@@ -402,6 +403,8 @@ function init_second_stage() {
 
 		dropboxSelect(viewbox, getCookie("ttrss_vf_vmode"));
 		dropboxSelect(limitbox, getCookie("ttrss_vf_limit"));
+
+		daemon_enabled = getCookie("ttrss_vf_daemon");
 	
 	} catch (e) {
 		exception_error("init_second_stage", e);

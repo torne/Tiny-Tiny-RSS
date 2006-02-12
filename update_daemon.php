@@ -11,6 +11,11 @@
 
 	require_once "sanity_check.php";
 	require_once "config.php";
+
+	if (!ENABLE_UPDATE_DAEMON) {
+		die("Please enable option ENABLE_UPDATE_DAEMON in config.php");
+	}
+	
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
