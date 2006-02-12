@@ -928,4 +928,14 @@
 		} 
 	}
 
+	function make_lockfile($filename) {
+		$fp = fopen($filename, "w");
+
+		if (flock($fp, LOCK_EX | LOCK_NB)) {		
+			return $fp;
+		} else {
+			return false;
+		}
+	}
+
 ?>
