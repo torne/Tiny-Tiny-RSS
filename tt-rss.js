@@ -127,7 +127,7 @@ function refetch_callback() {
 			if (!daemon_enabled) {
 				notify("All feeds updated.");
 			} else {
-				if (!global_unread) global_unread = 0;
+				global_unread = 0;
 			}
 			updateTitle("");
 		} catch (e) {
