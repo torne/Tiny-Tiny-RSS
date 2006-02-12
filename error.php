@@ -28,6 +28,7 @@
 
 	$ERRORS[8] = "Could not display feed: query failed. Please check label match syntax or local configuration.";
 
+	$ERRORS[8] = "Denied. Your access level is insufficient to access this page.";
 ?>
 
 <html>
