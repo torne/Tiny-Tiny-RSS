@@ -5,7 +5,7 @@
 
 	declare(ticks = 1);
 
-	define('SLEEP_INTERVAL', 10); // seconds between update runs
+	define('SLEEP_INTERVAL', 60); // seconds between update runs
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
