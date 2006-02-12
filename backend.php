@@ -721,10 +721,10 @@
 							(owner_uid, feed_id, entered) VALUES
 							(".$_SESSION["uid"].", NULL, NOW())");
 							
-						print "<!-- ScheduledOK -->";
+//						print "<!-- ScheduledOK -->";
 						
 					} else {
-						print "<!-- RequestAlreadyInQueue -->";
+//						print "<!-- RequestAlreadyInQueue -->";
 					}
 	
 #					print "</rpc-reply>";
