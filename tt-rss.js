@@ -125,9 +125,11 @@ function refetch_callback() {
 			parse_counters(reply, f_document, window);
 
 			if (!daemon_enabled) {
-				updateTitle("");
 				notify("All feeds updated.");
+			} else {
+				if (!global_unread) global_unread = 0;
 			}
+			updateTitle("");
 		} catch (e) {
 			exception_error("refetch_callback", e);
 			updateTitle("");
