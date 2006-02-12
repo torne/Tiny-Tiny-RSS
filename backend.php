@@ -759,9 +759,10 @@
 	 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 	 				getCategoryCounters($link);
 	 			}
-	 			getGlobalCounters($link, $global_unread);
 			}
-			
+
+ 			getGlobalCounters($link, $global_unread);
+
 			print "</rpc-reply>";
 
 		}
