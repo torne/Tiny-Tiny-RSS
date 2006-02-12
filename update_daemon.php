@@ -89,6 +89,7 @@
 	
 				print "Updating...\n";	
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
+				sleep(3); // prevent flood (FIXME make this an option?)
 			} else {
 				print "Update not needed.\n";
 			}
