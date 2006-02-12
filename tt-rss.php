@@ -110,7 +110,9 @@
 		
 		<select id="allFeedsChooser" onchange="allFeedsMenuChange()">
 			<option selected>All feeds...</option>
+			<? if (!ENABLE_UPDATE_DAEMON) { ?>
 			<option>Update</option>
+			<? } ?>
 			<option>Mark as read</option>
 			<option>Show only unread</option>
 		</select>
@@ -218,8 +220,10 @@
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
+				<? if (!ENABLE_UPDATE_DAEMON) { ?>
 				<option id="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
-				<option id="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>
+				<? } ?>
+				<option id="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
 				<option id="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Other actions:</option>				

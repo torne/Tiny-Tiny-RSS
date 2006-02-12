@@ -703,7 +703,7 @@
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 	
-			if (ENABLE_UPDATE_SCHEDULER) {
+			if (ENABLE_UPDATE_DAEMON) {
 
 				$result = db_query($link, "SELECT count(id) AS cid FROM
 					ttrss_scheduled_updates WHERE feed_id IS NULL AND
@@ -731,22 +731,20 @@
 				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
 			}
 
-			if (!(ENABLE_UPDATE_SCHEDULER && $subop == "forceUpdateAllFeeds")) {
+			$omode = $_GET["omode"];
 
-				$omode = $_GET["omode"];
+			if (!$omode) $omode = "tfl";
 
-				if (!$omode) $omode = "tfl";
-
-				print "<rpc-reply>";
-				if (strchr($omode, "l")) getLabelCounters($link);
-				if (strchr($omode, "f")) getFeedCounters($link);
-				if (strchr($omode, "t")) getTagCounters($link);
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					getCategoryCounters($link);
-				}
-				getGlobalCounters($link);
-				print "</rpc-reply>";
+			print "<rpc-reply>";
+			if (strchr($omode, "l")) getLabelCounters($link);
+			if (strchr($omode, "f")) getFeedCounters($link);
+			if (strchr($omode, "t")) getTagCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
 			}
+			getGlobalCounters($link);
+			print "</rpc-reply>";
+
 		}
 	
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
@@ -1036,7 +1034,7 @@
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 
-/*			if (ENABLE_UPDATE_SCHEDULER) {
+/*			if (ENABLE_UPDATE_DAEMON) {
 
 				if ($cid == 0) {
 
@@ -1052,7 +1050,7 @@
 			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
 				WHERE id = '$feed'");
 			$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
-			update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_SCHEDULER);
+			update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
 		}
 
 		if ($subop == "MarkAllRead")  {

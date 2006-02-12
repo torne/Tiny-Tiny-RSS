@@ -34,9 +34,13 @@
 
 	while (true) {
 
-		// FIXME: get all schedule updates w/forced refetch
+		// FIXME: get all scheduled updates w/forced refetch
 
-		print "Checking schedules updates (NOT IMPLEMENTED YET)\n";
+#		$result = db_query($link, "SELECT * FROM ttrss_scheduled_updates ORDER BY id");
+#		while ($line = db_fetch_assoc($result)) {
+#			print "Scheduled feed update: " . $line["feed_id"] . ", UID: " . 
+#				$line["owner_uid"] . "\n";
+#		}
 	
 		// Process all other feeds using last_updated and interval parameters
 

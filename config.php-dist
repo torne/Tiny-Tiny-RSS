@@ -87,12 +87,12 @@
 	// It is also recommended to set FEEDS_FRAME_REFRESH to a lower value if using
 	// this option.
 
-	define('ENABLE_UPDATE_SCHEDULER', false);
+	define('ENABLE_UPDATE_DAEMON', false);
 	// This enables different mechanism for user-triggered updates designed
 	// for update daemon running in background on the server.
 	
-	// This option _REQUIRES_ DAEMON_REFRESH_ONLY to be enabled and it is
-	// suggested to set FEEDS_FRAME_REFRESH to a small value (like 15-30 seconds).
+	// This option suggests FEEDS_FRAME_REFRESH set to a small value 
+	// (like 10-15 seconds, depending on number of users and server/bandwidth load).
 	
 	// vim:ft=php
 ?>
