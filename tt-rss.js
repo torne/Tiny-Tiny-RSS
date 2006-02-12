@@ -126,10 +126,8 @@ function refetch_callback() {
 
 			if (!daemon_enabled) {
 				notify("All feeds updated.");
-			} else {
-				global_unread = 0;
+				updateTitle("");
 			}
-			updateTitle("");
 		} catch (e) {
 			exception_error("refetch_callback", e);
 			updateTitle("");
