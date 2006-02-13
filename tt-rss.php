@@ -50,6 +50,14 @@
 
 <body onload="init()">
 
+<? if (ENABLE_UPDATE_DAEMON && !file_is_locked("update_daemon.lock")) { ?>
+	<div class="warning">
+		<b>Warning:</b> Update daemon is enabled in configuration, but daemon
+		process is not running, which prevents all feeds from updating. Please
+		start the daemon process or contact instance owner.
+	</div>
+<? } ?>
+
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>

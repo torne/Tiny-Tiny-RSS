@@ -928,6 +928,22 @@
 		} 
 	}
 
+	function file_is_locked($filename) {
+		error_reporting(0);
+		$fp = fopen($filename, "r");
+		error_reporting(DEFAULT_ERROR_LEVEL);
+		if ($fp) {
+			if (flock($fp, LOCK_EX | LOCK_NB)) {
+				flock($fp, LOCK_UN);
+				fclose($fp);
+				return false;
+			}
+			fclose($fp);
+			return true;
+		}
+		return false;
+	}
+
 	function make_lockfile($filename) {
 		$fp = fopen($filename, "w");
 
