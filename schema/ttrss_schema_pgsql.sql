@@ -11,11 +11,11 @@ drop table ttrss_tags;
 drop table ttrss_entry_comments;
 drop table ttrss_user_entries;
 drop table ttrss_entries;
+drop table ttrss_scheduled_updates;
 drop table ttrss_feeds;
 drop table ttrss_feed_categories;
 drop table ttrss_users;
 drop table ttrss_themes;
-drop table ttrss_scheduled_updates;
 
 begin;
 
