@@ -199,7 +199,7 @@ function init() {
 	try {
 		hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
 		document.onkeydown = hotkey_handler;
-		parent.setTimeout("timeout()", 1000);
+		parent.setTimeout("timeout()", 0);
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}

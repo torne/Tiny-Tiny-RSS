@@ -7,6 +7,7 @@ var active_title_text = "";
 var current_subtitle = "";
 var daemon_enabled = false;
 var _qfd_deleted_feed = 0;
+var firsttime_update = true;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -184,14 +185,20 @@ function scheduleFeedUpdate(force) {
 
 	var omode;
 
-	if (display_tags) {
-		omode = "t";
+	if (firsttime_update) {
+		firsttime_update = false;
+		omode = "T";
 	} else {
-		omode = "fl";
+		if (display_tags) {
+			omode = "t";
+		} else {
+			omode = "flc";
+		}
 	}
-
+	
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
+
 
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
