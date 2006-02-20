@@ -872,7 +872,7 @@
 		} else if (date("Y", $timestamp) == date("Y")) {
 			return date("M d, G:i", $timestamp);
 		} else {
-			return date("Y/m/d G:i");
+			return date("Y/m/d G:i", $timestamp);
 		}
 	}
 
@@ -882,7 +882,7 @@
 		} else if (date("Y", $timestamp) == date("Y")) {
 			return date("D m", $timestamp);
 		} else {
-			return date("Y/m/d");
+			return date("Y/m/d", $timestamp);
 		}
 	}
 
