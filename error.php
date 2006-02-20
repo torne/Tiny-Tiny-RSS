@@ -62,7 +62,12 @@
 		
 		<h1>Fatal Error</h1>
 
-		<div class="bigErrorMsg"><?= $ERRORS[$_GET["c"]] ?></div>
+		<div class="bigErrorMsg"><?= $ERRORS[$_GET["c"]] ?>
+
+		<? if ($_GET["p"]) { ?>
+			<p><?= htmlspecialchars($_GET["p"]) ?></p>
+		<? } ?>
+		</div>
 
 	</td>
 </tr>
