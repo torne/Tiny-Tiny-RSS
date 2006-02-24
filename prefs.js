@@ -1264,6 +1264,9 @@ function init() {
 
 	try {
 	
+		if (arguments.callee.done) return;
+		arguments.callee.done = true;		
+
 		// IE kludge
 		if (!xmlhttp) {
 			document.getElementById("prefContent").innerHTML = 

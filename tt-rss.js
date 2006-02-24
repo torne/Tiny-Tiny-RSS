@@ -301,14 +301,6 @@ function localPiggieFunction(enable) {
 
 function localHotkeyHandler(keycode) {
 
-/*	if (keycode == 78) {
-		return moveToPost('next');
-	}
-
-	if (keycode == 80) {
-		return moveToPost('prev');
-	} */
-
 	if (keycode == 82) { // r
 		return scheduleFeedUpdate(true);
 	}
@@ -382,6 +374,11 @@ function genericSanityCheck() {
 function init() {
 
 	try {
+
+		// this whole shebang is based on http://www.birnamdesigns.com/misc/busted2.html
+
+		if (arguments.callee.done) return;
+		arguments.callee.done = true;		
 
 		disableContainerChildren("headlinesToolbar", true);
 

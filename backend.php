@@ -354,7 +354,13 @@
 			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
 			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
 			<![endif]-->
-			</head><body onload=\"init()\">";
+			</head><body>
+			<script type=\"text/javascript\">
+				if (document.addEventListener) {
+					document.addEventListener(\"DOMContentLoaded\", init, null);
+				}
+				window.onload = init;
+			</script>";
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
 
@@ -627,6 +633,21 @@
 
 		print "</ul>";
 
+		print '
+			<script type="text/javascript">
+				/* for IE */
+				function statechange() {
+					if (document.readyState == "interactive") init();
+				}
+			
+				if (document.readyState) {	
+					if (document.readyState == "interactive" || document.readyState == "complete") {
+						init();
+					} else {
+						document.onreadystatechange = statechange;
+					}
+				}
+			</script></body></html>';
 	}
 
 
@@ -1051,7 +1072,13 @@
 				<script type=\"text/javascript\" src=\"pngfix.js\"></script>
 				<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
 				<![endif]-->
-				</head><body onload='init()'>";
+				</head><body>
+				<script type=\"text/javascript\">
+				if (document.addEventListener) {
+					document.addEventListener(\"DOMContentLoaded\", init, null);
+				}
+				window.onload = init;
+				</script>";
 		}
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
@@ -1564,6 +1591,22 @@
 			update_all_counters('$feed');
 		</script>";
 	
+		print '
+			<script type="text/javascript">
+				/* for IE */
+				function statechange() {
+					if (document.readyState == "interactive") init();
+				}
+			
+				if (document.readyState) {	
+					if (document.readyState == "interactive" || document.readyState == "complete") {
+						init();
+					} else {
+						document.onreadystatechange = statechange;
+					}
+				}
+			</script>';
+
 		if ($addheader) {
 			print "</body></html>";
 		}

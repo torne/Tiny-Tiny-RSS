@@ -380,5 +380,7 @@ function catchupPage() {
 
 
 function init() {
+	if (arguments.callee.done) return;
+	arguments.callee.done = true;		
 	document.onkeydown = hotkey_handler;
 }

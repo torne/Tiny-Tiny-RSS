@@ -47,7 +47,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
-<body onload="init()">
+<body>
+
+<script type="text/javascript">
+if (document.addEventListener) {
+	document.addEventListener("DOMContentLoaded", init, null);
+}
+window.onload = init;
+</script>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
@@ -126,6 +133,21 @@
 </table>
 
 <? db_close($link); ?>
+
+<script type="text/javascript">
+	/* for IE */
+	function statechange() {
+		if (document.readyState == "interactive") init();
+	}
+
+	if (document.readyState) {	
+		if (document.readyState == "interactive" || document.readyState == "complete") {
+			init();
+		} else {
+			document.onreadystatechange = statechange;
+		}
+	}
+</script>
 
 </body>
 </html>

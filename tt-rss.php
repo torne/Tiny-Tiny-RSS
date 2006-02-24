@@ -39,8 +39,8 @@
 
 	<? } ?>
 
-	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="tt-rss.js"></script>
+	<script type="text/javascript" src="functions.js"></script>
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
@@ -48,7 +48,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
-<body onload="init()">
+<body>
+
+<script type="text/javascript">
+if (document.addEventListener) {
+	document.addEventListener("DOMContentLoaded", init, null);
+}
+window.onload = init;
+</script>
 
 <? if (ENABLE_UPDATE_DAEMON && !file_is_locked("update_daemon.lock")) { ?>
 	<div class="warning">
@@ -277,6 +284,21 @@
 </table>
 
 <? db_close($link); ?>
+
+<script type="text/javascript">
+	/* for IE */
+	function statechange() {
+		if (document.readyState == "interactive") init();
+	}
+
+	if (document.readyState) {	
+		if (document.readyState == "interactive" || document.readyState == "complete") {
+			init();
+		} else {
+			document.onreadystatechange = statechange;
+		}
+	}
+</script>
 
 </body>
 </html>

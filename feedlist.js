@@ -197,6 +197,8 @@ function toggleCollapseCat(cat) {
 
 function init() {
 	try {
+		if (arguments.callee.done) return;
+		arguments.callee.done = true;		
 		hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
 		document.onkeydown = hotkey_handler;
 		parent.setTimeout("timeout()", 0);
