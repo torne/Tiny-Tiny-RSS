@@ -165,7 +165,7 @@ function cleanSelectedList(element) {
 			if (child.id == "feedCatHolder") {
 				var fcat = child.lastChild;
 				for (j = 0; j < fcat.childNodes.length; j++) {
-					var feed = fcat.childNodes[j];
+					var feed = fcat.childNodes[j];					
 					feed.className = feed.className.replace("Selected", "");
 				}		
 			}

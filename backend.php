@@ -371,8 +371,8 @@
 			/* virtual feeds */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">Special</li>\n";
-				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
+				print "<li class=\"feedCat\">Special</li>";
+				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
 			$result = db_query($link, "SELECT count(id) as num_starred 
@@ -400,10 +400,10 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">Labels</li>\n";
-						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
+						print "<li class=\"feedCat\">Labels</li>";
+						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 					} else {
-						print "<li><hr></li>\n";
+						print "<li><hr></li>";
 					}
 				}
 		
