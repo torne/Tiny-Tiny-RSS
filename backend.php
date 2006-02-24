@@ -1,5 +1,9 @@
 <?
 	session_start();
+
+	header("Cache-Control: no-cache");
+	header("Pragma: no-cache");
+	header("Expires: -1");
 	
 	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
