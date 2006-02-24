@@ -362,7 +362,7 @@
 				window.onload = init;
 			</script>";
 
-		print "<ul class=\"feedList\" id=\"feedList\">";
+		print "<ul class=\"feedList\" id=\"feedList\">\n";
 
 		$owner_uid = $_SESSION["uid"];
 
@@ -371,8 +371,8 @@
 			/* virtual feeds */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">Special</li>";
-				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+				print "<li class=\"feedCat\">Special</li>\n";
+				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 			}
 
 			$result = db_query($link, "SELECT count(id) as num_starred 
@@ -390,7 +390,7 @@
 				"images/mark_set.png", $link);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "</li></ul>";
+				print "</ul>\n";
 			}
 
 			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
@@ -400,10 +400,10 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">Labels</li>";
-						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+						print "<li class=\"feedCat\">Labels</li>\n";
+						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 					} else {
-						print "<li><hr></li>";
+						print "<li><hr></li>\n";
 					}
 				}
 		
@@ -434,7 +434,7 @@
 
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "</li></ul>";
+						print "</ul>";
 					}
 				}
 
@@ -528,7 +528,7 @@
 				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
 				
 					if ($category) {
-						print "</li></ul></li>";
+						print "</ul></li>";
 					}
 				
 					$category = $tmp_category;
