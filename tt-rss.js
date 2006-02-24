@@ -410,6 +410,11 @@ function init_second_stage() {
 		dropboxSelect(limitbox, getCookie("ttrss_vf_limit"));
 
 		daemon_enabled = getCookie("ttrss_vf_daemon");
+
+		if (navigator.userAgent.match("Opera")) {
+			var f = document.getElementById("feeds-frame");
+			f.style.height = document.body.scrollHeight - 200 + "px";
+		}
 	
 	} catch (e) {
 		exception_error("init_second_stage", e);
