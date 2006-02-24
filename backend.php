@@ -1353,8 +1353,8 @@
 				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
 			return;
 		}
-	
-		if (db_num_rows($result) > 0) {
+
+		function print_headline_subtoolbar($link, $feed_site_url, $feed_title) {
 
 			print "<table class=\"headlinesSubToolbar\" 
 				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
@@ -1387,13 +1387,12 @@
 			
 				print "</td>";
 
-
 			}
 
 			if ($last_error) {
 					print "<td align='center' class='small'>
 						<a class=\"warning\" href=\"javascript:alert('TT-RSS encountered an error while trying to update this feed.\\n\\n$last_error')\">Could not update this feed.</a></td>";
-				}	
+			}	
 
 			print "<td class=\"headlineTitle\">";
 		
@@ -1405,6 +1404,12 @@
 				
 			print "</td>";
 			print "</tr></table>";
+
+		}
+	
+		if (db_num_rows($result) > 0) {
+
+			print_headline_subtoolbar($link, $feed_site_url, $feed_title);
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
@@ -1543,6 +1548,9 @@
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {			
 				print "</table>";
 			}
+
+			print_headline_subtoolbar($link, "javascript:catchupPage()", "Mark page as read");
+
 
 		} else {
 			print "<div width='100%' align='center'>No articles found.</div>";

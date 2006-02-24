@@ -374,6 +374,11 @@ function cdmSelectArticles(mode) {
 	}
 }
 
+function catchupPage() {
+	alert("FIXME not yet implemented");
+}
+
+
 function init() {
 	document.onkeydown = hotkey_handler;
 }
