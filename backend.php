@@ -1244,11 +1244,33 @@
 		// override query strategy and enable feed display when searching globally
 		if ($search && $search_mode == "All feeds") {
 			$query_strategy_part = "ttrss_entries.id > 0";
-			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
 		} else if (sprintf("%d", $feed) == 0) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
+		} else if ($feed >= 0 && $search && $search_mode == "This category") {
+
+			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
+
+			$tmp_result = db_query($link, "SELECT id 
+				FROM ttrss_feeds WHERE cat_id = 
+					(SELECT cat_id FROM ttrss_feeds WHERE id = '$feed') AND id != '$feed'");
+
+			$cat_siblings = array();
+
+			if (db_num_rows($tmp_result) > 0) {
+				while ($p = db_fetch_assoc($tmp_result)) {
+					array_push($cat_siblings, "feed_id = " . $p["id"]);
+				}
+
+				$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
+					$feed, implode(" OR ", $cat_siblings));
+
+			} else {
+				$query_strategy_part = "ttrss_entries.id > 0";
+			}
+
 		} else if ($feed >= 0) {
 		
 			$tmp_result = db_query($link, "SELECT id 
@@ -1264,7 +1286,7 @@
 
 				$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
 					$feed, implode(" OR ", $parent_ids));
-	
+
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else {
 				$query_strategy_part = "feed_id = '$feed'";
@@ -3199,7 +3221,11 @@
 			} else {
 				print "<option disabled>This feed</option>";
 			}
-			
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<option>This category</option>";
+			}
+
 			print "</select>		
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" value=\"Search\">

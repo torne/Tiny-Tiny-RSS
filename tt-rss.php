@@ -153,10 +153,12 @@ window.onload = init;
 		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<input id="searchbox"
-			onblur="javascript:enableHotkeys()" onfocus="javascript:disableHotkeys()"
-			onchange="javascript:search()">
+			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
 		<select id="searchmodebox">
 			<option>This feed</option>
+			<? if (get_pref($link, 'ENABLE_FEED_CATS')) { ?>
+			<option>This category</option>
+			<? } ?>
 			<option>All feeds</option>
 		</select>
 		
