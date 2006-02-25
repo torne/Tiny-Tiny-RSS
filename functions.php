@@ -682,7 +682,8 @@
 				$sel .= " value=\"0\"";
 			}
 			
-			print "<input type=\"radio\" $sel $attributes name=\"$id\">&nbsp;$v&nbsp;";
+			print "<input class=\"noborder\" 
+				type=\"radio\" $sel $attributes name=\"$id\">&nbsp;$v&nbsp;";
 
 		}
 	}
