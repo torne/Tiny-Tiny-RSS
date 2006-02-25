@@ -1385,9 +1385,18 @@
 			return;
 		}
 
-		function print_headline_subtoolbar($link, $feed_site_url, $feed_title) {
+		function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
+						$bottom = false) {
 
-			print "<table class=\"headlinesSubToolbar\" 
+			if (!$bottom) {
+				$class = "headlinesSubToolbar";
+				$tid = "headlineActionsTop";
+			} else {
+				$class = "invisible";
+				$tid = "headlineActionsBottom";
+			}
+
+			print "<table class=\"$class\" id=\"$tid\"
 				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
@@ -1580,7 +1589,8 @@
 				print "</table>";
 			}
 
-			print_headline_subtoolbar($link, "javascript:catchupPage()", "Mark page as read");
+			print_headline_subtoolbar($link, 
+				"javascript:catchupPage()", "Mark page as read", true);
 
 
 		} else {

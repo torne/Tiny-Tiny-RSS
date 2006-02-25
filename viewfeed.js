@@ -385,4 +385,13 @@ function init() {
 	if (arguments.callee.done) return;
 	arguments.callee.done = true;		
 	document.onkeydown = hotkey_handler;
+
+	var hw = document.getElementById("headlinesList").scrollHeight;
+	var pw = parent.document.getElementById("headlines").scrollHeight;
+
+	if (hw >= pw) {
+		var bt = document.getElementById("headlineActionsBottom");
+		bt.className = "headlinesSubToolbar";
+	}
+	
 }
