@@ -1148,6 +1148,8 @@ function piggie_callback() {
 	var piggie = document.getElementById("piggie");
 
 	piggie.style.top = piggie_top;
+	piggie.style.backgroundColor = "white";
+	piggie.style.borderWidth = "1px";
 
 	if (piggie_fwd && piggie_top < 0) {
 		setTimeout("piggie_callback()", 50);
@@ -1170,6 +1172,8 @@ function piggie2_callback() {
 	var piggie = document.getElementById("piggie");
 	piggie.style.top = 0;
 	piggie.style.opacity = piggie_opacity;
+	piggie.style.backgroundColor = "transparent";
+	piggie.style.borderWidth = "0px";
 
 	if (piggie_fwd && piggie_opacity < 1) {
 		setTimeout("piggie2_callback()", 50);
