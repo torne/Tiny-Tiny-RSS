@@ -1164,11 +1164,38 @@ function piggie_callback() {
 	}
 }
 
+var piggie_opacity = 0;
+
+function piggie2_callback() {
+	var piggie = document.getElementById("piggie");
+	piggie.style.top = 0;
+	piggie.style.opacity = piggie_opacity;
+
+	if (piggie_fwd && piggie_opacity < 1) {
+		setTimeout("piggie2_callback()", 50);
+		piggie_opacity = piggie_opacity + 0.03;
+	} else if (piggie_fwd && piggie_opacity >= 1) {
+		piggie_fwd = false;
+		setTimeout("piggie2_callback()", 50);
+	} else if (!piggie_fwd && piggie_opacity > 0) {
+		setTimeout("piggie2_callback()", 50);
+		piggie_opacity = piggie_opacity - 0.03;
+	} else if (!piggie_fwd && piggie_opacity <= 0) {
+		piggie.style.display = "none";
+		piggie_fwd = true;
+	}
+}
+
 function localPiggieFunction(enable) {
 	if (enable) {
 		var piggie = document.getElementById("piggie");
 		piggie.style.display = "block";
-		piggie_callback();
+
+		if (navigator.userAgent.match("Firefox") && Math.random(1) > 0.5) {	
+			piggie2_callback();
+		} else {
+			piggie_callback();
+		}
 	}
 }
 
