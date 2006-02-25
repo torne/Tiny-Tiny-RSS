@@ -8,6 +8,9 @@ var active_user = false;
 var active_tab = false;
 var feed_to_expand = false;
 
+var piggie_top = -400;
+var piggie_fwd = true;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -1141,14 +1144,31 @@ function editSelectedFeedCat() {
 
 }
 
+function piggie_callback() {
+	var piggie = document.getElementById("piggie");
+
+	piggie.style.top = piggie_top;
+
+	if (piggie_fwd && piggie_top < 0) {
+		setTimeout("piggie_callback()", 50);
+		piggie_top = piggie_top + 10;
+	} else if (piggie_fwd && piggie_top >= 0) {
+		piggie_fwd = false;
+		setTimeout("piggie_callback()", 50);
+	} else if (!piggie_fwd && piggie_top > -400) {
+		setTimeout("piggie_callback()", 50);
+		piggie_top = piggie_top - 10;
+	} else if (!piggie_fwd && piggie_top <= -400) {
+		piggie.style.display = "none";
+		piggie_fwd = true;
+	}
+}
+
 function localPiggieFunction(enable) {
 	if (enable) {
+		var piggie = document.getElementById("piggie");
 		piggie.style.display = "block";
-		seq = "";
-		notify("I loveded it!!!");
-	} else {
-		piggie.style.display = "none";
-		notify("");
+		piggie_callback();
 	}
 }
 

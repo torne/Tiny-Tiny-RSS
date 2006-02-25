@@ -49,6 +49,8 @@
 
 <body>
 
+<div id="piggie" class="invisible">&nbsp;</div>
+
 <script type="text/javascript">
 if (document.addEventListener) {
 	document.addEventListener("DOMContentLoaded", init, null);
