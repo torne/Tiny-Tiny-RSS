@@ -375,7 +375,9 @@ function cdmSelectArticles(mode) {
 }
 
 function catchupPage() {
-	alert("FIXME not yet implemented");
+	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
+	selectionToggleUnread();
+	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 }
 
 
