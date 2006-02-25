@@ -394,6 +394,15 @@ function init() {
 	}
 }
 
+function resize_feeds_frame() {
+	var f = document.getElementById("feeds-frame");
+	var tf = document.getElementById("mainFooter");
+	var th = document.getElementById("mainHeader");
+		 
+	f.style.height = document.body.scrollHeight - tf.scrollHeight - 
+		th.scrollHeight - 50 + "px";
+}
+
 function init_second_stage() {
 
 	try {
@@ -411,9 +420,10 @@ function init_second_stage() {
 
 		daemon_enabled = getCookie("ttrss_vf_daemon");
 
+		// FIXME should be callled after window resize
+
 		if (navigator.userAgent.match("Opera")) {
-			var f = document.getElementById("feeds-frame");
-			f.style.height = document.body.scrollHeight - 200 + "px";
+			resize_feeds_frame();
 		}
 	
 	} catch (e) {

@@ -68,7 +68,7 @@ window.onload = init;
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
-	<td colspan="2" class="headerBox">
+	<td colspan="2" class="headerBox" id="mainHeader">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
 				<img src="images/ttrss_logo.png" alt="logo">	
@@ -90,7 +90,7 @@ window.onload = init;
 </tr>
 <? } else { ?>
 <tr>
-	<td class="small">
+	<td class="small" id="mainHeader">
 		<div id="notify"><span id="notify_body">&nbsp;</span></div>
 		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 	</td><td class="welcomePrompt">
@@ -273,7 +273,7 @@ window.onload = init;
 <? } ?>
 <? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
-	<td colspan="2" class="footer">
+	<td colspan="2" class="footer" id="mainFooter">
 		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
