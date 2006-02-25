@@ -424,6 +424,15 @@ function init_second_stage() {
 
 		if (navigator.userAgent.match("Opera")) {
 			resize_feeds_frame();
+
+			// fix headlines frame height for Opera
+			var h = document.getElementById("headlines");
+			var c = document.getElementById("content");
+			var nh = document.body.scrollHeight * 0.25;
+	
+			h.style.height = nh + "px";
+			c.style.height = c.scrollHeight - nh + "px";
+			
 		}
 	
 	} catch (e) {
