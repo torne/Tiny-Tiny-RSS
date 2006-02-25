@@ -129,11 +129,14 @@ function hotkey_handler(e) {
 		seq = seq + "" + keycode;
 	}
 
-	if (seq.match("807371717369")) {
-		seq = "";
-		localPiggieFunction(true);
-	} else {
-		localPiggieFunction(false);
+	if (document.getElementById("piggie")) {
+
+		if (seq.match("807371717369")) {
+			seq = "";
+			localPiggieFunction(true);
+		} else {
+			localPiggieFunction(false);
+		}
 	}
 	
 	if (typeof localHotkeyHandler != 'undefined') {
