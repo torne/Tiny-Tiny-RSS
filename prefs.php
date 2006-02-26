@@ -45,6 +45,12 @@
 		<script type="text/javascript" src="pngfix.js"></script>
 	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<script type="text/javascript">
+		if (navigator.userAgent.match("Opera")) {
+			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
+		}
+	</script>
 </head>
 
 <body>
