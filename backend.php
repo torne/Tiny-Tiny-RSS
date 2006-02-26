@@ -32,7 +32,7 @@
 		exit;
 	}
 
-	define('SCHEMA_VERSION', 5);
+	define('SCHEMA_VERSION', 6);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
