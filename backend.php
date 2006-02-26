@@ -903,7 +903,8 @@
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			SUBSTRING(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
-			num_comments
+			num_comments,
+			author
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id");
 
@@ -967,7 +968,14 @@
 
 			print "<div class=\"postHeader\"><table width=\"100%\">";
 
-			print "<tr><td><a href=\"" . $line["link"] . "\">" . $line["title"] . "</a></td>";
+			$entry_author = $line["author"];
+
+			if ($entry_author) {
+				$entry_author = " - by $entry_author";
+			}
+
+			print "<tr><td><a href=\"" . $line["link"] . "\">" . $line["title"] . 
+				"</a>$entry_author</td>";
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));

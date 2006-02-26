@@ -49,6 +49,10 @@
 	}
 
 	while (true) {
+		
+		print "Purging old posts...\n";
+
+		global_purge_old_posts($link, false);
 
 		// FIXME: get all scheduled updates w/forced refetch
 		// Stub, until I figure out if it is really needed.
