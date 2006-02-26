@@ -1,7 +1,7 @@
 <?
 	session_start();
 
-	header("Cache-Control: no-cache");
+	header("Cache-Control: no-cache, must-revalidate");
 	header("Pragma: no-cache");
 	header("Expires: -1");
 	
@@ -898,8 +898,6 @@
 			SET unread = false,last_read = NOW() 
 			WHERE ref_id = '$id' AND feed_id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-		$addheader = $_GET["addheader"];
-
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			SUBSTRING(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
@@ -908,29 +906,27 @@
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id");
 
-		if ($addheader) {
-			print "<html><head>
-				<title>Tiny Tiny RSS : Article $id</title>
-				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
+		print "<html><head>
+			<title>Tiny Tiny RSS : Article $id</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
-			$user_theme = $_SESSION["theme"];
-			if ($user_theme) { 
-				print "<link rel=\"stylesheet\" type=\"text/css\" 
-					href=\"themes/$user_theme/theme.css\">";
-			}
-
-			if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
-				print "<link rel=\"stylesheet\" type=\"text/css\" 
-					href=\"tt-rss_compact.css\"/>";
-			} else {
-				print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
-						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-			}
-
-			print "<script type=\"text/javascript\" src=\"functions.js\"></script>
-				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-				</head><body>";
+		$user_theme = $_SESSION["theme"];
+		if ($user_theme) { 
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"themes/$user_theme/theme.css\">";
 		}
+
+		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"tt-rss_compact.css\"/>";
+		} else {
+			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
+					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body>";
 
 		if ($result) {
 
@@ -1035,9 +1031,7 @@
 			</script>";
 		}
 
-		if ($addheader) {
-			print "</body></html>";
-		}
+		print "</body></html>";
 	}
 
 	if ($op == "viewfeed") {
@@ -1046,7 +1040,6 @@
 		$skip = $_GET["skip"];
 		$subop = $_GET["subop"];
 		$view_mode = $_GET["view"];
-		$addheader = $_GET["addheader"];
 		$limit = $_GET["limit"];
 
 		if (!$feed) {
@@ -1057,41 +1050,39 @@
 
 		if ($subop == "undefined") $subop = "";
 
-		if ($addheader) {
-			print "<html><head>
-				<title>Tiny Tiny RSS : Feed $feed</title>
-				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
+		print "<html><head>
+			<title>Tiny Tiny RSS : Feed $feed</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
-			$user_theme = $_SESSION["theme"];
-			if ($user_theme) { 
-				print "<link rel=\"stylesheet\" type=\"text/css\" 
-					href=\"themes/$user_theme/theme.css\">";
-			}
-
-			if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
-				print "<link rel=\"stylesheet\" 
-						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-
-			} else {
-				print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
-						type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-			}
-
-			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
-				<script type=\"text/javascript\" src=\"functions.js\"></script>
-				<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
-				<!--[if gte IE 5.5000]>
-				<script type=\"text/javascript\" src=\"pngfix.js\"></script>
-				<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
-				<![endif]-->
-				</head><body>
-				<script type=\"text/javascript\">
-				if (document.addEventListener) {
-					document.addEventListener(\"DOMContentLoaded\", init, null);
-				}
-				window.onload = init;
-				</script>";
+		$user_theme = $_SESSION["theme"];
+		if ($user_theme) { 
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"themes/$user_theme/theme.css\">";
 		}
+
+		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
+			print "<link rel=\"stylesheet\" 
+					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+
+		} else {
+			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
+					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
+			<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
+			<!--[if gte IE 5.5000]>
+			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
+			<![endif]-->
+			</head><body>
+			<script type=\"text/javascript\">
+			if (document.addEventListener) {
+				document.addEventListener(\"DOMContentLoaded\", init, null);
+			}
+			window.onload = init;
+			</script>";
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 
@@ -1651,9 +1642,7 @@
 				}
 			</script>';
 
-		if ($addheader) {
-			print "</body></html>";
-		}
+		print "</body></html>";
 	}
 
 	if ($op == "pref-rpc") {

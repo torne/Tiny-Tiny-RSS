@@ -70,7 +70,7 @@ function view(id, feed_id) {
 	var content = m_document.getElementById("content-frame");
 
 	if (content) {
-		content.src = "backend.php?op=view&addheader=true&id=" + param_escape(id) +
+		content.src = "backend.php?op=view&id=" + param_escape(id) +
 			"&feed=" + param_escape(feed_id);
 		markHeadline(active_post_id);
 	}

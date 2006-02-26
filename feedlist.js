@@ -101,8 +101,14 @@ function viewfeed(feed, skip, subop, doc) {
 		var headlines_frame = parent.frames["headlines-frame"];
 	
 	//	alert(headlines_frame)
-	
-		headlines_frame.location.href = query + "&addheader=true";
+
+		if (navigator.userAgent.match("Opera")) {
+			var date = new Date();
+			var timestamp = Math.round(date.getTime() / 1000);
+			query = query + "&ts=" + timestamp
+		}
+
+		headlines_frame.location.href = query;
 	
 		cleanSelectedList("feedList");
 	
