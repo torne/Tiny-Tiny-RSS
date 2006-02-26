@@ -128,6 +128,8 @@ function refetch_callback() {
 			if (!daemon_enabled) {
 				notify("All feeds updated.");
 				updateTitle("");
+			} else {
+				notify("");
 			}
 		} catch (e) {
 			exception_error("refetch_callback", e);
