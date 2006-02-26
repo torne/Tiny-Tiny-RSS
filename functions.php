@@ -355,6 +355,8 @@
 
 				$entry_comments = $item["comments"];
 
+				$entry_author = db_escape_string($item['dc']['creator']);
+
 				$entry_guid = db_escape_string($entry_guid);
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries 
@@ -384,7 +386,8 @@
 							no_orig_date,
 							date_entered,
 							comments,
-							num_comments)
+							num_comments,
+							author)
 						VALUES
 							('$entry_title', 
 							'$entry_guid', 
@@ -395,7 +398,8 @@
 							$no_orig_date, 
 							NOW(), 
 							'$entry_comments',
-							'$num_comments')");
+							'$num_comments',
+							'$entry_author')");
 				} else {
 					// we keep encountering the entry in feeds, so we need to
 					// update date_entered column so that we don't get horrible

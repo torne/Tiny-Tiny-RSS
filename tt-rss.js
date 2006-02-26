@@ -185,7 +185,7 @@ function scheduleFeedUpdate(force) {
 
 	var omode;
 
-	if (firsttime_update) {
+	if (firsttime_update && !navigator.userAgent.match("Opera")) {
 		firsttime_update = false;
 		omode = "T";
 	} else {
