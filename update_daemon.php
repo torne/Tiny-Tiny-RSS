@@ -8,6 +8,8 @@
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
+	define('PURGE_INTERVAL', 3600); // seconds
+
 	require_once "sanity_check.php";
 	require_once "config.php";
 
@@ -48,11 +50,15 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
-	while (true) {
-		
-		print "Purging old posts...\n";
+	$last_purge = 0;
 
-		global_purge_old_posts($link, false);
+	while (true) {
+
+		if (time() - $last_purge > PURGE_INTERVAL) {
+			print "Purging old posts...\n";
+			global_purge_old_posts($link, true);
+			$last_purge = time();
+		}
 
 		// FIXME: get all scheduled updates w/forced refetch
 		// Stub, until I figure out if it is really needed.
