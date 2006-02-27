@@ -14,25 +14,36 @@
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
-	function purge_feed($link, $feed_id, $purge_interval) {
+	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
+
+		$rows = -1;
 
 		if (DB_TYPE == "pgsql") {
-			db_query($link, "DELETE FROM ttrss_user_entries WHERE
+			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
 				(SELECT date_entered FROM ttrss_entries WHERE
 					id = ref_id) < NOW() - INTERVAL '$purge_interval days'");
+
+			$rows = pg_affected_rows($result);
+			
 		} else {
-			db_query($link, "DELETE FROM ttrss_user_entries WHERE
+			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
 				(SELECT date_entered FROM ttrss_entries WHERE 
 					id = ref_id) < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
+			$rows = mysql_affected_rows($link);
+
+		}
+
+		if ($debug) {
+			print "Purged feed $feed_id ($purge_interval): deleted $rows articles\n";
 		}
 	}
 
 	function global_purge_old_posts($link, $do_output = false) {
 
 		$result = db_query($link, 
-			"SELECT id,purge_interval,owner_uid FROM ttrss_feeds");
+			"SELECT id,purge_interval,owner_uid FROM ttrss_feeds ORDER BY id");
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -52,11 +63,11 @@
 			}
 
 			if ($do_output) {
-				print "<feed id='$feed_id' p_intl='$purge_interval'/>";
+//				print "Feed $feed_id: purge interval = $purge_interval\n";
 			}
 
 			if ($purge_interval > 0) {
-				purge_feed($link, $feed_id, $purge_interval);
+				purge_feed($link, $feed_id, $purge_interval, $do_output);
 			}
 		}	
 
