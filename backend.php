@@ -1458,7 +1458,10 @@
 			print "<td class=\"headlineTitle\">";
 		
 			if ($feed_site_url) {
-				print "<a target=\"_blank\" href=\"$feed_site_url\">$feed_title</a>";
+				if (!$bottom) {
+					$target = "target=\"_blank\"";
+				}
+				print "<a $target href=\"$feed_site_url\">$feed_title</a>";
 			} else {
 				print $feed_title;
 			}
