@@ -125,6 +125,8 @@ function refetch_callback() {
 
 			parse_counters(reply, f_document, window);
 
+			debug("refetch_callback: done");
+
 			if (!daemon_enabled) {
 				notify("All feeds updated.");
 				updateTitle("");
@@ -162,6 +164,8 @@ function backend_sanity_check_callback() {
 				return fatalError(error_code);
 			}
 	
+			debug("sanity check ok");
+
 			init_second_stage();
 
 		} catch (e) {
@@ -201,6 +205,7 @@ function scheduleFeedUpdate(force) {
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
 
+	debug("in scheduleFeedUpdate");
 
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
@@ -393,6 +398,11 @@ function init() {
 		if (!genericSanityCheck()) 
 			return;
 
+		if (getURLParam('debug')) {
+			document.getElementById('debug_output').style.display = 'block';
+			debug('debug mode activated');
+		}
+
 		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
 		xmlhttp.onreadystatechange=backend_sanity_check_callback;
 		xmlhttp.send(null);
@@ -442,6 +452,8 @@ function init_second_stage() {
 			c.style.height = c.scrollHeight - nh + "px"; */
 			
 		}
+
+		debug("second stage ok");
 	
 	} catch (e) {
 		exception_error("init_second_stage", e);
@@ -676,3 +688,15 @@ function toggleDispRead() {
 	}
 }
 
+function debug(msg) {
+	var c = document.getElementById('debug_output');
+	if (c && c.style.display == "block") {
+		while (c.firstChild != 'undefined' && c.childNodes.length > 15) {
+			c.removeChild(c.firstChild);
+		}
+	
+		var d = new Date();
+		var ts = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+		c.innerHTML = c.innerHTML + "<li>[" + ts + "] " + msg + "</li>";
+	}
+}

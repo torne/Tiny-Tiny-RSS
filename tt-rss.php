@@ -71,6 +71,8 @@ window.onload = init;
 	</div>
 <? } ?>
 
+<ul id="debug_output"></ul>
+
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>

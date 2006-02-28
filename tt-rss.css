@@ -993,3 +993,25 @@ div.cdmContent a:hover {
 .noborder {
 	border-width : 0px;
 }
+
+#debug_output {
+	width : 300;
+	height : 80;
+	right : 20;
+	bottom : 20;
+	background-color : white;
+	display : none;
+	z-index : 3;
+	position : absolute;
+	border : 1px solid #c0c0c0;
+	overflow : auto;
+	margin : 0px;
+	padding : 5px;
+	list-style-type : none;
+}
+
+#debug_output li {
+	margin : 0px;
+	padding : 0px;
+	font-size : x-small;
+}
