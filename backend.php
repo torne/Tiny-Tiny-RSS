@@ -23,6 +23,19 @@
 
 		if ($op == "rpc") {
 			print "<error error-code=\"6\"/>";
+		} else {
+			print "
+			<html><body>
+				<p>Error: Not logged in.</p>
+				<script type=\"text/javascript\">
+					if (parent.window != 'undefined') {
+						parent.window.location = \"login.php\";		
+					} else {
+						window.location = \"login.php\";
+					}
+				</script>
+			</body></html>
+			";
 		}
 		exit;
 	}
