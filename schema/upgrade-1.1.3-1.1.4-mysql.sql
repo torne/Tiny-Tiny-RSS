@@ -8,6 +8,7 @@ alter table ttrss_entries alter column author set default '';
 create table ttrss_sessions (id varchar(300) unique not null primary key,
 	data text,
 	expire integer not null,
+	ip_address varchar(15) not null default '',
 	index (id), 
 	index (expire)) TYPE=InnoDB;
 

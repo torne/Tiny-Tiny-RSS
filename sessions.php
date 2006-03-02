@@ -22,7 +22,13 @@
 	
 		global $session_connection,$session_read;					 
 
-		$query = "SELECT data FROM ttrss_sessions WHERE id='$id'";
+		$ip_address = $_SERVER["REMOTE_ADDR"];
+
+		if (SESSION_CHECK_ADDRESS) {
+			$address_check_qpart = " AND ip_address = '$ip_address'";
+		}
+
+		$query = "SELECT data FROM ttrss_sessions WHERE id='$id' $address_check_qpart";
 
 		$res = db_query($session_connection, $query);
 		
@@ -47,12 +53,18 @@
 		
 		$data = db_escape_string(base64_encode($data), $session_connection);
 		
+		$ip_address = $_SERVER["REMOTE_ADDR"];
+
+		if (SESSION_CHECK_ADDRESS) {
+			$address_check_qpart = " AND ip_address = '$ip_address'";
+		}
+		
 		if ($session_read) {
 		 	$query = "UPDATE ttrss_sessions SET data='$data', 
-					expire='$expire' WHERE id='$id'"; 
+					expire='$expire' WHERE id='$id' $address_check_qpart"; 
 		} else {
-		 	$query = "INSERT INTO ttrss_sessions (id, data, expire)
-					VALUES ('$id', '$data', '$expire')";
+		 	$query = "INSERT INTO ttrss_sessions (id, data, expire, ip_address)
+					VALUES ('$id', '$data', '$expire', '$ip_address')";
 		}
 		
 		db_query($session_connection, $query);
@@ -71,8 +83,14 @@
 	function destroy ($id) {
 	
 		global $session_connection;
-		
-		$query = "DELETE FROM ttrss_sessions WHERE id = '$id'";
+
+		$ip_address = $_SERVER["REMOTE_ADDR"];
+
+		if (SESSION_CHECK_ADDRESS) {
+			$address_check_qpart = " AND ip_address = '$ip_address'";
+		}
+
+		$query = "DELETE FROM ttrss_sessions WHERE id = '$id' $address_check_qpart";
 		
 		db_query($session_connection, $query);
 		

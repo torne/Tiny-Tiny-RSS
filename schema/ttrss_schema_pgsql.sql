@@ -232,8 +232,9 @@ create table ttrss_scheduled_updates (id serial not null primary key,
 	entered timestamp not null default NOW());
 
 create table ttrss_sessions (id varchar(300) unique not null primary key,
-	data text,
-	expire integer not null);
+	data text,	
+	expire integer not null,
+	ip_address varchar(15) not null default '');
 
 create index ttrss_sessions_expire_index on ttrss_sessions(expire);
 

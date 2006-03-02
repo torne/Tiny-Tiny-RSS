@@ -104,5 +104,8 @@
 	// Store session information in a database (recommended)
 	// Uses default PHP session storing mechanism if disabled
 
+	define('SESSION_CHECK_ADDRESS', true);
+	// Bind sessions to specific IP address (requires DATABASE_BACKED_SESSIONS)
+
 	// vim:ft=php
 ?>
