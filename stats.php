@@ -38,10 +38,15 @@
 
 	print "<p>Total articles stored: $total_articles (${articles_size}K)</p>";
 
-	$result = db_query($link, "SELECT COUNT(int_id) as cid,owner_uid,login 
+/*	$result = db_query($link, "SELECT COUNT(int_id) as cid,owner_uid,login 
 		FROM ttrss_user_entries 
-			JOIN ttrss_users ON (owner_uid = ttrss_users.id)
-		GROUP BY owner_uid,login ORDER BY cid DESC");
+			LEFT JOIN ttrss_users ON (owner_uid = ttrss_users.id)
+		GROUP BY owner_uid,login ORDER BY cid DESC"); */
+
+	$result = db_query($link, "SELECT count(ttrss_entries.id) AS cid,
+		login FROM ttrss_entries 
+		LEFT JOIN ttrss_user_entries ON (ref_id = ttrss_entries.id) 
+		LEFT JOIN ttrss_users ON (ttrss_users.id = owner_uid) GROUP BY login");
 
 	print "<h2>Per-user storage</h2>";
 
