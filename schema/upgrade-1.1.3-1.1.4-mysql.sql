@@ -5,8 +5,7 @@ update ttrss_entries set author = '';
 alter table ttrss_entries change author author varchar(250) not null;
 alter table ttrss_entries alter column author set default '';
 
-create table ttrss_sessions (int_id integer not null primary key auto_increment,
-	id varchar(300) unique not null,
+create table ttrss_sessions (id varchar(300) unique not null primary key,
 	data text,
 	expire integer not null,
 	index (id), 

@@ -100,5 +100,9 @@
 	define('DAEMON_SLEEP_INTERVAL', 120);
 	// Interval between update daemon update runs
 
+	define('DATABASE_BACKED_SESSIONS', true);
+	// Store session information in a database (recommended)
+	// Uses default PHP session storing mechanism if disabled
+
 	// vim:ft=php
 ?>

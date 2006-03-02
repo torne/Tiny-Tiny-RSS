@@ -7,6 +7,7 @@
 	$session_expire = 600;
 
 	ini_set("session.gc_probability", 50);
+	ini_set("session.name", "ttrss_sid");
 
 	function open ($s, $n) {
 	
@@ -87,6 +88,9 @@
 		db_query($session_connection, $query);
 	}
 
-	session_set_save_handler ("open", "close", "read", "write", "destroy", "gc");
+	if (DATABASE_BACKED_SESSIONS) {
+		session_set_save_handler ("open", "close", "read", "write", "destroy", "gc");
+	}
+	
 	session_start();
 ?>
