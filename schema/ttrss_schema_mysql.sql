@@ -16,6 +16,7 @@ drop table if exists ttrss_feeds;
 drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
 drop table if exists ttrss_themes;
+drop table if exists ttrss_sessions;
 
 begin;
 
@@ -254,5 +255,12 @@ create table ttrss_scheduled_updates (id integer not null primary key auto_incre
 	entered datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE) TYPE=InnoDB;
+
+create table ttrss_sessions (int_id integer not null primary key auto_increment,
+	id varchar(300) unique not null,
+	data text,
+	expire integer not null,
+	index (id), 
+	index (expire)) TYPE=InnoDB;
 
 commit;

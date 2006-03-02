@@ -1,5 +1,5 @@
 <?
-	session_start();
+	require_once "sessions.php";
 
 	define('MAX_SCHEMA_VERSION', 5);
 

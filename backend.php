@@ -1,6 +1,6 @@
 <?
-	session_start();
-
+	require_once "sessions.php";
+	
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Pragma: no-cache");
 	header("Expires: -1");

@@ -16,6 +16,7 @@ drop table ttrss_feeds;
 drop table ttrss_feed_categories;
 drop table ttrss_users;
 drop table ttrss_themes;
+drop table ttrss_sessions;
 
 begin;
 
@@ -229,5 +230,13 @@ create table ttrss_scheduled_updates (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	feed_id integer default null references ttrss_feeds(id) ON DELETE CASCADE,
 	entered timestamp not null default NOW());
+
+create table ttrss_sessions (int_id serial not null primary key,
+		id varchar(300) unique not null,
+		data text,
+		expire integer not null);
+
+create index ttrss_sessions_id_index on ttrss_sessions(id);
+create index ttrss_sessions_expire_index on ttrss_sessions(expire);
 
 commit;
