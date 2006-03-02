@@ -8,6 +8,7 @@
 
 	ini_set("session.gc_probability", 50);
 	ini_set("session.name", "ttrss_sid");
+	ini_set("session.use_only_cookies", true);
 
 	function open ($s, $n) {
 	
@@ -107,7 +108,7 @@
 	}
 
 	if (DATABASE_BACKED_SESSIONS) {
-		session_set_save_handler ("open", "close", "read", "write", "destroy", "gc");
+		session_set_save_handler("open", "close", "read", "write", "destroy", "gc");
 	}
 	
 	session_start();
