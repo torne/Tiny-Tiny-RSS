@@ -8,6 +8,7 @@ var current_subtitle = "";
 var daemon_enabled = false;
 var _qfd_deleted_feed = 0;
 var firsttime_update = true;
+var last_refetch = 0;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -101,6 +102,10 @@ function hide_unread_callback() {
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {
+
+			var date = new Date();
+
+			last_refetch = date.getTime() / 1000;
 
 			if (!xmlhttp.responseXML) {
 				notify("refetch_callback: backend did not return valid XML");
@@ -207,11 +212,19 @@ function scheduleFeedUpdate(force) {
 
 	debug("in scheduleFeedUpdate");
 
+	var date = new Date();
+
+	if (!xmlhttp_ready(xmlhttp) && last_refetch < date.getTime() / 1000 - 60) {
+		debug("xmlhttp seems to be stuck, aborting");
+		xmlhttp.abort();
+	}
+
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=refetch_callback;
 		xmlhttp.send(null);
 	} else {
+		debug("xmlhttp busy");
 		printLockingError();
 	}   
 }
