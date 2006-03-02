@@ -4,7 +4,7 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	$session_expire = 600;
+	$session_expire = 3600; //seconds
 
 	ini_set("session.gc_probability", 50);
 	ini_set("session.name", "ttrss_sid");
