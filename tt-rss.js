@@ -691,12 +691,12 @@ function toggleDispRead() {
 function debug(msg) {
 	var c = document.getElementById('debug_output');
 	if (c && c.style.display == "block") {
-		while (c.firstChild != 'undefined' && c.childNodes.length > 15) {
-			c.removeChild(c.firstChild);
+		while (c.lastChild != 'undefined' && c.childNodes.length > 20) {
+			c.removeChild(c.lastChild);
 		}
 	
 		var d = new Date();
 		var ts = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-		c.innerHTML = c.innerHTML + "<li>[" + ts + "] " + msg + "</li>";
+		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
 	}
 }
