@@ -1384,15 +1384,17 @@
 			$feed_title = "Global search results ($search)";
 		} else if ($search && sprintf("%d", $feed) == 0) {
 			$feed_title = "Feed search results ($search, $feed)";
-		} else if ($feed > 0) {
+		} else if ($feed >= 0) {
 
 			if ($cat_view) {
-			
-				$result = db_query($link, "SELECT title FROM ttrss_feed_categories
-					WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 
-				$feed_title = db_fetch_result($result, 0, "title");
-
+				if ($feed != 0) {			
+					$result = db_query($link, "SELECT title FROM ttrss_feed_categories
+						WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+					$feed_title = db_fetch_result($result, 0, "title");
+				} else {
+					$feed_title = "Uncategorized";
+				}
 			} else {
 				
 				$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
