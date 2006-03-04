@@ -155,7 +155,11 @@ function cleanSelectedList(element) {
 	if (!document.getElementById("feedCatHolder")) {
 		for (i = 0; i < content.childNodes.length; i++) {
 			var child = content.childNodes[i];
-			child.className = child.className.replace("Selected", "");
+			try {
+				child.className = child.className.replace("Selected", "");
+			} catch (e) {
+				//
+			}
 		}
 	} else {
 		for (i = 0; i < content.childNodes.length; i++) {

@@ -1140,7 +1140,7 @@
 
 		if ($subop == "MarkAllRead")  {
 
-			if (preg_match("/^[0-9][0-9]*$/", $feed) != false) {
+			if (preg_match("/^[0-9][0-9]*$/", $feed) != false && $feed >= 0) {
 			
 				if ($cat_view) {
 
@@ -1298,7 +1298,7 @@
 		if ($search && $search_mode == "All feeds") {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
-		} else if (preg_match("/^[0-9][0-9]*$/", $feed) == false) {
+		} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
@@ -1382,9 +1382,11 @@
 
 		if ($search && $search_mode == "All feeds") {
 			$feed_title = "Global search results ($search)";
-		} else if ($search && sprintf("%d", $feed) == 0) {
+		} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 			$feed_title = "Feed search results ($search, $feed)";
-		} else if ($feed >= 0) {
+		} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
+			$feed_title = $feed;
+		} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
 
 			if ($cat_view) {
 
@@ -1421,7 +1423,7 @@
 
 		print "<div id=\"headlinesContainer\">";
 
-		if (preg_match("/^[0-9][0-9]*$/", $feed) != false) {
+		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 
 			if ($feed >= 0) {
 				$feed_kind = "Feeds";
