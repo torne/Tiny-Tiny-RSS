@@ -358,7 +358,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
-function parse_counters(reply, f_document, title_obj) {
+function parse_counters(reply, f_document, title_obj, scheduled_call) {
 	try {
 		for (var l = 0; l < reply.childNodes.length; l++) {
 			if (!reply.childNodes[l] ||
@@ -393,6 +393,11 @@ function parse_counters(reply, f_document, title_obj) {
 			var feed_img = f_document.getElementById("FIMG-" + id);
 
 			if (feedctr && feedu && feedr) {
+
+				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
+					var hf = title_obj.parent.frames["headlines-frame"];
+					hf.location.reload(true);
+				}
 		
 				feedu.innerHTML = ctr;
 

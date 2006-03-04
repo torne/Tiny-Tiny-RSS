@@ -128,7 +128,7 @@ function refetch_callback() {
 	
 			var f_document = window.frames["feeds-frame"].document;
 
-			parse_counters(reply, f_document, window);
+			parse_counters(reply, f_document, window, true);
 
 			debug("refetch_callback: done");
 
