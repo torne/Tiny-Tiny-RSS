@@ -754,6 +754,7 @@
 			$user_theme = get_user_theme_path($link);
 
 			$_SESSION["theme"] = $user_theme;
+			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 
 			initialize_user_prefs($link, $_SESSION["uid"]);
 
@@ -828,8 +829,27 @@
 		return $redirect_uri;
 	}
 
+	function validate_session($link) {
+		if (SESSION_CHECK_ADDRESS && !DATABASE_BACKED_SESSIONS && $_SESSION["uid"]) {
+			if ($_SESSION["ip_address"]) {
+				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	function login_sequence($link) {
 		if (!SINGLE_USER_MODE) {
+
+			if (!validate_session($link)) {
+				logout_user();
+				$redirect_uri = get_login_redirect();
+				$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
+				header("Location: $redirect_uri?rt=$return_to");
+				exit;
+			}
 
 			if (!USE_HTTP_AUTH) {
 				if (!$_SESSION["uid"]) {

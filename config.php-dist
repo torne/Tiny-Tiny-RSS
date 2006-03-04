@@ -105,7 +105,7 @@
 	// Uses default PHP session storing mechanism if disabled
 
 	define('SESSION_CHECK_ADDRESS', true);
-	// Bind sessions to specific IP address (requires DATABASE_BACKED_SESSIONS)
+	// Bind session to client IP address (recommended)
 
 	define('SESSION_COOKIE_LIFETIME', 0);
 	// Default lifetime of a session cookie. In seconds, 
