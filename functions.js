@@ -849,4 +849,8 @@ function getURLParam(strParamName){
   return strReturn;
 } 
 
-
+function leading_zero(p) {
+	var s = String(p);
+	if (s.length == 1) s = "0" + s;
+	return s;
+}

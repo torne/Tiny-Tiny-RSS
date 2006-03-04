@@ -709,7 +709,8 @@ function debug(msg) {
 		}
 	
 		var d = new Date();
-		var ts = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
+			":" + leading_zero(d.getSeconds());
 		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
 	}
 }

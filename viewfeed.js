@@ -1,5 +1,4 @@
 var active_post_id = false;
-var total_unread = 0;
 
 var xmlhttp_rpc = false;
 
@@ -24,7 +23,7 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 
 function view(id, feed_id) {
 
-//	p_notify("Loading article...");
+	parent.debug("loading article: " + id + "/" + feed_id);
 
 	var f_document = parent.frames["feeds-frame"].document;
 	var h_document = document;
@@ -33,26 +32,6 @@ function view(id, feed_id) {
 	enableHotkeys();
 
 	var crow = h_document.getElementById("RROW-" + id);
-
-/*	if (crow.className.match("Unread")) {
-		var umark = f_document.getElementById("FEEDU-" + feed_id);
-		
-		umark.innerHTML = umark.innerHTML - 1;
-		crow.className = crow.className.replace("Unread", "");
-
-		if (umark.innerHTML == "0") {
-			var feedr = f_document.getElementById("FEEDR-" + feed_id);	
-			feedr.className = feedr.className.replace("Unread", "");
-
-			var feedctr = f_document.getElementById("FEEDCTR-" + feed_id);
-
-			if (feedctr) {
-				feedctr.className = "invisible";
-			}
-		}
-
-		total_unread--;
-	}	 */
 
 	crow.className = crow.className.replace("Unread", "");
 
@@ -91,8 +70,6 @@ function toggleMark(id) {
 	var mark_img = document.getElementById("FMARKPIC-" + id);
 	var vfeedu = f_document.getElementById("FEEDU--1");
 	var crow = document.getElementById("RROW-" + id);
-
-//	alert(vfeedu);
 
 	if (mark_img.alt != "Reset mark") {
 		mark_img.src = "images/mark_set.png";
