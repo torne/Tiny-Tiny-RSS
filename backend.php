@@ -1437,27 +1437,24 @@
 
 				print "<td class=\"headlineActions\">
 					Select: 
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-									'RROW-', 'RCHK-', true, '', true)\">All</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-									'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 
-									'RROW-', 'RCHK-', false)\">None</a>
+								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)\">All</a>,
+								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
+								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)\">None</a>
 						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
-								<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
+						Toggle: <a href='#' onclick=\"javascript:selectionToggleUnread()\">Unread</a>,
+								<a href='#' onclick=\"javascript:selectionToggleMarked()\">Starred</a>";
 				print "</td>";
 
 			} else {
 
 				print "<td class=\"headlineActions\">
 					Select: 
-								<a href=\"javascript:cdmSelectArticles('all')\">All</a>,
-								<a href=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
-								<a href=\"javascript:cdmSelectArticles('none')\">None</a>
+								<a href=\"#\" onclick=\"javascript:cdmSelectArticles('all')\">All</a>,
+								<a href=\"#\" onclick=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
+								<a href=\"#\" onclick=\"javascript:cdmSelectArticles('none')\">None</a>
 						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread(true)\">Unread</a>,
-								<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>";
+						Toggle: <a href=\"#\" onclick=\"javascript:selectionToggleUnread(true)\">Unread</a>,
+								<a href=\"#\" onclick=\"javascript:selectionToggleMarked(true)\">Starred</a>";
 			
 				print "</td>";
 
