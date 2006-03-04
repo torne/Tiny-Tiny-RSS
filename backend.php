@@ -584,9 +584,14 @@
 					$cat_id = sprintf("%d", $cat_id);
 					
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category
+						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
+							<a href=\"javascript:viewCategory($cat_id)\">
 							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
+							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a>
+							<!-- <div style=\"float : right\">
+								<a href=\"javascript:viewCategory($cat_id)\">[view]</a>
+							</div> -->
+						</li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
@@ -1054,6 +1059,7 @@
 		$subop = $_GET["subop"];
 		$view_mode = $_GET["view"];
 		$limit = $_GET["limit"];
+		$cat_view = $_GET["cat"];
 
 		if (!$feed) {
 			return;
@@ -1112,17 +1118,43 @@
 				// fixme update_rss_feed...
 			} */
 
-			$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
-				WHERE id = '$feed'");
-			$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
-			update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
+			if ($cat_view) {
+				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+					WHERE cat_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
+					$feed_url = $tmp_line["feed_url"];
+					update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
+				}
+
+			} else {
+				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+					WHERE id = '$feed'");
+				$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
+				update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
+			}
 		}
 
 		if ($subop == "MarkAllRead")  {
 
 			if (sprintf("%d", $feed) != 0) {
 			
-				if ($feed > 0) {
+				if ($cat_view) {
+
+					$tmp_result = db_query($link, "SELECT id 
+						FROM ttrss_feeds WHERE cat_id = '$feed' AND owner_uid = " . 
+						$_SESSION["uid"]);
+
+					while ($tmp_line = db_fetch_assoc($tmp_result)) {
+
+						$tmp_feed = $tmp_line["id"];
+
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW() 
+							WHERE feed_id = '$tmp_feed' AND owner_uid = " . $_SESSION["uid"]);
+					}
+
+				} else if ($feed > 0) {
 
 					$tmp_result = db_query($link, "SELECT id 
 						FROM ttrss_feeds WHERE parent_feed = '$feed'
@@ -1282,26 +1314,33 @@
 			} else {
 				$query_strategy_part = "ttrss_entries.id > 0";
 			}
-
+			
 		} else if ($feed >= 0) {
-		
-			$tmp_result = db_query($link, "SELECT id 
-				FROM ttrss_feeds WHERE parent_feed = '$feed'
-				ORDER BY cat_id,title");
 
-			$parent_ids = array();
+			if ($cat_view) {
 
-			if (db_num_rows($tmp_result) > 0) {
-				while ($p = db_fetch_assoc($tmp_result)) {
-					array_push($parent_ids, "feed_id = " . $p["id"]);
-				}
-
-				$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
-					$feed, implode(" OR ", $parent_ids));
-
+				$query_strategy_part = "cat_id = $feed";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-			} else {
-				$query_strategy_part = "feed_id = '$feed'";
+
+			} else {		
+				$tmp_result = db_query($link, "SELECT id 
+					FROM ttrss_feeds WHERE parent_feed = '$feed'
+					ORDER BY cat_id,title");
+	
+				$parent_ids = array();
+	
+				if (db_num_rows($tmp_result) > 0) {
+					while ($p = db_fetch_assoc($tmp_result)) {
+						array_push($parent_ids, "feed_id = " . $p["id"]);
+					}
+	
+					$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
+						$feed, implode(" OR ", $parent_ids));
+	
+					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				} else {
+					$query_strategy_part = "feed_id = '$feed'";
+				}
 			}
 		} else if ($feed == -1) { // starred virtual feed
 			$query_strategy_part = "marked = true";
@@ -1332,12 +1371,24 @@
 		} else if ($search && sprintf("%d", $feed) == 0) {
 			$feed_title = "Feed search results ($search, $feed)";
 		} else if ($feed > 0) {
-			$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
-				WHERE id = '$feed'");
 
-			$feed_title = db_fetch_result($result, 0, "title");
-			$feed_site_url = db_fetch_result($result, 0, "site_url");
-			$last_error = db_fetch_result($result, 0, "last_error");
+			if ($cat_view) {
+			
+				$result = db_query($link, "SELECT title FROM ttrss_feed_categories
+					WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+				$feed_title = db_fetch_result($result, 0, "title");
+
+			} else {
+				
+				$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
+					WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+	
+				$feed_title = db_fetch_result($result, 0, "title");
+				$feed_site_url = db_fetch_result($result, 0, "site_url");
+				$last_error = db_fetch_result($result, 0, "last_error");
+
+			}
 
 		} else if ($feed == -1) {
 			$feed_title = "Starred articles";

@@ -1,5 +1,7 @@
 var xmlhttp = false;
 
+var cat_view_mode = false;
+
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
 // JScript gives us Conditional compilation, we can cope with old IE versions.
@@ -22,7 +24,11 @@ if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
 	xmlhttp_rpc = new XMLHttpRequest();
 }
 
-function viewfeed(feed, skip, subop, doc) {
+function viewCategory(cat) {
+	viewfeed(cat, 0, '', false, true);
+}
+
+function viewfeed(feed, skip, subop, doc, is_cat) {
 	try {
 
 		if (!doc) doc = parent.document;
@@ -74,17 +80,24 @@ function viewfeed(feed, skip, subop, doc) {
 	
 	//	document.getElementById("ACTFEEDID").innerHTML = feed;
 	
+		if (getActiveFeedId() != feed) {
+			cat_view_mode = is_cat;
+		}
+
 		setActiveFeedId(feed);
 	
 		if (subop == "MarkAllRead") {
 	
 			var feedr = document.getElementById("FEEDR-" + feed);
 			var feedctr = document.getElementById("FEEDCTR-" + feed);
+
+			if (feedr && feedctr) {
 		
-			feedctr.className = "invisible";
+				feedctr.className = "invisible";
 	
-			if (feedr.className.match("Unread")) {
-				feedr.className = feedr.className.replace("Unread", "");
+				if (feedr.className.match("Unread")) {
+					feedr.className = feedr.className.replace("Unread", "");
+				}
 			}
 		}
 	
@@ -96,6 +109,10 @@ function viewfeed(feed, skip, subop, doc) {
 		if (search_query != "") {
 			query = query + "&search=" + param_escape(search_query);
 			searchbox.value = "";
+		}
+
+		if (cat_view_mode) {
+			query = query + "&cat=1";
 		}
 		
 		var headlines_frame = parent.frames["headlines-frame"];
