@@ -15,6 +15,8 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 create index ttrss_sessions_id_index on ttrss_sessions(id);
 create index ttrss_sessions_expire_index on ttrss_sessions(expire);
 
+delete from ttrss_prefs where pref_name = 'ENABLE_SPLASH';
+
 update ttrss_version set schema_version = 6;
 
 commit;

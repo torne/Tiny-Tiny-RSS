@@ -12,5 +12,7 @@ create table ttrss_sessions (id varchar(250) not null primary key,
 	index (id),
 	index (expire)) TYPE=InnoDB;
 
+delete from ttrss_prefs where pref_name = 'ENABLE_SPLASH';
+
 update ttrss_version set schema_version = 6;
 
