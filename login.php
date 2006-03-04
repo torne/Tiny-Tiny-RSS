@@ -1,5 +1,5 @@
 <?
-	require_once "sessions.php";
+//	require_once "sessions.php";
 
 	require_once "sanity_check.php";
 	require_once "version.php"; 
@@ -20,6 +20,15 @@
 	$password = $_POST["password"];
 
 	if ($login && $password) {
+
+		if ($_POST["remember_me"]) {
+			session_set_cookie_params(SESSION_COOKIE_LIFETIME_REMEMBER);
+		} else {
+			session_set_cookie_params(SESSION_COOKIE_LIFETIME);
+		}
+			
+		require "sessions.php";
+
 		if (authenticate_user($link, $login, $password)) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
 			
@@ -65,7 +74,10 @@
 		<td><input name="login"></td></tr>
 	<tr><td align="right">Password:</td>
 		<td><input type="password" name="password"></td></tr>
-
+	<tr><td>&nbsp;</td><td>
+			<input type="checkbox" name="remember_me" id="remember_me">
+			<label for="remember_me">Remember me</label>
+	</td></tr>
 	<tr><td colspan="2" align="center">
 		<input type="submit" class="button" value="Login">
 	</td></tr>

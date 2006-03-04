@@ -802,7 +802,10 @@
 	}
 
 	function logout_user() {
-		session_destroy();		
+		session_destroy();
+		if (isset($_COOKIE[session_name()])) {
+		   setcookie(session_name(), '', time()-42000, '/');
+		}
 	}
 
 	function get_script_urlpath() {
