@@ -27,7 +27,7 @@
 			session_set_cookie_params(SESSION_COOKIE_LIFETIME);
 		}
 			
-		require "sessions.php";
+		require_once "sessions.php";
 
 		if (authenticate_user($link, $login, $password)) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
