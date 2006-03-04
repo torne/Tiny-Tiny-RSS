@@ -114,7 +114,7 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 		if (cat_view_mode) {
 			query = query + "&cat=1";
 		}
-		
+
 		var headlines_frame = parent.frames["headlines-frame"];
 	
 	//	alert(headlines_frame)
@@ -124,6 +124,8 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 			var timestamp = Math.round(date.getTime() / 1000);
 			query = query + "&ts=" + timestamp
 		}
+
+		parent.debug(query);
 
 		headlines_frame.location.href = query;
 	
@@ -192,7 +194,7 @@ function toggleCollapseCat(cat) {
 	
 		var cat_elem = document.getElementById("FCAT-" + cat);
 		var cat_list = document.getElementById("FCATLIST-" + cat).parentNode;
-		var caption = cat_elem.lastChild;
+		var caption = document.getElementById("FCAP-" + cat);
 		
 		if (cat_list.className.match("invisible")) {
 			cat_list.className = "";

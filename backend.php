@@ -585,7 +585,7 @@
 					
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
 						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
-							<a href=\"javascript:viewCategory($cat_id)\">
+							<a href=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
 							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a>
 							<!-- <div style=\"float : right\">
@@ -1061,10 +1061,6 @@
 		$limit = $_GET["limit"];
 		$cat_view = $_GET["cat"];
 
-		if (!$feed) {
-			return;
-		}
-
 		if (!$skip) $skip = 0;
 
 		if ($subop == "undefined") $subop = "";
@@ -1119,8 +1115,15 @@
 			} */
 
 			if ($cat_view) {
+
+				if ($feed > 0) {
+					$cat_qpart = "cat_id = '$feed'";
+				} else {
+					$cat_qpart = "cat_id IS NULL";
+				}
+				
 				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
-					WHERE cat_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+					WHERE $cat_qpart AND owner_uid = " . $_SESSION["uid"]);
 
 				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
 					$feed_url = $tmp_line["feed_url"];
@@ -1137,12 +1140,18 @@
 
 		if ($subop == "MarkAllRead")  {
 
-			if (sprintf("%d", $feed) != 0) {
+			if (preg_match("/^[0-9][0-9]*$/", $feed) != false) {
 			
 				if ($cat_view) {
 
+					if ($feed > 0) {
+						$cat_qpart = "cat_id = '$feed'";
+					} else {
+						$cat_qpart = "cat_id IS NULL";
+					}
+					
 					$tmp_result = db_query($link, "SELECT id 
-						FROM ttrss_feeds WHERE cat_id = '$feed' AND owner_uid = " . 
+						FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = " . 
 						$_SESSION["uid"]);
 
 					while ($tmp_line = db_fetch_assoc($tmp_result)) {
@@ -1289,7 +1298,7 @@
 		if ($search && $search_mode == "All feeds") {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
-		} else if (sprintf("%d", $feed) == 0) {
+		} else if (preg_match("/^[0-9][0-9]*$/", $feed) == false) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
@@ -1319,7 +1328,12 @@
 
 			if ($cat_view) {
 
-				$query_strategy_part = "cat_id = $feed";
+				if ($feed > 0) {
+					$query_strategy_part = "cat_id = '$feed'";
+				} else {
+					$query_strategy_part = "cat_id IS NULL";
+				}
+
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
 			} else {		
@@ -1405,9 +1419,9 @@
 
 		print "<div id=\"headlinesContainer\">";
 
-		if (sprintf("%d", $feed) != 0) {
+		if (preg_match("/^[0-9][0-9]*$/", $feed) != false) {
 
-			if ($feed > 0) {			
+			if ($feed >= 0) {
 				$feed_kind = "Feeds";
 			} else {
 				$feed_kind = "Labels";
