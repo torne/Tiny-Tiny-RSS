@@ -1040,6 +1040,10 @@
 				print "<div id=\"allEntryTags\">Tags: $f_tags_str</div>";
 			}
 
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
+			}
+
 			print $line["content"] . "</div>";
 			
 			print "</div>";

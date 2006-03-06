@@ -14,5 +14,7 @@ create table ttrss_sessions (id varchar(250) not null primary key,
 
 delete from ttrss_prefs where pref_name = 'ENABLE_SPLASH';
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('OPEN_LINKS_IN_NEW_WINDOW', 1, 'true', 'Open article links in new browser window',2);
+
 update ttrss_version set schema_version = 6;
 
