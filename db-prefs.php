@@ -3,8 +3,6 @@
 	require_once "db.php";
 
 	if (! DISABLE_SESSIONS) {	
-		require_once "sessions.php";
-	
 		if (!$_SESSION["prefs_cache"])
 			$_SESSION["prefs_cache"] = array();
 	}
