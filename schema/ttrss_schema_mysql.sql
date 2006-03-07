@@ -34,7 +34,8 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	index (theme_id),
 	foreign key (theme_id) references ttrss_themes(id)) TYPE=InnoDB;
 
-insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
+insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 
+	'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 10);
 
 create table ttrss_feed_categories(id integer not null primary key auto_increment,
 	owner_uid integer not null,

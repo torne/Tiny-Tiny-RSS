@@ -32,7 +32,8 @@ create table ttrss_users (id serial not null primary key,
 	email varchar(250) not null default '',
 	theme_id integer references ttrss_themes(id) default null);
 
-insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 'password', 10);
+insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 
+	'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 10);
 
 create table ttrss_feed_categories(id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
