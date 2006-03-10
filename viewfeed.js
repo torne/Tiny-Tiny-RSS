@@ -48,11 +48,11 @@ function view(id, feed_id) {
 
 	var content = m_document.getElementById("content-frame");
 
-	if (content) {
-		content.src = "backend.php?op=view&id=" + param_escape(id) +
-			"&feed=" + param_escape(feed_id);
-		markHeadline(active_post_id);
-	}
+	content.src = "backend.php?op=view&id=" + param_escape(id) +
+		"&feed=" + param_escape(feed_id);
+
+	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+	markHeadline(active_post_id);
 
 }
 

@@ -184,7 +184,6 @@ function cleanSelected(element) {
 	for (i = 0; i < content.rows.length; i++) {
 		content.rows[i].className = content.rows[i].className.replace("Selected", "");
 	}
-
 }
 
 function getVisibleUnreadHeadlines() {
@@ -242,6 +241,12 @@ function markHeadline(id) {
 			row.className = row.className = "Active";
 		}
 		
+		var check = document.getElementById("RCHK-" + id);
+
+		if (check) {
+			check.checked = true;
+		}
+
 		row.className = row.className + "Selected"; 
 		
 	}
