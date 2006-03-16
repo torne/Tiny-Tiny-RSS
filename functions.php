@@ -839,6 +839,17 @@
 		return true;
 	}
 
+	function basic_nosid_redirect_check() {
+		if (!SINGLE_USER_MODE) {
+			if (!$_COOKIE["ttrss_sid"]) {
+				$redirect_uri = get_login_redirect();
+				$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
+				header("Location: $redirect_uri?rt=$return_to");
+				exit;
+			}
+		}
+	}
+
 	function login_sequence($link) {
 		if (!SINGLE_USER_MODE) {
 
