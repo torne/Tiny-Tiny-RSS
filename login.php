@@ -19,6 +19,14 @@
 	$login = $_POST["login"];
 	$password = $_POST["password"];
 
+	if ($_COOKIE["ttrss_sid"]) {
+		require_once "sessions.php";
+		if ($_SESSION["uid"]) {
+			initialize_user_prefs($link, $_SESSION["uid"]); 
+			header("Location: $redirect_base/tt-rss.php");
+		}
+	}
+
 	if ($login && $password) {
 
 		if ($_POST["remember_me"]) {
