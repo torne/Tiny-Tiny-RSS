@@ -47,6 +47,7 @@
 				$redirect_to = "tt-rss.php";
 			}
 			header("Location: $redirect_base/$redirect_to");
+			exit;
 		}
 	}
 
