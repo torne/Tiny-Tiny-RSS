@@ -113,6 +113,10 @@
 
 	define('SESSION_COOKIE_LIFETIME_REMEMBER', 86400);
 	// Session cookie lifetime if "remember me" is checked on login.
-	
+
+	define('SESSION_EXPIRE_TIME', 86400);
+	// Hard expiration limit for sessions. Should be
+	// >= SESSION_COOKIE_LIFETIME_REMEMBER
+
 	// vim:ft=php
 ?>
