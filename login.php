@@ -24,6 +24,7 @@
 		if ($_SESSION["uid"]) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
 			header("Location: $redirect_base/tt-rss.php");
+			exit;
 		}
 	}
 
