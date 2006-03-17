@@ -18,6 +18,7 @@
 
 	$login = $_POST["login"];
 	$password = $_POST["password"];
+	$return_to = $_POST["rt"];
 
 	if ($_COOKIE["ttrss_sid"]) {
 		require_once "sessions.php";
@@ -41,18 +42,12 @@
 		if (authenticate_user($link, $login, $password)) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
 			
-			if ($_SESSION["login_redirect"]) {
-				$redirect_to = $_SESSION["login_redirect"];
-			} else {
-				$redirect_to = "tt-rss.php";
+			if (!$return_to) {
+				$return_to = "tt-rss.php";
 			}
-			header("Location: $redirect_base/$redirect_to");
+			header("Location: $redirect_base/$return_to");
 			exit;
 		}
-	}
-
-	if ($_GET["rt"]) {
-		$_SESSION["login_redirect"] = $_GET["rt"];
 	}
 
 ?>
@@ -90,6 +85,7 @@
 	</td></tr>
 	<tr><td colspan="2" align="center">
 		<input type="submit" class="button" value="Login">
+		<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
 	</td></tr>
 	
 	</table>
