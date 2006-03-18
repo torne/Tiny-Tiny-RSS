@@ -301,8 +301,12 @@
 
 			$iterator = $rss->items;
 
-			if (!$iterator) $iterator = $rss->entries;
-			if (!$iterator) $iterator = $rss;			
+			if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
+			if (!$iterator || !is_array($iterator)) $iterator = $rss;
+
+			if (!is_array($iterator)) {
+				return; // WTF?
+			}
 
 			foreach ($iterator as $item) {
 	
