@@ -305,6 +305,9 @@
 			if (!$iterator || !is_array($iterator)) $iterator = $rss;
 
 			if (!is_array($iterator)) {
+				db_query($link, "UPDATE ttrss_feeds 
+					SET last_error = 'CrazyBug 001: Can't find iterator :(' 
+						WHERE id = '$feed'");
 				return; // WTF?
 			}
 
