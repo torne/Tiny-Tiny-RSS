@@ -3984,6 +3984,8 @@
 			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
 				strtotime($line["last_login"]));
 
+			$access_level_names = array(0 => "User", 10 => "Administrator");
+
 /*			if ($uid == $_SESSION["uid"]) {
 
 				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
@@ -4005,7 +4007,7 @@
 					$line["email"] . "</td>";			
 
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
-					$line["access_level"] . "</td>";			
+					$access_level_names[$line["access_level"]] . "</td>";			
 
 			} else if ($uid != $edit_uid) {
 
@@ -4014,7 +4016,7 @@
 
 				print "<td>".$line["login"]."</td>";		
 				print "<td>".$line["email"]."</td>";		
-				print "<td>".$line["access_level"]."</td>";		
+				print "<td>".$access_level_names[$line["access_level"]]."</td>";
 
 			} else {
 
@@ -4027,9 +4029,23 @@
 				print "<td><input id=\"iedit_email\" value=\"".$line["email"].
 					"\"></td>";
 
-				print "<td><input id=\"iedit_ulevel\" value=\"".$line["access_level"].
-					"\"></td>";
-						
+//				print "<td><input id=\"iedit_ulevel\" value=\"".$line["access_level"].
+//					"\"></td>";
+
+				print "<td>";
+				print "<select id=\"iedit_ulevel\">";
+				foreach (array_keys($access_level_names) as $al) {
+					if ($al == $line["access_level"]) {
+						$selected = "selected";
+					} else {
+						$selected = "";
+					}					
+					print "<option $selected id=\"$al\">" . 
+						$access_level_names[$al] . "</option>";
+				}
+				print "</select>";
+				print "</td>";
+
 			}
 				
 			print "<td>".$line["last_login"]."</td>";		

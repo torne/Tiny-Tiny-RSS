@@ -870,18 +870,22 @@ function leading_zero(p) {
 }
 
 function center_element(e) {
-	var c_width = document.body.clientWidth;
-	var c_height = document.body.clientHeight;
 
-	var c_scroll = document.body.scrollTop;
-
-	var e_width = e.clientWidth;
-	var e_height = e.clientHeight;
-
-	var set_y = (c_height / 2) + c_scroll - (e_height / 2);
-	var set_x = (c_width / 2) - (e_width / 2);
-
-	e.style.top = set_y + "px";
-	e.style.left = set_x + "px";
+	try {
+		var c_width = document.body.clientWidth;
+		var c_height = document.body.clientHeight;
 	
+		var c_scroll = document.body.scrollTop;
+	
+		var e_width = e.clientWidth;
+		var e_height = e.clientHeight;
+	
+		var set_y = (c_height / 2) + c_scroll - (e_height / 2);
+		var set_x = (c_width / 2) - (e_width / 2);
+	
+		e.style.top = set_y + "px";
+		e.style.left = set_x + "px";
+	} catch (e) {
+		exception_error("center_element", e);
+	}
 }

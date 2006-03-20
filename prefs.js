@@ -153,7 +153,6 @@ function infobox_callback() {
 			box.innerHTML=xmlhttp.responseText;			
 			if (shadow) {
 				shadow.style.display = "block";
-				center_element(shadow);
 			} else {
 				box.style.display = "block";				
 			}
@@ -899,7 +898,10 @@ function userEditSave() {
 	}
 
 	var login = document.getElementById("iedit_ulogin").value;
-	var level = document.getElementById("iedit_ulevel").value;
+	var level = document.getElementById("iedit_ulevel");
+
+	level = level[level.selectedIndex].id;
+	
 	var email = document.getElementById("iedit_email").value;
 
 	if (login.length == 0) {
