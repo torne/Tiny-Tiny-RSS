@@ -59,6 +59,8 @@
 
 <body>
 
+<div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div>
+
 <script type="text/javascript">
 if (document.addEventListener) {
 	document.addEventListener("DOMContentLoaded", init, null);

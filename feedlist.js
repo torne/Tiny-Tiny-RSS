@@ -227,6 +227,13 @@ function init() {
 		hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
 		document.onkeydown = hotkey_handler;
 		parent.setTimeout("timeout()", 0);
+
+		var o = parent.document.getElementById("overlay");
+
+		if (o) {
+			o.style.display = "none";
+		}
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}
