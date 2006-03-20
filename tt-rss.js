@@ -9,6 +9,7 @@ var daemon_enabled = false;
 var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var last_refetch = 0;
+var cookie_lifetime = 0;
 
 /*@cc_on @*/
 /*@if (@_jscript_version >= 5)
@@ -437,6 +438,10 @@ function resize_feeds_frame() {
 function init_second_stage() {
 
 	try {
+
+		cookie_lifetime = getCookie("ttrss_cltime");
+
+		delCookie("ttrss_vf_test");
 
 		setCookie("ttrss_vf_actfeed", "");
 	

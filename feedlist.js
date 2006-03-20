@@ -65,7 +65,7 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 			view_mode = "All Posts";
 		}
 	
-		setCookie("ttrss_vf_vmode", view_mode);
+		setCookie("ttrss_vf_vmode", view_mode, getCookie("ttrss_cltime"));
 	
 		var limitbox = doc.getElementById("limitbox");
 	
@@ -73,7 +73,7 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 	
 		if (limitbox) {
 			limit = limitbox[limitbox.selectedIndex].text;
-			setCookie("ttrss_vf_limit", limit);
+			setCookie("ttrss_vf_limit", limit, getCookie("ttrss_cltime"));
 		} else {
 			limit = "All";
 		}

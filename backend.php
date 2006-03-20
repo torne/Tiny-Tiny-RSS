@@ -102,7 +102,7 @@
 
 	$fetch = $_GET["fetch"];
 
-	setcookie("ttrss_icons_url", ICONS_URL);
+//	setcookie("ttrss_icons_url", ICONS_URL);
 
 	if (!sanity_check($link)) { return; }
 

@@ -267,13 +267,36 @@ function getFeedIds() {
 	return rows;
 }
 
-function setCookie(name, value, expires, path, domain, secure) {
+function setCookie(name, value, lifetime, path, domain, secure) {
+	
+	var d = false;
+	
+	if (lifetime) {
+		d = new Date();
+		d.setTime(lifetime * 1000);
+	}
+	
+	int_setCookie(name, value, d, path, domain, secure);
+
+}
+
+function int_setCookie(name, value, expires, path, domain, secure) {
 	document.cookie= name + "=" + escape(value) +
 		((expires) ? "; expires=" + expires.toGMTString() : "") +
 		((path) ? "; path=" + path : "") +
 		((domain) ? "; domain=" + domain : "") +
 		((secure) ? "; secure" : "");
 }
+
+function delCookie(name, path, domain) {
+	if (getCookie(name)) {
+		document.cookie = name + "=" +
+		((path) ? ";path=" + path : "") +
+		((domain) ? ";domain=" + domain : "" ) +
+		";expires=Thu, 01-Jan-1970 00:00:01 GMT";
+	}
+}
+		
 
 function getCookie(name) {
 

@@ -41,7 +41,16 @@
 
 		if (authenticate_user($link, $login, $password)) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
-			
+
+			if ($_POST["remember_me"]) {
+				$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME_REMEMBER;
+			} else {
+				$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
+			}
+
+			setcookie("ttrss_cltime", $_SESSION["cookie_lifetime"], 
+				$_SESSION["cookie_lifetime"]);
+
 			if (!$return_to) {
 				$return_to = "tt-rss.php";
 			}
