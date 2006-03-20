@@ -2062,7 +2062,7 @@
 				$checked = "";
 			}
 
-			print "<tr class='$row_class'><td>Options:</td>";
+			print "<tr class='$row_class'><td valign='top'>Options:</td>";
 			print "<td><input type=\"checkbox\" id=\"iedit_private\" 
 				$checked><label for=\"iedit_private\">Hide from feed browser</label>";
 
