@@ -149,11 +149,11 @@ function infobox_callback() {
 	if (xmlhttp.readyState == 4) {
 		var box = document.getElementById('infoBox');
 		var shadow = document.getElementById('infoBoxShadow');
-
-		if (box) {
-			box.innerHTML=xmlhttp.responseText;
+		if (box) {			
+			box.innerHTML=xmlhttp.responseText;			
 			if (shadow) {
 				shadow.style.display = "block";
+				center_element(shadow);
 			} else {
 				box.style.display = "block";				
 			}
