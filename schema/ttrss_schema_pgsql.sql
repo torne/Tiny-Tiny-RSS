@@ -156,7 +156,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (5);
+insert into ttrss_version values (6);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
