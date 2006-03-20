@@ -697,8 +697,14 @@ function feedEditSave() {
 	
 		var link = document.getElementById("iedit_link").value;
 		var title = document.getElementById("iedit_title").value;
-		var upd_intl = document.getElementById("iedit_updintl").value;
-		var purge_intl = document.getElementById("iedit_purgintl").value;
+		var upd_intl = document.getElementById("iedit_updintl");
+
+		upd_intl = upd_intl[upd_intl.selectedIndex].id;
+			
+		var purge_intl = document.getElementById("iedit_purgintl");
+
+		purge_intl = purge_intl[purge_intl.selectedIndex].id;
+		
 		var fcat = document.getElementById("iedit_fcat");
 
 		var is_pvt = document.getElementById("iedit_private");

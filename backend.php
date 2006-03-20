@@ -54,6 +54,25 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
+	$purge_intervals = array(
+		0  => "Default",
+		-1 => "Never purge",
+		5  => "1 week",
+		14 => "2 weeks",
+		31 => "1 month",
+		60 => "2 months",
+		90 => "3 months");
+
+	$update_intervals = array(
+		0   => "Default",
+		-1  => "Disable updates",
+		30  => "30 minutes",
+		60  => "1 hour",
+		240 => "4 hours",
+		720 => "12 hours",
+		1440 => "Daily",
+		10080 => "Weekly");
+
 	$script_started = getmicrotime();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
@@ -1942,7 +1961,7 @@
 
 			print "<tr class='$row_class'><td>Feed URL:</td>";
 			print "<td><input id=\"iedit_link\" value=\"$feed_url\"></td></tr>";
-	
+
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
@@ -1980,8 +1999,26 @@
 			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Update Interval:</td>";
-			print "<td><input id=\"iedit_updintl\" 
-				value=\"$update_interval\"></td></tr>";
+//			print "<td><input id=\"iedit_updintl\" 
+//				value=\"$update_interval\"></td></tr>";
+
+			print "<td>";
+
+			print "<select id=\"iedit_updintl\">";
+			
+			foreach (array_keys($update_intervals) as $i) {
+			
+				if ($i == $update_interval) {
+					$selected = "selected";
+				} else {
+					$selected = "";
+				}					
+				print "<option $selected id=\"$i\">" . $update_intervals[$i] . "</option>";
+			}
+				
+			print "</select>";
+
+			print "</td>";
 
 			$row_class = toggleEvenOdd($row_class);
 			print "<tr class='$row_class'><td>Link to:</td>";
@@ -2034,8 +2071,26 @@
 			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Purge Days:</td>";
-			print "<td><input id=\"iedit_purgintl\" 
-				value=\"$purge_interval\"></td></tr>";
+//			print "<td><input id=\"iedit_purgintl\" 
+//				value=\"$purge_interval\"></td></tr>";
+
+			print "<td>";
+
+			print "<select id=\"iedit_purgintl\">";
+			
+			foreach (array_keys($purge_intervals) as $i) {
+			
+				if ($i == $purge_interval) {
+					$selected = "selected";
+				} else {
+					$selected = "";
+				}					
+				print "<option $selected id=\"$i\">" . $purge_intervals[$i] . "</option>";
+			}
+				
+			print "</select>";
+
+			print "</td>";
 
 //			print "<tr><td colspan=\"2\"><b>Authentication</b></td></tr>";
 
@@ -2411,7 +2466,7 @@
 					<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 					<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 					<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
-					<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
+					<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Interval</a></td></tr>";
 			}
 			
 			$lnum = 0;
@@ -2427,13 +2482,12 @@
 				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
 				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
 	
-				if ($line["update_interval"] == "0") $line["update_interval"] = "Default";
-				if ($line["update_interval"] == "-1") $line["update_interval"] = "Disabled";
-				if ($line["purge_interval"] == "0") $line["purge_interval"] = "Default";
-				if ($line["purge_interval"] < 0)	$line["purge_interval"] = "Disabled";
+//				if ($line["update_interval"] == "0") $line["update_interval"] = "Default";
+//				if ($line["update_interval"] == "-1") $line["update_interval"] = "Disabled";
+//				if ($line["purge_interval"] == "0") $line["purge_interval"] = "Default";
+//				if ($line["purge_interval"] < 0)	$line["purge_interval"] = "Disabled";
 
 				if (!$edit_cat) $edit_cat = "Uncategorized";
-
 
 				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {
 					$lnum = 0;
@@ -2445,7 +2499,7 @@
 						<td width='30%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 						<td width='30%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 						<td width='15%'><a href=\"javascript:updateFeedList('update_interval')\">Update Interval</a></td>
-						<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Days</a></td></tr>";
+						<td width='15%'><a href=\"javascript:updateFeedList('purge_interval')\">Purge Interval</a></td></tr>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -2488,10 +2542,10 @@
 				} */
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["update_interval"] . "</a></td>";
+					$update_intervals[$line["update_interval"]] . "</a></td>";
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$line["purge_interval"] . "</a></td>";
+					$purge_intervals[$line["purge_interval"]] . "</a></td>";
 	
 				print "</tr>";
 	
