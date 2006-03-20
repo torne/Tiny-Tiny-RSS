@@ -703,9 +703,14 @@ function feedEditSave() {
 		var fcat = document.getElementById("iedit_fcat");
 
 		var is_pvt = document.getElementById("iedit_private");
+		var is_rtl = document.getElementById("iedit_rtl");
 
 		if (is_pvt) {
 			is_pvt = is_pvt.checked;
+		}
+
+		if (is_rtl) {
+			is_rtl = is_rtl.checked;
 		}
 	
 		var fcat_id = 0;
@@ -739,7 +744,7 @@ function feedEditSave() {
 			"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
 			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +			
 			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass) +
-			"&is_pvt=" + param_escape(is_pvt);
+			"&is_pvt=" + param_escape(is_pvt) + "&is_rtl=" + param_escape(is_rtl);
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;

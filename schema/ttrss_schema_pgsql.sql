@@ -54,7 +54,8 @@ create table ttrss_feeds (id serial not null primary key,
 	auth_login varchar(250) not null default '',
 	parent_feed integer default null references ttrss_feeds(id) on delete set null,
 	private boolean not null default false,
-	auth_pass varchar(250) not null default '');	
+	auth_pass varchar(250) not null default '',
+	rtl_content boolean not null default false);	
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 
@@ -156,7 +157,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (6);
+insert into ttrss_version values (7);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);

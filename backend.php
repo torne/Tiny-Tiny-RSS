@@ -45,7 +45,7 @@
 		exit;
 	}
 
-	define('SCHEMA_VERSION', 6);
+	define('SCHEMA_VERSION', 7);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
@@ -909,8 +909,23 @@
 
 	if ($op == "view") {
 
-		$id = $_GET["id"];
-		$feed_id = $_GET["feed"];
+		$id = db_escape_string($_GET["id"]);
+		$feed_id = db_escape_string($_GET["feed"]);
+
+		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 1) {
+			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+		} else {
+			$rtl_content = false;
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"RTL\"";
+		} else {
+			$rtl_tag = "";
+		}
 
 		$result = db_query($link, "UPDATE ttrss_user_entries 
 			SET unread = false,last_read = NOW() 
@@ -944,7 +959,7 @@
 
 		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body>";
+			</head><body $rtl_tag>";
 
 		if ($result) {
 
@@ -1086,6 +1101,21 @@
 		} else {
 			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+			WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 1) {
+			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+		} else {
+			$rtl_content = false;
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"RTL\"";
+		} else {
+			$rtl_tag = "";
 		}
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
@@ -1560,7 +1590,7 @@
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\" width=\"100%\">";
+					cellspacing=\"0\" width=\"100%\" $rtl_tag>";
 			}
 
 			$lnum = 0;
@@ -1641,8 +1671,7 @@
 						print "<a href=\"javascript:view($id,$feed_id);\">" .
 							$line["title"];
 		
-						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
-								
+						if (get_pref($link, 'SHOW_CONTENT_PREVIEW') && !$rtl_tag) {
 							if ($content_preview) {
 								print "<span class=\"contentPreview\"> - $content_preview</span>";
 							}
@@ -2035,8 +2064,20 @@
 
 			print "<tr class='$row_class'><td>Options:</td>";
 			print "<td><input type=\"checkbox\" id=\"iedit_private\" 
-				$checked><label for=\"iedit_private\">Hide from feed browser</label>
-				</td></tr>";
+				$checked><label for=\"iedit_private\">Hide from feed browser</label>";
+
+			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+
+			if ($rtl_content) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<br><input type=\"checkbox\" id=\"iedit_rtl\" 
+				$checked><label for=\"iedit_rtl\">Right-to-left content</label>";
+			
+			print "</td></tr>";
 
 			print "</table>";
 			print "</div>";
@@ -2060,6 +2101,7 @@
 			$auth_pass = db_escape_string($_POST["pass"]);
 			$parent_feed = db_escape_string($_POST["pfeed"]);
 			$private = db_escape_string($_POST["is_pvt"]);
+			$rtl_content = db_escape_string($_POST["is_rtl"]);
 
 			if (strtoupper($upd_intl) == "DEFAULT")
 				$upd_intl = 0;
@@ -2093,7 +2135,8 @@
 				purge_interval = '$purge_intl',
 				auth_login = '$auth_login',
 				auth_pass = '$auth_pass',
-				private = '$private'				
+				private = '$private',
+				rtl_content = '$rtl_content'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
 		}
 
