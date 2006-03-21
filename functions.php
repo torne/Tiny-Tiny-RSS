@@ -333,7 +333,7 @@
 
 			if (!is_array($iterator)) {
 				db_query($link, "UPDATE ttrss_feeds 
-					SET last_error = 'CrazyBug 001: Can\'t find iterator :(' 
+					SET last_error = 'Parse error: can\'t find any articles.'
 						WHERE id = '$feed'");
 				return; // WTF?
 			}
