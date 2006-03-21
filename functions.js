@@ -471,7 +471,12 @@ function all_counters_callback() {
 				notify("[all_counters_callback] backend did not return valid XML");
 				return;
 			}
-	
+
+			if (!parent.frames["feeds-frame"]) {
+				notify("[all_counters_callback] no parent feeds-frame");
+				return;
+			}
+
 			var reply = xmlhttp_rpc.responseXML.firstChild;
 			var f_document = parent.frames["feeds-frame"].document;
 

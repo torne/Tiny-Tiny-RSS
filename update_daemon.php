@@ -55,8 +55,8 @@
 	while (true) {
 
 		if (time() - $last_purge > PURGE_INTERVAL) {
-			print "Purging old posts...\n";
-			global_purge_old_posts($link, true);
+			print "Purging old posts (random 30 feeds)...\n";
+			global_purge_old_posts($link, true, 30);
 			$last_purge = time();
 		}
 
@@ -71,9 +71,11 @@
 	
 		// Process all other feeds using last_updated and interval parameters
 
+		$random_qpart = sql_random_function();
+
 		$result = db_query($link, "SELECT feed_url,id,owner_uid,
 			SUBSTRING(last_updated,1,19) AS last_updated,
-			update_interval FROM ttrss_feeds ORDER BY last_updated DESC");
+			update_interval FROM ttrss_feeds ORDER BY $random_qpart DESC");
 
 		$user_prefs_cache = array();
 

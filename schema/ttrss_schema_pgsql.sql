@@ -82,8 +82,8 @@ create table ttrss_entries (id serial not null primary key,
 	author varchar(250) not null default '');
 
 create index ttrss_entries_guid_index on ttrss_entries(guid);
-create index ttrss_entries_title_index on ttrss_entries(title);
-create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
+-- create index ttrss_entries_title_index on ttrss_entries(title);
+-- create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
 
 create table ttrss_user_entries (
 	int_id serial not null primary key,
@@ -94,9 +94,10 @@ create table ttrss_user_entries (
 	last_read timestamp,
 	unread boolean not null default true);
 
-create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
-create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
+-- create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
+-- create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
 create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
+create index ttrss_user_entries_feed_id on ttrss_user_entries(feed_id);
 
 create table ttrss_entry_comments (id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
@@ -105,7 +106,7 @@ create table ttrss_entry_comments (id serial not null primary key,
 	date_entered timestamp not null);
 	
 create index ttrss_entry_comments_ref_id_index on ttrss_entry_comments(ref_id);
-create index ttrss_entry_comments_owner_uid_index on ttrss_entry_comments(owner_uid);
+-- create index ttrss_entry_comments_owner_uid_index on ttrss_entry_comments(owner_uid);
 
 create table ttrss_filter_types (id integer not null primary key, 
 	name varchar(120) unique not null, 
@@ -229,7 +230,7 @@ create table ttrss_user_prefs (
 	value text not null);
 
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
-create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
+-- create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
 
 create table ttrss_scheduled_updates (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,

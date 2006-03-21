@@ -1,10 +1,10 @@
 <?
 
-	if ($_GET["debug"]) {
+/*	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
-	}
+	} */
 
 	require_once 'config.php';
 	require_once 'db-prefs.php';
@@ -56,11 +56,7 @@
 
 	function global_purge_old_posts($link, $do_output = false, $limit = false) {
 
-		if (DB_TYPE == "mysql") {
-			$random_qpart = "RAND()";
-		} else {
-			$random_qpart = "RANDOM()";
-		}
+		$random_qpart = sql_random_function();
 
 		if ($limit) {
 			$limit_qpart = "LIMIT $limit";
@@ -1041,6 +1037,14 @@
 			return $fp;
 		} else {
 			return false;
+		}
+	}
+
+	function sql_random_function() {
+		if (DB_TYPE == "mysql") {
+			return "RAND()";
+		} else {
+			return "RANDOM()";
 		}
 	}
 

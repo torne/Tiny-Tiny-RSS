@@ -5,13 +5,13 @@
 	header("Pragma: no-cache");
 	header("Expires: -1");
 	
-	if ($_GET["debug"]) {
+/*	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	}
-
-	error_reporting(DEFAULT_ERROR_LEVEL);
+	
+	error_reporting(DEFAULT_ERROR_LEVEL); */
 
 	$op = $_REQUEST["op"];
 
@@ -1490,7 +1490,7 @@
 //				$content_query_part = "";
 //			}
 
-			$result = db_query($link, "SELECT 
+			$query = "SELECT 
 					ttrss_entries.id,ttrss_entries.title,
 					SUBSTRING(updated,1,16) as updated,
 					unread,feed_id,marked,link,last_read,
@@ -1507,7 +1507,11 @@
 				$search_query_part
 				$view_query_part
 				$query_strategy_part ORDER BY $order_by
-				$limit_query_part");
+				$limit_query_part";
+				
+			$result = db_query($link, $query);
+
+			if ($_GET["debug"]) print $query;
 
 		} else {
 			// browsing by tag

@@ -178,7 +178,7 @@ function localHotkeyHandler(keycode) {
 	if (keycode == 82) { // r
 		return parent.scheduleFeedUpdate(true);
 	}
-
+	
 	var f_doc = parent.frames["feeds-frame"].document;
 	var feedlist = f_doc.getElementById('feedList');
 
@@ -361,7 +361,10 @@ function catchupPage() {
 function init() {
 	if (arguments.callee.done) return;
 	arguments.callee.done = true;		
-	document.onkeydown = hotkey_handler;
+
+	if (parent.frames["feeds-frame"]) {
+		document.onkeydown = hotkey_handler;
+	}
 
 	var hw = document.getElementById("headlinesList").scrollHeight;
 	var pw = parent.document.getElementById("headlines").scrollHeight;
