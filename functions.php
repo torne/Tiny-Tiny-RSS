@@ -33,10 +33,18 @@
 			$rows = pg_affected_rows($result);
 			
 		} else {
-			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
+/*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
 				(SELECT date_entered FROM ttrss_entries WHERE 
-					id = ref_id) < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
+					id = ref_id) < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)"); */
+
+			$result = db_query($link, "DELETE FROM ttrss_user_entries 
+				USING ttrss_user_entries, ttrss_entries 
+				WHERE ttrss_entries.id = ref_id AND 
+				marked = false AND 
+				feed_id = '$feed_id' AND 
+				ttrss_entries.date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
+					
 			$rows = mysql_affected_rows($link);
 
 		}
