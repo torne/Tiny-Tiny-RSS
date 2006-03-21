@@ -19,10 +19,16 @@
 		$rows = -1;
 
 		if (DB_TYPE == "pgsql") {
-			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
+/*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
 				(SELECT date_entered FROM ttrss_entries WHERE
-					id = ref_id) < NOW() - INTERVAL '$purge_interval days'");
+					id = ref_id) < NOW() - INTERVAL '$purge_interval days'"); */
+
+			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE 
+				ttrss_entries.id = ref_id AND 
+				marked = false AND 
+				feed_id = '$feed_id' AND 
+				ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
 
 			$rows = pg_affected_rows($result);
 			
@@ -40,10 +46,23 @@
 		}
 	}
 
-	function global_purge_old_posts($link, $do_output = false) {
+	function global_purge_old_posts($link, $do_output = false, $limit = false) {
 
+		if (DB_TYPE == "mysql") {
+			$random_qpart = "RAND()";
+		} else {
+			$random_qpart = "RANDOM()";
+		}
+
+		if ($limit) {
+			$limit_qpart = "LIMIT $limit";
+		} else {
+			$limit_qpart = "";
+		}
+		
 		$result = db_query($link, 
-			"SELECT id,purge_interval,owner_uid FROM ttrss_feeds ORDER BY id");
+			"SELECT id,purge_interval,owner_uid FROM ttrss_feeds 
+				ORDER BY $random_qpart $limit_qpart");
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -239,7 +258,7 @@
 
 		if ($rss) {
 
-			db_query($link, "BEGIN");
+//			db_query($link, "BEGIN");
 
 			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid
 				FROM ttrss_feeds WHERE id = '$feed'");
@@ -389,6 +408,8 @@
 
 				if (!$num_comments) $num_comments = 0;
 
+				db_query($link, "BEGIN");
+
 				if (db_num_rows($result) == 0) {
 
 					// base post entry does not exist, create it
@@ -533,6 +554,8 @@
 					}
 				}
 
+				db_query($link, "COMMIT");
+
 				/* taaaags */
 				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
 
@@ -549,6 +572,8 @@
 
 				if (count($entry_tags) > 0) {
 				
+					db_query($link, "BEGIN");
+			
 					$result = db_query($link, "SELECT id,int_id 
 						FROM ttrss_entries,ttrss_user_entries 
 						WHERE guid = '$entry_guid' 
@@ -582,13 +607,14 @@
 							}							
 						}
 					}
+					db_query($link, "COMMIT");
 				} 
 			} 
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
-			db_query($link, "COMMIT");
+//			db_query($link, "COMMIT");
 
 		} else {
 			$error_msg = db_escape_string(magpie_error());

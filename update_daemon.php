@@ -74,14 +74,21 @@
 		$result = db_query($link, "SELECT feed_url,id,owner_uid,
 			SUBSTRING(last_updated,1,19) AS last_updated,
 			update_interval FROM ttrss_feeds ORDER BY last_updated DESC");
-	
+
+		$user_prefs_cache = array();
+
 		while ($line = db_fetch_assoc($result)) {
 	
 			$upd_intl = $line["update_interval"];
 			$user_id = $line["owner_uid"];
 	
 			if (!$upd_intl || $upd_intl == 0) {
-				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
+				if (!$user_prefs_cache[$user_id]['DEFAULT_UPDATE_INTERVAL']) {			
+					$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
+					$user_prefs_cache[$user_id]['DEFAULT_UPDATE_INTERVAL'] = $upd_intl;
+				} else {
+					$upd_intl = $user_prefs_cache[$user_id]['DEFAULT_UPDATE_INTERVAL'];
+				}
 			}
 
 			if ($upd_intl < 0) { 
@@ -99,7 +106,7 @@
 	
 				print "Updating...\n";	
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
-				sleep(3); // prevent flood (FIXME make this an option?)
+				sleep(1); // prevent flood (FIXME make this an option?)
 			} else {
 				print "Update not needed.\n";
 			}
