@@ -606,11 +606,7 @@
 						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a>
-							<!-- <div style=\"float : right\">
-								<a href=\"javascript:viewCategory($cat_id)\">[view]</a>
-							</div> -->
-						</li>";
+							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
@@ -1585,11 +1581,6 @@
 				print "</td>";
 
 			}
-
-			if ($last_error) {
-					print "<td align='center' class='small'>
-						<a class=\"warning\" href=\"javascript:alert('TT-RSS encountered an error while trying to update this feed.\\n\\n$last_error')\">Could not update this feed.</a></td>";
-			}	
 
 			print "<td class=\"headlineTitle\">";
 		

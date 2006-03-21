@@ -84,6 +84,12 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 			cat_view_mode = is_cat;
 		}
 
+		var fe = document.getElementById("FEEDR-" + getActiveFeedId());
+
+		if (fe) {
+			fe.className = fe.className.replace("Selected", "");
+		}
+
 		setActiveFeedId(feed);
 	
 		if (subop == "MarkAllRead") {
@@ -129,7 +135,7 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 
 		headlines_frame.location.href = query;
 	
-		cleanSelectedList("feedList");
+//		cleanSelectedList("feedList");
 	
 		var feedr = document.getElementById("FEEDR-" + feed);
 		if (feedr && !feedr.className.match("Selected")) {	
