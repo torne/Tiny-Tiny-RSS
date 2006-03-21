@@ -1144,7 +1144,7 @@
 			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
 			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
 			<![endif]-->
-			</head><body>
+			</head><body $rtl_tag>
 			<script type=\"text/javascript\">
 			if (document.addEventListener) {
 				document.addEventListener(\"DOMContentLoaded\", init, null);
@@ -1613,7 +1613,7 @@
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\" width=\"100%\" $rtl_tag>";
+					cellspacing=\"0\" width=\"100%\">";
 			}
 
 			$lnum = 0;
