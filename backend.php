@@ -2190,9 +2190,9 @@
 				purge_interval = '$purge_intl',
 				auth_login = '$auth_login',
 				auth_pass = '$auth_pass',
-				private = '$private',
-				rtl_content = '$rtl_content'
-				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);			
+				private = $private,
+				rtl_content = $rtl_content
+				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
 		if ($subop == "saveCat") {

@@ -717,7 +717,7 @@ function feedEditSave() {
 		if (is_rtl) {
 			is_rtl = is_rtl.checked;
 		}
-	
+
 		var fcat_id = 0;
 	
 		if (fcat) {	
