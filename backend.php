@@ -1550,7 +1550,7 @@
 		}
 
 		function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
-						$bottom = false) {
+						$bottom = false, $rtl_content = false) {
 
 			if (!$bottom) {
 				$class = "headlinesSubToolbar";
@@ -1563,9 +1563,15 @@
 			print "<table class=\"$class\" id=\"$tid\"
 				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 
+			if ($rtl_content) {
+				$rtl_cpart = "RTL";
+			} else {
+				$rtl_cpart = "";
+			}
+
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
-				print "<td class=\"headlineActions\">
+				print "<td class=\"headlineActions$rtl_cpart\">
 					Select: 
 								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)\">All</a>,
 								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
@@ -1577,7 +1583,7 @@
 
 			} else {
 
-				print "<td class=\"headlineActions\">
+				print "<td class=\"headlineActions$rtl_cpart\">
 					Select: 
 								<a href=\"#\" onclick=\"javascript:cdmSelectArticles('all')\">All</a>,
 								<a href=\"#\" onclick=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
@@ -1590,7 +1596,7 @@
 
 			}
 
-			print "<td class=\"headlineTitle\">";
+			print "<td class=\"headlineTitle$rtl_cpart\">";
 		
 			if ($feed_site_url) {
 				if (!$bottom) {
@@ -1608,7 +1614,8 @@
 	
 		if (db_num_rows($result) > 0) {
 
-			print_headline_subtoolbar($link, $feed_site_url, $feed_title);
+			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
+				$rtl_content);
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
