@@ -524,6 +524,14 @@
 				$total = $line["total"];
 				$unread = $line["unread"];
 
+				$rtl_content = sql_bool_to_bool($line["rtl_content"]);
+
+				if ($rtl_content) {
+					$rtl_tag = "dir=\"RTL\"";
+				} else {
+					$rtl_tag = "";
+				}
+
 				$tmp_result = db_query($link,
 					"SELECT id,COUNT(unread) AS unread
 					FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
@@ -614,7 +622,7 @@
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
-					"icons/$feed_id.ico", $link);
+					"icons/$feed_id.ico", $link, $rtl_content);
 	
 				++$lnum;
 			}
@@ -2848,6 +2856,10 @@
 		}
 
 		print "</select>&nbsp;";
+
+/*		print "<input type=\"submit\" 
+			class=\"button\" onclick=\"javascript:testFilter()\" 
+			value=\"Test filter\"> "; */
 
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"javascript:addFilter()\" 

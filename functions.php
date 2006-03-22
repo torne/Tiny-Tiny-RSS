@@ -685,12 +685,19 @@
 		return false;
 	}
 
-	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link) {
+	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
+		$rtl_content = false) {
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
 		} else {
 			$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"images/blank_icon.gif\">";
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"rtl\"";
+		} else {
+			$rtl_tag = "dir=\"ltr\"";
 		}
 
 		$feed = "<a href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
@@ -700,7 +707,7 @@
 			print "$feed_icon";
 		}
 
-		print "<span id=\"FEEDN-$feed_id\">$feed</span>";
+		print "<span $rtl_tag id=\"FEEDN-$feed_id\">$feed</span>";
 
 		if ($unread != 0) {
 			$fctr_class = "";
@@ -708,7 +715,7 @@
 			$fctr_class = "class=\"invisible\"";
 		}
 
-		print "<span $fctr_class id=\"FEEDCTR-$feed_id\">
+		print " <span $rtl_tag $fctr_class id=\"FEEDCTR-$feed_id\">
 			 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
 		
 		print "</li>";
