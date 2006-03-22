@@ -1755,7 +1755,7 @@
 			}
 
 			print_headline_subtoolbar($link, 
-				"javascript:catchupPage()", "Mark page as read", true);
+				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
 
 
 		} else {
