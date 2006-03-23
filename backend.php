@@ -946,8 +946,10 @@
 
 		if ($rtl_content) {
 			$rtl_tag = "dir=\"RTL\"";
+			$rtl_class = "RTL";
 		} else {
 			$rtl_tag = "";
+			$rtl_class = "";
 		}
 
 		$result = db_query($link, "UPDATE ttrss_user_entries 
@@ -1032,7 +1034,7 @@
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));
 		
-			print "<td class=\"postDate\">$parsed_updated</td>";
+			print "<td class=\"postDate$rtl_class\">$parsed_updated</td>";
 						
 			print "</tr>";
 
