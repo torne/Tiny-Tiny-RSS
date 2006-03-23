@@ -102,8 +102,8 @@
 	// Interval between update daemon update runs
 
 	define('DATABASE_BACKED_SESSIONS', false);
-	// Store session information in a database
-	// Uses default PHP session storing mechanism if disabled
+	// Store session information in a database, recommended for multiuser 
+	// configurations. Uses default PHP session storing mechanism if disabled
 
 	define('SESSION_CHECK_ADDRESS', true);
 	// Bind session to client IP address (recommended)
