@@ -1,6 +1,36 @@
 <?
 
+	function render_feeds_select_list($link) {
+
+		$owner_uid = $_SESSION["uid"];
+
+		if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
+
+			$result = db_query($link, "SELECT id,sql_exp,description FROM
+				ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
+	
+			while ($line = db_fetch_assoc($result)) {
+				print "<option>" . $line["description"] . "</option>";
+			}
+		}
+
+		$result = db_query($link, "SELECT id,title
+			FROM ttrss_feeds WHERE ttrss_feeds.owner_uid = '$owner_uid'
+			ORDER BY title"); 
+
+		while ($line = db_fetch_assoc($result)) {
+			print "<option> " . $line["title"] . "</option>";
+		}
+		
+	}
+
 	function render_feeds_list($link, $tags = false) {
+
+		print "<div id=\"heading2\"><a href=\"logout.php\">Logout &raquo;</a></div>";
+
+		print "<div id=\"heading\">";
+		print "My feeds";
+		print "</div>";
 
 		print "<ul class=\"feedList\">";
 
@@ -114,8 +144,6 @@
 	
 			$lnum = 0;
 	
-			$total_unread = 0;
-
 			$category = "";
 	
 			while ($line = db_fetch_assoc($result)) {
@@ -170,8 +198,6 @@
 				if ($actid == $feed_id) {
 					$class .= "Selected";
 				}
-	
-				$total_unread += $unread;
 
 				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
 				
@@ -215,12 +241,10 @@
 					$cat_id = sprintf("%d", $cat_id);
 					
 					print "<li class=\"feedCat\">
-						<a href=\"FIXME\">$tmp_category</a>
+						<a href=\"?subop=tc&id=$cat_id\">$tmp_category</a>
 							<a href=\"?go=vcat&id=$cat_id\">
 								<span class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
 
-					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
-					// -> keyboard navigation, etc.
 					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">";
 				}
 	
@@ -530,13 +554,20 @@
 				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
 			return;
 		}
+
+		print "<div id=\"heading2\"><a href=\"tt-rss.php\">My feeds &raquo;</a></div>";
+
+		print "<div id=\"heading\">";
+		if (file_exists("../icons/$feed.ico") && filesize("../icons/$feed.ico") > 0) {
+			print "<img class=\"tinyFeedIcon\" src=\"../icons/$feed.ico\">";
+		}
+		
+		print "$feed_title";
+		print "</div>";
 	
 		if (db_num_rows($result) > 0) {
 
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
-				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\" width=\"100%\">";
-			}
+			print "<table class=\"headlines\" cellspacing=\"0\" width=\"100%\">";
 
 			$lnum = 0;
 	
@@ -587,6 +618,8 @@
 				
 				print "<tr class='$class'>";
 
+				print "<td class='hlMarkedPic'>$marked_pic</td>";
+
 				print "<td class='hlContent'>$content_link";
 
 				if ($line["feed_title"]) {			
@@ -596,9 +629,7 @@
 
 				print "</td";
 
-				print "<td class='hlMarkedPic'>$marked_pic</td>";
-
-				print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+				print "<td class=\"hlUpdated\"><nobr>$updated_fmt</nobr></td>";
 	
 				print "</tr>";
 	
@@ -610,6 +641,175 @@
 		} else {
 			print "<div align='center'>No articles found.</div>";
 		}
+
+	}
+
+	function render_article($link) {
+
+		$id = db_escape_string($_GET["id"]);
+		$feed_id = db_escape_string($_GET["feed"]);
+
+		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 1) {
+			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+		} else {
+			$rtl_content = false;
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"RTL\"";
+			$rtl_class = "RTL";
+		} else {
+			$rtl_tag = "";
+			$rtl_class = "";
+		}
+
+		$result = db_query($link, "UPDATE ttrss_user_entries 
+			SET unread = false,last_read = NOW() 
+			WHERE ref_id = '$id' AND feed_id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+			SUBSTRING(updated,1,16) as updated,
+			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
+			num_comments,
+			author
+			FROM ttrss_entries,ttrss_user_entries
+			WHERE	id = '$id' AND ref_id = id");
+
+		print "<html><head>
+			<title>Tiny Tiny RSS : Article $id</title>
+			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
+
+		$user_theme = $_SESSION["theme"];
+		if ($user_theme) { 
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"themes/$user_theme/theme.css\">";
+		}
+
+		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"tt-rss_compact.css\"/>";
+		} else {
+			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
+					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
+			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+			</head><body $rtl_tag>";
+
+		if ($result) {
+
+			$line = db_fetch_assoc($result);
+
+			if ($line["icon_url"]) {
+				$feed_icon = "<img class=\"feedIcon\" src=\"" . $line["icon_url"] . "\">";
+			} else {
+				$feed_icon = "&nbsp;";
+			}
+
+/*			if ($line["comments"] && $line["link"] != $line["comments"]) {
+				$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+			} else {
+				$entry_comments = "";
+			} */
+
+			$num_comments = $line["num_comments"];
+			$entry_comments = "";
+
+			if ($num_comments > 0) {
+				if ($line["comments"]) {
+					$comments_url = $line["comments"];
+				} else {
+					$comments_url = $line["link"];
+				}
+				$entry_comments = "<a href=\"$comments_url\">$num_comments comments</a>";
+			} else {
+				if ($line["comments"] && $line["link"] != $line["comments"]) {
+					$entry_comments = "<a href=\"".$line["comments"]."\">comments</a>";
+				}				
+			}
+
+			print "<div class=\"postReply\">";
+
+			print "<div class=\"postHeader\"><table width=\"100%\">";
+
+			$entry_author = $line["author"];
+
+			if ($entry_author) {
+				$entry_author = " - by $entry_author";
+			}
+
+			print "<tr><td><a href=\"" . $line["link"] . "\">" . $line["title"] . 
+				"</a>$entry_author</td>";
+
+			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
+				strtotime($line["updated"]));
+		
+			print "<td class=\"postDate$rtl_class\">$parsed_updated</td>";
+						
+			print "</tr>";
+
+			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
+				ORDER BY tag_name");
+	
+			$tags_str = "";
+			$f_tags_str = "";
+
+			$num_tags = 0;
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				$num_tags++;
+				$tag = $tmp_line["tag_name"];				
+				$tag_str = "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
+				
+				if ($num_tags == 5) {
+					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
+				} else if ($num_tags < 5) {
+					$tags_str .= $tag_str;
+				}
+				$f_tags_str .= $tag_str;
+			}
+
+			$tags_str = preg_replace("/, $/", "", $tags_str);
+			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
+
+//			$truncated_link = truncate_string($line["link"], 60);
+
+			if ($tags_str || $entry_comments) {
+				print "<tr><td width='50%'>
+					$entry_comments</td>
+					<td align=\"right\">$tags_str</td></tr>";
+			}
+
+			print "</table></div>";
+
+			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
+			print "<div class=\"postContent\">";
+			
+			if (db_num_rows($tmp_result) > 5) {
+				print "<div id=\"allEntryTags\">Tags: $f_tags_str</div>";
+			}
+
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
+			}
+
+			print $line["content"] . "</div>";
+			
+			print "</div>";
+
+			print "<script type=\"text/javascript\">
+				update_all_counters('$feed_id');
+			</script>";
+		}
+
+		print "</body></html>";
+
+
 
 	}
 

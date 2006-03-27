@@ -14,6 +14,24 @@
 
 	login_sequence($link);
 
+	/* perform various redirect-needing subops */
+
+	$subop = db_escape_string($_GET["subop"]);
+	$go = $_GET["go"];
+
+	if ($subop == "tc" && !$go) {
+		
+		$cat_id = db_escape_string($_GET["id"]);
+			
+		if ($cat_id != 0) {			
+			db_query($link, "UPDATE ttrss_feed_categories SET
+				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
+				$_SESSION["uid"]);
+			header("Location: tt-rss.php");
+			return;
+		}
+	}
+
 ?>
 <html>
 <head>
@@ -23,32 +41,14 @@
 </head>
 <body>
 
-<div id="heading">
-
-<div id="opsel">
-	<form method="GET">
-		<select name="go">
-			<option>Feeds</option>
-			<option disabled>Preferences</option>
-			<option disabled>--------------</option>
-			<option disabled>[user feed list]</option>
-			<option disabled>--------------</option>
-			<option>Logout</option>
-		</select>
-		<input type="submit" value="Go">
-	</form>
-</div>
-
-</div>
-
 <div id="content">
 <?
-	$go = $_GET["go"];
-
-	if (!$go || $go == "Feeds") {
+	if (!$go) {
 		render_feeds_list($link);
 	} else if ($go == "vf") {
 		render_headlines($link);	
+	} else if ($go == "view") {
+		render_article($link);
 	} else {
 		print "Function not implemented";
 	}

@@ -1,7 +1,6 @@
 body {
 	padding : 0px;
 	margin : 0px;
-	width : 640px;
 }
 
 input {
@@ -23,18 +22,23 @@ input {
 	color : black;
 }
 
-#opsel {
-	margin-top : 3px;
-}
-
 #heading {
 	padding : 2px;
+	background-color : white;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	font-weight : bold;
+}
+
+#heading2 {
+	float : right;
 }
 
 #content {
-	border-width : 1px 0px 0px 0px;
+/*	border-width : 1px 0px 0px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
+	border-color : #c0c0c0; */
 	background-image : url("../images/vgrad_light_rev.png");
 	background-position : top left;
 	background-repeat : repeat-x;
@@ -138,6 +142,18 @@ ul.feedlist li.tagUnread {
 
 .invisible {
 	display : none;
+}
+
+table.headlines td.hlUpdated {
+	font-size : small;
+	color : gray;
+	text-align : right;
+	width : 100px;
+}
+
+table.headlines td.hlMarkedPic {
+	width : 25px;
+	text-align : center;
 }
 
 
