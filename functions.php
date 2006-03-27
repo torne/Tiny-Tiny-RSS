@@ -1196,5 +1196,262 @@
 				update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
 			}
 	}
+
+	function getAllCounters($link) {
+		getLabelCounters($link);
+		getFeedCounters($link);
+		getTagCounters($link);
+		getGlobalCounters($link);
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			getCategoryCounters($link);
+		}
+	}	
+
+	function getCategoryCounters($link) {
+		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
+				FROM ttrss_user_entries WHERE feed_id = ttrss_feeds.id 
+					AND unread = true)) AS unread FROM ttrss_feeds 
+			WHERE 
+				owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+
+		while ($line = db_fetch_assoc($result)) {
+			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
+			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
+				$line["unread"]."\"/>";
+		}
+	}
+
+	function getFeedUnread($link, $feed) {
+		$n_feed = sprintf("%d", $feed);
 	
+		if ($n_feed == -1) {
+			$match_part = "marked = true";
+		} else if ($feed > 0) {
+			$match_part = "feed_id = '$n_feed'";
+		} else if ($feed < -10) {
+			$label_id = -$feed - 11;
+
+			$result = db_query($link, "SELECT sql_exp FROM ttrss_labels WHERE
+				id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
+
+			$match_part = db_fetch_result($result, 0, "sql_exp");
+		}
+
+		if ($match_part) {
+		
+			$result = db_query($link, "SELECT count(int_id) AS unread 
+				FROM ttrss_user_entries 
+				WHERE	unread = true AND $match_part AND owner_uid = " . $_SESSION["uid"]);
+				
+		} else {
+		
+			$result = db_query($link, "SELECT COUNT(post_int_id) AS unread
+				FROM ttrss_tags,ttrss_user_entries 
+				WHERE tag_name = '$feed' AND post_int_id = int_id AND unread = true AND
+					ttrss_tags.owner_uid = " . $_SESSION["uid"]);
+		}
+		
+		$unread = db_fetch_result($result, 0, "unread");
+		return $unread;
+	}
+
+	/* FIXME this needs reworking */
+
+	function getGlobalUnread($link) {
+		$result = db_query($link, "SELECT count(id) as c_id FROM ttrss_entries,ttrss_user_entries
+			WHERE unread = true AND 
+			ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			owner_uid = " . $_SESSION["uid"]);
+		$c_id = db_fetch_result($result, 0, "c_id");
+		return $c_id;
+	}
+
+	function getGlobalCounters($link, $global_unread = -1) {
+		if ($global_unread == -1) {	
+			$global_unread = getGlobalUnread($link);
+		}
+		print "<counter type=\"global\" id='global-unread' counter='$global_unread'/>";
+	}
+
+	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["tctr_last_value"]) {
+				$_SESSION["tctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["tctr_last_value"];
+
+		$tctrs_modified = false;
+
+/*		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
+			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
+			ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
+			post_int_id = ttrss_user_entries.int_id AND unread = true GROUP BY tag_name 
+		UNION
+			select tag_name,0 as count FROM ttrss_tags
+			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]); */
+
+		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
+			FROM ttrss_user_entries WHERE int_id = post_int_id 
+				AND unread = true)) AS count FROM ttrss_tags 
+			WHERE owner_uid = 2 GROUP BY tag_name ORDER BY tag_name");
+			
+		$tags = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$tags[$line["tag_name"]] += $line["count"];
+		}
+
+		foreach (array_keys($tags) as $tag) {
+			$unread = $tags[$tag];			
+
+			$tag = htmlspecialchars($tag);
+
+			if (!$smart_mode || $old_counters[$tag] != $unread) {			
+				$old_counters[$tag] = $unread;
+				$tctrs_modified = true;
+				print "<counter type=\"tag\" id=\"$tag\" counter=\"$unread\"/>";
+			}
+
+		} 
+
+		if ($smart_mode && $tctrs_modified) {
+			$_SESSION["tctr_last_value"] = $old_counters;
+		}
+
+	}
+
+	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["lctr_last_value"]) {
+				$_SESSION["lctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["lctr_last_value"];
+		$lctrs_modified = false;
+
+		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
+			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			unread = true AND owner_uid = ".$_SESSION["uid"]);
+
+		$count = db_fetch_result($result, 0, "count");
+
+		print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
+
+		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
+			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
+	
+		while ($line = db_fetch_assoc($result)) {
+
+			$id = -$line["id"] - 11;
+
+			error_reporting (0);
+
+			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_user_entries,ttrss_entries
+				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+				ttrss_user_entries.ref_id = ttrss_entries.id AND 
+				owner_uid = ".$_SESSION["uid"]);
+
+			$count = db_fetch_result($tmp_result, 0, "count");
+
+			if (!$smart_mode || $old_counters[$id] != $count) {	
+				$old_counters[$id] = $count;
+				$lctrs_modified = true;
+				print "<counter type=\"label\" id=\"$id\" counter=\"$count\"/>";
+			}
+
+			error_reporting (DEFAULT_ERROR_LEVEL);
+		}
+
+		if ($smart_mode && $lctrs_modified) {
+			$_SESSION["lctr_last_value"] = $old_counters;
+		}
+	}
+
+/*	function getFeedCounter($link, $id) {
+	
+		$result = db_query($link, "SELECT 
+				count(id) as count,last_error
+			FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
+			WHERE feed_id = '$id' AND unread = true
+			AND ttrss_user_entries.feed_id = ttrss_feeds.id
+			AND ttrss_user_entries.ref_id = ttrss_entries.id");
+	
+			$count = db_fetch_result($result, 0, "count");
+			$last_error = htmlspecialchars(db_fetch_result($result, 0, "last_error"));
+			
+			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
+	} */
+
+	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+
+		if ($smart_mode) {
+			if (!$_SESSION["fctr_last_value"]) {
+				$_SESSION["fctr_last_value"] = array();
+			}
+		}
+
+		$old_counters = $_SESSION["fctr_last_value"];
+
+		$result = db_query($link, "SELECT id,last_error,parent_feed,
+			(SELECT count(id) 
+				FROM ttrss_entries,ttrss_user_entries 
+				WHERE feed_id = ttrss_feeds.id AND 
+					ttrss_user_entries.ref_id = ttrss_entries.id
+				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
+			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"] . "
+				AND parent_feed IS NULL");
+
+		$fctrs_modified = false;
+
+		while ($line = db_fetch_assoc($result)) {
+		
+			$id = $line["id"];
+			$count = $line["count"];
+			$last_error = htmlspecialchars($line["last_error"]);
+	
+			$has_img = is_file(ICONS_DIR . "/$id.ico");
+
+			$tmp_result = db_query($link,
+				"SELECT id,COUNT(unread) AS unread
+				FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
+					ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
+				WHERE parent_feed = '$id' AND unread = true GROUP BY ttrss_feeds.id");
+			
+			if (db_num_rows($tmp_result) > 0) {				
+				while ($l = db_fetch_assoc($tmp_result)) {
+					$count += $l["unread"];
+				}
+			}
+
+			if (!$smart_mode || $old_counters[$id] != $count) {
+				$old_counters[$id] = $count;
+				$fctrs_modified = true;
+
+				if ($last_error) {
+					$error_part = "error=\"$last_error\"";
+				} else {
+					$error_part = "";
+				}
+
+				if ($has_img) {
+					$has_img_part = "hi=\"$has_img\"";
+				} else {
+					$has_img_part = "";
+				}				
+
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part/>";
+			}
+		}
+
+		if ($smart_mode && $fctrs_modified) {
+			$_SESSION["fctr_last_value"] = $old_counters;
+		}
+	}
+
 ?>
