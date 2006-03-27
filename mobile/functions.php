@@ -1,33 +1,20 @@
 <?
 
-	function render_feeds_select_list($link) {
+	function render_feeds_list($link) {
 
-		$owner_uid = $_SESSION["uid"];
-
-		if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
-
-			$result = db_query($link, "SELECT id,sql_exp,description FROM
-				ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
-	
-			while ($line = db_fetch_assoc($result)) {
-				print "<option>" . $line["description"] . "</option>";
-			}
-		}
-
-		$result = db_query($link, "SELECT id,title
-			FROM ttrss_feeds WHERE ttrss_feeds.owner_uid = '$owner_uid'
-			ORDER BY title"); 
-
-		while ($line = db_fetch_assoc($result)) {
-			print "<option> " . $line["title"] . "</option>";
-		}
-		
-	}
-
-	function render_feeds_list($link, $tags = false) {
+		$tags = $_GET["tags"];
 
 		print "<div id=\"heading\">";
-		print "My feeds (<a href=\"logout.php\">Logout</a>)";
+
+		if ($tags) {
+			print "Tags <span id=\"headingAddon\">
+				(<a href=\"tt-rss.php\">View feeds</a>, ";
+		} else {
+			print "Feeds <span id=\"headingAddon\">
+				(<a href=\"tt-rss.php?tags=1\">View tags</a>, ";
+		}
+			
+		print "<a href=\"logout.php\">Logout</a>)</span>";
 		print "</div>";
 
 		print "<ul class=\"feedList\">";
@@ -107,10 +94,6 @@
 				}
 
 			}
-
-//			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
-//				print "<li><hr></li>";
-//			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				$order_by_qpart = "category,title";
@@ -255,7 +238,35 @@
 			}
 
 		} else {
-			print "Tags: function not implemented.";
+			// tags
+
+			$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
+				FROM ttrss_user_entries WHERE int_id = post_int_id 
+					AND unread = true)) AS count FROM ttrss_tags 
+				WHERE owner_uid = 2 GROUP BY tag_name ORDER BY tag_name");
+
+			$tags = array();
+	
+			while ($line = db_fetch_assoc($result)) {
+				$tags[$line["tag_name"]] += $line["count"];
+			}
+	
+			foreach (array_keys($tags) as $tag) {
+	
+				$unread = $tags[$tag];
+	
+				$class = "tag";
+	
+				if ($unread > 0) {
+					$class .= "Unread";
+				}
+	
+				printMobileFeedEntry($tag, $class, $tag, $unread, 
+					"../images/tag.png", $link);
+	
+			} 
+
+			
 		}	
 	}
 
@@ -301,18 +312,24 @@
 		if (!$view_mode) $view_mode = "Adaptive";
 		if (!$limit) $limit = 30;
 
-		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
-			WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 
-		if (db_num_rows($result) == 1) {
-			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+			$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+			if (db_num_rows($result) == 1) {
+				$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+			} else {
+				$rtl_content = false;
+			}
+
+			if ($rtl_content) {
+				$rtl_tag = "dir=\"RTL\"";
+			} else {
+				$rtl_tag = "";
+			}
 		} else {
 			$rtl_content = false;
-		}
-
-		if ($rtl_content) {
-			$rtl_tag = "dir=\"RTL\"";
-		} else {
 			$rtl_tag = "";
 		}
 
@@ -694,16 +711,37 @@
 				}				
 			}
 
+			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
+				ORDER BY tag_name");
+	
+			$tags_str = "";
+			$f_tags_str = "";
+
+			$num_tags = 0;
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				$num_tags++;
+				$tag = $tmp_line["tag_name"];				
+				$tag_str = "<a href=\"?go=vf&id=$tag\">$tag</a>, "; 
+				$tags_str .= $tag_str;
+			}
+
+			$tags_str = preg_replace("/, $/", "", $tags_str);
+
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));
 
 			print "<div id=\"heading\">";
-			print $line["title"] . " ($parsed_updated)";
+			print $line["title"] . " <span id=\"headingAddon\">($parsed_updated)</span>";
 			print "</div>";
 
-			print "<div class=\"postContent\">" . $line["content"] . "</div>";
+			if ($num_tags > 0) {
+				print "<div class=\"postTags\">Tags: $tags_str</div>";
+			}
 			
-
+			print $line["content"]; 
+		
 		}
 
 		print "</body></html>";
