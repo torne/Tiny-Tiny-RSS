@@ -15,6 +15,18 @@
 
 	$op = $_REQUEST["op"];
 
+	define('SCHEMA_VERSION', 7);
+
+	require_once "sanity_check.php";
+	require_once "config.php";
+
+	$err_msg = check_configuration_variables();
+
+	if ($err_msg) {
+		print "Fatal error: $err_msg";
+		exit;
+	}
+
 	if ((!$op || $op == "rpc" || $op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml");
 	}
@@ -45,10 +57,6 @@
 		exit;
 	}
 
-	define('SCHEMA_VERSION', 7);
-
-	require_once "sanity_check.php";
-	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
@@ -4097,6 +4105,18 @@
 
 		print "</div>";
 
+	}
+
+	function check_configuration_variables() {
+		if (!defined('SESSION_EXPIRE_TIME')) {
+			return "SESSION_EXPIRE_TIME is undefined";
+		}
+
+		if (SESSION_EXPIRE_TIME < 60) {
+			return "SESSION_EXPIRE_TIME is too low (less than 60)";
+		}
+
+		return false;
 	}
 
 	db_close($link);
