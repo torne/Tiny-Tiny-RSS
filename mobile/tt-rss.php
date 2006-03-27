@@ -27,9 +27,16 @@
 			db_query($link, "UPDATE ttrss_feed_categories SET
 				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
 				$_SESSION["uid"]);
-			header("Location: tt-rss.php");
-			return;
+		} else {
+			if ($_COOKIE["ttrss_vf_uclps"] != 1) {
+				setcookie("ttrss_vf_uclps", 1);
+			} else {
+				setcookie("ttrss_vf_uclps", 0);
+			}
 		}
+		
+		header("Location: tt-rss.php");
+		return;
 	}
 
 ?>
