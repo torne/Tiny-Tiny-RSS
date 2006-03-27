@@ -22,34 +22,36 @@
 </head>
 <body>
 
-<table width='640' height='100%'>
-<tr><td class="heading">
-	Your Feeds
-</td>
-<td align='right'>
+<div id="opsel">
 	<form method="GET">
 		<select name="go">
 			<option>Feeds</option>
 			<option>Preferences</option>
 			<option disabled>--------------</option>
+			<option disabled>[user feed list]</option>
 			<option disabled>--------------</option>
 			<option>Logout</option>
 		</select>
 		<input type="submit" value="Go">
 	</form>
-</td>
-</tr>
-<td class="content" height='100%' colspan='2' valign='top'>
+</div>
+
+<div id="content">
 <?
 	$go = $_GET["go"];
 
 	if (!$go || $go == "Feeds") {
 		render_feeds_list($link);
+	} else {
+		print "Function not implemented";
 	}
 
 ?>
-</td></tr>
-</table>
+</div>
+
+<div id="footer">
+	<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
+</div>
 
 </body>
 </html>

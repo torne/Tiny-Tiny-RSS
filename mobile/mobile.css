@@ -1,6 +1,7 @@
 body {
 	padding : 0px;
 	margin : 0px;
+	width : 640px;
 }
 
 input {
@@ -22,11 +23,31 @@ input {
 	color : black;
 }
 
-td.heading {
+#opsel {
+	float : right;
+	margin-top : 3px;
+}
+
+#content {
+
+}
+
+#footer {
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	text-align : center;
+	font-size : x-small;
+	background-color : white;
+	color : gray;
+}
+
+/*
+table.main td.heading {
 	font-weight : bold;
 }
 
-td.content {
+table.main td.content {
 	background-image : url("../images/vgrad_light_rev.png");
 	background-position : top left;
 	background-repeat : repeat-x;
@@ -34,6 +55,19 @@ td.content {
 	border-style : solid;
 	border-color : #c0c0c0;
 }
+
+table.main td.footer {
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	text-align : center;
+	font-size : x-small;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	color : gray;
+}
+*/
 
 form {
 	padding : 0px;
@@ -75,5 +109,27 @@ ul.feedCatList li {
 
 ul.feedList li {
 	margin : 0px;
+}
+
+hr {
+	border-width : 0px 0px 1px 0px;
+	border-style : dashed;
+	border-color : #e0e0e0;
+}
+
+a {
+	color : black;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #5050aa;
+}
+
+ul.feedList img, img.tinyFeedIcon {
+	margin : 0px 3px 0px 0px;
+	width : 16px;
+	height : 16px;
+	border-width : 0px;
 }
 

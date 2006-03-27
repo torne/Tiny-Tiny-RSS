@@ -26,7 +26,7 @@
 
 			if ($num_starred > 0) $class .= "Unread";
 
-			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
+			printMobileFeedEntry(-1, $class, "Starred articles", $num_starred, 
 				"../images/mark_set.png", $link);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -67,7 +67,7 @@
 					
 					error_reporting (DEFAULT_ERROR_LEVEL);
 	
-					printFeedEntry(-$line["id"]-11, 
+					printMobileFeedEntry(-$line["id"]-11, 
 						$class, $line["description"], $count, "../images/label.png", $link);
 		
 				}
@@ -216,7 +216,7 @@
 					
 					print "<li class=\"feedCat\">
 						<a href=\"FIXME\">$tmp_category</a>
-							<a href=\"FIXME\">
+							<a href=\"?go=vcat&id=$cat_id\">
 								<span class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
@@ -224,16 +224,51 @@
 					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">";
 				}
 	
-				printFeedEntry($feed_id, $class, $feed, $unread, 
-					"icons/$feed_id.ico", $link, $rtl_content);
+				printMobileFeedEntry($feed_id, $class, $feed, $unread, 
+					"../icons/$feed_id.ico", $link, $rtl_content);
 	
 				++$lnum;
 			}
 
-
-	} else {
-		print "Function not implemented.";
+		} else {
+			print "Tags: function not implemented.";
+		}	
 	}
+
+	function printMobileFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
+		$rtl_content = false) {
+
+		if (file_exists($icon_file) && filesize($icon_file) > 0) {
+				$feed_icon = "<img src=\"$icon_file\">";
+		} else {
+			$feed_icon = "<img src=\"../images/blank_icon.gif\">";
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"rtl\"";
+		} else {
+			$rtl_tag = "dir=\"ltr\"";
+		}
+
+		$feed = "<a href=\"?go=vf&id=$feed_id\">$feed_title</a>";
+
+		print "<li class=\"$class\">";
+		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+			print "$feed_icon";
+		}
+
+		print "<span $rtl_tag>$feed</span> ";
+
+		if ($unread != 0) {
+			$fctr_class = "";
+		} else {
+			$fctr_class = "class=\"invisible\"";
+		}
+
+		print "<span $rtl_tag>($unread)</span>";
+		
+		print "</li>";
+
 	}
 
 ?>
