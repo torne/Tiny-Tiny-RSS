@@ -68,24 +68,26 @@
 
 <body>
 
-	<div class="main">
-
-	<h1>Tiny Tiny RSS</h1>
+	<div id="content">
+	<div id="heading">Tiny Tiny RSS</div>
 
 	<form action="login.php" method="POST">
+	<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
 
-		Login: <input name="login"><br>
-		Password: <input type="password" name="password"><br>
+	<table>
+		<tr><td align='right'>Login:</td><td><input name="login"></td>
+		<tr><td align='right'>Password:</td><td><input type="password" name="password"></tr>
 
-		<input type="checkbox" name="remember_me" id="remember_me">
-		<label for="remember_me">Remember me</label><br>
-		
-		<input type="submit" class="button" value="Login">
-		<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
+		<tr><td colspan='2'>
+			<input type="submit" class="button" value="Login">
+			<input type="checkbox" name="remember_me" id="remember_me">
+			<label for="remember_me">Remember me</label></td></tr>
+		</table>
 
 	</form>
 
 	</div>
+
 </body>
 </html>
 

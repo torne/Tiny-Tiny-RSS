@@ -3,7 +3,27 @@ body {
 	margin : 0px;
 }
 
-input {
+h1 {
+	font-size : 16pt;	
+}
+
+h2 {
+	font-size : 14pt;
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+h3 {
+	font-size : 12pt;
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+td > input, div > input {
 	border : 1px solid #a0a0a0;
 }
 
@@ -24,22 +44,15 @@ input {
 
 #heading {
 	padding : 2px;
-	background-color : white;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	font-weight : bold;
-}
-
-#heading2 {
-	float : right;
+	background-color : #e0e0e0;
 }
 
 #content {
-/*	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0; */
-	background-image : url("../images/vgrad_light_rev.png");
+	background-color : white;
 	background-position : top left;
 	background-repeat : repeat-x;
 }
@@ -60,15 +73,19 @@ form {
 	margin : 0px;
 }
 
+li.feedCatHolder {
+	display : inline;
+}
+
 ul.feedList {
 	list-style-type : none;
-	margin : 5px;
-	padding : 0px 0px 0px 10px;
+	margin : 0px;
+	padding : 0px;
 }
 
 ul.feedList li.feedCat {
 	margin : 0px;
-	padding : 3px 0px 3px 0px;
+	padding : 0px;
 	color : #707070;
 	font-size : x-small;
 }
@@ -83,13 +100,13 @@ ul.feedList li.feedCat a:hover {
 
 ul.feedCatList {
 	list-style-type : none;
-	margin : 0px 0px 0px 20px;
+	margin : 0px 0px 0px 1em;
 	padding : 0px;	
 }
 
 ul.feedCatList li {
 	margin : 0px;
-	padding : 0px 0px 0px 0px;
+	padding : 0px;
 	color : black;
 }
 
@@ -128,11 +145,11 @@ ul.feedlist li.tagUnread {
 }
 
 .even {
-	background-color : #f0f0f0;
+	background-color : #e0e0e0;
 }
 
 .evenUnread {
-	background-color : #f0f0f0;
+	background-color : #e0e0e0;
 	font-weight : bold;
 }
 
@@ -144,14 +161,17 @@ ul.feedlist li.tagUnread {
 	display : none;
 }
 
-table.headlines td.hlUpdated {
-	font-size : small;
-	color : gray;
-	text-align : right;
-	width : 100px;
+ul.headlines {
+	list-style-type : none;
+	margin : 0px;
+	padding : 0px;
 }
 
-table.headlines td.hlMarkedPic {
+ul.headlines span.hlUpdated {
+	color : gray;
+}
+
+ul.headlines img {
 	width : 25px;
 	text-align : center;
 }
