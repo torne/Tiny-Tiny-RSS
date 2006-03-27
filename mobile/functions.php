@@ -571,19 +571,18 @@
 
 		print "<div id=\"heading\">";
 		if (!$cat_view && file_exists("../icons/$feed.ico") && filesize("../icons/$feed.ico") > 0) {
-			print "<img class=\"tinyFeedIcon\" src=\"../icons/$feed.ico\">";
+			print "<img class=\"feedIcon\" src=\"../icons/$feed.ico\">";
 		}
 		
 		print "$feed_title <span id=\"headingAddon\">(";
-		print "<a href=\"tt-rss.php\">View feeds</a>, ";
+		print "<a href=\"tt-rss.php\">Back</a>, ";
+		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>, ";
 		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Mark as read</a>";
 		print ")</span>";
 		
 		print "</div>";
 	
 		if (db_num_rows($result) > 0) {
-
-//			print "<table class=\"headlines\" cellspacing=\"0\" width=\"100%\">";
 
 			print "<ul class=\"headlines\">";
 
@@ -619,9 +618,9 @@
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"../images/mark_set.png\">";
+					$marked_pic = "<img class='marked' src=\"../images/mark_set.png\">";
 				} else {
-					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"../images/mark_unset.png\">";
+					$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
 				}
 	
 				$content_link = "<a href=\"?go=view&id=$id&feed=$feed_id\">" .
@@ -635,6 +634,8 @@
 				}				
 				
 				print "<li class='$class'>";
+
+				print "<a href=\"?go=vf&id=$feed_id&ts=$id\">$marked_pic</a>";
 
 				print $content_link;
 	
@@ -731,17 +732,25 @@
 
 			$tags_str = preg_replace("/, $/", "", $tags_str);
 
-			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
+			$parsed_updated = date(get_pref($link, 'SHORT_DATE_FORMAT'), 
 				strtotime($line["updated"]));
 
 			print "<div id=\"heading\">";
-			print $line["title"] . " <span id=\"headingAddon\">($parsed_updated)</span>";
+
+			if (file_exists("../icons/$feed_id.ico") && filesize("../icons/$feed_id.ico") > 0) {
+				print "<img class=\"feedIcon\" src=\"../icons/$feed_id.ico\">";
+			}
+
+			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$feed_id\">Feed</a>";
+			
+			print truncate_string($line["title"], 30);
+			print " <span id=\"headingAddon\">$parsed_updated ($feed_link)</span>";
 			print "</div>";
 
 			if ($num_tags > 0) {
 				print "<div class=\"postTags\">Tags: $tags_str</div>";
 			}
-			
+
 			print $line["content"]; 
 		
 		}
