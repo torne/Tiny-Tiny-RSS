@@ -1098,12 +1098,12 @@
 
 	if ($op == "viewfeed") {
 
-		$feed = $_GET["feed"];
-		$skip = $_GET["skip"];
-		$subop = $_GET["subop"];
-		$view_mode = $_GET["view"];
-		$limit = $_GET["limit"];
-		$cat_view = $_GET["cat"];
+		$feed = db_escape_string($_GET["feed"]);
+		$skip = db_escape_string($_GET["skip"]);
+		$subop = db_escape_string($_GET["subop"]);
+		$view_mode = db_escape_string($_GET["view"]);
+		$limit = db_escape_string($_GET["limit"]);
+		$cat_view = db_escape_string($_GET["cat"]);
 
 		if (!$skip) $skip = 0;
 
