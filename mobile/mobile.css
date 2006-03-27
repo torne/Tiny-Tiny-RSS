@@ -24,12 +24,20 @@ input {
 }
 
 #opsel {
-	float : right;
 	margin-top : 3px;
 }
 
-#content {
+#heading {
+	padding : 2px;
+}
 
+#content {
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	background-image : url("../images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
 }
 
 #footer {
@@ -40,34 +48,8 @@ input {
 	font-size : x-small;
 	background-color : white;
 	color : gray;
+	padding : 2px;
 }
-
-/*
-table.main td.heading {
-	font-weight : bold;
-}
-
-table.main td.content {
-	background-image : url("../images/vgrad_light_rev.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-}
-
-table.main td.footer {
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	text-align : center;
-	font-size : x-small;
-	background-image : url("images/vgrad_light_rev2.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	color : gray;
-}
-*/
 
 form {
 	padding : 0px;
@@ -132,4 +114,30 @@ ul.feedList img, img.tinyFeedIcon {
 	height : 16px;
 	border-width : 0px;
 }
+
+ul.feedlist li.feedUnread, 
+ul.feedlist li.errorUnread, 
+ul.feedlist li.labelUnread, 
+ul.feedlist li.virtUnread,
+ul.feedlist li.tagUnread {
+	font-weight : bold;
+}
+
+.even {
+	background-color : #f0f0f0;
+}
+
+.evenUnread {
+	background-color : #f0f0f0;
+	font-weight : bold;
+}
+
+.oddUnread {
+	font-weight : bold;
+}
+
+.invisible {
+	display : none;
+}
+
 

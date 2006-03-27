@@ -19,14 +19,17 @@
 <head>
 	<title>Tiny Tiny RSS - Mobile</title>
 	<link rel="stylesheet" type="text/css" href="mobile.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
+
+<div id="heading">
 
 <div id="opsel">
 	<form method="GET">
 		<select name="go">
 			<option>Feeds</option>
-			<option>Preferences</option>
+			<option disabled>Preferences</option>
 			<option disabled>--------------</option>
 			<option disabled>[user feed list]</option>
 			<option disabled>--------------</option>
@@ -36,12 +39,16 @@
 	</form>
 </div>
 
+</div>
+
 <div id="content">
 <?
 	$go = $_GET["go"];
 
 	if (!$go || $go == "Feeds") {
 		render_feeds_list($link);
+	} else if ($go == "vf") {
+		render_headlines($link);	
 	} else {
 		print "Function not implemented";
 	}
