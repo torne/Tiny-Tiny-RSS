@@ -871,19 +871,25 @@
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
 
-		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
-			WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+	
+			$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 
-		if (db_num_rows($result) == 1) {
-			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
-		} else {
-			$rtl_content = false;
-		}
-
-		if ($rtl_content) {
-			$rtl_tag = "dir=\"RTL\"";
+			if (db_num_rows($result) == 1) {
+				$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+			} else {
+				$rtl_content = false;
+			}
+	
+			if ($rtl_content) {
+				$rtl_tag = "dir=\"RTL\"";
+			} else {
+				$rtl_tag = "";
+			}
 		} else {
 			$rtl_tag = "";
+			$rtl_content = false;
 		}
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
