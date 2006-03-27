@@ -873,7 +873,7 @@
 	}
 
 	function validate_session($link) {
-		if (SESSION_CHECK_ADDRESS && !DATABASE_BACKED_SESSIONS && $_SESSION["uid"]) {
+		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
 			if ($_SESSION["ip_address"]) {
 				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
 					return false;
