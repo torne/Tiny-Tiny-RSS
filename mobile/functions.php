@@ -574,8 +574,10 @@
 			print "<img class=\"tinyFeedIcon\" src=\"../icons/$feed.ico\">";
 		}
 		
-		print "$feed_title";
-//		print " (&raquo; <a href=\"tt-rss.php\">My feeds</a>)";
+		print "$feed_title <span id=\"headingAddon\">(";
+		print "<a href=\"tt-rss.php\">View feeds</a>, ";
+		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Mark as read</a>";
+		print ")</span>";
 		
 		print "</div>";
 	
