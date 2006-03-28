@@ -9,6 +9,7 @@
 	ini_set("session.gc_probability", 50);
 	ini_set("session.name", "ttrss_sid");
 	ini_set("session.use_only_cookies", true);
+	ini_set("session.gc_maxlifetime", SESSION_EXPIRE_TIME);
 
 	function open ($s, $n) {
 	
