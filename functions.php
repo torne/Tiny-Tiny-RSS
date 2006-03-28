@@ -702,7 +702,7 @@
 
 		if ($last_error) {
 			$link_title = "Error: $last_error ($last_updated)";
-		} else {
+		} else if ($last_updated) {
 			$link_title = "Updated: $last_updated";
 		}
 
