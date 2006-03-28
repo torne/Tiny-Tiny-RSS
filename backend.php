@@ -4120,11 +4120,20 @@
 
 	function check_configuration_variables() {
 		if (!defined('SESSION_EXPIRE_TIME')) {
-			return "SESSION_EXPIRE_TIME is undefined";
+			return "config: SESSION_EXPIRE_TIME is undefined";
 		}
 
 		if (SESSION_EXPIRE_TIME < 60) {
-			return "SESSION_EXPIRE_TIME is too low (less than 60)";
+			return "config: SESSION_EXPIRE_TIME is too low (less than 60)";
+		}
+
+		if (SESSION_EXPIRE_TIME < SESSION_COOKIE_LIFETIME_REMEMBER) {
+			return "config: SESSION_EXPIRE_TIME should be greater or equal to" .
+				"SESSION_COOKIE_LIFETIME_REMEMBER";
+		}
+
+		if (defined('DISABLE_SESSIONS') && DISABLE_SESSIONS) {
+			return "config: you have enabled DISABLE_SESSIONS. Please disable this option.";
 		}
 
 		return false;

@@ -119,5 +119,9 @@
 	// Hard expiration limit for sessions. Should be
 	// >= SESSION_COOKIE_LIFETIME_REMEMBER
 
+	define('CONFIG_VERSION', 1);
+	// Expected config version. Please updated this option in config.php
+	// if necessary (after migrating all new options from this file).
+
 	// vim:ft=php
 ?>
