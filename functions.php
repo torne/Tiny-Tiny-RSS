@@ -686,7 +686,7 @@
 	}
 
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
-		$rtl_content = false) {
+		$rtl_content = false, $last_updated = false, $last_error = false) {
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
@@ -700,7 +700,13 @@
 			$rtl_tag = "dir=\"ltr\"";
 		}
 
-		$feed = "<a href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
+		if ($last_error) {
+			$link_title = "Error: $last_error ($last_updated)";
+		} else {
+			$link_title = "Updated: $last_updated";
+		}
+
+		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" href=\"javascript:viewfeed('$feed_id', 0);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
@@ -1399,6 +1405,7 @@
 		$old_counters = $_SESSION["fctr_last_value"];
 
 		$result = db_query($link, "SELECT id,last_error,parent_feed,
+			SUBSTRING(last_updated,1,19) AS last_updated,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
 				WHERE feed_id = ttrss_feeds.id AND 
@@ -1409,12 +1416,20 @@
 
 		$fctrs_modified = false;
 
+		$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+
 		while ($line = db_fetch_assoc($result)) {
 		
 			$id = $line["id"];
 			$count = $line["count"];
 			$last_error = htmlspecialchars($line["last_error"]);
-	
+
+			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				$last_updated = smart_date_time(strtotime($line["last_updated"]));
+			} else {
+				$last_updated = date($short_date, strtotime($line["last_updated"]));
+			}				
+
 			$has_img = is_file(ICONS_DIR . "/$id.ico");
 
 			$tmp_result = db_query($link,
@@ -1445,7 +1460,7 @@
 					$has_img_part = "";
 				}				
 
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part/>";
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\"/>";
 			}
 		}
 

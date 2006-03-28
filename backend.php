@@ -238,6 +238,7 @@
 			}
 
 			$result = db_query($link, "SELECT ttrss_feeds.*,
+				SUBSTRING(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND 
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
@@ -264,6 +265,8 @@
 			$total_unread = 0;
 
 			$category = "";
+
+			$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
 	
 			while ($line = db_fetch_assoc($result)) {
 			
@@ -274,6 +277,12 @@
 				
 				$total = $line["total"];
 				$unread = $line["unread"];
+
+				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+					$last_updated = smart_date_time(strtotime($line["last_updated_noms"]));
+				} else {
+					$last_updated = date($short_date, strtotime($line["last_updated_noms"]));
+				}
 
 				$rtl_content = sql_bool_to_bool($line["rtl_content"]);
 
@@ -365,7 +374,8 @@
 						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span></a></li>";
+							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span>
+							</a></li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
@@ -373,7 +383,8 @@
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
-					"icons/$feed_id.ico", $link, $rtl_content);
+					"icons/$feed_id.ico", $link, $rtl_content, 
+					$last_updated, $line["last_error"]);
 	
 				++$lnum;
 			}

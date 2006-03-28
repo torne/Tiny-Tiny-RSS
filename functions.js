@@ -399,6 +399,7 @@ function parse_counters(reply, f_document, title_obj, scheduled_call) {
 			var ctr = reply.childNodes[l].getAttribute("counter");
 			var error = reply.childNodes[l].getAttribute("error");
 			var has_img = reply.childNodes[l].getAttribute("hi");
+			var updated = reply.childNodes[l].getAttribute("updated");
 	
 			if (id == "global-unread") {
 				title_obj.global_unread = ctr;
@@ -418,6 +419,15 @@ function parse_counters(reply, f_document, title_obj, scheduled_call) {
 			var feedu = f_document.getElementById("FEEDU-" + id);
 			var feedr = f_document.getElementById("FEEDR-" + id);
 			var feed_img = f_document.getElementById("FIMG-" + id);
+			var feedlink = f_document.getElementById("FEEDL-" + id);
+
+			if (updated && feedlink) {
+				if (error) {
+					feedlink.title = "Error: " + error + " (" + updated + ")";
+				} else {
+					feedlink.title = "Updated: " + updated;
+				}
+			}
 
 			if (feedctr && feedu && feedr) {
 
