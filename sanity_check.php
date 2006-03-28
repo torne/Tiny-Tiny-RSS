@@ -7,6 +7,8 @@
 		exit;
 	}
 
+	require_once "config.php";
+
 	if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
 			print "<b>Fatal Error</b>: Your configuration file has
 			wrong version. Please copy new options from <b>config.php-dist</b> and
