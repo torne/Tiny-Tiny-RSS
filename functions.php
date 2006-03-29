@@ -39,7 +39,7 @@
 					WHERE ttrss_entries.id = ref_id AND 
 					marked = false AND 
 					feed_id = '$feed_id' AND 
-					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days')");
+					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
 			}
 
 			$rows = pg_affected_rows($result);
