@@ -24,15 +24,28 @@
 				(SELECT date_entered FROM ttrss_entries WHERE
 					id = ref_id) < NOW() - INTERVAL '$purge_interval days'"); */
 
-			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE 
-				ttrss_entries.id = ref_id AND 
-				marked = false AND 
-				feed_id = '$feed_id' AND 
-				ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
+			if (PG_VERSION == "7.4" || PG_VERSION == "8.0") {
+
+				$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE 
+					ttrss_entries.id = ref_id AND 
+					marked = false AND 
+					feed_id = '$feed_id' AND 
+					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
+
+			} else {
+
+				$result = db_query($link, "DELETE FROM ttrss_user_entries 
+					USING ttrss_entries 
+					WHERE ttrss_entries.id = ref_id AND 
+					marked = false AND 
+					feed_id = '$feed_id' AND 
+					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days')");
+			}
 
 			$rows = pg_affected_rows($result);
 			
 		} else {
+		
 /*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
 				(SELECT date_entered FROM ttrss_entries WHERE 
