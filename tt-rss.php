@@ -127,33 +127,10 @@ window.onload = init;
 		</div>
 		</td></tr>	
 		<tr><td height="100%" width="100%" valign="top">
-		
-		<? if (get_pref($link, 'DISPLAY_FEEDLIST_ACTIONS')) { ?>
-
-		<iframe frameborder="0" 
-			src="backend.php?op=error&msg=Loading,%20please wait..."
-			id="feeds-frame" name="feeds-frame" class="feedsFrameWithActions"> </iframe>
-
-		<div align="center"> 
-		
-		<select id="allFeedsChooser" onchange="allFeedsMenuChange()">
-			<option selected>All feeds...</option>
-			<? if (!ENABLE_UPDATE_DAEMON) { ?>
-			<option>Update</option>
-			<? } ?>
-			<option>Mark as read</option>
-			<option>Show only unread</option>
-		</select>
-
-		</div>
-		
-		<? } else { ?>
 
 		<iframe frameborder="0" 
 			src="backend.php?op=error&msg=Loading,%20please wait..."
 			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
-
-		<? } ?>
 
 		</td></tr></table>
 

@@ -239,7 +239,7 @@ function addLabel() {
 	var sqlexp = document.getElementById("ladd_expr");
 
 	if (sqlexp.value.length == 0) {
-		notify("Missing SQL expression.");
+		alert("Can't add label: missing SQL expression.");
 	} else {
 		notify("Adding label...");
 
@@ -267,7 +267,7 @@ function addFilter() {
 	var action = document.getElementById("fadd_action");
 
 	if (regexp.value.length == 0) {
-		notify("Missing filter expression.");
+		alert("Can't add filter: missing filter expression.");
 	} else {
 		notify("Adding filter...");
 
@@ -297,7 +297,7 @@ function addFeed() {
 	var link = document.getElementById("fadd_link");
 
 	if (link.value.length == 0) {
-		notify("Missing feed URL.");
+		alert("Can't add feed: missing feed URL.");
 	} else {
 		notify("Adding feed...");
 
@@ -322,7 +322,7 @@ function addFeedCat() {
 	var cat = document.getElementById("fadd_cat");
 
 	if (cat.value.length == 0) {
-		notify("Missing feed category.");
+		alert("Can't add category: no name specified.");
 	} else {
 		notify("Adding feed category...");
 
@@ -346,7 +346,7 @@ function addUser() {
 	var sqlexp = document.getElementById("uadd_box");
 
 	if (sqlexp.value.length == 0) {
-		notify("Missing user login.");
+		alert("Can't add user: no login specified.");
 	} else {
 		notify("Adding user...");
 
@@ -476,7 +476,7 @@ function getSelectedFeedCats() {
 }
 
 
-function readSelectedFeeds(read) {
+/*function readSelectedFeeds(read) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -502,10 +502,10 @@ function readSelectedFeeds(read) {
 
 	} else {
 
-		notify("Please select some feeds first.");
+		alert("No feeds are selected.");
 
 	}
-}
+} */
 
 function removeSelectedLabels() {
 
@@ -529,7 +529,7 @@ function removeSelectedLabels() {
 			xmlhttp.send(null);
 		}
 	} else {
-		notify("Please select some labels first.");
+		alert("No labels are selected.");
 	}
 }
 
@@ -556,7 +556,7 @@ function removeSelectedUsers() {
 		}
 
 	} else {
-		notify("Please select some labels first.");
+		alert("No users are selected.");
 	}
 }
 
@@ -582,7 +582,7 @@ function removeSelectedFilters() {
 			xmlhttp.send(null);
 		}
 	} else {
-		notify("Please select some filters first.");
+		alert("No filters are selected.");
 	}
 }
 
@@ -612,7 +612,7 @@ function removeSelectedFeeds() {
 
 	} else {
 
-		notify("Please select some feeds first.");
+		alert("No feeds are selected.");
 
 	}
 
@@ -642,7 +642,7 @@ function removeSelectedFeedCats() {
 
 	} else {
 
-		notify("Please select some feeds first.");
+		alert("No categories are selected.");
 
 	}
 
@@ -944,7 +944,6 @@ function filterEditSave() {
 	}
 
 	var regexp = document.getElementById("iedit_regexp").value;
-	var descr = document.getElementById("iedit_descr").value;
 	var match = document.getElementById("iedit_match");
 
 	var v_match = match[match.selectedIndex].text;
@@ -955,19 +954,16 @@ function filterEditSave() {
 	var action = document.getElementById("iedit_filter_action");
 	var action_id = action[action.selectedIndex].id;
 
-//	notify("Saving filter " + filter + ": " + regexp + ", " + descr + ", " + match);
-
 	if (regexp.length == 0) {
-		notify("Filter expression cannot be blank.");
+		alert("Can't save filter: match expression is blank.");
 		return;
 	}
 
 	active_filter = false;
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
-		filter + "&r=" + param_escape(regexp) + "&d=" + param_escape(descr) +
-		"&m=" + param_escape(v_match) + "&fid=" + param_escape(feed_id) + 
-		"&aid=" + param_escape(action_id), true);
+		filter + "&r=" + param_escape(regexp) + "&m=" + param_escape(v_match) + 
+		"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
 
 	notify("Saving filter...");
 
@@ -980,12 +976,12 @@ function editSelectedLabel() {
 	var rows = getSelectedLabels();
 
 	if (rows.length == 0) {
-		notify("No labels are selected.");
+		alert("No labels are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one label.");
+		alert("Please select only one label.");
 		return;
 	}
 
@@ -999,12 +995,12 @@ function editSelectedUser() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		notify("No users are selected.");
+		alert("No users are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one user.");
+		alert("Please select only one user.");
 		return;
 	}
 
@@ -1017,12 +1013,12 @@ function resetSelectedUserPass() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		notify("No users are selected.");
+		alert("No users are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one user.");
+		alert("Please select only one user.");
 		return;
 	}
 
@@ -1050,12 +1046,12 @@ function selectedUserDetails() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		notify("No users are selected.");
+		alert("No users are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one user.");
+		alert("Please select only one user.");
 		return;
 	}
 
@@ -1079,14 +1075,14 @@ function selectedFeedDetails() {
 	var rows = getSelectedFeeds();
 
 	if (rows.length == 0) {
-		notify("No feeds are selected.");
+		alert("No feeds are selected.");
 		return;
 	}
 
-//	if (rows.length > 1) {
-//		notify("Please select one feed.");
-//		return;
-//	}
+	if (rows.length > 1) {
+		notify("Please select only one feed.");
+		return;
+	}
 
 //	var id = rows[0];
 
@@ -1103,12 +1099,12 @@ function editSelectedFilter() {
 	var rows = getSelectedFilters();
 
 	if (rows.length == 0) {
-		notify("No filters are selected.");
+		alert("No filters are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one filter.");
+		alert("Please select only one filter.");
 		return;
 	}
 
@@ -1142,12 +1138,12 @@ function editSelectedFeedCat() {
 	var rows = getSelectedFeedCats();
 
 	if (rows.length == 0) {
-		notify("No categories are selected.");
+		alert("No categories are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one category.");
+		alert("Please select only one category.");
 		return;
 	}
 
@@ -1221,7 +1217,7 @@ function validateOpmlImport() {
 	var opml_file = document.getElementById("opml_file");
 
 	if (opml_file.value.length == 0) {
-		notify("Please select OPML file to upload.");
+		alert("No OPML file to upload.");
 		return false;
 	} else {
 		return true;
@@ -1384,7 +1380,7 @@ function categorizeSelectedFeeds() {
 
 	} else {
 
-		notify("Please select some feeds first.");
+		alert("No feeds are selected.");
 
 	}
 

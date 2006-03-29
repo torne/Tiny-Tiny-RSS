@@ -653,30 +653,6 @@ function qfdDelete(feed_id) {
 }
 
 
-function allFeedsMenuChange() {
-	var chooser = document.getElementById("allFeedsChooser");
-
-	var opname = chooser[chooser.selectedIndex].text;
-
-	chooser.selectedIndex = 0;
-
-	if (opname == "Update") {
-		scheduleFeedUpdate(true);
-		return;
-	}
-
-	if (opname == "Mark as read") {
-		catchupAllFeeds();
-		return;
-	}
-
-	if (opname == "Show only unread") {
-		toggleDispRead();
-		return;
-	}
-
-}
-
 function updateFeedTitle(t) {
 	active_title_text = t;
 	updateTitle();
