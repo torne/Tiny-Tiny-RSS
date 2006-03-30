@@ -487,56 +487,58 @@ function quickMenuChange() {
 }
 
 function quickMenuGo(opid) {
+	try {
 
-
-	if (opid == "qmcPrefs") {
-		gotoPreferences();
-	}
-
-	if (opid == "qmcSearch") {
-		displayDlg("search", getActiveFeedId());
-		return;
-	}
-
-	if (opid == "qmcAddFeed") {
-		displayDlg("quickAddFeed");
-		return;
-	}
-
-	if (opid == "qmcRemoveFeed") {
-		var actid = getActiveFeedId();
-
-		if (!actid) {
-			notify("Please select some feed first.");
-			return;
-		}
-
-		if (confirm("Remove current feed?")) {
-			qfdDelete(actid);
+		if (opid == "qmcPrefs") {
+			gotoPreferences();
 		}
 	
-		return;
+		if (opid == "qmcSearch") {
+			displayDlg("search", getActiveFeedId());
+			return;
+		}
+	
+		if (opid == "qmcAddFeed") {
+			displayDlg("quickAddFeed");
+			return;
+		}
+	
+		if (opid == "qmcRemoveFeed") {
+			var actid = getActiveFeedId();
+	
+			if (!actid) {
+				notify("Please select some feed first.");
+				return;
+			}
+	
+			if (confirm("Remove current feed?")) {
+				qfdDelete(actid);
+			}
+		
+			return;
+		}
+	
+		if (opid == "qmcUpdateFeeds") {
+			scheduleFeedUpdate(true);
+			return;
+		}
+	
+		if (opid == "qmcCatchupAll") {
+			catchupAllFeeds();
+			return;
+		}
+	
+		if (opid == "qmcShowOnlyUnread") {
+			toggleDispRead();
+			return;
+		}
+	
+		if (opid == "qmcAddFilter") {
+			displayDlg("quickAddFilter", getActiveFeedId());
+		}
+	} catch (e) {
+		exception_error("quickMenuGo", e);
 	}
-
-	if (opid == "qmcUpdateFeeds") {
-		scheduleFeedUpdate(true);
-		return;
-	}
-
-	if (opid == "qmcCatchupAll") {
-		catchupAllFeeds();
-		return;
-	}
-
-	if (opid == "qmcShowOnlyUnread") {
-		toggleDispRead();
-		return;
-	}
-
-	if (opid == "qmcAddFilter") {
-		displayDlg("quickAddFilter", getActiveFeedId());
-	}
-
 }
 
 function qafAdd() {
