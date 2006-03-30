@@ -83,7 +83,7 @@
 		10080 => "Weekly");
 
 	$script_started = getmicrotime();
-	$script_dt_add = time();
+	$script_dt_add = get_script_dt_add();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 

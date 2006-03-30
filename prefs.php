@@ -14,7 +14,7 @@
 
 	login_sequence($link);
 
-	$dt_add = time();
+	$dt_add = get_script_dt_add();
 
 ?>
 <html>
