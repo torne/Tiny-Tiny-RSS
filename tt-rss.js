@@ -153,14 +153,14 @@ function backend_sanity_check_callback() {
 		try {
 		
 			if (!xmlhttp.responseXML) {
-				fatalError(3, "D001;" + xmlhttp.responseText);
+				fatalError(3, "D001: " + xmlhttp.responseText);
 				return;
 			}
 	
 			var reply = xmlhttp.responseXML.firstChild;
 	
 			if (!reply) {
-				fatalError(3, "D002;" + xmlhttp.responseText);
+				fatalError(3, "D002: " + xmlhttp.responseText);
 				return;
 			}
 	

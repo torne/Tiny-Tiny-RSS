@@ -3912,6 +3912,10 @@
 			return "config: you have enabled DISABLE_SESSIONS. Please disable this option.";
 		}
 
+		if (DATABASE_BACKED_SESSIONS && SINGLE_USER_MODE) {
+			return "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE";
+		}
+
 		return false;
 	}
 
