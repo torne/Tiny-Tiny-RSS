@@ -14,6 +14,8 @@
 
 	login_sequence($link);
 
+	$dt_add = time();
+
 ?>
 <html>
 <head>
@@ -42,8 +44,8 @@
 
 	<? } ?>
 
-	<script type="text/javascript" src="tt-rss.js"></script>
-	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="tt-rss.js?<?= $dt_add ?>"></script>
+	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">

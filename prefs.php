@@ -13,6 +13,9 @@
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	login_sequence($link);
+
+	$dt_add = time();
+
 ?>
 <html>
 <head>
@@ -41,8 +44,8 @@
 	<? } ?>
 
 	
-	<script type="text/javascript" src="functions.js"></script>
-	<script type="text/javascript" src="prefs.js"></script>
+	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
+	<script type="text/javascript" src="prefs.js?<?= $dt_add ?>"></script>
 
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>

@@ -83,6 +83,7 @@
 		10080 => "Weekly");
 
 	$script_started = getmicrotime();
+	$script_dt_add = time();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
@@ -135,8 +136,8 @@
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
 
-		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
-			<script type=\"text/javascript\" src=\"feedlist.js\"></script>
+		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
+			<script type=\"text/javascript\" src=\"feedlist.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			<!--[if gte IE 5.5000]>
 			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
@@ -539,7 +540,7 @@
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
 
-		print "<script type=\"text/javascript\" src=\"functions.js\"></script>
+		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body $rtl_tag>";
 
@@ -707,8 +708,8 @@
 		}
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
-			<script type=\"text/javascript\" src=\"functions.js\"></script>
-			<script type=\"text/javascript\" src=\"viewfeed.js\"></script>
+			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
+			<script type=\"text/javascript\" src=\"viewfeed.js?$script_dt_add\"></script>
 			<!--[if gte IE 5.5000]>
 			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
 			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
@@ -2707,7 +2708,7 @@
 			print "<html><head>
 				<title>Tiny Tiny RSS : Help</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
-				<script type=\"text/javascript\" src=\"functions.js\"></script>
+				<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				</head><body>";
 		}
