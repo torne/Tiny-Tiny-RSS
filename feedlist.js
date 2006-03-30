@@ -230,14 +230,20 @@ function init() {
 	try {
 		if (arguments.callee.done) return;
 		arguments.callee.done = true;		
+		
+		parent.debug("in feedlist init");
+		
 		hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
 		document.onkeydown = hotkey_handler;
 		parent.setTimeout("timeout()", 0);
+
+		parent.debug("about to remove splash, OMG!");
 
 		var o = parent.document.getElementById("overlay");
 
 		if (o) {
 			o.style.display = "none";
+			parent.debug("removed splash!");
 		}
 
 	} catch (e) {
