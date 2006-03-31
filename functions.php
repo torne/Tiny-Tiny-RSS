@@ -1037,7 +1037,7 @@
 		}
 
 		if ($error_code != 0) {
-			print "<error error-code='$error_code'/>";
+			print_error_xml(5);
 			return false;
 		} else {
 			return true;
