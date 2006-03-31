@@ -82,7 +82,6 @@
 		10080 => "Weekly");
 
 	$script_started = getmicrotime();
-	$script_dt_add = get_script_dt_add();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
@@ -134,6 +133,8 @@
 			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
+
+		$script_dt_add = get_script_dt_add();
 
 		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<script type=\"text/javascript\" src=\"feedlist.js?$script_dt_add\"></script>
@@ -539,6 +540,8 @@
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
 
+		$script_dt_add = get_script_dt_add();
+
 		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body $rtl_tag>";
@@ -705,6 +708,8 @@
 			$rtl_tag = "";
 			$rtl_content = false;
 		}
+
+		$script_dt_add = get_script_dt_add();
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
 			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>

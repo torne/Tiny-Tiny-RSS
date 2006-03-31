@@ -10,6 +10,7 @@
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
 	require_once 'errors.php';
+	require_once 'version.php';
 
 	require_once 'magpierss/rss_utils.inc';
 
