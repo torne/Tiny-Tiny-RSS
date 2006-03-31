@@ -24,7 +24,9 @@
 				(SELECT date_entered FROM ttrss_entries WHERE
 					id = ref_id) < NOW() - INTERVAL '$purge_interval days'"); */
 
-			if (PG_VERSION == "7.4" || PG_VERSION == "8.0") {
+			$pg_version = get_pgsql_version($link);
+
+			if (preg_match("/^7\./", $pg_version) || preg_match("/^8\.0/", $pg_version)) {
 
 				$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE 
 					ttrss_entries.id = ref_id AND 
@@ -1488,6 +1490,12 @@
 		} else {
 			return time();
 		}
+	}
+
+	function get_pgsql_version($link) {
+		$result = db_query($link, "SELECT version() AS version");
+		$version = split(" ", db_fetch_result($result, 0, "version"));
+		return $version[1];
 	}
 
 ?>
