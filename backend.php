@@ -20,12 +20,17 @@
 
 	require_once "sanity_check.php";
 	require_once "config.php";
+	
+	require_once "db.php";
+	require_once "db-prefs.php";
+	require_once "functions.php";
+	require_once "magpierss/rss_fetch.inc";
 
 	$err_msg = check_configuration_variables();
 
 	if ($err_msg) {
-		print "Fatal error: $err_msg";
-		exit;
+		header("Content-Type: application/xml");
+		print_error_xml(9, $err_msg); die;
 	}
 
 	if ((!$op || $op == "rpc" || $op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
@@ -35,7 +40,7 @@
 	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds") {
 
 		if ($op == "rpc") {
-			print "<error error-code=\"6\"/>";
+			print_error_xml(6); die;
 		} else {
 			print "
 			<html><body>
@@ -54,14 +59,8 @@
 	}
 
 	if (!$op) {
-		print "<error error-code=\"7\"/>";
-		exit;
+		print_error_xml(7); exit;
 	}
-
-	require_once "db.php";
-	require_once "db-prefs.php";
-	require_once "functions.php";
-	require_once "magpierss/rss_fetch.inc";
 
 	$purge_intervals = array(
 		0  => "Default",

@@ -574,15 +574,6 @@ function hideOrShowFeeds(doc, hide) {
 
 }
 
-function fatalError(code, params) {
-	if (!params) {
-		window.location = "error.php?c=" + param_escape(code);
-	} else {
-		window.location = "error.php?c=" + param_escape(code) + 
-			"&p=" + param_escape(params);
-	}
-}
-
 function selectTableRow(r, do_select) {
 	r.className = r.className.replace("Selected", "");
 	

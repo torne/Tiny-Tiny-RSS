@@ -124,7 +124,7 @@ function refetch_callback() {
 			var error_code = reply.getAttribute("error-code");
 		
 			if (error_code && error_code != 0) {
-				return fatalError(error_code);
+				return fatalError(error_code, reply.getAttribute("error-msg"));
 			}
 	
 			var f_document = window.frames["feeds-frame"].document;
@@ -153,21 +153,21 @@ function backend_sanity_check_callback() {
 		try {
 		
 			if (!xmlhttp.responseXML) {
-				fatalError(3, "D001: " + xmlhttp.responseText);
+				fatalError(3, "[D001, Reply is not XML]: " + xmlhttp.responseText);
 				return;
 			}
 	
 			var reply = xmlhttp.responseXML.firstChild;
 	
 			if (!reply) {
-				fatalError(3, "D002: " + xmlhttp.responseText);
+				fatalError(3, "[D002, Invalid RPC reply]: " + xmlhttp.responseText);
 				return;
 			}
 	
 			var error_code = reply.getAttribute("error-code");
 		
 			if (error_code && error_code != 0) {
-				return fatalError(error_code);
+				return fatalError(error_code, reply.getAttribute("error-msg"));
 			}
 	
 			debug("sanity check ok");
@@ -695,5 +695,26 @@ function debug(msg) {
 		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
 			":" + leading_zero(d.getSeconds());
 		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
+	}
+}
+
+function fatalError(code, message) {
+/*	if (!params) {
+		window.location = "error.php?c=" + param_escape(code);
+	} else {
+		window.location = "error.php?c=" + param_escape(code) + 
+			"&p=" + param_escape(params);
+	} */
+
+	try {	
+		var fe = document.getElementById("fatal_error");
+		var fc = document.getElementById("fatal_error_msg");
+
+		fc.innerHTML = "Code " + code + ": " + message;
+
+		fe.style.display = "block";
+
+	} catch (e) {
+		exception_error("fatalError", e);
 	}
 }

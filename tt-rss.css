@@ -1052,3 +1052,29 @@ div.cdmContent a:hover {
 	text-align : center;
 	margin : 10px;
 }
+
+#fatal_error {
+	background : white;
+	left : 0;
+	top : 0;
+	height : 100%;
+	width : 100%;
+	z-index : 200;
+	display : none;
+	position : absolute;
+}
+
+#fatal_error_inner {
+	font-weight : bold;
+	margin : 10px;
+	color : red;
+}
+
+#fatal_error_msg {
+	border : 1px solid #c0c0c0;
+	background-color : #f0f0f0;
+	width : 50%;
+	color : black;
+	padding : 10px;
+	font-weight : normal;
+}

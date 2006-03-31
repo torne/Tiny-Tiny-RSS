@@ -9,6 +9,7 @@
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
+	require_once 'errors.php';
 
 	require_once 'magpierss/rss_utils.inc';
 
@@ -1498,4 +1499,15 @@
 		return $version[1];
 	}
 
+	function print_error_xml($code, $add_msg = "") {
+		global $ERRORS;
+
+		$error_msg = $ERRORS[$code];
+		
+		if ($add_msg) {
+			$error_msg = "$error_msg; $add_msg";
+		}
+		
+		print "<error error-code=\"$code\" error-msg=\"$error_msg\"/>";
+	}
 ?>
