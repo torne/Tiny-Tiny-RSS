@@ -699,13 +699,6 @@ function debug(msg) {
 }
 
 function fatalError(code, message) {
-/*	if (!params) {
-		window.location = "error.php?c=" + param_escape(code);
-	} else {
-		window.location = "error.php?c=" + param_escape(code) + 
-			"&p=" + param_escape(params);
-	} */
-
 	try {	
 		var fe = document.getElementById("fatal_error");
 		var fc = document.getElementById("fatal_error_msg");

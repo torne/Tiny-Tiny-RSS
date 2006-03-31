@@ -12,8 +12,7 @@
 	login_sequence($link);
 
 	if ($_SESSION["access_level"] < 10) { 
-		header("Location: error.php?c=8");
-		exit;
+		header("Location: login.php"); die;
 	}
 ?>
 
