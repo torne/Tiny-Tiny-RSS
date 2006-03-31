@@ -153,7 +153,7 @@ function backend_sanity_check_callback() {
 		try {
 		
 			if (!xmlhttp.responseXML) {
-				fatalError(3, "[D001, Reply is not XML]: " + xmlhttp.responseText);
+				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
 				return;
 			}
 	

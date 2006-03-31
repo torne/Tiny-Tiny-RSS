@@ -64,7 +64,7 @@
 <div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div>
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
-	<pre id="fatal_error_msg">Unknown Error</pre>
+	<div id="fatal_error_msg">Unknown Error</div>
 </div></div>
 
 <script type="text/javascript">
