@@ -3913,7 +3913,7 @@
 				"SESSION_COOKIE_LIFETIME_REMEMBER";
 		}
 
-		if (defined('DISABLE_SESSIONS') && DISABLE_SESSIONS) {
+		if (defined('DISABLE_SESSIONS')) {
 			return "config: you have enabled DISABLE_SESSIONS. Please disable this option.";
 		}
 
