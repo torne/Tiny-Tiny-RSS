@@ -3,6 +3,8 @@
 	// this daemon runs in the background and updates all feeds
 	// continuously
 
+	define('DEFAULT_ERROR_LEVEL', E_ALL);
+
 	declare(ticks = 1);
 
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
@@ -101,7 +103,7 @@
 			print "Feed: " . $line["feed_url"] . ": ";
 
 			printf("(%d/%d, %d) ", time() - strtotime($line["last_updated"]),
-				$upd_intl*60, $owner_uid);
+				$upd_intl*60, $user_id);
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
