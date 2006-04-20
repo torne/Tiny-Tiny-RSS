@@ -17,10 +17,12 @@
 			$user_id = sprintf("%d", $user_id);
 			$prefs_cache = false;
 		}
-	
-		if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
-			$tuple = $_SESSION["prefs_cache"][$pref_name];
-			return convert_pref_type($tuple["value"], $tuple["type"]);
+
+		if (!defined('DISABLE_SESSIONS')) {	
+			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
+				$tuple = $_SESSION["prefs_cache"][$pref_name];
+				return convert_pref_type($tuple["value"], $tuple["type"]);
+			}
 		}
 
 		$result = db_query($link, "SELECT 
@@ -37,10 +39,13 @@
 			$value = db_fetch_result($result, 0, "value");
 			$type_name = db_fetch_result($result, 0, "type_name");
 
-			if ($user_id = $_SESSION["uid"]) {
-				$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
-				$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
+			if (!defined('DISABLE_SESSIONS')) {	
+				if ($user_id = $_SESSION["uid"]) {
+					$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
+					$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
+				}
 			}
+
 			return convert_pref_type($value, $type_name);
 			
 		} else {		
