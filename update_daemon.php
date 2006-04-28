@@ -75,12 +75,44 @@
 
 		$random_qpart = sql_random_function();
 
-		$result = db_query($link, "SELECT feed_url,id,owner_uid,
-			SUBSTRING(last_updated,1,19) AS last_updated,
-			update_interval FROM ttrss_feeds ORDER BY $random_qpart DESC");
+/*		
+					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
+			}
+
+			$rows = pg_affected_rows($result);
+			
+		} else {
+
+			$result = db_query($link, "DELETE FROM ttrss_user_entries 
+				USING ttrss_user_entries, ttrss_entries 
+				WHERE ttrss_entries.id = ref_id AND 
+				marked = false AND 
+				feed_id = '$feed_id' AND 
+				ttrss_entries.date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)"); */		
+		
+		if (DAEMON_UPDATE_LOGIN_LIMIT > 0) {
+			if (DB_TYPE == "pgsql") {
+				$login_thresh_qpart = "AND ttrss_users.last_login >= NOW() - INTERVAL '".DAEMON_UPDATE_LOGIN_LIMIT." days'";
+			} else {
+				$login_thresh_qpart = "AND ttrss_users.last_login >= DATE_SUB(NOW(), INTERVAL ".DAEMON_UPDATE_LOGIN_LIMIT." DAY)";
+			}			
+		} else {
+			$login_thresh_qpart = "";
+		}
+
+		$result = db_query($link, "SELECT feed_url,ttrss_feeds.id,owner_uid,
+				SUBSTRING(last_updated,1,19) AS last_updated,
+				update_interval 
+			FROM 
+				ttrss_feeds,ttrss_users 
+			WHERE 
+				ttrss_users.id = owner_uid $login_thresh_qpart 
+			ORDER BY $random_qpart DESC");
 
 		$user_prefs_cache = array();
 
+		printf("Scheduled %d feeds to update...\n", db_num_rows($result));
+		
 		while ($line = db_fetch_assoc($result)) {
 	
 			$upd_intl = $line["update_interval"];
