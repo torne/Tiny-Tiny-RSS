@@ -1,3 +1,3 @@
 <?
-	define(VERSION, "1.1.5");
+	define(VERSION, "1.1.6");
 ?>
