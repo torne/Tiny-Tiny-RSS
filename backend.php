@@ -896,6 +896,8 @@
 			$feed_title = "?";
 		}
 
+		$feed_title = db_unescape_string($feed_title);
+
 		if ($feed < -10) error_reporting (0);
 
 		print "<div id=\"headlinesContainer\">";
@@ -2260,7 +2262,8 @@
 		}
 
 		while ($line = db_fetch_assoc($result)) {
-			printf("<option id='%d'>%s</option>", $line["id"], $line["title"]);
+			printf("<option id='%d'>%s</option>", $line["id"], 
+				db_unescape_string($line["title"]));
 		}
 
 		print "</select>&nbsp;";
@@ -2400,7 +2403,7 @@
 							$is_selected = "";
 						}
 						printf("<option $is_selected id='%d'>%s</option>", 
-							$tmp_line["id"], $tmp_line["title"]);
+							$tmp_line["id"], db_unescape_string($tmp_line["title"]));
 					}
 	
 					print "</select></td>";
