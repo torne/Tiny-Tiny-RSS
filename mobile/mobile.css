@@ -46,15 +46,12 @@ td > input, div > input {
 	padding : 2px;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
+	border-color : #a0a0a0;
 	font-weight : bold;
-	background-color : #e0e0e0;
 }
 
 #content {
-	background-color : white;
-	background-position : top left;
-	background-repeat : repeat-x;
+	background : white;
 }
 
 #footer {
@@ -120,13 +117,17 @@ hr {
 	border-color : #e0e0e0;
 }
 
-a {
+ul.headlines a, ul.feedList a {
 	color : black;
+}
+
+a {
+	color : #5050aa;
 	text-decoration : none;
 }
 
 a:hover {
-	color : #5050aa;
+	color : black;
 }
 
 ul.feedList img, img.tinyFeedIcon {

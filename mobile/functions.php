@@ -1,4 +1,5 @@
 <?
+	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
 
 	function render_feeds_list($link) {
 
@@ -288,9 +289,9 @@
 		$feed = "<a href=\"?go=vf&id=$feed_id\">$feed_title</a>";
 
 		print "<li class=\"$class\">";
-		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-			print "$feed_icon";
-		}
+#		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+#			print "$feed_icon";
+#		}
 
 		print "<span $rtl_tag>$feed</span> ";
 
@@ -570,9 +571,9 @@
 		}
 
 		print "<div id=\"heading\">";
-		if (!$cat_view && file_exists("../icons/$feed.ico") && filesize("../icons/$feed.ico") > 0) {
-			print "<img class=\"feedIcon\" src=\"../icons/$feed.ico\">";
-		}
+		#		if (!$cat_view && file_exists("../icons/$feed.ico") && filesize("../icons/$feed.ico") > 0) {
+			#			print "<img class=\"feedIcon\" src=\"../icons/$feed.ico\">";
+			#		}
 		
 		print "$feed_title <span id=\"headingAddon\">(";
 		print "<a href=\"tt-rss.php\">Back</a>, ";
@@ -644,7 +645,7 @@
 							$line["feed_title"]."</a>)";
 				}
 
-				print "<span class='hlUpdated'> &mdash; $updated_fmt</span>";
+				print "<span class='hlUpdated'> ($updated_fmt)</span>";
 
 				print "</li>";
 
@@ -737,9 +738,9 @@
 
 			print "<div id=\"heading\">";
 
-			if (file_exists("../icons/$feed_id.ico") && filesize("../icons/$feed_id.ico") > 0) {
-				print "<img class=\"feedIcon\" src=\"../icons/$feed_id.ico\">";
-			}
+			#			if (file_exists("../icons/$feed_id.ico") && filesize("../icons/$feed_id.ico") > 0) {
+				#				print "<img class=\"feedIcon\" src=\"../icons/$feed_id.ico\">";
+				#			}
 
 			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$feed_id\">Feed</a>";
 			
@@ -756,9 +757,6 @@
 		}
 
 		print "</body></html>";
-
-
-
 	}
 
 ?>
