@@ -9,7 +9,10 @@ try:
 #	print server.rss.getAllFeeds("fox", "sotona");
 
 	print server.rss.subscribeToFeed("admin", "password", 
-		"http://tt-rss.spb.ru/forum/rss.php");
+		"http://tt-rss.spb.ru/forum/rss.php")
+
+	r = server.rss.getSubscribedFeeds("admin", "password")
+	print r
 	
 #    print "Got '" + server.examples.getStateName(32) + "'"
 #

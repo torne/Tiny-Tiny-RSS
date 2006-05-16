@@ -23,9 +23,49 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
-	function subscribeToFeed($msg) {
-	#		$value = new xmlrpcval("OK");
+	function getSubscribedFeeds($msg) {
+		global $link;
 
+		$login_o = $msg->getParam(0);
+		$pass_o = $msg->getParam(1);
+	
+		$login = $login_o->scalarval();
+		$pass = $pass_o->scalarval();
+	
+		$user_id = authenticate_user($link, $login, $pass);
+
+		if (authenticate_user($link, $login, $pass)) {
+
+			$result = db_query($link, "SELECT 
+				id, feed_url, title, SUBSTRING(last_updated,1,19) AS last_updated
+					FROM ttrss_feeds WHERE owner_uid = " . 
+				$_SESSION["uid"]);
+
+			$feeds = array();
+
+			while ($line = db_fetch_assoc($result)) {
+				
+				$line_struct = new xmlrpcval(
+					array(
+						"feed_url" => new xmlrpcval($line["feed_url"]),
+						"title" => new xmlrpcval($line["title"]),
+						"last_updated" => new xmlrpcval(strtotime($line["last_updated"]))
+					),
+					"struct");
+
+				array_push($feeds, $line_struct);
+			}
+
+			$reply = new xmlrpcval($feeds, "array");
+			
+		} else {
+			$reply = new xmlrpcval("Login failed.");
+		}
+		
+		return new xmlrpcresp($reply);
+	}
+
+	function subscribeToFeed($msg) {
 		global $link;
 
 		$login_o = $msg->getParam(0);
@@ -53,9 +93,14 @@
 
 	$subscribeToFeed_sig = array(array($xmlrpcString,
 		$xmlrpcString, $xmlrpcString, $xmlrpcString));
-		
+
+	$getSubscribedFeeds_sig = array(array($xmlrpcString,
+		$xmlrpcString, $xmlrpcString));
+
 	$s = new xmlrpc_server( 
 			array(
+			  "rss.getSubscribedFeeds" => array("function" => "getSubscribedFeeds",
+		  			"signature" => $getSubscribedFeeds_sig),
 			  "rss.subscribeToFeed" => array("function" => "subscribeToFeed",
 		  			"signature" => $subscribeToFeed_sig))
 			);
