@@ -129,4 +129,5 @@ function db_affected_rows($link, $result) {
 	} else if (DB_TYPE == "mysql") {
 		return mysql_affected_rows($link);
 	}
+}
 ?>

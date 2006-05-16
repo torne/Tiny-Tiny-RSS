@@ -5,15 +5,31 @@ import sys
 
 server = Server("http://madoka.spb.ru/~fox/testbox/tt-rss/xml-rpc.php")
 
+login = "fox"
+password = "sotona"
+
 try:
 #	print server.rss.getAllFeeds("fox", "sotona");
 
-	print server.rss.subscribeToFeed("admin", "password", 
-		"http://tt-rss.spb.ru/forum/rss.php")
+#	print server.rss.subscribeToFeed(login, password, 
+#		"http://tt-rss.spb.ru/forum/rss.php")
 
-	r = server.rss.getSubscribedFeeds("admin", "password")
-	print r
+#	print server.rss.getSubscribedFeeds(login, password)
+
+#	print server.rss.getFeedHeadlines(login, password, 22, 30, 0)
+
+	print server.rss.getArticle(login, password, 185429);
 	
+#	print server.rss.setArticleMarked(login, password, 185429, 2);
+	print server.rss.setArticleRead(login, password, 185429, 2);
+
+#	print server.rss.setArticleMarked(login, password, 185429, 2);
+
+	print server.rss.getArticle(login, password, 185429);
+
+#	print server.rss.setArticleMarked(login, password, 185429, 2);
+	print server.rss.setArticleRead(login, password, 185429, 2);
+
 #    print "Got '" + server.examples.getStateName(32) + "'"
 #
 #    r = server.mail.send("edd", "Test",
