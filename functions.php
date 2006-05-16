@@ -801,7 +801,19 @@
 		db_query($link, "COMMIT");
 
 	}
-	
+
+	function lookup_user_id($link, $user) {
+
+		$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+			login = '$login'");
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "id");
+		} else {
+			return false;
+		}
+	}
+
 	function authenticate_user($link, $login, $password) {
 
 		$pwd_hash = 'SHA1:' . sha1($password);
@@ -1511,4 +1523,40 @@
 		
 		print "<error error-code=\"$code\" error-msg=\"$error_msg\"/>";
 	}
+
+	function subscribe_to_feed($link, $feed_link, $cat_id = 0) {
+	
+		if ($cat_id == "0" || !$cat_id) {
+			$cat_qpart = "NULL";
+		} else {
+			$cat_qpart = "'$cat_id'";
+		}
+	
+		$result = db_query($link,
+			"SELECT id FROM ttrss_feeds 
+			WHERE feed_url = '$feed_link' AND owner_uid = ".$_SESSION["uid"]);
+	
+		if (db_num_rows($result) == 0) {
+			
+			$result = db_query($link,
+				"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+				VALUES ('".$_SESSION["uid"]."', '$feed_link', 
+				'[Unknown]', $cat_qpart)");
+	
+			$result = db_query($link,
+				"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' 
+				AND owner_uid = " . $_SESSION["uid"]);
+	
+			$feed_id = db_fetch_result($result, 0, "id");
+	
+			if ($feed_id) {
+				update_rss_feed($link, $feed_link, $feed_id, true);
+			}
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 ?>

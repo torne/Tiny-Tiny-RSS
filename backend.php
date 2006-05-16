@@ -1662,34 +1662,9 @@
 				$feed_link = db_escape_string(trim($_GET["link"]));
 				$cat_id = db_escape_string($_GET["cid"]);
 
-				if ($cat_id == "0" || !$cat_id) {
-					$cat_qpart = "NULL";
+				if (subscribe_to_feed($link, $feed_link, $cat_id)) {
+					print "Added feed.";
 				} else {
-					$cat_qpart = "'$cat_id'";
-				}
-
-				$result = db_query($link,
-					"SELECT id FROM ttrss_feeds 
-					WHERE feed_url = '$feed_link' AND owner_uid = ".$_SESSION["uid"]);
-
-				if (db_num_rows($result) == 0) {
-					
-					$result = db_query($link,
-						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
-						VALUES ('".$_SESSION["uid"]."', '$feed_link', 
-						'[Unknown]', $cat_qpart)");
-
-					$result = db_query($link,
-						"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' 
-						AND owner_uid = " . $_SESSION["uid"]);
-
-					$feed_id = db_fetch_result($result, 0, "id");
-
-					if ($feed_id) {
-						update_rss_feed($link, $feed_link, $feed_id, true);
-					}
-				} else {
-
 					print "<div class=\"warning\">
 						Feed <b>$feed_link</b> already exists in the database.
 					</div>";
