@@ -520,7 +520,7 @@
 			num_comments,
 			author
 			FROM ttrss_entries,ttrss_user_entries
-			WHERE	id = '$id' AND ref_id = id");
+			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
 
 		print "<html><head>
 			<title>Tiny Tiny RSS : Article $id</title>
