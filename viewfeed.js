@@ -207,6 +207,42 @@ function localHotkeyHandler(keycode) {
 
 }
 
+function toggleUnread(id, cmode) {
+	try {
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+			return;
+		}
+	
+		var row = document.getElementById("RROW-" + id);
+		if (row) {
+			var nc = row.className;
+			nc = nc.replace("Unread", "");
+			nc = nc.replace("Selected", "");
+
+			if (row.className.match("Unread")) {
+				row.className = nc;
+			} else {
+				row.className = nc + "Unread";
+			}
+
+			if (!cmode) cmode = 2;
+
+			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
+				param_escape(id) + "&cmode=" + param_escape(cmode);
+
+			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);
+
+		}
+
+
+	} catch (e) {
+		exception_error("toggleUnread", e);
+	}
+}
+
 function selectionToggleUnread(cdm_mode) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {

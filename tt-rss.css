@@ -895,7 +895,7 @@ div.cdmArticleSelected, div.cdmArticleUnreadSelected {
 	padding : 10px;
 }
 
-div.cdmArticleUnread div.cdmHeader a, div.cdmArticleUnreadSelected div.cdmHeader a {
+div.cdmArticleUnread div.cdmHeader a.title, div.cdmArticleUnreadSelected div.cdmHeader a {
 	font-weight : bold;
 }
 
@@ -923,6 +923,7 @@ div.cdmHeader a:hover {
 }
 
 div.cdmContent {
+	margin-bottom : 5px;
 }
 
 a.warning {
@@ -1009,6 +1010,15 @@ div.cdmContent a {
 
 div.cdmContent a:hover {
 	color : black;
+}
+
+a.cdmToggleLink {
+	color : #808080;
+	font-size : x-small;
+}
+
+a.cdmToggleLink:hover {
+	color : #5050aa;
 }
 
 .noborder {

@@ -1148,9 +1148,14 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div style=\"float : right\">$updated_fmt</div>";
+					print "<div style=\"float : right\">$updated_fmt,
+						<a class=\"cdmToggleLink\"
+							href=\"javascript:toggleUnread($id)\">Toggle unread</a>
+					</div>";
 					
-					print "<a target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
+					print "<a class=\"title\" 
+						onclick=\"javascript:toggleUnread($id, 0)\"
+						target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
 
 					if ($line["feed_title"]) {	
 						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
@@ -1159,11 +1164,15 @@
 					print "</div>";
 
 					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div>";
-	
+
 					print "<div style=\"float : right\">$marked_pic</div>
-						<div class=\"cdmFooter\">
+						<div lass=\"cdmFooter\">
 							<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"></div>";
+
+#					print "<div align=\"center\"><a class=\"cdmToggleLink\"
+#							href=\"javascript:toggleUnread($id)\">
+#							Toggle unread</a></div>";
 
 					print "</div>";	
 
