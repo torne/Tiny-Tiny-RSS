@@ -123,4 +123,10 @@ function db_close($link) {
 	}
 }
 
+function db_affected_rows($link, $result) {
+	if (DB_TYPE == "pgsql") {
+		return pg_affected_rows($result);
+	} else if (DB_TYPE == "mysql") {
+		return mysql_affected_rows($link);
+	}
 ?>
