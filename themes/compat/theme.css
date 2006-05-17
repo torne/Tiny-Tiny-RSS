@@ -1,0 +1,1080 @@
+body {
+	background : white;
+	color : black;
+	margin : 0px;
+	padding : 0px;
+	font-family : sans-serif;
+}
+
+/* common styles */
+
+table.main td.headerBox {
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+table.main td.header {
+	padding : 10px 10px 10px 30px;
+	height : 70px;
+}
+
+table.main td.mainToolbar {
+	border-width : 0px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 3px 25px 3px 10px;
+}
+
+table.main td.prefsToolbar {
+	padding : 0px 5px 5px 0px;
+}
+
+table.main td.feeds {
+	width : 290px;
+	height : 100%;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 0px;
+}
+
+table.main td.headlinesToolbarBox {
+	padding : 10px;
+	border-width : 0px 0px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	background-image : url("images/vgrad_light.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
+}
+
+table.main td.footer {
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 10px;
+	text-align : center;
+	font-size : x-small;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	color : gray;
+}
+
+table.main td.footer a {
+	color : gray;
+}
+
+table.main td.footer a:hover {
+	color : #5050aa;
+}
+
+table.main td.headlines {
+	height : 25%;
+	border-width : 0px 0px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
+table.main td.headlines2 {
+	height : 100%;
+	border-width : 0px 0px 0px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
+table.main td.content {
+	height : 100%;
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	border-width : 0px 0px 0px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+}
+
+table.main td.prefContent {
+	height : 100%;
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding : 20px;
+}
+
+div.postReply {
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	height : 100%;
+	padding : 10px;
+}
+
+div.postReply a {
+	color : #5050aa;
+}
+
+div.postReply a:hover {
+	color : black;
+}
+
+div.postReply div.postHeader {
+	background : white;
+	border : 1px solid #c0c0c0;
+}
+
+div.postReply > div.postHeader {
+	padding : 5px;
+}
+
+div.postReply div.postContent {
+	padding : 10px;
+}
+
+div.postReply div.postIcon {
+	float : right;
+	border : 0px;
+	margin : 10px 0px 10px 10px;
+}
+
+ul.feedList {
+	list-style-type : none;
+	margin : 5px;
+	padding : 0px 0px 0px 10px;
+}
+
+ul.feedList li.feedCat {
+	margin : 0px;
+	padding : 3px 0px 3px 0px;
+	color : #707070;
+	font-size : x-small;
+}
+
+ul.feedList li.feedCat a {
+	color : #707070;
+}
+
+ul.feedList li.feedCat a:hover {
+	color : #5050aa;
+}
+
+ul.feedCatList {
+	list-style-type : none;
+	margin : 0px 0px 0px 20px;
+	padding : 0px;	
+}
+
+ul.feedCatList li {
+	margin : 0px;
+	padding : 0px 0px 0px 0px;
+	color : black;
+}
+
+ul.feedList li {
+	margin : 0px;
+}
+
+/*
+li.oddSelected, li.evenSelected {
+	background-color : white;
+}
+
+li.oddUnreadSelected, li.evenUnreadSelected, li.evenSelectedUnread,
+	li.oddSelectedUnread {
+	background-color : white;
+	font-weight : bold;
+} 
+
+li.oddSelected a, li.evenSelected a,
+	li.oddUnreadSelected a, li.evenUnreadSelected a {
+	color : #5050aa;
+}
+
+ul.feedlist 
+	li.virtSelected,
+	li.virtUnreadSelected,
+	li.virtSelectedUnread,
+	li.feedSelected, 
+	li.labelSelected, 
+	li.feedUnreadSelected, 
+	li.labelUnreadSelected,
+	li.feedSelectedUnread,
+	li.labelSelectedUnread {
+	background-color : white;
+}
+
+ul.feedlist 
+	li.feedSelected a, 
+	li.labelSelected a, 
+	li.feedUnreadSelected a, 
+	li.labelUnreadSelected a, 
+	li.virtSelected a, 
+	li.virtUnreadSelected a,
+	li.virtSelectedUnread a {
+	color : #5050aa;
+} */
+
+ul.feedlist li.feedUnread, 
+ul.feedlist li.errorUnread, 
+ul.feedlist li.labelUnread, 
+ul.feedlist li.virtUnread,
+ul.feedlist li.tagUnread {
+	font-weight : bold;
+}
+
+ul.feedlist li.errorSelected a,
+ul.feedlist li.error a,
+ul.feedlist li.errorUnread a,
+ul.feedlist li.errorUnreadSelected a {
+	color : #f04040;
+}
+
+ul.feedlist li.feedSelected a,
+ul.feedlist li.labelSelected a,
+ul.feedlist li.virtSelected a,
+ul.feedlist li.tagSelected a {
+	color : #5050aa;
+}
+
+ul.feedlist li.feedUnreadSelected a,
+ul.feedlist li.labelUnreadSelected a,
+ul.feedlist li.virtUnreadSelected a,
+ul.feedlist li.tagUnreadSelected a {
+	color : #5050aa;
+}
+
+ul.feedlist li.feedUnreadSelected,
+ul.feedlist li.errorUnreadSelected,
+ul.feedlist li.labelUnreadSelected,
+ul.feedlist li.virtUnreadSelected,
+ul.feedlist li.tagUnreadSelected {
+	font-weight : bold;
+}
+
+ul.feedList li.feed {
+	display : block;
+}
+
+ul.feedList img, img.tinyFeedIcon {
+	margin : 0px 3px 0px 0px;
+	width : 16px;
+	height : 16px;
+	border-width : 0px;
+}
+
+h1 {
+	font-size : 16pt;	
+}
+
+h2 {
+	font-size : 14pt;
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+h3 {
+	font-size : 12pt;
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+}
+
+hr {
+	border-width : 0px 0px 1px 0px;
+	border-style : dashed;
+	border-color : #e0e0e0;
+}
+
+a {
+	color : black;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #5050aa;
+}
+
+#piggie {
+	width : 400;
+	height : 400;
+	right : 0;
+	top : -400;
+	background-color : white;
+	display : none;
+	z-index : 3;
+	background-image : url("http://madoka.spb.ru/stuff/fox/piggie.png");
+	background-position : center center;
+	background-repeat : no-repeat;
+	position : absolute;
+	border : 1px solid pink;	
+	margin-left : auto;
+	margin-right : auto;
+	-moz-border-radius : 10px;
+	opacity : 0.8;
+}
+
+#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
+#iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed,
+#iedit_fcat, #iedit_filter_action, #iedit_login, #iedit_pass, #iedit_email,
+#iedit_parent_feed {
+	width : 100%;
+	padding-left : 2px;
+}
+
+input.editbox {
+	width : 200px;
+	padding-left : 2px;
+}
+
+td.notifyBox {
+	font-size : 10pt;
+	text-align : right;
+}
+
+#notify {
+	color : black;
+	font-weight : bold;
+	padding : 3px;
+}
+
+#dispSwitch {
+	padding : 5px 5px 5px 0px;
+	font-size : x-small;
+	text-align : right;
+}
+
+#dispSwitch a {
+	color : gray;
+}
+
+#dispSwitch a:hover {
+	color : #5050aa;
+}
+
+div.expPane {
+	margin : 15px;
+}
+
+iframe {
+	border : 0px solid white;
+}
+
+iframe.feedsFrameWithActions {
+	width : 100%;
+	height : 90%;
+	margin : 0px;
+	padding : 0px;
+}
+
+iframe.feedsFrame {
+	width : 100%;
+	height : 100%;
+	margin : 0px;
+	padding : 0px;
+}
+
+iframe.contentFrame, iframe.headlinesFrame {
+	width : 100%;
+	padding : 0px;
+	margin : 0px;
+	height : 100%;
+}
+
+.button {
+	border : 1px solid #d0d0d0;
+	background-image : url("images/button.png");
+	background-position : top;
+	background-repeat : repeat-x;
+	background-color : white;
+	color : black;	
+}
+
+.button:hover {
+	background : white;
+	text-decoration : none;
+	color : black;
+}
+
+a.button {
+	padding : 2px 5px 2px 5px;
+	font-size : small;
+}
+
+.evenUnreadSelected, .evenSelectedUnread {
+	background-color : #e0e0ff;
+	font-weight : bold;
+}
+
+.oddUnreadSelected, .oddSelectedUnread  {
+	background-color : #e0e0ff;
+	font-weight : bold;
+}
+
+.evenSelected, .oddSelected {
+	background-color : #e0e0ff;
+}
+
+
+/*
+.feedUnreadSelected, .feedSelectedUnread, 
+.virtUnreadSelected, .virtSelectedUnread,
+.labelUnreadSelected, .labelSelectedUnread {
+	background-color : #e0e0ff;
+	font-weight : bold;
+} */
+
+.disabledButton {
+	border : 1px solid #c0c0c0;
+	background-color : white;
+	color : gray;	
+}
+
+.evenGrayed {
+	background-color : #f0f0f0;
+	color : #909090;
+}
+
+.oddGrayed {
+	color : #909090;
+}
+
+.even {
+	background-color : #f0f0f0;
+}
+
+.evenUnread {
+	background-color : #f0f0f0;
+	font-weight : bold;
+}
+
+.oddUnread {
+	font-weight : bold;
+}
+
+.invisible {
+	display : none;
+}
+
+td > input, div > input {
+	border : 1px solid #a0a0a0;
+}
+
+/* preferences */
+
+tr.title td {
+	border-width : 0px 0px 1px 0px;
+	border-color : #f0f0f0;
+	border-style : solid;
+	font-size : x-small;
+	color : gray;
+}
+
+tr.title td a {
+	color : gray;
+}
+
+tr.title td a:hover {
+	color : #5050aa;
+}
+
+table.prefFeedList td.feedEditCat {
+	font-size : large;
+	font-weight : bold;
+	padding : 5px 0px 5px 0px;
+}
+
+table.prefFeedList td.feedIcon {
+	text-align : center;
+}
+
+table.prefFeedList td.feedSelect {
+	text-align : center;
+}
+
+a.helpLink {
+	color : #808080;
+}
+
+a.helpLink:hover {
+	color : #5050aa;
+}
+
+div.helpResponse {
+	margin : 10px;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	padding : 10px 20px 10px 20px;
+	border : 1px solid #f0f0f0;
+}
+
+#userDlgShadow {
+	z-index : 3;
+	position : absolute;
+	left : 30%;
+	top : 30%;
+	display : none;
+	background-image : url("images/shadow.png");
+}
+
+#userDlg {
+	padding : 15px;
+	border : 1px solid #c0c0c0;
+	font-size : small;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	background-color : white;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+#qafInput {
+	width : 300px;
+}
+
+
+#infoBox {
+	border : 1px solid #c0c0c0;
+	padding-bottom : 10px;
+	font-size : small;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	background-color : white;
+}
+
+#infoBoxShadow {
+	background-image : url("images/shadow.png");
+	position : absolute;
+	width : 30%;
+	left : 35%;
+	top : 30%;
+	z-index : 3;
+	display : none;
+}
+
+div.infoBoxContents {
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	padding : 5px;
+	margin-bottom : 5px;
+}
+
+div.infoBoxContents td {
+	font-size : small;
+}
+
+
+div.helpResponse h1, div.infoBoxContents h1 {
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	font-size : 16pt;
+}
+
+div.helpResponse h2, div.infoBoxContents h2 {
+	border-width : 0px 0px 0px 0px;
+	font-size : 12pt;
+}
+
+/* pre {
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+	background : #f0f0f0;
+	margin : 5px 10px 5px 10px;
+} */
+
+pre {
+	margin : 5px;
+}
+
+input.extSearch {
+	width : 200px;
+}
+
+table.main td.prefsTabs {
+	padding-left : 5px;
+}
+
+input.prefsTab {
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;	
+	padding : 2px 7px 2px 7px;
+	margin : 0px 1px 0px 0px;
+	width : 130px;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	-moz-border-radius : 7px 7px 0px 0px;
+	font-size : small;
+}
+
+input.prefsTabSelected {
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;	
+	padding : 2px 7px 2px 7px;
+	margin : 0px 1px 0px 0px;
+	width : 130px;
+	background : white;
+	font-weight : bold;
+	background-position : top left;
+	background-repeat : repeat-x;
+	-moz-border-radius : 7px 7px 0px 0px;
+	font-size : small;
+	color : black;
+}
+
+
+input.prefsTab:hover {
+	background : white;
+}
+
+div.warning {
+	background : #fffff0;
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+	margin : 5px;
+	font-size : x-small;
+}
+
+div.notice {
+	background : #ffffff;
+	border : 1px solid #c0c0c0;
+	padding : 5px;
+	margin : 5px;
+	font-size : x-small;
+}
+
+ul.nomarks {
+	list-style-type : none;
+	margin : 0px;
+	padding : 10px;	
+}
+
+div.bigErrorMsg {
+	border : 1px solid #c0c0c0;
+	background : #fff0f0;
+	padding : 30px;
+	margin : 20px;
+}
+
+div.prefHelp, td.prefHelp {
+	font-size : x-small;
+	color : gray;
+	padding : 5px;
+}
+
+td.welcomePrompt {
+	font-size : x-small;
+	color : gray;
+	text-align : right;
+	padding-right : 10px;
+
+}
+
+td.httpWelcomePrompt {
+	font-size : small;
+	color : gray;
+	text-align : right;
+}
+
+table.loginForm {
+	background-image : url("images/vgrad_light_rev.png");
+	background-color : white;
+	background-position : top left;
+	background-repeat : repeat-x;
+}
+
+table.innerLoginForm {
+	border : 1px solid #f0f0f0;
+	padding : 50px;
+	background-color : white;
+}
+
+table.innerLoginForm td {
+	padding : 3px 3px 5px 3px;
+}
+
+span.insensitive {
+	color : gray;
+}
+
+.prefGenericAddBox {
+	margin : 5px;
+	font-size : small;
+}
+
+.prefGenericAddBox td {
+	font-size : small;
+}
+
+body.logoutBody {
+	background-color : #f0f0f0;
+	color : black;
+}
+
+span.logoutWarning {
+	color : red;
+	font-weight : bold;
+}
+
+div.logoutContent {
+	width : 600px;
+	border : 1px solid #c0c0c0;
+	background-color : white;
+	margin-left : auto;
+	margin-right : auto;
+	margin-top : 20px;
+	padding : 10px;
+}
+
+.small {
+	font-size : x-small;
+}
+
+table.innerFeedTable td {
+	margin : 0px;
+	padding : 0px;
+}
+
+td.selectPrompt {
+	font-size : x-small;
+	color : gray;
+}
+
+table.headlinesSubToolbar td.headlineActions {
+	font-size : x-small;
+	color : gray;
+	padding : 5px 0px 5px 5px;
+}
+
+table.headlinesSubToolbar td.headlineActionsRTL {
+	font-size : x-small;
+	color : gray;
+	padding : 5px 5px 5px 0px;
+}
+
+table.headlinesSubToolbar td.headlineTitle {
+	font-size : x-small;
+	color : gray;
+	padding : 5px 5px 5px 0px;
+	text-align : right;
+}
+
+table.headlinesSubToolbar td.headlineTitleRTL {
+	font-size : x-small;
+	color : gray;
+	padding : 5px 0px 5px 5px;
+	text-align : left;
+}
+
+span.contentPreview {
+	font-size : x-small;
+	color : gray;
+	font-weight : normal;
+}
+
+span.contentPreview:hover {
+	color : #5050aa;
+}
+
+table.headlinesList td.hlMarkedPic {
+	width : 25px;
+	text-align : center;
+}
+
+table.headlinesList td.hlfeed {
+	text-align : right;
+	font-size : small;
+}
+
+td.hlSelectRow, td.hlUpdatePic {
+	width : 25px;
+	text-align : center;
+}
+
+table.headlinesList td.hlUpdated {
+	font-size : small;
+	color : gray;
+	text-align : right;
+	width : 100px;
+}
+
+table.headlinesList tr td {
+	padding : 2px 0px 2px 0px;
+}
+
+/*
+tr.even td.headlineContent, tr.evenUnread td.headlineContent {
+	display : block;
+	overflow : hidden;
+	height : 1em;	
+	background-color : #f0f0f0;
+}
+
+tr.odd td.headlineContent, tr.oddUnread td.headlineContent {
+	display : block;
+	overflow : hidden;
+	height : 1em;
+}
+
+tr.oddSelected td.headlineContent,
+tr.evenSelected td.headlineContent,
+tr.oddUnreadSelected td.headlineContent,
+tr.evenUnreadSelected td.headlineContent {
+	display : block;
+	overflow : hidden;
+	height : 1em;
+	background-color : #e0e0ff;
+} */
+
+div.postHeader td.postDate {
+	font-size : x-small;
+	text-align : right;
+	color : gray;
+}
+
+div.postHeader td.postDateRTL {
+	font-size : x-small;
+	text-align : left;
+	color : gray;
+}
+
+#feedUpdateErrors {
+	display : none;
+}
+
+#allEntryTags {
+	font-size : x-small;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	padding-bottom : 5px;
+	display : none;
+}
+
+/*td.hlContent {
+	overflow : hidden;
+	height : 1em;
+	display : block;
+} */
+
+td.hlMarkedPic, td.hlSelectRow, td.hlUpdated, td.hlFeed {
+	height : 1em;
+}
+
+div.cdmArticle {
+	border : 1px solid #f0f0f0;
+	background-color : #fafafa;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleUnread {
+	border : 1px solid #d5f1f4;
+	background-color : #fafeff;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+	border : 1px solid #d0d0f6;
+	background-color : #eaeaff;
+	-moz-border-radius : 5px;
+	margin : 10px 10px 0px 10px;
+	padding : 10px;
+}
+
+div.cdmArticleUnread div.cdmHeader a, div.cdmArticleUnreadSelected div.cdmHeader a {
+	font-weight : bold;
+}
+
+div.cdmHeader {
+	padding-bottom : 5px;
+}
+
+div.cdmFooter {
+	font-size : x-small;
+	color : gray;
+	padding-top : 5px;
+}
+
+div.cdmFooter input, div.cdmHeader input, div.cdmFooter img {
+	margin : 0px;
+}
+
+div.cdmHeader, div.cdmHeader a {
+	color : gray;
+	font-size : x-small;
+}
+
+div.cdmHeader a:hover {
+	color : #5050aa;
+}
+
+div.cdmContent {
+}
+
+a.warning {
+	color : #f04040;
+}
+
+img.closeButton {
+	border-width : 0px;
+	float : right;
+}
+
+span.groupPrompt {
+	font-size : x-small;
+	color : #505050;
+}
+
+ul.userFeedList {
+	height : 300px;
+	overflow : auto;
+	list-style-type : none;
+}
+
+/* #browseBigFeedList li.oddSelected {
+	border : 1px solid #d0d0f6;
+	background-color : #eaeaff;
+	-moz-border-radius : 5px;
+} */
+
+ul.browseFeedList {
+	height : 300px;
+	overflow : auto;
+	list-style-type : none;
+	margin : 0px 0px 5px 0px;
+	padding : 0px;
+}
+
+ul.browseFeedList li {
+	margin : 0px;
+	padding : 0px;
+}
+
+span.subscribers {
+	color : #808080;
+}
+
+div.subscribers {
+	color : #808080;
+	font-size : x-small;
+	float : right;
+}
+
+input.feedBrowseCB {
+	margin-right : 1em;
+}
+
+div.browserDetails {
+	margin : 5px 5px 5px 5px;
+	display : none;
+	padding : 5px;
+}
+
+ul.compact {
+	list-style-type : none;
+	margin : 0px;
+	padding : 0px;
+}
+
+ul.compact li {
+	margin : 0px;
+	padding : 0px;
+}
+
+div.browserFeedInfo {
+	font-size : x-small;
+}
+
+div.browserFeedInfo div.detailsPart {
+	margin : 5px 0px 5px 5px;	
+}
+
+div.cdmContent a {
+	color : #5050aa;
+}
+
+div.cdmContent a:hover {
+	color : black;
+}
+
+.noborder {
+	border-width : 0px;
+}
+
+#debug_output {
+	width : 400;
+	height : 200;
+	right : 20;
+	bottom : 20;
+	background-color : white;
+	display : none;
+	z-index : 999;
+	position : absolute;
+	border : 1px solid #c0c0c0;
+	overflow : auto;
+	margin : 0px;
+	padding : 0px;
+	list-style-type : none;
+}
+
+#debug_output li {
+	margin : 0px;
+	padding : 0px;
+	font-size : x-small;
+}
+
+#overlay {
+	background : white;
+	left : 0;
+	top : 0;
+	height : 100%;
+	width : 100%;
+	z-index : 100;
+	position : absolute;
+}
+
+#overlay_inner {
+	font-weight : bold;
+	text-align : center;
+	margin : 10px;
+}
+
+#fatal_error {
+	background : white;
+	left : 0;
+	top : 0;
+	height : 100%;
+	width : 100%;
+	z-index : 200;
+	display : none;
+	position : absolute;
+}
+
+#fatal_error_inner {
+	font-weight : bold;
+	margin : 10px;
+	color : red;
+}
+
+#fatal_error_msg {
+	border : 1px solid #c0c0c0;
+	background-color : #f0f0f0;
+	color : black;
+	padding : 10px;
+	font-weight : normal;
+}
