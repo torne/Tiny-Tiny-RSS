@@ -196,46 +196,6 @@ ul.feedList li {
         margin : 0px;
 }
 
-/*
-li.oddSelected, li.evenSelected {
-        background-color : white;
-}
-
-li.oddUnreadSelected, li.evenUnreadSelected, li.evenSelectedUnread,
-        li.oddSelectedUnread {
-        background-color : white;
-        font-weight : bold;
-} 
-
-li.oddSelected a, li.evenSelected a,
-        li.oddUnreadSelected a, li.evenUnreadSelected a {
-        color : #5050aa;
-}
-
-ul.feedlist 
-        li.virtSelected,
-        li.virtUnreadSelected,
-        li.virtSelectedUnread,
-        li.feedSelected, 
-        li.labelSelected, 
-        li.feedUnreadSelected, 
-        li.labelUnreadSelected,
-        li.feedSelectedUnread,
-        li.labelSelectedUnread {
-        background-color : white;
-}
-
-ul.feedlist 
-        li.feedSelected a, 
-        li.labelSelected a, 
-        li.feedUnreadSelected a, 
-        li.labelUnreadSelected a, 
-        li.virtSelected a, 
-        li.virtUnreadSelected a,
-        li.virtSelectedUnread a {
-        color : #5050aa;
-} */
-
 ul.feedlist li.feedUnread, 
 ul.feedlist li.errorUnread, 
 ul.feedlist li.labelUnread, 
@@ -924,14 +884,15 @@ div.cdmArticleUnread {
 }
 
 div.cdmArticleSelected, div.cdmArticleUnreadSelected {
-        border : 1px solid #d0d0f6;
-        background-color : #eaeaff;
-        -moz-border-radius : 5px;
+          -moz-border-radius : 5px;
         margin : 10px 10px 0px 10px;
         padding : 10px;
+        background-color : #fff7d5;
+		  border : 1px solid #e7d796;
 }
 
-div.cdmArticleUnread div.cdmHeader a.title, div.cdmArticleUnreadSelected div.cdmHeader a {
+div.cdmArticleUnread div.cdmHeader a.title, 
+div.cdmArticleUnreadSelected div.cdmHeader a.title {
         font-weight : bold;
 }
 
@@ -1038,6 +999,10 @@ ul.compact li {
 
 div.browserFeedInfo {
         font-size : x-small;
+		  border : 1px solid #88b0f0;
+		  background-color : #ecf4ff;
+		  -moz-border-radius : 5px;
+		  padding : 10px;
 }
 
 div.browserFeedInfo div.detailsPart {

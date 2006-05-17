@@ -3750,8 +3750,6 @@
 
 	if ($op == "pref-feed-browser") {
 
-		print "<p>This panel shows feeds subscribed by other users of this system, just in case you are interested in some of them too.</p>";
-
 		if (!ENABLE_FEED_BROWSER) {
 			print "Feed browser is administratively disabled.";
 			return;
@@ -3822,6 +3820,8 @@
 				
 			return;
 		}
+
+		print "<p>This panel shows feeds subscribed by other users of this system, just in case you are interested in some of them too.</p>";
 
 		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 			FROM ttrss_feeds 
