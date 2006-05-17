@@ -703,7 +703,9 @@
 			catchup_feed($link, $feed, $cat_view);
 
 			if (get_pref($link, 'ON_CATCHUP_SHOW_NEXT_FEED')) {
-				$feed = $next_unread_feed;
+				if ($next_unread_feed) {
+					$feed = $next_unread_feed;
+				}
 			}
 		}
 
@@ -3582,17 +3584,20 @@
 			return;
 		}
 		
-		print "<h1>User Details</h1>";
+#		print "<h1>User Details</h1>";
+
+		$login = db_fetch_result($result, 0, "login");
+
+		print "<h1>$login</h1>";
 
 		print "<table width='100%'>";
 
-		$login = db_fetch_result($result, 0, "login");
 		$last_login = date(get_pref($link, 'LONG_DATE_FORMAT'),
 			strtotime(db_fetch_result($result, 0, "last_login")));
 		$access_level = db_fetch_result($result, 0, "access_level");
 		$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
-		print "<tr><td>Username</td><td>$login</td></tr>";
+#		print "<tr><td>Username</td><td>$login</td></tr>";
 		print "<tr><td>Access level</td><td>$access_level</td></tr>";
 		print "<tr><td>Last logged in</td><td>$last_login</td></tr>";
 		print "<tr><td>Stored articles</td><td>$stored_articles</td></tr>";
@@ -3622,6 +3627,8 @@
 
 		print "<ul class=\"userFeedList\">";
 
+		$row_class = "odd";
+
 		while ($line = db_fetch_assoc($result)) {
 
 			$icon_file = ICONS_URL."/".$line["id"].".ico";
@@ -3632,7 +3639,10 @@
 				$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 			}
 
-			print "<li>$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
+			print "<li class=\"$row_class\">$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
+
+			$row_class = toggleEvenOdd($row_class);
+
 		}
 
 		if (db_num_rows($result) < $num_feeds) {
