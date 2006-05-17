@@ -49,7 +49,7 @@ table.main td.headlinesToolbarBox {
 	background-repeat : repeat-x;
 }
 
-table.main td.footer {
+table.main td.footer, table.main td.prefFooter {
 	border-width : 1px 0px 0px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
@@ -177,46 +177,6 @@ ul.feedList li {
 	margin : 0px;
 }
 
-/*
-li.oddSelected, li.evenSelected {
-	background-color : white;
-}
-
-li.oddUnreadSelected, li.evenUnreadSelected, li.evenSelectedUnread,
-	li.oddSelectedUnread {
-	background-color : white;
-	font-weight : bold;
-} 
-
-li.oddSelected a, li.evenSelected a,
-	li.oddUnreadSelected a, li.evenUnreadSelected a {
-	color : #5050aa;
-}
-
-ul.feedlist 
-	li.virtSelected,
-	li.virtUnreadSelected,
-	li.virtSelectedUnread,
-	li.feedSelected, 
-	li.labelSelected, 
-	li.feedUnreadSelected, 
-	li.labelUnreadSelected,
-	li.feedSelectedUnread,
-	li.labelSelectedUnread {
-	background-color : white;
-}
-
-ul.feedlist 
-	li.feedSelected a, 
-	li.labelSelected a, 
-	li.feedUnreadSelected a, 
-	li.labelUnreadSelected a, 
-	li.virtSelected a, 
-	li.virtUnreadSelected a,
-	li.virtSelectedUnread a {
-	color : #5050aa;
-} */
-
 ul.feedlist li.feedUnread, 
 ul.feedlist li.errorUnread, 
 ul.feedlist li.labelUnread, 
@@ -300,43 +260,6 @@ a:hover {
 	color : #5050aa;
 }
 
-#piggie {
-	width : 400;
-	height : 400;
-	right : 0;
-	top : -400;
-	background-color : white;
-	display : none;
-	z-index : 3;
-	background-image : url("http://madoka.spb.ru/stuff/fox/piggie.png");
-	background-position : center center;
-	background-repeat : no-repeat;
-	position : absolute;
-	border : 1px solid pink;	
-	margin-left : auto;
-	margin-right : auto;
-	-moz-border-radius : 10px;
-	opacity : 0.8;
-}
-
-#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
-#iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed,
-#iedit_fcat, #iedit_filter_action, #iedit_login, #iedit_pass, #iedit_email,
-#iedit_parent_feed {
-	width : 100%;
-	padding-left : 2px;
-}
-
-input.editbox {
-	width : 200px;
-	padding-left : 2px;
-}
-
-td.notifyBox {
-	font-size : 10pt;
-	text-align : right;
-}
-
 #notify {
 	color : black;
 	font-weight : bold;
@@ -355,10 +278,6 @@ td.notifyBox {
 
 #dispSwitch a:hover {
 	color : #5050aa;
-}
-
-div.expPane {
-	margin : 15px;
 }
 
 iframe {
@@ -406,28 +325,32 @@ a.button {
 	font-size : small;
 }
 
-.evenUnreadSelected, .evenSelectedUnread {
-	background-color : #e0e0ff;
-	font-weight : bold;
+.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
+	.evenSelectedUnread td {
+        background-color : #fff7d5;
+        font-weight : bold;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #e7d796;
 }
 
-.oddUnreadSelected, .oddSelectedUnread  {
-	background-color : #e0e0ff;
-	font-weight : bold;
+.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
+	.oddSelectedUnread td {
+        background-color : #e0e0ff;
+        font-weight : bold;
 }
 
-.evenSelected, .oddSelected {
-	background-color : #e0e0ff;
+.evenSelected, .evenSelected td {
+        background-color : #e0e0ff;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #778899;
 }
 
+.oddSelected, .evenSelected td {
+        background-color : #e0e0ff;
+}
 
-/*
-.feedUnreadSelected, .feedSelectedUnread, 
-.virtUnreadSelected, .virtSelectedUnread,
-.labelUnreadSelected, .labelSelectedUnread {
-	background-color : #e0e0ff;
-	font-weight : bold;
-} */
 
 .disabledButton {
 	border : 1px solid #c0c0c0;
@@ -435,30 +358,36 @@ a.button {
 	color : gray;	
 }
 
-.evenGrayed {
-	background-color : #f0f0f0;
-	color : #909090;
+
+.evenGrayed, .evenGrayed td {
+        background-color : #f0f0f0;
+        color : #909090;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #88b0f0;
 }
 
 .oddGrayed {
-	color : #909090;
+        color : #909090;
 }
 
-.even {
-	background-color : #f0f0f0;
+.even, .even td {
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #c0c0c0;
+        background-color : #f0f0f0;
 }
 
-.evenUnread {
-	background-color : #f0f0f0;
-	font-weight : bold;
+.evenUnread, .evenUnread td {
+        background-color : #f0f0f0;
+        font-weight : bold;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #c0c0c0;
 }
 
-.oddUnread {
-	font-weight : bold;
-}
-
-.invisible {
-	display : none;
+.oddUnread, .oddUnread td {
+        font-weight : bold;
 }
 
 td > input, div > input {
@@ -569,11 +498,6 @@ div.infoBoxContents {
 	margin-bottom : 5px;
 }
 
-div.infoBoxContents td {
-	font-size : small;
-}
-
-
 div.helpResponse h1, div.infoBoxContents h1 {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -584,21 +508,6 @@ div.helpResponse h1, div.infoBoxContents h1 {
 div.helpResponse h2, div.infoBoxContents h2 {
 	border-width : 0px 0px 0px 0px;
 	font-size : 12pt;
-}
-
-/* pre {
-	border : 1px solid #c0c0c0;
-	padding : 5px;
-	background : #f0f0f0;
-	margin : 5px 10px 5px 10px;
-} */
-
-pre {
-	margin : 5px;
-}
-
-input.extSearch {
-	width : 200px;
 }
 
 table.main td.prefsTabs {
@@ -632,7 +541,6 @@ input.prefsTabSelected {
 	font-size : small;
 	color : black;
 }
-
 
 input.prefsTab:hover {
 	background : white;
@@ -678,7 +586,6 @@ td.welcomePrompt {
 	color : gray;
 	text-align : right;
 	padding-right : 10px;
-
 }
 
 td.httpWelcomePrompt {
@@ -813,30 +720,6 @@ table.headlinesList tr td {
 	padding : 2px 0px 2px 0px;
 }
 
-/*
-tr.even td.headlineContent, tr.evenUnread td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;	
-	background-color : #f0f0f0;
-}
-
-tr.odd td.headlineContent, tr.oddUnread td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;
-}
-
-tr.oddSelected td.headlineContent,
-tr.evenSelected td.headlineContent,
-tr.oddUnreadSelected td.headlineContent,
-tr.evenUnreadSelected td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;
-	background-color : #e0e0ff;
-} */
-
 div.postHeader td.postDate {
 	font-size : x-small;
 	text-align : right;
@@ -944,6 +827,7 @@ ul.userFeedList {
 	height : 300px;
 	overflow : auto;
 	list-style-type : none;
+	border-color : #c0c0c0;
 }
 
 /* #browseBigFeedList li.oddSelected {
@@ -958,6 +842,7 @@ ul.browseFeedList {
 	list-style-type : none;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
+	border-color : #c0c0c0;
 }
 
 ul.browseFeedList li {
@@ -998,6 +883,8 @@ ul.compact li {
 
 div.browserFeedInfo {
 	font-size : x-small;
+	border-color : #c0c0c0;
+	background-color : #f0f0f0;
 }
 
 div.browserFeedInfo div.detailsPart {
@@ -1012,69 +899,3 @@ div.cdmContent a:hover {
 	color : black;
 }
 
-.noborder {
-	border-width : 0px;
-}
-
-#debug_output {
-	width : 400;
-	height : 200;
-	right : 20;
-	bottom : 20;
-	background-color : white;
-	display : none;
-	z-index : 999;
-	position : absolute;
-	border : 1px solid #c0c0c0;
-	overflow : auto;
-	margin : 0px;
-	padding : 0px;
-	list-style-type : none;
-}
-
-#debug_output li {
-	margin : 0px;
-	padding : 0px;
-	font-size : x-small;
-}
-
-#overlay {
-	background : white;
-	left : 0;
-	top : 0;
-	height : 100%;
-	width : 100%;
-	z-index : 100;
-	position : absolute;
-}
-
-#overlay_inner {
-	font-weight : bold;
-	text-align : center;
-	margin : 10px;
-}
-
-#fatal_error {
-	background : white;
-	left : 0;
-	top : 0;
-	height : 100%;
-	width : 100%;
-	z-index : 200;
-	display : none;
-	position : absolute;
-}
-
-#fatal_error_inner {
-	font-weight : bold;
-	margin : 10px;
-	color : red;
-}
-
-#fatal_error_msg {
-	border : 1px solid #c0c0c0;
-	background-color : #f0f0f0;
-	color : black;
-	padding : 10px;
-	font-weight : normal;
-}
