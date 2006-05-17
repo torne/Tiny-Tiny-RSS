@@ -75,7 +75,7 @@ window.onload = init;
 </script>
 
 <? if (ENABLE_UPDATE_DAEMON && !file_is_locked("update_daemon.lock")) { ?>
-	<div class="warning">
+	<div class="noDaemonWarning">
 		<b>Warning:</b> Update daemon is enabled in configuration, but daemon
 		process is not running, which prevents all feeds from updating. Please
 		start the daemon process or contact instance owner.
@@ -265,7 +265,8 @@ window.onload = init;
 </tr><tr>
 	<td class="content" id="content" valign="top">
 		<iframe frameborder="0" name="content-frame" 
-			id="content-frame" class="contentFrame"> </iframe>
+			id="content-frame" class="contentFrame"
+			src="backend.php?op=error&msg=No%20article%20selected."> </iframe>
 	</td>
 </tr>
 <? } ?>
