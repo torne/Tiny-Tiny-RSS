@@ -664,6 +664,7 @@
 		$view_mode = db_escape_string($_GET["view"]);
 		$limit = db_escape_string($_GET["limit"]);
 		$cat_view = db_escape_string($_GET["cat"]);
+		$next_unread_feed = db_escape_string($_GET["nuf"]);
 
 		if (!$skip) $skip = 0;
 
@@ -686,6 +687,18 @@
 		} else {
 			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
+		}
+
+		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+			update_generic_feed($link, $feed, $cat_view);
+		}
+
+		if ($subop == "MarkAllRead")  {
+			catchup_feed($link, $feed, $cat_view);
+
+			if (get_pref($link, 'ON_CATCHUP_SHOW_NEXT_FEED')) {
+				$feed = $next_unread_feed;
+			}
 		}
 
 		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
@@ -725,14 +738,6 @@
 			}
 			window.onload = init;
 			</script>";
-
-		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
-			update_generic_feed($link, $feed, $cat_view);
-		}
-
-		if ($subop == "MarkAllRead")  {
-			catchup_feed($link, $feed, $cat_view);
-		}
 
 		$search = db_escape_string($_GET["search"]);
 		$search_mode = db_escape_string($_GET["smode"]);

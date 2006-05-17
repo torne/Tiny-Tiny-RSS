@@ -28,7 +28,7 @@ function viewCategory(cat) {
 	viewfeed(cat, 0, '', false, true);
 }
 
-function viewfeed(feed, skip, subop, doc, is_cat) {
+function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	try {
 
 		if (!doc) doc = parent.document;
@@ -91,9 +91,14 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 		}
 
 		setActiveFeedId(feed);
+
+		var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
+			"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
+			"&view=" + param_escape(view_mode) + "&limit=" + limit + 
+			"&smode=" + param_escape(search_mode);
 	
 		if (subop == "MarkAllRead") {
-	
+
 			var feedr = document.getElementById("FEEDR-" + feed);
 			var feedctr = document.getElementById("FEEDCTR-" + feed);
 
@@ -105,12 +110,17 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 					feedr.className = feedr.className.replace("Unread", "");
 				}
 			}
+
+			var feedlist = document.getElementById('feedList');
+			
+			var next_unread_feed = getRelativeFeedId(feedlist,
+					getActiveFeedId(), "next", true);
+
+			if (next_unread_feed) {
+				query = query + "&nuf=" + param_escape(next_unread_feed);
+				setActiveFeedId(next_unread_feed);
+			}
 		}
-	
-		var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-			"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
-			"&view=" + param_escape(view_mode) + "&limit=" + limit + 
-			"&smode=" + param_escape(search_mode);
 	
 		if (search_query != "") {
 			query = query + "&search=" + param_escape(search_query);
@@ -137,7 +147,7 @@ function viewfeed(feed, skip, subop, doc, is_cat) {
 	
 //		cleanSelectedList("feedList");
 	
-		var feedr = document.getElementById("FEEDR-" + feed);
+		var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
 		if (feedr && !feedr.className.match("Selected")) {	
 			feedr.className = feedr.className + "Selected";
 		} 
