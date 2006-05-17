@@ -797,7 +797,8 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 			   }
 
 				if (e) {
-					if (!unread_only || (unread_only && e.className != "feed"))	{
+					if (!unread_only || (unread_only && e.className != "feed" && 
+							e.className != "error"))	{
 						return e.id.replace("FEEDR-", "");
 					}
 				}
@@ -833,7 +834,8 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 			   }
 
 				if (e) {
-					if (!unread_only || (unread_only && e.className != "feed"))	{
+					if (!unread_only || (unread_only && e.className != "feed" && 
+							e.className != "error"))	{
 						return e.id.replace("FEEDR-", "");
 					}
 				}
