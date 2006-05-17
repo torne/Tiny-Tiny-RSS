@@ -116,7 +116,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			var next_unread_feed = getRelativeFeedId(feedlist,
 					getActiveFeedId(), "next", true);
 
-			if (next_unread_feed) {
+			if (next_unread_feed && getCookie('ttrss_vf_catchupnext') == 1) {
 				query = query + "&nuf=" + param_escape(next_unread_feed);
 				setActiveFeedId(next_unread_feed);
 			}
