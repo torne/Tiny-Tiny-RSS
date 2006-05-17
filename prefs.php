@@ -106,10 +106,10 @@ window.onload = init;
 	<td class="prefsTabs" align="left" valign="bottom">
 		<input id="genConfigTab" class="prefsTab" type="submit" value="Preferences"
 			onclick="selectTab('genConfig')">
-		<input id="feedConfigTab" class="prefsTab" type="submit" value="Feed Configuration"
+		<input id="feedConfigTab" class="prefsTab" type="submit" value="My Feeds"
 			onclick="selectTab('feedConfig')">
-		<? if (ENABLE_FEED_BROWSER) { ?>
-		<input id="feedBrowserTab" class="prefsTab" type="submit" value="Feed Browser"
+		<? if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
+		<input id="feedBrowserTab" class="prefsTab" type="submit" value="Other Feeds"
 			onclick="selectTab('feedBrowser')">
 		<? } ?>
 		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
@@ -136,7 +136,7 @@ window.onload = init;
 </tr>
 <? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
-	<td class="footer" colspan="2">
+	<td class="prefFooter" colspan="2">
 		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.

@@ -12,7 +12,7 @@ table.main td.headerBox {
 /*        background-image : url("images/vgrad_light_rev2.png");
         background-position : top left;
         background-repeat : repeat-x; */
-        background-color : white;
+  		  background-color : white;
 }
 
 table.main td.header {
@@ -45,9 +45,10 @@ table.main td.headlinesToolbarBox {
         border-width : 0px 0px 1px 1px;
         border-style : solid;
         border-color : #88b0f0;
-        background-image : url("images/vgrad_light.png");
+        background-image : url("images/toolbar.png");
         background-position : bottom left;
         background-repeat : repeat-x;
+        background-color : white;
 }
 
 table.main td.footer {
@@ -57,19 +58,31 @@ table.main td.footer {
         padding : 10px;
         text-align : center;
         font-size : x-small;
-/*        background-image : url("images/vgrad_light_rev2.png");
+        background-image : url("images/footer.png");
         background-position : top left;
-        background-repeat : repeat-x; */
-		  background-color : #ecf4ff;
+        background-repeat : repeat-x; 
+		  background-color : white;
         color : black;
 }
+
+table.main td.prefFooter {
+        border-width : 1px 0px 0px 0px;
+        border-style : solid;
+        border-color : #88b0f0;
+        padding : 10px;
+        text-align : center;
+        font-size : x-small;
+		  background-color : white;
+        color : black;
+}
+
 
 table.main td.footer a {
         color : black;
 }
 
 table.main td.footer a:hover {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 table.main td.headlines {
@@ -99,14 +112,20 @@ table.main td.content {
 
 table.main td.prefContent {
         height : 100%;
-        background-image : url("images/vgrad_light_rev.png");
+        background-image : url("images/prefs-content.png");
         background-position : top left;
         background-repeat : repeat-x;
         border-width : 1px 0px 0px 0px;
         border-style : solid;
-        border-color : #c0c0c0;
+        border-color : #88b0f0;
         padding : 20px;
+		  background-color : white; 
 }
+
+/*td.prefContent .even, td.prefContent .even td {
+        background-color : #ecf4ff;
+		  border-color : #88b0f0;
+} */
 
 div.postReply {
 /*        background-image : url("images/vgrad_light_rev.png");
@@ -117,7 +136,7 @@ div.postReply {
 }
 
 div.postReply a {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 div.postReply a:hover {
@@ -161,7 +180,7 @@ ul.feedList li.feedCat a {
 }
 
 ul.feedList li.feedCat a:hover {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 ul.feedCatList {
@@ -239,14 +258,14 @@ ul.feedlist li.feedSelected a,
 ul.feedlist li.labelSelected a,
 ul.feedlist li.virtSelected a,
 ul.feedlist li.tagSelected a {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 ul.feedlist li.feedUnreadSelected a,
 ul.feedlist li.labelUnreadSelected a,
 ul.feedlist li.virtUnreadSelected a,
 ul.feedlist li.tagUnreadSelected a {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 ul.feedlist li.feedUnreadSelected,
@@ -277,7 +296,7 @@ h2 {
         font-weight : bold;
         border-width : 0px 0px 1px 0px;
         border-style : solid;
-        border-color : #e0e0e0;
+        border-color : #88b0f0;
 }
 
 h3 {
@@ -285,7 +304,7 @@ h3 {
         font-weight : bold;
         border-width : 0px 0px 1px 0px;
         border-style : solid;
-        border-color : #e0e0e0;
+        border-color : #88b0f0;
 }
 
 hr {
@@ -300,7 +319,7 @@ a {
 }
 
 a:hover {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 #piggie {
@@ -389,7 +408,7 @@ iframe.contentFrame, iframe.headlinesFrame {
         height : 100%;
 }
 
-.button {
+/*.button {
         border : 1px solid #d0d0d0;
         background-image : url("images/button.png");
         background-position : top;
@@ -404,25 +423,42 @@ iframe.contentFrame, iframe.headlinesFrame {
         color : black;
 }
 
+.disabledButton {
+        border : 1px solid #c0c0c0;
+        background-color : white;
+        color : gray;   
+}
+
 a.button {
         padding : 2px 5px 2px 5px;
         font-size : small;
+} */
+
+.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
+	.evenSelectedUnread td {
+        background-color : #fff7d5;
+        font-weight : bold;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #e7d796;
 }
 
-.evenUnreadSelected, .evenSelectedUnread {
-        background-color : #cbe0fc;
+.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
+	.oddSelectedUnread td {
+        background-color : #fff7d5;
         font-weight : bold;
 }
 
-.oddUnreadSelected, .oddSelectedUnread  {
-        background-color : #cbe0fc;
-        font-weight : bold;
+.evenSelected, .evenSelected td {
+        background-color : #fff7d5;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #e7d796;
 }
 
-.evenSelected, .oddSelected {
-        background-color : #cbe0fc;
+.oddSelected, .evenSelected td {
+        background-color : #fff7d5;
 }
-
 
 /*
 .feedUnreadSelected, .feedSelectedUnread, 
@@ -432,31 +468,35 @@ a.button {
         font-weight : bold;
 } */
 
-.disabledButton {
-        border : 1px solid #c0c0c0;
-        background-color : white;
-        color : gray;   
-}
 
-.evenGrayed {
+.evenGrayed, .evenGrayed td {
         background-color : #f0f0f0;
         color : #909090;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #88b0f0;
 }
 
 .oddGrayed {
         color : #909090;
 }
 
-.even {
+.even, .even td {
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #c0c0c0;
         background-color : #f0f0f0;
 }
 
-.evenUnread {
+.evenUnread, .evenUnread td {
         background-color : #f0f0f0;
         font-weight : bold;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #c0c0c0;
 }
 
-.oddUnread {
+.oddUnread, .oddUnread td {
         font-weight : bold;
 }
 
@@ -464,26 +504,27 @@ a.button {
         display : none;
 }
 
+/*
 td > input, div > input {
         border : 1px solid #a0a0a0;
-}
+} */
 
 /* preferences */
 
 tr.title td {
         border-width : 0px 0px 1px 0px;
-        border-color : #f0f0f0;
+        border-color : #88b0f0;
         border-style : solid;
         font-size : x-small;
-        color : gray;
+        color : black;
 }
 
 tr.title td a {
-        color : gray;
+        color : black;
 }
 
 tr.title td a:hover {
-        color : #5050aa;
+        color : #4684ff;
 }
 
 table.prefFeedList td.feedEditCat {
@@ -544,8 +585,8 @@ div.helpResponse {
 }
 
 
-#infoBox {
-        border : 1px solid #c0c0c0;
+#infoBox {	
+        border : 1px solid #88b0f0;
         padding-bottom : 10px;
         font-size : small;
         position : relative;
@@ -565,9 +606,6 @@ div.helpResponse {
 }
 
 div.infoBoxContents {
-        background-image : url("images/vgrad_light_rev2.png");
-        background-position : top left;
-        background-repeat : repeat-x;
         padding : 5px;
         margin-bottom : 5px;
 }
@@ -576,16 +614,15 @@ div.infoBoxContents td {
         font-size : small;
 }
 
-
 div.helpResponse h1, div.infoBoxContents h1 {
-        border-width : 0px 0px 1px 0px;
+/*        border-width : 0px 0px 1px 0px;
         border-style : solid;
-        border-color : #c0c0c0;
+        border-color : #c0c0c0; */
         font-size : 16pt;
 }
 
 div.helpResponse h2, div.infoBoxContents h2 {
-        border-width : 0px 0px 0px 0px;
+/*        border-width : 0px 0px 0px 0px; */
         font-size : 12pt;
 }
 
@@ -606,19 +643,23 @@ input.extSearch {
 
 table.main td.prefsTabs {
         padding-left : 5px;
+/*		  background-image : url("images/toolbar.png");
+        background-position : bottom left;
+        background-repeat : repeat-x; */
 }
 
-input.prefsTab {
+input.prefsTab {		
         border-width : 1px 1px 0px 1px;
-        border-color : #c0c0c0; 
+        border-color : #88b0f0;
         padding : 2px 7px 2px 7px;
         margin : 0px 1px 0px 0px;
         width : 130px;
-        background-image : url("images/vgrad_light_rev2.png");
+/*        background-image : url("images/vgrad_light_rev2.png");
         background-position : top left;
-        background-repeat : repeat-x;
+        background-repeat : repeat-x; */
         -moz-border-radius : 7px 7px 0px 0px;
         font-size : small;
+        background-color : white;
 }
 
 input.prefsTabSelected {
@@ -627,30 +668,31 @@ input.prefsTabSelected {
         padding : 2px 7px 2px 7px;
         margin : 0px 1px 0px 0px;
         width : 130px;
-        background : white;
+        background : #88b0f0;
         font-weight : bold;
         background-position : top left;
         background-repeat : repeat-x;
         -moz-border-radius : 7px 7px 0px 0px;
         font-size : small;
+		  color : white;
 }
 
 
-input.prefsTab:hover {
+/*input.prefsTab:hover {
         background : white;
-}
+}*/
 
 div.warning {
-        background : #fffff0;
-        border : 1px solid #c0c0c0;
-        padding : 5px;
+        background : #fff7d5;
+        border : 1px solid #d7c47a;
+        padding : 3px;
         margin : 5px;
         font-size : x-small;
 }
 
 div.notice {
         background : #ffffff;
-        border : 1px solid #c0c0c0;
+        border : 1px solid #88b0f0;
         padding : 5px;
         margin : 5px;
         font-size : x-small;
@@ -947,6 +989,7 @@ ul.userFeedList {
         height : 300px;
         overflow : auto;
         list-style-type : none;
+		  border : 1px solid #88b0f0;
 }
 
 /* #browseBigFeedList li.oddSelected {
@@ -961,6 +1004,7 @@ ul.browseFeedList {
         list-style-type : none;
         margin : 0px 0px 5px 0px;
         padding : 0px;
+		  border : 1px solid #88b0f0;
 }
 
 ul.browseFeedList li {

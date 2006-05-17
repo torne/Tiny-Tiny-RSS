@@ -1812,7 +1812,7 @@
 				<input type=\"submit\" class=\"button\"
 				onclick=\"javascript:addFeed()\" value=\"Add feed\">";
 
-		if (ENABLE_FEED_BROWSER) {
+		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print "&nbsp;(<a href='javascript:browseFeeds()'>Top 50</a>)";
 		}
 		
@@ -2065,7 +2065,7 @@
 				</td</tr>";
 
 				print "<tr class=\"title\">
-							<td width=\"5%\"></td><td width=\"80%\">Title</td>
+							<td width=\"5%\">&nbsp;</td><td width=\"80%\">Title</td>
 						</tr>";
 						
 				$lnum = 0;
@@ -3412,7 +3412,7 @@
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width='20%'>Username</td>
+					<td width='20%'>Login</td>
 					<td width='20%'>E-mail</td>
 					<td width='20%'>Access Level</td>
 					<td width='20%'>Last login</td></tr>";
@@ -3459,6 +3459,8 @@
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$line["login"] . "</td>";		
 
+				if (!$line["email"]) $line["email"] = "&nbsp;";
+
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$line["email"] . "</td>";			
 
@@ -3466,6 +3468,8 @@
 					$access_level_names[$line["access_level"]] . "</td>";			
 
 			} else if ($uid != $edit_uid) {
+
+				if (!$line["email"]) $line["email"] = "&nbsp;";
 
 				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 					id=\"UMCHK-".$line["id"]."\"></td>";
@@ -3746,6 +3750,8 @@
 
 	if ($op == "pref-feed-browser") {
 
+		print "<p>This panel shows feeds subscribed by other users of this system, just in case you are interested in some of them too.</p>";
+
 		if (!ENABLE_FEED_BROWSER) {
 			print "Feed browser is administratively disabled.";
 			return;
@@ -3821,7 +3827,11 @@
 			FROM ttrss_feeds 
 			WHERE auth_login = '' AND auth_pass = '' AND private = false
 			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 100");
-		
+
+		print "<p>Selection: 
+			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
+			value=\"Subscribe\">";
+
 		print "<ul class='nomarks' id='browseBigFeedList'>";
 
 		$feedctr = 0;
@@ -3877,10 +3887,6 @@
 		}
 
 		print "</ul>";
-
-		print "<p>Selection: 
-			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
-			value=\"Subscribe\"></p>";
 
 		print "</div>";
 
