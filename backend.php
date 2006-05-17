@@ -1390,7 +1390,7 @@
 
 			print "<table width='100%'>";
 
-			$row_class = "odd";
+#			$row_class = "odd";
 
 			print "<tr class='$row_class'><td>Title:</td>";
 			print "<td><input id=\"iedit_title\" value=\"$title\"></td></tr>";
@@ -1398,7 +1398,7 @@
 			$feed_url = db_fetch_result($result, 0, "feed_url");
 			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
 				0, "feed_url")));
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Feed URL:</td>";
 			print "<td><input id=\"iedit_link\" value=\"$feed_url\"></td></tr>";
@@ -1407,7 +1407,7 @@
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
 
-				$row_class = toggleEvenOdd($row_class);
+#				$row_class = toggleEvenOdd($row_class);
 
 				print "<tr class='$row_class'><td>Category:</td>";
 				print "<td>";
@@ -1437,7 +1437,7 @@
 			}
 
 			$update_interval = db_fetch_result($result, 0, "update_interval");
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Update Interval:</td>";
 //			print "<td><input id=\"iedit_updintl\" 
@@ -1461,7 +1461,7 @@
 
 			print "</td>";
 
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 			print "<tr class='$row_class'><td>Link to:</td>";
 
 			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
@@ -1509,7 +1509,7 @@
 				print "</td></tr>";
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Purge Days:</td>";
 //			print "<td><input id=\"iedit_purgintl\" 
@@ -1535,21 +1535,21 @@
 
 //			print "<tr><td colspan=\"2\"><b>Authentication</b></td></tr>";
 
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 			$auth_login = db_fetch_result($result, 0, "auth_login");
 
 			print "<tr class='$row_class'><td>Login:</td>";
 			print "<td><input id=\"iedit_login\" 
 				value=\"$auth_login\"></td></tr>";
 
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 			$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 			print "<tr class='$row_class'><td>Password:</td>";
 			print "<td><input type=\"password\" id=\"iedit_pass\" 
 				value=\"$auth_pass\"></td></tr>";
 
-			$row_class = toggleEvenOdd($row_class);
+#			$row_class = toggleEvenOdd($row_class);
 			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
 
 			if ($private) {
