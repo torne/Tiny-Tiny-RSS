@@ -24,6 +24,8 @@ create table ttrss_themes(id integer not null primary key auto_increment,
 	theme_name varchar(200) not null,
 	theme_path varchar(200) not null) TYPE=InnoDB;
 
+insert into ttrss_themes (theme_name, theme_path) values ('Old-skool', 'compat');
+
 create table ttrss_users (id integer primary key not null auto_increment,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
@@ -174,7 +176,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (7);
+insert into ttrss_version values (8);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -238,6 +240,9 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_FEEDS', 1, 'false', 'Hide feeds with no unread messages',2);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('OPEN_LINKS_IN_NEW_WINDOW', 1, 'true', 'Open article links in new browser window',2);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ON_CATCHUP_SHOW_NEXT_FEED', 1, 'false', 'On catchup show next feed',2,
+	'When "Mark as read" button is clicked in toolbar, automatically open next feed with unread articles.');
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
