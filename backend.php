@@ -2018,7 +2018,7 @@
 					print "</select>";
 
 					print " <input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Set category\">";
+					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Recategorize\">";
 
 				}
 				
