@@ -1823,10 +1823,12 @@
 			cellspacing='0' cellpadding='0'><tr>
 			<td>
 				<input id=\"fadd_link\" 
-				onchange=\"javascript:addFeed()\"
-				size=\"40\">
+					onchange=\"javascript:addFeed()\"
+					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
+					size=\"40\">
 				<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:addFeed()\" value=\"Subscribe\">";
+					disabled=\"true\" id=\"fadd_submit_btn\"
+					onclick=\"addFeed()\" value=\"Subscribe\">";
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
@@ -1835,8 +1837,7 @@
 		
 		print "</td><td align='right'>
 				<input id=\"feed_search\" size=\"20\"  
-				onchange=\"javascript:updateFeedList()\"
-				value=\"$feed_search\">
+					onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:updateFeedList()\" value=\"Search\">
 			</td>			
@@ -2594,10 +2595,13 @@
 		}
 
 		print "<div class=\"prefGenericAddBox\">
-			<input size=\"40\" id=\"ladd_expr\">&nbsp;";
+			<input size=\"40\" 			
+				onkeyup=\"toggleSubmitNotEmpty(this, 'label_create_btn')\"
+				id=\"ladd_expr\">&nbsp;";
 			
 		print"<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:addLabel()\" value=\"Add label\"></div>";
+			disabled=\"true\" id=\"label_create_btn\"
+			onclick=\"javascript:addLabel()\" value=\"Create label\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
@@ -2775,6 +2779,7 @@
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>
 				<input onblur=\"javascript:enableHotkeys()\" 
+					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" id=\"qafInput\"></td></tr>";
 		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2801,11 +2806,13 @@
 				print "</td></tr>";
 			}
 			
-			print "<tr><td colspan='2' align='right'><input class=\"button\"
-				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
-			<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
-				value=\"Cancel\"></td></tr></table>";
+			print "<tr><td colspan='2' align='right'>
+				<input class=\"button\"
+					id=\"fadd_submit_btn\" disabled=\"true\"
+					type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+					value=\"Cancel\"></td></tr></table>";
 		}
 
 		if ($id == "quickDelFeed") {
@@ -2842,8 +2849,10 @@
 			print "<table width='100%'><tr><td>Search:</td><td>";
 
 			print "<input id=\"searchbox\" class=\"extSearch\"			
-			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-			onchange=\"javascript:search()\">
+				onblur=\"javascript:enableHotkeys()\" 
+				onfocus=\"javascript:disableHotkeys()\"
+				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
+				onchange=\"javascript:search()\">				
 			</td></tr><tr><td>Where:</td><td>
 			<select id=\"searchmodebox\">
 				<option selected>All feeds</option>";
@@ -2862,7 +2871,9 @@
 
 			<tr><td colspan='2' align='right'>
 			<input type=\"submit\" 
-				class=\"button\" onclick=\"javascript:search()\" value=\"Search\">
+				class=\"button\" onclick=\"javascript:search()\" 
+				id=\"search_submit_btn\" disabled=\"true\"
+				value=\"Search\">
 			<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
 				value=\"Cancel\"></td></tr></table>";
@@ -2885,7 +2896,9 @@
 
 			print "<table width='100%'>";
 
-			print "<tr><td>Match:</td><td><input id=\"fadd_regexp\" size=\"30\">&nbsp;";
+			print "<tr><td>Match:</td>
+				<td><input onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+				id=\"fadd_regexp\" size=\"30\">&nbsp;";
 			
 			print_select("fadd_match", "Title", $filter_types);	
 	
@@ -2928,8 +2941,9 @@
 			print "</td></tr><tr><td colspan=\"2\" align=\"right\">";
 	
 			print "<input type=\"submit\" 
+				id=\"infobox_submit\"
 				class=\"button\" onclick=\"javascript:qaddFilter()\" 
-				value=\"Create\"> ";
+				disabled=\"true\" value=\"Create\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
@@ -3445,10 +3459,13 @@
 		}
 
 		print "<div class=\"prefGenericAddBox\">
-			<input id=\"uadd_box\" onchange=\"javascript:addUser()\" size=\"40\">&nbsp;";
+			<input id=\"uadd_box\" 			
+				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
+				onchange=\"javascript:addUser()\" size=\"40\">&nbsp;";
 			
 		print"<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:addUser()\" value=\"Add user\"></div>";
+			id=\"user_add_btn\" disabled=\"true\"
+			onclick=\"javascript:addUser()\" value=\"Create user\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,login,access_level,email,

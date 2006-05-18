@@ -947,6 +947,7 @@ function displayDlg(id, param) {
 	xmlhttp.send(null);
 
 	disableHotkeys();
+
 }
 
 function infobox_submit_callback() {
@@ -1009,4 +1010,10 @@ function qaddFilter() {
 
 }
 
-
+function toggleSubmitNotEmpty(e, submit_id) {
+	try {
+		document.getElementById(submit_id).disabled = (e.value == "")
+	} catch (e) {
+		exception_error("toggleSubmitNotEmpty", e);
+	}
+}

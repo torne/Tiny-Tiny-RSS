@@ -535,9 +535,14 @@ function qafAdd() {
 
 	if (link.value.length == 0) {
 		alert("Error: No feed URL given.");
+	} else if (link.value.match("http://") == null && 
+			link.value.match("https://") == null) {
+		alert("Error: Invalid feed URL.");
 	} else {
 		notify("Adding feed...");
-	
+
+		closeInfoBox();
+
 		var cat = document.getElementById("qafCat");
 		var cat_id = "";
 		
