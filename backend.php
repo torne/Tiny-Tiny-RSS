@@ -2233,6 +2233,8 @@
 
 		if ($quiet) return;
 
+		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+
 		$result = db_query($link, "SELECT description 
 			FROM ttrss_filter_types ORDER BY description");
 
@@ -2242,7 +2244,7 @@
 			array_push($filter_types, $line["description"]);
 		}
 
-		print "<div class=\"prefGenericAddBox\">
+/*		print "<div class=\"prefGenericAddBox\">
 		<input id=\"fadd_regexp\" size=\"40\">&nbsp;";
 		
 		print_select("fadd_match", "Title", $filter_types);	
@@ -2282,11 +2284,16 @@
 			class=\"button\" onclick=\"javascript:testFilter()\" 
 			value=\"Test filter\"> "; */
 
-		print "<input type=\"submit\" 
+/*		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"javascript:addFilter()\" 
-			value=\"Create filter\">";
+			value=\"Create filter\">"; */
 
-		print "</div>";
+		print "<input type=\"submit\" 
+			class=\"button\" 
+			onclick=\"javascript:displayDlg('quickAddFilter', false)\" 
+			value=\"Create filter\">"; 
+
+//		print "</div>";
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -2743,6 +2750,8 @@
 		$id = $_GET["id"];
 		$param = $_GET["param"];
 
+		print "<div class=\"infoBoxContents\">";
+
 		if ($id == "quickAddFeed") {
 			print "
 			Feed URL: <input 
@@ -2895,6 +2904,9 @@
 
 			print "</td></tr></table>";
 		}
+
+		print "</div>";
+
 	}
 
 	// update feeds of all users, may be used anonymously

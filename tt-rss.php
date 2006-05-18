@@ -96,7 +96,7 @@ window.onload = init;
 				<div id="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 
-			<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
+			<div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
@@ -240,7 +240,7 @@ window.onload = init;
 				<option id="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Other actions:</option>				
-				<option id="qmcAddFilter">&nbsp;&nbsp;Add filter</option>
+				<option id="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
 			</select>
 		</td>
 		</tr>
