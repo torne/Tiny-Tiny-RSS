@@ -2284,7 +2284,7 @@
 
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"javascript:addFilter()\" 
-			value=\"Add filter\">";
+			value=\"Create filter\">";
 
 		print "</div>";
 

@@ -529,12 +529,18 @@
 							$unread = 'false';
 							$last_read_qpart = 'NOW()';
 						}						
+
+						if ($filter_name == 'mark') {
+							$marked = 'true';
+						} else {
+							$marked = 'false';
+						}
 						
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries 
-								(ref_id, owner_uid, feed_id, unread, last_read) 
+								(ref_id, owner_uid, feed_id, unread, last_read, marked) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart)");
+								$last_read_qpart, $marked)");
 					}
 					
 					$post_needs_update = false;

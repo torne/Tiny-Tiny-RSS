@@ -131,6 +131,9 @@ insert into ttrss_filter_actions (id,name,description) values (1, 'filter',
 insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
 	'Mark as read');
 
+insert into ttrss_filter_actions (id,name,description) values (3, 'mark', 
+	'Set starred');
+
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,

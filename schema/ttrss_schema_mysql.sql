@@ -137,6 +137,9 @@ insert into ttrss_filter_actions (id,name,description) values (1, 'filter',
 insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
 	'Mark as read');
 
+insert into ttrss_filter_actions (id,name,description) values (3, 'mark', 
+	'Set starred');
+
 create table ttrss_filters (id integer not null primary key auto_increment,
 	owner_uid integer not null, 
 	feed_id integer default null,
