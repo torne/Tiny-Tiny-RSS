@@ -918,6 +918,20 @@ function center_element(e) {
 	}
 }
 
+function closeInfoBox() {
+	var box = document.getElementById('infoBox');
+	var shadow = document.getElementById('infoBoxShadow');
+
+	if (shadow) {
+		shadow.style.display = "none";
+	} else if (box) {
+		box.style.display = "none";
+	}
+
+	enableHotkeys();
+}
+
+
 function displayDlg(id, param) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -929,22 +943,16 @@ function displayDlg(id, param) {
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param), true);
-	xmlhttp.onreadystatechange=dlg_display_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 	disableHotkeys();
 }
 
-function closeDlg() {
-	var dlg = document.getElementById("infoBoxShadow");
-	dlg.style.display = "none";
-	enableHotkeys();
-}
-
-function dlg_submit_callback() {
+function infobox_submit_callback() {
 	if (xmlhttp.readyState == 4) {
 		notify(xmlhttp.responseText);
-		closeDlg();
+		closeInfoBox();
 
 		// called from prefs, reload tab
 		if (active_tab) {
@@ -953,14 +961,19 @@ function dlg_submit_callback() {
 	} 
 }
 
-function dlg_display_callback() {
+function infobox_callback() {
 	if (xmlhttp.readyState == 4) {
-		var dlg = document.getElementById("infoBox");
-		var dlg_s = document.getElementById("infoBoxShadow");
-
-		dlg.innerHTML = xmlhttp.responseText;
-		dlg_s.style.display = "block";
-	} 
+		var box = document.getElementById('infoBox');
+		var shadow = document.getElementById('infoBoxShadow');
+		if (box) {			
+			box.innerHTML=xmlhttp.responseText;			
+			if (shadow) {
+				shadow.style.display = "block";
+			} else {
+				box.style.display = "block";				
+			}
+		}
+	}
 }
 
 function qaddFilter() {
@@ -976,7 +989,7 @@ function qaddFilter() {
 	var action = document.getElementById("fadd_action");
 
 	if (regexp.value.length == 0) {
-		notify("Missing filter expression.");
+		alert("Missing filter expression.");
 	} else {
 		notify("Adding filter...");
 
@@ -988,7 +1001,7 @@ function qaddFilter() {
 			param_escape(regexp.value) + "&match=" + v_match +
 			"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
 			
-		xmlhttp.onreadystatechange=dlg_submit_callback;
+		xmlhttp.onreadystatechange=infobox_submit_callback;
 		xmlhttp.send(null);
 
 		regexp.value = "";

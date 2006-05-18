@@ -1308,10 +1308,10 @@
 				print "Feed browser is administratively disabled.";
 				return;
 			}
+
+			print "<div id=\"infoBoxTitle\">Other feeds: Top 50</div>";
 			
 			print "<div class=\"infoBoxContents\">";
-
-			print "<h1>Feed browser</h1>";
 
 			print "<p>Showing top 50 registered feeds, sorted by popularity:</p>";
 
@@ -1388,8 +1388,6 @@
 			$title = htmlspecialchars(db_unescape_string(db_fetch_result($result,
 				0, "title")));
 
-			print "<div class=\"infoBoxContents\">";
-
 			$icon_file = ICONS_DIR . "/$feed_id.ico";
 	
 			if (file_exists($icon_file) && filesize($icon_file) > 0) {
@@ -1398,8 +1396,12 @@
 			} else {
 				$feed_icon = "";
 			}
-	
-			print "<h1>$feed_icon $title</h1>";
+
+			print "<div id=\"infoBoxTitle\">Feed editor</div>";
+
+			print "<div class=\"infoBoxContents\">";
+
+#			print "<h1>$feed_icon $title</h1>";
 
 			print "<table width='100%'>";
 
@@ -1823,10 +1825,11 @@
 				onchange=\"javascript:addFeed()\"
 				size=\"40\">
 				<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:addFeed()\" value=\"Add feed\">";
+				onclick=\"javascript:addFeed()\" value=\"Subscribe\">";
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
-			print "&nbsp;(<a href='javascript:browseFeeds()'>Top 50</a>)";
+			print " <input type=\"submit\" class=\"button\"
+				onclick=\"javascript:browseFeeds()\" value=\"Top 50\">";
 		}
 		
 		print "</td><td align='right'>
@@ -2000,16 +2003,16 @@
 	
 				print "
 					Selection:&nbsp;
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:selectedFeedDetails()\" value=\"Details\">
+				<!-- <input type=\"submit\" class=\"button\" 
+					onclick=\"javascript:selectedFeedDetails()\" value=\"Details\"> -->
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:removeSelectedFeeds()\" value=\"Remove\">";
+					onclick=\"javascript:removeSelectedFeeds()\" value=\"Unsubscribe\">";
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-					print "&nbsp;&nbsp;";				
+					print "&nbsp;|&nbsp;";				
 
 					$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 						WHERE owner_uid = ".$_SESSION["uid"]."
@@ -2058,7 +2061,7 @@
 					size=\"40\">&nbsp;
 				<input 
 					type=\"submit\" class=\"button\" 
-					onclick=\"javascript:addFeedCat()\" value=\"Add category\"></div>";
+					onclick=\"javascript:addFeedCat()\" value=\"Create category\"></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
@@ -2233,7 +2236,8 @@
 
 		if ($quiet) return;
 
-		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+		print "<div id=\"infoBoxShadow\">
+			<div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		$result = db_query($link, "SELECT description 
 			FROM ttrss_filter_types ORDER BY description");
@@ -2374,7 +2378,7 @@
 	
 					if (!$line["description"]) $line["description"] = "[No description]";
 	
-					print "<td><input disabled=\"true\" type=\"checkbox\" 
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 						id=\"FICHK-".$line["id"]."\"></td>";
 	
 					print "<td>".$line["reg_exp"]."</td>";		
@@ -2384,7 +2388,7 @@
 
 				} else {
 	
-					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked></td>";
 	
 					print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
 						"\"></td>";
@@ -2491,9 +2495,11 @@
 			$expr = $_GET["expr"];
 			$descr = $_GET["descr"];
 
+			print "<div id=\"infoBoxTitle\">Test label: $descr</div>";
+
 			print "<div class='infoBoxContents'>";
 		
-			print "<h1>Label &laquo;$descr&raquo;</h1>";
+#			print "<h1>Label &laquo;$descr&raquo;</h1>";
 
 //			print "<p><b>Expression</b>: $expr</p>";
 
@@ -2726,6 +2732,8 @@
 
 		$tid = sprintf("%d", $_GET["tid"]);
 
+		print "<div id=\"infoBoxTitle\">Help</div>";
+
 		print "<div class='infoBoxContents'>";
 
 		if (file_exists("help/$tid.php")) {
@@ -2750,20 +2758,24 @@
 		$id = $_GET["id"];
 		$param = $_GET["param"];
 
-		print "<div class=\"infoBoxContents\">";
-
 		if ($id == "quickAddFeed") {
-			print "
-			Feed URL: <input 
-			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
-			id=\"qafInput\">";
+
+			print "<div id=\"infoBoxTitle\">Subscribe to feed</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<table width='100%'>
+			<tr><td>Feed URL:</td><td>
+				<input onblur=\"javascript:enableHotkeys()\" 
+					onfocus=\"javascript:disableHotkeys()\" id=\"qafInput\"></td></tr>";
 		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<tr><td>Category:</td><td>";
+			
 				$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 					WHERE owner_uid = ".$_SESSION["uid"]."
 					ORDER BY title");
 
-				print " <select id=\"qafCat\">";
+				print "<select id=\"qafCat\">";
 				print "<option id=\"0\">Uncategorized</option>";
 
 				if (db_num_rows($result) != 0) {
@@ -2777,13 +2789,14 @@
 				}
 
 				print "</select>";
+				print "</td></tr>";
 			}
 			
-			print "&nbsp;<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Add feed\">
+			print "<tr><td colspan='2' align='right'><input class=\"button\"
+				type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
 			<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeDlg()\" 
-				value=\"Cancel\">";
+				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+				value=\"Cancel\"></td></tr></table>";
 		}
 
 		if ($id == "quickDelFeed") {
@@ -2800,23 +2813,29 @@
 				<input class=\"button\"
 					type=\"submit\" onclick=\"javascript:qfdDelete($param)\" value=\"Remove\">
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeDlg()\" 
+					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
 					value=\"Cancel\">";
 			} else {
 				print "Error: Feed $param not found.&nbsp;
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeDlg()\" 
+					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
 					value=\"Cancel\">";		
 			}
 		}
 
 		if ($id == "search") {
 
+			print "<div id=\"infoBoxTitle\">Search</div>";
+			print "<div class=\"infoBoxContents\">";
+
 			$active_feed_id = db_escape_string($_GET["param"]);
+
+			print "<table width='100%'><tr><td>Search:</td><td>";
 
 			print "<input id=\"searchbox\" class=\"extSearch\"			
 			onblur=\"javascript:enableHotkeys()\" onfocus=\"javascript:disableHotkeys()\"
 			onchange=\"javascript:search()\">
+			</td></tr><tr><td>Where:</td><td>
 			<select id=\"searchmodebox\">
 				<option selected>All feeds</option>";
 				
@@ -2830,16 +2849,21 @@
 				print "<option>This category</option>";
 			}
 
-			print "</select>		
+			print "</select></td></tr>
+
+			<tr><td colspan='2' align='right'>
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" value=\"Search\">
 			<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeDlg()\" 
-				value=\"Close\">";
+				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+				value=\"Cancel\"></td></tr></table>";
 
 		}
 
 		if ($id == "quickAddFilter") {
+
+			print "<div id=\"infoBoxTitle\">Create filter</div>";
+			print "<div class=\"infoBoxContents\">";
 
 			$result = db_query($link, "SELECT description 
 				FROM ttrss_filter_types ORDER BY description");
@@ -2850,9 +2874,9 @@
 				array_push($filter_types, $line["description"]);
 			}
 
-			print "<table>";
+			print "<table width='100%'>";
 
-			print "<tr><td>Match:</td><td><input id=\"fadd_regexp\" size=\"40\">&nbsp;";
+			print "<tr><td>Match:</td><td><input id=\"fadd_regexp\" size=\"30\">&nbsp;";
 			
 			print_select("fadd_match", "Title", $filter_types);	
 	
@@ -2896,13 +2920,14 @@
 	
 			print "<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:qaddFilter()\" 
-				value=\"Add filter\"> ";
+				value=\"Create\"> ";
 
 			print "<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeDlg()\" 
-				value=\"Close\">";
+				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+				value=\"Cancel\">";
 
 			print "</td></tr></table>";
+
 		}
 
 		print "</div>";
@@ -3581,6 +3606,8 @@
 
 		$uid = sprintf("%d", $_GET["id"]);
 
+		print "<div id=\"infoBoxTitle\">User details</div>";
+
 		print "<div class='infoBoxContents'>";
 
 		$result = db_query($link, "SELECT login,
@@ -3681,6 +3708,7 @@
 
 		$feed_ids = split(",", db_escape_string($_GET["id"]));
 
+		print "<div id=\"infoBoxTitle\">Feed details</div>";
 		print "<div class=\"infoBoxContents\">";
 
 		foreach ($feed_ids as $feed_id) {

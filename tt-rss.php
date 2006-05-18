@@ -228,7 +228,7 @@ window.onload = init;
 				<option id="qmcSearch">Search</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Feed actions:</option>
-				<option id="qmcAddFeed">&nbsp;&nbsp;Add new feed</option>
+				<option id="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
 				<option id="qmcRemoveFeed">&nbsp;&nbsp;Remove this feed</option>
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>

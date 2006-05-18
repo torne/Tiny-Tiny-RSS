@@ -145,22 +145,6 @@ function userlist_callback() {
 	}
 }
 
-function infobox_callback() {
-	if (xmlhttp.readyState == 4) {
-		var box = document.getElementById('infoBox');
-		var shadow = document.getElementById('infoBoxShadow');
-		if (box) {			
-			box.innerHTML=xmlhttp.responseText;			
-			if (shadow) {
-				shadow.style.display = "block";
-			} else {
-				box.style.display = "block";				
-			}
-		}
-	}
-}
-
-
 function prefslist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
@@ -1343,17 +1327,6 @@ function init() {
 		notify("");
 	} catch (e) {
 		exception_error("init", e);
-	}
-}
-
-function closeInfoBox() {
-	var box = document.getElementById('infoBox');
-	var shadow = document.getElementById('infoBoxShadow');
-
-	if (shadow) {
-		shadow.style.display = "none";
-	} else if (box) {
-		box.style.display = "none";
 	}
 }
 
