@@ -3627,7 +3627,7 @@
 
 		$login = db_fetch_result($result, 0, "login");
 
-		print "<h1>$login</h1>";
+#		print "<h1>$login</h1>";
 
 		print "<table width='100%'>";
 
@@ -3637,7 +3637,7 @@
 		$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
 #		print "<tr><td>Username</td><td>$login</td></tr>";
-		print "<tr><td>Access level</td><td>$access_level</td></tr>";
+#		print "<tr><td>Access level</td><td>$access_level</td></tr>";
 		print "<tr><td>Last logged in</td><td>$last_login</td></tr>";
 		print "<tr><td>Stored articles</td><td>$stored_articles</td></tr>";
 
@@ -3906,9 +3906,9 @@
 				onclick=\"updateBigFeedBrowser()\" value=\"Show\">
 		</div>";
 
-		print "<p>Selection: 
+		print "<p id=\"fbrOpToolbar\">Selection: 
 			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
-			value=\"Subscribe\">";
+			disabled=\"true\" value=\"Subscribe\">";
 
 		print "<ul class='nomarks' id='browseBigFeedList'>";
 
@@ -3940,7 +3940,7 @@
 				$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 			}
 
-			$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+			$check_box = "<input onclick='toggleSelectFBListRow(this)' class='feedBrowseCB' 
 				type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
 
 			$class = ($feedctr % 2) ? "even" : "odd";
