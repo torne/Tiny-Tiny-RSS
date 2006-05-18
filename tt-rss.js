@@ -166,7 +166,7 @@ function backend_sanity_check_callback() {
 function scheduleFeedUpdate(force) {
 
 	if (!daemon_enabled) {
-		notify("Updating feeds, please wait.");
+		notify("Updating feeds, please wait.", true);
 		updateTitle("Updating");
 	}
 

@@ -36,7 +36,7 @@ function expand_feed_callback() {
 			var container = document.getElementById("BRDET-" + feed_to_expand);	
 			container.innerHTML=xmlhttp.responseText;
 			container.style.display = "block";
-			p_notify("");
+//			p_notify("");
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
 		}
@@ -62,7 +62,7 @@ function feedlist_callback() {
 					checkbox.checked = true;
 				}
 			}
-			p_notify("");
+//			p_notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);
 		}
@@ -88,7 +88,7 @@ function filterlist_callback() {
 				checkbox.checked = true;
 			}
 		}
-		p_notify("");
+//		p_notify("");
 	}
 }
 
@@ -110,7 +110,7 @@ function labellist_callback() {
 				checkbox.checked = true;
 			}
 		}
-		p_notify("");
+//		p_notify("");
 	}
 }
 
@@ -118,7 +118,7 @@ function feed_browser_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
-		p_notify("");
+//		p_notify("");
 	}
 }
 
@@ -141,7 +141,7 @@ function userlist_callback() {
 			}
 		} 
 
-		p_notify("");
+//		p_notify("");
 	}
 }
 
@@ -151,7 +151,7 @@ function prefslist_callback() {
 
 		container.innerHTML=xmlhttp.responseText;
 
-		p_notify("");
+//		p_notify("");
 	}
 }
 

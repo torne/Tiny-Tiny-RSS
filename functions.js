@@ -93,7 +93,7 @@ function hide_notify() {
 	}
 }
 
-function notify_real(msg, doc) {
+function notify_real(msg, doc, no_hide) {
 
 	var n = doc.getElementById("notify");
 	var nb = doc.getElementById("notify_body");
@@ -115,15 +115,17 @@ function notify_real(msg, doc) {
 	notify_last_doc = doc;
 	notify_opacity = 1;
 
-	notify_hide_timerid = window.setTimeout(hide_notify, 3000);
+	if (!no_hide) {
+		notify_hide_timerid = window.setTimeout(hide_notify, 3000);
+	}
 }
 
-function p_notify(msg) {
-	notify_real(msg, parent.document);
+function p_notify(msg, no_hide) {
+	notify_real(msg, parent.document, no_hide);
 }
 
-function notify(msg) {
-	notify_real(msg, document);
+function notify(msg, no_hide) {
+	notify_real(msg, document, no_hide);
 }
 
 function printLockingError() {
