@@ -136,7 +136,7 @@ window.onload = init;
 </tr>
 <? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
-	<td class="prefFooter" colspan="2">
+	<td class="footer" colspan="2">
 		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
 		<? if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
