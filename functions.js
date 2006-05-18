@@ -1,5 +1,9 @@
 var hotkeys_enabled = true;
 
+function browser_has_opacity() {
+	return navigator.userAgent.match("Gecko") || navigator.userAgent.match("Opera");
+}
+
 function exception_error(location, e) {
 	var msg;
 
@@ -78,14 +82,14 @@ var notify_last_doc = false;
 function hide_notify() {
 	if (notify_last_doc) {
 		var n = notify_last_doc.getElementById("notify");		
-		if (browser.isNS) {
+		if (browser_has_opacity()) {
 			if (notify_opacity >= 0) {
 				notify_opacity = notify_opacity - 0.2;
 				n.style.opacity = notify_opacity;
-				notify_hide_timerid = window.setTimeout(hide_notify, 20);				
+				notify_hide_timerid = window.setTimeout("hide_notify()", 20);	
 			} else {
 				n.style.display = "none";
-				n.style.opacity = 1;				
+				n.style.opacity = 1;
 			}
 		} else {
 			n.style.display = "none";
@@ -126,7 +130,7 @@ function notify_real(msg, doc, no_hide, is_err) {
 	notify_opacity = 1;
 
 	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout(hide_notify, 3000);
+		notify_hide_timerid = window.setTimeout("hide_notify()", 3000);
 	}
 }
 

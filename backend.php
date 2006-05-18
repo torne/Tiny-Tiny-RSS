@@ -1823,7 +1823,6 @@
 			cellspacing='0' cellpadding='0'><tr>
 			<td>
 				<input id=\"fadd_link\" 
-					onchange=\"javascript:addFeed()\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					size=\"40\">
 				<input type=\"submit\" class=\"button\"
@@ -2052,7 +2051,6 @@
 
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
-					onchange=\"javascript:addFeedCat()\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
 					size=\"40\">&nbsp;
 				<input 
@@ -3448,7 +3446,7 @@
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"uadd_box\" 			
 				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
-				onchange=\"javascript:addUser()\" size=\"40\">&nbsp;";
+				size=\"40\">&nbsp;";
 			
 		print"<input type=\"submit\" class=\"button\" 
 			id=\"user_add_btn\" disabled=\"true\"

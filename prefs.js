@@ -1214,7 +1214,7 @@ function localPiggieFunction(enable) {
 		var piggie = document.getElementById("piggie");
 		piggie.style.display = "block";
 
-		if (browser.isNS && Math.random(1) > 0.5) {	
+		if (navigator.userAgent.match("Gecko") && Math.random(1) > 0.5) {	
 			piggie2_callback();
 		} else {
 			piggie_callback();

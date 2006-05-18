@@ -5,3 +5,40 @@ table.main td.headlines {
 	border-color : #c0c0c0;
 }
 
+#infoBoxTitle {
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #88b0f0;
+	background-color : #88b0f0;
+	padding : 2px;
+	color : white;
+}
+
+
+#infoBox {	
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #88b0f0;
+	font-size : small;
+	position : relative;
+	top : 30%;
+	left : 30%;
+	width : 30%;
+	padding-bottom : 5px;	
+	background-image : url("images/prefs-content.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	background-color : white;
+}
+
+#infoBoxShadow {
+	background-image : url("images/overlay.png");
+	left : 0;
+	top : 0;
+	height : 100%;
+	width : 100%;
+	z-index : 3;
+	position : absolute;
+	display : none;
+}
+
