@@ -523,7 +523,7 @@ div.helpResponse {
 	background-color : #ecf4ff;
 }
 
-#infoBoxTitle {
+#infoBox > #infoBoxTitle {
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
 	border-color : #88b0f0;
@@ -532,7 +532,8 @@ div.helpResponse {
 	color : white;
 }
 
-#infoBox {	
+
+#infoBoxShadow > #infoBox {	
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
 	border-color : #88b0f0;
@@ -548,7 +549,7 @@ div.helpResponse {
 	background-color : white;
 }
 
-#infoBoxShadow {
+td > #infoBoxShadow {
 	background-image : url("images/overlay.png");
 	left : 0;
 	top : 0;
@@ -603,7 +604,6 @@ table.main td.prefsTabs {
 }
 
 input.prefsTab {		
-
 	background-image : url("images/prefs_tab.png");
 	background-position : top left;
 	background-repeat : repeat-x;
@@ -611,7 +611,7 @@ input.prefsTab {
 	padding : 2px 7px 2px 7px;
 	margin : 0px 1px 0px 0px;
 	width : 130px;
-	font-size : small;
+	font-size : x-small;
 	background-color : white;
 }
 
@@ -627,7 +627,7 @@ input.prefsTabSelected {
 	font-weight : bold;
 	background-position : top left;
 	background-repeat : repeat-x;
-	font-size : small;
+	font-size : x-small;
 }
 
 
