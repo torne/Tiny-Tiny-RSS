@@ -81,12 +81,12 @@ function p_notify(msg) {
 	if (!n || !nb) return;
 
 	if (msg == "") {
-		nb.innerHTML = "&nbsp;";
-//		n.style.background = "#ffffff";
+		n.style.display = "none";
 	} else {
-		nb.innerHTML = msg;
-//		n.style.background = "#fffff0";
+		n.style.display = "block";
 	}
+	
+	nb.innerHTML = msg;
 }
 
 function notify(msg) {
@@ -97,12 +97,12 @@ function notify(msg) {
 	if (!n || !nb) return;
 
 	if (msg == "") {
-		nb.innerHTML = "&nbsp;";
-//		n.style.background = "#ffffff";
+		n.style.display = "none";
 	} else {
-		nb.innerHTML = msg;
-//		n.style.background = "#fffff0";
+		n.style.display = "block";
 	}
+
+	nb.innerHTML = msg;
 
 }
 

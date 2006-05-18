@@ -1797,7 +1797,7 @@
 //				onclick=\"javascript:hideParentElement(this);\" src=\"images/close.png\">";
 	
 			print "<a href=\"javascript:showBlockElement('feedUpdateErrors')\">
-				<b>Feeds with update errors</b> (click to expand)</a>";
+				<b>Some feeds have update errors (click for details)</b></a>";
 
 			print "<ul id=\"feedUpdateErrors\" class=\"nomarks\">";
 						

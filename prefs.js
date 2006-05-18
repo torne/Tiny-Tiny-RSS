@@ -281,7 +281,7 @@ function addFeed() {
 	var link = document.getElementById("fadd_link");
 
 	if (link.value.length == 0) {
-		alert("Can't add feed: missing feed URL.");
+		alert("Error: No feed URL given.");
 	} else {
 		notify("Adding feed...");
 
@@ -643,7 +643,7 @@ function feedEditCancel() {
 
 	active_feed = false;
 
-	notify("Operation cancelled.");
+//	notify("Operation cancelled.");
 
 /*	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
@@ -660,7 +660,7 @@ function feedCatEditCancel() {
 
 	active_feed_cat = false;
 
-	notify("Operation cancelled.");
+//	notify("Operation cancelled.");
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
 	xmlhttp.onreadystatechange=feedlist_callback;
@@ -799,7 +799,7 @@ function labelEditCancel() {
 
 	active_label = false;
 
-	notify("Operation cancelled.");
+//	notify("Operation cancelled.");
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
 	xmlhttp.onreadystatechange=labellist_callback;
@@ -816,7 +816,7 @@ function userEditCancel() {
 
 	active_user = false;
 
-	notify("Operation cancelled.");
+//	notify("Operation cancelled.");
 
 	xmlhttp.open("GET", "backend.php?op=pref-users", true);
 	xmlhttp.onreadystatechange=userlist_callback;
@@ -833,7 +833,7 @@ function filterEditCancel() {
 
 	active_filter = false;
 
-	notify("Operation cancelled.");
+//	notify("Operation cancelled.");
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
 	xmlhttp.onreadystatechange=filterlist_callback;

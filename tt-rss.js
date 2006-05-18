@@ -534,7 +534,7 @@ function qafAdd() {
 	var link = document.getElementById("qafInput");
 
 	if (link.value.length == 0) {
-		notify("Missing feed URL.");
+		alert("Error: No feed URL given.");
 	} else {
 		notify("Adding feed...");
 	
