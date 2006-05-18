@@ -1931,10 +1931,10 @@
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
-						<td width='4%'>&nbsp;</td>";
+						<td width='5%'>&nbsp;</td>";
 
 					if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-						print "<td width='4%'>&nbsp;</td>";
+						print "<td width='3%'>&nbsp;</td>";
 					}
 
 					print "<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
