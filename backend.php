@@ -3183,7 +3183,7 @@
 
 				print "</form>";
 
-				print "<form action=\"backend.php\" method=\"POST\">";
+				print "<form action=\"backend.php\" method=\"POST\" name=\"changePassForm\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
@@ -3202,6 +3202,7 @@
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
 	
 				print "<p><input class=\"button\" type=\"submit\" 
+					onclick=\"return validateNewPassword(this.form)\"
 					value=\"Change password\" name=\"subop\">";
 	
 				print "</form>";

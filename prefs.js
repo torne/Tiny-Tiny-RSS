@@ -1448,3 +1448,15 @@ function browserToggleExpand(id) {
 		exception_error("browserExpand", e);
 	}
 }
+
+function validateNewPassword(form) {
+	if (form.OLD_PASSWORD.value == "") {
+		alert("Current password cannot be blank");
+		return false;
+	}
+	if (form.NEW_PASSWORD.value == "") {
+		alert("New password cannot be blank");
+		return false;
+	}
+	return true;
+}
