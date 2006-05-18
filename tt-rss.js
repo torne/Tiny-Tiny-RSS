@@ -92,14 +92,14 @@ function refetch_callback() {
 			last_refetch = date.getTime() / 1000;
 
 			if (!xmlhttp.responseXML) {
-				notify("refetch_callback: backend did not return valid XML");
+				notify("refetch_callback: backend did not return valid XML", true, true);
 				return;
 			}
 		
 			var reply = xmlhttp.responseXML.firstChild;
 	
 			if (!reply) {
-				notify("refetch_callback: backend did not return expected XML object");
+				notify("refetch_callback: backend did not return expected XML object", true, true);
 				updateTitle("");
 				return;
 			} 
@@ -490,7 +490,7 @@ function quickMenuGo(opid) {
 			var actid = getActiveFeedId();
 	
 			if (!actid) {
-				notify("Please select some feed first.");
+				alert("Please select some feed first.");
 				return;
 			}
 	

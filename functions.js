@@ -93,7 +93,7 @@ function hide_notify() {
 	}
 }
 
-function notify_real(msg, doc, no_hide) {
+function notify_real(msg, doc, no_hide, is_err) {
 
 	var n = doc.getElementById("notify");
 	var nb = doc.getElementById("notify_body");
@@ -104,6 +104,16 @@ function notify_real(msg, doc, no_hide) {
 		n.style.display = "none";
 	} else {
 		n.style.display = "block";
+	}
+
+	if (is_err) {
+		n.style.backgroundColor = "#ffaaaa";
+		n.style.color = "white";
+		n.style.borderColor = "#ff0000";
+	} else {
+		n.style.backgroundColor = "#fff7d5";
+		n.style.borderColor = "#d7c47a";
+		n.style.color = "black";
 	}
 
 	nb.innerHTML = msg;
@@ -120,12 +130,12 @@ function notify_real(msg, doc, no_hide) {
 	}
 }
 
-function p_notify(msg, no_hide) {
-	notify_real(msg, parent.document, no_hide);
+function p_notify(msg, no_hide, is_err) {
+	notify_real(msg, parent.document, no_hide, is_err);
 }
 
-function notify(msg, no_hide) {
-	notify_real(msg, document, no_hide);
+function notify(msg, no_hide, is_err) {
+	notify_real(msg, document, no_hide, is_err);
 }
 
 function printLockingError() {
