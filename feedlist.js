@@ -124,7 +124,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	
 		if (search_query != "") {
 			query = query + "&search=" + param_escape(search_query);
-			searchbox.value = "";
+//			searchbox.value = "";
 		}
 
 		if (cat_view_mode) {

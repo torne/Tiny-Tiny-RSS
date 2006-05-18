@@ -54,7 +54,7 @@ function dlg_frefresh_callback() {
 				hframe.src = "backend.php?op=error&msg=No%20feed%20selected.";
 			}
 		}
-		closeDlg();
+		closeInfoBox();
 	} 
 }
 
@@ -292,7 +292,7 @@ function resetSearch() {
 }
 
 function search() {
-	closeDlg();	
+	closeInfoBox();	
 	viewCurrentFeed(0, "");
 }
 
@@ -494,7 +494,7 @@ function quickMenuGo(opid) {
 				return;
 			}
 	
-			if (confirm("Remove current feed?")) {
+			if (confirm("Unsubscribe current feed?")) {
 				qfdDelete(actid);
 			}
 		

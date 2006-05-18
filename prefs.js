@@ -608,7 +608,7 @@ function removeSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Unsubscribe from selected feeds?");
+		var ok = confirm("Unsubscribe selected feeds?");
 
 		if (ok) {
 
