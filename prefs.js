@@ -608,11 +608,11 @@ function removeSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Unsubscribe selected feeds?");
+		var ok = confirm("Unsubscribe from selected feeds?");
 
 		if (ok) {
 
-			notify("Removing selected feeds...");
+			notify("Unsubscribing from selected feeds...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -1214,7 +1214,7 @@ function localPiggieFunction(enable) {
 		var piggie = document.getElementById("piggie");
 		piggie.style.display = "block";
 
-		if (navigator.userAgent.match("Firefox") && Math.random(1) > 0.5) {	
+		if (browser.isNS && Math.random(1) > 0.5) {	
 			piggie2_callback();
 		} else {
 			piggie_callback();

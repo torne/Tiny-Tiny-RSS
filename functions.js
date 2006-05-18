@@ -78,7 +78,7 @@ var notify_last_doc = false;
 function hide_notify() {
 	if (notify_last_doc) {
 		var n = notify_last_doc.getElementById("notify");		
-		if (navigator.userAgent.match("Firefox")) {
+		if (browser.isNS) {
 			if (notify_opacity >= 0) {
 				notify_opacity = notify_opacity - 0.2;
 				n.style.opacity = notify_opacity;
@@ -1049,3 +1049,4 @@ function toggleSubmitNotEmpty(e, submit_id) {
 		exception_error("toggleSubmitNotEmpty", e);
 	}
 }
+

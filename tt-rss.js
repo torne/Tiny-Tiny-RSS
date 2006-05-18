@@ -494,7 +494,7 @@ function quickMenuGo(opid) {
 				return;
 			}
 	
-			if (confirm("Unsubscribe current feed?")) {
+			if (confirm("Unsubscribe from current feed?")) {
 				qfdDelete(actid);
 			}
 		
