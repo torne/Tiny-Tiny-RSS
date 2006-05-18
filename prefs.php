@@ -49,6 +49,7 @@
 
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
+		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
 	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 

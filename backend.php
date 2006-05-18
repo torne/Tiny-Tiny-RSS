@@ -1477,7 +1477,8 @@
 			print "</td>";
 
 #			$row_class = toggleEvenOdd($row_class);
-			print "<tr class='$row_class'><td>Link to:</td>";
+
+			print "<tr class='$row_class'><td>Link to:</td><td>";
 
 			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
 				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
@@ -1490,7 +1491,7 @@
 				$disabled = "disabled";
 			}
 
-			print "<select $disabled  id=\"iedit_parent_feed\">";
+			print "<select $disabled id=\"iedit_parent_feed\">";
 			
 			print "<option id=\"0\">Not linked</option>";
 
@@ -1520,8 +1521,8 @@
 						$tmp_line["id"], $tmp_line["title"]);
 				}
 
-				print "</select></td>";
-				print "</td></tr>";
+			print "</select>";
+			print "</td></tr>";
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 #			$row_class = toggleEvenOdd($row_class);
@@ -1930,8 +1931,13 @@
 					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
 
 					print "<tr class=\"title\">
-						<td width='5%' align='center'>&nbsp;</td>
-						<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
+						<td width='4%'>&nbsp;</td>";
+
+					if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+						print "<td width='4%'>&nbsp;</td>";
+					}
+
+					print "<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 						<td width='45%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 						<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
 
@@ -1950,10 +1956,13 @@
 				} else {
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
-//				print "<td class='feedIcon'>$feed_icon</td>";		
-	
+				
 				print "<td class='feedSelect'><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
+
+				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+					print "<td class='feedIcon'>$feed_icon</td>";		
+				}
 
 				$edit_title = truncate_string($edit_title, 40);
 				$edit_link = truncate_string($edit_link, 60);
@@ -1965,7 +1974,7 @@
 				}
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					"$feed_icon $edit_title $parent_title" . "</a></td>";		
+					"$edit_title $parent_title" . "</a></td>";		
 					
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		
