@@ -1309,16 +1309,16 @@
 				return;
 			}
 
-			print "<div id=\"infoBoxTitle\">Other feeds: Top 50</div>";
+			print "<div id=\"infoBoxTitle\">Other feeds: Top 25</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
-			print "<p>Showing top 50 registered feeds, sorted by popularity:</p>";
+			print "<p>Showing top 25 registered feeds, sorted by popularity:</p>";
 
 			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 				FROM ttrss_feeds 
 				WHERE auth_login = '' AND auth_pass = '' AND private = false
-				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 50");
+				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 25");
 			
 			print "<ul class='browseFeedList' id='browseFeedList'>";
 
@@ -1830,7 +1830,7 @@
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
-				onclick=\"javascript:browseFeeds()\" value=\"Top 50\">";
+				onclick=\"javascript:browseFeeds()\" value=\"Top 25\">";
 		}
 		
 		print "</td><td align='right'>
@@ -3894,10 +3894,27 @@
 
 		print "<p>This panel shows feeds subscribed by other users of this system, just in case you are interested in some of them too.</p>";
 
+		$limit = db_escape_string($_GET["limit"]);
+
+		if (!$limit) $limit = 25;
+
 		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 			FROM ttrss_feeds 
 			WHERE auth_login = '' AND auth_pass = '' AND private = false
-			GROUP BY feed_url ORDER BY subscribers DESC LIMIT 100");
+			GROUP BY feed_url ORDER BY subscribers DESC LIMIT $limit");
+
+		print "<div style=\"float : right\">
+			Top <select id=\"feedBrowserLimit\">";
+
+		foreach (array(25, 50, 100) as $l) {
+			$issel = ($l == $limit) ? "selected" : "";
+			print "<option $issel>$l</option>";
+		}
+			
+		print "</select>
+			<input type=\"submit\" class=\"button\"
+				onclick=\"updateBigFeedBrowser()\" value=\"Show\">
+		</div>";
 
 		print "<p>Selection: 
 			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 

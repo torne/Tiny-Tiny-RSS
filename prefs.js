@@ -1363,7 +1363,7 @@ function validatePrefsReset() {
 	return confirm("Reset to defaults?");
 }
 
-function browseFeeds() {
+function browseFeeds(limit) {
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=browse", true);
 	xmlhttp.onreadystatechange=infobox_callback;
@@ -1407,7 +1407,7 @@ function feedBrowserSubscribe() {
 	}
 }
 
-function updateBigFeedBrowser() {
+function updateBigFeedBrowser(limit) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -1416,10 +1416,18 @@ function updateBigFeedBrowser() {
 
 	p_notify("Loading, please wait...");
 
-	xmlhttp.open("GET", "backend.php?op=pref-feed-browser", true);
+	var query = "backend.php?op=pref-feed-browser";
+
+	var limit_sel = document.getElementById("feedBrowserLimit");
+
+	if (limit_sel) {
+		var limit = limit_sel[limit_sel.selectedIndex].value;
+		query = query + "&limit=" + param_escape(limit);
+	}
+
+	xmlhttp.open("GET", query, true);
 	xmlhttp.onreadystatechange=feed_browser_callback;
 	xmlhttp.send(null);
-
 }
 
 function browserToggleExpand(id) {
