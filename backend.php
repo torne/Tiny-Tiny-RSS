@@ -1888,10 +1888,8 @@
 				class=\"prefFeedList\" id=\"prefFeedList\">";
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
-						'FEEDR-', 'FRCHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedList', 
-						'FEEDR-', 'FRCHK-', false)\">None</a>
+					<a href=\"javascript:selectPrefRows('feed', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('feed', false)\">None</a>
 				</td</tr>";
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -1958,7 +1956,7 @@
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 				
-				print "<td class='feedSelect'><input onclick='toggleSelectRow(this);' 
+				print "<td class='feedSelect'><input onclick='toggleSelectPrefRow(this, \"feed\");' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
@@ -1980,17 +1978,6 @@
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		
 
-/*				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-						$edit_cat . "</a></td>";		
-				} */
-
-/*				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$update_intervals[$line["update_interval"]] . "</a></td>";
-
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$purge_intervals[$line["purge_interval"]] . "</a></td>"; */
-
 				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$last_updated</a></td>";
 
@@ -2001,7 +1988,7 @@
 	
 			print "</table>";
 
-			print "<p>";
+			print "<p><span id=\"feedOpToolbar\">";
 	
 			if ($subop == "edit") {
 				print "Edit feed:&nbsp;
@@ -2013,11 +2000,9 @@
 	
 				print "
 					Selection:&nbsp;
-				<!-- <input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:selectedFeedDetails()\" value=\"Details\"> -->
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:removeSelectedFeeds()\" value=\"Unsubscribe\">";
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2028,7 +2013,7 @@
 						WHERE owner_uid = ".$_SESSION["uid"]."
 						ORDER BY title");
 
-					print "<select id=\"sfeed_set_fcat\">";
+					print "<select id=\"sfeed_set_fcat\" disabled=\"true\">";
 					print "<option id=\"0\">Uncategorized</option>";
 
 					if (db_num_rows($result) != 0) {
@@ -2043,12 +2028,12 @@
 
 					print "</select>";
 
-					print " <input type=\"submit\" class=\"button\" 
+					print " <input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Recategorize\">";
 
 				}
 				
-				print "
+				print "</span>
 					&nbsp;All feeds: <input type=\"submit\" 
 							class=\"button\" onclick=\"gotoExportOpml()\" 
 							value=\"Export OPML\">";			
@@ -2068,9 +2053,10 @@
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
 					onchange=\"javascript:addFeedCat()\"
+					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
 					size=\"40\">&nbsp;
 				<input 
-					type=\"submit\" class=\"button\" 
+					type=\"submit\" class=\"button\" disabled=\"true\" id=\"catadd_submit_btn\"
 					onclick=\"javascript:addFeedCat()\" value=\"Create category\"></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
@@ -2084,10 +2070,8 @@
 
 				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
-						'FCATR-', 'FCCHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFeedCatList', 
-						'FCATR-', 'FCCHK-', false)\">None</a>
+					<a href=\"javascript:selectPrefRows('fcat', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('fcat', false)\">None</a>
 				</td</tr>";
 
 				print "<tr class=\"title\">
@@ -2117,8 +2101,8 @@
 		
 					if (!$edit_cat_id || $subop != "editCat") {
 		
-						print "<td align='center'><input onclick='toggleSelectRow(this);' 
-						type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
+						print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"fcat\");' 
+							type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
 		
 						print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
 							$edit_title . "</a></td>";		
@@ -2145,21 +2129,21 @@
 	
 				print "</table>";
 	
-				print "<p>";
+				print "<p id=\"catOpToolbar\">";
 	
 				if ($subop == "editCat") {
 					print "Edit category:&nbsp;
-						<input type=\"submit\" class=\"button\" 
+						<input type=\"submit\" class=\"button\"
 							onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">
-						<input type=\"submit\" class=\"button\" 
+						<input type=\"submit\" class=\"button\"
 							onclick=\"javascript:feedCatEditSave()\" value=\"Save\">";
 					} else {
 		
 					print "
 						Selection:&nbsp;
-					<input type=\"submit\" class=\"button\" 
+					<input type=\"submit\" class=\"button\" disabled=\"true\"
 						onclick=\"javascript:editSelectedFeedCat()\" value=\"Edit\">
-					<input type=\"submit\" class=\"button\" 
+					<input type=\"submit\" class=\"button\" disabled=\"true\"
 						onclick=\"javascript:removeSelectedFeedCats()\" value=\"Remove\">";
 	
 				}
@@ -2332,10 +2316,8 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
-						'FILRR-', 'FICHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefFilterList', 
-						'FILRR-', 'FICHK-', false)\">None</a>
+					<a href=\"javascript:selectPrefRows('filter', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('filter', false)\">None</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">
@@ -2369,7 +2351,7 @@
 	
 				if (!$edit_filter_id || $subop != "edit") {
 	
-					print "<td align='center'><input onclick='toggleSelectRow(this);' 
+					print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 	
 					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
@@ -2462,7 +2444,7 @@
 	
 			print "</table>";
 	
-			print "<p>";
+			print "<p id=\"filterOpToolbar\">";
 	
 			if ($subop == "edit") {
 				print "Edit filter:
@@ -2475,9 +2457,9 @@
 	
 				print "
 					Selection:
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
 			}
 
@@ -2620,10 +2602,8 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
-						'LILRR-', 'LICHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefLabelList', 
-						'LILRR-', 'LICHK-', false)\">None</a>
+					<a href=\"javascript:selectPrefRows('label', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('label', false)\">None</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">
@@ -2658,7 +2638,7 @@
 	
 					if (!$line["description"]) $line["description"] = "[No caption]";
 	
-					print "<td align='center'><input onclick='toggleSelectRow(this);' 
+					print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
 					print "<td><a href=\"javascript:editLabel($label_id);\">" . 
@@ -2685,8 +2665,7 @@
 						"\"></td>";
 	
 					print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
-						"\"></td>";
-							
+						"\"></td>";							
 				}
 					
 				
@@ -2701,7 +2680,7 @@
 	
 			print "</table>";
 	
-			print "<p>";
+			print "<p id=\"labelOpToolbar\">";
 	
 			if ($subop == "edit") {
 				print "Edit label:
@@ -2712,13 +2691,12 @@
 					<input type=\"submit\" class=\"button\" 
 						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">";
 						
-			} else {
-	
+			} else {	
 				print "
 					Selection:
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
 			}
 		} else {
@@ -3394,28 +3372,37 @@
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
 
-				db_query($link, "INSERT INTO ttrss_users 
-					(login,pwd_hash,access_level,last_login)
-					VALUES ('$login', '$pwd_hash', 0, NOW())");
-
-
 				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
-					login = '$login' AND pwd_hash = '$pwd_hash'");
+					login = '$login'");
 
-				if (db_num_rows($result) == 1) {
+				if (db_num_rows($result) == 0) {
 
-					$new_uid = db_fetch_result($result, 0, "id");
-
-					print "<div class=\"notice\">Added user <b>".$_GET["login"].
-						"</b> with password <b>$tmp_user_pwd</b>.</div>";
-
-					initialize_user($link, $new_uid);
-
+					db_query($link, "INSERT INTO ttrss_users 
+						(login,pwd_hash,access_level,last_login)
+						VALUES ('$login', '$pwd_hash', 0, NOW())");
+	
+	
+					$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+						login = '$login' AND pwd_hash = '$pwd_hash'");
+	
+					if (db_num_rows($result) == 1) {
+	
+						$new_uid = db_fetch_result($result, 0, "id");
+	
+						print "<div class=\"notice\">Added user <b>".$_GET["login"].
+							"</b> with password <b>$tmp_user_pwd</b>.</div>";
+	
+						initialize_user($link, $new_uid);
+	
+					} else {
+					
+						print "<div class=\"warning\">Could not create user <b>".
+							$_GET["login"]."</b></div>";
+	
+					}
 				} else {
-				
-					print "<div class=\"warning\">Error while adding user <b>".
-					$_GET["login"].".</b></div>";
-
+					print "<div class=\"warning\">User <b>".
+						$_GET["login"]."</b> already exists.</div>";
 				}
 			} 
 		} else if ($subop == "resetPass") {
@@ -3481,10 +3468,8 @@
 
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				Select: 
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
-						'UMRR-', 'UMCHK-', true)\">All</a>,
-					<a href=\"javascript:selectTableRowsByIdPrefix('prefUserList', 
-						'UMRR-', 'UMCHK-', false)\">None</a>
+					<a href=\"javascript:selectPrefRows('user', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('user', false)\">None</a>
 				</td</tr>";
 
 		print "<tr class=\"title\">
@@ -3519,18 +3504,9 @@
 
 			$access_level_names = array(0 => "User", 10 => "Administrator");
 
-/*			if ($uid == $_SESSION["uid"]) {
+			if (!$edit_uid || $subop != "edit") {
 
-				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
-					id=\"UMCHK-".$line["id"]."\"></td>";
-
-				print "<td>".$line["login"]."</td>";
-				print "<td>".$line["email"]."</td>";
-				print "<td>".$line["access_level"]."</td>";
-
-			} else */ if (!$edit_uid || $subop != "edit") {
-
-				print "<td align='center'><input onclick='toggleSelectRow(this);' 
+				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
@@ -3566,9 +3542,6 @@
 				print "<td><input id=\"iedit_email\" value=\"".$line["email"].
 					"\"></td>";
 
-//				print "<td><input id=\"iedit_ulevel\" value=\"".$line["access_level"].
-//					"\"></td>";
-
 				print "<td>";
 				print "<select id=\"iedit_ulevel\">";
 				foreach (array_keys($access_level_names) as $al) {
@@ -3594,7 +3567,7 @@
 
 		print "</table>";
 
-		print "<p>";
+		print "<p id='userOpToolbar'>";
 
 		if ($subop == "edit") {
 			print "Edit user:
@@ -3607,13 +3580,13 @@
 
 			print "
 				Selection:
-			<input type=\"submit\" class=\"button\" 
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:selectedUserDetails()\" value=\"User details\">
-			<input type=\"submit\" class=\"button\" 
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:editSelectedUser()\" value=\"Edit\">
-			<input type=\"submit\" class=\"button\" 
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:removeSelectedUsers()\" value=\"Remove\">
-			<input type=\"submit\" class=\"button\" 
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">";
 
 		}

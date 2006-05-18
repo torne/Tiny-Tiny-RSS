@@ -299,13 +299,16 @@ td.notifyBox {
 	background : #fff7d5;
 	border : 1px solid #d7c47a;
 	padding : 3px;
-	top : 2px;
-	right : 2px;
-	float : right;	
+	top : 25px;
+	right : 150px;
+	min-width : 300px;
 	position : absolute;	
 	-moz-border-radius : 3px;
 	font-size : x-small;
 	font-weight : bold;
+	text-align : center;
+	float : right;
+	padding : 3px 20px 3px 20px;
 }
 
 #dispSwitch {
@@ -522,23 +525,26 @@ div.helpResponse {
 
 #infoBoxTitle {
 	border-width : 1px 1px 1px 1px;
-		  border-style : solid;
-		  border-color : #88b0f0;
-		  background-color : #88b0f0;
-		  padding : 2px;
-		  color : white;
+	border-style : solid;
+	border-color : #88b0f0;
+	background-color : #88b0f0;
+	padding : 2px;
+	color : white;
 }
 
 #infoBox {	
 	border-width : 1px 1px 1px 1px;
-		  border-style : solid;
-		  border-color : #88b0f0;
+	border-style : solid;
+	border-color : #88b0f0;
 	font-size : small;
 	position : relative;
 	bottom : 2px;
 	right : 2px;
-	background-color : #ecf4ff;
-		  padding-bottom : 5px;
+	padding-bottom : 5px;
+	background-image : url("images/prefs-content.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	background-color : white;
 }
 
 #infoBoxShadow {

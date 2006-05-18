@@ -182,7 +182,7 @@ function updateFeedList(sort_key) {
 
 //	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 	var feed_search = document.getElementById("feed_search");
 	var search = "";
@@ -205,7 +205,7 @@ function updateUsersList() {
 
 //	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-users", true);
 	xmlhttp.onreadystatechange=userlist_callback;
@@ -1220,7 +1220,7 @@ function updateFilterList() {
 
 //	document.getElementById("prefContent").innerHTML = "Loading filters, please wait...";
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
 	xmlhttp.onreadystatechange=filterlist_callback;
@@ -1235,7 +1235,7 @@ function updateLabelList() {
 		return
 	}
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 //	document.getElementById("prefContent").innerHTML = "Loading labels, please wait...";
 
@@ -1251,7 +1251,7 @@ function updatePrefsList() {
 		return
 	}
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-prefs", true);
 	xmlhttp.onreadystatechange=prefslist_callback;
@@ -1417,7 +1417,7 @@ function updateBigFeedBrowser(limit) {
 		return
 	}
 
-	p_notify("Loading, please wait...");
+//	p_notify("Loading, please wait...");
 
 	var query = "backend.php?op=pref-feed-browser";
 
@@ -1471,3 +1471,81 @@ function validateNewPassword(form) {
 	}
 	return true;
 }
+
+function selectPrefRows(kind, select) {
+
+	if (kind) {
+		var opbarid = false;	
+		var nchk = false;
+		var nrow = false;
+		var lname = false;
+
+		if (kind == "feed") {
+			opbarid = "feedOpToolbar";
+			nrow = "FEEDR-";
+			nchk = "FRCHK-";			
+			lname = "prefFeedList";
+		} else if (kind == "fcat") {
+			opbarid = "catOpToolbar";
+			nrow = "FCATR-";
+			nchk = "FCHK-";
+			lname = "prefFeedCatList";
+		} else if (kind == "filter") {
+			opbarid = "filterOpToolbar";
+			nrow = "FILRR-";
+			nchk = "FICHK-";
+			lname = "prefFilterList";
+		} else if (kind == "label") {
+			opbarid = "labelOpToolbar";
+			nrow = "LILRR-";
+			nchk = "LCHK-";
+			lname = "prefLabelList";
+		} else if (kind == "user") {
+			opbarid = "userOpToolbar";
+			nrow = "UMRR-";
+			nchk = "UMCHK-";
+			lname = "prefUserList";
+		}
+
+		if (opbarid) {
+			selectTableRowsByIdPrefix(lname, nrow, nchk, select);
+			disableContainerChildren(opbarid, !select);
+		}
+
+	} 
+}
+
+
+function toggleSelectPrefRow(sender, kind) {
+
+	toggleSelectRow(sender);
+
+	if (kind) {
+		var opbarid = false;	
+		var nsel = -1;
+		
+		if (kind == "feed") {
+			opbarid = "feedOpToolbar";
+			nsel = getSelectedFeeds();
+		} else if (kind == "fcat") {
+			opbarid = "catOpToolbar";
+			nsel = getSelectedFeedCats();
+		} else if (kind == "filter") {
+			opbarid = "filterOpToolbar";
+			nsel = getSelectedFilters();
+		} else if (kind == "label") {
+			opbarid = "labelOpToolbar";
+			nsel = getSelectedLabels();
+		} else if (kind == "user") {
+			opbarid = "userOpToolbar";
+			nsel = getSelectedUsers();
+		}
+
+		if (opbarid && nsel != -1) {
+			disableContainerChildren(opbarid, nsel == false);
+		}
+
+	} 
+}
+
+
