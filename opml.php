@@ -24,7 +24,7 @@
 	if (!$op) $op = "Export";
 	
 	if ($op == "Export") {
-		header("Content-type: application/xml");
+		header("Content-type: application/xml+opml");
 		print "<?xml version=\"1.0\"?>";
 	}
 
