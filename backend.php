@@ -1603,14 +1603,14 @@
 		}
 
 		if ($subop == "editSave") {
-			$feed_title = db_escape_string($_POST["t"]);
-			$feed_link = db_escape_string($_POST["l"]);
+			$feed_title = db_escape_string(trim($_POST["t"]));
+			$feed_link = db_escape_string(trim($_POST["l"]));
 			$upd_intl = db_escape_string($_POST["ui"]);
 			$purge_intl = db_escape_string($_POST["pi"]);
 			$feed_id = db_escape_string($_POST["id"]);
 			$cat_id = db_escape_string($_POST["catid"]);
-			$auth_login = db_escape_string($_POST["login"]);
-			$auth_pass = db_escape_string($_POST["pass"]);
+			$auth_login = db_escape_string(trim($_POST["login"]));
+			$auth_pass = db_escape_string(trim($_POST["pass"]));
 			$parent_feed = db_escape_string($_POST["pfeed"]);
 			$private = db_escape_string($_POST["is_pvt"]);
 			$rtl_content = db_escape_string($_POST["is_rtl"]);
@@ -1653,7 +1653,7 @@
 		}
 
 		if ($subop == "saveCat") {
-			$cat_title = db_escape_string($_GET["title"]);
+			$cat_title = db_escape_string(trim($_GET["title"]));
 			$cat_id = db_escape_string($_GET["id"]);
 
 			$result = db_query($link, "UPDATE ttrss_feed_categories SET

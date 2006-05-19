@@ -282,8 +282,7 @@ function addFeed() {
 
 	if (link.value.length == 0) {
 		alert("Error: No feed URL given.");
-	} else if (link.value.match("http://") == null && 
-			link.value.match("https://") == null) {
+	} else if (!isValidURL(link.value)) {
 		alert("Error: Invalid feed URL.");
 	} else {
 		notify("Adding feed...");
@@ -744,6 +743,11 @@ function feedEditSave() {
 	
 		if (title.length == 0) {
 			notify("Feed title cannot be blank.");
+			return;
+		}
+
+		if (!isValidURL(link)) {
+			alert("Feed URL is invalid.");
 			return;
 		}
 	

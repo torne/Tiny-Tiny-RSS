@@ -1,7 +1,8 @@
 var hotkeys_enabled = true;
 
 function browser_has_opacity() {
-	return navigator.userAgent.match("Gecko") || navigator.userAgent.match("Opera");
+	return navigator.userAgent.match("Gecko") != null || 
+		navigator.userAgent.match("Opera") != null;
 }
 
 function exception_error(location, e) {
@@ -1054,3 +1055,6 @@ function toggleSubmitNotEmpty(e, submit_id) {
 	}
 }
 
+function isValidURL(s) {
+	return s.match("http://") != null || s.match("https://") != null;
+}
