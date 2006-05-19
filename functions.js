@@ -111,8 +111,8 @@ function notify_real(msg, doc, no_hide, is_err) {
 	}
 
 	if (is_err) {
-		n.style.backgroundColor = "#ffaaaa";
-		n.style.color = "white";
+		n.style.backgroundColor = "#ffcccc";
+		n.style.color = "black";
 		n.style.borderColor = "#ff0000";
 	} else {
 		n.style.backgroundColor = "#fff7d5";

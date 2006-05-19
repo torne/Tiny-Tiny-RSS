@@ -135,8 +135,7 @@ window.onload = init;
 		<tr><td height="100%" width="100%" valign="top">
 
 		<iframe frameborder="0" 
-			src="backend.php?op=error&msg=Loading,%20please wait..."
-			id="feeds-frame" name="feeds-frame" class="feedsFrame"> </iframe>
+			id="feeds-frame" name="feeds-frame" class="feedsFrame"></iframe>
 
 		</td></tr></table>
 
@@ -251,22 +250,19 @@ window.onload = init;
 <tr>
 	<td id="headlines" class="headlines2" valign="top">
 		<iframe frameborder="0" name="headlines-frame" 
-			id="headlines-frame" class="headlinesFrame" 
-				src="backend.php?op=error&msg=No%20feed%20selected."></iframe>
+			id="headlines-frame" class="headlinesFrame"></iframe>
 	</td>
 </tr>
 <? } else { ?>
 <tr>
 	<td id="headlines" class="headlines" valign="top">
 		<iframe frameborder="0" name="headlines-frame" 
-			id="headlines-frame" class="headlinesFrame" 
-				src="backend.php?op=error&msg=No%20feed%20selected."></iframe>
+			id="headlines-frame" class="headlinesFrame"></iframe>
 	</td>
 </tr><tr>
 	<td class="content" id="content" valign="top">
 		<iframe frameborder="0" name="content-frame" 
-			id="content-frame" class="contentFrame"
-			src="backend.php?op=error&msg=No%20article%20selected."> </iframe>
+			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
 <? } ?>

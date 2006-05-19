@@ -441,6 +441,9 @@ function init_second_stage() {
 
 		// FIXME should be callled after window resize
 
+		var h = document.getElementById("headlines");
+		var c = document.getElementById("content");
+
 		if (navigator.userAgent.match("Opera")) {
 			resize_feeds_frame();
 
