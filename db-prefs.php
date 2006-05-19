@@ -2,7 +2,7 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	if (!defined('DISABLE_SESSIONS')) {
+	if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
 		if (!$_SESSION["prefs_cache"])
 			$_SESSION["prefs_cache"] = array();
 	}
@@ -18,7 +18,7 @@
 			$prefs_cache = false;
 		}
 
-		if (!defined('DISABLE_SESSIONS')) {	
+		if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
 			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
 				$tuple = $_SESSION["prefs_cache"][$pref_name];
 				return convert_pref_type($tuple["value"], $tuple["type"]);
@@ -39,7 +39,7 @@
 			$value = db_fetch_result($result, 0, "value");
 			$type_name = db_fetch_result($result, 0, "type_name");
 
-			if (!defined('DISABLE_SESSIONS')) {	
+			if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
 				if ($user_id = $_SESSION["uid"]) {
 					$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
 					$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
