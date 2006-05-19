@@ -62,7 +62,7 @@ function feedlist_callback() {
 					checkbox.checked = true;
 				}
 			}
-//			p_notify("");
+			notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);
 		}
@@ -88,7 +88,7 @@ function filterlist_callback() {
 				checkbox.checked = true;
 			}
 		}
-//		p_notify("");
+		notify("");
 	}
 }
 
@@ -110,7 +110,7 @@ function labellist_callback() {
 				checkbox.checked = true;
 			}
 		}
-//		p_notify("");
+		notify("");
 	}
 }
 
@@ -118,7 +118,7 @@ function feed_browser_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
-//		p_notify("");
+		notify("");
 	}
 }
 
@@ -140,8 +140,7 @@ function userlist_callback() {
 				checkbox.checked = true;
 			}
 		} 
-
-//		p_notify("");
+		notify("");
 	}
 }
 
@@ -150,8 +149,8 @@ function prefslist_callback() {
 	if (xmlhttp.readyState == 4) {
 
 		container.innerHTML=xmlhttp.responseText;
-
-//		p_notify("");
+		
+		notify("");
 	}
 }
 
@@ -1296,6 +1295,8 @@ function selectTab(id, noupdate) {
 	}
 
 	if (!noupdate) {
+
+		notify("Loading, please wait...", true);
 
 		if (id == "feedConfig") {
 			updateFeedList();
