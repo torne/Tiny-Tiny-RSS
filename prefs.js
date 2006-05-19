@@ -1451,6 +1451,11 @@ function browserToggleExpand(id) {
 			d.style.display = "none";
 		} */
 
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
+
 		var d = document.getElementById("BRDET-" + id);
 
 		if (d.style.display == "block") {		
@@ -1459,6 +1464,9 @@ function browserToggleExpand(id) {
 		} else {
 	
 			feed_to_expand = id;
+
+			d.style.display = "block";
+			d.innerHTML = "Loading, please wait...";
 
 			xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
 				+ param_escape(id), true);
