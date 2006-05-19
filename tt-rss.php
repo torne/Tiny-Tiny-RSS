@@ -56,6 +56,9 @@
 		if (navigator.userAgent.match("Opera")) {
 			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
 		}
+		if (navigator.userAgent.match("Gecko") && !navigator.userAgent.match("KHTML")) {
+			document.write('<link rel="stylesheet" type="text/css" href="gecko.css">');
+		}
 	</script>
 </head>
 
