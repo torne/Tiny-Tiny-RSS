@@ -2167,8 +2167,8 @@
 
 		if ($subop == "editSave") {
 
-			$regexp = db_escape_string($_GET["r"]);
-			$match = db_escape_string($_GET["m"]);
+			$regexp = db_escape_string(trim($_GET["r"]));
+			$match = db_escape_string(trim($_GET["m"]));
 			$filter_id = db_escape_string($_GET["id"]);
 			$feed_id = db_escape_string($_GET["fid"]);
 			$action_id = db_escape_string($_GET["aid"]); 
@@ -2482,8 +2482,8 @@
 
 		if ($subop == "test") {
 
-			$expr = $_GET["expr"];
-			$descr = $_GET["descr"];
+			$expr = trim($_GET["expr"]);
+			$descr = trim($_GET["descr"]);
 
 			print "<div id=\"infoBoxTitle\">Test label: $descr</div>";
 
@@ -2536,8 +2536,8 @@
 
 		if ($subop == "editSave") {
 
-			$sql_exp = $_GET["s"];
-			$descr = $_GET["d"];
+			$sql_exp = trim($_GET["s"]);
+			$descr = trim($_GET["d"]);
 			$label_id = db_escape_string($_GET["id"]);
 			
 //			print "$sql_exp : $descr : $label_id";
