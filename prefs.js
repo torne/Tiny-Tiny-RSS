@@ -1,10 +1,8 @@
 var xmlhttp = false;
 
-var active_feed = false;
 var active_feed_cat = false;
 var active_filter = false;
 var active_label = false;
-var active_user = false;
 var active_tab = false;
 var feed_to_expand = false;
 
@@ -33,18 +31,19 @@ function feedlist_callback() {
 			container.innerHTML=xmlhttp.responseText;
 			selectTab("feedConfig", true);
 
-			if (active_feed) {
-				var row = document.getElementById("FEEDR-" + active_feed);
+			if (active_feed_cat) {
+				var row = document.getElementById("FCATR-" + active_feed_cat);
 				if (row) {
 					if (!row.className.match("Selected")) {
 						row.className = row.className + "Selected";
 					}		
 				}
-				var checkbox = document.getElementById("FRCHK-" + active_feed);
+				var checkbox = document.getElementById("FCCHK-" + active_feed_cat);
 				if (checkbox) {
 					checkbox.checked = true;
 				}
 			}
+
 			notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);
@@ -109,20 +108,6 @@ function userlist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
-
-		if (active_user) {
-			var row = document.getElementById("UMRR-" + active_user);
-			if (row) {
-				if (!row.className.match("Selected")) {
-					row.className = row.className + "Selected";
-				}		
-			}
-			var checkbox = document.getElementById("UMCHK-" + active_user);
-			
-			if (checkbox) {
-				checkbox.checked = true;
-			}
-		} 
 		notify("");
 	}
 }
@@ -352,11 +337,12 @@ function editUser(id) {
 		return
 	}
 
-	active_user = id;
+	selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
+	selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
 	xmlhttp.open("GET", "backend.php?op=pref-users&subop=edit&id=" +
 		param_escape(id), true);
-	xmlhttp.onreadystatechange=userlist_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 }
@@ -386,14 +372,12 @@ function editFeed(feed) {
 		return
 	}
 
-	active_feed = feed;
-
 	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
 	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
-		param_escape(active_feed), true);
+		param_escape(feed), true);
 
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
@@ -611,8 +595,6 @@ function feedEditCancel() {
 
 	selectPrefRows('feed', false); // cleanup feed selection
 
-	active_feed = false;
-
 }
 
 function feedCatEditCancel() {
@@ -644,8 +626,6 @@ function feedEditSave() {
 		// FIXME: add parameter validation
 
 		var query = Form.serialize("edit_feed_form");
-
-		active_feed = false;
 
 		notify("Saving feed...");
 
@@ -730,14 +710,9 @@ function userEditCancel() {
 		return
 	}
 
-	active_user = false;
+	selectPrefRows('user', false); // cleanup feed selection
 
-//	notify("Operation cancelled.");
-
-	xmlhttp.open("GET", "backend.php?op=pref-users", true);
-	xmlhttp.onreadystatechange=userlist_callback;
-	xmlhttp.send(null);
-
+	closeInfoBox();
 }
 
 function filterEditCancel() {
@@ -766,22 +741,18 @@ function labelEditSave() {
 		return
 	}
 
-/*	var sqlexp = document.getElementById("iedit_expr").value;
-	var descr = document.getElementById("iedit_descr").value;
+	var sql_exp = document.forms["label_edit_form"].sql_exp.value;
+	var description = document.forms["label_edit_form"].description.value;
 
-//	notify("Saving label " + sqlexp + ": " + descr);
-
-	if (sqlexp.length == 0) {
-		notify("SQL expression cannot be blank.");
+	if (sql_exp.length == 0) {
+		alert("SQL Expression cannot be blank.");
 		return;
 	}
 
-	if (descr.length == 0) {
-		notify("Caption cannot be blank.");
+	if (description.length == 0) {
+		alert("Caption field cannot be blank.");
 		return;
-	} */
-
-	// FIXME: input validation
+	}
 
 	notify("Saving label...");
 
@@ -798,41 +769,25 @@ function labelEditSave() {
 
 function userEditSave() {
 
-	var user = active_user;
-
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
 
-	var login = document.getElementById("iedit_ulogin").value;
-	var level = document.getElementById("iedit_ulevel");
-
-	level = level[level.selectedIndex].id;
-	
-	var email = document.getElementById("iedit_email").value;
+	var login = document.forms["user_edit_form"].login.value;
 
 	if (login.length == 0) {
-		notify("Login cannot be blank.");
+		alert("Login field cannot be blank.");
 		return;
 	}
-
-	if (level.length == 0) {
-		notify("User level cannot be blank.");
-		return;
-	}
-
-	active_user = false;
-
+	
 	notify("Saving user...");
-
-	xmlhttp.open("GET", "backend.php?op=pref-users&subop=editSave&id=" +
-		user + "&l=" + param_escape(login) + "&al=" + param_escape(level) +
-		"&e=" + param_escape(email), true);
-		
+	
+	var query = Form.serialize("user_edit_form");
+	
+	xmlhttp.open("GET", "backend.php?" + query, true);			
 	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
-
 }
 
 
@@ -843,7 +798,12 @@ function filterEditSave() {
 		return
 	}
 
-	// FIXME: input validation
+	var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
+
+	if (reg_exp.length == 0) {
+		alert("Filter expression field cannot be blank.");
+		return;
+	}
 
 	notify("Saving filter...");
 
@@ -1171,11 +1131,9 @@ function selectTab(id, noupdate) {
 		notify("Loading, please wait...", true);
 
 		// clean up all current selections, just in case
-		active_feed = false;
 		active_feed_cat = false;
 		active_filter = false;
 		active_label = false;
-		active_user = false;
 
 		if (id == "feedConfig") {
 			updateFeedList();

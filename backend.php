@@ -81,6 +81,10 @@
 		1440 => "Daily",
 		10080 => "Weekly");
 
+	$access_level_names = array(
+		0 => "User", 
+		10 => "Administrator");
+
 	$script_started = getmicrotime();
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
@@ -2007,13 +2011,9 @@
 		
 					$edit_cat_id = $_GET["id"];
 		
-					if ($subop == "editCat") {
-						if ($cat_id != $edit_cat_id) {
+					if ($subop == "editCat" && $cat_id != $edit_cat_id) {
 							$class .= "Grayed";
 							$this_row_id = "";
-						} else {
-							$class .= "Selected";
-						}
 					} else {
 						$this_row_id = "id=\"FCATR-$cat_id\"";
 					}
@@ -2683,30 +2683,6 @@
 
 		}
 
-		if ($id == "quickDelFeed") {
-
-			$param = db_escape_string($param);
-
-			$result = db_query($link, "SELECT title FROM ttrss_feeds WHERE id = '$param'");
-
-			if ($result) {
-
-				$f_title = db_fetch_result($result, 0, "title");
-		
-				print "Remove current feed (<b>$f_title</b>)?&nbsp;
-				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:qfdDelete($param)\" value=\"Remove\">
-				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
-					value=\"Cancel\">";
-			} else {
-				print "Error: Feed $param not found.&nbsp;
-				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
-					value=\"Cancel\">";		
-			}
-		}
-
 		if ($id == "search") {
 
 			print "<div id=\"infoBoxTitle\">Search</div>";
@@ -3229,16 +3205,78 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "edit") {
+
+			$id = db_escape_string($_GET["id"]);
+
+			print "<div id=\"infoBoxTitle\">User editor</div>";
+			
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form id=\"user_edit_form\">";
+
+			print "<input type=\"hidden\" name=\"id\" value=\"$id\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-users\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
+
+			$result = db_query($link, "SELECT * FROM ttrss_users WHERE id = '$id'");
+
+			$login = db_fetch_result($result, 0, "login");
+			$access_level = db_fetch_result($result, 0, "access_level");
+			$email = db_fetch_result($result, 0, "email");
+
+			print "<table width='100%'>";
+			print "<tr><td>Login:</td><td>
+				<input class=\"iedit\" name=\"login\" value=\"$login\"></td></tr>";
+
+			print "<tr><td>Change password:</td><td>
+				<input class=\"iedit\" name=\"password\"></td></tr>";
+
+			print "<tr><td>E-mail:</td><td>
+				<input class=\"iedit\" name=\"email\" value=\"$email\"></td></tr>";
+
+			$sel_disabled = ($id == $_SESSION["uid"]) ? "disabled" : "";
+				
+			print "<tr><td>Access level:</td><td>";
+			print_select_hash("access_level", $access_level, $access_level_names, 
+				$sel_disabled);
+			print "</td></tr>";
+
+			print "</table>";
+
+			print "</form>";
+			
+			print "<div align='right'>
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:userEditSave()\" value=\"Save\">
+				<input class=\"button\"
+					type=\"submit\" onclick=\"javascript:userEditCancel()\" 
+					value=\"Cancel\"></div>";
+
+			print "</div>";
+
+			return;
+		}
+
 		if ($subop == "editSave") {
 	
-			if (!WEB_DEMO_MODE) {
+			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
 
-				$login = db_escape_string($_GET["l"]);
+				$login = db_escape_string(trim($_GET["login"]));
 				$uid = db_escape_string($_GET["id"]);
-				$access_level = sprintf("%d", $_GET["al"]);
-				$email = db_escape_string($_GET["e"]);
+				$access_level = sprintf("%d", $_GET["access_level"]);
+				$email = db_escape_string(trim($_GET["email"]));
+				$password = db_escape_string(trim($_GET["password"]));
 
-				db_query($link, "UPDATE ttrss_users SET login = '$login', 
+				if ($password) {
+					$pwd_hash = 'SHA1:' . sha1($password);
+					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
+					print "<div class='notice'>Changed password for user <b>$login</b>.</div>";
+				} else {
+					$pass_query_part = "";
+				}
+
+				db_query($link, "UPDATE ttrss_users SET $pass_query_part login = '$login', 
 					access_level = '$access_level', email = '$email' WHERE id = '$uid'");
 
 			}
@@ -3363,10 +3401,9 @@
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width='20%'>Login</td>
-					<td width='20%'>E-mail</td>
-					<td width='20%'>Access Level</td>
-					<td width='20%'>Last login</td></tr>";
+					<td width='40%'>Login</td>
+					<td width='40%'>Access Level</td>
+					<td width='30%'>Last login</td></tr>";
 		
 		$lnum = 0;
 		
@@ -3393,7 +3430,7 @@
 
 			$access_level_names = array(0 => "User", 10 => "Administrator");
 
-			if (!$edit_uid || $subop != "edit") {
+//			if (!$edit_uid || $subop != "edit") {
 
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
@@ -3404,12 +3441,9 @@
 				if (!$line["email"]) $line["email"] = "&nbsp;";
 
 				print "<td><a href=\"javascript:editUser($uid);\">" . 
-					$line["email"] . "</td>";			
-
-				print "<td><a href=\"javascript:editUser($uid);\">" . 
 					$access_level_names[$line["access_level"]] . "</td>";			
 
-			} else if ($uid != $edit_uid) {
+/*			} else if ($uid != $edit_uid) {
 
 				if (!$line["email"]) $line["email"] = "&nbsp;";
 
@@ -3445,7 +3479,7 @@
 				print "</select>";
 				print "</td>";
 
-			}
+			} */
 				
 			print "<td>".$line["last_login"]."</td>";		
 		
@@ -3458,14 +3492,14 @@
 
 		print "<p id='userOpToolbar'>";
 
-		if ($subop == "edit") {
+/*		if ($subop == "edit") {
 			print "Edit user:
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:userEditSave()\" value=\"Save\">
 				<input type=\"submit\" class=\"button\" 
 					onclick=\"javascript:userEditCancel()\" value=\"Cancel\">";
 					
-		} else {
+		} else { */
 
 			print "
 				Selection:
@@ -3478,7 +3512,7 @@
 			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">";
 
-		}
+//		}
 	}
 
 	if ($op == "user-details") {
