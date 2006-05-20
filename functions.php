@@ -653,7 +653,7 @@
 	}
 
 	function print_select($id, $default, $values, $attributes = "") {
-		print "<select id=\"$id\" $attributes>";
+		print "<select name=\"$id\" id=\"$id\" $attributes>";
 		foreach ($values as $v) {
 			if ($v == $default)
 				$sel = " selected";
@@ -665,8 +665,8 @@
 		print "</select>";
 	}
 
-	function print_select_hash($id, $values, $default, $attributes = "") {
-		print "<select id='$id' $attributes>";
+	function print_select_hash($id, $default, $values, $attributes = "") {
+		print "<select name=\"$id\" id='$id' $attributes>";
 		foreach (array_keys($values) as $v) {
 			if ($v == $default)
 				$sel = "selected";
@@ -1582,9 +1582,9 @@
 	function print_feed_select($link, $id, $default_id = "", 
 		$attributes = "", $include_all_feeds = true) {
 
-		print "<select id=\"$id\" $attributes>";
+		print "<select id=\"$id\" name=\"$id\" $attributes>";
 		if ($include_all_feeds) { 
-			print "<option id=\"0\">All feeds</option>";
+			print "<option value=\"0\">All feeds</option>";
 		}
 	
 		$result = db_query($link, "SELECT id,title FROM ttrss_feeds
@@ -1600,7 +1600,7 @@
 			} else {
 				$is_selected = "";
 			}
-			printf("<option $is_selected id='%d'>%s</option>", 
+			printf("<option $is_selected value='%d'>%s</option>", 
 				$line["id"], db_unescape_string($line["title"]));
 		}
 	
@@ -1610,7 +1610,7 @@
 	function print_feed_cat_select($link, $id, $default_id = "", 
 		$attributes = "", $include_all_cats = true) {
 		
-		print "<select name=\"$id\" $attributes>";
+		print "<select id=\"$id\" name=\"$id\" $attributes>";
 
 		if ($include_all_cats) {
 			print "<option value=\"0\">Uncategorized</option>";

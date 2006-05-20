@@ -992,13 +992,15 @@ function displayDlg(id, param) {
 
 function infobox_submit_callback() {
 	if (xmlhttp.readyState == 4) {
-		notify(xmlhttp.responseText);
 		closeInfoBox();
 
 		// called from prefs, reload tab
 		if (active_tab) {
 			selectTab(active_tab, false);
 		}
+
+		notify(xmlhttp.responseText);
+
 	} 
 }
 
@@ -1024,29 +1026,11 @@ function qaddFilter() {
 		return
 	}
 
-	var regexp = document.getElementById("fadd_regexp");
-	var match = document.getElementById("fadd_match");
-	var feed = document.getElementById("fadd_feed");
-	var action = document.getElementById("fadd_action");
+	var query = Form.serialize("filter_add_form");
 
-	if (regexp.value.length == 0) {
-		alert("Missing filter expression.");
-	} else {
-		notify("Adding filter...");
-
-		var v_match = match[match.selectedIndex].text;
-		var feed_id = feed[feed.selectedIndex].id;
-		var action_id = action[action.selectedIndex].id;
-
-		xmlhttp.open("GET", "backend.php?op=pref-filters&quiet=1&subop=add&regexp=" +
-			param_escape(regexp.value) + "&match=" + v_match +
-			"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
-			
-		xmlhttp.onreadystatechange=infobox_submit_callback;
-		xmlhttp.send(null);
-
-		regexp.value = "";
-	}
+	xmlhttp.open("GET", "backend.php?" + query, true);
+	xmlhttp.onreadystatechange=infobox_submit_callback;
+	xmlhttp.send(null);
 
 }
 

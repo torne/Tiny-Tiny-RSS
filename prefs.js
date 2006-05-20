@@ -1313,7 +1313,7 @@ function categorizeSelectedFeeds() {
 	var sel_rows = getSelectedFeeds();
 
 	var cat_sel = document.getElementById("sfeed_set_fcat");
-	var cat_id = cat_sel[cat_sel.selectedIndex].id;
+	var cat_id = cat_sel[cat_sel.selectedIndex].value;
 
 	if (sel_rows.length > 0) {
 

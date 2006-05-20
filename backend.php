@@ -2146,10 +2146,10 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$regexp = db_escape_string(trim($_GET["regexp"]));
-				$match = db_escape_string(trim($_GET["match"]));
-				$feed_id = db_escape_string($_GET["fid"]);
-				$action_id = db_escape_string($_GET["aid"]); 
+				$regexp = db_escape_string(trim($_GET["reg_exp"]));
+				$match_id = db_escape_string(trim($_GET["match_id"]));
+				$feed_id = db_escape_string($_GET["feed_id"]);
+				$action_id = db_escape_string($_GET["action_id"]); 
 
 				if (!$feed_id) {
 					$feed_id = 'NULL';
@@ -2161,8 +2161,7 @@
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
 						action_id) 
 					VALUES 
-						('$regexp', (SELECT id FROM ttrss_filter_types WHERE
-							description = '$match'),'".$_SESSION["uid"]."', 
+						('$regexp', '$match_id','".$_SESSION["uid"]."', 
 							$feed_id, '$action_id')");
 			} 
 		}
@@ -2742,41 +2741,48 @@
 			print "<div id=\"infoBoxTitle\">Create filter</div>";
 			print "<div class=\"infoBoxContents\">";
 
+			print "<form id=\"filter_add_form\">";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
+			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"add\">";
+
 //			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
 			
-			$result = db_query($link, "SELECT description 
+			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
 	
 			$filter_types = array();
 	
 			while ($line = db_fetch_assoc($result)) {
-				array_push($filter_types, $line["description"]);
+				//array_push($filter_types, $line["description"]);
+				$filter_types[$line["id"]] = $line["description"];
 			}
 
 			print "<table width='100%'>";
 
 			print "<tr><td>Match:</td>
 				<td><input onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-				id=\"fadd_regexp\" size=\"30\">&nbsp;";
+					name=\"reg_exp\" size=\"30\">&nbsp;";
 			
-			print_select("fadd_match", "Title", $filter_types);	
+			print_select_hash("match_id", 1, $filter_types);	
 	
 			print "</td></tr>";
 			print "<tr><td>Feed:</td><td>";
 
-			print_feed_select($link, "fadd_feed");
+			print_feed_select($link, "feed_id");
 			
 			print "</td></tr>";
 	
 			print "<tr><td>Action:</td>";
 	
-			print "<td><select id=\"fadd_action\">";
+			print "<td><select name=\"action_id\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
 
 			while ($line = db_fetch_assoc($result)) {
-				printf("<option id='%d'>%s</option>", $line["id"], $line["description"]);
+				printf("<option value='%d'>%s</option>", $line["id"], $line["description"]);
 			}
 	
 			print "</select>";
@@ -2793,6 +2799,8 @@
 				value=\"Cancel\">";
 
 			print "</td></tr></table>";
+
+			print "</form>";
 
 		}
 
