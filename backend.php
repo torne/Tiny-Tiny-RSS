@@ -1823,7 +1823,7 @@
 
 		if (db_num_rows($result) != 0) {
 
-			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+//			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefFeedList\" id=\"prefFeedList\">";
@@ -2159,8 +2159,7 @@
 
 		if ($quiet) return;
 
-		print "<div id=\"infoBoxShadow\">
-			<div id=\"infoBox\">PLACEHOLDER</div></div>";
+//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		$result = db_query($link, "SELECT id,description 
 			FROM ttrss_filter_types ORDER BY description");
@@ -2472,7 +2471,7 @@
 				owner_uid = ".$_SESSION["uid"]."
 			ORDER by description");
 
-		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		if (db_num_rows($result) != 0) {
 
@@ -3379,7 +3378,7 @@
 				ttrss_users
 			ORDER by login");
 
-		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
+//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" cellspacing=\"0\" 
 			class=\"prefUserList\" id=\"prefUserList\">";

@@ -634,6 +634,8 @@ function feedEditSave() {
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xmlhttp.send(query);
 
+		closeInfoBox();
+
 		return false;
 
 	} catch (e) {
@@ -1129,6 +1131,9 @@ function selectTab(id, noupdate) {
 	if (!noupdate) {
 
 		notify("Loading, please wait...", true);
+
+		// close active infobox if needed
+		closeInfoBox();
 
 		// clean up all current selections, just in case
 		active_feed_cat = false;

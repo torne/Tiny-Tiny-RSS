@@ -80,6 +80,8 @@ function delay(gap) {
 var notify_hide_timerid = false;
 var notify_last_doc = false;
 
+var notify_effect = false;
+
 function hide_notify() {
 	if (notify_last_doc) {
 		var n = notify_last_doc.getElementById("notify");		
@@ -1028,6 +1030,5 @@ function qafAdd() {
 	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
-
 }
 

@@ -48,6 +48,8 @@
 	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
 	<script type="text/javascript" src="prefs.js?<?= $dt_add ?>"></script>
 
+	<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
+
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
