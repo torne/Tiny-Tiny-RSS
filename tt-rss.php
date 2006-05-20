@@ -44,6 +44,8 @@
 
 	<? } ?>
 
+	<script type="text/javascript" src="prototype.js"></script>
+
 	<script type="text/javascript" src="tt-rss.js?<?= $dt_add ?>"></script>
 	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
 	<!--[if gte IE 5.5000]>

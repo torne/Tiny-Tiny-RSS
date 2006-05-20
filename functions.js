@@ -404,26 +404,7 @@ function setActiveFeedId(id) {
 	return setCookie("ttrss_vf_actfeed", id);
 }
 
-var xmlhttp_rpc = false;
-
-/*@cc_on @*/
-/*@if (@_jscript_version >= 5)
-// JScript gives us Conditional compilation, we can cope with old IE versions.
-// and security blocked creation of the objects.
-try {
-	xmlhttp_rpc = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-	try {
-		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
-	} catch (E) {
-		xmlhttp_rpc = false;
-	}
-}
-@end @*/
-
-if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
-	xmlhttp_rpc = new XMLHttpRequest();
-}
+var xmlhttp_rpc = Ajax.getTransport();
 
 function parse_counters(reply, f_document, title_obj, scheduled_call) {
 	try {
@@ -935,27 +916,6 @@ function leading_zero(p) {
 	var s = String(p);
 	if (s.length == 1) s = "0" + s;
 	return s;
-}
-
-function center_element(e) {
-
-	try {
-		var c_width = document.body.clientWidth;
-		var c_height = document.body.clientHeight;
-	
-		var c_scroll = document.body.scrollTop;
-	
-		var e_width = e.clientWidth;
-		var e_height = e.clientHeight;
-	
-		var set_y = (c_height / 2) + c_scroll - (e_height / 2);
-		var set_x = (c_width / 2) - (e_width / 2);
-	
-		e.style.top = set_y + "px";
-		e.style.left = set_x + "px";
-	} catch (e) {
-		exception_error("center_element", e);
-	}
 }
 
 function closeInfoBox() {

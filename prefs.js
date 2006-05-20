@@ -11,24 +11,7 @@ var feed_to_expand = false;
 var piggie_top = -400;
 var piggie_fwd = true;
 
-/*@cc_on @*/
-/*@if (@_jscript_version >= 5)
-// JScript gives us Conditional compilation, we can cope with old IE versions.
-// and security blocked creation of the objects.
-try {
-	xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-	try {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	} catch (E) {
-		xmlhttp = false;
-	}
-}
-@end @*/
-
-if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-	xmlhttp = new XMLHttpRequest();
-}
+var xmlhttp = Ajax.getTransport();
 
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
@@ -476,38 +459,6 @@ function getSelectedFeedsFromBrowser() {
 	return selected;
 }
 
-
-/*function readSelectedFeeds(read) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var sel_rows = getSelectedFeeds();
-
-	if (sel_rows.length > 0) {
-
-		if (!read) {
-			op = "unread";
-		} else {
-			op = "read";
-		}
-
-		notify("Marking selected feeds as " + op + "...");
-
-		xmlhttp.open("GET", "backend.php?op=pref-rpc&subop=" + op + "&ids="+
-			param_escape(sel_rows.toString()), true);
-		xmlhttp.onreadystatechange=notify_callback;
-		xmlhttp.send(null);
-
-	} else {
-
-		alert("No feeds are selected.");
-
-	}
-} */
-
 function removeSelectedLabels() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -718,8 +669,6 @@ function feedCatEditSave() {
 	}
 
 	notify("Saving category...");
-
-//	var cat_title = document.getElementById("iedit_title").value;
 
 	var query = Form.serialize("feed_cat_edit_form");
 
