@@ -63,21 +63,21 @@
 	}
 
 	$purge_intervals = array(
-		0  => "Default",
+		0  => "Use default",
 		-1 => "Never purge",
-		5  => "1 week",
-		14 => "2 weeks",
-		31 => "1 month",
-		60 => "2 months",
-		90 => "3 months");
+		5  => "1 week old",
+		14 => "2 weeks old",
+		31 => "1 month old",
+		60 => "2 months old",
+		90 => "3 months old");
 
 	$update_intervals = array(
-		0   => "Default",
+		0   => "Use default",
 		-1  => "Disable updates",
-		30  => "30 minutes",
-		60  => "1 hour",
-		240 => "4 hours",
-		720 => "12 hours",
+		30  => "Each 30 minutes",
+		60  => "Hourly",
+		240 => "Each 4 hours",
+		720 => "Each 12 hours",
 		1440 => "Daily",
 		10080 => "Weekly");
 
@@ -1508,7 +1508,7 @@
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 #			$row_class = toggleEvenOdd($row_class);
 
-			print "<tr class='$row_class'><td>Purge Days:</td>";
+			print "<tr class='$row_class'><td>Article purging:</td>";
 //			print "<td><input id=\"iedit_purgintl\" 
 //				value=\"$purge_interval\"></td></tr>";
 
@@ -2763,6 +2763,8 @@
 			print "<div id=\"infoBoxTitle\">Create filter</div>";
 			print "<div class=\"infoBoxContents\">";
 
+//			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
+			
 			$result = db_query($link, "SELECT description 
 				FROM ttrss_filter_types ORDER BY description");
 	
