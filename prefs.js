@@ -734,11 +734,13 @@ function feedCatEditSave() {
 
 function labelTest() {
 
-	var sqlexp = document.getElementById("iedit_expr").value;
-	var descr = document.getElementById("iedit_descr").value;
+	var form = document.forms['label_edit_form'];
+
+	var sql_exp = form.sql_exp.value;
+	var description = form.description.value;
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
-		param_escape(sqlexp) + "&descr=" + param_escape(descr), true);
+		param_escape(sql_exp) + "&descr=" + param_escape(description), true);
 
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
@@ -815,7 +817,7 @@ function labelEditSave() {
 		return
 	}
 
-	var sqlexp = document.getElementById("iedit_expr").value;
+/*	var sqlexp = document.getElementById("iedit_expr").value;
 	var descr = document.getElementById("iedit_descr").value;
 
 //	notify("Saving label " + sqlexp + ": " + descr);
@@ -828,15 +830,17 @@ function labelEditSave() {
 	if (descr.length == 0) {
 		notify("Caption cannot be blank.");
 		return;
-	}
+	} */
+
+	// FIXME: input validation
 
 	notify("Saving label...");
 
 	active_label = false;
 
-	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=editSave&id=" +
-		label + "&s=" + param_escape(sqlexp) + "&d=" + param_escape(descr),
-		true);
+	query = Form.serialize("label_edit_form");
+
+	xmlhttp.open("GET", "backend.php?" + query, true);
 		
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);

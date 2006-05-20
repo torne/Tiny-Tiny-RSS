@@ -2427,11 +2427,9 @@
 
 		if ($subop == "editSave") {
 
-			$sql_exp = trim($_GET["s"]);
-			$descr = trim($_GET["d"]);
+			$sql_exp = trim($_GET["sql_exp"]);
+			$descr = db_escape_string(trim($_GET["description"]));
 			$label_id = db_escape_string($_GET["id"]);
-			
-//			print "$sql_exp : $descr : $label_id";
 			
 			$result = db_query($link, "UPDATE ttrss_labels SET 
 				sql_exp = '$sql_exp', 
@@ -2485,6 +2483,8 @@
 		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		if (db_num_rows($result) != 0) {
+
+			print "<form id=\"label_edit_form\">";
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefLabelList\" id=\"prefLabelList\">";
@@ -2548,12 +2548,18 @@
 	
 				} else {
 	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked></td>";
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
+
+					print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
+					print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
+					print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
+					
+					print "</td>";
 	
-					print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
+					print "<td><input class=\"iedit\" name=\"sql_exp\" value=\"".$line["sql_exp"].
 						"\"></td>";
 	
-					print "<td><input id=\"iedit_descr\" value=\"".$line["description"].
+					print "<td><input class=\"iedit\" name=\"description\" value=\"".$line["description"].
 						"\"></td>";							
 				}
 					
@@ -2568,6 +2574,8 @@
 			}
 	
 			print "</table>";
+
+			print "</form>";
 	
 			print "<p id=\"labelOpToolbar\">";
 	
