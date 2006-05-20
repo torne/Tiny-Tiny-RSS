@@ -969,6 +969,7 @@ function closeInfoBox() {
 	}
 
 	enableHotkeys();
+
 }
 
 
@@ -1032,6 +1033,7 @@ function qaddFilter() {
 	xmlhttp.onreadystatechange=infobox_submit_callback;
 	xmlhttp.send(null);
 
+	return true;
 }
 
 function toggleSubmitNotEmpty(e, submit_id) {

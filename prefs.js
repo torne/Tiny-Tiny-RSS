@@ -661,6 +661,7 @@ function feedEditCancel() {
 	selectPrefRows('feed', false); // cleanup feed selection
 
 	active_feed = false;
+
 }
 
 function feedCatEditCancel() {
@@ -703,6 +704,8 @@ function feedEditSave() {
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xmlhttp.send(query);
+
+		return false;
 
 	} catch (e) {
 		exception_error("feedEditSave", e);

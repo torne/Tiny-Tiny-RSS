@@ -1567,9 +1567,9 @@
 
 			print "<div align='center'>
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"feedEditSave()\" value=\"Save\">
+				onclick=\"return feedEditSave()\" value=\"Save\">
 				<input type='submit' class='button'			
-				onclick=\"feedEditCancel()\" value=\"Cancel\"></div>";
+				onclick=\"return feedEditCancel()\" value=\"Cancel\"></div>";
 			return;
 		}
 
@@ -2667,8 +2667,9 @@
 					id=\"fadd_submit_btn\" disabled=\"true\"
 					type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+					type=\"submit\" onclick=\"javascript:feedEditCancel()\" 
 					value=\"Cancel\"></td></tr></table>";
+
 		}
 
 		if ($id == "quickDelFeed") {
@@ -2745,7 +2746,7 @@
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
 			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"add\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
 
 //			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
 			
@@ -2786,21 +2787,25 @@
 			}
 	
 			print "</select>";
-	
-			print "</td></tr><tr><td colspan=\"2\" align=\"right\">";
-	
-			print "<input type=\"submit\" 
-				id=\"infobox_submit\"
-				class=\"button\" onclick=\"javascript:qaddFilter()\" 
-				disabled=\"true\" value=\"Create\"> ";
-
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
-				value=\"Cancel\">";
 
 			print "</td></tr></table>";
 
 			print "</form>";
+
+			print "<div align='right'>";
+
+			print "<input type=\"submit\" 
+				id=\"infobox_submit\"
+				class=\"button\" onclick=\"qaddFilter()\" 
+				disabled=\"true\" value=\"Create\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"closeInfoBox()\" 
+				value=\"Cancel\">";
+
+			print "</div>";
+
+//			print "</td></tr></table>"; 
 
 		}
 
