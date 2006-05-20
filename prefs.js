@@ -719,11 +719,11 @@ function feedCatEditSave() {
 
 	notify("Saving category...");
 
-	var cat_title = document.getElementById("iedit_title").value;
+//	var cat_title = document.getElementById("iedit_title").value;
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=saveCat&id=" +
-		param_escape(active_feed_cat) + "&title=" + param_escape(cat_title), 
-		true);
+	var query = Form.serialize("feed_cat_edit_form");
+
+	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 

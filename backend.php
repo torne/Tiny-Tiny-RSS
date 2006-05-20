@@ -1982,6 +1982,8 @@
 
 			if (db_num_rows($result) != 0) {
 	
+				print "<form id=\"feed_cat_edit_form\">";
+				
 				print "<p><table width=\"100%\" class=\"prefFeedCatList\" 
 					cellspacing=\"0\" id=\"prefFeedCatList\">";
 
@@ -2005,9 +2007,13 @@
 		
 					$edit_cat_id = $_GET["id"];
 		
-					if ($subop == "editCat" && $cat_id != $edit_cat_id) {
-						$class .= "Grayed";
-						$this_row_id = "";
+					if ($subop == "editCat") {
+						if ($cat_id != $edit_cat_id) {
+							$class .= "Grayed";
+							$this_row_id = "";
+						} else {
+							$class .= "Selected";
+						}
 					} else {
 						$this_row_id = "id=\"FCATR-$cat_id\"";
 					}
@@ -2026,16 +2032,22 @@
 		
 					} else if ($cat_id != $edit_cat_id) {
 		
-						print "<td><input disabled=\"true\" type=\"checkbox\" 
+						print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 							id=\"FRCHK-".$line["id"]."\"></td>";
 		
 						print "<td>$edit_title</td>";		
 		
 					} else {
 		
-						print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+						print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
+						
+						print "<input type=\"hidden\" name=\"id\" value=\"$cat_id\">";
+						print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+						print "<input type=\"hidden\" name=\"subop\" value=\"saveCat\">";
+					
+						print "</td>";
 		
-						print "<td><input id=\"iedit_title\" value=\"$edit_title\"></td>";
+						print "<td><input name=\"title\" class=\"iedit\" value=\"$edit_title\"></td>";
 						
 					}
 					
@@ -2045,15 +2057,17 @@
 				}
 	
 				print "</table>";
+
+				print "</form>";
 	
 				print "<p id=\"catOpToolbar\">";
 	
 				if ($subop == "editCat") {
 					print "Edit category:&nbsp;
 						<input type=\"submit\" class=\"button\"
-							onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">
+							onclick=\"javascript:feedCatEditSave()\" value=\"Save\">
 						<input type=\"submit\" class=\"button\"
-							onclick=\"javascript:feedCatEditSave()\" value=\"Save\">";
+							onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">";
 					} else {
 		
 					print "
