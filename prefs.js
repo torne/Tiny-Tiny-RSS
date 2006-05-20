@@ -254,7 +254,7 @@ function addFeed() {
 	} else {
 		notify("Adding feed...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&link=" +
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&feed_url=" +
 			param_escape(link.value), true);
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.send(null);

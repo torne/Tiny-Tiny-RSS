@@ -510,47 +510,6 @@ function quickMenuGo(opid) {
 	}
 }
 
-function qafAdd() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var link = document.getElementById("qafInput");
-
-	if (link.value.length == 0) {
-		alert("Error: No feed URL given.");
-	} else if (!isValidURL(link.value)) {
-		alert("Error: Invalid feed URL.");
-	} else {
-		notify("Adding feed...");
-
-		closeInfoBox();
-
-		var cat = document.getElementById("qafCat");
-		var cat_id = "";
-		
-		if (cat) {
-			cat_id = cat[cat.selectedIndex].id;
-		} else {
-			cat_id = 0;
-		}
-
-		var feeds_doc = window.frames["feeds-frame"].document;
-
-		feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
-
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=add&link=" +
-			param_escape(link.value) + "&cid=" + param_escape(cat_id), true);
-		xmlhttp.onreadystatechange=dlg_frefresh_callback;
-		xmlhttp.send(null);
-
-		link.value = "";
-
-	}
-}
-
 function qfdDelete(feed_id) {
 
 	notify("Removing feed...");

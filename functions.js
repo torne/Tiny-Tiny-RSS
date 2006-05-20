@@ -1007,3 +1007,27 @@ function toggleSubmitNotEmpty(e, submit_id) {
 function isValidURL(s) {
 	return s.match("http://") != null || s.match("https://") != null;
 }
+
+function qafAdd() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	notify("Adding feed...");
+
+	closeInfoBox();
+
+	var feeds_doc = window.frames["feeds-frame"].document;
+
+	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
+	
+	var query = Form.serialize("feed_add_form");
+	
+	xmlhttp.open("GET", "backend.php?" + query, true);
+	xmlhttp.onreadystatechange=dlg_frefresh_callback;
+	xmlhttp.send(null);
+
+}
+

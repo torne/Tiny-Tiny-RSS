@@ -1626,14 +1626,14 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$feed_link = db_escape_string(trim($_GET["link"]));
-				$cat_id = db_escape_string($_GET["cid"]);
+				$feed_url = db_escape_string(trim($_GET["feed_url"]));
+				$cat_id = db_escape_string($_GET["cat_id"]);
 
-				if (subscribe_to_feed($link, $feed_link, $cat_id)) {
+				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
 					print "Added feed.";
 				} else {
 					print "<div class=\"warning\">
-						Feed <b>$feed_link</b> already exists in the database.
+						Feed <b>$feed_url</b> already exists in the database.
 					</div>";
 				}
 			}
@@ -2643,43 +2643,34 @@
 			print "<div id=\"infoBoxTitle\">Subscribe to feed</div>";
 			print "<div class=\"infoBoxContents\">";
 
+			print "<form id='feed_add_form'>";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
+
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>
-				<input onblur=\"javascript:enableHotkeys()\" 
+				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-					onfocus=\"javascript:disableHotkeys()\" id=\"qafInput\"></td></tr>";
+					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
 		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<tr><td>Category:</td><td>";
-			
-				$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
-					WHERE owner_uid = ".$_SESSION["uid"]."
-					ORDER BY title");
-
-				print "<select id=\"qafCat\">";
-				print "<option id=\"0\">Uncategorized</option>";
-
-				if (db_num_rows($result) != 0) {
-	
-					print "<option disabled>--------</option>";
-
-					while ($line = db_fetch_assoc($result)) {
-						printf("<option id='%d'>%s</option>", 
-							$line["id"], $line["title"]);
-					}		
-				}
-
-				print "</select>";
+				print_feed_cat_select($link, "cat_id");			
 				print "</td></tr>";
 			}
-			
-			print "<tr><td colspan='2' align='right'>
+
+			print "</table>";
+			print "</form>";
+
+			print "<div align='right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
 					type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:feedEditCancel()\" 
-					value=\"Cancel\"></td></tr></table>";
+					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+					value=\"Cancel\"></div>";
 
 		}
 
