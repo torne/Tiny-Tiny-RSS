@@ -1401,33 +1401,32 @@
 
 			print "<div class=\"infoBoxContents\">";
 
-#			print "<h1>$feed_icon $title</h1>";
+			print "<form id=\"edit_feed_form\">";	
+
+			print "<input type=\"hidden\" name=\"id\" value=\"$feed_id\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
 
 			print "<table width='100%'>";
 
-#			$row_class = "odd";
-
-			print "<tr class='$row_class'><td>Title:</td>";
-			print "<td><input id=\"iedit_title\" value=\"$title\"></td></tr>";
+			print "<tr><td>Title:</td>";
+			print "<td><input class=\"iedit\" name=\"title\" value=\"$title\"></td></tr>";
 
 			$feed_url = db_fetch_result($result, 0, "feed_url");
 			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
 				0, "feed_url")));
-#			$row_class = toggleEvenOdd($row_class);
-
-			print "<tr class='$row_class'><td>Feed URL:</td>";
-			print "<td><input id=\"iedit_link\" value=\"$feed_url\"></td></tr>";
+				
+			print "<tr><td>Feed URL:</td>";
+			print "<td><input class=\"iedit\" name=\"feed_url\" value=\"$feed_url\"></td></tr>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
 
-#				$row_class = toggleEvenOdd($row_class);
-
-				print "<tr class='$row_class'><td>Category:</td>";
+				print "<tr><td>Category:</td>";
 				print "<td>";
 
-				print_feed_cat_select($link, "iedit_fcat", $cat_id);
+				print_feed_cat_select($link, "cat_id", $cat_id);
 
 				print "</td>";
 				print "</td></tr>";
@@ -1435,13 +1434,12 @@
 			}
 
 			$update_interval = db_fetch_result($result, 0, "update_interval");
-#			$row_class = toggleEvenOdd($row_class);
 
-			print "<tr class='$row_class'><td>Update Interval:</td>";
+			print "<tr><td>Update Interval:</td>";
 
 			print "<td>";
 
-			print "<select id=\"iedit_updintl\">";
+			print "<select name=\"update_interval\">";
 			
 			foreach (array_keys($update_intervals) as $i) {
 			
@@ -1450,16 +1448,14 @@
 				} else {
 					$selected = "";
 				}					
-				print "<option $selected id=\"$i\">" . $update_intervals[$i] . "</option>";
+				print "<option $selected value=\"$i\">" . $update_intervals[$i] . "</option>";
 			}
 				
 			print "</select>";
 
 			print "</td>";
 
-#			$row_class = toggleEvenOdd($row_class);
-
-			print "<tr class='$row_class'><td>Link to:</td><td>";
+			print "<tr><td>Link to:</td><td>";
 
 			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
 				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
@@ -1472,9 +1468,9 @@
 				$disabled = "disabled";
 			}
 
-			print "<select $disabled id=\"iedit_parent_feed\">";
+			print "<select $disabled name=\"parent_feed\">";
 			
-			print "<option id=\"0\">Not linked</option>";
+			print "<option value=\"0\">Not linked</option>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id) {
@@ -1498,7 +1494,7 @@
 					} else {
 						$is_selected = "";
 					}
-					printf("<option $is_selected id='%d'>%s</option>", 
+					printf("<option $is_selected value='%d'>%s</option>", 
 						$tmp_line["id"], $tmp_line["title"]);
 				}
 
@@ -1506,15 +1502,12 @@
 			print "</td></tr>";
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
-#			$row_class = toggleEvenOdd($row_class);
 
-			print "<tr class='$row_class'><td>Article purging:</td>";
-//			print "<td><input id=\"iedit_purgintl\" 
-//				value=\"$purge_interval\"></td></tr>";
+			print "<tr><td>Article purging:</td>";
 
 			print "<td>";
 
-			print "<select id=\"iedit_purgintl\">";
+			print "<select name=\"purge_interval\">";
 			
 			foreach (array_keys($purge_intervals) as $i) {
 			
@@ -1523,30 +1516,24 @@
 				} else {
 					$selected = "";
 				}					
-				print "<option $selected id=\"$i\">" . $purge_intervals[$i] . "</option>";
+				print "<option $selected value=\"$i\">" . $purge_intervals[$i] . "</option>";
 			}
 				
 			print "</select>";
 
 			print "</td>";
 
-//			print "<tr><td colspan=\"2\"><b>Authentication</b></td></tr>";
-
-#			$row_class = toggleEvenOdd($row_class);
 			$auth_login = db_fetch_result($result, 0, "auth_login");
 
-			print "<tr class='$row_class'><td>Login:</td>";
-			print "<td><input id=\"iedit_login\" 
-				value=\"$auth_login\"></td></tr>";
+			print "<tr><td>Login:</td>";
+			print "<td><input class=\"iedit\" name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
-#			$row_class = toggleEvenOdd($row_class);
 			$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
-			print "<tr class='$row_class'><td>Password:</td>";
-			print "<td><input type=\"password\" id=\"iedit_pass\" 
+			print "<tr><td>Password:</td>";
+			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
 				value=\"$auth_pass\"></td></tr>";
 
-#			$row_class = toggleEvenOdd($row_class);
 			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
 
 			if ($private) {
@@ -1555,9 +1542,9 @@
 				$checked = "";
 			}
 
-			print "<tr class='$row_class'><td valign='top'>Options:</td>";
-			print "<td><input type=\"checkbox\" id=\"iedit_private\" 
-				$checked><label for=\"iedit_private\">Hide from feed browser</label>";
+			print "<tr><td valign='top'>Options:</td>";
+			print "<td><input type=\"checkbox\" name=\"private\" id=\"private\" 
+				$checked><label for=\"private\">Hide from feed browser</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
@@ -1567,12 +1554,15 @@
 				$checked = "";
 			}
 
-			print "<br><input type=\"checkbox\" id=\"iedit_rtl\" 
-				$checked><label for=\"iedit_rtl\">Right-to-left content</label>";
+			print "<br><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+				$checked><label for=\"rtl_content\">Right-to-left content</label>";
 			
 			print "</td></tr>";
 
 			print "</table>";
+
+			print "</form>";
+
 			print "</div>";
 
 			print "<div align='center'>
@@ -1584,37 +1574,26 @@
 		}
 
 		if ($subop == "editSave") {
-			$feed_title = db_escape_string(trim($_POST["t"]));
-			$feed_link = db_escape_string(trim($_POST["l"]));
-			$upd_intl = db_escape_string($_POST["ui"]);
-			$purge_intl = db_escape_string($_POST["pi"]);
+
+			$feed_title = db_escape_string(trim($_POST["title"]));
+			$feed_link = db_escape_string(trim($_POST["feed_url"]));
+			$upd_intl = db_escape_string($_POST["update_interval"]);
+			$purge_intl = db_escape_string($_POST["purge_interval"]);
 			$feed_id = db_escape_string($_POST["id"]);
-			$cat_id = db_escape_string($_POST["catid"]);
-			$auth_login = db_escape_string(trim($_POST["login"]));
-			$auth_pass = db_escape_string(trim($_POST["pass"]));
-			$parent_feed = db_escape_string($_POST["pfeed"]);
-			$private = db_escape_string($_POST["is_pvt"]);
-			$rtl_content = db_escape_string($_POST["is_rtl"]);
+			$cat_id = db_escape_string($_POST["cat_id"]);
+			$auth_login = db_escape_string(trim($_POST["auth_login"]));
+			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
+			$parent_feed = db_escape_string($_POST["parent_feed"]);
+			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
+			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
 
-			if (strtoupper($upd_intl) == "DEFAULT")
-				$upd_intl = 0;
-
-			if (strtoupper($upd_intl) == "DISABLED")
-				$upd_intl = -1;
-
-			if (strtoupper($purge_intl) == "DEFAULT")
-				$purge_intl = 0;
-
-			if (strtoupper($purge_intl) == "DISABLED")
-				$purge_intl = -1;
-
-			if ($cat_id != 0) {
+			if ($cat_id && $cat_id != 0) {
 				$category_qpart = "cat_id = '$cat_id'";
 			} else {
 				$category_qpart = 'cat_id = NULL';
 			}
 
-			if ($parent_feed != 0) {
+			if ($parent_feed && $parent_feed != 0) {
 				$parent_qpart = "parent_feed = '$parent_feed'";
 			} else {
 				$parent_qpart = 'parent_feed = NULL';

@@ -1610,10 +1610,10 @@
 	function print_feed_cat_select($link, $id, $default_id = "", 
 		$attributes = "", $include_all_cats = true) {
 		
-		print "<select id=\"$id\" $attributes>";
+		print "<select name=\"$id\" $attributes>";
 
 		if ($include_all_cats) {
-			print "<option id=\"0\">Uncategorized</option>";
+			print "<option value=\"0\">Uncategorized</option>";
 		}
 
 		$result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
@@ -1629,11 +1629,14 @@
 			} else {
 				$is_selected = "";
 			}
-			printf("<option $is_selected id='%d'>%s</option>", 
+			printf("<option $is_selected value='%d'>%s</option>", 
 				$line["id"], $line["title"]);
 		}
 
 		print "</select>";
 	}
 	
+	function checkbox_to_sql_bool($val) {
+		return ($val == "on") ? "true" : "false";
+	}
 ?>

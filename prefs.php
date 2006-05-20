@@ -43,7 +43,8 @@
 
 	<? } ?>
 
-	
+	<script type="text/javascript" src="prototype.js"></script>
+
 	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
 	<script type="text/javascript" src="prefs.js?<?= $dt_add ?>"></script>
 

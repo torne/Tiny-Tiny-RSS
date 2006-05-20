@@ -690,75 +690,20 @@ function feedEditSave() {
 			printLockingError();
 			return
 		}
-	
-		var link = document.getElementById("iedit_link").value;
-		var title = document.getElementById("iedit_title").value;
-		var upd_intl = document.getElementById("iedit_updintl");
 
-		upd_intl = upd_intl[upd_intl.selectedIndex].id;
-			
-		var purge_intl = document.getElementById("iedit_purgintl");
+		// FIXME: add parameter validation
 
-		purge_intl = purge_intl[purge_intl.selectedIndex].id;
-		
-		var fcat = document.getElementById("iedit_fcat");
+		var query = Form.serialize("edit_feed_form");
 
-		var is_pvt = document.getElementById("iedit_private");
-		var is_rtl = document.getElementById("iedit_rtl");
-
-		if (is_pvt) {
-			is_pvt = is_pvt.checked;
-		}
-
-		if (is_rtl) {
-			is_rtl = is_rtl.checked;
-		}
-
-		var fcat_id = 0;
-	
-		if (fcat) {	
-			fcat_id = fcat[fcat.selectedIndex].id;
-		}
-
-		var pfeed = document.getElementById("iedit_parent_feed");
-		var parent_feed_id = pfeed[pfeed.selectedIndex].id;
-	
-		if (link.length == 0) {
-			notify("Feed link cannot be blank.");
-			return;
-		}
-	
-		if (title.length == 0) {
-			notify("Feed title cannot be blank.");
-			return;
-		}
-
-		if (!isValidURL(link)) {
-			alert("Feed URL is invalid.");
-			return;
-		}
-	
-		var auth_login = document.getElementById("iedit_login").value;
-		var auth_pass = document.getElementById("iedit_pass").value;
-	
 		active_feed = false;
-	
+
 		notify("Saving feed...");
-
-		var query = "op=pref-feeds&subop=editSave&id=" +
-			feed + "&l=" + param_escape(link) + "&t=" + param_escape(title) +
-			"&ui=" + param_escape(upd_intl) + "&pi=" + param_escape(purge_intl) +
-			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +			
-			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass) +
-			"&is_pvt=" + param_escape(is_pvt) + "&is_rtl=" + param_escape(is_rtl);
-
-		selectPrefRows('feed', false); // cleanup feed selection
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query); 
-	
+		xmlhttp.send(query);
+
 	} catch (e) {
 		exception_error("feedEditSave", e);
 	} 
