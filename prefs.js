@@ -1319,7 +1319,7 @@ function browserToggleExpand(id) {
 
 function validateNewPassword(form) {
 	if (form.OLD_PASSWORD.value == "") {
-		alert("Current password cannot be blank");
+		alert("Old password cannot be blank");
 		return false;
 	}
 	if (form.NEW_PASSWORD.value == "") {
