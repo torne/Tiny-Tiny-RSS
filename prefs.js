@@ -684,8 +684,6 @@ function feedCatEditCancel() {
 function feedEditSave() {
 
 	try {
-
-		var feed = active_feed;
 	
 		if (!xmlhttp_ready(xmlhttp)) {
 			printLockingError();
@@ -887,39 +885,22 @@ function userEditSave() {
 
 function filterEditSave() {
 
-	var filter = active_filter;
-
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
 
-	var regexp = document.getElementById("iedit_regexp").value;
-	var match = document.getElementById("iedit_match");
-
-	var v_match = match[match.selectedIndex].text;
-
-	var feed = document.getElementById("iedit_feed");
-	var feed_id = feed[feed.selectedIndex].id;
-
-	var action = document.getElementById("iedit_filter_action");
-	var action_id = action[action.selectedIndex].id;
-
-	if (regexp.length == 0) {
-		alert("Can't save filter: match expression is blank.");
-		return;
-	}
-
-	active_filter = false;
-
-	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=editSave&id=" +
-		filter + "&r=" + param_escape(regexp) + "&m=" + param_escape(v_match) + 
-		"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
+	// FIXME: input validation
 
 	notify("Saving filter...");
 
+	active_filter = false;
+
+	var query = Form.serialize("filter_edit_form");
+
+	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=filterlist_callback;
-	xmlhttp.send(null); 
+	xmlhttp.send(null);
 
 }
 

@@ -2108,11 +2108,11 @@
 
 		if ($subop == "editSave") {
 
-			$regexp = db_escape_string(trim($_GET["r"]));
-			$match = db_escape_string(trim($_GET["m"]));
+			$reg_exp = db_escape_string(trim($_GET["reg_exp"]));
+			$filter_type = db_escape_string(trim($_GET["filter_type"]));
 			$filter_id = db_escape_string($_GET["id"]);
-			$feed_id = db_escape_string($_GET["fid"]);
-			$action_id = db_escape_string($_GET["aid"]); 
+			$feed_id = db_escape_string($_GET["feed_id"]);
+			$action_id = db_escape_string($_GET["action_id"]); 
 
 			if (!$feed_id) {
 				$feed_id = 'NULL';
@@ -2121,11 +2121,10 @@
 			}
 			
 			$result = db_query($link, "UPDATE ttrss_filters SET 
-				reg_exp = '$regexp', 
-				feed_id = $feed_id,
-				action_id = '$action_id',
-				filter_type = (SELECT id FROM ttrss_filter_types WHERE
-					description = '$match')
+					reg_exp = '$reg_exp', 
+					feed_id = $feed_id,
+					action_id = '$action_id',
+					filter_type = '$filter_type'
 				WHERE id = '$filter_id'");
 		}
 
@@ -2171,13 +2170,14 @@
 		print "<div id=\"infoBoxShadow\">
 			<div id=\"infoBox\">PLACEHOLDER</div></div>";
 
-		$result = db_query($link, "SELECT description 
+		$result = db_query($link, "SELECT id,description 
 			FROM ttrss_filter_types ORDER BY description");
 
 		$filter_types = array();
 
 		while ($line = db_fetch_assoc($result)) {
-			array_push($filter_types, $line["description"]);
+			//array_push($filter_types, $line["description"]);
+			$filter_types[$line["id"]] = $line["description"];
 		}
 
 		print "<input type=\"submit\" 
@@ -2202,6 +2202,8 @@
 			ORDER by reg_exp");
 
 		if (db_num_rows($result) != 0) {
+
+			print "<form id=\"filter_edit_form\">";			
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" class=\"prefFilterList\" 
 				id=\"prefFilterList\">";
@@ -2242,7 +2244,7 @@
 				if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
 	
 				if (!$edit_filter_id || $subop != "edit") {
-	
+
 					print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 	
@@ -2272,21 +2274,28 @@
 
 				} else {
 	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked></td>";
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
+					
+					print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";
+					print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
+					print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
+
+					print "</td>";
 	
-					print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
+					print "<td><input class=\"iedit\" name=\"reg_exp\" value=\"".$line["reg_exp"].
 						"\"></td>";
 	
 					print "<td>";	
-					print_feed_select($link, "iedit_feed", $line["feed_id"]);					
+					print_feed_select($link, "feed_id", $line["feed_id"], "class=\"iedit\"");
 					print "</td>";
 					
 					print "<td>";
-					print_select("iedit_match", $line["filter_type_descr"], $filter_types);
+					print_select_hash("filter_type", $line["filter_type"], $filter_types,	
+						"class=\"iedit\"");
 					print "</td>";
 
 					print "<td>";
-					print "<select id=\"iedit_filter_action\">";
+					print "<select name=\"action_id\" class=\"iedit\">";
 	
 					$tmp_result = db_query($link, "SELECT id,description FROM ttrss_filter_actions
 						ORDER BY description");
@@ -2297,7 +2306,7 @@
 						} else {
 							$is_selected = "";
 						}
-						printf("<option $is_selected id='%d'>%s</option>", 
+						printf("<option $is_selected value='%d'>%s</option>", 
 							$tmp_line["id"], $tmp_line["description"]);
 					}
 	
@@ -2316,6 +2325,8 @@
 			}
 	
 			print "</table>";
+
+			print "</form>";
 	
 			print "<p id=\"filterOpToolbar\">";
 	
@@ -2334,7 +2345,7 @@
 					onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
-			}
+			}			
 
 		} else {
 
