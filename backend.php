@@ -1426,7 +1426,7 @@
 				print "<tr><td>Category:</td>";
 				print "<td>";
 
-				print_feed_cat_select($link, "cat_id", $cat_id);
+				print_feed_cat_select($link, "cat_id", $cat_id, "class=\"iedit\"");
 
 				print "</td>";
 				print "</td></tr>";
@@ -1439,19 +1439,8 @@
 
 			print "<td>";
 
-			print "<select name=\"update_interval\">";
-			
-			foreach (array_keys($update_intervals) as $i) {
-			
-				if ($i == $update_interval) {
-					$selected = "selected";
-				} else {
-					$selected = "";
-				}					
-				print "<option $selected value=\"$i\">" . $update_intervals[$i] . "</option>";
-			}
-				
-			print "</select>";
+			print_select_hash("update_interval", $update_interval, $update_intervals,
+				"class=\"iedit\"");
 
 			print "</td>";
 
@@ -1468,7 +1457,7 @@
 				$disabled = "disabled";
 			}
 
-			print "<select $disabled name=\"parent_feed\">";
+			print "<select class=\"iedit\" $disabled name=\"parent_feed\">";
 			
 			print "<option value=\"0\">Not linked</option>";
 
@@ -1507,20 +1496,9 @@
 
 			print "<td>";
 
-			print "<select name=\"purge_interval\">";
+			print_select_hash("purge_interval", $purge_interval, $purge_intervals, 
+				"class=\"iedit\"");
 			
-			foreach (array_keys($purge_intervals) as $i) {
-			
-				if ($i == $purge_interval) {
-					$selected = "selected";
-				} else {
-					$selected = "";
-				}					
-				print "<option $selected value=\"$i\">" . $purge_intervals[$i] . "</option>";
-			}
-				
-			print "</select>";
-
 			print "</td>";
 
 			$auth_login = db_fetch_result($result, 0, "auth_login");
