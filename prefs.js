@@ -405,15 +405,8 @@ function editFeed(feed) {
 
 	active_feed = feed;
 
-/*	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=edit&id=" +
-		param_escape(feed), true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null); */
-
+	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
-//	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-'+feed, 'FRCHK-'+feed, 
-//		true, false);
-
 	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
@@ -665,14 +658,9 @@ function feedEditCancel() {
 
 	closeInfoBox();
 
+	selectPrefRows('feed', false); // cleanup feed selection
+
 	active_feed = false;
-
-//	notify("Operation cancelled.");
-
-/*	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null); */
-
 }
 
 function feedCatEditCancel() {
@@ -763,6 +751,8 @@ function feedEditSave() {
 			"&catid=" + param_escape(fcat_id) + "&login=" + param_escape(auth_login) +			
 			"&pfeed=" + param_escape(parent_feed_id) + "&pass=" + param_escape(auth_pass) +
 			"&is_pvt=" + param_escape(is_pvt) + "&is_rtl=" + param_escape(is_rtl);
+
+		selectPrefRows('feed', false); // cleanup feed selection
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;
@@ -1297,6 +1287,13 @@ function selectTab(id, noupdate) {
 	if (!noupdate) {
 
 		notify("Loading, please wait...", true);
+
+		// clean up all current selections, just in case
+		active_feed = false;
+		active_feed_cat = false;
+		active_filter = false;
+		active_label = false;
+		active_user = false;
 
 		if (id == "feedConfig") {
 			updateFeedList();

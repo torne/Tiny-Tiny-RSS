@@ -665,6 +665,20 @@
 		print "</select>";
 	}
 
+	function print_select_hash($id, $values, $default, $attributes = "") {
+		print "<select id='$id' $attributes>";
+		foreach (array_keys($values) as $v) {
+			if ($v == $default)
+				$sel = "selected";
+			 else
+			 	$sel = "";
+			
+			print "<option $sel value=\"$v\">".$values[$v]."</option>";
+		}
+
+		print "</select>";
+	}
+
 	function get_filter_name($title, $content, $link, $filters) {
 
 		if ($filters["title"]) {
@@ -1565,4 +1579,61 @@
 		}
 	}
 
+	function print_feed_select($link, $id, $default_id = "", 
+		$attributes = "", $include_all_feeds = true) {
+
+		print "<select id=\"$id\" $attributes>";
+		if ($include_all_feeds) { 
+			print "<option id=\"0\">All feeds</option>";
+		}
+	
+		$result = db_query($link, "SELECT id,title FROM ttrss_feeds
+			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+		if (db_num_rows($result) > 0 && $include_all_feeds) {
+			print "<option disabled>--------</option>";
+		}
+
+		while ($line = db_fetch_assoc($result)) {
+			if ($line["id"] == $default_id) {
+				$is_selected = "selected";
+			} else {
+				$is_selected = "";
+			}
+			printf("<option $is_selected id='%d'>%s</option>", 
+				$line["id"], db_unescape_string($line["title"]));
+		}
+	
+		print "</select>";
+	}
+
+	function print_feed_cat_select($link, $id, $default_id = "", 
+		$attributes = "", $include_all_cats = true) {
+		
+		print "<select id=\"$id\" $attributes>";
+
+		if ($include_all_cats) {
+			print "<option id=\"0\">Uncategorized</option>";
+		}
+
+		$result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
+			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+
+		if (db_num_rows($result) > 0 && $include_all_cats) {
+			print "<option disabled>--------</option>";
+		}
+
+		while ($line = db_fetch_assoc($result)) {
+			if ($line["id"] == $default_id) {
+				$is_selected = "selected";
+			} else {
+				$is_selected = "";
+			}
+			printf("<option $is_selected id='%d'>%s</option>", 
+				$line["id"], $line["title"]);
+		}
+
+		print "</select>";
+	}
+	
 ?>

@@ -807,30 +807,6 @@ table.headlinesList tr td {
 	padding : 2px 0px 2px 0px;
 }
 
-/*
-tr.even td.headlineContent, tr.evenUnread td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;   
-	background-color : #f0f0f0;
-}
-
-tr.odd td.headlineContent, tr.oddUnread td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;
-}
-
-tr.oddSelected td.headlineContent,
-tr.evenSelected td.headlineContent,
-tr.oddUnreadSelected td.headlineContent,
-tr.evenUnreadSelected td.headlineContent {
-	display : block;
-	overflow : hidden;
-	height : 1em;
-	background-color : #e0e0ff;
-} */
-
 div.postHeader td.postDate {
 	font-size : x-small;
 	text-align : right;
@@ -951,6 +927,16 @@ ul.userFeedList {
 	background-color : #eaeaff;
 	-moz-border-radius : 5px;
 } */
+
+ul.filterTestResults {
+	height : 300px;
+	overflow : auto;
+	list-style-type : none;
+	margin : 0px 0px 5px 0px;
+	padding : 0px;
+	border : 1px solid #88b0f0;
+	background-color : white;
+}
 
 ul.browseFeedList {
 	height : 300px;

@@ -1426,27 +1426,10 @@
 
 				print "<tr class='$row_class'><td>Category:</td>";
 				print "<td>";
-				print "<select id=\"iedit_fcat\">";
-				print "<option id=\"0\">Uncategorized</option>";
 
-				$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
-					WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
+				print_feed_cat_select($link, "iedit_fcat", $cat_id);
 
-				if (db_num_rows($tmp_result) > 0) {
-					print "<option disabled>--------</option>";
-				}
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {
-					if ($tmp_line["id"] == $cat_id) {
-						$is_selected = "selected";
-					} else {
-						$is_selected = "";
-					}
-					printf("<option $is_selected id='%d'>%s</option>", 
-						$tmp_line["id"], $tmp_line["title"]);
-				}
-
-				print "</select></td>";
+				print "</td>";
 				print "</td></tr>";
 	
 			}
@@ -1455,8 +1438,6 @@
 #			$row_class = toggleEvenOdd($row_class);
 
 			print "<tr class='$row_class'><td>Update Interval:</td>";
-//			print "<td><input id=\"iedit_updintl\" 
-//				value=\"$update_interval\"></td></tr>";
 
 			print "<td>";
 
@@ -2008,24 +1989,7 @@
 
 					print "&nbsp;|&nbsp;";				
 
-					$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
-						WHERE owner_uid = ".$_SESSION["uid"]."
-						ORDER BY title");
-
-					print "<select id=\"sfeed_set_fcat\" disabled=\"true\">";
-					print "<option id=\"0\">Uncategorized</option>";
-
-					if (db_num_rows($result) != 0) {
-		
-						print "<option disabled>--------</option>";
-
-						while ($line = db_fetch_assoc($result)) {
-							printf("<option id='%d'>%s</option>", 
-								$line["id"], $line["title"]);
-						}		
-					}
-
-					print "</select>";
+					print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
 
 					print " <input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Recategorize\">";
@@ -2046,8 +2010,6 @@
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 			print "<h3>Edit Categories</h3>";
-
-	//		print "<h3>Categories</h3>";
 
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
@@ -2240,56 +2202,10 @@
 			array_push($filter_types, $line["description"]);
 		}
 
-/*		print "<div class=\"prefGenericAddBox\">
-		<input id=\"fadd_regexp\" size=\"40\">&nbsp;";
-		
-		print_select("fadd_match", "Title", $filter_types);	
-
-		print "&nbsp;<select id=\"fadd_feed\">";
-
-		print "<option selected id=\"0\">All feeds</option>";
-
-		$result = db_query($link, "SELECT id,title FROM ttrss_feeds
-			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-		if (db_num_rows($result) > 0) {
-			print "<option disabled>--------</option>";
-		}
-
-		while ($line = db_fetch_assoc($result)) {
-			printf("<option id='%d'>%s</option>", $line["id"], 
-				db_unescape_string($line["title"]));
-		}
-
-		print "</select>&nbsp;";
-
-		print "&nbsp;Action: ";
-
-		print "<select id=\"fadd_action\">";
-
-		$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
-			ORDER BY name");
-
-		while ($line = db_fetch_assoc($result)) {			
-			printf("<option id='%d'>%s</option>", $line["id"], $line["description"]);
-		}
-
-		print "</select>&nbsp;";
-
-/*		print "<input type=\"submit\" 
-			class=\"button\" onclick=\"javascript:testFilter()\" 
-			value=\"Test filter\"> "; */
-
-/*		print "<input type=\"submit\" 
-			class=\"button\" onclick=\"javascript:addFilter()\" 
-			value=\"Create filter\">"; */
-
 		print "<input type=\"submit\" 
 			class=\"button\" 
 			onclick=\"javascript:displayDlg('quickAddFilter', false)\" 
 			value=\"Create filter\">"; 
-
-//		print "</div>";
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -2383,29 +2299,10 @@
 					print "<td><input id=\"iedit_regexp\" value=\"".$line["reg_exp"].
 						"\"></td>";
 	
-					print "<td>";
-					print "<select id=\"iedit_feed\">";
-					print "<option id=\"0\">All feeds</option>";
-	
-					$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-						WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-					if (db_num_rows($tmp_result) > 0) {
-						print "<option disabled>--------</option>";
-					}
-
-					while ($tmp_line = db_fetch_assoc($tmp_result)) {
-						if ($tmp_line["id"] == $line["feed_id"]) {
-							$is_selected = "selected";
-						} else {
-							$is_selected = "";
-						}
-						printf("<option $is_selected id='%d'>%s</option>", 
-							$tmp_line["id"], db_unescape_string($tmp_line["title"]));
-					}
-	
-					print "</select></td>";
-	
+					print "<td>";	
+					print_feed_select($link, "iedit_feed", $line["feed_id"]);					
+					print "</td>";
+					
 					print "<td>";
 					print_select("iedit_match", $line["filter_type_descr"], $filter_types);
 					print "</td>";
@@ -2504,7 +2401,7 @@
 			
 			if ($num_matches > 0) { 
 
-				print "<p>Query returned <b>$num_matches</b> matches, first 5 follow:</p>";
+				print "<p>Query returned <b>$num_matches</b> matches, showing first 15:</p>";
 
 				$result = db_query($link, 
 					"SELECT title, 
@@ -2513,11 +2410,16 @@
 							WHERE ($expr) AND 
 							ttrss_user_entries.ref_id = ttrss_entries.id
 							AND owner_uid = " . $_SESSION["uid"] . " 
-							ORDER BY date_entered DESC LIMIT 5");
+							ORDER BY date_entered DESC LIMIT 15");
 
-				print "<ul class=\"nomarks\">";
+				print "<ul class=\"filterTestResults\">";
+
+				$row_class = "even";
+				
 				while ($line = db_fetch_assoc($result)) {
-					print "<li>".$line["title"].
+					$row_class = toggleEvenOdd($row_class);
+					
+					print "<li class=\"$row_class\">".$line["title"].
 						" <span class=\"insensitive\">(".$line["feed_title"].")</span></li>";
 				}
 				print "</ul>";
@@ -2605,7 +2507,7 @@
 				</td</tr>";
 
 			print "<tr class=\"title\">
-						<td align='center' width=\"5%\">&nbsp;</td>
+						<td width=\"5%\">&nbsp;</td>
 						<td width=\"40%\">SQL expression
 						<a class=\"helpLink\" href=\"javascript:displayHelpInfobox(1)\">(?)</a>
 						</td>
@@ -2649,7 +2551,7 @@
 	
 					if (!$line["description"]) $line["description"] = "[No description]";
 	
-					print "<td><input disabled=\"true\" type=\"checkbox\" 
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
 						id=\"LICHK-".$line["id"]."\"></td>";
 	
 					print "<td>".$line["sql_exp"]."</td>";		
@@ -2657,7 +2559,7 @@
 	
 				} else {
 	
-					print "<td><input disabled=\"true\" type=\"checkbox\" checked></td>";
+					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked></td>";
 	
 					print "<td><input id=\"iedit_expr\" value=\"".$line["sql_exp"].
 						"\"></td>";
@@ -2879,27 +2781,11 @@
 			print_select("fadd_match", "Title", $filter_types);	
 	
 			print "</td></tr>";
-			print "<tr><td>Feed:</td><td><select id=\"fadd_feed\">";
-	
-			print "<option selected id=\"0\">All feeds</option>";
-	
-			$result = db_query($link, "SELECT id,title FROM ttrss_feeds
-				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-	
-			if (db_num_rows($result) > 0) {
-				print "<option disabled>--------</option>";
-			}
-	
-			while ($line = db_fetch_assoc($result)) {
-				if ($param == $line["id"]) {
-					$selected = "selected";
-				} else {
-					$selected = "";
-				}
-				printf("<option id='%d' %s>%s</option>", $line["id"], $selected, $line["title"]);
-			}
-	
-			print "</select></td></tr>";
+			print "<tr><td>Feed:</td><td>";
+
+			print_feed_select($link, "fadd_feed");
+			
+			print "</td></tr>";
 	
 			print "<tr><td>Action:</td>";
 	
@@ -3699,113 +3585,6 @@
 //		print "</body></html>"; 
 
 	}
-
-	if ($op == "feed-details") {
-
-//		$feed_id = $_GET["id"];
-
-		$feed_ids = split(",", db_escape_string($_GET["id"]));
-
-		print "<div id=\"infoBoxTitle\">Feed details</div>";
-		print "<div class=\"infoBoxContents\">";
-
-		foreach ($feed_ids as $feed_id) {
-
-			$result = db_query($link, 
-				"SELECT 
-					title,feed_url,
-					SUBSTRING(last_updated,1,16) as last_updated,
-					icon_url,site_url,
-					(SELECT COUNT(int_id) FROM ttrss_user_entries 
-						WHERE feed_id = id) AS total,
-					(SELECT COUNT(int_id) FROM ttrss_user_entries 
-						WHERE feed_id = id AND unread = true) AS unread,
-					(SELECT COUNT(int_id) FROM ttrss_user_entries 
-						WHERE feed_id = id AND marked = true) AS marked
-				FROM ttrss_feeds
-				WHERE id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
-	
-			if (db_num_rows($result) == 0) return;
-	
-			$title = db_unescape_string(db_fetch_result($result, 0, "title"));
-			$last_updated = date(get_pref($link, 'LONG_DATE_FORMAT'),
-				strtotime(db_fetch_result($result, 0, "last_updated")));
-			$feed_url = db_fetch_result($result, 0, "feed_url");
-			$icon_url = db_fetch_result($result, 0, "icon_url");
-			$total = db_fetch_result($result, 0, "total");
-			$unread = db_fetch_result($result, 0, "unread");
-			$marked = db_fetch_result($result, 0, "marked");
-			$site_url = db_fetch_result($result, 0, "site_url");
-	
-			$result = db_query($link, "SELECT COUNT(id) AS subscribed
-						FROM ttrss_feeds WHERE feed_url = '$feed_url' AND private = false");
-	
-			$subscribed = db_fetch_result($result, 0, "subscribed");
-	
-			$icon_file = ICONS_DIR . "/$feed_id.ico";
-	
-			if (file_exists($icon_file) && filesize($icon_file) > 0) {
-					$feed_icon = "<img width=\"16\" height=\"16\"
-						src=\"" . ICONS_URL . "/$feed_id.ico\">";
-			} else {
-				$feed_icon = "";
-			}
-	
-			print "<h1>$feed_icon $title</h1>";
-	
-			print "<table width='100%'>";
-	
-			if ($site_url) {
-				print "<tr><td width='30%'>Link</td>
-					<td><a href=\"$site_url\">$site_url</a>
-					<a href=\"$feed_url\">(feed)</a></td>
-					</td></tr>";
-			} else {
-				print "<tr><td width='30%'>Feed URL</td>
-					<td><a href=\"$feed_url\">$feed_url</a></td></tr>";
-			}
-			print "<tr><td>Last updated</td><td>$last_updated</td></tr>";
-			print "<tr><td>Total articles</td><td>$total</td></tr>";
-			print "<tr><td>Unread articles</td><td>$unread</td></tr>";
-			print "<tr><td>Starred articles</td><td>$marked</td></tr>";
-			print "<tr><td>Subscribed users</td><td>$subscribed</td></tr>";
-	
-			print "</table>";
-	
-/*			$result = db_query($link, "SELECT title,
-				SUBSTRING(updated,1,16) AS updated,unread
-				FROM ttrss_entries,ttrss_user_entries
-				WHERE ref_id = id AND feed_id = '$feed_id' 
-				ORDER BY date_entered DESC LIMIT 5");
-	
-			if (db_num_rows($result) > 0) {
-	
-				print "<h1>Latest headlines</h1>";
-	
-				print "<ul class=\"nomarks\">";
-		
-				while ($line = db_fetch_assoc($result)) {
-					if ($line["unread"] == "t" || $line["unread"] == "1") {
-						$line["title"] = "<b>" . $line["title"] . "</b>";
-					}				
-					print "<li>" . $line["title"].
-					"&nbsp;<span class=\"insensitive\">(" .
-						date(get_pref($link, 'SHORT_DATE_FORMAT'), 
-							strtotime($line["updated"])).
-					")</span></li>";
-				}
-		
-				print "</ul>";
-		
-			} */
-		}
-
-		print "</div>";
-	
-		print "<div align='center'>
-			<input type='submit' class='button'			
-			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
-	}	
 
 	if ($op == "pref-feed-browser") {
 
