@@ -1242,34 +1242,6 @@
 		print "</body></html>";
 	}
 
-	if ($op == "pref-rpc") {
-
-		$subop = $_GET["subop"];
-
-		if ($subop == "unread") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			foreach ($ids as $id) {
-				db_query($link, "UPDATE ttrss_user_entries SET unread = true 
-					WHERE feed_id = '$id' AND owner_uid = ".$_SESSION["uid"]);
-			}
-
-			print "Marked selected feeds as unread.";
-		}
-
-		if ($subop == "read") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			foreach ($ids as $id) {
-				db_query($link, "UPDATE ttrss_user_entries 
-					SET unread = false,last_read = NOW() WHERE 
-						feed_id = '$id' AND owner_uid = ".$_SESSION["uid"]);
-			}
-
-			print "Marked selected feeds as read.";
-
-		}
-
-	}
-
 	if ($op == "pref-feeds") {
 	
 		$subop = $_REQUEST["subop"];
