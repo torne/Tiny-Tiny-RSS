@@ -2,8 +2,6 @@
 	require "xmlrpc/lib/xmlrpc.inc";
 	require "xmlrpc/lib/xmlrpcs.inc";
 
-	$xmlrpc_defencoding = "UTF8";	
-
 	require_once "sanity_check.php";
 	require_once "config.php";
 	
@@ -46,12 +44,15 @@
 			$feeds = array();
 
 			while ($line = db_fetch_assoc($result)) {
+
+				$unread = getFeedUnread($link, $line["id"]);
 				
 				$line_struct = new xmlrpcval(
 					array(
 						"feed_url" => new xmlrpcval($line["feed_url"]),
 						"title" => new xmlrpcval($line["title"]),
 						"id" => new xmlrpcval($line["id"], "int"),
+						"unread" => new xmlrpcval($unread, "int"),
 						"last_updated" => new xmlrpcval(strtotime($line["last_updated"]), "int")
 					),
 					"struct");
@@ -370,6 +371,8 @@
 			  "rss.getSubscribedFeeds" => array("function" => "getSubscribedFeeds",
 		  			"signature" => $getSubscribedFeeds_sig),
 			  "rss.subscribeToFeed" => array("function" => "subscribeToFeed",
-		  			"signature" => $subscribeToFeed_sig))
+		  			"signature" => $subscribeToFeed_sig)), 0
 			);
+	$s->response_charset_encoding = "UTF-8";
+	$s->service();
 ?>
