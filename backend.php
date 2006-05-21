@@ -146,7 +146,9 @@
 
 		$script_dt_add = get_script_dt_add();
 
-		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
+		print "
+			<script type=\"text/javascript\" src=\"prototype.js\"></script>
+			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<script type=\"text/javascript\" src=\"feedlist.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			<!--[if gte IE 5.5000]>
@@ -552,7 +554,9 @@
 
 		$script_dt_add = get_script_dt_add();
 
-		print "<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
+		print "
+			<script type=\"text/javascript\" src=\"prototype.js\"></script>
+			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 			</head><body $rtl_tag>";
 
@@ -673,14 +677,11 @@
 	if ($op == "viewfeed") {
 
 		$feed = db_escape_string($_GET["feed"]);
-		$skip = db_escape_string($_GET["skip"]);
 		$subop = db_escape_string($_GET["subop"]);
-		$view_mode = db_escape_string($_GET["view"]);
+		$view_mode = db_escape_string($_GET["view_mode"]);
 		$limit = db_escape_string($_GET["limit"]);
 		$cat_view = db_escape_string($_GET["cat"]);
 		$next_unread_feed = db_escape_string($_GET["nuf"]);
-
-		if (!$skip) $skip = 0;
 
 		if ($subop == "undefined") $subop = "";
 
@@ -741,6 +742,7 @@
 		$script_dt_add = get_script_dt_add();
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
+			<script type=\"text/javascript\" src=\"prototype.js\"></script>
 			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<script type=\"text/javascript\" src=\"viewfeed.js?$script_dt_add\"></script>
 			<!--[if gte IE 5.5000]>
@@ -755,19 +757,33 @@
 			window.onload = init;
 			</script>";
 
-		$search = db_escape_string($_GET["search"]);
-		$search_mode = db_escape_string($_GET["smode"]);
+//		print_r($_GET);
 
+		$search = db_escape_string($_GET["query"]);
+		$search_mode = db_escape_string($_GET["search_mode"]);
+		$match_on = db_escape_string($_GET["match_on"]);
+
+		if (!$match_on) {
+			$match_on = "both";
+		}
+		
 		if ($search) {
-			$search_query_part = "(upper(ttrss_entries.title) LIKE upper('%$search%') 
-				OR ttrss_entries.content LIKE '%$search%') AND";
+			if ($match_on == "both") {
+				$search_query_part = "(upper(ttrss_entries.title) LIKE upper('%$search%') 
+					OR upper(ttrss_entries.content) LIKE '%$search%') AND";
+			} else if ($match_on == "title") {
+				$search_query_part = "upper(ttrss_entries.title) LIKE upper('%$search%') 
+					AND";
+			} else if ($match_on == "content") {
+				$search_query_part = "upper(ttrss_entries.content) LIKE upper('%$search%') AND";
+			}
 		} else {
 			$search_query_part = "";
 		}
 
 		$view_query_part = "";
 
-		if ($view_mode == "Adaptive") {
+		if ($view_mode == "adaptive") {
 			if ($search) {
 				$view_query_part = " ";
 			} else if ($feed != -1) {
@@ -778,29 +794,29 @@
 			}
 		}
 
-		if ($view_mode == "Starred") {
+		if ($view_mode == "marked") {
 			$view_query_part = " marked = true AND ";
 		}
 
-		if ($view_mode == "Unread") {
+		if ($view_mode == "unread") {
 			$view_query_part = " unread = true AND ";
 		}
 
-		if ($limit && $limit != "All") {
+		if ($limit > 0) {
 			$limit_query_part = "LIMIT " . $limit;
 		} 
 
 		$vfeed_query_part = "";
 
 		// override query strategy and enable feed display when searching globally
-		if ($search && $search_mode == "All feeds") {
+		if ($search && $search_mode == "all_feeds") {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
 		} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
 			$query_strategy_part = "ttrss_entries.id > 0";
 			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 				id = feed_id) as feed_title,";
-		} else if ($feed >= 0 && $search && $search_mode == "This category") {
+		} else if ($feed >= 0 && $search && $search_mode == "this_cat") {
 
 			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
 
@@ -878,7 +894,7 @@
 
 		$feed_title = "";
 
-		if ($search && $search_mode == "All feeds") {
+		if ($search && $search_mode == "all_feeds") {
 			$feed_title = "Global search results ($search)";
 		} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 			$feed_title = "Feed search results ($search, $feed)";
@@ -1360,7 +1376,7 @@
 		}
 
 		if ($subop == "editfeed") {
-			$feed_id = db_escape_string($_GET["id"]);
+			$feed_id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, 
 				"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
@@ -2581,6 +2597,7 @@
 			print "<html><head>
 				<title>Tiny Tiny RSS : Help</title>
 				<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">
+				<script type=\"text/javascript\" src=\"prototype.js\"></script>
 				<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				</head><body>";
@@ -2655,39 +2672,63 @@
 			print "<div id=\"infoBoxTitle\">Search</div>";
 			print "<div class=\"infoBoxContents\">";
 
+			print "<form id='search_form'>";
+
 			$active_feed_id = db_escape_string($_GET["param"]);
 
 			print "<table width='100%'><tr><td>Search:</td><td>";
-
-			print "<input id=\"searchbox\" class=\"extSearch\"			
-				onblur=\"javascript:enableHotkeys()\" 
-				onfocus=\"javascript:disableHotkeys()\"
+			
+			print "<input name=\"query\" class=\"iedit\" 
+				onkeypress=\"return filterCR(event)\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
-				onchange=\"javascript:search()\">				
-			</td></tr><tr><td>Where:</td><td>
-			<select id=\"searchmodebox\">
-				<option selected>All feeds</option>";
-				
+				value=\"\">
+			</td></tr>";
+			
+			print "<tr><td>Where:</td><td>";
+			
+			print "<select name=\"search_mode\">
+				<option value=\"all_feeds\">All feeds</option>";
+			
+			$feed_title = getFeedTitle($link, $active_feed_id);
+			$feed_cat_title = getFeedCatTitle($link, $active_feed_id);
+			
 			if ($active_feed_id) {				
-				print "<option>This feed</option>";
+				print "<option selected value=\"this_feed\">This feed ($feed_title)</option>";
 			} else {
 				print "<option disabled>This feed</option>";
 			}
 
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<option>This category</option>";
+			if (get_pref($link, 'ENABLE_FEED_CATS') && $active_feed_id && $active_feed_id > 0) {
+				print "<option value=\"this_cat\">This category ($feed_cat_title)</option>";
+			} else {
+				print "<option disabled>This category</option>";
 			}
 
-			print "</select></td></tr>
+			print "</select></td></tr>"; 
 
-			<tr><td colspan='2' align='right'>
+			print "<tr><td>Match on:</td><td>";
+
+			$search_fields = array(
+				"title" => "Title",
+				"content" => "Content",
+				"both" => "Title or content");
+
+			print_select_hash("match_on", 3, $search_fields); 
+				
+			print "</td></tr></table>";
+
+			print "</form>";
+
+			print "<div align=\"right\">
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" 
 				id=\"search_submit_btn\" disabled=\"true\"
 				value=\"Search\">
 			<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
-				value=\"Cancel\"></td></tr></table>";
+				type=\"submit\" onclick=\"javascript:searchCancel()\" 
+				value=\"Cancel\"></div>";
+
+			print "</div>";
 
 		}
 
@@ -2717,7 +2758,8 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Match:</td>
-				<td><input onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+				<td><input onkeypress=\"return filterCR(event)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					name=\"reg_exp\" size=\"30\">&nbsp;";
 			
 			print_select_hash("match_id", 1, $filter_types);	

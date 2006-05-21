@@ -274,6 +274,10 @@ function resetSearch() {
 	}
 }
 
+function searchCancel() {
+	closeInfoBox(true);
+}
+
 function search() {
 	closeInfoBox();	
 	viewCurrentFeed(0, "");
@@ -375,6 +379,8 @@ function init() {
 
 		disableContainerChildren("headlinesToolbar", true);
 
+		Form.disable("main_toolbar_form");
+
 		if (!genericSanityCheck()) 
 			return;
 
@@ -414,11 +420,11 @@ function init_second_stage() {
 		updateFeedList(false, false);
 		document.onkeydown = hotkey_handler;
 	
-		var viewbox = document.getElementById("viewbox");			
+/*		var viewbox = document.getElementById("viewbox");			
 		var limitbox = document.getElementById("limitbox");
 
 		dropboxSelect(viewbox, getCookie("ttrss_vf_vmode"));
-		dropboxSelect(limitbox, getCookie("ttrss_vf_limit"));
+		dropboxSelect(limitbox, getCookie("ttrss_vf_limit")); */
 
 		daemon_enabled = getCookie("ttrss_vf_daemon");
 
@@ -449,7 +455,7 @@ function init_second_stage() {
 
 function quickMenuChange() {
 	var chooser = document.getElementById("quickMenuChooser");
-	var opid = chooser[chooser.selectedIndex].id;
+	var opid = chooser[chooser.selectedIndex].value;
 
 	chooser.selectedIndex = 0;
 	quickMenuGo(opid);

@@ -150,101 +150,85 @@ window.onload = init;
 
 		<tr><td class="headlinesToolbar" id="headlinesToolbar">
 
-		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
+<!--		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<input id="searchbox"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
 		<select id="searchmodebox">
-			<option>This feed</option>
+			<option value="all_feeds">All feeds</option>
+			<option value="this_feed" selected>This feed</option>
 			<? if (get_pref($link, 'ENABLE_FEED_CATS')) { ?>
-			<option>This category</option>
+			<option value="this_cat">This category</option>
 			<? } ?>
-			<option>All feeds</option>
 		</select>
 		
 		<input type="submit" 
 			class="button" onclick="javascript:search()" value="Search">
 
-		&nbsp;
+			&nbsp; 
 		
-		<? } ?>
+		<? } ?> -->
 		
-		View: 
-		
-		<select id="viewbox" onchange="javascript:viewCurrentFeed(0, '')">
-			<option selected>Adaptive</option>
-			<option>All Articles</option>
-			<option>Starred</option>
-			<option>Unread</option>
+		<form id="main_toolbar_form">
+		View: 		
+		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
+			<option selected value="adaptive">Adaptive</option>
+			<option value="all_articles">All Articles</option>
+			<option value="marked">Starred</option>
+			<option value="unread">Unread</option>
 		</select>
-
 		&nbsp;Limit:
-
-		<select id="limitbox" onchange="javascript:viewCurrentFeed(0, '')">
-		
 		<?
-			$limits = array(15 => 15, 30 => 30, 60 => 60);
+		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
 			
-			$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
+		$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
 
-			if ($def_art_limit >= 0 && !array_key_exists($def_art_limit, $limits)) {
-				$limits[$def_art_limit] = $def_art_limit; 
-			}
+		if ($def_art_limit >= 0 && !array_key_exists($def_art_limit, $limits)) {
+			$limits[$def_art_limit] = $def_art_limit; 
+		}
 
-			asort($limits);
-			array_push($limits, 0);
+		asort($limits);
 
-			if (!$def_art_limit) {
-				$def_art_limit = 30;
-			}
+		if (!$def_art_limit) {
+			$def_art_limit = 30;
+		}
 
-			foreach ($limits as $key) {
-				print "<option";
-				if ($key == $def_art_limit) { print " selected"; }
-				print ">";
-				
-				if ($limits[$key] == 0) { print "All"; } else { print $limits[$key]; }
-				
-				print "</option>";
-			} ?>
-		
-		</select>
+		print_select_hash("limit", $def_art_limit, $limits, 
+			'onchange="viewCurrentFeed(0, \'\')"');
+	
+		?>		
+		</form>
 
-<!--		&nbsp;Selection:
+		<!-- &nbsp;<input class="button" type="submit"
+			onclick="quickMenuGo('qmcSearch')" value="Search (tmp)"> -->
 
-		<select id="headopbox">
-			<option id="hopToggleRead">Toggle (un)read</option>
-		</select>
+		&nbsp;<input class="button" type="submit"
+			onclick="viewCurrentFeed(0, 'ForceUpdate')" value="Update">
 
-		<input class="button" type="submit" onclick="headopGo()" value="Go"> -->
-
-		&nbsp;Feed: <input class="button" type="submit"
-			onclick="javascript:viewCurrentFeed(0, 'ForceUpdate')" value="Update">
-
-		<input class="button" type="submit" id="btnMarkFeedAsRead"
-			onclick="javascript:viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read"> 
+		<input class="button" type="submit"
+			onclick="viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read"> 
 
 		</td>
 		<td align="right">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
-				<option id="qmcDefault" selected>Actions...</option>
-				<option id="qmcPrefs">Preferences</option>
-				<option id="qmcSearch">Search</option>
+				<option value="qmcDefault" selected>Actions...</option>
+				<option value="qmcPrefs">Preferences</option>
+				<option value="qmcSearch">Search</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Feed actions:</option>
-				<option id="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
-				<option id="qmcRemoveFeed">&nbsp;&nbsp;Unsubscribe</option>
+				<option value="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
+				<option value="qmcRemoveFeed">&nbsp;&nbsp;Unsubscribe</option>
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
 				<? if (!ENABLE_UPDATE_DAEMON) { ?>
-				<option id="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
+				<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
 				<? } ?>
-				<option id="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
-				<option id="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
+				<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
+				<option value="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>Other actions:</option>				
-				<option id="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
+				<option value="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
 			</select>
 		</td>
 		</tr>

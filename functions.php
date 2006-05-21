@@ -1639,4 +1639,49 @@
 	function checkbox_to_sql_bool($val) {
 		return ($val == "on") ? "true" : "false";
 	}
+
+	function getFeedCatTitle($link, $id) {
+		if ($id == -1) {
+			return "Special";
+		} else if ($id < -10) {
+			return "Labels";
+		} else if ($id > 0) {
+			$result = db_query($link, "SELECT ttrss_feed_categories.title 
+				FROM ttrss_feeds, ttrss_feed_categories WHERE ttrss_feeds.id = '$id' AND
+					cat_id = ttrss_feed_categories.id");
+			if (db_num_rows($result) == 1) {
+				return db_fetch_result($result, 0, "title");
+			} else {
+				return "Unknown category ($id)";
+			}
+		} else {
+			return "getFeedCatTitle($id) failed";
+		}
+
+	}
+
+	function getFeedTitle($link, $id) {
+		if ($id == -1) {
+			return "Starred articles";
+		} else if ($id < -10) {
+			$label_id = -10 - $id;
+			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
+			if (db_num_rows($result) == 1) {
+				return db_fetch_result($result, 0, "description");
+			} else {
+				return "Unknown label ($label_id)";
+			}
+
+		} else if ($id > 0) {
+			$result = db_query($link, "SELECT title FROM ttrss_feeds WHERE id = '$id'");
+			if (db_num_rows($result) == 1) {
+				return db_fetch_result($result, 0, "title");
+			} else {
+				return "Unknown feed ($id)";
+			}
+		} else {
+			return "getFeedTitle($id) failed";
+		}
+
+	}
 ?>

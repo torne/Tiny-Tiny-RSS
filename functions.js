@@ -920,7 +920,7 @@ function leading_zero(p) {
 	return s;
 }
 
-function closeInfoBox() {
+function closeInfoBox(cleanup) {
 	var box = document.getElementById('infoBox');
 	var shadow = document.getElementById('infoBoxShadow');
 
@@ -929,6 +929,8 @@ function closeInfoBox() {
 	} else if (box) {
 		box.style.display = "none";
 	}
+
+	if (cleanup) box.innerHTML = "&nbsp;";
 
 	enableHotkeys();
 
@@ -1030,5 +1032,20 @@ function qafAdd() {
 	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
+}
+
+function filterCR(e)
+{
+     var key;
+
+     if(window.event)
+          key = window.event.keyCode;     //IE
+     else
+          key = e.which;     //firefox
+
+     if(key == 13)
+          return false;
+     else
+          return true;
 }
 

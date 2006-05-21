@@ -35,12 +35,13 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	
 		enableHotkeys();
 	
-		var searchbox = doc.getElementById("searchbox");
-	
+/*		var searchbox = doc.getElementById("searchbox");
+
+		var search_query = "";
+		var search_mode = "";
+
 		if (searchbox) {
 			search_query = searchbox.value;
-		} else {
-			search_query = "";
 		} 
 	
 		var searchmodebox = doc.getElementById("searchmodebox");
@@ -49,11 +50,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 		
 		if (searchmodebox) {
 			search_mode = searchmodebox[searchmodebox.selectedIndex].text;
-		} else {
-			search_mode = "";
 		}
-	
-		setCookie("ttrss_vf_smode", search_mode);
 	
 		var viewbox = doc.getElementById("viewbox");
 	
@@ -63,9 +60,9 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			view_mode = viewbox[viewbox.selectedIndex].text;
 		} else {
 			view_mode = "All Posts";
-		}
+		} 
 	
-		setCookie("ttrss_vf_vmode", view_mode, getCookie("ttrss_cltime"));
+		setCookie("ttrss_vf_vmode", view_mode, getCookie("ttrss_cltime")); 
 	
 		var limitbox = doc.getElementById("limitbox");
 	
@@ -78,8 +75,19 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			limit = "All";
 		}
 	
-	//	document.getElementById("ACTFEEDID").innerHTML = feed;
-	
+	//	document.getElementById("ACTFEEDID").innerHTML = feed; */
+
+		var toolbar_query = parent.Form.serialize("main_toolbar_form");
+
+		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
+			toolbar_query + "&subop=" + param_escape(subop);
+
+		if (parent.document.getElementById("search_form")) {
+			var search_query = parent.Form.serialize("search_form");
+			query = query + "&" + search_query;
+			parent.closeInfoBox(true);
+		}
+
 		if (getActiveFeedId() != feed) {
 			cat_view_mode = is_cat;
 		}
@@ -92,10 +100,10 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 
 		setActiveFeedId(feed);
 
-		var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
+/*		var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
 			"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
 			"&view=" + param_escape(view_mode) + "&limit=" + limit + 
-			"&smode=" + param_escape(search_mode);
+			"&smode=" + param_escape(search_mode); */
 	
 		if (subop == "MarkAllRead") {
 
@@ -122,18 +130,16 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			}
 		}
 	
-		if (search_query != "") {
-			query = query + "&search=" + param_escape(search_query);
+//		if (search_query != "") {
+//			query = query + "&search=" + param_escape(search_query);
 //			searchbox.value = "";
-		}
+//		}
 
 		if (cat_view_mode) {
 			query = query + "&cat=1";
 		}
 
 		var headlines_frame = parent.frames["headlines-frame"];
-	
-	//	alert(headlines_frame)
 
 		if (navigator.userAgent.match("Opera")) {
 			var date = new Date();
@@ -152,14 +158,9 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			feedr.className = feedr.className + "Selected";
 		} 
 		
-		disableContainerChildren("headlinesToolbar", false, doc);
-	
-	/*	var btnMarkAsRead = doc.getElementById("btnMarkFeedAsRead");
-	
-		if (btnMarkAsRead && !isNumeric(feed)) {
-			btnMarkAsRead.disabled = true;
-			btnMarkAsRead.className = "disabledButton";
-		} */
+		parent.disableContainerChildren("headlinesToolbar", false);
+		parent.Form.enable("main_toolbar_form");
+
 	
 	//	notify("");
 	} catch (e) {
