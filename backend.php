@@ -659,7 +659,11 @@
 			print "</div>";
 
 			print "<script type=\"text/javascript\">
-				update_all_counters('$feed_id');
+				try {
+					parent.update_all_counters('$feed_id');
+				} catch (e) {
+					exception_error('view/footer', e);
+				}
 			</script>";
 		}
 
@@ -1212,27 +1216,28 @@
 
 		print "</div>";
 
-		print "<script type=\"text/javascript\">
-			document.onkeydown = hotkey_handler;
-			// if (parent.daemon_enabled) parent.updateTitle('$feed_title');
-			update_all_counters('$feed');
-		</script>";
-	
-		print '
-			<script type="text/javascript">
+		print "
+			<script type=\"text/javascript\">
+				try {
+					document.onkeydown = hotkey_handler;
+					parent.update_all_counters(\"$feed\");
+				} catch (e) {
+					exception_error(\"viewfeed/footer1\", e);
+				}
+
 				/* for IE */
 				function statechange() {
-					if (document.readyState == "interactive") init();
+					if (document.readyState == \"interactive\") init();
 				}
-			
+
 				if (document.readyState) {	
-					if (document.readyState == "interactive" || document.readyState == "complete") {
+					if (document.readyState == \"interactive\" || document.readyState == \"complete\") {
 						init();
 					} else {
 						document.onreadystatechange = statechange;
 					}
 				}
-			</script>';
+			</script>";
 
 		print "</body></html>";
 	}
