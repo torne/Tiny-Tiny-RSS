@@ -150,26 +150,17 @@ window.onload = init;
 
 		<tr><td class="headlinesToolbar" id="headlinesToolbar">
 
-<!--		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
-
-		<input id="searchbox"
-			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
-		<select id="searchmodebox">
-			<option value="all_feeds">All feeds</option>
-			<option value="this_feed" selected>This feed</option>
-			<? if (get_pref($link, 'ENABLE_FEED_CATS')) { ?>
-			<option value="this_cat">This category</option>
-			<? } ?>
-		</select>
-		
-		<input type="submit" 
-			class="button" onclick="javascript:search()" value="Search">
-
-			&nbsp; 
-		
-		<? } ?> -->
-		
 		<form id="main_toolbar_form">
+
+		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
+		<input name="query"
+			onKeyPress="return filterCR(event)"
+			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
+		<input class="button" type="submit"
+			onclick="return viewCurrentFeed(0)" value="Search">
+		&nbsp; 
+		<? } ?>
+
 		View: 		
 		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
 			<option selected value="adaptive">Adaptive</option>
@@ -177,7 +168,8 @@ window.onload = init;
 			<option value="marked">Starred</option>
 			<option value="unread">Unread</option>
 		</select>
-		&nbsp;Limit:
+		
+		&nbsp;Limit:		
 		<?
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
 			

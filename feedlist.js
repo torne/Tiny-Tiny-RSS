@@ -79,6 +79,10 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 
 		var toolbar_query = parent.Form.serialize("main_toolbar_form");
 
+		if (parent.document.forms["main_toolbar_form"].query) {
+			parent.document.forms["main_toolbar_form"].query.value = "";
+		}
+
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 

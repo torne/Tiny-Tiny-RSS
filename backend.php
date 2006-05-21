@@ -757,8 +757,6 @@
 			window.onload = init;
 			</script>";
 
-//		print_r($_GET);
-
 		$search = db_escape_string($_GET["query"]);
 		$search_mode = db_escape_string($_GET["search_mode"]);
 		$match_on = db_escape_string($_GET["match_on"]);

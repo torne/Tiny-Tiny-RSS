@@ -248,6 +248,7 @@ function viewCurrentFeed(skip, subop) {
 		disableContainerChildren("headlinesToolbar", false, document);
 		viewfeed(-1, skip, subop); // FIXME
 	}
+	return false; // block unneeded form submits
 }
 
 function viewfeed(feed, skip, subop) {
