@@ -1405,14 +1405,16 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Title:</td>";
-			print "<td><input class=\"iedit\" name=\"title\" value=\"$title\"></td></tr>";
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+				name=\"title\" value=\"$title\"></td></tr>";
 
 			$feed_url = db_fetch_result($result, 0, "feed_url");
 			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
 				0, "feed_url")));
 				
 			print "<tr><td>Feed URL:</td>";
-			print "<td><input class=\"iedit\" name=\"feed_url\" value=\"$feed_url\"></td></tr>";
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+				name=\"feed_url\" value=\"$feed_url\"></td></tr>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
@@ -1499,12 +1501,14 @@
 			$auth_login = db_fetch_result($result, 0, "auth_login");
 
 			print "<tr><td>Login:</td>";
-			print "<td><input class=\"iedit\" name=\"auth_login\" value=\"$auth_login\"></td></tr>";
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
 			$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 			print "<tr><td>Password:</td>";
 			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
+				onkeypress=\"return filterCR(event)\"
 				value=\"$auth_pass\"></td></tr>";
 
 			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
@@ -2038,7 +2042,8 @@
 					
 						print "</td>";
 		
-						print "<td><input name=\"title\" class=\"iedit\" value=\"$edit_title\"></td>";
+						print "<td><input onkeypress=\"return filterCR(event)\"
+							name=\"title\" class=\"iedit\" value=\"$edit_title\"></td>";
 						
 					}
 					
@@ -2264,8 +2269,8 @@
 
 					print "</td>";
 	
-					print "<td><input class=\"iedit\" name=\"reg_exp\" value=\"".$line["reg_exp"].
-						"\"></td>";
+					print "<td><input onkeypress=\"return filterCR(event)\"
+						 class=\"iedit\" name=\"reg_exp\" value=\"".$line["reg_exp"]."\"></td>";
 	
 					print "<td>";	
 					print_feed_select($link, "feed_id", $line["feed_id"], "class=\"iedit\"");
@@ -2538,11 +2543,11 @@
 					
 					print "</td>";
 	
-					print "<td><input class=\"iedit\" name=\"sql_exp\" value=\"".$line["sql_exp"].
-						"\"></td>";
+					print "<td><input onkeypress=\"return filterCR(event)\"
+						class=\"iedit\" name=\"sql_exp\" value=\"".$line["sql_exp"]."\"></td>";
 	
-					print "<td><input class=\"iedit\" name=\"description\" value=\"".$line["description"].
-						"\"></td>";							
+					print "<td><input onkeypress=\"return filterCR(event)\"
+						class=\"iedit\" name=\"description\" value=\"".$line["description"]."\"></td>";							
 				}
 					
 				
@@ -2643,6 +2648,7 @@
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
+					onkeypress=\"return filterCR(event)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
 		
@@ -3234,13 +3240,16 @@
 
 			print "<table width='100%'>";
 			print "<tr><td>Login:</td><td>
-				<input class=\"iedit\" name=\"login\" value=\"$login\"></td></tr>";
+				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+				name=\"login\" value=\"$login\"></td></tr>";
 
 			print "<tr><td>Change password:</td><td>
-				<input class=\"iedit\" name=\"password\"></td></tr>";
+				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+				name=\"password\"></td></tr>";
 
 			print "<tr><td>E-mail:</td><td>
-				<input class=\"iedit\" name=\"email\" value=\"$email\"></td></tr>";
+				<input class=\"iedit\" name=\"email\" onkeypress=\"return filterCR(event)\"
+				value=\"$email\"></td></tr>";
 
 			$sel_disabled = ($id == $_SESSION["uid"]) ? "disabled" : "";
 				
