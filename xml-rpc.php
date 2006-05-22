@@ -23,6 +23,10 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	function getVersion() {
+		return new xmlrpcval(VERSION);
+	}
+
 	function getSubscribedFeeds($msg) {
 		global $link;
 
@@ -358,8 +362,12 @@
 	$setArticleUnread_sig = array(array($xmlrpcString,
 		$xmlrpcString, $xmlrpcString, $xmlrpcInt, $xmlrpcInt));
 
+	$getVersion_sig = array(array($xmlrpcString));
+
 	$s = new xmlrpc_server( 
 			array(
+			  "rss.getVersion" => array("function" => "getVersion",
+		  			"signature" => $getVersion_sig),
 			  "rss.setArticleRead" => array("function" => "setArticleRead",
 		  			"signature" => $setArticleRead_sig),
 			  "rss.setArticleMarked" => array("function" => "setArticleMarked",
