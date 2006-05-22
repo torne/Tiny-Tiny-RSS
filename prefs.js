@@ -338,6 +338,8 @@ function editFilter(id) {
 		return
 	}
 
+	document.getElementById("create_filter_btn").disabled = true;
+
 	selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
 	selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
 
@@ -705,6 +707,8 @@ function filterEditCancel() {
 		printLockingError();
 		return
 	}
+
+	document.getElementById("create_filter_btn").disabled = false;
 	
 	selectPrefRows('filter', false); // cleanup feed selection
 	closeInfoBox();
@@ -760,7 +764,9 @@ function userEditSave() {
 	}
 	
 	notify("Saving user...");
-	
+
+	closeInfoBox();
+
 	var query = Form.serialize("user_edit_form");
 	
 	xmlhttp.open("GET", "backend.php?" + query, true);			
@@ -788,6 +794,8 @@ function filterEditSave() {
 	var query = Form.serialize("filter_edit_form");
 
 	closeInfoBox();
+
+	document.getElementById("create_filter_btn").disabled = false;
 
 	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=filterlist_callback;

@@ -364,6 +364,11 @@ function disableContainerChildren(id, disable, doc) {
 
 	var container = doc.getElementById(id);
 
+	if (!container) {
+		//alert("disableContainerChildren: element " + id + " not found");
+		return;
+	}
+
 	for (var i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 

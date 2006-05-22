@@ -2132,12 +2132,14 @@
 			print "<tr><td>Match:</td>
 				<td><input onkeypress=\"return filterCR(event)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">&nbsp;";
+					name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
 			
-			print_select_hash("filter_type", $filter_type, $filter_types);	
+			print "</td><td>";
+			
+			print_select_hash("filter_type", $filter_type, $filter_types, "class=\"iedit\"");	
 	
 			print "</td></tr>";
-			print "<tr><td>Feed:</td><td>";
+			print "<tr><td>Feed:</td><td colspan='2'>";
 
 			print_feed_select($link, "feed_id", $feed_id);
 			
@@ -2145,7 +2147,7 @@
 	
 			print "<tr><td>Action:</td>";
 	
-			print "<td><select name=\"action_id\">";
+			print "<td colspan='2'><select name=\"action_id\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
@@ -2254,6 +2256,7 @@
 		print "<input type=\"submit\" 
 			class=\"button\" 
 			onclick=\"javascript:displayDlg('quickAddFilter', false)\" 
+			id=\"create_filter_btn\"
 			value=\"Create filter\">"; 
 
 		$result = db_query($link, "SELECT 
@@ -2346,22 +2349,14 @@
 	
 			print "<p id=\"filterOpToolbar\">";
 	
-			if ($subop == "edit") {
-				print "Edit filter:
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:filterEditSave()\" value=\"Save\">
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:filterEditCancel()\" value=\"Cancel\">";
-						
-			} else {
-	
-				print "
+			print "
 					Selection:
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
-			}			
+
+			print "</p>";
 
 		} else {
 
@@ -2793,12 +2788,13 @@
 			print "<tr><td>Match:</td>
 				<td><input onkeypress=\"return filterCR(event)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					name=\"reg_exp\" size=\"30\">&nbsp;";
-			
-			print_select_hash("filter_type", 1, $filter_types);	
+					name=\"reg_exp\" class=\"iedit\">";		
+			print "</td><td>";
+		
+			print_select_hash("filter_type", 1, $filter_types, "class=\"iedit\"");	
 	
 			print "</td></tr>";
-			print "<tr><td>Feed:</td><td>";
+			print "<tr><td>Feed:</td><td colspan='2'>";
 
 			print_feed_select($link, "feed_id");
 			
@@ -2806,7 +2802,7 @@
 	
 			print "<tr><td>Action:</td>";
 	
-			print "<td><select name=\"action_id\">";
+			print "<td colspan='2'><select name=\"action_id\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
