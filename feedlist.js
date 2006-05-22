@@ -35,53 +35,15 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	
 		enableHotkeys();
 	
-/*		var searchbox = doc.getElementById("searchbox");
-
-		var search_query = "";
-		var search_mode = "";
-
-		if (searchbox) {
-			search_query = searchbox.value;
-		} 
-	
-		var searchmodebox = doc.getElementById("searchmodebox");
-	
-		var search_mode;
-		
-		if (searchmodebox) {
-			search_mode = searchmodebox[searchmodebox.selectedIndex].text;
-		}
-	
-		var viewbox = doc.getElementById("viewbox");
-	
-		var view_mode;
-	
-		if (viewbox) {
-			view_mode = viewbox[viewbox.selectedIndex].text;
-		} else {
-			view_mode = "All Posts";
-		} 
-	
-		setCookie("ttrss_vf_vmode", view_mode, getCookie("ttrss_cltime")); 
-	
-		var limitbox = doc.getElementById("limitbox");
-	
-		var limit;
-	
-		if (limitbox) {
-			limit = limitbox[limitbox.selectedIndex].text;
-			setCookie("ttrss_vf_limit", limit, getCookie("ttrss_cltime"));
-		} else {
-			limit = "All";
-		}
-	
-	//	document.getElementById("ACTFEEDID").innerHTML = feed; */
-
 		var toolbar_query = parent.Form.serialize("main_toolbar_form");
+		var toolbar_form = parent.document.forms["main_toolbar_form"];
 
 		if (parent.document.forms["main_toolbar_form"].query) {
-			parent.document.forms["main_toolbar_form"].query.value = "";
+			toolbar_form.query.value = "";
 		}
+
+		setCookie("ttrss_vf_limit", toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
+		setCookie("ttrss_vf_vmode", toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
 
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
@@ -103,11 +65,6 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 		}
 
 		setActiveFeedId(feed);
-
-/*		var query = "backend.php?op=viewfeed&feed=" + param_escape(feed) +
-			"&skip=" + param_escape(skip) + "&subop=" + param_escape(subop) +
-			"&view=" + param_escape(view_mode) + "&limit=" + limit + 
-			"&smode=" + param_escape(search_mode); */
 	
 		if (subop == "MarkAllRead") {
 
@@ -133,11 +90,6 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 				setActiveFeedId(next_unread_feed);
 			}
 		}
-	
-//		if (search_query != "") {
-//			query = query + "&search=" + param_escape(search_query);
-//			searchbox.value = "";
-//		}
 
 		if (cat_view_mode) {
 			query = query + "&cat=1";
@@ -165,8 +117,6 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 		parent.disableContainerChildren("headlinesToolbar", false);
 		parent.Form.enable("main_toolbar_form");
 
-	
-	//	notify("");
 	} catch (e) {
 		exception_error("viewfeed", e);
 	}		

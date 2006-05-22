@@ -420,12 +420,11 @@ function init_second_stage() {
 	
 		updateFeedList(false, false);
 		document.onkeydown = hotkey_handler;
-	
-/*		var viewbox = document.getElementById("viewbox");			
-		var limitbox = document.getElementById("limitbox");
 
-		dropboxSelect(viewbox, getCookie("ttrss_vf_vmode"));
-		dropboxSelect(limitbox, getCookie("ttrss_vf_limit")); */
+		var tb = parent.document.forms["main_toolbar_form"];
+
+		dropboxSelect(tb.view_mode, getCookie("ttrss_vf_vmode"));
+		dropboxSelect(tb.limit, getCookie("ttrss_vf_limit"));
 
 		daemon_enabled = getCookie("ttrss_vf_daemon");
 
