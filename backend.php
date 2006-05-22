@@ -2094,6 +2094,90 @@
 		$subop = $_GET["subop"];
 		$quiet = $_GET["quiet"];
 
+		if ($subop == "edit") {
+
+			$filter_id = db_escape_string($_GET["id"]);
+
+			$result = db_query($link, 
+				"SELECT * FROM ttrss_filters WHERE id = '$filter_id'");
+
+			$reg_exp = htmlspecialchars(db_unescape_string(db_fetch_result($result, 0, "reg_exp")));
+			$filter_type = db_fetch_result($result, 0, "filter_type");
+			$feed_id = db_fetch_result($result, 0, "feed_id");
+			$action_id = db_fetch_result($result, 0, "action_id");
+				
+			print "<div id=\"infoBoxTitle\">Filter editor</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form id=\"filter_edit_form\">";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
+			print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">"; 
+
+//			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
+			
+			$result = db_query($link, "SELECT id,description 
+				FROM ttrss_filter_types ORDER BY description");
+	
+			$filter_types = array();
+	
+			while ($line = db_fetch_assoc($result)) {
+				//array_push($filter_types, $line["description"]);
+				$filter_types[$line["id"]] = $line["description"];
+			}
+
+			print "<table width='100%'>";
+
+			print "<tr><td>Match:</td>
+				<td><input onkeypress=\"return filterCR(event)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">&nbsp;";
+			
+			print_select_hash("filter_type", $filter_type, $filter_types);	
+	
+			print "</td></tr>";
+			print "<tr><td>Feed:</td><td>";
+
+			print_feed_select($link, "feed_id", $feed_id);
+			
+			print "</td></tr>";
+	
+			print "<tr><td>Action:</td>";
+	
+			print "<td><select name=\"action_id\">";
+	
+			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+				ORDER BY name");
+
+			while ($line = db_fetch_assoc($result)) {
+				$is_sel = ($line["id"] == $action_id) ? "selected" : "";			
+				printf("<option value='%d' $is_sel>%s</option>", $line["id"], $line["description"]);
+			}
+	
+			print "</select>";
+
+			print "</td></tr></table>";
+
+			print "</form>";
+
+			print "<div align='right'>";
+
+			print "<input type=\"submit\" 
+				id=\"infobox_submit\"
+				class=\"button\" onclick=\"filterEditSave()\" 
+				value=\"Save\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"filterEditCancel()\" 
+				value=\"Cancel\">";
+
+			print "</div>";
+
+			return;
+		}
+
+
 		if ($subop == "editSave") {
 
 			$reg_exp = db_escape_string(trim($_GET["reg_exp"]));
@@ -2134,7 +2218,7 @@
 			if (!WEB_DEMO_MODE) {
 
 				$regexp = db_escape_string(trim($_GET["reg_exp"]));
-				$match_id = db_escape_string(trim($_GET["match_id"]));
+				$filter_type = db_escape_string(trim($_GET["filter_type"]));
 				$feed_id = db_escape_string($_GET["feed_id"]);
 				$action_id = db_escape_string($_GET["action_id"]); 
 
@@ -2148,7 +2232,7 @@
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
 						action_id) 
 					VALUES 
-						('$regexp', '$match_id','".$_SESSION["uid"]."', 
+						('$regexp', '$filter_type','".$_SESSION["uid"]."', 
 							$feed_id, '$action_id')");
 			} 
 		}
@@ -2226,81 +2310,26 @@
 	
 				print "<tr class=\"$class\" $this_row_id>";
 	
-				$line["regexp"] = htmlspecialchars($line["reg_exp"]);
+				$line["reg_exp"] = htmlspecialchars(db_unescape_string($line["reg_exp"]));
 	
 				if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
-	
-				if (!$edit_filter_id || $subop != "edit") {
 
-					print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
+				$line["feed_title"] = htmlspecialchars(db_unescape_string($line["feed_title"]));
+
+				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 	
-					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-						$line["reg_exp"] . "</td>";		
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["reg_exp"] . "</td>";		
 	
-					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-						$line["feed_title"] . "</td>";			
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["feed_title"] . "</td>";			
 	
-					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-						$line["filter_type_descr"] . "</td>";		
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["filter_type_descr"] . "</td>";		
 		
-					print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-						$line["action_description"] . "</td>";			
-	
-				} else if ($filter_id != $edit_filter_id) {
-	
-					if (!$line["description"]) $line["description"] = "[No description]";
-	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
-						id=\"FICHK-".$line["id"]."\"></td>";
-	
-					print "<td>".$line["reg_exp"]."</td>";		
-					print "<td>".$line["feed_title"]."</td>";
-					print "<td>".$line["filter_type_descr"]."</td>";
-					print "<td>".$line["action_description"]."</td>";		
-
-				} else {
-	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
-					
-					print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";
-					print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
-					print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
-
-					print "</td>";
-	
-					print "<td><input onkeypress=\"return filterCR(event)\"
-						 class=\"iedit\" name=\"reg_exp\" value=\"".$line["reg_exp"]."\"></td>";
-	
-					print "<td>";	
-					print_feed_select($link, "feed_id", $line["feed_id"], "class=\"iedit\"");
-					print "</td>";
-					
-					print "<td>";
-					print_select_hash("filter_type", $line["filter_type"], $filter_types,	
-						"class=\"iedit\"");
-					print "</td>";
-
-					print "<td>";
-					print "<select name=\"action_id\" class=\"iedit\">";
-	
-					$tmp_result = db_query($link, "SELECT id,description FROM ttrss_filter_actions
-						ORDER BY description");
-
-					while ($tmp_line = db_fetch_assoc($tmp_result)) {
-						if ($tmp_line["description"] == $line["action_description"]) {
-							$is_selected = "selected";
-						} else {
-							$is_selected = "";
-						}
-						printf("<option $is_selected value='%d'>%s</option>", 
-							$tmp_line["id"], $tmp_line["description"]);
-					}
-	
-					print "</select></td>";
-
-					print "</td>";
-				}
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["action_description"] . "</td>";			
 				
 				print "</tr>";
 	
@@ -2766,7 +2795,7 @@
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					name=\"reg_exp\" size=\"30\">&nbsp;";
 			
-			print_select_hash("match_id", 1, $filter_types);	
+			print_select_hash("filter_type", 1, $filter_types);	
 	
 			print "</td></tr>";
 			print "<tr><td>Feed:</td><td>";

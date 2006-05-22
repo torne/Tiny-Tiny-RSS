@@ -1,7 +1,6 @@
 var xmlhttp = false;
 
 var active_feed_cat = false;
-var active_filter = false;
 var active_label = false;
 var active_tab = false;
 var feed_to_expand = false;
@@ -54,22 +53,7 @@ function feedlist_callback() {
 function filterlist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
-
 		container.innerHTML=xmlhttp.responseText;
-
-		if (active_filter) {
-			var row = document.getElementById("FILRR-" + active_filter);
-			if (row) {
-				if (!row.className.match("Selected")) {
-					row.className = row.className + "Selected";
-				}		
-			}
-			var checkbox = document.getElementById("FICHK-" + active_filter);
-			
-			if (checkbox) {
-				checkbox.checked = true;
-			}
-		}
 		notify("");
 	}
 }
@@ -354,13 +338,12 @@ function editFilter(id) {
 		return
 	}
 
-	active_filter = id;
+	selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
+	selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
 
-	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=edit&id=" +
-		param_escape(id), true);
-	xmlhttp.onreadystatechange=filterlist_callback;
+	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=edit&id=" + param_escape(id), true);
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
-
 }
 
 function editFeed(feed) {
@@ -713,7 +696,6 @@ function userEditCancel() {
 	}
 
 	selectPrefRows('user', false); // cleanup feed selection
-
 	closeInfoBox();
 }
 
@@ -723,15 +705,9 @@ function filterEditCancel() {
 		printLockingError();
 		return
 	}
-
-	active_filter = false;
-
-//	notify("Operation cancelled.");
-
-	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
-	xmlhttp.onreadystatechange=filterlist_callback;
-	xmlhttp.send(null);
-
+	
+	selectPrefRows('filter', false); // cleanup feed selection
+	closeInfoBox();
 }
 
 function labelEditSave() {
@@ -809,9 +785,9 @@ function filterEditSave() {
 
 	notify("Saving filter...");
 
-	active_filter = false;
-
 	var query = Form.serialize("filter_edit_form");
+
+	closeInfoBox();
 
 	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=filterlist_callback;
@@ -1137,7 +1113,6 @@ function selectTab(id, noupdate) {
 
 		// clean up all current selections, just in case
 		active_feed_cat = false;
-		active_filter = false;
 		active_label = false;
 
 		if (id == "feedConfig") {

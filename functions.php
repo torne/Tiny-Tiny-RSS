@@ -1601,7 +1601,7 @@
 				$is_selected = "";
 			}
 			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], db_unescape_string($line["title"]));
+				$line["id"], htmlspecialchars(db_unescape_string($line["title"])));
 		}
 	
 		print "</select>";
@@ -1630,7 +1630,7 @@
 				$is_selected = "";
 			}
 			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], $line["title"]);
+				$line["id"], htmlspecialchars(db_unescape_string($line["title"])));
 		}
 
 		print "</select>";
