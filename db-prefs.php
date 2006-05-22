@@ -7,7 +7,7 @@
 			$_SESSION["prefs_cache"] = array();
 	}
 
-	function get_pref($link, $pref_name, $user_id = false) {
+	function get_pref($link, $pref_name, $user_id = false, $die_on_error = true) {
 
 		$pref_name = db_escape_string($pref_name);
 
@@ -49,7 +49,11 @@
 			return convert_pref_type($value, $type_name);
 			
 		} else {		
-			die("Fatal error, unknown preferences key: $pref_name");			
+			if ($die_on_error) {
+				die("Fatal error, unknown preferences key: $pref_name");
+			} else {
+				return null;
+			}
 		}
 	}
 
