@@ -2099,7 +2099,7 @@
 			$filter_id = db_escape_string($_GET["id"]);
 
 			$result = db_query($link, 
-				"SELECT * FROM ttrss_filters WHERE id = '$filter_id'");
+				"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
 			$reg_exp = htmlspecialchars(db_unescape_string(db_fetch_result($result, 0, "reg_exp")));
 			$filter_type = db_fetch_result($result, 0, "filter_type");
@@ -2199,7 +2199,7 @@
 					feed_id = $feed_id,
 					action_id = '$action_id',
 					filter_type = '$filter_type'
-				WHERE id = '$filter_id'");
+				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
 		if ($subop == "remove") {
@@ -2209,7 +2209,7 @@
 				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
-					db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id'");
+					db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
 					
 				}
 			}
