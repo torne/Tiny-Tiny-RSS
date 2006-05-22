@@ -684,6 +684,8 @@ function labelEditCancel() {
 
 //	notify("Operation cancelled.");
 
+	closeInfoBox();
+
 	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
@@ -736,14 +738,15 @@ function labelEditSave() {
 		return;
 	}
 
+	closeInfoBox();
+
 	notify("Saving label...");
 
 	active_label = false;
 
 	query = Form.serialize("label_edit_form");
 
-	xmlhttp.open("GET", "backend.php?" + query, true);
-		
+	xmlhttp.open("GET", "backend.php?" + query, true);		
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 
