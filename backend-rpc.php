@@ -186,10 +186,13 @@
 		}
 
 		if ($subop == "sanityCheck") {
+			print "<rpc-reply>";
 			if (sanity_check($link)) {
 				print "<error error-code=\"0\"/>";
+				print_init_params($link);
 			}
-		}
+			print "</rpc-reply>";
+		}		
 
 		if ($subop == "globalPurge") {
 
@@ -197,6 +200,12 @@
 			global_purge_old_posts($link, true);
 			print "</rpc-reply>";
 
+		}
+
+		if ($subop == "storeParam") {
+			$key = $_GET["key"];
+			$value = $_GET["value"];
+			$_SESSION["stored-params"][$key] = $value;
 		}
 	}
 ?>

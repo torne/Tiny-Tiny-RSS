@@ -42,8 +42,14 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			toolbar_form.query.value = "";
 		}
 
-		setCookie("ttrss_vf_limit", toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
-		setCookie("ttrss_vf_vmode", toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
+//		setCookie("ttrss_vf_limit", toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
+//		setCookie("ttrss_vf_vmode", toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
+
+		parent.storeInitParam("toolbar_limit", 
+			toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
+
+		parent.storeInitParam("toolbar_view_mode", 
+			toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
 
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
@@ -85,7 +91,9 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			var next_unread_feed = getRelativeFeedId(feedlist,
 					getActiveFeedId(), "next", true);
 
-			if (next_unread_feed && getCookie('ttrss_vf_catchupnext') == 1) {
+			var show_next_feed = parent.getInitParam("on_catchup_show_next_feed") == "1";
+
+			if (next_unread_feed && show_next_feed) {
 				query = query + "&nuf=" + param_escape(next_unread_feed);
 				setActiveFeedId(next_unread_feed);
 			}

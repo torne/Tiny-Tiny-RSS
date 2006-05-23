@@ -108,14 +108,14 @@
 			setcookie("ttrss_vf_hreadf", 0);
 		}  
 
-		setcookie('ttrss_vf_refresh', FEEDS_FRAME_REFRESH);
-		setcookie('ttrss_vf_daemon', ENABLE_UPDATE_DAEMON);
+//		setcookie('ttrss_vf_refresh', FEEDS_FRAME_REFRESH);
+//		setcookie('ttrss_vf_daemon', ENABLE_UPDATE_DAEMON);
 
-		if (get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED")) {		
+/*		if (get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED")) {		
 			setcookie('ttrss_vf_catchupnext', 1);
 		} else {
 			setcookie('ttrss_vf_catchupnext', 0);
-		}		
+		} */
 	}
 
 	$fetch = $_GET["fetch"];

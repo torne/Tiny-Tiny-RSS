@@ -13,6 +13,8 @@ var cookie_lifetime = 0;
 
 var xmlhttp = Ajax.getTransport();
 
+var init_params = new Array();
+
 function toggleTags() {
 	display_tags = !display_tags;
 
@@ -123,7 +125,7 @@ function backend_sanity_check_callback() {
 				return;
 			}
 	
-			var reply = xmlhttp.responseXML.firstChild;
+			var reply = xmlhttp.responseXML.firstChild.firstChild;
 	
 			if (!reply) {
 				fatalError(3, "[D002, Invalid RPC reply]: " + xmlhttp.responseText);
@@ -137,6 +139,21 @@ function backend_sanity_check_callback() {
 			}
 	
 			debug("sanity check ok");
+
+			var params = reply.nextSibling;
+
+			if (params) {
+				debug('reading init-params...');
+				var param = params.firstChild;
+
+				while (param) {
+					var k = param.getAttribute("key");
+					var v = param.getAttribute("value");
+					debug(k + " => " + v);
+					init_params[k] = v;					
+					param = param.nextSibling;
+				}
+			}
 
 			init_second_stage();
 
@@ -259,9 +276,9 @@ function viewfeed(feed, skip, subop) {
 function timeout() {
 	scheduleFeedUpdate(false);
 
-	var refresh_time = getCookie('ttrss_vf_refresh');
+	var refresh_time = getInitParam("feeds_frame_refresh");
 
-	if (!refresh_time) refresh_time = 600;
+	if (!refresh_time) refresh_time = 600; 
 
 	setTimeout("timeout()", refresh_time*1000);
 }
@@ -423,10 +440,10 @@ function init_second_stage() {
 
 		var tb = parent.document.forms["main_toolbar_form"];
 
-		dropboxSelect(tb.view_mode, getCookie("ttrss_vf_vmode"));
-		dropboxSelect(tb.limit, getCookie("ttrss_vf_limit"));
+		dropboxSelect(tb.view_mode, getInitParam("toolbar_view_mode"));
+		dropboxSelect(tb.limit, getInitParam("toolbar_limit"));
 
-		daemon_enabled = getCookie("ttrss_vf_daemon");
+		daemon_enabled = getInitParam("daemon_enabled");
 
 		// FIXME should be callled after window resize
 
@@ -591,4 +608,13 @@ function fatalError(code, message) {
 	} catch (e) {
 		exception_error("fatalError", e);
 	}
+}
+
+function getInitParam(key) {
+	return init_params[key];
+}
+
+function storeInitParam(key, value) {
+	new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+		param_escape(key) + "&value=" + param_escape(value));		
 }

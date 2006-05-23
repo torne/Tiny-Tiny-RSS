@@ -1688,4 +1688,22 @@
 	function get_session_cookie_name() {
 		return ((!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME);
 	}
+
+	function print_init_params($link) {
+		print "<init-params>";
+		if ($_SESSION["stored-params"]) {
+			foreach (array_keys($_SESSION["stored-params"]) as $key) {
+				$value = htmlspecialchars($_SESSION["stored-params"][$key]);
+				print "<param key=\"$key\" value=\"$value\"/>";
+			}
+		}
+
+		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
+		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
+
+		print "<param key=\"on_catchup_show_next_feed\" value=\"" . 
+			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";
+
+		print "</init-params>";
+	}
 ?>
