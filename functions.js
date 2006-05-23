@@ -47,13 +47,6 @@ function rpc_notify_callback() {
 	}
 }
 
-function rpc_pnotify_callback() {
-	var container = parent.document.getElementById('notify');
-	if (xmlhttp_rpc.readyState == 4) {
-		container.innerHTML=xmlhttp_rpc.responseText;
-	}
-}
-
 function param_escape(arg) {
 	if (typeof encodeURIComponent != 'undefined')
 		return encodeURIComponent(arg);	

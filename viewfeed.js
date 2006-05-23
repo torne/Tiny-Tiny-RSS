@@ -108,9 +108,9 @@ function toggleMark(id) {
 		}
 	}
 
-	xmlhttp_rpc.open("GET", query, true);
-	xmlhttp_rpc.onreadystatechange=rpc_pnotify_callback;
-	xmlhttp_rpc.send(null);
+	debug("toggle starred for aid " + id);
+
+	new Ajax.Request(query);
 
 }
 
