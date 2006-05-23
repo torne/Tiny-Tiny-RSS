@@ -1,28 +1,6 @@
-var xmlhttp = false;
+var xmlhttp = Ajax.getTransport();
 
 var cat_view_mode = false;
-
-/*@cc_on @*/
-/*@if (@_jscript_version >= 5)
-// JScript gives us Conditional compilation, we can cope with old IE versions.
-// and security blocked creation of the objects.
-try {
-	xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-	try {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
-	} catch (E) {
-		xmlhttp = false;
-		xmlhttp_rpc = false;
-	}
-}
-@end @*/
-
-if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-	xmlhttp = new XMLHttpRequest();
-	xmlhttp_rpc = new XMLHttpRequest();
-}
 
 function viewCategory(cat) {
 	viewfeed(cat, 0, '', false, true);

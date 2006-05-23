@@ -173,7 +173,7 @@ function scheduleFeedUpdate(force) {
 	var date = new Date();
 
 	if (!xmlhttp_ready(xmlhttp) && last_refetch < date.getTime() / 1000 - 60) {
-		debug("xmlhttp seems to be stuck, aborting");
+		debug("<b>xmlhttp seems to be stuck, aborting</b>");
 		xmlhttp.abort();
 	}
 
@@ -389,15 +389,6 @@ function init_second_stage() {
 
 		if (navigator.userAgent.match("Opera")) {
 			resize_feeds_frame();
-
-/*			// fix headlines frame height for Opera
-			var h = document.getElementById("headlines");
-			var c = document.getElementById("content");
-			var nh = document.body.scrollHeight * 0.25;
-	
-			h.style.height = nh + "px";
-			c.style.height = c.scrollHeight - nh + "px"; */
-			
 		}
 
 		debug("second stage ok");
@@ -479,9 +470,6 @@ function qfdDelete(feed_id) {
 		return
 	}
 
-//	var feeds_doc = window.frames["feeds-frame"].document;
-//	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
-
 	_qfd_deleted_feed = feed_id;
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id);
@@ -520,20 +508,6 @@ function toggleDispRead() {
 		
 	} catch (e) {
 		exception_error("toggleDispRead", e);
-	}
-}
-
-function fatalError(code, message) {
-	try {	
-		var fe = document.getElementById("fatal_error");
-		var fc = document.getElementById("fatal_error_msg");
-
-		fc.innerHTML = "Code " + code + ": " + message;
-
-		fe.style.display = "block";
-
-	} catch (e) {
-		exception_error("fatalError", e);
 	}
 }
 

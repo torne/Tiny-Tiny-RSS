@@ -77,6 +77,13 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
+<ul id="debug_output"></ul>
+
+<div id="fatal_error"><div id="fatal_error_inner">
+	<h1>Fatal Error</h1>
+	<div id="fatal_error_msg">Unknown Error</div>
+</div></div>
+
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>

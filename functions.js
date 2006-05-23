@@ -1,5 +1,7 @@
 var hotkeys_enabled = true;
 
+var xmlhttp_rpc = Ajax.getTransport();
+
 function browser_has_opacity() {
 	return navigator.userAgent.match("Gecko") != null || 
 		navigator.userAgent.match("Opera") != null;
@@ -462,8 +464,6 @@ function setActiveFeedId(id) {
 		exception_error("setActiveFeedId", e);
 	}
 }
-
-var xmlhttp_rpc = Ajax.getTransport();
 
 function parse_counters(reply, scheduled_call) {
 	try {
@@ -1159,3 +1159,19 @@ function storeInitParam(key, value, is_client) {
 		exception_error("storeInitParam", e);
 	}
 }
+
+function fatalError(code, message) {
+	try {	
+		var fe = document.getElementById("fatal_error");
+		var fc = document.getElementById("fatal_error_msg");
+
+		fc.innerHTML = "Code " + code + ": " + message;
+
+		fe.style.display = "block";
+
+	} catch (e) {
+		exception_error("fatalError", e);
+	}
+}
+
+

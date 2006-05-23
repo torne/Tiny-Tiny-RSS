@@ -10,6 +10,8 @@ var piggie_fwd = true;
 
 var xmlhttp = Ajax.getTransport();
 
+var init_params = new Array();
+
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -1157,9 +1159,69 @@ function selectTab(id, noupdate) {
 		}
 	}
 
-	active_tab = id;
+	if (active_tab != id) {
+		storeInitParam("prefs_active_tab", id);
+	}
 
-	setCookie('ttrss_pref_acttab', active_tab);
+	active_tab = id;
+}
+
+function backend_sanity_check_callback() {
+
+	if (xmlhttp.readyState == 4) {
+
+		try {
+		
+			if (!xmlhttp.responseXML) {
+				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
+				return;
+			}
+	
+			var reply = xmlhttp.responseXML.firstChild.firstChild;
+	
+			if (!reply) {
+				fatalError(3, "[D002, Invalid RPC reply]: " + xmlhttp.responseText);
+				return;
+			}
+	
+			var error_code = reply.getAttribute("error-code");
+		
+			if (error_code && error_code != 0) {
+				return fatalError(error_code, reply.getAttribute("error-msg"));
+			}
+	
+			debug("sanity check ok");
+
+			var params = reply.nextSibling;
+
+			if (params) {
+				debug('reading init-params...');
+				var param = params.firstChild;
+
+				while (param) {
+					var k = param.getAttribute("key");
+					var v = param.getAttribute("value");
+					debug(k + " => " + v);
+					init_params[k] = v;					
+					param = param.nextSibling;
+				}
+			}
+
+			init_second_stage();
+
+		} catch (e) {
+			exception_error("backend_sanity_check_callback", e);
+		}
+	} 
+}
+
+function init_second_stage() {
+
+	active_tab = getInitParam("prefs_active_tab");
+	if (!active_tab) active_tab = "genConfig";
+	selectTab(active_tab);
+	
+	notify("");
 
 }
 
@@ -1170,6 +1232,11 @@ function init() {
 		if (arguments.callee.done) return;
 		arguments.callee.done = true;		
 
+		if (getURLParam('debug')) {
+			document.getElementById('debug_output').style.display = 'block';
+			debug('debug mode activated');
+		}
+
 		// IE kludge
 		if (!xmlhttp) {
 			document.getElementById("prefContent").innerHTML = 
@@ -1178,12 +1245,10 @@ function init() {
 			return;
 		}
 
-		active_tab = getCookie("ttrss_pref_acttab");
-		if (!active_tab) active_tab = "genConfig";
-		selectTab(active_tab);
-	
-		document.onkeydown = hotkey_handler;
-		notify("");
+		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
+		xmlhttp.onreadystatechange=backend_sanity_check_callback;
+		xmlhttp.send(null);
+
 	} catch (e) {
 		exception_error("init", e);
 	}

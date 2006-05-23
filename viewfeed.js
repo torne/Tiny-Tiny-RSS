@@ -1,25 +1,6 @@
 var active_post_id = false;
 
-var xmlhttp_rpc = false;
-
-/*@cc_on @*/
-/*@if (@_jscript_version >= 5)
-// JScript gives us Conditional compilation, we can cope with old IE versions.
-// and security blocked creation of the objects.
-try {
-	xmlhttp_rpc = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-	try {
-		xmlhttp_rpc = new ActiveXObject("Microsoft.XMLHTTP");
-	} catch (E) {
-		xmlhttp_rpc = false;
-	}
-}
-@end @*/
-
-if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
-	xmlhttp_rpc = new XMLHttpRequest();
-}
+var xmlhttp_rpc = Ajax.getTransport();
 
 function view(id, feed_id) {
 	
