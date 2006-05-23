@@ -783,7 +783,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 					}
 				} else if (child.id.match("FEEDR-")) {
 				
-					if (getCookie("ttrss_vf_hreadf") == 1) {
+					if (getInitParam("hide_read_feeds") == 1) {
 						if (child.className != "feed") {
 							alert(child.className);
 							return child.id.replace('FEEDR-', '');						
@@ -798,7 +798,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 	
 		var feed = list.ownerDocument.getElementById("FEEDR-" + getActiveFeedId());
 		
-		if (getCookie("ttrss_vf_hreadf") == 1) {
+		if (getInitParam("hide_read_feeds") == 1) {
 			unread_only = true;
 		}
 
@@ -1098,11 +1098,13 @@ function getInitParam(key) {
 }
 
 // TODO: batch mode
-function storeInitParam(key, value) {
+function storeInitParam(key, value, is_client) {
 	try {
 		getMainContext().init_params[key] = value;
-		new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-			param_escape(key) + "&value=" + param_escape(value));		
+		if (!is_client) {
+			new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+				param_escape(key) + "&value=" + param_escape(value));	
+		}
 	} catch (e) {
 		exception_error("storeInitParam", e);
 	}

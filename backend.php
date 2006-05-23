@@ -102,11 +102,6 @@
 	}
 
 	if ($_SESSION["uid"]) {
-		if (get_pref($link, "HIDE_READ_FEEDS") == "true") {
-			setcookie("ttrss_vf_hreadf", 1);
-		} else {
-			setcookie("ttrss_vf_hreadf", 0);
-		}  
 
 //		setcookie('ttrss_vf_refresh', FEEDS_FRAME_REFRESH);
 //		setcookie('ttrss_vf_daemon', ENABLE_UPDATE_DAEMON);

@@ -1713,6 +1713,9 @@
 		print "<param key=\"on_catchup_show_next_feed\" value=\"" . 
 			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";
 
+		print "<param key=\"hide_read_feeds\" value=\"" . 
+			sprintf("%d", get_pref($link, "HIDE_READ_FEEDS")) . "\"/>";
+
 		print "</init-params>";
 	}
 ?>

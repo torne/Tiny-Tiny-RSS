@@ -44,31 +44,6 @@ function dlg_frefresh_callback() {
 	} 
 }
 
-function hide_unread_callback() {
-	if (xmlhttp.readyState == 4) {
-
-		try {
-
-			var reply = xmlhttp.responseXML.firstChild.firstChild;
-			var value = reply.getAttribute("value");
-			var hide_read_feeds = (value != "false")
-			var feeds_doc = window.frames["feeds-frame"].document;
-	
-			hideOrShowFeeds(feeds_doc, hide_read_feeds);
-	
-			if (hide_read_feeds) {
-				setCookie("ttrss_vf_hreadf", 1);
-			} else {
-				setCookie("ttrss_vf_hreadf", 0);
-			} 
-
-		} catch (e) {
-			exception_error("hide_unread_callback", e);
-		}
-
-	} 
-}
-
 function refetch_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {
@@ -563,16 +538,20 @@ function toggleDispRead() {
 			return
 		}
 
-		var hide_read_feeds = (getCookie("ttrss_vf_hreadf") == 1);
+		var hide_read_feeds = (getInitParam("hide_read_feeds") == "1");
 
 		hide_read_feeds = !hide_read_feeds;
-	
+
+		debug("toggle_disp_read => " + hide_read_feeds);
+
+		hideOrShowFeeds(getFeedsContext().document, hide_read_feeds);
+
 		var query = "backend.php?op=rpc&subop=setpref" +
 			"&key=HIDE_READ_FEEDS&value=" + param_escape(hide_read_feeds);
 
-		xmlhttp.open("GET", query);
-		xmlhttp.onreadystatechange=hide_unread_callback;
-		xmlhttp.send(null);
+		storeInitParam("hide_read_feeds", hide_read_feeds, true);
+
+		new Ajax.Request(query);
 		
 	} catch (e) {
 		exception_error("toggleDispRead", e);

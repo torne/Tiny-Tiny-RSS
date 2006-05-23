@@ -189,10 +189,8 @@ function toggleCollapseCat(cat) {
 			}
 		}
 
-		xmlhttp_rpc.open("GET", "backend.php?op=feeds&subop=collapse&cid=" + 
-			param_escape(cat), true);
-		xmlhttp_rpc.onreadystatechange=rpc_pnotify_callback;
-		xmlhttp_rpc.send(null);
+		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 
+			param_escape(cat));
 
 	} catch (e) {
 		exception_error("toggleCollapseCat", e);
@@ -206,7 +204,7 @@ function init() {
 		
 		parent.debug("in feedlist init");
 		
-		hideOrShowFeeds(document, getCookie("ttrss_vf_hreadf") == 1);
+		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
 		parent.setTimeout("timeout()", 0);
 
