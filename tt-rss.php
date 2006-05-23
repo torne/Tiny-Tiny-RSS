@@ -79,13 +79,11 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<? if (ENABLE_UPDATE_DAEMON && !file_is_locked("update_daemon.lock")) { ?>
-	<div class="noDaemonWarning">
-		<b>Warning:</b> Update daemon is enabled in configuration, but daemon
-		process is not running, which prevents all feeds from updating. Please
-		start the daemon process or contact instance owner.
-	</div>
-<? } ?>
+<div id="noDaemonWarning">
+	<b>Warning:</b> Update daemon is enabled in configuration, but daemon
+	process is not running, which prevents all feeds from updating. Please
+	start the daemon process or contact instance owner.
+</div>
 
 <ul id="debug_output"></ul>
 

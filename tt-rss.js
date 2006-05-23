@@ -75,6 +75,10 @@ function refetch_callback() {
 	
 			parse_counters(counters, true);
 
+			var runtime_info = counters.nextSibling;
+
+			parse_runtime_info(runtime_info);
+
 			debug("refetch_callback: done");
 
 			if (!daemon_enabled) {
@@ -513,4 +517,22 @@ function toggleDispRead() {
 	}
 }
 
+function parse_runtime_info(elem) {
+	var param = elem.firstChild;
 
+	while (param) {
+		var k = param.getAttribute("key");
+		var v = param.getAttribute("value");
+
+		var w = document.getElementById("noDaemonWarning");
+		
+		if (w) {
+			if (k == "daemon_is_running" && v != 1) {
+				w.style.display = "block";
+			} else {
+				w.style.display = "none";
+			}
+		}
+		param = param.nextSibling;
+	}
+}
