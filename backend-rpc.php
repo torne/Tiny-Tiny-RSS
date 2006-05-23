@@ -24,22 +24,29 @@
 		if ($subop == "getLabelCounters") {
 			$aid = $_GET["aid"];		
 			print "<rpc-reply>";
+			print "<counters>";
 			getLabelCounters($link);
 			if ($aid) {
 				getFeedCounter($link, $aid);
 			}
+			print "</counters>";
 			print "</rpc-reply>";
 		}
 
 		if ($subop == "getFeedCounters") {
 			print "<rpc-reply>";
+			print "<counters>";
 			getFeedCounters($link);
+			print "</counters>";
 			print "</rpc-reply>";
 		}
 
 		if ($subop == "getAllCounters") {
 			print "<rpc-reply>";
+			print "<counters>";
 			getAllCounters($link);
+			print "</counters>";
+			print_runtime_info($link);
 			print "</rpc-reply>";
 		}
 
@@ -71,8 +78,10 @@
 				update_rss_feed($link, $feed_url, $feed_id);
 			}
 
-			print "<rpc-reply>";
+			print "<rpc-reply>";	
+			print "<counters>";
 			getFeedCounter($link, $feed_id);
+			print "</counters>";
 			print "</rpc-reply>";
 			
 			return;
@@ -108,6 +117,8 @@
 
 			print "<rpc-reply>";
 
+			print "<counters>";
+
 			if ($global_unread_caller != $global_unread) {
 
 	 			$omode = $_GET["omode"];
@@ -125,6 +136,10 @@
 			}
 
  			getGlobalCounters($link, $global_unread);
+
+			print "</counters>";
+
+			print_runtime_info($link);
 
 			print "</rpc-reply>";
 
@@ -154,7 +169,10 @@
 				}
 			}
 			print "<rpc-reply>";
+			print "<counters>";
 			getAllCounters($link);
+			print "</counters>";
+			print_runtime_info($link);
 			print "</rpc-reply>";
 		}
 
@@ -181,7 +199,10 @@
 				}
 			}
 			print "<rpc-reply>";
+			print "<counters>";
 			getAllCounters($link);
+			print "</counters>";
+			print_runtime_info($link);
 			print "</rpc-reply>";
 		}
 
@@ -190,6 +211,7 @@
 			if (sanity_check($link)) {
 				print "<error error-code=\"0\"/>";
 				print_init_params($link);
+				print_runtime_info($link);
 			}
 			print "</rpc-reply>";
 		}		

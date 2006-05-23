@@ -70,8 +70,10 @@ function refetch_callback() {
 			if (error_code && error_code != 0) {
 				return fatalError(error_code, reply.getAttribute("error-msg"));
 			}
+
+			var counters = reply.firstChild;
 	
-			parse_counters(reply, true);
+			parse_counters(counters, true);
 
 			debug("refetch_callback: done");
 

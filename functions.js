@@ -470,6 +470,11 @@ function parse_counters(reply, scheduled_call) {
 		var f_document = getFeedsContext().document;
 		var title_obj = getMainContext();
 
+		if (reply.firstChild && reply.firstChild.firstChild) {
+			debug("<b>wrong element passed to parse_counters, adjusting.</b>");
+			reply = reply.firstChild;
+		}
+
 		debug("F_DOC: " + f_document + ", T_OBJ: " + title_obj);
 
 		for (var l = 0; l < reply.childNodes.length; l++) {
@@ -565,7 +570,9 @@ function all_counters_callback() {
 
 			var reply = xmlhttp_rpc.responseXML.firstChild;
 
-			parse_counters(reply);
+			var counters = reply.firstChild;
+
+			parse_counters(counters);
 	
 		} catch (e) {
 			exception_error("all_counters_callback", e);

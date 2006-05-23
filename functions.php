@@ -1718,4 +1718,11 @@
 
 		print "</init-params>";
 	}
+
+	function print_runtime_info($link) {
+		print "<runtime-info>";
+		print "<param key=\"daemon_is_running\" value=\"".
+			sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
+		print "</runtime-info>";
+	}
 ?>
