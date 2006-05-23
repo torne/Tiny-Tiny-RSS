@@ -130,40 +130,6 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	}		
 }
 
-function localHotkeyHandler(keycode) {
-
-	if (keycode == 65) { // a
-		return parent.toggleDispRead();
-	}
-
-	if (keycode == 85) { // u
-		if (parent.getActiveFeedId()) {
-			return viewfeed(parent.getActiveFeedId(), 0, "ForceUpdate");
-		}
-	}
-
-	if (keycode == 82) { // r
-		return parent.scheduleFeedUpdate(true);
-	}
-
-	var feedlist = document.getElementById('feedList');
-
-	if (keycode == 74) { // j
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-	if (keycode == 75) { // k
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'next');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-//	alert("KC: " + keycode);
-
-}
-
 function toggleCollapseCat(cat) {
 	try {
 		if (!xmlhttp_ready(xmlhttp)) {

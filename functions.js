@@ -14,9 +14,12 @@ function exception_error(location, e) {
 		msg = "Exception: " + e.name + ", " + e.message + 
 			"\nFunction: " + location + "()" +
 			"\nLocation: " + base_fname + ":" + e.lineNumber;
+		
 	} else {
 		msg = "Exception: " + e + "\nFunction: " + location + "()";
 	}
+
+	debug("<b>EXCEPTION: " + msg + "</b>");
 
 	alert(msg);
 }
@@ -148,40 +151,85 @@ var seq = "";
 
 function hotkey_handler(e) {
 
-	var keycode;
+	try {
 
-	if (!hotkeys_enabled) return;
-
-	if (window.event) {
-		keycode = window.event.keyCode;
-	} else if (e) {
-		keycode = e.which;
-	}
-
-	if (keycode == 13 || keycode == 27) {
-		seq = "";
-	} else {
-		seq = seq + "" + keycode;
-	}
-
-	if (document.getElementById("piggie")) {
-
-		if (seq.match("807371717369")) {
-			seq = "";
-			localPiggieFunction(true);
-		} else {
-			localPiggieFunction(false);
-		}
-	}
+		var keycode;
 	
-	if (typeof localHotkeyHandler != 'undefined') {
-		try {
-			localHotkeyHandler(keycode);
-		} catch (e) {
-			exception_error("hotkey_handler", e);
+		if (!hotkeys_enabled) return;
+	
+		if (window.event) {
+			keycode = window.event.keyCode;
+		} else if (e) {
+			keycode = e.which;
 		}
-	}
+	
+		if (keycode == 13 || keycode == 27) {
+			seq = "";
+		} else {
+			seq = seq + "" + keycode;
+		}
+	
+		var m_ctx = getMainContext();
+		var f_ctx = getFeedsContext();
+		var h_ctx = getHeadlinesContext();
+	
+		if (keycode == 82) { // r
+			return m_ctx.scheduleFeedUpdate(true);
+		}
+	
+		if (keycode == 85) { // u
+			if (getActiveFeedId()) {
+				return f_ctx.viewfeed(getActiveFeedId(), 0, "ForceUpdate");
+			}
+		}
+	
+		if (keycode == 65) { // a
+			return m_ctx.toggleDispRead();
+		}
+	
+		var f_doc = m_ctx.frames["feeds-frame"].document;
+		var feedlist = f_doc.getElementById('feedList');
+	
+		if (keycode == 74) { // j
+			var feed = getActiveFeedId();
+			var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
+			if (new_feed) viewfeed(new_feed, 0, '');
+		}
+	
+		if (keycode == 75) { // k
+			var feed = getActiveFeedId();
+			var new_feed = getRelativeFeedId(feedlist, feed, 'next');
+			if (new_feed) viewfeed(new_feed, 0, '');
+		}
 
+		if (keycode == 78 || keycode == 40) { // n, down
+			return h_ctx.moveToPost('next');
+		}
+	
+		if (keycode == 80 || keycode == 38) { // p, up
+			return h_ctx.moveToPost('prev');
+		} 
+	
+		if (document.getElementById("piggie")) {
+	
+			if (seq.match("807371717369")) {
+				seq = "";
+				localPiggieFunction(true);
+			} else {
+				localPiggieFunction(false);
+			}
+		}
+		
+		if (typeof localHotkeyHandler != 'undefined') {
+			try {
+				localHotkeyHandler(keycode);
+			} catch (e) {
+				exception_error("hotkey_handler, local:", e);
+			}
+		}
+	} catch (e) {
+		exception_error("hotkey_handler", e);
+	}
 }
 
 function cleanSelectedList(element) {
@@ -1067,6 +1115,15 @@ function getFeedsContext() {
 		return getMainContext().frames["feeds-frame"];
 	} catch (e) {
 		exception_error("getFeedsContext", e);
+	}
+}
+
+
+function getHeadlinesContext() {
+	try {
+		return getMainContext().frames["headlines-frame"];
+	} catch (e) {
+		exception_error("getHeadlinesContext", e);
 	}
 }
 

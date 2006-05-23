@@ -22,38 +22,42 @@ if (!xmlhttp_rpc && typeof XMLHttpRequest!='undefined') {
 }
 
 function view(id, feed_id) {
+	
+	try {
 
-	parent.debug("loading article: " + id + "/" + feed_id);
+		debug("loading article: " + id + "/" + feed_id);
+	
+		var f_document = getFeedsContext().document;
+		var m_document = parent.document;
+	
+		enableHotkeys();
+	
+		var crow = document.getElementById("RROW-" + id);
+	
+		crow.className = crow.className.replace("Unread", "");
+	
+		cleanSelected("headlinesList");
+	
+		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+	
+		if (upd_img_pic) {
+			upd_img_pic.src = "images/blank_icon.gif";
+		} 
+	
+		active_post_id = id; 
+		setActiveFeedId(feed_id);
+	
+		var content = m_document.getElementById("content-frame");
+	
+		content.src = "backend.php?op=view&id=" + param_escape(id) +
+			"&feed=" + param_escape(feed_id);
+	
+		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+		markHeadline(active_post_id);
 
-	var f_document = parent.frames["feeds-frame"].document;
-	var h_document = document;
-	var m_document = parent.document;
-
-	enableHotkeys();
-
-	var crow = h_document.getElementById("RROW-" + id);
-
-	crow.className = crow.className.replace("Unread", "");
-
-	cleanSelected("headlinesList");
-
-	var upd_img_pic = h_document.getElementById("FUPDPIC-" + id);
-
-	if (upd_img_pic) {
-		upd_img_pic.src = "images/blank_icon.gif";
-	} 
-
-	active_post_id = id; 
-	setActiveFeedId(feed_id);
-
-	var content = m_document.getElementById("content-frame");
-
-	content.src = "backend.php?op=view&id=" + param_escape(id) +
-		"&feed=" + param_escape(feed_id);
-
-	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-	markHeadline(active_post_id);
-
+	} catch (e) {
+		exception_error("view", e);
+	}
 }
 
 function toggleMark(id) {
@@ -153,58 +157,6 @@ function moveToPost(mode) {
 function viewfeed(id) {
 	var f = parent.frames["feeds-frame"];
 	f.viewfeed(id, 0);
-}
-
-function localHotkeyHandler(keycode) {
-
-	if (keycode == 78 || keycode == 40) { // n, down
-		return moveToPost('next');
-	}
-
-	if (keycode == 80 || keycode == 38) { // p, up
-		return moveToPost('prev');
-	} 
-
-	if (keycode == 65) { // a
-		return parent.toggleDispRead();
-	}
-
-	if (keycode == 85) { // u
-		if (parent.getActiveFeedId()) {
-			return parent.viewfeed(parent.getActiveFeedId(), 0, "ForceUpdate");
-		}
-	}
-
-	if (keycode == 82) { // r
-		return parent.scheduleFeedUpdate(true);
-	}
-	
-	var f_doc = parent.frames["feeds-frame"].document;
-	var feedlist = f_doc.getElementById('feedList');
-
-	if (keycode == 74) { // j
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-	if (keycode == 75) { // k
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'next');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-// FIXME
-//	if (keycode == 85) {
-//		return viewfeed(active_feed_id, active_offset, "ForceUpdate");
-//	}
-
-	if (keycode == 83) { // s
-		selectionToggleMarked();
-	}
-	
-//	alert("KC: " + keycode);
-
 }
 
 function toggleUnread(id, cmode) {

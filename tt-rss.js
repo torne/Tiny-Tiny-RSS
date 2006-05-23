@@ -288,41 +288,6 @@ function localPiggieFunction(enable) {
 	}
 }
 
-function localHotkeyHandler(keycode) {
-
-	if (keycode == 82) { // r
-		return scheduleFeedUpdate(true);
-	}
-
-	if (keycode == 85) { // u
-		if (getActiveFeedId()) {
-			return viewfeed(getActiveFeedId(), 0, "ForceUpdate");
-		}
-	}
-
-	if (keycode == 65) { // a
-		return toggleDispRead();
-	}
-
-	var f_doc = window.frames["feeds-frame"].document;
-	var feedlist = f_doc.getElementById('feedList');
-
-	if (keycode == 74) { // j
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-	if (keycode == 75) { // k
-		var feed = getActiveFeedId();
-		var new_feed = getRelativeFeedId(feedlist, feed, 'next');
-		if (new_feed) viewfeed(new_feed, 0, '');
-	}
-
-//	notify("KC: " + keycode);
-
-}
-
 // if argument is undefined, current subtitle is not updated
 // use blank string to clear subtitle
 function updateTitle(s) {
