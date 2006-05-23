@@ -836,31 +836,40 @@
 
 	function authenticate_user($link, $login, $password) {
 
-		$pwd_hash = 'SHA1:' . sha1($password);
+		if (!SINGLE_USER_MODE) {
 
-		$result = db_query($link, "SELECT id,login,access_level FROM ttrss_users WHERE 
-			login = '$login' AND pwd_hash = '$pwd_hash'");
+			$pwd_hash = 'SHA1:' . sha1($password);
+	
+			$result = db_query($link, "SELECT id,login,access_level FROM ttrss_users WHERE 
+				login = '$login' AND pwd_hash = '$pwd_hash'");
+	
+			if (db_num_rows($result) == 1) {
+				$_SESSION["uid"] = db_fetch_result($result, 0, "id");
+				$_SESSION["name"] = db_fetch_result($result, 0, "login");
+				$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
+	
+				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
+					$_SESSION["uid"]);
+	
+				$user_theme = get_user_theme_path($link);
+	
+				$_SESSION["theme"] = $user_theme;
+				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
+	
+				initialize_user_prefs($link, $_SESSION["uid"]);
+	
+				return true;
+			}
+	
+			return false;
 
-		if (db_num_rows($result) == 1) {
-			$_SESSION["uid"] = db_fetch_result($result, 0, "id");
-			$_SESSION["name"] = db_fetch_result($result, 0, "login");
-			$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
+		} else {
 
-			db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
-				$_SESSION["uid"]);
-
-			$user_theme = get_user_theme_path($link);
-
-			$_SESSION["theme"] = $user_theme;
-			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
-
-			initialize_user_prefs($link, $_SESSION["uid"]);
+			$_SESSION["uid"] = 1;
+			$_SESSION["name"] = "admin";
 
 			return true;
 		}
-
-		return false;
-
 	}
 
 	function make_password($length = 8) {
