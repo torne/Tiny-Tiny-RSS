@@ -1,5 +1,6 @@
 <?
 	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
+	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
 	function render_feeds_list($link) {
 

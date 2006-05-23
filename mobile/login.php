@@ -1,5 +1,5 @@
 <?
-//	require_once "sessions.php";
+	require_once "functions.php";
 
 	require_once "../version.php"; 
 	require_once "../config.php";
@@ -19,7 +19,7 @@
 	$password = $_POST["password"];
 	$return_to = $_POST["rt"];
 
-	if ($_COOKIE["ttrss_sid"]) {
+	if ($_COOKIE[get_session_cookie_name()]) {
 		require_once "../sessions.php";
 		if ($_SESSION["uid"]) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 

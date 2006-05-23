@@ -940,7 +940,7 @@
 
 	function basic_nosid_redirect_check() {
 		if (!SINGLE_USER_MODE) {
-			if (!$_COOKIE["ttrss_sid"]) {
+			if (!$_COOKIE[get_session_cookie_name()]) {
 				$redirect_uri = get_login_redirect();
 				$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
 				header("Location: $redirect_uri?rt=$return_to");
@@ -1683,5 +1683,9 @@
 			return "getFeedTitle($id) failed";
 		}
 
+	}
+
+	function get_session_cookie_name() {
+		return ((!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME);
 	}
 ?>
