@@ -10,6 +10,7 @@ var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var last_refetch = 0;
 var cookie_lifetime = 0;
+var active_feed_id = 0;
 
 var xmlhttp = Ajax.getTransport();
 
@@ -430,8 +431,6 @@ function init_second_stage() {
 		cookie_lifetime = getCookie("ttrss_cltime");
 
 		delCookie("ttrss_vf_test");
-
-		setCookie("ttrss_vf_actfeed", "");
 	
 		updateFeedList(false, false);
 		document.onkeydown = hotkey_handler;
@@ -594,16 +593,4 @@ function fatalError(code, message) {
 	}
 }
 
-function getInitParam(key) {
-	return init_params[key];
-}
 
-function storeInitParam(key, value) {
-	try {
-		init_params[key] = value;
-		new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-			param_escape(key) + "&value=" + param_escape(value));		
-	} catch (e) {
-		exception_error("storeInitParam", e);
-	}
-}

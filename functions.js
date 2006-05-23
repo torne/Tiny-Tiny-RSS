@@ -404,18 +404,29 @@ function gotoExportOpml() {
 }
 
 function getActiveFeedId() {
-	return getCookie("ttrss_vf_actfeed");
+//	return getCookie("ttrss_vf_actfeed");
+	try {
+		debug("gAFID: " + getMainContext().active_feed_id);
+		return getMainContext().active_feed_id;
+	} catch (e) {
+		exception_error("getActiveFeedId", e);
+	}
 }
 
 function setActiveFeedId(id) {
-	return setCookie("ttrss_vf_actfeed", id);
+//	return setCookie("ttrss_vf_actfeed", id);
+	try {
+		getMainContext().active_feed_id = id;
+	} catch (e) {
+		exception_error("setActiveFeedId", e);
+	}
 }
 
 var xmlhttp_rpc = Ajax.getTransport();
 
 function parse_counters(reply, scheduled_call) {
 	try {
-		var f_document = getMainContext().frames["feeds-frame"].document;
+		var f_document = getFeedsContext().document;
 		var title_obj = getMainContext();
 
 		debug("F_DOC: " + f_document + ", T_OBJ: " + title_obj);
@@ -511,13 +522,7 @@ function all_counters_callback() {
 				return;
 			}
 
-			if (!parent.frames["feeds-frame"]) {
-				notify("[all_counters_callback] no parent feeds-frame");
-				return;
-			}
-
 			var reply = xmlhttp_rpc.responseXML.firstChild;
-//			var f_document = parent.frames["feeds-frame"].document;
 
 			parse_counters(reply);
 	
@@ -1030,7 +1035,7 @@ function qafAdd() {
 
 	closeInfoBox();
 
-	var feeds_doc = window.frames["feeds-frame"].document;
+	var feeds_doc = getFeedsContext().document;
 
 	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 	
@@ -1064,6 +1069,14 @@ function getMainContext() {
 	}
 }
 
+function getFeedsContext() {
+	try {
+		return getMainContext().frames["feeds-frame"];
+	} catch (e) {
+		exception_error("getFeedsContext", e);
+	}
+}
+
 function debug(msg) {
 	var ctx = getMainContext();
 
@@ -1080,4 +1093,17 @@ function debug(msg) {
 	}
 }
 
+function getInitParam(key) {
+	return getMainContext().init_params[key];
+}
 
+// TODO: batch mode
+function storeInitParam(key, value) {
+	try {
+		getMainContext().init_params[key] = value;
+		new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+			param_escape(key) + "&value=" + param_escape(value));		
+	} catch (e) {
+		exception_error("storeInitParam", e);
+	}
+}

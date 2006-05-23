@@ -45,10 +45,10 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 //		setCookie("ttrss_vf_limit", toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
 //		setCookie("ttrss_vf_vmode", toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
 
-		parent.storeInitParam("toolbar_limit", 
+		storeInitParam("toolbar_limit", 
 			toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
 
-		parent.storeInitParam("toolbar_view_mode", 
+		storeInitParam("toolbar_view_mode", 
 			toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);
 
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +

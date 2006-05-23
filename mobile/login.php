@@ -47,9 +47,6 @@
 				$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
 			}
 
-			setcookie("ttrss_cltime", $_SESSION["cookie_lifetime"], 
-				$_SESSION["cookie_lifetime"]);
-
 			if (!$return_to) {
 				$return_to = "tt-rss.php";
 			}
