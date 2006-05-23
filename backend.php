@@ -2762,6 +2762,8 @@
 
 		if ($id == "quickAddFilter") {
 
+			$active_feed_id = db_escape_string($_GET["param"]);
+
 			print "<div id=\"infoBoxTitle\">Create filter</div>";
 			print "<div class=\"infoBoxContents\">";
 
@@ -2772,7 +2774,7 @@
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
 
 //			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
-			
+		
 			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
 	
@@ -2796,7 +2798,7 @@
 			print "</td></tr>";
 			print "<tr><td>Feed:</td><td colspan='2'>";
 
-			print_feed_select($link, "feed_id");
+			print_feed_select($link, "feed_id", $active_feed_id);
 			
 			print "</td></tr>";
 	
