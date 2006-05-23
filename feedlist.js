@@ -111,7 +111,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			query = query + "&ts=" + timestamp
 		}
 
-		parent.debug(query);
+		debug(query);
 
 		headlines_frame.location.href = query;
 	

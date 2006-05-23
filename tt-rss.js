@@ -95,9 +95,7 @@ function refetch_callback() {
 				return fatalError(error_code, reply.getAttribute("error-msg"));
 			}
 	
-			var f_document = window.frames["feeds-frame"].document;
-
-			parse_counters(reply, f_document, window, true);
+			parse_counters(reply, true);
 
 			debug("refetch_callback: done");
 
@@ -582,20 +580,6 @@ function toggleDispRead() {
 	}
 }
 
-function debug(msg) {
-	var c = document.getElementById('debug_output');
-	if (c && c.style.display == "block") {
-		while (c.lastChild != 'undefined' && c.childNodes.length > 20) {
-			c.removeChild(c.lastChild);
-		}
-	
-		var d = new Date();
-		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
-			":" + leading_zero(d.getSeconds());
-		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
-	}
-}
-
 function fatalError(code, message) {
 	try {	
 		var fe = document.getElementById("fatal_error");
@@ -615,6 +599,11 @@ function getInitParam(key) {
 }
 
 function storeInitParam(key, value) {
-	new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-		param_escape(key) + "&value=" + param_escape(value));		
+	try {
+		init_params[key] = value;
+		new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+			param_escape(key) + "&value=" + param_escape(value));		
+	} catch (e) {
+		exception_error("storeInitParam", e);
+	}
 }

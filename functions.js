@@ -413,8 +413,13 @@ function setActiveFeedId(id) {
 
 var xmlhttp_rpc = Ajax.getTransport();
 
-function parse_counters(reply, f_document, title_obj, scheduled_call) {
+function parse_counters(reply, scheduled_call) {
 	try {
+		var f_document = getMainContext().frames["feeds-frame"].document;
+		var title_obj = getMainContext();
+
+		debug("F_DOC: " + f_document + ", T_OBJ: " + title_obj);
+
 		for (var l = 0; l < reply.childNodes.length; l++) {
 			if (!reply.childNodes[l] ||
 				typeof(reply.childNodes[l].getAttribute) == "undefined") {
@@ -498,9 +503,6 @@ function parse_counters(reply, f_document, title_obj, scheduled_call) {
 	}
 }
 
-// this one is called from feedlist context
-// thus title_obj passed to parse_counters is parent (e.g. main ttrss window)
-
 function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
@@ -515,9 +517,9 @@ function all_counters_callback() {
 			}
 
 			var reply = xmlhttp_rpc.responseXML.firstChild;
-			var f_document = parent.frames["feeds-frame"].document;
+//			var f_document = parent.frames["feeds-frame"].document;
 
-			parse_counters(reply, f_document, parent);
+			parse_counters(reply);
 	
 		} catch (e) {
 			exception_error("all_counters_callback", e);
@@ -1052,6 +1054,30 @@ function filterCR(e)
           return false;
      else
           return true;
+}
+
+function getMainContext() {
+	if (parent.window != window) {
+		return parent.window;
+	} else {
+		return this.window;
+	}
+}
+
+function debug(msg) {
+	var ctx = getMainContext();
+
+	var c = ctx.document.getElementById('debug_output');
+	if (c && c.style.display == "block") {
+		while (c.lastChild != 'undefined' && c.childNodes.length > 20) {
+			c.removeChild(c.lastChild);
+		}
+	
+		var d = new Date();
+		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
+			":" + leading_zero(d.getSeconds());
+		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
+	}
 }
 
 
