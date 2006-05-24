@@ -1181,4 +1181,12 @@ function fatalError(code, message) {
 	}
 }
 
-
+function getFeedName(id) {
+	var d = getFeedsContext().document;
+	var e = d.getElementById("FEEDN-" + id);
+	if (e) {
+		return e.innerHTML.stripTags();
+	} else {
+		return null;
+	}
+}

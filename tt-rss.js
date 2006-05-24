@@ -436,8 +436,10 @@ function quickMenuGo(opid) {
 				alert("Please select some feed first.");
 				return;
 			}
+
+			var fn = getFeedName(actid);
 	
-			if (confirm("Unsubscribe from current feed?")) {
+			if (confirm("Unsubscribe from " + fn + "?")) {
 				qfdDelete(actid);
 			}
 		
