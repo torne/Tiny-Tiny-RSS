@@ -568,11 +568,19 @@ function all_counters_callback() {
 				return;
 			}
 
+			debug("in all_counters_callback");
+
 			var reply = xmlhttp_rpc.responseXML.firstChild;
 
 			var counters = reply.firstChild;
 
 			parse_counters(counters);
+
+			var runtime = counters.nextSibling;
+
+			if (runtime) {
+				getMainContext().parse_runtime_info(runtime);
+			}
 	
 		} catch (e) {
 			exception_error("all_counters_callback", e);

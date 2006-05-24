@@ -522,9 +522,13 @@ function toggleDispRead() {
 function parse_runtime_info(elem) {
 	var param = elem.firstChild;
 
+	debug("parse_runtime_info");
+
 	while (param) {
 		var k = param.getAttribute("key");
 		var v = param.getAttribute("value");
+
+		debug("RI: " + k + " => " + v);
 
 		var w = document.getElementById("noDaemonWarning");
 		
