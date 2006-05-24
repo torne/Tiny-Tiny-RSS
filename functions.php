@@ -345,9 +345,9 @@
 			if (!$iterator || !is_array($iterator)) $iterator = $rss;
 
 			if (!is_array($iterator)) {
-				db_query($link, "UPDATE ttrss_feeds 
+				/* db_query($link, "UPDATE ttrss_feeds 
 					SET last_error = 'Parse error: can\'t find any articles.'
-						WHERE id = '$feed'");
+						WHERE id = '$feed'"); */
 				return; // WTF?
 			}
 
