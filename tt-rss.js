@@ -14,7 +14,7 @@ var active_feed_id = 0;
 
 var xmlhttp = Ajax.getTransport();
 
-var init_params = new Array();
+var init_params = new Object();
 
 function toggleTags() {
 	display_tags = !display_tags;

@@ -1162,18 +1162,42 @@ function getInitParam(key) {
 	return getMainContext().init_params[key];
 }
 
-// TODO: batch mode
 function storeInitParam(key, value, is_client) {
 	try {
-		getMainContext().init_params[key] = value;
 		if (!is_client) {
-			new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-				param_escape(key) + "&value=" + param_escape(value));	
+			if (getMainContext().init_params[key] != value) {
+				debug("storeInitParam: " + key + " => " + value);
+				new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+					param_escape(key) + "&value=" + param_escape(value));	
+			}
 		}
+		getMainContext().init_params[key] = value;
 	} catch (e) {
 		exception_error("storeInitParam", e);
 	}
 }
+
+/*
+function storeInitParams(params, is_client) {
+	try {
+		var s = "";
+
+		for (k in params) {
+			if (getMainContext().init_params[k] != params[k]) {
+				s += k + "=" + params[k] + ";";
+				getMainContext().init_params[k] = params[k];
+			}
+		} 
+
+		debug("storeInitParams: " + s);
+	
+		if (!is_client) {
+			new Ajax.Request("backend.php?op=rpc&subop=storeParams&str=" + s);
+		}
+	} catch (e) {
+		exception_error("storeInitParams", e);
+	}
+}*/
 
 function fatalError(code, message) {
 	try {	
