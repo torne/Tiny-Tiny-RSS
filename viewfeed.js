@@ -5,7 +5,6 @@ var xmlhttp_rpc = Ajax.getTransport();
 function view(id, feed_id) {
 	
 	try {
-
 		debug("loading article: " + id + "/" + feed_id);
 	
 		var f_document = getFeedsContext().document;

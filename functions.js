@@ -564,7 +564,7 @@ function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
 			if (!xmlhttp_rpc.responseXML || !xmlhttp_rpc.responseXML.firstChild) {
-				notify("[all_counters_callback] backend did not return valid XML");
+				debug("[all_counters_callback] backend did not return valid XML");
 				return;
 			}
 
