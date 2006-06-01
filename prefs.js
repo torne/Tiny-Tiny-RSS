@@ -1112,58 +1112,68 @@ function selectTab(id, noupdate) {
 
 //	alert(id);
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	if (!id) id = active_tab;
 
-	if (!noupdate) {
+	try {
 
-		notify("Loading, please wait...", true);
-
-		// close active infobox if needed
-		closeInfoBox();
-
-		// clean up all current selections, just in case
-		active_feed_cat = false;
-		active_label = false;
-
-		if (id == "feedConfig") {
-			updateFeedList();
-		} else if (id == "filterConfig") {
-			updateFilterList();
-		} else if (id == "labelConfig") {
-			updateLabelList();
-		} else if (id == "genConfig") {
-			updatePrefsList();
-		} else if (id == "userConfig") {
-			updateUsersList();
-		} else if (id == "feedBrowser") {
-			updateBigFeedBrowser();
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
 		}
-	}
 
-	var tab = document.getElementById(active_tab + "Tab");
+		if (!noupdate) {
 
-	if (tab) {
-		if (tab.className.match("Selected")) {
-			tab.className = "prefsTab";
+			debug("selectTab: " + id + "(NU: " + noupdate + ")");
+	
+			notify("Loading, please wait...", true);
+	
+			// close active infobox if needed
+			closeInfoBox();
+	
+			// clean up all current selections, just in case
+			active_feed_cat = false;
+			active_label = false;
+	
+			if (id == "feedConfig") {
+				updateFeedList();
+			} else if (id == "filterConfig") {
+				updateFilterList();
+			} else if (id == "labelConfig") {
+				updateLabelList();
+			} else if (id == "genConfig") {
+				updatePrefsList();
+			} else if (id == "userConfig") {
+				updateUsersList();
+			} else if (id == "feedBrowser") {
+				updateBigFeedBrowser();
+			}
 		}
-	}
-
-	tab = document.getElementById(id + "Tab");
-
-	if (tab) {
-		if (!tab.className.match("Selected")) {
-			tab.className = tab.className + "Selected";
+	
+		var tab = document.getElementById(active_tab + "Tab");
+	
+		if (tab) {
+			if (tab.className.match("Selected")) {
+				tab.className = "prefsTab";
+			}
 		}
-	}
+	
+		tab = document.getElementById(id + "Tab");
+	
+		if (tab) {
+			if (!tab.className.match("Selected")) {
+				tab.className = tab.className + "Selected";
+			}
+		}
+	
+		if (active_tab != id) {
+			storeInitParam("prefs_active_tab", id);
+		}
+	
+		active_tab = id;
 
-	if (active_tab != id) {
-		storeInitParam("prefs_active_tab", id);
+	} catch (e) {
+		exception_error("selectTab", e);
 	}
-
-	active_tab = id;
 }
 
 function backend_sanity_check_callback() {
@@ -1217,12 +1227,19 @@ function backend_sanity_check_callback() {
 
 function init_second_stage() {
 
-	active_tab = getInitParam("prefs_active_tab");
-	if (!active_tab) active_tab = "genConfig";
-	selectTab(active_tab);
-	
-	notify("");
+	try {
+		active_tab = getInitParam("prefs_active_tab");
+		if (!active_tab) active_tab = "genConfig";
 
+		if (navigator.userAgent.match("Opera")) {	
+			setTimeout("selectTab()", 500);
+		} else {
+			selectTab(active_tab);
+		}
+		notify("");
+	} catch (e) {
+		exception_error("init_second_stage", e);
+	}
 }
 
 function init() {
