@@ -1550,7 +1550,9 @@
 			$error_msg = "$error_msg; $add_msg";
 		}
 		
+		print "<rpc-reply>";
 		print "<error error-code=\"$code\" error-msg=\"$error_msg\"/>";
+		print "</rpc-reply>";
 	}
 
 	function subscribe_to_feed($link, $feed_link, $cat_id = 0) {
