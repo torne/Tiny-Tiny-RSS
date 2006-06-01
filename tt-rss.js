@@ -365,9 +365,20 @@ function resize_feeds_frame() {
 	var f = document.getElementById("feeds-frame");
 	var tf = document.getElementById("mainFooter");
 	var th = document.getElementById("mainHeader");
-		 
-	f.style.height = document.body.scrollHeight - tf.scrollHeight - 
-		th.scrollHeight - 50 + "px";
+
+	var footer_height = 0;
+	var header_height = 0;
+
+	if (tf) {
+		footer_height = tf.scrollHeight;
+	}
+
+	if (th) {
+		header_height = th.scrollHeight;
+	}	
+	 
+	f.style.height = document.body.scrollHeight - footer_height - 
+		header_height - 50 + "px";
 }
 
 function init_second_stage() {
