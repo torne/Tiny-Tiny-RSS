@@ -582,7 +582,7 @@ function all_counters_callback() {
 				getMainContext().parse_runtime_info(runtime);
 			}
 
-			if (getInitParam("feeds_sort_by_unread")) {
+			if (getInitParam("feeds_sort_by_unread") == 1) {
 				resort_feedlist();		
 			}	
 	
