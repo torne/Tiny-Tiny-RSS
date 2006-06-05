@@ -581,10 +581,83 @@ function all_counters_callback() {
 			if (runtime) {
 				getMainContext().parse_runtime_info(runtime);
 			}
+
+			if (getInitParam("feeds_sort_by_unread")) {
+				resort_feedlist();		
+			}	
 	
 		} catch (e) {
 			exception_error("all_counters_callback", e);
 		}
+	}
+}
+
+function get_feed_entry_unread(doc, elem) {
+
+	var id = elem.id.replace("FEEDR-", "");
+
+	if (id <= 0) {
+		return -1;
+	}
+
+	try {
+		return parseInt(doc.getElementById("FEEDU-" + id).innerHTML);	
+	} catch (e) {
+		return -1;
+	}
+}
+
+function resort_category(doc, node) {
+	debug("resort_category: " + node);
+
+	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
+		for (i = 0; i < node.childNodes.length; i++) {
+			if (node.childNodes[i].nodeName != "LI") { continue; }
+
+			if (get_feed_entry_unread(doc, node.childNodes[i]) < 0) {
+				continue;
+			}
+
+			for (j = i+1; j < node.childNodes.length; j++) {			
+				if (node.childNodes[j].nodeName != "LI") { continue; }  
+
+				var tmp_val = get_feed_entry_unread(doc, node.childNodes[i]);
+				var cur_val = get_feed_entry_unread(doc, node.childNodes[j]);
+
+				if (cur_val > tmp_val) {
+					tempnode_i = node.childNodes[i].cloneNode(true);
+					tempnode_j = node.childNodes[j].cloneNode(true);
+					node.replaceChild(tempnode_i, node.childNodes[j]);
+					node.replaceChild(tempnode_j, node.childNodes[i]);
+				}
+			}
+
+		}
+	}
+
+}
+
+function resort_feedlist() {
+	debug("resort_feedlist");
+
+	var fd = getFeedsContext().document;
+
+	if (fd.getElementById("feedCatHolder")) {
+
+		var feeds = fd.getElementById("feedList");
+		var child = feeds.firstChild;
+
+		while (child) {
+
+			if (child.id == "feedCatHolder") {
+				resort_category(fd, child.firstChild);
+			}
+	
+			child = child.nextSibling;
+		}
+
+	} else {
+		resort_category(fd, fd.getElementById("feedList"));
 	}
 }
 
@@ -1147,7 +1220,7 @@ function debug(msg) {
 
 	var c = ctx.document.getElementById('debug_output');
 	if (c && c.style.display == "block") {
-		while (c.lastChild != 'undefined' && c.childNodes.length > 20) {
+		while (c.lastChild != 'undefined' && c.childNodes.length > 100) {
 			c.removeChild(c.lastChild);
 		}
 	

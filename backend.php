@@ -241,9 +241,17 @@
 //			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				$order_by_qpart = "category,title";
+				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
+					$order_by_qpart = "category,unread DESC,title";
+				} else {
+					$order_by_qpart = "category,title";
+				}
 			} else {
-				$order_by_qpart = "title";
+				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
+					$order_by_qpart = "unread DESC,title";
+				} else {		
+					$order_by_qpart = "title";
+				}
 			}
 
 			$result = db_query($link, "SELECT ttrss_feeds.*,

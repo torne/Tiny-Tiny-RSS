@@ -1718,6 +1718,9 @@
 		print "<param key=\"hide_read_feeds\" value=\"" . 
 			sprintf("%d", get_pref($link, "HIDE_READ_FEEDS")) . "\"/>";
 
+		print "<param key=\"feeds_sort_by_unread\" value=\"" . 
+			sprintf("%d", get_pref($link, "FEEDS_SORT_BY_UNREAD")) . "\"/>";
+
 		print "</init-params>";
 	}
 
