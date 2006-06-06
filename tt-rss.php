@@ -28,6 +28,8 @@
 		<link rel="stylesheet" type="text/css" href="themes/<?= $user_theme ?>/theme.css">
 	<? } ?>
 
+	<? if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
+
 	<? $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
 	<? if ($user_css_url) { ?>
 		<link type="text/css" href="<?= $user_css_url ?>"/> 
@@ -93,7 +95,7 @@ window.onload = init;
 	<td colspan="2" class="headerBox" id="mainHeader">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
-				<img src="images/ttrss_logo.png" alt="logo">	
+				<img src="<?= $theme_image_path ?>images/ttrss_logo.png" alt="logo">	
 			</td>
 			<td valign="top" class="notifyBox">
 				<div id="notify"><span id="notify_body">&nbsp;</span></div>
