@@ -737,8 +737,11 @@
 			$rtl_tag = "dir=\"ltr\"";
 		}
 
+		$error_notify_msg = "";
+		
 		if ($last_error) {
 			$link_title = "Error: $last_error ($last_updated)";
+			$error_notify_msg = "(Error)";
 		} else if ($last_updated) {
 			$link_title = "Updated: $last_updated";
 		}
@@ -760,7 +763,12 @@
 
 		print " <span $rtl_tag $fctr_class id=\"FEEDCTR-$feed_id\">
 			 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
-		
+
+		if (get_pref($link, "EXTENDED_FEEDLIST")) {		 	 
+			print "<div class=\"feedExtInfo\">
+				<span id=\"FLUPD-$feed_id\">$last_updated $error_notify_msg</span></div>";
+		}
+		 	 
 		print "</li>";
 
 	}

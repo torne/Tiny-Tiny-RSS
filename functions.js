@@ -510,12 +510,21 @@ function parse_counters(reply, scheduled_call) {
 			var feedr = f_document.getElementById("FEEDR-" + id);
 			var feed_img = f_document.getElementById("FIMG-" + id);
 			var feedlink = f_document.getElementById("FEEDL-" + id);
+			var feedupd = f_document.getElementById("FLUPD-" + id);
 
 			if (updated && feedlink) {
 				if (error) {
 					feedlink.title = "Error: " + error + " (" + updated + ")";
 				} else {
 					feedlink.title = "Updated: " + updated;
+				}
+			}
+
+			if (updated && feedupd) {
+				if (error) {
+					feedupd.innerHTML = updated + " (Error)";
+				} else {
+					feedupd.innerHTML = updated;
 				}
 			}
 
