@@ -594,7 +594,9 @@ function all_counters_callback() {
 			if (getInitParam("feeds_sort_by_unread") == 1) {
 				resort_feedlist();		
 			}	
-	
+
+			hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+
 		} catch (e) {
 			exception_error("all_counters_callback", e);
 		}
@@ -726,25 +728,67 @@ function popupHelp(tid) {
 
 function hideOrShowFeeds(doc, hide) {
 
-	if (!doc.styleSheets) return;
+	var fd = getFeedsContext().document;
 
-	var css_rules = doc.styleSheets[0].cssRules;
+	var list = fd.getElementById("feedList");
 
-	if (!css_rules || !css_rules.length) return;
+	if (fd.getElementById("feedCatHolder")) {
 
-	for (i = 0; i < css_rules.length; i++) {
-		var rule = css_rules[i];
+		var feeds = fd.getElementById("feedList");
+		var child = feeds.firstChild;
 
-		if (rule.selectorText == "ul.feedList li.feed") {
-			if (!hide) {
-				rule.style.display = "block";
-			} else {
-				rule.style.display = "none";
+		while (child) {
+
+			if (child.id == "feedCatHolder") {
+				hideOrShowFeedsCategory(fd, child.firstChild, hide, child.previousSibling);
 			}
+	
+			child = child.nextSibling;
 		}
 
-	} 
+	} else {
+		hideOrShowFeedsCategory(fd, fd.getElementById("feedList"), hide);
+	}
+}
 
+function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
+
+//	debug("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
+
+	var cat_unread = 0;
+
+	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
+		for (i = 0; i < node.childNodes.length; i++) {
+			if (node.childNodes[i].nodeName != "LI") { continue; }
+
+			var has_unread = (node.childNodes[i].className != "feed");
+
+//			debug(node.childNodes[i].id + " --> " + has_unread);
+
+			if (hide && !has_unread) {
+				node.childNodes[i].style.display = "none";
+			}
+
+			if (!hide) {
+				node.childNodes[i].style.display = "list-item";
+			}
+
+			if (has_unread) {
+				cat_unread++;
+			}
+
+		}
+	}
+
+	if (cat_unread == 0) {
+		if (hide) {
+			cat_node.style.display = "none";
+		} else {
+			cat_node.style.display = "list-item";
+		}
+	}
+
+//	debug("unread for category: " + cat_unread);
 }
 
 function selectTableRow(r, do_select) {
