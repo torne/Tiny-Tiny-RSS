@@ -178,7 +178,11 @@ function hotkey_handler(e) {
 		if (keycode == 82) { // r
 			return m_ctx.scheduleFeedUpdate(true);
 		}
-	
+
+		if (keycode == 83) { // r
+			return m_ctx.displayDlg("search", getActiveFeedId());
+		}
+
 		if (keycode == 85) { // u
 			if (getActiveFeedId()) {
 				return f_ctx.viewfeed(getActiveFeedId(), 0, "ForceUpdate");
