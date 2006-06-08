@@ -1567,21 +1567,25 @@
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
 			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
 
-			if ($cat_id && $cat_id != 0) {
-				$category_qpart = "cat_id = '$cat_id'";
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
+				if ($cat_id && $cat_id != 0) {
+					$category_qpart = "cat_id = '$cat_id',";
+				} else {
+					$category_qpart = 'cat_id = NULL,';
+				}
 			} else {
-				$category_qpart = 'cat_id = NULL';
+				$category_qpart = "";
 			}
 
 			if ($parent_feed && $parent_feed != 0) {
-				$parent_qpart = "parent_feed = '$parent_feed'";
+				$parent_qpart = "parent_feed = '$parent_feed',";
 			} else {
-				$parent_qpart = 'parent_feed = NULL';
+				$parent_qpart = 'parent_feed = NULL,';
 			}
 
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
-				$category_qpart,
-				$parent_qpart,
+				$category_qpart
+				$parent_qpart
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl',
@@ -1798,6 +1802,12 @@
 			$search_qpart = "";
 		}
 
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			$order_by_qpart = "category,$feeds_sort,title";
+		} else {
+			$order_by_qpart = "$feeds_sort,title";
+		}
+
 		$result = db_query($link, "SELECT 
 				F1.id,
 				F1.title,
@@ -1817,7 +1827,7 @@
 					ON (F1.cat_id = C1.id)
 			WHERE 
 				$search_qpart F1.owner_uid = '".$_SESSION["uid"]."' 			
-			ORDER by category,$feeds_sort,title");
+			ORDER by $order_by_qpart");
 
 		if (db_num_rows($result) != 0) {
 
