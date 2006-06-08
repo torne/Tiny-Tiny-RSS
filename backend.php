@@ -1833,7 +1833,13 @@
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<tr class=\"title\">
-					<td width='5%' align='center'>&nbsp;</td>
+					<td width='5%' align='center'>&nbsp;</td>";
+
+				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+					print "<td width='3%'>&nbsp;</td>";
+				}
+
+				print "
 					<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 					<td width='45%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
