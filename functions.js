@@ -1272,8 +1272,16 @@ function getHeadlinesContext() {
 	}
 }
 
+var debug_last_class = "even";
+
 function debug(msg) {
 	var ctx = getMainContext();
+
+	if (ctx.debug_last_class == "even") {
+		ctx.debug_last_class = "odd";
+	} else {
+		ctx.debug_last_class = "even";
+	}
 
 	var c = ctx.document.getElementById('debug_output');
 	if (c && c.style.display == "block") {
@@ -1284,7 +1292,8 @@ function debug(msg) {
 		var d = new Date();
 		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
 			":" + leading_zero(d.getSeconds());
-		c.innerHTML = "<li>[" + ts + "] " + msg + "</li>" + c.innerHTML;
+		c.innerHTML = "<li class=\"" + ctx.debug_last_class + "\"><span class=\"debugTS\">[" + ts + "]</span> " + 
+			msg + "</li>" + c.innerHTML;
 	}
 }
 
