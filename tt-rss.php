@@ -213,7 +213,7 @@ window.onload = init;
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
-				<? if (!ENABLE_UPDATE_DAEMON) { ?>
+				<? if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
 				<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
 				<? } ?>
 				<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				

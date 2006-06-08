@@ -6,6 +6,7 @@ var global_unread = -1;
 var active_title_text = "";
 var current_subtitle = "";
 var daemon_enabled = false;
+var daemon_refresh_only = false;
 var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var last_refetch = 0;
@@ -81,7 +82,7 @@ function refetch_callback() {
 
 			debug("refetch_callback: done");
 
-			if (!daemon_enabled) {
+			if (!daemon_enabled && !daemon_refresh_only) {
 				notify("All feeds updated.");
 				updateTitle("");
 			} else {
@@ -145,7 +146,7 @@ function backend_sanity_check_callback() {
 
 function scheduleFeedUpdate(force) {
 
-	if (!daemon_enabled) {
+	if (!daemon_enabled && !daemon_refresh_only) {
 		notify("Updating feeds, please wait.", true);
 		updateTitle("Updating");
 	}
@@ -397,7 +398,8 @@ function init_second_stage() {
 		dropboxSelect(tb.view_mode, getInitParam("toolbar_view_mode"));
 		dropboxSelect(tb.limit, getInitParam("toolbar_limit"));
 
-		daemon_enabled = getInitParam("daemon_enabled");
+		daemon_enabled = getInitParam("daemon_enabled") == 1;
+		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 
 		// FIXME should be callled after window resize
 
