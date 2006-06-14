@@ -1313,11 +1313,19 @@
 
 			print "<p>Showing top 25 registered feeds, sorted by popularity:</p>";
 
-			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
-				FROM ttrss_feeds 
-				WHERE auth_login = '' AND auth_pass = '' AND private = false
-				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 25");
-			
+#			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
+#				FROM ttrss_feeds 
+#				WHERE auth_login = '' AND auth_pass = '' AND private = false
+#				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 25");
+
+			$owner_uid = $_SESSION["uid"];
+
+			$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
+		  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf 
+					WHERE tf.feed_url = ttrss_feeds.feed_url 
+						AND owner_uid = '$owner_uid') GROUP BY feed_url 
+							ORDER BY subscribers DESC LIMIT 25");
+
 			print "<ul class='browseFeedList' id='browseFeedList'>";
 
 			$feedctr = 0;
@@ -1326,14 +1334,6 @@
 				$feed_url = $line["feed_url"];
 				$subscribers = $line["subscribers"];
 
-				$sub_result = db_query($link, "SELECT id
-					FROM ttrss_feeds WHERE feed_url = '$feed_url' AND owner_uid =" . 
-					$_SESSION["uid"]);
-
-				if (db_num_rows($sub_result) > 0) {
-					continue; // already subscribed
-				}
-			
 				$det_result = db_query($link, "SELECT site_url,title,id 
 					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
 
@@ -3766,11 +3766,15 @@
 
 		if (!$limit) $limit = 25;
 
-		$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
-			FROM ttrss_feeds 
-			WHERE auth_login = '' AND auth_pass = '' AND private = false
-			GROUP BY feed_url ORDER BY subscribers DESC LIMIT $limit");
+		$owner_uid = $_SESSION["uid"];
+			
+		$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
+	  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf 
+				WHERE tf.feed_url = ttrss_feeds.feed_url 
+					AND owner_uid = '$owner_uid') GROUP BY feed_url 
+						ORDER BY subscribers DESC LIMIT $limit");
 
+			
 		print "<div style=\"float : right\">
 			Top <select id=\"feedBrowserLimit\">";
 
@@ -3795,14 +3799,6 @@
 		while ($line = db_fetch_assoc($result)) {
 			$feed_url = $line["feed_url"];
 			$subscribers = $line["subscribers"];
-
-			$sub_result = db_query($link, "SELECT id
-				FROM ttrss_feeds WHERE feed_url = '$feed_url' AND owner_uid =" . 
-				$_SESSION["uid"]);
-
-			if (db_num_rows($sub_result) > 0) {
-				continue; // already subscribed
-			}
 		
 			$det_result = db_query($link, "SELECT site_url,title,id 
 				FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
