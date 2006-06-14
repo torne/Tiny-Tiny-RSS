@@ -23,6 +23,37 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	function getTotalUnread($msg) {
+		global $link;
+
+		$error_code = 0;
+
+		$login_o = $msg->getParam(0);
+		$pass_o = $msg->getParam(1);
+	
+		$login = $login_o->scalarval();
+		$pass = $pass_o->scalarval();
+	
+		$user_id = authenticate_user($link, $login, $pass);
+	
+		
+		if (authenticate_user($link, $login, $pass)) {
+
+			$reply_msg = getGlobalUnread($link);
+
+		} else {
+			$reply_msg = "Login failed.";
+			$error_code = 1;
+		}
+		
+		if ($error_code != 0) {
+			return new xmlrpcresp(0, $error_code, $reply_msg);
+		} else {		
+			return new xmlrpcresp(new xmlrpcval($reply_msg));
+		}
+
+	}
+
 	function getVersion() {
 		return new xmlrpcval(VERSION);
 	}
@@ -363,9 +394,14 @@
 		$xmlrpcString, $xmlrpcString, $xmlrpcInt, $xmlrpcInt));
 
 	$getVersion_sig = array(array($xmlrpcString));
+	
+	$getTotalUnread_sig = array(array($xmlrpcInt, $xmlrpcString,
+		$xmlrpcString));
 
 	$s = new xmlrpc_server( 
 			array(
+			  "rss.getTotalUnread" => array("function" => "getTotalUnread",
+		  			"signature" => $getTotalUnread_sig),
 			  "rss.getVersion" => array("function" => "getVersion",
 		  			"signature" => $getVersion_sig),
 			  "rss.setArticleRead" => array("function" => "setArticleRead",
