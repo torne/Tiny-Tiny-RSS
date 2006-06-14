@@ -7,7 +7,12 @@
 	require_once "functions.php";
 
 	$url_path = get_script_urlpath();
-	$redirect_base = "http://" . $_SERVER["SERVER_NAME"] . $url_path;
+
+	if (ENABLE_LOGIN_SSL) {		
+		$redirect_base = "https://" . $_SERVER["SERVER_NAME"] . $url_path;
+	} else {
+		$redirect_base = "http://" . $_SERVER["SERVER_NAME"] . $url_path;
+	}
 
 	if (SINGLE_USER_MODE) {
 		header("Location: $redirect_base/tt-rss.php");
