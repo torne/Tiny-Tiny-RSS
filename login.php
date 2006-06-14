@@ -77,11 +77,31 @@
 
 <body>
 
+<script type="text/javascript">
+function init() {
+
+	if (arguments.callee.done) return;
+	arguments.callee.done = true;		
+
+	var login = document.forms["loginForm"].login;
+
+	login.focus();
+
+}
+</script>
+
+<script type="text/javascript">
+if (document.addEventListener) {
+	document.addEventListener("DOMContentLoaded", init, null);
+}
+window.onload = init;
+</script>
+
 <table width='100%' height='100%' class="loginForm">
 
 	<tr><td align='center' valign='middle'>
 
-	<form action="login.php" method="POST">
+	<form action="login.php" method="POST" name="loginForm">
 	
 	<table class="innerLoginForm">
 
@@ -110,6 +130,21 @@
 </table>
 
 <? db_close($link); ?>
+
+<script type="text/javascript">
+	/* for IE */
+	function statechange() {
+		if (document.readyState == "interactive") init();
+	}
+
+	if (document.readyState) {	
+		if (document.readyState == "interactive" || document.readyState == "complete") {
+			init();
+		} else {
+			document.onreadystatechange = statechange;
+		}
+	}
+</script>
 
 </body>
 </html>
