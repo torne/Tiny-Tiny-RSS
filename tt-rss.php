@@ -89,6 +89,8 @@ window.onload = init;
 
 <ul id="debug_output"></ul>
 
+<div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
+
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
 <? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
@@ -100,9 +102,6 @@ window.onload = init;
 			<td valign="top" class="notifyBox">
 				<div id="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
-
-			<div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
-
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
 				Hello, <b><?= $_SESSION["name"] ?></b>
