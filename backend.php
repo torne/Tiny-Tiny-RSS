@@ -721,13 +721,15 @@
 			}
 		}
 
-		$result = db_query($link,
-			"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
+		if ($feed_id > 0) {		
+			$result = db_query($link,
+				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 		
-		if (db_num_rows($result) == 0) {
-			print "<div align='center'>
-				Could not display feed: feed not found.</div>";
-			return;
+			if (db_num_rows($result) == 0) {
+				print "<div align='center'>
+					Feed not found.</div>";
+				return;
+			}
 		}
 
 		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
