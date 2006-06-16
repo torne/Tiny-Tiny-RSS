@@ -876,6 +876,13 @@
 			$_SESSION["uid"] = 1;
 			$_SESSION["name"] = "admin";
 
+			$user_theme = get_user_theme_path($link);
+	
+			$_SESSION["theme"] = $user_theme;
+			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
+	
+			initialize_user_prefs($link, $_SESSION["uid"]);
+	
 			return true;
 		}
 	}
@@ -1005,9 +1012,7 @@
 				}				
 			}
 		} else {
-			$_SESSION["uid"] = 1;
-			$_SESSION["name"] = "admin";
-			initialize_user_prefs($link, 1); 
+			return authenticate_user($link, "admin", null);
 		}
 	}
 
