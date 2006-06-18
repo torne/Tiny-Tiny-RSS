@@ -7,7 +7,7 @@ function browser_has_opacity() {
 		navigator.userAgent.match("Opera") != null;
 }
 
-function exception_error(location, e) {
+function exception_error(location, e, silent) {
 	var msg;
 
 	if (e.fileName) {
@@ -23,7 +23,9 @@ function exception_error(location, e) {
 
 	debug("<b>EXCEPTION: " + msg + "</b>");
 
-	alert(msg);
+	if (!silent) {
+		alert(msg);
+	}
 }
 
 function disableHotkeys() {

@@ -1248,7 +1248,14 @@
 			<script type=\"text/javascript\">
 				try {
 					document.onkeydown = hotkey_handler;
-					parent.update_all_counters(\"$feed\");
+					try {
+						parent.update_all_counters(\"$feed\");
+					} catch (e) {
+						// this is workaround against mysterious permission
+						// denied feature/bug of firefox (ticket #73)
+						// if call from this context failed - ignore silently
+						exception_error(\"viewfeed/footer1/counters\", e, true);
+					}
 				} catch (e) {
 					exception_error(\"viewfeed/footer1\", e);
 				}
