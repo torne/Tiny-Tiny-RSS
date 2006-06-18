@@ -1212,7 +1212,7 @@
 
 					print "</div>";
 
-					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div>";
+					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
 
 					print "<div style=\"float : right\">$marked_pic</div>
 						<div lass=\"cdmFooter\">
