@@ -23,6 +23,57 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	function getCategories($msg) {
+		global $link;
+
+		$login_o = $msg->getParam(0);
+		$pass_o = $msg->getParam(1);
+	
+		$login = $login_o->scalarval();
+		$pass = $pass_o->scalarval();
+	
+		$user_id = authenticate_user($link, $login, $pass);
+
+		$error_code = 0;
+
+		if (authenticate_user($link, $login, $pass)) {
+
+			$result = db_query($link, "SELECT 
+					id, title FROM ttrss_feed_categories 
+				WHERE owner_uid = " . 
+				$_SESSION["uid"]);
+
+			$feeds = array();
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$unread = getFeedUnread($link, $line["id"]);
+				
+				$line_struct = new xmlrpcval(
+					array(
+						"title" => new xmlrpcval($line["title"]),
+						"id" => new xmlrpcval($line["id"], "int")
+					),
+					"struct");
+
+				array_push($feeds, $line_struct);
+			}
+
+			$reply = new xmlrpcval($feeds, "array");
+			
+		} else {
+			$reply = "Login failed.";
+			$error_code = 1;
+		}
+	
+		if ($error_code != 0) {
+			return new xmlrpcresp(0, $error_code, $reply_msg);
+		} else {		
+			return new xmlrpcresp($reply);
+		}
+
+	}
+
 	function getTotalUnread($msg) {
 		global $link;
 
@@ -72,7 +123,7 @@
 		if (authenticate_user($link, $login, $pass)) {
 
 			$result = db_query($link, "SELECT 
-				id, feed_url, title, SUBSTRING(last_updated,1,19) AS last_updated
+				id, feed_url, cat_id, title, SUBSTRING(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds WHERE owner_uid = " . 
 				$_SESSION["uid"]);
 
@@ -88,6 +139,7 @@
 						"title" => new xmlrpcval($line["title"]),
 						"id" => new xmlrpcval($line["id"], "int"),
 						"unread" => new xmlrpcval($unread, "int"),
+						"category_id" => new xmlrpcval($line["cat_id"], "int"),
 						"last_updated" => new xmlrpcval(strtotime($line["last_updated"]), "int")
 					),
 					"struct");
@@ -398,8 +450,13 @@
 	$getTotalUnread_sig = array(array($xmlrpcInt, $xmlrpcString,
 		$xmlrpcString));
 
+	$getCategories_sig = array(array($xmlrpcString,
+		$xmlrpcString, $xmlrpcString));
+
 	$s = new xmlrpc_server( 
 			array(
+			  "rss.getCategories" => array("function" => "getCategories",
+		  			"signature" => $getCategories_sig),
 			  "rss.getTotalUnread" => array("function" => "getTotalUnread",
 		  			"signature" => $getTotalUnread_sig),
 			  "rss.getVersion" => array("function" => "getVersion",
