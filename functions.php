@@ -1401,7 +1401,7 @@
 
 	}
 
-	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
 
 		if ($smart_mode) {
 			if (!$_SESSION["lctr_last_value"]) {
@@ -1409,6 +1409,8 @@
 			}
 		}
 
+		$ret_arr = array();
+		
 		$old_counters = $_SESSION["lctr_last_value"];
 		$lctrs_modified = false;
 
@@ -1418,7 +1420,12 @@
 
 		$count = db_fetch_result($result, 0, "count");
 
-		print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
+		if (!$ret_mode) {
+			print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
+		} else {
+			$ret_arr["-1"]["counter"] = $count;
+			$ret_arr["-1"]["description"] = "Starred";
+		}
 
 		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
 			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
@@ -1426,6 +1433,8 @@
 		while ($line = db_fetch_assoc($result)) {
 
 			$id = -$line["id"] - 11;
+
+			$label_name = $line["description"];
 
 			error_reporting (0);
 
@@ -1439,7 +1448,12 @@
 			if (!$smart_mode || $old_counters[$id] != $count) {	
 				$old_counters[$id] = $count;
 				$lctrs_modified = true;
-				print "<counter type=\"label\" id=\"$id\" counter=\"$count\"/>";
+				if (!$ret_mode) {
+					print "<counter type=\"label\" id=\"$id\" counter=\"$count\"/>";
+				} else {
+					$ret_arr[$id]["counter"] = $count;
+					$ret_arr[$id]["description"] = $label_name;
+				}
 			}
 
 			error_reporting (DEFAULT_ERROR_LEVEL);
@@ -1448,6 +1462,8 @@
 		if ($smart_mode && $lctrs_modified) {
 			$_SESSION["lctr_last_value"] = $old_counters;
 		}
+
+		return $ret_arr;
 	}
 
 /*	function getFeedCounter($link, $id) {
@@ -1746,4 +1762,236 @@
 		}
 		print "</runtime-info>";
 	}
+
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on) {
+
+			if ($search) {
+				if ($match_on == "both") {
+					$search_query_part = "(upper(ttrss_entries.title) LIKE upper('%$search%') 
+						OR upper(ttrss_entries.content) LIKE '%$search%') AND";
+				} else if ($match_on == "title") {
+					$search_query_part = "upper(ttrss_entries.title) LIKE upper('%$search%') 
+						AND";
+				} else if ($match_on == "content") {
+					$search_query_part = "upper(ttrss_entries.content) LIKE upper('%$search%') AND";
+				}
+			} else {
+				$search_query_part = "";
+			}
+
+			$view_query_part = "";
+	
+			if ($view_mode == "adaptive") {
+				if ($search) {
+					$view_query_part = " ";
+				} else if ($feed != -1) {
+					$unread = getFeedUnread($link, $feed);
+					if ($unread > 0) {
+						$view_query_part = " unread = true AND ";
+					}
+				}
+			}
+	
+			if ($view_mode == "marked") {
+				$view_query_part = " marked = true AND ";
+			}
+	
+			if ($view_mode == "unread") {
+				$view_query_part = " unread = true AND ";
+			}
+	
+			if ($limit > 0) {
+				$limit_query_part = "LIMIT " . $limit;
+			} 
+
+			$vfeed_query_part = "";
+	
+			// override query strategy and enable feed display when searching globally
+			if ($search && $search_mode == "all_feeds") {
+				$query_strategy_part = "ttrss_entries.id > 0";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
+			} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
+				$query_strategy_part = "ttrss_entries.id > 0";
+				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
+					id = feed_id) as feed_title,";
+			} else if ($feed >= 0 && $search && $search_mode == "this_cat") {
+	
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
+	
+				$tmp_result = db_query($link, "SELECT id 
+					FROM ttrss_feeds WHERE cat_id = 
+						(SELECT cat_id FROM ttrss_feeds WHERE id = '$feed') AND id != '$feed'");
+	
+				$cat_siblings = array();
+	
+				if (db_num_rows($tmp_result) > 0) {
+					while ($p = db_fetch_assoc($tmp_result)) {
+						array_push($cat_siblings, "feed_id = " . $p["id"]);
+					}
+	
+					$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
+						$feed, implode(" OR ", $cat_siblings));
+	
+				} else {
+					$query_strategy_part = "ttrss_entries.id > 0";
+				}
+				
+			} else if ($feed >= 0) {
+	
+				if ($cat_view) {
+	
+					if ($feed > 0) {
+						$query_strategy_part = "cat_id = '$feed'";
+					} else {
+						$query_strategy_part = "cat_id IS NULL";
+					}
+	
+					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+	
+				} else {		
+					$tmp_result = db_query($link, "SELECT id 
+						FROM ttrss_feeds WHERE parent_feed = '$feed'
+						ORDER BY cat_id,title");
+		
+					$parent_ids = array();
+		
+					if (db_num_rows($tmp_result) > 0) {
+						while ($p = db_fetch_assoc($tmp_result)) {
+							array_push($parent_ids, "feed_id = " . $p["id"]);
+						}
+		
+						$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
+							$feed, implode(" OR ", $parent_ids));
+		
+						$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+					} else {
+						$query_strategy_part = "feed_id = '$feed'";
+					}
+				}
+			} else if ($feed == -1) { // starred virtual feed
+				$query_strategy_part = "marked = true";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else if ($feed <= -10) { // labels
+				$label_id = -$feed - 11;
+	
+				$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
+					WHERE id = '$label_id'");
+			
+				$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
+		
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else {
+				$query_strategy_part = "id > 0"; // dumb
+			}
+	
+			$order_by = "updated DESC";
+	
+			$feed_title = "";
+
+			if ($search && $search_mode == "all_feeds") {
+				$feed_title = "Global search results ($search)";
+			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
+				$feed_title = "Feed search results ($search, $feed)";
+			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
+				$feed_title = $feed;
+			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
+	
+				if ($cat_view) {
+	
+					if ($feed != 0) {			
+						$result = db_query($link, "SELECT title FROM ttrss_feed_categories
+							WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+						$feed_title = db_fetch_result($result, 0, "title");
+					} else {
+						$feed_title = "Uncategorized";
+					}
+				} else {
+					
+					$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
+						WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+		
+					$feed_title = db_fetch_result($result, 0, "title");
+					$feed_site_url = db_fetch_result($result, 0, "site_url");
+					$last_error = db_fetch_result($result, 0, "last_error");
+	
+				}
+	
+			} else if ($feed == -1) {
+				$feed_title = "Starred articles";
+			} else if ($feed < -10) {
+				$label_id = -$feed - 11;
+				$result = db_query($link, "SELECT description FROM ttrss_labels
+					WHERE id = '$label_id'");
+				$feed_title = db_fetch_result($result, 0, "description");
+			} else {
+				$feed_title = "?";
+			}
+
+			$feed_title = db_unescape_string($feed_title);
+
+			if ($feed < -10) error_reporting (0);
+
+			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+	
+				if ($feed >= 0) {
+					$feed_kind = "Feeds";
+				} else {
+					$feed_kind = "Labels";
+				}
+	
+				$content_query_part = "content as content_preview,";
+				
+				$query = "SELECT 
+						ttrss_entries.id,ttrss_entries.title,
+						SUBSTRING(updated,1,16) as updated,
+						unread,feed_id,marked,link,last_read,
+						SUBSTRING(last_read,1,19) as last_read_noms,
+						$vfeed_query_part
+						$content_query_part
+						SUBSTRING(updated,1,19) as updated_noms
+					FROM
+						ttrss_entries,ttrss_user_entries,ttrss_feeds
+					WHERE
+					ttrss_user_entries.feed_id = ttrss_feeds.id AND
+					ttrss_user_entries.ref_id = ttrss_entries.id AND
+					ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
+					$search_query_part
+					$view_query_part
+					$query_strategy_part ORDER BY $order_by
+					$limit_query_part";
+					
+				$result = db_query($link, $query);
+	
+				if ($_GET["debug"]) print $query;
+	
+			} else {
+				// browsing by tag
+	
+				$feed_kind = "Tags";
+	
+				$result = db_query($link, "SELECT
+					ttrss_entries.id as id,title,
+					SUBSTRING(updated,1,16) as updated,
+					unread,feed_id,
+					marked,link,last_read,				
+					SUBSTRING(last_read,1,19) as last_read_noms,
+					$vfeed_query_part
+					$content_query_part
+					SUBSTRING(updated,1,19) as updated_noms
+					FROM
+						ttrss_entries,ttrss_user_entries,ttrss_tags
+					WHERE
+						ref_id = ttrss_entries.id AND
+						ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
+						post_int_id = int_id AND tag_name = '$feed' AND
+						$view_query_part
+						$search_query_part
+						$query_strategy_part ORDER BY $order_by
+					$limit_query_part");	
+			}
+
+			return array($result, $feed_title);
+			
+	}
+
 ?>

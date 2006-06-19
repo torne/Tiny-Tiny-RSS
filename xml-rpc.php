@@ -23,6 +23,52 @@
 		pg_query("set client_encoding = 'utf-8'");
 	}
 
+	function getVirtualFeeds($msg) {
+		global $link;
+
+		$error_code = 0;
+
+		$login_o = $msg->getParam(0);
+		$pass_o = $msg->getParam(1);
+	
+		$login = $login_o->scalarval();
+		$pass = $pass_o->scalarval();
+	
+		$user_id = authenticate_user($link, $login, $pass);
+		
+		$counters_ret = array();
+		
+		if (authenticate_user($link, $login, $pass)) {
+
+			$counters = getLabelCounters($link, false, true);
+
+			foreach (array_keys($counters) as $id) {
+				$line_struct = new xmlrpcval(
+					array(
+						"id" => new xmlrpcval($id, "int"),
+						"description" => new xmlrpcval($counters[$id]["description"]),
+						"counter" => new xmlrpcval($counters[$id]["counter"], "int")
+					),
+					"struct");
+
+				array_push($counters_ret, $line_struct);
+			}
+
+			$reply = new xmlrpcval($counters_ret, "array");
+
+		} else {
+			$reply_msg = "Login failed.";
+			$error_code = 1;
+		}
+		
+		if ($error_code != 0) {
+			return new xmlrpcresp(0, $error_code, $reply_msg);
+		} else {		
+			return new xmlrpcresp($reply);
+		} 
+
+	}
+
 	function getCategories($msg) {
 		global $link;
 
@@ -207,56 +253,51 @@
 
 		if (authenticate_user($link, $login, $pass)) {
 
-			if ($limit > 0) {
-				$limit_query_part = "LIMIT $limit";
-			}
-
 			if ($filter == 1) {
-				$query_strategy_part = "unread = true";
+				$view_mode = "unread";
 			} else if ($filter == 2) {
-				$query_strategy_part = "marked = true";
-			} else {
-				$query_strategy_part = "ttrss_entries.id > 0";
+				$view_mode = "marked";
 			}
+		
+			$cat_view = false;
+			$search = "";
+			$search_mode = "";
+			$match_on = "";
+			
+			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
+				$view_mode, $cat_view, $search, $search_mode, $match_on);
 
-			$query = "SELECT 
-					ttrss_entries.id,ttrss_entries.title,
-					SUBSTRING(updated,1,16) as updated,
-					unread,feed_id,marked,link,last_read,
-					SUBSTRING(last_read,1,19) as last_read_noms,
-					SUBSTRING(updated,1,19) as updated_noms
-				FROM
-					ttrss_entries,ttrss_user_entries,ttrss_feeds
-				WHERE
-				ttrss_feeds.id = '$feed_id' AND
-				ttrss_user_entries.feed_id = ttrss_feeds.id AND
-				ttrss_user_entries.ref_id = ttrss_entries.id AND
-				ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
-				$query_strategy_part ORDER BY updated 
-				$limit_query_part";
-
-			$result = db_query($link, $query);
-
+			$result = $qfh_ret[0];
+			$feed_title = $qfh_ret[1];
+				
 			$articles = array();
 
 			while ($line = db_fetch_assoc($result)) {
 
-
-				$line_struct = new xmlrpcval(
-					array(
+				$headline_items =	array(
 						"id" => new xmlrpcval($line["id"], "int"),
 						"unread" => new xmlrpcval(sql_bool_to_bool($line["unread"]), "boolean"),
 						"marked" => new xmlrpcval(sql_bool_to_bool($line["marked"]), "boolean"),
 						"updated" => new xmlrpcval(strtotime($line["updated"]), "int"),
 						"title" => new xmlrpcval($line["title"])
-					),
+					);
+
+				if ($feed_id < 0) {
+					$headline_items["feed_id"] = new xmlrpcval($line["feed_id"], "int");
+				}
+			
+				$line_struct = new xmlrpcval($headline_items, 
 					"struct");
 
 				array_push($articles, $line_struct);
-
 			}
 
-			$reply = new xmlrpcval($articles, "array");
+			$reply = new xmlrpcval(
+			  	array(
+					"title" => new xmlrpcval($feed_title),
+					"headlines" => new xmlrpcval($articles, "array")
+				),
+				"struct");
 
 		} else {
 			$reply_msg = "Login failed.";
@@ -453,8 +494,13 @@
 	$getCategories_sig = array(array($xmlrpcString,
 		$xmlrpcString, $xmlrpcString));
 
+	$getVirtualFeeds_sig = array(array($xmlrpcInt, $xmlrpcString,
+		$xmlrpcString));
+
 	$s = new xmlrpc_server( 
 			array(
+			  "rss.getVirtualFeeds" => array("function" => "getVirtualFeeds",
+		  			"signature" => $getVirtualFeeds_sig),
 			  "rss.getCategories" => array("function" => "getCategories",
 		  			"signature" => $getCategories_sig),
 			  "rss.getTotalUnread" => array("function" => "getTotalUnread",
