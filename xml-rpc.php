@@ -276,11 +276,15 @@
 
 			while ($line = db_fetch_assoc($result)) {
 
+				$is_updated = ($line["last_read"] == "" && ($line["unread"] != "t" && $line["unread"] != "1"));
+
 				$headline_items =	array(
 						"id" => new xmlrpcval($line["id"], "int"),
 						"unread" => new xmlrpcval(sql_bool_to_bool($line["unread"]), "boolean"),
 						"marked" => new xmlrpcval(sql_bool_to_bool($line["marked"]), "boolean"),
 						"updated" => new xmlrpcval(strtotime($line["updated"]), "int"),
+						"is_updated" => new xmlrpcval($is_updated, "boolean"),
+
 						"title" => new xmlrpcval($line["title"])
 					);
 
