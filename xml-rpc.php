@@ -185,7 +185,7 @@
 						"title" => new xmlrpcval($line["title"]),
 						"id" => new xmlrpcval($line["id"], "int"),
 						"unread" => new xmlrpcval($unread, "int"),
-						"category_id" => new xmlrpcval($line["cat_id"], "int"),
+						"cat_id" => new xmlrpcval($line["cat_id"], "int"),
 						"last_updated" => new xmlrpcval(strtotime($line["last_updated"]), "int")
 					),
 					"struct");
