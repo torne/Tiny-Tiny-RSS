@@ -46,8 +46,8 @@
 				$line_struct = new xmlrpcval(
 					array(
 						"id" => new xmlrpcval($id, "int"),
-						"description" => new xmlrpcval($counters[$id]["description"]),
-						"counter" => new xmlrpcval($counters[$id]["counter"], "int")
+						"title" => new xmlrpcval($counters[$id]["description"]),
+						"unread" => new xmlrpcval($counters[$id]["counter"], "int")
 					),
 					"struct");
 
@@ -257,6 +257,8 @@
 				$view_mode = "unread";
 			} else if ($filter == 2) {
 				$view_mode = "marked";
+			} else if ($filter == 3) {
+				$view_mode = "adaptive";
 			}
 		
 			$cat_view = false;
