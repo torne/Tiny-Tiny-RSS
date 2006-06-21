@@ -310,6 +310,7 @@
 		$limit = db_escape_string($_GET["limit"]);
 		$view_mode = db_escape_string($_GET["viewmode"]);
 		$cat_view = db_escape_string($_GET["cat"]);
+		$subop = $_GET["subop"];
 
 		if (!$view_mode) $view_mode = "Adaptive";
 		if (!$limit) $limit = 30;
