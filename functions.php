@@ -1990,7 +1990,7 @@
 					$limit_query_part");	
 			}
 
-			return array($result, $feed_title);
+			return array($result, $feed_title, $feed_site_url, $last_error);
 			
 	}
 
