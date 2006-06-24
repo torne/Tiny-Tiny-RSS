@@ -746,7 +746,8 @@
 
 			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$feed_id\">Feed</a>";
 			
-			print truncate_string($line["title"], 30);
+			print "<a href=\"" . $line["link"] . "\">" . 
+				truncate_string($line["title"], 30) . "</a>";
 			print " <span id=\"headingAddon\">$parsed_updated ($feed_link)</span>";
 			print "</div>";
 
