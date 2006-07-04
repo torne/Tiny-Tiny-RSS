@@ -12,7 +12,11 @@
 	require_once 'errors.php';
 	require_once 'version.php';
 
-	require_once 'magpierss/rss_utils.inc';
+	if (RSS_BACKEND_TYPE == "magpie") {	
+		require_once 'magpierss/rss_utils.inc';
+	} else if (RSS_BACKEND_TYPE == "simplepie") {
+		require_once 'simplepie/simplepie.inc';
+	}
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
@@ -270,15 +274,33 @@
 			}
 
 		}
-		error_reporting(0);
-		$rss = fetch_rss($fetch_url);
 
-		error_reporting (DEFAULT_ERROR_LEVEL);
+		if (RSS_BACKEND_TYPE == "magpie") {		
+			error_reporting(0);
+			$rss = fetch_rss($fetch_url);
+			error_reporting (DEFAULT_ERROR_LEVEL);
+		} else if (RSS_BACKEND_TYPE == "simplepie") {
+			
+			if (!file_exists(SIMPLEPIE_CACHE_DIR)) {
+					mkdir(SIMPLEPIE_CACHE_DIR);
+			}
 
+			$rss = new SimplePie();
+			$rss->feed_url($fetch_url);
+			$rss->cache_location(SIMPLEPIE_CACHE_DIR);
+			$rss->init();
+		}
+		
 		$feed = db_escape_string($feed);
 
-		if ($rss) {
+		$rss_check = $rss;
 
+		if (RSS_BACKEND_TYPE == "simplepie") {
+			$rss_check = $rss->data;
+		}
+		
+		if ($rss_check) {
+			
 //			db_query($link, "BEGIN");
 
 			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid
@@ -295,14 +317,24 @@
 			}
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
-				$feed_title = db_escape_string($rss->channel["title"]);
+			
+				if (RSS_BACKEND_TYPE == "magpie") {				
+					$feed_title = db_escape_string($rss->channel["title"]);
+				} else {
+					$feed_title = $rss->get_feed_title();
+				}
+				
 				db_query($link, "UPDATE ttrss_feeds SET 
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			$site_url = $rss->channel["link"];
-			// weird, weird Magpie
-			if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
+			if (RSS_BACKEND_TYPE == "magpie") {				
+				$site_url = $rss->channel["link"];
+				// weird, weird Magpie
+				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
+			} else {
+				$site_url = $rss->get_feed_link();
+			}
 
 			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
 				db_query($link, "UPDATE ttrss_feeds SET 
@@ -311,7 +343,11 @@
 
 //			print "I: " . $rss->channel["image"]["url"];
 
-			$icon_url = $rss->image["url"];
+			if (RSS_BACKEND_TYPE == "magpie") {
+				$icon_url = $rss->image["url"];
+			} else {
+				$icon_url = $rss->get_image_url(); # FIXME
+			}
 
 			if ($icon_url && !$orig_icon_url != db_escape_string($icon_url)) {
 				$icon_url = db_escape_string($icon_url);
@@ -339,10 +375,15 @@
 				array_push($filters[$line["name"]], $filter);
 			}
 
-			$iterator = $rss->items;
+			if (RSS_BACKEND_TYPE == "magpie") {			
+				$iterator = $rss->items;
 
-			if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
-			if (!$iterator || !is_array($iterator)) $iterator = $rss;
+				if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
+				if (!$iterator || !is_array($iterator)) $iterator = $rss;
+
+			} else {
+				$iterator = $rss->get_items();
+			}
 
 			if (!is_array($iterator)) {
 				/* db_query($link, "UPDATE ttrss_feeds 
@@ -352,82 +393,141 @@
 			}
 
 			foreach ($iterator as $item) {
-	
-				$entry_guid = $item["id"];
-	
-				if (!$entry_guid) $entry_guid = $item["guid"];
-				if (!$entry_guid) $entry_guid = $item["link"];
 
-				if (!$entry_guid) continue;
-
-				$entry_timestamp = "";
-
-				$rss_2_date = $item['pubdate'];
-				$rss_1_date = $item['dc']['date'];
-				$atom_date = $item['issued'];
-				if (!$atom_date) $atom_date = $item['updated'];
-			
-				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
-				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
-				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
+				if (RSS_BACKEND_TYPE == "magpie") {
 				
-				if ($entry_timestamp == "") {
-					$entry_timestamp = time();
-					$no_orig_date = 'true';
-				} else {
-					$no_orig_date = 'false';
+					$entry_guid = $item["id"];
+		
+					if (!$entry_guid) $entry_guid = $item["guid"];
+					if (!$entry_guid) $entry_guid = $item["link"];
+	
+					if (!$entry_guid) continue;
+	
+					$entry_timestamp = "";
+	
+					$rss_2_date = $item['pubdate'];
+					$rss_1_date = $item['dc']['date'];
+					$atom_date = $item['issued'];
+					if (!$atom_date) $atom_date = $item['updated'];
+				
+					if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
+					if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
+					if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
+					
+					if ($entry_timestamp == "") {
+						$entry_timestamp = time();
+						$no_orig_date = 'true';
+					} else {
+						$no_orig_date = 'false';
+					}
+	
+					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
+	
+					$entry_title = $item["title"];
+	
+					// strange Magpie workaround
+					$entry_link = $item["link_"];
+					if (!$entry_link) $entry_link = $item["link"];
+	
+					if (!$entry_title) continue;
+					if (!$entry_link) continue;
+	
+					$entry_content = $item["content:escaped"];
+	
+					if (!$entry_content) $entry_content = $item["content:encoded"];
+					if (!$entry_content) $entry_content = $item["content"];
+					if (!$entry_content) $entry_content = $item["summary"];
+					if (!$entry_content) $entry_content = $item["description"];
+	
+	//				if (!$entry_content) continue;
+	
+					// WTF
+					if (is_array($entry_content)) {
+						$entry_content = $entry_content["encoded"];
+						if (!$entry_content) $entry_content = $entry_content["escaped"];
+					}
+	
+	//				print_r($item);
+	//				print_r(htmlspecialchars($entry_content));
+	//				print "<br>";
+	
+					$entry_content_unescaped = $entry_content;
+					$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
+	
+					$entry_comments = $item["comments"];
+	
+					$entry_author = db_escape_string($item['dc']['creator']);
+	
+					$entry_guid = db_escape_string($entry_guid);
+	
+					$result = db_query($link, "SELECT id FROM	ttrss_entries 
+						WHERE guid = '$entry_guid'");
+	
+					$entry_content = db_escape_string($entry_content);
+					$entry_title = db_escape_string($entry_title);
+					$entry_link = db_escape_string($entry_link);
+					$entry_comments = db_escape_string($entry_comments);
+	
+					$num_comments = db_escape_string($item["slash"]["comments"]);
+	
+					if (!$num_comments) $num_comments = 0;
+
+				} else if (RSS_BACKEND_TYPE == "simplepie") {
+
+					$entry_guid = $item->get_id();
+
+					if (!$entry_guid) {
+							$entry_guid = $item->get_permalink();
+					}
+	
+					if (!$entry_guid) continue;
+					
+					$entry_timestamp = $item->get_date("U");
+					
+					if ($entry_timestamp == "") {
+						$entry_timestamp = time();
+						$no_orig_date = 'true';
+					} else {
+						$no_orig_date = 'false';
+					}
+	
+					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
+	
+					$entry_title = $item->get_title();
+					$entry_link = $item->get_permalink();
+	
+					if (!$entry_title) continue;
+					if (!$entry_link) continue;
+
+					$entry_content = $item->get_description();
+						
+//					print_r(htmlspecialchars($entry_content));
+//					print "<br>";
+	
+					$entry_content_unescaped = $entry_content;
+					$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
+	
+					$entry_comments = ""; # FIXME
+					
+					$entry_author = $item->get_author(0);
+
+					$entry_author = db_escape_string($entry_author->name);
+					
+					$entry_guid = db_escape_string($entry_guid);
+
+					$result = db_query($link, "SELECT id FROM	ttrss_entries 
+						WHERE guid = '$entry_guid'");
+	
+					$entry_content = db_escape_string($entry_content);
+					$entry_title = db_escape_string($entry_title);
+					$entry_link = db_escape_string($entry_link);
+					$entry_comments = db_escape_string($entry_comments);
+	
+					$num_comments = 0; # FIXME
+	
+					if (!$num_comments) $num_comments = 0;
+
 				}
-
-				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
-
-				$entry_title = $item["title"];
-
-				// strange Magpie workaround
-				$entry_link = $item["link_"];
-				if (!$entry_link) $entry_link = $item["link"];
-
-				if (!$entry_title) continue;
-				if (!$entry_link) continue;
-
-				$entry_content = $item["content:escaped"];
-
-				if (!$entry_content) $entry_content = $item["content:encoded"];
-				if (!$entry_content) $entry_content = $item["content"];
-				if (!$entry_content) $entry_content = $item["summary"];
-				if (!$entry_content) $entry_content = $item["description"];
-
-//				if (!$entry_content) continue;
-
-				// WTF
-				if (is_array($entry_content)) {
-					$entry_content = $entry_content["encoded"];
-					if (!$entry_content) $entry_content = $entry_content["escaped"];
-				}
-
-//				print_r($item);
-//				print_r(htmlspecialchars($entry_content));
-//				print "<br>";
-
-				$entry_content_unescaped = $entry_content;
-				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
-
-				$entry_comments = $item["comments"];
-
-				$entry_author = db_escape_string($item['dc']['creator']);
-
-				$entry_guid = db_escape_string($entry_guid);
-
-				$result = db_query($link, "SELECT id FROM	ttrss_entries 
-					WHERE guid = '$entry_guid'");
-
-				$entry_content = db_escape_string($entry_content);
-				$entry_title = db_escape_string($entry_title);
-				$entry_link = db_escape_string($entry_link);
-				$entry_comments = db_escape_string($entry_comments);
-
-				$num_comments = db_escape_string($item["slash"]["comments"]);
-
-				if (!$num_comments) $num_comments = 0;
 
 				db_query($link, "BEGIN");
 

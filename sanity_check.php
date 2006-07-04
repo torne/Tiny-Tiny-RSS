@@ -16,7 +16,7 @@
 		exit;	
 	}
 
-	if (!file_exists("magpierss/rss_fetch.inc")) {
+	if (RSS_BACKEND_TYPE == "magpie" && !file_exists("magpierss/rss_fetch.inc")) {
 		print "<b>Fatal Error</b>: You forgot to place 
 		<a href=\"http://magpierss.sourceforge.net\">MagpieRSS</a>
 		distribution in <b>magpierss/</b>
@@ -24,9 +24,22 @@
 		exit;
 	}
 
-		if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
-			return "config: your config file version is incorrect. See config.php-dist.";
-		}
+	if (RSS_BACKEND_TYPE == "simplepie" && !file_exists("simplepie/simplepie.inc")) {
+		print "<b>Fatal Error</b>: You forgot to place 
+		<a href=\"http://simplepie.org\">SimplePie</a>
+		distribution in <b>simplepie/</b>
+		subdirectory of TT-RSS tree.";
+		exit;
+	}
+
+	if (RSS_BACKEND_TYPE != "simplepie" && RSS_BACKEND_TYPE != "magpie") {
+		print "<b>Fatal Error</b>: Invalid RSS_BACKEND_TYPE";
+		exit;
+	}
+
+	if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
+		return "config: your config file version is incorrect. See config.php-dist.";
+	}
 
 	if (file_exists("xml-export.php") || file_exists("xml-import.php")) {
 		print "<b>Fatal Error</b>: XML Import/Export tools (<b>xml-export.php</b>

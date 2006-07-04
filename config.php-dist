@@ -9,9 +9,15 @@
 	define('DB_PASS', "XXXXXX");
 	//define('DB_PORT', '5432'); // when neeeded, PG-only
 
+	define(RSS_BACKEND_TYPE, "magpie");
+	// magpie (stable) or simplepie (EXPERIMENTAL!)
+
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
 	// Local cache directory for RSS feeds
-	
+
+	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache');
+	// Local cache directory for RSS feeds (simplepie)
+
 	define('WEB_DEMO_MODE', false);
 	// Demo mode with reduced functionality.
 	// Warning: this option is obsolete. Don't rely on it being
