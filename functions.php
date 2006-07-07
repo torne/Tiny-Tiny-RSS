@@ -436,6 +436,7 @@
 	
 					if (!$entry_content) $entry_content = $item["content:encoded"];
 					if (!$entry_content) $entry_content = $item["content"];
+					if (!$entry_content) $entry_content = $item["atom_content"];
 					if (!$entry_content) $entry_content = $item["summary"];
 					if (!$entry_content) $entry_content = $item["description"];
 	
