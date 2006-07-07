@@ -565,6 +565,12 @@
 
 		if ($result) {
 
+			$link_target = "";
+
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+				$link_target = "target=\"_new\"";
+			}
+
 			$line = db_fetch_assoc($result);
 
 			if ($line["icon_url"]) {
@@ -588,10 +594,10 @@
 				} else {
 					$comments_url = $line["link"];
 				}
-				$entry_comments = "<a href=\"$comments_url\">$num_comments comments</a>";
+				$entry_comments = "<a $link_target href=\"$comments_url\">$num_comments comments</a>";
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "<a href=\"".$line["comments"]."\">comments</a>";
+					$entry_comments = "<a $link_target href=\"".$line["comments"]."\">comments</a>";
 				}				
 			}
 
@@ -604,8 +610,8 @@
 			if ($entry_author) {
 				$entry_author = " - by $entry_author";
 			}
-
-			print "<tr><td><a href=\"" . $line["link"] . "\">" . $line["title"] . 
+			
+			print "<tr><td><a $link_target href=\"" . $line["link"] . "\">" . $line["title"] . 
 				"</a>$entry_author</td>";
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
