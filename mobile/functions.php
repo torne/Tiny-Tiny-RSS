@@ -346,6 +346,19 @@
 			catchup_feed($link, $feed, $cat_view);
 		}
 
+		if ($subop == "MarkPageRead") {
+			$ids_to_mark = $_SESSION["last_page_ids.$feed"];
+
+			if ($ids_to_mark) {
+
+				foreach ($ids_to_mark as $id) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+						unread = false,last_read = NOW()
+						WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+		}
+		
 		$search = db_escape_string($_GET["search"]);
 		$search_mode = db_escape_string($_GET["smode"]);
 
@@ -579,8 +592,10 @@
 		
 		print "$feed_title <span id=\"headingAddon\">(";
 		print "<a href=\"tt-rss.php\">Back</a>, ";
-		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>, ";
-		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Mark as read</a>";
+		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>";
+#		print "Mark as read: ";
+#		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAsRead\">Page</a>, ";
+#		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a>";
 		print ")</span>";
 		
 		print "</div>";
@@ -589,6 +604,8 @@
 
 			print "<ul class=\"headlines\">";
 
+			$page_art_ids = array();
+			
 			$lnum = 0;
 	
 			error_reporting (DEFAULT_ERROR_LEVEL);
@@ -601,6 +618,8 @@
 	
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
+
+				array_push($page_art_ids, $id);
 	
 				if ($line["last_read"] == "" && 
 						($line["unread"] != "t" && $line["unread"] != "1")) {
@@ -656,6 +675,13 @@
 			}
 
 			print "</ul>";
+
+			print "<div class='footerAddon'>Mark as read: ";
+
+			$_SESSION["last_page_ids.$feed"] = $page_art_ids;
+
+			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkPageRead\">Page</a>, ";
+			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a></div>";
 
 		} else {
 			print "<div align='center'>No articles found.</div>";
