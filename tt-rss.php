@@ -197,7 +197,7 @@ window.onload = init;
 			onclick="viewCurrentFeed(0, 'ForceUpdate')" value="Update">
 
 		<input class="button" type="submit"
-			onclick="viewCurrentFeed(0, 'MarkAllRead')" value="Mark as read"> 
+			onclick="catchupCurrentFeed()" value="Mark as read"> 
 
 		</td>
 		<td align="right">

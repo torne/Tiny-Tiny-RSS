@@ -555,3 +555,12 @@ function parse_runtime_info(elem) {
 		param = param.nextSibling;
 	}
 }
+
+function catchupCurrentFeed() {
+
+	var fn = getFeedName(getActiveFeedId());
+	
+	if (confirm("Mark all articles in " + fn + " as read?")) {
+		return viewCurrentFeed(0, 'MarkAllRead')
+	}
+}
