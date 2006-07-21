@@ -1399,10 +1399,39 @@
 		}
 	}
 
-	function getFeedUnread($link, $feed) {
+	function getCategoryUnread($link, $cat) {
+
+		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE cat_id = '$cat' 
+				AND owner_uid = " . $_SESSION["uid"]);
+
+		$cat_feeds = array();
+		while ($line = db_fetch_assoc($result)) {
+			array_push($cat_feeds, "feed_id = " . $line["id"]);
+		}
+
+		$match_part = implode(" OR ", $cat_feeds);
+
+		$result = db_query($link, "SELECT COUNT(int_id) AS unread 
+			FROM ttrss_user_entries 
+			WHERE	unread = true AND $match_part AND owner_uid = " . $_SESSION["uid"]);
+
+		$unread = 0;
+
+		# this needs to be rewritten
+		while ($line = db_fetch_assoc($result)) {
+			$unread += $line["unread"];
+		}
+
+		return $unread;
+
+	}
+
+	function getFeedUnread($link, $feed, $is_cat = false) {
 		$n_feed = sprintf("%d", $feed);
-	
-		if ($n_feed == -1) {
+
+		if ($is_cat) {
+			return getCategoryUnread($link, $feed);
+		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
 		} else if ($feed > 0) {
 			$match_part = "feed_id = '$n_feed'";
@@ -1886,7 +1915,7 @@
 				if ($search) {
 					$view_query_part = " ";
 				} else if ($feed != -1) {
-					$unread = getFeedUnread($link, $feed);
+					$unread = getFeedUnread($link, $feed, $cat_view);
 					if ($unread > 0) {
 						$view_query_part = " unread = true AND ";
 					}
