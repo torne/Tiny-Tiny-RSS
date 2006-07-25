@@ -1430,11 +1430,24 @@
 		$n_feed = sprintf("%d", $feed);
 
 		if ($is_cat) {
-			return getCategoryUnread($link, $feed);
+			return getCategoryUnread($link, $n_feed);		
 		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
 		} else if ($feed > 0) {
-			$match_part = "feed_id = '$n_feed'";
+
+			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE parent_feed = '$n_feed'");
+
+			if (db_num_rows($result) > 0) {
+				$linked_feeds = array();
+				while ($line = db_fetch_assoc($result)) {
+					array_push($linked_feeds, "feed_id = " . $line["id"]);
+				}
+				
+				$match_part = implode(" OR ", $linked_feeds);
+
+			} else {
+				$match_part = "feed_id = '$n_feed'";
+			}
 		} else if ($feed < -10) {
 			$label_id = -$feed - 11;
 
