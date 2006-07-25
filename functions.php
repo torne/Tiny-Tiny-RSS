@@ -676,8 +676,13 @@
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
-						db_query($link, "UPDATE ttrss_user_entries 
-							SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
+						if (get_pref($link, "MARK_UNREAD_ON_UPDATE")) {
+							db_query($link, "UPDATE ttrss_user_entries 
+								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
+						} else {
+							db_query($link, "UPDATE ttrss_user_entries 
+								SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
+						}
 
 					}
 				}
@@ -1413,7 +1418,7 @@
 
 		$result = db_query($link, "SELECT COUNT(int_id) AS unread 
 			FROM ttrss_user_entries 
-			WHERE	unread = true AND $match_part AND owner_uid = " . $_SESSION["uid"]);
+			WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
 
 		$unread = 0;
 
@@ -1433,17 +1438,32 @@
 			return getCategoryUnread($link, $n_feed);		
 		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
-		} else if ($feed > 0) {
+		} else if ($n_feed > 0) {
 
-			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE parent_feed = '$n_feed'");
+			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE parent_feed = '$n_feed'
+					AND owner_uid = " . $_SESSION["uid"]);
 
 			if (db_num_rows($result) > 0) {
+
 				$linked_feeds = array();
 				while ($line = db_fetch_assoc($result)) {
 					array_push($linked_feeds, "feed_id = " . $line["id"]);
 				}
 				
 				$match_part = implode(" OR ", $linked_feeds);
+
+				$result = db_query($link, "SELECT COUNT(int_id) AS unread 
+					FROM ttrss_user_entries 
+					WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
+
+				$unread = 0;
+
+				# this needs to be rewritten
+				while ($line = db_fetch_assoc($result)) {
+					$unread += $line["unread"];
+				}
+
+				return $unread;
 
 			} else {
 				$match_part = "feed_id = '$n_feed'";
