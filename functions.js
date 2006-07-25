@@ -1308,8 +1308,11 @@ function storeInitParam(key, value, is_client) {
 		if (!is_client) {
 			if (getMainContext().init_params[key] != value) {
 				debug("storeInitParam: " + key + " => " + value);
-				new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-					param_escape(key) + "&value=" + param_escape(value));	
+				//new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
+				//	param_escape(key) + "&value=" + param_escape(value));	
+				var f = getMainContext().document.getElementById("backReqBox");
+				f.src = "backend.php?op=rpc&subop=storeParam&key=" + 
+					param_escape(key) + "&value=" + param_escape(value);
 			}
 		}
 		getMainContext().init_params[key] = value;

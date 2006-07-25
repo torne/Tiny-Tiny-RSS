@@ -87,6 +87,8 @@ window.onload = init;
 	start the daemon process or contact instance owner.
 </div>
 
+<iframe id="backReqBox"></iframe>
+
 <ul id="debug_output"></ul>
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>

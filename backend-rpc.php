@@ -228,6 +228,9 @@
 			$key = $_GET["key"];
 			$value = $_GET["value"];
 			$_SESSION["stored-params"][$key] = $value;
+			print "<rpc-reply>
+				<message>$key : $value</message>
+				</rpc-reply>";
 		}
 	}
 ?>
