@@ -1896,8 +1896,10 @@
 		print "<init-params>";
 		if ($_SESSION["stored-params"]) {
 			foreach (array_keys($_SESSION["stored-params"]) as $key) {
-				$value = htmlspecialchars($_SESSION["stored-params"][$key]);
-				print "<param key=\"$key\" value=\"$value\"/>";
+				if ($key) {
+					$value = htmlspecialchars($_SESSION["stored-params"][$key]);
+					print "<param key=\"$key\" value=\"$value\"/>";
+				}
 			}
 		}
 
