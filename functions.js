@@ -1134,6 +1134,7 @@ function closeInfoBox(cleanup) {
 
 	enableHotkeys();
 
+	return false;
 }
 
 
@@ -1153,6 +1154,7 @@ function displayDlg(id, param) {
 
 	disableHotkeys();
 
+	return false;
 }
 
 function infobox_submit_callback() {

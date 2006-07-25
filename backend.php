@@ -1882,17 +1882,17 @@
 				if ($subop == "editCat") {
 					print "Edit category:&nbsp;
 						<input type=\"submit\" class=\"button\"
-							onclick=\"javascript:feedCatEditSave()\" value=\"Save\">
+							onclick=\"return feedCatEditSave()\" value=\"Save\">
 						<input type=\"submit\" class=\"button\"
-							onclick=\"javascript:feedCatEditCancel()\" value=\"Cancel\">";
+							onclick=\"return feedCatEditCancel()\" value=\"Cancel\">";
 					} else {
 		
 					print "
 						Selection:&nbsp;
 					<input type=\"submit\" class=\"button\" disabled=\"true\"
-						onclick=\"javascript:editSelectedFeedCat()\" value=\"Edit\">
+						onclick=\"return editSelectedFeedCat()\" value=\"Edit\">
 					<input type=\"submit\" class=\"button\" disabled=\"true\"
-						onclick=\"javascript:removeSelectedFeedCats()\" value=\"Remove\">";
+						onclick=\"return removeSelectedFeedCats()\" value=\"Remove\">";
 	
 				}
 	
@@ -1988,11 +1988,11 @@
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
-				class=\"button\" onclick=\"filterEditSave()\" 
+				class=\"button\" onclick=\"return filterEditSave()\" 
 				value=\"Save\"> ";
 
 			print "<input class=\"button\"
-				type=\"submit\" onclick=\"filterEditCancel()\" 
+				type=\"submit\" onclick=\"return filterEditCancel()\" 
 				value=\"Cancel\">";
 
 			print "</div>";
@@ -2076,7 +2076,7 @@
 
 		print "<input type=\"submit\" 
 			class=\"button\" 
-			onclick=\"javascript:displayDlg('quickAddFilter', false)\" 
+			onclick=\"return displayDlg('quickAddFilter', false)\" 
 			id=\"create_filter_btn\"
 			value=\"Create filter\">"; 
 
@@ -2173,9 +2173,9 @@
 			print "
 					Selection:
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:editSelectedFilter()\" value=\"Edit\">
+					onclick=\"return editSelectedFilter()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:removeSelectedFilters()\" value=\"Remove\">";
+					onclick=\"return removeSelectedFilters()\" value=\"Remove\">";
 
 			print "</p>";
 
@@ -2644,11 +2644,11 @@
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
-				class=\"button\" onclick=\"qaddFilter()\" 
+				class=\"button\" onclick=\"return qaddFilter()\" 
 				disabled=\"true\" value=\"Create\"> ";
 
 			print "<input class=\"button\"
-				type=\"submit\" onclick=\"closeInfoBox()\" 
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
 				value=\"Cancel\">";
 
 			print "</div>";
@@ -3112,9 +3112,10 @@
 			
 			print "<div align='right'>
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:userEditSave()\" value=\"Save\">
+					type=\"submit\" onclick=\"return userEditSave()\" 
+					value=\"Save\">
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:userEditCancel()\" 
+					type=\"submit\" onclick=\"return userEditCancel()\" 
 					value=\"Cancel\"></div>";
 
 			print "</div>";

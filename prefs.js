@@ -454,6 +454,8 @@ function removeSelectedLabels() {
 	} else {
 		alert("No labels are selected.");
 	}
+
+	return false;
 }
 
 function removeSelectedUsers() {
@@ -481,6 +483,8 @@ function removeSelectedUsers() {
 	} else {
 		alert("No users are selected.");
 	}
+
+	return false;
 }
 
 function removeSelectedFilters() {
@@ -507,6 +511,8 @@ function removeSelectedFilters() {
 	} else {
 		alert("No filters are selected.");
 	}
+
+	return false;
 }
 
 
@@ -538,7 +544,8 @@ function removeSelectedFeeds() {
 		alert("No feeds are selected.");
 
 	}
-
+	
+	return false;
 }
 
 function removeSelectedFeedCats() {
@@ -569,6 +576,7 @@ function removeSelectedFeedCats() {
 
 	}
 
+	return false;
 }
 
 function feedEditCancel() {
@@ -582,6 +590,7 @@ function feedEditCancel() {
 
 	selectPrefRows('feed', false); // cleanup feed selection
 
+	return false;
 }
 
 function feedCatEditCancel() {
@@ -599,6 +608,7 @@ function feedCatEditCancel() {
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
 
+	return false;
 }
 
 function feedEditSave() {
@@ -647,6 +657,7 @@ function feedCatEditSave() {
 
 	active_feed_cat = false;
 
+	return false;
 }
 
 
@@ -663,6 +674,7 @@ function labelTest() {
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
+	return false;
 }
 
 function displayHelpInfobox(topic_id) {
@@ -692,6 +704,7 @@ function labelEditCancel() {
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 
+	return false;
 }
 
 function userEditCancel() {
@@ -703,6 +716,8 @@ function userEditCancel() {
 
 	selectPrefRows('user', false); // cleanup feed selection
 	closeInfoBox();
+
+	return false;
 }
 
 function filterEditCancel() {
@@ -716,6 +731,8 @@ function filterEditCancel() {
 	
 	selectPrefRows('filter', false); // cleanup feed selection
 	closeInfoBox();
+
+	return false;
 }
 
 function labelEditSave() {
@@ -752,6 +769,7 @@ function labelEditSave() {
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 
+	return false;
 }
 
 function userEditSave() {
@@ -777,6 +795,8 @@ function userEditSave() {
 	xmlhttp.open("GET", "backend.php?" + query, true);			
 	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
+
+	return false;
 }
 
 
@@ -806,6 +826,7 @@ function filterEditSave() {
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null);
 
+	return false;
 }
 
 function editSelectedLabel() {
