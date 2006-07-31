@@ -2106,7 +2106,7 @@
 			if ($search && $search_mode == "all_feeds") {
 				$feed_title = "Global search results ($search)";
 			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = "Feed search results ($search, $feed)";
+				$feed_title = "Tag search results ($search, $feed)";
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 				$feed_title = $feed;
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
@@ -2120,6 +2120,11 @@
 					} else {
 						$feed_title = "Uncategorized";
 					}
+
+					if ($search) {
+						$feed_title = "Category search results ($search, $feed_title)";
+					}
+
 				} else {
 					
 					$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
@@ -2128,7 +2133,10 @@
 					$feed_title = db_fetch_result($result, 0, "title");
 					$feed_site_url = db_fetch_result($result, 0, "site_url");
 					$last_error = db_fetch_result($result, 0, "last_error");
-	
+
+					if ($search) {
+						$feed_title = "Feed search results ($search, $feed_title)";
+					}
 				}
 	
 			} else if ($feed == -1) {
@@ -2209,10 +2217,11 @@
 			
 	}
 
-	function generate_syndicated_feed($link, $feed, $is_cat) {
+	function generate_syndicated_feed($link, $feed, $is_cat,
+		$search, $search_mode, $match_on) {
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-				30, false, $is_cat, false, false, false);
+				30, false, $is_cat, $search, $search_mode, $match_on);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];

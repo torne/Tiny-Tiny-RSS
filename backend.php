@@ -807,7 +807,8 @@
 
 		function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$bottom = false, $rtl_content = false, $feed_id = 0,
-			$is_cat = false) {
+			$is_cat = false, $search = false, $match_on = false,
+			$search_mode = false) {
 
 			if (!$bottom) {
 				$class = "headlinesSubToolbar";
@@ -864,9 +865,13 @@
 				print $feed_title;
 			}
 
+			if ($search) {
+				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			}
+
 			print "&nbsp;
 				<a target=\"_new\" 
-					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat\"
+					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\"
 					<img class=\"noborder\" 
 						alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
 				</a>";
@@ -879,7 +884,7 @@
 		if (db_num_rows($result) > 0) {
 
 			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-				$rtl_content, $feed, $cat_view);
+				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode);
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
@@ -3662,6 +3667,10 @@
 		$pass = db_escape_string($_GET["pass"]);
 		$is_cat = $_GET["is_cat"] != false;
 
+		$search = db_escape_string($_GET["q"]);
+		$match_on = db_escape_string($_GET["m"]);
+		$search_mode = db_escape_string($_GET["smode"]);
+
 		if (!$_SESSION["uid"] && $user && $pass) {
 			authenticate_user($link, $user, $pass);
 		}
@@ -3669,7 +3678,8 @@
 		if ($_SESSION["uid"] ||
 			http_authenticate_user($link)) {
 
-				generate_syndicated_feed($link, $feed, $is_cat);
+				generate_syndicated_feed($link, $feed, $is_cat, 
+					$search, $search_mode, $match_on);
 		}
 	}
 
