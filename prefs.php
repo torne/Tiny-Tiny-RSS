@@ -94,10 +94,10 @@ window.onload = init;
 	<td colspan="2">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
-				<img src="<?= $theme_image_path ?>images/ttrss_logo.png" alt="logo">	
+				<img src="<?= $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
 			</td>
 			<td valign="top" class="notifyBox">
-				<div id="notify"><span id="notify_body">&nbsp;</span></div>
+				<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 		</tr><tr><td class="welcomePrompt">
 			<? if (!SINGLE_USER_MODE) { ?>
@@ -111,7 +111,7 @@ window.onload = init;
 <? } else { ?>
 <tr>
 	<td class="small">
-		<div id="notify"><span id="notify_body">&nbsp;</span></div>
+		<div id="notify" class="notify_sm"><span id="notify_body">&nbsp;</span></div>
 		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 	</td><td class="welcomePrompt">
 		<? if (!SINGLE_USER_MODE) { ?>
