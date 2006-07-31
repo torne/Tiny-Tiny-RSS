@@ -33,11 +33,12 @@
 		print_error_xml(9, $err_msg); die;
 	}
 
-	if ((!$op || $op == "rpc" || $op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
+	if ((!$op || $op == "rpc" || $op == "rss" || 
+			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml");
 	}
 
-	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds") {
+	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds" && $op != "rss") {
 
 		if ($op == "rpc") {
 			print_error_xml(6); die;
@@ -805,7 +806,8 @@
 		}
 
 		function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
-						$bottom = false, $rtl_content = false) {
+			$bottom = false, $rtl_content = false, $feed_id = 0,
+			$is_cat = false) {
 
 			if (!$bottom) {
 				$class = "headlinesSubToolbar";
@@ -861,6 +863,13 @@
 			} else {
 				print $feed_title;
 			}
+
+			print "&nbsp;
+				<a target=\"_new\" 
+					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat\"
+					<img class=\"noborder\" 
+						alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
+				</a>";
 				
 			print "</td>";
 			print "</tr></table>";
@@ -870,7 +879,7 @@
 		if (db_num_rows($result) > 0) {
 
 			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-				$rtl_content);
+				$rtl_content, $feed, $cat_view);
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
@@ -3645,6 +3654,23 @@
 
 		print "</div>";
 
+	}
+
+	if ($op == "rss") {
+		$feed = db_escape_string($_GET["id"]);
+		$user = db_escape_string($_GET["user"]);
+		$pass = db_escape_string($_GET["pass"]);
+		$is_cat = $_GET["is_cat"] != false;
+
+		if (!$_SESSION["uid"] && $user && $pass) {
+			authenticate_user($link, $user, $pass);
+		}
+
+		if ($_SESSION["uid"] ||
+			http_authenticate_user($link)) {
+
+				generate_syndicated_feed($link, $feed, $is_cat);
+		}
 	}
 
 	function check_configuration_variables() {

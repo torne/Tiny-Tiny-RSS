@@ -948,6 +948,28 @@
 		}
 	}
 
+	function http_authenticate_user($link) {
+
+		if (!$_SERVER["PHP_AUTH_USER"]) {
+
+			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS RSSGen"');
+			header('HTTP/1.0 401 Unauthorized');
+			exit;
+					
+		} else {
+			$auth_result = authenticate_user($link, 
+				$_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]);
+
+			if (!$auth_result) {
+				header('WWW-Authenticate: Basic realm="Tiny Tiny RSS RSSGen"');
+				header('HTTP/1.0 401 Unauthorized');
+				exit;
+			}
+		}
+
+		return true;
+	}
+
 	function authenticate_user($link, $login, $password) {
 
 		if (!SINGLE_USER_MODE) {
@@ -1406,13 +1428,21 @@
 
 	function getCategoryUnread($link, $cat) {
 
-		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE cat_id = '$cat' 
+		if ($cat != 0) {
+			$cat_query = "cat_id = '$cat'";
+		} else {
+			$cat_query = "cat_id IS NULL";
+		}
+
+		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
 				AND owner_uid = " . $_SESSION["uid"]);
 
 		$cat_feeds = array();
 		while ($line = db_fetch_assoc($result)) {
 			array_push($cat_feeds, "feed_id = " . $line["id"]);
 		}
+
+		if (count($cat_feeds) == 0) return 0;
 
 		$match_part = implode(" OR ", $cat_feeds);
 
@@ -2177,6 +2207,43 @@
 
 			return array($result, $feed_title, $feed_site_url, $last_error);
 			
+	}
+
+	function generate_syndicated_feed($link, $feed, $is_cat) {
+
+		$qfh_ret = queryFeedHeadlines($link, $feed, 
+				30, false, $is_cat, false, false, false);
+
+		$result = $qfh_ret[0];
+		$feed_title = $qfh_ret[1];
+		$feed_site_url = $qfh_ret[2];
+		$last_error = $qfh_ret[3];
+
+		print "<rss version=\"2.0\">
+			<channel>
+			<title>$feed_title</title>
+			<link>$feed_site_url</link>
+			<generator>Tiny Tiny RSS v".VERSION."</generator>";
+
+		while ($line = db_fetch_assoc($result)) {
+			print "<item>";
+			print "<link>" . htmlspecialchars($line["link"]) . "</link>";
+
+			$rfc822_date = date('r', strtotime($line["updated"]));
+
+			print "<pubDate>$rfc822_date</pubDate>";
+
+			print "<title>" . 
+				htmlspecialchars($line["title"]) . "</title>";
+
+			print "<description>" . 
+				htmlspecialchars($line["content_preview"]) . "</description>";
+
+			print "</item>";
+		}
+
+		print "</channel></rss>";
+
 	}
 
 ?>
