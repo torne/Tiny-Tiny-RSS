@@ -47,4 +47,10 @@
 		from your TT-RSS instance.";
 		exit;
 	}
+
+	if (RSS_BACKEND_TYPE != "magpie") {
+		print "<b>Fatal Error</b>: RSS backends other than magpie are not
+		supported now.";
+		exit;
+	}
 ?>
