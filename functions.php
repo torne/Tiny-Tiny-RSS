@@ -1931,14 +1931,34 @@
 	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on) {
 
 			if ($search) {
+			
+				$keywords = split(" ", $search);
+				$query_keywords = array();
+
 				if ($match_on == "both") {
-					$search_query_part = "(upper(ttrss_entries.title) LIKE upper('%$search%') 
-						OR upper(ttrss_entries.content) LIKE '%$search%') AND";
+
+					foreach ($keywords as $k) {
+						array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+					}
+
+					$search_query_part = implode("AND", $query_keywords) . "AND";
+
 				} else if ($match_on == "title") {
-					$search_query_part = "upper(ttrss_entries.title) LIKE upper('%$search%') 
-						AND";
+
+					foreach ($keywords as $k) {
+						array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%'))");
+					}
+
+					$search_query_part = implode("AND", $query_keywords) . "AND";
+
 				} else if ($match_on == "content") {
-					$search_query_part = "upper(ttrss_entries.content) LIKE upper('%$search%') AND";
+
+					foreach ($keywords as $k) {
+						array_push($query_keywords, "(UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+					}
+
+					$search_query_part = implode("AND", $query_keywords) . "AND";
 				}
 			} else {
 				$search_query_part = "";
