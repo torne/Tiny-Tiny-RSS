@@ -2224,7 +2224,7 @@
 				30, false, $is_cat, $search, $search_mode, $match_on);
 
 		$result = $qfh_ret[0];
-		$feed_title = $qfh_ret[1];
+		$feed_title = htmlspecialchars($qfh_ret[1]);
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
 
