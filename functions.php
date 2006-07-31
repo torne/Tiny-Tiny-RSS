@@ -254,8 +254,8 @@
 		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
 			FROM ttrss_feeds WHERE id = '$feed'");
 
-		$auth_login = db_fetch_result($result, 0, "auth_login");
-		$auth_pass = db_fetch_result($result, 0, "auth_pass");
+		$auth_login = db_unescape_string(db_fetch_result($result, 0, "auth_login"));
+		$auth_pass = db_unescape_string(db_fetch_result($result, 0, "auth_pass"));
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
 
