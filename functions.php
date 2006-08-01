@@ -2105,8 +2105,12 @@
 			} else {
 				$query_strategy_part = "id > 0"; // dumb
 			}
-	
-			$order_by = "updated DESC";
+
+			if (get_pref($link, 'REVERSE_HEADLINES')) {
+				$order_by = "updated";
+			} else {	
+				$order_by = "updated DESC";
+			}
 	
 			$feed_title = "";
 
