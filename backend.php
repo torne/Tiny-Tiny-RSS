@@ -226,7 +226,8 @@
 					error_reporting (DEFAULT_ERROR_LEVEL);
 	
 					printFeedEntry(-$line["id"]-11, 
-						$class, $line["description"], $count, "images/label.png", $link);
+						$class, db_unescape_string($line["description"]), 
+						$count, "images/label.png", $link);
 		
 				}
 
