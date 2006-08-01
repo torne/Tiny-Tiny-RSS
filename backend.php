@@ -2541,7 +2541,7 @@
 
 			$params = split(":", db_escape_string($_GET["param"]));
 
-			$active_feed_id = $params[0];
+			$active_feed_id = sprintf("%d", $params[0]);
 			$is_cat = $params[1] == "true";
 
 			print "<table width='100%'><tr><td>Search:</td><td>";
@@ -2575,7 +2575,7 @@
 			  	$cat_preselected = "selected";
 			}
 
-			if (get_pref($link, 'ENABLE_FEED_CATS') && $active_feed_id >= 0) {
+			if (get_pref($link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
 				print "<option $cat_preselected value=\"this_cat\">This category ($feed_cat_title)</option>";
 			} else {
 				print "<option disabled>This category</option>";
