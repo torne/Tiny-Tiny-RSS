@@ -389,7 +389,7 @@
 					$cat_id = sprintf("%d", $cat_id);
 					
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-						<a href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
+						<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
 							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span>

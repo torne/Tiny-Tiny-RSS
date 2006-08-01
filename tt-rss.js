@@ -559,9 +559,15 @@ function parse_runtime_info(elem) {
 
 function catchupCurrentFeed() {
 
-	var fn = getFeedName(getActiveFeedId());
+	var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
 	
-	if (confirm("Mark all articles in " + fn + " as read?")) {
+	var str = "Mark all articles in " + fn + " as read?";
+
+/*	if (active_feed_is_cat) {
+		str = "Mark all articles in this category as read?";
+	} */
+
+	if (confirm(str)) {
 		return viewCurrentFeed(0, 'MarkAllRead')
 	}
 }

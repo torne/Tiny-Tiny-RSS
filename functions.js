@@ -1363,9 +1363,16 @@ function fatalError(code, message) {
 	}
 }
 
-function getFeedName(id) {
+function getFeedName(id, is_cat) {	
 	var d = getFeedsContext().document;
-	var e = d.getElementById("FEEDN-" + id);
+
+	var e;
+
+	if (is_cat) {
+		e = d.getElementById("FCATN-" + id);
+	} else {
+		e = d.getElementById("FEEDN-" + id);
+	}
 	if (e) {
 		return e.innerHTML.stripTags();
 	} else {
