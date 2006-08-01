@@ -191,7 +191,7 @@ function scheduleFeedUpdate(force) {
 		xmlhttp.send(null);
 	} else {
 		debug("xmlhttp busy");
-		printLockingError();
+		//printLockingError();
 	}   
 }
 
