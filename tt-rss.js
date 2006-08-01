@@ -207,7 +207,7 @@ function updateFeedList(silent, fetch) {
 		query_str = query_str + "&tags=1";
 	}
 
-	if (getActiveFeedId()) {
+	if (getActiveFeedId() != undefined) {
 		query_str = query_str + "&actid=" + getActiveFeedId();
 	}
 
@@ -241,11 +241,12 @@ function catchupAllFeeds() {
 
 function viewCurrentFeed(subop) {
 
-	if (getActiveFeedId()) {
+//	if (getActiveFeedId()) {
+	if (getActiveFeedId() != undefined) {
 		viewfeed(getActiveFeedId(), subop);
 	} else {
 		disableContainerChildren("headlinesToolbar", false, document);
-		viewfeed(-1, subop); // FIXME
+//		viewfeed(-1, subop); // FIXME
 	}
 	return false; // block unneeded form submits
 }
@@ -446,7 +447,7 @@ function quickMenuGo(opid) {
 		if (opid == "qmcRemoveFeed") {
 			var actid = getActiveFeedId();
 	
-			if (!actid) {
+			if (actid == undefined) {
 				alert("Please select some feed first.");
 				return;
 			}
