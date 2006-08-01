@@ -75,7 +75,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 
 			var show_next_feed = parent.getInitParam("on_catchup_show_next_feed") == "1";
 
-			if (next_unread_feed && show_next_feed) {
+			if (next_unread_feed && show_next_feed && !activeFeedIsCat()) {
 				query = query + "&nuf=" + param_escape(next_unread_feed);
 				setActiveFeedId(next_unread_feed);
 			}

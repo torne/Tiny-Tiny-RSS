@@ -789,7 +789,7 @@
 		if (!$match_on) {
 			$match_on = "both";
 		}
-		
+
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on);
 
 		$result = $qfh_ret[0];

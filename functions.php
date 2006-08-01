@@ -2001,7 +2001,6 @@
 	}
 
 	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false) {
-
 			if ($search) {
 			
 				$search_query_part = getSearchSql($search, $match_on);
@@ -2078,7 +2077,7 @@
 			} else if ($feed >= 0) {
 	
 				if ($cat_view) {
-	
+
 					if ($feed > 0) {
 						$query_strategy_part = "cat_id = '$feed'";
 					} else {
@@ -2086,7 +2085,7 @@
 					}
 	
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-	
+
 				} else {		
 					$tmp_result = db_query($link, "SELECT id 
 						FROM ttrss_feeds WHERE parent_feed = '$feed'
@@ -2144,7 +2143,7 @@
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
 	
 				if ($cat_view) {
-	
+
 					if ($feed != 0) {			
 						$result = db_query($link, "SELECT title FROM ttrss_feed_categories
 							WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);

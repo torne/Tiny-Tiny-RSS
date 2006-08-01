@@ -207,7 +207,7 @@ function updateFeedList(silent, fetch) {
 		query_str = query_str + "&tags=1";
 	}
 
-	if (getActiveFeedId() != undefined) {
+	if (getActiveFeedId() && !activeFeedIsCat()) {
 		query_str = query_str + "&actid=" + getActiveFeedId();
 	}
 
@@ -447,7 +447,7 @@ function quickMenuGo(opid) {
 		if (opid == "qmcRemoveFeed") {
 			var actid = getActiveFeedId();
 	
-			if (actid == undefined) {
+			if (!actid || activeFeedIsCat()) {
 				alert("Please select some feed first.");
 				return;
 			}

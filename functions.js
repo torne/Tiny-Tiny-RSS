@@ -469,6 +469,7 @@ function activeFeedIsCat() {
 function setActiveFeedId(id) {
 //	return setCookie("ttrss_vf_actfeed", id);
 	try {
+		debug("sAFID(" + id + ")");
 		getMainContext().active_feed_id = id;
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
