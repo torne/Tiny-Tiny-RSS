@@ -2390,8 +2390,9 @@
 	
 				print "<tr class=\"$class\" $this_row_id>";
 	
-				$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
-				$line["description"] = htmlspecialchars($line["description"]);
+				$line["sql_exp"] = htmlspecialchars(db_unescape_string($line["sql_exp"]));
+				$line["description"] = htmlspecialchars(
+						db_unescape_string($line["description"]));
 	
 				if (!$edit_label_id || $subop != "edit") {
 	
