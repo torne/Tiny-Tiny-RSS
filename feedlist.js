@@ -56,7 +56,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 
 		if (subop == "MarkAllRead") {
 
-			var feedr = document.getElementById("FEEDR-" + feed);
+/*			var feedr = document.getElementById("FEEDR-" + feed);
 			var feedctr = document.getElementById("FEEDCTR-" + feed);
 
 			if (feedr && feedctr) {
@@ -66,7 +66,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 				if (feedr.className.match("Unread")) {
 					feedr.className = feedr.className.replace("Unread", "");
 				}
-			}
+			} */
 
 			var feedlist = document.getElementById('feedList');
 			
