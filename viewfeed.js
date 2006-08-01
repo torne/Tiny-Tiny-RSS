@@ -325,6 +325,31 @@ function catchupPage() {
 	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 }
 
+function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
+
+	if (!xmlhttp_ready(xmlhttp_rpc)) {
+		printLockingError();
+	}
+
+	var title = prompt("Please enter label title:", "");
+
+	if (title) {
+
+		var query = "backend.php?op=labelFromSearch&search=" + param_escape(search) +
+			"&smode=" + param_escape(search_mode) + "&match=" + param_escape(match_on) +
+			"&feed=" + param_escape(feed_id) + "&is_cat=" + param_escape(is_cat) + 
+			"&title=" + param_escape(title);
+
+		debug("LFS: " + query);
+	
+		xmlhttp_rpc.open("GET", query, true);
+		xmlhttp_rpc.onreadystatechange=getMainContext().dlg_frefresh_callback;
+		xmlhttp_rpc.send(null);
+	}
+
+}
+
+
 
 function init() {
 	if (arguments.callee.done) return;
@@ -341,5 +366,5 @@ function init() {
 		var bt = document.getElementById("headlineActionsBottom");
 		bt.className = "headlinesSubToolbar";
 	}
-	
+
 }

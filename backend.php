@@ -208,11 +208,12 @@
 	
 					error_reporting (0);
 		
-					$tmp_result = db_query($link, "SELECT count(id) as count 
-						FROM ttrss_entries,ttrss_user_entries
+					$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count 
+						FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 						WHERE (" . $line["sql_exp"] . ") AND unread = true AND
-						ttrss_user_entries.ref_id = ttrss_entries.id
-						AND owner_uid = '$owner_uid'");
+						ttrss_user_entries.ref_id = ttrss_entries.id AND
+						ttrss_user_entries.feed_id = ttrss_feeds.id
+						AND ttrss_user_entries.owner_uid = '$owner_uid'");
 	
 					$count = db_fetch_result($tmp_result, 0, "count");
 	
@@ -836,8 +837,16 @@
 								<a href='#' onclick=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)\">None</a>
 						&nbsp;&nbsp;
 						Toggle: <a href='#' onclick=\"javascript:selectionToggleUnread()\">Unread</a>,
-								<a href='#' onclick=\"javascript:selectionToggleMarked()\">Starred</a>";
+							<a href='#' onclick=\"javascript:selectionToggleMarked()\">Starred</a>";
+
 				print "</td>";
+
+				if ($search && $feed_id > 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+					print "<td class=\"headlineActions$rtl_cpart\">
+						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+								'$match_on', '$feed_id', '$is_cat');\">
+							Convert this search to label</a></td>";
+				}
 
 			} else {
 
@@ -1430,13 +1439,23 @@
 				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
-					db_query($link, "DELETE FROM ttrss_feeds 
-						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-					$icons_dir = ICONS_DIR;
+					if ($id > 0) {
+
+						db_query($link, "DELETE FROM ttrss_feeds 
+							WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+						$icons_dir = ICONS_DIR;
 					
-					if (file_exists($icons_dir . "/$id.ico")) {
-						unlink($icons_dir . "/$id.ico");
+						if (file_exists($icons_dir . "/$id.ico")) {
+							unlink($icons_dir . "/$id.ico");
+						}
+					} else if ($id < -10) {
+
+						$label_id = -$id - 11;
+
+						db_query($link, "DELETE FROM ttrss_labels
+						  	WHERE	id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
 					}
 				}
 			}
@@ -2228,11 +2247,12 @@
 //			print "<p><b>Expression</b>: $expr</p>";
 
 			$result = db_query($link, 
-				"SELECT count(id) AS num_matches
-					FROM ttrss_entries,ttrss_user_entries
+				"SELECT count(ttrss_entries.id) AS num_matches
+					FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 					WHERE ($expr) AND 
 						ttrss_user_entries.ref_id = ttrss_entries.id AND
-						owner_uid = " . $_SESSION["uid"]);
+						ttrss_user_entries.feed_id = ttrss_feeds.id AND
+						ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
 
 			$num_matches = db_fetch_result($result, 0, "num_matches");;
 			
@@ -2241,12 +2261,13 @@
 				print "<p>Query returned <b>$num_matches</b> matches, showing first 15:</p>";
 
 				$result = db_query($link, 
-					"SELECT title, 
+					"SELECT ttrss_entries.title, 
 						(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
-					FROM ttrss_entries,ttrss_user_entries
+					FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 							WHERE ($expr) AND 
 							ttrss_user_entries.ref_id = ttrss_entries.id
-							AND owner_uid = " . $_SESSION["uid"] . " 
+							AND ttrss_user_entries.feed_id = ttrss_feeds.id
+							AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"] . " 
 							ORDER BY date_entered DESC LIMIT 15");
 
 				print "<ul class=\"filterTestResults\">";
@@ -3722,6 +3743,56 @@
 		}
 
 		return false;
+	}
+
+	if ($op == "labelFromSearch") {
+		$search = db_escape_string($_GET["search"]);
+		$search_mode = db_escape_string($_GET["smode"]);
+		$match_on = db_escape_string($_GET["match"]);
+		$is_cat = db_escape_string($_GET["is_cat"]);
+		$title = db_escape_string($_GET["title"]);
+		$feed = sprintf("%d", $_GET["feed"]);
+
+		$label_qparts = array();
+
+		$search_expr = getSearchSql($search, $match_on);
+
+		if ($is_cat) {
+			if ($feed != 0) {
+				$search_expr .= " AND ttrss_feeds.cat_id = $feed ";
+			} else {
+				$search_expr .= " AND ttrss_feeds.cat_id IS NULL ";
+			}
+		} else {
+			if ($search_mode == "all_feeds") {
+				// NOOP
+			} else if ($search_mode == "this_cat") {
+
+				$tmp_result = db_query($link, "SELECT cat_id
+					FROM ttrss_feeds WHERE id = '$feed'");
+
+				$cat_id = db_fetch_result($tmp_result, 0, "cat_id");
+
+				if ($cat_id > 0) {
+					$search_expr .= " AND ttrss_feeds.cat_id = $cat_id ";
+				} else {
+					$search_expr .= " AND ttrss_feeds.cat_id IS NULL ";
+				}
+			} else {
+				$search_expr .= " AND ttrss_feeds.id = $feed ";
+			}
+
+		}
+
+		$search_expr = db_escape_string($search_expr);
+
+		print $search_expr;
+
+		if ($title) {
+			$result = db_query($link,
+				"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
+				VALUES ('$search_expr', '$title', '".$_SESSION["uid"]."')");
+		}
 	}
 
 	db_close($link);

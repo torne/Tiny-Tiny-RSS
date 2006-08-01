@@ -571,3 +571,4 @@ function catchupCurrentFeed() {
 		return viewCurrentFeed(0, 'MarkAllRead')
 	}
 }
+

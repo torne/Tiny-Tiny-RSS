@@ -1261,7 +1261,8 @@
 	}
 
 	function catchup_feed($link, $feed, $cat_view) {
-			if (preg_match("/^[0-9][0-9]*$/", $feed) != false && $feed >= 0) {
+
+			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 			
 				if ($cat_view) {
 
@@ -1336,11 +1337,12 @@
 							"SELECT 
 								int_id 
 							FROM 
-								ttrss_user_entries,ttrss_entries 
+								ttrss_user_entries,ttrss_entries,ttrss_feeds
 							WHERE
-								ref_id = id AND 
+								ref_id = ttrss_entries.id AND 
+								ttrss_user_entries.feed_id = ttrss_feeds.id AND
 								$sql_exp AND
-								owner_uid = " . $_SESSION["uid"]);
+								ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
 
 						while ($tmp_line = db_fetch_assoc($tmp2_result)) {
 							db_query($link, "UPDATE 
@@ -1510,8 +1512,10 @@
 		if ($match_part) {
 		
 			$result = db_query($link, "SELECT count(int_id) AS unread 
-				FROM ttrss_user_entries 
-				WHERE	unread = true AND $match_part AND owner_uid = " . $_SESSION["uid"]);
+				FROM ttrss_user_entries,ttrss_feeds,ttrss_entries WHERE
+				ttrss_user_entries.feed_id = ttrss_feeds.id AND
+				ttrss_user_entries.ref_id = ttrss_entries.id AND 
+				unread = true AND ($match_part) AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
 				
 		} else {
 		
@@ -1607,9 +1611,10 @@
 		$old_counters = $_SESSION["lctr_last_value"];
 		$lctrs_modified = false;
 
-		$result = db_query($link, "SELECT count(id) as count FROM ttrss_entries,ttrss_user_entries
+		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
-			unread = true AND owner_uid = ".$_SESSION["uid"]);
+			ttrss_user_entries.feed_id = ttrss_feeds.id AND
+			unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
 
 		$count = db_fetch_result($result, 0, "count");
 
@@ -1631,10 +1636,11 @@
 
 			error_reporting (0);
 
-			$tmp_result = db_query($link, "SELECT count(id) as count FROM ttrss_user_entries,ttrss_entries
+			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
 				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+				ttrss_user_entries.feed_id = ttrss_feeds.id AND
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
-				owner_uid = ".$_SESSION["uid"]);
+				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
 
 			$count = db_fetch_result($tmp_result, 0, "count");
 
@@ -1958,38 +1964,49 @@
 		print "</runtime-info>";
 	}
 
+	function getSearchSql($search, $match_on) {
+
+		$search_query_part = "";
+
+		$keywords = split(" ", $search);
+		$query_keywords = array();
+
+		if ($match_on == "both") {
+
+			foreach ($keywords as $k) {
+				array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%')
+					OR UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+			}
+
+			$search_query_part = implode("AND", $query_keywords) . " AND ";
+
+		} else if ($match_on == "title") {
+
+			foreach ($keywords as $k) {
+				array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%'))");
+			}
+
+			$search_query_part = implode("AND", $query_keywords) . " AND ";
+
+		} else if ($match_on == "content") {
+
+			foreach ($keywords as $k) {
+				array_push($query_keywords, "(UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+			}
+		}
+
+		$search_query_part = implode("AND", $query_keywords);
+
+		return $search_query_part;
+	}
+
 	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false) {
 
 			if ($search) {
 			
-				$keywords = split(" ", $search);
-				$query_keywords = array();
+				$search_query_part = getSearchSql($search, $match_on);
+				$search_query_part .= " AND ";
 
-				if ($match_on == "both") {
-
-					foreach ($keywords as $k) {
-						array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%')
-							OR UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
-					}
-
-					$search_query_part = implode("AND", $query_keywords) . " AND ";
-
-				} else if ($match_on == "title") {
-
-					foreach ($keywords as $k) {
-						array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%'))");
-					}
-
-					$search_query_part = implode("AND", $query_keywords) . " AND ";
-
-				} else if ($match_on == "content") {
-
-					foreach ($keywords as $k) {
-						array_push($query_keywords, "(UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
-					}
-
-					$search_query_part = implode("AND", $query_keywords) . " AND ";
-				}
 			} else {
 				$search_query_part = "";
 			}
@@ -2161,6 +2178,10 @@
 				$result = db_query($link, "SELECT description FROM ttrss_labels
 					WHERE id = '$label_id'");
 				$feed_title = db_fetch_result($result, 0, "description");
+
+				if ($search) {
+					$feed_title = "Label search results ($search, $feed_title)";
+				}
 			} else {
 				$feed_title = "?";
 			}
