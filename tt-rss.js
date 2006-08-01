@@ -569,7 +569,7 @@ function catchupCurrentFeed() {
 	} */
 
 	if (confirm(str)) {
-		return viewCurrentFeed(0, 'MarkAllRead')
+		return viewCurrentFeed('MarkAllRead')
 	}
 }
 
