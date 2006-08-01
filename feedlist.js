@@ -102,10 +102,12 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	
 //		cleanSelectedList("feedList");
 	
-		var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
-		if (feedr && !feedr.className.match("Selected")) {	
-			feedr.className = feedr.className + "Selected";
-		} 
+		if (!cat_view_mode) {
+			var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
+			if (feedr && !feedr.className.match("Selected")) {	
+				feedr.className = feedr.className + "Selected";
+			} 
+		}
 		
 		parent.disableContainerChildren("headlinesToolbar", false);
 		parent.Form.enable("main_toolbar_form");
