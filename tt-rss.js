@@ -239,20 +239,20 @@ function catchupAllFeeds() {
 
 }
 
-function viewCurrentFeed(skip, subop) {
+function viewCurrentFeed(subop) {
 
 	if (getActiveFeedId()) {
-		viewfeed(getActiveFeedId(), skip, subop);
+		viewfeed(getActiveFeedId(), subop);
 	} else {
 		disableContainerChildren("headlinesToolbar", false, document);
-		viewfeed(-1, skip, subop); // FIXME
+		viewfeed(-1, subop); // FIXME
 	}
 	return false; // block unneeded form submits
 }
 
-function viewfeed(feed, skip, subop) {
+function viewfeed(feed, subop) {
 	var f = window.frames["feeds-frame"];
-	f.viewfeed(feed, skip, subop);
+	f.viewfeed(feed, subop);
 }
 
 function timeout() {
@@ -270,7 +270,7 @@ function resetSearch() {
 
 	if (searchbox.value != "" && getActiveFeedId()) {	
 		searchbox.value = "";
-		viewfeed(getActiveFeedId(), 0, "");
+		viewfeed(getActiveFeedId(), "");
 	}
 }
 

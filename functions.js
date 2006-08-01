@@ -187,7 +187,7 @@ function hotkey_handler(e) {
 
 		if (keycode == 85) { // u
 			if (getActiveFeedId()) {
-				return f_ctx.viewfeed(getActiveFeedId(), 0, "ForceUpdate");
+				return f_ctx.viewfeed(getActiveFeedId(), "ForceUpdate");
 			}
 		}
 	
@@ -201,13 +201,13 @@ function hotkey_handler(e) {
 		if (keycode == 74) { // j
 			var feed = getActiveFeedId();
 			var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
-			if (new_feed) viewfeed(new_feed, 0, '');
+			if (new_feed) viewfeed(new_feed, '');
 		}
 	
 		if (keycode == 75) { // k
 			var feed = getActiveFeedId();
 			var new_feed = getRelativeFeedId(feedlist, feed, 'next');
-			if (new_feed) viewfeed(new_feed, 0, '');
+			if (new_feed) viewfeed(new_feed, '');
 		}
 
 		if (keycode == 78 || keycode == 40) { // n, down

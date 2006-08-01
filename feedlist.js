@@ -2,10 +2,10 @@ var xmlhttp = Ajax.getTransport();
 
 function viewCategory(cat) {
 	getMainContext().active_feed_is_cat = true;
-	viewfeed(cat, 0, '', false, true);
+	viewfeed(cat, '', true);
 }
 
-function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
+function viewfeed(feed, subop, is_cat, subop_param) {
 	try {
 	
 		enableHotkeys();
@@ -40,7 +40,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			parent.closeInfoBox(true);
 		}
 
-		debug("CVMODE: " + activeFeedIsCat());
+		debug("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
 
 		var fe = document.getElementById("FEEDR-" + getActiveFeedId());
 
@@ -50,7 +50,9 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 
 		setActiveFeedId(feed);
 	
-		getMainContext().active_feed_is_cat = is_cat;
+		if (is_cat != undefined) {
+			getMainContext().active_feed_is_cat = is_cat;
+		}
 
 		if (subop == "MarkAllRead") {
 
