@@ -43,9 +43,11 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			parent.closeInfoBox(true);
 		}
 
-		if (getActiveFeedId() != feed) {
+//		if (getActiveFeedId() != feed) {
 			cat_view_mode = is_cat;
-		}
+//		}
+
+		debug("CVMODE: " + cat_view_mode);
 
 		var fe = document.getElementById("FEEDR-" + getActiveFeedId());
 
