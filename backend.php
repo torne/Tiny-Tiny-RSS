@@ -2235,8 +2235,8 @@
 
 		if ($subop == "test") {
 
-			$expr = trim($_GET["expr"]);
-			$descr = trim($_GET["descr"]);
+			$expr = db_unescape_string(trim($_GET["expr"]));
+			$descr = db_unescape_string(trim($_GET["descr"]));
 
 			print "<div id=\"infoBoxTitle\">Test label: $descr</div>";
 
