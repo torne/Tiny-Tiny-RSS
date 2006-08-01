@@ -1958,7 +1958,7 @@
 		print "</runtime-info>";
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false) {
 
 			if ($search) {
 			
@@ -2111,6 +2111,10 @@
 			} else {	
 				$order_by = "updated DESC";
 			}
+
+			if ($override_order) {
+				$order_by = $override_order;
+			}
 	
 			$feed_title = "";
 
@@ -2232,7 +2236,7 @@
 		$search, $search_mode, $match_on) {
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-				30, false, $is_cat, $search, $search_mode, $match_on);
+				30, false, $is_cat, $search, $search_mode, $match_on, "updated DESC");
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);

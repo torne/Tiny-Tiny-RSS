@@ -869,12 +869,14 @@
 				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
 			}
 
-			print "&nbsp;
-				<a target=\"_new\" 
-					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\"
-					<img class=\"noborder\" 
-						alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
-				</a>";
+			if (!$bottom) {
+				print "&nbsp;
+					<a target=\"_new\" 
+						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\"
+						<img class=\"noborder\" 
+							alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
+					</a>";
+			}
 				
 			print "</td>";
 			print "</tr></table>";
