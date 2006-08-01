@@ -1972,7 +1972,7 @@
 							OR UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
 					}
 
-					$search_query_part = implode("AND", $query_keywords) . "AND";
+					$search_query_part = implode("AND", $query_keywords) . " AND ";
 
 				} else if ($match_on == "title") {
 
@@ -1980,7 +1980,7 @@
 						array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%'))");
 					}
 
-					$search_query_part = implode("AND", $query_keywords) . "AND";
+					$search_query_part = implode("AND", $query_keywords) . " AND ";
 
 				} else if ($match_on == "content") {
 
@@ -1988,7 +1988,7 @@
 						array_push($query_keywords, "(UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
 					}
 
-					$search_query_part = implode("AND", $query_keywords) . "AND";
+					$search_query_part = implode("AND", $query_keywords) . " AND ";
 				}
 			} else {
 				$search_query_part = "";
@@ -2032,10 +2032,17 @@
 			} else if ($feed >= 0 && $search && $search_mode == "this_cat") {
 	
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
-	
-				$tmp_result = db_query($link, "SELECT id 
-					FROM ttrss_feeds WHERE cat_id = 
-						(SELECT cat_id FROM ttrss_feeds WHERE id = '$feed') AND id != '$feed'");
+
+				$tmp_result = false;
+
+				if ($cat_view) {
+					$tmp_result = db_query($link, "SELECT id 
+						FROM ttrss_feeds WHERE cat_id = '$feed'");
+				} else {
+					$tmp_result = db_query($link, "SELECT id
+						FROM ttrss_feeds WHERE cat_id = (SELECT cat_id FROM ttrss_feeds 
+							WHERE id = '$feed') AND id != '$feed'");
+				}
 	
 				$cat_siblings = array();
 	
@@ -2253,6 +2260,18 @@
 
 		print "</channel></rss>";
 
+	}
+
+	function getCategoryTitle($link, $cat_id) {
+
+		$result = db_query($link, "SELECT title FROM ttrss_feed_categories WHERE
+			id = '$cat_id'");
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "title");
+		} else {
+			return "Uncategorized";
+		}
 	}
 
 ?>

@@ -2537,7 +2537,12 @@
 
 			print "<form id='search_form'>";
 
-			$active_feed_id = db_escape_string($_GET["param"]);
+			#$active_feed_id = db_escape_string($_GET["param"]);
+
+			$params = split(":", db_escape_string($_GET["param"]));
+
+			$active_feed_id = $params[0];
+			$is_cat = $params[1] == "true";
 
 			print "<table width='100%'><tr><td>Search:</td><td>";
 			
@@ -2553,16 +2558,25 @@
 				<option value=\"all_feeds\">All feeds</option>";
 			
 			$feed_title = getFeedTitle($link, $active_feed_id);
-			$feed_cat_title = getFeedCatTitle($link, $active_feed_id);
+
+			if (!$is_cat) {
+				$feed_cat_title = getFeedCatTitle($link, $active_feed_id);
+			} else {
+				$feed_cat_title = getCategoryTitle($link, $active_feed_id);
+			}
 			
-			if ($active_feed_id) {				
+			if ($active_feed_id && !$is_cat) {				
 				print "<option selected value=\"this_feed\">This feed ($feed_title)</option>";
 			} else {
 				print "<option disabled>This feed</option>";
 			}
 
-			if (get_pref($link, 'ENABLE_FEED_CATS') && $active_feed_id && $active_feed_id > 0) {
-				print "<option value=\"this_cat\">This category ($feed_cat_title)</option>";
+			if ($is_cat) {
+			  	$cat_preselected = "selected";
+			}
+
+			if (get_pref($link, 'ENABLE_FEED_CATS') && $active_feed_id >= 0) {
+				print "<option $cat_preselected value=\"this_cat\">This category ($feed_cat_title)</option>";
 			} else {
 				print "<option disabled>This category</option>";
 			}

@@ -462,6 +462,10 @@ function getActiveFeedId() {
 	}
 }
 
+function activeFeedIsCat() {
+	return getMainContext().active_feed_is_cat;
+}
+
 function setActiveFeedId(id) {
 //	return setCookie("ttrss_vf_actfeed", id);
 	try {

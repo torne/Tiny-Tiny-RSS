@@ -12,7 +12,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 		if (!doc) doc = parent.document;
 	
 		enableHotkeys();
-	
+
 		var toolbar_query = parent.Form.serialize("main_toolbar_form");
 		var toolbar_form = parent.document.forms["main_toolbar_form"];
 
@@ -55,6 +55,8 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 
 		setActiveFeedId(feed);
 	
+		getMainContext().active_feed_is_cat = is_cat;
+
 		if (subop == "MarkAllRead") {
 
 			var feedr = document.getElementById("FEEDR-" + feed);

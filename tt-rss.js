@@ -12,6 +12,7 @@ var firsttime_update = true;
 var last_refetch = 0;
 var cookie_lifetime = 0;
 var active_feed_id = 0;
+var active_feed_is_cat = false;
 
 var xmlhttp = Ajax.getTransport();
 
@@ -433,7 +434,7 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcSearch") {
-			displayDlg("search", getActiveFeedId());
+			displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 			return;
 		}
 	
