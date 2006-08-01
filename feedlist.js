@@ -1,15 +1,12 @@
 var xmlhttp = Ajax.getTransport();
 
-var cat_view_mode = false;
-
 function viewCategory(cat) {
+	getMainContext().active_feed_is_cat = true;
 	viewfeed(cat, 0, '', false, true);
 }
 
 function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	try {
-
-		if (!doc) doc = parent.document;
 	
 		enableHotkeys();
 
@@ -43,11 +40,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			parent.closeInfoBox(true);
 		}
 
-//		if (getActiveFeedId() != feed) {
-			cat_view_mode = is_cat;
-//		}
-
-		debug("CVMODE: " + cat_view_mode);
+		debug("CVMODE: " + activeFeedIsCat());
 
 		var fe = document.getElementById("FEEDR-" + getActiveFeedId());
 
@@ -86,7 +79,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 			}
 		}
 
-		if (cat_view_mode) {
+		if (activeFeedIsCat()) {
 			query = query + "&cat=1";
 		}
 
@@ -104,7 +97,7 @@ function viewfeed(feed, skip, subop, doc, is_cat, subop_param) {
 	
 //		cleanSelectedList("feedList");
 	
-		if (!cat_view_mode) {
+		if (!activeFeedIsCat()) {
 			var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
