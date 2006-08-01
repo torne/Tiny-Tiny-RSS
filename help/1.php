@@ -12,11 +12,11 @@
 
 <p>Match all unread articles:</p>
 
-<pre>ttrss_user_entries.unread = true</pre>
+<pre>unread = true</pre>
 
 <p>Matches all articles which mention Linux in the title:</p>
 
-<pre>ttrss_user_entries.title like '%Linux%'</pre>
+<pre>ttrss_entries.title like '%Linux%'</pre>
 
 <p>See the database schema included in the distribution package for gruesome
 details.</p>
