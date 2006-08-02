@@ -175,7 +175,7 @@ function toggleUnread(id, cmode) {
 	}
 }
 
-function selectionToggleUnread(cdm_mode) {
+function selectionToggleUnread(cdm_mode, set_state) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
@@ -207,8 +207,18 @@ function selectionToggleUnread(cdm_mode) {
 
 		if (rows.length > 0) {
 
+			var cmode = "";
+
+			if (set_state == undefined) {
+				cmode = "2";
+			} else if (set_state == true) {
+				cmode = "1";
+			} else if (set_state == false) {
+				cmode = "0";
+			}
+
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
-				param_escape(rows.toString()) + "&cmode=2";
+				param_escape(rows.toString()) + "&cmode=" + cmode;
 
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;
@@ -320,9 +330,16 @@ function cdmSelectArticles(mode) {
 }
 
 function catchupPage() {
-	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
-	selectionToggleUnread();
-	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+
+	if (document.getElementById("headlinesList")) {
+		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
+		selectionToggleUnread();
+		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+	} else {
+		cdmSelectArticles('all');
+		selectionToggleUnread(true, false)
+		cdmSelectArticles('none');
+	}
 }
 
 function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
@@ -359,7 +376,13 @@ function init() {
 		document.onkeydown = hotkey_handler;
 	}
 
-	var hw = document.getElementById("headlinesList").scrollHeight;
+	var hl = document.getElementById("headlinesList");
+
+	if (!hl) {
+		hl = document.getElementById("headlinesContainer");
+	}
+
+	var hw = hl.scrollHeight;
 	var pw = parent.document.getElementById("headlines").scrollHeight;
 
 	if (hw >= pw) {
