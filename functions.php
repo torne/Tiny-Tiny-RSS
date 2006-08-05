@@ -531,11 +531,11 @@
 				}
 
 				# sanitize content
-				$entry_content = preg_replace('/<script.*?>/i', 
-					"<p class=\"scriptWarn\">", $entry_content);
-
-				$entry_content = preg_replace('/<\/script>/i', 
-					"</p>", $entry_content);
+				
+				$entry_content = sanitize_rss($entry_content);
+				$entry_title = sanitize_rss($entry_title);
+				$entry_link = sanitize_rss($entry_link);
+				$entry_comments = sanitize_rss($entry_comments);
 
 				db_query($link, "BEGIN");
 
@@ -2309,4 +2309,15 @@
 		}
 	}
 
+	function sanitize_rss($str) {
+		$res = "";
+
+		$res = preg_replace('/<script.*?>/i', 
+					"<p class=\"scriptWarn\">", $str);
+
+		$res = preg_replace('/<\/script>/i', 
+			"</p>", $res);
+
+		return $res;
+	}
 ?>
