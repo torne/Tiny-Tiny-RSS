@@ -1145,3 +1145,15 @@ span.debugTS {
 #backReqBox {
 	display : none;
 }
+
+.scriptWarn:before {
+	content : "Disabled script:";
+}
+
+.scriptWarn {
+	color : white;
+	background-color : #903030;
+	border : 1px solid #601010;
+	padding : 3px;
+	font-weight : bold;
+}

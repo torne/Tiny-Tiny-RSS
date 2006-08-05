@@ -530,6 +530,13 @@
 
 				}
 
+				# sanitize content
+				$entry_content = preg_replace('/<script.*?>/i', 
+					"<p class=\"scriptWarn\">", $entry_content);
+
+				$entry_content = preg_replace('/<\/script>/i', 
+					"</p>", $entry_content);
+
 				db_query($link, "BEGIN");
 
 				if (db_num_rows($result) == 0) {
