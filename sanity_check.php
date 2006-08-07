@@ -53,4 +53,10 @@
 		supported now.";
 		exit;
 	}
+
+	if (SINGLE_USER_MODE && DAEMON_UPDATE_LOGIN_LIMIT > 0) {
+		print "<b>Fatal Error</b>: Please set DAEMON_UPDATE_LOGIN_LIMIT
+			to 0 in single user mode.";
+		exit;
+	}
 ?>
