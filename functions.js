@@ -481,6 +481,8 @@ function parse_counters(reply, scheduled_call) {
 		var f_document = getFeedsContext().document;
 		var title_obj = getMainContext();
 
+		var feeds_found = 0;
+
 		if (reply.firstChild && reply.firstChild.firstChild) {
 			debug("<b>wrong element passed to parse_counters, adjusting.</b>");
 			reply = reply.firstChild;
@@ -502,6 +504,10 @@ function parse_counters(reply, scheduled_call) {
 			var has_img = reply.childNodes[l].getAttribute("hi");
 			var updated = reply.childNodes[l].getAttribute("updated");
 	
+			if (t == "feed") {
+				feeds_found++;
+			}
+
 			if (id == "global-unread") {
 				title_obj.global_unread = ctr;
 				title_obj.updateTitle();
@@ -575,6 +581,21 @@ function parse_counters(reply, scheduled_call) {
 				}			
 			}
 		}
+
+		var feeds_stored = getMainContext().number_of_feeds;
+
+		debug("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
+
+		if (feeds_stored != feeds_found) {
+			if (feeds_found != 0) {
+				getMainContext().number_of_feeds = feeds_found;
+			}
+			if (feeds_stored != 0 && feeds_found != 0) {
+				debug("Subscribed feed number changed, refreshing feedlist");
+				updateFeedList();
+			}
+		}
+
 	} catch (e) {
 		exception_error("parse_counters", e);
 	}

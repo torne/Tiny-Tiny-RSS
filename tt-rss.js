@@ -13,6 +13,7 @@ var last_refetch = 0;
 var cookie_lifetime = 0;
 var active_feed_id = 0;
 var active_feed_is_cat = false;
+var number_of_feeds = 0;
 
 var xmlhttp = Ajax.getTransport();
 
