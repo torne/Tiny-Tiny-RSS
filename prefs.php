@@ -70,7 +70,7 @@
 
 <body>
 
-<div id="piggie" class="invisible">&nbsp;</div>
+<div id="piggie">&nbsp;</div>
 
 <iframe id="backReqBox"></iframe>
 

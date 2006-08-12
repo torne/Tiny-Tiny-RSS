@@ -151,8 +151,6 @@ function notify(msg, no_hide, is_err) {
 function printLockingError() {
 	notify("Please wait until operation finishes");}
 
-var seq = "";
-
 function hotkey_handler(e) {
 
 	try {
@@ -172,11 +170,11 @@ function hotkey_handler(e) {
 		} else {
 			seq = seq + "" + keycode;
 		}
-	
+
 		var m_ctx = getMainContext();
 		var f_ctx = getFeedsContext();
 		var h_ctx = getHeadlinesContext();
-	
+
 		if (keycode == 82) { // r
 			return m_ctx.scheduleFeedUpdate(true);
 		}
@@ -216,16 +214,6 @@ function hotkey_handler(e) {
 	
 		if (keycode == 80 || keycode == 38) { // p, up
 			return h_ctx.moveToPost('prev');
-		} 
-	
-		if (document.getElementById("piggie")) {
-	
-			if (seq.match("807371717369")) {
-				seq = "";
-				localPiggieFunction(true);
-			} else {
-				localPiggieFunction(false);
-			}
 		}
 		
 		if (typeof localHotkeyHandler != 'undefined') {

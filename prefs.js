@@ -1058,6 +1058,7 @@ function piggie2_callback() {
 
 function localPiggieFunction(enable) {
 	if (enable) {
+		debug("I LOVEDED IT!");
 		var piggie = document.getElementById("piggie");
 		piggie.style.display = "block";
 
@@ -1251,6 +1252,8 @@ function init_second_stage() {
 	try {
 		active_tab = getInitParam("prefs_active_tab");
 		if (!active_tab) active_tab = "genConfig";
+
+		document.onkeydown = pref_hotkey_handler;
 
 		if (navigator.userAgent.match("Opera")) {	
 			setTimeout("selectTab()", 500);
@@ -1503,3 +1506,42 @@ function toggleSelectFBListRow(sender) {
 	toggleSelectListRow(sender);
 	disableContainerChildren("fbrOpToolbar", getSelectedFeedsFromBrowser() == 0);
 }
+
+var seq = "";
+
+function pref_hotkey_handler(e) {
+	try {
+
+		var keycode;
+	
+		if (!hotkeys_enabled) return;
+	
+		if (window.event) {
+			keycode = window.event.keyCode;
+		} else if (e) {
+			keycode = e.which;
+		}
+	
+		if (keycode == 13 || keycode == 27) {
+			seq = "";
+		} else {
+			seq = seq + "" + keycode;
+		}
+
+
+	if (document.getElementById("piggie")) {
+	
+		if (seq.match("807371717369")) {
+			seq = "";
+			localPiggieFunction(true);
+		} else {
+			localPiggieFunction(false);
+		}
+	}
+
+	} catch (e) {
+		exception_error("pref_hotkey_handler", e);
+	}
+}
+
+
