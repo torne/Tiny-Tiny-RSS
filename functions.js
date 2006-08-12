@@ -164,12 +164,6 @@ function hotkey_handler(e) {
 		} else if (e) {
 			keycode = e.which;
 		}
-	
-		if (keycode == 13 || keycode == 27) {
-			seq = "";
-		} else {
-			seq = seq + "" + keycode;
-		}
 
 		var m_ctx = getMainContext();
 		var f_ctx = getFeedsContext();
