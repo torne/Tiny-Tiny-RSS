@@ -775,26 +775,33 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		for (i = 0; i < node.childNodes.length; i++) {
 			if (node.childNodes[i].nodeName != "LI") { continue; }
 
-			var has_unread = (node.childNodes[i].className != "feed");
+			if (node.childNodes[i].style != undefined) {
 
-//			debug(node.childNodes[i].id + " --> " + has_unread);
-
-			if (hide && !has_unread) {
-				node.childNodes[i].style.display = "none";
+				var has_unread = (node.childNodes[i].className != "feed");
+	
+	//			debug(node.childNodes[i].id + " --> " + has_unread);
+	
+				if (hide && !has_unread) {
+					node.childNodes[i].style.display = "none";
+				}
+	
+				if (!hide) {
+					node.childNodes[i].style.display = "list-item";
+				}
+	
+				if (has_unread) {
+					cat_unread++;
+				}
 			}
-
-			if (!hide) {
-				node.childNodes[i].style.display = "list-item";
-			}
-
-			if (has_unread) {
-				cat_unread++;
-			}
-
 		}
-	}
+	}	
 
 	if (cat_unread == 0) {
+		if (cat_node.style == undefined) {
+			debug("ERROR: supplied cat_node " + cat_node + 
+				" has no styles. WTF?");
+			return;
+		}
 		if (hide) {
 			cat_node.style.display = "none";
 		} else {
