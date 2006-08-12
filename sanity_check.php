@@ -16,6 +16,13 @@
 		exit;	
 	}
 
+	if (!defined('RSS_BACKEND_TYPE')) {
+		print "<b>Fatal error</b>: RSS backend type is not defined
+			(config variable <b>RSS_BACKEND_TYPE</b>) - please check your
+			configuration file.";
+		exit;
+	}
+
 	if (RSS_BACKEND_TYPE == "magpie" && !file_exists("magpierss/rss_fetch.inc")) {
 		print "<b>Fatal Error</b>: You forgot to place 
 		<a href=\"http://magpierss.sourceforge.net\">MagpieRSS</a>
