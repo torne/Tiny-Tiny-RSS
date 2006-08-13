@@ -490,13 +490,14 @@ function parse_counters(reply, scheduled_call) {
 			var has_img = reply.childNodes[l].getAttribute("hi");
 			var updated = reply.childNodes[l].getAttribute("updated");
 	
-			if (t == "feed") {
-				feeds_found++;
-			}
-
 			if (id == "global-unread") {
 				title_obj.global_unread = ctr;
 				title_obj.updateTitle();
+				continue;
+			}
+
+			if (id == "subscribed-feeds") {
+				feeds_found = ctr;
 				continue;
 			}
 	
@@ -573,10 +574,9 @@ function parse_counters(reply, scheduled_call) {
 		debug("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
 
 		if (feeds_stored != feeds_found) {
-			if (feeds_found != 0) {
-				getMainContext().number_of_feeds = feeds_found;
-			}
-			if (feeds_stored != 0 && feeds_found != 0) {
+			getMainContext().number_of_feeds = feeds_found;
+
+			if (feeds_stored != 0) {
 				debug("Subscribed feed number changed, refreshing feedlist");
 				updateFeedList();
 			}

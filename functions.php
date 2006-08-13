@@ -1562,7 +1562,17 @@
 		if ($global_unread == -1) {	
 			$global_unread = getGlobalUnread($link);
 		}
-		print "<counter type=\"global\" id='global-unread' counter='$global_unread'/>";
+		print "<counter type=\"global\" id='global-unread' 
+			counter='$global_unread'/>";
+
+		$result = db_query($link, "SELECT COUNT(id) AS fn FROM 
+			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+		$subscribed_feeds = db_fetch_result($result, 0, "fn");
+
+		print "<counter type=\"global\" id='subscribed-feeds' 
+			counter='$subscribed_feeds'/>";
+
 	}
 
 	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
