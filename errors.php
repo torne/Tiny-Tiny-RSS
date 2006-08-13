@@ -22,4 +22,7 @@
 	$ERRORS[8] = "Denied. Your access level is insufficient to access this page.";
 
 	$ERRORS[9] = "Configuration check failed";
+
+	$ERRORS[10] = "Your version of MySQL is not currently supported. Please see 
+		official site for more information.";
 ?>

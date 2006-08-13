@@ -1217,6 +1217,8 @@
 
 	function sanity_check($link) {
 
+		error_reporting(0);
+
 		$error_code = 0;
 		$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 		$schema_version = db_fetch_result($result, 0, "schema_version");
@@ -1225,8 +1227,17 @@
 			$error_code = 5;
 		}
 
+		if (DB_TYPE == "mysql") {
+			$result = db_query($link, "SELECT true", false);
+			if (db_num_rows($result) != 1) {
+				$error_code = 10;
+			}
+		}
+
+		error_reporting (DEFAULT_ERROR_LEVEL);
+
 		if ($error_code != 0) {
-			print_error_xml(5);
+			print_error_xml($error_code);
 			return false;
 		} else {
 			return true;

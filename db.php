@@ -55,19 +55,23 @@ function db_escape_string_2($s, $link) {
 	}
 }
 
-function db_query($link, $query) {
+function db_query($link, $query, $die_on_error = true) {
 	if (DB_TYPE == "pgsql") {
 		$result = pg_query($link, $query);
 		if (!$result) {
 			$query = htmlspecialchars($query); // just in case
-		  	die("Query <i>$query</i> failed: " . pg_last_error($link));			
+			if ($die_on_error) {
+				die("Query <i>$query</i> failed: " . pg_last_error($link));			
+			}
 		}
 		return $result;
 	} else if (DB_TYPE == "mysql") {
 		$result = mysql_query($query, $link);
 		if (!$result) {
 			$query = htmlspecialchars($query);
-		  	die("Query <i>$query</i> failed: " . mysql_error($link));
+			if ($die_on_error) {
+				die("Query <i>$query</i> failed: " . mysql_error($link));
+			}
 		}
 		return $result;
 	}
