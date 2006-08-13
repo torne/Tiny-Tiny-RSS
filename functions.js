@@ -203,13 +203,13 @@ function hotkey_handler(e) {
 		}
 
 		if (keycode == 78 || keycode == 40) { // n, down
-			if (typeof h_ctx.moveToPost != undefined) {
+			if (h_ctx.moveToPost != undefined) {
 				return h_ctx.moveToPost('next');
 			}
 		}
 	
 		if (keycode == 80 || keycode == 38) { // p, up
-			if (typeof h_ctx.moveToPost != undefined) {
+			if (h_ctx.moveToPost != undefined) {
 				return h_ctx.moveToPost('prev');
 			}
 		}
