@@ -68,12 +68,13 @@
 	
 					error_reporting (0);
 		
-					$tmp_result = db_query($link, "SELECT count(id) as count 
-						FROM ttrss_entries,ttrss_user_entries
+					$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count 
+						FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 						WHERE (" . $line["sql_exp"] . ") AND unread = true AND
-						ttrss_user_entries.ref_id = ttrss_entries.id
-						AND owner_uid = '$owner_uid'");
-	
+						ttrss_user_entries.ref_id = ttrss_entries.id AND
+						ttrss_user_entries.feed_id = ttrss_feeds.id
+						AND ttrss_user_entries.owner_uid = '$owner_uid'");
+
 					$count = db_fetch_result($tmp_result, 0, "count");
 	
 					$class = "label";
@@ -104,6 +105,7 @@
 			}
 
 			$result = db_query($link, "SELECT ttrss_feeds.*,
+				SUBSTRING(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND 
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
@@ -118,6 +120,7 @@
 				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
 					ON (ttrss_feed_categories.id = cat_id)				
 				WHERE 
+					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
 				ORDER BY $order_by_qpart"); 
 

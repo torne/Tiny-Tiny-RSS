@@ -273,6 +273,7 @@
 				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
 					ON (ttrss_feed_categories.id = cat_id)				
 				WHERE 
+					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
 				ORDER BY $order_by_qpart"); 
 
@@ -1364,7 +1365,18 @@
 
 			print "<br><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
 				$checked><label for=\"rtl_content\">Right-to-left content</label>";
-			
+
+			$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
+
+			if ($hidden) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<br><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
+				$checked><label for=\"hidden\">Hide from feedlist</label>";
+
 			print "</td></tr>";
 
 			print "</table>";
@@ -1394,6 +1406,7 @@
 			$parent_feed = db_escape_string($_POST["parent_feed"]);
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
 			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
+			$hidden = checkbox_to_sql_bool(db_escape_string($_POST["hidden"]));
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
@@ -1420,7 +1433,8 @@
 				auth_login = '$auth_login',
 				auth_pass = '$auth_pass',
 				private = $private,
-				rtl_content = $rtl_content
+				rtl_content = $rtl_content,
+				hidden = $hidden
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
@@ -1568,7 +1582,7 @@
 
 //		print "<h3>Edit Feeds</h3>";
 
-		$result = db_query($link, "SELECT id,title,feed_url,last_error 
+		$result = db_query($link, "SELECT id,title,feed_url,last_error
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
 		if (db_num_rows($result) > 0) {
@@ -1656,7 +1670,8 @@
 				F1.purge_interval,
 				F1.cat_id,
 				F2.title AS parent_title,
-				C1.title AS category				
+				C1.title AS category,
+				F1.hidden
 			FROM 
 				ttrss_feeds AS F1 
 				LEFT JOIN ttrss_feeds AS F2
@@ -1705,6 +1720,8 @@
 				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
 				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
 				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
+
+				$hidden = sql_bool_to_bool($line["hidden"]);
 
 				if (!$edit_cat) $edit_cat = "Uncategorized";
 
@@ -1758,6 +1775,12 @@
 
 				$edit_title = truncate_string($edit_title, 40);
 				$edit_link = truncate_string($edit_link, 60);
+
+				if ($hidden) {
+					$edit_title = "<span class=\"insensitive\">$edit_title (Hidden)</span>";
+					$edit_link = "<span class=\"insensitive\">$edit_link</span>";
+					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
+				}
 
 				$parent_title = $line["parent_title"];
 				if ($parent_title) {
