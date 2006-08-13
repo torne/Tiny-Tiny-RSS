@@ -203,11 +203,15 @@ function hotkey_handler(e) {
 		}
 
 		if (keycode == 78 || keycode == 40) { // n, down
-			return h_ctx.moveToPost('next');
+			if (typeof h_ctx.moveToPost != undefined) {
+				return h_ctx.moveToPost('next');
+			}
 		}
 	
 		if (keycode == 80 || keycode == 38) { // p, up
-			return h_ctx.moveToPost('prev');
+			if (typeof h_ctx.moveToPost != undefined) {
+				return h_ctx.moveToPost('prev');
+			}
 		}
 		
 		if (typeof localHotkeyHandler != 'undefined') {
