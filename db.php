@@ -134,4 +134,13 @@ function db_affected_rows($link, $result) {
 		return mysql_affected_rows($link);
 	}
 }
+
+function db_last_error($link) {
+	if (DB_TYPE == "pgsql") {
+		return pg_last_error($link);
+	} else if (DB_TYPE == "mysql") {
+		return mysql_error($link);
+	}
+}
+
 ?>

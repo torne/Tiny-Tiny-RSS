@@ -82,6 +82,14 @@ function labellist_callback() {
 	}
 }
 
+function labeltest_callback() {
+	var container = document.getElementById('label_test_result');
+	if (xmlhttp.readyState == 4) {
+		container.innerHTML=xmlhttp.responseText;
+		notify("");
+	}
+}
+
 function feed_browser_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
@@ -309,9 +317,12 @@ function editLabel(id) {
 
 	active_label = id;
 
+	selectTableRowsByIdPrefix('prefLabelList', 'LILRR-', 'LICHK-', false);
+	selectTableRowById('LILRR-'+id, 'LICHK-'+id, true);
+
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
 		param_escape(id), true);
-	xmlhttp.onreadystatechange=labellist_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 }
@@ -663,6 +674,10 @@ function feedCatEditSave() {
 
 function labelTest() {
 
+	var container = document.getElementById('label_test_result');
+	container.style.display = "block";
+	container.innerHTML = "<p>Loading, please wait...</p>";
+
 	var form = document.forms['label_edit_form'];
 
 	var sql_exp = form.sql_exp.value;
@@ -671,7 +686,7 @@ function labelTest() {
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
 		param_escape(sql_exp) + "&descr=" + param_escape(description), true);
 
-	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.onreadystatechange=labeltest_callback;
 	xmlhttp.send(null);
 
 	return false;
@@ -696,13 +711,8 @@ function labelEditCancel() {
 
 	active_label = false;
 
-//	notify("Operation cancelled.");
-
+	selectPrefRows('label', false); // cleanup feed selection
 	closeInfoBox();
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
-	xmlhttp.onreadystatechange=labellist_callback;
-	xmlhttp.send(null);
 
 	return false;
 }
@@ -1452,7 +1462,7 @@ function selectPrefRows(kind, select) {
 		} else if (kind == "label") {
 			opbarid = "labelOpToolbar";
 			nrow = "LILRR-";
-			nchk = "LCHK-";
+			nchk = "LICHK-";
 			lname = "prefLabelList";
 		} else if (kind == "user") {
 			opbarid = "userOpToolbar";

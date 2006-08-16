@@ -2257,18 +2257,76 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "edit") {
+
+			$label_id = db_escape_string($_GET["id"]);
+
+			$result = db_query($link, "SELECT sql_exp,description	FROM ttrss_labels WHERE 
+				owner_uid = ".$_SESSION["uid"]." AND id = '$label_id' ORDER by description");
+
+			$line = db_fetch_assoc($result);
+
+			$sql_exp = htmlspecialchars(db_unescape_string($line["sql_exp"]));
+			$description = htmlspecialchars(db_unescape_string($line["description"]));
+
+			print "<div id=\"infoBoxTitle\">Label editor</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form id=\"label_edit_form\">";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
+			print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">"; 
+
+			print "<table width='100%'>";
+
+			print "<tr><td>Caption:</td>
+				<td><input onkeypress=\"return filterCR(event)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 name=\"description\" class=\"iedit\" value=\"$description\">";
+
+			print "</td></tr>";
+
+			print "<tr><td colspan=\"2\">
+				<p>SQL Expression:</p>";
+
+			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 rows=\"4\" name=\"sql_exp\" class=\"iedit\">$sql_exp</textarea>";
+
+			print "</td></tr></table>";
+
+			print "</form>";
+
+			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
+
+			print "<div align='right'>";
+
+			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"Test\">
+				";
+
+			print "<input type=\"submit\" 
+				id=\"infobox_submit\"
+				class=\"button\" onclick=\"return labelEditSave()\" 
+				value=\"Save\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return labelEditCancel()\" 
+				value=\"Cancel\">";
+
+			print "</div>";
+
+			return;
+		}
+
 		if ($subop == "test") {
 
 			$expr = db_unescape_string(trim($_GET["expr"]));
 			$descr = db_unescape_string(trim($_GET["descr"]));
 
-			print "<div id=\"infoBoxTitle\">Test label: $descr</div>";
+			print "<div>";
 
-			print "<div class='infoBoxContents'>";
-		
-#			print "<h1>Label &laquo;$descr&raquo;</h1>";
+			error_reporting(0);
 
-//			print "<p><b>Expression</b>: $expr</p>";
 
 			$result = db_query($link, 
 				"SELECT count(ttrss_entries.id) AS num_matches
@@ -2276,13 +2334,21 @@
 					WHERE ($expr) AND 
 						ttrss_user_entries.ref_id = ttrss_entries.id AND
 						ttrss_user_entries.feed_id = ttrss_feeds.id AND
-						ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
+						ttrss_user_entries.owner_uid = " . $_SESSION["uid"], false);
+
+			error_reporting (DEFAULT_ERROR_LEVEL);
+
+			if (!$result) {
+				print "<p>" . db_last_error($link) . "</p>";
+				print "</div>";
+				return;
+			}
 
 			$num_matches = db_fetch_result($result, 0, "num_matches");;
 			
 			if ($num_matches > 0) { 
 
-				print "<p>Query returned <b>$num_matches</b> matches, showing first 15:</p>";
+				print "<p>Query returned <b>$num_matches</b> matches, showing up to first 10:</p>";
 
 				$result = db_query($link, 
 					"SELECT ttrss_entries.title, 
@@ -2292,9 +2358,9 @@
 							ttrss_user_entries.ref_id = ttrss_entries.id
 							AND ttrss_user_entries.feed_id = ttrss_feeds.id
 							AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"] . " 
-							ORDER BY date_entered DESC LIMIT 15");
+							ORDER BY date_entered DESC LIMIT 10", false);
 
-				print "<ul class=\"filterTestResults\">";
+				print "<ul class=\"labelTestResults\">";
 
 				$row_class = "even";
 				
@@ -2312,9 +2378,6 @@
 
 			print "</div>";
 
-			print "<div align='center'>
-				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
 			return;
 		}
 
@@ -2417,46 +2480,16 @@
 				$line["description"] = htmlspecialchars(
 						db_unescape_string($line["description"]));
 	
-				if (!$edit_label_id || $subop != "edit") {
+				if (!$line["description"]) $line["description"] = "[No caption]";
 	
-					if (!$line["description"]) $line["description"] = "[No caption]";
-	
-					print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"label\");' 
+				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
-					print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-						$line["sql_exp"] . "</td>";		
+				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+					$line["sql_exp"] . "</td>";		
 						
-					print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-						$line["description"] . "</td>";			
-	
-				} else if ($label_id != $edit_label_id) {
-	
-					if (!$line["description"]) $line["description"] = "[No description]";
-	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
-						id=\"LICHK-".$line["id"]."\"></td>";
-	
-					print "<td>".$line["sql_exp"]."</td>";		
-					print "<td>".$line["description"]."</td>";		
-	
-				} else {
-	
-					print "<td align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
-
-					print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
-					print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
-					print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
-					
-					print "</td>";
-	
-					print "<td><input onkeypress=\"return filterCR(event)\"
-						class=\"iedit\" name=\"sql_exp\" value=\"".$line["sql_exp"]."\"></td>";
-	
-					print "<td><input onkeypress=\"return filterCR(event)\"
-						class=\"iedit\" name=\"description\" value=\"".$line["description"]."\"></td>";							
-				}
-					
+				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+					$line["description"] . "</td>";			
 				
 				print "</tr>";
 	
