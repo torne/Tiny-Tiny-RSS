@@ -132,7 +132,7 @@ window.onload = init;
 		<? } ?>
 		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
 			onclick="selectTab('filterConfig')">
-		<? if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) { ?>
+		<? if (get_pref($link, 'ENABLE_LABELS')) { ?>
 		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
 			onclick="selectTab('labelConfig')">
 		<? } ?>
