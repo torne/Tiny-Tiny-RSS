@@ -204,16 +204,9 @@
 						$cat_id_qpart = "cat_id IS NULL";
 					}
 
-					$tmp_result = db_query($link, "SELECT count(int_id) AS unread
-						FROM ttrss_user_entries,ttrss_feeds WHERE
-							unread = true AND
-							feed_id = ttrss_feeds.id AND $cat_id_qpart AND
-							ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
-
-					$cat_unread = db_fetch_result($tmp_result, 0, "unread");
-
 					$cat_id = sprintf("%d", $cat_id);
-					
+					$cat_unread = getCategoryUnread($link, $cat_id);
+
 					print "<li class=\"feedCat\">
 						<a href=\"?subop=tc&id=$cat_id\">$tmp_category</a>
 							<a href=\"?go=vf&id=$cat_id&cat=true\">
