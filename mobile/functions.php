@@ -32,12 +32,7 @@
 				print "<li class=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
-			$result = db_query($link, "SELECT count(id) as num_starred 
-				FROM ttrss_entries,ttrss_user_entries 
-				WHERE marked = true AND 
-				ttrss_user_entries.ref_id = ttrss_entries.id AND
-				unread = true AND owner_uid = '$owner_uid'");
-			$num_starred = db_fetch_result($result, 0, "num_starred");
+			$num_starred = getFeedUnread($link, -1);
 
 			$class = "virt";
 
@@ -52,7 +47,7 @@
 
 			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
 	
-				$result = db_query($link, "SELECT id,sql_exp,description FROM
+				$result = db_query($link, "SELECT id,description FROM
 					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
 		
 				if (db_num_rows($result) > 0) {
@@ -68,14 +63,7 @@
 	
 					error_reporting (0);
 		
-					$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count 
-						FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
-						WHERE (" . $line["sql_exp"] . ") AND unread = true AND
-						ttrss_user_entries.ref_id = ttrss_entries.id AND
-						ttrss_user_entries.feed_id = ttrss_feeds.id
-						AND ttrss_user_entries.owner_uid = '$owner_uid'");
-
-					$count = db_fetch_result($tmp_result, 0, "count");
+					$count = getFeedUnread($link, -$line["id"]-11);
 	
 					$class = "label";
 	

@@ -1492,6 +1492,7 @@
 		} else if ($n_feed > 0) {
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE parent_feed = '$n_feed'
+					AND hidden = false
 					AND owner_uid = " . $_SESSION["uid"]);
 
 			if (db_num_rows($result) > 0) {
@@ -1504,7 +1505,7 @@
 				$match_part = implode(" OR ", $linked_feeds);
 
 				$result = db_query($link, "SELECT COUNT(int_id) AS unread 
-					FROM ttrss_user_entries 
+					FROM ttrss_user_entries
 					WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
 
 				$unread = 0;
@@ -1520,6 +1521,7 @@
 				$match_part = "feed_id = '$n_feed'";
 			}
 		} else if ($feed < -10) {
+
 			$label_id = -$feed - 11;
 
 			$result = db_query($link, "SELECT sql_exp FROM ttrss_labels WHERE
