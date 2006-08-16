@@ -312,7 +312,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid)) {	
+			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
 				check_feed_favicon($feed_url, $feed, $link);
 			}
 
@@ -605,7 +605,7 @@
 					// check for user post link to main table
 
 					// do we allow duplicate posts with same GUID in different feeds?
-					if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid)) {
+					if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
 						$dupcheck_qpart = "AND feed_id = '$feed'";
 					} else { 
 						$dupcheck_qpart = "";
@@ -653,7 +653,7 @@
 					
 					$post_needs_update = false;
 
-					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid) &&
+					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid, false) &&
 						($content_hash != $orig_content_hash)) {
 						$post_needs_update = true;
 					}
@@ -683,7 +683,7 @@
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
-						if (get_pref($link, "MARK_UNREAD_ON_UPDATE", $owner_uid)) {
+						if (get_pref($link, "MARK_UNREAD_ON_UPDATE", $owner_uid, false)) {
 							db_query($link, "UPDATE ttrss_user_entries 
 								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 						} else {
