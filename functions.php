@@ -683,7 +683,7 @@
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
-						if (get_pref($link, "MARK_UNREAD_ON_UPDATE")) {
+						if (get_pref($link, "MARK_UNREAD_ON_UPDATE", $owner_uid)) {
 							db_query($link, "UPDATE ttrss_user_entries 
 								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 						} else {
