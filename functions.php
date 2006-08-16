@@ -1437,7 +1437,7 @@
 				FROM ttrss_user_entries WHERE feed_id = ttrss_feeds.id 
 					AND unread = true)) AS unread FROM ttrss_feeds 
 			WHERE 
-				owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+				hidden = false AND owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
@@ -1455,6 +1455,7 @@
 		}
 
 		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
+				AND hidden = false
 				AND owner_uid = " . $_SESSION["uid"]);
 
 		$cat_feeds = array();
@@ -1533,6 +1534,7 @@
 				FROM ttrss_user_entries,ttrss_feeds,ttrss_entries WHERE
 				ttrss_user_entries.feed_id = ttrss_feeds.id AND
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
+				ttrss_feeds.hidden = false AND
 				unread = true AND ($match_part) AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
 				
 		} else {
@@ -1544,6 +1546,7 @@
 		}
 		
 		$unread = db_fetch_result($result, 0, "unread");
+
 		return $unread;
 	}
 
@@ -1666,6 +1669,7 @@
 
 			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
 				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+				ttrss_feeds.hidden = false AND
 				ttrss_user_entries.feed_id = ttrss_feeds.id AND
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
 				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
@@ -2238,6 +2242,7 @@
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_feeds
 					WHERE
+					ttrss_feeds.hidden = false AND
 					ttrss_user_entries.feed_id = ttrss_feeds.id AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
