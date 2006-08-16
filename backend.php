@@ -1383,13 +1383,14 @@
 
 			print "</form>";
 
-			print "</div>";
-
-			print "<div align='center'>
+			print "<div align='right'>
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"return feedEditSave()\" value=\"Save\">
 				<input type='submit' class='button'			
 				onclick=\"return feedEditCancel()\" value=\"Cancel\"></div>";
+
+			print "</div>";
+
 			return;
 		}
 
