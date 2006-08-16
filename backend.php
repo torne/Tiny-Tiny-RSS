@@ -1330,7 +1330,7 @@
 
 			print "<tr><td valign='top'>Options:</td>";
 			print "<td><input type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked><label for=\"private\">Hide from feed browser</label>";
+				$checked><label for=\"private\">Hide from \"Other Feeds\"</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
@@ -1352,7 +1352,7 @@
 			}
 
 			print "<br><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
-				$checked><label for=\"hidden\">Hide from feedlist</label>";
+				$checked><label for=\"hidden\">Hide from my feed list</label>";
 
 			print "</td></tr>";
 
