@@ -2348,7 +2348,11 @@
 			
 			if ($num_matches > 0) { 
 
-				print "<p>Query returned <b>$num_matches</b> matches, showing up to first 10:</p>";
+				if ($num_matches > 10) {
+					$showing_msg = ", showing first 10";
+				}
+
+				print "<p>Query returned <b>$num_matches</b> matches$showing_msg:</p>";
 
 				$result = db_query($link, 
 					"SELECT ttrss_entries.title, 
@@ -2453,10 +2457,11 @@
 
 			print "<tr class=\"title\">
 						<td width=\"5%\">&nbsp;</td>
-						<td width=\"40%\">SQL expression
+						<td width=\"30%\">Caption</td>
+						<td width=\"50%\">SQL Expression
 						<a class=\"helpLink\" href=\"javascript:displayHelpInfobox(1)\">(?)</a>
 						</td>
-						<td width=\"40%\">Caption</td></tr>";
+						</tr>";
 			
 			$lnum = 0;
 			
@@ -2486,11 +2491,11 @@
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
 				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-					$line["sql_exp"] . "</td>";		
-						
-				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
 					$line["description"] . "</td>";			
-				
+
+				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
+					$line["sql_exp"] . "</td>";		
+
 				print "</tr>";
 	
 				++$lnum;
@@ -2506,23 +2511,13 @@
 	
 			print "<p id=\"labelOpToolbar\">";
 	
-			if ($subop == "edit") {
-				print "Edit label:
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:labelTest()\" value=\"Test\">
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:labelEditSave()\" value=\"Save\">
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:labelEditCancel()\" value=\"Cancel\">";
-						
-			} else {	
-				print "
+			print "
 					Selection:
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
-			}
+				onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
+
 		} else {
 			print "<p>No labels defined.</p>";
 		}
