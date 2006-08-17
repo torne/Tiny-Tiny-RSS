@@ -2395,22 +2395,21 @@
 			if (!WEB_DEMO_MODE) {
 
 				// no escaping is done here on purpose
-				$exp = trim($_GET["exp"]);
+				$sql_exp = trim($_GET["sql_exp"]);
+				$description = db_escape_string($_GET["description"]);
 					
 				$result = db_query($link,
 					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
-						VALUES ('$exp', '$exp', '".$_SESSION["uid"]."')");
+						VALUES ('$sql_exp', '$description', '".$_SESSION["uid"]."')");
 			} 
 		}
 
-		print "<div class=\"prefGenericAddBox\">
-			<input size=\"40\" 			
-				onkeyup=\"toggleSubmitNotEmpty(this, 'label_create_btn')\"
-				id=\"ladd_expr\">&nbsp;";
-			
+		print "<div class=\"prefGenericAddBox\">";
+
 		print"<input type=\"submit\" class=\"button\" 
-			disabled=\"true\" id=\"label_create_btn\"
-			onclick=\"javascript:addLabel()\" value=\"Create label\"></div>";
+			id=\"label_create_btn\"
+			onclick=\"return displayDlg('quickAddLabel', false)\" 
+			value=\"Create label\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
@@ -2663,6 +2662,52 @@
 
 			print "</div>";
 
+		}
+
+		if ($id == "quickAddLabel") {
+			print "<div id=\"infoBoxTitle\">Create label</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form id=\"label_edit_form\">";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
+
+			print "<table width='100%'>";
+
+			print "<tr><td>Caption:</td>
+				<td><input onkeypress=\"return filterCR(event)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 name=\"description\" class=\"iedit\">";
+
+			print "</td></tr>";
+
+			print "<tr><td colspan=\"2\">
+				<p>SQL Expression:</p>";
+
+			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 rows=\"4\" name=\"sql_exp\" class=\"iedit\"></textarea>";
+
+			print "</td></tr></table>";
+
+			print "</form>";
+
+			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
+
+			print "<div align='right'>";
+
+			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"Test\">
+				";
+
+			print "<input type=\"submit\" 
+				id=\"infobox_submit\"
+				disabled=\"true\"
+				class=\"button\" onclick=\"return addLabel()\" 
+				value=\"Create\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return labelEditCancel()\" 
+				value=\"Cancel\">";
 		}
 
 		if ($id == "quickAddFilter") {

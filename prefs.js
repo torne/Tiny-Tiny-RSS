@@ -63,8 +63,8 @@ function filterlist_callback() {
 function labellist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
+		closeInfoBox();
 		container.innerHTML=xmlhttp.responseText;
-
 		if (active_label) {
 			var row = document.getElementById("LILRR-" + active_label);
 			if (row) {
@@ -181,55 +181,26 @@ function addLabel() {
 		return
 	}
 
-	var sqlexp = document.getElementById("ladd_expr");
+	var form = document.forms['label_edit_form'];
 
-	if (sqlexp.value.length == 0) {
-		alert("Can't add label: missing SQL expression.");
-	} else {
-		notify("Adding label...");
+	var sql_exp = form.sql_exp.value;
+	var description = form.description.value;
 
-		xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&exp=" +
-			param_escape(sqlexp.value), true);			
-			
-		xmlhttp.onreadystatechange=labellist_callback;
-		xmlhttp.send(null);
-
-		sqlexp.value = "";
+	if (sql_exp == "") {
+		alert("Can't create label: missing SQL expression.");
+		return false;
 	}
 
-}
-
-function addFilter() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	if (description == "") {
+		alert("Can't create label: missing caption.");
+		return false;
 	}
 
-	var regexp = document.getElementById("fadd_regexp");
-	var match = document.getElementById("fadd_match");
-	var feed = document.getElementById("fadd_feed");
-	var action = document.getElementById("fadd_action");
+	var query = Form.serialize("label_edit_form");
 
-	if (regexp.value.length == 0) {
-		alert("Can't add filter: missing filter expression.");
-	} else {
-		notify("Adding filter...");
-
-		var v_match = match[match.selectedIndex].text;
-		var feed_id = feed[feed.selectedIndex].id;
-		var action_id = action[action.selectedIndex].id;
-
-		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=add&regexp=" +
-			param_escape(regexp.value) + "&match=" + v_match +
-			"&fid=" + param_escape(feed_id) + "&aid=" + param_escape(action_id), true);
-			
-		xmlhttp.onreadystatechange=filterlist_callback;
-		xmlhttp.send(null);
-
-		regexp.value = "";
-	}
-
+	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&" + query, true);			
+	xmlhttp.onreadystatechange=infobox_submit_callback;
+	xmlhttp.send(null);
 }
 
 function addFeed() {
@@ -314,6 +285,8 @@ function editLabel(id) {
 		printLockingError();
 		return
 	}
+
+	document.getElementById("label_create_btn").disabled = true;
 
 	active_label = id;
 
@@ -708,6 +681,8 @@ function labelEditCancel() {
 		printLockingError();
 		return
 	}
+
+	document.getElementById("label_create_btn").disabled = false;
 
 	active_label = false;
 
