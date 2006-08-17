@@ -2,7 +2,7 @@ alter table ttrss_feeds add column hidden bool;
 
 update ttrss_feeds set hidden = false;
 
-alter table ttrss_feeds change hidden rtl_content bool not null;
+alter table ttrss_feeds change hidden hidden bool not null;
 alter table ttrss_feeds alter column hidden set default false;
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('MARK_UNREAD_ON_UPDATE', 1, 'false', 'Set articles as unread on update',3);
