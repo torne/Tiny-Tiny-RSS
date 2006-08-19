@@ -13,6 +13,7 @@
 	require_once 'version.php';
 
 	if (RSS_BACKEND_TYPE == "magpie") {	
+		require_once "magpierss/rss_fetch.inc";
 		require_once 'magpierss/rss_utils.inc';
 	} else if (RSS_BACKEND_TYPE == "simplepie") {
 		require_once 'simplepie/simplepie.inc';

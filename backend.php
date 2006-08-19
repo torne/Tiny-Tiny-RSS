@@ -24,7 +24,6 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
-	require_once "magpierss/rss_fetch.inc";
 
 	$err_msg = check_configuration_variables();
 
