@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "functions.php"; 
 
 	basic_nosid_redirect_check();
@@ -22,33 +22,33 @@
 	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" href="tt-rss.css" type="text/css">
 
-	<?	$user_theme = $_SESSION["theme"];
+	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
-		<link rel="stylesheet" type="text/css" href="themes/<?= $user_theme ?>/theme.css">
-	<? } ?>
+		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css">
+	<?php } ?>
 
-	<? if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
+	<?php if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
 	
-	<? $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
-	<? if ($user_css_url) { ?>
-		<link type="text/css" href="<?= $user_css_url ?>"/> 
-	<? } ?>
+	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
+	<?php if ($user_css_url) { ?>
+		<link type="text/css" href="<?php echo $user_css_url ?>"/> 
+	<?php } ?>
 
-	<? if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
+	<?php if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
 
 		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
 
-	<? } else { ?>
+	<?php } else { ?>
 
 		<link title="Compact Stylesheet" rel="alternate stylesheet" 
 			type="text/css" href="tt-rss_compact.css"/> 
 
-	<? } ?>
+	<?php } ?>
 
 	<script type="text/javascript" src="prototype.js"></script>
 
-	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
-	<script type="text/javascript" src="prefs.js?<?= $dt_add ?>"></script>
+	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" src="prefs.js?<?php echo $dt_add ?>"></script>
 
 	<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 
@@ -89,57 +89,57 @@ window.onload = init;
 </div></div>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
+<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
 	<td colspan="2">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
-				<img src="<?= $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+				<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
 			</td>
 			<td valign="top" class="notifyBox">
 				<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 		</tr><tr><td class="welcomePrompt">
-			<? if (!SINGLE_USER_MODE) { ?>
-				Hello, <b><?= $_SESSION["name"] ?></b>
+			<?php if (!SINGLE_USER_MODE) { ?>
+				Hello, <b><?php echo $_SESSION["name"] ?></b>
 				(<a href="logout.php">Logout</a>)
-			<? } ?>
+			<?php } ?>
 			</td>
 		</tr></table>
 	</td>
 </tr>
-<? } else { ?>
+<?php } else { ?>
 <tr>
 	<td class="small">
 		<div id="notify" class="notify_sm"><span id="notify_body">&nbsp;</span></div>
 		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 	</td><td class="welcomePrompt">
-		<? if (!SINGLE_USER_MODE) { ?>
-			Hello, <b><?= $_SESSION["name"] ?></b>
+		<?php if (!SINGLE_USER_MODE) { ?>
+			Hello, <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
-		<? } ?>
+		<?php } ?>
 </td></tr>
-<? } ?>
+<?php } ?>
 <tr>
 	<td class="prefsTabs" align="left" valign="bottom">
 		<input id="genConfigTab" class="prefsTab" type="submit" value="Preferences"
 			onclick="selectTab('genConfig')">
 		<input id="feedConfigTab" class="prefsTab" type="submit" value="My Feeds"
 			onclick="selectTab('feedConfig')">
-		<? if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
+		<?php if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
 		<input id="feedBrowserTab" class="prefsTab" type="submit" value="Other Feeds"
 			onclick="selectTab('feedBrowser')">
-		<? } ?>
+		<?php } ?>
 		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
 			onclick="selectTab('filterConfig')">
-		<? if (get_pref($link, 'ENABLE_LABELS')) { ?>
+		<?php if (get_pref($link, 'ENABLE_LABELS')) { ?>
 		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
 			onclick="selectTab('labelConfig')">
-		<? } ?>
-		<? if ($_SESSION["access_level"] >= 10) { ?>
+		<?php } ?>
+		<?php if ($_SESSION["access_level"] >= 10) { ?>
 		<input id="userConfigTab" class="prefsTab" type="submit" value="User Manager"
 			onclick="selectTab('userConfig')">
-		<? } ?>		
+		<?php } ?>		
 	</td>
 	<td class="prefsToolbar" valign="middle" align="right">	
 		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
@@ -152,19 +152,19 @@ window.onload = init;
 
 	</td>
 </tr>
-<? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
+<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td class="footer" colspan="2">
-		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
-		<? if (WEB_DEMO_MODE) { ?>
+		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+		<?php if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
-		<? } ?>
+		<?php } ?>
 	</td>
 </td>
-<? } ?>
+<?php } ?>
 </table>
 
-<? db_close($link); ?>
+<?php db_close($link); ?>
 
 <script type="text/javascript">
 	/* for IE */

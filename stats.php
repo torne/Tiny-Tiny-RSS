@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "sessions.php";
 
 	require_once "sanity_check.php";
@@ -27,7 +27,7 @@
 
 <h2>Counters</h2>
 
-<?
+<?php
 	$result = db_query($link, "SELECT count(id) AS cid,
 		SUM(LENGTH(content)) AS size
 		FROM ttrss_entries");

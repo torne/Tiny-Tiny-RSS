@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "sessions.php";
 	require_once "backend-rpc.php";
 	
@@ -3876,5 +3876,5 @@
 	db_close($link);
 ?>
 
-<!-- <?= sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
+<!-- <?php echo sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
 

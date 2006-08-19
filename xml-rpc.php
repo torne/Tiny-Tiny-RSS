@@ -1,4 +1,4 @@
-<?
+<?php
 	require "xmlrpc/lib/xmlrpc.inc";
 	require "xmlrpc/lib/xmlrpcs.inc";
 

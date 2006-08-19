@@ -1,4 +1,4 @@
-<?
+<?php
 	define('EXPECTED_CONFIG_VERSION', 3);
 
 	if (!file_exists("config.php")) {

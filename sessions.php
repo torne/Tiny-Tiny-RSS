@@ -1,4 +1,4 @@
-<?
+<?php
 	// Original from http://www.daniweb.com/code/snippet43.html
 
 	require_once "config.php";

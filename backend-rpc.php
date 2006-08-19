@@ -1,4 +1,4 @@
-<?
+<?php
 	function handle_rpc_request($link) {
 
 		$subop = $_GET["subop"];

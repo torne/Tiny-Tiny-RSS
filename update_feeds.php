@@ -1,5 +1,5 @@
 #!/usr/bin/php4
-<?
+<?php
 	// this script is probably run not from your httpd-user, so cache
 	// directory defined in config.php won't be accessible
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-cli');

@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "functions.php"; 
 
 	basic_nosid_redirect_check();
@@ -23,33 +23,33 @@
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
 
-	<?	$user_theme = $_SESSION["theme"];
+	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
-		<link rel="stylesheet" type="text/css" href="themes/<?= $user_theme ?>/theme.css">
-	<? } ?>
+		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css">
+	<?php } ?>
 
-	<? if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
+	<?php if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
 
-	<? $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
-	<? if ($user_css_url) { ?>
-		<link type="text/css" href="<?= $user_css_url ?>"/> 
-	<? } ?>
+	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
+	<?php if ($user_css_url) { ?>
+		<link type="text/css" href="<?php echo $user_css_url ?>"/> 
+	<?php } ?>
 
-	<? if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
+	<?php if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
 
 		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
 
-	<? } else { ?>
+	<?php } else { ?>
 
 		<link title="Compact Stylesheet" rel="alternate stylesheet" 
 			type="text/css" href="tt-rss_compact.css"/> 
 
-	<? } ?>
+	<?php } ?>
 
 	<script type="text/javascript" src="prototype.js"></script>
 
-	<script type="text/javascript" src="tt-rss.js?<?= $dt_add ?>"></script>
-	<script type="text/javascript" src="functions.js?<?= $dt_add ?>"></script>
+	<script type="text/javascript" src="tt-rss.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
@@ -94,43 +94,43 @@ window.onload = init;
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<? if (get_pref($link, 'DISPLAY_HEADER')) { ?>
+<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
 <tr>
 	<td colspan="2" class="headerBox" id="mainHeader">
 		<table cellspacing="0" cellpadding="0" width="100%"><tr>
 			<td rowspan="2" class="header" valign="middle">	
-				<img src="<?= $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+				<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
 			</td>
 			<td valign="top" class="notifyBox">
 				<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 			</td>
 		</tr><tr><td class="welcomePrompt">
-			<? if (!SINGLE_USER_MODE) { ?>
-				Hello, <b><?= $_SESSION["name"] ?></b>
+			<?php if (!SINGLE_USER_MODE) { ?>
+				Hello, <b><?php echo $_SESSION["name"] ?></b>
 				(<a href="logout.php">Logout</a>)
-			<? } ?>
+			<?php } ?>
 			</td>			
 		</tr></table>
 	</td>
 </tr>
-<? } else { ?>
+<?php } else { ?>
 <tr>
 	<td class="small" id="mainHeader">
 		<div id="notify" class="notify_sm"><span id="notify_body">&nbsp;</span></div>
 		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
 	</td><td class="welcomePrompt">
-		<? if (!SINGLE_USER_MODE) { ?>
-			Hello, <b><?= $_SESSION["name"] ?></b>
+		<?php if (!SINGLE_USER_MODE) { ?>
+			Hello, <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
-		<? } ?>
+		<?php } ?>
 </td></tr>
-<? } ?>
+<?php } ?>
 <tr>
-	<? if (get_pref($link, 'COMBINED_DISPLAY_MODE')) 
+	<?php if (get_pref($link, 'COMBINED_DISPLAY_MODE')) 
 			$feeds_rowspan = 2;
 		else 
 			$feeds_rowspan = 3; ?>
-	<td valign="top" rowspan="<?= $feeds_rowspan ?>" class="feeds"> 
+	<td valign="top" rowspan="<?php echo $feeds_rowspan ?>" class="feeds"> 
 		<table class="innerFeedTable" 
 			cellspacing="0" cellpadding="0" height="100%" width="100%">
 		<tr><td>
@@ -153,14 +153,14 @@ window.onload = init;
 
 		<form id="main_toolbar_form">
 
-		<? if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
+		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 		<input name="query"
 			onKeyPress="return filterCR(event)"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
 		<input class="button" type="submit"
 			onclick="return viewCurrentFeed(0)" value="Search">
 		&nbsp; 
-		<? } ?>
+		<?php } ?>
 
 		View: 		
 		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
@@ -171,7 +171,7 @@ window.onload = init;
 		</select>
 		
 		&nbsp;Limit:		
-		<?
+		<?php
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
 			
 		$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
@@ -214,9 +214,9 @@ window.onload = init;
 				<!-- <option>Edit this feed</option> -->
 				<option disabled>--------</option>
 				<option style="color : #5050aa" disabled>All feeds:</option>
-				<? if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
+				<?php if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
 				<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
-				<? } ?>
+				<?php } ?>
 				<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
 				<option value="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
 				<option disabled>--------</option>
@@ -228,14 +228,14 @@ window.onload = init;
 		</table>
 	</td>
 </tr>
-<? if (get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
+<?php if (get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 <tr>
 	<td id="headlines" class="headlines2" valign="top">
 		<iframe frameborder="0" name="headlines-frame" 
 			id="headlines-frame" class="headlinesFrame"></iframe>
 	</td>
 </tr>
-<? } else { ?>
+<?php } else { ?>
 <tr>
 	<td id="headlines" class="headlines" valign="top">
 		<iframe frameborder="0" name="headlines-frame" 
@@ -247,20 +247,20 @@ window.onload = init;
 			id="content-frame" class="contentFrame"> </iframe>
 	</td>
 </tr>
-<? } ?>
-<? if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
+<?php } ?>
+<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
 <tr>
 	<td colspan="2" class="footer" id="mainFooter">
-		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
-		<? if (WEB_DEMO_MODE) { ?>
+		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+		<?php if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
-		<? } ?>
+		<?php } ?>
 	</td>
 </td>
-<? } ?>
+<?php } ?>
 </table>
 
-<? db_close($link); ?>
+<?php db_close($link); ?>
 
 <script type="text/javascript">
 	/* for IE */

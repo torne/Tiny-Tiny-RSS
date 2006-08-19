@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "sessions.php";
 
 	require_once "config.php";
@@ -39,4 +39,4 @@
 		</div>
 	</body>
 	</html>
-<?	} ?>
+<?php	} ?>

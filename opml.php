@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "sessions.php";
 
 	require_once "sanity_check.php";
@@ -25,7 +25,7 @@
 	
 	if ($op == "Export") {
 		header("Content-type: application/xml+opml");
-		print "<?xml version=\"1.0\"?>";
+		print "<?phpxml version=\"1.0\"?>";
 	}
 
 	if ($op == "Export") {

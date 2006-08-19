@@ -1,4 +1,4 @@
-<?
+<?php
 //	require_once "sessions.php";
 
 	require_once "sanity_check.php";
@@ -26,6 +26,7 @@
 	$login = $_POST["login"];
 	$password = $_POST["password"];
 	$return_to = $_POST["rt"];
+	$action = $_POST["action"];
 
 	if ($_COOKIE[get_session_cookie_name()]) {
 		require_once "sessions.php";
@@ -66,7 +67,7 @@
 		} else {
 			$error_msg = "Error: Unable to authenticate user. Please check login and password.";
 		}
-	} else {
+	} else if ($action) {
 		$error_msg = "Error: Either login or password is blank.";
 	}
 
@@ -112,9 +113,9 @@ window.onload = init;
 	</td>
 </tr><tr>
 	<td align="center" valign="middle" class="loginMiddle" height="100%">
-		<? if ($error_msg) { ?>
-			<div class="loginError"><?= $error_msg ?></div>
-		<? } ?>
+		<?php if ($error_msg) { ?>
+			<div class="loginError"><?php echo $error_msg ?></div>
+		<?php } ?>
 		<table>
 			<tr><td align="right">Login:</td>
 			<td><input name="login"></td></tr>
@@ -126,16 +127,17 @@ window.onload = init;
 			</td></tr>
 			<tr><td colspan="2" align="right">
 				<input type="submit" class="button" value="Login">
-			<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
+				<input type="hidden" name="action" value="login">
+				<input type="hidden" name="rt" value="<?php echo $_GET['rt'] ?>">
 			</td></tr>
 		</table>
 	</td>
 </tr><tr>
 	<td align="center" class="loginBottom">
-		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
-		<? if (WEB_DEMO_MODE) { ?>
+		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+		<?php if (WEB_DEMO_MODE) { ?>
 		<br>Running in demo mode, some functionality is disabled.
-		<? } ?>
+		<?php } ?>
 	</td>
 </tr>
 
@@ -143,7 +145,7 @@ window.onload = init;
 
 </form>
 
-<? db_close($link); ?>
+<?php db_close($link); ?>
 
 <script type="text/javascript">
 	/* for IE */

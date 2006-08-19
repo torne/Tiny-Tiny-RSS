@@ -1,1 +1,1 @@
-<? require "tt-rss.php" ?>
+<?php require "tt-rss.php" ?>

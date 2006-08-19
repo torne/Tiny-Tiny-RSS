@@ -1,4 +1,4 @@
-<?
+<?php
 	$ERRORS[0] = "Unknown error";
 
 	$ERRORS[1] = "This program requires XmlHttpRequest " .
