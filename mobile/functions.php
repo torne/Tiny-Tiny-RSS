@@ -629,7 +629,7 @@
 					$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
 				}
 	
-				$content_link = "<a href=\"?go=view&id=$id&feed=$feed_id\">" .
+				$content_link = "<a href=\"?go=view&id=$id&feed=$feed\">" .
 					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
