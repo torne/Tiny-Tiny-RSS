@@ -1,4 +1,4 @@
-<?
+<?php
 	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
@@ -641,7 +641,7 @@
 				
 				print "<li class='$class'>";
 
-				print "<a href=\"?go=vf&id=$feed_id&ts=$id\">$marked_pic</a>";
+				print "<a href=\"?go=vf&id=$feed&ts=$id\">$marked_pic</a>";
 
 				print $content_link;
 	

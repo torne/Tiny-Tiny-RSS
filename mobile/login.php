@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "functions.php";
 
 	require_once "../version.php"; 
@@ -18,6 +18,7 @@
 	$login = $_POST["login"];
 	$password = $_POST["password"];
 	$return_to = $_POST["rt"];
+	$action = $_POST["action"];
 
 	if ($_COOKIE[get_session_cookie_name()]) {
 		require_once "../sessions.php";
@@ -52,7 +53,12 @@
 			}
 			header("Location: $redirect_base/$return_to");
 			exit;
+		} else {
+			$error_msg = "Error: Unable to authenticate user. Please check login and password.";
 		}
+
+	} else if ($action) {
+		$error_msg = "Error: Either login or password is blank.";
 	}
 
 ?>
@@ -69,7 +75,12 @@
 	<div id="heading">Tiny Tiny RSS</div>
 
 	<form action="login.php" method="POST">
-	<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
+	<input type="hidden" name="rt" value="<?php echo $_GET['rt'] ?>">
+	<input type="hidden" name="action" value="login">
+
+	<?php if ($error_msg) { ?>
+		<div class="loginError"><?php echo $error_msg ?></div>
+	<?php } ?>
 
 	<table>
 		<tr><td align='right'>Login:</td><td><input name="login"></td>
@@ -88,5 +99,5 @@
 </body>
 </html>
 
-<? db_close($link); ?>
+<?php db_close($link); ?>
 

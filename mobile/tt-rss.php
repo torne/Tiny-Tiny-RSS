@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../config.php";
 	require_once "functions.php";
 	require_once "../functions.php"; 
@@ -59,7 +59,7 @@
 <body>
 
 <div id="content">
-<?
+<?php
 	if (!$go) {
 		render_feeds_list($link);
 	} else if ($go == "vf") {
@@ -74,7 +74,7 @@
 </div>
 
 <div id="footer">
-	<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
+	<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
 </div>
 
 </body>

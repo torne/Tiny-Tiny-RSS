@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "functions.php";
 
 	require_once "../config.php";
@@ -37,4 +37,4 @@
 			
 	</body>
 	</html>
-<?	} ?>
+<?php	} ?>
