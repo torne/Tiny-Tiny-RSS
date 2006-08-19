@@ -6,6 +6,8 @@
 	require_once "config.php";
 	require_once "functions.php";
 
+	$error_msg = "";
+
 	$url_path = get_script_urlpath();
 
 	if (ENABLE_LOGIN_SSL) {		
@@ -61,7 +63,11 @@
 			}
 			header("Location: $redirect_base/$return_to");
 			exit;
+		} else {
+			$error_msg = "Error: Unable to authenticate user. Please check login and password.";
 		}
+	} else {
+		$error_msg = "Error: Either login or password is blank.";
 	}
 
 ?>
@@ -97,37 +103,45 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<table width='100%' height='100%' class="loginForm">
+<form action="login.php" method="POST" name="loginForm">
 
-	<tr><td align='center' valign='middle'>
+<table width="100%" class="loginForm2">
+<tr>
+	<td class="loginTop" valign="bottom" align="left">
+		<img src="images/ttrss_logo_big.png" alt="Logo">
+	</td>
+</tr><tr>
+	<td align="center" valign="middle" class="loginMiddle" height="100%">
+		<? if ($error_msg) { ?>
+			<div class="loginError"><?= $error_msg ?></div>
+		<? } ?>
+		<table>
+			<tr><td align="right">Login:</td>
+			<td><input name="login"></td></tr>
+			<tr><td align="right">Password:</td>
+			<td><input type="password" name="password"></td></tr>
+			<tr><td colspan="2">
+				<input type="checkbox" name="remember_me" id="remember_me">
+				<label for="remember_me">Remember me on this computer</label>
+			</td></tr>
+			<tr><td colspan="2" align="right">
+				<input type="submit" class="button" value="Login">
+			<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
+			</td></tr>
+		</table>
+	</td>
+</tr><tr>
+	<td align="center" class="loginBottom">
+		<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?= VERSION ?> &copy; 2005-2006 Andrew Dolgov
+		<? if (WEB_DEMO_MODE) { ?>
+		<br>Running in demo mode, some functionality is disabled.
+		<? } ?>
+	</td>
+</tr>
 
-	<form action="login.php" method="POST" name="loginForm">
-	
-	<table class="innerLoginForm">
-
-	<tr><td valign="middle" align="center" colspan="2">
-		<img src="images/ttrss_logo.png" alt="logo">
-	</td></tr>
-	
-	<tr><td align="right">Login:</td>
-		<td><input name="login"></td></tr>
-	<tr><td align="right">Password:</td>
-		<td><input type="password" name="password"></td></tr>
-	<tr><td>&nbsp;</td><td>
-			<input type="checkbox" name="remember_me" id="remember_me">
-			<label for="remember_me">Remember me</label>
-	</td></tr>
-	<tr><td colspan="2" align="center">
-		<input type="submit" class="button" value="Login">
-		<input type="hidden" name="rt" value="<?= $_GET['rt'] ?>">
-	</td></tr>
-	
-	</table>
-	
-	</form>
-
-	</td></tr>
 </table>
+
+</form>
 
 <? db_close($link); ?>
 
