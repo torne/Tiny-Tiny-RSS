@@ -730,7 +730,7 @@ function labelEditSave() {
 		return
 	}
 
-	if (!is_opera()) {
+/*	if (!is_opera()) {
 
 		var sql_exp = document.forms["label_edit_form"].sql_exp.value;
 		var description = document.forms["label_edit_form"].description.value;
@@ -744,7 +744,7 @@ function labelEditSave() {
 			alert("Caption field cannot be blank.");
 			return false;
 		}
-	}
+	} */
 
 	closeInfoBox();
 
@@ -796,14 +796,14 @@ function filterEditSave() {
 		return
 	}
 
-	if (!is_opera()) {
+/*	if (!is_opera()) {
 		var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
 	
 		if (reg_exp.length == 0) {
 			alert("Filter expression field cannot be blank.");
 			return;
 		}
-	}
+	} */
 
 	notify("Saving filter...");
 
