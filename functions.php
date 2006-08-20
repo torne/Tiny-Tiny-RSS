@@ -2356,4 +2356,40 @@
 
 		return $res;
 	}
+
+	function check_for_update($link) {
+		$releases_feed = "http://tt-rss.spb.ru/releases.rss";
+
+		if (!CHECK_FOR_NEW_VERSION || $_SESSION["access_level"] < 10) {
+			return;
+		}
+
+		error_reporting(0);
+		$rss = fetch_rss($releases_feed);
+		error_reporting (DEFAULT_ERROR_LEVEL);
+
+		if ($rss) {
+
+			$items = $rss->items;
+
+			if (!$items || !is_array($items)) $items = $rss->entries;
+			if (!$items || !is_array($items)) $items = $rss;
+
+			if (!is_array($items)) {
+				return;
+			}
+
+			$last_item = $items[0];
+
+			$last_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_item["title"]));
+			$cur_version = preg_replace("/\.99/", "", VERSION);
+
+			$release_url = $last_item["link"];
+
+			if ($cur_version != $last_version) {
+				return "<div class=\"notice\"><a target=\"_new\" href=\"$release_url\">
+						New version of Tiny-Tiny RSS is available.</a></div>";
+			}
+		}
+	}
 ?>

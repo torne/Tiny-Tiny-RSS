@@ -2976,6 +2976,8 @@
 
 		} else {
 
+			print check_for_update($link);
+
 			if (!SINGLE_USER_MODE) {
 
 				$result = db_query($link, "SELECT id,email FROM ttrss_users

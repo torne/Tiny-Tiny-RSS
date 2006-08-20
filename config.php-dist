@@ -128,7 +128,10 @@
 	// Stop updating feeds of user who was never logged in
 	// in specified amount of days. 0 disables.
 
-	define('CONFIG_VERSION', 3);
+	define('CHECK_FOR_NEW_VERSION', true);
+	// Check for new versions of tt-rss when entering preferences.
+
+	define('CONFIG_VERSION', 4);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
