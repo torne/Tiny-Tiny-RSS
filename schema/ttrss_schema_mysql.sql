@@ -33,6 +33,8 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	access_level integer not null default 0,
 	theme_id integer default null,
 	email varchar(250) not null default '',
+	email_digest bool not null default false,
+	last_digest_sent datetime default null,
 	index (theme_id),
 	foreign key (theme_id) references ttrss_themes(id)) TYPE=InnoDB;
 

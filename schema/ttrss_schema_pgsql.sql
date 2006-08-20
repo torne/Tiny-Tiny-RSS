@@ -32,6 +32,8 @@ create table ttrss_users (id serial not null primary key,
 	last_login timestamp default null,
 	access_level integer not null default 0,
 	email varchar(250) not null default '',
+	email_digest boolean not null default false,
+	last_digest_sent timestamp default null,
 	theme_id integer references ttrss_themes(id) default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 
