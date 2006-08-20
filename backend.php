@@ -862,7 +862,7 @@
 			if (!$bottom) {
 				print "&nbsp;
 					<a target=\"_new\" 
-						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\"
+						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
 						<img class=\"noborder\" 
 							alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
 					</a>";
