@@ -2101,6 +2101,12 @@
 
 		if ($quiet) return;
 
+		$sort = db_escape_string($_GET["sort"]);
+
+		if (!$sort || $sort == "undefined") {
+			$sort = "reg_exp";
+		}
+
 //		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		$result = db_query($link, "SELECT id,description 
@@ -2133,7 +2139,7 @@
 				filter_type = ttrss_filter_types.id AND
 				ttrss_filter_actions.id = action_id AND
 				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
-			ORDER by reg_exp");
+			ORDER by $sort");
 
 		if (db_num_rows($result) != 0) {
 
@@ -2150,10 +2156,10 @@
 
 			print "<tr class=\"title\">
 						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=\"20%\">Filter expression</td>
-						<td width=\"20%\">Feed</td>
-						<td width=\"15%\">Match</td>
-						<td width=\"15%\">Action</td>";
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">Filter expression</a></td>
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('feed_title')\">Feed</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('filter_type')\">Match</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">Action</a></td>";
 
 			$lnum = 0;
 			

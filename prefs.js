@@ -1072,7 +1072,7 @@ function validateOpmlImport() {
 	}
 }
 
-function updateFilterList() {
+function updateFilterList(sort_key) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -1083,7 +1083,7 @@ function updateFilterList() {
 
 //	p_notify("Loading, please wait...");
 
-	xmlhttp.open("GET", "backend.php?op=pref-filters", true);
+	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null);
 
