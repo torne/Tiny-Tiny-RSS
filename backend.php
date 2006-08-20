@@ -2414,6 +2414,12 @@
 			} 
 		}
 
+		$sort = db_escape_string($_GET["sort"]);
+
+		if (!$sort || $sort == "undefined") {
+			$sort = "description";
+		}
+
 		print "<div class=\"prefGenericAddBox\">";
 
 		print"<input type=\"submit\" class=\"button\" 
@@ -2427,7 +2433,7 @@
 				ttrss_labels 
 			WHERE 
 				owner_uid = ".$_SESSION["uid"]."
-			ORDER by description");
+			ORDER BY $sort");
 
 //		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
@@ -2446,8 +2452,8 @@
 
 			print "<tr class=\"title\">
 						<td width=\"5%\">&nbsp;</td>
-						<td width=\"30%\">Caption</td>
-						<td width=\"50%\">SQL Expression
+						<td width=\"30%\"><a href=\"javascript:updateLabelList('description')\">Caption</a></td>
+						<td width=\"50%\"><a href=\"javascript:updateLabelList('sql_exp')\">SQL Expression</a>
 						<a class=\"helpLink\" href=\"javascript:displayHelpInfobox(1)\">(?)</a>
 						</td>
 						</tr>";

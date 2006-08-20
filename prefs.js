@@ -1083,13 +1083,14 @@ function updateFilterList(sort_key) {
 
 //	p_notify("Loading, please wait...");
 
-	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + param_escape(sort_key), true);
+	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + 
+		param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null);
 
 }
 
-function updateLabelList() {
+function updateLabelList(sort_key) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -1100,7 +1101,8 @@ function updateLabelList() {
 
 //	document.getElementById("prefContent").innerHTML = "Loading labels, please wait...";
 
-	xmlhttp.open("GET", "backend.php?op=pref-labels", true);
+	xmlhttp.open("GET", "backend.php?op=pref-labels&sort=" + 
+		param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 }
