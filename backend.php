@@ -3384,6 +3384,12 @@
 			}
 		}
 
+		$sort = db_escape_string($_GET["sort"]);
+
+		if (!$sort || $sort == "undefined") {
+			$sort = "login";
+		}
+
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"uadd_box\" 			
 				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
@@ -3398,7 +3404,7 @@
 				SUBSTRING(last_login,1,16) as last_login
 			FROM 
 				ttrss_users
-			ORDER by login");
+			ORDER BY $sort");
 
 //		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
@@ -3413,9 +3419,9 @@
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width='40%'>Login</td>
-					<td width='40%'>Access Level</td>
-					<td width='30%'>Last login</td></tr>";
+					<td width='40%'><a href=\"javascript:updateUsersList('login')\">Login</a></td>
+					<td width='40%'><a href=\"javascript:updateUsersList('access_level')\">Access Level</a></td>
+					<td width='30%'><a href=\"javascript:updateUsersList('last_login')\">Last login</a></td></tr>";
 		
 		$lnum = 0;
 		

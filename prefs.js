@@ -157,7 +157,7 @@ function updateFeedList(sort_key) {
 
 }
 
-function updateUsersList() {
+function updateUsersList(sort_key) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -168,7 +168,8 @@ function updateUsersList() {
 
 //	p_notify("Loading, please wait...");
 
-	xmlhttp.open("GET", "backend.php?op=pref-users", true);
+	xmlhttp.open("GET", "backend.php?op=pref-users&sort="
+		+ param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
 
