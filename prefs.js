@@ -734,12 +734,12 @@ function labelEditSave() {
 
 	if (sql_exp.length == 0) {
 		alert("SQL Expression cannot be blank.");
-		return;
+		return false;
 	}
 
 	if (description.length == 0) {
 		alert("Caption field cannot be blank.");
-		return;
+		return false;
 	}
 
 	closeInfoBox();

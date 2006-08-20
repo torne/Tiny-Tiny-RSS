@@ -2281,7 +2281,7 @@
 
 			print "<div align='right'>";
 
-			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"Test\">
+			print "<input type=\"submit\" onclick=\"return labelTest()\" value=\"Test\">
 				";
 
 			print "<input type=\"submit\" 
