@@ -2375,9 +2375,9 @@
 			if (!$items || !is_array($items)) $items = $rss->entries;
 			if (!$items || !is_array($items)) $items = $rss;
 
-			if (!is_array($items)) {
+			if (!is_array($items) || count($items) == 0) {
 				return;
-			}
+			}			
 
 			$last_item = $items[0];
 
@@ -2386,10 +2386,10 @@
 
 			$release_url = $last_item["link"];
 
-			if ($cur_version != $last_version) {
+			if ($cur_version == $last_version) {
 				return "<div class=\"notice\"><a target=\"_new\" href=\"$release_url\">
-						New version of Tiny-Tiny RSS is available.</a></div>";
-			}
+						New version of Tiny-Tiny RSS ($last_version) is available.</a></div>";
+			}			
 		}
 	}
 ?>
