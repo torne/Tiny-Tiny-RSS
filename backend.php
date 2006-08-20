@@ -1965,7 +1965,9 @@
 			$filter_type = db_fetch_result($result, 0, "filter_type");
 			$feed_id = db_fetch_result($result, 0, "feed_id");
 			$action_id = db_fetch_result($result, 0, "action_id");
-				
+
+			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
+
 			print "<div id=\"infoBoxTitle\">Filter editor</div>";
 			print "<div class=\"infoBoxContents\">";
 
@@ -2019,6 +2021,18 @@
 	
 			print "</select>";
 
+			print "</td></tr>";
+
+			if ($enabled) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<tr><td>Options:</td><td>
+					<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
+					<label for=\"enabled\">Enabled</label>";
+
 			print "</td></tr></table>";
 
 			print "</form>";
@@ -2047,6 +2061,7 @@
 			$filter_id = db_escape_string($_GET["id"]);
 			$feed_id = db_escape_string($_GET["feed_id"]);
 			$action_id = db_escape_string($_GET["action_id"]); 
+			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
 
 			if (!$feed_id) {
 				$feed_id = 'NULL';
@@ -2058,7 +2073,8 @@
 					reg_exp = '$reg_exp', 
 					feed_id = $feed_id,
 					action_id = '$action_id',
-					filter_type = '$filter_type'
+					filter_type = '$filter_type',
+					enabled = $enabled
 				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
@@ -2129,6 +2145,7 @@
 				ttrss_filters.id AS id,reg_exp,
 				ttrss_filter_types.name AS filter_type_name,
 				ttrss_filter_types.description AS filter_type_descr,
+				enabled,
 				feed_id,
 				ttrss_filter_actions.description AS action_description,
 				ttrss_feeds.title AS feed_title
@@ -2169,6 +2186,8 @@
 	
 				$filter_id = $line["id"];
 				$edit_filter_id = $_GET["id"];
+
+				$enabled = sql_bool_to_bool($line["enabled"]);
 	
 				if ($subop == "edit" && $filter_id != $edit_filter_id) {
 					$class .= "Grayed";
@@ -2187,6 +2206,17 @@
 
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
+
+				if (!$enabled) {
+					$line["reg_exp"] = "<span class=\"insensitive\">" . 
+						$line["reg_exp"] . " (Disabled)</span>";
+					$line["feed_title"] = "<span class=\"insensitive\">" . 
+						$line["feed_title"] . "</span>";
+					$line["filter_type_descr"] = "<span class=\"insensitive\">" . 
+						$line["filter_type_descr"] . "</span>";
+					$line["action_description"] = "<span class=\"insensitive\">" . 
+						$line["action_description"] . "</span>";
+				}	
 	
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["reg_exp"] . "</td>";		
