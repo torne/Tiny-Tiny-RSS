@@ -27,6 +27,8 @@
 
 	$err_msg = check_configuration_variables();
 
+	$print_exec_time = true;
+
 	if ($err_msg) {
 		header("Content-Type: application/xml");
 		print_error_xml(9, $err_msg); die;
@@ -3880,7 +3882,7 @@
 	if ($op == "getUnread") {
 		$login = db_escape_string($_GET["login"]);
 
-		header("Content-Type: text/plain");
+		header("Content-Type: text/plain; charset=utf-8");
 
 		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
 
@@ -3890,11 +3892,20 @@
 		} else {
 			print "Error: user not found";
 		}
+
+		$print_exec_time = false;
+	}
+
+	if ($op == "digestTest") {
+		header("Content-Type: text/plain");
+		echo prepare_headlines_digest($link, $_SESSION["uid"]);
+		$print_exec_time = false;
+
 	}
 
 	db_close($link);
 ?>
 
-<?php if ($op != "getUnread") { ?>
+<?php if ($print_exec_time) { ?>
 <!-- <?php echo sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
 <?php } ?>

@@ -2377,6 +2377,56 @@
 		return $res;
 	}
 
+	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
+		$tmp =  "New headlines for last 24 hours, as of " . date("Y/m/d H:m") . "\n";	
+		$tmp .= "=======================================================\n\n";
+
+		if (DB_TYPE == "pgsql") {
+			$interval_query = "ttrss_entries.date_entered < NOW() - INTERVAL '$days days'";
+		} else if (DB_TYPE == "mysql") {
+			$interval_query = "ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL $days DAY)";
+		}
+
+		$result = db_query($link, "SELECT ttrss_entries.title,
+				ttrss_feeds.title AS feed_title,
+				date_entered,
+				link,
+				SUBSTRING(last_updated,1,19) AS last_updated
+			FROM 
+				ttrss_user_entries,ttrss_entries,ttrss_feeds 
+			WHERE 
+				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id 
+				AND $interval_query
+				AND unread = true ORDER BY ttrss_feeds.title, date_entered DESC
+			LIMIT $limit");
+
+		$cur_feed_title = "";
+
+		while ($line = db_fetch_assoc($result)) {
+			$updated = smart_date_time(strtotime($line["last_updated"]));
+			$feed_title = $line["feed_title"];
+
+			if ($cur_feed_title != $feed_title) {
+				$cur_feed_title = $feed_title;
+
+				$tmp .= "$feed_title\n\n";
+			}
+
+			$tmp .= " * " . trim($line["title"]) . " - $updated\n";
+			$tmp .= "   " . trim($line["link"]) . "\n";
+			$tmp .= "\n";
+		}
+
+		$tmp .= "--- \n";
+		$tmp .= "You have been sent this email because you have enabled\n".
+			"daily digests in Tiny Tiny RSS at " . DIGEST_HOSTNAME . "\n\n".
+			"To unsubscribe, visit your configuration options or contact\n".
+			"instance owner.\n";
+			
+
+		return $tmp;
+	}
+
 	function check_for_update($link) {
 		$releases_feed = "http://tt-rss.spb.ru/releases.rss";
 
