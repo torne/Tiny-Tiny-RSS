@@ -2386,7 +2386,7 @@
 
 			$release_url = $last_item["link"];
 
-			if ($cur_version == $last_version) {
+			if ($cur_version != $last_version) {
 				return "<div class=\"notice\"><a target=\"_new\" href=\"$release_url\">
 						New version of Tiny-Tiny RSS ($last_version) is available.</a></div>";
 			}			
