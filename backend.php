@@ -37,7 +37,12 @@
 		header("Content-Type: application/xml");
 	}
 
-	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds" && $op != "rss") {
+	if (!$op) {
+		header("Content-Type: application/xml");
+		print_error_xml(7); exit;
+	}
+
+	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds" && $op != "rss" && $op != "getUnread") {
 
 		if ($op == "rpc") {
 			print_error_xml(6); die;
@@ -56,10 +61,6 @@
 			";
 		}
 		exit;
-	}
-
-	if (!$op) {
-		print_error_xml(7); exit;
 	}
 
 	$purge_intervals = array(
@@ -3872,8 +3873,24 @@
 		}
 	}
 
+	if ($op == "getUnread") {
+		$login = db_escape_string($_GET["login"]);
+
+		header("Content-Type: text/plain");
+
+		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
+
+		if (db_num_rows($result) == 1) {
+			$uid = db_fetch_result($result, 0, "id");
+			print getGlobalUnread($link, $uid);
+		} else {
+			print "Error: user not found";
+		}
+	}
+
 	db_close($link);
 ?>
 
+<?php if ($op != "getUnread") { ?>
 <!-- <?php echo sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
-
+<?php } ?>

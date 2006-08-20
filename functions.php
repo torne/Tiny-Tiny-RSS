@@ -1555,13 +1555,18 @@
 
 	/* FIXME this needs reworking */
 
-	function getGlobalUnread($link) {
+	function getGlobalUnread($link, $user_id = false) {
+
+		if (!$user_id) {
+			$user_id = $_SESSION["uid"];
+		}
+
 		$result = db_query($link, "SELECT count(ttrss_entries.id) as c_id FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 			WHERE unread = true AND 
 			ttrss_user_entries.feed_id = ttrss_feeds.id AND
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			hidden = false AND
-			ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
+			ttrss_user_entries.owner_uid = '$user_id'");
 		$c_id = db_fetch_result($result, 0, "c_id");
 		return $c_id;
 	}
