@@ -2281,7 +2281,9 @@
 
 			print "<div align='right'>";
 
-			print "<input type=\"submit\" onclick=\"return labelTest()\" value=\"Test\">
+			$is_disabled = (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== FALSE) ? "disabled" : "";
+
+			print "<input $is_disabled type=\"submit\" onclick=\"return labelTest()\" value=\"Test\">
 				";
 
 			print "<input type=\"submit\" 

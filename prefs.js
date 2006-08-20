@@ -729,17 +729,20 @@ function labelEditSave() {
 		return
 	}
 
-	var sql_exp = document.forms["label_edit_form"].sql_exp.value;
-	var description = document.forms["label_edit_form"].description.value;
+	if (!is_opera()) {
 
-	if (sql_exp.length == 0) {
-		alert("SQL Expression cannot be blank.");
-		return false;
-	}
-
-	if (description.length == 0) {
-		alert("Caption field cannot be blank.");
-		return false;
+		var sql_exp = document.forms["label_edit_form"].sql_exp.value;
+		var description = document.forms["label_edit_form"].description.value;
+	
+		if (sql_exp.length == 0) {
+			alert("SQL Expression cannot be blank.");
+			return false;
+		}
+	
+		if (description.length == 0) {
+			alert("Caption field cannot be blank.");
+			return false;
+		}
 	}
 
 	closeInfoBox();
@@ -792,11 +795,13 @@ function filterEditSave() {
 		return
 	}
 
-	var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
-
-	if (reg_exp.length == 0) {
-		alert("Filter expression field cannot be blank.");
-		return;
+	if (!is_opera()) {
+		var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
+	
+		if (reg_exp.length == 0) {
+			alert("Filter expression field cannot be blank.");
+			return;
+		}
 	}
 
 	notify("Saving filter...");

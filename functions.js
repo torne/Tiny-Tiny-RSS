@@ -7,6 +7,10 @@ function browser_has_opacity() {
 		navigator.userAgent.match("Opera") != null;
 }
 
+function is_opera() {
+	return navigator.userAgent.match("Opera");
+}
+
 function exception_error(location, e, silent) {
 	var msg;
 
