@@ -142,6 +142,7 @@ create table ttrss_filters (id serial not null primary key,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
+	enabled boolean not null default true,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade);
 
 create table ttrss_labels (id serial not null primary key, 
