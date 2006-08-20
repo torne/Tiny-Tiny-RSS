@@ -186,6 +186,8 @@ function scheduleFeedUpdate(force) {
 		xmlhttp.abort();
 	}
 
+	debug("REFETCH query: " + query_str);
+
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
 		xmlhttp.onreadystatechange=refetch_callback;
@@ -538,7 +540,7 @@ function toggleDispRead() {
 function parse_runtime_info(elem) {
 	var param = elem.firstChild;
 
-	debug("parse_runtime_info");
+	debug("parse_runtime_info: " + param);
 
 	while (param) {
 		var k = param.getAttribute("key");

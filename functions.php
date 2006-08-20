@@ -380,7 +380,7 @@
 
 			$result = db_query($link, "SELECT reg_exp,
 				ttrss_filter_types.name AS name,
-				ttrss_filter_actions.name AS action,
+				ttrss_filter_actions.name AS action
 				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
 					enabled = true AND
 					owner_uid = $owner_uid AND
