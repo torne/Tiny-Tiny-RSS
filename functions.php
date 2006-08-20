@@ -213,32 +213,51 @@
 		$icon_file = ICONS_DIR . "/$feed.ico";
 
 		if (!file_exists($icon_file)) {
-				
-			error_reporting(0);
-			$r = fopen($icon_url, "r");
-			error_reporting (DEFAULT_ERROR_LEVEL);
 
-			if ($r) {
-				$tmpfname = tempnam(TMP_DIRECTORY, "ttrssicon");
-			
-				$t = fopen($tmpfname, "w");
-				
-				while (!feof($r)) {
-					$buf = fread($r, 16384);
-					fwrite($t, $buf);
+			if (USE_CURL_FOR_ICONS) {
+				//error_reporting(0);
+				$ch = curl_init($icon_url);
+				$fp = fopen($icon_file, "w");
+
+				if ($fp) {
+					curl_setopt($ch, CURLOPT_FILE, $fp);
+					curl_setopt($ch, CURLOPT_FILE, $fp);
+
+					curl_exec($ch);
+					curl_close($ch);
+					fclose($fp);					
 				}
-				
-				fclose($r);
-				fclose($t);
+
+				//error_reporting (DEFAULT_ERROR_LEVEL);
+
+			} else {
 
 				error_reporting(0);
-				if (!rename($tmpfname, $icon_file)) {
-					unlink($tmpfname);
-				}
-
-				chmod($icon_file, 0644);
-				
+				$r = fopen($icon_url, "r");
 				error_reporting (DEFAULT_ERROR_LEVEL);
+	
+				if ($r) {
+					$tmpfname = tempnam(TMP_DIRECTORY, "ttrssicon");
+				
+					$t = fopen($tmpfname, "w");
+					
+					while (!feof($r)) {
+						$buf = fread($r, 16384);
+						fwrite($t, $buf);
+					}
+					
+					fclose($r);
+					fclose($t);
+	
+					error_reporting(0);
+					if (!rename($tmpfname, $icon_file)) {
+						unlink($tmpfname);
+					}
+	
+					chmod($icon_file, 0644);
+					
+					error_reporting (DEFAULT_ERROR_LEVEL);
+				}
 
 			}	
 		}
