@@ -215,7 +215,8 @@
 		if (!file_exists($icon_file)) {
 
 			if (USE_CURL_FOR_ICONS) {
-				//error_reporting(0);
+				error_reporting(0);
+
 				$ch = curl_init($icon_url);
 				$fp = fopen($icon_file, "w");
 
@@ -228,7 +229,7 @@
 					fclose($fp);					
 				}
 
-				//error_reporting (DEFAULT_ERROR_LEVEL);
+				error_reporting (DEFAULT_ERROR_LEVEL);
 
 			} else {
 
