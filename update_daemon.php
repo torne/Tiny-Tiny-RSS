@@ -16,7 +16,7 @@
 	require_once "config.php";
 
 	if (!ENABLE_UPDATE_DAEMON) {
-		die("Please enable option ENABLE_UPDATE_DAEMON in config.php");
+		die("Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
 	}
 	
 	require_once "db.php";
@@ -35,7 +35,7 @@
 
 	if (!$lock_handle) {
 		die("error: Can't create lockfile ($lock_filename). ".
-			"Maybe another daemon is already running.");
+			"Maybe another daemon is already running.\n");
 	}
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
