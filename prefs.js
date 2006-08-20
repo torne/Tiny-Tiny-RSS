@@ -1132,7 +1132,7 @@ function selectTab(id, noupdate) {
 
 			debug("selectTab: " + id + "(NU: " + noupdate + ")");
 	
-			notify("Loading, please wait...", true);
+//			notify("Loading, please wait...", true);
 	
 			// close active infobox if needed
 			closeInfoBox();
