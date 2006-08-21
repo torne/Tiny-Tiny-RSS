@@ -3147,6 +3147,8 @@
 				print "</form>";
 			}
 
+			initialize_user_prefs($link, $_SESSION["uid"]);
+
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
 				section_name,def_value
