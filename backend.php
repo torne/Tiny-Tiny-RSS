@@ -3946,6 +3946,7 @@
 
 	if ($op == "digestTest") {
 		header("Content-Type: text/plain");
+
 		echo prepare_headlines_digest($link, $_SESSION["uid"]);
 		$print_exec_time = false;
 
