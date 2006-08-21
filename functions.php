@@ -2420,10 +2420,9 @@
 		}
 
 		$tmp .= "--- \n";
-		$tmp .= "You have been sent this email because you have enabled\n".
-			"daily digests in Tiny Tiny RSS at " . DIGEST_HOSTNAME . "\n\n".
-			"To unsubscribe, visit your configuration options or contact\n".
-			"instance owner.\n";
+		$tmp .= "You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at " . 
+			DIGEST_HOSTNAME . "\n".
+			"To unsubscribe, visit your configuration options or contact instance owner.\n";
 			
 
 		return $tmp;
