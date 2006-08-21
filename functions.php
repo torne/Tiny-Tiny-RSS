@@ -2378,12 +2378,53 @@
 		return $res;
 	}
 
+	function send_headlines_digests($link, $limit = 100) {
+
+		$user_limit = DIGEST_EMAIL_LIMIT;
+		$days = DIGEST_DAYS_BACK;
+
+		print "Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit\n\n";
+
+		if (DB_TYPE == "pgsql") {
+			$interval_query = "last_digest_sent < NOW() - INTERVAL '$days days'";
+		} else if (DB_TYPE == "mysql") {
+			$interval_query = "last_digest_sent < DATE_SUB(NOW(), INTERVAL $days DAY)";
+		}
+
+		$result = db_query($link, "SELECT id,email FROM ttrss_users 
+				WHERE email != '' AND (last_digest_sent IS NULL OR $interval_query)");
+
+		while ($line = db_fetch_assoc($result)) {
+			if (get_pref($link, 'DIGEST_ENABLE', $line['id'], false)) {
+				print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
+
+				$tuple = prepare_headlines_digest($link, $line["id"], $days, $limit);
+				$digest = $tuple[0];
+				$headlines_count = $tuple[1];
+
+				if ($headlines_count > 0) {
+					$rc = mail($line["login"] . " <" . $line["email"] . ">",
+						"[tt-rss] New headlines for last 24 hours", $digest,
+						"From: " . MAIL_FROM);
+					print "RC=$rc\n";
+					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
+							WHERE id = " . $line["id"]);
+				} else {
+					print "No headlines\n";
+				}
+			}
+		}
+
+//		$digest = prepare_headlines_digest($link, $user_id, $days, $limit);
+
+	}
+
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
 		$tmp =  "New headlines for last 24 hours, as of " . date("Y/m/d H:m") . "\n";	
 		$tmp .= "=======================================================\n\n";
 
 		if (DB_TYPE == "pgsql") {
-			$interval_query = "ttrss_entries.date_entered < NOW() - INTERVAL '$days days'";
+			$interval_query = "ttrss_entries.date_entered > NOW() - INTERVAL '$days days'";
 		} else if (DB_TYPE == "mysql") {
 			$interval_query = "ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
@@ -2397,12 +2438,15 @@
 				ttrss_user_entries,ttrss_entries,ttrss_feeds 
 			WHERE 
 				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id 
+				AND hidden = false
 				AND $interval_query
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true ORDER BY ttrss_feeds.title, date_entered DESC
 			LIMIT $limit");
 
 		$cur_feed_title = "";
+
+		$headlines_count = db_num_rows($result);
 
 		while ($line = db_fetch_assoc($result)) {
 			$updated = smart_date_time(strtotime($line["last_updated"]));
@@ -2425,7 +2469,7 @@
 			"To unsubscribe, visit your configuration options or contact instance owner.\n";
 			
 
-		return $tmp;
+		return array($tmp, $headlines_count);
 	}
 
 	function check_for_update($link) {

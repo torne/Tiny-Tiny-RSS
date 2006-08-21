@@ -3948,8 +3948,14 @@
 
 	if ($op == "digestTest") {
 		header("Content-Type: text/plain");
+		print_r(prepare_headlines_digest($link, $_SESSION["uid"]));
+		$print_exec_time = false;
 
-		echo prepare_headlines_digest($link, $_SESSION["uid"]);
+	}
+
+	if ($op == "digestSend") {
+		header("Content-Type: text/plain");
+		send_headlines_digests($link);
 		$print_exec_time = false;
 
 	}

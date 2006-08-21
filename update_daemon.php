@@ -148,6 +148,8 @@
 			}
 		}
 
+		send_headlines_digests($link);
+
 		print "Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...\n";
 		
 		sleep(DAEMON_SLEEP_INTERVAL);
