@@ -140,6 +140,10 @@
 	define('DIGEST_EMAIL_LIMIT', 10);
 	// The maximum amount of emails sent in one digest batch
 
+	define('DAEMON_SENDS_DIGESTS', true);
+	// If update daemon and update_feeds should send digests
+	// Disable if you prefer querying special URL (see wiki)
+
 	define('CONFIG_VERSION', 5);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).

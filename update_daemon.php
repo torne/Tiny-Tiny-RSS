@@ -148,7 +148,7 @@
 			}
 		}
 
-		send_headlines_digests($link);
+		if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 		print "Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...\n";
 		

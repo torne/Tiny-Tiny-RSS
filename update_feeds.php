@@ -34,7 +34,7 @@
 			update_all_feeds($link, false, $user_id, true);
 	}
 
-	send_headlines_digests($link);
+	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 	db_close($link);
 
