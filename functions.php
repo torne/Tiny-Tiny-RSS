@@ -2455,11 +2455,13 @@
 			$last_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_item["title"]));
 			$cur_version = preg_replace("/\.99/", "", VERSION);
 
-			$release_url = $last_item["link"];
+			$release_url = sanitize_rss($last_item["link"]);
+			$content = sanitize_rss($last_item["description"]);
 
 			if ($cur_version != $last_version) {
-				return "<div class=\"notice\"><a target=\"_new\" href=\"$release_url\">
-						New version of Tiny-Tiny RSS ($last_version) is available.</a></div>";
+				return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
+					New version of Tiny-Tiny RSS ($last_version) is available (click for details)</a>
+					<div id=\"milestoneDetails\">$content</div></div>";
 			}			
 		}
 	}
