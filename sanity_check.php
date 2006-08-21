@@ -1,5 +1,5 @@
 <?php
-	define('EXPECTED_CONFIG_VERSION', 4);
+	define('EXPECTED_CONFIG_VERSION', 5);
 
 	if (!file_exists("config.php")) {
 		print "<b>Fatal Error</b>: You forgot to copy 
