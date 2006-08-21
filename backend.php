@@ -34,7 +34,7 @@
 		print_error_xml(9, $err_msg); die;
 	}
 
-	if ((!$op || $op == "rpc" || $op == "rss" || $op == "digestSend"
+	if ((!$op || $op == "rpc" || $op == "rss" || $op == "digestSend" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml");
 	}
