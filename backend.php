@@ -1290,7 +1290,8 @@
 			}
 
 			$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-				WHERE id != '$feed_id' AND owner_uid = ".$_SESSION["uid"]." 
+				WHERE id != '$feed_id' AND owner_uid = ".$_SESSION["uid"]." AND
+			  		(SELECT COUNT(id) FROM ttrss_feeds AS T2 WHERE T2.id = ttrss_feeds.parent_feed) = 0
 					$cat_qpart ORDER BY title");
 
 				if (db_num_rows($tmp_result) > 0) {
