@@ -1668,7 +1668,8 @@
 				F1.cat_id,
 				F2.title AS parent_title,
 				C1.title AS category,
-				F1.hidden
+				F1.hidden,
+				F1.include_in_digest
 			FROM 
 				ttrss_feeds AS F1 
 				LEFT JOIN ttrss_feeds AS F2
