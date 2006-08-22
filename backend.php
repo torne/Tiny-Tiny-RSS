@@ -1081,8 +1081,10 @@
 				$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
 					WHERE id = '$id'");
 
-				$feed_url = db_fetch_result($result, 0, "feed_url");
-				$title = db_fetch_result($result, 0, "title");
+				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
+				$title = db_escape_string(db_fetch_result($result, 0, "title"));
+
+				$title_orig = db_fetch_result($result, 0, "title");
 
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
@@ -1092,7 +1094,7 @@
 						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
 						VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
 
-					array_push($subscribed, $title);
+					array_push($subscribed, $title_orig);
 				}
 			}
 
