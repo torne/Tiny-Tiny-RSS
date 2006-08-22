@@ -1236,7 +1236,15 @@
 				print "<tr><td>Category:</td>";
 				print "<td>";
 
-				print_feed_cat_select($link, "cat_id", $cat_id, "class=\"iedit\"");
+				$parent_feed = db_fetch_result($result, 0, "parent_feed");
+
+				if (sprintf("%d", $parent_feed) > 0) {
+					$disabled = "disabled";
+				} else {
+					$disabled = "";
+				}
+
+				print_feed_cat_select($link, "cat_id", $cat_id, "class=\"iedit\" $disabled");
 
 				print "</td>";
 				print "</td></tr>";
@@ -1265,6 +1273,8 @@
 
 			if ($linked_count > 0) {
 				$disabled = "disabled";
+			} else {
+				$disabled = "";
 			}
 
 			print "<select class=\"iedit\" $disabled name=\"parent_feed\">";
@@ -1406,23 +1416,23 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
-					$category_qpart = "cat_id = '$cat_id',";
+					$category_qpart = "cat_id = '$cat_id'";
 				} else {
-					$category_qpart = 'cat_id = NULL,';
+					$category_qpart = 'cat_id = NULL';
 				}
 			} else {
 				$category_qpart = "";
 			}
 
 			if ($parent_feed && $parent_feed != 0) {
-				$parent_qpart = "parent_feed = '$parent_feed',";
+				$parent_qpart = "parent_feed = '$parent_feed'";
 			} else {
-				$parent_qpart = 'parent_feed = NULL,';
+				$parent_qpart = 'parent_feed = NULL';
 			}
 
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
-				$category_qpart
-				$parent_qpart
+				$category_qpart,
+				$parent_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl',
@@ -1433,6 +1443,11 @@
 				hidden = $hidden,
 				include_in_digest = $include_in_digest
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+
+			# update linked feed categories
+			$result = db_query($link, "UPDATE ttrss_feeds SET
+				$category_qpart WHERE parent_feed = '$feed_id' AND
+				owner_uid = " . $_SESSION["uid"]);
 		}
 
 		if ($subop == "saveCat") {
@@ -1567,7 +1582,14 @@
 				foreach ($ids as $id) {
 				
 					db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
-						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+						WHERE id = '$id' AND parent_feed IS NULL
+					  	AND owner_uid = " . $_SESSION["uid"]);
+
+					# update linked feed categories
+					db_query($link, "UPDATE ttrss_feeds SET
+						cat_id = $cat_id_qpart WHERE parent_feed = '$id' AND 
+						owner_uid = " . $_SESSION["uid"]);
+
 				}
 
 				db_query($link, "COMMIT");
