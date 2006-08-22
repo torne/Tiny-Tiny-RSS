@@ -2405,7 +2405,9 @@
 				if ($headlines_count > 0) {
 					$rc = mail($line["login"] . " <" . $line["email"] . ">",
 						"[tt-rss] New headlines for last 24 hours", $digest,
-						"From: " . MAIL_FROM);
+						"From: " . MAIL_FROM . "\n".
+						"Content-Type: text/plain; charset=\"utf-8\"\n".
+						"Content-Transfer-Encoding: 8bit\n");
 					print "RC=$rc\n";
 					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
 							WHERE id = " . $line["id"]);
