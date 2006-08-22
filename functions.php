@@ -2380,6 +2380,8 @@
 
 	function send_headlines_digests($link, $limit = 100) {
 
+		if (!DIGEST_ENABLE) return false;
+
 		$user_limit = DIGEST_EMAIL_LIMIT;
 		$days = DIGEST_DAYS_BACK;
 
