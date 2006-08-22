@@ -2438,7 +2438,7 @@
 				ttrss_user_entries,ttrss_entries,ttrss_feeds 
 			WHERE 
 				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id 
-				AND hidden = false
+				AND include_in_digest = true
 				AND $interval_query
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true ORDER BY ttrss_feeds.title, date_entered DESC

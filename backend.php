@@ -1358,6 +1358,18 @@
 			print "<br><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
 				$checked><label for=\"hidden\">Hide from my feed list</label>";
 
+			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
+
+			if ($include_in_digest) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<br><input type=\"checkbox\" id=\"include_in_digest\" 
+				name=\"include_in_digest\"
+				$checked><label for=\"include_in_digest\">Include in e-mail digest</label>";
+
 			print "</td></tr>";
 
 			print "</table>";
@@ -1389,6 +1401,8 @@
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
 			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
 			$hidden = checkbox_to_sql_bool(db_escape_string($_POST["hidden"]));
+			$include_in_digest = checkbox_to_sql_bool(
+				db_escape_string($_POST["include_in_digest"]));
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
@@ -1416,7 +1430,8 @@
 				auth_pass = '$auth_pass',
 				private = $private,
 				rtl_content = $rtl_content,
-				hidden = $hidden
+				hidden = $hidden,
+				include_in_digest = $include_in_digest
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
