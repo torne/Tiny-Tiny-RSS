@@ -3981,7 +3981,7 @@
 			$uid = db_fetch_result($result, 0, "id");
 			print getGlobalUnread($link, $uid);
 		} else {
-			print "Error: user not found";
+			print "-1;User not found";
 		}
 
 		$print_exec_time = false;
