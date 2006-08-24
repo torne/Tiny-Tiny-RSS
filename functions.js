@@ -573,6 +573,9 @@ function parse_counters(reply, scheduled_call) {
 			}
 		}
 
+		hideOrShowFeeds(getFeedsContext().document, 
+			getInitParam("hide_read_feeds") == 1);
+
 		var feeds_stored = getMainContext().number_of_feeds;
 
 		debug("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
@@ -750,6 +753,8 @@ function popupHelp(tid) {
 
 function hideOrShowFeeds(doc, hide) {
 
+	debug("hideOrShowFeeds: " + doc + ", " + hide);
+
 	var fd = getFeedsContext().document;
 
 	var list = fd.getElementById("feedList");
@@ -798,6 +803,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 				}
 	
 				if (has_unread) {
+					node.childNodes[i].style.display = "list-item";
 					cat_unread++;
 				}
 			}
@@ -815,6 +821,8 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		} else {
 			cat_node.style.display = "list-item";
 		}
+	} else {
+		cat_node.style.display = "list-item";
 	}
 
 //	debug("unread for category: " + cat_unread);
