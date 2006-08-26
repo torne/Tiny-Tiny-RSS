@@ -822,7 +822,11 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 			cat_node.style.display = "list-item";
 		}
 	} else {
-		cat_node.style.display = "list-item";
+		try {
+			cat_node.style.display = "list-item";
+		} catch (e) {
+			debug(e);
+		}
 	}
 
 //	debug("unread for category: " + cat_unread);
