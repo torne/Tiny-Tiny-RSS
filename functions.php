@@ -205,63 +205,132 @@
 
 	}
 
-	function check_feed_favicon($feed_url, $feed, $link) {
-		$feed_url = str_replace("http://", "", $feed_url);
-		$feed_url = preg_replace("/\/.*$/", "", $feed_url);
-		
-		$icon_url = "http://$feed_url/favicon.ico";
-		$icon_file = ICONS_DIR . "/$feed.ico";
+	function fetch_file_contents($url) {
+		if (USE_CURL_FOR_ICONS) {
+			$tmpfile = tempnam(TMP_DIRECTORY, "ttrss-tmp");
 
-		if (!file_exists($icon_file)) {
+			$ch = curl_init($url);
+			$fp = fopen($tmpfile, "w");
 
-			if (USE_CURL_FOR_ICONS) {
-				error_reporting(0);
+			if ($fp) {
+				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_exec($ch);
+				curl_close($ch);
+				fclose($fp);					
+			}
 
-				$ch = curl_init($icon_url);
-				$fp = fopen($icon_file, "w");
+			$contents =  file_get_contents($tmpfile);
+			unlink($tmpfile);
 
-				if ($fp) {
-					curl_setopt($ch, CURLOPT_FILE, $fp);
-					curl_setopt($ch, CURLOPT_FILE, $fp);
+			return $contents;
 
-					curl_exec($ch);
-					curl_close($ch);
-					fclose($fp);					
+		} else {
+			return file_get_contents($url);
+		}
+
+	}
+
+	// adapted from wordpress favicon plugin by Jeff Minard (http://thecodepro.com/)
+	// http://dev.wp-plugins.org/file/favatars/trunk/favatars.php
+
+	function get_favicon_url($url) {
+
+		if ($html = @fetch_file_contents($url)) {
+
+			if ( preg_match('/<link[^>]+rel="(?:shortcut )?icon"[^>]+?href="([^"]+?)"/si', $html, $matches)) {
+				// Attempt to grab a favicon link from their webpage url
+				$linkUrl = html_entity_decode($matches[1]);
+
+				if (substr($linkUrl, 0, 1) == '/') {
+					$urlParts = parse_url($url);
+					$faviconURL = $urlParts['scheme'].'://'.$urlParts['host'].$linkUrl;
+				} else if (substr($linkUrl, 0, 7) == 'http://') {
+					$faviconURL = $linkUrl;
+				} else if (substr($url, -1, 1) == '/') {
+					$faviconURL = $url.$linkUrl;
+				} else {
+					$faviconURL = $url.'/'.$linkUrl;
 				}
-
-				error_reporting (DEFAULT_ERROR_LEVEL);
 
 			} else {
-
-				error_reporting(0);
-				$r = fopen($icon_url, "r");
-				error_reporting (DEFAULT_ERROR_LEVEL);
-	
-				if ($r) {
-					$tmpfname = tempnam(TMP_DIRECTORY, "ttrssicon");
-				
-					$t = fopen($tmpfname, "w");
-					
-					while (!feof($r)) {
-						$buf = fread($r, 16384);
-						fwrite($t, $buf);
-					}
-					
-					fclose($r);
-					fclose($t);
-	
-					error_reporting(0);
-					if (!rename($tmpfname, $icon_file)) {
-						unlink($tmpfname);
-					}
-	
-					chmod($icon_file, 0644);
-					
-					error_reporting (DEFAULT_ERROR_LEVEL);
-				}
-
-			}	
+				// If unsuccessful, attempt to "guess" the favicon location
+				$urlParts = parse_url($url);
+				$faviconURL = $urlParts['scheme'].'://'.$urlParts['host'].'/favicon.ico';
+			}
 		}
+
+		// Run a test to see if what we have attempted to get actually exists.
+		if(USE_CURL_FOR_ICONS || url_validate($faviconURL)) {
+			return $faviconURL;
+		} else {
+			return false;
+		}
+	}
+
+	function url_validate($link) {
+                
+		$url_parts = @parse_url($link);
+
+		if ( empty( $url_parts["host"] ) )
+				return false;
+
+		if ( !empty( $url_parts["path"] ) ) {
+				$documentpath = $url_parts["path"];
+		} else {
+				$documentpath = "/";
+		}
+
+		if ( !empty( $url_parts["query"] ) )
+				$documentpath .= "?" . $url_parts["query"];
+
+		$host = $url_parts["host"];
+		$port = $url_parts["port"];
+		
+		if ( empty($port) )
+				$port = "80";
+
+		$socket = @fsockopen( $host, $port, $errno, $errstr, 30 );
+		
+		if ( !$socket )
+				return false;
+				
+		fwrite ($socket, "HEAD ".$documentpath." HTTP/1.0\r\nHost: $host\r\n\r\n");
+
+		$http_response = fgets( $socket, 22 );
+
+		$responses = "/(200 OK)|(30[0-9] Moved)/";
+		if ( preg_match($responses, $http_response) ) {
+				fclose($socket);
+				return true;
+		} else {
+				return false;
+		}
+
+	} 
+
+	function check_feed_favicon($site_url, $feed, $link) {
+		$favicon_url = get_favicon_url($site_url);
+
+#		print "FAVICON [$site_url]: $favicon_url\n";
+
+		error_reporting(0);
+
+		$icon_file = ICONS_DIR . "/$feed.ico";
+
+		if ($favicon_url && !file_exists($icon_file)) {
+			$contents = fetch_file_contents($favicon_url);
+
+			$fp = fopen($icon_file, "w");
+
+			if ($fp) {
+				fwrite($fp, $contents);
+				fclose($fp);
+				chmod($icon_file, 0644);
+			}
+		}
+
+		error_reporting(DEFAULT_ERROR_LEVEL);
+
 	}
 
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
@@ -334,7 +403,7 @@
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
-				check_feed_favicon($feed_url, $feed, $link);
+				check_feed_favicon($rss->channel["link"], $feed, $link);
 			}
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
