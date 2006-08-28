@@ -2084,6 +2084,9 @@
 		print "<param key=\"feeds_sort_by_unread\" value=\"" . 
 			sprintf("%d", get_pref($link, "FEEDS_SORT_BY_UNREAD")) . "\"/>";
 
+		print "<param key=\"confirm_feed_catchup\" value=\"" . 
+			sprintf("%d", get_pref($link, "CONFIRM_FEED_CATCHUP")) . "\"/>";
+
 		print "</init-params>";
 	}
 

@@ -571,7 +571,7 @@ function catchupCurrentFeed() {
 		str = "Mark all articles in this category as read?";
 	} */
 
-	if (confirm(str)) {
+	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
 		return viewCurrentFeed('MarkAllRead')
 	}
 }
