@@ -2574,8 +2574,10 @@
 
 			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $latest_item["title"]));
 
-			$release_url = sanitize_rss($last_item["link"]);
-			$content = sanitize_rss($last_item["description"]);
+			$release_url = sanitize_rss($latest_item["link"]);
+			$content = sanitize_rss($latest_item["description"]);
+
+			$latest_version = "2.0";
 
 			if (version_compare(VERSION, $latest_version) == -1) {
 				return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
