@@ -2570,17 +2570,16 @@
 				return;
 			}			
 
-			$last_item = $items[0];
+			$latest_item = $items[0];
 
-			$last_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_item["title"]));
-			$cur_version = preg_replace("/\.99/", "", VERSION);
+			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $latest_item["title"]));
 
 			$release_url = sanitize_rss($last_item["link"]);
 			$content = sanitize_rss($last_item["description"]);
 
-			if ($cur_version != $last_version) {
+			if (version_compare(VERSION, $latest_version) == -1) {
 				return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
-					New version of Tiny-Tiny RSS ($last_version) is available (click for details)</a>
+					New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
 					<div id=\"milestoneDetails\">$content</div></div>";
 			}			
 		}
