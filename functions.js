@@ -1302,6 +1302,14 @@ function getFeedsContext() {
 	}
 }
 
+function getContentContext() {
+	try {
+		return getMainContext().frames["content-frame"];
+	} catch (e) {
+		exception_error("getContentContext", e);
+	}
+}
+
 
 function getHeadlinesContext() {
 	try {
@@ -1409,4 +1417,8 @@ function getFeedName(id, is_cat) {
 	} else {
 		return null;
 	}
+}
+
+function viewContentUrl(url) {
+	getContentContext().location = url;
 }
