@@ -957,9 +957,8 @@
 								$line["feed_title"]."</a>&nbsp;</td>";
 					} else {			
 						print "<td class='hlContent' valign='middle'>";
-		
-						print "<a href=\"javascript:view($id,$feed_id);\">" .
-							$line["title"];
+
+						print $content_link;		
 		
 						if (get_pref($link, 'SHOW_CONTENT_PREVIEW') && !$rtl_tag) {
 							if ($content_preview) {
