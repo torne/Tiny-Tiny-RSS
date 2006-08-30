@@ -3753,15 +3753,15 @@
 				$last_updated = date($short_date, strtotime($last_updated));
 			}
 
-			print "Site: <a href='$site_url'>$site_url</a> ".
-				"(<a href='$feed_url'>feed</a>), ".
+			print "Site: <a target=\"_new\" href='$site_url'>$site_url</a> ".
+				"(<a target=\"_new\" href='$feed_url'>feed</a>), ".
 				"Last updated: $last_updated";
 
 			print "</div>";
 
 			$result = db_query($link, "SELECT 
 					ttrss_entries.title,
-					content,
+					content,link,
 					substring(date_entered,1,19) as date_entered,
 					substring(updated,1,19) as updated
 				FROM ttrss_entries,ttrss_user_entries
@@ -3783,7 +3783,7 @@
 						$entry_dt = date($short_date, strtotime($line["updated"]));
 					}				
 		
-					print "<li>" . $line["title"] . 
+					print "<li><a target=\"_new\" href=\"" . $line["link"] . "\">" . $line["title"] . "</a>" .
 						"&nbsp;<span class=\"insensitive\">($entry_dt)</span></li>";	
 				}		
 				print "</ul></div>";
