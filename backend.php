@@ -921,9 +921,15 @@
 					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
 						alt=\"Set mark\" onclick='javascript:toggleMark($id)'>";
 				}
-	
+
+#				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
+#					$line["title"] . "</a>";
+
 				$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
 					$line["title"] . "</a>";
+
+#				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
+#					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$updated_fmt = smart_date_time(strtotime($line["updated"]));
