@@ -964,8 +964,9 @@
 					} else {			
 						print "<td class='hlContent' valign='middle'>";
 
-						print $content_link;		
-		
+						print "<a href=\"javascript:view($id,$feed_id);\">" .
+							$line["title"];
+
 						if (get_pref($link, 'SHOW_CONTENT_PREVIEW') && !$rtl_tag) {
 							if ($content_preview) {
 								print "<span class=\"contentPreview\"> - $content_preview</span>";
