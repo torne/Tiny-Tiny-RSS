@@ -46,6 +46,8 @@
 
 	<?php } ?>
 
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
 	<script type="text/javascript" src="prototype.js"></script>
 
 	<script type="text/javascript" src="tt-rss.js?<?php echo $dt_add ?>"></script>
