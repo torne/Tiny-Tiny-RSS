@@ -76,6 +76,7 @@
 <head>
 	<title>Tiny Tiny RSS : Login</title>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 	<![endif]-->
