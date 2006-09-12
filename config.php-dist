@@ -12,6 +12,12 @@
 	define('RSS_BACKEND_TYPE', "magpie");
 	// magpie (stable) or simplepie (EXPERIMENTAL!)
 
+	define('MAGPIE_FETCH_TIME_OUT', 60);
+	// Magpie's default timeout is 5 seconds.  Some RSS feeds,
+	// such as from large Trac installs, can take significantly
+	// longer than 5 seconds to generate.  To prevent failed
+	// updates, increase this.
+
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
 	// Local cache directory for RSS feeds
 
