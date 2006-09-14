@@ -198,7 +198,7 @@ window.onload = init;
 			onclick="quickMenuGo('qmcSearch')" value="Search (tmp)"> -->
 
 		&nbsp;<input class="button" type="submit"
-			onclick="viewCurrentFeed(0, 'ForceUpdate')" value="Update">
+			onclick="viewCurrentFeed('ForceUpdate')" value="Update">
 
 		<input class="button" type="submit"
 			onclick="catchupCurrentFeed()" value="Mark as read"> 
