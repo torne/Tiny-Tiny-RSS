@@ -1916,7 +1916,9 @@
 	}
 
 	function subscribe_to_feed($link, $feed_link, $cat_id = 0) {
-	
+
+		$feed_link = preg_replace("/^feed://", $feed_link);
+
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
 		} else {
