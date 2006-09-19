@@ -19,6 +19,7 @@
 <html>
 <head>
 	<title>Tiny Tiny Statistics</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body>
@@ -49,7 +50,7 @@
 
 	print "<h2>Per-user storage</h2>";
 
-	print "<table width='100%'>";
+	print "<table border width='100%'>";
 	
 	print "<tr>
 		<td>Articles</td>
@@ -74,7 +75,7 @@
 		FROM ttrss_feeds,ttrss_users 
 		WHERE owner_uid = ttrss_users.id ORDER BY login");
 
-	print "<table width='100%'>";
+	print "<table border width='100%'>";
 	print "<tr>
 		<td>Site</td>
 		<td>Feed</td>
