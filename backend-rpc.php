@@ -164,25 +164,10 @@
 		if ($subop == "markSelected") {
 
 			$ids = split(",", db_escape_string($_GET["ids"]));
-
 			$cmode = sprintf("%d", $_GET["cmode"]);
 
-			foreach ($ids as $id) {
+			markArticlesById($link, $ids, $cmode);
 
-				if ($cmode == 0) {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					marked = false
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				} else if ($cmode == 1) {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					marked = true
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				} else {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					marked = NOT marked
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				}
-			}
 			print "<rpc-reply>";
 			print "<counters>";
 			getAllCounters($link);
