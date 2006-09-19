@@ -2586,4 +2586,30 @@
 			}			
 		}
 	}
+
+	function catchupArticlesById($link, $ids, $cmode) {
+
+		$tmp_ids = array();
+
+		foreach ($ids as $id) {
+			array_push($tmp_ids, "ref_id = '$id'");
+		}
+
+		$ids_qpart = join(" OR ", $tmp_ids);
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = false,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = true
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = NOT unread,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		}
+	}
+
 ?>

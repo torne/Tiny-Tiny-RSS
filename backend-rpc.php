@@ -144,30 +144,15 @@
 			print "</rpc-reply>";
 
 		}
-	
+
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
 
 			$ids = split(",", db_escape_string($_GET["ids"]));
-
 			$cmode = sprintf("%d", $_GET["cmode"]);
 
-			foreach ($ids as $id) {
+			catchupArticlesById($link, $ids, $cmode);
 
-				if ($cmode == 0) {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					unread = false,last_read = NOW()
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				} else if ($cmode == 1) {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					unread = true
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				} else {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-					unread = NOT unread,last_read = NOW()
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-				}
-			}
 			print "<rpc-reply>";
 			print "<counters>";
 			getAllCounters($link);

@@ -696,6 +696,13 @@
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
 		}
 
+		if ($subop == "CatchupSelected") {
+			$ids = split(",", db_escape_string($_GET["ids"]));
+			$cmode = sprintf("%d", $_GET["cmode"]);
+
+			catchupArticlesById($link, $ids, $cmode);
+		}
+
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 			update_generic_feed($link, $feed, $cat_view);
 		}
