@@ -525,6 +525,7 @@
 				FROM
 					ttrss_entries,ttrss_user_entries,ttrss_feeds
 				WHERE
+				ttrss_feeds.hidden = false AND
 				ttrss_user_entries.feed_id = ttrss_feeds.id AND
 				ttrss_user_entries.ref_id = ttrss_entries.id AND
 				ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
