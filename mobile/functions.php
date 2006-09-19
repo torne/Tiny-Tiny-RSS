@@ -630,7 +630,7 @@
 					$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
 				}
 	
-				$content_link = "<a href=\"?go=view&id=$id&feed=$feed\">" .
+				$content_link = "<a href=\"?go=view&id=$id&ret_feed=$feed&feed=$feed_id\">" .
 					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
@@ -678,6 +678,7 @@
 
 		$id = db_escape_string($_GET["id"]);
 		$feed_id = db_escape_string($_GET["feed"]);
+		$ret_feed_id = db_escape_string($_GET["ret_feed"]);
 
 		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -755,7 +756,7 @@
 				#				print "<img class=\"feedIcon\" src=\"../icons/$feed_id.ico\">";
 				#			}
 
-			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$feed_id\">Feed</a>";
+			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$ret_feed_id\">Feed</a>";
 			
 			print "<a href=\"" . $line["link"] . "\">" . 
 				truncate_string($line["title"], 30) . "</a>";
