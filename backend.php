@@ -1430,12 +1430,15 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
-					$category_qpart = "cat_id = '$cat_id'";
+					$category_qpart = "cat_id = '$cat_id',";
+					$category_qpart_nocomma = "cat_id = '$cat_id'";
 				} else {
-					$category_qpart = 'cat_id = NULL';
+					$category_qpart = 'cat_id = NULL,';
+					$category_qpart_nocomma = 'cat_id = NULL';
 				}
 			} else {
 				$category_qpart = "";
+				$category_qpart_nocomma = "";
 			}
 
 			if ($parent_feed && $parent_feed != 0) {
@@ -1445,8 +1448,7 @@
 			}
 
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
-				$category_qpart,
-				$parent_qpart,
+				$category_qpart $parent_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
 				purge_interval = '$purge_intl',
@@ -1458,10 +1460,12 @@
 				include_in_digest = $include_in_digest
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-			# update linked feed categories
-			$result = db_query($link, "UPDATE ttrss_feeds SET
-				$category_qpart WHERE parent_feed = '$feed_id' AND
-				owner_uid = " . $_SESSION["uid"]);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				# update linked feed categories
+				$result = db_query($link, "UPDATE ttrss_feeds SET
+					$category_qpart_nocomma WHERE parent_feed = '$feed_id' AND
+					owner_uid = " . $_SESSION["uid"]);
+			}
 		}
 
 		if ($subop == "saveCat") {
