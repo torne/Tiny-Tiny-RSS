@@ -650,6 +650,8 @@
 				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
 			}
 
+			$line["content"] = sanitize_rss($line["content"]);
+
 			print $line["content"] . "</div>";
 			
 			print "</div>";
@@ -1335,13 +1337,13 @@
 			
 			print "</td>";
 
-			$auth_login = db_fetch_result($result, 0, "auth_login");
+			$auth_login = escape_for_form(db_fetch_result($result, 0, "auth_login"));
 
 			print "<tr><td>Login:</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
 				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
-			$auth_pass = db_fetch_result($result, 0, "auth_pass");
+			$auth_pass = escape_for_form(db_fetch_result($result, 0, "auth_pass"));
 
 			print "<tr><td>Password:</td>";
 			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 

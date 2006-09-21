@@ -2449,6 +2449,13 @@
 		$res = preg_replace('/<\/script>/i', 
 			"</p>", $res);
 
+		$res = preg_replace('/<object.*?>.*?<\/object>/i', 
+			"<p class=\"objectWarn\">(Disabled html object 
+			- flash or other embedded content)</p>", $str);
+
+		$res = preg_replace('/<\/object>/i', 
+			"</p>", $res);
+
 		return $res;
 	}
 
@@ -2635,6 +2642,10 @@
 			unread = NOT unread,last_read = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		}
+	}
+
+	function escape_for_form($s) {
+		return htmlspecialchars(db_unescape_string($s));
 	}
 
 ?>
