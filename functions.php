@@ -2441,20 +2441,18 @@
 	}
 
 	function sanitize_rss($str) {
-		$res = "";
+		$res = $str;
 
 		$res = preg_replace('/<script.*?>/i', 
-					"<p class=\"scriptWarn\">", $str);
+			"<p class=\"scriptWarn\">Disabled script: ", $res);
 
-		$res = preg_replace('/<\/script>/i', 
-			"</p>", $res);
+		$res = preg_replace('/<\/script.*?>/i', "</p>", $res);
+
+		$res = preg_replace('/<embed.*?>/i', "", $res);
 
 		$res = preg_replace('/<object.*?>.*?<\/object>/i', 
 			"<p class=\"objectWarn\">(Disabled html object 
-			- flash or other embedded content)</p>", $str);
-
-		$res = preg_replace('/<\/object>/i', 
-			"</p>", $res);
+			- flash or other embedded content)</p>", $res); 
 
 		return $res;
 	}
