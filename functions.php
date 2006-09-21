@@ -514,7 +514,7 @@
 	
 					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 	
-					$entry_title = $item["title"];
+					$entry_title = trim(strip_tags($item["title"]));
 	
 					// strange Magpie workaround
 					$entry_link = $item["link_"];
@@ -522,7 +522,9 @@
 	
 					if (!$entry_title) continue;
 					if (!$entry_link) continue;
-	
+
+					$entry_link = strip_tags($entry_link);
+
 					$entry_content = $item["content:escaped"];
 	
 					if (!$entry_content) $entry_content = $item["content:encoded"];
@@ -546,11 +548,10 @@
 					$entry_content_unescaped = $entry_content;
 					$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 	
-					$entry_comments = $item["comments"];
+					$entry_comments = strip_tags($item["comments"]);
 	
-					$entry_author = db_escape_string($item['dc']['creator']);
-	
-					$entry_guid = db_escape_string($entry_guid);
+					$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
+					$entry_guid = db_escape_string(strip_tags($entry_guid));
 	
 					$result = db_query($link, "SELECT id FROM	ttrss_entries 
 						WHERE guid = '$entry_guid'");
@@ -563,70 +564,11 @@
 					$num_comments = db_escape_string($item["slash"]["comments"]);
 	
 					if (!$num_comments) $num_comments = 0;
-
-				} else if (RSS_BACKEND_TYPE == "simplepie") {
-
-					$entry_guid = $item->get_id();
-
-					if (!$entry_guid) {
-							$entry_guid = $item->get_permalink();
-					}
-	
-					if (!$entry_guid) continue;
-					
-					$entry_timestamp = $item->get_date("U");
-					
-					if ($entry_timestamp == "") {
-						$entry_timestamp = time();
-						$no_orig_date = 'true';
-					} else {
-						$no_orig_date = 'false';
-					}
-	
-					$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
-	
-					$entry_title = $item->get_title();
-					$entry_link = $item->get_permalink();
-	
-					if (!$entry_title) continue;
-					if (!$entry_link) continue;
-
-					$entry_content = $item->get_description();
-						
-//					print_r(htmlspecialchars($entry_content));
-//					print "<br>";
-	
-					$entry_content_unescaped = $entry_content;
-					$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
-	
-					$entry_comments = ""; # FIXME
-					
-					$entry_author = $item->get_author(0);
-
-					$entry_author = db_escape_string($entry_author->name);
-					
-					$entry_guid = db_escape_string($entry_guid);
-
-					$result = db_query($link, "SELECT id FROM	ttrss_entries 
-						WHERE guid = '$entry_guid'");
-	
-					$entry_content = db_escape_string($entry_content);
-					$entry_title = db_escape_string($entry_title);
-					$entry_link = db_escape_string($entry_link);
-					$entry_comments = db_escape_string($entry_comments);
-	
-					$num_comments = 0; # FIXME
-	
-					if (!$num_comments) $num_comments = 0;
-
 				}
 
 				# sanitize content
 				
 				$entry_content = sanitize_rss($entry_content);
-				$entry_title = sanitize_rss($entry_title);
-				$entry_link = sanitize_rss($entry_link);
-				$entry_comments = sanitize_rss($entry_comments);
 
 				db_query($link, "BEGIN");
 
