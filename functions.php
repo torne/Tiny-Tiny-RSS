@@ -491,7 +491,8 @@
 		
 					if (!$entry_guid) $entry_guid = $item["guid"];
 					if (!$entry_guid) $entry_guid = $item["link"];
-	
+					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
+
 					if (!$entry_guid) continue;
 	
 					$entry_timestamp = "";
@@ -521,7 +522,7 @@
 					if (!$entry_link) $entry_link = $item["link"];
 	
 					if (!$entry_title) continue;
-					if (!$entry_link) continue;
+#					if (!$entry_link) continue;
 
 					$entry_link = strip_tags($entry_link);
 
@@ -2279,6 +2280,7 @@
 				$content_query_part = "content as content_preview,";
 				
 				$query = "SELECT 
+						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						SUBSTRING(updated,1,16) as updated,
 						unread,feed_id,marked,link,last_read,
@@ -2308,6 +2310,7 @@
 				$feed_kind = "Tags";
 	
 				$result = db_query($link, "SELECT
+					guid,
 					ttrss_entries.id as id,title,
 					SUBSTRING(updated,1,16) as updated,
 					unread,feed_id,
@@ -2351,6 +2354,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 			print "<item>";
+			print "<id>" . htmlspecialchars($line["guid"]) . "</id>";
 			print "<link>" . htmlspecialchars($line["link"]) . "</link>";
 
 			$rfc822_date = date('r', strtotime($line["updated"]));
@@ -2586,6 +2590,11 @@
 
 	function escape_for_form($s) {
 		return htmlspecialchars(db_unescape_string($s));
+	}
+
+	function make_guid_from_title($title) {
+		return preg_replace("/[ \"\',.:;]/", "-", 
+			mb_strtolower(strip_tags($title)));
 	}
 
 ?>

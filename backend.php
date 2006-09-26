@@ -593,9 +593,13 @@
 			if ($entry_author) {
 				$entry_author = " - by $entry_author";
 			}
-			
-			print "<tr><td><a $link_target href=\"" . $line["link"] . "\">" . $line["title"] . 
-				"</a>$entry_author</td>";
+
+			if ($line["link"]) {
+				print "<tr><td><a $link_target href=\"" . $line["link"] . "\">" . 
+					$line["title"] . "</a>$entry_author</td>";
+			} else {
+				print "<tr><td>" . $line["title"] . "$entry_author</td>";
+			}
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));
