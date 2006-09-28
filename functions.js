@@ -162,6 +162,8 @@ function hotkey_handler(e) {
 		var keycode;
 	
 		if (!hotkeys_enabled) return;
+
+		return; //fixme disables for now
 	
 		if (window.event) {
 			keycode = window.event.keyCode;
@@ -468,8 +470,8 @@ function setActiveFeedId(id) {
 
 function parse_counters(reply, scheduled_call) {
 	try {
-		var f_document = getFeedsContext().document;
-		var title_obj = getMainContext();
+		var f_document = document;
+		var title_obj = this.window;
 
 		var feeds_found = 0;
 
@@ -602,7 +604,7 @@ function all_counters_callback() {
 				return;
 			}
 
-			debug("in all_counters_callback");
+			debug("in all_counters_callback : " + xmlhttp_rpc.responseXML);
 
 			var reply = xmlhttp_rpc.responseXML.firstChild;
 
@@ -1287,36 +1289,20 @@ function filterCR(e)
 }
 
 function getMainContext() {
-	if (parent.window != window) {
-		return parent.window;
-	} else {
-		return this.window;
-	}
+	return this.window;
 }
 
 function getFeedsContext() {
-	try {
-		return getMainContext().frames["feeds-frame"];
-	} catch (e) {
-		exception_error("getFeedsContext", e);
-	}
+	return this.window;
 }
 
 function getContentContext() {
-	try {
-		return getMainContext().frames["content-frame"];
-	} catch (e) {
-		exception_error("getContentContext", e);
-	}
+	return this.window;
 }
 
 
 function getHeadlinesContext() {
-	try {
-		return getMainContext().frames["headlines-frame"];
-	} catch (e) {
-		exception_error("getHeadlinesContext", e);
-	}
+	return this.window;
 }
 
 var debug_last_class = "even";

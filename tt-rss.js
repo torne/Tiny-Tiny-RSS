@@ -222,9 +222,20 @@ function updateFeedList(silent, fetch) {
 	
 	if (fetch) query_str = query_str + "&fetch=yes";
 
-	var feeds_frame = document.getElementById("feeds-frame");
+//	var feeds_frame = document.getElementById("feeds-frame");
+//	feeds_frame.src = query_str;
 
-	feeds_frame.src = query_str;
+	debug("updateFeedList");
+
+	if (xmlhttp_ready(xmlhttp)) {
+		xmlhttp.open("GET", query_str, true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+	} else {
+		debug("xmlhttp busy");
+		//printLockingError();
+	}   
+
 }
 
 function catchupAllFeeds() {
@@ -382,9 +393,11 @@ function resize_feeds_frame() {
 	if (th) {
 		header_height = th.scrollHeight;
 	}	
-	 
-	f.style.height = document.body.scrollHeight - footer_height - 
-		header_height - 50 + "px";
+	
+	if (f) {
+		f.style.height = document.body.scrollHeight - footer_height - 
+			header_height - 50 + "px";
+	}
 }
 
 function init_second_stage() {

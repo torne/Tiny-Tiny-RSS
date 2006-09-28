@@ -176,44 +176,44 @@ ul.feedList li {
 	margin : 0px;
 }
 
-ul.feedlist li.feedUnread, 
-ul.feedlist li.errorUnread, 
-ul.feedlist li.labelUnread, 
-ul.feedlist li.virtUnread,
-ul.feedlist li.tagUnread {
+li.feedUnread, 
+li.errorUnread, 
+li.labelUnread, 
+li.virtUnread,
+li.tagUnread {
 	font-weight : bold;
 }
 
-ul.feedlist li.errorSelected a,
-ul.feedlist li.error a,
-ul.feedlist li.errorUnread a,
-ul.feedlist li.errorUnreadSelected a {
+li.errorSelected a,
+li.error a,
+li.errorUnread a,
+li.errorUnreadSelected a {
 	color : #f04040;
 }
 
-ul.feedlist li.feedSelected a,
-ul.feedlist li.labelSelected a,
-ul.feedlist li.virtSelected a,
-ul.feedlist li.tagSelected a {
+li.feedSelected a,
+li.labelSelected a,
+li.virtSelected a,
+li.tagSelected a {
 	color : #4684ff;
 }
 
-ul.feedlist li.feedUnreadSelected a,
-ul.feedlist li.labelUnreadSelected a,
-ul.feedlist li.virtUnreadSelected a,
-ul.feedlist li.tagUnreadSelected a {
+li.feedUnreadSelected a,
+li.labelUnreadSelected a,
+li.virtUnreadSelected a,
+li.tagUnreadSelected a {
 	color : #4684ff;
 }
 
-ul.feedlist li.feedUnreadSelected,
-ul.feedlist li.errorUnreadSelected,
-ul.feedlist li.labelUnreadSelected,
-ul.feedlist li.virtUnreadSelected,
-ul.feedlist li.tagUnreadSelected {
+li.feedUnreadSelected,
+li.errorUnreadSelected,
+li.labelUnreadSelected,
+li.virtUnreadSelected,
+li.tagUnreadSelected {
 	font-weight : bold;
 }
 
-ul.feedList li.feed {
+li.feed {
 	display : block;
 }
 
@@ -1060,14 +1060,14 @@ a.cdmToggleLink:hover {
 }
 
 #debug_output {
-	width : 400;
-	height : 200;
-	right : 20;
-	bottom : 20;
+	position : absolute;
+	width : 400px;
+	height : 200px;
+	right : 20px;
+	bottom : 20px;
+	z-index : 999;
 	background-color : white;
 	display : none;
-	z-index : 999;
-	position : absolute;
 	border : 1px solid #c0c0c0;
 	overflow : auto;
 	margin : 0px;
@@ -1222,4 +1222,89 @@ table.loginForm2 .innerLoginCell {
 
 #milestoneDetails {
 	display : none;
+}
+
+/* layout */
+
+#header {
+	position : absolute;
+	white-space: nowrap;
+	top : 10px;
+	left : 15px;
+	right : 5px;
+	height : 40px;
+	color : #4684ff;
+	font-size : x-small;
+}
+
+#feeds-holder {
+	border-width : 1px 1px 1px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+	top : 50px;
+	left : 0px;
+	position : absolute;
+	width : 260px;
+	overflow : auto;
+	bottom : 50px;
+}
+
+#toolbar {
+	position : absolute;
+	left : 261px;
+	padding : 5px 10px 5px 5px;
+	top : 50px;
+	right : 0px;
+	white-space: nowrap;
+	height : 30px;
+	background-image : url("images/toolbar.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
+	font-size : small;
+}
+
+#headlines-frame {
+	position : absolute;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+	left : 260px;
+	height : 300px;
+	top : 85px;
+	right : 0px;
+	overflow : auto;
+	font-size : small;
+}
+
+#content-frame {
+	position : absolute;
+	border-width : 1px 0px 1px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+	overflow : auto;
+	top : 390px;
+	left : 260px;
+	bottom : 50px;
+	right : 0px;
+}
+
+#footer {
+	position : absolute;
+	bottom : 0px;
+	height : 30px;
+	text-align : center;
+	color : gray;
+	font-size : x-small;
+	background-image : url("images/footer.png");
+	background-position : top left;
+	background-repeat : repeat-x; 
+	background-color : white;
+	right : 0px;
+	left : 0px;
+	padding : 10px;
+}
+
+#headlinesContainer {
+	margin-left : 1px;
+	background-color : white;
 }

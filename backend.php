@@ -124,7 +124,7 @@
 
 	function outputFeedList($link, $tags = false) {
 
-		print "<html><head>
+/*		print "<html><head>
 			<title>Tiny Tiny RSS : Feedlist</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
@@ -159,7 +159,7 @@
 					document.addEventListener(\"DOMContentLoaded\", init, null);
 				}
 				window.onload = init;
-			</script>";
+			</script>"; */
 
 		print "<ul class=\"feedList\" id=\"feedList\">\n";
 
@@ -440,21 +440,21 @@
 
 		print "</ul>";
 
-		print '
-			<script type="text/javascript">
-				/* for IE */
-				function statechange() {
-					if (document.readyState == "interactive") init();
-				}
-			
-				if (document.readyState) {	
-					if (document.readyState == "interactive" || document.readyState == "complete") {
-						init();
-					} else {
-						document.onreadystatechange = statechange;
-					}
-				}
-			</script></body></html>';
+#		print '
+#			<script type="text/javascript">
+#				/* for IE */
+#				function statechange() {
+#					if (document.readyState == "interactive") init();
+#				}
+#			
+#				if (document.readyState) {	
+#					if (document.readyState == "interactive" || document.readyState == "complete") {
+#						init();
+#					} else {
+#						document.onreadystatechange = statechange;
+#					}
+#				}
+#			</script></body></html>'; 
 	}
 
 
@@ -520,7 +520,7 @@
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
 
-		print "<html><head>
+/*		print "<html><head>
 			<title>Tiny Tiny RSS : Article $id</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
@@ -544,7 +544,7 @@
 			<script type=\"text/javascript\" src=\"prototype.js\"></script>
 			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body $rtl_tag>";
+			</head><body $rtl_tag>"; */
 
 		if ($result) {
 
@@ -669,7 +669,7 @@
 			</script>";
 		}
 
-		print "</body></html>";
+//		print "</body></html>";
 	}
 
 	if ($op == "viewfeed") {
@@ -683,7 +683,7 @@
 
 		if ($subop == "undefined") $subop = "";
 
-		print "<html><head>
+/*		print "<html><head>
 			<title>Tiny Tiny RSS : Feed $feed</title>
 			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
 
@@ -700,7 +700,7 @@
 		} else {
 			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
 					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-		}
+		} */
 
 		if ($subop == "CatchupSelected") {
 			$ids = split(",", db_escape_string($_GET["ids"]));
@@ -757,7 +757,7 @@
 
 		$script_dt_add = get_script_dt_add();
 
-		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
+/*		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">	
 			<script type=\"text/javascript\" src=\"prototype.js\"></script>
 			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
 			<script type=\"text/javascript\" src=\"viewfeed.js?$script_dt_add\"></script>
@@ -771,7 +771,7 @@
 				document.addEventListener(\"DOMContentLoaded\", init, null);
 			}
 			window.onload = init;
-			</script>";
+			</script>"; */
 
 		/// START /////////////////////////////////////////////////////////////////////////////////
 
@@ -1053,37 +1053,37 @@
 
 		print "</div>";
 
-		print "
-			<script type=\"text/javascript\">
-				try {
-					document.onkeydown = hotkey_handler;
-					try {
-						parent.update_all_counters(\"$feed\");
-					} catch (e) {
-						// this is workaround against mysterious permission
-						// denied feature/bug of firefox (ticket #73)
-						// if call from this context failed - ignore silently
-						exception_error(\"viewfeed/footer1/counters\", e, true);
-					}
-				} catch (e) {
-					exception_error(\"viewfeed/footer1\", e);
-				}
-
-				/* for IE */
-				function statechange() {
-					if (document.readyState == \"interactive\") init();
-				}
-
-				if (document.readyState) {	
-					if (document.readyState == \"interactive\" || document.readyState == \"complete\") {
-						init();
-					} else {
-						document.onreadystatechange = statechange;
-					}
-				}
-			</script>";
-
-		print "</body></html>";
+#		print "
+#			<script type=\"text/javascript\">
+#				try {
+#					document.onkeydown = hotkey_handler;
+#					try {
+#						parent.update_all_counters(\"$feed\");
+#					} catch (e) {
+#						// this is workaround against mysterious permission
+#						// denied feature/bug of firefox (ticket #73)
+#						// if call from this context failed - ignore silently
+#						exception_error(\"viewfeed/footer1/counters\", e, true);
+#					}
+#				} catch (e) {
+#					exception_error(\"viewfeed/footer1\", e);
+#				}
+#
+#				/* for IE */
+#				function statechange() {
+#					if (document.readyState == \"interactive\") init();
+#				}
+#
+#				if (document.readyState) {	
+#					if (document.readyState == \"interactive\" || document.readyState == \"complete\") {
+#						init();
+#					} else {
+#						document.onreadystatechange = statechange;
+#					}
+#				}
+#			</script>";
+#
+#		print "</body></html>";
 	}
 
 	if ($op == "pref-feeds") {

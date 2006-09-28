@@ -2,13 +2,30 @@ var active_post_id = false;
 
 var xmlhttp_rpc = Ajax.getTransport();
 
+function headlines_callback() {
+	if (xmlhttp.readyState == 4) {
+		debug("headlines_callback");
+		var f = document.getElementById("headlines-frame");
+		f.innerHTML = xmlhttp.responseText;
+	}
+}
+
+function article_callback() {
+	if (xmlhttp.readyState == 4) {
+		debug("article_callback");
+		var f = document.getElementById("content-frame");
+		f.innerHTML = xmlhttp.responseText;
+		update_all_counters();
+	}
+}
+
 function view(id, feed_id) {
 	
 	try {
 		debug("loading article: " + id + "/" + feed_id);
 	
 		var f_document = getFeedsContext().document;
-		var m_document = parent.document;
+		var m_document = document;
 	
 		enableHotkeys();
 	
@@ -29,11 +46,19 @@ function view(id, feed_id) {
 	
 		var content = m_document.getElementById("content-frame");
 	
-		content.src = "backend.php?op=view&id=" + param_escape(id) +
-			"&feed=" + param_escape(feed_id);
-	
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 		markHeadline(active_post_id);
+
+		var query = "backend.php?op=view&id=" + param_escape(id) +
+			"&feed=" + param_escape(feed_id);
+
+		if (xmlhttp_ready(xmlhttp)) {
+			xmlhttp.open("GET", query, true);
+			xmlhttp.onreadystatechange=article_callback;
+			xmlhttp.send(null);
+		} else {
+			debug("xmlhttp busy (@view)");
+		}  
 
 	} catch (e) {
 		exception_error("view", e);
@@ -42,7 +67,7 @@ function view(id, feed_id) {
 
 function toggleMark(id) {
 
-	var f_document = parent.frames["feeds-frame"].document;
+	var f_document = document;
 
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
 		printLockingError();
@@ -58,7 +83,6 @@ function toggleMark(id) {
 	if (mark_img.alt != "Reset mark") {
 		mark_img.src = "images/mark_set.png";
 		mark_img.alt = "Reset mark";
-		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+')');
 		query = query + "&mark=1";
 
 		if (vfeedu && crow.className.match("Unread")) {
@@ -68,7 +92,6 @@ function toggleMark(id) {
 	} else {
 		mark_img.src = "images/mark_unset.png";
 		mark_img.alt = "Set mark";
-		mark_img.setAttribute('onclick', 'javascript:toggleMark('+id+')');
 		query = query + "&mark=0";
 
 		if (vfeedu && crow.className.match("Unread")) {
@@ -132,11 +155,6 @@ function moveToPost(mode) {
 			view(prev_id, getActiveFeedId());
 		}
 	} 
-}
-
-function viewfeed(id) {
-	var f = parent.frames["feeds-frame"];
-	f.viewfeed(id, 0);
 }
 
 function toggleUnread(id, cmode) {
@@ -368,7 +386,7 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 
 
 
-function init() {
+function headlines_init() {
 	if (arguments.callee.done) return;
 	arguments.callee.done = true;		
 

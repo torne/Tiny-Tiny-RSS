@@ -17,6 +17,8 @@
 	$dt_add = get_script_dt_add();
 
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<title>Tiny Tiny RSS</title>
@@ -52,6 +54,9 @@
 
 	<script type="text/javascript" src="tt-rss.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" src="feedlist.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" src="viewfeed.js?<?php echo $dt_add ?>"></script>
+
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
@@ -70,7 +75,8 @@
 
 <body>
 
-<div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div>
+<!-- <div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> -->
+
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
 	<div id="fatal_error_msg">Unknown Error</div>
@@ -89,69 +95,51 @@ window.onload = init;
 	start the daemon process or contact instance owner.
 </div>
 
-<iframe id="backReqBox"></iframe>
-
 <ul id="debug_output"></ul>
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
-<table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
-<tr>
-	<td colspan="2" class="headerBox" id="mainHeader">
-		<table cellspacing="0" cellpadding="0" width="100%"><tr>
-			<td rowspan="2" class="header" valign="middle">	
-				<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
-			</td>
-			<td valign="top" class="notifyBox">
-				<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-			</td>
-		</tr><tr><td class="welcomePrompt">
-			<?php if (!SINGLE_USER_MODE) { ?>
-				Hello, <b><?php echo $_SESSION["name"] ?></b>
-				(<a href="logout.php">Logout</a>)
-			<?php } ?>
-			</td>			
-		</tr></table>
-	</td>
-</tr>
-<?php } else { ?>
-<tr>
-	<td class="small" id="mainHeader">
-		<div id="notify" class="notify_sm"><span id="notify_body">&nbsp;</span></div>
-		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
-	</td><td class="welcomePrompt">
-		<?php if (!SINGLE_USER_MODE) { ?>
+<div id="header">
+	<?php if (!SINGLE_USER_MODE) { ?>
+		<div style="float : right">
 			Hello, <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
-		<?php } ?>
-</td></tr>
-<?php } ?>
-<tr>
-	<?php if (get_pref($link, 'COMBINED_DISPLAY_MODE')) 
-			$feeds_rowspan = 2;
-		else 
-			$feeds_rowspan = 3; ?>
-	<td valign="top" rowspan="<?php echo $feeds_rowspan ?>" class="feeds"> 
-		<table class="innerFeedTable" 
-			cellspacing="0" cellpadding="0" height="100%" width="100%">
-		<tr><td>
-			<div id="dispSwitch"> 
-			<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
 		</div>
-		</td></tr>	
-		<tr><td height="100%" width="100%" valign="top">
+	<?php } ?>
+	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+</div>
 
-		<iframe frameborder="0" 
-			id="feeds-frame" name="feeds-frame" class="feedsFrame"></iframe>
+<div id="feeds-holder">
+	<div id="dispSwitch"> 
+		<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
+	</div>
+	<div id="feeds-frame">-fixme-</div>
+</div>
 
-		</td></tr></table>
+<div id="toolbar">
 
-	</td>
-	<td valign="top" class="headlinesToolbarBox">
-		<table width="100%" cellpadding="0" cellspacing="0">
-
-		<tr><td class="headlinesToolbar" id="headlinesToolbar">
+		<div style="float : right">
+			<select id="quickMenuChooser" onchange="quickMenuChange()">
+					<option value="qmcDefault" selected>Actions...</option>
+					<option value="qmcPrefs">Preferences</option>
+					<option value="qmcSearch">Search</option>
+					<option disabled>--------</option>
+					<option style="color : #5050aa" disabled>Feed actions:</option>
+					<option value="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
+					<option value="qmcRemoveFeed">&nbsp;&nbsp;Unsubscribe</option>
+					<!-- <option>Edit this feed</option> -->
+					<option disabled>--------</option>
+					<option style="color : #5050aa" disabled>All feeds:</option>
+					<?php if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
+					<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
+					<?php } ?>
+					<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
+					<option value="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
+					<option disabled>--------</option>
+					<option style="color : #5050aa" disabled>Other actions:</option>				
+					<option value="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
+			</select>
+		</div>
 
 		<form id="main_toolbar_form">
 
@@ -203,64 +191,15 @@ window.onload = init;
 		<input class="button" type="submit"
 			onclick="catchupCurrentFeed()" value="Mark as read"> 
 
-		</td>
-		<td align="right">
-			<select id="quickMenuChooser" onchange="quickMenuChange()">
-				<option value="qmcDefault" selected>Actions...</option>
-				<option value="qmcPrefs">Preferences</option>
-				<option value="qmcSearch">Search</option>
-				<option disabled>--------</option>
-				<option style="color : #5050aa" disabled>Feed actions:</option>
-				<option value="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
-				<option value="qmcRemoveFeed">&nbsp;&nbsp;Unsubscribe</option>
-				<!-- <option>Edit this feed</option> -->
-				<option disabled>--------</option>
-				<option style="color : #5050aa" disabled>All feeds:</option>
-				<?php if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
-				<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
-				<?php } ?>
-				<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
-				<option value="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
-				<option disabled>--------</option>
-				<option style="color : #5050aa" disabled>Other actions:</option>				
-				<option value="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
-			</select>
-		</td>
-		</tr>
-		</table>
-	</td>
-</tr>
-<?php if (get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
-<tr>
-	<td id="headlines" class="headlines2" valign="top">
-		<iframe frameborder="0" name="headlines-frame" 
-			id="headlines-frame" class="headlinesFrame"></iframe>
-	</td>
-</tr>
-<?php } else { ?>
-<tr>
-	<td id="headlines" class="headlines" valign="top">
-		<iframe frameborder="0" name="headlines-frame" 
-			id="headlines-frame" class="headlinesFrame"></iframe>
-	</td>
-</tr><tr>
-	<td class="content" id="content" valign="top">
-		<iframe frameborder="0" name="content-frame" 
-			id="content-frame" class="contentFrame"> </iframe>
-	</td>
-</tr>
-<?php } ?>
-<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
-<tr>
-	<td colspan="2" class="footer" id="mainFooter">
-		<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
-		<?php if (WEB_DEMO_MODE) { ?>
-		<br>Running in demo mode, some functionality is disabled.
-		<?php } ?>
-	</td>
-</td>
-<?php } ?>
-</table>
+	</div>
+
+<div id="headlines-frame"> -fixme- </div>
+
+<div id="content-frame"> -fixme- </div>
+
+<div id="footer">
+	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+</div>
 
 <?php db_close($link); ?>
 
