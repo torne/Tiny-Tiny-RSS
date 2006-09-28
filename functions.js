@@ -162,8 +162,6 @@ function hotkey_handler(e) {
 		var keycode;
 	
 		if (!hotkeys_enabled) return;
-
-		return; //fixme disables for now
 	
 		if (window.event) {
 			keycode = window.event.keyCode;
@@ -193,7 +191,7 @@ function hotkey_handler(e) {
 			return m_ctx.toggleDispRead();
 		}
 	
-		var f_doc = m_ctx.frames["feeds-frame"].document;
+		var f_doc = document;
 		var feedlist = f_doc.getElementById('feedList');
 	
 		if (keycode == 74) { // j
