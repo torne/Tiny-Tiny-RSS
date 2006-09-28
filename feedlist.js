@@ -94,6 +94,13 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 
 		debug(query);
 
+/*		var container = document.getElementById("headlines-frame");
+
+		container.innerHTML = "<div class=\"loadingPrompt\"><img src=\"images/indicator_white.gif\">&nbsp;" +
+			"Loading, please wait...</div>"; */
+
+		notify("Loading, please wait...", true);
+
 		if (xmlhttp_ready(xmlhttp)) {
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=headlines_callback;
@@ -101,7 +108,6 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 		} else {
 			debug("xmlhttp busy (@feeds)");
 		}  
-
 
 	} catch (e) {
 		exception_error("viewfeed", e);

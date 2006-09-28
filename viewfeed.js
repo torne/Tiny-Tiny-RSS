@@ -8,6 +8,7 @@ function headlines_callback() {
 		var f = document.getElementById("headlines-frame");
 		f.innerHTML = xmlhttp.responseText;
 		update_all_counters();
+		notify("");
 	}
 }
 

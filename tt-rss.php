@@ -77,6 +77,8 @@
 
 <div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> 
 
+<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
 	<div id="fatal_error_msg">Unknown Error</div>

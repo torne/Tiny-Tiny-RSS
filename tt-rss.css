@@ -336,13 +336,14 @@ td.notifyBox {
 	right : 35%;
 	min-width : 30%;
 	position : absolute;	
-	-moz-border-radius : 3px;
 	font-size : x-small;
 	font-weight : bold;
 	text-align : center;
+	display : none;
 	float : right;
 	padding : 3px 20px 3px 20px;
-	display : none;
+	z-index : 999;
+	-moz-border-radius : 3px;
 }
 
 #dispSwitch {
@@ -1222,6 +1223,12 @@ table.loginForm2 .innerLoginCell {
 
 #milestoneDetails {
 	display : none;
+}
+
+div.loadingPrompt {
+	padding : 1em;
+	text-align : center;
+	font-weight : bold;
 }
 
 /* layout */
