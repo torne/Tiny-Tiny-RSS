@@ -75,6 +75,8 @@
 
 <body>
 
+<iframe id="backReqBox"></iframe>
+
 <div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> 
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
