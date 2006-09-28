@@ -7,6 +7,7 @@ function headlines_callback() {
 		debug("headlines_callback");
 		var f = document.getElementById("headlines-frame");
 		f.innerHTML = xmlhttp.responseText;
+		update_all_counters();
 	}
 }
 
