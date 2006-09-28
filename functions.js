@@ -541,8 +541,10 @@ function parse_counters(reply, scheduled_call) {
 			if (feedctr && feedu && feedr) {
 
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
-					var hf = title_obj.parent.frames["headlines-frame"];
-					hf.location.reload(true);
+//					var hf = title_obj.parent.frames["headlines-frame"];
+//					hf.location.reload(true);
+					viewCurrentFeed();
+
 				}
 		
 				feedu.innerHTML = ctr;
