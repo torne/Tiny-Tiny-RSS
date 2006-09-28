@@ -2394,11 +2394,11 @@
 
 		$res = preg_replace('/<\/script.*?>/i', "</p>", $res);
 
-		$res = preg_replace('/<embed.*?>/i', "", $res);
+/*		$res = preg_replace('/<embed.*?>/i', "", $res);
 
 		$res = preg_replace('/<object.*?>.*?<\/object>/i', 
 			"<p class=\"objectWarn\">(Disabled html object 
-			- flash or other embedded content)</p>", $res); 
+			- flash or other embedded content)</p>", $res);  */
 
 		return $res;
 	}
