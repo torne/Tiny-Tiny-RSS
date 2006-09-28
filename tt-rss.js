@@ -225,7 +225,7 @@ function updateFeedList(silent, fetch) {
 //	var feeds_frame = document.getElementById("feeds-frame");
 //	feeds_frame.src = query_str;
 
-	debug("updateFeedList");
+	debug("updateFeedList: " + query_str);
 
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);

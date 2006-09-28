@@ -1264,7 +1264,7 @@ function qafAdd() {
 
 	var feeds_doc = getFeedsContext().document;
 
-	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
+//	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 	
 	var query = Form.serialize("feed_add_form");
 	

@@ -1263,13 +1263,26 @@ table.loginForm2 .innerLoginCell {
 	font-size : small;
 }
 
-#headlines-frame {
+div.headlines_normal {
 	position : absolute;
 	border-width : 1px 0px 0px 0px;
 	border-style : solid;
 	border-color : #88b0f0;
 	left : 260px;
 	height : 300px;
+	top : 85px;
+	right : 0px;
+	overflow : auto;
+	font-size : small;
+}
+
+div.headlines_cdm {
+	position : absolute;
+	border-width : 1px 0px 1px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+	left : 260px;
+	bottom : 50px;
 	top : 85px;
 	right : 0px;
 	overflow : auto;

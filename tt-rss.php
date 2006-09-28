@@ -75,7 +75,7 @@
 
 <body>
 
-<!-- <div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> -->
+<div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> 
 
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
@@ -99,15 +99,22 @@ window.onload = init;
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
-<div id="header">
-	<?php if (!SINGLE_USER_MODE) { ?>
-		<div style="float : right">
-			Hello, <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="logout.php">Logout</a>)
-		</div>
-	<?php } ?>
-	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
-</div>
+<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
+	<div id="header">
+		<?php if (!SINGLE_USER_MODE) { ?>
+			<div style="float : right">
+				Hello, <b><?php echo $_SESSION["name"] ?></b>
+				(<a href="logout.php">Logout</a>)
+			</div>
+		<?php } ?>
+		<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+	</div>
+<?php } else if (!SINGLE_USER_MODE) { ?>
+	<div style="float : right">
+		Hello, <b><?php echo $_SESSION["name"] ?></b>
+		(<a href="logout.php">Logout</a>)
+	</div>
+<?php } ?>
 
 <div id="feeds-holder">
 	<div id="dispSwitch"> 
@@ -193,13 +200,18 @@ window.onload = init;
 
 	</div>
 
-<div id="headlines-frame"> -fixme- </div>
+<?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
+	<div id="headlines-frame" class="headlines_normal">&nbsp;</div>
+	<div id="content-frame">&nbsp;</div>
+<?php } else { ?>
+	<div id="headlines-frame" class="headlines_cdm">&nbsp;</div>
+<?php } ?>
 
-<div id="content-frame"> -fixme- </div>
-
-<div id="footer">
-	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
-</div>
+<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
+	<div id="footer">
+		<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+	</div>
+<?php } ?>
 
 <?php db_close($link); ?>
 

@@ -809,7 +809,7 @@
 				$class = "headlinesSubToolbar";
 				$tid = "headlineActionsTop";
 			} else {
-				$class = "invisible";
+				$class = "headlinesSubToolbar";
 				$tid = "headlineActionsBottom";
 			}
 

@@ -1,6 +1,6 @@
 var active_post_id = false;
 
-var xmlhttp_rpc = Ajax.getTransport();
+//var xmlhttp_rpc = Ajax.getTransport();
 
 function headlines_callback() {
 	if (xmlhttp.readyState == 4) {

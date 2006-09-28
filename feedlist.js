@@ -1,4 +1,4 @@
-var xmlhttp = Ajax.getTransport();
+//var xmlhttp = Ajax.getTransport();
 
 function viewCategory(cat) {
 	getMainContext().active_feed_is_cat = true;
@@ -7,8 +7,10 @@ function viewCategory(cat) {
 
 function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
+		debug("feedlist_callback");
 		var f = document.getElementById("feeds-frame");
 		f.innerHTML = xmlhttp.responseText;
+		feedlist_init();
 	}
 }
 
@@ -144,19 +146,19 @@ function feedlist_init() {
 		if (arguments.callee.done) return;
 		arguments.callee.done = true;		
 		
-		parent.debug("in feedlist init");
+		debug("in feedlist init");
 		
 		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
-		parent.setTimeout("timeout()", 0);
+		setTimeout("timeout()", 0);
 
-		parent.debug("about to remove splash, OMG!");
+		debug("about to remove splash, OMG!");
 
-		var o = parent.document.getElementById("overlay");
+		var o = document.getElementById("overlay");
 
 		if (o) {
 			o.style.display = "none";
-			parent.debug("removed splash!");
+			debug("removed splash!");
 		}
 
 	} catch (e) {
