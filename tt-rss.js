@@ -36,13 +36,7 @@ function toggleTags() {
 function dlg_frefresh_callback() {
 	if (xmlhttp.readyState == 4) {
 		notify(xmlhttp.responseText);
-		updateFeedList(false, false);
-		if (_qfd_deleted_feed) {
-			var hframe = document.getElementById("headlines-frame");
-			if (hframe) {
-				hframe.src = "backend.php?op=error&msg=No%20feed%20selected.";
-			}
-		}
+		setTimeout('updateFeedList(false, false)', 50);
 		closeInfoBox();
 	} 
 }
@@ -225,7 +219,7 @@ function updateFeedList(silent, fetch) {
 //	var feeds_frame = document.getElementById("feeds-frame");
 //	feeds_frame.src = query_str;
 
-	debug("updateFeedList: " + query_str);
+	debug("updateFeedList Q=" + query_str);
 
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", query_str, true);
@@ -378,28 +372,6 @@ function init() {
 	}
 }
 
-function resize_feeds_frame() {
-	var f = document.getElementById("feeds-frame");
-	var tf = document.getElementById("mainFooter");
-	var th = document.getElementById("mainHeader");
-
-	var footer_height = 0;
-	var header_height = 0;
-
-	if (tf) {
-		footer_height = tf.scrollHeight;
-	}
-
-	if (th) {
-		header_height = th.scrollHeight;
-	}	
-	
-	if (f) {
-		f.style.height = document.body.scrollHeight - footer_height - 
-			header_height - 50 + "px";
-	}
-}
-
 function init_second_stage() {
 
 	try {
@@ -408,7 +380,6 @@ function init_second_stage() {
 
 		delCookie("ttrss_vf_test");
 	
-		updateFeedList(false, false);
 		document.onkeydown = hotkey_handler;
 
 		var tb = parent.document.forms["main_toolbar_form"];
@@ -419,14 +390,7 @@ function init_second_stage() {
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 
-		// FIXME should be callled after window resize
-
-		var h = document.getElementById("headlines");
-		var c = document.getElementById("content");
-
-		if (navigator.userAgent.match("Opera")) {
-			resize_feeds_frame();
-		}
+		setTimeout('updateFeedList(false, false)', 50);
 
 		debug("second stage ok");
 	

@@ -584,7 +584,7 @@ function parse_counters(reply, scheduled_call) {
 
 			if (feeds_stored != 0) {
 				debug("Subscribed feed number changed, refreshing feedlist");
-				updateFeedList();
+				setTimeout('updateFeedList(false, false)', 50);
 			}
 		}
 
