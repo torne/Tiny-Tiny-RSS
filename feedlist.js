@@ -1,7 +1,7 @@
 //var xmlhttp = Ajax.getTransport();
 
 function viewCategory(cat) {
-	getMainContext().active_feed_is_cat = true;
+	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
 }
 
@@ -52,7 +52,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 		setActiveFeedId(feed);
 	
 		if (is_cat != undefined) {
-			getMainContext().active_feed_is_cat = is_cat;
+			active_feed_is_cat = is_cat;
 		}
 
 		if (subop == "MarkAllRead") {

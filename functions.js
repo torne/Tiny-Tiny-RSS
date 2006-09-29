@@ -169,30 +169,25 @@ function hotkey_handler(e) {
 			keycode = e.which;
 		}
 
-		var m_ctx = getMainContext();
-		var f_ctx = getFeedsContext();
-		var h_ctx = getHeadlinesContext();
-
 		if (keycode == 82) { // r
-			return m_ctx.scheduleFeedUpdate(true);
+			return scheduleFeedUpdate(true);
 		}
 
 		if (keycode == 83) { // r
-			return m_ctx.displayDlg("search", getActiveFeedId());
+			return displayDlg("search", getActiveFeedId());
 		}
 
 		if (keycode == 85) { // u
 			if (getActiveFeedId()) {
-				return f_ctx.viewfeed(getActiveFeedId(), "ForceUpdate");
+				return viewfeed(getActiveFeedId(), "ForceUpdate");
 			}
 		}
 	
 		if (keycode == 65) { // a
-			return m_ctx.toggleDispRead();
+			return toggleDispRead();
 		}
 	
-		var f_doc = document;
-		var feedlist = f_doc.getElementById('feedList');
+		var feedlist = document.getElementById('feedList');
 	
 		if (keycode == 74) { // j
 			var feed = getActiveFeedId();
@@ -207,14 +202,14 @@ function hotkey_handler(e) {
 		}
 
 		if (keycode == 78 || keycode == 40) { // n, down
-			if (typeof h_ctx.moveToPost != 'undefined') {
-				return h_ctx.moveToPost('next');
+			if (typeof moveToPost != 'undefined') {
+				return moveToPost('next');
 			}
 		}
 	
 		if (keycode == 80 || keycode == 38) { // p, up
-			if (typeof h_ctx.moveToPost != 'undefined') {
-				return h_ctx.moveToPost('prev');
+			if (typeof moveToPost != 'undefined') {
+				return moveToPost('prev');
 			}
 		}
 		
@@ -445,22 +440,22 @@ function gotoExportOpml() {
 function getActiveFeedId() {
 //	return getCookie("ttrss_vf_actfeed");
 	try {
-		debug("gAFID: " + getMainContext().active_feed_id);
-		return getMainContext().active_feed_id;
+		debug("gAFID: " + active_feed_id);
+		return active_feed_id;
 	} catch (e) {
 		exception_error("getActiveFeedId", e);
 	}
 }
 
 function activeFeedIsCat() {
-	return getMainContext().active_feed_is_cat;
+	return active_feed_is_cat;
 }
 
 function setActiveFeedId(id) {
 //	return setCookie("ttrss_vf_actfeed", id);
 	try {
 		debug("sAFID(" + id + ")");
-		getMainContext().active_feed_id = id;
+		active_feed_id = id;
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
 	}
@@ -468,8 +463,6 @@ function setActiveFeedId(id) {
 
 function parse_counters(reply, scheduled_call) {
 	try {
-		var f_document = document;
-		var title_obj = this.window;
 
 		var feeds_found = 0;
 
@@ -477,8 +470,6 @@ function parse_counters(reply, scheduled_call) {
 			debug("<b>wrong element passed to parse_counters, adjusting.</b>");
 			reply = reply.firstChild;
 		}
-
-		debug("F_DOC: " + f_document + ", T_OBJ: " + title_obj);
 
 		for (var l = 0; l < reply.childNodes.length; l++) {
 			if (!reply.childNodes[l] ||
@@ -495,8 +486,8 @@ function parse_counters(reply, scheduled_call) {
 			var updated = reply.childNodes[l].getAttribute("updated");
 	
 			if (id == "global-unread") {
-				title_obj.global_unread = ctr;
-				title_obj.updateTitle();
+				global_unread = ctr;
+				updateTitle();
 				continue;
 			}
 
@@ -506,19 +497,19 @@ function parse_counters(reply, scheduled_call) {
 			}
 	
 			if (t == "category") {
-				var catctr = f_document.getElementById("FCATCTR-" + id);
+				var catctr = document.getElementById("FCATCTR-" + id);
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + " unread)";
 				}
 				continue;
 			}
 		
-			var feedctr = f_document.getElementById("FEEDCTR-" + id);
-			var feedu = f_document.getElementById("FEEDU-" + id);
-			var feedr = f_document.getElementById("FEEDR-" + id);
-			var feed_img = f_document.getElementById("FIMG-" + id);
-			var feedlink = f_document.getElementById("FEEDL-" + id);
-			var feedupd = f_document.getElementById("FLUPD-" + id);
+			var feedctr = document.getElementById("FEEDCTR-" + id);
+			var feedu = document.getElementById("FEEDU-" + id);
+			var feedr = document.getElementById("FEEDR-" + id);
+			var feed_img = document.getElementById("FIMG-" + id);
+			var feedlink = document.getElementById("FEEDL-" + id);
+			var feedupd = document.getElementById("FLUPD-" + id);
 
 			if (updated && feedlink) {
 				if (error) {
@@ -572,15 +563,14 @@ function parse_counters(reply, scheduled_call) {
 			}
 		}
 
-		hideOrShowFeeds(getFeedsContext().document, 
-			getInitParam("hide_read_feeds") == 1);
+		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 
-		var feeds_stored = getMainContext().number_of_feeds;
+		var feeds_stored = number_of_feeds;
 
 		debug("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
 
 		if (feeds_stored != feeds_found) {
-			getMainContext().number_of_feeds = feeds_found;
+			number_of_feeds = feeds_found;
 
 			if (feeds_stored != 0) {
 				debug("Subscribed feed number changed, refreshing feedlist");
@@ -612,7 +602,7 @@ function all_counters_callback() {
 			var runtime = counters.nextSibling;
 
 			if (runtime) {
-				getMainContext().parse_runtime_info(runtime);
+				parse_runtime_info(runtime);
 			}
 
 			if (getInitParam("feeds_sort_by_unread") == 1) {
@@ -675,7 +665,7 @@ function resort_category(doc, node) {
 function resort_feedlist() {
 	debug("resort_feedlist");
 
-	var fd = getFeedsContext().document;
+	var fd = document;
 
 	if (fd.getElementById("feedCatHolder")) {
 
@@ -754,7 +744,7 @@ function hideOrShowFeeds(doc, hide) {
 
 	debug("hideOrShowFeeds: " + doc + ", " + hide);
 
-	var fd = getFeedsContext().document;
+	var fd = document;
 
 	var list = fd.getElementById("feedList");
 
@@ -1259,7 +1249,7 @@ function qafAdd() {
 
 	closeInfoBox();
 
-	var feeds_doc = getFeedsContext().document;
+	var feeds_doc = document;
 
 //	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
 	
@@ -1299,7 +1289,6 @@ function getContentContext() {
 	return this.window;
 }
 
-
 function getHeadlinesContext() {
 	return this.window;
 }
@@ -1307,15 +1296,14 @@ function getHeadlinesContext() {
 var debug_last_class = "even";
 
 function debug(msg) {
-	var ctx = getMainContext();
 
-	if (ctx.debug_last_class == "even") {
-		ctx.debug_last_class = "odd";
+	if (debug_last_class == "even") {
+		debug_last_class = "odd";
 	} else {
-		ctx.debug_last_class = "even";
+		debug_last_class = "even";
 	}
 
-	var c = ctx.document.getElementById('debug_output');
+	var c = document.getElementById('debug_output');
 	if (c && c.style.display == "block") {
 		while (c.lastChild != 'undefined' && c.childNodes.length > 100) {
 			c.removeChild(c.lastChild);
@@ -1324,7 +1312,7 @@ function debug(msg) {
 		var d = new Date();
 		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
 			":" + leading_zero(d.getSeconds());
-		c.innerHTML = "<li class=\"" + ctx.debug_last_class + "\"><span class=\"debugTS\">[" + ts + "]</span> " + 
+		c.innerHTML = "<li class=\"" + debug_last_class + "\"><span class=\"debugTS\">[" + ts + "]</span> " + 
 			msg + "</li>" + c.innerHTML;
 	}
 }

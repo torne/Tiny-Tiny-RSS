@@ -45,9 +45,6 @@ function view(id, feed_id) {
 	try {
 		debug("loading article: " + id + "/" + feed_id);
 	
-		var f_document = getFeedsContext().document;
-		var m_document = document;
-	
 		enableHotkeys();
 	
 		var crow = document.getElementById("RROW-" + id);
@@ -65,7 +62,7 @@ function view(id, feed_id) {
 		active_post_id = id; 
 		setActiveFeedId(feed_id);
 	
-		var content = m_document.getElementById("content-frame");
+		var content = document.getElementById("content-frame");
 	
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 		markHeadline(active_post_id);
@@ -88,8 +85,6 @@ function view(id, feed_id) {
 
 function toggleMark(id) {
 
-	var f_document = document;
-
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
 		printLockingError();
 		return;
@@ -98,7 +93,7 @@ function toggleMark(id) {
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
 	var mark_img = document.getElementById("FMARKPIC-" + id);
-	var vfeedu = f_document.getElementById("FEEDU--1");
+	var vfeedu = document.getElementById("FEEDU--1");
 	var crow = document.getElementById("RROW-" + id);
 
 	if (mark_img.alt != "Reset mark") {
@@ -121,8 +116,8 @@ function toggleMark(id) {
 
 	}
 
-	var vfeedctr = f_document.getElementById("FEEDCTR--1");
-	var vfeedr = f_document.getElementById("FEEDR--1");
+	var vfeedctr = document.getElementById("FEEDCTR--1");
+	var vfeedr = document.getElementById("FEEDR--1");
 
 	if (vfeedu && vfeedctr) {
 		if ((+vfeedu.innerHTML) > 0) {
@@ -401,35 +396,10 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 		debug("LFS: " + query);
 	
 		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=getMainContext().dlg_frefresh_callback;
+		xmlhttp_rpc.onreadystatechange=dlg_frefresh_callback;
 		xmlhttp_rpc.send(null);
 	}
 
 }
 
 
-/*
-function headlines_init() {
-	if (arguments.callee.done) return;
-	arguments.callee.done = true;		
-
-	if (parent.frames["feeds-frame"]) {
-		document.onkeydown = hotkey_handler;
-	}
-
-	var hl = document.getElementById("headlinesList");
-
-	if (!hl) {
-		hl = document.getElementById("headlinesContainer");
-	}
-
-	var hw = hl.scrollHeight;
-	var pw = parent.document.getElementById("headlines").scrollHeight;
-
-	if (hw >= pw) {
-		var bt = document.getElementById("headlineActionsBottom");
-		bt.className = "headlinesSubToolbar";
-	}
-
-}
-*/
