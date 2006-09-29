@@ -2408,7 +2408,7 @@
 		if (!DIGEST_ENABLE) return false;
 
 		$user_limit = DIGEST_EMAIL_LIMIT;
-		$days = DIGEST_DAYS_BACK;
+		$days = 1;
 
 		print "Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit\n\n";
 
