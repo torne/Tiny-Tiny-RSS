@@ -389,7 +389,7 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 }
 
 
-
+/*
 function headlines_init() {
 	if (arguments.callee.done) return;
 	arguments.callee.done = true;		
@@ -413,3 +413,4 @@ function headlines_init() {
 	}
 
 }
+*/

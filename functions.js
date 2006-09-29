@@ -145,7 +145,7 @@ function notify_real(msg, doc, no_hide, is_err) {
 }
 
 function p_notify(msg, no_hide, is_err) {
-	notify_real(msg, parent.document, no_hide, is_err);
+	notify_real(msg, document, no_hide, is_err);
 }
 
 function notify(msg, no_hide, is_err) {
@@ -246,7 +246,7 @@ function cleanSelectedList(element) {
 		for (i = 0; i < content.childNodes.length; i++) {
 			var child = content.childNodes[i];
 			if (child.id == "feedCatHolder") {
-				parent.debug(child.id);
+				debug(child.id);
 				var fcat = child.lastChild;
 				for (j = 0; j < fcat.childNodes.length; j++) {
 					var feed = fcat.childNodes[j];
@@ -539,10 +539,7 @@ function parse_counters(reply, scheduled_call) {
 			if (feedctr && feedu && feedr) {
 
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
-//					var hf = title_obj.parent.frames["headlines-frame"];
-//					hf.location.reload(true);
 					viewCurrentFeed();
-
 				}
 		
 				feedu.innerHTML = ctr;

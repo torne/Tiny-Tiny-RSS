@@ -19,7 +19,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 
 		enableHotkeys();
 
-		var toolbar_query = parent.Form.serialize("main_toolbar_form");
+		var toolbar_query = Form.serialize("main_toolbar_form");
 		var toolbar_form = document.forms["main_toolbar_form"];
 
 		if (document.forms["main_toolbar_form"].query) {
@@ -35,10 +35,10 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 
-		if (parent.document.getElementById("search_form")) {
-			var search_query = parent.Form.serialize("search_form");
+		if (document.getElementById("search_form")) {
+			var search_query = Form.serialize("search_form");
 			query = query + "&" + search_query;
-			parent.closeInfoBox(true);
+			closeInfoBox(true);
 		}
 
 		debug("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
@@ -62,7 +62,7 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 			var next_unread_feed = getRelativeFeedId(feedlist,
 					getActiveFeedId(), "next", true);
 
-			var show_next_feed = parent.getInitParam("on_catchup_show_next_feed") == "1";
+			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 			if (next_unread_feed && show_next_feed && !activeFeedIsCat()) {
 				query = query + "&nuf=" + param_escape(next_unread_feed);
@@ -73,8 +73,6 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 		if (activeFeedIsCat()) {
 			query = query + "&cat=1";
 		}
-
-		var headlines_frame = parent.frames["headlines-frame"];
 
 		if (navigator.userAgent.match("Opera")) {
 			var date = new Date();
