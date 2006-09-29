@@ -1,4 +1,13 @@
 var active_post_id = false;
+var _catchup_callback_func = false;
+
+function catchup_callback() {
+	if (xmlhttp_rpc.readyState == 4) {
+		debug("catchup_callback");
+		setTimeout("viewCurrentFeed()", 100);	
+		all_counters_callback();
+	}
+}
 
 function headlines_callback() {
 	if (xmlhttp.readyState == 4) {
@@ -199,7 +208,7 @@ function toggleUnread(id, cmode) {
 	}
 }
 
-function selectionToggleUnread(cdm_mode, set_state) {
+function selectionToggleUnread(cdm_mode, set_state, callback_func) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
@@ -244,8 +253,10 @@ function selectionToggleUnread(cdm_mode, set_state) {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=" + cmode;
 
+			_catchup_callback_func = callback_func;
+
 			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.onreadystatechange=catchup_callback;
 			xmlhttp_rpc.send(null);
 
 		}
@@ -357,11 +368,11 @@ function catchupPage() {
 
 	if (document.getElementById("headlinesList")) {
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
-		selectionToggleUnread();
+		selectionToggleUnread(false, false, 'viewCurrentFeed()');
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 	} else {
 		cdmSelectArticles('all');
-		selectionToggleUnread(true, false)
+		selectionToggleUnread(true, false, 'viewCurrentFeed()')
 		cdmSelectArticles('none');
 	}
 }
