@@ -129,7 +129,7 @@ window.onload = init;
 	<div id="dispSwitch"> 
 		<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
 	</div>
-	<div id="feeds-frame">-fixme-</div>
+	<div id="feeds-frame">&nbsp;</div>
 </div>
 
 <div id="toolbar">
