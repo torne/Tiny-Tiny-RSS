@@ -141,14 +141,14 @@ ul.feedList {
 	list-style-type : none;
 	margin : 5px;
 	padding : 0px 0px 0px 10px;
-	font-size : x-small;
+	font-size : small;
 }
 
 ul.feedList li.feedCat {
 	margin : 0px;
 	padding : 3px 0px 3px 0px;
 	color : #707070;
-	font-size : x-small;
+	font-size : small;
 }
 
 ul.feedList li.feedCat a {
@@ -1260,6 +1260,7 @@ div.whiteBox {
 	overflow : auto;
 	bottom : 40px;
 	border-collapse : collapse;
+	height: expression((parseInt(document.documentElement.clientHeight)-40-20-30)+'px');
 }
 
 #toolbar {
@@ -1273,7 +1274,6 @@ div.whiteBox {
 	background-image : url("images/toolbar.png");
 	background-position : bottom left;
 	background-repeat : repeat-x;
-	font-size : small;
 }
 
 div.headlines_normal {
@@ -1288,6 +1288,8 @@ div.headlines_normal {
 	overflow : hidden;
 	font-size : small;
 	border-collapse : collapse;
+	/* css hack for IE */
+	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
 }
 
 div.headlines_cdm {
@@ -1302,6 +1304,7 @@ div.headlines_cdm {
 	overflow : auto;
 	font-size : small;
 	border-collapse : collapse;
+	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
 }
 
 #content-frame {
@@ -1315,6 +1318,8 @@ div.headlines_cdm {
 	bottom : 40px;
 	right : 0px;
 	border-collapse : collapse;
+	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
+	height: expression((parseInt(document.documentElement.clientHeight)-40-305-50)+'px');
 }
 
 #footer {
@@ -1331,6 +1336,12 @@ div.headlines_cdm {
 	right : 0px;
 	left : 0px;
 	padding : 10px;
+	width: expression((parseInt(document.documentElement.clientWidth)-20)+'px');
+	border-collapse : collapse;
+	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+
 }
 
 #headlinesContainer {

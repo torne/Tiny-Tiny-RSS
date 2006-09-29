@@ -167,6 +167,10 @@ function feedlist_init() {
 			debug("removed splash!");
 		}
 
+		if (typeof correctPNG != 'undefined') {
+			correctPNG();
+		}
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}

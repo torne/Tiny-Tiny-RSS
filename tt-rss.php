@@ -48,6 +48,11 @@
 
 	<?php } ?>
 
+	<!--[if gte IE 5.5000]>		
+		<script type="text/javascript" src="pngfix.js"></script>
+		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
+	<![endif]-->
+
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
 	<script type="text/javascript" src="prototype.js"></script>

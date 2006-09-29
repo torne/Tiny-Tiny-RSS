@@ -6,6 +6,9 @@ function headlines_callback() {
 		var f = document.getElementById("headlines-frame");
 		f.innerHTML = xmlhttp.responseText;
 		update_all_counters();
+		if (typeof correctPNG != 'undefined') {
+			correctPNG();
+		}
 		notify("");
 	}
 }
@@ -15,6 +18,9 @@ function article_callback() {
 		debug("article_callback");
 		var f = document.getElementById("content-frame");
 		f.innerHTML = xmlhttp.responseText;
+		if (typeof correctPNG != 'undefined') {
+			correctPNG();
+		}
 		update_all_counters();
 	}
 }
