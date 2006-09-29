@@ -210,10 +210,10 @@ window.onload = init;
 	</div>
 
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
-	<div id="headlines-frame" class="headlines_normal"><div class="whiteBox">&nbsp;</div></div>
+	<div id="headlines-frame" class="headlines_normal"><div class="whiteBox">No feed selected.</div></div>
 	<div id="content-frame">&nbsp;</div>
 <?php } else { ?>
-	<div id="headlines-frame" class="headlines_cdm"><div class="whiteBox">&nbsp;</div></div>
+	<div id="headlines-frame" class="headlines_cdm"><div class="whiteBox">No feed selected.</div></div>
 <?php } ?>
 
 <?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
