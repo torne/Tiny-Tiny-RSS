@@ -184,7 +184,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (10);
+insert into ttrss_version values (11);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -218,8 +218,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
    'Experimental support for virtual feeds based on user crafted SQL queries. This feature is highly experimental and at this point not user friendly. Use with caution.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates (in minutes)',1);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DISPLAY_HEADER', 1, 'true', 'Display header',2);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DISPLAY_FOOTER', 1, 'true', 'Display footer',2);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('USE_COMPACT_STYLESHEET', 1, 'false', 'Use compact stylesheet by default',2);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DEFAULT_ARTICLE_LIMIT', 3, '0', 'Default article limit',2,
    'Default limit for articles to display, any custom number you like (0 - disables).');
