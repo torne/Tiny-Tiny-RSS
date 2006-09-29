@@ -107,7 +107,6 @@ table.main td.prefContent {
 }
 
 div.postReply {
-	height : 100%;
 	padding : 10px;
 }
 
@@ -1259,7 +1258,8 @@ div.whiteBox {
 	position : absolute;
 	width : 260px;
 	overflow : auto;
-	bottom : 50px;
+	bottom : 40px;
+	border-collapse : collapse;
 }
 
 #toolbar {
@@ -1282,11 +1282,12 @@ div.headlines_normal {
 	border-style : solid;
 	border-color : #88b0f0;
 	left : 260px;
-	height : 300px;
+	height : 305px;
 	top : 85px;
 	right : 0px;
 	overflow : auto;
 	font-size : small;
+	border-collapse : collapse;
 }
 
 div.headlines_cdm {
@@ -1295,11 +1296,12 @@ div.headlines_cdm {
 	border-style : solid;
 	border-color : #88b0f0;
 	left : 260px;
-	bottom : 50px;
+	bottom : 40px;
 	top : 85px;
 	right : 0px;
 	overflow : auto;
 	font-size : small;
+	border-collapse : collapse;
 }
 
 #content-frame {
@@ -1310,14 +1312,15 @@ div.headlines_cdm {
 	overflow : auto;
 	top : 390px;
 	left : 260px;
-	bottom : 50px;
+	bottom : 40px;
 	right : 0px;
+	border-collapse : collapse;
 }
 
 #footer {
 	position : absolute;
 	bottom : 0px;
-	height : 30px;
+	height : 20px;
 	text-align : center;
 	color : gray;
 	font-size : x-small;
