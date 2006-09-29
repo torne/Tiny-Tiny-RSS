@@ -26,11 +26,11 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 			toolbar_form.query.value = "";
 		}
 
-		storeInitParam("toolbar_limit", 
+/*		storeInitParam("toolbar_limit", 
 			toolbar_form.limit[toolbar_form.limit.selectedIndex].value);
 
 		storeInitParam("toolbar_view_mode", 
-			toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value); 
+			toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value);  */
 
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
