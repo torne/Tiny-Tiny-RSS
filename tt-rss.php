@@ -108,22 +108,15 @@ window.onload = init;
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
-<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
-	<div id="header">
-		<?php if (!SINGLE_USER_MODE) { ?>
-			<div style="float : right">
-				Hello, <b><?php echo $_SESSION["name"] ?></b>
-				(<a href="logout.php">Logout</a>)
-			</div>
-		<?php } ?>
-		<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
-	</div>
-<?php } else if (!SINGLE_USER_MODE) { ?>
-	<div style="float : right">
-		Hello, <b><?php echo $_SESSION["name"] ?></b>
-		(<a href="logout.php">Logout</a>)
-	</div>
-<?php } ?>
+<div id="header">
+	<?php if (!SINGLE_USER_MODE) { ?>
+		<div style="float : right">
+			Hello, <b><?php echo $_SESSION["name"] ?></b>
+			(<a href="logout.php">Logout</a>)
+		</div>
+	<?php } ?>
+	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+</div>
 
 <div id="feeds-holder">
 	<div id="dispSwitch"> 
@@ -216,11 +209,9 @@ window.onload = init;
 	<div id="headlines-frame" class="headlines_cdm"><div class="whiteBox">No feed selected.</div></div>
 <?php } ?>
 
-<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
-	<div id="footer">
-		<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
-	</div>
-<?php } ?>
+<div id="footer">
+	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+</div>
 
 <?php db_close($link); ?>
 
