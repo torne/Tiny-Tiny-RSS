@@ -3,9 +3,15 @@ var _catchup_callback_func = false;
 
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
-		debug("catchup_callback");
-		setTimeout("viewCurrentFeed()", 100);	
-		all_counters_callback();
+		try {
+			debug("catchup_callback");
+			if (_catchup_callback_func) {
+				setTimeout(_catchup_callback_func, 100);	
+			}
+			all_counters_callback();
+		} catch (e) {
+			exception_error("catchup_callback", e);
+		}
 	}
 }
 
