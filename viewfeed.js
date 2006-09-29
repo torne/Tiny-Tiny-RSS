@@ -1,7 +1,5 @@
 var active_post_id = false;
 
-//var xmlhttp_rpc = Ajax.getTransport();
-
 function headlines_callback() {
 	if (xmlhttp.readyState == 4) {
 		debug("headlines_callback");
@@ -53,8 +51,6 @@ function view(id, feed_id) {
 
 		var query = "backend.php?op=view&id=" + param_escape(id) +
 			"&feed=" + param_escape(feed_id);
-
-		xmlhttp.abort();
 
 		if (xmlhttp_ready(xmlhttp)) {
 			xmlhttp.open("GET", query, true);

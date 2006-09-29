@@ -16,6 +16,7 @@ var active_feed_is_cat = false;
 var number_of_feeds = 0;
 
 var xmlhttp = Ajax.getTransport();
+var xmlhttp_ctr = Ajax.getTransport();
 
 var init_params = new Object();
 
@@ -34,27 +35,35 @@ function toggleTags() {
 }
 
 function dlg_frefresh_callback() {
-	if (xmlhttp.readyState == 4) {
+	if (xmlhttp.readyState == 4) {		
 		notify(xmlhttp.responseText);
+
+		if (getActiveFeedId() == _qfd_deleted_feed) {
+			var h = document.getElementById("headlines-frame");
+			if (h) {
+				h.innerHTML = "<div class='whiteBox'>No feed selected.</div>";
+			}
+		}
+
 		setTimeout('updateFeedList(false, false)', 50);
 		closeInfoBox();
 	} 
 }
 
 function refetch_callback() {
-	if (xmlhttp.readyState == 4) {
+	if (xmlhttp_ctr.readyState == 4) {
 		try {
 
 			var date = new Date();
 
 			last_refetch = date.getTime() / 1000;
 
-			if (!xmlhttp.responseXML) {
+			if (!xmlhttp_ctr.responseXML) {
 				notify("refetch_callback: backend did not return valid XML", true, true);
 				return;
 			}
 		
-			var reply = xmlhttp.responseXML.firstChild;
+			var reply = xmlhttp_ctr.responseXML.firstChild;
 	
 			if (!reply) {
 				notify("refetch_callback: backend did not return expected XML object", true, true);
@@ -175,19 +184,19 @@ function scheduleFeedUpdate(force) {
 
 	var date = new Date();
 
-	if (!xmlhttp_ready(xmlhttp) && last_refetch < date.getTime() / 1000 - 60) {
+	if (!xmlhttp_ready(xmlhttp_ctr) && last_refetch < date.getTime() / 1000 - 60) {
 		debug("<b>xmlhttp seems to be stuck, aborting</b>");
-		xmlhttp.abort();
+		xmlhttp_ctr.abort();
 	}
 
 	debug("REFETCH query: " + query_str);
 
-	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=refetch_callback;
-		xmlhttp.send(null);
+	if (xmlhttp_ready(xmlhttp_ctr)) {
+		xmlhttp_ctr.open("GET", query_str, true);
+		xmlhttp_ctr.onreadystatechange=refetch_callback;
+		xmlhttp_ctr.send(null);
 	} else {
-		debug("xmlhttp busy");
+		debug("xmlhttp_ctr busy");
 		//printLockingError();
 	}   
 }
