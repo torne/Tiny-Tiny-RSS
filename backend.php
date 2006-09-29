@@ -792,7 +792,7 @@
 		
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
-		print "<div id=\"headlinesContainer\">";
+		print "<div id=\"headlinesContainer\" $rtl_tag>";
 
 		if (!$result) {
 			print "<div align='center'>
