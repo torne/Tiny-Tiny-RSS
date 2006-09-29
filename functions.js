@@ -137,6 +137,8 @@ function notify_real(msg, doc, no_hide, is_err) {
 		n.style.color = "black";
 	}
 
+//	msg = "<img src='images/live_com_loading.gif'> " + msg;
+
 	nb.innerHTML = msg;
 
 	if (!no_hide) {
