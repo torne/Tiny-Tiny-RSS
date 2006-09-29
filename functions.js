@@ -84,12 +84,14 @@ function delay(gap) {
 var notify_hide_timerid = false;
 var notify_last_doc = false;
 
-var notify_effect = false;
+var notify_effect = false; 
 
 function hide_notify() {
 	if (notify_last_doc) {
 		var n = notify_last_doc.getElementById("notify");		
-		if (browser_has_opacity()) {
+		n.style.display = "none";
+
+/*		if (browser_has_opacity()) {
 			if (notify_opacity >= 0) {
 				notify_opacity = notify_opacity - 0.1;
 				n.style.opacity = notify_opacity;
@@ -100,9 +102,9 @@ function hide_notify() {
 			}
 		} else {
 			n.style.display = "none";
-		}
+		} */
 	}
-}
+} 
 
 function notify_real(msg, doc, no_hide, is_err) {
 
@@ -976,7 +978,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				var child = list.childNodes[i];
 				if (child.id && child.id == "feedCatHolder") {
 					if (child.lastChild) {
-						var cr = getRelativeFeedId(child.firstChild, id, direction);
+						var cr = getRelativeFeedId(child.firstChild, id, direction, unread_only);
 						if (cr) return cr;					
 					}
 				} else if (child.id && child.id.match("FEEDR-")) {
@@ -1010,7 +1012,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 		}
 	} else {
 	
-		var feed = list.ownerDocument.getElementById("FEEDR-" + getActiveFeedId());
+		var feed = list.ownerDocument.getElementById("FEEDR-" + id);
 		
 		if (getInitParam("hide_read_feeds") == 1) {
 			unread_only = true;
@@ -1046,7 +1048,8 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 			   }
 
 				if (e) {
-					if (!unread_only || (unread_only && e.className != "feed" && 
+					if (!unread_only || (unread_only && e.className != "feed" &&
+							e.className != "label" && e.className != "virt" &&
 							e.className != "error"))	{
 						return e.id.replace("FEEDR-", "");
 					}

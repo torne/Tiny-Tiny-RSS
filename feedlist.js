@@ -62,6 +62,11 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 			var next_unread_feed = getRelativeFeedId(feedlist,
 					getActiveFeedId(), "next", true);
 
+			if (!next_unread_feed) {
+				next_unread_feed = getRelativeFeedId(feedlist,
+					-1, "next", true);
+			}
+
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 			if (next_unread_feed && show_next_feed && !activeFeedIsCat()) {
