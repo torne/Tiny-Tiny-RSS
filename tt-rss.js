@@ -478,6 +478,8 @@ function qfdDelete(feed_id) {
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
+
+	return false;
 }
 
 

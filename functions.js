@@ -1268,6 +1268,8 @@ function qafAdd() {
 	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null);
+
+	return false;
 }
 
 function filterCR(e)

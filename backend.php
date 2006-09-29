@@ -2688,11 +2688,10 @@
 			print "<div align='right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
-					type=\"submit\" onclick=\"javascript:qafAdd()\" value=\"Subscribe\">
+					type=\"submit\" onclick=\"return qafAdd()\" value=\"Subscribe\">
 				<input class=\"button\"
-					type=\"submit\" onclick=\"javascript:closeInfoBox()\" 
+					type=\"submit\" onclick=\"return closeInfoBox()\" 
 					value=\"Cancel\"></div>";
-
 		}
 
 		if ($id == "search") {
