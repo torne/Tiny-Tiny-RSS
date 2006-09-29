@@ -60,7 +60,7 @@ function view(id, feed_id) {
 		} 
 	
 		active_post_id = id; 
-		setActiveFeedId(feed_id);
+		//setActiveFeedId(feed_id);
 	
 		var content = document.getElementById("content-frame");
 	
