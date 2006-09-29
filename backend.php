@@ -124,43 +124,6 @@
 
 	function outputFeedList($link, $tags = false) {
 
-/*		print "<html><head>
-			<title>Tiny Tiny RSS : Feedlist</title>
-			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
-
-		$user_theme = $_SESSION["theme"];
-		if ($user_theme) { 
-			print "<link rel=\"stylesheet\" type=\"text/css\" 
-				href=\"themes/$user_theme/theme.css\">";
-		}
-
-		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
-			print "<link rel=\"stylesheet\" type=\"text/css\" 
-				href=\"tt-rss_compact.css\"/>";
-		} else {
-			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
-					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-		}
-
-		$script_dt_add = get_script_dt_add();
-
-		print "
-			<script type=\"text/javascript\" src=\"prototype.js\"></script>
-			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
-			<script type=\"text/javascript\" src=\"feedlist.js?$script_dt_add\"></script>
-			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			<!--[if gte IE 5.5000]>
-			<script type=\"text/javascript\" src=\"pngfix.js\"></script>
-			<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss-ie.css\">
-			<![endif]-->
-			</head><body>
-			<script type=\"text/javascript\">
-				if (document.addEventListener) {
-					document.addEventListener(\"DOMContentLoaded\", init, null);
-				}
-				window.onload = init;
-			</script>"; */
-
 		print "<ul class=\"feedList\" id=\"feedList\">\n";
 
 		$owner_uid = $_SESSION["uid"];
@@ -440,21 +403,6 @@
 
 		print "</ul>";
 
-#		print '
-#			<script type="text/javascript">
-#				/* for IE */
-#				function statechange() {
-#					if (document.readyState == "interactive") init();
-#				}
-#			
-#				if (document.readyState) {	
-#					if (document.readyState == "interactive" || document.readyState == "complete") {
-#						init();
-#					} else {
-#						document.onreadystatechange = statechange;
-#					}
-#				}
-#			</script></body></html>'; 
 	}
 
 
@@ -519,32 +467,6 @@
 			author
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
-
-/*		print "<html><head>
-			<title>Tiny Tiny RSS : Article $id</title>
-			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
-
-		$user_theme = $_SESSION["theme"];
-		if ($user_theme) { 
-			print "<link rel=\"stylesheet\" type=\"text/css\" 
-				href=\"themes/$user_theme/theme.css\">";
-		}
-
-		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
-			print "<link rel=\"stylesheet\" type=\"text/css\" 
-				href=\"tt-rss_compact.css\"/>";
-		} else {
-			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
-					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-		}
-
-		$script_dt_add = get_script_dt_add();
-
-		print "
-			<script type=\"text/javascript\" src=\"prototype.js\"></script>
-			<script type=\"text/javascript\" src=\"functions.js?$script_dt_add\"></script>
-			<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-			</head><body $rtl_tag>"; */
 
 		if ($result) {
 
@@ -660,16 +582,7 @@
 			
 			print "</div>";
 
-			print "<script type=\"text/javascript\">
-				try {
-					parent.update_all_counters('$feed_id');
-				} catch (e) {
-					exception_error('view/footer', e);
-				}
-			</script>";
 		}
-
-//		print "</body></html>";
 	}
 
 	if ($op == "viewfeed") {
@@ -682,25 +595,6 @@
 		$next_unread_feed = db_escape_string($_GET["nuf"]);
 
 		if ($subop == "undefined") $subop = "";
-
-/*		print "<html><head>
-			<title>Tiny Tiny RSS : Feed $feed</title>
-			<link rel=\"stylesheet\" href=\"tt-rss.css\" type=\"text/css\">";
-
-		$user_theme = $_SESSION["theme"];
-		if ($user_theme) { 
-			print "<link rel=\"stylesheet\" type=\"text/css\" 
-				href=\"themes/$user_theme/theme.css\">";
-		}
-
-		if (get_pref($link, 'USE_COMPACT_STYLESHEET')) {
-			print "<link rel=\"stylesheet\" 
-					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-
-		} else {
-			print "<link title=\"Compact Stylesheet\" rel=\"alternate stylesheet\" 
-					type=\"text/css\" href=\"tt-rss_compact.css\"/>";
-		} */
 
 		if ($subop == "CatchupSelected") {
 			$ids = split(",", db_escape_string($_GET["ids"]));
@@ -970,38 +864,6 @@
 		}
 
 		print "</div>";
-
-#		print "
-#			<script type=\"text/javascript\">
-#				try {
-#					document.onkeydown = hotkey_handler;
-#					try {
-#						parent.update_all_counters(\"$feed\");
-#					} catch (e) {
-#						// this is workaround against mysterious permission
-#						// denied feature/bug of firefox (ticket #73)
-#						// if call from this context failed - ignore silently
-#						exception_error(\"viewfeed/footer1/counters\", e, true);
-#					}
-#				} catch (e) {
-#					exception_error(\"viewfeed/footer1\", e);
-#				}
-#
-#				/* for IE */
-#				function statechange() {
-#					if (document.readyState == \"interactive\") init();
-#				}
-#
-#				if (document.readyState) {	
-#					if (document.readyState == \"interactive\" || document.readyState == \"complete\") {
-#						init();
-#					} else {
-#						document.onreadystatechange = statechange;
-#					}
-#				}
-#			</script>";
-#
-#		print "</body></html>";
 	}
 
 	if ($op == "pref-feeds") {
