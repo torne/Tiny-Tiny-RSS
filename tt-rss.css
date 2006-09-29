@@ -1285,7 +1285,7 @@ div.headlines_normal {
 	height : 305px;
 	top : 85px;
 	right : 0px;
-	overflow : auto;
+	overflow : hidden;
 	font-size : small;
 	border-collapse : collapse;
 }
@@ -1336,4 +1336,17 @@ div.headlines_cdm {
 #headlinesContainer {
 	margin-left : 1px;
 	background-color : white;
+}
+
+#headlineActionsTop {
+/*	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	background-color : #fafafa; */
+	font-size : x-small;
+}
+
+#headlinesInnerContainer {
+	height : 280px;
+	overflow : auto;
 }

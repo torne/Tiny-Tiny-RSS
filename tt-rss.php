@@ -199,8 +199,8 @@ window.onload = init;
 		&nbsp;<input class="button" type="submit"
 			onclick="viewCurrentFeed('ForceUpdate')" value="Update">
 
-		<input class="button" type="submit"
-			onclick="catchupCurrentFeed()" value="Mark as read"> 
+		<!-- <input class="button" type="submit"
+			onclick="catchupCurrentFeed()" value="Mark as read">  -->
 
 	</div>
 

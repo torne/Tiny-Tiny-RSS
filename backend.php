@@ -799,97 +799,13 @@
 				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
 			return;
 		}
-
-		function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
-			$bottom = false, $rtl_content = false, $feed_id = 0,
-			$is_cat = false, $search = false, $match_on = false,
-			$search_mode = false) {
-
-			if (!$bottom) {
-				$class = "headlinesSubToolbar";
-				$tid = "headlineActionsTop";
-			} else {
-				$class = "headlinesSubToolbar";
-				$tid = "headlineActionsBottom";
-			}
-
-			print "<table class=\"$class\" id=\"$tid\"
-				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-
-			if ($rtl_content) {
-				$rtl_cpart = "RTL";
-			} else {
-				$rtl_cpart = "";
-			}
-
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
-
-				print "<td class=\"headlineActions$rtl_cpart\">
-					Select: 
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)\">All</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)\">None</a>
-						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
-							<a href=\"javascript:selectionToggleMarked()\">Starred</a>";
-
-				print "</td>";
-
-				if ($search && $feed_id > 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-					print "<td class=\"headlineActions$rtl_cpart\">
-						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
-								'$match_on', '$feed_id', '$is_cat');\">
-							Convert this search to label</a></td>";
-				}
-
-			} else {
-
-				print "<td class=\"headlineActions$rtl_cpart\">
-					Select: 
-								<a href=\"javascript:cdmSelectArticles('all')\">All</a>,
-								<a href=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
-								<a href=\"javascript:cdmSelectArticles('none')\">None</a>
-						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread(true)\">Unread</a>,
-								<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>";
-			
-				print "</td>";
-
-			}
-
-			print "<td class=\"headlineTitle$rtl_cpart\">";
-		
-			if ($feed_site_url) {
-				if (!$bottom) {
-					$target = "target=\"_blank\"";
-				}
-				print "<a $target href=\"$feed_site_url\">$feed_title</a>";
-			} else {
-				print $feed_title;
-			}
-
-			if ($search) {
-				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-			}
-
-			if (!$bottom) {
-				print "&nbsp;
-					<a target=\"_new\" 
-						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
-						<img class=\"noborder\" 
-							alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
-					</a>";
-			}
-				
-			print "</td>";
-			print "</tr></table>";
-
-		}
 	
 		if (db_num_rows($result) > 0) {
 
 			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
 				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode);
+
+			print "<div id=\"headlinesInnerContainer\">";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
@@ -1043,8 +959,10 @@
 				print "</table>";
 			}
 
-			print_headline_subtoolbar($link, 
-				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
+			print "</div>";
+
+//			print_headline_subtoolbar($link, 
+//				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
 
 
 		} else {
