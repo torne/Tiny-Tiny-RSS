@@ -101,6 +101,8 @@ function viewfeed(feed, subop, is_cat, subop_param) {
 
 		notify("Loading, please wait...", true);
 
+		xmlhttp.abort();
+
 		if (xmlhttp_ready(xmlhttp)) {
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=headlines_callback;
