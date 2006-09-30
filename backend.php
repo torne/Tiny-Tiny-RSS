@@ -1498,7 +1498,10 @@
 				F2.title AS parent_title,
 				C1.title AS category,
 				F1.hidden,
-				F1.include_in_digest
+				F1.include_in_digest,
+				(SELECT SUBSTRING(MAX(updated),1,16) FROM ttrss_user_entries, 
+					ttrss_entries WHERE ref_id = ttrss_entries.id 
+					AND feed_id = F1.id) AS last_article
 			FROM 
 				ttrss_feeds AS F1 
 				LEFT JOIN ttrss_feeds AS F2
@@ -1531,7 +1534,8 @@
 
 				print "
 					<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-					<td width='45%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
+					<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
+					<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">Last&nbsp;Article</a></td>
 					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
 			}
 			
@@ -1561,6 +1565,15 @@
 					$last_updated = date($short_date, strtotime($last_updated));
 				}
 
+				$last_article = $line["last_article"];
+
+				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+					$last_article = smart_date_time(strtotime($last_article));
+				} else {
+					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+					$last_article = date($short_date, strtotime($last_article));
+				}
+
 				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {
 					$lnum = 0;
 				
@@ -1573,8 +1586,9 @@
 						print "<td width='3%'>&nbsp;</td>";
 					}
 
-					print "<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-						<td width='45%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
+					print "<td width='35%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
+						<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
+						<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">Last&nbsp;Article</a></td>
 						<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
 
 					$cur_cat_id = $cat_id;
@@ -1620,6 +1634,9 @@
 					
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					$edit_link . "</a></td>";		
+
+				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+					"$last_article</a></td>";
 
 				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$last_updated</a></td>";
