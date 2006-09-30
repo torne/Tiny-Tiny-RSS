@@ -422,8 +422,39 @@ div.helpResponse h2, div.infoBoxContents h2 {
 	font-size : 12pt;
 }
 
-table.main td.prefsTabs {
-	padding-left : 5px;
+div.prefsTab {
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	font-size : small;
+	position : relative;
+	bottom : 0px;
+	border-collapse : collapse;
+	-moz-border-radius : 3px;
+	min-width : 100px;
+	text-align : center;
+	background-image : url("images/vgrad_light_rev2.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+
+}
+
+div.prefsTabSelected {
+	float : left;
+	border-width : 1px 1px 0px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	margin : 0px 0px 0px 5px;
+	padding : 3px 5px 3px 5px;
+	font-size : small;
+	position : relative;
+	bottom : 0px;
+	border-collapse : collapse;
+	-moz-border-radius : 3px;
+	font-weight : bold;
+	min-width : 100px;
+	text-align : center;
+	background : white;
 }
 
 input.prefsTab {
@@ -903,24 +934,16 @@ div.headlines_cdm {
 	font-size : small;
 }
 
-#prefTabs {
-	border-width : 0px 0px 1px 0px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	border-collapse : collapse;
-	padding : 0px 10px 0px 10px;
-}
-
-#prefTabs div.return {
+div.return {
 	float : right;
 	font-size : small;
 }
 
-#prefTabs div.return a {
+div.return a {
 	color : #5050aa;
 }
 
-#prefTabs div.return a:hover {
+div.return a:hover {
 	color : black;
 }
 
@@ -932,4 +955,5 @@ div.headlines_cdm {
 	background-position : top left;
 	background-repeat : repeat-x;
 	font-size : small;
+	border-color : #c0c0c0;
 }

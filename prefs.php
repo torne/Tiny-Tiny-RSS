@@ -104,30 +104,30 @@ window.onload = init;
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
-<div id="prefTabs">
 		<div class="return">
 			<a href="#" onclick="gotoMain()">Exit preferences</a>
 		</div>
 
-		<input id="genConfigTab" class="prefsTab" type="submit" value="Preferences"
-			onclick="selectTab('genConfig')">
-		<input id="feedConfigTab" class="prefsTab" type="submit" value="My Feeds"
-			onclick="selectTab('feedConfig')">
+		<div class="firstTab">&nbsp;</div>
+
+		<div id="genConfigTab" class="prefsTab" 
+			onclick="selectTab('genConfig')">Preferences</div>
+		<div id="feedConfigTab" class="prefsTab" 
+			onclick="selectTab('feedConfig')">My Feeds</div>
 		<?php if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
-		<input id="feedBrowserTab" class="prefsTab" type="submit" value="Other Feeds"
-			onclick="selectTab('feedBrowser')">
+		<div id="feedBrowserTab" class="prefsTab" 
+			onclick="selectTab('feedBrowser')">Other Feeds</div>
 		<?php } ?>
-		<input id="filterConfigTab" class="prefsTab" type="submit" value="Content Filtering"
-			onclick="selectTab('filterConfig')">
+		<div id="filterConfigTab" class="prefsTab" 
+			onclick="selectTab('filterConfig')">Content Filtering</div>
 		<?php if (get_pref($link, 'ENABLE_LABELS')) { ?>
-		<input id="labelConfigTab" class="prefsTab" type="submit" value="Label Editor"
-			onclick="selectTab('labelConfig')">
+		<div id="labelConfigTab" class="prefsTab" 
+			onclick="selectTab('labelConfig')">Label Editor</div>
 		<?php } ?>
 		<?php if ($_SESSION["access_level"] >= 10) { ?>
-		<input id="userConfigTab" class="prefsTab" type="submit" value="User Manager"
-			onclick="selectTab('userConfig')">
+		<div id="userConfigTab" class="prefsTab" 
+			onclick="selectTab('userConfig')">User Manager</div>
 		<?php } ?>		
-</div>
 
 <div id="prefContent">
 	<p>Loading, please wait...</p>

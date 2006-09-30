@@ -528,44 +528,48 @@ input.extSearch {
 	width : 100%;
 }
 
-table.main td.prefsTabs {
-	padding-left : 5px;
-/*		  background-image : url("images/toolbar.png");
-	background-position : bottom left;
-	background-repeat : repeat-x; */
+div.prefsTab:hover {
+	cursor : pointer;
 }
 
-input.prefsTab {		
-	background-image : url("images/prefs_tab.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border : 0px solid black;
-	padding : 2px 7px 2px 7px;
-	margin : 0px 1px 0px 0px;
-	width : 130px;
+div.firstTab {
+	float : left;
+	width : 5px;
+}
+
+div.prefsTab {
+	float : left;
+	border-width : 1px 1px 0px 1px;
+	border-color : #88b0f0;
+	border-style : solid;
+	margin : 0px 0px 0px 5px;
+	padding : 3px 5px 3px 5px;
 	font-size : small;
-	background-color : white;
+	position : relative;
+	bottom : -1px;
+	border-collapse : collapse;
+	-moz-border-radius : 3px;
+	min-width : 100px;
+	text-align : center;
 }
 
-input.prefsTabSelected {
-
-	background-image : url("images/active_tab.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border : 0px solid black;
-	padding : 2px 7px 2px 7px;
-	margin : 0px 1px 0px 0px;
-	width : 130px;
+div.prefsTabSelected {
+	float : left;
+	border-width : 1px 1px 0px 1px;
+	border-color : #88b0f0;
+	border-style : solid;
+	margin : 0px 0px 0px 5px;
+	padding : 3px 5px 3px 5px;
+	background-color : #ecf4ff;
+	font-size : small;
+	position : relative;
+	bottom : -1px;
+	border-collapse : collapse;
+	-moz-border-radius : 3px;
 	font-weight : bold;
-	background-position : top left;
-	background-repeat : repeat-x;
-	font-size : small;
+	min-width : 100px;
+	text-align : center;
 }
-
-
-/*input.prefsTab:hover {
-	background : white;
-}*/
 
 div.warning {
 	background : #fff7d5;
@@ -1265,24 +1269,17 @@ div.headlines_cdm {
 	font-size : small;
 }
 
-#prefTabs {
-	border-width : 0px 0px 1px 0px;
-	border-color : #88b0f0;
-	border-style : solid;
-	border-collapse : collapse;
-	padding : 0px 10px 0px 10px;
-}
-
-#prefTabs div.return {
+div.return {
 	float : right;
 	font-size : small;
+	margin-right : 10px;
 }
 
-#prefTabs div.return a {
+div.return a {
 	color : #4684ff;
 }
 
-#prefTabs div.return a:hover {
+div.return a:hover {
 	color : black;
 }
 
@@ -1291,6 +1288,7 @@ div.headlines_cdm {
 }
 
 #prefContent {
+	clear : left;
 	bottom : 20px;
 	padding : 1em;
 	min-height : 300px;
@@ -1298,4 +1296,8 @@ div.headlines_cdm {
 	background-position : top left;
 	background-repeat : repeat-x;
 	font-size : small;
+	border-width : 1px 0px 0px 0px;
+	border-color : #88b0f0;
+	border-style : solid;
+
 }
