@@ -1621,6 +1621,7 @@
 					$edit_title = "<span class=\"insensitive\">$edit_title (Hidden)</span>";
 					$edit_link = "<span class=\"insensitive\">$edit_link</span>";
 					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
+					$last_article = "<span class=\"insensitive\">$last_article</span>";
 				}
 
 				$parent_title = $line["parent_title"];
