@@ -347,6 +347,10 @@
 				++$lnum;
 			}
 
+			if (db_num_rows($result) == 0) {
+				print "<li>No feeds to display.</li>";
+			}
+
 		} else {
 
 			// tags
@@ -359,6 +363,11 @@
 			UNION
 				select tag_name,0 as count FROM ttrss_tags WHERE owner_uid = '$owner_uid'
 			ORDER BY tag_name"); */
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "<li class=\"feedCat\">Tags</li>";
+				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+			}
 
 			$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
 				FROM ttrss_user_entries WHERE int_id = post_int_id 
@@ -385,15 +394,14 @@
 	
 			} 
 
-		}
-
-		if (db_num_rows($result) == 0) {
-			if ($tags) {
-				$what = "tags";
-			} else {
-				$what = "feeds";
+			if (db_num_rows($result) == 0) {
+				print "<li>No tags to display.</li>";
 			}
-			print "<li>No $what to display.</li>";
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				print "</ul>\n";
+			}
+
 		}
 
 		print "</ul>";
