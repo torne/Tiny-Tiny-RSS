@@ -1049,8 +1049,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" &&
-							e.className != "label" && e.className != "virt" &&
-							e.className != "error"))	{
+							e.className.match("feed")))	{
 						return e.id.replace("FEEDR-", "");
 					}
 				}
@@ -1087,7 +1086,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" && 
-							e.className != "error"))	{
+							e.className.match("feed")))	{
 						return e.id.replace("FEEDR-", "");
 					}
 				}
