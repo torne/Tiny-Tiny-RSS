@@ -1,0 +1,339 @@
+body {
+	background : #f6f6f6;
+}
+
+a:hover {
+	color : gray;
+}
+
+div.notice {
+	background : #f9f9f9;
+	border : 1px solid #999999;
+}
+
+
+table.headlinesSubToolbar td {
+	font-size : x-small;
+	color : gray;
+	padding : 5px 0px 5px 5px;
+	background-image : url("images/grad_1.png");
+	background-repeat : repeat-x;
+	background-position : bottom left;
+	background-color : #f3f3f2;
+}
+
+div.postReply {
+	padding : 0px;
+	margin : 0px;
+	font-size : medium;
+}
+
+div.postReply a {
+	color : black;
+}
+
+div.postReply a:hover {
+	color : gray;
+}
+
+div.postReply div.postHeader {
+	background : #f9f9f9;
+	border-style : solid;
+	border-color : #999999;
+	border-width : 0px 0px 1px 0px;
+}
+
+div.postReply > div.postHeader {
+	padding : 5px;
+}
+
+.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
+	.evenSelectedUnread td {
+	background-color : #fff7d5;
+	font-weight : bold;
+	border-width : 1px 0px 1px 0px;
+	border-style : solid;
+	border-color : #ebebeb;
+}
+
+.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
+	.oddSelectedUnread td {
+	background-color : #fff7d5;
+	font-weight : bold;
+}
+
+.evenSelected, .evenSelected td {
+	background-color : #fff7d5;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #ebebeb;
+}
+
+.oddSelected, .evenSelected td {
+	background-color : #fff7d5;
+}
+
+.evenGrayed, .evenGrayed td {
+	background-color : white;
+	color : #909090;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #ebebeb;
+}
+
+.oddGrayed {
+	color : #909090;
+}
+
+.even, .even td {
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #ebebeb;
+	background-color : #f9f9f9;
+}
+
+.odd, .odd td {
+	background-color : #f9f9f9;
+}
+
+.evenUnread, .evenUnread td {
+	background-color : white;
+	font-weight : bold;
+		  border-width : 1px 0px 1px 0px;
+		  border-style : solid;
+		  border-color : #ebebeb;
+}
+
+.oddUnread, .oddUnread td {
+	font-weight : bold;
+}
+
+li.feedSelected a,
+li.labelSelected a,
+li.virtSelected a,
+li.tagSelected a {
+	color : gray;
+}
+
+li.feedUnreadSelected a,
+li.labelUnreadSelected a,
+li.virtUnreadSelected a,
+li.tagUnreadSelected a {
+	color : gray;
+}
+
+table.prefFeedList td.feedEditCat {
+	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #999999;
+	padding-top : 0.5em;
+}
+
+tr.title td {
+	color : gray;
+	font-weight : bold;
+}
+
+tr.title td a {
+	color : gray;
+}
+
+tr.title td a:hover {
+	color : black;
+}
+
+span.contentPreview:hover {
+	color : black;
+}
+
+#dispSwitch a:hover {
+	color : black;
+}
+
+#infoBoxTitle {
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #999999;
+	background : #f9f9f9;
+	padding : 2px;
+	color : black;
+}
+
+
+#infoBox {	
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #999999;
+	font-size : small;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	padding-bottom : 5px;	
+	background : white;
+}
+
+#header {
+	position : absolute;
+	white-space: nowrap;
+	top : 10px;
+	left : 15px;
+	right : 20px;
+	height : 40px;
+	color : gray;
+	font-size : small;
+}
+
+#feeds-holder {
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	top : 50px;
+	left : 20px;
+	position : absolute;
+	width : 240px;
+	overflow : auto;
+	bottom : 30px;
+	border-collapse : collapse;
+	background : #f9f9f9;
+}
+
+#toolbar {
+	position : absolute;
+	left : 280px;
+	padding : 0px 20px 10px 10px;
+	top : 50px;
+	right : 0px;
+	white-space: nowrap;
+	height : 30px;
+	background-image : url("images/toolbar.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
+}
+
+div.headlines_normal {
+	position : absolute;
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #999999;
+	left : 280px;
+	height : 305px;
+	top : 85px;
+	right : 20px;
+	overflow : hidden;
+	background : white;
+	font-size : small;
+	border-collapse : collapse;
+}
+
+div.headlines_cdm {
+	position : absolute;
+	border-width : 1px 1px 1px 0px;
+	border-style : solid;
+	border-color : #999;
+	left : 280px;
+	bottom : 30px;
+	top : 85px;
+	right : 20px;
+	overflow : auto;
+	font-size : small;
+	background : white;
+	border-collapse : collapse;
+}
+
+#content-frame {
+	position : absolute;
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #999999;
+	background : white;
+	overflow : auto;
+	top : 410px;
+	left : 280px;
+	bottom : 30px;
+	right : 20px;
+	border-collapse : collapse;
+}
+
+#footer {
+	position : absolute;
+	bottom : 0px;
+	text-align : center;
+	color : gray;
+	font-size : x-small;
+	right : 0px;
+	left : 0px;
+	padding : 0px;
+	border-width : 0px;
+	background : #f6f6f6;
+}
+
+#footer a {
+	color : gray;
+}
+
+#headlinesContainer {
+	margin-left : 1px;
+	background-color : white;
+}
+
+#headlineActionsTop {
+/*	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	background-color : #fafafa; */
+	font-size : x-small;
+}
+
+#headlinesInnerContainer {
+	height : 280px;
+	overflow : auto;
+}
+
+div.firstTab {
+	width : 20px;
+}
+
+div.prefsTab {
+	border-color : #999999;
+}
+
+div.prefsTabSelected {
+	border-color : #999999;
+	background : white;
+}
+
+/* preferences layout */
+
+#prefHeader {
+	margin : 10px;
+	color : gray;
+	font-size : small;
+}
+
+div.return {
+	float : right;
+	font-size : small;
+	margin-right : 10px;
+}
+
+div.return a {
+	color : black;
+}
+
+div.return a:hover {
+	color : gray;
+}
+
+#prefContent {
+	clear : left;
+	margin : 0px 10px 0px 10px;
+	padding : 1em;
+	min-height : 300px;
+	background : white;
+	font-size : small;
+	border-width : 1px 1px 1px 1px;
+	border-color : #999999;
+	border-style : solid;
+
+}
