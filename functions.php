@@ -178,7 +178,7 @@
 			$upd_intl = $line["update_interval"];
 
 			if (!$upd_intl || $upd_intl == 0) {
-				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id);
+				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id, false);
 			}
 
 			if ($upd_intl < 0) { 
