@@ -394,21 +394,22 @@ tr.title td {
 	border-color : #ecf4ff;
 	border-style : solid;
 	font-size : small;
-	color : black;
-}
-
-tr.title td a {
-	color : black;
-}
-
-tr.title td a:hover {
 	color : #4684ff;
 }
 
+tr.title td a {
+	color : #4684ff;
+}
+
+tr.title td a:hover {
+	color : black;
+}
+
 table.prefFeedList td.feedEditCat {
-	font-size : large;
 	font-weight : bold;
-	padding : 5px 0px 5px 0px;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
 }
 
 table.prefFeedList td.feedIcon {
