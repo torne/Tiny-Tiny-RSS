@@ -17,6 +17,8 @@
 	$dt_add = get_script_dt_add();
 
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
@@ -85,45 +87,28 @@ window.onload = init;
 
 <ul id="debug_output"></ul>
 
+<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
 	<div id="fatal_error_msg">Unknown Error</div>
 </div></div>
 
-<table width="100%" height="100%" cellspacing="0" cellpadding="0" class="main">
-<?php if (get_pref($link, 'DISPLAY_HEADER')) { ?>
-<tr>
-	<td colspan="2">
-		<table cellspacing="0" cellpadding="0" width="100%"><tr>
-			<td rowspan="2" class="header" valign="middle">	
-				<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
-			</td>
-			<td valign="top" class="notifyBox">
-				<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-			</td>
-		</tr><tr><td class="welcomePrompt">
-			<?php if (!SINGLE_USER_MODE) { ?>
-				Hello, <b><?php echo $_SESSION["name"] ?></b>
-				(<a href="logout.php">Logout</a>)
-			<?php } ?>
-			</td>
-		</tr></table>
-	</td>
-</tr>
-<?php } else { ?>
-<tr>
-	<td class="small">
-		<div id="notify" class="notify_sm"><span id="notify_body">&nbsp;</span></div>
-		<div id="userDlgShadow"><div id="userDlg">&nbsp;</div></div>
-	</td><td class="welcomePrompt">
-		<?php if (!SINGLE_USER_MODE) { ?>
+<div id="prefHeader">
+	<?php if (!SINGLE_USER_MODE) { ?>
+		<div style="float : right">
 			Hello, <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
-		<?php } ?>
-</td></tr>
-<?php } ?>
-<tr>
-	<td class="prefsTabs" align="left" valign="bottom">
+		</div>
+	<?php } ?>
+	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
+</div>
+
+<div id="prefTabs">
+		<div class="return">
+			<a href="#" onclick="gotoMain()">Exit preferences</a>
+		</div>
+
 		<input id="genConfigTab" class="prefsTab" type="submit" value="Preferences"
 			onclick="selectTab('genConfig')">
 		<input id="feedConfigTab" class="prefsTab" type="submit" value="My Feeds"
@@ -142,29 +127,11 @@ window.onload = init;
 		<input id="userConfigTab" class="prefsTab" type="submit" value="User Manager"
 			onclick="selectTab('userConfig')">
 		<?php } ?>		
-	</td>
-	<td class="prefsToolbar" valign="middle" align="right">	
-		<input type="submit" onclick="gotoMain()" class="button" value="Return to main">
-	</td>
-	</tr>
-</tr>
-	<td id="prefContent" class="prefContent" valign="top" colspan="2">
+</div>
 
-		<p>Loading, please wait...</p>
-
-	</td>
-</tr>
-<?php if (get_pref($link, 'DISPLAY_FOOTER')) { ?>
-<tr>
-	<td class="footer" colspan="2">
-		<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
-		<?php if (WEB_DEMO_MODE) { ?>
-		<br>Running in demo mode, some functionality is disabled.
-		<?php } ?>
-	</td>
-</td>
-<?php } ?>
-</table>
+<div id="prefContent">
+	<p>Loading, please wait...</p>
+</div>
 
 <?php db_close($link); ?>
 

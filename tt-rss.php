@@ -115,7 +115,7 @@ window.onload = init;
 			(<a href="logout.php">Logout</a>)
 		</div>
 	<?php } ?>
-	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS">	
+	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
 <div id="feeds-holder">

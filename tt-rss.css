@@ -6,106 +6,6 @@ body {
 	font-family : sans-serif;
 }
 
-/* common styles */
-
-table.main td.headerBox {
-/*        background-image : url("images/vgrad_light_rev2.png");
-	background-position : top left;
-	background-repeat : repeat-x; */
-  		  background-color : white;
-}
-
-table.main td.header {
-	padding : 10px 10px 10px 10px;
-	height : 50px;
-}
-
-table.main td.mainToolbar {
-	border-width : 0px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 3px 25px 3px 10px;
-}
-
-table.main td.prefsToolbar {
-	padding : 0px 5px 5px 0px;
-}
-
-table.main td.feeds {
-	width : 290px;
-	height : 100%;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	padding : 0px;
-}
-
-table.main td.headlinesToolbarBox {
-	padding : 10px;
-	border-width : 0px 0px 1px 1px;
-	border-style : solid;
-	border-color : #88b0f0;
-	background-image : url("images/toolbar.png");
-	background-position : bottom left;
-	background-repeat : repeat-x;
-	background-color : white;
-}
-
-table.main td.footer {
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	padding : 10px;
-	text-align : center;
-	font-size : x-small;
-	background-image : url("images/footer.png");
-	background-position : top left;
-	background-repeat : repeat-x; 
-	background-color : white;
-	color : gray;
-}
-
-table.main td.footer a {
-	color : gray;
-}
-
-table.main td.footer a:hover {
-	color : #4684ff;
-}
-
-table.main td.headlines {
-	height : 25%;
-	border-width : 0px 0px 1px 1px;
-	border-style : solid;
-	border-color : #88b0f0;
-}
-
-table.main td.headlines2 {
-	height : 100%;
-	border-width : 0px 0px 0px 1px;
-	border-style : solid;
-	border-color : #c0c0c0;
-}
-
-table.main td.content {
-	height : 100%;
-	border-width : 0px 0px 0px 1px;
-	border-style : solid;
-	border-color : #88b0f0;
-}
-
-table.main td.prefContent {
-	height : 100%;
-	background-image : url("images/prefs-content.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	padding : 20px;
-	background-color : white; 
-}
-
 div.postReply {
 	padding : 10px;
 }
@@ -641,7 +541,7 @@ input.prefsTab {
 	padding : 2px 7px 2px 7px;
 	margin : 0px 1px 0px 0px;
 	width : 130px;
-	font-size : x-small;
+	font-size : small;
 	background-color : white;
 }
 
@@ -657,7 +557,7 @@ input.prefsTabSelected {
 	font-weight : bold;
 	background-position : top left;
 	background-repeat : repeat-x;
-	font-size : x-small;
+	font-size : small;
 }
 
 
@@ -668,9 +568,9 @@ input.prefsTabSelected {
 div.warning {
 	background : #fff7d5;
 	border : 1px solid #d7c47a;
-	padding : 3px;
+	padding : 5px;
 	margin : 5px;
-	font-size : x-small;
+	font-size : small;
 }
 
 div.notice {
@@ -678,7 +578,7 @@ div.notice {
 	border : 1px solid #88b0f0;
 	padding : 5px;
 	margin : 5px;
-	font-size : x-small;
+	font-size : small;
 }
 
 ul.nomarks {
@@ -1367,4 +1267,47 @@ div.headlines_cdm {
 #headlinesInnerContainer {
 	height : 280px;
 	overflow : auto;
+}
+
+/* preferences layout */
+
+#prefHeader {
+	margin : 10px;
+	color : #4684ff;
+	font-size : small;
+}
+
+#prefTabs {
+	border-width : 0px 0px 1px 0px;
+	border-color : #88b0f0;
+	border-style : solid;
+	border-collapse : collapse;
+	padding : 0px 10px 0px 10px;
+}
+
+#prefTabs div.return {
+	float : right;
+	font-size : small;
+}
+
+#prefTabs div.return a {
+	color : #4684ff;
+}
+
+#prefTabs div.return a:hover {
+	color : black;
+}
+
+#prefTabs input {
+	vertical-align : bottom;
+}
+
+#prefContent {
+	bottom : 20px;
+	padding : 1em;
+	min-height : 300px;
+	background-image : url("images/prefs-content.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	font-size : small;
 }

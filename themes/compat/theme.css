@@ -8,104 +8,6 @@ body {
 
 /* common styles */
 
-table.main td.headerBox {
-	background-image : url("images/vgrad_light_rev2.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-}
-
-/*
-table.main td.header {
-	padding : 10px 10px 10px 30px;
-	height : 70px;
-} */
-
-table.main td.mainToolbar {
-	border-width : 0px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 3px 25px 3px 10px;
-}
-
-table.main td.prefsToolbar {
-	padding : 0px 5px 5px 0px;
-}
-
-table.main td.feeds {
-	width : 290px;
-	height : 100%;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 0px;
-}
-
-table.main td.headlinesToolbarBox {
-	padding : 10px;
-	border-width : 0px 0px 1px 1px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	background-image : url("images/vgrad_light.png");
-	background-position : bottom left;
-	background-repeat : repeat-x;
-}
-
-table.main td.footer, table.main td.prefFooter {
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 10px;
-	text-align : center;
-	font-size : x-small;
-	background-image : url("images/vgrad_light_rev2.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	color : gray;
-}
-
-table.main td.footer a {
-	color : gray;
-}
-
-table.main td.footer a:hover {
-	color : #5050aa;
-}
-
-table.main td.headlines {
-	height : 25%;
-	border-width : 0px 0px 1px 1px;
-	border-style : solid;
-	border-color : #c0c0c0;
-}
-
-table.main td.headlines2 {
-	height : 100%;
-	border-width : 0px 0px 0px 1px;
-	border-style : solid;
-	border-color : #c0c0c0;
-}
-
-table.main td.content {
-	height : 100%;
-	background-image : url("images/vgrad_light_rev.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border-width : 0px 0px 0px 1px;
-	border-style : solid;
-	border-color : #c0c0c0;
-}
-
-table.main td.prefContent {
-	height : 100%;
-	background-image : url("images/vgrad_light_rev.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	padding : 20px;
-}
-
 div.postReply {
 	background-image : url("images/vgrad_light_rev.png");
 	background-position : top left;
@@ -561,7 +463,7 @@ div.warning {
 	border : 1px solid #c0c0c0;
 	padding : 5px;
 	margin : 5px;
-	font-size : x-small;
+	font-size : small;
 }
 
 div.notice {
@@ -569,7 +471,7 @@ div.notice {
 	border : 1px solid #c0c0c0;
 	padding : 5px;
 	margin : 5px;
-	font-size : x-small;
+	font-size : small;
 }
 
 ul.nomarks {
@@ -918,7 +820,7 @@ div.cdmContent a:hover {
 	right : 5px;
 	height : 40px;
 	color : gray;
-	font-size : x-small;
+	font-size : small;
 }
 
 #feeds-holder {
@@ -1004,4 +906,43 @@ div.headlines_cdm {
 #headlinesContainer {
 	margin-left : 1px;
 	background-color : white;
+}
+
+/* preferences layout */
+
+#prefHeader {
+	margin : 10px;
+	color : gray;
+	font-size : small;
+}
+
+#prefTabs {
+	border-width : 0px 0px 1px 0px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	border-collapse : collapse;
+	padding : 0px 10px 0px 10px;
+}
+
+#prefTabs div.return {
+	float : right;
+	font-size : small;
+}
+
+#prefTabs div.return a {
+	color : #5050aa;
+}
+
+#prefTabs div.return a:hover {
+	color : black;
+}
+
+#prefContent {
+	bottom : 20px;
+	padding : 1em;
+	min-height : 300px;
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	font-size : small;
 }
