@@ -214,10 +214,6 @@
 			$result = db_query($link, "SELECT ttrss_feeds.*,
 				SUBSTRING(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
-					WHERE feed_id = ttrss_feeds.id AND 
-					ttrss_user_entries.ref_id = ttrss_entries.id AND
-					owner_uid = '$owner_uid') AS total,
-				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
 						AND ttrss_user_entries.ref_id = ttrss_entries.id
 						AND owner_uid = '$owner_uid') as unread,
@@ -250,7 +246,6 @@
 	
 				$subop = $_GET["subop"];
 				
-				$total = $line["total"];
 				$unread = $line["unread"];
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
