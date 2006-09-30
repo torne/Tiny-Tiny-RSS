@@ -204,28 +204,6 @@ input.editbox {
 	padding-left : 2px;
 }
 
-td.notifyBox {
-	font-size : 10pt;
-	text-align : right;
-}
-
-.notify_sm {
-	background : #fff7d5;
-	border : 1px solid #d7c47a;
-	padding : 3px;
-	-moz-border-radius : 3px;
-	font-size : small;
-	text-align : left;
-	padding : 3px 20px 3px 20px;
-	text-align : center;
-	float : left;
-	min-width : 20%;
-	position : absolute;
-	left : 2px;
-	top : 2px;
-	display : none;
-}
-
 .notify {
 	background : #fff7d5;
 	border : 1px solid #d7c47a;
@@ -438,25 +416,6 @@ div.helpResponse {
 	border : 1px solid #f0f0f0;
 }
 
-#userDlgShadow {
-	z-index : 3;
-	position : absolute;
-	left : 30%;
-	top : 30%;
-	display : none;
-	background-image : url("images/shadow.png");
-}
-
-#userDlg {
-	padding : 15px;
-	border : 1px solid #88b0f0;
-	font-size : small;
-	position : relative;
-	bottom : 2px;
-	right : 2px;
-	background-color : #ecf4ff;
-}
-
 #infoBoxTitle {
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
@@ -513,13 +472,6 @@ div.helpResponse h2, div.infoBoxContents h2 {
 	font-size : 12pt;
 }
 
-/* pre {
-	border : 1px solid #c0c0c0;
-	padding : 5px;
-	background : #f0f0f0;
-	margin : 5px 10px 5px 10px;
-} */
-
 pre {
 	margin : 5px;
 }
@@ -534,7 +486,7 @@ div.prefsTab:hover {
 
 div.firstTab {
 	float : left;
-	width : 5px;
+	width : 10px;
 }
 
 div.prefsTab {
@@ -1281,10 +1233,6 @@ div.return a {
 
 div.return a:hover {
 	color : black;
-}
-
-#prefTabs input {
-	vertical-align : bottom;
 }
 
 #prefContent {
