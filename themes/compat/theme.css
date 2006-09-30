@@ -317,8 +317,7 @@ tr.title td a:hover {
 
 table.prefFeedList td.feedEditCat {
 	font-size : large;
-	font-weight : bold;
-	padding : 5px 0px 5px 0px;
+	border-color : #c0c0c0;
 }
 
 table.prefFeedList td.feedIcon {
@@ -832,71 +831,50 @@ div.cdmContent a:hover {
 
 #header {
 	position : absolute;
-	white-space: nowrap;
 	top : 10px;
 	left : 15px;
 	right : 5px;
 	height : 40px;
 	color : gray;
-	font-size : small;
 }
 
 #feeds-holder {
-	border-width : 1px 1px 1px 0px;
-	border-style : solid;
 	border-color : #c0c0c0;
 	top : 70px;
 	left : 0px;
 	position : absolute;
 	width : 260px;
-	overflow : auto;
 	bottom : 50px;
 }
 
 #toolbar {
-	position : absolute;
 	left : 261px;
 	padding : 5px 10px 5px 10px;
 	top : 70px;
 	right : 0px;
-	white-space: nowrap;
 	height : 30px;
 	background-image : url("images/vgrad_light.png");
 	background-position : bottom left;
 	background-repeat : repeat-x;
-	font-size : small;
 }
 
 div.headlines_normal {
-	position : absolute;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
 	border-color : #c0c0c0;
 	left : 260px;
 	height : 280px;
 	top : 105px;
 	right : 0px;
-	overflow : auto;
-	font-size : small;
 }
 
 div.headlines_cdm {
-	position : absolute;
-	border-width : 1px 0px 1px 0px;
-	border-style : solid;
 	border-color : #c0c0c0;
 	left : 260px;
 	bottom : 50px;
 	top : 105px;
 	right : 0px;
-	overflow : auto;
-	font-size : small;
 }
 
 #content-frame {
-	position : absolute;
-	border-width : 1px 0px 1px 0px;
-	border-style : solid;
 	border-color : #c0c0c0;
 	overflow : auto;
 	top : 390px;
@@ -916,6 +894,7 @@ div.headlines_cdm {
 	background-position : top left;
 	background-repeat : repeat-x; 
 	background-color : white;
+	border-color : #c0c0c0;
 	right : 0px;
 	left : 0px;
 	padding : 10px;
@@ -929,14 +908,7 @@ div.headlines_cdm {
 /* preferences layout */
 
 #prefHeader {
-	margin : 10px;
 	color : gray;
-	font-size : small;
-}
-
-div.return {
-	float : right;
-	font-size : small;
 }
 
 div.return a {
@@ -948,12 +920,8 @@ div.return a:hover {
 }
 
 #prefContent {
-	bottom : 20px;
-	padding : 1em;
-	min-height : 300px;
 	background-image : url("images/vgrad_light_rev.png");
 	background-position : top left;
 	background-repeat : repeat-x;
-	font-size : small;
 	border-color : #c0c0c0;
 }
