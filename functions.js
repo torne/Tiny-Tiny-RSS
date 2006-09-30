@@ -1250,7 +1250,7 @@ function qafAdd() {
 		return
 	}
 
-	notify("Adding feed...");
+	notify("Adding feed...", true);
 
 	closeInfoBox();
 

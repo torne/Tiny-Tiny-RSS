@@ -36,7 +36,7 @@ function toggleTags() {
 
 function dlg_frefresh_callback() {
 	if (xmlhttp.readyState == 4) {		
-		notify(xmlhttp.responseText);
+//		notify(xmlhttp.responseText);
 
 		if (getActiveFeedId() == _qfd_deleted_feed) {
 			var h = document.getElementById("headlines-frame");
