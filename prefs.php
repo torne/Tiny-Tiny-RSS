@@ -133,6 +133,20 @@ window.onload = init;
 	<p>Loading, please wait...</p>
 </div>
 
+<div id="prefFooter">
+	<?php if (defined('_DEBUG_USER_SWITCH')) { ?>
+		<select id="userSwitch" onchange="userSwitch()">
+		<?php 
+			foreach (array('admin', 'fox', 'test') as $u) {
+				$op_sel = ($u == $_SESSION["name"]) ? "selected" : "";
+				print "<option $op_sel>$u</option>";
+			}
+		?>
+		</select>
+	<? } ?>
+	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+</div>
+
 <?php db_close($link); ?>
 
 <script type="text/javascript">

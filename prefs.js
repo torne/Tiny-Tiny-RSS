@@ -1537,4 +1537,8 @@ function pref_hotkey_handler(e) {
 	}
 }
 
-
+function userSwitch() {
+	var chooser = document.getElementById("userSwitch");
+	var user = chooser[chooser.selectedIndex].value;
+	window.location = "prefs.php?swu=" + user;
+}

@@ -300,9 +300,11 @@ div.headlines_cdm {
 	border-collapse : collapse;
 }
 
-#footer {
+#footer, #prefFooter {
+	vertical-align : middle;
+	display : block;
 	position : absolute;
-	bottom : 0px;
+	bottom : 5px;
 	text-align : center;
 	color : gray;
 	font-size : x-small;
@@ -351,7 +353,7 @@ div.prefsTabSelected {
 /* preferences layout */
 
 #prefHeader {
-	margin : 10px;
+	margin : 10px 10px 10px 25px;
 	color : gray;
 	font-size : small;
 }
@@ -372,9 +374,14 @@ div.return a:hover {
 
 #prefContent {
 	clear : left;
-	margin : 0px 10px 0px 10px;
+	position : absolute;
+	bottom : 30px;
+	top : 75px;
+	overflow : auto;
+	left : 10px;
+	right : 10px;
 	padding : 1em;
-	min-height : 300px;
+	margin : 0px;
 	background : white;
 	font-size : small;
 	border-width : 1px 1px 1px 1px;

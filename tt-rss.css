@@ -379,6 +379,10 @@ tr.title td a:hover {
 	color : black;
 }
 
+div.feedEditSearch {
+	float : right;
+}
+
 table.prefFeedList td.feedEditCat {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -573,11 +577,6 @@ span.insensitive {
 }
 
 .prefGenericAddBox {
-	margin : 5px;
-	font-size : small;
-}
-
-.prefGenericAddBox td {
 	font-size : small;
 }
 
@@ -1163,6 +1162,10 @@ div.headlines_cdm {
 	border-collapse : collapse;
 	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
 	height: expression((parseInt(document.documentElement.clientHeight)-40-305-50)+'px');
+}
+
+#prefFooter {
+	display : none;
 }
 
 #footer {

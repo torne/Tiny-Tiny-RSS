@@ -1441,28 +1441,27 @@
 			$feed_search = $_SESSION["prefs_feed_search"];
 		}
 
-		print "<table width='100%' class=\"prefGenericAddBox\" 
-			cellspacing='0' cellpadding='0'><tr>
-			<td>
-				<input id=\"fadd_link\" 
-					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-					size=\"40\">
-				<input type=\"submit\" class=\"button\"
-					disabled=\"true\" id=\"fadd_submit_btn\"
-					onclick=\"addFeed()\" value=\"Subscribe\">";
+		print "<div class=\"feedEditSearch\">
+			<input id=\"feed_search\" size=\"20\"  
+				onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateFeedList()\" value=\"Search\">
+			</div>";
+
+		print "<div class=\"prefGenericAddBox\">
+			<input id=\"fadd_link\" 
+				onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
+				size=\"40\">
+			<input type=\"submit\" class=\"button\"
+				disabled=\"true\" id=\"fadd_submit_btn\"
+				onclick=\"addFeed()\" value=\"Subscribe\">";
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
 				onclick=\"javascript:browseFeeds()\" value=\"Top 25\">";
 		}
-		
-		print "</td><td align='right'>
-				<input id=\"feed_search\" size=\"20\"  
-					onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
-				<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateFeedList()\" value=\"Search\">
-			</td>			
-			</tr></table>";
+
+		print "</div>";
 
 		$feeds_sort = db_escape_string($_GET["sort"]);
 
@@ -3291,7 +3290,7 @@
 				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
 				size=\"40\">&nbsp;";
 			
-		print"<input type=\"submit\" class=\"button\" 
+		print "<input type=\"submit\" class=\"button\" 
 			id=\"user_add_btn\" disabled=\"true\"
 			onclick=\"javascript:addUser()\" value=\"Create user\"></div>";
 
