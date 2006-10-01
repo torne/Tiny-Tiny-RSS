@@ -193,9 +193,9 @@
 
 			}
 
-//			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
+			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<li><hr></li>";
-//			}
+			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
@@ -863,7 +863,7 @@
 
 
 		} else {
-			print "<div width='100%' align='center'>No articles found.</div>";
+			print "<div class='whiteBox'>No articles found.</div>";
 		}
 
 		print "</div>";

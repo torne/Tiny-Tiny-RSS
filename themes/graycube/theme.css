@@ -108,6 +108,51 @@ div.postReply > div.postHeader {
 	font-weight : bold;
 }
 
+ul.feedList {
+	list-style-type : none;
+	margin : 5px;
+	padding : 0px 0px 0px 5px;
+	font-size : small;
+	white-space : nowrap;
+}
+
+ul.feedList hr {
+	border-width : 0px;
+}
+
+ul.feedList li.feedCat {
+	margin : 0px;
+	padding : 1px 0px 1px 0px;
+	color : #707070;
+	font-size : small;
+}
+
+ul.feedList li.feedCat a:hover {
+	color : black;
+}
+
+ul.feedCatList {
+	list-style-type : none;
+	margin : 0px 0px 0px 10px;
+	padding : 0px;  
+}
+
+ul.feedCatList li {
+	margin : 0px;
+	padding : 1px 0px 1px 0px;
+	color : black;
+}
+
+ul.feedList img {
+	vertical-align : bottom;
+}
+
+ul.feedList li {
+	margin : 0px;
+	padding : 2px 0px 2px 0px;
+}
+
+
 li.feedSelected a,
 li.labelSelected a,
 li.virtSelected a,
@@ -177,7 +222,7 @@ span.contentPreview:hover {
 	position : absolute;
 	white-space: nowrap;
 	top : 10px;
-	left : 15px;
+	left : 25px;
 	right : 20px;
 	height : 40px;
 	color : gray;
