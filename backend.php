@@ -2511,7 +2511,7 @@
 			print "<table width='100%'><tr><td>Search:</td><td>";
 			
 			print "<input name=\"query\" class=\"iedit\" 
-				onkeypress=\"return filterCR(event)\"
+				onkeypress=\"return filterCR(event, search)\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				value=\"\">
 			</td></tr>";
@@ -2647,7 +2647,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Match:</td>
-				<td><input onkeypress=\"return filterCR(event)\"
+				<td><input onkeypress=\"return filterCR(event, qaddFilter)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					name=\"reg_exp\" class=\"iedit\">";		
 			print "</td><td>";

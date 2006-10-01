@@ -569,3 +569,5 @@ function userSwitch() {
 	var user = chooser[chooser.selectedIndex].value;
 	window.location = "tt-rss.php?swu=" + user;
 }
+
+

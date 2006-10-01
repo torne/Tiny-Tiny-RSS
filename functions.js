@@ -1189,10 +1189,12 @@ function infobox_submit_callback() {
 	if (xmlhttp.readyState == 4) {
 		closeInfoBox();
 
-		// called from prefs, reload tab
-		if (active_tab) {
-			selectTab(active_tab, false);
-		}
+		try {
+			// called from prefs, reload tab
+			if (active_tab) {
+				selectTab(active_tab, false);
+			}
+		} catch (e) { }
 
 		notify(xmlhttp.responseText);
 
@@ -1266,7 +1268,7 @@ function qafAdd() {
 	return false;
 }
 
-function filterCR(e)
+function filterCR(e, f)
 {
      var key;
 
@@ -1275,10 +1277,16 @@ function filterCR(e)
      else
           key = e.which;     //firefox
 
-     if(key == 13)
-          return false;
-     else
-          return true;
+	if (key == 13) {
+  		if (typeof f != 'undefined') {
+			f();
+			return false;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
 }
 
 function getMainContext() {
