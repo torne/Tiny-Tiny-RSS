@@ -214,9 +214,9 @@ input.editbox {
 	padding-left : 2px;
 }
 
-.notify {
-	background : #fff7d5;
-	border : 1px solid #d7c47a;
+#notify {
+	border-width : 1px;
+	border-style : solid;
 	top : 10px;
 	right : 35%;
 	min-width : 30%;
@@ -228,6 +228,18 @@ input.editbox {
 	z-index : 999;
 	-moz-border-radius : 2px;
 	padding : 5px 5px 5px 5px;
+}
+
+.notify {
+	border-color : #d7c47a;
+	background-color : #fff7d5;
+	color : black;
+}
+
+.notifyError {
+	background-color : #ffcccc;
+	border-color : #ff0000;
+	color : black;
 }
 
 #dispSwitch {
