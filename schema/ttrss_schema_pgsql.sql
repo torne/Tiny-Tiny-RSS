@@ -221,8 +221,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('COMBINED_DISPLAY_MODE', 1, 'false', 'Combined feed display',2,
 	'Display expanded list of feed articles, instead of separate displays for headlines and article content');
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SEARCH_TOOLBAR', 1, 'false', 'Enable search toolbar',3);
-
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_FEEDS', 1, 'false', 'Hide feeds with no unread messages',2);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('OPEN_LINKS_IN_NEW_WINDOW', 1, 'true', 'Open article links in new browser window',2);

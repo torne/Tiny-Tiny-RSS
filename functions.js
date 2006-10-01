@@ -1223,6 +1223,14 @@ function qaddFilter() {
 		return
 	}
 
+	var form = document.forms['filter_add_form'];
+	var reg_exp = form.reg_exp.value;
+
+	if (reg_exp == "") {
+		alert("Can't add filter: nothing to match on.");
+		return false;
+	}
+
 	var query = Form.serialize("filter_add_form");
 
 	xmlhttp.open("GET", "backend.php?" + query, true);
@@ -1249,6 +1257,14 @@ function qafAdd() {
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
+	}
+
+	var form = document.forms['feed_add_form'];
+	var feed_url = form.feed_url.value;
+
+	if (feed_url == "") {
+		alert("Can't subscribe: no feed URL given.");
+		return false;
 	}
 
 	notify("Adding feed...", true);

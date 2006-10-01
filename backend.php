@@ -1020,7 +1020,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Title:</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"title\" value=\"$title\"></td></tr>";
 
 			$feed_url = db_fetch_result($result, 0, "feed_url");
@@ -1028,7 +1028,7 @@
 				0, "feed_url")));
 				
 			print "<tr><td>Feed URL:</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"feed_url\" value=\"$feed_url\"></td></tr>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -1127,14 +1127,14 @@
 			$auth_login = escape_for_form(db_fetch_result($result, 0, "auth_login"));
 
 			print "<tr><td>Login:</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event)\"
+			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
 			$auth_pass = escape_for_form(db_fetch_result($result, 0, "auth_pass"));
 
 			print "<tr><td>Password:</td>";
 			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
-				onkeypress=\"return filterCR(event)\"
+				onkeypress=\"return filterCR(event, feedEditSave)\"
 				value=\"$auth_pass\"></td></tr>";
 
 			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
@@ -1856,7 +1856,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Match:</td>
-				<td><input onkeypress=\"return filterCR(event)\"
+				<td><input onkeypress=\"return filterCR(event, filterEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
 			
@@ -1963,6 +1963,8 @@
 				$filter_type = db_escape_string(trim($_GET["filter_type"]));
 				$feed_id = db_escape_string($_GET["feed_id"]);
 				$action_id = db_escape_string($_GET["action_id"]); 
+
+				if (!$regexp) return;
 
 				if (!$feed_id) {
 					$feed_id = 'NULL';
@@ -2163,7 +2165,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Caption:</td>
-				<td><input onkeypress=\"return filterCR(event)\"
+				<td><input onkeypress=\"return filterCR(event, labelEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"description\" class=\"iedit\" value=\"$description\">";
 
@@ -2301,7 +2303,9 @@
 				// no escaping is done here on purpose
 				$sql_exp = trim($_GET["sql_exp"]);
 				$description = db_escape_string($_GET["description"]);
-					
+
+				if (!$sql_exp || !$description) return;
+
 				$result = db_query($link,
 					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
 						VALUES ('$sql_exp', '$description', '".$_SESSION["uid"]."')");
@@ -2472,7 +2476,7 @@
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
-					onkeypress=\"return filterCR(event)\"
+					onkeypress=\"return filterCR(event, qafAdd)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
 		
@@ -2585,7 +2589,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>Caption:</td>
-				<td><input onkeypress=\"return filterCR(event)\"
+				<td><input onkeypress=\"return filterCR(event, addLabel)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"description\" class=\"iedit\">";
 
