@@ -633,6 +633,12 @@ table.headlinesSubToolbar {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #f0f0f0;
+	position : absolute;
+	left : 1px;
+	top : 0px;
+	height : 25px;
+	right : 0px;
+	background-color : white;
 }
 
 table.headlinesSubToolbar td.headlineActions {
@@ -1229,8 +1235,12 @@ div.headlines_cdm {
 }
 
 #headlinesInnerContainer {
-	height : 280px;
 	overflow : auto;
+	position : absolute;
+	left : 1px;
+	right : 0px;
+	bottom : 0px;
+	top : 25px; 
 }
 
 /* preferences layout */
