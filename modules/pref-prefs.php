@@ -1,13 +1,16 @@
 <?php
+	function prefs_js_redirect() {
+		print "<html><body>
+			<script type=\"text/javascript\">
+				window.location = 'prefs.php';
+			</script>
+			</body></html>";
+	}
+
 	function module_pref_prefs($link) {
 		$subop = $_REQUEST["subop"];
 
 		if ($subop == "Save configuration") {
-
-			if (WEB_DEMO_MODE) {
-				header("Location: prefs.php");
-				return;
-			}
 
 			$_SESSION["prefs_op_result"] = "save-config";
 
@@ -45,9 +48,9 @@
 
 				}
 
-				header("Location: prefs.php");
-
 			}
+
+			return prefs_js_redirect();
 
 		} else if ($subop == "getHelp") {
 
@@ -65,11 +68,6 @@
 
 		} else if ($subop == "Change e-mail") {
 
-			if (WEB_DEMO_MODE) {
-				header("Location: prefs.php");
-				return;
-			}
-
 			$email = db_escape_string($_GET["email"]);
 			$active_uid = $_SESSION["uid"];
 
@@ -78,14 +76,9 @@
 						WHERE id = '$active_uid'");				
 			}
 
-			header("Location: prefs.php");
+			return prefs_js_redirect();
 
 		} else if ($subop == "Change password") {
-
-			if (WEB_DEMO_MODE) {
-				header("Location: prefs.php");
-				return;
-			}
 
 			$old_pw = $_POST["OLD_PASSWORD"];
 			$new_pw = $_POST["OLD_PASSWORD"];
@@ -113,14 +106,9 @@
 				}
 			}
 
-			header("Location: prefs.php");
+			return prefs_js_redirect();
 
 		} else if ($subop == "Reset to defaults") {
-
-			if (WEB_DEMO_MODE) {
-				header("Location: prefs.php");
-				return;
-			}
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
@@ -135,7 +123,7 @@
 				initialize_user_prefs($link, $_SESSION["uid"]);
 			}
 
-			header("Location: prefs.php");
+			return prefs_js_redirect();
 
 		} else if ($subop == "Change theme") {
 
@@ -163,7 +151,7 @@
 
 			$_SESSION["theme"] = $theme_path;
 
-			header("Location: prefs.php");
+			return prefs_js_redirect();
 
 		} else {
 
