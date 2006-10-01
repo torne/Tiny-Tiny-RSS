@@ -498,7 +498,6 @@ div.prefsTab {
 	padding : 3px 5px 3px 5px;
 	font-size : small;
 	position : relative;
-	bottom : -1px;
 	border-collapse : collapse;
 	-moz-border-radius : 3px;
 	min-width : 100px;
@@ -515,7 +514,6 @@ div.prefsTabSelected {
 	background-color : #ecf4ff;
 	font-size : small;
 	position : relative;
-	bottom : -1px;
 	border-collapse : collapse;
 	-moz-border-radius : 3px;
 	font-weight : bold;
@@ -1164,11 +1162,7 @@ div.headlines_cdm {
 	height: expression((parseInt(document.documentElement.clientHeight)-40-305-50)+'px');
 }
 
-#prefFooter {
-	display : none;
-}
-
-#footer {
+#footer, #prefFooter {
 	position : absolute;
 	bottom : 0px;
 	height : 20px;
@@ -1190,8 +1184,12 @@ div.headlines_cdm {
 
 }
 
-#footer a {
+#footer a, #prefFooter a {
 	color : gray;
+}
+
+#footer a:hover, #prefFooter a:hover {
+	color : black;
 }
 
 #headlinesContainer {
@@ -1236,8 +1234,13 @@ div.return a:hover {
 
 #prefContent {
 	clear : left;
-	bottom : 20px;
+	position : absolute;
+	bottom : 40px;
+	top : 75px;
+	left : 0px;
+	right : 0px;
 	padding : 1em;
+	overflow : auto;
 	min-height : 300px;
 	background-image : url("images/prefs-content.png");
 	background-position : top left;
