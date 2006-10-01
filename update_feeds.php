@@ -31,6 +31,7 @@
 
 	while ($line = db_fetch_assoc($result)) {
 			$user_id = $line["id"];
+			initialize_user_prefs($link, $user_id);
 			update_all_feeds($link, false, $user_id, true);
 	}
 
