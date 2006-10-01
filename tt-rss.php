@@ -37,17 +37,6 @@
 		<link type="text/css" href="<?php echo $user_css_url ?>"/> 
 	<?php } ?>
 
-	<?php if (get_pref($link, 'USE_COMPACT_STYLESHEET')) { ?>
-
-		<link rel="stylesheet" href="tt-rss_compact.css" type="text/css">
-
-	<?php } else { ?>
-
-		<link title="Compact Stylesheet" rel="alternate stylesheet" 
-			type="text/css" href="tt-rss_compact.css"/> 
-
-	<?php } ?>
-
 	<!--[if gte IE 5.5000]>		
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">

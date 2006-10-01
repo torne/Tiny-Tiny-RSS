@@ -25,6 +25,8 @@ create table ttrss_themes(id serial not null primary key,
 	theme_path varchar(200) not null);
 
 insert into ttrss_themes (theme_name, theme_path) values ('Old-skool', 'compat');
+insert into ttrss_themes (theme_name, theme_path) values ('Graycube', 'graycube');
+insert into ttrss_themes (theme_name, theme_path) values ('Default (Compact)', 'compact');
 
 create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
@@ -198,7 +200,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 	'Experimental support for virtual feeds based on user crafted SQL queries. This feature is highly experimental and at this point not user friendly. Use with caution.');
 	
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates (in minutes)',1);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('USE_COMPACT_STYLESHEET', 1, 'false', 'Use compact stylesheet by default',2);
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DEFAULT_ARTICLE_LIMIT', 3, '0', 'Default article limit',2,
 	'Default limit for articles to display, any custom number you like (0 - disables).');
 

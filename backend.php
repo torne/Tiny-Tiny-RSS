@@ -1,5 +1,6 @@
 <?php
 	require_once "sessions.php";
+	require_once "modules/backend-rpc.php";
 	
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Pragma: no-cache");
@@ -24,7 +25,7 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 
-	$print_exec_time = true;
+	$print_exec_time = false;
 
 	if ((!$op || $op == "rpc" || $op == "rss" || $op == "digestSend" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
@@ -87,8 +88,7 @@
 	require_once "modules/pref-filters.php";
 	require_once "modules/pref-labels.php";
 	require_once "modules/pref-users.php";
-	require_once "modules/pref-feed-browser.php";
-	require_once "modules/backend-rpc.php";
+	require_once "modules/pref-feed-browser.php"; 
 
 	$script_started = getmicrotime();
 
