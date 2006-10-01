@@ -72,4 +72,31 @@
 			doesn't seem to support CURL functions.";
 		exit;
 	} 
+
+	if (!defined('SESSION_EXPIRE_TIME')) {
+		$err_msg = "config: SESSION_EXPIRE_TIME is undefined";
+	}
+
+	if (SESSION_EXPIRE_TIME < 60) {
+		$err_msg = "config: SESSION_EXPIRE_TIME is too low (less than 60)";
+	}
+
+	if (SESSION_EXPIRE_TIME < SESSION_COOKIE_LIFETIME_REMEMBER) {
+		$err_msg = "config: SESSION_EXPIRE_TIME should be greater or equal to" .
+			"SESSION_COOKIE_LIFETIME_REMEMBER";
+	}
+
+	if (defined('DISABLE_SESSIONS')) {
+		$err_msg = "config: you have enabled DISABLE_SESSIONS. Please disable this option.";
+	}
+
+	if (DATABASE_BACKED_SESSIONS && SINGLE_USER_MODE) {
+		$err_msg = "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE";
+	}
+
+	if ($err_msg) {
+		print "<b>Fatal Error</b>: $err_msg";
+		exit;
+	}
+
 ?>
