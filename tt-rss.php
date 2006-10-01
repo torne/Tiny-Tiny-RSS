@@ -204,7 +204,7 @@ window.onload = init;
 
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 	<div id="headlines-frame" class="headlines_normal"><div class="whiteBox">No feed selected.</div></div>
-	<div id="content-frame">&nbsp;</div>
+	<div id="content-frame"><div class="whiteBox">&nbsp;</div></div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm"><div class="whiteBox">No feed selected.</div></div>
 <?php } ?>
