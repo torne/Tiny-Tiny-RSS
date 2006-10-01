@@ -1011,14 +1011,23 @@
 		return true;
 	}
 
-	function authenticate_user($link, $login, $password) {
+	function authenticate_user($link, $login, $password, $force_auth = false) {
 
 		if (!SINGLE_USER_MODE) {
 
 			$pwd_hash = 'SHA1:' . sha1($password);
-	
-			$result = db_query($link, "SELECT id,login,access_level FROM ttrss_users WHERE 
-				login = '$login' AND pwd_hash = '$pwd_hash'");
+
+			if ($force_auth && defined('_DEBUG_USER_SWITCH')) {
+				$query = "SELECT id,login,access_level
+	            FROM ttrss_users WHERE
+		         login = '$login'";
+			} else {
+				$query = "SELECT id,login,access_level
+	            FROM ttrss_users WHERE
+		         login = '$login' AND pwd_hash = '$pwd_hash'";
+			}
+
+			$result = db_query($link, $query);
 	
 			if (db_num_rows($result) == 1) {
 				$_SESSION["uid"] = db_fetch_result($result, 0, "id");
@@ -1144,6 +1153,14 @@
 
 	function login_sequence($link) {
 		if (!SINGLE_USER_MODE) {
+
+			if (defined('_DEBUG_USER_SWITCH') && $_SESSION["uid"]) {
+				$swu = db_escape_string($_REQUEST["swu"]);
+				if ($swu) {
+					$_SESSION["prefs_cache"] = false;
+					return authenticate_user($link, $swu, null, true);
+				}
+			}
 
 			if (!validate_session($link)) {
 				logout_user();

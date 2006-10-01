@@ -1533,7 +1533,7 @@
 				}
 
 				print "
-					<td width='40%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
+					<td width='35%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
 					<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
 					<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">Last&nbsp;Article</a></td>
 					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
