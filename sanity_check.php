@@ -86,16 +86,16 @@
 			"SESSION_COOKIE_LIFETIME_REMEMBER";
 	}
 
-	if (defined('DISABLE_SESSIONS')) {
+/*	if (defined('DISABLE_SESSIONS')) {
 		$err_msg = "config: you have enabled DISABLE_SESSIONS. Please disable this option.";
-	}
+} */
 
 	if (DATABASE_BACKED_SESSIONS && SINGLE_USER_MODE) {
 		$err_msg = "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE";
 	}
 
 	if ($err_msg) {
-		print "<b>Fatal Error</b>: $err_msg";
+		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
 	}
 
