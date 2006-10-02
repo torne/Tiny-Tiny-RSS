@@ -1,6 +1,8 @@
 <?php
 	function module_pref_users($link) {
 
+		global $access_level_names;
+
 		$subop = $_GET["subop"];
 
 		if ($subop == "edit") {

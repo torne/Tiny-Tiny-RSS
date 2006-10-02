@@ -1,5 +1,9 @@
 <?php
+
 	function module_pref_feeds($link) {
+
+		global $update_intervals;
+		global $purge_intervals;
 
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];

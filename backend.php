@@ -77,6 +77,7 @@
 		1440 => "Daily",
 		10080 => "Weekly");
 
+
 	$access_level_names = array(
 		0 => "User", 
 		10 => "Administrator");
