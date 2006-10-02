@@ -1288,6 +1288,9 @@ div.return a:hover {
 	border-width : 1px 0px 0px 0px;
 	border-color : #88b0f0;
 	border-style : solid;
+	height: expression((parseInt(document.documentElement.clientHeight)-75-40)+'px');
+	width: expression((parseInt(document.documentElement.clientWidth)-25)+'px');
+
 
 }
 
