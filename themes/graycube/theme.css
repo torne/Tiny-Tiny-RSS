@@ -6,6 +6,42 @@ a:hover {
 	color : gray;
 }
 
+div.cdmArticle {
+	border-width : 0px 0px 1px 0px;
+	border-color : #999999;
+	margin : 0px;
+	padding : 10px;
+	background : #f9f9f9;
+	-moz-border-radius : 0px;
+}
+
+div.cdmArticleUnread {
+	border-width : 0px 0px 1px 0px;
+	border-color : #999999;
+	margin : 0px;
+	padding : 10px;
+	background : white;
+	-moz-border-radius : 0px;
+}
+
+div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+	border-width : 0px 0px 1px 0px;
+	border-color : #999999;
+	margin : 0px;
+	padding : 10px;
+	background : #ffcccc;
+	-moz-border-radius : 0px;
+}
+
+div.cdmArticleUnread div.cdmHeader a.title, 
+div.cdmArticleUnreadSelected div.cdmHeader a.title {
+	color : black;
+}
+
+div.cdmHeader a:hover {
+	color : black;
+}
+
 .notify {
 	border-color : #999;
 	background-color : #f9f9f9;
@@ -18,7 +54,7 @@ div.notice {
 	border : 1px solid #999999;
 }
 
-ul.userFeedList, ul.browseFeedList {
+ul.userFeedList, ul.browseFeedList, ul.labelTestResults {
 	border : 1px solid #999999;
 }
 
@@ -283,14 +319,14 @@ div.headlines_normal {
 
 div.headlines_cdm {
 	position : absolute;
-	border-width : 1px 1px 1px 0px;
+	border-width : 1px 1px 1px 1px;
 	border-style : solid;
 	border-color : #999;
 	left : 280px;
 	bottom : 30px;
 	top : 85px;
 	right : 20px;
-	overflow : auto;
+	overflow : hidden;
 	font-size : small;
 	background : white;
 	border-collapse : collapse;
@@ -343,8 +379,12 @@ div.headlines_cdm {
 }
 
 #headlinesInnerContainer {
-	height : 280px;
 	overflow : auto;
+	position : absolute;
+	left : 1px;
+	right : 0px;
+	bottom : 0px;
+	top : 25px; 
 }
 
 div.firstTab {
