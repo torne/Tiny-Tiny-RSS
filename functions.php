@@ -1542,7 +1542,8 @@
 			$match_part = "marked = true";
 		} else if ($n_feed > 0) {
 
-			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE parent_feed = '$n_feed'
+			$result = db_query($link, "SELECT id FROM ttrss_feeds 
+					WHERE parent_feed = '$n_feed'
 					AND hidden = false
 					AND owner_uid = " . $_SESSION["uid"]);
 
@@ -1552,12 +1553,15 @@
 				while ($line = db_fetch_assoc($result)) {
 					array_push($linked_feeds, "feed_id = " . $line["id"]);
 				}
+
+				array_push($linked_feeds, "feed_id = $n_feed");
 				
 				$match_part = implode(" OR ", $linked_feeds);
 
 				$result = db_query($link, "SELECT COUNT(int_id) AS unread 
 					FROM ttrss_user_entries
-					WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
+					WHERE	unread = true AND ($match_part) 
+					AND owner_uid = " . $_SESSION["uid"]);
 
 				$unread = 0;
 
