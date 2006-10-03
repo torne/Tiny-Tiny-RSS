@@ -31,6 +31,8 @@ function toggleTags() {
 		p.innerHTML = "display tags";
 	}
 	
+	notify("Loading, please wait...");
+
 	updateFeedList();
 }
 
