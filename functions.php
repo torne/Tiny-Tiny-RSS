@@ -893,7 +893,8 @@
 			$link_title = "Updated: $last_updated";
 		}
 
-		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" href=\"javascript:viewfeed('$feed_id', '', false);\">$feed_title</a>";
+		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
+			href=\"#\" onclick=\"javascript:viewfeed('$feed_id', '', false);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
@@ -2916,8 +2917,8 @@
 					$cat_unread = getCategoryUnread($link, $cat_id);
 					
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-						<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
-							<a href=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
+						<a id=\"FCATN-$cat_id\" href=\"#\" onclick=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
+							<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
 							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span>
 							</a></li>";
