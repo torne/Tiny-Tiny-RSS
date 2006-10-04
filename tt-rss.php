@@ -71,7 +71,17 @@
 
 <iframe id="backReqBox"></iframe>
 
-<div id="overlay"><div id="overlay_inner">Loading, please wait...</div></div> 
+<div id="overlay">
+	<div id="overlay_inner">
+	<p>Loading, please wait...</p>
+	<noscript>
+		<div class="error">
+		Your browser doesn't support Javascript, which is required
+		for this application to function properly. Please check your
+		browser settings.</div>
+	</noscript>
+	</div>
+</div> 
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 

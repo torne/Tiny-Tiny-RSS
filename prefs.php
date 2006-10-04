@@ -120,6 +120,12 @@ window.onload = init;
 
 <div id="prefContent">
 	<p>Loading, please wait...</p>
+	<noscript>
+		<div class="error">
+		Your browser doesn't support Javascript, which is required
+		for this application to function properly. Please check your
+		browser settings.</div>
+	</noscript>
 </div>
 
 <div id="prefFooter">
