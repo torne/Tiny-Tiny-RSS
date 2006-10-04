@@ -961,13 +961,10 @@
 					print " <input type=\"submit\" class=\"button\"
 						onclick=\"javascript:editFeedCats()\" value=\"Edit categories\">";
 
-					print "&nbsp;|&nbsp;";				
+#					print "&nbsp;|&nbsp;";				
 
 				}
 
-				print "All feeds: <input type=\"submit\" 
-							class=\"button\" onclick=\"gotoExportOpml()\" 
-							value=\"Export OPML\">";			
 				}
 		} else {
 
@@ -975,11 +972,20 @@
 
 		}
 
-		print "<h3>Import OPML</h3>
+		print "<h3>OPML</h3>
+
+		<div style='float : left'>
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
 			File: <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input class=\"button\" name=\"op\" onclick=\"return validateOpmlImport();\"
 				type=\"submit\" value=\"Import\">
-			</form>";
+				</form></div>";
+
+		print "&nbsp;|&nbsp;";				
+
+		print "<input type=\"submit\" 
+			class=\"button\" onclick=\"gotoExportOpml()\" 
+				value=\"Export\">";			
+
 	}
 ?>
