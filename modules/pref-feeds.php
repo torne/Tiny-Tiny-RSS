@@ -548,6 +548,7 @@
 
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
+					onkeypress=\"return filterCR(event, addFeedCat)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
 					size=\"40\">&nbsp;
 				<input 
@@ -634,7 +635,7 @@
 				
 						print "</td>";
 		
-						print "<td><input onkeypress=\"return filterCR(event)\"
+						print "<td><input onkeypress=\"return filterCR(event, feedCatEditSave)\"
 							name=\"title\" size=\"40\" value=\"$edit_title\"></td>";
 						
 					}
