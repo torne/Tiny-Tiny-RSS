@@ -31,20 +31,6 @@ function feedlist_callback() {
 			var container = document.getElementById('prefContent');	
 			container.innerHTML=xmlhttp.responseText;
 			selectTab("feedConfig", true);
-
-			if (active_feed_cat) {
-				var row = document.getElementById("FCATR-" + active_feed_cat);
-				if (row) {
-					if (!row.className.match("Selected")) {
-						row.className = row.className + "Selected";
-					}		
-				}
-				var checkbox = document.getElementById("FCCHK-" + active_feed_cat);
-				if (checkbox) {
-					checkbox.checked = true;
-				}
-			}
-
 			notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);

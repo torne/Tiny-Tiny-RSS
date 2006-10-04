@@ -660,10 +660,13 @@
 					$cat_id = $line["id"];
 		
 					$edit_cat_id = $_GET["id"];
-		
-					if ($action == "edit" && $cat_id != $edit_cat_id) {
-							$class .= "Grayed";
-							$this_row_id = "";
+
+					if ($action == "edit" && $cat_id == $edit_cat_id) {
+						$class .= "Selected";
+						$this_row_id = "";
+					} else if ($action == "edit" && $cat_id != $edit_cat_id) {
+						$class .= "Grayed";
+						$this_row_id = "";
 					} else {
 						$this_row_id = "id=\"FCATR-$cat_id\"";
 					}
