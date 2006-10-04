@@ -245,9 +245,9 @@ function addFeedCat() {
 	} else {
 		notify("Adding feed category...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=addCat&cat=" +
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
 			param_escape(cat.value), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.onreadystatechange=infobox_callback;
 		xmlhttp.send(null);
 
 		link.value = "";
@@ -365,9 +365,9 @@ function editFeedCat(cat) {
 
 	active_feed_cat = cat;
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCat&id=" +
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=edit&id=" +
 		param_escape(cat), true);
-	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 }
@@ -549,9 +549,9 @@ function removeSelectedFeedCats() {
 		if (ok) {
 			notify("Removing selected categories...");
 	
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=removeCats&ids="+
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
 				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.onreadystatechange=infobox_callback;
 			xmlhttp.send(null);
 		}
 
@@ -589,8 +589,8 @@ function feedCatEditCancel() {
 
 //	notify("Operation cancelled.");
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds", true);
-	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 	return false;
@@ -637,7 +637,7 @@ function feedCatEditSave() {
 	var query = Form.serialize("feed_cat_edit_form");
 
 	xmlhttp.open("GET", "backend.php?" + query, true);
-	xmlhttp.onreadystatechange=feedlist_callback;
+	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
 	active_feed_cat = false;
@@ -1435,7 +1435,7 @@ function selectPrefRows(kind, select) {
 		} else if (kind == "fcat") {
 			opbarid = "catOpToolbar";
 			nrow = "FCATR-";
-			nchk = "FCHK-";
+			nchk = "FCCHK-";
 			lname = "prefFeedCatList";
 		} else if (kind == "filter") {
 			opbarid = "filterOpToolbar";
@@ -1541,4 +1541,15 @@ function userSwitch() {
 	var chooser = document.getElementById("userSwitch");
 	var user = chooser[chooser.selectedIndex].value;
 	window.location = "prefs.php?swu=" + user;
+}
+
+function editFeedCats() {
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
 }

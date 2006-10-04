@@ -125,15 +125,16 @@ div.postReply > div.postHeader {
 }
 
 .evenGrayed, .evenGrayed td {
-	background-color : white;
-	color : #909090;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
-		  border-color : #ebebeb;
+	background-color : #f9f9f9;
+	color : gray;
+	border-width : 1px 0px 1px 0px;
+	border-style : solid;
+	border-color : #ebebeb;
 }
 
 .oddGrayed {
-	color : #909090;
+	color : gray;
+	background-color : #f9f9f9;
 }
 
 .even, .even td {
@@ -216,6 +217,10 @@ li.labelUnreadSelected a,
 li.virtUnreadSelected a,
 li.tagUnreadSelected a {
 	color : gray;
+}
+
+div.prefFeedCatHolder {
+	border : 1px solid #999999;
 }
 
 table.prefFeedList td.feedEditCat {

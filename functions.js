@@ -1215,6 +1215,7 @@ function infobox_callback() {
 				box.style.display = "block";				
 			}
 		}
+		notify("");
 	}
 }
 

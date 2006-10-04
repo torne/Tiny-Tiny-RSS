@@ -391,14 +391,14 @@
 			}
 		}
 
-		if ($subop == "saveCat") {
+/*		if ($subop == "saveCat") {
 			$cat_title = db_escape_string(trim($_GET["title"]));
 			$cat_id = db_escape_string($_GET["id"]);
 
 			$result = db_query($link, "UPDATE ttrss_feed_categories SET
 				title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
 
-		}
+} */
 
 		if ($subop == "remove") {
 
@@ -446,7 +446,7 @@
 			}
 		}
 
-		if ($subop == "addCat") {
+/*		if ($subop == "addCat") {
 
 			if (!WEB_DEMO_MODE) {
 
@@ -471,7 +471,7 @@
 
 
 			}
-		}
+		} 
 
 		if ($subop == "removeCats") {
 
@@ -502,7 +502,7 @@
 					db_query($link, "COMMIT");
 				}
 			}
-		}
+		} */
 
 		if ($subop == "categorize") {
 
@@ -535,6 +535,215 @@
 
 				db_query($link, "COMMIT");
 			}
+
+		}
+
+		if ($subop == "editCats") {
+
+			print "<div id=\"infoBoxTitle\">Category editor</div>";
+			
+			print "<div class=\"infoBoxContents\">";
+
+			$action = $_REQUEST["action"];
+
+			if ($action == "save") {
+
+				$cat_title = db_escape_string(trim($_GET["title"]));
+				$cat_id = db_escape_string($_GET["id"]);
+	
+				$result = db_query($link, "UPDATE ttrss_feed_categories SET
+					title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
+	
+			}
+
+			if ($action == "add") {
+
+				if (!WEB_DEMO_MODE) {
+	
+					$feed_cat = db_escape_string(trim($_GET["cat"]));
+	
+					$result = db_query($link,
+						"SELECT id FROM ttrss_feed_categories
+						WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+	
+					if (db_num_rows($result) == 0) {
+						
+						$result = db_query($link,
+							"INSERT INTO ttrss_feed_categories (owner_uid,title) 
+							VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
+	
+					} else {
+	
+						print "<div class=\"warning\">
+							Category <b>$feed_cat</b> already exists in the database.
+						</div>";
+					}
+
+				}
+			}
+
+			if ($action == "remove") {
+	
+				if (!WEB_DEMO_MODE) {
+	
+					$ids = split(",", db_escape_string($_GET["ids"]));
+	
+					foreach ($ids as $id) {
+	
+						db_query($link, "BEGIN");
+	
+						$result = db_query($link, 
+							"SELECT count(id) as num_feeds FROM ttrss_feeds 
+								WHERE cat_id = '$id'");
+	
+						$num_feeds = db_fetch_result($result, 0, "num_feeds");
+	
+						if ($num_feeds == 0) {
+							db_query($link, "DELETE FROM ttrss_feed_categories
+								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+						} else {
+	
+							print "<div class=\"warning\">
+								Unable to delete non empty feed categories.</div>";
+								
+						}
+	
+						db_query($link, "COMMIT");
+					}
+				}
+			}
+
+			print "<div class=\"prefGenericAddBox\">
+				<input id=\"fadd_cat\" 
+					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
+					size=\"40\">&nbsp;
+				<input 
+					type=\"submit\" class=\"button\" disabled=\"true\" id=\"catadd_submit_btn\"
+					onclick=\"javascript:addFeedCat()\" value=\"Create category\"></div>";
+	
+			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
+				WHERE owner_uid = ".$_SESSION["uid"]."
+				ORDER BY title");
+
+			print "<p>";
+
+			if (db_num_rows($result) != 0) {
+
+				print "<table width=\"100%\" class=\"prefFeedCatList\" 
+					cellspacing=\"0\">";
+
+				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
+				Select: 
+					<a href=\"javascript:selectPrefRows('fcat', true)\">All</a>,
+					<a href=\"javascript:selectPrefRows('fcat', false)\">None</a>
+					</td></tr>";
+
+				print "</table>";
+
+				print "<div class=\"prefFeedCatHolder\">";
+
+				print "<form id=\"feed_cat_edit_form\">";
+
+				print "<table width=\"100%\" class=\"prefFeedCatList\" 
+					cellspacing=\"0\" id=\"prefFeedCatList\">";
+
+/*				print "<tr class=\"title\">
+							<td width=\"5%\">&nbsp;</td><td width=\"80%\">Title</td>
+							</tr>"; */
+						
+				$lnum = 0;
+				
+				while ($line = db_fetch_assoc($result)) {
+		
+					$class = ($lnum % 2) ? "even" : "odd";
+		
+					$cat_id = $line["id"];
+		
+					$edit_cat_id = $_GET["id"];
+		
+					if ($action == "edit" && $cat_id != $edit_cat_id) {
+							$class .= "Grayed";
+							$this_row_id = "";
+					} else {
+						$this_row_id = "id=\"FCATR-$cat_id\"";
+					}
+		
+					print "<tr class=\"$class\" $this_row_id>";
+		
+					$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+		
+					if (!$edit_cat_id || $action != "edit") {
+		
+						print "<td width='5%' align='center'><input onclick='toggleSelectPrefRow(this, \"fcat\");' 
+							type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
+		
+						print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
+							$edit_title . "</a></td>";		
+		
+					} else if ($cat_id != $edit_cat_id) {
+		
+						print "<td width='5%' align='center'><input disabled=\"true\" type=\"checkbox\" 
+							id=\"FRCHK-".$line["id"]."\"></td>";
+		
+						print "<td>$edit_title</td>";		
+		
+					} else {
+		
+						print "<td width='5%' align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
+						
+						print "<input type=\"hidden\" name=\"id\" value=\"$cat_id\">";
+						print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+						print "<input type=\"hidden\" name=\"subop\" value=\"editCats\">";
+						print "<input type=\"hidden\" name=\"action\" value=\"save\">";
+				
+						print "</td>";
+		
+						print "<td><input onkeypress=\"return filterCR(event)\"
+							name=\"title\" size=\"40\" value=\"$edit_title\"></td>";
+						
+					}
+					
+					print "</tr>";
+		
+					++$lnum;
+				}
+	
+				print "</table>";
+
+				print "</form>";
+
+				print "</div>";
+
+				print "<div style='float : right'>
+					<input type='submit' class='button'			
+					onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+
+				print "<div id=\"catOpToolbar\">";
+	
+				if ($action == "edit") {
+					print "<input type=\"submit\" class=\"button\"
+							onclick=\"return feedCatEditSave()\" value=\"Save\">
+						<input type=\"submit\" class=\"button\"
+							onclick=\"return feedCatEditCancel()\" value=\"Cancel\">";
+					} else {
+
+					print "
+					<input type=\"submit\" class=\"button\" disabled=\"true\"
+						onclick=\"return editSelectedFeedCat()\" value=\"Edit\">
+					<input type=\"submit\" class=\"button\" disabled=\"true\"
+						onclick=\"return removeSelectedFeedCats()\" value=\"Remove\">";
+	
+					}
+
+				print "</div>";
+	
+			} else {
+				print "<p>No feed categories defined.</p>";
+			}
+
+			print "</div>";
+
+			return;
 
 		}
 
@@ -810,8 +1019,18 @@
 
 				}
 				
-				print "</span>
-					&nbsp;All feeds: <input type=\"submit\" 
+				print "</span>";
+
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+					print " <input type=\"submit\" class=\"button\"
+						onclick=\"javascript:editFeedCats()\" value=\"Edit categories\">";
+
+					print "&nbsp;|&nbsp;";				
+
+				}
+
+				print "All feeds: <input type=\"submit\" 
 							class=\"button\" onclick=\"gotoExportOpml()\" 
 							value=\"Export OPML\">";			
 				}
@@ -821,7 +1040,8 @@
 
 		}
 
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+/*		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 			print "<h3>Edit Categories</h3>";
 
@@ -936,7 +1156,7 @@
 			} else {
 				print "<p>No feed categories defined.</p>";
  			}
-		}
+		} */
 
 		print "<h3>Import OPML</h3>
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
