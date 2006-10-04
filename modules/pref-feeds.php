@@ -391,15 +391,6 @@
 			}
 		}
 
-/*		if ($subop == "saveCat") {
-			$cat_title = db_escape_string(trim($_GET["title"]));
-			$cat_id = db_escape_string($_GET["id"]);
-
-			$result = db_query($link, "UPDATE ttrss_feed_categories SET
-				title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
-
-} */
-
 		if ($subop == "remove") {
 
 			if (!WEB_DEMO_MODE) {
@@ -445,64 +436,6 @@
 				}
 			}
 		}
-
-/*		if ($subop == "addCat") {
-
-			if (!WEB_DEMO_MODE) {
-
-				$feed_cat = db_escape_string(trim($_GET["cat"]));
-
-				$result = db_query($link,
-					"SELECT id FROM ttrss_feed_categories
-					WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
-
-				if (db_num_rows($result) == 0) {
-					
-					$result = db_query($link,
-						"INSERT INTO ttrss_feed_categories (owner_uid,title) 
-						VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
-
-				} else {
-
-					print "<div class=\"warning\">
-						Category <b>$feed_cat</b> already exists in the database.
-					</div>";
-				}
-
-
-			}
-		} 
-
-		if ($subop == "removeCats") {
-
-			if (!WEB_DEMO_MODE) {
-
-				$ids = split(",", db_escape_string($_GET["ids"]));
-
-				foreach ($ids as $id) {
-
-					db_query($link, "BEGIN");
-
-					$result = db_query($link, 
-						"SELECT count(id) as num_feeds FROM ttrss_feeds 
-							WHERE cat_id = '$id'");
-
-					$num_feeds = db_fetch_result($result, 0, "num_feeds");
-
-					if ($num_feeds == 0) {
-						db_query($link, "DELETE FROM ttrss_feed_categories
-							WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-					} else {
-
-						print "<div class=\"warning\">
-							Unable to delete non empty feed categories.</div>";
-							
-					}
-
-					db_query($link, "COMMIT");
-				}
-			}
-		} */
 
 		if ($subop == "categorize") {
 
