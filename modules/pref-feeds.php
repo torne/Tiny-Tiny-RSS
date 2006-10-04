@@ -657,7 +657,7 @@
 
 			print "<div style='float : right'>
 				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+				onclick=\"selectTab('feedConfig')\" value=\"Close this window\"></div>";
 
 			print "<div id=\"catOpToolbar\">";
 	
