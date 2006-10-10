@@ -19,6 +19,9 @@ function headlines_callback() {
 	if (xmlhttp.readyState == 4) {
 		debug("headlines_callback");
 		var f = document.getElementById("headlines-frame");
+		try {
+			f.scrollTop = 0;
+		} catch (e) { };
 		f.innerHTML = xmlhttp.responseText;
 		update_all_counters();
 		if (typeof correctPNG != 'undefined') {
@@ -32,6 +35,9 @@ function article_callback() {
 	if (xmlhttp.readyState == 4) {
 		debug("article_callback");
 		var f = document.getElementById("content-frame");
+		try {
+			f.scrollTop = 0;
+		} catch (e) { };
 		f.innerHTML = xmlhttp.responseText;
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
