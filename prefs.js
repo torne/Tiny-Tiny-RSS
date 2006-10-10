@@ -1122,6 +1122,11 @@ function selectTab(id, noupdate) {
 			return
 		}
 
+		try {
+			var c = document.getElementById('prefContent');	
+			c.scrollTop = 0;
+		} catch (e) { };
+
 		if (!noupdate) {
 
 			debug("selectTab: " + id + "(NU: " + noupdate + ")");
