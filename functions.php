@@ -2383,7 +2383,8 @@
 			$item->title = $line["title"];
 			$item->description = $line["content_preview"];
 			$item->date = strtotime($line["updated"]);
-			$item->id = $line["guid"];
+			$item->guid = $line["guid"];
+			$item->link = $line['link'];
 
 			$rss->addItem($item);
 		}
