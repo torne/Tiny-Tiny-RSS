@@ -19,6 +19,8 @@
 		require_once 'simplepie/simplepie.inc';
 	}
 
+	require_once "feedcreator.class.php";
+
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
@@ -2360,7 +2362,7 @@
 	}
 
 	function generate_syndicated_feed($link, $feed, $is_cat,
-		$search, $search_mode, $match_on) {
+		$search, $search_mode, $match_on, $output_format = "RSS2.0") {
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
 				30, false, $is_cat, $search, $search_mode, $match_on, "updated DESC");
@@ -2370,31 +2372,23 @@
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
 
-		print "<rss version=\"2.0\">
-			<channel>
-			<title>$feed_title</title>
-			<link>$feed_site_url</link>
-			<generator>Tiny Tiny RSS v".VERSION."</generator>";
+		$rss = new UniversalFeedCreator();
+
+		$rss->title = $feed_title;
+		$rss->link = $feed_site_url;
 
 		while ($line = db_fetch_assoc($result)) {
-			print "<item>";
-			print "<id>" . htmlspecialchars($line["guid"]) . "</id>";
-			print "<link>" . htmlspecialchars($line["link"]) . "</link>";
 
-			$rfc822_date = date('r', strtotime($line["updated"]));
+			$item = new FeedItem();
+			$item->title = $line["title"];
+			$item->description = $line["content_preview"];
+			$item->date = strtotime($line["updated"]);
+			$item->id = $line["guid"];
 
-			print "<pubDate>$rfc822_date</pubDate>";
-
-			print "<title>" . 
-				htmlspecialchars($line["title"]) . "</title>";
-
-			print "<description>" . 
-				htmlspecialchars($line["content_preview"]) . "</description>";
-
-			print "</item>";
+			$rss->addItem($item);
 		}
 
-		print "</channel></rss>";
+		print $rss->createFeed($output_format);
 
 	}
 
