@@ -19,7 +19,9 @@
 		require_once 'simplepie/simplepie.inc';
 	}
 
-	require_once "feedcreator.class.php";
+	if (!DISABLE_SESSIONS) {
+		require_once "feedcreator.class.php";
+	}
 
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
