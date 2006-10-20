@@ -213,7 +213,7 @@ window.onload = init;
 			}
 		?>
 		</select>
-	<? } ?>
+	<?php } ?>
 	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
 </div>
 
