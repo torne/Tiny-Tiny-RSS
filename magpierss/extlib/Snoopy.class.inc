@@ -506,7 +506,7 @@ class Snoopy
 			if(!is_array($this->rawheaders))
 				$this->rawheaders = (array)$this->rawheaders;
 			while(list($headerKey,$headerVal) = each($this->rawheaders))
-				$headers .= $headerKey.": ".$headerVal."\r\n";
+				$headers .= $headerKey.": ".$headerVal;
 		}
 		if(!empty($content_type)) {
 			$headers .= "Content-type: $content_type";
@@ -582,7 +582,7 @@ class Snoopy
 				
 				$this->_tried_digest = true;
 				
-				$this->rawheaders["Authorization"]=$auth;
+				$this->rawheaders["Authorization"]=$auth . "\r\n";
 				$this->user = "";
 				$this->pass = "";
 				
