@@ -2656,7 +2656,7 @@
 							<a href=\"#\" onclick=\"catchupCurrentFeed()\">Feed</a>";
 				print "</td>";
 
-				if ($search && $feed_id > 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
 					print "<td class=\"headlineActions$rtl_cpart\">
 						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 								'$match_on', '$feed_id', '$is_cat');\">
