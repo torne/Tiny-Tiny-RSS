@@ -426,6 +426,19 @@
 
 				$feed_url = db_escape_string(trim($_GET["feed_url"]));
 				$cat_id = db_escape_string($_GET["cat_id"]);
+				$p_from = db_escape_string($_GET["from"]);
+
+				if ($p_from) {
+					print "<html>
+						<head>
+							<title>Tiny Tiny RSS - Subscribe to feed...</title>
+							<link rel=\"stylesheet\" type=\"text/css\" href=\"quicksub.css\">
+						</head>
+						<body>
+						<img class=\"logo\" src=\"images/ttrss_logo.png\"
+					  		alt=\"Tiny Tiny RSS\"/>	
+						<h1>Subscribe to feed...</h1>";
+				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
 					print "Added feed.";
@@ -433,6 +446,18 @@
 					print "<div class=\"warning\">
 						Feed <b>$feed_url</b> already exists in the database.
 					</div>";
+				}
+
+				if ($p_from) {
+					$tt_uri = 'http://' . $_SERVER['SERVER_NAME'] . 
+						preg_replace('/backend\.php.*$/', 
+							'tt-rss.php', $_SERVER["REQUEST_URI"]);
+
+					print "<p><a href='$tt_uri'>Return to Tiny Tiny RSS</a> or
+						<a href='javascript:window.close()'>close this window</a>.</p>";
+
+					print "</body></html>";
+					return;
 				}
 			}
 		}
