@@ -2672,7 +2672,11 @@
 								<a href=\"javascript:cdmSelectArticles('none')\">None</a>
 						&nbsp;&nbsp;
 						Toggle: <a href=\"javascript:selectionToggleUnread(true)\">Unread</a>,
-								<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>";
+							<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>
+						&nbsp;&nbsp;
+						Mark as read:
+							<a href=\"#\" onclick=\"catchupPage()\">Page</a>,
+							<a href=\"#\" onclick=\"catchupCurrentFeed()\">Feed</a>";
 			
 				print "</td>";
 

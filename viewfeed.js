@@ -327,7 +327,7 @@ function selectionToggleMarked(cdm_mode) {
 
 function cdmGetSelectedArticles() {
 	var sel_articles = new Array();
-	var container = document.getElementById("headlinesContainer");
+	var container = document.getElementById("headlinesInnerContainer");
 
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
@@ -343,7 +343,7 @@ function cdmGetSelectedArticles() {
 
 // mode = all,none,unread
 function cdmSelectArticles(mode) {
-	var container = document.getElementById("headlinesContainer");
+	var container = document.getElementById("headlinesInnerContainer");
 
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
