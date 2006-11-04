@@ -249,9 +249,16 @@ function catchupAllFeeds() {
 
 	notify("Marking all feeds as read...");
 
-	var feeds_frame = document.getElementById("feeds-frame");
+	debug("catchupAllFeeds Q=" + query_str);
 
-	feeds_frame.src = query_str;
+	if (xmlhttp_ready(xmlhttp)) {
+		xmlhttp.open("GET", query_str, true);
+		xmlhttp.onreadystatechange=feedlist_callback;
+		xmlhttp.send(null);
+	} else {
+		debug("xmlhttp busy");
+		//printLockingError();
+	}   
 
 	global_unread = 0;
 	updateTitle("");
