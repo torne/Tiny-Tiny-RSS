@@ -779,6 +779,11 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 
 	var cat_unread = 0;
 
+	if (!node) {
+		debug("hideOrShowFeeds: passed node is null, aborting");
+		return;
+	}
+
 	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 		for (i = 0; i < node.childNodes.length; i++) {
 			if (node.childNodes[i].nodeName != "LI") { continue; }
@@ -1394,12 +1399,18 @@ function storeInitParams(params, is_client) {
 
 function fatalError(code, message) {
 	try {	
-		var fe = document.getElementById("fatal_error");
-		var fc = document.getElementById("fatal_error_msg");
 
-		fc.innerHTML = "Code " + code + ": " + message;
+		if (code != 6) {
 
-		fe.style.display = "block";
+			var fe = document.getElementById("fatal_error");
+			var fc = document.getElementById("fatal_error_msg");
+	
+			fc.innerHTML = "Code " + code + ": " + message;
+	
+			fe.style.display = "block";
+		} else {
+			window.location.href = "login.php?rt=none";			
+		}
 
 	} catch (e) {
 		exception_error("fatalError", e);

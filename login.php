@@ -9,6 +9,7 @@
 	$error_msg = "";
 
 	$url_path = get_script_urlpath();
+	$return_to = $_REQUEST["rt"];
 
 	if (ENABLE_LOGIN_SSL) {		
 		$redirect_base = "https://" . $_SERVER["SERVER_NAME"] . $url_path;
@@ -16,7 +17,7 @@
 		$redirect_base = "http://" . $_SERVER["SERVER_NAME"] . $url_path;
 	}
 
-	if (SINGLE_USER_MODE) {
+	if (SINGLE_USER_MODE && $return_to != "none") {
 		header("Location: $redirect_base/tt-rss.php");
 		exit;
 	}
@@ -25,10 +26,9 @@
 
 	$login = $_POST["login"];
 	$password = $_POST["password"];
-	$return_to = $_POST["rt"];
 	$action = $_POST["action"];
 
-	if ($_COOKIE[get_session_cookie_name()]) {
+	if ($_COOKIE[get_session_cookie_name()] && $return_to != "none") {
 		require_once "sessions.php";
 		if ($_SESSION["uid"]) {
 			initialize_user_prefs($link, $_SESSION["uid"]); 
@@ -129,7 +129,8 @@ window.onload = init;
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 				<input type="submit" class="button" value="Login">
 				<input type="hidden" name="action" value="login">
-				<input type="hidden" name="rt" value="<?php echo $_GET['rt'] ?>">
+				<input type="hidden" name="rt" 
+					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">
 			</td></tr>
 		</table>
 	</td>

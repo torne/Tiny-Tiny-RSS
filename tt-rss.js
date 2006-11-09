@@ -73,10 +73,22 @@ function refetch_callback() {
 				return;
 			} 
 	
-			var error_code = reply.getAttribute("error-code");
-		
+			var error_code = false;
+			var error_msg = false;
+
+			if (reply.firstChild) {
+				error_code = reply.firstChild.getAttribute("error-code");
+				error_msg = reply.firstChild.getAttribute("error-msg");
+			}
+
+			if (!error_code) {	
+				error_code = reply.getAttribute("error-code");
+				error_msg = reply.getAttribute("error-msg");
+			}
+	
 			if (error_code && error_code != 0) {
-				return fatalError(error_code, reply.getAttribute("error-msg"));
+				debug("refetch_callback: got error code " + error_code);
+				return fatalError(error_code, error_msg);
 			}
 
 			var counters = reply.firstChild;
@@ -535,6 +547,11 @@ function toggleDispRead() {
 }
 
 function parse_runtime_info(elem) {
+	if (!elem) {
+		debug("parse_runtime_info: elem is null, aborting");
+		return;
+	}
+
 	var param = elem.firstChild;
 
 	debug("parse_runtime_info: " + param);
