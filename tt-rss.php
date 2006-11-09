@@ -34,7 +34,7 @@
 
 	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
 	<?php if ($user_css_url) { ?>
-		<link type="text/css" href="<?php echo $user_css_url ?>"/> 
+		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
 	<?php } ?>
 
 	<!--[if gte IE 5.5000]>		
