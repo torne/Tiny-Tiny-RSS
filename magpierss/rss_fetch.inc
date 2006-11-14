@@ -379,7 +379,11 @@ function init () {
         else {
             $ua = $ua . '; No cache)';
         }
-        
+
+        if ( defined('MAGPIE_USER_AGENT_EXT') ) {
+            $ua = $ua . MAGPIE_USER_AGENT_EXT;
+        }
+
         define('MAGPIE_USER_AGENT', $ua);
     }
     

@@ -13,6 +13,7 @@
 	require_once 'version.php';
 
 	if (RSS_BACKEND_TYPE == "magpie") {	
+		define('MAGPIE_USER_AGENT_EXT', ' (+Tiny Tiny RSS/' . VERSION . ')');
 		require_once "magpierss/rss_fetch.inc";
 		require_once 'magpierss/rss_utils.inc';
 	} else if (RSS_BACKEND_TYPE == "simplepie") {
