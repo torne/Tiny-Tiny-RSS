@@ -2925,7 +2925,7 @@
 						<a id=\"FCATN-$cat_id\" href=\"#\" onclick=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread unread)$ellipsis</span>
+							class=\"$catctr_class\">($cat_unread unread)</span> $ellipsis
 							</a></li>";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
