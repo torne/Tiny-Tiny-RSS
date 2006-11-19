@@ -82,6 +82,7 @@ function view(id, feed_id) {
 			xmlhttp.send(null);
 		} else {
 			debug("xmlhttp busy (@view)");
+			printLockingError();
 		}  
 
 	} catch (e) {
