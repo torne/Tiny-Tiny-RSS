@@ -453,6 +453,10 @@ function quickMenuGo(opid) {
 			displayDlg("quickAddFeed");
 			return;
 		}
+
+		if (opid == "qmcEditFeed") {
+			editFeedDlg(getActiveFeedId());
+		}
 	
 		if (opid == "qmcRemoveFeed") {
 			var actid = getActiveFeedId();
@@ -596,4 +600,57 @@ function userSwitch() {
 	window.location = "tt-rss.php?swu=" + user;
 }
 
+function editFeedDlg(feed) {
+
+	if (!feed) {
+		alert("Please select some feed first.");
+		return;
+	}
+
+	if (xmlhttp_ready(xmlhttp)) {
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
+			param_escape(feed), true);
+		xmlhttp.onreadystatechange=infobox_callback;
+		xmlhttp.send(null);
+	} else {
+		printLockingError();
+	}
+}
+
+/* this functions duplicate those of prefs.js feed editor, with
+	some differences because there is no feedlist */
+
+function feedEditCancel() {
+	closeInfoBox();
+	return false;
+}
+
+function feedEditSave() {
+
+	try {
+	
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
+
+		// FIXME: add parameter validation
+
+		var query = Form.serialize("edit_feed_form");
+
+		notify("Saving feed...");
+
+		xmlhttp.open("POST", "backend.php", true);
+		xmlhttp.onreadystatechange=dlg_frefresh_callback;
+		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xmlhttp.send(query);
+
+		closeInfoBox();
+
+		return false;
+
+	} catch (e) {
+		exception_error("feedEditSave (main)", e);
+	} 
+}
 

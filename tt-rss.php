@@ -134,6 +134,7 @@ window.onload = init;
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled>Feed actions:</option>
 					<option value="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
+					<option value="qmcEditFeed">&nbsp;&nbsp;Edit this feed</option>
 					<option value="qmcRemoveFeed">&nbsp;&nbsp;Unsubscribe</option>
 					<!-- <option>Edit this feed</option> -->
 					<option disabled>--------</option>

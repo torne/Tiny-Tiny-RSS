@@ -176,6 +176,11 @@ function feedlist_init() {
 			correctPNG();
 		}
 
+		if (getActiveFeedId()) {
+			debug("some feed is open on feedlist refresh, reloading");
+			setTimeout("viewCurrentFeed()", 100);
+		}
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}
