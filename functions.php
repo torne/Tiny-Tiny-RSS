@@ -551,8 +551,13 @@
 					$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 	
 					$entry_comments = strip_tags($item["comments"]);
-	
+
 					$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
+
+					if (!$entry_author) {
+						$entry_author = db_escape_string(strip_tags($item['author']));
+					}
+
 					$entry_guid = db_escape_string(strip_tags($entry_guid));
 	
 					$result = db_query($link, "SELECT id FROM	ttrss_entries 
