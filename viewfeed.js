@@ -1,5 +1,6 @@
 var active_post_id = false;
 var _catchup_callback_func = false;
+var last_article_view = false;
 
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
@@ -39,6 +40,10 @@ function article_callback() {
 			f.scrollTop = 0;
 		} catch (e) { };
 		f.innerHTML = xmlhttp.responseText;
+
+		var date = new Date();
+		last_article_view = date.getTime() / 1000;
+
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}
@@ -53,30 +58,35 @@ function view(id, feed_id) {
 	
 		enableHotkeys();
 	
-		var crow = document.getElementById("RROW-" + id);
-	
-		crow.className = crow.className.replace("Unread", "");
-	
-		cleanSelected("headlinesList");
-	
-		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
-	
-		if (upd_img_pic) {
-			upd_img_pic.src = "images/blank_icon.gif";
-		} 
-	
 		active_post_id = id; 
 		//setActiveFeedId(feed_id);
-	
-		var content = document.getElementById("content-frame");
-	
-		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-		markHeadline(active_post_id);
 
 		var query = "backend.php?op=view&id=" + param_escape(id) +
 			"&feed=" + param_escape(feed_id);
 
+		var date = new Date();
+
+		if (!xmlhttp_ready(xmlhttp) && last_article_view < date.getTime() / 1000 - 15) {
+			debug("<b>xmlhttp seems to be stuck at view, aborting</b>");
+			xmlhttp.abort();
+		}
+
 		if (xmlhttp_ready(xmlhttp)) {
+
+			cleanSelected("headlinesList");
+
+			var crow = document.getElementById("RROW-" + active_post_id);
+			crow.className = crow.className.replace("Unread", "");
+
+			var upd_img_pic = document.getElementById("FUPDPIC-" + active_post_id);
+
+			if (upd_img_pic) {
+				upd_img_pic.src = "images/blank_icon.gif";
+			}
+
+			selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+			markHeadline(active_post_id);
+
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=article_callback;
 			xmlhttp.send(null);
