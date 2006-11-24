@@ -1,5 +1,5 @@
 var hotkeys_enabled = true;
-
+var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
 
 function browser_has_opacity() {
@@ -166,6 +166,13 @@ function hotkey_handler(e) {
 	try {
 
 		var keycode;
+		var shift_key = false;
+
+		try {
+			shift_key = e.shiftKey;
+		} catch (e) {
+
+		}
 	
 		if (!hotkeys_enabled) return;
 	
@@ -226,6 +233,19 @@ function hotkey_handler(e) {
 				exception_error("hotkey_handler, local:", e);
 			}
 		}
+
+		if (keycode == 68 && shift_key) { // d
+			if (!debug_mode_enabled) {
+				document.getElementById('debug_output').style.display = 'block';
+				debug('debug mode activated');
+			} else {
+				document.getElementById('debug_output').style.display = 'none';
+			}
+
+			debug_mode_enabled = !debug_mode_enabled;
+		}
+
+		debug("KP=" + keycode);
 	} catch (e) {
 		exception_error("hotkey_handler", e);
 	}
