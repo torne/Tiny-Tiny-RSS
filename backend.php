@@ -469,6 +469,12 @@
 						100);
 				}
 
+				$entry_author = $line["author"];
+
+				if ($entry_author) {
+					$entry_author = " - by $entry_author";
+				}
+
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 					
 					print "<tr class='$class' id='RROW-$id'>";
@@ -481,7 +487,7 @@
 						</td>";
 		
 					print "<td class='hlMarkedPic'>$marked_pic</td>";
-		
+
 					if ($line["feed_title"]) {			
 						print "<td class='hlContent'>$content_link</td>";
 						print "<td class='hlFeed'>
@@ -527,6 +533,8 @@
 					print "<a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"
 						target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
+
+					print $entry_author;
 
 					if ($line["feed_title"]) {	
 						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";

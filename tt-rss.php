@@ -129,8 +129,8 @@ window.onload = init;
 		<div style="float : right">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected>Actions...</option>
-					<option value="qmcPrefs">Preferences</option>
 					<option value="qmcSearch">Search</option>
+					<option value="qmcPrefs">Preferences</option>
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled>Feed actions:</option>
 					<option value="qmcAddFeed">&nbsp;&nbsp;Subscribe to feed</option>
@@ -143,7 +143,7 @@ window.onload = init;
 					<option value="qmcUpdateFeeds">&nbsp;&nbsp;Update</option>
 					<?php } ?>
 					<option value="qmcCatchupAll">&nbsp;&nbsp;Mark as read</option>				
-					<option value="qmcShowOnlyUnread">&nbsp;&nbsp;Show only unread</option>
+					<option value="qmcShowOnlyUnread">&nbsp;&nbsp;(Un)hide read feeds</option>
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled>Other actions:</option>				
 					<option value="qmcAddFilter">&nbsp;&nbsp;Create filter</option>
