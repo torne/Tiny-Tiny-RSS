@@ -240,6 +240,36 @@
 
 		}
 
+		if ($id == "feedUpdateErrors") {
+
+			print "<div id=\"infoBoxTitle\">Update Errors</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "These feeds have not been updated because of errors:";
+
+			$result = db_query($link, "SELECT id,title,feed_url,last_error
+			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+
+			print "<ul class='nomarks'>";
+
+			while ($line = db_fetch_assoc($result)) {
+				print "<li><b>" . $line["title"] . "</b> (" . $line["feed_url"] . "): " . 
+					"<em>" . $line["last_error"] . "</em>";
+			}
+
+			print "</ul>";
+			print "</div>";
+
+			print "<div align='center'>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"Close\">";
+
+			print "</div>";
+
+		}
+
 		print "</div>";
 	}
 ?>

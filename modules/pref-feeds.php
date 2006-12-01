@@ -710,31 +710,16 @@
 
 		if ($quiet) return;
 
-//		print "<h3>Edit Feeds</h3>";
-
-		$result = db_query($link, "SELECT id,title,feed_url,last_error
+		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-		if (db_num_rows($result) > 0) {
-		
-			print "<div class=\"warning\">";
-			
-//			print"<img class=\"closeButton\" 
-//				onclick=\"javascript:hideParentElement(this);\" src=\"images/close.png\">";
-	
-			print "<a href=\"javascript:showBlockElement('feedUpdateErrors')\">
-				<b>Some feeds have update errors (click for details)</b></a>";
+		$num_errors = db_fetch_result($result, 0, "num_errors");
 
-			print "<ul id=\"feedUpdateErrors\" class=\"nomarks\">";
-						
-			while ($line = db_fetch_assoc($result)) {
-				print "<li>" . $line["title"] . " (" . $line["feed_url"] . "): " . 
-					$line["last_error"];
-			}
+		if ($num_errors > 0) {
 
-			print "</ul>";
-			print "</div>";
-
+			print "<a href=\"javascript:showFeedsWithErrors()\" 
+				class=\"feedUpdErrLink\">Some feeds have update errors (click 
+				for details)</a>";
 		}
 
 		$feed_search = db_escape_string($_GET["search"]);

@@ -1544,3 +1544,7 @@ function editFeedCats() {
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 }
+
+function showFeedsWithErrors() {
+	displayDlg('feedUpdateErrors');
+}
