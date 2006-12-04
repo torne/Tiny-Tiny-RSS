@@ -226,14 +226,6 @@ function hotkey_handler(e) {
 			}
 		}
 		
-		if (typeof localHotkeyHandler != 'undefined') {
-			try {
-				localHotkeyHandler(keycode);
-			} catch (e) {
-				exception_error("hotkey_handler, local:", e);
-			}
-		}
-
 		if (keycode == 68 && shift_key) { // d
 			if (!debug_mode_enabled) {
 				document.getElementById('debug_output').style.display = 'block';
@@ -243,6 +235,14 @@ function hotkey_handler(e) {
 			}
 
 			debug_mode_enabled = !debug_mode_enabled;
+		}
+
+		if (typeof localHotkeyHandler != 'undefined') {
+			try {
+				return localHotkeyHandler(e);
+			} catch (e) {
+				exception_error("hotkey_handler, local:", e);
+			}
 		}
 
 		debug("KP=" + keycode);

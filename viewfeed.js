@@ -51,10 +51,14 @@ function article_callback() {
 	}
 }
 
-function view(id, feed_id) {
+function view(id, feed_id, skip_history) {
 	
 	try {
 		debug("loading article: " + id + "/" + feed_id);
+
+		if (!skip_history) {
+			history_push("ARTICLE:" + id + ":" + feed_id);
+		}
 	
 		enableHotkeys();
 	
