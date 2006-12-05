@@ -161,7 +161,7 @@
 
 		$result = db_query($link, "UPDATE ttrss_user_entries 
 			SET unread = false,last_read = NOW() 
-			WHERE ref_id = '$id' AND feed_id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			SUBSTRING(updated,1,16) as updated,
