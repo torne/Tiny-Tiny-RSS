@@ -604,6 +604,8 @@ function userSwitch() {
 
 function editFeedDlg(feed) {
 
+	disableHotkeys();
+
 	if (!feed) {
 		alert("Please select some feed first.");
 		return;
