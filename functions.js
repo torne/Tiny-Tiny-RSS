@@ -237,6 +237,10 @@ function hotkey_handler(e) {
 			debug_mode_enabled = !debug_mode_enabled;
 		}
 
+		if (keycode == 69 && shift_key) {
+			return editFeedDlg(getActiveFeedId());
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
