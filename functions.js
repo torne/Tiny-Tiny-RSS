@@ -186,7 +186,7 @@ function hotkey_handler(e) {
 			return scheduleFeedUpdate(true);
 		}
 
-		if (keycode == 83) { // r
+		if (keycode == 83) { // s
 			return displayDlg("search", getActiveFeedId());
 		}
 
