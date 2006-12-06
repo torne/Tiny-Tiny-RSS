@@ -613,10 +613,59 @@ function parse_counters(reply, scheduled_call) {
 	}
 }
 
+function parse_counters_reply(xmlhttp) {
+
+	if (!xmlhttp.responseXML) {
+		notify("refetch_callback: backend did not return valid XML", true, true);
+		return;
+	}
+
+	var reply = xmlhttp.responseXML.firstChild;
+	
+	if (!reply) {
+		notify("refetch_callback: backend did not return expected XML object", true, true);
+		updateTitle("");
+		return;
+	} 
+	
+	var error_code = false;
+	var error_msg = false;
+
+	if (reply.firstChild) {
+		error_code = reply.firstChild.getAttribute("error-code");
+		error_msg = reply.firstChild.getAttribute("error-msg");
+	}
+
+	if (!error_code) {	
+		error_code = reply.getAttribute("error-code");
+		error_msg = reply.getAttribute("error-msg");
+	}
+	
+	if (error_code && error_code != 0) {
+		debug("refetch_callback: got error code " + error_code);
+		return fatalError(error_code, error_msg);
+	}
+
+	var counters = reply.firstChild;
+	
+	parse_counters(counters, true);
+
+	var runtime_info = counters.nextSibling;
+
+	parse_runtime_info(runtime_info);
+
+	if (getInitParam("feeds_sort_by_unread") == 1) {
+			resort_feedlist();		
+	}	
+
+	hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+
+}
+
 function all_counters_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
-			if (!xmlhttp_rpc.responseXML || !xmlhttp_rpc.responseXML.firstChild) {
+/*			if (!xmlhttp_rpc.responseXML || !xmlhttp_rpc.responseXML.firstChild) {
 				debug("[all_counters_callback] backend did not return valid XML");
 				return;
 			}
@@ -639,7 +688,11 @@ function all_counters_callback() {
 				resort_feedlist();		
 			}	
 
-			hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+			hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1); */
+			
+			debug("in all_counters_callback");
+
+			parse_counters_reply(xmlhttp_rpc);
 
 		} catch (e) {
 			exception_error("all_counters_callback", e);

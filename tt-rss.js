@@ -62,44 +62,7 @@ function refetch_callback() {
 
 			last_refetch = date.getTime() / 1000;
 
-			if (!xmlhttp_ctr.responseXML) {
-				notify("refetch_callback: backend did not return valid XML", true, true);
-				return;
-			}
-		
-			var reply = xmlhttp_ctr.responseXML.firstChild;
-	
-			if (!reply) {
-				notify("refetch_callback: backend did not return expected XML object", true, true);
-				updateTitle("");
-				return;
-			} 
-	
-			var error_code = false;
-			var error_msg = false;
-
-			if (reply.firstChild) {
-				error_code = reply.firstChild.getAttribute("error-code");
-				error_msg = reply.firstChild.getAttribute("error-msg");
-			}
-
-			if (!error_code) {	
-				error_code = reply.getAttribute("error-code");
-				error_msg = reply.getAttribute("error-msg");
-			}
-	
-			if (error_code && error_code != 0) {
-				debug("refetch_callback: got error code " + error_code);
-				return fatalError(error_code, error_msg);
-			}
-
-			var counters = reply.firstChild;
-	
-			parse_counters(counters, true);
-
-			var runtime_info = counters.nextSibling;
-
-			parse_runtime_info(runtime_info);
+			parse_counters_reply(xmlhttp_ctr);
 
 			debug("refetch_callback: done");
 
