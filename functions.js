@@ -529,7 +529,12 @@ function parse_counters(reply, scheduled_call) {
 			if (t == "category") {
 				var catctr = document.getElementById("FCATCTR-" + id);
 				if (catctr) {
-					catctr.innerHTML = "(" + ctr + " unread)";
+					catctr.innerHTML = "(" + ctr + ")";
+					if (ctr > 0) {
+						catctr.className = "catCtrHasUnread";
+					} else {
+						catctr.className = "catCtrNoUnread";
+					}
 				}
 				continue;
 			}
