@@ -613,7 +613,7 @@ function parse_counters(reply, scheduled_call) {
 	}
 }
 
-function parse_counters_reply(xmlhttp) {
+function parse_counters_reply(xmlhttp, scheduled_call) {
 
 	if (!xmlhttp.responseXML) {
 		notify("refetch_callback: backend did not return valid XML", true, true);
@@ -648,7 +648,7 @@ function parse_counters_reply(xmlhttp) {
 
 	var counters = reply.firstChild;
 	
-	parse_counters(counters, true);
+	parse_counters(counters, scheduled_call);
 
 	var runtime_info = counters.nextSibling;
 

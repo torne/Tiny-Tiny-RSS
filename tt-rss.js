@@ -62,7 +62,7 @@ function refetch_callback() {
 
 			last_refetch = date.getTime() / 1000;
 
-			parse_counters_reply(xmlhttp_ctr);
+			parse_counters_reply(xmlhttp_ctr, true);
 
 			debug("refetch_callback: done");
 
