@@ -283,9 +283,34 @@
 
 			$tags_str = join(", ", $tags);
 
-			print "<input type=\"hidden\" name=\"id\" value=\"$param\">";
+			print "<table width='100%'>";
 
-			print "<textarea rows='4' class='iedit' name='tags_str'>$tags_str</textarea>";
+			print "<tr><td colspan='2'><input type=\"hidden\" name=\"id\" value=\"$param\"></td></tr>";
+
+			print "<tr><td colspan='2'><textarea rows='4' class='iedit' name='tags_str'>$tags_str</textarea></td></tr>";
+
+			print "<tr><td>Add existing tag:</td>";
+
+			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
+				WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY tag_name");
+
+			$found_tags = array();
+
+			array_push($found_tags, '');
+
+			while ($line = db_fetch_assoc($result)) {
+				array_push($found_tags, $line["tag_name"]);
+			}
+
+			print "<td align='right'>";
+
+			print_select("found_tags", '', $found_tags, "onchange=\"javascript:editTagsInsert()\"");
+
+			print "</td>";
+
+			print "</tr>";
+
+			print "</table>";
 
 			print "</form>";
 

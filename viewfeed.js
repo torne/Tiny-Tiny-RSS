@@ -489,3 +489,28 @@ function editTagsSave() {
 	xmlhttp_rpc.send(null);
 
 }
+
+function editTagsInsert() {
+	try {
+
+		var form = document.forms["tag_edit_form"];
+
+		var found_tags = form.found_tags;
+		var tags_str = form.tags_str;
+
+		var tag = found_tags[found_tags.selectedIndex].value;
+
+		if (tags_str.value.length > 0 && 
+				tags_str.value.lastIndexOf(", ") != tags_str.value.length - 2) {
+
+			tags_str.value = tags_str.value + ", ";
+		}
+
+		tags_str.value = tags_str.value + tag + ", ";
+
+		found_tags.selectedIndex = 0;
+		
+	} catch (e) {
+		exception_error(e, "editTagsInsert");
+	}
+}

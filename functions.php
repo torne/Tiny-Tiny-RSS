@@ -3039,4 +3039,14 @@
 		return $tags;
 	}
 
+	function trim_value(&$value) {
+		$value = trim($value);
+	}	
+
+	function trim_array($array) {
+		$tmp = $array;
+		array_walk($tmp, 'trim_value');
+		return $tmp;
+	}
+
 ?>

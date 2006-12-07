@@ -210,7 +210,7 @@
 			$id = db_escape_string($_GET["id"]);
 			$tags_str = db_escape_string($_GET["tags_str"]);
 
-			$tags = split(",", $tags_str);
+			$tags = array_unique(trim_array(split(",", $tags_str)));
 
 			db_query($link, "BEGIN");
 
