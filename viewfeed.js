@@ -169,6 +169,10 @@ function moveToPost(mode) {
 	var prev_id;
 	var next_id;
 
+	if (!document.getElementById('RROW-' + active_post_id)) {
+		active_post_id = false;
+	}
+
 	if (active_post_id == false) {
 		next_id = getFirstVisibleHeadlineId();
 		prev_id = getLastVisibleHeadlineId();
