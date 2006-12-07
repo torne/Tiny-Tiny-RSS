@@ -713,16 +713,22 @@ table.headlinesList tr td {
 	padding : 2px 0px 2px 0px;
 }
 
-div.postHeader td.postDate {
+div.postHeader div.postDate {
 	font-size : x-small;
 	text-align : right;
 	color : gray;
+	float : right;
 }
 
-div.postHeader td.postDateRTL {
+div.postHeader div.postDateRTL {
 	font-size : x-small;
 	text-align : left;
 	color : gray;
+	float : right;
+}
+
+div.postHeader div {
+	padding-bottom : 3px;
 }
 
 #feedUpdateErrors {

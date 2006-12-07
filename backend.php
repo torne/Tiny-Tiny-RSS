@@ -211,7 +211,7 @@
 
 			print "<div class=\"postReply\">";
 
-			print "<div class=\"postHeader\"><table width=\"100%\">";
+			print "<div class=\"postHeader\">";
 
 			$entry_author = $line["author"];
 
@@ -219,19 +219,17 @@
 				$entry_author = " - by $entry_author";
 			}
 
-			if ($line["link"]) {
-				print "<tr><td width='70%'><a $link_target href=\"" . $line["link"] . "\">" . 
-					$line["title"] . "</a>$entry_author</td>";
-			} else {
-				print "<tr><td width='70%'>" . $line["title"] . "$entry_author</td>";
-			}
-
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
 				strtotime($line["updated"]));
 		
-			print "<td class=\"postDate$rtl_class\">$parsed_updated</td>";
-						
-			print "</tr>";
+			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
+
+			if ($line["link"]) {
+				print "<div clear='both'><a $link_target href=\"" . $line["link"] . "\">" . 
+					$line["title"] . "</a>$entry_author</div>";
+			} else {
+				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
+			}
 
 			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
 				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
@@ -247,9 +245,9 @@
 				$tag = $tmp_line["tag_name"];				
 				$tag_str = "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
 				
-				if ($num_tags == 3) {
+				if ($num_tags == 6) {
 					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
-				} else if ($num_tags < 3) {
+				} else if ($num_tags < 6) {
 					$tags_str .= $tag_str;
 				}
 				$f_tags_str .= $tag_str;
@@ -258,15 +256,13 @@
 			$tags_str = preg_replace("/, $/", "", $tags_str);
 			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
 
-//			$truncated_link = truncate_string($line["link"], 60);
+			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
-#			if ($tags_str || $entry_comments) {
-				print "<tr><td width='50%'>
-					$entry_comments</td>
-					<td align=\"right\">$tags_str <a href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></td></tr>";
-#			}
+			print "<div style='float : right'>$tags_str 
+				<a href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
+				<div clear='both'>$entry_comments</div>";
 
-			print "</table></div>";
+			print "</div>";
 
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
 			print "<div class=\"postContent\">";
