@@ -259,7 +259,8 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			print "<div style='float : right'>$tags_str 
-				<a href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
+				<a title=\"Edit tags for this article\" 
+					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
 				<div clear='both'>$entry_comments</div>";
 
 			print "</div>";
