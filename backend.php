@@ -245,7 +245,7 @@
 			while ($tmp_line = db_fetch_assoc($tmp_result)) {
 				$num_tags++;
 				$tag = $tmp_line["tag_name"];				
-				$tag_str = "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
+				$tag_str = "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
 				
 				if ($num_tags == 3) {
 					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
