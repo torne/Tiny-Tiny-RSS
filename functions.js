@@ -784,6 +784,8 @@ function update_all_counters(feed) {
 
 		if (tagsAreDisplayed()) {
 			query = query + "&omode=lt";
+		} else {
+			query = query + "&omode=flc";
 		}
 
 		debug("update_all_counters QUERY: " + query);
