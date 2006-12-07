@@ -782,6 +782,12 @@ function update_all_counters(feed) {
 			query = query + "&aid=" + feed;
 		}
 
+		if (tagsAreDisplayed()) {
+			query = query + "&omode=lt";
+		}
+
+		debug("update_all_counters QUERY: " + query);
+
 		xmlhttp_rpc.open("GET", query, true);
 		xmlhttp_rpc.onreadystatechange=all_counters_callback;
 		xmlhttp_rpc.send(null);

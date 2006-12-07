@@ -42,9 +42,12 @@
 		}
 
 		if ($subop == "getAllCounters") {
-			print "<rpc-reply>";
+			print "<rpc-reply>";			
 			print "<counters>";
-			getAllCounters($link);
+
+			$omode = $_GET["omode"];
+
+			getAllCounters($link, $omode);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";

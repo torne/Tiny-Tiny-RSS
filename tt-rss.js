@@ -154,7 +154,7 @@ function scheduleFeedUpdate(force) {
 		omode = "T";
 	} else {
 		if (display_tags) {
-			omode = "t";
+			omode = "tl";
 		} else {
 			omode = "flc";
 		}
@@ -189,6 +189,8 @@ function updateFeedList(silent, fetch) {
 //	if (silent != true) {
 //		notify("Loading feed list...");
 //	}
+
+	debug("<b>updateFeedList</b>");
 
 	var query_str = "backend.php?op=feeds";
 

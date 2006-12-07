@@ -1480,13 +1480,26 @@
 			}
 	}
 
-	function getAllCounters($link) {
-		getLabelCounters($link);
+	function getAllCounters($link, $omode = "tflc") {
+/*		getLabelCounters($link);
 		getFeedCounters($link);
 		getTagCounters($link);
 		getGlobalCounters($link);
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			getCategoryCounters($link);
+		} */
+
+		if (!$omode) $omode = "tflc";
+
+		getGlobalCounters($link);
+
+		if (strchr($omode, "l")) getLabelCounters($link);
+		if (strchr($omode, "f")) getFeedCounters($link);
+		if (strchr($omode, "t")) getTagCounters($link);
+		if (strchr($omode, "c")) {			
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
 		}
 	}	
 
@@ -2727,27 +2740,27 @@
 
 		$owner_uid = $_SESSION["uid"];
 
+		/* virtual feeds */
+
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			print "<li class=\"feedCat\">Special</li>";
+			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+		}
+
+		$num_starred = getFeedUnread($link, -1);
+
+		$class = "virt";
+
+		if ($num_starred > 0) $class .= "Unread";
+
+		printFeedEntry(-1, $class, "Starred articles", $num_starred, 
+			"images/mark_set.png", $link);
+
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			print "</ul>\n";
+		}
+
 		if (!$tags) {
-
-			/* virtual feeds */
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">Special</li>";
-				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
-			}
-
-			$num_starred = getFeedUnread($link, -1);
-
-			$class = "virt";
-
-			if ($num_starred > 0) $class .= "Unread";
-
-			printFeedEntry(-1, $class, "Starred articles", $num_starred, 
-				"images/mark_set.png", $link);
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "</ul>\n";
-			}
 
 			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
 	
