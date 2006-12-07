@@ -491,7 +491,7 @@
 					if ($line["feed_title"]) {			
 						print "<td class='hlContent'>$content_link</td>";
 						print "<td class='hlFeed'>
-							<a href='javascript:viewfeed($feed_id)'>".
+							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 								$line["feed_title"]."</a>&nbsp;</td>";
 					} else {			
 						print "<td class='hlContent' valign='middle'>";
