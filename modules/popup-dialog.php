@@ -1,7 +1,7 @@
 <?php
 	function module_popup_dialog($link) {
 		$id = $_GET["id"];
-		$param = $_GET["param"];
+		$param = db_escape_string($_GET["param"]);
 
 		if ($id == "quickAddFeed") {
 
@@ -265,6 +265,40 @@
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
 				value=\"Close\">";
+
+			print "</div>";
+
+		}
+
+		if ($id == "editArticleTags") {
+
+			print "<div id=\"infoBoxTitle\">Edit Tags</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form id=\"tag_edit_form\">";
+
+			print "Tags for this article (separated by commas):<br>";
+
+			$tags = get_article_tags($link, $param);
+
+			$tags_str = join(", ", $tags);
+
+			print "<input type=\"hidden\" name=\"id\" value=\"$param\">";
+
+			print "<textarea rows='4' class='iedit' name='tags_str'>$tags_str</textarea>";
+
+			print "</form>";
+
+			print "<div align='right'>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return editTagsSave()\" 
+				value=\"Save\"> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"Cancel\">";
+
 
 			print "</div>";
 

@@ -202,5 +202,45 @@
 				<message>$key : $value</message>
 				</rpc-reply>";
 		}
+
+		if ($subop == "setArticleTags") {
+			$id = db_escape_string($_GET["id"]);
+			$tags_str = db_escape_string($_GET["tags_str"]);
+
+			$tags = split(",", $tags_str);
+
+			db_query($link, "BEGIN");
+
+			$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
+				ref_id = '$id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1");
+
+			if (db_num_rows($result) == 1) {
+
+				$int_id = db_fetch_result($result, 0, "int_id");
+
+				db_query($link, "DELETE FROM ttrss_tags WHERE 
+					post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
+
+				foreach ($tags as $tag) {
+					$tag = trim($tag);
+
+					if (preg_match("/^[0-9]*$/", $tag)) {
+						continue;
+					}
+					
+					if ($tag != '') {
+						db_query($link, "INSERT INTO ttrss_tags 
+							(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
+					}
+				}
+			}
+
+			db_query($link, "COMMIT");
+
+			print "<rpc-reply>
+				<message>$id</message>
+				</rpc-reply>";
+
+		}
 	}
 ?>

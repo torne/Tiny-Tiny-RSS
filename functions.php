@@ -3009,4 +3009,21 @@
 
 	}
 
+	function get_article_tags($link, $id) {
+
+		$a_id = db_escape_string($id);
+
+		$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
+				ref_id = '$a_id' AND owner_uid = '".$_SESSION["uid"]."') ORDER BY tag_name");
+
+		$tags = array();	
+	
+		while ($tmp_line = db_fetch_assoc($tmp_result)) {
+			array_push($tags, $tmp_line["tag_name"]);				
+		}
+
+		return $tags;
+	}
+
 ?>

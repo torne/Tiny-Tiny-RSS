@@ -22,6 +22,10 @@ var init_params = new Object();
 
 var op_history = new Array();
 
+function tagsAreDisplayed() {
+	return display_tags;
+}
+
 function toggleTags() {
 	display_tags = !display_tags;
 

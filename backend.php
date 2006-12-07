@@ -223,7 +223,7 @@
 				print "<tr><td width='70%'><a $link_target href=\"" . $line["link"] . "\">" . 
 					$line["title"] . "</a>$entry_author</td>";
 			} else {
-				print "<tr><td width='30%'>" . $line["title"] . "$entry_author</td>";
+				print "<tr><td width='70%'>" . $line["title"] . "$entry_author</td>";
 			}
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
@@ -247,9 +247,9 @@
 				$tag = $tmp_line["tag_name"];				
 				$tag_str = "<a href=\"javascript:parent.viewfeed('$tag')\">$tag</a>, "; 
 				
-				if ($num_tags == 5) {
+				if ($num_tags == 3) {
 					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
-				} else if ($num_tags < 5) {
+				} else if ($num_tags < 3) {
 					$tags_str .= $tag_str;
 				}
 				$f_tags_str .= $tag_str;
@@ -260,18 +260,18 @@
 
 //			$truncated_link = truncate_string($line["link"], 60);
 
-			if ($tags_str || $entry_comments) {
+#			if ($tags_str || $entry_comments) {
 				print "<tr><td width='50%'>
 					$entry_comments</td>
-					<td align=\"right\">$tags_str</td></tr>";
-			}
+					<td align=\"right\">$tags_str <a href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></td></tr>";
+#			}
 
 			print "</table></div>";
 
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
 			print "<div class=\"postContent\">";
 			
-			if (db_num_rows($tmp_result) > 5) {
+			if (db_num_rows($tmp_result) > 0) {
 				print "<div id=\"allEntryTags\">Tags: $f_tags_str</div>";
 			}
 

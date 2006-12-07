@@ -1,6 +1,13 @@
 var active_post_id = false;
 var _catchup_callback_func = false;
 var last_article_view = false;
+var active_real_feed_id = false;
+
+var _tag_active_post_id = false;
+var _tag_active_feed_id = false;
+
+// FIXME: kludge, needs proper implementation
+var _reload_feedlist_after_view = false;
 
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
@@ -47,7 +54,13 @@ function article_callback() {
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}
-		update_all_counters();
+
+		if (_reload_feedlist_after_view) {
+			setTimeout('updateFeedList(false, false)', 50);			
+			_reload_feedlist_after_view = false;
+		} else {
+			update_all_counters();
+		}
 	}
 }
 
@@ -55,6 +68,8 @@ function view(id, feed_id, skip_history) {
 	
 	try {
 		debug("loading article: " + id + "/" + feed_id);
+
+		active_real_feed_id = feed_id;
 
 		if (!skip_history) {
 			history_push("ARTICLE:" + id + ":" + feed_id);
@@ -427,4 +442,50 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 
 }
 
+function editArticleTags(id, feed_id) {
+	_tag_active_post_id = id;
+	_tag_active_feed_id = feed_id;
+	displayDlg('editArticleTags', id);
+}
 
+
+function tag_saved_callback() {
+	if (xmlhttp_rpc.readyState == 4) {
+		try {
+			debug("in tag_saved_callback");
+
+			closeInfoBox();
+			notify("");
+
+			if (tagsAreDisplayed()) {
+				_reload_feedlist_after_view = true;
+			}
+
+			if (active_post_id == _tag_active_post_id) {
+				debug("reloading current article");
+				view(_tag_active_post_id, _tag_active_feed_id);			
+			} 
+
+		} catch (e) {
+			exception_error("catchup_callback", e);
+		}
+	}
+}
+
+function editTagsSave() {
+
+	if (!xmlhttp_ready(xmlhttp_rpc)) {
+		printLockingError();
+	}
+
+	notify("Saving article tags...");
+
+	var form = document.forms["tag_edit_form"];
+
+	var query = Form.serialize("tag_edit_form");
+
+	xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=setArticleTags&" + query, true);			
+	xmlhttp_rpc.onreadystatechange=tag_saved_callback;
+	xmlhttp_rpc.send(null);
+
+}
