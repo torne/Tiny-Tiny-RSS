@@ -94,6 +94,10 @@
 		$err_msg = "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE";
 	}
 
+	if (DATABASE_BACKED_SESSIONS && DB_TYPE == "mysql") {
+		$err_msg = "config: DATABASE_BACKED_SESSIONS are currently broken with MySQL";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
