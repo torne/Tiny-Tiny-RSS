@@ -153,6 +153,7 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	reg_exp varchar(250) not null,
 	enabled bool not null default true,
 	action_id integer not null default 1,
+	action_param varchar(200) not null default '',
 	index (filter_type),
 	foreign key (filter_type) references ttrss_filter_types(id) ON DELETE CASCADE,
 	index (owner_uid),
@@ -186,7 +187,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (11);
+insert into ttrss_version values (12);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
