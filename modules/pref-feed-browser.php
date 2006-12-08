@@ -72,7 +72,7 @@
 			return;
 		}
 
-		print "<p>This panel shows feeds subscribed by other users of this system, just in case you are interested in some of them too.</p>";
+		print "<div>This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.</div>";
 
 		$limit = db_escape_string($_GET["limit"]);
 
