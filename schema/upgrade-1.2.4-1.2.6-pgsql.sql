@@ -7,6 +7,9 @@ update ttrss_filters set action_param = '';
 alter table ttrss_filters alter column action_param set not null;
 alter table ttrss_filters alter column action_param set default '';
 
+insert into ttrss_filter_actions (id,name,description) values (4, 'tag', 
+		'Assign tag');
+
 update ttrss_version set schema_version = 12;
 
 commit;
