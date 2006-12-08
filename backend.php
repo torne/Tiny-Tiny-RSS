@@ -258,6 +258,8 @@
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
+			if (!$tags_str) $tags_str = '<span class="insensitive">no tags</span>';
+
 			print "<div style='float : right'>$tags_str 
 				<a title=\"Edit tags for this article\" 
 					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
