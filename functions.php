@@ -450,7 +450,8 @@
 
 			$result = db_query($link, "SELECT reg_exp,
 				ttrss_filter_types.name AS name,
-				ttrss_filter_actions.name AS action
+				ttrss_filter_actions.name AS action,
+				action_param
 				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
 					enabled = true AND
 					owner_uid = $owner_uid AND
@@ -463,7 +464,8 @@
 
 				$filter["reg_exp"] = $line["reg_exp"];
 				$filter["action"] = $line["action"];
-				
+				$filter["action_param"] = $line["action_param"];
+			
 				array_push($filters[$line["name"]], $filter);
 			}
 
@@ -653,8 +655,11 @@
 
 //					error_reporting(0);
 
-					$filter_name = get_filter_name($entry_title, $entry_content, 
+					$tuple = get_filter_name($entry_title, $entry_content, 
 						$entry_link, $filters);
+
+					$filter_name = $tuple[0];
+					$filter_param = $tuple[1];
 
 					if ($filter_name == "filter") {
 						continue;
@@ -750,6 +755,19 @@
 
 				$entry_tags = $entry_tags[1];
 
+				# check for manual tags
+
+				if ($filter_name == "tag") {
+
+					$manual_tags = trim_array(split(",", $filter_param));
+
+					foreach ($manual_tags as $tag) {
+						if (!preg_match("/^[0-9]*$/", $tag)) {
+							array_push($entry_tags, $tag);
+						}
+					}
+				}
+
 				if (count($entry_tags) > 0) {
 				
 					db_query($link, "BEGIN");
@@ -838,7 +856,7 @@
 			foreach ($filters["title"] as $filter) {
 				$reg_exp = $filter["reg_exp"];			
 				if (preg_match("/$reg_exp/i", $title)) {
-					return $filter["action"];
+					return array($filter["action"], $filter["action_param"]);
 				}
 			}
 		}
@@ -847,7 +865,7 @@
 			foreach ($filters["content"] as $filter) {
 				$reg_exp = $filter["reg_exp"];			
 				if (preg_match("/$reg_exp/i", $content)) {
-					return $filter["action"];
+					return array($filter["action"], $filter["action_param"]);
 				}		
 			}
 		}
@@ -857,7 +875,7 @@
 				$reg_exp = $filter["reg_exp"];		
 				if (preg_match("/$reg_exp/i", $title) || 
 					preg_match("/$reg_exp/i", $content)) {
-					return $filter["action"];
+						return array($filter["action"], $filter["action_param"]);
 				}
 			}
 		}
@@ -867,7 +885,7 @@
 			foreach ($filters["link"] as $filter) {
 				$reg_exp = $filter["reg_exp"];
 				if (preg_match("/$reg_exp/i", $link)) {
-					return $filter["action"];
+					return array($filter["action"], $filter["action_param"]);
 				}
 			}
 		}

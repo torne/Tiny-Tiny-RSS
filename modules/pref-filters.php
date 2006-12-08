@@ -14,6 +14,7 @@
 			$filter_type = db_fetch_result($result, 0, "filter_type");
 			$feed_id = db_fetch_result($result, 0, "feed_id");
 			$action_id = db_fetch_result($result, 0, "action_id");
+			$action_param = db_fetch_result($result, 0, "action_param");
 
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 
@@ -58,7 +59,8 @@
 	
 			print "<tr><td>Action:</td>";
 	
-			print "<td colspan='2'><select name=\"action_id\">";
+			print "<td colspan='2'><select name=\"action_id\"
+				onchange=\"filterDlgCheckAction(this)\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
@@ -71,6 +73,13 @@
 			print "</select>";
 
 			print "</td></tr>";
+
+			print "<tr><td>Params:</td>";
+
+			$param_disabled = ($action_id == 4) ? "" : "disabled";
+
+			print "<td><input $param_disabled class='iedit' 
+				name=\"action_param\" value=\"$action_param\"></td></tr>";
 
 			if ($enabled) {
 				$checked = "checked";
@@ -110,6 +119,7 @@
 			$filter_id = db_escape_string($_GET["id"]);
 			$feed_id = db_escape_string($_GET["feed_id"]);
 			$action_id = db_escape_string($_GET["action_id"]); 
+			$action_param = db_escape_string($_GET["action_param"]); 
 			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
 
 			if (!$feed_id) {
@@ -123,7 +133,8 @@
 					feed_id = $feed_id,
 					action_id = '$action_id',
 					filter_type = '$filter_type',
-					enabled = $enabled
+					enabled = $enabled,
+					action_param = '$action_param'
 				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
@@ -148,6 +159,7 @@
 				$filter_type = db_escape_string(trim($_GET["filter_type"]));
 				$feed_id = db_escape_string($_GET["feed_id"]);
 				$action_id = db_escape_string($_GET["action_id"]); 
+				$action_param = db_escape_string($_GET["action_param"]); 
 
 				if (!$regexp) return;
 
@@ -159,10 +171,10 @@
 
 				$result = db_query($link,
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-						action_id) 
+						action_id, action_param) 
 					VALUES 
 						('$regexp', '$filter_type','".$_SESSION["uid"]."', 
-							$feed_id, '$action_id')");
+							$feed_id, '$action_id', '$action_param')");
 			} 
 		}
 

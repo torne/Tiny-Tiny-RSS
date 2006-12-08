@@ -208,7 +208,8 @@
 	
 			print "<tr><td>Action:</td>";
 	
-			print "<td colspan='2'><select name=\"action_id\">";
+			print "<td colspan='2'><select name=\"action_id\" 
+				onchange=\"filterDlgCheckAction(this)\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
@@ -219,7 +220,13 @@
 	
 			print "</select>";
 
-			print "</td></tr></table>";
+			print "</td></tr>";
+
+			print "<tr><td>Params:</td>";
+
+			print "<td><input disabled class='iedit' name='action_param'></td></tr>";
+
+			print "</table>";
 
 			print "</form>";
 
