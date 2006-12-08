@@ -1527,3 +1527,40 @@ function getFeedName(id, is_cat) {
 function viewContentUrl(url) {
 	getContentContext().location = url;
 }
+
+function filterDlgCheckAction(sender) {
+
+	try {
+
+		var action = sender[sender.selectedIndex].value;
+
+		var form = document.forms["filter_add_form"];
+	
+		if (!form) {
+			form = document.forms["filter_edit_form"];
+		}
+
+		if (!form) {
+			debug("filterDlgCheckAction: can't find form!");
+			return;
+		}
+
+		var action_param = form.action_param;
+
+		if (!action_param) {
+			debug("filterDlgCheckAction: can't find action param!");
+			return;
+		}
+
+		// if selected action supports parameters, enable params field
+		if (action == 4) {
+			action_param.disabled = false;
+		} else {
+			action_param.disabled = true;
+		}
+
+	} catch (e) {
+		exception_error(e, "filterDlgCheckAction");
+	}
+
+}
