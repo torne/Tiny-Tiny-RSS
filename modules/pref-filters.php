@@ -305,9 +305,13 @@
 			print "</table>";
 
 			print "</form>";
-	
+
 			print "<p id=\"filterOpToolbar\">";
-	
+
+			print "<div class=\"insensitive\" style=\"float : right\">
+				First matching filter is used, filtering is performed
+				when importing articles from the feed.</div>";
+
 			print "
 					Selection:
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
