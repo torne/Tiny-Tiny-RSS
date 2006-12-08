@@ -893,6 +893,51 @@
 		return false;
 	}
 
+	function get_filter_matches($title, $content, $link, $filters) {
+
+		$matches = array();
+
+		if ($filters["title"]) {
+			foreach ($filters["title"] as $filter) {
+				$reg_exp = $filter["reg_exp"];			
+				if (preg_match("/$reg_exp/i", $title)) {
+					array_push($matches, array($filter["action"], $filter["action_param"]));
+				}
+			}
+		}
+
+		if ($filters["content"]) {
+			foreach ($filters["content"] as $filter) {
+				$reg_exp = $filter["reg_exp"];			
+				if (preg_match("/$reg_exp/i", $content)) {
+					array_push($matches, array($filter["action"], $filter["action_param"]));
+				}		
+			}
+		}
+
+		if ($filters["both"]) {
+			foreach ($filters["both"] as $filter) {			
+				$reg_exp = $filter["reg_exp"];		
+				if (preg_match("/$reg_exp/i", $title) || 
+					preg_match("/$reg_exp/i", $content)) {
+						array_push($matches, array($filter["action"], $filter["action_param"]));
+				}
+			}
+		}
+
+		if ($filters["link"]) {
+			$reg_exp = $filter["reg_exp"];
+			foreach ($filters["link"] as $filter) {
+				$reg_exp = $filter["reg_exp"];
+				if (preg_match("/$reg_exp/i", $link)) {
+					array_push($matches, array($filter["action"], $filter["action_param"]));
+				}
+			}
+		}
+
+		return $matches;
+	}
+
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
 		$rtl_content = false, $last_updated = false, $last_error = false) {
 
