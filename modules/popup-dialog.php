@@ -250,7 +250,7 @@
 			$result = db_query($link, "SELECT id,title,feed_url,last_error
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-			print "<ul class='nomarks'>";
+			print "<ul class='feedErrorsList'>";
 
 			while ($line = db_fetch_assoc($result)) {
 				print "<li><b>" . $line["title"] . "</b> (" . $line["feed_url"] . "): " . 
