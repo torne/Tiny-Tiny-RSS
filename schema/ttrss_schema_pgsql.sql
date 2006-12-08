@@ -141,7 +141,7 @@ insert into ttrss_filter_actions (id,name,description) values (3, 'mark',
 	'Set starred');
 
 insert into ttrss_filter_actions (id,name,description) values (4, 'tag', 
-	'Assign tag');
+	'Assign tags');
 
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
