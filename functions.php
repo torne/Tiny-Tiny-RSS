@@ -762,7 +762,7 @@
 					$manual_tags = trim_array(split(",", $filter_param));
 
 					foreach ($manual_tags as $tag) {
-						if (!preg_match("/^[0-9]*$/", $tag)) {
+						if (!preg_match("/^[0-9]*$/", $tag) && $tag != '') {
 							array_push($entry_tags, $tag);
 						}
 					}
