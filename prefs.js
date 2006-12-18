@@ -12,6 +12,8 @@ var xmlhttp = Ajax.getTransport();
 
 var init_params = new Array();
 
+var caller_subop = false;
+
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -31,6 +33,16 @@ function feedlist_callback() {
 			var container = document.getElementById('prefContent');	
 			container.innerHTML=xmlhttp.responseText;
 			selectTab("feedConfig", true);
+
+			if (caller_subop) {
+				var tuple = caller_subop.split(":");
+				if (tuple[0] == 'editFeed') {
+					window.setTimeout('editFeed('+tuple[1]+')', 100);
+				}				
+
+				caller_subop = false;
+			}
+
 			notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);
@@ -206,7 +218,7 @@ function addFeed() {
 	} else {
 		notify("Adding feed...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&feed_url=" +
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
 			param_escape(link.value), true);
 		xmlhttp.onreadystatechange=feedlist_callback;
 		xmlhttp.send(null);
@@ -1109,7 +1121,7 @@ function updatePrefsList() {
 
 }
 
-function selectTab(id, noupdate) {
+function selectTab(id, noupdate, subop) {
 
 //	alert(id);
 
@@ -1238,6 +1250,14 @@ function init_second_stage() {
 		if (!active_tab) active_tab = "genConfig";
 
 		document.onkeydown = pref_hotkey_handler;
+
+		var tab = getURLParam('tab');
+		
+		caller_subop = getURLParam('subop');
+
+		if (tab) {
+			active_tab = tab;
+		}
 
 		if (navigator.userAgent.match("Opera")) {	
 			setTimeout("selectTab()", 500);

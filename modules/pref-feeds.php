@@ -428,7 +428,7 @@
 				$cat_id = db_escape_string($_GET["cat_id"]);
 				$p_from = db_escape_string($_GET["from"]);
 
-				if ($p_from) {
+				if ($p_from != 'tt-rss') {
 					print "<html>
 						<head>
 							<title>Tiny Tiny RSS - Subscribe to feed...</title>
@@ -437,26 +437,42 @@
 						<body>
 						<img class=\"logo\" src=\"images/ttrss_logo.png\"
 					  		alt=\"Tiny Tiny RSS\"/>	
-						<h1>Subscribe to feed...</h1>";
+						<h1>Subscribe to feed...</h1>
+						<div class=\"content\">";
 				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
-					print "Added feed.";
+					print "Subscribed to <b>$feed_url</b>.";
 				} else {
 					print "<div class=\"warning\">
-						Feed <b>$feed_url</b> already exists in the database.
+						Already subscribed to <b>$feed_url</b>.
 					</div>";
 				}
 
-				if ($p_from) {
+				if ($p_from != 'tt-rss') {
 					$tt_uri = 'http://' . $_SERVER['SERVER_NAME'] . 
 						preg_replace('/backend\.php.*$/', 
 							'tt-rss.php', $_SERVER["REQUEST_URI"]);
 
-					print "<p><a href='$tt_uri'>Return to Tiny Tiny RSS</a> or
-						<a href='javascript:window.close()'>close this window</a>.</p>";
+					$tp_uri = 'http://' . $_SERVER['SERVER_NAME'] . 
+						preg_replace('/backend\.php.*$/', 
+							'prefs.php', $_SERVER["REQUEST_URI"]);
 
-					print "</body></html>";
+					print "<p><a href='$tt_uri'>Return to Tiny Tiny RSS</a> |";
+
+					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+					$feed_id = db_fetch_result($result, 0, "id");
+
+					if ($feed_id) {
+						print "<a href='$tp_uri?tab=feedConfig&subop=editFeed:$feed_id'>
+							Edit subscription options</a> | ";
+					}
+
+					print "<a href='javascript:window.close()'>Close this window</a>.</p>";
+
+					print "</div></body></html>";
 					return;
 				}
 			}
