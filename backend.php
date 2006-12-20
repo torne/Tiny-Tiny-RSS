@@ -59,28 +59,28 @@
 	}
 
 	$purge_intervals = array(
-		0  => "Use default",
-		-1 => "Never purge",
-		5  => "1 week old",
-		14 => "2 weeks old",
-		31 => "1 month old",
-		60 => "2 months old",
-		90 => "3 months old");
+		0  => _("Use default"),
+		-1 => _("Never purge"),
+		5  => _("1 week old"),
+		14 => _("2 weeks old"),
+		31 => _("1 month old"),
+		60 => _("2 months old"),
+		90 => _("3 months old"));
 
 	$update_intervals = array(
-		0   => "Use default",
-		-1  => "Disable updates",
-		30  => "Each 30 minutes",
-		60  => "Hourly",
-		240 => "Each 4 hours",
-		720 => "Each 12 hours",
-		1440 => "Daily",
-		10080 => "Weekly");
+		0   => _("Use default"),
+		-1  => _("Disable updates"),
+		30  => _("Each 30 minutes"),
+		60  => _("Hourly"),
+		240 => _("Each 4 hours"),
+		720 => _("Each 12 hours"),
+		1440 => _("Daily"),
+		10080 => _("Weekly");
 
 
 	$access_level_names = array(
-		0 => "User", 
-		10 => "Administrator");
+		0 => _("User"), 
+		10 => _("Administrator"));
 
 	require_once "modules/pref-prefs.php";
 	require_once "modules/popup-dialog.php";
@@ -216,7 +216,7 @@
 			$entry_author = $line["author"];
 
 			if ($entry_author) {
-				$entry_author = " - by $entry_author";
+				$entry_author = _(" - by ") . $entry_author;
 			}
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
@@ -258,7 +258,7 @@
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
-			if (!$tags_str) $tags_str = '<span class="tagList">no tags</span>';
+			if (!$tags_str) $tags_str = '<span class="tagList">'._('no tags').'</span>';
 
 			print "<div style='float : right'>$tags_str 
 				<a title=\"Edit tags for this article\" 
@@ -271,7 +271,7 @@
 			print "<div class=\"postContent\">";
 			
 			if (db_num_rows($tmp_result) > 0) {
-				print "<div id=\"allEntryTags\">Tags: $f_tags_str</div>";
+				print "<div id=\"allEntryTags\">"._('Tags:')."$f_tags_str</div>";
 			}
 
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
@@ -324,8 +324,7 @@
 				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 		
 			if (db_num_rows($result) == 0) {
-				print "<div align='center'>
-					Feed not found.</div>";
+				print "<div align='center'>"._('Feed not found.')."</div>";
 				return;
 			}
 		}
@@ -391,8 +390,7 @@
 		print "<div id=\"headlinesContainer\" $rtl_tag>";
 
 		if (!$result) {
-			print "<div align='center'>
-				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
+			print "<div align='center'>"._("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
 			return;
 		}
 	
@@ -570,7 +568,7 @@
 
 
 		} else {
-			print "<div class='whiteBox'>No articles found.</div>";
+			print "<div class='whiteBox'>"._('No articles found.')."</div>";
 		}
 
 		print "</div>";
