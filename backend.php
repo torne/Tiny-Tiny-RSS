@@ -75,7 +75,7 @@
 		240 => _("Each 4 hours"),
 		720 => _("Each 12 hours"),
 		1440 => _("Daily"),
-		10080 => _("Weekly");
+		10080 => _("Weekly"));
 
 
 	$access_level_names = array(
