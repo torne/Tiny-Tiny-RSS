@@ -110,7 +110,7 @@ window.onload = init;
 <div id="header">
 	<?php if (!SINGLE_USER_MODE) { ?>
 		<div style="float : right">
-			Hello, <b><?php echo $_SESSION["name"] ?></b>
+			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
 		</div>
 	<?php } ?>
