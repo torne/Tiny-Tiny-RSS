@@ -2035,7 +2035,7 @@
 		print "<select id=\"$id\" name=\"$id\" $attributes>";
 
 		if ($include_all_cats) {
-			print "<option value=\"0\">Uncategorized</option>";
+			print "<option value=\"0\">"._('Uncategorized')."</option>";
 		}
 
 		$result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
@@ -2321,9 +2321,9 @@
 			$feed_title = "";
 
 			if ($search && $search_mode == "all_feeds") {
-				$feed_title = "Global search results ($search)";
+				$feed_title = _("Global search results")." ($search)";
 			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = "Tag search results ($search, $feed)";
+				$feed_title = _("Tag search results")." ($search, $feed)";
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 				$feed_title = $feed;
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
@@ -2335,11 +2335,11 @@
 							WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 						$feed_title = db_fetch_result($result, 0, "title");
 					} else {
-						$feed_title = "Uncategorized";
+						$feed_title = _("Uncategorized");
 					}
 
 					if ($search) {
-						$feed_title = "Category search results ($search, $feed_title)";
+						$feed_title = _("Category search results")." ($search, $feed_title)";
 					}
 
 				} else {
@@ -2728,16 +2728,16 @@
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
-				print "<td class=\"headlineActions$rtl_cpart\">
-					Select: 
+				print "<td class=\"headlineActions$rtl_cpart\">".
+					_('Select:')."
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)\">All</a>,
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
 								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)\">None</a>
-						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
+						&nbsp;&nbsp;".
+						_('Toggle:')." <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
 							<a href=\"javascript:selectionToggleMarked()\">Starred</a>
-						&nbsp;&nbsp;
-						Mark as read:
+						&nbsp;&nbsp;".
+						_('Mark as read:')."
 							<a href=\"#\" onclick=\"catchupPage()\">Page</a>,
 							<a href=\"#\" onclick=\"catchupCurrentFeed()\">Feed</a>";
 				print "</td>";
@@ -2746,23 +2746,23 @@
 					print "<td class=\"headlineActions$rtl_cpart\">
 						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 								'$match_on', '$feed_id', '$is_cat');\">
-							Convert this search to label</a></td>";
+							"._('Convert this search to label')."</a></td>";
 				}
 
 			} else {
 
-				print "<td class=\"headlineActions$rtl_cpart\">
-					Select: 
-								<a href=\"javascript:cdmSelectArticles('all')\">All</a>,
-								<a href=\"javascript:cdmSelectArticles('unread')\">Unread</a>,
-								<a href=\"javascript:cdmSelectArticles('none')\">None</a>
-						&nbsp;&nbsp;
-						Toggle: <a href=\"javascript:selectionToggleUnread(true)\">Unread</a>,
-							<a href=\"javascript:selectionToggleMarked(true)\">Starred</a>
-						&nbsp;&nbsp;
-						Mark as read:
-							<a href=\"#\" onclick=\"catchupPage()\">Page</a>,
-							<a href=\"#\" onclick=\"catchupCurrentFeed()\">Feed</a>";
+				print "<td class=\"headlineActions$rtl_cpart\">".
+					_('Select:')."
+								<a href=\"javascript:cdmSelectArticles('all')\">"._('All')."</a>,
+								<a href=\"javascript:cdmSelectArticles('unread')\">"._('Unread')."</a>,
+								<a href=\"javascript:cdmSelectArticles('none')\">"._('None')."</a>
+						&nbsp;&nbsp;".
+						_('Toggle:')." <a href=\"javascript:selectionToggleUnread(true)\">"._('Unread')."</a>,
+							<a href=\"javascript:selectionToggleMarked(true)\">"._('Starred')."</a>
+						&nbsp;&nbsp;".
+						_('Mark as read:').
+							"<a href=\"#\" onclick=\"catchupPage()\">"._('Page')."</a>,
+							<a href=\"#\" onclick=\"catchupCurrentFeed()\">"._('Feed')."</a>";
 			
 				print "</td>";
 
