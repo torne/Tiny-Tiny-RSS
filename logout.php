@@ -27,14 +27,14 @@
 	<body class="logoutBody">
 		<div class="logoutContent">	
 		
-			<h1>You have been logged out.</h1>
+			<h1><?php echo _('You have been logged out.') ?></h1>
 
-			<p><span class="logoutWarning">Warning:</span>
+			<p><?php echo _('<span class="logoutWarning">Warning:</span>
 			As there is no way to reliably clear HTTP Authentication 
 			credentials from your browser, it is recommended for you to close
 			this browser window, otherwise your browser could automatically
 			authenticate again using previously supplied credentials, which
-			is a security risk.</p>
+			is a security risk.') ?></p>
 			
 		</div>
 	</body>

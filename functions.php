@@ -2064,9 +2064,9 @@
 
 	function getFeedCatTitle($link, $id) {
 		if ($id == -1) {
-			return "Special";
+			return _("Special");
 		} else if ($id < -10) {
-			return "Labels";
+			return _("Labels");
 		} else if ($id > 0) {
 			$result = db_query($link, "SELECT ttrss_feed_categories.title 
 				FROM ttrss_feeds, ttrss_feed_categories WHERE ttrss_feeds.id = '$id' AND
@@ -2074,7 +2074,7 @@
 			if (db_num_rows($result) == 1) {
 				return db_fetch_result($result, 0, "title");
 			} else {
-				return "Uncategorized";
+				return _("Uncategorized");
 			}
 		} else {
 			return "getFeedCatTitle($id) failed";
@@ -2084,7 +2084,7 @@
 
 	function getFeedTitle($link, $id) {
 		if ($id == -1) {
-			return "Starred articles";
+			return _("Starred articles");
 		} else if ($id < -10) {
 			$label_id = -10 - $id;
 			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
@@ -2352,12 +2352,12 @@
 					$last_error = db_fetch_result($result, 0, "last_error");
 
 					if ($search) {
-						$feed_title = "Feed search results ($search, $feed_title)";
+						$feed_title = _("Feed search results") . " ($search, $feed_title)";
 					}
 				}
 	
 			} else if ($feed == -1) {
-				$feed_title = "Starred articles";
+				$feed_title = _("Starred articles");
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
 				$result = db_query($link, "SELECT description FROM ttrss_labels
@@ -2365,7 +2365,7 @@
 				$feed_title = db_fetch_result($result, 0, "description");
 
 				if ($search) {
-					$feed_title = "Label search results ($search, $feed_title)";
+					$feed_title = _("Label search results") . " ($search, $feed_title)";
 				}
 			} else {
 				$feed_title = "?";
@@ -2556,7 +2556,7 @@
 	}
 
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
-		$tmp =  "New headlines for last 24 hours, as of " . date("Y/m/d H:m") . "\n";	
+		$tmp =  _("New headlines for last 24 hours, as of ") . date("Y/m/d H:m") . "\n";	
 		$tmp .= "=======================================================\n\n";
 
 		if (DB_TYPE == "pgsql") {
@@ -2600,9 +2600,9 @@
 		}
 
 		$tmp .= "--- \n";
-		$tmp .= "You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at " . 
+		$tmp .= _("You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at ") . 
 			DIGEST_HOSTNAME . "\n".
-			"To unsubscribe, visit your configuration options or contact instance owner.\n";
+			_("To unsubscribe, visit your configuration options or contact instance owner.\n");
 			
 
 		return array($tmp, $headlines_count);
@@ -2806,7 +2806,7 @@
 		/* virtual feeds */
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<li class=\"feedCat\">Special</li>";
+			print "<li class=\"feedCat\">"._('Special')."</li>";
 			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 		}
 
@@ -2816,7 +2816,7 @@
 
 		if ($num_starred > 0) $class .= "Unread";
 
-		printFeedEntry(-1, $class, "Starred articles", $num_starred, 
+		printFeedEntry(-1, $class, _("Starred articles"), $num_starred, 
 			"images/mark_set.png", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2832,7 +2832,7 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">Labels</li>";
+						print "<li class=\"feedCat\">"._('Labels')."</li>";
 						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 					} else {
 						print "<li><hr></li>";
@@ -2955,7 +2955,7 @@
 				$tmp_category = $line["category"];
 
 				if (!$tmp_category) {
-					$tmp_category = "Uncategorized";
+					$tmp_category = _("Uncategorized");
 				}
 				
 	//			$class = ($lnum % 2) ? "even" : "odd";
@@ -2985,7 +2985,7 @@
 					$collapsed = $line["collapsed"];
 
 					// workaround for NULL category
-					if ($category == "Uncategorized") {
+					if ($category == _("Uncategorized")) {
 						if ($_COOKIE["ttrss_vf_uclps"] == 1) {
 							$collapsed = "t";
 						}
@@ -3025,7 +3025,7 @@
 			}
 
 			if (db_num_rows($result) == 0) {
-				print "<li>No feeds to display.</li>";
+				print "<li>"._('No feeds to display.')."</li>";
 			}
 
 		} else {
@@ -3042,7 +3042,7 @@
 			ORDER BY tag_name"); */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">Tags</li>";
+				print "<li class=\"feedCat\">"._('Tags')."</li>";
 				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
