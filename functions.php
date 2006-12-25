@@ -12,15 +12,11 @@
 	require_once 'errors.php';
 	require_once 'version.php';
 
-	if (RSS_BACKEND_TYPE == "magpie") {	
-		define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
-		require_once "magpierss/rss_fetch.inc";
-		require_once 'magpierss/rss_utils.inc';
-	} else if (RSS_BACKEND_TYPE == "simplepie") {
-		require_once 'simplepie/simplepie.inc';
-	}
-
+	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+
+	require_once "magpierss/rss_fetch.inc";
+	require_once 'magpierss/rss_utils.inc';
 
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
@@ -336,8 +332,6 @@
 
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
-		if (WEB_DEMO_MODE) return;
-
 		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"] && !$ignore_daemon) {
 			return;			
 		}
@@ -366,31 +360,13 @@
 
 		}
 
-		if (RSS_BACKEND_TYPE == "magpie") {		
-			error_reporting(0);
-			$rss = fetch_rss($fetch_url);
-			error_reporting (DEFAULT_ERROR_LEVEL);
-		} else if (RSS_BACKEND_TYPE == "simplepie") {
-			
-			if (!file_exists(SIMPLEPIE_CACHE_DIR)) {
-					mkdir(SIMPLEPIE_CACHE_DIR);
-			}
-
-			$rss = new SimplePie();
-			$rss->feed_url($fetch_url);
-			$rss->cache_location(SIMPLEPIE_CACHE_DIR);
-			$rss->init();
-		}
+		error_reporting(0);
+		$rss = fetch_rss($fetch_url);
+		error_reporting (DEFAULT_ERROR_LEVEL);
 		
 		$feed = db_escape_string($feed);
 
-		$rss_check = $rss;
-
-		if (RSS_BACKEND_TYPE == "simplepie") {
-			$rss_check = $rss->data;
-		}
-		
-		if ($rss_check) {
+		if ($rss) {
 			
 //			db_query($link, "BEGIN");
 
@@ -409,23 +385,15 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 			
-				if (RSS_BACKEND_TYPE == "magpie") {				
-					$feed_title = db_escape_string($rss->channel["title"]);
-				} else {
-					$feed_title = $rss->get_feed_title();
-				}
+				$feed_title = db_escape_string($rss->channel["title"]);
 				
 				db_query($link, "UPDATE ttrss_feeds SET 
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			if (RSS_BACKEND_TYPE == "magpie") {				
-				$site_url = $rss->channel["link"];
-				// weird, weird Magpie
-				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
-			} else {
-				$site_url = $rss->get_feed_link();
-			}
+			$site_url = $rss->channel["link"];
+			// weird, weird Magpie
+			if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
 
 			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
 				db_query($link, "UPDATE ttrss_feeds SET 
@@ -434,11 +402,7 @@
 
 //			print "I: " . $rss->channel["image"]["url"];
 
-			if (RSS_BACKEND_TYPE == "magpie") {
-				$icon_url = $rss->image["url"];
-			} else {
-				$icon_url = $rss->get_image_url(); # FIXME
-			}
+			$icon_url = $rss->image["url"];
 
 			if ($icon_url && !$orig_icon_url != db_escape_string($icon_url)) {
 				$icon_url = db_escape_string($icon_url);
@@ -469,15 +433,10 @@
 				array_push($filters[$line["name"]], $filter);
 			}
 
-			if (RSS_BACKEND_TYPE == "magpie") {			
-				$iterator = $rss->items;
+			$iterator = $rss->items;
 
-				if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
-				if (!$iterator || !is_array($iterator)) $iterator = $rss;
-
-			} else {
-				$iterator = $rss->get_items();
-			}
+			if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
+			if (!$iterator || !is_array($iterator)) $iterator = $rss;
 
 			if (!is_array($iterator)) {
 				/* db_query($link, "UPDATE ttrss_feeds 

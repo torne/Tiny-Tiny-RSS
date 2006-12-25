@@ -9,9 +9,6 @@
 	define('DB_PASS', "XXXXXX");
 	//define('DB_PORT', '5432'); // when neeeded, PG-only
 
-	define('RSS_BACKEND_TYPE', "magpie");
-	// magpie (stable) or simplepie (EXPERIMENTAL!)
-
 	define('MAGPIE_FETCH_TIME_OUT', 60);
 	// Magpie's default timeout is 5 seconds.  Some RSS feeds,
 	// such as from large Trac installs, can take significantly
@@ -20,9 +17,6 @@
 
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
 	// Local cache directory for RSS feeds
-
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache');
-	// Local cache directory for RSS feeds (simplepie)
 
 	define('WEB_DEMO_MODE', false);
 	// Demo mode with reduced functionality.
