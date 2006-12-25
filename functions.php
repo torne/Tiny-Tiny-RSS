@@ -513,9 +513,21 @@
 
 				$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
 
-				if (!$entry_author) {
-					$entry_author = db_escape_string(strip_tags($item['author']));
+				if ($item['author']) {
+					if (!$entry_author) {
+						$entry_author = db_escape_string(strip_tags($item['author']['name']));
+					}
+
+					if (!$entry_author) {
+						$entry_author = db_escape_string(strip_tags($item['author']['email']));
+					}
+
+					if (!$entry_author) {
+						$entry_author = db_escape_string(strip_tags($item['author']));
+					}
 				}
+
+				if (preg_match('/^[\t\n\r ]*$/', $entry_author)) $entry_author = '';
 
 				$entry_guid = db_escape_string(strip_tags($entry_guid));
 
