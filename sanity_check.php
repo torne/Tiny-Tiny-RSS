@@ -64,7 +64,7 @@
 	}
 
 	if ($err_msg) {
-		print "<b>Fatal Error</b>: $err_msg\n";
+		print "<b>"._("Fatal Error")."</b>: $err_msg\n";
 		exit;
 	}
 
