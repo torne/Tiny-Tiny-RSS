@@ -100,15 +100,7 @@
 			<body>
 			<h1><img src=\"images/ttrss_logo.png\"></h1>
 			<div class=\"opmlBody\">
-			<h2>Importing OPML...</h2>";
-
-		if (WEB_DEMO_MODE) {
-			print "OPML import is disabled in demo-mode.";
-			print "<p><a class=\"button\" href=\"prefs.php\">
-			Return to preferences</a></div></body></html>";
-
-			return;
-		}
+			<h2>"._('Importing OPML...')."</h2>";
 
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$dom = domxml_open_file($_FILES['opml_file']['tmp_name']);
@@ -152,7 +144,8 @@
 
 							if (db_num_rows($result) == 0) {
 
-								print "Adding category <b>$cat_title</b>...<br>";
+								printf(_("Adding category <b>%s</b>..."), $cat_title);
+								print "<br>";
 
 								db_query($link, "INSERT INTO ttrss_feed_categories
 									(title,owner_uid) 
@@ -197,7 +190,7 @@
 							(<a href=\"$feed_url\">rss</a>)</td>";
 
 						if (db_num_rows($result) > 0) {
-							print "<td>Already imported.</td>";
+							print "<td>"._("Already imported.")."</td>";
 						} else {
 
 							if ($cat_id) {
@@ -215,7 +208,7 @@
 
 							db_query($link, $add_query);
 							
-							print "<td><b>Done.</b></td>";
+							print "<td><b>"._('Done.')."</b></td>";
 						}
 
 						print "</tr>";
@@ -226,18 +219,18 @@
 					print "</table>";
 
 				} else {
-					print "<div class=\"error\">Error: can't find body element.</div>";
+					print "<div class=\"error\">"._("Error: can't find body element.")."</div>";
 				}
 			} else {
-				print "<div class=\"error\">Error while parsing document.</div>";
+				print "<div class=\"error\">"._("Error while parsing document.")."</div>";
 			}
 
 		} else {
-			print "<div class=\"error\">Error: please upload OPML file.</div>";
+			print "<div class=\"error\">"._("Error: please upload OPML file.")."</div>";
 		}
 
 		print "<p><a class=\"button\" href=\"prefs.php\">
-			Return to preferences</a>";
+			"._("Return to preferences")."</a>";
 
 		print "</div></body></html>";
 
