@@ -496,7 +496,7 @@
 						print "<a href=\"javascript:view($id,$feed_id);\">" .
 							$line["title"];
 
-						if (get_pref($link, 'SHOW_CONTENT_PREVIEW') && !$rtl_tag) {
+						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 							if ($content_preview) {
 								print "<span class=\"contentPreview\"> - $content_preview</span>";
 							}
