@@ -580,6 +580,11 @@ function editFeedDlg(feed) {
 		return;
 	}
 
+	if (feed <= 0 || active_feed_is_cat || tagsAreDisplayed()) {
+		alert("You can't edit this kind of feed.");
+		return;
+	}
+
 	if (xmlhttp_ready(xmlhttp)) {
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
 			param_escape(feed), true);
