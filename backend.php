@@ -3,6 +3,8 @@
 	require_once "modules/backend-rpc.php";
 	
 	header("Cache-Control: no-cache, must-revalidate");
+	header("Cache-Control: no-cache, must-revalidate");
+
 	header("Pragma: no-cache");
 	header("Expires: -1");
 	
@@ -29,7 +31,9 @@
 
 	if ((!$op || $op == "rpc" || $op == "rss" || $op == "digestSend" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
-		header("Content-Type: application/xml");
+		header("Content-Type: application/xml; charset=utf-8");
+	} else {
+		header("Content-Type: text/html; charset=utf-8");
 	}
 
 	if (!$op) {
