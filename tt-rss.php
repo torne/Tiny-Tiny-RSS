@@ -156,7 +156,7 @@ window.onload = init;
 		<input name="query"
 			onKeyPress="return filterCR(event, viewCurrentFeed)"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
-		&nbsp; 
+
 		<?php echo _('View:') ?>
 		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
 			<option selected value="adaptive"><?php echo _('Adaptive') ?></option>
@@ -165,7 +165,6 @@ window.onload = init;
 			<option value="unread"><?php echo _('Unread') ?></option>
 		</select>
 		
-		&nbsp;
 		<?php echo _('Limit:') ?>
 		<?php
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
