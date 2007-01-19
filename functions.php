@@ -2741,7 +2741,7 @@
 					print "<td class=\"headlineActions$rtl_cpart\">
 						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 								'$match_on', '$feed_id', '$is_cat');\">
-							"._('Convert this search to label')."</a></td>";
+							"._('Convert to Label')."</a></td>";
 				}
 
 			} else {
