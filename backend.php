@@ -299,6 +299,9 @@
 		$limit = db_escape_string($_GET["limit"]);
 		$cat_view = db_escape_string($_GET["cat"]);
 		$next_unread_feed = db_escape_string($_GET["nuf"]);
+		$offset = db_escape_string($_GET["skip"]);
+
+		if (!$offset) $offset = 0;
 
 		if ($subop == "undefined") $subop = "";
 
@@ -382,7 +385,10 @@
 			$match_on = "both";
 		}
 
-		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on);
+		$real_offset = $offset * $limit;
+
+		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
+			$search, $search_mode, $match_on, false, $real_offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
@@ -401,9 +407,11 @@
 		if (db_num_rows($result) > 0) {
 
 			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode);
+				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, $offset);
 
 			print "<div id=\"headlinesInnerContainer\">";
+
+#			print "\{$offset}";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 

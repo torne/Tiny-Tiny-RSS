@@ -14,8 +14,22 @@ function feedlist_callback() {
 	}
 }
 
-function viewfeed(feed, subop, is_cat, subop_param, skip_history) {
+var page_offset = 0;
+
+function viewFeedGoPage(i) {
+	page_offset = page_offset + i;
+
+	if (page_offset < 0) page_offset = 0;
+
+	viewfeed(getActiveFeedId(), undefined, undefined, undefined,
+		undefined, page_offset);
+
+}
+
+function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
+
+		if (!offset) page_offset = 0;
 
 		enableHotkeys();
 
@@ -82,6 +96,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history) {
 
 		if (activeFeedIsCat()) {
 			query = query + "&cat=1";
+		}
+
+		if (offset) {
+			query = query + "&skip=" + offset;
 		}
 
 		if (navigator.userAgent.match("Opera")) {

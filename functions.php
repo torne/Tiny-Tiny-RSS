@@ -2371,7 +2371,7 @@
 				}
 	
 				$content_query_part = "content as content_preview,";
-				
+
 				$query = "SELECT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
@@ -2694,7 +2694,7 @@
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$bottom = false, $rtl_content = false, $feed_id = 0,
 			$is_cat = false, $search = false, $match_on = false,
-			$search_mode = false) {
+			$search_mode = false, $offset = 0) {
 
 			if (!$bottom) {
 				$class = "headlinesSubToolbar";
@@ -2712,6 +2712,14 @@
 			} else {
 				$rtl_cpart = "";
 			}
+
+#			if ($offset > 0) {
+#				$prev_page_link = "<a title=\"Previous Page\" href=\"javascript:viewFeedGoPage(-1)\">&lt;&lt;</a>";
+#			} else {
+#				$prev_page_link = "&lt;&lt;";
+#			}
+#			$r_offset = $offset + 1;
+#			$next_page_link = "[$r_offset] <a title=\"Next Page\" href=\"javascript:viewFeedGoPage(1)\">&gt;&gt;</a>";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
