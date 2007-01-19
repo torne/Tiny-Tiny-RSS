@@ -17,13 +17,21 @@ function feedlist_callback() {
 var page_offset = 0;
 
 function viewFeedGoPage(i) {
-	page_offset = page_offset + i;
+	try {
+		if (!getActiveFeedId()) return;
 
-	if (page_offset < 0) page_offset = 0;
+		if (i != 0) {
+			page_offset = page_offset + i;
+		} else {
+			page_offset = 0;
+		}
 
-	viewfeed(getActiveFeedId(), undefined, undefined, undefined,
-		undefined, page_offset);
-
+		if (page_offset < 0) page_offset = 0;
+		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
+			undefined, page_offset);
+	} catch (e) {
+		exception_error(e, "viewFeedGoPage");
+	}
 }
 
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {

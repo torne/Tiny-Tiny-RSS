@@ -237,6 +237,18 @@ function hotkey_handler(e) {
 			debug_mode_enabled = !debug_mode_enabled;
 		}
 
+		if (keycode == 190 && shift_key) { // >
+			viewFeedGoPage(1);
+		}
+		
+		if (keycode == 188 && shift_key) { // <
+			viewFeedGoPage(-1);
+		}
+
+		if (keycode == 191 && shift_key) { // ?
+			viewFeedGoPage(0);
+		}
+
 		if (keycode == 69 && shift_key) {
 			return editFeedDlg(getActiveFeedId());
 		}
