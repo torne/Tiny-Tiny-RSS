@@ -2172,7 +2172,8 @@
 		return $search_query_part;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0) {
+
 			if ($search) {
 			
 				$search_query_part = getSearchSql($search, $match_on);
@@ -2391,7 +2392,7 @@
 					$search_query_part
 					$view_query_part
 					$query_strategy_part ORDER BY $order_by
-					$limit_query_part";
+					$limit_query_part OFFSET $offset";
 					
 				$result = db_query($link, $query);
 	
