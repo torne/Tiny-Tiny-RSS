@@ -1343,3 +1343,50 @@ a.feedUpdErrLink {
 .catCtrNoUnread {
 	display : none;
 }
+
+ul.headlineDropdownMenu {
+	list-style-type : none;
+	margin : 0px;
+	padding : 0px;
+}
+
+ul.headlineDropdownMenu li.top {
+	float : left;
+	width : 130px;
+	background-image : url("images/down_arrow.png");
+	background-position : center right;
+	background-repeat : no-repeat;
+	margin-right : 10px; 
+	cursor : pointer;
+}
+
+ul.headlineDropdownMenu li.top:hover {
+	color : black;
+	cursor : pointer;
+}
+
+ul.headlineDropdownMenu li.top:hover ul {
+	display : block;
+}
+
+ul.headlineDropdownMenu ul {
+	list-style-type : none;
+	position : absolute;
+	float : none;
+	margin : 0px;
+	padding : 0px;
+	display : none;
+	background-color : white;
+	border-width : 0px 1px 1px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	width : 130px;
+	z-index : 3;
+	top : auto;
+	left : auto;
+}
+
+ul.headlineDropdownMenu ul li {
+	float: none;
+	margin : 2px 2px 0px 2px;
+}

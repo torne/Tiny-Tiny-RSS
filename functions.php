@@ -2721,46 +2721,63 @@
 #			$r_offset = $offset + 1;
 #			$next_page_link = "[$r_offset] <a title=\"Next Page\" href=\"javascript:viewFeedGoPage(1)\">&gt;&gt;</a>";
 
+			$catchup_page_link = "catchupPage()";
+			$catchup_feed_link = "catchupCurrentFeed()";
+
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
-				print "<td class=\"headlineActions$rtl_cpart\">".
-					_('Select:')."
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)\">All</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)\">Unread</a>,
-								<a href=\"javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)\">None</a>
-						&nbsp;&nbsp;".
-						_('Toggle:')." <a href=\"javascript:selectionToggleUnread()\">Unread</a>,
-							<a href=\"javascript:selectionToggleMarked()\">Starred</a>
-						&nbsp;&nbsp;".
-						_('Mark as read:')."
-							<a href=\"#\" onclick=\"catchupPage()\">Page</a>,
-							<a href=\"#\" onclick=\"catchupCurrentFeed()\">Feed</a>";
-				print "</td>";
+				$sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
+				$sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
+				$sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
 
-				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-					print "<td class=\"headlineActions$rtl_cpart\">
-						<a href=\"javascript:labelFromSearch('$search', '$search_mode',
-								'$match_on', '$feed_id', '$is_cat');\">
-							"._('Convert to Label')."</a></td>";
-				}
+				$tog_unread_link = "javascript:selectionToggleUnread()";
+				$tog_marked_link = "javascript:selectionToggleMarked()";
 
 			} else {
 
-				print "<td class=\"headlineActions$rtl_cpart\">".
-					_('Select:')."
-								<a href=\"javascript:cdmSelectArticles('all')\">"._('All')."</a>,
-								<a href=\"javascript:cdmSelectArticles('unread')\">"._('Unread')."</a>,
-								<a href=\"javascript:cdmSelectArticles('none')\">"._('None')."</a>
-						&nbsp;&nbsp;".
-						_('Toggle:')." <a href=\"javascript:selectionToggleUnread(true)\">"._('Unread')."</a>,
-							<a href=\"javascript:selectionToggleMarked(true)\">"._('Starred')."</a>
-						&nbsp;&nbsp;".
-						_('Mark as read:').
-							"<a href=\"#\" onclick=\"catchupPage()\">"._('Page')."</a>,
-							<a href=\"#\" onclick=\"catchupCurrentFeed()\">"._('Feed')."</a>";
-			
-				print "</td>";
+				$sel_all_link = "javascript:cdmSelectArticles('all')";
+				$sel_unread_link = "javascript:cdmSelectArticles('unread')";
+				$sel_none_link = "javascript:cdmSelectArticles('none')";
 
+				$tog_unread_link = "javascript:selectionToggleUnread(true)";
+				$tog_marked_link = "javascript:selectionToggleMarked(true)";
+
+			}
+
+/*			print "<td class=\"headlineActions$rtl_cpart\">
+				<ul class=\"headlineDropdownMenu\">
+				<li class=\"top\">Select<ul>
+					<li><a href=\"$sel_all_link\">All</a></li>
+					<li><a href=\"$sel_unread_link\">Unread</a></li>
+					<li><a href=\"$sel_none_link\">None</a></li></ul></li>
+				<li class=\"top\">Toggle<ul>
+					<li><a href=\"$tog_unread_link\">Unread</a></li>
+					<li><a href=\"$tog_marked_link\">Starred</a></li></ul></li>
+				<li class=\"top\">Mark as read<ul>
+					<li><a href=\"#\" onclick=\"$catchup_page_link\">Page</a></li>
+					<li><a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a></li></ul></li>
+				</ul>
+				</td>"; */
+
+			print "<td class=\"headlineActions$rtl_cpart\">".
+				_('Select:')."
+							<a href=\"$sel_all_link\">All</a>,
+							<a href=\"$sel_unread_link\">Unread</a>,
+							<a href=\"$sel_none_link\">None</a>
+					&nbsp;&nbsp;".
+					_('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
+						<a href=\"$tog_marked_link\">Starred</a>
+					&nbsp;&nbsp;".
+					_('Mark as read:')."
+						<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
+						<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
+			print "</td>"; 
+
+			if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+				print "<td class=\"headlineActions$rtl_cpart\">
+					<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+							'$match_on', '$feed_id', '$is_cat');\">
+						"._('Convert to Label')."</a></td>";
 			}
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
