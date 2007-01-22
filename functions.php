@@ -2749,15 +2749,15 @@
 					<a href=\"$sel_all_link\">All</a>,
 					<a href=\"$sel_unread_link\">Unread</a>,
 					<a href=\"$sel_none_link\">None</a></li>
-				<li class=\"vsep\">-</li>
+				<li class=\"vsep\">&nbsp;</li>
 				<li class=\"top\">Selection<ul>
 					<li onclick=\"$tog_unread_link\">Toggle Unread</li>
 					<li onclick=\"$tog_marked_link\">Toggle Starred</li></ul></li>
-				<li class=\"vsep\">-</li>
+				<li class=\"vsep\">&nbsp;</li>
 				<li class=\"top\">Mark as read<ul>
 					<li onclick=\"$catchup_page_link\">This Page</li>
 					<li onclick=\"$catchup_feed_link\">Entire Feed</li></ul></li>
-				<li class=\"vsep\">-</li>
+				<li class=\"vsep\">&nbsp;</li>
 				<!-- <li class=\"top2\">
 				Page:
 					<a href=\"$page_prev_link\">Previous</a>,
