@@ -403,13 +403,13 @@
 			print "<div align='center'>"._("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
 			return;
 		}
-	
+
+		print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
+			$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, $offset);
+
+		print "<div id=\"headlinesInnerContainer\">";
+
 		if (db_num_rows($result) > 0) {
-
-			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, $offset);
-
-			print "<div id=\"headlinesInnerContainer\">";
 
 #			print "\{$offset}";
 
@@ -573,8 +573,6 @@
 				print "</table>";
 			}
 
-			print "</div>";
-
 //			print_headline_subtoolbar($link, 
 //				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
 
@@ -582,6 +580,8 @@
 		} else {
 			print "<div class='whiteBox'>"._('No articles found.')."</div>";
 		}
+
+		print "</div>";
 
 		print "</div>";
 	}

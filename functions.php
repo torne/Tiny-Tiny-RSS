@@ -949,7 +949,7 @@
 		}
 
 		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
-			href=\"#\" onclick=\"javascript:viewfeed('$feed_id', '', false);\">$feed_title</a>";
+			href=\"javascript:viewfeed('$feed_id', '', false);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
@@ -2696,6 +2696,8 @@
 			$is_cat = false, $search = false, $match_on = false,
 			$search_mode = false, $offset = 0) {
 
+			$user_page_offset = $offset + 1;
+
 			if (!$bottom) {
 				$class = "headlinesSubToolbar";
 				$tid = "headlineActionsTop";
@@ -2713,13 +2715,9 @@
 				$rtl_cpart = "";
 			}
 
-#			if ($offset > 0) {
-#				$prev_page_link = "<a title=\"Previous Page\" href=\"javascript:viewFeedGoPage(-1)\">&lt;&lt;</a>";
-#			} else {
-#				$prev_page_link = "&lt;&lt;";
-#			}
-#			$r_offset = $offset + 1;
-#			$next_page_link = "[$r_offset] <a title=\"Next Page\" href=\"javascript:viewFeedGoPage(1)\">&gt;&gt;</a>";
+			$page_prev_link = "javascript:viewFeedGoPage(-1)";
+			$page_next_link = "javascript:viewFeedGoPage(1)";
+			$page_first_link = "javascript:viewFeedGoPage(0)";
 
 			$catchup_page_link = "catchupPage()";
 			$catchup_feed_link = "catchupCurrentFeed()";
@@ -2744,22 +2742,37 @@
 
 			}
 
-/*			print "<td class=\"headlineActions$rtl_cpart\">
+			print "<td class=\"headlineActions$rtl_cpart\">
 				<ul class=\"headlineDropdownMenu\">
-				<li class=\"top\">Select<ul>
-					<li><a href=\"$sel_all_link\">All</a></li>
-					<li><a href=\"$sel_unread_link\">Unread</a></li>
-					<li><a href=\"$sel_none_link\">None</a></li></ul></li>
-				<li class=\"top\">Toggle<ul>
-					<li><a href=\"$tog_unread_link\">Unread</a></li>
-					<li><a href=\"$tog_marked_link\">Starred</a></li></ul></li>
+				<li class=\"top2\">
+				Select:
+					<a href=\"$sel_all_link\">All</a>,
+					<a href=\"$sel_unread_link\">Unread</a>,
+					<a href=\"$sel_none_link\">None</a></li>
+				<li class=\"vsep\">-</li>
+				<li class=\"top\">Selection<ul>
+					<li onclick=\"$tog_unread_link\">Toggle Unread</li>
+					<li onclick=\"$tog_marked_link\">Toggle Starred</li></ul></li>
+				<li class=\"vsep\">-</li>
 				<li class=\"top\">Mark as read<ul>
-					<li><a href=\"#\" onclick=\"$catchup_page_link\">Page</a></li>
-					<li><a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a></li></ul></li>
-				</ul>
-				</td>"; */
+					<li onclick=\"$catchup_page_link\">This Page</li>
+					<li onclick=\"$catchup_feed_link\">Entire Feed</li></ul></li>
+				<li class=\"vsep\">-</li>
+				<!-- <li class=\"top2\">
+				Page:
+					<a href=\"$page_prev_link\">Previous</a>,
+					<a href=\"$page_next_link\">Next</a></li> -->
 
-			print "<td class=\"headlineActions$rtl_cpart\">".
+				<li class=\"top\"><a href=\"$page_next_link\">Next Page</a><ul>
+					<li onclick=\"$page_prev_link\">Previous Page</li>
+					<li onclick=\"$page_first_link\">First Page</li></ul></li>
+				</ul>  
+
+				</td>"; 
+
+			// old style subtoolbar:
+
+/*			print "<td class=\"headlineActions$rtl_cpart\">".
 				_('Select:')."
 							<a href=\"$sel_all_link\">All</a>,
 							<a href=\"$sel_unread_link\">Unread</a>,
@@ -2771,7 +2784,7 @@
 					_('Mark as read:')."
 						<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
 						<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
-			print "</td>"; 
+			print "</td>";  */
 
 			if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
 				print "<td class=\"headlineActions$rtl_cpart\">
@@ -2795,8 +2808,12 @@
 				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
 			}
 
+			if ($user_page_offset > 1) {
+				print " [$user_page_offset] ";
+			}
+
 			if (!$bottom) {
-				print "&nbsp;
+				print "
 					<a target=\"_new\" 
 						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
 						<img class=\"noborder\" 
