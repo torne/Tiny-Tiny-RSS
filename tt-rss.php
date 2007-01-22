@@ -218,7 +218,7 @@ window.onload = init;
 		?>
 		</select>
 	<?php } ?>
-	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2006 Andrew Dolgov
+	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2007 Andrew Dolgov
 </div>
 
 <?php db_close($link); ?>
