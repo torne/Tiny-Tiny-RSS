@@ -185,6 +185,10 @@
 				print "<error error-code=\"0\"/>";
 				print_init_params($link);
 				print_runtime_info($link);
+
+				# assign client-passed params to session
+				$_SESSION["client.userAgent"] = $_GET["ua"];
+
 			}
 			print "</rpc-reply>";
 		}		

@@ -1348,7 +1348,7 @@
 			return false;
 		} else {
 			return true;
-		} 
+		}
 	}
 
 	function file_is_locked($filename) {
@@ -2741,6 +2741,8 @@
 				$tog_marked_link = "javascript:selectionToggleMarked(true)";
 
 			}
+
+			print '[' . $_SESSION["client.userAgent"] . ']';
 
 			print "<td class=\"headlineActions$rtl_cpart\">
 				<ul class=\"headlineDropdownMenu\">

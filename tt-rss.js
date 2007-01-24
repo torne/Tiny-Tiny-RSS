@@ -364,7 +364,9 @@ function init() {
 			debug('debug mode activated');
 		}
 
-		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
+		var params = "&ua=" + param_escape(navigator.userAgent);
+
+		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck" + params, true);
 		xmlhttp.onreadystatechange=backend_sanity_check_callback;
 		xmlhttp.send(null);
 
