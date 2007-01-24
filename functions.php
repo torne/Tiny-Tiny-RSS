@@ -2742,51 +2742,54 @@
 
 			}
 
-			print '[' . $_SESSION["client.userAgent"] . ']';
+			if (!strstr($_SESSION["client.userAgent"], "MSIE")) {
 
-			print "<td class=\"headlineActions$rtl_cpart\">
-				<ul class=\"headlineDropdownMenu\">
-				<li class=\"top2\">
-				Select:
-					<a href=\"$sel_all_link\">All</a>,
-					<a href=\"$sel_unread_link\">Unread</a>,
-					<a href=\"$sel_none_link\">None</a></li>
-				<li class=\"vsep\">&nbsp;</li>
-				<li class=\"top\">Selection<ul>
-					<li onclick=\"$tog_unread_link\">Toggle unread</li>
-					<li onclick=\"$tog_marked_link\">Toggle starred</li></ul></li>
-				<li class=\"vsep\">&nbsp;</li>
-				<li class=\"top\"><a href=\"$catchup_page_link\">Mark as read</a><ul>
-					<li onclick=\"$catchup_page_link\">This page</li>
-					<li onclick=\"$catchup_feed_link\">Entire feed</li></ul></li>
-				<li class=\"vsep\">&nbsp;</li>
-				<!-- <li class=\"top2\">
-				Page:
-					<a href=\"$page_prev_link\">Previous</a>,
-					<a href=\"$page_next_link\">Next</a></li> -->
+				print "<td class=\"headlineActions$rtl_cpart\">
+					<ul class=\"headlineDropdownMenu\">
+					<li class=\"top2\">
+					Select:
+						<a href=\"$sel_all_link\">All</a>,
+						<a href=\"$sel_unread_link\">Unread</a>,
+						<a href=\"$sel_none_link\">None</a></li>
+					<li class=\"vsep\">&nbsp;</li>
+					<li class=\"top\">Selection<ul>
+						<li onclick=\"$tog_unread_link\">Toggle unread</li>
+						<li onclick=\"$tog_marked_link\">Toggle starred</li></ul></li>
+					<li class=\"vsep\">&nbsp;</li>
+					<li class=\"top\"><a href=\"$catchup_page_link\">Mark as read</a><ul>
+						<li onclick=\"$catchup_page_link\">This page</li>
+						<li onclick=\"$catchup_feed_link\">Entire feed</li></ul></li>
+					<li class=\"vsep\">&nbsp;</li>
+					<!-- <li class=\"top2\">
+					Page:
+						<a href=\"$page_prev_link\">Previous</a>,
+						<a href=\"$page_next_link\">Next</a></li> -->
+	
+					<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
+						<li onclick=\"$page_prev_link\">Previous page</li>
+						<li onclick=\"$page_first_link\">First page</li></ul></li>
+					</ul>  
+	
+					</td>"; 
 
-				<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
-					<li onclick=\"$page_prev_link\">Previous page</li>
-					<li onclick=\"$page_first_link\">First page</li></ul></li>
-				</ul>  
-
-				</td>"; 
-
+			} else {
 			// old style subtoolbar:
 
-/*			print "<td class=\"headlineActions$rtl_cpart\">".
-				_('Select:')."
-							<a href=\"$sel_all_link\">All</a>,
-							<a href=\"$sel_unread_link\">Unread</a>,
-							<a href=\"$sel_none_link\">None</a>
-					&nbsp;&nbsp;".
-					_('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
-						<a href=\"$tog_marked_link\">Starred</a>
-					&nbsp;&nbsp;".
-					_('Mark as read:')."
-						<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
-						<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
-			print "</td>";  */
+				print "<td class=\"headlineActions$rtl_cpart\">".
+					_('Select:')."
+								<a href=\"$sel_all_link\">All</a>,
+								<a href=\"$sel_unread_link\">Unread</a>,
+								<a href=\"$sel_none_link\">None</a>
+						&nbsp;&nbsp;".
+						_('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
+							<a href=\"$tog_marked_link\">Starred</a>
+						&nbsp;&nbsp;".
+						_('Mark as read:')."
+							<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
+							<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
+				print "</td>";  
+
+			}
 
 			if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
 				print "<td class=\"headlineActions$rtl_cpart\">
