@@ -2719,8 +2719,8 @@
 			$page_next_link = "javascript:viewFeedGoPage(1)";
 			$page_first_link = "javascript:viewFeedGoPage(0)";
 
-			$catchup_page_link = "catchupPage()";
-			$catchup_feed_link = "catchupCurrentFeed()";
+			$catchup_page_link = "javascript:catchupPage()";
+			$catchup_feed_link = "javascript:catchupCurrentFeed()";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
@@ -2751,21 +2751,21 @@
 					<a href=\"$sel_none_link\">None</a></li>
 				<li class=\"vsep\">&nbsp;</li>
 				<li class=\"top\">Selection<ul>
-					<li onclick=\"$tog_unread_link\">Toggle Unread</li>
-					<li onclick=\"$tog_marked_link\">Toggle Starred</li></ul></li>
+					<li onclick=\"$tog_unread_link\">Toggle unread</li>
+					<li onclick=\"$tog_marked_link\">Toggle starred</li></ul></li>
 				<li class=\"vsep\">&nbsp;</li>
-				<li class=\"top\">Mark as read<ul>
-					<li onclick=\"$catchup_page_link\">This Page</li>
-					<li onclick=\"$catchup_feed_link\">Entire Feed</li></ul></li>
+				<li class=\"top\"><a href=\"$catchup_page_link\">Mark as read</a><ul>
+					<li onclick=\"$catchup_page_link\">This page</li>
+					<li onclick=\"$catchup_feed_link\">Entire feed</li></ul></li>
 				<li class=\"vsep\">&nbsp;</li>
 				<!-- <li class=\"top2\">
 				Page:
 					<a href=\"$page_prev_link\">Previous</a>,
 					<a href=\"$page_next_link\">Next</a></li> -->
 
-				<li class=\"top\"><a href=\"$page_next_link\">Next Page</a><ul>
-					<li onclick=\"$page_prev_link\">Previous Page</li>
-					<li onclick=\"$page_first_link\">First Page</li></ul></li>
+				<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
+					<li onclick=\"$page_prev_link\">Previous page</li>
+					<li onclick=\"$page_first_link\">First page</li></ul></li>
 				</ul>  
 
 				</td>"; 
