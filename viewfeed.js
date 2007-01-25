@@ -582,9 +582,9 @@ function cdmWatchdog() {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(ids.toString()) + "&cmode=0";
 
-/*			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);  */
+			xmlhttp_rpc.send(null);
 
 		}
 
