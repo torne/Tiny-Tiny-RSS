@@ -306,7 +306,7 @@
 			array_push($found_tags, '');
 
 			while ($line = db_fetch_assoc($result)) {
-				array_push($found_tags, $line["tag_name"]);
+				array_push($found_tags, truncate_string($line["tag_name"], 20));
 			}
 
 			print "<td align='right'>";
