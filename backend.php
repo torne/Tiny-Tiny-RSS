@@ -534,9 +534,9 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div style=\"float : right\">$updated_fmt,
-						<a class=\"cdmToggleLink\"
-							href=\"javascript:toggleUnread($id)\">Toggle unread</a>
+					print "<div style=\"float : right\">$updated_fmt $id
+						<!-- <a class=\"cdmToggleLink\"
+							href=\"javascript:toggleUnread($id)\">Toggle unread</a> -->
 					</div>";
 					
 					print "<a class=\"title\" 

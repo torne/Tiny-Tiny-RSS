@@ -9,6 +9,9 @@ var _tag_active_feed_id = false;
 // FIXME: kludge, needs proper implementation
 var _reload_feedlist_after_view = false;
 
+var _cdm_wd_timeout = false;
+var _cdm_wd_vishist = new Array();
+
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
@@ -35,6 +38,15 @@ function headlines_callback() {
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}
+
+		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
+
+		if (!document.getElementById("headlinesList")) {
+			debug("starting CDM watchdog");
+			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
+			_cdm_wd_vishist = new Array();
+		}
+
 		notify("");
 	}
 }
@@ -513,4 +525,73 @@ function editTagsInsert() {
 	} catch (e) {
 		exception_error(e, "editTagsInsert");
 	}
+}
+
+function cdmWatchdog() {
+
+	try {
+
+		var ctr = document.getElementById("headlinesInnerContainer");
+
+		if (!ctr.hasChildNodes()) return;
+
+		var ids = new Array();
+
+		var e = ctr.firstChild;
+
+		while (e) {
+			if (e.className && e.className == "cdmArticleUnread" && e.id &&
+					e.id.match("RROW-")) {
+
+				// article fits in viewport OR article is longer than viewport and
+				// its bottom is visible
+
+				if (ctr.scrollTop <= e.offsetTop && e.offsetTop + e.offsetHeight <=
+						ctr.scrollTop + ctr.offsetHeight) {
+
+//					debug(e.id + " is visible " + e.offsetTop + "." + 
+//						(e.offsetTop + e.offsetHeight) + " vs " + ctr.scrollTop + "." +
+//						(ctr.scrollTop + ctr.offsetHeight));
+
+					ids.push(e.id.replace("RROW-", ""));
+
+				} else if (e.offsetHeight > ctr.offsetHeight &&
+						e.offsetTop + e.offsetHeight >= ctr.scrollTop &&
+						e.offsetTop + e.offsetHeight <= ctr.scrollTop + ctr.offsetHeight) {
+
+					ids.push(e.id.replace("RROW-", "")); 
+
+				}
+
+			}
+
+			e = e.nextSibling;
+		}
+
+		debug("cdmWatchdog, ids= " + ids.toString());
+
+		if (ids.length > 0 && xmlhttp_ready(xmlhttp_rpc)) {
+
+			for (var i = 0; i < ids.length; i++) {
+				var e = document.getElementById("RROW-" + ids[i]);
+				if (e) {
+					e.className = e.className.replace("Unread", "");
+				}
+			}
+
+			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
+				param_escape(ids.toString()) + "&cmode=0";
+
+/*			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);  */
+
+		}
+
+		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
+
+	} catch (e) {
+		exception_error(e, "cdmWatchdog");
+	}
+
 }
