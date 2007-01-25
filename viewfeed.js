@@ -5,8 +5,12 @@ var active_real_feed_id = false;
 
 var _tag_active_post_id = false;
 var _tag_active_feed_id = false;
+var _tag_active_cdm = false;
 
-// FIXME: kludge, needs proper implementation
+// FIXME: kludge, to restore scrollTop after tag editor terminates
+var _tag_cdm_scroll = false;
+
+// FIXME: kludges, needs proper implementation
 var _reload_feedlist_after_view = false;
 
 var _cdm_wd_timeout = false;
@@ -45,6 +49,13 @@ function headlines_callback() {
 			debug("starting CDM watchdog");
 			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
 			_cdm_wd_vishist = new Array();
+		}
+
+		if (_tag_cdm_scroll) {
+			try {
+				document.getElementById("headlinesInnerContainer").scrollTop = _tag_cdm_scroll;
+				_tag_cdm_scroll = false;
+			} catch (e) { }
 		}
 
 		notify("");
@@ -454,9 +465,13 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 
 }
 
-function editArticleTags(id, feed_id) {
+function editArticleTags(id, feed_id, cdm_enabled) {
 	_tag_active_post_id = id;
 	_tag_active_feed_id = feed_id;
+	_tag_active_cdm = cdm_enabled;
+	try {
+		_tag_cdm_scroll = document.getElementById("headlinesInnerContainer").scrollTop;
+	} catch (e) { }
 	displayDlg('editArticleTags', id);
 }
 
@@ -473,10 +488,15 @@ function tag_saved_callback() {
 				_reload_feedlist_after_view = true;
 			}
 
-			if (active_post_id == _tag_active_post_id) {
-				debug("reloading current article");
-				view(_tag_active_post_id, _tag_active_feed_id);			
-			} 
+			if (!_tag_active_cdm) {
+				if (active_post_id == _tag_active_post_id) {
+					debug("reloading current article");
+					view(_tag_active_post_id, _tag_active_feed_id);			
+				}
+			} else {
+				debug("reloading current feed");
+				viewCurrentFeed();
+			}
 
 		} catch (e) {
 			exception_error("catchup_callback", e);

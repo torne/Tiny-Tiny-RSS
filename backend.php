@@ -534,7 +534,7 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div style=\"float : right\">$updated_fmt $id
+					print "<div style=\"float : right\">$updated_fmt
 						<!-- <a class=\"cdmToggleLink\"
 							href=\"javascript:toggleUnread($id)\">Toggle unread</a> -->
 					</div>";
@@ -554,9 +554,27 @@
 					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
 
 					print "<div style=\"float : right\">$marked_pic</div>
-						<div lass=\"cdmFooter\">
-							<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
-							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"></div>";
+						<div class=\"cdmFooter\">";
+
+					
+					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
+							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
+
+					$tags = get_article_tags($link, $id);
+
+					$tags_str = "";
+
+					foreach ($tags as $tag) {
+						$num_tags++;
+						$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+					}
+
+					$tags_str = preg_replace("/, $/", "", $tags_str);
+	
+					print " &nbsp; $tags_str <a title=\"Edit tags for this article\" 
+							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
+
+					print "</div>";
 
 #					print "<div align=\"center\"><a class=\"cdmToggleLink\"
 #							href=\"javascript:toggleUnread($id)\">
