@@ -553,8 +553,6 @@ function cdmWatchdog() {
 
 		var ctr = document.getElementById("headlinesInnerContainer");
 
-		if (!ctr.hasChildNodes()) return;
-
 		var ids = new Array();
 
 		var e = ctr.firstChild;
@@ -583,6 +581,15 @@ function cdmWatchdog() {
 
 				}
 
+				// method 2: article bottom is visible and is in upper 1/2 of the viewport
+
+/*				if (e.offsetTop + e.offsetHeight >= ctr.scrollTop &&
+						e.offsetTop + e.offsetHeight <= ctr.scrollTop + ctr.offsetHeight/2) {
+
+					ids.push(e.id.replace("RROW-", "")); 
+
+				} */
+
 			}
 
 			e = e.nextSibling;
@@ -604,11 +611,11 @@ function cdmWatchdog() {
 
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+			xmlhttp_rpc.send(null); 
 
 		}
 
-		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
+		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 4000);
 
 	} catch (e) {
 		exception_error(e, "cdmWatchdog");

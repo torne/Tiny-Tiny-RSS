@@ -949,7 +949,7 @@
 		}
 
 		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
-			href=\"javascript:viewfeed('$feed_id', '', false);\">$feed_title</a>";
+			href=\"javascript:viewfeed('$feed_id', '', false, '', false, 0);\">$feed_title</a>";
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {

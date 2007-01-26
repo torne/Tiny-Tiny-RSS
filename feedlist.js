@@ -37,7 +37,11 @@ function viewFeedGoPage(i) {
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
 
-		if (!offset) page_offset = 0;
+		//if (!offset) page_offset = 0;
+
+		if (offset != undefined) {
+			page_offset = offset;
+		}
 
 		enableHotkeys();
 
@@ -106,8 +110,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&cat=1";
 		}
 
-		if (offset) {
-			query = query + "&skip=" + offset;
+		if (page_offset != 0) {
+			query = query + "&skip=" + page_offset;
 		}
 
 		if (navigator.userAgent.match("Opera")) {

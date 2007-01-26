@@ -451,9 +451,11 @@
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
 					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
+						class=\"markedPic\"
 						alt=\"Reset mark\" onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
+						class=\"markedPic\"
 						alt=\"Set mark\" onclick='javascript:toggleMark($id)'>";
 				}
 
@@ -534,10 +536,7 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div style=\"float : right\">$updated_fmt
-						<!-- <a class=\"cdmToggleLink\"
-							href=\"javascript:toggleUnread($id)\">Toggle unread</a> -->
-					</div>";
+					print "<div class=\"articleUpdated\">$updated_fmt</div>";
 					
 					print "<a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"
@@ -553,10 +552,10 @@
 
 					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
 
-					print "<div style=\"float : right\">$marked_pic</div>
-						<div class=\"cdmFooter\">";
+					print "<div class=\"cdmFooter\">";
 
-					
+					print "$marked_pic";
+
 					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
 
@@ -570,8 +569,10 @@
 					}
 
 					$tags_str = preg_replace("/, $/", "", $tags_str);
+
+					if ($tags_str == "") $tags_str = "no tags";
 	
-					print " &nbsp; $tags_str <a title=\"Edit tags for this article\" 
+					print " $tags_str <a title=\"Edit tags for this article\" 
 							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
 
 					print "</div>";
