@@ -2133,6 +2133,18 @@
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
 		}
+		if (CHECK_FOR_NEW_VERSION && $_SESSION["access_level"] >= 10) {
+			
+			if ($_SESSION["last_version_check"] + 600 < time()) {
+				$new_version_details = check_for_update($link);
+
+				print "<param key=\"new_version_available\" value=\"".
+					sprintf("%d", $new_version_details != ""). "\"/>";
+
+				$_SESSION["last_version_check"] = time();
+			}
+		}
+
 		print "</runtime-info>";
 	}
 
@@ -2595,7 +2607,7 @@
 		return array($tmp, $headlines_count);
 	}
 
-	function check_for_update($link) {
+	function check_for_update($link, $brief_fmt = true) {
 		$releases_feed = "http://tt-rss.spb.ru/releases.rss";
 
 		if (!CHECK_FOR_NEW_VERSION || $_SESSION["access_level"] < 10) {
@@ -2625,9 +2637,16 @@
 			$content = sanitize_rss($latest_item["description"]);
 
 			if (version_compare(VERSION, $latest_version) == -1) {
-				return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
-					New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
-					<div id=\"milestoneDetails\">$content</div></div>";
+				if ($brief_fmt) {
+					return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
+						New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
+						<div id=\"milestoneDetails\">$content</div></div>";
+				} else {
+					return "New version of <a target='_new' 
+						href='http://tt-rss.spb.ru/'>Tiny-Tiny RSS</a> ($latest_version) is available:
+					  	 <div>$content</div>";	
+				}
+
 			}			
 		}
 	}

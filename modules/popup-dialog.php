@@ -5,13 +5,18 @@
 
 		if ($id == "explainError") {
 
-			print "<div id=\"infoBoxTitle\">Error message</div>";
+			print "<div id=\"infoBoxTitle\">Notice</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			if ($param == 1) {
 				print _("Update daemon is enabled in configuration, but daemon
 					process is not running, which prevents all feeds from updating. Please
 					start the daemon process or contact instance owner.");
+			}
+
+			if ($param == 2) {
+				print check_for_update($link, false);
+
 			}
 
 			print "</div>";

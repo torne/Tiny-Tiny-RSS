@@ -76,13 +76,17 @@ ul.feedCatList {
 
 ul.feedCatList li {
 	margin : 0px;
-	padding : 0px 0px 0px 0px;
+	padding : 0px 0px 2px 0px;
 	color : black;
 }
 
 ul.feedList li {
 	margin : 0px;
 	font-size : small;
+}
+
+ul.feedCatList img {
+	vertical-align : bottom;
 }
 
 li.feedUnread, 
@@ -1431,4 +1435,8 @@ ul.headlineDropdownMenu ul li:hover {
 	background-color : #f0f0f0;
 }
 
-
+#newVersionIcon {
+	vertical-align : middle;
+	cursor : pointer;
+	display : none;
+}

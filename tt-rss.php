@@ -102,12 +102,15 @@ window.onload = init;
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
 <div id="header">
+	<div style="float : right">
 	<?php if (!SINGLE_USER_MODE) { ?>
-		<div style="float : right">
 			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
-		</div>
 	<?php } ?>
+	<img id="newVersionIcon" onclick="javascript:explainError(2)" 
+		src="images/new_version.png" title="New version is available!" 
+		alt="new_version_icon">
+	</div>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 

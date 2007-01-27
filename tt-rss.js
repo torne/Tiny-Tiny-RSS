@@ -539,6 +539,17 @@ function parse_runtime_info(elem) {
 
 		debug("RI: " + k + " => " + v);
 
+		if (k == "new_version_available") {
+			var icon = document.getElementById("newVersionIcon");
+			if (icon) {
+				if (v == "1") {
+					icon.style.display = "inline";
+				} else {
+					icon.style.display = "none";
+				}
+			}
+		}
+
 		if (k == "daemon_is_running" && v != 1) {
 			notify("<span onclick=\"javascript:explainError(1)\">Warning: Update daemon is not runing.</span>", true, true);
 		}
