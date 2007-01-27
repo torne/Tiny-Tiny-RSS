@@ -1576,3 +1576,7 @@ function filterDlgCheckAction(sender) {
 	}
 
 }
+
+function explainError(code) {
+	return displayDlg("explainError", code);
+}

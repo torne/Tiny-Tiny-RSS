@@ -97,12 +97,6 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<div id="noDaemonWarning">
-	<?php echo _("<b>Warning:</b> Update daemon is enabled in configuration, but daemon
-	process is not running, which prevents all feeds from updating. Please
-	start the daemon process or contact instance owner.") ?>
-</div>
-
 <ul id="debug_output"></ul>
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>

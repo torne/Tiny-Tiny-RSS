@@ -539,7 +539,11 @@ function parse_runtime_info(elem) {
 
 		debug("RI: " + k + " => " + v);
 
-		var w = document.getElementById("noDaemonWarning");
+		if (k == "daemon_is_running" && v != 1) {
+			notify("<span onclick=\"javascript:explainError(1)\">Warning: Update daemon is not runing.</span>", true, true);
+		}
+
+/*		var w = document.getElementById("noDaemonWarning");
 		
 		if (w) {
 			if (k == "daemon_is_running" && v != 1) {
@@ -547,7 +551,7 @@ function parse_runtime_info(elem) {
 			} else {
 				w.style.display = "none";
 			}
-		}
+		} */
 		param = param.nextSibling;
 	}
 }

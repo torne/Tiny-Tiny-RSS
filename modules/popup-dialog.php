@@ -3,6 +3,29 @@
 		$id = $_GET["id"];
 		$param = db_escape_string($_GET["param"]);
 
+		if ($id == "explainError") {
+
+			print "<div id=\"infoBoxTitle\">Error message</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			if ($param == 1) {
+				print _("Update daemon is enabled in configuration, but daemon
+					process is not running, which prevents all feeds from updating. Please
+					start the daemon process or contact instance owner.");
+			}
+
+			print "</div>";
+
+			print "<div align='center'>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"Close\">";
+
+			print "</div>";
+
+		}
+
 		if ($id == "quickAddFeed") {
 
 			print "<div id=\"infoBoxTitle\">Subscribe to feed</div>";
