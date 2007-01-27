@@ -15,7 +15,14 @@
 			}
 
 			if ($param == 2) {
-				print check_for_update($link, false);
+				$msg = check_for_update($link, false);
+
+				if (!$msg) {
+					print _("You are running the latest version of Tiny Tiny RSS. The
+						fact that you are seeing this dialog is probably a bug.");
+				} else {
+					print $msg;
+				}
 
 			}
 
