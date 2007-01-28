@@ -155,7 +155,7 @@
 
 		} else {
 
-			print check_for_update($link);
+//			print check_for_update($link);
 
 			if (!SINGLE_USER_MODE) {
 
