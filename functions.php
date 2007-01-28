@@ -2642,9 +2642,10 @@
 						New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
 						<div id=\"milestoneDetails\">$content</div></div>";
 				} else {
-					return "New version of <a target='_new' 
-						href='http://tt-rss.spb.ru/'>Tiny-Tiny RSS</a> ($latest_version) is available:
-					  	 <div>$content</div>";	
+					return "New version of Tiny-Tiny RSS ($latest_version) is available:
+						<div class='milestoneDetails'>$content</div>
+						Visit <a target=\"_new\" href=\"http://tt-rss.spb.ru/\">official site</a> for
+						download and update information.";	
 				}
 
 			}			

@@ -32,7 +32,7 @@
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"Close\">";
+				value=\"Close this window\">";
 
 			print "</div>";
 
