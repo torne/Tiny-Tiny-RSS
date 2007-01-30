@@ -415,6 +415,7 @@
 			$result = db_query($link, "SELECT reg_exp,
 				ttrss_filter_types.name AS name,
 				ttrss_filter_actions.name AS action,
+				inverse,
 				action_param
 				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
 					enabled = true AND
@@ -429,6 +430,7 @@
 				$filter["reg_exp"] = $line["reg_exp"];
 				$filter["action"] = $line["action"];
 				$filter["action_param"] = $line["action_param"];
+				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
 			
 				array_push($filters[$line["name"]], $filter);
 			}
@@ -837,11 +839,14 @@
 
 	function get_article_filters($filters, $title, $content, $link) {
 		$matches = array();
-		
+
 		if ($filters["title"]) {
 			foreach ($filters["title"] as $filter) {
-				$reg_exp = $filter["reg_exp"];			
-				if (preg_match("/$reg_exp/i", $title)) {
+				$reg_exp = $filter["reg_exp"];		
+				$inverse = $filter["inverse"];	
+				if ((!$inverse && preg_match("/$reg_exp/i", $title)) || 
+						($inverse && !preg_match("/$reg_exp/i", $title))) {
+
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
 			}
@@ -849,8 +854,12 @@
 
 		if ($filters["content"]) {
 			foreach ($filters["content"] as $filter) {
-				$reg_exp = $filter["reg_exp"];			
-				if (preg_match("/$reg_exp/i", $content)) {
+				$reg_exp = $filter["reg_exp"];
+				$inverse = $filter["inverse"];
+
+				if ((!$inverse && preg_match("/$reg_exp/i", $content)) || 
+						($inverse && !preg_match("/$reg_exp/i", $content))) {
+
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}		
 			}
@@ -859,8 +868,16 @@
 		if ($filters["both"]) {
 			foreach ($filters["both"] as $filter) {			
 				$reg_exp = $filter["reg_exp"];		
-				if (preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
-					array_push($matches, array($filter["action"], $filter["action_param"]));
+				$inverse = $filter["inverse"];
+
+				if ($inverse) {
+					if (!preg_match("/$reg_exp/i", $title) || !preg_match("/$reg_exp/i", $content)) {
+						array_push($matches, array($filter["action"], $filter["action_param"]));
+					}
+				} else {
+					if (preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
+						array_push($matches, array($filter["action"], $filter["action_param"]));
+					}
 				}
 			}
 		}
@@ -869,7 +886,11 @@
 			$reg_exp = $filter["reg_exp"];
 			foreach ($filters["link"] as $filter) {
 				$reg_exp = $filter["reg_exp"];
-				if (preg_match("/$reg_exp/i", $link)) {
+				$inverse = $filter["inverse"];
+
+				if ((!$inverse && preg_match("/$reg_exp/i", $link)) || 
+						($inverse && !preg_match("/$reg_exp/i", $link))) {
+						
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
 			}
