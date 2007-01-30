@@ -339,6 +339,10 @@
 
 			print "</p>";
 
+			print "<div class=\"insensitive\" style=\"float : right\">See 
+				<a target=\"_new\" href=\"http://tt-rss.spb.ru/trac/wiki/ContentFilters\">this page</a> 
+				for additional	information on filtering</div>";
+
 /*			print "<div class=\"insensitive\" style=\"float : right\">
 				First matching filter is used, filtering is performed
 				when importing articles from the feed.</div>"; */
