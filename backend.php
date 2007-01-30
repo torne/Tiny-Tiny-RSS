@@ -18,7 +18,7 @@
 
 	$op = $_REQUEST["op"];
 
-	define('SCHEMA_VERSION', 12);
+	define('SCHEMA_VERSION', 13);
 
 	require_once "sanity_check.php";
 	require_once "config.php";

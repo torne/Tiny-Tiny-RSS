@@ -149,6 +149,7 @@ create table ttrss_filters (id serial not null primary key,
 	filter_type integer not null references ttrss_filter_types(id), 
 	reg_exp varchar(250) not null,
 	enabled boolean not null default true,
+	inverse boolean not null default false,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(200) not null default '');
 
@@ -174,7 +175,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (12);
+insert into ttrss_version values (13);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);

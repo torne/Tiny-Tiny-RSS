@@ -262,6 +262,11 @@
 
 			print "<td><input disabled class='iedit' name='action_param'></td></tr>";
 
+			print "<tr><td valign='top'>Options:</td><td>";
+
+			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
+				<label for=\"inverse\">Inverse match</label></td></tr>";
+
 			print "</table>";
 
 			print "</form>";

@@ -17,6 +17,7 @@
 			$action_param = db_fetch_result($result, 0, "action_param");
 
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
+			$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
 
 			print "<div id=\"infoBoxTitle\">Filter editor</div>";
 			print "<div class=\"infoBoxContents\">";
@@ -87,9 +88,18 @@
 				$checked = "";
 			}
 
-			print "<tr><td>Options:</td><td>
+			print "<tr><td valign='top'>Options:</td><td>
 					<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
-					<label for=\"enabled\">Enabled</label>";
+					<label for=\"enabled\">Enabled</label><br/>";
+
+			if ($inverse) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
+				<label for=\"inverse\">Inverse match</label>";
 
 			print "</td></tr></table>";
 
@@ -121,6 +131,7 @@
 			$action_id = db_escape_string($_GET["action_id"]); 
 			$action_param = db_escape_string($_GET["action_param"]); 
 			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
+			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
 
 			if (!$feed_id) {
 				$feed_id = 'NULL';
@@ -134,6 +145,7 @@
 					action_id = '$action_id',
 					filter_type = '$filter_type',
 					enabled = $enabled,
+					inverse = $inverse,
 					action_param = '$action_param'
 				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 		}
@@ -161,6 +173,8 @@
 				$action_id = db_escape_string($_GET["action_id"]); 
 				$action_param = db_escape_string($_GET["action_param"]); 
 
+				$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
+
 				if (!$regexp) return;
 
 				if (!$feed_id) {
@@ -171,10 +185,10 @@
 
 				$result = db_query($link,
 					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-						action_id, action_param) 
+						action_id, action_param, inverse) 
 					VALUES 
 						('$regexp', '$filter_type','".$_SESSION["uid"]."', 
-							$feed_id, '$action_id', '$action_param')");
+							$feed_id, '$action_id', '$action_param', $inverse)");
 			} 
 		}
 
@@ -209,6 +223,7 @@
 				ttrss_filter_types.name AS filter_type_name,
 				ttrss_filter_types.description AS filter_type_descr,
 				enabled,
+				inverse,
 				feed_id,
 				ttrss_filter_actions.description AS action_description,
 				ttrss_feeds.title AS feed_title
@@ -251,7 +266,8 @@
 				$edit_filter_id = $_GET["id"];
 
 				$enabled = sql_bool_to_bool($line["enabled"]);
-	
+				$inverse = sql_bool_to_bool($line["inverse"]);
+
 				if ($subop == "edit" && $filter_id != $edit_filter_id) {
 					$class .= "Grayed";
 					$this_row_id = "";
@@ -286,9 +302,15 @@
 	
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["feed_title"] . "</td>";			
+
+				$inverse_label = "";
+
+				if ($inverse) {
+					$inverse_label = " <span class='insensitive'>(Inverse)</span>";
+				}
 	
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["filter_type_descr"] . "</td>";		
+					$line["filter_type_descr"] . "$inverse_label</td>";		
 		
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["action_description"] . "</td>";			
