@@ -229,10 +229,11 @@
 			print "<tr><td>Match:</td>
 				<td><input onkeypress=\"return filterCR(event, qaddFilter)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					name=\"reg_exp\" class=\"iedit\">";		
-			print "</td><td>";
-		
-			print_select_hash("filter_type", 1, $filter_types, "class=\"iedit\"");	
+					 name=\"reg_exp\" class=\"iedit\">";		
+
+			print "</td></tr><tr><td>On field:</td><td>";
+
+			print_select_hash("filter_type", 1, $filter_types, "class=\"_iedit\"");	
 	
 			print "</td></tr>";
 			print "<tr><td>Feed:</td><td colspan='2'>";

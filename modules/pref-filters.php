@@ -46,9 +46,9 @@
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
 			
-			print "</td><td>";
+			print "</td></tr><tr><td>On field:</td><td>";
 			
-			print_select_hash("filter_type", $filter_type, $filter_types, "class=\"iedit\"");	
+			print_select_hash("filter_type", $filter_type, $filter_types, "class=\"_iedit\"");	
 	
 			print "</td></tr>";
 			print "<tr><td>Feed:</td><td colspan='2'>";
