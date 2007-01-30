@@ -74,7 +74,7 @@ function refetch_callback() {
 				notify("All feeds updated.");
 				updateTitle("");
 			} else {
-				notify("");
+				//notify("");
 			}
 		} catch (e) {
 			exception_error("refetch_callback", e);
