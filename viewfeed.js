@@ -553,6 +553,8 @@ function cdmWatchdog() {
 
 		var ctr = document.getElementById("headlinesInnerContainer");
 
+		if (!ctr) return;
+
 		var ids = new Array();
 
 		var e = ctr.firstChild;
