@@ -421,7 +421,7 @@
 					owner_uid = $owner_uid AND
 					ttrss_filter_types.id = filter_type AND
 					ttrss_filter_actions.id = action_id AND
-				(feed_id IS NULL OR feed_id = '$feed')");
+				(feed_id IS NULL OR feed_id = '$feed') ORDER BY reg_exp");
 
 			while ($line = db_fetch_assoc($result)) {
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
@@ -633,13 +633,10 @@
 
 //					error_reporting(0);
 
-					$tuple = get_filter_name($entry_title, $entry_content, 
-						$entry_link, $filters);
+					$article_filters = get_article_filters($filters, $entry_title, 
+							$entry_content, $entry_link);
 
-					$filter_name = $tuple[0];
-					$filter_param = $tuple[1];
-
-					if ($filter_name == "filter") {
+					if (find_article_filter($article_filters, "filter")) {
 						continue;
 					}
 
@@ -653,7 +650,7 @@
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
 
-						if ($filter_name != 'catchup') {
+						if (!find_article_filter($article_filters, 'catchup')) {
 							$unread = 'true';
 							$last_read_qpart = 'NULL';
 						} else {
@@ -661,7 +658,7 @@
 							$last_read_qpart = 'NOW()';
 						}						
 
-						if ($filter_name == 'mark') {
+						if (find_article_filter($article_filters, 'mark')) {
 							$marked = 'true';
 						} else {
 							$marked = 'false';
@@ -735,11 +732,13 @@
 
 				# check for manual tags
 
-				if ($filter_name == "tag") {
+				$tag_filter = find_article_filter($article_filters, "tag"); 
 
-					$manual_tags = trim_array(split(",", $filter_param));
+				if ($tag_filter) {
 
-					foreach ($manual_tags as $tag) {					
+					$manual_tags = trim_array(split(",", $tag_filter[1]));
+
+					foreach ($manual_tags as $tag) {
 						if (tag_is_valid($tag)) {
 							array_push($entry_tags, $tag);
 						}
@@ -836,53 +835,9 @@
 		print "</select>";
 	}
 
-	function get_filter_name($title, $content, $link, $filters) {
-
-		if ($filters["title"]) {
-			foreach ($filters["title"] as $filter) {
-				$reg_exp = $filter["reg_exp"];			
-				if (preg_match("/$reg_exp/i", $title)) {
-					return array($filter["action"], $filter["action_param"]);
-				}
-			}
-		}
-
-		if ($filters["content"]) {
-			foreach ($filters["content"] as $filter) {
-				$reg_exp = $filter["reg_exp"];			
-				if (preg_match("/$reg_exp/i", $content)) {
-					return array($filter["action"], $filter["action_param"]);
-				}		
-			}
-		}
-
-		if ($filters["both"]) {
-			foreach ($filters["both"] as $filter) {			
-				$reg_exp = $filter["reg_exp"];		
-				if (preg_match("/$reg_exp/i", $title) || 
-					preg_match("/$reg_exp/i", $content)) {
-						return array($filter["action"], $filter["action_param"]);
-				}
-			}
-		}
-
-		if ($filters["link"]) {
-			$reg_exp = $filter["reg_exp"];
-			foreach ($filters["link"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				if (preg_match("/$reg_exp/i", $link)) {
-					return array($filter["action"], $filter["action_param"]);
-				}
-			}
-		}
-
-		return false;
-	}
-
-	function get_filter_matches($title, $content, $link, $filters) {
-
+	function get_article_filters($filters, $title, $content, $link) {
 		$matches = array();
-
+		
 		if ($filters["title"]) {
 			foreach ($filters["title"] as $filter) {
 				$reg_exp = $filter["reg_exp"];			
@@ -904,9 +859,8 @@
 		if ($filters["both"]) {
 			foreach ($filters["both"] as $filter) {			
 				$reg_exp = $filter["reg_exp"];		
-				if (preg_match("/$reg_exp/i", $title) || 
-					preg_match("/$reg_exp/i", $content)) {
-						array_push($matches, array($filter["action"], $filter["action_param"]));
+				if (preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
+					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
 			}
 		}
@@ -922,6 +876,15 @@
 		}
 
 		return $matches;
+	}
+
+	function find_article_filter($filters, $filter_name) {
+		foreach ($filters as $f) {
+			if ($f[0] == $filter_name) {
+				return $f;
+			};
+		}
+		return false;
 	}
 
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,

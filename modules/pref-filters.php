@@ -317,10 +317,9 @@
 
 			print "</p>";
 
-			print "<div class=\"insensitive\" style=\"float : right\">
+/*			print "<div class=\"insensitive\" style=\"float : right\">
 				First matching filter is used, filtering is performed
-				when importing articles from the feed.</div>";
-
+				when importing articles from the feed.</div>"; */
 
 		} else {
 
