@@ -139,7 +139,7 @@ window.onload = init;
 		?>
 		</select>
 	<?php } ?>
-	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2007 Andrew Dolgov
+	<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2007 <a href="http://bah.org.ru/">Andrew Dolgov</a>
 </div>
 
 <?php db_close($link); ?>
