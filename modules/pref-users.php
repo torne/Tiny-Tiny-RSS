@@ -235,8 +235,15 @@
 
 			$line["login"] = htmlspecialchars($line["login"]);
 
-			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
-				strtotime($line["last_login"]));
+#			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
+#				strtotime($line["last_login"]));
+
+			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				$line["last_login"] = smart_date_time(strtotime($line["last_login"]));
+			} else {
+				$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
+					strtotime($line["last_login"]));
+			}				
 
 			$access_level_names = array(0 => "User", 10 => "Administrator");
 
