@@ -516,12 +516,16 @@
 				$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
 
 				if ($item['author']) {
-					if (!$entry_author) {
-						$entry_author = db_escape_string(strip_tags($item['author']['name']));
-					}
 
-					if (!$entry_author) {
-						$entry_author = db_escape_string(strip_tags($item['author']['email']));
+					if (is_array($item['author'])) {
+
+						if (!$entry_author) {
+							$entry_author = db_escape_string(strip_tags($item['author']['name']));
+						}
+
+						if (!$entry_author) {
+							$entry_author = db_escape_string(strip_tags($item['author']['email']));
+						}
 					}
 
 					if (!$entry_author) {
