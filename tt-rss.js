@@ -202,11 +202,9 @@ function updateFeedList(silent, fetch) {
 		query_str = query_str + "&actid=" + getActiveFeedId();
 	}
 
-	if (navigator.userAgent.match("Opera")) {
-		var date = new Date();
-		var timestamp = Math.round(date.getTime() / 1000);
-		query_str = query_str + "&ts=" + timestamp
-	}
+	var date = new Date();
+	var timestamp = Math.round(date.getTime() / 1000);
+	query_str = query_str + "&ts=" + timestamp
 	
 	if (fetch) query_str = query_str + "&fetch=yes";
 

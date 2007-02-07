@@ -129,6 +129,10 @@ function view(id, feed_id, skip_history) {
 			selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 			markHeadline(active_post_id);
 
+			var date = new Date();
+			var timestamp = Math.round(date.getTime() / 1000);
+			query = query + "&ts=" + timestamp
+
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=article_callback;
 			xmlhttp.send(null);

@@ -802,6 +802,10 @@ function update_all_counters(feed) {
 
 		debug("update_all_counters QUERY: " + query);
 
+		var date = new Date();
+		var timestamp = Math.round(date.getTime() / 1000);
+		query = query + "&ts=" + timestamp
+
 		xmlhttp_rpc.open("GET", query, true);
 		xmlhttp_rpc.onreadystatechange=all_counters_callback;
 		xmlhttp_rpc.send(null);
