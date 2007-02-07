@@ -114,11 +114,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&skip=" + page_offset;
 		}
 
-		if (navigator.userAgent.match("Opera")) {
-			var date = new Date();
-			var timestamp = Math.round(date.getTime() / 1000);
-			query = query + "&ts=" + timestamp
-		}
+		var date = new Date();
+		var timestamp = Math.round(date.getTime() / 1000);
+		query = query + "&ts=" + timestamp
 
 		if (!activeFeedIsCat()) {
 			var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
