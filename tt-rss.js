@@ -167,6 +167,9 @@ function scheduleFeedUpdate(force) {
 
 	var date = new Date();
 
+	var timestamp = Math.round(date.getTime() / 1000);
+	query_str = query_str + "&ts=" + timestamp
+
 	if (!xmlhttp_ready(xmlhttp_ctr) && last_refetch < date.getTime() / 1000 - 60) {
 		debug("<b>xmlhttp seems to be stuck, aborting</b>");
 		xmlhttp_ctr.abort();
