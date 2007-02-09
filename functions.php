@@ -468,7 +468,7 @@
 				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
 				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
 				
-				if ($entry_timestamp == "") {
+				if ($entry_timestamp == "" || $entry_timestamp == -1 || !$entry_timestamp) {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
 				} else {
