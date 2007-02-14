@@ -185,6 +185,7 @@
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"uadd_box\" 			
 				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
+				onchange=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
 				size=\"40\">&nbsp;";
 			
 		print "<input type=\"submit\" class=\"button\" 

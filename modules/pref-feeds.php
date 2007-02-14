@@ -591,6 +591,7 @@
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
+					onchange=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
 					size=\"40\">&nbsp;
 				<input 
 					type=\"submit\" class=\"button\" disabled=\"true\" id=\"catadd_submit_btn\"
@@ -652,7 +653,8 @@
 		
 					if (!$edit_cat_id || $action != "edit") {
 		
-						print "<td width='5%' align='center'><input onclick='toggleSelectPrefRow(this, \"fcat\");' 
+						print "<td width='5%' align='center'><input 
+							onclick='toggleSelectPrefRow(this, \"fcat\");' 
 							type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
 		
 						print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
@@ -756,6 +758,7 @@
 		print "<div class=\"prefGenericAddBox\">
 			<input id=\"fadd_link\" 
 				onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
+				onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 				size=\"40\">
 			<input type=\"submit\" class=\"button\"
 				disabled=\"true\" id=\"fadd_submit_btn\"

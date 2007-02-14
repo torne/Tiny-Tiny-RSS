@@ -37,7 +37,8 @@
 
 			print "<tr><td>Caption:</td>
 				<td><input onkeypress=\"return filterCR(event, labelEditSave)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"description\" class=\"iedit\" value=\"$description\">";
 
 			print "</td></tr>";

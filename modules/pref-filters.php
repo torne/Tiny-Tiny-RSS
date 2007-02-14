@@ -45,7 +45,8 @@
 			print "<tr><td>Match:</td>
 				<td><input onkeypress=\"return filterCR(event, filterEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
+					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
 			
 			print "</td></tr><tr><td>On field:</td><td>";
 			

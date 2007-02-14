@@ -54,6 +54,7 @@
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
 					onkeypress=\"return filterCR(event, qafAdd)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
+					onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
 		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -92,6 +93,7 @@
 			
 			print "<input name=\"query\" class=\"iedit\" 
 				onkeypress=\"return filterCR(event, search)\"
+				onchange=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				value=\"\">
 			</td></tr>";
@@ -166,8 +168,9 @@
 
 			print "<tr><td>Caption:</td>
 				<td><input onkeypress=\"return filterCR(event, addLabel)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"description\" class=\"iedit\">";
+					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					name=\"description\" class=\"iedit\">";
 
 			print "</td></tr>";
 
@@ -228,7 +231,8 @@
 
 			print "<tr><td>Match:</td>
 				<td><input onkeypress=\"return filterCR(event, qaddFilter)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+ 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" class=\"iedit\">";		
 
 			print "</td></tr><tr><td>On field:</td><td>";
