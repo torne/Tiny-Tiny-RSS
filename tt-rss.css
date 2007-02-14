@@ -16,7 +16,6 @@ blockquote {
 
 div.postReply {
 	padding : 10px;
-	font-size : medium;
 }
 
 div.postReply a {
@@ -38,6 +37,7 @@ div.postReply > div.postHeader {
 
 div.postReply div.postContent {
 	padding : 10px;
+	font-size : 10pt;
 }
 
 div.postReply div.postIcon {
@@ -50,14 +50,15 @@ ul.feedList {
 	list-style-type : none;
 	margin : 5px;
 	padding : 0px 0px 0px 5px;
-	font-size : small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 }
 
 ul.feedList li.feedCat {
 	margin : 0px;
 	padding : 3px 0px 3px 0px;
 	color : #707070;
-	font-size : small;
+	font-size : 9pt;
 }
 
 ul.feedList li.feedCat a {
@@ -82,7 +83,7 @@ ul.feedCatList li {
 
 ul.feedList li {
 	margin : 0px;
-	font-size : small;
+	font-size : 10pt;
 }
 
 ul.feedCatList img {
@@ -227,7 +228,7 @@ input.editbox {
 	position : absolute;	
 	display : none;
 	float : right;
-	font-size : small;
+	font-size : 9pt;
 	text-align : center;
 	z-index : 999;
 	-moz-border-radius : 2px;
@@ -252,7 +253,8 @@ input.editbox {
 }
 
 #dispSwitch {
-	font-size : x-small;
+	font-size : 8pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	text-align : right;
 	float : right;
 	margin : 5px 5px 0px 0px;
@@ -388,7 +390,6 @@ tr.title td {
 	border-width : 0px 0px 1px 0px;
 	border-color : #ecf4ff;
 	border-style : solid;
-	font-size : small;
 	color : #4684ff;
 }
 
@@ -458,7 +459,6 @@ div.helpResponse {
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
 	border-color : #88b0f0;
-	font-size : small;
 	position : relative;
 	bottom : 2px;
 	right : 2px;
@@ -482,11 +482,11 @@ div.helpResponse {
 div.infoBoxContents {
 	padding : 10px;
 	margin-bottom : 5px;
-	font-size : small;
+	font-size : 9pt;
 }
 
 div.infoBoxContents td {
-	font-size : small;
+	font-size : 9pt;
 }
 
 div.infoBoxContents a {
@@ -537,9 +537,10 @@ div.prefsTab {
 	border-style : solid;
 	margin : 0px 0px 0px 5px;
 	padding : 3px 5px 3px 5px;
-	font-size : small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	position : relative;
-	bottom : -1px;
+	bottom : -2px;
 	border-collapse : collapse;
 	-moz-border-radius : 3px;
 	min-width : 100px;
@@ -554,9 +555,10 @@ div.prefsTabSelected {
 	margin : 0px 0px 0px 5px;
 	padding : 3px 5px 3px 5px;
 	background-color : #ecf4ff;
-	font-size : small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	position : relative;
-	bottom : -1px;
+	bottom : -2px;
 	border-collapse : collapse;
 	-moz-border-radius : 3px;
 	font-weight : bold;
@@ -569,7 +571,7 @@ div.warning {
 	border : 1px solid #d7c47a;
 	padding : 5px;
 	margin : 0px 0px 5px 0px;
-	font-size : small;
+	font-size : 9pt;
 }
 
 div.notice {
@@ -577,7 +579,7 @@ div.notice {
 	border : 1px solid #88b0f0;
 	padding : 5px;
 	margin : 0px 0px 5px 0px;
-	font-size : small;
+	font-size : 9pt;
 }
 
 div.error {
@@ -585,7 +587,7 @@ div.error {
 	background : #ffcccc;
 	padding : 5px;
 	margin : 0px 0px 5px 0px;
-	font-size : small;
+	font-size : 9pt;
 }
 
 ul.nomarks {
@@ -595,7 +597,6 @@ ul.nomarks {
 }
 
 div.prefHelp, td.prefHelp {
-	font-size : small;
 	color : gray;
 	padding : 5px;
 }
@@ -626,9 +627,9 @@ span.insensitive, div.insensitive {
 	color : black;
 }
 
-.prefGenericAddBox {
-	font-size : small;
-}
+/* .prefGenericAddBox {
+	font-size : 9pt;
+} */
 
 body.logoutBody {
 	background-color : #f0f0f0;
@@ -651,7 +652,7 @@ div.logoutContent {
 }
 
 .small {
-	font-size : small;
+	font-size : 9pt;
 }
 
 table.innerFeedTable td {
@@ -660,7 +661,7 @@ table.innerFeedTable td {
 }
 
 td.selectPrompt {
-	font-size : x-small;
+	font-size : 9pt;
 	color : gray;
 }
 
@@ -677,33 +678,37 @@ table.headlinesSubToolbar {
 }
 
 table.headlinesSubToolbar td.headlineActions {
-	font-size : x-small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	color : gray;
 	padding : 0px 5px 0px 5px;
 }
 
 table.headlinesSubToolbar td.headlineActionsRTL {
-	font-size : x-small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	color : gray;
 	padding : 0px 5px 0px 5px;
 }
 
 table.headlinesSubToolbar td.headlineTitle {
-	font-size : x-small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	color : gray;
 	padding : 0px 5px 0px 5px;
 	text-align : right;
 }
 
 table.headlinesSubToolbar td.headlineTitleRTL {
-	font-size : x-small;
+	font-size : 9pt;
+	font-family : "Lucida Grande", Tahoma, sans-serif;
 	color : gray;
 	padding : 0px 5px 0px 5px;
 	text-align : left;
 }
 
 span.contentPreview {
-	font-size : x-small;
+	font-size : 9pt;
 	color : gray;
 	font-weight : normal;
 }
@@ -719,7 +724,6 @@ table.headlinesList td.hlMarkedPic {
 
 table.headlinesList td.hlfeed {
 	text-align : right;
-	font-size : small;
 }
 
 td.hlSelectRow, td.hlUpdatePic {
@@ -728,7 +732,6 @@ td.hlSelectRow, td.hlUpdatePic {
 }
 
 table.headlinesList td.hlUpdated {
-	font-size : small;
 	color : gray;
 	text-align : right;
 	width : 100px;
@@ -739,14 +742,12 @@ table.headlinesList tr td {
 }
 
 div.postHeader div.postDate {
-	font-size : x-small;
 	text-align : right;
 	color : gray;
 	float : right;
 }
 
 div.postHeader div.postDateRTL {
-	font-size : x-small;
 	text-align : left;
 	color : gray;
 	float : right;
@@ -754,12 +755,12 @@ div.postHeader div.postDateRTL {
 
 div.postReply span.tagList {
 	color : gray;
-	font-size : x-small;
 }
 
 div.postHeader div {
 	padding-bottom : 3px;
-	font-size : x-small;
+	font-size : 10pt;
+	/* font-family : "Lucida Grande", Tahoma, sans-serif; */
 }
 
 #feedUpdateErrors {
@@ -767,7 +768,7 @@ div.postHeader div {
 }
 
 #allEntryTags {
-	font-size : x-small;
+	font-size : 9pt;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
@@ -826,7 +827,7 @@ div.cdmHeader {
 }
 
 div.cdmFooter {
-	font-size : x-small;
+	font-size : 9pt;
 	color : gray;
 	padding-top : 5px;
 }
@@ -847,7 +848,7 @@ div.cdmFooter input, div.cdmHeader input, div.cdmFooter img {
 
 div.cdmHeader, div.cdmHeader a {
 	color : gray;
-	font-size : x-small;
+	font-size : 9pt;
 }
 
 div.cdmHeader a:hover {
@@ -868,7 +869,7 @@ img.closeButton {
 }
 
 span.groupPrompt {
-	font-size : x-small;
+	font-size : 9pt;
 	color : #4684ff;
 }
 
@@ -939,7 +940,7 @@ span.subscribers {
 
 div.subscribers {
 	color : #808080;
-	font-size : x-small;
+	font-size : 9pt;
 	float : right;
 }
 
@@ -965,7 +966,7 @@ ul.compact li {
 }
 
 div.browserFeedInfo {
-	font-size : x-small;
+	font-size : 9pt;
 /*	border : 1px solid #88b0f0;
 	background-color : #ecf4ff;
 	-moz-border-radius : 5px; */
@@ -986,7 +987,7 @@ div.cdmContent a:hover {
 
 a.cdmToggleLink {
 	color : #808080;
-	font-size : x-small;
+	font-size : 9pt;
 }
 
 a.cdmToggleLink:hover {
@@ -1016,7 +1017,7 @@ a.cdmToggleLink:hover {
 #debug_output li {
 	margin : 0px;
 	padding : 0px;
-	font-size : x-small;
+	font-size : 8pt;
 }
 
 #overlay {
@@ -1135,7 +1136,7 @@ table.loginForm2 .loginBottom {
 	border-width : 1px 0px 0px 0px;
 	border-color : #88b0f0;
 	border-style : solid;
-	font-size : x-small;
+	font-size : 9pt;
 	text-align : center;
 	color : #909090;
 	padding : 0.5em;
@@ -1185,7 +1186,7 @@ div.whiteBox {
 	right : 5px;
 	height : 40px;
 	color : #4684ff;
-	font-size : small;
+	font-size : 9pt;
 }
 
 #feeds-holder {
@@ -1213,6 +1214,7 @@ div.whiteBox {
 	background-image : url("images/toolbar.png");
 	background-position : bottom left;
 	background-repeat : repeat-x;
+	font-size : 9pt;
 }
 
 div.headlines_normal {
@@ -1225,7 +1227,7 @@ div.headlines_normal {
 	top : 85px;
 	right : 0px;
 	overflow : hidden;
-	font-size : small;
+	font-size : 9pt;
 	border-collapse : collapse;
 	/* css hack for IE */
 	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
@@ -1241,7 +1243,7 @@ div.headlines_cdm {
 	top : 85px;
 	right : 0px;
 	overflow : hidden;
-	font-size : small;
+	font-size : 9pt;
 	border-collapse : collapse;
 	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
 }
@@ -1267,7 +1269,7 @@ div.headlines_cdm {
 	height : 20px;
 	text-align : center;
 	color : gray;
-	font-size : x-small;
+	font-size : 9pt;
 	background-image : url("images/footer.png");
 	background-position : top left;
 	background-repeat : repeat-x; 
@@ -1301,7 +1303,7 @@ div.headlines_cdm {
 	border-style : solid;
 	border-color : #c0c0c0;
 	background-color : #fafafa; */
-	font-size : x-small;
+	font-size : 9pt;
 }
 
 #headlinesInnerContainer {
@@ -1317,14 +1319,14 @@ div.headlines_cdm {
 
 #prefHeader {
 	color : #4684ff;
-	font-size : small;
+	font-size : 9pt;
 	margin : 10px;
 	height : 33px;
 }
 
 div.return {
 	float : right;
-	font-size : small;
+	font-size : 9pt;
 	margin-right : 10px;
 }
 
@@ -1349,14 +1351,12 @@ div.return a:hover {
 	background-image : url("images/prefs-content.png");
 	background-position : top left;
 	background-repeat : repeat-x;
-	font-size : small;
 	border-width : 1px 0px 0px 0px;
 	border-color : #88b0f0;
 	border-style : solid;
 	height: expression((parseInt(document.documentElement.clientHeight)-75-40)+'px');
 	width: expression((parseInt(document.documentElement.clientWidth)-25)+'px');
-
-
+	font-size : 10pt;
 }
 
 #userSwitch {
