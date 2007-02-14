@@ -1938,7 +1938,13 @@
 
 	function subscribe_to_feed($link, $feed_link, $cat_id = 0) {
 
+		# check for feed:http://url
 		$feed_link = trim(preg_replace("/^feed:/", "", $feed_link));
+
+		# check for feed://URL
+		if (strstr($feed_link, "//") == 0) {
+			$feed_link = "http:$feed_link";
+		}
 
 		if ($feed_link == "") return;
 
