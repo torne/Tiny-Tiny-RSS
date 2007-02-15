@@ -182,13 +182,17 @@ window.onload = init;
 			'onchange="viewCurrentFeed(0, \'\')"');
 	
 		?>		
+
+		&nbsp;
+
+		<input class="button" type="submit"
+			onclick="return viewCurrentFeed('ForceUpdate')" 
+			value="<?php echo _('Update') ?>">
+
 		</form>
 
 		<!-- &nbsp;<input class="button" type="submit"
 			onclick="quickMenuGo('qmcSearch')" value="Search (tmp)"> -->
-
-		&nbsp;<input class="button" type="submit"
-			onclick="viewCurrentFeed('ForceUpdate')" value="<?php echo _('Update') ?>">
 
 		<!-- <input class="button" type="submit"
 			onclick="catchupCurrentFeed()" value="Mark as read">  -->
