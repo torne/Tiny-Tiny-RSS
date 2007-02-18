@@ -11,6 +11,14 @@ function is_opera() {
 	return navigator.userAgent.match("Opera");
 }
 
+function is_khtml() {
+	return navigator.userAgent.match("KHTML");
+}
+
+function is_safari() {
+	return navigator.userAgent.match("Safari");
+}
+
 function exception_error(location, e, silent) {
 	var msg;
 
@@ -214,13 +222,13 @@ function hotkey_handler(e) {
 			if (new_feed) viewfeed(new_feed, '');
 		}
 
-		if (keycode == 78 || keycode == 40) { // n, down
+		if (!is_safari() && (keycode == 78 || keycode == 40)) { // n, down
 			if (typeof moveToPost != 'undefined') {
 				return moveToPost('next');
 			}
 		}
 	
-		if (keycode == 80 || keycode == 38) { // p, up
+		if (!is_safari() && (keycode == 80 || keycode == 38)) { // p, up
 			if (typeof moveToPost != 'undefined') {
 				return moveToPost('prev');
 			}
