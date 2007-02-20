@@ -1942,7 +1942,7 @@
 		$feed_link = trim(preg_replace("/^feed:/", "", $feed_link));
 
 		# check for feed://URL
-		if (strstr($feed_link, "//") == 0) {
+		if (strpos($feed_link, "//") === 0) {
 			$feed_link = "http:$feed_link";
 		}
 
