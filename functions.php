@@ -775,7 +775,7 @@
 						$entry_int_id = db_fetch_result($result, 0, "int_id");
 						
 						foreach ($entry_tags as $tag) {
-							$tag = db_escape_string(strtolower($tag));
+							$tag = db_escape_string(mb_strtolower($tag));
 
 							$tag = str_replace("+", " ", $tag);	
 							$tag = str_replace("technorati tag: ", "", $tag);
