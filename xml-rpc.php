@@ -21,6 +21,7 @@
 
 	if (DB_TYPE == "pgsql") {
 		pg_query("set client_encoding = 'utf-8'");
+		pg_set_client_encoding("UNICODE");
 	}
 
 	function getVirtualFeeds($msg) {

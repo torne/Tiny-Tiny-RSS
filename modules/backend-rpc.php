@@ -231,6 +231,10 @@
 				foreach ($tags as $tag) {
 					$tag = trim($tag);
 
+					if (!tag_is_valid($tag)) {
+						continue;
+					}
+
 					if (preg_match("/^[0-9]*$/", $tag)) {
 						continue;
 					}

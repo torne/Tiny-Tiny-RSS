@@ -549,7 +549,7 @@
 
 				if (!$num_comments) $num_comments = 0;
 
-				$dc_subject = $item['dc']['subject'];
+/*				$dc_subject = $item['dc']['subject'];
 
 				$subject_tags = false;
 
@@ -557,7 +557,7 @@
 					$subject_tags = $dc_subject;
 				} else if ($dc_subject) {
 					$subject_tags = array($dc_subject);
-				}
+				} */
 
 				# sanitize content
 				
@@ -751,13 +751,13 @@
 					}
 				}
 
-				if ($subject_tags) {
+/*				if ($subject_tags) {
 					foreach ($subject_tags as $tag) {
 						if (tag_is_valid($tag)) {
 							array_push($entry_tags, $tag);
 						}
 					}
-				}
+				} */
 
 				if (count($entry_tags) > 0) {
 				
@@ -775,11 +775,13 @@
 						$entry_int_id = db_fetch_result($result, 0, "int_id");
 						
 						foreach ($entry_tags as $tag) {
-							$tag = db_escape_string(mb_strtolower($tag));
+							$tag = db_escape_string(mb_strtolower(strip_tags($tag)));
 
 							$tag = str_replace("+", " ", $tag);	
 							$tag = str_replace("technorati tag: ", "", $tag);
-	
+
+							if (!tag_is_valid($tag)) continue;
+							
 							$result = db_query($link, "SELECT id FROM ttrss_tags		
 								WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
 								owner_uid = '$owner_uid' LIMIT 1");
@@ -3161,7 +3163,13 @@
 	}
 
 	function tag_is_valid($tag) {
-		return ($tag !='' && !preg_match("/^[0-9]*$/", $tag));
+		if ($tag == '') return false;
+		if (preg_match("/^[0-9]*$/", $tag)) return false;
+
+		$tag = iconv("utf-8", "utf-8", $tag);
+		if (!$tag) return false;
+
+		return true;
 	}
 
 ?>
