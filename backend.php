@@ -406,7 +406,8 @@
 		}
 
 		print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-			$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, $offset);
+			$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, 
+			$offset, $limit);
 
 		print "<div id=\"headlinesInnerContainer\">";
 

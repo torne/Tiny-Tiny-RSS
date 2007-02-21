@@ -2380,6 +2380,10 @@
 	
 				$content_query_part = "content as content_preview,";
 
+				if ($limit_query_part) {
+					$offset_query_part = "OFFSET $offset";
+				}
+
 				$query = "SELECT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
@@ -2400,7 +2404,7 @@
 					$search_query_part
 					$view_query_part
 					$query_strategy_part ORDER BY $order_by
-					$limit_query_part OFFSET $offset";
+					$limit_query_part $offset_query_part";
 					
 				$result = db_query($link, $query);
 	
@@ -2710,7 +2714,7 @@
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$bottom = false, $rtl_content = false, $feed_id = 0,
 			$is_cat = false, $search = false, $match_on = false,
-			$search_mode = false, $offset = 0) {
+			$search_mode = false, $offset = 0, $limit = 0) {
 
 			$user_page_offset = $offset + 1;
 
@@ -2779,13 +2783,17 @@
 					<!-- <li class=\"top2\">
 					Page:
 						<a href=\"$page_prev_link\">Previous</a>,
-						<a href=\"$page_next_link\">Next</a></li> -->
-	
-					<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
-						<li onclick=\"$page_prev_link\">Previous page</li>
-						<li onclick=\"$page_first_link\">First page</li></ul></li>
-					</ul>  
-	
+						<a href=\"$page_next_link\">Next</a></li> -->";
+
+					if ($limit != 0) {
+						print "
+						<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
+							<li onclick=\"$page_prev_link\">Previous page</li>
+							<li onclick=\"$page_first_link\">First page</li></ul></li>
+							</ul>";
+					}
+
+					print "	
 					</td>"; 
 
 			} else {
