@@ -261,6 +261,18 @@ function hotkey_handler(e) {
 			return editFeedDlg(getActiveFeedId());
 		}
 
+		if (keycode == 67) { // c 
+			if (getActiveFeedId()) {
+				return catchupCurrentFeed();
+			}
+		}
+
+		if (keycode == 90) { // z 
+			if (getActiveFeedId()) {
+				return catchupPage();
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
