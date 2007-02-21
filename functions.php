@@ -3141,7 +3141,7 @@
 
 		$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$a_id' AND owner_uid = '".$_SESSION["uid"]."') ORDER BY tag_name");
+				ref_id = '$a_id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1) ORDER BY tag_name");
 
 		$tags = array();	
 	
