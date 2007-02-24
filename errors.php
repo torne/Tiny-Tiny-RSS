@@ -11,7 +11,7 @@
 
 	$ERRORS[4] = _("Frontend sanity check failed.");
 
-	$ERRORS[5] = _("Incorrect database schema version. <a href='update.php'>Please update</a>.");
+	$ERRORS[5] = _("Incorrect database schema version. &lt;a href='update.php'&gt;Please update&lt;/a&gt;.");
 
 	$ERRORS[6] = _("Request not authorized.");
 

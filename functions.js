@@ -1526,16 +1526,17 @@ function storeInitParams(params, is_client) {
 function fatalError(code, message) {
 	try {	
 
-		if (code != 6) {
-
+		if (code == 6) {
+			window.location.href = "login.php?rt=none";			
+		} else if (code == 5) {
+			window.location.href = "update.php";
+		} else {
 			var fe = document.getElementById("fatal_error");
 			var fc = document.getElementById("fatal_error_msg");
 	
 			fc.innerHTML = "Code " + code + ": " + message;
 	
 			fe.style.display = "block";
-		} else {
-			window.location.href = "login.php?rt=none";			
 		}
 
 	} catch (e) {
