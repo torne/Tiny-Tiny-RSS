@@ -257,17 +257,17 @@ function hotkey_handler(e) {
 			viewFeedGoPage(0);
 		}
 
-		if (keycode == 69 && shift_key) {
+		if (keycode == 69 && shift_key) { // e
 			return editFeedDlg(getActiveFeedId());
 		}
 
-		if (keycode == 67) { // c 
+		if (keycode == 70 && shift_key) { // f
 			if (getActiveFeedId()) {
 				return catchupCurrentFeed();
 			}
 		}
 
-		if (keycode == 90) { // z 
+		if (keycode == 80 && shift_key) { // p 
 			if (getActiveFeedId()) {
 				return catchupPage();
 			}
