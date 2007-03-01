@@ -101,7 +101,7 @@ window.onload = init;
 	<div style="float : right">
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="javascript:logoutUser()">Logout</a>)
+			(<a href="logout.php">Logout</a>)
 	<?php } ?>
 	<img id="newVersionIcon" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="New version is available!" 
