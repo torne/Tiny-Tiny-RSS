@@ -1170,7 +1170,7 @@
 
 		if ($_SESSION["cookie_lifetime"] && $_SESSION["uid"]) {
 
-#			print time() . " vs " .  $_SESSION["cookie_lifetime"];
+			//print_r($_SESSION);
 
 			if (time() > $_SESSION["cookie_lifetime"]) {
 				return false;
@@ -1210,7 +1210,7 @@
 					if ($remember_me) {
 						$_SESSION["cookie_lifetime"] = time() + 
 							SESSION_COOKIE_LIFETIME_REMEMBER;
-					} else {
+					} else if (SESSION_COOKIE_LIFETIME > 0) {
 						$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
 					}
 

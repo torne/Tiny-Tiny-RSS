@@ -56,6 +56,8 @@ function logout_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
 		try {
+			var date = new Date();
+			var timestamp = Math.round(date.getTime() / 1000);
 			window.location.href = "tt-rss.php";
 		} catch (e) {
 			exception_error("logout_callback", e);
@@ -1538,7 +1540,7 @@ function fatalError(code, message) {
 	try {	
 
 		if (code == 6) {
-			//window.location.href = "login.php?rt=none";			
+			window.location.href = "tt-rss.php";			
 		} else if (code == 5) {
 			window.location.href = "update.php";
 		} else {
