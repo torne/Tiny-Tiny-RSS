@@ -3,8 +3,6 @@
 	require_once "functions.php";
 	require_once "../functions.php"; 
 
-	basic_nosid_redirect_check();
-
 	require_once "../sessions.php";
 
 	require_once "../version.php"; 

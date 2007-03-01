@@ -51,9 +51,9 @@
 				<p>Error: Not logged in.</p>
 				<script type=\"text/javascript\">
 					if (parent.window != 'undefined') {
-						parent.window.location = \"login.php\";		
+						parent.window.location = \"tt-rss.php\";		
 					} else {
-						window.location = \"login.php\";
+						window.location = \"tt-rss.php\";
 					}
 				</script>
 			</body></html>

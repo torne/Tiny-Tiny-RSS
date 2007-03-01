@@ -12,7 +12,8 @@
 	login_sequence($link);
 
 	if ($_SESSION["access_level"] < 10) { 
-		header("Location: login.php"); die;
+		print "<p>Error: your access level is insufficient to run this script.</p>";
+		exit;
 	}
 ?>
 

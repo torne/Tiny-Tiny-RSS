@@ -1159,22 +1159,6 @@
 		return preg_replace('/\/[^\/]*$/', "", $_SERVER["REQUEST_URI"]);
 	}
 
-	function get_login_redirect() {
-		$server = $_SERVER["SERVER_NAME"];
-
-		if (ENABLE_LOGIN_SSL) {
-			$protocol = "https";
-		} else {
-			$protocol = "http";
-		}		
-
-		$url_path = get_script_urlpath();
-
-		$redirect_uri = "$protocol://$server$url_path/login.php";
-
-		return $redirect_uri;
-	}
-
 	function validate_session($link) {
 		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
 			if ($_SESSION["ip_address"]) {
@@ -1184,17 +1168,6 @@
 			}
 		}
 		return true;
-	}
-
-	function basic_nosid_redirect_check() {
-		if (!SINGLE_USER_MODE) {
-			if (!$_COOKIE[get_session_cookie_name()]) {
-				$redirect_uri = get_login_redirect();
-				$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
-				header("Location: $redirect_uri?rt=$return_to");
-				exit;
-			}
-		}
 	}
 
 	function login_sequence($link) {
@@ -1210,38 +1183,26 @@
 
 			if (!validate_session($link)) {
 				logout_user();
-				$redirect_uri = get_login_redirect();
-				$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
-				header("Location: $redirect_uri?rt=$return_to");
+				render_login_form($link);
 				exit;
 			}
 
-			if (!USE_HTTP_AUTH) {
-				if (!$_SESSION["uid"]) {
-					$redirect_uri = get_login_redirect();
-					$return_to = preg_replace('/.*?\//', '', $_SERVER["REQUEST_URI"]);
-					header("Location: $redirect_uri?rt=$return_to");
-					exit;
+			$login_action = $_POST["login_action"];
+
+			# try to authenticate user if called from login form			
+			if ($login_action == "do_login") {
+				$login = $_POST["login"];
+				$password = $_POST["password"];
+
+				if (authenticate_user($link, $login, $password)) {
+					$_POST["password"] = "";
+					return;
 				}
-			} else {
-				if (!$_SESSION["uid"]) {
-					if (!$_SERVER["PHP_AUTH_USER"]) {
+			}
 
-						header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
-						header('HTTP/1.0 401 Unauthorized');
-						exit;
-						
-					} else {
-						$auth_result = authenticate_user($link, 
-							$_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]);
-
-						if (!$auth_result) {
-							header('WWW-Authenticate: Basic realm="Tiny Tiny RSS"');
-							header('HTTP/1.0 401 Unauthorized');
-							exit;
-						}
-					}
-				}				
+			if (!$_SESSION["uid"]) {
+				render_login_form($link);
+				exit;
 			}
 		} else {
 			return authenticate_user($link, "admin", null);
@@ -3178,6 +3139,10 @@
 		if (!$tag) return false;
 
 		return true;
+	}
+
+	function render_login_form($link) {
+		require_once "login_form.php";
 	}
 
 ?>

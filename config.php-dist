@@ -27,9 +27,6 @@
 	define('ICONS_URL', "icons");
 	// Local and URL path to the directory, where feed favicons are stored.
 
-	define('USE_HTTP_AUTH', false);
-	// Use HTTP Basic authentication instead of login form. Has some problems.
-
 	define('SINGLE_USER_MODE', true);
 	// Operate in single user mode, disables all functionality related to
 	// multiple users.
@@ -68,9 +65,6 @@
 
 	define('GLOBAL_ENABLE_LABELS', false);
 	// Labels are a security risk, so this option can globally disable them for all users.
-
-	define('ENABLE_LOGIN_SSL', false);
-	// Redirect to SSL url for login
 
 	define('MAIL_RESET_PASS', true);
 	// Send mail to user on password reset
@@ -147,7 +141,7 @@
 	// If update daemon and update_feeds should send digests
 	// Disable if you prefer querying special URL (see wiki)
 
-	define('CONFIG_VERSION', 5);
+	define('CONFIG_VERSION', 6);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

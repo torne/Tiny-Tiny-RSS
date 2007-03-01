@@ -253,5 +253,11 @@
 				</rpc-reply>";
 
 		}
+
+		if ($subop == "logout") {
+			logout_user();
+			print_error_xml(6);
+		}
+
 	}
 ?>

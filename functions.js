@@ -52,6 +52,17 @@ function xmlhttp_ready(obj) {
 	return obj.readyState == 4 || obj.readyState == 0 || !obj.readyState;
 }
 
+function logout_callback() {
+	var container = document.getElementById('notify');
+	if (xmlhttp.readyState == 4) {
+		try {
+			window.location.reload(true);
+		} catch (e) {
+			exception_error("logout_callback", e);
+		}
+	}
+}
+
 function notify_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -1527,7 +1538,7 @@ function fatalError(code, message) {
 	try {	
 
 		if (code == 6) {
-			window.location.href = "login.php?rt=none";			
+			//window.location.href = "login.php?rt=none";			
 		} else if (code == 5) {
 			window.location.href = "update.php";
 		} else {
@@ -1604,4 +1615,18 @@ function filterDlgCheckAction(sender) {
 
 function explainError(code) {
 	return displayDlg("explainError", code);
+}
+
+function logoutUser() {
+	try {
+		if (xmlhttp_ready(xmlhttp_rpc)) {
+			xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=logout", true);
+			xmlhttp_rpc.onreadystatechange=logout_callback;
+			xmlhttp_rpc.send(null);
+		} else {
+			printLockingError();
+		}
+	} catch (e) {
+		exception_error("logoutUser", e);
+	}
 }

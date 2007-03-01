@@ -1,10 +1,6 @@
 <?php
 	require_once "functions.php"; 
-
-	basic_nosid_redirect_check();
-
 	require_once "sessions.php";
-
 	require_once "sanity_check.php";
 	require_once "version.php"; 
 	require_once "config.php";
@@ -87,7 +83,7 @@ window.onload = init;
 	<?php if (!SINGLE_USER_MODE) { ?>
 		<div style="float : right">
 			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="logout.php">Logout</a>)
+			(<a href="javascript:logoutUser()">Logout</a>)
 		</div>
 	<?php } ?>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	

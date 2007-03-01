@@ -18,7 +18,8 @@
 	$owner_uid = $_SESSION["uid"];
 	
 	if ($_SESSION["access_level"] < 10) { 
-		header("Location: login.php"); die;
+		print "<p>Error: your access level is insufficient to run this script.</p>";
+		exit;
 	}
 	
 	define('SCHEMA_VERSION', 13);

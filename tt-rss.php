@@ -1,10 +1,6 @@
 <?php
 	require_once "functions.php"; 
-
-	basic_nosid_redirect_check();
-
 	require_once "sessions.php";
-
 	require_once "sanity_check.php";
 	require_once "version.php"; 
 	require_once "config.php";
@@ -105,7 +101,7 @@ window.onload = init;
 	<div style="float : right">
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="logout.php">Logout</a>)
+			(<a href="javascript:logoutUser()">Logout</a>)
 	<?php } ?>
 	<img id="newVersionIcon" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="New version is available!" 
