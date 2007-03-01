@@ -91,11 +91,11 @@
 		db_query($session_connection, $query);
 	}
 
-//	session_set_cookie_params(SESSION_COOKIE_LIFETIME);
-
 	if (DATABASE_BACKED_SESSIONS) {
 		session_set_save_handler("open", "close", "read", "write", "destroy", "gc");
 	}
-	
+
+	session_set_cookie_params(SESSION_COOKIE_LIFETIME_REMEMBER);
+
 	session_start();
 ?>

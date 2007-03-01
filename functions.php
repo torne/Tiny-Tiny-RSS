@@ -1167,6 +1167,15 @@
 				}
 			}
 		}
+
+		if ($_SESSION["cookie_lifetime"] && $_SESSION["uid"]) {
+
+#			print time() . " vs " .  $_SESSION["cookie_lifetime"];
+
+			if (time() > $_SESSION["cookie_lifetime"]) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -1193,9 +1202,24 @@
 			if ($login_action == "do_login") {
 				$login = $_POST["login"];
 				$password = $_POST["password"];
+				$remember_me = $_POST["remember_me"];
 
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
+
+					if ($remember_me) {
+						$_SESSION["cookie_lifetime"] = time() + 
+							SESSION_COOKIE_LIFETIME_REMEMBER;
+					} else {
+						$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
+					}
+
+					setcookie("ttrss_cltime", $_SESSION["cookie_lifetime"], 
+						$_SESSION["cookie_lifetime"]);
+
+					header("Location: " . $_SERVER["REQUEST_URI"]);
+					exit;
+
 					return;
 				}
 			}
@@ -1204,6 +1228,7 @@
 				render_login_form($link);
 				exit;
 			}
+
 		} else {
 			return authenticate_user($link, "admin", null);
 		}

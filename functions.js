@@ -56,7 +56,7 @@ function logout_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
 		try {
-			window.location.reload(true);
+			window.location.href = "tt-rss.php";
 		} catch (e) {
 			exception_error("logout_callback", e);
 		}
