@@ -1168,14 +1168,15 @@
 			}
 		}
 
-		if ($_SESSION["cookie_lifetime"] && $_SESSION["uid"]) {
+/*		if ($_SESSION["cookie_lifetime"] && $_SESSION["uid"]) {
 
 			//print_r($_SESSION);
 
 			if (time() > $_SESSION["cookie_lifetime"]) {
 				return false;
 			}
-		}
+		} */
+
 		return true;
 	}
 
@@ -1188,6 +1189,10 @@
 					$_SESSION["prefs_cache"] = false;
 					return authenticate_user($link, $swu, null, true);
 				}
+			}
+
+			if ($_COOKIE["ttrss_sid"]) {
+				require_once "sessions.php";
 			}
 
 			if (!validate_session($link)) {
@@ -1204,13 +1209,21 @@
 				$password = $_POST["password"];
 				$remember_me = $_POST["remember_me"];
 
+				if ($remember_me) {
+					session_set_cookie_params(SESSION_COOKIE_LIFETIME_REMEMBER);
+				} else {
+					session_set_cookie_params(SESSION_COOKIE_LIFETIME);
+				}
+
+				require_once "sessions.php";
+
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
 
 					if ($remember_me) {
 						$_SESSION["cookie_lifetime"] = time() + 
 							SESSION_COOKIE_LIFETIME_REMEMBER;
-					} else if (SESSION_COOKIE_LIFETIME > 0) {
+					} else if (SESSION_COOKIE_LIFETIME) {
 						$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
 					}
 
@@ -1230,6 +1243,7 @@
 			}
 
 		} else {
+			require_once "sessions.php";
 			return authenticate_user($link, "admin", null);
 		}
 	}
