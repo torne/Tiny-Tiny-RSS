@@ -1191,7 +1191,7 @@
 				}
 			}
 
-			if ($_COOKIE["ttrss_sid"]) {
+			if ($_COOKIE[get_session_cookie_name()]) {
 				require_once "sessions.php";
 			}
 
@@ -1204,7 +1204,7 @@
 			$login_action = $_POST["login_action"];
 
 			# try to authenticate user if called from login form			
-			if ($login_action == "do_login") {
+			if ($login_action == "do_login" && !$_SESSION["uid"]) {
 				$login = $_POST["login"];
 				$password = $_POST["password"];
 				$remember_me = $_POST["remember_me"];
@@ -1216,6 +1216,8 @@
 				}
 
 				require_once "sessions.php";
+
+				session_regenerate_id();
 
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
