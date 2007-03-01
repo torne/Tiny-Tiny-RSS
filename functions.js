@@ -1620,6 +1620,9 @@ function explainError(code) {
 function logoutUser() {
 	try {
 		if (xmlhttp_ready(xmlhttp_rpc)) {
+
+			notify("Logging out, please wait...");
+
 			xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=logout", true);
 			xmlhttp_rpc.onreadystatechange=logout_callback;
 			xmlhttp_rpc.send(null);
