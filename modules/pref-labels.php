@@ -209,8 +209,6 @@
 
 		if (db_num_rows($result) != 0) {
 
-			print "<form id=\"label_edit_form\">";
-
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefLabelList\" id=\"prefLabelList\">";
 
@@ -271,8 +269,6 @@
 			}
 	
 			print "</table>";
-
-			print "</form>";
 	
 			print "<p id=\"labelOpToolbar\">";
 	

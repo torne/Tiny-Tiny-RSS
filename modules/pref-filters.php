@@ -239,8 +239,6 @@
 
 		if (db_num_rows($result) != 0) {
 
-			print "<form id=\"filter_edit_form\">";			
-
 			print "<p><table width=\"100%\" cellspacing=\"0\" class=\"prefFilterList\" 
 				id=\"prefFilterList\">";
 
@@ -326,8 +324,6 @@
 			}
 	
 			print "</table>";
-
-			print "</form>";
 
 			print "<p id=\"filterOpToolbar\">";
 
