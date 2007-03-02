@@ -1,4 +1,4 @@
-#!/usr/bin/php4
+#!/usr/bin/php
 <?php
 	// this daemon runs in the background and updates all feeds
 	// continuously

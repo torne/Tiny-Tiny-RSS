@@ -1146,6 +1146,9 @@
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
 			'http://tt-rss.spb.ru/releases.rss')");
 
+		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
+			values ('$uid', 'Tiny Tiny RSS: Forum',
+			'http://tt-rss.spb.ru/forum/rss.php')");
 	}
 
 	function logout_user() {

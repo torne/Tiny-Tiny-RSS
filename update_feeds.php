@@ -1,4 +1,4 @@
-#!/usr/bin/php4
+#!/usr/bin/php
 <?php
 	// this script is probably run not from your httpd-user, so cache
 	// directory defined in config.php won't be accessible
