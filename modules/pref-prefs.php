@@ -10,6 +10,53 @@
 	function module_pref_prefs($link) {
 		$subop = $_REQUEST["subop"];
 
+		if ($subop == "change-password") {
+
+			$old_pw = $_POST["OLD_PASSWORD"];
+			$new_pw = $_POST["NEW_PASSWORD"];
+			$con_pw = $_POST["CONFIRM_PASSWORD"];
+
+			if ($old_pw == "") {
+				print "ERROR: Old password cannot be blank.";
+				return;
+			}
+
+			if ($new_pw == "") {
+				print "ERROR: New password cannot be blank.";
+				return;
+			}
+
+			if ($new_pw != $con_pw) {
+				print "ERROR: Entered passwords do not match.";
+				return;
+			}
+
+			$old_pw_hash = 'SHA1:' . sha1($_POST["OLD_PASSWORD"]);
+			$new_pw_hash = 'SHA1:' . sha1($_POST["NEW_PASSWORD"]);
+
+			$active_uid = $_SESSION["uid"];
+			
+			if ($old_pw && $new_pw) {
+
+				$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
+
+				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+					id = '$active_uid' AND (pwd_hash = '$old_pw' OR 
+						pwd_hash = '$old_pw_hash')");
+
+				if (db_num_rows($result) == 1) {
+					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
+						WHERE id = '$active_uid'");				
+
+					print "Password has been changed.";
+				} else {
+					print "ERROR: Old password is incorrect.";
+				}
+			}
+
+			return;
+		}
+
 		if ($subop == "Save configuration") {
 
 			$_SESSION["prefs_op_result"] = "save-config";
@@ -78,36 +125,6 @@
 
 			return prefs_js_redirect();
 
-		} else if ($subop == "Change password") {
-
-			$old_pw = $_POST["OLD_PASSWORD"];
-			$new_pw = $_POST["OLD_PASSWORD"];
-
-			$old_pw_hash = 'SHA1:' . sha1($_POST["OLD_PASSWORD"]);
-			$new_pw_hash = 'SHA1:' . sha1($_POST["NEW_PASSWORD"]);
-
-			$active_uid = $_SESSION["uid"];
-
-			if ($old_pw && $new_pw) {
-
-				$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
-
-				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
-					id = '$active_uid' AND (pwd_hash = '$old_pw' OR 
-						pwd_hash = '$old_pw_hash')");
-
-				if (db_num_rows($result) == 1) {
-					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
-						WHERE id = '$active_uid'");				
-
-					$_SESSION["pwd_change_result"] = "ok";
-				} else {
-					$_SESSION["pwd_change_result"] = "failed";					
-				}
-			}
-
-			return prefs_js_redirect();
-
 		} else if ($subop == "Reset to defaults") {
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
@@ -167,7 +184,7 @@
 					print format_warning("Your password is at default value, please change it.");
 				}
 
-				if ($_SESSION["pwd_change_result"] == "failed") {
+/*				if ($_SESSION["pwd_change_result"] == "failed") {
 					print format_warning("Could not change the password.");
 				}
 
@@ -175,7 +192,7 @@
 					print format_notice("Password was changed.");
 				}
 
-				$_SESSION["pwd_change_result"] = "";
+				$_SESSION["pwd_change_result"] = ""; */
 
 				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
 					print format_notice("The configuration was reset to defaults.");
@@ -210,29 +227,39 @@
 
 				print "</form>";
 
-				print "<form action=\"backend.php\" method=\"POST\" name=\"changePassForm\">";
+				print "<form action=\"backend.php\" method=\"POST\" 
+					name=\"change_pass_form\" id=\"change_pass_form\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
 	
 				print "<tr><td width=\"40%\">Old password</td>";
 				print "<td><input class=\"editbox\" type=\"password\"
+					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"OLD_PASSWORD\"></td></tr>";
 	
 				print "<tr><td width=\"40%\">New password</td>";
 				
 				print "<td><input class=\"editbox\" type=\"password\"
+					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"NEW_PASSWORD\"></td></tr>";
-	
+
+				print "<tr><td width=\"40%\">Confirm password</td>";
+
+				print "<td><input class=\"editbox\" type=\"password\"
+					onkeypress=\"return filterCR(event, changeUserPassword)\"
+					name=\"CONFIRM_PASSWORD\"></td></tr>";
+
 				print "</table>";
 	
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-	
-				print "<p><input class=\"button\" type=\"submit\" 
-					onclick=\"return validateNewPassword(this.form)\"
-					value=\"Change password\" name=\"subop\">";
-	
+				print "<input type=\"hidden\" name=\"subop\" value=\"change-password\">";
+
 				print "</form>";
+
+				print "<p><input class=\"button\" type=\"submit\" 
+					onclick=\"return changeUserPassword()\"
+					value=\"Change password\">";
 
 			}
 

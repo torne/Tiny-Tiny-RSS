@@ -124,10 +124,23 @@ function gethelp_callback() {
 	}
 }
 
-
 function notify_callback() {
 	if (xmlhttp.readyState == 4) {
 		notify_info(xmlhttp.responseText);
+	} 
+}
+
+
+function changepass_callback() {
+	if (xmlhttp.readyState == 4) {
+
+		if (xmlhttp.responseText.indexOf("ERROR: ") == 0) {
+			notify_error(xmlhttp.responseText.replace("ERROR: ", ""));
+		} else {
+			notify_info(xmlhttp.responseText);
+		}
+
+		document.forms['change_pass_form'].reset();
 	} 
 }
 
@@ -1585,4 +1598,28 @@ function showFeedsWithErrors() {
 	displayDlg('feedUpdateErrors');
 }
 
+function changeUserPassword() {
+
+	try {
+
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return false;
+		}
+	
+		var query = Form.serialize("change_pass_form");
+	
+		notify_progress("Trying to change password...");
+	
+		xmlhttp.open("POST", "backend.php", true);
+		xmlhttp.onreadystatechange=changepass_callback;
+		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xmlhttp.send(query);
+
+	} catch (e) {
+		exception_error("changeUserPassword", e);
+	}
+	
+	return false;
+}
 
