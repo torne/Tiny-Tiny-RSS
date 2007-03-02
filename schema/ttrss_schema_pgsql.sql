@@ -67,14 +67,11 @@ create table ttrss_feeds (id serial not null primary key,
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Footnotes', 'http://gnomedesktop.org/node/feed');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Latest Linux Kernel Versions','http://kernel.org/kdist/rss.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'RPGDot Newsfeed',
-   'http://www.rpgdot.com/team/rss/rss0.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Digg.com News',
-   'http://digg.com/rss/index.xml');
-insert into ttrss_feeds (owner_uid,title,feed_url) values (1,'Technocrat.net',
-   'http://syndication.technocrat.net/rss');
+insert into ttrss_feeds (owner_uid, title, feed_url) values
+	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.spb.ru/releases.rss');
+
+insert into ttrss_feeds (owner_uid, title, feed_url) values 
+	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.spb.ru/forum/rss.php');
 
 create table ttrss_entries (id serial not null primary key, 
 	title text not null, 
