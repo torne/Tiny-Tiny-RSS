@@ -1192,19 +1192,7 @@
 				}
 			}
 
-/*			if ($_COOKIE[get_session_cookie_name()]) {
-				require_once "sessions.php";
-} */
-
 			$login_action = $_POST["login_action"];
-
-/*			if (!validate_session($link) && $login_action != "do_login") {
-				logout_user();
-				render_login_form($link);
-				exit;
-} */
-
-			$session_started = false;
 
 			# try to authenticate user if called from login form			
 			if ($login_action == "do_login") {
@@ -1212,28 +1200,8 @@
 				$password = $_POST["password"];
 				$remember_me = $_POST["remember_me"];
 
-				if ($remember_me) {
-					session_set_cookie_params(SESSION_COOKIE_LIFETIME_REMEMBER);
-				} else {
-					session_set_cookie_params(SESSION_COOKIE_LIFETIME);
-				}
-
-				require_once "sessions.php";
-
-				$session_started = true;
-
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
-
-					if ($remember_me) {
-						$_SESSION["cookie_lifetime"] = time() + 
-							SESSION_COOKIE_LIFETIME_REMEMBER;
-					} else if (SESSION_COOKIE_LIFETIME) {
-						$_SESSION["cookie_lifetime"] = time() + SESSION_COOKIE_LIFETIME;
-					}
-
-					setcookie("ttrss_cltime", $_SESSION["cookie_lifetime"], 
-						$_SESSION["cookie_lifetime"]);
 
 					header("Location: " . $_SERVER["REQUEST_URI"]);
 					exit;
@@ -1244,17 +1212,16 @@
 				}
 			}
 
-			if (!$session_started) {
-				require_once "sessions.php";
-			}
+//			print session_id();
+//			print_r($_SESSION);
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 				render_login_form($link);
 				exit;
 			}
 
+
 		} else {
-			require_once "sessions.php";
 			return authenticate_user($link, "admin", null);
 		}
 	}

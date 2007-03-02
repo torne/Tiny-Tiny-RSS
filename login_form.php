@@ -50,10 +50,10 @@ window.onload = init;
 			<td align="right"><input name="login"></td></tr>
 			<tr><td align="right">Password:</td>
 			<td align="right"><input type="password" name="password"></td></tr>
-			<tr><td colspan="2">
+			<!-- <tr><td colspan="2">
 				<input type="checkbox" name="remember_me" id="remember_me">
 				<label for="remember_me">Remember me on this computer</label>
-			</td></tr>
+			</td></tr> -->
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 				<input type="submit" class="button" value="Login">
 				<input type="hidden" name="action" value="login">

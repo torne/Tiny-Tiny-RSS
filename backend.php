@@ -2,11 +2,9 @@
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
 	
-	header("Cache-Control: no-cache, must-revalidate");
-	header("Cache-Control: no-cache, must-revalidate");
-
+	header("Cache-Control: no-cache, max-age=0, must-revalidate");
 	header("Pragma: no-cache");
-	header("Expires: -1");
+	header("Expires: " . gmdate("D, d M Y H:i:s", time()) . " GMT");
 	
 /*	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);

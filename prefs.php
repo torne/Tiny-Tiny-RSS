@@ -1,6 +1,6 @@
 <?php
 	require_once "functions.php"; 
-//	require_once "sessions.php";
+	require_once "sessions.php";
 	require_once "sanity_check.php";
 	require_once "version.php"; 
 	require_once "config.php";
@@ -11,6 +11,10 @@
 	login_sequence($link);
 
 	$dt_add = get_script_dt_add();
+
+	header("Cache-Control: no-cache, max-age=0, must-revalidate");
+	header("Pragma: no-cache");
+	header("Expires: " . gmdate("D, d M Y H:i:s", time()) . " GMT");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
