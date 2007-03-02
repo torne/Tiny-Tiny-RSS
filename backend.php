@@ -1,11 +1,8 @@
 <?php
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
-	
-	header("Cache-Control: no-cache, max-age=0, must-revalidate");
-	header("Pragma: no-cache");
-	header("Expires: " . gmdate("D, d M Y H:i:s", time()) . " GMT");
-	
+
+
 /*	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {
@@ -22,6 +19,8 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
+
+	no_cache_incantation();
 
 	$script_started = getmicrotime();
 
