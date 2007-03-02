@@ -108,15 +108,12 @@
 	// Bind session to client IP address (recommended)
 
 	define('SESSION_COOKIE_LIFETIME', 0);
-	// Default lifetime of a session cookie. In seconds, 
-	// 0 means delete on browser close
-
-	define('SESSION_COOKIE_LIFETIME_REMEMBER', 86400);
-	// Session cookie lifetime if "remember me" is checked on login.
+	// Default lifetime of a session (e.g. login) cookie. In seconds, 
+	// 0 means cookie will be deleted when browser closes.
 
 	define('SESSION_EXPIRE_TIME', 86400);
 	// Hard expiration limit for sessions. Should be
-	// >= SESSION_COOKIE_LIFETIME_REMEMBER
+	// greater or equal to SESSION_COOKIE_LIFETIME
 
 	define('DAEMON_UPDATE_LOGIN_LIMIT', 0);
 	// Stop updating feeds of user who was never logged in

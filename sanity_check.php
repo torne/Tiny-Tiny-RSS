@@ -46,9 +46,9 @@
 		$err_msg = _("config: SESSION_EXPIRE_TIME is too low (less than 60)");
 	}
 
-	if (SESSION_EXPIRE_TIME < SESSION_COOKIE_LIFETIME_REMEMBER) {
+	if (SESSION_EXPIRE_TIME < SESSION_COOKIE_LIFETIME) {
 		$err_msg = _("config: SESSION_EXPIRE_TIME should be greater or equal to" .
-			"SESSION_COOKIE_LIFETIME_REMEMBER");
+			"SESSION_COOKIE_LIFETIME");
 	}
 
 /*	if (defined('DISABLE_SESSIONS')) {
