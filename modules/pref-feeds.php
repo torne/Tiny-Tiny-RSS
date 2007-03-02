@@ -731,7 +731,7 @@
 
 		if ($num_errors > 0) {
 
-			print format_notice("<a href=\"javascript:showFeedsWithErrors()\" 
+			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">
 				Some feeds have update errors (click for details)</a>");
 		}
 
