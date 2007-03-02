@@ -37,7 +37,7 @@ function toggleTags() {
 		p.innerHTML = "display tags";
 	}
 	
-	notify("Loading, please wait...");
+	notify_progress("Loading, please wait...");
 
 	updateFeedList();
 }
@@ -71,7 +71,7 @@ function refetch_callback() {
 			debug("refetch_callback: done");
 
 			if (!daemon_enabled && !daemon_refresh_only) {
-				notify("All feeds updated.");
+				notify_info("All feeds updated.");
 				updateTitle("");
 			} else {
 				//notify("");
@@ -135,7 +135,7 @@ function backend_sanity_check_callback() {
 function scheduleFeedUpdate(force) {
 
 	if (!daemon_enabled && !daemon_refresh_only) {
-		notify("Updating feeds, please wait.", true);
+		notify_progress("Updating feeds, please wait.", true);
 		updateTitle("Updating");
 	}
 
@@ -231,7 +231,7 @@ function catchupAllFeeds() {
 
 	var query_str = "backend.php?op=feeds&subop=catchupAll";
 
-	notify("Marking all feeds as read...");
+	notify_progress("Marking all feeds as read...");
 
 	debug("catchupAllFeeds Q=" + query_str);
 
@@ -474,7 +474,7 @@ function quickMenuGo(opid) {
 
 function qfdDelete(feed_id) {
 
-	notify("Removing feed...");
+	notify_progress("Removing feed...");
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -552,7 +552,7 @@ function parse_runtime_info(elem) {
 		}
 
 		if (k == "daemon_is_running" && v != 1) {
-			notify("<span onclick=\"javascript:explainError(1)\">Update daemon is not runing.</span>", true, true);
+			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not runing.</span>");
 		}
 
 /*		var w = document.getElementById("noDaemonWarning");
@@ -634,7 +634,7 @@ function feedEditSave() {
 
 		var query = Form.serialize("edit_feed_form");
 
-		notify("Saving feed...");
+		notify_progress("Saving feed...");
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=dlg_frefresh_callback;
@@ -701,7 +701,7 @@ function localHotkeyHandler(e) {
 			}
 
 		} else {
-			notify("No operation to undo");
+			notify_error("No operation to undo");
 		}
 
 		return false;

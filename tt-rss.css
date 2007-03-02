@@ -238,6 +238,18 @@ input.editbox {
 	vertical-align : middle;
 }
 
+.notifyProgress {
+	border-color : #d7c47a;
+	background-color : #fff7d5;
+	color : black;
+}
+
+.notifyInfo {
+	border-color : #7AD78E;
+	background-color : #D5FFDB;
+	color : black;
+}
+
 .notify {
 	border-color : #d7c47a;
 	background-color : #fff7d5;
@@ -1065,11 +1077,11 @@ a.cdmToggleLink:hover {
 }
 
 #fatal_error_msg {
-	border : 1px solid #c0c0c0;
-	background-color : #f0f0f0;
 	color : black;
 	padding : 10px;
 	font-weight : normal;
+	background-color : #ffcccc;
+	border : 1px solid #ff0000;
 }
 
 #fatal_error_msg a {
@@ -1079,6 +1091,10 @@ a.cdmToggleLink:hover {
 #fatal_error_msg a:hover {
 	color : red;
 	text-decoration : underline;
+}
+
+#fatal_error_msg img {
+	vertical-align : middle;
 }
 
 #noDaemonWarning {	

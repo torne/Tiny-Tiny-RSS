@@ -135,7 +135,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		container.innerHTML = "<div class=\"loadingPrompt\"><img src=\"images/indicator_white.gif\">&nbsp;" +
 			"Loading, please wait...</div>"; */
 
-		notify("Loading, please wait...", true);
+		notify_progress("Loading, please wait...", true);
 
 //		xmlhttp.abort();
 

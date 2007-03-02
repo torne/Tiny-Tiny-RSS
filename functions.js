@@ -103,43 +103,24 @@ function delay(gap) {
 }
 
 var notify_hide_timerid = false;
-var notify_last_doc = false;
-
-var notify_effect = false; 
 
 function hide_notify() {
-	if (notify_last_doc) {
-		var n = notify_last_doc.getElementById("notify");		
+	var n = document.getElementById("notify");
+	if (n) {
 		n.style.display = "none";
-
-/*		if (browser_has_opacity()) {
-			if (notify_opacity >= 0) {
-				notify_opacity = notify_opacity - 0.1;
-				n.style.opacity = notify_opacity;
-				notify_hide_timerid = window.setTimeout("hide_notify()", 20);	
-			} else {
-				n.style.display = "none";
-				n.style.opacity = 1;
-			}
-		} else {
-			n.style.display = "none";
-		} */
 	}
 } 
 
-function notify_real(msg, doc, no_hide, is_err) {
+function notify_real(msg, no_hide, n_type) {
 
-	var n = doc.getElementById("notify");
-	var nb = doc.getElementById("notify_body");
+	var n = document.getElementById("notify");
+	var nb = document.getElementById("notify_body");
 
 	if (!n || !nb) return;
 
 	if (notify_hide_timerid) {
 		window.clearTimeout(notify_hide_timerid);
 	}
-
-	notify_last_doc = doc;
-	notify_opacity = 1;
 
 	if (msg == "") {
 		if (n.style.display == "block") {
@@ -150,17 +131,25 @@ function notify_real(msg, doc, no_hide, is_err) {
 		n.style.display = "block";
 	}
 
-	if (is_err) {
-		n.className = "notifyError";
-//		n.style.backgroundColor = "#ffcccc";
-//		n.style.color = "black";
-//		n.style.borderColor = "#ff0000";
-		msg = "<img src='images/sign_excl.png'> " + msg;
-	} else {
+	/* types:
+
+		1 - generic
+		2 - progress
+		3 - error
+		4 - info
+
+	*/
+
+	if (n_type == 1) {
 		n.className = "notify";
-//		n.style.backgroundColor = "#fff7d5";
-//		n.style.borderColor = "#d7c47a";
-//		n.style.color = "black";
+	} else if (n_type == 2) {
+		n.className = "notifyProgress";
+		msg = "<img src='images/indicator_white.gif'> " + msg;
+	} else if (n_type == 3) {
+		n.className = "notifyError";
+		msg = "<img src='images/sign_excl.png'> " + msg;
+	} else if (n_type == 4) {
+		n.className = "notifyInfo";
 		msg = "<img src='images/sign_info.png'> " + msg;
 	}
 
@@ -173,16 +162,26 @@ function notify_real(msg, doc, no_hide, is_err) {
 	}
 }
 
-function p_notify(msg, no_hide, is_err) {
-	notify_real(msg, document, no_hide, is_err);
+function notify(msg, no_hide) {
+	notify_real(msg, no_hide, 1);
 }
 
-function notify(msg, no_hide, is_err) {
-	notify_real(msg, document, no_hide, is_err);
+function notify_progress(msg, no_hide) {
+	notify_real(msg, no_hide, 2);
+}
+
+function notify_error(msg, no_hide) {
+	notify_real(msg, no_hide, 3);
+
+}
+
+function notify_info(msg, no_hide) {
+	notify_real(msg, no_hide, 4);
 }
 
 function printLockingError() {
-	notify("Please wait until operation finishes");}
+	notify_info("Please wait until operation finishes.");
+}
 
 function hotkey_handler(e) {
 
@@ -668,14 +667,14 @@ function parse_counters(reply, scheduled_call) {
 function parse_counters_reply(xmlhttp, scheduled_call) {
 
 	if (!xmlhttp.responseXML) {
-		notify("refetch_callback: backend did not return valid XML", true, true);
+		notify_error("Backend did not return valid XML", true);
 		return;
 	}
 
 	var reply = xmlhttp.responseXML.firstChild;
 	
 	if (!reply) {
-		notify("refetch_callback: backend did not return expected XML object", true, true);
+		notify_error("Backend did not return expected XML object", true);
 		updateTitle("");
 		return;
 	} 
@@ -1344,7 +1343,7 @@ function infobox_submit_callback() {
 			}
 		} catch (e) { }
 
-		notify(xmlhttp.responseText);
+//		notify_info(xmlhttp.responseText);
 
 	} 
 }
@@ -1416,7 +1415,7 @@ function qafAdd() {
 		return false;
 	}
 
-	notify("Adding feed...", true);
+	notify_progress("Adding feed...");
 
 	closeInfoBox();
 
@@ -1549,7 +1548,9 @@ function fatalError(code, message) {
 			var fe = document.getElementById("fatal_error");
 			var fc = document.getElementById("fatal_error_msg");
 	
-			fc.innerHTML = "Code " + code + ": " + message;
+			if (message == "") message = "Unknown error";
+
+			fc.innerHTML = "<img src='images/sign_excl.png'> " + message + " (Code " + code + ")";
 	
 			fe.style.display = "block";
 		}
@@ -1625,7 +1626,7 @@ function logoutUser() {
 	try {
 		if (xmlhttp_ready(xmlhttp_rpc)) {
 
-			notify("Logging out, please wait...");
+			notify_progress("Logging out, please wait...", true);
 
 			xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=logout", true);
 			xmlhttp_rpc.onreadystatechange=logout_callback;

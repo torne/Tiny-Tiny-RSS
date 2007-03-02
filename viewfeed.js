@@ -514,7 +514,7 @@ function editTagsSave() {
 		printLockingError();
 	}
 
-	notify("Saving article tags...");
+	notify_progress("Saving article tags...");
 
 	var form = document.forms["tag_edit_form"];
 

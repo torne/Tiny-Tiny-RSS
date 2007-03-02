@@ -126,10 +126,9 @@ function gethelp_callback() {
 
 
 function notify_callback() {
-	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-	}
+		notify_info(xmlhttp.responseText);
+	} 
 }
 
 function updateFeedList(sort_key) {
@@ -216,7 +215,7 @@ function addFeed() {
 	} else if (!isValidURL(link.value)) {
 		alert("Error: Invalid feed URL.");
 	} else {
-		notify("Adding feed...");
+		notify_progress("Adding feed...");
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
 			param_escape(link.value), true);
@@ -241,7 +240,7 @@ function addFeedCat() {
 	if (cat.value.length == 0) {
 		alert("Can't add category: no name specified.");
 	} else {
-		notify("Adding feed category...");
+		notify_progress("Adding feed category...");
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
 			param_escape(cat.value), true);
@@ -265,7 +264,7 @@ function addUser() {
 	if (sqlexp.value.length == 0) {
 		alert("Can't add user: no login specified.");
 	} else {
-		notify("Adding user...");
+		notify_progress("Adding user...");
 
 		xmlhttp.open("GET", "backend.php?op=pref-users&subop=add&login=" +
 			param_escape(sqlexp.value), true);			
@@ -427,7 +426,7 @@ function removeSelectedLabels() {
 		var ok = confirm("Remove selected labels?");
 
 		if (ok) {
-			notify("Removing selected labels...");
+			notify_progress("Removing selected labels...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -455,7 +454,7 @@ function removeSelectedUsers() {
 		var ok = confirm("Remove selected users?");
 
 		if (ok) {
-			notify("Removing selected users...");
+			notify_progress("Removing selected users...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-users&subop=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -484,7 +483,7 @@ function removeSelectedFilters() {
 		var ok = confirm("Remove selected filters?");
 
 		if (ok) {
-			notify("Removing selected filters...");
+			notify_progress("Removing selected filters...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -514,7 +513,7 @@ function removeSelectedFeeds() {
 
 		if (ok) {
 
-			notify("Unsubscribing from selected feeds...");
+			notify_progress("Unsubscribing from selected feeds...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -545,7 +544,7 @@ function removeSelectedFeedCats() {
 		var ok = confirm("Remove selected categories?");
 
 		if (ok) {
-			notify("Removing selected categories...");
+			notify_progress("Removing selected categories...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -607,7 +606,7 @@ function feedEditSave() {
 
 		var query = Form.serialize("edit_feed_form");
 
-		notify("Saving feed...");
+		notify_progress("Saving feed...");
 
 		xmlhttp.open("POST", "backend.php", true);
 		xmlhttp.onreadystatechange=feedlist_callback;
@@ -630,7 +629,7 @@ function feedCatEditSave() {
 		return
 	}
 
-	notify("Saving category...");
+	notify_progress("Saving category...");
 
 	var query = Form.serialize("feed_cat_edit_form");
 
@@ -746,7 +745,7 @@ function labelEditSave() {
 
 	closeInfoBox();
 
-	notify("Saving label...");
+	notify_progress("Saving label...");
 
 	active_label = false;
 
@@ -773,7 +772,7 @@ function userEditSave() {
 		return;
 	}
 	
-	notify("Saving user...");
+	notify_progress("Saving user...");
 
 	closeInfoBox();
 
@@ -803,7 +802,7 @@ function filterEditSave() {
 		}
 	} */
 
-	notify("Saving filter...");
+	notify_progress("Saving filter...");
 
 	var query = Form.serialize("filter_edit_form");
 
@@ -871,7 +870,7 @@ function resetSelectedUserPass() {
 	var ok = confirm("Reset password of selected user?");
 
 	if (ok) {
-		notify("Resetting password for selected user...");
+		notify_progress("Resetting password for selected user...");
 	
 		var id = rows[0];
 	
@@ -926,7 +925,7 @@ function selectedFeedDetails() {
 	}
 
 	if (rows.length > 1) {
-		notify("Please select only one feed.");
+		alert("Please select only one feed.");
 		return;
 	}
 
@@ -965,12 +964,12 @@ function editSelectedFeed() {
 	var rows = getSelectedFeeds();
 
 	if (rows.length == 0) {
-		notify("No feeds are selected.");
+		alert("No feeds are selected.");
 		return;
 	}
 
 	if (rows.length > 1) {
-		notify("Please select one feed.");
+		alert("Please select one feed.");
 		return;
 	}
 
@@ -1143,7 +1142,7 @@ function selectTab(id, noupdate, subop) {
 
 			debug("selectTab: " + id + "(NU: " + noupdate + ")");
 	
-//			notify("Loading, please wait...", true);
+			notify_progress("Loading, please wait...", true);
 	
 			// close active infobox if needed
 			closeInfoBox();
@@ -1313,7 +1312,7 @@ function categorizeSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		notify("Changing category of selected feeds...");
+		notify_progress("Changing category of selected feeds...");
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=categorize&ids="+
 			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id), true);
