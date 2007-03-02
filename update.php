@@ -30,7 +30,7 @@
 <head>
 <title>Database Updater</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="update.css">
+<link rel="stylesheet" type="text/css" href="utility.css">
 </head>
 
 <body>
@@ -40,6 +40,8 @@ function confirmOP() {
 	return confirm("Update the database?");
 }
 </script>
+
+<div class="floatingLogo"><img src="images/ttrss_logo.png"></div>
 
 <h1>Database Updater</h1>
 
@@ -81,7 +83,10 @@ function confirmOP() {
 	
 	if ($version == $latest_version) {
 		print "<p>Tiny Tiny RSS database is up to date (version $version).</p>";
-		print "<p><a href='tt-rss.php'>Return to Tiny Tiny RSS</a></p>";
+		print "<form method=\"GET\" action=\"tt-rss.php\">
+			<input type=\"submit\" value=\"Return to Tiny Tiny RSS\">
+			</form>";
+
 		return;
 	}
 	
@@ -146,8 +151,10 @@ function confirmOP() {
 		print "<p>Finished. Performed $num_updates updates up to schema
 			version $version.</p>";
 	
-		print "<p><a href='tt-rss.php'>Return to Tiny Tiny RSS</a></p>";
-	
+		print "<form method=\"GET\" action=\"tt-rss.php\">
+			<input type=\"submit\" value=\"Return to Tiny Tiny RSS\">
+			</form>";
+
 	}
 	
 ?>

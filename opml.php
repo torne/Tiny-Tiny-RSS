@@ -97,18 +97,19 @@
 
 		print "<html>
 			<head>
-				<link rel=\"stylesheet\" href=\"opml.css\" type=\"text/css\">
+				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
+				<title>OPML Utility</title>
 			</head>
 			<body>
-			<div style='float : right'><img src=\"images/ttrss_logo.png\"></div>
-			<h1>"._('OPML Import')."</h1>";
+			<div class=\"floatingLogo\"><img src=\"images/ttrss_logo.png\"></div>
+			<h1>"._('OPML Utility')."</h1>";
 
 		if (function_exists('domxml_open_file')) {
-			print "<p class='insensitive'>Using DOMXML library</p>";
+			print "<p>Importing OPML (using DOMXML extension)...</p>";
 			require_once "modules/opml_domxml.php";
 			opml_import_domxml($link, $owner_uid);
 		} else {
-			print "<p class='insensitive'>Using DOMDocument library (PHP5)</p>";
+			print "<p>Importing OPML (using DOMDocument extension)...</p>";
 			require_once "modules/opml_domdoc.php";
 			opml_import_domdoc($link, $owner_uid);
 		}
