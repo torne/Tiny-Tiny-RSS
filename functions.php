@@ -1163,6 +1163,7 @@
 		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
 			if ($_SESSION["ip_address"]) {
 				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
+					$_SESSION["login_error_msg"] = "Session failed to validate (incorrect IP)";
 					return false;
 				}
 			}
@@ -1191,20 +1192,22 @@
 				}
 			}
 
-			if ($_COOKIE[get_session_cookie_name()]) {
+/*			if ($_COOKIE[get_session_cookie_name()]) {
 				require_once "sessions.php";
-			}
-
-			if (!validate_session($link)) {
-				logout_user();
-				render_login_form($link);
-				exit;
-			}
+} */
 
 			$login_action = $_POST["login_action"];
 
+/*			if (!validate_session($link) && $login_action != "do_login") {
+				logout_user();
+				render_login_form($link);
+				exit;
+} */
+
+			$session_started = false;
+
 			# try to authenticate user if called from login form			
-			if ($login_action == "do_login" && !$_SESSION["uid"]) {
+			if ($login_action == "do_login") {
 				$login = $_POST["login"];
 				$password = $_POST["password"];
 				$remember_me = $_POST["remember_me"];
@@ -1217,7 +1220,7 @@
 
 				require_once "sessions.php";
 
-				session_regenerate_id();
+				$session_started = true;
 
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
@@ -1236,10 +1239,16 @@
 					exit;
 
 					return;
+				} else {
+					$_SESSION["login_error_msg"] = "Incorrect username or password";
 				}
 			}
 
-			if (!$_SESSION["uid"]) {
+			if (!$session_started) {
+				require_once "sessions.php";
+			}
+
+			if (!$_SESSION["uid"] || !validate_session($link)) {
 				render_login_form($link);
 				exit;
 			}

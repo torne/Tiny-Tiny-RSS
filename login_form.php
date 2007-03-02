@@ -41,8 +41,9 @@ window.onload = init;
 	</td>
 </tr><tr>
 	<td align="center" valign="middle" class="loginMiddle" height="100%">
-		<?php if ($error_msg) { ?>
-			<div class="loginError"><?php echo $error_msg ?></div>
+		<?php if ($_SESSION['login_error_msg']) { ?>
+			<div class="loginError"><?php echo $_SESSION['login_error_msg'] ?></div>
+			<?php $_SESSION['login_error_msg'] = ""; ?>
 		<?php } ?>
 		<table>
 			<tr><td align="right">Login:</td>

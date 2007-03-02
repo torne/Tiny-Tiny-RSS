@@ -16,8 +16,6 @@
 	
 	error_reporting(DEFAULT_ERROR_LEVEL); */
 
-	$op = $_REQUEST["op"];
-
 	define('SCHEMA_VERSION', 13);
 
 	require_once "sanity_check.php";
@@ -26,6 +24,25 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
+
+	$script_started = getmicrotime();
+
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+	if (!$link) {
+		if (DB_TYPE == "mysql") {
+			print mysql_error();
+		}
+		// PG seems to display its own errors just fine by default.		
+		return;
+	}
+
+	if (DB_TYPE == "pgsql") {
+		pg_query("set client_encoding = 'UTF-8'");
+		pg_set_client_encoding("UNICODE");
+	}
+
+	$op = $_REQUEST["op"];
 
 	$print_exec_time = false;
 
@@ -41,7 +58,8 @@
 		print_error_xml(7); exit;
 	}
 
-	if (!$_SESSION["uid"] && $op != "globalUpdateFeeds" && $op != "rss" && $op != "getUnread") {
+	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
+			&& $op != "rss" && $op != "getUnread") {
 
 		if ($op == "rpc") {
 			print_error_xml(6); die;
@@ -95,22 +113,6 @@
 	require_once "modules/pref-users.php";
 	require_once "modules/pref-feed-browser.php"; 
 
-	$script_started = getmicrotime();
-
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
-		}
-		// PG seems to display its own errors just fine by default.		
-		return;
-	}
-
-	if (DB_TYPE == "pgsql") {
-		pg_query("set client_encoding = 'UTF-8'");
-		pg_set_client_encoding("UNICODE");
-	}
 
 	if (!sanity_check($link)) { return; }
 
