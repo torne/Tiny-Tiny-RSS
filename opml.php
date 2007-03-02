@@ -17,7 +17,7 @@
 
 	$owner_uid = $_SESSION["uid"];
 
-	function opml_export($link) {
+	function opml_export($link, $owner_uid) {
 		header("Content-type: application/xml+opml");
 		print "<?phpxml version=\"1.0\"?>";
 
@@ -90,7 +90,7 @@
 	if (!$op) $op = "Export";
 	
 	if ($op == "Export") {
-		return opml_export($link);
+		return opml_export($link, $owner_uid);
 	}
 
 	if ($op == "Import") {
