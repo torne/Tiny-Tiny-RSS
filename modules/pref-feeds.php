@@ -731,9 +731,8 @@
 
 		if ($num_errors > 0) {
 
-			print "<a href=\"javascript:showFeedsWithErrors()\" 
-				class=\"feedUpdErrLink\">Some feeds have update errors (click 
-				for details)</a>";
+			print format_notice("<a href=\"javascript:showFeedsWithErrors()\" 
+				Some feeds have update errors (click for details)</a>");
 		}
 
 		$feed_search = db_escape_string($_GET["search"]);
