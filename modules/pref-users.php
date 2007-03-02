@@ -13,7 +13,7 @@
 			
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"user_edit_form\">";
+			print "<form id=\"user_edit_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-users\">";

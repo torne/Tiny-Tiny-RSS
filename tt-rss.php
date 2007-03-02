@@ -145,7 +145,7 @@ window.onload = init;
 			</select>
 		</div>
 
-		<form id="main_toolbar_form">
+		<form id="main_toolbar_form" onsubmit='return false'>
 
 		<?php echo _('Search:') ?>
 		<input name="query"

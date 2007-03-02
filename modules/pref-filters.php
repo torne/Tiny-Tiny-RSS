@@ -22,7 +22,7 @@
 			print "<div id=\"infoBoxTitle\">Filter editor</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"filter_edit_form\">";
+			print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
 			print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";

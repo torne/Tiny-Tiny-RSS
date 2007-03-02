@@ -43,7 +43,7 @@
 			print "<div id=\"infoBoxTitle\">Subscribe to feed</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id='feed_add_form'>";
+			print "<form id='feed_add_form' onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
 			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
@@ -80,7 +80,7 @@
 			print "<div id=\"infoBoxTitle\">Search</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id='search_form'>";
+			print "<form id='search_form'  onsubmit='return false'>";
 
 			#$active_feed_id = db_escape_string($_GET["param"]);
 
@@ -159,7 +159,7 @@
 			print "<div id=\"infoBoxTitle\">Create label</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"label_edit_form\">";
+			print "<form id=\"label_edit_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
@@ -209,7 +209,7 @@
 			print "<div id=\"infoBoxTitle\">Create filter</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"filter_add_form\">";
+			print "<form id=\"filter_add_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
 			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
@@ -327,7 +327,7 @@
 			print "<div id=\"infoBoxTitle\">Edit Tags</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"tag_edit_form\">";
+			print "<form id=\"tag_edit_form\" onsubmit='return false'>";
 
 			print "Tags for this article (separated by commas):<br>";
 

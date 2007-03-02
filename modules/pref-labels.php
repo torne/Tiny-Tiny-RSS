@@ -27,7 +27,7 @@
 			print "<div id=\"infoBoxTitle\">Label editor</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"label_edit_form\">";
+			print "<form id=\"label_edit_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
 			print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";

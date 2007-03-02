@@ -146,7 +146,7 @@
 
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form id=\"edit_feed_form\">";	
+			print "<form id=\"edit_feed_form\" onsubmit=\"return false\">";	
 
 			print "<input type=\"hidden\" name=\"id\" value=\"$feed_id\">";
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
@@ -614,7 +614,7 @@
 
 				print "<div class=\"prefFeedCatHolder\">";
 
-				print "<form id=\"feed_cat_edit_form\">";
+				print "<form id=\"feed_cat_edit_form\" onsubmit=\"return false\">";
 
 				print "<table width=\"100%\" class=\"prefFeedCatList\" 
 					cellspacing=\"0\" id=\"prefFeedCatList\">";

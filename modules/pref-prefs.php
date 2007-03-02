@@ -227,7 +227,7 @@
 
 				print "</form>";
 
-				print "<form action=\"backend.php\" method=\"POST\" 
+				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
