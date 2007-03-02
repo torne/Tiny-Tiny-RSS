@@ -213,6 +213,9 @@
 			$filter_types[$line["id"]] = $line["description"];
 		}
 
+		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
+			<img src='images/sign_quest.png'></a>";
+
 		print "<input type=\"submit\" 
 			class=\"button\" 
 			onclick=\"return displayDlg('quickAddFilter', false)\" 
@@ -336,9 +339,6 @@
 
 			print "</p>";
 
-			print "<div class=\"insensitive\" style=\"float : right\">See 
-				<a target=\"_new\" href=\"http://tt-rss.spb.ru/trac/wiki/ContentFilters\">this page</a> 
-				for additional	information on filtering</div>";
 
 /*			print "<div class=\"insensitive\" style=\"float : right\">
 				First matching filter is used, filtering is performed

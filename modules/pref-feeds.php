@@ -35,14 +35,15 @@
 			}
 
 			if (count($subscribed) > 0) {
-				print "<div class=\"notice\">";
-				print "<b>Subscribed to feeds:</b>";
-				print "<ul class=\"nomarks\">";
+				$msg = "<b>Subscribed to feeds:</b>".
+					"<ul class=\"nomarks\">";
+
 				foreach ($subscribed as $title) {
-					print "<li>$title</li>";
+					$msg .= "<li>$title</li>";
 				}
-				print "</ul>";
-				print "</div>";
+				$msg .= "</ul>";
+
+				print format_notice($msg);
 			}
 		}		
 
@@ -442,11 +443,9 @@
 				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
-					print "Subscribed to <b>$feed_url</b>.";
+					print format_notice("Subscribed to <b>$feed_url</b>.");
 				} else {
-					print "<div class=\"warning\">
-						Already subscribed to <b>$feed_url</b>.
-					</div>";
+					print format_warning("Already subscribed to <b>$feed_url</b>.");
 				}
 
 				if ($p_from != 'tt-rss') {
@@ -548,9 +547,7 @@
 	
 					} else {
 	
-						print "<div class=\"warning\">
-							Category <b>$feed_cat</b> already exists in the database.
-						</div>";
+						print format_warning("Category <b>$feed_cat</b> already exists in the database.");
 					}
 
 				}
@@ -577,8 +574,7 @@
 								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 						} else {
 	
-							print "<div class=\"warning\">
-								Unable to delete non empty feed categories.</div>";
+							print format_warning("Unable to delete non empty feed categories.");
 								
 						}
 	

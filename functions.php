@@ -2619,9 +2619,9 @@
 
 			if (version_compare(VERSION, $latest_version) == -1) {
 				if ($brief_fmt) {
-					return "<div class=\"notice\"><a href=\"javascript:showBlockElement('milestoneDetails')\">	
+					return format_notice("<a href=\"javascript:showBlockElement('milestoneDetails')\">	
 						New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
-						<div id=\"milestoneDetails\">$content</div></div>";
+						<div id=\"milestoneDetails\">$content</div>");
 				} else {
 					return "New version of Tiny-Tiny RSS ($latest_version) is available:
 						<div class='milestoneDetails'>$content</div>
@@ -3172,6 +3172,16 @@
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0"); // HTTP/1.1
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache"); // HTTP/1.0
+	}
+
+	function format_warning($msg) {
+		return "<div class=\"warning\"> 
+			<img src=\"images/sign_excl.png\">$msg</div>";
+	}
+
+	function format_notice($msg) {
+		return "<div class=\"notice\"> 
+			<img src=\"images/sign_info.png\">$msg</div>";
 	}
 
 ?>

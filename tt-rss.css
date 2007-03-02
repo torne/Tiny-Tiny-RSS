@@ -229,10 +229,13 @@ input.editbox {
 	display : none;
 	float : right;
 	font-size : 9pt;
-	text-align : center;
 	z-index : 999;
 	-moz-border-radius : 2px;
 	padding : 5px 5px 5px 5px;
+}
+
+#notify img {
+	vertical-align : middle;
 }
 
 .notify {
@@ -566,20 +569,28 @@ div.prefsTabSelected {
 	text-align : center;
 }
 
-div.warning {
-	background : #fff7d5;
-	border : 1px solid #d7c47a;
+div.notice {
+	background : #ffffff;
+	border : 1px solid #88b0f0;
+	width : 50%;
 	padding : 5px;
 	margin : 0px 0px 5px 0px;
 	font-size : 9pt;
 }
 
-div.notice {
-	background : #ffffff;
-	border : 1px solid #88b0f0;
+div.warning {
+	background : #fff7d5;
+	border : 1px solid #d7c47a;
+	font-size : 9pt;
+	width : 50%;
 	padding : 5px;
 	margin : 0px 0px 5px 0px;
-	font-size : 9pt;
+}
+
+
+div.warning img, div.notice img {
+	vertical-align : middle;
+	padding : 5px;
 }
 
 div.error {
@@ -1467,4 +1478,8 @@ ul.headlineDropdownMenu ul li:hover {
 	vertical-align : middle;
 	cursor : pointer;
 	display : none;
+}
+
+a.helpLinkPic {
+	float : right;
 }

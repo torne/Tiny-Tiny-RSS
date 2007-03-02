@@ -155,11 +155,13 @@ function notify_real(msg, doc, no_hide, is_err) {
 //		n.style.backgroundColor = "#ffcccc";
 //		n.style.color = "black";
 //		n.style.borderColor = "#ff0000";
+		msg = "<img src='images/sign_excl.png'> " + msg;
 	} else {
 		n.className = "notify";
 //		n.style.backgroundColor = "#fff7d5";
 //		n.style.borderColor = "#d7c47a";
 //		n.style.color = "black";
+		msg = "<img src='images/sign_info.png'> " + msg;
 	}
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
@@ -1396,7 +1398,7 @@ function toggleSubmitNotEmpty(e, submit_id) {
 }
 
 function isValidURL(s) {
-	return s.match("http://") != null || s.match("https://") != null;
+	return s.match("http://") != null || s.match("https://") != null || s.match("feed://") != null;
 }
 
 function qafAdd() {

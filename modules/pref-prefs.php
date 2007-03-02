@@ -164,35 +164,25 @@
 						pwd_hash = 'SHA1:".sha1("password")."')");
 
 				if (db_num_rows($result) != 0) {
-					print "<div class=\"warning\"> 
-						Your password is at default value, please change it.
-					</div>";
+					print format_warning("Your password is at default value, please change it.");
 				}
 
 				if ($_SESSION["pwd_change_result"] == "failed") {
-					print "<div class=\"warning\"> 
-							There was an error while changing your password.
-						</div>";
+					print format_warning("Could not change the password.");
 				}
 
 				if ($_SESSION["pwd_change_result"] == "ok") {
-					print "<div class=\"notice\"> 
-							Password changed successfully.
-						</div>";
+					print format_notice("Password was changed.");
 				}
 
 				$_SESSION["pwd_change_result"] = "";
 
 				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
-					print "<div class=\"notice\"> 
-							Your configuration was reset to defaults.
-						</div>";
+					print format_notice("The configuration was reset to defaults.");
 				}
 
 				if ($_SESSION["prefs_op_result"] == "save-config") {
-					print "<div class=\"notice\"> 
-							Your configuration was saved successfully.
-						</div>";
+					print format_notice("The configuration was saved.");
 				}
 
 				$_SESSION["prefs_op_result"] = "";

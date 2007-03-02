@@ -552,7 +552,7 @@ function parse_runtime_info(elem) {
 		}
 
 		if (k == "daemon_is_running" && v != 1) {
-			notify("<span onclick=\"javascript:explainError(1)\">Warning: Update daemon is not runing.</span>", true, true);
+			notify("<span onclick=\"javascript:explainError(1)\">Update daemon is not runing.</span>", true, true);
 		}
 
 /*		var w = document.getElementById("noDaemonWarning");

@@ -190,6 +190,9 @@
 			$sort = "description";
 		}
 
+		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(1)\">
+			<img src='images/sign_quest.png'></a>";
+
 		print "<div class=\"prefGenericAddBox\">";
 
 		print"<input type=\"submit\" class=\"button\" 
@@ -222,7 +225,6 @@
 						<td width=\"5%\">&nbsp;</td>
 						<td width=\"30%\"><a href=\"javascript:updateLabelList('description')\">Caption</a></td>
 						<td width=\"50%\"><a href=\"javascript:updateLabelList('sql_exp')\">SQL Expression</a>
-						<a class=\"helpLink\" href=\"javascript:displayHelpInfobox(1)\">(?)</a>
 						</td>
 						</tr>";
 			
