@@ -284,6 +284,8 @@ function editLabel(id) {
 		return
 	}
 
+	notify_progress("Loading, please wait...");
+
 	document.getElementById("label_create_btn").disabled = true;
 
 	active_label = id;
@@ -305,6 +307,8 @@ function editUser(id) {
 		return
 	}
 
+	notify_progress("Loading, please wait...");
+
 	selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
 	selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
@@ -321,6 +325,8 @@ function editFilter(id) {
 		printLockingError();
 		return
 	}
+
+	notify_progress("Loading, please wait...");
 
 	document.getElementById("create_filter_btn").disabled = true;
 
@@ -341,6 +347,8 @@ function editFeed(feed) {
 		return
 	}
 
+	notify_progress("Loading, please wait...");
+
 	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
 	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
@@ -359,6 +367,8 @@ function editFeedCat(cat) {
 		printLockingError();
 		return
 	}
+
+	notify_progress("Loading, please wait...");
 
 	active_feed_cat = cat;
 
@@ -664,6 +674,13 @@ function labelTest() {
 }
 
 function displayHelpInfobox(topic_id) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	notify_progress("Loading help...");
 
 	xmlhttp.open("GET", "backend.php?op=help&tid=" +
 		param_escape(topic_id) + "&noheaders=1", true);
@@ -1142,7 +1159,7 @@ function selectTab(id, noupdate, subop) {
 
 			debug("selectTab: " + id + "(NU: " + noupdate + ")");
 	
-			notify_progress("Loading, please wait...", true);
+			notify_progress("Loading, please wait...");
 	
 			// close active infobox if needed
 			closeInfoBox();

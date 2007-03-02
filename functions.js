@@ -1320,7 +1320,7 @@ function displayDlg(id, param) {
 		return
 	}
 
-	notify("");
+	notify_progress("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param), true);
