@@ -3174,8 +3174,8 @@
 		header("Pragma: no-cache"); // HTTP/1.0
 	}
 
-	function format_warning($msg) {
-		return "<div class=\"warning\"> 
+	function format_warning($msg, $id = "") {
+		return "<div class=\"warning\" id=\"$id\"> 
 			<img src=\"images/sign_excl.png\">$msg</div>";
 	}
 

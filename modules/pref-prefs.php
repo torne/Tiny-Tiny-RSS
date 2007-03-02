@@ -55,9 +55,8 @@
 			}
 
 			return;
-		}
 
-		if ($subop == "Save configuration") {
+		} else if ($subop == "Save configuration") {
 
 			$_SESSION["prefs_op_result"] = "save-config";
 
@@ -113,17 +112,17 @@
 				print "Unknown option: $pref_name";
 			}
 
-		} else if ($subop == "Change e-mail") {
+		} else if ($subop == "change-email") {
 
-			$email = db_escape_string($_GET["email"]);
+			$email = db_escape_string($_POST["email"]);
 			$active_uid = $_SESSION["uid"];
 
-			if ($email) {
-				db_query($link, "UPDATE ttrss_users SET email = '$email' 
-						WHERE id = '$active_uid'");				
-			}
-
-			return prefs_js_redirect();
+			db_query($link, "UPDATE ttrss_users SET email = '$email' 
+				WHERE id = '$active_uid'");				
+		
+			print "E-mail has been changed.";
+		
+			return;
 
 		} else if ($subop == "Reset to defaults") {
 
@@ -181,7 +180,8 @@
 						pwd_hash = 'SHA1:".sha1("password")."')");
 
 				if (db_num_rows($result) != 0) {
-					print format_warning("Your password is at default value, please change it.");
+					print format_warning("Your password is at default value, 
+						please change it.", "default_pass_warning");
 				}
 
 /*				if ($_SESSION["pwd_change_result"] == "failed") {
@@ -204,7 +204,7 @@
 
 				$_SESSION["prefs_op_result"] = "";
 
-				print "<form action=\"backend.php\" method=\"GET\">";
+				print "<form onsubmit='return false' id='change_email_form'>";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	 			print "<tr><td colspan='3'><h3>Personal data</h3></tr></td>";
@@ -216,16 +216,18 @@
 	
 				print "<tr><td width=\"40%\">E-mail</td>";
 				print "<td><input class=\"editbox\" name=\"email\" 
+					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$email\"></td></tr>";
 	
 				print "</table>";
 	
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-	
-				print "<p><input class=\"button\" type=\"submit\" 
-					value=\"Change e-mail\" name=\"subop\">";
+				print "<input type=\"hidden\" name=\"subop\" value=\"change-email\">";
 
 				print "</form>";
+
+				print "<p><input class=\"button\" type=\"submit\"
+					onclick=\"return changeUserEmail()\" value=\"Change e-mail\">";
 
 				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";

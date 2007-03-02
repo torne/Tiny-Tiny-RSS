@@ -132,16 +132,23 @@ function notify_callback() {
 
 
 function changepass_callback() {
-	if (xmlhttp.readyState == 4) {
+	try {
+		if (xmlhttp.readyState == 4) {
+	
+			if (xmlhttp.responseText.indexOf("ERROR: ") == 0) {
+				notify_error(xmlhttp.responseText.replace("ERROR: ", ""));
+			} else {
+				notify_info(xmlhttp.responseText);
+				var warn = document.getElementById("default_pass_warning");
+				if (warn) warn.style.display = "none";
+			}
+	
+			document.forms['change_pass_form'].reset();
 
-		if (xmlhttp.responseText.indexOf("ERROR: ") == 0) {
-			notify_error(xmlhttp.responseText.replace("ERROR: ", ""));
-		} else {
-			notify_info(xmlhttp.responseText);
-		}
-
-		document.forms['change_pass_form'].reset();
-	} 
+		} 
+	} catch (e) {
+		exception_error("changepass_callback", e);
+	}
 }
 
 function updateFeedList(sort_key) {
@@ -1623,3 +1630,28 @@ function changeUserPassword() {
 	return false;
 }
 
+function changeUserEmail() {
+
+	try {
+
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return false;
+		}
+	
+		var query = Form.serialize("change_email_form");
+	
+		notify_progress("Trying to change e-mail...");
+	
+		xmlhttp.open("POST", "backend.php", true);
+		xmlhttp.onreadystatechange=notify_callback;
+		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xmlhttp.send(query);
+
+	} catch (e) {
+		exception_error("changeUserPassword", e);
+	}
+	
+	return false;
+
+}
