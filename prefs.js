@@ -917,9 +917,9 @@ function selectedUserDetails() {
 		return;
 	}
 
-	var id = rows[0];
+	notify_progress("Loading, please wait...");
 
-	notify("");
+	var id = rows[0];
 
 	xmlhttp.open("GET", "backend.php?op=user-details&id=" + id, true);
 	xmlhttp.onreadystatechange=infobox_callback;
