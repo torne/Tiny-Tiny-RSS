@@ -229,8 +229,9 @@
 			print "<div class=\"error\">"._("Error: please upload OPML file.")."</div>";
 		}
 
-		print "<p><a class=\"button\" href=\"prefs.php\">
-			"._("Return to preferences")."</a>";
+		print "<br><form method=\"GET\" action=\"prefs.php\">
+			<input type=\"submit\" value=\"Return to preferences\">
+			</form>";
 
 		print "</div></body></html>";
 

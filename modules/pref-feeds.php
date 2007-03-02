@@ -1011,11 +1011,11 @@
 				type=\"submit\" value=\"Import\">
 				</form></div>";
 
-		print "&nbsp;|&nbsp;";				
+		print "&nbsp; or &nbsp;";				
 
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"gotoExportOpml()\" 
-				value=\"Export\">";			
+				value=\"Export OPML\">";			
 
 	}
 ?>
