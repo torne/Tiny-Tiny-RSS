@@ -1,7 +1,8 @@
 <?php
+	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
-
 
 /*	if ($_GET["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
