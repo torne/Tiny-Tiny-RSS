@@ -23,6 +23,7 @@ function catchup_callback() {
 			if (_catchup_callback_func) {
 				setTimeout(_catchup_callback_func, 100);	
 			}
+			notify("");			
 			all_counters_callback();
 		} catch (e) {
 			exception_error("catchup_callback", e);
@@ -84,6 +85,8 @@ function article_callback() {
 		} else {
 			update_all_counters();
 		}
+
+		notify("");
 	}
 }
 
@@ -131,7 +134,9 @@ function view(id, feed_id, skip_history) {
 
 			var date = new Date();
 			var timestamp = Math.round(date.getTime() / 1000);
-			query = query + "&ts=" + timestamp
+			query = query + "&ts=" + timestamp;
+
+			notify_progress("Loading, please wait...");
 
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=article_callback;
@@ -264,6 +269,8 @@ function toggleUnread(id, cmode) {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(id) + "&cmode=" + param_escape(cmode);
 
+			notify_progress("Loading, please wait...");
+
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;
 			xmlhttp_rpc.send(null);
@@ -322,6 +329,8 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func) {
 				param_escape(rows.toString()) + "&cmode=" + cmode;
 
 			_catchup_callback_func = callback_func;
+
+			notify_progress("Loading, please wait...");
 
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=catchup_callback;
