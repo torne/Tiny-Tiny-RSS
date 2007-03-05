@@ -2001,7 +2001,7 @@
 		print "<select id=\"$id\" name=\"$id\" $attributes>";
 
 		if ($include_all_cats) {
-			print "<option value=\"0\">"._('Uncategorized')."</option>";
+			print "<option value=\"0\">".__('Uncategorized')."</option>";
 		}
 
 		$result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
@@ -2030,9 +2030,9 @@
 
 	function getFeedCatTitle($link, $id) {
 		if ($id == -1) {
-			return _("Special");
+			return __("Special");
 		} else if ($id < -10) {
-			return _("Labels");
+			return __("Labels");
 		} else if ($id > 0) {
 			$result = db_query($link, "SELECT ttrss_feed_categories.title 
 				FROM ttrss_feeds, ttrss_feed_categories WHERE ttrss_feeds.id = '$id' AND
@@ -2040,7 +2040,7 @@
 			if (db_num_rows($result) == 1) {
 				return db_fetch_result($result, 0, "title");
 			} else {
-				return _("Uncategorized");
+				return __("Uncategorized");
 			}
 		} else {
 			return "getFeedCatTitle($id) failed";
@@ -2050,7 +2050,7 @@
 
 	function getFeedTitle($link, $id) {
 		if ($id == -1) {
-			return _("Starred articles");
+			return __("Starred articles");
 		} else if ($id < -10) {
 			$label_id = -10 - $id;
 			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
@@ -2300,9 +2300,9 @@
 			$feed_title = "";
 
 			if ($search && $search_mode == "all_feeds") {
-				$feed_title = _("Global search results")." ($search)";
+				$feed_title = __("Global search results")." ($search)";
 			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = _("Tag search results")." ($search, $feed)";
+				$feed_title = __("Tag search results")." ($search, $feed)";
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 				$feed_title = $feed;
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
@@ -2314,11 +2314,11 @@
 							WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 						$feed_title = db_fetch_result($result, 0, "title");
 					} else {
-						$feed_title = _("Uncategorized");
+						$feed_title = __("Uncategorized");
 					}
 
 					if ($search) {
-						$feed_title = _("Category search results")." ($search, $feed_title)";
+						$feed_title = __("Category search results")." ($search, $feed_title)";
 					}
 
 				} else {
@@ -2331,12 +2331,12 @@
 					$last_error = db_fetch_result($result, 0, "last_error");
 
 					if ($search) {
-						$feed_title = _("Feed search results") . " ($search, $feed_title)";
+						$feed_title = __("Feed search results") . " ($search, $feed_title)";
 					}
 				}
 	
 			} else if ($feed == -1) {
-				$feed_title = _("Starred articles");
+				$feed_title = __("Starred articles");
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
 				$result = db_query($link, "SELECT description FROM ttrss_labels
@@ -2344,7 +2344,7 @@
 				$feed_title = db_fetch_result($result, 0, "description");
 
 				if ($search) {
-					$feed_title = _("Label search results") . " ($search, $feed_title)";
+					$feed_title = __("Label search results") . " ($search, $feed_title)";
 				}
 			} else {
 				$feed_title = "?";
@@ -2539,7 +2539,7 @@
 	}
 
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
-		$tmp =  _("New headlines for last 24 hours, as of ") . date("Y/m/d H:m") . "\n";	
+		$tmp =  __("New headlines for last 24 hours, as of ") . date("Y/m/d H:m") . "\n";	
 		$tmp .= "=======================================================\n\n";
 
 		if (DB_TYPE == "pgsql") {
@@ -2583,9 +2583,9 @@
 		}
 
 		$tmp .= "--- \n";
-		$tmp .= _("You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at ") . 
+		$tmp .= __("You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at ") . 
 			DIGEST_HOSTNAME . "\n".
-			_("To unsubscribe, visit your configuration options or contact instance owner.\n");
+			__("To unsubscribe, visit your configuration options or contact instance owner.\n");
 			
 
 		return array($tmp, $headlines_count);
@@ -2784,15 +2784,15 @@
 			// old style subtoolbar:
 
 				print "<td class=\"headlineActions$rtl_cpart\">".
-					_('Select:')."
+					__('Select:')."
 								<a href=\"$sel_all_link\">All</a>,
 								<a href=\"$sel_unread_link\">Unread</a>,
 								<a href=\"$sel_none_link\">None</a>
 						&nbsp;&nbsp;".
-						_('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
+						__('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
 							<a href=\"$tog_marked_link\">Starred</a>
 						&nbsp;&nbsp;".
-						_('Mark as read:')."
+						__('Mark as read:')."
 							<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
 							<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
 				print "</td>";  
@@ -2803,7 +2803,7 @@
 				print "<td class=\"headlineActions$rtl_cpart\">
 					<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 							'$match_on', '$feed_id', '$is_cat');\">
-						"._('Convert to Label')."</a></td>";
+						".__('Convert to Label')."</a></td>";
 			}
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
@@ -2848,7 +2848,7 @@
 		/* virtual feeds */
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<li class=\"feedCat\">"._('Special')."</li>";
+			print "<li class=\"feedCat\">".__('Special')."</li>";
 			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 		}
 
@@ -2858,7 +2858,7 @@
 
 		if ($num_starred > 0) $class .= "Unread";
 
-		printFeedEntry(-1, $class, _("Starred articles"), $num_starred, 
+		printFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
 			"images/mark_set.png", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2874,7 +2874,7 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">"._('Labels')."</li>";
+						print "<li class=\"feedCat\">".__('Labels')."</li>";
 						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 					} else {
 						print "<li><hr></li>";
@@ -2997,7 +2997,7 @@
 				$tmp_category = $line["category"];
 
 				if (!$tmp_category) {
-					$tmp_category = _("Uncategorized");
+					$tmp_category = __("Uncategorized");
 				}
 				
 	//			$class = ($lnum % 2) ? "even" : "odd";
@@ -3027,7 +3027,7 @@
 					$collapsed = $line["collapsed"];
 
 					// workaround for NULL category
-					if ($category == _("Uncategorized")) {
+					if ($category == __("Uncategorized")) {
 						if ($_COOKIE["ttrss_vf_uclps"] == 1) {
 							$collapsed = "t";
 						}
@@ -3067,7 +3067,7 @@
 			}
 
 			if (db_num_rows($result) == 0) {
-				print "<li>"._('No feeds to display.')."</li>";
+				print "<li>".__('No feeds to display.')."</li>";
 			}
 
 		} else {
@@ -3084,7 +3084,7 @@
 			ORDER BY tag_name"); */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">"._('Tags')."</li>";
+				print "<li class=\"feedCat\">".__('Tags')."</li>";
 				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 

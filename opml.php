@@ -104,7 +104,7 @@
 			</head>
 			<body>
 			<div class=\"floatingLogo\"><img src=\"images/ttrss_logo.png\"></div>
-			<h1>"._('OPML Utility')."</h1>";
+			<h1>".__('OPML Utility')."</h1>";
 
 		if (function_exists('domxml_open_file')) {
 			print "<p>Importing OPML (using DOMXML extension)...</p>";

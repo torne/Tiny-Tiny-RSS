@@ -76,10 +76,10 @@
 
 <div id="overlay">
 	<div id="overlay_inner">
-	<p><?php echo _("Loading, please wait...") ?></p>
+	<p><?php echo __("Loading, please wait...") ?></p>
 	<noscript>
 		<div class="error"><?php echo
-		_("Your browser doesn't support Javascript, which is required
+		__("Your browser doesn't support Javascript, which is required
 		for this application to function properly. Please check your
 		browser settings.") ?></div>
 	</noscript>
@@ -128,44 +128,44 @@ window.onload = init;
 
 		<div style="float : right">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
-					<option value="qmcDefault" selected><?php echo _('Actions...') ?></option>
-					<option value="qmcSearch"><?php echo _('Search') ?></option>
-					<option value="qmcPrefs"><?php echo _('Preferences') ?></option>
+					<option value="qmcDefault" selected><?php echo __('Actions...') ?></option>
+					<option value="qmcSearch"><?php echo __('Search') ?></option>
+					<option value="qmcPrefs"><?php echo __('Preferences') ?></option>
 					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo _('Feed actions:') ?></option>
-					<option value="qmcAddFeed"><?php echo _('&nbsp;&nbsp;Subscribe to feed') ?></option>
-					<option value="qmcEditFeed"><?php echo _('&nbsp;&nbsp;Edit this feed') ?></option>
-					<option value="qmcRemoveFeed"><?php echo _('&nbsp;&nbsp;Unsubscribe') ?></option>
+					<option style="color : #5050aa" disabled><?php echo __('Feed actions:') ?></option>
+					<option value="qmcAddFeed"><?php echo __('&nbsp;&nbsp;Subscribe to feed') ?></option>
+					<option value="qmcEditFeed"><?php echo __('&nbsp;&nbsp;Edit this feed') ?></option>
+					<option value="qmcRemoveFeed"><?php echo __('&nbsp;&nbsp;Unsubscribe') ?></option>
 					<!-- <option>Edit this feed</option> -->
 					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo _('All feeds:') ?></option>
+					<option style="color : #5050aa" disabled><?php echo __('All feeds:') ?></option>
 					<?php if (!ENABLE_UPDATE_DAEMON && !DAEMON_REFRESH_ONLY) { ?>
-					<option value="qmcUpdateFeeds"><?php echo _('&nbsp;&nbsp;Update') ?></option>
+					<option value="qmcUpdateFeeds"><?php echo __('&nbsp;&nbsp;Update') ?></option>
 					<?php } ?>
-					<option value="qmcCatchupAll"><?php echo _('&nbsp;&nbsp;Mark as read') ?></option>
-					<option value="qmcShowOnlyUnread"><?php echo _('&nbsp;&nbsp;(Un)hide read feeds') ?></option>
+					<option value="qmcCatchupAll"><?php echo __('&nbsp;&nbsp;Mark as read') ?></option>
+					<option value="qmcShowOnlyUnread"><?php echo __('&nbsp;&nbsp;(Un)hide read feeds') ?></option>
 					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo _('Other actions:') ?></option>				
-					<option value="qmcAddFilter"><?php echo _('&nbsp;&nbsp;Create filter') ?></option>
+					<option style="color : #5050aa" disabled><?php echo __('Other actions:') ?></option>				
+					<option value="qmcAddFilter"><?php echo __('&nbsp;&nbsp;Create filter') ?></option>
 			</select>
 		</div>
 
 		<form id="main_toolbar_form" onsubmit='return false'>
 
-		<?php echo _('Search:') ?>
+		<?php echo __('Search:') ?>
 		<input name="query"
 			onKeyPress="return filterCR(event, viewCurrentFeed)"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
 
-		<?php echo _('View:') ?>
+		<?php echo __('View:') ?>
 		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
-			<option selected value="adaptive"><?php echo _('Adaptive') ?></option>
-			<option value="all_articles"><?php echo _('All Articles') ?></option>
-			<option value="marked"><?php echo _('Starred') ?></option>
-			<option value="unread"><?php echo _('Unread') ?></option>
+			<option selected value="adaptive"><?php echo __('Adaptive') ?></option>
+			<option value="all_articles"><?php echo __('All Articles') ?></option>
+			<option value="marked"><?php echo __('Starred') ?></option>
+			<option value="unread"><?php echo __('Unread') ?></option>
 		</select>
 		
-		<?php echo _('Limit:') ?>
+		<?php echo __('Limit:') ?>
 		<?php
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
 			
@@ -190,7 +190,7 @@ window.onload = init;
 
 		<input class="button" type="submit"
 			onclick="return viewCurrentFeed('ForceUpdate')" 
-			value="<?php echo _('Update') ?>">
+			value="<?php echo __('Update') ?>">
 
 		</form>
 
@@ -204,11 +204,11 @@ window.onload = init;
 
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 	<div id="headlines-frame" class="headlines_normal">
-		<div class="whiteBox"><?php echo _('No feed selected.') ?></div></div>
+		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
 	<div id="content-frame"><div class="whiteBox">&nbsp;</div></div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm">
-		<div class="whiteBox"><?php echo _('No feed selected.') ?></div></div>
+		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
 <?php } ?>
 
 <div id="footer">

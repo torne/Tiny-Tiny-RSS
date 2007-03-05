@@ -83,13 +83,13 @@ window.onload = init;
 
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
-	<div id="fatal_error_msg"><?php echo _('Unknown Error') ?></div>
+	<div id="fatal_error_msg"><?php echo __('Unknown Error') ?></div>
 </div></div>
 
 <div id="prefHeader">
 	<?php if (!SINGLE_USER_MODE) { ?>
 		<div style="float : right">
-			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
+			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
 		</div>
 	<?php } ?>
@@ -103,29 +103,29 @@ window.onload = init;
 		<div class="firstTab">&nbsp;</div>
 
 		<div id="genConfigTab" class="prefsTab" 
-			onclick="selectTab('genConfig')"><?php echo _('Preferences') ?></div>
+			onclick="selectTab('genConfig')"><?php echo __('Preferences') ?></div>
 		<div id="feedConfigTab" class="prefsTab" 
-			onclick="selectTab('feedConfig')"><?php echo _('My Feeds') ?></div>
+			onclick="selectTab('feedConfig')"><?php echo __('My Feeds') ?></div>
 		<?php if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
 		<div id="feedBrowserTab" class="prefsTab" 
-			onclick="selectTab('feedBrowser')"><?php echo _('Other Feeds') ?></div>
+			onclick="selectTab('feedBrowser')"><?php echo __('Other Feeds') ?></div>
 		<?php } ?>
 		<div id="filterConfigTab" class="prefsTab" 
-			onclick="selectTab('filterConfig')"><?php echo _('Content Filtering') ?></div>
+			onclick="selectTab('filterConfig')"><?php echo __('Content Filtering') ?></div>
 		<?php if (get_pref($link, 'ENABLE_LABELS')) { ?>
 		<div id="labelConfigTab" class="prefsTab" 
-			onclick="selectTab('labelConfig')"><?php echo _('Label Editor') ?></div>
+			onclick="selectTab('labelConfig')"><?php echo __('Label Editor') ?></div>
 		<?php } ?>
 		<?php if ($_SESSION["access_level"] >= 10) { ?>
 		<div id="userConfigTab" class="prefsTab" 
-			onclick="selectTab('userConfig')"><?php echo _('User Manager') ?></div>
+			onclick="selectTab('userConfig')"><?php echo __('User Manager') ?></div>
 		<?php } ?>		
 
 <div id="prefContent">
-	<p><?php echo _('Loading, please wait...') ?></p>
+	<p><?php echo __('Loading, please wait...') ?></p>
 	<noscript>
 		<div class="error">
-		<?php echo _("Your browser doesn't support Javascript, which is required
+		<?php echo __("Your browser doesn't support Javascript, which is required
 		for this application to function properly. Please check your
 		browser settings.") ?></div>
 	</noscript>

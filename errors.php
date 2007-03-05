@@ -1,28 +1,28 @@
 <?php
-	$ERRORS[0] = _("Unknown error");
+	$ERRORS[0] = __("Unknown error");
 
-	$ERRORS[1] = _("This program requires XmlHttpRequest " .
+	$ERRORS[1] = __("This program requires XmlHttpRequest " .
 			"to function properly. Your browser doesn't seem to support it.");
 
-	$ERRORS[2] = _("This program requires cookies " .
+	$ERRORS[2] = __("This program requires cookies " .
 			"to function properly. Your browser doesn't seem to support them.");
 
-	$ERRORS[3] = _("Backend sanity check failed");
+	$ERRORS[3] = __("Backend sanity check failed");
 
-	$ERRORS[4] = _("Frontend sanity check failed.");
+	$ERRORS[4] = __("Frontend sanity check failed.");
 
-	$ERRORS[5] = _("Incorrect database schema version. &lt;a href='update.php'&gt;Please update&lt;/a&gt;.");
+	$ERRORS[5] = __("Incorrect database schema version. &lt;a href='update.php'&gt;Please update&lt;/a&gt;.");
 
-	$ERRORS[6] = _("Request not authorized.");
+	$ERRORS[6] = __("Request not authorized.");
 
-	$ERRORS[7] = _("No operation to perform.");
+	$ERRORS[7] = __("No operation to perform.");
 
-	$ERRORS[8] = _("Could not display feed: query failed. Please check label match syntax or local configuration.");
+	$ERRORS[8] = __("Could not display feed: query failed. Please check label match syntax or local configuration.");
 
-	$ERRORS[8] = _("Denied. Your access level is insufficient to access this page.");
+	$ERRORS[8] = __("Denied. Your access level is insufficient to access this page.");
 
-	$ERRORS[9] = _("Configuration check failed");
+	$ERRORS[9] = __("Configuration check failed");
 
-	$ERRORS[10] = _("Your version of MySQL is not currently supported. Please see 
+	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see 
 		official site for more information.");
 ?>
