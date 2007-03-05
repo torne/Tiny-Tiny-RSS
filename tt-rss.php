@@ -2,6 +2,9 @@
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 	require_once "functions.php"; 
+
+	startup_gettext();
+
 	require_once "sessions.php";
 	require_once "sanity_check.php";
 	require_once "version.php"; 
@@ -104,7 +107,7 @@ window.onload = init;
 <div id="header">
 	<div style="float : right">
 	<?php if (!SINGLE_USER_MODE) { ?>
-			<?php echo _('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
+			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php">Logout</a>)
 	<?php } ?>
 	<img id="newVersionIcon" onclick="javascript:explainError(2)" 

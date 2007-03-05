@@ -1,1 +1,1 @@
-<?php require "tt-rss.php" ?>
+<?php header("Location: tt-rss.php"); ?>

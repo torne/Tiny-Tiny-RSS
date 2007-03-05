@@ -18,6 +18,9 @@
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
 
+	require_once "accept-to-gettext.php";
+	require_once "gettext/gettext.inc";
+
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
 		$rows = -1;
@@ -3182,6 +3185,19 @@
 	function format_notice($msg) {
 		return "<div class=\"notice\"> 
 			<img src=\"images/sign_info.png\">$msg</div>";
+	}
+
+	function startup_gettext() {
+
+		# Get locale from Accept-Language header
+		$lang = al2gt(array("en_US", "ru_RU"), "text/html");
+
+		if ($lang) {
+			_setlocale(LC_MESSAGES, $lang);
+			_bindtextdomain("messages", "locale");
+			_textdomain("messages");
+			_bind_textdomain_codeset("messages", "UTF-8");
+		}
 	}
 
 ?>
