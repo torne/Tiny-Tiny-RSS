@@ -36,6 +36,7 @@
 
 			print "</div>";
 
+			return;
 		}
 
 		if ($id == "quickAddFeed") {
@@ -52,7 +53,7 @@
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
-					onkeypress=\"return filterCR(event, qafAdd)\"
+					onkeypress=\"return filterCR(event, qaddFeed)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
@@ -69,10 +70,12 @@
 			print "<div align='right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
-					type=\"submit\" onclick=\"return qafAdd()\" value=\"".__('Subscribe')."\">
+					type=\"submit\" onclick=\"return qaddFeed()\" value=\"".__('Subscribe')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
 					value=\"".__('Cancel')."\"></div>";
+
+			return;
 		}
 
 		if ($id == "search") {
@@ -153,6 +156,8 @@
 
 			print "</div>";
 
+			return;
+
 		}
 
 		if ($id == "quickAddLabel") {
@@ -200,6 +205,8 @@
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return labelEditCancel()\" 
 				value=\"".__('Cancel')."\">";
+
+			return;
 		}
 
 		if ($id == "quickAddFilter") {
@@ -279,7 +286,7 @@
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
-				class=\"button\" onclick=\"return qaddFilter()\" 
+				class=\"button\" onclick=\"return addFilter()\" 
 				disabled=\"true\" value=\"".__('Create')."\"> ";
 
 			print "<input class=\"button\"
@@ -290,6 +297,7 @@
 
 //			print "</td></tr></table>"; 
 
+			return;
 		}
 
 		if ($id == "feedUpdateErrors") {
@@ -379,8 +387,13 @@
 
 			print "</div>";
 
+			return;
 		}
 
-		print "</div>";
+		print "<div id='infoBoxTitle'>Internal Error</div>
+			<div id='infoBoxContents'>
+			<p>Unknown dialog <b>$id</b></p>
+			</div></div>";
+	
 	}
 ?>

@@ -1343,7 +1343,9 @@ function infobox_submit_callback() {
 			}
 		} catch (e) { }
 
-//		notify_info(xmlhttp.responseText);
+		if (xmlhttp.responseText) {
+			notify_info(xmlhttp.responseText);
+		}
 
 	} 
 }
@@ -1364,7 +1366,7 @@ function infobox_callback() {
 	}
 }
 
-function qaddFilter() {
+function addFilter() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
@@ -1400,7 +1402,7 @@ function isValidURL(s) {
 	return s.match("http://") != null || s.match("https://") != null || s.match("feed://") != null;
 }
 
-function qafAdd() {
+function qaddFeed() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();

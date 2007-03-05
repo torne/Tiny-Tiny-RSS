@@ -153,6 +153,11 @@
 				sql_exp = '$sql_exp', 
 				description = '$descr'
 				WHERE id = '$label_id'");
+
+			if (db_affected_rows($link, $result) != 0) {
+				print_notice(T_sprintf("Saved label <b>%s</b>", htmlspecialchars($descr)));
+			}
+
 		}
 
 		if ($subop == "remove") {
@@ -169,19 +174,22 @@
 		}
 
 		if ($subop == "add") {
-		
-			if (!WEB_DEMO_MODE) {
 
-				// no escaping is done here on purpose
-				$sql_exp = trim($_GET["sql_exp"]);
-				$description = db_escape_string($_GET["description"]);
+			// no escaping is done here on purpose
+			$sql_exp = trim($_GET["sql_exp"]);
+			$description = db_escape_string($_GET["description"]);
 
-				if (!$sql_exp || !$description) return;
+			if (!$sql_exp || !$description) return;
 
-				$result = db_query($link,
-					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
-						VALUES ('$sql_exp', '$description', '".$_SESSION["uid"]."')");
-			} 
+			$result = db_query($link,
+				"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
+				VALUES ('$sql_exp', '$description', '".$_SESSION["uid"]."')");
+
+			if (db_affected_rows($link, $result) != 0) {
+				print T_sprintf("Created label <b>%s</b>", htmlspecialchars($description));
+			}
+
+			return;
 		}
 
 		$sort = db_escape_string($_GET["sort"]);

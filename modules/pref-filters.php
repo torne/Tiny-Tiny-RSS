@@ -149,7 +149,11 @@
 					inverse = $inverse,
 					action_param = '$action_param'
 					WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
-			
+
+			if (db_affected_rows($link, $result) != 0) {
+				print_notice(T_sprintf("Saved filter <b>%s</b>", htmlspecialchars($reg_exp)));
+			}
+
 		}
 
 		if ($subop == "remove") {
@@ -186,7 +190,11 @@
 					('$regexp', '$filter_type','".$_SESSION["uid"]."', 
 						$feed_id, '$action_id', '$action_param', $inverse)");
 
-			print_notice(T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp)));
+			if (db_affected_rows($link, $result) != 0) {
+				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
+			}
+
+			return;
 		}
 
 		if ($quiet) return;

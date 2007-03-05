@@ -750,9 +750,8 @@
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
 			</div>";
-
-		print "<div class=\"prefGenericAddBox\">
-			<input id=\"fadd_link\" 
+		
+		print "<input id=\"fadd_link\" 
 				onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 				onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 				size=\"40\">
@@ -764,8 +763,6 @@
 			print " <input type=\"submit\" class=\"button\"
 				onclick=\"javascript:browseFeeds()\" value=\"".__('Top 25')."\">";
 		}
-
-		print "</div>";
 
 		$feeds_sort = db_escape_string($_GET["sort"]);
 
