@@ -13,21 +13,21 @@
 
 		$tid = sprintf("%d", $_GET["tid"]);
 
-		print "<div id=\"infoBoxTitle\">Help</div>";
+		print "<div id=\"infoBoxTitle\">".__('Help')."</div>";
 
 		print "<div class='infoBoxContents'>";
 
 		if (file_exists("help/$tid.php")) {
 			include("help/$tid.php");
 		} else {
-			print "<p>Help topic not found.</p>";
+			print "<p>".__("Help topic not found.")."</p>";
 		}
 
 		print "</div>";
 
 		print "<div align='center'>
 			<input type='submit' class='button'			
-			onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+			onclick=\"closeInfoBox()\" value=\"".__('Close this window')."\"></div>";
 
 		if (!$_GET["noheaders"]) { 
 			print "</body></html>";

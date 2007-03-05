@@ -35,7 +35,7 @@
 			}
 
 			if (count($subscribed) > 0) {
-				$msg = "<b>Subscribed to feeds:</b>".
+				$msg = "<b>".__('Subscribed to feeds:')."</b>".
 					"<ul class=\"nomarks\">";
 
 				foreach ($subscribed as $title) {
@@ -50,15 +50,15 @@
 		if ($subop == "browse") {
 
 			if (!ENABLE_FEED_BROWSER) {
-				print "Feed browser is administratively disabled.";
+				print __("Feed browser is administratively disabled.");
 				return;
 			}
 
-			print "<div id=\"infoBoxTitle\">Other feeds: Top 25</div>";
+			print "<div id=\"infoBoxTitle\">".__('Other feeds: Top 25')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
-			print "<p>Showing top 25 registered feeds, sorted by popularity:</p>";
+			print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
 
 #			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
 #				FROM ttrss_feeds 
@@ -108,16 +108,16 @@
 			}
 
 			if ($feedctr == 0) {
-				print "<li>No feeds found to subscribe.</li>";
+				print "<li>".__('No feeds found to subscribe.')."</li>";
 			}
 
 			print "</ul>";
 
 			print "<div align='center'>
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"feedBrowserSubscribe()\" value=\"Subscribe\">
+				onclick=\"feedBrowserSubscribe()\" value=\"".__('Subscribe')."\">
 				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Cancel\"></div>";
+				onclick=\"closeInfoBox()\" value=\"".__('Cancel')."\"></div>";
 
 			print "</div>";
 			return;
@@ -142,7 +142,7 @@
 				$feed_icon = "";
 			}
 
-			print "<div id=\"infoBoxTitle\">Feed editor</div>";
+			print "<div id=\"infoBoxTitle\">".__('Feed editor')."</div>";
 
 			print "<div class=\"infoBoxContents\">";
 
@@ -154,7 +154,7 @@
 
 			print "<table width='100%'>";
 
-			print "<tr><td>Title:</td>";
+			print "<tr><td>".__('Title:')."</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"title\" value=\"$title\"></td></tr>";
 
@@ -162,7 +162,7 @@
 			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
 				0, "feed_url")));
 				
-			print "<tr><td>Feed URL:</td>";
+			print "<tr><td>".__('Feed URL:')."</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"feed_url\" value=\"$feed_url\"></td></tr>";
 
@@ -170,7 +170,7 @@
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
 
-				print "<tr><td>Category:</td>";
+				print "<tr><td>".__('Category:')."</td>";
 				print "<td>";
 
 				$parent_feed = db_fetch_result($result, 0, "parent_feed");
@@ -190,7 +190,7 @@
 
 			$update_interval = db_fetch_result($result, 0, "update_interval");
 
-			print "<tr><td>Update Interval:</td>";
+			print "<tr><td>".__('Update Interval:')."</td>";
 
 			print "<td>";
 
@@ -199,7 +199,7 @@
 
 			print "</td>";
 
-			print "<tr><td>Link to:</td><td>";
+			print "<tr><td>".__('Link to:')."</td><td>";
 
 			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
 				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
@@ -216,7 +216,7 @@
 
 			print "<select class=\"iedit\" $disabled name=\"parent_feed\">";
 			
-			print "<option value=\"0\">Not linked</option>";
+			print "<option value=\"0\">".__('Not linked')."</option>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id) {
@@ -250,7 +250,7 @@
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
-			print "<tr><td>Article purging:</td>";
+			print "<tr><td>".__('Article purging:')."</td>";
 
 			print "<td>";
 
@@ -261,13 +261,13 @@
 
 			$auth_login = escape_for_form(db_fetch_result($result, 0, "auth_login"));
 
-			print "<tr><td>Login:</td>";
+			print "<tr><td>".__('Login:')."</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
 			$auth_pass = escape_for_form(db_fetch_result($result, 0, "auth_pass"));
 
-			print "<tr><td>Password:</td>";
+			print "<tr><td>".__('Password:')."</td>";
 			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
 				onkeypress=\"return filterCR(event, feedEditSave)\"
 				value=\"$auth_pass\"></td></tr>";
@@ -280,9 +280,9 @@
 				$checked = "";
 			}
 
-			print "<tr><td valign='top'>Options:</td>";
+			print "<tr><td valign='top'>".__('Options:')."</td>";
 			print "<td><input type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked><label for=\"private\">Hide from \"Other Feeds\"</label>";
+				$checked><label for=\"private\">".__('Hide from "Other Feeds"')."</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
@@ -304,7 +304,7 @@
 			}
 
 			print "<br><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
-				$checked><label for=\"hidden\">Hide from my feed list</label>";
+				$checked><label for=\"hidden\">".__('Hide from my feed list')."</label>";
 
 			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
 
@@ -316,7 +316,7 @@
 
 			print "<br><input type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\"
-				$checked><label for=\"include_in_digest\">Include in e-mail digest</label>";
+				$checked><label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
 			print "</td></tr>";
 
@@ -326,9 +326,9 @@
 
 			print "<div align='right'>
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"return feedEditSave()\" value=\"Save\">
+				onclick=\"return feedEditSave()\" value=\"".__('Save')."\">
 				<input type='submit' class='button'			
-				onclick=\"return feedEditCancel()\" value=\"Cancel\"></div>";
+				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\"></div>";
 
 			print "</div>";
 
@@ -443,9 +443,9 @@
 				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
-					print format_notice("Subscribed to <b>$feed_url</b>.");
+					print format_notice(printf(__("Subscribed to <b>%s</b>."), $feed_url));
 				} else {
-					print format_warning("Already subscribed to <b>$feed_url</b>.");
+					print format_warning(printf(__("Already subscribed to <b>%s</b>."), $feed_url));
 				}
 
 				if ($p_from != 'tt-rss') {
@@ -513,7 +513,7 @@
 
 		if ($subop == "editCats") {
 
-			print "<div id=\"infoBoxTitle\">Category editor</div>";
+			print "<div id=\"infoBoxTitle\">".__('Category editor')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
@@ -547,7 +547,7 @@
 	
 					} else {
 	
-						print format_warning("Category <b>$feed_cat</b> already exists in the database.");
+						print format_warning(printf(__("Category <b>$%s</b> already exists in the database."), $feed_cat));
 					}
 
 				}
@@ -574,7 +574,7 @@
 								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 						} else {
 	
-							print format_warning("Unable to delete non empty feed categories.");
+							print format_warning(__("Unable to delete non empty feed categories."));
 								
 						}
 	
@@ -591,7 +591,7 @@
 					size=\"40\">&nbsp;
 				<input 
 					type=\"submit\" class=\"button\" disabled=\"true\" id=\"catadd_submit_btn\"
-					onclick=\"javascript:addFeedCat()\" value=\"Create category\"></div>";
+					onclick=\"javascript:addFeedCat()\" value=\"".__('Create category')."\"></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
@@ -691,27 +691,27 @@
 				print "</div>";
 
 			} else {
-				print "<p>No feed categories defined.</p>";
+				print "<p>".__('No feed categories defined.')."</p>";
 			}
 
 			print "<div style='float : right'>
 				<input type='submit' class='button'			
-				onclick=\"selectTab('feedConfig')\" value=\"Close this window\"></div>";
+				onclick=\"selectTab('feedConfig')\" value=\"".__('Close this window')."\"></div>";
 
 			print "<div id=\"catOpToolbar\">";
 	
 			if ($action == "edit") {
 				print "<input type=\"submit\" class=\"button\"
-						onclick=\"return feedCatEditSave()\" value=\"Save\">
+						onclick=\"return feedCatEditSave()\" value=\"".__('Save')."\">
 					<input type=\"submit\" class=\"button\"
-						onclick=\"return feedCatEditCancel()\" value=\"Cancel\">";
+						onclick=\"return feedCatEditCancel()\" value=\"".__('Cancel')."\">";
 			} else {
 
 				print "
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return editSelectedFeedCat()\" value=\"Edit\">
+					onclick=\"return editSelectedFeedCat()\" value=\"".__('Edit')."\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return removeSelectedFeedCats()\" value=\"Remove\">";
+					onclick=\"return removeSelectedFeedCats()\" value=\"".__('Remove')."\">";
 			}
 
 			print "</div>";
@@ -731,8 +731,8 @@
 
 		if ($num_errors > 0) {
 
-			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">
-				Some feeds have update errors (click for details)</a>");
+			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">".
+				__('Some feeds have update errors (click for details)')."</a>");
 		}
 
 		$feed_search = db_escape_string($_GET["search"]);
