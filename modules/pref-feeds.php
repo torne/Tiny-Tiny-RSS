@@ -443,9 +443,9 @@
 				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
-					print format_notice(printf(__("Subscribed to <b>%s</b>."), $feed_url));
+					print format_notice(sprintf(__("Subscribed to <b>%s</b>."), $feed_url));
 				} else {
-					print format_warning(printf(__("Already subscribed to <b>%s</b>."), $feed_url));
+					print format_warning(sprintf(__("Already subscribed to <b>%s</b>."), $feed_url));
 				}
 
 				if ($p_from != 'tt-rss') {
@@ -547,7 +547,7 @@
 	
 					} else {
 	
-						print format_warning(printf(__("Category <b>$%s</b> already exists in the database."), $feed_cat));
+						print format_warning(sprintf(__("Category <b>$%s</b> already exists in the database."), $feed_cat));
 					}
 
 				}

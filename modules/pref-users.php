@@ -9,7 +9,7 @@
 
 			$id = db_escape_string($_GET["id"]);
 
-			print "<div id=\"infoBoxTitle\">User editor</div>";
+			print "<div id=\"infoBoxTitle\">".__('User editor')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
@@ -26,7 +26,7 @@
 			$email = db_fetch_result($result, 0, "email");
 
 			print "<table width='100%'>";
-			print "<tr><td>Login:</td><td>
+			print "<tr><td>".__('Login:')."</td><td>
 				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
 				name=\"login\" value=\"$login\"></td></tr>";
 
@@ -34,13 +34,13 @@
 				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
 				name=\"password\"></td></tr>";
 
-			print "<tr><td>E-mail:</td><td>
+			print "<tr><td>".__('E-mail:')."</td><td>
 				<input class=\"iedit\" name=\"email\" onkeypress=\"return filterCR(event)\"
 				value=\"$email\"></td></tr>";
 
 			$sel_disabled = ($id == $_SESSION["uid"]) ? "disabled" : "";
 				
-			print "<tr><td>Access level:</td><td>";
+			print "<tr><td>".__('Access level:')."</td><td>";
 			print_select_hash("access_level", $access_level, $access_level_names, 
 				$sel_disabled);
 			print "</td></tr>";
@@ -52,10 +52,10 @@
 			print "<div align='right'>
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return userEditSave()\" 
-					value=\"Save\">
+					value=\"".__('Save')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return userEditCancel()\" 
-					value=\"Cancel\"></div>";
+					value=\"".__('Cancel')."\"></div>";
 
 			print "</div>";
 
@@ -75,7 +75,7 @@
 				if ($password) {
 					$pwd_hash = 'SHA1:' . sha1($password);
 					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
-					print "<div class='notice'>Changed password for user <b>$login</b>.</div>";
+					print format_notice(sprintf(__('Changed password for user <b>%s</b>.'), $login));
 				} else {
 					$pass_query_part = "";
 				}
