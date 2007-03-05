@@ -1,4 +1,5 @@
 <?php
+
 	$ERRORS[0] = __("Unknown error");
 
 	$ERRORS[1] = __("This program requires XmlHttpRequest " .

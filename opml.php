@@ -100,24 +100,24 @@
 		print "<html>
 			<head>
 				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
-				<title>OPML Utility</title>
+				<title>".__("OPML Utility")."</title>
 			</head>
 			<body>
 			<div class=\"floatingLogo\"><img src=\"images/ttrss_logo.png\"></div>
 			<h1>".__('OPML Utility')."</h1>";
 
 		if (function_exists('domxml_open_file')) {
-			print "<p>Importing OPML (using DOMXML extension)...</p>";
+			print __("<p>Importing OPML (using DOMXML extension)...</p>");
 			require_once "modules/opml_domxml.php";
 			opml_import_domxml($link, $owner_uid);
 		} else {
-			print "<p>Importing OPML (using DOMDocument extension)...</p>";
+			print __("<p>Importing OPML (using DOMDocument extension)...</p>");
 			require_once "modules/opml_domdoc.php";
 			opml_import_domdoc($link, $owner_uid);
 		}
 
 		print "<br><form method=\"GET\" action=\"prefs.php\">
-			<input type=\"submit\" value=\"Return to preferences\">
+			<input type=\"submit\" value=\"".__("Return to preferences")."\">
 			</form>";
 
 		print "</body></html>";

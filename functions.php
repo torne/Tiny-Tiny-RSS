@@ -6,6 +6,11 @@
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	} */
 
+	require_once "accept-to-gettext.php";
+	require_once "gettext/gettext.inc";
+
+	startup_gettext();
+
 	require_once 'config.php';
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
@@ -17,9 +22,6 @@
 
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
-
-	require_once "accept-to-gettext.php";
-	require_once "gettext/gettext.inc";
 
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
@@ -2752,28 +2754,24 @@
 					<ul class=\"headlineDropdownMenu\">
 					<li class=\"top2\">
 					Select:
-						<a href=\"$sel_all_link\">All</a>,
-						<a href=\"$sel_unread_link\">Unread</a>,
-						<a href=\"$sel_none_link\">None</a></li>
+						<a href=\"$sel_all_link\">".__('All')."</a>,
+						<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+						<a href=\"$sel_none_link\">".__('None')."</a></li>
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\">Selection<ul>
-						<li onclick=\"$tog_unread_link\">Toggle unread</li>
-						<li onclick=\"$tog_marked_link\">Toggle starred</li></ul></li>
+						<li onclick=\"$tog_unread_link\">".__('Toggle unread')."</li>
+						<li onclick=\"$tog_marked_link\">".__('Toggle starred')."</li></ul></li>
 					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\"><a href=\"$catchup_page_link\">Mark as read</a><ul>
-						<li onclick=\"$catchup_page_link\">This page</li>
-						<li onclick=\"$catchup_feed_link\">Entire feed</li></ul></li>
-					<li class=\"vsep\">&nbsp;</li>
-					<!-- <li class=\"top2\">
-					Page:
-						<a href=\"$page_prev_link\">Previous</a>,
-						<a href=\"$page_next_link\">Next</a></li> -->";
+					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
+						<li onclick=\"$catchup_page_link\">".__('This page')."</li>
+						<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
+					<li class=\"vsep\">&nbsp;</li>";
 
 					if ($limit != 0) {
 						print "
-						<li class=\"top\"><a href=\"$page_next_link\">Next page</a><ul>
-							<li onclick=\"$page_prev_link\">Previous page</li>
-							<li onclick=\"$page_first_link\">First page</li></ul></li>
+						<li class=\"top\"><a href=\"$page_next_link\">".__('Next page')."</a><ul>
+							<li onclick=\"$page_prev_link\">".__('Previous page')."</li>
+							<li onclick=\"$page_first_link\">".__('First page')."</li></ul></li>
 							</ul>";
 					}
 
@@ -2785,16 +2783,16 @@
 
 				print "<td class=\"headlineActions$rtl_cpart\">".
 					__('Select:')."
-								<a href=\"$sel_all_link\">All</a>,
-								<a href=\"$sel_unread_link\">Unread</a>,
-								<a href=\"$sel_none_link\">None</a>
+								<a href=\"$sel_all_link\">".__('All')."</a>,
+								<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+								<a href=\"$sel_none_link\">".__('None')."</a>
 						&nbsp;&nbsp;".
-						__('Toggle:')." <a href=\"$tog_unread_link\">Unread</a>,
-							<a href=\"$tog_marked_link\">Starred</a>
+						__('Toggle:')." <a href=\"$tog_unread_link\">".__('Unread')."</a>,
+							<a href=\"$tog_marked_link\">".__('Starred')."</a>
 						&nbsp;&nbsp;".
 						__('Mark as read:')."
-							<a href=\"#\" onclick=\"$catchup_page_link\">Page</a>,
-							<a href=\"#\" onclick=\"$catchup_feed_link\">Feed</a>";
+							<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
+							<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
 				print "</td>";  
 
 			}
@@ -2830,7 +2828,7 @@
 					<a target=\"_new\" 
 						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
 						<img class=\"noborder\" 
-							alt=\"Generated feed\" src=\"images/feed-icon-12x12.png\">
+							alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
 					</a>";
 			}
 				

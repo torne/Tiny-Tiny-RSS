@@ -1,7 +1,7 @@
 #!/bin/sh
 TEMPLATE=messages.pot
 
-xgettext -kT_ngettext:1,2 -kT_ -k_ -k__ -L PHP -o $TEMPLATE *.php modules/*.php
+xgettext -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php modules/*.php
 
 if [ "$1" = "-p" ]; then
 	msgfmt --statistics $TEMPLATE

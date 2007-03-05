@@ -41,7 +41,7 @@
 
 						if (db_num_rows($result) == 0) {
 
-							print "Adding category <b>$cat_title</b>...<br>";
+							printf(__("Adding category <b>%s</b>...<br>"), $cat_title);
 
 							db_query($link, "INSERT INTO ttrss_feed_categories
 									(title,owner_uid) 
@@ -86,7 +86,7 @@
 						(<a target='_new' href=\"$feed_url\">rss</a>)</td>";
 
 					if (db_num_rows($result) > 0) {
-						print "<td>Already imported.</td>";
+						print "<td>".__('Already imported.')."</td>";
 					} else {
 
 						if ($cat_id) {
@@ -104,7 +104,7 @@
 
 						db_query($link, $add_query);
 
-						print "<td><b>Done.</b></td>";
+						print "<td><b>".__('Done.')."</b></td>";
 					}
 
 					print "</tr>";
@@ -115,11 +115,11 @@
 				print "</table>";
 
 			} else {
-				print "<div class=\"error\">Error while parsing document.</div>";
+				print "<div class=\"error\">".__('Error while parsing document.')."</div>";
 			}
 
 		} else {
-			print "<div class=\"error\">Error: please upload OPML file.</div>";
+			print "<div class=\"error\">".__('Error: please upload OPML file.')."</div>";
 		}
 
 

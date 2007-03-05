@@ -22,6 +22,7 @@
 	require_once "functions.php";
 
 	no_cache_incantation();
+	startup_gettext();
 
 	$script_started = getmicrotime();
 
