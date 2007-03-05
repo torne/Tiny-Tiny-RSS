@@ -75,7 +75,7 @@
 				if ($password) {
 					$pwd_hash = 'SHA1:' . sha1($password);
 					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
-					print format_notice(sprintf(__('Changed password for user <b>%s</b>.'), $login));
+					print format_notice(sprintf(__('Changed password of user <b>%s</b>.'), $login));
 				} else {
 					$pass_query_part = "";
 				}
@@ -120,20 +120,21 @@
 	
 						$new_uid = db_fetch_result($result, 0, "id");
 	
-						print "<div class=\"notice\">Added user <b>".$_GET["login"].
-							"</b> with password <b>$tmp_user_pwd</b>.</div>";
+						print format_notice(sprintf(__("Added user <b>%s</b>
+						  with password <b>%s</b>"), $login, $tmp_user_pwd));
 	
 						initialize_user($link, $new_uid);
 	
 					} else {
 					
-						print "<div class=\"warning\">Could not create user <b>".
-							$_GET["login"]."</b></div>";
+						print format_warning(sprintf(__("Could not create user <b>%s</b>"), 
+							$login));
 	
 					}
 				} else {
-					print "<div class=\"warning\">User <b>".
-						$_GET["login"]."</b> already exists.</div>";
+					print format_warning(sprintf(__("User <b>%s</b> already exists."), 
+						$login));
+
 				}
 			} 
 		} else if ($subop == "resetPass") {
@@ -153,8 +154,8 @@
 				db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
 					WHERE id = '$uid'");
 
-				print "<div class=\"notice\">Changed password of 
-					user <b>$login</b> to <b>$tmp_user_pwd</b>.";
+				print format_notice(sprintf(__("Changed password of user <b>%s</b>
+					 to <b>%s</b>"), $login, $tmp_user_pwd));
 
 				if (MAIL_RESET_PASS && $email) {
 					print " Notifying <b>$email</b>.";
@@ -190,7 +191,7 @@
 			
 		print "<input type=\"submit\" class=\"button\" 
 			id=\"user_add_btn\" disabled=\"true\"
-			onclick=\"javascript:addUser()\" value=\"Create user\"></div>";
+			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,login,access_level,email,
