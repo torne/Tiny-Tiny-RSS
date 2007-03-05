@@ -311,26 +311,15 @@
 
 		print "<p id='userOpToolbar'>";
 
-/*		if ($subop == "edit") {
-			print "Edit user:
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:userEditSave()\" value=\"Save\">
-				<input type=\"submit\" class=\"button\" 
-					onclick=\"javascript:userEditCancel()\" value=\"Cancel\">";
-					
-		} else { */
+		print "				
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:selectedUserDetails()\" value=\"".__('User details')."\">
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:editSelectedUser()\" value=\"".__('Edit')."\">
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:removeSelectedUsers()\" value=\"".__('Remove')."\">
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:resetSelectedUserPass()\" value=\"".__('Reset password')."\">";
 
-			print "
-				Selection:
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:selectedUserDetails()\" value=\"User details\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:editSelectedUser()\" value=\"Edit\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:removeSelectedUsers()\" value=\"Remove\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:resetSelectedUserPass()\" value=\"Reset password\">";
-
-//		}
 	}
 ?>

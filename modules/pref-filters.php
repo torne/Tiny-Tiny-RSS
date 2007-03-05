@@ -19,7 +19,7 @@
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 			$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
 
-			print "<div id=\"infoBoxTitle\">Filter editor</div>";
+			print "<div id=\"infoBoxTitle\">".__('Filter editor')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"filter_edit_form\" onsubmit='return false'>";
@@ -48,18 +48,18 @@
 					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
 			
-			print "</td></tr><tr><td>On field:</td><td>";
+			print "</td></tr><tr><td>".__('On field:')."</td><td>";
 			
 			print_select_hash("filter_type", $filter_type, $filter_types, "class=\"_iedit\"");	
 	
 			print "</td></tr>";
-			print "<tr><td>Feed:</td><td colspan='2'>";
+			print "<tr><td>".__('Feed:')."</td><td colspan='2'>";
 
 			print_feed_select($link, "feed_id", $feed_id);
 			
 			print "</td></tr>";
 	
-			print "<tr><td>Action:</td>";
+			print "<tr><td>".__('Action:')."</td>";
 	
 			print "<td colspan='2'><select name=\"action_id\"
 				onchange=\"filterDlgCheckAction(this)\">";
@@ -76,7 +76,7 @@
 
 			print "</td></tr>";
 
-			print "<tr><td>Params:</td>";
+			print "<tr><td>".__('Params:')."</td>";
 
 			$param_disabled = ($action_id == 4) ? "" : "disabled";
 
@@ -91,7 +91,7 @@
 
 			print "<tr><td valign='top'>Options:</td><td>
 					<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
-					<label for=\"enabled\">Enabled</label><br/>";
+					<label for=\"enabled\">".__('Enabled')."</label><br/>";
 
 			if ($inverse) {
 				$checked = "checked";
@@ -100,7 +100,7 @@
 			}
 
 			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
-				<label for=\"inverse\">Inverse match</label>";
+				<label for=\"inverse\">".__('Inverse match')."</label>";
 
 			print "</td></tr></table>";
 
@@ -111,11 +111,11 @@
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
 				class=\"button\" onclick=\"return filterEditSave()\" 
-				value=\"Save\"> ";
+				value=\"".__('Save')."\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return filterEditCancel()\" 
-				value=\"Cancel\">";
+				value=\"".__('Cancel')."\">";
 
 			print "</div>";
 
@@ -220,7 +220,7 @@
 			class=\"button\" 
 			onclick=\"return displayDlg('quickAddFilter', false)\" 
 			id=\"create_filter_btn\"
-			value=\"Create filter\">"; 
+			value=\"".__('Create filter')."\">"; 
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -253,10 +253,10 @@
 
 			print "<tr class=\"title\">
 						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">Filter expression</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('feed_title')\">Feed</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('filter_type')\">Match</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">Action</a></td>";
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Filter expression')."</a></td>
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td>";
 
 			$lnum = 0;
 			
@@ -281,7 +281,7 @@
 	
 				$line["reg_exp"] = htmlspecialchars(db_unescape_string($line["reg_exp"]));
 	
-				if (!$line["feed_title"]) $line["feed_title"] = "All feeds";
+				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
 
 				$line["feed_title"] = htmlspecialchars(db_unescape_string($line["feed_title"]));
 
@@ -290,7 +290,7 @@
 
 				if (!$enabled) {
 					$line["reg_exp"] = "<span class=\"insensitive\">" . 
-						$line["reg_exp"] . " (Disabled)</span>";
+						$line["reg_exp"] . " " .  __("(Disabled)")."</span>";
 					$line["feed_title"] = "<span class=\"insensitive\">" . 
 						$line["feed_title"] . "</span>";
 					$line["filter_type_descr"] = "<span class=\"insensitive\">" . 
@@ -308,7 +308,7 @@
 				$inverse_label = "";
 
 				if ($inverse) {
-					$inverse_label = " <span class='insensitive'>(Inverse)</span>";
+					$inverse_label = " <span class='insensitive'>".__('(Inverse)')."</span>";
 				}
 	
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
@@ -323,19 +323,17 @@
 			}
 	
 			if ($lnum == 0) {
-				print "<tr><td colspan=\"4\" align=\"center\">No filters defined.</td></tr>";
+				print "<tr><td colspan=\"4\" align=\"center\">".__('No filters defined.')."</td></tr>";
 			}
 	
 			print "</table>";
 
 			print "<p id=\"filterOpToolbar\">";
 
-			print "
-					Selection:
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+					onclick=\"return editSelectedFilter()\" value=\"".__('Edit')."\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return editSelectedFilter()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return removeSelectedFilters()\" value=\"Remove\">";
+					onclick=\"return removeSelectedFilters()\" value=\"".__('Remove')."\">";
 
 			print "</p>";
 
@@ -346,7 +344,7 @@
 
 		} else {
 
-			print "<p>No filters defined.</p>";
+			print "<p>".__('No filters defined.')."</p>";
 
 		}
 	}

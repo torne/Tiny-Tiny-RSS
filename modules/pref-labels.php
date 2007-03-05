@@ -198,7 +198,7 @@
 		print"<input type=\"submit\" class=\"button\" 
 			id=\"label_create_btn\"
 			onclick=\"return displayDlg('quickAddLabel', false)\" 
-			value=\"Create label\"></div>";
+			value=\"".__('Create label')."\"></div>";
 
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
@@ -223,8 +223,8 @@
 
 			print "<tr class=\"title\">
 						<td width=\"5%\">&nbsp;</td>
-						<td width=\"30%\"><a href=\"javascript:updateLabelList('description')\">Caption</a></td>
-						<td width=\"50%\"><a href=\"javascript:updateLabelList('sql_exp')\">SQL Expression</a>
+						<td width=\"30%\"><a href=\"javascript:updateLabelList('description')\">".__('Caption')."</a></td>
+						<td width=\"50%\"><a href=\"javascript:updateLabelList('sql_exp')\">".__('SQL Expression')."</a>
 						</td>
 						</tr>";
 			
@@ -267,22 +267,20 @@
 			}
 	
 			if ($lnum == 0) {
-				print "<tr><td colspan=\"4\" align=\"center\">No labels defined.</td></tr>";
+				print "<tr><td colspan=\"4\" align=\"center\">".__('No labels defined.')."</td></tr>";
 			}
 	
 			print "</table>";
 	
 			print "<p id=\"labelOpToolbar\">";
 	
-			print "
-					Selection:
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+					onclick=\"javascript:editSelectedLabel()\" value=\"".__('Edit')."\">
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:editSelectedLabel()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:removeSelectedLabels()\" value=\"Remove\">";
+				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
 
 		} else {
-			print "<p>No labels defined.</p>";
+			print "<p>".__('No labels defined.')."</p>";
 		}
 	}
 ?>

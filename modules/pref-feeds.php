@@ -747,7 +747,7 @@
 			<input id=\"feed_search\" size=\"20\"  
 				onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
 			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateFeedList()\" value=\"Search\">
+				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
 			</div>";
 
 		print "<div class=\"prefGenericAddBox\">
@@ -761,7 +761,7 @@
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
-				onclick=\"javascript:browseFeeds()\" value=\"Top 25\">";
+				onclick=\"javascript:browseFeeds()\" value=\"".__('Top 25')."\">";
 		}
 
 		print "</div>";
@@ -953,42 +953,31 @@
 
 			print "<p><span id=\"feedOpToolbar\">";
 	
-			if ($subop == "edit") {
-				print "Edit feed:&nbsp;
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:feedEditCancel()\" value=\"Cancel\">
-					<input type=\"submit\" class=\"button\" 
-						onclick=\"javascript:feedEditSave()\" value=\"Save\">";
-			} else {
-	
-				print "
-					Selection:&nbsp;
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:editSelectedFeed()\" value=\"Edit\">
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:removeSelectedFeeds()\" value=\"Unsubscribe\">";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:editSelectedFeed()\" value=\"".__('Edit')."\">
+			<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"javascript:removeSelectedFeeds()\" 
+				value=\"".__('Unsubscribe')."\">";
 
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-					print "&nbsp;|&nbsp;";				
+				print "&nbsp;|&nbsp;";				
 
-					print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
+				print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
 
-					print " <input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"Recategorize\">";
-
-				}
+				print " <input type=\"submit\" class=\"button\" disabled=\"true\"
+					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"".
+					__('Recategorize')."\">";
+			}
 				
-				print "</span>";
+			print "</span>";
 
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-					print " <input type=\"submit\" class=\"button\"
-						onclick=\"javascript:editFeedCats()\" value=\"Edit categories\">";
+				print " <input type=\"submit\" class=\"button\"
+					onclick=\"javascript:editFeedCats()\" value=\"".__('Edit categories')."\">";
 
-#					print "&nbsp;|&nbsp;";				
-
-				}
+#				print "&nbsp;|&nbsp;";				
 
 				}
 		} else {
@@ -997,20 +986,20 @@
 
 		}
 
-		print "<h3>OPML</h3>
+		print "<h3>".__('OPML')."</h3>
 
 		<div style='float : left'>
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
 			File: <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input class=\"button\" name=\"op\" onclick=\"return validateOpmlImport();\"
-				type=\"submit\" value=\"Import\">
+				type=\"submit\" value=\"".__('Import')."\">
 				</form></div>";
 
 		print "&nbsp; or &nbsp;";				
 
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"gotoExportOpml()\" 
-				value=\"Export OPML\">";			
+				value=\"".__('Export OPML')."\">";			
 
 	}
 ?>
