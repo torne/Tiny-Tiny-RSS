@@ -3,12 +3,10 @@ TEMPLATE=messages.pot
 
 xgettext -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php modules/*.php
 
-if [ "$1" = "-p" ]; then
-	msgfmt --statistics $TEMPLATE
-else
+update_lang() {
 	if [ -f $1.po ]; then
 		TMPFILE=/tmp/update-translations.$$
-
+	
 		msgmerge -o $TMPFILE $1.po $TEMPLATE
 		mv $TMPFILE $1.po
 		msgfmt --statistics $1.po
@@ -16,4 +14,12 @@ else
 	else
 		echo "Usage: $0 [-p|<basename>]"
 	fi
-fi
+}
+
+LANGS=`find locale -name 'messages.po'`
+
+for lang in $LANGS; do
+	echo Updating $lang...
+	PO_BASENAME=`echo $lang | sed s/.po//`
+	update_lang $PO_BASENAME
+done
