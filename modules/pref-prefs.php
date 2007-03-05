@@ -17,17 +17,17 @@
 			$con_pw = $_POST["CONFIRM_PASSWORD"];
 
 			if ($old_pw == "") {
-				print "ERROR: Old password cannot be blank.";
+				print "ERROR: ".__("Old password cannot be blank.");
 				return;
 			}
 
 			if ($new_pw == "") {
-				print "ERROR: New password cannot be blank.";
+				print "ERROR: ".__("New password cannot be blank.");
 				return;
 			}
 
 			if ($new_pw != $con_pw) {
-				print "ERROR: Entered passwords do not match.";
+				print "ERROR: ".__("Entered passwords do not match.");
 				return;
 			}
 
@@ -48,9 +48,9 @@
 					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
 						WHERE id = '$active_uid'");				
 
-					print "Password has been changed.";
+					print __("Password has been changed.");
 				} else {
-					print "ERROR: Old password is incorrect.";
+					print "ERROR: ".__('Old password is incorrect.');
 				}
 			}
 
@@ -180,8 +180,8 @@
 						pwd_hash = 'SHA1:".sha1("password")."')");
 
 				if (db_num_rows($result) != 0) {
-					print format_warning("Your password is at default value, 
-						please change it.", "default_pass_warning");
+					print format_warning(__("Your password is at default value, 
+						please change it."), "default_pass_warning");
 				}
 
 /*				if ($_SESSION["pwd_change_result"] == "failed") {
@@ -195,11 +195,11 @@
 				$_SESSION["pwd_change_result"] = ""; */
 
 				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
-					print format_notice("The configuration was reset to defaults.");
+					print format_notice(__("The configuration was reset to defaults."));
 				}
 
 				if ($_SESSION["prefs_op_result"] == "save-config") {
-					print format_notice("The configuration was saved.");
+					print format_notice(__("The configuration was saved."));
 				}
 
 				$_SESSION["prefs_op_result"] = "";
@@ -207,7 +207,7 @@
 				print "<form onsubmit='return false' id='change_email_form'>";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>Personal data</h3></tr></td>";
+	 			print "<tr><td colspan='3'><h3>".__("Personal data")."</h3></tr></td>";
 
 				$result = db_query($link, "SELECT email FROM ttrss_users
 					WHERE id = ".$_SESSION["uid"]);
@@ -227,26 +227,26 @@
 				print "</form>";
 
 				print "<p><input class=\"button\" type=\"submit\"
-					onclick=\"return changeUserEmail()\" value=\"Change e-mail\">";
+					onclick=\"return changeUserEmail()\" value=\"".__("Change e-mail")."\">";
 
 				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>Authentication</h3></tr></td>";
+	 			print "<tr><td colspan='3'><h3>".__("Authentication")."</h3></tr></td>";
 	
-				print "<tr><td width=\"40%\">Old password</td>";
+				print "<tr><td width=\"40%\">".__("Old password")."</td>";
 				print "<td><input class=\"editbox\" type=\"password\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"OLD_PASSWORD\"></td></tr>";
 	
-				print "<tr><td width=\"40%\">New password</td>";
+				print "<tr><td width=\"40%\">".__("New password")."</td>";
 				
 				print "<td><input class=\"editbox\" type=\"password\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"NEW_PASSWORD\"></td></tr>";
 
-				print "<tr><td width=\"40%\">Confirm password</td>";
+				print "<tr><td width=\"40%\">".__("Confirm password")."</td>";
 
 				print "<td><input class=\"editbox\" type=\"password\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
@@ -261,7 +261,7 @@
 
 				print "<p><input class=\"button\" type=\"submit\" 
 					onclick=\"return changeUserPassword()\"
-					value=\"Change password\">";
+					value=\"".__("Change password")."\">";
 
 			}
 
@@ -277,8 +277,8 @@
 
 				print "<form action=\"backend.php\" method=\"POST\">";
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>Themes</h3></tr></td>";
-				print "<tr><td width=\"40%\">Select theme</td>";
+	 			print "<tr><td colspan='3'><h3>".__("Themes")."</h3></tr></td>";
+				print "<tr><td width=\"40%\">".__("Select theme")."</td>";
 				print "<td><select name=\"theme\">";
 				print "<option>Default</option>";
 				print "<option disabled>--------</option>";				
