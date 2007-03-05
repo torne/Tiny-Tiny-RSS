@@ -148,49 +148,45 @@
 					enabled = $enabled,
 					inverse = $inverse,
 					action_param = '$action_param'
-				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
+					WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
+			
 		}
 
 		if ($subop == "remove") {
 
-			if (!WEB_DEMO_MODE) {
+			$ids = split(",", db_escape_string($_GET["ids"]));
 
-				$ids = split(",", db_escape_string($_GET["ids"]));
-
-				foreach ($ids as $id) {
-					db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
-					
-				}
+			foreach ($ids as $id) {
+				db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
 			}
 		}
 
 		if ($subop == "add") {
 		
-			if (!WEB_DEMO_MODE) {
+			$regexp = db_escape_string(trim($_GET["reg_exp"]));
+			$filter_type = db_escape_string(trim($_GET["filter_type"]));
+			$feed_id = db_escape_string($_GET["feed_id"]);
+			$action_id = db_escape_string($_GET["action_id"]); 
+			$action_param = db_escape_string($_GET["action_param"]); 
 
-				$regexp = db_escape_string(trim($_GET["reg_exp"]));
-				$filter_type = db_escape_string(trim($_GET["filter_type"]));
-				$feed_id = db_escape_string($_GET["feed_id"]);
-				$action_id = db_escape_string($_GET["action_id"]); 
-				$action_param = db_escape_string($_GET["action_param"]); 
+			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
 
-				$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
+			if (!$regexp) return;
 
-				if (!$regexp) return;
+			if (!$feed_id) {
+				$feed_id = 'NULL';
+			} else {
+				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+			}
 
-				if (!$feed_id) {
-					$feed_id = 'NULL';
-				} else {
-					$feed_id = sprintf("'%s'", db_escape_string($feed_id));
-				}
+			$result = db_query($link,
+				"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
+					action_id, action_param, inverse) 
+				VALUES 
+					('$regexp', '$filter_type','".$_SESSION["uid"]."', 
+						$feed_id, '$action_id', '$action_param', $inverse)");
 
-				$result = db_query($link,
-					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-						action_id, action_param, inverse) 
-					VALUES 
-						('$regexp', '$filter_type','".$_SESSION["uid"]."', 
-							$feed_id, '$action_id', '$action_param', $inverse)");
-			} 
+			print_notice(T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp)));
 		}
 
 		if ($quiet) return;

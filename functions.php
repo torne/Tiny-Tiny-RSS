@@ -3188,6 +3188,14 @@
 			<img src=\"images/sign_info.png\">$msg</div>";
 	}
 
+	function print_notice($msg) {
+		return print format_notice($msg);
+	}
+
+	function print_warning($msg) {
+		return print format_warning($msg);
+	}
+
 	function startup_gettext() {
 
 		# Get locale from Accept-Language header
@@ -3199,6 +3207,11 @@
 			_textdomain("messages");
 			_bind_textdomain_codeset("messages", "UTF-8");
 		}
+	}
+
+	function T_sprintf() {
+		$args = func_get_args();
+		return vsprintf(__(array_shift($args)), $args);
 	}
 
 ?>

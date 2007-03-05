@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-05 17:02+0300\n"
+"POT-Creation-Date: 2007-03-05 18:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,8 +114,16 @@ msgstr ""
 msgid "This program requires XmlHttpRequest "
 msgstr ""
 
+#: errors.php:6
+msgid "to function properly. Your browser doesn't seem to support it."
+msgstr ""
+
 #: errors.php:8
 msgid "This program requires cookies "
+msgstr ""
+
+#: errors.php:9
+msgid "to function properly. Your browser doesn't seem to support them."
 msgstr ""
 
 #: errors.php:11
@@ -276,7 +284,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: functions.php:2798 modules/pref-filters.php:257
+#: functions.php:2798 modules/pref-filters.php:259
 msgid "Feed"
 msgstr ""
 
@@ -296,16 +304,24 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
+#: login_form.php:49 modules/pref-feeds.php:264 modules/pref-users.php:29
+msgid "Login:"
+msgstr "Пользователь:"
+
+#: login_form.php:51 modules/pref-feeds.php:270
+msgid "Password:"
+msgstr "Пароль"
+
 #: opml.php:103 opml.php:107
 msgid "OPML Utility"
 msgstr ""
 
 #: opml.php:110
-msgid "<p>Importing OPML (using DOMXML extension)...</p>"
+msgid "Importing OPML (using DOMXML extension)..."
 msgstr ""
 
 #: opml.php:114
-msgid "<p>Importing OPML (using DOMDocument extension)...</p>"
+msgid "Importing OPML (using DOMDocument extension)..."
 msgstr ""
 
 #: opml.php:120
@@ -407,6 +423,10 @@ msgstr ""
 msgid "config: SESSION_EXPIRE_TIME should be greater or equal to"
 msgstr ""
 
+#: sanity_check.php:53
+msgid "SESSION_COOKIE_LIFETIME"
+msgstr ""
+
 #: sanity_check.php:61
 msgid "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE"
 msgstr ""
@@ -424,7 +444,7 @@ msgid "Actions..."
 msgstr "Действия..."
 
 #: tt-rss.php:129 modules/popup-dialog.php:80 modules/popup-dialog.php:149
-#: modules/pref-feeds.php:750
+#: modules/pref-feeds.php:751
 msgid "Search"
 msgstr "Поиск"
 
@@ -505,7 +525,7 @@ msgstr "Превед,"
 msgid "Help topic not found."
 msgstr "Раздел помощи не найден."
 
-#: modules/help.php:30 modules/popup-dialog.php:35 modules/pref-feeds.php:699
+#: modules/help.php:30 modules/popup-dialog.php:35 modules/pref-feeds.php:700
 msgid "Close this window"
 msgstr "Закрыть окно"
 
@@ -572,7 +592,7 @@ msgstr ""
 #: modules/popup-dialog.php:75 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:202 modules/popup-dialog.php:287
 #: modules/popup-dialog.php:377 modules/pref-feeds.php:120
-#: modules/pref-feeds.php:331 modules/pref-feeds.php:707
+#: modules/pref-feeds.php:331 modules/pref-feeds.php:708
 #: modules/pref-filters.php:118 modules/pref-users.php:58
 msgid "Cancel"
 msgstr "Отмена"
@@ -581,7 +601,7 @@ msgstr "Отмена"
 msgid "Where:"
 msgstr "Где:"
 
-#: modules/popup-dialog.php:104 modules/pref-filters.php:284
+#: modules/popup-dialog.php:104 modules/pref-filters.php:286
 msgid "All feeds"
 msgstr ""
 
@@ -629,7 +649,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: modules/popup-dialog.php:209 modules/pref-filters.php:223
+#: modules/popup-dialog.php:209 modules/pref-filters.php:225
 msgid "Create filter"
 msgstr ""
 
@@ -688,7 +708,7 @@ msgid "Add existing tag:"
 msgstr ""
 
 #: modules/popup-dialog.php:373 modules/pref-feeds.php:329
-#: modules/pref-feeds.php:705 modules/pref-filters.php:114
+#: modules/pref-feeds.php:706 modules/pref-filters.php:114
 #: modules/pref-users.php:55
 msgid "Save"
 msgstr "Сохранить"
@@ -741,14 +761,6 @@ msgstr "Нет связей"
 msgid "Article purging:"
 msgstr "Удаление сообщений:"
 
-#: modules/pref-feeds.php:264 modules/pref-users.php:29
-msgid "Login:"
-msgstr "Пользователь:"
-
-#: modules/pref-feeds.php:270
-msgid "Password:"
-msgstr "Пароль"
-
 #: modules/pref-feeds.php:285
 msgid "Hide from \"Other Feeds\""
 msgstr ""
@@ -780,59 +792,59 @@ msgstr ""
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr ""
 
-#: modules/pref-feeds.php:577
+#: modules/pref-feeds.php:578
 msgid "Unable to delete non empty feed categories."
 msgstr ""
 
-#: modules/pref-feeds.php:594
+#: modules/pref-feeds.php:595
 msgid "Create category"
 msgstr "Создать категорию"
 
-#: modules/pref-feeds.php:694
+#: modules/pref-feeds.php:695
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:712 modules/pref-feeds.php:957
-#: modules/pref-filters.php:334 modules/pref-labels.php:278
-#: modules/pref-users.php:318
+#: modules/pref-feeds.php:713 modules/pref-feeds.php:958
+#: modules/pref-filters.php:336 modules/pref-labels.php:278
+#: modules/pref-users.php:315
 msgid "Edit"
 msgstr "Редактировать"
 
-#: modules/pref-feeds.php:714 modules/pref-filters.php:336
-#: modules/pref-labels.php:280 modules/pref-users.php:320
+#: modules/pref-feeds.php:715 modules/pref-filters.php:338
+#: modules/pref-labels.php:280 modules/pref-users.php:317
 msgid "Remove"
 msgstr "Удалить"
 
-#: modules/pref-feeds.php:735
+#: modules/pref-feeds.php:736
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 
-#: modules/pref-feeds.php:764
+#: modules/pref-feeds.php:765
 msgid "Top 25"
 msgstr ""
 
-#: modules/pref-feeds.php:960
+#: modules/pref-feeds.php:961
 msgid "Unsubscribe"
 msgstr ""
 
-#: modules/pref-feeds.php:970
+#: modules/pref-feeds.php:971
 msgid "Recategorize"
 msgstr ""
 
-#: modules/pref-feeds.php:978
+#: modules/pref-feeds.php:979
 #, fuzzy
 msgid "Edit categories"
 msgstr "Создать категорию"
 
-#: modules/pref-feeds.php:989
+#: modules/pref-feeds.php:990
 msgid "OPML"
 msgstr ""
 
-#: modules/pref-feeds.php:995
+#: modules/pref-feeds.php:996
 msgid "Import"
 msgstr ""
 
-#: modules/pref-feeds.php:1002
+#: modules/pref-feeds.php:1003
 msgid "Export OPML"
 msgstr ""
 
@@ -845,29 +857,34 @@ msgstr "Редактор пользователей"
 msgid "Enabled"
 msgstr ""
 
-#: modules/pref-filters.php:256
-msgid "Filter expression"
+#: modules/pref-filters.php:194
+#, php-format
+msgid "Created filter <b>%s</b>"
 msgstr ""
 
 #: modules/pref-filters.php:258
+msgid "Filter expression"
+msgstr ""
+
+#: modules/pref-filters.php:260
 #, fuzzy
 msgid "Match"
 msgstr "Поиск:"
 
-#: modules/pref-filters.php:259
+#: modules/pref-filters.php:261
 #, fuzzy
 msgid "Action"
 msgstr "Действия..."
 
-#: modules/pref-filters.php:293
+#: modules/pref-filters.php:295
 msgid "(Disabled)"
 msgstr ""
 
-#: modules/pref-filters.php:311
+#: modules/pref-filters.php:313
 msgid "(Inverse)"
 msgstr ""
 
-#: modules/pref-filters.php:326 modules/pref-filters.php:347
+#: modules/pref-filters.php:328 modules/pref-filters.php:349
 #, fuzzy
 msgid "No filters defined."
 msgstr "Категории отсутствуют."
@@ -904,9 +921,7 @@ msgstr ""
 
 #: modules/pref-users.php:123
 #, php-format
-msgid ""
-"Added user <b>%s</b>\n"
-"\t\t\t\t\t\t  with password <b>%s</b>"
+msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr ""
 
 #: modules/pref-users.php:130
@@ -914,28 +929,28 @@ msgstr ""
 msgid "Could not create user <b>%s</b>"
 msgstr ""
 
-#: modules/pref-users.php:135
+#: modules/pref-users.php:134
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr ""
 
-#: modules/pref-users.php:157
+#: modules/pref-users.php:154
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
 "\t\t\t\t\t to <b>%s</b>"
 msgstr ""
 
-#: modules/pref-users.php:194
+#: modules/pref-users.php:191
 msgid "Create user"
 msgstr "Добавить пользователя"
 
-#: modules/pref-users.php:316
+#: modules/pref-users.php:313
 #, fuzzy
 msgid "User details"
 msgstr "Редактор пользователей"
 
-#: modules/pref-users.php:322
+#: modules/pref-users.php:319
 #, fuzzy
 msgid "Reset password"
 msgstr "Пароль"

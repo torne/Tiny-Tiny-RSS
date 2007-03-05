@@ -68,14 +68,14 @@
 
 				$login = db_escape_string(trim($_GET["login"]));
 				$uid = db_escape_string($_GET["id"]);
-				$access_level = sprintf("%d", $_GET["access_level"]);
+				$access_level = (int) $_GET["access_level"];
 				$email = db_escape_string(trim($_GET["email"]));
 				$password = db_escape_string(trim($_GET["password"]));
 
 				if ($password) {
 					$pwd_hash = 'SHA1:' . sha1($password);
 					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
-					print format_notice(sprintf(__('Changed password of user <b>%s</b>.'), $login));
+					print_notice(T_sprintf('Changed password of user <b>%s</b>.', $login));
 				} else {
 					$pass_query_part = "";
 				}
@@ -120,21 +120,18 @@
 	
 						$new_uid = db_fetch_result($result, 0, "id");
 	
-						print format_notice(sprintf(__("Added user <b>%s</b>
-						  with password <b>%s</b>"), $login, $tmp_user_pwd));
+						print_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>", 
+							$login, $tmp_user_pwd));
 	
 						initialize_user($link, $new_uid);
 	
 					} else {
 					
-						print format_warning(sprintf(__("Could not create user <b>%s</b>"), 
-							$login));
+						print_warning(T_sprintf("Could not create user <b>%s</b>", $login));
 	
 					}
 				} else {
-					print format_warning(sprintf(__("User <b>%s</b> already exists."), 
-						$login));
-
+					print_warning(T_sprintf("User <b>%s</b> already exists.", $login));
 				}
 			} 
 		} else if ($subop == "resetPass") {
@@ -154,8 +151,8 @@
 				db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
 					WHERE id = '$uid'");
 
-				print format_notice(sprintf(__("Changed password of user <b>%s</b>
-					 to <b>%s</b>"), $login, $tmp_user_pwd));
+				print_notice(T_sprintf("Changed password of user <b>%s</b>
+					 to <b>%s</b>", $login, $tmp_user_pwd));
 
 				if (MAIL_RESET_PASS && $email) {
 					print " Notifying <b>$email</b>.";
