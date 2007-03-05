@@ -5,11 +5,11 @@
 
 		if ($id == "explainError") {
 
-			print "<div id=\"infoBoxTitle\">Notice</div>";
+			print "<div id=\"infoBoxTitle\">".__('Notice')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			if ($param == 1) {
-				print _("Update daemon is enabled in configuration, but daemon
+				print __("Update daemon is enabled in configuration, but daemon
 					process is not running, which prevents all feeds from updating. Please
 					start the daemon process or contact instance owner.");
 			}
@@ -18,7 +18,7 @@
 				$msg = check_for_update($link, false);
 
 				if (!$msg) {
-					print _("You are running the latest version of Tiny Tiny RSS. The
+					print __("You are running the latest version of Tiny Tiny RSS. The
 						fact that you are seeing this dialog is probably a bug.");
 				} else {
 					print $msg;
@@ -32,7 +32,7 @@
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"Close this window\">";
+				value=\"".__('Close this window')."\">";
 
 			print "</div>";
 
@@ -40,7 +40,7 @@
 
 		if ($id == "quickAddFeed") {
 
-			print "<div id=\"infoBoxTitle\">Subscribe to feed</div>";
+			print "<div id=\"infoBoxTitle\">".__('Subscribe to feed')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id='feed_add_form' onsubmit='return false'>";
@@ -58,7 +58,7 @@
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
 		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<tr><td>Category:</td><td>";
+				print "<tr><td>".__('Category:')."</td><td>";
 				print_feed_cat_select($link, "cat_id");			
 				print "</td></tr>";
 			}
@@ -69,15 +69,15 @@
 			print "<div align='right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
-					type=\"submit\" onclick=\"return qafAdd()\" value=\"Subscribe\">
+					type=\"submit\" onclick=\"return qafAdd()\" value=\"".__('Subscribe')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
-					value=\"Cancel\"></div>";
+					value=\"".__('Cancel')."\"></div>";
 		}
 
 		if ($id == "search") {
 
-			print "<div id=\"infoBoxTitle\">Search</div>";
+			print "<div id=\"infoBoxTitle\">".__('Search')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id='search_form'  onsubmit='return false'>";
@@ -89,7 +89,7 @@
 			$active_feed_id = sprintf("%d", $params[0]);
 			$is_cat = $params[1] == "true";
 
-			print "<table width='100%'><tr><td>Search:</td><td>";
+			print "<table width='100%'><tr><td>".__('Search:')."</td><td>";
 			
 			print "<input name=\"query\" class=\"iedit\" 
 				onkeypress=\"return filterCR(event, search)\"
@@ -98,10 +98,10 @@
 				value=\"\">
 			</td></tr>";
 			
-			print "<tr><td>Where:</td><td>";
+			print "<tr><td>".__('Where:')."</td><td>";
 			
 			print "<select name=\"search_mode\">
-				<option value=\"all_feeds\">All feeds</option>";
+				<option value=\"all_feeds\">".__('All feeds')."</option>";
 			
 			$feed_title = getFeedTitle($link, $active_feed_id);
 
@@ -112,9 +112,9 @@
 			}
 			
 			if ($active_feed_id && !$is_cat) {				
-				print "<option selected value=\"this_feed\">This feed ($feed_title)</option>";
+				print "<option selected value=\"this_feed\">$feed_title</option>";
 			} else {
-				print "<option disabled>This feed</option>";
+				print "<option disabled>".__('This feed')."</option>";
 			}
 
 			if ($is_cat) {
@@ -122,19 +122,19 @@
 			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
-				print "<option $cat_preselected value=\"this_cat\">This category ($feed_cat_title)</option>";
+				print "<option $cat_preselected value=\"this_cat\">$feed_cat_title</option>";
 			} else {
-				print "<option disabled>This category</option>";
+				print "<option disabled>".__('This category')."</option>";
 			}
 
 			print "</select></td></tr>"; 
 
-			print "<tr><td>Match on:</td><td>";
+			print "<tr><td>".__('Match on:')."</td><td>";
 
 			$search_fields = array(
-				"title" => "Title",
-				"content" => "Content",
-				"both" => "Title or content");
+				"title" => __("Title"),
+				"content" => __("Content"),
+				"both" => __("Title or content"));
 
 			print_select_hash("match_on", 3, $search_fields); 
 				
@@ -146,17 +146,17 @@
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" 
 				id=\"search_submit_btn\" disabled=\"true\"
-				value=\"Search\">
+				value=\"".__('Search')."\">
 			<input class=\"button\"
 				type=\"submit\" onclick=\"javascript:searchCancel()\" 
-				value=\"Cancel\"></div>";
+				value=\"".__('Cancel')."\"></div>";
 
 			print "</div>";
 
 		}
 
 		if ($id == "quickAddLabel") {
-			print "<div id=\"infoBoxTitle\">Create label</div>";
+			print "<div id=\"infoBoxTitle\">".__('Create label')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"label_edit_form\" onsubmit='return false'>";
@@ -166,7 +166,7 @@
 
 			print "<table width='100%'>";
 
-			print "<tr><td>Caption:</td>
+			print "<tr><td>".__('Caption:')."</td>
 				<td><input onkeypress=\"return filterCR(event, addLabel)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
@@ -175,7 +175,7 @@
 			print "</td></tr>";
 
 			print "<tr><td colspan=\"2\">
-				<p>SQL Expression:</p>";
+				<p>".__('SQL Expression:')."</p>";
 
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 rows=\"4\" name=\"sql_exp\" class=\"iedit\"></textarea>";
@@ -188,25 +188,25 @@
 
 			print "<div align='right'>";
 
-			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"Test\">
+			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"".__('Test')."\">
 				";
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
 				disabled=\"true\"
 				class=\"button\" onclick=\"return addLabel()\" 
-				value=\"Create\"> ";
+				value=\"".__('Create')."\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return labelEditCancel()\" 
-				value=\"Cancel\">";
+				value=\"".__('Cancel')."\">";
 		}
 
 		if ($id == "quickAddFilter") {
 
 			$active_feed_id = db_escape_string($_GET["param"]);
 
-			print "<div id=\"infoBoxTitle\">Create filter</div>";
+			print "<div id=\"infoBoxTitle\">".__('Create filter')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"filter_add_form\" onsubmit='return false'>";
@@ -229,24 +229,24 @@
 
 			print "<table width='100%'>";
 
-			print "<tr><td>Match:</td>
+			print "<tr><td>".__('Match:')."</td>
 				<td><input onkeypress=\"return filterCR(event, qaddFilter)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
  					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" class=\"iedit\">";		
 
-			print "</td></tr><tr><td>On field:</td><td>";
+			print "</td></tr><tr><td>".__('On field:')."</td><td>";
 
 			print_select_hash("filter_type", 1, $filter_types, "class=\"_iedit\"");	
 	
 			print "</td></tr>";
-			print "<tr><td>Feed:</td><td colspan='2'>";
+			print "<tr><td>".__('Feed:')."</td><td colspan='2'>";
 
 			print_feed_select($link, "feed_id", $active_feed_id);
 			
 			print "</td></tr>";
 	
-			print "<tr><td>Action:</td>";
+			print "<tr><td>".__('Action:')."</td>";
 	
 			print "<td colspan='2'><select name=\"action_id\" 
 				onchange=\"filterDlgCheckAction(this)\">";
@@ -262,14 +262,14 @@
 
 			print "</td></tr>";
 
-			print "<tr><td>Params:</td>";
+			print "<tr><td>".__('Params:')."</td>";
 
 			print "<td><input disabled class='iedit' name='action_param'></td></tr>";
 
-			print "<tr><td valign='top'>Options:</td><td>";
+			print "<tr><td valign='top'>".__('Options:')."</td><td>";
 
 			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
-				<label for=\"inverse\">Inverse match</label></td></tr>";
+				<label for=\"inverse\">".__('Inverse match')."</label></td></tr>";
 
 			print "</table>";
 
@@ -280,11 +280,11 @@
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
 				class=\"button\" onclick=\"return qaddFilter()\" 
-				disabled=\"true\" value=\"Create\"> ";
+				disabled=\"true\" value=\"".__('Create')."\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"Cancel\">";
+				value=\"".__('Cancel')."\">";
 
 			print "</div>";
 
@@ -294,10 +294,10 @@
 
 		if ($id == "feedUpdateErrors") {
 
-			print "<div id=\"infoBoxTitle\">Update Errors</div>";
+			print "<div id=\"infoBoxTitle\">".__('Update Errors')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "These feeds have not been updated because of errors:";
+			print __("These feeds have not been updated because of errors:");
 
 			$result = db_query($link, "SELECT id,title,feed_url,last_error
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -316,7 +316,7 @@
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"Close\">";
+				value=\"".__('Close')."\">";
 
 			print "</div>";
 
@@ -324,12 +324,12 @@
 
 		if ($id == "editArticleTags") {
 
-			print "<div id=\"infoBoxTitle\">Edit Tags</div>";
+			print "<div id=\"infoBoxTitle\">".__('Edit Tags')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"tag_edit_form\" onsubmit='return false'>";
 
-			print "Tags for this article (separated by commas):<br>";
+			print __("Tags for this article (separated by commas):")."<br>";
 
 			$tags = get_article_tags($link, $param);
 
@@ -341,7 +341,7 @@
 
 			print "<tr><td colspan='2'><textarea rows='4' class='iedit' name='tags_str'>$tags_str</textarea></td></tr>";
 
-			print "<tr><td>Add existing tag:</td>";
+			print "<tr><td>".__('Add existing tag:')."</td>";
 
 			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
 				WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY tag_name");
@@ -370,11 +370,11 @@
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return editTagsSave()\" 
-				value=\"Save\"> ";
+				value=\"".__('Save')."\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"Cancel\">";
+				value=\"".__('Cancel')."\">";
 
 
 			print "</div>";

@@ -9,9 +9,12 @@
 	require_once "accept-to-gettext.php";
 	require_once "gettext/gettext.inc";
 
-	startup_gettext();
-
 	require_once 'config.php';
+
+	if (ENABLE_TRANSLATIONS == true) { 
+		startup_gettext();
+	}
+
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
 	require_once 'errors.php';

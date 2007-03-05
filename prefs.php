@@ -87,7 +87,7 @@ window.onload = init;
 	<?php if (!SINGLE_USER_MODE) { ?>
 		<div style="float : right">
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="logout.php">Logout</a>)
+			(<a href="logout.php"><?= __('Logout') ?></a>)
 		</div>
 	<?php } ?>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	

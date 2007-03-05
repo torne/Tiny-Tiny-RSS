@@ -1,7 +1,7 @@
 <?php
 	require_once "functions.php";
 
-	define('EXPECTED_CONFIG_VERSION', 5);
+	define('EXPECTED_CONFIG_VERSION', 7);
 
 	if (!file_exists("config.php")) {
 		print __("<b>Fatal Error</b>: You forgot to copy 
@@ -12,7 +12,7 @@
 	require_once "config.php";
 
 	if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
-		return __("config: your config file version is incorrect. See config.php-dist.\n");
+		$err_msg = __("config: your config file version is incorrect. See config.php-dist.\n");
 	}
 
 	if (defined('RSS_BACKEND_TYPE')) {
