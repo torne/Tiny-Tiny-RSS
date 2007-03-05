@@ -1,4 +1,6 @@
 <?php
+	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 	require_once "../config.php";
 	require_once "functions.php";
 	require_once "../functions.php"; 
@@ -11,7 +13,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	login_sequence($link);
+	login_sequence($link, true);
 
 	/* perform various redirect-needing subops */
 
@@ -65,7 +67,7 @@
 	} else if ($go == "view") {
 		render_article($link);
 	} else {
-		print "Function not implemented";
+		print __("Internal error: Function not implemented");
 	}
 
 ?>

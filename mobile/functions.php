@@ -2,6 +2,8 @@
 	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
+	require_once "../gettext/gettext.inc";
+
 	function render_feeds_list($link) {
 
 		$tags = $_GET["tags"];

@@ -1192,7 +1192,7 @@
 		return true;
 	}
 
-	function login_sequence($link) {
+	function login_sequence($link, $mobile = false) {
 		if (!SINGLE_USER_MODE) {
 
 			if (defined('_DEBUG_USER_SWITCH') && $_SESSION["uid"]) {
@@ -1227,7 +1227,7 @@
 //			print_r($_SESSION);
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
-				render_login_form($link);
+				render_login_form($link, $mobile);
 				exit;
 			}
 
@@ -3165,8 +3165,12 @@
 		return true;
 	}
 
-	function render_login_form($link) {
-		require_once "login_form.php";
+	function render_login_form($link, $mobile = false) {
+		if (!$mobile) {
+			require_once "login_form.php";
+		} else {
+			require_once "mobile/login_form.php";
+		}
 	}
 
 	// from http://developer.apple.com/internet/safari/faq.html
