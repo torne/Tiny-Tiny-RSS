@@ -188,7 +188,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (13);
+insert into ttrss_version values (14);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -263,6 +263,9 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 'This option enables sending daily digest of new (and unread) headlines on your configured e-mail address');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CONFIRM_FEED_CATCHUP', 1, 'true', 'Confirm marking feed as read',3);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('CDM_AUTO_CATCHUP', 1, 'false', 'Mark articles as read automatically',2,
+'This option enables marking articles as read automatically in combined mode while you scroll article list');
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
