@@ -153,7 +153,7 @@ function confirmOP() {
 		print "<p>Finished. Performed $num_updates update(s) up to schema
 			version $version.</p>";
 	
-		print "<form method=\"GET\" action=\"tt-rss.php\">
+		print "<form method=\"GET\" action=\"logout.php\">
 			<input type=\"submit\" value=\"Return to Tiny Tiny RSS\">
 			</form>";
 
