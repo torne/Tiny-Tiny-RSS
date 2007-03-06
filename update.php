@@ -20,7 +20,8 @@
 	$owner_uid = $_SESSION["uid"];
 	
 	if ($_SESSION["access_level"] < 10) { 
-		print "<p>Error: your access level is insufficient to run this script.</p>";
+		print "<p>".
+			__("Error: your access level is insufficient to run this script.")."</p>";
 		exit;
 	}
 	
@@ -39,13 +40,13 @@
 
 <script type='text/javascript'>
 function confirmOP() {
-	return confirm("Update the database?");
+	return confirm(__("Update the database?"));
 }
 </script>
 
 <div class="floatingLogo"><img src="images/ttrss_logo.png"></div>
 
-<h1>Database Updater</h1>
+<h1><?php echo __("Database Updater") ?></h1>
 
 <?php
 	function getline($fp, $delim) {
@@ -84,19 +85,18 @@ function confirmOP() {
 	$latest_version = max(array_keys($update_versions));
 	
 	if ($version == $latest_version) {
-		print "<p>Tiny Tiny RSS database is up to date (version $version).</p>";
+		print "<p>".__("Tiny Tiny RSS database is up to date.")."</p>";
 		print "<form method=\"GET\" action=\"tt-rss.php\">
-			<input type=\"submit\" value=\"Return to Tiny Tiny RSS\">
+			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 			</form>";
 
 		return;
 	}
 	
 	if (!$op) {
-		print "<p class='warning'><b>Warning:</b> Please backup your database before proceeding.</p>";
+		print "<p class='warning'>".__("<b>Warning:</b> Please backup your database before proceeding.")."</p>";
 	
-		print "<p>Your Tiny Tiny RSS database needs update to the latest 
-			version ($version &mdash;&gt; $latest_version).</p>";
+		print "<p>" . T_sprintf("Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>).", $version, $latest_version) . "</p>";
 	
 	/*		print "<p>Available incremental updates:";
 	
@@ -110,39 +110,39 @@ function confirmOP() {
 	
 		print "<form method='POST'>
 			<input type='hidden' name='op' value='do'>
-			<input type='submit' onclick='return confirmOP()' value='Perform updates'>
+			<input type='submit' onclick='return confirmOP()' value='".__("Perform updates")."'>
 			</form>";
 	
 	} else if ($op == "do") {
 	
-		print "<p>Performing updates (from version $version)...</p>";
+		print "<p>".__("Performing updates...")."</p>";
 	
 		$num_updates = 0;
 	
 		foreach (array_keys($update_versions) as $v) {
 			if ($v == $version + 1) {
-				print "<p>Updating to version $v...</p>";
+				print "<p>".T_sprintf("Updating to version %d...", $v)."</p>";
 				$fp = fopen($update_versions[$v], "r");
 				if ($fp) {
 					while (!feof($fp)) {
 						$query = trim(getline($fp, ";"));
 						if ($query != "") {
-							print "<p class='query'><b>QUERY:</b> $query</p>";
+							print "<p class='query'>$query</p>";
 							db_query($link, $query);
 						}
 					}
 				}
 				fclose($fp);
 	
-				print "<p>Checking version... ";
+				print "<p>".__("Checking version... ");
 	
 				$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 				$version = db_fetch_result($result, 0, "schema_version");
 	
 				if ($version == $v) {
-					print "OK! ($version)";
+					print __("OK!");
 				} else {
-					print "<b>ERROR!</b>";
+					print "<b>".__("ERROR!")."</b>";
 					return;
 				}
 	
@@ -150,11 +150,11 @@ function confirmOP() {
 			}
 		}
 	
-		print "<p>Finished. Performed $num_updates update(s) up to schema
-			version $version.</p>";
+		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
+			version <b>%d</b>.", $num_updates, $version)."</p>";
 	
 		print "<form method=\"GET\" action=\"logout.php\">
-			<input type=\"submit\" value=\"Return to Tiny Tiny RSS\">
+			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 			</form>";
 
 	}
