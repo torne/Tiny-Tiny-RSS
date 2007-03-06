@@ -24,7 +24,7 @@
 		exit;
 	}
 	
-	define('SCHEMA_VERSION', 13);
+	define('SCHEMA_VERSION', 14);
 
 ?>
 
@@ -150,7 +150,7 @@ function confirmOP() {
 			}
 		}
 	
-		print "<p>Finished. Performed $num_updates updates up to schema
+		print "<p>Finished. Performed $num_updates update(s) up to schema
 			version $version.</p>";
 	
 		print "<form method=\"GET\" action=\"tt-rss.php\">

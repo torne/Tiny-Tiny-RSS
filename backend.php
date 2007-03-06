@@ -12,7 +12,7 @@
 	
 	error_reporting(DEFAULT_ERROR_LEVEL); */
 
-	define('SCHEMA_VERSION', 13);
+	define('SCHEMA_VERSION', 14);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
