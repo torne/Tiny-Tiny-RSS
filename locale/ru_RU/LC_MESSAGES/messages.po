@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-05 19:53+0300\n"
+"POT-Creation-Date: 2007-03-06 12:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,16 +114,8 @@ msgstr ""
 msgid "This program requires XmlHttpRequest "
 msgstr ""
 
-#: errors.php:6
-msgid "to function properly. Your browser doesn't seem to support it."
-msgstr ""
-
 #: errors.php:8
 msgid "This program requires cookies "
-msgstr ""
-
-#: errors.php:9
-msgid "to function properly. Your browser doesn't seem to support them."
 msgstr ""
 
 #: errors.php:11
@@ -175,39 +167,39 @@ msgstr ""
 
 #: functions.php:2038 functions.php:2852
 msgid "Special"
-msgstr ""
+msgstr "Особые"
 
 #: functions.php:2040 functions.php:2878
 msgid "Labels"
-msgstr ""
+msgstr "Метки"
 
 #: functions.php:2058 functions.php:2344 functions.php:2862
 msgid "Starred articles"
-msgstr ""
+msgstr "Отмеченные статьи"
 
 #: functions.php:2308
 msgid "Global search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: functions.php:2310
 msgid "Tag search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: functions.php:2326
 msgid "Category search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: functions.php:2339
 msgid "Feed search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: functions.php:2352
 msgid "Label search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: functions.php:2547
 msgid "New headlines for last 24 hours, as of "
-msgstr ""
+msgstr "Новые заголовки за последние 24 часа, на "
 
 #: functions.php:2591
 msgid ""
@@ -222,11 +214,11 @@ msgstr ""
 
 #: functions.php:2760 functions.php:2789
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: functions.php:2761 functions.php:2790 functions.php:2793 tt-rss.php:162
 msgid "Unread"
-msgstr ""
+msgstr "Непрочитанные"
 
 #: functions.php:2762 functions.php:2791
 msgid "None"
@@ -242,15 +234,15 @@ msgstr ""
 
 #: functions.php:2768
 msgid "Mark as read"
-msgstr ""
+msgstr "Пометить как прочитанные"
 
 #: functions.php:2769
 msgid "This page"
-msgstr ""
+msgstr "Эту страницу"
 
 #: functions.php:2770
 msgid "Entire feed"
-msgstr ""
+msgstr "Весь фид"
 
 #: functions.php:2775
 msgid "Next page"
@@ -266,15 +258,15 @@ msgstr ""
 
 #: functions.php:2788
 msgid "Select:"
-msgstr ""
+msgstr "Выбрать:"
 
 #: functions.php:2793
 msgid "Toggle:"
-msgstr ""
+msgstr "Изменить:"
 
 #: functions.php:2794 tt-rss.php:161
 msgid "Starred"
-msgstr ""
+msgstr "Отмеченные"
 
 #: functions.php:2796
 msgid "Mark as read:"
@@ -282,7 +274,7 @@ msgstr ""
 
 #: functions.php:2797
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 #: functions.php:2798 modules/pref-filters.php:261
 msgid "Feed"
@@ -303,6 +295,14 @@ msgstr ""
 #: functions.php:3088
 msgid "Tags"
 msgstr ""
+
+#: localized_js.php:14
+msgid "display feeds"
+msgstr "показать фиды"
+
+#: localized_js.php:15
+msgid "display tags"
+msgstr "показать теги"
 
 #: login_form.php:49 modules/pref-feeds.php:264 modules/pref-users.php:29
 msgid "Login:"
@@ -423,10 +423,6 @@ msgstr ""
 msgid "config: SESSION_EXPIRE_TIME should be greater or equal to"
 msgstr ""
 
-#: sanity_check.php:53
-msgid "SESSION_COOKIE_LIFETIME"
-msgstr ""
-
 #: sanity_check.php:61
 msgid "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE"
 msgstr ""
@@ -474,7 +470,7 @@ msgstr ""
 
 #: tt-rss.php:142
 msgid "&nbsp;&nbsp;Mark as read"
-msgstr ""
+msgstr "&nbsp;&nbsp;Отметить как прочитанные"
 
 #: tt-rss.php:143
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
@@ -482,15 +478,15 @@ msgstr ""
 
 #: tt-rss.php:145
 msgid "Other actions:"
-msgstr ""
+msgstr "Другое:"
 
 #: tt-rss.php:146
 msgid "&nbsp;&nbsp;Create filter"
-msgstr ""
+msgstr "&nbsp;&nbsp;Создать фильтр"
 
 #: tt-rss.php:152 modules/popup-dialog.php:95
 msgid "Search:"
-msgstr "Поиск:"
+msgstr "Искать:"
 
 #: tt-rss.php:157
 msgid "View:"
@@ -587,7 +583,7 @@ msgstr "Категория:"
 
 #: modules/popup-dialog.php:73 modules/pref-feeds.php:118
 msgid "Subscribe"
-msgstr ""
+msgstr "Подписаться"
 
 #: modules/popup-dialog.php:76 modules/popup-dialog.php:155
 #: modules/popup-dialog.php:207 modules/popup-dialog.php:294
@@ -615,23 +611,23 @@ msgstr ""
 
 #: modules/popup-dialog.php:135
 msgid "Match on:"
-msgstr ""
+msgstr "Искать по:"
 
 #: modules/popup-dialog.php:138
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: modules/popup-dialog.php:139
 msgid "Content"
-msgstr ""
+msgstr "Содержимое"
 
 #: modules/popup-dialog.php:140
 msgid "Title or content"
-msgstr ""
+msgstr "Заголовок или содержимое"
 
 #: modules/popup-dialog.php:164 modules/pref-labels.php:209
 msgid "Create label"
-msgstr ""
+msgstr "Создать метку"
 
 #: modules/popup-dialog.php:174
 msgid "Caption:"

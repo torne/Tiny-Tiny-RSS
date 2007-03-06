@@ -32,9 +32,9 @@ function toggleTags() {
 	var p = document.getElementById("dispSwitchPrompt");
 
 	if (display_tags) {
-		p.innerHTML = "display feeds";
+		p.innerHTML = __("display feeds");
 	} else {
-		p.innerHTML = "display tags";
+		p.innerHTML = __("display tags");
 	}
 	
 	notify_progress("Loading, please wait...");

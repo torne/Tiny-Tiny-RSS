@@ -45,6 +45,7 @@
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
 	<script type="text/javascript" src="prototype.js"></script>
+	<script type="text/javascript" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
 	<script type="text/javascript" src="tt-rss.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
@@ -116,7 +117,8 @@ window.onload = init;
 
 <div id="feeds-holder">
 	<div id="dispSwitch"> 
-		<a id="dispSwitchPrompt" href="javascript:toggleTags()">display tags</a>
+		<a id="dispSwitchPrompt" 
+			href="javascript:toggleTags()"><?php echo __("display tags") ?></a>
 	</div>
 	<div id="feeds-frame">&nbsp;</div>
 </div>
