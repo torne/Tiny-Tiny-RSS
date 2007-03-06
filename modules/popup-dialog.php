@@ -328,6 +328,7 @@
 
 			print "</div>";
 
+			return;
 		}
 
 		if ($id == "editArticleTags") {
