@@ -46,10 +46,13 @@ function headlines_callback() {
 
 		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
 
-		if (!document.getElementById("headlinesList")) {
+		if (!document.getElementById("headlinesList") && 
+				getInitParam("cdm_auto_catchup") == 1) {
 			debug("starting CDM watchdog");
 			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
 			_cdm_wd_vishist = new Array();
+		} else {
+			debug("not in CDM mode or watchdog disabled");
 		}
 
 		if (_tag_cdm_scroll) {

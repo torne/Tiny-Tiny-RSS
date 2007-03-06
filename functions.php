@@ -2109,6 +2109,9 @@
 		print "<param key=\"confirm_feed_catchup\" value=\"" . 
 			sprintf("%d", get_pref($link, "CONFIRM_FEED_CATCHUP")) . "\"/>";
 
+		print "<param key=\"cdm_auto_catchup\" value=\"" . 
+			sprintf("%d", get_pref($link, "CDM_AUTO_CATCHUP")) . "\"/>";
+
 		print "</init-params>";
 	}
 
