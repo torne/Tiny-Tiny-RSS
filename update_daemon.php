@@ -4,6 +4,7 @@
 	// continuously
 
 	define('DEFAULT_ERROR_LEVEL', E_ALL);
+	error_reporting(E_ALL);
 
 	declare(ticks = 1);
 

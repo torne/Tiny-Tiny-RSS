@@ -11,6 +11,19 @@
 
 	require_once 'config.php';
 
+	function startup_gettext() {
+
+		# Get locale from Accept-Language header
+		$lang = al2gt(array("en_US", "ru_RU"), "text/html");
+
+		if ($lang) {
+			_setlocale(LC_MESSAGES, $lang);
+			_bindtextdomain("messages", "locale");
+			_textdomain("messages");
+			_bind_textdomain_codeset("messages", "UTF-8");
+		}
+	}
+
 	if (ENABLE_TRANSLATIONS == true) { 
 		startup_gettext();
 	}
@@ -3201,19 +3214,6 @@
 
 	function print_warning($msg) {
 		return print format_warning($msg);
-	}
-
-	function startup_gettext() {
-
-		# Get locale from Accept-Language header
-		$lang = al2gt(array("en_US", "ru_RU"), "text/html");
-
-		if ($lang) {
-			_setlocale(LC_MESSAGES, $lang);
-			_bindtextdomain("messages", "locale");
-			_textdomain("messages");
-			_bind_textdomain_codeset("messages", "UTF-8");
-		}
 	}
 
 	function T_sprintf() {
