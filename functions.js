@@ -140,6 +140,10 @@ function notify_real(msg, no_hide, n_type) {
 
 	*/
 
+	if (typeof __ != 'undefined') {
+		msg = __(msg);
+	}
+
 	if (n_type == 1) {
 		n.className = "notify";
 	} else if (n_type == 2) {

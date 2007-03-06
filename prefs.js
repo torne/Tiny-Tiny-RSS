@@ -231,9 +231,9 @@ function addFeed() {
 	var link = document.getElementById("fadd_link");
 
 	if (link.value.length == 0) {
-		alert("Error: No feed URL given.");
+		alert(__("Error: No feed URL given."));
 	} else if (!isValidURL(link.value)) {
-		alert("Error: Invalid feed URL.");
+		alert(__("Error: Invalid feed URL."));
 	} else {
 		notify_progress("Adding feed...");
 
@@ -258,7 +258,7 @@ function addFeedCat() {
 	var cat = document.getElementById("fadd_cat");
 
 	if (cat.value.length == 0) {
-		alert("Can't add category: no name specified.");
+		alert(__("Can't add category: no name specified."));
 	} else {
 		notify_progress("Adding feed category...");
 
@@ -858,12 +858,12 @@ function editSelectedLabel() {
 	var rows = getSelectedLabels();
 
 	if (rows.length == 0) {
-		alert("No labels are selected.");
+		alert(__("No labels are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one label.");
+		alert(__("Please select only one label."));
 		return;
 	}
 
@@ -877,12 +877,12 @@ function editSelectedUser() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		alert("No users are selected.");
+		alert(__("No users are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one user.");
+		alert(__("Please select only one user."));
 		return;
 	}
 
@@ -895,16 +895,16 @@ function resetSelectedUserPass() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		alert("No users are selected.");
+		alert(__("No users are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one user.");
+		alert(__("Please select only one user."));
 		return;
 	}
 
-	var ok = confirm("Reset password of selected user?");
+	var ok = confirm(__("Reset password of selected user?"));
 
 	if (ok) {
 		notify_progress("Resetting password for selected user...");
@@ -928,12 +928,12 @@ function selectedUserDetails() {
 	var rows = getSelectedUsers();
 
 	if (rows.length == 0) {
-		alert("No users are selected.");
+		alert(__("No users are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one user.");
+		alert(__("Please select only one user."));
 		return;
 	}
 
@@ -957,12 +957,12 @@ function selectedFeedDetails() {
 	var rows = getSelectedFeeds();
 
 	if (rows.length == 0) {
-		alert("No feeds are selected.");
+		alert(__("No feeds are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one feed.");
+		alert(__("Please select only one feed."));
 		return;
 	}
 
@@ -981,12 +981,12 @@ function editSelectedFilter() {
 	var rows = getSelectedFilters();
 
 	if (rows.length == 0) {
-		alert("No filters are selected.");
+		alert(__("No filters are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one filter.");
+		alert(__("Please select only one filter."));
 		return;
 	}
 
@@ -1001,12 +1001,12 @@ function editSelectedFeed() {
 	var rows = getSelectedFeeds();
 
 	if (rows.length == 0) {
-		alert("No feeds are selected.");
+		alert(__("No feeds are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select one feed.");
+		alert(__("Please select one feed."));
 		return;
 	}
 
@@ -1020,12 +1020,12 @@ function editSelectedFeedCat() {
 	var rows = getSelectedFeedCats();
 
 	if (rows.length == 0) {
-		alert("No categories are selected.");
+		alert(__("No categories are selected."));
 		return;
 	}
 
 	if (rows.length > 1) {
-		alert("Please select only one category.");
+		alert(__("Please select only one category."));
 		return;
 	}
 
@@ -1100,7 +1100,7 @@ function validateOpmlImport() {
 	var opml_file = document.getElementById("opml_file");
 
 	if (opml_file.value.length == 0) {
-		alert("No OPML file to upload.");
+		alert(__("No OPML file to upload."));
 		return false;
 	} else {
 		return true;
@@ -1358,14 +1358,14 @@ function categorizeSelectedFeeds() {
 
 	} else {
 
-		alert("No feeds are selected.");
+		alert(__("No feeds are selected."));
 
 	}
 
 }
 
 function validatePrefsReset() {
-	return confirm("Reset to defaults?");
+	return confirm(__("Reset to defaults?"));
 }
 
 function browseFeeds(limit) {
@@ -1452,18 +1452,6 @@ function browserToggleExpand(id) {
 	} catch (e) {
 		exception_error("browserExpand", e);
 	}
-}
-
-function validateNewPassword(form) {
-	if (form.OLD_PASSWORD.value == "") {
-		alert("Old password cannot be blank");
-		return false;
-	}
-	if (form.NEW_PASSWORD.value == "") {
-		alert("New password cannot be blank");
-		return false;
-	}
-	return true;
 }
 
 function selectPrefRows(kind, select) {
