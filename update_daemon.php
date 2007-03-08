@@ -142,12 +142,12 @@
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
 
-				_debug("\tUpdating...");
+				_debug("Updating...");
 
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
 				sleep(1); // prevent flood (FIXME make this an option?)
 			} else {
-				_debug("\tUpdate not needed.");
+				_debug("Update not needed.");
 			}
 		}
 
