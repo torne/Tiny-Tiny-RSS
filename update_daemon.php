@@ -59,7 +59,7 @@
 	while (true) {
 
 		if (time() - $last_purge > PURGE_INTERVAL) {
-			print "Purging old posts (random 30 feeds)...\n";
+			_debug("Purging old posts (random 30 feeds)...");
 			global_purge_old_posts($link, true, 30);
 			$last_purge = time();
 		}
@@ -113,7 +113,7 @@
 
 		$user_prefs_cache = array();
 
-		printf("Scheduled %d feeds to update...\n", db_num_rows($result));
+		_debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
 		
 		while ($line = db_fetch_assoc($result)) {
 	
@@ -134,25 +134,26 @@
 				continue; 
 			}
 	
-			print "Feed: " . $line["feed_url"] . ": ";
+			_debug("Feed: " . $line["feed_url"]);
 
-			printf("(%d/%d, %d) ", time() - strtotime($line["last_updated"]),
-				$upd_intl*60, $user_id);
+//			_debug(sprintf("\tLU: %d, INTL: %d, UID: %d) ", 
+//				time() - strtotime($line["last_updated"]), $upd_intl*60, $user_id));
 	
 			if (!$line["last_updated"] || 
 				time() - strtotime($line["last_updated"]) > ($upd_intl * 60)) {
-	
-				print "Updating...\n";	
+
+				_debug("\tUpdating...");
+
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
 				sleep(1); // prevent flood (FIXME make this an option?)
 			} else {
-				print "Update not needed.\n";
+				_debug("\tUpdate not needed.");
 			}
 		}
 
 		if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
-		print "Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...\n";
+		_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
 		
 		sleep(DAEMON_SLEEP_INTERVAL);
 	}

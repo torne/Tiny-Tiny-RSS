@@ -39,6 +39,11 @@
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
 
+	function _debug($msg) {
+		$ts = strftime("%H:%M:%S", time());
+		print "[$ts] $msg\n";
+	}
+
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
 		$rows = -1;
@@ -90,7 +95,7 @@
 		}
 
 		if ($debug) {
-			print "Purged feed $feed_id ($purge_interval): deleted $rows articles\n";
+			_debug("Purged feed $feed_id ($purge_interval): deleted $rows articles");
 		}
 	}
 
