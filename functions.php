@@ -2777,7 +2777,7 @@
 				print "<td class=\"headlineActions$rtl_cpart\">
 					<ul class=\"headlineDropdownMenu\">
 					<li class=\"top2\">
-					Select:
+					".__('Select:')."
 						<a href=\"$sel_all_link\">".__('All')."</a>,
 						<a href=\"$sel_unread_link\">".__('Unread')."</a>,
 						<a href=\"$sel_none_link\">".__('None')."</a></li>

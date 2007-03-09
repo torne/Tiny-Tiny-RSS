@@ -42,7 +42,7 @@
 
 			print "<table width='100%'>";
 
-			print "<tr><td>Match:</td>
+			print "<tr><td>".__('Match:')."</td>
 				<td><input onkeypress=\"return filterCR(event, filterEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"

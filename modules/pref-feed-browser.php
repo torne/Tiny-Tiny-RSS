@@ -72,7 +72,7 @@
 			return;
 		}
 
-		print "<div>This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.</div>";
+		print "<div>".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
 
 		$limit = db_escape_string($_GET["limit"]);
 
@@ -88,7 +88,7 @@
 
 			
 		print "<div style=\"float : right\">
-			Top <select id=\"feedBrowserLimit\">";
+			".__('Top')." <select id=\"feedBrowserLimit\">";
 
 		foreach (array(25, 50, 100) as $l) {
 			$issel = ($l == $limit) ? "selected" : "";
@@ -97,12 +97,12 @@
 			
 		print "</select>
 			<input type=\"submit\" class=\"button\"
-				onclick=\"updateBigFeedBrowser()\" value=\"Show\">
+				onclick=\"updateBigFeedBrowser()\" value=\"".__('Show')."\">
 		</div>";
 
-		print "<p id=\"fbrOpToolbar\">Selection: 
+		print "<p id=\"fbrOpToolbar\">
 			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
-			disabled=\"true\" value=\"Subscribe\">";
+			disabled=\"true\" value=\"".__('Subscribe')."\">";
 
 		print "<ul class='nomarks' id='browseBigFeedList'>";
 

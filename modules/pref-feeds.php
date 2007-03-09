@@ -293,7 +293,7 @@
 			}
 
 			print "<br><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
-				$checked><label for=\"rtl_content\">Right-to-left content</label>";
+				$checked><label for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
 
@@ -757,7 +757,7 @@
 				size=\"40\">
 			<input type=\"submit\" class=\"button\"
 				disabled=\"true\" id=\"fadd_submit_btn\"
-				onclick=\"addFeed()\" value=\"Subscribe\">";
+				onclick=\"addFeed()\" value=\"".__('Subscribe')."\">";
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
@@ -833,10 +833,10 @@
 				}
 
 				print "
-					<td width='35%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-					<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
-					<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">Last&nbsp;Article</a></td>
-					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
+					<td width='35%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
+					<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">".__('Feed')."</a></td>
+					<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
+					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 			}
 			
 			$lnum = 0;
@@ -854,7 +854,7 @@
 
 				$hidden = sql_bool_to_bool($line["hidden"]);
 
-				if (!$edit_cat) $edit_cat = "Uncategorized";
+				if (!$edit_cat) $edit_cat = __("Uncategorized");
 
 				$last_updated = $line["last_updated"];
 
@@ -886,10 +886,10 @@
 						print "<td width='3%'>&nbsp;</td>";
 					}
 
-					print "<td width='35%'><a href=\"javascript:updateFeedList('title')\">Title</a></td>
-						<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">Feed</a></td>
-						<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">Last&nbsp;Article</a></td>
-						<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">Updated</a></td>";
+					print "<td width='35%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
+						<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">".__('Feed')."</a></td>
+						<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
+						<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -973,7 +973,8 @@
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 				print " <input type=\"submit\" class=\"button\"
-					onclick=\"javascript:editFeedCats()\" value=\"".__('Edit categories')."\">";
+					onclick=\"javascript:editFeedCats()\" value=\"".
+					__("Edit categories")."\">";
 
 #				print "&nbsp;|&nbsp;";				
 
@@ -993,7 +994,7 @@
 				type=\"submit\" value=\"".__('Import')."\">
 				</form></div>";
 
-		print "&nbsp; or &nbsp;";				
+		print "&nbsp;";
 
 		print "<input type=\"submit\" 
 			class=\"button\" onclick=\"gotoExportOpml()\" 

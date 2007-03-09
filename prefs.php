@@ -95,7 +95,7 @@ window.onload = init;
 </div>
 
 		<div class="return">
-			<a href="#" onclick="gotoMain()">Exit preferences</a>
+			<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
 		</div>
 
 		<div class="firstTab">&nbsp;</div>
