@@ -362,6 +362,10 @@
 			return;			
 		}
 
+		if (defined('DAEMON_EXTENDED_DEBUG')) {
+			print "update_rss_feed: start\n";
+		}
+
 		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
 			FROM ttrss_feeds WHERE id = '$feed'");
 
@@ -386,10 +390,22 @@
 
 		}
 
-		error_reporting(0);
+		if (defined('DAEMON_EXTENDED_DEBUG')) {
+			print "update_rss_feed: fetching...\n";
+		}
+
+		if (!defined('DAEMON_EXTENDED_DEBUG')) {
+			error_reporting(0);
+		}
+
 		$rss = fetch_rss($fetch_url);
-		error_reporting (DEFAULT_ERROR_LEVEL);
-		
+
+		if (defined('DAEMON_EXTENDED_DEBUG')) {
+			print "update_rss_feed: fetch done, parsing...\n";
+		} else {
+			error_reporting (DEFAULT_ERROR_LEVEL);
+		}
+
 		$feed = db_escape_string($feed);
 
 		if ($rss) {
@@ -838,6 +854,10 @@
 			db_query($link, 
 				"UPDATE ttrss_feeds SET last_error = '$error_msg', 
 					last_updated = NOW() WHERE id = '$feed'");
+		}
+
+		if (defined('DAEMON_EXTENDED_DEBUG')) {
+			print "update_rss_feed: done\n";
 		}
 
 	}

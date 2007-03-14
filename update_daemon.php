@@ -4,12 +4,12 @@
 	// continuously
 
 	define('DEFAULT_ERROR_LEVEL', E_ALL);
-	error_reporting(E_ALL);
 
 	declare(ticks = 1);
 
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
+	define('DAEMON_EXTENDED_DEBUG', true);
 
 	define('PURGE_INTERVAL', 3600); // seconds
 
@@ -24,6 +24,8 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
+
+	error_reporting(E_ALL);
 
 	function sigint_handler() {
 		unlink("update_daemon.lock");
