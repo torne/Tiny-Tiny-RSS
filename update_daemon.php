@@ -32,7 +32,12 @@
 		die("Received SIGINT. Exiting.\n");
 	}
 
+	function sigalrm_handler() {
+		die("received SIGALRM, hang in feed update?\n");
+	}
+
 	pcntl_signal(SIGINT, sigint_handler);
+	pcntl_signal(SIGALRM, sigalrm_handler);
 
 	$lock_handle = make_lockfile("update_daemon.lock");
 
@@ -146,7 +151,16 @@
 
 				_debug("Updating...");
 
+				if (defined('MAGPIE_FETCH_TIME_OUT')) {
+					pcntl_alarm(MAGPIE_FETCH_TIME_OUT * 2);
+				} else {
+					pcntl_alarm(300);
+				}
+
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
+
+				pcntl_alarm(0);
+
 				sleep(1); // prevent flood (FIXME make this an option?)
 			} else {
 				_debug("Update not needed.");
