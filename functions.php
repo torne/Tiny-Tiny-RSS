@@ -363,7 +363,7 @@
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG')) {
-			print "update_rss_feed: start\n";
+			_debug("update_rss_feed: start");
 		}
 
 		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
@@ -391,7 +391,7 @@
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG')) {
-			print "update_rss_feed: fetching...\n";
+			_debug("update_rss_feed: fetching...");
 		}
 
 		if (!defined('DAEMON_EXTENDED_DEBUG')) {
@@ -401,7 +401,7 @@
 		$rss = fetch_rss($fetch_url);
 
 		if (defined('DAEMON_EXTENDED_DEBUG')) {
-			print "update_rss_feed: fetch done, parsing...\n";
+			_debug("update_rss_feed: fetch done, parsing...");
 		} else {
 			error_reporting (DEFAULT_ERROR_LEVEL);
 		}
@@ -492,10 +492,14 @@
 			foreach ($iterator as $item) {
 
 				$entry_guid = $item["id"];
-	
+
 				if (!$entry_guid) $entry_guid = $item["guid"];
 				if (!$entry_guid) $entry_guid = $item["link"];
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
+
+				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					_debug("update_rss_feed: guid $entry_guid");
+				}
 
 				if (!$entry_guid) continue;
 
@@ -605,9 +609,17 @@
 				
 				$entry_content = sanitize_rss($entry_content);
 
+				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
+				}
+
 				db_query($link, "BEGIN");
 
 				if (db_num_rows($result) == 0) {
+
+					if (defined('DAEMON_EXTENDED_DEBUG')) {
+						_debug("update_rss_feed: base guid not found");
+					}
 
 					// base post entry does not exist, create it
 
@@ -660,6 +672,10 @@
 					WHERE guid = '$entry_guid'");
 
 				if (db_num_rows($result) == 1) {
+
+					if (defined('DAEMON_EXTENDED_DEBUG')) {
+						_debug("update_rss_feed: base guid found, creating user ref");
+					}
 
 					// this will be used below in update handler
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
@@ -764,6 +780,10 @@
 
 				db_query($link, "COMMIT");
 
+				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					_debug("update_rss_feed: looking for tags...");
+				}
+
 				/* taaaags */
 				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
 
@@ -857,7 +877,7 @@
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG')) {
-			print "update_rss_feed: done\n";
+			_debug("update_rss_feed: done");
 		}
 
 	}
@@ -1938,7 +1958,7 @@
 	}
 
 	function get_script_dt_add() {
-		if (strpos(VERSION, "99") === false) {
+		if (strpos(VERSION, ".99") === false) {
 			return VERSION;
 		} else {
 			return time();

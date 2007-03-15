@@ -3,13 +3,19 @@
 	// this daemon runs in the background and updates all feeds
 	// continuously
 
-	define('DEFAULT_ERROR_LEVEL', E_ALL);
+	// define('DEFAULT_ERROR_LEVEL', E_ALL);
+	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 
 	declare(ticks = 1);
 
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
-	define('DAEMON_EXTENDED_DEBUG', true);
+
+	require_once "version.php";
+
+	if (strpos(VERSION, ".99") !== false) {
+		define('DAEMON_EXTENDED_DEBUG', true);
+	}
 
 	define('PURGE_INTERVAL', 3600); // seconds
 
@@ -25,7 +31,7 @@
 	require_once "functions.php";
 	require_once "magpierss/rss_fetch.inc";
 
-	error_reporting(E_ALL);
+	error_reporting(DEFAULT_ERROR_LEVEL);
 
 	function sigint_handler() {
 		unlink("update_daemon.lock");
