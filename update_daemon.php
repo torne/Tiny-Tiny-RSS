@@ -157,11 +157,7 @@
 
 				_debug("Updating...");
 
-				if (defined('MAGPIE_FETCH_TIME_OUT')) {
-					pcntl_alarm(MAGPIE_FETCH_TIME_OUT * 2);
-				} else {
-					pcntl_alarm(300);
-				}
+				pcntl_alarm(300);
 
 				update_rss_feed($link, $line["feed_url"], $line["id"], true);	
 

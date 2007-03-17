@@ -2201,6 +2201,8 @@
 		print "<param key=\"cdm_auto_catchup\" value=\"" . 
 			sprintf("%d", get_pref($link, "CDM_AUTO_CATCHUP")) . "\"/>";
 
+		print "<param key=\"icons_url\" value=\"" . ICONS_URL . "\"/>";
+
 		print "</init-params>";
 	}
 
