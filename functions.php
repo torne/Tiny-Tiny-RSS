@@ -237,6 +237,8 @@
 
 			if ($fp) {
 				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+				curl_setopt($ch, CURLOPT_TIMEOUT, 45);
 				curl_exec($ch);
 				curl_close($ch);
 				fclose($fp);					
