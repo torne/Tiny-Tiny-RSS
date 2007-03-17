@@ -409,7 +409,11 @@
 		$feed = db_escape_string($feed);
 
 		if ($rss) {
-			
+
+			if (defined('DAEMON_EXTENDED_DEBUG')) {
+				_debug("update_rss_feed: processing feed data...");
+			}
+
 //			db_query($link, "BEGIN");
 
 			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid
@@ -422,6 +426,9 @@
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
+				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					_debug("update_rss_feed: checking favicon...");
+				}
 				check_feed_favicon($rss->channel["link"], $feed, $link);
 			}
 
@@ -451,6 +458,9 @@
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
+			if (defined('DAEMON_EXTENDED_DEBUG')) {
+				_debug("update_rss_feed: loading filters...");
+			}
 
 			$filters = array();
 
@@ -487,6 +497,10 @@
 					SET last_error = 'Parse error: can\'t find any articles.'
 						WHERE id = '$feed'"); */
 				return; // WTF?
+			}
+
+			if (defined('DAEMON_EXTENDED_DEBUG')) {
+				_debug("update_rss_feed: processing articles...");
 			}
 
 			foreach ($iterator as $item) {
