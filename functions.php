@@ -690,7 +690,7 @@
 				if (db_num_rows($result) == 1) {
 
 					if (defined('DAEMON_EXTENDED_DEBUG')) {
-						_debug("update_rss_feed: base guid found, creating user ref");
+						_debug("update_rss_feed: base guid found, checking for user record");
 					}
 
 					// this will be used below in update handler
@@ -716,6 +716,13 @@
 					$article_filters = get_article_filters($filters, $entry_title, 
 							$entry_content, $entry_link);
 
+					if (defined('DAEMON_EXTENDED_DEBUG')) {
+						_debug("update_rss_feed: article filters: ");
+						if (count($article_filters) != 0) {
+							print_r($article_filters);
+						}
+					}
+
 					if (find_article_filter($article_filters, "filter")) {
 						continue;
 					}
@@ -726,9 +733,13 @@
 						"SELECT ref_id FROM ttrss_user_entries WHERE
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
 							$dupcheck_qpart");
-							
+
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
+
+						if (defined('DAEMON_EXTENDED_DEBUG')) {
+							_debug("update_rss_feed: user record not found, creating...");
+						}
 
 						if (!find_article_filter($article_filters, 'catchup')) {
 							$unread = 'true';
@@ -775,6 +786,10 @@
 					// if post needs update, update it and mark all user entries 
 					// linking to this post as updated					
 					if ($post_needs_update) {
+
+						if (defined('DAEMON_EXTENDED_DEBUG')) {
+							_debug("update_rss_feed: post $entry_guid needs update...");
+						}
 
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";
 
