@@ -428,7 +428,7 @@ function setCookie(name, value, lifetime, path, domain, secure) {
 	
 	if (lifetime) {
 		d = new Date();
-		d.setTime(lifetime * 1000);
+		d.setTime(d.getTime() + (lifetime * 1000));
 	}
 	
 	int_setCookie(name, value, d, path, domain, secure);
@@ -1500,9 +1500,31 @@ function debug(msg) {
 }
 
 function getInitParam(key) {
-	return getMainContext().init_params[key];
+	var c = getCookie("TTIP:" + key);
+	if (c) {
+		return c;
+	} else {
+		return getMainContext().init_params[key];
+	}
 }
 
+function storeInitParam(key, value) {
+	try {
+		init_params[key] = value;
+		debug("storeInitParam: " + key + " => " + value + 
+			" (" + getInitParam("cookie_lifetime") + ")");
+		if (getInitParam("cookie_lifetime") > 0) {
+			setCookie("TTIP:" + key, value, getInitParam("cookie_lifetime"));
+		} else {
+			setCookie("TTIP:" + key, value);
+		}
+	} catch (e) {
+		exception_error("storeInitParam", e);
+	}
+}
+
+
+/*
 function storeInitParam(key, value, is_client) {
 	try {
 		if (!is_client) {
@@ -1519,7 +1541,7 @@ function storeInitParam(key, value, is_client) {
 	} catch (e) {
 		exception_error("storeInitParam", e);
 	}
-}
+} */
 
 /*
 function storeInitParams(params, is_client) {

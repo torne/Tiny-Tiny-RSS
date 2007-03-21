@@ -2203,6 +2203,8 @@
 
 		print "<param key=\"icons_url\" value=\"" . ICONS_URL . "\"/>";
 
+		print "<param key=\"cookie_lifetime\" value=\"" . SESSION_COOKIE_LIFETIME . "\"/>";
+
 		print "</init-params>";
 	}
 

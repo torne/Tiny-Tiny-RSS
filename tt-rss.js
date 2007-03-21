@@ -388,8 +388,8 @@ function init_second_stage() {
 
 		var tb = parent.document.forms["main_toolbar_form"];
 
-//		dropboxSelect(tb.view_mode, getInitParam("toolbar_view_mode"));
-//		dropboxSelect(tb.limit, getInitParam("toolbar_limit"));
+		dropboxSelect(tb.view_mode, getInitParam("toolbar_view_mode"));
+		dropboxSelect(tb.limit, getInitParam("toolbar_limit"));
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
