@@ -20,8 +20,8 @@
 	$owner_uid = $_SESSION["uid"];
 	
 	if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) { 
-		print "<p>".
-			__("Error: your access level is insufficient to run this script.")."</p>";
+		$_SESSION["login_error_msg"] = __("Your access level is insufficient to run this script.");
+		render_login_form($link);
 		exit;
 	}
 	
