@@ -430,6 +430,8 @@ function setCookie(name, value, lifetime, path, domain, secure) {
 		d = new Date();
 		d.setTime(d.getTime() + (lifetime * 1000));
 	}
+
+	debug("setCookie: " + name + " => " + value + ": " + d);
 	
 	int_setCookie(name, value, d, path, domain, secure);
 
