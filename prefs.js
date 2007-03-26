@@ -1219,10 +1219,6 @@ function selectTab(id, noupdate, subop) {
 			}
 		}
 	
-		if (active_tab != id) {
-			storeInitParam("prefs_active_tab", id);
-		}
-	
 		active_tab = id;
 
 	} catch (e) {

@@ -2205,6 +2205,12 @@
 
 		print "<param key=\"cookie_lifetime\" value=\"" . SESSION_COOKIE_LIFETIME . "\"/>";
 
+		print "<param key=\"default_view_mode\" value=\"" . 
+			get_pref($link, "_DEFAULT_VIEW_MODE") . "\"/>";
+
+		print "<param key=\"default_view_limit\" value=\"" . 
+			sprintf("%d", get_pref($link, "_DEFAULT_VIEW_LIMIT")) . "\"/>";
+
 		print "</init-params>";
 	}
 

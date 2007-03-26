@@ -12,7 +12,7 @@
 	
 	error_reporting(DEFAULT_ERROR_LEVEL); */
 
-	define('SCHEMA_VERSION', 14);
+	define('SCHEMA_VERSION', 15);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
@@ -304,6 +304,9 @@
 		$offset = db_escape_string($_GET["skip"]);
 
 		if (!$offset) $offset = 0;
+
+		set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
+		set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
 
 		if ($subop == "undefined") $subop = "";
 

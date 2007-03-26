@@ -308,6 +308,7 @@
 				WHERE type_id = ttrss_prefs_types.id AND 
 					section_id = ttrss_prefs_sections.id AND
 					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
+					short_desc != '' AND
 					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
 

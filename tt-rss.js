@@ -386,10 +386,10 @@ function init_second_stage() {
 	
 		document.onkeydown = hotkey_handler;
 
-		var tb = parent.document.forms["main_toolbar_form"];
+		var toolbar = document.forms["main_toolbar_form"];
 
-		dropboxSelect(tb.view_mode, getInitParam("toolbar_view_mode"));
-		dropboxSelect(tb.limit, getInitParam("toolbar_limit"));
+		dropboxSelect(toolbar.view_mode, getInitParam("default_view_mode"));
+		dropboxSelect(toolbar.limit, getInitParam("default_view_limit"));
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;

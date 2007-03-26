@@ -1502,70 +1502,12 @@ function debug(msg) {
 }
 
 function getInitParam(key) {
-	var c = getCookie("TTIP:" + key);
-	if (c) {
-		return c;
-	} else {
-		return getMainContext().init_params[key];
-	}
+	return init_params[key];
 }
 
 function storeInitParam(key, value) {
-	try {
-		init_params[key] = value;
-		debug("storeInitParam: " + key + " => " + value + 
-			" (" + getInitParam("cookie_lifetime") + ")");
-		if (getInitParam("cookie_lifetime") > 0) {
-			setCookie("TTIP:" + key, value, getInitParam("cookie_lifetime"));
-		} else {
-			setCookie("TTIP:" + key, value);
-		}
-	} catch (e) {
-		exception_error("storeInitParam", e);
-	}
+	debug("<b>storeInitParam is OBSOLETE: " + key + " => " + value + "</b>");
 }
-
-
-/*
-function storeInitParam(key, value, is_client) {
-	try {
-		if (!is_client) {
-			if (getMainContext().init_params[key] != value) {
-				debug("storeInitParam: " + key + " => " + value);
-				//new Ajax.Request("backend.php?op=rpc&subop=storeParam&key=" + 
-				//	param_escape(key) + "&value=" + param_escape(value));	
-				var f = getMainContext().document.getElementById("backReqBox");
-				f.src = "backend.php?op=rpc&subop=storeParam&key=" + 
-					param_escape(key) + "&value=" + param_escape(value);
-			}
-		}
-		getMainContext().init_params[key] = value;
-	} catch (e) {
-		exception_error("storeInitParam", e);
-	}
-} */
-
-/*
-function storeInitParams(params, is_client) {
-	try {
-		var s = "";
-
-		for (k in params) {
-			if (getMainContext().init_params[k] != params[k]) {
-				s += k + "=" + params[k] + ";";
-				getMainContext().init_params[k] = params[k];
-			}
-		} 
-
-		debug("storeInitParams: " + s);
-	
-		if (!is_client) {
-			new Ajax.Request("backend.php?op=rpc&subop=storeParams&str=" + s);
-		}
-	} catch (e) {
-		exception_error("storeInitParams", e);
-	}
-}*/
 
 function fatalError(code, message) {
 	try {	
