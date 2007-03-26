@@ -201,15 +201,6 @@
 
 		}
 
-		if ($subop == "storeParam") {
-			$key = $_GET["key"];
-			$value = $_GET["value"];
-			$_SESSION["stored-params"][$key] = $value;
-			print "<rpc-reply>
-				<message>$key : $value</message>
-				</rpc-reply>";
-		}
-
 		if ($subop == "setArticleTags") {
 			$id = db_escape_string($_GET["id"]);
 			$tags_str = db_escape_string($_GET["tags_str"]);
