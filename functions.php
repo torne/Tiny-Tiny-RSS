@@ -2863,9 +2863,9 @@
 						<a href=\"$sel_unread_link\">".__('Unread')."</a>,
 						<a href=\"$sel_none_link\">".__('None')."</a></li>
 					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\">Selection<ul>
-						<li onclick=\"$tog_unread_link\">".__('Toggle unread')."</li>
-						<li onclick=\"$tog_marked_link\">".__('Toggle starred')."</li></ul></li>
+					<li class=\"top\">Toggle<ul>
+						<li onclick=\"$tog_unread_link\">".__('Unread')."</li>
+						<li onclick=\"$tog_marked_link\">".__('Starred')."</li></ul></li>
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
 						<li onclick=\"$catchup_page_link\">".__('This page')."</li>

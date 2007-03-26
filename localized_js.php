@@ -86,5 +86,6 @@ print T_js_decl("Changing category of selected feeds...");
 print T_js_decl("Reset to defaults?");
 print T_js_decl("Trying to change password...");
 print T_js_decl("Trying to change e-mail...");
+print T_js_decl("No articles are selected.");
 
 ?>

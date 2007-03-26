@@ -301,6 +301,11 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func) {
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
 		}
 
+		if (rows.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+
 		for (i = 0; i < rows.length; i++) {
 			var row = document.getElementById("RROW-" + rows[i]);
 			if (row) {
@@ -360,6 +365,11 @@ function selectionToggleMarked(cdm_mode) {
 		} else {	
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
 		}	
+
+		if (rows.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
 
 		for (i = 0; i < rows.length; i++) {
 			var row = document.getElementById("RROW-" + rows[i]);
