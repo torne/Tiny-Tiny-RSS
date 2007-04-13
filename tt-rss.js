@@ -376,6 +376,19 @@ function init() {
 	}
 }
 
+function resize_headlines() {
+	var h_frame = document.getElementById("headlines-frame");
+	var c_frame = document.getElementById("content-frame");
+
+	debug("resize_headlines");
+
+	if (c_frame && h_frame) {
+		h_frame.style.height = 30 + "%";
+		c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
+		h_frame.style.height = h_frame.offsetHeight + "px";
+	}
+}
+
 function init_second_stage() {
 
 	try {
@@ -384,7 +397,9 @@ function init_second_stage() {
 
 		delCookie("ttrss_vf_test");
 	
-		document.onkeydown = hotkey_handler;
+		document.onresize = resize_headlines;
+
+		resize_headlines();
 
 		var toolbar = document.forms["main_toolbar_form"];
 

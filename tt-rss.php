@@ -68,7 +68,7 @@
 	</script>
 </head>
 
-<body>
+<body onresize="resize_headlines()">
 
 <iframe id="backReqBox"></iframe>
 
