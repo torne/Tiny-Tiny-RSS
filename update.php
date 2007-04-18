@@ -25,7 +25,7 @@
 		exit;
 	}
 	
-	define('SCHEMA_VERSION', 15);
+	define('SCHEMA_VERSION', 16);
 
 ?>
 
