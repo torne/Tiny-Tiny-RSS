@@ -64,6 +64,13 @@
 				print "</td></tr>";
 			}
 
+/*			print "<tr><td colspan='2'><div class='insensitive'>";
+
+			print __("Some feeds require authentication. If you subscribe to such
+				feed, you will have to enter your login and password in Feed Editor");
+
+			print "</div></td></tr>"; */
+
 			print "</table>";
 			print "</form>";
 
