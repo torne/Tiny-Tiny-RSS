@@ -497,8 +497,15 @@
 			if (!is_array($iterator)) {
 				/* db_query($link, "UPDATE ttrss_feeds 
 					SET last_error = 'Parse error: can\'t find any articles.'
-						WHERE id = '$feed'"); */
-				return; // WTF?
+					WHERE id = '$feed'"); */
+
+				// clear any errors and mark feed as updated if fetched okay
+				// even if it's blank
+
+				db_query($link, "UPDATE ttrss_feeds 
+					SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
+
+				return; // no articles
 			}
 
 			if (defined('DAEMON_EXTENDED_DEBUG')) {
