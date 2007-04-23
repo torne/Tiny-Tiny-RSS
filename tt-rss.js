@@ -397,9 +397,10 @@ function init_second_stage() {
 
 		delCookie("ttrss_vf_test");
 	
-		document.onresize = resize_headlines;
-
-		resize_headlines();
+		if (!is_msie()) {
+			document.onresize = resize_headlines;
+			resize_headlines();
+		}
 
 		var toolbar = document.forms["main_toolbar_form"];
 

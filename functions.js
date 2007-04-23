@@ -7,6 +7,10 @@ function browser_has_opacity() {
 		navigator.userAgent.match("Opera") != null;
 }
 
+function is_msie() {
+	return navigator.userAgent.match("MSIE");
+}
+
 function is_opera() {
 	return navigator.userAgent.match("Opera");
 }
