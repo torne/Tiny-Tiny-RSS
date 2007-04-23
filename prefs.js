@@ -42,7 +42,7 @@ function feedlist_callback() {
 
 				caller_subop = false;
 			}
-
+			correctPNG();
 			notify("");
 		} catch (e) {
 			exception_error("feedlist_callback", e);
@@ -54,6 +54,7 @@ function filterlist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
+		correctPNG();
 		notify("");
 	}
 }
@@ -76,6 +77,7 @@ function labellist_callback() {
 				checkbox.checked = true;
 			}
 		}
+		correctPNG();
 		notify("");
 	}
 }
