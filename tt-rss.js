@@ -14,6 +14,7 @@ var cookie_lifetime = 0;
 var active_feed_id = 0;
 var active_feed_is_cat = false;
 var number_of_feeds = 0;
+var sanity_check_done = false;
 
 var xmlhttp = Ajax.getTransport();
 var xmlhttp_ctr = Ajax.getTransport();
@@ -88,7 +89,13 @@ function backend_sanity_check_callback() {
 	if (xmlhttp.readyState == 4) {
 
 		try {
-		
+	
+			if (sanity_check_done) {
+				fatalError(11, "Sanity check request received twice. You could be running"+
+			      " Firebug or some other disrupting extension. Please turn it off.");
+				return;
+			}
+
 			if (!xmlhttp.responseXML) {
 				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
 				return;
@@ -123,6 +130,8 @@ function backend_sanity_check_callback() {
 					param = param.nextSibling;
 				}
 			}
+
+			sanity_check_done = true;
 
 			init_second_stage();
 

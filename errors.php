@@ -26,4 +26,7 @@
 
 	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see 
 		official site for more information.");
+
+	$ERRORS[11] = __("Sanity check request received twice. You could be running
+		Firebug or some other disrupting extension. Please turn it off.");
 ?>

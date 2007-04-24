@@ -14,6 +14,8 @@ var init_params = new Array();
 
 var caller_subop = false;
 
+var sanity_check_done = false;
+
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -1239,7 +1241,13 @@ function backend_sanity_check_callback() {
 	if (xmlhttp.readyState == 4) {
 
 		try {
-		
+
+			if (sanity_check_done) {
+				fatalError(11, "Sanity check request received twice. You could be running"+
+			      " Firebug or some other disrupting extension. Please turn it off.");
+				return;
+			}
+
 			if (!xmlhttp.responseXML) {
 				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
 				return;
@@ -1274,6 +1282,8 @@ function backend_sanity_check_callback() {
 					param = param.nextSibling;
 				}
 			}
+
+			sanity_check_done = true;
 
 			init_second_stage();
 
