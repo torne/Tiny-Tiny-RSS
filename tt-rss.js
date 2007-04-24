@@ -91,8 +91,9 @@ function backend_sanity_check_callback() {
 		try {
 	
 			if (sanity_check_done) {
-				fatalError(11, "Sanity check request received twice. You could be running"+
-			      " Firebug or some other disrupting extension. Please turn it off.");
+				fatalError(11, "Sanity check request received twice. This can indicate "+
+			      "presence of Firebug or some other disrupting extension. "+
+					"Please disable it and try again.");
 				return;
 			}
 
