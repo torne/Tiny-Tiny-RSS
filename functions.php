@@ -2023,7 +2023,8 @@
 		print "</rpc-reply>";
 	}
 
-	function subscribe_to_feed($link, $feed_link, $cat_id = 0) {
+	function subscribe_to_feed($link, $feed_link, $cat_id = 0, 
+			$auth_login = '', $auth_pass = '') {
 
 		# check for feed:http://url
 		$feed_link = trim(preg_replace("/^feed:/", "", $feed_link));
@@ -2048,13 +2049,14 @@
 		if (db_num_rows($result) == 0) {
 			
 			$result = db_query($link,
-				"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+				"INSERT INTO ttrss_feeds 
+					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass) 
 				VALUES ('".$_SESSION["uid"]."', '$feed_link', 
-				'[Unknown]', $cat_qpart)");
+				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass')");
 	
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' 
-				AND owner_uid = " . $_SESSION["uid"]);
+					AND owner_uid = " . $_SESSION["uid"]);
 	
 			$feed_id = db_fetch_result($result, 0, "id");
 	

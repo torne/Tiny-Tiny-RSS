@@ -425,9 +425,14 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$feed_url = db_escape_string(trim($_POST["feed_url"]));
-				$cat_id = db_escape_string($_POST["cat_id"]);
-				$p_from = db_escape_string($_POST["from"]);
+				$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+				$cat_id = db_escape_string($_REQUEST["cat_id"]);
+				$p_from = db_escape_string($_REQUEST["from"]);
+
+				/* only read authentication information from POST */
+
+				$auth_login = db_escape_string(trim($_POST["auth_login"]));
+				$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 
 				if ($p_from != 'tt-rss') {
 					print "<html>
@@ -442,7 +447,7 @@
 						<div class=\"content\">";
 				}
 
-				if (subscribe_to_feed($link, $feed_url, $cat_id)) {
+				if (subscribe_to_feed($link, $feed_url, $cat_id, $auth_login, $auth_pass)) {
 					print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
 				} else {
 					print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));

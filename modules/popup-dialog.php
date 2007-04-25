@@ -72,6 +72,19 @@
 			print "</div></td></tr>"; */
 
 			print "</table>";
+
+			print "<div id='fadd_login_prompt'><br/>
+				<a href='javascript:showBlockElement(\"fadd_login_container\", 
+					\"fadd_login_prompt\")'>Click here if this feed requires authentication.</a></div>";
+
+			print "<div id='fadd_login_container'>
+				<table width='100%'>
+					<tr><td>Login:</td><td><input name='auth_login' class='iedit'></td></tr>
+					<tr><td>Password:</td><td><input type='password'
+						name='auth_pass' class='iedit'></td></tr>
+				</table>
+				</div>";
+
 			print "</form>";
 
 			print "<div align='right'>

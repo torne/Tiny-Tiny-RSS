@@ -1252,11 +1252,18 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 	}
 }
 
-function showBlockElement(id) {
+function showBlockElement(id, h_id) {
 	var elem = document.getElementById(id);
 
 	if (elem) {
 		elem.style.display = "block";
+
+		if (h_id) {
+			elem = document.getElementById(h_id);
+			if (elem) {
+				elem.style.display = "none";
+			}
+		}
 	} else {
 		alert("[showBlockElement] can't find element with id " + id);
 	} 
@@ -1437,6 +1444,8 @@ function qaddFeed() {
 	
 	var query = Form.serialize("feed_add_form");
 	
+	debug("subscribe q: " + query);
+
 /*	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
 	xmlhttp.send(null); */
