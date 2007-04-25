@@ -1437,9 +1437,14 @@ function qaddFeed() {
 	
 	var query = Form.serialize("feed_add_form");
 	
-	xmlhttp.open("GET", "backend.php?" + query, true);
+/*	xmlhttp.open("GET", "backend.php?" + query, true);
 	xmlhttp.onreadystatechange=dlg_frefresh_callback;
-	xmlhttp.send(null);
+	xmlhttp.send(null); */
+
+	xmlhttp.open("POST", "backend.php", true);
+	xmlhttp.onreadystatechange=dlg_frefresh_callback;
+	xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xmlhttp.send(query);
 
 	return false;
 }

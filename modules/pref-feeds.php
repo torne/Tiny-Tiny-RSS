@@ -425,9 +425,9 @@
 		
 			if (!WEB_DEMO_MODE) {
 
-				$feed_url = db_escape_string(trim($_GET["feed_url"]));
-				$cat_id = db_escape_string($_GET["cat_id"]);
-				$p_from = db_escape_string($_GET["from"]);
+				$feed_url = db_escape_string(trim($_POST["feed_url"]));
+				$cat_id = db_escape_string($_POST["cat_id"]);
+				$p_from = db_escape_string($_POST["from"]);
 
 				if ($p_from != 'tt-rss') {
 					print "<html>
