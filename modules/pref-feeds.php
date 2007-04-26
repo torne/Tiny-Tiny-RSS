@@ -853,7 +853,6 @@
 				$cat_id = $line["cat_id"];
 
 				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
-				$edit_link = htmlspecialchars(db_unescape_string($line["feed_url"]));
 				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
 
 				$hidden = sql_bool_to_bool($line["hidden"]);
@@ -921,12 +920,8 @@
 					print "<td class='feedIcon'>$feed_icon</td>";		
 				}
 
-				$edit_title = truncate_string($edit_title, 40);
-				$edit_link = truncate_string($edit_link, 60);
-
 				if ($hidden) {
 					$edit_title = "<span class=\"insensitive\">$edit_title (Hidden)</span>";
-					$edit_link = "<span class=\"insensitive\">$edit_link</span>";
 					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
 					$last_article = "<span class=\"insensitive\">$last_article</span>";
 				}
