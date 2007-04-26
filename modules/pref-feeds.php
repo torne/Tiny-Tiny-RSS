@@ -838,10 +838,9 @@
 				}
 
 				print "
-					<td width='35%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
-					<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">".__('Feed')."</a></td>
-					<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
-					<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+					<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
+					<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
+					<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 			}
 			
 			$lnum = 0;
@@ -863,7 +862,9 @@
 
 				$last_updated = $line["last_updated"];
 
-				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				if (!$last_updated) {
+					$last_updated = "&mdash;";
+				} else if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$last_updated = smart_date_time(strtotime($last_updated));
 				} else {
 					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
@@ -872,7 +873,9 @@
 
 				$last_article = $line["last_article"];
 
-				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				if (!$last_article) {
+					$last_article = "&mdash;";	
+				} else if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$last_article = smart_date_time(strtotime($last_article));
 				} else {
 					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
@@ -891,10 +894,9 @@
 						print "<td width='3%'>&nbsp;</td>";
 					}
 
-					print "<td width='35%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
-						<td width='35%'><a href=\"javascript:updateFeedList('feed_url')\">".__('Feed')."</a></td>
-						<td width='15%'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
-						<td width='15%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+					print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
+						<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
+						<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -937,11 +939,8 @@
 
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$edit_title $parent_title" . "</a></td>";		
-					
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					$edit_link . "</a></td>";		
 
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
+				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$last_article</a></td>";
 
 				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
