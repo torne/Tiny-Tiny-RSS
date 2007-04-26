@@ -1359,7 +1359,7 @@
 		} else if (date("Y", $timestamp) == date("Y")) {
 			return date("M d, G:i", $timestamp);
 		} else {
-			return date("Y/m/d G:i", $timestamp);
+			return date("Y/m/d, G:i", $timestamp);
 		}
 	}
 
