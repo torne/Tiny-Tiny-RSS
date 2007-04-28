@@ -3,6 +3,7 @@
 function viewCategory(cat) {
 	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
+	return false;
 }
 
 function feedlist_callback() {
