@@ -2961,7 +2961,7 @@
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			print "<li class=\"feedCat\">".__('Special')."</li>\n";
-			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
+			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 		}
 
 		$num_starred = getFeedUnread($link, -1);
@@ -2987,7 +2987,7 @@
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 						print "<li class=\"feedCat\">".__('Labels')."</li>\n";
-						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
+						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 					} else {
 						print "<li><hr></li>\n";
 					}
@@ -3149,7 +3149,7 @@
 						$holder_class = "invisible";
 						$ellipsis = "...";
 					} else {
-						$holder_class = "";
+						$holder_class = "feedCatHolder";
 						$ellipsis = "";
 					}
 
