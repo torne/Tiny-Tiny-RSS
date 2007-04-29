@@ -421,7 +421,7 @@
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\" width=\"100%\">";
+					cellspacing=\"0\">";
 			}
 
 			$lnum = 0;
