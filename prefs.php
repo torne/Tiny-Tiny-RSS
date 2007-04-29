@@ -82,8 +82,6 @@ window.onload = init;
 
 <ul id="debug_output"></ul>
 
-<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
 	<div id="fatal_error_msg"><?php echo __('Unknown Error') ?></div>
@@ -133,6 +131,8 @@ window.onload = init;
 		browser settings.") ?></div>
 	</noscript>
 </div>
+
+<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 
 <div id="prefFooter">
 	<?php if (defined('_DEBUG_USER_SWITCH')) { ?>
