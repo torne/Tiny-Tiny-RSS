@@ -44,8 +44,6 @@
 	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="prefs.js?<?php echo $dt_add ?>"></script>
 
-	<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
-
 	<!--[if lt IE 7]>
 		<script type="text/javascript" src="pngfix.js"></script>
 		<link rel="stylesheet" type="text/css" href="ie6.css">
@@ -131,6 +129,7 @@ window.onload = init;
 </div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 
 <div id="prefFooter">
 	<?php if (defined('_DEBUG_USER_SWITCH')) { ?>
