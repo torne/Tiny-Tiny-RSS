@@ -388,17 +388,32 @@ function init() {
 
 function resize_headlines() {
 
-	if (is_msie()) return;
-
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
+	var f_frame = document.getElementById("footer");
+
+	if (!c_frame || !h_frame) return;
 
 	debug("resize_headlines");
 
-	if (c_frame && h_frame) {
+	if (!is_msie()) {
 		h_frame.style.height = 30 + "%";
 		c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
 		h_frame.style.height = h_frame.offsetHeight + "px";
+	} else {
+		h_frame.style.height = document.documentElement.clientHeight * 0.3 + "px";
+		c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
+
+		var c_bottom = document.documentElement.clientHeight;
+
+		if (f_frame) {
+			c_bottom = f_frame.offsetTop;
+		}
+
+		c_frame.style.height = c_bottom - (h_frame.offsetTop + 
+			h_frame.offsetHeight + 1) + "px";
+		h_frame.style.height = h_frame.offsetHeight + "px";
+
 	}
 }
 
@@ -410,10 +425,8 @@ function init_second_stage() {
 
 		delCookie("ttrss_vf_test");
 
-		if (!is_msie()) {
-			document.onresize = resize_headlines;
-			resize_headlines();
-		}
+//		document.onresize = resize_headlines;
+		resize_headlines();
 
 		var toolbar = document.forms["main_toolbar_form"];
 
