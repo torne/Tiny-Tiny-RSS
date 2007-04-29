@@ -46,10 +46,15 @@
 
 	<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 
-	<!--[if gte IE 5.5000]>
+	<!--[if lt IE 7]>
 		<script type="text/javascript" src="pngfix.js"></script>
-		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
+		<link rel="stylesheet" type="text/css" href="ie6.css">
 	<![endif]-->
+
+	<!--[if IE 7]>		
+		<link rel="stylesheet" type="text/css" href="ie7.css">
+	<![endif]-->
+
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<script type="text/javascript">
