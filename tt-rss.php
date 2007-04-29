@@ -74,8 +74,6 @@
 
 <body onresize="resize_headlines()">
 
-<iframe id="backReqBox"></iframe>
-
 <div id="overlay">
 	<div id="overlay_inner">
 	<p><?php echo __("Loading, please wait...") ?></p>

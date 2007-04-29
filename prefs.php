@@ -71,8 +71,6 @@
 
 <div id="piggie">&nbsp;</div>
 
-<iframe id="backReqBox"></iframe>
-
 <script type="text/javascript">
 if (document.addEventListener) {
 	document.addEventListener("DOMContentLoaded", init, null);
