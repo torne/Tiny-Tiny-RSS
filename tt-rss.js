@@ -387,6 +387,9 @@ function init() {
 }
 
 function resize_headlines() {
+
+	if (is_msie()) return;
+
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
 
@@ -406,7 +409,7 @@ function init_second_stage() {
 		cookie_lifetime = getCookie("ttrss_cltime");
 
 		delCookie("ttrss_vf_test");
-	
+
 		if (!is_msie()) {
 			document.onresize = resize_headlines;
 			resize_headlines();
