@@ -2960,8 +2960,8 @@
 		/* virtual feeds */
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<li class=\"feedCat\">".__('Special')."</li>";
-			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+			print "<li class=\"feedCat\">".__('Special')."</li>\n";
+			print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 		}
 
 		$num_starred = getFeedUnread($link, -1);
@@ -2986,10 +2986,10 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">".__('Labels')."</li>";
-						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+						print "<li class=\"feedCat\">".__('Labels')."</li>\n";
+						print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">\n";
 					} else {
-						print "<li><hr></li>";
+						print "<li><hr></li>\n";
 					}
 				}
 		
@@ -3023,7 +3023,7 @@
 			}
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li><hr></li>";
+				print "<li><hr></li>\n";
 			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -3159,16 +3159,16 @@
 
 					$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
 
-					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
+					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">\n
 						<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
 							<span id=\"FCATCTR-$cat_id\" title=\"Click to browse category\" 
 							class=\"$catctr_class\">($cat_unread)</span> $ellipsis
-							</a></li>";
+							</a></li>\n";
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">\n";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
@@ -3179,7 +3179,7 @@
 			}
 
 			if (db_num_rows($result) == 0) {
-				print "<li>".__('No feeds to display.')."</li>";
+				print "<li>".__('No feeds to display.')."</li>\n";
 			}
 
 		} else {
