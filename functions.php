@@ -1325,8 +1325,11 @@
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 				render_login_form($link, $mobile);
 				exit;
+			} else {
+				/* bump login timestamp */
+				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
+					$_SESSION["uid"]);
 			}
-
 
 		} else {
 			return authenticate_user($link, "admin", null);
