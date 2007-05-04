@@ -589,6 +589,8 @@
 				}
 			}
 
+			set_pref($link, "_PREFS_ACTIVE_TAB", "feedConfig");
+
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"

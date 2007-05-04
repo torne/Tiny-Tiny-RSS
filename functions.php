@@ -2223,6 +2223,9 @@
 		print "<param key=\"default_view_limit\" value=\"" . 
 			sprintf("%d", get_pref($link, "_DEFAULT_VIEW_LIMIT")) . "\"/>";
 
+		print "<param key=\"prefs_active_tab\" value=\"" . 
+			get_pref($link, "_PREFS_ACTIVE_TAB") . "\"/>";
+
 		print "</init-params>";
 	}
 

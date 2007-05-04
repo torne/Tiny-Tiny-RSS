@@ -199,6 +199,8 @@
 
 		if ($quiet) return;
 
+		set_pref($link, "_PREFS_ACTIVE_TAB", "filterConfig");
+
 		$sort = db_escape_string($_GET["sort"]);
 
 		if (!$sort || $sort == "undefined") {

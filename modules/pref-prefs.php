@@ -173,6 +173,8 @@
 
 //			print check_for_update($link);
 
+			set_pref($link, "_PREFS_ACTIVE_TAB", "genConfig");
+
 			if (!SINGLE_USER_MODE) {
 
 				$result = db_query($link, "SELECT id,email FROM ttrss_users

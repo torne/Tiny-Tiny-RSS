@@ -72,6 +72,8 @@
 			return;
 		}
 
+		set_pref($link, "_PREFS_ACTIVE_TAB", "feedBrowser");
+
 		print "<div>".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
 
 		$limit = db_escape_string($_GET["limit"]);
