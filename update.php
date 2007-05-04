@@ -24,8 +24,7 @@
 		render_login_form($link);
 		exit;
 	}
-	
-	define('SCHEMA_VERSION', 16);
+
 
 ?>
 
@@ -94,7 +93,7 @@ function confirmOP() {
 	}
 	
 	if (!$op) {
-		print "<p class='warning'>".__("<b>Warning:</b> Please backup your database before proceeding.")."</p>";
+		print_warning("Please backup your database before proceeding.");
 	
 		print "<p>" . T_sprintf("Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>).", $version, $latest_version) . "</p>";
 	
