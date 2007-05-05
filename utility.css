@@ -47,8 +47,17 @@ div.warning {
 }
 
 
-div.warning img, div.notice img {
+div.warning img, div.notice img, div.error img {
 	vertical-align : middle;
 	padding : 5px;
+}
+
+div.error {
+	border : 1px solid #ff0000;
+	background : #ffcccc;
+	padding : 5px;
+	margin : 0px 0px 5px 0px;
+	font-size : 9pt;
+	width : 50%;
 }
 

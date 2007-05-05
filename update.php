@@ -82,12 +82,22 @@ function confirmOP() {
 	ksort($update_versions, SORT_NUMERIC);
 	
 	$latest_version = max(array_keys($update_versions));
-	
+
 	if ($version == $latest_version) {
-		print "<p>".__("Tiny Tiny RSS database is up to date.")."</p>";
-		print "<form method=\"GET\" action=\"tt-rss.php\">
-			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
-			</form>";
+
+		if ($version != SCHEMA_VERSION) {
+			print_error(__("Could not update database"));
+
+			print "<p>" . 
+				__("Could not find necessary schema file, need version:") .
+				" " . SCHEMA_VERSION . __(", found: ") . $latest_version . "</p>";
+
+		} else {
+			print "<p>".__("Tiny Tiny RSS database is up to date.")."</p>";
+			print "<form method=\"GET\" action=\"tt-rss.php\">
+				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+				</form>";
+		}
 
 		return;
 	}
