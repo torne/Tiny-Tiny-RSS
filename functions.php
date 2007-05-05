@@ -3309,6 +3309,11 @@
 			<img src=\"images/sign_info.png\">$msg</div>";
 	}
 
+	function format_error($msg) {
+		return "<div class=\"error\"> 
+			<img src=\"images/sign_excl.png\">$msg</div>";
+	}
+
 	function print_notice($msg) {
 		return print format_notice($msg);
 	}
@@ -3316,6 +3321,11 @@
 	function print_warning($msg) {
 		return print format_warning($msg);
 	}
+
+	function print_error($msg) {
+		return print format_error($msg);
+	}
+
 
 	function T_sprintf() {
 		$args = func_get_args();
