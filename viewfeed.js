@@ -286,7 +286,7 @@ function toggleUnread(id, cmode) {
 	}
 }
 
-function selectionToggleUnread(cdm_mode, set_state, callback_func) {
+function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 	try {
 		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
@@ -301,7 +301,7 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func) {
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
 		}
 
-		if (rows.length == 0) {
+		if (rows.length == 0 && !no_error) {
 			alert(__("No articles are selected."));
 			return;
 		}
@@ -458,11 +458,11 @@ function catchupPage() {
 
 	if (document.getElementById("headlinesList")) {
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
-		selectionToggleUnread(false, false, 'viewCurrentFeed()');
+		selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 	} else {
 		cdmSelectArticles('all');
-		selectionToggleUnread(true, false, 'viewCurrentFeed()')
+		selectionToggleUnread(true, false, 'viewCurrentFeed()', true)
 		cdmSelectArticles('none');
 	}
 }
