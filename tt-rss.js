@@ -544,7 +544,7 @@ function toggleDispRead() {
 		if (!xmlhttp_ready(xmlhttp)) {
 			printLockingError();
 			return
-		}
+		} 
 
 		var hide_read_feeds = (getInitParam("hide_read_feeds") == "1");
 
@@ -554,13 +554,13 @@ function toggleDispRead() {
 
 		hideOrShowFeeds(getFeedsContext().document, hide_read_feeds);
 
-		var query = "backend.php?op=rpc&subop=setpref" +
-			"&key=HIDE_READ_FEEDS&value=" + param_escape(hide_read_feeds);
-
 		storeInitParam("hide_read_feeds", hide_read_feeds, true);
 
-		new Ajax.Request(query);
-		
+/*		var query = "backend.php?op=rpc&subop=setpref" +
+			"&key=HIDE_READ_FEEDS&value=" + param_escape(hide_read_feeds);
+
+		new Ajax.Request(query); */
+				
 	} catch (e) {
 		exception_error("toggleDispRead", e);
 	}

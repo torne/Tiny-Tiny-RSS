@@ -1525,6 +1525,7 @@ function getInitParam(key) {
 
 function storeInitParam(key, value) {
 	debug("<b>storeInitParam is OBSOLETE: " + key + " => " + value + "</b>");
+	init_params[key] = value;
 }
 
 function fatalError(code, message) {
