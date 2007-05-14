@@ -805,6 +805,7 @@
 				substring(F1.last_updated,1,16) AS last_updated,
 				F1.parent_feed,
 				F1.update_interval,
+				F1.last_error,
 				F1.purge_interval,
 				F1.cat_id,
 				F2.title AS parent_title,
@@ -863,6 +864,8 @@
 				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
 
 				$hidden = sql_bool_to_bool($line["hidden"]);
+
+				$last_error = $line["last_error"];
 
 				if (!$edit_cat) $edit_cat = __("Uncategorized");
 
@@ -931,6 +934,12 @@
 					$edit_title = "<span class=\"insensitive\">$edit_title (Hidden)</span>";
 					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
 					$last_article = "<span class=\"insensitive\">$last_article</span>";
+				}
+
+				if ($last_error) {
+					$edit_title = "<span class=\"feed_error\">$edit_title ($last_error)</span>";
+					$last_updated = "<span class=\"feed_error\">$last_updated</span>";
+					$last_article = "<span class=\"feed_error\">$last_article</span>";
 				}
 
 				$parent_title = $line["parent_title"];
