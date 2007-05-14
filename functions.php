@@ -823,11 +823,11 @@
 				}
 
 				/* taaaags */
-				// <a href="http://technorati.com/tag/Xorg" rel="tag">Xorg</a>, //
+				// <a href="..." rel="tag">Xorg</a>, //
 
 				$entry_tags = null;
 
-				preg_match_all("/<a.*?href=.http:\/\/.*?technorati.com\/tag\/([^\"\'>]+)/i", 
+				preg_match_all("/<a.*?rel=['\"]tag['\"].*?>([^<]+)<\/a>/i", 
 					$entry_content_unescaped, $entry_tags);
 
 //				print "<br>$entry_title : $entry_content_unescaped<br>";
