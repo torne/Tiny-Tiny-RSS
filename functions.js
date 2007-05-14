@@ -1158,7 +1158,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				
 					if (getInitParam("hide_read_feeds") == 1) {
 						if (child.className != "feed") {
-							alert(child.className);
+//							alert(child.className);
 							return child.id.replace('FEEDR-', '');						
 						}							
 					} else {
@@ -1207,7 +1207,10 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" &&
 							e.className.match("feed")))	{
-						return e.id.replace("FEEDR-", "");
+						if (e.parentNode.parentNode && e.parentNode.parentNode.className 
+							!= "invisible") {
+							return e.id.replace("FEEDR-", "");
+						}
 					}
 				}
 			}
@@ -1244,7 +1247,10 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" && 
 							e.className.match("feed")))	{
-						return e.id.replace("FEEDR-", "");
+						if (e.parentNode.parentNode && e.parentNode.parentNode.className 
+							!= "invisible") {
+							return e.id.replace("FEEDR-", "");
+						}
 					}
 				}
 			}
