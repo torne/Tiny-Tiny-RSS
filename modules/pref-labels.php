@@ -81,6 +81,11 @@
 			$expr = db_unescape_string(trim($_GET["expr"]));
 			$descr = db_unescape_string(trim($_GET["descr"]));
 
+			if (!$expr) {
+				print "<div>Error: SQL expression is blank.</div>";
+				return;
+			}
+
 			print "<div>";
 
 			error_reporting(0);
