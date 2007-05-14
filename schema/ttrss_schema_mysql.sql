@@ -274,6 +274,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_PREFS_ACTIVE_TAB', 2, '', '', 1);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_INFOBOX_DISABLE_OVERLAY', 1, 'false', '', 1);
+
 create table ttrss_user_prefs (
    owner_uid integer not null,
    pref_name varchar(250),

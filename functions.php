@@ -2202,16 +2202,16 @@
 			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";
 
 		print "<param key=\"hide_read_feeds\" value=\"" . 
-			sprintf("%d", get_pref($link, "HIDE_READ_FEEDS")) . "\"/>";
+			(int) get_pref($link, "HIDE_READ_FEEDS") . "\"/>";
 
 		print "<param key=\"feeds_sort_by_unread\" value=\"" . 
-			sprintf("%d", get_pref($link, "FEEDS_SORT_BY_UNREAD")) . "\"/>";
+			(int) get_pref($link, "FEEDS_SORT_BY_UNREAD") . "\"/>";
 
 		print "<param key=\"confirm_feed_catchup\" value=\"" . 
-			sprintf("%d", get_pref($link, "CONFIRM_FEED_CATCHUP")) . "\"/>";
+			(int) get_pref($link, "CONFIRM_FEED_CATCHUP") . "\"/>";
 
 		print "<param key=\"cdm_auto_catchup\" value=\"" . 
-			sprintf("%d", get_pref($link, "CDM_AUTO_CATCHUP")) . "\"/>";
+			(int) get_pref($link, "CDM_AUTO_CATCHUP") . "\"/>";
 
 		print "<param key=\"icons_url\" value=\"" . ICONS_URL . "\"/>";
 
@@ -2221,10 +2221,13 @@
 			get_pref($link, "_DEFAULT_VIEW_MODE") . "\"/>";
 
 		print "<param key=\"default_view_limit\" value=\"" . 
-			sprintf("%d", get_pref($link, "_DEFAULT_VIEW_LIMIT")) . "\"/>";
+			(int) get_pref($link, "_DEFAULT_VIEW_LIMIT") . "\"/>";
 
 		print "<param key=\"prefs_active_tab\" value=\"" . 
 			get_pref($link, "_PREFS_ACTIVE_TAB") . "\"/>";
+
+		print "<param key=\"infobox_disable_overlay\" value=\"" . 
+			get_pref($link, "_INFOBOX_DISABLE_OVERLAY") . "\"/>";
 
 		print "</init-params>";
 	}

@@ -1320,7 +1320,7 @@ function leading_zero(p) {
 
 function closeInfoBox(cleanup) {
 
-	if (!is_msie()) {
+	if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
 		var overlay = document.getElementById("dialog_overlay");
 		if (overlay) {
 			overlay.style.display = "none";
@@ -1383,10 +1383,12 @@ function infobox_submit_callback() {
 
 function infobox_callback() {
 	if (xmlhttp.readyState == 4) {
-		var overlay = document.getElementById("dialog_overlay");
 
-		if (overlay) {
-			overlay.style.display = "block";
+		if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
+			var overlay = document.getElementById("dialog_overlay");
+			if (overlay) {
+				overlay.style.display = "block";
+			}
 		}
 
 		var box = document.getElementById('infoBox');
