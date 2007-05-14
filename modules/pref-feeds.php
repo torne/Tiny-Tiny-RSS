@@ -612,9 +612,9 @@
 					cellspacing=\"0\">";
 
 				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				Select: 
-					<a href=\"javascript:selectPrefRows('fcat', true)\">All</a>,
-					<a href=\"javascript:selectPrefRows('fcat', false)\">None</a>
+				".__('Select:')." 
+					<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>
 					</td></tr>";
 
 				print "</table>";
@@ -833,9 +833,9 @@
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefFeedList\" id=\"prefFeedList\">";
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				Select: 
-					<a href=\"javascript:selectPrefRows('feed', true)\">All</a>,
-					<a href=\"javascript:selectPrefRows('feed', false)\">None</a>
+				".__('Select:')." 
+					<a href=\"javascript:selectPrefRows('feed', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('feed', false)\">".__('None')."</a>
 				</td</tr>";
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {

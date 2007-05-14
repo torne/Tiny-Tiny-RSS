@@ -252,9 +252,9 @@
 				id=\"prefFilterList\">";
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				Select: 
-					<a href=\"javascript:selectPrefRows('filter', true)\">All</a>,
-					<a href=\"javascript:selectPrefRows('filter', false)\">None</a>
+				".__('Select:')." 
+					<a href=\"javascript:selectPrefRows('filter', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('filter', false)\">".__('None')."</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">

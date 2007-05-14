@@ -226,9 +226,9 @@
 				class=\"prefLabelList\" id=\"prefLabelList\">";
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				Select: 
-					<a href=\"javascript:selectPrefRows('label', true)\">All</a>,
-					<a href=\"javascript:selectPrefRows('label', false)\">None</a>
+				".__('Select:')." 
+					<a href=\"javascript:selectPrefRows('label', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('label', false)\">".__('None')."</a>
 				</td</tr>";
 
 			print "<tr class=\"title\">

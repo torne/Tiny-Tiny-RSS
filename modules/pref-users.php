@@ -205,9 +205,9 @@
 			class=\"prefUserList\" id=\"prefUserList\">";
 
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				Select: 
-					<a href=\"javascript:selectPrefRows('user', true)\">All</a>,
-					<a href=\"javascript:selectPrefRows('user', false)\">None</a>
+				".__('Select:')." 
+					<a href=\"javascript:selectPrefRows('user', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('user', false)\">".__('None')."</a>
 				</td</tr>";
 
 		print "<tr class=\"title\">
