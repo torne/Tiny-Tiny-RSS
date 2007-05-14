@@ -768,11 +768,12 @@
 				onclick=\"addFeed()\" value=\"".__('Subscribe')."\">"; */
 
 		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
-			type=\"submit\" id=\"fadd_subscribe_btn\" 
+			type=\"submit\" id=\"subscribe_to_feed_btn\" 
 			class=\"button\" value=\"".__('Subscribe to feed')."\">"; 
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
+				id=\"top25_feeds_btn\"
 				onclick=\"javascript:browseFeeds()\" value=\"".__('Top 25')."\">";
 		}
 

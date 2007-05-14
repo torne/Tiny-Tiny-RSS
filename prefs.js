@@ -408,6 +408,14 @@ function editFeed(feed) {
 
 	notify_progress("Loading, please wait...");
 
+	document.getElementById("subscribe_to_feed_btn").disabled = true;
+
+	try {
+		document.getElementById("top25_feeds_btn").disabled = true;
+	} catch (e) {
+		// this button is not always available, no-op if not found
+	}
+
 	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
 	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
@@ -635,6 +643,14 @@ function feedEditCancel() {
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
+	}
+
+	document.getElementById("subscribe_to_feed_btn").disabled = false;
+
+	try {
+		document.getElementById("top25_feeds_btn").disabled = false;
+	} catch (e) {
+		// this button is not always available, no-op if not found
 	}
 
 	closeInfoBox();
@@ -1631,6 +1647,14 @@ function editFeedCats() {
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
+	}
+
+	document.getElementById("subscribe_to_feed_btn").disabled = true;
+
+	try {
+		document.getElementById("top25_feeds_btn").disabled = true;
+	} catch (e) {
+		// this button is not always available, no-op if not found
 	}
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
