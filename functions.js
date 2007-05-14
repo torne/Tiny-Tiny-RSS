@@ -1149,7 +1149,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 		if (direction == "prev") {
 			for (i = list.childNodes.length-1; i >= 0; i--) {
 				var child = list.childNodes[i];				
-				if (child.id == "feedCatHolder") {
+				if (child.id == "feedCatHolder" && child.className != "invisible") {
 					if (child.firstChild) {
 						var cr = getRelativeFeedId(child.firstChild, id, direction);
 						if (cr) return cr;					
