@@ -93,6 +93,8 @@
 	<div id="fatal_error_msg">Unknown Error</div>
 </div></div>
 
+<div id="dialog_overlay"> </div>
+
 <script type="text/javascript">
 if (document.addEventListener) {
 	document.addEventListener("DOMContentLoaded", init, null);

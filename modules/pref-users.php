@@ -212,9 +212,9 @@
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width='40%'><a href=\"javascript:updateUsersList('login')\">".__('Login')."</a></td>
-					<td width='40%'><a href=\"javascript:updateUsersList('access_level')\">".__('Access Level')."</a></td>
-					<td width='30%'><a href=\"javascript:updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
+					<td width=''><a href=\"javascript:updateUsersList('login')\">".__('Login')."</a></td>
+					<td width='20%'><a href=\"javascript:updateUsersList('access_level')\">".__('Access Level')."</a></td>
+					<td width='20%'><a href=\"javascript:updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
 		
 		$lnum = 0;
 		

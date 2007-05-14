@@ -234,7 +234,7 @@
 			print "<tr class=\"title\">
 						<td width=\"5%\">&nbsp;</td>
 						<td width=\"30%\"><a href=\"javascript:updateLabelList('description')\">".__('Caption')."</a></td>
-						<td width=\"50%\"><a href=\"javascript:updateLabelList('sql_exp')\">".__('SQL Expression')."</a>
+						<td width=\"\"><a href=\"javascript:updateLabelList('sql_exp')\">".__('SQL Expression')."</a>
 						</td>
 						</tr>";
 			

@@ -260,7 +260,7 @@
 			print "<tr class=\"title\">
 						<td align='center' width=\"5%\">&nbsp;</td>
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Filter expression')."</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
+						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
 						<td width=\"15%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
 						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td>";
 
