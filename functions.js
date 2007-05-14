@@ -1389,6 +1389,22 @@ function infobox_callback() {
 	}
 }
 
+function helpbox_callback() {
+	if (xmlhttp.readyState == 4) {
+		var box = document.getElementById('helpBox');
+		var shadow = document.getElementById('helpBoxShadow');
+		if (box) {			
+			box.innerHTML=xmlhttp.responseText;			
+			if (shadow) {
+				shadow.style.display = "block";
+			} else {
+				box.style.display = "block";				
+			}
+		}
+		notify("");
+	}
+}
+
 function addFilter() {
 
 	if (!xmlhttp_ready(xmlhttp)) {

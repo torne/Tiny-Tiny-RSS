@@ -476,8 +476,13 @@ function quickMenuGo(opid) {
 	
 		if (opid == "qmcRemoveFeed") {
 			var actid = getActiveFeedId();
-	
-			if (!actid || activeFeedIsCat()) {
+
+			if (activeFeedIsCat()) {
+				alert("You can't unsubscribe from the category.");
+				return;
+			}	
+
+			if (!actid) {
 				alert("Please select some feed first.");
 				return;
 			}
@@ -640,7 +645,7 @@ function editFeedDlg(feed) {
 		return;
 	}
 
-	if (feed <= 0 || active_feed_is_cat || tagsAreDisplayed()) {
+	if (feed <= 0 || activeFeedIsCat() || tagsAreDisplayed()) {
 		alert("You can't edit this kind of feed.");
 		return;
 	}

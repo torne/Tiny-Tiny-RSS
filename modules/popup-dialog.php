@@ -47,8 +47,9 @@
 			print "<form id='feed_add_form' onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
+			print "<input type=\"hidden\" name=\"quiet\" value=\"0\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
+			print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
 
 			print "<table width='100%'>
 			<tr><td>Feed URL:</td><td>

@@ -462,12 +462,32 @@ div.helpResponse {
 #infoBoxTitle {
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
+	border-color : #99d67a;
+	background-color : #99d67a;
+	padding : 2px;
+	color : white;
+}
+
+#infoBox {	
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #99d67a;
+	position : relative;
+	bottom : 2px;
+	right : 2px;
+	padding-bottom : 5px;	
+	background-color : #f8fcf5;
+}
+
+/*
+#infoBoxTitle {
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
 	border-color : #88b0f0;
 	background-color : #88b0f0;
 	padding : 2px;
 	color : white;
 }
-
 
 #infoBox {	
 	border-width : 1px 1px 1px 1px;
@@ -477,11 +497,8 @@ div.helpResponse {
 	bottom : 2px;
 	right : 2px;
 	padding-bottom : 5px;	
-	background-image : url("images/prefs-content.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	background-color : white;
-}
+	background-color : #f7faff;
+} */
 
 #infoBoxShadow {
 	background-image : url("images/shadow.png");
@@ -491,7 +508,7 @@ div.helpResponse {
 	z-index : 3;
 	position : absolute;
 	display : none;
-}
+} 
 
 div.infoBoxContents {
 	padding : 10px;
@@ -914,7 +931,7 @@ ul.userFeedList {
 	height : 300px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #88b0f0;
+	border : 1px solid #99d67a;
 	background-color : white;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
@@ -932,7 +949,7 @@ ul.labelTestResults {
 	list-style-type : none;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	border : 1px solid #88b0f0;
+	border : 1px solid #99d67a;
 	background-color : white;
 }
 
@@ -942,7 +959,7 @@ ul.filterTestResults {
 	list-style-type : none;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	border : 1px solid #88b0f0;
+	border : 1px solid #99d67a;
 	background-color : white;
 }
 
@@ -952,7 +969,7 @@ ul.browseFeedList {
 	list-style-type : none;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	border : 1px solid #88b0f0;
+	border : 1px solid #99d67a;
 	background-color : white;
 }
 

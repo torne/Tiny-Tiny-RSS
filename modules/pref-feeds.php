@@ -479,6 +479,7 @@
 					print "</div></body></html>";
 					return;
 				}
+
 			}
 		}
 
@@ -588,8 +589,6 @@
 					}
 				}
 			}
-
-			set_pref($link, "_PREFS_ACTIVE_TAB", "feedConfig");
 
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
@@ -732,6 +731,8 @@
 
 		if ($quiet) return;
 
+		set_pref($link, "_PREFS_ACTIVE_TAB", "feedConfig");
+
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
@@ -758,13 +759,17 @@
 				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
 			</div>";
 		
-		print "<input id=\"fadd_link\" 
+/*		print "<input id=\"fadd_link\" 
 				onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 				onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 				size=\"40\">
 			<input type=\"submit\" class=\"button\"
 				disabled=\"true\" id=\"fadd_submit_btn\"
-				onclick=\"addFeed()\" value=\"".__('Subscribe')."\">";
+				onclick=\"addFeed()\" value=\"".__('Subscribe')."\">"; */
+
+		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
+			type=\"submit\" id=\"fadd_subscribe_btn\" 
+			class=\"button\" value=\"".__('Subscribe to feed')."\">"; 
 
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
