@@ -2811,6 +2811,23 @@
 		}
 	}
 
+	function catchupArticleById($link, $id, $cmode) {
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = false,last_read = NOW()
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = true
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			unread = NOT unread,last_read = NOW()
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		}
+	}
+
 	function escape_for_form($s) {
 		return htmlspecialchars(db_unescape_string($s));
 	}

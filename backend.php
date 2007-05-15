@@ -43,7 +43,7 @@
 
 	$print_exec_time = false;
 
-	if ((!$op || $op == "rpc" || $op == "rss" || $op == "digestSend" ||
+	if ((!$op || $op == "rpc" || $op == "rss" || $op == "view" || $op == "digestSend" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml; charset=utf-8");
 	} else {
@@ -141,10 +141,9 @@
 
 	}
 
-	if ($op == "view") {
+	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true) {
 
-		$id = db_escape_string($_GET["id"]);
-		$feed_id = db_escape_string($_GET["feed"]);
+		print "<article id='$id'><![CDATA[";
 
 		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -163,9 +162,11 @@
 			$rtl_class = "";
 		}
 
-		$result = db_query($link, "UPDATE ttrss_user_entries 
-			SET unread = false,last_read = NOW() 
-			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		if ($mark_as_read) {
+			$result = db_query($link, "UPDATE ttrss_user_entries 
+				SET unread = false,last_read = NOW() 
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		}
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			SUBSTRING(updated,1,16) as updated,
@@ -289,6 +290,36 @@
 			print "</div>";
 
 		}
+
+		print "]]></article>";
+
+	}
+
+	if ($op == "view") {
+
+		$id = db_escape_string($_GET["id"]);
+		$feed_id = db_escape_string($_GET["feed"]);
+		$cids = split(",", db_escape_string($_GET["cids"]));
+		$mode = db_escape_string($_GET["mode"]);
+
+		print "<reply>";
+
+		// in prefetch mode we only output requested cids, main article 
+		// just gets marked as read (it already exists in client cache)
+
+		if ($mode != "prefetch") {
+			outputArticleXML($link, $id, $feed_id);
+		} else {
+			catchupArticleById($link, $id, 0);
+		}
+
+		foreach ($cids as $cid) {
+			if ($cid) {
+				outputArticleXML($link, $cid, $feed_id, false);
+			}
+		}
+
+		print "</reply>";
 	}
 
 	if ($op == "viewfeed") {

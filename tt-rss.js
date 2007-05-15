@@ -21,7 +21,7 @@ var xmlhttp_ctr = Ajax.getTransport();
 
 var init_params = new Object();
 
-var op_history = new Array();
+//var op_history = new Array();
 
 function tagsAreDisplayed() {
 	return display_tags;
@@ -696,7 +696,7 @@ function feedEditSave() {
 		exception_error("feedEditSave (main)", e);
 	} 
 }
-
+/*
 function localHotkeyHandler(e) {
 
 	var keycode;
@@ -756,7 +756,7 @@ function localHotkeyHandler(e) {
 	}	
 
 	debug("LKP=" + keycode);
-}
+} 
 
 function history_push(op) {
 	debug("history_push: " + op);
@@ -776,4 +776,4 @@ function history_pop() {
 function history_clear() {
 	debug("history_clear");
 	op_history.clear();
-}
+} */

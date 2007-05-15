@@ -1667,3 +1667,34 @@ function logoutUser() {
 		exception_error("logoutUser", e);
 	}
 }
+
+// this only searches loaded headlines list, not in CDM
+function getRelativePostIds(id) {
+
+	debug("getRelativePostIds: " + id);
+
+	var ids = new Array();
+	var container = document.getElementById("headlinesList");
+
+	if (container) {
+		var rows = container.rows;
+
+		for (var i = 0; i < rows.length; i++) {
+			var r_id = rows[i].id.replace("RROW-", "");
+
+			if (r_id == id) {
+				if (i > 0) ids.push(rows[i-1].id.replace("RROW-", ""));
+				if (i > 1) ids.push(rows[i-2].id.replace("RROW-", ""));
+				if (i > 2) ids.push(rows[i-3].id.replace("RROW-", ""));
+
+				if (i < rows.length) ids.push(rows[i+1].id.replace("RROW-", ""));
+				if (i < rows.length-1) ids.push(rows[i+2].id.replace("RROW-", ""));
+				if (i < rows.length-2) ids.push(rows[i+3].id.replace("RROW-", ""));
+
+				return ids;
+			}
+		}
+	}
+
+	return false;
+}
