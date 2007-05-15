@@ -195,10 +195,18 @@
 
 		print "<headlines id=\"$feed\"><![CDATA[";
 
-		outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
-			$next_unread_feed, $offset);
+		$topmost_article_ids = outputHeadlinesList($link, $feed, $subop, 
+			$view_mode, $limit, $cat_view, $next_unread_feed, $offset);
 
 		print "]]></headlines>";
+
+		if (is_array($topmost_article_ids)) {
+			print "<articles>";
+			foreach ($topmost_article_ids as $id) {
+				outputArticleXML($link, $id, $feed, false);
+			}
+			print "</articles>";
+		}
 
 		print "<counters>";
 		getAllCounters($link, $omode);

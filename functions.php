@@ -3513,6 +3513,8 @@
 	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset) {
 
+		$topmost_article_ids = array();
+
 		if (!$offset) $offset = 0;
 
 		if ($subop == "undefined") $subop = "";
@@ -3627,7 +3629,11 @@
 	
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
-	
+
+				if (count($topmost_article_ids) < 5) {
+					array_push($topmost_article_ids, $id);
+				}
+
 				if ($line["last_read"] == "" && 
 						($line["unread"] != "t" && $line["unread"] != "1")) {
 	
@@ -3801,6 +3807,6 @@
 
 		print "</div>";
 
-
+		return $topmost_article_ids;
 	}
 ?>

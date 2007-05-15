@@ -44,8 +44,17 @@ function headlines_callback() {
 		if (xmlhttp.responseXML) {
 			var headlines = xmlhttp.responseXML.getElementsByTagName("headlines")[0];
 			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
+			var articles = xmlhttp.responseXML.getElementsByTagName("article");
 
 			f.innerHTML = headlines.firstChild.nodeValue;
+
+			if (articles) {
+				for (var i = 0; i < articles.length; i++) {
+					var a_id = articles[i].getAttribute("id");
+					debug("found id: " + a_id);
+					cache_inject(a_id, articles[i].firstChild.nodeValue);
+				}
+			}
 
 			if (counters) {
 				debug("parsing piggybacked counters: " + counters);
