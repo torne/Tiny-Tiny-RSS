@@ -200,7 +200,7 @@
 
 		print "]]></headlines>";
 
-		if (is_array($topmost_article_ids)) {
+		if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 			print "<articles>";
 			foreach ($topmost_article_ids as $id) {
 				outputArticleXML($link, $id, $feed, false);
