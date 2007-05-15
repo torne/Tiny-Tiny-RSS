@@ -810,7 +810,7 @@ function cache_check(id) {
 }
 
 function cache_expire() {
-	while (article_cache.length > 30) {
+	while (article_cache.length > 20) {
 		article_cache.shift();
 	}
 }
