@@ -738,16 +738,21 @@ function cdmWatchdog() {
 
 
 function cache_inject(id, article) {
-	if (!article_cache[id]) {
+	if (!cache_check(id)) {
 		debug("cache_article: miss: " + id);
 
 		var cache_obj = new Array();
 
 		var d = new Date();
+
+		cache_obj["id"] = id;
 		cache_obj["entered"] = d.getTime() / 1000;
 		cache_obj["data"] = article;
+		cache_obj["last_access"] = 0;
 
-		article_cache[id] = cache_obj;
+		//article_cache[id] = cache_obj;
+
+		article_cache.push(cache_obj);
 
 	} else {
 		debug("cache_article: hit: " + id);
@@ -755,17 +760,27 @@ function cache_inject(id, article) {
 }
 
 function cache_find(id) {
-	if (typeof article_cache[id] != 'undefined') {
-		return article_cache[id]["data"];
-	} else {
-		return false;
+	for (var i = 0; i < article_cache.length; i++) {
+		if (article_cache[i]["id"] == id) {
+			var d = new Date();
+			article_cache[i]["last_access"] = d.getTime() / 1000;
+			return article_cache[i]["data"];
+		}
 	}
+	return false;
 }
 
 function cache_check(id) {
-	return typeof article_cache[id] != 'undefined';
+	for (var i = 0; i < article_cache.length; i++) {
+		if (article_cache[i]["id"] == id) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function cache_expire() {
-	/* TODO */
+	while (article_cache.length > 30) {
+		article_cache.shift();
+	}
 }

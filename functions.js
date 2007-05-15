@@ -1687,9 +1687,9 @@ function getRelativePostIds(id) {
 				if (i > 1) ids.push(rows[i-2].id.replace("RROW-", ""));
 				if (i > 2) ids.push(rows[i-3].id.replace("RROW-", ""));
 
-				if (i < rows.length) ids.push(rows[i+1].id.replace("RROW-", ""));
-				if (i < rows.length-1) ids.push(rows[i+2].id.replace("RROW-", ""));
-				if (i < rows.length-2) ids.push(rows[i+3].id.replace("RROW-", ""));
+				if (i < rows.length-1) ids.push(rows[i+1].id.replace("RROW-", ""));
+				if (i < rows.length-2) ids.push(rows[i+2].id.replace("RROW-", ""));
+				if (i < rows.length-3) ids.push(rows[i+3].id.replace("RROW-", ""));
 
 				return ids;
 			}
