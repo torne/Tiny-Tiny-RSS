@@ -40,8 +40,23 @@ function headlines_callback() {
 		try {
 			f.scrollTop = 0;
 		} catch (e) { };
-		f.innerHTML = xmlhttp.responseText;
-		update_all_counters();
+
+		if (xmlhttp.responseXML) {
+			var headlines = xmlhttp.responseXML.getElementsByTagName("headlines")[0];
+			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
+
+			f.innerHTML = headlines.firstChild.nodeValue;
+
+			if (counters) {
+				debug("parsing piggybacked counters: " + counters);
+				parse_counters(counters, false);
+			}
+		} else {
+			debug("headlines_callback: returned no XML object");
+			f.innerHTML = xmlhttp.responseText;
+			update_all_counters();
+		}
+
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}

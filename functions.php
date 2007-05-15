@@ -2406,7 +2406,11 @@
 					WHERE id = '$label_id'");
 			
 				$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
-		
+
+				if (!$query_strategy_part) {
+					return false;
+				}
+
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else {
 				$query_strategy_part = "id > 0"; // dumb
@@ -3352,4 +3356,451 @@
 		return vsprintf(__(array_shift($args)), $args);
 	}
 
+	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true) {
+
+		print "<article id='$id'><![CDATA[";
+
+		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 1) {
+			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+		} else {
+			$rtl_content = false;
+		}
+
+		if ($rtl_content) {
+			$rtl_tag = "dir=\"RTL\"";
+			$rtl_class = "RTL";
+		} else {
+			$rtl_tag = "";
+			$rtl_class = "";
+		}
+
+		if ($mark_as_read) {
+			$result = db_query($link, "UPDATE ttrss_user_entries 
+				SET unread = false,last_read = NOW() 
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+			SUBSTRING(updated,1,16) as updated,
+			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
+			num_comments,
+			author
+			FROM ttrss_entries,ttrss_user_entries
+			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
+
+		if ($result) {
+
+			$link_target = "";
+
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+				$link_target = "target=\"_new\"";
+			}
+
+			$line = db_fetch_assoc($result);
+
+			if ($line["icon_url"]) {
+				$feed_icon = "<img class=\"feedIcon\" src=\"" . $line["icon_url"] . "\">";
+			} else {
+				$feed_icon = "&nbsp;";
+			}
+
+/*			if ($line["comments"] && $line["link"] != $line["comments"]) {
+				$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
+			} else {
+				$entry_comments = "";
+			} */
+
+			$num_comments = $line["num_comments"];
+			$entry_comments = "";
+
+			if ($num_comments > 0) {
+				if ($line["comments"]) {
+					$comments_url = $line["comments"];
+				} else {
+					$comments_url = $line["link"];
+				}
+				$entry_comments = "<a $link_target href=\"$comments_url\">$num_comments comments</a>";
+			} else {
+				if ($line["comments"] && $line["link"] != $line["comments"]) {
+					$entry_comments = "<a $link_target href=\"".$line["comments"]."\">comments</a>";
+				}				
+			}
+
+			print "<div class=\"postReply\">";
+
+			print "<div class=\"postHeader\">";
+
+			$entry_author = $line["author"];
+
+			if ($entry_author) {
+				$entry_author = __(" - by ") . $entry_author;
+			}
+
+			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
+				strtotime($line["updated"]));
+		
+			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
+
+			if ($line["link"]) {
+				print "<div clear='both'><a $link_target href=\"" . $line["link"] . "\">" . 
+					$line["title"] . "</a>$entry_author</div>";
+			} else {
+				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
+			}
+
+			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
+				ORDER BY tag_name");
+	
+			$tags_str = "";
+			$f_tags_str = "";
+
+			$num_tags = 0;
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				$num_tags++;
+				$tag = $tmp_line["tag_name"];				
+				$tag_str = "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+				
+				if ($num_tags == 6) {
+					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
+				} else if ($num_tags < 6) {
+					$tags_str .= $tag_str;
+				}
+				$f_tags_str .= $tag_str;
+			}
+
+			$tags_str = preg_replace("/, $/", "", $tags_str);
+			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
+
+			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
+
+			if (!$tags_str) $tags_str = '<span class="tagList">'.__('no tags').'</span>';
+
+			print "<div style='float : right'>$tags_str 
+				<a title=\"Edit tags for this article\" 
+					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
+				<div clear='both'>$entry_comments</div>";
+
+			print "</div>";
+
+			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
+			print "<div class=\"postContent\">";
+			
+			if (db_num_rows($tmp_result) > 0) {
+				print "<div id=\"allEntryTags\">".__('Tags:')."$f_tags_str</div>";
+			}
+
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
+			}
+
+			$line["content"] = sanitize_rss($line["content"]);
+
+			print $line["content"] . "</div>";
+			
+			print "</div>";
+
+		}
+
+		print "]]></article>";
+
+	}
+
+	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
+					$next_unread_feed, $offset) {
+
+		if (!$offset) $offset = 0;
+
+		if ($subop == "undefined") $subop = "";
+
+		if ($subop == "CatchupSelected") {
+			$ids = split(",", db_escape_string($_GET["ids"]));
+			$cmode = sprintf("%d", $_GET["cmode"]);
+
+			catchupArticlesById($link, $ids, $cmode);
+		}
+
+		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+			update_generic_feed($link, $feed, $cat_view);
+		}
+
+		if ($subop == "MarkAllRead")  {
+			catchup_feed($link, $feed, $cat_view);
+
+			if (get_pref($link, 'ON_CATCHUP_SHOW_NEXT_FEED')) {
+				if ($next_unread_feed) {
+					$feed = $next_unread_feed;
+				}
+			}
+		}
+
+		if ($feed_id > 0) {		
+			$result = db_query($link,
+				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
+		
+			if (db_num_rows($result) == 0) {
+				print "<div align='center'>".__('Feed not found.')."</div>";				
+				return;
+			}
+		}
+
+		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+	
+			$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+
+			if (db_num_rows($result) == 1) {
+				$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+			} else {
+				$rtl_content = false;
+			}
+	
+			if ($rtl_content) {
+				$rtl_tag = "dir=\"RTL\"";
+			} else {
+				$rtl_tag = "";
+			}
+		} else {
+			$rtl_tag = "";
+			$rtl_content = false;
+		}
+
+		$script_dt_add = get_script_dt_add();
+
+		/// START /////////////////////////////////////////////////////////////////////////////////
+
+		$search = db_escape_string($_GET["query"]);
+		$search_mode = db_escape_string($_GET["search_mode"]);
+		$match_on = db_escape_string($_GET["match_on"]);
+
+		if (!$match_on) {
+			$match_on = "both";
+		}
+
+		$real_offset = $offset * $limit;
+
+		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
+			$search, $search_mode, $match_on, false, $real_offset);
+
+		$result = $qfh_ret[0];
+		$feed_title = $qfh_ret[1];
+		$feed_site_url = $qfh_ret[2];
+		$last_error = $qfh_ret[3];
+		
+		/// STOP //////////////////////////////////////////////////////////////////////////////////
+
+		print "<div id=\"headlinesContainer\" $rtl_tag>";
+
+		if (!$result) {
+			print "<div align='center'>".__("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
+			return;
+		}
+
+		print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
+			$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, 
+			$offset, $limit);
+
+		print "<div id=\"headlinesInnerContainer\">";
+
+		if (db_num_rows($result) > 0) {
+
+#			print "\{$offset}";
+
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+				print "<table class=\"headlinesList\" id=\"headlinesList\" 
+					cellspacing=\"0\">";
+			}
+
+			$lnum = 0;
+	
+			error_reporting (DEFAULT_ERROR_LEVEL);
+	
+			$num_unread = 0;
+	
+			while ($line = db_fetch_assoc($result)) {
+
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$id = $line["id"];
+				$feed_id = $line["feed_id"];
+	
+				if ($line["last_read"] == "" && 
+						($line["unread"] != "t" && $line["unread"] != "1")) {
+	
+					$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+						alt=\"Updated\">";
+				} else {
+					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
+						alt=\"Updated\">";
+				}
+	
+				if ($line["unread"] == "t" || $line["unread"] == "1") {
+					$class .= "Unread";
+					++$num_unread;
+					$is_unread = true;
+				} else {
+					$is_unread = false;
+				}
+	
+				if ($line["marked"] == "t" || $line["marked"] == "1") {
+					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
+						class=\"markedPic\"
+						alt=\"Reset mark\" onclick='javascript:toggleMark($id)'>";
+				} else {
+					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
+						class=\"markedPic\"
+						alt=\"Set mark\" onclick='javascript:toggleMark($id)'>";
+				}
+
+#				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
+#					$line["title"] . "</a>";
+
+				$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
+					$line["title"] . "</a>";
+
+#				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
+#					$line["title"] . "</a>";
+
+				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+					$updated_fmt = smart_date_time(strtotime($line["updated"]));
+				} else {
+					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+					$updated_fmt = date($short_date, strtotime($line["updated"]));
+				}				
+
+				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
+						100);
+				}
+
+				$entry_author = $line["author"];
+
+				if ($entry_author) {
+					$entry_author = " - by $entry_author";
+				}
+
+				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+					
+					print "<tr class='$class' id='RROW-$id'>";
+		
+					print "<td class='hlUpdatePic'>$update_pic</td>";
+		
+					print "<td class='hlSelectRow'>
+						<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
+							class=\"feedCheckBox\" id=\"RCHK-$id\">
+						</td>";
+		
+					print "<td class='hlMarkedPic'>$marked_pic</td>";
+
+					if ($line["feed_title"]) {			
+						print "<td class='hlContent'>$content_link</td>";
+						print "<td class='hlFeed'>
+							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								$line["feed_title"]."</a>&nbsp;</td>";
+					} else {			
+						print "<td class='hlContent' valign='middle'>";
+
+						print "<a href=\"javascript:view($id,$feed_id);\">" .
+							$line["title"];
+
+						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+							if ($content_preview) {
+								print "<span class=\"contentPreview\"> - $content_preview</span>";
+							}
+						}
+		
+						print "</a>";
+						print "</td>";
+					}
+					
+					print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+		
+					print "</tr>";
+
+				} else {
+					
+					if ($is_unread) {
+						$add_class = "Unread";
+					} else {
+						$add_class = "";
+					}	
+					
+					print "<div class=\"cdmArticle$add_class\" id=\"RROW-$id\">";
+
+					print "<div class=\"cdmHeader\">";
+
+					print "<div class=\"articleUpdated\">$updated_fmt</div>";
+					
+					print "<a class=\"title\" 
+						onclick=\"javascript:toggleUnread($id, 0)\"
+						target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
+
+					print $entry_author;
+
+					if ($line["feed_title"]) {	
+						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
+					}
+
+					print "</div>";
+
+					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
+
+					print "<div class=\"cdmFooter\">";
+
+					print "$marked_pic";
+
+					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
+							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
+
+					$tags = get_article_tags($link, $id);
+
+					$tags_str = "";
+
+					foreach ($tags as $tag) {
+						$num_tags++;
+						$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+					}
+
+					$tags_str = preg_replace("/, $/", "", $tags_str);
+
+					if ($tags_str == "") $tags_str = "no tags";
+	
+					print " $tags_str <a title=\"Edit tags for this article\" 
+							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
+
+					print "</div>";
+
+#					print "<div align=\"center\"><a class=\"cdmToggleLink\"
+#							href=\"javascript:toggleUnread($id)\">
+#							Toggle unread</a></div>";
+
+					print "</div>";	
+
+				}				
+	
+				++$lnum;
+			}
+
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {			
+				print "</table>";
+			}
+
+//			print_headline_subtoolbar($link, 
+//				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
+
+
+		} else {
+			print "<div class='whiteBox'>".__('No articles found.')."</div>";
+		}
+
+		print "</div>";
+
+		print "</div>";
+
+
+	}
 ?>
