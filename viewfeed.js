@@ -796,14 +796,8 @@ function cache_inject(id, article) {
 
 		var cache_obj = new Array();
 
-		var d = new Date();
-
 		cache_obj["id"] = id;
-		cache_obj["entered"] = d.getTime() / 1000;
 		cache_obj["data"] = article;
-		cache_obj["last_access"] = 0;
-
-		//article_cache[id] = cache_obj;
 
 		article_cache.push(cache_obj);
 
@@ -815,8 +809,6 @@ function cache_inject(id, article) {
 function cache_find(id) {
 	for (var i = 0; i < article_cache.length; i++) {
 		if (article_cache[i]["id"] == id) {
-			var d = new Date();
-			article_cache[i]["last_access"] = d.getTime() / 1000;
 			return article_cache[i]["data"];
 		}
 	}
