@@ -87,5 +87,8 @@ print T_js_decl("Reset to defaults?");
 print T_js_decl("Trying to change password...");
 print T_js_decl("Trying to change e-mail...");
 print T_js_decl("No articles are selected.");
+print T_js_decl("Could not update headlines (missing XML object)");
+print T_js_decl("Could not display article (missing XML object)");
+print T_js_decl("No feed selected.");
 
 ?>
