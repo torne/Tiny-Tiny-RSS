@@ -157,7 +157,7 @@
 
 		if ($mode == "") {
 			outputArticleXML($link, $id, $feed_id);
-		} else if ($mode == "prefetch") {
+		} else {
 			catchupArticleById($link, $id, 0);
 		}
 
