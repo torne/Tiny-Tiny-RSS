@@ -1109,6 +1109,9 @@ function toggleSelectListRow(sender) {
 	}
 }
 
+function tSR(sender) {
+	return toggleSelectRow(sender);
+}
 
 function toggleSelectRow(sender) {
 	var parent_row = sender.parentNode.parentNode;

@@ -3653,13 +3653,13 @@
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_set.png\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.png\" 
 						class=\"markedPic\"
-						alt=\"Reset mark\" onclick='javascript:toggleMark($id)'>";
+						alt=\"Reset mark\" onclick='javascript:tMark($id)'>";
 				} else {
-					$marked_pic = "<img id=\"FMARKPIC-$id\" src=\"images/mark_unset.png\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.png\" 
 						class=\"markedPic\"
-						alt=\"Set mark\" onclick='javascript:toggleMark($id)'>";
+						alt=\"Set mark\" onclick='javascript:tMark($id)'>";
 				}
 
 #				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
@@ -3693,11 +3693,11 @@
 					
 					print "<tr class='$class' id='RROW-$id'>";
 		
-					print "<td class='hlUpdatePic'>$update_pic</td>";
+					print "<td class='hlUpdPic'>$update_pic</td>";
 		
 					print "<td class='hlSelectRow'>
-						<input type=\"checkbox\" onclick=\"toggleSelectRow(this)\"
-							class=\"feedCheckBox\" id=\"RCHK-$id\">
+						<input type=\"checkbox\" onclick=\"tSR(this)\"
+							id=\"RCHK-$id\">
 						</td>";
 		
 					print "<td class='hlMarkedPic'>$marked_pic</td>";

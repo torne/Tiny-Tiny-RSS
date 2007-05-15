@@ -288,6 +288,10 @@ function view(id, feed_id, skip_history) {
 	}
 }
 
+function tMark(id) {
+	return toggleMark(id);
+}
+
 function toggleMark(id) {
 
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
@@ -297,7 +301,7 @@ function toggleMark(id) {
 
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
-	var mark_img = document.getElementById("FMARKPIC-" + id);
+	var mark_img = document.getElementById("FMPIC-" + id);
 	var vfeedu = document.getElementById("FEEDU--1");
 	var crow = document.getElementById("RROW-" + id);
 
