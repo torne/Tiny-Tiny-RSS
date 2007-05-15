@@ -301,6 +301,7 @@
 		$feed_id = db_escape_string($_GET["feed"]);
 		$cids = split(",", db_escape_string($_GET["cids"]));
 		$mode = db_escape_string($_GET["mode"]);
+		$omode = db_escape_string($_GET["omode"]);
 
 		print "<reply>";
 
@@ -318,6 +319,10 @@
 				outputArticleXML($link, $cid, $feed_id, false);
 			}
 		}
+
+		print "<counters>";
+		getAllCounters($link, $omode);
+		print "</counters>";
 
 		print "</reply>";
 	}

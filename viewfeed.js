@@ -123,7 +123,14 @@ function article_callback() {
 			setTimeout('updateFeedList(false, false)', 50);			
 			_reload_feedlist_after_view = false;
 		} else {
-			update_all_counters();
+			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
+
+			if (counters) {
+				debug("parsing piggybacked counters: " + counters);
+				parse_counters(counters, false);
+			} else {
+				update_all_counters();
+			}
 		}
 
 		notify("");
@@ -193,6 +200,14 @@ function view(id, feed_id, skip_history) {
 			}
 
 			debug("additional ids: " + cids_to_request.toString());			
+
+			/* additional info for piggyback counters */
+
+			if (tagsAreDisplayed()) {
+				query = query + "&omode=lt";
+			} else {
+				query = query + "&omode=flc";
+			}
 
 			var date = new Date();
 			var timestamp = Math.round(date.getTime() / 1000);
