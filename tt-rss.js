@@ -50,7 +50,7 @@ function dlg_frefresh_callback() {
 		if (getActiveFeedId() == _qfd_deleted_feed) {
 			var h = document.getElementById("headlines-frame");
 			if (h) {
-				h.innerHTML = "<div class='whiteBox'>No feed selected.</div>";
+				h.innerHTML = "<div class='whiteBox'>" + __('No feed selected.') + "</div>";
 			}
 		}
 

@@ -50,11 +50,12 @@ function headlines_callback() {
 			if (counters) {
 				debug("parsing piggybacked counters: " + counters);
 				parse_counters(counters, false);
+			} else {
+				debug("counters container not found in reply");
 			}
 		} else {
 			debug("headlines_callback: returned no XML object");
-			f.innerHTML = xmlhttp.responseText;
-			update_all_counters();
+			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 		}
 
 		if (typeof correctPNG != 'undefined') {
@@ -122,6 +123,7 @@ function article_callback() {
 			
 			} else {
 				debug("article_callback: returned no XML object");
+				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 			}
 		} catch (e) {
 			exception_error("article_callback", e);
@@ -144,7 +146,7 @@ function article_callback() {
 				debug("parsing piggybacked counters: " + counters);
 				parse_counters(counters, false);
 			} else {
-				update_all_counters();
+				debug("counters container not found in reply");
 			}
 		}
 
@@ -252,6 +254,14 @@ function view(id, feed_id, skip_history) {
 				render_article(cached_article);
 
 			} else if (cached_article) {
+
+				query = query + "&mode=prefetch_old";
+
+				debug(query);
+
+				xmlhttp.open("GET", query, true);
+				xmlhttp.onreadystatechange=article_callback;
+				xmlhttp.send(null);
 
 				render_article(cached_article);
 

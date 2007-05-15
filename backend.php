@@ -155,9 +155,9 @@
 		// in prefetch mode we only output requested cids, main article 
 		// just gets marked as read (it already exists in client cache)
 
-		if ($mode != "prefetch") {
+		if ($mode == "") {
 			outputArticleXML($link, $id, $feed_id);
-		} else {
+		} else if ($mode == "prefetch") {
 			catchupArticleById($link, $id, 0);
 		}
 
@@ -167,9 +167,11 @@
 			}
 		}
 
-		print "<counters>";
-		getAllCounters($link, $omode);
-		print "</counters>";
+		if ($mode != "prefetch_old") {
+			print "<counters>";
+			getAllCounters($link, $omode);
+			print "</counters>";
+		}
 
 		print "</reply>";
 	}
