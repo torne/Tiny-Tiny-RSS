@@ -2,6 +2,14 @@ var hotkeys_enabled = true;
 var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
 
+/* add method to remove element from array */
+
+Array.prototype.remove = function(s) {
+	for (var i=0; i < this.length; i++) {
+		if (s == this[i]) this.splice(i, 1);
+	}
+}
+
 function browser_has_opacity() {
 	return navigator.userAgent.match("Gecko") != null || 
 		navigator.userAgent.match("Opera") != null;

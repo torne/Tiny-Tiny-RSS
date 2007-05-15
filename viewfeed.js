@@ -633,6 +633,9 @@ function editArticleTags(id, feed_id, cdm_enabled) {
 	_tag_active_post_id = id;
 	_tag_active_feed_id = feed_id;
 	_tag_active_cdm = cdm_enabled;
+
+	cache_invalidate(id);
+
 	try {
 		_tag_cdm_scroll = document.getElementById("headlinesInnerContainer").scrollTop;
 	} catch (e) { }
@@ -828,4 +831,17 @@ function cache_expire() {
 	while (article_cache.length > 20) {
 		article_cache.shift();
 	}
+}
+
+function cache_invalidate(id) {
+	var i = 0
+	
+	while (i < article_cache.length) {
+		if (article_cache[i]["id"] == id) {
+			article_cache.remove(i);
+			return true;
+		}
+		i++;
+	}
+	return false;
 }
