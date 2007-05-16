@@ -3116,6 +3116,9 @@
 			while ($line = db_fetch_assoc($result)) {
 			
 				$feed = db_unescape_string($line["title"]);
+
+				if (!$feed) $feed = "[Untitled]";
+
 				$feed_id = $line["id"];	  
 	
 				$subop = $_GET["subop"];
