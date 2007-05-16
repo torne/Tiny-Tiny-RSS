@@ -3115,7 +3115,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 			
-				$feed = db_unescape_string($line["title"]);
+				$feed = trim(db_unescape_string($line["title"]));
 
 				if (!$feed) $feed = "[Untitled]";
 
