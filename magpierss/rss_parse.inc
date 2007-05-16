@@ -121,7 +121,9 @@ class MagpieRSS {
         xml_set_object( $this->parser, $this );
         xml_set_element_handler($this->parser, 
                 'feed_start_element', 'feed_end_element' );
-                        
+
+        $source = preg_replace("/&(?!amp;)/","&amp;",$source); 
+
         xml_set_character_data_handler( $this->parser, 'feed_cdata' ); 
     
         $status = xml_parse( $this->parser, $source );
