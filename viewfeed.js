@@ -46,7 +46,13 @@ function headlines_callback() {
 			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
 			var articles = xmlhttp.responseXML.getElementsByTagName("article");
 
-			f.innerHTML = headlines.firstChild.nodeValue;
+			if (headlines) {
+				f.innerHTML = headlines.firstChild.nodeValue;
+			} else {
+				debug("headlines_callback: returned no data");
+			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
+
+			}
 
 			if (articles) {
 				for (var i = 0; i < articles.length; i++) {
@@ -54,6 +60,8 @@ function headlines_callback() {
 					debug("found id: " + a_id);
 					cache_inject(a_id, articles[i].firstChild.nodeValue);
 				}
+			} else {
+				debug("no cached articles received");
 			}
 
 			if (counters) {

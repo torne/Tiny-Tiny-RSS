@@ -630,7 +630,7 @@
 
 				# sanitize content
 				
-				$entry_content = sanitize_rss($entry_content);
+//				$entry_content = sanitize_rss($entry_content);
 
 				if (defined('DAEMON_EXTENDED_DEBUG')) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
@@ -2605,7 +2605,7 @@
 		}
 	}
 
-	function sanitize_rss($str) {
+	function sanitize_rss($link, $str) {
 		$res = $str;
 
 /*		$res = preg_replace('/<script.*?>/i', 
@@ -2619,7 +2619,7 @@
 			"<p class=\"objectWarn\">(Disabled html object 
 			- flash or other embedded content)</p>", $res);  */
 
-		if (get_pref("STRIP_UNSAFE_TAGS")) {
+		if (get_pref($link, "STRIP_UNSAFE_TAGS")) {
 			$res = strip_tags($res, "<p><a><i><em><b><strong><blockquote><br><img>");
 		}
 
@@ -2750,8 +2750,8 @@
 
 			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $latest_item["title"]));
 
-			$release_url = sanitize_rss($latest_item["link"]);
-			$content = sanitize_rss($latest_item["description"]);
+			$release_url = sanitize_rss($link, $latest_item["link"]);
+			$content = sanitize_rss($link, $latest_item["description"]);
 
 			if (version_compare(VERSION, $latest_version) == -1) {
 				if ($brief_fmt) {
@@ -3520,7 +3520,7 @@
 				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
 			}
 
-			$line["content"] = sanitize_rss($line["content"]);
+			$line["content"] = sanitize_rss($link, $line["content"]);
 
 			print $line["content"] . "</div>";
 			
