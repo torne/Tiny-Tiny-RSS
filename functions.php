@@ -2429,9 +2429,9 @@
 			$feed_title = "";
 
 			if ($search && $search_mode == "all_feeds") {
-				$feed_title = __("Global search results")." ($search)";
+				$feed_title = __("Search results")." ($search)";
 			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = __("Tag search results")." ($search, $feed)";
+				$feed_title = __("Search results")." ($search, $feed)";
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
 				$feed_title = $feed;
 			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
@@ -2447,7 +2447,7 @@
 					}
 
 					if ($search) {
-						$feed_title = __("Category search results")." ($search, $feed_title)";
+						$feed_title = __("Searched for")." $search ($feed_title)";
 					}
 
 				} else {
@@ -2460,7 +2460,7 @@
 					$last_error = db_fetch_result($result, 0, "last_error");
 
 					if ($search) {
-						$feed_title = __("Feed search results") . " ($search, $feed_title)";
+						$feed_title = __("Searched for") . " $search ($feed_title)";
 					}
 				}
 	
@@ -2473,7 +2473,7 @@
 				$feed_title = db_fetch_result($result, 0, "description");
 
 				if ($search) {
-					$feed_title = __("Label search results") . " ($search, $feed_title)";
+					$feed_title = __("Searched for") . " $search ($feed_title)";
 				}
 			} else {
 				$feed_title = "?";
@@ -2923,7 +2923,7 @@
 						print "<li class=\"top3\">
 							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 								'$match_on', '$feed_id', '$is_cat');\">
-								".__('Convert to Label')."</a></td>";
+								".__('Convert to label')."</a></td>";
 					}
 					print "	
 					</td>"; 
@@ -2949,7 +2949,7 @@
 					print "&nbsp;&nbsp;
 							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 								'$match_on', '$feed_id', '$is_cat');\">
-							".__('Convert to Label')."</a>";
+							".__('Convert to label')."</a>";
 				}
 
 				print "</td>";  
