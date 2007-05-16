@@ -252,13 +252,13 @@ function hotkey_handler(e) {
 			if (new_feed) viewfeed(new_feed, '');
 		}
 
-		if (!is_safari() && (keycode == 78 || keycode == 40)) { // n, down
+		if (keycode == 78 || keycode == 40) { // n, down
 			if (typeof moveToPost != 'undefined') {
 				return moveToPost('next');
 			}
 		}
 	
-		if (!is_safari() && (keycode == 80 || keycode == 38)) { // p, up
+		if (keycode == 80 || keycode == 38) { // p, up
 			if (typeof moveToPost != 'undefined') {
 				return moveToPost('prev');
 			}

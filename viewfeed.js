@@ -132,7 +132,8 @@ function article_callback() {
 			
 			} else {
 				debug("article_callback: returned no XML object");
-				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
+				/* var f = document.getElementById("content-frame");
+				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>"; */
 			}
 		} catch (e) {
 			exception_error("article_callback", e);
@@ -180,7 +181,6 @@ function view(id, feed_id, skip_history) {
 	
 		enableHotkeys();
 	
-		active_post_id = id; 
 		//setActiveFeedId(feed_id);
 
 		var query = "backend.php?op=view&id=" + param_escape(id) +
@@ -193,7 +193,9 @@ function view(id, feed_id, skip_history) {
 			xmlhttp.abort();
 		}
 
-		if (cached_article || xmlhttp_ready(xmlhttp)) {
+		if (xmlhttp_ready(xmlhttp)) {
+
+			active_post_id = id; 
 
 			cleanSelected("headlinesList");
 
@@ -346,6 +348,34 @@ function toggleMark(id) {
 
 }
 
+function correctHeadlinesOffset(id) {
+	
+	try {
+
+		var hlist = document.getElementById("headlinesList");
+		var container = document.getElementById("headlinesInnerContainer");
+		var row = document.getElementById("RROW-" + id);
+	
+		var viewport = container.offsetHeight;
+	
+		var rel_offset_top = row.offsetTop - container.scrollTop;
+		var rel_offset_bottom = row.offsetTop + row.offsetHeight - container.scrollTop;
+	
+		debug("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
+		debug("Vport: " + viewport);
+	
+		if (rel_offset_top <= 0 || rel_offset_top > viewport) {
+			container.scrollTop = row.offsetTop;
+		} else if (rel_offset_bottom > viewport) {
+			container.scrollTop = row.offsetTop + row.offsetHeight - viewport;		
+		} 
+
+	} catch (e) {
+		exception_error("correctHeadlinesOffset", e);
+	}
+
+}
+
 function moveToPost(mode) {
 
 	// check for combined mode
@@ -354,8 +384,8 @@ function moveToPost(mode) {
 
 	var rows = getVisibleHeadlineIds();
 
-	var prev_id;
-	var next_id;
+	var prev_id = false;
+	var next_id = false;
 
 	if (!document.getElementById('RROW-' + active_post_id)) {
 		active_post_id = false;
@@ -374,13 +404,15 @@ function moveToPost(mode) {
 	}
 
 	if (mode == "next") {
-	 	if (next_id != undefined) {
+	 	if (next_id) {
+			correctHeadlinesOffset(next_id);
 			view(next_id, getActiveFeedId());
 		}
 	}
 
 	if (mode == "prev") {
-		if ( prev_id != undefined) {
+		if (prev_id) {
+			correctHeadlinesOffset(prev_id);
 			view(prev_id, getActiveFeedId());
 		}
 	} 
