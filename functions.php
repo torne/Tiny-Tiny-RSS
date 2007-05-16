@@ -2608,16 +2608,20 @@
 	function sanitize_rss($str) {
 		$res = $str;
 
-		$res = preg_replace('/<script.*?>/i', 
+/*		$res = preg_replace('/<script.*?>/i', 
 			"<p class=\"scriptWarn\">Disabled script: ", $res);
 
-		$res = preg_replace('/<\/script.*?>/i', "</p>", $res);
+		$res = preg_replace('/<\/script.*?>/i', "</p>", $res); */
 
 /*		$res = preg_replace('/<embed.*?>/i', "", $res);
 
 		$res = preg_replace('/<object.*?>.*?<\/object>/i', 
 			"<p class=\"objectWarn\">(Disabled html object 
 			- flash or other embedded content)</p>", $res);  */
+
+		if (get_pref("STRIP_UNSAFE_TAGS")) {
+			$res = strip_tags($res, "<p><a><i><em><b><strong><blockquote><br><img>");
+		}
 
 		return $res;
 	}
