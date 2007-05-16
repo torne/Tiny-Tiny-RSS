@@ -132,8 +132,8 @@ function article_callback() {
 			
 			} else {
 				debug("article_callback: returned no XML object");
-				/* var f = document.getElementById("content-frame");
-				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>"; */
+				var f = document.getElementById("content-frame");
+				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 			}
 		} catch (e) {
 			exception_error("article_callback", e);
