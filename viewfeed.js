@@ -363,10 +363,14 @@ function correctHeadlinesOffset(id) {
 	
 		debug("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
 		debug("Vport: " + viewport);
-	
+
 		if (rel_offset_top <= 0 || rel_offset_top > viewport) {
 			container.scrollTop = row.offsetTop;
 		} else if (rel_offset_bottom > viewport) {
+
+			/* doesn't properly work with Opera in some cases because
+				Opera fucks up element scrolling */
+
 			container.scrollTop = row.offsetTop + row.offsetHeight - viewport;		
 		} 
 
