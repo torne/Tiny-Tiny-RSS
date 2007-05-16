@@ -2892,7 +2892,7 @@
 
 			}
 
-			if (!strstr($_SESSION["client.userAgent"], "MSIE")) {
+			if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
 
 				print "<td class=\"headlineActions$rtl_cpart\">
 					<ul class=\"headlineDropdownMenu\">
@@ -2911,14 +2911,20 @@
 						<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
 					<li class=\"vsep\">&nbsp;</li>";
 
-					if ($limit != 0) {
+					if ($limit != 0 && !$search) {
 						print "
 						<li class=\"top\"><a href=\"$page_next_link\">".__('Next page')."</a><ul>
 							<li onclick=\"$page_prev_link\">".__('Previous page')."</li>
 							<li onclick=\"$page_first_link\">".__('First page')."</li></ul></li>
 							</ul>";
-					}
+						}
 
+					if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+						print "<li class=\"top3\">
+							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+								'$match_on', '$feed_id', '$is_cat');\">
+								".__('Convert to Label')."</a></td>";
+					}
 					print "	
 					</td>"; 
 
@@ -2937,16 +2943,25 @@
 						__('Mark as read:')."
 							<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
 							<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
+
+				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+
+					print "&nbsp;&nbsp;
+							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+								'$match_on', '$feed_id', '$is_cat');\">
+							".__('Convert to Label')."</a>";
+				}
+
 				print "</td>";  
 
 			}
 
-			if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+/*			if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
 				print "<td class=\"headlineActions$rtl_cpart\">
 					<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 							'$match_on', '$feed_id', '$is_cat');\">
 						".__('Convert to Label')."</a></td>";
-			}
+} */
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 		
