@@ -3401,6 +3401,14 @@
 
 	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true) {
 
+		/* we can figure out feed_id from article id anyway, why do we
+		 * pass feed_id here? */
+
+		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries
+			WHERE ref_id = '$id'");
+
+		$feed_id = db_fetch_result($result, 0, "feed_id");
+
 		print "<article id='$id'><![CDATA[";
 
 		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
@@ -3594,7 +3602,7 @@
 		}
 
 		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
-	
+
 			$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
 				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
 
