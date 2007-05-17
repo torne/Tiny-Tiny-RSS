@@ -1483,7 +1483,7 @@ function qaddFeed() {
 		return false;
 	}
 
-	notify_progress("Adding feed...");
+	notify_progress(__("Subscribing to feed..."), true);
 
 	closeInfoBox();
 
