@@ -883,7 +883,7 @@
 					}
 				} 
 
-				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
+//				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
 
 				if (count($entry_tags) > 0) {
 				
