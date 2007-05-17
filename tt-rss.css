@@ -575,7 +575,8 @@ div.prefsTab {
 	min-width : 100px;
 	text-align : center;
 	cursor : pointer;
-	height : 20px;
+	position : relative;
+	bottom : -2px;
 }
 
 div.prefsTabSelected {
@@ -593,9 +594,10 @@ div.prefsTabSelected {
 	font-weight : bold;
 	min-width : 100px;
 	text-align : center;
-	z-index : 2;
 	cursor : pointer;
-	height : 20px;
+	position : relative;
+	bottom : -2px;
+	
 }
 
 div.notice {
