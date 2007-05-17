@@ -879,13 +879,20 @@ function cache_expire() {
 
 function cache_invalidate(id) {
 	var i = 0
-	
-	while (i < article_cache.length) {
-		if (article_cache[i]["id"] == id) {
-			article_cache.remove(i);
-			return true;
+
+	try {	
+
+		while (i < article_cache.length) {
+			if (article_cache[i]["id"] == id) {
+				debug("cache_invalidate: removed id " + id);
+				article_cache.splice(i, 1);
+				return true;
+			}
+			i++;
 		}
-		i++;
+		debug("cache_invalidate: id not found: " + id);
+		return false;
+	} catch (e) {
+		exception_error("cache_invalidate", e);
 	}
-	return false;
 }
