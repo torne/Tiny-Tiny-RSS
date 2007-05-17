@@ -93,6 +93,7 @@ window.onload = init;
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
+<div id="prefTabs">
 		<div class="return">
 			<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
 		</div>
@@ -117,6 +118,7 @@ window.onload = init;
 		<div id="userConfigTab" class="prefsTab" 
 			onclick="selectTab('userConfig')"><?php echo __('User Manager') ?></div>
 		<?php } ?>		
+</div>
 
 <div id="prefContent">
 	<p><?php echo __('Loading, please wait...') ?></p>
