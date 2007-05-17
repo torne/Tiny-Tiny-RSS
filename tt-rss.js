@@ -27,20 +27,26 @@ function tagsAreDisplayed() {
 	return display_tags;
 }
 
-function toggleTags() {
-	display_tags = !display_tags;
+function toggleTags(show_all) {
 
 	var p = document.getElementById("dispSwitchPrompt");
 
-	if (display_tags) {
+	if (!show_all && !display_tags) {
+		displayDlg("printTagCloud");
+	} else if (show_all) {
+		closeInfoBox();
+		display_tags = true;
 		p.innerHTML = __("display feeds");
-	} else {
-		p.innerHTML = __("display tags");
+		notify_progress("Loading, please wait...");
+		updateFeedList();
+	} else if (display_tags) {
+		display_tags = false;
+		p.innerHTML = __("tag cloud");
+		notify_progress("Loading, please wait...");
+		updateFeedList();
 	}
-	
-	notify_progress("Loading, please wait...");
 
-	updateFeedList();
+	return false;
 }
 
 function dlg_frefresh_callback() {
@@ -514,6 +520,7 @@ function quickMenuGo(opid) {
 		if (opid == "qmcAddFilter") {
 			displayDlg("quickAddFilter", getActiveFeedId());
 		}
+
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}

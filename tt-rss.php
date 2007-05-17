@@ -122,7 +122,7 @@ window.onload = init;
 <div id="feeds-holder">
 	<div id="dispSwitch"> 
 		<a id="dispSwitchPrompt" 
-			href="javascript:toggleTags()"><?php echo __("display tags") ?></a>
+			href="javascript:toggleTags()"><?php echo __("tag cloud") ?></a>
 	</div>
 	<div id="feeds-frame">&nbsp;</div>
 </div>

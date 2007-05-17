@@ -46,6 +46,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		enableHotkeys();
 
+		closeInfoBox();
+
 /*		if (!skip_history) {
 			history_push('FEED:' + feed + ':' + subop + ':' + is_cat +
 				':' + subop_param);

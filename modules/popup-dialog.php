@@ -412,6 +412,30 @@
 			return;
 		}
 
+		if ($id == "printTagCloud") {
+			print "<div id=\"infoBoxTitle\">".__('Tag Cloud')."</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "Showing top 50 most popular tags (<a 
+				href='javascript:toggleTags(true)'>show all</a>):<br/>";
+
+			print "<div class=\"tagCloudContainer\">";
+
+			printTagCloud($link);
+
+			print "</div>";
+
+			print "<div align='center'>";
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"".__('Close')."\">";
+			print "</div>";
+
+			print "</div>";
+
+			return;
+		}
+
 		print "<div id='infoBoxTitle'>Internal Error</div>
 			<div id='infoBoxContents'>
 			<p>Unknown dialog <b>$id</b></p>
