@@ -618,15 +618,39 @@
 
 				if (!$num_comments) $num_comments = 0;
 
-/*				$dc_subject = $item['dc']['subject'];
+				// parse <category> entries into tags
 
-				$subject_tags = false;
+				$t_ctr = $item['category#'];
 
-				if (is_array($dc_subject)) {
-					$subject_tags = $dc_subject;
-				} else if ($dc_subject) {
-					$subject_tags = array($dc_subject);
-				} */
+				$additional_tags = false;
+
+				if ($t_ctr == 0) {
+					$additional_tags = false;
+				} else if ($t_ctr == 1) {
+					$additional_tags = array($item['category']);
+				} else {
+					$additional_tags = array();
+					for ($i = 0; $i <= $t_ctr; $i++ ) {
+						if ($item["category#$i"]) {
+							array_push($additional_tags, $item["category#$i"]);
+						}
+					}
+				}
+
+				// parse <dc:subject> elements
+
+				$t_ctr = $item['dc']['subject#'];
+
+				if ($t_ctr == 1) {
+					$additional_tags = array($item['dc']['subject']);
+				} else if ($t_ctr > 1) {
+					$additional_tags = array();
+					for ($i = 0; $i <= $t_ctr; $i++ ) {
+						if ($item['dc']["subject#$i"]) {
+							array_push($additional_tags, $item['dc']["subject#$i"]);
+						}
+					}
+				}
 
 				# sanitize content
 				
@@ -830,9 +854,9 @@
 				preg_match_all("/<a.*?rel=['\"]tag['\"].*?>([^<]+)<\/a>/i", 
 					$entry_content_unescaped, $entry_tags);
 
-//				print "<br>$entry_title : $entry_content_unescaped<br>";
-//				print_r($entry_tags);
-//				print "<br>";
+/*				print "<p><br/>$entry_title : $entry_content_unescaped<br>";
+				print_r($entry_tags);
+				print "<br/></p>"; */
 
 				$entry_tags = $entry_tags[1];
 
@@ -851,13 +875,15 @@
 					}
 				}
 
-/*				if ($subject_tags) {
-					foreach ($subject_tags as $tag) {
+				if ($additional_tags && is_array($additional_tags)) {
+					foreach ($additional_tags as $tag) {
 						if (tag_is_valid($tag)) {
 							array_push($entry_tags, $tag);
 						}
 					}
-				} */
+				} 
+
+				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
 
 				if (count($entry_tags) > 0) {
 				
@@ -875,7 +901,9 @@
 						$entry_int_id = db_fetch_result($result, 0, "int_id");
 						
 						foreach ($entry_tags as $tag) {
-							$tag = db_escape_string(mb_strtolower(strip_tags($tag)));
+
+							$tag = mb_strtolower($tag, 'utf-8');
+							$tag = db_escape_string($tag);
 
 							$tag = str_replace("+", " ", $tag);	
 							$tag = str_replace("technorati tag: ", "", $tag);
@@ -2831,7 +2859,7 @@
 
 	function make_guid_from_title($title) {
 		return preg_replace("/[ \"\',.:;]/", "-", 
-			mb_strtolower(strip_tags($title)));
+			mb_strtolower(strip_tags($title), 'utf-8'));
 	}
 
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
