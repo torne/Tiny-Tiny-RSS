@@ -875,9 +875,12 @@
 					}
 				}
 
+				$boring_tags = trim_array(split(",", get_pref($link, 
+					'BLACKLISTED_TAGS', $owner_uid, '')));
+
 				if ($additional_tags && is_array($additional_tags)) {
 					foreach ($additional_tags as $tag) {
-						if (tag_is_valid($tag)) {
+						if (tag_is_valid($tag) && !array_key_exists($tag, $boring_tags)) {
 							array_push($entry_tags, $tag);
 						}
 					}
