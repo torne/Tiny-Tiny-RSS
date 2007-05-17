@@ -3859,7 +3859,7 @@
 	
 		$query = "SELECT tag_name, COUNT(post_int_id) AS count 
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]." 
-			GROUP BY tag_name ORDER BY count DESC LIMIT 100";
+			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
 
 		$result = db_query($link, $query);
 
