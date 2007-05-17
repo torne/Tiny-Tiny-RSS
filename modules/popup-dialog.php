@@ -416,7 +416,7 @@
 			print "<div id=\"infoBoxTitle\">".__('Tag cloud')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print __("Showing most popular tags for the last month")." (<a 
+			print __("Showing most popular tags ")." (<a 
 				href='javascript:toggleTags(true)'>".__('browse all')."</a>):<br/>";
 
 			print "<div class=\"tagCloudContainer\">";

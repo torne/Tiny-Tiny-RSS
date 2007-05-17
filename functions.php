@@ -3867,6 +3867,8 @@
 
 		/* get first ref_id to count from */
 
+		/*
+
 		$query = "";
 
 		if (DB_TYPE == "pgsql") {
@@ -3880,11 +3882,11 @@
 		}
 
 		$result = db_query($link, $query);
-		$first_id = db_fetch_result($result, 0, "id");
+		$first_id = db_fetch_result($result, 0, "id"); */
 
+		//AND post_int_id >= '$first_id'
 		$query = "SELECT tag_name, COUNT(post_int_id) AS count 
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]." 
-			AND post_int_id >= '$first_id'
 			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
 
 		$result = db_query($link, $query);
