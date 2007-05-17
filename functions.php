@@ -3872,7 +3872,7 @@
 		ksort($tags);
 
 		$max_size = 32; // max font size in pixels
-		$min_size = 9; // min font size in pixels
+		$min_size = 11; // min font size in pixels
 		   
 		// largest and smallest array values
 		$max_qty = max(array_values($tags));

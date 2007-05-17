@@ -45,8 +45,6 @@ function toggleTags(show_all) {
 		notify_progress("Loading, please wait...");
 		updateFeedList();
 	}
-
-	return false;
 }
 
 function dlg_frefresh_callback() {
