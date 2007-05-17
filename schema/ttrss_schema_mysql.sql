@@ -279,6 +279,9 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('STRIP_UNSAFE_TAGS', 1, 'true', 'Strip unsafe tags from articles', 3,
 'Strip all but most common HTML tags when reading articles.');
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('BLACKLISTED_TAGS', 2, 'main, generic, misc', 'Blacklisted tags', 3,
+'When auto-detecting tags in articles these tags will not be applied (comma-separated list).');
+
 create table ttrss_user_prefs (
    owner_uid integer not null,
    pref_name varchar(250),
