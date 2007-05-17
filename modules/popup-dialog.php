@@ -413,11 +413,11 @@
 		}
 
 		if ($id == "printTagCloud") {
-			print "<div id=\"infoBoxTitle\">".__('Tag Cloud')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Tag cloud')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "Showing most popular tags for the last month (<a 
-				href='javascript:toggleTags(true)'>browse all</a>):<br/>";
+			print __("Showing most popular tags for the last month")." (<a 
+				href='javascript:toggleTags(true)'>".__('browse all')."</a>):<br/>";
 
 			print "<div class=\"tagCloudContainer\">";
 
