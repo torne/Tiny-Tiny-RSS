@@ -880,7 +880,8 @@
 
 				if ($additional_tags && is_array($additional_tags)) {
 					foreach ($additional_tags as $tag) {
-						if (tag_is_valid($tag) && !array_key_exists($tag, $boring_tags)) {
+						if (tag_is_valid($tag) && 
+								array_search($tag, $boring_tags) === FALSE) {
 							array_push($entry_tags, $tag);
 						}
 					}
