@@ -875,8 +875,8 @@
 					}
 				}
 
-				$boring_tags = trim_array(split(",", get_pref($link, 
-					'BLACKLISTED_TAGS', $owner_uid, '')));
+				$boring_tags = trim_array(split(",", mb_strtolower(get_pref($link, 
+					'BLACKLISTED_TAGS', $owner_uid, ''), 'utf-8')));
 
 				if ($additional_tags && is_array($additional_tags)) {
 					foreach ($additional_tags as $tag) {
