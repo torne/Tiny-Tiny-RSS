@@ -1362,7 +1362,7 @@ function displayDlg(id, param) {
 		return
 	}
 
-	notify_progress("Loading, please wait...");
+	notify_progress("Loading, please wait...", true);
 
 	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param), true);

@@ -37,12 +37,12 @@ function toggleTags(show_all) {
 		closeInfoBox();
 		display_tags = true;
 		p.innerHTML = __("display feeds");
-		notify_progress("Loading, please wait...");
+		notify_progress("Loading, please wait...", true);
 		updateFeedList();
 	} else if (display_tags) {
 		display_tags = false;
 		p.innerHTML = __("tag cloud");
-		notify_progress("Loading, please wait...");
+		notify_progress("Loading, please wait...", true);
 		updateFeedList();
 	}
 }

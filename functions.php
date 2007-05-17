@@ -3864,9 +3864,27 @@
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html
 
 	function printTagCloud($link) {
-	
+
+		/* get first ref_id to count from */
+
+		$query = "";
+
+		if (DB_TYPE == "pgsql") {
+			$query = "SELECT MIN(id) AS id FROM ttrss_user_entries, ttrss_entries 
+				WHERE int_id = id AND owner_uid = ".$_SESSION["uid"]."
+			  	AND date_entered > NOW() - INTERVAL '30 days'";
+		} else {
+			$query = "SELECT MIN(id) AS id FROM ttrss_user_entries, ttrss_entries 
+				WHERE int_id = id AND owner_uid = ".$_SESSION["uid"]." 
+				AND date_entered > DATE_SUB(NOW(), INTERVAL 30 DAY)";
+		}
+
+		$result = db_query($link, $query);
+		$first_id = db_fetch_result($result, 0, "id");
+
 		$query = "SELECT tag_name, COUNT(post_int_id) AS count 
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]." 
+			AND post_int_id >= '$first_id'
 			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
 
 		$result = db_query($link, $query);
