@@ -605,6 +605,8 @@ function parse_runtime_info(elem) {
 
 		if (k == "daemon_is_running" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>");
+		} else {
+			notify('');
 		}
 
 /*		var w = document.getElementById("noDaemonWarning");
