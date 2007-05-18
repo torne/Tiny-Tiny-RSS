@@ -799,6 +799,18 @@
 			$order_by_qpart = "$feeds_sort,title";
 		}
 
+		$show_last_article_info = false;
+		$show_last_article_checked = "";
+		$show_last_article_qpart = "";
+
+		if ($_GET["slat"] == "true") {
+			$show_last_article_info = true;
+			$show_last_article_checked = "checked";
+			$show_last_article_qpart = ", (SELECT SUBSTRING(MAX(updated),1,16) FROM ttrss_user_entries,
+				ttrss_entries WHERE ref_id = ttrss_entries.id
+				AND feed_id = F1.id) AS last_article";
+		}
+
 		$result = db_query($link, "SELECT 
 				F1.id,
 				F1.title,
@@ -812,10 +824,8 @@
 				F2.title AS parent_title,
 				C1.title AS category,
 				F1.hidden,
-				F1.include_in_digest,
-				(SELECT SUBSTRING(MAX(updated),1,16) FROM ttrss_user_entries, 
-					ttrss_entries WHERE ref_id = ttrss_entries.id 
-					AND feed_id = F1.id) AS last_article
+				F1.include_in_digest
+				$show_last_article_qpart
 			FROM 
 				ttrss_feeds AS F1 
 				LEFT JOIN ttrss_feeds AS F2
@@ -832,8 +842,12 @@
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefFeedList\" id=\"prefFeedList\">";
-			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				".__('Select:')." 
+			print "<tr><td class=\"selectPrompt\" colspan=\"8\">".
+				"<div style='float : right'>".
+				"<input id='show_last_article_times' type='checkbox' onchange='feedlistToggleSLAT()'
+				$show_last_article_checked><label 
+					for='show_last_article_times'>".__('Show last article times')."</label></div>".
+				__('Select:')."
 					<a href=\"javascript:selectPrefRows('feed', true)\">".__('All')."</a>,
 					<a href=\"javascript:selectPrefRows('feed', false)\">".__('None')."</a>
 				</td</tr>";
@@ -904,9 +918,15 @@
 						print "<td width='3%'>&nbsp;</td>";
 					}
 
-					print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
-						<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
-						<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+					print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
+
+					if ($show_last_article_info) {
+						print "<td width='20%' align='right'>
+							<a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
+					}
+
+					print "<td width='20%' align='right'>
+						<a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -952,8 +972,10 @@
 				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$edit_title $parent_title" . "</a></td>";		
 
-				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
-					"$last_article</a></td>";
+				if ($show_last_article_info) {
+					print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
+						"$last_article</a></td>";
+				}
 
 				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
 					"$last_updated</a></td>";

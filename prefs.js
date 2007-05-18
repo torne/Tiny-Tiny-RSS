@@ -205,8 +205,16 @@ function updateFeedList(sort_key) {
 	var search = "";
 	if (feed_search) { search = feed_search.value; }
 
+	var slat = document.getElementById("show_last_article_times");
+
+	var slat_checked = false;
+	if (slat) {
+		slat_checked = slat.checked;
+	}
+
 	xmlhttp.open("GET", "backend.php?op=pref-feeds" +
 		"&sort=" + param_escape(sort_key) + 
+		"&slat=" + param_escape(slat_checked) +
 		"&search=" + param_escape(search), true);
 	xmlhttp.onreadystatechange=feedlist_callback;
 	xmlhttp.send(null);
@@ -1715,4 +1723,9 @@ function changeUserEmail() {
 	
 	return false;
 
+}
+
+function feedlistToggleSLAT() {
+	notify_progress("Loading, please wait...");
+	updateFeedList()
 }
