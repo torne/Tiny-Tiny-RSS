@@ -3,7 +3,7 @@
 }
 
 #headlinesContainer {
-	width: expression((parseInt(document.documentElement.clientWidth)-281)+'px');
+	width: expression(((parseInt(document.getElementById("headlines-frame").clientWidth)-2)+'px'));
 }
 
 #headlinesInnerContainer {
