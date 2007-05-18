@@ -178,7 +178,12 @@
 
 	if ($op == "viewfeed") {
 
+		$print_exec_time = true;
+		$timing_info = getmicrotime();
+
 		print "<reply>";
+
+		if ($_GET["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
 		$omode = db_escape_string($_GET["omode"]);
 
@@ -200,6 +205,8 @@
 
 		print "]]></headlines>";
 
+		if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
+
 		if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 			print "<articles>";
 			foreach ($topmost_article_ids as $id) {
@@ -208,9 +215,13 @@
 			print "</articles>";
 		}
 
+		if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
+
 		print "<counters>";
 		getAllCounters($link, $omode);
 		print "</counters>";
+
+		if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
 		print "</reply>";
 	}

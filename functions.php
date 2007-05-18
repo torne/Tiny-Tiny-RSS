@@ -2532,7 +2532,7 @@
 				$query = "SELECT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
-						SUBSTRING(updated,1,16) as updated,
+						updated,
 						unread,feed_id,marked,link,last_read,
 						SUBSTRING(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
@@ -2563,7 +2563,7 @@
 				$result = db_query($link, "SELECT
 					guid,
 					ttrss_entries.id as id,title,
-					SUBSTRING(updated,1,16) as updated,
+					updated,
 					unread,feed_id,
 					marked,link,last_read,				
 					SUBSTRING(last_read,1,19) as last_read_noms,
@@ -3564,6 +3564,8 @@
 	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset) {
 
+		$timing_info = getmicrotime();
+
 		$topmost_article_ids = array();
 
 		if (!$offset) $offset = 0;
@@ -3636,8 +3638,12 @@
 
 		$real_offset = $offset * $limit;
 
+		if ($_GET["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
+
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
 			$search, $search_mode, $match_on, false, $real_offset);
+
+		if ($_GET["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
@@ -3723,10 +3729,10 @@
 #					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$updated_fmt = smart_date_time(strtotime($line["updated"]));
+					$updated_fmt = smart_date_time(strtotime($line["updated_noms"]));
 				} else {
 					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-					$updated_fmt = date($short_date, strtotime($line["updated"]));
+					$updated_fmt = date($short_date, strtotime($line["updated_noms"]));
 				}				
 
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
@@ -3927,5 +3933,11 @@
 				$size . "px\" title=\"$value articles tagged with " . 
 				$key . '">' . $key . '</a> ';
 		}
+	}
+
+	function print_checkpoint($n, $s) {
+		$ts = getmicrotime();	
+		echo sprintf("<!-- CP[$n] %.4f seconds -->", $ts - $s);
+		return $ts;
 	}
 ?>
