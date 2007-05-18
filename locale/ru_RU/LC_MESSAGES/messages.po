@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-17 21:24+0400\n"
+"POT-Creation-Date: 2007-05-18 14:48+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,7 +137,7 @@ msgid ""
 msgstr ""
 
 #: functions.php:2142 functions.php:2181 functions.php:2478 functions.php:3185
-#: functions.php:3215 modules/pref-feeds.php:871
+#: functions.php:3215 modules/pref-feeds.php:887
 msgid "Uncategorized"
 msgstr "Нет категории"
 
@@ -177,13 +177,13 @@ msgid ""
 msgstr ""
 
 #: functions.php:2925 functions.php:2960 modules/pref-feeds.php:615
-#: modules/pref-feeds.php:836 modules/pref-filters.php:255
+#: modules/pref-feeds.php:852 modules/pref-filters.php:255
 #: modules/pref-labels.php:234 modules/pref-users.php:208
 msgid "Select:"
 msgstr "Выбрать:"
 
 #: functions.php:2926 functions.php:2961 modules/pref-feeds.php:616
-#: modules/pref-feeds.php:837 modules/pref-filters.php:256
+#: modules/pref-feeds.php:853 modules/pref-filters.php:256
 #: modules/pref-labels.php:235 modules/pref-users.php:209
 msgid "All"
 msgstr "Все"
@@ -194,7 +194,7 @@ msgid "Unread"
 msgstr "Новые"
 
 #: functions.php:2928 functions.php:2963 modules/pref-feeds.php:617
-#: modules/pref-feeds.php:838 modules/pref-filters.php:257
+#: modules/pref-feeds.php:854 modules/pref-filters.php:257
 #: modules/pref-labels.php:236 modules/pref-users.php:210
 msgid "None"
 msgstr "Ничего"
@@ -271,17 +271,17 @@ msgstr "нет тегов"
 msgid "Tags:"
 msgstr "Теги:"
 
-#: functions.php:3599
+#: functions.php:3601
 msgid "Feed not found."
 msgstr "Канал не найден."
 
-#: functions.php:3652
+#: functions.php:3658
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr ""
 
-#: functions.php:3854
+#: functions.php:3860
 msgid "No articles found."
 msgstr "Статей не найдено."
 
@@ -865,8 +865,8 @@ msgstr "Эта категория"
 msgid "Match on:"
 msgstr "Искать по:"
 
-#: modules/popup-dialog.php:159 modules/pref-feeds.php:850
-#: modules/pref-feeds.php:907
+#: modules/popup-dialog.php:159 modules/pref-feeds.php:866
+#: modules/pref-feeds.php:923
 msgid "Title"
 msgstr "Заголовок"
 
@@ -965,7 +965,7 @@ msgid "Tag cloud"
 msgstr ""
 
 #: modules/popup-dialog.php:419
-msgid "Showing most popular tags for the last month"
+msgid "Showing most popular tags "
 msgstr ""
 
 #: modules/popup-dialog.php:420
@@ -1081,7 +1081,7 @@ msgstr "Создать категорию"
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:719 modules/pref-feeds.php:971
+#: modules/pref-feeds.php:719 modules/pref-feeds.php:995
 #: modules/pref-filters.php:340 modules/pref-labels.php:293
 #: modules/pref-users.php:317
 msgid "Edit"
@@ -1100,35 +1100,39 @@ msgstr "Некоторые каналы не могли быть обновле�
 msgid "Top 25"
 msgstr "Топ 25"
 
-#: modules/pref-feeds.php:851 modules/pref-feeds.php:908
+#: modules/pref-feeds.php:851
+msgid "Show last article times"
+msgstr ""
+
+#: modules/pref-feeds.php:867 modules/pref-feeds.php:927
 msgid "Last&nbsp;Article"
 msgstr "Последняя&nbsp;статья"
 
-#: modules/pref-feeds.php:852 modules/pref-feeds.php:909
+#: modules/pref-feeds.php:868 modules/pref-feeds.php:931
 msgid "Updated"
 msgstr "Обновлено"
 
-#: modules/pref-feeds.php:974
+#: modules/pref-feeds.php:998
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
-#: modules/pref-feeds.php:984
+#: modules/pref-feeds.php:1008
 msgid "Recategorize"
 msgstr "Изменить категорию"
 
-#: modules/pref-feeds.php:993
+#: modules/pref-feeds.php:1017
 msgid "Edit categories"
 msgstr "Редактировать категории"
 
-#: modules/pref-feeds.php:1004
+#: modules/pref-feeds.php:1028
 msgid "OPML"
 msgstr ""
 
-#: modules/pref-feeds.php:1010
+#: modules/pref-feeds.php:1034
 msgid "Import"
 msgstr "Импортировать"
 
-#: modules/pref-feeds.php:1017
+#: modules/pref-feeds.php:1041
 msgid "Export OPML"
 msgstr "Экспортировать OPML"
 
