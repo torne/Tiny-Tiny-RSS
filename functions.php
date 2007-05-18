@@ -3542,7 +3542,7 @@
 			print "<div class=\"postContent\">";
 			
 			if (db_num_rows($tmp_result) > 0) {
-				print "<div id=\"allEntryTags\">".__('Tags:')."$f_tags_str</div>";
+				print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 			}
 
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
