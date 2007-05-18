@@ -793,12 +793,6 @@
 			$search_qpart = "";
 		}
 
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			$order_by_qpart = "category,$feeds_sort,title";
-		} else {
-			$order_by_qpart = "$feeds_sort,title";
-		}
-
 		$show_last_article_info = false;
 		$show_last_article_checked = "";
 		$show_last_article_qpart = "";
@@ -809,6 +803,14 @@
 			$show_last_article_qpart = ", (SELECT SUBSTRING(MAX(updated),1,16) FROM ttrss_user_entries,
 				ttrss_entries WHERE ref_id = ttrss_entries.id
 				AND feed_id = F1.id) AS last_article";
+		} else if ($feeds_sort == "last_article") {
+			$feeds_sort = "title";
+		}
+
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			$order_by_qpart = "category,$feeds_sort,title";
+		} else {
+			$order_by_qpart = "$feeds_sort,title";
 		}
 
 		$result = db_query($link, "SELECT 
