@@ -769,7 +769,7 @@
 				print "<div class=\"postTags\">Tags: $tags_str</div>";
 			}
 
-			print $line["content"]; 
+			print sanitize_rss($link, $line["content"], true);; 
 		
 		}
 

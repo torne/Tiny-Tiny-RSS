@@ -2637,10 +2637,10 @@
 		}
 	}
 
-	function sanitize_rss($link, $str) {
+	function sanitize_rss($link, $str, $force_strip_tags = false) {
 		$res = $str;
 
-		if (get_pref($link, "STRIP_UNSAFE_TAGS")) {
+		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
 			$res = strip_tags($res, "<p><a><i><em><b><strong><blockquote><br><img>");
 		}
 
