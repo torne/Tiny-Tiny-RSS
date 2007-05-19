@@ -3966,8 +3966,10 @@
 			// multiply by the font-size increment ($size)
 			// and add the $min_size set above
 			$size = round($min_size + (($value - $min_qty) * $step));
-		   
-			echo "<a href=\"javascript:viewfeed('$key') \" style=\"font-size: " . 
+
+			$key_escaped = str_replace("'", "\\'", $key);
+
+			echo "<a href=\"javascript:viewfeed('$key_escaped') \" style=\"font-size: " . 
 				$size . "px\" title=\"$value articles tagged with " . 
 				$key . '">' . $key . '</a> ';
 		}
