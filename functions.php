@@ -6,22 +6,11 @@
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	} */
 
-	if (ENABLE_TRANSLATIONS == true) { 
-		require_once "accept-to-gettext.php";
-		require_once "gettext/gettext.inc";
-	} else {
-		function __($msg) {
-			return $msg;
-		}
-		function startup_gettext() {
-			// no-op
-			return true;
-		}
-	}
-
 	require_once 'config.php';
 
 	if (ENABLE_TRANSLATIONS == true) { 
+		require_once "accept-to-gettext.php";
+		require_once "gettext/gettext.inc";
 
 		function startup_gettext() {
 	
@@ -37,6 +26,15 @@
 		}
 
 		startup_gettext();
+
+	} else {
+		function __($msg) {
+			return $msg;
+		}
+		function startup_gettext() {
+			// no-op
+			return true;
+		}
 	}
 
 	require_once 'db-prefs.php';
