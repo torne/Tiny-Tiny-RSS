@@ -6,25 +6,36 @@
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	} */
 
-	require_once "accept-to-gettext.php";
-	require_once "gettext/gettext.inc";
-
-	require_once 'config.php';
-
-	function startup_gettext() {
-
-		# Get locale from Accept-Language header
-		$lang = al2gt(array("en_US", "ru_RU"), "text/html");
-
-		if ($lang) {
-			_setlocale(LC_MESSAGES, $lang);
-			_bindtextdomain("messages", "locale");
-			_textdomain("messages");
-			_bind_textdomain_codeset("messages", "UTF-8");
+	if (ENABLE_TRANSLATIONS == true) { 
+		require_once "accept-to-gettext.php";
+		require_once "gettext/gettext.inc";
+	} else {
+		function __($msg) {
+			return $msg;
+		}
+		function startup_gettext() {
+			// no-op
+			return true;
 		}
 	}
 
+	require_once 'config.php';
+
 	if (ENABLE_TRANSLATIONS == true) { 
+
+		function startup_gettext() {
+	
+			# Get locale from Accept-Language header
+			$lang = al2gt(array("en_US", "ru_RU"), "text/html");
+	
+			if ($lang) {
+				_setlocale(LC_MESSAGES, $lang);
+				_bindtextdomain("messages", "locale");
+				_textdomain("messages");
+				_bind_textdomain_codeset("messages", "UTF-8");
+			}
+		}
+
 		startup_gettext();
 	}
 
