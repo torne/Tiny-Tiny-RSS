@@ -1,6 +1,15 @@
 <?php
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
+	/* remove ill effects of magic quotes */
+
+	if (get_magic_quotes_gpc()) {
+		$_GET = array_map('stripslashes', $_GET);
+		$_POST = array_map('stripslashes', $_POST);
+		$_REQUEST = array_map('stripslashes', $_REQUEST);
+		$_COOKIE = array_map('stripslashes', $_COOKIE);
+	}
+
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
 
