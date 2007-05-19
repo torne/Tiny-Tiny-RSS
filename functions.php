@@ -48,6 +48,12 @@
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
 
+	include_once "tw/tw-config.php";
+	include_once "tw/tw.php";
+	include_once TW_SETUP . "paranoya.php";
+
+	$tw_parser = new twParser();
+
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
 		print "[$ts] $msg\n";
@@ -2650,11 +2656,39 @@
 		}
 	}
 
+	// http://ru2.php.net/strip-tags
+
+	function strip_tags_long($textstring, $allowed){
+	while($textstring != strip_tags($textstring, $allowed))
+    {
+    while (strlen($textstring) != 0)
+         {
+         if (strlen($textstring) > 1024) {
+              $otherlen = 1024;
+         } else {
+              $otherlen = strlen($textstring);
+         }
+         $temptext = strip_tags(substr($textstring,0,$otherlen), $allowed);
+         $safetext .= $temptext;
+         $textstring = substr_replace($textstring,'',0,$otherlen);
+         }  
+    $textstring = $safetext;
+    }
+	return $textstring;
+	}
+
+
 	function sanitize_rss($link, $str, $force_strip_tags = false) {
 		$res = $str;
 
 		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
-			$res = strip_tags($res, "<p><a><i><em><b><strong><blockquote><br><img>");
+			global $tw_parser;
+			global $tw_paranoya_setup;
+
+			$res = $tw_parser->strip_tags($res, $tw_paranoya_setup);
+
+//			$res = preg_replace("/\r\n|\n|\r/", "", $res);
+//			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
 		}
 
 		return $res;
