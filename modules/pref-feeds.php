@@ -862,10 +862,13 @@
 					print "<td width='3%'>&nbsp;</td>";
 				}
 
-				print "
-					<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>
-					<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>
-					<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+				print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
+
+				if ($show_last_article_info) {
+					print "<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
+				}
+
+				print "<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 			}
 			
 			$lnum = 0;

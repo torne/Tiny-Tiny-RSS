@@ -148,7 +148,7 @@
 			if (get_pref($link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
 				print "<option $cat_preselected value=\"this_cat\">$feed_cat_title</option>";
 			} else {
-				print "<option disabled>".__('This category')."</option>";
+				//print "<option disabled>".__('This category')."</option>";
 			}
 
 			print "</select></td></tr>"; 
