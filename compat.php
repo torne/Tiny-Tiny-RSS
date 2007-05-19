@@ -93,5 +93,11 @@ if (!function_exists('mb_substr'))
 	} 
           
       return $i;      
-    }
+	 }
+
+	if (!function_exists('mb_strtolower')) {
+	  function mb_strtolower($msg, $encoding) {
+		  return $msg;
+		}
+	}
 }
