@@ -155,10 +155,14 @@ window.onload = init;
 
 		<form id="main_toolbar_form" onsubmit='return false'>
 
+		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
+
 		<?php echo __('Search:') ?>
 		<input name="query"
 			onKeyPress="return filterCR(event, viewCurrentFeed)"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
+
+		<?php } ?>
 
 		<?php echo __('View:') ?>
 		<select name="view_mode" onchange="viewCurrentFeed(0, '')">

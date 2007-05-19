@@ -8,4 +8,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('BLACKLISTED_TAGS', 2, 'main, generic, misc', 'Blacklisted tags', 3,
 'When auto-detecting tags in articles these tags will not be applied (comma-separated list).');
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SEARCH_TOOLBAR', 1, 'false', 'Enable search toolbar',2);
+
 update ttrss_version set schema_version = 17;
