@@ -929,6 +929,7 @@
 							$tag = db_escape_string($tag);
 
 							$tag = str_replace("+", " ", $tag);	
+							$tag = str_replace("\"", "", $tag);	
 							$tag = str_replace("technorati tag: ", "", $tag);
 
 							if (!tag_is_valid($tag)) continue;
