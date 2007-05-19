@@ -21,8 +21,8 @@
 
 			$line = db_fetch_assoc($result);
 
-			$sql_exp = htmlspecialchars(db_unescape_string($line["sql_exp"]));
-			$description = htmlspecialchars(db_unescape_string($line["description"]));
+			$sql_exp = htmlspecialchars($line["sql_exp"]);
+			$description = htmlspecialchars($line["description"]);
 
 			print "<div id=\"infoBoxTitle\">Label editor</div>";
 			print "<div class=\"infoBoxContents\">";
@@ -78,8 +78,9 @@
 
 		if ($subop == "test") {
 
-			$expr = db_unescape_string(trim($_GET["expr"]));
-			$descr = db_unescape_string(trim($_GET["descr"]));
+			// no escaping here on purpose
+			$expr = trim($_GET["expr"]);
+			$descr = db_escape_string(trim($_GET["descr"]));
 
 			if (!$expr) {
 				print "<div>Error: SQL expression is blank.</div>";
@@ -260,9 +261,8 @@
 	
 				print "<tr class=\"$class\" $this_row_id>";
 	
-				$line["sql_exp"] = htmlspecialchars(db_unescape_string($line["sql_exp"]));
-				$line["description"] = htmlspecialchars(
-						db_unescape_string($line["description"]));
+				$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
+				$line["description"] = htmlspecialchars($line["description"]);
 	
 				if (!$line["description"]) $line["description"] = "[No caption]";
 	

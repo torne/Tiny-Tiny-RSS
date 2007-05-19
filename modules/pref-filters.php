@@ -10,7 +10,7 @@
 			$result = db_query($link, 
 				"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
-			$reg_exp = htmlspecialchars(db_unescape_string(db_fetch_result($result, 0, "reg_exp")));
+			$reg_exp = htmlspecialchars(db_fetch_result($result, 0, "reg_exp"));
 			$filter_type = db_fetch_result($result, 0, "filter_type");
 			$feed_id = db_fetch_result($result, 0, "feed_id");
 			$action_id = db_fetch_result($result, 0, "action_id");
@@ -285,11 +285,11 @@
 	
 				print "<tr class=\"$class\" $this_row_id>";
 	
-				$line["reg_exp"] = htmlspecialchars(db_unescape_string($line["reg_exp"]));
+				$line["reg_exp"] = htmlspecialchars($line["reg_exp"]);
 	
 				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
 
-				$line["feed_title"] = htmlspecialchars(db_unescape_string($line["feed_title"]));
+				$line["feed_title"] = htmlspecialchars($line["feed_title"]);
 
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";

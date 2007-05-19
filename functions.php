@@ -386,8 +386,8 @@
 		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
 			FROM ttrss_feeds WHERE id = '$feed'");
 
-		$auth_login = db_unescape_string(db_fetch_result($result, 0, "auth_login"));
-		$auth_pass = db_unescape_string(db_fetch_result($result, 0, "auth_pass"));
+		$auth_login = db_fetch_result($result, 0, "auth_login");
+		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
 
@@ -2141,7 +2141,7 @@
 				$is_selected = "";
 			}
 			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], htmlspecialchars(db_unescape_string($line["title"])));
+				$line["id"], htmlspecialchars($line["title"]));
 		}
 	
 		print "</select>";
@@ -2170,7 +2170,7 @@
 				$is_selected = "";
 			}
 			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], htmlspecialchars(db_unescape_string($line["title"])));
+				$line["id"], htmlspecialchars($line["title"]));
 		}
 
 		print "</select>";
@@ -2524,8 +2524,6 @@
 			} else {
 				$feed_title = "?";
 			}
-
-			$feed_title = db_unescape_string($feed_title);
 
 			if ($feed < -10) error_reporting (0);
 
@@ -2899,10 +2897,6 @@
 		}
 	}
 
-	function escape_for_form($s) {
-		return htmlspecialchars(db_unescape_string($s));
-	}
-
 	function make_guid_from_title($title) {
 		return preg_replace("/[ \"\',.:;]/", "-", 
 			mb_strtolower(strip_tags($title), 'utf-8'));
@@ -3121,7 +3115,7 @@
 					error_reporting (DEFAULT_ERROR_LEVEL);
 	
 					printFeedEntry($label_id, 
-						$class, db_unescape_string($line["description"]), 
+						$class, $line["description"], 
 						$count, "images/label.png", $link);
 		
 				}
@@ -3182,7 +3176,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 			
-				$feed = trim(db_unescape_string($line["title"]));
+				$feed = trim($line["title"]);
 
 				if (!$feed) $feed = "[Untitled]";
 

@@ -101,7 +101,7 @@
 				$class = ($feedctr % 2) ? "even" : "odd";
 
 				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-					"$feed_icon " . db_unescape_string($details["title"]) . 
+					"$feed_icon " . $details["title"] . 
 					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
 
 					++$feedctr;
@@ -130,8 +130,8 @@
 				"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
 					owner_uid = " . $_SESSION["uid"]);
 
-			$title = htmlspecialchars(db_unescape_string(db_fetch_result($result,
-				0, "title")));
+			$title = htmlspecialchars(db_fetch_result($result,
+				0, "title"));
 
 			$icon_file = ICONS_DIR . "/$feed_id.ico";
 	
@@ -159,8 +159,8 @@
 				name=\"title\" value=\"$title\"></td></tr>";
 
 			$feed_url = db_fetch_result($result, 0, "feed_url");
-			$feed_url = htmlspecialchars(db_unescape_string(db_fetch_result($result,
-				0, "feed_url")));
+			$feed_url = htmlspecialchars(db_fetch_result($result,
+				0, "feed_url"));
 				
 			print "<tr><td>".__('Feed URL:')."</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
@@ -259,13 +259,13 @@
 			
 			print "</td>";
 
-			$auth_login = escape_for_form(db_fetch_result($result, 0, "auth_login"));
+			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 
 			print "<tr><td>".__('Login:')."</td>";
 			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
 
-			$auth_pass = escape_for_form(db_fetch_result($result, 0, "auth_pass"));
+			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
 			print "<tr><td>".__('Password:')."</td>";
 			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
@@ -652,7 +652,7 @@
 		
 					print "<tr class=\"$class\" $this_row_id>";
 		
-					$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
+					$edit_title = htmlspecialchars($line["title"]);
 		
 					if (!$edit_cat_id || $action != "edit") {
 		
@@ -880,8 +880,8 @@
 				$feed_id = $line["id"];
 				$cat_id = $line["cat_id"];
 
-				$edit_title = htmlspecialchars(db_unescape_string($line["title"]));
-				$edit_cat = htmlspecialchars(db_unescape_string($line["category"]));
+				$edit_title = htmlspecialchars($line["title"]);
+				$edit_cat = htmlspecialchars($line["category"]);
 
 				$hidden = sql_bool_to_bool($line["hidden"]);
 
