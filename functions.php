@@ -589,7 +589,6 @@
 //				print "<br>";
 
 				$entry_content_unescaped = $entry_content;
-				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
 				$entry_comments = strip_tags($item["comments"]);
 
@@ -621,6 +620,9 @@
 					WHERE guid = '$entry_guid'");
 
 				$entry_content = db_escape_string($entry_content);
+
+				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
+
 				$entry_title = db_escape_string($entry_title);
 				$entry_link = db_escape_string($entry_link);
 				$entry_comments = db_escape_string($entry_comments);
@@ -808,10 +810,11 @@
 
 					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid, false) &&
 						($content_hash != $orig_content_hash)) {
+//						print "<!-- [$entry_title] $content_hash vs $orig_content_hash -->";
 						$post_needs_update = true;
 					}
 
-					if ($orig_title != $entry_title) {
+					if (db_escape_string($orig_title) != $entry_title) {
 						$post_needs_update = true;
 					}
 
@@ -837,6 +840,7 @@
 
 						db_query($link, "UPDATE ttrss_entries 
 							SET title = '$entry_title', content = '$entry_content',
+								content_hash = '$content_hash',
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
