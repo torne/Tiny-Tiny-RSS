@@ -727,7 +727,11 @@ function editTagsSave() {
 
 	var query = Form.serialize("tag_edit_form");
 
-	xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=setArticleTags&" + query, true);			
+	query = "backend.php?op=rpc&subop=setArticleTags&" + query;
+
+	debug(query);
+
+	xmlhttp_rpc.open("GET", query, true);			
 	xmlhttp_rpc.onreadystatechange=tag_saved_callback;
 	xmlhttp_rpc.send(null);
 

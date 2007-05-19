@@ -925,12 +925,8 @@
 						
 						foreach ($entry_tags as $tag) {
 
-							$tag = mb_strtolower($tag, 'utf-8');
+							$tag = sanitize_tag($tag);
 							$tag = db_escape_string($tag);
-
-							$tag = str_replace("+", " ", $tag);	
-							$tag = str_replace("\"", "", $tag);	
-							$tag = str_replace("technorati tag: ", "", $tag);
 
 							if (!tag_is_valid($tag)) continue;
 							
@@ -942,8 +938,6 @@
 	
 							if ($result && db_num_rows($result) == 0) {
 								
-	//							print "tagging $entry_id as $tag<br>";
-	
 								db_query($link, "INSERT INTO ttrss_tags 
 									(owner_uid,tag_name,post_int_id)
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
@@ -3561,8 +3555,10 @@
 
 			while ($tmp_line = db_fetch_assoc($tmp_result)) {
 				$num_tags++;
-				$tag = $tmp_line["tag_name"];				
-				$tag_str = "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+				$tag = $tmp_line["tag_name"];
+				$tag_escaped = str_replace("'", "\\'", $tag);
+
+				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";
 				
 				if ($num_tags == 6) {
 					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
@@ -3987,5 +3983,16 @@
 		$ts = getmicrotime();	
 		echo sprintf("<!-- CP[$n] %.4f seconds -->", $ts - $s);
 		return $ts;
+	}
+
+	function sanitize_tag($tag) {
+		$tag = trim($tag);
+
+		$tag = mb_strtolower($tag, 'utf-8');
+
+		$tag = str_replace("+", " ", $tag);	
+		$tag = str_replace("technorati tag: ", "", $tag);
+
+		return $tag;
 	}
 ?>

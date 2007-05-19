@@ -202,7 +202,9 @@
 		}
 
 		if ($subop == "setArticleTags") {
+
 			$id = db_escape_string($_GET["id"]);
+
 			$tags_str = db_escape_string($_GET["tags_str"]);
 
 			$tags = array_unique(trim_array(split(",", $tags_str)));
@@ -220,7 +222,7 @@
 					post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
 
 				foreach ($tags as $tag) {
-					$tag = trim($tag);
+					$tag = sanitize_tag($tag);	
 
 					if (!tag_is_valid($tag)) {
 						continue;
@@ -229,6 +231,8 @@
 					if (preg_match("/^[0-9]*$/", $tag)) {
 						continue;
 					}
+
+//					print "<!-- $tag -->";
 					
 					if ($tag != '') {
 						db_query($link, "INSERT INTO ttrss_tags 
