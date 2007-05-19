@@ -3990,6 +3990,8 @@
 
 		$tag = mb_strtolower($tag, 'utf-8');
 
+		$tag = str_replace('\"', "", $tag);	
+		$tag = str_replace('"', "", $tag);	
 		$tag = str_replace("+", " ", $tag);	
 		$tag = str_replace("technorati tag: ", "", $tag);
 
