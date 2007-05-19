@@ -150,7 +150,7 @@
 
 		if ($subop == "editSave") {
 
-			$sql_exp = trim($_GET["sql_exp"]);
+			$sql_exp = db_escape_string(trim($_GET["sql_exp"]));
 			$descr = db_escape_string(trim($_GET["description"]));
 			$label_id = db_escape_string($_GET["id"]);
 			
@@ -180,8 +180,7 @@
 
 		if ($subop == "add") {
 
-			// no escaping is done here on purpose
-			$sql_exp = trim($_GET["sql_exp"]);
+			$sql_exp = db_escape_string(trim($_GET["sql_exp"]));
 			$description = db_escape_string($_GET["description"]);
 
 			if (!$sql_exp || !$description) return;
