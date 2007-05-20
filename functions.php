@@ -2619,7 +2619,13 @@
  			print "<item>";
  			print "<id>" . htmlspecialchars($line["guid"]) . "</id>";
  			print "<link>" . htmlspecialchars($line["link"]) . "</link>";
-  
+
+			$tags = get_article_tags($link, $line["id"]);
+
+			foreach ($tags as $tag) {
+				print "<category>" . htmlspecialchars($tag) . "</category>";
+			}
+
  			$rfc822_date = date('r', strtotime($line["updated"]));
   
  			print "<pubDate>$rfc822_date</pubDate>";
@@ -2627,8 +2633,8 @@
  			print "<title>" . 
  				htmlspecialchars($line["title"]) . "</title>";
   
- 			print "<description>" . 
- 				htmlspecialchars($line["content_preview"]) . "</description>";
+ 			print "<description><![CDATA[" . 
+ 				$line["content_preview"] . "]]></description>";
   
  			print "</item>";
   		}
@@ -3352,9 +3358,10 @@
 
 		$a_id = db_escape_string($id);
 
-		$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+		$tmp_result = db_query($link, "SELECT DISTINCT tag_name, 
+			owner_uid as owner FROM
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$a_id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1) ORDER BY tag_name");
+				ref_id = '$a_id' AND owner_uid = owner LIMIT 1) ORDER BY tag_name");
 
 		$tags = array();	
 	
@@ -3986,9 +3993,10 @@
 
 		$tag = mb_strtolower($tag, 'utf-8');
 
-		$tag = str_replace('\"', "", $tag);	
-		$tag = str_replace('"', "", $tag);	
-		$tag = str_replace("+", " ", $tag);	
+		$tag = preg_replace('/[\"\+\>\<]/', "", $tag);	
+
+//		$tag = str_replace('"', "", $tag);	
+//		$tag = str_replace("+", " ", $tag);	
 		$tag = str_replace("technorati tag: ", "", $tag);
 
 		return $tag;
