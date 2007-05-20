@@ -168,7 +168,7 @@ class twParser
 	function get_errors()	{ return $this->err->get_by_mask(0x0f00); }
 	function get_internal()	{ return $this->err->get_by_mask(0xf000); }
 	function get_by_mask($mask) { return $this->err->get_by_mask($mask); }
-	function get_error_text ( $id, &$lang ) { return $this->err->get_error_text ( $id, &$lang ); }
+	function get_error_text ( $id, &$lang ) { return $this->err->get_error_text ( $id, $lang ); }
 	
 // ---------------------------------------------------------------------------------
 // LOW LEVEL functions
