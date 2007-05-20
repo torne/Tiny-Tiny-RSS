@@ -15,8 +15,8 @@
 		"hr"	=>	null,	// without attributes
 		"br"	=>	null,
 		"img"	=>	array(
-						"width" => array( TW_NUM, 80, 60, 120 ),	// 80 - default, number must be in range <60,120>
-						"height"=> array( TW_NUM, 80, 60, 120 ),
+						"width" => array( TW_NUM ),	// 80 - default, number must be in range <60,120>
+						"height"=> array( TW_NUM ),
 						"src"	=> array( TW_RQ_URL ),
 						"title"	=> null,
 						"border"=> array( TW_RQ_NUM,  0,  0,  0),
