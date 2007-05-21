@@ -517,6 +517,10 @@
 				// clear any errors and mark feed as updated if fetched okay
 				// even if it's blank
 
+				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					_debug("update_rss_feed: entry iterator is not an array, no articles?");
+				}
+
 				db_query($link, "UPDATE ttrss_feeds 
 					SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
