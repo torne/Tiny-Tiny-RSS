@@ -187,6 +187,9 @@ function scheduleFeedUpdate(force) {
 	if (!xmlhttp_ready(xmlhttp_ctr) && last_refetch < date.getTime() / 1000 - 60) {
 		debug("<b>xmlhttp seems to be stuck, aborting</b>");
 		xmlhttp_ctr.abort();
+		if (is_safari()) {
+			xmlhttp_ctr = Ajax.getTransport();
+		}
 	}
 
 	debug("REFETCH query: " + query_str);

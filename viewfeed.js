@@ -199,6 +199,9 @@ function view(id, feed_id, skip_history) {
 		if (!xmlhttp_ready(xmlhttp) && last_article_view < date.getTime() / 1000 - 15) {
 			debug("<b>xmlhttp seems to be stuck at view, aborting</b>");
 			xmlhttp.abort();
+			if (is_safari()) {
+				xmlhttp_ctr = Ajax.getTransport();
+			}
 		}
 
 		if (xmlhttp_ready(xmlhttp)) {
