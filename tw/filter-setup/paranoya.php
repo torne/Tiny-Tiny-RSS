@@ -1,4 +1,4 @@
-<?
+<?php
 	// WARNING:
 	//
 	// All tags used in configuration must be defined in tw/tw-tags.php file too.
