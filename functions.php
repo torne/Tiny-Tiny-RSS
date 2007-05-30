@@ -3594,11 +3594,11 @@
 				print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 			}
 
+			$line["content"] = sanitize_rss($link, $line["content"]);
+
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
 				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
 			}
-
-			$line["content"] = sanitize_rss($link, $line["content"]);
 
 			print $line["content"] . "</div>";
 			
