@@ -102,6 +102,7 @@
 	$update_intervals = array(
 		0   => __("Use default"),
 		-1  => __("Disable updates"),
+		15  => __("Each 15 minutes"),
 		30  => __("Each 30 minutes"),
 		60  => __("Hourly"),
 		240 => __("Each 4 hours"),
