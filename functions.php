@@ -1983,7 +1983,7 @@
 
 		$old_counters = $_SESSION["fctr_last_value"];
 
-		$result = db_query($link, "SELECT id,last_error,parent_feed,
+/*		$result = db_query($link, "SELECT id,last_error,parent_feed,
 			SUBSTRING(last_updated,1,19) AS last_updated,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
@@ -1991,7 +1991,20 @@
 					ttrss_user_entries.ref_id = ttrss_entries.id
 				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"] . "
-				AND parent_feed IS NULL");
+			AND parent_feed IS NULL"); */
+
+		$result = db_query($link, "SELECT ttrss_feeds.id,
+				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated, 
+				last_error, 
+				COUNT(ttrss_entries.id) 
+			FROM ttrss_feeds 
+				LEFT JOIN ttrss_user_entries ON (ttrss_user_entries.feed_id = ttrss_feeds.id 
+					AND ttrss_user_entries.owner_uid = ttrss_feeds.owner_uid 
+					AND ttrss_user_entries.unread = true) 
+				LEFT JOIN ttrss_entries ON (ttrss_user_entries.ref_id = ttrss_entries.id) 
+			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."
+				AND parent_feed IS NULL 
+			GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, last_error");
 
 		$fctrs_modified = false;
 
