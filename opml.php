@@ -110,10 +110,12 @@
 			print "<p>".__("Importing OPML (using DOMXML extension)...")."</p>";
 			require_once "modules/opml_domxml.php";
 			opml_import_domxml($link, $owner_uid);
-		} else {
+		} else if (PHP_VERSION >= 5) {
 			print "<p>".__("Importing OPML (using DOMDocument extension)...")."</p>";
 			require_once "modules/opml_domdoc.php";
 			opml_import_domdoc($link, $owner_uid);
+		} else {
+			print_error(__("DOMXML extension is not found. It is required for PHP versions below 5."));
 		}
 
 		print "<br><form method=\"GET\" action=\"prefs.php\">
