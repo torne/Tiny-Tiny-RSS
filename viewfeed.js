@@ -45,6 +45,7 @@ function headlines_callback() {
 			var headlines = xmlhttp.responseXML.getElementsByTagName("headlines")[0];
 			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
 			var articles = xmlhttp.responseXML.getElementsByTagName("article");
+			var runtime_info = xmlhttp.responseXML.getElementsByTagName("runtime-info");
 
 			if (headlines) {
 				f.innerHTML = headlines.firstChild.nodeValue;
@@ -70,6 +71,14 @@ function headlines_callback() {
 			} else {
 				debug("counters container not found in reply");
 			}
+
+			if (runtime_info) {
+				debug("parsing runtime info: " + runtime_info[0]);
+				parse_runtime_info(runtime_info[0]);
+			} else {
+				debug("counters container not found in reply");
+			}
+
 		} else {
 			debug("headlines_callback: returned no XML object");
 			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";

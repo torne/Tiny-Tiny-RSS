@@ -236,6 +236,8 @@
 
 		if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
+		print_runtime_info($link);
+
 		print "</reply>";
 	}
 
