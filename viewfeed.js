@@ -209,7 +209,8 @@ function view(id, feed_id, skip_history) {
 			debug("<b>xmlhttp seems to be stuck at view, aborting</b>");
 			xmlhttp.abort();
 			if (is_safari()) {
-				xmlhttp_ctr = Ajax.getTransport();
+				debug("trying alternative reset method for Safari");
+				xmlhttp = Ajax.getTransport();
 			}
 		}
 
