@@ -17,7 +17,9 @@
 			print "Feeds <span id=\"headingAddon\">
 				(<a href=\"tt-rss.php?tags=1\">View tags</a>, ";
 		}
-			
+
+		print "<a href=\"tt-rss.php?go=sform\">Search</a>, ";
+
 		print "<a href=\"logout.php\">Logout</a>)</span>";
 		print "</div>";
 
@@ -300,6 +302,7 @@
 
 		if (!$view_mode) $view_mode = "Adaptive";
 		if (!$limit) $limit = 30;
+		if (!$feed) $feed = 0;
 
 		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 
@@ -344,227 +347,33 @@
 				}
 			}
 		}
+
+
+		/// START /////////////////////////////////////////////////////////////////////////////////
+
+		$search = db_escape_string($_GET["query"]);
+		$search_mode = db_escape_string($_GET["search_mode"]);
+		$match_on = db_escape_string($_GET["match_on"]);
+
+		if (!$match_on) {
+			$match_on = "both";
+		}
+
+		$real_offset = $offset * $limit;
+
+		if ($_GET["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
+
+		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
+			$search, $search_mode, $match_on, false, $real_offset);
+
+		if ($_GET["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
+
+		$result = $qfh_ret[0];
+		$feed_title = $qfh_ret[1];
+		$feed_site_url = $qfh_ret[2];
+		$last_error = $qfh_ret[3];
 		
-		$search = db_escape_string($_GET["search"]);
-		$search_mode = db_escape_string($_GET["smode"]);
-
-		if ($search) {
-			$search_query_part = "(upper(ttrss_entries.title) LIKE upper('%$search%') 
-				OR ttrss_entries.content LIKE '%$search%') AND";
-		} else {
-			$search_query_part = "";
-		}
-
-		$view_query_part = "";
-
-		if ($view_mode == "Adaptive") {
-			if ($search) {
-				$view_query_part = " ";
-			} else if ($feed != -1) {
-				$unread = getFeedUnread($link, $feed);
-				if ($unread > 0) {
-					$view_query_part = " unread = true AND ";
-				}
-			}
-		}
-
-		if ($view_mode == "Starred") {
-			$view_query_part = " marked = true AND ";
-		}
-
-		if ($view_mode == "Unread") {
-			$view_query_part = " unread = true AND ";
-		}
-
-		if ($limit && $limit != "All") {
-			$limit_query_part = "LIMIT " . $limit;
-		} 
-
-		$vfeed_query_part = "";
-
-		// override query strategy and enable feed display when searching globally
-		if ($search && $search_mode == "All feeds") {
-			$query_strategy_part = "ttrss_entries.id > 0";
-			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
-		} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
-			$query_strategy_part = "ttrss_entries.id > 0";
-			$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
-				id = feed_id) as feed_title,";
-		} else if ($feed >= 0 && $search && $search_mode == "This category") {
-
-			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
-
-			$tmp_result = db_query($link, "SELECT id 
-				FROM ttrss_feeds WHERE cat_id = 
-					(SELECT cat_id FROM ttrss_feeds WHERE id = '$feed') AND id != '$feed'");
-
-			$cat_siblings = array();
-
-			if (db_num_rows($tmp_result) > 0) {
-				while ($p = db_fetch_assoc($tmp_result)) {
-					array_push($cat_siblings, "feed_id = " . $p["id"]);
-				}
-
-				$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
-					$feed, implode(" OR ", $cat_siblings));
-
-			} else {
-				$query_strategy_part = "ttrss_entries.id > 0";
-			}
-			
-		} else if ($feed >= 0) {
-
-			if ($cat_view) {
-
-				if ($feed > 0) {
-					$query_strategy_part = "cat_id = '$feed'";
-				} else {
-					$query_strategy_part = "cat_id IS NULL";
-				}
-
-				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-
-			} else {		
-				$tmp_result = db_query($link, "SELECT id 
-					FROM ttrss_feeds WHERE parent_feed = '$feed'
-					ORDER BY cat_id,title");
-	
-				$parent_ids = array();
-	
-				if (db_num_rows($tmp_result) > 0) {
-					while ($p = db_fetch_assoc($tmp_result)) {
-						array_push($parent_ids, "feed_id = " . $p["id"]);
-					}
-	
-					$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
-						$feed, implode(" OR ", $parent_ids));
-	
-					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-				} else {
-					$query_strategy_part = "feed_id = '$feed'";
-				}
-			}
-		} else if ($feed == -1) { // starred virtual feed
-			$query_strategy_part = "marked = true";
-			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-		} else if ($feed <= -10) { // labels
-			$label_id = -$feed - 11;
-
-			$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
-				WHERE id = '$label_id'");
-		
-			$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
-	
-			$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-		} else {
-			$query_strategy_part = "id > 0"; // dumb
-		}
-
-		$order_by = "updated DESC";
-
-//		if ($feed < -10) {
-//			$order_by = "feed_id,updated DESC";
-//		}
-
-		$feed_title = "";
-
-		if ($search && $search_mode == "All feeds") {
-			$feed_title = "Global search results ($search)";
-		} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-			$feed_title = "Feed search results ($search, $feed)";
-		} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-			$feed_title = $feed;
-		} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
-
-			if ($cat_view) {
-
-				if ($feed != 0) {			
-					$result = db_query($link, "SELECT title FROM ttrss_feed_categories
-						WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
-					$feed_title = db_fetch_result($result, 0, "title");
-				} else {
-					$feed_title = "Uncategorized";
-				}
-			} else {
-				
-				$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
-					WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
-	
-				$feed_title = db_fetch_result($result, 0, "title");
-				$feed_site_url = db_fetch_result($result, 0, "site_url");
-				$last_error = db_fetch_result($result, 0, "last_error");
-
-			}
-
-		} else if ($feed == -1) {
-			$feed_title = "Starred articles";
-		} else if ($feed < -10) {
-			$label_id = -$feed - 11;
-			$result = db_query($link, "SELECT description FROM ttrss_labels
-				WHERE id = '$label_id'");
-			$feed_title = db_fetch_result($result, 0, "description");
-		} else {
-			$feed_title = "?";
-		}
-
-		if ($feed < -10) error_reporting (0);
-
-		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
-
-			if ($feed >= 0) {
-				$feed_kind = "Feeds";
-			} else {
-				$feed_kind = "Labels";
-			}
-
-			$query = "SELECT 
-					ttrss_entries.id,ttrss_entries.title,
-					SUBSTRING(updated,1,16) as updated,
-					unread,feed_id,marked,link,last_read,
-					SUBSTRING(last_read,1,19) as last_read_noms,
-					$vfeed_query_part
-					SUBSTRING(updated,1,19) as updated_noms
-				FROM
-					ttrss_entries,ttrss_user_entries,ttrss_feeds
-				WHERE
-				ttrss_feeds.hidden = false AND
-				ttrss_user_entries.feed_id = ttrss_feeds.id AND
-				ttrss_user_entries.ref_id = ttrss_entries.id AND
-				ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
-				$search_query_part
-				$view_query_part
-				$query_strategy_part ORDER BY $order_by
-				$limit_query_part";
-				
-			$result = db_query($link, $query);
-
-			if ($_GET["debug"]) print $query;
-
-		} else {
-			// browsing by tag
-
-			$feed_kind = "Tags";
-
-			$result = db_query($link, "SELECT
-				ttrss_entries.id as id,title,
-				SUBSTRING(updated,1,16) as updated,
-				unread,feed_id,
-				marked,link,last_read,				
-				SUBSTRING(last_read,1,19) as last_read_noms,
-				$vfeed_query_part
-				$content_query_part
-				SUBSTRING(updated,1,19) as updated_noms
-				FROM
-					ttrss_entries,ttrss_user_entries,ttrss_tags
-				WHERE
-					ref_id = ttrss_entries.id AND
-					ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
-					post_int_id = int_id AND tag_name = '$feed' AND
-					$view_query_part
-					$search_query_part
-					$query_strategy_part ORDER BY $order_by
-				$limit_query_part");	
-		}
+		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
 		if (!$result) {
 			print "<div align='center'>
@@ -579,10 +388,12 @@
 		
 		print "$feed_title <span id=\"headingAddon\">(";
 		print "<a href=\"tt-rss.php\">Back</a>, ";
+		print "<a href=\"tt-rss.php?go=sform&aid=$feed&ic=$cat_view\">Search</a>, ";
 		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>";
 #		print "Mark as read: ";
 #		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAsRead\">Page</a>, ";
 #		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a>";
+
 		print ")</span>";
 		
 		print "</div>";
@@ -774,6 +585,71 @@
 		}
 
 		print "</body></html>";
+	}
+
+	function render_search_form($link, $active_feed_id = false, $is_cat = false) {
+
+		print "<div id=\"heading\">";
+
+		print "Search <span id=\"headingAddon\">
+				(<a href=\"tt-rss.php\">Go back</a>)</span></div>";
+
+		print "<form method=\"GET\" action=\"tt-rss.php\" class=\"searchForm\">";
+
+		print "<input type=\"hidden\" name=\"go\" value=\"vf\">";
+		print "<input type=\"hidden\" name=\"id\" value=\"$active_feed_id\">";
+		print "<input type=\"hidden\" name=\"cat\" value=\"$is_cat\">";
+
+		print "<table><tr><td>".__('Search:')."</td><td>";
+		print "<input name=\"query\"></td></tr>";
+
+		print "<tr><td>".__('Where:')."</td><td>";
+		
+		print "<select name=\"search_mode\">
+			<option value=\"all_feeds\">".__('All feeds')."</option>";
+			
+		$feed_title = getFeedTitle($link, $active_feed_id);
+
+		if (!$is_cat) {
+			$feed_cat_title = getFeedCatTitle($link, $active_feed_id);
+		} else {
+			$feed_cat_title = getCategoryTitle($link, $active_feed_id);
+		}
+			
+		if ($active_feed_id && !$is_cat) {				
+			print "<option selected value=\"this_feed\">$feed_title</option>";
+		} else {
+			print "<option disabled>".__('This feed')."</option>";
+		}
+
+		if ($is_cat) {
+		  	$cat_preselected = "selected";
+		}
+
+		if (get_pref($link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
+			print "<option $cat_preselected value=\"this_cat\">$feed_cat_title</option>";
+		} else {
+			//print "<option disabled>".__('This category')."</option>";
+		}
+
+		print "</select></td></tr>"; 
+
+		print "<tr><td>".__('Match on:')."</td><td>";
+
+		$search_fields = array(
+			"title" => __("Title"),
+			"content" => __("Content"),
+			"both" => __("Title or content"));
+
+		print_select_hash("match_on", 3, $search_fields); 
+				
+		print "</td></tr></table>";
+
+		print "<input type=\"submit\" value=\"".__('Search')."\">";
+
+		print "</form>";
+
+		print "</div>";
 	}
 
 ?>

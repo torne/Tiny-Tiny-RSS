@@ -66,6 +66,8 @@
 		render_headlines($link);	
 	} else if ($go == "view") {
 		render_article($link);
+	} else if ($go == "sform") {
+		render_search_form($link, $_GET["aid"], $_GET["ic"]);
 	} else {
 		print __("Internal error: Function not implemented");
 	}
