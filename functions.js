@@ -1396,24 +1396,29 @@ function infobox_submit_callback() {
 function infobox_callback() {
 	if (xmlhttp.readyState == 4) {
 
-		if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
-			var overlay = document.getElementById("dialog_overlay");
-			if (overlay) {
-				overlay.style.display = "block";
-			}
-		}
+		try {
 
-		var box = document.getElementById('infoBox');
-		var shadow = document.getElementById('infoBoxShadow');
-		if (box) {			
-			box.innerHTML=xmlhttp.responseText;			
-			if (shadow) {
-				shadow.style.display = "block";
-			} else {
-				box.style.display = "block";				
+			if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
+				var overlay = document.getElementById("dialog_overlay");
+				if (overlay) {
+					overlay.style.display = "block";
+				}
 			}
+	
+			var box = document.getElementById('infoBox');
+			var shadow = document.getElementById('infoBoxShadow');
+			if (box) {			
+				box.innerHTML=xmlhttp.responseText;			
+				if (shadow) {
+					shadow.style.display = "block";
+				} else {
+					box.style.display = "block";				
+				}
+			}
+			notify("");
+		} catch (e) {
+			exception_error("infobox_callback", e);
 		}
-		notify("");
 	}
 }
 
