@@ -191,10 +191,6 @@ function view(id, feed_id, skip_history) {
 		var cached_article = cache_find(id);
 
 		debug("cache check result: " + (cached_article != false));
-
-/*		if (!skip_history) {
-			history_push("ARTICLE:" + id + ":" + feed_id);
-		} */
 	
 		enableHotkeys();
 	

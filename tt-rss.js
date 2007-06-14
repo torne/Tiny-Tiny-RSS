@@ -21,8 +21,6 @@ var xmlhttp_ctr = Ajax.getTransport();
 
 var init_params = new Object();
 
-//var op_history = new Array();
-
 function tagsAreDisplayed() {
 	return display_tags;
 }
@@ -706,84 +704,4 @@ function feedEditSave() {
 		exception_error("feedEditSave (main)", e);
 	} 
 }
-/*
-function localHotkeyHandler(e) {
 
-	var keycode;
-
-	if (window.event) {
-		keycode = window.event.keyCode;
-	} else if (e) {
-		keycode = e.which;
-	}
-
-	var shift_key = false;
-
-	try {
-		shift_key = e.shiftKey;
-	} catch (e) { }
-
-	if (keycode == 66 && shift_key) { // shift-B
-
-		var op = history_pop();
-
-		if (op) {
-			var op_s = op.split(":");
-
-			var i;
-			for (i = 0; i < op_s.length; i++) {
-				if (op_s[i] == 'undefined') {
-					op_s[i] = undefined;
-				}
-
-				if (op_s[i] == 'false') {
-					op_s[i] = false;
-				}
-
-				if (op_s[i] == 'true') {
-					op_s[i] = true;
-				}
-				
-			}
-
-			debug("history split: " + op_s);
-
-			if (op_s[0] == "ARTICLE") {
-				debug("history: reverting to article " + op_s[1] + "/" + op_s[2]);
-				view(op_s[1], op_s[2], true);
-			}
-
-			if (op_s[0] == "FEED") {
-				viewfeed(op_s[1], op_s[2], op_s[3], op_s[4], true);
-			}
-
-		} else {
-			notify_error("No operation to undo");
-		}
-
-		return false;
-
-	}	
-
-	debug("LKP=" + keycode);
-} 
-
-function history_push(op) {
-	debug("history_push: " + op);
-	op_history.push(op);
-
-	while (op_history.length > 30) {
-		op_history.shift();
-	}
-}
-
-function history_pop() {
-	var op = op_history.pop();
-	debug("history_pop: " + op);
-	return op;
-}
-
-function history_clear() {
-	debug("history_clear");
-	op_history.clear();
-} */
