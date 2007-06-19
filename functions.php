@@ -1996,7 +1996,7 @@
 		$result = db_query($link, "SELECT ttrss_feeds.id,
 				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated, 
 				last_error, 
-				COUNT(ttrss_entries.id) 
+				COUNT(ttrss_entries.id) AS count 
 			FROM ttrss_feeds 
 				LEFT JOIN ttrss_user_entries ON (ttrss_user_entries.feed_id = ttrss_feeds.id 
 					AND ttrss_user_entries.owner_uid = ttrss_feeds.owner_uid 
