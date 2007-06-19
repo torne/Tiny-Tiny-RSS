@@ -48,8 +48,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		closeInfoBox();
 
-		var toolbar_query = Form.serialize("main_toolbar_form");
+		Form.enable("main_toolbar_form");
+
 		var toolbar_form = document.forms["main_toolbar_form"];
+		var toolbar_query = Form.serialize("main_toolbar_form");
 
 		if (document.forms["main_toolbar_form"].query) {
 			toolbar_form.query.value = "";
