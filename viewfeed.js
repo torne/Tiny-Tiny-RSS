@@ -22,11 +22,11 @@ function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
 			debug("catchup_callback");
-			if (_catchup_callback_func) {
-				setTimeout(_catchup_callback_func, 100);	
-			}
 			notify("");			
 			all_counters_callback();
+			if (_catchup_callback_func) {
+				setTimeout(_catchup_callback_func, 10);	
+			}
 		} catch (e) {
 			exception_error("catchup_callback", e);
 		}
