@@ -71,7 +71,7 @@
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
 			&& $op != "rss" && $op != "getUnread") {
 
-		if ($op == "rpc") {
+		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
 			print_error_xml(6); die;
 		} else {
 			print "
