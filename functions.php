@@ -1505,6 +1505,19 @@
 		}
 	}
 
+	function make_stampfile($filename) {
+		$fp = fopen($filename, "w");
+
+		if ($fp) {
+			fwrite($fp, time() . "\n");
+			fclose($fp);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	function sql_random_function() {
 		if (DB_TYPE == "mysql") {
 			return "RAND()";
