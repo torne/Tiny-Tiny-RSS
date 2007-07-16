@@ -1509,8 +1509,9 @@
 	function make_stampfile($filename) {
 		$fp = fopen($filename, "w");
 
-		if ($fp) {
+		if (flock($fp, LOCK_EX | LOCK_NB)) {
 			fwrite($fp, time() . "\n");
+			flock($fp, LOCK_UN);
 			fclose($fp);
 			return true;
 		} else {
@@ -1518,6 +1519,21 @@
 		}
 	}
 
+	function read_stampfile($filename) {
+
+		error_reporting(0);
+		$fp = fopen($filename, "r");
+		error_reporting (DEFAULT_ERROR_LEVEL);
+
+		if (flock($fp, LOCK_EX)) {
+			$stamp = fgets($fp);
+			flock($fp, LOCK_UN);
+			fclose($fp);
+			return $stamp;
+		} else {
+			return false;
+		}
+	}
 
 	function sql_random_function() {
 		if (DB_TYPE == "mysql") {
@@ -2314,7 +2330,27 @@
 		if (ENABLE_UPDATE_DAEMON) {
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
+
+			if ($_SESSION["daemon_stamp_check"] + 0 < time()) {
+
+				$stamp = (int)read_stampfile("update_daemon.stamp");
+
+				if ($stamp) {
+					if ($stamp + 86400*3 < time()) {
+						print "<param key=\"daemon_stamp_ok\" value=\"0\"/>";
+					} else {
+						print "<param key=\"daemon_stamp_ok\" value=\"1\"/>";
+					}
+
+					$stamp_fmt = date("Y.m.d, G:i", $stamp);
+
+					print "<param key=\"daemon_stamp\" value=\"$stamp_fmt\"/>";
+				}
+
+				$_SESSION["daemon_stamp_check"] = time();
+			}
 		}
+
 		if (CHECK_FOR_NEW_VERSION && $_SESSION["access_level"] >= 10) {
 			
 			if ($_SESSION["last_version_check"] + 600 < time()) {

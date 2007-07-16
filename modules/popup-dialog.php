@@ -26,6 +26,13 @@
 
 			}
 
+			if ($param == 3) {
+				print __("TT-RSS has detected that update daemon is taking too long to
+					perform a feed update. This could indicate a problem like crash
+					or a hang. Please check the daemon process or contact instance
+					owner.");
+			}
+
 			print "</div>";
 
 			print "<div align='center'>";

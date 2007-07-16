@@ -604,9 +604,19 @@ function parse_runtime_info(elem) {
 			}
 		}
 
+		var error_flag;
+
 		if (k == "daemon_is_running" && v != 1) {
-			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>");
-		} else {
+			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>", true);
+			error_flag = true;
+		}
+
+		if (k == "daemon_stamp_ok" && v != 1) {
+			notify_error("<span onclick=\"javascript:explainError(3)\">Update daemon is not updating feeds.</span>", true);
+			error_flag = true;
+		}
+
+		if (!error_flag) {
 			notify('');
 		}
 
