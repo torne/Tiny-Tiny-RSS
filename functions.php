@@ -2331,7 +2331,7 @@
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
 
-			if ($_SESSION["daemon_stamp_check"] + 0 < time()) {
+			if ($_SESSION["daemon_stamp_check"] + 600 < time()) {
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
