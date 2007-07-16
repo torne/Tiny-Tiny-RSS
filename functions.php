@@ -633,7 +633,8 @@
 
 				$entry_title = db_escape_string($entry_title);
 				$entry_link = db_escape_string($entry_link);
-				$entry_comments = db_escape_string($entry_comments);
+				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
+				$entry_author = mb_substr($entry_author, 0, 250);
 
 				$num_comments = db_escape_string($item["slash"]["comments"]);
 
