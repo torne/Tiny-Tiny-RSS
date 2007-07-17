@@ -189,7 +189,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (17);
+insert into ttrss_version values (18);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -283,6 +283,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 'When auto-detecting tags in articles these tags will not be applied (comma-separated list).');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_SEARCH_TOOLBAR', 1, 'false', 'Enable search toolbar',2);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_PREFS_ENABLE_PAGINATION', 2, '', '', 1);
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
