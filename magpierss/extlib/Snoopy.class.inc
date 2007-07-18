@@ -517,7 +517,7 @@ class Snoopy
 		if(!empty($body))	
 			$headers .= "Content-length: ".strlen($body)."\r\n";
 		if(!empty($this->user) || !empty($this->pass))	
-			$headers .= "Authorization: BASIC ".base64_encode($this->user.":".$this->pass)."\r\n";
+			$headers .= "Authorization: Basic ".base64_encode($this->user.":".$this->pass)."\r\n";
 
 		$headers .= "\r\n";
 		
