@@ -201,6 +201,21 @@
 
 		}
 
+		if ($subop == "getArticleLink") {
+
+			$id = db_escape_string($_GET["id"]);
+
+			$result = db_query($link, "SELECT link FROM ttrss_entries, ttrss_user_entries
+				WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'");
+
+			if (db_num_rows($result) == 1) {
+				$link = strip_tags(db_fetch_result($result, 0, "link"));
+				print "<rpc-reply><link>$link</link></rpc-reply>";
+			} else {
+				print "<rpc-reply><error>Article not found</error></rpc-reply>";
+			}
+		}
+
 		if ($subop == "setArticleTags") {
 
 			$id = db_escape_string($_GET["id"]);

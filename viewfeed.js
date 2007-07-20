@@ -909,3 +909,7 @@ function cache_invalidate(id) {
 		exception_error("cache_invalidate", e);
 	}
 }
+
+function getActiveArticleId() {
+	return active_post_id;
+}

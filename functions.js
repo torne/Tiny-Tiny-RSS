@@ -64,6 +64,24 @@ function xmlhttp_ready(obj) {
 	return obj.readyState == 4 || obj.readyState == 0 || !obj.readyState;
 }
 
+function open_article_callback() {
+	if (xmlhttp_rpc.readyState == 4) {
+		try {
+
+			if (xmlhttp_rpc.responseXML) {
+				var link = xmlhttp_rpc.responseXML.getElementsByTagName("link")[0];
+
+				if (link) {
+					window.open(link.firstChild.nodeValue, "_blank");
+				}
+			}
+
+		} catch (e) {
+			exception_error("open_article_callback", e);
+		}
+	}
+}
+
 function logout_callback() {
 	var container = document.getElementById('notify');
 	if (xmlhttp.readyState == 4) {
@@ -300,6 +318,12 @@ function hotkey_handler(e) {
 		if (keycode == 80 && shift_key) { // p 
 			if (getActiveFeedId()) {
 				return catchupPage();
+			}
+		}
+
+		if (keycode == 86) { // v
+			if (getActiveArticleId()) {
+				openArticleInNewWindow(getActiveArticleId());
 			}
 		}
 
@@ -1714,4 +1738,27 @@ function getRelativePostIds(id) {
 	}
 
 	return false;
+}
+
+function openArticleInNewWindow(id) {
+	try {
+
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+			return
+		}
+
+		debug("openArticleInNewWindow: " + id);
+
+		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
+
+		debug(query);
+
+		xmlhttp_rpc.open("GET", query, true);
+		xmlhttp_rpc.onreadystatechange=open_article_callback;
+		xmlhttp_rpc.send(null);
+
+	} catch (e) {
+		exception_error("openArticleInNewWindow", e);
+	}
 }
