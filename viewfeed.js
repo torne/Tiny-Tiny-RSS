@@ -647,6 +647,14 @@ function cdmSelectArticles(mode) {
 
 function catchupPage() {
 
+	var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
+	
+	var str = "Mark all visible articles in " + fn + " as read?";
+
+	if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
+		return;
+	}
+
 	if (document.getElementById("headlinesList")) {
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
 		selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
