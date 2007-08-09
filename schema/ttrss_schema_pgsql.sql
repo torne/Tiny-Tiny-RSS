@@ -97,6 +97,7 @@ create table ttrss_user_entries (
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
+	published boolean not null default false,
 	last_read timestamp,
 	unread boolean not null default true);
 

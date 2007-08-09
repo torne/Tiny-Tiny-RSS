@@ -101,6 +101,7 @@ create table ttrss_user_entries (
 	feed_id int not null, 
 	owner_uid integer not null,
 	marked bool not null default 0,
+	published bool not null default 0,
 	last_read datetime,
 	unread bool not null default 1,
 	index (ref_id),
