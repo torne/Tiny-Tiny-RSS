@@ -350,6 +350,14 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 67) { // c
+			var id = getActiveArticleId();
+
+			if (id) {				
+				toggleUnread(id, 0);
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
