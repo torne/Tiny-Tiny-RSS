@@ -2734,7 +2734,7 @@
  			print "<guid>" . htmlspecialchars($line["guid"]) . "</guid>";
  			print "<link>" . htmlspecialchars($line["link"]) . "</link>";
 
-			$tags = get_article_tags($link, $line["id"]);
+			$tags = get_article_tags($link, $line["id"], $owner_uid);
 
 			foreach ($tags as $tag) {
 				print "<category>" . htmlspecialchars($tag) . "</category>";
@@ -3510,14 +3510,16 @@
 
 	}
 
-	function get_article_tags($link, $id) {
+	function get_article_tags($link, $id, $owner_uid = 0) {
 
 		$a_id = db_escape_string($id);
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$tmp_result = db_query($link, "SELECT DISTINCT tag_name, 
 			owner_uid as owner FROM
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$a_id' AND owner_uid = ".$_SESSION["uid"]." LIMIT 1) ORDER BY tag_name");
+				ref_id = '$a_id' AND owner_uid = '$owner_uid' LIMIT 1) ORDER BY tag_name");
 
 		$tags = array();	
 	
