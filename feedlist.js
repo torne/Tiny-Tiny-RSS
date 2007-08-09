@@ -57,6 +57,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 //		if (!offset) page_offset = 0;
 
+		var page_offset = 0;
+
 		if (offset > 0) {
 			page_offset = offset;
 		} else {
