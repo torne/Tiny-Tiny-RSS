@@ -3917,7 +3917,9 @@
 						$add_class = "";
 					}	
 					
-					print "<div class=\"cdmArticle$add_class\" id=\"RROW-$id\">";
+					print "<div class=\"cdmArticle$add_class\" 
+						id=\"RROW-$id\" onmouseover='cdmMouseIn(this)' 
+						onmouseout='cdmMouseOut(this)'>";
 
 					print "<div class=\"cdmHeader\">";
 

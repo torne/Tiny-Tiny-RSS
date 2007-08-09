@@ -921,3 +921,19 @@ function cache_invalidate(id) {
 function getActiveArticleId() {
 	return active_post_id;
 }
+
+function cdmMouseIn(elem) {
+	try {
+		if (elem.id && elem.id.match("RROW-")) {
+			var id = elem.id.replace("RROW-", "");
+			active_post_id = id;
+		}
+	} catch (e) {
+		exception_error("cdmMouseIn", e);
+	}
+
+}
+
+function cdmMouseOut(elem) {
+	active_post_id = false;
+}

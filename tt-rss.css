@@ -845,6 +845,10 @@ td.hlFeed {
 	text-align : right;
 }
 
+div.cdmArticle:hover {
+	background-color : white;
+}
+
 div.cdmArticle {
 	border-color : #c0c0c0;
 	border-width : 0px 0px 1px 0px;
@@ -852,6 +856,10 @@ div.cdmArticle {
 	background-color : #fafafa;
 	margin : 0px;
 	padding : 10px;
+}
+
+div.cdmArticleUnread:hover {
+	background-color : white;
 }
 
 div.cdmArticleUnread {
@@ -879,6 +887,10 @@ div.cdmArticleUnreadSelected div.cdmHeader a.title {
 
 div.cdmHeader {
 	padding-bottom : 5px;
+}
+
+div.cdmArticleUnread div.cdmHeader a {
+	color : black;
 }
 
 div.cdmFooter {

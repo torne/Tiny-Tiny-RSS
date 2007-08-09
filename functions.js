@@ -1762,3 +1762,4 @@ function openArticleInNewWindow(id) {
 		exception_error("openArticleInNewWindow", e);
 	}
 }
+
