@@ -4045,6 +4045,7 @@
 
 					$tags_str = "";
 					$full_tags_str = "";
+					$num_tags = 0;
 
 					foreach ($tags as $tag) {
 						$num_tags++;
