@@ -966,7 +966,7 @@ function headlines_scroll_handler() {
 
 		var e = document.getElementById("headlinesInnerContainer");
 
-		if (e.scrollTop + e.offsetHeight > e.scrollHeight - (e.scrollHeight/4)) {
+		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 300) {
 			debug("more cowbell!");
 
 			viewNextFeedPage();

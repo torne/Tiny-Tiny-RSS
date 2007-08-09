@@ -335,6 +335,21 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 84) { // t
+
+			var id = getActiveArticleId();
+
+			if (id) {				
+
+				var cb = document.getElementById("RCHK-" + id);
+
+				if (cb) {
+					cb.checked = !cb.checked;
+					toggleSelectRowById(cb, "RROW-" + id);
+				}
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);

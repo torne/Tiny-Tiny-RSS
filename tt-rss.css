@@ -873,7 +873,6 @@ div.cdmArticleUnread {
 
 div.cdmArticleSelected, div.cdmArticleUnreadSelected {
 	margin : 0px;
-	padding : 10px;
 	background-color : #fff7d5;
 	border-color : #e7d796;
 	border-width : 0px 0px 1px 0px;
@@ -902,6 +901,10 @@ div.cdmFooter {
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
 	border-style : dotted;
+}
+
+div.cdmArticleSelected div.cdmFooter {
+	background-color : transparent;
 }
 
 div.cdmFooter span.s0 {
