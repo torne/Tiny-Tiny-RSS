@@ -417,16 +417,10 @@
 			$owner = db_fetch_result($result, 0, "owner_uid");
 			$login = db_fetch_result($result, 0, "login");
 
-			$_SESSION["uid"] = $owner;
-	
-			generate_syndicated_feed($link, -2, false);
+			generate_syndicated_feed($link, $owner, -2, false);
 
-			session_destroy();
 		} else {
-
-			$_SESSION["uid"] = 0;
-			generate_syndicated_feed($link, -2, false);
-			session_destroy();
+			print "<error>User not found</error>";
 		}
 
 	}
@@ -448,11 +442,10 @@
 		if ($_SESSION["uid"] ||
 			http_authenticate_user($link)) {
 
-				generate_syndicated_feed($link, $feed, $is_cat, 
+				generate_syndicated_feed($link, 0, $feed, $is_cat, 
 					$search, $search_mode, $match_on);
 		}
 
-		session_destroy();
 	}
 
 	if ($op == "labelFromSearch") {

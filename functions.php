@@ -2433,7 +2433,9 @@
 		return $search_query_part;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 			if ($search) {
 			
@@ -2587,7 +2589,7 @@
 
 					if ($feed != 0) {			
 						$result = db_query($link, "SELECT title FROM ttrss_feed_categories
-							WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+							WHERE id = '$feed' AND owner_uid = $owner_uid");
 						$feed_title = db_fetch_result($result, 0, "title");
 					} else {
 						$feed_title = __("Uncategorized");
@@ -2600,7 +2602,7 @@
 				} else {
 					
 					$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
-						WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+						WHERE id = '$feed' AND owner_uid = $owner_uid");
 		
 					$feed_title = db_fetch_result($result, 0, "title");
 					$feed_site_url = db_fetch_result($result, 0, "site_url");
@@ -2660,7 +2662,7 @@
 					ttrss_feeds.hidden = false AND
 					ttrss_user_entries.feed_id = ttrss_feeds.id AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
-					ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
+					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
 					$view_query_part
 					$query_strategy_part ORDER BY $order_by
@@ -2689,7 +2691,7 @@
 						ttrss_entries,ttrss_user_entries,ttrss_tags
 					WHERE
 						ref_id = ttrss_entries.id AND
-						ttrss_user_entries.owner_uid = '".$_SESSION["uid"]."' AND
+						ttrss_user_entries.owner_uid = '$owner_uid' AND
 						post_int_id = int_id AND tag_name = '$feed' AND
 						$view_query_part
 						$search_query_part
@@ -2701,11 +2703,12 @@
 			
 	}
 
-	function generate_syndicated_feed($link, $feed, $is_cat,
+	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
 		$search, $search_mode, $match_on) {
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-				30, false, $is_cat, $search, $search_mode, $match_on, "updated DESC");
+			30, false, $is_cat, $search, $search_mode, $match_on, "updated DESC", 0,
+			$owner_uid);
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);
