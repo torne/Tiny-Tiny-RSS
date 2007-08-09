@@ -142,6 +142,9 @@ insert into ttrss_filter_actions (id,name,description) values (3, 'mark',
 insert into ttrss_filter_actions (id,name,description) values (4, 'tag', 
 	'Assign tags');
 
+insert into ttrss_filter_actions (id,name,description) values (5, 'publish', 
+	'Publish article');
+
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,

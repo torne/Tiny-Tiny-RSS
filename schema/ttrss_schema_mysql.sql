@@ -148,6 +148,9 @@ insert into ttrss_filter_actions (id,name,description) values (3, 'mark',
 insert into ttrss_filter_actions (id,name,description) values (4, 'tag', 
 	'Assign tags');
 
+insert into ttrss_filter_actions (id,name,description) values (5, 'publish', 
+	'Publish article');
+
 create table ttrss_filters (id integer not null primary key auto_increment,
 	owner_uid integer not null, 
 	feed_id integer default null,

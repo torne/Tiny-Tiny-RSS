@@ -5,4 +5,7 @@ update ttrss_user_entries set published = false;
 alter table ttrss_user_entries alter column published set not null;
 alter table ttrss_user_entries alter column published set default false;
 
+insert into ttrss_filter_actions (id,name,description) values (5, 'publish', 
+	'Publish article');
+
 update ttrss_version set schema_version = 19;
