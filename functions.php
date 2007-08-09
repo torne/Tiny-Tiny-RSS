@@ -811,12 +811,18 @@
 						} else {
 							$marked = 'false';
 						}
-						
+
+						if (find_article_filter($article_filters, 'publish')) {
+							$published = 'true';
+						} else {
+							$published = 'false';
+						}
+
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries 
-								(ref_id, owner_uid, feed_id, unread, last_read, marked) 
+								(ref_id, owner_uid, feed_id, unread, last_read, marked, published) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked)");
+								$last_read_qpart, $marked, $published)");
 					}
 					
 					$post_needs_update = false;
