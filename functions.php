@@ -3693,7 +3693,9 @@
 
 		$topmost_article_ids = array();
 
-		if (!$offset) $offset = 0;
+		if (!$offset) {
+			$offset = 0;
+		}
 
 		if ($subop == "undefined") $subop = "";
 
@@ -3777,24 +3779,26 @@
 		
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
-		print "<div id=\"headlinesContainer\" $rtl_tag>";
+		if (!$offset) {
+			print "<div id=\"headlinesContainer\" $rtl_tag>";
 
-		if (!$result) {
-			print "<div align='center'>".__("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
-			return;
+			if (!$result) {
+				print "<div align='center'>".__("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
+				return;
+			}
+
+			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
+				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, 
+				$offset, $limit);
+
+			print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 		}
-
-		print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-			$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, 
-			$offset, $limit);
-
-		print "<div id=\"headlinesInnerContainer\">";
 
 		if (db_num_rows($result) > 0) {
 
 #			print "\{$offset}";
 
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE') && !$offset) {
 				print "<table class=\"headlinesList\" id=\"headlinesList\" 
 					cellspacing=\"0\">";
 			}
@@ -3975,7 +3979,7 @@
 				++$lnum;
 			}
 
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {			
+			if (!get_pref($link, 'COMBINED_DISPLAY_MODE') && !$offset) {			
 				print "</table>";
 			}
 
@@ -3984,12 +3988,13 @@
 
 
 		} else {
-			print "<div class='whiteBox'>".__('No articles found.')."</div>";
+			if (!$offset) print "<div class='whiteBox'>".__('No articles found.')."</div>";
 		}
 
-		print "</div>";
-
-		print "</div>";
+		if (!$offset) {
+			print "</div>";
+			print "</div>";
+		}
 
 		return $topmost_article_ids;
 	}

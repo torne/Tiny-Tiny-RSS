@@ -1,5 +1,7 @@
 //var xmlhttp = Ajax.getTransport();
 
+var feed_cur_page = 0;
+
 function viewCategory(cat) {
 	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
@@ -35,13 +37,35 @@ function viewFeedGoPage(i) {
 	}
 }
 
+
+function viewNextFeedPage() {
+	try {
+		if (!getActiveFeedId()) return;
+
+		feed_cur_page++;
+
+		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
+			undefined, feed_cur_page);
+
+	} catch (e) {
+		exception_error(e, "viewFeedGoPage");
+	}
+}
+
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
 
-		//if (!offset) page_offset = 0;
+//		if (!offset) page_offset = 0;
 
-		if (offset != undefined) {
+		if (offset > 0) {
 			page_offset = offset;
+		} else {
+			page_offset = 0;
+			feed_cur_page = 0;
+		}
+
+		if (getActiveFeedId() != feed) {
+			feed_cur_page = 0;
 		}
 
 		enableHotkeys();

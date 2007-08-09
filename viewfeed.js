@@ -38,7 +38,10 @@ function headlines_callback() {
 		debug("headlines_callback");
 		var f = document.getElementById("headlines-frame");
 		try {
-			f.scrollTop = 0;
+			if (feed_cur_page == 0) { 
+				debug("resetting headlines scrollTop");
+				f.scrollTop = 0; 
+			}
 		} catch (e) { };
 
 		if (xmlhttp.responseXML) {
@@ -47,11 +50,29 @@ function headlines_callback() {
 			var articles = xmlhttp.responseXML.getElementsByTagName("article");
 			var runtime_info = xmlhttp.responseXML.getElementsByTagName("runtime-info");
 
-			if (headlines) {
-				f.innerHTML = headlines.firstChild.nodeValue;
+			if (feed_cur_page == 0) {
+				if (headlines) {
+					f.innerHTML = headlines.firstChild.nodeValue;
+				} else {
+					debug("headlines_callback: returned no data");
+				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
+	
+				}
 			} else {
-				debug("headlines_callback: returned no data");
-			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
+				if (headlines) {
+					debug("adding some more headlines...");
+
+					var c = document.getElementById("headlinesList");
+
+					if (!c) {
+						c = document.getElementById("headlinesInnerContainer");
+					}
+
+					c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
+				} else {
+					debug("headlines_callback: returned no data");
+					notify_error("Error while trying to load more headlines");	
+				}
 
 			}
 
@@ -103,6 +124,8 @@ function headlines_callback() {
 			try {
 				document.getElementById("headlinesInnerContainer").scrollTop = _tag_cdm_scroll;
 				_tag_cdm_scroll = false;
+				debug("resetting headlinesInner scrollTop");
+
 			} catch (e) { }
 		}
 
@@ -936,4 +959,20 @@ function cdmMouseIn(elem) {
 
 function cdmMouseOut(elem) {
 	active_post_id = false;
+}
+
+function headlines_scroll_handler() {
+	try {
+
+		var e = document.getElementById("headlinesInnerContainer");
+
+		if (e.scrollTop + e.offsetHeight == e.scrollHeight) {
+			debug("more cowbell!");
+
+			viewNextFeedPage();
+		}
+
+	} catch (e) {
+		exception_error("headlines_scroll_handler", e);
+	}
 }
