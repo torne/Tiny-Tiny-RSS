@@ -1057,7 +1057,7 @@
 
 		$url_path .= "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
 
-		print "<p><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
+		print "<p class=\"small\"><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
 
 		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" 
 			value=\"".__('Generate another address')."\"></p>";

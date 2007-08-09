@@ -16,7 +16,6 @@ var caller_subop = false;
 
 var sanity_check_done = false;
 
-/*
 function replace_pubkey_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -24,15 +23,25 @@ function replace_pubkey_callback() {
 
 			if (xmlhttp.responseXML) {
 
+				var new_link = xmlhttp.responseXML.getElementsByTagName("link")[0];
+
+				if (new_link) {
+					link.href = new_link.firstChild.nodeValue;
+					link.innerHTML = new_link.firstChild.nodeValue;
+
+					notify_info("Address changed");
+				} else {
+					notify_error("Could not change address");
+				}
 
 			} else {
-				notify_error("Error while changing adress");
+				notify_error("Could not change address");
 			}
 		} catch (e) {
 			exception_error("replace_pubkey_callback", e);
 		}
 	}
-} */
+}
 
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
@@ -1748,7 +1757,6 @@ function feedlistToggleSLAT() {
 	updateFeedList()
 }
 
-/*
 function pubRegenKey() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -1762,10 +1770,10 @@ function pubRegenKey() {
 
 		notify_progress("Trying to change address...");
 
-		xmlhttp.open("GET", "backend.php?op=backend-rpc&subop=regen-pub-key");
+		xmlhttp.open("GET", "backend.php?op=rpc&subop=regenPubKey");
 		xmlhttp.onreadystatechange=replace_pubkey_callback;
 		xmlhttp.send(null);
 	}
 
 	return false;
-} */
+}

@@ -56,7 +56,7 @@
 	$print_exec_time = false;
 
 	if ((!$op || $op == "rpc" || $op == "rss" || $op == "view" || 
-			$op == "digestSend" || $op == "viewfeed" ||
+			$op == "digestSend" || $op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml; charset=utf-8");
 	} else {
@@ -69,7 +69,7 @@
 	}
 	
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
-			&& $op != "rss" && $op != "getUnread") {
+			&& $op != "rss" && $op != "getUnread" && $op != "publish") {
 
 		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
 			print_error_xml(6); die;
@@ -404,6 +404,33 @@
 		module_pref_feed_browser($link);
 	}
 
+	if ($op == "publish") {
+		$key = db_escape_string($_GET["key"]);
+
+		$result = db_query($link, "SELECT login, owner_uid 
+			FROM ttrss_user_prefs, ttrss_users WHERE
+			pref_name = '_PREFS_PUBLISH_KEY' AND 
+			value = '$key' AND 
+			ttrss_users.id = owner_uid");
+
+		if (db_num_rows($result) == 1) {
+			$owner = db_fetch_result($result, 0, "owner_uid");
+			$login = db_fetch_result($result, 0, "login");
+
+			$_SESSION["uid"] = $owner;
+	
+			generate_syndicated_feed($link, -2, false);
+
+			session_destroy();
+		} else {
+
+			$_SESSION["uid"] = 0;
+			generate_syndicated_feed($link, -2, false);
+			session_destroy();
+		}
+
+	}
+
 	if ($op == "rss") {
 		$feed = db_escape_string($_GET["id"]);
 		$user = db_escape_string($_GET["user"]);
@@ -424,6 +451,8 @@
 				generate_syndicated_feed($link, $feed, $is_cat, 
 					$search, $search_mode, $match_on);
 		}
+
+		session_destroy();
 	}
 
 	if ($op == "labelFromSearch") {

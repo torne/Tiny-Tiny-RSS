@@ -2279,6 +2279,8 @@
 	function getFeedTitle($link, $id) {
 		if ($id == -1) {
 			return __("Starred articles");
+		} else if ($id == -2) {
+			return __("Published articles");
 		} else if ($id < -10) {
 			$label_id = -10 - $id;
 			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
