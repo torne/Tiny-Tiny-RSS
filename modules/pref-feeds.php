@@ -1043,5 +1043,24 @@
 			class=\"button\" onclick=\"gotoExportOpml()\" 
 				value=\"".__('Export OPML')."\">";			
 
+
+		print "<h3>Published articles</h3>";
+
+		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
+			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
+		}
+		
+		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the address specified below.')."</p>";
+
+		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . \
+			parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+		$url_path .= "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
+
+		print "<p><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
+
+		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" 
+			value=\"".__('Generate another address')."\"></p>";
+
 	}
 ?>

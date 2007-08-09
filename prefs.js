@@ -16,6 +16,24 @@ var caller_subop = false;
 
 var sanity_check_done = false;
 
+/*
+function replace_pubkey_callback() {
+	if (xmlhttp.readyState == 4) {
+		try {	
+			var link = document.getElementById("pubGenAddress");
+
+			if (xmlhttp.responseXML) {
+
+
+			} else {
+				notify_error("Error while changing adress");
+			}
+		} catch (e) {
+			exception_error("replace_pubkey_callback", e);
+		}
+	}
+} */
+
 function expand_feed_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -25,23 +43,6 @@ function expand_feed_callback() {
 //			p_notify("");
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
-		}
-	}
-}
-
-function pubitems_callback() {
-	if (xmlhttp.readyState == 4) {
-		try {	
-			var container = document.getElementById('prefContent');	
-			container.innerHTML=xmlhttp.responseText;
-			selectTab("pubItems", true);
-
-			if (typeof correctPNG != 'undefined') {
-				correctPNG();
-			}
-			notify("");
-		} catch (e) {
-			exception_error("feedlist_callback", e);
 		}
 	}
 }
@@ -1285,8 +1286,6 @@ function selectTab(id, noupdate, subop) {
 				updateUsersList();
 			} else if (id == "feedBrowser") {
 				updateBigFeedBrowser();
-			} else if (id == "pubItems") {
-				updatePublishedItems();
 			}
 		}
 	
@@ -1749,14 +1748,24 @@ function feedlistToggleSLAT() {
 	updateFeedList()
 }
 
-function updatePublishedItems() {
+/*
+function pubRegenKey() {
+
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
-		return
+		return false;
 	}
 
-	xmlhttp.open("GET", "backend.php?op=pref-pubitems");
-	xmlhttp.onreadystatechange=pubitems_callback;
-	xmlhttp.send(null);
+	var ok = confirm("Replace current publishing address with a new one?");
 
-}
+	if (ok) {
+
+		notify_progress("Trying to change address...");
+
+		xmlhttp.open("GET", "backend.php?op=backend-rpc&subop=regen-pub-key");
+		xmlhttp.onreadystatechange=replace_pubkey_callback;
+		xmlhttp.send(null);
+	}
+
+	return false;
+} */

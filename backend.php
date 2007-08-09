@@ -124,7 +124,6 @@
 	require_once "modules/pref-users.php";
 	require_once "modules/pref-feed-browser.php"; 
 
-
 	if (!sanity_check($link)) { return; }
 
 	if ($op == "rpc") {
@@ -268,6 +267,11 @@
 	if ($op == "dlg") {
 		module_popup_dialog($link);
 	}
+
+	if ($op == "pref-pub-items") {
+		module_pref_pub_items($link);
+	}
+
 
 	// update feeds of all users, may be used anonymously
 	if ($op == "globalUpdateFeeds") {

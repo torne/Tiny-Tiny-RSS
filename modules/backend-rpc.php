@@ -69,6 +69,22 @@
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
+		if ($subop == "publ") {
+			$pub = $_GET["pub"];
+			$id = db_escape_string($_GET["id"]);
+
+			if ($pub == "1") {
+				$mark = "true";
+			} else {
+				$pub = "false";
+			}
+
+			// FIXME this needs collision testing
+
+			$result = db_query($link, "UPDATE ttrss_user_entries SET published = $pub
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		}
+
 		if ($subop == "updateFeed") {
 			$feed_id = db_escape_string($_GET["feed"]);
 
@@ -170,6 +186,21 @@
 			$cmode = sprintf("%d", $_GET["cmode"]);
 
 			markArticlesById($link, $ids, $cmode);
+
+			print "<rpc-reply>";
+			print "<counters>";
+			getAllCounters($link);
+			print "</counters>";
+			print_runtime_info($link);
+			print "</rpc-reply>";
+		}
+
+		if ($subop == "publishSelected") {
+
+			$ids = split(",", db_escape_string($_GET["ids"]));
+			$cmode = sprintf("%d", $_GET["cmode"]);
+
+			publishArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
 			print "<counters>";

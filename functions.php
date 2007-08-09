@@ -1607,7 +1607,13 @@
 							SET unread = false,last_read = NOW()
 							WHERE marked = true AND owner_uid = ".$_SESSION["uid"]);
 					}
-			
+
+					if ($feed == -2) {
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW()
+							WHERE published = true AND owner_uid = ".$_SESSION["uid"]);
+					}
+
 				} else if ($feed < -10) { // label
 
 					// TODO make this more efficient
@@ -1773,6 +1779,8 @@
 			return getCategoryUnread($link, $n_feed);		
 		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
+		} else if ($n_feed == -2) {
+			$match_part = "published = true";
 		} else if ($n_feed > 0) {
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
@@ -1942,7 +1950,7 @@
 		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			ttrss_user_entries.feed_id = ttrss_feeds.id AND
-			unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+			hidden = false AND unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
 
 		$count = db_fetch_result($result, 0, "count");
 
@@ -1952,6 +1960,21 @@
 			$ret_arr["-1"]["counter"] = $count;
 			$ret_arr["-1"]["description"] = "Starred";
 		}
+
+		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
+			WHERE published = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
+			ttrss_user_entries.feed_id = ttrss_feeds.id AND
+			hidden = false AND unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+
+		$count = db_fetch_result($result, 0, "count");
+
+		if (!$ret_mode) {
+			print "<counter type=\"label\" id=\"-2\" counter=\"$count\"/>";
+		} else {
+			$ret_arr["-2"]["counter"] = $count;
+			$ret_arr["-2"]["description"] = "Published";
+		}
+
 
 		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
 			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
@@ -2518,6 +2541,9 @@
 			} else if ($feed == -1) { // starred virtual feed
 				$query_strategy_part = "marked = true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else if ($feed == -2) { // published virtual feed
+				$query_strategy_part = "published = true";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= -10) { // labels
 				$label_id = -$feed - 11;
 	
@@ -2585,6 +2611,8 @@
 	
 			} else if ($feed == -1) {
 				$feed_title = __("Starred articles");
+			} else if ($feed == -2) {
+				$feed_title = __("Published articles");
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
 				$result = db_query($link, "SELECT description FROM ttrss_labels
@@ -2618,7 +2646,7 @@
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
-						unread,feed_id,marked,link,last_read,
+						unread,feed_id,marked,published,link,last_read,
 						SUBSTRING(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
@@ -2936,6 +2964,31 @@
 		}
 	}
 
+	function publishArticlesById($link, $ids, $cmode) {
+
+		$tmp_ids = array();
+
+		foreach ($ids as $id) {
+			array_push($tmp_ids, "ref_id = '$id'");
+		}
+
+		$ids_qpart = join(" OR ", $tmp_ids);
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			published = false,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			published = true
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET 
+			published = NOT published,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		}
+	}
+
 	function catchupArticlesById($link, $ids, $cmode) {
 
 		$tmp_ids = array();
@@ -3022,6 +3075,7 @@
 
 				$tog_unread_link = "javascript:selectionToggleUnread()";
 				$tog_marked_link = "javascript:selectionToggleMarked()";
+				$tog_published_link = "javascript:selectionTogglePublished()";
 
 			} else {
 
@@ -3031,6 +3085,7 @@
 
 				$tog_unread_link = "javascript:selectionToggleUnread(true)";
 				$tog_marked_link = "javascript:selectionToggleMarked(true)";
+				$tog_published_link = "javascript:selectionTogglePublished(true)";
 
 			}
 
@@ -3046,7 +3101,9 @@
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\">Toggle<ul>
 						<li onclick=\"$tog_unread_link\">".__('Unread')."</li>
-						<li onclick=\"$tog_marked_link\">".__('Starred')."</li></ul></li>
+						<li onclick=\"$tog_marked_link\">".__('Starred')."</li>
+						<li onclick=\"$tog_published_link\">".__('Published')."</li>
+						</ul></li>
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
 						<li onclick=\"$catchup_page_link\">".__('This page')."</li>
@@ -3157,6 +3214,7 @@
 		}
 
 		$num_starred = getFeedUnread($link, -1);
+		$num_published = getFeedUnread($link, -2);
 
 		$class = "virt";
 
@@ -3164,6 +3222,13 @@
 
 		printFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
 			"images/mark_set.png", $link);
+
+		$class = "virt";
+
+		if ($num_published > 0) $class .= "Unread";
+
+		printFeedEntry(-2, $class, __("Published articles"), $num_published, 
+			"images/pub_set.png", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			print "</ul>";
@@ -3848,6 +3913,16 @@
 						alt=\"Set mark\" onclick='javascript:tMark($id)'>";
 				}
 
+				if ($line["published"] == "t" || $line["published"] == "1") {
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_set.png\" 
+						class=\"markedPic\"
+						alt=\"Unpublish\" onclick='javascript:tPub($id)'>";
+				} else {
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_unset.png\" 
+						class=\"markedPic\"
+						alt=\"Publish\" onclick='javascript:tPub($id)'>";
+				}
+
 #				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
 #					$line["title"] . "</a>";
 
@@ -3887,6 +3962,7 @@
 						</td>";
 		
 					print "<td class='hlMarkedPic'>$marked_pic</td>";
+					print "<td class='hlMarkedPic'>$published_pic</td>";
 
 					if ($line["feed_title"]) {			
 						print "<td class='hlContent'>$content_link</td>";
@@ -3952,6 +4028,7 @@
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
 
 					print "</span><span class='s1'>$marked_pic</span> ";
+					print "<span class='s1'>$published_pic</span> ";
 
 					$tags = get_article_tags($link, $id);
 
@@ -4094,4 +4171,9 @@
 
 		return $tag;
 	}
+
+	function generate_publish_key() {
+		return sha1(uniqid(rand(), true));
+	}
+
 ?>
