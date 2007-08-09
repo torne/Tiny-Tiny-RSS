@@ -74,7 +74,7 @@
 			$id = db_escape_string($_GET["id"]);
 
 			if ($pub == "1") {
-				$mark = "true";
+				$pub = "true";
 			} else {
 				$pub = "false";
 			}
