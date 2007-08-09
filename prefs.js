@@ -29,6 +29,23 @@ function expand_feed_callback() {
 	}
 }
 
+function pubitems_callback() {
+	if (xmlhttp.readyState == 4) {
+		try {	
+			var container = document.getElementById('prefContent');	
+			container.innerHTML=xmlhttp.responseText;
+			selectTab("pubItems", true);
+
+			if (typeof correctPNG != 'undefined') {
+				correctPNG();
+			}
+			notify("");
+		} catch (e) {
+			exception_error("feedlist_callback", e);
+		}
+	}
+}
+
 function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -1268,6 +1285,8 @@ function selectTab(id, noupdate, subop) {
 				updateUsersList();
 			} else if (id == "feedBrowser") {
 				updateBigFeedBrowser();
+			} else if (id == "pubItems") {
+				updatePublishedItems();
 			}
 		}
 	
@@ -1728,4 +1747,16 @@ function changeUserEmail() {
 function feedlistToggleSLAT() {
 	notify_progress("Loading, please wait...");
 	updateFeedList()
+}
+
+function updatePublishedItems() {
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	xmlhttp.open("GET", "backend.php?op=pref-pubitems");
+	xmlhttp.onreadystatechange=pubitems_callback;
+	xmlhttp.send(null);
+
 }

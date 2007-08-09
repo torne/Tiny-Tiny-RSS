@@ -108,6 +108,8 @@ window.onload = init;
 		<div id="feedBrowserTab" class="prefsTab" 
 			onclick="selectTab('feedBrowser')"><?php echo __('Other Feeds') ?></div>
 		<?php } ?>
+		<div id="pubItemsTab" class="prefsTab" 
+			onclick="selectTab('pubItems')"><?php echo __('Published Articles') ?></div>
 		<div id="filterConfigTab" class="prefsTab" 
 			onclick="selectTab('filterConfig')"><?php echo __('Content Filtering') ?></div>
 		<?php if (get_pref($link, 'ENABLE_LABELS')) { ?>
