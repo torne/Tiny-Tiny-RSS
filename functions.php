@@ -4044,13 +4044,25 @@
 					$tags = get_article_tags($link, $id);
 
 					$tags_str = "";
+					$full_tags_str = "";
 
 					foreach ($tags as $tag) {
 						$num_tags++;
-						$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+						$full_tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+						if ($num_tags < 5) {
+							$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
+						} else if ($num_tags == 5) {
+							$tags_str .= "...";
+						}
 					}
 
 					$tags_str = preg_replace("/, $/", "", $tags_str);
+					$full_tags_str = preg_replace("/, $/", "", $full_tags_str);
+
+					$all_tags_div = "<span class='cdmAllTagsCtr'>...<div class='cdmAllTags'>All Tags: $full_tags_str</div></span>";
+
+					$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
+
 
 					if ($tags_str == "") $tags_str = "no tags";
 

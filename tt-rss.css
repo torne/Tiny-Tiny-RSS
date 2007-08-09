@@ -849,6 +849,22 @@ td.hlFeed {
 	background-color : white;
 } */
 
+div.cdmAllTags {
+	width : 75%;
+	float : left;
+	background-color : white;
+	border : 1px solid #c0c0c0;
+	display : none;
+	z-index : 3;
+	top : auto;
+	left : auto;
+	position : absolute;
+}
+
+span.cdmAllTagsCtr:hover div {
+	display : block;
+}
+
 div.cdmArticle {
 	border-color : #a0a0a0;
 	border-width : 0px 0px 1px 0px;
