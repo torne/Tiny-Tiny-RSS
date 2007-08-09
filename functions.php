@@ -3517,7 +3517,7 @@
 		$tmp_result = db_query($link, "SELECT DISTINCT tag_name, 
 			owner_uid as owner FROM
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$a_id' LIMIT 1) ORDER BY tag_name");
+				ref_id = '$a_id' AND owner_uid = ".$_SESSION["uid"]." LIMIT 1) ORDER BY tag_name");
 
 		$tags = array();	
 	
@@ -3701,18 +3701,19 @@
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
+/*			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
 				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
-				ORDER BY tag_name");
+				ORDER BY tag_name"); */
+
+			$tags = get_article_tags($link, $id);
 	
 			$tags_str = "";
 			$f_tags_str = "";
 
 			$num_tags = 0;
 
-			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+			foreach ($tags as $tag) {
 				$num_tags++;
-				$tag = $tmp_line["tag_name"];
 				$tag_escaped = str_replace("'", "\\'", $tag);
 
 				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";

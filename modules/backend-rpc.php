@@ -284,7 +284,7 @@
 						continue;
 					}
 
-//					print "<!-- $tag -->";
+					print "<!-- $id : $int_id : $tag -->";
 					
 					if ($tag != '') {
 						db_query($link, "INSERT INTO ttrss_tags 
