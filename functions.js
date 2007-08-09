@@ -70,9 +70,17 @@ function open_article_callback() {
 
 			if (xmlhttp_rpc.responseXML) {
 				var link = xmlhttp_rpc.responseXML.getElementsByTagName("link")[0];
+				var id = xmlhttp_rpc.responseXML.getElementsByTagName("id")[0];
 
 				if (link) {
 					window.open(link.firstChild.nodeValue, "_blank");
+
+					if (id) {
+						id = id.firstChild.nodeValue;
+						if (!document.getElementById("headlinesList")) {
+							window.setTimeout("toggleUnread(" + id + ", 0)", 100);
+						}
+					}
 				}
 			}
 

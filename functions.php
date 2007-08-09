@@ -3943,12 +3943,15 @@
 
 					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
 
-					print "<div class=\"cdmFooter\">";
+					print "<div class=\"cdmFooter\"><span class='s0'>";
 
-					print "$marked_pic";
+					/* print "<div class=\"markedPic\">Star it: $marked_pic</div>"; */
 
-					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
+					print __("Select:").
+							" <input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
+
+					print "</span><span class='s1'>$marked_pic</span> ";
 
 					$tags = get_article_tags($link, $id);
 
@@ -3962,16 +3965,19 @@
 					$tags_str = preg_replace("/, $/", "", $tags_str);
 
 					if ($tags_str == "") $tags_str = "no tags";
-	
-					print " $tags_str <a title=\"Edit tags for this article\" 
+
+//					print "<img src='images/tag.png' class='markedPic'>";
+
+					print "<span class='s1'>Tags: $tags_str <a title=\"Edit tags for this article\" 
 							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
 
+					print "</span>";
+
+					print "<span class='s2'>Toggle: <a class=\"cdmToggleLink\"
+							href=\"javascript:toggleUnread($id)\">
+							Unread</a></span>";
+
 					print "</div>";
-
-#					print "<div align=\"center\"><a class=\"cdmToggleLink\"
-#							href=\"javascript:toggleUnread($id)\">
-#							Toggle unread</a></div>";
-
 					print "</div>";	
 
 				}				

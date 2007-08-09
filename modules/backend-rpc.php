@@ -210,7 +210,7 @@
 
 			if (db_num_rows($result) == 1) {
 				$link = strip_tags(db_fetch_result($result, 0, "link"));
-				print "<rpc-reply><link>$link</link></rpc-reply>";
+				print "<rpc-reply><link>$link</link><id>$id</id></rpc-reply>";
 			} else {
 				print "<rpc-reply><error>Article not found</error></rpc-reply>";
 			}

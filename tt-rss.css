@@ -845,30 +845,30 @@ td.hlFeed {
 	text-align : right;
 }
 
-div.cdmArticle:hover {
+/* div.cdmArticle:hover {
 	background-color : white;
-}
+} */
 
 div.cdmArticle {
-	border-color : #c0c0c0;
+	border-color : #a0a0a0;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	background-color : #fafafa;
 	margin : 0px;
-	padding : 10px;
+	/* padding : 10px; */
 }
 
-div.cdmArticleUnread:hover {
+/* div.cdmArticleUnread:hover {
 	background-color : white;
-}
+} */
 
 div.cdmArticleUnread {
-	border-color : #c0c0c0;
+	border-color : #a0a0a0;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	background-color : #fafeff;
 	margin : 0px;
-	padding : 10px;
+	/* padding : 10px; */
 }
 
 div.cdmArticleSelected, div.cdmArticleUnreadSelected {
@@ -886,7 +886,7 @@ div.cdmArticleUnreadSelected div.cdmHeader a.title {
 }
 
 div.cdmHeader {
-	padding-bottom : 5px;
+	padding : 5px 5px 10px 5px;
 }
 
 div.cdmArticleUnread div.cdmHeader a {
@@ -895,15 +895,39 @@ div.cdmArticleUnread div.cdmHeader a {
 
 div.cdmFooter {
 	font-size : 9pt;
+	color : black;
+	padding : 5px;
 	color : gray;
-	padding-top : 5px;
+	background-color : white;
+	border-width : 1px 0px 0px 0px;
+	border-color : #c0c0c0;
+	border-style : dotted;
+}
+
+div.cdmFooter span.s0 {
+	border-width : 0px 1px 0px 0px;
+	border-color : #c0c0c0;
+	border-style : dotted;
+	padding : 0px 10px 0px 0px;
+}
+
+div.cdmFooter span.s1 {
+	border-width : 0px 1px 0px 0px;
+	border-color : #c0c0c0;
+	border-style : dotted;
+	padding : 0px 10px 0px 10px;
+}
+
+div.cdmFooter span.s2 {
+	padding : 0px 10px 0px 10px;
 }
 
 div.cdmFooter img.markedPic {
 	width : 16px;
 	height : 16px;
-	float : right;
+	vertical-align : middle;
 }
+
 
 div.cdmHeader div.articleUpdated {
 	float : right;
@@ -923,7 +947,8 @@ div.cdmHeader a:hover {
 }
 
 div.cdmContent {
-	margin-bottom : 5px;
+	margin : 5px 15px 0px 15px;
+
 }
 
 a.warning {
