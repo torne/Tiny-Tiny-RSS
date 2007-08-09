@@ -163,7 +163,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&omode=flc";
 		}
 
-		notify_progress("Loading, please wait...", true);
+		if (!page_offset) {
+			notify_progress("Loading, please wait...", true);
+		}
 
 //		xmlhttp.abort();
 
