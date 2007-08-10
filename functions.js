@@ -686,7 +686,9 @@ function parse_counters(reply, scheduled_call) {
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
 					viewCurrentFeed();
 				}
-		
+
+				var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
+
 				feedu.innerHTML = ctr;
 
 				if (error) {
@@ -707,8 +709,12 @@ function parse_counters(reply, scheduled_call) {
 		
 						if (is_selected) {
 							feedr.className = feedr.className + "Selected";
-						}
-		
+						}	
+						
+					}
+
+					if (row_needs_hl) { 
+						new Effect.Highlight(feedr, {duration: 0.3, startcolor: "#fff7d5"});
 					}
 				} else {
 					feedctr.className = "invisible";
