@@ -16,7 +16,7 @@ blockquote {
 }
 
 div.postReply {
-	padding : 10px;
+	padding : 0px;
 }
 
 div.postReply a {
@@ -29,12 +29,17 @@ div.postReply a:hover {
 
 div.postReply div.postHeader {
 	background : #ecf4ff;
-	border : 1px solid #88b0f0;
-}
-
-div.postReply > div.postHeader {
+	/* border : 1px solid #88b0f0; */
+	border-width : 0px 0px 1px 0px;
+	border-style : dotted;
+	border-color : #88b0f0; 
+	margin : 0px 1px 0px 1px;
 	padding : 5px;
 }
+
+/* div.postReply > div.postHeader {
+	padding : 5px;
+} */
 
 div.postReply div.postContent {
 	padding : 10px;
