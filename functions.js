@@ -1010,7 +1010,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 	
 				if (hide && !has_unread) {
 					//node.childNodes[i].style.display = "none";
-					Effect.DropOut(node.childNodes[i], {duration : 0.3});
+					Effect.Fade(node.childNodes[i], {duration : 0.3});
 				}
 	
 				if (!hide) {
