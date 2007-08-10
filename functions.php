@@ -2722,9 +2722,11 @@
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
 
-#		if (!$feed_site_url) $feed_site_url = "http://localhost/";
+//		if (!$feed_site_url) $feed_site_url = "http://localhost/";
 
- 		print "<rss version=\"2.0\">
+		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+			<?xml-stylesheet type=\"text/xsl\" href=\"rss.xsl\"?>
+			<rss version=\"2.0\">
  			<channel>
  			<title>$feed_title</title>
 			<link>$feed_site_url</link>
