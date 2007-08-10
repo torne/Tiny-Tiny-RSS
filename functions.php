@@ -3182,7 +3182,7 @@
 		
 			if ($feed_site_url) {
 				if (!$bottom) {
-					$target = "target=\"_blank\"";
+					$target = "target=\"_new\"";
 				}
 				print "<a $target href=\"$feed_site_url\">$feed_title</a>";
 			} else {
@@ -4021,7 +4021,7 @@
 					
 					print "<a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"
-						target=\"new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
+						target=\"_new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
 
 					print $entry_author;
 
@@ -4030,6 +4030,11 @@
 					}
 
 					print "</div>";
+
+					if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+						$line["content_preview"] = preg_replace("/href=/i", 
+							"target=\"_new\" href=", $line["content_preview"]);
+					}
 
 					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
 
