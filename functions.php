@@ -1705,7 +1705,7 @@
 			}
 	}
 
-	function getAllCounters($link, $omode = "tflc") {
+	function getAllCounters($link, $omode = "flc") {
 /*		getLabelCounters($link);
 		getFeedCounters($link);
 		getTagCounters($link);
@@ -1714,7 +1714,7 @@
 			getCategoryCounters($link);
 		} */
 
-		if (!$omode) $omode = "tflc";
+		if (!$omode) $omode = "flc";
 
 		getGlobalCounters($link);
 

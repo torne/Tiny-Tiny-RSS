@@ -348,6 +348,14 @@ function toggleMark(id) {
 
 	var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 
+	query = query + "&afid=" + getActiveFeedId();
+
+	if (tagsAreDisplayed()) {
+		query = query + "&omode=tl";
+	} else {
+		query = query + "&omode=flc";
+	}
+
 	var mark_img = document.getElementById("FMPIC-" + id);
 	var vfeedu = document.getElementById("FEEDU--1");
 	var crow = document.getElementById("RROW-" + id);
@@ -395,56 +403,69 @@ function toggleMark(id) {
 
 function togglePub(id) {
 
-	if (!xmlhttp_ready(xmlhttp_rpc)) {
-		printLockingError();
-		return;
-	}
+	try {
 
-	var query = "backend.php?op=rpc&id=" + id + "&subop=publ";
-
-	var mark_img = document.getElementById("FPPIC-" + id);
-	var vfeedu = document.getElementById("FEEDU--2");
-	var crow = document.getElementById("RROW-" + id);
-
-	if (mark_img.alt != "Unpublish") {
-		mark_img.src = "images/pub_set.png";
-		mark_img.alt = "Unpublish";
-		query = query + "&pub=1";
-
-		if (vfeedu && crow.className.match("Unread")) {
-			vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+			return;
 		}
-
-	} else {
-		mark_img.src = "images/pub_unset.png";
-		mark_img.alt = "Publish";
-		query = query + "&pub=0";
-
-		if (vfeedu && crow.className.match("Unread")) {
-			vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
-		}
-
-	}
-
-	var vfeedctr = document.getElementById("FEEDCTR--2");
-	var vfeedr = document.getElementById("FEEDR--2");
-
-	if (vfeedu && vfeedctr) {
-		if ((+vfeedu.innerHTML) > 0) {
-			if (crow.className.match("Unread") && !vfeedr.className.match("Unread")) {
-				vfeedr.className = vfeedr.className + "Unread";
-				vfeedctr.className = "odd";
-			}
+	
+		var query = "backend.php?op=rpc&id=" + id + "&subop=publ";
+	
+		query = query + "&afid=" + getActiveFeedId();
+	
+		if (tagsAreDisplayed()) {
+			query = query + "&omode=tl";
 		} else {
-			vfeedctr.className = "invisible";
-			vfeedr.className = vfeedr.className.replace("Unread", "");
+			query = query + "&omode=flc";
 		}
+	
+		var mark_img = document.getElementById("FPPIC-" + id);
+		var vfeedu = document.getElementById("FEEDU--2");
+		var crow = document.getElementById("RROW-" + id);
+	
+		if (mark_img.alt != "Unpublish") {
+			mark_img.src = "images/pub_set.png";
+			mark_img.alt = "Unpublish";
+			query = query + "&pub=1";
+	
+			if (vfeedu && crow.className.match("Unread")) {
+				vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
+			}
+	
+		} else {
+			mark_img.src = "images/pub_unset.png";
+			mark_img.alt = "Publish";
+			query = query + "&pub=0";
+	
+			if (vfeedu && crow.className.match("Unread")) {
+				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
+			}
+	
+		}
+	
+		var vfeedctr = document.getElementById("FEEDCTR--2");
+		var vfeedr = document.getElementById("FEEDR--2");
+	
+		if (vfeedu && vfeedctr) {
+			if ((+vfeedu.innerHTML) > 0) {
+				if (crow.className.match("Unread") && !vfeedr.className.match("Unread")) {
+					vfeedr.className = vfeedr.className + "Unread";
+					vfeedctr.className = "odd";
+				}
+			} else {
+				vfeedctr.className = "invisible";
+				vfeedr.className = vfeedr.className.replace("Unread", "");
+			}
+		}
+	
+		debug("toggle published for aid " + id);
+	
+		new Ajax.Request(query);
+	} catch (e) {
+
+		exception_error("togglePub", e);
 	}
-
-	debug("toggle published for aid " + id);
-
-	new Ajax.Request(query);
-
 }
 
 function correctHeadlinesOffset(id) {
@@ -670,6 +691,14 @@ function selectionToggleMarked(cdm_mode) {
 			var query = "backend.php?op=rpc&subop=markSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
+			query = query + "&afid=" + getActiveFeedId();
+
+			if (tagsAreDisplayed()) {
+				query = query + "&omode=tl";
+			} else {
+				query = query + "&omode=flc";
+			}
+
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;
 			xmlhttp_rpc.send(null);
@@ -726,6 +755,14 @@ function selectionTogglePublished(cdm_mode) {
 
 			var query = "backend.php?op=rpc&subop=publishSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
+
+			query = query + "&afid=" + getActiveFeedId();
+
+			if (tagsAreDisplayed()) {
+				query = query + "&omode=tl";
+			} else {
+				query = query + "&omode=flc";
+			}
 
 			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=all_counters_callback;

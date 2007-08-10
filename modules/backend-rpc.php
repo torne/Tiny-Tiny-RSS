@@ -180,7 +180,7 @@
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link);
+			getAllCounters($link, $_GET["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
@@ -195,7 +195,7 @@
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link);
+			getAllCounters($link, $_GET["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
@@ -210,7 +210,7 @@
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link);
+			getAllCounters($link, $_GET["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
