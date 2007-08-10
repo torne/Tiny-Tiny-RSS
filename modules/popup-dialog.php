@@ -424,7 +424,7 @@
 			print "<div class=\"infoBoxContents\">";
 
 			print __("Showing most popular tags ")." (<a 
-				href='javascript:toggleTags(true)'>".__('browse all')."</a>):<br/>";
+			href='javascript:toggleTags(true)'>".__('browse more')."</a>):<br/>"; 
 
 			print "<div class=\"tagCloudContainer\">";
 

@@ -1913,7 +1913,8 @@
 		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
 			FROM ttrss_user_entries WHERE int_id = post_int_id 
 				AND unread = true)) AS count FROM ttrss_tags 
-			WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name ORDER BY tag_name");
+				WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name 
+				ORDER BY count DESC LIMIT 55");
 			
 		$tags = array();
 
@@ -3474,7 +3475,8 @@
 			$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
 				FROM ttrss_user_entries WHERE int_id = post_int_id 
 					AND unread = true)) AS count FROM ttrss_tags 
-				WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name ORDER BY tag_name");
+					WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name 
+					ORDER BY count DESC LIMIT 50");
 
 			$tags = array();
 	
