@@ -1035,7 +1035,8 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 			return;
 		}
 		if (hide) {
-			cat_node.style.display = "none";
+			//cat_node.style.display = "none";
+			Effect.Fade(cat_node, {duration : 0.3});
 		} else {
 			cat_node.style.display = "list-item";
 		}
