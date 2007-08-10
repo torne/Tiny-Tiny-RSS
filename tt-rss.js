@@ -27,6 +27,10 @@ function tagsAreDisplayed() {
 
 function toggleTags(show_all) {
 
+	try {
+
+	debug("toggleTags: " + show_all + "; " + display_tags);
+
 	var p = document.getElementById("dispSwitchPrompt");
 
 	if (!show_all && !display_tags) {
@@ -42,6 +46,10 @@ function toggleTags(show_all) {
 		p.innerHTML = __("tag cloud");
 		notify_progress("Loading, please wait...", true);
 		updateFeedList();
+	}
+
+	} catch (e) {
+		exception_error("toggleTags", e);
 	}
 }
 

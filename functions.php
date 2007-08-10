@@ -4216,8 +4216,7 @@
 
 	function article_publish_url($link) {
 
-		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . \
-			parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 		$url_path .= "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
 
