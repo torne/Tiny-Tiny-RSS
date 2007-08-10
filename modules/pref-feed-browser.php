@@ -2,7 +2,7 @@
 	function module_pref_feed_browser($link) {
 
 		if (!ENABLE_FEED_BROWSER) {
-			print "Feed browser is administratively disabled.";
+			print __("Feed browser is administratively disabled.");
 			return;
 		}
 
@@ -12,7 +12,7 @@
 			$id = db_escape_string($_GET["id"]);
 
 			print "<div class=\"browserFeedInfo\">";
-			print "<b>Feed information:</b>";
+			print "<b>".__('Feed information:')."</b>";
 			print "<div class=\"detailsPart\">";
 
 			$result = db_query($link, "SELECT 
@@ -48,7 +48,7 @@
 
 			if (db_num_rows($result) > 0) {
 				
-				print "<b>Last headlines:</b><br>";
+				print "<b>".__('Last headlines:')."</b><br>";
 				
 				print "<div class=\"detailsPart\">";
 				print "<ul class=\"compact\">";
@@ -149,7 +149,7 @@
 		}
 
 		if ($feedctr == 0) {
-			print "<li>No feeds found to subscribe.</li>";
+			print "<li>".__('No feeds found to subscribe.')."</li>";
 		}
 
 		print "</ul>";

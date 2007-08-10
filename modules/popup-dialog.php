@@ -59,7 +59,7 @@
 			print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
 
 			print "<table width='100%'>
-			<tr><td>Feed URL:</td><td>
+			<tr><td>".__('Feed URL:')."</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
 					onkeypress=\"return filterCR(event, qaddFeed)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
@@ -83,12 +83,12 @@
 
 			print "<div id='fadd_login_prompt'><br/>
 				<a href='javascript:showBlockElement(\"fadd_login_container\", 
-					\"fadd_login_prompt\")'>Click here if this feed requires authentication.</a></div>";
+					\"fadd_login_prompt\")'>".__('Click here if this feed requires authentication.')."</a></div>";
 
 			print "<div id='fadd_login_container'>
 				<table width='100%'>
-					<tr><td>Login:</td><td><input name='auth_login' class='iedit'></td></tr>
-					<tr><td>Password:</td><td><input type='password'
+					<tr><td>".__('Login:')."</td><td><input name='auth_login' class='iedit'></td></tr>
+					<tr><td>".__('Password:')."</td><td><input type='password'
 						name='auth_pass' class='iedit'></td></tr>
 				</table>
 				</div>";
@@ -259,7 +259,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 				//array_push($filter_types, $line["description"]);
-				$filter_types[$line["id"]] = $line["description"];
+				$filter_types[$line["id"]] = __($line["description"]);
 			}
 
 			print "<table width='100%'>";
@@ -290,7 +290,7 @@
 				ORDER BY name");
 
 			while ($line = db_fetch_assoc($result)) {
-				printf("<option value='%d'>%s</option>", $line["id"], $line["description"]);
+				printf("<option value='%d'>%s</option>", $line["id"], __($line["description"]));
 			}
 	
 			print "</select>";

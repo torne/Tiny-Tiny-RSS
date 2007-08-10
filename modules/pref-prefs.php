@@ -56,7 +56,7 @@
 
 			return;
 
-		} else if ($subop == "Save configuration") {
+		} else if ($subop == __("Save configuration")) {
 
 			$_SESSION["prefs_op_result"] = "save-config";
 
@@ -124,7 +124,7 @@
 		
 			return;
 
-		} else if ($subop == "Reset to defaults") {
+		} else if ($subop == __("Reset to defaults")) {
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
@@ -282,7 +282,7 @@
 	 			print "<tr><td colspan='3'><h3>".__("Themes")."</h3></tr></td>";
 				print "<tr><td width=\"40%\">".__("Select theme")."</td>";
 				print "<td><select name=\"theme\">";
-				print "<option>Default</option>";
+				print "<option value='Default'>".__('Default')."</option>";
 				print "<option disabled>--------</option>";				
 				
 				while ($line = db_fetch_assoc($result)) {	
@@ -296,8 +296,9 @@
 				print "</select></td></tr>";
 				print "</table>";
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+				print "<input type=\"hidden\" name=\"subop\" value=\"Change theme\">";
 				print "<p><input class=\"button\" type=\"submit\" 
-					value=\"Change theme\" name=\"subop\">";
+					value=\"".__('Change theme')."\">";
 				print "</form>";
 			}
 
@@ -332,7 +333,7 @@
 				
 					$active_section = $line["section_name"];				
 					
-					print "<tr><td colspan=\"3\"><h3>$active_section</h3></td></tr>";
+					print "<tr><td colspan=\"3\"><h3>".__($active_section)."</h3></td></tr>";
 //					print "<tr class=\"title\">
 //						<td width=\"25%\">Option</td><td>Value</td></tr>";
 
@@ -349,9 +350,9 @@
 				$def_value = $line["def_value"];
 				$help_text = $line["help_text"];
 
-				print "<td width=\"40%\" id=\"$pref_name\">" . $line["short_desc"];
+				print "<td width=\"40%\" id=\"$pref_name\">" . __($line["short_desc"]);
 
-				if ($help_text) print "<div class=\"prefHelp\">$help_text</div>";
+				if ($help_text) print "<div class=\"prefHelp\">".__($help_text)."</div>";
 				
 				print "</td>";
 
@@ -384,11 +385,11 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
 
 			print "<p><input class=\"button\" type=\"submit\" 
-				name=\"subop\" value=\"Save configuration\">";
+				name=\"subop\" value=\"".__('Save configuration')."\">";
 				
 			print "&nbsp;<input class=\"button\" type=\"submit\" 
 				name=\"subop\" onclick=\"return validatePrefsReset()\" 
-				value=\"Reset to defaults\"></p>";
+				value=\"".__('Reset to defaults')."\"></p>";
 
 			print "</form>";
 

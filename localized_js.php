@@ -93,5 +93,30 @@ print T_js_decl("No feed selected.");
 print T_js_decl("Replace current publishing address with a new one?");
 print T_js_decl("Address changed.");
 print T_js_decl("Could not change address.");
+print T_js_decl("You can't unsubscribe from the category.");
+print T_js_decl("Please select some feed first.");
+print T_js_decl("You can't edit this kind of feed.");
+print T_js_decl("Can't create label: missing SQL expression.");
+print T_js_decl("Can't create label: missing caption.");
+print T_js_decl("Can't add user: no login specified.");
+print T_js_decl("No labels are selected.");
+print T_js_decl("No users are selected.");
+print T_js_decl("No filters are selected.");
+print T_js_decl("No feeds are selected.");
+print T_js_decl("No categories are selected.");
+print T_js_decl("Login field cannot be blank.");
+print T_js_decl("No feeds are selected.");
+print T_js_decl("Can't add filter: nothing to match on.");
+print T_js_decl("Can't subscribe: no feed URL given.");
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
 
 ?>

@@ -491,18 +491,20 @@ function quickMenuGo(opid) {
 			var actid = getActiveFeedId();
 
 			if (activeFeedIsCat()) {
-				alert("You can't unsubscribe from the category.");
+				alert(__("You can't unsubscribe from the category."));
 				return;
 			}	
 
 			if (!actid) {
-				alert("Please select some feed first.");
+				alert(__("Please select some feed first."));
 				return;
 			}
 
 			var fn = getFeedName(actid);
-	
-			if (confirm("Unsubscribe from " + fn + "?")) {
+
+			var pr = __("Unsubscribe from %s?").replace("%s", fn);
+
+			if (confirm(pr)) {
 				qfdDelete(actid);
 			}
 		
@@ -667,12 +669,12 @@ function editFeedDlg(feed) {
 	disableHotkeys();
 
 	if (!feed) {
-		alert("Please select some feed first.");
+		alert(__("Please select some feed first."));
 		return;
 	}
 
 	if (feed <= 0 || activeFeedIsCat() || tagsAreDisplayed()) {
-		alert("You can't edit this kind of feed.");
+		alert(__("You can't edit this kind of feed."));
 		return;
 	}
 

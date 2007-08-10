@@ -279,12 +279,12 @@ function addLabel() {
 	var description = form.description.value;
 
 	if (sql_exp == "") {
-		alert("Can't create label: missing SQL expression.");
+		alert(__("Can't create label: missing SQL expression."));
 		return false;
 	}
 
 	if (description == "") {
-		alert("Can't create label: missing caption.");
+		alert(__("Can't create label: missing caption."));
 		return false;
 	}
 
@@ -356,7 +356,7 @@ function addUser() {
 	var sqlexp = document.getElementById("uadd_box");
 
 	if (sqlexp.value.length == 0) {
-		alert("Can't add user: no login specified.");
+		alert(__("Can't add user: no login specified."));
 	} else {
 		notify_progress("Adding user...");
 
@@ -546,7 +546,7 @@ function removeSelectedLabels() {
 			xmlhttp.send(null);
 		}
 	} else {
-		alert("No labels are selected.");
+		alert(__("No labels are selected."));
 	}
 
 	return false;
@@ -575,7 +575,7 @@ function removeSelectedUsers() {
 		}
 
 	} else {
-		alert("No users are selected.");
+		alert(__("No users are selected."));
 	}
 
 	return false;
@@ -603,7 +603,7 @@ function removeSelectedFilters() {
 			xmlhttp.send(null);
 		}
 	} else {
-		alert("No filters are selected.");
+		alert(__("No filters are selected."));
 	}
 
 	return false;
@@ -635,7 +635,7 @@ function removeSelectedFeeds() {
 
 	} else {
 
-		alert("No feeds are selected.");
+		alert(__("No feeds are selected."));
 
 	}
 	
@@ -666,7 +666,7 @@ function removeSelectedFeedCats() {
 
 	} else {
 
-		alert("No categories are selected.");
+		alert(__("No categories are selected."));
 
 	}
 
@@ -900,7 +900,7 @@ function userEditSave() {
 	var login = document.forms["user_edit_form"].login.value;
 
 	if (login.length == 0) {
-		alert("Login field cannot be blank.");
+		alert(__("Login field cannot be blank."));
 		return;
 	}
 	
@@ -1488,7 +1488,7 @@ function feedBrowserSubscribe() {
 			xmlhttp.onreadystatechange=feedlist_callback;
 			xmlhttp.send(null);
 		} else {
-			alert("No feeds are selected.");
+			alert(__("No feeds are selected."));
 		}
 
 	} catch (e) {

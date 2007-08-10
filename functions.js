@@ -1518,7 +1518,7 @@ function addFilter() {
 	var reg_exp = form.reg_exp.value;
 
 	if (reg_exp == "") {
-		alert("Can't add filter: nothing to match on.");
+		alert(__("Can't add filter: nothing to match on."));
 		return false;
 	}
 
@@ -1554,7 +1554,7 @@ function qaddFeed() {
 	var feed_url = form.feed_url.value;
 
 	if (feed_url == "") {
-		alert("Can't subscribe: no feed URL given.");
+		alert(__("Can't subscribe: no feed URL given."));
 		return false;
 	}
 

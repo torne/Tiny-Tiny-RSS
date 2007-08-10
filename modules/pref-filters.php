@@ -37,7 +37,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 				//array_push($filter_types, $line["description"]);
-				$filter_types[$line["id"]] = $line["description"];
+				$filter_types[$line["id"]] = __($line["description"]);
 			}
 
 			print "<table width='100%'>";
@@ -69,7 +69,7 @@
 
 			while ($line = db_fetch_assoc($result)) {
 				$is_sel = ($line["id"] == $action_id) ? "selected" : "";			
-				printf("<option value='%d' $is_sel>%s</option>", $line["id"], $line["description"]);
+				printf("<option value='%d' $is_sel>%s</option>", $line["id"], __($line["description"]));
 			}
 	
 			print "</select>";

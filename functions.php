@@ -16,7 +16,11 @@
 	
 			# Get locale from Accept-Language header
 			$lang = al2gt(array("en_US", "ru_RU", "zh_CN", "fr_FR"), "text/html");
-	
+
+			if (defined('_TRANSLATION_OVERRIDE_DEFAULT')) {
+				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
+			}
+
 			if ($lang) {
 				_setlocale(LC_MESSAGES, $lang);
 				_bindtextdomain("messages", "locale");
@@ -2207,7 +2211,7 @@
 
 		print "<select id=\"$id\" name=\"$id\" $attributes>";
 		if ($include_all_feeds) { 
-			print "<option value=\"0\">All feeds</option>";
+			print "<option value=\"0\">".__('All feeds')."</option>";
 		}
 	
 		$result = db_query($link, "SELECT id,title FROM ttrss_feeds
@@ -3113,7 +3117,7 @@
 						<a href=\"$sel_unread_link\">".__('Unread')."</a>,
 						<a href=\"$sel_none_link\">".__('None')."</a></li>
 					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\">Toggle<ul>
+					<li class=\"top\">".__('Toggle')."<ul>
 						<li onclick=\"$tog_unread_link\">".__('Unread')."</li>
 						<li onclick=\"$tog_marked_link\">".__('Starred')."</li>
 						<li onclick=\"$tog_published_link\">".__('Published')."</li>
