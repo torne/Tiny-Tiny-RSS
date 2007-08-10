@@ -177,9 +177,9 @@
 
 			if (!SINGLE_USER_MODE) {
 
-				$result = db_query($link, "SELECT id,email FROM ttrss_users
-					WHERE id = ".$_SESSION["uid"]." AND (pwd_hash = 'password' OR
-						pwd_hash = 'SHA1:".sha1("password")."')");
+				$result = db_query($link, "SELECT id FROM ttrss_users
+					WHERE id = ".$_SESSION["uid"]." AND pwd_hash 
+					= 'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'");
 
 				if (db_num_rows($result) != 0) {
 					print format_warning(__("Your password is at default value, 
