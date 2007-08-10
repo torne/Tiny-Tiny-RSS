@@ -30,7 +30,7 @@
 				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
 				name=\"login\" value=\"$login\"></td></tr>";
 
-			print "<tr><td>Change password:</td><td>
+			print "<tr><td>".__('Change password:')."</td><td>
 				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
 				name=\"password\"></td></tr>";
 
