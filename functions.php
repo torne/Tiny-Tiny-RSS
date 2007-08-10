@@ -3745,9 +3745,7 @@
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
 			print "<div class=\"postContent\">";
 			
-			if (db_num_rows($tmp_result) > 0) {
-				print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
-			}
+			print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 
 			$line["content"] = sanitize_rss($link, $line["content"]);
 
