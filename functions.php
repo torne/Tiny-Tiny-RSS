@@ -3731,7 +3731,8 @@
 				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";
 				
 				if ($num_tags == 6) {
-					$tags_str .= "<a href=\"javascript:showBlockElement('allEntryTags')\">...</a>";
+					$tags_str .= "...";
+
 				} else if ($num_tags < 6) {
 					$tags_str .= $tag_str;
 				}
@@ -3740,6 +3741,9 @@
 
 			$tags_str = preg_replace("/, $/", "", $tags_str);
 			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
+
+			$all_tags_div = "<span class='cdmAllTagsCtr'>...<div class='cdmAllTags'>All Tags: $f_tags_str</div></span>";
+			$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
@@ -3755,7 +3759,7 @@
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
 			print "<div class=\"postContent\">";
 			
-			print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
+			#print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 
 			$line["content"] = sanitize_rss($link, $line["content"]);
 
