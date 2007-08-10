@@ -362,12 +362,12 @@
 //					print_select($pref_name, $value, array("true", "false"));
 
 					if ($value == "true") {
-						$value = "Yes";
+						$value = __("Yes");
 					} else {
-						$value = "No";
+						$value = __("No");
 					}
 
-					print_radio($pref_name, $value, array("Yes", "No"));
+					print_radio($pref_name, $value, array(__("Yes"), __("No")));
 			
 				} else {
 					print "<input class=\"editbox\" name=\"$pref_name\" value=\"$value\">";

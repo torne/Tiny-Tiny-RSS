@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-11 00:14+0400\n"
+"POT-Creation-Date: 2007-08-11 00:35+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,7 +227,7 @@ msgstr "Отмеченные"
 msgid "Published"
 msgstr ""
 
-#: functions.php:3126
+#: functions.php:3126 localized_schema.php:15
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
@@ -552,24 +552,217 @@ msgstr ""
 msgid "Can't subscribe: no feed URL given."
 msgstr ""
 
-#: localized_schema.php:5 modules/popup-dialog.php:166
+#: localized_schema.php:9 modules/popup-dialog.php:166
 #: modules/pref-feeds.php:865 modules/pref-feeds.php:926
 msgid "Title"
 msgstr "Заголовок"
 
-#: localized_schema.php:6
+#: localized_schema.php:10
 #, fuzzy
 msgid "Title or Content"
 msgstr "Заголовок или содержимое"
 
-#: localized_schema.php:7
+#: localized_schema.php:11
 #, fuzzy
 msgid "Link"
 msgstr "Связать с:"
 
-#: localized_schema.php:8 modules/popup-dialog.php:167
+#: localized_schema.php:12 modules/popup-dialog.php:167
 msgid "Content"
 msgstr "Содержимое"
+
+#: localized_schema.php:14
+#, fuzzy
+msgid "Filter article"
+msgstr "Отмеченные статьи"
+
+#: localized_schema.php:16
+#, fuzzy
+msgid "Set starred"
+msgstr "Отмеченные"
+
+#: localized_schema.php:17
+#, fuzzy
+msgid "Publish article"
+msgstr "Отмеченные статьи"
+
+#: localized_schema.php:18
+#, fuzzy
+msgid "Assign tags"
+msgstr "нет тегов"
+
+#: localized_schema.php:22
+msgid "General"
+msgstr ""
+
+#: localized_schema.php:24
+msgid "Allow duplicate posts"
+msgstr ""
+
+#: localized_schema.php:25
+msgid ""
+"This option is useful when you are reading several planet-type aggregators "
+"with partially colliding userbase. When disabled, it forces same posts from "
+"different feeds to appear only once."
+msgstr ""
+
+#: localized_schema.php:26
+msgid "Default interval between feed updates (in minutes)"
+msgstr ""
+
+#: localized_schema.php:27
+#, fuzzy
+msgid "Enable e-mail digest"
+msgstr "Включить в дайджест"
+
+#: localized_schema.php:28
+msgid ""
+"This option enables sending daily digest of new (and unread) headlines on "
+"your configured e-mail address"
+msgstr ""
+
+#: localized_schema.php:29
+msgid "Purge old posts after this number of days (0 - disables)"
+msgstr ""
+
+#: localized_schema.php:30
+msgid "Update post on checksum change"
+msgstr ""
+
+#: localized_schema.php:32
+msgid "Interface"
+msgstr ""
+
+#: localized_schema.php:34
+#, fuzzy
+msgid "Combined feed display"
+msgstr "Нет каналов для отображения."
+
+#: localized_schema.php:35
+msgid ""
+"Display expanded list of feed articles, instead of separate displays for "
+"headlines and article content"
+msgstr ""
+
+#: localized_schema.php:36
+msgid "Default article limit"
+msgstr ""
+
+#: localized_schema.php:37
+#, fuzzy
+msgid "Enable feed categories"
+msgstr "Редактировать категории"
+
+#: localized_schema.php:38
+msgid "Hide feeds with no unread messages"
+msgstr ""
+
+#: localized_schema.php:39
+msgid "Mark articles as read automatically"
+msgstr ""
+
+#: localized_schema.php:40
+msgid ""
+"This option enables marking articles as read automatically in combined mode "
+"while you scroll article list."
+msgstr ""
+
+#: localized_schema.php:41
+msgid "On catchup show next feed"
+msgstr ""
+
+#: localized_schema.php:42
+msgid ""
+"When \"Mark as read\" button is clicked in toolbar, automatically open next "
+"feed with unread articles."
+msgstr ""
+
+#: localized_schema.php:43
+msgid "Open article links in new browser window"
+msgstr ""
+
+#: localized_schema.php:44
+msgid "Reverse headline order (oldest first)"
+msgstr ""
+
+#: localized_schema.php:45
+msgid "Show content preview in headlines list"
+msgstr ""
+
+#: localized_schema.php:46
+msgid "Sort feeds by unread articles count"
+msgstr ""
+
+#: localized_schema.php:47
+msgid "User stylesheet URL"
+msgstr ""
+
+#: localized_schema.php:48
+msgid "Link to user stylesheet to override default style, disabled if empty."
+msgstr ""
+
+#: localized_schema.php:50
+msgid "Advanced"
+msgstr ""
+
+#: localized_schema.php:52
+msgid "Blacklisted tags"
+msgstr ""
+
+#: localized_schema.php:53
+msgid ""
+"When auto-detecting tags in articles these tags will not be applied (comma-"
+"separated list)."
+msgstr ""
+
+#: localized_schema.php:54
+#, fuzzy
+msgid "Confirm marking feed as read"
+msgstr "Помечаю все каналы как прочитанные..."
+
+#: localized_schema.php:55
+msgid "Enable icons in feedlist"
+msgstr ""
+
+#: localized_schema.php:56
+#, fuzzy
+msgid "Enable labels"
+msgstr "Создать метку"
+
+#: localized_schema.php:57
+msgid ""
+"Experimental support for virtual feeds based on user crafted SQL queries. "
+"This feature is highly experimental and at this point not user friendly. Use "
+"with caution."
+msgstr ""
+
+#: localized_schema.php:58
+msgid "Long date format"
+msgstr ""
+
+#: localized_schema.php:59
+msgid "Set articles as unread on update"
+msgstr ""
+
+#: localized_schema.php:60
+msgid "Short date format"
+msgstr ""
+
+#: localized_schema.php:61
+msgid "Show additional information in feedlist"
+msgstr ""
+
+#: localized_schema.php:62
+msgid "Strip unsafe tags from articles"
+msgstr ""
+
+#: localized_schema.php:63
+msgid "Strip all but most common HTML tags when reading articles."
+msgstr ""
+
+#: localized_schema.php:64
+msgid "Use more accessible date/time format for headlines"
+msgstr ""
 
 #: login_form.php:49 modules/popup-dialog.php:90 modules/pref-feeds.php:264
 #: modules/pref-users.php:29
@@ -1398,9 +1591,23 @@ msgstr "Изменить e-mail"
 msgid "short_desc"
 msgstr ""
 
+#: modules/pref-prefs.php:365 modules/pref-prefs.php:370
+msgid "Yes"
+msgstr ""
+
+#: modules/pref-prefs.php:367 modules/pref-prefs.php:370
+#, fuzzy
+msgid "No"
+msgstr "Ничего"
+
 #: modules/pref-users.php:12
 msgid "User editor"
 msgstr "Редактор пользователей"
+
+#: modules/pref-users.php:33
+#, fuzzy
+msgid "Change password:"
+msgstr "Изменить пароль"
 
 #: modules/pref-users.php:37
 msgid "E-mail:"
