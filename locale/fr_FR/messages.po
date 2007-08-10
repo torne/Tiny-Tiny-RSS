@@ -1,624 +1,640 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of fr.po to Français
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Thibaut Cousin <informatique@thibaut-cousin.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tiny Tiny RSS1.0\n"
+"Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-10 23:25+0400\n"
-"PO-Revision-Date: 2007-06-10 11:56+0800\n"
-"Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
-"Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
+"PO-Revision-Date: 2007-08-10 16:30+0200\n"
+"Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
+"Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Country: china\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: backend.php:94 backend.php:103
 msgid "Use default"
-msgstr "用户默认"
+msgstr "Utiliser la valeur par défaut"
 
 #: backend.php:95
 msgid "Never purge"
-msgstr "从未"
+msgstr "Ne jamais purger"
 
 #: backend.php:96
 msgid "1 week old"
-msgstr "1周前"
+msgstr "Au bout d'une semaine"
 
 #: backend.php:97
 msgid "2 weeks old"
-msgstr "2周前"
+msgstr "Au bout de 2 semaines"
 
 #: backend.php:98
 msgid "1 month old"
-msgstr "1月前"
+msgstr "Au bout d'un mois"
 
 #: backend.php:99
 msgid "2 months old"
-msgstr "2月前"
+msgstr "Au bout de 2 mois"
 
 #: backend.php:100
 msgid "3 months old"
-msgstr "3月前"
+msgstr "Au bout de 3 mois"
 
 #: backend.php:104
 msgid "Disable updates"
-msgstr "禁用更新"
+msgstr "Désactiver les mises à jour"
 
 #: backend.php:105
-#, fuzzy
 msgid "Each 15 minutes"
-msgstr "每30分钟"
+msgstr "Toutes les 15 minutes"
 
 #: backend.php:106
 msgid "Each 30 minutes"
-msgstr "每30分钟"
+msgstr "Toutes les 30 minutes"
 
 #: backend.php:107
 msgid "Hourly"
-msgstr "每小时"
+msgstr "Toutes les heures"
 
 #: backend.php:108
 msgid "Each 4 hours"
-msgstr "每4小时"
+msgstr "Toutes les 4 heures"
 
 #: backend.php:109
 msgid "Each 12 hours"
-msgstr "每12小时"
+msgstr "Toutes les 12 heures"
 
 #: backend.php:110
 msgid "Daily"
-msgstr "每天"
+msgstr "Une fois par jour"
 
 #: backend.php:111
 msgid "Weekly"
-msgstr "每周"
+msgstr "Une fois par semaine"
 
 #: backend.php:115
 msgid "User"
-msgstr "用户"
+msgstr "Utilisateur"
 
 #: backend.php:116
 msgid "Administrator"
-msgstr "管理员"
+msgstr "Administrateur"
 
 #: errors.php:3
 msgid "Unknown error"
-msgstr "未知错误"
+msgstr "Erreur inconnue"
 
 #: errors.php:5
 msgid "This program requires XmlHttpRequest "
-msgstr "本程序需要xmlhttprequest支持"
+msgstr "Ce logiciel nécessite XmlHttpRequest "
 
 #: errors.php:8
 msgid "This program requires cookies "
-msgstr "本程序需要开启cookies"
+msgstr "Les cookies doivent être activés pour ce logiciel "
 
 #: errors.php:11
 msgid "Backend sanity check failed"
-msgstr "Backend 完整检查失败"
+msgstr "Le test du moteur a échoué"
 
 #: errors.php:13
 msgid "Frontend sanity check failed."
-msgstr "Frontend 完整检查失败"
+msgstr "Le test de l'interface a échoué."
 
 #: errors.php:15
 msgid ""
 "Incorrect database schema version. &lt;a href='update.php'&gt;Please "
 "update&lt;/a&gt;."
-msgstr "不正确的数据库schema版本 &lt;a href='update.php'&gt;请更新&lt;/a&gt;."
+msgstr ""
+"Version non valable pour le schéma de la base de données. &lt;a href='update."
+"php'&gt;Veuillez le mettre à jour&lt;/a&gt;."
 
 #: errors.php:17
 msgid "Request not authorized."
-msgstr "无授权。"
+msgstr "Requête rejetée."
 
 #: errors.php:19
 msgid "No operation to perform."
-msgstr "无操作。"
+msgstr "Aucune opération à effectuer."
 
 #: errors.php:21
 msgid ""
 "Could not display feed: query failed. Please check label match syntax or "
 "local configuration."
-msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
+msgstr ""
+"Impossible d'afficher le flux&nbsp;: la requête n'a pas abouti. Veuillez "
+"vérifier la syntaxe de son intitulé ou la configuration locale."
 
 #: errors.php:23
 msgid "Denied. Your access level is insufficient to access this page."
-msgstr "错误，权限不够。"
+msgstr ""
+"Rejeté. Vous n'avez pas les permissions nécessaires pour accéder à cette "
+"page."
 
 #: errors.php:25
 msgid "Configuration check failed"
-msgstr "设置检查失败"
+msgstr "Échec du test de configuration"
 
 #: errors.php:27
 msgid ""
 "Your version of MySQL is not currently supported. Please see \n"
 "\t\tofficial site for more information."
 msgstr ""
-"不支持你的MySQL版本. 请访问 \n"
-"\t\t官方网站获取更多信息。"
+"Votre version de MySQL n'est pas gérée pour le moment. Reportez-vous au \n"
+"\t\tsite officiel pour plus d'informations."
 
 #: functions.php:2239 functions.php:2278 functions.php:2602 functions.php:3386
 #: functions.php:3416 modules/pref-feeds.php:890
 msgid "Uncategorized"
-msgstr "未分类"
+msgstr "Sans catégorie"
 
 #: functions.php:2268 functions.php:3226
 msgid "Special"
-msgstr "专用"
+msgstr "Spécial"
 
 #: functions.php:2270 functions.php:3260
 msgid "Labels"
-msgstr "标记"
+msgstr "Intitulé"
 
 #: functions.php:2288 functions.php:2624 functions.php:3237
 msgid "Starred articles"
-msgstr "星级文章"
+msgstr "Articles remarquables"
 
 #: functions.php:2290 functions.php:2626 functions.php:3244
-#, fuzzy
 msgid "Published articles"
-msgstr "星级文章"
+msgstr "Articles publiés"
 
 #: functions.php:2588 functions.php:2590
 msgid "Search results"
-msgstr "搜索结果"
+msgstr "Résultats de recherche"
 
 #: functions.php:2606 functions.php:2619 functions.php:2634
 msgid "Searched for"
-msgstr "搜索"
+msgstr "Recherché"
 
 #: functions.php:2859
 msgid "New headlines for last 24 hours, as of "
-msgstr "24小时最新头条,截至"
+msgstr "Nouveaux en-têtes dans les dernières 24 heures, à compter de "
 
 #: functions.php:2903
 msgid ""
 "You have been sent this email because you have enabled daily digests in Tiny "
 "Tiny RSS at "
-msgstr "由于您启用了Tiny Tiny RSS每日文摘，会收到此邮件。"
+msgstr ""
+"Vous recevez ce courrier électronique parce que vous avez activé la synthèse "
+"quotidienne dans TIny Tiny RSS sur "
 
 #: functions.php:2905
 msgid ""
 "To unsubscribe, visit your configuration options or contact instance owner.\n"
-msgstr "若要退订,访问你的配置选项或联络管理员。\n"
+msgstr ""
+"Pour vous désinscrire, modifiez votre configuration ou contactez "
+"l'administrateur de votre TIny Tiny RSS.\n"
 
 #: functions.php:3111 functions.php:3153 functions.php:4053
 #: modules/pref-feeds.php:615 modules/pref-feeds.php:852
 #: modules/pref-filters.php:255 modules/pref-labels.php:234
 #: modules/pref-users.php:208
 msgid "Select:"
-msgstr "选择："
+msgstr "Sélectionner&nbsp;:"
 
 #: functions.php:3112 functions.php:3154 modules/pref-feeds.php:616
 #: modules/pref-feeds.php:853 modules/pref-filters.php:256
 #: modules/pref-labels.php:235 modules/pref-users.php:209
 msgid "All"
-msgstr "所有"
+msgstr "Tout"
 
 #: functions.php:3113 functions.php:3117 functions.php:3155 functions.php:3158
 #: tt-rss.php:172
 msgid "Unread"
-msgstr "未读"
+msgstr "Non lus"
 
 #: functions.php:3114 functions.php:3156 modules/pref-feeds.php:617
 #: modules/pref-feeds.php:854 modules/pref-filters.php:257
 #: modules/pref-labels.php:236 modules/pref-users.php:210
 msgid "None"
-msgstr "无"
+msgstr "Aucun"
 
 #: functions.php:3118 functions.php:3159 tt-rss.php:171
 msgid "Starred"
-msgstr "星级"
+msgstr "Remarquables"
 
 #: functions.php:3119
 msgid "Published"
-msgstr ""
+msgstr "Publiés"
 
 #: functions.php:3122
 msgid "Mark as read"
-msgstr "标记为已读"
+msgstr "Marquer comme lu"
 
 #: functions.php:3123
 msgid "This page"
-msgstr "本页"
+msgstr "Cette page"
 
 #: functions.php:3124
 msgid "Entire feed"
-msgstr "输入feed"
+msgstr "Tout le flux"
 
 #: functions.php:3132
 msgid "Next page"
-msgstr "下页"
+msgstr "Page suivante"
 
 #: functions.php:3133
 msgid "Previous page"
-msgstr "上页"
+msgstr "Page précédente"
 
 #: functions.php:3134
 msgid "First page"
-msgstr "首页"
+msgstr "Première page"
 
 #: functions.php:3144 functions.php:3170
 msgid "Convert to label"
-msgstr "转换标签"
+msgstr "Convertir en intitulé"
 
 #: functions.php:3158
 msgid "Toggle:"
-msgstr "触发:"
+msgstr "Marquages spéciaux&nbsp;:"
 
 #: functions.php:3161
 msgid "Mark as read:"
-msgstr "标记为已读："
+msgstr "Marquer comme lu&nbsp;:"
 
 #: functions.php:3162
 msgid "Page"
-msgstr "页"
+msgstr "Page"
 
 #: functions.php:3163 modules/pref-filters.php:263
 msgid "Feed"
-msgstr "Feed"
+msgstr "Flux"
 
 #: functions.php:3208
 msgid "Generated feed"
-msgstr "产生feed"
+msgstr "Flux généré"
 
 #: functions.php:3458
 msgid "No feeds to display."
-msgstr "无feed显示。"
+msgstr "Aucun flux à afficher."
 
 #: functions.php:3475
 msgid "Tags"
-msgstr "标签"
+msgstr "Étiquettes"
 
 #: functions.php:3697
 msgid " - by "
-msgstr ", 由 - "
+msgstr "- par "
 
 #: functions.php:3742
 msgid "no tags"
-msgstr "无标签"
+msgstr "aucune étiquette"
 
 #: functions.php:3754
 msgid "Tags:"
-msgstr "标签:"
+msgstr "Étiquettes&nbsp,:"
 
 #: functions.php:3811
 msgid "Feed not found."
-msgstr "未找到Feed."
+msgstr "Flux non trouvé."
 
 #: functions.php:3873
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
-msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
+msgstr ""
+"Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez vérifier "
+"la syntaxe de son intitulé ou la configuration locale."
 
 #: functions.php:4114
 msgid "No articles found."
-msgstr "未找到文章。"
+msgstr "Aucun article trouvé."
 
 #: localized_js.php:32
 msgid "display feeds"
-msgstr "显示Feed"
+msgstr "afficher les flux"
 
 #: localized_js.php:33
 msgid "display tags"
-msgstr "显示标签"
+msgstr "afficher les étiquettes"
 
 #: localized_js.php:34 prefs.php:126 tt-rss.php:79
 msgid "Loading, please wait..."
-msgstr "读取中，请等待..."
+msgstr "Ouverture en cours, veuillez patienter..."
 
 #: localized_js.php:35
 msgid "All feeds updated."
-msgstr "所有Feed已更新。"
+msgstr "Mise à jour des flux terminée."
 
 #: localized_js.php:36
 msgid "Marking all feeds as read..."
-msgstr "标记所有Feed未已读..."
+msgstr "Marquage de tous les flux comme lus..."
 
 #: localized_js.php:37
 msgid "Adding feed..."
-msgstr "添加feed中..."
+msgstr "Ajout d'un flux..."
 
 #: localized_js.php:38
 msgid "Removing feed..."
-msgstr "移除feed中..."
+msgstr "Suppression d'un flux..."
 
 #: localized_js.php:39
 msgid "Saving feed..."
-msgstr "保存feed中..."
+msgstr "Enregistrement d'un flux..."
 
 #: localized_js.php:40
 msgid "Can't add category: no name specified."
-msgstr "添加分类失败：未指定分类名"
+msgstr "Impossible d'ajouter une catégorie&nbsp;: aucun nom fourni."
 
 #: localized_js.php:41
 msgid "Adding feed category..."
-msgstr "添加feed分类..."
+msgstr "Ajout d'une catégorie de flux..."
 
 #: localized_js.php:42
 msgid "Can't add user: no login specified."
-msgstr "添加用户失败：未登录。"
+msgstr "Impossible d'ajouter un utilisateur&nbsp;: aucun nom fourni."
 
 #: localized_js.php:44
 msgid "Adding user..."
-msgstr "添加用户..."
+msgstr "Ajout d'un utilisateur..."
 
 #: localized_js.php:45
 msgid "Can't create label: missing SQL expression."
-msgstr "创建标签失败：缺少或错误的SQL表达式。"
+msgstr "Impossible de créer un intitulé&nbsp;: expression SQL manquante."
 
 #: localized_js.php:46
 msgid "Can't create label: missing caption."
-msgstr "创建标签失败：缺少标题。"
+msgstr "Impossible de créer un intitulé&nbsp;: descriptif manquant."
 
 #: localized_js.php:47
 msgid "Remove selected labels?"
-msgstr "移除选定标记?"
+msgstr "Supprimer les intitulés sélectionnés&nbsp;?"
 
 #: localized_js.php:48
 msgid "Removing selected labels..."
-msgstr "移除选定标记..."
+msgstr "Suppression des intitulés sélectionnés..."
 
 #: localized_js.php:49 localized_js.php:68
 msgid "No labels are selected."
-msgstr "未选定标记."
+msgstr "Aucun intitulé sélectionné."
 
 #: localized_js.php:50
 msgid "Remove selected users?"
-msgstr "移除选定用户?"
+msgstr "Supprimer les utilisateurs sélectionnés&nbsp;?"
 
 #: localized_js.php:51
 msgid "Removing selected users..."
-msgstr "移除选定用户..."
+msgstr "Suppression des utilisateurs sélectionnés..."
 
 #: localized_js.php:52 localized_js.php:70 localized_js.php:72
 msgid "No users are selected."
-msgstr "未选定用户."
+msgstr "Aucun utilisateur sélectionné."
 
 #: localized_js.php:53
 msgid "Remove selected filters?"
-msgstr "移除选定的过滤器？"
+msgstr "Supprimer les filtres sélectionnés&nbsp;?"
 
 #: localized_js.php:54
 msgid "Removing selected filters..."
-msgstr "移除选定的过滤器..."
+msgstr "Suppression des filtres sélectionnés..."
 
 #: localized_js.php:55 localized_js.php:78
 msgid "No filters are selected."
-msgstr "未选定过滤器。"
+msgstr "Aucun filtre sélectionné."
 
 #: localized_js.php:56
 msgid "Unsubscribe from selected feeds?"
-msgstr "退订选定feed?"
+msgstr "Se désinscrire des flux sélectionnés&nbsp;?"
 
 #: localized_js.php:57
 msgid "Unsubscribing from selected feeds..."
-msgstr "退订选定feed..."
+msgstr "Désinscription des flux sélectionnés..."
 
 #: localized_js.php:58 localized_js.php:76 localized_js.php:80
 msgid "No feeds are selected."
-msgstr "未选择feed."
+msgstr "Aucun flux sélectionné."
 
 #: localized_js.php:59
 msgid "Remove selected categories?"
-msgstr "移除选定分类?"
+msgstr "Supprimer les catégories sélectionnées&nbsp;?"
 
 #: localized_js.php:60
 msgid "Removing selected categories..."
-msgstr "移除选定分类..."
+msgstr "Suppression des catégories sélectionnées..."
 
 #: localized_js.php:61 localized_js.php:82
 msgid "No categories are selected."
-msgstr "未选定分类。"
+msgstr "Aucune catégorie sélectionnée."
 
 #: localized_js.php:62
 msgid "Saving category..."
-msgstr "保存分类..."
+msgstr "Enregistrement de la catégorie..."
 
 #: localized_js.php:63
 msgid "Loading help..."
-msgstr "读取帮助..."
+msgstr "Ouverture de l'aide..."
 
 #: localized_js.php:64
 msgid "Saving label..."
-msgstr "保存标记..."
+msgstr "Enregistrement de l'intitulé..."
 
 #: localized_js.php:65
 msgid "Login field cannot be blank."
-msgstr "登陆框不能留空。"
+msgstr "Le nom ne peut pas être vide."
 
 #: localized_js.php:66
 msgid "Saving user..."
-msgstr "保存用户..."
+msgstr "Enregistrement de l'utilisateur..."
 
 #: localized_js.php:67
 msgid "Saving filter..."
-msgstr "保存过滤器..."
+msgstr "Enregistrement du filtre..."
 
 #: localized_js.php:69
 msgid "Please select only one label."
-msgstr "请只选择一个标记."
+msgstr "Veuillez sélectionner un seul intitulé."
 
 #: localized_js.php:71 localized_js.php:73
 msgid "Please select only one user."
-msgstr "请只选择一个用户."
+msgstr "Veuillez sélectionner un seul utilisateur."
 
 #: localized_js.php:74
 msgid "Reset password of selected user?"
-msgstr "重置选定用户密码?"
+msgstr "Réinitialiser le mot de passe de l'utilisateur sélectionné&nbsp;?"
 
 #: localized_js.php:75
 msgid "Resetting password for selected user..."
-msgstr "重置选定用户密码..."
+msgstr "Réinitialisation du mot de passe de l'utilisateur sélectionné..."
 
 #: localized_js.php:77
 msgid "Please select only one feed."
-msgstr "请只选择一个feed."
+msgstr "Veuillez sélectionner un seul flux."
 
 #: localized_js.php:79
 msgid "Please select only one filter."
-msgstr "请只选择一个过滤器."
+msgstr "Veuillez sélectionner un seul filtre."
 
 #: localized_js.php:81
 msgid "Please select one feed."
-msgstr "请只选择一个feed."
+msgstr "Veuillez sélectionner un flux."
 
 #: localized_js.php:83
 msgid "Please select only one category."
-msgstr "请只选择一个分类."
+msgstr "Veuillez sélectionner une seule catégorie."
 
 #: localized_js.php:84
 msgid "No OPML file to upload."
-msgstr "无OPML文件上传."
+msgstr "Aucun fichier POML à envoyer."
 
 #: localized_js.php:85
 msgid "Changing category of selected feeds..."
-msgstr "改变选定feed所属分类..."
+msgstr "Modification de la catégorie des flux sélectionnés..."
 
 #: localized_js.php:86
 msgid "Reset to defaults?"
-msgstr "重置默认项？"
+msgstr "Revenir aux valeurs par défaut&nbsp;?"
 
 #: localized_js.php:87
 msgid "Trying to change password..."
-msgstr "尝试更改密码..."
+msgstr "Tentative de modification du mot de passe..."
 
 #: localized_js.php:88
 msgid "Trying to change e-mail..."
-msgstr "尝试更改e-mail..."
+msgstr "Tentative de modification de l'adresse électronique..."
 
 #: localized_js.php:89
 msgid "No articles are selected."
-msgstr "无选定文章。"
+msgstr "Aucun article sélectionné."
 
 #: localized_js.php:90
 msgid "Could not update headlines (missing XML object)"
-msgstr "更新头条失败（缺少XML支持）"
+msgstr "Impossible de mettre à jour l'en-têtes (objet XML manquant)"
 
 #: localized_js.php:91
 msgid "Could not display article (missing XML object)"
-msgstr "显示条目失败（缺少XML支持）"
+msgstr "Impossible d'afficher l'article (objet XML manquant)"
 
 #: localized_js.php:92 tt-rss.php:214 tt-rss.php:218
 msgid "No feed selected."
-msgstr "无选定feed."
+msgstr "Aucun flux sélectionné."
 
 #: localized_js.php:93
 msgid "Replace current publishing address with a new one?"
-msgstr ""
+msgstr "Remplacer l'adresse de publication actuelle&nbsp;?"
 
 #: localized_js.php:94
 msgid "Address changed."
-msgstr ""
+msgstr "Adresse modifiée."
 
 #: localized_js.php:95
-#, fuzzy
 msgid "Could not change address."
-msgstr "未能更新数据库"
+msgstr "Impossible de changer l'adresse."
 
 #: login_form.php:49 modules/pref-feeds.php:264 modules/pref-users.php:29
 msgid "Login:"
-msgstr "登陆:"
+msgstr "Nom&nbsp;:"
 
 #: login_form.php:51 modules/pref-feeds.php:270
 msgid "Password:"
-msgstr "密码:"
+msgstr "Mot de passe&nbsp;:"
 
 #: opml.php:103 opml.php:107
 msgid "OPML Utility"
-msgstr "通用OPML"
+msgstr "Outil OPML"
 
 #: opml.php:110
 msgid "Importing OPML (using DOMXML extension)..."
-msgstr "导入 OPML（需要DOMXML扩展）"
+msgstr "Importation OPML (utilisant l'extension DOMXML)..."
 
 #: opml.php:114
 msgid "Importing OPML (using DOMDocument extension)..."
-msgstr "导入 OPML（需要DOMXMDocmentL扩展）"
+msgstr "Importation OPML (utilisation l'extension DOMDocument)..."
 
 #: opml.php:118
 msgid "DOMXML extension is not found. It is required for PHP versions below 5."
 msgstr ""
+"Extension DOMXML non trouvée. Elle est nécessaire pour les versions de PHP "
+"antérieures à la 5."
 
 #: opml.php:122
 msgid "Return to preferences"
-msgstr "返回 我的最爱"
+msgstr "Revenir à la configuration"
 
 #: prefs.php:83
 msgid "Unknown Error"
-msgstr "未知错误"
+msgstr "Erreur inconnue"
 
 #: prefs.php:89 tt-rss.php:112
 msgid "Hello,"
-msgstr "你好,"
+msgstr "Bonjour,"
 
 #: prefs.php:90 tt-rss.php:113
 msgid "Logout"
-msgstr "注销"
+msgstr "Déconnexion"
 
 #: prefs.php:98
 msgid "Exit preferences"
-msgstr "退出我的最爱"
+msgstr "Quitter la configuration"
 
 #: prefs.php:104 tt-rss.php:136
 msgid "Preferences"
-msgstr "我的最爱"
+msgstr "Configuration"
 
 #: prefs.php:106
 msgid "My Feeds"
-msgstr "我的feed"
+msgstr "Mes flux"
 
 #: prefs.php:109
 msgid "Other Feeds"
-msgstr "其他feed"
+msgstr "Autres flux"
 
 #: prefs.php:112
-#, fuzzy
 msgid "Published Articles"
-msgstr "所有文章"
+msgstr "Articles publiés"
 
 #: prefs.php:114
 msgid "Content Filtering"
-msgstr "内容过滤器"
+msgstr "Filtrage de contenu"
 
 #: prefs.php:117
 msgid "Label Editor"
-msgstr "标记编辑"
+msgstr "Éditeur d'intitulé"
 
 #: prefs.php:121
 msgid "User Manager"
-msgstr "用户管理"
+msgstr "Gestionnaire d'utilisateurs"
 
 #: prefs.php:129 tt-rss.php:82
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
 "\t\tbrowser settings."
-msgstr "您的浏览器不支持Javascript, 请检查设置。"
+msgstr ""
+"Votre navigateur ne gère pas Javascript, alors que c'est nécessaire\n"
+"\t\tpour le bon fonctionnement de ce logiciel. Veuillez modifier la\n"
+"\t\tconfiguration de votre navigateur."
 
 #: sanity_check.php:8
 msgid ""
 "<b>Fatal Error</b>: You forgot to copy \n"
 "\t\t<b>config.php-dist</b> to <b>config.php</b> and edit it.\n"
 msgstr ""
-"<b>致命错误</b>: 您没有将 \n"
-"\t\t<b>config.php-dist</b> 修改为 <b>config.php</b>并编辑 。\n"
+"<b>Erreur critique</b>&nbsp;: vous avez oublié de copier \n"
+"\t\t<b>config.php-dist</b> sous le nom <b>config.php</b> et de le modifier.\n"
 
 #: sanity_check.php:16
 msgid "config: your config file version is incorrect. See config.php-dist.\n"
-msgstr "设置: 您的设置文件未被接受，请参考config.php-dist文件.\n"
+msgstr ""
+"config&nbsp;: la version de votre fichier de configuration n'est pas "
+"valable. Reportez-vous au fichier config.php-dist.\n"
 
 #: sanity_check.php:20
 msgid ""
 "<b>Fatal error</b>: RSS_BACKEND_TYPE is deprecated. Please remove this\n"
 "\t\t\toption from config.php\n"
 msgstr ""
-"<b>致命错误</b>: 不支持RSS_BACKEND_TYPE 请从 config.php中关闭或移除此项\n"
+"<b>Erreur critique</b>&nbsp;: RSS_BACKEND_TYPE est obsolète.\n"
+"\t\tVeuillez supprimer cette option du fichier config.php\n"
 
 #: sanity_check.php:26
 msgid ""
@@ -627,236 +643,247 @@ msgid ""
 "them \n"
 "\t\tfrom your TT-RSS instance.\n"
 msgstr ""
-"<b>致命错误</b>: XML 导入/导出工具(<b>xml-export.php</b>\n"
-"\t\t和 <b>xml-import.php</b>) 被恶意使用。请从您的TT-RSS中关闭或移除这些"
-"项。\n"
+"<b>Erreur critique</b>&nbsp;: les outils XML Import/Export (<b>xml-export."
+"php</b>\n"
+"\t\tet <b>xml-import.php</b>) peuvent être exploités de manière dangereuse.\n"
+"\t\tVeuillez les supprimer de votre installation de Tiny Tiny RSS.\n"
 
 #: sanity_check.php:33
 msgid ""
 "<b>Fatal Error</b>: Please set DAEMON_UPDATE_LOGIN_LIMIT\n"
 "\t\t\tto 0 in single user mode.\n"
 msgstr ""
-"<b>致命错误</b>:在单用户模式下，请设置DAEMON_UPDATE_LOGIN_LIMIT\t\t\t为0。\n"
+"<b>Erreur critique</b>&nbsp;: veuillez mettre la valeur de "
+"DAEMON_UPDATE_LOGIN_LIMIT\n"
+"\t\t\tà zéro en mode mono-utilisateur.\n"
 
 #: sanity_check.php:39
 msgid ""
 "<b>Fatal Error</b>: You have enabled USE_CURL_FOR_ICONS, but your PHP \n"
 "\t\t\tdoesn't seem to support CURL functions."
 msgstr ""
-"<b>致命错误</b>: 您开启了 USE_CURL_FOR_ICONS, 但是您的PHP \n"
-"\t\t\t貌似不支持CURL 功能."
+"<b>Erreur critique</b>&nbsp;: vous avez activé USE_CURL_FOR_ICONS, mais "
+"votre \n"
+"\t\t\tvotre installation de PHP ne semble pas gérer les fonctions CURL."
 
 #: sanity_check.php:45
 msgid "config: SESSION_EXPIRE_TIME is undefined"
-msgstr "设置: SESSION_EXPIRE_TIME 未定义。"
+msgstr "config&nbsp;: SESSION_EXPIRE_TIME n'est pas définie"
 
 #: sanity_check.php:49
 msgid "config: SESSION_EXPIRE_TIME is too low (less than 60)"
-msgstr "设置: SESSION_EXPIRE_TIME 过低(低于60)"
+msgstr ""
+"config&nbsp;: SESSION_EXPIRE_TIME a une valeur trop basse (inférieure à 60)"
 
 #: sanity_check.php:53
 msgid "config: SESSION_EXPIRE_TIME should be greater or equal to"
-msgstr "设置： SESSION_EXPIRE_TIME 应高于或等于"
+msgstr ""
+"config&nbsp;: la valeur de SESSION_EXPIRE_TIME devrait être supérieure ou "
+"égale à"
 
 #: sanity_check.php:62
 msgid "config: DATABASE_BACKED_SESSIONS is incompatible with SINGLE_USER_MODE"
-msgstr "设置: DATABASE_BACKED_SESSIONS 与 SINGLE_USER_MODE冲突。"
+msgstr ""
+"config&nbsp;: DATABASE-BACKED_SESSIONS est incompatible avec SINGLE_USER_MODE"
 
 #: sanity_check.php:66
 msgid "config: DATABASE_BACKED_SESSIONS are currently broken with MySQL"
-msgstr "设置: DATABASE_BACKED_SESSIONS 受到 MySQL 影响"
+msgstr ""
+"config&nbsp;: DATABASE_BACKED_SESSIONS ne fonctionne pas avec MySQL pour le "
+"moment"
 
 #: sanity_check.php:70
 msgid "Fatal Error"
-msgstr "致命错误"
+msgstr "Erreur critique"
 
 #: tt-rss.php:125
 msgid "tag cloud"
-msgstr "标签簇"
+msgstr "Nuage d'étiquettes"
 
 #: tt-rss.php:134
 msgid "Actions..."
-msgstr "激活..."
+msgstr "Actions..."
 
 #: tt-rss.php:135 modules/popup-dialog.php:111 modules/popup-dialog.php:180
 #: modules/pref-feeds.php:759
 msgid "Search"
-msgstr "搜索"
+msgstr "Rechercher"
 
 #: tt-rss.php:138
 msgid "Feed actions:"
-msgstr "Feed 操作："
+msgstr "Actions sur ce flux&nbsp;:"
 
 #: tt-rss.php:139
 msgid "&nbsp;&nbsp;Subscribe to feed"
-msgstr "&nbsp;&nbsp;订阅feed"
+msgstr "&nbsp;&nbsp;S'inscrire à ce flux"
 
 #: tt-rss.php:140
 msgid "&nbsp;&nbsp;Edit this feed"
-msgstr "&nbsp;&nbsp;编辑feed"
+msgstr "&nbsp;&nbsp;Modifier ce flux"
 
 #: tt-rss.php:141
 msgid "&nbsp;&nbsp;Unsubscribe"
-msgstr "&nbsp;&nbsp;退订"
+msgstr "&nbsp;&nbsp;Se désinscrire"
 
 #: tt-rss.php:144
 msgid "All feeds:"
-msgstr "所有feed:"
+msgstr "Tous les flux&nbsp;:"
 
 #: tt-rss.php:146
 msgid "&nbsp;&nbsp;Update"
-msgstr "&nbsp;&nbsp;更新"
+msgstr "&nbsp;&nbsp;Mettre à jour"
 
 #: tt-rss.php:148
 msgid "&nbsp;&nbsp;Mark as read"
-msgstr "&nbsp;&nbsp;标记未已读"
+msgstr "Marquer comme lus"
 
 #: tt-rss.php:149
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
-msgstr "&nbsp;&nbsp;(显示)隐藏已读feed"
+msgstr "(Dé)Masquer les flux lus"
 
 #: tt-rss.php:151
 msgid "Other actions:"
-msgstr "其他操作:"
+msgstr "Autres actions&nbsp;:"
 
 #: tt-rss.php:152
 msgid "&nbsp;&nbsp;Create filter"
-msgstr "&nbsp;&nbsp;创建过滤器"
+msgstr "&nbsp;&nbsp;Créer un filtre"
 
 #: tt-rss.php:160 modules/popup-dialog.php:123
 msgid "Search:"
-msgstr "搜索:"
+msgstr "Rechercher&nbsp;:"
 
 #: tt-rss.php:167
 msgid "View:"
-msgstr "浏览:"
+msgstr "Afficher&nbsp;:"
 
 #: tt-rss.php:169
 msgid "Adaptive"
-msgstr "自适应"
+msgstr "Adaptatif"
 
 #: tt-rss.php:170
 msgid "All Articles"
-msgstr "所有文章"
+msgstr "Tous les articles"
 
 #: tt-rss.php:175
 msgid "Limit:"
-msgstr "限制:"
+msgstr "Limite&nbsp;:"
 
 #: tt-rss.php:200
 msgid "Update"
-msgstr "更新"
+msgstr "Mettre à jour"
 
 #: update.php:23
 msgid "Your access level is insufficient to run this script."
-msgstr "权限不足。"
+msgstr "Vous n'avez pas les permissions nécessaires pour exécuter ce script."
 
 #: update.php:48
 msgid "Database Updater"
-msgstr "数据库更新"
+msgstr "Outil de mise à jour de la base de données"
 
 #: update.php:89
 msgid "Could not update database"
-msgstr "未能更新数据库"
+msgstr "Impossible de mettre la base de données à jour"
 
 #: update.php:92
 msgid "Could not find necessary schema file, need version:"
-msgstr "未找到必要的 schema 文件, 需要版本："
+msgstr ""
+"Impossible de trouver le fichier de schéma nécessaire. Version requise&nbsp;:"
 
 #: update.php:93
 msgid ", found: "
-msgstr "，找到"
+msgstr ", trouvée&nbsp;: "
 
 #: update.php:96
 msgid "Tiny Tiny RSS database is up to date."
-msgstr "Tiny Tiny RSS 数据库是最新版。"
+msgstr "La base de données de Tiny Tiny RSS est à jour."
 
 #: update.php:98 update.php:166
 msgid "Return to Tiny Tiny RSS"
-msgstr "返回Tiny Tiny RSS"
+msgstr "Revenir à Tiny Tiny RSS"
 
 #: update.php:108
 #, php-format
 msgid ""
 "Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to "
 "<b>%d</b>)."
-msgstr "您的 Tiny Tiny RSS 数据库需要升级到 (<b>%d</b> to <b>%d</b>)."
+msgstr ""
+"La base de données de Tiny Tiny RSS a besoin d'être mise à jour (version <b>%"
+"d</b> à <b>%d</b>)."
 
 #: update.php:122
 msgid "Perform updates"
-msgstr "完成更新"
+msgstr "Exécuter les mises à jour"
 
 #: update.php:127
 msgid "Performing updates..."
-msgstr "更新完成中..."
+msgstr "Exécution des mises à jour..."
 
 #: update.php:133
 #, php-format
 msgid "Updating to version %d..."
-msgstr "更新到版本 %d..."
+msgstr "Passage à la version %d..."
 
 #: update.php:146
 msgid "Checking version... "
-msgstr "检查版本"
+msgstr "Vérification de la version..."
 
 #: update.php:152
 msgid "OK!"
-msgstr "OK！"
+msgstr "OK&nbsp;!"
 
 #: update.php:154
 msgid "ERROR!"
-msgstr "错误！"
+msgstr "ERREUR&nbsp;!"
 
 #: update.php:162
 #, php-format
 msgid ""
 "Finished. Performed <b>%d</b> update(s) up to schema\n"
 "\t\t\tversion <b>%d</b>."
-msgstr ""
-"完成。完成 <b>%d</b> 更新(s)  schema\n"
-"\t\t\t版本 <b>%d</b>."
+msgstr "Terminé. Le schéma est passé de la version <b>%d</b> à <b>%d</b>."
 
 #: modules/help.php:17
 msgid "Help topic not found."
-msgstr "未找到帮助主题。"
+msgstr "Sujet non trouvé dans l'aide."
 
 #: modules/help.php:22 modules/popup-dialog.php:42 modules/pref-feeds.php:706
 msgid "Close this window"
-msgstr "关闭此窗口"
+msgstr "Fermer cette fenêtre"
 
 #: modules/opml_domdoc.php:44
 #, php-format
 msgid "Adding category <b>%s</b>...<br>"
-msgstr "添加分类 <b>%s</b>...<br />"
+msgstr "Ajout de la catégorie <b>%s</b>...<br>"
 
 #: modules/opml_domdoc.php:89 modules/opml_domxml.php:92
 msgid "Already imported."
-msgstr "已导入"
+msgstr "Déjà importé"
 
 #: modules/opml_domdoc.php:107 modules/opml_domxml.php:110
 msgid "Done."
-msgstr "完成。"
+msgstr "Terminé."
 
 #: modules/opml_domdoc.php:118 modules/opml_domxml.php:124
 msgid "Error while parsing document."
-msgstr "解析文档时发生错误。"
+msgstr "Erreur lors de l'analyse du document."
 
 #: modules/opml_domdoc.php:122 modules/opml_domxml.php:128
 msgid "Error: please upload OPML file."
-msgstr "错误：请上传OPML文件。"
+msgstr "Erreur&nbsp;: veuillez envoyer un document OPML."
 
 #: modules/opml_domxml.php:46
 #, php-format
 msgid "Adding category <b>%s</b>."
-msgstr "添加分类 <b>%s</b>."
+msgstr "Ajout de la catégorie <b>%s</b>."
 
 #: modules/opml_domxml.php:121
 msgid "Error: can't find body element."
-msgstr "错误：未找到body元素"
+msgstr "Erreur&nbsp;: impossible de trouver la balise body."
 
 #: modules/popup-dialog.php:8
 msgid "Notice"
-msgstr "公告"
+msgstr "Avertissement"
 
 #: modules/popup-dialog.php:12
 msgid ""
@@ -865,17 +892,18 @@ msgid ""
 "Please\n"
 "\t\t\t\t\tstart the daemon process or contact instance owner."
 msgstr ""
-"您已经设置后台更新程序，但是\n"
-"\t\t\t\t\t该进程未运行, 当所有feed不能更新时，请\n"
-"\t\t\t\t\t开始更新程序或检查设置。"
+"Le démon de mise à jour est activé dans la configuration\n"
+"\t\t\t\tmais il n'est pas lancé et donc rien n'est mis à jour.\n"
+"\t\t\t\tVeuillez le démarrer ou contacter l'administrateur de votre Tiny "
+"Tiny RSS."
 
 #: modules/popup-dialog.php:21
 msgid ""
 "You are running the latest version of Tiny Tiny RSS. The\n"
 "\t\t\t\t\t\tfact that you are seeing this dialog is probably a bug."
 msgstr ""
-"您正使用最新版本的Tiny Tiny RSS.实际上，您看到的这个对话框，可能是一个BUG，呵"
-"呵。 "
+"Vous utilisez la dernière version de Tiny Tiny RSS.\n"
+"\t\t\t\t\tSi vous pouvez lire ce message, vous avez sans doute trouvé un bug."
 
 #: modules/popup-dialog.php:30
 msgid ""
@@ -884,19 +912,23 @@ msgid ""
 "\t\t\t\t\tor a hang. Please check the daemon process or contact instance\n"
 "\t\t\t\t\towner."
 msgstr ""
+"Tiny Tiny RSS a constaté que le démon de mise à jour met trop de temps\n"
+"\t\t\t\t\tà mettre les flux à jour. Il a peut-être planté.\n"
+"\t\t\t\t\tVeuillez vérifier son état ou bien contacter l'administrateur de "
+"votre Tiny Tiny RSS."
 
 #: modules/popup-dialog.php:51 modules/pref-feeds.php:772
 msgid "Subscribe to feed"
-msgstr "订阅feed"
+msgstr "S'inscrire à un flux"
 
 #: modules/popup-dialog.php:70 modules/pref-feeds.php:173
 msgid "Category:"
-msgstr "分类:"
+msgstr "Catégorie&nbsp;:"
 
 #: modules/popup-dialog.php:101 modules/pref-feed-browser.php:107
 #: modules/pref-feeds.php:118
 msgid "Subscribe"
-msgstr "订阅"
+msgstr "S'inscrire"
 
 #: modules/popup-dialog.php:104 modules/popup-dialog.php:183
 #: modules/popup-dialog.php:235 modules/popup-dialog.php:322
@@ -904,133 +936,134 @@ msgstr "订阅"
 #: modules/pref-feeds.php:331 modules/pref-feeds.php:714
 #: modules/pref-filters.php:118 modules/pref-users.php:58
 msgid "Cancel"
-msgstr "取消"
+msgstr "Annuler"
 
 #: modules/popup-dialog.php:132
 msgid "Where:"
-msgstr "地点:"
+msgstr "Emplacement&nbsp;:"
 
 #: modules/popup-dialog.php:135 modules/pref-filters.php:290
 msgid "All feeds"
-msgstr "所有feed"
+msgstr "Tous les flux"
 
 #: modules/popup-dialog.php:148
 msgid "This feed"
-msgstr "本feed"
+msgstr "Ce flux"
 
 #: modules/popup-dialog.php:163
 msgid "Match on:"
-msgstr "匹配:"
+msgstr "Correspondance sur&nbsp;:"
 
 #: modules/popup-dialog.php:166 modules/pref-feeds.php:865
 #: modules/pref-feeds.php:926
 msgid "Title"
-msgstr "标题"
+msgstr "Titre"
 
 #: modules/popup-dialog.php:167
 msgid "Content"
-msgstr "内容"
+msgstr "Contenu"
 
 #: modules/popup-dialog.php:168
 msgid "Title or content"
-msgstr "标题或内容"
+msgstr "Titre ou contenu"
 
 #: modules/popup-dialog.php:192 modules/pref-labels.php:216
 msgid "Create label"
-msgstr "创建标记"
+msgstr "Créer un intitulé"
 
 #: modules/popup-dialog.php:202
 msgid "Caption:"
-msgstr "说明:"
+msgstr "Descriptif&nbsp;:"
 
 #: modules/popup-dialog.php:211
 msgid "SQL Expression:"
-msgstr "SQL 表达式:"
+msgstr "Expression SQL&nbsp;:"
 
 #: modules/popup-dialog.php:224
 msgid "Test"
-msgstr "测试"
+msgstr "Tester"
 
 #: modules/popup-dialog.php:231 modules/popup-dialog.php:318
 msgid "Create"
-msgstr "创建"
+msgstr "Créer"
 
 #: modules/popup-dialog.php:244 modules/pref-filters.php:229
 msgid "Create filter"
-msgstr "创建过滤器"
+msgstr "Créer un filtre"
 
 #: modules/popup-dialog.php:267 modules/pref-filters.php:45
 msgid "Match:"
-msgstr "匹配："
+msgstr "Correspondance&nbsp;:"
 
 #: modules/popup-dialog.php:273 modules/pref-filters.php:51
 msgid "On field:"
-msgstr "于:"
+msgstr "Sur le champ&nbsp;:"
 
 #: modules/popup-dialog.php:278 modules/pref-filters.php:56
 msgid "Feed:"
-msgstr "Feed:"
+msgstr "Flux&nbsp;:"
 
 #: modules/popup-dialog.php:284 modules/pref-filters.php:62
 msgid "Action:"
-msgstr "操作:"
+msgstr "Action&nbsp;:"
 
 #: modules/popup-dialog.php:300 modules/pref-filters.php:79
 msgid "Params:"
-msgstr "参数:"
+msgstr "Paramètres&nbsp;:"
 
 #: modules/popup-dialog.php:304 modules/pref-feeds.php:283
 msgid "Options:"
-msgstr "选项:"
+msgstr "Options&nbsp;:"
 
 #: modules/popup-dialog.php:307 modules/pref-filters.php:103
 msgid "Inverse match"
-msgstr "逆匹配"
+msgstr "Correspondance inverse"
 
 #: modules/popup-dialog.php:333
 msgid "Update Errors"
-msgstr "更新错误"
+msgstr "Erreurs de mise à jour"
 
 #: modules/popup-dialog.php:336
 msgid "These feeds have not been updated because of errors:"
-msgstr "这些feed更新错误:"
+msgstr "Ces flux n'ont pas été mis à jour à cause d'erreurs&nbsp;:"
 
 #: modules/popup-dialog.php:355 modules/popup-dialog.php:442
 msgid "Close"
-msgstr "关闭"
+msgstr "Fermer"
 
 #: modules/popup-dialog.php:364
 msgid "Edit Tags"
-msgstr "编辑标签"
+msgstr "Modifier les étiquettes"
 
 #: modules/popup-dialog.php:369
 msgid "Tags for this article (separated by commas):"
-msgstr "本文的标签，请用逗号分开:"
+msgstr "Étiquettes pour cet article (séparées par des virgules)&nbsp;:"
 
 #: modules/popup-dialog.php:414 modules/pref-feeds.php:329
 #: modules/pref-feeds.php:712 modules/pref-filters.php:114
 #: modules/pref-users.php:55
 msgid "Save"
-msgstr "保存"
+msgstr "Enregistrer"
 
 #: modules/popup-dialog.php:427
 msgid "Tag cloud"
-msgstr "标签簇"
+msgstr "Nuage d'étiquettes"
 
 #: modules/popup-dialog.php:430
 msgid "Showing most popular tags "
-msgstr "显示最热标签"
+msgstr "Affichage des étiquettes les plus populaires "
 
 #: modules/popup-dialog.php:431
-#, fuzzy
 msgid "browse more"
-msgstr "浏览所有"
+msgstr "en afficher plus"
 
 #: modules/pref-feed-browser.php:77
 msgid ""
 "This panel shows feeds subscribed by other users of this system, just in "
 "case you are interested in them too."
-msgstr "本控制面板显示系统其他用户订阅的feed，如果您感兴趣。"
+msgstr ""
+"Ce panneau affiche les flux auxquels d'autres utilisateurs du même système "
+"se sont inscrits, au cas où cela présenterait un intérêt pour vous."
 
 #: modules/pref-feed-browser.php:93
 msgid "Top"
@@ -1038,117 +1071,120 @@ msgstr "Top"
 
 #: modules/pref-feed-browser.php:102
 msgid "Show"
-msgstr "显示"
+msgstr "Afficher"
 
 #: modules/pref-feeds.php:38
 msgid "Subscribed to feeds:"
-msgstr "订阅feed:"
+msgstr "Inscrit aux flux&nbsp;:"
 
 #: modules/pref-feeds.php:53
 msgid "Feed browser is administratively disabled."
-msgstr "Feed 浏览器有限制"
+msgstr "Le navigateur de flux a été désactivé par l'administrateur."
 
 #: modules/pref-feeds.php:57
 msgid "Other feeds: Top 25"
-msgstr " 其他feed: Top 25"
+msgstr "Autres flux&nbsp;: Top 25"
 
 #: modules/pref-feeds.php:61
 msgid "Showing top 25 registered feeds, sorted by popularity:"
-msgstr "显示按受欢迎度排序的25个注册feed:"
+msgstr ""
+"Affichage des 25 meilleurs flux enregistrés, classés par popularité&nbsp;:"
 
 #: modules/pref-feeds.php:111
 msgid "No feeds found to subscribe."
-msgstr "无feed可订阅。"
+msgstr "Aucun flux auquel s'inscrire n'a été trouvé."
 
 #: modules/pref-feeds.php:145
 msgid "Feed editor"
-msgstr "Feed编辑"
+msgstr "Éditeur de flux"
 
 #: modules/pref-feeds.php:157
 msgid "Title:"
-msgstr "标题:"
+msgstr "Titre&nbsp;:"
 
 #: modules/pref-feeds.php:165
 msgid "Feed URL:"
-msgstr "Feed URL:"
+msgstr "URL du flux&nbsp;:"
 
 #: modules/pref-feeds.php:193
 msgid "Update Interval:"
-msgstr "更新间隔:"
+msgstr "Fréquence de mise à jour&nbsp;:"
 
 #: modules/pref-feeds.php:202
 msgid "Link to:"
-msgstr "链接:"
+msgstr "Lier à&nbsp;:"
 
 #: modules/pref-feeds.php:219
 msgid "Not linked"
-msgstr "无链接"
+msgstr "Non lié"
 
 #: modules/pref-feeds.php:253
 msgid "Article purging:"
-msgstr "文章清理:"
+msgstr "Purge des articles&nbsp;:"
 
 #: modules/pref-feeds.php:285
 msgid "Hide from \"Other Feeds\""
-msgstr "隐藏\"其他 Feed\""
+msgstr "Masquer dans «&nbsp;Autres flux&nbsp;»"
 
 #: modules/pref-feeds.php:296
 msgid "Right-to-left content"
-msgstr "由右-左阅读习惯"
+msgstr "Contenu écrit de droite à gauche"
 
 #: modules/pref-feeds.php:307
 msgid "Hide from my feed list"
-msgstr "隐藏我的Feed列表"
+msgstr "Masquer dans la liste de «&nbsp;Mes flux&nbsp;»"
 
 #: modules/pref-feeds.php:319
 msgid "Include in e-mail digest"
-msgstr "包括电子邮件文摘"
+msgstr "Inclure dans la synthèse quotidienne par courrier électronique"
 
 #: modules/pref-feeds.php:451
 #, php-format
 msgid "Subscribed to <b>%s</b>."
-msgstr "订阅到 <b>%s</b>."
+msgstr "Inscrit à <b>%s</b>."
 
 #: modules/pref-feeds.php:453
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
-msgstr "已经订阅到 <b>%s</b>."
+msgstr "Déjà inscrit à <b>%s</b>."
 
 #: modules/pref-feeds.php:522
 msgid "Category editor"
-msgstr "分类编辑"
+msgstr "Éditeur de catégorie"
 
 #: modules/pref-feeds.php:556
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
-msgstr "分类 <b>$%s</b>已经存在."
+msgstr "La catégorie <b>%s</b> existe déjà dans la base de données."
 
 #: modules/pref-feeds.php:584
 msgid "Unable to delete non empty feed categories."
-msgstr "不能删除非空分类。"
+msgstr "Impossible de supprimer une catégorie de flux non vide."
 
 #: modules/pref-feeds.php:601
 msgid "Create category"
-msgstr "创建分类"
+msgstr "Créer la catégorie"
 
 #: modules/pref-feeds.php:701
 msgid "No feed categories defined."
-msgstr "未定义feed分类"
+msgstr "Aucune catégorie de flux définie."
 
 #: modules/pref-feeds.php:719 modules/pref-feeds.php:998
 #: modules/pref-filters.php:340 modules/pref-labels.php:292
 #: modules/pref-users.php:317
 msgid "Edit"
-msgstr "编辑"
+msgstr "Modifier"
 
 #: modules/pref-feeds.php:721 modules/pref-filters.php:342
 #: modules/pref-labels.php:294 modules/pref-users.php:319
 msgid "Remove"
-msgstr "移除"
+msgstr "Supprimer"
 
 #: modules/pref-feeds.php:744
 msgid "Some feeds have update errors (click for details)"
-msgstr "有些feed更新错误(点击了解详情) "
+msgstr ""
+"Des erreurs sont survenues pendant la mise à jour de certains flux (cliquez "
+"ici pour les détails)"
 
 #: modules/pref-feeds.php:777
 msgid "Top 25"
@@ -1156,27 +1192,27 @@ msgstr "Top 25"
 
 #: modules/pref-feeds.php:851
 msgid "Show last article times"
-msgstr "显示最近文章时间"
+msgstr "Afficher l'heure du dernier article"
 
 #: modules/pref-feeds.php:868 modules/pref-feeds.php:930
 msgid "Last&nbsp;Article"
-msgstr "最后&nbsp;文章"
+msgstr "Dernier&nbsp;article"
 
 #: modules/pref-feeds.php:871 modules/pref-feeds.php:934
 msgid "Updated"
-msgstr "已更新"
+msgstr "Mis à jour"
 
 #: modules/pref-feeds.php:1001
 msgid "Unsubscribe"
-msgstr "退订"
+msgstr "Se désinscrire"
 
 #: modules/pref-feeds.php:1011
 msgid "Recategorize"
-msgstr "再分类"
+msgstr "Changer de catégorie"
 
 #: modules/pref-feeds.php:1020
 msgid "Edit categories"
-msgstr "编辑分类"
+msgstr "Modifier les catégories"
 
 #: modules/pref-feeds.php:1031
 msgid "OPML"
@@ -1184,187 +1220,191 @@ msgstr "OPML"
 
 #: modules/pref-feeds.php:1037
 msgid "Import"
-msgstr "导入"
+msgstr "Importer"
 
 #: modules/pref-feeds.php:1044
 msgid "Export OPML"
-msgstr "导出OPML"
+msgstr "Exporter en OPML"
 
 #: modules/pref-feeds.php:1053
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the address specified below."
 msgstr ""
+"Les articles publiés sont exportés comme un flux RSS public et toute "
+"personne qui connaît l'adresse indiquée ci-dessous peut s'y inscrire."
 
 #: modules/pref-feeds.php:1060
 msgid "Generate another address"
-msgstr ""
+msgstr "Générer une autre adresse"
 
 #: modules/pref-filters.php:22
 msgid "Filter editor"
-msgstr "过滤器编辑"
+msgstr "Éditeur de filtre"
 
 #: modules/pref-filters.php:94
 msgid "Enabled"
-msgstr "可用"
+msgstr "Activé"
 
 #: modules/pref-filters.php:154
 #, php-format
 msgid "Saved filter <b>%s</b>"
-msgstr "保存过滤器<b>%s</b>"
+msgstr "Filtre <b>%s</b> enregistré"
 
 #: modules/pref-filters.php:194
 #, php-format
 msgid "Created filter <b>%s</b>"
-msgstr "创建过滤器 <b>%s</b>"
+msgstr "Filtre <b>%s</b> créé"
 
 #: modules/pref-filters.php:262
 msgid "Filter expression"
-msgstr "过滤器表达式"
+msgstr "Expression du filtre"
 
 #: modules/pref-filters.php:264
 msgid "Match"
-msgstr "匹配"
+msgstr "Correspondance"
 
 #: modules/pref-filters.php:265
 msgid "Action"
-msgstr "操作"
+msgstr "Action"
 
 #: modules/pref-filters.php:299
 msgid "(Disabled)"
-msgstr "(不可用)"
+msgstr "(Désactivé)"
 
 #: modules/pref-filters.php:317
 msgid "(Inverse)"
-msgstr "(逆)"
+msgstr "(Inverse)"
 
 #: modules/pref-filters.php:332 modules/pref-filters.php:353
 msgid "No filters defined."
-msgstr "未定义过滤器。"
+msgstr "Aucun filtre défini."
 
 #: modules/pref-labels.php:164
 #, php-format
 msgid "Saved label <b>%s</b>"
-msgstr "已保存标记<b>%s</b>"
+msgstr "Intitulé <b>%s</b> enregistré"
 
 #: modules/pref-labels.php:194
 #, php-format
 msgid "Created label <b>%s</b>"
-msgstr "创建标记 <b>%s</b>"
+msgstr "Intitulé <b>%s</b> créé"
 
 #: modules/pref-labels.php:241
 msgid "Caption"
-msgstr "标题"
+msgstr "Descriptif"
 
 #: modules/pref-labels.php:242
 msgid "SQL Expression"
-msgstr "SQL 表达式"
+msgstr "Expression SQL"
 
 #: modules/pref-labels.php:284 modules/pref-labels.php:297
 msgid "No labels defined."
-msgstr "未定义标记."
+msgstr "Aucun intitulé défini."
 
 #: modules/pref-prefs.php:20
 msgid "Old password cannot be blank."
-msgstr "原密码不可留空."
+msgstr "L'ancien mot de passe ne peut pas être vide."
 
 #: modules/pref-prefs.php:25
 msgid "New password cannot be blank."
-msgstr "新密码不可留空."
+msgstr "Le nouveau mot de passe ne peut pas être vide."
 
 #: modules/pref-prefs.php:30
 msgid "Entered passwords do not match."
-msgstr "两次输入密码不通."
+msgstr "Les mots de passe saisie ne sont pas identiques."
 
 #: modules/pref-prefs.php:51
 msgid "Password has been changed."
-msgstr "密码已更改."
+msgstr "Le mot de passe a été modifié."
 
 #: modules/pref-prefs.php:53
 msgid "Old password is incorrect."
-msgstr "原密码错误."
+msgstr "L'ancien mot de passe n'est pas correct."
 
 #: modules/pref-prefs.php:185
 msgid ""
 "Your password is at default value, \n"
 "\t\t\t\t\t\tplease change it."
-msgstr "您的密码是默认的，请修改。"
+msgstr ""
+"Le mot de passe actuel est celui par défaut.\n"
+"\t\t\t\t\t\tVeuillez le modifier."
 
 #: modules/pref-prefs.php:200
 msgid "The configuration was reset to defaults."
-msgstr "设置重置为默认"
+msgstr "La configuration a été réinitialisée à ses valeurs par défaut."
 
 #: modules/pref-prefs.php:204
 msgid "The configuration was saved."
-msgstr "设置已保存."
+msgstr "La configuration a été enregistrée."
 
 #: modules/pref-prefs.php:212
 msgid "Personal data"
-msgstr "个人数据"
+msgstr "Données personnelles"
 
 #: modules/pref-prefs.php:232
 msgid "Change e-mail"
-msgstr "更改 e-mail"
+msgstr "Modifier l'adresse électronique"
 
 #: modules/pref-prefs.php:238
 msgid "Authentication"
-msgstr "认证"
+msgstr "Identification"
 
 #: modules/pref-prefs.php:240
 msgid "Old password"
-msgstr "原密码"
+msgstr "Ancien mot de passe"
 
 #: modules/pref-prefs.php:245
 msgid "New password"
-msgstr "新密码"
+msgstr "Nouveau mot de passe"
 
 #: modules/pref-prefs.php:251
 msgid "Confirm password"
-msgstr "验证密码"
+msgstr "Confirmation du mot de passe"
 
 #: modules/pref-prefs.php:266
 msgid "Change password"
-msgstr "更改密码"
+msgstr "Modifier le mot de passe"
 
 #: modules/pref-prefs.php:282
 msgid "Themes"
-msgstr "模板"
+msgstr "Thèmes"
 
 #: modules/pref-prefs.php:283
 msgid "Select theme"
-msgstr "选择模板"
+msgstr "Sélectionner un thème"
 
 #: modules/pref-users.php:12
 msgid "User editor"
-msgstr "用户编辑"
+msgstr "Éditeur d'utilisateur"
 
 #: modules/pref-users.php:37
 msgid "E-mail:"
-msgstr "E-mail:"
+msgstr "Adresse électronique&nbsp;:"
 
 #: modules/pref-users.php:43
 msgid "Access level:"
-msgstr "等级:"
+msgstr "Permissions&nbsp;:"
 
 #: modules/pref-users.php:78
 #, php-format
 msgid "Changed password of user <b>%s</b>."
-msgstr "更改用<b>%s</b>密码"
+msgstr "Mot de passe de l'utilisateur <b>%s</b> modifié."
 
 #: modules/pref-users.php:123
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr "添加用 <b>%s</b> ，密码为<b>%s</b>"
+msgstr "Utilisateur <b>%s</b> ajouté avec le mot de passe <b>%s</b>"
 
 #: modules/pref-users.php:130
 #, php-format
 msgid "Could not create user <b>%s</b>"
-msgstr "创建用户 <b>%s</b> 失败"
+msgstr "Impossible de créer l'utilisateur <b>%s</b>"
 
 #: modules/pref-users.php:134
 #, php-format
 msgid "User <b>%s</b> already exists."
-msgstr "用户 <b>%s</b> 已存在。"
+msgstr "L'utilisateur <b>%s</b> existe déjà."
 
 #: modules/pref-users.php:154
 #, php-format
@@ -1372,59 +1412,32 @@ msgid ""
 "Changed password of user <b>%s</b>\n"
 "\t\t\t\t\t to <b>%s</b>"
 msgstr ""
-"更改用户 <b>%s</b>\n"
-"\t\t\t\t\t 的密码为 <b>%s</b>"
+"Mot de passe de l'utilisateur <b>%s</b>\n"
+"\t\t\t\t\tmodifié en <b>%s</b>"
 
 #: modules/pref-users.php:193
 msgid "Create user"
-msgstr "创建用户"
+msgstr "Créer l'utilisateur"
 
 #: modules/pref-users.php:215
 msgid "Login"
-msgstr "登陆"
+msgstr "Nom"
 
 #: modules/pref-users.php:216
 msgid "Access Level"
-msgstr "等级:"
+msgstr "Permissions"
 
 #: modules/pref-users.php:217
 msgid "Last login"
-msgstr "最后登陆"
+msgstr "Dernière connexion"
 
 #: modules/pref-users.php:315
 msgid "User details"
-msgstr "用户详细"
+msgstr "Détails de l'utilisateur"
 
 #: modules/pref-users.php:321
 msgid "Reset password"
-msgstr "重置密码"
+msgstr "Réinitialiser le mot de passe"
 
 #~ msgid "Add existing tag:"
-#~ msgstr "添加现有标签г:"
-
-#~ msgid "This category"
-#~ msgstr "本分类"
-
-#~ msgid "Global search results"
-#~ msgstr "全局搜索结果"
-
-#~ msgid "Category search results"
-#~ msgstr "分类搜索结果"
-
-#~ msgid "Feed search results"
-#~ msgstr "Feed搜索结果"
-
-#~ msgid "Label search results"
-#~ msgstr "标记搜索结果"
-
-#~ msgid "<b>Warning:</b> Please backup your database before proceeding."
-#~ msgstr "<b>警告:</b> 请先备份您的数据库."
-
-#~ msgid "Help"
-#~ msgstr "帮助"
-
-#~ msgid "Toggle unread"
-#~ msgstr "未读开关"
-
-#~ msgid "Toggle starred"
-#~ msgstr "星级开关"
+#~ msgstr "Ajouter une étiquette existante&nbsp;:"
