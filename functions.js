@@ -1009,16 +1009,20 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 	//			debug(node.childNodes[i].id + " --> " + has_unread);
 	
 				if (hide && !has_unread) {
-					node.childNodes[i].style.display = "none";
+					//node.childNodes[i].style.display = "none";
+					Effect.DropOut(node.childNodes[i], {duration : 0.3});
 				}
 	
 				if (!hide) {
 					node.childNodes[i].style.display = "list-item";
+					//Effect.Appear(node.childNodes[i], {duration : 0.3});
 				}
 	
 				if (has_unread) {
 					node.childNodes[i].style.display = "list-item";
 					cat_unread++;
+					//Effect.Appear(node.childNodes[i], {duration : 0.3});
+					//Effect.Highlight(node.childNodes[i]);
 				}
 			}
 		}

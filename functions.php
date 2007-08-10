@@ -3420,10 +3420,12 @@
 					}
 
 					if ($collapsed == "t" || $collapsed == "1") {
-						$holder_class = "invisible";
+						$holder_class = "feedCatHolder";
+						$holder_style = "display:none;";
 						$ellipsis = "...";
 					} else {
 						$holder_class = "feedCatHolder";
+						$holder_style = "";
 						$ellipsis = "";
 					}
 
@@ -3442,7 +3444,7 @@
 
 					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
 					// -> keyboard navigation, etc.
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\">";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 

@@ -193,7 +193,7 @@ function toggleCollapseCat(cat) {
 		var cat_list = document.getElementById("FCATLIST-" + cat).parentNode;
 		var caption = document.getElementById("FCAP-" + cat);
 		
-		if (cat_list.className.match("invisible")) {
+/*		if (cat_list.className.match("invisible")) {
 			cat_list.className = "";
 			caption.innerHTML = caption.innerHTML.replace("...", "");
 			if (cat == 0) {
@@ -204,8 +204,11 @@ function toggleCollapseCat(cat) {
 			caption.innerHTML = caption.innerHTML + "...";
 			if (cat == 0) {
 				setCookie("ttrss_vf_uclps", "1");
-			}
-		}
+			} 
+
+		} */
+
+		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5 });
 
 		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 
 			param_escape(cat));
