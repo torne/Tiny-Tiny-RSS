@@ -15,7 +15,7 @@
 		function startup_gettext() {
 	
 			# Get locale from Accept-Language header
-			$lang = al2gt(array("en_US", "ru_RU"), "text/html");
+			$lang = al2gt(array("en_US", "ru_RU", "zh_CN", "fr_FR"), "text/html");
 	
 			if ($lang) {
 				_setlocale(LC_MESSAGES, $lang);
