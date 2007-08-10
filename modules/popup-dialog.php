@@ -376,9 +376,13 @@
 
 			print "<tr><td colspan='2'><input type=\"hidden\" name=\"id\" value=\"$param\"></td></tr>";
 
-			print "<tr><td colspan='2'><textarea rows='4' class='iedit' name='tags_str'>$tags_str</textarea></td></tr>";
+			print "<tr><td colspan='2'><textarea rows='4' class='iedit' id='tags_str' 
+				name='tags_str'>$tags_str</textarea>
+			<div class=\"autocomplete\" id=\"tags_choices\" 
+					style=\"display:none\"></div>	
+			</td></tr>";
 
-			print "<tr><td>".__('Add existing tag:')."</td>";
+/*			print "<tr><td>".__('Add existing tag:')."</td>";
 
 			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
 				WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY tag_name");
@@ -395,9 +399,9 @@
 
 			print_select("found_tags", '', $found_tags, "onchange=\"javascript:editTagsInsert()\"");
 
-			print "</td>";
+			print "</td>"; 
 
-			print "</tr>";
+			print "</tr>"; */
 
 			print "</table>";
 

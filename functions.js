@@ -1470,6 +1470,15 @@ function infobox_callback() {
 					box.style.display = "block";				
 				}
 			}
+
+			/* FIXME this needs to be moved out somewhere */
+
+			if (document.getElementById("tags_choices")) {
+				new Ajax.Autocompleter('tags_str', 'tags_choices',
+					"backend.php?op=rpc&subop=completeTags",
+					{ tokens: ',', paramName: "search" });
+			}
+
 			notify("");
 		} catch (e) {
 			exception_error("infobox_callback", e);

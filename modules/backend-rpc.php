@@ -320,5 +320,22 @@
 			print_error_xml(6);
 		}
 
+		if ($subop == "completeTags") {
+
+			$search = db_escape_string($_REQUEST["search"]);
+
+			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
+				WHERE owner_uid = '".$_SESSION["uid"]."' AND
+			  	tag_name LIKE '$search%' ORDER BY tag_name
+				LIMIT 10");
+
+			print "<ul>";
+			while ($line = db_fetch_assoc($result)) {
+				print "<li>" . $line["tag_name"] . "</li>";
+			}
+			print "</ul>";
+
+		}
+
 	}
 ?>
