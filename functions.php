@@ -3855,7 +3855,11 @@
 		$feed_title = $qfh_ret[1];
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
-		
+
+		if ($feed == -2) {
+			$feed_site_url = article_publish_url($link);
+		}
+
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
 		if (!$offset) {
@@ -4206,6 +4210,16 @@
 
 	function generate_publish_key() {
 		return sha1(uniqid(rand(), true));
+	}
+
+	function article_publish_url($link) {
+
+		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . \
+			parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+		$url_path .= "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
+
+		return $url_path;
 	}
 
 ?>

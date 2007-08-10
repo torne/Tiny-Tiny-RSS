@@ -29,13 +29,13 @@ function replace_pubkey_callback() {
 					link.href = new_link.firstChild.nodeValue;
 					link.innerHTML = new_link.firstChild.nodeValue;
 
-					notify_info("Address changed");
+					notify_info("Address changed.");
 				} else {
-					notify_error("Could not change address");
+					notify_error("Could not change address.");
 				}
 
 			} else {
-				notify_error("Could not change address");
+				notify_error("Could not change address.");
 			}
 		} catch (e) {
 			exception_error("replace_pubkey_callback", e);
@@ -535,7 +535,7 @@ function removeSelectedLabels() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Remove selected labels?");
+		var ok = confirm(__("Remove selected labels?"));
 
 		if (ok) {
 			notify_progress("Removing selected labels...");
@@ -563,7 +563,7 @@ function removeSelectedUsers() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Remove selected users?");
+		var ok = confirm(__("Remove selected users?"));
 
 		if (ok) {
 			notify_progress("Removing selected users...");
@@ -592,7 +592,7 @@ function removeSelectedFilters() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Remove selected filters?");
+		var ok = confirm(__("Remove selected filters?"));
 
 		if (ok) {
 			notify_progress("Removing selected filters...");
@@ -621,7 +621,7 @@ function removeSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Unsubscribe from selected feeds?");
+		var ok = confirm(__("Unsubscribe from selected feeds?"));
 
 		if (ok) {
 
@@ -653,7 +653,7 @@ function removeSelectedFeedCats() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm("Remove selected categories?");
+		var ok = confirm(__("Remove selected categories?"));
 
 		if (ok) {
 			notify_progress("Removing selected categories...");
@@ -1764,7 +1764,7 @@ function pubRegenKey() {
 		return false;
 	}
 
-	var ok = confirm("Replace current publishing address with a new one?");
+	var ok = confirm(__("Replace current publishing address with a new one?"));
 
 	if (ok) {
 

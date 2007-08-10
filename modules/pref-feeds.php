@@ -1052,10 +1052,7 @@
 		
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the address specified below.')."</p>";
 
-		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . \
-			parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-
-		$url_path .= "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
+		$url_path = article_publish_url($link);
 
 		print "<p class=\"small\"><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
 

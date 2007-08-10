@@ -306,11 +306,8 @@
 			print "<rpc-reply>";
 
 			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
-		
-			$url_path = 'http://' . $_SERVER["HTTP_HOST"] . \
-				parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-			$new_link = $url_path . "?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
+			$new_link = article_publish_url($link);		
 
 			print "<link><![CDATA[$new_link]]></link>";
 

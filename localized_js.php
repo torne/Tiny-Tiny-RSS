@@ -90,5 +90,8 @@ print T_js_decl("No articles are selected.");
 print T_js_decl("Could not update headlines (missing XML object)");
 print T_js_decl("Could not display article (missing XML object)");
 print T_js_decl("No feed selected.");
+print T_js_decl("Replace current publishing address with a new one?");
+print T_js_decl("Address changed.");
+print T_js_decl("Could not change address.");
 
 ?>
