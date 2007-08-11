@@ -3283,8 +3283,20 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">".__('Labels')."</li>";
-						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">";
+
+						if ($_COOKIE["ttrss_vf_lclps"] == 1) {
+							$holder_style = "display:none;";
+							$ellipsis = "...";
+						} else {
+							$holder_style = "";
+							$ellipsis = "";
+						}
+
+						print "<li class=\"feedCat\">".
+							"<a id=\"FCATN--2\" href=\"javascript:toggleCollapseCat(-2)\">".
+							__('Labels')."</a> <span id='FCAP--2'>$ellipsis</span></li>";
+
+						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\" id='FCATLIST--2' style='$holder_style'>";
 					} else {
 						print "<li><hr></li>";
 					}

@@ -238,6 +238,14 @@ function toggleCollapseCat(cat) {
 			}
 		} 
 
+		if (cat == -2) {
+			if (Element.visible("FCATLIST-" + cat)) {
+				setCookie("ttrss_vf_lclps", "1");
+			} else {
+				setCookie("ttrss_vf_lclps", "0");
+			}
+		} 
+
 		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5,
 			afterFinish: toggleCollapseCat_af });
 
