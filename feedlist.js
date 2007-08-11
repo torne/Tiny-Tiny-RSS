@@ -208,6 +208,14 @@ function toggleCollapseCat(cat) {
 
 		} */
 
+		if (cat == 0) {
+			if (Element.visible("FCATLIST-" + cat)) {
+				setCookie("ttrss_vf_uclps", "1");
+			} else {
+				setCookie("ttrss_vf_uclps", "0");
+			}
+		} 
+
 		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5 });
 
 		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 

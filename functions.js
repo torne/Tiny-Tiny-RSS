@@ -1208,7 +1208,44 @@ function openExternalUrl(url) {
 }
 
 function getRelativeFeedId(list, id, direction, unread_only) {	
+	var rows = list.getElementsByTagName("LI");
+	var feeds = new Array();
+
+	for (var i = 0; i < rows.length; i++) {
+		if (rows[i].id.match("FEEDR-")) {
+
+			if (Element.visible(rows[i]) && Element.visible(rows[i].parentNode)) {
+
+				if (!unread_only || 
+						(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
+					feeds.push(rows[i].id.replace("FEEDR-", ""));
+				}
+			}
+		}
+	}
+
 	if (!id) {
+		if (direction == "next") {
+			return feeds.shift();
+		} else {
+			return feeds.pop();
+		}
+	} else {
+		if (direction == "next") {
+			var idx = feeds.indexOf(id);
+			if (idx != -1 && idx < feeds.length) {
+				return feeds[idx+1];					
+			}
+		} else {
+			var idx = feeds.indexOf(id);
+			if (idx > 0) {
+				return feeds[idx-1];
+			}
+		}
+
+	}
+
+/*	if (!id) {
 		if (direction == "next") {
 			for (i = 0; i < list.childNodes.length; i++) {
 				var child = list.childNodes[i];
@@ -1228,7 +1265,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 		if (direction == "prev") {
 			for (i = list.childNodes.length-1; i >= 0; i--) {
 				var child = list.childNodes[i];				
-				if (child.id == "feedCatHolder" && child.className != "invisible") {
+				if (child.id == "feedCatHolder" && Element.visible(child)) {
 					if (child.firstChild) {
 						var cr = getRelativeFeedId(child.firstChild, id, direction);
 						if (cr) return cr;					
@@ -1286,8 +1323,8 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" &&
 							e.className.match("feed")))	{
-						if (e.parentNode.parentNode && e.parentNode.parentNode.className 
-							!= "invisible") {
+						if (e.parentNode.parentNode && 
+							Element.visible(e.parentNode.parentNode)) {
 							return e.id.replace("FEEDR-", "");
 						}
 					}
@@ -1326,15 +1363,15 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 				if (e) {
 					if (!unread_only || (unread_only && e.className != "feed" && 
 							e.className.match("feed")))	{
-						if (e.parentNode.parentNode && e.parentNode.parentNode.className 
-							!= "invisible") {
+						if (e.parentNode.parentNode && 
+							Element.visible(e.parentNode.parentNode)) {
 							return e.id.replace("FEEDR-", "");
 						}
 					}
 				}
 			}
 		}
-	}
+	} */
 }
 
 function showBlockElement(id, h_id) {
