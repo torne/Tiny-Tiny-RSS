@@ -8,6 +8,16 @@
 
 	require_once 'config.php';
 
+	function get_translations() {
+		$translations = array(
+			"en_US" => __("English"),
+			"ru_RU" => __("Russian"),
+			"zh_CN" => __("Chinese"),
+			"fr_FR" => __("French"));
+
+		return $translations;
+	}
+
 	if (ENABLE_TRANSLATIONS == true) { 
 		require_once "accept-to-gettext.php";
 		require_once "gettext/gettext.inc";
@@ -15,7 +25,7 @@
 		function startup_gettext() {
 	
 			# Get locale from Accept-Language header
-			$lang = al2gt(array("en_US", "ru_RU", "zh_CN", "fr_FR"), "text/html");
+			$lang = al2gt(array(array_keys(get_translations())), "text/html");
 
 			if (defined('_TRANSLATION_OVERRIDE_DEFAULT')) {
 				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
