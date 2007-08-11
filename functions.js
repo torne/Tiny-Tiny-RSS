@@ -1516,6 +1516,9 @@ function infobox_callback() {
 			var box = document.getElementById('infoBox');
 			var shadow = document.getElementById('infoBoxShadow');
 			if (box) {			
+
+				new Draggable(shadow);
+
 				box.innerHTML=xmlhttp.responseText;			
 				if (shadow) {
 					shadow.style.display = "block";
