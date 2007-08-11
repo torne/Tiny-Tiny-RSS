@@ -715,15 +715,15 @@ function selectionToggleMarked(cdm_mode) {
 					//	'javascript:toggleMark('+rows[i]+', false)');
 		
 				} else {
-					//mark_img.src = "images/mark_unset.png";
-					//mark_img.alt = "Set mark";
+					mark_img.src = "images/mark_unset.png";
+					mark_img.alt = "Set mark";
 
-					mark_img.alt = "Please wait...";
+					//mark_img.alt = "Please wait...";
 
 					//mark_img.setAttribute('onclick', 
 					//	'javascript:toggleMark('+rows[i]+', true)');
 
-					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
+					//Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
 
 				}
 			}
@@ -786,12 +786,12 @@ function selectionTogglePublished(cdm_mode) {
 //						'javascript:togglePub('+rows[i]+', false)');
 
 				} else {
-					//mark_img.src = "images/pub_unset.png";
+					mark_img.src = "images/pub_unset.png";
 					mark_img.alt = "Publish";
 //					mark_img.setAttribute('onclick', 
 //						'javascript:togglePub('+rows[i]+', true)');
 
-					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
+//					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
 
 				}
 			}
