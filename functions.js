@@ -714,7 +714,7 @@ function parse_counters(reply, scheduled_call) {
 					}
 
 					if (row_needs_hl) { 
-						new Effect.Highlight(feedr, {duration: 0.3, startcolor: "#fff7d5"});
+						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5"});
 					}
 				} else {
 					feedctr.className = "invisible";
@@ -1235,11 +1235,15 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 			var idx = feeds.indexOf(id);
 			if (idx != -1 && idx < feeds.length) {
 				return feeds[idx+1];					
+			} else {
+				return getRelativeFeedId(list, false, direction, unread_only);
 			}
 		} else {
 			var idx = feeds.indexOf(id);
 			if (idx > 0) {
 				return feeds[idx-1];
+			} else {
+				return getRelativeFeedId(list, false, direction, unread_only);
 			}
 		}
 
