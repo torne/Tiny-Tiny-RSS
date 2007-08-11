@@ -3771,7 +3771,9 @@
 
 			if (!$tags_str) $tags_str = '<span class="tagList">'.__('no tags').'</span>';
 
-			print "<div style='float : right'>$tags_str 
+			print "<div style='float : right'>
+				<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>
+				$tags_str 
 				<a title=\"Edit tags for this article\" 
 					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
 				<div clear='both'>$entry_comments</div>";
@@ -4115,7 +4117,9 @@
 
 //					print "<img src='images/tag.png' class='markedPic'>";
 
-					print "<span class='s1'>Tags: $tags_str <a title=\"Edit tags for this article\" 
+					print "<span class='s1'>
+						<img class='tagsPic' src='images/tag.png' alt='Tags' 
+							title='Tags'> $tags_str <a title=\"Edit tags for this article\" 
 							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
 
 					print "</span>";
