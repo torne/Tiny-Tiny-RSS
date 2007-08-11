@@ -338,6 +338,39 @@ function tPub(id) {
 	return togglePub(id);
 }
 
+function tMark_afh_off(effect) {
+	try {
+		var elem = effect.effects[0].element;
+
+		debug("tMark_afh_off : " + elem.id);
+
+		if (elem) {
+			elem.src = "images/mark_unset.png";
+			elem.alt = "Set mark";
+			Element.show(elem);
+		}
+
+	} catch (e) {
+		exception_error("tMark_afh_off", e);
+	}
+}
+
+function tPub_afh_off(effect) {
+	try {
+		var elem = effect.effects[0].element;
+
+		debug("tPub_afh_off : " + elem.id);
+
+		if (elem) {
+			elem.src = "images/pub_unset.png";
+			elem.alt = "Publish";
+			Element.show(elem);
+		}
+
+	} catch (e) {
+		exception_error("tPub_afh_off", e);
+	}
+}
 
 function toggleMark(id) {
 
@@ -370,13 +403,15 @@ function toggleMark(id) {
 		}
 
 	} else {
-		mark_img.src = "images/mark_unset.png";
-		mark_img.alt = "Set mark";
+		//mark_img.src = "images/mark_unset.png";
+		mark_img.alt = "Please wait...";
 		query = query + "&mark=0";
 
 		if (vfeedu && crow.className.match("Unread")) {
 			vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 		}
+
+		Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
 
 	}
 
@@ -434,14 +469,16 @@ function togglePub(id) {
 			}
 	
 		} else {
-			mark_img.src = "images/pub_unset.png";
-			mark_img.alt = "Publish";
+			//mark_img.src = "images/pub_unset.png";
+			mark_img.alt = "Please wait...";
 			query = query + "&pub=0";
 	
 			if (vfeedu && crow.className.match("Unread")) {
 				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 			}
 	
+			Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
+
 		}
 	
 		var vfeedctr = document.getElementById("FEEDCTR--2");
@@ -674,14 +711,20 @@ function selectionToggleMarked(cdm_mode) {
 				if (mark_img.alt == "Set mark") {
 					mark_img.src = "images/mark_set.png";
 					mark_img.alt = "Reset mark";
-					mark_img.setAttribute('onclick', 
-						'javascript:toggleMark('+rows[i]+', false)');
-
+					//mark_img.setAttribute('onclick', 
+					//	'javascript:toggleMark('+rows[i]+', false)');
+		
 				} else {
-					mark_img.src = "images/mark_unset.png";
-					mark_img.alt = "Set mark";
-					mark_img.setAttribute('onclick', 
-						'javascript:toggleMark('+rows[i]+', true)');
+					//mark_img.src = "images/mark_unset.png";
+					//mark_img.alt = "Set mark";
+
+					mark_img.alt = "Please wait...";
+
+					//mark_img.setAttribute('onclick', 
+					//	'javascript:toggleMark('+rows[i]+', true)');
+
+					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
+
 				}
 			}
 		}
@@ -739,14 +782,17 @@ function selectionTogglePublished(cdm_mode) {
 				if (mark_img.alt == "Publish") {
 					mark_img.src = "images/pub_set.png";
 					mark_img.alt = "Unpublish";
-					mark_img.setAttribute('onclick', 
-						'javascript:togglePub('+rows[i]+', false)');
+//					mark_img.setAttribute('onclick', 
+//						'javascript:togglePub('+rows[i]+', false)');
 
 				} else {
-					mark_img.src = "images/pub_unset.png";
+					//mark_img.src = "images/pub_unset.png";
 					mark_img.alt = "Publish";
-					mark_img.setAttribute('onclick', 
-						'javascript:togglePub('+rows[i]+', true)');
+//					mark_img.setAttribute('onclick', 
+//						'javascript:togglePub('+rows[i]+', true)');
+
+					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
+
 				}
 			}
 		}
