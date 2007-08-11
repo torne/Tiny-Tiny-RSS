@@ -25,7 +25,7 @@ function init() {
 }
 function languageChange(elem) {
 	var lang = elem[elem.selectedIndex].value;
-	setCookie("ttrss_lang", lang);
+	setCookie("ttrss_lang", lang, <?php print SESSION_COOKIE_LIFETIME ?>);
 	window.location.reload();
 }
 </script>

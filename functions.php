@@ -10,7 +10,7 @@
 
 	function get_translations() {
 		$tr = array(
-					""      => "Detect automatically",
+					"auto"  => "Detect automatically",
 					"en_US" => "English",
 					"fr_FR" => "Français",
 					"ru_RU" => "Русский",
@@ -1413,6 +1413,11 @@
 				/* bump login timestamp */
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
 					$_SESSION["uid"]);
+
+				if ($_SESSION["language"]) {
+					setcookie("ttrss_lang", $_SESSION["language"], 
+						time() + SESSION_COOKIE_LIFETIME);
+				}
 			}
 
 		} else {
