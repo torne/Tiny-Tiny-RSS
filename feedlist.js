@@ -182,6 +182,28 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	}		
 }
 
+function toggleCollapseCat_af(effect) {
+	//var caption = elem.id.replace("FCATLIST-", "");
+
+	try {
+
+		var elem = effect.element;
+		var cat = elem.id.replace("FCATLIST-", "");
+		var cap = document.getElementById("FCAP-" + cat);
+	
+		if (Element.visible(elem)) {
+			cap.innerHTML = cap.innerHTML.replace("...", "");
+		} else {
+			if (cap.innerHTML.lastIndexOf("...") != cap.innerHTML.length-3) {
+				cap.innerHTML = cap.innerHTML + "...";
+			}
+		}
+
+	} catch (e) {
+		exception_error("toggleCollapseCat_af", e);
+	}
+}
+
 function toggleCollapseCat(cat) {
 	try {
 		if (!xmlhttp_ready(xmlhttp)) {
@@ -216,7 +238,8 @@ function toggleCollapseCat(cat) {
 			}
 		} 
 
-		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5 });
+		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5,
+			afterFinish: toggleCollapseCat_af });
 
 		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 
 			param_escape(cat));
