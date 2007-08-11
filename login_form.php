@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="pngfix.js"></script>
 	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="functions.js"></script>
 </head>
 
 <body>
@@ -21,6 +22,11 @@ function init() {
 
 	login.focus();
 
+}
+function languageChange(elem) {
+	var lang = elem[elem.selectedIndex].value;
+	setCookie("ttrss_lang", lang);
+	window.location.reload();
 }
 </script>
 
@@ -53,8 +59,8 @@ window.onload = init;
 			<tr><td align="right"><?php echo __("Language:") ?></td>
 			<td align="right">
 			<?php
-				print_select_hash("language", "", get_translations(),
-					"style='width : 100%'");
+				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
+					"style='width : 100%' onchange='languageChange(this)'");
 
 			?>
 			</td></tr>

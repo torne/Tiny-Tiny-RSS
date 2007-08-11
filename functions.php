@@ -30,6 +30,10 @@
 				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 			}
 
+			if ($_COOKIE["ttrss_lang"]) {
+				$lang = $_COOKIE["ttrss_lang"];
+			}
+
 			if ($lang) {
 				_setlocale(LC_MESSAGES, $lang);
 				_bindtextdomain("messages", "locale");
