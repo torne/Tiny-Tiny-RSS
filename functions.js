@@ -1214,7 +1214,7 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 	for (var i = 0; i < rows.length; i++) {
 		if (rows[i].id.match("FEEDR-")) {
 
-			if (Element.visible(rows[i]) && Element.visible(rows[i].parentNode)) {
+			if (rows[i].id == "FEEDR-" + id || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
 
 				if (!unread_only || 
 						(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
