@@ -8,6 +8,15 @@
 
 	require_once 'config.php';
 
+	function get_translations() {
+		$tr = array("en_US" => "English",
+					"ru_RU" => "Russian",
+					"fr_FR" => "French",
+					"zh_CN" => "Chinese");
+
+		return $tr;
+	}
+
 	if (ENABLE_TRANSLATIONS == true) { 
 		require_once "accept-to-gettext.php";
 		require_once "gettext/gettext.inc";
@@ -1376,6 +1385,8 @@
 
 				if (authenticate_user($link, $login, $password)) {
 					$_POST["password"] = "";
+
+					$_SESSION["language"] = $_POST["language"];
 
 					header("Location: " . $_SERVER["REQUEST_URI"]);
 					exit;
