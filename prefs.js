@@ -48,8 +48,9 @@ function expand_feed_callback() {
 		try {	
 			var container = document.getElementById("BRDET-" + feed_to_expand);	
 			container.innerHTML=xmlhttp.responseText;
-			container.style.display = "block";
+//			container.style.display = "block";
 //			p_notify("");
+			Effect.SlideDown(container, {duration : 0.5});
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
 		}
@@ -1533,15 +1534,15 @@ function browserToggleExpand(id) {
 
 		var d = document.getElementById("BRDET-" + id);
 
-		if (d.style.display == "block") {		
+/*		if (d.style.display == "block") {		
 			d.style.display = "none";
 			
-		} else {
+		} else { */
 	
+		if (Element.visible(d)) {
+			Effect.SlideUp(d, {duration : 0.5});
+		} else {
 			feed_to_expand = id;
-
-			d.style.display = "block";
-			d.innerHTML = "Loading, please wait...";
 
 			xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
 				+ param_escape(id), true);
@@ -1550,7 +1551,7 @@ function browserToggleExpand(id) {
 		}
 
 	} catch (e) {
-		exception_error("browserExpand", e);
+		exception_error("browserToggleExpand", e);
 	}
 }
 

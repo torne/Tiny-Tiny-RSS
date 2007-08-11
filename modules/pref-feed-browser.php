@@ -140,7 +140,7 @@
 				$details["title"] ."</a>&nbsp;" .
 				"<span class='subscribers'>($subscribers)</span>";
 			
-			print "<div class=\"browserDetails\" id=\"BRDET-" . $details["id"] . "\">";
+			print "<div class=\"browserDetails\" style=\"display : none\" id=\"BRDET-" . $details["id"] . "\">";
 			print "</div>";
 				
 			print "</li>";
