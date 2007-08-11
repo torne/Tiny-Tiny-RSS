@@ -9,10 +9,12 @@
 	require_once 'config.php';
 
 	function get_translations() {
-		$tr = array("en_US" => "English",
-					"ru_RU" => "Russian",
-					"fr_FR" => "French",
-					"zh_CN" => "Chinese");
+		$tr = array(
+					""      => "Detect automatically",
+					"en_US" => "English",
+					"fr_FR" => "Français",
+					"ru_RU" => "Русский",
+					"zh_CN" => "Simplified Chinese");
 
 		return $tr;
 	}
@@ -24,7 +26,7 @@
 		function startup_gettext() {
 	
 			# Get locale from Accept-Language header
-			$lang = al2gt(array("en_US", "ru_RU", "zh_CN", "fr_FR"), "text/html");
+			$lang = al2gt(array_keys(get_translations()), "text/html");
 
 			if (defined('_TRANSLATION_OVERRIDE_DEFAULT')) {
 				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
