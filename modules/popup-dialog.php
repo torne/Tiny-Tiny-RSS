@@ -81,11 +81,11 @@
 
 			print "</table>";
 
-			print "<div id='fadd_login_prompt'><br/>
-				<a href='javascript:showBlockElement(\"fadd_login_container\", 
-					\"fadd_login_prompt\")'>".__('Click here if this feed requires authentication.')."</a></div>";
+/*			print "<div id='fadd_login_prompt'><br/>
+				<a href='javascript:appearBlockElement(\"fadd_login_container\", 
+				\"fadd_login_prompt\")'>".__('Click here if this feed requires authentication.')."</a></div>"; */
 
-			print "<div id='fadd_login_container'>
+			print "<div id='fadd_login_container' style='display:none'>
 				<table width='100%'>
 					<tr><td>".__('Login:')."</td><td><input name='auth_login' class='iedit'></td></tr>
 					<tr><td>".__('Password:')."</td><td><input type='password'
@@ -95,13 +95,19 @@
 
 			print "</form>";
 
-			print "<div align='right'>
+			print "<div style='float : right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
 					type=\"submit\" onclick=\"return qaddFeed()\" value=\"".__('Subscribe')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
-					value=\"".__('Cancel')."\"></div>";
+					value=\"".__('Cancel')."\"></div>
+					
+				<div>
+					<input type=\"checkbox\" id=\"fadd_login_check\" 
+						onclick='checkboxToggleElement(this, \"fadd_login_container\")'>
+					<label for=\"fadd_login_check\">".
+					__('This feed requires authentication.')."</div>";
 
 			return;
 		}

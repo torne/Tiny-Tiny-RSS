@@ -1395,6 +1395,30 @@ function showBlockElement(id, h_id) {
 	} 
 }
 
+function appearBlockElement_afh(effect) {
+
+}
+
+function checkboxToggleElement(elem, id) {
+	if (elem.checked) {
+		Effect.SlideDown(id, {duration : 1.0});
+	} else {
+		Effect.SlideUp(id, {duration : 1.0});
+	}
+}
+
+function appearBlockElement(id, h_id) {
+
+	try {
+		Effect.Fade(h_id);
+		Effect.SlideDown(id, {duration : 1.0, afterFinish: appearBlockElement_afh});
+	} catch (e) {
+		exception_error("appearBlockElement", e);
+	}
+
+}
+
+
 function hideParentElement(e) {
 	e.parentNode.style.display = "none";
 }
