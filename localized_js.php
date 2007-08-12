@@ -108,7 +108,7 @@ print T_js_decl("Login field cannot be blank.");
 print T_js_decl("No feeds are selected.");
 print T_js_decl("Can't add filter: nothing to match on.");
 print T_js_decl("Can't subscribe: no feed URL given.");
-#print T_js_decl(
+print T_js_decl("Unsubscribe from %s?");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
