@@ -279,6 +279,33 @@ function _fetch_remote_file ($url, $headers = "" ) {
 
 }
 
+function _convert_entities ($string) {
+	# Source: http://www.w3.org/TR/REC-html40/sgml/entities.html
+	$html_entities = array(
+		"&nbsp",   "&iexcl",  "&cent",   "&pound",  "&curren", "&yen",    "&brvbar", "&sect",   "&uml",    "&copy",
+		"&ordf",   "&laquo",  "&not",    "&shy",    "&reg",    "&macr",   "&deg",    "&plusmn", "&sup2",   "&sup3",
+		"&acute",  "&micro",  "&para",   "&middot", "&cedil",  "&sup1",   "&ordm",   "&raquo",  "&frac14", "&frac12",
+		"&frac34", "&iquest", "&Agrave", "&Aacute", "&Acirc",  "&Atilde", "&Auml",   "&Aring",  "&AElig",  "&Ccedil",
+		"&Egrave", "&Eacute", "&Ecirc",  "&Euml",   "&Igrave", "&Iacute", "&Icirc",  "&Iuml",   "&ETH",    "&Ntilde",
+		"&Ograve", "&Oacute", "&Ocirc",  "&Otilde", "&Ouml",   "&times",  "&Oslash", "&Ugrave", "&Uacute", "&Ucirc",
+		"&Uuml",   "&Yacute", "&THORN",  "&szlig",  "&agrave", "&aacute", "&acirc",  "&atilde", "&auml",   "&aring",
+		"&aelig",  "&ccedil", "&egrave", "&eacute", "&ecirc",  "&euml",   "&igrave", "&iacute", "&icirc",  "&iuml",
+		"&eth",    "&ntilde", "&ograve", "&oacute", "&ocirc",  "&otilde", "&ouml",   "&divide", "&oslash", "&ugrave",
+		"&uacute", "&ucirc",  "&uuml",   "&yacute", "&thorn",  "&yuml",);
+	$numeric_entities = array(
+		"&#160;", "&#161;", "&#162;", "&#163;", "&#164;", "&#165;", "&#166;", "&#167;", "&#168;", "&#169;",
+		"&#170;", "&#171;", "&#172;", "&#173;", "&#174;", "&#175;", "&#176;", "&#177;", "&#178;", "&#179;",
+		"&#180;", "&#181;", "&#182;", "&#183;", "&#184;", "&#185;", "&#186;", "&#187;", "&#188;", "&#189;",
+		"&#190;", "&#191;", "&#192;", "&#193;", "&#194;", "&#195;", "&#196;", "&#197;", "&#198;", "&#199;",
+		"&#200;", "&#201;", "&#202;", "&#203;", "&#204;", "&#205;", "&#206;", "&#207;", "&#208;", "&#209;",
+		"&#210;", "&#211;", "&#212;", "&#213;", "&#214;", "&#215;", "&#216;", "&#217;", "&#218;", "&#219;",
+		"&#220;", "&#221;", "&#222;", "&#223;", "&#224;", "&#225;", "&#226;", "&#227;", "&#228;", "&#229;",
+		"&#230;", "&#231;", "&#232;", "&#233;", "&#234;", "&#235;", "&#236;", "&#237;", "&#238;", "&#239;",
+		"&#240;", "&#241;", "&#242;", "&#243;", "&#244;", "&#245;", "&#246;", "&#247;", "&#248;", "&#249;",
+		"&#250;", "&#251;", "&#252;", "&#253;", "&#254;", "&#255;");
+	return str_replace($html_entities, $numeric_entities, $string);
+}
+
 /*=======================================================================*\
     Function:   _response_to_rss
     Purpose:    parse an HTTP response object into an RSS object
@@ -286,7 +313,8 @@ function _fetch_remote_file ($url, $headers = "" ) {
     Output:     parsed RSS object (see rss_parse)
 \*=======================================================================*/
 function _response_to_rss ($resp) {
-    $rss = new MagpieRSS( $resp->results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+    $converted_source = _convert_entities(mb_convert_encoding($resp->results, "UTF-8", mb_detect_encoding($resp->results)));
+    $rss = new MagpieRSS( $converted_source, MAGPIE_OUTPUT_ENCODING, "UTF-8", false);
     
     // if RSS parsed successfully       
     if ( $rss and !$rss->ERROR) {
