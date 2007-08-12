@@ -3249,8 +3249,24 @@
 		/* virtual feeds */
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "<li class=\"feedCat\">".__('Special')."</li>";
-			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">";
+
+			if ($_COOKIE["ttrss_vf_vclps"] == 1) {
+				$holder_style = "display:none;";
+				$ellipsis = "...";
+			} else {
+				$holder_style = "";
+				$ellipsis = "";
+			}
+
+#			print "<li class=\"feedCat\">".__('Special')."</li>";
+#			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">";		
+			print "<li class=\"feedCat\">".
+				"<a id=\"FCATN--1\" href=\"javascript:toggleCollapseCat(-1)\">".
+				__('Special')."</a> <span id='FCAP--1'>$ellipsis</span></li>";
+
+			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\">
+				<ul class=\"feedCatList\" id='FCATLIST--1' style='$holder_style'>";
+
 		}
 
 		$num_starred = getFeedUnread($link, -1);
