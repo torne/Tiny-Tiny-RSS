@@ -24,9 +24,15 @@ function init() {
 
 }
 function languageChange(elem) {
-	var lang = elem[elem.selectedIndex].value;
-	setCookie("ttrss_lang", lang, <?php print SESSION_COOKIE_LIFETIME ?>);
-	window.location.reload();
+	try {
+		document.forms['loginForm']['click'].disabled = true;
+	
+		var lang = elem[elem.selectedIndex].value;
+		setCookie("ttrss_lang", lang, <?php print SESSION_COOKIE_LIFETIME ?>);
+		window.location.reload();
+	} catch (e) {
+		exception_error("languageChange", e);
+	}
 }
 </script>
 
@@ -69,7 +75,7 @@ window.onload = init;
 				<label for="remember_me">Remember me on this computer</label>
 			</td></tr> -->
 			<tr><td colspan="2" align="right" class="innerLoginCell">
-				<input type="submit" class="button" value="Login">
+				<input type="submit" class="button" value="Login" name='click'>
 				<input type="hidden" name="action" value="login">
 				<input type="hidden" name="rt" 
 					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">
