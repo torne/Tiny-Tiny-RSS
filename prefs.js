@@ -50,7 +50,7 @@ function expand_feed_callback() {
 			container.innerHTML=xmlhttp.responseText;
 //			container.style.display = "block";
 //			p_notify("");
-			Effect.SlideDown(container, {duration : 0.5});
+			Effect.Appear(container, {duration : 0.5});
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
 		}
@@ -1532,15 +1532,14 @@ function browserToggleExpand(id) {
 			return
 		}
 
-		var d = document.getElementById("BRDET-" + id);
+/*		if (feed_to_expand && id != feed_to_expand) {
+			Effect.Fade('BRDET-' + feed_to_expand, {duration : 0.5});
+		} */
 
-/*		if (d.style.display == "block") {		
-			d.style.display = "none";
-			
-		} else { */
+		var d = document.getElementById("BRDET-" + id);
 	
 		if (Element.visible(d)) {
-			Effect.SlideUp(d, {duration : 0.5});
+			Effect.Fade(d, {duration : 0.5});
 		} else {
 			feed_to_expand = id;
 
