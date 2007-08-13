@@ -132,7 +132,33 @@ class MagpieRSS {
         xml_set_character_data_handler( $this->parser, 'feed_cdata' ); 
     
         $status = xml_parse( $this->parser, $source );
+
+		  # try to force convert everything to UTF-8 and parse again
+		  # to salvage at least some data from the feed 
+		  if (! $status) {
+            $errorcode = xml_get_error_code( $this->parser );
+				if ( $errorcode != XML_ERROR_NONE ) {
+
+					xml_parser_free( $this->parser );
+
+					list($parser, $source) = $this->create_parser($source, 
+	                $output_encoding, $input_encoding, $detect_encoding);
+
+					$source = mb_convert_encoding($source, "UTF-8",
+						 mb_detect_encoding($source));
+
+			      $this->parser = $parser;
         
+		        xml_set_object( $this->parser, $this );
+		        xml_set_element_handler($this->parser, 
+	                'feed_start_element', 'feed_end_element' );
+                        
+		        xml_set_character_data_handler( $this->parser, 'feed_cdata' ); 
+
+				  $status = xml_parse( $this->parser, $source);
+				}
+			}
+
         if (! $status ) {
             $errorcode = xml_get_error_code( $this->parser );
             if ( $errorcode != XML_ERROR_NONE ) {

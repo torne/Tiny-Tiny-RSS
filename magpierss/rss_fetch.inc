@@ -313,7 +313,7 @@ function _convert_entities ($string) {
     Output:     parsed RSS object (see rss_parse)
 \*=======================================================================*/
 function _response_to_rss ($resp) {
-    $converted_source = _convert_entities(mb_convert_encoding($resp->results, "UTF-8", mb_detect_encoding($resp->results)));
+    $converted_source = _convert_entities($resp->results);
     $rss = new MagpieRSS( $converted_source, MAGPIE_OUTPUT_ENCODING, "UTF-8", false);
     
     // if RSS parsed successfully       
