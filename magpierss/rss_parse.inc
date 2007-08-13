@@ -149,10 +149,10 @@ class MagpieRSS {
 						$enc = mb_detect_encoding($string);
 					}
 
+					$source = mb_convert_encoding($source, "UTF-8", $enc);
+
 					list($parser, $source) = $this->create_parser($source, 
 	                $output_encoding, $input_encoding, $detect_encoding);
-
-					$source = mb_convert_encoding($source, "UTF-8", $enc);
 
 			      $this->parser = $parser;
         
