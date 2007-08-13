@@ -1755,6 +1755,16 @@
 	}	
 
 	function getCategoryCounters($link) {
+		# two special categories are -1 and -2 (all virtuals; all labels)
+
+		$ctr = getCategoryUnread($link, -1);
+
+		print "<counter type=\"category\" id=\"-1\" counter=\"$ctr\"/>";
+
+		$ctr = getCategoryUnread($link, -2);
+
+		print "<counter type=\"category\" id=\"-2\" counter=\"$ctr\"/>";
+
 		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
 				FROM ttrss_user_entries WHERE feed_id = ttrss_feeds.id 
 					AND unread = true)) AS unread FROM ttrss_feeds 
@@ -1770,38 +1780,54 @@
 
 	function getCategoryUnread($link, $cat) {
 
-		if ($cat != 0) {
-			$cat_query = "cat_id = '$cat'";
-		} else {
-			$cat_query = "cat_id IS NULL";
+		if ($cat >= 0) {
+
+			if ($cat != 0) {
+				$cat_query = "cat_id = '$cat'";
+			} else {
+				$cat_query = "cat_id IS NULL";
+			}
+	
+			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
+					AND hidden = false
+					AND owner_uid = " . $_SESSION["uid"]);
+	
+			$cat_feeds = array();
+			while ($line = db_fetch_assoc($result)) {
+				array_push($cat_feeds, "feed_id = " . $line["id"]);
+			}
+	
+			if (count($cat_feeds) == 0) return 0;
+	
+			$match_part = implode(" OR ", $cat_feeds);
+	
+			$result = db_query($link, "SELECT COUNT(int_id) AS unread 
+				FROM ttrss_user_entries 
+				WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
+	
+			$unread = 0;
+	
+			# this needs to be rewritten
+			while ($line = db_fetch_assoc($result)) {
+				$unread += $line["unread"];
+			}
+	
+			return $unread;
+		} else if ($cat == -1) {
+			return getFeedUnread($link, -1) + getFeedUnread($link, -2);
+		} else if ($cat == -2) {
+
+			$rv = getLabelCounters($link, false, true);
+			$ctr = 0;
+
+			foreach (array_keys($rv) as $k) {
+				if ($k < -10) {
+					$ctr += $rv[$k]["counter"];
+				}
+			}
+
+			return $ctr;
 		}
-
-		$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
-				AND hidden = false
-				AND owner_uid = " . $_SESSION["uid"]);
-
-		$cat_feeds = array();
-		while ($line = db_fetch_assoc($result)) {
-			array_push($cat_feeds, "feed_id = " . $line["id"]);
-		}
-
-		if (count($cat_feeds) == 0) return 0;
-
-		$match_part = implode(" OR ", $cat_feeds);
-
-		$result = db_query($link, "SELECT COUNT(int_id) AS unread 
-			FROM ttrss_user_entries 
-			WHERE	unread = true AND ($match_part) AND owner_uid = " . $_SESSION["uid"]);
-
-		$unread = 0;
-
-		# this needs to be rewritten
-		while ($line = db_fetch_assoc($result)) {
-			$unread += $line["unread"];
-		}
-
-		return $unread;
-
 	}
 
 	function getFeedUnread($link, $feed, $is_cat = false) {
@@ -1991,7 +2017,7 @@
 			print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
 		} else {
 			$ret_arr["-1"]["counter"] = $count;
-			$ret_arr["-1"]["description"] = "Starred";
+			$ret_arr["-1"]["description"] = __("Starred articles");
 		}
 
 		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
@@ -2005,7 +2031,7 @@
 			print "<counter type=\"label\" id=\"-2\" counter=\"$count\"/>";
 		} else {
 			$ret_arr["-2"]["counter"] = $count;
-			$ret_arr["-2"]["description"] = "Published";
+			$ret_arr["-2"]["description"] = __("Published articles");
 		}
 
 
@@ -2788,13 +2814,20 @@
 
 	function getCategoryTitle($link, $cat_id) {
 
-		$result = db_query($link, "SELECT title FROM ttrss_feed_categories WHERE
-			id = '$cat_id'");
-
-		if (db_num_rows($result) == 1) {
-			return db_fetch_result($result, 0, "title");
+		if ($cat_id == -1) {
+			return __("Special");
+		} else if ($cat_id == -2) {
+			return __("Labels");
 		} else {
-			return "Uncategorized";
+
+			$result = db_query($link, "SELECT title FROM ttrss_feed_categories WHERE
+				id = '$cat_id'");
+
+			if (db_num_rows($result) == 1) {
+				return db_fetch_result($result, 0, "title");
+			} else {
+				return "Uncategorized";
+			}
 		}
 	}
 
@@ -3240,6 +3273,44 @@
 
 		}
 
+	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true) {
+
+			$tmp_category = getCategoryTitle($link, $cat_id);
+			$cat_unread = getCategoryUnread($link, $cat_id);
+
+			if ($hidden) {
+				$holder_style = "display:none;";
+				$ellipsis = "...";
+			} else {
+				$holder_style = "";
+				$ellipsis = "";
+			}
+
+			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
+
+			print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
+				<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>";
+
+			if ($can_browse) {
+				print "<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">";
+			} else {
+				print "<span id=\"FCAP-$cat_id\">";
+			}
+
+			print " <span id=\"FCATCTR-$cat_id\" title=\"Click to browse category\" 
+				class=\"$catctr_class\">($cat_unread)</span> $ellipsis";
+
+			if ($can_browse) {
+				print "</a>";
+			} else {
+				print "</span>";
+			}
+
+			print "</li>";
+
+			print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
+	}
+	
 	function outputFeedList($link, $tags = false) {
 
 		print "<ul class=\"feedList\" id=\"feedList\">";
@@ -3251,22 +3322,25 @@
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 			if ($_COOKIE["ttrss_vf_vclps"] == 1) {
-				$holder_style = "display:none;";
-				$ellipsis = "...";
+				$cat_hidden = true;
 			} else {
-				$holder_style = "";
-				$ellipsis = "";
+				$cat_hidden = false;
 			}
 
 #			print "<li class=\"feedCat\">".__('Special')."</li>";
 #			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">";		
-			print "<li class=\"feedCat\">".
-				"<a id=\"FCATN--1\" href=\"javascript:toggleCollapseCat(-1)\">".
-				__('Special')."</a> <span id='FCAP--1'>$ellipsis</span></li>";
+#			print "<li class=\"feedCat\">".
+#				"<a id=\"FCATN--1\" href=\"javascript:toggleCollapseCat(-1)\">".
+#				__('Special')."</a> <span id='FCAP--1'>$ellipsis</span></li>";
+#
+#			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\">
+#				<ul class=\"feedCatList\" id='FCATLIST--1' style='$holder_style'>";
 
-			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\">
-				<ul class=\"feedCatList\" id='FCATLIST--1' style='$holder_style'>";
+#			$cat_unread = getCategoryUnread($link, -1);
+#			$tmp_category = __("Special");
+#			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
 
+			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
 
 		$num_starred = getFeedUnread($link, -1);
@@ -3301,18 +3375,18 @@
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 						if ($_COOKIE["ttrss_vf_lclps"] == 1) {
-							$holder_style = "display:none;";
-							$ellipsis = "...";
+							$cat_hidden = true;
 						} else {
-							$holder_style = "";
-							$ellipsis = "";
+							$cat_hidden = false;
 						}
 
-						print "<li class=\"feedCat\">".
-							"<a id=\"FCATN--2\" href=\"javascript:toggleCollapseCat(-2)\">".
-							__('Labels')."</a> <span id='FCAP--2'>$ellipsis</span></li>";
+						printCategoryHeader($link, -2, $cat_hidden, false);
 
-						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\" id='FCATLIST--2' style='$holder_style'>";
+#						print "<li class=\"feedCat\">".
+#							"<a id=\"FCATN--2\" href=\"javascript:toggleCollapseCat(-2)\">".
+#							__('Labels')."</a> <span id='FCAP--2'>$ellipsis</span></li>";
+#
+#						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\" id='FCATLIST--2' style='$holder_style'>";
 					} else {
 						print "<li><hr></li>";
 					}
@@ -3496,8 +3570,6 @@
 							class=\"$catctr_class\">($cat_unread)</span> $ellipsis
 							</a></li>";
 
-					// !!! NO SPACE before <ul...feedCatList - breaks firstChild DOM function
-					// -> keyboard navigation, etc.
 					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
 				}
 	
