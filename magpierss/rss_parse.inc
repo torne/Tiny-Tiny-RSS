@@ -141,11 +141,18 @@ class MagpieRSS {
 
 					xml_parser_free( $this->parser );
 
+					if (preg_match('/<\?xml.*?encoding="([^ ]+)".*?\?>/',
+								$source, $matches)) {
+
+						$enc = $matches[1];
+					} else {
+						$enc = mb_detect_encoding($string);
+					}
+
 					list($parser, $source) = $this->create_parser($source, 
 	                $output_encoding, $input_encoding, $detect_encoding);
 
-					$source = mb_convert_encoding($source, "UTF-8",
-						 mb_detect_encoding($source));
+					$source = mb_convert_encoding($source, "UTF-8", $enc);
 
 			      $this->parser = $parser;
         
