@@ -62,6 +62,8 @@
 
 			$_SESSION["prefs_cache"] = false;
 
+//			print_r($_POST);
+
 			foreach (array_keys($_POST) as $pref_name) {
 			
 				$pref_name = db_escape_string($pref_name);
@@ -134,7 +136,7 @@
 
 			return prefs_js_redirect();
 
-		} else if ($subop == "Change theme") {
+		} else if ($subop == __("Change theme")) {
 
 			$theme = db_escape_string($_POST["theme"]);
 
@@ -360,7 +362,7 @@
 						$value = __("No");
 					}
 
-					print_radio($pref_name, $value, array(__("Yes"), __("No")));
+					print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")));
 			
 				} else {
 					print "<input class=\"editbox\" name=\"$pref_name\" value=\"$value\">";

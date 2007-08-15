@@ -1155,7 +1155,7 @@
 		return ((float)$usec + (float)$sec);
 	}
 
-	function print_radio($id, $default, $values, $attributes = "") {
+	function print_radio($id, $default, $true_is, $values, $attributes = "") {
 		foreach ($values as $v) {
 		
 			if ($v == $default)
@@ -1163,7 +1163,7 @@
 			 else
 			 	$sel = "";
 
-			if ($v == "Yes") {
+			if ($v == $true_is) {
 				$sel .= " value=\"1\"";
 			} else {
 				$sel .= " value=\"0\"";
