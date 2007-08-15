@@ -10,6 +10,7 @@
 						"href"	=> array( TW_RQ_URL ),		// value is required url 
 						"name"	=> array( TW_RQ_LINK ),		// value is link (link+href combination must be fixed in base)
 						"title"	=> null,
+						"target"	=> null,
 						),
 						
 		"hr"	=>	null,	// without attributes
