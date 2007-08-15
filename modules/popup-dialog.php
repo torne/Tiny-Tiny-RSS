@@ -59,7 +59,7 @@
 			print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
 
 			print "<table width='100%'>
-			<tr><td>".__('Feed URL:')."</td><td>
+			<tr><td width='20%'>".__('Feed URL:')."</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
 					onkeypress=\"return filterCR(event, qaddFeed)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
@@ -87,7 +87,7 @@
 
 			print "<div id='fadd_login_container' style='display:none'>
 				<table width='100%'>
-					<tr><td>".__('Login:')."</td><td><input name='auth_login' class='iedit'></td></tr>
+					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit'></td></tr>
 					<tr><td>".__('Password:')."</td><td><input type='password'
 						name='auth_pass' class='iedit'></td></tr>
 				</table>
