@@ -3830,7 +3830,7 @@
 
 			if ($line["link"]) {
 				print "<div clear='both'><a $link_target href=\"" . $line["link"] . "\">" . 
-					$line["title"] . "</a>$entry_author</div>";
+					$line["title"] . "</a><span class='author'>$entry_author</span></div>";
 			} else {
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
