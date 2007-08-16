@@ -988,7 +988,7 @@
 //			db_query($link, "COMMIT");
 
 		} else {
-			$error_msg = db_escape_string(magpie_error());
+			$error_msg = mb_substr(db_escape_string(magpie_error()), 0, 250);
 			db_query($link, 
 				"UPDATE ttrss_feeds SET last_error = '$error_msg', 
 					last_updated = NOW() WHERE id = '$feed'");
