@@ -21,7 +21,7 @@
 
 	function opml_export($link, $owner_uid) {
 		header("Content-type: application/xml+opml");
-		print "<?xml version=\"1.0\"?>";
+		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
 		print "<opml version=\"1.0\">";
 		print "<head>
