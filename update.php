@@ -13,8 +13,11 @@
 	if (DB_TYPE == "pgsql") {
 		pg_query($link, "set client_encoding = 'utf-8'");
 		pg_set_client_encoding("UNICODE");
+	} else {
+		db_query($link, "SET NAMES utf8");
+		db_query($link, "SET CHARACTER SET utf8");
 	}
-	
+
 	login_sequence($link);
 	
 	$owner_uid = $_SESSION["uid"];
