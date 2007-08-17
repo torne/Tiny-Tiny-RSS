@@ -2412,6 +2412,9 @@
 		print "<param key=\"infobox_disable_overlay\" value=\"" . 
 			get_pref($link, "_INFOBOX_DISABLE_OVERLAY") . "\"/>";
 
+		print "<param key=\"icons_location\" value=\"" . 
+			ICONS_URL . "\"/>";
+
 		print "</init-params>";
 	}
 

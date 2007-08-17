@@ -681,6 +681,10 @@ function parse_counters(reply, scheduled_call) {
 				}
 			}
 
+			if (has_img && feed_img && !is_msie()) {
+				feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
+			}
+
 			if (feedctr && feedu && feedr) {
 
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
