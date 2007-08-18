@@ -682,7 +682,9 @@ function parse_counters(reply, scheduled_call) {
 			}
 
 			if (has_img && feed_img && !is_msie()) {
-				feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
+				if (!feed_img.src.match(id + ".ico")) {
+					feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
+				}
 			}
 
 			if (feedctr && feedu && feedr) {
