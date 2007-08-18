@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-18 14:51+0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2007-08-18 15:16+0400\n"
+"PO-Revision-Date: 2007-08-18 15:14+0400\n"
+"Last-Translator: Andrew Dolgov <cthulhoo@gmail.com>\n"
+"Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -142,12 +142,11 @@ msgstr ""
 
 #: functions.php:2020 functions.php:2340 functions.php:2679 functions.php:3356
 msgid "Starred articles"
-msgstr "Отмеченные статьи"
+msgstr "Отмеченные"
 
 #: functions.php:2034 functions.php:2342 functions.php:2681 functions.php:3363
-#, fuzzy
 msgid "Published articles"
-msgstr "Отмеченные статьи"
+msgstr "Опубликованные"
 
 #: functions.php:2262 modules/popup-dialog.php:141
 #: modules/pref-filters.php:290
@@ -215,7 +214,6 @@ msgid "None"
 msgstr "Ничего"
 
 #: functions.php:3178
-#, fuzzy
 msgid "Toggle"
 msgstr "Изменить:"
 
@@ -225,7 +223,7 @@ msgstr "Отмеченные"
 
 #: functions.php:3181
 msgid "Published"
-msgstr ""
+msgstr "Опубликован"
 
 #: functions.php:3184 localized_schema.php:15
 msgid "Mark as read"
@@ -339,7 +337,7 @@ msgstr "Идет сохранение..."
 
 #: localized_js.php:40
 msgid "Can't add category: no name specified."
-msgstr ""
+msgstr "Не могу добавить категорию без имени"
 
 #: localized_js.php:41
 msgid "Adding feed category..."
@@ -517,41 +515,40 @@ msgstr "Канал не выбран."
 
 #: localized_js.php:93
 msgid "Replace current publishing address with a new one?"
-msgstr ""
+msgstr "Изменить текущий адрес публикации на новый?"
 
 #: localized_js.php:94
 msgid "Address changed."
-msgstr ""
+msgstr "Адрес изменен."
 
 #: localized_js.php:95
 msgid "Could not change address."
-msgstr ""
+msgstr "Не получилось изменить адрес."
 
 #: localized_js.php:96
 msgid "You can't unsubscribe from the category."
-msgstr ""
+msgstr "Нельзя отписаться от категории."
 
 #: localized_js.php:97
-#, fuzzy
 msgid "Please select some feed first."
-msgstr "Пожалуйста выберите только один канал."
+msgstr "Пожалуйста выберите какой-нибудь анал."
 
 #: localized_js.php:98
 msgid "You can't edit this kind of feed."
-msgstr ""
+msgstr "Вы не можете редактировать этот канал."
 
 #: localized_js.php:109
 msgid "Can't add filter: nothing to match on."
-msgstr ""
+msgstr "Не могу создать фильтр:"
 
 #: localized_js.php:110
 msgid "Can't subscribe: no feed URL given."
-msgstr ""
+msgstr "Не могу подписаться: нет URL"
 
 #: localized_js.php:111
-#, fuzzy, php-format
+#, php-format
 msgid "Unsubscribe from %s?"
-msgstr "Отписаться от выбранных каналов?"
+msgstr "Отписаться от %s?"
 
 #: localized_schema.php:9 modules/popup-dialog.php:172
 #: modules/pref-feeds.php:865 modules/pref-feeds.php:926
@@ -559,12 +556,10 @@ msgid "Title"
 msgstr "Заголовок"
 
 #: localized_schema.php:10
-#, fuzzy
 msgid "Title or Content"
 msgstr "Заголовок или содержимое"
 
 #: localized_schema.php:11
-#, fuzzy
 msgid "Link"
 msgstr "Связать с:"
 
@@ -573,32 +568,28 @@ msgid "Content"
 msgstr "Содержимое"
 
 #: localized_schema.php:14
-#, fuzzy
 msgid "Filter article"
-msgstr "Отмеченные статьи"
+msgstr "Отфильтровать статью"
 
 #: localized_schema.php:16
-#, fuzzy
 msgid "Set starred"
-msgstr "Отмеченные"
+msgstr "Отметить"
 
 #: localized_schema.php:17
-#, fuzzy
 msgid "Publish article"
-msgstr "Отмеченные статьи"
+msgstr "Опубликовать"
 
 #: localized_schema.php:18
-#, fuzzy
 msgid "Assign tags"
-msgstr "нет тегов"
+msgstr "Применить теги"
 
 #: localized_schema.php:22
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #: localized_schema.php:24
 msgid "Allow duplicate posts"
-msgstr ""
+msgstr "Разрешить дубликаты статей"
 
 #: localized_schema.php:25
 msgid ""
@@ -609,12 +600,11 @@ msgstr ""
 
 #: localized_schema.php:26
 msgid "Default interval between feed updates (in minutes)"
-msgstr ""
+msgstr "Интервал между обновлениями каналов по умолчанию (в минутах)"
 
 #: localized_schema.php:27
-#, fuzzy
 msgid "Enable e-mail digest"
-msgstr "Включить в дайджест"
+msgstr "Включить почтовый дайджест"
 
 #: localized_schema.php:28
 msgid ""
@@ -624,7 +614,7 @@ msgstr ""
 
 #: localized_schema.php:29
 msgid "Purge old posts after this number of days (0 - disables)"
-msgstr ""
+msgstr "Стирать статьи старше этого количества дней (0 - выключает)"
 
 #: localized_schema.php:30
 msgid "Update post on checksum change"
@@ -632,12 +622,11 @@ msgstr ""
 
 #: localized_schema.php:32
 msgid "Interface"
-msgstr ""
+msgstr "Интерфейс"
 
 #: localized_schema.php:34
-#, fuzzy
 msgid "Combined feed display"
-msgstr "Нет каналов для отображения."
+msgstr "Комбинированный режим отображения"
 
 #: localized_schema.php:35
 msgid ""
@@ -647,20 +636,19 @@ msgstr ""
 
 #: localized_schema.php:36
 msgid "Default article limit"
-msgstr ""
+msgstr "Количество статей по умолчанию"
 
 #: localized_schema.php:37
-#, fuzzy
 msgid "Enable feed categories"
-msgstr "Редактировать категории"
+msgstr "Включить категории каналов"
 
 #: localized_schema.php:38
 msgid "Hide feeds with no unread messages"
-msgstr ""
+msgstr "Спрятать каналы без непрочитанных статей"
 
 #: localized_schema.php:39
 msgid "Mark articles as read automatically"
-msgstr ""
+msgstr "Отмечать статьи как прочитанные автоматически"
 
 #: localized_schema.php:40
 msgid ""
@@ -670,7 +658,7 @@ msgstr ""
 
 #: localized_schema.php:41
 msgid "On catchup show next feed"
-msgstr ""
+msgstr "Показывать следующий канал при отметке как прочитанный"
 
 #: localized_schema.php:42
 msgid ""
@@ -696,7 +684,7 @@ msgstr ""
 
 #: localized_schema.php:47
 msgid "User stylesheet URL"
-msgstr ""
+msgstr "URL пользовательского файла стилей"
 
 #: localized_schema.php:48
 msgid "Link to user stylesheet to override default style, disabled if empty."
@@ -704,11 +692,11 @@ msgstr ""
 
 #: localized_schema.php:50
 msgid "Advanced"
-msgstr ""
+msgstr "Расширенные"
 
 #: localized_schema.php:52
 msgid "Blacklisted tags"
-msgstr ""
+msgstr "Черный список тегов"
 
 #: localized_schema.php:53
 msgid ""
@@ -717,18 +705,16 @@ msgid ""
 msgstr ""
 
 #: localized_schema.php:54
-#, fuzzy
 msgid "Confirm marking feed as read"
-msgstr "Помечаю все каналы как прочитанные..."
+msgstr ""
 
 #: localized_schema.php:55
 msgid "Enable icons in feedlist"
 msgstr ""
 
 #: localized_schema.php:56
-#, fuzzy
 msgid "Enable labels"
-msgstr "Создать метку"
+msgstr "Включить метки"
 
 #: localized_schema.php:57
 msgid ""
@@ -747,23 +733,23 @@ msgstr ""
 
 #: localized_schema.php:60
 msgid "Short date format"
-msgstr ""
+msgstr "Короткий формат даты"
 
 #: localized_schema.php:61
 msgid "Show additional information in feedlist"
-msgstr ""
+msgstr "Показивать расширенную информацию в списке каналов"
 
 #: localized_schema.php:62
 msgid "Strip unsafe tags from articles"
-msgstr ""
+msgstr "Вырезать небезопасные теги из статей"
 
 #: localized_schema.php:63
 msgid "Strip all but most common HTML tags when reading articles."
-msgstr ""
+msgstr "Вырезать все, кроме основных HTML тегов при показе статей."
 
 #: localized_schema.php:64
 msgid "Use more accessible date/time format for headlines"
-msgstr ""
+msgstr "Использовать более удобный формат отображения даты/времени"
 
 #: login_form.php:61 modules/popup-dialog.php:90 modules/pref-feeds.php:264
 #: modules/pref-users.php:29
@@ -776,7 +762,7 @@ msgstr "Пароль:"
 
 #: login_form.php:65
 msgid "Language:"
-msgstr ""
+msgstr "Язык:"
 
 #: opml.php:106 opml.php:110
 msgid "OPML Utility"
@@ -784,15 +770,15 @@ msgstr "Утилита OPML"
 
 #: opml.php:113
 msgid "Importing OPML (using DOMXML extension)..."
-msgstr ""
+msgstr "Импортирую OPML (с помощью расширения DOMXML)..."
 
 #: opml.php:117
 msgid "Importing OPML (using DOMDocument extension)..."
-msgstr ""
+msgstr "Импортирую OPML (с помощью расширения DOMDocument)..."
 
 #: opml.php:121
 msgid "DOMXML extension is not found. It is required for PHP versions below 5."
-msgstr ""
+msgstr "Расширение DOMXML не найдено. Оно необходимо для версий PHP старее 5."
 
 #: opml.php:125
 msgid "Return to preferences"
@@ -827,9 +813,8 @@ msgid "Other Feeds"
 msgstr "Другие каналы"
 
 #: prefs.php:113
-#, fuzzy
 msgid "Published Articles"
-msgstr "Все статьи"
+msgstr "Опубликованные статьи"
 
 #: prefs.php:115
 msgid "Content Filtering"
@@ -908,11 +893,11 @@ msgstr ""
 
 #: sanity_check.php:70
 msgid "Fatal Error"
-msgstr ""
+msgstr "Фатальная Ошибка"
 
 #: tt-rss.php:125
 msgid "tag cloud"
-msgstr ""
+msgstr "облако тегов"
 
 #: tt-rss.php:134
 msgid "Actions..."
@@ -993,19 +978,19 @@ msgstr "В доступе отказано - недостаточный уров
 
 #: update.php:51
 msgid "Database Updater"
-msgstr ""
+msgstr "Обновление базы данных"
 
 #: update.php:92
 msgid "Could not update database"
-msgstr ""
+msgstr "Не могу обновить базу данных"
 
 #: update.php:95
 msgid "Could not find necessary schema file, need version:"
-msgstr ""
+msgstr "Не могу найти необходимый файл схемы, требуется версия:"
 
 #: update.php:96
 msgid ", found: "
-msgstr ""
+msgstr ", найдена: "
 
 #: update.php:99
 msgid "Tiny Tiny RSS database is up to date."
@@ -1024,20 +1009,20 @@ msgstr ""
 
 #: update.php:125
 msgid "Perform updates"
-msgstr ""
+msgstr "Применить обновления"
 
 #: update.php:130
 msgid "Performing updates..."
-msgstr ""
+msgstr "Идет обновление..."
 
 #: update.php:136
 #, php-format
 msgid "Updating to version %d..."
-msgstr ""
+msgstr "Обновляю до версии %d..."
 
 #: update.php:149
 msgid "Checking version... "
-msgstr ""
+msgstr "Проверяю версию... "
 
 #: update.php:155
 msgid "OK!"
@@ -1145,7 +1130,7 @@ msgstr "Отмена"
 
 #: modules/popup-dialog.php:110
 msgid "This feed requires authentication."
-msgstr ""
+msgstr "Этот канал требует авторизации."
 
 #: modules/popup-dialog.php:138
 msgid "Where:"
@@ -1190,7 +1175,7 @@ msgstr "Создать фильтр"
 #: modules/popup-dialog.php:268 modules/popup-dialog.php:299
 #: modules/pref-filters.php:40 modules/pref-filters.php:72
 msgid "description"
-msgstr ""
+msgstr "описание"
 
 #: modules/popup-dialog.php:273 modules/pref-filters.php:45
 msgid "Match:"
@@ -1248,29 +1233,27 @@ msgstr "Сохранить"
 
 #: modules/popup-dialog.php:433
 msgid "Tag cloud"
-msgstr ""
+msgstr "Облако тегов"
 
 #: modules/popup-dialog.php:436
 msgid "Showing most popular tags "
-msgstr ""
+msgstr "Самые популярные теги "
 
 #: modules/popup-dialog.php:437
 msgid "browse more"
-msgstr ""
+msgstr "еще"
 
 #: modules/pref-feed-browser.php:5 modules/pref-feeds.php:53
 msgid "Feed browser is administratively disabled."
 msgstr "Другие каналы отключены администратором"
 
 #: modules/pref-feed-browser.php:15
-#, fuzzy
 msgid "Feed information:"
-msgstr "Действия над каналами:"
+msgstr "Информация о канале:"
 
 #: modules/pref-feed-browser.php:51
-#, fuzzy
 msgid "Last headlines:"
-msgstr "Последний вход"
+msgstr "Последние заголовки:"
 
 #: modules/pref-feed-browser.php:77
 msgid ""
@@ -1394,7 +1377,7 @@ msgstr "Топ 25"
 
 #: modules/pref-feeds.php:851
 msgid "Show last article times"
-msgstr ""
+msgstr "Показать дату последней статьи"
 
 #: modules/pref-feeds.php:868 modules/pref-feeds.php:930
 msgid "Last&nbsp;Article"
@@ -1436,7 +1419,7 @@ msgstr ""
 
 #: modules/pref-feeds.php:1060
 msgid "Generate another address"
-msgstr ""
+msgstr "Создать другой адрес"
 
 #: modules/pref-filters.php:22
 msgid "Filter editor"
@@ -1523,19 +1506,16 @@ msgid "Old password is incorrect."
 msgstr "Старый пароль неправилен."
 
 #: modules/pref-prefs.php:59 modules/pref-prefs.php:383
-#, fuzzy
 msgid "Save configuration"
-msgstr "Конфигурация сохранена."
+msgstr "Сохранить конфигурацию"
 
 #: modules/pref-prefs.php:129 modules/pref-prefs.php:387
-#, fuzzy
 msgid "Reset to defaults"
-msgstr "Сбросить настройки?"
+msgstr "Сбросить настройки"
 
 #: modules/pref-prefs.php:139 modules/pref-prefs.php:296
-#, fuzzy
 msgid "Change theme"
-msgstr "Изменить e-mail"
+msgstr "Изменить тему"
 
 #: modules/pref-prefs.php:180
 msgid ""
@@ -1588,7 +1568,6 @@ msgid "Select theme"
 msgstr "Выбор темы"
 
 #: modules/pref-prefs.php:280
-#, fuzzy
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -1598,21 +1577,19 @@ msgstr ""
 
 #: modules/pref-prefs.php:360 modules/pref-prefs.php:365
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #: modules/pref-prefs.php:362 modules/pref-prefs.php:365
-#, fuzzy
 msgid "No"
-msgstr "Ничего"
+msgstr "Нет"
 
 #: modules/pref-users.php:12
 msgid "User editor"
 msgstr "Редактор пользователей"
 
 #: modules/pref-users.php:33
-#, fuzzy
 msgid "Change password:"
-msgstr "Изменить пароль"
+msgstr "Изменить пароль:"
 
 #: modules/pref-users.php:37
 msgid "E-mail:"
