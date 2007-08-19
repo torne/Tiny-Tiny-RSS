@@ -32,7 +32,7 @@
 				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 			}
 
-			if ($_COOKIE["ttrss_lang"]) {
+			if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {				
 				$lang = $_COOKIE["ttrss_lang"];
 			}
 
