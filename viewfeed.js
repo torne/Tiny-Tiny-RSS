@@ -644,9 +644,19 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 				nc = nc.replace("Unread", "");
 				nc = nc.replace("Selected", "");
 
-				if (row.className.match("Unread")) {
+				if (set_state == undefined) {
+					if (row.className.match("Unread")) {
+						row.className = nc + "Selected";
+					} else {
+						row.className = nc + "UnreadSelected";
+					}
+				}
+
+				if (set_state == false) {
 					row.className = nc + "Selected";
-				} else {
+				}
+
+				if (set_state == true) {
 					row.className = nc + "UnreadSelected";
 				}
 			}
@@ -871,7 +881,9 @@ function catchupPage() {
 
 	var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
 	
-	var str = "Mark all visible articles in " + fn + " as read?";
+	var str = __("Mark all visible articles in %s as read?");
+
+	str = str.replace("%s", fn);
 
 	if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
 		return;
@@ -888,13 +900,55 @@ function catchupPage() {
 	}
 }
 
+function catchupSelection() {
+
+	try {
+
+		var rows;
+	
+		if (document.getElementById("headlinesList")) {
+			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		} else {	
+			rows = cdmGetSelectedArticles();
+		}
+	
+		if (rows.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+	
+	
+		var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
+		
+		var str = __("Mark all selected articles in %s as read?");
+	
+		str = str.replace("%s", fn);
+	
+		if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
+			return;
+		}
+	
+		if (document.getElementById("headlinesList")) {
+			selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
+	//		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+		} else {
+			selectionToggleUnread(true, false, 'viewCurrentFeed()', true)
+	//		cdmSelectArticles('none');
+		}
+
+	} catch (e) {
+		exception_error("catchupSelection", e);
+	}
+}
+
+
 function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 
 	if (!xmlhttp_ready(xmlhttp_rpc)) {
 		printLockingError();
 	}
 
-	var title = prompt("Please enter label title:", "");
+	var title = prompt(__("Please enter label title:"), "");
 
 	if (title) {
 

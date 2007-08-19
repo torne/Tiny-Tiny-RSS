@@ -109,9 +109,9 @@ print T_js_decl("No feeds are selected.");
 print T_js_decl("Can't add filter: nothing to match on.");
 print T_js_decl("Can't subscribe: no feed URL given.");
 print T_js_decl("Unsubscribe from %s?");
-#print T_js_decl(
-#print T_js_decl(
-#print T_js_decl(
+print T_js_decl("Mark all visible articles in %s as read?");
+print T_js_decl("Mark all selected articles in %s as read?");
+print T_js_decl("Please enter label title:");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(

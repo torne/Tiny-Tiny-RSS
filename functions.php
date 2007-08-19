@@ -3142,6 +3142,7 @@
 
 			$catchup_page_link = "javascript:catchupPage()";
 			$catchup_feed_link = "javascript:catchupCurrentFeed()";
+			$catchup_sel_link = "javascript:catchupSelection()";
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
@@ -3182,6 +3183,7 @@
 						</ul></li>
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
+						<li onclick=\"$catchup_sel_link\">".__('Selection')."</li>
 						<li onclick=\"$catchup_page_link\">".__('This page')."</li>
 						<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
 					";
