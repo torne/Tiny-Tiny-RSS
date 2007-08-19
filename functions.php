@@ -1414,7 +1414,7 @@
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
 					$_SESSION["uid"]);
 
-				if ($_SESSION["language"]) {
+				if ($_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
 					setcookie("ttrss_lang", $_SESSION["language"], 
 						time() + SESSION_COOKIE_LIFETIME);
 				}
