@@ -241,6 +241,63 @@ function infobox_feed_cat_callback() {
 	}
 }
 
+function recat_onChange(elem) {
+	debug(elem);
+
+}
+
+function recat_onUpdate(ctr) {
+	debug(ctr);
+
+}
+
+function infobox_recategorize_callback() {
+	if (xmlhttp.readyState == 4) {
+		try {
+
+			infobox_callback();
+
+			var ctr = document.getElementById("prefFeedCatList2");
+
+			if (ctr) {
+				var elems = ctr.getElementsByTagName("SPAN");
+
+				for (var i = 0; i < elems.length; i++) {
+					if (elems[i].id && elems[i].id.match("FCATT-")) {
+						var cat_id = elems[i].id.replace("FCATT-", "");
+
+						new Ajax.InPlaceEditor(elems[i],
+							'backend.php?op=pref-feeds&subop=editCats&action=save&cid=' + cat_id);
+					}
+				}
+
+				elems = ctr.getElementsByTagName("UL");
+
+				ctrs = new Array();
+				ctr_ids = new Array();
+
+				for (var i = 0; i < elems.length; i++) {
+					if (elems[i].id.match("FCNTR-")) {
+						ctrs.push(elems[i]);
+						ctr_ids.push(elems[i].id);
+					}
+				}
+
+				Position.includeScrollOffsets = true;
+
+				for (var i = 0; i < ctrs.length; i++) {
+					Sortable.create(elems[i], { scroll: ctr, ghosting: false, 
+						containment: ctrs, dropOnEmpty: true, onChange: recat_onChange, onUpdate: recat_onUpdate });
+				} 
+
+			} 
+
+		} catch (e) {
+			exception_error("infobox_recategorize_callback", e);
+		}
+	}
+}
+
 function updateFeedList(sort_key) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -1670,6 +1727,25 @@ function editFeedCats() {
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
 	xmlhttp.onreadystatechange=infobox_feed_cat_callback;
+	xmlhttp.send(null);
+}
+
+function recategorizeFeeds() {
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	document.getElementById("subscribe_to_feed_btn").disabled = true;
+
+	try {
+		document.getElementById("top25_feeds_btn").disabled = true;
+	} catch (e) {
+		// this button is not always available, no-op if not found
+	}
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=categorizeDlg", true);
+	xmlhttp.onreadystatechange=infobox_recategorize_callback;
 	xmlhttp.send(null);
 }
 
