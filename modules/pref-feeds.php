@@ -519,21 +519,26 @@
 
 		if ($subop == "editCats") {
 
-			print "<div id=\"infoBoxTitle\">".__('Category editor')."</div>";
-			
-			print "<div class=\"infoBoxContents\">";
-
 			$action = $_REQUEST["action"];
 
 			if ($action == "save") {
 
-				$cat_title = db_escape_string(trim($_GET["title"]));
-				$cat_id = db_escape_string($_GET["id"]);
+				$cat_title = db_escape_string(trim($_REQUEST["value"]));
+				$cat_id = db_escape_string($_GET["cid"]);
 	
 				$result = db_query($link, "UPDATE ttrss_feed_categories SET
 					title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
-	
+
+				print $_REQUEST["value"];
+
+				return;
+
 			}
+
+			print "<div id=\"infoBoxTitle\">".__('Category editor')."</div>";
+			
+			print "<div class=\"infoBoxContents\">";
+
 
 			if ($action == "add") {
 
@@ -625,10 +630,6 @@
 
 				print "<table width=\"100%\" class=\"prefFeedCatList\" 
 					cellspacing=\"0\" id=\"prefFeedCatList\">";
-
-/*				print "<tr class=\"title\">
-							<td width=\"5%\">&nbsp;</td><td width=\"80%\">Title</td>
-							</tr>"; */
 						
 				$lnum = 0;
 				
@@ -637,54 +638,18 @@
 					$class = ($lnum % 2) ? "even" : "odd";
 		
 					$cat_id = $line["id"];
-		
-					$edit_cat_id = $_GET["id"];
-
-					if ($action == "edit" && $cat_id == $edit_cat_id) {
-						$class .= "Selected";
-						$this_row_id = "";
-					} else if ($action == "edit" && $cat_id != $edit_cat_id) {
-						$class .= "Grayed";
-						$this_row_id = "";
-					} else {
-						$this_row_id = "id=\"FCATR-$cat_id\"";
-					}
+					$this_row_id = "id=\"FCATR-$cat_id\"";
 		
 					print "<tr class=\"$class\" $this_row_id>";
 		
 					$edit_title = htmlspecialchars($line["title"]);
 		
-					if (!$edit_cat_id || $action != "edit") {
-		
-						print "<td width='5%' align='center'><input 
-							onclick='toggleSelectPrefRow(this, \"fcat\");' 
-							type=\"checkbox\" id=\"FCCHK-".$line["id"]."\"></td>";
-		
-						print "<td><a href=\"javascript:editFeedCat($cat_id);\">" . 
-							$edit_title . "</a></td>";		
-		
-					} else if ($cat_id != $edit_cat_id) {
-		
-						print "<td width='5%' align='center'><input disabled=\"true\" type=\"checkbox\" 
-							id=\"FRCHK-".$line["id"]."\"></td>";
-		
-						print "<td>$edit_title</td>";		
-		
-					} else {
-		
-						print "<td width='5%' align='center'><input disabled=\"true\" type=\"checkbox\" checked>";
-						
-						print "<input type=\"hidden\" name=\"id\" value=\"$cat_id\">";
-						print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-						print "<input type=\"hidden\" name=\"subop\" value=\"editCats\">";
-						print "<input type=\"hidden\" name=\"action\" value=\"save\">";
-				
-						print "</td>";
-		
-						print "<td><input onkeypress=\"return filterCR(event, feedCatEditSave)\"
-							name=\"title\" size=\"40\" value=\"$edit_title\"></td>";
-						
-					}
+					print "<td width='5%' align='center'><input 
+						onclick='toggleSelectPrefRow(this, \"fcat\");' 
+						type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
+	
+					print "<td><span id=\"FCATT-$cat_id\">" . 
+						$edit_title . "</span></td>";		
 					
 					print "</tr>";
 		
@@ -707,20 +672,10 @@
 
 			print "<div id=\"catOpToolbar\">";
 	
-			if ($action == "edit") {
-				print "<input type=\"submit\" class=\"button\"
-						onclick=\"return feedCatEditSave()\" value=\"".__('Save')."\">
-					<input type=\"submit\" class=\"button\"
-						onclick=\"return feedCatEditCancel()\" value=\"".__('Cancel')."\">";
-			} else {
-
-				print "
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return editSelectedFeedCat()\" value=\"".__('Edit')."\">
+			print "
 				<input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"return removeSelectedFeedCats()\" value=\"".__('Remove')."\">";
-			}
-
+	
 			print "</div>";
 
 			print "</div>";
