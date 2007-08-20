@@ -411,8 +411,12 @@ function toggleMark(id) {
 			vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 		}
 
-		Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
-
+		if (document.getElementById("headlinesList")) {
+			Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
+		} else { 
+			mark_img.src = "images/mark_unset.png";
+			mark_img.alt = "Set mark";
+		}
 	}
 
 	var vfeedctr = document.getElementById("FEEDCTR--1");
@@ -476,9 +480,13 @@ function togglePub(id) {
 			if (vfeedu && crow.className.match("Unread")) {
 				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 			}
-	
-			Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
 
+			if (document.getElementById("headlinesList")) {
+				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
+			} else { 
+				mark_img.src = "images/pub_unset.png";
+				mark_img.alt = "Publish";
+			}
 		}
 	
 		var vfeedctr = document.getElementById("FEEDCTR--2");
