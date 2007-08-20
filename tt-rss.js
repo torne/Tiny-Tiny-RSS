@@ -673,16 +673,24 @@ function editFeedDlg(feed) {
 		return;
 	}
 
-	if (feed <= 0 || activeFeedIsCat() || tagsAreDisplayed()) {
+	if ((feed <= 0 && feed > -10) || activeFeedIsCat() || tagsAreDisplayed()) {
 		alert(__("You can't edit this kind of feed."));
 		return;
 	}
 
 	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
-			param_escape(feed), true);
-		xmlhttp.onreadystatechange=infobox_callback;
-		xmlhttp.send(null);
+
+		if (feed > 0) {
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
+				param_escape(feed), true);
+			xmlhttp.onreadystatechange=infobox_callback;
+			xmlhttp.send(null);
+		} else {
+			xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
+				param_escape(-feed-11), true);
+			xmlhttp.onreadystatechange=infobox_callback;
+			xmlhttp.send(null);
+		}
 	} else {
 		printLockingError();
 	}
@@ -725,4 +733,35 @@ function feedEditSave() {
 	} 
 }
 
+function labelEditCancel() {
+	closeInfoBox();
+	return false;
+}
+
+function labelEditSave() {
+
+	try {
+
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
+	
+		closeInfoBox();
+	
+		notify_progress("Saving label...");
+	
+		query = Form.serialize("label_edit_form");
+	
+		xmlhttp.open("GET", "backend.php?" + query, true);		
+		xmlhttp.onreadystatechange=dlg_frefresh_callback;
+		xmlhttp.send(null);
+	
+		return false;
+
+	} catch (e) {
+		exception_error("feedEditSave (main)", e);
+	} 
+
+}
 

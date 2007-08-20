@@ -144,14 +144,6 @@ function labellist_callback() {
 	}
 }
 
-function labeltest_callback() {
-	var container = document.getElementById('label_test_result');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-		notify("");
-	}
-}
-
 function feed_browser_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
@@ -761,25 +753,6 @@ function feedCatEditSave() {
 }
 
 
-function labelTest() {
-
-	var container = document.getElementById('label_test_result');
-	container.style.display = "block";
-	container.innerHTML = "<p>Loading, please wait...</p>";
-
-	var form = document.forms['label_edit_form'];
-
-	var sql_exp = form.sql_exp.value;
-	var description = form.description.value;
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
-		param_escape(sql_exp) + "&descr=" + param_escape(description), true);
-
-	xmlhttp.onreadystatechange=labeltest_callback;
-	xmlhttp.send(null);
-
-	return false;
-}
 
 function displayHelpInfobox(topic_id) {
 
