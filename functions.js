@@ -615,24 +615,16 @@ function parse_counters(reply, scheduled_call) {
 
 		var feeds_found = 0;
 
-		if (reply.firstChild && reply.firstChild.firstChild) {
-			debug("<b>wrong element passed to parse_counters, adjusting.</b>");
-			reply = reply.firstChild;
-		}
+		var elems = reply.getElementsByTagName("counter");
 
-		for (var l = 0; l < reply.childNodes.length; l++) {
-			if (!reply.childNodes[l] ||
-				typeof(reply.childNodes[l].getAttribute) == "undefined") {
-				// where did this come from?
-				continue;
-			}
+		for (var l = 0; l < elems.length; l++) {
 
-			var id = reply.childNodes[l].getAttribute("id");
-			var t = reply.childNodes[l].getAttribute("type");
-			var ctr = reply.childNodes[l].getAttribute("counter");
-			var error = reply.childNodes[l].getAttribute("error");
-			var has_img = reply.childNodes[l].getAttribute("hi");
-			var updated = reply.childNodes[l].getAttribute("updated");
+			var id = elems[l].getAttribute("id");
+			var t = elems[l].getAttribute("type");
+			var ctr = elems[l].getAttribute("counter");
+			var error = elems[l].getAttribute("error");
+			var has_img = elems[l].getAttribute("hi");
+			var updated = elems[l].getAttribute("updated");
 	
 			if (id == "global-unread") {
 				global_unread = ctr;

@@ -19,6 +19,7 @@
 
 			print "</rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "getLabelCounters") {
@@ -31,6 +32,8 @@
 			}
 			print "</counters>";
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "getFeedCounters") {
@@ -39,6 +42,8 @@
 			getFeedCounters($link);
 			print "</counters>";
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "getAllCounters") {
@@ -51,6 +56,8 @@
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "mark") {
@@ -76,6 +83,7 @@
 			}
 			print "</counters></rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "publ") {
@@ -101,6 +109,7 @@
 			}
 			print "</counters></rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "updateFeed") {
@@ -180,6 +189,7 @@
 
 			print "</rpc-reply>";
 
+			return;
 		}
 
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
@@ -196,6 +206,8 @@
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "markSelected") {
@@ -211,6 +223,8 @@
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "publishSelected") {
@@ -226,6 +240,8 @@
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
+
+			return;
 		}
 
 		if ($subop == "sanityCheck") {
@@ -240,6 +256,8 @@
 
 			}
 			print "</rpc-reply>";
+
+			return;
 		}		
 
 		if ($subop == "globalPurge") {
@@ -248,6 +266,7 @@
 			global_purge_old_posts($link, true);
 			print "</rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "getArticleLink") {
@@ -263,6 +282,8 @@
 			} else {
 				print "<rpc-reply><error>Article not found</error></rpc-reply>";
 			}
+
+			return;
 		}
 
 		if ($subop == "setArticleTags") {
@@ -311,6 +332,7 @@
 				<message>$id</message>
 				</rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "regenPubKey") {
@@ -325,11 +347,13 @@
 
 			print "</rpc-reply>";
 
+			return;
 		}
 
 		if ($subop == "logout") {
 			logout_user();
 			print_error_xml(6);
+			return;
 		}
 
 		if ($subop == "completeTags") {
@@ -347,7 +371,9 @@
 			}
 			print "</ul>";
 
+			return;
 		}
 
+		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
