@@ -26,6 +26,8 @@ function replace_pubkey_callback() {
 					link.href = new_link.firstChild.nodeValue;
 					link.innerHTML = new_link.firstChild.nodeValue;
 
+					new Effect.Highlight(link);
+
 					notify_info("Address changed.");
 				} else {
 					notify_error("Could not change address.");
