@@ -738,7 +738,7 @@ function parse_counters(reply, scheduled_call) {
 		if (feeds_stored != feeds_found) {
 			number_of_feeds = feeds_found;
 
-			if (feeds_stored != 0) {
+			if (feeds_stored != 0 && feeds_found != 0) {
 				debug("Subscribed feed number changed, refreshing feedlist");
 				setTimeout('updateFeedList(false, false)', 50);
 			}
