@@ -68,7 +68,7 @@
 
 <body>
 
-<div id="piggie">&nbsp;</div>
+<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie">
 
 <script type="text/javascript">
 if (document.addEventListener) {

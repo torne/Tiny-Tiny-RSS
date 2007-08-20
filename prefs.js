@@ -5,9 +5,6 @@ var active_label = false;
 var active_tab = false;
 var feed_to_expand = false;
 
-var piggie_top = -400;
-var piggie_fwd = true;
-
 var xmlhttp = Ajax.getTransport();
 
 var init_params = new Array();
@@ -1131,63 +1128,15 @@ function editSelectedFeedCat() {
 
 }
 
-function piggie_callback() {
-	var piggie = document.getElementById("piggie");
-
-	piggie.style.top = piggie_top;
-	piggie.style.backgroundColor = "white";
-	piggie.style.borderWidth = "1px";
-
-	if (piggie_fwd && piggie_top < 0) {
-		setTimeout("piggie_callback()", 50);
-		piggie_top = piggie_top + 10;
-	} else if (piggie_fwd && piggie_top >= 0) {
-		piggie_fwd = false;
-		setTimeout("piggie_callback()", 50);
-	} else if (!piggie_fwd && piggie_top > -400) {
-		setTimeout("piggie_callback()", 50);
-		piggie_top = piggie_top - 10;
-	} else if (!piggie_fwd && piggie_top <= -400) {
-		piggie.style.display = "none";
-		piggie_fwd = true;
-	}
-}
-
-var piggie_opacity = 0;
-
-function piggie2_callback() {
-	var piggie = document.getElementById("piggie");
-	piggie.style.top = 0;
-	piggie.style.opacity = piggie_opacity;
-	piggie.style.backgroundColor = "transparent";
-	piggie.style.borderWidth = "0px";
-
-	if (piggie_fwd && piggie_opacity < 1) {
-		setTimeout("piggie2_callback()", 50);
-		piggie_opacity = piggie_opacity + 0.03;
-	} else if (piggie_fwd && piggie_opacity >= 1) {
-		piggie_fwd = false;
-		setTimeout("piggie2_callback()", 50);
-	} else if (!piggie_fwd && piggie_opacity > 0) {
-		setTimeout("piggie2_callback()", 50);
-		piggie_opacity = piggie_opacity - 0.03;
-	} else if (!piggie_fwd && piggie_opacity <= 0) {
-		piggie.style.display = "none";
-		piggie_fwd = true;
-	}
-}
-
 function localPiggieFunction(enable) {
 	if (enable) {
 		debug("I LOVEDED IT!");
 		var piggie = document.getElementById("piggie");
-		piggie.style.display = "block";
 
-		if (navigator.userAgent.match("Gecko") && Math.random(1) > 0.5) {	
-			piggie2_callback();
-		} else {
-			piggie_callback();
-		}
+		Element.show(piggie);
+		Position.Center(piggie);
+		Effect.Puff(piggie);
+
 	}
 }
 
