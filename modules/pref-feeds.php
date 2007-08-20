@@ -517,65 +517,6 @@
 
 		}
 
-		if ($subop == "categorizeDlg") {
-			$action = $_REQUEST["action"];
-
-			print "<div id=\"infoBoxTitle\">".__('Category editor')."</div>";
-			
-			print "<div class=\"infoBoxContents\">";
-
-			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
-				WHERE owner_uid = ".$_SESSION["uid"]."
-				ORDER BY title");
-
-			if (db_num_rows($result) != 0) {
-
-				print "<ul class=\"nomarks\" id=\"prefFeedCatList2\">";
-
-				$lnum = 0;
-				
-				while ($line = db_fetch_assoc($result)) {
-		
-					$class = ($lnum % 2) ? "even" : "odd";
-		
-					$cat_id = $line["id"];
-			
-					print "<li id='FCATR-$cat_id'>";
-		
-					$edit_title = htmlspecialchars($line["title"]);
-		
-					print "<span id=\"FCATT-$cat_id\">" . 
-						$edit_title . "</span>";		
-
-					$tmp_result = db_query($link, "SELECT id, title FROM ttrss_feeds WHERE owner_uid = ".
-						$_SESSION["uid"]. " AND cat_id = $cat_id ORDER BY title");
-
-					print "<ul id=\"FCNTR-$cat_id\" class=\"nomarks\">";
-
-					while ($tmp_line = db_fetch_assoc($tmp_result)) {
-						print "<li class=\"feedEntry\" id=\"FCFID-".$tmp_line["id"]."\">" . $tmp_line["title"] . "</li>";
-
-					}
-
-					print "</ul>";
-
-					print "</li>";
-		
-					++$lnum;
-				}
-	
-				print "</ul>";
-
-
-				print "<input type=\"submit\" class=\"button\"
-						onclick=\"return closeInfoBox()\" value=\"".__('Close this window')."\">";
-
-				print "</div>";
-			}
-
-			return;
-		}
-
 		if ($subop == "editCats") {
 
 			$action = $_REQUEST["action"];
@@ -1023,11 +964,6 @@
 				print " <input type=\"submit\" class=\"button\" disabled=\"true\"
 					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"".
 					__('Recategorize')."\">";
-
-/*				print " <input type=\"submit\" class=\"button\"
-					onclick=\"javascript:recategorizeFeeds()\" value=\"".
-					__('Recategorize')."\">"; */
-
 			}
 				
 			print "</span>";
