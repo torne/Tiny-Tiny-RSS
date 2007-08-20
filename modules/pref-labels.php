@@ -126,7 +126,7 @@
 							ttrss_user_entries.ref_id = ttrss_entries.id
 							AND ttrss_user_entries.feed_id = ttrss_feeds.id
 							AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"] . " 
-							ORDER BY date_entered DESC LIMIT 10", false);
+							ORDER BY date_entered LIMIT 10", false);
 
 				print "<ul class=\"labelTestResults\">";
 
