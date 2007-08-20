@@ -1924,7 +1924,11 @@ Position.Center = function(element, parent) {
 function labeltest_callback() {
 	var container = document.getElementById('label_test_result');
 	if (xmlhttp.readyState == 4) {
+
 		container.innerHTML=xmlhttp.responseText;
+		if (!Element.visible(container)) {
+			Effect.SlideDown(container, { duration : 0.5 });
+		}
 		notify("");
 	}
 }
@@ -1932,13 +1936,13 @@ function labeltest_callback() {
 function labelTest() {
 
 	var container = document.getElementById('label_test_result');
-	container.style.display = "block";
-	container.innerHTML = "<p>Loading, please wait...</p>";
 
 	var form = document.forms['label_edit_form'];
 
 	var sql_exp = form.sql_exp.value;
 	var description = form.description.value;
+
+	notify_progress("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
 		param_escape(sql_exp) + "&descr=" + param_escape(description), true);

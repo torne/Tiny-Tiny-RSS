@@ -103,7 +103,7 @@
 			error_reporting (DEFAULT_ERROR_LEVEL);
 
 			if (!$result) {
-				print "<p>" . db_last_error($link) . "</p>";
+				print "<div class=\"labelTestError\">" . db_last_error($link) . "</div>";
 				print "</div>";
 				return;
 			}
