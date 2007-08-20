@@ -918,7 +918,7 @@
 				}
 
 				if ($last_error) {
-					$edit_title = "<span class=\"feed_error\">$edit_title ($last_error)</span>";
+					$edit_title = "<span class=\"feed_error\">$edit_title</span>";
 					$last_updated = "<span class=\"feed_error\">$last_updated</span>";
 					$last_article = "<span class=\"feed_error\">$last_article</span>";
 				}
