@@ -1548,9 +1548,9 @@ function infobox_callback() {
 			var shadow = document.getElementById('infoBoxShadow');
 			if (box) {			
 
-				if (!is_safari()) {
+/*				if (!is_safari()) {
 					new Draggable(shadow);
-				}
+				} */
 
 				box.innerHTML=xmlhttp.responseText;			
 				if (shadow) {
