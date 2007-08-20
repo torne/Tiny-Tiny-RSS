@@ -7,6 +7,8 @@
 		<script type="text/javascript" src="pngfix.js"></script>
 	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="prototype.js"></script>
+	<script type="text/javascript" src="scriptaculous/scriptaculous.js"></script>
 	<script type="text/javascript" src="functions.js"></script>
 </head>
 
@@ -34,6 +36,26 @@ function languageChange(elem) {
 		exception_error("languageChange", e);
 	}
 }
+
+function validateLoginForm(f) {
+	try {
+
+		if (f.login.value.length == 0) {
+			new Effect.Highlight(f.login);
+			return false;
+		}
+
+		if (f.password.value.length == 0) {
+			new Effect.Highlight(f.password);
+			return false;
+		}
+
+		return true;
+	} catch (e) {
+		exception_error("validateLoginForm", e);
+		return true;
+	}
+}
 </script>
 
 <script type="text/javascript">
@@ -43,7 +65,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<form action="" method="POST" name="loginForm">
+<form action="" method="POST" name="loginForm" onsubmit="return validateLoginForm(this)">
 <input type="hidden" name="login_action" value="do_login">
 
 <table width="100%" class="loginForm2">
