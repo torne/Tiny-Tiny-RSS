@@ -68,7 +68,13 @@
 			$result = db_query($link, "UPDATE ttrss_user_entries SET marked = $mark
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><mark>$id</mark></rpc-reply>";
+			print "<rpc-reply><counters>";
+			getGlobalCounters($link);
+			getLabelCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
+			print "</counters></rpc-reply>";
 
 		}
 
@@ -87,7 +93,13 @@
 			$result = db_query($link, "UPDATE ttrss_user_entries SET published = $pub
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><pub>$id</pub></rpc-reply>";
+			print "<rpc-reply><counters>";
+			getGlobalCounters($link);
+			getLabelCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
+			print "</counters></rpc-reply>";
 
 		}
 

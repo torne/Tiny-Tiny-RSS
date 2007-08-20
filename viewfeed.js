@@ -440,6 +440,8 @@ function toggleMark(id) {
 	
 		//new Ajax.Request(query); */
 
+		debug(query);
+
 		xmlhttp_rpc.open("GET", query, true);
 		xmlhttp_rpc.onreadystatechange=all_counters_callback;
 		xmlhttp_rpc.send(null);

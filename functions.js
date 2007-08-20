@@ -782,11 +782,11 @@ function parse_counters_reply(xmlhttp, scheduled_call) {
 		return fatalError(error_code, error_msg);
 	}
 
-	var counters = reply.firstChild;
+	var counters = reply.getElementsByTagName("counters")[0];
 	
 	parse_counters(counters, scheduled_call);
 
-	var runtime_info = counters.nextSibling;
+	var runtime_info = reply.getElementsByTagName("runtime-info")[0];
 
 	parse_runtime_info(runtime_info);
 
