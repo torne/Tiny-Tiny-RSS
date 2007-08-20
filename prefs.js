@@ -1684,6 +1684,36 @@ function changeUserPassword() {
 			return false;
 		}
 	
+		var f = document.forms["change_pass_form"];
+
+		if (f) {
+			if (f.OLD_PASSWORD.value == "") {
+				new Effect.Highlight(f.OLD_PASSWORD);
+				notify_error("Old password cannot be blank.");
+				return false;
+			}
+
+			if (f.NEW_PASSWORD.value == "") {
+				new Effect.Highlight(f.NEW_PASSWORD);
+				notify_error("New password cannot be blank.");
+				return false;
+			}
+
+			if (f.CONFIRM_PASSWORD.value == "") {
+				new Effect.Highlight(f.CONFIRM_PASSWORD);
+				notify_error("Entered passwords do not match.");
+				return false;
+			}
+
+			if (f.CONFIRM_PASSWORD.value != f.NEW_PASSWORD.value) {
+				new Effect.Highlight(f.CONFIRM_PASSWORD);
+				new Effect.Highlight(f.NEW_PASSWORD);
+				notify_error("Entered passwords do not match.");
+				return false;
+			}
+
+		}
+
 		var query = Form.serialize("change_pass_form");
 	
 		notify_progress("Trying to change password...");

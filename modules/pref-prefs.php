@@ -316,7 +316,8 @@
 					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
 
-			print "<form action=\"backend.php\" method=\"POST\" id=\"pref_prefs_form\">";
+			print "<form onsubmit='return false' action=\"backend.php\" 
+				method=\"POST\" id=\"pref_prefs_form\">";
 
 			$lnum = 0;
 
