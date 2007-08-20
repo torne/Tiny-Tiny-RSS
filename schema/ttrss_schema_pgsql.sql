@@ -153,7 +153,7 @@ create table ttrss_filters (id serial not null primary key,
 	enabled boolean not null default true,
 	inverse boolean not null default false,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
-	action_param varchar(200) not null default '');
+	action_param varchar(250) not null default '');
 
 create table ttrss_labels (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
