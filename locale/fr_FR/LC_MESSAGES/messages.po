@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-19 16:10+0400\n"
+"POT-Creation-Date: 2007-08-20 19:27+0400\n"
 "PO-Revision-Date: 2007-08-14 16:43+0200\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -160,7 +160,7 @@ msgid "All feeds"
 msgstr "Tous les flux"
 
 #: functions.php:2291 functions.php:2330 functions.php:2657 functions.php:3519
-#: functions.php:3549 modules/pref-feeds.php:890
+#: functions.php:3549 modules/pref-feeds.php:845
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
@@ -200,14 +200,14 @@ msgstr ""
 "l'administrateur de votre TIny Tiny RSS.\n"
 
 #: functions.php:3174 functions.php:3217 functions.php:4190
-#: modules/pref-feeds.php:615 modules/pref-feeds.php:852
+#: modules/pref-feeds.php:620 modules/pref-feeds.php:807
 #: modules/pref-filters.php:255 modules/pref-labels.php:234
 #: modules/pref-users.php:208
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
-#: functions.php:3175 functions.php:3218 modules/pref-feeds.php:616
-#: modules/pref-feeds.php:853 modules/pref-filters.php:256
+#: functions.php:3175 functions.php:3218 modules/pref-feeds.php:621
+#: modules/pref-feeds.php:808 modules/pref-filters.php:256
 #: modules/pref-labels.php:235 modules/pref-users.php:209
 msgid "All"
 msgstr "Tout"
@@ -217,8 +217,8 @@ msgstr "Tout"
 msgid "Unread"
 msgstr "Non lus"
 
-#: functions.php:3177 functions.php:3220 modules/pref-feeds.php:617
-#: modules/pref-feeds.php:854 modules/pref-filters.php:257
+#: functions.php:3177 functions.php:3220 modules/pref-feeds.php:622
+#: modules/pref-feeds.php:809 modules/pref-filters.php:257
 #: modules/pref-labels.php:236 modules/pref-users.php:210
 msgid "None"
 msgstr "Aucun"
@@ -581,8 +581,13 @@ msgstr "Marquage de tous les flux comme lus..."
 msgid "Please enter label title:"
 msgstr ""
 
+#: localized_js.php:115
+#, fuzzy
+msgid "Save current configuration?"
+msgstr "Enregistrer la configuration"
+
 #: localized_schema.php:9 modules/popup-dialog.php:172
-#: modules/pref-feeds.php:865 modules/pref-feeds.php:926
+#: modules/pref-feeds.php:820 modules/pref-feeds.php:881
 msgid "Title"
 msgstr "Titre"
 
@@ -805,16 +810,16 @@ msgstr ""
 msgid "Use more accessible date/time format for headlines"
 msgstr "Afficher la date et l'heure de manière plus lisible dans les en-têtes"
 
-#: login_form.php:61 modules/popup-dialog.php:90 modules/pref-feeds.php:264
+#: login_form.php:83 modules/popup-dialog.php:90 modules/pref-feeds.php:264
 #: modules/pref-users.php:29
 msgid "Login:"
 msgstr "Nom&nbsp;:"
 
-#: login_form.php:63 modules/popup-dialog.php:91 modules/pref-feeds.php:270
+#: login_form.php:85 modules/popup-dialog.php:91 modules/pref-feeds.php:270
 msgid "Password:"
 msgstr "Mot de passe&nbsp;:"
 
-#: login_form.php:65
+#: login_form.php:87
 msgid "Language:"
 msgstr ""
 
@@ -985,7 +990,7 @@ msgid "Actions..."
 msgstr "Actions..."
 
 #: tt-rss.php:135 modules/popup-dialog.php:117 modules/popup-dialog.php:186
-#: modules/pref-feeds.php:759
+#: modules/pref-feeds.php:714
 msgid "Search"
 msgstr "Rechercher"
 
@@ -1127,7 +1132,7 @@ msgstr "Terminé. Le schéma est passé de la version <b>%d</b> à <b>%d</b>."
 msgid "Help topic not found."
 msgstr "Sujet non trouvé dans l'aide."
 
-#: modules/help.php:22 modules/popup-dialog.php:42 modules/pref-feeds.php:706
+#: modules/help.php:22 modules/popup-dialog.php:42 modules/pref-feeds.php:671
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
@@ -1197,7 +1202,7 @@ msgstr ""
 "\t\t\t\t\tVeuillez vérifier son état ou bien contacter l'administrateur de "
 "votre Tiny Tiny RSS."
 
-#: modules/popup-dialog.php:51 modules/pref-feeds.php:772
+#: modules/popup-dialog.php:51 modules/pref-feeds.php:727
 msgid "Subscribe to feed"
 msgstr "S'inscrire à un flux"
 
@@ -1217,8 +1222,8 @@ msgstr "S'inscrire"
 #: modules/popup-dialog.php:104 modules/popup-dialog.php:189
 #: modules/popup-dialog.php:241 modules/popup-dialog.php:328
 #: modules/popup-dialog.php:424 modules/pref-feeds.php:120
-#: modules/pref-feeds.php:331 modules/pref-feeds.php:714
-#: modules/pref-filters.php:118 modules/pref-users.php:58
+#: modules/pref-feeds.php:331 modules/pref-filters.php:118
+#: modules/pref-users.php:58
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1321,8 +1326,7 @@ msgid "Tags for this article (separated by commas):"
 msgstr "Étiquettes pour cet article (séparées par des virgules)&nbsp;:"
 
 #: modules/popup-dialog.php:420 modules/pref-feeds.php:329
-#: modules/pref-feeds.php:712 modules/pref-filters.php:114
-#: modules/pref-users.php:55
+#: modules/pref-filters.php:114 modules/pref-users.php:55
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1433,85 +1437,84 @@ msgstr "Inscrit à <b>%s</b>."
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Déjà inscrit à <b>%s</b>."
 
-#: modules/pref-feeds.php:522
+#: modules/pref-feeds.php:538
 msgid "Category editor"
 msgstr "Éditeur de catégorie"
 
-#: modules/pref-feeds.php:556
+#: modules/pref-feeds.php:561
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "La catégorie <b>%s</b> existe déjà dans la base de données."
 
-#: modules/pref-feeds.php:584
+#: modules/pref-feeds.php:589
 msgid "Unable to delete non empty feed categories."
 msgstr "Impossible de supprimer une catégorie de flux non vide."
 
-#: modules/pref-feeds.php:601
+#: modules/pref-feeds.php:606
 msgid "Create category"
 msgstr "Créer la catégorie"
 
-#: modules/pref-feeds.php:701
+#: modules/pref-feeds.php:666
 msgid "No feed categories defined."
 msgstr "Aucune catégorie de flux définie."
 
-#: modules/pref-feeds.php:719 modules/pref-feeds.php:998
-#: modules/pref-filters.php:340 modules/pref-labels.php:292
-#: modules/pref-users.php:317
-msgid "Edit"
-msgstr "Modifier"
-
-#: modules/pref-feeds.php:721 modules/pref-filters.php:342
+#: modules/pref-feeds.php:677 modules/pref-filters.php:342
 #: modules/pref-labels.php:294 modules/pref-users.php:319
 msgid "Remove"
 msgstr "Supprimer"
 
-#: modules/pref-feeds.php:744
+#: modules/pref-feeds.php:699
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 "Des erreurs sont survenues pendant la mise à jour de certains flux (cliquez "
 "ici pour les détails)"
 
-#: modules/pref-feeds.php:777
+#: modules/pref-feeds.php:732
 msgid "Top 25"
 msgstr "Top 25"
 
-#: modules/pref-feeds.php:851
+#: modules/pref-feeds.php:806
 msgid "Show last article times"
 msgstr "Afficher l'heure du dernier article"
 
-#: modules/pref-feeds.php:868 modules/pref-feeds.php:930
+#: modules/pref-feeds.php:823 modules/pref-feeds.php:885
 msgid "Last&nbsp;Article"
 msgstr "Dernier&nbsp;article"
 
-#: modules/pref-feeds.php:871 modules/pref-feeds.php:934
+#: modules/pref-feeds.php:826 modules/pref-feeds.php:889
 msgid "Updated"
 msgstr "Mis à jour"
 
-#: modules/pref-feeds.php:1001
+#: modules/pref-feeds.php:953 modules/pref-filters.php:340
+#: modules/pref-labels.php:292 modules/pref-users.php:317
+msgid "Edit"
+msgstr "Modifier"
+
+#: modules/pref-feeds.php:956
 msgid "Unsubscribe"
 msgstr "Se désinscrire"
 
-#: modules/pref-feeds.php:1011
+#: modules/pref-feeds.php:966
 msgid "Recategorize"
 msgstr "Changer de catégorie"
 
-#: modules/pref-feeds.php:1020
+#: modules/pref-feeds.php:975
 msgid "Edit categories"
 msgstr "Modifier les catégories"
 
-#: modules/pref-feeds.php:1031
+#: modules/pref-feeds.php:986
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1037
+#: modules/pref-feeds.php:992
 msgid "Import"
 msgstr "Importer"
 
-#: modules/pref-feeds.php:1044
+#: modules/pref-feeds.php:999
 msgid "Export OPML"
 msgstr "Exporter en OPML"
 
-#: modules/pref-feeds.php:1053
+#: modules/pref-feeds.php:1008
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the address specified below."
@@ -1519,7 +1522,7 @@ msgstr ""
 "Les articles publiés sont exportés comme un flux RSS public et toute "
 "personne qui connaît l'adresse indiquée ci-dessous peut s'y inscrire."
 
-#: modules/pref-feeds.php:1060
+#: modules/pref-feeds.php:1015
 msgid "Generate another address"
 msgstr "Générer une autre adresse"
 
@@ -1607,19 +1610,24 @@ msgstr "Le mot de passe a été modifié."
 msgid "Old password is incorrect."
 msgstr "L'ancien mot de passe n'est pas correct."
 
-#: modules/pref-prefs.php:59 modules/pref-prefs.php:383
-msgid "Save configuration"
-msgstr "Enregistrer la configuration"
+#: modules/pref-prefs.php:103
+msgid "The configuration was saved."
+msgstr "La configuration a été enregistrée."
 
-#: modules/pref-prefs.php:129 modules/pref-prefs.php:387
-msgid "Reset to defaults"
-msgstr "Revenir aux valeurs par défaut"
+#: modules/pref-prefs.php:129
+#, fuzzy
+msgid "E-mail has been changed."
+msgstr "Le mot de passe a été modifié."
 
-#: modules/pref-prefs.php:139 modules/pref-prefs.php:296
+#: modules/pref-prefs.php:141 modules/pref-prefs.php:201
+msgid "The configuration was reset to defaults."
+msgstr "La configuration a été réinitialisée à ses valeurs par défaut."
+
+#: modules/pref-prefs.php:145 modules/pref-prefs.php:302
 msgid "Change theme"
 msgstr "Modifier le thème"
 
-#: modules/pref-prefs.php:180
+#: modules/pref-prefs.php:186
 msgid ""
 "Your password is at default value, \n"
 "\t\t\t\t\t\tplease change it."
@@ -1627,65 +1635,65 @@ msgstr ""
 "Le mot de passe actuel est celui par défaut.\n"
 "\t\t\t\t\t\tVeuillez le modifier."
 
-#: modules/pref-prefs.php:195
-msgid "The configuration was reset to defaults."
-msgstr "La configuration a été réinitialisée à ses valeurs par défaut."
-
-#: modules/pref-prefs.php:199
-msgid "The configuration was saved."
-msgstr "La configuration a été enregistrée."
-
-#: modules/pref-prefs.php:207
+#: modules/pref-prefs.php:213
 msgid "Personal data"
 msgstr "Données personnelles"
 
-#: modules/pref-prefs.php:227
+#: modules/pref-prefs.php:233
 msgid "Change e-mail"
 msgstr "Modifier l'adresse électronique"
 
-#: modules/pref-prefs.php:233
+#: modules/pref-prefs.php:239
 msgid "Authentication"
 msgstr "Identification"
 
-#: modules/pref-prefs.php:235
+#: modules/pref-prefs.php:241
 msgid "Old password"
 msgstr "Ancien mot de passe"
 
-#: modules/pref-prefs.php:240
+#: modules/pref-prefs.php:246
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: modules/pref-prefs.php:246
+#: modules/pref-prefs.php:252
 msgid "Confirm password"
 msgstr "Confirmation du mot de passe"
 
-#: modules/pref-prefs.php:261
+#: modules/pref-prefs.php:267
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: modules/pref-prefs.php:277
+#: modules/pref-prefs.php:283
 msgid "Themes"
 msgstr "Thèmes"
 
-#: modules/pref-prefs.php:278
+#: modules/pref-prefs.php:284
 msgid "Select theme"
 msgstr "Sélectionner un thème"
 
-#: modules/pref-prefs.php:280
+#: modules/pref-prefs.php:286
 msgid "Default"
 msgstr "Utiliser la valeur par défaut"
 
-#: modules/pref-prefs.php:348
+#: modules/pref-prefs.php:354
 msgid "short_desc"
 msgstr ""
 
-#: modules/pref-prefs.php:360 modules/pref-prefs.php:365
+#: modules/pref-prefs.php:366 modules/pref-prefs.php:371
 msgid "Yes"
 msgstr "Oui"
 
-#: modules/pref-prefs.php:362 modules/pref-prefs.php:365
+#: modules/pref-prefs.php:368 modules/pref-prefs.php:371
 msgid "No"
 msgstr "Non"
+
+#: modules/pref-prefs.php:390
+msgid "Save configuration"
+msgstr "Enregistrer la configuration"
+
+#: modules/pref-prefs.php:394
+msgid "Reset to defaults"
+msgstr "Revenir aux valeurs par défaut"
 
 #: modules/pref-users.php:12
 msgid "User editor"

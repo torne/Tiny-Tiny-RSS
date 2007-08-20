@@ -56,9 +56,9 @@
 
 			return;
 
-		} else if ($subop == __("Save configuration")) {
+		} else if ($subop == "save-config") {
 
-			$_SESSION["prefs_op_result"] = "save-config";
+#			$_SESSION["prefs_op_result"] = "save-config";
 
 			$_SESSION["prefs_cache"] = false;
 
@@ -98,7 +98,11 @@
 
 			}
 
-			return prefs_js_redirect();
+			#return prefs_js_redirect();
+
+			print __("The configuration was saved.");
+
+			return;
 
 		} else if ($subop == "getHelp") {
 
@@ -122,11 +126,11 @@
 			db_query($link, "UPDATE ttrss_users SET email = '$email' 
 				WHERE id = '$active_uid'");				
 		
-			print "E-mail has been changed.";
+			print __("E-mail has been changed.");
 		
 			return;
 
-		} else if ($subop == __("Reset to defaults")) {
+		} else if ($subop == "reset-config") {
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
@@ -134,7 +138,9 @@
 				WHERE owner_uid = ".$_SESSION["uid"]);
 			initialize_user_prefs($link, $_SESSION["uid"]);
 
-			return prefs_js_redirect();
+			print __("The configuration was reset to defaults.");
+
+			return;
 
 		} else if ($subop == __("Change theme")) {
 
@@ -195,9 +201,9 @@
 					print format_notice(__("The configuration was reset to defaults."));
 				}
 
-				if ($_SESSION["prefs_op_result"] == "save-config") {
-					print format_notice(__("The configuration was saved."));
-				}
+#				if ($_SESSION["prefs_op_result"] == "save-config") {
+#					print format_notice(__("The configuration was saved."));
+#				}
 
 				$_SESSION["prefs_op_result"] = "";
 
@@ -310,7 +316,7 @@
 					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
 
-			print "<form action=\"backend.php\" method=\"POST\">";
+			print "<form action=\"backend.php\" method=\"POST\" id=\"pref_prefs_form\">";
 
 			$lnum = 0;
 
@@ -380,10 +386,11 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
 
 			print "<p><input class=\"button\" type=\"submit\" 
-				name=\"subop\" value=\"".__('Save configuration')."\">";
+				onclick=\"return validatePrefsSave()\"
+				value=\"".__('Save configuration')."\">";
 				
 			print "&nbsp;<input class=\"button\" type=\"submit\" 
-				name=\"subop\" onclick=\"return validatePrefsReset()\" 
+				onclick=\"return validatePrefsReset()\" 
 				value=\"".__('Reset to defaults')."\"></p>";
 
 			print "</form>";

@@ -186,6 +186,13 @@ function notify_callback() {
 	} 
 }
 
+function prefs_reset_callback() {
+	if (xmlhttp.readyState == 4) {
+		notify_info(xmlhttp.responseText);
+		selectTab();
+	} 
+}
+
 
 function changepass_callback() {
 	try {
@@ -1413,7 +1420,27 @@ function categorizeSelectedFeeds() {
 }
 
 function validatePrefsReset() {
-	return confirm(__("Reset to defaults?"));
+	try {
+		var ok = confirm(__("Reset to defaults?"));
+
+		if (ok) {
+
+			var query = Form.serialize("pref_prefs_form");
+			query = query + "&subop=reset-config";
+			debug(query);
+
+			xmlhttp.open("POST", "backend.php", true);
+			xmlhttp.onreadystatechange=prefs_reset_callback;
+			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlhttp.send(query);
+		}
+
+	} catch (e) {
+		exception_error("validatePrefsSave", e);
+	}
+
+	return false;
+
 }
 
 function browseFeeds(limit) {
@@ -1720,6 +1747,30 @@ function pubRegenKey() {
 		xmlhttp.open("GET", "backend.php?op=rpc&subop=regenPubKey");
 		xmlhttp.onreadystatechange=replace_pubkey_callback;
 		xmlhttp.send(null);
+	}
+
+	return false;
+}
+
+function validatePrefsSave() {
+	try {
+
+		var ok = confirm(__("Save current configuration?"));
+
+		if (ok) {
+
+			var query = Form.serialize("pref_prefs_form");
+			query = query + "&subop=save-config";
+			debug(query);
+
+			xmlhttp.open("POST", "backend.php", true);
+			xmlhttp.onreadystatechange=notify_callback;
+			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlhttp.send(query);
+		}
+
+	} catch (e) {
+		exception_error("validatePrefsSave", e);
 	}
 
 	return false;
