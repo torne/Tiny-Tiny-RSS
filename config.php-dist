@@ -146,7 +146,11 @@
 	// Enable experimental support for interface translations
 	// based on PHP-Gettext. This is of no much use right now.
 
-	define('CONFIG_VERSION', 7);
+	define('MYSQL_CHARSET', '');
+	// Connection charset for MySQL. Only enable if having charset-related
+	// errors with MySQL (mangled characters, errors when updating feeds, etc).
+
+	define('CONFIG_VERSION', 8);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
