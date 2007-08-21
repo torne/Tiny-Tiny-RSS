@@ -34,6 +34,7 @@
 	__("Combined feed display");
 	__("Display expanded list of feed articles, instead of separate displays for headlines and article content");
 	__("Default article limit");
+	__("Default limit for articles to display, any custom number you like (0 - disables).");
 	__("Enable feed categories");
 	__("Enable search toolbar");
 	__("Hide feeds with no unread messages");

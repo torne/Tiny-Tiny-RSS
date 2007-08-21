@@ -196,7 +196,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (19);
+insert into ttrss_version values (20);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -234,8 +234,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
    'Default limit for articles to display, any custom number you like (0 - disables).');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ALLOW_DUPLICATE_POSTS', 1, 'true', 'Allow duplicate posts',1,
-	'This option is useful when you are reading several planet-type aggregators with partially colliding userbase. 
-	When disabled, it forces same posts from different feeds to appear only once.');
+	'This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('USER_STYLESHEET_URL', 2, '', 'User stylesheet URL',2,
 	'Link to user stylesheet to override default style, disabled if empty.');

@@ -1,14 +1,14 @@
 # translation of messages.po to Français
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Thibaut Cousin <informatique@thibaut-cousin.net>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-21 14:15+0400\n"
-"PO-Revision-Date: 2007-08-20 23:36+0200\n"
+"POT-Creation-Date: 2007-08-21 18:31+0400\n"
+"PO-Revision-Date: 2007-08-21 12:37+0200\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -570,12 +570,12 @@ msgstr "Se désinscrire de %s ?"
 #: localized_js.php:112
 #, php-format
 msgid "Mark all visible articles in %s as read?"
-msgstr "Marquer tous les articles de %s visibles comme lus ?"
+msgstr "Marquer tous les articles visibles de %s comme lus ?"
 
 #: localized_js.php:113
 #, php-format
 msgid "Mark all selected articles in %s as read?"
-msgstr "Marquer tous les flux sélectionnés dans %s comme lus ?"
+msgstr "Marquer tous les articles sélectionnés de %s comme lus ?"
 
 #: localized_js.php:114
 msgid "Please enter label title:"
@@ -696,22 +696,28 @@ msgid "Default article limit"
 msgstr "Nombre maximal d'articles par défaut"
 
 #: localized_schema.php:37
+msgid ""
+"Default limit for articles to display, any custom number you like (0 - "
+"disables)."
+msgstr ""
+
+#: localized_schema.php:38
 msgid "Enable feed categories"
 msgstr "Utiliser les catégories de flux"
 
-#: localized_schema.php:38
-msgid "Enable search toolbar"
-msgstr ""
-
 #: localized_schema.php:39
+msgid "Enable search toolbar"
+msgstr "Activer la barre de recherche"
+
+#: localized_schema.php:40
 msgid "Hide feeds with no unread messages"
 msgstr "Masquer les flux sans article non lu"
 
-#: localized_schema.php:40
+#: localized_schema.php:41
 msgid "Mark articles as read automatically"
 msgstr "Marquer les articles comme lus automatiquement"
 
-#: localized_schema.php:41
+#: localized_schema.php:42
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
 "while you scroll article list."
@@ -719,53 +725,53 @@ msgstr ""
 "Cette option active le marquage automatique des articles comme lus en "
 "affichage combiné, pendant que vous faites défiler la liste des articles"
 
-#: localized_schema.php:42
+#: localized_schema.php:43
 msgid "On catchup show next feed"
 msgstr "Sauter automatiquement au flux suivant"
 
-#: localized_schema.php:43
+#: localized_schema.php:44
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
 msgstr ""
-"Lorsque vous cliquez sur «&nbsp;Marquer comme lu&nbsp;», le prochain flux "
+"Lorsque vous cliquez sur «&nbsp;Marquer comme lus&nbsp;», le prochain flux "
 "contenant des articles non lus est automatiquement affiché"
 
-#: localized_schema.php:44
+#: localized_schema.php:45
 msgid "Open article links in new browser window"
 msgstr "Ouvrir les liens des articles dans une nouvelle fenêtre"
 
-#: localized_schema.php:45
+#: localized_schema.php:46
 msgid "Reverse headline order (oldest first)"
 msgstr "Inverser l'order des en-têtes (les plus anciens en premier)"
 
-#: localized_schema.php:46
+#: localized_schema.php:47
 msgid "Show content preview in headlines list"
 msgstr "Donner un aperçu du contenu dans la liste des en-têtes"
 
-#: localized_schema.php:47
+#: localized_schema.php:48
 msgid "Sort feeds by unread articles count"
 msgstr "Trier les flux par nombre d'articles non lus"
 
-#: localized_schema.php:48
+#: localized_schema.php:49
 msgid "User stylesheet URL"
 msgstr "URL de la feuille de style personnalisée"
 
-#: localized_schema.php:49
+#: localized_schema.php:50
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr ""
 "Lien vers une feuille de style personnalisée pour remplacer le style par "
 "défaut (laisser vide pour ne pas en utiliser)"
 
-#: localized_schema.php:51
+#: localized_schema.php:52
 msgid "Advanced"
 msgstr "Avancé"
 
-#: localized_schema.php:53
+#: localized_schema.php:54
 msgid "Blacklisted tags"
 msgstr "Étiquettes exclues"
 
-#: localized_schema.php:54
+#: localized_schema.php:55
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
@@ -773,19 +779,19 @@ msgstr ""
 "Lors de l'autodétection des étiquettes dans les articles, ces étiquettes ne "
 "sont pas utilisées (en faire une liste, séparées par des virgules)"
 
-#: localized_schema.php:55
+#: localized_schema.php:56
 msgid "Confirm marking feed as read"
 msgstr "Demander confirmation pour marquer un flux comme lu"
 
-#: localized_schema.php:56
+#: localized_schema.php:57
 msgid "Enable icons in feedlist"
 msgstr "Afficher les icônes dans la liste des flux"
 
-#: localized_schema.php:57
+#: localized_schema.php:58
 msgid "Enable labels"
 msgstr "Utiliser les intitulés"
 
-#: localized_schema.php:58
+#: localized_schema.php:59
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
@@ -795,33 +801,33 @@ msgstr ""
 "personnalisées. Cette fonctionnalité est hautement expérimentale et pas "
 "encore ergonomique. Utilisez-là avec précaution."
 
-#: localized_schema.php:59
+#: localized_schema.php:60
 msgid "Long date format"
 msgstr "Format de date long"
 
-#: localized_schema.php:60
+#: localized_schema.php:61
 msgid "Set articles as unread on update"
 msgstr "Marquer les articles comme non lus lors des mises à jour"
 
-#: localized_schema.php:61
+#: localized_schema.php:62
 msgid "Short date format"
 msgstr "Format de date court"
 
-#: localized_schema.php:62
+#: localized_schema.php:63
 msgid "Show additional information in feedlist"
 msgstr "Afficher des informations supplémentaires dans la liste des flux"
 
-#: localized_schema.php:63
+#: localized_schema.php:64
 msgid "Strip unsafe tags from articles"
 msgstr "Éliminer les étiquettes non sûres des articles"
 
-#: localized_schema.php:64
+#: localized_schema.php:65
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 "Élimine toutes les balises HTML sauf les plus courantes lors de la lecture "
 "des articles"
 
-#: localized_schema.php:65
+#: localized_schema.php:66
 msgid "Use more accessible date/time format for headlines"
 msgstr "Afficher la date et l'heure de manière plus lisible dans les en-têtes"
 
@@ -1039,11 +1045,11 @@ msgstr "&nbsp;&nbsp;Mettre à jour"
 
 #: tt-rss.php:148
 msgid "&nbsp;&nbsp;Mark as read"
-msgstr "&nbsp;&nbsp;Marquer comme lus"
+msgstr "Marquer comme lus"
 
 #: tt-rss.php:149
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
-msgstr "&nbsp;&nbsp;(Dé)Masquer les flux lus"
+msgstr "(Dé)Masquer les flux lus"
 
 #: tt-rss.php:151
 msgid "Other actions:"
@@ -1580,9 +1586,8 @@ msgid "filter_type_descr"
 msgstr ""
 
 #: modules/pref-filters.php:298
-#, fuzzy
 msgid "action_description"
-msgstr "description"
+msgstr ""
 
 #: modules/pref-filters.php:302
 msgid "(Disabled)"
@@ -1655,9 +1660,8 @@ msgid "Personal data"
 msgstr "Données personnelles"
 
 #: modules/pref-prefs.php:220
-#, fuzzy
 msgid "E-mail"
-msgstr "Adresse électronique&nbsp;:"
+msgstr "Adresse électronique"
 
 #: modules/pref-prefs.php:233
 msgid "Change e-mail"
