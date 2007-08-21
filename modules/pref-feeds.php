@@ -987,8 +987,9 @@
 
 		<div style='float : left'>
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
-			File: <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
-			<input class=\"button\" name=\"op\" onclick=\"return validateOpmlImport();\"
+		".__('File:')." <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
+			<input type=\"hidden\" name=\"op\" value=\"Import\">
+			<input class=\"button\" onclick=\"return validateOpmlImport();\"
 				type=\"submit\" value=\"".__('Import')."\">
 				</form></div>";
 
