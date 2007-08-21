@@ -1,3 +1,6 @@
+SET NAMES utf8;
+SET CHARACTER SET utf8;
+
 drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
