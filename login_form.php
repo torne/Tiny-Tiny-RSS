@@ -97,7 +97,7 @@ window.onload = init;
 				<label for="remember_me">Remember me on this computer</label>
 			</td></tr> -->
 			<tr><td colspan="2" align="right" class="innerLoginCell">
-				<input type="submit" class="button" value="Login" name='click'>
+			<input type="submit" class="button" value="<?php echo __('Login') ?>" name='click'>
 				<input type="hidden" name="action" value="login">
 				<input type="hidden" name="rt" 
 					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">

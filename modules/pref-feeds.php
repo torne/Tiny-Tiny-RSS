@@ -999,7 +999,7 @@
 				value=\"".__('Export OPML')."\">";			
 
 
-		print "<h3>Published articles</h3>";
+		print "<h3>".__("Published articles")."</h3>";
 
 		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
 			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-20 19:48+0400\n"
+"POT-Creation-Date: 2007-08-21 09:22+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -72,11 +72,11 @@ msgstr "每天"
 msgid "Weekly"
 msgstr "每周"
 
-#: backend.php:118
+#: backend.php:118 modules/pref-users.php:249
 msgid "User"
 msgstr "用户"
 
-#: backend.php:119
+#: backend.php:119 modules/pref-users.php:249
 msgid "Administrator"
 msgstr "管理员"
 
@@ -141,6 +141,7 @@ msgid "Starred articles"
 msgstr "星级文章"
 
 #: functions.php:2034 functions.php:2342 functions.php:2681 functions.php:3365
+#: modules/pref-feeds.php:1002
 msgid "Published articles"
 msgstr "已发布文章"
 
@@ -569,6 +570,18 @@ msgstr "请输入标签主题"
 msgid "Save current configuration?"
 msgstr "保存设置"
 
+#: localized_js.php:116 modules/pref-prefs.php:20
+msgid "Old password cannot be blank."
+msgstr "原密码不可留空."
+
+#: localized_js.php:117 modules/pref-prefs.php:25
+msgid "New password cannot be blank."
+msgstr "新密码不可留空."
+
+#: localized_js.php:118 modules/pref-prefs.php:30
+msgid "Entered passwords do not match."
+msgstr "两次输入密码不通."
+
 #: localized_schema.php:9 modules/popup-dialog.php:172
 #: modules/pref-feeds.php:820 modules/pref-feeds.php:881
 msgid "Title"
@@ -664,112 +677,116 @@ msgid "Enable feed categories"
 msgstr "开启feed分类"
 
 #: localized_schema.php:38
+msgid "Enable search toolbar"
+msgstr ""
+
+#: localized_schema.php:39
 msgid "Hide feeds with no unread messages"
 msgstr "隐藏feed源以读信息"
 
-#: localized_schema.php:39
+#: localized_schema.php:40
 msgid "Mark articles as read automatically"
 msgstr "自动标志文章为已读"
 
-#: localized_schema.php:40
+#: localized_schema.php:41
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
 "while you scroll article list."
 msgstr "启用该选项时，当你在联合模式下滚动文章列表时自动编辑文章为已读。"
 
-#: localized_schema.php:41
+#: localized_schema.php:42
 msgid "On catchup show next feed"
 msgstr "自动显示未读"
 
-#: localized_schema.php:42
+#: localized_schema.php:43
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
 msgstr ""
 "当工具栏上 \"标志为已读 \" 按钮被点击时,自动打开下一个RSS源中未读文章。"
 
-#: localized_schema.php:43
+#: localized_schema.php:44
 msgid "Open article links in new browser window"
 msgstr "新窗口打开文章连结"
 
-#: localized_schema.php:44
+#: localized_schema.php:45
 msgid "Reverse headline order (oldest first)"
 msgstr "反向提要排列（从旧到新）"
 
-#: localized_schema.php:45
+#: localized_schema.php:46
 msgid "Show content preview in headlines list"
 msgstr "在提要列表中显示内容预览"
 
-#: localized_schema.php:46
+#: localized_schema.php:47
 msgid "Sort feeds by unread articles count"
 msgstr "以未读文章数量排序feed源"
 
-#: localized_schema.php:47
+#: localized_schema.php:48
 msgid "User stylesheet URL"
 msgstr "用户样式表 URL"
 
-#: localized_schema.php:48
+#: localized_schema.php:49
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr "用户样式表优先，留空为不启用。"
 
-#: localized_schema.php:50
+#: localized_schema.php:51
 msgid "Advanced"
 msgstr "高级"
 
-#: localized_schema.php:52
+#: localized_schema.php:53
 msgid "Blacklisted tags"
 msgstr "被列入黑名单的标签"
 
-#: localized_schema.php:53
+#: localized_schema.php:54
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr "自动检测文章中标签时，这些标签不适用（用半角逗号隔开）"
 
-#: localized_schema.php:54
+#: localized_schema.php:55
 msgid "Confirm marking feed as read"
 msgstr "确认标记所有Feed为已读..."
 
-#: localized_schema.php:55
+#: localized_schema.php:56
 msgid "Enable icons in feedlist"
 msgstr "feed列表中不启用ico"
 
-#: localized_schema.php:56
+#: localized_schema.php:57
 msgid "Enable labels"
 msgstr "开启标签"
 
-#: localized_schema.php:57
+#: localized_schema.php:58
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr "SQL支持，这是测试功能，请谨慎使用。"
 
-#: localized_schema.php:58
+#: localized_schema.php:59
 msgid "Long date format"
 msgstr "长的时间格式"
 
-#: localized_schema.php:59
+#: localized_schema.php:60
 msgid "Set articles as unread on update"
 msgstr "更新后标记文章为未读"
 
-#: localized_schema.php:60
+#: localized_schema.php:61
 msgid "Short date format"
 msgstr "短的时间格式"
 
-#: localized_schema.php:61
+#: localized_schema.php:62
 msgid "Show additional information in feedlist"
 msgstr "在feed列表中显示附加信息"
 
-#: localized_schema.php:62
+#: localized_schema.php:63
 msgid "Strip unsafe tags from articles"
 msgstr "从文章中过滤不安全标签"
 
-#: localized_schema.php:63
+#: localized_schema.php:64
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "阅读文章时过滤所有常见html标签"
 
-#: localized_schema.php:64
+#: localized_schema.php:65
 msgid "Use more accessible date/time format for headlines"
 msgstr "提要使用更方便的 日期／时间 格式"
 
@@ -785,6 +802,10 @@ msgstr "密码:"
 #: login_form.php:87
 msgid "Language:"
 msgstr "语言："
+
+#: login_form.php:100 modules/pref-users.php:215
+msgid "Login"
+msgstr "登陆"
 
 #: opml.php:106 opml.php:110
 msgid "OPML Utility"
@@ -1394,7 +1415,7 @@ msgstr "创建分类"
 msgid "No feed categories defined."
 msgstr "未定义feed分类"
 
-#: modules/pref-feeds.php:677 modules/pref-filters.php:342
+#: modules/pref-feeds.php:677 modules/pref-filters.php:345
 #: modules/pref-labels.php:294 modules/pref-users.php:319
 msgid "Remove"
 msgstr "移除"
@@ -1419,7 +1440,7 @@ msgstr "最后&nbsp;文章"
 msgid "Updated"
 msgstr "已更新"
 
-#: modules/pref-feeds.php:953 modules/pref-filters.php:340
+#: modules/pref-feeds.php:953 modules/pref-filters.php:343
 #: modules/pref-labels.php:292 modules/pref-users.php:317
 msgid "Edit"
 msgstr "编辑"
@@ -1488,15 +1509,24 @@ msgstr "匹配"
 msgid "Action"
 msgstr "操作"
 
-#: modules/pref-filters.php:299
+#: modules/pref-filters.php:297
+msgid "filter_type_descr"
+msgstr ""
+
+#: modules/pref-filters.php:298
+#, fuzzy
+msgid "action_description"
+msgstr "描述"
+
+#: modules/pref-filters.php:302
 msgid "(Disabled)"
 msgstr "(不可用)"
 
-#: modules/pref-filters.php:317
+#: modules/pref-filters.php:320
 msgid "(Inverse)"
 msgstr "(逆)"
 
-#: modules/pref-filters.php:332 modules/pref-filters.php:353
+#: modules/pref-filters.php:335 modules/pref-filters.php:356
 msgid "No filters defined."
 msgstr "未定义过滤器。"
 
@@ -1521,18 +1551,6 @@ msgstr "SQL 表达式"
 #: modules/pref-labels.php:284 modules/pref-labels.php:297
 msgid "No labels defined."
 msgstr "未定义标记."
-
-#: modules/pref-prefs.php:20
-msgid "Old password cannot be blank."
-msgstr "原密码不可留空."
-
-#: modules/pref-prefs.php:25
-msgid "New password cannot be blank."
-msgstr "新密码不可留空."
-
-#: modules/pref-prefs.php:30
-msgid "Entered passwords do not match."
-msgstr "两次输入密码不通."
 
 #: modules/pref-prefs.php:51
 msgid "Password has been changed."
@@ -1568,6 +1586,11 @@ msgstr "您的密码是默认的，请修改。"
 #: modules/pref-prefs.php:213
 msgid "Personal data"
 msgstr "个人数据"
+
+#: modules/pref-prefs.php:220
+#, fuzzy
+msgid "E-mail"
+msgstr "E-mail:"
 
 #: modules/pref-prefs.php:233
 msgid "Change e-mail"
@@ -1673,10 +1696,6 @@ msgstr ""
 #: modules/pref-users.php:193
 msgid "Create user"
 msgstr "创建用户"
-
-#: modules/pref-users.php:215
-msgid "Login"
-msgstr "登陆"
 
 #: modules/pref-users.php:216
 msgid "Access Level"

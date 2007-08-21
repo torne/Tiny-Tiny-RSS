@@ -35,6 +35,7 @@
 	__("Display expanded list of feed articles, instead of separate displays for headlines and article content");
 	__("Default article limit");
 	__("Enable feed categories");
+	__("Enable search toolbar");
 	__("Hide feeds with no unread messages");
 	__("Mark articles as read automatically");
 	__("This option enables marking articles as read automatically in combined mode while you scroll article list.");

@@ -246,7 +246,7 @@
 					strtotime($line["last_login"]));
 			}				
 
-			$access_level_names = array(0 => "User", 10 => "Administrator");
+			$access_level_names = array(0 => __("User"), 10 => __("Administrator"));
 
 //			if (!$edit_uid || $subop != "edit") {
 

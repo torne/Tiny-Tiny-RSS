@@ -217,7 +217,7 @@
 					
 				$email = db_fetch_result($result, 0, "email");
 	
-				print "<tr><td width=\"40%\">E-mail</td>";
+				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
 				print "<td><input class=\"editbox\" name=\"email\" 
 					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$email\"></td></tr>";

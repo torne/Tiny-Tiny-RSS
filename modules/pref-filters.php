@@ -294,6 +294,9 @@
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 
+				$line["filter_type_descr"] = __($line["filter_type_descr"]);
+				$line["action_description"] = __($line["action_description"]);
+
 				if (!$enabled) {
 					$line["reg_exp"] = "<span class=\"insensitive\">" . 
 						$line["reg_exp"] . " " .  __("(Disabled)")."</span>";
