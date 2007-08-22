@@ -3255,7 +3255,8 @@
 				if (!$bottom) {
 					$target = "target=\"_new\"";
 				}
-				print "<a $target href=\"$feed_site_url\">$feed_title</a>";
+				print "<a $target href=\"$feed_site_url\">".
+					truncate_string($feed_title,30)."</a>";
 			} else {
 				print $feed_title;
 			}
@@ -4131,7 +4132,7 @@
 						print "<td class='hlContent'>$content_link</td>";
 						print "<td class='hlFeed'>
 							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-								$line["feed_title"]."</a>&nbsp;</td>";
+								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 					} else {			
 						print "<td class='hlContent' valign='middle'>";
 
