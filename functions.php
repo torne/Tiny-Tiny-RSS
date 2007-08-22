@@ -3184,7 +3184,11 @@
 					<li class=\"vsep\">&nbsp;</li>
 					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
 						<li onclick=\"$catchup_sel_link\">".__('Selection')."</li>
-						<li onclick=\"$catchup_page_link\">".__('This page')."</li>
+						<!-- <li onclick=\"$catchup_page_link\">".__('This page')."</li> -->
+						<li><span class=\"insensitive\">--------</span></li>
+						<li onclick=\"catchupRelativeToArticle(0)\">".__("Above active article")."</li>
+						<li onclick=\"catchupRelativeToArticle(1)\">".__("Below active article")."</li>
+						<li><span class=\"insensitive\">--------</span></li>
 						<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
 					";
 

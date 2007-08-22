@@ -871,6 +871,39 @@ function cdmGetSelectedArticles() {
 	return sel_articles;
 }
 
+function cdmGetVisibleArticles() {
+	var sel_articles = new Array();
+	var container = document.getElementById("headlinesInnerContainer");
+
+	for (i = 0; i < container.childNodes.length; i++) {
+		var child = container.childNodes[i];
+
+		if (child.id.match("RROW-")) {
+			var c_id = child.id.replace("RROW-", "");
+			sel_articles.push(c_id);
+		}
+	}
+
+	return sel_articles;
+}
+
+function cdmGetUnreadArticles() {
+	var sel_articles = new Array();
+	var container = document.getElementById("headlinesInnerContainer");
+
+	for (i = 0; i < container.childNodes.length; i++) {
+		var child = container.childNodes[i];
+
+		if (child.id.match("RROW-") && child.className.match("Unread")) {
+			var c_id = child.id.replace("RROW-", "");
+			sel_articles.push(c_id);
+		}
+	}
+
+	return sel_articles;
+}
+
+
 // mode = all,none,unread
 function cdmSelectArticles(mode) {
 	var container = document.getElementById("headlinesInnerContainer");
@@ -1251,5 +1284,81 @@ function headlines_scroll_handler() {
 
 	} catch (e) {
 		exception_error("headlines_scroll_handler", e);
+	}
+}
+
+function catchupRelativeToArticle(below) {
+
+	try {
+
+		if (!xmlhttp_ready(xmlhttp_rpc)) {
+			printLockingError();
+		}
+	
+		if (!getActiveArticleId()) {
+			alert(__("No article is selected."));
+			return;
+		}
+
+		var visible_ids;
+
+		if (document.getElementById("headlinesList")) {
+			visible_ids = getVisibleHeadlineIds();
+		} else {
+			visible_ids = cdmGetVisibleArticles();
+		}
+
+		var ids_to_mark = new Array();
+
+		if (!below) {
+			for (var i = 0; i < visible_ids.length; i++) {
+				if (visible_ids[i] != getActiveArticleId()) {
+					var e = document.getElementById("RROW-" + visible_ids[i]);
+
+					if (e && e.className.match("Unread")) {
+						ids_to_mark.push(visible_ids[i]);
+					}
+				} else {
+					break;
+				}
+			}
+		} else {
+			for (var i = visible_ids.length-1; i >= 0; i--) {
+				if (visible_ids[i] != getActiveArticleId()) {
+					var e = document.getElementById("RROW-" + visible_ids[i]);
+
+					if (e && e.className.match("Unread")) {
+						ids_to_mark.push(visible_ids[i]);
+					}
+				} else {
+					break;
+				}
+			}
+		}
+
+		if (ids_to_mark.length == 0) {
+			alert(__("No articles found to mark"));
+		} else {
+			var msg = __("Mark %d article(s) as read?").replace("%d", ids_to_mark.length);
+
+			if (confirm(msg)) {
+
+				for (var i = 0; i < ids_to_mark.length; i++) {
+					var e = document.getElementById("RROW-" + ids_to_mark[i]);
+					e.className = e.className.replace("Unread", "");
+				}
+
+				var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
+					param_escape(ids_to_mark.toString()) + "&cmode=0";
+
+				xmlhttp_rpc.open("GET", query, true);
+				xmlhttp_rpc.onreadystatechange=catchup_callback;
+				xmlhttp_rpc.send(null);
+	
+			}
+		}
+
+	} catch (e) {
+		exception_error("catchupRelativeToArticle", e);
 	}
 }

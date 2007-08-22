@@ -116,9 +116,9 @@ print T_js_decl("Save current configuration?");
 print T_js_decl("Old password cannot be blank.");
 print T_js_decl("New password cannot be blank.");
 print T_js_decl("Entered passwords do not match.");
-#print T_js_decl(
-#print T_js_decl(
-#print T_js_decl(
+print T_js_decl("No articles found to mark");
+print T_js_decl("Mark %d article(s) as read?");
+print T_js_decl("No article is selected.");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
