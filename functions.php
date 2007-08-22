@@ -430,7 +430,7 @@
 			_debug("update_rss_feed: fetching...");
 		}
 
-		if (!defined('DAEMON_EXTENDED_DEBUG')) {
+		if (!defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 			error_reporting(0);
 		}
 
@@ -498,7 +498,7 @@
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG' || $_GET['xdebug'])) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("update_rss_feed: loading filters...");
 			}
 
@@ -540,7 +540,7 @@
 				// clear any errors and mark feed as updated if fetched okay
 				// even if it's blank
 
-				if (defined('DAEMON_EXTENDED_DEBUG')) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: entry iterator is not an array, no articles?");
 				}
 
@@ -550,7 +550,7 @@
 				return; // no articles
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG')) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("update_rss_feed: processing articles...");
 			}
 
