@@ -87,9 +87,9 @@
 
 			print "<div id='fadd_login_container' style='display:none'>
 				<table width='100%'>
-					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit'></td></tr>
+					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, qaddFeed)\"></td></tr>
 					<tr><td>".__('Password:')."</td><td><input type='password'
-						name='auth_pass' class='iedit'></td></tr>
+						name='auth_pass' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, qaddFeed)\"></td></tr>
 				</table>
 				</div>";
 
