@@ -345,8 +345,8 @@ function tMark_afh_off(effect) {
 		debug("tMark_afh_off : " + elem.id);
 
 		if (elem) {
-			elem.src = "images/mark_unset.png";
-			elem.alt = "Set mark";
+			elem.src = elem.src.replace("mark_set", "mark_unset");
+			elem.alt = __("Star article");
 			Element.show(elem);
 		}
 
@@ -362,8 +362,8 @@ function tPub_afh_off(effect) {
 		debug("tPub_afh_off : " + elem.id);
 
 		if (elem) {
-			elem.src = "images/pub_unset.png";
-			elem.alt = "Publish";
+			elem.src = elem.src.replace("pub_set", "pub_unset");
+			elem.alt = __("Publish article");
 			Element.show(elem);
 		}
 
@@ -372,7 +372,7 @@ function tPub_afh_off(effect) {
 	}
 }
 
-function toggleMark(id) {
+function toggleMark(id, client_only, no_effects) {
 
 	try {
 
@@ -395,9 +395,9 @@ function toggleMark(id) {
 		var vfeedu = document.getElementById("FEEDU--1");
 		var crow = document.getElementById("RROW-" + id);
 	
-		if (mark_img.alt != "Reset mark") {
-			mark_img.src = "images/mark_set.png";
-			mark_img.alt = "Reset mark";
+		if (mark_img.src.match("mark_unset")) {
+			mark_img.src = mark_img.src.replace("mark_unset", "mark_set");
+			mark_img.alt = __("Unstar article");
 			query = query + "&mark=1";
 	
 /*			if (vfeedu && crow.className.match("Unread")) {
@@ -406,18 +406,18 @@ function toggleMark(id) {
 	
 		} else {
 			//mark_img.src = "images/mark_unset.png";
-			mark_img.alt = "Please wait...";
+			mark_img.alt = __("Please wait...");
 			query = query + "&mark=0";
 	
 /*			if (vfeedu && crow.className.match("Unread")) {
 				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 			} */
 	
-			if (document.getElementById("headlinesList")) {
+			if (document.getElementById("headlinesList") && !no_effects) {
 				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
 			} else { 
-				mark_img.src = "images/mark_unset.png";
-				mark_img.alt = "Set mark";
+				mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
+				mark_img.alt = __("Star article");
 			}
 		}
 	
@@ -440,18 +440,20 @@ function toggleMark(id) {
 	
 		//new Ajax.Request(query); */
 
-		debug(query);
+		if (!client_only) {
+			debug(query);
 
-		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=all_counters_callback;
-		xmlhttp_rpc.send(null);
+			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);
+		}
 
 	} catch (e) {
 		exception_error("toggleMark", e);
 	}
 }
 
-function togglePub(id) {
+function togglePub(id, client_only, no_effects) {
 
 	try {
 
@@ -474,9 +476,9 @@ function togglePub(id) {
 		var vfeedu = document.getElementById("FEEDU--2");
 		var crow = document.getElementById("RROW-" + id);
 	
-		if (mark_img.alt != "Unpublish") {
-			mark_img.src = "images/pub_set.png";
-			mark_img.alt = "Unpublish";
+		if (mark_img.src.match("pub_unset")) {
+			mark_img.src = mark_img.src.replace("pub_unset", "pub_set");
+			mark_img.alt = __("Unpublish article");
 			query = query + "&pub=1";
 	
 /*			if (vfeedu && crow.className.match("Unread")) {
@@ -485,18 +487,18 @@ function togglePub(id) {
 	
 		} else {
 			//mark_img.src = "images/pub_unset.png";
-			mark_img.alt = "Please wait...";
+			mark_img.alt = __("Please wait...");
 			query = query + "&pub=0";
 	
 /*			if (vfeedu && crow.className.match("Unread")) {
 				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
 			} */
 
-			if (document.getElementById("headlinesList")) {
+			if (document.getElementById("headlinesList") && !no_effects) {
 				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
 			} else { 
-				mark_img.src = "images/pub_unset.png";
-				mark_img.alt = "Publish";
+				mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
+				mark_img.alt = __("Publish article");
 			}
 		}
 	
@@ -519,9 +521,11 @@ function togglePub(id) {
 	
 		new Ajax.Request(query); */
 
-		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=all_counters_callback;
-		xmlhttp_rpc.send(null);
+		if (!client_only) {
+			xmlhttp_rpc.open("GET", query, true);
+			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+			xmlhttp_rpc.send(null);
+		}
 
 	} catch (e) {
 
@@ -737,30 +741,7 @@ function selectionToggleMarked(cdm_mode) {
 		}
 
 		for (i = 0; i < rows.length; i++) {
-			var row = document.getElementById("RROW-" + rows[i]);
-			var mark_img = document.getElementById("FMPIC-" + rows[i]);
-
-			if (row && mark_img) {
-
-				if (mark_img.alt == "Set mark") {
-					mark_img.src = "images/mark_set.png";
-					mark_img.alt = "Reset mark";
-					//mark_img.setAttribute('onclick', 
-					//	'javascript:toggleMark('+rows[i]+', false)');
-		
-				} else {
-					mark_img.src = "images/mark_unset.png";
-					mark_img.alt = "Set mark";
-
-					//mark_img.alt = "Please wait...";
-
-					//mark_img.setAttribute('onclick', 
-					//	'javascript:toggleMark('+rows[i]+', true)');
-
-					//Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
-
-				}
-			}
+			toggleMark(rows[i], true, true);
 		}
 
 		if (rows.length > 0) {
@@ -808,27 +789,7 @@ function selectionTogglePublished(cdm_mode) {
 		}
 
 		for (i = 0; i < rows.length; i++) {
-			var row = document.getElementById("RROW-" + rows[i]);
-			var mark_img = document.getElementById("FPPIC-" + rows[i]);
-
-			if (row && mark_img) {
-
-				if (mark_img.alt == "Publish") {
-					mark_img.src = "images/pub_set.png";
-					mark_img.alt = "Unpublish";
-//					mark_img.setAttribute('onclick', 
-//						'javascript:togglePub('+rows[i]+', false)');
-
-				} else {
-					mark_img.src = "images/pub_unset.png";
-					mark_img.alt = "Publish";
-//					mark_img.setAttribute('onclick', 
-//						'javascript:togglePub('+rows[i]+', true)');
-
-//					Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
-
-				}
-			}
+			togglePub(rows[i], true, true);
 		}
 
 		if (rows.length > 0) {

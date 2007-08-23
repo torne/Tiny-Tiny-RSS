@@ -3546,14 +3546,14 @@
 		if ($num_starred > 0) $class .= "Unread";
 
 		printFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
-			"images/mark_set.png", $link);
+			"images/mark_set.gif", $link);
 
 		$class = "virt";
 
 		if ($num_published > 0) $class .= "Unread";
 
 		printFeedEntry(-2, $class, __("Published articles"), $num_published, 
-			"images/pub_set.png", $link);
+			"images/pub_set.gif", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			print "</ul>";
@@ -4253,23 +4253,23 @@
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.png\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.gif\" 
 						class=\"markedPic\"
-						alt=\"Reset mark\" onclick='javascript:tMark($id)'>";
+						alt=\"Unstar article\" onclick='javascript:tMark($id)'>";
 				} else {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.png\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.gif\" 
 						class=\"markedPic\"
-						alt=\"Set mark\" onclick='javascript:tMark($id)'>";
+						alt=\"Star article\" onclick='javascript:tMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_set.png\" 
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_set.gif\" 
 						class=\"markedPic\"
-						alt=\"Unpublish\" onclick='javascript:tPub($id)'>";
+						alt=\"Unpublish article\" onclick='javascript:tPub($id)'>";
 				} else {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_unset.png\" 
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_unset.gif\" 
 						class=\"markedPic\"
-						alt=\"Publish\" onclick='javascript:tPub($id)'>";
+						alt=\"Publish article\" onclick='javascript:tPub($id)'>";
 				}
 
 #				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .

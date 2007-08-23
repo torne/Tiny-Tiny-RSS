@@ -119,6 +119,13 @@ print T_js_decl("Entered passwords do not match.");
 print T_js_decl("No articles found to mark");
 print T_js_decl("Mark %d article(s) as read?");
 print T_js_decl("No article is selected.");
+print T_js_decl("Star article");
+print T_js_decl("Unstar article");
+print T_js_decl("Please wait...");
+print T_js_decl("Publish article");
+print T_js_decl("Unpublish article");
+#print T_js_decl(
+#print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
