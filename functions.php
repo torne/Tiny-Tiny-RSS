@@ -3545,8 +3545,16 @@
 
 		if ($num_starred > 0) $class .= "Unread";
 
+		$is_ie = (strpos($_SESSION["client.userAgent"], "MSIE") !== false);
+
+		if ($is_ie) {
+			$mark_img_ext = "gif";
+		} else {
+			$mark_img_ext = "png";
+		}
+
 		printFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
-			"images/mark_set.gif", $link);
+			"images/mark_set.$mark_img_ext", $link);
 
 		$class = "virt";
 
@@ -4251,13 +4259,21 @@
 				} else {
 					$is_unread = false;
 				}
-	
+
+				$is_ie = (strpos($_SESSION["client.userAgent"], "MSIE") !== false);
+
+				if ($is_ie) {
+					$mark_img_ext = "gif";
+				} else {
+					$mark_img_ext = "png";
+				}
+
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.gif\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.$mark_img_ext\" 
 						class=\"markedPic\"
 						alt=\"Unstar article\" onclick='javascript:tMark($id)'>";
 				} else {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.gif\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.$mark_img_ext\" 
 						class=\"markedPic\"
 						alt=\"Star article\" onclick='javascript:tMark($id)'>";
 				}
