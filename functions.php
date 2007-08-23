@@ -1648,11 +1648,13 @@
 
 					if ($feed == -3) {
 
+						$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
+
 						if (DB_TYPE == "pgsql") {
-							$match_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+							$match_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
 						} else {
 							$match_part .= " AND date_entered > DATE_SUB(NOW(), 
-								INTERVAL 1 DAY) ";
+								INTERVAL $intl HOUR) ";
 						}
 
 						db_query($link, "UPDATE ttrss_user_entries 
@@ -1856,10 +1858,12 @@
 		} else if ($n_feed == -3) {
 			$match_part = "unread = true";
 
+			$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
+
 			if (DB_TYPE == "pgsql") {
-				$match_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+				$match_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
 			} else {
-				$match_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL 1 DAY) ";
+				$match_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 			}
 
 		} else if ($n_feed > 0) {
@@ -2637,10 +2641,12 @@
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true";
 
+				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
+
 				if (DB_TYPE == "pgsql") {
-					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
 				} else {
-					$query_strategy_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL 1 DAY) ";
+					$query_strategy_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 				}
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
