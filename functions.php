@@ -740,8 +740,10 @@
 					$additional_tags = array();
 					$additional_tags_src = $item->get_categories();
 
-					foreach ($additional_tags_src as $tobj) {
-						array_push($additional_tags, $tobj->get_term());
+					if (is_array($additional_tags_src)) {
+						foreach ($additional_tags_src as $tobj) {
+							array_push($additional_tags, $tobj->get_term());
+						}
 					}
 
 				} else {
