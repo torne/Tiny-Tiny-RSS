@@ -56,10 +56,6 @@
 	<script type="text/javascript" src="feedlist.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="viewfeed.js?<?php echo $dt_add ?>"></script>
 
-	<!--[if gte IE 5.5000]>
-		<script type="text/javascript" src="pngfix.js"></script>
-		<link rel="stylesheet" type="text/css" href="tt-rss-ie.css">
-	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<script type="text/javascript">
