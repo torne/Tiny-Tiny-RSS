@@ -68,6 +68,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (getActiveFeedId() != feed) {
 			feed_cur_page = 0;
+			active_post_id = 0;
 		}
 
 		enableHotkeys();
