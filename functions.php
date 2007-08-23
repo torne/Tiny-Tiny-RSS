@@ -497,7 +497,11 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($rss->channel["title"]);
+				if (ENABLE_SIMPLEPIE) {
+					$feed_title = $rss->get_title();
+				} else {
+					$feed_title = db_escape_string($rss->channel["title"]);
+				}
 
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: registering title: $feed_title");
