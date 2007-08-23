@@ -431,7 +431,7 @@
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
-			_debug("update_rss_feed: fetching...");
+			_debug("update_rss_feed: fetching [$fetch_url]...");
 		}
 
 		if (!defined('DAEMON_EXTENDED_DEBUG') && !$_GET['xdebug']) {
@@ -441,13 +441,11 @@
 		if (!ENABLE_SIMPLEPIE) {
 			$rss = fetch_rss($fetch_url);
 		} else {
-			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
-				mkdir(SIMPLEPIE_CACHE_DIR);
-			}
-
-			$rss = new SimplePie($fetch_url, SIMPLEPIE_CACHE_DIR);
+			$rss = new SimplePie();
+			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+			$rss->set_feed_url($fetch_url);
+			$rss->set_output_encoding('UTF-8');
 			$rss->init();
-			$rss->handle_content_type();
 		}
 
 //		print_r($rss);
@@ -460,7 +458,13 @@
 
 		$feed = db_escape_string($feed);
 
-		if ($rss) {
+		if (ENABLE_SIMPLEPIE) {
+			$fetch_ok = !$rss->error();
+		} else {
+			$fetch_ok = !!$rss;
+		}
+
+		if ($fetch_ok) {
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("update_rss_feed: processing feed data...");
@@ -1069,11 +1073,19 @@
 //			db_query($link, "COMMIT");
 
 		} else {
+
 			if (ENABLE_SIMPLEPIE) {
-				$error_msg = mb_substr(db_escape_string($rss->error()), 0, 250);
+				$error_msg = mb_substr($rss->error(), 0, 250);
 			} else {
-				$error_msg = mb_substr(db_escape_string(magpie_error()), 0, 250);
+				$error_msg = mb_substr(magpie_error(), 0, 250);
 			}
+
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				_debug("update_rss_feed: error fetching feed: $error_msg");
+			}
+
+			$error_msg = db_escape_string($error_msg);
+
 			db_query($link, 
 				"UPDATE ttrss_feeds SET last_error = '$error_msg', 
 					last_updated = NOW() WHERE id = '$feed'");
