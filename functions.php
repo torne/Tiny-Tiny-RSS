@@ -1646,6 +1646,20 @@
 							WHERE published = true AND owner_uid = ".$_SESSION["uid"]);
 					}
 
+					if ($feed == -3) {
+
+						if (DB_TYPE == "pgsql") {
+							$match_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+						} else {
+							$match_part .= " AND date_entered > DATE_SUB(NOW(), 
+								INTERVAL 1 DAY) ";
+						}
+
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW()
+							WHERE $match_part AND owner_uid = ".$_SESSION["uid"]);
+					}
+
 				} else if ($feed < -10) { // label
 
 					// TODO make this more efficient
@@ -1814,7 +1828,7 @@
 	
 			return $unread;
 		} else if ($cat == -1) {
-			return getFeedUnread($link, -1) + getFeedUnread($link, -2);
+			return getFeedUnread($link, -1) + getFeedUnread($link, -2) + getFeedUnread($link, -3);
 		} else if ($cat == -2) {
 
 			$rv = getLabelCounters($link, false, true);
@@ -1839,6 +1853,15 @@
 			$match_part = "marked = true";
 		} else if ($n_feed == -2) {
 			$match_part = "published = true";
+		} else if ($n_feed == -3) {
+			$match_part = "unread = true";
+
+			if (DB_TYPE == "pgsql") {
+				$match_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+			} else {
+				$match_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL 1 DAY) ";
+			}
+
 		} else if ($n_feed > 0) {
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
@@ -2006,12 +2029,7 @@
 		$old_counters = $_SESSION["lctr_last_value"];
 		$lctrs_modified = false;
 
-		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
-			WHERE marked = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
-			ttrss_user_entries.feed_id = ttrss_feeds.id AND
-			hidden = false AND unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
-
-		$count = db_fetch_result($result, 0, "count");
+		$count = getFeedUnread($link, -1);
 
 		if (!$ret_mode) {
 			print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
@@ -2020,18 +2038,22 @@
 			$ret_arr["-1"]["description"] = __("Starred articles");
 		}
 
-		$result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
-			WHERE published = true AND ttrss_user_entries.ref_id = ttrss_entries.id AND 
-			ttrss_user_entries.feed_id = ttrss_feeds.id AND
-			hidden = false AND unread = true AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
-
-		$count = db_fetch_result($result, 0, "count");
+		$count = getFeedUnread($link, -2);
 
 		if (!$ret_mode) {
 			print "<counter type=\"label\" id=\"-2\" counter=\"$count\"/>";
 		} else {
 			$ret_arr["-2"]["counter"] = $count;
 			$ret_arr["-2"]["description"] = __("Published articles");
+		}
+
+		$count = getFeedUnread($link, -3);
+
+		if (!$ret_mode) {
+			print "<counter type=\"label\" id=\"-3\" counter=\"$count\"/>";
+		} else {
+			$ret_arr["-3"]["counter"] = $count;
+			$ret_arr["-3"]["description"] = __("Fresh articles");
 		}
 
 
@@ -2340,6 +2362,8 @@
 			return __("Starred articles");
 		} else if ($id == -2) {
 			return __("Published articles");
+		} else if ($id == -3) {
+			return __("Fresh articles");
 		} else if ($id < -10) {
 			$label_id = -10 - $id;
 			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
@@ -2610,6 +2634,16 @@
 			} else if ($feed == -2) { // published virtual feed
 				$query_strategy_part = "published = true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else if ($feed == -3) { // fresh virtual feed
+				$query_strategy_part = "unread = true";
+
+				if (DB_TYPE == "pgsql") {
+					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '1 day' "; 
+				} else {
+					$query_strategy_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL 1 DAY) ";
+				}
+
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= -10) { // labels
 				$label_id = -$feed - 11;
 	
@@ -2679,6 +2713,8 @@
 				$feed_title = __("Starred articles");
 			} else if ($feed == -2) {
 				$feed_title = __("Published articles");
+			} else if ($feed == -3) {
+				$feed_title = __("Fresh articles");
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
 				$result = db_query($link, "SELECT description FROM ttrss_labels
@@ -3355,6 +3391,14 @@
 
 		$num_starred = getFeedUnread($link, -1);
 		$num_published = getFeedUnread($link, -2);
+		$num_fresh = getFeedUnread($link, -3);
+
+		$class = "virt";
+
+		if ($num_fresh > 0) $class .= "Unread";
+
+		printFeedEntry(-3, $class, __("Fresh articles"), $num_fresh, 
+			"images/fresh.png", $link);
 
 		$class = "virt";
 

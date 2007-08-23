@@ -293,7 +293,9 @@ function feedlist_init() {
 		if (getActiveFeedId()) {
 			debug("some feed is open on feedlist refresh, reloading");
 			setTimeout("viewCurrentFeed()", 100);
-		} 
+		} else {
+			setTimeout("viewfeed(-3)", 100);
+		}
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
