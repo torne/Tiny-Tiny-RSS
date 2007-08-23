@@ -64,8 +64,12 @@
 			$op == "digestSend" || $op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 		header("Content-Type: application/xml; charset=utf-8");
-	} else {
-		header("Content-Type: text/html; charset=utf-8");
+		} else {
+		if (!$_REQUEST["noxml"]) {
+			header("Content-Type: text/html; charset=utf-8");
+		} else {
+			header("Content-Type: text/plain; charset=utf-8");
+		}
 	}
 
 	if (!$op) {

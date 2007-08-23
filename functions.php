@@ -64,8 +64,12 @@
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
-	require_once "magpierss/rss_fetch.inc";
-	require_once 'magpierss/rss_utils.inc';
+	if (ENABLE_SIMPLEPIE) {
+		require_once "simplepie/simplepie.inc";
+	} else {
+		require_once "magpierss/rss_fetch.inc";
+		require_once 'magpierss/rss_utils.inc';
+	}
 
 	include_once "tw/tw-config.php";
 	include_once "tw/tw.php";
@@ -430,11 +434,23 @@
 			_debug("update_rss_feed: fetching...");
 		}
 
-		if (!defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (!defined('DAEMON_EXTENDED_DEBUG') && !$_GET['xdebug']) {
 			error_reporting(0);
 		}
 
-		$rss = fetch_rss($fetch_url);
+		if (!ENABLE_SIMPLEPIE) {
+			$rss = fetch_rss($fetch_url);
+		} else {
+			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
+				mkdir(SIMPLEPIE_CACHE_DIR);
+			}
+
+			$rss = new SimplePie($fetch_url, SIMPLEPIE_CACHE_DIR);
+			$rss->init();
+			$rss->handle_content_type();
+		}
+
+//		print_r($rss);
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 			_debug("update_rss_feed: fetch done, parsing...");
@@ -461,11 +477,18 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
+			if (ENABLE_SIMPLEPIE) {
+				$site_url = $rss->get_link();
+			} else {
+				$site_url = $rss->channel["link"];
+			}
+
 			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: checking favicon...");
 				}
-				check_feed_favicon($rss->channel["link"], $feed, $link);
+
+				check_feed_favicon($site_url, $feed, $link);
 			}
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
@@ -480,9 +503,10 @@
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			$site_url = $rss->channel["link"];
 			// weird, weird Magpie
-			if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
+			if (!ENABLE_SIMPLEPIE) {
+				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
+			}
 
 			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
 				db_query($link, "UPDATE ttrss_feeds SET 
@@ -491,7 +515,11 @@
 
 //			print "I: " . $rss->channel["image"]["url"];
 
-			$icon_url = $rss->image["url"];
+			if (!ENABLE_SIMPLEPIE) {
+				$icon_url = $rss->image["url"];
+			} else {
+				$icon_url = $rss->get_image_url();
+			}
 
 			if ($icon_url && !$orig_icon_url != db_escape_string($icon_url)) {
 				$icon_url = db_escape_string($icon_url);
@@ -527,10 +555,13 @@
 				array_push($filters[$line["name"]], $filter);
 			}
 
-			$iterator = $rss->items;
-
-			if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
-			if (!$iterator || !is_array($iterator)) $iterator = $rss;
+			if (ENABLE_SIMPLEPIE) {
+				$iterator = $rss->get_items();
+			} else {
+				$iterator = $rss->items;
+				if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
+				if (!$iterator || !is_array($iterator)) $iterator = $rss;
+			}
 
 			if (!is_array($iterator)) {
 				/* db_query($link, "UPDATE ttrss_feeds 
@@ -556,13 +587,21 @@
 
 			foreach ($iterator as $item) {
 
-				$entry_guid = $item["id"];
+				if (ENABLE_SIMPLEPIE) {
+					$entry_guid = $item->get_id();
+					if (!$entry_guid) $entry_guid = $item->get_link();
+					if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
 
-				if (!$entry_guid) $entry_guid = $item["guid"];
-				if (!$entry_guid) $entry_guid = $item["link"];
-				if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
+				} else {
 
-				if (defined('DAEMON_EXTENDED_DEBUG')) {
+					$entry_guid = $item["id"];
+
+					if (!$entry_guid) $entry_guid = $item["guid"];
+					if (!$entry_guid) $entry_guid = $item["link"];
+					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
+				}
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: guid $entry_guid");
 				}
 
@@ -570,14 +609,18 @@
 
 				$entry_timestamp = "";
 
-				$rss_2_date = $item['pubdate'];
-				$rss_1_date = $item['dc']['date'];
-				$atom_date = $item['issued'];
-				if (!$atom_date) $atom_date = $item['updated'];
+				if (ENABLE_SIMPLEPIE) {
+					$entry_timestamp = strtotime($item->get_date());
+				} else {
+					$rss_2_date = $item['pubdate'];
+					$rss_1_date = $item['dc']['date'];
+					$atom_date = $item['issued'];
+					if (!$atom_date) $atom_date = $item['updated'];
 			
-				if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
-				if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
-				if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
+					if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
+					if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
+					if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
+				}
 				
 				if ($entry_timestamp == "" || $entry_timestamp == -1 || !$entry_timestamp) {
 					$entry_timestamp = time();
@@ -588,31 +631,40 @@
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 
-				$entry_title = trim(strip_tags($item["title"]));
+				if (ENABLE_SIMPLEPIE) {
+					$entry_title = $item->get_title();
+				} else {
+					$entry_title = trim(strip_tags($item["title"]));
+				}
 
-				// strange Magpie workaround
-				$entry_link = $item["link_"];
-				if (!$entry_link) $entry_link = $item["link"];
+				if (ENABLE_SIMPLEPIE) {
+					$entry_link = $item->get_link();
+				} else {
+					// strange Magpie workaround
+					$entry_link = $item["link_"];
+					if (!$entry_link) $entry_link = $item["link"];
+				}
 
 				if (!$entry_title) continue;
-#					if (!$entry_link) continue;
 
 				$entry_link = strip_tags($entry_link);
 
-				$entry_content = $item["content:escaped"];
+				if (ENABLE_SIMPLEPIE) {
+					$entry_content = $item->get_description();
+				} else {
+					$entry_content = $item["content:escaped"];
 
-				if (!$entry_content) $entry_content = $item["content:encoded"];
-				if (!$entry_content) $entry_content = $item["content"];
-				if (!$entry_content) $entry_content = $item["atom_content"];
-				if (!$entry_content) $entry_content = $item["summary"];
-				if (!$entry_content) $entry_content = $item["description"];
+					if (!$entry_content) $entry_content = $item["content:encoded"];
+					if (!$entry_content) $entry_content = $item["content"];
+					if (!$entry_content) $entry_content = $item["atom_content"];
+					if (!$entry_content) $entry_content = $item["summary"];
+					if (!$entry_content) $entry_content = $item["description"];
 
-//				if (!$entry_content) continue;
-
-				// WTF
-				if (is_array($entry_content)) {
-					$entry_content = $entry_content["encoded"];
-					if (!$entry_content) $entry_content = $entry_content["escaped"];
+					// WTF
+					if (is_array($entry_content)) {
+						$entry_content = $entry_content["encoded"];
+						if (!$entry_content) $entry_content = $entry_content["escaped"];
+					}
 				}
 
 //				print_r($item);
@@ -621,25 +673,30 @@
 
 				$entry_content_unescaped = $entry_content;
 
-				$entry_comments = strip_tags($item["comments"]);
+				if (ENABLE_SIMPLEPIE) {
+					$entry_comments = strip_tags($item->data["comments"]);
+					$entry_author = $item->get_author();
+				} else {
+					$entry_comments = strip_tags($item["comments"]);
+				
+					$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
 
-				$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
-
-				if ($item['author']) {
-
-					if (is_array($item['author'])) {
-
-						if (!$entry_author) {
-							$entry_author = db_escape_string(strip_tags($item['author']['name']));
+					if ($item['author']) {
+	
+						if (is_array($item['author'])) {
+	
+							if (!$entry_author) {
+								$entry_author = db_escape_string(strip_tags($item['author']['name']));
+							}
+	
+							if (!$entry_author) {
+								$entry_author = db_escape_string(strip_tags($item['author']['email']));
+							}
 						}
-
+	
 						if (!$entry_author) {
-							$entry_author = db_escape_string(strip_tags($item['author']['email']));
+							$entry_author = db_escape_string(strip_tags($item['author']));
 						}
-					}
-
-					if (!$entry_author) {
-						$entry_author = db_escape_string(strip_tags($item['author']));
 					}
 				}
 
@@ -659,40 +716,56 @@
 				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
 				$entry_author = mb_substr($entry_author, 0, 250);
 
-				$num_comments = db_escape_string($item["slash"]["comments"]);
+				if (ENABLE_SIMPLEPIE) {
+					$num_comments = 0; #FIXME#
+				} else {
+					$num_comments = db_escape_string($item["slash"]["comments"]);
+				}
 
 				if (!$num_comments) $num_comments = 0;
 
 				// parse <category> entries into tags
 
-				$t_ctr = $item['category#'];
+				if (ENABLE_SIMPLEPIE) {
 
-				$additional_tags = false;
-
-				if ($t_ctr == 0) {
-					$additional_tags = false;
-				} else if ($t_ctr == 1) {
-					$additional_tags = array($item['category']);
-				} else {
 					$additional_tags = array();
-					for ($i = 0; $i <= $t_ctr; $i++ ) {
-						if ($item["category#$i"]) {
-							array_push($additional_tags, $item["category#$i"]);
+					$additional_tags_src = $item->get_categories();
+
+					foreach ($additional_tags_src as $tobj) {
+						array_push($additional_tags, $tobj->get_term());
+					}
+
+				} else {
+
+					$t_ctr = $item['category#'];
+
+					$additional_tags = false;
+	
+					if ($t_ctr == 0) {
+						$additional_tags = false;
+					} else if ($t_ctr == 1) {
+						$additional_tags = array($item['category']);
+					} else {
+						$additional_tags = array();
+						for ($i = 0; $i <= $t_ctr; $i++ ) {
+							if ($item["category#$i"]) {
+								array_push($additional_tags, $item["category#$i"]);
+							}
 						}
 					}
-				}
-
-				// parse <dc:subject> elements
-
-				$t_ctr = $item['dc']['subject#'];
-
-				if ($t_ctr == 1) {
-					$additional_tags = array($item['dc']['subject']);
-				} else if ($t_ctr > 1) {
-					$additional_tags = array();
-					for ($i = 0; $i <= $t_ctr; $i++ ) {
-						if ($item['dc']["subject#$i"]) {
-							array_push($additional_tags, $item['dc']["subject#$i"]);
+	
+					// parse <dc:subject> elements
+	
+					$t_ctr = $item['dc']['subject#'];
+	
+					if ($t_ctr == 1) {
+						$additional_tags = array($item['dc']['subject']);
+					} else if ($t_ctr > 1) {
+						$additional_tags = array();
+						for ($i = 0; $i <= $t_ctr; $i++ ) {
+							if ($item['dc']["subject#$i"]) {
+								array_push($additional_tags, $item['dc']["subject#$i"]);
+							}
 						}
 					}
 				}
@@ -701,7 +774,7 @@
 				
 //				$entry_content = sanitize_rss($entry_content);
 
-				if (defined('DAEMON_EXTENDED_DEBUG')) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
 				}
 
@@ -709,7 +782,7 @@
 
 				if (db_num_rows($result) == 0) {
 
-					if (defined('DAEMON_EXTENDED_DEBUG')) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 						_debug("update_rss_feed: base guid not found");
 					}
 
@@ -765,7 +838,7 @@
 
 				if (db_num_rows($result) == 1) {
 
-					if (defined('DAEMON_EXTENDED_DEBUG')) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 						_debug("update_rss_feed: base guid found, checking for user record");
 					}
 
@@ -792,7 +865,7 @@
 					$article_filters = get_article_filters($filters, $entry_title, 
 							$entry_content, $entry_link);
 
-					if (defined('DAEMON_EXTENDED_DEBUG')) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
 						if (count($article_filters) != 0) {
 							print_r($article_filters);
@@ -813,7 +886,7 @@
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
 
-						if (defined('DAEMON_EXTENDED_DEBUG')) {
+						if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 							_debug("update_rss_feed: user record not found, creating...");
 						}
 
@@ -895,7 +968,7 @@
 
 				db_query($link, "COMMIT");
 
-				if (defined('DAEMON_EXTENDED_DEBUG')) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: looking for tags...");
 				}
 
@@ -942,6 +1015,10 @@
 
 //				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
 
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					print_r($entry_tags);
+				}
+
 				if (count($entry_tags) > 0) {
 				
 					db_query($link, "BEGIN");
@@ -980,6 +1057,10 @@
 					}
 					db_query($link, "COMMIT");
 				} 
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: article processed");
+				}
 			} 
 
 			db_query($link, "UPDATE ttrss_feeds 
@@ -988,13 +1069,17 @@
 //			db_query($link, "COMMIT");
 
 		} else {
-			$error_msg = mb_substr(db_escape_string(magpie_error()), 0, 250);
+			if (ENABLE_SIMPLEPIE) {
+				$error_msg = mb_substr(db_escape_string($rss->error()), 0, 250);
+			} else {
+				$error_msg = mb_substr(db_escape_string(magpie_error()), 0, 250);
+			}
 			db_query($link, 
 				"UPDATE ttrss_feeds SET last_error = '$error_msg', 
 					last_updated = NOW() WHERE id = '$feed'");
 		}
 
-		if (defined('DAEMON_EXTENDED_DEBUG')) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 			_debug("update_rss_feed: done");
 		}
 
