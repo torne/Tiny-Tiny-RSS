@@ -748,6 +748,11 @@
 						}
 					}
 
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+						_debug("update_rss_feed: category tags:");
+						print_r($additional_tags);
+					}
+
 				} else {
 
 					$t_ctr = $item['category#'];
