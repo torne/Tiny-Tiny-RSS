@@ -684,7 +684,9 @@
 
 				if (ENABLE_SIMPLEPIE) {
 					$entry_comments = strip_tags($item->data["comments"]);
-					$entry_author = $item->get_author();
+					if ($item->get_author()) {
+						$entry_author = $item->get_author()->get_name();
+					}
 				} else {
 					$entry_comments = strip_tags($item["comments"]);
 				
