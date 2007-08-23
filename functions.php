@@ -3131,15 +3131,28 @@
 		}
 
 		error_reporting(0);
-		$rss = fetch_rss($releases_feed);
+		if (ENABLE_SIMPLEPIE) {
+			$rss = new SimplePie();
+			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
+			$rss->set_feed_url($fetch_url);
+			$rss->set_output_encoding('UTF-8');
+			$rss->init();
+		} else {
+			$rss = fetch_rss($releases_feed);
+		}
 		error_reporting (DEFAULT_ERROR_LEVEL);
 
 		if ($rss) {
 
-			$items = $rss->items;
+			if (ENABLE_SIMPLEPIE) {
+				$items = $rss->get_items();
+			} else {
+				$items = $rss->items;
 
-			if (!$items || !is_array($items)) $items = $rss->entries;
-			if (!$items || !is_array($items)) $items = $rss;
+				if (!$items || !is_array($items)) $items = $rss->entries;
+				if (!$items || !is_array($items)) $items = $rss;
+			}
 
 			if (!is_array($items) || count($items) == 0) {
 				return;
@@ -3147,10 +3160,21 @@
 
 			$latest_item = $items[0];
 
-			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $latest_item["title"]));
+			if (ENABLE_SIMPLEPIE) {
+				$last_title = $latest_item->get_title();
+			} else {
+				$last_title = $latest_item["title"];
+			}
 
-			$release_url = sanitize_rss($link, $latest_item["link"]);
-			$content = sanitize_rss($link, $latest_item["description"]);
+			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_title));
+
+			if (ENABLE_SIMPLEPIE) {
+				$release_url = sanitize_rss($latest_item->get_link());
+				$content = sanitize_rss($latest_item->get_description());
+			} else {
+				$release_url = sanitize_rss($link, $latest_item["link"]);
+				$content = sanitize_rss($link, $latest_item["description"]);
+			}
 
 			if (version_compare(VERSION, $latest_version) == -1) {
 				if ($brief_fmt) {
