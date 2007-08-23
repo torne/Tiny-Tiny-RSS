@@ -48,7 +48,8 @@
 	__("Sort feeds by unread articles count");
 	__("User stylesheet URL");
 	__("Link to user stylesheet to override default style, disabled if empty.");
-	
+	__("Maximum age of fresh articles (in hours)");
+
 	__("Advanced");
 
 	__("Blacklisted tags");
