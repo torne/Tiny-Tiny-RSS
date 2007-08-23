@@ -151,12 +151,17 @@
 	// errors with MySQL (mangled characters, errors when updating feeds, etc).
 
 	define('ENABLE_SIMPLEPIE', false);
-	// Enables SimplePie RSS parsing library (experimental)
-	// When this option is disabled, tt-rss defaults to MagpieRSS. 
+	// Enables SimplePie RSS parsing library (experimental). When this option 
+	// is disabled, Tiny Tiny RSS defaults to Magpie library. 
 
-	// SimplePie is more robust, but it doesn't currently 
-	// support HTTP Digest authentication, so you won't be able
-	// to access, for example, Livejournal friend-only posts.	
+	// SimplePie is somewhat faster, more robust and less clunky as Magpie. 
+	// While it doesn't internally support HTTP Digest authentication 
+	// (required for Livejournal protected feeds and such) and SSL, it can
+	// support it when using CURL.
+
+	// To summarize, if your PHP has CURL extension or you aren't subscribed
+	// to any feeds using HTTP Digest authentication and Magpie XML parsing 
+	// errors are bothering you too much, you can try enabling SimplePie.
 
 	define('CONFIG_VERSION', 9);
 	// Expected config version. Please update this option in config.php
