@@ -189,10 +189,10 @@ function notify_real(msg, no_hide, n_type) {
 		msg = "<img src='images/indicator_white.gif'> " + msg;
 	} else if (n_type == 3) {
 		n.className = "notifyError";
-		msg = "<img src='images/sign_excl.png'> " + msg;
+		msg = "<img src='images/sign_excl.gif'> " + msg;
 	} else if (n_type == 4) {
 		n.className = "notifyInfo";
-		msg = "<img src='images/sign_info.png'> " + msg;
+		msg = "<img src='images/sign_info.gif'> " + msg;
 	}
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;

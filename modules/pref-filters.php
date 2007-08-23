@@ -220,7 +220,7 @@
 		}
 
 		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img src='images/sign_quest.png'></a>";
+			<img src='images/sign_quest.gif'></a>";
 
 		print "<input type=\"submit\" 
 			class=\"button\" 

@@ -3904,17 +3904,17 @@
 
 	function format_warning($msg, $id = "") {
 		return "<div class=\"warning\" id=\"$id\"> 
-			<img src=\"images/sign_excl.png\">$msg</div>";
+			<img src=\"images/sign_excl.gif\">$msg</div>";
 	}
 
 	function format_notice($msg) {
 		return "<div class=\"notice\"> 
-			<img src=\"images/sign_info.png\">$msg</div>";
+			<img src=\"images/sign_info.gif\">$msg</div>";
 	}
 
 	function format_error($msg) {
 		return "<div class=\"error\"> 
-			<img src=\"images/sign_excl.png\">$msg</div>";
+			<img src=\"images/sign_excl.gif\">$msg</div>";
 	}
 
 	function print_notice($msg) {

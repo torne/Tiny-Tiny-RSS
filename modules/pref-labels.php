@@ -206,7 +206,7 @@
 		}
 
 		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(1)\">
-			<img src='images/sign_quest.png'></a>";
+			<img src='images/sign_quest.gif'></a>";
 
 		print "<div class=\"prefGenericAddBox\">";
 
