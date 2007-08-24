@@ -163,11 +163,6 @@
 	// to any feeds using HTTP Digest authentication and Magpie XML parsing 
 	// errors are bothering you too much, you can try enabling SimplePie.
 
-	define('COUNTERS_MAX_AGE', 365);
-	// Hard limit for unread counters calculation. Try tweaking this
-	// parameter to speed up tt-rss when having a huge number of articles
-	// in the database (better yet, enable purging!)
-
 	define('CONFIG_VERSION', 9);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
