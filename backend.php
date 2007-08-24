@@ -221,10 +221,15 @@
 
 		print "<headlines id=\"$feed\"><![CDATA[";
 
-		$topmost_article_ids = outputHeadlinesList($link, $feed, $subop, 
+		$ret = outputHeadlinesList($link, $feed, $subop, 
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset);
 
+		$topmost_article_ids = $ret[0];
+		$headlines_count = $ret[1];
+
 		print "]]></headlines>";
+
+		print "<headlines-count value=\"$headlines_count\"/>";
 
 		if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 

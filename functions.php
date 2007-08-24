@@ -4216,6 +4216,8 @@
 			print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 		}
 
+		$headlines_count = db_num_rows($result);
+
 		if (db_num_rows($result) > 0) {
 
 #			print "\{$offset}";
@@ -4464,7 +4466,7 @@
 			print "</div>";
 		}
 
-		return $topmost_article_ids;
+		return array($topmost_article_ids, $headlines_count);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html

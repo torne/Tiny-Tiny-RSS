@@ -1,6 +1,7 @@
 //var xmlhttp = Ajax.getTransport();
 
 var _feed_cur_page = 0;
+var _infscroll_disable = 0;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -25,35 +26,14 @@ function feedlist_callback2(transport) {
 	}
 }
 
-var page_offset = 0;
-
-function viewFeedGoPage(i) {
-	try {
-		if (!getActiveFeedId()) return;
-
-		if (i != 0) {
-			page_offset = page_offset + i;
-		} else {
-			page_offset = 0;
-		}
-
-		if (page_offset < 0) page_offset = 0;
-		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
-			undefined, page_offset);
-	} catch (e) {
-		exception_error(e, "viewFeedGoPage");
-	}
-}
-
-
 function viewNextFeedPage() {
 	try {
 		if (!getActiveFeedId()) return;
 
-		_feed_cur_page++;
+		notify_progress("Loading, please wait...");
 
 		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
-			undefined, _feed_cur_page);
+			undefined, _feed_cur_page+1);
 
 	} catch (e) {
 		exception_error(e, "viewFeedGoPage");
@@ -72,11 +52,13 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		} else {
 			page_offset = 0;
 			_feed_cur_page = 0;
+			_infscroll_disable = 0;
 		}
 
 		if (getActiveFeedId() != feed) {
 			_feed_cur_page = 0;
 			active_post_id = 0;
+			_infscroll_disable = 0;
 		}
 
 		enableHotkeys();
@@ -187,8 +169,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		}  */
 
 		new Ajax.Request(query, {
+			asynchronous: page_offset == 0,
 			onComplete: function(transport) { 
-				headlines_callback2(transport, feed, is_cat, _feed_cur_page); 
+				headlines_callback2(transport, feed, is_cat, page_offset); 
 			} });
 
 	} catch (e) {

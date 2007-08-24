@@ -46,7 +46,8 @@ function catchup_callback2(transport, callback) {
 }
 
 function headlines_callback2(transport, active_feed_id, active_feed_is_cat, feed_cur_page) {
-	debug("headlines_callback2");
+	debug("headlines_callback2 [page=" + feed_cur_page + "]");
+
 	var f = document.getElementById("headlines-frame");
 	try {
 		if (feed_cur_page == 0) { 
@@ -57,6 +58,12 @@ function headlines_callback2(transport, active_feed_id, active_feed_is_cat, feed
 
 	if (transport.responseXML) {
 		var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
+		var headlines_count_obj = transport.responseXML.getElementsByTagName("headlines-count")[0];
+
+		var headlines_count = headlines_count_obj.getAttribute("value");
+
+		if (headlines_count == 0) _infscroll_disable = 1;
+
 		var counters = transport.responseXML.getElementsByTagName("counters")[0];
 		var articles = transport.responseXML.getElementsByTagName("article");
 		var runtime_info = transport.responseXML.getElementsByTagName("runtime-info");
@@ -71,15 +78,19 @@ function headlines_callback2(transport, active_feed_id, active_feed_is_cat, feed
 			}
 		} else {
 			if (headlines) {
-				debug("adding some more headlines...");
+				if (headlines_count > 0) {
+					debug("adding some more headlines...");
 
-				var c = document.getElementById("headlinesList");
+					var c = document.getElementById("headlinesList");
+	
+					if (!c) {
+						c = document.getElementById("headlinesInnerContainer");
+					}
 
-				if (!c) {
-					c = document.getElementById("headlinesInnerContainer");
+					c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
+				} else {
+					debug("no new headlines received");
 				}
-
-				c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
 			} else {
 				debug("headlines_callback: returned no data");
 				notify_error("Error while trying to load more headlines");	
@@ -139,6 +150,8 @@ function headlines_callback2(transport, active_feed_id, active_feed_is_cat, feed
 
 		} catch (e) { }
 	}
+
+	_feed_cur_page = feed_cur_page;
 
 	notify("");
 }
@@ -1244,9 +1257,10 @@ function headlines_scroll_handler() {
 		var e = document.getElementById("headlinesInnerContainer");
 
 		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 300) {
-			debug("more cowbell!");
-
-			viewNextFeedPage();
+			if (!_infscroll_disable) {
+				debug("more cowbell!");
+				viewNextFeedPage();
+			}
 		}
 
 	} catch (e) {
