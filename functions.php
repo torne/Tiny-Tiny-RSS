@@ -4331,26 +4331,40 @@
 					print "<td class='hlMarkedPic'>$marked_pic</td>";
 					print "<td class='hlMarkedPic'>$published_pic</td>";
 
-					if ($line["feed_title"]) {			
-						print "<td class='hlContent'>$content_link</td>";
-						print "<td class='hlFeed'>
-							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
-					} else {			
-						print "<td class='hlContent' valign='middle'>";
+#					if ($line["feed_title"]) {			
+#						print "<td class='hlContent'>$content_link</td>";
+#						print "<td class='hlFeed'>
+#							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+#								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
+#					} else {			
 
-						print "<a href=\"javascript:view($id,$feed_id);\">" .
-							$line["title"];
+					print "<td class='hlContent' valign='middle'>";
 
-						if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
-							if ($content_preview) {
-								print "<span class=\"contentPreview\"> - $content_preview</span>";
-							}
+					print "<a href=\"javascript:view($id,$feed_id);\">" .
+						$line["title"];
+
+					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
+						if ($content_preview) {
+							print "<span class=\"contentPreview\"> - $content_preview</span>";
 						}
-		
-						print "</a>";
-						print "</td>";
 					}
+
+					print "</a>";
+
+#							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+#							$line["feed_title"]."</a>	
+
+					if ($line["feed_title"]) {			
+						print "<span class=\"hlFeed\">
+							(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+							$line["feed_title"]."</a>)
+						</span>";
+					}
+
+
+					print "</td>";
+					
+#					}
 					
 					print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
 		
