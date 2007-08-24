@@ -108,7 +108,7 @@ window.onload = init;
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
 			(<a href="logout.php"><?= __('Logout') ?></a>)
 	<?php } ?>
-	<img id="newVersionIcon" onclick="javascript:explainError(2)" 
+	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="New version is available!" 
 		alt="new_version_icon">
 	</div>
