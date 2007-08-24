@@ -198,22 +198,27 @@ function render_article(article) {
 
 function showArticleInHeadlines(id) {
 
-	cleanSelected("headlinesList");
+	try {
 
-	var crow = document.getElementById("RROW-" + id);
-	var article_is_unread = crow.className.match("Unread");
+		cleanSelected("headlinesList");
+	
+		var crow = document.getElementById("RROW-" + id);
+		var article_is_unread = crow.className.match("Unread");
+			
+		crow.className = crow.className.replace("Unread", "");
 		
-	crow.className = crow.className.replace("Unread", "");
-	
-	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
-	
-	if (upd_img_pic) {
-		upd_img_pic.src = "images/blank_icon.gif";
-	}
-	
-	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-	markHeadline(id);
+		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+		
+		if (upd_img_pic) {
+			upd_img_pic.src = "images/blank_icon.gif";
+		}
+		
+		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+		markHeadline(id);
 
+	} catch (e) {
+		exception_error("showArticleInHeadlines", e);
+	}
 }
 
 function article_callback2(transport, id, feed_id) {
