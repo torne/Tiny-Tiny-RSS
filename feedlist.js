@@ -10,10 +10,18 @@ function viewCategory(cat) {
 
 function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
-		debug("feedlist_callback");
+		feedlist_callback2(xmlhttp);
+	}
+}
+
+function feedlist_callback2(transport) {
+	try {
+		debug("feedlist_callback2");
 		var f = document.getElementById("feeds-frame");
-		f.innerHTML = xmlhttp.responseText;
+		f.innerHTML = transport.responseText;
 		feedlist_init();
+	} catch (e) {
+		exception_error("feedlist_callback2", e);
 	}
 }
 

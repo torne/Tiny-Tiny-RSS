@@ -219,14 +219,10 @@ function updateFeedList(silent, fetch) {
 
 	debug("updateFeedList Q=" + query_str);
 
-	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
-	} else {
-		debug("xmlhttp busy");
-		//printLockingError();
-	}   
+	new Ajax.Request(query_str, {
+		onComplete: function(transport) { 
+			feedlist_callback2(transport); 
+		} });
 
 }
 
@@ -238,14 +234,10 @@ function catchupAllFeeds() {
 
 	debug("catchupAllFeeds Q=" + query_str);
 
-	if (xmlhttp_ready(xmlhttp)) {
-		xmlhttp.open("GET", query_str, true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
-	} else {
-		debug("xmlhttp busy");
-		//printLockingError();
-	}   
+	new Ajax.Request(query_str, {
+		onComplete: function(transport) { 
+			feedlist_callback2(transport); 
+		} });
 
 	global_unread = 0;
 	updateTitle("");
@@ -295,19 +287,6 @@ function searchCancel() {
 function search() {
 	closeInfoBox();	
 	viewCurrentFeed(0, "");
-}
-
-function localPiggieFunction(enable) {
-	if (enable) {
-		var query_str = "backend.php?op=feeds&subop=piggie";
-
-		if (xmlhttp_ready(xmlhttp)) {
-
-			xmlhttp.open("GET", query_str, true);
-			xmlhttp.onreadystatechange=feedlist_callback;
-			xmlhttp.send(null);
-		}
-	}
 }
 
 // if argument is undefined, current subtitle is not updated

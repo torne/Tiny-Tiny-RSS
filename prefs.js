@@ -48,7 +48,6 @@ function expand_feed_callback() {
 			var container = document.getElementById("BRDET-" + feed_to_expand);	
 			container.innerHTML=xmlhttp.responseText;
 //			container.style.display = "block";
-//			p_notify("");
 			Effect.Appear(container, {duration : 0.5});
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
@@ -248,10 +247,6 @@ function updateFeedList(sort_key) {
 		return
 	}
 
-//	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
-
-//	p_notify("Loading, please wait...");
-
 	var feed_search = document.getElementById("feed_search");
 	var search = "";
 	if (feed_search) { search = feed_search.value; }
@@ -278,10 +273,6 @@ function updateUsersList(sort_key) {
 		printLockingError();
 		return
 	}
-
-//	document.getElementById("prefContent").innerHTML = "Loading feeds, please wait...";
-
-//	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-users&sort="
 		+ param_escape(sort_key), true);
@@ -1153,10 +1144,6 @@ function updateFilterList(sort_key) {
 		return
 	}
 
-//	document.getElementById("prefContent").innerHTML = "Loading filters, please wait...";
-
-//	p_notify("Loading, please wait...");
-
 	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + 
 		param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=filterlist_callback;
@@ -1171,10 +1158,6 @@ function updateLabelList(sort_key) {
 		return
 	}
 
-//	p_notify("Loading, please wait...");
-
-//	document.getElementById("prefContent").innerHTML = "Loading labels, please wait...";
-
 	xmlhttp.open("GET", "backend.php?op=pref-labels&sort=" + 
 		param_escape(sort_key), true);
 	xmlhttp.onreadystatechange=labellist_callback;
@@ -1187,8 +1170,6 @@ function updatePrefsList() {
 		printLockingError();
 		return
 	}
-
-//	p_notify("Loading, please wait...");
 
 	xmlhttp.open("GET", "backend.php?op=pref-prefs", true);
 	xmlhttp.onreadystatechange=prefslist_callback;
@@ -1466,8 +1447,6 @@ function updateBigFeedBrowser(limit) {
 		printLockingError();
 		return
 	}
-
-//	p_notify("Loading, please wait...");
 
 	var query = "backend.php?op=pref-feed-browser";
 
