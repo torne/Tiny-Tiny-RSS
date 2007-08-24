@@ -248,7 +248,7 @@ function viewCurrentFeed(subop) {
 
 //	if (getActiveFeedId()) {
 	if (getActiveFeedId() != undefined) {
-		viewfeed(getActiveFeedId(), subop);
+		viewfeed(getActiveFeedId(), subop, active_feed_is_cat);
 	} else {
 		disableContainerChildren("headlinesToolbar", false, document);
 //		viewfeed(-1, subop); // FIXME
