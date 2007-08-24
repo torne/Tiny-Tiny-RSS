@@ -638,12 +638,6 @@ function catchupCurrentFeed() {
 	}
 }
 
-function userSwitch() {
-	var chooser = document.getElementById("userSwitch");
-	var user = chooser[chooser.selectedIndex].value;
-	window.location = "tt-rss.php?swu=" + user;
-}
-
 function editFeedDlg(feed) {
 	try {
 
