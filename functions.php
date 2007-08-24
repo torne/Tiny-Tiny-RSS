@@ -630,7 +630,11 @@
 					if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
 					if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
 				}
-				
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: date $entry_timestamp");
+				}
+
 				if ($entry_timestamp == "" || $entry_timestamp == -1 || !$entry_timestamp) {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
@@ -654,7 +658,11 @@
 					if (!$entry_link) $entry_link = $item["link"];
 				}
 
-				if (!$entry_title) continue;
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: title $entry_title");
+				}
+
+				if (!$entry_title) $entry_title = date("Y-m-d H:i:s", $entry_timestamp);;
 
 				$entry_link = strip_tags($entry_link);
 
