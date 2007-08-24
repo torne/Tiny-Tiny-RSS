@@ -196,36 +196,58 @@ function render_article(article) {
 	}
 }
 
-function article_callback() {
-	if (xmlhttp.readyState == 4) {
-		debug("article_callback");
+function showArticleInHeadlines(id) {
 
-		try {
-			if (xmlhttp.responseXML) {
-				var reply = xmlhttp.responseXML.firstChild.firstChild;
+	cleanSelected("headlinesList");
 
-				var articles = xmlhttp.responseXML.getElementsByTagName("article");
+	var crow = document.getElementById("RROW-" + id);
+	var article_is_unread = crow.className.match("Unread");
+		
+	crow.className = crow.className.replace("Unread", "");
+	
+	var upd_img_pic = document.getElementById("FUPDPIC-" + id);
+	
+	if (upd_img_pic) {
+		upd_img_pic.src = "images/blank_icon.gif";
+	}
+	
+	selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+	markHeadline(id);
 
-				for (var i = 0; i < articles.length; i++) {
-					var a_id = articles[i].getAttribute("id");
+}
 
-					debug("found id: " + a_id);
+function article_callback2(transport, id, feed_id) {
+	try {
+		debug("article_callback2 " + id);
 
-					if (a_id == active_post_id) {
-						debug("active article, rendering...");					
-						render_article(articles[i].firstChild.nodeValue);
-					}
+		if (transport.responseXML) {
 
-					cache_inject(a_id, articles[i].firstChild.nodeValue);
+			active_real_feed_id = feed_id;
+			active_post_id = id; 
+
+			showArticleInHeadlines(id);	
+
+			var reply = transport.responseXML.firstChild.firstChild;
+
+			var articles = transport.responseXML.getElementsByTagName("article");
+
+			for (var i = 0; i < articles.length; i++) {
+				var a_id = articles[i].getAttribute("id");
+
+				debug("found id: " + a_id);
+
+				if (a_id == active_post_id) {
+					debug("active article, rendering...");					
+					render_article(articles[i].firstChild.nodeValue);
 				}
-			
-			} else {
-				debug("article_callback: returned no XML object");
-				var f = document.getElementById("content-frame");
-				f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
+
+				cache_inject(a_id, articles[i].firstChild.nodeValue);
 			}
-		} catch (e) {
-			exception_error("article_callback", e);
+		
+		} else {
+			debug("article_callback: returned no XML object");
+			var f = document.getElementById("content-frame");
+			f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 		}
 
 		var date = new Date();
@@ -239,7 +261,7 @@ function article_callback() {
 			setTimeout('updateFeedList(false, false)', 50);			
 			_reload_feedlist_after_view = false;
 		} else {
-			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
+			var counters = transport.responseXML.getElementsByTagName("counters")[0];
 
 			if (counters) {
 				debug("parsing piggybacked counters: " + counters);
@@ -250,6 +272,8 @@ function article_callback() {
 		}
 
 		notify("");
+	} catch (e) {
+		exception_error("article_callback2", e);
 	}
 }
 
@@ -257,9 +281,7 @@ function view(id, feed_id, skip_history) {
 	
 	try {
 		debug("loading article: " + id + "/" + feed_id);
-
-		active_real_feed_id = feed_id;
-
+	
 		var cached_article = cache_find(id);
 
 		debug("cache check result: " + (cached_article != false));
@@ -273,7 +295,7 @@ function view(id, feed_id, skip_history) {
 
 		var date = new Date();
 
-		if (!xmlhttp_ready(xmlhttp) && last_article_view < date.getTime() / 1000 - 15) {
+/*		if (!xmlhttp_ready(xmlhttp) && last_article_view < date.getTime() / 1000 - 15) {
 			debug("<b>xmlhttp seems to be stuck at view, aborting</b>");
 			xmlhttp.abort();
 			if (is_safari()) {
@@ -282,97 +304,63 @@ function view(id, feed_id, skip_history) {
 			}
 		}
 
-		if (xmlhttp_ready(xmlhttp)) {
+		if (xmlhttp_ready(xmlhttp)) { */
 
-			active_post_id = id; 
+		var neighbor_ids = getRelativePostIds(active_post_id);
 
-			cleanSelected("headlinesList");
+		/* only request uncached articles */
 
-			var crow = document.getElementById("RROW-" + active_post_id);
+		var cids_to_request = Array();
 
-			var article_is_unread = crow.className.match("Unread");
-			debug("article is unread: " + article_is_unread);			
-
-			crow.className = crow.className.replace("Unread", "");
-
-			var upd_img_pic = document.getElementById("FUPDPIC-" + active_post_id);
-
-			if (upd_img_pic) {
-				upd_img_pic.src = "images/blank_icon.gif";
+		for (var i = 0; i < neighbor_ids.length; i++) {
+			if (!cache_check(neighbor_ids[i])) {
+				cids_to_request.push(neighbor_ids[i]);
 			}
+		}
 
-			selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-			markHeadline(active_post_id);
+		debug("additional ids: " + cids_to_request.toString());			
 
-			var neighbor_ids = getRelativePostIds(active_post_id);
+		/* additional info for piggyback counters */
 
-			/* only request uncached articles */
-
-			var cids_to_request = Array();
-
-			for (var i = 0; i < neighbor_ids.length; i++) {
-				if (!cache_check(neighbor_ids[i])) {
-					cids_to_request.push(neighbor_ids[i]);
-				}
-			}
-
-			debug("additional ids: " + cids_to_request.toString());			
-
-			/* additional info for piggyback counters */
-
-			if (tagsAreDisplayed()) {
-				query = query + "&omode=lt";
-			} else {
-				query = query + "&omode=flc";
-			}
-
-			var date = new Date();
-			var timestamp = Math.round(date.getTime() / 1000);
-			query = query + "&ts=" + timestamp;
-
-			query = query + "&cids=" + cids_to_request.toString();
-
-			if (!cached_article) {
-
-				notify_progress("Loading, please wait...");
-
-				debug(query);
-
-				xmlhttp.open("GET", query, true);
-				xmlhttp.onreadystatechange=article_callback;
-				xmlhttp.send(null);
-			} else if (cached_article && article_is_unread) {
-
-				query = query + "&mode=prefetch";
-
-				debug(query);
-
-				xmlhttp.open("GET", query, true);
-				xmlhttp.onreadystatechange=article_callback;
-				xmlhttp.send(null);
-
-				render_article(cached_article);
-
-			} else if (cached_article) {
-
-				query = query + "&mode=prefetch_old";
-
-				debug(query);
-
-				xmlhttp.open("GET", query, true);
-				xmlhttp.onreadystatechange=article_callback;
-				xmlhttp.send(null);
-
-				render_article(cached_article);
-
-			}
-
-			cache_expire();
-
+		if (tagsAreDisplayed()) {
+			query = query + "&omode=lt";
 		} else {
-			debug("xmlhttp busy (@view)");
-			printLockingError();
-		}  
+			query = query + "&omode=flc";
+		}
+
+		var date = new Date();
+		var timestamp = Math.round(date.getTime() / 1000);
+		query = query + "&ts=" + timestamp;
+
+		query = query + "&cids=" + cids_to_request.toString();
+
+		var crow = document.getElementById("RROW-" + id);
+		var article_is_unread = crow.className.match("Unread");
+
+		showArticleInHeadlines(id);
+
+		if (!cached_article) {
+
+			notify_progress("Loading, please wait...");
+
+		} else if (cached_article && article_is_unread) {
+
+			query = query + "&mode=prefetch";
+
+			render_article(cached_article);
+
+		} else if (cached_article) {
+
+			query = query + "&mode=prefetch_old";
+			render_article(cached_article);
+		}
+
+		cache_expire();
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				article_callback2(transport, id, feed_id); 
+			} });
 
 	} catch (e) {
 		exception_error("view", e);
