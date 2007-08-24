@@ -64,56 +64,27 @@ function xmlhttp_ready(obj) {
 	return obj.readyState == 4 || obj.readyState == 0 || !obj.readyState;
 }
 
-function open_article_callback() {
-	if (xmlhttp_rpc.readyState == 4) {
-		try {
+function open_article_callback(transport) {
+	try {
 
-			if (xmlhttp_rpc.responseXML) {
-				var link = xmlhttp_rpc.responseXML.getElementsByTagName("link")[0];
-				var id = xmlhttp_rpc.responseXML.getElementsByTagName("id")[0];
+		if (transport.responseXML) {
+			var link = transport.responseXML.getElementsByTagName("link")[0];
+			var id = transport.responseXML.getElementsByTagName("id")[0];
 
-				if (link) {
-					window.open(link.firstChild.nodeValue, "_blank");
+			if (link) {
+				window.open(link.firstChild.nodeValue, "_blank");
 
-					if (id) {
-						id = id.firstChild.nodeValue;
-						if (!document.getElementById("headlinesList")) {
-							window.setTimeout("toggleUnread(" + id + ", 0)", 100);
-						}
+				if (id) {
+					id = id.firstChild.nodeValue;
+					if (!document.getElementById("headlinesList")) {
+						window.setTimeout("toggleUnread(" + id + ", 0)", 100);
 					}
 				}
 			}
-
-		} catch (e) {
-			exception_error("open_article_callback", e);
 		}
-	}
-}
 
-function logout_callback() {
-	var container = document.getElementById('notify');
-	if (xmlhttp.readyState == 4) {
-		try {
-			var date = new Date();
-			var timestamp = Math.round(date.getTime() / 1000);
-			window.location.href = "tt-rss.php";
-		} catch (e) {
-			exception_error("logout_callback", e);
-		}
-	}
-}
-
-function notify_callback() {
-	var container = document.getElementById('notify');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-	}
-}
-
-function rpc_notify_callback() {
-	var container = document.getElementById('notify');
-	if (xmlhttp_rpc.readyState == 4) {
-		container.innerHTML=xmlhttp_rpc.responseText;
+	} catch (e) {
+		exception_error("open_article_callback", e);
 	}
 }
 
@@ -802,44 +773,6 @@ function all_counters_callback2(transport) {
 	}
 }
 
-function all_counters_callback() {
-	if (xmlhttp_rpc.readyState == 4) {
-		try {
-/*			if (!xmlhttp_rpc.responseXML || !xmlhttp_rpc.responseXML.firstChild) {
-				debug("[all_counters_callback] backend did not return valid XML");
-				return;
-			}
-
-			debug("in all_counters_callback : " + xmlhttp_rpc.responseXML);
-
-			var reply = xmlhttp_rpc.responseXML.firstChild;
-
-			var counters = reply.firstChild;
-
-			parse_counters(counters);
-
-			var runtime = counters.nextSibling;
-
-			if (runtime) {
-				parse_runtime_info(runtime);
-			}
-
-			if (getInitParam("feeds_sort_by_unread") == 1) {
-				resort_feedlist();		
-			}	
-
-			hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1); */
-			
-			debug("in all_counters_callback");
-
-			parse_counters_reply(xmlhttp_rpc);
-
-		} catch (e) {
-			exception_error("all_counters_callback", e);
-		}
-	}
-}
-
 function get_feed_entry_unread(doc, elem) {
 
 	var id = elem.id.replace("FEEDR-", "");
@@ -907,38 +840,6 @@ function resort_feedlist() {
 	} else {
 		resort_category(fd, fd.getElementById("feedList"));
 	}
-}
-
-function update_all_counters(feed) {
-	if (xmlhttp_ready(xmlhttp_rpc)) {
-		var query = "backend.php?op=rpc&subop=getAllCounters";
-
-		if (feed > 0) {
-			query = query + "&aid=" + feed;
-		}
-
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=lt";
-		} else {
-			query = query + "&omode=flc";
-		}
-
-		debug("update_all_counters QUERY: " + query);
-
-		var date = new Date();
-		var timestamp = Math.round(date.getTime() / 1000);
-		query = query + "&ts=" + timestamp
-
-		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=all_counters_callback;
-		xmlhttp_rpc.send(null);
-	}
-}
-
-function popupHelp(tid) {
-	var w = window.open("backend.php?op=help&tid=" + tid,
-		"Popup Help", 
-		"menubar=no,location=no,resizable=yes,scrollbars=yes,status=no");
 }
 
 /** * @(#)isNumeric.js * * Copyright (c) 2000 by Sundar Dorai-Raj
@@ -1214,10 +1115,6 @@ function toggleSelectRow(sender) {
 	}
 }
 
-function openExternalUrl(url) {
-	var w = window.open(url);
-}
-
 function getRelativeFeedId(list, id, direction, unread_only) {	
 	var rows = list.getElementsByTagName("LI");
 	var feeds = new Array();
@@ -1259,134 +1156,6 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 		}
 
 	}
-
-/*	if (!id) {
-		if (direction == "next") {
-			for (i = 0; i < list.childNodes.length; i++) {
-				var child = list.childNodes[i];
-				if (child.id && child.id == "feedCatHolder") {
-					if (child.lastChild) {
-						var cr = getRelativeFeedId(child.firstChild, id, direction, unread_only);
-						if (cr) return cr;					
-					}
-				} else if (child.id && child.id.match("FEEDR-")) {
-					return child.id.replace('FEEDR-', '');
-				}				
-			}
-		}
-
-		// FIXME select last feed doesn't work when only unread feeds are visible
-
-		if (direction == "prev") {
-			for (i = list.childNodes.length-1; i >= 0; i--) {
-				var child = list.childNodes[i];				
-				if (child.id == "feedCatHolder" && Element.visible(child)) {
-					if (child.firstChild) {
-						var cr = getRelativeFeedId(child.firstChild, id, direction);
-						if (cr) return cr;					
-					}
-				} else if (child.id.match("FEEDR-")) {
-				
-					if (getInitParam("hide_read_feeds") == 1) {
-						if (child.className != "feed") {
-//							alert(child.className);
-							return child.id.replace('FEEDR-', '');						
-						}							
-					} else {
-							return child.id.replace('FEEDR-', '');						
-					}				
-				}				
-			}
-		}
-	} else {
-	
-		var feed = list.ownerDocument.getElementById("FEEDR-" + id);
-		
-		if (getInitParam("hide_read_feeds") == 1) {
-			unread_only = true;
-		}
-
-		if (direction == "next") {
-
-			var e = feed;
-
-			while (e) {
-
-				if (e.nextSibling) {
-				
-					e = e.nextSibling;
-					
-				} else if (e.parentNode.parentNode.nextSibling) {
-
-					var this_cat = e.parentNode.parentNode;
-
-					e = false;
-
-					if (this_cat && this_cat.nextSibling) {
-						while (!e && this_cat.nextSibling) {
-							this_cat = this_cat.nextSibling;
-							if (this_cat.id == "feedCatHolder") {
-								e = this_cat.firstChild.firstChild;
-							}
-						}
-					}
-
-				} else {
-					e = false;
-			   }
-
-				if (e) {
-					if (!unread_only || (unread_only && e.className != "feed" &&
-							e.className.match("feed")))	{
-						if (e.parentNode.parentNode && 
-							Element.visible(e.parentNode.parentNode)) {
-							return e.id.replace("FEEDR-", "");
-						}
-					}
-				}
-			}
-			
-		} else if (direction == "prev") {
-
-			var e = feed;
-
-			while (e) {
-
-				if (e.previousSibling) {
-				
-					e = e.previousSibling;
-					
-				} else if (e.parentNode.parentNode.previousSibling) {
-
-					var this_cat = e.parentNode.parentNode;
-
-					e = false;
-
-					if (this_cat && this_cat.previousSibling) {
-						while (!e && this_cat.previousSibling) {
-							this_cat = this_cat.previousSibling;
-							if (this_cat.id == "feedCatHolder") {
-								e = this_cat.firstChild.lastChild;
-							}
-						}
-					}
-
-				} else {
-					e = false;
-			   }
-
-				if (e) {
-					if (!unread_only || (unread_only && e.className != "feed" && 
-							e.className.match("feed")))	{
-						if (e.parentNode.parentNode && 
-							Element.visible(e.parentNode.parentNode)) {
-							return e.id.replace("FEEDR-", "");
-						}
-					}
-				}
-			}
-		}
-	} */
 }
 
 function showBlockElement(id, h_id) {
@@ -1536,62 +1305,51 @@ function infobox_submit_callback() {
 	} 
 }
 
-function infobox_callback() {
-	if (xmlhttp.readyState == 4) {
+function infobox_callback2(transport) {
+	try {
 
-		try {
+		debug("infobox_callback2");
 
-			if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
-				var overlay = document.getElementById("dialog_overlay");
-				if (overlay) {
-					overlay.style.display = "block";
-				}
+		if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
+			var overlay = document.getElementById("dialog_overlay");
+			if (overlay) {
+				overlay.style.display = "block";
 			}
-	
-			var box = document.getElementById('infoBox');
-			var shadow = document.getElementById('infoBoxShadow');
-			if (box) {			
+		}
+
+		var box = document.getElementById('infoBox');
+		var shadow = document.getElementById('infoBoxShadow');
+		if (box) {			
 
 /*				if (!is_safari()) {
-					new Draggable(shadow);
-				} */
+				new Draggable(shadow);
+			} */
 
-				box.innerHTML=xmlhttp.responseText;			
-				if (shadow) {
-					shadow.style.display = "block";
-				} else {
-					box.style.display = "block";				
-				}
-			}
-
-			/* FIXME this needs to be moved out somewhere */
-
-			if (document.getElementById("tags_choices")) {
-				new Ajax.Autocompleter('tags_str', 'tags_choices',
-					"backend.php?op=rpc&subop=completeTags",
-					{ tokens: ',', paramName: "search" });
-			}
-
-			notify("");
-		} catch (e) {
-			exception_error("infobox_callback", e);
-		}
-	}
-}
-
-function helpbox_callback() {
-	if (xmlhttp.readyState == 4) {
-		var box = document.getElementById('helpBox');
-		var shadow = document.getElementById('helpBoxShadow');
-		if (box) {			
-			box.innerHTML=xmlhttp.responseText;			
+			box.innerHTML=transport.responseText;			
 			if (shadow) {
 				shadow.style.display = "block";
 			} else {
 				box.style.display = "block";				
 			}
 		}
+
+		/* FIXME this needs to be moved out somewhere */
+
+		if (document.getElementById("tags_choices")) {
+			new Ajax.Autocompleter('tags_str', 'tags_choices',
+				"backend.php?op=rpc&subop=completeTags",
+				{ tokens: ',', paramName: "search" });
+		}
+
 		notify("");
+	} catch (e) {
+		exception_error("infobox_callback2", e);
+	}
+}
+
+function infobox_callback() {
+	if (xmlhttp.readyState == 4) {
+		infobox_callback2(xmlhttp);
 	}
 }
 
@@ -1825,23 +1583,6 @@ function explainError(code) {
 	return displayDlg("explainError", code);
 }
 
-function logoutUser() {
-	try {
-		if (xmlhttp_ready(xmlhttp_rpc)) {
-
-			notify_progress("Logging out, please wait...", true);
-
-			xmlhttp_rpc.open("GET", "backend.php?op=rpc&subop=logout", true);
-			xmlhttp_rpc.onreadystatechange=logout_callback;
-			xmlhttp_rpc.send(null);
-		} else {
-			printLockingError();
-		}
-	} catch (e) {
-		exception_error("logoutUser", e);
-	}
-}
-
 // this only searches loaded headlines list, not in CDM
 function getRelativePostIds(id) {
 
@@ -1875,21 +1616,17 @@ function getRelativePostIds(id) {
 
 function openArticleInNewWindow(id) {
 	try {
-
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return
-		}
-
 		debug("openArticleInNewWindow: " + id);
 
 		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
 
 		debug(query);
 
-		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=open_article_callback;
-		xmlhttp_rpc.send(null);
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				open_article_callback(transport); 
+			} });
+
 
 	} catch (e) {
 		exception_error("openArticleInNewWindow", e);

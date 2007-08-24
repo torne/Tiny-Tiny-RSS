@@ -790,19 +790,6 @@ function feedCatEditSave() {
 
 function displayHelpInfobox(topic_id) {
 
-/*	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	notify_progress("Loading help...");
-
-	xmlhttp.open("GET", "backend.php?op=help&tid=" +
-		param_escape(topic_id), true);
-
-	xmlhttp.onreadystatechange=helpbox_callback;
-	xmlhttp.send(null); */
-
 	var url = "backend.php?op=help&tid=" + param_escape(topic_id);
 
 	var w = window.open(url, "ttrss_help", 

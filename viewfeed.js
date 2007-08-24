@@ -22,7 +22,7 @@ function catchup_callback() {
 		try {
 			debug("catchup_callback");
 			notify("");			
-			all_counters_callback();
+			all_counters_callback2(xmlhttp_rpc);
 			if (_catchup_callback_func) {
 				setTimeout(_catchup_callback_func, 10);	
 			}
@@ -449,10 +449,6 @@ function toggleMark(id, client_only, no_effects) {
 
 		if (!client_only) {
 			debug(query);
-
-//			xmlhttp_rpc.open("GET", query, true);
-//			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-//			xmlhttp_rpc.send(null);
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
