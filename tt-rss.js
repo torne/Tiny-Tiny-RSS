@@ -645,34 +645,35 @@ function userSwitch() {
 }
 
 function editFeedDlg(feed) {
+	try {
 
-	disableHotkeys();
-
-	if (!feed) {
-		alert(__("Please select some feed first."));
-		return;
-	}
-
-	if ((feed <= 0 && feed > -10) || activeFeedIsCat() || tagsAreDisplayed()) {
-		alert(__("You can't edit this kind of feed."));
-		return;
-	}
-
-	if (xmlhttp_ready(xmlhttp)) {
-
-		if (feed > 0) {
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
-				param_escape(feed), true);
-			xmlhttp.onreadystatechange=infobox_callback;
-			xmlhttp.send(null);
-		} else {
-			xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
-				param_escape(-feed-11), true);
-			xmlhttp.onreadystatechange=infobox_callback;
-			xmlhttp.send(null);
+		disableHotkeys();
+	
+		if (!feed) {
+			alert(__("Please select some feed first."));
+			return;
 		}
-	} else {
-		printLockingError();
+	
+		if ((feed <= 0 && feed > -10) || activeFeedIsCat() || tagsAreDisplayed()) {
+			alert(__("You can't edit this kind of feed."));
+			return;
+		}
+	
+		var query = "";
+	
+		if (feed > 0) {
+			query = "backend.php?op=pref-feeds&subop=editfeed&id=" +	param_escape(feed);
+		} else {
+			query = "backend.php?op=pref-labels&subop=edit&id=" +	param_escape(-feed-11);
+		}
+	
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				infobox_callback2(transport); 
+			} });
+
+	} catch (e) {
+		exception_error("editFeedDlg", e);
 	}
 }
 
