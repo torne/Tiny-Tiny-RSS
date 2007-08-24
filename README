@@ -13,7 +13,12 @@ Portions (C):
 	Bob Osola <bobosola@gmail.com> (pngfix.js)
 	Sundar Dorai-Raj <sdoraira@vt.edu> (isNumeric() in functions.js)
 
-Uses Prototype javascript library, from http://prototype.conio.net/
+Other bundled libraries:
+
+	Prototype javascript library, from http://prototype.conio.net/
+	Script.aculo.us javascript library, http://http://script.aculo.us/
+	MagpieRSS feed parser, http://magpierss.sourceforge.net/
+	SimplePie feed parser, http://simplepie.org/
 
 Licensed under GNU GPL version 2
 
@@ -40,9 +45,6 @@ Requirements
 
 	* Web server, for example Apache
 	* PHP (requires PHP4 DOMXML extension)
-	* MagpieRSS feed parser (http://magpierss.sourceforge.net/) OR
-	* SimplePie feed parser (http://simplepie.org/)
-
 	* PostgreSQL (tested on 7.4) or MySQL (InnoDB and version 4.1+ required)
 
 	* XML-RPC for PHP library for XML-RPC support. Optional.
