@@ -1,5 +1,4 @@
 var active_post_id = false;
-var _catchup_callback_func = false;
 var last_article_view = false;
 var active_real_feed_id = false;
 
@@ -30,6 +29,19 @@ function catchup_callback() {
 		} catch (e) {
 			exception_error("catchup_callback", e);
 		}
+	}
+}
+
+function catchup_callback2(transport, callback) {
+	try {
+		debug("catchup_callback2 " + transport + ", " + callback);
+		notify("");			
+		all_counters_callback2(transport);
+		if (callback) {
+			setTimeout(callback, 10);	
+		}
+	} catch (e) {
+		exception_error("catchup_callback2", e);
 	}
 }
 
@@ -376,11 +388,6 @@ function toggleMark(id, client_only, no_effects) {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		}
-	
 		var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
 	
 		query = query + "&afid=" + getActiveFeedId();
@@ -443,9 +450,15 @@ function toggleMark(id, client_only, no_effects) {
 		if (!client_only) {
 			debug(query);
 
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+//			xmlhttp_rpc.open("GET", query, true);
+//			xmlhttp_rpc.onreadystatechange=all_counters_callback;
+//			xmlhttp_rpc.send(null);
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
+
 		}
 
 	} catch (e) {
@@ -457,11 +470,6 @@ function togglePub(id, client_only, no_effects) {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		}
-	
 		var query = "backend.php?op=rpc&id=" + id + "&subop=publ";
 	
 		query = query + "&afid=" + getActiveFeedId();
@@ -522,9 +530,10 @@ function togglePub(id, client_only, no_effects) {
 		new Ajax.Request(query); */
 
 		if (!client_only) {
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
 		}
 
 	} catch (e) {
@@ -609,10 +618,6 @@ function moveToPost(mode) {
 
 function toggleUnread(id, cmode) {
 	try {
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		}
 	
 		var row = document.getElementById("RROW-" + id);
 		if (row) {
@@ -631,11 +636,12 @@ function toggleUnread(id, cmode) {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(id) + "&cmode=" + param_escape(cmode);
 
-			notify_progress("Loading, please wait...");
+//			notify_progress("Loading, please wait...");
 
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
 
 		}
 
@@ -647,10 +653,10 @@ function toggleUnread(id, cmode) {
 
 function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 	try {
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
+/*		if (!xmlhttp_ready(xmlhttp_rpc)) {
 			printLockingError();
 			return;
-		}
+		} */
 	
 		var rows;
 
@@ -705,13 +711,20 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=" + cmode;
 
-			_catchup_callback_func = callback_func;
+//			_catchup_callback_func = callback_func;
+
+			debug(callback_func);
 
 			notify_progress("Loading, please wait...");
 
-			xmlhttp_rpc.open("GET", query, true);
+/*			xmlhttp_rpc.open("GET", query, true);
 			xmlhttp_rpc.onreadystatechange=catchup_callback;
-			xmlhttp_rpc.send(null);
+			xmlhttp_rpc.send(null); */
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					catchup_callback2(transport, callback_func); 
+				} });
 
 		}
 
@@ -722,10 +735,6 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 
 function selectionToggleMarked(cdm_mode) {
 	try {
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		}
 	
 		var rows;
 		
@@ -751,15 +760,18 @@ function selectionToggleMarked(cdm_mode) {
 
 			query = query + "&afid=" + getActiveFeedId();
 
-			if (tagsAreDisplayed()) {
+/*			if (tagsAreDisplayed()) {
 				query = query + "&omode=tl";
 			} else {
 				query = query + "&omode=flc";
-			}
+			} */
 
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+			query = query + "&omode=lc";
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
 
 		}
 
@@ -770,10 +782,6 @@ function selectionToggleMarked(cdm_mode) {
 
 function selectionTogglePublished(cdm_mode) {
 	try {
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		}
 	
 		var rows;
 		
@@ -799,15 +807,18 @@ function selectionTogglePublished(cdm_mode) {
 
 			query = query + "&afid=" + getActiveFeedId();
 
-			if (tagsAreDisplayed()) {
+/*			if (tagsAreDisplayed()) {
 				query = query + "&omode=tl";
 			} else {
 				query = query + "&omode=flc";
-			}
+			} */
 
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null);
+			query = query + "&omode=lc";
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
 
 		}
 
@@ -1125,7 +1136,7 @@ function cdmWatchdog() {
 
 		debug("cdmWatchdog, ids= " + ids.toString());
 
-		if (ids.length > 0 && xmlhttp_ready(xmlhttp_rpc)) {
+		if (ids.length > 0) {
 
 			for (var i = 0; i < ids.length; i++) {
 				var e = document.getElementById("RROW-" + ids[i]);
@@ -1137,9 +1148,10 @@ function cdmWatchdog() {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(ids.toString()) + "&cmode=0";
 
-			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=all_counters_callback;
-			xmlhttp_rpc.send(null); 
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
 
 		}
 
