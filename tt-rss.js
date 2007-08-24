@@ -9,7 +9,6 @@ var daemon_enabled = false;
 var daemon_refresh_only = false;
 var _qfd_deleted_feed = 0;
 var firsttime_update = true;
-var last_refetch = 0;
 var cookie_lifetime = 0;
 var active_feed_id = 0;
 var active_feed_is_cat = false;
@@ -17,7 +16,6 @@ var number_of_feeds = 0;
 var sanity_check_done = false;
 
 var xmlhttp = Ajax.getTransport();
-var xmlhttp_ctr = Ajax.getTransport();
 
 var init_params = new Object();
 
@@ -69,28 +67,24 @@ function dlg_frefresh_callback() {
 	} 
 }
 
-function refetch_callback() {
-	if (xmlhttp_ctr.readyState == 4) {
-		try {
+function refetch_callback2(transport) {
+	try {
 
-			var date = new Date();
+		var date = new Date();
 
-			last_refetch = date.getTime() / 1000;
+		parse_counters_reply(transport, true);
 
-			parse_counters_reply(xmlhttp_ctr, true);
+		debug("refetch_callback2: done");
 
-			debug("refetch_callback: done");
-
-			if (!daemon_enabled && !daemon_refresh_only) {
-				notify_info("All feeds updated.");
-				updateTitle("");
-			} else {
-				//notify("");
-			}
-		} catch (e) {
-			exception_error("refetch_callback", e);
+		if (!daemon_enabled && !daemon_refresh_only) {
+			notify_info("All feeds updated.");
 			updateTitle("");
+		} else {
+			//notify("");
 		}
+	} catch (e) {
+		exception_error("refetch_callback", e);
+		updateTitle("");
 	}
 }
 
@@ -154,9 +148,10 @@ function backend_sanity_check_callback() {
 
 function scheduleFeedUpdate(force) {
 
+	debug("in scheduleFeedUpdate");
+
 	if (!daemon_enabled && !daemon_refresh_only) {
-		notify_progress("Updating feeds, please wait.", true);
-		updateTitle("Updating");
+		notify_progress("Updating feeds...", true);
 	}
 
 	var query_str = "backend.php?op=rpc&subop=";
@@ -183,31 +178,16 @@ function scheduleFeedUpdate(force) {
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
 
-	debug("in scheduleFeedUpdate");
-
 	var date = new Date();
-
 	var timestamp = Math.round(date.getTime() / 1000);
 	query_str = query_str + "&ts=" + timestamp
 
-	if (!xmlhttp_ready(xmlhttp_ctr) && last_refetch < date.getTime() / 1000 - 60) {
-		debug("<b>xmlhttp seems to be stuck, aborting</b>");
-		xmlhttp_ctr.abort();
-		if (is_safari()) {
-			xmlhttp_ctr = Ajax.getTransport();
-		}
-	}
-
 	debug("REFETCH query: " + query_str);
 
-	if (xmlhttp_ready(xmlhttp_ctr)) {
-		xmlhttp_ctr.open("GET", query_str, true);
-		xmlhttp_ctr.onreadystatechange=refetch_callback;
-		xmlhttp_ctr.send(null);
-	} else {
-		debug("xmlhttp_ctr busy");
-		//printLockingError();
-	}   
+	new Ajax.Request(query_str, {
+		onComplete: function(transport) { 
+				refetch_callback2(transport); 
+			} });
 }
 
 function updateFeedList(silent, fetch) {
