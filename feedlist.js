@@ -122,11 +122,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		debug(query);
 
-/*		var container = document.getElementById("headlines-frame");
-
-		container.innerHTML = "<div class=\"loadingPrompt\"><img src=\"images/indicator_white.gif\">&nbsp;" +
-			"Loading, please wait...</div>"; */
-
 		// for piggybacked counters
 
 		if (tagsAreDisplayed()) {
@@ -139,15 +134,12 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			notify_progress("Loading, please wait...", true);
 		}
 
-//		xmlhttp.abort();
+		var container = document.getElementById("headlinesInnerContainer");
 
-/*		if (xmlhttp_ready(xmlhttp)) {
-			xmlhttp.open("GET", query, true);
-			xmlhttp.onreadystatechange=headlines_callback;
-			xmlhttp.send(null);
-		} else {
-			debug("xmlhttp busy (@feeds)");
-		}  */
+		if (container && page_offset == 0) {
+			new Effect.Fade(container, {duration: 1, to: 0.01,
+				queue: { position:'end', scope: 'FeED-' + feed, limit: 1 } } );
+		}
 
 		new Ajax.Request(query, {
 			asynchronous: page_offset == 0,
