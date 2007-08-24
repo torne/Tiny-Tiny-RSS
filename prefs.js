@@ -1207,7 +1207,10 @@ function selectTab(id, noupdate, subop) {
 			// clean up all current selections, just in case
 			active_feed_cat = false;
 			active_label = false;
-	
+
+//			Effect.Fade("prefContent", {duration: 1, to: 0.01, 
+//				queue: { position:'end', scope: 'FEED_TAB', limit: 1 } } );
+
 			if (id == "feedConfig") {
 				updateFeedList();
 			} else if (id == "filterConfig") {
