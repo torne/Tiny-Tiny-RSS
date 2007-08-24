@@ -2595,7 +2595,7 @@
 			}
 		}
 
-		print "<param key=\"new_version_available\" value=\"1\"/>";
+//		print "<param key=\"new_version_available\" value=\"1\"/>";
 
 		print "</runtime-info>";
 	}
