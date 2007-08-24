@@ -1,6 +1,6 @@
 //var xmlhttp = Ajax.getTransport();
 
-var feed_cur_page = 0;
+var _feed_cur_page = 0;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -50,10 +50,10 @@ function viewNextFeedPage() {
 	try {
 		if (!getActiveFeedId()) return;
 
-		feed_cur_page++;
+		_feed_cur_page++;
 
 		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
-			undefined, feed_cur_page);
+			undefined, _feed_cur_page);
 
 	} catch (e) {
 		exception_error(e, "viewFeedGoPage");
@@ -71,11 +71,11 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			page_offset = offset;
 		} else {
 			page_offset = 0;
-			feed_cur_page = 0;
+			_feed_cur_page = 0;
 		}
 
 		if (getActiveFeedId() != feed) {
-			feed_cur_page = 0;
+			_feed_cur_page = 0;
 			active_post_id = 0;
 		}
 
@@ -178,13 +178,18 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 //		xmlhttp.abort();
 
-		if (xmlhttp_ready(xmlhttp)) {
+/*		if (xmlhttp_ready(xmlhttp)) {
 			xmlhttp.open("GET", query, true);
 			xmlhttp.onreadystatechange=headlines_callback;
 			xmlhttp.send(null);
 		} else {
 			debug("xmlhttp busy (@feeds)");
-		}  
+		}  */
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				headlines_callback2(transport, feed, is_cat, _feed_cur_page); 
+			} });
 
 	} catch (e) {
 		exception_error("viewfeed", e);

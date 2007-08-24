@@ -45,104 +45,102 @@ function catchup_callback2(transport, callback) {
 	}
 }
 
-function headlines_callback() {
-	if (xmlhttp.readyState == 4) {
-		debug("headlines_callback");
-		var f = document.getElementById("headlines-frame");
-		try {
-			if (feed_cur_page == 0) { 
-				debug("resetting headlines scrollTop");
-				f.scrollTop = 0; 
-			}
-		} catch (e) { };
+function headlines_callback2(transport, active_feed_id, active_feed_is_cat, feed_cur_page) {
+	debug("headlines_callback2");
+	var f = document.getElementById("headlines-frame");
+	try {
+		if (feed_cur_page == 0) { 
+			debug("resetting headlines scrollTop");
+			f.scrollTop = 0; 
+		}
+	} catch (e) { };
 
-		if (xmlhttp.responseXML) {
-			var headlines = xmlhttp.responseXML.getElementsByTagName("headlines")[0];
-			var counters = xmlhttp.responseXML.getElementsByTagName("counters")[0];
-			var articles = xmlhttp.responseXML.getElementsByTagName("article");
-			var runtime_info = xmlhttp.responseXML.getElementsByTagName("runtime-info");
+	if (transport.responseXML) {
+		var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
+		var counters = transport.responseXML.getElementsByTagName("counters")[0];
+		var articles = transport.responseXML.getElementsByTagName("article");
+		var runtime_info = transport.responseXML.getElementsByTagName("runtime-info");
 
-			if (feed_cur_page == 0) {
-				if (headlines) {
-					f.innerHTML = headlines.firstChild.nodeValue;
-				} else {
-					debug("headlines_callback: returned no data");
-				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
-	
-				}
+		if (feed_cur_page == 0) {
+			if (headlines) {
+				f.innerHTML = headlines.firstChild.nodeValue;
 			} else {
-				if (headlines) {
-					debug("adding some more headlines...");
-
-					var c = document.getElementById("headlinesList");
-
-					if (!c) {
-						c = document.getElementById("headlinesInnerContainer");
-					}
-
-					c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
-				} else {
-					debug("headlines_callback: returned no data");
-					notify_error("Error while trying to load more headlines");	
-				}
+				debug("headlines_callback: returned no data");
+			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
 
 			}
-
-			if (articles) {
-				for (var i = 0; i < articles.length; i++) {
-					var a_id = articles[i].getAttribute("id");
-					debug("found id: " + a_id);
-					cache_inject(a_id, articles[i].firstChild.nodeValue);
-				}
-			} else {
-				debug("no cached articles received");
-			}
-
-			if (counters) {
-				debug("parsing piggybacked counters: " + counters);
-				parse_counters(counters, false);
-			} else {
-				debug("counters container not found in reply");
-			}
-
-			if (runtime_info) {
-				debug("parsing runtime info: " + runtime_info[0]);
-				parse_runtime_info(runtime_info[0]);
-			} else {
-				debug("counters container not found in reply");
-			}
-
 		} else {
-			debug("headlines_callback: returned no XML object");
-			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
+			if (headlines) {
+				debug("adding some more headlines...");
+
+				var c = document.getElementById("headlinesList");
+
+				if (!c) {
+					c = document.getElementById("headlinesInnerContainer");
+				}
+
+				c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
+			} else {
+				debug("headlines_callback: returned no data");
+				notify_error("Error while trying to load more headlines");	
+			}
+
 		}
 
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-
-		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
-
-		if (!document.getElementById("headlinesList") && 
-				getInitParam("cdm_auto_catchup") == 1) {
-			debug("starting CDM watchdog");
-			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
-			_cdm_wd_vishist = new Array();
+		if (articles) {
+			for (var i = 0; i < articles.length; i++) {
+				var a_id = articles[i].getAttribute("id");
+				debug("found id: " + a_id);
+				cache_inject(a_id, articles[i].firstChild.nodeValue);
+			}
 		} else {
-			debug("not in CDM mode or watchdog disabled");
+			debug("no cached articles received");
 		}
 
-		if (_tag_cdm_scroll) {
-			try {
-				document.getElementById("headlinesInnerContainer").scrollTop = _tag_cdm_scroll;
-				_tag_cdm_scroll = false;
-				debug("resetting headlinesInner scrollTop");
-
-			} catch (e) { }
+		if (counters) {
+			debug("parsing piggybacked counters: " + counters);
+			parse_counters(counters, false);
+		} else {
+			debug("counters container not found in reply");
 		}
 
-		notify("");
+		if (runtime_info) {
+			debug("parsing runtime info: " + runtime_info[0]);
+			parse_runtime_info(runtime_info[0]);
+		} else {
+			debug("counters container not found in reply");
+		}
+
+	} else {
+		debug("headlines_callback: returned no XML object");
+		f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 	}
+
+	if (typeof correctPNG != 'undefined') {
+		correctPNG();
+	}
+
+	if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
+
+	if (!document.getElementById("headlinesList") && 
+			getInitParam("cdm_auto_catchup") == 1) {
+		debug("starting CDM watchdog");
+		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
+		_cdm_wd_vishist = new Array();
+	} else {
+		debug("not in CDM mode or watchdog disabled");
+	}
+
+	if (_tag_cdm_scroll) {
+		try {
+			document.getElementById("headlinesInnerContainer").scrollTop = _tag_cdm_scroll;
+			_tag_cdm_scroll = false;
+			debug("resetting headlinesInner scrollTop");
+
+		} catch (e) { }
+	}
+
+	notify("");
 }
 
 function render_article(article) {
