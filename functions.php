@@ -4225,8 +4225,8 @@
 					cellspacing=\"0\">";
 			}
 
-			$lnum = 0;
-	
+			$lnum = $limit*$offset;
+
 			error_reporting (DEFAULT_ERROR_LEVEL);
 	
 			$num_unread = 0;
