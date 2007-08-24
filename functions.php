@@ -3169,8 +3169,8 @@
 			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_title));
 
 			if (ENABLE_SIMPLEPIE) {
-				$release_url = sanitize_rss($latest_item->get_link());
-				$content = sanitize_rss($latest_item->get_description());
+				$release_url = sanitize_rss($link, $latest_item->get_link());
+				$content = sanitize_rss($link, $latest_item->get_description());
 			} else {
 				$release_url = sanitize_rss($link, $latest_item["link"]);
 				$content = sanitize_rss($link, $latest_item["description"]);
