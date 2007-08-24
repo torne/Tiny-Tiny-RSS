@@ -83,30 +83,18 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			closeInfoBox(true);
 		}
 
-		debug("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
-
-		var fe = document.getElementById("FEEDR-" + getActiveFeedId());
-
-		if (fe) {
-			fe.className = fe.className.replace("Selected", "");
-		}
-
-		setActiveFeedId(feed);
-	
-		if (is_cat != undefined) {
-			active_feed_is_cat = is_cat;
-		}
+//		debug("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
 
 		if (subop == "MarkAllRead") {
 
 			var feedlist = document.getElementById('feedList');
 			
 			var next_unread_feed = getRelativeFeedId(feedlist,
-					getActiveFeedId(), "next", true);
+					feed, "next", true);
 
 			if (!next_unread_feed) {
 				next_unread_feed = getRelativeFeedId(feedlist,
-					-1, "next", true);
+					-3, "next", true);
 			}
 
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
@@ -117,7 +105,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			}
 		}
 
-		if (activeFeedIsCat()) {
+		if (is_cat) {
 			query = query + "&cat=1";
 		}
 
@@ -128,13 +116,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 		query = query + "&ts=" + timestamp
-
-		if (!activeFeedIsCat()) {
-			var feedr = document.getElementById("FEEDR-" + getActiveFeedId());
-			if (feedr && !feedr.className.match("Selected")) {	
-				feedr.className = feedr.className + "Selected";
-			} 
-		}
 		
 		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
