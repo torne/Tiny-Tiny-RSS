@@ -499,7 +499,7 @@
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
 				if (ENABLE_SIMPLEPIE) {
-					$feed_title = $rss->get_title();
+					$feed_title = db_escape_string($rss->get_title());
 				} else {
 					$feed_title = db_escape_string($rss->channel["title"]);
 				}
