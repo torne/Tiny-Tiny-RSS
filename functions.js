@@ -1347,7 +1347,7 @@ function infobox_callback2(transport) {
 	}
 }
 
-function addFilter() {
+function createFilter() {
 
 	var form = document.forms['filter_add_form'];
 	var reg_exp = form.reg_exp.value;
@@ -1379,7 +1379,7 @@ function isValidURL(s) {
 	return s.match("http://") != null || s.match("https://") != null || s.match("feed://") != null;
 }
 
-function qaddFeed() {
+function subscribeToFeed() {
 
 	var form = document.forms['feed_add_form'];
 	var feed_url = form.feed_url.value;

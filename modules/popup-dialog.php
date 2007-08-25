@@ -61,7 +61,7 @@
 			print "<table width='100%'>
 			<tr><td width='20%'>".__('Feed URL:')."</td><td>
 				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
-					onkeypress=\"return filterCR(event, qaddFeed)\"
+					onkeypress=\"return filterCR(event, subscribeToFeed)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
@@ -87,9 +87,9 @@
 
 			print "<div id='fadd_login_container' style='display:none'>
 				<table width='100%'>
-					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, qaddFeed)\"></td></tr>
+					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, subscribeToFeed)\"></td></tr>
 					<tr><td>".__('Password:')."</td><td><input type='password'
-						name='auth_pass' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, qaddFeed)\"></td></tr>
+						name='auth_pass' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, subscribeToFeed)\"></td></tr>
 				</table>
 				</div>";
 
@@ -98,7 +98,7 @@
 			print "<div style='float : right'>
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
-					type=\"submit\" onclick=\"return qaddFeed()\" value=\"".__('Subscribe')."\">
+					type=\"submit\" onclick=\"return subscribeToFeed()\" value=\"".__('Subscribe')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
 					value=\"".__('Cancel')."\"></div>
@@ -271,7 +271,7 @@
 			print "<table width='100%'>";
 
 			print "<tr><td>".__('Match:')."</td>
-				<td><input onkeypress=\"return filterCR(event, qaddFilter)\"
+				<td><input onkeypress=\"return filterCR(event, createFilter)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
  					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" class=\"iedit\">";		
@@ -320,7 +320,7 @@
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
-				class=\"button\" onclick=\"return addFilter()\" 
+				class=\"button\" onclick=\"return createFilter()\" 
 				disabled=\"true\" value=\"".__('Create')."\"> ";
 
 			print "<input class=\"button\"
