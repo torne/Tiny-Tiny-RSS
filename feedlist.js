@@ -1,5 +1,3 @@
-//var xmlhttp = Ajax.getTransport();
-
 var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 
@@ -7,12 +5,6 @@ function viewCategory(cat) {
 	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
 	return false;
-}
-
-function feedlist_callback() {
-	if (xmlhttp.readyState == 4) {
-		feedlist_callback2(xmlhttp);
-	}
 }
 
 function feedlist_callback2(transport) {
@@ -176,10 +168,6 @@ function toggleCollapseCat_af(effect) {
 
 function toggleCollapseCat(cat) {
 	try {
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return;
-		}
 	
 		var cat_elem = document.getElementById("FCAT-" + cat);
 		var cat_list = document.getElementById("FCATLIST-" + cat).parentNode;
