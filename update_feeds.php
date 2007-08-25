@@ -29,7 +29,7 @@
 	} else {
 		if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
 			db_query($link, "SET NAMES " . MYSQL_CHARSET);
-			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
+//			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
 		}
 	}
 
