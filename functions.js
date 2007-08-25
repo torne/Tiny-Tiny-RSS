@@ -596,7 +596,8 @@ function parse_counters(reply, scheduled_call) {
 			var error = elems[l].getAttribute("error");
 			var has_img = elems[l].getAttribute("hi");
 			var updated = elems[l].getAttribute("updated");
-	
+			var title = elems[l].getAttribute("title");
+		
 			if (id == "global-unread") {
 				global_unread = ctr;
 				updateTitle();
@@ -648,6 +649,10 @@ function parse_counters(reply, scheduled_call) {
 				if (!feed_img.src.match(id + ".ico")) {
 					feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
 				}
+			}
+
+			if (feedlink && title) {
+				feedlink.innerHTML = title;
 			}
 
 			if (feedctr && feedu && feedr) {

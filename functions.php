@@ -1866,7 +1866,7 @@
 			}
 	}
 
-	function getAllCounters($link, $omode = "flc") {
+	function getAllCounters($link, $omode = "flc", $active_feed = false) {
 /*		getLabelCounters($link);
 		getFeedCounters($link);
 		getTagCounters($link);
@@ -1880,7 +1880,7 @@
 		getGlobalCounters($link);
 
 		if (strchr($omode, "l")) getLabelCounters($link);
-		if (strchr($omode, "f")) getFeedCounters($link);
+		if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
 		if (strchr($omode, "t")) getTagCounters($link);
 		if (strchr($omode, "c")) {			
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2268,7 +2268,7 @@
 			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
 	} */
 
-	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
+	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS, $active_feed = false) {
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2355,7 +2355,13 @@
 					$has_img_part = "";
 				}				
 
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\"/>";
+				if ($active_feed && $id == $active_feed) {
+					$has_title_part = "title=\"" . htmlspecialchars($line["title"]) . "\"";
+				} else {
+					$has_title_part = "";
+				}
+
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $has_title_part/>";
 			}
 		}
 
