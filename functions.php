@@ -207,6 +207,25 @@
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 	}
 
+	function get_feed_update_interval($link, $feed_id) {
+		$result = db_query($link, "SELECT owner_uid, update_interval FROM
+			ttrss_feeds WHERE id = '$feed_id'");
+
+		if (db_num_rows($result) == 1) {
+			$update_interval = db_fetch_result($result, 0, "update_interval");
+			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+
+			if ($update_interval != 0) {
+				return $update_interval;
+			} else {
+				return get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $owner_uid, false);
+			}
+
+		} else {
+			return -1;
+		}
+	}
+
 	function update_all_feeds($link, $fetch, $user_id = false, $force_daemon = false) {
 
 		if (WEB_DEMO_MODE) return;
@@ -441,11 +460,26 @@
 		if (!ENABLE_SIMPLEPIE) {
 			$rss = fetch_rss($fetch_url);
 		} else {
+			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
+				mkdir(SIMPLEPIE_CACHE_DIR);
+			}
+
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
 			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
+
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				_debug("feed update interval (sec): " .
+					get_feed_update_interval($link, $feed)*60);
+			}
+
+			if (is_dir(SIMPLEPIE_CACHE_DIR)) {
+				$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
+				$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
+			}
+
 			$rss->init();
 		}
 

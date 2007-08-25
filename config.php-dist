@@ -163,6 +163,9 @@
 	// to any feeds using HTTP Digest authentication and Magpie XML parsing 
 	// errors are bothering you too much, you can try enabling SimplePie.
 
+	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache');
+	// Cache directory for RSS feeds when using SimplePie
+
 	define('COUNTERS_MAX_AGE', 365);
 	// Hard limit for unread counters calculation. Try tweaking this
 	// parameter to speed up tt-rss when having a huge number of articles
