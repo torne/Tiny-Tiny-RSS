@@ -178,8 +178,13 @@
 		}	
 
 		// purge orphaned posts in main content table
-		db_query($link, "DELETE FROM ttrss_entries WHERE 
+		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+
+		if ($do_output) {
+			$rows = db_affected_rows($link, $result);
+			_debug("Purged $rows orphaned posts.");
+		}
 
 	}
 
@@ -469,6 +474,10 @@
 			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
+
+/*			if (SIMPLEPIE_CACHE_IMAGES) {
+				$rss->set_image_handler('./image.php', 'i');
+			} */
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("feed update interval (sec): " .
