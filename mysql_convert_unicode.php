@@ -81,6 +81,7 @@ function confirmOP() {
 	
 		print "<p>".__("Converting database...")."</p>";
 
+		db_query($link, "BEGIN");
 		db_query($link, "SET FOREIGN_KEY_CHECKS=0");
 
 		$result = db_query($link, "SHOW TABLES LIKE 'ttrss%'");
@@ -98,6 +99,7 @@ function confirmOP() {
 		}
 
 		db_query($link, "SET FOREIGN_KEY_CHECKS=1");
+		db_query($link, "COMMIT");
 
 		print "<form method=\"GET\" action=\"logout.php\">
 			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
