@@ -13,6 +13,19 @@ var caller_subop = false;
 
 var sanity_check_done = false;
 
+function infobox_callback() {
+	if (xmlhttp.readyState == 4) {
+		infobox_callback2(xmlhttp);
+	}
+}
+
+function infobox_submit_callback() {
+	if (xmlhttp.readyState == 4) {
+		infobox_submit_callback2(xmlhttp);
+	}
+}
+
+
 function replace_pubkey_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {	
@@ -82,31 +95,29 @@ function feedlist_callback() {
 
 /* stub for subscription dialog */
 
-function dlg_frefresh_callback() {
-	if (xmlhttp.readyState == 4) {		
-	//	setTimeout("updateFeedList()", 500);
+function dlg_frefresh_callback(transport) {
 
-		try {
-			var container = document.getElementById('prefContent');	
-			container.innerHTML=xmlhttp.responseText;
-			selectTab("feedConfig", true);
+	try {
+		var container = document.getElementById('prefContent');	
+		container.innerHTML=transport.responseText;
+		selectTab("feedConfig", true);
 
-			if (caller_subop) {
-				var tuple = caller_subop.split(":");
-				if (tuple[0] == 'editFeed') {
-					window.setTimeout('editFeed('+tuple[1]+')', 100);
-				}				
+		if (caller_subop) {
+			var tuple = caller_subop.split(":");
+			if (tuple[0] == 'editFeed') {
+				window.setTimeout('editFeed('+tuple[1]+')', 100);
+			}				
 
-				caller_subop = false;
-			}
-			if (typeof correctPNG != 'undefined') {
-				correctPNG();
-			}
-			notify("");
-		} catch (e) {
-			exception_error("feedlist_callback", e);
+			caller_subop = false;
 		}
+		if (typeof correctPNG != 'undefined') {
+			correctPNG();
+		}
+		notify("");
+	} catch (e) {
+		exception_error("feedlist_callback", e);
 	}
+
 }
 
 function filterlist_callback() {

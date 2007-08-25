@@ -718,14 +718,14 @@ function parse_counters(reply, scheduled_call) {
 	}
 }
 
-function parse_counters_reply(xmlhttp, scheduled_call) {
+function parse_counters_reply(transport, scheduled_call) {
 
-	if (!xmlhttp.responseXML) {
+	if (!transport.responseXML) {
 		notify_error("Backend did not return valid XML", true);
 		return;
 	}
 
-	var reply = xmlhttp.responseXML.firstChild;
+	var reply = transport.responseXML.firstChild;
 	
 	if (!reply) {
 		notify_error("Backend did not return expected XML object", true);
@@ -1275,39 +1275,34 @@ function closeInfoBox(cleanup) {
 
 function displayDlg(id, param) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	notify_progress("Loading, please wait...", true);
 
-	xmlhttp.open("GET", "backend.php?op=dlg&id=" +
-		param_escape(id) + "&param=" + param_escape(param), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
 	disableHotkeys();
+
+	var query = "backend.php?op=dlg&id=" +
+		param_escape(id) + "&param=" + param_escape(param);
+
+	new Ajax.Request(query, {
+		onComplete: function (transport) {
+			infobox_callback2(transport);
+		} });
 
 	return false;
 }
 
-function infobox_submit_callback() {
-	if (xmlhttp.readyState == 4) {
-		closeInfoBox();
+function infobox_submit_callback2(transport) {
+	closeInfoBox();
 
-		try {
-			// called from prefs, reload tab
-			if (active_tab) {
-				selectTab(active_tab, false);
-			}
-		} catch (e) { }
-
-		if (xmlhttp.responseText) {
-			notify_info(xmlhttp.responseText);
+	try {
+		// called from prefs, reload tab
+		if (active_tab) {
+			selectTab(active_tab, false);
 		}
+	} catch (e) { }
 
-	} 
+	if (transport.responseText) {
+		notify_info(transport.responseText);
+	}
 }
 
 function infobox_callback2(transport) {
@@ -1352,18 +1347,7 @@ function infobox_callback2(transport) {
 	}
 }
 
-function infobox_callback() {
-	if (xmlhttp.readyState == 4) {
-		infobox_callback2(xmlhttp);
-	}
-}
-
 function addFilter() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
 
 	var form = document.forms['filter_add_form'];
 	var reg_exp = form.reg_exp.value;
@@ -1375,10 +1359,11 @@ function addFilter() {
 
 	var query = Form.serialize("filter_add_form");
 
-	xmlhttp.open("GET", "backend.php?" + query, true);
-	xmlhttp.onreadystatechange=infobox_submit_callback;
-	xmlhttp.send(null);
-
+	new Ajax.Request("backend.php?" + query, {
+		onComplete: function (transport) {
+			infobox_submit_callback2(transport);
+		} });
+	
 	return true;
 }
 
@@ -1395,11 +1380,6 @@ function isValidURL(s) {
 }
 
 function qaddFeed() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
 
 	var form = document.forms['feed_add_form'];
 	var feed_url = form.feed_url.value;
@@ -1421,14 +1401,11 @@ function qaddFeed() {
 	
 	debug("subscribe q: " + query);
 
-/*	xmlhttp.open("GET", "backend.php?" + query, true);
-	xmlhttp.onreadystatechange=dlg_frefresh_callback;
-	xmlhttp.send(null); */
-
-	xmlhttp.open("POST", "backend.php", true);
-	xmlhttp.onreadystatechange=dlg_frefresh_callback;
-	xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	xmlhttp.send(query);
+	new Ajax.Request("backend.php", {
+		parameters: query,
+		onComplete: function(transport) { 
+			dlg_frefresh_callback(transport); 
+		} });
 
 	return false;
 }
@@ -1667,35 +1644,46 @@ Position.Center = function(element, parent) {
         element.style.left = (pw/2) - (w/2) -  Position.deltaX + "px";
 }
 
-function labeltest_callback() {
-	var container = document.getElementById('label_test_result');
-	if (xmlhttp.readyState == 4) {
 
-		container.innerHTML=xmlhttp.responseText;
+function labeltest_callback(transport) {
+	try {
+		var container = document.getElementById('label_test_result');
+	
+		container.innerHTML = transport.responseText;
 		if (!Element.visible(container)) {
 			Effect.SlideDown(container, { duration : 0.5 });
 		}
+
 		notify("");
+	} catch (e) {
+		exception_error("labeltest_callback", e);
 	}
 }
 
 function labelTest() {
 
-	var container = document.getElementById('label_test_result');
+	try {
+		var container = document.getElementById('label_test_result');
+	
+		var form = document.forms['label_edit_form'];
+	
+		var sql_exp = form.sql_exp.value;
+		var description = form.description.value;
+	
+		notify_progress("Loading, please wait...");
+	
+		var query = "backend.php?op=pref-labels&subop=test&expr=" +
+			param_escape(sql_exp) + "&descr=" + param_escape(description);
+	
+		new Ajax.Request(query, {
+			onComplete: function (transport) {
+				labeltest_callback(transport);
+			} });
+	
+		return false;
 
-	var form = document.forms['label_edit_form'];
-
-	var sql_exp = form.sql_exp.value;
-	var description = form.description.value;
-
-	notify_progress("Loading, please wait...");
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=test&expr=" +
-		param_escape(sql_exp) + "&descr=" + param_escape(description), true);
-
-	xmlhttp.onreadystatechange=labeltest_callback;
-	xmlhttp.send(null);
-
-	return false;
+	} catch (e) {
+		exception_error("labelTest", e);
+	}
 }
 
