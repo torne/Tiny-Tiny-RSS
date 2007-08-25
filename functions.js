@@ -1493,7 +1493,7 @@ function fatalError(code, message) {
 	
 			if (message == "") message = "Unknown error";
 
-			fc.innerHTML = "<img src='images/sign_excl.png'> " + message + " (Code " + code + ")";
+			fc.innerHTML = "<img src='images/sign_excl.gif'> " + message + " (Code " + code + ")";
 	
 			fe.style.display = "block";
 		}
