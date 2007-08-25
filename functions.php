@@ -2322,6 +2322,8 @@
 				$last_updated = date($short_date, strtotime($line["last_updated"]));
 			}				
 
+			$last_updated = htmlspecialchars($last_updated);
+
 			$has_img = is_file(ICONS_DIR . "/$id.ico");
 
 			$tmp_result = db_query($link,
