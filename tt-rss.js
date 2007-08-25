@@ -1,4 +1,3 @@
-var xmlhttp = false;
 var total_unread = 0;
 var first_run = true;
 var display_tags = false;
@@ -7,15 +6,13 @@ var active_title_text = "";
 var current_subtitle = "";
 var daemon_enabled = false;
 var daemon_refresh_only = false;
-var _qfd_deleted_feed = 0;
+//var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var cookie_lifetime = 0;
 var active_feed_id = 0;
 var active_feed_is_cat = false;
 var number_of_feeds = 0;
 var sanity_check_done = false;
-
-var xmlhttp = Ajax.getTransport();
 
 var init_params = new Object();
 
@@ -51,20 +48,16 @@ function toggleTags(show_all) {
 	}
 }
 
-function dlg_frefresh_callback() {
-	if (xmlhttp.readyState == 4) {		
-//		notify(xmlhttp.responseText);
-
-		if (getActiveFeedId() == _qfd_deleted_feed) {
-			var h = document.getElementById("headlines-frame");
-			if (h) {
-				h.innerHTML = "<div class='whiteBox'>" + __('No feed selected.') + "</div>";
-			}
+function dlg_frefresh_callback(transport, deleted_feed) {
+	if (getActiveFeedId() == deleted_feed) {
+		var h = document.getElementById("headlines-frame");
+		if (h) {
+			h.innerHTML = "<div class='whiteBox'>" + __('No feed selected.') + "</div>";
 		}
+	}
 
-		setTimeout('updateFeedList(false, false)', 50);
-		closeInfoBox();
-	} 
+	setTimeout('updateFeedList(false, false)', 50);
+	closeInfoBox();
 }
 
 function refetch_callback2(transport) {
@@ -88,61 +81,58 @@ function refetch_callback2(transport) {
 	}
 }
 
-function backend_sanity_check_callback() {
+function backend_sanity_check_callback(transport) {
 
-	if (xmlhttp.readyState == 4) {
+	try {
 
-		try {
-	
-			if (sanity_check_done) {
-				fatalError(11, "Sanity check request received twice. This can indicate "+
-			      "presence of Firebug or some other disrupting extension. "+
-					"Please disable it and try again.");
-				return;
-			}
-
-			if (!xmlhttp.responseXML) {
-				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
-				return;
-			}
-	
-			var reply = xmlhttp.responseXML.firstChild.firstChild;
-	
-			if (!reply) {
-				fatalError(3, "[D002, Invalid RPC reply]: " + xmlhttp.responseText);
-				return;
-			}
-	
-			var error_code = reply.getAttribute("error-code");
-		
-			if (error_code && error_code != 0) {
-				return fatalError(error_code, reply.getAttribute("error-msg"));
-			}
-	
-			debug("sanity check ok");
-
-			var params = reply.nextSibling;
-
-			if (params) {
-				debug('reading init-params...');
-				var param = params.firstChild;
-
-				while (param) {
-					var k = param.getAttribute("key");
-					var v = param.getAttribute("value");
-					debug(k + " => " + v);
-					init_params[k] = v;					
-					param = param.nextSibling;
-				}
-			}
-
-			sanity_check_done = true;
-
-			init_second_stage();
-
-		} catch (e) {
-			exception_error("backend_sanity_check_callback", e);
+		if (sanity_check_done) {
+			fatalError(11, "Sanity check request received twice. This can indicate "+
+		      "presence of Firebug or some other disrupting extension. "+
+				"Please disable it and try again.");
+			return;
 		}
+
+		if (!transport.responseXML) {
+			fatalError(3, "[D001, Received reply is not XML]: " + transport.responseText);
+			return;
+		}
+
+		var reply = transport.responseXML.firstChild.firstChild;
+
+		if (!reply) {
+			fatalError(3, "[D002, Invalid RPC reply]: " + transport.responseText);
+			return;
+		}
+
+		var error_code = reply.getAttribute("error-code");
+	
+		if (error_code && error_code != 0) {
+			return fatalError(error_code, reply.getAttribute("error-msg"));
+		}
+
+		debug("sanity check ok");
+
+		var params = reply.nextSibling;
+
+		if (params) {
+			debug('reading init-params...');
+			var param = params.firstChild;
+
+			while (param) {
+				var k = param.getAttribute("key");
+				var v = param.getAttribute("value");
+				debug(k + " => " + v);
+				init_params[k] = v;					
+				param = param.nextSibling;
+			}
+		}
+
+		sanity_check_done = true;
+
+		init_second_stage();
+
+	} catch (e) {
+		exception_error("backend_sanity_check_callback", e);	
 	} 
 }
 
@@ -315,7 +305,7 @@ function updateTitle(s) {
 
 function genericSanityCheck() {
 
-	if (!xmlhttp) fatalError(1);
+//	if (!Ajax.getTransport()) fatalError(1);
 
 	setCookie("ttrss_vf_test", "TEST");
 	
@@ -349,9 +339,10 @@ function init() {
 
 		var params = "&ua=" + param_escape(navigator.userAgent);
 
-		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck" + params, true);
-		xmlhttp.onreadystatechange=backend_sanity_check_callback;
-		xmlhttp.send(null);
+		new Ajax.Request("backend.php?op=rpc&subop=sanityCheck" + params,	{
+			onComplete: function(transport) {
+					backend_sanity_check_callback(transport);
+				} });
 
 	} catch (e) {
 		exception_error("init", e);
@@ -498,16 +489,13 @@ function qfdDelete(feed_id) {
 
 	notify_progress("Removing feed...");
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	var query = "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
 
-	_qfd_deleted_feed = feed_id;
+	new Ajax.Request(query,	{
+		onComplete: function(transport) {
+				dlg_frefresh_callback(transport, feed_id);
+			} });
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id);
-	xmlhttp.onreadystatechange=dlg_frefresh_callback;
-	xmlhttp.send(null);
 
 	return false;
 }
@@ -521,11 +509,6 @@ function updateFeedTitle(t) {
 function toggleDispRead() {
 	try {
 
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		} 
-
 		var hide_read_feeds = (getInitParam("hide_read_feeds") == "1");
 
 		hide_read_feeds = !hide_read_feeds;
@@ -535,11 +518,6 @@ function toggleDispRead() {
 		hideOrShowFeeds(getFeedsContext().document, hide_read_feeds);
 
 		storeInitParam("hide_read_feeds", hide_read_feeds, true);
-
-/*		var query = "backend.php?op=rpc&subop=setpref" +
-			"&key=HIDE_READ_FEEDS&value=" + param_escape(hide_read_feeds);
-
-		new Ajax.Request(query); */
 				
 	} catch (e) {
 		exception_error("toggleDispRead", e);
@@ -662,21 +640,18 @@ function feedEditSave() {
 
 	try {
 	
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
-
 		// FIXME: add parameter validation
 
 		var query = Form.serialize("edit_feed_form");
 
 		notify_progress("Saving feed...");
 
-		xmlhttp.open("POST", "backend.php", true);
-		xmlhttp.onreadystatechange=dlg_frefresh_callback;
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query);
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				dlg_frefresh_callback(transport); 
+			} });
+
 
 		closeInfoBox();
 
@@ -696,21 +671,17 @@ function labelEditSave() {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
-	
 		closeInfoBox();
 	
 		notify_progress("Saving label...");
 	
 		query = Form.serialize("label_edit_form");
 	
-		xmlhttp.open("GET", "backend.php?" + query, true);		
-		xmlhttp.onreadystatechange=dlg_frefresh_callback;
-		xmlhttp.send(null);
-	
+		new Ajax.Request("backend.php?" + query, {
+			onComplete: function(transport) { 
+				dlg_frefresh_callback(transport); 
+			} });
+
 		return false;
 
 	} catch (e) {
