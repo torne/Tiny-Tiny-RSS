@@ -98,6 +98,8 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	comments varchar(250) not null default '',
 	author varchar(250) not null default '') TYPE=InnoDB;
 
+create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
+
 create table ttrss_user_entries (
 	int_id integer not null primary key auto_increment,
 	ref_id integer not null,
@@ -196,7 +198,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (21);
+insert into ttrss_version values (22);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
