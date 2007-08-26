@@ -110,6 +110,7 @@ print T_js_decl("Can't add filter: nothing to match on.");
 print T_js_decl("Can't subscribe: no feed URL given.");
 print T_js_decl("Unsubscribe from %s?");
 print T_js_decl("Mark all visible articles in %s as read?");
+print T_js_decl("Mark all articles in %s as read?");
 print T_js_decl("Mark %d selected articles in %s as read?");
 print T_js_decl("Please enter label title:");
 print T_js_decl("Save current configuration?");
@@ -125,7 +126,7 @@ print T_js_decl("Please wait...");
 print T_js_decl("Publish article");
 print T_js_decl("Unpublish article");
 print T_js_decl("You can't clear this type of feed.");
-print T_js_decl("Erase all non-starred articles for %s?");
+print T_js_decl("Erase all non-starred articles in %s?");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(

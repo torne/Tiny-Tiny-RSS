@@ -476,7 +476,7 @@ function quickMenuGo(opid) {
 
 			var fn = getFeedName(actid);
 
-			var pr = __("Erase all non-starred articles for %s?").replace("%s", fn);
+			var pr = __("Erase all non-starred articles in %s?").replace("%s", fn);
 
 			if (confirm(pr)) {
 				clearFeedArticles(actid);
@@ -623,7 +623,7 @@ function catchupCurrentFeed() {
 
 	var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
 	
-	var str = "Mark all articles in " + fn + " as read?";
+	var str = __("Mark all articles in %s as read?").replace("%s", fn);
 
 /*	if (active_feed_is_cat) {
 		str = "Mark all articles in this category as read?";
