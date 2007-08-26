@@ -3174,6 +3174,8 @@
 						$mail->PluginDir = "phpmailer/";
 						$mail->SetLanguage("en", "phpmailer/language/");
 
+						$mail->CharSet = "UTF-8";
+
 						$mail->From = DIGEST_FROM_ADDRESS;
 						$mail->FromName = DIGEST_FROM_NAME;
 						$mail->AddAddress($line["email"], $line["login"]);
