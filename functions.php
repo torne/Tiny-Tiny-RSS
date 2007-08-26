@@ -4698,7 +4698,7 @@
 
 	function clear_feed_articles($link, $id) {
 		$result = db_query($link, "DELETE FROM ttrss_user_entries
-			WHERE feed_id = '$id' AND marked = false");
+			WHERE feed_id = '$id' AND marked = false AND owner_uid = " . $_SESSION["uid"]);
 
 		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
