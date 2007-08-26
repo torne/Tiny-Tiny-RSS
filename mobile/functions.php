@@ -36,6 +36,15 @@
 				print "<li class=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
+			$num_fresh = getFeedUnread($link, -3);
+
+			$class = "virt";
+
+			if ($num_fresh > 0) $class .= "Unread";
+
+			printMobileFeedEntry(-3, $class, "Fresh articles", $num_fresh, 
+				"../images/fresh.png", $link);
+
 			$num_starred = getFeedUnread($link, -1);
 
 			$class = "virt";
