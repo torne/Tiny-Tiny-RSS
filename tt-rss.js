@@ -455,7 +455,7 @@ function quickMenuGo(opid) {
 			var pr = __("Unsubscribe from %s?").replace("%s", fn);
 
 			if (confirm(pr)) {
-				qfdDelete(actid);
+				unsubscribeFeed(actid);
 			}
 		
 			return;
@@ -510,7 +510,7 @@ function quickMenuGo(opid) {
 	}
 }
 
-function qfdDelete(feed_id) {
+function unsubscribeFeed(feed_id) {
 
 	notify_progress("Removing feed...");
 
