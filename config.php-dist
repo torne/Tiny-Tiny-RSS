@@ -73,9 +73,6 @@
 	define('MAIL_RESET_PASS', true);
 	// Send mail to user on password reset
 	
-	define('MAIL_FROM', 'TT-RSS Daemon <noreply@some.ttrss.host.dom>');
-	// Pretty obvious, I suppose. Used for email digests & password notifications.
-
 	define('ENABLE_FEED_BROWSER', true);
 	// Enable or disable local feed browser
 
@@ -132,7 +129,7 @@
 	define('DIGEST_ENABLE', true);
 	// Global option to enable daily digests
 
-	define('DIGEST_HOSTNAME', 'some.ttrss.host.dom');
+	define('DIGEST_HOSTNAME', 'your.domain.dom');
 	// Hostname for email digest signature
 
 	define('DIGEST_EMAIL_LIMIT', 10);
@@ -176,6 +173,19 @@
 	// Hard limit for unread counters calculation. Try tweaking this
 	// parameter to speed up tt-rss when having a huge number of articles
 	// in the database (better yet, enable purging!)
+
+	define('DIGEST_FROM_NAME', 'Tiny Tiny RSS');
+	define('DIGEST_FROM_ADDRESS', 'noreply@your.domain.dom');
+	// Name and address for sending email digests from.
+
+	define('DIGEST_SMTP_HOST', '');
+	// SMTP Host to send digests. When blank tt-rss uses
+	// PHP's default mail() function.
+
+	define('DIGEST_SMTP_LOGIN', '');
+	define('DIGEST_SMTP_PASSWORD', '');
+	// These two options enable SMTP authentication when sending
+	// digests. Require DIGEST_SMTP_HOST.
 
 	define('CONFIG_VERSION', 9);
 	// Expected config version. Please update this option in config.php

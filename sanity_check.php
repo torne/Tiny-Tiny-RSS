@@ -66,6 +66,10 @@
 		$err_msg = __("config: DATABASE_BACKED_SESSIONS are currently broken with MySQL");
 	}
 
+	if (defined('MAIL_FROM')) {
+		$err_msg = __("config: MAIL_FROM has been split into DIGEST_FROM_NAME and DIGEST_FROM_ADDRESS");
+	}
+
 	if ($err_msg) {
 		print "<b>".__("Fatal Error")."</b>: $err_msg\n";
 		exit;

@@ -61,6 +61,8 @@
 	require_once 'errors.php';
 	require_once 'version.php';
 
+	require_once 'phpmailer/class.phpmailer.php';
+
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
@@ -3156,12 +3158,42 @@
 				$headlines_count = $tuple[1];
 
 				if ($headlines_count > 0) {
-					$rc = mail($line["login"] . " <" . $line["email"] . ">",
-						"[tt-rss] New headlines for last 24 hours", $digest,
-						"From: " . MAIL_FROM . "\n".
-						"Content-Type: text/plain; charset=\"utf-8\"\n".
-						"Content-Transfer-Encoding: 8bit\n");
+
+					if (!DIGEST_SMTP_HOST) {
+
+						$rc = mail($line["login"] . " <" . $line["email"] . ">",
+							"[tt-rss] New headlines for last 24 hours", $digest,
+							"From: " . DIGEST_FROM_NAME . " <" . DIGEST_FROM_ADDRESS . ">\n".
+							"Content-Type: text/plain; charset=\"utf-8\"\n".
+							"Content-Transfer-Encoding: 8bit\n");
+
+					} else {
+
+						$mail = new PHPMailer();
+
+						$mail->PluginDir = "phpmailer/";
+						$mail->SetLanguage("en", "phpmailer/language/");
+
+						$mail->From = DIGEST_FROM_ADDRESS;
+						$mail->FromName = DIGEST_FROM_NAME;
+						$mail->AddAddress($line["email"], $line["login"]);
+						$mail->Host = DIGEST_SMTP_HOST;
+						$mail->Mailer = "smtp";
+
+						$mail->Username = DIGEST_SMTP_LOGIN;
+						$mail->Password = DIGEST_SMTP_PASSWORD;
+
+						$mail->Subject = "[tt-rss] New headlines for last 24 hours";
+						$mail->Body = $digest;
+
+						$rc = $mail->Send();
+
+						if (!$rc) print "ERROR: " . $mail->ErrorInfo;
+
+					}
+
 					print "RC=$rc\n";
+
 					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
 							WHERE id = " . $line["id"]);
 				} else {
@@ -3195,6 +3227,7 @@
 				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id 
 				AND include_in_digest = true
 				AND $interval_query
+				AND hidden = false
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true ORDER BY ttrss_feeds.title, date_entered DESC
 			LIMIT $limit");
