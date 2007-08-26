@@ -975,8 +975,9 @@ function catchupSelection() {
 	
 		var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
 		
-		var str = __("Mark all selected articles in %s as read?");
+		var str = __("Mark %d selected articles in %s as read?");
 	
+		str = str.replace("%d", rows.length);
 		str = str.replace("%s", fn);
 	
 		if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
