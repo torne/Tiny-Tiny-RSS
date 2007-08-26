@@ -300,17 +300,6 @@ function view(id, feed_id, skip_history) {
 
 		var date = new Date();
 
-/*		if (!xmlhttp_ready(xmlhttp) && last_article_view < date.getTime() / 1000 - 15) {
-			debug("<b>xmlhttp seems to be stuck at view, aborting</b>");
-			xmlhttp.abort();
-			if (is_safari()) {
-				debug("trying alternative reset method for Safari");
-				xmlhttp = Ajax.getTransport();
-			}
-		}
-
-		if (xmlhttp_ready(xmlhttp)) { */
-
 		var neighbor_ids = getRelativePostIds(active_post_id);
 
 		/* only request uncached articles */
@@ -679,11 +668,6 @@ function toggleUnread(id, cmode) {
 
 function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 	try {
-/*		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-			return;
-		} */
-	
 		var rows;
 
 		if (cdm_mode) {
@@ -737,15 +721,7 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=" + cmode;
 
-//			_catchup_callback_func = callback_func;
-
-			debug(callback_func);
-
 			notify_progress("Loading, please wait...");
-
-/*			xmlhttp_rpc.open("GET", query, true);
-			xmlhttp_rpc.onreadystatechange=catchup_callback;
-			xmlhttp_rpc.send(null); */
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
@@ -1014,12 +990,12 @@ function labelFromSearch(search, search_mode, match_on, feed_id, is_cat) {
 			"&title=" + param_escape(title);
 
 		debug("LFS: " + query);
-	
-		xmlhttp_rpc.open("GET", query, true);
-		xmlhttp_rpc.onreadystatechange=dlg_frefresh_callback;
-		xmlhttp_rpc.send(null);
-	}
 
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					dlg_frefresh_callback(transport);
+				} });
+	}
 }
 
 function editArticleTags(id, feed_id, cdm_enabled) {
@@ -1036,39 +1012,33 @@ function editArticleTags(id, feed_id, cdm_enabled) {
 }
 
 
-function tag_saved_callback() {
-	if (xmlhttp_rpc.readyState == 4) {
-		try {
-			debug("in tag_saved_callback");
+function tag_saved_callback(transport) {
+	try {
+		debug("in tag_saved_callback");
 
-			closeInfoBox();
-			notify("");
+		closeInfoBox();
+		notify("");
 
-			if (tagsAreDisplayed()) {
-				_reload_feedlist_after_view = true;
-			}
-
-			if (!_tag_active_cdm) {
-				if (active_post_id == _tag_active_post_id) {
-					debug("reloading current article");
-					view(_tag_active_post_id, _tag_active_feed_id);			
-				}
-			} else {
-				debug("reloading current feed");
-				viewCurrentFeed();
-			}
-
-		} catch (e) {
-			exception_error("catchup_callback", e);
+		if (tagsAreDisplayed()) {
+			_reload_feedlist_after_view = true;
 		}
+
+		if (!_tag_active_cdm) {
+			if (active_post_id == _tag_active_post_id) {
+				debug("reloading current article");
+				view(_tag_active_post_id, _tag_active_feed_id);			
+			}
+		} else {
+			debug("reloading current feed");
+			viewCurrentFeed();
+		}
+
+	} catch (e) {
+		exception_error("catchup_callback", e);
 	}
 }
 
 function editTagsSave() {
-
-	if (!xmlhttp_ready(xmlhttp_rpc)) {
-		printLockingError();
-	}
 
 	notify_progress("Saving article tags...");
 
@@ -1080,9 +1050,10 @@ function editTagsSave() {
 
 	debug(query);
 
-	xmlhttp_rpc.open("GET", query, true);			
-	xmlhttp_rpc.onreadystatechange=tag_saved_callback;
-	xmlhttp_rpc.send(null);
+	new Ajax.Request(query,	{
+		onComplete: function(transport) {
+				tag_saved_callback(transport);
+			} });
 
 }
 
