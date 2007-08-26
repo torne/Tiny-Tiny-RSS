@@ -460,7 +460,32 @@ function quickMenuGo(opid) {
 		
 			return;
 		}
+
+		if (opid == "qmcClearFeed") {
+			var actid = getActiveFeedId();
+
+			if (!actid) {
+				alert(__("Please select some feed first."));
+				return;
+			}
+
+			if (activeFeedIsCat() || actid < 0) {
+				alert(__("You can't clear this type of feed."));
+				return;
+			}	
+
+			var fn = getFeedName(actid);
+
+			var pr = __("Remove all (except starred) stored articles for %s?").replace("%s", fn);
+
+			if (confirm(pr)) {
+				clearFeedArticles(actid);
+			}
+		
+			return;
+		}
 	
+
 		if (opid == "qmcUpdateFeeds") {
 			scheduleFeedUpdate(true);
 			return;
@@ -496,6 +521,20 @@ function qfdDelete(feed_id) {
 				dlg_frefresh_callback(transport, feed_id);
 			} });
 
+
+	return false;
+}
+
+function clearFeedArticles(feed_id) {
+
+	notify_progress("Clearing feed...");
+
+	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+
+	new Ajax.Request(query,	{
+		onComplete: function(transport) {
+				dlg_frefresh_callback(transport, feed_id);
+			} });
 
 	return false;
 }

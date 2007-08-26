@@ -451,6 +451,11 @@
 			}
 		}
 
+		if ($subop == "clear") {
+			$id = db_escape_string($_GET["id"]);
+			clear_feed_articles($link, $id);
+		}
+
 		if ($subop == "add") {
 		
 			if (!WEB_DEMO_MODE) {
