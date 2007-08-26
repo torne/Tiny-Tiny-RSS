@@ -476,7 +476,7 @@ function quickMenuGo(opid) {
 
 			var fn = getFeedName(actid);
 
-			var pr = __("Remove all (except starred) stored articles for %s?").replace("%s", fn);
+			var pr = __("Erase all non-starred articles for %s?").replace("%s", fn);
 
 			if (confirm(pr)) {
 				clearFeedArticles(actid);

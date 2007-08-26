@@ -125,7 +125,7 @@ print T_js_decl("Please wait...");
 print T_js_decl("Publish article");
 print T_js_decl("Unpublish article");
 print T_js_decl("You can't clear this type of feed.");
-print T_js_decl("Remove all (except starred) stored articles for %s?");
+print T_js_decl("Erase all non-starred articles for %s?");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
