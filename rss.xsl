@@ -32,10 +32,10 @@
 				select="rss/channel/description"/></p> -->
 
 		<xsl:for-each select="rss/channel/item">
-			<h2><xsl:value-of select="title"/></h2>
+			<h2><a href="{link}"><xsl:value-of select="title"/></a></h2>
 
-			<div><a class="extlink" target="_new" 
-					href="{link}"><xsl:value-of select="link"/></a></div>
+			<!-- <div><a class="extlink" target="_new" 
+					href="{link}"><xsl:value-of select="link"/></a></div> -->
 
 			<div name="decodeme" class="content">
 				<xsl:value-of select="description" disable-output-escaping="yes"/>
