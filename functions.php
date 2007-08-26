@@ -430,13 +430,14 @@
 			_debug("update_rss_feed: start");
 		}
 
-		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass	
+		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass,cache_images
 			FROM ttrss_feeds WHERE id = '$feed'");
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
+		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
 		if ($update_interval < 0) { return; }
 
@@ -475,9 +476,13 @@
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 
-/*			if (SIMPLEPIE_CACHE_IMAGES) {
+			if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("enabling image cache");
+				}
+
 				$rss->set_image_handler('./image.php', 'i');
-			} */
+			}
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("feed update interval (sec): " .

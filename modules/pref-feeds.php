@@ -318,6 +318,27 @@
 				name=\"include_in_digest\"
 				$checked><label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
+			$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+
+			if ($cache_images) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+				$disabled = "";
+				$label_class = "";
+			} else {
+				$disabled = "disabled";
+				$label_class = "class='insensitive'";
+			}
+
+			print "<br><input type=\"checkbox\" id=\"cache_images\" 
+				name=\"cache_images\" $disabled
+				$checked><label $label_class for=\"cache_images\">".
+				__('Cache images locally')."</label>";
+
 			print "</td></tr>";
 
 			print "</table>";
@@ -351,6 +372,8 @@
 			$hidden = checkbox_to_sql_bool(db_escape_string($_POST["hidden"]));
 			$include_in_digest = checkbox_to_sql_bool(
 				db_escape_string($_POST["include_in_digest"]));
+			$cache_images = checkbox_to_sql_bool(
+				db_escape_string($_POST["cache_images"]));
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
@@ -371,6 +394,12 @@
 				$parent_qpart = 'parent_feed = NULL';
 			}
 
+			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+				$cache_images_qpart = "cache_images = $cache_images,";
+			} else {
+				$cache_images_qpart = "";
+			}
+
 			$result = db_query($link, "UPDATE ttrss_feeds SET 
 				$category_qpart $parent_qpart,
 				title = '$feed_title', feed_url = '$feed_link',
@@ -381,6 +410,7 @@
 				private = $private,
 				rtl_content = $rtl_content,
 				hidden = $hidden,
+				$cache_images_qpart
 				include_in_digest = $include_in_digest
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 

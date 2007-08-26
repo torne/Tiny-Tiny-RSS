@@ -167,13 +167,11 @@
 	// Cache directory for RSS feeds when using SimplePie
 
 	define('SIMPLEPIE_CACHE_IMAGES', false);
-	// Ignore this option for now on, it doesn't work yet.
-
-	// Cache feed images when using SimplePie. This will allow you to
-	// see images in feeds when originating server uses some sort of
-	// hotlink prevention at the expense of local bandwidth and
-	// disk space.
-
+	// Allow caching feed images when using SimplePie, to bypass hotlink
+	// prevention and such at expense of local disk space and bandwidth.
+	// Note that you (or your users) also have to enable image caching 
+	// in feed editor.
+	
 	define('COUNTERS_MAX_AGE', 365);
 	// Hard limit for unread counters calculation. Try tweaking this
 	// parameter to speed up tt-rss when having a huge number of articles

@@ -1,6 +1,6 @@
 <?php
-// This should be modifed as your own use warrants.
+	require_once "config.php";
+	require_once "simplepie/simplepie.inc";
 
-require_once('../simplepie.inc');
-SimplePie_Misc::display_cached_file($_GET['i'], './cache', 'spi');
+	SimplePie_Misc::display_cached_file($_GET['i'], SIMPLEPIE_CACHE_DIR, 'spi');
 ?>
