@@ -23,8 +23,6 @@ function viewNextFeedPage() {
 	try {
 		if (!getActiveFeedId()) return;
 
-		notify_progress("Loading, please wait...");
-
 		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
 			undefined, _feed_cur_page+1);
 
