@@ -145,13 +145,13 @@ class TW_base		// TW_lang extends this class
 								//
 								// TODO: make better url check with parse_url()
 								
-								$val = strtolower($val);
-								if(strpos($val, "http://") === false)
+//								$val = strtolower($val);
+								if(stripos($val, "http://") === false)
 								{
-									if(strpos($val, "ftp://") === false)
-									    if(strpos($val, "email:") === false)
-										if(strpos($val, "https://") === false)
-										    if(strpos($val, "./") === false)	// local relative url
+									if(stripos($val, "ftp://") === false)
+									    if(stripos($val, "email:") === false)
+										if(stripos($val, "https://") === false)
+										    if(stripos($val, "./") === false)	// local relative url
 											$val = "http://".$val;
 								}
 								$this->ATTRIBUTES[$key][1] = $val;
