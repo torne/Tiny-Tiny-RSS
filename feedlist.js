@@ -1,5 +1,6 @@
 var _feed_cur_page = 0;
 var _infscroll_disable = 0;
+var _infscroll_request_sent = 0;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -51,6 +52,20 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			_feed_cur_page = 0;
 			active_post_id = 0;
 			_infscroll_disable = 0;
+		}
+
+		if (page_offset != 0 && !subop) {
+			var date = new Date();
+			var timestamp = Math.round(date.getTime() / 1000);
+
+			debug("<b>" + _infscroll_request_sent + " : " + timestamp + "</b>");
+
+			if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
+				debug("infscroll request in progress, aborting");
+				return;
+			}
+
+			_infscroll_request_sent = timestamp;			
 		}
 
 		enableHotkeys();
@@ -134,7 +149,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		}
 
 		new Ajax.Request(query, {
-			asynchronous: page_offset == 0,
 			onComplete: function(transport) { 
 				headlines_callback2(transport, feed, is_cat, page_offset); 
 			} });

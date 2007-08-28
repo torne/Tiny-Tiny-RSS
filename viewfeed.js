@@ -175,7 +175,8 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		}
 	
 		_feed_cur_page = feed_cur_page;
-	
+		_infscroll_request_sent = 0;
+
 		notify("");
 	} catch (e) {
 		exception_error("headlines_callback2", e);
