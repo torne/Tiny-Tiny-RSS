@@ -108,7 +108,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 			if (next_unread_feed && show_next_feed && !activeFeedIsCat()) {
 				query = query + "&nuf=" + param_escape(next_unread_feed);
-				setActiveFeedId(next_unread_feed);
+				//setActiveFeedId(next_unread_feed);
+				feed = next_unread_feed;
 			}
 		}
 
