@@ -2115,7 +2115,7 @@
 		
 			$result = db_query($link, "SELECT COUNT(post_int_id) AS unread
 				FROM ttrss_tags,ttrss_user_entries,ttrss_entries 
-				WHERE tag_name = '$feed' AND post_int_id = int_id AND ref_id = id 
+				WHERE tag_name = '$feed' AND post_int_id = int_id AND ref_id = ttrss_entries.id 
 				AND unread = true AND $age_qpart AND
 					ttrss_tags.owner_uid = " . $_SESSION["uid"]);
 		}
