@@ -1248,10 +1248,17 @@ function headlines_scroll_handler() {
 
 		var e = document.getElementById("headlinesInnerContainer");
 
-		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 50) {
-			if (!_infscroll_disable) {
-				debug("more cowbell!");
-				viewNextFeedPage();
+		// don't do infinite scrolling when Limit == All
+
+		var toolbar_form = document.forms["main_toolbar_form"];
+
+		var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex];
+		if (limit.value != 0) {
+			if (e.scrollTop + e.offsetHeight > e.scrollHeight - 50) {
+				if (!_infscroll_disable) {
+					debug("more cowbell!");
+					viewNextFeedPage();
+				}
 			}
 		}
 
