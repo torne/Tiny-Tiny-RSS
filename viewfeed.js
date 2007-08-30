@@ -1331,10 +1331,11 @@ function catchupRelativeToArticle(below) {
 				var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 					param_escape(ids_to_mark.toString()) + "&cmode=0";
 
-				xmlhttp_rpc.open("GET", query, true);
-				xmlhttp_rpc.onreadystatechange=catchup_callback;
-				xmlhttp_rpc.send(null);
-	
+				new Ajax.Request(query, {
+					onComplete: function(transport) { 
+						catchup_callback2(transport); 
+					} });
+
 			}
 		}
 
