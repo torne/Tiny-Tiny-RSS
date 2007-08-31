@@ -4739,4 +4739,10 @@
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 	}
 
+        function add_feed_url() {
+		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		$url_path .= "?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
+		return $url_path;
+        }
+
 ?>

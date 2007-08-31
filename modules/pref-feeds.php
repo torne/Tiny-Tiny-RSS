@@ -1035,6 +1035,15 @@
 				value=\"".__('Export OPML')."\">";			
 
 
+		print "<h3>" . __("Firefox Integration") . "</h3>";
+                
+                print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.');
+		print "</p><p class=\"small\"> <a href='javascript:window.navigator.registerContentHandler(" .
+                      "\"application/vnd.mozilla.maybe.feed\", " .
+                      "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
+                      __('Click here to register this site as a feed reader.') . "</a></p>";
+
+
 		print "<h3>".__("Published articles")."</h3>";
 
 		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
