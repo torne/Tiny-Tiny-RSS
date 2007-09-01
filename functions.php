@@ -432,8 +432,15 @@
 			_debug("update_rss_feed: start");
 		}
 
-		$result = db_query($link, "SELECT update_interval,auth_login,auth_pass,cache_images
+		$result = db_query($link, "SELECT id,update_interval,auth_login,auth_pass,cache_images
 			FROM ttrss_feeds WHERE id = '$feed'");
+
+		if (db_num_rows($result) == 0) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				_debug("update_rss_feed: feed $feed [$feed_url] NOT FOUND");
+			}		
+			return;
+		}
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
