@@ -1907,12 +1907,13 @@
 					$cat_qpart = "cat_id IS NULL";
 				}
 				
-				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+				$tmp_result = db_query($link, "SELECT id,feed_url FROM ttrss_feeds
 					WHERE $cat_qpart AND owner_uid = " . $_SESSION["uid"]);
 
 				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
 					$feed_url = $tmp_line["feed_url"];
-					update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
+					$feed_id = $tmp_line["id"];
+					update_rss_feed($link, $feed_url, $feed_id, ENABLE_UPDATE_DAEMON);
 				}
 
 			} else {
