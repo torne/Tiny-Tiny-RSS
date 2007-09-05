@@ -109,8 +109,17 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 						if (!c) {
 							c = document.getElementById("headlinesInnerContainer");
 						}
+
+						var ids = getSelectedArticleIds2();
 	
 						c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
+
+						debug("restore selected ids: " + ids);
+
+						for (var i = 0; i < ids.length; i++) {
+							markHeadline(ids[i]);
+						}
+
 					} else {
 						debug("no new headlines received");
 					}

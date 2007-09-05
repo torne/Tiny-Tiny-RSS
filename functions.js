@@ -1687,3 +1687,28 @@ function labelTest() {
 	}
 }
 
+function isCdmMode() {
+	return !document.getElementById("headlinesList");
+}
+
+function getSelectedArticleIds2() {
+	var rows = new Array();
+	var cdm_mode = isCdmMode();
+
+	if (cdm_mode) {
+		rows = cdmGetSelectedArticles();
+	} else {	
+		rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+	}
+
+	var ids = new Array();
+
+	for (var i = 0; i < rows.length; i++) {
+		var chk = document.getElementById("RCHK-" + rows[i]);
+		if (chk && chk.checked) {
+			ids.push(rows[i]);
+		}
+	}
+
+	return ids;
+}
