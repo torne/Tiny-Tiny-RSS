@@ -73,7 +73,7 @@
 				$password = db_escape_string(trim($_GET["password"]));
 
 				if ($password) {
-					$pwd_hash = 'SHA1:' . sha1($password);
+					$pwd_hash = encrypt_password($password, $login);
 					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
 					print_notice(T_sprintf('Changed password of user <b>%s</b>.', $login));
 				} else {
@@ -101,7 +101,7 @@
 
 				$login = db_escape_string(trim($_GET["login"]));
 				$tmp_user_pwd = make_password(8);
-				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
+				$pwd_hash = encrypt_password($tmp_user_pwd, $login);
 
 				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
 					login = '$login'");
@@ -146,7 +146,7 @@
 				$login = db_fetch_result($result, 0, "login");
 				$email = db_fetch_result($result, 0, "email");
 				$tmp_user_pwd = make_password(8);
-				$pwd_hash = 'SHA1:' . sha1($tmp_user_pwd);
+				$pwd_hash = encrypt_password($tmp_user_pwd, $login);
 
 				db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
 					WHERE id = '$uid'");
