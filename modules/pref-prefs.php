@@ -31,8 +31,12 @@
 				return;
 			}
 
-			$old_pw_hash = 'SHA1:' . sha1($_POST["OLD_PASSWORD"]);
-			$new_pw_hash = 'SHA1:' . sha1($_POST["NEW_PASSWORD"]);
+			$old_pw_hash1 = encrypt_password($_POST["OLD_PASSWORD"]);
+			$old_pw_hash2 = encrypt_password($_POST["OLD_PASSWORD"],
+				$_SESSION["name"]);
+
+			$new_pw_hash = encrypt_password($_POST["NEW_PASSWORD"],
+				$_SESSION["name"]);
 
 			$active_uid = $_SESSION["uid"];
 			
@@ -41,8 +45,8 @@
 				$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
 
 				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
-					id = '$active_uid' AND (pwd_hash = '$old_pw' OR 
-						pwd_hash = '$old_pw_hash')");
+					id = '$active_uid' AND (pwd_hash = '$old_pw_hash1' OR 
+						pwd_hash = '$old_pw_hash2')");
 
 				if (db_num_rows($result) == 1) {
 					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 

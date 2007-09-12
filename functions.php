@@ -1423,16 +1423,18 @@
 
 		if (!SINGLE_USER_MODE) {
 
-			$pwd_hash = 'SHA1:' . sha1($password);
+			$pwd_hash1 = encrypt_password($password);
+			$pwd_hash2 = encrypt_password($password, $login);
 
 			if ($force_auth && defined('_DEBUG_USER_SWITCH')) {
 				$query = "SELECT id,login,access_level
 	            FROM ttrss_users WHERE
 		         login = '$login'";
 			} else {
-				$query = "SELECT id,login,access_level
+				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
-		         login = '$login' AND pwd_hash = '$pwd_hash'";
+					login = '$login' AND (pwd_hash = '$pwd_hash1' OR
+						pwd_hash = '$pwd_hash2')";
 			}
 
 			$result = db_query($link, $query);
@@ -1449,7 +1451,7 @@
 	
 				$_SESSION["theme"] = $user_theme;
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
-				$_SESSION["pwd_hash"] = $pwd_hash;
+				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
 	
 				initialize_user_prefs($link, $_SESSION["uid"]);
 	
@@ -4765,5 +4767,13 @@
 		$url_path .= "?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
 		return $url_path;
         }
+
+	function encrypt_password($pass, $login = '') {
+		if ($login) {
+			return "SHA1X:" . sha1("$login:$pass");
+		} else {
+			return "SHA1:" . sha1($pass);
+		}
+	}
 
 ?>
