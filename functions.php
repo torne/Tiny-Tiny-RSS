@@ -1449,6 +1449,7 @@
 	
 				$_SESSION["theme"] = $user_theme;
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
+				$_SESSION["pwd_hash"] = $pwd_hash;
 	
 				initialize_user_prefs($link, $_SESSION["uid"]);
 	
@@ -1531,6 +1532,18 @@
 					$_SESSION["login_error_msg"] = "Session failed to validate (incorrect IP)";
 					return false;
 				}
+			}
+		}
+
+		if ($_SESSION["uid"]) {
+
+			$result = db_query($link, 
+				"SELECT pwd_hash FROM ttrss_users WHERE id = '".$_SESSION["uid"]."'");
+
+			$pwd_hash = db_fetch_result($result, 0, "pwd_hash");
+
+			if ($pwd_hash != $_SESSION["pwd_hash"]) {
+				return false;
 			}
 		}
 
