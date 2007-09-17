@@ -157,9 +157,9 @@ class Snoopy
 		//preg_match("|^([^:]+)://([^:/]+)(:[\d]+)*(.*)|",$URI,$URI_PARTS);
 		$URI_PARTS = parse_url($URI);
 		if (!empty($URI_PARTS["user"]))
-			$this->user = $URI_PARTS["user"];
+		  $this->user = urldecode($URI_PARTS["user"]);
 		if (!empty($URI_PARTS["pass"]))
-			$this->pass = $URI_PARTS["pass"];
+		  $this->pass = urldecode($URI_PARTS["pass"]);
 		
 		$this->_scheme = $URI_PARTS["scheme"];
 

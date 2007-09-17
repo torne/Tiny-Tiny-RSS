@@ -442,8 +442,8 @@
 			return;
 		}
 
-		$auth_login = db_fetch_result($result, 0, "auth_login");
-		$auth_pass = db_fetch_result($result, 0, "auth_pass");
+		$auth_login = urlencode(db_fetch_result($result, 0, "auth_login"));
+		$auth_pass = urlencode(db_fetch_result($result, 0, "auth_pass"));
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
