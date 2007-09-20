@@ -1534,6 +1534,10 @@
 	}
 
 	function validate_session($link) {
+		if (SINGLE_USER_MODE) { 
+			return true;
+		}
+
 		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
 			if ($_SESSION["ip_address"]) {
 				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
