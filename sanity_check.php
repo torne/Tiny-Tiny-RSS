@@ -70,6 +70,10 @@
 		$err_msg = __("config: MAIL_FROM has been split into DIGEST_FROM_NAME and DIGEST_FROM_ADDRESS");
 	}
 
+	if (!defined('COUNTERS_MAX_AGE')) {
+		$err_msg = __("config: option COUNTERS_MAX_AGE expected, but not defined");
+	}
+
 	if ($err_msg) {
 		print "<b>".__("Fatal Error")."</b>: $err_msg\n";
 		exit;
