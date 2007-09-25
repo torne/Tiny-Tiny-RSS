@@ -12,7 +12,15 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
-	require_once "magpierss/rss_fetch.inc";
+
+	$lock_filename = "update_feeds.lock";
+
+	$lock_handle = make_lockfile($lock_filename);
+
+	if (!$lock_handle) {
+		die("error: Can't create lockfile ($lock_filename). ".
+			"Maybe another process is already running.\n");
+	}
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
@@ -46,4 +54,5 @@
 
 	db_close($link);
 
+	unlink($lock_filename);
 ?>

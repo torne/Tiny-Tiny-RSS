@@ -1720,17 +1720,19 @@
 	}
 
 	function file_is_locked($filename) {
-		error_reporting(0);
-		$fp = fopen($filename, "r");
-		error_reporting(DEFAULT_ERROR_LEVEL);
-		if ($fp) {
-			if (flock($fp, LOCK_EX | LOCK_NB)) {
-				flock($fp, LOCK_UN);
+		if (function_exists('flock')) {
+			error_reporting(0);
+			$fp = fopen($filename, "r");
+			error_reporting(DEFAULT_ERROR_LEVEL);
+			if ($fp) {
+				if (flock($fp, LOCK_EX | LOCK_NB)) {
+					flock($fp, LOCK_UN);
+					fclose($fp);
+					return false;
+				}
 				fclose($fp);
-				return false;
+				return true;
 			}
-			fclose($fp);
-			return true;
 		}
 		return false;
 	}
