@@ -424,7 +424,7 @@
 
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
-		if (DAEMON_REFRESH_ONLY && !$_GET["daemon"] && !$ignore_daemon) {
+		if (!$_GET["daemon"] && !$ignore_daemon) {
 			return;			
 		}
 
@@ -2657,7 +2657,7 @@
 
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
-		print "<param key=\"daemon_refresh_only\" value=\"" . DAEMON_REFRESH_ONLY . "\"/>";
+		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
 
 		print "<param key=\"on_catchup_show_next_feed\" value=\"" . 
 			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";

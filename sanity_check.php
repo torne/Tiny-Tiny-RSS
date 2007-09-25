@@ -74,6 +74,11 @@
 		$err_msg = __("config: option COUNTERS_MAX_AGE expected, but not defined");
 	}
 
+	if (defined('DAEMON_REFRESH_ONLY') && DAEMON_REFRESH_ONLY != true) {
+		$err_msg = __("config: option DAEMON_REFRESH_ONLY is obsolete. Please remove this option and read about other ways to update feeds on the <a href='http://tt-rss.spb.ru/trac/wiki/UpdatingFeeds'>wiki</a>.");
+
+	}
+
 	if ($err_msg) {
 		print "<b>".__("Fatal Error")."</b>: $err_msg\n";
 		exit;
