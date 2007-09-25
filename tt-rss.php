@@ -136,7 +136,6 @@ window.onload = init;
 					<option value="qmcEditFeed"><?php echo __('&nbsp;&nbsp;Edit this feed') ?></option>
 					<option value="qmcClearFeed"><?php echo __('&nbsp;&nbsp;Clear articles') ?></option>
 					<option value="qmcRemoveFeed"><?php echo __('&nbsp;&nbsp;Unsubscribe') ?></option>
-					<!-- <option>Edit this feed</option> -->
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled><?php echo __('All feeds:') ?></option>
 					<option value="qmcCatchupAll"><?php echo __('&nbsp;&nbsp;Mark as read') ?></option>
