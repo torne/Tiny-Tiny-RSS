@@ -2702,23 +2702,24 @@
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
 
-			if ($_SESSION["daemon_stamp_check"] + 600 < time()) {
+			if (time() - $_SESSION["daemon_stamp_check"] > 600) {
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
 				if ($stamp) {
-					if ($stamp + 86400*3 < time()) {
-						print "<param key=\"daemon_stamp_ok\" value=\"0\"/>";
+					if (time() - $stamp > 86400) {
+						$stamp_check = 0;
 					} else {
-						print "<param key=\"daemon_stamp_ok\" value=\"1\"/>";
+						$stamp_check = 1;
+						$_SESSION["daemon_stamp_check"] = time();
 					}
+
+					print "<param key=\"daemon_stamp_ok\" value=\"$stamp_check\"/>";
 
 					$stamp_fmt = date("Y.m.d, G:i", $stamp);
 
 					print "<param key=\"daemon_stamp\" value=\"$stamp_fmt\"/>";
 				}
-
-				$_SESSION["daemon_stamp_check"] = time();
 			}
 		}
 
