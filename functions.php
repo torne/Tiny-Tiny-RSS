@@ -2706,8 +2706,11 @@
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
+//				$stamp_delta = time() - $stamp;
+//				print "<param key=\"daemon_stamp_delta\" value=\"$stamp_delta\"/>";
+
 				if ($stamp) {
-					if (time() - $stamp > 86400) {
+					if (time() - $stamp > 3600*3) {
 						$stamp_check = 0;
 					} else {
 						$stamp_check = 1;
