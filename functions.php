@@ -3189,12 +3189,16 @@
 				WHERE email != '' AND (last_digest_sent IS NULL OR $interval_query)");
 
 		while ($line = db_fetch_assoc($result)) {
+
 			if (get_pref($link, 'DIGEST_ENABLE', $line['id'], false)) {
 				print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
+
+				$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
 
 				$tuple = prepare_headlines_digest($link, $line["id"], $days, $limit);
 				$digest = $tuple[0];
 				$headlines_count = $tuple[1];
+				$affected_ids = $tuple[2];
 
 				if ($headlines_count > 0) {
 
@@ -3235,6 +3239,11 @@
 
 					print "RC=$rc\n";
 
+					if ($rc) {
+						print "Marking affected articles as read...\n";
+						catchupArticlesById($link, $affected_ids, 0);
+					}
+
 					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
 							WHERE id = " . $line["id"]);
 				} else {
@@ -3251,6 +3260,8 @@
 		$tmp =  __("New headlines for last 24 hours, as of ") . date("Y/m/d H:m") . "\n";	
 		$tmp .= "=======================================================\n\n";
 
+		$affected_ids = array();
+
 		if (DB_TYPE == "pgsql") {
 			$interval_query = "ttrss_entries.date_entered > NOW() - INTERVAL '$days days'";
 		} else if (DB_TYPE == "mysql") {
@@ -3260,6 +3271,7 @@
 		$result = db_query($link, "SELECT ttrss_entries.title,
 				ttrss_feeds.title AS feed_title,
 				date_entered,
+				ttrss_user_entries.ref_id,
 				link,
 				SUBSTRING(last_updated,1,19) AS last_updated
 			FROM 
@@ -3278,6 +3290,9 @@
 		$headlines_count = db_num_rows($result);
 
 		while ($line = db_fetch_assoc($result)) {
+
+			array_push($affected_ids, $line["ref_id"]);
+
 			$updated = smart_date_time(strtotime($line["last_updated"]));
 			$feed_title = $line["feed_title"];
 
@@ -3298,7 +3313,7 @@
 			__("To unsubscribe, visit your configuration options or contact instance owner.\n");
 			
 
-		return array($tmp, $headlines_count);
+		return array($tmp, $headlines_count, $affected_ids);
 	}
 
 	function check_for_update($link, $brief_fmt = true) {
