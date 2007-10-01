@@ -1854,15 +1854,25 @@
 						$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
 
 						if (DB_TYPE == "pgsql") {
-							$match_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
+							$match_part = "date_entered > NOW() - INTERVAL '$intl hour' "; 
 						} else {
-							$match_part .= " AND date_entered > DATE_SUB(NOW(), 
+							$match_part = "date_entered > DATE_SUB(NOW(), 
 								INTERVAL $intl HOUR) ";
 						}
 
-						db_query($link, "UPDATE ttrss_user_entries 
-							SET unread = false,last_read = NOW()
-							WHERE $match_part AND owner_uid = ".$_SESSION["uid"]);
+						$result = db_query($link, "SELECT id FROM ttrss_entries, 
+							ttrss_user_entries WHERE $match_part AND
+							unread = true AND
+						  	ttrss_user_entries.ref_id = ttrss_entries.id AND	
+							owner_uid = ".$_SESSION["uid"]);
+
+						$affected_ids = array();
+
+						while ($line = db_fetch_assoc($result)) {
+							array_push($affected_ids, $line["id"]);
+						}
+
+						catchupArticlesById($link, $affected_ids, 0);
 					}
 
 				} else if ($feed < -10) { // label
