@@ -2712,15 +2712,16 @@
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
 
-			if (time() - $_SESSION["daemon_stamp_check"] > 600) {
+			if (time() - $_SESSION["daemon_stamp_check"] > 30) {
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
-//				$stamp_delta = time() - $stamp;
 //				print "<param key=\"daemon_stamp_delta\" value=\"$stamp_delta\"/>";
 
 				if ($stamp) {
-					if (time() - $stamp > 3600*3) {
+					$stamp_delta = time() - $stamp;
+
+					if ($stamp_delta > 1800) {
 						$stamp_check = 0;
 					} else {
 						$stamp_check = 1;
