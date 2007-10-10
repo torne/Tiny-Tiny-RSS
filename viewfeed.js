@@ -213,6 +213,9 @@ function showArticleInHeadlines(id) {
 		cleanSelected("headlinesList");
 	
 		var crow = document.getElementById("RROW-" + id);
+
+		if (!crow) return;
+
 		var article_is_unread = crow.className.match("Unread");
 			
 		crow.className = crow.className.replace("Unread", "");
