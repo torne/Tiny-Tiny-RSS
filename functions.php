@@ -73,11 +73,13 @@
 		require_once 'magpierss/rss_utils.inc';
 	}
 
-	include_once "tw/tw-config.php";
-	include_once "tw/tw.php";
-	include_once TW_SETUP . "paranoya.php";
+	if (ENABLE_TAGWALL) {
+		include_once "tw/tw-config.php";
+		include_once "tw/tw.php";
+		include_once TW_SETUP . "paranoya.php";
 
-	$tw_parser = new twParser();
+		$tw_parser = new twParser();
+	}
 
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
@@ -3169,10 +3171,17 @@
 		$res = $str;
 
 		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
-			global $tw_parser;
-			global $tw_paranoya_setup;
 
-			$res = $tw_parser->strip_tags($res, $tw_paranoya_setup);
+			if (ENABLE_TAGWALL) {
+				global $tw_parser;
+				global $tw_paranoya_setup;
+
+				$res = $tw_parser->strip_tags($res, $tw_paranoya_setup);
+			} else {
+
+				$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
+
+			}
 
 //			$res = preg_replace("/\r\n|\n|\r/", "", $res);
 //			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			

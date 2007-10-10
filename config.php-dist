@@ -163,7 +163,14 @@
 	// These two options enable SMTP authentication when sending
 	// digests. Require DIGEST_SMTP_HOST.
 
-	define('CONFIG_VERSION', 9);
+	define('ENABLE_TAGWALL', true);
+	// Disable this if you are having troubles with Tagwall library which
+	// is used to strip potentially unsafe content from RSS articles. When
+	// disabled, simpler version of processing will be used when needed.
+	// Try disabling when having problems with showing articles and/or 
+	// loading feeds.
+
+	define('CONFIG_VERSION', 10);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
