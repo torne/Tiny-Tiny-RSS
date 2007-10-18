@@ -4636,9 +4636,11 @@
 					print $line["content_preview"];
 					print "</div>";
 
-					print "<a id=\"CICH-$id\" 
-						href=\"javascript:cdmExpandArticle($id)\">
-						Show article</a>";
+					if (!$expand_cdm) {
+						print "<a id=\"CICH-$id\" 
+							href=\"javascript:cdmExpandArticle($id)\">
+							Show article</a>";
+					}
 
 					print "</div><br clear=\"all\">";
 
