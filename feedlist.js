@@ -142,9 +142,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		var container = document.getElementById("headlinesInnerContainer");
 
-		if (container && page_offset == 0) {
+		if (container && page_offset == 0 && !isCdmMode()) {
 			new Effect.Fade(container, {duration: 1, to: 0.01,
-				queue: { position:'end', scope: 'FeED-' + feed, limit: 1 } } );
+				queue: { position:'end', scope: 'FEEDL-' + feed, limit: 1 } } );
 		}
 
 		new Ajax.Request(query, {
