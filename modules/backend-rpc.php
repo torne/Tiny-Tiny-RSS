@@ -376,6 +376,31 @@
 			return;
 		}
 
+		if ($subop == "purge") {
+			$ids = split(",", db_escape_string($_GET["ids"]));
+			$days = sprintf("%d", $_GET["days"]);
+
+			print "<rpc-reply>";
+
+			print "<message><![CDATA[";
+
+			foreach ($ids as $id) {
+
+				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+					id = '$id' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 1) {
+					purge_feed($link, $id, $days, true);
+				}
+			}
+
+			print "]]></message>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
