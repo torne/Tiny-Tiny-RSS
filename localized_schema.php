@@ -65,5 +65,6 @@
 	__("Strip unsafe tags from articles");
 	__("Strip all but most common HTML tags when reading articles.");
 	__("Use more accessible date/time format for headlines");
+	__("Automatically expand articles in combined mode");
 
 ?>
