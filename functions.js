@@ -1716,3 +1716,5 @@ function getSelectedArticleIds2() {
 
 	return ids;
 }
+
+

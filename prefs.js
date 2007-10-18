@@ -668,6 +668,38 @@ function removeSelectedFeeds() {
 	return false;
 }
 
+function clearSelectedFeeds() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFeeds();
+
+	if (sel_rows.length > 1) {
+		alert(__("Please select only one feed."));
+		return;
+	}
+
+	if (sel_rows.length > 0) {
+
+		var ok = confirm(__("Erase all non-starred articles in selected feed?"));
+
+		if (ok) {
+			notify_progress("Clearing selected feed...");
+			clearFeedArticles(sel_rows[0]);
+		}
+
+	} else {
+
+		alert(__("No feeds are selected."));
+
+	}
+	
+	return false;
+}
+
 function removeSelectedFeedCats() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -1781,3 +1813,55 @@ function validatePrefsSave() {
 
 	return false;
 }
+
+function feedActionChange() {
+	try {
+		var chooser = document.getElementById("feedActionChooser");
+		var opid = chooser[chooser.selectedIndex].value;
+
+		chooser.selectedIndex = 0;
+		feedActionGo(opid);
+	} catch (e) {
+		exception_error("feedActionChange", e);
+	}
+}
+
+function feedActionGo(op) {	
+	try {
+		if (op == "facEdit") {
+			editSelectedFeed();
+		}
+
+		if (op == "facClear") {
+			clearSelectedFeeds();
+		}
+
+		if (op == "facPurge") {
+			purgeSelectedFeeds();
+		}
+
+		if (op == "facUnsubscribe") {
+			removeSelectedFeeds();
+		}
+
+	} catch (e) {
+		exception_error("feedActionGo", e);
+
+	}
+}
+
+function clearFeedArticles(feed_id) {
+
+	notify_progress("Clearing feed...");
+
+	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+
+	new Ajax.Request(query,	{
+		onComplete: function(transport) {
+				notify('');
+			} });
+
+	return false;
+}
+
+

@@ -525,20 +525,6 @@ function unsubscribeFeed(feed_id) {
 	return false;
 }
 
-function clearFeedArticles(feed_id) {
-
-	notify_progress("Clearing feed...");
-
-	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
-
-	new Ajax.Request(query,	{
-		onComplete: function(transport) {
-				dlg_frefresh_callback(transport, feed_id);
-			} });
-
-	return false;
-}
-
 
 function updateFeedTitle(t) {
 	active_title_text = t;
@@ -728,4 +714,19 @@ function labelEditSave() {
 	} 
 
 }
+
+function clearFeedArticles(feed_id) {
+
+	notify_progress("Clearing feed...");
+
+	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+
+	new Ajax.Request(query,	{
+		onComplete: function(transport) {
+				dlg_frefresh_callback(transport, feed_id);
+			} });
+
+	return false;
+}
+
 
