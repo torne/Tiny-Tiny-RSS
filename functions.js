@@ -934,7 +934,9 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 	
 				if (hide && !has_unread) {
 					//node.childNodes[i].style.display = "none";
-					Effect.Fade(node.childNodes[i], {duration : 0.3});
+					var id = node.childNodes[i].id;
+					Effect.Fade(node.childNodes[i], {duration : 0.3, 
+						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 				}
 	
 				if (!hide) {
@@ -960,7 +962,8 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		}
 		if (hide) {
 			//cat_node.style.display = "none";
-			Effect.Fade(cat_node, {duration : 0.3});
+			Effect.Fade(cat_node, {duration : 0.3, 
+				queue: { position: 'end', scope: 'CFADE-' + i, limit: 1 }});
 		} else {
 			cat_node.style.display = "list-item";
 		}
