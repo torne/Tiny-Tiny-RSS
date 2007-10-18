@@ -700,6 +700,42 @@ function clearSelectedFeeds() {
 	return false;
 }
 
+function purgeSelectedFeeds() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFeeds();
+
+	if (sel_rows.length > 0) {
+
+		var pr = prompt(__("How many days of articles to keep (0 - use default)?"), "0");
+
+		if (pr != undefined) {
+			notify_progress("Purging selected feed...");
+
+			var query = "backend.php?op=rpc&subop=purge&ids="+
+				param_escape(sel_rows.toString()) + "&days=" + pr;
+
+			debug(query);
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+					notify('');
+				} });
+		}
+
+	} else {
+
+		alert(__("No feeds are selected."));
+
+	}
+	
+	return false;
+}
+
 function removeSelectedFeedCats() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -1838,6 +1874,10 @@ function feedActionGo(op) {
 
 		if (op == "facPurge") {
 			purgeSelectedFeeds();
+		}
+
+		if (op == "facEditCats") {
+			editFeedCats();
 		}
 
 		if (op == "facUnsubscribe") {
