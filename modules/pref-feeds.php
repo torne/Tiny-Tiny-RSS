@@ -984,6 +984,21 @@
 
 			print "<p>";
 
+			print "<div id=\"feedOpToolbar\">";
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+				print __('Selection:') . " ";
+
+				print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
+
+				print " <input type=\"submit\" class=\"button\" disabled=\"true\"
+					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"".
+					__('Recategorize')."\">";
+			}
+				
+			print "</div>";
+
 			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 				<option value=\"facDefault\" selected>".__('Actions...')."</option>
 				<option disabled>--------</option>
@@ -1001,28 +1016,13 @@
 					</option>";
 				}
 
-				print "</select>";
-
-				print "<span id=\"feedOpToolbar\">";
+			print "</select>";
 
 			/* print "<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:editSelectedFeed()\" value=\"".__('Edit')."\">
 			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:removeSelectedFeeds()\" 
 				value=\"".__('Unsubscribe')."\">"; */
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-
-				print "&nbsp;|&nbsp;" . __('Selection:') . " ";
-
-				print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
-
-				print " <input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"".
-					__('Recategorize')."\">";
-			}
-				
-			print "</span>";
 
 //			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
