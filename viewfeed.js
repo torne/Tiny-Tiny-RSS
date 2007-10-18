@@ -653,13 +653,19 @@ function toggleUnread(id, cmode) {
 			nc = nc.replace("Unread", "");
 			nc = nc.replace("Selected", "");
 
-			if (row.className.match("Unread")) {
+			if (cmode == undefined || cmode == 2) {
+				if (row.className.match("Unread")) {
+					row.className = nc;
+				} else {
+					row.className = nc + "Unread";
+				}
+			} else if (cmode == 0) {
 				row.className = nc;
-			} else {
+			} else if (cmode == 1) {
 				row.className = nc + "Unread";
 			}
 
-			if (!cmode) cmode = 2;
+			if (cmode == undefined) cmode = 2;
 
 			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
 				param_escape(id) + "&cmode=" + param_escape(cmode);
