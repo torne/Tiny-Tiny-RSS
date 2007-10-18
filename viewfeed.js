@@ -1355,3 +1355,25 @@ function catchupRelativeToArticle(below) {
 		exception_error("catchupRelativeToArticle", e);
 	}
 }
+
+function cdmExpandArticle(a_id) {
+	try {
+		var id = 'CICD-' + a_id;
+
+		Effect.Appear(id, {duration : 0.5, 
+			beforeStart: function(effect) { 
+				var h_id = 'CICH-' + a_id;
+				var h_elem = document.getElementById(h_id);
+				if (h_elem) { h_elem.style.display = "none"; }
+
+				toggleUnread(a_id, 0);
+			}});
+
+
+	} catch (e) {
+		exception_error("appearBlockElementF", e);
+	}
+
+}
+
+

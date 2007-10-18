@@ -4622,7 +4622,25 @@
 							"target=\"_new\" href=", $line["content_preview"]);
 					}
 
-					print "<div class=\"cdmContent\">" . $line["content_preview"] . "</div><br clear=\"all\">";
+					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
+
+					if ($expand_cdm) {
+						$cdm_cstyle = "";
+					} else {
+						$cdm_cstyle = "style=\"display : none\"";
+					}
+
+					print "<div class=\"cdmContent\">";
+
+					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
+					print $line["content_preview"];
+					print "</div>";
+
+					print "<a id=\"CICH-$id\" 
+						href=\"javascript:cdmExpandArticle($id)\">
+						Show article</a>";
+
+					print "</div><br clear=\"all\">";
 
 					print "<div class=\"cdmFooter\"><span class='s0'>";
 
