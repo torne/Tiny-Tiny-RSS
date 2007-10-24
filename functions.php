@@ -1170,6 +1170,10 @@
 					last_updated = NOW() WHERE id = '$feed'");
 		}
 
+		if (ENABLE_SIMPLEPIE) {
+			unset($rss);
+		}
+
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 			_debug("update_rss_feed: done");
 		}
