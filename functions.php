@@ -14,6 +14,7 @@
 					"en_US" => "English",
 					"fr_FR" => "Français",
 					"ru_RU" => "Русский",
+					"pt_BR" => "Portuguese/Brazil"
 					"zh_CN" => "Simplified Chinese");
 
 		return $tr;
