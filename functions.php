@@ -4587,7 +4587,15 @@
 					} else {
 						$add_class = "";
 					}	
-					
+
+					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
+
+					if ($expand_cdm) {
+						$cdm_cstyle = "";
+					} else {
+						$cdm_cstyle = "style=\"display : none\"";
+					}
+
 					print "<div class=\"cdmArticle$add_class\" 
 						id=\"RROW-$id\" onmouseover='cdmMouseIn(this)' 
 						onmouseout='cdmMouseOut(this)'>";
@@ -4602,6 +4610,13 @@
 
 					print $entry_author;
 
+					if (!$expand_cdm) {
+						print "&nbsp;<a id=\"CICH-$id\" 
+							href=\"javascript:cdmExpandArticle($id)\">
+							(".__('Show article').")</a>";
+					} 
+
+
 					if ($line["feed_title"]) {	
 						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
 					}
@@ -4613,27 +4628,20 @@
 							"target=\"_new\" href=", $line["content_preview"]);
 					}
 
-					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
+					print "<div class=\"cdmContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
-					if ($expand_cdm) {
-						$cdm_cstyle = "";
-					} else {
-						$cdm_cstyle = "style=\"display : none\"";
-					}
-
-					print "<div class=\"cdmContent\">";
-
-					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
+//					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 					print $line["content_preview"];
-					print "</div>";
+					print "<br clear='both'>";
+//					print "</div>";
 
-					if (!$expand_cdm) {
+/*					if (!$expand_cdm) {
 						print "<a id=\"CICH-$id\" 
 							href=\"javascript:cdmExpandArticle($id)\">
 							Show article</a>";
-					}
+					} */
 
-					print "</div><br clear=\"all\">";
+					print "</div>";
 
 					print "<div class=\"cdmFooter\"><span class='s0'>";
 
