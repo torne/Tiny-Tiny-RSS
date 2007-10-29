@@ -3250,7 +3250,7 @@
 
 					if ($rc) {
 						print "Marking affected articles as read...\n";
-						catchupArticlesById($link, $affected_ids, 0);
+						catchupArticlesById($link, $affected_ids, 0, $line["id"]);
 					}
 
 					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
@@ -3446,7 +3446,9 @@
 		}
 	}
 
-	function catchupArticlesById($link, $ids, $cmode) {
+	function catchupArticlesById($link, $ids, $cmode, $owner_uid = false) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$tmp_ids = array();
 
@@ -3459,15 +3461,15 @@
 		if ($cmode == 0) {
 			db_query($link, "UPDATE ttrss_user_entries SET 
 			unread = false,last_read = NOW()
-			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+			WHERE ($ids_qpart) AND owner_uid = $owner_uid");
 		} else if ($cmode == 1) {
 			db_query($link, "UPDATE ttrss_user_entries SET 
 			unread = true
-			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+			WHERE ($ids_qpart) AND owner_uid = $owner_uid");
 		} else {
 			db_query($link, "UPDATE ttrss_user_entries SET 
 			unread = NOT unread,last_read = NOW()
-			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+			WHERE ($ids_qpart) AND owner_uid = $owner_uid");
 		}
 	}
 
