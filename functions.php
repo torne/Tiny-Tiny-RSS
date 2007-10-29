@@ -3263,6 +3263,8 @@
 
 //		$digest = prepare_headlines_digest($link, $user_id, $days, $limit);
 
+		print "All done.\n";
+
 	}
 
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
