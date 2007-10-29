@@ -69,12 +69,12 @@ function refetch_callback2(transport) {
 
 		debug("refetch_callback2: done");
 
-		if (!daemon_enabled && !daemon_refresh_only) {
+/*		if (!daemon_enabled && !daemon_refresh_only) {
 			notify_info("All feeds updated.");
 			updateTitle("");
 		} else {
 			//notify("");
-		}
+		} */
 	} catch (e) {
 		exception_error("refetch_callback", e);
 		updateTitle("");
