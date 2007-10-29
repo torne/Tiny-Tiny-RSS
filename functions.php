@@ -1934,7 +1934,7 @@
 			}
 	}
 
-	function update_generic_feed($link, $feed, $cat_view) {
+	function update_generic_feed($link, $feed, $cat_view, $force_update = false) {
 			if ($cat_view) {
 
 				if ($feed > 0) {
@@ -1949,14 +1949,14 @@
 				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
 					$feed_url = $tmp_line["feed_url"];
 					$feed_id = $tmp_line["id"];
-					update_rss_feed($link, $feed_url, $feed_id, ENABLE_UPDATE_DAEMON);
+					update_rss_feed($link, $feed_url, $feed_id, $force_update);
 				}
 
 			} else {
 				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
 					WHERE id = '$feed'");
 				$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
-				update_rss_feed($link, $feed_url, $feed, ENABLE_UPDATE_DAEMON);
+				update_rss_feed($link, $feed_url, $feed, $force_update);
 			}
 	}
 
@@ -4333,7 +4333,7 @@
 		}
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
-			update_generic_feed($link, $feed, $cat_view);
+			update_generic_feed($link, $feed, $cat_view, true);
 		}
 
 		if ($subop == "MarkAllRead")  {
