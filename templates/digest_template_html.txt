@@ -1,14 +1,16 @@
 <!-- $BeginBlock digest -->
-<h1>New headlines for last 24 hours, as of ${CUR_DATE} ${CUR_TIME}</h1>
+<h1 style='font-size : x-large'>New headlines for last 24 hours, as of ${CUR_DATE} ${CUR_TIME}</h1>
 <!-- $BeginBlock feed -->
-<h2>${FEED_TITLE}</h2>
+<h2 style='font-size : large'>${FEED_TITLE}</h2>
 
 <ul>
 <!-- $BeginBlock article -->
 <li><a href="${ARTICLE_LINK}">${ARTICLE_TITLE}</a> - ${ARTICLE_UPDATED}
+<p style='color : gray'>${ARTICLE_EXCERPT}</p>
 <!-- $EndBlock article -->
 </ul>
 <!-- $EndBlock feed -->
  
-<p><em>To unsubscribe, visit your configuration options or contact instance owner.</em></p>
+<hr>
+<em>To unsubscribe, visit your configuration options or contact instance owner.</em>
 <!-- $EndBlock digest -->

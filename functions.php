@@ -3231,7 +3231,7 @@
 					}
 
 					$mail->IsHTML(true);
-					$mail->Subject = "[tt-rss] New headlines for last 24 hours";
+					$mail->Subject = DIGEST_SUBJECT;
 					$mail->Body = $digest;
 					$mail->AltBody = $digest_text;
 
@@ -3323,8 +3323,8 @@
 			$tpl->setVariable('ARTICLE_TITLE', $line["title"]);
 			$tpl->setVariable('ARTICLE_LINK', $line["link"]);
 			$tpl->setVariable('ARTICLE_UPDATED', $updated);
-//			$tpl->setVariable('ARTICLE_EXCERPT', 
-//				truncate_string(strip_tags($line["excerpt"]), 100));
+			$tpl->setVariable('ARTICLE_EXCERPT', 
+				truncate_string(strip_tags($line["excerpt"]), 100));
 
 			$tpl->addBlock('article');
 

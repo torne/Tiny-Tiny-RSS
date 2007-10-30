@@ -149,7 +149,8 @@
 
 	define('DIGEST_FROM_NAME', 'Tiny Tiny RSS');
 	define('DIGEST_FROM_ADDRESS', 'noreply@your.domain.dom');
-	// Name and address for sending email digests from.
+	define('DIGEST_SUBJECT', '[tt-rss] New headlines for last 24 hours');
+	// Name, address and subject for sending email digests from.
 
 	define('DIGEST_SMTP_HOST', '');
 	// SMTP Host to send digests. When blank tt-rss uses
@@ -160,7 +161,7 @@
 	// These two options enable SMTP authentication when sending
 	// digests. Require DIGEST_SMTP_HOST.
 
-	define('CONFIG_VERSION', 10);
+	define('CONFIG_VERSION', 11);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
