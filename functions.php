@@ -3004,6 +3004,8 @@
 
 			if ($feed < -10) error_reporting (0);
 
+			$content_query_part = "content as content_preview,";
+
 			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 	
 				if ($feed >= 0) {
@@ -3012,8 +3014,6 @@
 					$feed_kind = "Labels";
 				}
 	
-				$content_query_part = "content as content_preview,";
-
 				if ($limit_query_part) {
 					$offset_query_part = "OFFSET $offset";
 				}
