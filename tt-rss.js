@@ -357,27 +357,37 @@ function resize_headlines() {
 
 	if (!c_frame || !h_frame) return;
 
-	debug("resize_headlines");
+	if (getInitParam("theme") == "3pane") {
+		debug("resize_headlines: HOR-mode");
 
-	if (!is_msie()) {
-		h_frame.style.height = 30 + "%";
-		c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
-		h_frame.style.height = h_frame.offsetHeight + "px";
+		c_frame.style.width = '30%';
+		h_frame.style.right = c_frame.offsetWidth - 1 + "px";
+
 	} else {
-		h_frame.style.height = document.documentElement.clientHeight * 0.3 + "px";
-		c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
+		debug("resize_headlines: VER-mode");
 
-		var c_bottom = document.documentElement.clientHeight;
-
-		if (f_frame) {
-			c_bottom = f_frame.offsetTop;
+		if (!is_msie()) {
+			h_frame.style.height = 30 + "%";
+			c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
+			h_frame.style.height = h_frame.offsetHeight + "px";
+		} else {
+			h_frame.style.height = document.documentElement.clientHeight * 0.3 + "px";
+			c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
+	
+			var c_bottom = document.documentElement.clientHeight;
+	
+			if (f_frame) {
+				c_bottom = f_frame.offsetTop;
+			}
+	
+			c_frame.style.height = c_bottom - (h_frame.offsetTop + 
+				h_frame.offsetHeight + 1) + "px";
+			h_frame.style.height = h_frame.offsetHeight + "px";
+	
 		}
 
-		c_frame.style.height = c_bottom - (h_frame.offsetTop + 
-			h_frame.offsetHeight + 1) + "px";
-		h_frame.style.height = h_frame.offsetHeight + "px";
-
 	}
+
 }
 
 function init_second_stage() {

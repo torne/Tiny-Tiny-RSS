@@ -2664,6 +2664,7 @@
 			}
 		}
 
+		print "<param key=\"theme\" value=\"".$_SESSION["theme"]."\"/>";
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
 		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
@@ -2707,6 +2708,7 @@
 
 	function print_runtime_info($link) {
 		print "<runtime-info>";
+
 		if (ENABLE_UPDATE_DAEMON) {
 			print "<param key=\"daemon_is_running\" value=\"".
 				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
@@ -3659,23 +3661,26 @@
 } */
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
-		
-			if ($feed_site_url) {
-				if (!$bottom) {
-					$target = "target=\"_new\"";
+
+			if ($_SESSION["theme"] != "3pane") {
+
+				if ($feed_site_url) {
+					if (!$bottom) {
+						$target = "target=\"_new\"";
+					}
+					print "<a $target href=\"$feed_site_url\">".
+						truncate_string($feed_title,30)."</a>";
+				} else {
+					print $feed_title;
 				}
-				print "<a $target href=\"$feed_site_url\">".
-					truncate_string($feed_title,30)."</a>";
-			} else {
-				print $feed_title;
-			}
-
-			if ($search) {
-				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-			}
-
-			if ($user_page_offset > 1) {
-				print " [$user_page_offset] ";
+	
+				if ($search) {
+					$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+				}
+	
+				if ($user_page_offset > 1) {
+					print " [$user_page_offset] ";
+				}
 			}
 
 			if (!$bottom) {
@@ -4287,16 +4292,22 @@
 
 			$num_tags = 0;
 
+			if ($_SESSION["theme"] == "3pane") {
+				$tag_limit = 3;
+			} else {
+				$tag_limit = 6;
+			}
+
 			foreach ($tags as $tag) {
 				$num_tags++;
 				$tag_escaped = str_replace("'", "\\'", $tag);
 
 				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";
 				
-				if ($num_tags == 6) {
+				if ($num_tags == $tag_limit) {
 					$tags_str .= "...";
 
-				} else if ($num_tags < 6) {
+				} else if ($num_tags < $tag_limit) {
 					$tags_str .= $tag_str;
 				}
 				$f_tags_str .= $tag_str;

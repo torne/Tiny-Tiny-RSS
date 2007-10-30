@@ -27,6 +27,7 @@ create table ttrss_themes(id serial not null primary key,
 insert into ttrss_themes (theme_name, theme_path) values ('Old-skool', 'compat');
 insert into ttrss_themes (theme_name, theme_path) values ('Graycube', 'graycube');
 insert into ttrss_themes (theme_name, theme_path) values ('Default (Compact)', 'compact');
+insert into ttrss_themes (theme_name, theme_path) values ('Three-pane', '3pane');
 
 create table ttrss_users (id serial not null primary key,
 	login varchar(120) not null unique,
@@ -178,7 +179,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (24);
+insert into ttrss_version values (25);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
