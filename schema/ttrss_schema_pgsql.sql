@@ -71,6 +71,9 @@ create table ttrss_feeds (id serial not null primary key,
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
+	(1, 'Tiny Tiny RSS: Dev. Blog', 'http://bah.org.ru/archives/category/tt-rss/feed');
+
+insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.spb.ru/releases.rss');
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values 
