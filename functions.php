@@ -3722,7 +3722,7 @@
 				print "<span id=\"FCAP-$cat_id\">";
 			}
 
-			print " <span id=\"FCATCTR-$cat_id\" title=\"Click to browse category\" 
+			print " <span id=\"FCATCTR-$cat_id\" 
 				class=\"$catctr_class\">($cat_unread)</span> $ellipsis";
 
 			if ($can_browse) {
@@ -4010,7 +4010,7 @@
 					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
 						<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
 							<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
-							<span id=\"FCATCTR-$cat_id\" title=\"Click to browse category\" 
+							<span id=\"FCATCTR-$cat_id\" 
 							class=\"$catctr_class\">($cat_unread)</span> $ellipsis
 							</a></li>";
 
