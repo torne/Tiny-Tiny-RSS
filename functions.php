@@ -1513,10 +1513,6 @@
 			values ('$uid','last_read is null and unread = false', 'Updated articles')");
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
-			values ('$uid', 'Tiny Tiny RSS: Dev. Blog',
-			'http://bah.org.ru/archives/category/tt-rss/feed')");
-
-		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
 			'http://tt-rss.spb.ru/releases.rss')");
 
