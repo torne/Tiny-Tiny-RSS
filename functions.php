@@ -3662,26 +3662,27 @@
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 
-			if ($_SESSION["theme"] != "3pane") {
+			print "<span class=\"headlineInnerTitle\">";
 
-				if ($feed_site_url) {
-					if (!$bottom) {
-						$target = "target=\"_new\"";
-					}
-					print "<a $target href=\"$feed_site_url\">".
-						truncate_string($feed_title,30)."</a>";
-				} else {
-					print $feed_title;
+			if ($feed_site_url) {
+				if (!$bottom) {
+					$target = "target=\"_new\"";
 				}
-	
-				if ($search) {
-					$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-				}
-	
-				if ($user_page_offset > 1) {
-					print " [$user_page_offset] ";
-				}
+				print "<a $target href=\"$feed_site_url\">".
+					truncate_string($feed_title,30)."</a>";
+			} else {
+				print $feed_title;
 			}
+
+			if ($search) {
+				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			}
+
+			if ($user_page_offset > 1) {
+				print " [$user_page_offset] ";
+			}
+
+			print "</span>";
 
 			if (!$bottom) {
 				print "
