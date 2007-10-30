@@ -3208,47 +3208,40 @@
 				$digest = $tuple[0];
 				$headlines_count = $tuple[1];
 				$affected_ids = $tuple[2];
+				$digest_text = $tuple[3];
 
 				if ($headlines_count > 0) {
 
-					if (!DIGEST_SMTP_HOST) {
+					$mail = new PHPMailer();
 
-						$rc = mail($line["login"] . " <" . $line["email"] . ">",
-							"[tt-rss] New headlines for last 24 hours", $digest,
-							"From: " . DIGEST_FROM_NAME . " <" . DIGEST_FROM_ADDRESS . ">\n".
-							"Content-Type: text/plain; charset=\"utf-8\"\n".
-							"Content-Transfer-Encoding: 8bit\n");
+					$mail->PluginDir = "phpmailer/";
+					$mail->SetLanguage("en", "phpmailer/language/");
 
-					} else {
+					$mail->CharSet = "UTF-8";
 
-						$mail = new PHPMailer();
+					$mail->From = DIGEST_FROM_ADDRESS;
+					$mail->FromName = DIGEST_FROM_NAME;
+					$mail->AddAddress($line["email"], $line["login"]);
 
-						$mail->PluginDir = "phpmailer/";
-						$mail->SetLanguage("en", "phpmailer/language/");
-
-						$mail->CharSet = "UTF-8";
-
-						$mail->From = DIGEST_FROM_ADDRESS;
-						$mail->FromName = DIGEST_FROM_NAME;
-						$mail->AddAddress($line["email"], $line["login"]);
+					if (DIGEST_SMTP_HOST) {
 						$mail->Host = DIGEST_SMTP_HOST;
 						$mail->Mailer = "smtp";
-
 						$mail->Username = DIGEST_SMTP_LOGIN;
 						$mail->Password = DIGEST_SMTP_PASSWORD;
-
-						$mail->Subject = "[tt-rss] New headlines for last 24 hours";
-						$mail->Body = $digest;
-
-						$rc = $mail->Send();
-
-						if (!$rc) print "ERROR: " . $mail->ErrorInfo;
-
 					}
+
+					$mail->IsHTML(true);
+					$mail->Subject = "[tt-rss] New headlines for last 24 hours";
+					$mail->Body = $digest;
+					$mail->AltBody = $digest_text;
+
+					$rc = $mail->Send();
+
+					if (!$rc) print "ERROR: " . $mail->ErrorInfo;
 
 					print "RC=$rc\n";
 
-					if ($rc) {
+					if ($rc && $do_catchup) {
 						print "Marking affected articles as read...\n";
 						catchupArticlesById($link, $affected_ids, 0, $line["id"]);
 					}
@@ -3261,15 +3254,25 @@
 			}
 		}
 
-//		$digest = prepare_headlines_digest($link, $user_id, $days, $limit);
-
 		print "All done.\n";
 
 	}
 
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
-		$tmp =  __("New headlines for last 24 hours, as of ") . date("Y/m/d H:m") . "\n";	
-		$tmp .= "=======================================================\n\n";
+
+		require_once "MiniTemplator.class.php";
+
+		$tpl = new MiniTemplator;
+		$tpl_t = new MiniTemplator;
+
+		$tpl->readTemplateFromFile("templates/digest_template_html.txt");
+		$tpl_t->readTemplateFromFile("templates/digest_template.txt");
+
+		$tpl->setVariable('CUR_DATE', date('Y/m/d'));
+		$tpl->setVariable('CUR_TIME', date('G:i'));
+
+		$tpl_t->setVariable('CUR_DATE', date('Y/m/d'));
+		$tpl_t->setVariable('CUR_TIME', date('G:i'));
 
 		$affected_ids = array();
 
@@ -3284,6 +3287,7 @@
 				date_entered,
 				ttrss_user_entries.ref_id,
 				link,
+				SUBSTRING(content, 1, 120) AS excerpt,
 				SUBSTRING(last_updated,1,19) AS last_updated
 			FROM 
 				ttrss_user_entries,ttrss_entries,ttrss_feeds 
@@ -3293,38 +3297,60 @@
 				AND $interval_query
 				AND hidden = false
 				AND ttrss_user_entries.owner_uid = $user_id
-				AND unread = true ORDER BY ttrss_feeds.title, date_entered DESC
+				AND unread = true 
+			ORDER BY ttrss_feeds.title, date_entered DESC
 			LIMIT $limit");
 
 		$cur_feed_title = "";
 
 		$headlines_count = db_num_rows($result);
 
+		$headlines = array();
+
 		while ($line = db_fetch_assoc($result)) {
+			array_push($headlines, $line);
+		}
+
+		for ($i = 0; $i < sizeof($headlines); $i++) {	
+
+			$line = $headlines[$i];
 
 			array_push($affected_ids, $line["ref_id"]);
 
 			$updated = smart_date_time(strtotime($line["last_updated"]));
-			$feed_title = $line["feed_title"];
 
-			if ($cur_feed_title != $feed_title) {
-				$cur_feed_title = $feed_title;
+			$tpl->setVariable('FEED_TITLE', $line["feed_title"]);
+			$tpl->setVariable('ARTICLE_TITLE', $line["title"]);
+			$tpl->setVariable('ARTICLE_LINK', $line["link"]);
+			$tpl->setVariable('ARTICLE_UPDATED', $updated);
+//			$tpl->setVariable('ARTICLE_EXCERPT', 
+//				truncate_string(strip_tags($line["excerpt"]), 100));
 
-				$tmp .= "$feed_title\n\n";
+			$tpl->addBlock('article');
+
+			$tpl_t->setVariable('FEED_TITLE', $line["feed_title"]);
+			$tpl_t->setVariable('ARTICLE_TITLE', $line["title"]);
+			$tpl_t->setVariable('ARTICLE_LINK', $line["link"]);
+			$tpl_t->setVariable('ARTICLE_UPDATED', $updated);
+//			$tpl_t->setVariable('ARTICLE_EXCERPT', 
+//				truncate_string(strip_tags($line["excerpt"]), 100));
+
+			$tpl_t->addBlock('article');
+
+			if ($headlines[$i]['feed_title'] != $headlines[$i+1]['feed_title']) {
+				$tpl->addBlock('feed');
+				$tpl_t->addBlock('feed');
 			}
 
-			$tmp .= " * " . trim($line["title"]) . " - $updated\n";
-			$tmp .= "   " . trim($line["link"]) . "\n";
-			$tmp .= "\n";
 		}
 
-		$tmp .= "--- \n";
-		$tmp .= __("You have been sent this email because you have enabled daily digests in Tiny Tiny RSS at ") . 
-			DIGEST_HOSTNAME . "\n".
-			__("To unsubscribe, visit your configuration options or contact instance owner.\n");
-			
+		$tpl->addBlock('digest');
+		$tpl->generateOutputToString($tmp);
 
-		return array($tmp, $headlines_count, $affected_ids);
+		$tpl_t->addBlock('digest');
+		$tpl_t->generateOutputToString($tmp_t);
+
+		return array($tmp, $headlines_count, $affected_ids, $tmp_t);
 	}
 
 	function check_for_update($link, $brief_fmt = true) {
