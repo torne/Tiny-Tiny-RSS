@@ -10,6 +10,7 @@
 	function get_pref($link, $pref_name, $user_id = false, $die_on_error = false) {
 
 		$pref_name = db_escape_string($pref_name);
+		$prefs_cache = true;
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];
@@ -18,7 +19,7 @@
 			$prefs_cache = false;
 		}
 
-		if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
+		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
 			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
 				$tuple = $_SESSION["prefs_cache"][$pref_name];
 				return convert_pref_type($tuple["value"], $tuple["type"]);
