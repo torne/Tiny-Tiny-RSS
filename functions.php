@@ -81,7 +81,25 @@
 
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
+		if (!$purge_interval) $purge_interval = feed_purge_interval($link, $feed_id);
+
 		$rows = -1;
+
+		$result = db_query($link, 
+			"SELECT owner_uid FROM ttrss_feeds WHERE id = '$feed_id'");
+
+		$owner_uid = false;
+
+		if (db_num_rows($result) == 1) {
+			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+		}
+
+		if (!$owner_uid) return;
+
+		$purge_unread = get_pref($link, "PURGE_UNREAD_ARTICLES",
+			$owner_uid, false);
+
+		if (!$purge_unread) $query_limit = " unread = false AND ";
 
 		if (DB_TYPE == "pgsql") {
 /*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
@@ -97,6 +115,7 @@
 					ttrss_entries.id = ref_id AND 
 					marked = false AND 
 					feed_id = '$feed_id' AND 
+					$query_limit
 					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
 
 			} else {
@@ -106,6 +125,7 @@
 					WHERE ttrss_entries.id = ref_id AND 
 					marked = false AND 
 					feed_id = '$feed_id' AND 
+					$query_limit
 					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
 			}
 
@@ -123,6 +143,7 @@
 				WHERE ttrss_entries.id = ref_id AND 
 				marked = false AND 
 				feed_id = '$feed_id' AND 
+				$query_limit
 				ttrss_entries.date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
 					
 			$rows = mysql_affected_rows($link);
@@ -183,6 +204,25 @@
 			_debug("Purged $rows orphaned posts.");
 		}
 
+	}
+
+	function feed_purge_interval($link, $feed_id) {
+
+		$result = db_query($link, "SELECT purge_interval, owner_uid FROM ttrss_feeds 
+			WHERE id = '$feed_id'");
+
+		if (db_num_rows($result) == 1) {
+			$purge_interval = db_fetch_result($result, 0, "purge_interval");
+			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+
+			if ($purge_interval == 0) $purge_interval = get_pref($link, 
+				'PURGE_OLD_DAYS', $user_id);
+
+			return $purge_interval;
+
+		} else {
+			return -1;
+		}
 	}
 
 	function purge_old_posts($link) {
