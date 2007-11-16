@@ -106,7 +106,7 @@ window.onload = init;
 	</td>
 </tr><tr>
 	<td align="center" class="loginBottom">
-		<a href="http://tt-rss.spb.ru/">Tiny Tiny RSS</a> &copy; 2005-2007 <a href="http://bah.org.ru/">Andrew Dolgov</a>
+		<a href="http://tt-rss.org/">Tiny Tiny RSS</a> &copy; 2005-2007 <a href="http://bah.org.ru/">Andrew Dolgov</a>
 	</td>
 </tr>
 
