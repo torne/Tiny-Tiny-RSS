@@ -360,7 +360,7 @@ function resize_headlines() {
 	if (getInitParam("theme") == "3pane") {
 		debug("resize_headlines: HOR-mode");
 
-		c_frame.style.width = '30%';
+		c_frame.style.width = '35%';
 		h_frame.style.right = c_frame.offsetWidth - 1 + "px";
 
 	} else {
