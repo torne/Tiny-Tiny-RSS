@@ -109,8 +109,8 @@
 				if (db_num_rows($result) == 0) {
 
 					db_query($link, "INSERT INTO ttrss_users 
-						(login,pwd_hash,access_level,last_login)
-						VALUES ('$login', '$pwd_hash', 0, NOW())");
+						(login,pwd_hash,access_level,last_login,created)
+						VALUES ('$login', '$pwd_hash', 0, null, NOW())");
 	
 	
 					$result = db_query($link, "SELECT id FROM ttrss_users WHERE 

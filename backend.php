@@ -326,7 +326,8 @@
 			SUBSTRING(last_login,1,16) AS last_login,
 			access_level,
 			(SELECT COUNT(int_id) FROM ttrss_user_entries 
-				WHERE owner_uid = id) AS stored_articles
+				WHERE owner_uid = id) AS stored_articles,
+			SUBSTRING(created,1,16) AS created
 			FROM ttrss_users 
 			WHERE id = '$uid'");
 			
@@ -345,20 +346,25 @@
 
 		$last_login = date(get_pref($link, 'LONG_DATE_FORMAT'),
 			strtotime(db_fetch_result($result, 0, "last_login")));
+
+		$created = date(get_pref($link, 'LONG_DATE_FORMAT'),
+			strtotime(db_fetch_result($result, 0, "created")));
+
 		$access_level = db_fetch_result($result, 0, "access_level");
 		$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
 #		print "<tr><td>Username</td><td>$login</td></tr>";
 #		print "<tr><td>Access level</td><td>$access_level</td></tr>";
-		print "<tr><td>Last logged in</td><td>$last_login</td></tr>";
-		print "<tr><td>Stored articles</td><td>$stored_articles</td></tr>";
+		print "<tr><td>".__('Registered')."</td><td>$created</td></tr>";
+		print "<tr><td>".__('Last logged in')."</td><td>$last_login</td></tr>";
+		print "<tr><td>".__('Stored articles')."</td><td>$stored_articles</td></tr>";
 
 		$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
 			WHERE owner_uid = '$uid'");
 
 		$num_feeds = db_fetch_result($result, 0, "num_feeds");
 
-		print "<tr><td>Subscribed feeds count</td><td>$num_feeds</td></tr>";
+		print "<tr><td>".__('Subscribed feeds count')."</td><td>$num_feeds</td></tr>";
 
 /*		$result = db_query($link, "SELECT 
 			SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
@@ -371,7 +377,7 @@
 
 		print "</table>";
 
-		print "<h1>Subscribed feeds</h1>";
+		print "<h1>".__('Subscribed feeds')."</h1>";
 
 		$result = db_query($link, "SELECT id,title,site_url FROM ttrss_feeds
 			WHERE owner_uid = '$uid' ORDER BY title");
