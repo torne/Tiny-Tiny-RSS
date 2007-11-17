@@ -186,6 +186,7 @@ insert into ttrss_version values (26);
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
 	content_type varchar(250) not null,
+	title text not null,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
 
 create table ttrss_prefs_types (id integer not null primary key, 
