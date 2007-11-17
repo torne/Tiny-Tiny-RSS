@@ -4815,6 +4815,38 @@
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 					print $line["content_preview"];
+
+					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
+						post_id = '$id'");
+
+					if (db_num_rows($e_result) > 0) {
+				print "<div class=\"cdmEnclosures\">";
+
+				if (db_num_rows($e_result) == 1) {
+					print __("Attachment:") . " ";
+				} else {
+					print __("Attachments:") . " ";
+				}
+
+				$entries = array();
+
+				while ($e_line = db_fetch_assoc($e_result)) {
+
+					$url = $e_line["content_url"];
+
+					$filename = substr($url, strrpos($url, "/")+1);
+
+					$entry = "<a href=\"" . htmlspecialchars($url) . "\">" .
+						$filename . " (" . $e_line["content_type"] . ")" . "</a>";
+
+					array_push($entries, $entry);
+				}
+
+				print join(", ", $entries);
+
+				print "</div>";
+			}
+
 					print "<br clear='both'>";
 //					print "</div>";
 
