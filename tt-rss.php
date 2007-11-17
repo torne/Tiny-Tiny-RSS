@@ -103,11 +103,16 @@ window.onload = init;
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
 <div id="header">
-	<div style="float : right">
+	<div class="topLinks">
 	<?php if (!SINGLE_USER_MODE) { ?>
-			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b>
-			(<a href="logout.php"><?php echo __('Logout') ?></a>)
+			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
+	<a href="prefs.php"><?php echo __('Preferences') ?></a>
+
+	<?php if (!SINGLE_USER_MODE) { ?>
+			| <a href="logout.php"><?php echo __('Logout') ?></a>
+	<?php } ?>
+
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="New version is available!" 
 		alt="new_version_icon">
@@ -129,7 +134,7 @@ window.onload = init;
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search') ?></option>
-					<option value="qmcPrefs"><?php echo __('Preferences') ?></option>
+					<!-- <option value="qmcPrefs"><?php echo __('Preferences') ?></option> -->
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled><?php echo __('Feed actions:') ?></option>
 					<option value="qmcAddFeed"><?php echo __('&nbsp;&nbsp;Subscribe to feed') ?></option>
