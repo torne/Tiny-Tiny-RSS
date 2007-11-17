@@ -11,6 +11,7 @@ drop table if exists ttrss_prefs;
 drop table if exists ttrss_prefs_types;
 drop table if exists ttrss_prefs_sections; 
 drop table if exists ttrss_tags;
+drop table if exists ttrss_enclosures;
 drop table if exists ttrss_entry_comments;
 drop table if exists ttrss_user_entries;
 drop table if exists ttrss_entries;
@@ -202,6 +203,13 @@ create table ttrss_tags (id integer primary key auto_increment,
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
 insert into ttrss_version values (26);
+
+create table ttrss_enclosures (id serial not null primary key,
+	content_url text not null,
+	content_type varchar(250) not null,
+	post_id integer not null,
+	index (post_id),
+	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;

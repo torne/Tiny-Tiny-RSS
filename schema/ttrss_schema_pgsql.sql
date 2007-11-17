@@ -8,6 +8,7 @@ drop table ttrss_prefs;
 drop table ttrss_prefs_types;
 drop table ttrss_prefs_sections; 
 drop table ttrss_tags;
+drop table ttrss_enclosures;
 drop table ttrss_entry_comments;
 drop table ttrss_user_entries;
 drop table ttrss_entries;
@@ -181,6 +182,11 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 create table ttrss_version (schema_version int not null);
 
 insert into ttrss_version values (26);
+
+create table ttrss_enclosures (id serial not null primary key,
+	content_url text not null,
+	content_type varchar(250) not null,
+	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
