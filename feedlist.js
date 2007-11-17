@@ -165,12 +165,12 @@ function toggleCollapseCat_af(effect) {
 		var elem = effect.element;
 		var cat = elem.id.replace("FCATLIST-", "");
 		var cap = document.getElementById("FCAP-" + cat);
-	
+
 		if (Element.visible(elem)) {
-			cap.innerHTML = cap.innerHTML.replace("...", "");
+			cap.innerHTML = cap.innerHTML.replace("…", "");
 		} else {
-			if (cap.innerHTML.lastIndexOf("...") != cap.innerHTML.length-3) {
-				cap.innerHTML = cap.innerHTML + "...";
+			if (cap.innerHTML.lastIndexOf("…") != cap.innerHTML.length-3) {
+				cap.innerHTML = cap.innerHTML + "…";
 			}
 		}
 

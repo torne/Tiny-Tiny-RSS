@@ -1667,7 +1667,7 @@
 
 	function truncate_string($str, $max_len) {
 		if (mb_strlen($str, "utf-8") > $max_len - 3) {
-			return mb_substr($str, 0, $max_len, "utf-8") . "...";
+			return mb_substr($str, 0, $max_len, "utf-8") . "&hellip;";
 		} else {
 			return $str;
 		}
@@ -3745,7 +3745,7 @@
 
 			if ($hidden) {
 				$holder_style = "display:none;";
-				$ellipsis = "...";
+				$ellipsis = "…";
 			} else {
 				$holder_style = "";
 				$ellipsis = "";
@@ -4034,7 +4034,7 @@
 					if ($collapsed == "t" || $collapsed == "1") {
 						$holder_class = "feedCatHolder";
 						$holder_style = "display:none;";
-						$ellipsis = "...";
+						$ellipsis = "…";
 					} else {
 						$holder_class = "feedCatHolder";
 						$holder_style = "";
@@ -4346,7 +4346,7 @@
 				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";
 				
 				if ($num_tags == $tag_limit) {
-					$tags_str .= "...";
+					$tags_str .= "&hellip;";
 
 				} else if ($num_tags < $tag_limit) {
 					$tags_str .= $tag_str;
@@ -4357,7 +4357,7 @@
 			$tags_str = preg_replace("/, $/", "", $tags_str);
 			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
 
-			$all_tags_div = "<span class='cdmAllTagsCtr'>...<div class='cdmAllTags'>All Tags: $f_tags_str</div></span>";
+			$all_tags_div = "<span class='cdmAllTagsCtr'>&hellip;<div class='cdmAllTags'>All Tags: $f_tags_str</div></span>";
 			$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
@@ -4746,14 +4746,14 @@
 						if ($num_tags < 5) {
 							$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
 						} else if ($num_tags == 5) {
-							$tags_str .= "...";
+							$tags_str .= "&hellip;";
 						}
 					}
 
 					$tags_str = preg_replace("/, $/", "", $tags_str);
 					$full_tags_str = preg_replace("/, $/", "", $full_tags_str);
 
-					$all_tags_div = "<span class='cdmAllTagsCtr'>...<div class='cdmAllTags'>All Tags: $full_tags_str</div></span>";
+					$all_tags_div = "<span class='cdmAllTagsCtr'>&hellip;<div class='cdmAllTags'>All Tags: $full_tags_str</div></span>";
 
 					$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
 
