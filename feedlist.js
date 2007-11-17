@@ -264,7 +264,9 @@ function feedlist_init() {
 			debug("some feed is open on feedlist refresh, reloading");
 			setTimeout("viewCurrentFeed()", 100);
 		} else {
-			setTimeout("viewfeed(-3)", 100);
+			if (getInitParam("cdm_auto_catchup") != 1) {				
+				setTimeout("viewfeed(-3)", 100);
+			}
 		}
 
 	} catch (e) {
