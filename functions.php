@@ -894,6 +894,40 @@
 					}
 				}
 
+				// enclosures
+
+				$enclosures = array();
+
+				if (ENABLE_SIMPLEPIE) {
+					$encs = $item->get_enclosures();
+
+					foreach ($encs as $e) {
+						$e_item = array(
+							$e->link, $e->type, $e->length);
+
+						array_push($enclosures, $e_item);
+					}
+
+				} else {
+					$e_ctr = $item['enclosure#'];
+
+					if ($e_ctr > 0) {
+						$e_item = array($item['enclosure@url'],
+							$item['enclosure@type'],
+							$item['enclosure@length']);
+
+						array_push($enclosures, $e_item);
+
+						for ($i = 2; $i <= $e_ctr; $i++ ) {
+							$e_item = array($item["enclosure#$i@url"],
+								$item["enclosure#$i@type"],
+								$item["enclosure#$i@length"]);
+							array_push($enclosures, $e_item);
+						}
+					}
+
+				}
+
 				# sanitize content
 				
 //				$entry_content = sanitize_rss($entry_content);
@@ -960,6 +994,9 @@
 						ttrss_entries 
 					WHERE guid = '$entry_guid'");
 
+				$entry_ref_id = 0;
+				$entry_int_id = 0;
+
 				if (db_num_rows($result) == 1) {
 
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
@@ -974,6 +1011,7 @@
 						0, "date_entered"));
 
 					$ref_id = db_fetch_result($result, 0, "id");
+					$entry_ref_id = $ref_id;
 
 					// check for user post link to main table
 
@@ -1003,7 +1041,7 @@
 //					error_reporting (DEFAULT_ERROR_LEVEL);
 
 					$result = db_query($link,
-						"SELECT ref_id FROM ttrss_user_entries WHERE
+						"SELECT ref_id, int_id FROM ttrss_user_entries WHERE
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
 							$dupcheck_qpart");
 
@@ -1039,8 +1077,24 @@
 								(ref_id, owner_uid, feed_id, unread, last_read, marked, published) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
 								$last_read_qpart, $marked, $published)");
+
+						$result = db_query($link, 
+							"SELECT int_id FROM ttrss_user_entries WHERE
+								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND
+								feed_id = '$feed' LIMIT 1");
+
+						if (db_num_rows($result) == 1) {
+							$entry_int_id = db_fetch_result($result, 0, "int_id");
+						}
+					} else {
+						$entry_ref_id = db_fetch_result($result, 0, "ref_id");
+						$entry_int_id = db_fetch_result($result, 0, "int_id");
 					}
-					
+
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+						_debug("update_rss_feed: RID: $entry_ref_id, IID: $entry_int_id");
+					}
+
 					$post_needs_update = false;
 
 					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid, false) &&
@@ -1087,6 +1141,33 @@
 								SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
 						}
 
+					}
+				}
+
+				db_query($link, "COMMIT");
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: looking for enclosures...");
+				}
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					print_r($enclosures);
+				}
+
+				db_query($link, "BEGIN");
+
+				foreach ($enclosures as $enc) {
+					$enc_url = db_escape_string($enc[0]);
+					$enc_type = db_escape_string($enc[1]);
+					$enc_dur = db_escape_string($enc[2]);
+
+					$result = db_query($link, "SELECT id FROM ttrss_enclosures
+						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
+
+					if (db_num_rows($result) == 0) {
+						db_query($link, "INSERT INTO ttrss_enclosures
+							(content_url, content_type, title, duration, post_id) VALUES
+							('$enc_url', '$enc_type', '', '$enc_dur', '$entry_ref_id')");
 					}
 				}
 
@@ -1147,17 +1228,6 @@
 				
 					db_query($link, "BEGIN");
 			
-					$result = db_query($link, "SELECT id,int_id 
-						FROM ttrss_entries,ttrss_user_entries 
-						WHERE guid = '$entry_guid' 
-						AND feed_id = '$feed' AND ref_id = id
-						AND owner_uid = '$owner_uid'");
-
-					if (db_num_rows($result) == 1) {
-
-						$entry_id = db_fetch_result($result, 0, "id");
-						$entry_int_id = db_fetch_result($result, 0, "int_id");
-						
 						foreach ($entry_tags as $tag) {
 
 							$tag = sanitize_tag($tag);
@@ -1178,7 +1248,7 @@
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
 							}							
 						}
-					}
+
 					db_query($link, "COMMIT");
 				} 
 
@@ -4384,7 +4454,40 @@
 				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
 			}
 
-			print $line["content"] . "</div>";
+			print $line["content"];
+
+			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
+				post_id = '$id'");
+
+			if (db_num_rows($result) > 0) {
+				print "<div class=\"postEnclosures\">";
+
+				if (db_num_rows($result) == 1) {
+					print __("Attachment:") . " ";
+				} else {
+					print __("Attachments:") . " ";
+				}
+
+				$entries = array();
+
+				while ($line = db_fetch_assoc($result)) {
+
+					$url = $line["content_url"];
+
+					$filename = substr($url, strrpos($url, "/")+1);
+
+					$entry = "<a href=\"" . htmlspecialchars($url) . "\">" .
+						$filename . " (" . $line["content_type"] . ")" . "</a>";
+
+					array_push($entries, $entry);
+				}
+
+				print join(", ", $entries);
+
+				print "</div>";
+			}
+		
+			print "</div>";
 			
 			print "</div>";
 
