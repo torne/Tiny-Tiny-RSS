@@ -4,6 +4,16 @@
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$dom = domxml_open_file($_FILES['opml_file']['tmp_name']);
 
+			$result = db_query($link, "SELECT id FROM
+				ttrss_feed_categories WHERE title = 'Imported feeds' AND
+				owner_uid = '$owner_uid' LIMIT 1");
+
+			if (db_num_rows($result) == 1) {
+				$default_cat_id = db_fetch_result($result, 0, "id");
+			} else {
+				$default_cat_id = 0;
+			}
+
 			if ($dom) {
 				$root = $dom->document_element();
 
@@ -104,8 +114,9 @@
 
 							} else {
 								$add_query = "INSERT INTO ttrss_feeds 
-									(title, feed_url, owner_uid, site_url) VALUES
-									('$feed_title', '$feed_url', '$owner_uid', '$site_url')";
+									(title, feed_url, owner_uid, cat_id, site_url) VALUES
+									('$feed_title', '$feed_url', '$owner_uid', '$default_cat_id',
+										'$site_url')";
 
 							}
 

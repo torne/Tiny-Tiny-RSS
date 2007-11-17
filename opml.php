@@ -111,6 +111,24 @@
 			<div class=\"floatingLogo\"><img src=\"images/ttrss_logo.png\"></div>
 			<h1>".__('OPML Utility')."</h1>";
 
+		db_query($link, "BEGIN");
+
+		/* create Imported feeds category just in case */
+
+		$result = db_query($link, "SELECT id FROM
+			ttrss_feed_categories WHERE title = 'Imported feeds' AND
+			owner_uid = '$owner_uid' LIMIT 1");
+
+		if (db_num_rows($result) == 0) {
+				db_query($link, "INSERT INTO ttrss_feed_categories
+					(title,owner_uid) 
+						VALUES ('Imported feeds', '$owner_uid')");
+		}
+
+		db_query($link, "COMMIT");
+
+		/* Handle OPML import by DOMXML/DOMDocument */
+
 		if (function_exists('domxml_open_file')) {
 			print "<p>".__("Importing OPML (using DOMXML extension)...")."</p>";
 			require_once "modules/opml_domxml.php";
