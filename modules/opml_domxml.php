@@ -66,11 +66,15 @@
 
 						if ($parent_node && $parent_node->node_name() == "outline") {
 							$element_category = $parent_node->get_attribute('title');
+							if (!$element_category) $element_category = $parent_node->get_attribute('text');
+
 						} else {
 							$element_category = '';
 						}
 
 						if ($element_category) {
+
+							$element_category = db_escape_string($element_category);
 
 							$result = db_query($link, "SELECT id FROM
 									ttrss_feed_categories WHERE title = '$element_category' AND
