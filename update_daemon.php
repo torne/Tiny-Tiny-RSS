@@ -133,7 +133,7 @@
 				ttrss_feeds,ttrss_users 
 			WHERE 
 				ttrss_users.id = owner_uid $login_thresh_qpart 
-			ORDER BY $random_qpart DESC");
+			ORDER BY $random_qpart DESC LIMIT " . DAEMON_FEED_LIMIT);
 
 		$user_prefs_cache = array();
 

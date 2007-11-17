@@ -161,7 +161,10 @@
 	// These two options enable SMTP authentication when sending
 	// digests. Require DIGEST_SMTP_HOST.
 
-	define('CONFIG_VERSION', 11);
+	define('DAEMON_FEED_LIMIT', 100);
+	// Limits the amount of feeds daemon updates on one run
+
+	define('CONFIG_VERSION', 12);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
