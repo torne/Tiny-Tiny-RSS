@@ -86,19 +86,22 @@ window.onload = init;
 </div></div>
 
 <div id="prefHeader">
-	<?php if (!SINGLE_USER_MODE) { ?>
-		<div class="topLinks">
+	<div class="topLinks">
+		<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
-			<a href="logout.php"><?php echo __('Logout') ?></a>
-		</div>
-	<?php } ?>
+		<?php } ?>
+		<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
+		<?php if (!SINGLE_USER_MODE) { ?>
+			| <a href="logout.php"><?php echo __('Logout') ?></a>
+		<?php } ?>
+	</div>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
 <div id="prefTabs">
-		<div class="return">
+		<!-- <div class="return">
 			<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
-		</div>
+		</div> -->
 
 		<div class="firstTab">&nbsp;</div>
 
