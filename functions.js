@@ -928,6 +928,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 				var has_unread = (node.childNodes[i].className != "feed" &&
 					node.childNodes[i].className != "label" && 
 					node.childNodes[i].className != "virt" && 
+					node.childNodes[i].className != "error" && 
 					node.childNodes[i].className != "tag");
 	
 	//			debug(node.childNodes[i].id + " --> " + has_unread);
