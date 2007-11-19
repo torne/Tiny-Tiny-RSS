@@ -1376,7 +1376,7 @@ div.whiteBox {
 }
 
 #feeds-holder {
-	border-width : 1px 1px 1px 0px;
+	border-width : 1px 1px 0px 0px;
 	border-style : solid;
 	border-color : #88b0f0;
 	top : 50px;
@@ -1384,7 +1384,7 @@ div.whiteBox {
 	position : absolute;
 	width : 260px;
 	overflow : auto;
-	bottom : 30px;
+	bottom : 0px;
 	border-collapse : collapse;
 	height: expression((parseInt(document.documentElement.clientHeight)-40-20-30)+'px');
 }
@@ -1442,7 +1442,7 @@ div.headlines_cdm {
 	overflow : auto;
 	top : 390px;
 	left : 260px;
-	bottom : 30px;
+	bottom : 40px;
 	right : 0px;
 	border-collapse : collapse;
 	width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
@@ -1452,7 +1452,7 @@ div.headlines_cdm {
 #footer, #prefFooter {
 	position : absolute;
 	bottom : 0px;
-	height : 15px;
+	height : 20px;
 	text-align : center;
 	color : gray;
 	font-size : 9pt;
@@ -1461,11 +1461,11 @@ div.headlines_cdm {
 	background-repeat : repeat-x; 
 	background-color : white;
 	right : 0px;
-	left : 0px;
-	padding : 8px;
+	left : 260px;
+	padding : 10px;
 	width: expression((parseInt(document.documentElement.clientWidth)-20)+'px');
 	border-collapse : collapse;
-	border-width : 1px 0px 0px 0px;
+	border-width : 1px 0px 0px 1px;
 	border-style : solid;
 	border-color : #88b0f0;
 
