@@ -109,10 +109,10 @@ window.onload = init;
 	<?php } ?>
 	<a href="prefs.php"><?php echo __('Preferences') ?></a>
 
-	<?php if (defined('FEEDBACK_URL')) ?>
+	<?php if (defined('FEEDBACK_URL')) { ?>
 		| <a class="feedback" href="<?php echo FEEDBACK_URL ?>">
 				<?php echo __('Comments?') ?></a>
-	<?php ?>
+	<?php } ?>
 
 	<?php if (!SINGLE_USER_MODE) { ?>
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
