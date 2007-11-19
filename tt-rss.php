@@ -110,7 +110,7 @@ window.onload = init;
 	<a href="prefs.php"><?php echo __('Preferences') ?></a>
 
 	<?php if (defined('FEEDBACK_URL')) { ?>
-		| <a class="feedback" href="<?php echo FEEDBACK_URL ?>">
+		| <a target="_blank" class="feedback" href="<?php echo FEEDBACK_URL ?>">
 				<?php echo __('Comments?') ?></a>
 	<?php } ?>
 
