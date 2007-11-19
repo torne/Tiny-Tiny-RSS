@@ -47,7 +47,8 @@
 	$result = db_query($link, "SELECT count(ttrss_entries.id) AS cid,
 		login FROM ttrss_entries 
 		LEFT JOIN ttrss_user_entries ON (ref_id = ttrss_entries.id) 
-		LEFT JOIN ttrss_users ON (ttrss_users.id = owner_uid) GROUP BY login");
+		LEFT JOIN ttrss_users ON (ttrss_users.id = ttrss_user_entries.owner_uid) 
+			GROUP BY login");
 
 	print "<h2>Per-user storage</h2>";
 
@@ -60,11 +61,35 @@
 
 	while ($line = db_fetch_assoc($result)) {
 		print "<tr>";
-		print "<td>" . $line["cid"] . "</td><td>" . $line["login"] . "</td>";
+		print "<td>" . $line["cid"] . "</td>";
+		print "<td>" . $line["login"] . "</td>";
 		print "</tr>";
 	}
 
 	print "</table>";
+
+	$result = db_query($link, "SELECT COUNT(ttrss_feeds.id) AS fc,
+		login FROM ttrss_users, ttrss_feeds
+			WHERE ttrss_users.id = ttrss_feeds.owner_uid
+		GROUP BY login ORDER BY fc DESC");
+
+	print "<h2>Per-user subscriptions</h2>";
+
+	print "<table border width='100%'>";
+	
+	print "<tr>
+		<td>Owner</td>
+		<td>Feeds</td>
+	</tr>";
+
+	while ($line = db_fetch_assoc($result)) {
+		print "<tr>";
+		print "<td>" . $line["login"] . "</td>";
+		print "<td>" . $line["fc"] . "</td>";
+		print "</tr>";
+	}
+
+	print "</table>"; 
 
 	print "<h2>User subscriptions</h2>";
 
