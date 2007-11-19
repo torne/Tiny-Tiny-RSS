@@ -23,11 +23,11 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<link rel="stylesheet" type="text/css" href="tt-rss.css">
+	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>">
 
 	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
-		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css">
+			<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css?<?php echo $dt_add ?>">
 	<?php } ?>
 
 	<?php if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
