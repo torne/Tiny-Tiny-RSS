@@ -693,7 +693,9 @@
 
 			foreach ($iterator as $item) {
 
-				print_r($item);
+				if ($_GET['xdebug']) {
+					print_r($item);
+				}
 
 				if (ENABLE_SIMPLEPIE) {
 					$entry_guid = $item->get_id();
