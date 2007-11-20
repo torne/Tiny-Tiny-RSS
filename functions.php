@@ -693,6 +693,8 @@
 
 			foreach ($iterator as $item) {
 
+				print_r($item);
+
 				if (ENABLE_SIMPLEPIE) {
 					$entry_guid = $item->get_id();
 					if (!$entry_guid) $entry_guid = $item->get_link();
@@ -867,13 +869,20 @@
 	
 					if ($t_ctr == 0) {
 						$additional_tags = false;
-					} else if ($t_ctr == 1) {
+					} else if ($t_ctr > 0) {
 						$additional_tags = array($item['category']);
-					} else {
-						$additional_tags = array();
+
+						if ($item['category@term']) {
+							array_push($additional_tags, $item['category@term']);
+						}
+
 						for ($i = 0; $i <= $t_ctr; $i++ ) {
 							if ($item["category#$i"]) {
 								array_push($additional_tags, $item["category#$i"]);
+							}
+
+							if ($item["category#$i@term"]) {
+								array_push($additional_tags, $item["category#$i@term"]);
 							}
 						}
 					}
@@ -882,10 +891,9 @@
 	
 					$t_ctr = $item['dc']['subject#'];
 	
-					if ($t_ctr == 1) {
+					if ($t_ctr > 0) {
 						$additional_tags = array($item['dc']['subject']);
-					} else if ($t_ctr > 1) {
-						$additional_tags = array();
+
 						for ($i = 0; $i <= $t_ctr; $i++ ) {
 							if ($item['dc']["subject#$i"]) {
 								array_push($additional_tags, $item['dc']["subject#$i"]);
@@ -918,11 +926,14 @@
 
 						array_push($enclosures, $e_item);
 
-						for ($i = 2; $i <= $e_ctr; $i++ ) {
-							$e_item = array($item["enclosure#$i@url"],
-								$item["enclosure#$i@type"],
-								$item["enclosure#$i@length"]);
-							array_push($enclosures, $e_item);
+						for ($i = 0; $i <= $e_ctr; $i++ ) {
+
+							if ($item["enclosure#$i@url"]) {
+								$e_item = array($item["enclosure#$i@url"],
+									$item["enclosure#$i@type"],
+									$item["enclosure#$i@length"]);
+								array_push($enclosures, $e_item);
+							}
 						}
 					}
 
