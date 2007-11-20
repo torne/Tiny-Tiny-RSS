@@ -4489,7 +4489,7 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $line["content_type"] . ")" . "</a>";
 
 					array_push($entries, $entry);
@@ -4849,7 +4849,7 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $e_line["content_type"] . ")" . "</a>";
 
 					array_push($entries, $entry);
