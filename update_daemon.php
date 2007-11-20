@@ -164,7 +164,7 @@
 				continue; 
 			}
 	
-			_debug("Feed: " . $line["feed_url"]);
+			_debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
 //			_debug(sprintf("\tLU: %d, INTL: %d, UID: %d) ", 
 //				time() - strtotime($line["last_updated"]), $upd_intl*60, $user_id));
