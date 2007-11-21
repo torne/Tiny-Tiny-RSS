@@ -695,6 +695,7 @@
 
 				if ($_GET['xdebug']) {
 					print_r($item);
+
 				}
 
 				if (ENABLE_SIMPLEPIE) {
@@ -774,6 +775,10 @@
 
 					if (!$entry_content) $entry_content = $item["content:encoded"];
 					if (!$entry_content) $entry_content = $item["content"];
+
+					// Magpie bugs are getting ridiculous
+					if (trim($entry_content) == "Array") $entry_content = false;
+
 					if (!$entry_content) $entry_content = $item["atom_content"];
 					if (!$entry_content) $entry_content = $item["summary"];
 					if (!$entry_content) $entry_content = $item["description"];
@@ -782,12 +787,13 @@
 					if (is_array($entry_content)) {
 						$entry_content = $entry_content["encoded"];
 						if (!$entry_content) $entry_content = $entry_content["escaped"];
-					}
+					} 
 				}
 
-//				print_r($item);
-//				print_r(htmlspecialchars($entry_content));
-//				print "<br>";
+				if ($_GET["xdebug"]) {
+					print "update_rss_feed: content: ";
+					print_r(htmlspecialchars($entry_content));
+				}
 
 				$entry_content_unescaped = $entry_content;
 
