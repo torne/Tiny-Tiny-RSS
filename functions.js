@@ -919,7 +919,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		return;
 	}
 
-	debug("cat: " + node.id);
+//	debug("cat: " + node.id);
 
 	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 		for (i = 0; i < node.childNodes.length; i++) {
@@ -957,7 +957,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		}
 	}	
 
-	debug("end cat: " + node.id + " unread " + cat_unread);
+//	debug("end cat: " + node.id + " unread " + cat_unread);
 
 	if (cat_unread == 0) {
 		if (cat_node.style == undefined) {
