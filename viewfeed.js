@@ -1196,7 +1196,7 @@ function cdmWatchdog() {
 
 
 function cache_inject(id, article, param) {
-	if (!cache_check(id, param)) {
+	if (!cache_check_param(id, param)) {
 		debug("cache_article: miss: " + id + " [p=" + param + "]");
 
 		var cache_obj = new Array();
@@ -1221,10 +1221,10 @@ function cache_find(id) {
 	return false;
 }
 
-function cache_get_param(id) {
+function cache_find_param(id, param) {
 	for (var i = 0; i < article_cache.length; i++) {
-		if (article_cache[i]["id"] == id) {
-			return article_cache[i]["param"];
+		if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+			return article_cache[i]["data"];
 		}
 	}
 	return false;
@@ -1241,6 +1241,10 @@ function cache_check(id) {
 
 function cache_check_param(id, param) {
 	for (var i = 0; i < article_cache.length; i++) {
+
+//		debug("cache_check_param " + article_cache[i]["id"] + ":" + 
+//			article_cache[i]["param"] + " vs " + id + ":" + param);
+
 		if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
 			return true;
 		}

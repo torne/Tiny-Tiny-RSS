@@ -171,7 +171,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				} 
 			}
 
-			f.innerHTML = cache_find("F:" + feed);
+			f.innerHTML = cache_find_param("F:" + feed, unread_ctr);
 
 			var query = "backend.php?op=rpc&subop=getAllCounters";
 

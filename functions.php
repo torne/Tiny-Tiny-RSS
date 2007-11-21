@@ -4952,7 +4952,7 @@
 			print "</div>";
 		}
 
-		return array($topmost_article_ids, $headlines_count);
+		return array($topmost_article_ids, $headlines_count, $feed);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html

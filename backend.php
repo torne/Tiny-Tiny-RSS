@@ -226,12 +226,13 @@
 
 		$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];
+		$returned_feed = $ret[2];
 
 		print "]]></headlines>";
 
 		print "<headlines-count value=\"$headlines_count\"/>";
 
-		$headlines_unread = getFeedUnread($link, $feed);
+		$headlines_unread = getFeedUnread($link, $returned_feed);
 
 		print "<headlines-unread value=\"$headlines_unread\"/>";
 
