@@ -149,7 +149,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		if (unread_ctr && !page_offset) {
 			unread_ctr = unread_ctr.innerHTML;
 			cache_check = cache_check_param("F:" + feed, unread_ctr);
-			debug("headline cache check: " + cache_check);
+			debug("headline cache check: " + cache_check + " (F:" + feed + 
+				" P: " + unread_ctr);
 		}
 
 		if (cache_check) {
