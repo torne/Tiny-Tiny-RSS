@@ -113,6 +113,8 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 						cache_prefix = "F:";
 					}
 
+					cache_invalidate(cache_prefix + active_feed_id);
+
 					cache_inject(cache_prefix + active_feed_id,
 						headlines.firstChild.nodeValue, headlines_unread);
 
