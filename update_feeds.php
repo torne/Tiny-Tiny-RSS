@@ -4,8 +4,10 @@
 	// directory defined in config.php won't be accessible
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-cli');
 	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-cli');
-
+	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	define('DISABLE_SESSIONS', true);
+
+	error_reporting(DEFAULT_ERROR_LEVEL);
 
 	require_once "sanity_check.php";
 	require_once "config.php";
