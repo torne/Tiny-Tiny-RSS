@@ -152,7 +152,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		var unread_ctr = document.getElementById("FEEDU-" + feed);
 		var cache_check = false;
 
-		if (unread_ctr && !page_offset && !force_nocache) {
+		if (unread_ctr && !page_offset && !force_nocache && !subop) {
 			unread_ctr = unread_ctr.innerHTML;
 
 			var cache_prefix = "";

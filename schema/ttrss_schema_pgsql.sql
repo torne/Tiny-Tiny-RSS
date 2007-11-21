@@ -68,6 +68,7 @@ create table ttrss_feeds (id serial not null primary key,
 	include_in_digest boolean not null default true,
 	rtl_content boolean not null default false,
 	cache_images boolean not null default false,
+	last_viewed timestamp default null,
 	auth_pass_encrypted boolean not null default false);	
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
