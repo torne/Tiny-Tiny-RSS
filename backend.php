@@ -231,6 +231,10 @@
 
 		print "<headlines-count value=\"$headlines_count\"/>";
 
+		$headlines_unread = getFeedUnread($link, $feed);
+
+		print "<headlines-unread value=\"$headlines_unread\"/>";
+
 		if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 
 		if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {

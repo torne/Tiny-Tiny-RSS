@@ -136,10 +136,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&omode=flc";
 		}
 
-		if (!page_offset) {
-			notify_progress("Loading, please wait...", true);
-		}
-
 		var container = document.getElementById("headlinesInnerContainer");
 
 		if (container && page_offset == 0 && !isCdmMode()) {
@@ -147,10 +143,63 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				queue: { position:'end', scope: 'FEEDL-' + feed, limit: 1 } } );
 		}
 
-		new Ajax.Request(query, {
-			onComplete: function(transport) { 
-				headlines_callback2(transport, feed, is_cat, page_offset); 
-			} });
+		var unread_ctr = document.getElementById("FEEDU-" + feed);
+		var cache_check = false;
+
+		if (unread_ctr && !page_offset) {
+			unread_ctr = unread_ctr.innerHTML;
+			cache_check = cache_check_param("F:" + feed, unread_ctr);
+			debug("headline cache check: " + cache_check);
+		}
+
+		if (cache_check) {
+			var f = document.getElementById("headlines-frame");
+
+			clean_feed_selections();
+
+			setActiveFeedId(feed);
+		
+			if (is_cat != undefined) {
+				active_feed_is_cat = is_cat;
+			}
+	
+			if (!is_cat) {
+				var feedr = document.getElementById("FEEDR-" + feed);
+				if (feedr && !feedr.className.match("Selected")) {	
+					feedr.className = feedr.className + "Selected";
+				} 
+			}
+
+			f.innerHTML = cache_find("F:" + feed);
+
+			var query = "backend.php?op=rpc&subop=getAllCounters";
+
+			if (tagsAreDisplayed()) {
+				query = query + "&omode=tl";
+			} else {
+				query = query + "&omode=flc";
+			}
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					try {
+						all_counters_callback2(transport);
+					} catch (e) {
+						exception_error("viewfeed/getcounters", e);
+					}
+				} });
+
+		} else {
+
+			if (!page_offset) {
+				notify_progress("Loading, please wait...", true);
+			}
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					headlines_callback2(transport, feed, is_cat, page_offset); 
+				} });
+		}
 
 	} catch (e) {
 		exception_error("viewfeed", e);

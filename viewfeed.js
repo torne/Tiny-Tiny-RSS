@@ -45,11 +45,8 @@ function catchup_callback2(transport, callback) {
 	}
 }
 
-function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
+function clean_feed_selections() {
 	try {
-
-		debug("headlines_callback2 [page=" + feed_cur_page + "]");
-
 		var feeds = document.getElementById("feedList").getElementsByTagName("LI");
 
 		for (var i = 0; i < feeds.length; i++) {
@@ -57,6 +54,17 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 				feeds[i].className = feeds[i].className.replace("Selected", "");
 			}			
 		}
+	} catch (e) {
+		exception_error("clean_feed_selections", e);
+	}
+}
+
+function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
+	try {
+
+		debug("headlines_callback2 [page=" + feed_cur_page + "]");
+
+		clean_feed_selections();
 
 		setActiveFeedId(active_feed_id);
 		
@@ -82,9 +90,11 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		if (transport.responseXML) {
 			var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
 			var headlines_count_obj = transport.responseXML.getElementsByTagName("headlines-count")[0];
-	
+			var headlines_unread_obj = transport.responseXML.getElementsByTagName("headlines-unread")[0];
+
 			var headlines_count = headlines_count_obj.getAttribute("value");
-	
+			var headlines_unread = headlines_unread_obj.getAttribute("value");
+
 			if (headlines_count == 0) _infscroll_disable = 1;
 	
 			var counters = transport.responseXML.getElementsByTagName("counters")[0];
@@ -94,6 +104,10 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 			if (feed_cur_page == 0) {
 				if (headlines) {
 					f.innerHTML = headlines.firstChild.nodeValue;
+
+					cache_inject("F:" + active_feed_id,
+						headlines.firstChild.nodeValue, headlines_unread);
+
 				} else {
 					debug("headlines_callback: returned no data");
 				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
@@ -1181,19 +1195,20 @@ function cdmWatchdog() {
 }
 
 
-function cache_inject(id, article) {
-	if (!cache_check(id)) {
-		debug("cache_article: miss: " + id);
+function cache_inject(id, article, param) {
+	if (!cache_check(id, param)) {
+		debug("cache_article: miss: " + id + " [p=" + param + "]");
 
 		var cache_obj = new Array();
 
 		cache_obj["id"] = id;
 		cache_obj["data"] = article;
+		cache_obj["param"] = param;
 
 		article_cache.push(cache_obj);
 
 	} else {
-		debug("cache_article: hit: " + id);
+		debug("cache_article: hit: " + id + " [p=" + param + "]");
 	}
 }
 
@@ -1206,9 +1221,27 @@ function cache_find(id) {
 	return false;
 }
 
+function cache_get_param(id) {
+	for (var i = 0; i < article_cache.length; i++) {
+		if (article_cache[i]["id"] == id) {
+			return article_cache[i]["param"];
+		}
+	}
+	return false;
+}
+
 function cache_check(id) {
 	for (var i = 0; i < article_cache.length; i++) {
 		if (article_cache[i]["id"] == id) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function cache_check_param(id, param) {
+	for (var i = 0; i < article_cache.length; i++) {
+		if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
 			return true;
 		}
 	}
