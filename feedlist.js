@@ -148,9 +148,17 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (unread_ctr && !page_offset) {
 			unread_ctr = unread_ctr.innerHTML;
-			cache_check = cache_check_param("F:" + feed, unread_ctr);
-			debug("headline cache check: " + cache_check + " (F:" + feed + 
-				" P: " + unread_ctr);
+
+			var cache_prefix = "";
+				
+			if (is_cat) {
+				cache_prefix = "C:";
+			} else {
+				cache_prefix = "F:";
+			}
+
+			cache_check = cache_check_param(cache_prefix + feed, unread_ctr);
+			debug("headline cache check: " + cache_check);
 		}
 
 		if (cache_check) {
@@ -171,7 +179,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				} 
 			}
 
-			f.innerHTML = cache_find_param("F:" + feed, unread_ctr);
+			f.innerHTML = cache_find_param(cache_prefix + feed, unread_ctr);
 
 			var query = "backend.php?op=rpc&subop=getAllCounters";
 

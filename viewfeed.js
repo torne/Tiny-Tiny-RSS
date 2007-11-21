@@ -105,7 +105,15 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 				if (headlines) {
 					f.innerHTML = headlines.firstChild.nodeValue;
 
-					cache_inject("F:" + active_feed_id,
+					var cache_prefix = "";
+
+					if (is_cat) {
+						cache_prefix = "C:";
+					} else {
+						cache_prefix = "F:";
+					}
+
+					cache_inject(cache_prefix + active_feed_id,
 						headlines.firstChild.nodeValue, headlines_unread);
 
 				} else {
