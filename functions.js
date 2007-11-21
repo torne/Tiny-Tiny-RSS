@@ -919,6 +919,8 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		return;
 	}
 
+	debug("cat: " + node.id);
+
 	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 		for (i = 0; i < node.childNodes.length; i++) {
 			if (node.childNodes[i].nodeName != "LI") { continue; }
@@ -931,7 +933,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 					node.childNodes[i].className != "error" && 
 					node.childNodes[i].className != "tag");
 	
-	//			debug(node.childNodes[i].id + " --> " + has_unread);
+//				debug(node.childNodes[i].id + " --> " + has_unread);
 	
 				if (hide && !has_unread) {
 					//node.childNodes[i].style.display = "none";
@@ -954,6 +956,8 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 			}
 		}
 	}	
+
+	debug("end cat: " + node.id + " unread " + cat_unread);
 
 	if (cat_unread == 0) {
 		if (cat_node.style == undefined) {
