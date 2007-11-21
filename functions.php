@@ -3722,7 +3722,7 @@
 						<li onclick=\"$tog_published_link\">".__('Published')."</li>
 						</ul></li>
 					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\"><a href=\"$catchup_page_link\">".__('Mark as read')."</a><ul>
+					<li class=\"top\">".__('Mark as read')."<ul>
 						<li onclick=\"$catchup_sel_link\">".__('Selection')."</li>
 						<!-- <li onclick=\"$catchup_page_link\">".__('This page')."</li> -->
 						<li><span class=\"insensitive\">--------</span></li>
