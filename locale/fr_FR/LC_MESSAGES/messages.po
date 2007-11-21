@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-16 13:06+0300\n"
-"PO-Revision-Date: 2007-09-27 18:17+0200\n"
+"POT-Creation-Date: 2007-11-21 23:37+0300\n"
+"PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -84,29 +84,25 @@ msgstr "Utilisateur"
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: backend.php:358
+#: backend.php:365
 msgid "Registered"
-msgstr ""
+msgstr "Abonné"
 
-#: backend.php:359
-#, fuzzy
+#: backend.php:366
 msgid "Last logged in"
 msgstr "Dernière connexion"
 
-#: backend.php:360
-#, fuzzy
-msgid "Stored articles"
-msgstr "Articles remarquables"
-
 #: backend.php:367
-#, fuzzy
-msgid "Subscribed feeds count"
-msgstr "Inscrit aux flux&nbsp;:"
+msgid "Stored articles"
+msgstr "Articles mémorisés"
 
-#: backend.php:380
-#, fuzzy
+#: backend.php:374
+msgid "Subscribed feeds count"
+msgstr "Nombre d'abonnements à des flux"
+
+#: backend.php:387
 msgid "Subscribed feeds"
-msgstr "Inscrit aux flux&nbsp;:"
+msgstr "Abonnements à des flux"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -170,162 +166,170 @@ msgstr ""
 "Votre version de MySQL n'est pas gérée pour le moment. Reportez-vous au \n"
 "\t\tsite officiel pour plus d'informations."
 
-#: functions.php:2326 functions.php:2665 functions.php:3027 functions.php:3834
+#: functions.php:2415 functions.php:2754 functions.php:3116 functions.php:3923
 msgid "Starred articles"
 msgstr "Articles remarquables"
 
-#: functions.php:2335 functions.php:2667 functions.php:3029 functions.php:3841
+#: functions.php:2424 functions.php:2756 functions.php:3118 functions.php:3930
 #: modules/pref-feeds.php:1068
 msgid "Published articles"
 msgstr "Articles publiés"
 
-#: functions.php:2344 functions.php:2669 functions.php:3031 functions.php:3819
+#: functions.php:2433 functions.php:2758 functions.php:3120 functions.php:3908
 msgid "Fresh articles"
 msgstr "Nouveaux articles"
 
-#: functions.php:2587 modules/popup-dialog.php:151
+#: functions.php:2676 modules/popup-dialog.php:151
 #: modules/pref-filters.php:290
 msgid "All feeds"
 msgstr "Tous les flux"
 
-#: functions.php:2616 functions.php:2655 functions.php:3005 functions.php:3998
-#: functions.php:4028 modules/pref-feeds.php:880
+#: functions.php:2705 functions.php:2744 functions.php:3094 functions.php:4087
+#: functions.php:4117 modules/pref-feeds.php:880
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
-#: functions.php:2645 functions.php:3171
+#: functions.php:2734 functions.php:3260
 msgid "Special"
 msgstr "Spécial"
 
-#: functions.php:2647 functions.php:3173
+#: functions.php:2736 functions.php:3262
 msgid "Labels"
 msgstr "Intitulé"
 
-#: functions.php:2991 functions.php:2993
+#: functions.php:3080 functions.php:3082
 msgid "Search results"
 msgstr "Résultats de recherche"
 
-#: functions.php:3009 functions.php:3022 functions.php:3039
+#: functions.php:3098 functions.php:3111 functions.php:3128
 msgid "Searched for"
 msgstr "Recherché"
 
-#: functions.php:3625 functions.php:3672 functions.php:4730
+#: functions.php:3714 functions.php:3761 functions.php:4891
 #: modules/pref-feeds.php:655 modules/pref-feeds.php:842
 #: modules/pref-filters.php:255 modules/pref-labels.php:234
 #: modules/pref-users.php:208
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
-#: functions.php:3626 functions.php:3673 modules/pref-feeds.php:656
+#: functions.php:3715 functions.php:3762 modules/pref-feeds.php:656
 #: modules/pref-feeds.php:843 modules/pref-filters.php:256
 #: modules/pref-labels.php:235 modules/pref-users.php:209
 msgid "All"
 msgstr "Tout"
 
-#: functions.php:3627 functions.php:3631 functions.php:3674 functions.php:3677
-#: tt-rss.php:165
+#: functions.php:3716 functions.php:3720 functions.php:3763 functions.php:3766
+#: tt-rss.php:175
 msgid "Unread"
 msgstr "Non lus"
 
-#: functions.php:3628 functions.php:3675 modules/pref-feeds.php:657
+#: functions.php:3717 functions.php:3764 modules/pref-feeds.php:657
 #: modules/pref-feeds.php:844 modules/pref-filters.php:257
 #: modules/pref-labels.php:236 modules/pref-users.php:210
 msgid "None"
 msgstr "Aucun"
 
-#: functions.php:3630
+#: functions.php:3719
 msgid "Toggle"
 msgstr "Marquages spéciaux&nbsp;"
 
-#: functions.php:3632 functions.php:3678 tt-rss.php:164
+#: functions.php:3721 functions.php:3767 tt-rss.php:174
 msgid "Starred"
 msgstr "Remarquables"
 
-#: functions.php:3633
+#: functions.php:3722
 msgid "Published"
 msgstr "Publiés"
 
-#: functions.php:3636 localized_schema.php:15
+#: functions.php:3725 localized_schema.php:15
 msgid "Mark as read"
 msgstr "Marquer comme lu"
 
-#: functions.php:3637
+#: functions.php:3726
 msgid "Selection"
 msgstr "La sélection"
 
-#: functions.php:3638
+#: functions.php:3727
 msgid "This page"
 msgstr "Cette page"
 
-#: functions.php:3640
+#: functions.php:3729
 msgid "Above active article"
 msgstr "Au-dessus de l'article courant"
 
-#: functions.php:3641
+#: functions.php:3730
 msgid "Below active article"
 msgstr "En dessous de l'article courant"
 
-#: functions.php:3643
+#: functions.php:3732
 msgid "Entire feed"
 msgstr "Tout le flux"
 
-#: functions.php:3651
+#: functions.php:3740
 msgid "Next page"
 msgstr "Page suivante"
 
-#: functions.php:3652
+#: functions.php:3741
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: functions.php:3653
+#: functions.php:3742
 msgid "First page"
 msgstr "Première page"
 
-#: functions.php:3663 functions.php:3689
+#: functions.php:3752 functions.php:3778
 msgid "Convert to label"
 msgstr "Convertir en intitulé"
 
-#: functions.php:3677
+#: functions.php:3766
 msgid "Toggle:"
 msgstr "Marquages spéciaux&nbsp;:"
 
-#: functions.php:3680
+#: functions.php:3769
 msgid "Mark as read:"
 msgstr "Marquer comme lu&nbsp;:"
 
-#: functions.php:3681
+#: functions.php:3770
 msgid "Page"
 msgstr "Page"
 
-#: functions.php:3682 modules/pref-filters.php:263
+#: functions.php:3771 modules/pref-filters.php:263
 msgid "Feed"
 msgstr "Flux"
 
-#: functions.php:3732
+#: functions.php:3821
 msgid "Generated feed"
 msgstr "Flux généré"
 
-#: functions.php:4068
+#: functions.php:4157
 msgid "No feeds to display."
 msgstr "Aucun flux à afficher."
 
-#: functions.php:4085
+#: functions.php:4174
 msgid "Tags"
 msgstr "Étiquettes"
 
-#: functions.php:4310
+#: functions.php:4399
 msgid " - by "
 msgstr "- par "
 
-#: functions.php:4365
+#: functions.php:4454
 msgid "no tags"
 msgstr "aucune étiquette"
 
-#: functions.php:4436
+#: functions.php:4485 functions.php:4852
+msgid "Attachment:"
+msgstr ""
+
+#: functions.php:4487 functions.php:4854
+msgid "Attachments:"
+msgstr ""
+
+#: functions.php:4560
 msgid "Feed not found."
 msgstr "Flux non trouvé."
 
-#: functions.php:4498
+#: functions.php:4627
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -333,12 +337,11 @@ msgstr ""
 "Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez vérifier "
 "la syntaxe de son intitulé ou la configuration locale."
 
-#: functions.php:4696
-#, fuzzy
+#: functions.php:4825
 msgid "Show article"
-msgstr "Marquer comme remarquable"
+msgstr "Afficher l'article"
 
-#: functions.php:4793
+#: functions.php:4954
 msgid "No articles found."
 msgstr "Aucun article trouvé."
 
@@ -350,7 +353,7 @@ msgstr "afficher les flux"
 msgid "display tags"
 msgstr "afficher les étiquettes"
 
-#: localized_js.php:34 prefs.php:128 tt-rss.php:75
+#: localized_js.php:34 prefs.php:131 tt-rss.php:75
 msgid "Loading, please wait..."
 msgstr "Ouverture en cours, veuillez patienter..."
 
@@ -548,7 +551,7 @@ msgstr "Impossible de mettre à jour l'en-têtes (objet XML manquant)"
 msgid "Could not display article (missing XML object)"
 msgstr "Impossible d'afficher l'article (objet XML manquant)"
 
-#: localized_js.php:92 tt-rss.php:207 tt-rss.php:211
+#: localized_js.php:92 tt-rss.php:217 tt-rss.php:221
 msgid "No feed selected."
 msgstr "Aucun flux sélectionné."
 
@@ -902,12 +905,11 @@ msgstr "Afficher la date et l'heure de manière plus lisible dans les en-têtes"
 
 #: localized_schema.php:68
 msgid "Automatically expand articles in combined mode"
-msgstr ""
+msgstr "Développer automatiquement les articles en affichage combiné"
 
 #: localized_schema.php:69
-#, fuzzy
 msgid "Purge unread articles"
-msgstr "Articles remarquables"
+msgstr "Purger les articles non lus"
 
 #: login_form.php:83 modules/popup-dialog.php:100 modules/pref-feeds.php:264
 #: modules/pref-users.php:29
@@ -978,21 +980,21 @@ msgstr "Conversion de la base de données..."
 msgid "OPML Utility"
 msgstr "Outil OPML"
 
-#: opml.php:115
+#: opml.php:133
 msgid "Importing OPML (using DOMXML extension)..."
 msgstr "Importation OPML (utilisant l'extension DOMXML)..."
 
-#: opml.php:119
+#: opml.php:137
 msgid "Importing OPML (using DOMDocument extension)..."
 msgstr "Importation OPML (utilisation l'extension DOMDocument)..."
 
-#: opml.php:123
+#: opml.php:141
 msgid "DOMXML extension is not found. It is required for PHP versions below 5."
 msgstr ""
 "Extension DOMXML non trouvée. Elle est nécessaire pour les versions de PHP "
 "antérieures à la 5."
 
-#: opml.php:127
+#: opml.php:145
 msgid "Return to preferences"
 msgstr "Revenir à la configuration"
 
@@ -1004,43 +1006,43 @@ msgstr "Erreur inconnue"
 msgid "Hello,"
 msgstr "Bonjour,"
 
-#: prefs.php:92 tt-rss.php:109
-msgid "Logout"
-msgstr "Déconnexion"
-
-#: prefs.php:100
+#: prefs.php:93 prefs.php:103
 msgid "Exit preferences"
 msgstr "Quitter la configuration"
 
-#: prefs.php:106 tt-rss.php:132
+#: prefs.php:95 tt-rss.php:118
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: prefs.php:109 tt-rss.php:110 tt-rss.php:142
 msgid "Preferences"
 msgstr "Configuration"
 
-#: prefs.php:108
+#: prefs.php:111
 msgid "My Feeds"
 msgstr "Mes flux"
 
-#: prefs.php:111
+#: prefs.php:114
 msgid "Other Feeds"
 msgstr "Autres flux"
 
-#: prefs.php:114
+#: prefs.php:117
 msgid "Published Articles"
 msgstr "Articles publiés"
 
-#: prefs.php:116
+#: prefs.php:119
 msgid "Content Filtering"
 msgstr "Filtrage de contenu"
 
-#: prefs.php:119
+#: prefs.php:122
 msgid "Label Editor"
 msgstr "Éditeur d'intitulé"
 
-#: prefs.php:123
+#: prefs.php:126
 msgid "User Manager"
 msgstr "Gestionnaire d'utilisateurs"
 
-#: prefs.php:131 tt-rss.php:78
+#: prefs.php:134 tt-rss.php:78
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
@@ -1147,85 +1149,93 @@ msgid ""
 "and read about other ways to update feeds on the <a href='http://tt-rss.spb."
 "ru/trac/wiki/UpdatingFeeds'>wiki</a>."
 msgstr ""
+"config: l'option DAEMON_REFRESH_ONLY est obsolète. Veuillez la supprimer et "
+"vous renseigner sur d'autres moyens de mettre à jour vos flux sur le <a "
+"href='http://tt-rss.spb.ru/trac/wiki/UpdatingFeeds'>wiki</a>."
 
 #: sanity_check.php:83
 msgid "Fatal Error"
 msgstr "Erreur critique"
 
-#: tt-rss.php:121
+#: tt-rss.php:114
+#, fuzzy
+msgid "Comments?"
+msgstr "Contenu"
+
+#: tt-rss.php:131
 msgid "tag cloud"
 msgstr "Nuage d'étiquettes"
 
-#: tt-rss.php:130 modules/pref-feeds.php:1003
+#: tt-rss.php:140 modules/pref-feeds.php:1003
 msgid "Actions..."
 msgstr "Actions..."
 
-#: tt-rss.php:131 modules/popup-dialog.php:127 modules/popup-dialog.php:196
+#: tt-rss.php:141 modules/popup-dialog.php:127 modules/popup-dialog.php:196
 #: modules/pref-feeds.php:749
 msgid "Search"
 msgstr "Rechercher"
 
-#: tt-rss.php:134
+#: tt-rss.php:144
 msgid "Feed actions:"
 msgstr "Actions sur ce flux&nbsp;:"
 
-#: tt-rss.php:135
+#: tt-rss.php:145
 msgid "&nbsp;&nbsp;Subscribe to feed"
 msgstr "&nbsp;&nbsp;S'inscrire à ce flux"
 
-#: tt-rss.php:136
+#: tt-rss.php:146
 msgid "&nbsp;&nbsp;Edit this feed"
 msgstr "&nbsp;&nbsp;Modifier ce flux"
 
-#: tt-rss.php:137
+#: tt-rss.php:147
 msgid "&nbsp;&nbsp;Clear articles"
 msgstr "&nbsp;&nbsp;Purger les articles"
 
-#: tt-rss.php:138
+#: tt-rss.php:148
 msgid "&nbsp;&nbsp;Unsubscribe"
 msgstr "&nbsp;&nbsp;Se désinscrire"
 
-#: tt-rss.php:140
+#: tt-rss.php:150
 msgid "All feeds:"
 msgstr "Tous les flux&nbsp;:"
 
-#: tt-rss.php:141
+#: tt-rss.php:151
 msgid "&nbsp;&nbsp;Mark as read"
 msgstr "Marquer comme lus"
 
-#: tt-rss.php:142
+#: tt-rss.php:152
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr "(Dé)Masquer les flux lus"
 
-#: tt-rss.php:144
+#: tt-rss.php:154
 msgid "Other actions:"
 msgstr "Autres actions&nbsp;:"
 
-#: tt-rss.php:145
+#: tt-rss.php:155
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Créer un filtre"
 
-#: tt-rss.php:153 modules/popup-dialog.php:139
+#: tt-rss.php:163 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Rechercher&nbsp;:"
 
-#: tt-rss.php:160
+#: tt-rss.php:170
 msgid "View:"
 msgstr "Afficher&nbsp;:"
 
-#: tt-rss.php:162
+#: tt-rss.php:172
 msgid "Adaptive"
 msgstr "Adaptatif"
 
-#: tt-rss.php:163
+#: tt-rss.php:173
 msgid "All Articles"
 msgstr "Tous les articles"
 
-#: tt-rss.php:168
+#: tt-rss.php:178
 msgid "Limit:"
 msgstr "Limite&nbsp;:"
 
-#: tt-rss.php:193
+#: tt-rss.php:203
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -1296,33 +1306,33 @@ msgstr "Sujet non trouvé dans l'aide."
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
-#: modules/opml_domdoc.php:44
+#: modules/opml_domdoc.php:54
 #, php-format
 msgid "Adding category <b>%s</b>...<br>"
 msgstr "Ajout de la catégorie <b>%s</b>...<br>"
 
-#: modules/opml_domdoc.php:89 modules/opml_domxml.php:92
+#: modules/opml_domdoc.php:103 modules/opml_domxml.php:106
 msgid "Already imported."
 msgstr "Déjà importé"
 
-#: modules/opml_domdoc.php:107 modules/opml_domxml.php:110
+#: modules/opml_domdoc.php:123 modules/opml_domxml.php:125
 msgid "Done."
 msgstr "Terminé."
 
-#: modules/opml_domdoc.php:118 modules/opml_domxml.php:124
+#: modules/opml_domdoc.php:134 modules/opml_domxml.php:139
 msgid "Error while parsing document."
 msgstr "Erreur lors de l'analyse du document."
 
-#: modules/opml_domdoc.php:122 modules/opml_domxml.php:128
+#: modules/opml_domdoc.php:138 modules/opml_domxml.php:143
 msgid "Error: please upload OPML file."
 msgstr "Erreur&nbsp;: veuillez envoyer un document OPML."
 
-#: modules/opml_domxml.php:46
+#: modules/opml_domxml.php:56
 #, php-format
 msgid "Adding category <b>%s</b>."
 msgstr "Ajout de la catégorie <b>%s</b>."
 
-#: modules/opml_domxml.php:121
+#: modules/opml_domxml.php:136
 msgid "Error: can't find body element."
 msgstr "Erreur&nbsp;: impossible de trouver la balise body."
 
@@ -1343,9 +1353,8 @@ msgstr ""
 "Tiny RSS."
 
 #: modules/popup-dialog.php:18 modules/popup-dialog.php:42
-#, fuzzy
 msgid "Last update:"
-msgstr "Outil de mise à jour du jeu de caractères MySQL"
+msgstr "Dernière mise à jour&nbsp;:"
 
 #: modules/popup-dialog.php:26
 msgid ""
@@ -1654,9 +1663,8 @@ msgid "Updated"
 msgstr "Mis à jour"
 
 #: modules/pref-feeds.php:991 modules/pref-feeds.php:1005
-#, fuzzy
 msgid "Selection:"
-msgstr "La sélection"
+msgstr "Sélection&nbsp;:"
 
 #: modules/pref-feeds.php:997
 msgid "Recategorize"
@@ -1669,21 +1677,19 @@ msgstr "Modifier"
 
 #: modules/pref-feeds.php:1007
 msgid "Manual purge"
-msgstr ""
+msgstr "Purger manuellement"
 
 #: modules/pref-feeds.php:1008
-#, fuzzy
 msgid "Clear feed data"
-msgstr "Mise à jour des flux terminée."
+msgstr "Purger les données de flux"
 
 #: modules/pref-feeds.php:1009
 msgid "Unsubscribe"
 msgstr "Se désinscrire"
 
 #: modules/pref-feeds.php:1014
-#, fuzzy
 msgid "Other:"
-msgstr "Emplacement&nbsp;:"
+msgstr "Autre&nbsp;:"
 
 #: modules/pref-feeds.php:1015
 msgid "Edit categories"
@@ -1965,23 +1971,3 @@ msgstr "Détails de l'utilisateur"
 #: modules/pref-users.php:321
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
-
-#~ msgid "New headlines for last 24 hours, as of "
-#~ msgstr "Nouveaux en-têtes dans les dernières 24 heures, à compter de "
-
-#~ msgid ""
-#~ "You have been sent this email because you have enabled daily digests in "
-#~ "Tiny Tiny RSS at "
-#~ msgstr ""
-#~ "Vous recevez ce courrier électronique parce que vous avez activé la "
-#~ "synthèse quotidienne dans TIny Tiny RSS sur "
-
-#~ msgid ""
-#~ "To unsubscribe, visit your configuration options or contact instance "
-#~ "owner.\n"
-#~ msgstr ""
-#~ "Pour vous désinscrire, modifiez votre configuration ou contactez "
-#~ "l'administrateur de votre TIny Tiny RSS.\n"
-
-#~ msgid "&nbsp;&nbsp;Update"
-#~ msgstr "&nbsp;&nbsp;Mettre à jour"
