@@ -269,7 +269,40 @@ function feedlist_init() {
 			}
 		}
 
+		if (getInitParam("theme") == "") {
+			setTimeout("hide_footer()", 5000);
+		}
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
+	}
+}
+
+function hide_footer_af(effect) {
+	try {
+		var c = document.getElementById("content-frame");
+
+		if (c) {
+			c.style.bottom = "0px";
+		} else {
+			var h = document.getElementById("headlines-frame");
+
+			if (h) {
+				h.style.bottom = "0px";
+			}
+		}
+
+	} catch (e) {
+		exception_error("hide_footer_af", e);
+	}
+}
+
+function hide_footer() {
+	try {
+		if (Element.visible("footer")) {
+			new Effect.Fade("footer", { afterFinish: hide_footer_af });
+		}
+	} catch (e) {
+		exception_error("hide_footer", e);
 	}
 }
