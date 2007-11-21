@@ -86,6 +86,7 @@ window.onload = init;
 			<td align="right"><input name="login"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
 			<td align="right"><input type="password" name="password"></td></tr>
+			<?php if (ENABLE_TRANSLATIONS) { ?>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
 			<td align="right">
 			<?php
@@ -94,6 +95,7 @@ window.onload = init;
 
 			?>
 			</td></tr>
+			<?php } ?>
 			<!-- <tr><td colspan="2">
 				<input type="checkbox" name="remember_me" id="remember_me">
 				<label for="remember_me">Remember me on this computer</label>
