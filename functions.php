@@ -4519,6 +4519,8 @@
 	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset) {
 
+		$disable_cache = false;
+
 		$timing_info = getmicrotime();
 
 		$topmost_article_ids = array();
@@ -4586,6 +4588,11 @@
 		/// START /////////////////////////////////////////////////////////////////////////////////
 
 		$search = db_escape_string($_GET["query"]);
+
+		if ($search) { 
+			$disable_cache = true;
+		}
+
 		$search_mode = db_escape_string($_GET["search_mode"]);
 		$match_on = db_escape_string($_GET["match_on"]);
 
@@ -4952,7 +4959,7 @@
 			print "</div>";
 		}
 
-		return array($topmost_article_ids, $headlines_count, $feed);
+		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html

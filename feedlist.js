@@ -36,6 +36,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 //		if (!offset) page_offset = 0;
 
+		var force_nocache = false;
+
 		var page_offset = 0;
 
 		if (offset > 0) {
@@ -76,6 +78,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
 		if (toolbar_form.query) {
+			if (toolbar_form.query.value != "") {
+				force_nocache = true;
+			}
 			toolbar_form.query.value = "";
 		}
 
@@ -86,6 +91,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			var search_query = Form.serialize("search_form");
 			query = query + "&" + search_query;
 			closeInfoBox(true);
+			force_nocache = true;
 		}
 
 //		debug("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
@@ -146,7 +152,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		var unread_ctr = document.getElementById("FEEDU-" + feed);
 		var cache_check = false;
 
-		if (unread_ctr && !page_offset) {
+		if (unread_ctr && !page_offset && !force_nocache) {
 			unread_ctr = unread_ctr.innerHTML;
 
 			var cache_prefix = "";

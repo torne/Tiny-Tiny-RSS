@@ -227,6 +227,7 @@
 		$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];
 		$returned_feed = $ret[2];
+		$disable_cache = $ret[3];
 
 		print "]]></headlines>";
 
@@ -235,6 +236,7 @@
 		$headlines_unread = getFeedUnread($link, $returned_feed);
 
 		print "<headlines-unread value=\"$headlines_unread\"/>";
+		printf("<disable-cache value=\"%d\"/>", $disable_cache);
 
 		if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 

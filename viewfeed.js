@@ -91,9 +91,11 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 			var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
 			var headlines_count_obj = transport.responseXML.getElementsByTagName("headlines-count")[0];
 			var headlines_unread_obj = transport.responseXML.getElementsByTagName("headlines-unread")[0];
+			var disable_cache_obj = transport.responseXML.getElementsByTagName("disable-cache")[0];
 
 			var headlines_count = headlines_count_obj.getAttribute("value");
 			var headlines_unread = headlines_unread_obj.getAttribute("value");
+			var disable_cache = disable_cache_obj.getAttribute("value") != "0";
 
 			if (headlines_count == 0) _infscroll_disable = 1;
 	
@@ -115,8 +117,10 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 
 					cache_invalidate(cache_prefix + active_feed_id);
 
-					cache_inject(cache_prefix + active_feed_id,
-						headlines.firstChild.nodeValue, headlines_unread);
+					if (!disable_cache) {
+						cache_inject(cache_prefix + active_feed_id,
+							headlines.firstChild.nodeValue, headlines_unread);
+					}
 
 				} else {
 					debug("headlines_callback: returned no data");
