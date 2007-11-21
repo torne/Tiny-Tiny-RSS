@@ -968,7 +968,7 @@ function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
 		if (hide) {
 			//cat_node.style.display = "none";
 			Effect.Fade(cat_node, {duration : 0.3, 
-				queue: { position: 'end', scope: 'CFADE-' + i, limit: 1 }});
+				queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
 		} else {
 			cat_node.style.display = "list-item";
 		}
