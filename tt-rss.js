@@ -140,9 +140,9 @@ function scheduleFeedUpdate(force) {
 
 	debug("in scheduleFeedUpdate");
 
-	if (!daemon_enabled && !daemon_refresh_only) {
+/*	if (!daemon_enabled && !daemon_refresh_only) {
 		notify_progress("Updating feeds...", true);
-	}
+	} */
 
 	var query_str = "backend.php?op=rpc&subop=";
 
