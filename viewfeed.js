@@ -262,6 +262,11 @@ function showArticleInHeadlines(id) {
 			}
 
 			cache_invalidate(cache_prefix + getActiveFeedId());
+
+			cache_inject(cache_prefix + getActiveFeedId(),
+				document.getElementById("headlines-frame").innerHTML,
+				get_feed_unread(getActiveFeedId()));
+	
 		}
 		
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
