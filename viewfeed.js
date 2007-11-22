@@ -247,30 +247,38 @@ function showArticleInHeadlines(id) {
 		var article_is_unread = crow.className.match("Unread");
 			
 		crow.className = crow.className.replace("Unread", "");
-		
+
+		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
+		markHeadline(id);
+	
 		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
-		
+
+		var cache_prefix = "";
+				
+		if (activeFeedIsCat()) {
+			cache_prefix = "C:";
+		} else {
+			cache_prefix = "F:";
+		}
+	
 		if (upd_img_pic && upd_img_pic.src.match("updated.png")) {
 			upd_img_pic.src = "images/blank_icon.gif";
-
-			var cache_prefix = "";
-				
-			if (activeFeedIsCat()) {
-				cache_prefix = "C:";
-			} else {
-				cache_prefix = "F:";
-			}
 
 			cache_invalidate(cache_prefix + getActiveFeedId());
 
 			cache_inject(cache_prefix + getActiveFeedId(),
 				document.getElementById("headlines-frame").innerHTML,
 				get_feed_unread(getActiveFeedId()));
-	
+
+		} else if (article_is_unread) {
+
+			cache_invalidate(cache_prefix + getActiveFeedId());
+
+			cache_inject(cache_prefix + getActiveFeedId(),
+				document.getElementById("headlines-frame").innerHTML,
+				get_feed_unread(getActiveFeedId())-1);
+
 		}
-		
-		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-		markHeadline(id);
 
 	} catch (e) {
 		exception_error("showArticleInHeadlines", e);
