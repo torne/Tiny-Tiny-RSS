@@ -259,7 +259,16 @@ function showArticleInHeadlines(id) {
 		} else {
 			cache_prefix = "F:";
 		}
-	
+
+		var view_mode = false;
+
+		try {
+			view_mode = document.forms['main_toolbar_form'].view_mode;	
+			view_mode = view_mode[view_mode.selectedIndex].value;
+		} catch (e) {
+			exception_error("showArticleInHeadlines/viewmode", e, true);
+		}
+
 		if (upd_img_pic && upd_img_pic.src.match("updated.png")) {
 			upd_img_pic.src = "images/blank_icon.gif";
 
@@ -269,7 +278,7 @@ function showArticleInHeadlines(id) {
 				document.getElementById("headlines-frame").innerHTML,
 				get_feed_unread(getActiveFeedId()));
 
-		} else if (article_is_unread) {
+		} else if (article_is_unread && view_mode == "all_articles") {
 
 			cache_invalidate(cache_prefix + getActiveFeedId());
 
