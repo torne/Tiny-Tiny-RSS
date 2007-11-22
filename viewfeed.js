@@ -250,8 +250,18 @@ function showArticleInHeadlines(id) {
 		
 		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
 		
-		if (upd_img_pic) {
+		if (upd_img_pic && upd_img_pic.src.match("updated.png")) {
 			upd_img_pic.src = "images/blank_icon.gif";
+
+			var cache_prefix = "";
+				
+			if (activeFeedIsCat()) {
+				cache_prefix = "C:";
+			} else {
+				cache_prefix = "F:";
+			}
+
+			cache_invalidate(cache_prefix + getActiveFeedId());
 		}
 		
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
