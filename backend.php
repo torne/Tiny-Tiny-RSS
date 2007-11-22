@@ -219,6 +219,11 @@
 		set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 		set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
 
+		if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
+			db_query($link, "UPDATE ttrss_feeds SET last_viewed = NOW()
+				WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
+		}
+
 		print "<headlines id=\"$feed\"><![CDATA[";
 
 		$ret = outputHeadlinesList($link, $feed, $subop, 
