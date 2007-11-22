@@ -249,7 +249,6 @@ function showArticleInHeadlines(id) {
 		crow.className = crow.className.replace("Unread", "");
 
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
-		markHeadline(id);
 	
 		var upd_img_pic = document.getElementById("FUPDPIC-" + id);
 
@@ -279,6 +278,8 @@ function showArticleInHeadlines(id) {
 				get_feed_unread(getActiveFeedId())-1);
 
 		}
+
+		markHeadline(id);
 
 	} catch (e) {
 		exception_error("showArticleInHeadlines", e);
