@@ -149,11 +149,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				queue: { position:'end', scope: 'FEEDL-' + feed, limit: 1 } } );
 		}
 
-		var unread_ctr = document.getElementById("FEEDU-" + feed);
+		var unread_ctr = get_feed_unread(feed);
 		var cache_check = false;
 
-		if (unread_ctr && !page_offset && !force_nocache && !subop) {
-			unread_ctr = unread_ctr.innerHTML;
+		if (unread_ctr != -1 && !page_offset && !force_nocache && !subop) {
 
 			var cache_prefix = "";
 				

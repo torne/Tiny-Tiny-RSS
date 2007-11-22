@@ -778,6 +778,15 @@ function all_counters_callback2(transport) {
 	}
 }
 
+function get_feed_unread(id) {
+	try {
+		return parseInt(document.getElementById("FEEDU-" + id).innerHTML);	
+	} catch (e) {
+		exception_error("get_feed_unread", e, true);
+		return -1;
+	}
+}
+
 function get_feed_entry_unread(doc, elem) {
 
 	var id = elem.id.replace("FEEDR-", "");
