@@ -286,6 +286,8 @@ function showArticleInHeadlines(id) {
 				document.getElementById("headlines-frame").innerHTML,
 				get_feed_unread(getActiveFeedId())-1);
 
+		} else if (article_is_unread) {
+			cache_invalidate(cache_prefix + getActiveFeedId());
 		}
 
 		markHeadline(id);
