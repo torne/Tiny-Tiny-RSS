@@ -161,7 +161,7 @@ window.onload = init;
 		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<?php echo __('Search:') ?>
-		<input name="query"
+		<input name="query" type="search"
 			onKeyPress="return filterCR(event, viewCurrentFeed)"
 			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
 

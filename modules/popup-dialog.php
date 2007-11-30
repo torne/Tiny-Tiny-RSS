@@ -138,7 +138,7 @@
 
 			print "<table width='100%'><tr><td>".__('Search:')."</td><td>";
 			
-			print "<input name=\"query\" class=\"iedit\" 
+			print "<input name=\"query\" class=\"iedit\" type=\"search\"
 				onkeypress=\"return filterCR(event, search)\"
 				onchange=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
