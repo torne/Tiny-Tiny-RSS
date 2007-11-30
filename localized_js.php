@@ -1,4 +1,7 @@
 <?php 
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+define('DISABLE_SESSIONS', true);
+
 require "functions.php";
 header("Content-Type: text/plain; charset=UTF-8");
 
