@@ -88,6 +88,7 @@
 					AND owner_uid = '$owner_uid') GROUP BY feed_url 
 						ORDER BY subscribers DESC LIMIT $limit");
 
+		print "<br/>";
 			
 		print "<div style=\"float : right\">
 			".__('Top')." <select id=\"feedBrowserLimit\">";
@@ -102,9 +103,9 @@
 				onclick=\"updateBigFeedBrowser()\" value=\"".__('Show')."\">
 		</div>";
 
-		print "<p id=\"fbrOpToolbar\">
+		print "<div id=\"fbrOpToolbar\">
 			<input type='submit' class='button' onclick=\"feedBrowserSubscribe()\" 
-			disabled=\"true\" value=\"".__('Subscribe')."\">";
+			disabled=\"true\" value=\"".__('Subscribe')."\"></div>";
 
 		print "<ul class='nomarks' id='browseBigFeedList'>";
 
