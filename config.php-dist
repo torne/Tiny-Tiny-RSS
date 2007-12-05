@@ -164,7 +164,13 @@
 	define('DAEMON_FEED_LIMIT', 100);
 	// Limits the amount of feeds daemon updates on one run
 
-	define('CONFIG_VERSION', 12);
+	define('ALLOW_REMOTE_USER_AUTH', false);
+   // Set to 'true' if you trust your web server's REMOTE_USER
+	// environment variable to validate that the user is logged in. This
+	// option can be used to integrate tt-rss with Apache's external
+	// authentication modules.
+
+	define('CONFIG_VERSION', 13);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

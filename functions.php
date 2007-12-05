@@ -1560,10 +1560,15 @@
 			$pwd_hash1 = encrypt_password($password);
 			$pwd_hash2 = encrypt_password($password, $login);
 
-			if ($force_auth && defined('_DEBUG_USER_SWITCH')) {
+			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH 
+					&& $_SERVER["REMOTE_USER"]) {
+
+				$login = db_escape_string($_SERVER["REMOTE_USER"]);
+
 				$query = "SELECT id,login,access_level
 	            FROM ttrss_users WHERE
-		         login = '$login'";
+					login = '$login'";
+
 			} else {
 				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
