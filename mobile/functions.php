@@ -40,7 +40,7 @@
 
 			if ($num_fresh > 0) $class .= "Unread";
 
-			printMobileFeedEntry(-3, $class, "Fresh articles", $num_fresh, 
+			printMobileFeedEntry(-3, $class, __("Fresh articles"), $num_fresh, 
 				"../images/fresh.png", $link);
 
 			$num_starred = getFeedUnread($link, -1);
@@ -49,8 +49,17 @@
 
 			if ($num_starred > 0) $class .= "Unread";
 
-			printMobileFeedEntry(-1, $class, "Starred articles", $num_starred, 
+			printMobileFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
 				"../images/mark_set.png", $link);
+
+			$class = "virt";
+
+			$num_published = getFeedUnread($link, -2);
+
+			if ($num_published > 0) $class .= "Unread";
+
+			printMobileFeedEntry(-2, $class, __("Published articles"), $num_published, 
+				"../images/pub_set.png", $link);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "</ul>";
