@@ -230,8 +230,8 @@
 					print "<li class=\"feedCat\">
 						<a href=\"?subop=tc&id=$cat_id\">$tmp_category</a>
 							<a href=\"?go=vf&id=$cat_id&cat=true\">
-								<span class=\"$catctr_class\">($cat_unread 
-									unread)$ellipsis</span></a></li>";
+								<span class=\"$catctr_class\">($cat_unread)$ellipsis</span>
+							</a></li>";
 
 					print "<li id=\"feedCatHolder\" class=\"$holder_class\">
 						<ul class=\"feedCatList\">";
