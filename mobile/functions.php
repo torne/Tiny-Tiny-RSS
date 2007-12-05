@@ -538,6 +538,7 @@
 			WHERE ref_id = '$id' AND feed_id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+			marked,published,
 			SUBSTRING(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			num_comments,
@@ -602,6 +603,23 @@
 			if ($num_tags > 0) {
 				print "<div class=\"postTags\">Tags: $tags_str</div>";
 			}
+
+			if ($line["marked"] == "t" || $line["marked"] == "1") {
+				$marked_pic = "<img class='marked' src=\"../images/mark_set.png\">";
+			} else {
+				$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
+			}
+
+			if ($line["published"] == "t" || $line["published"] == "1") {
+				$published_pic = "<img class='marked' src=\"../images/pub_set.gif\">";
+			} else {
+				$published_pic = "<img class='marked' src=\"../images/pub_unset.gif\">";
+			}
+
+			print "<div class=\"postStarOps\">";
+			print "<a href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=ts\">$marked_pic</a>";
+			print "<a href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=tp\">$published_pic</a>";
+			print "</div>";
 
 			print sanitize_rss($link, $line["content"], true);; 
 		
@@ -675,4 +693,13 @@
 		print "</div>";
 	}
 
+	function toggleMarked($link, $ts_id) {
+		$result = db_query($link, "UPDATE ttrss_user_entries SET marked = NOT marked
+			WHERE ref_id = '$ts_id' AND owner_uid = " . $_SESSION["uid"]);
+	}
+
+	function togglePublished($link, $tp_id) {
+		$result = db_query($link, "UPDATE ttrss_user_entries SET published = NOT published
+			WHERE ref_id = '$tp_id' AND owner_uid = " . $_SESSION["uid"]);
+	}
 ?>

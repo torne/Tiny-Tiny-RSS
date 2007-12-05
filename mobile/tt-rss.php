@@ -53,8 +53,9 @@
 	$ts_id = db_escape_string($_GET["ts"]);
 
 	if ($go == "vf" && $ts_id) {
-		$result = db_query($link, "UPDATE ttrss_user_entries SET marked = NOT marked
-			WHERE ref_id = '$ts_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		toggleMarked($link, $ts_id);
+
 		$query_string = preg_replace("/&ts=[0-9]*/", "", $_SERVER["QUERY_STRING"]);
 		header("Location: tt-rss.php?$query_string");
 		return;
@@ -63,11 +64,32 @@
 	$tp_id = db_escape_string($_GET["tp"]);
 
 	if ($go == "vf" && $tp_id) {
-		$result = db_query($link, "UPDATE ttrss_user_entries SET published = NOT published
-			WHERE ref_id = '$tp_id' AND owner_uid = " . $_SESSION["uid"]);
+
+		togglePublished($link, $tp_id);
+
 		$query_string = preg_replace("/&tp=[0-9]*/", "", $_SERVER["QUERY_STRING"]);
 		header("Location: tt-rss.php?$query_string");
 		return;
+	}
+
+	$sop = db_escape_string($_GET["sop"]);
+
+	if ($sop && $go == "view") {
+		$a_id = db_escape_string($_GET["id"]);
+
+		if ($a_id) {
+
+			if ($sop == "tp") {
+				togglePublished($link, $a_id);
+			}
+
+			if ($sop == "ts") {
+				toggleMarked($link, $a_id);
+			}
+
+			$query_string = preg_replace("/&sop=t[sp]/", "", $_SERVER["QUERY_STRING"]);
+			header("Location: tt-rss.php?$query_string");
+		}
 	}
 
 ?>
