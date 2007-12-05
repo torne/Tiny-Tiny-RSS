@@ -315,6 +315,7 @@
 		$view_mode = db_escape_string($_GET["viewmode"]);
 		$cat_view = db_escape_string($_GET["cat"]);
 		$subop = $_GET["subop"];
+		$catchup_op = $_GET["catchup_op"];
 
 		if (!$view_mode) $view_mode = "Adaptive";
 		if (!$limit) $limit = 30;
@@ -347,11 +348,22 @@
 			update_generic_feed($link, $feed, $cat_view, true);
 		}
 
-		if ($subop == "MarkAllRead")  {
+		if ($subop == "MarkAllRead" || $catchup_op == "feed")  {
 			catchup_feed($link, $feed, $cat_view);
 		}
 
-		if ($subop == "MarkPageRead") {
+		if ($catchup_op == "selection") {
+			$ids_to_mark = array_keys($_GET["sel_ids"]);
+			if ($ids_to_mark) {
+				foreach ($ids_to_mark as $id) {
+					db_query($link, "UPDATE ttrss_user_entries SET 
+						unread = false,last_read = NOW()
+						WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+		}
+
+		if ($subop == "MarkPageRead" || $catchup_op == "page") {
 			$ids_to_mark = $_SESSION["last_page_ids.$feed"];
 
 			if ($ids_to_mark) {
@@ -416,6 +428,10 @@
 	
 		if (db_num_rows($result) > 0) {
 
+			print "<form method=\"GET\" action=\"tt-rss.php\">";
+			print "<input type=\"hidden\" name=\"go\" value=\"vf\">";
+			print "<input type=\"hidden\" name=\"id\" value=\"$feed\">";
+
 			print "<ul class=\"headlines\">";
 
 			$page_art_ids = array();
@@ -475,7 +491,10 @@
 					$updated_fmt = date($short_date, strtotime($line["updated"]));
 				}				
 				
-				print "<li class='$class'>";
+				print "<li class='$class' id=\"HROW-$id\">";
+
+				print "<input type=\"checkbox\" name=\"sel_ids[$id]\" 
+					onchange=\"toggleSelectRow(this, $id)\">";
 
 				print "<a href=\"?go=vf&id=$feed&ts=$id\">$marked_pic</a>";
 				print "<a href=\"?go=vf&id=$feed&tp=$id\">$published_pic</a>";
@@ -497,12 +516,21 @@
 
 			print "</ul>";
 
-			print "<div class='footerAddon'>Mark as read: ";
+			print "<div class='footerAddon'>";
 
 			$_SESSION["last_page_ids.$feed"] = $page_art_ids;
 
-			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkPageRead\">Page</a>, ";
-			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a></div>";
+/*			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkPageRead\">Page</a>, ";
+			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a></div>"; */
+
+			print "<select name=\"catchup_op\">
+				<option value=\"selection\">Selection</option>
+				<option value=\"page\">Page</option>
+				<option value=\"feed\">Entire feed</option>
+			</select>
+			<input type=\"submit\" value=\"Mark as read\">";				
+
+			print "</form>";
 
 		} else {
 			print "<div align='center'>No articles found.</div>";

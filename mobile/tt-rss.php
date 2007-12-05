@@ -98,6 +98,7 @@
 	<title>Tiny Tiny RSS - Mobile</title>
 	<link rel="stylesheet" type="text/css" href="mobile.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="tt-rss.js"></script>
 </head>
 <body>
 

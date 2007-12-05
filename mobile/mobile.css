@@ -127,17 +127,41 @@ ul.feedlist li.tagUnread {
 }
 
 .even {
-	background-color : #88b0ff;
+/*	background-color : #9bbdff; */
+	border-width : 0px 0px 1px 0px;
+	border-color : #88b0ff;
+	border-style : solid;
+}
+
+.odd {
+	border-width : 0px 0px 1px 0px;
+	border-color : #88b0ff;
+	border-style : solid;
 }
 
 .evenUnread {
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
+	border-color : #88b0ff;
+	border-style : solid;
+/*	background-color : #9bbdff; */
+	font-weight : bold;
+}
+
+.oddUnread {
+	border-width : 0px 0px 1px 0px;
 	border-color : #88b0ff;
 	border-style : solid;
 	font-weight : bold;
 }
 
-.oddUnread {
+.evenSelected, .oddSelected, .evenUnreadSelected, .oddUnreadSelected {
+	background-color : #fff7d5;
+	border-width : 0px 0px 1px 0px;
+	border-color : #88b0ff;
+	border-style : solid;
+}
+
+.evenUnreadSelected, .oddUnreadSelected {
 	font-weight : bold;
 }
 
