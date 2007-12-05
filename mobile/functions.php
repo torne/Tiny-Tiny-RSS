@@ -458,7 +458,13 @@
 				} else {
 					$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
 				}
-	
+
+				if ($line["published"] == "t" || $line["published"] == "1") {
+					$published_pic = "<img class='marked' src=\"../images/pub_set.gif\">";
+				} else {
+					$published_pic = "<img class='marked' src=\"../images/pub_unset.gif\">";
+				}
+
 				$content_link = "<a href=\"?go=view&id=$id&ret_feed=$feed&feed=$feed_id\">" .
 					$line["title"] . "</a>";
 
@@ -472,6 +478,7 @@
 				print "<li class='$class'>";
 
 				print "<a href=\"?go=vf&id=$feed&ts=$id\">$marked_pic</a>";
+				print "<a href=\"?go=vf&id=$feed&tp=$id\">$published_pic</a>";
 
 				print $content_link;
 	

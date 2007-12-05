@@ -59,6 +59,17 @@
 		header("Location: tt-rss.php?$query_string");
 		return;
 	}
+
+	$tp_id = db_escape_string($_GET["tp"]);
+
+	if ($go == "vf" && $tp_id) {
+		$result = db_query($link, "UPDATE ttrss_user_entries SET published = NOT published
+			WHERE ref_id = '$tp_id' AND owner_uid = " . $_SESSION["uid"]);
+		$query_string = preg_replace("/&tp=[0-9]*/", "", $_SERVER["QUERY_STRING"]);
+		header("Location: tt-rss.php?$query_string");
+		return;
+	}
+
 ?>
 <html>
 <head>
