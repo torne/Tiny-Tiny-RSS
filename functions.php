@@ -830,6 +830,7 @@
 				if (preg_match('/^[\t\n\r ]*$/', $entry_author)) $entry_author = '';
 
 				$entry_guid = db_escape_string(strip_tags($entry_guid));
+				$entry_guid = mb_substr($entry_guid, 0, 250);
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries 
 					WHERE guid = '$entry_guid'");
