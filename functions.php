@@ -13,6 +13,7 @@
 					"auto"  => "Detect automatically",
 					"en_US" => "English",
 					"fr_FR" => "Français",
+					"nb_NO" => "Norsk Bokmål",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese");
