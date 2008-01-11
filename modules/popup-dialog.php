@@ -228,12 +228,6 @@
 
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 rows=\"4\" name=\"sql_exp\" class=\"iedit\"></textarea>";
-
-			print "</td></tr>";
-			print "<tr><td>";
-			print "<a class='small' href=\"javascript:displayHelpInfobox(1)\">
-			".__('Click here for help')."</a>";
-
 			print "</td></tr></table>";
 
 			print "</form>";
@@ -241,6 +235,10 @@
 			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
 
 			print "<div align='right'>";
+
+			print "<input type=\"submit\" 
+				class=\"button\" onclick=\"return displayHelpInfobox(1)\" 
+				value=\"".__('Help')."\"> ";
 
 			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"".__('Test')."\">
 				";

@@ -864,6 +864,8 @@ function displayHelpInfobox(topic_id) {
 
 	var w = window.open(url, "ttrss_help", 
 		"status=0,toolbar=0,location=0,width=450,height=500,scrollbars=1,menubar=0");
+
+	return false;
 }
 
 function labelEditCancel() {
