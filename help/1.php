@@ -6,15 +6,15 @@
 
 <p>Match all unread articles:</p>
 
-<pre>unread = true</pre>
+<code>unread = true</code>
 
 <p>Matches all articles which mention Linux in the title:</p>
 
-<pre>ttrss_entries.title like '%Linux%'</pre>
+<code>ttrss_entries.title like '%Linux%'</code>
 
 <p>Matches all articles for the last week (PostgreSQL):</p>
 
-<pre>updated &gt; NOW() - INTERVAL '7 days'</pre>
+<code>updated &gt; NOW() - INTERVAL '7 days'</code>
 
 <p>See the database schema <a target="_blank" href="http://tt-rss.org/trac/browser/schema/ttrss_schema_pgsql.sql">here</a> or included in the distribution package for gruesome details. The relevant tables are <b>ttrss_entries</b> and <b>ttrss_user_entries</b>.</p>
 

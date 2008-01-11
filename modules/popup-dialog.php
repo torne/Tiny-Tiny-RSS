@@ -236,9 +236,11 @@
 
 			print "<div align='right'>";
 
+			print "<div style='float : left'>";
 			print "<input type=\"submit\" 
 				class=\"button\" onclick=\"return displayHelpInfobox(1)\" 
 				value=\"".__('Help')."\"> ";
+			print "</div>";
 
 			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"".__('Test')."\">
 				";

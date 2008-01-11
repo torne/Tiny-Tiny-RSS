@@ -56,9 +56,11 @@
 
 			print "<div align='right'>";
 
+			print "<div style='float : left'>";
 			print "<input type=\"submit\" 
 				class=\"button\" onclick=\"return displayHelpInfobox(1)\" 
 				value=\"".__('Help')."\"> ";
+			print "</div>";
 
 			$is_disabled = (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== FALSE) ? "disabled" : "";
 
