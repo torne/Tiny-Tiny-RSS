@@ -12,6 +12,11 @@
 
 <pre>ttrss_entries.title like '%Linux%'</pre>
 
-<p>See the database schema included in the distribution package for gruesome
-details.</p>
+<p>Matches all articles for the last week (PostgreSQL):</p>
 
+<pre>updated &gt; NOW() - INTERVAL '7 days'</pre>
+
+<p>See the database schema <a target="_blank" href="http://tt-rss.org/trac/browser/schema/ttrss_schema_pgsql.sql">here</a> or included in the distribution package for gruesome details. The relevant tables are <b>ttrss_entries</b> and <b>ttrss_user_entries</b>.</p>
+
+<p class="insensitive">Feel free to post more clever examples of labels on Tiny 
+Tiny RSS <a target="_blank" href="http://tt-rss.org/forum">forums</a>.</p>

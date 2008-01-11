@@ -863,8 +863,7 @@ function displayHelpInfobox(topic_id) {
 	var url = "backend.php?op=help&tid=" + param_escape(topic_id);
 
 	var w = window.open(url, "ttrss_help", 
-		"status=0,toolbar=0,location=0,width=400,height=450,menubar=0");
-
+		"status=0,toolbar=0,location=0,width=450,height=500,scrollbars=1,menubar=0");
 }
 
 function labelEditCancel() {
