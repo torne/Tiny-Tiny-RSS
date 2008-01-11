@@ -49,6 +49,11 @@
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 rows=\"4\" name=\"sql_exp\" class=\"iedit\">$sql_exp</textarea>";
 
+			print "</td></tr>";
+			print "<tr><td>";
+			print "<a class='small' href=\"javascript:displayHelpInfobox(1)\">
+			".__('Click here for help')."</a>";
+
 			print "</td></tr></table>";
 
 			print "</form>";
