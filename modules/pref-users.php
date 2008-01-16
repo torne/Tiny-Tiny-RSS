@@ -155,7 +155,7 @@
 					 to <b>%s</b>", $login, $tmp_user_pwd));
 
 				if (MAIL_RESET_PASS && $email) {
-					print " Notifying <b>$email</b>.";
+					print_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 
 					mail("$login <$email>", "Password reset notification",
 						"Hi, $login.\n".
