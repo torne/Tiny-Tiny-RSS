@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-02 15:47+0300\n"
+"POT-Creation-Date: 2008-01-16 21:35+0300\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -207,14 +207,14 @@ msgstr "Recherché"
 
 #: functions.php:3721 functions.php:3768 functions.php:4898
 #: modules/pref-feeds.php:655 modules/pref-feeds.php:842
-#: modules/pref-filters.php:255 modules/pref-labels.php:234
+#: modules/pref-filters.php:255 modules/pref-labels.php:239
 #: modules/pref-users.php:208
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
 #: functions.php:3722 functions.php:3769 modules/pref-feeds.php:656
 #: modules/pref-feeds.php:843 modules/pref-filters.php:256
-#: modules/pref-labels.php:235 modules/pref-users.php:209
+#: modules/pref-labels.php:240 modules/pref-users.php:209
 msgid "All"
 msgstr "Tout"
 
@@ -225,7 +225,7 @@ msgstr "Non lus"
 
 #: functions.php:3724 functions.php:3771 modules/pref-feeds.php:657
 #: modules/pref-feeds.php:844 modules/pref-filters.php:257
-#: modules/pref-labels.php:236 modules/pref-users.php:210
+#: modules/pref-labels.php:241 modules/pref-users.php:210
 msgid "None"
 msgstr "Aucun"
 
@@ -1303,7 +1303,7 @@ msgid "Help topic not found."
 msgstr "Sujet non trouvé dans l'aide."
 
 #: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:458 modules/pref-feeds.php:706
+#: modules/popup-dialog.php:463 modules/pref-feeds.php:706
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
@@ -1395,8 +1395,8 @@ msgid "Subscribe"
 msgstr "S'inscrire"
 
 #: modules/popup-dialog.php:114 modules/popup-dialog.php:199
-#: modules/popup-dialog.php:251 modules/popup-dialog.php:338
-#: modules/popup-dialog.php:434 modules/pref-feeds.php:120
+#: modules/popup-dialog.php:256 modules/popup-dialog.php:343
+#: modules/popup-dialog.php:439 modules/pref-feeds.php:120
 #: modules/pref-feeds.php:352 modules/pref-filters.php:118
 #: modules/pref-users.php:58
 msgid "Cancel"
@@ -1422,7 +1422,7 @@ msgstr "Correspondance sur&nbsp;:"
 msgid "Title or content"
 msgstr "Titre ou contenu"
 
-#: modules/popup-dialog.php:208 modules/pref-labels.php:216
+#: modules/popup-dialog.php:208 modules/pref-labels.php:221
 msgid "Create label"
 msgstr "Créer un intitulé"
 
@@ -1434,85 +1434,90 @@ msgstr "Descriptif&nbsp;:"
 msgid "SQL Expression:"
 msgstr "Expression SQL&nbsp;:"
 
-#: modules/popup-dialog.php:240
+#: modules/popup-dialog.php:242 modules/pref-labels.php:62
+#, fuzzy
+msgid "Help"
+msgstr "Bonjour,"
+
+#: modules/popup-dialog.php:245
 msgid "Test"
 msgstr "Tester"
 
-#: modules/popup-dialog.php:247 modules/popup-dialog.php:334
+#: modules/popup-dialog.php:252 modules/popup-dialog.php:339
 msgid "Create"
 msgstr "Créer"
 
-#: modules/popup-dialog.php:260 modules/pref-filters.php:229
+#: modules/popup-dialog.php:265 modules/pref-filters.php:229
 msgid "Create filter"
 msgstr "Créer un filtre"
 
-#: modules/popup-dialog.php:278 modules/popup-dialog.php:309
+#: modules/popup-dialog.php:283 modules/popup-dialog.php:314
 #: modules/pref-filters.php:40 modules/pref-filters.php:72
 msgid "description"
 msgstr "description"
 
-#: modules/popup-dialog.php:283 modules/pref-filters.php:45
+#: modules/popup-dialog.php:288 modules/pref-filters.php:45
 msgid "Match:"
 msgstr "Correspondance&nbsp;:"
 
-#: modules/popup-dialog.php:289 modules/pref-filters.php:51
+#: modules/popup-dialog.php:294 modules/pref-filters.php:51
 msgid "On field:"
 msgstr "Sur le champ&nbsp;:"
 
-#: modules/popup-dialog.php:294 modules/pref-filters.php:56
+#: modules/popup-dialog.php:299 modules/pref-filters.php:56
 msgid "Feed:"
 msgstr "Flux&nbsp;:"
 
-#: modules/popup-dialog.php:300 modules/pref-filters.php:62
+#: modules/popup-dialog.php:305 modules/pref-filters.php:62
 msgid "Action:"
 msgstr "Action&nbsp;:"
 
-#: modules/popup-dialog.php:316 modules/pref-filters.php:79
+#: modules/popup-dialog.php:321 modules/pref-filters.php:79
 msgid "Params:"
 msgstr "Paramètres&nbsp;:"
 
-#: modules/popup-dialog.php:320 modules/pref-feeds.php:283
+#: modules/popup-dialog.php:325 modules/pref-feeds.php:283
 msgid "Options:"
 msgstr "Options&nbsp;:"
 
-#: modules/popup-dialog.php:323 modules/pref-filters.php:103
+#: modules/popup-dialog.php:328 modules/pref-filters.php:103
 msgid "Inverse match"
 msgstr "Correspondance inverse"
 
-#: modules/popup-dialog.php:349
+#: modules/popup-dialog.php:354
 msgid "Update Errors"
 msgstr "Erreurs de mise à jour"
 
-#: modules/popup-dialog.php:352
+#: modules/popup-dialog.php:357
 msgid "These feeds have not been updated because of errors:"
 msgstr "Ces flux n'ont pas été mis à jour à cause d'erreurs&nbsp;:"
 
-#: modules/popup-dialog.php:371
+#: modules/popup-dialog.php:376
 msgid "Close"
 msgstr "Fermer"
 
-#: modules/popup-dialog.php:380
+#: modules/popup-dialog.php:385
 msgid "Edit Tags"
 msgstr "Modifier les étiquettes"
 
-#: modules/popup-dialog.php:385
+#: modules/popup-dialog.php:390
 msgid "Tags for this article (separated by commas):"
 msgstr "Étiquettes pour cet article (séparées par des virgules)&nbsp;:"
 
-#: modules/popup-dialog.php:430 modules/pref-feeds.php:350
+#: modules/popup-dialog.php:435 modules/pref-feeds.php:350
 #: modules/pref-filters.php:114 modules/pref-users.php:55
 msgid "Save"
 msgstr "Enregistrer"
 
-#: modules/popup-dialog.php:443
+#: modules/popup-dialog.php:448
 msgid "Tag cloud"
 msgstr "Nuage d'étiquettes"
 
-#: modules/popup-dialog.php:446
+#: modules/popup-dialog.php:451
 msgid "Showing most popular tags "
 msgstr "Affichage des étiquettes les plus populaires "
 
-#: modules/popup-dialog.php:447
+#: modules/popup-dialog.php:452
 msgid "browse more"
 msgstr "en afficher plus"
 
@@ -1637,7 +1642,7 @@ msgid "No feed categories defined."
 msgstr "Aucune catégorie de flux définie."
 
 #: modules/pref-feeds.php:712 modules/pref-filters.php:345
-#: modules/pref-labels.php:294 modules/pref-users.php:319
+#: modules/pref-labels.php:299 modules/pref-users.php:319
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -1672,7 +1677,7 @@ msgid "Recategorize"
 msgstr "Changer de catégorie"
 
 #: modules/pref-feeds.php:1006 modules/pref-filters.php:343
-#: modules/pref-labels.php:292 modules/pref-users.php:317
+#: modules/pref-labels.php:297 modules/pref-users.php:317
 msgid "Edit"
 msgstr "Modifier"
 
@@ -1790,25 +1795,25 @@ msgstr "(Inverse)"
 msgid "No filters defined."
 msgstr "Aucun filtre défini."
 
-#: modules/pref-labels.php:164
+#: modules/pref-labels.php:169
 #, php-format
 msgid "Saved label <b>%s</b>"
 msgstr "Intitulé <b>%s</b> enregistré"
 
-#: modules/pref-labels.php:194
+#: modules/pref-labels.php:199
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr "Intitulé <b>%s</b> créé"
 
-#: modules/pref-labels.php:241
+#: modules/pref-labels.php:246
 msgid "Caption"
 msgstr "Descriptif"
 
-#: modules/pref-labels.php:242
+#: modules/pref-labels.php:247
 msgid "SQL Expression"
 msgstr "Expression SQL"
 
-#: modules/pref-labels.php:284 modules/pref-labels.php:297
+#: modules/pref-labels.php:289 modules/pref-labels.php:302
 msgid "No labels defined."
 msgstr "Aucun intitulé défini."
 
@@ -1952,6 +1957,11 @@ msgid ""
 msgstr ""
 "Mot de passe de l'utilisateur <b>%s</b>\n"
 "\t\t\t\t\tmodifié en <b>%s</b>"
+
+#: modules/pref-users.php:158
+#, fuzzy, php-format
+msgid "Notifying <b>%s</b>."
+msgstr "Ajout de la catégorie <b>%s</b>."
 
 #: modules/pref-users.php:193
 msgid "Create user"
