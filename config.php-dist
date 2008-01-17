@@ -170,7 +170,11 @@
 	// option can be used to integrate tt-rss with Apache's external
 	// authentication modules.
 
-	define('CONFIG_VERSION', 13);
+	define('LOCK_DIRECTORY', '.');
+	// Directory for lockfiles, must be writable to the user you run
+	// daemon process or cronjobs under.
+
+	define('CONFIG_VERSION', 14);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

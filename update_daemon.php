@@ -35,7 +35,7 @@
 	error_reporting(DEFAULT_ERROR_LEVEL);
 
 	function sigint_handler() {
-		unlink("update_daemon.lock");
+		unlink(LOCK_DIRECTORY . "/update_daemon.lock");
 		die("Received SIGINT. Exiting.\n");
 	}
 

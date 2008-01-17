@@ -56,5 +56,5 @@
 
 	db_close($link);
 
-	unlink($lock_filename);
+	unlink(LOCK_DIRECTORY . "/$lock_filename");
 ?>
