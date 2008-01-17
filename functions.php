@@ -859,7 +859,7 @@
 
 					$additional_tags = array();
 					$additional_tags_src = $item->get_categories();
-
+					
 					if (is_array($additional_tags_src)) {
 						foreach ($additional_tags_src as $tobj) {
 							array_push($additional_tags, $tobj->get_term());
@@ -919,11 +919,13 @@
 				if (ENABLE_SIMPLEPIE) {
 					$encs = $item->get_enclosures();
 
-					foreach ($encs as $e) {
-						$e_item = array(
-							$e->link, $e->type, $e->length);
-
-						array_push($enclosures, $e_item);
+					if (is_array($encs)) {
+						foreach ($encs as $e) {
+							$e_item = array(
+								$e->link, $e->type, $e->length);
+	
+							array_push($enclosures, $e_item);
+						}
 					}
 
 				} else {
