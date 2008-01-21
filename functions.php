@@ -2841,6 +2841,9 @@
 		print "<param key=\"icons_location\" value=\"" . 
 			ICONS_URL . "\"/>";
 
+		print "<param key=\"hide_read_shows_special\" value=\"" . 
+			(int) get_pref($link, "HIDE_READ_SHOWS_SPECIAL") . "\"/>";
+
 		print "</init-params>";
 	}
 
