@@ -80,7 +80,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index(cat_id),
-	foreign key (cat_id) references ttrss_feed_categories(id),
+	foreign key (cat_id) references ttrss_feed_categories(id) ON DELETE SET NULL,
 	index(parent_feed),
 	foreign key (parent_feed) references ttrss_feeds(id) ON DELETE SET NULL) TYPE=InnoDB;
 
