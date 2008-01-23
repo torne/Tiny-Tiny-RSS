@@ -3,6 +3,8 @@
 	// define('DEFAULT_ERROR_LEVEL', E_ALL);
 	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 
+	$start_timestamp = time();
+
 	if ($argv[1] != "SRV_RUN_OK") {
 		die("This script should be started by update_daemon2.php.\n");
 	}
@@ -155,6 +157,8 @@
 	}
 
 	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+
+	print "Elapsed time: " . (time() - $start_timestamp) . " second(s)\n";
 
 	db_close($link);
 ?>

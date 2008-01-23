@@ -13,6 +13,7 @@
 	define('MAX_JOBS', 2);
 	define('CLIENT_PROCESS', './update_daemon2_client.php SRV_RUN_OK');
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
+	define('PHP_EXECUTABLE', '/usr/bin/php');
 
 	$running_jobs = 0;
 	$last_checkpoint = -1;
@@ -69,7 +70,7 @@
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
 					pcntl_signal(SIGINT, SIG_DFL);
-					passthru(CLIENT_PROCESS);
+					passthru(PHP_EXECUTABLE . ' ' . CLIENT_PROCESS);
 					exit(0);
 				}
 			}
