@@ -132,6 +132,12 @@
 			$update_limit_qpart = "AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ".(DAEMON_SLEEP_INTERVAL*2)." SECOND)";
 		}
 
+		if (DB_TYPE == "pgsql") {
+				$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started >= NOW() - INTERVAL '120 seconds')";
+			} else {
+				$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started >= DATE_SUB(NOW(), INTERVAL 120 SECOND))";
+			}			
+
 		$result = db_query($link, "SELECT feed_url,ttrss_feeds.id,owner_uid,
 				SUBSTRING(last_updated,1,19) AS last_updated,
 				update_interval 
@@ -139,6 +145,7 @@
 				ttrss_feeds,ttrss_users 
 			WHERE 
 				ttrss_users.id = owner_uid $login_thresh_qpart $update_limit_qpart 
+				$updstart_thresh_qpart
 			ORDER BY $random_qpart DESC LIMIT " . DAEMON_FEED_LIMIT);
 
 		$user_prefs_cache = array();
