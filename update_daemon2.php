@@ -32,11 +32,20 @@
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
 	pcntl_signal(SIGINT, 'sigint_handler');
 
-	$lock_handle = make_lockfile("update_daemon.lock");
-
-	if (!$lock_handle) {
-		die("error: Can't create lockfile ($lock_filename). ".
+	if (file_is_locked("update_daemon.lock")) {
+		die("error: Can't create lockfile. ".
 			"Maybe another daemon is already running.\n");
+	}
+
+	if (!pcntl_fork()) {
+		$lock_handle = make_lockfile("update_daemon.lock");
+
+		if (!$lock_handle) {
+			die("error: Can't create lockfile. ".
+				"Maybe another daemon is already running.\n");
+		}
+
+		while (true) { sleep(100); }
 	}
 
 	while (true) {
