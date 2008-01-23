@@ -469,9 +469,9 @@
 		}
 
 		if (DB_TYPE == "pgsql") {
-				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started >= NOW() - INTERVAL '120 seconds')";
+				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
 			} else {
-				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started >= DATE_SUB(NOW(), INTERVAL 120 SECOND))";
+				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
 			}			
 
 		$result = db_query($link, "SELECT id,update_interval,auth_login,
