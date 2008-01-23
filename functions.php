@@ -478,6 +478,9 @@
 			return;
 		}
 
+		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
+			WHERE id = '$feed'");
+
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
