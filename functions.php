@@ -77,6 +77,7 @@
 
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
+		$ts = "$ts/" . posix_getpid();
 		print "[$ts] $msg\n";
 	}
 
