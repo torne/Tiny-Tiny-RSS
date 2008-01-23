@@ -7,7 +7,8 @@
 
 	declare(ticks = 1);
 
-	require "config.php";
+	require_once "config.php";
+	require_once "functions.php";
 
 	define('MAX_JOBS', 2);
 	define('CLIENT_PROCESS', './update_daemon2_client.php SRV_RUN_OK');
@@ -23,7 +24,20 @@
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
+	function sigint_handler() {
+		unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+		die("Received SIGINT. Exiting.\n");
+	}
+
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
+	pcntl_signal(SIGINT, 'sigint_handler');
+
+	$lock_handle = make_lockfile("update_daemon.lock");
+
+	if (!$lock_handle) {
+		die("error: Can't create lockfile ($lock_filename). ".
+			"Maybe another daemon is already running.\n");
+	}
 
 	while (true) {
 
@@ -43,6 +57,7 @@
 					print "OK [$running_jobs]\n";
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
+					pcntl_signal(SIGINT, SIG_DFL);
 					passthru(CLIENT_PROCESS);
 					exit(0);
 				}
