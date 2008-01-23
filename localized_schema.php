@@ -67,5 +67,6 @@
 	__("Use more accessible date/time format for headlines");
 	__("Automatically expand articles in combined mode");
 	__("Purge unread articles");
+	__("Show special feeds when hiding read feeds");
 
 ?>
