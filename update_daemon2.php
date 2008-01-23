@@ -43,7 +43,9 @@
 
 		$next_spawn = $last_checkpoint + SPAWN_INTERVAL - time();
 
-		print "[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec\n";
+		if ($next_spawn % 10 == 0) {
+			print "[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec\n";
+		}
 
 		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
 
