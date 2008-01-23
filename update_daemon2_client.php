@@ -63,10 +63,9 @@
 
 	$last_purge = 0;
 
-//	if (!make_stampfile('update_daemon.stamp')) {
-//		print "error: unable to create stampfile";
-//		die;
-//	}
+	if (!make_stampfile('update_daemon.stamp')) {
+		print "warning: unable to create stampfile";
+	}
 
 	if (time() - $last_purge > PURGE_INTERVAL) {
 		_debug("Purging old posts (random 30 feeds)...");
