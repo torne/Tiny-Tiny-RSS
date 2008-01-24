@@ -7582,6 +7582,9 @@ class SimplePie_File
 					curl_setopt($fp, CURLOPT_FOLLOWLOCATION, 1);
 					curl_setopt($fp, CURLOPT_MAXREDIRS, $redirects);
 				}
+				
+				curl_setopt($fp, CURLOPT_SSL_VERIFYPEER, false); 
+				curl_setopt($fp, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 
 				$this->headers = curl_exec($fp);
 				if (curl_errno($fp) == 23 || curl_errno($fp) == 61)
