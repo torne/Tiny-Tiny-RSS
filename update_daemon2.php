@@ -42,11 +42,7 @@
 
 	$last_checkpoint = -1;
 
-	function sigalrm_handler() {
-		die("received SIGALRM, hang in feed update?\n");
-	}
-
-	function sigchld_handler($signal) {
+	function reap_children() {
 		global $children;
 
 		$tmp = array();
@@ -61,9 +57,18 @@
 
 		$children = $tmp;
 
-		$running_jobs = count($children);
+		return count($tmp);
+	}
+
+	function sigalrm_handler() {
+		die("received SIGALRM, hang in feed update?\n");
+	}
+
+	function sigchld_handler($signal) {
+		$running_jobs = reap_children();
 
 		_debug("[SIGCHLD] jobs left: $running_jobs");
+
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
@@ -122,6 +127,8 @@
 		}
 
 		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
+
+			reap_children();
 
 			for ($j = count($children); $j < MAX_JOBS; $j++) {
 				$pid = pcntl_fork();
