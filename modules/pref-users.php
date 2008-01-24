@@ -91,7 +91,10 @@
 				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
+					db_query($link, "BEGIN");
+					db_query($link, "DELETE FROM ttrss_feeds WHERE owner_uid = '$id' AND owner_uid != " . $_SESSION["uid"]);
 					db_query($link, "DELETE FROM ttrss_users WHERE id = '$id' AND id != " . $_SESSION["uid"]);
+					db_query($link, "COMMIT");
 					
 				}
 			}
