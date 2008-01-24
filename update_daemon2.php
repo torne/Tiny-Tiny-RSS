@@ -16,7 +16,7 @@
 
 	require_once "version.php";
 
-	if (strpos(VERSION, ".99") !== false) {
+	if (strpos(VERSION, ".99") !== false || getenv('DAEMON_XDEBUG')) {
 		define('DAEMON_EXTENDED_DEBUG', true);
 	}
 
