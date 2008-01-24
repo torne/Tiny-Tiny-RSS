@@ -38,7 +38,8 @@
 
 	error_reporting(DEFAULT_ERROR_LEVEL);
 
-	$running_jobs = 0;
+	$children = array();
+
 	$last_checkpoint = -1;
 
 	function sigalrm_handler() {
@@ -46,9 +47,23 @@
 	}
 
 	function sigchld_handler($signal) {
-		global $running_jobs;
-		if ($running_jobs > 0) $running_jobs--;
-		print posix_getpid() . ": SIGCHLD received, jobs left: $running_jobs\n";
+		global $children;
+
+		$tmp = array();
+
+		foreach ($children as $pid) {
+			if (pcntl_waitpid($pid, $status, WNOHANG) != $pid) {
+				array_push($tmp, $pid);
+			} else {
+				_debug("[SIGCHLD] child $pid reaped.");
+			}
+		}
+
+		$children = $tmp;
+
+		$running_jobs = count($children);
+
+		_debug("[SIGCHLD] jobs left: $running_jobs");
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
@@ -102,19 +117,19 @@
 		$next_spawn = $last_checkpoint + SPAWN_INTERVAL - time();
 
 		if ($next_spawn % 10 == 0) {
-			print "[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec\n";
+			$running_jobs = count($children);
+			_debug("[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec.");
 		}
 
 		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
 
-			for ($j = $running_jobs; $j < MAX_JOBS; $j++) {
-				print "[MASTER] spawning client $j...";
+			for ($j = count($children); $j < MAX_JOBS; $j++) {
 				$pid = pcntl_fork();
 				if ($pid == -1) {
 					die("fork failed!\n");
 				} else if ($pid) {
-					$running_jobs++;
-					print "OK [$running_jobs]\n";
+					_debug("[MASTER] spawned client $j [PID:$pid]...");
+					array_push($children, $pid);
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
 					pcntl_signal(SIGINT, SIG_DFL);
