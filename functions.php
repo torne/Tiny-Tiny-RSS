@@ -469,15 +469,25 @@
 			_debug("update_rss_feed: start");
 		}
 
-		if (DB_TYPE == "pgsql") {
-				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
-			} else {
-				$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
-			}			
+		if (!$ignore_daemon) {
 
-		$result = db_query($link, "SELECT id,update_interval,auth_login,
-			auth_pass,cache_images
-			FROM ttrss_feeds WHERE id = '$feed' AND $updstart_thresh_qpart");
+			if (DB_TYPE == "pgsql") {
+					$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
+				} else {
+					$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
+				}			
+	
+			$result = db_query($link, "SELECT id,update_interval,auth_login,
+				auth_pass,cache_images
+				FROM ttrss_feeds WHERE id = '$feed' AND $updstart_thresh_qpart");
+
+		} else {
+
+			$result = db_query($link, "SELECT id,update_interval,auth_login,
+				auth_pass,cache_images
+				FROM ttrss_feeds WHERE id = '$feed'");
+
+		}
 
 		if (db_num_rows($result) == 0) {
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
