@@ -61,7 +61,7 @@
 	}
 
 	function sigalrm_handler() {
-		die("received SIGALRM, hang in feed update?\n");
+		die("[SIGALRM] hang in feed update?\n");
 	}
 
 	function sigchld_handler($signal) {
@@ -74,16 +74,11 @@
 
 	function sigint_handler() {
 		unlink(LOCK_DIRECTORY . "/update_daemon.lock");
-		die("Received SIGINT. Exiting.\n");
+		die("[SIGINT] removing lockfile and exiting.\n");
 	}
 
 	pcntl_signal(SIGALRM, 'sigalrm_handler');
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
-
-	if (file_is_locked("update_daemon.lock")) {
-		die("error: Can't create lockfile. ".
-			"Maybe another daemon is already running.\n");
-	}
 
 	if (file_is_locked("update_daemon.lock")) {
 		die("error: Can't create lockfile. ".
@@ -277,7 +272,7 @@
 					if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
-
+ 
 					db_close($link);
 
 					// We are in a fork.
