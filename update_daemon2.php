@@ -194,20 +194,13 @@
 						$login_thresh_qpart = "";
 					}
 
-					//if (DB_TYPE == "pgsql") {
-					//	$update_limit_qpart = "AND ttrss_feeds.last_updated < NOW() - INTERVAL '".(DAEMON_SLEEP_INTERVAL*2)." seconds'";
-					//} else {
-					//	$update_limit_qpart = "AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ".(DAEMON_SLEEP_INTERVAL*2)." SECOND)";
-					//}
-
 					if (DB_TYPE == "pgsql") {
-						$update_limit_qpart = "AND ttrss_feeds.last_updated < NOW() - INTERVAL '".(DAEMON_SLEEP_INTERVAL*2)." seconds'";
 						$update_limit_qpart = "AND ((
 								ttrss_feeds.update_interval = 0
-								AND ttrss_feeds.last_updated < NOW() - INTERVAL ttrss_user_prefs.value || ' minutes'
+								AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
 							) OR (
 								ttrss_feeds.update_interval > 0
-								AND ttrss_feeds.last_updated < NOW() - INTERVAL ttrss_feeds.update_interval || ' minutes'
+								AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
 							))";
 					} else {
 						$update_limit_qpart = "AND ((
@@ -234,7 +227,7 @@
 						WHERE
 							ttrss_feeds.owner_uid = ttrss_users.id
 							AND ttrss_users.id = ttrss_user_prefs.owner_uid
-							AND ttrss_user_prefs.pref_name='DEFAULT_UPDATE_INTERVAL'
+							AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 							$login_thresh_qpart $update_limit_qpart
 							 $updstart_thresh_qpart
 						ORDER BY $random_qpart DESC LIMIT " . DAEMON_FEED_LIMIT);

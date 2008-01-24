@@ -116,13 +116,12 @@
 	}
 
 	if (DB_TYPE == "pgsql") {
-		$update_limit_qpart = "AND ttrss_feeds.last_updated < NOW() - INTERVAL '".(DAEMON_SLEEP_INTERVAL*2)." seconds'";
 		$update_limit_qpart = "AND ((
 				ttrss_feeds.update_interval = 0
-				AND ttrss_feeds.last_updated < NOW() - INTERVAL ttrss_user_prefs.value || ' minutes'
+				AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
 			) OR (
 				ttrss_feeds.update_interval > 0
-				AND ttrss_feeds.last_updated < NOW() - INTERVAL ttrss_feeds.update_interval || ' minutes'
+				AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
 			))";
 	} else {
 		$update_limit_qpart = "AND ((
