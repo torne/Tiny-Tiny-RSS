@@ -4170,7 +4170,7 @@
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
-					ICONS_DIR."/$feed_id.ico", $link, $rtl_content, 
+					ICONS_URL."/$feed_id.ico", $link, $rtl_content, 
 					$last_updated, $line["last_error"]);
 	
 				++$lnum;
