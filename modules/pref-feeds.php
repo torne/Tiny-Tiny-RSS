@@ -4,6 +4,7 @@
 
 		global $update_intervals;
 		global $purge_intervals;
+		global $update_methods;
 
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
@@ -259,6 +260,17 @@
 			
 			print "</td>";
 
+			$update_method = db_fetch_result($result, 0, "update_method");
+
+			print "<tr><td>".__('Update using:')."</td>";
+
+			print "<td>";
+
+			print_select_hash("update_method", $update_method, $update_methods, 
+				"class=\"iedit\"");
+			
+			print "</td>";
+
 			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 
 			print "<tr><td>".__('Login:')."</td>";
@@ -374,6 +386,7 @@
 				db_escape_string($_POST["include_in_digest"]));
 			$cache_images = checkbox_to_sql_bool(
 				db_escape_string($_POST["cache_images"]));
+			$update_method = (int) db_escape_string($_POST["update_method"]);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
@@ -411,7 +424,8 @@
 				rtl_content = $rtl_content,
 				hidden = $hidden,
 				$cache_images_qpart
-				include_in_digest = $include_in_digest
+				include_in_digest = $include_in_digest,
+				update_method = '$update_method'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {

@@ -119,11 +119,17 @@
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
-	$update_method = array(
+	$update_methods = array(
 		0   => __("Use default"),
 		1   => __("Magpie"),
 		2   => __("SimplePie"));
-		
+
+	if (ENABLE_SIMPLEPIE) {
+		$update_methods[0] .= ' (SimplePie)';
+	} else {
+		$update_methods[0] .= ' (Magpie)';
+	}
+
 	$access_level_names = array(
 		0 => __("User"), 
 		10 => __("Administrator"));

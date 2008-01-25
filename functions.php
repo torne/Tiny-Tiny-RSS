@@ -68,12 +68,9 @@
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
-	if (ENABLE_SIMPLEPIE) {
-		require_once "simplepie/simplepie.inc";
-	} else {
-		require_once "magpierss/rss_fetch.inc";
-		require_once 'magpierss/rss_utils.inc';
-	}
+	require_once "simplepie/simplepie.inc";
+	require_once "magpierss/rss_fetch.inc";
+	require_once 'magpierss/rss_utils.inc';
 
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
@@ -478,13 +475,13 @@
 				}			
 	
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images
+				auth_pass,cache_images,update_method
 				FROM ttrss_feeds WHERE id = '$feed' AND $updstart_thresh_qpart");
 
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images
+				auth_pass,cache_images,update_method
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -496,13 +493,25 @@
 			return;
 		}
 
+		$update_method = db_fetch_result($result, 0, "update_method");
+
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
-		if (!ENABLE_SIMPLEPIE) {
+		if (ENABLE_SIMPLEPIE) {
+			$use_simplepie = $update_method != 1;
+		} else {
+			$use_simplepie = $update_method == 2;
+		}
+
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			_debug("use simplepie: $use_simplepie (feed setting: $update_method)\n");
+		}
+
+		if (!$use_simplepie) {
 			$auth_login = urlencode($auth_login);
 			$auth_pass = urlencode($auth_pass);
 		}
@@ -534,7 +543,7 @@
 			error_reporting(0);
 		}
 
-		if (!ENABLE_SIMPLEPIE) {
+		if (!$use_simplepie) {
 			$rss = fetch_rss($fetch_url);
 		} else {
 			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
@@ -543,7 +552,7 @@
 
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
-			$rss->set_timeout(10);
+#			$rss->set_timeout(10);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 
@@ -578,7 +587,7 @@
 
 		$feed = db_escape_string($feed);
 
-		if (ENABLE_SIMPLEPIE) {
+		if ($use_simplepie) {
 			$fetch_ok = !$rss->error();
 		} else {
 			$fetch_ok = !!$rss;
@@ -601,7 +610,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			if (ENABLE_SIMPLEPIE) {
+			if ($use_simplepie) {
 				$site_url = $rss->get_link();
 			} else {
 				$site_url = $rss->channel["link"];
@@ -617,7 +626,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$feed_title = db_escape_string($rss->get_title());
 				} else {
 					$feed_title = db_escape_string($rss->channel["title"]);
@@ -632,7 +641,7 @@
 			}
 
 			// weird, weird Magpie
-			if (!ENABLE_SIMPLEPIE) {
+			if (!$use_simplepie) {
 				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
 			}
 
@@ -643,7 +652,7 @@
 
 //			print "I: " . $rss->channel["image"]["url"];
 
-			if (!ENABLE_SIMPLEPIE) {
+			if (!$use_simplepie) {
 				$icon_url = $rss->image["url"];
 			} else {
 				$icon_url = $rss->get_image_url();
@@ -683,7 +692,7 @@
 				array_push($filters[$line["name"]], $filter);
 			}
 
-			if (ENABLE_SIMPLEPIE) {
+			if ($use_simplepie) {
 				$iterator = $rss->get_items();
 			} else {
 				$iterator = $rss->items;
@@ -720,7 +729,7 @@
 
 				}
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_guid = $item->get_id();
 					if (!$entry_guid) $entry_guid = $item->get_link();
 					if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
@@ -742,7 +751,7 @@
 
 				$entry_timestamp = "";
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_timestamp = strtotime($item->get_date());
 				} else {
 					$rss_2_date = $item['pubdate'];
@@ -768,13 +777,13 @@
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_title = $item->get_title();
 				} else {
 					$entry_title = trim(strip_tags($item["title"]));
 				}
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_link = $item->get_link();
 				} else {
 					// strange Magpie workaround
@@ -790,7 +799,7 @@
 
 				$entry_link = strip_tags($entry_link);
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_content = $item->get_description();
 				} else {
 					$entry_content = $item["content:escaped"];
@@ -819,7 +828,7 @@
 
 				$entry_content_unescaped = $entry_content;
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$entry_comments = strip_tags($item->data["comments"]);
 					if ($item->get_author()) {
 						$entry_author_item = $item->get_author();
@@ -866,7 +875,7 @@
 				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
 				$entry_author = mb_substr($entry_author, 0, 250);
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$num_comments = 0; #FIXME#
 				} else {
 					$num_comments = db_escape_string($item["slash"]["comments"]);
@@ -876,7 +885,7 @@
 
 				// parse <category> entries into tags
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 
 					$additional_tags = array();
 					$additional_tags_src = $item->get_categories();
@@ -937,7 +946,7 @@
 
 				$enclosures = array();
 
-				if (ENABLE_SIMPLEPIE) {
+				if ($use_simplepie) {
 					$encs = $item->get_enclosures();
 
 					if (is_array($encs)) {
@@ -1308,7 +1317,7 @@
 
 		} else {
 
-			if (ENABLE_SIMPLEPIE) {
+			if ($use_simplepie) {
 				$error_msg = mb_substr($rss->error(), 0, 250);
 			} else {
 				$error_msg = mb_substr(magpie_error(), 0, 250);
@@ -1325,7 +1334,7 @@
 					last_updated = NOW() WHERE id = '$feed'");
 		}
 
-		if (ENABLE_SIMPLEPIE) {
+		if ($use_simplepie) {
 			unset($rss);
 		}
 
