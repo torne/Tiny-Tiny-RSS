@@ -119,7 +119,11 @@
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
-
+	$update_method = array(
+		0   => __("Use default"),
+		1   => __("Magpie"),
+		2   => __("SimplePie"));
+		
 	$access_level_names = array(
 		0 => __("User"), 
 		10 => __("Administrator"));
