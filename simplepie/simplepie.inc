@@ -7616,6 +7616,11 @@ class SimplePie_File
 							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
 						}
 					}
+					// No feed fount at error correction.
+					// according to http://simplepie.org/support/viewtopic.php?id=1430
+					else {
+						$this->success = false;
+					}
 				}
 			}
 			else

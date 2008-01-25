@@ -543,7 +543,7 @@
 
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
-			$rss->set_timeout(20);
+			$rss->set_timeout(10);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 

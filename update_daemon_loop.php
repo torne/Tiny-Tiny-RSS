@@ -155,8 +155,23 @@
 	$user_prefs_cache = array();
 
 	_debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
-	
+
+	// Here is a little cache magic in order to minimize risk of double feed updates.
+	$feeds_to_update = array();
 	while ($line = db_fetch_assoc($result)) {
+		$feeds_to_update[$line['id']] = $line;
+	}
+
+	// We update the feed last update started date before anything else.
+	// There is no lag due to feed contents downloads
+	// It prevent an other process to update the same feed (for exemple, forced update by user).
+	$feed_ids = array_keys($feeds_to_update);
+	if($feed_ids) {
+		db_query($link, sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
+		WHERE id IN (%s)", implode(',', $feed_ids)));
+	}
+
+	while ($line = array_pop($feeds_to_update)) {
 
 		_debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
