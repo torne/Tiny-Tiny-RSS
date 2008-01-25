@@ -78,6 +78,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	auth_pass_encrypted boolean not null default false,
 	last_viewed datetime default null,
 	last_update_started datetime default null,
+	update_method integer not null default 0,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index(cat_id),
@@ -204,7 +205,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (30);
+insert into ttrss_version values (31);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
