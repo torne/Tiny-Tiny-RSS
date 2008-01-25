@@ -260,16 +260,19 @@
 			
 			print "</td>";
 
-			$update_method = db_fetch_result($result, 0, "update_method");
+			if (ALLOW_SELECT_UPDATE_METHOD) {
 
-			print "<tr><td>".__('Update using:')."</td>";
-
-			print "<td>";
-
-			print_select_hash("update_method", $update_method, $update_methods, 
-				"class=\"iedit\"");
-			
-			print "</td>";
+				$update_method = db_fetch_result($result, 0, "update_method");
+	
+				print "<tr><td>".__('Update using:')."</td>";
+	
+				print "<td>";
+	
+				print_select_hash("update_method", $update_method, $update_methods, 
+					"class=\"iedit\"");
+				
+				print "</td>";
+			}
 
 			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 

@@ -501,10 +501,14 @@
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
-		if (ENABLE_SIMPLEPIE) {
-			$use_simplepie = $update_method != 1;
+		if (ALLOW_SELECT_UPDATE_METHOD) {
+			if (ENABLE_SIMPLEPIE) {
+				$use_simplepie = $update_method != 1;
+			} else {
+				$use_simplepie = $update_method == 2;
+			}
 		} else {
-			$use_simplepie = $update_method == 2;
+			$use_simplepie = ENABLE_SIMPLEPIE;
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {

@@ -174,7 +174,11 @@
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
 
-	define('CONFIG_VERSION', 14);
+	define('ALLOW_SELECT_UPDATE_METHOD', false);
+	// Allow users to select the library to update feeds with - e.g.
+	// Magpie or SimplePie
+
+	define('CONFIG_VERSION', 15);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
