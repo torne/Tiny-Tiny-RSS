@@ -88,6 +88,7 @@
 	if (!pcntl_fork()) {
 		pcntl_signal(SIGINT, 'sigint_handler');
 
+		// Try to lock a file in order to avoid concurrent update.
 		$lock_handle = make_lockfile("update_daemon.lock");
 
 		if (!$lock_handle) {
@@ -115,6 +116,8 @@
 
 	while (true) {
 
+		// Since sleep is interupted by SIGCHLD, we need another way to
+		// respect the SPAWN_INTERVAL
 		$next_spawn = $last_checkpoint + SPAWN_INTERVAL - time();
 
 		if ($next_spawn % 10 == 0) {
@@ -180,89 +183,8 @@
 					// 	$last_purge = time();
 					// }
 
-					// Process all other feeds using last_updated and interval parameters
-
-					$random_qpart = sql_random_function();
-						
-					if (DAEMON_UPDATE_LOGIN_LIMIT > 0) {
-						if (DB_TYPE == "pgsql") {
-							$login_thresh_qpart = "AND ttrss_users.last_login >= NOW() - INTERVAL '".DAEMON_UPDATE_LOGIN_LIMIT." days'";
-						} else {
-							$login_thresh_qpart = "AND ttrss_users.last_login >= DATE_SUB(NOW(), INTERVAL ".DAEMON_UPDATE_LOGIN_LIMIT." DAY)";
-						}			
-					} else {
-						$login_thresh_qpart = "";
-					}
-
-					if (DB_TYPE == "pgsql") {
-						$update_limit_qpart = "AND ((
-								ttrss_feeds.update_interval = 0
-								AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
-							) OR (
-								ttrss_feeds.update_interval > 0
-								AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
-							))";
-					} else {
-						$update_limit_qpart = "AND ((
-								ttrss_feeds.update_interval = 0
-								AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) MINUTE)
-							) OR (
-								ttrss_feeds.update_interval > 0
-								AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
-							))";
-					}
-
-
-					if (DB_TYPE == "pgsql") {
-						$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
-					} else {
-						$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
-					}
-
-					$result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id, ttrss_feeds.owner_uid,
-							SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated,
-							ttrss_feeds.update_interval 
-						FROM 
-							ttrss_feeds, ttrss_users, ttrss_user_prefs
-						WHERE
-							ttrss_feeds.owner_uid = ttrss_users.id
-							AND ttrss_users.id = ttrss_user_prefs.owner_uid
-							AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
-							$login_thresh_qpart $update_limit_qpart
-							 $updstart_thresh_qpart
-						ORDER BY $random_qpart DESC LIMIT " . DAEMON_FEED_LIMIT);
-
-					$user_prefs_cache = array();
-
-					_debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
-
-					// Here is a little cache magic in order to minimize risk of double feed updates.
-					$feeds_to_update = array();
-					while ($line = db_fetch_assoc($result)) {
-						$feeds_to_update[$line['id']] = $line;
-					}
-
-					// We update the feed last update started date before anything else.
-					// There is no lag due to feed contents downloads
-					// It prevent an other process to update the same feed.
-					$feed_ids = array_keys($feeds_to_update);
-					if($feed_ids) {
-						db_query($link, sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
-							WHERE id IN (%s)", implode(',', $feed_ids)));
-					}
-
-					while ($line = array_pop($feeds_to_update)) {
-
-						_debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
-
-						pcntl_alarm(300);
-						update_rss_feed($link, $line["feed_url"], $line["id"], true);	
-						pcntl_alarm(0);
-
-						sleep(1); // prevent flood (FIXME make this an option?)
-					}
-
-					if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+					// Call to the feed batch update function
+					update_daemon_common($link);
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
  

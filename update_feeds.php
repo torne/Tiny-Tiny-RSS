@@ -19,11 +19,13 @@
 
 	$lock_handle = make_lockfile($lock_filename);
 
+		// Try to lock a file in order to avoid concurrent update.
 	if (!$lock_handle) {
 		die("error: Can't create lockfile ($lock_filename). ".
 			"Maybe another process is already running.\n");
 	}
 
+	// Create a database connection.
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	if (!$link) {
@@ -44,14 +46,10 @@
 		}
 	}
 
-	$result = db_query($link, "SELECT id FROM ttrss_users");
+	// Update all feeds needing a update.
+	update_daemon_common($link, $limit=0);
 
-	while ($line = db_fetch_assoc($result)) {
-			$user_id = $line["id"];
-			initialize_user_prefs($link, $user_id);
-			update_all_feeds($link, false, $user_id, true);
-	}
-
+	// Send feed digests by email if needed.
 	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 	db_close($link);

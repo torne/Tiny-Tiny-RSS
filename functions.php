@@ -72,11 +72,17 @@
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
 
+	/**
+	 * Print a timestamped debug message.
+	 * 
+	 * @param string $msg The debug message.
+	 * @return void
+	 */
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
 		$ts = "$ts/" . posix_getpid();
 		print "[$ts] $msg\n";
-	}
+	} // function _debug
 
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
@@ -459,7 +465,7 @@
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
 		if (!$_GET["daemon"] && !$ignore_daemon) {
-			return;			
+			return false;
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
@@ -490,7 +496,7 @@
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 				_debug("update_rss_feed: feed $feed [$feed_url] NOT FOUND/SKIPPED");
 			}		
-			return;
+			return false;
 		}
 
 		$update_method = db_fetch_result($result, 0, "update_method");
@@ -3356,6 +3362,13 @@
 		return $res;
 	}
 
+	/**
+	 * Send by mail a digest of last articles.
+	 * 
+	 * @param mixed $link The database connection.
+	 * @param integer $limit The maximum number of articles by digest.
+	 * @return boolean Return false if digests are not enabled.
+	 */
 	function send_headlines_digests($link, $limit = 100) {
 
 		if (!DIGEST_ENABLE) return false;
@@ -5118,26 +5131,154 @@
 		return $url_path;
 	}
 
+	/**
+	 * Purge a feed contents, marked articles excepted.
+	 * 
+	 * @param mixed $link The database connection.
+	 * @param integer $id The id of the feed to purge.
+	 * @return void
+	 */
 	function clear_feed_articles($link, $id) {
 		$result = db_query($link, "DELETE FROM ttrss_user_entries
 			WHERE feed_id = '$id' AND marked = false AND owner_uid = " . $_SESSION["uid"]);
 
 		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
-	}
+	} // function clear_feed_articles
 
-        function add_feed_url() {
+	/**
+	 * Compute the Mozilla Firefox feed adding URL from server HOST and REQUEST_URI.
+	 *
+	 * @return string The Mozilla Firefox feed adding URL.
+	 */
+	function add_feed_url() {
 		$url_path = 'http://' . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 		$url_path .= "?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
 		return $url_path;
-        }
+	} // function add_feed_url
 
+	/**
+	 * Encrypt a password in SHA1.
+	 * 
+	 * @param string $pass The password to encrypt.
+	 * @param string $login A optionnal login.
+	 * @return string The encrypted password.
+	 */
 	function encrypt_password($pass, $login = '') {
 		if ($login) {
 			return "SHA1X:" . sha1("$login:$pass");
 		} else {
 			return "SHA1:" . sha1($pass);
 		}
-	}
+	} // function encrypt_password
+
+	/**
+	 * Update a feed batch.
+	 * Used by daemons to update n feeds by run.
+	 * Only update feed needing a update, and not being processed
+	 * by another process.
+	 * 
+	 * @param mixed $link Database link
+	 * @param integer $limit Maximum number of feeds in update batch. Default to DAEMON_FEED_LIMIT.
+	 * @param boolean $from_http Set to true if you call this function from http to disable cli specific code.
+	 * @param boolean $debug Set to false to disable debug output. Default to true.
+	 * @return void
+	 */
+	function update_daemon_common($link, $limit = DAEMON_FEED_LIMIT, $from_http = false, $debug = true) {
+		// Process all other feeds using last_updated and interval parameters
+
+		// Test if the user has loggued in recently. If not, it does not update its feeds.
+		if (DAEMON_UPDATE_LOGIN_LIMIT > 0) {
+			if (DB_TYPE == "pgsql") {
+				$login_thresh_qpart = "AND ttrss_users.last_login >= NOW() - INTERVAL '".DAEMON_UPDATE_LOGIN_LIMIT." days'";
+			} else {
+				$login_thresh_qpart = "AND ttrss_users.last_login >= DATE_SUB(NOW(), INTERVAL ".DAEMON_UPDATE_LOGIN_LIMIT." DAY)";
+			}			
+		} else {
+			$login_thresh_qpart = "";
+		}
+
+		// Test if the feed need a update (update interval exceded).
+		if (DB_TYPE == "pgsql") {
+			$update_limit_qpart = "AND ((
+					ttrss_feeds.update_interval = 0
+					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
+				) OR (
+					ttrss_feeds.update_interval > 0
+					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
+				))";
+		} else {
+			$update_limit_qpart = "AND ((
+					ttrss_feeds.update_interval = 0
+					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) MINUTE)
+				) OR (
+					ttrss_feeds.update_interval > 0
+					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
+				))";
+		}
+
+		// Test if feed is currently being updated by another process.
+		if (DB_TYPE == "pgsql") {
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
+		} else {
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
+		}
+
+		// Test if there is a limit to number of updated feeds
+		$query_limit = "";
+		if($limit) $query_limit = sprintf("LIMIT %d", $limit);
+
+		// We search for feed needing update.
+		$result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id, ttrss_feeds.owner_uid,
+				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated,
+				ttrss_feeds.update_interval 
+			FROM 
+				ttrss_feeds, ttrss_users, ttrss_user_prefs
+			WHERE
+				ttrss_feeds.owner_uid = ttrss_users.id
+				AND ttrss_users.id = ttrss_user_prefs.owner_uid
+				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
+				$login_thresh_qpart $update_limit_qpart
+				 $updstart_thresh_qpart
+			ORDER BY ttrss_feeds.last_updated ASC $query_limit");
+
+		$user_prefs_cache = array();
+
+		if($debug) _debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
+
+		// Here is a little cache magic in order to minimize risk of double feed updates.
+		$feeds_to_update = array();
+		while ($line = db_fetch_assoc($result)) {
+			$feeds_to_update[$line['id']] = $line;
+		}
+
+		// We update the feed last update started date before anything else.
+		// There is no lag due to feed contents downloads
+		// It prevent an other process to update the same feed.
+		$feed_ids = array_keys($feeds_to_update);
+		if($feed_ids) {
+			db_query($link, sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
+				WHERE id IN (%s)", implode(',', $feed_ids)));
+		}
+
+		// For each feed, we call the feed update function.
+		while ($line = array_pop($feeds_to_update)) {
+
+			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
+
+			// We setup a alarm to alert if the feed take more than 300s to update.
+			// => HANG alarm.
+			if(!$from_http) pcntl_alarm(300);
+			update_rss_feed($link, $line["feed_url"], $line["id"], true);
+			// Cancel the alarm (the update went well)
+			if(!$from_http) pcntl_alarm(0);
+
+			sleep(1); // prevent flood (FIXME make this an option?)
+		}
+
+	// Send feed digests by email if needed.
+	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+
+	} // function update_daemon_common
 
 ?>
