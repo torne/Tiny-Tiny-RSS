@@ -8,6 +8,12 @@
 
 	require_once 'config.php';
 
+	/**
+	 * Return available translations names.
+	 * 
+	 * @access public
+	 * @return array A array of available translations.
+	 */
 	function get_translations() {
 		$tr = array(
 					"auto"  => "Detect automatically",
@@ -21,7 +27,7 @@
 		return $tr;
 	}
 
-	if (ENABLE_TRANSLATIONS == true) { 
+	if (ENABLE_TRANSLATIONS == true) { // If translations are enabled.
 		require_once "accept-to-gettext.php";
 		require_once "gettext/gettext.inc";
 
@@ -48,7 +54,7 @@
 
 		startup_gettext();
 
-	} else {
+	} else { // If translations are enabled.
 		function __($msg) {
 			return $msg;
 		}
@@ -56,7 +62,7 @@
 			// no-op
 			return true;
 		}
-	}
+	} // If translations are enabled.
 
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
@@ -84,6 +90,16 @@
 		print "[$ts] $msg\n";
 	} // function _debug
 
+	/**
+	 * Purge a feed old posts.
+	 * 
+	 * @param mixed $link A database connection.
+	 * @param mixed $feed_id The id of the purged feed.
+	 * @param mixed $purge_interval Olderness of purged posts.
+	 * @param boolean $debug Set to True to enable the debug. False by default.
+	 * @access public
+	 * @return void
+	 */
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
 		if (!$purge_interval) $purge_interval = feed_purge_interval($link, $feed_id);
@@ -158,8 +174,17 @@
 		if ($debug) {
 			_debug("Purged feed $feed_id ($purge_interval): deleted $rows articles");
 		}
-	}
+	} // function purge_feed
 
+	/**
+	 * Purge old posts from old feeds.
+	 * 
+	 * @param mixed $link A database connection
+	 * @param boolean $do_output Set to true to enable printed output, false by default.
+	 * @param integer $limit The maximal number of removed posts.
+	 * @access public
+	 * @return void
+	 */
 	function global_purge_old_posts($link, $do_output = false, $limit = false) {
 
 		$random_qpart = sql_random_function();
@@ -209,7 +234,7 @@
 			_debug("Purged $rows orphaned posts.");
 		}
 
-	}
+	} // function global_purge_old_posts
 
 	function feed_purge_interval($link, $feed_id) {
 
@@ -359,9 +384,15 @@
 
 	}
 
-	// adapted from wordpress favicon plugin by Jeff Minard (http://thecodepro.com/)
-	// http://dev.wp-plugins.org/file/favatars/trunk/favatars.php
-
+	/**
+	 * Try to determine the favicon URL for a feed.
+	 * adapted from wordpress favicon plugin by Jeff Minard (http://thecodepro.com/)
+	 * http://dev.wp-plugins.org/file/favatars/trunk/favatars.php
+	 * 
+	 * @param string $url A feed or page URL
+	 * @access public
+	 * @return mixed The favicon URL, or false if none was found.
+	 */
 	function get_favicon_url($url) {
 
 		if ($html = @fetch_file_contents($url)) {
@@ -394,8 +425,15 @@
 		} else {
 			return false;
 		}
-	}
+	} // function get_favicon_url
 
+	/**
+	 * Check if a link is a valid and working URL.
+	 * 
+	 * @param mixed $link A URL to check
+	 * @access public
+	 * @return boolean True if the URL is valid, false otherwise.
+	 */
 	function url_validate($link) {
                 
 		$url_parts = @parse_url($link);
@@ -435,7 +473,7 @@
 				return false;
 		}
 
-	} 
+	} // function url_validate
 
 	function check_feed_favicon($site_url, $feed, $link) {
 		$favicon_url = get_favicon_url($site_url);
