@@ -13,58 +13,65 @@
 
 			print "<div class=\"browserFeedInfo\">";
 			print "<b>".__('Feed information:')."</b>";
-			print "<div class=\"detailsPart\">";
 
 			$result = db_query($link, "SELECT 
 					feed_url,site_url,
-					SUBSTRING(last_updated,1,19) AS last_updated
-				FROM ttrss_feeds WHERE id = '$id'");
+					SUBSTRING(last_updated,1,19) AS last_updated 
+				FROM ttrss_feeds WHERE id = '$id' AND
+					auth_login = '' AND auth_pass = ''");
 
-			$feed_url = db_fetch_result($result, 0, "feed_url");
-			$site_url = db_fetch_result($result, 0, "site_url");
-			$last_updated = db_fetch_result($result, 0, "last_updated");
+			if (db_num_rows($result) == 1) {
 
-			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-				$last_updated = smart_date_time(strtotime($last_updated));
-			} else {
-				$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-				$last_updated = date($short_date, strtotime($last_updated));
-			}
-
-			print "Site: <a target=\"_new\" href='$site_url'>$site_url</a> ".
-				"(<a target=\"_new\" href='$feed_url'>feed</a>), ".
-				"Last updated: $last_updated";
-
-			print "</div>";
-
-			$result = db_query($link, "SELECT 
-					ttrss_entries.title,
-					content,link,
-					substring(date_entered,1,19) as date_entered,
-					substring(updated,1,19) as updated
-				FROM ttrss_entries,ttrss_user_entries
-				WHERE	ttrss_entries.id = ref_id AND feed_id = '$id' 
-				ORDER BY updated DESC LIMIT 5");
-
-			if (db_num_rows($result) > 0) {
-				
-				print "<b>".__('Last headlines:')."</b><br>";
-				
 				print "<div class=\"detailsPart\">";
-				print "<ul class=\"compact\">";
-				while ($line = db_fetch_assoc($result)) {
 
-					if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-						$entry_dt = smart_date_time(strtotime($line["updated"]));
-					} else {
-						$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-						$entry_dt = date($short_date, strtotime($line["updated"]));
-					}				
-		
-					print "<li><a target=\"_new\" href=\"" . $line["link"] . "\">" . $line["title"] . "</a>" .
-						"&nbsp;<span class=\"insensitive\">($entry_dt)</span></li>";	
-				}		
-				print "</ul></div>";
+				$feed_url = db_fetch_result($result, 0, "feed_url");
+				$site_url = db_fetch_result($result, 0, "site_url");
+				$last_updated = db_fetch_result($result, 0, "last_updated");
+	
+				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+					$last_updated = smart_date_time(strtotime($last_updated));
+				} else {
+					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+					$last_updated = date($short_date, strtotime($last_updated));
+				}
+	
+				print __("Site:")." <a target=\"_new\" href='$site_url'>$site_url</a> ".
+					"(<a target=\"_new\" href='$feed_url'>feed</a>), ".
+					__("Last updated:")." $last_updated";
+	
+				print "</div>";
+	
+				$result = db_query($link, "SELECT 
+						ttrss_entries.title,
+						content,link,
+						substring(date_entered,1,19) as date_entered,
+						substring(updated,1,19) as updated
+					FROM ttrss_entries,ttrss_user_entries
+					WHERE	ttrss_entries.id = ref_id AND feed_id = '$id'
+					ORDER BY updated DESC LIMIT 5");
+	
+				if (db_num_rows($result) > 0) {
+					
+					print "<b>".__('Last headlines:')."</b><br>";
+					
+					print "<div class=\"detailsPart\">";
+					print "<ul class=\"compact\">";
+					while ($line = db_fetch_assoc($result)) {
+	
+						if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+							$entry_dt = smart_date_time(strtotime($line["updated"]));
+						} else {
+							$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+							$entry_dt = date($short_date, strtotime($line["updated"]));
+						}				
+			
+						print "<li><a target=\"_new\" href=\"" . $line["link"] . "\">" . $line["title"] . "</a>" .
+							"&nbsp;<span class=\"insensitive\">($entry_dt)</span></li>";	
+					}		
+					print "</ul></div>";
+				}
+			} else {
+				print "<p>".__("Feed not found.")."</p>";
 			}
 
 			print "</div>";
