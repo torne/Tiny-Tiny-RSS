@@ -205,7 +205,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (31);
+insert into ttrss_version values (32);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -235,6 +235,7 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	section_id integer not null default 1,
 	short_desc text not null,
 	help_text varchar(250) not null default '',
+	access_level integer not null default 0,
 	def_value text not null,
 	index(type_id),
 	foreign key (type_id) references ttrss_prefs_types(id),
