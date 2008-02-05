@@ -121,9 +121,13 @@
 		while ($line = db_fetch_assoc($result)) {
 			$feed_url = $line["feed_url"];
 			$subscribers = $line["subscribers"];
-		
+
+			// mysql returns NULL records first by default
+			if (DB_TYPE == "mysql") $order_fix = "DESC";
+
 			$det_result = db_query($link, "SELECT site_url,title,id 
-				FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+				FROM ttrss_feeds WHERE feed_url = '$feed_url' 
+				ORDER BY last_updated $order_fix LIMIT 1");
 
 			$details = db_fetch_assoc($det_result);
 		
