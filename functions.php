@@ -3128,7 +3128,7 @@
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true";
 
-				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
+				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 				if (DB_TYPE == "pgsql") {
 					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
@@ -3154,7 +3154,7 @@
 				$query_strategy_part = "id > 0"; // dumb
 			}
 
-			if (get_pref($link, 'REVERSE_HEADLINES')) {
+			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
 				$order_by = "updated";
 			} else {	
 				$order_by = "updated DESC";
