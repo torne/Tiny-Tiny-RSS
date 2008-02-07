@@ -5244,7 +5244,7 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
-				))";
+				) OR ttrss_feeds.last_updated IS NULL)";
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
@@ -5252,7 +5252,7 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
-				))";
+				) OR ttrss_feeds.last_updated IS NULL)";
 		}
 
 		// Test if feed is currently being updated by another process.
