@@ -4500,7 +4500,7 @@
 			$entry_author = $line["author"];
 
 			if ($entry_author) {
-				$entry_author = __(" - by ") . $entry_author;
+				$entry_author = __(" - ") . $entry_author;
 			}
 
 			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
@@ -4837,7 +4837,7 @@
 				$entry_author = $line["author"];
 
 				if ($entry_author) {
-					$entry_author = " - by $entry_author";
+					$entry_author = " - $entry_author";
 				}
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
