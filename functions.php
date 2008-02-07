@@ -880,7 +880,8 @@
 					$entry_comments = strip_tags($item->data["comments"]);
 					if ($item->get_author()) {
 						$entry_author_item = $item->get_author();
-						$entry_author = $entry_author_item->get_name(); 						
+						$entry_author = $entry_author_item->get_name();
+						if (!$entry_author) $entry_author = $entry_author_item->get_email();
 					}
 				} else {
 					$entry_comments = strip_tags($item["comments"]);
