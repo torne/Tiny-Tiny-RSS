@@ -5279,7 +5279,6 @@
 				ttrss_feeds.owner_uid = ttrss_users.id
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
-				AND ttrss_feeds.last_updated IS NULL
 				$login_thresh_qpart $update_limit_qpart
 			 $updstart_thresh_qpart
 			ORDER BY $random_qpart $query_limit");
