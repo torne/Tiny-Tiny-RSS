@@ -5267,6 +5267,8 @@
 		$query_limit = "";
 		if($limit) $query_limit = sprintf("LIMIT %d", $limit);
 
+		$random_qpart = sql_random_function();
+
 		// We search for feed needing update.
 		$result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id, ttrss_feeds.owner_uid,
 				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated,
@@ -5277,13 +5279,16 @@
 				ttrss_feeds.owner_uid = ttrss_users.id
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
+				AND ttrss_feeds.last_updated IS NULL
 				$login_thresh_qpart $update_limit_qpart
-				 $updstart_thresh_qpart
-			ORDER BY ttrss_feeds.last_updated ASC $query_limit");
+			 $updstart_thresh_qpart
+			ORDER BY $random_qpart $query_limit");
 
 		$user_prefs_cache = array();
 
 		if($debug) _debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
+
+		return;
 
 		// Here is a little cache magic in order to minimize risk of double feed updates.
 		$feeds_to_update = array();
