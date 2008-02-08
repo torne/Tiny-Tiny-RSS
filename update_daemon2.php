@@ -12,8 +12,6 @@
 	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
-	define('MAX_JOBS', 2);
-
 	require_once "version.php";
 
 	if (strpos(VERSION, ".99") !== false || getenv('DAEMON_XDEBUG')) {
@@ -24,6 +22,8 @@
 
 	require_once "sanity_check.php";
 	require_once "config.php";
+
+	define('MAX_JOBS', 2);
 
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
 
