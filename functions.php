@@ -882,6 +882,8 @@
 						$entry_author_item = $item->get_author();
 						$entry_author = $entry_author_item->get_name();
 						if (!$entry_author) $entry_author = $entry_author_item->get_email();
+
+						$entry_author = db_escape_string($entry_author);
 					}
 				} else {
 					$entry_comments = strip_tags($item["comments"]);
