@@ -336,6 +336,8 @@ function feedlist_init() {
 			setTimeout("hide_footer()", 5000);
 		}
 
+//		init_hidden_feedlist();
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}
@@ -367,5 +369,21 @@ function hide_footer() {
 		}
 	} catch (e) {
 		exception_error("hide_footer", e);
+	}
+}
+
+function init_hidden_feedlist() {
+	try {
+		var fl = document.getElementById("feeds-holder");
+		var fh = document.getElementById("headlines-frame");
+		var fh = document.getElementById("headlines-frame");
+	
+		new Effect.Fade(fl);
+
+		
+
+
+	} catch (e) {
+		exception_error("init_hidden_feedlist", e);
 	}
 }
