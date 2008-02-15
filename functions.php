@@ -4004,6 +4004,11 @@
 			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
 
+		if (defined('_ENABLE_DASHBOARD')) {
+			printFeedEntry(-4, "virt", __("Dashboard"), 0, 
+				"images/tag.png", $link);
+		}
+
 		$num_starred = getFeedUnread($link, -1);
 		$num_published = getFeedUnread($link, -2);
 		$num_fresh = getFeedUnread($link, -3);

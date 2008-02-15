@@ -238,31 +238,50 @@
 
 			print "<headlines id=\"$feed\"><![CDATA[";
 
-			$ret = outputHeadlinesList($link, $feed, $subop, 
-				$view_mode, $limit, $cat_view, $next_unread_feed, $offset);
+			if ($feed == -4) {
 
-			$topmost_article_ids = $ret[0];
-			$headlines_count = $ret[1];
-			$returned_feed = $ret[2];
-			$disable_cache = $ret[3];
+				print "<div id=\"headlinesContainer\">";
 
-			print "]]></headlines>";
+				print "PLACEHOLDER";
 
-			print "<headlines-count value=\"$headlines_count\"/>";
+				print "</div>";
 
-			$headlines_unread = getFeedUnread($link, $returned_feed);
+				print "]]></headlines>";
+				print "<headlines-count value=\"0\"/>";
+				print "<headlines-unread value=\"0\"/>";
+				print "<disable-cache value=\"0\"/>";
 
-			print "<headlines-unread value=\"$headlines_unread\"/>";
-			printf("<disable-cache value=\"%d\"/>", $disable_cache);
-
-			if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
-
-			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<articles>";
-				foreach ($topmost_article_ids as $id) {
-					outputArticleXML($link, $id, $feed, false);
-				}
 				print "</articles>";
+
+			} else {
+
+				$ret = outputHeadlinesList($link, $feed, $subop, 
+					$view_mode, $limit, $cat_view, $next_unread_feed, $offset);
+	
+				$topmost_article_ids = $ret[0];
+				$headlines_count = $ret[1];
+				$returned_feed = $ret[2];
+				$disable_cache = $ret[3];
+	
+				print "]]></headlines>";
+	
+				print "<headlines-count value=\"$headlines_count\"/>";
+	
+				$headlines_unread = getFeedUnread($link, $returned_feed);
+	
+				print "<headlines-unread value=\"$headlines_unread\"/>";
+				printf("<disable-cache value=\"%d\"/>", $disable_cache);
+	
+				if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
+	
+				if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+					print "<articles>";
+					foreach ($topmost_article_ids as $id) {
+						outputArticleXML($link, $id, $feed, false);
+					}
+					print "</articles>";
+				}
 			}
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
