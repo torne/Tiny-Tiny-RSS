@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-23 14:50+0300\n"
+"POT-Creation-Date: 2008-02-15 23:42+0300\n"
 "PO-Revision-Date: 2007-08-18 15:14+0400\n"
 "Last-Translator: Andrew Dolgov <cthulhoo@gmail.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend.php:103 backend.php:112
+#: backend.php:103 backend.php:112 backend.php:123
 msgid "Use default"
 msgstr "По умолчанию"
 
@@ -76,34 +76,43 @@ msgstr "Раз в день"
 msgid "Weekly"
 msgstr "Раз в неделю"
 
-#: backend.php:124 modules/pref-users.php:249
+#: backend.php:124
+#, fuzzy
+msgid "Magpie"
+msgstr "Страница"
+
+#: backend.php:125
+msgid "SimplePie"
+msgstr ""
+
+#: backend.php:134 modules/pref-users.php:252
 msgid "User"
 msgstr "Пользователь"
 
-#: backend.php:125 modules/pref-users.php:249
+#: backend.php:135 modules/pref-users.php:252
 msgid "Administrator"
 msgstr "Администратор"
 
-#: backend.php:370
+#: backend.php:405
 msgid "Registered"
 msgstr ""
 
-#: backend.php:371
+#: backend.php:406
 #, fuzzy
 msgid "Last logged in"
 msgstr "Последний вход"
 
-#: backend.php:372
+#: backend.php:407
 #, fuzzy
 msgid "Stored articles"
 msgstr "Отмеченные"
 
-#: backend.php:379
+#: backend.php:414
 #, fuzzy
 msgid "Subscribed feeds count"
 msgstr "Подписаны каналы:"
 
-#: backend.php:392
+#: backend.php:429
 #, fuzzy
 msgid "Subscribed feeds"
 msgstr "Подписаны каналы:"
@@ -164,184 +173,189 @@ msgid ""
 "\t\tofficial site for more information."
 msgstr ""
 
-#: functions.php:2427 functions.php:2766 functions.php:3131 functions.php:3938
+#: functions.php:2505 functions.php:2844 functions.php:3209 functions.php:4035
 msgid "Starred articles"
 msgstr "Отмеченные"
 
-#: functions.php:2436 functions.php:2768 functions.php:3133 functions.php:3945
-#: modules/pref-feeds.php:1068
+#: functions.php:2514 functions.php:2846 functions.php:3211 functions.php:4042
+#: modules/pref-feeds.php:1085
 msgid "Published articles"
 msgstr "Опубликованные"
 
-#: functions.php:2445 functions.php:2770 functions.php:3135 functions.php:3923
+#: functions.php:2523 functions.php:2848 functions.php:3213 functions.php:4020
 #, fuzzy
 msgid "Fresh articles"
 msgstr "Отмеченные"
 
-#: functions.php:2688 modules/popup-dialog.php:151
+#: functions.php:2766 modules/popup-dialog.php:151
 #: modules/pref-filters.php:290
 msgid "All feeds"
 msgstr "Все каналы"
 
-#: functions.php:2717 functions.php:2756 functions.php:3109 functions.php:4102
-#: functions.php:4132 modules/pref-feeds.php:880
+#: functions.php:2795 functions.php:2834 functions.php:3187 functions.php:4199
+#: functions.php:4229 modules/pref-feeds.php:897
 msgid "Uncategorized"
 msgstr "Нет категории"
 
-#: functions.php:2746 functions.php:3275
+#: functions.php:2824 functions.php:3353
 msgid "Special"
 msgstr "Особые"
 
-#: functions.php:2748 functions.php:3277
+#: functions.php:2826 functions.php:3355
 msgid "Labels"
 msgstr "Метки"
 
-#: functions.php:3095 functions.php:3097
+#: functions.php:3173 functions.php:3175
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: functions.php:3113 functions.php:3126 functions.php:3143
+#: functions.php:3191 functions.php:3204 functions.php:3221
 msgid "Searched for"
 msgstr "Поиск"
 
-#: functions.php:3729 functions.php:3776 functions.php:4906
-#: modules/pref-feeds.php:655 modules/pref-feeds.php:842
+#: functions.php:3814 functions.php:3868 functions.php:5003
+#: modules/pref-feeds.php:672 modules/pref-feeds.php:859
 #: modules/pref-filters.php:255 modules/pref-labels.php:239
-#: modules/pref-users.php:208
+#: modules/pref-users.php:211
 msgid "Select:"
 msgstr "Выбрать:"
 
-#: functions.php:3730 functions.php:3777 modules/pref-feeds.php:656
-#: modules/pref-feeds.php:843 modules/pref-filters.php:256
-#: modules/pref-labels.php:240 modules/pref-users.php:209
+#: functions.php:3815 functions.php:3869 modules/pref-feeds.php:673
+#: modules/pref-feeds.php:860 modules/pref-filters.php:256
+#: modules/pref-labels.php:240 modules/pref-users.php:212
 msgid "All"
 msgstr "Все"
 
-#: functions.php:3731 functions.php:3735 functions.php:3778 functions.php:3781
+#: functions.php:3816 functions.php:3820 functions.php:3870 functions.php:3873
 #: tt-rss.php:175
 msgid "Unread"
 msgstr "Новые"
 
-#: functions.php:3732 functions.php:3779 modules/pref-feeds.php:657
-#: modules/pref-feeds.php:844 modules/pref-filters.php:257
-#: modules/pref-labels.php:241 modules/pref-users.php:210
+#: functions.php:3817 functions.php:3871 modules/pref-feeds.php:674
+#: modules/pref-feeds.php:861 modules/pref-filters.php:257
+#: modules/pref-labels.php:241 modules/pref-users.php:213
 msgid "None"
 msgstr "Ничего"
 
-#: functions.php:3734
+#: functions.php:3819
 msgid "Toggle"
 msgstr "Изменить:"
 
-#: functions.php:3736 functions.php:3782 tt-rss.php:174
+#: functions.php:3821 functions.php:3874 tt-rss.php:174
 msgid "Starred"
 msgstr "Отмеченные"
 
-#: functions.php:3737
+#: functions.php:3822
 msgid "Published"
 msgstr "Опубликован"
 
-#: functions.php:3740 localized_schema.php:15
+#: functions.php:3825 localized_schema.php:15
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
-#: functions.php:3741
+#: functions.php:3826
 #, fuzzy
 msgid "Selection"
 msgstr "Выбрать:"
 
-#: functions.php:3742
+#: functions.php:3827
 msgid "This page"
 msgstr "Эту страницу"
 
-#: functions.php:3744
+#: functions.php:3833
 msgid "Above active article"
 msgstr ""
 
-#: functions.php:3745
+#: functions.php:3834
 #, fuzzy
 msgid "Below active article"
 msgstr "Отфильтровать статью"
 
-#: functions.php:3747
+#: functions.php:3839
 msgid "Entire feed"
 msgstr "Весь канал"
 
-#: functions.php:3755
+#: functions.php:3847
 msgid "Next page"
 msgstr "След. стр."
 
-#: functions.php:3756
+#: functions.php:3848
 msgid "Previous page"
 msgstr "Пред. cтр."
 
-#: functions.php:3757
+#: functions.php:3849
 msgid "First page"
 msgstr "На первую"
 
-#: functions.php:3767 functions.php:3793
+#: functions.php:3859 functions.php:3885
 msgid "Convert to label"
 msgstr "Превратить в метку"
 
-#: functions.php:3781
+#: functions.php:3873
 msgid "Toggle:"
 msgstr "Изменить:"
 
-#: functions.php:3784
+#: functions.php:3876
 msgid "Mark as read:"
 msgstr "Пометить как прочит.:"
 
-#: functions.php:3785
+#: functions.php:3877
 msgid "Page"
 msgstr "Страница"
 
-#: functions.php:3786 modules/pref-filters.php:263
+#: functions.php:3878 modules/pref-filters.php:263
 msgid "Feed"
 msgstr "Канал"
 
-#: functions.php:3836
+#: functions.php:3928
 msgid "Generated feed"
 msgstr ""
 
-#: functions.php:4172
+#: functions.php:4008
+msgid "Dashboard"
+msgstr ""
+
+#: functions.php:4269
 msgid "No feeds to display."
 msgstr "Нет каналов для отображения."
 
-#: functions.php:4189
+#: functions.php:4286
 msgid "Tags"
 msgstr "Теги"
 
-#: functions.php:4414
-msgid " - by "
+#: functions.php:4511
+#, fuzzy
+msgid " - "
 msgstr ", автор - "
 
-#: functions.php:4469
+#: functions.php:4566
 msgid "no tags"
 msgstr "нет тегов"
 
-#: functions.php:4500 functions.php:4867
+#: functions.php:4597 functions.php:4964
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4502 functions.php:4869
+#: functions.php:4599 functions.php:4966
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4575
+#: functions.php:4672 modules/pref-feed-browser.php:74
 msgid "Feed not found."
 msgstr "Канал не найден."
 
-#: functions.php:4642
+#: functions.php:4739
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr ""
 
-#: functions.php:4840
+#: functions.php:4937
 #, fuzzy
 msgid "Show article"
 msgstr "Отмеченные"
 
-#: functions.php:4969
+#: functions.php:5066
 msgid "No articles found."
 msgstr "Статей не найдено."
 
@@ -678,7 +692,7 @@ msgid "Erase all non-starred articles in %s?"
 msgstr "Помечаю все каналы как прочитанные..."
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
-#: modules/pref-feeds.php:855 modules/pref-feeds.php:916
+#: modules/pref-feeds.php:872 modules/pref-feeds.php:933
 msgid "Title"
 msgstr "Заголовок"
 
@@ -901,12 +915,12 @@ msgstr "Отмеченные"
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: login_form.php:85 modules/popup-dialog.php:100 modules/pref-feeds.php:264
+#: login_form.php:85 modules/popup-dialog.php:100 modules/pref-feeds.php:279
 #: modules/pref-users.php:29
 msgid "Login:"
 msgstr "Пользователь:"
 
-#: login_form.php:87 modules/popup-dialog.php:101 modules/pref-feeds.php:270
+#: login_form.php:87 modules/popup-dialog.php:101 modules/pref-feeds.php:285
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -1116,12 +1130,12 @@ msgstr "Содержимое"
 msgid "tag cloud"
 msgstr "облако тегов"
 
-#: tt-rss.php:140 modules/pref-feeds.php:1003
+#: tt-rss.php:140 modules/pref-feeds.php:1020
 msgid "Actions..."
 msgstr "Действия..."
 
 #: tt-rss.php:141 modules/popup-dialog.php:127 modules/popup-dialog.php:196
-#: modules/pref-feeds.php:749
+#: modules/pref-feeds.php:766
 msgid "Search"
 msgstr "Поиск"
 
@@ -1250,7 +1264,7 @@ msgid "Help topic not found."
 msgstr "Раздел помощи не найден."
 
 #: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:463 modules/pref-feeds.php:706
+#: modules/popup-dialog.php:463 modules/pref-feeds.php:723
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
@@ -1314,27 +1328,27 @@ msgid ""
 "\t\t\t\t\towner."
 msgstr ""
 
-#: modules/popup-dialog.php:61 modules/pref-feeds.php:762
+#: modules/popup-dialog.php:61 modules/pref-feeds.php:779
 msgid "Subscribe to feed"
 msgstr "Подписаться на канал"
 
-#: modules/popup-dialog.php:72 modules/pref-feeds.php:165
+#: modules/popup-dialog.php:72 modules/pref-feeds.php:166
 msgid "Feed URL:"
 msgstr "URL канала:"
 
-#: modules/popup-dialog.php:80 modules/pref-feeds.php:173
+#: modules/popup-dialog.php:80 modules/pref-feeds.php:174
 msgid "Category:"
 msgstr "Категория:"
 
-#: modules/popup-dialog.php:111 modules/pref-feed-browser.php:108
-#: modules/pref-feeds.php:118
+#: modules/popup-dialog.php:111 modules/pref-feed-browser.php:115
+#: modules/pref-feeds.php:119
 msgid "Subscribe"
 msgstr "Подписаться"
 
 #: modules/popup-dialog.php:114 modules/popup-dialog.php:199
 #: modules/popup-dialog.php:256 modules/popup-dialog.php:343
-#: modules/popup-dialog.php:439 modules/pref-feeds.php:120
-#: modules/pref-feeds.php:352 modules/pref-filters.php:118
+#: modules/popup-dialog.php:439 modules/pref-feeds.php:121
+#: modules/pref-feeds.php:367 modules/pref-filters.php:118
 #: modules/pref-users.php:58
 msgid "Cancel"
 msgstr "Отмена"
@@ -1412,7 +1426,7 @@ msgstr "Действие:"
 msgid "Params:"
 msgstr "Параметры:"
 
-#: modules/popup-dialog.php:325 modules/pref-feeds.php:283
+#: modules/popup-dialog.php:325 modules/pref-feeds.php:298
 msgid "Options:"
 msgstr "Дополнительно:"
 
@@ -1440,7 +1454,7 @@ msgstr "Редактировать теги"
 msgid "Tags for this article (separated by commas):"
 msgstr "Теги для этой статьи (разделенные запятыми):"
 
-#: modules/popup-dialog.php:435 modules/pref-feeds.php:350
+#: modules/popup-dialog.php:435 modules/pref-feeds.php:365
 #: modules/pref-filters.php:114 modules/pref-users.php:55
 msgid "Save"
 msgstr "Сохранить"
@@ -1457,7 +1471,7 @@ msgstr "Самые популярные теги "
 msgid "browse more"
 msgstr "еще"
 
-#: modules/pref-feed-browser.php:5 modules/pref-feeds.php:53
+#: modules/pref-feed-browser.php:5 modules/pref-feeds.php:54
 msgid "Feed browser is administratively disabled."
 msgstr "Другие каналы отключены администратором"
 
@@ -1465,214 +1479,229 @@ msgstr "Другие каналы отключены администратор�
 msgid "Feed information:"
 msgstr "Информация о канале:"
 
-#: modules/pref-feed-browser.php:51
+#: modules/pref-feed-browser.php:38
+#, fuzzy
+msgid "Site:"
+msgstr "Заголовок:"
+
+#: modules/pref-feed-browser.php:40
+#, fuzzy
+msgid "Last updated:"
+msgstr "Обновлено"
+
+#: modules/pref-feed-browser.php:55
 msgid "Last headlines:"
 msgstr "Последние заголовки:"
 
-#: modules/pref-feed-browser.php:77
+#: modules/pref-feed-browser.php:84
 msgid ""
 "This panel shows feeds subscribed by other users of this system, just in "
 "case you are interested in them too."
 msgstr ""
 
-#: modules/pref-feed-browser.php:94
+#: modules/pref-feed-browser.php:101
 msgid "Top"
 msgstr "Топ"
 
-#: modules/pref-feed-browser.php:103
+#: modules/pref-feed-browser.php:110
 msgid "Show"
 msgstr "Показать"
 
-#: modules/pref-feed-browser.php:153 modules/pref-feeds.php:111
+#: modules/pref-feed-browser.php:164 modules/pref-feeds.php:112
 msgid "No feeds found to subscribe."
 msgstr "Каналы для подписки не найдены."
 
-#: modules/pref-feeds.php:38
+#: modules/pref-feeds.php:39
 msgid "Subscribed to feeds:"
 msgstr "Подписаны каналы:"
 
-#: modules/pref-feeds.php:57
+#: modules/pref-feeds.php:58
 msgid "Other feeds: Top 25"
 msgstr "Топ 25 каналов"
 
-#: modules/pref-feeds.php:61
+#: modules/pref-feeds.php:62
 msgid "Showing top 25 registered feeds, sorted by popularity:"
 msgstr "Топ 25 популярных каналов:"
 
-#: modules/pref-feeds.php:145
+#: modules/pref-feeds.php:146
 msgid "Feed editor"
 msgstr "Редактор канала"
 
-#: modules/pref-feeds.php:157
+#: modules/pref-feeds.php:158
 msgid "Title:"
 msgstr "Заголовок:"
 
-#: modules/pref-feeds.php:193
+#: modules/pref-feeds.php:194
 msgid "Update Interval:"
 msgstr "Интервал обновления:"
 
-#: modules/pref-feeds.php:202
+#: modules/pref-feeds.php:203
 msgid "Link to:"
 msgstr "Связать с:"
 
-#: modules/pref-feeds.php:219
+#: modules/pref-feeds.php:220
 msgid "Not linked"
 msgstr "Нет связей"
 
-#: modules/pref-feeds.php:253
+#: modules/pref-feeds.php:254
 msgid "Article purging:"
 msgstr "Удаление сообщений:"
 
-#: modules/pref-feeds.php:285
+#: modules/pref-feeds.php:267
+#, fuzzy
+msgid "Update using:"
+msgstr "Обновить"
+
+#: modules/pref-feeds.php:300
 msgid "Hide from \"Other Feeds\""
 msgstr "Спрятать из \"Других каналов\""
 
-#: modules/pref-feeds.php:296
+#: modules/pref-feeds.php:311
 msgid "Right-to-left content"
 msgstr "Язык канала пишется справа налево"
 
-#: modules/pref-feeds.php:307
+#: modules/pref-feeds.php:322
 msgid "Hide from my feed list"
 msgstr "Спрятать из моего списка каналов"
 
-#: modules/pref-feeds.php:319
+#: modules/pref-feeds.php:334
 msgid "Include in e-mail digest"
 msgstr "Включить в дайджест"
 
-#: modules/pref-feeds.php:340
+#: modules/pref-feeds.php:355
 msgid "Cache images locally"
 msgstr ""
 
-#: modules/pref-feeds.php:486
+#: modules/pref-feeds.php:503
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Добавлена подписка на <b>%s</b>."
 
-#: modules/pref-feeds.php:488
+#: modules/pref-feeds.php:505
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Канал <b>%s</b> уже подписан."
 
-#: modules/pref-feeds.php:573
+#: modules/pref-feeds.php:590
 msgid "Category editor"
 msgstr "Редактор категорий"
 
-#: modules/pref-feeds.php:596
+#: modules/pref-feeds.php:613
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "Категория <b>$%s</b> уже существует."
 
-#: modules/pref-feeds.php:624
+#: modules/pref-feeds.php:641
 msgid "Unable to delete non empty feed categories."
 msgstr "Не могу удалить не пустую категорию"
 
-#: modules/pref-feeds.php:641
+#: modules/pref-feeds.php:658
 msgid "Create category"
 msgstr "Создать категорию"
 
-#: modules/pref-feeds.php:701
+#: modules/pref-feeds.php:718
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:712 modules/pref-filters.php:345
-#: modules/pref-labels.php:299 modules/pref-users.php:319
+#: modules/pref-feeds.php:729 modules/pref-filters.php:345
+#: modules/pref-labels.php:299 modules/pref-users.php:322
 msgid "Remove"
 msgstr "Удалить"
 
-#: modules/pref-feeds.php:734
+#: modules/pref-feeds.php:751
 msgid "Some feeds have update errors (click for details)"
 msgstr "Некоторые каналы не могли быть обновлены (щелкните для подробностей)"
 
-#: modules/pref-feeds.php:767
+#: modules/pref-feeds.php:784
 msgid "Top 25"
 msgstr "Топ 25"
 
-#: modules/pref-feeds.php:841
+#: modules/pref-feeds.php:858
 msgid "Show last article times"
 msgstr "Показать дату последней статьи"
 
-#: modules/pref-feeds.php:858 modules/pref-feeds.php:920
+#: modules/pref-feeds.php:875 modules/pref-feeds.php:937
 msgid "Last&nbsp;Article"
 msgstr "Последняя&nbsp;статья"
 
-#: modules/pref-feeds.php:861 modules/pref-feeds.php:924
+#: modules/pref-feeds.php:878 modules/pref-feeds.php:941
 msgid "Updated"
 msgstr "Обновлено"
 
-#: modules/pref-feeds.php:991 modules/pref-feeds.php:1005
+#: modules/pref-feeds.php:1008 modules/pref-feeds.php:1022
 #, fuzzy
 msgid "Selection:"
 msgstr "Выбрать:"
 
-#: modules/pref-feeds.php:997
+#: modules/pref-feeds.php:1014
 msgid "Recategorize"
 msgstr "Изменить категорию"
 
-#: modules/pref-feeds.php:1006 modules/pref-filters.php:343
-#: modules/pref-labels.php:297 modules/pref-users.php:317
+#: modules/pref-feeds.php:1023 modules/pref-filters.php:343
+#: modules/pref-labels.php:297 modules/pref-users.php:320
 msgid "Edit"
 msgstr "Редактировать"
 
-#: modules/pref-feeds.php:1007
+#: modules/pref-feeds.php:1024
 msgid "Manual purge"
 msgstr ""
 
-#: modules/pref-feeds.php:1008
+#: modules/pref-feeds.php:1025
 #, fuzzy
 msgid "Clear feed data"
 msgstr "Все каналы обновлены."
 
-#: modules/pref-feeds.php:1009
+#: modules/pref-feeds.php:1026
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
-#: modules/pref-feeds.php:1014
+#: modules/pref-feeds.php:1031
 #, fuzzy
 msgid "Other:"
 msgstr "Где:"
 
-#: modules/pref-feeds.php:1015
+#: modules/pref-feeds.php:1032
 msgid "Edit categories"
 msgstr "Редактировать категории"
 
-#: modules/pref-feeds.php:1042
+#: modules/pref-feeds.php:1059
 msgid "OPML"
 msgstr ""
 
-#: modules/pref-feeds.php:1046
+#: modules/pref-feeds.php:1063
 #, fuzzy
 msgid "File:"
 msgstr "Заголовок:"
 
-#: modules/pref-feeds.php:1049
+#: modules/pref-feeds.php:1066
 msgid "Import"
 msgstr "Импортировать"
 
-#: modules/pref-feeds.php:1056
+#: modules/pref-feeds.php:1073
 msgid "Export OPML"
 msgstr "Экспортировать OPML"
 
-#: modules/pref-feeds.php:1059
+#: modules/pref-feeds.php:1076
 msgid "Firefox Integration"
 msgstr ""
 
-#: modules/pref-feeds.php:1061
+#: modules/pref-feeds.php:1078
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
 msgstr ""
 
-#: modules/pref-feeds.php:1065
+#: modules/pref-feeds.php:1082
 msgid "Click here to register this site as a feed reader."
 msgstr ""
 
-#: modules/pref-feeds.php:1074
+#: modules/pref-feeds.php:1091
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the address specified below."
 msgstr ""
 
-#: modules/pref-feeds.php:1081
+#: modules/pref-feeds.php:1098
 msgid "Generate another address"
 msgstr "Создать другой адрес"
 
@@ -1865,54 +1894,54 @@ msgstr "Уровень доступа:"
 msgid "Changed password of user <b>%s</b>."
 msgstr "Пароль пользователя <b>%s</b> изменен."
 
-#: modules/pref-users.php:123
+#: modules/pref-users.php:126
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr "Добавлен пользователь <b>%s</b> с паролем <b>%s</b>"
 
-#: modules/pref-users.php:130
+#: modules/pref-users.php:133
 #, php-format
 msgid "Could not create user <b>%s</b>"
 msgstr "Не могу добавить пользователя <b>%s</b>"
 
-#: modules/pref-users.php:134
+#: modules/pref-users.php:137
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr "Пользователь <b>%s</b> уже существует."
 
-#: modules/pref-users.php:154
+#: modules/pref-users.php:157
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
 "\t\t\t\t\t to <b>%s</b>"
 msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
 
-#: modules/pref-users.php:158
+#: modules/pref-users.php:161
 #, fuzzy, php-format
 msgid "Notifying <b>%s</b>."
 msgstr "Добавляется категория <b>%s</b>."
 
-#: modules/pref-users.php:193
+#: modules/pref-users.php:196
 msgid "Create user"
 msgstr "Добавить пользователя"
 
-#: modules/pref-users.php:215
+#: modules/pref-users.php:218
 msgid "Login"
 msgstr "Пользователь:"
 
-#: modules/pref-users.php:216
+#: modules/pref-users.php:219
 msgid "Access Level"
 msgstr "Уровень доступа:"
 
-#: modules/pref-users.php:217
+#: modules/pref-users.php:220
 msgid "Last login"
 msgstr "Последний вход"
 
-#: modules/pref-users.php:315
+#: modules/pref-users.php:318
 msgid "User details"
 msgstr "Подробнее..."
 
-#: modules/pref-users.php:321
+#: modules/pref-users.php:324
 msgid "Reset password"
 msgstr "Сбросить пароль"
 
