@@ -240,19 +240,7 @@
 
 			if ($feed == -4) {
 
-				print "<div id=\"headlinesContainer\">";
-
-				print "PLACEHOLDER";
-
-				print "</div>";
-
-				print "]]></headlines>";
-				print "<headlines-count value=\"0\"/>";
-				print "<headlines-unread value=\"0\"/>";
-				print "<disable-cache value=\"0\"/>";
-
-				print "<articles>";
-				print "</articles>";
+				generate_dashboard_feed($link);
 
 			} else {
 

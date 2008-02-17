@@ -3755,7 +3755,8 @@
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$bottom = false, $rtl_content = false, $feed_id = 0,
 			$is_cat = false, $search = false, $match_on = false,
-			$search_mode = false, $offset = 0, $limit = 0) {
+			$search_mode = false, $offset = 0, $limit = 0, 
+			$dashboard_menu = 0, $disable_feed = 0, $feed_small_icon = 0) {
 
 			$user_page_offset = $offset + 1;
 
@@ -3806,86 +3807,110 @@
 
 			}
 
-			if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
+			if (!$dashboard_menu) {
 
-				print "<td class=\"headlineActions$rtl_cpart\">
-					<ul class=\"headlineDropdownMenu\">
-					<li class=\"top2\">
-					".__('Select:')."
-						<a href=\"$sel_all_link\">".__('All')."</a>,
-						<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-						<a href=\"$sel_none_link\">".__('None')."</a></li>
-					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\">".__('Toggle')."<ul>
-						<li onclick=\"$tog_unread_link\">".__('Unread')."</li>
-						<li onclick=\"$tog_marked_link\">".__('Starred')."</li>
-						<li onclick=\"$tog_published_link\">".__('Published')."</li>
-						</ul></li>
-					<li class=\"vsep\">&nbsp;</li>
-					<li class=\"top\">".__('Mark as read')."<ul>
-						<li onclick=\"$catchup_sel_link\">".__('Selection')."</li>
-						<!-- <li onclick=\"$catchup_page_link\">".__('This page')."</li> -->";
-
-				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
-
-				print "
-						<li><span class=\"insensitive\">--------</span></li>
-						<li onclick=\"catchupRelativeToArticle(0)\">".__("Above active article")."</li>
-						<li onclick=\"catchupRelativeToArticle(1)\">".__("Below active article")."</li>
-						<li><span class=\"insensitive\">--------</span></li>";
-				}
-
-				print "
-						<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
-					";
-
-					$enable_pagination = get_pref($link, "_PREFS_ENABLE_PAGINATION");
-
-					if ($limit != 0 && !$search && $enable_pagination) {
-						print "
+				if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
+	
+					print "<td class=\"headlineActions$rtl_cpart\">
+						<ul class=\"headlineDropdownMenu\">
+						<li class=\"top2\">
+						".__('Select:')."
+							<a href=\"$sel_all_link\">".__('All')."</a>,
+							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+							<a href=\"$sel_none_link\">".__('None')."</a></li>
 						<li class=\"vsep\">&nbsp;</li>
-						<li class=\"top\"><a href=\"$page_next_link\">".__('Next page')."</a><ul>
-							<li onclick=\"$page_prev_link\">".__('Previous page')."</li>
-							<li onclick=\"$page_first_link\">".__('First page')."</li></ul></li>
-							</ul>";
-						}
-
-					if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-						print "
-							<li class=\"vsep\">&nbsp;</li>
-							<li class=\"top3\">
-							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
-								'$match_on', '$feed_id', '$is_cat');\">
-								".__('Convert to label')."</a></td>";
+						<li class=\"top\">".__('Toggle')."<ul>
+							<li onclick=\"$tog_unread_link\">".__('Unread')."</li>
+							<li onclick=\"$tog_marked_link\">".__('Starred')."</li>
+							<li onclick=\"$tog_published_link\">".__('Published')."</li>
+							</ul></li>
+						<li class=\"vsep\">&nbsp;</li>
+						<li class=\"top\">".__('Mark as read')."<ul>
+							<li onclick=\"$catchup_sel_link\">".__('Selection')."</li>
+							<!-- <li onclick=\"$catchup_page_link\">".__('This page')."</li> -->";
+	
+					if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+	
+					print "
+							<li><span class=\"insensitive\">--------</span></li>
+							<li onclick=\"catchupRelativeToArticle(0)\">".__("Above active article")."</li>
+							<li onclick=\"catchupRelativeToArticle(1)\">".__("Below active article")."</li>
+							<li><span class=\"insensitive\">--------</span></li>";
 					}
-					print "	
-					</td>"; 
-
-			} else {
-			// old style subtoolbar:
-
-				print "<td class=\"headlineActions$rtl_cpart\">".
-					__('Select:')."
-								<a href=\"$sel_all_link\">".__('All')."</a>,
-								<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-								<a href=\"$sel_none_link\">".__('None')."</a>
-						&nbsp;&nbsp;".
-						__('Toggle:')." <a href=\"$tog_unread_link\">".__('Unread')."</a>,
-							<a href=\"$tog_marked_link\">".__('Starred')."</a>
-						&nbsp;&nbsp;".
-						__('Mark as read:')."
-							<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
-							<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
-
-				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-
-					print "&nbsp;&nbsp;
-							<a href=\"javascript:labelFromSearch('$search', '$search_mode',
-								'$match_on', '$feed_id', '$is_cat');\">
-							".__('Convert to label')."</a>";
+	
+					print "
+							<li onclick=\"$catchup_feed_link\">".__('Entire feed')."</li></ul></li>
+						";
+	
+						$enable_pagination = get_pref($link, "_PREFS_ENABLE_PAGINATION");
+	
+						if ($limit != 0 && !$search && $enable_pagination) {
+							print "
+							<li class=\"vsep\">&nbsp;</li>
+							<li class=\"top\"><a href=\"$page_next_link\">".__('Next page')."</a><ul>
+								<li onclick=\"$page_prev_link\">".__('Previous page')."</li>
+								<li onclick=\"$page_first_link\">".__('First page')."</li></ul></li>
+								</ul>";
+							}
+	
+						if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+							print "
+								<li class=\"vsep\">&nbsp;</li>
+								<li class=\"top3\">
+								<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+									'$match_on', '$feed_id', '$is_cat');\">
+									".__('Convert to label')."</a></td>";
+						}
+						print "	
+						</td>"; 
+	
+				} else {
+				// old style subtoolbar:
+	
+					print "<td class=\"headlineActions$rtl_cpart\">".
+						__('Select:')."
+									<a href=\"$sel_all_link\">".__('All')."</a>,
+									<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+									<a href=\"$sel_none_link\">".__('None')."</a>
+							&nbsp;&nbsp;".
+							__('Toggle:')." <a href=\"$tog_unread_link\">".__('Unread')."</a>,
+								<a href=\"$tog_marked_link\">".__('Starred')."</a>
+							&nbsp;&nbsp;".
+							__('Mark as read:')."
+								<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
+								<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
+	
+					if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+	
+						print "&nbsp;&nbsp;
+								<a href=\"javascript:labelFromSearch('$search', '$search_mode',
+									'$match_on', '$feed_id', '$is_cat');\">
+								".__('Convert to label')."</a>";
+					}
+	
+					print "</td>";  
+	
 				}
+			} else { // dashboard menu actions
 
-				print "</td>";  
+					print "<td class=\"headlineActions$rtl_cpart\">
+						<ul class=\"headlineDropdownMenu\">
+						<li class=\"top2\">
+							<a href=\"#\" onclick=\"return displayDlg('quickAddFeed');\">".
+								__('Subscribe to feed')."</a>
+						</li>
+						<li class=\"vsep\">&nbsp;</li>
+						<li class=\"top\">".__('Placeholder')."<ul>
+							<li onclick=\"\">".__('Placeholder')."</li>
+							<li onclick=\"\">".__('Placeholder')."</li>
+							<li onclick=\"\">".__('Placeholder')."</li>
+							</ul></li>
+						<li class=\"vsep\">&nbsp;</li>
+						<li class=\"top\">".__('Show')."<ul>
+							<li onclick=\"\">".__('Update errors')."</li>
+							</ul></li></ul>";
+
+					print "</td>";
 
 			}
 
@@ -3920,13 +3945,15 @@
 
 			print "</span>";
 
-			if (!$bottom) {
+			if (!$bottom && !$disable_feed) {
 				print "
 					<a target=\"_new\" 
 						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
 						<img class=\"noborder\" 
 							alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
 					</a>";
+			} else if ($feed_small_icon) {
+				print "<img class=\"noborder\" alt=\"\" src=\"images/$feed_small_icon\">";
 			}
 				
 			print "</td>";
@@ -5328,5 +5355,28 @@
 	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 	} // function update_daemon_common
+
+	function generate_dashboard_feed($link) {
+
+		print "<div id=\"headlinesContainer\">";
+
+		print_headline_subtoolbar($link, "", "Dashboard", 
+			false, false, -4, false, false, false,
+			false, 0, 0, true, true, "tag.png");
+
+		print "<div id=\"headlinesInnerContainer\" class=\"dashboard\">";
+		print "<div>There is <b>666</b> unread articles in <b>666</b> feeds.</div>";
+		print "</div>";
+
+		print "</div>";
+
+		print "]]></headlines>";
+		print "<headlines-count value=\"0\"/>";
+		print "<headlines-unread value=\"0\"/>";
+		print "<disable-cache value=\"1\"/>";
+
+		print "<articles>";
+		print "</articles>";
+	}
 
 ?>
