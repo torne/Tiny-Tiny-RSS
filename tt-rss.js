@@ -739,4 +739,19 @@ function clearFeedArticles(feed_id) {
 	return false;
 }
 
+function toggle_feedlist() {
+	try {
+		debug("toggle_feedlist");
 
+		var fl = document.getElementById("feeds-holder");
+
+		if (!Element.visible(fl)) {
+			Element.show(fl);
+			fl.style.zIndex = 30;
+		} else {
+			Element.hide(fl);
+		}
+	} catch (e) {
+		exception_error(e, "toggle_feedlist");
+	}
+}

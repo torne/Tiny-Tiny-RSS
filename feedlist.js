@@ -40,6 +40,11 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			cache_invalidate("F:" + feed);
 		}
 
+		if (getInitParam("theme") == "" &&  getInitParam("hide_feedlist")) {
+			Element.hide("feeds-holder");
+			
+		}
+
 		var force_nocache = false;
 
 		var page_offset = 0;
@@ -338,9 +343,11 @@ function feedlist_init() {
 
 		if (getInitParam("theme") == "") {
 			setTimeout("hide_footer()", 5000);
-		}
 
-//		init_hidden_feedlist();
+			if (getInitParam("hide_feedlist")) {
+				init_hidden_feedlist();
+			}
+		}
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -378,14 +385,26 @@ function hide_footer() {
 
 function init_hidden_feedlist() {
 	try {
+		debug("init_hidden_feedlist");
+
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
-		var fh = document.getElementById("headlines-frame");
-	
-		new Effect.Fade(fl);
+		var fc = document.getElementById("content-frame");
+		var ft = document.getElementById("toolbar");
+		var ff = document.getElementById("footer");
+		var fbtn = document.getElementById("toggle_feeds_btn");
 
+		if (fbtn) Element.show(fbtn);
+
+		fl.style.top = fh.offsetTop + "px";
+		fl.style.backgroundColor = "white"; //FIXME
+
+		Element.hide(fl);
 		
-
+		fh.style.left = "0px";
+		ft.style.left = "0px";
+		if (fc) fc.style.left = "0px";
+		if (ff) ff.style.left = "0px";
 
 	} catch (e) {
 		exception_error("init_hidden_feedlist", e);

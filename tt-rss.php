@@ -158,6 +158,9 @@ window.onload = init;
 
 		<form id="main_toolbar_form" onsubmit='return false'>
 
+		<input type="submit" value="<?php echo __("Toggle Feedlist") ?>" id="toggle_feeds_btn"
+			onclick="toggle_feedlist()" style="display : none">
+
 		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<?php echo __('Search:') ?>
