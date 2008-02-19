@@ -13,6 +13,7 @@ var active_feed_id = 0;
 var active_feed_is_cat = false;
 var number_of_feeds = 0;
 var sanity_check_done = false;
+var _hfd_scrolltop = 0;
 
 var init_params = new Object();
 
@@ -748,8 +749,10 @@ function toggle_feedlist() {
 		if (!Element.visible(fl)) {
 			Element.show(fl);
 			fl.style.zIndex = 30;
+			fl.scrollTop = _hfd_scrolltop;
 		} else {
-			Element.hide(fl);
+			_hfd_scrolltop = fl.scrollTop;
+			Element.hide(fl);			
 //			Effect.Fade(fl, {duration : 0.2, 
 //				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
 		}
