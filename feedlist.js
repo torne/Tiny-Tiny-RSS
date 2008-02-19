@@ -36,6 +36,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 //		if (!offset) page_offset = 0;
 
+		if (feed == getActiveFeedId()) {
+			cache_invalidate("F:" + feed);
+		}
+
 		var force_nocache = false;
 
 		var page_offset = 0;

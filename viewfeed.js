@@ -667,47 +667,121 @@ function correctHeadlinesOffset(id) {
 
 function moveToPost(mode) {
 
+	try {
+
 	// check for combined mode
-	if (!document.getElementById("headlinesList"))
-		return;
-
-	var rows = getVisibleHeadlineIds();
-
-	var prev_id = false;
-	var next_id = false;
-
-	if (!document.getElementById('RROW-' + active_post_id)) {
-		active_post_id = false;
-	}
-
-	if (active_post_id == false) {
-		next_id = getFirstVisibleHeadlineId();
-		prev_id = getLastVisibleHeadlineId();
-	} else {	
-		for (var i = 0; i < rows.length; i++) {
-			if (rows[i] == active_post_id) {
-				prev_id = rows[i-1];
-				next_id = rows[i+1];			
+		if (document.getElementById("headlinesList")) {
+	
+			var rows = getVisibleHeadlineIds();
+		
+			var prev_id = false;
+			var next_id = false;
+		
+			if (!document.getElementById('RROW-' + active_post_id)) {
+				active_post_id = false;
 			}
-		}
-	}
+		
+			if (active_post_id == false) {
+				next_id = getFirstVisibleHeadlineId();
+				prev_id = getLastVisibleHeadlineId();
+			} else {	
+				for (var i = 0; i < rows.length; i++) {
+					if (rows[i] == active_post_id) {
+						prev_id = rows[i-1];
+						next_id = rows[i+1];			
+					}
+				}
+			}
+		
+			if (mode == "next") {
+			 	if (next_id) {
+					correctHeadlinesOffset(next_id);
+					view(next_id, getActiveFeedId());
+				}
+			}
+		
+			if (mode == "prev") {
+				if (prev_id) {
+					correctHeadlinesOffset(prev_id);
+					view(prev_id, getActiveFeedId());
+				}
+			} 
+		} else {
+			var rows = cdmGetUnreadArticles();
 
-	if (mode == "next") {
-	 	if (next_id) {
-			correctHeadlinesOffset(next_id);
-			view(next_id, getActiveFeedId());
-		}
-	}
+			if (mode == "next") {
 
-	if (mode == "prev") {
-		if (prev_id) {
-			correctHeadlinesOffset(prev_id);
-			view(prev_id, getActiveFeedId());
+				for (var i = 0; i < rows.length; i++) {
+
+					if (cdmArticleIsActuallyVisible(rows[i]) ||
+							cdmArticleIsBelowViewport(rows[i])) {
+
+						cdmScrollToArticleId(rows[i]);
+						setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						//toggleUnread(rows[i], undefined, true);
+
+						break;
+					}
+				}
+
+			} else if (mode == "prev") {
+
+				for (var i = 0; i < rows.length; i++) {
+
+					if (cdmArticleIsActuallyVisible(rows[i]) ||
+							(cdmArticleIsAboveViewport(rows[i]) &&
+								!cdmArticleIsAboveViewport(rows[i+1]))) {
+
+						cdmScrollToArticleId(rows[i]);
+						setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						//toggleUnread(rows[i], undefined, true);
+
+						break;
+					} 
+				}
+
+			}
+	
 		}
-	} 
+
+	} catch (e) {
+		exception_error(e, "moveToPost");
+	}
 }
 
-function toggleUnread(id, cmode) {
+function toggleSelected(id) {
+	try {
+	
+		var row = document.getElementById("RROW-" + id);
+		if (row) {
+			var nc = row.className;
+			
+			if (!nc.match("Selected")) {
+				nc = nc + "Selected";
+			} else {
+				nc = nc.replace("Selected", "");
+			}
+
+			row.className = nc;
+		}
+	} catch (e) {
+		exception_error(e, "toggleSelected");
+	}
+}
+
+/*function toggleUnread_afh(effect) {
+	try {
+
+		var elem = effect.element;
+		//elem.style.backgroundColor = "transparent";
+
+		alert(elem.className);
+	} catch (e) {
+		exception_error(e, "toggleUnread_afh");
+	}
+} */
+
+function toggleUnread(id, cmode, effect) {
 	try {
 	
 		var row = document.getElementById("RROW-" + id);
@@ -716,14 +790,36 @@ function toggleUnread(id, cmode) {
 			nc = nc.replace("Unread", "");
 			nc = nc.replace("Selected", "");
 
+			// since we are removing selection from the object, uncheck
+			// corresponding checkbox
+
+			var cb = document.getElementById("RCHK-" + id);
+			if (cb) {
+				cb.checked = false;
+			}
+
+			// NOTE: I'm not sure that resetting selection here is a feature -fox
+
 			if (cmode == undefined || cmode == 2) {
 				if (row.className.match("Unread")) {
 					row.className = nc;
+
+/*					if (effect) {
+						new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
+							afterFinish: toggleUnread_afh,
+							queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
+					} */
+
 				} else {
 					row.className = nc + "Unread";
 				}
 			} else if (cmode == 0) {
 				row.className = nc;
+
+/*				if (effect) {
+					new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
+						queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
+				} */
 			} else if (cmode == 1) {
 				row.className = nc + "Unread";
 			}
@@ -1164,6 +1260,90 @@ function editTagsInsert() {
 	}
 }
 
+function cdmArticleIsBelowViewport(id) {
+	try {
+		var ctr = document.getElementById("headlinesInnerContainer");
+		var e = document.getElementById("RROW-" + id);
+
+		if (!e || !ctr) return;
+
+		// article starts below viewport
+
+		if (ctr.scrollTop < e.offsetTop) {
+			return true;
+		} else {	
+			return false;
+		}
+
+	} catch (e) {
+		exception_error(e, "cdmArticleIsVisible");
+	}
+}
+
+function cdmArticleIsAboveViewport(id) {
+	try {
+		var ctr = document.getElementById("headlinesInnerContainer");
+		var e = document.getElementById("RROW-" + id);
+
+		if (!e || !ctr) return;
+
+		// article starts above viewport
+
+		if (ctr.scrollTop > e.offsetTop + e.offsetHeight) {
+			return true;
+		} else {	
+			return false;
+		}
+
+	} catch (e) {
+		exception_error(e, "cdmArticleIsVisible");
+	}
+}
+
+function cdmScrollToArticleId(id) {
+	try {
+		var ctr = document.getElementById("headlinesInnerContainer");
+		var e = document.getElementById("RROW-" + id);
+
+		if (!e || !ctr) return;
+
+		ctr.scrollTop = e.offsetTop;
+
+	} catch (e) {
+		exception_error(e, "cdmScrollToArticleId");
+	}
+}
+
+function cdmArticleIsActuallyVisible(id) {
+	try {
+		var ctr = document.getElementById("headlinesInnerContainer");
+		var e = document.getElementById("RROW-" + id);
+
+		if (!e || !ctr) return;
+
+		// article fits in viewport OR article is longer than viewport and
+		// its bottom is visible
+
+		if (ctr.scrollTop <= e.offsetTop && e.offsetTop + e.offsetHeight <=
+				ctr.scrollTop + ctr.offsetHeight) {
+
+			return true;
+		
+		} else if (e.offsetHeight > ctr.offsetHeight &&
+				e.offsetTop + e.offsetHeight >= ctr.scrollTop &&
+				e.offsetTop + e.offsetHeight <= ctr.scrollTop + ctr.offsetHeight) {
+
+			return true;
+
+		}
+
+		return false;
+
+	} catch (e) {
+		exception_error(e, "cdmArticleIsVisible");
+	}
+}
+
 function cdmWatchdog() {
 
 	try {
@@ -1349,6 +1529,8 @@ function cdmMouseOut(elem) {
 
 function headlines_scroll_handler() {
 	try {
+
+		debug("headlines_scroll_handler");
 
 		var e = document.getElementById("headlinesInnerContainer");
 
