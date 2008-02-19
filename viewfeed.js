@@ -720,9 +720,11 @@ function moveToPost(mode) {
 					if (cdmArticleIsActuallyVisible(rows[i]) ||
 							cdmArticleIsBelowViewport(rows[i])) {
 
-						cdmScrollToArticleId(rows[i]);
-						setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
-						//toggleUnread(rows[i], undefined, true);
+						if (!cdmArticleIsActuallyVisible(rows[i])) {
+							cdmScrollToArticleId(rows[i]);
+						}
+						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						toggleUnread(rows[i], undefined, true);
 
 						return;
 					}
@@ -734,13 +736,12 @@ function moveToPost(mode) {
 
 				for (var i = 0; i < rows.length; i++) {
 
-					if (cdmArticleIsActuallyVisible(rows[i]) ||
-							(cdmArticleIsAboveViewport(rows[i]) &&
-								!cdmArticleIsAboveViewport(rows[i+1]))) {
+					if (cdmArticleIsAboveViewport(rows[i]) &&
+								!cdmArticleIsAboveViewport(rows[i+1])) {
 
 						cdmScrollToArticleId(rows[i]);
-						setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
-						//toggleUnread(rows[i], undefined, true);
+						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						toggleUnread(rows[i], undefined, true);
 
 						break;
 					} 
@@ -775,17 +776,16 @@ function toggleSelected(id) {
 	}
 }
 
-/*function toggleUnread_afh(effect) {
+function toggleUnread_afh(effect) {
 	try {
 
 		var elem = effect.element;
-		//elem.style.backgroundColor = "transparent";
+		elem.style.backgroundColor = "";
 
-		alert(elem.className);
 	} catch (e) {
 		exception_error(e, "toggleUnread_afh");
 	}
-} */
+} 
 
 function toggleUnread(id, cmode, effect) {
 	try {
@@ -810,11 +810,11 @@ function toggleUnread(id, cmode, effect) {
 				if (row.className.match("Unread")) {
 					row.className = nc;
 
-/*					if (effect) {
+					if (effect) {
 						new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
 							afterFinish: toggleUnread_afh,
 							queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
-					} */
+					} 
 
 				} else {
 					row.className = nc + "Unread";
