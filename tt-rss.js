@@ -750,6 +750,8 @@ function toggle_feedlist() {
 			fl.style.zIndex = 30;
 		} else {
 			Element.hide(fl);
+//			Effect.Fade(fl, {duration : 0.2, 
+//				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
 		}
 	} catch (e) {
 		exception_error(e, "toggle_feedlist");

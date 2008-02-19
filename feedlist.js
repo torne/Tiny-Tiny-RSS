@@ -42,7 +42,9 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (getInitParam("theme") == "" &&  getInitParam("hide_feedlist")) {
 			Element.hide("feeds-holder");
-			
+//			Effect.Fade('feeds-holder', {duration : 0.2, 
+//				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
+		
 		}
 
 		var force_nocache = false;
