@@ -97,8 +97,12 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 			var headlines_unread = headlines_unread_obj.getAttribute("value");
 			var disable_cache = disable_cache_obj.getAttribute("value") != "0";
 
-			if (headlines_count == 0) _infscroll_disable = 1;
-	
+			if (headlines_count == 0) {
+				_infscroll_disable = 1;
+			} else {
+				_infscroll_disable = 0;
+			}
+
 			var counters = transport.responseXML.getElementsByTagName("counters")[0];
 			var articles = transport.responseXML.getElementsByTagName("article");
 			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info");
@@ -720,9 +724,11 @@ function moveToPost(mode) {
 						setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
 						//toggleUnread(rows[i], undefined, true);
 
-						break;
+						return;
 					}
 				}
+
+				cdmScrollViewport('bottom');
 
 			} else if (mode == "prev") {
 
@@ -1260,6 +1266,20 @@ function editTagsInsert() {
 	}
 }
 
+function cdmScrollViewport(where) {
+	debug("cdmScrollViewport: " + where);
+
+	var ctr = document.getElementById("headlinesInnerContainer");
+
+	if (!ctr) return;
+
+	if (where == "bottom") {
+		ctr.scrollTop = ctr.scrollHeight;
+	} else {
+		ctr.scrollTop = where;
+	}
+}
+
 function cdmArticleIsBelowViewport(id) {
 	try {
 		var ctr = document.getElementById("headlinesInnerContainer");
@@ -1530,8 +1550,6 @@ function cdmMouseOut(elem) {
 function headlines_scroll_handler() {
 	try {
 
-		debug("headlines_scroll_handler");
-
 		var e = document.getElementById("headlinesInnerContainer");
 
 		// don't do infinite scrolling when Limit == All
@@ -1540,7 +1558,11 @@ function headlines_scroll_handler() {
 
 		var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex];
 		if (limit.value != 0) {
-			if (e.scrollTop + e.offsetHeight > e.scrollHeight - 50) {
+		
+			debug((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
+				_infscroll_disable);
+
+			if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 				if (!_infscroll_disable) {
 					debug("more cowbell!");
 					viewNextFeedPage();
