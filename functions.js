@@ -329,6 +329,12 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 67 && shift_key) { // c
+			if (typeof collapse_feedlist != 'undefined') {
+				return collapse_feedlist();
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
