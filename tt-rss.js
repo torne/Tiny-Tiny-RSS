@@ -634,8 +634,6 @@ function catchupCurrentFeed() {
 function editFeedDlg(feed) {
 	try {
 
-		disableHotkeys();
-	
 		if (!feed) {
 			alert(__("Please select some feed first."));
 			return;
@@ -653,7 +651,9 @@ function editFeedDlg(feed) {
 		} else {
 			query = "backend.php?op=pref-labels&subop=edit&id=" +	param_escape(-feed-11);
 		}
-	
+
+		disableHotkeys();
+
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				infobox_callback2(transport); 

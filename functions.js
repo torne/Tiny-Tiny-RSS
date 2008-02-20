@@ -209,7 +209,10 @@ function hotkey_handler(e) {
 
 		}
 	
-		if (!hotkeys_enabled) return;
+		if (!hotkeys_enabled) {
+			debug("hotkeys disabled");
+			return;
+		}
 	
 		if (window.event) {
 			keycode = window.event.keyCode;
