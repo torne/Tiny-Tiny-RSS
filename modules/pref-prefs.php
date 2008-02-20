@@ -10,8 +10,7 @@
 	function module_pref_prefs($link) {
 		$subop = $_REQUEST["subop"];
 
-		$prefs_blacklist = array();
-		//$prefs_blacklist = array("HIDE_FEEDLIST");
+		$prefs_blacklist = array("HIDE_FEEDLIST");
 
 		if ($subop == "change-password") {
 

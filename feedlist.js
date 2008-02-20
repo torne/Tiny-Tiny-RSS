@@ -40,11 +40,11 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			cache_invalidate("F:" + feed);
 		}
 
-		if (getInitParam("theme") == "" || getInitParam("theme") == "compact") {
+/*		if (getInitParam("theme") == "" || getInitParam("theme") == "compact") {
 			if (getInitParam("hide_feedlist") == 1) {
 				Element.hide("feeds-holder");
 			}		
-		}
+		} */
 
 		var force_nocache = false;
 
@@ -346,11 +346,13 @@ function feedlist_init() {
 			setTimeout("hide_footer()", 5000);
 		}
 
-		if (getInitParam("hide_feedlist") == 1) {
+/*		if (getInitParam("hide_feedlist") == 1) {
 			init_hidden_feedlist(getInitParam("theme"));
 		} else {
 			init_collapsable_feedlist(getInitParam("theme"));
-		}
+		} */
+
+		init_collapsable_feedlist(getInitParam("theme"));
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -386,6 +388,7 @@ function hide_footer() {
 	}
 }
 
+/*
 function init_hidden_feedlist(theme) {
 	try {
 		debug("init_hidden_feedlist");
@@ -421,7 +424,7 @@ function init_hidden_feedlist(theme) {
 	} catch (e) {
 		exception_error("init_hidden_feedlist", e);
 	}
-}
+} */
 
 function init_collapsable_feedlist(theme) {
 	try {

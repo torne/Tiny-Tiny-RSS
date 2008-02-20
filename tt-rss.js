@@ -740,6 +740,7 @@ function clearFeedArticles(feed_id) {
 	return false;
 }
 
+/*
 function toggle_feedlist() {
 	try {
 		debug("toggle_feedlist");
@@ -759,7 +760,7 @@ function toggle_feedlist() {
 	} catch (e) {
 		exception_error(e, "toggle_feedlist");
 	}
-}
+} */
 
 function collapse_feedlist() {
 	try {
