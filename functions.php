@@ -848,7 +848,8 @@
 				$entry_link = strip_tags($entry_link);
 
 				if ($use_simplepie) {
-					$entry_content = $item->get_description();
+					$entry_content = $item->get_content();
+					if (!$entry_content) $entry_content = $item->get_description();
 				} else {
 					$entry_content = $item["content:escaped"];
 
