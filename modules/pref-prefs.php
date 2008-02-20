@@ -10,6 +10,9 @@
 	function module_pref_prefs($link) {
 		$subop = $_REQUEST["subop"];
 
+		$prefs_blacklist = array();
+		//$prefs_blacklist = array("HIDE_FEEDLIST");
+
 		if ($subop == "change-password") {
 
 			$old_pw = $_POST["OLD_PASSWORD"];
@@ -328,6 +331,10 @@
 			$active_section = "";
 	
 			while ($line = db_fetch_assoc($result)) {
+
+				if (in_array($line["pref_name"], $prefs_blacklist)) {
+					continue;
+				}
 
 				if ($active_section != $line["section_name"]) {
 
