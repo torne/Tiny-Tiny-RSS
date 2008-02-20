@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-15 23:42+0300\n"
+"POT-Creation-Date: 2008-02-20 09:44+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -89,26 +89,26 @@ msgstr "用户"
 msgid "Administrator"
 msgstr "管理员"
 
-#: backend.php:405
+#: backend.php:393
 msgid "Registered"
 msgstr ""
 
-#: backend.php:406
+#: backend.php:394
 #, fuzzy
 msgid "Last logged in"
 msgstr "最后登陆"
 
-#: backend.php:407
+#: backend.php:395
 #, fuzzy
 msgid "Stored articles"
 msgstr "星级文章"
 
-#: backend.php:414
+#: backend.php:402
 #, fuzzy
 msgid "Subscribed feeds count"
 msgstr "订阅feed:"
 
-#: backend.php:429
+#: backend.php:417
 #, fuzzy
 msgid "Subscribed feeds"
 msgstr "订阅feed:"
@@ -169,16 +169,16 @@ msgstr ""
 "不支持你的MySQL版本. 请访问 \n"
 "\t\t官方网站获取更多信息。"
 
-#: functions.php:2505 functions.php:2844 functions.php:3209 functions.php:4035
+#: functions.php:2505 functions.php:2844 functions.php:3212 functions.php:4065
 msgid "Starred articles"
 msgstr "星级文章"
 
-#: functions.php:2514 functions.php:2846 functions.php:3211 functions.php:4042
+#: functions.php:2514 functions.php:2846 functions.php:3214 functions.php:4072
 #: modules/pref-feeds.php:1085
 msgid "Published articles"
 msgstr "已发布文章"
 
-#: functions.php:2523 functions.php:2848 functions.php:3213 functions.php:4020
+#: functions.php:2523 functions.php:2848 functions.php:3216 functions.php:4050
 #, fuzzy
 msgid "Fresh articles"
 msgstr "星级文章"
@@ -188,169 +188,186 @@ msgstr "星级文章"
 msgid "All feeds"
 msgstr "所有feed"
 
-#: functions.php:2795 functions.php:2834 functions.php:3187 functions.php:4199
-#: functions.php:4229 modules/pref-feeds.php:897
+#: functions.php:2795 functions.php:2834 functions.php:3190 functions.php:4229
+#: functions.php:4259 modules/pref-feeds.php:897
 msgid "Uncategorized"
 msgstr "未分类"
 
-#: functions.php:2824 functions.php:3353
+#: functions.php:2824 functions.php:3356
 msgid "Special"
 msgstr "专用"
 
-#: functions.php:2826 functions.php:3355
+#: functions.php:2826 functions.php:3358
 msgid "Labels"
 msgstr "标记"
 
-#: functions.php:3173 functions.php:3175
+#: functions.php:3176 functions.php:3178
 msgid "Search results"
 msgstr "搜索结果"
 
-#: functions.php:3191 functions.php:3204 functions.php:3221
+#: functions.php:3194 functions.php:3207 functions.php:3224
 msgid "Searched for"
 msgstr "搜索"
 
-#: functions.php:3814 functions.php:3868 functions.php:5003
+#: functions.php:3820 functions.php:3874 functions.php:5033
 #: modules/pref-feeds.php:672 modules/pref-feeds.php:859
 #: modules/pref-filters.php:255 modules/pref-labels.php:239
 #: modules/pref-users.php:211
 msgid "Select:"
 msgstr "选择："
 
-#: functions.php:3815 functions.php:3869 modules/pref-feeds.php:673
+#: functions.php:3821 functions.php:3875 modules/pref-feeds.php:673
 #: modules/pref-feeds.php:860 modules/pref-filters.php:256
 #: modules/pref-labels.php:240 modules/pref-users.php:212
 msgid "All"
 msgstr "所有"
 
-#: functions.php:3816 functions.php:3820 functions.php:3870 functions.php:3873
-#: tt-rss.php:175
+#: functions.php:3822 functions.php:3826 functions.php:3876 functions.php:3879
+#: tt-rss.php:178
 msgid "Unread"
 msgstr "未读"
 
-#: functions.php:3817 functions.php:3871 modules/pref-feeds.php:674
+#: functions.php:3823 functions.php:3877 modules/pref-feeds.php:674
 #: modules/pref-feeds.php:861 modules/pref-filters.php:257
 #: modules/pref-labels.php:241 modules/pref-users.php:213
 msgid "None"
 msgstr "无"
 
-#: functions.php:3819
+#: functions.php:3825
 msgid "Toggle"
 msgstr "触发开关"
 
-#: functions.php:3821 functions.php:3874 tt-rss.php:174
+#: functions.php:3827 functions.php:3880 tt-rss.php:177
 msgid "Starred"
 msgstr "星级"
 
-#: functions.php:3822
+#: functions.php:3828
 msgid "Published"
 msgstr "已发布"
 
-#: functions.php:3825 localized_schema.php:15
+#: functions.php:3831 localized_schema.php:15
 msgid "Mark as read"
 msgstr "标记为已读"
 
-#: functions.php:3826
+#: functions.php:3832
 msgid "Selection"
 msgstr "选择："
 
-#: functions.php:3827
+#: functions.php:3833
 msgid "This page"
 msgstr "本页"
 
-#: functions.php:3833
+#: functions.php:3839
 msgid "Above active article"
 msgstr ""
 
-#: functions.php:3834
+#: functions.php:3840
 #, fuzzy
 msgid "Below active article"
 msgstr "过滤文章"
 
-#: functions.php:3839
+#: functions.php:3845
 msgid "Entire feed"
 msgstr "输入feed"
 
-#: functions.php:3847
+#: functions.php:3853
 msgid "Next page"
 msgstr "下页"
 
-#: functions.php:3848
+#: functions.php:3854
 msgid "Previous page"
 msgstr "上页"
 
-#: functions.php:3849
+#: functions.php:3855
 msgid "First page"
 msgstr "首页"
 
-#: functions.php:3859 functions.php:3885
+#: functions.php:3865 functions.php:3891
 msgid "Convert to label"
 msgstr "转换标签"
 
-#: functions.php:3873
+#: functions.php:3879
 msgid "Toggle:"
 msgstr "触发:"
 
-#: functions.php:3876
+#: functions.php:3882
 msgid "Mark as read:"
 msgstr "标记为已读："
 
-#: functions.php:3877
+#: functions.php:3883
 msgid "Page"
 msgstr "页"
 
-#: functions.php:3878 modules/pref-filters.php:263
+#: functions.php:3884 modules/pref-filters.php:263
 msgid "Feed"
 msgstr "Feed"
 
-#: functions.php:3928
+#: functions.php:3903 modules/popup-dialog.php:61 modules/pref-feeds.php:779
+msgid "Subscribe to feed"
+msgstr "订阅feed"
+
+#: functions.php:3906 functions.php:3907 functions.php:3908 functions.php:3909
+msgid "Placeholder"
+msgstr ""
+
+#: functions.php:3912 modules/pref-feed-browser.php:110
+msgid "Show"
+msgstr "显示"
+
+#: functions.php:3913
+#, fuzzy
+msgid "Update errors"
+msgstr "更新错误"
+
+#: functions.php:3956
 msgid "Generated feed"
 msgstr "产生feed"
 
-#: functions.php:4008
+#: functions.php:4038
 msgid "Dashboard"
 msgstr ""
 
-#: functions.php:4269
+#: functions.php:4299
 msgid "No feeds to display."
 msgstr "无feed显示。"
 
-#: functions.php:4286
+#: functions.php:4316
 msgid "Tags"
 msgstr "标签"
 
-#: functions.php:4511
+#: functions.php:4541
 #, fuzzy
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4566
+#: functions.php:4596
 msgid "no tags"
 msgstr "无标签"
 
-#: functions.php:4597 functions.php:4964
+#: functions.php:4627 functions.php:4994
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4599 functions.php:4966
+#: functions.php:4629 functions.php:4996
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4672 modules/pref-feed-browser.php:74
+#: functions.php:4702 modules/pref-feed-browser.php:74
 msgid "Feed not found."
 msgstr "未找到Feed."
 
-#: functions.php:4739
+#: functions.php:4769
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:4937
+#: functions.php:4967
 #, fuzzy
 msgid "Show article"
 msgstr "星级文章"
 
-#: functions.php:5066
+#: functions.php:5096
 msgid "No articles found."
 msgstr "未找到文章。"
 
@@ -560,7 +577,7 @@ msgstr "更新提要失败（缺少XML支持）"
 msgid "Could not display article (missing XML object)"
 msgstr "显示条目失败（缺少XML支持）"
 
-#: localized_js.php:95 tt-rss.php:217 tt-rss.php:221
+#: localized_js.php:95 tt-rss.php:220 tt-rss.php:224
 msgid "No feed selected."
 msgstr "无选定feed."
 
@@ -839,77 +856,88 @@ msgstr "用户样式表优先，留空为不启用。"
 msgid "Maximum age of fresh articles (in hours)"
 msgstr ""
 
+#: localized_schema.php:52
+#, fuzzy
+msgid "Hide feedlist"
+msgstr "隐藏我的Feed列表"
+
 #: localized_schema.php:53
+msgid ""
+"This option hides feedlist and allows it to be toggled on the fly, useful "
+"for small screens."
+msgstr ""
+
+#: localized_schema.php:55
 msgid "Advanced"
 msgstr "高级"
 
-#: localized_schema.php:55
+#: localized_schema.php:57
 msgid "Blacklisted tags"
 msgstr "被列入黑名单的标签"
 
-#: localized_schema.php:56
+#: localized_schema.php:58
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr "自动检测文章中标签时，这些标签不适用（用半角逗号隔开）"
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Confirm marking feed as read"
 msgstr "确认标记所有Feed为已读..."
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid "Enable icons in feedlist"
 msgstr "feed列表中不启用ico"
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Enable labels"
 msgstr "开启标签"
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr "SQL支持，这是测试功能，请谨慎使用。"
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Long date format"
 msgstr "长的时间格式"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid "Set articles as unread on update"
 msgstr "更新后标记文章为未读"
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Short date format"
 msgstr "短的时间格式"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Show additional information in feedlist"
 msgstr "在feed列表中显示附加信息"
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Strip unsafe tags from articles"
 msgstr "从文章中过滤不安全标签"
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "阅读文章时过滤所有常见html标签"
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Use more accessible date/time format for headlines"
 msgstr "提要使用更方便的 日期／时间 格式"
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 #, fuzzy
 msgid "Purge unread articles"
 msgstr "星级文章"
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
@@ -1186,27 +1214,31 @@ msgstr "其他操作:"
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
-#: tt-rss.php:163 modules/popup-dialog.php:139
+#: tt-rss.php:161
+msgid "Toggle Feedlist"
+msgstr ""
+
+#: tt-rss.php:166 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "搜索:"
 
-#: tt-rss.php:170
+#: tt-rss.php:173
 msgid "View:"
 msgstr "浏览:"
 
-#: tt-rss.php:172
+#: tt-rss.php:175
 msgid "Adaptive"
 msgstr "自适应"
 
-#: tt-rss.php:173
+#: tt-rss.php:176
 msgid "All Articles"
 msgstr "所有文章"
 
-#: tt-rss.php:178
+#: tt-rss.php:181
 msgid "Limit:"
 msgstr "限制:"
 
-#: tt-rss.php:203
+#: tt-rss.php:206
 msgid "Update"
 msgstr "更新"
 
@@ -1340,10 +1372,6 @@ msgid ""
 "\t\t\t\t\tor a hang. Please check the daemon process or contact instance\n"
 "\t\t\t\t\towner."
 msgstr "TT-RSS检测到更新时间过长，请刷新或者检查RSS源地址。"
-
-#: modules/popup-dialog.php:61 modules/pref-feeds.php:779
-msgid "Subscribe to feed"
-msgstr "订阅feed"
 
 #: modules/popup-dialog.php:72 modules/pref-feeds.php:166
 msgid "Feed URL:"
@@ -1516,10 +1544,6 @@ msgstr "本控制面板显示系统其他用户订阅的feed，如果您感兴�
 #: modules/pref-feed-browser.php:101
 msgid "Top"
 msgstr "Top"
-
-#: modules/pref-feed-browser.php:110
-msgid "Show"
-msgstr "显示"
 
 #: modules/pref-feed-browser.php:164 modules/pref-feeds.php:112
 msgid "No feeds found to subscribe."

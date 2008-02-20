@@ -49,6 +49,8 @@
 	__("User stylesheet URL");
 	__("Link to user stylesheet to override default style, disabled if empty.");
 	__("Maximum age of fresh articles (in hours)");
+	__("Hide feedlist");
+	__("This option hides feedlist and allows it to be toggled on the fly, useful for small screens.");
 
 	__("Advanced");
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss 1.2.14.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-15 23:42+0300\n"
+"POT-Creation-Date: 2008-02-20 09:44+0300\n"
 "PO-Revision-Date: 2007-10-24 00:47-0200\n"
 "Last-Translator: Marcelo Jorge VIeira (metal) <metal@alucinados.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -93,25 +93,25 @@ msgstr "Usuário"
 msgid "Administrator"
 msgstr "Administrador"
 
-#: backend.php:405
+#: backend.php:393
 msgid "Registered"
 msgstr ""
 
-#: backend.php:406
+#: backend.php:394
 #, fuzzy
 msgid "Last logged in"
 msgstr "Último Login"
 
-#: backend.php:407
+#: backend.php:395
 #, fuzzy
 msgid "Stored articles"
 msgstr "Favoritos"
 
-#: backend.php:414
+#: backend.php:402
 msgid "Subscribed feeds count"
 msgstr ""
 
-#: backend.php:429
+#: backend.php:417
 msgid "Subscribed feeds"
 msgstr ""
 
@@ -171,16 +171,16 @@ msgstr ""
 "Sua versão do MySQL não é atualmente suportada. Por favor acesse \n"
 "\t\to site oficial para mais informações."
 
-#: functions.php:2505 functions.php:2844 functions.php:3209 functions.php:4035
+#: functions.php:2505 functions.php:2844 functions.php:3212 functions.php:4065
 msgid "Starred articles"
 msgstr ""
 
-#: functions.php:2514 functions.php:2846 functions.php:3211 functions.php:4042
+#: functions.php:2514 functions.php:2846 functions.php:3214 functions.php:4072
 #: modules/pref-feeds.php:1085
 msgid "Published articles"
 msgstr ""
 
-#: functions.php:2523 functions.php:2848 functions.php:3213 functions.php:4020
+#: functions.php:2523 functions.php:2848 functions.php:3216 functions.php:4050
 msgid "Fresh articles"
 msgstr ""
 
@@ -189,168 +189,185 @@ msgstr ""
 msgid "All feeds"
 msgstr "Todos os feeds"
 
-#: functions.php:2795 functions.php:2834 functions.php:3187 functions.php:4199
-#: functions.php:4229 modules/pref-feeds.php:897
+#: functions.php:2795 functions.php:2834 functions.php:3190 functions.php:4229
+#: functions.php:4259 modules/pref-feeds.php:897
 msgid "Uncategorized"
 msgstr "Não Categorizado"
 
-#: functions.php:2824 functions.php:3353
+#: functions.php:2824 functions.php:3356
 msgid "Special"
 msgstr "Especial"
 
-#: functions.php:2826 functions.php:3355
+#: functions.php:2826 functions.php:3358
 msgid "Labels"
 msgstr ""
 
-#: functions.php:3173 functions.php:3175
+#: functions.php:3176 functions.php:3178
 msgid "Search results"
 msgstr ""
 
-#: functions.php:3191 functions.php:3204 functions.php:3221
+#: functions.php:3194 functions.php:3207 functions.php:3224
 msgid "Searched for"
 msgstr ""
 
-#: functions.php:3814 functions.php:3868 functions.php:5003
+#: functions.php:3820 functions.php:3874 functions.php:5033
 #: modules/pref-feeds.php:672 modules/pref-feeds.php:859
 #: modules/pref-filters.php:255 modules/pref-labels.php:239
 #: modules/pref-users.php:211
 msgid "Select:"
 msgstr "Selecione:"
 
-#: functions.php:3815 functions.php:3869 modules/pref-feeds.php:673
+#: functions.php:3821 functions.php:3875 modules/pref-feeds.php:673
 #: modules/pref-feeds.php:860 modules/pref-filters.php:256
 #: modules/pref-labels.php:240 modules/pref-users.php:212
 msgid "All"
 msgstr "Todos"
 
-#: functions.php:3816 functions.php:3820 functions.php:3870 functions.php:3873
-#: tt-rss.php:175
+#: functions.php:3822 functions.php:3826 functions.php:3876 functions.php:3879
+#: tt-rss.php:178
 msgid "Unread"
 msgstr "Não Lido"
 
-#: functions.php:3817 functions.php:3871 modules/pref-feeds.php:674
+#: functions.php:3823 functions.php:3877 modules/pref-feeds.php:674
 #: modules/pref-feeds.php:861 modules/pref-filters.php:257
 #: modules/pref-labels.php:241 modules/pref-users.php:213
 msgid "None"
 msgstr "Nenhum"
 
-#: functions.php:3819
+#: functions.php:3825
 msgid "Toggle"
 msgstr ""
 
-#: functions.php:3821 functions.php:3874 tt-rss.php:174
+#: functions.php:3827 functions.php:3880 tt-rss.php:177
 msgid "Starred"
 msgstr "Favoritos"
 
-#: functions.php:3822
+#: functions.php:3828
 msgid "Published"
 msgstr "Publicado"
 
-#: functions.php:3825 localized_schema.php:15
+#: functions.php:3831 localized_schema.php:15
 msgid "Mark as read"
 msgstr "Marcar como lido"
 
-#: functions.php:3826
+#: functions.php:3832
 msgid "Selection"
 msgstr "Seleção"
 
-#: functions.php:3827
+#: functions.php:3833
 msgid "This page"
 msgstr ""
 
-#: functions.php:3833
+#: functions.php:3839
 msgid "Above active article"
 msgstr ""
 
-#: functions.php:3834
+#: functions.php:3840
 msgid "Below active article"
 msgstr ""
 
-#: functions.php:3839
+#: functions.php:3845
 msgid "Entire feed"
 msgstr ""
 
-#: functions.php:3847
+#: functions.php:3853
 msgid "Next page"
 msgstr "Próxima página"
 
-#: functions.php:3848
+#: functions.php:3854
 msgid "Previous page"
 msgstr "Página anterior"
 
-#: functions.php:3849
+#: functions.php:3855
 msgid "First page"
 msgstr "Primeira página"
 
-#: functions.php:3859 functions.php:3885
+#: functions.php:3865 functions.php:3891
 msgid "Convert to label"
 msgstr ""
 
-#: functions.php:3873
+#: functions.php:3879
 msgid "Toggle:"
 msgstr ""
 
-#: functions.php:3876
+#: functions.php:3882
 msgid "Mark as read:"
 msgstr "Marcar como lido:"
 
-#: functions.php:3877
+#: functions.php:3883
 msgid "Page"
 msgstr "Página"
 
-#: functions.php:3878 modules/pref-filters.php:263
+#: functions.php:3884 modules/pref-filters.php:263
 msgid "Feed"
 msgstr "Feed"
 
-#: functions.php:3928
+#: functions.php:3903 modules/popup-dialog.php:61 modules/pref-feeds.php:779
+msgid "Subscribe to feed"
+msgstr ""
+
+#: functions.php:3906 functions.php:3907 functions.php:3908 functions.php:3909
+msgid "Placeholder"
+msgstr ""
+
+#: functions.php:3912 modules/pref-feed-browser.php:110
+msgid "Show"
+msgstr ""
+
+#: functions.php:3913
+#, fuzzy
+msgid "Update errors"
+msgstr "Atualizar"
+
+#: functions.php:3956
 msgid "Generated feed"
 msgstr ""
 
-#: functions.php:4008
+#: functions.php:4038
 msgid "Dashboard"
 msgstr ""
 
-#: functions.php:4269
+#: functions.php:4299
 msgid "No feeds to display."
 msgstr "Sem Feeds para exibir."
 
-#: functions.php:4286
+#: functions.php:4316
 msgid "Tags"
 msgstr "Tags"
 
-#: functions.php:4511
+#: functions.php:4541
 #, fuzzy
 msgid " - "
 msgstr " - por "
 
-#: functions.php:4566
+#: functions.php:4596
 msgid "no tags"
 msgstr "sem tags"
 
-#: functions.php:4597 functions.php:4964
+#: functions.php:4627 functions.php:4994
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4599 functions.php:4966
+#: functions.php:4629 functions.php:4996
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4672 modules/pref-feed-browser.php:74
+#: functions.php:4702 modules/pref-feed-browser.php:74
 msgid "Feed not found."
 msgstr "Feed não encontrado."
 
-#: functions.php:4739
+#: functions.php:4769
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr ""
 
-#: functions.php:4937
+#: functions.php:4967
 #, fuzzy
 msgid "Show article"
 msgstr "Favoritos"
 
-#: functions.php:5066
+#: functions.php:5096
 msgid "No articles found."
 msgstr ""
 
@@ -560,7 +577,7 @@ msgstr ""
 msgid "Could not display article (missing XML object)"
 msgstr ""
 
-#: localized_js.php:95 tt-rss.php:217 tt-rss.php:221
+#: localized_js.php:95 tt-rss.php:220 tt-rss.php:224
 msgid "No feed selected."
 msgstr "Nenhum feed foi selecionado."
 
@@ -829,76 +846,86 @@ msgstr ""
 msgid "Maximum age of fresh articles (in hours)"
 msgstr ""
 
+#: localized_schema.php:52
+msgid "Hide feedlist"
+msgstr ""
+
 #: localized_schema.php:53
+msgid ""
+"This option hides feedlist and allows it to be toggled on the fly, useful "
+"for small screens."
+msgstr ""
+
+#: localized_schema.php:55
 msgid "Advanced"
 msgstr "Avançado"
 
-#: localized_schema.php:55
+#: localized_schema.php:57
 msgid "Blacklisted tags"
 msgstr ""
 
-#: localized_schema.php:56
+#: localized_schema.php:58
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr ""
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Confirm marking feed as read"
 msgstr "Confirme marcando o Feed como lido"
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid "Enable icons in feedlist"
 msgstr ""
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Enable labels"
 msgstr ""
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr ""
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Long date format"
 msgstr "Formato de data longo"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid "Set articles as unread on update"
 msgstr ""
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Short date format"
 msgstr "Formato de data curto"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Show additional information in feedlist"
 msgstr ""
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Strip unsafe tags from articles"
 msgstr ""
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Use more accessible date/time format for headlines"
 msgstr ""
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Purge unread articles"
 msgstr ""
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
@@ -1169,27 +1196,31 @@ msgstr "Outras ações:"
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Criar filtro"
 
-#: tt-rss.php:163 modules/popup-dialog.php:139
+#: tt-rss.php:161
+msgid "Toggle Feedlist"
+msgstr ""
+
+#: tt-rss.php:166 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr ""
 
-#: tt-rss.php:170
+#: tt-rss.php:173
 msgid "View:"
 msgstr ""
 
-#: tt-rss.php:172
+#: tt-rss.php:175
 msgid "Adaptive"
 msgstr ""
 
-#: tt-rss.php:173
+#: tt-rss.php:176
 msgid "All Articles"
 msgstr ""
 
-#: tt-rss.php:178
+#: tt-rss.php:181
 msgid "Limit:"
 msgstr "Limite:"
 
-#: tt-rss.php:203
+#: tt-rss.php:206
 msgid "Update"
 msgstr "Atualizar"
 
@@ -1315,10 +1346,6 @@ msgid ""
 "\t\t\t\t\tperform a feed update. This could indicate a problem like crash\n"
 "\t\t\t\t\tor a hang. Please check the daemon process or contact instance\n"
 "\t\t\t\t\towner."
-msgstr ""
-
-#: modules/popup-dialog.php:61 modules/pref-feeds.php:779
-msgid "Subscribe to feed"
 msgstr ""
 
 #: modules/popup-dialog.php:72 modules/pref-feeds.php:166
@@ -1491,10 +1518,6 @@ msgstr ""
 
 #: modules/pref-feed-browser.php:101
 msgid "Top"
-msgstr ""
-
-#: modules/pref-feed-browser.php:110
-msgid "Show"
 msgstr ""
 
 #: modules/pref-feed-browser.php:164 modules/pref-feeds.php:112
