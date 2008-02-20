@@ -40,11 +40,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			cache_invalidate("F:" + feed);
 		}
 
-		if (getInitParam("theme") == "" && getInitParam("hide_feedlist") == 1) {
-			Element.hide("feeds-holder");
-//			Effect.Fade('feeds-holder', {duration : 0.2, 
-//				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
-		
+		if (getInitParam("theme") == "" || getInitParam("theme") == "compact") {
+			if (getInitParam("hide_feedlist") == 1) {
+				Element.hide("feeds-holder");
+			}		
 		}
 
 		var force_nocache = false;
@@ -391,13 +390,15 @@ function init_hidden_feedlist(theme) {
 	try {
 		debug("init_hidden_feedlist");
 
-		if (theme != "") return;
+		if (theme != "" && theme != "compact") return;
 
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
 		var fc = document.getElementById("content-frame");
 		var ft = document.getElementById("toolbar");
 		var ff = document.getElementById("footer");
+		var fhdr = document.getElementById("header");
+
 		var fbtn = document.getElementById("toggle_feeds_btn");
 
 		if (fbtn) Element.show(fbtn);
@@ -411,6 +412,11 @@ function init_hidden_feedlist(theme) {
 		ft.style.left = "0px";
 		if (fc) fc.style.left = "0px";
 		if (ff) ff.style.left = "0px";
+
+		if (theme == "compact") {
+			fhdr.style.left = "10px";
+			fl.style.top = (fh.offsetTop + 1) + "px";
+		}
 
 	} catch (e) {
 		exception_error("init_hidden_feedlist", e);
