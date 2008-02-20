@@ -40,7 +40,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			cache_invalidate("F:" + feed);
 		}
 
-		if (getInitParam("theme") == "" &&  getInitParam("hide_feedlist")) {
+		if (getInitParam("theme") == "" && getInitParam("hide_feedlist") == 1) {
 			Element.hide("feeds-holder");
 //			Effect.Fade('feeds-holder', {duration : 0.2, 
 //				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
@@ -346,7 +346,7 @@ function feedlist_init() {
 		if (getInitParam("theme") == "") {
 			setTimeout("hide_footer()", 5000);
 
-			if (getInitParam("hide_feedlist")) {
+			if (getInitParam("hide_feedlist") == 1) {
 				init_hidden_feedlist();
 			}
 		}

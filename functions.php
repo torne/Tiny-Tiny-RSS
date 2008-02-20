@@ -2925,9 +2925,8 @@
 		print "<param key=\"hide_read_shows_special\" value=\"" . 
 			(int) get_pref($link, "HIDE_READ_SHOWS_SPECIAL") . "\"/>";
 
-		if (defined('_HIDDEN_FL_TEST')) {
-			print "<param key=\"hide_feedlist\" value=\"1\"/>";
-		}
+		print "<param key=\"hide_feedlist\" value=\"" .
+			(int) get_pref($link, "HIDE_FEEDLIST") . "\"/>";
 
 		print "</init-params>";
 	}
