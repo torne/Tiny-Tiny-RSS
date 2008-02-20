@@ -423,6 +423,10 @@ function init_collapsable_feedlist() {
 
 		if (fbtn) Element.show(fbtn);
 
+		if (getCookie("ttrss_vf_fclps") == 1) {
+			collapse_feedlist();
+		}
+
 	} catch (e) {
 		exception_error("init_hidden_feedlist", e);
 	}

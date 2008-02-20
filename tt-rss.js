@@ -781,6 +781,8 @@ function collapse_feedlist() {
 			if (fc) fc.style.left = fl.offsetWidth + "px";
 			if (ff) ff.style.left = (fl.offsetWidth-1) + "px";
 
+			setCookie("ttrss_vf_fclps", "0");
+
 		} else {
 			Element.hide(fl);
 			fbtn.value = ">>";
@@ -789,6 +791,8 @@ function collapse_feedlist() {
 			ft.style.left = "0px";
 			if (fc) fc.style.left = "0px";
 			if (ff) ff.style.left = "0px";
+
+			setCookie("ttrss_vf_fclps", "1");
 		}
 	} catch (e) {
 		exception_error(e, "toggle_feedlist");
