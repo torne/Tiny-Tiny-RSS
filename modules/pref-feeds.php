@@ -1094,7 +1094,7 @@
 
 		print "<p class=\"small\"><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
 
-		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" 
+		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" class=\"button\"
 			value=\"".__('Generate another address')."\"></p>";
 
 	}

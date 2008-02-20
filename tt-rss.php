@@ -159,11 +159,11 @@ window.onload = init;
 		<form id="main_toolbar_form" onsubmit='return false'>
 
 		<input type="submit" value="&lt;&lt;" 
-			id="collapse_feeds_btn" onclick="collapse_feedlist()" 
+			id="collapse_feeds_btn" onclick="collapse_feedlist()" class="button"
 			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
 
 		<input type="submit" value="<?php echo __("Toggle Feedlist") ?>" 
-			id="toggle_feeds_btn"
+			id="toggle_feeds_btn" class="button"
 			onclick="toggle_feedlist()" style="display : none">
 
 		&nbsp;
