@@ -427,7 +427,8 @@ function init_collapsable_feedlist(theme) {
 	try {
 		debug("init_collapsable_feedlist");
 
-		if (theme != "" && theme != "compact" && theme != "graycube") return;
+		if (theme != "" && theme != "compact" && theme != "graycube" &&
+				theme != "compat") return;
 
 		var fbtn = document.getElementById("collapse_feeds_btn");
 

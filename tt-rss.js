@@ -766,7 +766,8 @@ function collapse_feedlist() {
 		debug("toggle_feedlist");
 		
 		var theme = getInitParam("theme");
-		if (theme != "" && theme != "compact" && theme != "graycube") return;
+		if (theme != "" && theme != "compact" && theme != "graycube" &&
+				theme != "compat") return;
 
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
