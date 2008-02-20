@@ -4619,7 +4619,7 @@
 			print $line["content"];
 
 			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
-				post_id = '$id'");
+				post_id = '$id' AND content_url != ''");
 
 			if (db_num_rows($result) > 0) {
 				print "<div class=\"postEnclosures\">";
@@ -4635,11 +4635,14 @@
 				while ($line = db_fetch_assoc($result)) {
 
 					$url = $line["content_url"];
+					$ctype = $line["content_type"];
+
+					if (!$ctype) $ctype = __("unknown type");
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
 					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-						$filename . " (" . $line["content_type"] . ")" . "</a>";
+						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
 				}
@@ -4986,7 +4989,7 @@
 					print $line["content_preview"];
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
-						post_id = '$id'");
+						post_id = '$id' AND content_url != ''");
 
 					if (db_num_rows($e_result) > 0) {
 				print "<div class=\"cdmEnclosures\">";
@@ -5002,11 +5005,13 @@
 				while ($e_line = db_fetch_assoc($e_result)) {
 
 					$url = $e_line["content_url"];
+					$ctype = $e_line["content_type"];
+					if (!$ctype) $ctype = __("unknown type");
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
 					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-						$filename . " (" . $e_line["content_type"] . ")" . "</a>";
+						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
 				}
