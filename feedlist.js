@@ -344,7 +344,7 @@ function feedlist_init() {
 		}
 
 		if (getInitParam("theme") == "") {
-			//setTimeout("hide_footer()", 5000);
+			setTimeout("hide_footer()", 5000);
 
 			if (getInitParam("hide_feedlist") == 1) {
 				init_hidden_feedlist();
