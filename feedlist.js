@@ -348,6 +348,8 @@ function feedlist_init() {
 
 			if (getInitParam("hide_feedlist") == 1) {
 				init_hidden_feedlist();
+			} else {
+				init_collapsable_feedlist();
 			}
 		}
 
@@ -411,4 +413,18 @@ function init_hidden_feedlist() {
 	} catch (e) {
 		exception_error("init_hidden_feedlist", e);
 	}
+}
+
+function init_collapsable_feedlist() {
+	try {
+		debug("init_collapsable_feedlist");
+
+		var fbtn = document.getElementById("collapse_feeds_btn");
+
+		if (fbtn) Element.show(fbtn);
+
+	} catch (e) {
+		exception_error("init_hidden_feedlist", e);
+	}
+
 }

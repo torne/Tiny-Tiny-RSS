@@ -760,3 +760,40 @@ function toggle_feedlist() {
 		exception_error(e, "toggle_feedlist");
 	}
 }
+
+function collapse_feedlist() {
+	try {
+		debug("toggle_feedlist");
+
+		var fl = document.getElementById("feeds-holder");
+		var fh = document.getElementById("headlines-frame");
+		var fc = document.getElementById("content-frame");
+		var ft = document.getElementById("toolbar");
+		var ff = document.getElementById("footer");
+		var fbtn = document.getElementById("collapse_feeds_btn");
+
+		if (!Element.visible(fl)) {
+			Element.show(fl);
+			fbtn.value = "<<";
+
+			fh.style.left = fl.offsetWidth + "px";
+			ft.style.left = fl.offsetWidth + "px";
+			if (fc) fc.style.left = fl.offsetWidth + "px";
+			if (ff) ff.style.left = fl.offsetWidth + "px";
+
+		} else {
+			Element.hide(fl);
+			fbtn.value = ">>";
+
+			fh.style.left = "0px";
+			ft.style.left = "0px";
+			if (fc) fc.style.left = "0px";
+			if (ff) ff.style.left = "0px";
+		}
+	} catch (e) {
+		exception_error(e, "toggle_feedlist");
+	}
+
+
+
+}
