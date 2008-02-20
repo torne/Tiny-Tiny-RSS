@@ -766,7 +766,7 @@ function collapse_feedlist() {
 		debug("toggle_feedlist");
 		
 		var theme = getInitParam("theme");
-		if (theme != "" && theme != "compact") return;
+		if (theme != "" && theme != "compact" && theme != "graycube") return;
 
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
@@ -780,12 +780,19 @@ function collapse_feedlist() {
 			Element.show(fl);
 			fbtn.value = "<<";
 
-			fh.style.left = fl.offsetWidth + "px";
-			ft.style.left = fl.offsetWidth + "px";
-			if (fc) fc.style.left = fl.offsetWidth + "px";
-			if (ff) ff.style.left = (fl.offsetWidth-1) + "px";
+			if (theme != "graycube") {
 
-			if (theme == "compact") fhdr.style.left = (fl.offsetWidth + 10) + "px";
+				fh.style.left = fl.offsetWidth + "px";
+				ft.style.left = fl.offsetWidth + "px";
+				if (fc) fc.style.left = fl.offsetWidth + "px";
+				if (ff) ff.style.left = (fl.offsetWidth-1) + "px";
+
+				if (theme == "compact") fhdr.style.left = (fl.offsetWidth + 10) + "px";
+			} else {
+				fh.style.left = fl.offsetWidth + 40 + "px";
+				ft.style.left = fl.offsetWidth + 40 +"px";
+				if (fc) fc.style.left = fl.offsetWidth + 40 + "px";
+			}
 
 			setCookie("ttrss_vf_fclps", "0");
 
@@ -793,12 +800,21 @@ function collapse_feedlist() {
 			Element.hide(fl);
 			fbtn.value = ">>";
 
-			fh.style.left = "0px";
-			ft.style.left = "0px";
-			if (fc) fc.style.left = "0px";
-			if (ff) ff.style.left = "0px";
+			if (theme != "graycube") {
 
-			if (theme == "compact") fhdr.style.left = "10px";
+				fh.style.left = "0px";
+				ft.style.left = "0px";
+				if (fc) fc.style.left = "0px";
+				if (ff) ff.style.left = "0px";
+
+				if (theme == "compact") fhdr.style.left = "10px";
+
+			} else {
+				fh.style.left = "20px";
+				ft.style.left = "20px";
+				if (fc) fc.style.left = "20px";
+
+			}
 
 			setCookie("ttrss_vf_fclps", "1");
 		}
