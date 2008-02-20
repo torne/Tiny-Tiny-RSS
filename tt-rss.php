@@ -166,6 +166,8 @@ window.onload = init;
 			id="toggle_feeds_btn"
 			onclick="toggle_feedlist()" style="display : none">
 
+		&nbsp;
+
 		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<?php echo __('Search:') ?>

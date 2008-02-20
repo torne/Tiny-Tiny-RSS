@@ -345,12 +345,12 @@ function feedlist_init() {
 
 		if (getInitParam("theme") == "") {
 			setTimeout("hide_footer()", 5000);
+		}
 
-			if (getInitParam("hide_feedlist") == 1) {
-				init_hidden_feedlist();
-			} else {
-				init_collapsable_feedlist();
-			}
+		if (getInitParam("hide_feedlist") == 1) {
+			init_hidden_feedlist(getInitParam("theme"));
+		} else {
+			init_collapsable_feedlist(getInitParam("theme"));
 		}
 
 	} catch (e) {
@@ -387,9 +387,11 @@ function hide_footer() {
 	}
 }
 
-function init_hidden_feedlist() {
+function init_hidden_feedlist(theme) {
 	try {
 		debug("init_hidden_feedlist");
+
+		if (theme != "") return;
 
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
@@ -415,9 +417,11 @@ function init_hidden_feedlist() {
 	}
 }
 
-function init_collapsable_feedlist() {
+function init_collapsable_feedlist(theme) {
 	try {
 		debug("init_collapsable_feedlist");
+
+		if (theme != "" && theme != "compact") return;
 
 		var fbtn = document.getElementById("collapse_feeds_btn");
 

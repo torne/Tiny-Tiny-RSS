@@ -764,12 +764,16 @@ function toggle_feedlist() {
 function collapse_feedlist() {
 	try {
 		debug("toggle_feedlist");
+		
+		var theme = getInitParam("theme");
+		if (theme != "" && theme != "compact") return;
 
 		var fl = document.getElementById("feeds-holder");
 		var fh = document.getElementById("headlines-frame");
 		var fc = document.getElementById("content-frame");
 		var ft = document.getElementById("toolbar");
 		var ff = document.getElementById("footer");
+		var fhdr = document.getElementById("header");
 		var fbtn = document.getElementById("collapse_feeds_btn");
 
 		if (!Element.visible(fl)) {
@@ -781,6 +785,8 @@ function collapse_feedlist() {
 			if (fc) fc.style.left = fl.offsetWidth + "px";
 			if (ff) ff.style.left = (fl.offsetWidth-1) + "px";
 
+			if (theme == "compact") fhdr.style.left = (fl.offsetWidth + 10) + "px";
+
 			setCookie("ttrss_vf_fclps", "0");
 
 		} else {
@@ -791,6 +797,8 @@ function collapse_feedlist() {
 			ft.style.left = "0px";
 			if (fc) fc.style.left = "0px";
 			if (ff) ff.style.left = "0px";
+
+			if (theme == "compact") fhdr.style.left = "10px";
 
 			setCookie("ttrss_vf_fclps", "1");
 		}
