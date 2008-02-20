@@ -779,7 +779,7 @@ function collapse_feedlist() {
 			fh.style.left = fl.offsetWidth + "px";
 			ft.style.left = fl.offsetWidth + "px";
 			if (fc) fc.style.left = fl.offsetWidth + "px";
-			if (ff) ff.style.left = fl.offsetWidth + "px";
+			if (ff) ff.style.left = (fl.offsetWidth-1) + "px";
 
 		} else {
 			Element.hide(fl);
