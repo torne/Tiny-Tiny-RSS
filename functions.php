@@ -5099,7 +5099,20 @@
 
 
 		} else {
-			if (!$offset) print "<div class='whiteBox'>".__('No articles found.')."</div>";
+			$message = "";
+
+			switch ($view_mode) {
+				case "unread":
+					$message = __("No unread articles found to display.");
+					break;
+				case "marked":
+					$message = __("No starred articles found to display.");
+					break;
+				default:
+					$message = __("No articles found to display.");
+			}
+
+			if (!$offset) print "<div class='whiteBox'>$message</div>";
 		}
 
 		if (!$offset) {
