@@ -1508,6 +1508,10 @@ function cache_expire() {
 	}
 }
 
+function cache_empty() {
+	article_cache = new Array();
+}
+
 function cache_invalidate(id) {
 	var i = 0
 

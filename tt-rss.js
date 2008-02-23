@@ -823,7 +823,14 @@ function collapse_feedlist() {
 	} catch (e) {
 		exception_error(e, "toggle_feedlist");
 	}
+}
 
+function viewModeChanged() {
+	cache_empty();
+	return viewCurrentFeed(0, '')
+}
 
-
+function viewLimitChanged() {
+	cache_empty();
+	return viewCurrentFeed(0, '')
 }

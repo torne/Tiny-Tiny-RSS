@@ -178,7 +178,7 @@ window.onload = init;
 		<?php } ?>
 
 		<?php echo __('View:') ?>
-		<select name="view_mode" onchange="viewCurrentFeed(0, '')">
+		<select name="view_mode" onchange="viewModeChanged()">
 			<option selected value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
@@ -202,7 +202,7 @@ window.onload = init;
 		}
 
 		print_select_hash("limit", $def_art_limit, $limits, 
-			'onchange="viewCurrentFeed(0, \'\')"');
+			'onchange="viewLimitChanged()"');
 	
 		?>		
 
