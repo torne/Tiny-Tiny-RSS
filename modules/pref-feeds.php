@@ -506,13 +506,10 @@
 				}
 
 				if ($p_from != 'tt-rss') {
-					$tt_uri = 'http://' . $_SERVER['SERVER_NAME'] . 
-						preg_replace('/backend\.php.*$/', 
-							'tt-rss.php', $_SERVER["REQUEST_URI"]);
+					$tt_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'tt-rss.php', $_SERVER["REQUEST_URI"]);
 
-					$tp_uri = 'http://' . $_SERVER['SERVER_NAME'] . 
-						preg_replace('/backend\.php.*$/', 
-							'prefs.php', $_SERVER["REQUEST_URI"]);
+
+					$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
 
 					print "<p><a href='$tt_uri'>Return to Tiny Tiny RSS</a> |";
 
