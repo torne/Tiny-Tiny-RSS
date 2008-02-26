@@ -87,7 +87,9 @@
 	 */
 	function _debug($msg) {
 		$ts = strftime("%H:%M:%S", time());
-		$ts = "$ts/" . posix_getpid();
+		if (function_exists('posix_getpid')) {
+			$ts = "$ts/" . posix_getpid();
+		}
 		print "[$ts] $msg\n";
 	} // function _debug
 
