@@ -96,7 +96,7 @@
 						}								
 
 						$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-							(title = '$feed_title' OR feed_url = '$feed_url') 
+							feed_url = '$feed_url
 							AND owner_uid = '$owner_uid'");
 
 						print "<tr><td><a target='_new' href='$site_url'><b>$feed_title</b></a></b> 
