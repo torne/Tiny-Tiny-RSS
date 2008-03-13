@@ -2,7 +2,7 @@
 	require_once "functions.php";
 
 	define('EXPECTED_CONFIG_VERSION', 15);
-	define('SCHEMA_VERSION', 33);
+	define('SCHEMA_VERSION', 34);
 
 	if (!file_exists("config.php")) {
 		print __("<b>Fatal Error</b>: You forgot to copy 

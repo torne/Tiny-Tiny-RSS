@@ -60,7 +60,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
 	title varchar(200) not null, 
 	cat_id integer default null,
-	feed_url varchar(250) not null, 
+	feed_url text not null, 
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
 	purge_interval integer not null default 0,
@@ -205,7 +205,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (33);
+insert into ttrss_version values (34);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
