@@ -1073,7 +1073,7 @@
 		print "<h3>" . __("Firefox Integration") . "</h3>";
                 
                 print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.');
-		print "</p><p class=\"small\"> <a href='javascript:window.navigator.registerContentHandler(" .
+		print "</p><p> <a class='visibleLink' href='javascript:window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
                       "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
                       __('Click here to register this site as a feed reader.') . "</a></p>";
@@ -1085,14 +1085,17 @@
 			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
 		}
 		
-		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the address specified below.')."</p>";
+		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
 		$url_path = article_publish_url($link);
 
-		print "<p class=\"small\"><a id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">$url_path</a></p>";
+		print "<p><a class=\"visibleLink\" id=\"pubGenAddress\" target=\"_new\" href=\"$url_path\">Link to published articles feed.</a></p>";		
 
 		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" class=\"button\"
-			value=\"".__('Generate another address')."\"></p>";
+			value=\"".__('Generate another link')."\">";
+		/* print " <input type=\"submit\" onclick=\"return pubToClipboard()\" class=\"button\"
+			value=\"".__('Copy link to clipboard')."\">"; */
+		print "</p>";
 
 	}
 ?>

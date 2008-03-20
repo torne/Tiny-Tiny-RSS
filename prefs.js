@@ -37,17 +37,17 @@ function replace_pubkey_callback() {
 
 				if (new_link) {
 					link.href = new_link.firstChild.nodeValue;
-					link.innerHTML = new_link.firstChild.nodeValue;
+					//link.innerHTML = new_link.firstChild.nodeValue;
 
 					new Effect.Highlight(link);
 
-					notify_info("Address changed.");
+					notify_info("Published feed URL changed.");
 				} else {
-					notify_error("Could not change address.");
+					notify_error("Could not change feed URL.");
 				}
 
 			} else {
-				notify_error("Could not change address.");
+				notify_error("Could not change feed URL.");
 			}
 		} catch (e) {
 			exception_error("replace_pubkey_callback", e);
@@ -1813,6 +1813,25 @@ function pubRegenKey() {
 	}
 
 	return false;
+}
+
+function pubToClipboard() {
+
+	try {
+
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return false;
+		}
+	
+		var link = document.getElementById("pubGenAddress");
+		alert(link.href);
+
+	} catch (e) {
+		exception_error("pubToClipboard", e);
+	}
+
+	return false; 
 }
 
 function validatePrefsSave() {
