@@ -1038,7 +1038,8 @@
 
 				# sanitize content
 				
-//				$entry_content = sanitize_rss($entry_content);
+				$entry_content = sanitize_article_content($entry_content);
+				$entry_title = sanitize_article_content($entry_title);
 
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
@@ -4989,6 +4990,7 @@
 					print "<div class=\"cdmContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
+
 					print $line["content_preview"];
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
@@ -5404,4 +5406,10 @@
 		print "</articles>";
 	}
 
+	function sanitize_article_content($text) {
+		# we don't support CDATA sections in articles, they break our own escaping
+		$text = preg_replace("/\[\[CDATA/", "", $text);
+		$text = preg_replace("/\]\]\>/", "", $text);
+		return $text;
+	}
 ?>
