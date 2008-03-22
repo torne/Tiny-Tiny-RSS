@@ -1957,7 +1957,7 @@
 				return true;
 			}
 		}
-		return false;
+		return true; // consider the file always locked and skip the test
 	}
 
 	function make_lockfile($filename) {
