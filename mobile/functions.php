@@ -317,7 +317,16 @@
 		$subop = $_GET["subop"];
 		$catchup_op = $_GET["catchup_op"];
 
-		if (!$view_mode) $view_mode = "Adaptive";
+		if (!$view_mode) {
+			if ($_SESSION["mobile:viewmode"]) {
+				$view_mode = $_SESSION["mobile:viewmode"];
+			} else {			
+				$view_mode = "adaptive";
+			}
+		}
+
+		$_SESSION["mobile:viewmode"] = $view_mode;
+
 		if (!$limit) $limit = 30;
 		if (!$feed) $feed = 0;
 
@@ -418,12 +427,37 @@
 		print "<a href=\"tt-rss.php\">Back</a>, ";
 		print "<a href=\"tt-rss.php?go=sform&aid=$feed&ic=$cat_view\">Search</a>, ";
 		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>";
+
 #		print "Mark as read: ";
 #		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAsRead\">Page</a>, ";
 #		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a>";
 
 		print ")</span>";
-		
+
+		print "&nbsp;" . __('View:');
+
+		print "<form style=\"display : inline\" method=\"GET\" action=\"tt-rss.php\">";
+
+		/* print "<select name=\"viewmode\">
+			<option selected value=\"adaptive\"> " . __('Adaptive') . "</option>
+			<option value=\"all_articles\">" . __('All Articles') . "</option>
+			<option value=\"marked\">" . __('Starred') . "</option>
+			<option value=\"unread\">" . __('Unread') . "</option>
+			</select>"; */
+
+		$sel_values = array(
+			"adaptive" => __("Adaptive"),
+			"all_articles" => __("All Articles"),
+			"unread" => __("Unread"),
+			"marked" => __("Starred"));
+
+		print_select_hash("viewmode", $view_mode, $sel_values);
+
+		print "<input type=\"hidden\" name=\"id\" value=\"$feed\">
+		<input type=\"hidden\" name=\"go\" value=\"vf\">
+		<input type=\"submit\" value=\"".__('Refresh')."\">";
+		print "</form>";
+
 		print "</div>";
 	
 		if (db_num_rows($result) > 0) {
