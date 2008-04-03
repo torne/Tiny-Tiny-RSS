@@ -46,7 +46,13 @@
 			}
 
 			if ($lang) {
-				_setlocale(LC_MESSAGES, $lang);
+				if (defined('LC_MESSAGES')) {
+					_setlocale(LC_MESSAGES, $lang);
+				} else if (defined('LC_ALL')) {
+					_setlocale(LC_ALL, $lang);
+				} else {
+					die("can't setlocale(): please set ENABLE_TRANSLATIONS to false in config.php");
+				}
 				_bindtextdomain("messages", "locale");
 				_textdomain("messages");
 				_bind_textdomain_codeset("messages", "UTF-8");
