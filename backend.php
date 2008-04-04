@@ -132,6 +132,7 @@
 
 	$access_level_names = array(
 		0 => __("User"), 
+		5 => __("Power User"),
 		10 => __("Administrator"));
 
 	require_once "modules/pref-prefs.php";

@@ -8,6 +8,9 @@
 	}
 
 	function module_pref_prefs($link) {
+
+		global $access_level_names;
+
 		$subop = $_REQUEST["subop"];
 
 		$prefs_blacklist = array("HIDE_FEEDLIST");
@@ -218,7 +221,7 @@
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	 			print "<tr><td colspan='3'><h3>".__("Personal data")."</h3></tr></td>";
 
-				$result = db_query($link, "SELECT email FROM ttrss_users
+				$result = db_query($link, "SELECT email,access_level FROM ttrss_users
 					WHERE id = ".$_SESSION["uid"]);
 					
 				$email = db_fetch_result($result, 0, "email");
@@ -227,6 +230,15 @@
 				print "<td><input class=\"editbox\" name=\"email\" 
 					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$email\"></td></tr>";
+
+				if (!SINGLE_USER_MODE) {
+
+					$access_level = db_fetch_result($result, 0, "access_level");
+
+					print "<tr><td width=\"40%\">".__('Access level')."</td>";
+					print "<td>" . $access_level_names[$access_level] . "</td></tr>";
+
+				}
 	
 				print "</table>";
 	
