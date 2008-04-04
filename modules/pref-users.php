@@ -249,8 +249,6 @@
 					strtotime($line["last_login"]));
 			}				
 
-			$access_level_names = array(0 => __("User"), 10 => __("Administrator"));
-
 //			if (!$edit_uid || $subop != "edit") {
 
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
