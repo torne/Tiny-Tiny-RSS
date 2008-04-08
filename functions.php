@@ -20,7 +20,7 @@
 					"en_US" => "English",
 					"fr_FR" => "Français",
 					"hu_HU" => "Magyar (Hungarian)",
-					"nb_NO" => "Norsk Bokmål",
+					"nb_NO" => "Norwegian bokmål",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese");
