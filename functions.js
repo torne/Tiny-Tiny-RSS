@@ -68,10 +68,15 @@ function open_article_callback(transport) {
 	try {
 
 		if (transport.responseXML) {
+			
 			var link = transport.responseXML.getElementsByTagName("link")[0];
 			var id = transport.responseXML.getElementsByTagName("id")[0];
 
+			debug("open_article_callback, received link: " + link);
+
 			if (link) {
+				debug("link url: " + link.firstChild.nodeValue);
+
 				window.open(link.firstChild.nodeValue, "_blank");
 
 				if (id) {
@@ -80,7 +85,11 @@ function open_article_callback(transport) {
 						window.setTimeout("toggleUnread(" + id + ", 0)", 100);
 					}
 				}
+			} else {
+				notify_error("Can't open article: received invalid article link");
 			}
+		} else {
+			notify_error("Can't open article: received invalid XML");
 		}
 
 	} catch (e) {
