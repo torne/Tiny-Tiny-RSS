@@ -219,20 +219,24 @@ function updateFeedList(silent, fetch) {
 
 function catchupAllFeeds() {
 
-	var query_str = "backend.php?op=feeds&subop=catchupAll";
+	var str = __("Mark all articles as read?");
 
-	notify_progress("Marking all feeds as read...");
+	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
 
-	debug("catchupAllFeeds Q=" + query_str);
+		var query_str = "backend.php?op=feeds&subop=catchupAll";
 
-	new Ajax.Request(query_str, {
-		onComplete: function(transport) { 
-			feedlist_callback2(transport); 
-		} });
+		notify_progress("Marking all feeds as read...");
 
-	global_unread = 0;
-	updateTitle("");
+		debug("catchupAllFeeds Q=" + query_str);
 
+		new Ajax.Request(query_str, {
+			onComplete: function(transport) { 
+				feedlist_callback2(transport); 
+			} });
+
+		global_unread = 0;
+		updateTitle("");
+	}
 }
 
 function viewCurrentFeed(subop) {

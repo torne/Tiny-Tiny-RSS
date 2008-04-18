@@ -347,6 +347,12 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 81 && shift_key) { // shift + q
+			if (typeof catchupAllFeeds != 'undefined') {
+				return catchupAllFeeds();
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
