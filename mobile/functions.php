@@ -113,7 +113,7 @@
 			}
 
 			$result = db_query($link, "SELECT ttrss_feeds.*,
-				SUBSTRING(last_updated,1,19) AS last_updated_noms,
+				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND 
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
@@ -601,7 +601,7 @@
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			marked,published,
-			SUBSTRING(updated,1,16) as updated,
+			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			num_comments,
 			author

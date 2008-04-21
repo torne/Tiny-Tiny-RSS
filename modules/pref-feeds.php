@@ -804,7 +804,7 @@
 		if ($_GET["slat"] == "true") {
 			$show_last_article_info = true;
 			$show_last_article_checked = "checked";
-			$show_last_article_qpart = ", (SELECT SUBSTRING(MAX(updated),1,16) FROM ttrss_user_entries,
+			$show_last_article_qpart = ", (SELECT ".SUBSTRING_FOR_DATE."(MAX(updated),1,16) FROM ttrss_user_entries,
 				ttrss_entries WHERE ref_id = ttrss_entries.id
 				AND feed_id = F1.id) AS last_article";
 		} else if ($feeds_sort == "last_article") {

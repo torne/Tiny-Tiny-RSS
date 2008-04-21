@@ -175,7 +175,7 @@
 		if (authenticate_user($link, $login, $pass)) {
 
 			$result = db_query($link, "SELECT 
-				id, feed_url, cat_id, title, SUBSTRING(last_updated,1,19) AS last_updated
+				id, feed_url, cat_id, title, ".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds WHERE owner_uid = " . 
 				$_SESSION["uid"]);
 
@@ -341,7 +341,7 @@
 
 			$query = "SELECT title,link,content,feed_id,comments,int_id,
 				marked,unread,
-				SUBSTRING(updated,1,16) as updated,
+				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author
 				FROM ttrss_entries,ttrss_user_entries
 				WHERE	id = '$article_id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"] ;

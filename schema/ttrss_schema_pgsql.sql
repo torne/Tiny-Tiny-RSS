@@ -18,6 +18,7 @@ drop table ttrss_feed_categories;
 drop table ttrss_users;
 drop table ttrss_themes;
 drop table ttrss_sessions;
+drop function SUBSTRING_FOR_DATE(timestamp, int, int);
 
 begin;
 
@@ -184,7 +185,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (34);
+insert into ttrss_version values (35);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -316,5 +317,7 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 	expire integer not null);
 
 create index ttrss_sessions_expire_index on ttrss_sessions(expire);
+
+create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT SUBSTRING(CAST($1 AS text), $2, $3)' LANGUAGE 'sql';
 
 commit;

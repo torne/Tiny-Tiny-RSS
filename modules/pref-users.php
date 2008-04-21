@@ -197,7 +197,7 @@
 
 		$result = db_query($link, "SELECT 
 				id,login,access_level,email,
-				SUBSTRING(last_login,1,16) as last_login
+				".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login
 			FROM 
 				ttrss_users
 			ORDER BY $sort");

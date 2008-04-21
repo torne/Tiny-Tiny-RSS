@@ -16,7 +16,7 @@
 
 			$result = db_query($link, "SELECT 
 					feed_url,site_url,
-					SUBSTRING(last_updated,1,19) AS last_updated 
+					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated 
 				FROM ttrss_feeds WHERE id = '$id' AND
 					auth_login = '' AND auth_pass = '' AND private IS NOT true");
 

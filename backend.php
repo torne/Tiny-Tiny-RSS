@@ -359,11 +359,11 @@
 			print "<div class='infoBoxContents'>";
 
 			$result = db_query($link, "SELECT login,
-				SUBSTRING(last_login,1,16) AS last_login,
+				".SUBSTRING_FOR_DATE."(last_login,1,16) AS last_login,
 				access_level,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries 
 					WHERE owner_uid = id) AS stored_articles,
-				SUBSTRING(created,1,16) AS created
+				".SUBSTRING_FOR_DATE."(created,1,16) AS created
 				FROM ttrss_users 
 				WHERE id = '$uid'");
 				

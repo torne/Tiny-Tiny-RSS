@@ -8,6 +8,12 @@
 
 	require_once 'config.php';
 
+	if (DB_TYPE == "pgsql") {
+		define('SUBSTRING_FOR_DATE', 'SUBSTRING_FOR_DATE');
+	} else {
+		define('SUBSTRING_FOR_DATE', 'SUBSTRING');
+	}
+
 	/**
 	 * Return available translations names.
 	 * 
@@ -329,7 +335,7 @@
 		}
 
 		$result = db_query($link, "SELECT feed_url,id,
-			SUBSTRING(last_updated,1,19) AS last_updated,
+			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated,
 			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'
 			ORDER BY $q_order");
 
@@ -2605,7 +2611,7 @@
 		$old_counters = $_SESSION["fctr_last_value"];
 
 /*		$result = db_query($link, "SELECT id,last_error,parent_feed,
-			SUBSTRING(last_updated,1,19) AS last_updated,
+			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated,
 			(SELECT count(id) 
 				FROM ttrss_entries,ttrss_user_entries 
 				WHERE feed_id = ttrss_feeds.id AND 
@@ -2616,7 +2622,7 @@
 
 		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
-				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated, 
+				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
 				last_error, 
 				COUNT(ttrss_entries.id) AS count 
 			FROM ttrss_feeds 
@@ -3259,10 +3265,10 @@
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
 						unread,feed_id,marked,published,link,last_read,
-						SUBSTRING(last_read,1,19) as last_read_noms,
+						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
-						SUBSTRING(updated,1,19) as updated_noms,
+						".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
 						author
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_feeds
@@ -3291,10 +3297,10 @@
 					updated,
 					unread,feed_id,
 					marked,link,last_read,				
-					SUBSTRING(last_read,1,19) as last_read_noms,
+					".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
 					$content_query_part
-					SUBSTRING(updated,1,19) as updated_noms
+					".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_tags
 					WHERE
@@ -3533,7 +3539,7 @@
 				ttrss_user_entries.ref_id,
 				link,
 				SUBSTRING(content, 1, 120) AS excerpt,
-				SUBSTRING(last_updated,1,19) AS last_updated
+				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 			FROM 
 				ttrss_user_entries,ttrss_entries,ttrss_feeds 
 			WHERE 
@@ -4165,7 +4171,7 @@
 			$age_qpart = getMaxAgeSubquery();
 
 			$result = db_query($link, "SELECT ttrss_feeds.*,
-				SUBSTRING(last_updated,1,19) AS last_updated_noms,
+				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
 						AND $age_qpart
@@ -4497,7 +4503,7 @@
 		}
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
-			SUBSTRING(updated,1,16) as updated,
+			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			num_comments,
 			author
@@ -5338,7 +5344,7 @@
 
 		// We search for feed needing update.
 		$result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id, ttrss_feeds.owner_uid,
-				SUBSTRING(ttrss_feeds.last_updated,1,19) AS last_updated,
+				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated,
 				ttrss_feeds.update_interval 
 			FROM 
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
