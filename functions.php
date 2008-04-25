@@ -1967,6 +1967,8 @@
 				}
 				fclose($fp);
 				return true;
+			} else {
+				return false;
 			}
 		}
 		return true; // consider the file always locked and skip the test
@@ -2001,11 +2003,15 @@
 		$fp = fopen(LOCK_DIRECTORY . "/$filename", "r");
 		error_reporting (DEFAULT_ERROR_LEVEL);
 
-		if (flock($fp, LOCK_EX)) {
-			$stamp = fgets($fp);
-			flock($fp, LOCK_UN);
-			fclose($fp);
-			return $stamp;
+		if ($fp) {
+			if (flock($fp, LOCK_EX)) {
+				$stamp = fgets($fp);
+				flock($fp, LOCK_UN);
+				fclose($fp);
+				return $stamp;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
