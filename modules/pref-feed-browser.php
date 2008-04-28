@@ -44,8 +44,8 @@
 				$result = db_query($link, "SELECT 
 						ttrss_entries.title,
 						content,link,
-						substring(date_entered,1,19) as date_entered,
-						substring(updated,1,19) as updated
+						".SUBSTRING_FOR_DATE."(date_entered,1,19) as date_entered,
+						".SUBSTRING_FOR_DATE."(updated,1,19) as updated
 					FROM ttrss_entries,ttrss_user_entries
 					WHERE	ttrss_entries.id = ref_id AND feed_id = '$id'
 					ORDER BY updated DESC LIMIT 5");

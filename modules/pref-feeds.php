@@ -821,7 +821,7 @@
 				F1.id,
 				F1.title,
 				F1.feed_url,
-				substring(F1.last_updated,1,16) AS last_updated,
+				".SUBSTRING_FOR_DATE."(F1.last_updated,1,16) AS last_updated,
 				F1.parent_feed,
 				F1.update_interval,
 				F1.last_error,

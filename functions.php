@@ -1108,8 +1108,8 @@
 
 				$result = db_query($link, "SELECT 
 						id,content_hash,no_orig_date,title,
-						substring(date_entered,1,19) as date_entered,
-						substring(updated,1,19) as updated,
+						".SUBSTRING_FOR_DATE."(date_entered,1,19) as date_entered,
+						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
 						num_comments
 					FROM 
 						ttrss_entries 
