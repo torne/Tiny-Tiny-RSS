@@ -3266,6 +3266,12 @@
 					$offset_query_part = "OFFSET $offset";
 				}
 
+				if ($vfeed_query_part && defined('_VFEED_GROUP_BY_FEED')) {
+					if (!$override_order) {
+						$order_by = "ttrss_feeds.id, $order_by";
+					}
+				}
+
 				$query = "SELECT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
@@ -4819,7 +4825,8 @@
 			error_reporting (DEFAULT_ERROR_LEVEL);
 	
 			$num_unread = 0;
-	
+			$cur_feed_title = '';
+
 			while ($line = db_fetch_assoc($result)) {
 
 				$class = ($lnum % 2) ? "even" : "odd";
@@ -4905,6 +4912,15 @@
 				}
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+
+					if (defined('_VFEED_GROUP_BY_FEED')) {
+						if ($line["feed_title"] != $cur_feed_title) {
+							print "<tr class='feedTitle'><td colspan='7'>".
+								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								$line["feed_title"]."</a>:</td></tr>";
+							$cur_feed_title = $line["feed_title"];
+						}
+					}
 					
 					print "<tr class='$class' id='RROW-$id'>";
 		
@@ -4941,11 +4957,13 @@
 #							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 #							$line["feed_title"]."</a>	
 
-					if ($line["feed_title"]) {			
-						print "<span class=\"hlFeed\">
-							(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-							$line["feed_title"]."</a>)
-						</span>";
+					if (!defined('_VFEED_GROUP_BY_FEED')) {
+						if ($line["feed_title"]) {			
+							print "<span class=\"hlFeed\">
+								(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								$line["feed_title"]."</a>)
+							</span>";
+						}
 					}
 
 
@@ -4958,7 +4976,16 @@
 					print "</tr>";
 
 				} else {
-					
+
+					if (defined('_VFEED_GROUP_BY_FEED')) {
+						if ($line["feed_title"] != $cur_feed_title) {
+							print "<div class='cdmFeedTitle'>".
+								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								$line["feed_title"]."</a></div>";
+							$cur_feed_title = $line["feed_title"];
+						}
+					}
+
 					if ($is_unread) {
 						$add_class = "Unread";
 					} else {
@@ -4994,8 +5021,10 @@
 					} 
 
 
-					if ($line["feed_title"]) {	
-						print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
+					if (!defined('_VFEED_GROUP_BY_FEED')) {
+						if ($line["feed_title"]) {	
+							print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
+						}
 					}
 
 					print "</div>";
