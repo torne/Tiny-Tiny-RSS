@@ -107,6 +107,7 @@ create table ttrss_user_entries (
 	marked boolean not null default false,
 	published boolean not null default false,
 	last_read timestamp,
+	score int not null default 0,
 	unread boolean not null default true);
 
 -- create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
@@ -185,7 +186,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (35);
+insert into ttrss_version values (36);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
