@@ -246,7 +246,7 @@
 				filter_type = ttrss_filter_types.id AND
 				ttrss_filter_actions.id = action_id AND
 				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
-			ORDER by $sort");
+			ORDER by action_description, $sort");
 
 		if (db_num_rows($result) != 0) {
 
@@ -259,16 +259,10 @@
 					<a href=\"javascript:selectPrefRows('filter', false)\">".__('None')."</a>
 				</td</tr>";
 
-			print "<tr class=\"title\">
-						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Filter expression')."</a></td>
-						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>";
-
 			$lnum = 0;
-			
+
+			$cur_action_description = "";
+
 			while ($line = db_fetch_assoc($result)) {
 	
 				$class = ($lnum % 2) ? "even" : "odd";
@@ -285,20 +279,36 @@
 				} else {
 					$this_row_id = "id=\"FILRR-$filter_id\"";
 				}
-	
+
+				$line["filter_type_descr"] = __($line["filter_type_descr"]);
+				$line["action_description"] = __($line["action_description"]);
+
+				if ($line["action_description"] != $cur_action_description) {
+					$cur_action_description = $line["action_description"];
+
+					print "<tr><td class='filterEditCat' colspan='6'>$cur_action_description</td></tr>";
+
+					print "<tr class=\"title\">
+						<td align='center' width=\"5%\">&nbsp;</td>
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Filter expression')."</a></td>
+						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
+						<!-- <td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td> -->
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>"; 
+
+				}
+
 				print "<tr class=\"$class\" $this_row_id>";
 	
 				$line["reg_exp"] = htmlspecialchars($line["reg_exp"]);
 	
 				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
+				if (!$line["action_param"]) $line["action_param"] = "&mdash;";
 
 				$line["feed_title"] = htmlspecialchars($line["feed_title"]);
 
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
-
-				$line["filter_type_descr"] = __($line["filter_type_descr"]);
-				$line["action_description"] = __($line["action_description"]);
 
 				if (!$enabled) {
 					$line["reg_exp"] = "<span class=\"insensitive\">" . 
@@ -309,6 +319,8 @@
 						$line["filter_type_descr"] . "</span>";
 					$line["action_description"] = "<span class=\"insensitive\">" . 
 						$line["action_description"] . "</span>";
+					$line["action_param"] = "<span class=\"insensitive\">" . 
+						$line["action_param"] . "</span>";
 				}	
 	
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
@@ -326,8 +338,8 @@
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["filter_type_descr"] . "$inverse_label</td>";		
 		
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["action_description"]."</td>";			
+/*				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+					$line["action_description"]."</td>"; */
 
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 				$line["action_param"] . "</td>";
