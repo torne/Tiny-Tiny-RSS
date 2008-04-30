@@ -1161,6 +1161,12 @@
 
 //					error_reporting (DEFAULT_ERROR_LEVEL);
 
+					$score = calculate_article_score($article_filters);
+
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+						_debug("update_rss_feed: initial score: $score");
+					}
+
 					$result = db_query($link,
 						"SELECT ref_id, int_id FROM ttrss_user_entries WHERE
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
@@ -1195,9 +1201,10 @@
 
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries 
-								(ref_id, owner_uid, feed_id, unread, last_read, marked, published) 
+								(ref_id, owner_uid, feed_id, unread, last_read, marked, 
+									published, score) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked, $published)");
+								$last_read_qpart, $marked, $published, '$score')");
 
 						$result = db_query($link, 
 							"SELECT int_id FROM ttrss_user_entries WHERE
@@ -1509,6 +1516,18 @@
 		}
 		return false;
 	}
+
+	function calculate_article_score($filters) {
+		$score = 0;
+
+		foreach ($filters as $f) {
+			if ($f[0] == "score") {
+				$score += $f[1];
+			};
+		}
+		return $score;
+	}
+
 
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
 		$rtl_content = false, $last_updated = false, $last_error = false) {
@@ -3289,7 +3308,7 @@
 						$vfeed_query_part
 						$content_query_part
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
-						author
+						author,score
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_feeds
 					WHERE
@@ -4913,6 +4932,10 @@
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
 						100);
 				}
+
+				$score = $line["score"];
+
+				if ($score < 100) $score_pic = "score_low
 
 				$entry_author = $line["author"];
 

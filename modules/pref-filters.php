@@ -78,7 +78,7 @@
 
 			print "<tr><td>".__('Params:')."</td>";
 
-			$param_disabled = ($action_id == 4) ? "" : "disabled";
+			$param_disabled = ($action_id == 4 || $action_id == 6) ? "" : "disabled";
 
 			print "<td><input $param_disabled class='iedit' 
 				name=\"action_param\" value=\"$action_param\"></td></tr>";
@@ -236,7 +236,9 @@
 				inverse,
 				feed_id,
 				ttrss_filter_actions.description AS action_description,
-				ttrss_feeds.title AS feed_title
+				ttrss_feeds.title AS feed_title,
+				ttrss_filter_actions.name AS action_name,
+				ttrss_filters.action_param AS action_param
 			FROM 
 				ttrss_filter_types,ttrss_filter_actions,ttrss_filters LEFT JOIN
 					ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id)
@@ -261,8 +263,9 @@
 						<td align='center' width=\"5%\">&nbsp;</td>
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Filter expression')."</a></td>
 						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
-						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td>";
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Match')."</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_description')\">".__('Action')."</a></td>
+						<td width=\"15%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>";
 
 			$lnum = 0;
 			
@@ -324,8 +327,11 @@
 					$line["filter_type_descr"] . "$inverse_label</td>";		
 		
 				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["action_description"] . "</td>";			
-				
+					$line["action_description"]."</td>";			
+
+				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
+				$line["action_param"] . "</td>";
+
 				print "</tr>";
 	
 				++$lnum;
