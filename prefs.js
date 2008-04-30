@@ -1888,6 +1888,10 @@ function feedActionGo(op) {
 			editFeedCats();
 		}
 
+		if (op == "facRescore") {
+			rescoreSelectedFeeds();
+		}
+
 		if (op == "facUnsubscribe") {
 			removeSelectedFeeds();
 		}
@@ -1912,4 +1916,31 @@ function clearFeedArticles(feed_id) {
 	return false;
 }
 
+function rescoreSelectedFeeds() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var sel_rows = getSelectedFeeds();
+
+	if (sel_rows.length > 0) {
+
+		var ok = confirm(__("Rescore last 100 articles in selected feeds?"));
+
+		if (ok) {
+			notify_progress("Rescoring selected labels...");
+	
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids="+
+				param_escape(sel_rows.toString()), true);
+			xmlhttp.onreadystatechange=notify_callback;
+			xmlhttp.send(null);
+		}
+	} else {
+		alert(__("No feeds are selected."));
+	}
+
+	return false;
+}
 

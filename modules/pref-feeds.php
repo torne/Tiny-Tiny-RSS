@@ -473,6 +473,49 @@
 			clear_feed_articles($link, $id);
 		}
 
+		if ($subop == "rescore") {
+			$ids = split(",", db_escape_string($_GET["ids"]));
+
+			foreach ($ids as $id) {
+
+				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
+
+				$result = db_query($link, "SELECT title, content, link, ref_id FROM
+						ttrss_user_entries, ttrss_entries 
+						WHERE ref_id = id AND feed_id = '$id' AND 
+							owner_uid = " .$_SESSION['uid']."
+						ORDER BY updated DESC LIMIT 100");
+
+				$scores = array();
+
+				while ($line = db_fetch_assoc($result)) {
+
+					$article_filters = get_article_filters($filters, $line['title'], 
+						$line['content'], $line['link']);
+					
+					$new_score = calculate_article_score($article_filters);
+
+					if (!$scores[$new_score]) $scores[$new_score] = array();
+
+					array_push($scores[$new_score], $line['ref_id']);
+				}
+
+				foreach (array_keys($scores) as $s) {
+					if ($s > 1000) {
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+							marked = true WHERE
+							ref_id IN (" . join(',', $scores[$s]) . ")");
+					} else {
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s' WHERE
+							ref_id IN (" . join(',', $scores[$s]) . ")");
+					}
+				}
+			}
+
+			print __("All done.");
+
+		}
+
 		if ($subop == "add") {
 		
 			if (!WEB_DEMO_MODE) {
@@ -1020,6 +1063,7 @@
 				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>
 				<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>
 				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
+				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
 				<option value=\"facUnsubscribe\">&nbsp;&nbsp;".__('Unsubscribe')."</option>";
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
