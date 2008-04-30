@@ -730,30 +730,7 @@
 				_debug("update_rss_feed: loading filters...");
 			}
 
-			$filters = array();
-
-			$result = db_query($link, "SELECT reg_exp,
-				ttrss_filter_types.name AS name,
-				ttrss_filter_actions.name AS action,
-				inverse,
-				action_param
-				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
-					enabled = true AND
-					owner_uid = $owner_uid AND
-					ttrss_filter_types.id = filter_type AND
-					ttrss_filter_actions.id = action_id AND
-				(feed_id IS NULL OR feed_id = '$feed') ORDER BY reg_exp");
-
-			while ($line = db_fetch_assoc($result)) {
-				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-
-				$filter["reg_exp"] = $line["reg_exp"];
-				$filter["action"] = $line["action"];
-				$filter["action_param"] = $line["action_param"];
-				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
-			
-				array_push($filters[$line["name"]], $filter);
-			}
+			$filters = load_filters($link, $feed, $owner_uid);
 
 			if ($use_simplepie) {
 				$iterator = $rss->get_items();
@@ -4945,8 +4922,16 @@
 
 				$score_title = __("(Click to change)");
 
-				$score_pic = "<img src=\"images/$score_pic\" 
+				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\" 
 					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">";
+
+				if ($score > 500) {
+					$hlc_suffix = "H";
+				} else if ($score < -100) {
+					$hlc_suffix = "L";
+				} else {
+					$hlc_suffix = "";
+				}
 
 				$entry_author = $line["author"];
 
@@ -4989,15 +4974,6 @@
 #							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
-
-
-					if ($score > 500) {
-						$hlc_suffix = "H";
-					} else if ($score < -100) {
-						$hlc_suffix = "L";
-					} else {
-						$hlc_suffix = "";
-					}
 
 					print "<td class='hlContent$hlc_suffix' valign='middle'>";
 
@@ -5054,7 +5030,7 @@
 
 					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
 
-					if ($expand_cdm) {
+					if ($expand_cdm && $score >= -100) {
 						$cdm_cstyle = "";
 					} else {
 						$cdm_cstyle = "style=\"display : none\"";
@@ -5066,15 +5042,16 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div class=\"articleUpdated\">$updated_fmt</div>";
-					
-					print "<a class=\"title\" 
+					print "<div class=\"articleUpdated\">$updated_fmt $score_pic</div>";
+
+					print "<span class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"
-						target=\"_new\" href=\"".$line["link"]."\">".$line["title"]."</a>";
+						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
+						";
 
 					print $entry_author;
 
-					if (!$expand_cdm) {
+					if (!$expand_cdm || $score < -100) {
 						print "&nbsp;<a id=\"CICH-$id\" 
 							href=\"javascript:cdmExpandArticle($id)\">
 							(".__('Show article').")</a>";
@@ -5087,7 +5064,7 @@
 						}
 					}
 
-					print "</div>";
+					print "</span></div>";
 
 					if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
 						$line["content_preview"] = preg_replace("/href=/i", 
