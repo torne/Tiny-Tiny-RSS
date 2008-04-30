@@ -484,7 +484,7 @@
 						ttrss_user_entries, ttrss_entries 
 						WHERE ref_id = id AND feed_id = '$id' AND 
 							owner_uid = " .$_SESSION['uid']."
-						ORDER BY updated DESC LIMIT 100");
+						");
 
 				$scores = array();
 

@@ -1927,7 +1927,8 @@ function rescoreSelectedFeeds() {
 
 	if (sel_rows.length > 0) {
 
-		var ok = confirm(__("Rescore last 100 articles in selected feeds?"));
+		//var ok = confirm(__("Rescore last 100 articles in selected feeds?"));
+		var ok = confirm(__("Rescore articles in selected feeds?"));
 
 		if (ok) {
 			notify_progress("Rescoring selected labels...");
