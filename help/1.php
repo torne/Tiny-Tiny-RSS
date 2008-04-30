@@ -16,6 +16,10 @@
 
 <code>updated &gt; NOW() - INTERVAL '7 days'</code>
 
+<p>Matches all articles with scores between 100 and 500:</p>
+
+<code>score &gt; 100 and score &lt; 500</code>
+
 <p>See the database schema <a target="_blank" href="http://tt-rss.org/trac/browser/schema/ttrss_schema_pgsql.sql">here</a> or included in the distribution package for gruesome details. The relevant tables are <b>ttrss_entries</b> and <b>ttrss_user_entries</b>.</p>
 
 <p class="insensitive">Feel free to post more clever examples of labels on Tiny 
