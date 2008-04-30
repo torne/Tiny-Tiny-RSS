@@ -101,6 +101,11 @@ window.onload = init;
 				<label for="remember_me">Remember me on this computer</label>
 			</td></tr> -->
 			<tr><td colspan="2" align="right" class="innerLoginCell">
+
+			<?php if (defined('_ENABLE_REGISTRATION')) { ?>
+				<a class="newAcctPrompt" href="register.php">Create new account</a>
+			<?php } ?>
+
 			<input type="submit" class="button" value="<?php echo __('Log in') ?>" name='click'>
 				<input type="hidden" name="action" value="login">
 				<input type="hidden" name="rt" 
