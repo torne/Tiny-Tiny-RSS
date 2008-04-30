@@ -3268,7 +3268,15 @@
 
 				if ($vfeed_query_part && defined('_VFEED_GROUP_BY_FEED')) {
 					if (!$override_order) {
-						$order_by = "ttrss_feeds.id, $order_by";
+						$order_by = "ttrss_feeds.title, $order_by";	
+					}
+
+					if ($feed == -3) {
+						$group_limit_part = "(select count(*) from 
+							ttrss_user_entries AS t1, ttrss_entries AS t2 where
+								t1.ref_id = t2.id and t1.owner_uid = 2 and
+								t1.feed_id = ttrss_user_entries.feed_id and
+								t2.updated > ttrss_entries.updated) <= 5 AND";
 					}
 				}
 
@@ -3285,6 +3293,7 @@
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_feeds
 					WHERE
+					$group_limit_part
 					ttrss_feeds.hidden = false AND
 					ttrss_user_entries.feed_id = ttrss_feeds.id AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
@@ -4915,9 +4924,15 @@
 
 					if (defined('_VFEED_GROUP_BY_FEED')) {
 						if ($line["feed_title"] != $cur_feed_title) {
+/*							print "<tr class='feedTitle'><td colspan='7'>".
+								$line["feed_title"].
+								" (<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								"more</a>)</td></tr>"; */
+
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 								$line["feed_title"]."</a>:</td></tr>";
+
 							$cur_feed_title = $line["feed_title"];
 						}
 					}
