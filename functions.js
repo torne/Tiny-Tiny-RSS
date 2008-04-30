@@ -1592,7 +1592,7 @@ function filterDlgCheckAction(sender) {
 		}
 
 		// if selected action supports parameters, enable params field
-		if (action == 4) {
+		if (action == 4 || action == 6) {
 			action_param.disabled = false;
 		} else {
 			action_param.disabled = true;
