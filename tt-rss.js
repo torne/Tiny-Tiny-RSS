@@ -838,3 +838,22 @@ function viewLimitChanged() {
 	cache_empty();
 	return viewCurrentFeed(0, '')
 }
+
+function adjustArticleScore(id, score) {
+	try {
+
+		var pr = prompt(__("Assign score to article:"), score);
+
+		if (pr != undefined) {
+			var query = "backend.php?op=rpc&subop=setScore&id=" + id + "&score=" + pr;
+
+			new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					viewCurrentFeed();
+				} });
+
+		}
+	} catch (e) {
+		exception_error(e, "adjustArticleScore");
+	}
+}	

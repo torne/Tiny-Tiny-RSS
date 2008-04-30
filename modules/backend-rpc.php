@@ -401,6 +401,19 @@
 			return;
 		}
 
+		if ($subop == "setScore") {
+			$id = db_escape_string($_REQUEST["id"]);
+			$score = sprintf("%d", $_REQUEST["score"]);
+
+			$result = db_query($link, "UPDATE ttrss_user_entries SET score = '$score'
+				WHERE ref_id = '$id' AND owner_uid = ".$_SESSION["uid"]);
+
+			print "<rpc-reply><message>Acknowledged.</message></rpc-reply>";
+
+			return;
+
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

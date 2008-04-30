@@ -3313,7 +3313,8 @@
 						ttrss_entries,ttrss_user_entries,ttrss_feeds
 					WHERE
 					$group_limit_part
-					ttrss_feeds.hidden = false AND
+					ttrss_feeds.hidden = false AND 
+					score >= -500 AND
 					ttrss_user_entries.feed_id = ttrss_feeds.id AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
@@ -3344,7 +3345,8 @@
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_tags
 					WHERE
-						ref_id = ttrss_entries.id AND
+						ref_id = ttrss_entries.id AND 
+						score >= -500 AND
 						ttrss_user_entries.owner_uid = '$owner_uid' AND
 						post_int_id = int_id AND tag_name = '$feed' AND
 						$view_query_part
@@ -4935,7 +4937,16 @@
 
 				$score = $line["score"];
 
-				if ($score < 100) $score_pic = "score_low
+				if ($score > 100) { 
+					$score_pic = "score_high.png"; 
+				} else { 
+					$score_pic = "score_neutral.png"; 
+				}
+
+				$score_title = __("(Click to change)");
+
+				$score_pic = "<img src=\"images/$score_pic\" 
+					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">";
 
 				$entry_author = $line["author"];
 
@@ -4979,7 +4990,16 @@
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
 
-					print "<td class='hlContent' valign='middle'>";
+
+					if ($score > 500) {
+						$hlc_suffix = "H";
+					} else if ($score < -100) {
+						$hlc_suffix = "L";
+					} else {
+						$hlc_suffix = "";
+					}
+
+					print "<td class='hlContent$hlc_suffix' valign='middle'>";
 
 					print "<a href=\"javascript:view($id,$feed_id);\">" .
 						$line["title"];
@@ -5010,7 +5030,9 @@
 #					}
 					
 					print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
-		
+
+					print "<td class='hlMarkedPic'>$score_pic</td>";
+	
 					print "</tr>";
 
 				} else {
