@@ -1187,7 +1187,7 @@
 							$last_read_qpart = 'NOW()';
 						}						
 
-						if (find_article_filter($article_filters, 'mark')) {
+						if (find_article_filter($article_filters, 'mark') || $score > 1000) {
 							$marked = 'true';
 						} else {
 							$marked = 'false';
