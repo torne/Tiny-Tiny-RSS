@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-04 12:47+0400\n"
+"POT-Creation-Date: 2008-05-04 13:48+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -232,7 +232,7 @@ msgid "All"
 msgstr "Tout"
 
 #: functions.php:3860 functions.php:3864 functions.php:3914 functions.php:3917
-#: tt-rss.php:185
+#: tt-rss.php:186
 msgid "Unread"
 msgstr "Non lus"
 
@@ -246,7 +246,7 @@ msgstr "Aucun"
 msgid "Toggle"
 msgstr "Marquages spéciaux&nbsp;"
 
-#: functions.php:3865 functions.php:3918 tt-rss.php:184
+#: functions.php:3865 functions.php:3918 tt-rss.php:185
 msgid "Starred"
 msgstr "Remarquables"
 
@@ -606,7 +606,7 @@ msgstr "Impossible de mettre à jour l'en-têtes (objet XML manquant)"
 msgid "Could not display article (missing XML object)"
 msgstr "Impossible d'afficher l'article (objet XML manquant)"
 
-#: localized_js.php:95 tt-rss.php:227 tt-rss.php:231
+#: localized_js.php:95 tt-rss.php:228 tt-rss.php:232
 msgid "No feed selected."
 msgstr "Aucun flux sélectionné."
 
@@ -747,6 +747,21 @@ msgstr ""
 #, fuzzy
 msgid "Rescoring feeds..."
 msgstr "Suppression d'un flux..."
+
+#: localized_js.php:138
+#, fuzzy
+msgid "You can't rescore this kind of feed."
+msgstr "Vous ne pouvez pas modifier ce type de flux."
+
+#: localized_js.php:139
+#, fuzzy, php-format
+msgid "Rescore articles in %s?"
+msgstr "Articles mémorisés"
+
+#: localized_js.php:140
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "Articles mémorisés"
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
 #: modules/pref-feeds.php:959 modules/pref-feeds.php:1020
@@ -1287,59 +1302,64 @@ msgid "&nbsp;&nbsp;Clear articles"
 msgstr "&nbsp;&nbsp;Purger les articles"
 
 #: tt-rss.php:148
+#, fuzzy
+msgid "&nbsp;&nbsp;Rescore feed"
+msgstr "&nbsp;&nbsp;S'inscrire à ce flux"
+
+#: tt-rss.php:149
 msgid "&nbsp;&nbsp;Unsubscribe"
 msgstr "&nbsp;&nbsp;Se désinscrire"
 
-#: tt-rss.php:150
+#: tt-rss.php:151
 msgid "All feeds:"
 msgstr "Tous les flux&nbsp;:"
 
-#: tt-rss.php:151
+#: tt-rss.php:152
 msgid "&nbsp;&nbsp;Mark as read"
 msgstr "Marquer comme lus"
 
-#: tt-rss.php:152
+#: tt-rss.php:153
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr "(Dé)Masquer les flux lus"
 
-#: tt-rss.php:154
+#: tt-rss.php:155
 msgid "Other actions:"
 msgstr "Autres actions&nbsp;:"
 
-#: tt-rss.php:155
+#: tt-rss.php:156
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Créer un filtre"
 
-#: tt-rss.php:163
+#: tt-rss.php:164
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "Masquer dans la liste de «&nbsp;Mes flux&nbsp;»"
 
-#: tt-rss.php:165
+#: tt-rss.php:166
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:173 modules/popup-dialog.php:139
+#: tt-rss.php:174 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Rechercher&nbsp;:"
 
-#: tt-rss.php:180
+#: tt-rss.php:181
 msgid "View:"
 msgstr "Afficher&nbsp;:"
 
-#: tt-rss.php:182
+#: tt-rss.php:183
 msgid "Adaptive"
 msgstr "Adaptatif"
 
-#: tt-rss.php:183
+#: tt-rss.php:184
 msgid "All Articles"
 msgstr "Tous les articles"
 
-#: tt-rss.php:188
+#: tt-rss.php:189
 msgid "Limit:"
 msgstr "Limite&nbsp;:"
 
-#: tt-rss.php:213
+#: tt-rss.php:214
 msgid "Update"
 msgstr "Mettre à jour"
 

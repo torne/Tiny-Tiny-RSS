@@ -877,7 +877,7 @@ function rescoreCurrentFeed() {
 	}
 
 	var fn = getFeedName(actid);
-	var pr = __("Rescore articls in %s?").replace("%s", fn);
+	var pr = __("Rescore articles in %s?").replace("%s", fn);
 
 	if (confirm(pr)) {
 		notify_progress("Rescoring articles...");

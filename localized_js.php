@@ -135,9 +135,9 @@ print T_js_decl("Rescore articles in selected feeds?");
 print T_js_decl("Rescoring selected feeds...");
 print T_js_decl("Rescore articles in all feeds? This operation may take a lot of time.");
 print T_js_decl("Rescoring feeds...");
-#print T_js_decl(
-#print T_js_decl(
-#print T_js_decl(
+print T_js_decl("You can't rescore this kind of feed.");
+print T_js_decl("Rescore articles in %s?");
+print T_js_decl("Rescoring articles...");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-04 12:47+0400\n"
+"POT-Creation-Date: 2008-05-04 13:48+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -227,7 +227,7 @@ msgid "All"
 msgstr "所有"
 
 #: functions.php:3860 functions.php:3864 functions.php:3914 functions.php:3917
-#: tt-rss.php:185
+#: tt-rss.php:186
 msgid "Unread"
 msgstr "未读"
 
@@ -241,7 +241,7 @@ msgstr "无"
 msgid "Toggle"
 msgstr "触发开关"
 
-#: functions.php:3865 functions.php:3918 tt-rss.php:184
+#: functions.php:3865 functions.php:3918 tt-rss.php:185
 msgid "Starred"
 msgstr "星级"
 
@@ -601,7 +601,7 @@ msgstr "更新提要失败（缺少XML支持）"
 msgid "Could not display article (missing XML object)"
 msgstr "显示条目失败（缺少XML支持）"
 
-#: localized_js.php:95 tt-rss.php:227 tt-rss.php:231
+#: localized_js.php:95 tt-rss.php:228 tt-rss.php:232
 msgid "No feed selected."
 msgstr "无选定feed."
 
@@ -750,6 +750,21 @@ msgstr ""
 #, fuzzy
 msgid "Rescoring feeds..."
 msgstr "移除feed中..."
+
+#: localized_js.php:138
+#, fuzzy
+msgid "You can't rescore this kind of feed."
+msgstr "您不能编辑本分类feed"
+
+#: localized_js.php:139
+#, fuzzy, php-format
+msgid "Rescore articles in %s?"
+msgstr "星级文章"
+
+#: localized_js.php:140
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "星级文章"
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
 #: modules/pref-feeds.php:959 modules/pref-feeds.php:1020
@@ -1239,59 +1254,64 @@ msgid "&nbsp;&nbsp;Clear articles"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
 #: tt-rss.php:148
+#, fuzzy
+msgid "&nbsp;&nbsp;Rescore feed"
+msgstr "&nbsp;&nbsp;订阅feed"
+
+#: tt-rss.php:149
 msgid "&nbsp;&nbsp;Unsubscribe"
 msgstr "&nbsp;&nbsp;退订"
 
-#: tt-rss.php:150
+#: tt-rss.php:151
 msgid "All feeds:"
 msgstr "所有feed:"
 
-#: tt-rss.php:151
+#: tt-rss.php:152
 msgid "&nbsp;&nbsp;Mark as read"
 msgstr "&nbsp;&nbsp;标记未已读"
 
-#: tt-rss.php:152
+#: tt-rss.php:153
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr "&nbsp;&nbsp;(显示)隐藏已读feed"
 
-#: tt-rss.php:154
+#: tt-rss.php:155
 msgid "Other actions:"
 msgstr "其他操作:"
 
-#: tt-rss.php:155
+#: tt-rss.php:156
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
-#: tt-rss.php:163
+#: tt-rss.php:164
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "隐藏我的Feed列表"
 
-#: tt-rss.php:165
+#: tt-rss.php:166
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:173 modules/popup-dialog.php:139
+#: tt-rss.php:174 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "搜索:"
 
-#: tt-rss.php:180
+#: tt-rss.php:181
 msgid "View:"
 msgstr "浏览:"
 
-#: tt-rss.php:182
+#: tt-rss.php:183
 msgid "Adaptive"
 msgstr "自适应"
 
-#: tt-rss.php:183
+#: tt-rss.php:184
 msgid "All Articles"
 msgstr "所有文章"
 
-#: tt-rss.php:188
+#: tt-rss.php:189
 msgid "Limit:"
 msgstr "限制:"
 
-#: tt-rss.php:213
+#: tt-rss.php:214
 msgid "Update"
 msgstr "更新"
 

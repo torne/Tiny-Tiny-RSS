@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss 1.2.14.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-04 12:47+0400\n"
+"POT-Creation-Date: 2008-05-04 13:48+0400\n"
 "PO-Revision-Date: 2007-10-24 00:47-0200\n"
 "Last-Translator: Marcelo Jorge VIeira (metal) <metal@alucinados.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -228,7 +228,7 @@ msgid "All"
 msgstr "Todos"
 
 #: functions.php:3860 functions.php:3864 functions.php:3914 functions.php:3917
-#: tt-rss.php:185
+#: tt-rss.php:186
 msgid "Unread"
 msgstr "Não Lido"
 
@@ -242,7 +242,7 @@ msgstr "Nenhum"
 msgid "Toggle"
 msgstr ""
 
-#: functions.php:3865 functions.php:3918 tt-rss.php:184
+#: functions.php:3865 functions.php:3918 tt-rss.php:185
 msgid "Starred"
 msgstr "Favoritos"
 
@@ -601,7 +601,7 @@ msgstr ""
 msgid "Could not display article (missing XML object)"
 msgstr ""
 
-#: localized_js.php:95 tt-rss.php:227 tt-rss.php:231
+#: localized_js.php:95 tt-rss.php:228 tt-rss.php:232
 msgid "No feed selected."
 msgstr "Nenhum feed foi selecionado."
 
@@ -743,6 +743,20 @@ msgstr ""
 #, fuzzy
 msgid "Rescoring feeds..."
 msgstr "Removendo o Feed..."
+
+#: localized_js.php:138
+msgid "You can't rescore this kind of feed."
+msgstr ""
+
+#: localized_js.php:139
+#, fuzzy, php-format
+msgid "Rescore articles in %s?"
+msgstr "Favoritos"
+
+#: localized_js.php:140
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "Favoritos"
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
 #: modules/pref-feeds.php:959 modules/pref-feeds.php:1020
@@ -1221,59 +1235,64 @@ msgid "&nbsp;&nbsp;Clear articles"
 msgstr "&nbsp;&nbsp;Criar filtro"
 
 #: tt-rss.php:148
+#, fuzzy
+msgid "&nbsp;&nbsp;Rescore feed"
+msgstr "&nbsp;&nbsp;Editar esse Feed"
+
+#: tt-rss.php:149
 msgid "&nbsp;&nbsp;Unsubscribe"
 msgstr ""
 
-#: tt-rss.php:150
+#: tt-rss.php:151
 msgid "All feeds:"
 msgstr "Todos os Feeds:"
 
-#: tt-rss.php:151
+#: tt-rss.php:152
 msgid "&nbsp;&nbsp;Mark as read"
 msgstr "&nbsp;&nbsp;Marcar como lido"
 
-#: tt-rss.php:152
+#: tt-rss.php:153
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr ""
 
-#: tt-rss.php:154
+#: tt-rss.php:155
 msgid "Other actions:"
 msgstr "Outras ações:"
 
-#: tt-rss.php:155
+#: tt-rss.php:156
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Criar filtro"
 
-#: tt-rss.php:163
+#: tt-rss.php:164
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "Todos os feeds"
 
-#: tt-rss.php:165
+#: tt-rss.php:166
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:173 modules/popup-dialog.php:139
+#: tt-rss.php:174 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr ""
 
-#: tt-rss.php:180
+#: tt-rss.php:181
 msgid "View:"
 msgstr ""
 
-#: tt-rss.php:182
+#: tt-rss.php:183
 msgid "Adaptive"
 msgstr ""
 
-#: tt-rss.php:183
+#: tt-rss.php:184
 msgid "All Articles"
 msgstr ""
 
-#: tt-rss.php:188
+#: tt-rss.php:189
 msgid "Limit:"
 msgstr "Limite:"
 
-#: tt-rss.php:213
+#: tt-rss.php:214
 msgid "Update"
 msgstr "Atualizar"
 

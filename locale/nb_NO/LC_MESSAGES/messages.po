@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-04 12:47+0400\n"
+"POT-Creation-Date: 2008-05-04 13:48+0400\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
 "MIME-Version: 1.0\n"
@@ -228,7 +228,7 @@ msgid "All"
 msgstr "Alle"
 
 #: functions.php:3860 functions.php:3864 functions.php:3914 functions.php:3917
-#: tt-rss.php:185
+#: tt-rss.php:186
 msgid "Unread"
 msgstr "Ulest"
 
@@ -242,7 +242,7 @@ msgstr "Ingen"
 msgid "Toggle"
 msgstr "Vis"
 
-#: functions.php:3865 functions.php:3918 tt-rss.php:184
+#: functions.php:3865 functions.php:3918 tt-rss.php:185
 msgid "Starred"
 msgstr "Favoritter"
 
@@ -596,7 +596,7 @@ msgstr "Kunne ikke oppdatere overskriftene (manglende XML objekt)."
 msgid "Could not display article (missing XML object)"
 msgstr "Kunne ikke vise artikkelen (manglende XML objekt)."
 
-#: localized_js.php:95 tt-rss.php:227 tt-rss.php:231
+#: localized_js.php:95 tt-rss.php:228 tt-rss.php:232
 msgid "No feed selected."
 msgstr "Ingen valgt nyhetsstrøm"
 
@@ -736,6 +736,21 @@ msgstr ""
 #, fuzzy
 msgid "Rescoring feeds..."
 msgstr "Fjerner nyhetsstrøm..."
+
+#: localized_js.php:138
+#, fuzzy
+msgid "You can't rescore this kind of feed."
+msgstr "Du kan ikke endre denne typen nyhetsstrøm"
+
+#: localized_js.php:139
+#, fuzzy, php-format
+msgid "Rescore articles in %s?"
+msgstr "Lagrede artikler"
+
+#: localized_js.php:140
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "Lagrede artikler"
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
 #: modules/pref-feeds.php:959 modules/pref-feeds.php:1020
@@ -1259,58 +1274,63 @@ msgid "&nbsp;&nbsp;Clear articles"
 msgstr "&nbsp;&nbsp;Slett artikler"
 
 #: tt-rss.php:148
+#, fuzzy
+msgid "&nbsp;&nbsp;Rescore feed"
+msgstr "&nbsp;&nbsp;Abonner på nyhetsstrømmen"
+
+#: tt-rss.php:149
 msgid "&nbsp;&nbsp;Unsubscribe"
 msgstr "&nbsp;&nbsp;Fjern abonnement"
 
-#: tt-rss.php:150
+#: tt-rss.php:151
 msgid "All feeds:"
 msgstr "Alle nyhetsstrømmer:"
 
-#: tt-rss.php:151
+#: tt-rss.php:152
 msgid "&nbsp;&nbsp;Mark as read"
 msgstr "&nbsp;&nbsp;Marker som lest"
 
-#: tt-rss.php:152
+#: tt-rss.php:153
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr "&nbsp;&nbsp;Skjul/vis leste nyhetsstrømmer"
 
-#: tt-rss.php:154
+#: tt-rss.php:155
 msgid "Other actions:"
 msgstr "Andre handlinger:"
 
-#: tt-rss.php:155
+#: tt-rss.php:156
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Lag filter"
 
-#: tt-rss.php:163
+#: tt-rss.php:164
 msgid "Collapse feedlist"
 msgstr "Skjul nyhetskanalsslisten"
 
-#: tt-rss.php:165
+#: tt-rss.php:166
 msgid "Toggle Feedlist"
 msgstr "Vis nyhetskanallisten"
 
-#: tt-rss.php:173 modules/popup-dialog.php:139
+#: tt-rss.php:174 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Søk:"
 
-#: tt-rss.php:180
+#: tt-rss.php:181
 msgid "View:"
 msgstr "Vis:"
 
-#: tt-rss.php:182
+#: tt-rss.php:183
 msgid "Adaptive"
 msgstr "Tilpasset"
 
-#: tt-rss.php:183
+#: tt-rss.php:184
 msgid "All Articles"
 msgstr "Alle artikler"
 
-#: tt-rss.php:188
+#: tt-rss.php:189
 msgid "Limit:"
 msgstr "Antall:"
 
-#: tt-rss.php:213
+#: tt-rss.php:214
 msgid "Update"
 msgstr "Oppdater"
 
