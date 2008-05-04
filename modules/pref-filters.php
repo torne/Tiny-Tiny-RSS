@@ -228,6 +228,13 @@
 			id=\"create_filter_btn\"
 			value=\"".__('Create filter')."\">"; 
 
+		print "&nbsp;";
+
+		print "<input type=\"submit\" 
+			class=\"button\" 
+			onclick=\"rescore_all_feeds()\" 
+			value=\"".__('Rescore articles')."\">"; 
+
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
 				ttrss_filter_types.name AS filter_type_name,

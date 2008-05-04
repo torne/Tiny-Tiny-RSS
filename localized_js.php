@@ -131,11 +131,24 @@ print T_js_decl("Unpublish article");
 print T_js_decl("You can't clear this type of feed.");
 print T_js_decl("Erase all non-starred articles in %s?");
 print T_js_decl("Mark all articles as read?");
+print T_js_decl("Rescore articles in selected feeds?");
+print T_js_decl("Rescoring selected feeds...");
+print T_js_decl("Rescore articles in all feeds? This operation may take a lot of time.");
+print T_js_decl("Rescoring feeds...");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(
-
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
+#print T_js_decl(
 ?>

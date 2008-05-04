@@ -1931,7 +1931,7 @@ function rescoreSelectedFeeds() {
 		var ok = confirm(__("Rescore articles in selected feeds?"));
 
 		if (ok) {
-			notify_progress("Rescoring selected labels...");
+			notify_progress("Rescoring selected feeds...");
 	
 			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids="+
 				param_escape(sel_rows.toString()), true);
@@ -1945,3 +1945,16 @@ function rescoreSelectedFeeds() {
 	return false;
 }
 
+function rescore_all_feeds() {
+		var ok = confirm(__("Rescore all articles? This operation may take a lot of time."));
+
+		if (ok) {
+			notify_progress("Rescoring feeds...");
+
+			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=rescoreAll&quiet=1", true);
+			xmlhttp.onreadystatechange=notify_callback;
+			xmlhttp.send(null);
+		}
+
+
+}

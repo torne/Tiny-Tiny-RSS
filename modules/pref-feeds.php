@@ -516,6 +516,53 @@
 
 		}
 
+		if ($subop == "rescoreAll") {
+
+			$result = db_query($link, 
+				"SELECT id FROM ttrss_feeds WHERE owner_uid = " . $_SESSION['uid']);
+
+			while ($feed_line = db_fetch_assoc($result)) {
+
+				$id = $feed_line["id"];
+
+				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
+
+				$tmp_result = db_query($link, "SELECT title, content, link, ref_id FROM
+						ttrss_user_entries, ttrss_entries 
+						WHERE ref_id = id AND feed_id = '$id' AND 
+							owner_uid = " .$_SESSION['uid']."
+						");
+
+				$scores = array();
+
+				while ($line = db_fetch_assoc($tmp_result)) {
+
+					$article_filters = get_article_filters($filters, $line['title'], 
+						$line['content'], $line['link']);
+					
+					$new_score = calculate_article_score($article_filters);
+
+					if (!$scores[$new_score]) $scores[$new_score] = array();
+
+					array_push($scores[$new_score], $line['ref_id']);
+				}
+
+				foreach (array_keys($scores) as $s) {
+					if ($s > 1000) {
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+							marked = true WHERE
+							ref_id IN (" . join(',', $scores[$s]) . ")");
+					} else {
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s' WHERE
+							ref_id IN (" . join(',', $scores[$s]) . ")");
+					}
+				}
+			}
+
+			print __("All done.");
+
+		}
+
 		if ($subop == "add") {
 		
 			if (!WEB_DEMO_MODE) {
