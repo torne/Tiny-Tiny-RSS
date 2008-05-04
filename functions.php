@@ -5056,7 +5056,7 @@
 
 					print "<div class=\"articleUpdated\">$updated_fmt $score_pic</div>";
 
-					print "<span class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
+					print "<span id=\"RTITLE-$id\" class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"
 						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
 						";
