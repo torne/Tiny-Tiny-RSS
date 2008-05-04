@@ -520,6 +520,10 @@ function quickMenuGo(opid) {
 			displayDlg("quickAddFilter", getActiveFeedId());
 		}
 
+		if (opid == "qmcRescoreFeed") {
+			rescoreCurrentFeed();
+		}
+
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}
@@ -857,3 +861,33 @@ function adjustArticleScore(id, score) {
 		exception_error(e, "adjustArticleScore");
 	}
 }	
+
+function rescoreCurrentFeed() {
+
+	var actid = getActiveFeedId();
+
+	if (activeFeedIsCat() || actid < 0 || tagsAreDisplayed()) {
+		alert(__("You can't rescore this kind of feed."));
+		return;
+	}	
+
+	if (!actid) {
+		alert(__("Please select some feed first."));
+		return;
+	}
+
+	var fn = getFeedName(actid);
+	var pr = __("Rescore articls in %s?").replace("%s", fn);
+
+	if (confirm(pr)) {
+		notify_progress("Rescoring articles...");
+
+		var query = "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids=" + actid;
+
+		new Ajax.Request(query,	{
+		onComplete: function(transport) {
+			viewCurrentFeed();
+		} });
+	}
+}
+
