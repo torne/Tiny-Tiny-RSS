@@ -1679,6 +1679,24 @@ function cdmExpandArticle(a_id) {
 
 }
 
+function fixHeadlinesOrder(ids) {
+	try {
+		for (var i = 0; i < ids.length; i++) {
+			var e = document.getElementById("RROW-" + ids[i]);
+
+			if (e) {
+				if (i % 2 == 0) {
+					e.className = e.className.replace("even", "odd");
+				} else {
+					e.className = e.className.replace("odd", "even");
+				}
+			}
+		}
+	} catch (e) {
+		exception_error("fixHeadlinesOrder", e);
+	}
+}
+
 function subtoolbarSearch() {
 
 	try {
@@ -1690,6 +1708,7 @@ function subtoolbarSearch() {
 		q = q.value.toUpperCase();
 
 		var ids = false;
+		var vis_ids = new Array();
 
 		if (document.getElementById("headlinesList")) {
 			ids = getVisibleHeadlineIds();
@@ -1705,9 +1724,12 @@ function subtoolbarSearch() {
 					Element.hide(document.getElementById("RROW-" + ids[i]));
 				} else {
 					Element.show(document.getElementById("RROW-" + ids[i]));
+					vis_ids.push(ids[i]);
 				}
 			}
 		}
+
+		fixHeadlinesOrder(vis_ids);
 
 	} catch (e) {
 		exception_error("subtoolbarSearch", e);
