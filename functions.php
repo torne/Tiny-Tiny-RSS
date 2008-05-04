@@ -3964,7 +3964,15 @@
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 
-			print "<span class=\"headlineInnerTitle\">";
+			print "<span id=\"subtoolbar_search\" 
+				style=\"display : none\">Search: <input 
+				id=\"subtoolbar_search_box\"
+				onblur=\"javascript:enableHotkeys();\" 
+				onfocus=\"javascript:disableHotkeys();\"
+				onchange=\"subtoolbarSearch()\"
+				onkeyup=\"subtoolbarSearch()\" type=\"search\"></span>";
+
+			print "<span id=\"subtoolbar_ftitle\">";
 
 			if ($feed_site_url) {
 				if (!$bottom) {
@@ -3984,8 +3992,6 @@
 				print " [$user_page_offset] ";
 			}
 
-			print "</span>";
-
 			if (!$bottom && !$disable_feed) {
 				print "
 					<a target=\"_new\" 
@@ -3996,7 +4002,9 @@
 			} else if ($feed_small_icon) {
 				print "<img class=\"noborder\" alt=\"\" src=\"images/$feed_small_icon\">";
 			}
-				
+
+			print "</span>";
+
 			print "</td>";
 			print "</tr></table>";
 
@@ -4981,7 +4989,7 @@
 
 					print "<td class='hlContent$hlc_suffix' valign='middle'>";
 
-					print "<a href=\"javascript:view($id,$feed_id);\">" .
+					print "<a id=\"RTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {

@@ -353,6 +353,19 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 73 && shift_key) { // shift + i
+			if (document.getElementById("subtoolbar_search")) {
+				if (Element.visible("subtoolbar_search")) {
+					Element.hide("subtoolbar_search");
+					Element.show("subtoolbar_ftitle");
+					setTimeout("Element.focus('subtoolbar_search_box')", 100);
+				} else {
+					Element.show("subtoolbar_search");
+					Element.hide("subtoolbar_ftitle");
+				}
+			}
+		}
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
@@ -1056,38 +1069,40 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 	}
 
 	for (i = 0; i < content.rows.length; i++) {
-		if (!classcheck || content.rows[i].className.match(classcheck)) {
+		if (Element.visible(content.rows[i])) {
+			if (!classcheck || content.rows[i].className.match(classcheck)) {
+		
+				if (content.rows[i].id.match(prefix)) {
+					selectTableRow(content.rows[i], do_select);
+				
+					var row_id = content.rows[i].id.replace(prefix, "");
+					var check = document.getElementById(check_prefix + row_id);
 	
-			if (content.rows[i].id.match(prefix)) {
-				selectTableRow(content.rows[i], do_select);
-			
-				var row_id = content.rows[i].id.replace(prefix, "");
-				var check = document.getElementById(check_prefix + row_id);
-
-				if (check) {
-					check.checked = do_select;
+					if (check) {
+						check.checked = do_select;
+					}
+				} else if (reset_others) {
+					selectTableRow(content.rows[i], false);
+	
+					var row_id = content.rows[i].id.replace(prefix, "");
+					var check = document.getElementById(check_prefix + row_id);
+	
+					if (check) {
+						check.checked = false;
+					}
+	
 				}
 			} else if (reset_others) {
 				selectTableRow(content.rows[i], false);
-
+	
 				var row_id = content.rows[i].id.replace(prefix, "");
 				var check = document.getElementById(check_prefix + row_id);
-
+	
 				if (check) {
 					check.checked = false;
 				}
-
+	
 			}
-		} else if (reset_others) {
-			selectTableRow(content.rows[i], false);
-
-			var row_id = content.rows[i].id.replace(prefix, "");
-			var check = document.getElementById(check_prefix + row_id);
-
-			if (check) {
-				check.checked = false;
-			}
-
 		}
 	}
 }
