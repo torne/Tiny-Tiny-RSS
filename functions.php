@@ -3185,6 +3185,8 @@
 				$order_by = "updated DESC";
 			}
 
+			$order_by = "score DESC, $order_by";
+
 			if ($override_order) {
 				$order_by = $override_order;
 			}
