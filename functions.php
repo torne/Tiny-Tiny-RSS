@@ -4918,6 +4918,8 @@
 
 				if ($score > 100) { 
 					$score_pic = "score_high.png"; 
+				} else if ($score < -100) {
+					$score_pic = "score_low.png"; 
 				} else { 
 					$score_pic = "score_neutral.png"; 
 				}

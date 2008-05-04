@@ -303,7 +303,24 @@
 				$line["reg_exp"] = htmlspecialchars($line["reg_exp"]);
 	
 				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
-				if (!$line["action_param"]) $line["action_param"] = "&mdash;";
+
+				if (!$line["action_param"]) {
+					$line["action_param"] = "&mdash;";
+				} else if ($line["action_name"] == "score") {
+
+					if ($line["action_param"] > 100) { 
+						$score_pic = "score_high.png"; 
+					} else if ($line["action_param"] < -100) {
+						$score_pic = "score_low.png"; 
+					} else { 
+						$score_pic = "score_neutral.png"; 
+					}
+
+					$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\">";
+
+					$line["action_param"] = "$score_pic " . $line["action_param"];
+
+				}
 
 				$line["feed_title"] = htmlspecialchars($line["feed_title"]);
 
