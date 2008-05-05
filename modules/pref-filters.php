@@ -315,13 +315,7 @@
 					$line["action_param"] = "&mdash;";
 				} else if ($line["action_name"] == "score") {
 
-					if ($line["action_param"] > 100) { 
-						$score_pic = "score_high.png"; 
-					} else if ($line["action_param"] < -100) {
-						$score_pic = "score_low.png"; 
-					} else { 
-						$score_pic = "score_neutral.png"; 
-					}
+					$score_pic = get_score_pic($line["action_param"]);
 
 					$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\">";
 
