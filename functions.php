@@ -4924,13 +4924,7 @@
 
 				$score = $line["score"];
 
-				if ($score > 100) { 
-					$score_pic = "score_high.png"; 
-				} else if ($score < -100) {
-					$score_pic = "score_low.png"; 
-				} else { 
-					$score_pic = "score_neutral.png"; 
-				}
+				$score_pic = get_score_pic($score);
 
 				$score_title = __("(Click to change)");
 
@@ -5538,5 +5532,15 @@
 			}
 
 		return $filters;
+	}
+
+	function get_score_pic($score) {
+		if ($score > 0) { 
+			return "score_high.png"; 
+		} else if ($score < 0) {
+			return "score_low.png"; 
+		} else { 
+			return "score_neutral.png"; 
+		}
 	}
 ?>
