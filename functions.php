@@ -2866,7 +2866,7 @@
 		} else if ($id == -3) {
 			return __("Fresh articles");
 		} else if ($id < -10) {
-			$label_id = -10 - $id;
+			$label_id = -$id - 11;
 			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
 			if (db_num_rows($result) == 1) {
 				return db_fetch_result($result, 0, "description");
