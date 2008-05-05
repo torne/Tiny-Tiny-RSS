@@ -3231,10 +3231,13 @@
 	
 			} else if ($feed == -1) {
 				$feed_title = __("Starred articles");
+				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed == -2) {
 				$feed_title = __("Published articles");
+				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed == -3) {
 				$feed_title = __("Fresh articles");
+				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
 				$result = db_query($link, "SELECT description FROM ttrss_labels
@@ -3851,8 +3854,54 @@
 			if (!$dashboard_menu) {
 
 				if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
-	
+
 					print "<td class=\"headlineActions$rtl_cpart\">
+						<ul class=\"headlineDropdownMenu\">
+						<li class=\"top2\">
+						".__('Select:')."
+							<a href=\"$sel_all_link\">".__('All')."</a>,
+							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+							<a href=\"$sel_none_link\">".__('None')."</a></li>
+						<li class=\"vsep\">&nbsp;</li>
+						<li class=\"top\">".__('Actions...')."<ul>
+							<li><span class=\"insensitive\">".__('Selection toggle:')."</span></li>
+							<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
+							<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
+							<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
+							<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
+							<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
+
+
+/*				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+	
+					print "
+						<li onclick=\"catchupRelativeToArticle(0)\">&nbsp;&nbsp;".__("Above active article")."</li>
+						<li onclick=\"catchupRelativeToArticle(1)\">&nbsp;&nbsp;".__("Below active article")."</li>";
+				} else {
+					print "
+						<li><span class=\"insensitive\">&nbsp;&nbsp;".__("Above active article")."</span></li>
+						<li><span class=\"insensitive\">&nbsp;&nbsp;".__("Below active article")."</span></li>";
+
+				} */
+
+				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed')."</li>";
+
+				print "<li><span class=\"insensitive\">".__('Other actions:')."</span></li>";
+		
+
+				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
+					print "
+						<li onclick=\"javascript:labelFromSearch('$search', '$search_mode',
+							'$match_on', '$feed_id', '$is_cat');\">&nbsp;&nbsp;
+							".__('Search to label')."</li>";
+				} else {
+					print "<li><span class=\"insensitive\">&nbsp;&nbsp;".__('Search to label')."</li>";
+
+				}
+				
+				print	"</ul></li></ul>";
+
+/*					print "<td class=\"headlineActions$rtl_cpart\">
 						<ul class=\"headlineDropdownMenu\">
 						<li class=\"top2\">
 						".__('Select:')."
@@ -3901,9 +3950,9 @@
 								<a href=\"javascript:labelFromSearch('$search', '$search_mode',
 									'$match_on', '$feed_id', '$is_cat');\">
 									".__('Convert to label')."</a></td>";
-						}
-						print "	
-						</td>"; 
+						} */
+
+						print "</td>"; 
 	
 				} else {
 				// old style subtoolbar:
