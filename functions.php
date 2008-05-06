@@ -3296,7 +3296,6 @@
 					WHERE
 					$group_limit_part
 					ttrss_feeds.hidden = false AND 
-					score >= -500 AND
 					ttrss_user_entries.feed_id = ttrss_feeds.id AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
@@ -3328,7 +3327,6 @@
 						ttrss_entries,ttrss_user_entries,ttrss_tags
 					WHERE
 						ref_id = ttrss_entries.id AND 
-						score >= -500 AND
 						ttrss_user_entries.owner_uid = '$owner_uid' AND
 						post_int_id = int_id AND tag_name = '$feed' AND
 						$view_query_part
