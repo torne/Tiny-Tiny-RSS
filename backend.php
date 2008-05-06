@@ -321,8 +321,10 @@
 		case "globalUpdateFeeds":
 			// update feeds of all users, may be used anonymously
 
+			print "<!--";
 			// Update all feeds needing a update.
-			update_daemon_common($link, 0, true, false);
+			update_daemon_common($link, 0, true, true);
+			print " -->";
 
 			// FIXME : old feed update way. To be removed.
 			//$result = db_query($link, "SELECT id FROM ttrss_users");
