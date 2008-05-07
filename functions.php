@@ -3866,6 +3866,7 @@
 							<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
 							<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
 							<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
+							<li><span class=\"insensitive\">--------</span></li>
 							<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
 							<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
 
@@ -3884,6 +3885,7 @@
 
 				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed')."</li>";
 
+				print "<li><span class=\"insensitive\">--------</span></li>";
 				print "<li><span class=\"insensitive\">".__('Other actions:')."</span></li>";
 		
 
