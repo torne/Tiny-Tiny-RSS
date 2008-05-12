@@ -359,8 +359,13 @@ function resize_headlines() {
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
 	var f_frame = document.getElementById("footer");
+	var feeds_frame = document.getElementById("feeds-holder");
 
 	if (!c_frame || !h_frame) return;
+
+	if (feeds_frame && getInitParam("theme") == "compat") {
+			feeds_frame.style.bottom = f_frame.offsetHeight + "px";		
+	}
 
 	if (getInitParam("theme") == "3pane") {
 		debug("resize_headlines: HOR-mode");

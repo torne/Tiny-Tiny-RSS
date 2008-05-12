@@ -261,6 +261,14 @@ function hotkey_handler(e) {
 			if (new_feed) viewfeed(new_feed, '');
 		}
 
+		if (shift_key && (keycode == 78 || keycode == 40)) { // shift - n, down
+			return catchupRelativeToArticle(1);
+		}
+
+		if (shift_key && (keycode == 80 || keycode == 38)) { // shift - p, up
+			return catchupRelativeToArticle(0);			
+		}
+
 		if (keycode == 78 || keycode == 40) { // n, down
 			if (typeof moveToPost != 'undefined') {
 				return moveToPost('next');
