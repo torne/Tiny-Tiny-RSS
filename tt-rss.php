@@ -82,7 +82,7 @@
 	</div>
 </div> 
 
-<div id="hotkey_help_overlay">
+<div id="hotkey_help_overlay" style="display : none">
 	<?php include "help/3.php" ?>
 </div>
 
