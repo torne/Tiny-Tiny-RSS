@@ -82,6 +82,10 @@
 	</div>
 </div> 
 
+<div id="hotkey_help_overlay">
+	<?php include "help/3.php" ?>
+</div>
+
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 
 <div id="fatal_error"><div id="fatal_error_inner">

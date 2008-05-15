@@ -1,7 +1,7 @@
 var hotkeys_enabled = true;
 var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
-
+var hotkey_prefix = false;
 var hotkey_zone = 0;
 
 /* add method to remove element from array */
@@ -79,7 +79,9 @@ function open_article_callback(transport) {
 			if (link) {
 				debug("link url: " + link.firstChild.nodeValue);
 
-				window.open(link.firstChild.nodeValue, "_blank");
+				var w = window.open(link.firstChild.nodeValue, "_blank");
+
+				if (!w) { notify_error("Failed to load article in new window"); }
 
 				if (id) {
 					id = id.firstChild.nodeValue;
@@ -214,15 +216,12 @@ function hotkey_handler(e) {
 		var keycode;
 		var shift_key = false;
 
+		var feedlist = document.getElementById('feedList');
+
 		try {
 			shift_key = e.shiftKey;
 		} catch (e) {
 
-		}
-	
-		if (!hotkeys_enabled) {
-			debug("hotkeys disabled");
-			return;
 		}
 	
 		if (window.event) {
@@ -231,6 +230,188 @@ function hotkey_handler(e) {
 			keycode = e.which;
 		}
 
+		if (keycode == 27) { // escape
+			if (Element.visible("hotkey_help_overlay")) {
+				Element.hide("hotkey_help_overlay");
+			}
+			hotkey_prefix = false;
+			closeInfoBox();
+		} 
+
+		if (!hotkeys_enabled) {
+			debug("hotkeys disabled");
+			return;
+		}
+
+		if (keycode == 16) return; // ignore lone shift
+
+		if ((keycode == 70 || keycode == 67) && !hotkey_prefix) {
+			hotkey_prefix = keycode;
+			debug("KP: PREFIX=" + keycode);
+			return;
+		}
+
+		if (Element.visible("hotkey_help_overlay")) {
+			Element.hide("hotkey_help_overlay");
+		}
+
+		/* Global hotkeys */
+
+		if (!hotkey_prefix) {
+
+			if (keycode == 68 && shift_key) { // d
+				if (!debug_mode_enabled) {
+					document.getElementById('debug_output').style.display = 'block';
+					debug('debug mode activated');
+				} else {
+					document.getElementById('debug_output').style.display = 'none';
+				}
+	
+				debug_mode_enabled = !debug_mode_enabled;
+				return;
+			}
+	
+			if (keycode == 191 && shift_key) { // ?
+				if (!Element.visible("hotkey_help_overlay")) {
+					Element.show("hotkey_help_overlay");
+				} else {
+					Element.hide("hotkey_help_overlay");
+				}
+				return;
+			}
+	
+			if (keycode == 191) { // /
+				return displayDlg("search", getActiveFeedId());
+			}
+
+			if (keycode == 74) { // j
+				var feed = getActiveFeedId();
+				var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
+				if (new_feed) viewfeed(new_feed, '');
+				return;
+			}
+	
+			if (keycode == 75) { // k
+				var feed = getActiveFeedId();
+				var new_feed = getRelativeFeedId(feedlist, feed, 'next');
+				if (new_feed) viewfeed(new_feed, '');
+				return;
+			}
+
+			if (keycode == 78 || keycode == 40) { // n, down
+				if (typeof moveToPost != 'undefined') {
+					return moveToPost('next');
+				}
+			}
+	
+			if (keycode == 80 || keycode == 38) { // p, up
+				if (typeof moveToPost != 'undefined') {
+					return moveToPost('prev');
+				}
+			}
+
+			if (keycode == 83 && shift_key) { // S
+				var id = getActiveArticleId();
+				if (id) {				
+					togglePub(id);
+				}
+				return;
+			}
+
+			if (keycode == 83) { // s
+				var id = getActiveArticleId();
+				if (id) {				
+					toggleMark(id);
+				}
+				return;
+			}
+
+
+			if (keycode == 85) { // u
+				var id = getActiveArticleId();
+				if (id) {				
+					toggleUnread(id);
+				}
+				return;
+			}
+
+			if (keycode == 84) { // t
+				/* FIXME: edit tags */
+				return notify_error("Function not implemented");
+			}
+
+			if (keycode == 84) { // t
+				/* FIXME: edit tags */
+				return notify_error("Function not implemented");
+			}
+
+			if (keycode == 79) { // o
+				if (getActiveArticleId()) {
+					openArticleInNewWindow(getActiveArticleId());
+				}
+			}
+
+		}
+
+		/* Prefix f */
+
+		if (hotkey_prefix == 70) { // f 
+
+			hotkey_prefix = false;
+
+			if (keycode == 65) { // a
+				return toggleDispRead();
+			}
+
+			if (keycode == 85 && shift_key) { // r
+				return scheduleFeedUpdate(true);
+			}
+
+			if (keycode == 85) { // u
+				if (getActiveFeedId()) {
+					return viewfeed(getActiveFeedId(), "ForceUpdate");
+				}
+			}
+
+			if (keycode == 69) { // e
+				return editFeedDlg(getActiveFeedId());
+			}
+
+			if (keycode == 83) { // s
+				return displayDlg("quickAddFeed");
+			}
+
+			if (keycode == 67 && shift_key) { // C
+				if (typeof catchupAllFeeds != 'undefined') {
+					return catchupAllFeeds();
+				}
+			}
+
+			if (keycode == 67) { // c
+				if (getActiveFeedId()) {
+					return catchupCurrentFeed();
+				}
+			}
+
+		}
+
+		/* Prefix c */
+
+		if (hotkey_prefix == 67) { // c
+			hotkey_prefix = false;
+
+			if (keycode == 70) { // f
+				return displayDlg("quickAddFilter", getActiveFeedId());	
+			}
+
+			if (keycode == 83) { // s
+				if (typeof collapse_feedlist != 'undefined') {
+					return collapse_feedlist();
+				}
+			}
+
+		}
+/*
 		if (keycode == 48) { // 0
 			return setHotkeyZone(0);
 		}
@@ -310,16 +491,12 @@ function hotkey_handler(e) {
 			debug_mode_enabled = !debug_mode_enabled;
 		}
 
-		if (keycode == 190 && shift_key) { // >
-			viewFeedGoPage(1);
-		}
-		
-		if (keycode == 188 && shift_key) { // <
-			viewFeedGoPage(-1);
-		}
-
 		if (keycode == 191 && shift_key) { // ?
-			viewFeedGoPage(0);
+			if (!Element.visible("hotkey_help_overlay")) {
+				Element.show("hotkey_help_overlay");
+			} else {
+				Element.hide("hotkey_help_overlay");
+			}
 		}
 
 		if (keycode == 69 && shift_key) { // e
@@ -392,6 +569,12 @@ function hotkey_handler(e) {
 			}
 		}
 
+		if (keycode == 27) { // escape
+			if (Element.visible("hotkey_help_overlay")) {
+				Element.hide("hotkey_help_overlay");
+			}
+		} */
+
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
 				return localHotkeyHandler(e);
@@ -400,7 +583,14 @@ function hotkey_handler(e) {
 			}
 		}
 
-		debug("KP=" + keycode);
+		if (hotkey_prefix) {
+			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode);
+
+		} else {
+			debug("KP: CODE=" + keycode);
+		}
+
+
 	} catch (e) {
 		exception_error("hotkey_handler", e);
 	}

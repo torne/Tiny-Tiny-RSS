@@ -239,7 +239,7 @@ input.editbox {
 	display : none;
 	float : right;
 	font-size : 9pt;
-	z-index : 999;
+	z-index : 998;
 	-moz-border-radius : 2px;
 	padding : 5px 5px 5px 5px;
 }
@@ -1790,3 +1790,55 @@ img.hlScorePic {
 	height : 16px;
 }
 
+div#hotkey_help_overlay {
+	position : absolute;
+	left : 15%;
+	right : 15%;
+	top : 15%;
+	z-index : 999;
+/*	background-color : #f8fcf5;
+	border-width : 1px 1px 1px 1px;
+	border-style : solid;
+	border-color : #99d67a; */
+	padding : 1em;
+	background : url("images/shadow_dark.png");
+	color : white;
+	border : 1px solid black;
+}
+
+div#hotkey_help_overlay h1 {
+	text-align : center;
+}
+
+div#hotkey_help_overlay ul {
+	list-style-type : none;
+	margin : 0px;
+}
+
+div#hotkey_help_overlay li {
+	margin : 0px;
+}
+
+div#hotkey_help_overlay p {
+	text-align : center;
+}
+
+div#hotkey_help_overlay td.n {
+	text-align : right;
+	font-weight : bold;
+	width : 6em;
+	color : #a0ffa0;
+	padding-right : 5px;
+}
+
+div#hotkey_help_overlay h1 {
+	margin : 0px 0px 0.5em 0px;
+}
+
+div#hotkey_help_overlay h2 {
+	font-size : 13pt;
+	border-width : 0px;
+	margin : 0.7em 0px 0.5em 0px;
+	text-align : center;
+	color : #88b0f0;
+}
