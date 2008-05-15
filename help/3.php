@@ -16,8 +16,23 @@
 		<tr><td class='n'>s</td><td>Toggle starred</td></tr>
 		<tr><td class='n'>shift-S</td><td>Toggle published</td></tr>
 		<tr><td class='n'>u</td><td>Toggle unread</td></tr>
-		<tr><td class='n'>t</td><td>Edit tags</td></tr>
+		<tr><td class='n'>T</td><td>Edit tags</td></tr>
+
+		<? if (get_pref($link, "COMBINED_DISPLAY_MODE")) { ?>
+			<tr><td class='n'>t</td><td>Select article under mouse pointer</td></tr>
+		<? } else { ?>
+			<tr><td class='n'>t</td><td class="insensitive">Select article under mouse pointer <span class="small"></span></td></tr>
+		<? } ?>
+
 		<!-- <tr><td class='n'>S</td><td>Edit score</td></tr> -->
+	</table>
+
+	<h2>Other actions</h2>
+
+	<table>
+		<tr><td class='n'>c f</td><td>Create filter</td></tr>
+		<tr><td class='n'>c s</td><td>Collapse sidebar</td></tr>
+		<tr><td class='n'>?</td><td>Display this help dialog</td></tr>
 	</table>
 
 	</td><td>
@@ -34,13 +49,15 @@
 		<tr><td class='n'>f C</td><td>Mark all feeds as read</td></tr>
 	</table>
 
-	<h2>Other actions</h2>
+	<h2>Go to...</h2>
 
 	<table>
-		<tr><td class='n'>c f</td><td>Create filter</td></tr>
-		<tr><td class='n'>c s</td><td>Collapse sidebar</td></tr>
-		<tr><td class='n'>?</td><td>Display this help dialog</td></tr>
+		<tr><td class='n'>g s</td><td>Starred articles</td></tr>
+		<tr><td class='n'>g f</td><td>Fresh articles</td></tr>
+		<tr><td class='n'>g p</td><td>Published articles</td></tr>
+		<tr><td class='n'>g P</td><td>Preferences</td></tr>
 	</table>
+
 
 	</td></tr></table>
 

@@ -245,7 +245,7 @@ function hotkey_handler(e) {
 
 		if (keycode == 16) return; // ignore lone shift
 
-		if ((keycode == 70 || keycode == 67) && !hotkey_prefix) {
+		if ((keycode == 70 || keycode == 67 || keycode == 71) && !hotkey_prefix) {
 			hotkey_prefix = keycode;
 			debug("KP: PREFIX=" + keycode);
 			return;
@@ -335,14 +335,23 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 84) { // t
-				/* FIXME: edit tags */
-				return notify_error("Function not implemented");
+			if (keycode == 84 && shift_key) { // t
+				var id = getActiveArticleId();
+				if (id) {
+					editArticleTags(id, getActiveFeedId(), isCdmMode());
+				}
 			}
 
 			if (keycode == 84) { // t
-				/* FIXME: edit tags */
-				return notify_error("Function not implemented");
+				var id = getActiveArticleId();
+				if (id) {				
+					var cb = document.getElementById("RCHK-" + id);
+
+					if (cb) {
+						cb.checked = !cb.checked;
+						toggleSelectRowById(cb, "RROW-" + id);
+					}
+				}
 			}
 
 			if (keycode == 79) { // o
@@ -411,6 +420,32 @@ function hotkey_handler(e) {
 			}
 
 		}
+
+		/* Prefix g */
+
+		if (hotkey_prefix == 71) { // g
+
+			hotkey_prefix = false;
+
+			if (keycode == 83) { // s
+				return viewfeed(-1);
+			}
+
+			if (keycode == 80 && shift_key) { // P
+				return gotoPreferences();
+			}
+
+			if (keycode == 80) { // p
+				return viewfeed(-2);
+			}
+
+			if (keycode == 70) { // f
+				return viewfeed(-3);
+			}
+
+
+		}
+
 /*
 		if (keycode == 48) { // 0
 			return setHotkeyZone(0);
