@@ -529,6 +529,10 @@ function quickMenuGo(opid) {
 			rescoreCurrentFeed();
 		}
 
+		if (opid == "qmcHKhelp") {
+			Element.show("hotkey_help_overlay");
+		}
+
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}

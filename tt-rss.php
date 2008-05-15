@@ -82,7 +82,7 @@
 	</div>
 </div> 
 
-<div id="hotkey_help_overlay" style="display : none">
+<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
 	<?php include "help/3.php" ?>
 </div>
 
@@ -158,6 +158,7 @@ window.onload = init;
 					<option disabled>--------</option>
 					<option style="color : #5050aa" disabled><?php echo __('Other actions:') ?></option>				
 					<option value="qmcAddFilter"><?php echo __('&nbsp;&nbsp;Create filter') ?></option>
+					<option value="qmcHKhelp"><?php echo __('&nbsp;&nbsp;Keyboard shortcuts') ?></option>
 			</select>
 		</div>
 
