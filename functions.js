@@ -274,13 +274,23 @@ function getVisibleHeadlineIds() {
 }
 
 function getFirstVisibleHeadlineId() {
-	var rows = getVisibleHeadlineIds();
-	return rows[0];
+	if (isCdmMode()) {
+		var rows = cdmGetVisibleArticles();
+		return rows[0];
+	} else {
+		var rows = getVisibleHeadlineIds();
+		return rows[0];
+	}
 }
 
 function getLastVisibleHeadlineId() {
-	var rows = getVisibleHeadlineIds();
-	return rows[rows.length-1];
+	if (isCdmMode()) {
+		var rows = cdmGetVisibleArticles();
+		return rows[rows.length-1];
+	} else {
+		var rows = getVisibleHeadlineIds();
+		return rows[rows.length-1];
+	}
 }
 
 function markHeadline(id) {

@@ -5016,6 +5016,7 @@
 
 					print "<div class=\"cdmArticle$add_class\" 
 						id=\"RROW-$id\" onmouseover='cdmMouseIn(this)' 
+						onclick='cdmClicked(this)'
 						onmouseout='cdmMouseOut(this)'>";
 
 					print "<div class=\"cdmHeader\">";

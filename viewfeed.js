@@ -675,45 +675,68 @@ function moveToPost(mode) {
 
 	try {
 
-	// check for combined mode
-		if (document.getElementById("headlinesList")) {
-	
-			var rows = getVisibleHeadlineIds();
+		var rows;
+
+		if (isCdmMode()) {
+			rows = cdmGetVisibleArticles();
+		} else {
+			rows = getVisibleHeadlineIds();
+		}
 		
-			var prev_id = false;
-			var next_id = false;
+		var prev_id = false;
+		var next_id = false;
 		
-			if (!document.getElementById('RROW-' + active_post_id)) {
-				active_post_id = false;
-			}
+		if (!document.getElementById('RROW-' + active_post_id)) {
+			active_post_id = false;
+		}
 		
-			if (active_post_id == false) {
-				next_id = getFirstVisibleHeadlineId();
-				prev_id = getLastVisibleHeadlineId();
-			} else {	
-				for (var i = 0; i < rows.length; i++) {
-					if (rows[i] == active_post_id) {
-						prev_id = rows[i-1];
-						next_id = rows[i+1];			
-					}
+		if (active_post_id == false) {
+			next_id = getFirstVisibleHeadlineId();
+			prev_id = getLastVisibleHeadlineId();
+		} else {	
+			for (var i = 0; i < rows.length; i++) {
+				if (rows[i] == active_post_id) {
+					prev_id = rows[i-1];
+					next_id = rows[i+1];			
 				}
 			}
+		}
 		
-			if (mode == "next") {
-			 	if (next_id) {
+		if (mode == "next") {
+		 	if (next_id) {
+				if (isCdmMode()) {
+	
+					if (!cdmArticleIsActuallyVisible(next_id)) {
+						cdmScrollToArticleId(next_id);
+					}
+					cdmSelectArticles("none");
+					toggleUnread(next_id, 0, true);
+					toggleSelected(next_id);
+
+				} else {
 					correctHeadlinesOffset(next_id);
 					view(next_id, getActiveFeedId());
 				}
 			}
+		}
 		
-			if (mode == "prev") {
-				if (prev_id) {
+		if (mode == "prev") {
+			if (prev_id) {
+				if (isCdmMode()) {
+					cdmScrollToArticleId(prev_id);
+					cdmSelectArticles("none");
+					toggleUnread(prev_id, 0, true);
+					toggleSelected(prev_id);
+				} else {
 					correctHeadlinesOffset(prev_id);
 					view(prev_id, getActiveFeedId());
 				}
-			} 
-		} else {
-			var rows = cdmGetUnreadArticles();
+			}
+		} 
+
+
+/*	} else {
+			var rows = cdmGetVisibleArticles();
 
 			if (mode == "next") {
 
@@ -726,7 +749,9 @@ function moveToPost(mode) {
 							cdmScrollToArticleId(rows[i]);
 						}
 						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						cdmSelectArticles("none");
 						toggleUnread(rows[i], undefined, true);
+						toggleSelected(rows[i]);
 
 						return;
 					}
@@ -743,15 +768,17 @@ function moveToPost(mode) {
 
 						cdmScrollToArticleId(rows[i]);
 						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
+						cdmSelectArticles("none");
 						toggleUnread(rows[i], undefined, true);
+						cdmSelectArticleById(rows[i]);
 
 						break;
 					} 
 				}
 
-			}
+			} 
 	
-		}
+		} */
 
 	} catch (e) {
 		exception_error(e, "moveToPost");
@@ -761,14 +788,26 @@ function moveToPost(mode) {
 function toggleSelected(id) {
 	try {
 	
+		var cb = document.getElementById("RCHK-" + id);
+
 		var row = document.getElementById("RROW-" + id);
 		if (row) {
 			var nc = row.className;
 			
 			if (!nc.match("Selected")) {
 				nc = nc + "Selected";
+				if (cb) {
+					cb.checked = true;
+				}
+
+				// In CDM basically last selected article == active article
+				if (isCdmMode()) active_post_id = id;
 			} else {
 				nc = nc.replace("Selected", "");
+				if (cb) {
+					cb.checked = false;
+				}
+
 			}
 
 			row.className = nc;
@@ -1542,20 +1581,34 @@ function getActiveArticleId() {
 	return active_post_id;
 }
 
-function cdmMouseIn(elem) {
+function cdmClicked(elem) {
 	try {
+		if (elem.id && elem.id.match("RROW-")) {
+			var id = elem.id.replace("RROW-", "");
+			active_post_id = id;
+
+			cdmSelectArticles("none");
+			toggleSelected(id);
+
+		}
+	} catch (e) {
+		exception_error("cdmMouseIn", e);
+	} 
+}
+
+function cdmMouseIn(elem) {
+/*	try {
 		if (elem.id && elem.id.match("RROW-")) {
 			var id = elem.id.replace("RROW-", "");
 			active_post_id = id;
 		}
 	} catch (e) {
 		exception_error("cdmMouseIn", e);
-	}
-
+	} */
 }
 
 function cdmMouseOut(elem) {
-	active_post_id = false;
+	//active_post_id = false;
 }
 
 function headlines_scroll_handler() {
