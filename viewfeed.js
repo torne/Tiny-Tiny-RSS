@@ -795,6 +795,7 @@ function toggleUnread(id, cmode, effect) {
 		var row = document.getElementById("RROW-" + id);
 		if (row) {
 			var nc = row.className;
+			var is_selected = row.className.match("Selected");
 			nc = nc.replace("Unread", "");
 			nc = nc.replace("Selected", "");
 
@@ -832,6 +833,9 @@ function toggleUnread(id, cmode, effect) {
 			} else if (cmode == 1) {
 				row.className = nc + "Unread";
 			}
+
+			// Disable unmarking as selected for the time being (16.05.08) -fox
+			if (is_selected) row.className = row.className + "Selected";
 
 			if (cmode == undefined) cmode = 2;
 

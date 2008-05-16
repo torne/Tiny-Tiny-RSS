@@ -71,6 +71,10 @@
 
 <img id="piggie" src="images/piggie.png" style="display : none" alt="piggie">
 
+<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
+	<?php include "help/4.php" ?>
+</div>
+
 <script type="text/javascript">
 if (document.addEventListener) {
 	document.addEventListener("DOMContentLoaded", init, null);
