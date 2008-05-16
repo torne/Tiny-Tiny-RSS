@@ -1773,6 +1773,14 @@ function pref_hotkey_handler(e) {
 				return editFeedCats();
 			}
 
+			if (keycode == 84 && shift_key) { // T
+				return browseFeeds();
+			}
+
+			if (keycode == 69) { // e
+				return editCurrentEntryDispatcher();
+			}
+
 		}
 
 		/* Prefix g */
@@ -2102,6 +2110,10 @@ function rescore_all_feeds() {
 			xmlhttp.onreadystatechange=notify_callback;
 			xmlhttp.send(null);
 		}
+}
+
+function editCurrentEntryDispatcher() {
+	
 
 
 }
