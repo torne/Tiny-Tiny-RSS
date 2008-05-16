@@ -4953,7 +4953,7 @@
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
 
-					print "<td class='hlContent$hlc_suffix' valign='middle'>";
+					print "<td onclick='javascript:view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle'>";
 
 					print "<a id=\"RTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
 						$line["title"];
@@ -4983,7 +4983,7 @@
 					
 #					}
 					
-					print "<td class=\"hlUpdated\"><nobr>$updated_fmt&nbsp;</nobr></td>";
+					print "<td class=\"hlUpdated\" onclick='javascript:view($id,$feed_id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 	
