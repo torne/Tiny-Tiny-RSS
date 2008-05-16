@@ -1134,6 +1134,9 @@ function hotkey_handler(e) {
 				return viewfeed(-3);
 			}
 
+			if (keycode == 84) { // t
+				toggleTags();
+			}
 
 		}
 

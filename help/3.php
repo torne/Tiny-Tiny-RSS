@@ -55,6 +55,7 @@
 		<tr><td class='n'>g s</td><td>Starred articles</td></tr>
 		<tr><td class='n'>g f</td><td>Fresh articles</td></tr>
 		<tr><td class='n'>g p</td><td>Published articles</td></tr>
+		<tr><td class='n'>g t</td><td>Tag cloud</td></tr>
 		<tr><td class='n'>g P</td><td>Preferences</td></tr>
 	</table>
 
