@@ -1026,14 +1026,14 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 84 && shift_key) { // t
+			if (keycode == 84) { // t
 				var id = getActiveArticleId();
 				if (id) {
 					editArticleTags(id, getActiveFeedId(), isCdmMode());
 				}
 			}
 
-			if (keycode == 84) { // t
+/*			if (keycode == 84) { // t
 				var id = getActiveArticleId();
 				if (id) {				
 					var cb = document.getElementById("RCHK-" + id);
@@ -1043,7 +1043,7 @@ function hotkey_handler(e) {
 						toggleSelectRowById(cb, "RROW-" + id);
 					}
 				}
-			}
+			} */
 
 			if (keycode == 79) { // o
 				if (getActiveArticleId()) {

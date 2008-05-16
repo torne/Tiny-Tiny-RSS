@@ -1588,6 +1588,7 @@ function cdmClicked(elem) {
 			active_post_id = id;
 
 			cdmSelectArticles("none");
+			toggleUnread(id, 0, true);
 			toggleSelected(id);
 
 		}
