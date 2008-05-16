@@ -228,6 +228,8 @@
 	
 				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
 				print "<td><input class=\"editbox\" name=\"email\" 
+					onfocus=\"javascript:disableHotkeys();\" 
+					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$email\"></td></tr>";
 
@@ -258,18 +260,24 @@
 	
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
 				print "<td><input class=\"editbox\" type=\"password\"
+					onfocus=\"javascript:disableHotkeys();\" 
+					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"OLD_PASSWORD\"></td></tr>";
 	
 				print "<tr><td width=\"40%\">".__("New password")."</td>";
 				
 				print "<td><input class=\"editbox\" type=\"password\"
+					onfocus=\"javascript:disableHotkeys();\" 
+					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"NEW_PASSWORD\"></td></tr>";
 
 				print "<tr><td width=\"40%\">".__("Confirm password")."</td>";
 
 				print "<td><input class=\"editbox\" type=\"password\"
+					onfocus=\"javascript:disableHotkeys();\" 
+					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
 					name=\"CONFIRM_PASSWORD\"></td></tr>";
 
@@ -394,7 +402,10 @@
 					print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")));
 			
 				} else {
-					print "<input class=\"editbox\" name=\"$pref_name\" value=\"$value\">";
+					print "<input class=\"editbox\"
+						onfocus=\"javascript:disableHotkeys();\" 
+						onblur=\"javascript:enableHotkeys();\"  
+						name=\"$pref_name\" value=\"$value\">";
 				}
 
 				print "</td>";

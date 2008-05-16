@@ -1237,6 +1237,8 @@ function infobox_callback2(transport) {
 				{ tokens: ',', paramName: "search" });
 		}
 
+		disableHotkeys();
+
 		notify("");
 	} catch (e) {
 		exception_error("infobox_callback2", e);
@@ -1254,6 +1256,9 @@ function createFilter() {
 	}
 
 	var query = Form.serialize("filter_add_form");
+
+	// we can be called from some other tab in Prefs
+	if (active_tab) active_tab = "filterConfig";
 
 	new Ajax.Request("backend.php?" + query, {
 		onComplete: function (transport) {

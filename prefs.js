@@ -316,6 +316,9 @@ function addLabel() {
 
 	var query = Form.serialize("label_edit_form");
 
+	// we can be called from some other tab
+	active_tab = "labelConfig";
+
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&" + query, true);			
 	xmlhttp.onreadystatechange=infobox_submit_callback;
 	xmlhttp.send(null);
@@ -404,6 +407,8 @@ function editLabel(id) {
 		return
 	}
 
+	disableHotkeys();
+
 	notify_progress("Loading, please wait...");
 
 	document.getElementById("label_create_btn").disabled = true;
@@ -427,6 +432,8 @@ function editUser(id) {
 		return
 	}
 
+	disableHotkeys();
+
 	notify_progress("Loading, please wait...");
 
 	selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
@@ -445,6 +452,8 @@ function editFilter(id) {
 		printLockingError();
 		return
 	}
+
+	disableHotkeys();
 
 	notify_progress("Loading, please wait...");
 
@@ -466,6 +475,8 @@ function editFeed(feed) {
 		printLockingError();
 		return
 	}
+
+	disableHotkeys();
 
 	notify_progress("Loading, please wait...");
 
@@ -495,6 +506,8 @@ function editFeedCat(cat) {
 		printLockingError();
 		return
 	}
+
+	disableHotkeys();
 
 	notify_progress("Loading, please wait...");
 
@@ -1293,15 +1306,21 @@ function selectTab(id, noupdate, subop) {
 				updateBigFeedBrowser();
 			}
 		}
+
+		/* clean selection from all tabs */
 	
-		var tab = document.getElementById(active_tab + "Tab");
-	
-		if (tab) {
-			if (tab.className.match("Selected")) {
+		var tabs_holder = document.getElementById("prefTabs");
+		var tab = tabs_holder.firstChild;
+
+		while (tab) {
+			if (tab.className && tab.className.match("prefsTabSelected")) {
 				tab.className = "prefsTab";
 			}
+			tab = tab.nextSibling;
 		}
-	
+
+		/* mark new tab as selected */
+
 		tab = document.getElementById(id + "Tab");
 	
 		if (tab) {
@@ -1683,6 +1702,12 @@ function pref_hotkey_handler(e) {
 
 		if (keycode == 16) return; // ignore lone shift
 
+		if ((keycode == 67 || keycode == 71) && !hotkey_prefix) {
+			hotkey_prefix = keycode;
+			debug("KP: PREFIX=" + keycode);
+			return;
+		}
+
 		if (Element.visible("hotkey_help_overlay")) {
 			Element.hide("hotkey_help_overlay");
 		}
@@ -1718,7 +1743,38 @@ function pref_hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 49) { // 1
+		}
+
+		/* Prefix c */
+
+		if (hotkey_prefix == 67) { // c
+			hotkey_prefix = false;
+
+			if (keycode == 70) { // f
+				return displayDlg("quickAddFilter");	
+			}
+
+			if (keycode == 83) { // s
+				return displayDlg("quickAddFeed");	
+			}
+
+			if (keycode == 76) { // l
+				return displayDlg("quickAddLabel");	
+			}
+
+			if (keycode == 85) { // u
+				// no-op
+			}
+
+		}
+
+		/* Prefix g */
+
+		if (hotkey_prefix == 71) { // g
+
+			hotkey_prefix = false;
+
+			if (keycode == 49 && document.getElementById("genConfigTab")) { // 1
 				selectTab("genConfig");
 			}
 
