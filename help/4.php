@@ -20,6 +20,7 @@
 
 	<table>
 		<tr><td class='n'>c s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
+		<tr><td class='n'>c c</td><td><?php echo __("Edit feed categories") ?></td></tr>
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
 		<!-- <tr><td class='n'>c u</td><td><?php echo __("Create user") ?></td></tr> -->

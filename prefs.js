@@ -787,9 +787,8 @@ function feedEditCancel() {
 		return
 	}
 
-	document.getElementById("subscribe_to_feed_btn").disabled = false;
-
 	try {
+		document.getElementById("subscribe_to_feed_btn").disabled = false;
 		document.getElementById("top25_feeds_btn").disabled = false;
 	} catch (e) {
 		// this button is not always available, no-op if not found
@@ -876,11 +875,13 @@ function labelEditCancel() {
 		return
 	}
 
-	document.getElementById("label_create_btn").disabled = false;
+	try {
+		document.getElementById("label_create_btn").disabled = false;
+		selectPrefRows('label', false); // cleanup feed selection
+	} catch (e) { }
 
 	active_label = false;
 
-	selectPrefRows('label', false); // cleanup feed selection
 	closeInfoBox();
 
 	return false;
@@ -906,9 +907,11 @@ function filterEditCancel() {
 		return
 	}
 
-	document.getElementById("create_filter_btn").disabled = false;
-	
-	selectPrefRows('filter', false); // cleanup feed selection
+	try {
+		document.getElementById("create_filter_btn").disabled = false;
+		selectPrefRows('filter', false); // cleanup feed selection
+	} catch (e) { }
+
 	closeInfoBox();
 
 	return false;
@@ -1764,6 +1767,10 @@ function pref_hotkey_handler(e) {
 
 			if (keycode == 85) { // u
 				// no-op
+			}
+
+			if (keycode == 67) { // c
+				return editFeedCats();
 			}
 
 		}
