@@ -82,8 +82,10 @@
 	</div>
 </div> 
 
-<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
+<div id="hotkey_help_overlay" style="display : block" onclick="Element.hide(this)">
+	<?php rounded_table_start("hho"); ?>
 	<?php include "help/3.php" ?>
+	<?php rounded_table_end(); ?>
 </div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>

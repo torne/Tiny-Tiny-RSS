@@ -5516,4 +5516,17 @@
 			return "score_neutral.png"; 
 		}
 	}
+
+	function rounded_table_start($classname) {
+		print "<table width='100%' class='$classname' cellspacing='0' cellpadding='0'>";
+		print "<tr><td class='c1'>&nbsp;</td><td class='top'>&nbsp;</td><td class='c2'>&nbsp;</tr>";
+		print "<tr><td class='left'>&nbsp;</td><td class='content'>";
+	}
+
+	function rounded_table_end() {
+		print "</td><td class='right'>&nbsp;</td></tr>";
+		print "<tr><td class='c4'>&nbsp;</td><td class='bottom'>&nbsp;</td><td class='c3'>&nbsp;</tr>";
+		print "</table>";
+	}
+
 ?>
