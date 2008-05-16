@@ -1798,6 +1798,10 @@ function pref_hotkey_handler(e) {
 				return selectTab("userConfig");
 			}
 
+			if (keycode == 88) { // x
+				return gotoMain();
+			}
+
 		}
 
 		if (document.getElementById("piggie")) {
