@@ -3,6 +3,11 @@
 
 		global $access_level_names;
 
+		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) { 
+			print __("Your access level is insufficient to open this tab.");
+			return;
+		}
+
 		$subop = $_GET["subop"];
 
 		if ($subop == "edit") {
