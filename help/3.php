@@ -17,7 +17,7 @@
 		<tr><td class='n'>shift-S</td><td><?php echo __("Toggle published") ?></td></tr>
 		<tr><td class='n'>u</td><td><?php echo __("Toggle unread") ?></td></tr>
 		<tr><td class='n'>t</td><td><?php echo __("Edit tags") ?></td></tr>
-		<!-- <tr><td class='n'>S</td><td>Edit score</td></tr> -->
+		<tr><td class='n'>o</td><td><?php echo __("Open article in new window") ?></td></tr>
 	</table>
 
 	<h2><?php echo __("Other actions") ?></h2>

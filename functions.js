@@ -75,10 +75,13 @@ function open_article_callback(transport) {
 
 			debug("open_article_callback, received link: " + link);
 
-			if (link) {
-				debug("link url: " + link.firstChild.nodeValue);
+			if (link && id) {
 
-				var w = window.open(link.firstChild.nodeValue, "_blank");
+				var wname = "ttrss_article_" + id.firstChild.nodeValue;
+
+				debug("link url: " + link.firstChild.nodeValue + ", wname " + wname);
+
+				var w = window.open(link.firstChild.nodeValue, wname);
 
 				if (!w) { notify_error("Failed to load article in new window"); }
 
@@ -1502,8 +1505,13 @@ function openArticleInNewWindow(id) {
 		debug("openArticleInNewWindow: " + id);
 
 		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
+		var wname = "ttrss_article_" + id;
 
-		debug(query);
+		debug(query + " " + wname);
+
+		var w = window.open("", wname);
+
+		if (!w) notify_error("Failed to open window for the article");
 
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
