@@ -1,6 +1,6 @@
 	<h1>Keyboard Shortcuts</h1>
 
-	<table width='100%'><tr><td width='50%'>
+	<table width='100%'><tr><td width='50%' valign='top'>
 
 	<h2>Navigation</h2>
 
@@ -35,7 +35,7 @@
 		<tr><td class='n'>?</td><td>Display this help dialog</td></tr>
 	</table>
 
-	</td><td>
+	</td><td valign='top'>
 
 	<h2>Feed actions</h2>
 
