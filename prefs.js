@@ -10,8 +10,8 @@ var xmlhttp = Ajax.getTransport();
 var init_params = new Array();
 
 var caller_subop = false;
-
 var sanity_check_done = false;
+var hotkey_prefix = false;
 
 function infobox_callback() {
 	if (xmlhttp.readyState == 4) {
@@ -1654,31 +1654,111 @@ function pref_hotkey_handler(e) {
 	try {
 
 		var keycode;
-	
-		if (!hotkeys_enabled) return;
-	
+		var shift_key = false;
+
+		try {
+			shift_key = e.shiftKey;
+		} catch (e) {
+
+		}
+
 		if (window.event) {
 			keycode = window.event.keyCode;
 		} else if (e) {
 			keycode = e.which;
 		}
-	
+
+		if (keycode == 27) { // escape
+			if (Element.visible("hotkey_help_overlay")) {
+				Element.hide("hotkey_help_overlay");
+			}
+			hotkey_prefix = false;
+			closeInfoBox();
+		} 
+
+		if (!hotkeys_enabled) {
+			debug("hotkeys disabled");
+			return;
+		}
+
+		if (keycode == 16) return; // ignore lone shift
+
+		if (Element.visible("hotkey_help_overlay")) {
+			Element.hide("hotkey_help_overlay");
+		}
+
 		if (keycode == 13 || keycode == 27) {
 			seq = "";
 		} else {
 			seq = seq + "" + keycode;
 		}
 
+		/* Global hotkeys */
 
-	if (document.getElementById("piggie")) {
+		if (!hotkey_prefix) {
+
+			if (keycode == 68 && shift_key) { // d
+				if (!debug_mode_enabled) {
+					document.getElementById('debug_output').style.display = 'block';
+					debug('debug mode activated');
+				} else {
+					document.getElementById('debug_output').style.display = 'none';
+				}
 	
-		if (seq.match("807371717369")) {
-			seq = "";
-			localPiggieFunction(true);
-		} else {
-			localPiggieFunction(false);
+				debug_mode_enabled = !debug_mode_enabled;
+				return;
+			}
+	
+			if (keycode == 191 && shift_key) { // ?
+				if (!Element.visible("hotkey_help_overlay")) {
+					Element.show("hotkey_help_overlay");
+				} else {
+					Element.hide("hotkey_help_overlay");
+				}
+				return;
+			}
+
+			if (keycode == 49) { // 1
+				selectTab("genConfig");
+			}
+
+			if (keycode == 50 && document.getElementById("feedConfigTab")) { // 2
+				return selectTab("feedConfig");
+			}
+
+			if (keycode == 51 && document.getElementById("feedBrowserTab")) { // 3
+				return selectTab("feedBrowser");
+			}
+
+			if (keycode == 52 && document.getElementById("filterConfigTab")) { // 4
+				return selectTab("filterConfig");
+			}
+
+			if (keycode == 53 && document.getElementById("labelConfigTab")) { // 5
+				return selectTab("labelConfig");
+			}
+
+			if (keycode == 54 && document.getElementById("userConfigTab")) { // 6
+				return selectTab("userConfig");
+			}
+
 		}
-	}
+
+		if (document.getElementById("piggie")) {
+	
+			if (seq.match("807371717369")) {
+				seq = "";
+				localPiggieFunction(true);
+			} else {
+				localPiggieFunction(false);
+			}
+		}
+
+		if (hotkey_prefix) {
+			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode);
+		} else {
+			debug("KP: CODE=" + keycode);
+		}
 
 	} catch (e) {
 		exception_error("pref_hotkey_handler", e);

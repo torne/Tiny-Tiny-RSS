@@ -1,0 +1,37 @@
+<h1><?php echo __("Keyboard Shortcuts") ?></h1>
+
+<table width='100%'><tr><td width='50%' valign='top'>
+
+	<h2><?php echo __("Navigation") ?></h2>
+
+	<table>
+		<tr><td class='n'>1</td><td><?php echo __("Preferences") ?></td></tr>
+		<tr><td class='n'>2</td><td><?php echo __("My Feeds") ?></td></tr>
+		<tr><td class='n'>3</td><td><?php echo __("Other Feeds") ?></td></tr>
+		<tr><td class='n'>4</td><td><?php echo __("Content Filtering") ?></td></tr>
+		<tr><td class='n'>5</td><td><?php echo __("Label Editor") ?></td></tr>
+		<tr><td class='n'>6</td><td><?php echo __("User Manager") ?></td></tr>
+	</table>
+
+</td><td valign='top'>
+
+	<h2><?php echo __("Panel actions") ?></h2>
+
+	<table>
+		<tr><td class='n'>c s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
+		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
+		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
+		<tr><td class='n'>c u</td><td><?php echo __("Create user") ?></td></tr>
+	</table>
+
+	<h2><?php echo __("Other actions") ?></h2>
+
+	<table>
+		<tr><td class='n'>g x</td><td><?php echo __("Exit preferences") ?></td></tr>
+	</table>
+
+</td></tr></table>
+
+<p class='insensitive'><span class='small'>Note: not all actions may be available, depending on Tiny Tiny RSS configuration and your access level.</span></p>
+
+<p class="small"><?php echo __("Press any key to close this window.") ?></p>

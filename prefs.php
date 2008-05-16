@@ -69,11 +69,13 @@
 
 <body>
 
-<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie">
-
 <div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
+	<?php rounded_table_start("hho"); ?>
 	<?php include "help/4.php" ?>
+	<?php rounded_table_end(); ?>
 </div>
+
+<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie">
 
 <script type="text/javascript">
 if (document.addEventListener) {

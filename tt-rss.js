@@ -1302,7 +1302,7 @@ function hotkey_handler(e) {
 			if (Element.visible("hotkey_help_overlay")) {
 				Element.hide("hotkey_help_overlay");
 			}
-		} */
+		} 
 
 		if (typeof localHotkeyHandler != 'undefined') {
 			try {
@@ -1310,7 +1310,7 @@ function hotkey_handler(e) {
 			} catch (e) {
 				exception_error("hotkey_handler, local:", e);
 			}
-		}
+		} */
 
 		if (hotkey_prefix) {
 			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode);

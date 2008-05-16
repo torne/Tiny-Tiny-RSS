@@ -6,7 +6,7 @@
 	function module_pref_labels($link) {
 		if (!GLOBAL_ENABLE_LABELS) { 
 
-			print "<p>Sorry, labels have been administratively disabled for this installation. Please contact instance owner or edit configuration file to enable this functionality.</p>";
+			print __("Sorry, labels have been administratively disabled for this installation. Please contact instance owner or edit configuration file to enable this functionality.");
 			return; 
 		}
 
