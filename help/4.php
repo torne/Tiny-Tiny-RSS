@@ -11,6 +11,7 @@
 		<tr><td class='n'>g 4</td><td><?php echo __("Content Filtering") ?></td></tr>
 		<tr><td class='n'>g 5</td><td><?php echo __("Label Editor") ?></td></tr>
 		<tr><td class='n'>g 6</td><td><?php echo __("User Manager") ?></td></tr>
+		<tr><td class='n'>g x</td><td><?php echo __("Exit preferences") ?></td></tr>
 	</table>
 
 </td><td valign='top'>
@@ -27,11 +28,11 @@
 	<h2><?php echo __("Other actions") ?></h2>
 
 	<table>
-		<tr><td class='n'>g x</td><td><?php echo __("Exit preferences") ?></td></tr>
+		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>
 	</table>
 
 </td></tr></table>
 
-<p class='insensitive'><span class='small'>Note: not all actions may be available, depending on Tiny Tiny RSS configuration and your access level.</span></p>
+<p class='insensitive'><span class='small'><b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS configuration and your access level.</span></p>
 
 <p class="small"><?php echo __("Press any key to close this window.") ?></p>
