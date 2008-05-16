@@ -972,7 +972,7 @@ function hotkey_handler(e) {
 			}
 	
 			if (keycode == 191) { // /
-				return displayDlg("search", getActiveFeedId());
+				return displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 			}
 
 			if (keycode == 74) { // j

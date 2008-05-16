@@ -131,6 +131,8 @@
 
 			#$active_feed_id = db_escape_string($_GET["param"]);
 
+			print $_GET["param"];
+
 			$params = split(":", db_escape_string($_GET["param"]));
 
 			$active_feed_id = sprintf("%d", $params[0]);
