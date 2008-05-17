@@ -1247,8 +1247,13 @@ function updateLabelList(sort_key) {
 		return
 	}
 
+	var label_search = document.getElementById("label_search");
+	var search = "";
+	if (label_search) { search = label_search.value; }
+
 	xmlhttp.open("GET", "backend.php?op=pref-labels&sort=" + 
-		param_escape(sort_key), true);
+		param_escape(sort_key) +
+		"&search=" + param_escape(search), true);
 	xmlhttp.onreadystatechange=labellist_callback;
 	xmlhttp.send(null);
 }

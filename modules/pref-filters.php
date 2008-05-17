@@ -232,7 +232,8 @@
 			<input id=\"filter_search\" size=\"20\" type=\"search\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
 			<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\"><p<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
+			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">
+			<p<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
 			<img src='images/sign_quest.gif'></a></p>
 			</div>";
 

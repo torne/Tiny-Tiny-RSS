@@ -216,8 +216,22 @@
 			$sort = "description";
 		}
 
-		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(1)\">
-			<img src='images/sign_quest.gif'></a>";
+		$label_search = db_escape_string($_GET["search"]);
+
+		if (array_key_exists("search", $_GET)) {
+			$_SESSION["prefs_label_search"] = $label_search;
+		} else {
+			$label_search = $_SESSION["prefs_label_search"];
+		}
+
+		print "<div class=\"feedEditSearch\">
+			<input id=\"label_search\" size=\"20\" type=\"search\"
+				onchange=\"javascript:updateLabelList()\" value=\"$label_search\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateLabelList()\" value=\"".__('Search')."\">
+			<p><a class='helpLinkPic' href=\"javascript:displayHelpInfobox(1)\">
+			<img src='images/sign_quest.gif'></a></p>
+			</div>";
 
 		print "<div class=\"prefGenericAddBox\">";
 
@@ -226,11 +240,19 @@
 			onclick=\"return displayDlg('quickAddLabel', false)\" 
 			value=\"".__('Create label')."\"></div>";
 
+		if ($label_search) {
+			$label_search_query = "(sql_exp LIKE '%$label_search%' OR 
+				description LIKE '%$label_search%') AND";
+		} else {
+			$label_search_query = "";
+		}
+
 		$result = db_query($link, "SELECT 
 				id,sql_exp,description
 			FROM 
 				ttrss_labels 
 			WHERE 
+				$label_search_query
 				owner_uid = ".$_SESSION["uid"]."
 			ORDER BY $sort");
 
