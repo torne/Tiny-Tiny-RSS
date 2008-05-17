@@ -1156,7 +1156,7 @@
 							_debug("update_rss_feed: user record not found, creating...");
 						}
 
-						if (!find_article_filter($article_filters, 'catchup')) {
+						if ($score >= -500 && !find_article_filter($article_filters, 'catchup')) {
 							$unread = 'true';
 							$last_read_qpart = 'NULL';
 						} else {
