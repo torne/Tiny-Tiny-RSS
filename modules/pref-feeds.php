@@ -1052,8 +1052,10 @@
 				print "<td class='feedSelect'><input onclick='toggleSelectPrefRow(this, \"feed\");' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
+				$onclick = "onclick='editFeed($feed_id)' title='".__('Click to edit')."'";
+
 				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-					print "<td class='feedIcon'>$feed_icon</td>";		
+					print "<td $onclick class='feedIcon'>$feed_icon</td>";		
 				}
 
 				if ($hidden) {
@@ -1074,16 +1076,14 @@
 						$parent_title)</span>";
 				}
 
-				print "<td><a href=\"javascript:editFeed($feed_id);\">" . 
-					"$edit_title $parent_title" . "</a></td>";		
+				print "<td $onclick>" . "$edit_title $parent_title" . "</td>";
 
 				if ($show_last_article_info) {
-					print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
-						"$last_article</a></td>";
+					print "<td align='right' $onclick>" . 
+						"$last_article</td>";
 				}
 
-				print "<td align='right'><a href=\"javascript:editFeed($feed_id);\">" . 
-					"$last_updated</a></td>";
+				print "<td $onclick align='right'>$last_updated</td>";
 
 				print "</tr>";
 	

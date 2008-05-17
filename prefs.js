@@ -1772,7 +1772,6 @@ function pref_hotkey_handler(e) {
 						return focus_element(search_boxes[i]);
 					}
 				}
-
 			}
 		}
 
@@ -1803,10 +1802,6 @@ function pref_hotkey_handler(e) {
 
 			if (keycode == 84 && shift_key) { // T
 				return browseFeeds();
-			}
-
-			if (keycode == 69) { // e
-				return editCurrentEntryDispatcher();
 			}
 
 		}
@@ -2138,10 +2133,4 @@ function rescore_all_feeds() {
 			xmlhttp.onreadystatechange=notify_callback;
 			xmlhttp.send(null);
 		}
-}
-
-function editCurrentEntryDispatcher() {
-	
-
-
 }

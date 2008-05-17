@@ -287,60 +287,18 @@
 					strtotime($line["created"]));
 			}				
 
-//			if (!$edit_uid || $subop != "edit") {
-
-				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
+			print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
-				print "<td><a href=\"javascript:editUser($uid);\">" . 
-					$line["login"] . "</td>";		
+			$onclick = "onclick='editUser($uid) title='".__('Click to edit')."''";
 
-				if (!$line["email"]) $line["email"] = "&nbsp;";
+			print "<td $onclick>" . $line["login"] . "</td>";		
 
-				print "<td><a href=\"javascript:editUser($uid);\">" . 
-					$access_level_names[$line["access_level"]] . "</td>";			
+			if (!$line["email"]) $line["email"] = "&nbsp;";
 
-/*			} else if ($uid != $edit_uid) {
-
-				if (!$line["email"]) $line["email"] = "&nbsp;";
-
-				print "<td align='center'><input disabled=\"true\" type=\"checkbox\" 
-					id=\"UMCHK-".$line["id"]."\"></td>";
-
-				print "<td>".$line["login"]."</td>";		
-				print "<td>".$line["email"]."</td>";		
-				print "<td>".$access_level_names[$line["access_level"]]."</td>";
-
-			} else {
-
-				print "<td align='center'>
-					<input disabled=\"true\" type=\"checkbox\" checked></td>";
-
-				print "<td><input id=\"iedit_ulogin\" value=\"".$line["login"].
-					"\"></td>";
-
-				print "<td><input id=\"iedit_email\" value=\"".$line["email"].
-					"\"></td>";
-
-				print "<td>";
-				print "<select id=\"iedit_ulevel\">";
-				foreach (array_keys($access_level_names) as $al) {
-					if ($al == $line["access_level"]) {
-						$selected = "selected";
-					} else {
-						$selected = "";
-					}					
-					print "<option $selected id=\"$al\">" . 
-						$access_level_names[$al] . "</option>";
-				}
-				print "</select>";
-				print "</td>";
-
-			} */
-				
-	
-			print "<td>".$line["created"]."</td>";		
-			print "<td>".$line["last_login"]."</td>";		
+			print "<td $onclick>" .	$access_level_names[$line["access_level"]] . "</td>";	
+			print "<td $onclick>" . $line["created"] . "</td>";		
+			print "<td $onclick>" . $line["last_login"] . "</td>";		
 		
 			print "</tr>";
 

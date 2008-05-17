@@ -370,12 +370,12 @@
 					$line["action_param"] = "<span class=\"insensitive\">" . 
 						$line["action_param"] . "</span>";
 				}	
+
+				$onclick = "onclick='editFilter($filter_id)' title='".__('Click to edit')."'";
+
+				print "<td $onclick>" . $line["reg_exp"] . "</td>";		
 	
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["reg_exp"] . "</td>";		
-	
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["feed_title"] . "</td>";			
+				print "<td $onclick>" . $line["feed_title"] . "</td>";			
 
 				$inverse_label = "";
 
@@ -383,14 +383,12 @@
 					$inverse_label = " <span class='insensitive'>".__('(Inverse)')."</span>";
 				}
 	
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["filter_type_descr"] . "$inverse_label</td>";		
+				print "<td $onclick>" . $line["filter_type_descr"] . "$inverse_label</td>";		
 		
 /*				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
 					$line["action_description"]."</td>"; */
 
-				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-				$line["action_param"] . "</td>";
+				print "<td $onclick>" . $line["action_param"] . "</td>";
 
 				print "</tr>";
 	

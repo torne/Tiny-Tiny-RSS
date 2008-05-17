@@ -299,16 +299,15 @@
 				$line["sql_exp"] = htmlspecialchars($line["sql_exp"]);
 				$line["description"] = htmlspecialchars($line["description"]);
 	
-				if (!$line["description"]) $line["description"] = "[No caption]";
+				if (!$line["description"]) $line["description"] = __("[No caption]");
+
+				$onclick = "onclick='editLabel($label_id)' title='".__('Click to edit')."'";
 	
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
-				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-					$line["description"] . "</td>";			
-
-				print "<td><a href=\"javascript:editLabel($label_id);\">" . 
-					$line["sql_exp"] . "</td>";		
+				print "<td $onclick>" . $line["description"] . "</td>";			
+				print "<td $onclick>" . $line["sql_exp"] . "</td>";		
 
 				print "</tr>";
 	

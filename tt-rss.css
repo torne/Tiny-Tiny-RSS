@@ -446,6 +446,48 @@ table.prefFilterList td.filterEditCat {
 	padding-top : 0.5em;
 }
 
+/* oh for the love of... */
+
+table.prefFilterList tr.even,
+table.prefFilterList tr.odd,
+table.prefFilterList tr.evenSelected,
+table.prefFilterList tr.oddSelected,
+table.prefLabelList tr.even,
+table.prefLabelList tr.odd,
+table.prefLabelList tr.evenSelected,
+table.prefLabelList tr.oddSelected,
+table.prefUserList tr.even,
+table.prefUserList tr.odd,
+table.prefUserList tr.evenSelected,
+table.prefUserList tr.oddSelected,
+table.prefFeedList tr.even,
+table.prefFeedList tr.odd,
+table.prefFeedList tr.evenSelected,
+table.prefFeedList tr.oddSelected
+{	
+	cursor : pointer;
+}
+
+table.prefFilterList tr.even:hover td, 
+table.prefFilterList tr.odd:hover td,
+table.prefFilterList tr.evenSelected:hover td, 
+table.prefFilterList tr.oddSelected:hover td 
+table.prefLabelList tr.even:hover td, 
+table.prefLabelList tr.odd:hover td,
+table.prefLabelList tr.evenSelected:hover td, 
+table.prefLabelList tr.oddSelected:hover td,
+table.prefUserList tr.even:hover td, 
+table.prefUserList tr.odd:hover td,
+table.prefUserList tr.evenSelected:hover td, 
+table.prefUserList tr.oddSelected:hover td,
+table.prefFeedList tr.even:hover td, 
+table.prefFeedList tr.odd:hover td,
+table.prefFeedList tr.evenSelected:hover td, 
+table.prefFeedList tr.oddSelected:hover td
+{
+	color : #88b0f0;
+}
+
 table.prefFeedList td.feedIcon {
 	text-align : center;
 }
