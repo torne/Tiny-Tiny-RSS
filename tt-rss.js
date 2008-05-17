@@ -785,7 +785,7 @@ function toggle_feedlist() {
 //				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
 		}
 	} catch (e) {
-		exception_error(e, "toggle_feedlist");
+		exception_error("toggle_feedlist", e);
 	}
 } */
 
@@ -848,7 +848,7 @@ function collapse_feedlist() {
 			setCookie("ttrss_vf_fclps", "1");
 		}
 	} catch (e) {
-		exception_error(e, "toggle_feedlist");
+		exception_error("toggle_feedlist", e);
 	}
 }
 
@@ -877,7 +877,7 @@ function adjustArticleScore(id, score) {
 
 		}
 	} catch (e) {
-		exception_error(e, "adjustArticleScore");
+		exception_error("adjustArticleScore", e);
 	}
 }	
 

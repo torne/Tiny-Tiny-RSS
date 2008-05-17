@@ -788,7 +788,7 @@ function moveToPost(mode) {
 		} */
 
 	} catch (e) {
-		exception_error(e, "moveToPost");
+		exception_error("moveToPost", e);
 	}
 }
 
@@ -820,7 +820,7 @@ function toggleSelected(id) {
 			row.className = nc;
 		}
 	} catch (e) {
-		exception_error(e, "toggleSelected");
+		exception_error("toggleSelected", e);
 	}
 }
 
@@ -831,7 +831,7 @@ function toggleUnread_afh(effect) {
 		elem.style.backgroundColor = "";
 
 	} catch (e) {
-		exception_error(e, "toggleUnread_afh");
+		exception_error("toggleUnread_afh", e);
 	}
 } 
 
@@ -1315,7 +1315,7 @@ function editTagsInsert() {
 		found_tags.selectedIndex = 0;
 		
 	} catch (e) {
-		exception_error(e, "editTagsInsert");
+		exception_error("editTagsInsert", e);
 	}
 }
 
@@ -1349,7 +1349,7 @@ function cdmArticleIsBelowViewport(id) {
 		}
 
 	} catch (e) {
-		exception_error(e, "cdmArticleIsVisible");
+		exception_error("cdmArticleIsVisible", e);
 	}
 }
 
@@ -1369,7 +1369,7 @@ function cdmArticleIsAboveViewport(id) {
 		}
 
 	} catch (e) {
-		exception_error(e, "cdmArticleIsVisible");
+		exception_error("cdmArticleIsVisible", e);
 	}
 }
 
@@ -1383,7 +1383,7 @@ function cdmScrollToArticleId(id) {
 		ctr.scrollTop = e.offsetTop;
 
 	} catch (e) {
-		exception_error(e, "cdmScrollToArticleId");
+		exception_error("cdmScrollToArticleId", e);
 	}
 }
 
@@ -1413,7 +1413,7 @@ function cdmArticleIsActuallyVisible(id) {
 		return false;
 
 	} catch (e) {
-		exception_error(e, "cdmArticleIsVisible");
+		exception_error("cdmArticleIsVisible", e);
 	}
 }
 
@@ -1491,7 +1491,7 @@ function cdmWatchdog() {
 		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 4000);
 
 	} catch (e) {
-		exception_error(e, "cdmWatchdog");
+		exception_error("cdmWatchdog", e);
 	}
 
 }

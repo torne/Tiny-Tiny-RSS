@@ -1193,7 +1193,7 @@ function infobox_submit_callback2(transport) {
 
 	try {
 		// called from prefs, reload tab
-		if (active_tab) {
+		if (typeof active_tab != 'undefined' && active_tab) {
 			selectTab(active_tab, false);
 		}
 	} catch (e) { }
@@ -1249,25 +1249,33 @@ function infobox_callback2(transport) {
 
 function createFilter() {
 
-	var form = document.forms['filter_add_form'];
-	var reg_exp = form.reg_exp.value;
+	try {
 
-	if (reg_exp == "") {
-		alert(__("Can't add filter: nothing to match on."));
-		return false;
-	}
-
-	var query = Form.serialize("filter_add_form");
-
-	// we can be called from some other tab in Prefs
-	if (active_tab) active_tab = "filterConfig";
-
-	new Ajax.Request("backend.php?" + query, {
-		onComplete: function (transport) {
-			infobox_submit_callback2(transport);
-		} });
+		var form = document.forms['filter_add_form'];
+		var reg_exp = form.reg_exp.value;
 	
-	return true;
+		if (reg_exp == "") {
+			alert(__("Can't add filter: nothing to match on."));
+			return false;
+		}
+	
+		var query = Form.serialize("filter_add_form");
+	
+		// we can be called from some other tab in Prefs		
+		if (typeof active_tab != 'undefined' && active_tab) {
+			active_tab = "filterConfig";
+		}
+	
+		new Ajax.Request("backend.php?" + query, {
+			onComplete: function (transport) {
+				infobox_submit_callback2(transport);
+			} });
+		
+		return true;
+
+	} catch (e) {
+		exception_error("createFilter", e);
+	}
 }
 
 function toggleSubmitNotEmpty(e, submit_id) {
@@ -1459,7 +1467,7 @@ function filterDlgCheckAction(sender) {
 		}
 
 	} catch (e) {
-		exception_error(e, "filterDlgCheckAction");
+		exception_error("filterDlgCheckAction", e);
 	}
 
 }
@@ -1636,7 +1644,7 @@ function focus_element(id) {
 		var e = document.getElementById(id);
 		if (e) e.focus();
 	} catch (e) {
-		exception_error(e, "focus_element");
+		exception_error("focus_element", e);
 	}
 	return false;
 }
