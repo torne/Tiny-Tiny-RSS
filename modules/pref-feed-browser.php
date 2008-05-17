@@ -18,7 +18,8 @@
 					feed_url,site_url,
 					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated 
 				FROM ttrss_feeds WHERE id = '$id' AND
-					auth_login = '' AND auth_pass = '' AND private IS NOT true");
+					auth_login = '' AND auth_pass = '' AND private IS NOT true
+					AND feed_url NOT LIKE '%:%@%/%'");
 
 			if (db_num_rows($result) == 1) {
 
