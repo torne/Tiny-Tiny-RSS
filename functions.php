@@ -4934,8 +4934,9 @@
 							$cur_feed_title = $line["feed_title"];
 							$vgroup_last_feed = $feed_id;
 
+							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a href='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\")'>mark as read</a>)";
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\");' href='#'>mark as read</a>)";
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
@@ -5006,7 +5007,9 @@
 							$cur_feed_title = $line["feed_title"];
 							$vgroup_last_feed = $feed_id;
 
-							$vf_catchup_link = "(<a href='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\")'>mark as read</a>)";
+							$cur_feed_title = htmlspecialchars($cur_feed_title);
+
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\");' href='#'>mark as read</a>)";
 
 							print "<div class='cdmFeedTitle'>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
