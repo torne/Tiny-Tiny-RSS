@@ -225,7 +225,8 @@
 
 		$result = db_query($link, "SELECT 
 				id,login,access_level,email,
-				".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login
+				".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login,
+				".SUBSTRING_FOR_DATE."(created,1,16) as created
 			FROM 
 				ttrss_users
 			WHERE
@@ -250,6 +251,7 @@
 					<td align='center' width=\"5%\">&nbsp;</td>
 					<td width=''><a href=\"javascript:updateUsersList('login')\">".__('Login')."</a></td>
 					<td width='20%'><a href=\"javascript:updateUsersList('access_level')\">".__('Access Level')."</a></td>
+					<td width='20%'><a href=\"javascript:updateUsersList('created')\">".__('Registered')."</a></td>
 					<td width='20%'><a href=\"javascript:updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
 		
 		$lnum = 0;
@@ -277,9 +279,12 @@
 
 			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 				$line["last_login"] = smart_date_time(strtotime($line["last_login"]));
+				$line["created"] = smart_date_time(strtotime($line["created"]));
 			} else {
 				$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
 					strtotime($line["last_login"]));
+				$line["created"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
+					strtotime($line["created"]));
 			}				
 
 //			if (!$edit_uid || $subop != "edit") {
@@ -333,6 +338,8 @@
 
 			} */
 				
+	
+			print "<td>".$line["created"]."</td>";		
 			print "<td>".$line["last_login"]."</td>";		
 		
 			print "</tr>";
