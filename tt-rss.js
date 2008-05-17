@@ -986,8 +986,14 @@ function hotkey_handler(e) {
 				return displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 			}
 
-			if (keycode == 82) { // r
+			if (keycode == 82 && shift_key) { // R
 				return scheduleFeedUpdate(true);
+			}
+
+			if (keycode == 82) { // r
+				if (getActiveFeedId()) {
+					return viewfeed(getActiveFeedId(), "ForceUpdate");
+				}
 			}
 
 			if (keycode == 74) { // j
