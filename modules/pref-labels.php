@@ -226,6 +226,8 @@
 
 		print "<div class=\"feedEditSearch\">
 			<input id=\"label_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateLabelList()\" value=\"$label_search\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:updateLabelList()\" value=\"".__('Search')."\">

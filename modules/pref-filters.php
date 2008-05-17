@@ -230,6 +230,8 @@
 
 		print "<div class=\"feedEditSearch\">
 			<input id=\"filter_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
 			<input type=\"submit\" class=\"button\" 
 			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">

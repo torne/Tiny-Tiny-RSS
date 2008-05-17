@@ -852,6 +852,8 @@
 
 		print "<div class=\"feedEditSearch\">
 			<input id=\"feed_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
