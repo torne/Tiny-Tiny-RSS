@@ -4929,7 +4929,7 @@
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
 					if (get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						if ($feed_id != $vgroup_last_feed) {
+						if ($feed_id != $vgroup_last_feed && $line["feed_title"]) {
 
 							$cur_feed_title = $line["feed_title"];
 							$vgroup_last_feed = $feed_id;
@@ -5000,7 +5000,7 @@
 
 				} else {
 
-					if (get_pref($link, 'VFEED_GROUP_BY_FEED')) {
+					if (get_pref($link, 'VFEED_GROUP_BY_FEED') && $line["feed_title"]) {
 						if ($feed_id != $vgroup_last_feed) {
 
 							$cur_feed_title = $line["feed_title"];
