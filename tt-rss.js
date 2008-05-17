@@ -1145,7 +1145,7 @@ function hotkey_handler(e) {
 				return viewfeed(-3);
 			}
 
-			if (keycode == 84) { // t
+			if (keycode == 84 && shift_key) { // T
 				toggleTags();
 			}
 
