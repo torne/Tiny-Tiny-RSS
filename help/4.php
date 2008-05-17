@@ -30,6 +30,7 @@
 	<h2><?php echo __("Other actions") ?></h2>
 
 	<table>
+		<tr><td class='n'>/</td><td><?php echo __("Focus search (if present)") ?></td></tr>
 		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>
 	</table>
 

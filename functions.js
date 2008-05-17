@@ -1,7 +1,6 @@
 var hotkeys_enabled = true;
 var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
-var hotkey_zone = 0;
 
 /* add method to remove element from array */
 
@@ -1632,59 +1631,13 @@ function displayHelpInfobox(topic_id) {
 	return false;
 }
 
-var _border_color_normal = "#88b0f0";
-var _border_color_highlight = "#72eda8";
-var _border_color_flash = "#f0fff0";
-
-function highlightHotkeyZone(zone) {
+function focus_element(id) {
 	try {
-		var feeds = document.getElementById("feeds-holder");
-		var headlines = document.getElementById("headlines-frame");
-		var content = document.getElementById("content-frame");
-
-		feeds.style.borderColor = _border_color_normal;
-		headlines.style.borderColor = _border_color_normal;
-		content.style.borderColor = _border_color_normal;
-
-		if (zone == 1) {
-			feeds.style.borderColor = _border_color_highlight;
-
-			new Effect.Highlight(feeds, {duration: 0.5, startcolor: 
-				_border_color_flash,
-				queue: { position:'end', scope: 'EFCHL-Q', limit: 1 } } );
-		}
-
-		if (zone == 2) {
-			headlines.style.borderColor = _border_color_highlight;
-
-			new Effect.Highlight(headlines, {duration: 0.5, startcolor: 
-				_border_color_flash,
-				queue: { position:'end', scope: 'EFCHL-Q', limit: 1 } } );
-		}
-
-		if (zone == 3 && content) {			
-			content.style.borderColor = _border_color_highlight;
-
-			new Effect.Highlight(content, {duration: 0.5, startcolor: 
-				_border_color_flash,
-				queue: { position:'end', scope: 'EFCHL-Q', limit: 1 } } );
-		}
-
+		var e = document.getElementById(id);
+		if (e) e.focus();
 	} catch (e) {
-		exception_error("highlightHotkeyZone", e);
+		exception_error(e, "focus_element");
 	}
-}
-
-
-function setHotkeyZone(zone) {
-	try {
-		hotkey_zone = zone;
-
-		highlightHotkeyZone(zone);
-
-
-	} catch (e) {
-		exception_error("setHotkeyZone", e);
-	}
+	return false;
 }
 

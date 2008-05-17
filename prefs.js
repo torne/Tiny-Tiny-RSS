@@ -1756,6 +1756,18 @@ function pref_hotkey_handler(e) {
 				return;
 			}
 
+			if (keycode == 191) { // /
+				var search_boxes = new Array("label_search", 
+					"feed_search", "filter_search", "user_search");
+
+				for (var i = 0; i < search_boxes.length; i++) {
+					var elem = document.getElementById(search_boxes[i]);
+					if (elem) {
+						return focus_element(search_boxes[i]);
+					}
+				}
+
+			}
 		}
 
 		/* Prefix c */
