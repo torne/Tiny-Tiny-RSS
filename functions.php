@@ -2091,9 +2091,9 @@
 						$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
 
 						if (DB_TYPE == "pgsql") {
-							$match_part = "date_entered > NOW() - INTERVAL '$intl hour' "; 
+							$match_part = "updated > NOW() - INTERVAL '$intl hour' "; 
 						} else {
-							$match_part = "date_entered > DATE_SUB(NOW(), 
+							$match_part = "updated > DATE_SUB(NOW(), 
 								INTERVAL $intl HOUR) ";
 						}
 
@@ -2330,9 +2330,9 @@
 			$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
 
 			if (DB_TYPE == "pgsql") {
-				$match_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
+				$match_part .= " AND updated > NOW() - INTERVAL '$intl hour' "; 
 			} else {
-				$match_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
+				$match_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 			}
 
 		} else if ($n_feed > 0) {
@@ -3156,9 +3156,9 @@
 				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 				if (DB_TYPE == "pgsql") {
-					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' "; 
+					$query_strategy_part .= " AND updated > NOW() - INTERVAL '$intl hour' "; 
 				} else {
-					$query_strategy_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
+					$query_strategy_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 				}
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
