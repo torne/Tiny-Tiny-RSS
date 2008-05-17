@@ -23,6 +23,8 @@
 	<h2><?php echo __("Other actions") ?></h2>
 
 	<table>
+		<tr><td class='n'>[tab]</td><td><?php echo __("Select article under mouse cursor") ?></td></tr>
+
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c s</td><td><?php echo __("Collapse sidebar") ?></td></tr>
 		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>

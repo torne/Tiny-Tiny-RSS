@@ -18,6 +18,7 @@ var _cdm_wd_vishist = new Array();
 var article_cache = new Array();
 
 var vgroup_last_feed = false;
+var post_under_pointer = false;
 
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
@@ -1603,6 +1604,22 @@ function cdmClicked(elem) {
 	} 
 }
 
+function postMouseIn(id) {
+	try {
+		post_under_pointer = id;
+	} catch (e) {
+		exception_error("postMouseIn", e);
+	}
+}
+
+function postMouseOut(id) {
+	try {
+		post_under_pointer = false;
+	} catch (e) {
+		exception_error("postMouseOut", e);
+	}
+}
+
 function cdmMouseIn(elem) {
 /*	try {
 		if (elem.id && elem.id.match("RROW-")) {
@@ -1798,5 +1815,8 @@ function subtoolbarSearch() {
 	} catch (e) {
 		exception_error("subtoolbarSearch", e);
 	}
+}
 
+function getArticleUnderPointer() {
+	return post_under_pointer;
 }

@@ -1012,13 +1012,15 @@ function hotkey_handler(e) {
 
 			if (keycode == 78 || keycode == 40) { // n, down
 				if (typeof moveToPost != 'undefined') {
-					return moveToPost('next');
+					moveToPost('next');
+					return false;
 				}
 			}
 	
 			if (keycode == 80 || keycode == 38) { // p, up
 				if (typeof moveToPost != 'undefined') {
-					return moveToPost('prev');
+					moveToPost('prev');
+					return false;
 				}
 			}
 
@@ -1047,15 +1049,15 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 84) { // t
+			if (keycode == 84 && shift_key) { // T
 				var id = getActiveArticleId();
 				if (id) {
 					editArticleTags(id, getActiveFeedId(), isCdmMode());
 				}
 			}
 
-/*			if (keycode == 84) { // t
-				var id = getActiveArticleId();
+			if (keycode == 9) { // tab
+				var id = getArticleUnderPointer();
 				if (id) {				
 					var cb = document.getElementById("RCHK-" + id);
 
@@ -1063,8 +1065,10 @@ function hotkey_handler(e) {
 						cb.checked = !cb.checked;
 						toggleSelectRowById(cb, "RROW-" + id);
 					}
+
+					return false;
 				}
-			} */
+			}
 
 			if (keycode == 79) { // o
 				if (getActiveArticleId()) {
@@ -1345,5 +1349,4 @@ function hotkey_handler(e) {
 		exception_error("hotkey_handler", e);
 	}
 }
-
 

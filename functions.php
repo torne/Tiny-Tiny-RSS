@@ -4945,8 +4945,11 @@
 								$line["feed_title"]."</a> $vf_catchup_link:</td></tr>";
 						}
 					}
-					
-					print "<tr class='$class' id='RROW-$id'>";
+
+					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
+						onmouseout='postMouseOut($id)'";
+
+					print "<tr class='$class' id='RROW-$id' $mouseover_attrs>";
 		
 					print "<td class='hlUpdPic'>$update_pic</td>";
 		
@@ -5033,10 +5036,13 @@
 						$cdm_cstyle = "style=\"display : none\"";
 					}
 
+					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
+						onmouseout='postMouseOut($id)'";
+
 					print "<div class=\"cdmArticle$add_class\" 
-						id=\"RROW-$id\" onmouseover='cdmMouseIn(this)' 
+						id=\"RROW-$id\"
 						onclick='cdmClicked(this)'
-						onmouseout='cdmMouseOut(this)'>";
+						$mouseover_attrs'>";
 
 					print "<div class=\"cdmHeader\">";
 
