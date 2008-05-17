@@ -1228,8 +1228,13 @@ function updateFilterList(sort_key) {
 		return
 	}
 
+	var filter_search = document.getElementById("filter_search");
+	var search = "";
+	if (filter_search) { search = filter_search.value; }
+
 	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + 
-		param_escape(sort_key), true);
+		param_escape(sort_key) + 
+		"&search=" + param_escape(search), true);
 	xmlhttp.onreadystatechange=filterlist_callback;
 	xmlhttp.send(null);
 

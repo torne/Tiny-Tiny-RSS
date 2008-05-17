@@ -219,8 +219,23 @@
 			$filter_types[$line["id"]] = $line["description"];
 		}
 
-		print "<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img src='images/sign_quest.gif'></a>";
+
+		$filter_search = db_escape_string($_GET["search"]);
+
+		if (array_key_exists("search", $_GET)) {
+			$_SESSION["prefs_filter_search"] = $filter_search;
+		} else {
+			$filter_search = $_SESSION["prefs_filter_search"];
+		}
+
+		print "<div class=\"feedEditSearch\">
+			<input id=\"filter_search\" size=\"20\" type=\"search\"
+				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
+			<input type=\"submit\" class=\"button\" 
+			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">&nbsp<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
+			<img src='images/sign_quest.gif'></a>
+			</div>";
+
 
 		print "<input type=\"submit\" 
 			class=\"button\" 
@@ -234,6 +249,17 @@
 			class=\"button\" 
 			onclick=\"rescore_all_feeds()\" 
 			value=\"".__('Rescore articles')."\">"; 
+
+		if ($filter_search) {
+			$filter_search = db_escape_string($filter_search);
+			$filter_search_query = "(
+				ttrss_filter_actions.description LIKE '%$filter_search%' OR 
+				reg_exp LIKE '%$filter_search%' OR 
+				ttrss_feeds.title LIKE '%$filter_search%' OR
+				ttrss_filter_types.description LIKE '%$filter_search%') AND";
+		} else {
+			$filter_search_query = "";
+		}
 
 		$result = db_query($link, "SELECT 
 				ttrss_filters.id AS id,reg_exp,
@@ -251,6 +277,7 @@
 					ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id)
 			WHERE
 				filter_type = ttrss_filter_types.id AND
+				$filter_search_query
 				ttrss_filter_actions.id = action_id AND
 				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
 			ORDER by action_description, $sort");
@@ -368,7 +395,14 @@
 			}
 	
 			if ($lnum == 0) {
-				print "<tr><td colspan=\"4\" align=\"center\">".__('No filters defined.')."</td></tr>";
+				print "<tr><td colspan=\"4\" align=\"center\">";
+				if (!$filter_search) {
+					print __('No filters defined.');
+				} else {
+					print __('No matching filters found.');
+				}
+					
+				print "</td></tr>";
 			}
 	
 			print "</table>";
@@ -389,7 +423,15 @@
 
 		} else {
 
-			print "<p>".__('No filters defined.')."</p>";
+			print "<p>";
+
+			if (!$filter_search) {
+				print __('No filters defined.');
+			} else {
+				print __('No matching filters found.');
+			}
+
+			print "</p>";
 
 		}
 	}
