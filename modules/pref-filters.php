@@ -232,8 +232,8 @@
 			<input id=\"filter_search\" size=\"20\" type=\"search\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
 			<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">&nbsp<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img src='images/sign_quest.gif'></a>
+			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\"><p<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
+			<img src='images/sign_quest.gif'></a></p>
 			</div>";
 
 
@@ -253,10 +253,10 @@
 		if ($filter_search) {
 			$filter_search = db_escape_string($filter_search);
 			$filter_search_query = "(
-				ttrss_filter_actions.description LIKE '%$filter_search%' OR 
-				reg_exp LIKE '%$filter_search%' OR 
-				ttrss_feeds.title LIKE '%$filter_search%' OR
-				ttrss_filter_types.description LIKE '%$filter_search%') AND";
+				UPPER(ttrss_filter_actions.description) LIKE UPPER('%$filter_search%') OR 
+				UPPER(reg_exp) LIKE UPPER('%$filter_search%') OR 
+				UPPER(ttrss_feeds.title) LIKE UPPER('%$filter_search%') OR
+				UPPER(ttrss_filter_types.description) LIKE UPPER('%$filter_search%')) AND";
 		} else {
 			$filter_search_query = "";
 		}
