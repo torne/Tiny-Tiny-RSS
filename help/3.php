@@ -18,7 +18,7 @@
 		<tr><td class='n'>u</td><td><?php echo __("Toggle unread") ?></td></tr>
 		<tr><td class='n'>T</td><td><?php echo __("Edit tags") ?></td></tr>
 		<tr><td class='n'>o</td><td><?php echo __("Open article in new window") ?></td></tr>
-		<tr><td class='n'>N/P</td><td><?php echo __("Mark articles below/above active as read") ?></td></tr>
+		<tr><td class='n'>N/P</td><td><?php echo __("Mark articles below/above active one as read") ?></td></tr>
 	</table>
 
 	<h2><?php echo __("Other actions") ?></h2>
