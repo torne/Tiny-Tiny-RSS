@@ -505,6 +505,10 @@
 						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
 							marked = true WHERE
 							ref_id IN (" . join(',', $scores[$s]) . ")");
+					} else if ($s < -500) {
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+							unread = false WHERE
+							ref_id IN (" . join(',', $scores[$s]) . ")");
 					} else {
 						db_query($link, "UPDATE ttrss_user_entries SET score = '$s' WHERE
 							ref_id IN (" . join(',', $scores[$s]) . ")");
