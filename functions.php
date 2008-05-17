@@ -3272,13 +3272,15 @@
 						$order_by = "ttrss_feeds.title, $order_by";	
 					}
 
-					if ($feed == -3) {
+					// Special output for Fresh feed
+
+/*					if ($feed == -3) {
 						$group_limit_part = "(select count(*) from 
 							ttrss_user_entries AS t1, ttrss_entries AS t2 where
 								t1.ref_id = t2.id and t1.owner_uid = 2 and
 								t1.feed_id = ttrss_user_entries.feed_id and
 								t2.updated > ttrss_entries.updated) <= 5 AND";
-					}
+} */
 				}
 
 				$query = "SELECT 
