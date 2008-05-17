@@ -4680,7 +4680,7 @@
 	}
 
 	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
-					$next_unread_feed, $offset) {
+					$next_unread_feed, $offset, $vgr_last_feed = false) {
 
 		$disable_cache = false;
 
@@ -4783,6 +4783,8 @@
 		$feed_title = $qfh_ret[1];
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
+
+		$vgroup_last_feed = $vgr_last_feed;
 
 		if ($feed == -2) {
 			$feed_site_url = article_publish_url($link);
@@ -4927,17 +4929,13 @@
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
 					if (defined('_VFEED_GROUP_BY_FEED')) {
-						if ($line["feed_title"] != $cur_feed_title) {
+						if ($feed_id != $vgroup_last_feed) {
 
 							$cur_feed_title = $line["feed_title"];
+							$vgroup_last_feed = $feed_id;
 
-/*							print "<tr class='feedTitle'><td colspan='7'>".
-								$line["feed_title"].
-								" (<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-								"more</a>)</td></tr>"; */
 
-							$vf_catchup_link = "(<a href='javascript:'>select</a>, 
-								<a href='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\")'>mark as read</a>)";
+							$vf_catchup_link = "(<a href='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\")'>mark as read</a>)";
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
@@ -5003,11 +5001,16 @@
 				} else {
 
 					if (defined('_VFEED_GROUP_BY_FEED')) {
-						if ($line["feed_title"] != $cur_feed_title) {
+						if ($feed_id != $vgroup_last_feed) {
+
+							$cur_feed_title = $line["feed_title"];
+							$vgroup_last_feed = $feed_id;
+
+							$vf_catchup_link = "(<a href='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\")'>mark as read</a>)";
+
 							print "<div class='cdmFeedTitle'>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-								$line["feed_title"]."</a></div>";
-							$cur_feed_title = $line["feed_title"];
+								$line["feed_title"]."</a> $vf_catchup_link</div>";
 						}
 					}
 
@@ -5199,7 +5202,7 @@
 			print "</div>";
 		}
 
-		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache);
+		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache, $vgroup_last_feed);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html

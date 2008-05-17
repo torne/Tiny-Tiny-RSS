@@ -228,6 +228,7 @@
 			$cat_view = db_escape_string($_GET["cat"]);
 			$next_unread_feed = db_escape_string($_GET["nuf"]);
 			$offset = db_escape_string($_GET["skip"]);
+			$vgroup_last_feed = db_escape_string($_GET["vgrlf"]);
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
@@ -246,17 +247,20 @@
 			} else {
 
 				$ret = outputHeadlinesList($link, $feed, $subop, 
-					$view_mode, $limit, $cat_view, $next_unread_feed, $offset);
+					$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
+					$vgroup_last_feed);
 	
 				$topmost_article_ids = $ret[0];
 				$headlines_count = $ret[1];
 				$returned_feed = $ret[2];
 				$disable_cache = $ret[3];
+				$vgroup_last_feed = $ret[4];
 	
 				print "]]></headlines>";
 	
 				print "<headlines-count value=\"$headlines_count\"/>";
-	
+				print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
+
 				$headlines_unread = getFeedUnread($link, $returned_feed);
 	
 				print "<headlines-unread value=\"$headlines_unread\"/>";

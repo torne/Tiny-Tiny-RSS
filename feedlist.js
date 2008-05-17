@@ -142,8 +142,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
 
-		debug(query);
-
 		// for piggybacked counters
 
 		if (tagsAreDisplayed()) {
@@ -151,6 +149,13 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		} else {
 			query = query + "&omode=flc";
 		}
+
+		// to prevent duplicate feed titles when showing grouped vfeeds
+		if (vgroup_last_feed) {
+			query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
+		}
+
+		debug(query);
 
 		var container = document.getElementById("headlinesInnerContainer");
 

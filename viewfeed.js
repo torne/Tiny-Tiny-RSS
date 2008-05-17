@@ -17,6 +17,8 @@ var _cdm_wd_vishist = new Array();
 
 var article_cache = new Array();
 
+var vgroup_last_feed = false;
+
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
@@ -93,9 +95,13 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 			var headlines_unread_obj = transport.responseXML.getElementsByTagName("headlines-unread")[0];
 			var disable_cache_obj = transport.responseXML.getElementsByTagName("disable-cache")[0];
 
+			var vgroup_last_feed_obj =  transport.responseXML.getElementsByTagName("vgroup-last-feed")[0];
+
 			var headlines_count = headlines_count_obj.getAttribute("value");
 			var headlines_unread = headlines_unread_obj.getAttribute("value");
 			var disable_cache = disable_cache_obj.getAttribute("value") != "0";
+
+			vgroup_last_feed = vgroup_last_feed_obj.getAttribute("value");
 
 			if (headlines_count == 0) {
 				_infscroll_disable = 1;
