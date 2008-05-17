@@ -986,6 +986,10 @@ function hotkey_handler(e) {
 				return displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 			}
 
+			if (keycode == 82) { // r
+				return scheduleFeedUpdate(true);
+			}
+
 			if (keycode == 74) { // j
 				var feed = getActiveFeedId();
 				var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
@@ -1074,7 +1078,7 @@ function hotkey_handler(e) {
 				return toggleDispRead();
 			}
 
-			if (keycode == 85 && shift_key) { // r
+			if (keycode == 85 && shift_key) { // U
 				return scheduleFeedUpdate(true);
 			}
 
