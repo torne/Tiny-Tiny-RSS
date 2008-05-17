@@ -27,8 +27,6 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
 			print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">"; 
-
-//			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
 			
 			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
@@ -374,7 +372,6 @@
 				$onclick = "onclick='editFilter($filter_id)' title='".__('Click to edit')."'";
 
 				print "<td $onclick>" . $line["reg_exp"] . "</td>";		
-	
 				print "<td $onclick>" . $line["feed_title"] . "</td>";			
 
 				$inverse_label = "";
@@ -383,11 +380,7 @@
 					$inverse_label = " <span class='insensitive'>".__('(Inverse)')."</span>";
 				}
 	
-				print "<td $onclick>" . $line["filter_type_descr"] . "$inverse_label</td>";		
-		
-/*				print "<td><a href=\"javascript:editFilter($filter_id);\">" . 
-					$line["action_description"]."</td>"; */
-
+				print "<td $onclick>" . $line["filter_type_descr"] . "$inverse_label</td>";
 				print "<td $onclick>" . $line["action_param"] . "</td>";
 
 				print "</tr>";

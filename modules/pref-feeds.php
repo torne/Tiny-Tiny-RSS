@@ -61,11 +61,6 @@
 
 			print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
 
-#			$result = db_query($link, "SELECT feed_url,count(id) AS subscribers 
-#				FROM ttrss_feeds 
-#				WHERE auth_login = '' AND auth_pass = '' AND private = false
-#				GROUP BY feed_url ORDER BY subscribers DESC LIMIT 25");
-
 			$owner_uid = $_SESSION["uid"];
 
 			$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
@@ -859,14 +854,6 @@
 				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
 			</div>";
 		
-/*		print "<input id=\"fadd_link\" 
-				onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-				onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-				size=\"40\">
-			<input type=\"submit\" class=\"button\"
-				disabled=\"true\" id=\"fadd_submit_btn\"
-				onclick=\"addFeed()\" value=\"".__('Subscribe')."\">"; */
-
 		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
 			type=\"submit\" id=\"subscribe_to_feed_btn\" 
 			class=\"button\" value=\"".__('Subscribe to feed')."\">"; 
@@ -1128,26 +1115,6 @@
 				}
 
 			print "</select>";
-
-			/* print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:editSelectedFeed()\" value=\"".__('Edit')."\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:removeSelectedFeeds()\" 
-				value=\"".__('Unsubscribe')."\">"; */
-
-//			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-
-/*				print " <input type=\"submit\" class=\"button\"
-					onclick=\"javascript:editFeedCats()\" value=\"".
-					__("Edit categories")."\">"; */
-
-#				print "&nbsp;|&nbsp;";				
-
-//				}
-		} else {
-
-//			print "<p>No feeds defined.</p>";
-
 		}
 
 		print "<h3>".__('OPML')."</h3>
