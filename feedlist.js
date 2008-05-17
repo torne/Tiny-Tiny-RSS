@@ -135,6 +135,11 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (page_offset != 0) {
 			query = query + "&skip=" + page_offset;
+
+			// to prevent duplicate feed titles when showing grouped vfeeds
+			if (vgroup_last_feed) {
+				query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
+			}
 		}
 
 		var date = new Date();
@@ -150,11 +155,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&omode=lt";
 		} else {
 			query = query + "&omode=flc";
-		}
-
-		// to prevent duplicate feed titles when showing grouped vfeeds
-		if (vgroup_last_feed) {
-			query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
 		}
 
 		debug(query);
