@@ -189,7 +189,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (36);
+insert into ttrss_version values (37);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -302,6 +302,9 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_SHOWS_SPECIAL', 1, 'true', 'Show special feeds when hiding read feeds',3);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('HIDE_FEEDLIST', 1, 'false', 'Hide feedlist',2, 'This option hides feedlist and allows it to be toggled on the fly, useful for small screens.');
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('VFEED_GROUP_BY_FEED', 1, 'false', 'Group headlines in virtual feeds',2,
+	'When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
 
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,

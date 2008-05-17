@@ -3267,7 +3267,7 @@
 					$offset_query_part = "OFFSET $offset";
 				}
 
-				if ($vfeed_query_part && defined('_VFEED_GROUP_BY_FEED')) {
+				if ($vfeed_query_part && get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
 					if (!$override_order) {
 						$order_by = "ttrss_feeds.title, $order_by";	
 					}
@@ -4928,7 +4928,7 @@
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
-					if (defined('_VFEED_GROUP_BY_FEED')) {
+					if (get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if ($feed_id != $vgroup_last_feed) {
 
 							$cur_feed_title = $line["feed_title"];
@@ -4978,7 +4978,7 @@
 #							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 #							$line["feed_title"]."</a>	
 
-					if (!defined('_VFEED_GROUP_BY_FEED')) {
+					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if ($line["feed_title"]) {			
 							print "<span class=\"hlFeed\">
 								(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
@@ -5000,7 +5000,7 @@
 
 				} else {
 
-					if (defined('_VFEED_GROUP_BY_FEED')) {
+					if (get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if ($feed_id != $vgroup_last_feed) {
 
 							$cur_feed_title = $line["feed_title"];
@@ -5051,7 +5051,7 @@
 					} 
 
 
-					if (!defined('_VFEED_GROUP_BY_FEED')) {
+					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if ($line["feed_title"]) {	
 							print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
 						}
