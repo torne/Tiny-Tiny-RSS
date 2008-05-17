@@ -931,6 +931,8 @@ function hotkey_handler(e) {
 			keycode = e.which;
 		}
 
+		keychar = String.fromCharCode(keycode);
+
 		if (keycode == 27) { // escape
 			if (Element.visible("hotkey_help_overlay")) {
 				Element.hide("hotkey_help_overlay");
@@ -982,7 +984,7 @@ function hotkey_handler(e) {
 				return;
 			}
 	
-			if (keycode == 191) { // /
+			if (keycode == 191 || (is_opera() && keycode == 47)) { // /
 				return displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 			}
 
@@ -1348,10 +1350,9 @@ function hotkey_handler(e) {
 		} */
 
 		if (hotkey_prefix) {
-			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode);
-
+			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
 		} else {
-			debug("KP: CODE=" + keycode);
+			debug("KP: CODE=" + keycode + " CHAR=" + keychar);
 		}
 
 
