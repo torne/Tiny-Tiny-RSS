@@ -87,6 +87,8 @@
 			$expr = trim($_GET["expr"]);
 			$descr = db_escape_string(trim($_GET["descr"]));
 
+			$expr = str_replace(";", "", $expr);
+
 			if (!$expr) {
 				print "<div>Error: SQL expression is blank.</div>";
 				return;
@@ -159,7 +161,9 @@
 			$sql_exp = db_escape_string(trim($_GET["sql_exp"]));
 			$descr = db_escape_string(trim($_GET["description"]));
 			$label_id = db_escape_string($_GET["id"]);
-			
+
+			$sql_exp = str_replace(";", "", $sql_exp);
+
 			$result = db_query($link, "UPDATE ttrss_labels SET 
 				sql_exp = '$sql_exp', 
 				description = '$descr'
@@ -188,6 +192,8 @@
 
 			$sql_exp = db_escape_string(trim($_GET["sql_exp"]));
 			$description = db_escape_string($_GET["description"]);
+
+			$sql_exp = str_replace(";", "", $sql_exp);
 
 			if (!$sql_exp || !$description) return;
 
