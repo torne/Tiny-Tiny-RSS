@@ -21,9 +21,11 @@ function feedlist_callback2(transport) {
 
 function viewNextFeedPage() {
 	try {
-		if (!getActiveFeedId()) return;
+		//if (!getActiveFeedId()) return;
 
-		viewfeed(getActiveFeedId(), undefined, undefined, undefined,
+		debug("viewNextFeedPage: calling viewfeed(), p: " + _feed_cur_page+1);
+
+		viewfeed(getActiveFeedId(), undefined, activeFeedIsCat(), undefined,
 			undefined, _feed_cur_page+1);
 
 	} catch (e) {
