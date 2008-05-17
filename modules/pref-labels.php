@@ -314,11 +314,7 @@
 	
 				++$lnum;
 			}
-	
-			if ($lnum == 0) {
-				print "<tr><td colspan=\"4\" align=\"center\">".__('No labels defined.')."</td></tr>";
-			}
-	
+
 			print "</table>";
 	
 			print "<p id=\"labelOpToolbar\">";
@@ -329,7 +325,14 @@
 				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
 
 		} else {
-			print "<p>".__('No labels defined.')."</p>";
+			print "<p>";
+			if (!$label_search) {
+				print __('No labels defined.');
+			} else {
+				print __('No matching labels found.');
+			}
+			print "</p>";
+
 		}
 	}
 ?>

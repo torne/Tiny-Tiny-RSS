@@ -396,18 +396,7 @@
 	
 				++$lnum;
 			}
-	
-			if ($lnum == 0) {
-				print "<tr><td colspan=\"4\" align=\"center\">";
-				if (!$filter_search) {
-					print __('No filters defined.');
-				} else {
-					print __('No matching filters found.');
-				}
-					
-				print "</td></tr>";
-			}
-	
+
 			print "</table>";
 
 			print "<p id=\"filterOpToolbar\">";
@@ -419,21 +408,14 @@
 
 			print "</p>";
 
-
-/*			print "<div class=\"insensitive\" style=\"float : right\">
-				First matching filter is used, filtering is performed
-				when importing articles from the feed.</div>"; */
-
 		} else {
 
 			print "<p>";
-
 			if (!$filter_search) {
 				print __('No filters defined.');
 			} else {
 				print __('No matching filters found.');
 			}
-
 			print "</p>";
 
 		}

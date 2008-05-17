@@ -285,8 +285,13 @@ function updateUsersList(sort_key) {
 		return
 	}
 
+	var user_search = document.getElementById("user_search");
+	var search = "";
+	if (user_search) { search = user_search.value; }
+
 	xmlhttp.open("GET", "backend.php?op=pref-users&sort="
-		+ param_escape(sort_key), true);
+		+ param_escape(sort_key) +
+		"&search=" + param_escape(search), true);
 	xmlhttp.onreadystatechange=userlist_callback;
 	xmlhttp.send(null);
 

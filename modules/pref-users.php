@@ -184,6 +184,23 @@
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "userConfig");
 
+		$user_search = db_escape_string($_GET["search"]);
+
+		if (array_key_exists("search", $_GET)) {
+			$_SESSION["prefs_user_search"] = $user_search;
+		} else {
+			$user_search = $_SESSION["prefs_user_search"];
+		}
+
+		print "<div class=\"feedEditSearch\">
+			<input id=\"user_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
+				onchange=\"javascript:updateUsersList()\" value=\"$user_search\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateUsersList()\" value=\"".__('Search')."\">
+			</div>";
+
 		$sort = db_escape_string($_GET["sort"]);
 
 		if (!$sort || $sort == "undefined") {
@@ -200,12 +217,23 @@
 			id=\"user_add_btn\" disabled=\"true\"
 			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\"></div>";
 
+		if ($user_search) {
+			$user_search_query = "UPPER(login) LIKE UPPER('%$user_search%') AND";
+		} else {
+			$user_search_query = "";
+		}
+
 		$result = db_query($link, "SELECT 
 				id,login,access_level,email,
 				".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login
 			FROM 
 				ttrss_users
+			WHERE
+				$user_search_query
+				id > 0
 			ORDER BY $sort");
+
+		if (db_num_rows($result) > 0) {
 
 //		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
@@ -325,6 +353,17 @@
 				onclick=\"javascript:removeSelectedUsers()\" value=\"".__('Remove')."\">
 			<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:resetSelectedUserPass()\" value=\"".__('Reset password')."\">";
+
+		} else {
+			print "<p>";
+			if (!$user_search) {
+				print __('No users defined.');
+			} else {
+				print __('No matching users found.');
+			}
+			print "</p>";
+
+		}
 
 	}
 ?>
