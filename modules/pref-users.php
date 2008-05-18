@@ -165,7 +165,48 @@
 				if (MAIL_RESET_PASS && $email) {
 					print_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 
-					mail("$login <$email>", "Password reset notification",
+					require_once "MiniTemplator.class.php";
+
+					$tpl = new MiniTemplator;
+
+					$tpl->readTemplateFromFile("templates/resetpass_template.txt");
+
+					$tpl->setVariable('LOGIN', $login);
+					$tpl->setVariable('NEWPASS', $tmp_user_pwd);
+
+					$tpl->addBlock('message');
+
+					$message = "";
+
+					$tpl->generateOutputToString($message);
+
+					$mail = new PHPMailer();
+
+					$mail->PluginDir = "phpmailer/";
+					$mail->SetLanguage("en", "phpmailer/language/");
+
+					$mail->CharSet = "UTF-8";
+
+					$mail->From = DIGEST_FROM_ADDRESS;
+					$mail->FromName = DIGEST_FROM_NAME;
+					$mail->AddAddress($email, $login);
+
+					if (DIGEST_SMTP_HOST) {
+						$mail->Host = DIGEST_SMTP_HOST;
+						$mail->Mailer = "smtp";
+						$mail->Username = DIGEST_SMTP_LOGIN;
+						$mail->Password = DIGEST_SMTP_PASSWORD;
+					}
+
+					$mail->IsHTML(false);
+					$mail->Subject = __("Password change notification");
+					$mail->Body = $message;
+
+					$rc = $mail->Send();
+
+					if (!$rc) print_error($mail->ErrorInfo);
+
+/*					mail("$login <$email>", "Password reset notification",
 						"Hi, $login.\n".
 						"\n".
 						"Your password for this TT-RSS installation was reset by".
@@ -174,7 +215,7 @@
 						"Your new password is $tmp_user_pwd, please remember".
 							" it for later reference.\n".
 						"\n".
-						"Sincerely, TT-RSS Mail Daemon.", "From: " . MAIL_FROM);
+						"Sincerely, TT-RSS Mail Daemon.", "From: " . MAIL_FROM); */
 				}
 					
 				print "</div>";				
