@@ -331,7 +331,7 @@
 			print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
-			$onclick = "onclick='editUser($uid) title='".__('Click to edit')."''";
+			$onclick = "onclick='editUser($uid)' title='".__('Click to edit')."'";
 
 			print "<td $onclick>" . $line["login"] . "</td>";		
 
