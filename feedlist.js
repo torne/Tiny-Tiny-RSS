@@ -29,7 +29,7 @@ function viewNextFeedPage() {
 			undefined, _feed_cur_page+1);
 
 	} catch (e) {
-		exception_error("viewFeedGoPage", e);
+		exception_error("viewNextFeedPage", e);
 	}
 }
 
