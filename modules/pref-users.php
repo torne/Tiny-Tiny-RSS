@@ -199,7 +199,7 @@
 					}
 
 					$mail->IsHTML(false);
-					$mail->Subject = __("Password change notification");
+					$mail->Subject = __("[tt-rss] Password change notification");
 					$mail->Body = $message;
 
 					$rc = $mail->Send();

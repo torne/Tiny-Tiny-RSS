@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-16 13:35+0400\n"
+"POT-Creation-Date: 2008-05-18 15:43+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -97,23 +97,23 @@ msgstr ""
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: backend.php:396
+#: backend.php:400 modules/pref-users.php:295
 msgid "Registered"
 msgstr "Abonné"
 
-#: backend.php:397
+#: backend.php:401
 msgid "Last logged in"
 msgstr "Dernière connexion"
 
-#: backend.php:398
+#: backend.php:402
 msgid "Stored articles"
 msgstr "Articles mémorisés"
 
-#: backend.php:405
+#: backend.php:409
 msgid "Subscribed feeds count"
 msgstr "Nombre d'abonnements à des flux"
 
-#: backend.php:420
+#: backend.php:424
 msgid "Subscribed feeds"
 msgstr "Abonnements à des flux"
 
@@ -179,34 +179,34 @@ msgstr ""
 "Votre version de MySQL n'est pas gérée pour le moment. Reportez-vous au \n"
 "\t\tsite officiel pour plus d'informations."
 
-#: functions.php:2524 functions.php:2863 functions.php:3233 functions.php:4083
+#: functions.php:2524 functions.php:2863 functions.php:3233 functions.php:4085
 msgid "Starred articles"
 msgstr "Articles remarquables"
 
-#: functions.php:2533 functions.php:2865 functions.php:3236 functions.php:4090
-#: modules/pref-feeds.php:1173
+#: functions.php:2533 functions.php:2865 functions.php:3236 functions.php:4092
+#: modules/pref-feeds.php:1146
 msgid "Published articles"
 msgstr "Articles publiés"
 
-#: functions.php:2542 functions.php:2867 functions.php:3239 functions.php:4068
+#: functions.php:2542 functions.php:2867 functions.php:3239 functions.php:4070
 msgid "Fresh articles"
 msgstr "Nouveaux articles"
 
 #: functions.php:2785 modules/popup-dialog.php:151
-#: modules/pref-filters.php:312
+#: modules/pref-filters.php:340
 msgid "All feeds"
 msgstr "Tous les flux"
 
-#: functions.php:2814 functions.php:2853 functions.php:3211 functions.php:4247
-#: functions.php:4277 modules/pref-feeds.php:984
+#: functions.php:2814 functions.php:2853 functions.php:3211 functions.php:4249
+#: functions.php:4279 modules/pref-feeds.php:977
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
-#: functions.php:2843 functions.php:3395
+#: functions.php:2843 functions.php:3397
 msgid "Special"
 msgstr "Spécial"
 
-#: functions.php:2845 functions.php:3397
+#: functions.php:2845 functions.php:3399
 msgid "Labels"
 msgstr "Intitulé"
 
@@ -219,127 +219,127 @@ msgstr "Résultats de recherche"
 msgid "Searched for"
 msgstr "Recherché"
 
-#: functions.php:3859 functions.php:3908 functions.php:5107
-#: modules/pref-feeds.php:759 modules/pref-feeds.php:946
-#: modules/pref-filters.php:264 modules/pref-labels.php:239
-#: modules/pref-users.php:211
+#: functions.php:3861 functions.php:3910 functions.php:5132
+#: modules/pref-feeds.php:758 modules/pref-feeds.php:939
+#: modules/pref-filters.php:292 modules/pref-labels.php:269
+#: modules/pref-users.php:286
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
-#: functions.php:3860 functions.php:3909 modules/pref-feeds.php:760
-#: modules/pref-feeds.php:947 modules/pref-filters.php:265
-#: modules/pref-labels.php:240 modules/pref-users.php:212
+#: functions.php:3862 functions.php:3911 modules/pref-feeds.php:759
+#: modules/pref-feeds.php:940 modules/pref-filters.php:293
+#: modules/pref-labels.php:270 modules/pref-users.php:287
 msgid "All"
 msgstr "Tout"
 
-#: functions.php:3861 functions.php:3866 functions.php:3910 functions.php:3913
+#: functions.php:3863 functions.php:3868 functions.php:3912 functions.php:3915
 #: tt-rss.php:193
 msgid "Unread"
 msgstr "Non lus"
 
-#: functions.php:3862 functions.php:3911 modules/pref-feeds.php:761
-#: modules/pref-feeds.php:948 modules/pref-filters.php:266
-#: modules/pref-labels.php:241 modules/pref-users.php:213
+#: functions.php:3864 functions.php:3913 modules/pref-feeds.php:760
+#: modules/pref-feeds.php:941 modules/pref-filters.php:294
+#: modules/pref-labels.php:271 modules/pref-users.php:288
 msgid "None"
 msgstr "Aucun"
 
-#: functions.php:3864 tt-rss.php:146 modules/pref-feeds.php:1107
+#: functions.php:3866 tt-rss.php:146 modules/pref-feeds.php:1100
 msgid "Actions..."
 msgstr "Actions..."
 
-#: functions.php:3865
+#: functions.php:3867
 #, fuzzy
 msgid "Selection toggle:"
 msgstr "Sélection&nbsp;:"
 
-#: functions.php:3867 functions.php:3914 tt-rss.php:192
+#: functions.php:3869 functions.php:3916 tt-rss.php:192
 msgid "Starred"
 msgstr "Remarquables"
 
-#: functions.php:3868
+#: functions.php:3870
 msgid "Published"
 msgstr "Publiés"
 
-#: functions.php:3870 functions.php:3916
+#: functions.php:3872 functions.php:3918
 msgid "Mark as read:"
 msgstr "Marquer comme lu&nbsp;:"
 
-#: functions.php:3871
+#: functions.php:3873
 msgid "Selection"
 msgstr "La sélection"
 
-#: functions.php:3885
+#: functions.php:3887
 msgid "Entire feed"
 msgstr "Tout le flux"
 
-#: functions.php:3888 tt-rss.php:161
+#: functions.php:3890 tt-rss.php:161
 msgid "Other actions:"
 msgstr "Autres actions&nbsp;:"
 
-#: functions.php:3895 functions.php:3897
+#: functions.php:3897 functions.php:3899
 #, fuzzy
 msgid "Search to label"
 msgstr "Convertir en intitulé"
 
-#: functions.php:3913
+#: functions.php:3915
 msgid "Toggle:"
 msgstr "Marquages spéciaux&nbsp;:"
 
-#: functions.php:3917
+#: functions.php:3919
 msgid "Page"
 msgstr "Page"
 
-#: functions.php:3918 modules/pref-filters.php:301
+#: functions.php:3920 modules/pref-filters.php:329
 msgid "Feed"
 msgstr "Flux"
 
-#: functions.php:3925
+#: functions.php:3927
 msgid "Convert to label"
 msgstr "Convertir en intitulé"
 
-#: functions.php:3972
+#: functions.php:3974
 msgid "Generated feed"
 msgstr "Flux généré"
 
-#: functions.php:4056
+#: functions.php:4058
 msgid "Dashboard"
 msgstr ""
 
-#: functions.php:4317
+#: functions.php:4319
 msgid "No feeds to display."
 msgstr "Aucun flux à afficher."
 
-#: functions.php:4334
+#: functions.php:4336
 msgid "Tags"
 msgstr "Étiquettes"
 
-#: functions.php:4559
+#: functions.php:4561
 #, fuzzy
 msgid " - "
 msgstr "- par "
 
-#: functions.php:4614
+#: functions.php:4616
 msgid "no tags"
 msgstr "aucune étiquette"
 
-#: functions.php:4645 functions.php:5066
+#: functions.php:4647 functions.php:5091
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4647 functions.php:5068
+#: functions.php:4649 functions.php:5093
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4657 functions.php:5077
+#: functions.php:4659 functions.php:5102
 #, fuzzy
 msgid "unknown type"
 msgstr "Erreur inconnue"
 
-#: functions.php:4723 modules/pref-feed-browser.php:74
+#: functions.php:4732 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "Flux non trouvé."
 
-#: functions.php:4790
+#: functions.php:4801
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -347,25 +347,25 @@ msgstr ""
 "Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez vérifier "
 "la syntaxe de son intitulé ou la configuration locale."
 
-#: functions.php:4901
+#: functions.php:4912
 msgid "(Click to change)"
 msgstr ""
 
-#: functions.php:5036
+#: functions.php:5061
 msgid "Show article"
 msgstr "Afficher l'article"
 
-#: functions.php:5174
+#: functions.php:5199
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:5177
+#: functions.php:5202
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:5180
+#: functions.php:5205
 #, fuzzy
 msgid "No articles found to display."
 msgstr "Aucun article à marquer"
@@ -378,7 +378,7 @@ msgstr "afficher les flux"
 msgid "display tags"
 msgstr "afficher les étiquettes"
 
-#: localized_js.php:37 prefs.php:135 tt-rss.php:75
+#: localized_js.php:37 prefs.php:141 tt-rss.php:75
 msgid "Loading, please wait..."
 msgstr "Ouverture en cours, veuillez patienter..."
 
@@ -734,7 +734,7 @@ msgid "Rescoring articles..."
 msgstr "Articles mémorisés"
 
 #: localized_schema.php:9 modules/popup-dialog.php:182
-#: modules/pref-feeds.php:959 modules/pref-feeds.php:1020
+#: modules/pref-feeds.php:952 modules/pref-feeds.php:1013
 msgid "Title"
 msgstr "Titre"
 
@@ -994,12 +994,12 @@ msgstr "Purger les articles non lus"
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: login_form.php:85 modules/popup-dialog.php:100 modules/pref-feeds.php:279
-#: modules/pref-users.php:29
+#: login_form.php:85 modules/popup-dialog.php:100 modules/pref-feeds.php:274
+#: modules/pref-users.php:34
 msgid "Login:"
 msgstr "Nom&nbsp;:"
 
-#: login_form.php:87 modules/popup-dialog.php:101 modules/pref-feeds.php:285
+#: login_form.php:87 modules/popup-dialog.php:101 modules/pref-feeds.php:280
 msgid "Password:"
 msgstr "Mot de passe&nbsp;:"
 
@@ -1082,51 +1082,51 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "Revenir à la configuration"
 
-#: prefs.php:89
+#: prefs.php:91
 msgid "Unknown Error"
 msgstr "Erreur inconnue"
 
-#: prefs.php:95 tt-rss.php:114
+#: prefs.php:97 tt-rss.php:114
 msgid "Hello,"
 msgstr "Bonjour,"
 
-#: prefs.php:97 prefs.php:107
+#: prefs.php:99 prefs.php:109
 msgid "Exit preferences"
 msgstr "Quitter la configuration"
 
-#: prefs.php:99 tt-rss.php:124
+#: prefs.php:101 tt-rss.php:124
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: prefs.php:113 tt-rss.php:116 tt-rss.php:148
+#: prefs.php:119 tt-rss.php:116 tt-rss.php:148
 msgid "Preferences"
 msgstr "Configuration"
 
-#: prefs.php:115
+#: prefs.php:121
 msgid "My Feeds"
 msgstr "Mes flux"
 
-#: prefs.php:118
+#: prefs.php:124
 msgid "Other Feeds"
 msgstr "Autres flux"
 
-#: prefs.php:121
+#: prefs.php:127
 msgid "Published Articles"
 msgstr "Articles publiés"
 
-#: prefs.php:123
+#: prefs.php:129
 msgid "Content Filtering"
 msgstr "Filtrage de contenu"
 
-#: prefs.php:126
+#: prefs.php:132
 msgid "Label Editor"
 msgstr "Éditeur d'intitulé"
 
-#: prefs.php:130
+#: prefs.php:136
 msgid "User Manager"
 msgstr "Gestionnaire d'utilisateurs"
 
-#: prefs.php:138 tt-rss.php:78
+#: prefs.php:144 tt-rss.php:78
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
@@ -1251,7 +1251,8 @@ msgid "tag cloud"
 msgstr "Nuage d'étiquettes"
 
 #: tt-rss.php:147 modules/popup-dialog.php:127 modules/popup-dialog.php:196
-#: modules/pref-feeds.php:853
+#: modules/pref-feeds.php:854 modules/pref-filters.php:235
+#: modules/pref-labels.php:233 modules/pref-users.php:242
 msgid "Search"
 msgstr "Rechercher"
 
@@ -1397,7 +1398,7 @@ msgid "Help topic not found."
 msgstr "Sujet non trouvé dans l'aide."
 
 #: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:463 modules/pref-feeds.php:810
+#: modules/popup-dialog.php:463 modules/pref-feeds.php:809
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
@@ -1471,28 +1472,28 @@ msgstr ""
 "\t\t\t\t\tVeuillez vérifier son état ou bien contacter l'administrateur de "
 "votre Tiny Tiny RSS."
 
-#: modules/popup-dialog.php:61 modules/pref-feeds.php:866
+#: modules/popup-dialog.php:61 modules/pref-feeds.php:859
 msgid "Subscribe to feed"
 msgstr "S'inscrire à un flux"
 
-#: modules/popup-dialog.php:72 modules/pref-feeds.php:166
+#: modules/popup-dialog.php:72 modules/pref-feeds.php:161
 msgid "Feed URL:"
 msgstr "URL du flux&nbsp;:"
 
-#: modules/popup-dialog.php:80 modules/pref-feeds.php:174
+#: modules/popup-dialog.php:80 modules/pref-feeds.php:169
 msgid "Category:"
 msgstr "Catégorie&nbsp;:"
 
-#: modules/popup-dialog.php:111 modules/pref-feed-browser.php:115
-#: modules/pref-feeds.php:119
+#: modules/popup-dialog.php:111 modules/pref-feed-browser.php:117
+#: modules/pref-feeds.php:114
 msgid "Subscribe"
 msgstr "S'inscrire"
 
 #: modules/popup-dialog.php:114 modules/popup-dialog.php:199
 #: modules/popup-dialog.php:256 modules/popup-dialog.php:343
-#: modules/popup-dialog.php:439 modules/pref-feeds.php:121
-#: modules/pref-feeds.php:367 modules/pref-filters.php:118
-#: modules/pref-users.php:58
+#: modules/popup-dialog.php:439 modules/pref-feeds.php:116
+#: modules/pref-feeds.php:362 modules/pref-filters.php:116
+#: modules/pref-users.php:63
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1516,7 +1517,7 @@ msgstr "Correspondance sur&nbsp;:"
 msgid "Title or content"
 msgstr "Titre ou contenu"
 
-#: modules/popup-dialog.php:208 modules/pref-labels.php:221
+#: modules/popup-dialog.php:208 modules/pref-labels.php:243
 msgid "Create label"
 msgstr "Créer un intitulé"
 
@@ -1541,40 +1542,40 @@ msgstr "Tester"
 msgid "Create"
 msgstr "Créer"
 
-#: modules/popup-dialog.php:265 modules/pref-filters.php:229
+#: modules/popup-dialog.php:265 modules/pref-filters.php:245
 msgid "Create filter"
 msgstr "Créer un filtre"
 
 #: modules/popup-dialog.php:283 modules/popup-dialog.php:314
-#: modules/pref-filters.php:40 modules/pref-filters.php:72
+#: modules/pref-filters.php:38 modules/pref-filters.php:70
 msgid "description"
 msgstr "description"
 
-#: modules/popup-dialog.php:288 modules/pref-filters.php:45
+#: modules/popup-dialog.php:288 modules/pref-filters.php:43
 msgid "Match:"
 msgstr "Correspondance&nbsp;:"
 
-#: modules/popup-dialog.php:294 modules/pref-filters.php:51
+#: modules/popup-dialog.php:294 modules/pref-filters.php:49
 msgid "On field:"
 msgstr "Sur le champ&nbsp;:"
 
-#: modules/popup-dialog.php:299 modules/pref-filters.php:56
+#: modules/popup-dialog.php:299 modules/pref-filters.php:54
 msgid "Feed:"
 msgstr "Flux&nbsp;:"
 
-#: modules/popup-dialog.php:305 modules/pref-filters.php:62
+#: modules/popup-dialog.php:305 modules/pref-filters.php:60
 msgid "Action:"
 msgstr "Action&nbsp;:"
 
-#: modules/popup-dialog.php:321 modules/pref-filters.php:79
+#: modules/popup-dialog.php:321 modules/pref-filters.php:77
 msgid "Params:"
 msgstr "Paramètres&nbsp;:"
 
-#: modules/popup-dialog.php:325 modules/pref-feeds.php:298
+#: modules/popup-dialog.php:325 modules/pref-feeds.php:293
 msgid "Options:"
 msgstr "Options&nbsp;:"
 
-#: modules/popup-dialog.php:328 modules/pref-filters.php:103
+#: modules/popup-dialog.php:328 modules/pref-filters.php:101
 msgid "Inverse match"
 msgstr "Correspondance inverse"
 
@@ -1598,8 +1599,8 @@ msgstr "Modifier les étiquettes"
 msgid "Tags for this article (separated by commas):"
 msgstr "Étiquettes pour cet article (séparées par des virgules)&nbsp;:"
 
-#: modules/popup-dialog.php:435 modules/pref-feeds.php:365
-#: modules/pref-filters.php:114 modules/pref-users.php:55
+#: modules/popup-dialog.php:435 modules/pref-feeds.php:360
+#: modules/pref-filters.php:112 modules/pref-users.php:60
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1623,21 +1624,21 @@ msgstr "Le navigateur de flux a été désactivé par l'administrateur."
 msgid "Feed information:"
 msgstr "Information sur le flux&nbsp;:"
 
-#: modules/pref-feed-browser.php:38
+#: modules/pref-feed-browser.php:39
 #, fuzzy
 msgid "Site:"
 msgstr "Titre&nbsp;:"
 
-#: modules/pref-feed-browser.php:40
+#: modules/pref-feed-browser.php:41
 #, fuzzy
 msgid "Last updated:"
 msgstr "Dernière mise à jour&nbsp;:"
 
-#: modules/pref-feed-browser.php:55
+#: modules/pref-feed-browser.php:56
 msgid "Last headlines:"
 msgstr "Derniers en-têtes&nbsp;:"
 
-#: modules/pref-feed-browser.php:84
+#: modules/pref-feed-browser.php:85
 msgid ""
 "This panel shows feeds subscribed by other users of this system, just in "
 "case you are interested in them too."
@@ -1645,15 +1646,15 @@ msgstr ""
 "Ce panneau affiche les flux auxquels d'autres utilisateurs du même système "
 "se sont inscrits, au cas où cela présenterait un intérêt pour vous."
 
-#: modules/pref-feed-browser.php:101
+#: modules/pref-feed-browser.php:103
 msgid "Top"
 msgstr "Top"
 
-#: modules/pref-feed-browser.php:110
+#: modules/pref-feed-browser.php:112
 msgid "Show"
 msgstr "Afficher"
 
-#: modules/pref-feed-browser.php:164 modules/pref-feeds.php:112
+#: modules/pref-feed-browser.php:166 modules/pref-feeds.php:107
 msgid "No feeds found to subscribe."
 msgstr "Aucun flux auquel s'inscrire n'a été trouvé."
 
@@ -1670,176 +1671,181 @@ msgid "Showing top 25 registered feeds, sorted by popularity:"
 msgstr ""
 "Affichage des 25 meilleurs flux enregistrés, classés par popularité&nbsp;:"
 
-#: modules/pref-feeds.php:146
+#: modules/pref-feeds.php:141
 msgid "Feed editor"
 msgstr "Éditeur de flux"
 
-#: modules/pref-feeds.php:158
+#: modules/pref-feeds.php:153
 msgid "Title:"
 msgstr "Titre&nbsp;:"
 
-#: modules/pref-feeds.php:194
+#: modules/pref-feeds.php:189
 msgid "Update Interval:"
 msgstr "Fréquence de mise à jour&nbsp;:"
 
-#: modules/pref-feeds.php:203
+#: modules/pref-feeds.php:198
 msgid "Link to:"
 msgstr "Lier à&nbsp;:"
 
-#: modules/pref-feeds.php:220
+#: modules/pref-feeds.php:215
 msgid "Not linked"
 msgstr "Non lié"
 
-#: modules/pref-feeds.php:254
+#: modules/pref-feeds.php:249
 msgid "Article purging:"
 msgstr "Purge des articles&nbsp;:"
 
-#: modules/pref-feeds.php:267
+#: modules/pref-feeds.php:262
 #, fuzzy
 msgid "Update using:"
 msgstr "Mettre à jour"
 
-#: modules/pref-feeds.php:300
+#: modules/pref-feeds.php:295
 msgid "Hide from \"Other Feeds\""
 msgstr "Masquer dans «&nbsp;Autres flux&nbsp;»"
 
-#: modules/pref-feeds.php:311
+#: modules/pref-feeds.php:306
 msgid "Right-to-left content"
 msgstr "Contenu écrit de droite à gauche"
 
-#: modules/pref-feeds.php:322
+#: modules/pref-feeds.php:317
 msgid "Hide from my feed list"
 msgstr "Masquer dans la liste de «&nbsp;Mes flux&nbsp;»"
 
-#: modules/pref-feeds.php:334
+#: modules/pref-feeds.php:329
 msgid "Include in e-mail digest"
 msgstr "Inclure dans la synthèse quotidienne par courrier électronique"
 
-#: modules/pref-feeds.php:355
+#: modules/pref-feeds.php:350
 msgid "Cache images locally"
 msgstr "Enregistrer localement les images"
 
-#: modules/pref-feeds.php:515 modules/pref-feeds.php:562
+#: modules/pref-feeds.php:514 modules/pref-feeds.php:561
 msgid "All done."
 msgstr ""
 
-#: modules/pref-feeds.php:593
+#: modules/pref-feeds.php:592
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Inscrit à <b>%s</b>."
 
-#: modules/pref-feeds.php:595
+#: modules/pref-feeds.php:594
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Déjà inscrit à <b>%s</b>."
 
-#: modules/pref-feeds.php:677
+#: modules/pref-feeds.php:676
 msgid "Category editor"
 msgstr "Éditeur de catégorie"
 
-#: modules/pref-feeds.php:700
+#: modules/pref-feeds.php:699
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "La catégorie <b>%s</b> existe déjà dans la base de données."
 
-#: modules/pref-feeds.php:728
+#: modules/pref-feeds.php:727
 msgid "Unable to delete non empty feed categories."
 msgstr "Impossible de supprimer une catégorie de flux non vide."
 
-#: modules/pref-feeds.php:745
+#: modules/pref-feeds.php:744
 msgid "Create category"
 msgstr "Créer la catégorie"
 
-#: modules/pref-feeds.php:805
+#: modules/pref-feeds.php:804
 msgid "No feed categories defined."
 msgstr "Aucune catégorie de flux définie."
 
-#: modules/pref-feeds.php:816 modules/pref-filters.php:381
-#: modules/pref-labels.php:299 modules/pref-users.php:320
+#: modules/pref-feeds.php:815 modules/pref-filters.php:398
+#: modules/pref-labels.php:324 modules/pref-users.php:359
 msgid "Remove"
 msgstr "Supprimer"
 
-#: modules/pref-feeds.php:838
+#: modules/pref-feeds.php:837
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 "Des erreurs sont survenues pendant la mise à jour de certains flux (cliquez "
 "ici pour les détails)"
 
-#: modules/pref-feeds.php:871
+#: modules/pref-feeds.php:864
 msgid "Top 25"
 msgstr "Top 25"
 
-#: modules/pref-feeds.php:945
+#: modules/pref-feeds.php:938
 msgid "Show last article times"
 msgstr "Afficher l'heure du dernier article"
 
-#: modules/pref-feeds.php:962 modules/pref-feeds.php:1024
+#: modules/pref-feeds.php:955 modules/pref-feeds.php:1017
 msgid "Last&nbsp;Article"
 msgstr "Dernier&nbsp;article"
 
-#: modules/pref-feeds.php:965 modules/pref-feeds.php:1028
+#: modules/pref-feeds.php:958 modules/pref-feeds.php:1021
 msgid "Updated"
 msgstr "Mis à jour"
 
-#: modules/pref-feeds.php:1095 modules/pref-feeds.php:1109
+#: modules/pref-feeds.php:1042 modules/pref-filters.php:372
+#: modules/pref-labels.php:304 modules/pref-users.php:334
+msgid "Click to edit"
+msgstr ""
+
+#: modules/pref-feeds.php:1088 modules/pref-feeds.php:1102
 msgid "Selection:"
 msgstr "Sélection&nbsp;:"
 
-#: modules/pref-feeds.php:1101
+#: modules/pref-feeds.php:1094
 msgid "Recategorize"
 msgstr "Changer de catégorie"
 
-#: modules/pref-feeds.php:1110 modules/pref-filters.php:379
-#: modules/pref-labels.php:297 modules/pref-users.php:318
+#: modules/pref-feeds.php:1103 modules/pref-filters.php:396
+#: modules/pref-labels.php:322 modules/pref-users.php:357
 msgid "Edit"
 msgstr "Modifier"
 
-#: modules/pref-feeds.php:1111
+#: modules/pref-feeds.php:1104
 msgid "Manual purge"
 msgstr "Purger manuellement"
 
-#: modules/pref-feeds.php:1112
+#: modules/pref-feeds.php:1105
 msgid "Clear feed data"
 msgstr "Purger les données de flux"
 
-#: modules/pref-feeds.php:1113 modules/pref-filters.php:236
+#: modules/pref-feeds.php:1106 modules/pref-filters.php:252
 #, fuzzy
 msgid "Rescore articles"
 msgstr "Articles mémorisés"
 
-#: modules/pref-feeds.php:1114
+#: modules/pref-feeds.php:1107
 msgid "Unsubscribe"
 msgstr "Se désinscrire"
 
-#: modules/pref-feeds.php:1119
+#: modules/pref-feeds.php:1112
 msgid "Other:"
 msgstr "Autre&nbsp;:"
 
-#: modules/pref-feeds.php:1120
+#: modules/pref-feeds.php:1113
 msgid "Edit categories"
 msgstr "Modifier les catégories"
 
-#: modules/pref-feeds.php:1147
+#: modules/pref-feeds.php:1120
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1151
+#: modules/pref-feeds.php:1124
 msgid "File:"
 msgstr "Fichier&nbsp;:"
 
-#: modules/pref-feeds.php:1154
+#: modules/pref-feeds.php:1127
 msgid "Import"
 msgstr "Importer"
 
-#: modules/pref-feeds.php:1161
+#: modules/pref-feeds.php:1134
 msgid "Export OPML"
 msgstr "Exporter en OPML"
 
-#: modules/pref-feeds.php:1164
+#: modules/pref-feeds.php:1137
 msgid "Firefox Integration"
 msgstr "Intégration à Firefox"
 
-#: modules/pref-feeds.php:1166
+#: modules/pref-feeds.php:1139
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
@@ -1847,11 +1853,11 @@ msgstr ""
 "Ce site Tiny Tiny RSS peut être utilisé comme lecteur de flux dans Firefox "
 "en cliquant sur le lien ci-dessous."
 
-#: modules/pref-feeds.php:1170
+#: modules/pref-feeds.php:1143
 msgid "Click here to register this site as a feed reader."
 msgstr "Cliquez ici pour enregistrer ce site comme lecteur de flux."
 
-#: modules/pref-feeds.php:1179
+#: modules/pref-feeds.php:1152
 #, fuzzy
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
@@ -1860,7 +1866,7 @@ msgstr ""
 "Les articles publiés sont exportés comme un flux RSS public et toute "
 "personne qui connaît l'adresse indiquée ci-dessous peut s'y inscrire."
 
-#: modules/pref-feeds.php:1186
+#: modules/pref-feeds.php:1159
 #, fuzzy
 msgid "Generate another link"
 msgstr "Générer une autre adresse"
@@ -1869,78 +1875,100 @@ msgstr "Générer une autre adresse"
 msgid "Filter editor"
 msgstr "Éditeur de filtre"
 
-#: modules/pref-filters.php:94
+#: modules/pref-filters.php:92
 msgid "Enabled"
 msgstr "Activé"
 
-#: modules/pref-filters.php:154
+#: modules/pref-filters.php:152
 #, php-format
 msgid "Saved filter <b>%s</b>"
 msgstr "Filtre <b>%s</b> enregistré"
 
-#: modules/pref-filters.php:194
+#: modules/pref-filters.php:192
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Filtre <b>%s</b> créé"
 
-#: modules/pref-filters.php:290
+#: modules/pref-filters.php:318
 msgid "filter_type_descr"
 msgstr ""
 
-#: modules/pref-filters.php:291
+#: modules/pref-filters.php:319
 msgid "action_description"
 msgstr ""
 
-#: modules/pref-filters.php:300
+#: modules/pref-filters.php:328
 msgid "Filter expression"
 msgstr "Expression du filtre"
 
-#: modules/pref-filters.php:302
+#: modules/pref-filters.php:330
 msgid "Match"
 msgstr "Correspondance"
 
-#: modules/pref-filters.php:303
+#: modules/pref-filters.php:331
 msgid "Action"
 msgstr "Action"
 
-#: modules/pref-filters.php:304
+#: modules/pref-filters.php:332
 #, fuzzy
 msgid "Params"
 msgstr "Paramètres&nbsp;:"
 
-#: modules/pref-filters.php:333
+#: modules/pref-filters.php:361
 msgid "(Disabled)"
 msgstr "(Désactivé)"
 
-#: modules/pref-filters.php:353
+#: modules/pref-filters.php:380
 msgid "(Inverse)"
 msgstr "(Inverse)"
 
-#: modules/pref-filters.php:371 modules/pref-filters.php:392
+#: modules/pref-filters.php:406
 msgid "No filters defined."
 msgstr "Aucun filtre défini."
 
-#: modules/pref-labels.php:169
+#: modules/pref-filters.php:408
+#, fuzzy
+msgid "No matching filters found."
+msgstr "Aucun article trouvé."
+
+#: modules/pref-labels.php:9
+msgid ""
+"Sorry, labels have been administratively disabled for this installation. "
+"Please contact instance owner or edit configuration file to enable this "
+"functionality."
+msgstr ""
+
+#: modules/pref-labels.php:173
 #, php-format
 msgid "Saved label <b>%s</b>"
 msgstr "Intitulé <b>%s</b> enregistré"
 
-#: modules/pref-labels.php:199
+#: modules/pref-labels.php:205
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr "Intitulé <b>%s</b> créé"
 
-#: modules/pref-labels.php:246
+#: modules/pref-labels.php:276
 msgid "Caption"
 msgstr "Descriptif"
 
-#: modules/pref-labels.php:247
+#: modules/pref-labels.php:277
 msgid "SQL Expression"
 msgstr "Expression SQL"
 
-#: modules/pref-labels.php:289 modules/pref-labels.php:302
+#: modules/pref-labels.php:302
+#, fuzzy
+msgid "[No caption]"
+msgstr "Descriptif"
+
+#: modules/pref-labels.php:329
 msgid "No labels defined."
 msgstr "Aucun intitulé défini."
+
+#: modules/pref-labels.php:331
+#, fuzzy
+msgid "No matching labels found."
+msgstr "Aucun article trouvé."
 
 #: modules/pref-prefs.php:60
 msgid "Password has been changed."
@@ -1962,7 +1990,7 @@ msgstr "L'adresse électronique a été modifiée."
 msgid "The configuration was reset to defaults."
 msgstr "La configuration a été réinitialisée à ses valeurs par défaut."
 
-#: modules/pref-prefs.php:154 modules/pref-prefs.php:320
+#: modules/pref-prefs.php:154 modules/pref-prefs.php:328
 msgid "Change theme"
 msgstr "Modifier le thème"
 
@@ -1982,104 +2010,109 @@ msgstr "Données personnelles"
 msgid "E-mail"
 msgstr "Adresse électronique"
 
-#: modules/pref-prefs.php:238
+#: modules/pref-prefs.php:240
 #, fuzzy
 msgid "Access level"
 msgstr "Permissions&nbsp;:"
 
-#: modules/pref-prefs.php:251
+#: modules/pref-prefs.php:253
 msgid "Change e-mail"
 msgstr "Modifier l'adresse électronique"
 
-#: modules/pref-prefs.php:257
+#: modules/pref-prefs.php:259
 msgid "Authentication"
 msgstr "Identification"
 
-#: modules/pref-prefs.php:259
+#: modules/pref-prefs.php:261
 msgid "Old password"
 msgstr "Ancien mot de passe"
 
-#: modules/pref-prefs.php:264
+#: modules/pref-prefs.php:268
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: modules/pref-prefs.php:270
+#: modules/pref-prefs.php:276
 msgid "Confirm password"
 msgstr "Confirmation du mot de passe"
 
-#: modules/pref-prefs.php:285
+#: modules/pref-prefs.php:293
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: modules/pref-prefs.php:301
+#: modules/pref-prefs.php:309
 msgid "Themes"
 msgstr "Thèmes"
 
-#: modules/pref-prefs.php:302
+#: modules/pref-prefs.php:310
 msgid "Select theme"
 msgstr "Sélectionner un thème"
 
-#: modules/pref-prefs.php:304
+#: modules/pref-prefs.php:312
 msgid "Default"
 msgstr "Utiliser la valeur par défaut"
 
-#: modules/pref-prefs.php:377
+#: modules/pref-prefs.php:385
 msgid "short_desc"
 msgstr ""
 
-#: modules/pref-prefs.php:389 modules/pref-prefs.php:394
+#: modules/pref-prefs.php:397 modules/pref-prefs.php:402
 msgid "Yes"
 msgstr "Oui"
 
-#: modules/pref-prefs.php:391 modules/pref-prefs.php:394
+#: modules/pref-prefs.php:399 modules/pref-prefs.php:402
 msgid "No"
 msgstr "Non"
 
-#: modules/pref-prefs.php:413
+#: modules/pref-prefs.php:424
 msgid "Save configuration"
 msgstr "Enregistrer la configuration"
 
-#: modules/pref-prefs.php:417
+#: modules/pref-prefs.php:428
 msgid "Reset to defaults"
 msgstr "Revenir aux valeurs par défaut"
 
-#: modules/pref-users.php:12
+#: modules/pref-users.php:7
+#, fuzzy
+msgid "Your access level is insufficient to open this tab."
+msgstr "Vous n'avez pas les permissions nécessaires pour exécuter ce script."
+
+#: modules/pref-users.php:17
 msgid "User editor"
 msgstr "Éditeur d'utilisateur"
 
-#: modules/pref-users.php:33
+#: modules/pref-users.php:38
 msgid "Change password:"
 msgstr "Modifier le mot de passe&nbsp;:"
 
-#: modules/pref-users.php:37
+#: modules/pref-users.php:42
 msgid "E-mail:"
 msgstr "Adresse électronique&nbsp;:"
 
-#: modules/pref-users.php:43
+#: modules/pref-users.php:48
 msgid "Access level:"
 msgstr "Permissions&nbsp;:"
 
-#: modules/pref-users.php:78
+#: modules/pref-users.php:83
 #, php-format
 msgid "Changed password of user <b>%s</b>."
 msgstr "Mot de passe de l'utilisateur <b>%s</b> modifié."
 
-#: modules/pref-users.php:126
+#: modules/pref-users.php:131
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr "Utilisateur <b>%s</b> ajouté avec le mot de passe <b>%s</b>"
 
-#: modules/pref-users.php:133
+#: modules/pref-users.php:138
 #, php-format
 msgid "Could not create user <b>%s</b>"
 msgstr "Impossible de créer l'utilisateur <b>%s</b>"
 
-#: modules/pref-users.php:137
+#: modules/pref-users.php:142
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr "L'utilisateur <b>%s</b> existe déjà."
 
-#: modules/pref-users.php:157
+#: modules/pref-users.php:162
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
@@ -2088,34 +2121,48 @@ msgstr ""
 "Mot de passe de l'utilisateur <b>%s</b>\n"
 "\t\t\t\t\tmodifié en <b>%s</b>"
 
-#: modules/pref-users.php:161
+#: modules/pref-users.php:166
 #, fuzzy, php-format
 msgid "Notifying <b>%s</b>."
 msgstr "Ajout de la catégorie <b>%s</b>."
 
-#: modules/pref-users.php:196
+#: modules/pref-users.php:202
+msgid "[tt-rss] Password change notification"
+msgstr ""
+
+#: modules/pref-users.php:259
 msgid "Create user"
 msgstr "Créer l'utilisateur"
 
-#: modules/pref-users.php:218
+#: modules/pref-users.php:293
 msgid "Login"
 msgstr "Se connecter"
 
-#: modules/pref-users.php:219
+#: modules/pref-users.php:294
 msgid "Access Level"
 msgstr "Permissions"
 
-#: modules/pref-users.php:220
+#: modules/pref-users.php:296
 msgid "Last login"
 msgstr "Dernière connexion"
 
-#: modules/pref-users.php:316
+#: modules/pref-users.php:355
 msgid "User details"
 msgstr "Détails de l'utilisateur"
 
-#: modules/pref-users.php:322
+#: modules/pref-users.php:361
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
+
+#: modules/pref-users.php:366
+#, fuzzy
+msgid "No users defined."
+msgstr "Aucun filtre défini."
+
+#: modules/pref-users.php:368
+#, fuzzy
+msgid "No matching users found."
+msgstr "Aucun article trouvé."
 
 #, fuzzy
 #~ msgid "Update errors"
@@ -2141,6 +2188,3 @@ msgstr "Réinitialiser le mot de passe"
 
 #~ msgid "First page"
 #~ msgstr "Première page"
-
-#~ msgid "No articles found."
-#~ msgstr "Aucun article trouvé."
