@@ -997,7 +997,7 @@ function hotkey_handler(e) {
 			if (keycode == 82) { // r
 				if (getActiveFeedId()) {
 					viewfeed(getActiveFeedId(), "ForceUpdate");
-					return false;
+					return;
 				}
 			}
 
