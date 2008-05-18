@@ -414,6 +414,21 @@
 
 		}
 
+		if ($subop == "getArticles") {
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+
+			print "<rpc-reply>";
+
+			foreach ($ids as $id) {
+				if ($id) {
+					outputArticleXML($link, $id, 0, false);
+				}
+			}
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

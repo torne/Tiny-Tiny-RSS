@@ -1477,9 +1477,11 @@ function explainError(code) {
 }
 
 // this only searches loaded headlines list, not in CDM
-function getRelativePostIds(id) {
+function getRelativePostIds(id, limit) {
 
-	debug("getRelativePostIds: " + id);
+	if (!limit) limit = 3;
+
+	debug("getRelativePostIds: " + id + " limit=" + limit);
 
 	var ids = new Array();
 	var container = document.getElementById("headlinesList");
@@ -1491,13 +1493,23 @@ function getRelativePostIds(id) {
 			var r_id = rows[i].id.replace("RROW-", "");
 
 			if (r_id == id) {
-				if (i > 0) ids.push(rows[i-1].id.replace("RROW-", ""));
+/*				if (i > 0) ids.push(rows[i-1].id.replace("RROW-", ""));
 				if (i > 1) ids.push(rows[i-2].id.replace("RROW-", ""));
 				if (i > 2) ids.push(rows[i-3].id.replace("RROW-", ""));
 
 				if (i < rows.length-1) ids.push(rows[i+1].id.replace("RROW-", ""));
 				if (i < rows.length-2) ids.push(rows[i+2].id.replace("RROW-", ""));
-				if (i < rows.length-3) ids.push(rows[i+3].id.replace("RROW-", ""));
+				if (i < rows.length-3) ids.push(rows[i+3].id.replace("RROW-", "")); */
+
+				for (var k = 1; k <= limit; k++) {
+					var nid = false;
+
+					if (i > k-1) var nid = rows[i-k].id.replace("RROW-", "");
+					if (nid) ids.push(nid);
+
+					if (i < rows.length-k) nid = rows[i+k].id.replace("RROW-", "");
+					if (nid) ids.push(nid);
+				}
 
 				return ids;
 			}

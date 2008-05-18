@@ -1604,9 +1604,66 @@ function cdmClicked(elem) {
 	} 
 }
 
+function preload_article_callback(transport) {
+	try {
+		if (transport.responseXML) {
+			var articles = transport.responseXML.getElementsByTagName("article");
+
+			for (var i = 0; i < articles.length; i++) {
+				var id = articles[i].getAttribute("id");
+				if (!cache_find(id)) {
+					cache_inject(id, articles[i].firstChild.nodeValue);				
+					debug("preloaded article: " + id);
+				}
+			}
+		}
+	} catch (e) {
+		exception_error("preload_article_callback", e);
+	}
+}
+
+function preloadArticleUnderPointer(id) {
+	try {
+		if (post_under_pointer == id && !cache_find(id)) {
+
+			debug("trying to preload article " + id);
+
+			var neighbor_ids = getRelativePostIds(id, 1);
+
+			/* only request uncached articles */
+
+			var cids_to_request = Array();
+
+			for (var i = 0; i < neighbor_ids.length; i++) {
+				if (!cache_check(neighbor_ids[i])) {
+					cids_to_request.push(neighbor_ids[i]);
+				}
+			}
+			debug("additional ids: " + cids_to_request.toString());
+
+			cids_to_request.push(id);
+
+			var query = "backend.php?op=rpc&subop=getArticles&ids=" + 
+				cids_to_request.toString();
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					preload_article_callback(transport);
+			} });
+		}
+	} catch (e) {
+		exception_error("preloadArticleUnderPointer", e);
+	}
+}
+
 function postMouseIn(id) {
 	try {
-		post_under_pointer = id;
+		if (post_under_pointer != id) {
+			post_under_pointer = id;
+			if (!isCdmMode()) {
+				window.setTimeout("preloadArticleUnderPointer(" + id + ")", 250);
+			}
+		}
+
 	} catch (e) {
 		exception_error("postMouseIn", e);
 	}
