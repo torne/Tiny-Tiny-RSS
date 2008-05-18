@@ -1555,7 +1555,7 @@ function cache_check_param(id, param) {
 }
 
 function cache_expire() {
-	while (article_cache.length > 20) {
+	while (article_cache.length > 25) {
 		article_cache.shift();
 	}
 }
@@ -1611,7 +1611,7 @@ function preload_article_callback(transport) {
 
 			for (var i = 0; i < articles.length; i++) {
 				var id = articles[i].getAttribute("id");
-				if (!cache_find(id)) {
+				if (!cache_check(id)) {
 					cache_inject(id, articles[i].firstChild.nodeValue);				
 					debug("preloaded article: " + id);
 				}
@@ -1624,7 +1624,7 @@ function preload_article_callback(transport) {
 
 function preloadArticleUnderPointer(id) {
 	try {
-		if (post_under_pointer == id && !cache_find(id)) {
+		if (post_under_pointer == id && !cache_check(id)) {
 
 			debug("trying to preload article " + id);
 
