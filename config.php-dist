@@ -149,17 +149,19 @@
 
 	define('DIGEST_FROM_NAME', 'Tiny Tiny RSS');
 	define('DIGEST_FROM_ADDRESS', 'noreply@your.domain.dom');
+	// Name, address and subject for sending outgoing mail. This applies
+	// to password reset notifications, digest emails and any other mail.
+
 	define('DIGEST_SUBJECT', '[tt-rss] New headlines for last 24 hours');
-	// Name, address and subject for sending email digests from.
+	// Subject line for email digests
 
 	define('DIGEST_SMTP_HOST', '');
-	// SMTP Host to send digests. When blank tt-rss uses
-	// PHP's default mail() function.
+	// SMTP Host to send outgoing mail. Blank - use system MTA.
 
 	define('DIGEST_SMTP_LOGIN', '');
 	define('DIGEST_SMTP_PASSWORD', '');
 	// These two options enable SMTP authentication when sending
-	// digests. Require DIGEST_SMTP_HOST.
+	// outgoing mail. Require DIGEST_SMTP_HOST.
 
 	define('DAEMON_FEED_LIMIT', 100);
 	// Limits the amount of feeds daemon updates on one run
