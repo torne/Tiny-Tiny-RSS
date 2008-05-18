@@ -41,8 +41,8 @@
 		<tr><td class='n'>f a</td><td><?php echo __("(Un)hide read feeds") ?></td></tr>
 		<tr><td class='n'>f s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
 		<tr><td class='n'>f e</td><td><?php echo __("Edit feed") ?></td></tr>
-		<tr><td class='n'>f c</td><td><?php echo __("Mark feed as read") ?></td></tr>
-		<tr><td class='n'>f C</td><td><?php echo __("Mark all feeds as read") ?></td></tr>
+		<tr><td class='n'>q</td><td><?php echo __("Mark feed as read") ?></td></tr>
+		<tr><td class='n'>Q</td><td><?php echo __("Mark all feeds as read") ?></td></tr>
 	</table>
 
 	<h2><?php echo __("Go to...") ?></h2>
