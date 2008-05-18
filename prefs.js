@@ -1202,7 +1202,7 @@ function editSelectedFeedCat() {
 
 }
 
-function localPiggieFunction(enable) {
+function piggie(enable) {
 	if (enable) {
 		debug("I LOVEDED IT!");
 		var piggie = document.getElementById("piggie");
@@ -1705,6 +1705,8 @@ function pref_hotkey_handler(e) {
 			keycode = e.which;
 		}
 
+		var keychar = String.fromCharCode(keycode);
+
 		if (keycode == 27) { // escape
 			if (Element.visible("hotkey_help_overlay")) {
 				Element.hide("hotkey_help_overlay");
@@ -1722,7 +1724,7 @@ function pref_hotkey_handler(e) {
 
 		if ((keycode == 67 || keycode == 71) && !hotkey_prefix) {
 			hotkey_prefix = keycode;
-			debug("KP: PREFIX=" + keycode);
+			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar);
 			return;
 		}
 
@@ -1752,24 +1754,25 @@ function pref_hotkey_handler(e) {
 				return;
 			}
 	
-			if (keycode == 191 && shift_key) { // ?
+			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
 				if (!Element.visible("hotkey_help_overlay")) {
 					//Element.show("hotkey_help_overlay");
 					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
 				} else {
 					Element.hide("hotkey_help_overlay");
 				}
-				return;
+				return false;
 			}
 
-			if (keycode == 191) { // /
+			if (keycode == 191 || keychar == '/') { // /
 				var search_boxes = new Array("label_search", 
 					"feed_search", "filter_search", "user_search");
 
 				for (var i = 0; i < search_boxes.length; i++) {
 					var elem = document.getElementById(search_boxes[i]);
 					if (elem) {
-						return focus_element(search_boxes[i]);
+						focus_element(search_boxes[i]);
+						return false;
 					}
 				}
 			}
@@ -1781,15 +1784,18 @@ function pref_hotkey_handler(e) {
 			hotkey_prefix = false;
 
 			if (keycode == 70) { // f
-				return displayDlg("quickAddFilter");	
+				displayDlg("quickAddFilter");
+				return false;
 			}
 
 			if (keycode == 83) { // s
-				return displayDlg("quickAddFeed");	
+				displayDlg("quickAddFeed");
+				return false;
 			}
 
 			if (keycode == 76) { // l
-				return displayDlg("quickAddLabel");	
+				displayDlg("quickAddLabel");
+				return false;
 			}
 
 			if (keycode == 85) { // u
@@ -1797,11 +1803,13 @@ function pref_hotkey_handler(e) {
 			}
 
 			if (keycode == 67) { // c
-				return editFeedCats();
+				editFeedCats();
+				return false;
 			}
 
 			if (keycode == 84 && shift_key) { // T
-				return browseFeeds();
+				browseFeeds();
+				return false;
 			}
 
 		}
@@ -1814,26 +1822,32 @@ function pref_hotkey_handler(e) {
 
 			if (keycode == 49 && document.getElementById("genConfigTab")) { // 1
 				selectTab("genConfig");
+				return false;
 			}
 
 			if (keycode == 50 && document.getElementById("feedConfigTab")) { // 2
-				return selectTab("feedConfig");
+				selectTab("feedConfig");
+				return false;
 			}
 
 			if (keycode == 51 && document.getElementById("feedBrowserTab")) { // 3
-				return selectTab("feedBrowser");
+				selectTab("feedBrowser");
+				return false;
 			}
 
 			if (keycode == 52 && document.getElementById("filterConfigTab")) { // 4
-				return selectTab("filterConfig");
+				selectTab("filterConfig");
+				return false;
 			}
 
 			if (keycode == 53 && document.getElementById("labelConfigTab")) { // 5
-				return selectTab("labelConfig");
+				selectTab("labelConfig");
+				return false;
 			}
 
 			if (keycode == 54 && document.getElementById("userConfigTab")) { // 6
-				return selectTab("userConfig");
+				selectTab("userConfig");
+				return false;
 			}
 
 			if (keycode == 88) { // x
@@ -1846,16 +1860,16 @@ function pref_hotkey_handler(e) {
 	
 			if (seq.match("807371717369")) {
 				seq = "";
-				localPiggieFunction(true);
+				piggie(true);
 			} else {
-				localPiggieFunction(false);
+				piggie(false);
 			}
 		}
 
 		if (hotkey_prefix) {
-			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode);
+			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
 		} else {
-			debug("KP: CODE=" + keycode);
+			debug("KP: CODE=" + keycode + " CHAR=" + keychar);
 		}
 
 	} catch (e) {
