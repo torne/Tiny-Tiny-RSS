@@ -84,7 +84,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<ul id="debug_output"></ul>
+<ul id="debug_output" style='display : none'></ul>
 
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>

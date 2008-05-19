@@ -328,7 +328,6 @@ function feedlist_init() {
 		
 		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
-		document.onmousedown = mouse_handler;
 		setTimeout("timeout()", 0);
 
 /*		debug("about to remove splash, OMG!");
@@ -468,23 +467,3 @@ function remove_splash() {
 		debug("removed splash!");
 	}
 }
-
-function feedMouseIn(id) {
-	try {
-		if (feed_under_pointer != id) {
-			feed_under_pointer = id;
-		}
-
-	} catch (e) {
-		exception_error("feedMouseIn", e);
-	}
-}
-
-function feedMouseOut(id) {
-	try {
-		feed_under_pointer = undefined;
-	} catch (e) {
-		exception_error("feedMouseOut", e);
-	}
-}
-

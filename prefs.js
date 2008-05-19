@@ -1447,7 +1447,7 @@ function init() {
 		arguments.callee.done = true;		
 
 		if (getURLParam('debug')) {
-			document.getElementById('debug_output').style.display = 'block';
+			Element.show("debug_output");
 			debug('debug mode activated');
 		}
 
@@ -1743,14 +1743,12 @@ function pref_hotkey_handler(e) {
 		if (!hotkey_prefix) {
 
 			if (keycode == 68 && shift_key) { // d
-				if (!debug_mode_enabled) {
-					document.getElementById('debug_output').style.display = 'block';
+				if (!Element.visible("debug_output")) {
+					Element.show("debug_output");
 					debug('debug mode activated');
 				} else {
-					document.getElementById('debug_output').style.display = 'none';
+					Element.hide("debug_output");
 				}
-	
-				debug_mode_enabled = !debug_mode_enabled;
 				return;
 			}
 	

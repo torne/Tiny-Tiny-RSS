@@ -1,5 +1,4 @@
 var hotkeys_enabled = true;
-var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
 var notify_silent = false;
 var last_progress_point = 0;
@@ -1384,7 +1383,7 @@ function debug(msg) {
 	}
 
 	var c = document.getElementById('debug_output');
-	if (c && c.style.display == "block") {
+	if (c && Element.visible(c)) {
 		while (c.lastChild != 'undefined' && c.childNodes.length > 100) {
 			c.removeChild(c.lastChild);
 		}

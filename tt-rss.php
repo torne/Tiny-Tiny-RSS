@@ -109,7 +109,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<ul id="debug_output"></ul>
+<ul id="debug_output" style='display : none'></ul>
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 

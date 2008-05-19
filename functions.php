@@ -1533,8 +1533,7 @@
 		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
 			href=\"javascript:viewfeed('$feed_id', '', false, '', false, 0);\">$feed_title</a>";
 
-		print "<li id=\"FEEDR-$feed_id\" class=\"$class\"
-			onmouseover='feedMouseIn($feed_id)' onmouseout='feedMouseOut($feed_id)'>";
+		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
 			print "$feed_icon";
 		}

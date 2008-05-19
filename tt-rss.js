@@ -338,7 +338,7 @@ function init() {
 			return;
 
 		if (getURLParam('debug')) {
-			document.getElementById('debug_output').style.display = 'block';
+			Element.show("debug_output");
 			debug('debug mode activated');
 		}
 
@@ -967,11 +967,11 @@ function hotkey_handler(e) {
 		if (!hotkey_prefix) {
 
 			if (keycode == 68 && shift_key) { // d
-				if (!debug_mode_enabled) {
-					document.getElementById('debug_output').style.display = 'block';
+				if (!Element.visible("debug_output")) {
+					Element.show("debug_output");
 					debug('debug mode activated');
 				} else {
-					document.getElementById('debug_output').style.display = 'none';
+					Element.hide("debug_output");
 				}
 	
 				return;
@@ -1405,20 +1405,5 @@ function hotkey_handler(e) {
 
 	} catch (e) {
 		exception_error("hotkey_handler", e);
-	}
-}
-
-function mouse_handler(e) {
-	try {
-		var r_mouse = false;
-
-		if (window.event) {
-			r_mouse = window.event.button == 2;
-		} else if (e) {
-			r_mouse = e.which == 3;
-		}
-
-	} catch (e) {
-		exception_error("mouse_handler", e);
 	}
 }
