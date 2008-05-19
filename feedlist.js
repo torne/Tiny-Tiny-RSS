@@ -3,6 +3,8 @@ var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var feed_under_pointer = undefined;
 
+var enable_resize = false;
+
 function viewCategory(cat) {
 	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
@@ -479,7 +481,7 @@ function mouse_move_handler(e) {
 
 		}
 
-		if (mouse_is_down) {
+		if (mouse_is_down && enable_resize) {
 
 			if (mouse_y == 0) mouse_y = client_y;
 			if (mouse_x == 0) mouse_x = client_x;
@@ -493,11 +495,13 @@ function mouse_move_handler(e) {
 	}
 }
 
+function resize_enabled(b) {
+	enable_resize = b;
+}
+
 function mouse_down_handler(e) {
 	try {
-
 		mouse_is_down = true;
-
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
 	}
@@ -505,9 +509,7 @@ function mouse_down_handler(e) {
 
 function mouse_up_handler(e) {
 	try {
-
 		mouse_is_down = false;
-
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
 	}
