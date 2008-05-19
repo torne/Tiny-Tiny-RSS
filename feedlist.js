@@ -465,23 +465,26 @@ function init_collapsable_feedlist(theme) {
 
 var mouse_is_down = false;
 var mouse_y = 0;
+var mouse_x = 0;
 
 function mouse_move_handler(e) {
 	try {
 		var client_y;
+		var client_x;
 
 		if (window.event) {
 			client_y = window.event.clientY;
+			client_x = window.event.clientX;
 		} else if (e) {
 
 		}
 
 		if (mouse_is_down) {
+
 			if (mouse_y == 0) mouse_y = client_y;
+			if (mouse_x == 0) mouse_x = client_x;
 
-			debug("moved delta: " + (mouse_y - client_y));
-
-			resize_headlines(0, mouse_y - client_y);
+			resize_headlines(mouse_x - client_x, mouse_y - client_y);
 			return false;
 		}
 
