@@ -460,10 +460,4 @@ function init_collapsable_feedlist(theme) {
 
 }
 
-function remove_splash() {
-	if (Element.visible("overlay")) {
-		debug("about to remove splash, OMG!");
-		Element.hide("overlay");
-		debug("removed splash!");
-	}
-}
+

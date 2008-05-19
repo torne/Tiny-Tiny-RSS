@@ -1697,3 +1697,11 @@ function loading_set_progress(p) {
 		exception_error("loading_set_progress", e);
 	}
 }
+
+function remove_splash() {
+	if (Element.visible("overlay")) {
+		debug("about to remove splash, OMG!");
+		Element.hide("overlay");
+		debug("removed splash!");
+	}
+}

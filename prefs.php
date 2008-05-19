@@ -69,6 +69,24 @@
 
 <body>
 
+<div id="overlay">
+	<div id="overlay_inner">
+		<?php echo __("Loading, please wait...") ?>
+
+		<div id="l_progress_o">
+			<div id="l_progress_i"></div>
+		</div>
+
+	<noscript>
+		<div class="error"><?php echo
+		__("Your browser doesn't support Javascript, which is required
+		for this application to function properly. Please check your
+		browser settings.") ?></div>
+	</noscript>
+	</div>
+</div> 
+
+
 <div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
 	<?php rounded_table_start("hho"); ?>
 	<?php include "help/4.php" ?>

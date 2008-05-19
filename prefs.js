@@ -87,6 +87,8 @@ function feedlist_callback() {
 				correctPNG();
 			}
 			notify("");
+			remove_splash();
+
 		} catch (e) {
 			exception_error("feedlist_callback", e);
 		}
@@ -128,6 +130,7 @@ function filterlist_callback() {
 			correctPNG();
 		}
 		notify("");
+		remove_splash();
 	}
 }
 
@@ -153,6 +156,7 @@ function labellist_callback() {
 			correctPNG();
 		}
 		notify("");
+		remove_splash();
 	}
 }
 
@@ -161,6 +165,7 @@ function feed_browser_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 		notify("");
+		remove_splash();
 	}
 }
 
@@ -169,16 +174,16 @@ function userlist_callback() {
 	if (xmlhttp.readyState == 4) {
 		container.innerHTML=xmlhttp.responseText;
 		notify("");
+		remove_splash();
 	}
 }
 
 function prefslist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
-
 		container.innerHTML=xmlhttp.responseText;
-		
 		notify("");
+		remove_splash();
 	}
 }
 
@@ -1434,6 +1439,9 @@ function init_second_stage() {
 			selectTab(active_tab);
 		}
 		notify("");
+
+		loading_set_progress(60);
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
@@ -1458,6 +1466,8 @@ function init() {
 				"to function properly. Your browser doesn't seem to support it.";
 			return;
 		}
+
+		loading_set_progress(30);
 
 		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
 		xmlhttp.onreadystatechange=backend_sanity_check_callback;
