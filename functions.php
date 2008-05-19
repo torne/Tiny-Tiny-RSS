@@ -2199,26 +2199,28 @@
 	}
 
 	function getAllCounters($link, $omode = "flc", $active_feed = false) {
-/*		getLabelCounters($link);
-		getFeedCounters($link);
-		getTagCounters($link);
-		getGlobalCounters($link);
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			getCategoryCounters($link);
-		} */
 
-		if (!$omode) $omode = "flc";
+		/* getting all counters is a resource intensive operation, so we
+		 * rate limit it a little bit */
 
-		getGlobalCounters($link);
+		if (time() - $_SESSION["get_all_counters_stamp"] > 5) {
 
-		if (strchr($omode, "l")) getLabelCounters($link);
-		if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
-		if (strchr($omode, "t")) getTagCounters($link);
-		if (strchr($omode, "c")) {			
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				getCategoryCounters($link);
+			if (!$omode) $omode = "flc";
+	
+			getGlobalCounters($link);
+	
+			if (strchr($omode, "l")) getLabelCounters($link);
+			if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
+			if (strchr($omode, "t")) getTagCounters($link);
+			if (strchr($omode, "c")) {			
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					getCategoryCounters($link);
+				}
 			}
+
+			$_SESSION["get_all_counters_stamp"] = time();
 		}
+
 	}	
 
 	function getCategoryCounters($link) {
