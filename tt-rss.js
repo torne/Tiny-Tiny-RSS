@@ -1095,14 +1095,14 @@ function hotkey_handler(e) {
 			if (keycode == 81 && shift_key) { // Q
 				if (typeof catchupAllFeeds != 'undefined') {
 					catchupAllFeeds();
-					return false;
+					return;
 				}
 			}
 
 			if (keycode == 81) { // q
 				if (getActiveFeedId()) {
 					catchupCurrentFeed();
-					return false;
+					return;
 				}
 			}
 
