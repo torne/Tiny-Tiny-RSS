@@ -1409,3 +1409,17 @@ function hotkey_handler(e) {
 	}
 }
 
+function mouse_handler(e) {
+	try {
+		var r_mouse = false;
+
+		if (window.event) {
+			r_mouse = window.event.button == 2;
+		} else if (e) {
+			r_mouse = e.which == 3;
+		}
+
+	} catch (e) {
+		exception_error("mouse_handler", e);
+	}
+}

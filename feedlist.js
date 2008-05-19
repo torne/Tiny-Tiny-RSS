@@ -1,6 +1,7 @@
 var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
+var feed_under_pointer = undefined;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -327,6 +328,7 @@ function feedlist_init() {
 		
 		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
+		document.onmousedown = mouse_handler;
 		setTimeout("timeout()", 0);
 
 /*		debug("about to remove splash, OMG!");
@@ -460,7 +462,29 @@ function init_collapsable_feedlist(theme) {
 }
 
 function remove_splash() {
-	debug("about to remove splash, OMG!");
-	Element.hide("overlay");
-	debug("removed splash!");
+	if (Element.visible("overlay")) {
+		debug("about to remove splash, OMG!");
+		Element.hide("overlay");
+		debug("removed splash!");
+	}
 }
+
+function feedMouseIn(id) {
+	try {
+		if (feed_under_pointer != id) {
+			feed_under_pointer = id;
+		}
+
+	} catch (e) {
+		exception_error("feedMouseIn", e);
+	}
+}
+
+function feedMouseOut(id) {
+	try {
+		feed_under_pointer = undefined;
+	} catch (e) {
+		exception_error("feedMouseOut", e);
+	}
+}
+

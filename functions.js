@@ -262,6 +262,8 @@ function getVisibleUnreadHeadlines() {
 
 	var rows = new Array();
 
+	if (!content) return rows;
+
 	for (i = 0; i < content.rows.length; i++) {
 		var row_id = content.rows[i].id.replace("RROW-", "");
 		if (row_id.length > 0 && content.rows[i].className.match("Unread")) {
@@ -276,6 +278,8 @@ function getVisibleHeadlineIds() {
 	var content = document.getElementById("headlinesList");
 
 	var rows = new Array();
+
+	if (!content) return rows;
 
 	for (i = 0; i < content.rows.length; i++) {
 		var row_id = content.rows[i].id.replace("RROW-", "");

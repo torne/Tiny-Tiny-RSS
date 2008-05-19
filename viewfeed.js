@@ -1091,6 +1091,8 @@ function cdmGetVisibleArticles() {
 	var sel_articles = new Array();
 	var container = document.getElementById("headlinesInnerContainer");
 
+	if (!container) return sel_articles;
+
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
