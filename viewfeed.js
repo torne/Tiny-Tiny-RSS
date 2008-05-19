@@ -319,7 +319,7 @@ function article_callback2(transport, id, feed_id) {
 			active_real_feed_id = feed_id;
 			active_post_id = id; 
 
-			showArticleInHeadlines(id);	
+			//showArticleInHeadlines(id);	
 
 			var reply = transport.responseXML.firstChild.firstChild;
 
