@@ -1674,7 +1674,9 @@ function focus_element(id) {
 
 function loading_set_progress(p) {
 	try {
-		if (!Element.visible("overlay")) return;
+		if (p < last_progress_point || !Element.visible("overlay")) return;
+
+		debug("<b>loading_set_progress : " + p + " (" + last_progress_point + ")</b>");
 
 		var o = document.getElementById("l_progress_i");
 
