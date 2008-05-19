@@ -3939,7 +3939,7 @@
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 
 			print "<span id=\"subtoolbar_search\" 
-				style=\"display : none\">Search: <input 
+				style=\"display : none\"><input 
 				id=\"subtoolbar_search_box\"
 				onblur=\"javascript:enableHotkeys();\" 
 				onfocus=\"javascript:disableHotkeys();\"

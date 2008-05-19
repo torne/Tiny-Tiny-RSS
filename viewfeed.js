@@ -1836,7 +1836,6 @@ function fixHeadlinesOrder(ids) {
 }
 
 function subtoolbarSearch() {
-
 	try {
 
 		var q = document.getElementById("subtoolbar_search_box");
@@ -1871,7 +1870,7 @@ function subtoolbarSearch() {
 
 	} catch (e) {
 		exception_error("subtoolbarSearch", e);
-	}
+	} 
 }
 
 function getArticleUnderPointer() {
