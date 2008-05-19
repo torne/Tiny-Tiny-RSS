@@ -220,11 +220,11 @@ div.prefFeedCatHolder {
 }
 
 table.prefFeedList td.feedEditCat {
-	font-weight : bold;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
 	border-color : #999999;
-	padding-top : 0.5em;
+}
+
+table.prefFilterList td.filterEditCat {
+	border-color : #999999;
 }
 
 tr.title td {
@@ -470,3 +470,32 @@ div.topLinks a:hover {
 a.visibleLink {
 	color : gray;
 }
+
+table.prefFilterList tr.even:hover td, 
+table.prefFilterList tr.odd:hover td,
+table.prefFilterList tr.evenSelected:hover td, 
+table.prefFilterList tr.oddSelected:hover td 
+table.prefLabelList tr.even:hover td, 
+table.prefLabelList tr.odd:hover td,
+table.prefLabelList tr.evenSelected:hover td, 
+table.prefLabelList tr.oddSelected:hover td,
+table.prefUserList tr.even:hover td, 
+table.prefUserList tr.odd:hover td,
+table.prefUserList tr.evenSelected:hover td, 
+table.prefUserList tr.oddSelected:hover td,
+table.prefFeedList tr.even:hover td, 
+table.prefFeedList tr.odd:hover td,
+table.prefFeedList tr.evenSelected:hover td, 
+table.prefFeedList tr.oddSelected:hover td
+{
+	color : gray;
+}
+
+table.headlinesList tr.feedTitle td a, div.cdmFeedTitle a {
+	color : gray;
+}
+
+div.tagCloudContainer {
+	border : 1px solid #999999;
+}
+
