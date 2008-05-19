@@ -1490,6 +1490,21 @@ div.headlines_cdm {
 /*	height: expression((parseInt(document.documentElement.clientHeight)-40-305-50)+'px'); */
 }
 
+#resize-grabber {
+	position : absolute;
+	border-width : 1px;
+	border-style : dotted;
+	border-color : #88b0f0;
+	background-color : white;
+	width : 10px;
+	height : 10px;
+	z-index : 20;
+	right : 10px;
+	top : 20px;
+	display : none;
+	cursor : move;
+}
+
 #footer, #prefFooter {
 	position : absolute;
 	bottom : 0px;

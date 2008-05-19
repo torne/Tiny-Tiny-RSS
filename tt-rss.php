@@ -239,6 +239,7 @@ window.onload = init;
 	<div id="headlines-frame" class="headlines_normal">
 		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
 	<div id="content-frame"><div class="whiteBox">&nbsp;</div></div>
+	<div id="resize-grabber" title="<?php echo __('Drag me to resize panels') ?>"> </div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm">
 		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>

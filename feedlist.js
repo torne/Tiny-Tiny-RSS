@@ -328,6 +328,9 @@ function feedlist_init() {
 		
 		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
+		document.onmousemove = mouse_move_handler;
+		document.onmousedown = mouse_down_handler;
+		document.onmouseup = mouse_up_handler;
 		setTimeout("timeout()", 0);
 
 /*		debug("about to remove splash, OMG!");
@@ -460,4 +463,49 @@ function init_collapsable_feedlist(theme) {
 
 }
 
+var mouse_is_down = false;
+var mouse_y = 0;
 
+function mouse_move_handler(e) {
+	try {
+		var client_y;
+
+		if (window.event) {
+			client_y = window.event.clientY;
+		} else if (e) {
+
+		}
+
+		if (mouse_is_down) {
+			if (mouse_y == 0) mouse_y = client_y;
+
+			debug("moved delta: " + (mouse_y - client_y));
+
+			resize_headlines(0, mouse_y - client_y);
+			return false;
+		}
+
+	} catch (e) {
+		exception_error("mouse_move_handler", e);
+	}
+}
+
+function mouse_down_handler(e) {
+	try {
+
+		mouse_is_down = true;
+
+	} catch (e) {
+		exception_error("mouse_move_handler", e);
+	}
+}
+
+function mouse_up_handler(e) {
+	try {
+
+		mouse_is_down = false;
+
+	} catch (e) {
+		exception_error("mouse_move_handler", e);
+	}
+}
