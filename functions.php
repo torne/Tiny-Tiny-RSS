@@ -4173,7 +4173,7 @@
 
 			$age_qpart = getMaxAgeSubquery();
 
-			$result = db_query($link, "SELECT ttrss_feeds.*,
+			$query = "SELECT ttrss_feeds.*,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 					WHERE feed_id = ttrss_feeds.id AND unread = true
@@ -4188,7 +4188,9 @@
 				WHERE 
 					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
-				ORDER BY $order_by_qpart"); 
+				ORDER BY $order_by_qpart"; 
+
+			$result = db_query($link, $query);
 
 			$actid = $_GET["actid"];
 	

@@ -75,7 +75,7 @@
 		<?php echo __("Loading, please wait...") ?>
 
 		<div id="l_progress_o">
-			<div id="l_progress_i"> </div>
+			<div id="l_progress_i"></div>
 		</div>
 
 	<noscript>

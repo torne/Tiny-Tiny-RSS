@@ -2,6 +2,7 @@ var hotkeys_enabled = true;
 var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
 var notify_silent = false;
+var last_progress_point = 0;
 
 /* add method to remove element from array */
 
@@ -1671,10 +1672,19 @@ function focus_element(id) {
 	return false;
 }
 
-function loading_set_progress(v) {
+function loading_set_progress(p) {
 	try {
+		if (!Element.visible("overlay")) return;
+
 		var o = document.getElementById("l_progress_i");
-		o.style.width = (v*2) + "px";
+
+		new Effect.Scale(o, p, { 
+			scaleY : false,
+			scaleFrom : last_progress_point,
+			scaleMode: { originalWidth : 200 },
+			queue: { position: 'end', scope: 'LSP-Q', limit: 1 } });
+
+		last_progress_point = p;
 
 	} catch (e) {
 		exception_error("loading_set_progress", e);

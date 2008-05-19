@@ -321,7 +321,7 @@ function feedlist_init() {
 //		if (arguments.callee.done) return;
 //		arguments.callee.done = true;		
 		
-		loading_set_progress(80);
+		loading_set_progress(90);
 
 		debug("in feedlist init");
 		
@@ -346,7 +346,7 @@ function feedlist_init() {
 			debug("some feed is open on feedlist refresh, reloading");
 			setTimeout("viewCurrentFeed()", 100);
 		} else {
-			if (getInitParam("cdm_auto_catchup") != 1) {				
+			if (getInitParam("cdm_auto_catchup") != 1 && get_feed_unread(-3) > 0) {
 				notify_silent_next();
 				setTimeout("viewfeed(-3)", 100);
 			} else {
@@ -365,8 +365,6 @@ function feedlist_init() {
 		} */
 
 		init_collapsable_feedlist(getInitParam("theme"));
-
-		loading_set_progress(80);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -463,11 +461,6 @@ function init_collapsable_feedlist(theme) {
 
 function remove_splash() {
 	debug("about to remove splash, OMG!");
-
-	var o = document.getElementById("overlay");
-
-	if (o) {
-		o.style.display = "none";
-		debug("removed splash!");
-	} 
+	Element.hide("overlay");
+	debug("removed splash!");
 }
