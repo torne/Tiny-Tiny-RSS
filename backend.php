@@ -279,9 +279,9 @@
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			print "<counters>";
-			getAllCounters($link, $omode, $feed);
-			print "</counters>";
+			//print "<counters>";
+			//getAllCounters($link, $omode, $feed);
+			//print "</counters>";
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
