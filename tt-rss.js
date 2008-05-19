@@ -325,6 +325,8 @@ function init() {
 
 	try {
 
+		loading_set_progress(30);
+
 		// this whole shebang is based on http://www.birnamdesigns.com/misc/busted2.html
 
 		if (arguments.callee.done) return;
@@ -423,6 +425,8 @@ function init_second_stage() {
 
 		debug("second stage ok");
 	
+		loading_set_progress(60);
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}

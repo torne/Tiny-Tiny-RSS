@@ -65,6 +65,8 @@ function clean_feed_selections() {
 function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 	try {
 
+		loading_set_progress(100);
+
 		debug("headlines_callback2 [page=" + feed_cur_page + "]");
 
 		clean_feed_selections();
@@ -168,7 +170,7 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 					debug("headlines_callback: returned no data");
 					notify_error("Error while trying to load more headlines");	
 				}
-	
+
 			}
 	
 			if (articles) {
@@ -228,6 +230,9 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		_infscroll_request_sent = 0;
 
 		notify("");
+
+		remove_splash();
+
 	} catch (e) {
 		exception_error("headlines_callback2", e);
 	}

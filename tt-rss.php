@@ -72,7 +72,12 @@
 
 <div id="overlay">
 	<div id="overlay_inner">
-	<p><?php echo __("Loading, please wait...") ?></p>
+		<?php echo __("Loading, please wait...") ?>
+
+		<div id="l_progress_o">
+			<div id="l_progress_i"> </div>
+		</div>
+
 	<noscript>
 		<div class="error"><?php echo
 		__("Your browser doesn't support Javascript, which is required

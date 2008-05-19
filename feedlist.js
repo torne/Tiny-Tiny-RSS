@@ -321,20 +321,22 @@ function feedlist_init() {
 //		if (arguments.callee.done) return;
 //		arguments.callee.done = true;		
 		
+		loading_set_progress(80);
+
 		debug("in feedlist init");
 		
 		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
 		setTimeout("timeout()", 0);
 
-		debug("about to remove splash, OMG!");
+/*		debug("about to remove splash, OMG!");
 
 		var o = document.getElementById("overlay");
 
 		if (o) {
 			o.style.display = "none";
 			debug("removed splash!");
-		}
+		} */
 
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
@@ -345,7 +347,10 @@ function feedlist_init() {
 			setTimeout("viewCurrentFeed()", 100);
 		} else {
 			if (getInitParam("cdm_auto_catchup") != 1) {				
+				notify_silent_next();
 				setTimeout("viewfeed(-3)", 100);
+			} else {
+				remove_splash();
 			}
 		}
 
@@ -360,6 +365,8 @@ function feedlist_init() {
 		} */
 
 		init_collapsable_feedlist(getInitParam("theme"));
+
+		loading_set_progress(80);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -452,4 +459,15 @@ function init_collapsable_feedlist(theme) {
 		exception_error("init_hidden_feedlist", e);
 	}
 
+}
+
+function remove_splash() {
+	debug("about to remove splash, OMG!");
+
+	var o = document.getElementById("overlay");
+
+	if (o) {
+		o.style.display = "none";
+		debug("removed splash!");
+	} 
 }

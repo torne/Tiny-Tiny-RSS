@@ -1,6 +1,7 @@
 var hotkeys_enabled = true;
 var debug_mode_enabled = false;
 var xmlhttp_rpc = Ajax.getTransport();
+var notify_silent = false;
 
 /* add method to remove element from array */
 
@@ -134,7 +135,16 @@ function hide_notify() {
 	}
 } 
 
+function notify_silent_next() {
+	notify_silent = true;
+}
+
 function notify_real(msg, no_hide, n_type) {
+
+	if (notify_silent) {
+		notify_silent = false;
+		return;
+	}
 
 	var n = document.getElementById("notify");
 	var nb = document.getElementById("notify_body");
@@ -1661,3 +1671,12 @@ function focus_element(id) {
 	return false;
 }
 
+function loading_set_progress(v) {
+	try {
+		var o = document.getElementById("l_progress_i");
+		o.style.width = (v*2) + "px";
+
+	} catch (e) {
+		exception_error("loading_set_progress", e);
+	}
+}
