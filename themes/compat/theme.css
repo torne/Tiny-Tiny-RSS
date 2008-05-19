@@ -596,30 +596,8 @@ td.selectPrompt {
 	color : gray;
 }
 
-table.headlinesSubToolbar td.headlineActions {
-	font-size : x-small;
+table.headlinesSubToolbar td {
 	color : gray;
-	padding : 5px 0px 5px 5px;
-}
-
-table.headlinesSubToolbar td.headlineActionsRTL {
-	font-size : x-small;
-	color : gray;
-	padding : 5px 5px 5px 0px;
-}
-
-table.headlinesSubToolbar td.headlineTitle {
-	font-size : x-small;
-	color : gray;
-	padding : 5px 5px 5px 0px;
-	text-align : right;
-}
-
-table.headlinesSubToolbar td.headlineTitleRTL {
-	font-size : x-small;
-	color : gray;
-	padding : 5px 0px 5px 5px;
-	text-align : left;
 }
 
 span.contentPreview {
@@ -839,29 +817,14 @@ div.cdmContent a:hover {
 /* layout */
 
 #header {
-	position : absolute;
-	top : 10px;
-	left : 15px;
-	right : 5px;
-	height : 40px;
 	color : gray;
 }
 
 #feeds-holder {
 	border-color : #c0c0c0;
-	top : 70px;
-	left : 0px;
-	position : absolute;
-	width : 260px;
-	bottom : 50px;
 }
 
 #toolbar {
-	left : 261px;
-	padding : 5px 10px 5px 10px;
-	top : 70px;
-	right : 0px;
-	height : 30px;
 	background-image : url("images/vgrad_light.png");
 	background-position : bottom left;
 	background-repeat : repeat-x;
@@ -869,27 +832,14 @@ div.cdmContent a:hover {
 
 div.headlines_normal {
 	border-color : #c0c0c0;
-	left : 260px;
-	height : 280px;
-	top : 105px;
-	right : 0px;
 }
 
 div.headlines_cdm {
 	border-color : #c0c0c0;
-	left : 260px;
-	bottom : 50px;
-	top : 105px;
-	right : 0px;
 }
 
 #content-frame {
 	border-color : #c0c0c0;
-	overflow : auto;
-	top : 390px;
-	left : 260px;
-	bottom : 50px;
-	right : 0px;
 }
 
 #prefFooter {
@@ -914,7 +864,6 @@ div.headlines_cdm {
 }
 
 #headlinesContainer {
-	margin-left : 1px;
 	background-color : white;
 }
 
@@ -958,3 +907,8 @@ div.infoBoxContents a {
 a.visibleLink {
 	color : gray;
 }
+
+table.headlinesList tr.feedTitle td a, div.cdmFeedTitle a {
+	color : #5050aa;
+}
+
