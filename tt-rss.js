@@ -974,7 +974,6 @@ function hotkey_handler(e) {
 					document.getElementById('debug_output').style.display = 'none';
 				}
 	
-				debug_mode_enabled = !debug_mode_enabled;
 				return;
 			}
 	
@@ -995,7 +994,7 @@ function hotkey_handler(e) {
 
 			if (keycode == 82 && shift_key) { // R
 				scheduleFeedUpdate(true);
-				return false;
+				return;
 			}
 
 			if (keycode == 82) { // r
@@ -1009,37 +1008,37 @@ function hotkey_handler(e) {
 				var feed = getActiveFeedId();
 				var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
 				if (new_feed) viewfeed(new_feed, '');
-				return false;
+				return;
 			}
 	
 			if (keycode == 75) { // k
 				var feed = getActiveFeedId();
 				var new_feed = getRelativeFeedId(feedlist, feed, 'next');
 				if (new_feed) viewfeed(new_feed, '');
-				return false;
+				return;
 			}
 
 			if (shift_key && (keycode == 78 || keycode == 40)) { // shift - n, down
 				catchupRelativeToArticle(1);
-				return false;
+				return;
 			}
 
 			if (shift_key && (keycode == 80 || keycode == 38)) { // shift - p, up
 				catchupRelativeToArticle(0);
-				return false;
+				return;
 			}
 
 			if (keycode == 78 || keycode == 40) { // n, down
 				if (typeof moveToPost != 'undefined') {
 					moveToPost('next');
-					return false;
+					return;
 				}
 			}
 	
 			if (keycode == 80 || keycode == 38) { // p, up
 				if (typeof moveToPost != 'undefined') {
 					moveToPost('prev');
-					return false;
+					return;
 				}
 			}
 
@@ -1048,7 +1047,7 @@ function hotkey_handler(e) {
 				if (id) {				
 					togglePub(id);
 				}
-				return false;
+				return;
 			}
 
 			if (keycode == 83) { // s
@@ -1056,7 +1055,7 @@ function hotkey_handler(e) {
 				if (id) {				
 					toggleMark(id);
 				}
-				return false;
+				return;
 			}
 
 
@@ -1065,14 +1064,14 @@ function hotkey_handler(e) {
 				if (id) {				
 					toggleUnread(id);
 				}
-				return false;
+				return;
 			}
 
 			if (keycode == 84 && shift_key) { // T
 				var id = getActiveArticleId();
 				if (id) {
 					editArticleTags(id, getActiveFeedId(), isCdmMode());
-					return false;
+					return;
 				}
 			}
 
@@ -1092,7 +1091,7 @@ function hotkey_handler(e) {
 			if (keycode == 79) { // o
 				if (getActiveArticleId()) {
 					openArticleInNewWindow(getActiveArticleId());
-					return false;
+					return;
 				}
 			}
 
