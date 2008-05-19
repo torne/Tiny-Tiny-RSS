@@ -3324,7 +3324,8 @@
 					".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
 					$content_query_part
-					".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms
+					".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
+					score
 					FROM
 						ttrss_entries,ttrss_user_entries,ttrss_tags
 					WHERE
