@@ -205,34 +205,6 @@ function printLockingError() {
 	notify_info("Please wait until operation finishes.");
 }
 
-function cleanSelectedList(element) {
-	var content = document.getElementById(element);
-
-	if (!document.getElementById("feedCatHolder")) {
-		for (i = 0; i < content.childNodes.length; i++) {
-			var child = content.childNodes[i];
-			try {
-				child.className = child.className.replace("Selected", "");
-			} catch (e) {
-				//
-			}
-		}
-	} else {
-		for (i = 0; i < content.childNodes.length; i++) {
-			var child = content.childNodes[i];
-			if (child.id == "feedCatHolder") {
-				debug(child.id);
-				var fcat = child.lastChild;
-				for (j = 0; j < fcat.childNodes.length; j++) {
-					var feed = fcat.childNodes[j];
-					feed.className = feed.className.replace("Selected", "");
-				}		
-			}
-		} 
-	}
-}
-
-
 function cleanSelected(element) {
 	var content = document.getElementById(element);
 
@@ -585,7 +557,7 @@ function parse_counters(reply, scheduled_call) {
 			}
 		}
 
-		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 		var feeds_stored = number_of_feeds;
 
@@ -650,7 +622,7 @@ function parse_counters_reply(transport, scheduled_call) {
 			resort_feedlist();		
 	}	
 
-	hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+	hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 }
 
@@ -674,7 +646,7 @@ function get_feed_unread(id) {
 	}
 }
 
-function get_feed_entry_unread(doc, elem) {
+function get_feed_entry_unread(elem) {
 
 	var id = elem.id.replace("FEEDR-", "");
 
@@ -683,28 +655,28 @@ function get_feed_entry_unread(doc, elem) {
 	}
 
 	try {
-		return parseInt(doc.getElementById("FEEDU-" + id).innerHTML);	
+		return parseInt(document.getElementById("FEEDU-" + id).innerHTML);	
 	} catch (e) {
 		return -1;
 	}
 }
 
-function resort_category(doc, node) {
+function resort_category(node) {
 	debug("resort_category: " + node);
 
 	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 		for (i = 0; i < node.childNodes.length; i++) {
 			if (node.childNodes[i].nodeName != "LI") { continue; }
 
-			if (get_feed_entry_unread(doc, node.childNodes[i]) < 0) {
+			if (get_feed_entry_unread(node.childNodes[i]) < 0) {
 				continue;
 			}
 
 			for (j = i+1; j < node.childNodes.length; j++) {			
 				if (node.childNodes[j].nodeName != "LI") { continue; }  
 
-				var tmp_val = get_feed_entry_unread(doc, node.childNodes[i]);
-				var cur_val = get_feed_entry_unread(doc, node.childNodes[j]);
+				var tmp_val = get_feed_entry_unread(node.childNodes[i]);
+				var cur_val = get_feed_entry_unread(node.childNodes[j]);
 
 				if (cur_val > tmp_val) {
 					tempnode_i = node.childNodes[i].cloneNode(true);
@@ -722,24 +694,18 @@ function resort_category(doc, node) {
 function resort_feedlist() {
 	debug("resort_feedlist");
 
-	var fd = document;
+	if (document.getElementById("FCATLIST--1")) {
 
-	if (fd.getElementById("feedCatHolder")) {
+		var lists = document.getElementsByTagName("UL");
 
-		var feeds = fd.getElementById("feedList");
-		var child = feeds.firstChild;
-
-		while (child) {
-
-			if (child.id == "feedCatHolder") {
-				resort_category(fd, child.firstChild);
+		for (var i = 0; i < lists.length; i++) {
+			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
+				resort_category(lists[i]);
 			}
-	
-			child = child.nextSibling;
 		}
 
 	} else {
-		resort_category(fd, fd.getElementById("feedList"));
+		resort_category(document.getElementById("feedList"));
 	}
 }
 
@@ -777,107 +743,123 @@ function resort_feedlist() {
   }
 
 
-function hideOrShowFeeds(doc, hide) {
+function hideOrShowFeeds(hide) {
 
-	debug("hideOrShowFeeds: " + doc + ", " + hide);
+	try {
 
-	var fd = document;
+	debug("hideOrShowFeeds: " + hide);
 
-	var list = fd.getElementById("feedList");
+	if (document.getElementById("FCATLIST--1")) {
 
-	if (fd.getElementById("feedCatHolder")) {
+		var lists = document.getElementsByTagName("UL");
 
-		var feeds = fd.getElementById("feedList");
-		var child = feeds.firstChild;
+		for (var i = 0; i < lists.length; i++) {
+			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
 
-		while (child) {
-
-			if (child.id == "feedCatHolder") {
-				hideOrShowFeedsCategory(fd, child.firstChild, hide, child.previousSibling);
+				var id = lists[i].id.replace("FCATLIST-", "");
+				hideOrShowFeedsCategory(id, hide);
 			}
-	
-			child = child.nextSibling;
 		}
 
 	} else {
-		hideOrShowFeedsCategory(fd, fd.getElementById("feedList"), hide);
+		hideOrShowFeedsCategory(null, hide);
+	}
+
+	} catch (e) {
+		exception_error("hideOrShowFeeds", e);
 	}
 }
 
-function hideOrShowFeedsCategory(doc, node, hide, cat_node) {
+function hideOrShowFeedsCategory(id, hide) {
 
-//	debug("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
-
-	var cat_unread = 0;
-
-	if (!node) {
-		debug("hideOrShowFeeds: passed node is null, aborting");
-		return;
-	}
-
-//	debug("cat: " + node.id);
-
-	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
-		for (i = 0; i < node.childNodes.length; i++) {
-			if (node.childNodes[i].nodeName != "LI") { continue; }
-
-			if (node.childNodes[i].style != undefined) {
-
-				var has_unread = (node.childNodes[i].className != "feed" &&
-					node.childNodes[i].className != "label" && 
-					!(!getInitParam("hide_read_shows_special") && 
-						node.childNodes[i].className == "virt") && 
-					node.childNodes[i].className != "error" && 
-					node.childNodes[i].className != "tag");
+	try {
 	
-//				debug(node.childNodes[i].id + " --> " + has_unread);
-	
-				if (hide && !has_unread) {
-					//node.childNodes[i].style.display = "none";
-					var id = node.childNodes[i].id;
-					Effect.Fade(node.childNodes[i], {duration : 0.3, 
-						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-				}
-	
-				if (!hide) {
-					node.childNodes[i].style.display = "list-item";
-					//Effect.Appear(node.childNodes[i], {duration : 0.3});
-				}
-	
-				if (has_unread) {
-					node.childNodes[i].style.display = "list-item";
-					cat_unread++;
-					//Effect.Appear(node.childNodes[i], {duration : 0.3});
-					//Effect.Highlight(node.childNodes[i]);
-				}
-			}
+		var node = null;
+		var cat_node = null;
+
+		if (id) {
+			node = document.getElementById("FCATLIST-" + id);
+			cat_node = document.getElementById("FCAT-" + id);
+		} else {
+			node = document.getElementById("feedList"); // no categories
 		}
-	}	
 
-//	debug("end cat: " + node.id + " unread " + cat_unread);
-
-	if (cat_unread == 0) {
-		if (cat_node.style == undefined) {
-			debug("ERROR: supplied cat_node " + cat_node + 
-				" has no styles. WTF?");
+	//	debug("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
+	
+		var cat_unread = 0;
+	
+		if (!node) {
+			debug("hideOrShowFeeds: passed node is null, aborting");
 			return;
 		}
-		if (hide) {
-			//cat_node.style.display = "none";
-			Effect.Fade(cat_node, {duration : 0.3, 
-				queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
+	
+	//	debug("cat: " + node.id);
+	
+		if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
+			for (i = 0; i < node.childNodes.length; i++) {
+				if (node.childNodes[i].nodeName != "LI") { continue; }
+	
+				if (node.childNodes[i].style != undefined) {
+	
+					var has_unread = (node.childNodes[i].className != "feed" &&
+						node.childNodes[i].className != "label" && 
+						!(!getInitParam("hide_read_shows_special") && 
+							node.childNodes[i].className == "virt") && 
+						node.childNodes[i].className != "error" && 
+						node.childNodes[i].className != "tag");
+		
+	//				debug(node.childNodes[i].id + " --> " + has_unread);
+		
+					if (hide && !has_unread) {
+						//node.childNodes[i].style.display = "none";
+						var id = node.childNodes[i].id;
+						Effect.Fade(node.childNodes[i], {duration : 0.3, 
+							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
+					}
+		
+					if (!hide) {
+						node.childNodes[i].style.display = "list-item";
+						//Effect.Appear(node.childNodes[i], {duration : 0.3});
+					}
+		
+					if (has_unread) {
+						node.childNodes[i].style.display = "list-item";
+						cat_unread++;
+						//Effect.Appear(node.childNodes[i], {duration : 0.3});
+						//Effect.Highlight(node.childNodes[i]);
+					}
+				}
+			}
+		}	
+	
+	//	debug("end cat: " + node.id + " unread " + cat_unread);
+	
+		if (cat_unread == 0) {
+			if (cat_node.style == undefined) {
+				debug("ERROR: supplied cat_node " + cat_node + 
+					" has no styles. WTF?");
+				return;
+			}
+			if (hide) {
+				//cat_node.style.display = "none";
+				Effect.Fade(cat_node, {duration : 0.3, 
+					queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
+			} else {
+				cat_node.style.display = "list-item";
+			}
 		} else {
-			cat_node.style.display = "list-item";
+			try {
+				cat_node.style.display = "list-item";
+			} catch (e) {
+				debug(e);
+			}
 		}
-	} else {
-		try {
-			cat_node.style.display = "list-item";
-		} catch (e) {
-			debug(e);
-		}
-	}
 
 //	debug("unread for category: " + cat_unread);
+
+	} catch (e) {
+		exception_error("hideOrShowFeedsCategory", e);
+	}
 }
 
 function selectTableRow(r, do_select) {

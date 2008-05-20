@@ -4065,7 +4065,7 @@
 
 			print "</li>";
 
-			print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
+			print "<ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
 
 	}
 	
@@ -4084,19 +4084,6 @@
 			} else {
 				$cat_hidden = false;
 			}
-
-#			print "<li class=\"feedCat\">".__('Special')."</li>";
-#			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\">";		
-#			print "<li class=\"feedCat\">".
-#				"<a id=\"FCATN--1\" href=\"javascript:toggleCollapseCat(-1)\">".
-#				__('Special')."</a> <span id='FCAP--1'>$ellipsis</span></li>";
-#
-#			print "<li id=\"feedCatHolder\" class=\"feedCatHolder\">
-#				<ul class=\"feedCatList\" id='FCATLIST--1' style='$holder_style'>";
-
-#			$cat_unread = getCategoryUnread($link, -1);
-#			$tmp_category = __("Special");
-#			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
 
 			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
@@ -4161,11 +4148,6 @@
 
 						printCategoryHeader($link, -2, $cat_hidden, false);
 
-#						print "<li class=\"feedCat\">".
-#							"<a id=\"FCATN--2\" href=\"javascript:toggleCollapseCat(-2)\">".
-#							__('Labels')."</a> <span id='FCAP--2'>$ellipsis</span></li>";
-#
-#						print "<li id=\"feedCatHolder\" class=\"feedCatHolder\"><ul class=\"feedCatList\" id='FCATLIST--2' style='$holder_style'>";
 					} else {
 						print "<li><hr></li>";
 					}
@@ -4317,7 +4299,7 @@
 				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
 				
 					if ($category) {
-						print "</ul></li>";
+						print "</ul>";
 					}
 				
 					$category = $tmp_category;
@@ -4331,35 +4313,10 @@
 						}
 					}
 
-/*					if ($collapsed == "t" || $collapsed == "1") {
-						$holder_class = "feedCatHolder";
-						$holder_style = "display:none;";
-						$ellipsis = "…";
-					} else {
-						$holder_class = "feedCatHolder";
-						$holder_style = "";
-						$ellipsis = "";
-					} */
-
 					$cat_id = sprintf("%d", $cat_id);
 
 					printCategoryHeader($link, $cat_id, $collapsed, true);
 
-
-/*					$cat_unread = getCategoryUnread($link, $cat_id);
-
-					$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
-
-					print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-						<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>
-							<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">
-							<span id=\"FCATCTR-$cat_id\" 
-							class=\"$catctr_class\">($cat_unread)</span> $ellipsis
-							</a></li>";
-
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>"; */
-
-					
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
@@ -4388,7 +4345,7 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<li class=\"feedCat\">".__('Tags')."</li>";
-				print "<li id=\"feedCatHolder\"><ul class=\"feedCatList\">";
+				print "<ul class=\"feedCatList\">";
 			}
 
 			$age_qpart = getMaxAgeSubquery();

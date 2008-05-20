@@ -332,7 +332,7 @@ function feedlist_init() {
 
 		debug("in feedlist init");
 		
-		hideOrShowFeeds(document, getInitParam("hide_read_feeds") == 1);
+		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
 		document.onmousemove = mouse_move_handler;
 		document.onmousedown = mouse_down_handler;

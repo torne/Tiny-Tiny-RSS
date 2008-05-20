@@ -622,7 +622,7 @@ function toggleDispRead() {
 
 		debug("toggle_disp_read => " + hide_read_feeds);
 
-		hideOrShowFeeds(getFeedsContext().document, hide_read_feeds);
+		hideOrShowFeeds(hide_read_feeds);
 
 		storeInitParam("hide_read_feeds", hide_read_feeds, true);
 				
@@ -1035,7 +1035,7 @@ function hotkey_handler(e) {
 				}
 				return false;
 			}
-	
+
 			if (keycode == 191 || keychar == '/') { // /
 				displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
 				return false;
@@ -1217,6 +1217,10 @@ function hotkey_handler(e) {
 					catchupCurrentFeed();
 					return false;
 				}
+			}
+
+			if (keycode == 87) { // w
+				return resort_feedlist();
 			}
 
 		}
