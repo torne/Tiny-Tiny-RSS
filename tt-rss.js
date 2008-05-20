@@ -17,6 +17,7 @@ var hotkey_prefix = false;
 var init_params = new Object();
 var ver_offset = 0;
 var hor_offset = 0;
+var feeds_sort_by_unread = false;
 
 function tagsAreDisplayed() {
 	return display_tags;
@@ -451,6 +452,7 @@ function init_second_stage() {
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
+		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
 		setTimeout('updateFeedList(false, false)', 50);
 
@@ -1220,6 +1222,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 87) { // w
+				feeds_sort_by_unread = !feeds_sort_by_unread;
 				return resort_feedlist();
 			}
 
@@ -1287,4 +1290,8 @@ function hotkey_handler(e) {
 	} catch (e) {
 		exception_error("hotkey_handler", e);
 	}
+}
+
+function feedsSortByUnread() {
+	return feeds_sort_by_unread;
 }

@@ -618,9 +618,9 @@ function parse_counters_reply(transport, scheduled_call) {
 
 	parse_runtime_info(runtime_info);
 
-	if (getInitParam("feeds_sort_by_unread") == 1) {
-			resort_feedlist();		
-	}	
+	if (feedsSortByUnread()) {
+		resort_feedlist();
+	}
 
 	hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
@@ -661,8 +661,16 @@ function get_feed_entry_unread(elem) {
 	}
 }
 
+function get_feed_entry_name(elem) {
+	var id = elem.id.replace("FEEDR-", "");
+	return getFeedName(id);
+}
+
+
 function resort_category(node) {
 	debug("resort_category: " + node);
+
+	var by_unread = feedsSortByUnread();
 
 	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 		for (i = 0; i < node.childNodes.length; i++) {
@@ -678,7 +686,10 @@ function resort_category(node) {
 				var tmp_val = get_feed_entry_unread(node.childNodes[i]);
 				var cur_val = get_feed_entry_unread(node.childNodes[j]);
 
-				if (cur_val > tmp_val) {
+				var tmp_name = get_feed_entry_name(node.childNodes[i]);
+				var cur_name = get_feed_entry_name(node.childNodes[j]);
+
+				if ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name))) {
 					tempnode_i = node.childNodes[i].cloneNode(true);
 					tempnode_j = node.childNodes[j].cloneNode(true);
 					node.replaceChild(tempnode_i, node.childNodes[j]);
