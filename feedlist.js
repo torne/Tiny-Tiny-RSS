@@ -478,7 +478,8 @@ function mouse_move_handler(e) {
 			client_y = window.event.clientY;
 			client_x = window.event.clientX;
 		} else if (e) {
-
+			client_x = e.screenX;
+			client_y = e.screenY;
 		}
 
 		if (mouse_is_down) {

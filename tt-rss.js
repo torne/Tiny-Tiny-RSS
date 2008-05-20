@@ -359,7 +359,7 @@ function init() {
 
 function resize_headlines(delta_x, delta_y) {
 
-	debug("resize_headlines: " + hor_offset + ":" + ver_offset);
+	debug("resize_headlines: " + delta_x + ":" + delta_y);
 
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
@@ -450,7 +450,6 @@ function init_second_stage() {
 		delCookie("ttrss_vf_test");
 
 //		document.onresize = resize_headlines;
-		resize_headlines();
 
 		var toolbar = document.forms["main_toolbar_form"];
 
@@ -466,10 +465,12 @@ function init_second_stage() {
 
 		loading_set_progress(60);
 
-		ver_offset = getCookie("ttrss_offset_ver");
+		ver_offset = parseInt(getCookie("ttrss_offset_ver"));
+		hor_offset = parseInt(getCookie("ttrss_offset_hor"));
 
-		if (!ver_offset || ver_offset == undefined || ver_offset == 'undefined') ver_offset = 0;
-		if (!hor_offset || hor_offset == undefined || hor_offset == 'undefined') hor_offset = 0;
+		debug("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
+
+		resize_headlines();
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
