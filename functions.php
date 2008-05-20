@@ -4066,6 +4066,7 @@
 			print "</li>";
 
 			print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
+
 	}
 	
 	function outputFeedList($link, $tags = false) {
@@ -4321,7 +4322,7 @@
 				
 					$category = $tmp_category;
 
-					$collapsed = $line["collapsed"];
+					$collapsed = sql_bool_to_bool($line["collapsed"]);
 
 					// workaround for NULL category
 					if ($category == __("Uncategorized")) {
@@ -4330,7 +4331,7 @@
 						}
 					}
 
-					if ($collapsed == "t" || $collapsed == "1") {
+/*					if ($collapsed == "t" || $collapsed == "1") {
 						$holder_class = "feedCatHolder";
 						$holder_style = "display:none;";
 						$ellipsis = "…";
@@ -4338,11 +4339,14 @@
 						$holder_class = "feedCatHolder";
 						$holder_style = "";
 						$ellipsis = "";
-					}
+					} */
 
 					$cat_id = sprintf("%d", $cat_id);
 
-					$cat_unread = getCategoryUnread($link, $cat_id);
+					printCategoryHeader($link, $cat_id, $collapsed, true);
+
+
+/*					$cat_unread = getCategoryUnread($link, $cat_id);
 
 					$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
 
@@ -4353,7 +4357,9 @@
 							class=\"$catctr_class\">($cat_unread)</span> $ellipsis
 							</a></li>";
 
-					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
+					print "<li id=\"feedCatHolder\" class=\"$holder_class\"><ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>"; */
+
+					
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
