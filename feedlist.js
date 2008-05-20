@@ -339,15 +339,6 @@ function feedlist_init() {
 		document.onmouseup = mouse_up_handler;
 		setTimeout("timeout()", 0);
 
-/*		debug("about to remove splash, OMG!");
-
-		var o = document.getElementById("overlay");
-
-		if (o) {
-			o.style.display = "none";
-			debug("removed splash!");
-		} */
-
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}
@@ -367,12 +358,6 @@ function feedlist_init() {
 		if (getInitParam("theme") == "") {
 			setTimeout("hide_footer()", 5000);
 		}
-
-/*		if (getInitParam("hide_feedlist") == 1) {
-			init_hidden_feedlist(getInitParam("theme"));
-		} else {
-			init_collapsable_feedlist(getInitParam("theme"));
-		} */
 
 		init_collapsable_feedlist(getInitParam("theme"));
 

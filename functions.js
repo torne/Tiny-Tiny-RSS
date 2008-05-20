@@ -11,25 +11,12 @@ Array.prototype.remove = function(s) {
 	}
 }
 
-function browser_has_opacity() {
-	return navigator.userAgent.match("Gecko") != null || 
-		navigator.userAgent.match("Opera") != null;
-}
-
 function is_msie() {
 	return navigator.userAgent.match("MSIE");
 }
 
 function is_opera() {
-	return navigator.userAgent.match("Opera");
-}
-
-function is_khtml() {
-	return navigator.userAgent.match("KHTML");
-}
-
-function is_safari() {
-	return navigator.userAgent.match("Safari");
+	return window.opera;
 }
 
 function exception_error(location, e, silent) {
@@ -1233,10 +1220,6 @@ function infobox_callback2(transport) {
 		var shadow = document.getElementById('infoBoxShadow');
 		if (box) {			
 
-/*				if (!is_safari()) {
-				new Draggable(shadow);
-			} */
-
 			box.innerHTML=transport.responseText;			
 			if (shadow) {
 				shadow.style.display = "block";
@@ -1507,14 +1490,6 @@ function getRelativePostIds(id, limit) {
 			var r_id = rows[i].id.replace("RROW-", "");
 
 			if (r_id == id) {
-/*				if (i > 0) ids.push(rows[i-1].id.replace("RROW-", ""));
-				if (i > 1) ids.push(rows[i-2].id.replace("RROW-", ""));
-				if (i > 2) ids.push(rows[i-3].id.replace("RROW-", ""));
-
-				if (i < rows.length-1) ids.push(rows[i+1].id.replace("RROW-", ""));
-				if (i < rows.length-2) ids.push(rows[i+2].id.replace("RROW-", ""));
-				if (i < rows.length-3) ids.push(rows[i+3].id.replace("RROW-", "")); */
-
 				for (var k = 1; k <= limit; k++) {
 					var nid = false;
 

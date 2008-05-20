@@ -519,19 +519,11 @@ function toggleMark(id, client_only, no_effects) {
 			mark_img.src = mark_img.src.replace("mark_unset", "mark_set");
 			mark_img.alt = __("Unstar article");
 			query = query + "&mark=1";
-	
-/*			if (vfeedu && crow.className.match("Unread")) {
-				vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
-			} */
-	
+
 		} else {
 			//mark_img.src = "images/mark_unset.png";
 			mark_img.alt = __("Please wait...");
 			query = query + "&mark=0";
-	
-/*			if (vfeedu && crow.className.match("Unread")) {
-				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
-			} */
 	
 			if (document.getElementById("headlinesList") && !no_effects) {
 				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
@@ -540,25 +532,6 @@ function toggleMark(id, client_only, no_effects) {
 				mark_img.alt = __("Star article");
 			}
 		}
-	
-/*		var vfeedctr = document.getElementById("FEEDCTR--1");
-		var vfeedr = document.getElementById("FEEDR--1");
-	
-		if (vfeedu && vfeedctr) {
-			if ((+vfeedu.innerHTML) > 0) {
-				if (crow.className.match("Unread") && !vfeedr.className.match("Unread")) {
-					vfeedr.className = vfeedr.className + "Unread";
-					vfeedctr.className = "odd";
-				}
-			} else {
-				vfeedctr.className = "invisible";
-				vfeedr.className = vfeedr.className.replace("Unread", "");
-			}
-		}
-	
-		debug("toggle starred for aid " + id);
-	
-		//new Ajax.Request(query); */
 
 		if (!client_only) {
 			debug(query);
@@ -598,19 +571,12 @@ function togglePub(id, client_only, no_effects) {
 			mark_img.alt = __("Unpublish article");
 			query = query + "&pub=1";
 	
-/*			if (vfeedu && crow.className.match("Unread")) {
-				vfeedu.innerHTML = (+vfeedu.innerHTML) + 1;
-			} */
-	
+
 		} else {
 			//mark_img.src = "images/pub_unset.png";
 			mark_img.alt = __("Please wait...");
 			query = query + "&pub=0";
 	
-/*			if (vfeedu && crow.className.match("Unread")) {
-				vfeedu.innerHTML = (+vfeedu.innerHTML) - 1;
-			} */
-
 			if (document.getElementById("headlinesList") && !no_effects) {
 				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
 			} else { 
@@ -618,25 +584,6 @@ function togglePub(id, client_only, no_effects) {
 				mark_img.alt = __("Publish article");
 			}
 		}
-	
-/*		var vfeedctr = document.getElementById("FEEDCTR--2");
-		var vfeedr = document.getElementById("FEEDR--2");
-	
-		if (vfeedu && vfeedctr) {
-			if ((+vfeedu.innerHTML) > 0) {
-				if (crow.className.match("Unread") && !vfeedr.className.match("Unread")) {
-					vfeedr.className = vfeedr.className + "Unread";
-					vfeedctr.className = "odd";
-				}
-			} else {
-				vfeedctr.className = "invisible";
-				vfeedr.className = vfeedr.className.replace("Unread", "");
-			}
-		}
-	
-		debug("toggle published for aid " + id);
-	
-		new Ajax.Request(query); */
 
 		if (!client_only) {
 			new Ajax.Request(query, {
@@ -745,52 +692,6 @@ function moveToPost(mode) {
 				}
 			}
 		} 
-
-
-/*	} else {
-			var rows = cdmGetVisibleArticles();
-
-			if (mode == "next") {
-
-				for (var i = 0; i < rows.length; i++) {
-
-					if (cdmArticleIsActuallyVisible(rows[i]) ||
-							cdmArticleIsBelowViewport(rows[i])) {
-
-						if (!cdmArticleIsActuallyVisible(rows[i])) {
-							cdmScrollToArticleId(rows[i]);
-						}
-						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
-						cdmSelectArticles("none");
-						toggleUnread(rows[i], undefined, true);
-						toggleSelected(rows[i]);
-
-						return;
-					}
-				}
-
-				cdmScrollViewport('bottom');
-
-			} else if (mode == "prev") {
-
-				for (var i = 0; i < rows.length; i++) {
-
-					if (cdmArticleIsAboveViewport(rows[i]) &&
-								!cdmArticleIsAboveViewport(rows[i+1])) {
-
-						cdmScrollToArticleId(rows[i]);
-						//setTimeout("toggleUnread(" + rows[i] + ", undefined, true)", 500);
-						cdmSelectArticles("none");
-						toggleUnread(rows[i], undefined, true);
-						cdmSelectArticleById(rows[i]);
-
-						break;
-					} 
-				}
-
-			} 
-	
-		} */
 
 	} catch (e) {
 		exception_error("moveToPost", e);
@@ -1607,7 +1508,7 @@ function cdmClicked(elem) {
 
 		}
 	} catch (e) {
-		exception_error("cdmMouseIn", e);
+		exception_error("cdmClicked", e);
 	} 
 }
 
@@ -1682,21 +1583,6 @@ function postMouseOut(id) {
 	} catch (e) {
 		exception_error("postMouseOut", e);
 	}
-}
-
-function cdmMouseIn(elem) {
-/*	try {
-		if (elem.id && elem.id.match("RROW-")) {
-			var id = elem.id.replace("RROW-", "");
-			active_post_id = id;
-		}
-	} catch (e) {
-		exception_error("cdmMouseIn", e);
-	} */
-}
-
-function cdmMouseOut(elem) {
-	//active_post_id = false;
 }
 
 function headlines_scroll_handler() {
