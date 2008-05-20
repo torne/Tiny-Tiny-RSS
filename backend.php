@@ -288,7 +288,7 @@
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			if (time() - $_SESSION["get_all_counters_stamp"] > 180) {
+			if (time() - $_SESSION["get_all_counters_stamp"] > 300) {
 				print "<counters>";
 				getAllCounters($link, $omode, $feed);
 				print "</counters>";
