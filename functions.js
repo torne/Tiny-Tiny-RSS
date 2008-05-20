@@ -11,10 +11,6 @@ Array.prototype.remove = function(s) {
 	}
 }
 
-function is_msie() {
-	return navigator.userAgent.match("MSIE");
-}
-
 function is_opera() {
 	return window.opera;
 }
@@ -28,7 +24,9 @@ function exception_error(location, e, silent) {
 		msg = "Exception: " + e.name + ", " + e.message + 
 			"\nFunction: " + location + "()" +
 			"\nLocation: " + base_fname + ":" + e.lineNumber;
-		
+
+	} else if (e.description) {
+		msg = "Exception: " + e.description + "\nFunction: " + location + "()";
 	} else {
 		msg = "Exception: " + e + "\nFunction: " + location + "()";
 	}
@@ -534,7 +532,7 @@ function parse_counters(reply, scheduled_call) {
 				}
 			}
 
-			if (has_img && feed_img && !is_msie()) {
+			if (has_img && feed_img) {
 				if (!feed_img.src.match(id + ".ico")) {
 					feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
 				}

@@ -37,15 +37,6 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
 	<?php } ?>
 
-	<!--[if lt IE 7]>		
-		<script type="text/javascript" src="pngfix.js"></script>
-		<link rel="stylesheet" type="text/css" href="ie6.css">
-	<![endif]-->
-
-	<!--[if IE 7]>		
-		<link rel="stylesheet" type="text/css" href="ie7.css">
-	<![endif]-->
-
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
 	<script type="text/javascript" src="prototype.js"></script>

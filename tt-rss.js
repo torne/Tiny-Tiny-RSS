@@ -383,7 +383,7 @@ function resize_headlines(delta_x, delta_y) {
 			}
 		}
 
-		debug("resize_headlines: HOR-mode");
+		debug("resize_headlines: HOR-mode: " + hor_offset);
 
 		c_frame.style.width = (400 + hor_offset) + "px";
 		h_frame.style.right = c_frame.offsetWidth - 1 + "px";
@@ -401,37 +401,20 @@ function resize_headlines(delta_x, delta_y) {
 			}
 		}
 
-		debug("resize_headlines: VER-mode");
+		debug("resize_headlines: VER-mode: " + ver_offset);
 
-		if (!is_msie()) {
-			h_frame.style.height = (300 - ver_offset) + "px";
+		h_frame.style.height = (300 - ver_offset) + "px";
 
-			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 1) + "px";
-			h_frame.style.height = h_frame.offsetHeight + "px";
+		c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 1) + "px";
+		h_frame.style.height = h_frame.offsetHeight + "px";
 
-			var theme_c = 0;
+		var theme_c = 0;
 
-			if (getInitParam("theme") == "graycube") theme_c = 1;
+		if (getInitParam("theme") == "graycube") theme_c = 1;
 
-			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 
-				4 - theme_c) + "px";
-			resize_grab.style.display = "block";
-
-		} else {
-			h_frame.style.height = document.documentElement.clientHeight * 0.3 + "px";
-			c_frame.style.top = h_frame.offsetTop + h_frame.offsetHeight + 1 + "px";
-	
-			var c_bottom = document.documentElement.clientHeight;
-	
-			if (f_frame) {
-				c_bottom = f_frame.offsetTop;
-			}
-	
-			c_frame.style.height = c_bottom - (h_frame.offsetTop + 
-				h_frame.offsetHeight + 1) + "px";
-			h_frame.style.height = h_frame.offsetHeight + "px";
-
-		}
+		resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 
+			4 - theme_c) + "px";
+		resize_grab.style.display = "block";
 
 	}
 
@@ -471,6 +454,11 @@ function init_second_stage() {
 
 		ver_offset = parseInt(getCookie("ttrss_offset_ver"));
 		hor_offset = parseInt(getCookie("ttrss_offset_hor"));
+
+		/* fuck IE */
+
+		if (isNaN(hor_offset)) hor_offset = 0;
+		if (isNaN(ver_offset)) ver_offset = 0;
 
 		debug("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
 

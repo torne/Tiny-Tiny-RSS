@@ -46,15 +46,6 @@
 	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="prefs.js?<?php echo $dt_add ?>"></script>
 
-	<!--[if lt IE 7]>
-		<script type="text/javascript" src="pngfix.js"></script>
-		<link rel="stylesheet" type="text/css" href="ie6.css">
-	<![endif]-->
-
-	<!--[if IE 7]>		
-		<link rel="stylesheet" type="text/css" href="ie7.css">
-	<![endif]-->
-
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<script type="text/javascript">
