@@ -668,36 +668,36 @@ function get_feed_entry_name(elem) {
 
 
 function resort_category(node) {
-	debug("resort_category: " + node);
 
-	var by_unread = feedsSortByUnread();
+	try {
 
-	if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
-		for (i = 0; i < node.childNodes.length; i++) {
-			if (node.childNodes[i].nodeName != "LI") { continue; }
-
-			if (get_feed_entry_unread(node.childNodes[i]) < 0) {
-				continue;
-			}
-
-			for (j = i+1; j < node.childNodes.length; j++) {			
-				if (node.childNodes[j].nodeName != "LI") { continue; }  
-
-				var tmp_val = get_feed_entry_unread(node.childNodes[i]);
-				var cur_val = get_feed_entry_unread(node.childNodes[j]);
-
-				var tmp_name = get_feed_entry_name(node.childNodes[i]);
-				var cur_name = get_feed_entry_name(node.childNodes[j]);
-
+		debug("resort_category: " + node);
+	
+		var by_unread = feedsSortByUnread();
+	
+		var list = node.getElementsByTagName("LI");
+	
+		for (i = 0; i < list.length; i++) {
+	
+			for (j = i+1; j < list.length; j++) {			
+	
+				var tmp_val = get_feed_entry_unread(list[i]);
+				var cur_val = get_feed_entry_unread(list[j]);
+	
+				var tmp_name = get_feed_entry_name(list[i]);
+				var cur_name = get_feed_entry_name(list[j]);
+	
 				if ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name))) {
-					tempnode_i = node.childNodes[i].cloneNode(true);
-					tempnode_j = node.childNodes[j].cloneNode(true);
-					node.replaceChild(tempnode_i, node.childNodes[j]);
-					node.replaceChild(tempnode_j, node.childNodes[i]);
+					tempnode_i = list[i].cloneNode(true);
+					tempnode_j = list[j].cloneNode(true);
+					node.replaceChild(tempnode_i, list[j]);
+					node.replaceChild(tempnode_j, list[i]);
 				}
 			}
-
 		}
+
+	} catch (e) {
+		exception_error("resort_category", e);
 	}
 
 }
