@@ -343,6 +343,8 @@ function init() {
 			debug('debug mode activated');
 		}
 
+		new Draggable('debug_output');
+
 		var params = "&ua=" + param_escape(navigator.userAgent);
 
 		loading_set_progress(30);

@@ -1459,6 +1459,8 @@ function init() {
 			debug('debug mode activated');
 		}
 
+		new Draggable('debug_output');
+
 		// IE kludge
 		if (!xmlhttp) {
 			document.getElementById("prefContent").innerHTML = 
