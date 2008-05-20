@@ -187,7 +187,8 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 				debug("parsing piggybacked counters: " + counters);
 				parse_counters(counters, false);
 			} else {
-				debug("counters container not found in reply");
+				debug("counters container not found in reply, requesting...");
+				request_counters();
 			}
 	
 			if (runtime_info) {

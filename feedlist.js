@@ -210,22 +210,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 			f.innerHTML = cache_find_param(cache_prefix + feed, unread_ctr);
 
-			var query = "backend.php?op=rpc&subop=getAllCounters";
-
-			if (tagsAreDisplayed()) {
-				query = query + "&omode=tl";
-			} else {
-				query = query + "&omode=flc";
-			}
-
-			new Ajax.Request(query, {
-				onComplete: function(transport) { 
-					try {
-						all_counters_callback2(transport);
-					} catch (e) {
-						exception_error("viewfeed/getcounters", e);
-					}
-				} });
+			request_counters();
 
 		} else {
 
@@ -508,5 +493,30 @@ function mouse_up_handler(e) {
 		document.onselectstart = null;
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
+	}
+}
+
+function request_counters() {
+
+	try {
+		var query = "backend.php?op=rpc&subop=getAllCounters";
+
+		if (tagsAreDisplayed()) {
+			query = query + "&omode=tl";
+		} else {
+			query = query + "&omode=flc";
+		}
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				try {
+					all_counters_callback2(transport);
+				} catch (e) {
+					exception_error("viewfeed/getcounters", e);
+				}
+			} });
+
+	} catch (e) {
+		exception_error("request_counters", e);
 	}
 }
