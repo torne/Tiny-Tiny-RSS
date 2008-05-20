@@ -8,7 +8,6 @@ var daemon_enabled = false;
 var daemon_refresh_only = false;
 //var _qfd_deleted_feed = 0;
 var firsttime_update = true;
-var cookie_lifetime = 0;
 var active_feed_id = 0;
 var active_feed_is_cat = false;
 var number_of_feeds = 0;
@@ -361,6 +360,13 @@ function resize_headlines(delta_x, delta_y) {
 
 	ver_reflow_delta = delta_y;
 
+	if (getInitParam("cookie_lifetime") != 0) {
+		setCookie("ttrss_reflow_ver", ver_reflow_delta, 
+			getInitParam("cookie_lifetime"));
+	} else {
+		setCookie("ttrss_reflow_ver", ver_reflow_delta);
+	}
+
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
 	var f_frame = document.getElementById("footer");
@@ -415,8 +421,6 @@ function init_second_stage() {
 
 	try {
 
-		cookie_lifetime = getCookie("ttrss_cltime");
-
 		delCookie("ttrss_vf_test");
 
 //		document.onresize = resize_headlines;
@@ -435,6 +439,10 @@ function init_second_stage() {
 		debug("second stage ok");
 
 		loading_set_progress(60);
+
+		ver_reflow_delta = getCookie("ttrss_reflow_ver");
+
+		if (!ver_reflow_delta) ver_reflow_delta = 0;
 
 	} catch (e) {
 		exception_error("init_second_stage", e);

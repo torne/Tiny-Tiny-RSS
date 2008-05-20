@@ -481,7 +481,7 @@ function mouse_move_handler(e) {
 
 		}
 
-		if (mouse_is_down && enable_resize) {
+		if (mouse_is_down) {
 
 			if (mouse_y == 0) mouse_y = client_y;
 			if (mouse_x == 0) mouse_x = client_x;
@@ -501,7 +501,7 @@ function resize_enabled(b) {
 
 function mouse_down_handler(e) {
 	try {
-		mouse_is_down = true;
+		if (enable_resize) mouse_is_down = true;
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
 	}
