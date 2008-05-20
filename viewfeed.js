@@ -325,7 +325,7 @@ function article_callback2(transport, id, feed_id) {
 			active_real_feed_id = feed_id;
 			active_post_id = id; 
 
-			//showArticleInHeadlines(id);	
+			showArticleInHeadlines(id);	
 
 			var reply = transport.responseXML.firstChild.firstChild;
 
@@ -367,7 +367,8 @@ function article_callback2(transport, id, feed_id) {
 				debug("parsing piggybacked counters: " + counters);
 				parse_counters(counters, false);
 			} else {
-				debug("counters container not found in reply");
+				debug("counters container not found in reply, requesting...");
+				request_counters();
 			}
 		}
 
@@ -426,8 +427,6 @@ function view(id, feed_id, skip_history) {
 		var crow = document.getElementById("RROW-" + id);
 		var article_is_unread = crow.className.match("Unread");
 
-		showArticleInHeadlines(id);
-
 		if (!cached_article) {
 
 			notify_progress("Loading, please wait...");
@@ -442,6 +441,8 @@ function view(id, feed_id, skip_history) {
 
 			query = query + "&mode=prefetch_old";
 			render_article(cached_article);
+			showArticleInHeadlines(id);
+
 		}
 
 		cache_expire();

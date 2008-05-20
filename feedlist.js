@@ -496,7 +496,7 @@ function mouse_up_handler(e) {
 	}
 }
 
-function request_counters() {
+function request_counters_real() {
 
 	try {
 		var query = "backend.php?op=rpc&subop=getAllCounters";
@@ -515,6 +515,28 @@ function request_counters() {
 					exception_error("viewfeed/getcounters", e);
 				}
 			} });
+
+	} catch (e) {
+		exception_error("request_counters_real", e);
+	}
+}
+
+var counters_last_request = 0;
+
+function request_counters() {
+
+	try {
+
+		var date = new Date();
+		var timestamp = Math.round(date.getTime() / 1000);
+
+		if (timestamp - counters_last_request > 10) {
+			debug("scheduling request of counters...");
+			window.setTimeout("request_counters_real()", 100);
+			counters_last_request = timestamp;
+		} else {
+			debug("request_counters: rate limit reached: " + (timestamp - counters_last_request));
+		}
 
 	} catch (e) {
 		exception_error("request_counters", e);

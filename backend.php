@@ -210,11 +210,11 @@
 				}
 			}
 
-			if ($mode != "prefetch_old") {
+/*			if ($mode != "prefetch_old") {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
-			}
+			} */
 
 			print "</reply>";
 		break; // view
