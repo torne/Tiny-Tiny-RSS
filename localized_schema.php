@@ -51,6 +51,8 @@
 	__("Maximum age of fresh articles (in hours)");
 	__("Hide feedlist");
 	__("This option hides feedlist and allows it to be toggled on the fly, useful for small screens.");
+	__("Group headlines in virtual feeds");
+	__("When this option is enabled, headlines in Special feeds and Labels are grouped by feeds");
 
 	__("Advanced");
 

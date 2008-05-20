@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-20 09:14+0400\n"
+"POT-Creation-Date: 2008-05-20 12:57+0400\n"
 "PO-Revision-Date: 2008-02-03 22:22::+0100\n"
 "Last-Translator: MiszterX <miszterx@miszterx.hu>\n"
 "Language-Team: HUNGARIAN <miszterx@miszterx.hu>\n"
@@ -225,7 +225,7 @@ msgid "All"
 msgstr "Mind"
 
 #: functions.php:3866 functions.php:3871 functions.php:3915 functions.php:3918
-#: tt-rss.php:198
+#: tt-rss.php:200
 msgid "Unread"
 msgstr "Olvasatlan"
 
@@ -244,7 +244,7 @@ msgstr "Műveletek"
 msgid "Selection toggle:"
 msgstr "Kiválaszt:"
 
-#: functions.php:3872 functions.php:3919 tt-rss.php:197
+#: functions.php:3872 functions.php:3919 tt-rss.php:199
 msgid "Starred"
 msgstr "Csillagoz"
 
@@ -565,7 +565,7 @@ msgstr ""
 msgid "Could not display article (missing XML object)"
 msgstr ""
 
-#: localized_js.php:95 tt-rss.php:240 tt-rss.php:247
+#: localized_js.php:95 tt-rss.php:242 tt-rss.php:249
 msgid "No feed selected."
 msgstr ""
 
@@ -884,76 +884,86 @@ msgid ""
 "for small screens."
 msgstr ""
 
+#: localized_schema.php:54
+msgid "Group headlines in virtual feeds"
+msgstr ""
+
 #: localized_schema.php:55
-msgid "Advanced"
+msgid ""
+"When this option is enabled, headlines in Special feeds and Labels are "
+"grouped by feeds"
 msgstr ""
 
 #: localized_schema.php:57
+msgid "Advanced"
+msgstr ""
+
+#: localized_schema.php:59
 msgid "Blacklisted tags"
 msgstr "Feketelistás tagek"
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr ""
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Confirm marking feed as read"
 msgstr ""
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid "Enable icons in feedlist"
 msgstr ""
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Enable labels"
 msgstr ""
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr ""
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Long date format"
 msgstr ""
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Set articles as unread on update"
 msgstr ""
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Short date format"
 msgstr ""
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Show additional information in feedlist"
 msgstr ""
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Strip unsafe tags from articles"
 msgstr ""
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Use more accessible date/time format for headlines"
 msgstr ""
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:71
+#: localized_schema.php:73
 msgid "Purge unread articles"
 msgstr ""
 
-#: localized_schema.php:72
+#: localized_schema.php:74
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
@@ -1217,43 +1227,48 @@ msgstr "&nbsp;&nbsp;Szűrők létrehozása"
 
 #: tt-rss.php:168
 #, fuzzy
+msgid "&nbsp;&nbsp;Reset UI layout"
+msgstr "&nbsp;&nbsp;Feliratokzás a feedre"
+
+#: tt-rss.php:170
+#, fuzzy
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Hírek törlése"
 
-#: tt-rss.php:176
+#: tt-rss.php:178
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "Minden feed"
 
-#: tt-rss.php:178
+#: tt-rss.php:180
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:186 modules/popup-dialog.php:139
+#: tt-rss.php:188 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Keresés"
 
-#: tt-rss.php:193
+#: tt-rss.php:195
 msgid "View:"
 msgstr "Nézet"
 
-#: tt-rss.php:195
+#: tt-rss.php:197
 msgid "Adaptive"
 msgstr ""
 
-#: tt-rss.php:196
+#: tt-rss.php:198
 msgid "All Articles"
 msgstr "Minden hír"
 
-#: tt-rss.php:201
+#: tt-rss.php:203
 msgid "Limit:"
 msgstr "Limit:"
 
-#: tt-rss.php:226
+#: tt-rss.php:228
 msgid "Update"
 msgstr "Frissítés"
 
-#: tt-rss.php:244
+#: tt-rss.php:246
 msgid "Drag me to resize panels"
 msgstr ""
 

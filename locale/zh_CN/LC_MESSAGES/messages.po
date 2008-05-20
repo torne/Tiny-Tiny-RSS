@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-20 09:14+0400\n"
+"POT-Creation-Date: 2008-05-20 12:57+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -228,7 +228,7 @@ msgid "All"
 msgstr "所有"
 
 #: functions.php:3866 functions.php:3871 functions.php:3915 functions.php:3918
-#: tt-rss.php:198
+#: tt-rss.php:200
 msgid "Unread"
 msgstr "未读"
 
@@ -247,7 +247,7 @@ msgstr "激活..."
 msgid "Selection toggle:"
 msgstr "选择："
 
-#: functions.php:3872 functions.php:3919 tt-rss.php:197
+#: functions.php:3872 functions.php:3919 tt-rss.php:199
 msgid "Starred"
 msgstr "星级"
 
@@ -570,7 +570,7 @@ msgstr "更新提要失败（缺少XML支持）"
 msgid "Could not display article (missing XML object)"
 msgstr "显示条目失败（缺少XML支持）"
 
-#: localized_js.php:95 tt-rss.php:240 tt-rss.php:247
+#: localized_js.php:95 tt-rss.php:242 tt-rss.php:249
 msgid "No feed selected."
 msgstr "无选定feed."
 
@@ -903,77 +903,87 @@ msgid ""
 "for small screens."
 msgstr ""
 
+#: localized_schema.php:54
+msgid "Group headlines in virtual feeds"
+msgstr ""
+
 #: localized_schema.php:55
+msgid ""
+"When this option is enabled, headlines in Special feeds and Labels are "
+"grouped by feeds"
+msgstr ""
+
+#: localized_schema.php:57
 msgid "Advanced"
 msgstr "高级"
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Blacklisted tags"
 msgstr "被列入黑名单的标签"
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr "自动检测文章中标签时，这些标签不适用（用半角逗号隔开）"
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Confirm marking feed as read"
 msgstr "确认标记所有Feed为已读..."
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid "Enable icons in feedlist"
 msgstr "feed列表中不启用ico"
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Enable labels"
 msgstr "开启标签"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr "SQL支持，这是测试功能，请谨慎使用。"
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Long date format"
 msgstr "长的时间格式"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Set articles as unread on update"
 msgstr "更新后标记文章为未读"
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Short date format"
 msgstr "短的时间格式"
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Show additional information in feedlist"
 msgstr "在feed列表中显示附加信息"
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Strip unsafe tags from articles"
 msgstr "从文章中过滤不安全标签"
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "阅读文章时过滤所有常见html标签"
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Use more accessible date/time format for headlines"
 msgstr "提要使用更方便的 日期／时间 格式"
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:71
+#: localized_schema.php:73
 #, fuzzy
 msgid "Purge unread articles"
 msgstr "星级文章"
 
-#: localized_schema.php:72
+#: localized_schema.php:74
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
@@ -1250,43 +1260,48 @@ msgstr "&nbsp;&nbsp;创建过滤器"
 
 #: tt-rss.php:168
 #, fuzzy
+msgid "&nbsp;&nbsp;Reset UI layout"
+msgstr "&nbsp;&nbsp;订阅feed"
+
+#: tt-rss.php:170
+#, fuzzy
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
-#: tt-rss.php:176
+#: tt-rss.php:178
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "隐藏我的Feed列表"
 
-#: tt-rss.php:178
+#: tt-rss.php:180
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:186 modules/popup-dialog.php:139
+#: tt-rss.php:188 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "搜索:"
 
-#: tt-rss.php:193
+#: tt-rss.php:195
 msgid "View:"
 msgstr "浏览:"
 
-#: tt-rss.php:195
+#: tt-rss.php:197
 msgid "Adaptive"
 msgstr "自适应"
 
-#: tt-rss.php:196
+#: tt-rss.php:198
 msgid "All Articles"
 msgstr "所有文章"
 
-#: tt-rss.php:201
+#: tt-rss.php:203
 msgid "Limit:"
 msgstr "限制:"
 
-#: tt-rss.php:226
+#: tt-rss.php:228
 msgid "Update"
 msgstr "更新"
 
-#: tt-rss.php:244
+#: tt-rss.php:246
 msgid "Drag me to resize panels"
 msgstr ""
 

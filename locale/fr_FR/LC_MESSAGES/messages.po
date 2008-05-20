@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-20 09:14+0400\n"
+"POT-Creation-Date: 2008-05-20 12:57+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -233,7 +233,7 @@ msgid "All"
 msgstr "Tout"
 
 #: functions.php:3866 functions.php:3871 functions.php:3915 functions.php:3918
-#: tt-rss.php:198
+#: tt-rss.php:200
 msgid "Unread"
 msgstr "Non lus"
 
@@ -252,7 +252,7 @@ msgstr "Actions..."
 msgid "Selection toggle:"
 msgstr "Sélection&nbsp;:"
 
-#: functions.php:3872 functions.php:3919 tt-rss.php:197
+#: functions.php:3872 functions.php:3919 tt-rss.php:199
 msgid "Starred"
 msgstr "Remarquables"
 
@@ -576,7 +576,7 @@ msgstr "Impossible de mettre à jour l'en-têtes (objet XML manquant)"
 msgid "Could not display article (missing XML object)"
 msgstr "Impossible d'afficher l'article (objet XML manquant)"
 
-#: localized_js.php:95 tt-rss.php:240 tt-rss.php:247
+#: localized_js.php:95 tt-rss.php:242 tt-rss.php:249
 msgid "No feed selected."
 msgstr "Aucun flux sélectionné."
 
@@ -914,15 +914,25 @@ msgid ""
 "for small screens."
 msgstr ""
 
+#: localized_schema.php:54
+msgid "Group headlines in virtual feeds"
+msgstr ""
+
 #: localized_schema.php:55
+msgid ""
+"When this option is enabled, headlines in Special feeds and Labels are "
+"grouped by feeds"
+msgstr ""
+
+#: localized_schema.php:57
 msgid "Advanced"
 msgstr "Avancé"
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Blacklisted tags"
 msgstr "Étiquettes exclues"
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
@@ -930,19 +940,19 @@ msgstr ""
 "Lors de l'autodétection des étiquettes dans les articles, ces étiquettes ne "
 "sont pas utilisées (en faire une liste, séparées par des virgules)"
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Confirm marking feed as read"
 msgstr "Demander confirmation pour marquer un flux comme lu"
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid "Enable icons in feedlist"
 msgstr "Afficher les icônes dans la liste des flux"
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Enable labels"
 msgstr "Utiliser les intitulés"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
@@ -952,45 +962,45 @@ msgstr ""
 "personnalisées. Cette fonctionnalité est hautement expérimentale et pas "
 "encore ergonomique. Utilisez-là avec précaution."
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Long date format"
 msgstr "Format de date long"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Set articles as unread on update"
 msgstr "Marquer les articles comme non lus lors des mises à jour"
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Short date format"
 msgstr "Format de date court"
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Show additional information in feedlist"
 msgstr "Afficher des informations supplémentaires dans la liste des flux"
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Strip unsafe tags from articles"
 msgstr "Éliminer les étiquettes non sûres des articles"
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 "Élimine toutes les balises HTML sauf les plus courantes lors de la lecture "
 "des articles"
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Use more accessible date/time format for headlines"
 msgstr "Afficher la date et l'heure de manière plus lisible dans les en-têtes"
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Automatically expand articles in combined mode"
 msgstr "Développer automatiquement les articles en affichage combiné"
 
-#: localized_schema.php:71
+#: localized_schema.php:73
 msgid "Purge unread articles"
 msgstr "Purger les articles non lus"
 
-#: localized_schema.php:72
+#: localized_schema.php:74
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
@@ -1299,43 +1309,48 @@ msgstr "&nbsp;&nbsp;Créer un filtre"
 
 #: tt-rss.php:168
 #, fuzzy
+msgid "&nbsp;&nbsp;Reset UI layout"
+msgstr "&nbsp;&nbsp;S'inscrire à ce flux"
+
+#: tt-rss.php:170
+#, fuzzy
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Purger les articles"
 
-#: tt-rss.php:176
+#: tt-rss.php:178
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "Masquer dans la liste de «&nbsp;Mes flux&nbsp;»"
 
-#: tt-rss.php:178
+#: tt-rss.php:180
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:186 modules/popup-dialog.php:139
+#: tt-rss.php:188 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Rechercher&nbsp;:"
 
-#: tt-rss.php:193
+#: tt-rss.php:195
 msgid "View:"
 msgstr "Afficher&nbsp;:"
 
-#: tt-rss.php:195
+#: tt-rss.php:197
 msgid "Adaptive"
 msgstr "Adaptatif"
 
-#: tt-rss.php:196
+#: tt-rss.php:198
 msgid "All Articles"
 msgstr "Tous les articles"
 
-#: tt-rss.php:201
+#: tt-rss.php:203
 msgid "Limit:"
 msgstr "Limite&nbsp;:"
 
-#: tt-rss.php:226
+#: tt-rss.php:228
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: tt-rss.php:244
+#: tt-rss.php:246
 msgid "Drag me to resize panels"
 msgstr ""
 

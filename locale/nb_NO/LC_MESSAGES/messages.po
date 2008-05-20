@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-20 09:14+0400\n"
+"POT-Creation-Date: 2008-05-20 12:57+0400\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
 "MIME-Version: 1.0\n"
@@ -229,7 +229,7 @@ msgid "All"
 msgstr "Alle"
 
 #: functions.php:3866 functions.php:3871 functions.php:3915 functions.php:3918
-#: tt-rss.php:198
+#: tt-rss.php:200
 msgid "Unread"
 msgstr "Ulest"
 
@@ -248,7 +248,7 @@ msgstr "Handlinger..."
 msgid "Selection toggle:"
 msgstr "Utvalg:"
 
-#: functions.php:3872 functions.php:3919 tt-rss.php:197
+#: functions.php:3872 functions.php:3919 tt-rss.php:199
 msgid "Starred"
 msgstr "Favoritter"
 
@@ -567,7 +567,7 @@ msgstr "Kunne ikke oppdatere overskriftene (manglende XML objekt)."
 msgid "Could not display article (missing XML object)"
 msgstr "Kunne ikke vise artikkelen (manglende XML objekt)."
 
-#: localized_js.php:95 tt-rss.php:240 tt-rss.php:247
+#: localized_js.php:95 tt-rss.php:242 tt-rss.php:249
 msgid "No feed selected."
 msgstr "Ingen valgt nyhetsstrøm"
 
@@ -905,15 +905,25 @@ msgstr ""
 "Dette valget skjuler kanallisten og tillater at den vises etter ønske, "
 "brukbart for små skjermer."
 
+#: localized_schema.php:54
+msgid "Group headlines in virtual feeds"
+msgstr ""
+
 #: localized_schema.php:55
+msgid ""
+"When this option is enabled, headlines in Special feeds and Labels are "
+"grouped by feeds"
+msgstr ""
+
+#: localized_schema.php:57
 msgid "Advanced"
 msgstr "Avansert"
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Blacklisted tags"
 msgstr "Svartelistede tagger"
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
@@ -921,19 +931,19 @@ msgstr ""
 "Når tagger blir automatisk funnet i artikler skal følgende tagger ikke bli "
 "oppdaget (komma-separert liste)"
 
-#: localized_schema.php:59
+#: localized_schema.php:61
 msgid "Confirm marking feed as read"
 msgstr "Bekreft markeringen av nyhetsstrøm som lest"
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid "Enable icons in feedlist"
 msgstr "Tillat ikoner i nyhetsstrømslisten"
 
-#: localized_schema.php:61
+#: localized_schema.php:63
 msgid "Enable labels"
 msgstr "Tillat merkelapper"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
@@ -943,43 +953,43 @@ msgstr ""
 "spørringer. Denne funksjonen er veldig eksperimentel og er på nåværende "
 "tidspunkt ikke brukervennlig. Benytt med varsomhet."
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid "Long date format"
 msgstr "Langt datoformat"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Set articles as unread on update"
 msgstr "Sett artikler som uleste ved oppdatering"
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 msgid "Short date format"
 msgstr "Kort datoformat"
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Show additional information in feedlist"
 msgstr "Vis tilleggsinformasjon i nyhetsstrømslisten"
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid "Strip unsafe tags from articles"
 msgstr "Fjern utrygge tagger fra artiklene"
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "Fjern alle HTML-koder utenom de mest vanlige når artikler leses."
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Use more accessible date/time format for headlines"
 msgstr "Bruk mer brukervennlige dato/tidsformater for artiklene"
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Automatically expand articles in combined mode"
 msgstr "Utvid artikler automatisk i kombinert modus"
 
-#: localized_schema.php:71
+#: localized_schema.php:73
 msgid "Purge unread articles"
 msgstr "Slett uleste artikler"
 
-#: localized_schema.php:72
+#: localized_schema.php:74
 msgid "Show special feeds when hiding read feeds"
 msgstr "Vis snarveier selv om leste nyhetskanaler skjules"
 
@@ -1272,42 +1282,47 @@ msgstr "&nbsp;&nbsp;Lag filter"
 
 #: tt-rss.php:168
 #, fuzzy
+msgid "&nbsp;&nbsp;Reset UI layout"
+msgstr "&nbsp;&nbsp;Abonner på nyhetsstrømmen"
+
+#: tt-rss.php:170
+#, fuzzy
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Slett artikler"
 
-#: tt-rss.php:176
+#: tt-rss.php:178
 msgid "Collapse feedlist"
 msgstr "Skjul nyhetskanalsslisten"
 
-#: tt-rss.php:178
+#: tt-rss.php:180
 msgid "Toggle Feedlist"
 msgstr "Vis nyhetskanallisten"
 
-#: tt-rss.php:186 modules/popup-dialog.php:139
+#: tt-rss.php:188 modules/popup-dialog.php:139
 msgid "Search:"
 msgstr "Søk:"
 
-#: tt-rss.php:193
+#: tt-rss.php:195
 msgid "View:"
 msgstr "Vis:"
 
-#: tt-rss.php:195
+#: tt-rss.php:197
 msgid "Adaptive"
 msgstr "Tilpasset"
 
-#: tt-rss.php:196
+#: tt-rss.php:198
 msgid "All Articles"
 msgstr "Alle artikler"
 
-#: tt-rss.php:201
+#: tt-rss.php:203
 msgid "Limit:"
 msgstr "Antall:"
 
-#: tt-rss.php:226
+#: tt-rss.php:228
 msgid "Update"
 msgstr "Oppdater"
 
-#: tt-rss.php:244
+#: tt-rss.php:246
 msgid "Drag me to resize panels"
 msgstr ""
 
