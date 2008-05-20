@@ -475,7 +475,8 @@ function parse_counters(reply, scheduled_call) {
 			var has_img = elems[l].getAttribute("hi");
 			var updated = elems[l].getAttribute("updated");
 			var title = elems[l].getAttribute("title");
-		
+			var xmsg = elems[l].getAttribute("xmsg");
+	
 			if (id == "global-unread") {
 				global_unread = ctr;
 				updateTitle();
@@ -515,11 +516,21 @@ function parse_counters(reply, scheduled_call) {
 				}
 			}
 
-			if (updated && feedupd) {
+			if (feedupd) {
+				if (!updated) updated = "";
+
 				if (error) {
-					feedupd.innerHTML = updated + " (Error)";
+					if (xmsg) {
+						feedupd.innerHTML = updated + " " + xmsg + " (Error)";
+					} else {
+						feedupd.innerHTML = updated + " (Error)";
+					}
 				} else {
-					feedupd.innerHTML = updated;
+					if (xmsg) {
+						feedupd.innerHTML = updated + " " + xmsg;
+					} else {
+						feedupd.innerHTML = updated;
+					}
 				}
 			}
 

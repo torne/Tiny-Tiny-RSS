@@ -1550,8 +1550,9 @@
 			 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
 
 		if (get_pref($link, "EXTENDED_FEEDLIST")) {		 	 
+			$total = getFeedArticles($link, $feed_id);
 			print "<div class=\"feedExtInfo\">
-				<span id=\"FLUPD-$feed_id\">$last_updated $error_notify_msg</span></div>";
+				<span id=\"FLUPD-$feed_id\">$last_updated ($total total) $error_notify_msg</span></div>";
 		}
 		 	 
 		print "</li>";
@@ -2316,7 +2317,17 @@
 	}
 
 	function getFeedUnread($link, $feed, $is_cat = false) {
+		return getFeedArticles($link, $feed, $is_cat, true);
+	}
+
+	function getFeedArticles($link, $feed, $is_cat = false, $unread_only = false) {
 		$n_feed = sprintf("%d", $feed);
+
+		if ($unread_only) {
+			$unread_qpart = "unread = true";
+		} else {
+			$unread_qpart = "true";
+		}
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2357,7 +2368,7 @@
 
 				$result = db_query($link, "SELECT COUNT(int_id) AS unread 
 					FROM ttrss_user_entries,ttrss_entries
-					WHERE	unread = true AND
+					WHERE	$unread_qpart AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					$age_qpart AND
 					($match_part) AND
@@ -2393,14 +2404,14 @@
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
 				ttrss_feeds.hidden = false AND
 				$age_qpart AND
-				unread = true AND ($match_part) AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
+				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
 				
 		} else {
 		
 			$result = db_query($link, "SELECT COUNT(post_int_id) AS unread
 				FROM ttrss_tags,ttrss_user_entries,ttrss_entries 
 				WHERE tag_name = '$feed' AND post_int_id = int_id AND ref_id = ttrss_entries.id 
-				AND unread = true AND $age_qpart AND
+				AND $unread_qpart AND $age_qpart AND
 					ttrss_tags.owner_uid = " . $_SESSION["uid"]);
 		}
 		
@@ -2520,7 +2531,14 @@
 		$count = getFeedUnread($link, -1);
 
 		if (!$ret_mode) {
-			print "<counter type=\"label\" id=\"-1\" counter=\"$count\"/>";
+
+			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+			} else {
+				$xmsg_part = "";
+			}
+
+			print "<counter type=\"label\" id=\"-1\" counter=\"$count\" $xmsg_part/>";
 		} else {
 			$ret_arr["-1"]["counter"] = $count;
 			$ret_arr["-1"]["description"] = __("Starred articles");
@@ -2529,7 +2547,14 @@
 		$count = getFeedUnread($link, -2);
 
 		if (!$ret_mode) {
-			print "<counter type=\"label\" id=\"-2\" counter=\"$count\"/>";
+
+			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+			} else {
+				$xmsg_part = "";
+			}
+
+			print "<counter type=\"label\" id=\"-2\" counter=\"$count\" $xmsg_part/>";
 		} else {
 			$ret_arr["-2"]["counter"] = $count;
 			$ret_arr["-2"]["description"] = __("Published articles");
@@ -2538,7 +2563,14 @@
 		$count = getFeedUnread($link, -3);
 
 		if (!$ret_mode) {
-			print "<counter type=\"label\" id=\"-3\" counter=\"$count\"/>";
+
+			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+			} else {
+				$xmsg_part = "";
+			}
+
+			print "<counter type=\"label\" id=\"-3\" counter=\"$count\" $xmsg_part/>";
 		} else {
 			$ret_arr["-3"]["counter"] = $count;
 			$ret_arr["-3"]["description"] = __("Fresh articles");
@@ -2570,7 +2602,14 @@
 				$old_counters[$id] = $count;
 				$lctrs_modified = true;
 				if (!$ret_mode) {
-					print "<counter type=\"label\" id=\"$id\" counter=\"$count\"/>";
+
+					if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+						$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+					} else {
+						$xmsg_part = "";
+					}
+
+					print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
 				} else {
 					$ret_arr[$id]["counter"] = $count;
 					$ret_arr[$id]["description"] = $label_name;
@@ -2695,7 +2734,11 @@
 					$has_title_part = "";
 				}
 
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $has_title_part/>";
+				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+				}
+
+				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $xmsg_part $has_title_part/>";
 			}
 		}
 
