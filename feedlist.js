@@ -510,6 +510,7 @@ function mouse_down_handler(e) {
 			mouse_is_down = true;
 			mouse_x = 0;
 			mouse_y = 0;
+			document.onselectstart = function() { return false; };
 		}
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
@@ -519,6 +520,7 @@ function mouse_down_handler(e) {
 function mouse_up_handler(e) {
 	try {
 		mouse_is_down = false;
+		document.onselectstart = null;
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
 	}
