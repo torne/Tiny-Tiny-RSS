@@ -421,7 +421,7 @@ function editLabel(id) {
 
 	notify_progress("Loading, please wait...");
 
-	document.getElementById("label_create_btn").disabled = true;
+//	document.getElementById("label_create_btn").disabled = true;
 
 	active_label = id;
 
@@ -467,7 +467,7 @@ function editFilter(id) {
 
 	notify_progress("Loading, please wait...");
 
-	document.getElementById("create_filter_btn").disabled = true;
+//	document.getElementById("create_filter_btn").disabled = true;
 
 	selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
 	selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
@@ -490,13 +490,13 @@ function editFeed(feed) {
 
 	notify_progress("Loading, please wait...");
 
-	document.getElementById("subscribe_to_feed_btn").disabled = true;
+/*	document.getElementById("subscribe_to_feed_btn").disabled = true;
 
 	try {
 		document.getElementById("top25_feeds_btn").disabled = true;
 	} catch (e) {
 		// this button is not always available, no-op if not found
-	}
+	} */
 
 	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
