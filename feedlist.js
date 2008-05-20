@@ -7,7 +7,7 @@ var mouse_is_down = false;
 var mouse_y = 0;
 var mouse_x = 0;
 
-var enable_resize = false;
+var resize_enabled = false;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -485,13 +485,13 @@ function mouse_move_handler(e) {
 	}
 }
 
-function resize_enabled(b) {
-	enable_resize = b;
+function enable_resize(b) {
+	resize_enabled = b;
 }
 
 function mouse_down_handler(e) {
 	try {
-		if (enable_resize) { 
+		if (resize_enabled) { 
 			mouse_is_down = true;
 			mouse_x = 0;
 			mouse_y = 0;

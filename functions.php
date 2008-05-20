@@ -4601,7 +4601,8 @@
 
 			print "<div class=\"postReply\">";
 
-			print "<div class=\"postHeader\">";
+			print "<div class=\"postHeader\" onmouseover=\"enable_resize(true)\" 
+				onmouseout=\"enable_resize(false)\">";
 
 			$entry_author = $line["author"];
 

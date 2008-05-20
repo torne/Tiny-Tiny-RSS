@@ -242,7 +242,7 @@ window.onload = init;
 		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
 	<div id="content-frame"><div class="whiteBox">&nbsp;</div></div>
 	<div id="resize-grabber"
-		onmouseover="resize_enabled(true)" onmouseout="resize_enabled(false)"
+		onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
 		title="<?php echo __('Drag me to resize panels') ?>"> </div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm">
