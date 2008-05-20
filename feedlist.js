@@ -3,6 +3,10 @@ var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var feed_under_pointer = undefined;
 
+var mouse_is_down = false;
+var mouse_y = 0;
+var mouse_x = 0;
+
 var enable_resize = false;
 
 function viewCategory(cat) {
@@ -464,10 +468,6 @@ function init_collapsable_feedlist(theme) {
 	}
 
 }
-
-var mouse_is_down = false;
-var mouse_y = 0;
-var mouse_x = 0;
 
 function mouse_move_handler(e) {
 	try {

@@ -15,7 +15,8 @@ var sanity_check_done = false;
 var _hfd_scrolltop = 0;
 var hotkey_prefix = false;
 var init_params = new Object();
-var ver_reflow_delta = 0;
+var ver_offset = 0;
+var hor_offset = 0;
 
 function tagsAreDisplayed() {
 	return display_tags;
@@ -358,14 +359,7 @@ function init() {
 
 function resize_headlines(delta_x, delta_y) {
 
-	ver_reflow_delta = delta_y;
-
-	if (getInitParam("cookie_lifetime") != 0) {
-		setCookie("ttrss_reflow_ver", ver_reflow_delta, 
-			getInitParam("cookie_lifetime"));
-	} else {
-		setCookie("ttrss_reflow_ver", ver_reflow_delta);
-	}
+	debug("resize_headlines: " + hor_offset + ":" + ver_offset);
 
 	var h_frame = document.getElementById("headlines-frame");
 	var c_frame = document.getElementById("content-frame");
@@ -380,16 +374,29 @@ function resize_headlines(delta_x, delta_y) {
 	}
 
 	if (getInitParam("theme") == "3pane") {
+
+		if (c_frame.offsetLeft > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100) {
+			hor_offset = delta_x;
+		}
+
 		debug("resize_headlines: HOR-mode");
 
-		c_frame.style.width = '35%';
+		c_frame.style.width = (400+hor_offset) + "px";
 		h_frame.style.right = c_frame.offsetWidth - 1 + "px";
 
+		resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 60) + "px";
+		resize_grab.style.left = (h_frame.offsetLeft + h_frame.offsetWidth - 
+			4) + "px";
+		resize_grab.style.display = "block";
+
 	} else {
+
+		ver_offset = delta_y;
+
 		debug("resize_headlines: VER-mode");
 
 		if (!is_msie()) {
-			h_frame.style.height = (300 - ver_reflow_delta) + "px";
+			h_frame.style.height = (300 - ver_offset) + "px";
 
 			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 1) + "px";
 			h_frame.style.height = h_frame.offsetHeight + "px";
@@ -420,6 +427,16 @@ function resize_headlines(delta_x, delta_y) {
 
 	}
 
+	if (getInitParam("cookie_lifetime") != 0) {
+		setCookie("ttrss_offset_ver", ver_offset, 
+			getInitParam("cookie_lifetime"));
+		setCookie("ttrss_offset_hor", hor_offset, 
+			getInitParam("cookie_lifetime"));
+	} else {
+		setCookie("ttrss_offset_ver", ver_offset);
+		setCookie("ttrss_offset_hor", hor_offset);
+	}
+
 }
 
 function init_second_stage() {
@@ -445,9 +462,10 @@ function init_second_stage() {
 
 		loading_set_progress(60);
 
-		ver_reflow_delta = getCookie("ttrss_reflow_ver");
+		ver_offset = getCookie("ttrss_offset_ver");
 
-		if (!ver_reflow_delta) ver_reflow_delta = 0;
+		if (!ver_offset || ver_offset == undefined || ver_offset == 'undefined') ver_offset = 0;
+		if (!hor_offset || hor_offset == undefined || hor_offset == 'undefined') hor_offset = 0;
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
