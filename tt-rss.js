@@ -394,7 +394,12 @@ function resize_headlines(delta_x, delta_y) {
 			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 1) + "px";
 			h_frame.style.height = h_frame.offsetHeight + "px";
 
-			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 4) + "px";
+			var theme_c = 0;
+
+			if (getInitParam("theme") == "graycube") theme_c = 1;
+
+			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 
+				4 - theme_c) + "px";
 			resize_grab.style.display = "block";
 
 		} else {
