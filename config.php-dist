@@ -180,7 +180,11 @@
 	// Allow users to select the library to update feeds with - e.g.
 	// Magpie or SimplePie
 
-	define('CONFIG_VERSION', 15);
+	define('ENABLE_GZIP_OUTPUT', false);
+	// Selectively gzip output to improve wire performance. This requires
+	// PHP Zlib extension on the server.
+
+	define('CONFIG_VERSION', 16);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

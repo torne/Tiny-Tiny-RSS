@@ -63,7 +63,12 @@
 	if ((!$op || $op == "rpc" || $op == "rss" || $op == "view" || 
 			$op == "digestSend" || $op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
-		header("Content-Type: application/xml; charset=utf-8");
+				header("Content-Type: application/xml; charset=utf-8");
+
+				if (ENABLE_GZIP_OUTPUT) {
+					ob_start("ob_gzhandler");
+				}
+				
 		} else {
 		if (!$_REQUEST["noxml"]) {
 			header("Content-Type: text/html; charset=utf-8");
