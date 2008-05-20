@@ -377,7 +377,7 @@ function resize_headlines(delta_x, delta_y) {
 
 		if (c_frame.offsetLeft > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100) {
 			if (delta_x != undefined) {
-				hor_offset = delta_x;
+				hor_offset = hor_offset + delta_x;
 			}
 		}
 
@@ -394,7 +394,7 @@ function resize_headlines(delta_x, delta_y) {
 	} else {
 
 		if (delta_y != undefined) {
-			ver_offset = delta_y;
+			ver_offset = ver_offset + delta_y;
 		}
 
 		debug("resize_headlines: VER-mode");

@@ -488,6 +488,10 @@ function mouse_move_handler(e) {
 			if (mouse_x == 0) mouse_x = client_x;
 
 			resize_headlines(mouse_x - client_x, mouse_y - client_y);
+
+			mouse_y = client_y;
+			mouse_x = client_x;
+
 			return false;
 		}
 
@@ -502,7 +506,11 @@ function resize_enabled(b) {
 
 function mouse_down_handler(e) {
 	try {
-		if (enable_resize) mouse_is_down = true;
+		if (enable_resize) { 
+			mouse_is_down = true;
+			mouse_x = 0;
+			mouse_y = 0;
+		}
 	} catch (e) {
 		exception_error("mouse_move_handler", e);
 	}
