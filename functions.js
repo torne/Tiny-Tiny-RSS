@@ -1159,12 +1159,7 @@ function leading_zero(p) {
 
 function closeInfoBox(cleanup) {
 
-	if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
-		var overlay = document.getElementById("dialog_overlay");
-		if (overlay) {
-			overlay.style.display = "none";
-		}
-	}
+	Element.hide("dialog_overlay");
 
 	var box = document.getElementById('infoBox');
 	var shadow = document.getElementById('infoBoxShadow');
@@ -1220,11 +1215,8 @@ function infobox_callback2(transport) {
 
 		debug("infobox_callback2");
 
-		if (!is_msie() && !getInitParam("infobox_disable_overlay")) {
-			var overlay = document.getElementById("dialog_overlay");
-			if (overlay) {
-				overlay.style.display = "block";
-			}
+		if (!getInitParam("infobox_disable_overlay")) {
+			Element.show("dialog_overlay");
 		}
 
 		var box = document.getElementById('infoBox');

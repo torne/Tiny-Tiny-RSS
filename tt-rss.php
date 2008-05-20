@@ -100,7 +100,7 @@
 	<div id="fatal_error_msg">Unknown Error</div>
 </div></div>
 
-<div id="dialog_overlay"> </div>
+<div id="dialog_overlay" style="display : none"> </div>
 
 <script type="text/javascript">
 if (document.addEventListener) {

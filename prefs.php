@@ -168,7 +168,7 @@ window.onload = init;
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 
-<div id="dialog_overlay"> </div>
+<div id="dialog_overlay" style="display : none"> </div>
 
 <div id="prefFooter">
 	<?php if (defined('_DEBUG_USER_SWITCH')) { ?>
