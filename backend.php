@@ -158,6 +158,10 @@
 		break; // rpc
 
 		case "feeds":
+			if (ENABLE_GZIP_OUTPUT) {
+				ob_start("ob_gzhandler");
+			}
+
 			$tags = $_GET["tags"];
 
 			$subop = $_GET["subop"];
