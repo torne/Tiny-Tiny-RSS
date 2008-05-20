@@ -375,8 +375,8 @@ function resize_headlines(delta_x, delta_y) {
 
 	if (getInitParam("theme") == "3pane") {
 
-		if (c_frame.offsetLeft > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100) {
-			if (delta_x != undefined) {
+		if (delta_x != undefined) {
+			if (c_frame.offsetLeft - delta_x > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100 && c_frame.offsetWidth + delta_x > 100) {
 				hor_offset = hor_offset + delta_x;
 			}
 		}
@@ -394,7 +394,9 @@ function resize_headlines(delta_x, delta_y) {
 	} else {
 
 		if (delta_y != undefined) {
-			ver_offset = ver_offset + delta_y;
+			if (c_frame.offsetHeight + delta_y > 100 && h_frame.offsetHeight - delta_y > 100) {
+				ver_offset = ver_offset + delta_y;
+			}
 		}
 
 		debug("resize_headlines: VER-mode");
