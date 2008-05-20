@@ -1333,22 +1333,6 @@ function filterCR(e, f)
 	}
 }
 
-function getMainContext() {
-	return this.window;
-}
-
-function getFeedsContext() {
-	return this.window;
-}
-
-function getContentContext() {
-	return this.window;
-}
-
-function getHeadlinesContext() {
-	return this.window;
-}
-
 var debug_last_class = "even";
 
 function debug(msg) {
@@ -1406,24 +1390,18 @@ function fatalError(code, message) {
 }
 
 function getFeedName(id, is_cat) {	
-	var d = getFeedsContext().document;
-
 	var e;
 
 	if (is_cat) {
-		e = d.getElementById("FCATN-" + id);
+		e = document.getElementById("FCATN-" + id);
 	} else {
-		e = d.getElementById("FEEDN-" + id);
+		e = document.getElementById("FEEDN-" + id);
 	}
 	if (e) {
 		return e.innerHTML.stripTags();
 	} else {
 		return null;
 	}
-}
-
-function viewContentUrl(url) {
-	getContentContext().location = url;
 }
 
 function filterDlgCheckAction(sender) {
