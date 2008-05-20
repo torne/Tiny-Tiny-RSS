@@ -20,6 +20,8 @@ var article_cache = new Array();
 var vgroup_last_feed = false;
 var post_under_pointer = false;
 
+var last_requested_article = false;
+
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
 		try {
@@ -320,6 +322,8 @@ function article_callback2(transport, id, feed_id) {
 	try {
 		debug("article_callback2 " + id);
 
+		if (id != last_requested_article) return;
+
 		if (transport.responseXML) {
 
 			active_real_feed_id = feed_id;
@@ -435,6 +439,7 @@ function view(id, feed_id, skip_history) {
 
 			query = query + "&mode=prefetch";
 
+			showArticleInHeadlines(id);
 			render_article(cached_article);
 
 		} else if (cached_article) {
@@ -446,6 +451,8 @@ function view(id, feed_id, skip_history) {
 		}
 
 		cache_expire();
+
+		last_requested_article = id;
 
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
