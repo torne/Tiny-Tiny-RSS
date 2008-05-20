@@ -376,12 +376,14 @@ function resize_headlines(delta_x, delta_y) {
 	if (getInitParam("theme") == "3pane") {
 
 		if (c_frame.offsetLeft > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100) {
-			hor_offset = delta_x;
+			if (delta_x != undefined) {
+				hor_offset = delta_x;
+			}
 		}
 
 		debug("resize_headlines: HOR-mode");
 
-		c_frame.style.width = (400+hor_offset) + "px";
+		c_frame.style.width = (400 + hor_offset) + "px";
 		h_frame.style.right = c_frame.offsetWidth - 1 + "px";
 
 		resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 60) + "px";
@@ -391,7 +393,9 @@ function resize_headlines(delta_x, delta_y) {
 
 	} else {
 
-		ver_offset = delta_y;
+		if (delta_y != undefined) {
+			ver_offset = delta_y;
+		}
 
 		debug("resize_headlines: VER-mode");
 
@@ -576,6 +580,12 @@ function quickMenuGo(opid) {
 		if (opid == "qmcHKhelp") {
 			//Element.show("hotkey_help_overlay");
 			Effect.Appear("hotkey_help_overlay", {duration : 0.3});
+		}
+
+		if (opid == "qmcResetUI") {
+			hor_offset = 0;
+			ver_offset = 0;
+			resize_headlines();
 		}
 
 	} catch (e) {
