@@ -4986,7 +4986,7 @@
 
 					print "<a id=\"RTITLE-$id\" 
 						href=\"" . htmlspecialchars($line["link"]) . "\"
-						onclick=\"view($id,$feed_id);\">" .
+						onclick=\"return view($id,$feed_id);\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {

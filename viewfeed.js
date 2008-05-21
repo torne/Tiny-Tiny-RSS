@@ -463,6 +463,8 @@ function view(id, feed_id, skip_history) {
 				article_callback2(transport, id, feed_id); 
 			} });
 
+		return false;
+
 	} catch (e) {
 		exception_error("view", e);
 	}
