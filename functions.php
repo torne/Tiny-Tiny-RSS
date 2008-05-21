@@ -4899,8 +4899,10 @@
 #				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
 #					$line["title"] . "</a>";
 
-				$content_link = "<a href=\"javascript:view($id,$feed_id);\">" .
-					$line["title"] . "</a>";
+#				$content_link = "<a 
+#					href=\"" . htmlspecialchars($line["link"]) . "\"
+#					onclick=\"view($id,$feed_id);\">" .
+#					$line["title"] . "</a>";
 
 #				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
 #					$line["title"] . "</a>";
@@ -4980,9 +4982,11 @@
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
 
-					print "<td onclick='javascript:view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle'>";
+					print "<td onclick='view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle'>";
 
-					print "<a id=\"RTITLE-$id\" href=\"javascript:view($id,$feed_id);\">" .
+					print "<a id=\"RTITLE-$id\" 
+						href=\"" . htmlspecialchars($line["link"]) . "\"
+						onclick=\"view($id,$feed_id);\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
