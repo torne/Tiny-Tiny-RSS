@@ -1505,9 +1505,11 @@ function getActiveArticleId() {
 	return active_post_id;
 }
 
-function cdmClicked(elem) {
+function cdmClicked(id) {
 	try {
-		if (elem.id && elem.id.match("RROW-")) {
+		var elem = document.getElementById("RROW-" + id);
+
+		if (elem) {
 			var id = elem.id.replace("RROW-", "");
 			active_post_id = id;
 
@@ -1702,6 +1704,10 @@ function catchupRelativeToArticle(below) {
 function cdmExpandArticle(a_id) {
 	try {
 		var id = 'CICD-' + a_id;
+
+		try {
+			Element.hide("CEXC-" + a_id);
+		} catch (e) { } 
 
 		Effect.Appear(id, {duration : 0.5, 
 			beforeStart: function(effect) { 

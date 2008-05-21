@@ -5041,19 +5041,21 @@
 					}	
 
 					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
+					$show_excerpt = false;
 
 					if ($expand_cdm && $score >= -100) {
 						$cdm_cstyle = "";
+						$show_excerpt = false;
 					} else {
 						$cdm_cstyle = "style=\"display : none\"";
+						$show_excerpt = true;
 					}
 
 					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
 						onmouseout='postMouseOut($id)'";
 
 					print "<div class=\"cdmArticle$add_class\" 
-						id=\"RROW-$id\"
-						onclick='cdmClicked(this)'
+						id=\"RROW-$id\"						
 						$mouseover_attrs'>";
 
 					print "<div class=\"cdmHeader\">";
@@ -5067,11 +5069,11 @@
 
 					print $entry_author;
 
-					if (!$expand_cdm || $score < -100) {
+/*					if (!$expand_cdm || $score < -100) {
 						print "&nbsp;<a id=\"CICH-$id\" 
 							href=\"javascript:cdmExpandArticle($id)\">
 							(".__('Show article').")</a>";
-					} 
+					} */
 
 
 					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
@@ -5087,7 +5089,17 @@
 							"target=\"_new\" href=", $line["content_preview"]);
 					}
 
-					print "<div class=\"cdmContent\" id=\"CICD-$id\" $cdm_cstyle>";
+					if ($show_excerpt) {
+						print "<div class=\"cdmExcerpt\" id=\"CEXC-$id\"
+							onclick=\"cdmExpandArticle($id)\"
+							title=\"".__('Click to expand article')."\">";
+						print truncate_string(strip_tags($line["content_preview"]), 100);
+						print "</div>";
+					}
+	
+					print "<div class=\"cdmContent\" 
+						onclick=\"cdmClicked($id)\"
+						id=\"CICD-$id\" $cdm_cstyle>";
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
