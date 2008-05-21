@@ -503,6 +503,9 @@ function mouse_up_handler(e) {
 function request_counters_real() {
 
 	try {
+
+		debug("requesting counters...");
+
 		var query = "backend.php?op=rpc&subop=getAllCounters";
 
 		if (tagsAreDisplayed()) {
@@ -535,7 +538,7 @@ function request_counters() {
 
 		if (timestamp - counters_last_request > 10) {
 			debug("scheduling request of counters...");
-			window.setTimeout("request_counters_real()", 100);
+			window.setTimeout("request_counters_real()", 1000);
 			counters_last_request = timestamp;
 		} else {
 			debug("request_counters: rate limit reached: " + (timestamp - counters_last_request));
