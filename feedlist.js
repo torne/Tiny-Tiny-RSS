@@ -8,6 +8,7 @@ var mouse_y = 0;
 var mouse_x = 0;
 
 var resize_enabled = false;
+var counters_last_request = 0;
 
 function viewCategory(cat) {
 	active_feed_is_cat = true;
@@ -46,6 +47,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 //		if (!offset) page_offset = 0;
 
 		last_requested_article = 0;
+		counters_last_request = 0;
 
 		if (feed == getActiveFeedId()) {
 			cache_invalidate("F:" + feed);
@@ -523,7 +525,6 @@ function request_counters_real() {
 	}
 }
 
-var counters_last_request = 0;
 
 function request_counters() {
 
