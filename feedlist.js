@@ -168,6 +168,10 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&omode=flc";
 		}
 
+		if (!async_counters_work) {
+			query = query + "&csync=true";
+		}
+
 		debug(query);
 
 		var container = document.getElementById("headlinesInnerContainer");
@@ -517,7 +521,7 @@ function request_counters_real() {
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				try {
-					all_counters_callback2(transport);
+					all_counters_callback2(transport, true);
 				} catch (e) {
 					exception_error("viewfeed/getcounters", e);
 				}

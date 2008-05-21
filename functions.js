@@ -2,6 +2,7 @@ var hotkeys_enabled = true;
 var xmlhttp_rpc = Ajax.getTransport();
 var notify_silent = false;
 var last_progress_point = 0;
+var async_counters_work = false;
 
 /* add method to remove element from array */
 
@@ -626,8 +627,10 @@ function parse_counters_reply(transport, scheduled_call) {
 
 }
 
-function all_counters_callback2(transport) {
+function all_counters_callback2(transport, async_call) {
 	try {
+		if (async_call) async_counters_work = true;
+
 		debug("<b>all_counters_callback2 IN: " + transport + "</b>");
 		parse_counters_reply(transport);
 		debug("<b>all_counters_callback2 OUT: " + transport + "</b>");

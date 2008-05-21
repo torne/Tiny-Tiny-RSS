@@ -431,6 +431,10 @@ function view(id, feed_id, skip_history) {
 		var crow = document.getElementById("RROW-" + id);
 		var article_is_unread = crow.className.match("Unread");
 
+		if (!async_counters_work) {
+			query = query + "&csync=true";
+		}
+
 		if (!cached_article) {
 
 			notify_progress("Loading, please wait...");

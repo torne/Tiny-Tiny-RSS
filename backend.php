@@ -193,6 +193,8 @@
 			$mode = db_escape_string($_GET["mode"]);
 			$omode = db_escape_string($_GET["omode"]);
 
+			$csync = $_GET["csync"];
+
 			print "<reply>";
 
 			// in prefetch mode we only output requested cids, main article 
@@ -210,7 +212,7 @@
 				}
 			}
 
-			if ($mode != "prefetch_old") {
+			if ($mode != "prefetch_old" && !$csync) {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
@@ -238,6 +240,7 @@
 			$next_unread_feed = db_escape_string($_GET["nuf"]);
 			$offset = db_escape_string($_GET["skip"]);
 			$vgroup_last_feed = db_escape_string($_GET["vgrlf"]);
+			$csync = $_GET["csync"];
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
@@ -288,7 +291,13 @@
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			if (time() - $_SESSION["get_all_counters_stamp"] > 300) {
+			$viewfeed_ctr_interval = 300;
+
+			if ($csync) {
+				$viewfeed_ctr_interval = 60;
+			}
+
+			if (time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
 				print "<counters>";
 				getAllCounters($link, $omode, $feed);
 				print "</counters>";
