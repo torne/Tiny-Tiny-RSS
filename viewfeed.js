@@ -322,16 +322,9 @@ function article_callback2(transport, id, feed_id) {
 	try {
 		debug("article_callback2 " + id);
 
-		if (id != last_requested_article) return;
-
 		if (transport.responseXML) {
 
-			active_real_feed_id = feed_id;
-			active_post_id = id; 
-
-			showArticleInHeadlines(id);	
-
-			var reply = transport.responseXML.firstChild.firstChild;
+			debug("looking for articles to cache...");
 
 			var articles = transport.responseXML.getElementsByTagName("article");
 
@@ -347,6 +340,18 @@ function article_callback2(transport, id, feed_id) {
 
 				cache_inject(a_id, articles[i].firstChild.nodeValue);
 			}
+
+			if (id != last_requested_article) {
+				debug("requested article id is out of sequence, aborting");
+				return;
+			}
+
+			active_real_feed_id = feed_id;
+			active_post_id = id; 
+
+			showArticleInHeadlines(id);	
+
+			var reply = transport.responseXML.firstChild.firstChild;
 		
 		} else {
 			debug("article_callback: returned no XML object");
