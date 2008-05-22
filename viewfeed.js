@@ -435,6 +435,8 @@ function view(id, feed_id, skip_history) {
 			query = query + "&csync=true";
 		}
 
+		showArticleInHeadlines(id);
+
 		if (!cached_article) {
 
 			notify_progress("Loading, please wait...");
@@ -443,14 +445,12 @@ function view(id, feed_id, skip_history) {
 
 			query = query + "&mode=prefetch";
 
-			showArticleInHeadlines(id);
 			render_article(cached_article);
 
 		} else if (cached_article) {
 
 			query = query + "&mode=prefetch_old";
 			render_article(cached_article);
-			showArticleInHeadlines(id);
 
 		}
 
