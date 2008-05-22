@@ -22,7 +22,7 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
-	<link rel="stylesheet" href="tt-rss.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>">
 
 	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
