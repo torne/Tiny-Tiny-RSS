@@ -151,7 +151,7 @@
 
 			return;
 
-		} else if ($subop == __("Change theme")) {
+		} else if ($subop == "change-theme") {
 
 			$theme = db_escape_string($_POST["theme"]);
 
@@ -323,7 +323,7 @@
 				print "</select></td></tr>";
 				print "</table>";
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-				print "<input type=\"hidden\" name=\"subop\" value=\"Change theme\">";
+				print "<input type=\"hidden\" name=\"subop\" value=\"change-theme\">";
 				print "<p><input class=\"button\" type=\"submit\" 
 					value=\"".__('Change theme')."\">";
 				print "</form>";
