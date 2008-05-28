@@ -846,6 +846,7 @@
 					$entry_content = $item["content:escaped"];
 
 					if (!$entry_content) $entry_content = $item["content:encoded"];
+					if (!$entry_content) $entry_content = $item["content"]["encoded"];
 					if (!$entry_content) $entry_content = $item["content"];
 
 					// Magpie bugs are getting ridiculous
@@ -853,7 +854,11 @@
 
 					if (!$entry_content) $entry_content = $item["atom_content"];
 					if (!$entry_content) $entry_content = $item["summary"];
-					if (!$entry_content) $entry_content = $item["description"];
+
+					if (!$entry_content || 
+						strlen($entry_content) < strlen($item["description"])) {
+							$entry_content = $item["description"];
+					};
 
 					// WTF
 					if (is_array($entry_content)) {
@@ -1003,6 +1008,8 @@
 					}
 
 				} else {
+					// <enclosure>
+
 					$e_ctr = $item['enclosure#'];
 
 					if ($e_ctr > 0) {
@@ -1023,6 +1030,20 @@
 						}
 					}
 
+					// <media:content>
+					// can there be many of those? -fox
+
+					$m_ctr = $item['media']['content#'];
+
+					if ($m_ctr > 0) {
+						$e_item = array($item['media']['content@url'],
+							$item['media']['content@medium'],
+							$item['media']['content@length']);
+
+						array_push($enclosures, $e_item);
+					}
+
+					// FIXME: parse more of those, if needed.
 				}
 
 				# sanitize content
