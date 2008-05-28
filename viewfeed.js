@@ -1000,7 +1000,7 @@ function cdmGetSelectedArticles() {
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
-		if (child.id.match("RROW-") && child.className.match("Selected")) {
+		if (child.id && child.id.match("RROW-") && child.className.match("Selected")) {
 			var c_id = child.id.replace("RROW-", "");
 			sel_articles.push(c_id);
 		}
@@ -1018,7 +1018,7 @@ function cdmGetVisibleArticles() {
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
-		if (child.id.match("RROW-")) {
+		if (child.id && child.id.match("RROW-")) {
 			var c_id = child.id.replace("RROW-", "");
 			sel_articles.push(c_id);
 		}
@@ -1034,7 +1034,7 @@ function cdmGetUnreadArticles() {
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
-		if (child.id.match("RROW-") && child.className.match("Unread")) {
+		if (child.id && child.id.match("RROW-") && child.className.match("Unread")) {
 			var c_id = child.id.replace("RROW-", "");
 			sel_articles.push(c_id);
 		}
@@ -1051,7 +1051,7 @@ function cdmSelectArticles(mode) {
 	for (i = 0; i < container.childNodes.length; i++) {
 		var child = container.childNodes[i];
 
-		if (child.id.match("RROW-")) {
+		if (child.id && child.id.match("RROW-")) {
 			var aid = child.id.replace("RROW-", "");
 
 			var cb = document.getElementById("RCHK-" + aid);
