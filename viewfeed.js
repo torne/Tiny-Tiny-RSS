@@ -444,7 +444,7 @@ function view(id, feed_id, skip_history) {
 
 		if (!cached_article) {
 
-			notify_progress("Loading, please wait...");
+			notify_progress("Loading, please wait...", true);
 
 		} else if (cached_article && article_is_unread) {
 
