@@ -1170,6 +1170,11 @@ function hotkey_handler(e) {
 					}
 				}
 			}
+
+			if (keycode == 187) { // =
+				hideReadHeadlines();
+				return;
+			}
 		}
 
 		/* Prefix f */

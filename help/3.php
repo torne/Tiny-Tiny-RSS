@@ -38,6 +38,7 @@
 	<table>
 		<tr><td class='n'>r</td><td><?php echo __("Update active feed") ?></td></tr>
 		<tr><td class='n'>R</td><td><?php echo __("Update all feeds") ?></td></tr>
+		<tr><td class='n'>=</td><td><?php echo __("(Un)hide read articles") ?></td></tr>
 		<tr><td class='n'>f a</td><td><?php echo __("(Un)hide read feeds") ?></td></tr>
 		<tr><td class='n'>f s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
 		<tr><td class='n'>f e</td><td><?php echo __("Edit feed") ?></td></tr>
