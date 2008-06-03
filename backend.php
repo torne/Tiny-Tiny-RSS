@@ -212,7 +212,7 @@
 				}
 			}
 
-			if ($mode == "prefetch" || $csync) {
+			if ($mode == "prefetch" && $csync) {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
