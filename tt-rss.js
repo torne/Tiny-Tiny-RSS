@@ -1170,11 +1170,6 @@ function hotkey_handler(e) {
 					}
 				}
 			}
-
-			if (keycode == 187) { // =
-				hideReadHeadlines();
-				return;
-			}
 		}
 
 		/* Prefix f */
@@ -1227,6 +1222,11 @@ function hotkey_handler(e) {
 			if (keycode == 87) { // w
 				feeds_sort_by_unread = !feeds_sort_by_unread;
 				return resort_feedlist();
+			}
+
+			if (keycode == 72) { // h
+				hideReadHeadlines();
+				return;
 			}
 
 		}

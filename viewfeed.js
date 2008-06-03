@@ -21,7 +21,6 @@ var vgroup_last_feed = false;
 var post_under_pointer = false;
 
 var last_requested_article = false;
-var read_headlines_visible = true;
 
 function catchup_callback() {
 	if (xmlhttp_rpc.readyState == 4) {
@@ -1804,6 +1803,8 @@ function hideReadHeadlines() {
 		} else {
 			ids = cdmGetVisibleArticles();
 		}
+
+		var read_headlines_visible = true;
 
 		for (var i = 0; i < ids.length; i++) {
 			var row = document.getElementById("RROW-" + ids[i]);

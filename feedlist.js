@@ -44,9 +44,6 @@ function viewNextFeedPage() {
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
 
-		// reset = hotkey
-		read_headlines_visible = true;
-
 //		if (!offset) page_offset = 0;
 
 		last_requested_article = 0;
