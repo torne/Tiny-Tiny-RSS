@@ -1055,15 +1055,33 @@ function hotkey_handler(e) {
 
 			if (keycode == 74) { // j
 				var feed = getActiveFeedId();
-				var new_feed = getRelativeFeedId(feedlist, feed, 'prev');
-				if (new_feed) viewfeed(new_feed, '');
+				var new_feed = getRelativeFeedId2(feed, activeFeedIsCat(), 'prev');
+//				alert(feed + " IC: " + activeFeedIsCat() + " => " + new_feed);
+				if (new_feed) {
+					var is_cat = new_feed.match("CAT:");
+					if (is_cat) {
+						new_feed = new_feed.replace("CAT:", "");
+						viewCategory(new_feed);
+					} else {
+						viewfeed(new_feed, '', false);
+					}
+				}
 				return;
 			}
 	
 			if (keycode == 75) { // k
 				var feed = getActiveFeedId();
-				var new_feed = getRelativeFeedId(feedlist, feed, 'next');
-				if (new_feed) viewfeed(new_feed, '');
+				var new_feed = getRelativeFeedId2(feed, activeFeedIsCat(), 'next');
+//				alert(feed + " IC: " + activeFeedIsCat() + " => " + new_feed);
+				if (new_feed) {
+					var is_cat = new_feed.match("CAT:");
+					if (is_cat == "CAT:") {
+						new_feed = new_feed.replace("CAT:", "");
+						viewCategory(new_feed);
+					} else {
+						viewfeed(new_feed, '', false);
+					}
+				}
 				return;
 			}
 

@@ -649,6 +649,18 @@ function get_feed_unread(id) {
 	}
 }
 
+function get_cat_unread(id) {
+	try {
+		var ctr = document.getElementById("FCATCTR-" + id).innerHTML;
+		ctr = ctr.replace("(", "");
+		ctr = ctr.replace(")", "");
+		return parseInt(ctr);
+	} catch (e) {
+		exception_error("get_feed_unread", e, true);
+		return -1;
+	}
+}
+
 function get_feed_entry_unread(elem) {
 
 	var id = elem.id.replace("FEEDR-", "");
@@ -1022,6 +1034,76 @@ function toggleSelectRow(sender) {
 		}
 	}
 }
+
+
+function getRelativeFeedId2(id, is_cat, direction, unread_only) {	
+	try {
+
+//		alert(id + " IC: " + is_cat + " D: " + direction + " U: " + unread_only);
+
+		var rows = document.getElementById("feedList").getElementsByTagName("LI");
+		var feeds = new Array();
+	
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].id.match("FEEDR-")) {
+	
+				if (rows[i].id == "FEEDR-" + id && !is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+	
+					if (!unread_only || 
+							(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
+						feeds.push(rows[i].id.replace("FEEDR-", ""));
+					}
+				}
+			}
+
+			if (rows[i].id.match("FCAT-")) {
+				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+
+					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
+
+					if (cat_id >= 0) {
+						if (!unread_only || get_cat_unread(cat_id) > 0) {
+							feeds.push("CAT:"+cat_id);
+						}
+					}
+				}
+			}
+		}
+	
+//		alert(feeds.toString());
+
+		if (!id) {
+			if (direction == "next") {
+				return feeds.shift();
+			} else {
+				return feeds.pop();
+			}
+		} else {
+			if (direction == "next") {
+				if (is_cat) id = "CAT:" + id;
+				var idx = feeds.indexOf(id);
+				if (idx != -1 && idx < feeds.length) {
+					return feeds[idx+1];					
+				} else {
+					return getRelativeFeedId2(false, is_cat, direction, unread_only);
+				}
+			} else {
+				if (is_cat) id = "CAT:" + id;
+				var idx = feeds.indexOf(id);
+				if (idx > 0) {
+					return feeds[idx-1];
+				} else {
+					return getRelativeFeedId2(false, is_cat, direction, unread_only);
+				}
+			}
+	
+		}
+
+	} catch (e) {
+		exception_error("getRelativeFeedId2", e);
+	}
+}
+
 
 function getRelativeFeedId(list, id, direction, unread_only) {	
 	var rows = list.getElementsByTagName("LI");
