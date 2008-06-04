@@ -1154,6 +1154,7 @@
 					}
 
 					if (find_article_filter($article_filters, "filter")) {
+						db_query($link, "COMMIT"); // close transaction in progress
 						continue;
 					}
 
