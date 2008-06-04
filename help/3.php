@@ -45,6 +45,7 @@
 		<tr><td class='n'>f h</td><td><?php echo __("Hide visible read articles") ?></td></tr>
 		<tr><td class='n'>q</td><td><?php echo __("Mark feed as read") ?></td></tr>
 		<tr><td class='n'>Q</td><td><?php echo __("Mark all feeds as read") ?></td></tr>
+		<tr><td class='n'>x</td><td><?php echo __("If viewing category, (un)collapse it") ?></td></tr>
 	</table>
 
 	<h2><?php echo __("Go to...") ?></h2>

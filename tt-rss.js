@@ -1188,6 +1188,12 @@ function hotkey_handler(e) {
 					}
 				}
 			}
+
+			if (keycode == 88) { // x
+				if (activeFeedIsCat()) {
+					toggleCollapseCat(getActiveFeedId());
+				}
+			}
 		}
 
 		/* Prefix f */
