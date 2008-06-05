@@ -58,6 +58,9 @@ function clean_feed_selections() {
 			if (feeds[i].id && feeds[i].id.match("FEEDR-")) {
 				feeds[i].className = feeds[i].className.replace("Selected", "");
 			}			
+			if (feeds[i].id && feeds[i].id.match("FCAT-")) {
+				feeds[i].className = feeds[i].className.replace("Selected", "");
+			}
 		}
 	} catch (e) {
 		exception_error("clean_feed_selections", e);
@@ -81,6 +84,11 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 	
 		if (!is_cat) {
 			var feedr = document.getElementById("FEEDR-" + active_feed_id);
+			if (feedr && !feedr.className.match("Selected")) {	
+				feedr.className = feedr.className + "Selected";
+			} 
+		} else {
+			var feedr = document.getElementById("FCAT-" + active_feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
