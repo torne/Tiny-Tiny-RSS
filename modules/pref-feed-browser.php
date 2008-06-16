@@ -36,8 +36,8 @@
 					$last_updated = date($short_date, strtotime($last_updated));
 				}
 	
-				print __("Site:")." <a target=\"_new\" href='$site_url'>$site_url</a> ".
-					"(<a target=\"_new\" href='$feed_url'>feed</a>), ".
+				print __("Site:")." <a target=\"_blank\" href='$site_url'>$site_url</a> ".
+					"(<a target=\"_blank\" href='$feed_url'>feed</a>), ".
 					__("Last updated:")." $last_updated";
 	
 				print "</div>";
@@ -66,7 +66,7 @@
 							$entry_dt = date($short_date, strtotime($line["updated"]));
 						}				
 			
-						print "<li><a target=\"_new\" href=\"" . $line["link"] . "\">" . $line["title"] . "</a>" .
+						print "<li><a target=\"_blank\" href=\"" . $line["link"] . "\">" . $line["title"] . "</a>" .
 							"&nbsp;<span class=\"insensitive\">($entry_dt)</span></li>";	
 					}		
 					print "</ul></div>";

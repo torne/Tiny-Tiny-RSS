@@ -6,5 +6,5 @@
 
 <p><?php echo __("Multiple and inverse matching are supported. All matching filters are considered when article is being imported and all actions executed in sequence. Inverse matching reverts matching result, e.g. filter matching XYZZY in title with inverse flag will match all articles, except those containing string XYZZY in title.") ?></p>
 
-<p><?php echo __("See also:")?> <a target="_new" href="http://tt-rss.spb.ru/trac/wiki/ContentFilters">ContentFilters (wiki)</a>
+<p><?php echo __("See also:")?> <a target="_blank" href="http://tt-rss.spb.ru/trac/wiki/ContentFilters">ContentFilters (wiki)</a>
 

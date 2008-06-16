@@ -96,8 +96,8 @@
 							feed_url = '$feed_url'
 							AND owner_uid = '$owner_uid'");
 
-					print "<tr><td><a target='_new' href='$site_url'><b>$feed_title</b></a></b> 
-						(<a target='_new' href=\"$feed_url\">rss</a>)</td>";
+					print "<tr><td><a target='_blank' href='$site_url'><b>$feed_title</b></a></b> 
+						(<a target='_blank' href=\"$feed_url\">rss</a>)</td>";
 
 					if (db_num_rows($result) > 0) {
 						print "<td>".__('Already imported.')."</td>";
