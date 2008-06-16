@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2007, Ryan Parman and Geoffrey Sneddon
+ * Copyright (c) 2004-2008, Ryan Parman and Geoffrey Sneddon
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,8 +33,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.1
- * @copyright 2004-2007 Ryan Parman, Geoffrey Sneddon
+ * @version 1.1.1
+ * @copyright 2004-2008 Ryan Parman, Geoffrey Sneddon
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @link http://simplepie.org/ SimplePie
@@ -51,12 +51,14 @@ define('SIMPLEPIE_NAME', 'SimplePie');
 /**
  * SimplePie Version
  */
-define('SIMPLEPIE_VERSION', '1.1');
+define('SIMPLEPIE_VERSION', '1.1.1');
 
 /**
  * SimplePie Build
+ * @todo Hardcode for release (there's no need to have to call SimplePie_Misc::parse_date() only every load of simplepie.inc)
  */
-define('SIMPLEPIE_BUILD', 20080102221556);
+define('SIMPLEPIE_BUILD', 20080315205903);
+//define('SIMPLEPIE_BUILD', gmdate('YmdHis', SimplePie_Misc::parse_date(substr('$Date: 2008-03-15 15:28:23 -0700 (Sat, 15 Mar 2008) $', 7, 25)) ? SimplePie_Misc::parse_date(substr('$Date: 2008-03-15 15:28:23 -0700 (Sat, 15 Mar 2008) $', 7, 25)) : filemtime(__FILE__)));
 
 /**
  * SimplePie Website URL
@@ -310,6 +312,11 @@ define('SIMPLEPIE_NAMESPACE_GEORSS', 'http://www.georss.org/georss');
  * Media RSS Namespace
  */
 define('SIMPLEPIE_NAMESPACE_MEDIARSS', 'http://search.yahoo.com/mrss/');
+
+/**
+ * Wrong Media RSS Namespace
+ */
+define('SIMPLEPIE_NAMESPACE_MEDIARSS_WRONG', 'http://search.yahoo.com/mrss');
 
 /**
  * iTunes RSS Namespace
@@ -835,7 +842,7 @@ class SimplePie
 	 */
 	function set_raw_data($data)
 	{
-		$this->raw_data = trim($data);
+		$this->raw_data = $data;
 	}
 
 	/**
@@ -4326,6 +4333,36 @@ class SimplePie_Item
 			// Clear the memory
 			unset($parent);
 
+			// Attributes
+			$bitrate = null;
+			$channels = null;
+			$duration = null;
+			$expression = null;
+			$framerate = null;
+			$height = null;
+			$javascript = null;
+			$lang = null;
+			$length = null;
+			$medium = null;
+			$samplingrate = null;
+			$type = null;
+			$url = null;
+			$width = null;
+
+			// Elements
+			$captions = null;
+			$categories = null;
+			$copyrights = null;
+			$credits = null;
+			$description = null;
+			$hashes = null;
+			$keywords = null;
+			$player = null;
+			$ratings = null;
+			$restrictions = null;
+			$thumbnails = null;
+			$title = null;
+
 			// If we have media:group tags, loop through them.
 			foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'group') as $group)
 			{
@@ -5457,7 +5494,7 @@ class SimplePie_Item
 				}
 			}
 
-			if (sizeof($this->data['enclosures']) == 0)
+			if (sizeof($this->data['enclosures']) == 0 && ($url || $type || $length || $bitrate || $captions_parent || $categories_parent || $channels || $copyrights_parent || $credits_parent || $description_parent || $duration_parent || $expression || $framerate || $hashes_parent || $height || $keywords_parent || $lang || $medium || $player_parent || $ratings_parent || $restrictions_parent || $samplingrate || $thumbnails_parent || $title_parent || $width))
 			{
 				// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
 				$this->data['enclosures'][] =& new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
@@ -5532,7 +5569,7 @@ class SimplePie_Item
 	 * (and suffix to the item permalink)
 	 * @return mixed URL if feed exists, false otherwise
 	 */
-	function add_to_service($item_url, $title_url = null)
+	function add_to_service($item_url, $title_url = null, $summary_url = null)
 	{
 		if ($this->get_permalink() !== null)
 		{
@@ -5540,6 +5577,10 @@ class SimplePie_Item
 			if ($title_url !== null && $this->get_title() !== null)
 			{
 				$return .= $this->sanitize($title_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_title());
+			}
+			if ($summary_url !== null && $this->get_description() !== null)
+			{
+				$return .= $this->sanitize($summary_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_description());
 			}
 			return $return;
 		}
@@ -5566,7 +5607,7 @@ class SimplePie_Item
 
 	function add_to_digg()
 	{
-		return $this->add_to_service('http://digg.com/submit?phase=2&URL=');
+		return $this->add_to_service('http://digg.com/submit?url=', '&title=', '&bodytext=');
 	}
 
 	function add_to_furl()
@@ -7582,7 +7623,8 @@ class SimplePie_File
 					curl_setopt($fp, CURLOPT_FOLLOWLOCATION, 1);
 					curl_setopt($fp, CURLOPT_MAXREDIRS, $redirects);
 				}
-				
+
+				/* Enable Digest authentication and SSL -fox */
 				curl_setopt($fp, CURLOPT_SSL_VERIFYPEER, false); 
 				curl_setopt($fp, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 
@@ -7615,11 +7657,6 @@ class SimplePie_File
 							$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
 							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
 						}
-					}
-					// No feed fount at error correction.
-					// according to http://simplepie.org/support/viewtopic.php?id=1430
-					else {
-						$this->success = false;
 					}
 				}
 			}
@@ -7853,7 +7890,7 @@ class SimplePie_HTTP_Parser
 			$this->$state();
 		}
 		$this->data = '';
-		if ($this->state === 'emit')
+		if ($this->state === 'emit' || $this->state === 'body')
 		{
 			return true;
 		}
@@ -12415,7 +12452,7 @@ class SimplePie_Locator
 		$this->useragent = $useragent;
 		$this->timeout = $timeout;
 		$this->max_checked_feeds = $max_checked_feeds;
-		$this->content_type_sniffer_class;
+		$this->content_type_sniffer_class = $content_type_sniffer_class;
 	}
 
 	function find($type = SIMPLEPIE_LOCATOR_ALL)
@@ -12908,6 +12945,12 @@ class SimplePie_Parser
 				{
 					$namespace = SIMPLEPIE_NAMESPACE_ITUNES;
 				}
+
+				// Normalize the Media RSS namespaces
+				if ($namespace === SIMPLEPIE_NAMESPACE_MEDIARSS_WRONG)
+				{
+					$namespace = SIMPLEPIE_NAMESPACE_MEDIARSS;
+				}
 				$cache[$string] = array($namespace, $local_name);
 			}
 			else
@@ -12920,7 +12963,7 @@ class SimplePie_Parser
 }
 
 /**
- * @todo Move to using an actual HTML parser (this will allow tags to be properly stripped, and to switch between HTML and XHTML), this will also make it easier to shortern a string while preserving HTML tags
+ * @todo Move to using an actual HTML parser (this will allow tags to be properly stripped, and to switch between HTML and XHTML), this will also make it easier to shorten a string while preserving HTML tags
  */
 class SimplePie_Sanitize
 {
