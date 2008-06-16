@@ -3757,7 +3757,7 @@
 				} else {
 					return "New version of Tiny-Tiny RSS ($latest_version) is available:
 						<div class='milestoneDetails'>$content</div>
-						Visit <a target=\"_new\" href=\"http://tt-rss.spb.ru/\">official site</a> for
+						Visit <a target=\"_blank\" href=\"http://tt-rss.spb.ru/\">official site</a> for
 						download and update information.";	
 				}
 
@@ -4018,7 +4018,7 @@
 
 			if ($feed_site_url) {
 				if (!$bottom) {
-					$target = "target=\"_new\"";
+					$target = "target=\"_blank\"";
 				}
 				print "<a $target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
@@ -4036,7 +4036,7 @@
 
 			if (!$bottom && !$disable_feed) {
 				print "
-					<a target=\"_new\" 
+					<a target=\"_blank\" 
 						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
 						<img class=\"noborder\" 
 							alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
@@ -4551,7 +4551,7 @@
 			$link_target = "";
 
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-				$link_target = "target=\"_new\"";
+				$link_target = "target=\"_blank\"";
 			}
 
 			$line = db_fetch_assoc($result);
@@ -4666,7 +4666,7 @@
 			$line["content"] = sanitize_rss($link, $line["content"]);
 
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-				$line["content"] = preg_replace("/href=/i", "target=\"_new\" href=", $line["content"]);
+				$line["content"] = preg_replace("/href=/i", "target=\"_blank\" href=", $line["content"]);
 			}
 
 			print $line["content"];
@@ -4918,7 +4918,7 @@
 						alt=\"Publish article\" onclick='javascript:tPub($id)'>";
 				}
 
-#				$content_link = "<a target=\"_new\" href=\"".$line["link"]."\">" .
+#				$content_link = "<a target=\"_blank\" href=\"".$line["link"]."\">" .
 #					$line["title"] . "</a>";
 
 #				$content_link = "<a 
@@ -5112,7 +5112,7 @@
 
 					if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
 						$line["content_preview"] = preg_replace("/href=/i", 
-							"target=\"_new\" href=", $line["content_preview"]);
+							"target=\"_blank\" href=", $line["content_preview"]);
 					}
 
 					if ($show_excerpt) {
