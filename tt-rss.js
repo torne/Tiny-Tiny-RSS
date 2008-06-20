@@ -1306,7 +1306,13 @@ function hotkey_handler(e) {
 				toggleTags();
 				return false;
 			}
+		}
 
+		/* Cmd */
+
+		if (hotkey_prefix == 224 || hotkey_prefix == 91) { // f 
+			hotkey_prefix = false;
+			return;
 		}
 
 		if (hotkey_prefix) {
