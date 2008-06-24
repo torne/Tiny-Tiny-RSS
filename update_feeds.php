@@ -46,6 +46,9 @@
 		}
 	}
 
+	// Purge all posts (random 30 feeds)
+	global_purge_old_posts($link, true, 30);
+
 	// Update all feeds needing a update.
 	update_daemon_common($link, $limit=0);
 
