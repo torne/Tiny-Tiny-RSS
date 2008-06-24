@@ -137,7 +137,7 @@ window.onload = init;
 			<input name="bw_limit" id="bw_limit" type="checkbox"
 				onchange="bwLimitChange(this)">
 			<label for="bw_limit">
-			<?php echo __("Limit bandwidth use") ?></label></div>
+			<?php echo __("Limit bandwidth usage") ?></label></div>
 
 			</td></tr>
 
