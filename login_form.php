@@ -22,6 +22,12 @@ function init() {
 
 	var login = document.forms["loginForm"].login;
 
+	var limit_set = getCookie("ttrss_bwlimit");
+
+	if (limit_set == "true") {
+		document.forms["loginForm"].bw_limit.checked = true;
+	}
+
 	login.focus();
 
 }
@@ -34,6 +40,18 @@ function languageChange(elem) {
 		window.location.reload();
 	} catch (e) {
 		exception_error("languageChange", e);
+	}
+}
+
+function bwLimitChange(elem) {
+	try {
+		var limit_set = elem.checked;
+
+		setCookie("ttrss_bwlimit", limit_set, 
+			<?php print SESSION_COOKIE_LIFETIME ?>);
+
+	} catch (e) {
+		exception_error("bwLimitChange", e);
 	}
 }
 
@@ -100,6 +118,7 @@ window.onload = init;
 				<input type="checkbox" name="remember_me" id="remember_me">
 				<label for="remember_me">Remember me on this computer</label>
 			</td></tr> -->
+
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 
 			<?php if (defined('_ENABLE_REGISTRATION')) { ?>
@@ -111,6 +130,18 @@ window.onload = init;
 				<input type="hidden" name="rt" 
 					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">
 			</td></tr>
+
+			<tr><td colspan="2" align="right" class="innerLoginCell">
+
+			<div class="small">
+			<input name="bw_limit" id="bw_limit" type="checkbox"
+				onchange="bwLimitChange(this)">
+			<label for="bw_limit">
+			<?php echo __("Limit bandwidth use") ?></label></div>
+
+			</td></tr>
+
+
 		</table>
 	</td>
 </tr><tr>

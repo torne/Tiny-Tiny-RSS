@@ -206,9 +206,11 @@
 				catchupArticleById($link, $id, 0);
 			}
 
-			foreach ($cids as $cid) {
-				if ($cid) {
-					outputArticleXML($link, $cid, $feed_id, false);
+			if (!$_SESSION["bw_limit"]) {
+				foreach ($cids as $cid) {
+					if ($cid) {
+						outputArticleXML($link, $cid, $feed_id, false);
+					}
 				}
 			}
 
@@ -280,7 +282,7 @@
 	
 				if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 	
-				if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+				if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
 					print "<articles>";
 					foreach ($topmost_article_ids as $id) {
 						outputArticleXML($link, $id, $feed, false);

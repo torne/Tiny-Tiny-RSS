@@ -537,6 +537,8 @@ function request_counters() {
 
 	try {
 
+		if (getInitParam("bw_limit") == "1") return;
+
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 

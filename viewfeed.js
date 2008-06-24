@@ -1562,6 +1562,8 @@ function preload_article_callback(transport) {
 
 function preloadArticleUnderPointer(id) {
 	try {
+		if (getInitParam("bw_limit") == "1") return;
+
 		if (post_under_pointer == id && !cache_check(id)) {
 
 			debug("trying to preload article " + id);

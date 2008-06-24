@@ -259,6 +259,8 @@ function viewfeed(feed, subop) {
 }
 
 function timeout() {
+	if (getInitParam("bw_limit") == "1") return;
+
 	scheduleFeedUpdate(false);
 
 	var refresh_time = getInitParam("feeds_frame_refresh");

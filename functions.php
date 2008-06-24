@@ -1848,6 +1848,7 @@
 					$_POST["password"] = "";
 
 					$_SESSION["language"] = $_POST["language"];
+					$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
 
 					header("Location: " . $_SERVER["REQUEST_URI"]);
 					exit;
@@ -3013,6 +3014,9 @@
 
 		print "<param key=\"hide_feedlist\" value=\"" .
 			(int) get_pref($link, "HIDE_FEEDLIST") . "\"/>";
+
+		print "<param key=\"bw_limit\" value=\"".
+			(int) $_SESSION["bw_limit"]."\"/>";
 
 		print "</init-params>";
 	}
