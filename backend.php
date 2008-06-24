@@ -295,7 +295,7 @@
 
 			$viewfeed_ctr_interval = 300;
 
-			if ($csync) {
+			if ($csync || $_SESSION["bw_limit"]) {
 				$viewfeed_ctr_interval = 60;
 			}
 
