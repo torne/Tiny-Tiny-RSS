@@ -11,7 +11,6 @@
 	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
 	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
-	define('PHP_EXECUTABLE', '/usr/bin/php');
 
 	require_once "version.php";
 
@@ -23,6 +22,10 @@
 
 	require_once "sanity_check.php";
 	require_once "config.php";
+
+	if (!defined('PHP_EXECUTABLE')) {
+		define('PHP_EXECUTABLE', '/usr/bin/php');
+	}
 
 	if (!ENABLE_UPDATE_DAEMON) {
 		die("Please enable option ENABLE_UPDATE_DAEMON in config.php\n");

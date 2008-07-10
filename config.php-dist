@@ -184,7 +184,10 @@
 	// Selectively gzip output to improve wire performance. This requires
 	// PHP Zlib extension on the server.
 
-	define('CONFIG_VERSION', 16);
+	define('PHP_EXECUTABLE', '/usr/bin/php');
+	// Path to PHP executable
+
+	define('CONFIG_VERSION', 17);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
