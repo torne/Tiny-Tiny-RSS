@@ -59,7 +59,7 @@
 	</script>
 </head>
 
-<body onresize="resize_headlines()">
+<body onresize="resize_headlines()" id="ttrssMain">
 
 <div id="overlay">
 	<div id="overlay_inner">

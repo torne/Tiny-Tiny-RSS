@@ -99,8 +99,13 @@
 	<link rel="stylesheet" type="text/css" href="mobile.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="tt-rss.js"></script>
+
+	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
+	<?php if ($user_css_url) { ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
+	<?php } ?>
 </head>
-<body>
+<body id="ttrssMobile">
 
 <div id="content">
 <?php

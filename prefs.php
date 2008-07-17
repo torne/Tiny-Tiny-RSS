@@ -58,7 +58,7 @@
 	</script>
 </head>
 
-<body>
+<body id="ttrssPrefs">
 
 <div id="overlay">
 	<div id="overlay_inner">
