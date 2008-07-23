@@ -466,6 +466,7 @@
 			print "<form method=\"GET\" action=\"tt-rss.php\">";
 			print "<input type=\"hidden\" name=\"go\" value=\"vf\">";
 			print "<input type=\"hidden\" name=\"id\" value=\"$feed\">";
+			print "<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">";
 
 			print "<ul class=\"headlines\">";
 
@@ -516,7 +517,7 @@
 					$published_pic = "<img class='marked' src=\"../images/pub_unset.gif\">";
 				}
 
-				$content_link = "<a href=\"?go=view&id=$id&ret_feed=$feed&feed=$feed_id\">" .
+				$content_link = "<a href=\"?go=view&id=$id&cat=$cat_view&ret_feed=$feed&feed=$feed_id\">" .
 					$line["title"] . "</a>";
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
@@ -531,8 +532,8 @@
 				print "<input type=\"checkbox\" name=\"sel_ids[$id]\" 
 					onchange=\"toggleSelectRow(this, $id)\">";
 
-				print "<a href=\"?go=vf&id=$feed&ts=$id\">$marked_pic</a>";
-				print "<a href=\"?go=vf&id=$feed&tp=$id\">$published_pic</a>";
+				print "<a href=\"?go=vf&id=$feed&ts=$id&cat=$cat_view\">$marked_pic</a>";
+				print "<a href=\"?go=vf&id=$feed&tp=$id&cat=$cat_view\">$published_pic</a>";
 
 				print $content_link;
 	
@@ -579,6 +580,7 @@
 		$id = db_escape_string($_GET["id"]);
 		$feed_id = db_escape_string($_GET["feed"]);
 		$ret_feed_id = db_escape_string($_GET["ret_feed"]);
+		$cat_view = db_escape_string($_GET["cat"]);
 
 		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -657,8 +659,21 @@
 				#				print "<img class=\"feedIcon\" src=\"../icons/$feed_id.ico\">";
 				#			}
 
-			$feed_link = "<a href=\"tt-rss.php?go=vf&id=$ret_feed_id\">Feed</a>";
-			
+			if (!$cat_view) {
+				$feed_title = getFeedTitle($link, $ret_feed_id);
+			} else {
+				$feed_title = getCategoryTitle($link, $ret_feed_id);
+				$feed_title_native = getFeedTitle($link, $feed_id);
+			}
+
+			if ($feed_title_native) {
+				$feed_link = "<a href=\"tt-rss.php?go=vf&id=$feed_id\">$feed_title_native</a>";
+				$feed_link .= " in <a href=\"tt-rss.php?go=vf&id=$ret_feed_id&cat=$cat_view\">
+					$feed_title</a>";
+			} else {
+				$feed_link = "<a href=\"tt-rss.php?go=vf&id=$ret_feed_id\">$feed_title</a>";
+			}
+
 			print "<a href=\"" . $line["link"] . "\">" . 
 				truncate_string($line["title"], 30) . "</a>";
 			print " <span id=\"headingAddon\">$parsed_updated ($feed_link)</span>";
