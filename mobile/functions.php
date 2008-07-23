@@ -454,6 +454,7 @@
 		print_select_hash("viewmode", $view_mode, $sel_values);
 
 		print "<input type=\"hidden\" name=\"id\" value=\"$feed\">
+		<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">
 		<input type=\"hidden\" name=\"go\" value=\"vf\">
 		<input type=\"submit\" value=\"".__('Refresh')."\">";
 		print "</form>";
@@ -562,6 +563,7 @@
 				<option value=\"page\">Page</option>
 				<option value=\"feed\">Entire feed</option>
 			</select>
+			<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">
 			<input type=\"submit\" value=\"Mark as read\">";				
 
 			print "</form>";
