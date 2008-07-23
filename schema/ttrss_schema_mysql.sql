@@ -209,7 +209,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (37);
+insert into ttrss_version values (38);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -331,6 +331,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('VFEED_GROUP_BY_FEED', 1, 'false', 'Group headlines in virtual feeds',2,
 	'When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('SYNC_COUNTERS', 1, 'false', 'Prefer more accurate feedlist counters to UI speed',3);
 
 create table ttrss_user_prefs (
    owner_uid integer not null,

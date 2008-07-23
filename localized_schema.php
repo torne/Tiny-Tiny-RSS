@@ -72,5 +72,6 @@
 	__("Automatically expand articles in combined mode");
 	__("Purge unread articles");
 	__("Show special feeds when hiding read feeds");
+	__("Prefer more accurate feedlist counters to UI speed");
 
 ?>

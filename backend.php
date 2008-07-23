@@ -214,7 +214,8 @@
 				}
 			}
 
-			if ($mode == "prefetch" && $csync) {
+
+			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
@@ -299,7 +300,8 @@
 				$viewfeed_ctr_interval = 60;
 			}
 
-			if (time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
+			if (get_pref($link, "SYNC_COUNTERS") ||				
+					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
 				print "<counters>";
 				getAllCounters($link, $omode, $feed);
 				print "</counters>";

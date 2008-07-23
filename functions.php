@@ -2227,7 +2227,10 @@
 		/* getting all counters is a resource intensive operation, so we
 		 * rate limit it a little bit */
 
-		if (time() - $_SESSION["get_all_counters_stamp"] > 5) {
+
+
+		if (get_pref($link, "SYNC_COUNTERS") || 
+				time() - $_SESSION["get_all_counters_stamp"] > 5) {
 
 			if (!$omode) $omode = "flc";
 	
@@ -3017,6 +3020,9 @@
 
 		print "<param key=\"bw_limit\" value=\"".
 			(int) $_SESSION["bw_limit"]."\"/>";
+
+		print "<param key=\"sync_counters\" value=\"" . 
+			(int) get_pref($link, "SYNC_COUNTERS") . "\"/>";
 
 		print "</init-params>";
 	}

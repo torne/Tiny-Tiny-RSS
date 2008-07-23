@@ -542,7 +542,11 @@ function request_counters() {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
+//		if (getInitParam("sync_counters") == "1" || 
+//				timestamp - counters_last_request > 10) {
+
 		if (timestamp - counters_last_request > 10) {
+
 			debug("scheduling request of counters...");
 			window.setTimeout("request_counters_real()", 1000);
 			counters_last_request = timestamp;
