@@ -371,7 +371,8 @@ function resize_headlines(delta_x, delta_y) {
 		var f_frame = document.getElementById("footer");
 		var feeds_frame = document.getElementById("feeds-holder");
 		var resize_grab = document.getElementById("resize-grabber");
-	
+		var resize_handle = document.getElementById("resize-handle");
+
 		if (!c_frame || !h_frame) return;
 	
 		if (feeds_frame && getInitParam("theme") == "compat") {
@@ -395,6 +396,9 @@ function resize_headlines(delta_x, delta_y) {
 			resize_grab.style.left = (h_frame.offsetLeft + h_frame.offsetWidth - 
 				4) + "px";
 			resize_grab.style.display = "block";
+
+			resize_handle.src = "themes/3pane/images/resize_handle_vert.png";
+			resize_handle.style.paddingTop = (resize_grab.offsetHeight / 2 - 7) + "px";
 	
 		} else {
 	
@@ -413,11 +417,17 @@ function resize_headlines(delta_x, delta_y) {
 	
 			var theme_c = 0;
 	
-			if (getInitParam("theme") == "graycube") theme_c = 1;
+			if (getInitParam("theme") == "graycube") {
+				theme_c = 1;
+			}
+
+			if (getInitParam("theme") == "graycube" || getInitParam("theme") == "compat") {
+				resize_handle.src = "themes/graycube/images/resize_handle_horiz.png";
+			}
 	
-			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 
+/*			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 
 				4 - theme_c) + "px";
-			resize_grab.style.display = "block";
+			resize_grab.style.display = "block"; */
 	
 		}
 	

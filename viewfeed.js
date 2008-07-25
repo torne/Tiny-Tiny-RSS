@@ -256,7 +256,9 @@ function render_article(article) {
 			f.scrollTop = 0;
 		} catch (e) { };
 
-		f.innerHTML = article;
+		var fi = document.getElementById("content-insert");
+
+		fi.innerHTML = article;
 
 	} catch (e) {
 		exception_error("render_article", e);
@@ -363,8 +365,8 @@ function article_callback2(transport, id, feed_id) {
 		
 		} else {
 			debug("article_callback: returned no XML object");
-			var f = document.getElementById("content-frame");
-			f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
+			//var f = document.getElementById("content-frame");
+			//f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 		}
 
 		var date = new Date();

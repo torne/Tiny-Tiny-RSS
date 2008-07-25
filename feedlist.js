@@ -489,6 +489,7 @@ function mouse_down_handler(e) {
 			mouse_x = 0;
 			mouse_y = 0;
 			document.onselectstart = function() { return false; };
+			return false;
 		}
 	} catch (e) {
 		exception_error("mouse_move_handler", e);

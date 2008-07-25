@@ -231,10 +231,16 @@ window.onload = init;
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 	<div id="headlines-frame" class="headlines_normal">
 		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
-	<div id="content-frame"><div class="whiteBox">&nbsp;</div></div>
+	<div id="content-frame">
 	<div id="resize-grabber"
 		onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
-		title="<?php echo __('Drag me to resize panels') ?>"> </div>
+		title="<?php echo __('Drag me to resize panels') ?>"> 
+		<img src="images/resize_handle_horiz.png" id="resize-handle" 
+			onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
+			alt="">
+		</div>
+	<div id="content-insert">&nbsp;</div>
+	<!-- <div class="whiteBox">&nbsp;</div> --> </div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm">
 		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>

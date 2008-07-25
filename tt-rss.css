@@ -1508,7 +1508,7 @@ div.headlines_cdm {
 	border-collapse : collapse;
 }
 
-#resize-grabber {
+/*#resize-grabber {
 	position : absolute;
 	border-width : 1px;
 	border-style : dotted;
@@ -1521,6 +1521,16 @@ div.headlines_cdm {
 	top : 20px;
 	display : none;
 	cursor : move;
+}*/
+
+#resize-grabber {
+	height : 5px;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
+	background : url("images/resize_horiz.png") top left;
+	cursor : move;
+	text-align : center;
 }
 
 #footer, #prefFooter {
@@ -1971,4 +1981,8 @@ div#l_progress_i {
 	width : 10px;
 	background-color : #88b0f0;
 	height : 10px;
+}
+
+#content-insert {
+	background-color : white;
 }
