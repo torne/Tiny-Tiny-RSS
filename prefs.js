@@ -508,7 +508,6 @@ function editFeed(feed) {
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
-	return false;
 }
 
 function editFeedCat(cat) {
@@ -687,33 +686,6 @@ function removeSelectedFeeds() {
 
 		alert(__("No feeds are selected."));
 
-	}
-	
-	return false;
-}
-
-function removeFeed(id, title) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	if (id) {
-
-		var msg = __("Unsubscribe from %s?").replace("%s", title);
-
-		var ok = confirm(msg);
-
-		if (ok) {
-
-			notify_progress("Unsubscribing...");
-	
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
-				param_escape(id), true);
-			xmlhttp.onreadystatechange=feedlist_callback;
-			xmlhttp.send(null);
-		}
 	}
 	
 	return false;

@@ -968,7 +968,6 @@
 				$cat_id = $line["cat_id"];
 
 				$edit_title = htmlspecialchars($line["title"]);
-				$feed_title = $edit_title;
 				$edit_cat = htmlspecialchars($line["category"]);
 
 				$hidden = sql_bool_to_bool($line["hidden"]);
@@ -1064,11 +1063,6 @@
 						$parent_title)</span>";
 				}
 
-				$ops = "<span class=\"feedOps\">
-					(<a title=\"".__('Unsubscribe')."\"
-					href='javascript:removeFeed($feed_id, \"$feed_title\")'>x</a>)
-					</span>";
-
 				print "<td $onclick>" . "$edit_title $parent_title" . "</td>";
 
 				if ($show_last_article_info) {
@@ -1076,7 +1070,7 @@
 						"$last_article</td>";
 				}
 
-				print "<td align='right'>$ops $last_updated</td>";
+				print "<td $onclick align='right'>$last_updated</td>";
 
 				print "</tr>";
 	
