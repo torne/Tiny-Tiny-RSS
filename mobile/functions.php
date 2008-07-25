@@ -506,15 +506,15 @@
 				}
 	
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img class='marked' src=\"../images/mark_set.png\">";
+					$marked_pic = "<img alt=\"S\" class='marked' src=\"../images/mark_set.png\">";
 				} else {
-					$marked_pic = "<img class='marked' src=\"../images/mark_unset.png\">";
+					$marked_pic = "<img alt=\"s\" class='marked' src=\"../images/mark_unset.png\">";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
-					$published_pic = "<img class='marked' src=\"../images/pub_set.gif\">";
+					$published_pic = "<img alt=\"P\" class='marked' src=\"../images/pub_set.gif\">";
 				} else {
-					$published_pic = "<img class='marked' src=\"../images/pub_unset.gif\">";
+					$published_pic = "<img alt=\"p\" class='marked' src=\"../images/pub_unset.gif\">";
 				}
 
 				$content_link = "<a href=\"?go=view&id=$id&cat=$cat_view&ret_feed=$feed&feed=$feed_id\">" .

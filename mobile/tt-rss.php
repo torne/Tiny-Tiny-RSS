@@ -124,9 +124,13 @@
 ?>
 </div>
 
+<?php if (!$go) { ?>
+
 <div id="footer">
 	<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a> v<?php echo VERSION ?> &copy; 2005-2007 Andrew Dolgov
 </div>
+
+<?php } ?>
 
 </body>
 </html>
