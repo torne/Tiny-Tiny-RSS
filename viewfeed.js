@@ -258,6 +258,10 @@ function render_article(article) {
 
 		var fi = document.getElementById("content-insert");
 
+		try {
+			fi.scrollTop = 0;
+		} catch (e) { };
+
 		fi.innerHTML = article;
 
 	} catch (e) {
