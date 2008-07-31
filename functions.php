@@ -5139,7 +5139,7 @@
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
-					print $line["content_preview"];
+					print sanitize_rss($link, $line["content_preview"]);
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 						post_id = '$id' AND content_url != ''");
