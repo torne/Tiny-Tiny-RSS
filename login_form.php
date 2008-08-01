@@ -101,9 +101,11 @@ window.onload = init;
 		<?php } ?>
 		<table>
 			<tr><td align="right"><?php echo __("Login:") ?></td>
-			<td align="right"><input name="login"></td></tr>
+			<td align="right"><input name="login" 
+				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
-			<td align="right"><input type="password" name="password"></td></tr>
+			<td align="right"><input type="password" name="password"
+				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<?php if (ENABLE_TRANSLATIONS) { ?>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
 			<td align="right">

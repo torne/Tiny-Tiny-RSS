@@ -1682,11 +1682,11 @@
 			$pwd_hash2 = encrypt_password($password, $login);
 
 			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH 
-					&& $_SERVER["REMOTE_USER"]) {
+					&& $_SERVER["REMOTE_USER"] && $login != "admin") {
 
 				$login = db_escape_string($_SERVER["REMOTE_USER"]);
 
-				$query = "SELECT id,login,access_level
+				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
 					login = '$login'";
 
@@ -3522,6 +3522,12 @@
 //			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
 		}
 
+		if (get_pref($link, "STRIP_IMAGES")) {
+			
+			$res = preg_replace('/<img[^>]+>/is', '', $res);
+
+		}
+
 		return $res;
 	}
 
@@ -4704,7 +4710,16 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = ""; 
+					
+					if (($ctype = __("audio/mpeg")) && 
+						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
+					
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";
+
+					}
+
+					$entry .= "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
@@ -5163,7 +5178,16 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = ""; 
+					
+					if (($ctype = __("audio/mpeg")) && 
+						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
+						
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>"; 
+					
+					}
+
+					$entry .= "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
