@@ -4715,7 +4715,7 @@
 					if (($ctype = __("audio/mpeg")) && 
 						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
 					
-						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"17\" height=\"17\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object> ";
 
 					}
 
@@ -5183,7 +5183,7 @@
 					if (($ctype = __("audio/mpeg")) && 
 						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
 						
-						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>"; 
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"17\" height=\"17\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object> "; 
 					
 					}
 
