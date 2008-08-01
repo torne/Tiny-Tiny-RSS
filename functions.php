@@ -1682,11 +1682,11 @@
 			$pwd_hash2 = encrypt_password($password, $login);
 
 			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH 
-					&& $_SERVER["REMOTE_USER"]) {
+					&& $_SERVER["REMOTE_USER"] && $login != "admin") {
 
 				$login = db_escape_string($_SERVER["REMOTE_USER"]);
 
-				$query = "SELECT id,login,access_level
+				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
 					login = '$login'";
 
