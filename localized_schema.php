@@ -73,5 +73,8 @@
 	__("Purge unread articles");
 	__("Show special feeds when hiding read feeds");
 	__("Prefer more accurate feedlist counters to UI speed");
+	__("Enable inline MP3 player");
+	__("Enable the Flash-based XSPF Player to play MP3-format podcast enclosures.");
+	__("Do not show images in articles");
 
 ?>
