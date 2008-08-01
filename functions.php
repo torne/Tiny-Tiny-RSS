@@ -3522,6 +3522,12 @@
 //			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
 		}
 
+		if (get_pref($link, "STRIP_IMAGES")) {
+			
+			$res = preg_replace('/<img[^>]+>/is', '', $res);
+
+		}
+
 		return $res;
 	}
 
@@ -4704,7 +4710,16 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = ""; 
+					
+					if (($ctype = __("audio/mpeg")) && 
+						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
+					
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";
+
+					}
+
+					$entry .= "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
@@ -5139,7 +5154,7 @@
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
-					print $line["content_preview"];
+					print sanitize_rss($line["content_preview"]);
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 						post_id = '$id' AND content_url != ''");
@@ -5163,7 +5178,16 @@
 
 					$filename = substr($url, strrpos($url, "/")+1);
 
-					$entry = "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+					$entry = ""; 
+					
+					if (($ctype = __("audio/mpeg")) && 
+						(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
+						
+						$entry .= "<object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"20\" height=\"20\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>"; 
+					
+					}
+
+					$entry .= "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $ctype . ")" . "</a>";
 
 					array_push($entries, $entry);
