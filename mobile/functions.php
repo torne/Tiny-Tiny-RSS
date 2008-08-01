@@ -468,7 +468,7 @@
 			print "<input type=\"hidden\" name=\"id\" value=\"$feed\">";
 			print "<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">";
 
-			print "<ul class=\"headlines\">";
+			print "<ul class=\"headlines\" id=\"headlines\">";
 
 			$page_art_ids = array();
 			
@@ -529,8 +529,8 @@
 				
 				print "<li class='$class' id=\"HROW-$id\">";
 
-				print "<input type=\"checkbox\" name=\"sel_ids[$id]\" 
-					onchange=\"toggleSelectRow(this, $id)\">";
+				print "<input type=\"checkbox\" name=\"sel_ids[$id]\"
+				  	id=\"HSCB-$id\" onchange=\"toggleSelectRow(this, $id)\">";
 
 				print "<a href=\"?go=vf&id=$feed&ts=$id&cat=$cat_view\">$marked_pic</a>";
 				print "<a href=\"?go=vf&id=$feed&tp=$id&cat=$cat_view\">$published_pic</a>";
@@ -559,13 +559,21 @@
 /*			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkPageRead\">Page</a>, ";
 			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a></div>"; */
 
+			print "Select: 
+				<a href=\"javascript:selectHeadlines(1)\">All</a>,
+				<a href=\"javascript:selectHeadlines(2)\">Unread</a>,
+				<a href=\"javascript:selectHeadlines(3)\">None</a>,
+				<a href=\"javascript:selectHeadlines(4)\">Invert</a>";
+
+			print " ";
+
 			print "<select name=\"catchup_op\">
 				<option value=\"selection\">Selection</option>
 				<option value=\"page\">Page</option>
 				<option value=\"feed\">Entire feed</option>
 			</select>
 			<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">
-			<input type=\"submit\" value=\"Mark as read\">";				
+			<input type=\"submit\" value=\"Mark as read\">";
 
 			print "</form>";
 
