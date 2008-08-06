@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-01 11:55+0400\n"
+"POT-Creation-Date: 2008-08-06 16:43+0400\n"
 "PO-Revision-Date: 2008-02-03 22:22::+0100\n"
 "Last-Translator: MiszterX <miszterx@miszterx.hu>\n"
 "Language-Team: HUNGARIAN <miszterx@miszterx.hu>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend.php:108 backend.php:117 backend.php:128
+#: backend.php:108
 msgid "Use default"
 msgstr "Használd az alapértelmezettet"
 
@@ -43,6 +43,11 @@ msgstr "2 hónapos"
 #: backend.php:114
 msgid "3 months old"
 msgstr "3 hónapos"
+
+#: backend.php:117
+#, fuzzy
+msgid "Default interval"
+msgstr "Frissítési intervallum:"
 
 #: backend.php:118
 msgid "Disable updates"
@@ -76,6 +81,10 @@ msgstr "Napi"
 msgid "Weekly"
 msgstr "Heti"
 
+#: backend.php:128 modules/pref-prefs.php:312
+msgid "Default"
+msgstr "Alapértelmezett"
+
 #: backend.php:129
 #, fuzzy
 msgid "Magpie"
@@ -85,7 +94,7 @@ msgstr "Oldal"
 msgid "SimplePie"
 msgstr ""
 
-#: backend.php:139
+#: backend.php:139 modules/pref-users.php:35
 msgid "User"
 msgstr "Felhasználó"
 
@@ -97,7 +106,7 @@ msgstr ""
 msgid "Administrator"
 msgstr "Adminisztrátor"
 
-#: backend.php:424 modules/pref-users.php:295
+#: backend.php:424 modules/pref-users.php:311
 msgid "Registered"
 msgstr "Regisztrált"
 
@@ -176,7 +185,7 @@ msgid "Starred articles"
 msgstr "Csillagost hírek"
 
 #: functions.php:2586 functions.php:2936 functions.php:3313 functions.php:4164
-#: modules/pref-feeds.php:1146
+#: modules/pref-feeds.php:1157
 msgid "Published articles"
 msgstr "Publikált hírek"
 
@@ -184,13 +193,13 @@ msgstr "Publikált hírek"
 msgid "Fresh articles"
 msgstr "Olvasatlan hírek"
 
-#: functions.php:2856 modules/popup-dialog.php:151
-#: modules/pref-filters.php:340
+#: functions.php:2856 modules/popup-dialog.php:175
+#: modules/pref-filters.php:353
 msgid "All feeds"
 msgstr "Minden feed"
 
 #: functions.php:2885 functions.php:2924 functions.php:3288 functions.php:4318
-#: functions.php:4348 modules/pref-feeds.php:977
+#: functions.php:4348 modules/pref-feeds.php:988
 msgid "Uncategorized"
 msgstr "Kategorizálatlan"
 
@@ -212,15 +221,15 @@ msgid "Searched for"
 msgstr ""
 
 #: functions.php:3945 functions.php:3994 functions.php:5216
-#: modules/pref-feeds.php:758 modules/pref-feeds.php:939
-#: modules/pref-filters.php:292 modules/pref-labels.php:269
-#: modules/pref-users.php:286
+#: modules/pref-feeds.php:769 modules/pref-feeds.php:950
+#: modules/pref-filters.php:305 modules/pref-labels.php:271
+#: modules/pref-users.php:302
 msgid "Select:"
 msgstr "Kiválaszt:"
 
-#: functions.php:3946 functions.php:3995 modules/pref-feeds.php:759
-#: modules/pref-feeds.php:940 modules/pref-filters.php:293
-#: modules/pref-labels.php:270 modules/pref-users.php:287
+#: functions.php:3946 functions.php:3995 modules/pref-feeds.php:770
+#: modules/pref-feeds.php:951 modules/pref-filters.php:306
+#: modules/pref-labels.php:272 modules/pref-users.php:303
 msgid "All"
 msgstr "Mind"
 
@@ -229,13 +238,13 @@ msgstr "Mind"
 msgid "Unread"
 msgstr "Olvasatlan"
 
-#: functions.php:3948 functions.php:3997 modules/pref-feeds.php:760
-#: modules/pref-feeds.php:941 modules/pref-filters.php:294
-#: modules/pref-labels.php:271 modules/pref-users.php:288
+#: functions.php:3948 functions.php:3997 modules/pref-feeds.php:771
+#: modules/pref-feeds.php:952 modules/pref-filters.php:307
+#: modules/pref-labels.php:273 modules/pref-users.php:304
 msgid "None"
 msgstr "Egyiksem"
 
-#: functions.php:3950 tt-rss.php:142 modules/pref-feeds.php:1100
+#: functions.php:3950 tt-rss.php:142 modules/pref-feeds.php:1111
 msgid "Actions..."
 msgstr "Műveletek"
 
@@ -281,7 +290,8 @@ msgstr "Megjelöl:"
 msgid "Page"
 msgstr "Oldal"
 
-#: functions.php:4004 modules/pref-filters.php:329
+#: functions.php:4004 modules/popup-dialog.php:70 modules/pref-feeds.php:151
+#: modules/pref-filters.php:342
 msgid "Feed"
 msgstr ""
 
@@ -725,8 +735,8 @@ msgstr "Tárolt hírek"
 msgid "Rescoring articles..."
 msgstr "Tárolt hírek"
 
-#: localized_schema.php:9 modules/popup-dialog.php:182
-#: modules/pref-feeds.php:952 modules/pref-feeds.php:1013
+#: localized_schema.php:9 modules/popup-dialog.php:165
+#: modules/pref-feeds.php:963 modules/pref-feeds.php:1024
 msgid "Title"
 msgstr "Cím"
 
@@ -738,7 +748,7 @@ msgstr "Cím vagy Tartalom"
 msgid "Link"
 msgstr "Link"
 
-#: localized_schema.php:12 modules/popup-dialog.php:183
+#: localized_schema.php:12 modules/popup-dialog.php:166
 msgid "Content"
 msgstr "Tartalom"
 
@@ -989,12 +999,11 @@ msgstr ""
 msgid "Do not show images in articles"
 msgstr ""
 
-#: login_form.php:103 modules/popup-dialog.php:100 modules/pref-feeds.php:274
-#: modules/pref-users.php:34
+#: login_form.php:103 modules/popup-dialog.php:107 modules/pref-feeds.php:281
 msgid "Login:"
 msgstr "Felhasználó:"
 
-#: login_form.php:106 modules/popup-dialog.php:101 modules/pref-feeds.php:280
+#: login_form.php:106 modules/popup-dialog.php:111 modules/pref-feeds.php:285
 msgid "Password:"
 msgstr "Jelszó:"
 
@@ -1204,9 +1213,10 @@ msgstr "Hozzászólás?"
 msgid "tag cloud"
 msgstr "tag felhő"
 
-#: tt-rss.php:143 modules/popup-dialog.php:127 modules/popup-dialog.php:196
-#: modules/pref-feeds.php:854 modules/pref-filters.php:235
-#: modules/pref-labels.php:233 modules/pref-users.php:242
+#: tt-rss.php:143 modules/popup-dialog.php:140 modules/popup-dialog.php:152
+#: modules/popup-dialog.php:211 modules/pref-feeds.php:865
+#: modules/pref-filters.php:248 modules/pref-labels.php:235
+#: modules/pref-users.php:258
 msgid "Search"
 msgstr "Keresés"
 
@@ -1270,7 +1280,7 @@ msgstr "Minden feed"
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:179 modules/popup-dialog.php:139
+#: tt-rss.php:179
 msgid "Search:"
 msgstr "Keresés"
 
@@ -1290,7 +1300,7 @@ msgstr "Minden hír"
 msgid "Limit:"
 msgstr "Limit:"
 
-#: tt-rss.php:219
+#: tt-rss.php:219 modules/pref-feeds.php:247
 msgid "Update"
 msgstr "Frissítés"
 
@@ -1358,7 +1368,7 @@ msgid "Help topic not found."
 msgstr ""
 
 #: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:463 modules/pref-feeds.php:809
+#: modules/popup-dialog.php:538 modules/pref-feeds.php:820
 msgid "Close this window"
 msgstr ""
 
@@ -1422,147 +1432,170 @@ msgid ""
 "\t\t\t\t\towner."
 msgstr ""
 
-#: modules/popup-dialog.php:61 modules/pref-feeds.php:859
-msgid "Subscribe to feed"
+#: modules/popup-dialog.php:61
+#, fuzzy
+msgid "Subscribe to Feed"
 msgstr "Feliratkozás feedre"
 
-#: modules/popup-dialog.php:72 modules/pref-feeds.php:161
-msgid "Feed URL:"
+#: modules/popup-dialog.php:73 modules/pref-feeds.php:167
+#, fuzzy
+msgid "URL:"
 msgstr "Feed URL:"
 
-#: modules/popup-dialog.php:80 modules/pref-feeds.php:169
-msgid "Category:"
-msgstr "Kategória:"
+#: modules/popup-dialog.php:84 modules/pref-feeds.php:179
+#, fuzzy
+msgid "Place in category:"
+msgstr "Kategória mentése"
 
-#: modules/popup-dialog.php:111 modules/pref-feed-browser.php:117
+#: modules/popup-dialog.php:104 modules/pref-feeds.php:276
+#: modules/pref-prefs.php:259 modules/pref-users.php:44
+msgid "Authentication"
+msgstr "Azonosítás"
+
+#: modules/popup-dialog.php:123
+msgid "This feed requires authentication."
+msgstr "Ez a feed azonosítást igényel."
+
+#: modules/popup-dialog.php:130 modules/pref-feed-browser.php:117
 #: modules/pref-feeds.php:114
 msgid "Subscribe"
 msgstr "Feliratkozás"
 
-#: modules/popup-dialog.php:114 modules/popup-dialog.php:199
-#: modules/popup-dialog.php:256 modules/popup-dialog.php:343
-#: modules/popup-dialog.php:439 modules/pref-feeds.php:116
-#: modules/pref-feeds.php:362 modules/pref-filters.php:116
-#: modules/pref-users.php:63
+#: modules/popup-dialog.php:133 modules/popup-dialog.php:214
+#: modules/popup-dialog.php:273 modules/popup-dialog.php:418
+#: modules/popup-dialog.php:514 modules/pref-feeds.php:116
+#: modules/pref-feeds.php:367 modules/pref-filters.php:121
+#: modules/pref-users.php:79
 msgid "Cancel"
 msgstr "Mégse"
 
-#: modules/popup-dialog.php:120
-msgid "This feed requires authentication."
-msgstr "Ez a feed azonosítást igényel."
-
-#: modules/popup-dialog.php:148
-msgid "Where:"
-msgstr "Ahol:"
-
-#: modules/popup-dialog.php:164
-msgid "This feed"
-msgstr "Ez a feed"
-
-#: modules/popup-dialog.php:179
-msgid "Match on:"
+#: modules/popup-dialog.php:162
+#, fuzzy
+msgid "match on:"
 msgstr "Egyezés ezzel:"
 
-#: modules/popup-dialog.php:184
+#: modules/popup-dialog.php:167
 msgid "Title or content"
 msgstr "Cím vagy tartalom"
 
-#: modules/popup-dialog.php:208 modules/pref-labels.php:243
-msgid "Create label"
-msgstr "Címke készítése"
-
-#: modules/popup-dialog.php:218
-msgid "Caption:"
-msgstr "Aláírás:"
-
-#: modules/popup-dialog.php:227
-msgid "SQL Expression:"
+#: modules/popup-dialog.php:172
+msgid "Limit search to:"
 msgstr ""
 
-#: modules/popup-dialog.php:242 modules/pref-labels.php:62
+#: modules/popup-dialog.php:188
+msgid "This feed"
+msgstr "Ez a feed"
+
+#: modules/popup-dialog.php:223
+#, fuzzy
+msgid "Create Label"
+msgstr "Címke készítése"
+
+#: modules/popup-dialog.php:231 modules/pref-labels.php:36
+#: modules/pref-labels.php:278
+msgid "Caption"
+msgstr "Aláírás"
+
+#: modules/popup-dialog.php:241 modules/pref-labels.php:46
+#, fuzzy
+msgid "Match SQL"
+msgstr "Egyezés"
+
+#: modules/popup-dialog.php:259 modules/pref-labels.php:64
 msgid "Help"
 msgstr "Segítség"
 
-#: modules/popup-dialog.php:245
+#: modules/popup-dialog.php:262
 msgid "Test"
 msgstr "Teszt"
 
-#: modules/popup-dialog.php:252 modules/popup-dialog.php:339
+#: modules/popup-dialog.php:269 modules/popup-dialog.php:414
 msgid "Create"
 msgstr "Készít"
 
-#: modules/popup-dialog.php:265 modules/pref-filters.php:245
-msgid "Create filter"
+#: modules/popup-dialog.php:282
+#, fuzzy
+msgid "Create Filter"
 msgstr "Szárő készítése"
 
-#: modules/popup-dialog.php:283 modules/popup-dialog.php:314
-#: modules/pref-filters.php:38 modules/pref-filters.php:70
+#: modules/popup-dialog.php:300 modules/popup-dialog.php:381
+#: modules/pref-filters.php:38 modules/pref-filters.php:72
 #, fuzzy
 msgid "description"
 msgstr "Kiválasztottakat"
 
-#: modules/popup-dialog.php:288 modules/pref-filters.php:43
-msgid "Match:"
+#: modules/popup-dialog.php:351 modules/pref-filters.php:41
+#: modules/pref-filters.php:343
+msgid "Match"
 msgstr "Egyezés"
 
-#: modules/popup-dialog.php:294 modules/pref-filters.php:49
-msgid "On field:"
+#: modules/popup-dialog.php:360 modules/pref-filters.php:50
+#, fuzzy
+msgid "on field"
 msgstr "Ebben a mezőben:"
 
-#: modules/popup-dialog.php:299 modules/pref-filters.php:54
-msgid "Feed:"
-msgstr "Feed:"
+#: modules/popup-dialog.php:365 modules/pref-filters.php:55
+#, fuzzy
+msgid "in"
+msgstr "Link"
 
-#: modules/popup-dialog.php:305 modules/pref-filters.php:60
-msgid "Action:"
-msgstr "Művelet:"
+#: modules/popup-dialog.php:370 modules/pref-filters.php:60
+#, fuzzy
+msgid "Perform Action"
+msgstr "Művelet"
 
-#: modules/popup-dialog.php:321 modules/pref-filters.php:77
-msgid "Params:"
-msgstr "Paraméterek"
+#: modules/popup-dialog.php:386 modules/pref-filters.php:77
+msgid "with params"
+msgstr ""
 
-#: modules/popup-dialog.php:325 modules/pref-feeds.php:293
-msgid "Options:"
+#: modules/popup-dialog.php:393 modules/pref-feeds.php:294
+#: modules/pref-filters.php:86 modules/pref-users.php:60
+#, fuzzy
+msgid "Options"
 msgstr "Beállítások:"
 
-#: modules/popup-dialog.php:328 modules/pref-filters.php:101
+#: modules/popup-dialog.php:399 modules/pref-filters.php:98
+msgid "Enabled"
+msgstr "Engedélyez"
+
+#: modules/popup-dialog.php:402 modules/pref-filters.php:107
 msgid "Inverse match"
 msgstr ""
 
-#: modules/popup-dialog.php:354
+#: modules/popup-dialog.php:429
 msgid "Update Errors"
 msgstr "Frissítési hiba"
 
-#: modules/popup-dialog.php:357
+#: modules/popup-dialog.php:432
 msgid "These feeds have not been updated because of errors:"
 msgstr ""
 
-#: modules/popup-dialog.php:376
+#: modules/popup-dialog.php:451
 msgid "Close"
 msgstr "Bezár"
 
-#: modules/popup-dialog.php:385
+#: modules/popup-dialog.php:460
 msgid "Edit Tags"
 msgstr "Tegek szerkesztése"
 
-#: modules/popup-dialog.php:390
+#: modules/popup-dialog.php:465
 msgid "Tags for this article (separated by commas):"
 msgstr ""
 
-#: modules/popup-dialog.php:435 modules/pref-feeds.php:360
-#: modules/pref-filters.php:112 modules/pref-users.php:60
+#: modules/popup-dialog.php:510 modules/pref-feeds.php:365
+#: modules/pref-filters.php:117 modules/pref-users.php:76
 msgid "Save"
 msgstr "Mentés"
 
-#: modules/popup-dialog.php:448
+#: modules/popup-dialog.php:523
 msgid "Tag cloud"
 msgstr "Tag felhő"
 
-#: modules/popup-dialog.php:451
+#: modules/popup-dialog.php:526
 msgid "Showing most popular tags "
 msgstr "Mutasd a legnépszerűbb tageket"
 
-#: modules/popup-dialog.php:452
+#: modules/popup-dialog.php:527
 msgid "browse more"
 msgstr "tovább böngészik"
 
@@ -1619,254 +1652,249 @@ msgid "Showing top 25 registered feeds, sorted by popularity:"
 msgstr "Mutasd a top 25 regisztrált feedet, népszerűség szerint:"
 
 #: modules/pref-feeds.php:141
-msgid "Feed editor"
+#, fuzzy
+msgid "Feed Editor"
 msgstr "Feed editor"
 
-#: modules/pref-feeds.php:153
-msgid "Title:"
-msgstr "Cím:"
-
-#: modules/pref-feeds.php:189
-msgid "Update Interval:"
-msgstr "Frissítési intervallum:"
-
-#: modules/pref-feeds.php:198
-msgid "Link to:"
+#: modules/pref-feeds.php:196
+#, fuzzy
+msgid "Link to feed:"
 msgstr "Linkel ehhez:"
 
-#: modules/pref-feeds.php:215
+#: modules/pref-feeds.php:213
 msgid "Not linked"
 msgstr "Nem linkelt"
 
-#: modules/pref-feeds.php:249
+#: modules/pref-feeds.php:261
+msgid "using"
+msgstr ""
+
+#: modules/pref-feeds.php:271
 msgid "Article purging:"
 msgstr ""
 
-#: modules/pref-feeds.php:262
-#, fuzzy
-msgid "Update using:"
-msgstr "Frissítés"
-
-#: modules/pref-feeds.php:295
+#: modules/pref-feeds.php:300
 msgid "Hide from \"Other Feeds\""
 msgstr ""
 
-#: modules/pref-feeds.php:306
+#: modules/pref-feeds.php:311
 msgid "Right-to-left content"
 msgstr ""
 
-#: modules/pref-feeds.php:317
+#: modules/pref-feeds.php:322
 msgid "Hide from my feed list"
 msgstr ""
 
-#: modules/pref-feeds.php:329
+#: modules/pref-feeds.php:334
 msgid "Include in e-mail digest"
 msgstr ""
 
-#: modules/pref-feeds.php:350
+#: modules/pref-feeds.php:355
 msgid "Cache images locally"
 msgstr "Képek helyi tárolása"
 
-#: modules/pref-feeds.php:514 modules/pref-feeds.php:561
+#: modules/pref-feeds.php:371 modules/pref-feeds.php:1118
+msgid "Unsubscribe"
+msgstr "Leiratkozás"
+
+#: modules/pref-feeds.php:525 modules/pref-feeds.php:572
 msgid "All done."
 msgstr ""
 
-#: modules/pref-feeds.php:592
+#: modules/pref-feeds.php:603
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr ""
 
-#: modules/pref-feeds.php:594
+#: modules/pref-feeds.php:605
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr ""
 
-#: modules/pref-feeds.php:676
+#: modules/pref-feeds.php:687
 msgid "Category editor"
 msgstr ""
 
-#: modules/pref-feeds.php:699
+#: modules/pref-feeds.php:710
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr ""
 
-#: modules/pref-feeds.php:727
+#: modules/pref-feeds.php:738
 msgid "Unable to delete non empty feed categories."
 msgstr ""
 
-#: modules/pref-feeds.php:744
+#: modules/pref-feeds.php:755
 msgid "Create category"
 msgstr "Kategória létrehozása"
 
-#: modules/pref-feeds.php:804
+#: modules/pref-feeds.php:815
 msgid "No feed categories defined."
 msgstr "Nincs feed kategória definiálva"
 
-#: modules/pref-feeds.php:815 modules/pref-filters.php:398
-#: modules/pref-labels.php:324 modules/pref-users.php:359
+#: modules/pref-feeds.php:826 modules/pref-filters.php:128
+#: modules/pref-filters.php:411 modules/pref-labels.php:326
+#: modules/pref-users.php:375
 msgid "Remove"
 msgstr "Eltávolít"
 
-#: modules/pref-feeds.php:837
+#: modules/pref-feeds.php:848
 msgid "Some feeds have update errors (click for details)"
 msgstr "Néhány feed frissítésével gond akadt (kattints a részletekhez)"
 
-#: modules/pref-feeds.php:864
+#: modules/pref-feeds.php:870
+msgid "Subscribe to feed"
+msgstr "Feliratkozás feedre"
+
+#: modules/pref-feeds.php:875
 msgid "Top 25"
 msgstr "Top 25"
 
-#: modules/pref-feeds.php:938
+#: modules/pref-feeds.php:949
 msgid "Show last article times"
 msgstr "Mutasd az utolsó hír időpontját"
 
-#: modules/pref-feeds.php:955 modules/pref-feeds.php:1017
+#: modules/pref-feeds.php:966 modules/pref-feeds.php:1028
 msgid "Last&nbsp;Article"
 msgstr "Utolsó&nbsp;Hír"
 
-#: modules/pref-feeds.php:958 modules/pref-feeds.php:1021
+#: modules/pref-feeds.php:969 modules/pref-feeds.php:1032
 msgid "Updated"
 msgstr "Frissítve"
 
-#: modules/pref-feeds.php:1042 modules/pref-filters.php:372
-#: modules/pref-labels.php:304 modules/pref-users.php:334
+#: modules/pref-feeds.php:1053 modules/pref-filters.php:385
+#: modules/pref-labels.php:306 modules/pref-users.php:350
 msgid "Click to edit"
 msgstr ""
 
-#: modules/pref-feeds.php:1088 modules/pref-feeds.php:1102
+#: modules/pref-feeds.php:1099 modules/pref-feeds.php:1113
 msgid "Selection:"
 msgstr "Kiválaszt:"
 
-#: modules/pref-feeds.php:1094
+#: modules/pref-feeds.php:1105
 msgid "Recategorize"
 msgstr "Újrakategorizál"
 
-#: modules/pref-feeds.php:1103 modules/pref-filters.php:396
-#: modules/pref-labels.php:322 modules/pref-users.php:357
+#: modules/pref-feeds.php:1114 modules/pref-filters.php:409
+#: modules/pref-labels.php:324 modules/pref-users.php:373
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: modules/pref-feeds.php:1104
+#: modules/pref-feeds.php:1115
 msgid "Manual purge"
 msgstr ""
 
-#: modules/pref-feeds.php:1105
+#: modules/pref-feeds.php:1116
 msgid "Clear feed data"
 msgstr "Feed adatok törlése"
 
-#: modules/pref-feeds.php:1106 modules/pref-filters.php:252
+#: modules/pref-feeds.php:1117 modules/pref-filters.php:265
 #, fuzzy
 msgid "Rescore articles"
 msgstr "Tárolt hírek"
 
-#: modules/pref-feeds.php:1107
-msgid "Unsubscribe"
-msgstr "Leiratkozás"
-
-#: modules/pref-feeds.php:1112
+#: modules/pref-feeds.php:1123
 msgid "Other:"
 msgstr "Más:"
 
-#: modules/pref-feeds.php:1113
+#: modules/pref-feeds.php:1124
 msgid "Edit categories"
 msgstr "Kategóriák szerkesztése"
 
-#: modules/pref-feeds.php:1120
+#: modules/pref-feeds.php:1131
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1124
+#: modules/pref-feeds.php:1135
 msgid "File:"
 msgstr "File:"
 
-#: modules/pref-feeds.php:1127
+#: modules/pref-feeds.php:1138
 msgid "Import"
 msgstr "Importálás"
 
-#: modules/pref-feeds.php:1134
+#: modules/pref-feeds.php:1145
 msgid "Export OPML"
 msgstr "Exportálás OPML-be"
 
-#: modules/pref-feeds.php:1137
+#: modules/pref-feeds.php:1148
 msgid "Firefox Integration"
 msgstr "Firefox integráció"
 
-#: modules/pref-feeds.php:1139
+#: modules/pref-feeds.php:1150
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
 msgstr ""
 
-#: modules/pref-feeds.php:1143
+#: modules/pref-feeds.php:1154
 msgid "Click here to register this site as a feed reader."
 msgstr ""
 
-#: modules/pref-feeds.php:1152
+#: modules/pref-feeds.php:1163
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
 msgstr ""
 
-#: modules/pref-feeds.php:1159
+#: modules/pref-feeds.php:1170
 #, fuzzy
 msgid "Generate another link"
 msgstr "Másik cím genrálása"
 
 #: modules/pref-filters.php:22
-msgid "Filter editor"
+#, fuzzy
+msgid "Filter Editor"
 msgstr "Szűrő módosítása"
 
-#: modules/pref-filters.php:92
-msgid "Enabled"
-msgstr "Engedélyez"
-
-#: modules/pref-filters.php:152
+#: modules/pref-filters.php:165
 #, php-format
 msgid "Saved filter <b>%s</b>"
 msgstr ""
 
-#: modules/pref-filters.php:192
+#: modules/pref-filters.php:205
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr ""
 
-#: modules/pref-filters.php:318
+#: modules/pref-filters.php:258
+msgid "Create filter"
+msgstr "Szárő készítése"
+
+#: modules/pref-filters.php:331
 msgid "filter_type_descr"
 msgstr ""
 
-#: modules/pref-filters.php:319
+#: modules/pref-filters.php:332
 msgid "action_description"
 msgstr ""
 
-#: modules/pref-filters.php:328
+#: modules/pref-filters.php:341
 msgid "Filter expression"
 msgstr ""
 
-#: modules/pref-filters.php:330
-msgid "Match"
-msgstr "Egyezés"
-
-#: modules/pref-filters.php:331
+#: modules/pref-filters.php:344
 msgid "Action"
 msgstr "Művelet"
 
-#: modules/pref-filters.php:332
+#: modules/pref-filters.php:345
 #, fuzzy
 msgid "Params"
 msgstr "Paraméterek"
 
-#: modules/pref-filters.php:361
+#: modules/pref-filters.php:374
 msgid "(Disabled)"
 msgstr "(Kikapcsolva)"
 
-#: modules/pref-filters.php:380
+#: modules/pref-filters.php:393
 msgid "(Inverse)"
 msgstr "(ellentét)"
 
-#: modules/pref-filters.php:406
+#: modules/pref-filters.php:419
 msgid "No filters defined."
 msgstr "Nincs szűrő definiálva."
 
-#: modules/pref-filters.php:408
+#: modules/pref-filters.php:421
 #, fuzzy
 msgid "No matching filters found."
 msgstr "Nincs szűrő definiálva."
@@ -1878,34 +1906,34 @@ msgid ""
 "functionality."
 msgstr ""
 
-#: modules/pref-labels.php:173
+#: modules/pref-labels.php:175
 #, php-format
 msgid "Saved label <b>%s</b>"
 msgstr ""
 
-#: modules/pref-labels.php:205
+#: modules/pref-labels.php:207
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr ""
 
-#: modules/pref-labels.php:276
-msgid "Caption"
-msgstr "Aláírás"
+#: modules/pref-labels.php:245
+msgid "Create label"
+msgstr "Címke készítése"
 
-#: modules/pref-labels.php:277
+#: modules/pref-labels.php:279
 msgid "SQL Expression"
 msgstr ""
 
-#: modules/pref-labels.php:302
+#: modules/pref-labels.php:304
 #, fuzzy
 msgid "[No caption]"
 msgstr "Aláírás"
 
-#: modules/pref-labels.php:329
+#: modules/pref-labels.php:331
 msgid "No labels defined."
 msgstr "Nincs címke definiálva."
 
-#: modules/pref-labels.php:331
+#: modules/pref-labels.php:333
 #, fuzzy
 msgid "No matching labels found."
 msgstr "Nincs címke definiálva."
@@ -1953,10 +1981,6 @@ msgstr "Hozzáférési szint:"
 msgid "Change e-mail"
 msgstr "E-mail megváltoztatása"
 
-#: modules/pref-prefs.php:259
-msgid "Authentication"
-msgstr "Azonosítás"
-
 #: modules/pref-prefs.php:261
 msgid "Old password"
 msgstr "Régi jelszó"
@@ -1980,10 +2004,6 @@ msgstr "Kinézetek"
 #: modules/pref-prefs.php:310
 msgid "Select theme"
 msgstr "Kinézet választó"
-
-#: modules/pref-prefs.php:312
-msgid "Default"
-msgstr "Alapértelmezett"
 
 #: modules/pref-prefs.php:328
 msgid "Change theme"
@@ -2014,89 +2034,124 @@ msgid "Your access level is insufficient to open this tab."
 msgstr ""
 
 #: modules/pref-users.php:17
-msgid "User editor"
+#, fuzzy
+msgid "User Editor"
 msgstr "Felhasználó szerkesztő"
 
-#: modules/pref-users.php:38
-msgid "Change password:"
-msgstr "Jelszó megváltoztatása:"
-
-#: modules/pref-users.php:42
-msgid "E-mail:"
-msgstr "E-mail:"
-
-#: modules/pref-users.php:48
-msgid "Access level:"
+#: modules/pref-users.php:47
+#, fuzzy
+msgid "Access level: "
 msgstr "Hozzáférési szint:"
 
-#: modules/pref-users.php:83
+#: modules/pref-users.php:54
+#, fuzzy
+msgid "Change password to"
+msgstr "Jelszó megváltoztatása"
+
+#: modules/pref-users.php:63
+#, fuzzy
+msgid "E-mail: "
+msgstr "E-mail:"
+
+#: modules/pref-users.php:99
 #, php-format
 msgid "Changed password of user <b>%s</b>."
 msgstr ""
 
-#: modules/pref-users.php:131
+#: modules/pref-users.php:147
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr ""
 
-#: modules/pref-users.php:138
+#: modules/pref-users.php:154
 #, php-format
 msgid "Could not create user <b>%s</b>"
 msgstr ""
 
-#: modules/pref-users.php:142
+#: modules/pref-users.php:158
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr ""
 
-#: modules/pref-users.php:162
+#: modules/pref-users.php:178
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
 "\t\t\t\t\t to <b>%s</b>"
 msgstr ""
 
-#: modules/pref-users.php:166
+#: modules/pref-users.php:182
 #, php-format
 msgid "Notifying <b>%s</b>."
 msgstr ""
 
-#: modules/pref-users.php:202
+#: modules/pref-users.php:218
 msgid "[tt-rss] Password change notification"
 msgstr ""
 
-#: modules/pref-users.php:259
+#: modules/pref-users.php:275
 msgid "Create user"
 msgstr "Felhasználó létrehozása"
 
-#: modules/pref-users.php:293
+#: modules/pref-users.php:309
 msgid "Login"
 msgstr "Belépés"
 
-#: modules/pref-users.php:294
+#: modules/pref-users.php:310
 msgid "Access Level"
 msgstr "Hozzáférési szint"
 
-#: modules/pref-users.php:296
+#: modules/pref-users.php:312
 msgid "Last login"
 msgstr "Utolsó belépés"
 
-#: modules/pref-users.php:355
+#: modules/pref-users.php:371
 msgid "User details"
 msgstr "Részletek a felhasználórol "
 
-#: modules/pref-users.php:361
+#: modules/pref-users.php:377
 msgid "Reset password"
 msgstr "Jelszó reset"
 
-#: modules/pref-users.php:366
+#: modules/pref-users.php:382
 #, fuzzy
 msgid "No users defined."
 msgstr "Nincs szűrő definiálva."
 
-#: modules/pref-users.php:368
+#: modules/pref-users.php:384
 msgid "No matching users found."
 msgstr ""
+
+#~ msgid "Category:"
+#~ msgstr "Kategória:"
+
+#~ msgid "Where:"
+#~ msgstr "Ahol:"
+
+#~ msgid "Caption:"
+#~ msgstr "Aláírás:"
+
+#~ msgid "Match:"
+#~ msgstr "Egyezés"
+
+#~ msgid "Feed:"
+#~ msgstr "Feed:"
+
+#~ msgid "Action:"
+#~ msgstr "Művelet:"
+
+#~ msgid "Params:"
+#~ msgstr "Paraméterek"
+
+#~ msgid "Title:"
+#~ msgstr "Cím:"
+
+#, fuzzy
+#~ msgid "Update using:"
+#~ msgstr "Frissítés"
+
+#~ msgid "Change password:"
+#~ msgstr "Jelszó megváltoztatása:"
 
 #, fuzzy
 #~ msgid "Update errors"
