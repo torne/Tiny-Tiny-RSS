@@ -149,16 +149,27 @@
 			$active_feed_id = sprintf("%d", $params[0]);
 			$is_cat = $params[1] == "true";
 
-			print "<table width='100%'><tr><td>".__('Search:')."</td><td>";
-			
-			print "<input name=\"query\" class=\"iedit\" type=\"search\"
+			print "<div class=\"dlgSec\">".__('Search')."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input name=\"query\" size=\"30\" type=\"search\"
 				onkeypress=\"return filterCR(event, search)\"
 				onchange=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
-				value=\"\">
-			</td></tr>";
-			
-			print "<tr><td>".__('Where:')."</td><td>";
+				value=\"\">";
+
+			print " " . __('match on:')." ";
+
+			$search_fields = array(
+				"title" => __("Title"),
+				"content" => __("Content"),
+				"both" => __("Title or content"));
+
+			print_select_hash("match_on", 3, $search_fields); 
+
+
+			print "<br/>".__('Limit search to:')." ";
 			
 			print "<select name=\"search_mode\">
 				<option value=\"all_feeds\">".__('All feeds')."</option>";
@@ -187,22 +198,13 @@
 				//print "<option disabled>".__('This category')."</option>";
 			}
 
-			print "</select></td></tr>"; 
+			print "</select>"; 
 
-			print "<tr><td>".__('Match on:')."</td><td>";
-
-			$search_fields = array(
-				"title" => __("Title"),
-				"content" => __("Content"),
-				"both" => __("Title or content"));
-
-			print_select_hash("match_on", 3, $search_fields); 
-				
-			print "</td></tr></table>";
+			print "</div>";
 
 			print "</form>";
 
-			print "<div align=\"right\">
+			print "<div class=\"dlgButtons\">
 			<input type=\"submit\" 
 				class=\"button\" onclick=\"javascript:search()\" 
 				id=\"search_submit_btn\" disabled=\"true\"
