@@ -14,7 +14,7 @@
 
 			$id = db_escape_string($_GET["id"]);
 
-			print "<div id=\"infoBoxTitle\">".__('User editor')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('User Editor')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
@@ -30,31 +30,47 @@
 			$access_level = db_fetch_result($result, 0, "access_level");
 			$email = db_fetch_result($result, 0, "email");
 
-			print "<table width='100%'>";
-			print "<tr><td>".__('Login:')."</td><td>
-				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
-				name=\"login\" value=\"$login\"></td></tr>";
-
-			print "<tr><td>".__('Change password:')."</td><td>
-				<input class=\"iedit\" onkeypress=\"return filterCR(event)\"
-				name=\"password\"></td></tr>";
-
-			print "<tr><td>".__('E-mail:')."</td><td>
-				<input class=\"iedit\" name=\"email\" onkeypress=\"return filterCR(event)\"
-				value=\"$email\"></td></tr>";
-
 			$sel_disabled = ($id == $_SESSION["uid"]) ? "disabled" : "";
-				
-			print "<tr><td>".__('Access level:')."</td><td>";
+
+			print "<div class=\"dlgSec\">".__("User")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input size=\"30\" style=\"font-size : 16px\" 
+				onkeypress=\"return filterCR(event)\" $sel_disabled
+				name=\"login\" value=\"$login\">";
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print __('Access level: ') . " ";
+
 			print_select_hash("access_level", $access_level, $access_level_names, 
 				$sel_disabled);
-			print "</td></tr>";
+
+			print "<br/>";
+
+			print __('Change password to') .
+				" <input size=\"20\" onkeypress=\"return filterCR(event)\"
+				name=\"password\">";
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Options")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print __('E-mail: ').
+				" <input size=\"30\" name=\"email\" onkeypress=\"return filterCR(event)\"
+				value=\"$email\">";
+
+			print "</div>";
 
 			print "</table>";
 
 			print "</form>";
 			
-			print "<div align='right'>
+			print "<div class=\"dlgButtons\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return userEditSave()\" 
 					value=\"".__('Save')."\">
