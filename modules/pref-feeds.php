@@ -244,7 +244,7 @@
 
 			print "</div>";
 
-			print "<div class=\"dlgSec\">".__("Updating")."</div>";
+			print "<div class=\"dlgSec\">".__("Update")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
 			/* Update Interval */
