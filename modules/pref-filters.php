@@ -38,74 +38,6 @@
 				$filter_types[$line["id"]] = __($line["description"]);
 			}
 
-/*			print "<table width='100%'>";
-
-			print "<tr><td>".__('Match:')."</td>
-				<td><input onkeypress=\"return filterCR(event, filterEditSave)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"reg_exp\" class=\"iedit\" value=\"$reg_exp\">";
-			
-			print "</td></tr><tr><td>".__('On field:')."</td><td>";
-			
-			print_select_hash("filter_type", $filter_type, $filter_types, "class=\"_iedit\"");	
-	
-			print "</td></tr>";
-			print "<tr><td>".__('Feed:')."</td><td colspan='2'>";
-
-			print_feed_select($link, "feed_id", $feed_id);
-			
-			print "</td></tr>";
-	
-			print "<tr><td>".__('Action:')."</td>";
-	
-			print "<td colspan='2'><select name=\"action_id\"
-				onchange=\"filterDlgCheckAction(this)\">";
-	
-			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
-				ORDER BY name");
-
-			while ($line = db_fetch_assoc($result)) {
-				$is_sel = ($line["id"] == $action_id) ? "selected" : "";			
-				printf("<option value='%d' $is_sel>%s</option>", $line["id"], __($line["description"]));
-			}
-	
-			print "</select>";
-
-			print "</td></tr>";
-
-			print "<tr><td>".__('Params:')."</td>";
-
-			$param_disabled = ($action_id == 4 || $action_id == 6) ? "" : "disabled";
-
-			print "<td><input $param_disabled class='iedit' 
-				name=\"action_param\" value=\"$action_param\"></td></tr>";
-
-			if ($enabled) {
-				$checked = "checked";
-			} else {
-				$checked = "";
-			}
-
-			print "<tr><td valign='top'>Options:</td><td>
-					<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
-					<label for=\"enabled\">".__('Enabled')."</label><br/>";
-
-			if ($inverse) {
-				$checked = "checked";
-			} else {
-				$checked = "";
-			}
-
-			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
-				<label for=\"inverse\">".__('Inverse match')."</label>";
-
-			print "</td></tr></table>";
-
-			print "</form>";
-
-			print "<hr>"; */
-
 			print "<div class=\"dlgSec\">".__("Match")."</div>";
 
 			print "<div class=\"dlgSecCont\">";
@@ -187,6 +119,14 @@
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return filterEditCancel()\" 
 				value=\"".__('Cancel')."\">";
+
+			$reg_exp = htmlspecialchars($reg_exp); // second escaping seems to be needed for javascript
+
+			print "<div style=\"float : left\">";
+			print "<input type=\"submit\" 
+				class=\"button\" onclick='return removeFilter($filter_id, \"$reg_exp\")' 
+				value=\"".__('Remove')."\"> ";
+			print "</div>";
 
 			print "</div>";
 

@@ -2156,3 +2156,29 @@ function rescore_all_feeds() {
 			xmlhttp.send(null);
 		}
 }
+
+function removeFilter(id, title) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var msg = __("Remove filter %s?").replace("%s", title);
+
+	var ok = confirm(msg);
+
+	if (ok) {
+		closeInfoBox();
+
+		notify_progress("Removing filter...");
+	
+		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
+			param_escape(id), true);
+		xmlhttp.onreadystatechange=filterlist_callback;
+		xmlhttp.send(null);
+	}
+
+	return false;
+}
+
