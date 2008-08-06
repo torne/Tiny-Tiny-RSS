@@ -604,17 +604,21 @@ function quickMenuGo(opid) {
 	}
 }
 
-function unsubscribeFeed(feed_id) {
+function unsubscribeFeed(feed_id, title) {
 
-	notify_progress("Removing feed...");
 
-	var query = "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
+	var msg = __("Unsubscribe from %s?").replace("%s", title);
 
-	new Ajax.Request(query,	{
-		onComplete: function(transport) {
-				dlg_frefresh_callback(transport, feed_id);
-			} });
+	if (title == undefined || confirm(msg)) {
+		notify_progress("Removing feed...");
 
+		var query = "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					dlg_frefresh_callback(transport, feed_id);
+				} });
+	}
 
 	return false;
 }

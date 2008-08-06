@@ -2182,3 +2182,31 @@ function removeFilter(id, title) {
 	return false;
 }
 
+function unsubscribeFeed(id, title) {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var msg = __("Unsubscribe from %s?").replace("%s", title);
+
+	var ok = confirm(msg);
+
+	if (ok) {
+		closeInfoBox();
+
+		notify_progress("Removing feed...");
+	
+		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
+			param_escape(id), true);
+		xmlhttp.onreadystatechange=filterlist_callback;
+		xmlhttp.send(null);
+	}
+
+	return false;
+
+	return false;
+
+}
+
