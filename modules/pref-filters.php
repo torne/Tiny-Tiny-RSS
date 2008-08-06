@@ -19,7 +19,7 @@
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 			$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
 
-			print "<div id=\"infoBoxTitle\">".__('Filter editor')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Filter Editor')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"filter_edit_form\" onsubmit='return false'>";
@@ -125,7 +125,7 @@
 
 			print "</div>";
 
-			print "<div class=\"dlgSec\">".__("Perform action")."</div>";
+			print "<div class=\"dlgSec\">".__("Perform Action")."</div>";
 
 			print "<div class=\"dlgSecCont\">";
 
@@ -154,6 +154,8 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
+			print "<div style=\"line-height : 100%\">";
+
 			if ($enabled) {
 				$checked = "checked";
 			} else {
@@ -172,6 +174,7 @@
 			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
 				<label for=\"inverse\">".__('Inverse match')."</label>";
 
+			print "</div>";
 			print "</div>";
 
 			print "<div class=\"dlgButtons\">";

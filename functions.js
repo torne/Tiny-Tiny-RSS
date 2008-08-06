@@ -1171,9 +1171,9 @@ function appearBlockElement_afh(effect) {
 
 function checkboxToggleElement(elem, id) {
 	if (elem.checked) {
-		Effect.SlideDown(id, {duration : 0.5});
+		Effect.Appear(id, {duration : 0.5});
 	} else {
-		Effect.SlideUp(id, {duration : 0.5});
+		Effect.Fade(id, {duration : 0.5});
 	}
 }
 

@@ -24,7 +24,7 @@
 			$sql_exp = htmlspecialchars($line["sql_exp"]);
 			$description = htmlspecialchars($line["description"]);
 
-			print "<div id=\"infoBoxTitle\">Label editor</div>";
+			print "<div id=\"infoBoxTitle\">Label Editor</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"label_edit_form\" onsubmit='return false'>";

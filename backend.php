@@ -114,7 +114,7 @@
 		90 => __("3 months old"));
 
 	$update_intervals = array(
-		0   => __("Use default"),
+		0   => __("Default interval"),
 		-1  => __("Disable updates"),
 		15  => __("Each 15 minutes"),
 		30  => __("Each 30 minutes"),
@@ -125,7 +125,7 @@
 		10080 => __("Weekly"));
 
 	$update_methods = array(
-		0   => __("Use default"),
+		0   => __("Default"),
 		1   => __("Magpie"),
 		2   => __("SimplePie"));
 

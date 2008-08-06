@@ -138,7 +138,7 @@
 				$feed_icon = "";
 			}
 
-			print "<div id=\"infoBoxTitle\">".__('Feed editor')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Feed Editor')."</div>";
 
 			print "<div class=\"infoBoxContents\">";
 
@@ -148,26 +148,35 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
 
-			print "<table width='100%'>";
+			print "<div class=\"dlgSec\">".__("Feed")."</div>";
+			print "<div class=\"dlgSecCont\">";
 
-			print "<tr><td>".__('Title:')."</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
-				name=\"title\" value=\"$title\"></td></tr>";
+			/* Title */
+
+			print "<input style=\"font-size : 16px\" size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				            name=\"title\" value=\"$title\">";
+
+			/* Feed URL */
 
 			$feed_url = db_fetch_result($result, 0, "feed_url");
 			$feed_url = htmlspecialchars(db_fetch_result($result,
 				0, "feed_url"));
-				
-			print "<tr><td>".__('Feed URL:')."</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
-				name=\"feed_url\" value=\"$feed_url\"></td></tr>";
+
+			print "<br/>";
+
+			print __('URL:') . " ";
+			print "<input size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				name=\"feed_url\" value=\"$feed_url\">";
+
+			/* Category */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
 
-				print "<tr><td>".__('Category:')."</td>";
-				print "<td>";
+				print "<br/>";
+
+				print __('Place in category:') . " ";
 
 				$parent_feed = db_fetch_result($result, 0, "parent_feed");
 
@@ -177,25 +186,14 @@
 					$disabled = "";
 				}
 
-				print_feed_cat_select($link, "cat_id", $cat_id, "class=\"iedit\" $disabled");
-
-				print "</td>";
-				print "</td></tr>";
-	
+				print_feed_cat_select($link, "cat_id", $cat_id, $disabled);
 			}
 
-			$update_interval = db_fetch_result($result, 0, "update_interval");
+			/* Link to */
 
-			print "<tr><td>".__('Update Interval:')."</td>";
+			print "<br/>";
 
-			print "<td>";
-
-			print_select_hash("update_interval", $update_interval, $update_intervals,
-				"class=\"iedit\"");
-
-			print "</td>";
-
-			print "<tr><td>".__('Link to:')."</td><td>";
+			print __('Link to feed:') . " ";
 
 			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
 				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
@@ -210,7 +208,7 @@
 				$disabled = "";
 			}
 
-			print "<select class=\"iedit\" $disabled name=\"parent_feed\">";
+			print "<select $disabled name=\"parent_feed\">";
 			
 			print "<option value=\"0\">".__('Not linked')."</option>";
 
@@ -242,57 +240,64 @@
 				}
 
 			print "</select>";
-			print "</td></tr>";
+
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Updating")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			/* Update Interval */
+
+			$update_interval = db_fetch_result($result, 0, "update_interval");
+
+			print_select_hash("update_interval", $update_interval, $update_intervals);
+
+			/* Update method */
+
+			if (ALLOW_SELECT_UPDATE_METHOD) {
+				$update_method = db_fetch_result($result, 0, "update_method");
+
+				print " " . __('using') . " ";
+				print_select_hash("update_method", $update_method, $update_methods);			
+			}
+
+			/* Purge intl */
+
+			print "<br/>";
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
-			print "<tr><td>".__('Article purging:')."</td>";
+			print __('Article purging:') . " ";
 
-			print "<td>";
+			print_select_hash("purge_interval", $purge_interval, $purge_intervals);
 
-			print_select_hash("purge_interval", $purge_interval, $purge_intervals, 
-				"class=\"iedit\"");
-			
-			print "</td>";
-
-			if (ALLOW_SELECT_UPDATE_METHOD) {
-
-				$update_method = db_fetch_result($result, 0, "update_method");
-	
-				print "<tr><td>".__('Update using:')."</td>";
-	
-				print "<td>";
-	
-				print_select_hash("update_method", $update_method, $update_methods, 
-					"class=\"iedit\"");
-				
-				print "</td>";
-			}
+			print "</div>";
+			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
+			print "<div class=\"dlgSecCont\">";
 
 			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 
-			print "<tr><td>".__('Login:')."</td>";
-			print "<td><input class=\"iedit\" onkeypress=\"return filterCR(event, feedEditSave)\"
-				name=\"auth_login\" value=\"$auth_login\"></td></tr>";
+			print __('Login:') . " ";
+			print "<input size=\"20\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				name=\"auth_login\" value=\"$auth_login\">";
+
+			print " " . __("Password:") . " ";
 
 			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
-			print "<tr><td>".__('Password:')."</td>";
-			print "<td><input class=\"iedit\" type=\"password\" name=\"auth_pass\" 
+			print "<input size=\"20\" type=\"password\" name=\"auth_pass\" 
 				onkeypress=\"return filterCR(event, feedEditSave)\"
-				value=\"$auth_pass\"></td></tr>";
+				value=\"$auth_pass\">";
 
-			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
+			print "</div>";
+			print "<div class=\"dlgSec\">".__("Options")."</div>";
+			print "<div class=\"dlgSecCont\">";
 
-			if ($private) {
-				$checked = "checked";
-			} else {
-				$checked = "";
-			}
+			print "<div style=\"line-height : 100%\">";
 
-			print "<tr><td valign='top'>".__('Options:')."</td>";
-			print "<td><input type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked><label for=\"private\">".__('Hide from "Other Feeds"')."</label>";
+			print "<input type=\"checkbox\" name=\"private\" id=\"private\" 
+				$checked>&nbsp;<label for=\"private\">".__('Hide from "Other Feeds"')."</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
@@ -302,8 +307,8 @@
 				$checked = "";
 			}
 
-			print "<br><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
-				$checked><label for=\"rtl_content\">".__('Right-to-left content')."</label>";
+			print "<br/><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+				$checked>&nbsp;<label for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
 
@@ -313,8 +318,8 @@
 				$checked = "";
 			}
 
-			print "<br><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
-				$checked><label for=\"hidden\">".__('Hide from my feed list')."</label>";
+			print "<br/><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
+				$checked>&nbsp;<label for=\"hidden\">".__('Hide from my feed list')."</label>";
 
 			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
 
@@ -324,9 +329,9 @@
 				$checked = "";
 			}
 
-			print "<br><input type=\"checkbox\" id=\"include_in_digest\" 
+			print "<br/><input type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\"
-				$checked><label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
+				$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
 			$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
@@ -344,18 +349,18 @@
 				$label_class = "class='insensitive'";
 			}
 
-			print "<br><input type=\"checkbox\" id=\"cache_images\" 
+			print "<br/><input type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\" $disabled
-				$checked><label $label_class for=\"cache_images\">".
+				$checked>&nbsp;<label $label_class for=\"cache_images\">".
 				__('Cache images locally')."</label>";
 
-			print "</td></tr>";
 
-			print "</table>";
+			print "</div>";
+			print "</div>";
 
 			print "</form>";
 
-			print "<div align='right'>
+			print "<div class='dlgButtons'>
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"return feedEditSave()\" value=\"".__('Save')."\">
 				<input type='submit' class='button'			

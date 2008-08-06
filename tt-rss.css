@@ -538,8 +538,10 @@ div.helpResponse {
 	border-style : solid;
 	border-color : #99d67a;
 	background-color : #99d67a;
-	padding : 2px;
+	padding : 4px 2px 4px 10px;
 	color : white;
+	font-weight : bold;
+	font-size : 12px;
 }
 
 /* shadow stuff from http://www.sixapart.com/pronet/articles/ydsf_-_robust_c.html */
@@ -587,11 +589,12 @@ html>body #infoBox {
 	background-image : url("images/shadow.png");
 	background-position : bottom right;
 	left : 25%;
-	top : 30%;
+	top : 100px;
 	width : 50%;
 	z-index : 3;
 	position : absolute;
 	display : none;
+	min-width : 600px;
 } 
 
 div.infoBoxContents {
@@ -2018,6 +2021,7 @@ div.dlgSecCont {
 	float : left;
 	font-size : 12px;
 	font-weight : medium;
+	line-height : 200%;
 }
 
 div.dlgButtons {

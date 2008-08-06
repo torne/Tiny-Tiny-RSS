@@ -58,29 +58,35 @@
 
 		if ($id == "quickAddFeed") {
 
-			print "<div id=\"infoBoxTitle\">".__('Subscribe to feed')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Subscribe to Feed')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id='feed_add_form' onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-			/* print "<input type=\"hidden\" name=\"quiet\" value=\"1\">"; */
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
 			print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
 
-			print "<table width='100%'>
-			<tr><td width='20%'>".__('Feed URL:')."</td><td>
-				<input class=\"iedit\" onblur=\"javascript:enableHotkeys()\" 
+			print "<div class=\"dlgSec\">".__("Feed")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print __("URL:") . " ";
+
+			print "<input size=\"40\" onblur=\"javascript:enableHotkeys()\" 
 					onkeypress=\"return filterCR(event, subscribeToFeed)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
 					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
-		
+
+			print "<br/>";
+
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<tr><td>".__('Category:')."</td><td>";
+				print __('Place in category:') . " ";
 				print_feed_cat_select($link, "cat_id");			
-				print "</td></tr>";
 			}
+
+			print "</div>";
+
 
 /*			print "<tr><td colspan='2'><div class='insensitive'>";
 
@@ -89,36 +95,43 @@
 
 			print "</div></td></tr>"; */
 
-			print "</table>";
-
 /*			print "<div id='fadd_login_prompt'><br/>
 				<a href='javascript:appearBlockElement(\"fadd_login_container\", 
 				\"fadd_login_prompt\")'>".__('Click here if this feed requires authentication.')."</a></div>"; */
 
 			print "<div id='fadd_login_container' style='display:none'>
-				<table width='100%'>
-					<tr><td width='20%'>".__('Login:')."</td><td><input name='auth_login' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, subscribeToFeed)\"></td></tr>
-					<tr><td>".__('Password:')."</td><td><input type='password'
-						name='auth_pass' class='iedit' onfocus=\"javascript:disableHotkeys()\" onfocus=\"javascript:disableHotkeys()\" onkeypress=\"return filterCR(event, subscribeToFeed)\"></td></tr>
-				</table>
-				</div>";
+	
+					<div class=\"dlgSec\">".__("Authentication")."</div>
+					<div class=\"dlgSecCont\">".
+
+					__('Login:') . " <input name='auth_login' size=\"20\" 
+							onfocus=\"javascript:disableHotkeys()\" 
+							onfocus=\"javascript:disableHotkeys()\" 
+							onkeypress=\"return filterCR(event, subscribeToFeed)\"> ".
+					__('Password:') . "<input type='password'
+							name='auth_pass' size=\"20\" 
+							onfocus=\"javascript:disableHotkeys()\" 
+							onfocus=\"javascript:disableHotkeys()\" 
+							onkeypress=\"return filterCR(event, subscribeToFeed)\">
+				</div></div>";
+
+
+			print "<div style=\"clear : both\">				
+				<input type=\"checkbox\" id=\"fadd_login_check\" 
+						onclick='checkboxToggleElement(this, \"fadd_login_container\")'>
+					<label for=\"fadd_login_check\">".
+					__('This feed requires authentication.')."</div>";
 
 			print "</form>";
 
-			print "<div style='float : right'>
+			print "<div class=\"dlgButtons\">
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
 					type=\"submit\" onclick=\"return subscribeToFeed()\" value=\"".__('Subscribe')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
-					value=\"".__('Cancel')."\"></div>
-					
-				<div>
-					<input type=\"checkbox\" id=\"fadd_login_check\" 
-						onclick='checkboxToggleElement(this, \"fadd_login_container\")'>
-					<label for=\"fadd_login_check\">".
-					__('This feed requires authentication.')."</div>";
-
+					value=\"".__('Cancel')."\"></div>";
+			
 			return;
 		}
 
@@ -205,7 +218,7 @@
 		}
 
 		if ($id == "quickAddLabel") {
-			print "<div id=\"infoBoxTitle\">".__('Create label')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Create Label')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"label_edit_form\" onsubmit='return false'>";
@@ -264,7 +277,7 @@
 
 			$active_feed_id = db_escape_string($_GET["param"]);
 
-			print "<div id=\"infoBoxTitle\">".__('Create filter')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Create Filter')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"filter_add_form\" onsubmit='return false'>";
@@ -352,7 +365,7 @@
 
 			print "</div>";
 
-			print "<div class=\"dlgSec\">".__("Perform action")."</div>";
+			print "<div class=\"dlgSec\">".__("Perform Action")."</div>";
 
 			print "<div class=\"dlgSecCont\">";
 
@@ -378,12 +391,15 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
+			print "<div style=\"line-height : 100%\">";
+
 			print "<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
 					<label for=\"enabled\">".__('Enabled')."</label><br/>";
 
 			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
 				<label for=\"inverse\">".__('Inverse match')."</label>";
 
+			print "</div>";
 			print "</div>";
 
 			print "</form>";
