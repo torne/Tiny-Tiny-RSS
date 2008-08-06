@@ -542,40 +542,50 @@ div.helpResponse {
 	color : white;
 }
 
+/* shadow stuff from http://www.sixapart.com/pronet/articles/ydsf_-_robust_c.html */
+
 #infoBox {	
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
 	border-color : #99d67a;
-	position : relative;
-	bottom : 2px;
-	right : 2px;
-	padding-bottom : 5px;	
 	background-color : #f8fcf5;
+	position: relative;
+	overflow : hidden;
+	left : -4px;
+	top : -4px;
 }
 
-/*
-#infoBoxTitle {
-	border-width : 1px 1px 1px 1px;
-	border-style : solid;
-	border-color : #88b0f0;
-	background-color : #88b0f0;
-	padding : 2px;
-	color : white;
+html>body #infoBox {
+	left : -10px;
+	top : -10px;
+	margin : 0;
 }
 
-#infoBox {	
-	border-width : 1px 1px 1px 1px;
-	border-style : solid;
-	border-color : #88b0f0;
-	position : relative;
-	bottom : 2px;
-	right : 2px;
-	padding-bottom : 5px;	
-	background-color : #f7faff;
-} */
+#infoBoxShadow:before, #infoBoxShadow:after {
+	content : " ";
+	display : block;
+	background : inherit;
+	width : 10px;
+	height : 10px;
+}
+
+#infoBoxShadow:before {
+	position : absolute;
+	top : 0;
+	right : 0;
+	margin : -10px 0 0 auto;
+	background-position : right top;
+}
+
+#infoBoxShadow:after {
+	margin : -10px 0 0 -10px;
+	background-position : left bottom;
+}
+
 
 #infoBoxShadow {
 	background-image : url("images/shadow.png");
+	background-position : bottom right;
 	left : 25%;
 	top : 30%;
 	width : 50%;
