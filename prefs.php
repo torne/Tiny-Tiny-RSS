@@ -146,6 +146,7 @@ window.onload = init;
 		<?php } ?>		
 </div>
 
+<div id="prefContentOuter">
 <div id="prefContent">
 	<p><?php echo __('Loading, please wait...') ?></p>
 	<noscript>
@@ -154,6 +155,7 @@ window.onload = init;
 		for this application to function properly. Please check your
 		browser settings.") ?></div>
 	</noscript>
+</div>
 </div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>

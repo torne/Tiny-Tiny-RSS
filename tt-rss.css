@@ -591,7 +591,7 @@ html>body #infoBox {
 	left : 25%;
 	top : 100px;
 	width : 50%;
-	z-index : 3;
+	z-index : 5;
 	position : absolute;
 	display : none;
 	min-width : 600px;
@@ -661,6 +661,9 @@ div.prefsTab {
 	min-width : 100px;
 	text-align : center;
 	cursor : pointer;
+	position : relative;
+	bottom : -1px;
+	height : 30px;
 }
 
 div.prefsTabSelected {
@@ -678,6 +681,10 @@ div.prefsTabSelected {
 	min-width : 100px;
 	text-align : center;
 	cursor : pointer;
+	position : relative;
+	bottom : -1px;
+	z-index : 3;
+	height : 30px;
 }
 
 div.notice {
@@ -1264,7 +1271,7 @@ a.cdmToggleLink:hover {
 	top : 0;
 	height : 100%;
 	width : 100%;
-	z-index : 2;
+	z-index : 4;
 	position : absolute;
 	background-image : url("images/shadow_white.png");
 }
@@ -1624,23 +1631,33 @@ div.return a:hover {
 	color : black;
 }
 
-#prefContent {
+#prefContentOuter {
 	clear : left;
 	position : absolute;
-	bottom : 40px;
+	bottom : 41px;
 	top : 75px;
 	left : 0px;
 	right : 0px;
-	padding : 1em;
-	overflow : auto;
 	min-height : 300px;
-	background-image : url("images/prefs-content.png");
-	background-position : top left;
-	background-repeat : repeat-x;
 	border-width : 1px 0px 0px 0px;
 	border-color : #88b0f0;
 	border-style : solid;
 	font-size : 12px;
+}
+
+#prefContent {
+	z-index : 4;
+	background-image : url("images/prefs-content.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+	position : absolute;
+	bottom : 0px;
+	top : 0px;
+	left : 0px;
+	right : 0px;
+	padding : 1em;
+	overflow : auto;
+
 }
 
 #userSwitch {
