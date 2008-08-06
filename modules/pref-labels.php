@@ -33,28 +33,30 @@
 			print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">"; 
 
-			print "<table width='100%'>";
+			print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
-			print "<tr><td>Caption:</td>
-				<td><input onkeypress=\"return filterCR(event, labelEditSave)\"
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input onkeypress=\"return filterCR(event, labelEditSave)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"description\" class=\"iedit\" value=\"$description\">";
+					 name=\"description\" size=\"30\" value=\"$description\">";
+			print "</div>";
 
-			print "</td></tr>";
+			print "<div class=\"dlgSec\">".__("Match SQL")."</div>";
 
-			print "<tr><td colspan=\"2\">
-				<p>SQL Expression:</p>";
+			print "<div class=\"dlgSecCont\">";
 
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 rows=\"4\" name=\"sql_exp\" class=\"iedit\">$sql_exp</textarea>";
-			print "</td></tr></table>";
+					 rows=\"6\" name=\"sql_exp\" class=\"labelSQL\" cols=\"50\">$sql_exp</textarea>";
+
+			print "</div>";
 
 			print "</form>";
 
 			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
 
-			print "<div align='right'>";
+			print "<div class=\"dlgButtons\">";
 
 			print "<div style='float : left'>";
 			print "<input type=\"submit\" 

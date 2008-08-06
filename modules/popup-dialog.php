@@ -213,28 +213,30 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
 
-			print "<table width='100%'>";
+			print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
-			print "<tr><td>".__('Caption:')."</td>
-				<td><input onkeypress=\"return filterCR(event, addLabel)\"
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input onkeypress=\"return filterCR(event, labelEditSave)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					name=\"description\" class=\"iedit\">";
+					 name=\"description\" size=\"30\" value=\"$description\">";
+			print "</div>";
 
-			print "</td></tr>";
+			print "<div class=\"dlgSec\">".__("Match SQL")."</div>";
 
-			print "<tr><td colspan=\"2\">
-				<p>".__('SQL Expression:')."</p>";
+			print "<div class=\"dlgSecCont\">";
 
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 rows=\"4\" name=\"sql_exp\" class=\"iedit\"></textarea>";
-			print "</td></tr></table>";
+					 rows=\"6\" name=\"sql_exp\" class=\"labelSQL\" cols=\"50\">$sql_exp</textarea>";
+
+			print "</div>";
 
 			print "</form>";
 
 			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
 
-			print "<div align='right'>";
+			print "<div class=\"dlgButtons\">";
 
 			print "<div style='float : left'>";
 			print "<input type=\"submit\" 
@@ -283,7 +285,7 @@
 				$filter_types[$line["id"]] = __($line["description"]);
 			}
 
-			print "<table width='100%'>";
+/*			print "<table width='100%'>";
 
 			print "<tr><td>".__('Match:')."</td>
 				<td><input onkeypress=\"return filterCR(event, createFilter)\"
@@ -329,9 +331,64 @@
 
 			print "</table>";
 
+			print "</form>"; */
+
+			print "<div class=\"dlgSec\">".__("Match")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
+
+			print " " . __("on field") . " ";
+			print_select_hash("filter_type", 1, $filter_types);
+
+			print "<br/>";
+
+			print __("in") . " ";
+			print_feed_select($link, "feed_id", $active_feed_id);
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Perform action")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<select name=\"action_id\"
+				onchange=\"filterDlgCheckAction(this)\">";
+	
+			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+				ORDER BY name");
+
+			while ($line = db_fetch_assoc($result)) {
+				printf("<option value='%d'>%s</option>", $line["id"], __($line["description"]));
+			}
+	
+			print "</select>";
+
+			print " " . __("with params") . " ";
+
+			print "<input disabled size=\"20\"
+				name=\"action_param\">";
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Options")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
+					<label for=\"enabled\">".__('Enabled')."</label><br/>";
+
+			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
+				<label for=\"inverse\">".__('Inverse match')."</label>";
+
+			print "</div>";
+
 			print "</form>";
 
-			print "<div align='right'>";
+			print "<div class=\"dlgButtons\">";
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"

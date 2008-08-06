@@ -38,7 +38,7 @@
 				$filter_types[$line["id"]] = __($line["description"]);
 			}
 
-			print "<table width='100%'>";
+/*			print "<table width='100%'>";
 
 			print "<tr><td>".__('Match:')."</td>
 				<td><input onkeypress=\"return filterCR(event, filterEditSave)\"
@@ -104,7 +104,77 @@
 
 			print "</form>";
 
-			print "<div align='right'>";
+			print "<hr>"; */
+
+			print "<div class=\"dlgSec\">".__("Match")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
+					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
+					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
+
+			print " " . __("on field") . " ";
+			print_select_hash("filter_type", $filter_type, $filter_types);
+
+			print "<br/>";
+
+			print __("in") . " ";
+			print_feed_select($link, "feed_id", $feed_id);
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Perform action")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<select name=\"action_id\"
+				onchange=\"filterDlgCheckAction(this)\">";
+	
+			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+				ORDER BY name");
+
+			while ($line = db_fetch_assoc($result)) {
+				$is_sel = ($line["id"] == $action_id) ? "selected" : "";			
+				printf("<option value='%d' $is_sel>%s</option>", $line["id"], __($line["description"]));
+			}
+	
+			print "</select>";
+
+			print " " . __("with params") . " ";
+
+			$param_disabled = ($action_id == 4 || $action_id == 6) ? "" : "disabled";
+
+			print "<input $param_disabled size=\"20\"
+				name=\"action_param\" value=\"$action_param\">";
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Options")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			if ($enabled) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
+					<label for=\"enabled\">".__('Enabled')."</label><br/>";
+
+			if ($inverse) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
+				<label for=\"inverse\">".__('Inverse match')."</label>";
+
+			print "</div>";
+
+			print "<div class=\"dlgButtons\">";
 
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
