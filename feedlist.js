@@ -337,8 +337,8 @@ function feedlist_init() {
 		}
 
 		if (getActiveFeedId()) {
-			debug("some feed is open on feedlist refresh, reloading");
-			setTimeout("viewCurrentFeed()", 100);
+			//debug("some feed is open on feedlist refresh, reloading");
+			//setTimeout("viewCurrentFeed()", 100);
 		} else {
 			if (getInitParam("cdm_auto_catchup") != 1 && get_feed_unread(-3) > 0) {
 				notify_silent_next();
