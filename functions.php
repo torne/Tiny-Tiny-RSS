@@ -5650,6 +5650,11 @@
 
 		print __("Match ") . " ";
 
+/*		print "<select name=\"label_andor\">";
+		print "<option value=\"and\">AND</option>";
+		print "<option value=\"or\">OR</option>";
+		print "</select>"; */
+
 		print "<select name=\"label_fields\" onchange=\"labelFieldsCheck(this)\">";
 		print "<option value=\"unread\">".__("Unread articles")."</option>";
 		print "<option value=\"updated\">".__("Updated articles")."</option>";
