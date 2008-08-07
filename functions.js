@@ -1506,18 +1506,18 @@ function filterDlgCheckAction(sender) {
 			return;
 		}
 
-		var action_param = form.action_param;
+		var action_param = document.getElementById("filter_dlg_param_box");
 
 		if (!action_param) {
-			debug("filterDlgCheckAction: can't find action param!");
+			debug("filterDlgCheckAction: can't find action param box!");
 			return;
 		}
 
 		// if selected action supports parameters, enable params field
 		if (action == 4 || action == 6) {
-			action_param.disabled = false;
+			Element.show(action_param);
 		} else {
-			action_param.disabled = true;
+			Element.hide(action_param);
 		}
 
 	} catch (e) {

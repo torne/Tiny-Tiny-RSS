@@ -74,12 +74,15 @@
 	
 			print "</select>";
 
-			print " " . __("with params") . " ";
+			$param_hidden = ($action_id == 4 || $action_id == 6) ? "" : "display : none";
 
-			$param_disabled = ($action_id == 4 || $action_id == 6) ? "" : "disabled";
+			print "<span id=\"filter_dlg_param_box\" style=\"$param_hidden\">";
+			print " " . __("with parameters:") . " ";
+			print "<input size=\"20\"
+					name=\"action_param\" value=\"$action_param\">";
+			print "</span>";
 
-			print "<input $param_disabled size=\"20\"
-				name=\"action_param\" value=\"$action_param\">";
+			print "&nbsp;"; // tiny layout hack
 
 			print "</div>";
 
@@ -111,6 +114,14 @@
 
 			print "<div class=\"dlgButtons\">";
 
+			$reg_exp = htmlspecialchars($reg_exp); // second escaping seems to be needed for javascript
+
+			print "<div style=\"float : left\">";
+			print "<input type=\"submit\" 
+				class=\"button\" onclick='return removeFilter($filter_id, \"$reg_exp\")' 
+				value=\"".__('Remove')."\"> ";
+			print "</div>";
+
 			print "<input type=\"submit\" 
 				id=\"infobox_submit\"
 				class=\"button\" onclick=\"return filterEditSave()\" 
@@ -119,14 +130,6 @@
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return filterEditCancel()\" 
 				value=\"".__('Cancel')."\">";
-
-			$reg_exp = htmlspecialchars($reg_exp); // second escaping seems to be needed for javascript
-
-			print "<div style=\"float : left\">";
-			print "<input type=\"submit\" 
-				class=\"button\" onclick='return removeFilter($filter_id, \"$reg_exp\")' 
-				value=\"".__('Remove')."\"> ";
-			print "</div>";
 
 			print "</div>";
 

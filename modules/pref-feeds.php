@@ -361,18 +361,15 @@
 			print "</form>";
 
 			print "<div class='dlgButtons'>
+				<div style=\"float : left\">
+					<input type='submit' class='button'			
+					onclick='return unsubscribeFeed($feed_id, \"$title\")' value=\"".__('Unsubscribe')."\">
+				</div>
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"return feedEditSave()\" value=\"".__('Save')."\">
 				<input type='submit' class='button'			
 				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
-				<div style=\"float : left\">
-
-				<input type='submit' class='button'			
-					onclick='return unsubscribeFeed($feed_id, \"$title\")' value=\"".__('Unsubscribe')."\">
-							
 				</div>";
-
-			print "</div>";
 
 			return;
 		}

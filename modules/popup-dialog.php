@@ -383,10 +383,13 @@
 	
 			print "</select>";
 
-			print " " . __("with params") . " ";
+			print "<span id=\"filter_dlg_param_box\" style=\"display : none\">";
+			print " " . __("with parameters:") . " ";
+			print "<input size=\"20\"
+					name=\"action_param\">";
+			print "</span>";
 
-			print "<input disabled size=\"20\"
-				name=\"action_param\">";
+			print "&nbsp;"; // tiny layout hack
 
 			print "</div>";
 
