@@ -1737,3 +1737,101 @@ function remove_splash() {
 		debug("removed splash!");
 	}
 }
+
+function addLabelExample() {
+	try {
+		var form = document.forms["label_edit_form"];
+
+		var text = form.sql_exp;
+		var op = form.label_fields[form.label_fields.selectedIndex];
+		var p = form.label_fields_param;
+
+		if (op) {
+			op = op.value;
+
+			var tmp = "";
+
+			if (text.value != "") {			
+				if (text.value.substring(text.value.length-3, 3).toUpperCase() != "AND") {
+					tmp = " AND ";
+				} else {
+					tmp = " ";
+				}
+			}
+
+			if (op == "unread") {
+				tmp = tmp + "unread = true";
+			}
+
+			if (op == "updated") {
+				tmp = tmp + "last_read is null and unread = false";
+			}
+
+			if (op == "kw_title") {
+				tmp = tmp + "ttrss_entries.title like '%"+p.value+"%'";
+			}
+			if (op == "kw_content") {
+				tmp = tmp + "ttrss_entries.content like '%"+p.value+"%'";
+			}
+
+			if (op == "scoreE") {
+				tmp = tmp + "score = " + p.value;
+			}
+
+			if (op == "scoreG") {
+				tmp = tmp + "score > " + p.value;
+			}
+
+			if (op == "scoreL") {
+				tmp = tmp + "score < " + p.value;
+			}
+
+			if (op == "newerD") {
+				if (isNaN(parseInt(p))) {
+					alert("This action expects numeric parameter.");
+					return false;
+				}
+				tmp = tmp + "updated > NOW() - INTERVAL '"+parseInt(p.value)+" days'";
+			}
+
+			if (op == "newerH") {
+				if (isNaN(parseInt(p))) {
+					alert("This action expects numeric parameter.");
+					return false;
+				}
+
+				tmp = tmp + "updated > NOW() - INTERVAL '"+parseInt(p.value)+" hours'";
+			}
+
+			text.value = text.value + tmp;
+
+			p.value = "";
+
+		}
+		
+	} catch (e) {
+		exception_error("addLabelExample", e);
+	}
+
+	return false;
+}
+
+function labelFieldsCheck(elem) {
+	try {
+		var op = elem[elem.selectedIndex].value;
+
+		var p = document.forms["label_edit_form"].label_fields_param;
+
+		if (op == "kw_title" || op == "kw_content" || op == "scoreL" || 
+				op == "scoreG" ||	op == "scoreE" || op == "newerD" ||
+				op == "newerH" ) {
+			Element.show(p);
+		} else {
+			Element.hide(p);
+		}
+
+	} catch (e) {
+		exception_error("labelFieldsCheck", e);
+
+	}
+}

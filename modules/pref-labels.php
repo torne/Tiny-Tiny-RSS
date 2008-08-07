@@ -48,7 +48,11 @@
 			print "<div class=\"dlgSecCont\">";
 
 			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 rows=\"6\" name=\"sql_exp\" class=\"labelSQL\" cols=\"50\">$sql_exp</textarea>";
+				rows=\"6\" name=\"sql_exp\" class=\"labelSQL\" cols=\"50\">$sql_exp</textarea>";
+
+			print "<br/>";
+
+			print_label_dlg_common_examples();
 
 			print "</div>";
 
