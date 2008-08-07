@@ -36,7 +36,7 @@
 			print "<div class=\"dlgSecCont\">";
 
 			print "<input size=\"30\" style=\"font-size : 16px\" 
-				onkeypress=\"return filterCR(event)\" $sel_disabled
+				onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
 				name=\"login\" value=\"$login\">";
 
 			print "</div>";
@@ -52,7 +52,7 @@
 			print "<br/>";
 
 			print __('Change password to') .
-				" <input size=\"20\" onkeypress=\"return filterCR(event)\"
+				" <input size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\"
 				name=\"password\">";
 
 			print "</div>";
@@ -61,7 +61,7 @@
 			print "<div class=\"dlgSecCont\">";
 
 			print __('E-mail: ').
-				" <input size=\"30\" name=\"email\" onkeypress=\"return filterCR(event)\"
+				" <input size=\"30\" name=\"email\" onkeypress=\"return filterCR(event, userEditSave)\"
 				value=\"$email\">";
 
 			print "</div>";

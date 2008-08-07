@@ -92,7 +92,7 @@
 			$expr = str_replace(";", "", $expr);
 
 			if (!$expr) {
-				print "<div>Error: SQL expression is blank.</div>";
+				print "<p>".__("Error: SQL expression is blank.")."</p>";
 				return;
 			}
 

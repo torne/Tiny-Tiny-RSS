@@ -232,7 +232,7 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input onkeypress=\"return filterCR(event, labelEditSave)\"
+			print "<input onkeypress=\"return filterCR(event, addLabel)\"
 					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"description\" size=\"30\" value=\"$description\">";
@@ -352,7 +352,7 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
+			print "<input onkeypress=\"return filterCR(event, createFilter)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
