@@ -1787,7 +1787,7 @@ function addLabelExample() {
 			}
 
 			if (op == "newerD") {
-				if (isNaN(parseInt(p))) {
+				if (isNaN(parseInt(p.value))) {
 					alert("This action expects numeric parameter.");
 					return false;
 				}
@@ -1795,7 +1795,7 @@ function addLabelExample() {
 			}
 
 			if (op == "newerH") {
-				if (isNaN(parseInt(p))) {
+				if (isNaN(parseInt(p.value))) {
 					alert("This action expects numeric parameter.");
 					return false;
 				}
