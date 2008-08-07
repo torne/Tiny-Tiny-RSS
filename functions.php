@@ -5660,9 +5660,9 @@
 		print "<option value=\"updated\">".__("Updated articles")."</option>";
 		print "<option value=\"kw_title\">".__("Title contains")."</option>";
 		print "<option value=\"kw_content\">".__("Content contains")."</option>";
-		print "<option value=\"scoreE\">".__("Score is equals")."</option>";
-		print "<option value=\"scoreG\">".__("Score is less than")."</option>";
-		print "<option value=\"scoreL\">".__("Score is greater than")."</option>";
+		print "<option value=\"scoreE\">".__("Score equals")."</option>";
+		print "<option value=\"scoreG\">".__("Score is greater than")."</option>";
+		print "<option value=\"scoreL\">".__("Score is less than")."</option>";
 		print "<option value=\"newerH\">".__("Articles newer than X hours")."</option>";
 		print "<option value=\"newerD\">".__("Articles newer than X days")."</option>";
 

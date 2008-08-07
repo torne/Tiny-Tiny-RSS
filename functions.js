@@ -1768,21 +1768,43 @@ function addLabelExample() {
 			}
 
 			if (op == "kw_title") {
+				if (p.value == "") {
+					alert("This action requires a parameter.");
+					return false;
+				}
 				tmp = tmp + "ttrss_entries.title like '%"+p.value+"%'";
 			}
+
 			if (op == "kw_content") {
+				if (p.value == "") {
+					alert("This action requires a parameter.");
+					return false;
+				}
+
 				tmp = tmp + "ttrss_entries.content like '%"+p.value+"%'";
 			}
 
 			if (op == "scoreE") {
+				if (isNaN(parseInt(p.value))) {
+					alert("This action expects numeric parameter.");
+					return false;
+				}
 				tmp = tmp + "score = " + p.value;
 			}
 
 			if (op == "scoreG") {
+				if (isNaN(parseInt(p.value))) {
+					alert("This action expects numeric parameter.");
+					return false;
+				}
 				tmp = tmp + "score > " + p.value;
 			}
 
 			if (op == "scoreL") {
+				if (isNaN(parseInt(p.value))) {
+					alert("This action expects numeric parameter.");
+					return false;
+				}
 				tmp = tmp + "score < " + p.value;
 			}
 
