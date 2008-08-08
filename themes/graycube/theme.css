@@ -99,8 +99,6 @@ div.postReply > div.postHeader {
 	.evenSelectedUnread td {
 	background-color : #ffcccc;
 	font-weight : bold;
-	border-width : 1px 0px 1px 0px;
-	border-style : solid;
 	border-color : #ebebeb;
 }
 
@@ -108,24 +106,27 @@ div.postReply > div.postHeader {
 	.oddSelectedUnread td {
 	background-color : #ffcccc;
 	font-weight : bold;
+	border-color : #ebebeb;
+
 }
 
 .evenSelected, .evenSelected td {
 	background-color : #ffcccc;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
-		  border-color : #ebebeb;
+	border-color : #ebebeb;
 }
 
-.oddSelected, .evenSelected td {
+.oddSelected, .oddSelected td {
 	background-color : #ffcccc;
+	border-color : #ebebeb;
 }
 
 .evenGrayed, .evenGrayed td {
 	background-color : #f9f9f9;
 	color : gray;
-	border-width : 1px 0px 1px 0px;
-	border-style : solid;
+	border-color : #ebebeb;
+}
+
+.oddGrayed, .oddGrayed td {
 	border-color : #ebebeb;
 }
 
@@ -135,26 +136,24 @@ div.postReply > div.postHeader {
 }
 
 .even, .even td {
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
-		  border-color : #ebebeb;
+  	border-color : #ebebeb;
 	background-color : #f9f9f9;
 }
 
 .odd, .odd td {
 	background-color : #f9f9f9;
+	border-color : #ebebeb;
 }
 
 .evenUnread, .evenUnread td {
 	background-color : white;
 	font-weight : bold;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
-		  border-color : #ebebeb;
+	border-color : #ebebeb;
 }
 
 .oddUnread, .oddUnread td {
 	font-weight : bold;
+	border-color : #ebebeb;
 }
 
 ul.feedList {
@@ -253,7 +252,6 @@ span.contentPreview:hover {
 	border-style : solid;
 	border-color : #999999;
 	background : #f9f9f9;
-	padding : 2px;
 	color : black;
 }
 
@@ -266,7 +264,7 @@ span.contentPreview:hover {
 	bottom : 2px;
 	right : 2px;
 	padding-bottom : 5px;	
-	background : white;
+	background : #efefef;
 }
 
 div.infoBoxContents a {
@@ -429,7 +427,7 @@ div.return a:hover {
 	color : gray;
 }
 
-#prefContent {
+#prefContentOuter {
 	clear : left;
 	position : absolute;
 	bottom : 30px;
@@ -443,6 +441,10 @@ div.return a:hover {
 	border-width : 1px 1px 1px 1px;
 	border-color : #999999;
 	border-style : solid;
+}
+
+#prefContent {
+	background : white;
 
 }
 
@@ -493,6 +495,14 @@ table.prefFeedList tr.oddSelected:hover td
 
 table.headlinesList tr.feedTitle td a, div.cdmFeedTitle a {
 	color : gray;
+}
+
+table.headlinesList tr.feedTitle td {
+	background : #efefef;
+}
+
+div.cdmFeedTitle {
+	background : #efefef;
 }
 
 div.tagCloudContainer {
