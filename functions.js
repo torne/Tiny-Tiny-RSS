@@ -532,7 +532,7 @@ function parse_counters(reply, scheduled_call) {
 				}
 	
 				if (ctr > 0) {					
-					feedctr.className = "odd";
+					feedctr.className = "catCtrHasUnread";
 					if (!feedr.className.match("Unread")) {
 						var is_selected = feedr.className.match("Selected");
 		
@@ -552,7 +552,7 @@ function parse_counters(reply, scheduled_call) {
 							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
 					}
 				} else {
-					feedctr.className = "invisible";
+					feedctr.className = "catCtrNoUnread";
 					feedr.className = feedr.className.replace("Unread", "");
 				}			
 			}
