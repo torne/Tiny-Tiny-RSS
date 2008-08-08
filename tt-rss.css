@@ -875,6 +875,7 @@ table.headlinesList {
 table.headlinesList td.hlFeedIcon {
 	width : 25px;
 	text-align : center;
+	cursor : pointer;
 }
 
 
@@ -1699,12 +1700,12 @@ a.feedUpdErrLink {
 	margin-bottom : 0.5em;
 }
 
-.catCtrHasUnread {
+.catCtrHasUnread, .feedCtrHasUnread {
 	font-weight : bold;
 	color : #707070;
 }
 
-.catCtrNoUnread {
+.catCtrNoUnread, .feedCtrNoUnread {
 	display : none;
 }
 

@@ -1563,9 +1563,9 @@
 		print "<span $rtl_tag id=\"FEEDN-$feed_id\">$feed</span>";
 
 		if ($unread != 0) {
-			$fctr_class = "";
+			$fctr_class = "class=\"feedCtrHasUnread\"";
 		} else {
-			$fctr_class = "class=\"invisible\"";
+			$fctr_class = "class=\"feedCtrNoUnread\"";
 		}
 
 		print " <span $rtl_tag $fctr_class id=\"FEEDCTR-$feed_id\">
@@ -5068,12 +5068,12 @@
 
 #					}
 					
-					print "<td class=\"hlUpdated\" onclick='javascript:view($id,$feed_id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
+					print "<td class=\"hlUpdated\" onclick='view($id,$feed_id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 
 					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						print "<td class=\"hlFeedIcon\">$feed_icon_img</td>";
+						print "<td onclick=\"viewfeed($feed_id)\" class=\"hlFeedIcon\">$feed_icon_img</td>";
 					}
 
 					print "</tr>";
