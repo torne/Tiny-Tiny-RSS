@@ -4989,6 +4989,14 @@
 					$entry_author = " - $entry_author";
 				}
 
+				$has_feed_icon = is_file(ICONS_DIR . "/$feed_id.ico");
+
+				if ($has_feed_icon) {
+					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
+				} else {
+					//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
+				}
+
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
 					if (get_pref($link, 'VFEED_GROUP_BY_FEED')) {
@@ -5000,17 +5008,6 @@
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
 							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\");' href='#'>mark as read</a>)";
-
-							$has_feed_icon = is_file(ICONS_DIR . "/$feed_id.ico");
-
-							if ($has_feed_icon) {
-								$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
-							} else {
-								//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
-							}
-
-//							$class = "odd";
-//							$lnum = 0;
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
@@ -5067,16 +5064,18 @@
 							</span>";
 						}
 					}
-
-
 					print "</td>";
-					
+
 #					}
 					
 					print "<td class=\"hlUpdated\" onclick='javascript:view($id,$feed_id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
-	
+
+					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
+						print "<td class=\"hlFeedIcon\">$feed_icon_img</td>";
+					}
+
 					print "</tr>";
 
 				} else {
