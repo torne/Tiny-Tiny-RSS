@@ -59,7 +59,7 @@
 	__("Blacklisted tags");
 	__("When auto-detecting tags in articles these tags will not be applied (comma-separated list).");
 	__("Confirm marking feed as read");
-	__("Enable icons in feedlist");
+	__("Enable feed icons");
 	__("Enable labels");
 	__("Experimental support for virtual feeds based on user crafted SQL queries. This feature is highly experimental and at this point not user friendly. Use with caution.");
 	__("Long date format");
