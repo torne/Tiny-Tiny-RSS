@@ -364,7 +364,7 @@ a.button {
 	.evenSelectedUnread td {
 	background-color : #fff7d5;
 	font-weight : bold;
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #e7d796;
 }
@@ -373,11 +373,14 @@ a.button {
 	.oddSelectedUnread td {
 	background-color : #fff7d5;
 	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e7d796;
 }
 
 .evenSelected, .evenSelected td {
 	background-color : #fff7d5;
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #e7d796;
 	border-collapse : collapse;
@@ -385,12 +388,16 @@ a.button {
 
 .oddSelected, .evenSelected td {
 	background-color : #fff7d5;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e7d796;
+	border-collapse : collapse;
 }
 
 .evenGrayed, .evenGrayed td {
 	background-color : #f0f0f0;
 	color : #909090;
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	border-collapse : collapse;
@@ -401,17 +408,24 @@ a.button {
 }
 
 .even, .even td {
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	background-color : #f0f0f0;
 	border-collapse : collapse;
 }
 
+.odd, .odd td {
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
+	border-collapse : collapse;
+}
+
 .evenUnread, .evenUnread td {
 	background-color : #f0f0f0;
 	font-weight : bold;
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	border-collapse : collapse;
@@ -419,6 +433,9 @@ a.button {
 
 .oddUnread, .oddUnread td {
 	font-weight : bold;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #c0c0c0;
 }
 
 .invisible {
