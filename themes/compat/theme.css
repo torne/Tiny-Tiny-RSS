@@ -232,8 +232,6 @@ a.button {
 	.evenSelectedUnread td {
         background-color : #e0e0ff;
         font-weight : bold;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
 		  border-color : #778899;
 }
 
@@ -241,17 +239,19 @@ a.button {
 	.oddSelectedUnread td {
         background-color : #e0e0ff;
         font-weight : bold;
+		  border-color : #778899;
+
 }
 
 .evenSelected, .evenSelected td {
         background-color : #e0e0ff;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
 		  border-color : #778899;
 }
 
-.oddSelected, .evenSelected td {
+.oddSelected, .oddSelected td {
         background-color : #e0e0ff;
+		  border-color : #778899;
+
 }
 
 
@@ -265,8 +265,6 @@ a.button {
 .evenGrayed, .evenGrayed td {
         background-color : #f0f0f0;
         color : #909090;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
 		  border-color : #88b0f0;
 }
 
@@ -275,22 +273,23 @@ a.button {
 }
 
 .even, .even td {
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
 		  border-color : #c0c0c0;
         background-color : #f0f0f0;
+}
+
+.odd, .odd td {
+		  border-color : #c0c0c0;
 }
 
 .evenUnread, .evenUnread td {
         background-color : #f0f0f0;
         font-weight : bold;
-		  border-width : 1px 0px 1px 0px;
-		  border-style : solid;
 		  border-color : #c0c0c0;
 }
 
 .oddUnread, .oddUnread td {
         font-weight : bold;
+        background-color : #f0f0f0;
 }
 
 td > input, div > input {
@@ -381,22 +380,15 @@ div.helpResponse {
 }
 
 #infoBoxTitle {
-	border-width : 1px 1px 1px 1px;
-	border-style : solid;
 	border-color : #c0c0c0;
 	background-color : #c0c0c0;
-	padding : 2px;
 	color : white;
 }
 
 
 #infoBox {
-	border : 1px solid #c0c0c0;
-	padding-bottom : 10px;
+	border-color : #c0c0c0;
 	font-size : small;
-	position : relative;
-	bottom : 2px;
-	right : 2px;
 	background : white;
 }
 
@@ -414,8 +406,6 @@ div.infoBoxContents {
 	background-image : url("images/vgrad_light_rev2.png");
 	background-position : top left;
 	background-repeat : repeat-x;
-	padding : 5px;
-	margin-bottom : 5px;
 }
 
 div.helpResponse h1, div.infoBoxContents h1 {
@@ -462,7 +452,7 @@ div.prefsTabSelected {
 	font-weight : bold;
 	min-width : 100px;
 	text-align : center;
-	background : white;
+	background : #f0f0f0;
 }
 
 input.prefsTab {
@@ -883,14 +873,19 @@ div.return a:hover {
 	color : black;
 }
 
-#prefContent {
-	position : static;
+#prefContentOuter {
 	background-image : url("images/vgrad_light_rev.png");
 	background-position : top left;
 	background-repeat : repeat-x;
 	border-color : #c0c0c0;
 }
 
+#prefContent {
+	background-image : url("images/vgrad_light_rev.png");
+	background-position : top left;
+	background-repeat : repeat-x;
+
+}
 
 div.topLinks a {
 	color : #5050aa;	
@@ -910,6 +905,10 @@ a.visibleLink {
 
 table.headlinesList tr.feedTitle td a, div.cdmFeedTitle a {
 	color : #5050aa;
+}
+
+table.headlinesList tr.feedTitle td , div.cdmFeedTitle {
+	background : white;
 }
 
 #resize-grabber {
