@@ -5131,7 +5131,9 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div class=\"articleUpdated\">$updated_fmt $score_pic</div>";
+					print "<div class=\"articleUpdated\">$updated_fmt $score_pic
+						<span style=\"cursor : pointer\" onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>
+						</div>";
 
 					print "<span id=\"RTITLE-$id\" class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
 						onclick=\"javascript:toggleUnread($id, 0)\"

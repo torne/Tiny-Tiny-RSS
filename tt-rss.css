@@ -1024,6 +1024,8 @@ div.cdmArticleUnreadSelected div.cdmHeader a.title {
 
 div.cdmHeader {
 	padding : 5px 5px 10px 5px;
+	color : gray;
+
 }
 
 div.cdmArticleUnread div.cdmHeader span.titleWrap a {
@@ -1079,6 +1081,12 @@ img.markedPic {
 
 div.cdmHeader div.articleUpdated {
 	float : right;
+	font-weight : bold;
+	color : gray;
+}
+
+div.cdmHeader div.articleUpdated img {
+	vertical-align : middle;
 }
 
 div.cdmFooter input, div.cdmHeader input, div.cdmFooter img {
@@ -1887,7 +1895,7 @@ div.cdmFeedTitle {
 	border-color : #a0a0a0;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	padding : 5px;
+	padding : 5px 3px 5px 5px;
 	background : url("images/toolbar.png") bottom left;
 	background-repeat : repeat-x;
 }
@@ -1908,7 +1916,7 @@ table.headlinesList tr.feedTitle td {
 	border-color : #c0c0c0;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	padding : 5px;
+	padding : 5px 3px 5px 5px;
 
 }
 
