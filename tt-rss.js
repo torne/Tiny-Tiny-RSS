@@ -1017,8 +1017,8 @@ function hotkey_handler(e) {
 
 		if (keycode == 16) return; // ignore lone shift
 
-		if ((keycode == 70 || keycode == 67 || keycode == 71 || 
-				keycode == 224 || keycode == 91) && !hotkey_prefix) {
+		if ((keycode == 70 || keycode == 67 || keycode == 71) 
+				&& !hotkey_prefix) {
 
 			hotkey_prefix = keycode;
 			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar);
