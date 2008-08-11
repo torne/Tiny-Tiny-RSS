@@ -392,6 +392,7 @@
 			print "<span id=\"filter_dlg_param_box\" style=\"display : none\">";
 			print " " . __("with parameters:") . " ";
 			print "<input size=\"20\"
+					onkeypress=\"return filterCR(event, createFilter)\"
 					name=\"action_param\">";
 			print "</span>";
 

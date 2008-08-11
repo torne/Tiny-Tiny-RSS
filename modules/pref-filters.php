@@ -79,6 +79,7 @@
 			print "<span id=\"filter_dlg_param_box\" style=\"$param_hidden\">";
 			print " " . __("with parameters:") . " ";
 			print "<input size=\"20\"
+					onkeypress=\"return filterCR(event, filterEditSave)\"		
 					name=\"action_param\" value=\"$action_param\">";
 			print "</span>";
 
