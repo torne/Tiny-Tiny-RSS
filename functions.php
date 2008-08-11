@@ -5647,10 +5647,14 @@
 	}
 
 	function get_score_pic($score) {
-		if ($score > 0) { 
+		if ($score > 100) { 
 			return "score_high.png"; 
-		} else if ($score < 0) {
+		} else if ($score > 0) { 
+			return "score_half_high.png"; 
+		} else if ($score < -100) {
 			return "score_low.png"; 
+		} else if ($score < 0) {
+			return "score_half_low.png"; 
 		} else { 
 			return "score_neutral.png"; 
 		}
