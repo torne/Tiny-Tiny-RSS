@@ -5007,7 +5007,7 @@
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\");' href='#'>mark as read</a>)";
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>mark as read</a>)";
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
@@ -5088,7 +5088,7 @@
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id, \"$cur_feed_title\");' href='#'>mark as read</a>)";
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>mark as read</a>)";
 
 							$has_feed_icon = is_file(ICONS_DIR . "/$feed_id.ico");
 

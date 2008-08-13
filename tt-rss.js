@@ -718,12 +718,20 @@ function catchupCurrentFeed() {
 	}
 }
 
-function catchupFeedInGroup(id, title) {
+function catchupFeedInGroup(id) {
 
-	var str = __("Mark all articles in %s as read?").replace("%s", title);
+	try {
 
-	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
-		return viewCurrentFeed('MarkAllReadGR:' + id)
+		var title = getFeedName(id);
+
+		var str = __("Mark all articles in %s as read?").replace("%s", title);
+
+		if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
+			return viewCurrentFeed('MarkAllReadGR:' + id)
+		}
+
+	} catch (e) {
+		exception_error("catchupFeedInGroup", e);
 	}
 }
 
