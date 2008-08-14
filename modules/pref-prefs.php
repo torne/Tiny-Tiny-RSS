@@ -227,7 +227,7 @@
 				$email = db_fetch_result($result, 0, "email");
 	
 				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
-				print "<td><input class=\"editbox\" name=\"email\" 
+				print "<td class=\"prefValue\"><input class=\"editbox\" name=\"email\" 
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserEmail)\"
@@ -259,7 +259,7 @@
 	 			print "<tr><td colspan='3'><h3>".__("Authentication")."</h3></tr></td>";
 	
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
-				print "<td><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
@@ -267,7 +267,7 @@
 	
 				print "<tr><td width=\"40%\">".__("New password")."</td>";
 				
-				print "<td><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
@@ -275,7 +275,7 @@
 
 				print "<tr><td width=\"40%\">".__("Confirm password")."</td>";
 
-				print "<td><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
 					onkeypress=\"return filterCR(event, changeUserPassword)\"
@@ -382,13 +382,13 @@
 				$def_value = $line["def_value"];
 				$help_text = $line["help_text"];
 
-				print "<td width=\"40%\" id=\"$pref_name\">" . __($line["short_desc"]);
+				print "<td width=\"40%\" class=\"prefName\" id=\"$pref_name\">" . __($line["short_desc"]);
 
 				if ($help_text) print "<div class=\"prefHelp\">".__($help_text)."</div>";
 				
 				print "</td>";
 
-				print "<td>";
+				print "<td class=\"prefValue\">";
 
 				if ($type_name == "bool") {
 //					print_select($pref_name, $value, array("true", "false"));
