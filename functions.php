@@ -5012,7 +5012,7 @@
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
 								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-								$line["feed_title"]."</a> $vf_catchup_link:</td></tr>";
+								$line["feed_title"]."</a> $vf_catchup_link</td></tr>";
 						}
 					}
 
@@ -5131,8 +5131,11 @@
 
 					print "<div class=\"cdmHeader\">";
 
-					print "<div class=\"articleUpdated\">$updated_fmt $score_pic
-						<span style=\"cursor : pointer\" onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>
+					if (!get_pref($link, "VFEED_GROUP_BY_FEED") || !$line["feed_title"]) {
+						$cdm_feed_icon = "<span style=\"cursor : pointer\" onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
+					}
+
+					print "<div class=\"articleUpdated\">$updated_fmt $score_pic $cdm_feed_icon
 						</div>";
 
 					print "<span id=\"RTITLE-$id\" class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
