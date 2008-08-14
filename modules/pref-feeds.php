@@ -104,13 +104,17 @@
 			}
 
 			if ($feedctr == 0) {
-				print "<li>".__('No feeds found to subscribe.')."</li>";
+				print "<li style=\"text-align : center\"><p>".__('No feeds found.')."</p></li>";
+				$subscribe_btn_disabled = "disabled";
+			} else {
+				$subscribe_btn_disabled = "";
 			}
 
 			print "</ul>";
 
 			print "<div align='center'>
 				<input type=\"submit\" class=\"button\" 
+				$subscribe_btn_disabled
 				onclick=\"feedBrowserSubscribe()\" value=\"".__('Subscribe')."\">
 				<input type='submit' class='button'			
 				onclick=\"closeInfoBox()\" value=\"".__('Cancel')."\"></div>";
