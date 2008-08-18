@@ -1850,6 +1850,45 @@ function hideReadHeadlines() {
 	} 
 }
 
+function invertHeadlineSelection() {
+	try {
+		var rows = new Array();
+		var r = false;
+		
+		if (!isCdmMode()) {		
+			r = document.getElementsByTagName("TR");
+		} else {
+			r = document.getElementsByTagName("DIV");
+		}
+
+		for (var i = 0; i < r.length; i++) {
+			if (r[i].id && r[i].id.match("RROW-")) {
+				rows.push(r[i]);
+			}
+		}
+		
+		for (var i = 0; i < rows.length; i++) {
+			var nc = rows[i].className;
+			var id = rows[i].id.replace("RROW-", "");
+			var cb = document.getElementById("RCHK-" + id);
+
+			if (!rows[i].className.match("Selected")) {
+				nc = nc + "Selected";
+				cb.checked = true;
+			} else {
+				nc = nc.replace("Selected", "");
+				cb.checked = false;
+			}
+
+			rows[i].className = nc;
+
+		}
+
+	} catch (e) {
+		exception_error("invertHeadlineSelection", e);
+	}
+}
+
 function getArticleUnderPointer() {
 	return post_under_pointer;
 }

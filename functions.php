@@ -3918,6 +3918,7 @@
 				$sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
 				$sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
 				$sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
+				$sel_inv_link = "javascript:invertHeadlineSelection()";
 
 				$tog_unread_link = "javascript:selectionToggleUnread()";
 				$tog_marked_link = "javascript:selectionToggleMarked()";
@@ -3928,6 +3929,8 @@
 				$sel_all_link = "javascript:cdmSelectArticles('all')";
 				$sel_unread_link = "javascript:cdmSelectArticles('unread')";
 				$sel_none_link = "javascript:cdmSelectArticles('none')";
+
+				$sel_inv_link = "javascript:invertHeadlineSelection()";
 
 				$tog_unread_link = "javascript:selectionToggleUnread(true)";
 				$tog_marked_link = "javascript:selectionToggleMarked(true)";
@@ -3945,6 +3948,7 @@
 						".__('Select:')."
 							<a href=\"$sel_all_link\">".__('All')."</a>,
 							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+							<a href=\"$sel_inv_link\">".__('Invert')."</a>,
 							<a href=\"$sel_none_link\">".__('None')."</a></li>
 						<li class=\"vsep\">&nbsp;</li>
 						<li class=\"top\">".__('Actions...')."<ul>
