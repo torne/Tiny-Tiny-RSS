@@ -473,6 +473,8 @@ function init_second_stage() {
 		ver_offset = parseInt(getCookie("ttrss_offset_ver"));
 		hor_offset = parseInt(getCookie("ttrss_offset_hor"));
 
+		debug("got offsets from cookies: ver " + ver_offset + " hor " + hor_offset);
+
 		/* fuck IE */
 
 		if (isNaN(hor_offset)) hor_offset = 0;
