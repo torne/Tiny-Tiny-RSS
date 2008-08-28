@@ -3516,7 +3516,7 @@
 		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
 
 			$res = strip_tags_long($res, 
-				"<p><a><i><em><b><strong><blockquote><br><img><ul><ol><li>");
+				"<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li>");
 
 //			$res = preg_replace("/\r\n|\n|\r/", "", $res);
 //			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
