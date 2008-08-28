@@ -74,7 +74,7 @@ div.postReply span.author {
 
 ul.feedList {
 	list-style-type : none;
-	margin : 5px;
+	margin : 5px 5px 5px 0px;
 	padding : 0px 0px 0px 5px;
 	font-size : 12px;
 	font-family : "Lucida Grande", Tahoma, Arial, sans-serif;
@@ -87,11 +87,12 @@ ul.feedList li.feedCat {
 	font-size : 12px;
 }
 
-ul.feedList li.feedCat a {
+ul.feedList li.feedCat span.catTitle {
 	color : #707070;
+	cursor : pointer;
 }
 
-ul.feedList li.feedCat a:hover {
+ul.feedList li.feedCat span.catTitle:hover {
 	color : #4684ff;
 }
 
@@ -108,7 +109,7 @@ ul.feedList li.feedCatSelected a {
 
 ul.feedCatList {
 	list-style-type : none;
-	margin : 0px 0px 0px 15px;
+	margin : 0px 0px 0px 20px;
 	padding : 0px;  
 }
 

@@ -4087,23 +4087,27 @@
 
 			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
 
-			print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-				<a id=\"FCATN-$cat_id\" href=\"javascript:toggleCollapseCat($cat_id)\">$tmp_category</a>";
-
 			if ($can_browse) {
-				print "<a href=\"#\" onclick=\"javascript:viewCategory($cat_id)\" id=\"FCAP-$cat_id\">";
+				$browse_cat_link = "onclick=\"javascript:viewCategory($cat_id)\"";
+				$inner_title_class = "catTitle";
 			} else {
-				print "<span id=\"FCAP-$cat_id\">";
+				$browse_cat_link = "";
+				$inner_title_class = "catTitleNL";
 			}
+
+			print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
+				<img onclick=\"toggleCollapseCat($cat_id)\"
+					title=\"".__('Click to collapse category')."\"
+					src=\"images/cat-collapse.png\"><span class=\"$inner_title_class\" 
+					id=\"FCATN-$cat_id\" $browse_cat_link
+				\">$tmp_category</span>";
+
+			print "<span id=\"FCAP-$cat_id\">";
 
 			print " <span id=\"FCATCTR-$cat_id\" 
 				class=\"$catctr_class\">($cat_unread)</span> $ellipsis";
 
-			if ($can_browse) {
-				print "</a>";
-			} else {
-				print "</span>";
-			}
+			print "</span>";
 
 			print "</li>";
 
