@@ -4096,7 +4096,7 @@
 			}
 
 			print "<li class=\"feedCat\" id=\"FCAT-$cat_id\">
-				<img onclick=\"toggleCollapseCat($cat_id)\"
+				<img onclick=\"toggleCollapseCat($cat_id)\" class=\"catCollapse\"
 					title=\"".__('Click to collapse category')."\"
 					src=\"images/cat-collapse.png\"><span class=\"$inner_title_class\" 
 					id=\"FCATN-$cat_id\" $browse_cat_link
