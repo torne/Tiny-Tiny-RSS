@@ -382,7 +382,7 @@ function feedlist_init() {
 
 		init_collapsable_feedlist(getInitParam("theme"));
 
-		Sortable.create('feedList', {onChange: feedlist_dragsorted});
+		Sortable.create('feedList', {onChange: feedlist_dragsorted, only: "feedCat"});
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
