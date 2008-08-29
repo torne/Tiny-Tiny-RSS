@@ -4234,9 +4234,9 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
-					$order_by_qpart = "category,unread DESC,title";
+					$order_by_qpart = "order_id,category,unread DESC,title";
 				} else {
-					$order_by_qpart = "category,title";
+					$order_by_qpart = "order_id,category,title";
 				}
 			} else {
 				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {

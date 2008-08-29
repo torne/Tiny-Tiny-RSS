@@ -316,6 +316,34 @@ function toggleCollapseCat(cat) {
 	}
 }
 
+function feedlist_dragsorted(ctr) {
+	try {
+		var elem = document.getElementById("feedList");
+
+		var cats = elem.getElementsByTagName("LI");
+		var ordered_cats = new Array();
+
+		for (var i = 0; i < cats.length; i++) {
+			if (cats[i].id && cats[i].id.match("FCAT-")) {
+				ordered_cats.push(cats[i].id.replace("FCAT-", ""));
+			}
+		}
+
+		if (ordered_cats.length > 0) {
+
+			var query = "backend.php?op=feeds&subop=catsort&corder=" + 
+				param_escape(ordered_cats.toString());
+
+			debug(query);
+
+			new Ajax.Request(query);
+		}
+
+	} catch (e) {
+		exception_error("feedlist_init", e);
+	}
+}
+
 function feedlist_init() {
 	try {
 //		if (arguments.callee.done) return;
@@ -354,7 +382,7 @@ function feedlist_init() {
 
 		init_collapsable_feedlist(getInitParam("theme"));
 
-		Sortable.create('feedList');
+		Sortable.create('feedList', {onChange: feedlist_dragsorted});
 
 	} catch (e) {
 		exception_error("feedlist/init", e);

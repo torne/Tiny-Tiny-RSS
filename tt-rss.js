@@ -601,6 +601,21 @@ function quickMenuGo(opid) {
 			resize_headlines();
 		}
 
+		if (opid == "qmcResetCats") {
+
+			if (confirm(__("Reset category order?"))) {
+
+				var query = "backend.php?op=feeds&subop=catsortreset";
+
+				notify_progress("Loading, please wait...", true);
+
+				new Ajax.Request(query, {
+					onComplete: function(transport) { 
+						window.setTimeout('updateFeedList(false, false)', 50);
+					} });
+			}
+		}
+
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}
