@@ -4179,7 +4179,7 @@
 			"images/pub_set.gif", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			print "</ul>";
+			print "</ul></li>";
 		}
 
 		if (!$tags) {
@@ -4351,7 +4351,7 @@
 				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
 				
 					if ($category) {
-						print "</ul>";
+						print "</ul></li>";
 					}
 				
 					$category = $tmp_category;
