@@ -4109,7 +4109,7 @@
 
 			print "</span>";
 
-			print "</li>";
+			//print "</li>";
 
 			print "<ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
 

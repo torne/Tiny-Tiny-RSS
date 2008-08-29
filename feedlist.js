@@ -354,6 +354,8 @@ function feedlist_init() {
 
 		init_collapsable_feedlist(getInitParam("theme"));
 
+		Sortable.create('feedList');
+
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}

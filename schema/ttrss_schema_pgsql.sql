@@ -48,6 +48,7 @@ insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
 create table ttrss_feed_categories(id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	collapsed boolean not null default false,
+	order_id integer not null default 0,
 	title varchar(200) not null);
 
 create table ttrss_feeds (id serial not null primary key,
@@ -189,7 +190,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (40);
+insert into ttrss_version values (41);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
