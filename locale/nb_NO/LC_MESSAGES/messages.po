@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-28 14:21+0400\n"
-"PO-Revision-Date: 2008-05-26 22:15+0100\n"
+"POT-Creation-Date: 2008-09-01 11:25+0400\n"
+"PO-Revision-Date: 2008-08-31 19:39+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
 "MIME-Version: 1.0\n"
@@ -44,9 +44,8 @@ msgid "3 months old"
 msgstr "3 måneder gammel"
 
 #: backend.php:117
-#, fuzzy
 msgid "Default interval"
-msgstr "Oppdateringsintervall:"
+msgstr "Standard intervall:"
 
 #: backend.php:118
 msgid "Disable updates"
@@ -104,23 +103,23 @@ msgstr "Superbruker"
 msgid "Administrator"
 msgstr "Administrator"
 
-#: backend.php:424 modules/pref-users.php:311
+#: backend.php:449 modules/pref-users.php:311
 msgid "Registered"
 msgstr "Registrert"
 
-#: backend.php:425
+#: backend.php:450
 msgid "Last logged in"
 msgstr "Sist innlogget"
 
-#: backend.php:426
+#: backend.php:451
 msgid "Stored articles"
 msgstr "Lagrede artikler"
 
-#: backend.php:433
+#: backend.php:458
 msgid "Subscribed feeds count"
 msgstr "Antall nyhetsstrømmer som abonneres på"
 
-#: backend.php:448
+#: backend.php:473
 msgid "Subscribed feeds"
 msgstr "Nyhetsstrømmer som abonneres på"
 
@@ -185,16 +184,16 @@ msgstr ""
 "Din utgave av MySQL er i øyeblikket ikke støttet. Vennligst besøk den \n"
 "\t\toffisielle siden for mer informasjon."
 
-#: functions.php:2570 functions.php:2934 functions.php:3310 functions.php:4165
+#: functions.php:2570 functions.php:2934 functions.php:3310 functions.php:4171
 msgid "Starred articles"
 msgstr "Favorittartikler"
 
-#: functions.php:2586 functions.php:2936 functions.php:3313 functions.php:4172
+#: functions.php:2586 functions.php:2936 functions.php:3313 functions.php:4178
 #: modules/pref-feeds.php:1158
 msgid "Published articles"
 msgstr "Publiserte artikler"
 
-#: functions.php:2602 functions.php:2938 functions.php:3316 functions.php:4150
+#: functions.php:2602 functions.php:2938 functions.php:3316 functions.php:4156
 msgid "Fresh articles"
 msgstr "Ferske artikler"
 
@@ -203,8 +202,8 @@ msgstr "Ferske artikler"
 msgid "All feeds"
 msgstr "Alle Nyhetsstrømmer"
 
-#: functions.php:2885 functions.php:2924 functions.php:3288 functions.php:4326
-#: functions.php:4356 modules/pref-feeds.php:989
+#: functions.php:2885 functions.php:2924 functions.php:3288 functions.php:4332
+#: functions.php:4362 modules/pref-feeds.php:989
 msgid "Uncategorized"
 msgstr "Ukategorisert"
 
@@ -225,7 +224,7 @@ msgstr "Søkeresultat"
 msgid "Searched for"
 msgstr "Søkte etter"
 
-#: functions.php:3948 functions.php:3998 functions.php:5249
+#: functions.php:3948 functions.php:3998 functions.php:5255
 #: modules/pref-feeds.php:770 modules/pref-feeds.php:951
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
 #: modules/pref-users.php:302
@@ -239,14 +238,13 @@ msgid "All"
 msgstr "Alle"
 
 #: functions.php:3950 functions.php:3956 functions.php:4000 functions.php:4003
-#: tt-rss.php:191
+#: tt-rss.php:192
 msgid "Unread"
 msgstr "Ulest"
 
 #: functions.php:3951
-#, fuzzy
 msgid "Invert"
-msgstr "(Motsatt)"
+msgstr "Motsatt"
 
 #: functions.php:3952 functions.php:4001 modules/pref-feeds.php:772
 #: modules/pref-feeds.php:953 modules/pref-filters.php:311
@@ -262,7 +260,7 @@ msgstr "Handlinger..."
 msgid "Selection toggle:"
 msgstr "Marker utvalg:"
 
-#: functions.php:3957 functions.php:4004 tt-rss.php:190
+#: functions.php:3957 functions.php:4004 tt-rss.php:191
 msgid "Starred"
 msgstr "Favoritter"
 
@@ -311,51 +309,51 @@ msgstr "Konverter til merkelapp"
 msgid "Generated feed"
 msgstr "Generert nyhetsstrøm"
 
-#: functions.php:4100
+#: functions.php:4106
 msgid "Click to collapse category"
-msgstr ""
+msgstr "Velg for å slå sammen kategorien"
 
-#: functions.php:4138
+#: functions.php:4144
 msgid "Dashboard"
 msgstr "Skrivebord"
 
-#: functions.php:4376
+#: functions.php:4382
 msgid "No feeds to display."
 msgstr "Ingen nyhetstrømmer å vise"
 
-#: functions.php:4393
+#: functions.php:4399
 msgid "Tags"
 msgstr "Tagger"
 
-#: functions.php:4619
+#: functions.php:4625
 msgid " - "
 msgstr "-"
 
-#: functions.php:4674
+#: functions.php:4680
 msgid "no tags"
 msgstr "Ingen tagger"
 
-#: functions.php:4705 functions.php:5199
+#: functions.php:4711 functions.php:5205
 msgid "Attachment:"
 msgstr "Vedlegg:"
 
-#: functions.php:4707 functions.php:5201
+#: functions.php:4713 functions.php:5207
 msgid "Attachments:"
 msgstr "Vedlegg:"
 
-#: functions.php:4717 functions.php:5210
+#: functions.php:4723 functions.php:5216
 msgid "unknown type"
 msgstr "Ukjent type"
 
-#: functions.php:4723 functions.php:5216
+#: functions.php:4729 functions.php:5222
 msgid "audio/mpeg"
-msgstr ""
+msgstr "Lyd/mpeg"
 
-#: functions.php:4799 modules/pref-feed-browser.php:75
+#: functions.php:4805 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "Nyhetsstrømmen ble ikke funnet"
 
-#: functions.php:4868
+#: functions.php:4874
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -363,74 +361,69 @@ msgstr ""
 "Kunne ikke vise nyhetsstrøm (spørring feilet). Vennligst sjekk "
 "merkelappsyntaksen eller lokal konfigurasjon."
 
-#: functions.php:4981
+#: functions.php:4987
 msgid "(Click to change)"
 msgstr "(Trykk for å endre)"
 
-#: functions.php:5179
+#: functions.php:5185
 msgid "Click to expand article"
 msgstr "Trykk for å utvide artikkel"
 
-#: functions.php:5316
+#: functions.php:5322
 msgid "No unread articles found to display."
 msgstr "Ingen uleste artikler funnet som kunne vises"
 
-#: functions.php:5319
+#: functions.php:5325
 msgid "No starred articles found to display."
 msgstr "Ingen markerte artikler som kan vises"
 
-#: functions.php:5322
+#: functions.php:5328
 msgid "No articles found to display."
 msgstr "Ingen artikler funnet som kan vises"
 
-#: functions.php:5688
-#, fuzzy
+#: functions.php:5694
 msgid "Match "
 msgstr "Match"
 
-#: functions.php:5696
-#, fuzzy
-msgid "Unread articles"
-msgstr "Lagrede artikler"
-
-#: functions.php:5697
-#, fuzzy
-msgid "Updated articles"
-msgstr "Lagrede artikler"
-
-#: functions.php:5698
-#, fuzzy
-msgid "Title contains"
-msgstr "Tittel eller innhold"
-
-#: functions.php:5699
-#, fuzzy
-msgid "Content contains"
-msgstr "Innholdsfilter"
-
-#: functions.php:5700
-msgid "Score equals"
-msgstr ""
-
-#: functions.php:5701
-msgid "Score is greater than"
-msgstr ""
-
 #: functions.php:5702
-msgid "Score is less than"
-msgstr ""
+msgid "Unread articles"
+msgstr "Uleste artikler"
 
 #: functions.php:5703
-msgid "Articles newer than X hours"
-msgstr ""
+msgid "Updated articles"
+msgstr "Oppdaterte artikler"
 
 #: functions.php:5704
-msgid "Articles newer than X days"
-msgstr ""
+msgid "Title contains"
+msgstr "Tittel inneholder"
 
-#: functions.php:5713
+#: functions.php:5705
+msgid "Content contains"
+msgstr "Innholdet inneholder"
+
+#: functions.php:5706
+msgid "Score equals"
+msgstr "Poeng er lik"
+
+#: functions.php:5707
+msgid "Score is greater than"
+msgstr "Fler poeng enn"
+
+#: functions.php:5708
+msgid "Score is less than"
+msgstr "Færre poeng enn"
+
+#: functions.php:5709
+msgid "Articles newer than X hours"
+msgstr "Artikler nyere enn X timer"
+
+#: functions.php:5710
+msgid "Articles newer than X days"
+msgstr "Artikler nyere enn X dager"
+
+#: functions.php:5719
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: localized_js.php:35
 msgid "display feeds"
@@ -638,7 +631,7 @@ msgstr "Kunne ikke oppdatere overskriftene (manglende XML objekt)."
 msgid "Could not display article (missing XML object)"
 msgstr "Kunne ikke vise artikkelen (manglende XML objekt)."
 
-#: localized_js.php:95 tt-rss.php:233 tt-rss.php:246
+#: localized_js.php:95 tt-rss.php:234 tt-rss.php:247
 msgid "No feed selected."
 msgstr "Ingen valgt nyhetsstrøm"
 
@@ -789,6 +782,10 @@ msgstr "Endre poengene for artiklene i %s?"
 #: localized_js.php:140
 msgid "Rescoring articles..."
 msgstr "Endrer poengsummen for artiklene..."
+
+#: localized_js.php:141
+msgid "Reset category order?"
+msgstr "Tilbakestill kategorirekkefølgen?"
 
 #: localized_schema.php:9 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:964 modules/pref-feeds.php:1025
@@ -1005,9 +1002,8 @@ msgid "Confirm marking feed as read"
 msgstr "Bekreft markeringen av nyhetsstrøm som lest"
 
 #: localized_schema.php:62
-#, fuzzy
 msgid "Enable feed icons"
-msgstr "Tillatt kategorisering av nyhetsstrømmer"
+msgstr "Bruk nyhetsstrømsikoner"
 
 #: localized_schema.php:63
 msgid "Enable labels"
@@ -1066,19 +1062,22 @@ msgstr "Vis snarveier selv om leste nyhetskanaler skjules"
 #: localized_schema.php:75
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
+"Foretrekk en mer treffsikker nyhetsstrømsliste i motsetning til hastighet på "
+"brukergrensesnittet."
 
 #: localized_schema.php:76
 msgid "Enable inline MP3 player"
-msgstr ""
+msgstr "Skru på den innebygde MP3-spilleren"
 
 #: localized_schema.php:77
 msgid ""
 "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 msgstr ""
+"Bruk den flashbaserte XSPF spilleren for å spille MP3-formaterte podcaster."
 
 #: localized_schema.php:78
 msgid "Do not show images in articles"
-msgstr ""
+msgstr "Ikke vis bilder i artiklene"
 
 #: login_form.php:103 modules/popup-dialog.php:107 modules/pref-feeds.php:285
 msgid "Login:"
@@ -1098,7 +1097,7 @@ msgstr "Logg inn"
 
 #: login_form.php:142
 msgid "Limit bandwidth usage"
-msgstr ""
+msgstr "Begrens båndbreddebruken"
 
 #: mysql_convert_unicode.php:28 update.php:28
 msgid "Your access level is insufficient to run this script."
@@ -1279,7 +1278,7 @@ msgstr "config: SESSION_EXPIRE_TIME er for lav (mindre enn 60)"
 #, fuzzy
 msgid "config: SESSION_EXPIRE_TIME should be greater or equal to"
 msgstr ""
-"Konfigurer: SESSION_EXPIRE_TIME må være høyere eller lavere enn "
+"Konfigurer: SESSION_EXPIRE_TIME må være høyere eller lik "
 "SESSION_COOKIE_LIFETIME"
 
 #: sanity_check.php:62
@@ -1377,43 +1376,47 @@ msgstr "&nbsp;&nbsp;Lag filter"
 msgid "&nbsp;&nbsp;Reset UI layout"
 msgstr "&nbsp;&nbsp;Tilbakestill de grafiske instillingene"
 
-#: tt-rss.php:161
+#: tt-rss.php:160
+msgid "&nbsp;&nbsp;Reset category order"
+msgstr "&nbsp;&nbsp;Endre rekkefølgen på kategoriene"
+
+#: tt-rss.php:162
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Tastatursnarveier"
 
-#: tt-rss.php:169
+#: tt-rss.php:170
 msgid "Collapse feedlist"
 msgstr "Skjul nyhetskanalsslisten"
 
-#: tt-rss.php:171
+#: tt-rss.php:172
 msgid "Toggle Feedlist"
 msgstr "Vis nyhetskanallisten"
 
-#: tt-rss.php:179
+#: tt-rss.php:180
 msgid "Search:"
 msgstr "Søk:"
 
-#: tt-rss.php:186
+#: tt-rss.php:187
 msgid "View:"
 msgstr "Vis:"
 
-#: tt-rss.php:188
+#: tt-rss.php:189
 msgid "Adaptive"
 msgstr "Tilpasset"
 
-#: tt-rss.php:189
+#: tt-rss.php:190
 msgid "All Articles"
 msgstr "Alle artikler"
 
-#: tt-rss.php:194
+#: tt-rss.php:195
 msgid "Limit:"
 msgstr "Antall:"
 
-#: tt-rss.php:219 modules/pref-feeds.php:251
+#: tt-rss.php:220 modules/pref-feeds.php:251
 msgid "Update"
 msgstr "Oppdater"
 
-#: tt-rss.php:237
+#: tt-rss.php:238
 msgid "Drag me to resize panels"
 msgstr "Dra i meg for å endre størrelsen på panelene."
 
@@ -1556,19 +1559,16 @@ msgstr ""
 "nyhetsstrømmen"
 
 #: modules/popup-dialog.php:61
-#, fuzzy
 msgid "Subscribe to Feed"
 msgstr "Abonner på nyhetsstrøm"
 
 #: modules/popup-dialog.php:73 modules/pref-feeds.php:171
-#, fuzzy
 msgid "URL:"
-msgstr "Nyhetsstrømsadresse:"
+msgstr "Nettadresse:"
 
 #: modules/popup-dialog.php:84 modules/pref-feeds.php:183
-#, fuzzy
 msgid "Place in category:"
-msgstr "Lagrer kategori..."
+msgstr "Plasser i kategori..."
 
 #: modules/popup-dialog.php:104 modules/pref-feeds.php:280
 #: modules/pref-prefs.php:259 modules/pref-users.php:44
@@ -1593,9 +1593,8 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: modules/popup-dialog.php:162
-#, fuzzy
 msgid "match on:"
-msgstr "Matcher:"
+msgstr "Match på:"
 
 #: modules/popup-dialog.php:167
 msgid "Title or content"
@@ -1603,14 +1602,13 @@ msgstr "Tittel eller innhold"
 
 #: modules/popup-dialog.php:172
 msgid "Limit search to:"
-msgstr ""
+msgstr "Begrens søket til:"
 
 #: modules/popup-dialog.php:188
 msgid "This feed"
 msgstr "Denne nyhetsstrømmen"
 
 #: modules/popup-dialog.php:223
-#, fuzzy
 msgid "Create Label"
 msgstr "Lag merkelapp"
 
@@ -1620,9 +1618,8 @@ msgid "Caption"
 msgstr "Overskrift"
 
 #: modules/popup-dialog.php:241 modules/pref-labels.php:46
-#, fuzzy
 msgid "Match SQL"
-msgstr "Match"
+msgstr "Match SQL"
 
 #: modules/popup-dialog.php:265 modules/pref-labels.php:68
 msgid "Help"
@@ -1637,7 +1634,6 @@ msgid "Create"
 msgstr "Lag"
 
 #: modules/popup-dialog.php:288
-#, fuzzy
 msgid "Create Filter"
 msgstr "Lag filter"
 
@@ -1652,29 +1648,25 @@ msgid "Match"
 msgstr "Match"
 
 #: modules/popup-dialog.php:366 modules/pref-filters.php:50
-#, fuzzy
 msgid "on field"
 msgstr "På felt:"
 
 #: modules/popup-dialog.php:371 modules/pref-filters.php:55
-#, fuzzy
 msgid "in"
-msgstr "Lenke"
+msgstr "i"
 
 #: modules/popup-dialog.php:376 modules/pref-filters.php:60
-#, fuzzy
 msgid "Perform Action"
-msgstr "Utfør oppdateringene"
+msgstr "Utfør handlingen"
 
 #: modules/popup-dialog.php:393 modules/pref-filters.php:80
 msgid "with parameters:"
-msgstr ""
+msgstr "med parametrene:"
 
 #: modules/popup-dialog.php:403 modules/pref-feeds.php:298
 #: modules/pref-filters.php:90 modules/pref-users.php:60
-#, fuzzy
 msgid "Options"
-msgstr "Valg:"
+msgstr "Alternativer:"
 
 #: modules/popup-dialog.php:409 modules/pref-filters.php:102
 msgid "Enabled"
@@ -1758,9 +1750,8 @@ msgid "Show"
 msgstr "Vis"
 
 #: modules/pref-feed-browser.php:172 modules/pref-feeds.php:107
-#, fuzzy
 msgid "No feeds found."
-msgstr "Ingen nyhetsstrømmer ble funnet for å abonneres på"
+msgstr "Ingen nyhetsstrømmer ble funnet."
 
 #: modules/pref-feeds.php:39
 msgid "Subscribed to feeds:"
@@ -1775,14 +1766,12 @@ msgid "Showing top 25 registered feeds, sorted by popularity:"
 msgstr "Viser topp 25 nyhetsstrømmer, sortert etter popularitet:"
 
 #: modules/pref-feeds.php:145
-#, fuzzy
 msgid "Feed Editor"
 msgstr "Nyhetsstrømsredigerer"
 
 #: modules/pref-feeds.php:200
-#, fuzzy
 msgid "Link to feed:"
-msgstr "Link til:"
+msgstr "Lenk til nyhetsstrøm:"
 
 #: modules/pref-feeds.php:217
 msgid "Not linked"
@@ -1790,7 +1779,7 @@ msgstr "Ikke linket til"
 
 #: modules/pref-feeds.php:265
 msgid "using"
-msgstr ""
+msgstr "bruker"
 
 #: modules/pref-feeds.php:275
 msgid "Article purging:"
@@ -1968,9 +1957,8 @@ msgid "Generate another link"
 msgstr "Genererer en ny adresse"
 
 #: modules/pref-filters.php:22
-#, fuzzy
 msgid "Filter Editor"
-msgstr "Filterredigering"
+msgstr "Filteradministrering"
 
 #: modules/pref-filters.php:169
 #, php-format
@@ -2034,7 +2022,7 @@ msgstr ""
 
 #: modules/pref-labels.php:99
 msgid "Error: SQL expression is blank."
-msgstr ""
+msgstr "Feil: SQL uttrykket er blankt."
 
 #: modules/pref-labels.php:179
 #, php-format
@@ -2163,24 +2151,20 @@ msgid "Your access level is insufficient to open this tab."
 msgstr "Adgangsnivået ditt er for lavt for å åpne denne siden."
 
 #: modules/pref-users.php:17
-#, fuzzy
 msgid "User Editor"
 msgstr "Brukeradministrering"
 
 #: modules/pref-users.php:47
-#, fuzzy
 msgid "Access level: "
 msgstr "Tilgangsnivå:"
 
 #: modules/pref-users.php:54
-#, fuzzy
 msgid "Change password to"
-msgstr "Endre passord"
+msgstr "Endre passordet til"
 
 #: modules/pref-users.php:63
-#, fuzzy
 msgid "E-mail: "
-msgstr "E-post:"
+msgstr "E-post: "
 
 #: modules/pref-users.php:99
 #, php-format
@@ -2252,6 +2236,20 @@ msgstr "Ingen brukere er valgt"
 msgid "No matching users found."
 msgstr "Ingen matchende brukere ble funnet"
 
+#~ msgid ""
+#~ "This program requires XmlHttpRequest to function properly. Your browser "
+#~ "doesn't seem to support it."
+#~ msgstr ""
+#~ "Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
+#~ "nettleser ser ikke ut til å støtte dette."
+
+#~ msgid ""
+#~ "This program requires cookies to function properly. Your browser doesn't "
+#~ "seem to support them."
+#~ msgstr ""
+#~ "Dette programmet krever cookies for å fungere ordentlig. Din nettleser "
+#~ "ser ikke ut til å støtte dette."
+
 #~ msgid "Enable icons in feedlist"
 #~ msgstr "Tillat ikoner i nyhetsstrømslisten"
 
@@ -2287,20 +2285,6 @@ msgstr "Ingen matchende brukere ble funnet"
 
 #~ msgid "Change password:"
 #~ msgstr "Bytt passord:"
-
-#~ msgid ""
-#~ "This program requires XmlHttpRequest to function properly. Your browser "
-#~ "doesn't seem to support it."
-#~ msgstr ""
-#~ "Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
-#~ "nettleser ser ikke ut til å støtte dette."
-
-#~ msgid ""
-#~ "This program requires cookies to function properly. Your browser doesn't "
-#~ "seem to support them."
-#~ msgstr ""
-#~ "Dette programmet krever cookies for å fungere ordentlig. Din nettleser "
-#~ "ser ikke ut til å støtte dette."
 
 #~ msgid "Show article"
 #~ msgstr "Vis artikkelen"
