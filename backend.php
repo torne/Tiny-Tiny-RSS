@@ -227,6 +227,8 @@
 
 			if ($mode == "") {
 				outputArticleXML($link, $id, $feed_id);
+			} else if ($mode == "zoom") {
+				outputArticleXML($link, $id, $feed_id, true, true);
 			} else {
 				catchupArticleById($link, $id, 0);
 			}

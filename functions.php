@@ -4533,7 +4533,8 @@
 		return vsprintf(__(array_shift($args)), $args);
 	}
 
-	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true) {
+	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true,
+		$zoom_mode = false) {
 
 		/* we can figure out feed_id from article id anyway, why do we
 		 * pass feed_id here? */
@@ -4543,7 +4544,7 @@
 
 		$feed_id = db_fetch_result($result, 0, "feed_id");
 
-		print "<article id='$id'><![CDATA[";
+		if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
 		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -4614,6 +4615,15 @@
 				}				
 			}
 
+			if ($zoom_mode) {
+				header("Content-Type: text/html");
+				print "<html><head>
+						<title>Tiny Tiny RSS - ".$line["title"]."</title>
+						<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss.css\">
+					</head><body>";
+			}
+
+
 			print "<div class=\"postReply\">";
 
 			print "<div class=\"postHeader\" onmouseover=\"enable_resize(true)\" 
@@ -4644,6 +4654,7 @@
 			$tags = get_article_tags($link, $id);
 	
 			$tags_str = "";
+			$tags_nolinks_str = "";
 			$f_tags_str = "";
 
 			$num_tags = 0;
@@ -4662,14 +4673,17 @@
 				
 				if ($num_tags == $tag_limit) {
 					$tags_str .= "&hellip;";
+					$tags_nolinks_str .= "&hellip;";
 
 				} else if ($num_tags < $tag_limit) {
 					$tags_str .= $tag_str;
+					$tags_nolinks_str .= "$tag, ";
 				}
 				$f_tags_str .= $tag_str;
 			}
 
 			$tags_str = preg_replace("/, $/", "", $tags_str);
+			$tags_nolinks_str = preg_replace("/, $/", "", $tags_nolinks_str);
 			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
 
 			$all_tags_div = "<span class='cdmAllTagsCtr'>&hellip;<div class='cdmAllTags'>All Tags: $f_tags_str</div></span>";
@@ -4678,13 +4692,24 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			if (!$tags_str) $tags_str = '<span class="tagList">'.__('no tags').'</span>';
+			if (!$tags_nolinks_str) $tags_nolinks_str = '<span class="tagList">'.__('no tags').'</span>';
 
 			print "<div style='float : right'>
-				<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>
-				$tags_str 
-				<a title=\"Edit tags for this article\" 
-					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a></div>
-				<div clear='both'>$entry_comments</div>";
+					<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>";
+
+			if (!$zoom_mode) {
+				print "$tags_str 
+					<a title=\"".__('Edit tags for this article')."\" 
+						href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>				
+					<img src=\"images/art-zoom.png\" class='tagsPic' 
+						style=\"cursor : pointer\"
+						onclick=\"zoomToArticle($id)\"
+						alt='Zoom' title='".__('Show article summary in new window')."'>";
+			} else {
+				print "$tags_nolinks_str";
+			}
+			print "</div>";
+			print "<div clear='both'>$entry_comments</div>";
 
 			print "</div>";
 
@@ -4750,7 +4775,16 @@
 
 		}
 
-		print "]]></article>";
+		if (!$zoom_mode) { 
+			print "]]></article>"; 
+		} else {
+			print "
+				<div style=\"text-align : center\">
+				<input type=\"submit\" onclick=\"return window.close()\" 
+				value=\"".__("Close this window")."\"></div>";
+			print "</body></html>";
+
+		}
 
 	}
 
@@ -5258,6 +5292,11 @@
 
 					print "</span><span class='s1'>$marked_pic</span> ";
 					print "<span class='s1'>$published_pic</span> ";
+					print "<span class='s1'><img src=\"images/art-zoom.png\" class='tagsPic' 
+						onclick=\"zoomToArticle($id)\"
+						style=\"cursor : pointer\"
+						alt='Zoom' 
+						title='".__('Show article summary in new window')."'></span>";
 
 					$tags = get_article_tags($link, $id);
 

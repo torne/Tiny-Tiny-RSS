@@ -1892,3 +1892,14 @@ function invertHeadlineSelection() {
 function getArticleUnderPointer() {
 	return post_under_pointer;
 }
+
+function zoomToArticle(id) {
+	try {
+		var w = window.open("backend.php?op=view&mode=zoom&id=" + param_escape(id), 
+			"ttrss_zoom_" + id,
+			"status=0,toolbar=0,location=0,width=450,height=300,scrollbars=1,menubar=0");
+
+	} catch (e) {
+		exception_error("zoomToArticle", e);
+	}
+}
