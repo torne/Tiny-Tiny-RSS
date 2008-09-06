@@ -28,6 +28,7 @@
 
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c s</td><td><?php echo __("Collapse sidebar") ?></td></tr>
+		<tr><td class='n'>c m</td><td><?php echo __("Toggle category reordering mode") ?></td></tr>
 		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>
 	</table>
 

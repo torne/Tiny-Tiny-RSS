@@ -18,6 +18,11 @@ var init_params = new Object();
 var ver_offset = 0;
 var hor_offset = 0;
 var feeds_sort_by_unread = false;
+var feedlist_sortable_enabled = false;
+
+function isFeedlistSortable() {
+	return feedlist_sortable_enabled;
+}
 
 function tagsAreDisplayed() {
 	return display_tags;
@@ -1312,6 +1317,17 @@ function hotkey_handler(e) {
 				if (typeof collapse_feedlist != 'undefined') {
 					collapse_feedlist();
 					return false;
+				}
+			}
+
+			if (keycode == 77) { // m
+				feedlist_sortable_enabled = !feedlist_sortable_enabled;
+				if (feedlist_sortable_enabled) {
+					notify_info("Category reordering enabled");
+					toggle_sortable_feedlist(true);
+				} else {
+					notify_info("Category reordering disabled");
+					toggle_sortable_feedlist(false);
 				}
 			}
 

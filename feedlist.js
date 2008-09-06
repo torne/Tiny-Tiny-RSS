@@ -10,6 +10,20 @@ var mouse_x = 0;
 var resize_enabled = false;
 var counters_last_request = 0;
 
+function toggle_sortable_feedlist(enabled) {
+	try {
+
+		if (enabled) {
+			Sortable.create('feedList', {onChange: feedlist_dragsorted, only: "feedCat"});
+		} else {
+			Sortable.destroy('feedList');
+		}
+
+	} catch (e) {
+		exception_error("toggle_sortable_feedlist", e);
+	}
+}
+
 function viewCategory(cat) {
 	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
@@ -382,7 +396,7 @@ function feedlist_init() {
 
 		init_collapsable_feedlist(getInitParam("theme"));
 
-		Sortable.create('feedList', {onChange: feedlist_dragsorted, only: "feedCat"});
+		toggle_sortable_feedlist(isFeedlistSortable());
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
