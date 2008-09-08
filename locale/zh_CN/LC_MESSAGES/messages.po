@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-01 11:25+0400\n"
+"POT-Creation-Date: 2008-09-08 11:18+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -102,26 +102,26 @@ msgstr ""
 msgid "Administrator"
 msgstr "管理员"
 
-#: backend.php:449 modules/pref-users.php:311
+#: backend.php:451 modules/pref-users.php:311
 msgid "Registered"
 msgstr ""
 
-#: backend.php:450
+#: backend.php:452
 #, fuzzy
 msgid "Last logged in"
 msgstr "最后登陆"
 
-#: backend.php:451
+#: backend.php:453
 #, fuzzy
 msgid "Stored articles"
 msgstr "星级文章"
 
-#: backend.php:458
+#: backend.php:460
 #, fuzzy
 msgid "Subscribed feeds count"
 msgstr "订阅feed:"
 
-#: backend.php:473
+#: backend.php:475
 #, fuzzy
 msgid "Subscribed feeds"
 msgstr "订阅feed:"
@@ -223,7 +223,7 @@ msgstr "搜索结果"
 msgid "Searched for"
 msgstr "搜索"
 
-#: functions.php:3948 functions.php:3998 functions.php:5255
+#: functions.php:3948 functions.php:3998 functions.php:5289
 #: modules/pref-feeds.php:770 modules/pref-feeds.php:951
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
 #: modules/pref-users.php:302
@@ -327,112 +327,126 @@ msgstr "无feed显示。"
 msgid "Tags"
 msgstr "标签"
 
-#: functions.php:4625
+#: functions.php:4635
 #, fuzzy
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4680
+#: functions.php:4694 functions.php:4695
 msgid "no tags"
 msgstr "无标签"
 
-#: functions.php:4711 functions.php:5205
+#: functions.php:4702
+msgid "Edit tags for this article"
+msgstr ""
+
+#: functions.php:4707 functions.php:5299
+#, fuzzy
+msgid "Show article summary in new window"
+msgstr "新窗口打开文章连结"
+
+#: functions.php:4736 functions.php:5239
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4713 functions.php:5207
+#: functions.php:4738 functions.php:5241
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4723 functions.php:5216
+#: functions.php:4748 functions.php:5250
 #, fuzzy
 msgid "unknown type"
 msgstr "未知错误"
 
-#: functions.php:4729 functions.php:5222
+#: functions.php:4754 functions.php:5256
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4805 modules/pref-feed-browser.php:75
+#: functions.php:4784 modules/help.php:22 modules/popup-dialog.php:52
+#: modules/popup-dialog.php:548 modules/pref-feeds.php:821
+msgid "Close this window"
+msgstr "关闭此窗口"
+
+#: functions.php:4839 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "未找到Feed."
 
-#: functions.php:4874
+#: functions.php:4908
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:4987
+#: functions.php:5021
 msgid "(Click to change)"
 msgstr ""
 
-#: functions.php:5185
+#: functions.php:5219
 #, fuzzy
 msgid "Click to expand article"
 msgstr "星级文章"
 
-#: functions.php:5322
+#: functions.php:5361
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5325
+#: functions.php:5364
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5328
+#: functions.php:5367
 #, fuzzy
 msgid "No articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5694
+#: functions.php:5733
 #, fuzzy
 msgid "Match "
 msgstr "匹配"
 
-#: functions.php:5702
+#: functions.php:5741
 #, fuzzy
 msgid "Unread articles"
 msgstr "星级文章"
 
-#: functions.php:5703
+#: functions.php:5742
 #, fuzzy
 msgid "Updated articles"
 msgstr "星级文章"
 
-#: functions.php:5704
+#: functions.php:5743
 #, fuzzy
 msgid "Title contains"
 msgstr "标题或内容"
 
-#: functions.php:5705
+#: functions.php:5744
 #, fuzzy
 msgid "Content contains"
 msgstr "内容过滤器"
 
-#: functions.php:5706
+#: functions.php:5745
 msgid "Score equals"
 msgstr ""
 
-#: functions.php:5707
+#: functions.php:5746
 msgid "Score is greater than"
 msgstr ""
 
-#: functions.php:5708
+#: functions.php:5747
 msgid "Score is less than"
 msgstr ""
 
-#: functions.php:5709
+#: functions.php:5748
 msgid "Articles newer than X hours"
 msgstr ""
 
-#: functions.php:5710
+#: functions.php:5749
 msgid "Articles newer than X days"
 msgstr ""
 
-#: functions.php:5719
+#: functions.php:5758
 msgid "Add"
 msgstr ""
 
@@ -811,6 +825,14 @@ msgstr "星级文章"
 #, fuzzy
 msgid "Reset category order?"
 msgstr "移除选定分类?"
+
+#: localized_js.php:142
+msgid "Category reordering enabled"
+msgstr ""
+
+#: localized_js.php:143
+msgid "Category reordering disabled"
+msgstr ""
 
 #: localized_schema.php:9 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:964 modules/pref-feeds.php:1025
@@ -1469,11 +1491,6 @@ msgstr ""
 #: modules/help.php:17
 msgid "Help topic not found."
 msgstr "未找到帮助主题。"
-
-#: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:548 modules/pref-feeds.php:821
-msgid "Close this window"
-msgstr "关闭此窗口"
 
 #: modules/opml_domdoc.php:54
 #, php-format

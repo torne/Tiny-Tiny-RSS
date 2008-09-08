@@ -139,8 +139,8 @@ print T_js_decl("You can't rescore this kind of feed.");
 print T_js_decl("Rescore articles in %s?");
 print T_js_decl("Rescoring articles...");
 print T_js_decl("Reset category order?");
-#print T_js_decl(
-#print T_js_decl(
+print T_js_decl("Category reordering enabled");
+print T_js_decl("Category reordering disabled");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(

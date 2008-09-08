@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-01 11:25+0400\n"
+"POT-Creation-Date: 2008-09-08 11:18+0400\n"
 "PO-Revision-Date: 2008-02-03 22:22::+0100\n"
 "Last-Translator: MiszterX <miszterx@miszterx.hu>\n"
 "Language-Team: HUNGARIAN <miszterx@miszterx.hu>\n"
@@ -106,23 +106,23 @@ msgstr ""
 msgid "Administrator"
 msgstr "Adminisztrátor"
 
-#: backend.php:449 modules/pref-users.php:311
+#: backend.php:451 modules/pref-users.php:311
 msgid "Registered"
 msgstr "Regisztrált"
 
-#: backend.php:450
+#: backend.php:452
 msgid "Last logged in"
 msgstr "Utolsó belépés"
 
-#: backend.php:451
+#: backend.php:453
 msgid "Stored articles"
 msgstr "Tárolt hírek"
 
-#: backend.php:458
+#: backend.php:460
 msgid "Subscribed feeds count"
 msgstr ""
 
-#: backend.php:473
+#: backend.php:475
 msgid "Subscribed feeds"
 msgstr "Feliratkozott feedek"
 
@@ -220,7 +220,7 @@ msgstr "Keresési találatok"
 msgid "Searched for"
 msgstr ""
 
-#: functions.php:3948 functions.php:3998 functions.php:5255
+#: functions.php:3948 functions.php:3998 functions.php:5289
 #: modules/pref-feeds.php:770 modules/pref-feeds.php:951
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
 #: modules/pref-users.php:302
@@ -324,111 +324,124 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions.php:4625
+#: functions.php:4635
 msgid " - "
 msgstr ""
 
-#: functions.php:4680
+#: functions.php:4694 functions.php:4695
 msgid "no tags"
 msgstr ""
 
-#: functions.php:4711 functions.php:5205
+#: functions.php:4702
+msgid "Edit tags for this article"
+msgstr ""
+
+#: functions.php:4707 functions.php:5299
+msgid "Show article summary in new window"
+msgstr ""
+
+#: functions.php:4736 functions.php:5239
 msgid "Attachment:"
 msgstr "Csatolmány:"
 
-#: functions.php:4713 functions.php:5207
+#: functions.php:4738 functions.php:5241
 msgid "Attachments:"
 msgstr "Csatolmányok:"
 
-#: functions.php:4723 functions.php:5216
+#: functions.php:4748 functions.php:5250
 #, fuzzy
 msgid "unknown type"
 msgstr "Ismeretlen hiba"
 
-#: functions.php:4729 functions.php:5222
+#: functions.php:4754 functions.php:5256
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4805 modules/pref-feed-browser.php:75
+#: functions.php:4784 modules/help.php:22 modules/popup-dialog.php:52
+#: modules/popup-dialog.php:548 modules/pref-feeds.php:821
+msgid "Close this window"
+msgstr ""
+
+#: functions.php:4839 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "Feed nem található"
 
-#: functions.php:4874
+#: functions.php:4908
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr ""
 
-#: functions.php:4987
+#: functions.php:5021
 msgid "(Click to change)"
 msgstr ""
 
-#: functions.php:5185
+#: functions.php:5219
 #, fuzzy
 msgid "Click to expand article"
 msgstr "Tárolt hírek"
 
-#: functions.php:5322
+#: functions.php:5361
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "Nincs megjeleníthető hír"
 
-#: functions.php:5325
+#: functions.php:5364
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "Nincs megjeleníthető hír"
 
-#: functions.php:5328
+#: functions.php:5367
 #, fuzzy
 msgid "No articles found to display."
 msgstr "Nincs megjeleníthető hír"
 
-#: functions.php:5694
+#: functions.php:5733
 #, fuzzy
 msgid "Match "
 msgstr "Egyezés"
 
-#: functions.php:5702
+#: functions.php:5741
 #, fuzzy
 msgid "Unread articles"
 msgstr "Tárolt hírek"
 
-#: functions.php:5703
+#: functions.php:5742
 #, fuzzy
 msgid "Updated articles"
 msgstr "Tárolt hírek"
 
-#: functions.php:5704
+#: functions.php:5743
 #, fuzzy
 msgid "Title contains"
 msgstr "Cím vagy tartalom"
 
-#: functions.php:5705
+#: functions.php:5744
 #, fuzzy
 msgid "Content contains"
 msgstr "Tartalomszűrő"
 
-#: functions.php:5706
+#: functions.php:5745
 msgid "Score equals"
 msgstr ""
 
-#: functions.php:5707
+#: functions.php:5746
 msgid "Score is greater than"
 msgstr ""
 
-#: functions.php:5708
+#: functions.php:5747
 msgid "Score is less than"
 msgstr ""
 
-#: functions.php:5709
+#: functions.php:5748
 msgid "Articles newer than X hours"
 msgstr ""
 
-#: functions.php:5710
+#: functions.php:5749
 msgid "Articles newer than X days"
 msgstr ""
 
-#: functions.php:5719
+#: functions.php:5758
 msgid "Add"
 msgstr ""
 
@@ -797,6 +810,14 @@ msgstr "Tárolt hírek"
 #, fuzzy
 msgid "Reset category order?"
 msgstr "Kiválasztott kategória eltávolítása?"
+
+#: localized_js.php:142
+msgid "Category reordering enabled"
+msgstr ""
+
+#: localized_js.php:143
+msgid "Category reordering disabled"
+msgstr ""
 
 #: localized_schema.php:9 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:964 modules/pref-feeds.php:1025
@@ -1433,11 +1454,6 @@ msgstr ""
 
 #: modules/help.php:17
 msgid "Help topic not found."
-msgstr ""
-
-#: modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:548 modules/pref-feeds.php:821
-msgid "Close this window"
 msgstr ""
 
 #: modules/opml_domdoc.php:54
