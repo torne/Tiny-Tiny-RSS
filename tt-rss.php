@@ -192,7 +192,7 @@ window.onload = init;
 			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
 		</select>
 
-		<?php echo __('Order by:') ?>
+		<?php echo __('Order:') ?>
 
 		<select name="order_by" onchange="viewModeChanged()">
 			<option selected value="default"><?php echo __('Default') ?></option>
