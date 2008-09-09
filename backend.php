@@ -271,9 +271,11 @@
 			$offset = db_escape_string($_GET["skip"]);
 			$vgroup_last_feed = db_escape_string($_GET["vgrlf"]);
 			$csync = $_GET["csync"];
+			$order_by = db_escape_string($_GET["order_by"]);
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
+			set_pref($link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
 
 			if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
 				db_query($link, "UPDATE ttrss_feeds SET last_viewed = NOW()
@@ -287,10 +289,30 @@
 				generate_dashboard_feed($link);
 
 			} else {
+				
+				$override_order = false;
+
+				switch ($order_by) {
+					case "date":
+						if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+							$override_order = "updated";
+						} else {	
+							$override_order = "updated DESC";
+						}
+						break;
+
+					case "title":
+						$override_order = "updated DESC";
+						break;
+
+					case "score":
+						$override_order = "score DESC";
+						break;
+				}
 
 				$ret = outputHeadlinesList($link, $feed, $subop, 
 					$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
-					$vgroup_last_feed);
+					$vgroup_last_feed, $override_order);
 	
 				$topmost_article_ids = $ret[0];
 				$headlines_count = $ret[1];

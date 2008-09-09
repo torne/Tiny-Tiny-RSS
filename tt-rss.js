@@ -464,6 +464,7 @@ function init_second_stage() {
 
 		dropboxSelect(toolbar.view_mode, getInitParam("default_view_mode"));
 		dropboxSelect(toolbar.limit, getInitParam("default_view_limit"));
+		dropboxSelect(toolbar.order_by, getInitParam("default_view_order_by"));
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;

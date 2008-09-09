@@ -184,14 +184,24 @@ window.onload = init;
 
 		<?php } ?>
 
-		<?php echo __('View:') ?>
 		<select name="view_mode" onchange="viewModeChanged()">
 			<option selected value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
 			<option value="unread"><?php echo __('Unread') ?></option>
+			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
 		</select>
-		
+
+		<?php echo __('Order by:') ?>
+
+		<select name="order_by" onchange="viewModeChanged()">
+			<option selected value="default"><?php echo __('Default') ?></option>
+			<option value="date"><?php echo __('Date') ?></option>
+			<option value="title"><?php echo __('Title') ?></option>
+			<option value="score"><?php echo __('Score') ?></option>
+		</select>
+
+
 		<?php echo __('Limit:') ?>
 		<?php
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");

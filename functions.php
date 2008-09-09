@@ -3003,6 +3003,9 @@
 		print "<param key=\"default_view_limit\" value=\"" . 
 			(int) get_pref($link, "_DEFAULT_VIEW_LIMIT") . "\"/>";
 
+		print "<param key=\"default_view_order_by\" value=\"" . 
+			get_pref($link, "_DEFAULT_VIEW_ORDER_BY") . "\"/>";
+
 		print "<param key=\"prefs_active_tab\" value=\"" . 
 			get_pref($link, "_PREFS_ACTIVE_TAB") . "\"/>";
 
@@ -3127,7 +3130,7 @@
 
 			$view_query_part = "";
 	
-			if ($view_mode == "adaptive") {
+			if ($view_mode == "adaptive" || $view_query_part == "noscores") {
 				if ($search) {
 					$view_query_part = " ";
 				} else if ($feed != -1) {
@@ -3262,7 +3265,9 @@
 				$order_by = "updated DESC";
 			}
 
-			$order_by = "score DESC, $order_by";
+			if ($view_mode != "noscores") {
+				$order_by = "score DESC, $order_by";
+			}
 
 			if ($override_order) {
 				$order_by = $override_order;
@@ -4789,7 +4794,8 @@
 	}
 
 	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
-					$next_unread_feed, $offset, $vgr_last_feed = false) {
+					$next_unread_feed, $offset, $vgr_last_feed = false, 
+					$override_order = false) {
 
 		$disable_cache = false;
 
@@ -4884,7 +4890,7 @@
 		if ($_GET["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
-			$search, $search_mode, $match_on, false, $real_offset);
+			$search, $search_mode, $match_on, $override_order, $real_offset);
 
 		if ($_GET["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
