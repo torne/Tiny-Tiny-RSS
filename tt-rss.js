@@ -1134,15 +1134,26 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (shift_key && (keycode == 78 || keycode == 40)) { // shift - n, down
+			if (shift_key && keycode == 40) { // shift-down
 				catchupRelativeToArticle(1);
 				return;
 			}
 
-			if (shift_key && (keycode == 80 || keycode == 38)) { // shift - p, up
+			if (shift_key && keycode == 38) { // shift-up
 				catchupRelativeToArticle(0);
 				return;
 			}
+
+			if (shift_key && keycode == 78) { // N
+				scrollArticle(50);	
+				return;
+			}
+
+			if (shift_key && keycode == 80) { // P
+				scrollArticle(-50);	
+				return;
+			}
+
 
 			if (keycode == 78 || keycode == 40) { // n, down
 				if (typeof moveToPost != 'undefined') {
@@ -1331,6 +1342,17 @@ function hotkey_handler(e) {
 					toggle_sortable_feedlist(false);
 				}
 			}
+
+			if (keycode == 78) { // n
+				catchupRelativeToArticle(1);
+				return;
+			}
+
+			if (keycode == 80) { // p
+				catchupRelativeToArticle(0);
+				return;
+			}
+
 
 		}
 

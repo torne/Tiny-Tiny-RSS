@@ -1903,3 +1903,22 @@ function zoomToArticle(id) {
 		exception_error("zoomToArticle", e);
 	}
 }
+
+function scrollArticle(offset) {
+	try {
+		if (!isCdmMode()) {
+			var ci = document.getElementById("content-insert");
+			if (ci) {
+				ci.scrollTop += offset;
+			}
+		} else {
+			var hi = document.getElementById("headlinesInnerContainer");
+			if (hi) {
+				hi.scrollTop += offset;
+			}
+
+		}
+	} catch (e) {
+		exception_error("scrollArticle", e);
+	}
+}
