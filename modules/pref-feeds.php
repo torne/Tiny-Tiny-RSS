@@ -674,7 +674,7 @@
 					}
 
 					if ($qpart) {
-						print(
+						db_query($link,
 							"UPDATE ttrss_feeds SET $qpart WHERE id IN ($feed_ids)
 							AND owner_uid = " . $_SESSION["uid"]);
 						print "<br/>";
@@ -1389,7 +1389,7 @@
 		print "<h3>" . __("Firefox Integration") . "</h3>";
                 
                 print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.');
-		print "</p><p> <a class='visibleLink' href='javascript:window.navigator.registerContentHandler(" .
+		print "</p><p> <a class='visibleLinkB' href='javascript:window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
                       "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
                       __('Click here to register this site as a feed reader.') . "</a></p>";
@@ -1405,7 +1405,7 @@
 
 		$url_path = article_publish_url($link);
 
-		print "<p><a class=\"visibleLink\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">Link to published articles feed.</a></p>";		
+		print "<p><a class=\"visibleLinkB\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">Link to published articles feed.</a></p>";		
 
 		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" class=\"button\"
 			value=\"".__('Generate another link')."\">";
