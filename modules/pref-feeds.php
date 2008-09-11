@@ -655,6 +655,14 @@
 							$qpart = "include_in_digest = '$include_in_digest'";
 							break;
 
+						case "cache_images":
+							$qpart = "cache_images = '$cache_images'";
+							break;
+
+						case "rtl_content":
+							$qpart = "rtl_content = '$rtl_content'";
+							break;
+
 						case "update_method":
 							$qpart = "update_method = '$update_method'";
 							break;

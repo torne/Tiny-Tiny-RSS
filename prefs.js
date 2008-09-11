@@ -2250,11 +2250,41 @@ function feedsEditSave() {
 			return
 		}
 
-		var ok = confirm(__("Save changes to selected feeds?"));
+//		var ok = confirm(__("Save changes to selected feeds?"));
+		var ok = true;
 
 		if (ok) {
 
+			var f = document.forms["batch_edit_feed_form"];
+
 			var query = Form.serialize("batch_edit_feed_form");
+
+			/* Form.serialize ignores unchecked checkboxes */
+
+			if (!query.match("hidden=") && 
+					f.hidden.disabled == false) {
+				query = query + "&hidden=false";
+			}
+
+			if (!query.match("rtl_content=") && 
+					f.rtl_content.disabled == false) {
+				query = query + "&rtl_content=false";
+			}
+
+			if (!query.match("private=") && 
+					f.private.disabled == false) {
+				query = query + "&private=false";
+			}
+
+			if (!query.match("cache_images=") && 
+					f.cache_images.disabled == false) {
+				query = query + "&cache_images=false";
+			}
+
+			if (!query.match("include_in_digest=") && 
+					f.include_in_digest.disabled == false) {
+				query = query + "&include_in_digest=false";
+			}
 	
 			closeInfoBox();
 	
