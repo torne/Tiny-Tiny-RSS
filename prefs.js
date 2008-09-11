@@ -2250,9 +2250,21 @@ function feedsEditSave() {
 			return
 		}
 
-		var query = Form.serialize("batch_edit_feed_form");
+		var ok = confirm(__("Save changes to selected feeds?"));
 
-		alert(query);
+		if (ok) {
+
+			var query = Form.serialize("batch_edit_feed_form");
+	
+			closeInfoBox();
+	
+			notify_progress("Saving feeds...");
+	
+			xmlhttp.open("POST", "backend.php", true);
+			xmlhttp.onreadystatechange=feedlist_callback;
+			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlhttp.send(query);
+		}
 
 		return false;
 	} catch (e) {

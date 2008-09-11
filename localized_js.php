@@ -141,8 +141,8 @@ print T_js_decl("Rescoring articles...");
 print T_js_decl("Reset category order?");
 print T_js_decl("Category reordering enabled");
 print T_js_decl("Category reordering disabled");
-#print T_js_decl(
-#print T_js_decl(
+print T_js_decl("Save changes to selected feeds?");
+print T_js_decl("Saving feeds...");
 #print T_js_decl(
 #print T_js_decl(
 #print T_js_decl(

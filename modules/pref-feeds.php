@@ -387,11 +387,9 @@
 
 			$feed_ids = db_escape_string($_REQUEST["ids"]);
 
-			print "<div id=\"infoBoxTitle\">".__('Batch Feed Editor')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Multiple Feed Editor')."</div>";
 
 			print "<div class=\"infoBoxContents\">";
-
-			print "[$feed_ids]<br/>";
 
 			print "<form id=\"batch_edit_feed_form\" onsubmit=\"return false\">";	
 
@@ -536,13 +534,14 @@
 			return;
 		}
 
-		if ($subop == "editSave") {
+		if ($subop == "editSave" || $subop == "batchEditSave") {
 
 			$feed_title = db_escape_string(trim($_POST["title"]));
 			$feed_link = db_escape_string(trim($_POST["feed_url"]));
 			$upd_intl = db_escape_string($_POST["update_interval"]);
 			$purge_intl = db_escape_string($_POST["purge_interval"]);
-			$feed_id = db_escape_string($_POST["id"]);
+			$feed_id = db_escape_string($_POST["id"]); /* editSave */
+			$feed_ids = db_escape_string($_POST["ids"]); /* batchEditSave */
 			$cat_id = db_escape_string($_POST["cat_id"]);
 			$auth_login = db_escape_string(trim($_POST["auth_login"]));
 			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
@@ -581,27 +580,101 @@
 				$cache_images_qpart = "";
 			}
 
-			$result = db_query($link, "UPDATE ttrss_feeds SET 
-				$category_qpart $parent_qpart,
-				title = '$feed_title', feed_url = '$feed_link',
-				update_interval = '$upd_intl',
-				purge_interval = '$purge_intl',
-				auth_login = '$auth_login',
-				auth_pass = '$auth_pass',
-				private = $private,
-				rtl_content = $rtl_content,
-				hidden = $hidden,
-				$cache_images_qpart
-				include_in_digest = $include_in_digest,
-				update_method = '$update_method'
-				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+			if ($subop == "editSave") {
 
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				# update linked feed categories
-				$result = db_query($link, "UPDATE ttrss_feeds SET
-					$category_qpart_nocomma WHERE parent_feed = '$feed_id' AND
-					owner_uid = " . $_SESSION["uid"]);
+				$result = db_query($link, "UPDATE ttrss_feeds SET 
+					$category_qpart $parent_qpart,
+					title = '$feed_title', feed_url = '$feed_link',
+					update_interval = '$upd_intl',
+					purge_interval = '$purge_intl',
+					auth_login = '$auth_login',
+					auth_pass = '$auth_pass',
+					private = $private,
+					rtl_content = $rtl_content,
+					hidden = $hidden,
+					$cache_images_qpart
+					include_in_digest = $include_in_digest,
+					update_method = '$update_method'
+					WHERE $where_qpart AND owner_uid = " . $_SESSION["uid"]);
+
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					# update linked feed categories
+					$result = db_query($link, "UPDATE ttrss_feeds SET
+						$category_qpart_nocomma WHERE parent_feed = '$feed_id' AND
+						owner_uid = " . $_SESSION["uid"]);
+				}
+			} else if ($subop == "batchEditSave") {
+				$feed_data = array();
+
+				foreach (array_keys($_POST) as $k) {
+					if ($k != "op" && $k != "subop" && $k != "ids") {
+						$feed_data[$k] = $_POST[$k];
+					}
+				}
+
+				db_query($link, "BEGIN");
+
+				foreach (array_keys($feed_data) as $k) {
+
+					$qpart = "";
+
+					switch ($k) {
+						case "title":							
+							$qpart = "title = '$feed_title'";
+							break;
+
+						case "feed_url":
+							$qpart = "feed_url = '$feed_link'";
+							break;
+
+						case "update_interval":
+							$qpart = "update_interval = '$upd_intl'";
+							break;
+
+						case "purge_interval":
+							$qpart = "purge_interval = '$purge_intl'";
+							break;
+
+						case "auth_login":
+							$qpart = "auth_login = '$auth_login'";
+							break;
+
+						case "auth_pass":
+							$qpart = "auth_pass = '$auth_pass'";
+							break;
+
+						case "private":
+							$qpart = "private = '$private'";
+							break;
+
+						case "hidden":
+							$qpart = "hidden = '$hidden'";
+							break;
+
+						case "include_in_digest":
+							$qpart = "include_in_digest = '$include_in_digest'";
+							break;
+
+						case "update_method":
+							$qpart = "update_method = '$update_method'";
+							break;
+
+						case "cat_id":
+							$qpart = $category_qpart_nocomma;
+							break;
+
+					}
+
+					if ($qpart) {
+						print(
+							"UPDATE ttrss_feeds SET $qpart WHERE id IN ($feed_ids)
+								AND owner_uid = " . $_SESSION["uid"]);
+					}
+				}
+
+				db_query($link, "COMMIT");
 			}
+
 		}
 
 		if ($subop == "remove") {
