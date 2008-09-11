@@ -1188,6 +1188,34 @@ function editSelectedFeed() {
 
 }
 
+function editSelectedFeeds() {
+
+	if (!xmlhttp_ready(xmlhttp)) {
+		printLockingError();
+		return
+	}
+
+	var rows = getSelectedFeeds();
+
+	if (rows.length == 0) {
+		alert(__("No feeds are selected."));
+		return;
+	}
+
+	notify("");
+
+	disableHotkeys();
+
+	notify_progress("Loading, please wait...");
+
+	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
+		param_escape(rows.toString()), true);
+
+	xmlhttp.onreadystatechange=infobox_callback;
+	xmlhttp.send(null);
+
+}
+
 function editSelectedFeedCat() {
 	var rows = getSelectedFeedCats();
 
@@ -2096,6 +2124,10 @@ function feedActionGo(op) {
 			removeSelectedFeeds();
 		}
 
+		if (op == "facBatchEdit") {
+			editSelectedFeeds();
+		}
+
 	} catch (e) {
 		exception_error("feedActionGo", e);
 
@@ -2208,5 +2240,51 @@ function unsubscribeFeed(id, title) {
 
 	return false;
 
+}
+
+function feedsEditSave() {
+	try {
+
+		if (!xmlhttp_ready(xmlhttp)) {
+			printLockingError();
+			return
+		}
+
+		var query = Form.serialize("batch_edit_feed_form");
+
+		alert(query);
+
+		return false;
+	} catch (e) {
+		exception_error("feedsEditSave", e);
+	}
+}
+
+function batchFeedsToggleField(cb, elem, label) {
+	try {
+		var f = document.forms["batch_edit_feed_form"];
+		var l = document.getElementById(label);
+
+		if (cb.checked) {
+			f[elem].disabled = false;
+
+			if (l) {
+				l.className = "";
+			};
+
+//			new Effect.Highlight(f[elem], {duration: 1, startcolor: "#fff7d5",
+//				queue: { position:'end', scope: 'BPEFQ', limit: 1 } } );
+
+		} else {
+			f[elem].disabled = true;
+
+			if (l) {
+				l.className = "insensitive";
+			};
+
+		}
+	} catch (e) {
+		exception_error("batchFeedsToggleField", e);
+	}
 }
 

@@ -1,5 +1,10 @@
 <?php
 
+	function batch_edit_cbox($elem, $label = false) {
+		print "<input type=\"checkbox\" 
+			onchange=\"batchFeedsToggleField(this, '$elem', '$label')\">";
+	}
+
 	function module_pref_feeds($link) {
 
 		global $update_intervals;
@@ -371,6 +376,159 @@
 				</div>
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"return feedEditSave()\" value=\"".__('Save')."\">
+				<input type='submit' class='button'			
+				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
+				</div>";
+
+			return;
+		}
+
+		if ($subop == "editfeeds") {
+
+			$feed_ids = db_escape_string($_REQUEST["ids"]);
+
+			print "<div id=\"infoBoxTitle\">".__('Batch Feed Editor')."</div>";
+
+			print "<div class=\"infoBoxContents\">";
+
+			print "[$feed_ids]<br/>";
+
+			print "<form id=\"batch_edit_feed_form\" onsubmit=\"return false\">";	
+
+			print "<input type=\"hidden\" name=\"ids\" value=\"$feed_ids\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"batchEditSave\">";
+
+			print "<div class=\"dlgSec\">".__("Feed")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			/* Title */
+
+			print "<input disabled style=\"font-size : 16px\" size=\"35\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				            name=\"title\" value=\"$title\">";
+
+			batch_edit_cbox("title");
+
+			/* Feed URL */
+
+			print "<br/>";
+
+			print __('URL:') . " ";
+			print "<input disabled size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				name=\"feed_url\" value=\"$feed_url\">";
+
+			batch_edit_cbox("feed_url");
+
+			/* Category */
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+				print "<br/>";
+
+				print __('Place in category:') . " ";
+
+				print_feed_cat_select($link, "cat_id", $cat_id, "disabled");
+
+				batch_edit_cbox("cat_id");
+
+			}
+
+			print "</div>";
+
+			print "<div class=\"dlgSec\">".__("Update")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			/* Update Interval */
+
+			print_select_hash("update_interval", $update_interval, $update_intervals, 
+				"disabled");
+
+			batch_edit_cbox("update_interval");
+
+			/* Update method */
+
+			if (ALLOW_SELECT_UPDATE_METHOD) {
+				print " " . __('using') . " ";
+				print_select_hash("update_method", $update_method, $update_methods, 
+					"disabled");			
+				batch_edit_cbox("update_method");
+			}
+
+			/* Purge intl */
+
+			print "<br/>";
+
+			print __('Article purging:') . " ";
+
+			print_select_hash("purge_interval", $purge_interval, $purge_intervals,
+				"disabled");
+
+			batch_edit_cbox("purge_interval");
+
+			print "</div>";
+			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print __('Login:') . " ";
+			print "<input disabled size=\"15\" onkeypress=\"return filterCR(event, feedEditSave)\"
+				name=\"auth_login\" value=\"$auth_login\">";
+
+			batch_edit_cbox("auth_login");
+
+			print " " . __("Password:") . " ";
+
+			print "<input disabled size=\"15\" type=\"password\" name=\"auth_pass\" 
+				onkeypress=\"return filterCR(event, feedEditSave)\"
+				value=\"$auth_pass\">";
+
+			batch_edit_cbox("auth_pass");
+
+			print "</div>";
+			print "<div class=\"dlgSec\">".__("Options")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print "<div style=\"line-height : 100%\">";
+
+			print "<input disabled type=\"checkbox\" name=\"private\" id=\"private\" 
+				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from "Other Feeds"')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("private", "private_l");
+
+			print "<br/><input disabled type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+				$checked>&nbsp;<label class='insensitive' id=\"rtl_content_l\" for=\"rtl_content\">".__('Right-to-left content')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("rtl_content", "rtl_content_l");
+
+			print "<br/><input disabled type=\"checkbox\" id=\"hidden\" name=\"hidden\"
+				$checked>&nbsp;<label class='insensitive' id=\"hidden_l\" for=\"hidden\">".__('Hide from my feed list')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("hidden", "hidden_l");
+
+			print "<br/><input disabled type=\"checkbox\" id=\"include_in_digest\" 
+				name=\"include_in_digest\" 
+				$checked>&nbsp;<label id=\"include_in_digest_l\" class='insensitive' for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("include_in_digest", "include_in_digest_l");
+
+			print "<br/><input disabled type=\"checkbox\" id=\"cache_images\" 
+				name=\"cache_images\" 
+				$checked>&nbsp;<label class='insensitive' id=\"cache_images_l\" 
+					for=\"cache_images\">".
+				__('Cache images locally')."</label>";
+
+
+			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
+			}
+
+			print "</div>";
+			print "</div>";
+
+			print "</form>";
+
+			print "<div class='dlgButtons'>
+				<input type=\"submit\" class=\"button\" 
+				onclick=\"return feedsEditSave()\" value=\"".__('Save')."\">
 				<input type='submit' class='button'			
 				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
 				</div>";
@@ -1113,6 +1271,7 @@
 				<option disabled>--------</option>
 				<option style=\"color : #5050aa\" disabled>".__('Selection:')."</option>
 				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>
+				<option value=\"facBatchEdit\">&nbsp;&nbsp;".__('Edit multiple feeds')."</option>
 				<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>
 				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
 				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
