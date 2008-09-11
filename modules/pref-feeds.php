@@ -1,7 +1,7 @@
 <?php
 
 	function batch_edit_cbox($elem, $label = false) {
-		print "<input type=\"checkbox\" 
+		print "<input type=\"checkbox\" title=\"".__("Check to enable field")."\"
 			onchange=\"batchFeedsToggleField(this, '$elem', '$label')\">";
 	}
 
@@ -676,7 +676,8 @@
 					if ($qpart) {
 						print(
 							"UPDATE ttrss_feeds SET $qpart WHERE id IN ($feed_ids)
-								AND owner_uid = " . $_SESSION["uid"]);
+							AND owner_uid = " . $_SESSION["uid"]);
+						print "<br/>";
 					}
 				}
 
@@ -1352,7 +1353,6 @@
 				<option disabled>--------</option>
 				<option style=\"color : #5050aa\" disabled>".__('Selection:')."</option>
 				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>
-				<option value=\"facBatchEdit\">&nbsp;&nbsp;".__('Edit multiple feeds')."</option>
 				<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>
 				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
 				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>

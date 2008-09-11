@@ -2101,7 +2101,14 @@ function feedActionChange() {
 function feedActionGo(op) {	
 	try {
 		if (op == "facEdit") {
-			editSelectedFeed();
+
+			var rows = getSelectedFeeds();
+
+			if (rows.length > 1) {
+				editSelectedFeeds();
+			} else {
+				editSelectedFeed();
+			}
 		}
 
 		if (op == "facClear") {
@@ -2122,10 +2129,6 @@ function feedActionGo(op) {
 
 		if (op == "facUnsubscribe") {
 			removeSelectedFeeds();
-		}
-
-		if (op == "facBatchEdit") {
-			editSelectedFeeds();
 		}
 
 	} catch (e) {
@@ -2250,8 +2253,7 @@ function feedsEditSave() {
 			return
 		}
 
-//		var ok = confirm(__("Save changes to selected feeds?"));
-		var ok = true;
+		var ok = confirm(__("Save changes to selected feeds?"));
 
 		if (ok) {
 
@@ -2261,27 +2263,27 @@ function feedsEditSave() {
 
 			/* Form.serialize ignores unchecked checkboxes */
 
-			if (!query.match("hidden=") && 
+			if (!query.match("&hidden=") && 
 					f.hidden.disabled == false) {
 				query = query + "&hidden=false";
 			}
 
-			if (!query.match("rtl_content=") && 
+			if (!query.match("&rtl_content=") && 
 					f.rtl_content.disabled == false) {
 				query = query + "&rtl_content=false";
 			}
 
-			if (!query.match("private=") && 
+			if (!query.match("&private=") && 
 					f.private.disabled == false) {
 				query = query + "&private=false";
 			}
 
-			if (!query.match("cache_images=") && 
+			if (!query.match("&cache_images=") && 
 					f.cache_images.disabled == false) {
 				query = query + "&cache_images=false";
 			}
 
-			if (!query.match("include_in_digest=") && 
+			if (!query.match("&include_in_digest=") && 
 					f.include_in_digest.disabled == false) {
 				query = query + "&include_in_digest=false";
 			}
