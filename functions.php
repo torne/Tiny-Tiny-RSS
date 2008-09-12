@@ -1874,6 +1874,10 @@
 					setcookie("ttrss_lang", $_SESSION["language"], 
 						time() + SESSION_COOKIE_LIFETIME);
 				}
+
+				/* bump counters stamp since we're getting reloaded anyway */
+
+				$_SESSION["get_all_counters_stamp"] = time();
 			}
 
 		} else {

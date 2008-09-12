@@ -354,7 +354,7 @@ function feedlist_dragsorted(ctr) {
 		}
 
 	} catch (e) {
-		exception_error("feedlist_init", e);
+		exception_error("feedlist_dragsorted", e);
 	}
 }
 

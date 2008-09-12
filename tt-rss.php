@@ -61,7 +61,7 @@
 
 <body onresize="resize_headlines()" id="ttrssMain">
 
-<div id="overlay">
+<div id="overlay" style="display : none">
 	<div id="overlay_inner">
 		<?php echo __("Loading, please wait...") ?>
 
