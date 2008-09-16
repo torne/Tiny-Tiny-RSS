@@ -86,6 +86,7 @@
 
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+	define('MAGPIE_CACHE_AGE', 60*15); // 15 minutes
 
 	require_once "simplepie/simplepie.inc";
 	require_once "magpierss/rss_fetch.inc";
