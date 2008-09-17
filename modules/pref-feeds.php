@@ -595,7 +595,7 @@
 					$cache_images_qpart
 					include_in_digest = $include_in_digest,
 					update_method = '$update_method'
-					WHERE $where_qpart AND owner_uid = " . $_SESSION["uid"]);
+					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 					# update linked feed categories
