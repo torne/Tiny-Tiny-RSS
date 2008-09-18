@@ -452,7 +452,6 @@
 			}
 
 			print "</ul>";
-			print "</div>";
 
 			print "<div align='center'>";
 

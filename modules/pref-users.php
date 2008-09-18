@@ -10,6 +10,113 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "user-details") {
+
+			$uid = sprintf("%d", $_GET["id"]);
+
+			print "<div id=\"infoBoxTitle\">User details</div>";
+
+			print "<div class='infoBoxContents'>";
+
+			$result = db_query($link, "SELECT login,
+				".SUBSTRING_FOR_DATE."(last_login,1,16) AS last_login,
+				access_level,
+				(SELECT COUNT(int_id) FROM ttrss_user_entries 
+					WHERE owner_uid = id) AS stored_articles,
+				".SUBSTRING_FOR_DATE."(created,1,16) AS created
+				FROM ttrss_users 
+				WHERE id = '$uid'");
+				
+			if (db_num_rows($result) == 0) {
+				print "<h1>User not found</h1>";
+				return;
+			}
+			
+			// print "<h1>User Details</h1>";
+
+			$login = db_fetch_result($result, 0, "login");
+
+			// print "<h1>$login</h1>";
+
+			print "<table width='100%'>";
+
+			$last_login = date(get_pref($link, 'LONG_DATE_FORMAT'),
+				strtotime(db_fetch_result($result, 0, "last_login")));
+
+			$created = date(get_pref($link, 'LONG_DATE_FORMAT'),
+				strtotime(db_fetch_result($result, 0, "created")));
+
+			$access_level = db_fetch_result($result, 0, "access_level");
+			$stored_articles = db_fetch_result($result, 0, "stored_articles");
+
+			// print "<tr><td>Username</td><td>$login</td></tr>";
+			// print "<tr><td>Access level</td><td>$access_level</td></tr>";
+			print "<tr><td>".__('Registered')."</td><td>$created</td></tr>";
+			print "<tr><td>".__('Last logged in')."</td><td>$last_login</td></tr>";
+			print "<tr><td>".__('Stored articles')."</td><td>$stored_articles</td></tr>";
+
+			$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
+				WHERE owner_uid = '$uid'");
+
+			$num_feeds = db_fetch_result($result, 0, "num_feeds");
+
+			print "<tr><td>".__('Subscribed feeds count')."</td><td>$num_feeds</td></tr>";
+
+			/*
+			$result = db_query($link, "SELECT 
+				SUM(LENGTH(content)+LENGTH(title)+LENGTH(link)+LENGTH(guid)) AS db_size 
+				FROM ttrss_user_entries,ttrss_entries 
+					WHERE owner_uid = '$uid' AND ref_id = id");
+
+			$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
+
+			print "<tr><td>Approx. used DB size</td><td>$db_size KBytes</td></tr>";
+			*/
+
+			print "</table>";
+
+			print "<h1>".__('Subscribed feeds')."</h1>";
+
+			$result = db_query($link, "SELECT id,title,site_url FROM ttrss_feeds
+				WHERE owner_uid = '$uid' ORDER BY title");
+
+			print "<ul class=\"userFeedList\">";
+
+			$row_class = "odd";
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$icon_file = ICONS_URL."/".$line["id"].".ico";
+
+				if (file_exists($icon_file) && filesize($icon_file) > 0) {
+					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"$icon_file\">";
+				} else {
+					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+				}
+
+				print "<li class=\"$row_class\">$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
+
+				$row_class = toggleEvenOdd($row_class);
+
+			}
+
+			if (db_num_rows($result) < $num_feeds) {
+				// FIXME - add link to show ALL subscribed feeds here somewhere
+				print "<li><img 
+					class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">&nbsp;...</li>";
+			}
+			
+			print "</ul>";
+
+			print "<div align='center'>
+				<input type='submit' class='button'			
+				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+
+			print "</div>";
+
+			return;
+		}
+
 		if ($subop == "edit") {
 
 			$id = db_escape_string($_GET["id"]);

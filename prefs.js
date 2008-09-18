@@ -1113,7 +1113,7 @@ function selectedUserDetails() {
 
 	var id = rows[0];
 
-	xmlhttp.open("GET", "backend.php?op=user-details&id=" + id, true);
+	xmlhttp.open("GET", "backend.php?op=pref-users&subop=user-details&id=" + id, true);
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
 
