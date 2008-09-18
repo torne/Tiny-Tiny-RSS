@@ -170,7 +170,7 @@ create table ttrss_filters (id serial not null primary key,
 
 create table ttrss_labels (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	sql_exp varchar(250) not null,
+	sql_exp text not null,
 	description varchar(250) not null);
 
 create index ttrss_labels_owner_uid_index on ttrss_labels(owner_uid);
@@ -190,7 +190,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (42);
+insert into ttrss_version values (43);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
