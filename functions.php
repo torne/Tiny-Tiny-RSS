@@ -3253,7 +3253,7 @@
 				$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
 					WHERE id = '$label_id'");
 			
-				$query_strategy_part = db_fetch_result($tmp_result, 0, "sql_exp");
+				$query_strategy_part = "(" . db_fetch_result($tmp_result, 0, "sql_exp") . ")";
 
 				if (!$query_strategy_part) {
 					return false;
@@ -3392,10 +3392,10 @@
 					$view_query_part
 					$query_strategy_part ORDER BY $order_by
 					$limit_query_part $offset_query_part";
-					
-				$result = db_query($link, $query);
-	
+
 				if ($_GET["debug"]) print $query;
+
+				$result = db_query($link, $query);
 	
 			} else {
 				// browsing by tag
