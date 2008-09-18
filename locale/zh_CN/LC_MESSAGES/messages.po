@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-08 11:18+0400\n"
+"POT-Creation-Date: 2008-09-18 12:32+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -77,7 +77,7 @@ msgstr "每天"
 msgid "Weekly"
 msgstr "每周"
 
-#: backend.php:128 modules/pref-prefs.php:312
+#: backend.php:128 tt-rss.php:198 modules/pref-prefs.php:312
 msgid "Default"
 msgstr "默认"
 
@@ -102,26 +102,26 @@ msgstr ""
 msgid "Administrator"
 msgstr "管理员"
 
-#: backend.php:451 modules/pref-users.php:311
+#: backend.php:473 modules/pref-users.php:311
 msgid "Registered"
 msgstr ""
 
-#: backend.php:452
+#: backend.php:474
 #, fuzzy
 msgid "Last logged in"
 msgstr "最后登陆"
 
-#: backend.php:453
+#: backend.php:475
 #, fuzzy
 msgid "Stored articles"
 msgstr "星级文章"
 
-#: backend.php:460
+#: backend.php:482
 #, fuzzy
 msgid "Subscribed feeds count"
 msgstr "订阅feed:"
 
-#: backend.php:475
+#: backend.php:497
 #, fuzzy
 msgid "Subscribed feeds"
 msgstr "订阅feed:"
@@ -182,271 +182,271 @@ msgstr ""
 "不支持你的MySQL版本. 请访问 \n"
 "\t\t官方网站获取更多信息。"
 
-#: functions.php:2570 functions.php:2934 functions.php:3310 functions.php:4171
+#: functions.php:2575 functions.php:2939 functions.php:3320 functions.php:4181
 msgid "Starred articles"
 msgstr "星级文章"
 
-#: functions.php:2586 functions.php:2936 functions.php:3313 functions.php:4178
-#: modules/pref-feeds.php:1158
+#: functions.php:2591 functions.php:2941 functions.php:3323 functions.php:4188
+#: modules/pref-feeds.php:1398
 msgid "Published articles"
 msgstr "已发布文章"
 
-#: functions.php:2602 functions.php:2938 functions.php:3316 functions.php:4156
+#: functions.php:2607 functions.php:2943 functions.php:3326 functions.php:4166
 #, fuzzy
 msgid "Fresh articles"
 msgstr "星级文章"
 
-#: functions.php:2856 modules/popup-dialog.php:175
+#: functions.php:2861 modules/popup-dialog.php:175
 #: modules/pref-filters.php:357
 msgid "All feeds"
 msgstr "所有feed"
 
-#: functions.php:2885 functions.php:2924 functions.php:3288 functions.php:4332
-#: functions.php:4362 modules/pref-feeds.php:989
+#: functions.php:2890 functions.php:2929 functions.php:3298 functions.php:4342
+#: functions.php:4372 modules/pref-feeds.php:1229
 msgid "Uncategorized"
 msgstr "未分类"
 
-#: functions.php:2914 functions.php:3475
+#: functions.php:2919 functions.php:3485
 msgid "Special"
 msgstr "专用"
 
-#: functions.php:2916 functions.php:3477
+#: functions.php:2921 functions.php:3487
 msgid "Labels"
 msgstr "标记"
 
-#: functions.php:3274 functions.php:3276
+#: functions.php:3284 functions.php:3286
 msgid "Search results"
 msgstr "搜索结果"
 
-#: functions.php:3292 functions.php:3305 functions.php:3311 functions.php:3314
-#: functions.php:3317 functions.php:3325
+#: functions.php:3302 functions.php:3315 functions.php:3321 functions.php:3324
+#: functions.php:3327 functions.php:3335
 msgid "Searched for"
 msgstr "搜索"
 
-#: functions.php:3948 functions.php:3998 functions.php:5289
-#: modules/pref-feeds.php:770 modules/pref-feeds.php:951
+#: functions.php:3958 functions.php:4008 functions.php:5300
+#: modules/pref-feeds.php:1010 modules/pref-feeds.php:1191
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
 #: modules/pref-users.php:302
 msgid "Select:"
 msgstr "选择："
 
-#: functions.php:3949 functions.php:3999 modules/pref-feeds.php:771
-#: modules/pref-feeds.php:952 modules/pref-filters.php:310
+#: functions.php:3959 functions.php:4009 modules/pref-feeds.php:1011
+#: modules/pref-feeds.php:1192 modules/pref-filters.php:310
 #: modules/pref-labels.php:276 modules/pref-users.php:303
 msgid "All"
 msgstr "所有"
 
-#: functions.php:3950 functions.php:3956 functions.php:4000 functions.php:4003
-#: tt-rss.php:192
+#: functions.php:3960 functions.php:3966 functions.php:4010 functions.php:4013
+#: tt-rss.php:191
 msgid "Unread"
 msgstr "未读"
 
-#: functions.php:3951
+#: functions.php:3961
 #, fuzzy
 msgid "Invert"
 msgstr "(逆)"
 
-#: functions.php:3952 functions.php:4001 modules/pref-feeds.php:772
-#: modules/pref-feeds.php:953 modules/pref-filters.php:311
+#: functions.php:3962 functions.php:4011 modules/pref-feeds.php:1012
+#: modules/pref-feeds.php:1193 modules/pref-filters.php:311
 #: modules/pref-labels.php:277 modules/pref-users.php:304
 msgid "None"
 msgstr "无"
 
-#: functions.php:3954 tt-rss.php:142 modules/pref-feeds.php:1112
+#: functions.php:3964 tt-rss.php:142 modules/pref-feeds.php:1352
 msgid "Actions..."
 msgstr "激活..."
 
-#: functions.php:3955
+#: functions.php:3965
 #, fuzzy
 msgid "Selection toggle:"
 msgstr "选择："
 
-#: functions.php:3957 functions.php:4004 tt-rss.php:191
+#: functions.php:3967 functions.php:4014 tt-rss.php:190
 msgid "Starred"
 msgstr "星级"
 
-#: functions.php:3958
+#: functions.php:3968
 msgid "Published"
 msgstr "已发布"
 
-#: functions.php:3960 functions.php:4006
+#: functions.php:3970 functions.php:4016
 msgid "Mark as read:"
 msgstr "标记为已读："
 
-#: functions.php:3961
+#: functions.php:3971
 msgid "Selection"
 msgstr "选择："
 
-#: functions.php:3975
+#: functions.php:3985
 msgid "Entire feed"
 msgstr "输入feed"
 
-#: functions.php:3978 tt-rss.php:157
+#: functions.php:3988 tt-rss.php:157
 msgid "Other actions:"
 msgstr "其他操作:"
 
-#: functions.php:3985 functions.php:3987
+#: functions.php:3995 functions.php:3997
 #, fuzzy
 msgid "Search to label"
 msgstr "转换标签"
 
-#: functions.php:4003
+#: functions.php:4013
 msgid "Toggle:"
 msgstr "触发:"
 
-#: functions.php:4007
+#: functions.php:4017
 msgid "Page"
 msgstr "页"
 
-#: functions.php:4008 modules/popup-dialog.php:70 modules/pref-feeds.php:155
-#: modules/pref-filters.php:346
+#: functions.php:4018 modules/popup-dialog.php:70 modules/pref-feeds.php:160
+#: modules/pref-feeds.php:400 modules/pref-filters.php:346
 msgid "Feed"
 msgstr "Feed"
 
-#: functions.php:4015
+#: functions.php:4025
 msgid "Convert to label"
 msgstr "转换标签"
 
-#: functions.php:4062
+#: functions.php:4072
 msgid "Generated feed"
 msgstr "产生feed"
 
-#: functions.php:4106
+#: functions.php:4116
 msgid "Click to collapse category"
 msgstr ""
 
-#: functions.php:4144
+#: functions.php:4154
 msgid "Dashboard"
 msgstr ""
 
-#: functions.php:4382
+#: functions.php:4392
 msgid "No feeds to display."
 msgstr "无feed显示。"
 
-#: functions.php:4399
+#: functions.php:4409
 msgid "Tags"
 msgstr "标签"
 
-#: functions.php:4635
+#: functions.php:4645
 #, fuzzy
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4694 functions.php:4695
+#: functions.php:4704 functions.php:4705
 msgid "no tags"
 msgstr "无标签"
 
-#: functions.php:4702
+#: functions.php:4712
 msgid "Edit tags for this article"
 msgstr ""
 
-#: functions.php:4707 functions.php:5299
+#: functions.php:4717 functions.php:5310
 #, fuzzy
 msgid "Show article summary in new window"
 msgstr "新窗口打开文章连结"
 
-#: functions.php:4736 functions.php:5239
+#: functions.php:4746 functions.php:5250
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4738 functions.php:5241
+#: functions.php:4748 functions.php:5252
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4748 functions.php:5250
+#: functions.php:4758 functions.php:5261
 #, fuzzy
 msgid "unknown type"
 msgstr "未知错误"
 
-#: functions.php:4754 functions.php:5256
+#: functions.php:4764 functions.php:5267
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4784 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:548 modules/pref-feeds.php:821
+#: functions.php:4794 modules/help.php:22 modules/popup-dialog.php:52
+#: modules/popup-dialog.php:548 modules/pref-feeds.php:1061
 msgid "Close this window"
 msgstr "关闭此窗口"
 
-#: functions.php:4839 modules/pref-feed-browser.php:75
+#: functions.php:4850 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "未找到Feed."
 
-#: functions.php:4908
+#: functions.php:4919
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:5021
+#: functions.php:5032
 msgid "(Click to change)"
 msgstr ""
 
-#: functions.php:5219
+#: functions.php:5230
 #, fuzzy
 msgid "Click to expand article"
 msgstr "星级文章"
 
-#: functions.php:5361
+#: functions.php:5372
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5364
+#: functions.php:5375
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5367
+#: functions.php:5378
 #, fuzzy
 msgid "No articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5733
+#: functions.php:5744
 #, fuzzy
 msgid "Match "
 msgstr "匹配"
 
-#: functions.php:5741
+#: functions.php:5752
 #, fuzzy
 msgid "Unread articles"
 msgstr "星级文章"
 
-#: functions.php:5742
+#: functions.php:5753
 #, fuzzy
 msgid "Updated articles"
 msgstr "星级文章"
 
-#: functions.php:5743
+#: functions.php:5754
 #, fuzzy
 msgid "Title contains"
 msgstr "标题或内容"
 
-#: functions.php:5744
+#: functions.php:5755
 #, fuzzy
 msgid "Content contains"
 msgstr "内容过滤器"
 
-#: functions.php:5745
+#: functions.php:5756
 msgid "Score equals"
 msgstr ""
 
-#: functions.php:5746
+#: functions.php:5757
 msgid "Score is greater than"
 msgstr ""
 
-#: functions.php:5747
+#: functions.php:5758
 msgid "Score is less than"
 msgstr ""
 
-#: functions.php:5748
+#: functions.php:5759
 msgid "Articles newer than X hours"
 msgstr ""
 
-#: functions.php:5749
+#: functions.php:5760
 msgid "Articles newer than X days"
 msgstr ""
 
-#: functions.php:5758
+#: functions.php:5769
 msgid "Add"
 msgstr ""
 
@@ -656,7 +656,7 @@ msgstr "更新提要失败（缺少XML支持）"
 msgid "Could not display article (missing XML object)"
 msgstr "显示条目失败（缺少XML支持）"
 
-#: localized_js.php:95 tt-rss.php:234 tt-rss.php:247
+#: localized_js.php:95 tt-rss.php:244 tt-rss.php:257
 msgid "No feed selected."
 msgstr "无选定feed."
 
@@ -834,8 +834,18 @@ msgstr ""
 msgid "Category reordering disabled"
 msgstr ""
 
-#: localized_schema.php:9 modules/popup-dialog.php:165
-#: modules/pref-feeds.php:964 modules/pref-feeds.php:1025
+#: localized_js.php:144
+#, fuzzy
+msgid "Save changes to selected feeds?"
+msgstr "无选定文章。"
+
+#: localized_js.php:145
+#, fuzzy
+msgid "Saving feeds..."
+msgstr "保存feed中..."
+
+#: localized_schema.php:9 tt-rss.php:200 modules/popup-dialog.php:165
+#: modules/pref-feeds.php:1204 modules/pref-feeds.php:1265
 msgid "Title"
 msgstr "标题"
 
@@ -1104,11 +1114,13 @@ msgstr ""
 msgid "Do not show images in articles"
 msgstr ""
 
-#: login_form.php:103 modules/popup-dialog.php:107 modules/pref-feeds.php:285
+#: login_form.php:103 modules/popup-dialog.php:107 modules/pref-feeds.php:290
+#: modules/pref-feeds.php:470
 msgid "Login:"
 msgstr "登陆:"
 
-#: login_form.php:106 modules/popup-dialog.php:111 modules/pref-feeds.php:289
+#: login_form.php:106 modules/popup-dialog.php:111 modules/pref-feeds.php:294
+#: modules/pref-feeds.php:476
 msgid "Password:"
 msgstr "密码:"
 
@@ -1331,7 +1343,7 @@ msgid "tag cloud"
 msgstr "标签簇"
 
 #: tt-rss.php:143 modules/popup-dialog.php:140 modules/popup-dialog.php:152
-#: modules/popup-dialog.php:211 modules/pref-feeds.php:866
+#: modules/popup-dialog.php:211 modules/pref-feeds.php:1106
 #: modules/pref-filters.php:252 modules/pref-labels.php:239
 #: modules/pref-users.php:258
 msgid "Search"
@@ -1407,27 +1419,41 @@ msgstr ""
 msgid "Search:"
 msgstr "搜索:"
 
-#: tt-rss.php:187
-msgid "View:"
-msgstr "浏览:"
-
-#: tt-rss.php:189
+#: tt-rss.php:188
 msgid "Adaptive"
 msgstr "自适应"
 
-#: tt-rss.php:190
+#: tt-rss.php:189
 msgid "All Articles"
 msgstr "所有文章"
 
+#: tt-rss.php:192
+msgid "Ignore Scoring"
+msgstr ""
+
 #: tt-rss.php:195
+#, fuzzy
+msgid "Order:"
+msgstr "地点:"
+
+#: tt-rss.php:199
+#, fuzzy
+msgid "Date"
+msgstr "更新"
+
+#: tt-rss.php:201
+msgid "Score"
+msgstr ""
+
+#: tt-rss.php:205
 msgid "Limit:"
 msgstr "限制:"
 
-#: tt-rss.php:220 modules/pref-feeds.php:251
+#: tt-rss.php:230 modules/pref-feeds.php:256 modules/pref-feeds.php:436
 msgid "Update"
 msgstr "更新"
 
-#: tt-rss.php:238
+#: tt-rss.php:248
 msgid "Drag me to resize panels"
 msgstr ""
 
@@ -1562,18 +1588,21 @@ msgstr "TT-RSS检测到更新时间过长，请刷新或者检查RSS源地址。
 msgid "Subscribe to Feed"
 msgstr "订阅feed"
 
-#: modules/popup-dialog.php:73 modules/pref-feeds.php:171
+#: modules/popup-dialog.php:73 modules/pref-feeds.php:176
+#: modules/pref-feeds.php:414
 #, fuzzy
 msgid "URL:"
 msgstr "Feed URL:"
 
-#: modules/popup-dialog.php:84 modules/pref-feeds.php:183
+#: modules/popup-dialog.php:84 modules/pref-feeds.php:188
+#: modules/pref-feeds.php:426
 #, fuzzy
 msgid "Place in category:"
 msgstr "保存分类..."
 
-#: modules/popup-dialog.php:104 modules/pref-feeds.php:280
-#: modules/pref-prefs.php:259 modules/pref-users.php:44
+#: modules/popup-dialog.php:104 modules/pref-feeds.php:285
+#: modules/pref-feeds.php:467 modules/pref-prefs.php:259
+#: modules/pref-users.php:44
 msgid "Authentication"
 msgstr "认证"
 
@@ -1582,15 +1611,15 @@ msgid "This feed requires authentication."
 msgstr "这个feed需要认证"
 
 #: modules/popup-dialog.php:130 modules/pref-feed-browser.php:119
-#: modules/pref-feeds.php:118
+#: modules/pref-feeds.php:123
 msgid "Subscribe"
 msgstr "订阅"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
 #: modules/popup-dialog.php:279 modules/popup-dialog.php:428
-#: modules/popup-dialog.php:524 modules/pref-feeds.php:120
-#: modules/pref-feeds.php:375 modules/pref-filters.php:133
-#: modules/pref-users.php:79
+#: modules/popup-dialog.php:524 modules/pref-feeds.php:125
+#: modules/pref-feeds.php:380 modules/pref-feeds.php:531
+#: modules/pref-filters.php:133 modules/pref-users.php:79
 msgid "Cancel"
 msgstr "取消"
 
@@ -1673,8 +1702,9 @@ msgstr "完成更新"
 msgid "with parameters:"
 msgstr ""
 
-#: modules/popup-dialog.php:403 modules/pref-feeds.php:298
-#: modules/pref-filters.php:90 modules/pref-users.php:60
+#: modules/popup-dialog.php:403 modules/pref-feeds.php:303
+#: modules/pref-feeds.php:485 modules/pref-filters.php:90
+#: modules/pref-users.php:60
 #, fuzzy
 msgid "Options"
 msgstr "选项:"
@@ -1707,8 +1737,9 @@ msgstr "编辑标签"
 msgid "Tags for this article (separated by commas):"
 msgstr "本文的标签，请用逗号分开:"
 
-#: modules/popup-dialog.php:520 modules/pref-feeds.php:373
-#: modules/pref-filters.php:129 modules/pref-users.php:76
+#: modules/popup-dialog.php:520 modules/pref-feeds.php:378
+#: modules/pref-feeds.php:529 modules/pref-filters.php:129
+#: modules/pref-users.php:76
 msgid "Save"
 msgstr "保存"
 
@@ -1724,7 +1755,7 @@ msgstr "显示最热标签"
 msgid "browse more"
 msgstr "浏览更多"
 
-#: modules/pref-feed-browser.php:5 modules/pref-feeds.php:54
+#: modules/pref-feed-browser.php:5 modules/pref-feeds.php:59
 msgid "Feed browser is administratively disabled."
 msgstr "Feed 浏览器有限制"
 
@@ -1760,215 +1791,224 @@ msgstr "Top"
 msgid "Show"
 msgstr "显示"
 
-#: modules/pref-feed-browser.php:172 modules/pref-feeds.php:107
+#: modules/pref-feed-browser.php:172 modules/pref-feeds.php:112
 #, fuzzy
 msgid "No feeds found."
 msgstr "无feed可订阅。"
 
-#: modules/pref-feeds.php:39
+#: modules/pref-feeds.php:4
+msgid "Check to enable field"
+msgstr ""
+
+#: modules/pref-feeds.php:44
 msgid "Subscribed to feeds:"
 msgstr "订阅feed:"
 
-#: modules/pref-feeds.php:58
+#: modules/pref-feeds.php:63
 msgid "Other feeds: Top 25"
 msgstr " 其他feed: Top 25"
 
-#: modules/pref-feeds.php:62
+#: modules/pref-feeds.php:67
 msgid "Showing top 25 registered feeds, sorted by popularity:"
 msgstr "显示按受欢迎度排序的25个注册feed:"
 
-#: modules/pref-feeds.php:145
+#: modules/pref-feeds.php:150
 #, fuzzy
 msgid "Feed Editor"
 msgstr "Feed编辑"
 
-#: modules/pref-feeds.php:200
+#: modules/pref-feeds.php:205
 #, fuzzy
 msgid "Link to feed:"
 msgstr "链接:"
 
-#: modules/pref-feeds.php:217
+#: modules/pref-feeds.php:222
 msgid "Not linked"
 msgstr "无链接"
 
-#: modules/pref-feeds.php:265
+#: modules/pref-feeds.php:270 modules/pref-feeds.php:449
 msgid "using"
 msgstr ""
 
-#: modules/pref-feeds.php:275
+#: modules/pref-feeds.php:280 modules/pref-feeds.php:459
 msgid "Article purging:"
 msgstr "文章清理:"
 
-#: modules/pref-feeds.php:304
+#: modules/pref-feeds.php:309 modules/pref-feeds.php:491
 msgid "Hide from \"Other Feeds\""
 msgstr "隐藏\"其他 Feed\""
 
-#: modules/pref-feeds.php:315
+#: modules/pref-feeds.php:320 modules/pref-feeds.php:496
 msgid "Right-to-left content"
 msgstr "由右-左阅读习惯"
 
-#: modules/pref-feeds.php:326
+#: modules/pref-feeds.php:331 modules/pref-feeds.php:501
 msgid "Hide from my feed list"
 msgstr "隐藏我的Feed列表"
 
-#: modules/pref-feeds.php:338
+#: modules/pref-feeds.php:343 modules/pref-feeds.php:507
 msgid "Include in e-mail digest"
 msgstr "包括电子邮件文摘"
 
-#: modules/pref-feeds.php:359
+#: modules/pref-feeds.php:364 modules/pref-feeds.php:515
 msgid "Cache images locally"
 msgstr ""
 
-#: modules/pref-feeds.php:370 modules/pref-feeds.php:1119
+#: modules/pref-feeds.php:375 modules/pref-feeds.php:1359
 msgid "Unsubscribe"
 msgstr "退订"
 
-#: modules/pref-feeds.php:526 modules/pref-feeds.php:573
+#: modules/pref-feeds.php:390
+#, fuzzy
+msgid "Multiple Feed Editor"
+msgstr "Feed编辑"
+
+#: modules/pref-feeds.php:766 modules/pref-feeds.php:813
 msgid "All done."
 msgstr ""
 
-#: modules/pref-feeds.php:604
+#: modules/pref-feeds.php:844
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "订阅到 <b>%s</b>."
 
-#: modules/pref-feeds.php:606
+#: modules/pref-feeds.php:846
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "已经订阅到 <b>%s</b>."
 
-#: modules/pref-feeds.php:688
+#: modules/pref-feeds.php:928
 msgid "Category editor"
 msgstr "分类编辑"
 
-#: modules/pref-feeds.php:711
+#: modules/pref-feeds.php:951
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "分类 <b>$%s</b>已经存在."
 
-#: modules/pref-feeds.php:739
+#: modules/pref-feeds.php:979
 msgid "Unable to delete non empty feed categories."
 msgstr "不能删除非空分类。"
 
-#: modules/pref-feeds.php:756
+#: modules/pref-feeds.php:996
 msgid "Create category"
 msgstr "创建分类"
 
-#: modules/pref-feeds.php:816
+#: modules/pref-feeds.php:1056
 msgid "No feed categories defined."
 msgstr "未定义feed分类"
 
-#: modules/pref-feeds.php:827 modules/pref-filters.php:123
+#: modules/pref-feeds.php:1067 modules/pref-filters.php:123
 #: modules/pref-filters.php:415 modules/pref-labels.php:330
 #: modules/pref-users.php:375
 msgid "Remove"
 msgstr "移除"
 
-#: modules/pref-feeds.php:849
+#: modules/pref-feeds.php:1089
 msgid "Some feeds have update errors (click for details)"
 msgstr "有些feed更新错误(点击了解详情) "
 
-#: modules/pref-feeds.php:871
+#: modules/pref-feeds.php:1111
 msgid "Subscribe to feed"
 msgstr "订阅feed"
 
-#: modules/pref-feeds.php:876
+#: modules/pref-feeds.php:1116
 msgid "Top 25"
 msgstr "Top 25"
 
-#: modules/pref-feeds.php:950
+#: modules/pref-feeds.php:1190
 msgid "Show last article times"
 msgstr "显示最近文章时间"
 
-#: modules/pref-feeds.php:967 modules/pref-feeds.php:1029
+#: modules/pref-feeds.php:1207 modules/pref-feeds.php:1269
 msgid "Last&nbsp;Article"
 msgstr "最后&nbsp;文章"
 
-#: modules/pref-feeds.php:970 modules/pref-feeds.php:1033
+#: modules/pref-feeds.php:1210 modules/pref-feeds.php:1273
 msgid "Updated"
 msgstr "已更新"
 
-#: modules/pref-feeds.php:1054 modules/pref-filters.php:389
+#: modules/pref-feeds.php:1294 modules/pref-filters.php:389
 #: modules/pref-labels.php:310 modules/pref-users.php:350
 msgid "Click to edit"
 msgstr ""
 
-#: modules/pref-feeds.php:1100 modules/pref-feeds.php:1114
+#: modules/pref-feeds.php:1340 modules/pref-feeds.php:1354
 #, fuzzy
 msgid "Selection:"
 msgstr "选择："
 
-#: modules/pref-feeds.php:1106
+#: modules/pref-feeds.php:1346
 msgid "Recategorize"
 msgstr "再分类"
 
-#: modules/pref-feeds.php:1115 modules/pref-filters.php:413
+#: modules/pref-feeds.php:1355 modules/pref-filters.php:413
 #: modules/pref-labels.php:328 modules/pref-users.php:373
 msgid "Edit"
 msgstr "编辑"
 
-#: modules/pref-feeds.php:1116
+#: modules/pref-feeds.php:1356
 msgid "Manual purge"
 msgstr ""
 
-#: modules/pref-feeds.php:1117
+#: modules/pref-feeds.php:1357
 #, fuzzy
 msgid "Clear feed data"
 msgstr "所有Feed已更新。"
 
-#: modules/pref-feeds.php:1118 modules/pref-filters.php:269
+#: modules/pref-feeds.php:1358 modules/pref-filters.php:269
 #, fuzzy
 msgid "Rescore articles"
 msgstr "星级文章"
 
-#: modules/pref-feeds.php:1124
+#: modules/pref-feeds.php:1364
 #, fuzzy
 msgid "Other:"
 msgstr "地点:"
 
-#: modules/pref-feeds.php:1125
+#: modules/pref-feeds.php:1365
 msgid "Edit categories"
 msgstr "编辑分类"
 
-#: modules/pref-feeds.php:1132
+#: modules/pref-feeds.php:1372
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1136
+#: modules/pref-feeds.php:1376
 #, fuzzy
 msgid "File:"
 msgstr "标题:"
 
-#: modules/pref-feeds.php:1139
+#: modules/pref-feeds.php:1379
 msgid "Import"
 msgstr "导入"
 
-#: modules/pref-feeds.php:1146
+#: modules/pref-feeds.php:1386
 msgid "Export OPML"
 msgstr "导出OPML"
 
-#: modules/pref-feeds.php:1149
+#: modules/pref-feeds.php:1389
 msgid "Firefox Integration"
 msgstr ""
 
-#: modules/pref-feeds.php:1151
+#: modules/pref-feeds.php:1391
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
 msgstr ""
 
-#: modules/pref-feeds.php:1155
+#: modules/pref-feeds.php:1395
 msgid "Click here to register this site as a feed reader."
 msgstr ""
 
-#: modules/pref-feeds.php:1164
+#: modules/pref-feeds.php:1404
 #, fuzzy
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
 msgstr "本站文章作为一个公开的RSS源，可以被大众订阅。"
 
-#: modules/pref-feeds.php:1171
+#: modules/pref-feeds.php:1411
 #, fuzzy
 msgid "Generate another link"
 msgstr "生成另一个地址"
@@ -2263,6 +2303,9 @@ msgstr "未定义过滤器。"
 #, fuzzy
 msgid "No matching users found."
 msgstr "未找到文章。"
+
+#~ msgid "View:"
+#~ msgstr "浏览:"
 
 #~ msgid "Enable icons in feedlist"
 #~ msgstr "feed列表中不启用ico"
