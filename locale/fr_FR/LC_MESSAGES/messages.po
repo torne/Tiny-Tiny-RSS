@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-18 12:32+0400\n"
+"POT-Creation-Date: 2008-09-21 16:34+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -94,7 +94,7 @@ msgstr "Page"
 msgid "SimplePie"
 msgstr ""
 
-#: backend.php:139 modules/pref-users.php:35
+#: backend.php:139 modules/pref-users.php:142
 msgid "User"
 msgstr "Utilisateur"
 
@@ -105,26 +105,6 @@ msgstr ""
 #: backend.php:141
 msgid "Administrator"
 msgstr "Administrateur"
-
-#: backend.php:473 modules/pref-users.php:311
-msgid "Registered"
-msgstr "Abonné"
-
-#: backend.php:474
-msgid "Last logged in"
-msgstr "Dernière connexion"
-
-#: backend.php:475
-msgid "Stored articles"
-msgstr "Articles mémorisés"
-
-#: backend.php:482
-msgid "Subscribed feeds count"
-msgstr "Nombre d'abonnements à des flux"
-
-#: backend.php:497
-msgid "Subscribed feeds"
-msgstr "Abonnements à des flux"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -231,13 +211,13 @@ msgstr "Recherché"
 #: functions.php:3958 functions.php:4008 functions.php:5300
 #: modules/pref-feeds.php:1010 modules/pref-feeds.php:1191
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
-#: modules/pref-users.php:302
+#: modules/pref-users.php:409
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
 #: functions.php:3959 functions.php:4009 modules/pref-feeds.php:1011
 #: modules/pref-feeds.php:1192 modules/pref-filters.php:310
-#: modules/pref-labels.php:276 modules/pref-users.php:303
+#: modules/pref-labels.php:276 modules/pref-users.php:410
 msgid "All"
 msgstr "Tout"
 
@@ -253,7 +233,7 @@ msgstr "(Inverse)"
 
 #: functions.php:3962 functions.php:4011 modules/pref-feeds.php:1012
 #: modules/pref-feeds.php:1193 modules/pref-filters.php:311
-#: modules/pref-labels.php:277 modules/pref-users.php:304
+#: modules/pref-labels.php:277 modules/pref-users.php:411
 msgid "None"
 msgstr "Aucun"
 
@@ -368,7 +348,7 @@ msgid "audio/mpeg"
 msgstr ""
 
 #: functions.php:4794 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:548 modules/pref-feeds.php:1061
+#: modules/popup-dialog.php:547 modules/pref-feeds.php:1061
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
@@ -1396,7 +1376,7 @@ msgstr "Nuage d'étiquettes"
 #: tt-rss.php:143 modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:1106
 #: modules/pref-filters.php:252 modules/pref-labels.php:239
-#: modules/pref-users.php:258
+#: modules/pref-users.php:365
 msgid "Search"
 msgstr "Rechercher"
 
@@ -1658,7 +1638,7 @@ msgstr "Enregistrement de la catégorie..."
 
 #: modules/popup-dialog.php:104 modules/pref-feeds.php:285
 #: modules/pref-feeds.php:467 modules/pref-prefs.php:259
-#: modules/pref-users.php:44
+#: modules/pref-users.php:151
 msgid "Authentication"
 msgstr "Identification"
 
@@ -1673,9 +1653,9 @@ msgstr "S'inscrire"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
 #: modules/popup-dialog.php:279 modules/popup-dialog.php:428
-#: modules/popup-dialog.php:524 modules/pref-feeds.php:125
+#: modules/popup-dialog.php:523 modules/pref-feeds.php:125
 #: modules/pref-feeds.php:380 modules/pref-feeds.php:531
-#: modules/pref-filters.php:133 modules/pref-users.php:79
+#: modules/pref-filters.php:133 modules/pref-users.php:186
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1760,7 +1740,7 @@ msgstr ""
 
 #: modules/popup-dialog.php:403 modules/pref-feeds.php:303
 #: modules/pref-feeds.php:485 modules/pref-filters.php:90
-#: modules/pref-users.php:60
+#: modules/pref-users.php:167
 #, fuzzy
 msgid "Options"
 msgstr "Options&nbsp;:"
@@ -1781,33 +1761,33 @@ msgstr "Erreurs de mise à jour"
 msgid "These feeds have not been updated because of errors:"
 msgstr "Ces flux n'ont pas été mis à jour à cause d'erreurs&nbsp;:"
 
-#: modules/popup-dialog.php:461
+#: modules/popup-dialog.php:460
 msgid "Close"
 msgstr "Fermer"
 
-#: modules/popup-dialog.php:470
+#: modules/popup-dialog.php:469
 msgid "Edit Tags"
 msgstr "Modifier les étiquettes"
 
-#: modules/popup-dialog.php:475
+#: modules/popup-dialog.php:474
 msgid "Tags for this article (separated by commas):"
 msgstr "Étiquettes pour cet article (séparées par des virgules)&nbsp;:"
 
-#: modules/popup-dialog.php:520 modules/pref-feeds.php:378
+#: modules/popup-dialog.php:519 modules/pref-feeds.php:378
 #: modules/pref-feeds.php:529 modules/pref-filters.php:129
-#: modules/pref-users.php:76
+#: modules/pref-users.php:183
 msgid "Save"
 msgstr "Enregistrer"
 
-#: modules/popup-dialog.php:533
+#: modules/popup-dialog.php:532
 msgid "Tag cloud"
 msgstr "Nuage d'étiquettes"
 
-#: modules/popup-dialog.php:536
+#: modules/popup-dialog.php:535
 msgid "Showing most popular tags "
 msgstr "Affichage des étiquettes les plus populaires "
 
-#: modules/popup-dialog.php:537
+#: modules/popup-dialog.php:536
 msgid "browse more"
 msgstr "en afficher plus"
 
@@ -1959,7 +1939,7 @@ msgstr "Aucune catégorie de flux définie."
 
 #: modules/pref-feeds.php:1067 modules/pref-filters.php:123
 #: modules/pref-filters.php:415 modules/pref-labels.php:330
-#: modules/pref-users.php:375
+#: modules/pref-users.php:482
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -1990,7 +1970,7 @@ msgid "Updated"
 msgstr "Mis à jour"
 
 #: modules/pref-feeds.php:1294 modules/pref-filters.php:389
-#: modules/pref-labels.php:310 modules/pref-users.php:350
+#: modules/pref-labels.php:310 modules/pref-users.php:457
 msgid "Click to edit"
 msgstr ""
 
@@ -2003,7 +1983,7 @@ msgid "Recategorize"
 msgstr "Changer de catégorie"
 
 #: modules/pref-feeds.php:1355 modules/pref-filters.php:413
-#: modules/pref-labels.php:328 modules/pref-users.php:373
+#: modules/pref-labels.php:328 modules/pref-users.php:480
 msgid "Edit"
 msgstr "Modifier"
 
@@ -2272,47 +2252,67 @@ msgstr "Revenir aux valeurs par défaut"
 msgid "Your access level is insufficient to open this tab."
 msgstr "Vous n'avez pas les permissions nécessaires pour exécuter ce script."
 
-#: modules/pref-users.php:17
+#: modules/pref-users.php:54 modules/pref-users.php:418
+msgid "Registered"
+msgstr "Abonné"
+
+#: modules/pref-users.php:55
+msgid "Last logged in"
+msgstr "Dernière connexion"
+
+#: modules/pref-users.php:56
+msgid "Stored articles"
+msgstr "Articles mémorisés"
+
+#: modules/pref-users.php:63
+msgid "Subscribed feeds count"
+msgstr "Nombre d'abonnements à des flux"
+
+#: modules/pref-users.php:78
+msgid "Subscribed feeds"
+msgstr "Abonnements à des flux"
+
+#: modules/pref-users.php:124
 #, fuzzy
 msgid "User Editor"
 msgstr "Éditeur d'utilisateur"
 
-#: modules/pref-users.php:47
+#: modules/pref-users.php:154
 #, fuzzy
 msgid "Access level: "
 msgstr "Permissions&nbsp;:"
 
-#: modules/pref-users.php:54
+#: modules/pref-users.php:161
 #, fuzzy
 msgid "Change password to"
 msgstr "Modifier le mot de passe"
 
-#: modules/pref-users.php:63
+#: modules/pref-users.php:170
 #, fuzzy
 msgid "E-mail: "
 msgstr "Adresse électronique&nbsp;:"
 
-#: modules/pref-users.php:99
+#: modules/pref-users.php:206
 #, php-format
 msgid "Changed password of user <b>%s</b>."
 msgstr "Mot de passe de l'utilisateur <b>%s</b> modifié."
 
-#: modules/pref-users.php:147
+#: modules/pref-users.php:254
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr "Utilisateur <b>%s</b> ajouté avec le mot de passe <b>%s</b>"
 
-#: modules/pref-users.php:154
+#: modules/pref-users.php:261
 #, php-format
 msgid "Could not create user <b>%s</b>"
 msgstr "Impossible de créer l'utilisateur <b>%s</b>"
 
-#: modules/pref-users.php:158
+#: modules/pref-users.php:265
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr "L'utilisateur <b>%s</b> existe déjà."
 
-#: modules/pref-users.php:178
+#: modules/pref-users.php:285
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
@@ -2321,45 +2321,45 @@ msgstr ""
 "Mot de passe de l'utilisateur <b>%s</b>\n"
 "\t\t\t\t\tmodifié en <b>%s</b>"
 
-#: modules/pref-users.php:182
+#: modules/pref-users.php:289
 #, fuzzy, php-format
 msgid "Notifying <b>%s</b>."
 msgstr "Ajout de la catégorie <b>%s</b>."
 
-#: modules/pref-users.php:218
+#: modules/pref-users.php:325
 msgid "[tt-rss] Password change notification"
 msgstr ""
 
-#: modules/pref-users.php:275
+#: modules/pref-users.php:382
 msgid "Create user"
 msgstr "Créer l'utilisateur"
 
-#: modules/pref-users.php:309
+#: modules/pref-users.php:416
 msgid "Login"
 msgstr "Se connecter"
 
-#: modules/pref-users.php:310
+#: modules/pref-users.php:417
 msgid "Access Level"
 msgstr "Permissions"
 
-#: modules/pref-users.php:312
+#: modules/pref-users.php:419
 msgid "Last login"
 msgstr "Dernière connexion"
 
-#: modules/pref-users.php:371
+#: modules/pref-users.php:478
 msgid "User details"
 msgstr "Détails de l'utilisateur"
 
-#: modules/pref-users.php:377
+#: modules/pref-users.php:484
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
 
-#: modules/pref-users.php:382
+#: modules/pref-users.php:489
 #, fuzzy
 msgid "No users defined."
 msgstr "Aucun filtre défini."
 
-#: modules/pref-users.php:384
+#: modules/pref-users.php:491
 #, fuzzy
 msgid "No matching users found."
 msgstr "Aucun article trouvé."

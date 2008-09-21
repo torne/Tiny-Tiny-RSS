@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-18 12:32+0400\n"
+"POT-Creation-Date: 2008-09-21 16:34+0400\n"
 "PO-Revision-Date: 2007-08-18 15:14+0400\n"
 "Last-Translator: Andrew Dolgov <cthulhoo@gmail.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -94,7 +94,7 @@ msgstr "Страница"
 msgid "SimplePie"
 msgstr ""
 
-#: backend.php:139 modules/pref-users.php:35
+#: backend.php:139 modules/pref-users.php:142
 msgid "User"
 msgstr "Пользователь"
 
@@ -105,30 +105,6 @@ msgstr ""
 #: backend.php:141
 msgid "Administrator"
 msgstr "Администратор"
-
-#: backend.php:473 modules/pref-users.php:311
-msgid "Registered"
-msgstr ""
-
-#: backend.php:474
-#, fuzzy
-msgid "Last logged in"
-msgstr "Последний вход"
-
-#: backend.php:475
-#, fuzzy
-msgid "Stored articles"
-msgstr "Отмеченные"
-
-#: backend.php:482
-#, fuzzy
-msgid "Subscribed feeds count"
-msgstr "Подписаны каналы:"
-
-#: backend.php:497
-#, fuzzy
-msgid "Subscribed feeds"
-msgstr "Подписаны каналы:"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -230,13 +206,13 @@ msgstr "Поиск"
 #: functions.php:3958 functions.php:4008 functions.php:5300
 #: modules/pref-feeds.php:1010 modules/pref-feeds.php:1191
 #: modules/pref-filters.php:309 modules/pref-labels.php:275
-#: modules/pref-users.php:302
+#: modules/pref-users.php:409
 msgid "Select:"
 msgstr "Выбрать:"
 
 #: functions.php:3959 functions.php:4009 modules/pref-feeds.php:1011
 #: modules/pref-feeds.php:1192 modules/pref-filters.php:310
-#: modules/pref-labels.php:276 modules/pref-users.php:303
+#: modules/pref-labels.php:276 modules/pref-users.php:410
 msgid "All"
 msgstr "Все"
 
@@ -252,7 +228,7 @@ msgstr "(Инвертирован)"
 
 #: functions.php:3962 functions.php:4011 modules/pref-feeds.php:1012
 #: modules/pref-feeds.php:1193 modules/pref-filters.php:311
-#: modules/pref-labels.php:277 modules/pref-users.php:304
+#: modules/pref-labels.php:277 modules/pref-users.php:411
 msgid "None"
 msgstr "Ничего"
 
@@ -367,7 +343,7 @@ msgid "audio/mpeg"
 msgstr ""
 
 #: functions.php:4794 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:548 modules/pref-feeds.php:1061
+#: modules/popup-dialog.php:547 modules/pref-feeds.php:1061
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
@@ -1338,7 +1314,7 @@ msgstr "облако тегов"
 #: tt-rss.php:143 modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:1106
 #: modules/pref-filters.php:252 modules/pref-labels.php:239
-#: modules/pref-users.php:258
+#: modules/pref-users.php:365
 msgid "Search"
 msgstr "Поиск"
 
@@ -1589,7 +1565,7 @@ msgstr "Категория сохраняется..."
 
 #: modules/popup-dialog.php:104 modules/pref-feeds.php:285
 #: modules/pref-feeds.php:467 modules/pref-prefs.php:259
-#: modules/pref-users.php:44
+#: modules/pref-users.php:151
 msgid "Authentication"
 msgstr "Авторизация"
 
@@ -1604,9 +1580,9 @@ msgstr "Подписаться"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
 #: modules/popup-dialog.php:279 modules/popup-dialog.php:428
-#: modules/popup-dialog.php:524 modules/pref-feeds.php:125
+#: modules/popup-dialog.php:523 modules/pref-feeds.php:125
 #: modules/pref-feeds.php:380 modules/pref-feeds.php:531
-#: modules/pref-filters.php:133 modules/pref-users.php:79
+#: modules/pref-filters.php:133 modules/pref-users.php:186
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -1690,7 +1666,7 @@ msgstr ""
 
 #: modules/popup-dialog.php:403 modules/pref-feeds.php:303
 #: modules/pref-feeds.php:485 modules/pref-filters.php:90
-#: modules/pref-users.php:60
+#: modules/pref-users.php:167
 #, fuzzy
 msgid "Options"
 msgstr "Дополнительно:"
@@ -1711,33 +1687,33 @@ msgstr "Ошибки обновления"
 msgid "These feeds have not been updated because of errors:"
 msgstr "Эти каналы не было обновлены из-за ошибок:"
 
-#: modules/popup-dialog.php:461
+#: modules/popup-dialog.php:460
 msgid "Close"
 msgstr "Закрыть"
 
-#: modules/popup-dialog.php:470
+#: modules/popup-dialog.php:469
 msgid "Edit Tags"
 msgstr "Редактировать теги"
 
-#: modules/popup-dialog.php:475
+#: modules/popup-dialog.php:474
 msgid "Tags for this article (separated by commas):"
 msgstr "Теги для этой статьи (разделенные запятыми):"
 
-#: modules/popup-dialog.php:520 modules/pref-feeds.php:378
+#: modules/popup-dialog.php:519 modules/pref-feeds.php:378
 #: modules/pref-feeds.php:529 modules/pref-filters.php:129
-#: modules/pref-users.php:76
+#: modules/pref-users.php:183
 msgid "Save"
 msgstr "Сохранить"
 
-#: modules/popup-dialog.php:533
+#: modules/popup-dialog.php:532
 msgid "Tag cloud"
 msgstr "Облако тегов"
 
-#: modules/popup-dialog.php:536
+#: modules/popup-dialog.php:535
 msgid "Showing most popular tags "
 msgstr "Самые популярные теги "
 
-#: modules/popup-dialog.php:537
+#: modules/popup-dialog.php:536
 msgid "browse more"
 msgstr "еще"
 
@@ -1886,7 +1862,7 @@ msgstr "Категории отсутствуют."
 
 #: modules/pref-feeds.php:1067 modules/pref-filters.php:123
 #: modules/pref-filters.php:415 modules/pref-labels.php:330
-#: modules/pref-users.php:375
+#: modules/pref-users.php:482
 msgid "Remove"
 msgstr "Удалить"
 
@@ -1915,7 +1891,7 @@ msgid "Updated"
 msgstr "Обновлено"
 
 #: modules/pref-feeds.php:1294 modules/pref-filters.php:389
-#: modules/pref-labels.php:310 modules/pref-users.php:350
+#: modules/pref-labels.php:310 modules/pref-users.php:457
 msgid "Click to edit"
 msgstr ""
 
@@ -1929,7 +1905,7 @@ msgid "Recategorize"
 msgstr "Изменить категорию"
 
 #: modules/pref-feeds.php:1355 modules/pref-filters.php:413
-#: modules/pref-labels.php:328 modules/pref-users.php:373
+#: modules/pref-labels.php:328 modules/pref-users.php:480
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -2196,91 +2172,115 @@ msgstr "Сбросить настройки"
 msgid "Your access level is insufficient to open this tab."
 msgstr "В доступе отказано - недостаточный уровень привилегий."
 
-#: modules/pref-users.php:17
+#: modules/pref-users.php:54 modules/pref-users.php:418
+msgid "Registered"
+msgstr ""
+
+#: modules/pref-users.php:55
+#, fuzzy
+msgid "Last logged in"
+msgstr "Последний вход"
+
+#: modules/pref-users.php:56
+#, fuzzy
+msgid "Stored articles"
+msgstr "Отмеченные"
+
+#: modules/pref-users.php:63
+#, fuzzy
+msgid "Subscribed feeds count"
+msgstr "Подписаны каналы:"
+
+#: modules/pref-users.php:78
+#, fuzzy
+msgid "Subscribed feeds"
+msgstr "Подписаны каналы:"
+
+#: modules/pref-users.php:124
 #, fuzzy
 msgid "User Editor"
 msgstr "Редактор пользователей"
 
-#: modules/pref-users.php:47
+#: modules/pref-users.php:154
 #, fuzzy
 msgid "Access level: "
 msgstr "Уровень доступа:"
 
-#: modules/pref-users.php:54
+#: modules/pref-users.php:161
 #, fuzzy
 msgid "Change password to"
 msgstr "Изменить пароль"
 
-#: modules/pref-users.php:63
+#: modules/pref-users.php:170
 msgid "E-mail: "
 msgstr ""
 
-#: modules/pref-users.php:99
+#: modules/pref-users.php:206
 #, php-format
 msgid "Changed password of user <b>%s</b>."
 msgstr "Пароль пользователя <b>%s</b> изменен."
 
-#: modules/pref-users.php:147
+#: modules/pref-users.php:254
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
 msgstr "Добавлен пользователь <b>%s</b> с паролем <b>%s</b>"
 
-#: modules/pref-users.php:154
+#: modules/pref-users.php:261
 #, php-format
 msgid "Could not create user <b>%s</b>"
 msgstr "Не могу добавить пользователя <b>%s</b>"
 
-#: modules/pref-users.php:158
+#: modules/pref-users.php:265
 #, php-format
 msgid "User <b>%s</b> already exists."
 msgstr "Пользователь <b>%s</b> уже существует."
 
-#: modules/pref-users.php:178
+#: modules/pref-users.php:285
 #, php-format
 msgid ""
 "Changed password of user <b>%s</b>\n"
 "\t\t\t\t\t to <b>%s</b>"
 msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
 
-#: modules/pref-users.php:182
+#: modules/pref-users.php:289
 #, fuzzy, php-format
 msgid "Notifying <b>%s</b>."
 msgstr "Добавляется категория <b>%s</b>."
 
-#: modules/pref-users.php:218
+#: modules/pref-users.php:325
 msgid "[tt-rss] Password change notification"
 msgstr ""
 
-#: modules/pref-users.php:275
+#: modules/pref-users.php:382
 msgid "Create user"
 msgstr "Добавить пользователя"
 
-#: modules/pref-users.php:309
+#: modules/pref-users.php:416
 msgid "Login"
 msgstr "Пользователь:"
 
-#: modules/pref-users.php:310
+#: modules/pref-users.php:417
 msgid "Access Level"
 msgstr "Уровень доступа:"
 
-#: modules/pref-users.php:312
+#: modules/pref-users.php:419
 msgid "Last login"
 msgstr "Последний вход"
 
-#: modules/pref-users.php:371
+#: modules/pref-users.php:478
 msgid "User details"
 msgstr "Подробнее..."
 
-#: modules/pref-users.php:377
+#: modules/pref-users.php:484
 msgid "Reset password"
 msgstr "Сбросить пароль"
 
-#: modules/pref-users.php:382
+#: modules/pref-users.php:489
 #, fuzzy
 msgid "No users defined."
 msgstr "Фильтры отсутствуют."
 
-#: modules/pref-users.php:384
+#: modules/pref-users.php:491
 #, fuzzy
 msgid "No matching users found."
 msgstr "Статей не найдено."
