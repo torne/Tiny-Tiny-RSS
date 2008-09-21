@@ -23,7 +23,7 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>">
+	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 
 	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
@@ -37,7 +37,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
 	<?php } ?>
 
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
 	<script type="text/javascript" src="prototype.js"></script>
 	<script type="text/javascript" src="scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
@@ -47,19 +47,22 @@
 	<script type="text/javascript" src="feedlist.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="viewfeed.js?<?php echo $dt_add ?>"></script>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<script type="text/javascript">
+	//<![CDATA[
 		if (navigator.userAgent.match("Opera")) {
 			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
 		}
 		if (navigator.userAgent.match("Gecko") && !navigator.userAgent.match("KHTML")) {
 			document.write('<link rel="stylesheet" type="text/css" href="gecko.css">');
 		}
+		window.onresize=resize_headlines;
+	//]]>
 	</script>
 </head>
 
-<body onresize="resize_headlines()" id="ttrssMain">
+<body id="ttrssMain">
 
 <div id="overlay" style="display : block">
 	<div id="overlay_inner">
@@ -100,7 +103,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<ul id="debug_output" style='display : none'></ul>
+<ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
 
 <div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
 
@@ -122,7 +125,7 @@ window.onload = init;
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="New version is available!" 
-		alt="new_version_icon">
+		alt="new_version_icon"/>
 	</div>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
@@ -139,22 +142,22 @@ window.onload = init;
 
 		<div style="float : right">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
-					<option value="qmcDefault" selected><?php echo __('Actions...') ?></option>
+					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search') ?></option>
 					<!-- <option value="qmcPrefs"><?php echo __('Preferences') ?></option> -->
-					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo __('Feed actions:') ?></option>
+					<option disabled="disabled">--------</option>
+					<option style="color : #5050aa" disabled="disabled"><?php echo __('Feed actions:') ?></option>
 					<option value="qmcAddFeed"><?php echo __('&nbsp;&nbsp;Subscribe to feed') ?></option>
 					<option value="qmcEditFeed"><?php echo __('&nbsp;&nbsp;Edit this feed') ?></option>
 					<!-- <option value="qmcClearFeed"><?php echo __('&nbsp;&nbsp;Clear articles') ?></option> -->
 					<option value="qmcRescoreFeed"><?php echo __('&nbsp;&nbsp;Rescore feed') ?></option>
 					<option value="qmcRemoveFeed"><?php echo __('&nbsp;&nbsp;Unsubscribe') ?></option>
-					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo __('All feeds:') ?></option>
+					<option disabled="disabled">--------</option>
+					<option style="color : #5050aa" disabled="disabled"><?php echo __('All feeds:') ?></option>
 					<option value="qmcCatchupAll"><?php echo __('&nbsp;&nbsp;Mark as read') ?></option>
 					<option value="qmcShowOnlyUnread"><?php echo __('&nbsp;&nbsp;(Un)hide read feeds') ?></option>
-					<option disabled>--------</option>
-					<option style="color : #5050aa" disabled><?php echo __('Other actions:') ?></option>				
+					<option disabled="disabled">--------</option>
+					<option style="color : #5050aa" disabled="disabled"><?php echo __('Other actions:') ?></option>				
 					<option value="qmcAddFilter"><?php echo __('&nbsp;&nbsp;Create filter') ?></option>
 					<option value="qmcResetUI"><?php echo __('&nbsp;&nbsp;Reset UI layout') ?></option>
 					<option value="qmcResetCats"><?php echo __('&nbsp;&nbsp;Reset category order') ?></option>
@@ -163,29 +166,29 @@ window.onload = init;
 			</select>
 		</div>
 
-		<form id="main_toolbar_form" onsubmit='return false'>
+		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
 		<input type="submit" value="&lt;&lt;" 
 			id="collapse_feeds_btn" onclick="collapse_feedlist()" class="button"
-			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
+			title="<?php echo __('Collapse feedlist') ?>" style="display : none"/>
 
 		<input type="submit" value="<?php echo __("Toggle Feedlist") ?>" 
 			id="toggle_feeds_btn" class="button"
-			onclick="toggle_feedlist()" style="display : none">
+			onclick="toggle_feedlist()" style="display : none"/>
 
 		&nbsp;
 
 		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
 
 		<?php echo __('Search:') ?>
-		<input name="query" type="search"
-			onKeyPress="return filterCR(event, viewCurrentFeed)"
-			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();">
+		<input name="query" type="text"
+			onkeypress="return filterCR(event, viewCurrentFeed)"
+			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();"/>
 
 		<?php } ?>
 
 		<select name="view_mode" onchange="viewModeChanged()">
-			<option selected value="adaptive"><?php echo __('Adaptive') ?></option>
+			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
 			<option value="unread"><?php echo __('Unread') ?></option>
@@ -195,7 +198,7 @@ window.onload = init;
 		<?php echo __('Order:') ?>
 
 		<select name="order_by" onchange="viewModeChanged()">
-			<option selected value="default"><?php echo __('Default') ?></option>
+			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date"><?php echo __('Date') ?></option>
 			<option value="title"><?php echo __('Title') ?></option>
 			<option value="score"><?php echo __('Score') ?></option>
@@ -227,7 +230,7 @@ window.onload = init;
 
 		<input class="button" type="submit"
 			onclick="return viewCurrentFeed('ForceUpdate')" 
-			value="<?php echo __('Update') ?>">
+			value="<?php echo __('Update') ?>"/>
 
 		</form>
 

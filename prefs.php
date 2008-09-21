@@ -22,11 +22,11 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
-	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>">
+	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 
 	<?php	$user_theme = $_SESSION["theme"];
 		if ($user_theme) { ?>
-		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css">
+		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css"/>
 	<?php } ?>
 
 	<?php if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
@@ -36,7 +36,7 @@
 		<link type="text/css" href="<?php echo $user_css_url ?>"/> 
 	<?php } ?>
 
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
 	<script type="text/javascript" src="prototype.js"></script>
 	<script type="text/javascript" src="scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
@@ -46,15 +46,17 @@
 	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" src="prefs.js?<?php echo $dt_add ?>"></script>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<script type="text/javascript">
+	//<![CDATA[
 		if (navigator.userAgent.match("Opera")) {
 			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
 		}
 		if (navigator.userAgent.match("Gecko") && !navigator.userAgent.match("KHTML")) {
 			document.write('<link rel="stylesheet" type="text/css" href="gecko.css">');
 		}
+	//]]>
 	</script>
 </head>
 
@@ -84,7 +86,7 @@
 	<?php rounded_table_end(); ?>
 </div>
 
-<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie">
+<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie"/>
 
 <script type="text/javascript">
 if (document.addEventListener) {
@@ -93,7 +95,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<ul id="debug_output" style='display : none'></ul>
+<ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
 
 <div id="fatal_error"><div id="fatal_error_inner">
 	<h1>Fatal Error</h1>
@@ -119,7 +121,7 @@ window.onload = init;
 		</div> -->
 
 		<div class='prefKbdHelp'>
-			<img src="images/small_question.png" alt="?"> <a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})">Keyboard shortcuts</a>
+			<img src="images/small_question.png" alt="?"/> <a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})">Keyboard shortcuts</a>
 		</div>
 
 		<div class="firstTab">&nbsp;</div>
