@@ -1,7 +1,7 @@
 #!/bin/sh
 TEMPLATE=messages.pot
 
-xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php modules/*.php
+xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php modules/*.php help/*.php
 
 update_lang() {
 	if [ -f $1.po ]; then
