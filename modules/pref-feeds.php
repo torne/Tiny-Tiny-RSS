@@ -305,6 +305,14 @@
 
 			print "<div style=\"line-height : 100%\">";
 
+			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
+
+			if ($private) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
 			print "<input type=\"checkbox\" name=\"private\" id=\"private\" 
 				$checked>&nbsp;<label for=\"private\">".__('Hide from "Other Feeds"')."</label>";
 
