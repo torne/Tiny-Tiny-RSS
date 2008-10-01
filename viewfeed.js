@@ -81,7 +81,7 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		if (is_cat != undefined) {
 			active_feed_is_cat = is_cat;
 		}
-	
+
 		if (!is_cat) {
 			var feedr = document.getElementById("FEEDR-" + active_feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	

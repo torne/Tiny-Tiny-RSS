@@ -1035,6 +1035,40 @@ function toggleSelectRow(sender) {
 	}
 }
 
+function getNextUnreadCat(id) {
+	try {
+		var rows = document.getElementById("feedList").getElementsByTagName("LI");
+		var feeds = new Array();
+
+		var unread_only = true;
+		var is_cat = true;
+
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].id.match("FCAT-")) {
+				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+
+					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
+
+					if (cat_id >= 0) {
+						if (!unread_only || get_cat_unread(cat_id) > 0) {
+							feeds.push(cat_id);
+						}
+					}
+				}
+			}
+		}
+
+		var idx = feeds.indexOf(id);
+		if (idx != -1 && idx < feeds.length) {
+			return feeds[idx+1];					
+		} else {
+			return feeds.shift();
+		}
+
+	} catch (e) {
+		exception_error("getNextUnreadCat", e);
+	}
+}
 
 function getRelativeFeedId2(id, is_cat, direction, unread_only) {	
 	try {

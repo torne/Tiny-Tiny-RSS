@@ -135,22 +135,41 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (subop == "MarkAllRead") {
 
-			var feedlist = document.getElementById('feedList');
-			
-			var next_unread_feed = getRelativeFeedId(feedlist,
-					feed, "next", true);
-
-			if (!next_unread_feed) {
-				next_unread_feed = getRelativeFeedId(feedlist,
-					-3, "next", true);
-			}
-
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
-			if (next_unread_feed && show_next_feed && !activeFeedIsCat()) {
-				query = query + "&nuf=" + param_escape(next_unread_feed);
-				//setActiveFeedId(next_unread_feed);
-				feed = next_unread_feed;
+			if (show_next_feed) {
+
+				if (!activeFeedIsCat()) {
+	
+					var feedlist = document.getElementById('feedList');
+				
+					var next_unread_feed = getRelativeFeedId(feedlist,
+							feed, "next", true);
+	
+					if (!next_unread_feed) {
+						next_unread_feed = getRelativeFeedId(feedlist,
+							-3, "next", true);
+					}
+		
+					if (next_unread_feed) {
+						query = query + "&nuf=" + param_escape(next_unread_feed);
+						//setActiveFeedId(next_unread_feed);
+						feed = next_unread_feed;
+					}
+				} else {
+	
+					var next_unread_feed = getNextUnreadCat(feed);
+
+					/* we don't need to specify that our next feed is actually
+					a category, because we're in the is_cat mode by definition
+					already */
+
+					if (next_unread_feed && show_next_feed) {
+						query = query + "&nuf=" + param_escape(next_unread_feed);
+						feed = next_unread_feed;
+					}
+
+				}
 			}
 		}
 
