@@ -5055,6 +5055,7 @@
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
 				} else {
 					//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
+					$feed_icon_img = "";
 				}
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
