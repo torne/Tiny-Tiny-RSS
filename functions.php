@@ -4629,6 +4629,7 @@
 			if ($zoom_mode) {
 				header("Content-Type: text/html");
 				print "<html><head>
+						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
 						<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss.css\">
 					</head><body>";
