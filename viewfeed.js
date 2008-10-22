@@ -1904,6 +1904,42 @@ function zoomToArticle(id) {
 	}
 }
 
+function showOriginalArticleInline(id) {
+	try {
+
+		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
+
+		notify_progress("Loading, please wait...", true);
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+
+				if (transport.responseXML) {
+			
+					var link = transport.responseXML.getElementsByTagName("link")[0];
+					var id = transport.responseXML.getElementsByTagName("id")[0];
+
+					notify("");
+
+					if (link && id) {
+						link = link.firstChild.nodeValue;
+
+						var ci = document.getElementById("content-insert");
+
+						var tmp = "<iframe id=\"inline_orig_article\" width=\""+ci.offsetWidth+"\" height=\""+ci.offsetHeight+"\" style=\"border-width : 0px;\" src=\""+link+"\"></iframe>";
+
+						render_article(tmp);
+
+					}
+				}
+			} });
+
+	} catch (e) {
+		exception_error("showOriginalArticleInline", e);
+	}
+}
+
+
 function scrollArticle(offset) {
 	try {
 		if (!isCdmMode()) {

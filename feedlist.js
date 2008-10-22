@@ -428,6 +428,13 @@ function hide_footer_af(effect) {
 
 		if (c) {
 			c.style.bottom = "0px";
+
+			var ioa = document.getElementById("inline_orig_article");
+
+			if (ioa) {
+				ioa.height = c.offsetHeight;
+			}
+
 		} else {
 			var h = document.getElementById("headlines-frame");
 

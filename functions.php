@@ -4712,8 +4712,18 @@
 			if (!$zoom_mode) {
 				print "$tags_str 
 					<a title=\"".__('Edit tags for this article')."\" 
-						href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>				
-					<img src=\"images/art-zoom.png\" class='tagsPic' 
+					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>";
+
+				if (defined('_ENABLE_INLINE_VIEW')) {
+
+					print "<img src=\"images/art-inline.png\" class='tagsPic' 
+							onclick=\"showOriginalArticleInline($id)\"
+							alt='Inline' title='".__('Display original article content')."'>";
+
+				}
+
+				print "<img src=\"images/art-zoom.png\" class='tagsPic' 
+						style=\"cursor : pointer\"
 						style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
