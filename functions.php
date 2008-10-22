@@ -4717,14 +4717,14 @@
 				if (defined('_ENABLE_INLINE_VIEW')) {
 
 					print "<img src=\"images/art-inline.png\" class='tagsPic' 
+							style=\"cursor : pointer\" style=\"cursor : pointer\"
 							onclick=\"showOriginalArticleInline($id)\"
 							alt='Inline' title='".__('Display original article content')."'>";
 
 				}
 
 				print "<img src=\"images/art-zoom.png\" class='tagsPic' 
-						style=\"cursor : pointer\"
-						style=\"cursor : pointer\"
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
 			} else {
