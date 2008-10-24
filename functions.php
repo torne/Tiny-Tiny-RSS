@@ -5284,14 +5284,8 @@
 						post_id = '$id' AND content_url != ''");
 
 					if (db_num_rows($e_result) > 0) {
-				print "<div class=\"cdmEnclosures\">";
 
-				if (db_num_rows($e_result) == 1) {
-					print __("Attachment:") . " ";
-				} else {
-					print __("Attachments:") . " ";
-				}
-
+				$entries_html = array();
 				$entries = array();
 
 				while ($e_line = db_fetch_assoc($e_result)) {
@@ -5314,13 +5308,40 @@
 					$entry .= "<a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 						$filename . " (" . $ctype . ")" . "</a>";
 
+					array_push($entries_html, $entry);
+
+					$entry = array();
+
+					$entry["type"] = $ctype;
+					$entry["filename"] = $filename;
+					$entry["url"] = $url;
+
 					array_push($entries, $entry);
 				}
 
-				print join(", ", $entries);
+				if (!preg_match("/img/i", $line["content"])) {
+					foreach ($entries as $entry) {
+						if (preg_match("/image/", $entry["type"])) {
+							print "<p><img 
+								alt=\"".htmlspecialchars($entry["filename"])."\"
+								src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+						}
+					}
+				}
+
+				print "<div class=\"cdmEnclosures\">";
+
+				if (db_num_rows($e_result) == 1) {
+					print __("Attachment:") . " ";
+				} else {
+					print __("Attachments:") . " ";
+				}
+
+				print join(", ", $entries_html);
 
 				print "</div>";
 			}
+
 
 					print "<br clear='both'>";
 //					print "</div>";
