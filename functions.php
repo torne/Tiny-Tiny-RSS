@@ -1033,7 +1033,7 @@
 					}
 
 					// <media:content>
-					// can there be many of those? -fox
+					// can there be many of those? yes -fox
 
 					$m_ctr = $item['media']['content#'];
 
@@ -1043,9 +1043,18 @@
 							$item['media']['content@length']);
 
 						array_push($enclosures, $e_item);
-					}
 
-					// FIXME: parse more of those, if needed.
+						for ($i = 0; $i <= $m_ctr; $i++ ) {
+
+							if ($item["media"]["content#$i@url"]) {
+								$e_item = array($item["media"]["content#$i@url"],
+									$item["media"]["content#$i@medium"],
+									$item["media"]["content#$i@length"]);
+								array_push($enclosures, $e_item);
+							}
+						}
+
+					}
 				}
 
 				# sanitize content
