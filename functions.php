@@ -2738,7 +2738,7 @@
 
 			$last_updated = htmlspecialchars($last_updated);
 
-			$has_img = is_file(ICONS_DIR . "/$id.ico");
+			$has_img = feed_has_icon($id);
 
 			$tmp_result = db_query($link,
 				"SELECT ttrss_feeds.id,COUNT(unread) AS unread
@@ -5096,7 +5096,7 @@
 					$entry_author = " - $entry_author";
 				}
 
-				$has_feed_icon = is_file(ICONS_DIR . "/$feed_id.ico");
+				$has_feed_icon = feed_has_icon($feed_id);
 
 				if ($has_feed_icon) {
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
@@ -5198,7 +5198,7 @@
 
 							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>mark as read</a>)";
 
-							$has_feed_icon = is_file(ICONS_DIR . "/$feed_id.ico");
+							$has_feed_icon = feed_has_icon($feed_id);
 
 							if ($has_feed_icon) {
 								$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
@@ -5837,5 +5837,9 @@
 		print " <input type=\"submit\" 
 			onclick=\"return addLabelExample()\"
 			value=\"".__("Add")."\">";
+	}
+
+	function feed_has_icon($id) {
+		return is_file(ICONS_DIR . "/$id.ico") && filesize(ICONS_DIR . "/$id.ico") > 0;
 	}
 ?>
