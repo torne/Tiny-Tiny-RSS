@@ -43,6 +43,11 @@ function languageChange(elem) {
 	}
 }
 
+function gotoRegForm() {
+	window.location.href = "register.php";
+	return false;
+}
+
 function bwLimitChange(elem) {
 	try {
 		var limit_set = elem.checked;
@@ -123,11 +128,12 @@ window.onload = init;
 
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 
+			<input type="submit" class="button" value="<?php echo __('Log in') ?>" name='click'>
 			<?php if (defined('_ENABLE_REGISTRATION')) { ?>
-				<a class="newAcctPrompt" href="register.php">Create new account</a>
+				<input type="submit" class="button" onclick="return gotoRegForm()"
+					value="<?php echo __("Create new account") ?>"/>
 			<?php } ?>
 
-			<input type="submit" class="button" value="<?php echo __('Log in') ?>" name='click'>
 				<input type="hidden" name="action" value="login">
 				<input type="hidden" name="rt" 
 					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">
