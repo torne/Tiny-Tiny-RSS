@@ -3916,7 +3916,7 @@
 				$tid = "headlineActionsBottom";
 			}
 
-			print "<table class=\"$class\" id=\"$tid\"
+			print "<nobr><table class=\"$class\" id=\"$tid\"
 				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 
 			if ($rtl_content) {
@@ -4088,7 +4088,7 @@
 			print "</span>";
 
 			print "</td>";
-			print "</tr></table>";
+			print "</tr></table></nobr>";
 
 		}
 
