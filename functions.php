@@ -26,6 +26,7 @@
 					"en_US" => "English",
 					"fr_FR" => "Français",
 					"hu_HU" => "Magyar (Hungarian)",
+					"it_IT" => "Italiano",
 					"ja_JP" => "日本語 (Japanese)",
 					"nb_NO" => "Norwegian bokmål",
 					"ru_RU" => "Русский",
