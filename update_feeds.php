@@ -50,7 +50,7 @@
 	global_purge_old_posts($link, true, 30);
 
 	// Update all feeds needing a update.
-	update_daemon_common($link, $limit=0);
+	update_daemon_common($link);
 
 	// Send feed digests by email if needed.
 	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
