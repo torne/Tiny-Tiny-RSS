@@ -9,17 +9,8 @@
 	require_once "db.php";
 	
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
-	
-	if (DB_TYPE == "pgsql") {
-		pg_query($link, "set client_encoding = 'utf-8'");
-		pg_set_client_encoding("UNICODE");
-	} else {
-		if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
-			db_query($link, "SET NAMES " . MYSQL_CHARSET);
-//			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
-		}
-	}
 
+	init_connection($link);	
 	login_sequence($link);
 	
 	$owner_uid = $_SESSION["uid"];

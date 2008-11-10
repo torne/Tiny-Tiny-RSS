@@ -46,15 +46,7 @@
 		return;
 	}
 
-	if (DB_TYPE == "pgsql") {
-		pg_query("set client_encoding = 'UTF-8'");
-		pg_set_client_encoding("UNICODE");
-	} else {
-		if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
-			db_query($link, "SET NAMES " . MYSQL_CHARSET);
-//			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
-		}
-	}
+	init_connection($link);
 
 	$op = $_REQUEST["op"];
 

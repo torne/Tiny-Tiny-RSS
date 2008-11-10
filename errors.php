@@ -28,4 +28,6 @@
 		official site for more information.");
 
 	$ERRORS[11] = "[This error is not returned by server]";
+
+	$ERRORS[12] = __("SQL escaping test failed, check your database and PHP configuration");
 ?>

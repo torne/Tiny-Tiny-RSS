@@ -1980,6 +1980,10 @@
 			}
 		}
 
+		if (db_escape_string("testTEST") != "testTEST") {
+			$error_code = 12;
+		}
+
 		error_reporting (DEFAULT_ERROR_LEVEL);
 
 		if ($error_code != 0) {
@@ -5842,5 +5846,17 @@
 
 	function feed_has_icon($id) {
 		return is_file(ICONS_DIR . "/$id.ico") && filesize(ICONS_DIR . "/$id.ico") > 0;
+	}
+
+	function init_connection($link) {
+		if (DB_TYPE == "pgsql") {
+			pg_query("set client_encoding = 'UTF-8'");
+			pg_set_client_encoding("UNICODE");
+		} else {
+			if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
+				db_query($link, "SET NAMES " . MYSQL_CHARSET);
+	//			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
+			}
+		}
 	}
 ?>

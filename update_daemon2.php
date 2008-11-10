@@ -113,7 +113,6 @@
 
 	db_close($link);
 
-
 	while (true) {
 
 		// Since sleep is interupted by SIGCHLD, we need another way to
@@ -155,15 +154,7 @@
 						return;
 					}
 
-					if (DB_TYPE == "pgsql") {
-						pg_query("set client_encoding = 'utf-8'");
-						pg_set_client_encoding("UNICODE");
-					} else {
-						if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
-							db_query($link, "SET NAMES " . MYSQL_CHARSET);
-							// db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
-						}
-					}
+					init_connection($link);
 
 					// We disable stamp file, since it is of no use in a multiprocess update.
 					// not really, tho for the time being -fox
