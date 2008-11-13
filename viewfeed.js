@@ -220,6 +220,7 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
 	
 		if (!document.getElementById("headlinesList") && 
+				getActiveFeedId() != -3 &&
 				getInitParam("cdm_auto_catchup") == 1) {
 			debug("starting CDM watchdog");
 			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);

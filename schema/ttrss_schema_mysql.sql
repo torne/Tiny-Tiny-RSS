@@ -219,7 +219,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (44);
+insert into ttrss_version values (45);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -305,7 +305,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CONFIRM_FEED_CATCHUP', 1, 'true', 'Confirm marking feed as read',3);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('CDM_AUTO_CATCHUP', 1, 'false', 'Mark articles as read automatically',2,
-'This option enables marking articles as read automatically in combined mode while you scroll article list.');
+'This option enables marking articles as read automatically in combined mode (except for Fresh articles feed) while you scroll article list.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_MODE', 2, 'adaptive', '', 1);
 

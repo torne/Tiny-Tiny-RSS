@@ -39,7 +39,7 @@
 	__("Enable search toolbar");
 	__("Hide feeds with no unread messages");
 	__("Mark articles as read automatically");
-	__("This option enables marking articles as read automatically in combined mode while you scroll article list.");
+	__("This option enables marking articles as read automatically in combined mode (except for Fresh articles feed) while you scroll article list.");
 	__("On catchup show next feed");
 	__("When \"Mark as read\" button is clicked in toolbar, automatically open next feed with unread articles.");
 	__("Open article links in new browser window");
