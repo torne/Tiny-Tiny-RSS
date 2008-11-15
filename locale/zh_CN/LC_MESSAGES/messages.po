@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-15 12:44+0300\n"
+"POT-Creation-Date: 2008-11-15 18:02+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -903,202 +903,207 @@ msgstr "从这个天数之后清除旧的文章（0为不启用）"
 msgid "Update post on checksum change"
 msgstr "更新后校验修改"
 
-#: localized_schema.php:32
+#: localized_schema.php:31
+#, fuzzy
+msgid "Mark articles in e-mail digest as read"
+msgstr "标记  %s 中所有访问过的主题为已读"
+
+#: localized_schema.php:33
 msgid "Interface"
 msgstr "界面"
 
-#: localized_schema.php:34
+#: localized_schema.php:35
 msgid "Combined feed display"
 msgstr "feed联合显示。"
 
-#: localized_schema.php:35
+#: localized_schema.php:36
 msgid ""
 "Display expanded list of feed articles, instead of separate displays for "
 "headlines and article content"
 msgstr "展开显示feed文章，替代分开显示提要和文章内容的形式"
 
-#: localized_schema.php:36
+#: localized_schema.php:37
 msgid "Default article limit"
 msgstr "默认文章限制"
 
-#: localized_schema.php:37
+#: localized_schema.php:38
 msgid ""
 "Default limit for articles to display, any custom number you like (0 - "
 "disables)."
 msgstr ""
 
-#: localized_schema.php:38
+#: localized_schema.php:39
 msgid "Enable feed categories"
 msgstr "开启feed分类"
 
-#: localized_schema.php:39
+#: localized_schema.php:40
 msgid "Enable search toolbar"
 msgstr ""
 
-#: localized_schema.php:40
+#: localized_schema.php:41
 msgid "Hide feeds with no unread messages"
 msgstr "隐藏feed源以读信息"
 
-#: localized_schema.php:41
+#: localized_schema.php:42
 msgid "Mark articles as read automatically"
 msgstr "自动标志文章为已读"
 
-#: localized_schema.php:42
+#: localized_schema.php:43
 #, fuzzy
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
 "(except for Fresh articles feed) while you scroll article list."
 msgstr "启用该选项时，当你在联合模式下滚动文章列表时自动编辑文章为已读。"
 
-#: localized_schema.php:43
+#: localized_schema.php:44
 msgid "On catchup show next feed"
 msgstr "自动显示未读"
 
-#: localized_schema.php:44
+#: localized_schema.php:45
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
 msgstr ""
 "当工具栏上 \"标志为已读 \" 按钮被点击时,自动打开下一个RSS源中未读文章。"
 
-#: localized_schema.php:45
+#: localized_schema.php:46
 msgid "Open article links in new browser window"
 msgstr "新窗口打开文章连结"
 
-#: localized_schema.php:46
+#: localized_schema.php:47
 msgid "Reverse headline order (oldest first)"
 msgstr "反向提要排列（从旧到新）"
 
-#: localized_schema.php:47
+#: localized_schema.php:48
 msgid "Show content preview in headlines list"
 msgstr "在提要列表中显示内容预览"
 
-#: localized_schema.php:48
+#: localized_schema.php:49
 msgid "Sort feeds by unread articles count"
 msgstr "以未读文章数量排序feed源"
 
-#: localized_schema.php:49
+#: localized_schema.php:50
 msgid "User stylesheet URL"
 msgstr "用户样式表 URL"
 
-#: localized_schema.php:50
+#: localized_schema.php:51
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr "用户样式表优先，留空为不启用。"
 
-#: localized_schema.php:51
+#: localized_schema.php:52
 msgid "Maximum age of fresh articles (in hours)"
 msgstr ""
 
-#: localized_schema.php:52
+#: localized_schema.php:53
 #, fuzzy
 msgid "Hide feedlist"
 msgstr "隐藏我的Feed列表"
 
-#: localized_schema.php:53
+#: localized_schema.php:54
 msgid ""
 "This option hides feedlist and allows it to be toggled on the fly, useful "
 "for small screens."
 msgstr ""
 
-#: localized_schema.php:54
+#: localized_schema.php:55
 msgid "Group headlines in virtual feeds"
 msgstr ""
 
-#: localized_schema.php:55
+#: localized_schema.php:56
 msgid ""
 "When this option is enabled, headlines in Special feeds and Labels are "
 "grouped by feeds"
 msgstr ""
 
-#: localized_schema.php:57
+#: localized_schema.php:58
 msgid "Advanced"
 msgstr "高级"
 
-#: localized_schema.php:59
+#: localized_schema.php:60
 msgid "Blacklisted tags"
 msgstr "被列入黑名单的标签"
 
-#: localized_schema.php:60
+#: localized_schema.php:61
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr "自动检测文章中标签时，这些标签不适用（用半角逗号隔开）"
 
-#: localized_schema.php:61
+#: localized_schema.php:62
 msgid "Confirm marking feed as read"
 msgstr "确认标记所有Feed为已读..."
 
-#: localized_schema.php:62
+#: localized_schema.php:63
 #, fuzzy
 msgid "Enable feed icons"
 msgstr "开启feed分类"
 
-#: localized_schema.php:63
+#: localized_schema.php:64
 msgid "Enable labels"
 msgstr "开启标签"
 
-#: localized_schema.php:64
+#: localized_schema.php:65
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr "SQL支持，这是测试功能，请谨慎使用。"
 
-#: localized_schema.php:65
+#: localized_schema.php:66
 msgid "Long date format"
 msgstr "长的时间格式"
 
-#: localized_schema.php:66
+#: localized_schema.php:67
 msgid "Set articles as unread on update"
 msgstr "更新后标记文章为未读"
 
-#: localized_schema.php:67
+#: localized_schema.php:68
 msgid "Short date format"
 msgstr "短的时间格式"
 
-#: localized_schema.php:68
+#: localized_schema.php:69
 msgid "Show additional information in feedlist"
 msgstr "在feed列表中显示附加信息"
 
-#: localized_schema.php:69
+#: localized_schema.php:70
 msgid "Strip unsafe tags from articles"
 msgstr "从文章中过滤不安全标签"
 
-#: localized_schema.php:70
+#: localized_schema.php:71
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "阅读文章时过滤所有常见html标签"
 
-#: localized_schema.php:71
+#: localized_schema.php:72
 msgid "Use more accessible date/time format for headlines"
 msgstr "提要使用更方便的 日期／时间 格式"
 
-#: localized_schema.php:72
+#: localized_schema.php:73
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:73
+#: localized_schema.php:74
 #, fuzzy
 msgid "Purge unread articles"
 msgstr "星级文章"
 
-#: localized_schema.php:74
+#: localized_schema.php:75
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: localized_schema.php:75
+#: localized_schema.php:76
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
 
-#: localized_schema.php:76
+#: localized_schema.php:77
 msgid "Enable inline MP3 player"
 msgstr ""
 
-#: localized_schema.php:77
+#: localized_schema.php:78
 msgid ""
 "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 msgstr ""
 
-#: localized_schema.php:78
+#: localized_schema.php:79
 msgid "Do not show images in articles"
 msgstr ""
 

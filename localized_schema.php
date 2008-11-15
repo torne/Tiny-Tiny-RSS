@@ -28,6 +28,7 @@
 	__("This option enables sending daily digest of new (and unread) headlines on your configured e-mail address");
 	__("Purge old posts after this number of days (0 - disables)");
 	__("Update post on checksum change");
+	__("Mark articles in e-mail digest as read");
 
 	__("Interface");
 
