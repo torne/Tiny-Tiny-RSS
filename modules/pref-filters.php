@@ -115,7 +115,7 @@
 
 			print "<div class=\"dlgButtons\">";
 
-			$reg_exp = htmlspecialchars($reg_exp); // second escaping seems to be needed for javascript
+			$reg_exp = htmlspecialchars($reg_exp, ENT_QUOTES); // second escaping seems to be needed for javascript
 
 			print "<div style=\"float : left\">";
 			print "<input type=\"submit\" 

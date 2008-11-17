@@ -377,6 +377,8 @@
 
 			print "</form>";
 
+			$title = htmlspecialchars($title, ENT_QUOTES);
+
 			print "<div class='dlgButtons'>
 				<div style=\"float : left\">
 					<input type='submit' class='button'			
