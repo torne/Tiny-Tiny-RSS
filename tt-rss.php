@@ -43,11 +43,11 @@
 
 	<script type="text/javascript" src="prototype.js"></script>
 	<script type="text/javascript" src="scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
-	<script type="text/javascript" src="localized_js.php?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" src="tt-rss.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" src="functions.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" src="feedlist.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" src="viewfeed.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="tt-rss.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="feedlist.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="viewfeed.js?<?php echo $dt_add ?>"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
