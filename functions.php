@@ -4754,13 +4754,14 @@
 			
 			#print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 
-			$line["content"] = sanitize_rss($link, $line["content"]);
+			$article_content = sanitize_rss($link, $line["content"]);
 
 			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-				$line["content"] = preg_replace("/href=/i", "target=\"_blank\" href=", $line["content"]);
+				$article_content = preg_replace("/href=/i", "target=\"_blank\" href=", 
+					$article_content);
 			}
 
-			print $line["content"];
+			print $article_content;
 
 			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 				post_id = '$id' AND content_url != ''");
@@ -4802,14 +4803,9 @@
 					array_push($entries, $entry);
 				}
 
-				if (!preg_match("/img/i", $line["content"]) &&
-				  	preg_match("/image/", $entries[0]["type"])) {
-
-				}
-
 				print "<div class=\"postEnclosures\">";
 
-				if (!preg_match("/img/i", $line["content"])) {
+				if (!preg_match("/img/i", $article_content)) {
 					foreach ($entries as $entry) {
 						if (preg_match("/image/", $entry["type"])) {
 							print "<p><img 
@@ -5293,6 +5289,7 @@
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
 					print sanitize_rss($link, $line["content_preview"]);
+					$article_content = $line["content_preview"];
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 						post_id = '$id' AND content_url != ''");
@@ -5333,7 +5330,7 @@
 					array_push($entries, $entry);
 				}
 
-				if (!preg_match("/img/i", $line["content"])) {
+				if (!preg_match("/img/i", $article_content)) {
 					foreach ($entries as $entry) {
 						if (preg_match("/image/", $entry["type"])) {
 							print "<p><img 
