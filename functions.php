@@ -3610,6 +3610,7 @@
 					if (DIGEST_SMTP_HOST) {
 						$mail->Host = DIGEST_SMTP_HOST;
 						$mail->Mailer = "smtp";
+						$mail->SMTPAuth = DIGEST_SMTP_LOGIN != '';
 						$mail->Username = DIGEST_SMTP_LOGIN;
 						$mail->Password = DIGEST_SMTP_PASSWORD;
 					}
