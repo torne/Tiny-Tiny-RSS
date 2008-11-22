@@ -4503,7 +4503,10 @@
 		if ($tag == '') return false;
 		if (preg_match("/^[0-9]*$/", $tag)) return false;
 
-		$tag = iconv("utf-8", "utf-8", $tag);
+		if (function_exists('iconv')) {
+			$tag = iconv("utf-8", "utf-8", $tag);
+		}
+
 		if (!$tag) return false;
 
 		return true;
