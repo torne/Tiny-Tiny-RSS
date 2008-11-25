@@ -5853,7 +5853,7 @@
 		if (DB_TYPE == "pgsql") {
 			pg_query($link, "set client_encoding = 'UTF-8'");
 			pg_set_client_encoding("UNICODE");
-			pg_query($link, "set datestyle = 'european'");
+			pg_query($link, "set datestyle = 'ISO, european'");
 		} else {
 			if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
 				db_query($link, "SET NAMES " . MYSQL_CHARSET);
