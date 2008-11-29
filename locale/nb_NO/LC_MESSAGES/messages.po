@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-29 07:58+0100\n"
+"POT-Creation-Date: 2008-11-29 11:27+0300\n"
 "PO-Revision-Date: 2008-11-29 07:58+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -108,20 +108,12 @@ msgid "Unknown error"
 msgstr "Ukjent feil"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
-"Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
-"nettleser ser ikke ut til å støtte dette."
+msgid "This program requires XmlHttpRequest "
+msgstr "Dette programmet krever XmlHttpRequest "
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
-"Dette programmet krever cookies for å fungere ordentlig. Din nettleser ser "
-"ikke ut til å støtte dette."
+msgid "This program requires cookies "
+msgstr "Dette programmet krever informasjonskapsler påslått"
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1314,9 +1306,8 @@ msgid "config: SESSION_EXPIRE_TIME is too low (less than 60)"
 msgstr "config: SESSION_EXPIRE_TIME er for lav (mindre enn 60)"
 
 #: sanity_check.php:53
-msgid ""
-"config: SESSION_EXPIRE_TIME should be greater or equal "
-"toSESSION_COOKIE_LIFETIME"
+#, fuzzy
+msgid "config: SESSION_EXPIRE_TIME should be greater or equal to"
 msgstr ""
 "Konfigurer: SESSION_EXPIRE_TIME må være høyere eller lik "
 "SESSION_COOKIE_LIFETIME."
@@ -1687,6 +1678,11 @@ msgstr "Lag"
 msgid "Create Filter"
 msgstr "Lag filter"
 
+#: modules/popup-dialog.php:306 modules/popup-dialog.php:387
+#: modules/pref-filters.php:38 modules/pref-filters.php:72
+msgid "description"
+msgstr "beskrivelse"
+
 #: modules/popup-dialog.php:357 modules/pref-filters.php:41
 #: modules/pref-filters.php:347
 msgid "Match"
@@ -2029,6 +2025,14 @@ msgstr "Laget filter <b>%s</b>"
 msgid "Create filter"
 msgstr "Lag filter"
 
+#: modules/pref-filters.php:335
+msgid "filter_type_descr"
+msgstr "Beskrivelse av filtertype"
+
+#: modules/pref-filters.php:336
+msgid "action_description"
+msgstr "Handlingsbeskrivelse"
+
 #: modules/pref-filters.php:345
 msgid "Filter expression"
 msgstr "Filteruttrykk"
@@ -2172,6 +2176,10 @@ msgstr "Velg utseende"
 #: modules/pref-prefs.php:328
 msgid "Change theme"
 msgstr "Endre utseende"
+
+#: modules/pref-prefs.php:385
+msgid "short_desc"
+msgstr "kort beskrivelse"
 
 #: modules/pref-prefs.php:397 modules/pref-prefs.php:402
 msgid "Yes"
@@ -2519,23 +2527,19 @@ msgstr "Rediger nyyhetsstrømskategorier"
 msgid "Focus search (if present)"
 msgstr "Fokuser søk (hvis mulig)"
 
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "Dette programmet krever XmlHttpRequest "
+#~ msgid ""
+#~ "This program requires XmlHttpRequest to function properly. Your browser "
+#~ "doesn't seem to support it."
+#~ msgstr ""
+#~ "Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
+#~ "nettleser ser ikke ut til å støtte dette."
 
-#~ msgid "This program requires cookies "
-#~ msgstr "Dette programmet krever informasjonskapsler påslått"
-
-#~ msgid "description"
-#~ msgstr "beskrivelse"
-
-#~ msgid "filter_type_descr"
-#~ msgstr "Beskrivelse av filtertype"
-
-#~ msgid "action_description"
-#~ msgstr "Handlingsbeskrivelse"
-
-#~ msgid "short_desc"
-#~ msgstr "kort beskrivelse"
+#~ msgid ""
+#~ "This program requires cookies to function properly. Your browser doesn't "
+#~ "seem to support them."
+#~ msgstr ""
+#~ "Dette programmet krever cookies for å fungere ordentlig. Din nettleser "
+#~ "ser ikke ut til å støtte dette."
 
 #~ msgid "View:"
 #~ msgstr "Vis:"
