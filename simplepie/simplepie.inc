@@ -12761,6 +12761,10 @@ class SimplePie_Parser
 		xml_set_character_data_handler($xml, 'cdata');
 		xml_set_element_handler($xml, 'tag_open', 'tag_close');
 
+		$data=str_replace("&lt;","&#60;",$data);
+		$data=str_replace("&gt;","&#62;",$data);
+		$data=str_replace("&amp;","&#38;",$data);
+
 		// Parse!
 		if (!xml_parse($xml, $data, true))
 		{
