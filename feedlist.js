@@ -554,6 +554,10 @@ function enable_resize(b) {
 
 function mouse_down_handler(e) {
 	try {
+
+		/* do not prevent right click */
+		if (e.button && e.button == 2) return;
+
 		if (resize_enabled) { 
 			mouse_is_down = true;
 			mouse_x = 0;
