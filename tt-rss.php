@@ -253,7 +253,7 @@ window.onload = init;
 		title="<?php echo __('Drag me to resize panels') ?>"> 
 		<img src="images/resize_handle_horiz.png" id="resize-handle" 
 			onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
-			alt="">
+			alt=""/>
 		</div>
 	<div id="content-insert">&nbsp;</div>
 	<!-- <div class="whiteBox">&nbsp;</div> --> </div>
