@@ -198,12 +198,15 @@
 				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
 			}
 
+			# for the time being, no other filters use params anyway...
+			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
+
 			$result = db_query($link,
 				"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-					action_id, action_param, inverse) 
+					action_id, action_param, inverse, filter_param) 
 				VALUES 
 					('$regexp', '$filter_type','".$_SESSION["uid"]."', 
-						$feed_id, '$action_id', '$action_param', $inverse)");
+						$feed_id, '$action_id', '$action_param', $inverse, '$filter_param')");
 
 			if (db_affected_rows($link, $result) != 0) {
 				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));

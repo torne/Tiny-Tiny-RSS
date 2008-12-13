@@ -360,8 +360,8 @@
 
 			print "<span id=\"filter_dlg_date_mod_box\" style=\"display : none\">";
 			print "<select name=\"filter_date_modifier\">";
-			print "<option name=\"before\">".__('Before')."</option>";
-			print "<option name=\"after\">".__('After')."</option>";
+			print "<option value=\"before\">".__('Before')."</option>";
+			print "<option value=\"after\">".__('After')."</option>";
 			print "</select>&nbsp;</span>";
 
 			print "<input onkeypress=\"return filterCR(event, createFilter)\"
