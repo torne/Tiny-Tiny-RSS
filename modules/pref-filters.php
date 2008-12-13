@@ -366,7 +366,7 @@
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Match')."</a></td>
 						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Field')."</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Perform action')."</a></td>"; 
+						<td width=\"20%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>"; 
 
 				}
 
@@ -377,7 +377,7 @@
 				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
 
 				if (!$line["action_param"]) {
-					#$line["action_param"] = "&mdash;";
+					$line["action_param"] = "&mdash;";
 				} else if ($line["action_name"] == "score") {
 
 					$score_pic = get_score_pic($line["action_param"]);
@@ -418,8 +418,7 @@
 				}
 	
 				print "<td $onclick>" . $line["filter_type_descr"] . "$inverse_label</td>";
-				print "<td $onclick>" . $line["action_description"] . " " . 
-					$line["action_param"] . "</td>";
+				print "<td $onclick>" . $line["action_param"] . "</td>";
 
 				print "</tr>";
 	
