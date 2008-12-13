@@ -316,6 +316,7 @@
 				enabled,
 				inverse,
 				feed_id,
+				filter_type,
 				ttrss_filter_actions.description AS action_description,
 				ttrss_feeds.title AS feed_title,
 				ttrss_filter_actions.name AS action_name,
@@ -417,16 +418,21 @@
 
 				$onclick = "onclick='editFilter($filter_id)' title='".__('Click to edit')."'";
 
-				print "<td $onclick>" . $line["reg_exp"] . "</td>";		
-				print "<td $onclick>" . $line["feed_title"] . "</td>";			
+				if ($line["filter_type"] == 5 && !strtotime($line["reg_exp"])) {
+					$line["reg_exp"] = "<span class=\"filterDateError\">" . 
+						$line["reg_exp"] . "</span>";
+				}
 
 				$inverse_label = "";
 
 				if ($inverse) {
 					$inverse_label = " <span class='insensitive'>".__('(Inverse)')."</span>";
 				}
+
+				print "<td $onclick>" . $line["reg_exp"] . "$inverse_label</td>";		
+				print "<td $onclick>" . $line["feed_title"] . "</td>";			
 	
-				print "<td $onclick>" . $line["filter_type_descr"] . "$inverse_label</td>";
+				print "<td $onclick>" . $line["filter_type_descr"] . "</td>";
 				print "<td $onclick>" . $line["action_param"] . "</td>";
 
 				print "</tr>";
