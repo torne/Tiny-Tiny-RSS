@@ -372,7 +372,7 @@
 			print "<span id=\"filter_dlg_date_chk_box\" style=\"display : none\">";			
 			print "&nbsp;<input class=\"button\"
 				type=\"submit\" onclick=\"return filterDlgCheckDate()\" 
-				value=\"".__('Check Date')."\">";
+				value=\"".__('Check date')."\">";
 			print "</span>";
 
 			print "<br/> " . __("on field") . " ";
