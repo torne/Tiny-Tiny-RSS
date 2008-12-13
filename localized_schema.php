@@ -10,6 +10,7 @@
 	__("Title or Content");
 	__("Link");
 	__("Content");
+	__("Article Date");
 
 	__("Filter article");
 	__("Mark as read");

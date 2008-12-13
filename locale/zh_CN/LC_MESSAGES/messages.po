@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 12:43+0300\n"
+"POT-Creation-Date: 2008-12-13 18:36+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -179,7 +179,7 @@ msgid "Fresh articles"
 msgstr "星级文章"
 
 #: functions.php:2876 modules/popup-dialog.php:175
-#: modules/pref-filters.php:357
+#: modules/pref-filters.php:377
 msgid "All feeds"
 msgstr "所有feed"
 
@@ -207,13 +207,13 @@ msgstr "搜索"
 
 #: functions.php:3974 functions.php:4024 functions.php:5376
 #: modules/pref-feeds.php:1020 modules/pref-feeds.php:1201
-#: modules/pref-filters.php:309 modules/pref-labels.php:275
+#: modules/pref-filters.php:330 modules/pref-labels.php:275
 #: modules/pref-users.php:408
 msgid "Select:"
 msgstr "选择："
 
 #: functions.php:3975 functions.php:4025 modules/pref-feeds.php:1021
-#: modules/pref-feeds.php:1202 modules/pref-filters.php:310
+#: modules/pref-feeds.php:1202 modules/pref-filters.php:331
 #: modules/pref-labels.php:276 modules/pref-users.php:409
 msgid "All"
 msgstr "所有"
@@ -229,7 +229,7 @@ msgid "Invert"
 msgstr "(逆)"
 
 #: functions.php:3978 functions.php:4027 modules/pref-feeds.php:1022
-#: modules/pref-feeds.php:1203 modules/pref-filters.php:311
+#: modules/pref-feeds.php:1203 modules/pref-filters.php:332
 #: modules/pref-labels.php:277 modules/pref-users.php:410
 msgid "None"
 msgstr "无"
@@ -281,7 +281,7 @@ msgid "Page"
 msgstr "页"
 
 #: functions.php:4034 modules/popup-dialog.php:70 modules/pref-feeds.php:160
-#: modules/pref-feeds.php:410 modules/pref-filters.php:346
+#: modules/pref-feeds.php:410 modules/pref-filters.php:367
 msgid "Feed"
 msgstr "Feed"
 
@@ -350,7 +350,7 @@ msgid "Attachments:"
 msgstr ""
 
 #: functions.php:4847 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:547 modules/pref-feeds.php:1071
+#: modules/popup-dialog.php:561 modules/pref-feeds.php:1071
 msgid "Close this window"
 msgstr "关闭此窗口"
 
@@ -750,7 +750,7 @@ msgstr "星级文章"
 msgid "Please wait..."
 msgstr "读取中，请等待..."
 
-#: localized_js.php:129 localized_schema.php:17
+#: localized_js.php:129 localized_schema.php:18
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -848,31 +848,35 @@ msgstr "链接"
 msgid "Content"
 msgstr "内容"
 
-#: localized_schema.php:14
+#: localized_schema.php:13
+msgid "Article Date"
+msgstr ""
+
+#: localized_schema.php:15
 msgid "Filter article"
 msgstr "过滤文章"
 
-#: localized_schema.php:15
+#: localized_schema.php:16
 msgid "Mark as read"
 msgstr "标记为已读"
 
-#: localized_schema.php:16
+#: localized_schema.php:17
 msgid "Set starred"
 msgstr "设置星级"
 
-#: localized_schema.php:18
+#: localized_schema.php:19
 msgid "Assign tags"
 msgstr "指定标签"
 
-#: localized_schema.php:22
+#: localized_schema.php:23
 msgid "General"
 msgstr "常规"
 
-#: localized_schema.php:24
+#: localized_schema.php:25
 msgid "Allow duplicate posts"
 msgstr "允许重复文章"
 
-#: localized_schema.php:25
+#: localized_schema.php:26
 msgid ""
 "This option is useful when you are reading several planet-type aggregators "
 "with partially colliding userbase. When disabled, it forces same posts from "
@@ -881,229 +885,229 @@ msgstr ""
 "当遇到一些有行星状主从结构聚合，程序出现写入冲突的时候，这个选项是有用的。当"
 "该选项被禁用时，强制来自不用RSS源的同一文章只显示一次。"
 
-#: localized_schema.php:26
+#: localized_schema.php:27
 msgid "Default interval between feed updates (in minutes)"
 msgstr "默认更新间隔时间（以分钟为单位）"
 
-#: localized_schema.php:27
+#: localized_schema.php:28
 msgid "Enable e-mail digest"
 msgstr "开启电子邮件摘要"
 
-#: localized_schema.php:28
+#: localized_schema.php:29
 msgid ""
 "This option enables sending daily digest of new (and unread) headlines on "
 "your configured e-mail address"
 msgstr "启用这个选项将每天发送新的(和未读的) 标题摘要到您设置的电子邮箱"
 
-#: localized_schema.php:29
+#: localized_schema.php:30
 msgid "Purge old posts after this number of days (0 - disables)"
 msgstr "从这个天数之后清除旧的文章（0为不启用）"
 
-#: localized_schema.php:30
+#: localized_schema.php:31
 msgid "Update post on checksum change"
 msgstr "更新后校验修改"
 
-#: localized_schema.php:31
+#: localized_schema.php:32
 #, fuzzy
 msgid "Mark articles in e-mail digest as read"
 msgstr "标记  %s 中所有访问过的主题为已读"
 
-#: localized_schema.php:33
+#: localized_schema.php:34
 msgid "Interface"
 msgstr "界面"
 
-#: localized_schema.php:35
+#: localized_schema.php:36
 msgid "Combined feed display"
 msgstr "feed联合显示。"
 
-#: localized_schema.php:36
+#: localized_schema.php:37
 msgid ""
 "Display expanded list of feed articles, instead of separate displays for "
 "headlines and article content"
 msgstr "展开显示feed文章，替代分开显示提要和文章内容的形式"
 
-#: localized_schema.php:37
+#: localized_schema.php:38
 msgid "Default article limit"
 msgstr "默认文章限制"
 
-#: localized_schema.php:38
+#: localized_schema.php:39
 msgid ""
 "Default limit for articles to display, any custom number you like (0 - "
 "disables)."
 msgstr ""
 
-#: localized_schema.php:39
+#: localized_schema.php:40
 msgid "Enable feed categories"
 msgstr "开启feed分类"
 
-#: localized_schema.php:40
+#: localized_schema.php:41
 msgid "Enable search toolbar"
 msgstr ""
 
-#: localized_schema.php:41
+#: localized_schema.php:42
 msgid "Hide feeds with no unread messages"
 msgstr "隐藏feed源以读信息"
 
-#: localized_schema.php:42
+#: localized_schema.php:43
 msgid "Mark articles as read automatically"
 msgstr "自动标志文章为已读"
 
-#: localized_schema.php:43
+#: localized_schema.php:44
 #, fuzzy
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
 "(except for Fresh articles feed) while you scroll article list."
 msgstr "启用该选项时，当你在联合模式下滚动文章列表时自动编辑文章为已读。"
 
-#: localized_schema.php:44
+#: localized_schema.php:45
 msgid "On catchup show next feed"
 msgstr "自动显示未读"
 
-#: localized_schema.php:45
+#: localized_schema.php:46
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
 msgstr ""
 "当工具栏上 \"标志为已读 \" 按钮被点击时,自动打开下一个RSS源中未读文章。"
 
-#: localized_schema.php:46
+#: localized_schema.php:47
 msgid "Open article links in new browser window"
 msgstr "新窗口打开文章连结"
 
-#: localized_schema.php:47
+#: localized_schema.php:48
 msgid "Reverse headline order (oldest first)"
 msgstr "反向提要排列（从旧到新）"
 
-#: localized_schema.php:48
+#: localized_schema.php:49
 msgid "Show content preview in headlines list"
 msgstr "在提要列表中显示内容预览"
 
-#: localized_schema.php:49
+#: localized_schema.php:50
 msgid "Sort feeds by unread articles count"
 msgstr "以未读文章数量排序feed源"
 
-#: localized_schema.php:50
+#: localized_schema.php:51
 msgid "User stylesheet URL"
 msgstr "用户样式表 URL"
 
-#: localized_schema.php:51
+#: localized_schema.php:52
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr "用户样式表优先，留空为不启用。"
 
-#: localized_schema.php:52
+#: localized_schema.php:53
 msgid "Maximum age of fresh articles (in hours)"
 msgstr ""
 
-#: localized_schema.php:53
+#: localized_schema.php:54
 #, fuzzy
 msgid "Hide feedlist"
 msgstr "隐藏我的Feed列表"
 
-#: localized_schema.php:54
+#: localized_schema.php:55
 msgid ""
 "This option hides feedlist and allows it to be toggled on the fly, useful "
 "for small screens."
 msgstr ""
 
-#: localized_schema.php:55
+#: localized_schema.php:56
 msgid "Group headlines in virtual feeds"
 msgstr ""
 
-#: localized_schema.php:56
+#: localized_schema.php:57
 msgid ""
 "When this option is enabled, headlines in Special feeds and Labels are "
 "grouped by feeds"
 msgstr ""
 
-#: localized_schema.php:58
+#: localized_schema.php:59
 msgid "Advanced"
 msgstr "高级"
 
-#: localized_schema.php:60
+#: localized_schema.php:61
 msgid "Blacklisted tags"
 msgstr "被列入黑名单的标签"
 
-#: localized_schema.php:61
+#: localized_schema.php:62
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr "自动检测文章中标签时，这些标签不适用（用半角逗号隔开）"
 
-#: localized_schema.php:62
+#: localized_schema.php:63
 msgid "Confirm marking feed as read"
 msgstr "确认标记所有Feed为已读..."
 
-#: localized_schema.php:63
+#: localized_schema.php:64
 #, fuzzy
 msgid "Enable feed icons"
 msgstr "开启feed分类"
 
-#: localized_schema.php:64
+#: localized_schema.php:65
 msgid "Enable labels"
 msgstr "开启标签"
 
-#: localized_schema.php:65
+#: localized_schema.php:66
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
 "with caution."
 msgstr "SQL支持，这是测试功能，请谨慎使用。"
 
-#: localized_schema.php:66
+#: localized_schema.php:67
 msgid "Long date format"
 msgstr "长的时间格式"
 
-#: localized_schema.php:67
+#: localized_schema.php:68
 msgid "Set articles as unread on update"
 msgstr "更新后标记文章为未读"
 
-#: localized_schema.php:68
+#: localized_schema.php:69
 msgid "Short date format"
 msgstr "短的时间格式"
 
-#: localized_schema.php:69
+#: localized_schema.php:70
 msgid "Show additional information in feedlist"
 msgstr "在feed列表中显示附加信息"
 
-#: localized_schema.php:70
+#: localized_schema.php:71
 msgid "Strip unsafe tags from articles"
 msgstr "从文章中过滤不安全标签"
 
-#: localized_schema.php:71
+#: localized_schema.php:72
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "阅读文章时过滤所有常见html标签"
 
-#: localized_schema.php:72
+#: localized_schema.php:73
 msgid "Use more accessible date/time format for headlines"
 msgstr "提要使用更方便的 日期／时间 格式"
 
-#: localized_schema.php:73
+#: localized_schema.php:74
 msgid "Automatically expand articles in combined mode"
 msgstr ""
 
-#: localized_schema.php:74
+#: localized_schema.php:75
 #, fuzzy
 msgid "Purge unread articles"
 msgstr "星级文章"
 
-#: localized_schema.php:75
+#: localized_schema.php:76
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: localized_schema.php:76
+#: localized_schema.php:77
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
 
-#: localized_schema.php:77
+#: localized_schema.php:78
 msgid "Enable inline MP3 player"
 msgstr ""
 
-#: localized_schema.php:78
+#: localized_schema.php:79
 msgid ""
 "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 msgstr ""
 
-#: localized_schema.php:79
+#: localized_schema.php:80
 msgid "Do not show images in articles"
 msgstr ""
 
@@ -1341,7 +1345,7 @@ msgstr "标签簇"
 
 #: tt-rss.php:148 modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:1116
-#: modules/pref-filters.php:252 modules/pref-labels.php:239
+#: modules/pref-filters.php:273 modules/pref-labels.php:239
 #: modules/pref-users.php:364
 msgid "Search"
 msgstr "搜索"
@@ -1433,7 +1437,7 @@ msgstr ""
 msgid "Order:"
 msgstr "地点:"
 
-#: tt-rss.php:204
+#: tt-rss.php:204 modules/popup-dialog.php:362 modules/pref-filters.php:50
 #, fuzzy
 msgid "Date"
 msgstr "更新"
@@ -1613,10 +1617,10 @@ msgid "Subscribe"
 msgstr "订阅"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
-#: modules/popup-dialog.php:279 modules/popup-dialog.php:428
-#: modules/popup-dialog.php:523 modules/pref-feeds.php:125
+#: modules/popup-dialog.php:279 modules/popup-dialog.php:442
+#: modules/popup-dialog.php:537 modules/pref-feeds.php:125
 #: modules/pref-feeds.php:390 modules/pref-feeds.php:541
-#: modules/pref-filters.php:133 modules/pref-users.php:184
+#: modules/pref-filters.php:151 modules/pref-users.php:184
 msgid "Cancel"
 msgstr "取消"
 
@@ -1661,7 +1665,7 @@ msgstr "你好,"
 msgid "Test"
 msgstr "测试"
 
-#: modules/popup-dialog.php:275 modules/popup-dialog.php:424
+#: modules/popup-dialog.php:275 modules/popup-dialog.php:438
 msgid "Create"
 msgstr "创建"
 
@@ -1670,85 +1674,98 @@ msgstr "创建"
 msgid "Create Filter"
 msgstr "创建过滤器"
 
-#: modules/popup-dialog.php:306 modules/popup-dialog.php:387
-#: modules/pref-filters.php:38 modules/pref-filters.php:72
+#: modules/popup-dialog.php:306 modules/popup-dialog.php:401
+#: modules/pref-filters.php:38 modules/pref-filters.php:90
 msgid "description"
 msgstr "描述"
 
 #: modules/popup-dialog.php:357 modules/pref-filters.php:41
-#: modules/pref-filters.php:347
+#: modules/pref-filters.php:366
 msgid "Match"
 msgstr "匹配"
 
-#: modules/popup-dialog.php:366 modules/pref-filters.php:50
+#: modules/popup-dialog.php:364 modules/pref-filters.php:52
+msgid "before"
+msgstr ""
+
+#: modules/popup-dialog.php:365 modules/pref-filters.php:53
+#, fuzzy
+msgid "after"
+msgstr "更新"
+
+#: modules/popup-dialog.php:376 modules/pref-filters.php:64
+msgid "Check it"
+msgstr ""
+
+#: modules/popup-dialog.php:379 modules/pref-filters.php:67
 #, fuzzy
 msgid "on field"
 msgstr "于:"
 
-#: modules/popup-dialog.php:371 modules/pref-filters.php:55
+#: modules/popup-dialog.php:385 modules/pref-filters.php:73
 #, fuzzy
 msgid "in"
 msgstr "链接"
 
-#: modules/popup-dialog.php:376 modules/pref-filters.php:60
+#: modules/popup-dialog.php:390 modules/pref-filters.php:78
 #, fuzzy
 msgid "Perform Action"
 msgstr "完成更新"
 
-#: modules/popup-dialog.php:393 modules/pref-filters.php:80
+#: modules/popup-dialog.php:407 modules/pref-filters.php:98
 msgid "with parameters:"
 msgstr ""
 
-#: modules/popup-dialog.php:403 modules/pref-feeds.php:303
-#: modules/pref-feeds.php:495 modules/pref-filters.php:90
+#: modules/popup-dialog.php:417 modules/pref-feeds.php:303
+#: modules/pref-feeds.php:495 modules/pref-filters.php:108
 #: modules/pref-users.php:165
 #, fuzzy
 msgid "Options"
 msgstr "选项:"
 
-#: modules/popup-dialog.php:409 modules/pref-filters.php:102
+#: modules/popup-dialog.php:423 modules/pref-filters.php:120
 msgid "Enabled"
 msgstr "可用"
 
-#: modules/popup-dialog.php:412 modules/pref-filters.php:111
+#: modules/popup-dialog.php:426 modules/pref-filters.php:129
 msgid "Inverse match"
 msgstr "逆匹配"
 
-#: modules/popup-dialog.php:439
+#: modules/popup-dialog.php:453
 msgid "Update Errors"
 msgstr "更新错误"
 
-#: modules/popup-dialog.php:442
+#: modules/popup-dialog.php:456
 msgid "These feeds have not been updated because of errors:"
 msgstr "这些feed更新错误:"
 
-#: modules/popup-dialog.php:460
+#: modules/popup-dialog.php:474
 msgid "Close"
 msgstr "关闭"
 
-#: modules/popup-dialog.php:469
+#: modules/popup-dialog.php:483
 msgid "Edit Tags"
 msgstr "编辑标签"
 
-#: modules/popup-dialog.php:474
+#: modules/popup-dialog.php:488
 msgid "Tags for this article (separated by commas):"
 msgstr "本文的标签，请用逗号分开:"
 
-#: modules/popup-dialog.php:519 modules/pref-feeds.php:388
-#: modules/pref-feeds.php:539 modules/pref-filters.php:129
+#: modules/popup-dialog.php:533 modules/pref-feeds.php:388
+#: modules/pref-feeds.php:539 modules/pref-filters.php:147
 #: modules/pref-users.php:181
 msgid "Save"
 msgstr "保存"
 
-#: modules/popup-dialog.php:532 help/3.php:60
+#: modules/popup-dialog.php:546 help/3.php:60
 msgid "Tag cloud"
 msgstr "标签簇"
 
-#: modules/popup-dialog.php:535
+#: modules/popup-dialog.php:549
 msgid "Showing most popular tags "
 msgstr "显示最热标签"
 
-#: modules/popup-dialog.php:536
+#: modules/popup-dialog.php:550
 msgid "browse more"
 msgstr "浏览更多"
 
@@ -1895,8 +1912,8 @@ msgstr "创建分类"
 msgid "No feed categories defined."
 msgstr "未定义feed分类"
 
-#: modules/pref-feeds.php:1077 modules/pref-filters.php:123
-#: modules/pref-filters.php:415 modules/pref-labels.php:330
+#: modules/pref-feeds.php:1077 modules/pref-filters.php:141
+#: modules/pref-filters.php:436 modules/pref-labels.php:330
 #: modules/pref-users.php:481
 msgid "Remove"
 msgstr "移除"
@@ -1925,7 +1942,7 @@ msgstr "最后&nbsp;文章"
 msgid "Updated"
 msgstr "已更新"
 
-#: modules/pref-feeds.php:1304 modules/pref-filters.php:389
+#: modules/pref-feeds.php:1304 modules/pref-filters.php:409
 #: modules/pref-labels.php:310 modules/pref-users.php:456
 msgid "Click to edit"
 msgstr ""
@@ -1939,7 +1956,7 @@ msgstr "选择："
 msgid "Recategorize"
 msgstr "再分类"
 
-#: modules/pref-feeds.php:1365 modules/pref-filters.php:413
+#: modules/pref-feeds.php:1365 modules/pref-filters.php:434
 #: modules/pref-labels.php:328 modules/pref-users.php:479
 msgid "Edit"
 msgstr "编辑"
@@ -1953,7 +1970,7 @@ msgstr ""
 msgid "Clear feed data"
 msgstr "所有Feed已更新。"
 
-#: modules/pref-feeds.php:1368 modules/pref-filters.php:269
+#: modules/pref-feeds.php:1368 modules/pref-filters.php:290
 #, fuzzy
 msgid "Rescore articles"
 msgstr "星级文章"
@@ -2015,55 +2032,52 @@ msgstr "生成另一个地址"
 msgid "Filter Editor"
 msgstr "过滤器编辑"
 
-#: modules/pref-filters.php:169
+#: modules/pref-filters.php:187
 #, php-format
 msgid "Saved filter <b>%s</b>"
 msgstr "保存过滤器<b>%s</b>"
 
-#: modules/pref-filters.php:209
+#: modules/pref-filters.php:230
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "创建过滤器 <b>%s</b>"
 
-#: modules/pref-filters.php:262 help/3.php:31 help/4.php:25
+#: modules/pref-filters.php:283 help/3.php:31 help/4.php:25
 msgid "Create filter"
 msgstr "创建过滤器"
 
-#: modules/pref-filters.php:335
+#: modules/pref-filters.php:356
 msgid "filter_type_descr"
 msgstr ""
 
-#: modules/pref-filters.php:336
+#: modules/pref-filters.php:357
 #, fuzzy
 msgid "action_description"
 msgstr "描述"
 
-#: modules/pref-filters.php:345
-msgid "Filter expression"
-msgstr "过滤器表达式"
-
-#: modules/pref-filters.php:348
-msgid "Action"
-msgstr "操作"
-
-#: modules/pref-filters.php:349
+#: modules/pref-filters.php:368
 #, fuzzy
-msgid "Params"
-msgstr "参数:"
+msgid "Field"
+msgstr "Feed"
 
-#: modules/pref-filters.php:378
+#: modules/pref-filters.php:369
+#, fuzzy
+msgid "Perform action"
+msgstr "完成更新"
+
+#: modules/pref-filters.php:398
 msgid "(Disabled)"
 msgstr "(不可用)"
 
-#: modules/pref-filters.php:397
+#: modules/pref-filters.php:417
 msgid "(Inverse)"
 msgstr "(逆)"
 
-#: modules/pref-filters.php:423
+#: modules/pref-filters.php:444
 msgid "No filters defined."
 msgstr "未定义过滤器。"
 
-#: modules/pref-filters.php:425
+#: modules/pref-filters.php:446
 #, fuzzy
 msgid "No matching filters found."
 msgstr "未找到文章。"
@@ -2556,6 +2570,16 @@ msgstr "编辑分类"
 #: help/4.php:33
 msgid "Focus search (if present)"
 msgstr ""
+
+#~ msgid "Filter expression"
+#~ msgstr "过滤器表达式"
+
+#~ msgid "Action"
+#~ msgstr "操作"
+
+#, fuzzy
+#~ msgid "Params"
+#~ msgstr "参数:"
 
 #~ msgid "View:"
 #~ msgstr "浏览:"

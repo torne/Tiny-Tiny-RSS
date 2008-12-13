@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 12:43+0300\n"
+"POT-Creation-Date: 2008-12-13 18:36+0300\n"
 "PO-Revision-Date: 2008-11-15 13:42+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -189,7 +189,7 @@ msgid "Fresh articles"
 msgstr "Свежие"
 
 #: functions.php:2876 modules/popup-dialog.php:175
-#: modules/pref-filters.php:357
+#: modules/pref-filters.php:377
 msgid "All feeds"
 msgstr "Все каналы"
 
@@ -217,13 +217,13 @@ msgstr "Поиск"
 
 #: functions.php:3974 functions.php:4024 functions.php:5376
 #: modules/pref-feeds.php:1020 modules/pref-feeds.php:1201
-#: modules/pref-filters.php:309 modules/pref-labels.php:275
+#: modules/pref-filters.php:330 modules/pref-labels.php:275
 #: modules/pref-users.php:408
 msgid "Select:"
 msgstr "Выбрать:"
 
 #: functions.php:3975 functions.php:4025 modules/pref-feeds.php:1021
-#: modules/pref-feeds.php:1202 modules/pref-filters.php:310
+#: modules/pref-feeds.php:1202 modules/pref-filters.php:331
 #: modules/pref-labels.php:276 modules/pref-users.php:409
 msgid "All"
 msgstr "Все"
@@ -238,7 +238,7 @@ msgid "Invert"
 msgstr "Инвертировать"
 
 #: functions.php:3978 functions.php:4027 modules/pref-feeds.php:1022
-#: modules/pref-feeds.php:1203 modules/pref-filters.php:311
+#: modules/pref-feeds.php:1203 modules/pref-filters.php:332
 #: modules/pref-labels.php:277 modules/pref-users.php:410
 msgid "None"
 msgstr "Ничего"
@@ -289,7 +289,7 @@ msgid "Page"
 msgstr "Страница"
 
 #: functions.php:4034 modules/popup-dialog.php:70 modules/pref-feeds.php:160
-#: modules/pref-feeds.php:410 modules/pref-filters.php:346
+#: modules/pref-feeds.php:410 modules/pref-filters.php:367
 msgid "Feed"
 msgstr "Канал"
 
@@ -354,7 +354,7 @@ msgid "Attachments:"
 msgstr "Вложения:"
 
 #: functions.php:4847 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:547 modules/pref-feeds.php:1071
+#: modules/popup-dialog.php:561 modules/pref-feeds.php:1071
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
@@ -741,7 +741,7 @@ msgstr "Не отмеченные"
 msgid "Please wait..."
 msgstr "Пожалуйста, подождите..."
 
-#: localized_js.php:129 localized_schema.php:17
+#: localized_js.php:129 localized_schema.php:18
 msgid "Publish article"
 msgstr "Опубликовать"
 
@@ -831,31 +831,35 @@ msgstr "Ссылка"
 msgid "Content"
 msgstr "Содержимое"
 
-#: localized_schema.php:14
+#: localized_schema.php:13
+msgid "Article Date"
+msgstr ""
+
+#: localized_schema.php:15
 msgid "Filter article"
 msgstr "Отфильтровать статью"
 
-#: localized_schema.php:15
+#: localized_schema.php:16
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
-#: localized_schema.php:16
+#: localized_schema.php:17
 msgid "Set starred"
 msgstr "Отметить"
 
-#: localized_schema.php:18
+#: localized_schema.php:19
 msgid "Assign tags"
 msgstr "Применить теги"
 
-#: localized_schema.php:22
+#: localized_schema.php:23
 msgid "General"
 msgstr "Общие"
 
-#: localized_schema.php:24
+#: localized_schema.php:25
 msgid "Allow duplicate posts"
 msgstr "Разрешить дубликаты статей"
 
-#: localized_schema.php:25
+#: localized_schema.php:26
 msgid ""
 "This option is useful when you are reading several planet-type aggregators "
 "with partially colliding userbase. When disabled, it forces same posts from "
@@ -864,15 +868,15 @@ msgstr ""
 "Эта опция полезна, если вы читаете несколько агрегаторов типа \"планета\" с "
 "пересекающимися статьями. Когда запрещено, статья показывается лишь один раз."
 
-#: localized_schema.php:26
+#: localized_schema.php:27
 msgid "Default interval between feed updates (in minutes)"
 msgstr "Интервал между обновлениями каналов по умолчанию (в минутах)"
 
-#: localized_schema.php:27
+#: localized_schema.php:28
 msgid "Enable e-mail digest"
 msgstr "Включить почтовый дайджест"
 
-#: localized_schema.php:28
+#: localized_schema.php:29
 msgid ""
 "This option enables sending daily digest of new (and unread) headlines on "
 "your configured e-mail address"
@@ -880,28 +884,28 @@ msgstr ""
 "Эта опция разрешает отправку ежедневного обзора новых (и непрочитанных) "
 "заголовков на ваш адрес электронной почты"
 
-#: localized_schema.php:29
+#: localized_schema.php:30
 msgid "Purge old posts after this number of days (0 - disables)"
 msgstr "Стирать статьи старше этого количества дней (0 - выключает)"
 
-#: localized_schema.php:30
+#: localized_schema.php:31
 msgid "Update post on checksum change"
 msgstr "Обновлять статью при изменении контрольной суммы"
 
-#: localized_schema.php:31
+#: localized_schema.php:32
 #, fuzzy
 msgid "Mark articles in e-mail digest as read"
 msgstr "Отметить все статьи в %s как прочитанные?"
 
-#: localized_schema.php:33
+#: localized_schema.php:34
 msgid "Interface"
 msgstr "Интерфейс"
 
-#: localized_schema.php:35
+#: localized_schema.php:36
 msgid "Combined feed display"
 msgstr "Комбинированный режим отображения"
 
-#: localized_schema.php:36
+#: localized_schema.php:37
 msgid ""
 "Display expanded list of feed articles, instead of separate displays for "
 "headlines and article content"
@@ -909,11 +913,11 @@ msgstr ""
 "Показывать развёрнутый список статей, вместо разделения экрана на заголовки "
 "и содержимое статей"
 
-#: localized_schema.php:37
+#: localized_schema.php:38
 msgid "Default article limit"
 msgstr "Количество статей по умолчанию"
 
-#: localized_schema.php:38
+#: localized_schema.php:39
 msgid ""
 "Default limit for articles to display, any custom number you like (0 - "
 "disables)."
@@ -921,23 +925,23 @@ msgstr ""
 "По умолчанию ограничивать количество статей для показа. Любое число, какое "
 "вам нравится (0 - выключить)"
 
-#: localized_schema.php:39
+#: localized_schema.php:40
 msgid "Enable feed categories"
 msgstr "Включить категории каналов"
 
-#: localized_schema.php:40
+#: localized_schema.php:41
 msgid "Enable search toolbar"
 msgstr "Разрешить панель поиска"
 
-#: localized_schema.php:41
+#: localized_schema.php:42
 msgid "Hide feeds with no unread messages"
 msgstr "Спрятать каналы без непрочитанных статей"
 
-#: localized_schema.php:42
+#: localized_schema.php:43
 msgid "Mark articles as read automatically"
 msgstr "Отмечать статьи как прочитанные автоматически"
 
-#: localized_schema.php:43
+#: localized_schema.php:44
 #, fuzzy
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
@@ -946,11 +950,11 @@ msgstr ""
 "Эта опция разрешает автоматически отмечать статьи как прочитанные в "
 "комбинированном режиме, пока вы прокручиваете список статей."
 
-#: localized_schema.php:44
+#: localized_schema.php:45
 msgid "On catchup show next feed"
 msgstr "Показывать следующий канал при отметке как прочитанный"
 
-#: localized_schema.php:45
+#: localized_schema.php:46
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
@@ -958,41 +962,41 @@ msgstr ""
 "После выбора опции \"Отметить как прочитанное\" в верхней панели, "
 "автоматически открывать следующий канал с не прочитанными статьями."
 
-#: localized_schema.php:46
+#: localized_schema.php:47
 msgid "Open article links in new browser window"
 msgstr "Открыть ссылку на статью в новом окне браузера"
 
-#: localized_schema.php:47
+#: localized_schema.php:48
 msgid "Reverse headline order (oldest first)"
 msgstr "Обратный порядок заголовков (старые впереди)"
 
-#: localized_schema.php:48
+#: localized_schema.php:49
 msgid "Show content preview in headlines list"
 msgstr "Показать предпросмотр содержимого в списке заголовков"
 
-#: localized_schema.php:49
+#: localized_schema.php:50
 msgid "Sort feeds by unread articles count"
 msgstr "Сортировать каналы по количеству непрочитанных статей"
 
-#: localized_schema.php:50
+#: localized_schema.php:51
 msgid "User stylesheet URL"
 msgstr "URL пользовательского файла стилей"
 
-#: localized_schema.php:51
+#: localized_schema.php:52
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr ""
 "Ссылка на пользовательский файл стилей замещает файл стилей по умолчанию, "
 "запрещает если пусто"
 
-#: localized_schema.php:52
+#: localized_schema.php:53
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "Максимальный возраст свежих статей (в часах)"
 
-#: localized_schema.php:53
+#: localized_schema.php:54
 msgid "Hide feedlist"
 msgstr "Спрятать список каналов"
 
-#: localized_schema.php:54
+#: localized_schema.php:55
 msgid ""
 "This option hides feedlist and allows it to be toggled on the fly, useful "
 "for small screens."
@@ -1000,11 +1004,11 @@ msgstr ""
 "Эта опция скрывает список каналов и позволяет его переключать на лету, "
 "удобно для маленьких экранов"
 
-#: localized_schema.php:55
+#: localized_schema.php:56
 msgid "Group headlines in virtual feeds"
 msgstr "Группировать заголовки в виртуальные каналы"
 
-#: localized_schema.php:56
+#: localized_schema.php:57
 msgid ""
 "When this option is enabled, headlines in Special feeds and Labels are "
 "grouped by feeds"
@@ -1012,33 +1016,33 @@ msgstr ""
 "Когда эта опция включена, заголовки в Особом канале и Метки группируются по "
 "каналам"
 
-#: localized_schema.php:58
+#: localized_schema.php:59
 msgid "Advanced"
 msgstr "Расширенные"
 
-#: localized_schema.php:60
+#: localized_schema.php:61
 msgid "Blacklisted tags"
 msgstr "Черный список тегов"
 
-#: localized_schema.php:61
+#: localized_schema.php:62
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr ""
 
-#: localized_schema.php:62
+#: localized_schema.php:63
 msgid "Confirm marking feed as read"
 msgstr "Подтвердить отметку каналка как прочитанный"
 
-#: localized_schema.php:63
+#: localized_schema.php:64
 msgid "Enable feed icons"
 msgstr "Разрешить иконки каналов"
 
-#: localized_schema.php:64
+#: localized_schema.php:65
 msgid "Enable labels"
 msgstr "Включить метки"
 
-#: localized_schema.php:65
+#: localized_schema.php:66
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
@@ -1048,60 +1052,60 @@ msgstr ""
 "группировках SQL запросов. Эта возможность строго экспериментальная и не "
 "удобна в работе. Использовать с осторожностью."
 
-#: localized_schema.php:66
+#: localized_schema.php:67
 msgid "Long date format"
 msgstr "Длинный формат даты"
 
-#: localized_schema.php:67
+#: localized_schema.php:68
 msgid "Set articles as unread on update"
 msgstr "Установить статьи как не прочитанные при обновлении"
 
-#: localized_schema.php:68
+#: localized_schema.php:69
 msgid "Short date format"
 msgstr "Короткий формат даты"
 
-#: localized_schema.php:69
+#: localized_schema.php:70
 msgid "Show additional information in feedlist"
 msgstr "Показывать расширенную информацию в списке каналов"
 
-#: localized_schema.php:70
+#: localized_schema.php:71
 msgid "Strip unsafe tags from articles"
 msgstr "Вырезать небезопасные теги из статей"
 
-#: localized_schema.php:71
+#: localized_schema.php:72
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "Вырезать все, кроме основных HTML тегов при показе статей."
 
-#: localized_schema.php:72
+#: localized_schema.php:73
 msgid "Use more accessible date/time format for headlines"
 msgstr "Использовать более удобный формат отображения даты/времени"
 
-#: localized_schema.php:73
+#: localized_schema.php:74
 msgid "Automatically expand articles in combined mode"
 msgstr "Автоматически раскрывать статьи в комбинированном режиме"
 
-#: localized_schema.php:74
+#: localized_schema.php:75
 msgid "Purge unread articles"
 msgstr "Очистить непрочитанные статьи"
 
-#: localized_schema.php:75
+#: localized_schema.php:76
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: localized_schema.php:76
+#: localized_schema.php:77
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
 
-#: localized_schema.php:77
+#: localized_schema.php:78
 msgid "Enable inline MP3 player"
 msgstr "Разрешить встроенный MP3 плеер"
 
-#: localized_schema.php:78
+#: localized_schema.php:79
 msgid ""
 "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 msgstr "Разрешить XSPF Flash плеер для проигрывания подкастов в MP3 формате"
 
-#: localized_schema.php:79
+#: localized_schema.php:80
 msgid "Do not show images in articles"
 msgstr "Не показывать изображения в статьях"
 
@@ -1350,7 +1354,7 @@ msgstr "облако тегов"
 
 #: tt-rss.php:148 modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:1116
-#: modules/pref-filters.php:252 modules/pref-labels.php:239
+#: modules/pref-filters.php:273 modules/pref-labels.php:239
 #: modules/pref-users.php:364
 msgid "Search"
 msgstr "Поиск"
@@ -1435,7 +1439,7 @@ msgstr "Игнорировать Оценки"
 msgid "Order:"
 msgstr "Порядок:"
 
-#: tt-rss.php:204
+#: tt-rss.php:204 modules/popup-dialog.php:362 modules/pref-filters.php:50
 msgid "Date"
 msgstr "Дата"
 
@@ -1604,10 +1608,10 @@ msgid "Subscribe"
 msgstr "Подписаться"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
-#: modules/popup-dialog.php:279 modules/popup-dialog.php:428
-#: modules/popup-dialog.php:523 modules/pref-feeds.php:125
+#: modules/popup-dialog.php:279 modules/popup-dialog.php:442
+#: modules/popup-dialog.php:537 modules/pref-feeds.php:125
 #: modules/pref-feeds.php:390 modules/pref-feeds.php:541
-#: modules/pref-filters.php:133 modules/pref-users.php:184
+#: modules/pref-filters.php:151 modules/pref-users.php:184
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -1649,7 +1653,7 @@ msgstr "Помощь"
 msgid "Test"
 msgstr "Проверить"
 
-#: modules/popup-dialog.php:275 modules/popup-dialog.php:424
+#: modules/popup-dialog.php:275 modules/popup-dialog.php:438
 msgid "Create"
 msgstr "Создать"
 
@@ -1657,82 +1661,95 @@ msgstr "Создать"
 msgid "Create Filter"
 msgstr "Создать фильтр"
 
-#: modules/popup-dialog.php:306 modules/popup-dialog.php:387
-#: modules/pref-filters.php:38 modules/pref-filters.php:72
+#: modules/popup-dialog.php:306 modules/popup-dialog.php:401
+#: modules/pref-filters.php:38 modules/pref-filters.php:90
 msgid "description"
 msgstr "описание"
 
 #: modules/popup-dialog.php:357 modules/pref-filters.php:41
-#: modules/pref-filters.php:347
+#: modules/pref-filters.php:366
 msgid "Match"
 msgstr "Искать"
 
-#: modules/popup-dialog.php:366 modules/pref-filters.php:50
+#: modules/popup-dialog.php:364 modules/pref-filters.php:52
+msgid "before"
+msgstr ""
+
+#: modules/popup-dialog.php:365 modules/pref-filters.php:53
+#, fuzzy
+msgid "after"
+msgstr "Дата"
+
+#: modules/popup-dialog.php:376 modules/pref-filters.php:64
+msgid "Check it"
+msgstr ""
+
+#: modules/popup-dialog.php:379 modules/pref-filters.php:67
 msgid "on field"
 msgstr "по полю:"
 
-#: modules/popup-dialog.php:371 modules/pref-filters.php:55
+#: modules/popup-dialog.php:385 modules/pref-filters.php:73
 msgid "in"
 msgstr "в"
 
-#: modules/popup-dialog.php:376 modules/pref-filters.php:60
+#: modules/popup-dialog.php:390 modules/pref-filters.php:78
 #, fuzzy
 msgid "Perform Action"
 msgstr "Применить обновления"
 
-#: modules/popup-dialog.php:393 modules/pref-filters.php:80
+#: modules/popup-dialog.php:407 modules/pref-filters.php:98
 msgid "with parameters:"
 msgstr "с параметрами:"
 
-#: modules/popup-dialog.php:403 modules/pref-feeds.php:303
-#: modules/pref-feeds.php:495 modules/pref-filters.php:90
+#: modules/popup-dialog.php:417 modules/pref-feeds.php:303
+#: modules/pref-feeds.php:495 modules/pref-filters.php:108
 #: modules/pref-users.php:165
 msgid "Options"
 msgstr "Опции:"
 
-#: modules/popup-dialog.php:409 modules/pref-filters.php:102
+#: modules/popup-dialog.php:423 modules/pref-filters.php:120
 msgid "Enabled"
 msgstr "Включен"
 
-#: modules/popup-dialog.php:412 modules/pref-filters.php:111
+#: modules/popup-dialog.php:426 modules/pref-filters.php:129
 msgid "Inverse match"
 msgstr "Инвертировать фильтр"
 
-#: modules/popup-dialog.php:439
+#: modules/popup-dialog.php:453
 msgid "Update Errors"
 msgstr "Ошибки обновления"
 
-#: modules/popup-dialog.php:442
+#: modules/popup-dialog.php:456
 msgid "These feeds have not been updated because of errors:"
 msgstr "Эти каналы не были обновлены из-за ошибок:"
 
-#: modules/popup-dialog.php:460
+#: modules/popup-dialog.php:474
 msgid "Close"
 msgstr "Закрыть"
 
-#: modules/popup-dialog.php:469
+#: modules/popup-dialog.php:483
 msgid "Edit Tags"
 msgstr "Редактировать теги"
 
-#: modules/popup-dialog.php:474
+#: modules/popup-dialog.php:488
 msgid "Tags for this article (separated by commas):"
 msgstr "Теги для этой статьи (разделенные запятыми):"
 
-#: modules/popup-dialog.php:519 modules/pref-feeds.php:388
-#: modules/pref-feeds.php:539 modules/pref-filters.php:129
+#: modules/popup-dialog.php:533 modules/pref-feeds.php:388
+#: modules/pref-feeds.php:539 modules/pref-filters.php:147
 #: modules/pref-users.php:181
 msgid "Save"
 msgstr "Сохранить"
 
-#: modules/popup-dialog.php:532 help/3.php:60
+#: modules/popup-dialog.php:546 help/3.php:60
 msgid "Tag cloud"
 msgstr "Облако тегов"
 
-#: modules/popup-dialog.php:535
+#: modules/popup-dialog.php:549
 msgid "Showing most popular tags "
 msgstr "Самые популярные теги "
 
-#: modules/popup-dialog.php:536
+#: modules/popup-dialog.php:550
 msgid "browse more"
 msgstr "еще"
 
@@ -1874,8 +1891,8 @@ msgstr "Создать категорию"
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:1077 modules/pref-filters.php:123
-#: modules/pref-filters.php:415 modules/pref-labels.php:330
+#: modules/pref-feeds.php:1077 modules/pref-filters.php:141
+#: modules/pref-filters.php:436 modules/pref-labels.php:330
 #: modules/pref-users.php:481
 msgid "Remove"
 msgstr "Удалить"
@@ -1904,7 +1921,7 @@ msgstr "Последняя&nbsp;статья"
 msgid "Updated"
 msgstr "Обновлено"
 
-#: modules/pref-feeds.php:1304 modules/pref-filters.php:389
+#: modules/pref-feeds.php:1304 modules/pref-filters.php:409
 #: modules/pref-labels.php:310 modules/pref-users.php:456
 msgid "Click to edit"
 msgstr "Щёлкните для редактирования"
@@ -1918,7 +1935,7 @@ msgstr "Выбрать:"
 msgid "Recategorize"
 msgstr "Изменить категорию"
 
-#: modules/pref-feeds.php:1365 modules/pref-filters.php:413
+#: modules/pref-feeds.php:1365 modules/pref-filters.php:434
 #: modules/pref-labels.php:328 modules/pref-users.php:479
 msgid "Edit"
 msgstr "Редактировать"
@@ -1931,7 +1948,7 @@ msgstr "Ручная очистка"
 msgid "Clear feed data"
 msgstr "Очистить данные канала."
 
-#: modules/pref-feeds.php:1368 modules/pref-filters.php:269
+#: modules/pref-feeds.php:1368 modules/pref-filters.php:290
 #, fuzzy
 msgid "Rescore articles"
 msgstr "Отмеченные"
@@ -1988,54 +2005,52 @@ msgstr "Создать другую ссылку"
 msgid "Filter Editor"
 msgstr "Редактор фильтров"
 
-#: modules/pref-filters.php:169
+#: modules/pref-filters.php:187
 #, php-format
 msgid "Saved filter <b>%s</b>"
 msgstr "Фильтр <b>%s</b> сохранен"
 
-#: modules/pref-filters.php:209
+#: modules/pref-filters.php:230
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Добавлен фильтр <b>%s</b>"
 
-#: modules/pref-filters.php:262 help/3.php:31 help/4.php:25
+#: modules/pref-filters.php:283 help/3.php:31 help/4.php:25
 msgid "Create filter"
 msgstr "Создать фильтр"
 
-#: modules/pref-filters.php:335
+#: modules/pref-filters.php:356
 msgid "filter_type_descr"
 msgstr ""
 
-#: modules/pref-filters.php:336
+#: modules/pref-filters.php:357
 #, fuzzy
 msgid "action_description"
 msgstr "описание"
 
-#: modules/pref-filters.php:345
-msgid "Filter expression"
-msgstr "Выражение"
+#: modules/pref-filters.php:368
+#, fuzzy
+msgid "Field"
+msgstr "Канал"
 
-#: modules/pref-filters.php:348
-msgid "Action"
-msgstr "Действие"
+#: modules/pref-filters.php:369
+#, fuzzy
+msgid "Perform action"
+msgstr "Применить обновления"
 
-#: modules/pref-filters.php:349
-msgid "Params"
-msgstr "Параметры:"
-
-#: modules/pref-filters.php:378
+#: modules/pref-filters.php:398
 msgid "(Disabled)"
 msgstr "(Отключен)"
 
-#: modules/pref-filters.php:397
+#: modules/pref-filters.php:417
 msgid "(Inverse)"
 msgstr "(Инвертирован)"
 
-#: modules/pref-filters.php:423
+#: modules/pref-filters.php:444
 msgid "No filters defined."
 msgstr "Фильтры отсутствуют."
 
-#: modules/pref-filters.php:425
+#: modules/pref-filters.php:446
 #, fuzzy
 msgid "No matching filters found."
 msgstr "Статей не найдено."
@@ -2487,6 +2502,15 @@ msgstr "Редактировать категории канала"
 #: help/4.php:33
 msgid "Focus search (if present)"
 msgstr "Фокус на поиск (если поиск показан)"
+
+#~ msgid "Filter expression"
+#~ msgstr "Выражение"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
+
+#~ msgid "Params"
+#~ msgstr "Параметры:"
 
 #~ msgid ""
 #~ "This program requires XmlHttpRequest to function properly. Your browser "
