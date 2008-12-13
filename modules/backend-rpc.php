@@ -429,6 +429,24 @@
 			return;
 		}
 
+		if ($subop == "checkDate") {
+
+			$date = db_escape_string($_REQUEST["date"]);
+			$date_parsed = strtotime($date);
+
+			print "<rpc-reply>";
+
+			if ($date_parsed) {
+				print "<result>1</result>";
+			} else {
+				print "<result>0</result>";
+			}
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

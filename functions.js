@@ -1523,6 +1523,39 @@ function getFeedName(id, is_cat) {
 	}
 }
 
+function filterDlgCheckType(sender) {
+
+	try {
+
+		var ftype = sender[sender.selectedIndex].value;
+
+		var form = document.forms["filter_add_form"];
+	
+		if (!form) {
+			form = document.forms["filter_edit_form"];
+		}
+
+		if (!form) {
+			debug("filterDlgCheckType: can't find form!");
+			return;
+		}
+
+		// if selected filter type is 5 (Date) enable the modifier dropbox
+		if (ftype == 5) {
+			Element.show("filter_dlg_date_mod_box");
+			Element.show("filter_dlg_date_chk_box");
+		} else {
+			Element.hide("filter_dlg_date_mod_box");
+			Element.hide("filter_dlg_date_chk_box");
+
+		}
+
+	} catch (e) {
+		exception_error("filterDlgCheckType", e);
+	}
+
+}
+
 function filterDlgCheckAction(sender) {
 
 	try {
@@ -1558,6 +1591,55 @@ function filterDlgCheckAction(sender) {
 		exception_error("filterDlgCheckAction", e);
 	}
 
+}
+
+function filterDlgCheckDate() {
+	try {
+		var form = document.forms["filter_add_form"];
+	
+		if (!form) {
+			form = document.forms["filter_edit_form"];
+		}
+
+		if (!form) {
+			debug("filterDlgCheckAction: can't find form!");
+			return;
+		}
+
+		var reg_exp = form.reg_exp.value;
+
+		var query = "backend.php?op=rpc&subop=checkDate&date=" + reg_exp;
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+
+				var form = document.forms["filter_add_form"];
+	
+				if (!form) {
+					form = document.forms["filter_edit_form"];
+				}
+
+				if (transport.responseXML) {
+					var result = transport.responseXML.getElementsByTagName("result")[0];
+
+					if (result && result.firstChild) {
+						if (result.firstChild.nodeValue == "1") {
+
+							new Effect.Highlight(form.reg_exp, {startcolor : '#00ff00'});
+
+							return;
+						}
+					}
+				}
+
+				new Effect.Highlight(form.reg_exp, {startcolor : '#ff0000'});
+
+			} });
+
+
+	} catch (e) {
+		exception_error("filterDlgCheckDate", e);
+	}
 }
 
 function explainError(code) {

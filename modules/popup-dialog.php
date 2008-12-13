@@ -358,13 +358,26 @@
 
 			print "<div class=\"dlgSecCont\">";
 
+			print "<span id=\"filter_dlg_date_mod_box\" style=\"display : none\">";
+			print "<select name=\"filter_date_modifier\">";
+			print "<option name=\"before\">".__('Before')."</option>";
+			print "<option name=\"after\">".__('After')."</option>";
+			print "</select>&nbsp;</span>";
+
 			print "<input onkeypress=\"return filterCR(event, createFilter)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
-			print " " . __("on field") . " ";
-			print_select_hash("filter_type", 1, $filter_types);
+			print "<span id=\"filter_dlg_date_chk_box\" style=\"display : none\">";			
+			print "&nbsp;<input class=\"button\"
+				type=\"submit\" onclick=\"return filterDlgCheckDate()\" 
+				value=\"".__('Check Date')."\">";
+			print "</span>";
+
+			print "<br/> " . __("on field") . " ";
+			print_select_hash("filter_type", 1, $filter_types,
+				'onchange="filterDlgCheckType(this)"');
 
 			print "<br/>";
 
