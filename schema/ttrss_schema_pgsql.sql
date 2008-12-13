@@ -141,6 +141,8 @@ insert into ttrss_filter_types (id,name,description) values (3, 'both',
 	'Title or Content');
 insert into ttrss_filter_types (id,name,description) values (4, 'link', 
 	'Link');
+insert into ttrss_filter_types (id,name,description) values (5, 'date', 
+	'Article Date');
 
 create table ttrss_filter_actions (id integer not null primary key, 
 	name varchar(120) unique not null, 
@@ -196,7 +198,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (45);
+insert into ttrss_version values (46);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
