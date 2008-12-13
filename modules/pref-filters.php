@@ -15,6 +15,7 @@
 			$feed_id = db_fetch_result($result, 0, "feed_id");
 			$action_id = db_fetch_result($result, 0, "action_id");
 			$action_param = db_fetch_result($result, 0, "action_param");
+			$filter_param = db_fetch_result($result, 0, "filter_param");
 
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 			$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
@@ -48,10 +49,15 @@
 
 			print "<span id=\"filter_dlg_date_mod_box\" $date_ops_invisible>";
 			print __("Date") . " ";
-			print "<select name=\"filter_date_modifier\">";
-			print "<option value=\"before\">".__('before')."</option>";
-			print "<option value=\"after\">".__('after')."</option>";
-			print "</select>&nbsp;</span>";
+
+			$filter_params = array(
+				"before" => __("before"),
+				"after" => __("after"));
+
+			print_select_hash("filter_date_modifier", $filter_param,
+				$filter_params);
+
+			print "&nbsp;</span>";
 
 			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
@@ -167,6 +173,9 @@
 			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
 			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
 
+			# for the time being, no other filters use params anyway...
+			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
+
 			if (!$feed_id) {
 				$feed_id = 'NULL';
 			} else {
@@ -180,7 +189,8 @@
 					filter_type = '$filter_type',
 					enabled = $enabled,
 					inverse = $inverse,
-					action_param = '$action_param'
+					action_param = '$action_param',
+					filter_param = '$filter_param'
 					WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
 			if (db_affected_rows($link, $result) != 0) {
@@ -205,8 +215,10 @@
 			$feed_id = db_escape_string($_GET["feed_id"]);
 			$action_id = db_escape_string($_GET["action_id"]); 
 			$action_param = db_escape_string($_GET["action_param"]); 
-
 			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
+
+			# for the time being, no other filters use params anyway...
+			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
 
 			if (!$regexp) return;
 
@@ -215,9 +227,6 @@
 			} else {
 				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
 			}
-
-			# for the time being, no other filters use params anyway...
-			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
 
 			$result = db_query($link,
 				"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,

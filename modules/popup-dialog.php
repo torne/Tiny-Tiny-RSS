@@ -360,10 +360,14 @@
 
 			print "<span id=\"filter_dlg_date_mod_box\" style=\"display : none\">";
 			print __("Date") . " ";
-			print "<select name=\"filter_date_modifier\">";
-			print "<option value=\"before\">".__('before')."</option>";
-			print "<option value=\"after\">".__('after')."</option>";
-			print "</select>&nbsp;</span>";
+
+			$filter_params = array(
+				"before" => __("before"),
+				"after" => __("after"));
+
+			print_select_hash("filter_date_modifier", "before", $filter_params);
+
+			print "&nbsp;</span>";
 
 			print "<input onkeypress=\"return filterCR(event, createFilter)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"

@@ -807,10 +807,6 @@
 					if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
 				}
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
-					_debug("update_rss_feed: date $entry_timestamp");
-				}
-
 				if ($entry_timestamp == "" || $entry_timestamp == -1 || !$entry_timestamp) {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
@@ -819,6 +815,10 @@
 				}
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: date $entry_timestamp [$entry_timestamp_fmt]");
+				}
 
 				if ($use_simplepie) {
 					$entry_title = $item->get_title();
@@ -1156,7 +1156,7 @@
 //					error_reporting(0);
 
 					$article_filters = get_article_filters($filters, $entry_title, 
-							$entry_content, $entry_link);
+							$entry_content, $entry_link, $entry_timestamp);
 
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
@@ -1457,7 +1457,7 @@
 		print "</select>";
 	}
 
-	function get_article_filters($filters, $title, $content, $link) {
+	function get_article_filters($filters, $title, $content, $link, $timestamp) {
 		$matches = array();
 
 		if ($filters["title"]) {
@@ -1515,6 +1515,32 @@
 				}
 			}
 		}
+
+		if ($filters["date"]) {
+			$reg_exp = $filter["reg_exp"];
+			foreach ($filters["date"] as $filter) {
+				$date_modifier = $filter["filter_param"];
+				$inverse = $filter["inverse"];
+				$check_timestamp = strtotime($filter["reg_exp"]);
+
+				# no-op when timestamp doesn't parse to prevent misfires
+
+				if ($check_timestamp) {
+					$match_ok = false;
+
+					if ($date_modifier == "before" && $timestamp < $check_timestamp ||
+						$date_modifier == "after" && $timestamp > $check_timestamp) {
+							$match_ok = true;
+					}
+
+					if ($inverse) $match_ok = !$match_ok;
+
+					if ($match_ok) {
+						array_push($matches, array($filter["action"], $filter["action_param"]));
+					}
+				}
+			}
+		} 
 
 		return $matches;
 	}
@@ -5767,7 +5793,8 @@
 			ttrss_filter_types.name AS name,
 			ttrss_filter_actions.name AS action,
 			inverse,
-			action_param
+			action_param,
+			filter_param
 			FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
 				enabled = true AND
 				$ftype_query_part
@@ -5781,6 +5808,7 @@
 				$filter["reg_exp"] = $line["reg_exp"];
 				$filter["action"] = $line["action"];
 				$filter["action_param"] = $line["action_param"];
+				$filter["filter_param"] = $line["filter_param"];
 				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
 			
 				array_push($filters[$line["name"]], $filter);
