@@ -42,13 +42,31 @@
 
 			print "<div class=\"dlgSecCont\">";
 
+			if ($filter_type != 5) {
+				$date_ops_invisible = 'style=\"display : none\"';
+			}
+
+			print "<span id=\"filter_dlg_date_mod_box\" $date_ops_invisible>";
+			print __("Date") . " ";
+			print "<select name=\"filter_date_modifier\">";
+			print "<option value=\"before\">".__('before')."</option>";
+			print "<option value=\"after\">".__('after')."</option>";
+			print "</select>&nbsp;</span>";
+
 			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
 					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
-			print " " . __("on field") . " ";
-			print_select_hash("filter_type", $filter_type, $filter_types);
+			print "<span id=\"filter_dlg_date_chk_box\" $date_ops_invisible>";			
+			print "&nbsp;<input class=\"button\"
+				type=\"submit\" onclick=\"return filterDlgCheckDate()\" 
+				value=\"".__('Check it')."\">";
+			print "</span>";
+
+			print "<br/> " . __("on field") . " ";
+			print_select_hash("filter_type", $filter_type, $filter_types,
+				'onchange="filterDlgCheckType(this)"');
 
 			print "<br/>";
 
