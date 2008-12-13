@@ -184,6 +184,7 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	feed_id integer default null,
 	filter_type integer not null,
 	reg_exp varchar(250) not null,
+	filter_param varchar(250) not null default '',
 	inverse bool not null default false,
 	enabled bool not null default true,
 	action_id integer not null default 1,
@@ -221,7 +222,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (46);
+insert into ttrss_version values (47);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
