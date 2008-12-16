@@ -1415,7 +1415,7 @@
 
 		$url_path = article_publish_url($link);
 
-		print "<p><a class=\"visibleLinkB\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">Link to published articles feed.</a></p>";		
+		print "<p><a class=\"visibleLinkB\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">".__("Link to published articles feed.")."</a></p>";
 
 		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" class=\"button\"
 			value=\"".__('Generate another link')."\">";

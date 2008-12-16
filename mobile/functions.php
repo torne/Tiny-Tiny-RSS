@@ -9,16 +9,16 @@
 		print "<div id=\"heading\">";
 
 		if ($tags) {
-			print "Tags <span id=\"headingAddon\">
-				(<a href=\"tt-rss.php\">View feeds</a>, ";
+			print __("Tags")."<span id=\"headingAddon\">
+				(<a href=\"tt-rss.php\">".__("View feeds")."</a>, ";
 		} else {
-			print "Feeds <span id=\"headingAddon\">
-				(<a href=\"tt-rss.php?tags=1\">View tags</a>, ";
+			print __("Feeds")." <span id=\"headingAddon\">
+				(<a href=\"tt-rss.php?tags=1\">".__("View tags")."</a>, ";
 		}
 
-		print "<a href=\"tt-rss.php?go=sform\">Search</a>, ";
+		print "<a href=\"tt-rss.php?go=sform\">".__("Search")."</a>, ";
 
-		print "<a href=\"logout.php\">Logout</a>)</span>";
+		print "<a href=\"logout.php\">".__("Logout")."</a>)</span>";
 		print "</div>";
 
 		print "<ul class=\"feedList\">";
@@ -30,7 +30,7 @@
 			/* virtual feeds */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<li class=\"feedCat\">Special</li>";
+				print "<li class=\"feedCat\">".__("Special")."</li>";
 				print "<li class=\"feedCatHolder\"><ul class=\"feedCatList\">";
 			}
 
@@ -72,7 +72,7 @@
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
-						print "<li class=\"feedCat\">Labels</li>";
+						print "<li class=\"feedCat\">".__("Labels")."</li>";
 						print "<li class=\"feedCatHolder\"><ul class=\"feedCatList\">";
 					} else {
 //						print "<li><hr></li>";
@@ -139,9 +139,12 @@
 			$lnum = 0;
 	
 			$category = "";
-	
+
 			while ($line = db_fetch_assoc($result)) {
-			
+				if (get_pref($link, 'HIDE_READ_FEEDS') && (int)$line['unread']==0) {
+					continue;
+				}
+
 				$feed = db_unescape_string($line["title"]);
 				$feed_id = $line["id"];	  
 	
@@ -413,8 +416,9 @@
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
 		if (!$result) {
-			print "<div align='center'>
-				Could not display feed (query failed). Please check label match syntax or local configuration.</div>";
+			print "<div align='center'>".
+				__("Could not display feed (query failed). Please check label match syntax or local configuration.").
+				"</div>";
 			return;
 		}
 
@@ -424,9 +428,9 @@
 			#		}
 		
 		print "$feed_title <span id=\"headingAddon\">(";
-		print "<a href=\"tt-rss.php\">Back</a>, ";
-		print "<a href=\"tt-rss.php?go=sform&aid=$feed&ic=$cat_view\">Search</a>, ";
-		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">Update</a>";
+		print "<a href=\"tt-rss.php\">".__("Back")."</a>, ";
+		print "<a href=\"tt-rss.php?go=sform&aid=$feed&ic=$cat_view\">".__("Search")."</a>, ";
+		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=ForceUpdate\">".__("Update")."</a>";
 
 #		print "Mark as read: ";
 #		print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAsRead\">Page</a>, ";
@@ -491,10 +495,10 @@
 						($line["unread"] != "t" && $line["unread"] != "1")) {
 	
 					$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
-						alt=\"Updated\">";
+						alt=\"".__("Updated")."\">";
 				} else {
 					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
-						alt=\"Updated\">";
+						alt=\"".__("Updated")."\">";
 				}
 	
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
@@ -560,20 +564,20 @@
 			print "<a href=\"tt-rss.php?go=vf&id=$feed&subop=MarkAllRead\">Feed</a></div>"; */
 
 			print "Select: 
-				<a href=\"javascript:selectHeadlines(1)\">All</a>,
-				<a href=\"javascript:selectHeadlines(2)\">Unread</a>,
-				<a href=\"javascript:selectHeadlines(3)\">None</a>,
-				<a href=\"javascript:selectHeadlines(4)\">Invert</a>";
+				<a href=\"javascript:selectHeadlines(1)\">".__("All")."</a>,
+				<a href=\"javascript:selectHeadlines(2)\">".__("Unread")."</a>,
+				<a href=\"javascript:selectHeadlines(3)\">".__("None")."</a>,
+				<a href=\"javascript:selectHeadlines(4)\">".__("Invert")."</a>";
 
 			print " ";
 
 			print "<select name=\"catchup_op\">
-				<option value=\"selection\">Selection</option>
-				<option value=\"page\">Page</option>
-				<option value=\"feed\">Entire feed</option>
+				<option value=\"selection\">".__("Selection")."</option>
+				<option value=\"page\">".__("Page")."</option>
+				<option value=\"feed\">".__("Entire feed")."</option>
 			</select>
 			<input type=\"hidden\" name=\"cat\" value=\"$cat_view\">
-			<input type=\"submit\" value=\"Mark as read\">";
+			<input type=\"submit\" value=\"".__("Mark as read")."\">";
 
 			print "</form>";
 
@@ -688,7 +692,7 @@
 			print "</div>";
 
 			if ($num_tags > 0) {
-				print "<div class=\"postTags\">Tags: $tags_str</div>";
+				print "<div class=\"postTags\">".__("Tags:")." $tags_str</div>";
 			}
 
 			if ($line["marked"] == "t" || $line["marked"] == "1") {
@@ -719,8 +723,8 @@
 
 		print "<div id=\"heading\">";
 
-		print "Search <span id=\"headingAddon\">
-				(<a href=\"tt-rss.php\">Go back</a>)</span></div>";
+		print __("Search")." <span id=\"headingAddon\">
+				(<a href=\"tt-rss.php\">".__("Go back")."</a>)</span></div>";
 
 		print "<form method=\"GET\" action=\"tt-rss.php\" class=\"searchForm\">";
 

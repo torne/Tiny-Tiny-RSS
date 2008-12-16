@@ -8,10 +8,9 @@
 	require_once "../sessions.php";
 
 	require_once "../version.php"; 
-	require_once "../config.php";
 	require_once "../db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	init_connection($link);
 
@@ -119,7 +118,7 @@
 <?php if (!$go) { ?>
 
 <div id="footer">
-	<a href="http://tt-rss.spb.ru/">Tiny-Tiny RSS</a>
+	<a href="http://tt-rss.org/">Tiny-Tiny RSS</a>
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
 	<?php } ?>

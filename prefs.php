@@ -123,7 +123,7 @@ window.onload = init;
 		</div> -->
 
 		<div class='prefKbdHelp'>
-			<img src="images/small_question.png" alt="?"/> <a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})">Keyboard shortcuts</a>
+			<img src="images/small_question.png" alt="?"/> <a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})"><?php echo __("Keyboard shortcuts") ?></a>
 		</div>
 
 		<div class="firstTab">&nbsp;</div>
