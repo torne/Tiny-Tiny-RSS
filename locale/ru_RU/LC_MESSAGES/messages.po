@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-16 12:43+0300\n"
-"PO-Revision-Date: 2008-11-15 13:42+0400\n"
+"POT-Creation-Date: 2008-12-16 12:45+0300\n"
+"PO-Revision-Date: 2008-12-16 13:32+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -250,9 +250,8 @@ msgid "Actions..."
 msgstr "Действия..."
 
 #: functions.php:4007
-#, fuzzy
 msgid "Selection toggle:"
-msgstr "Выбрать:"
+msgstr "Переключить выбранное:"
 
 #: functions.php:4009 functions.php:4056 tt-rss.php:195
 #: mobile/functions.php:456
@@ -838,7 +837,7 @@ msgstr "Содержимое"
 
 #: localized_schema.php:13
 msgid "Article Date"
-msgstr ""
+msgstr "Дата Статьи"
 
 #: localized_schema.php:15
 msgid "Filter article"
@@ -898,9 +897,8 @@ msgid "Update post on checksum change"
 msgstr "Обновлять статью при изменении контрольной суммы"
 
 #: localized_schema.php:32
-#, fuzzy
 msgid "Mark articles in e-mail digest as read"
-msgstr "Отметить все статьи в %s как прочитанные?"
+msgstr "Отметить все статьи в e-mail дайджесте как прочитанные?"
 
 #: localized_schema.php:34
 msgid "Interface"
@@ -947,13 +945,13 @@ msgid "Mark articles as read automatically"
 msgstr "Отмечать статьи как прочитанные автоматически"
 
 #: localized_schema.php:44
-#, fuzzy
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
 "(except for Fresh articles feed) while you scroll article list."
 msgstr ""
 "Эта опция разрешает автоматически отмечать статьи как прочитанные в "
-"комбинированном режиме, пока вы прокручиваете список статей."
+"комбинированном режиме (исключение для специального канала \"Свежие статьи"
+"\" ), пока вы прокручиваете список статей."
 
 #: localized_schema.php:45
 msgid "On catchup show next feed"
@@ -1034,6 +1032,8 @@ msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr ""
+"Когда автоопределение тегов в статьях, эти теги не будут применяться (список "
+"значений, разделённых запятыми)."
 
 #: localized_schema.php:63
 msgid "Confirm marking feed as read"
@@ -1095,11 +1095,13 @@ msgstr "Очистить непрочитанные статьи"
 
 #: localized_schema.php:76
 msgid "Show special feeds when hiding read feeds"
-msgstr ""
+msgstr "Показывать специальные каналы, когда скрываются прочитанные каналы"
 
 #: localized_schema.php:77
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
+"Предпочитать более точные счётчики списка каналов для скорости "
+"пользовательского интерфейса"
 
 #: localized_schema.php:78
 msgid "Enable inline MP3 player"
@@ -1146,7 +1148,7 @@ msgstr "В доступе отказано - недостаточный уров
 
 #: mysql_convert_unicode.php:46
 msgid "MySQL Charset Updater"
-msgstr ""
+msgstr "Кодировка обновлений MySQL"
 
 #: mysql_convert_unicode.php:53
 msgid "This script is for Tiny Tiny RSS installations with MySQL backend only."
@@ -1204,6 +1206,9 @@ msgid ""
 "\t\tfor this application to function properly. Please check your\n"
 "\t\tbrowser settings."
 msgstr ""
+"Ваш браузер не поддерживает Javascript, который требуется\n"
+"\t\tдля функционала этой программы. Пожалуйста, проверьте\n"
+"\t\tнастройки вашего браузера."
 
 #: prefs.php:104
 msgid "Unknown Error"
@@ -1222,7 +1227,6 @@ msgid "Logout"
 msgstr "Выход"
 
 #: prefs.php:126
-#, fuzzy
 msgid "Keyboard shortcuts"
 msgstr "Горячие Клавиши"
 
@@ -1489,7 +1493,7 @@ msgstr ", найдена: "
 
 #: update.php:92
 msgid "Tiny Tiny RSS database is up to date."
-msgstr ""
+msgstr "Tiny Tiny RSS база данных обновлена."
 
 #: update.php:104
 #, php-format
@@ -1497,6 +1501,8 @@ msgid ""
 "Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to "
 "<b>%d</b>)."
 msgstr ""
+"Вашей базе данных Tiny Tiny RSS необходимо обновиться до последней версии  "
+"(<b>%d</b> до <b>%d</b>)."
 
 #: update.php:123
 msgid "Performing updates..."
@@ -1653,9 +1659,8 @@ msgid "Caption"
 msgstr "Заголовок"
 
 #: modules/popup-dialog.php:241 modules/pref-labels.php:46
-#, fuzzy
 msgid "Match SQL"
-msgstr "Искать"
+msgstr "Совпадение SQL"
 
 #: modules/popup-dialog.php:265 modules/pref-labels.php:68
 msgid "Help"
@@ -1685,12 +1690,11 @@ msgstr "Искать"
 
 #: modules/popup-dialog.php:365 modules/pref-filters.php:54
 msgid "before"
-msgstr ""
+msgstr "перед"
 
 #: modules/popup-dialog.php:366 modules/pref-filters.php:55
-#, fuzzy
 msgid "after"
-msgstr "Дата"
+msgstr "после"
 
 #: modules/popup-dialog.php:380 modules/pref-filters.php:70
 msgid "Check it"
@@ -1705,9 +1709,8 @@ msgid "in"
 msgstr "в"
 
 #: modules/popup-dialog.php:394 modules/pref-filters.php:84
-#, fuzzy
 msgid "Perform Action"
-msgstr "Применить обновления"
+msgstr "Выполнить действия"
 
 #: modules/popup-dialog.php:411 modules/pref-filters.php:104
 msgid "with parameters:"
@@ -1911,7 +1914,7 @@ msgstr "Удалить"
 
 #: modules/pref-feeds.php:1099
 msgid "Some feeds have update errors (click for details)"
-msgstr "Некоторые каналы не могли быть обновлены (щелкните для подробностей)"
+msgstr "Некоторые каналы не могут быть обновлены (щёлкните для подробностей)"
 
 #: modules/pref-feeds.php:1121 help/3.php:45 help/4.php:22
 msgid "Subscribe to feed"
@@ -1999,6 +2002,8 @@ msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
 msgstr ""
+"Этот сайт с Tiny Tiny RSS можно использовать в Firefox как агрегатор RSS. "
+"Для этого щёлкните по ссылке ниже."
 
 #: modules/pref-feeds.php:1405
 msgid "Click here to register this site as a feed reader."
@@ -2009,11 +2014,12 @@ msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
 msgstr ""
+"Опубликованные статьи экспортируется в качестве общего RSS канала и могут "
+"быть подписаны кем-либо ещё, кто знает URL, указанный ниже."
 
 #: modules/pref-feeds.php:1418
-#, fuzzy
 msgid "Link to published articles feed."
-msgstr "Опубликованные"
+msgstr "Ссылка на общий канал со статьями."
 
 #: modules/pref-feeds.php:1421
 msgid "Generate another link"
@@ -2047,9 +2053,8 @@ msgid "action_description"
 msgstr "описание"
 
 #: modules/pref-filters.php:378
-#, fuzzy
 msgid "Field"
-msgstr "Канал"
+msgstr "Поле"
 
 #: modules/pref-filters.php:379
 msgid "Params"
@@ -2068,9 +2073,8 @@ msgid "No filters defined."
 msgstr "Фильтры отсутствуют."
 
 #: modules/pref-filters.php:460
-#, fuzzy
 msgid "No matching filters found."
-msgstr "Статей не найдено."
+msgstr "Не найдено совпадений с фильтром."
 
 #: modules/pref-labels.php:9
 msgid ""
@@ -2110,9 +2114,8 @@ msgid "No labels defined."
 msgstr "Метки отсутствуют."
 
 #: modules/pref-labels.php:337
-#, fuzzy
 msgid "No matching labels found."
-msgstr "Статей не найдено."
+msgstr "Не найдено совпадений с метками."
 
 #: modules/pref-prefs.php:60
 msgid "Password has been changed."
@@ -2207,9 +2210,8 @@ msgid "Reset to defaults"
 msgstr "Сбросить настройки"
 
 #: modules/pref-users.php:7
-#, fuzzy
 msgid "Your access level is insufficient to open this tab."
-msgstr "В доступе отказано - недостаточный уровень привилегий."
+msgstr "Вашего уровня доступа недостаточно для открытия этой вкладки."
 
 #: modules/pref-users.php:54 modules/pref-users.php:417
 msgid "Registered"
@@ -2220,9 +2222,8 @@ msgid "Last logged in"
 msgstr "Последний вход"
 
 #: modules/pref-users.php:64
-#, fuzzy
 msgid "Stored articles"
-msgstr "Отмеченные"
+msgstr "Сохранённые статьи"
 
 #: modules/pref-users.php:72
 msgid "Subscribed feeds count"
@@ -2521,23 +2522,20 @@ msgid "Focus search (if present)"
 msgstr "Фокус на поиск (если поиск показан)"
 
 #: mobile/functions.php:13
-#, fuzzy
 msgid "View feeds"
-msgstr "Спрятать список каналов"
+msgstr "Каналы"
 
 #: mobile/functions.php:15
-#, fuzzy
 msgid "Feeds"
-msgstr "Канал"
+msgstr "Каналы"
 
 #: mobile/functions.php:16
-#, fuzzy
 msgid "View tags"
-msgstr "Редактировать теги"
+msgstr "Теги"
 
 #: mobile/functions.php:431
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: mobile/functions.php:441
 msgid "View:"
@@ -2545,7 +2543,7 @@ msgstr "Показать:"
 
 #: mobile/functions.php:463
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: mobile/functions.php:695
 msgid "Tags:"
@@ -2553,30 +2551,19 @@ msgstr "Теги:"
 
 #: mobile/functions.php:727
 msgid "Go back"
-msgstr ""
+msgstr "Идти назад"
 
 #: mobile/functions.php:738
 msgid "Where:"
 msgstr "Где:"
 
 #: mobile/functions.php:769
-#, fuzzy
 msgid "Match on:"
-msgstr "соответствие:"
+msgstr "Соответствие:"
 
 #: mobile/tt-rss.php:112
 msgid "Internal error: Function not implemented"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Perform action"
-#~ msgstr "Применить обновления"
-
-#~ msgid "Filter expression"
-#~ msgstr "Выражение"
-
-#~ msgid "Action"
-#~ msgstr "Действие"
+msgstr "Внутренняя ошибка: Функция не реализована"
 
 #~ msgid ""
 #~ "This program requires XmlHttpRequest to function properly. Your browser "
@@ -2590,6 +2577,16 @@ msgstr ""
 #~ "seem to support them."
 #~ msgstr ""
 #~ "Для работы программы необходимы куки. Ваш браузер их не поддерживает."
+
+#, fuzzy
+#~ msgid "Perform action"
+#~ msgstr "Применить обновления"
+
+#~ msgid "Filter expression"
+#~ msgstr "Выражение"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
 
 #~ msgid "Category:"
 #~ msgstr "Категория:"
