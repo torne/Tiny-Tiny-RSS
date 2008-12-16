@@ -1,6 +1,8 @@
 <?php
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
+	define('MOBILE_VERSION', true);
+
 	require_once "../config.php";
 	require_once "functions.php";
 	require_once "../functions.php"; 

@@ -53,6 +53,12 @@
 				$lang = $_COOKIE["ttrss_lang"];
 			}
 
+			/* In login action of mobile version */
+			if ($_POST["language"] && defined('MOBILE_VERSION')) {
+				$lang = $_POST["language"];
+				$_COOKIE["ttrss_lang"] = $lang;
+			}
+
 			if ($lang) {
 				if (defined('LC_MESSAGES')) {
 					_setlocale(LC_MESSAGES, $lang);
@@ -61,7 +67,13 @@
 				} else {
 					die("can't setlocale(): please set ENABLE_TRANSLATIONS to false in config.php");
 				}
-				_bindtextdomain("messages", "locale");
+
+				if (defined('MOBILE_VERSION')) {
+					_bindtextdomain("messages", "../locale");
+				} else {
+					_bindtextdomain("messages", "locale");
+				}
+
 				_textdomain("messages");
 				_bind_textdomain_codeset("messages", "UTF-8");
 			}
