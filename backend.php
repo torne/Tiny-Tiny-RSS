@@ -49,10 +49,12 @@
 	init_connection($link);
 
 	$op = $_REQUEST["op"];
+	$mode = $_REQUEST["mode"];
 
 	$print_exec_time = false;
 
-	if ((!$op || $op == "rpc" || $op == "rss" || $op == "view" || 
+	if ((!$op || $op == "rpc" || $op == "rss" || 
+			($op == "view" && $mode != "zoom") || 
 			$op == "digestSend" || $op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 				header("Content-Type: application/xml; charset=utf-8");
