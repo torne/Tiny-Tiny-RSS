@@ -316,6 +316,7 @@
 				enabled,
 				inverse,
 				feed_id,
+				filter_param,
 				filter_type,
 				ttrss_filter_actions.description AS action_description,
 				ttrss_feeds.title AS feed_title,
@@ -403,6 +404,22 @@
 				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 
+				$filter_params = array(
+					"before" => __("before"),
+					"after" => __("after"));
+	
+				if ($line["filter_type"] == 5) {
+
+					if (!strtotime($line["reg_exp"])) {
+						$line["reg_exp"] = "<span class=\"filterDateError\">" . 
+							$line["reg_exp"] . "</span>";
+					}
+
+					$line["reg_exp"] = __("Date") . " " . 
+						$filter_params[$line['filter_param']] . " " .
+						$line["reg_exp"];
+				}
+
 				if (!$enabled) {
 					$line["reg_exp"] = "<span class=\"insensitive\">" . 
 						$line["reg_exp"] . " " .  __("(Disabled)")."</span>";
@@ -417,11 +434,6 @@
 				}	
 
 				$onclick = "onclick='editFilter($filter_id)' title='".__('Click to edit')."'";
-
-				if ($line["filter_type"] == 5 && !strtotime($line["reg_exp"])) {
-					$line["reg_exp"] = "<span class=\"filterDateError\">" . 
-						$line["reg_exp"] . "</span>";
-				}
 
 				$inverse_label = "";
 
