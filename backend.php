@@ -417,6 +417,7 @@
 
 		case "publish":
 			$key = db_escape_string($_GET["key"]);
+			$limit = (int)db_escape_string($_GET["limit"]);
 
 			$result = db_query($link, "SELECT login, owner_uid 
 				FROM ttrss_user_prefs, ttrss_users WHERE
@@ -428,7 +429,7 @@
 				$owner = db_fetch_result($result, 0, "owner_uid");
 				$login = db_fetch_result($result, 0, "login");
 
-				generate_syndicated_feed($link, $owner, -2, false);
+				generate_syndicated_feed($link, $owner, -2, false, $limit);
 
 			} else {
 				print "<error>User not found</error>";
@@ -440,6 +441,7 @@
 			$user = db_escape_string($_GET["user"]);
 			$pass = db_escape_string($_GET["pass"]);
 			$is_cat = $_GET["is_cat"] != false;
+			$limit = (int)db_escape_string($_GET["limit"]);
 
 			$search = db_escape_string($_GET["q"]);
 			$match_on = db_escape_string($_GET["m"]);
@@ -452,7 +454,7 @@
 			if ($_SESSION["uid"] ||
 				http_authenticate_user($link)) {
 
-					generate_syndicated_feed($link, 0, $feed, $is_cat, 
+					generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
 						$search, $search_mode, $match_on);
 			}
 		break; // rss

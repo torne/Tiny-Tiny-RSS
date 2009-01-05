@@ -3483,10 +3483,12 @@
 	}
 
 	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
-		$search, $search_mode, $match_on) {
+		$limit, $search, $search_mode, $match_on) {
+
+		if (!$limit) $limit = 30;
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-			30, false, $is_cat, $search, $search_mode, $match_on, "updated DESC", 0,
+			$limit, false, $is_cat, $search, $search_mode, $match_on, "updated DESC", 0,
 			$owner_uid);
 
 		$result = $qfh_ret[0];
