@@ -44,7 +44,7 @@
 			print "<div class=\"dlgSecCont\">";
 
 			if ($filter_type != 5) {
-				$date_ops_invisible = 'style=\"display : none\"';
+				$date_ops_invisible = 'style="display : none"';
 			}
 
 			print "<span id=\"filter_dlg_date_mod_box\" $date_ops_invisible>";
