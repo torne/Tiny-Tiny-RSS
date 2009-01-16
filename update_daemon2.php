@@ -174,8 +174,15 @@
 					// 	$last_purge = time();
 					// }
 
-					// Call to the feed batch update function
-					update_daemon_common($link);
+					// Call to the feed batch update function 
+					// or regenerate feedbrowser cache
+
+					if (rand(0,100) > 50) {
+						update_daemon_common($link);
+					} else {
+						$count = update_feedbrowser_cache($link);
+						_debug("Finished, $count feeds processed.");
+					}
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
  

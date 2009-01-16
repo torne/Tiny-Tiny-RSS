@@ -69,36 +69,16 @@
 		$last_purge = time();
 	}
 
-	// FIXME: get all scheduled updates w/forced refetch
-	// Stub, until I figure out if it is really needed.
+	// Call to the feed batch update function 
+	// or regenerate feedbrowser cache
 
-#		$result = db_query($link, "SELECT * FROM ttrss_scheduled_updates ORDER BY id");
-#		while ($line = db_fetch_assoc($result)) {
-#			print "Scheduled feed update: " . $line["feed_id"] . ", UID: " . 
-#				$line["owner_uid"] . "\n";
-#		}
-
-	// Process all other feeds using last_updated and interval parameters
-
-//	$random_qpart = sql_random_function();
-
-/*		
-				ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
-		}
-
-		$rows = pg_affected_rows($result);
-		
+	if (rand(0,100) > 50) {
+		update_daemon_common($link);
 	} else {
+		$count = update_feedbrowser_cache($link);
+		print "Finished, $count feeds processed.\n";
+	}
 
-		$result = db_query($link, "DELETE FROM ttrss_user_entries 
-			USING ttrss_user_entries, ttrss_entries 
-			WHERE ttrss_entries.id = ref_id AND 
-			marked = false AND 
-			feed_id = '$feed_id' AND 
-			ttrss_entries.date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)"); */		
-
-	// Call to the feed batch update function
-	update_daemon_common($link);
 
 	db_close($link);
 
