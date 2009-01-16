@@ -2328,10 +2328,6 @@
 
 		print "<counter type=\"category\" id=\"-2\" counter=\"$ctr\"/>";
 
-		$ctr = getCategoryUnread($link, -3);
-
-		print "<counter type=\"category\" id=\"-3\" counter=\"$ctr\"/>";
-
 		$age_qpart = getMaxAgeSubquery();
 
 		$result = db_query($link, "SELECT cat_id, value AS unread
