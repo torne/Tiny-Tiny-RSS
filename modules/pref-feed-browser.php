@@ -90,12 +90,17 @@
 
 		$owner_uid = $_SESSION["uid"];
 			
-		$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
+/*		$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
 	  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf 
 				WHERE tf.feed_url = ttrss_feeds.feed_url 
 				AND (private IS true OR feed_url LIKE '%:%@%/%' OR 
 					owner_uid = '$owner_uid')) GROUP BY feed_url 
-						ORDER BY subscribers DESC LIMIT $limit");
+					ORDER BY subscribers DESC LIMIT $limit"); */
+
+		$result = db_query($link, "SELECT feed_url, subscribers FROM
+			ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
+			WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
+			AND owner_uid = '$owner_uid')");
 
 		print "<br/>";
 			
