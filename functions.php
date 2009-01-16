@@ -2328,6 +2328,10 @@
 
 		print "<counter type=\"category\" id=\"-2\" counter=\"$ctr\"/>";
 
+		$ctr = getCategoryUnread($link, -3);
+
+		print "<counter type=\"category\" id=\"-3\" counter=\"$ctr\"/>";
+
 		$age_qpart = getMaxAgeSubquery();
 
 /*		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
@@ -4210,7 +4214,12 @@
 	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true) {
 
 			$tmp_category = getCategoryTitle($link, $cat_id);
-			$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
+
+			if ($cat_id > 0) {
+				$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
+			} else {
+				$cat_unread = getCategoryUnread($link, $cat_id);
+			}
 
 			if ($hidden) {
 				$holder_style = "display:none;";
