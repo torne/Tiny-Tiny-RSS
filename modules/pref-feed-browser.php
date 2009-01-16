@@ -100,7 +100,7 @@
 		$result = db_query($link, "SELECT feed_url, subscribers FROM
 			ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 			WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
-			AND owner_uid = '$owner_uid')");
+			AND owner_uid = '$owner_uid') ORDER BY subscribers DESC LIMIT $limit");
 
 		print "<br/>";
 			

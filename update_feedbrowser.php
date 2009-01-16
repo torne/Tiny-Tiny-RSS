@@ -48,6 +48,8 @@
 
 	db_query($link, "DELETE FROM ttrss_feedbrowser_cache");
 
+	$count = 0;
+
 	while ($line = db_fetch_assoc($result)) {
 		$subscribers = db_escape_string($line["subscribers"]);
 		$feed_url = db_escape_string($line["feed_url"]);
@@ -55,9 +57,12 @@
 		db_query($link, "INSERT INTO ttrss_feedbrowser_cache 
 			(feed_url, subscribers) VALUES ('$feed_url', '$subscribers')");
 
+		++$count;
 	}
 
 	db_query($link, "COMMIT");
+
+	print "Finished, $count feeds processed.\n";
 
 	db_close($link);
 
