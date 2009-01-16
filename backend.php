@@ -282,62 +282,55 @@
 			}
 
 			print "<headlines id=\"$feed\"><![CDATA[";
+		
+			$override_order = false;
 
-			if ($feed == -4) {
-
-				generate_dashboard_feed($link);
-
-			} else {
-				
-				$override_order = false;
-
-				switch ($order_by) {
-					case "date":
-						if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-							$override_order = "updated";
-						} else {	
-							$override_order = "updated DESC";
-						}
-						break;
-
-					case "title":
+			switch ($order_by) {
+				case "date":
+					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+						$override_order = "updated";
+					} else {	
 						$override_order = "updated DESC";
-						break;
-
-					case "score":
-						$override_order = "score DESC";
-						break;
-				}
-
-				$ret = outputHeadlinesList($link, $feed, $subop, 
-					$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
-					$vgroup_last_feed, $override_order);
-	
-				$topmost_article_ids = $ret[0];
-				$headlines_count = $ret[1];
-				$returned_feed = $ret[2];
-				$disable_cache = $ret[3];
-				$vgroup_last_feed = $ret[4];
-	
-				print "]]></headlines>";
-	
-				print "<headlines-count value=\"$headlines_count\"/>";
-				print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
-
-				$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"]);
-	
-				print "<headlines-unread value=\"$headlines_unread\"/>";
-				printf("<disable-cache value=\"%d\"/>", $disable_cache);
-	
-				if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
-	
-				if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
-					print "<articles>";
-					foreach ($topmost_article_ids as $id) {
-						outputArticleXML($link, $id, $feed, false);
 					}
-					print "</articles>";
+					break;
+
+				case "title":
+					$override_order = "updated DESC";
+					break;
+
+				case "score":
+					$override_order = "score DESC";
+					break;
+			}
+
+			$ret = outputHeadlinesList($link, $feed, $subop, 
+				$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
+				$vgroup_last_feed, $override_order);
+
+			$topmost_article_ids = $ret[0];
+			$headlines_count = $ret[1];
+			$returned_feed = $ret[2];
+			$disable_cache = $ret[3];
+			$vgroup_last_feed = $ret[4];
+
+			print "]]></headlines>";
+
+			print "<headlines-count value=\"$headlines_count\"/>";
+			print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
+
+			$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"]);
+
+			print "<headlines-unread value=\"$headlines_unread\"/>";
+			printf("<disable-cache value=\"%d\"/>", $disable_cache);
+
+			if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
+
+			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
+				print "<articles>";
+				foreach ($topmost_article_ids as $id) {
+					outputArticleXML($link, $id, $feed, false);
 				}
+				print "</articles>";
 			}
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);

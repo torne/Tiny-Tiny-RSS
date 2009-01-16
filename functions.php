@@ -4077,8 +4077,6 @@
 
 			}
 
-			if (!$dashboard_menu) {
-
 				if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
 
 					print "<td class=\"headlineActions$rtl_cpart\">
@@ -4157,11 +4155,6 @@
 					print "</td>";  
 	
 				}
-			} else { // dashboard menu actions
-
-				// not implemented
-				print "</td>";
-			}
 
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 
@@ -4282,11 +4275,6 @@
 			}
 
 			printCategoryHeader($link, -1, $cat_hidden, false);
-		}
-
-		if (defined('_ENABLE_DASHBOARD')) {
-			printFeedEntry(-4, "virt", __("Dashboard"), 0, 
-				"images/tag.png", $link);
 		}
 
 		$num_starred = getFeedUnread($link, -1);
@@ -5842,29 +5830,6 @@
 	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
 	} // function update_daemon_common
-
-	function generate_dashboard_feed($link) {
-
-		print "<div id=\"headlinesContainer\">";
-
-		print_headline_subtoolbar($link, "", "Dashboard", 
-			false, false, -4, false, false, false,
-			false, 0, 0, true, true, "tag.png");
-
-		print "<div id=\"headlinesInnerContainer\" class=\"dashboard\">";
-		print "<div>There is <b>666</b> unread articles in <b>666</b> feeds.</div>";
-		print "</div>";
-
-		print "</div>";
-
-		print "]]></headlines>";
-		print "<headlines-count value=\"0\"/>";
-		print "<headlines-unread value=\"0\"/>";
-		print "<disable-cache value=\"1\"/>";
-
-		print "<articles>";
-		print "</articles>";
-	}
 
 	function sanitize_article_content($text) {
 		# we don't support CDATA sections in articles, they break our own escaping
