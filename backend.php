@@ -164,6 +164,8 @@
 				case "catchupAll":
 					db_query($link, "UPDATE ttrss_user_entries SET 
 						last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
+					ccache_zero_all($link, $_SESSION["uid"]);
+
 				break;
 
 				case "collapse":

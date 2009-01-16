@@ -2243,6 +2243,9 @@
 							AND owner_uid = ".$_SESSION["uid"]); */
 					}
 				}
+
+				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+
 			} else { // tag
 				db_query($link, "BEGIN");
 
@@ -5992,7 +5995,15 @@
 			feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
 	}
 
-	function ccache_invalidate($link, $feed_id, $owner_uid, $is_cat = false) {
+	function ccache_zero_all($link, $owner_uid) {
+		db_query($link, "UPDATE ttrss_counters_cache SET
+			value = 0 WHERE owner_uid = '$owner_uid'");
+
+		db_query($link, "UPDATE ttrss_cat_counters_cache SET
+			value = 0 WHERE owner_uid = '$owner_uid'");
+	}
+
+/*	function ccache_invalidate($link, $feed_id, $owner_uid, $is_cat = false) {
 
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
@@ -6002,7 +6013,7 @@
 
 		db_query($link, "DELETE FROM $table
 			WHERE feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
-	}
+	} */
 
 	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false) {
 
