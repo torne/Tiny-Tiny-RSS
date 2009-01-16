@@ -82,8 +82,6 @@
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "feedBrowser");
 
-		print "<div class=\"insensitive\">".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
-
 		$limit = db_escape_string($_GET["limit"]);
 
 		if (!$limit) $limit = 25;
@@ -96,6 +94,20 @@
 				AND (private IS true OR feed_url LIKE '%:%@%/%' OR 
 					owner_uid = '$owner_uid')) GROUP BY feed_url 
 					ORDER BY subscribers DESC LIMIT $limit"); */
+
+		$result = db_query($link, "SELECT COUNT(feed_url) AS cfu FROM 
+			ttrss_feedbrowser_cache");
+
+		$cfu = db_fetch_result($result, 0, "cfu");
+
+		if ($cfu == 0) {
+			print_warning(__("Feed browser cache information is missing. Please refer to the <a class='visibleLink' target='_blank' href='http://tt-rss.org/trac/wiki/FeedBrowser'>wiki</a> for more information."));
+			return;
+
+		}
+
+		print "<div class=\"insensitive\">".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
+
 
 		$result = db_query($link, "SELECT feed_url, subscribers FROM
 			ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
@@ -174,7 +186,7 @@
 		}
 
 		if ($feedctr == 0) {
-			print "<div>".__('No feeds found.')."</div>";
+			print_notice(__("Couldn't find any feeds available for subscription."));
 		}
 
 		print "</div>";
