@@ -2805,10 +2805,7 @@
 			FROM ttrss_feeds, ttrss_counters_cache
 			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
 				AND parent_feed IS NULL 
-				AND ttrss_counters_cache.feed_id = id
-				GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, 
-				last_error";
-
+				AND ttrss_counters_cache.feed_id = id";
 
 		$result = db_query($link, $query);
 		$fctrs_modified = false;
