@@ -239,11 +239,11 @@
 			}
 
 
-			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
+//			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
-			}
+//			}
 
 			print "</reply>";
 		break; // view
@@ -348,12 +348,12 @@
 				$viewfeed_ctr_interval = 60;
 			}
 
-			if (get_pref($link, "SYNC_COUNTERS") ||				
-					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
+//			if (get_pref($link, "SYNC_COUNTERS") ||				
+//					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
 				print "<counters>";
 				getAllCounters($link, $omode, $feed);
 				print "</counters>";
-			}
+//			}
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
