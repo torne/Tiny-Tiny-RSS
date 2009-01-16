@@ -6088,37 +6088,6 @@
 			}
 		}
 
-#		if ($feed_id > 0) {
-#
-#			/* update parent cat if needed OR in cat mode update cat feeds */
-#
-#			if ($is_cat) {
-#				$result = db_query($link, "SELECT id AS feed_id FROM ttrss_feeds
-#					WHERE owner_uid = '$owner_uid' AND cat_id = '$feed_id'");
-#
-#				while ($line = db_fetch_assoc($result)) {
-#					ccache_update($link, (int)$line["feed_id"], $owner_uid, false);
-#				}
-#
-#			} else {			
-#				$result = db_query($link, "SELECT cat_id AS feed_id FROM ttrss_feeds
-#					WHERE owner_uid = '$owner_uid' AND id = '$feed_id'");
-#
-#				while ($line = db_fetch_assoc($result)) {
-#					ccache_update($link, (int)$line["feed_id"], $owner_uid, true);
-#				}
-#			}
-#
-#			/* update labels */
-#
-#			$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
-#					WHERE owner_uid = '$owner_uid' AND feed_id < 0");
-#
-#			while ($line = db_fetch_assoc($result)) {
-#				ccache_update($link, $line["feed_id"], $owner_uid);
-#			}
-#		}
-
 		return $unread;
 	}
 ?>
