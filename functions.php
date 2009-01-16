@@ -2330,12 +2330,10 @@
 
 		$age_qpart = getMaxAgeSubquery();
 
-		$result = db_query($link, "SELECT cat_id, value AS unread
-			FROM ttrss_feeds, ttrss_cat_counters_cache
-			WHERE 
-				ttrss_cat_counters_cache.feed_id = cat_id AND
-				hidden = false AND 
-				ttrss_feeds.owner_uid = ".$_SESSION["uid"]);
+		$result = db_query($link, "SELECT id AS cat_id, value AS unread 
+			FROM ttrss_feed_categories, ttrss_cat_counters_cache 
+			WHERE ttrss_cat_counters_cache.feed_id = id AND 
+			ttrss_feed_categories.owner_uid = " . $_SESSION["uid"]);
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
