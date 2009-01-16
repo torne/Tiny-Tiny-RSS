@@ -1587,7 +1587,12 @@ function feedBrowserSubscribe() {
 	}
 }
 
-function updateBigFeedBrowser(limit) {
+function updateBigFeedBrowserBtn() {
+	notify_progress("Loading, please wait...");
+	return updateBigFeedBrowser();
+}
+
+function updateBigFeedBrowser(limit, from_button) {
 
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();

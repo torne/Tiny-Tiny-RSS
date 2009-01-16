@@ -114,7 +114,7 @@
 			
 		print "</select>
 			<input type=\"submit\" class=\"button\"
-				onclick=\"updateBigFeedBrowser()\" value=\"".__('Show')."\">
+				onclick=\"updateBigFeedBrowserBtn()\" value=\"".__('Show')."\">
 		</div>";
 
 		if (db_num_rows($result) > 0) {
