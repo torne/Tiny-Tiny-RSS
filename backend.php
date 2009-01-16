@@ -225,6 +225,7 @@
 				outputArticleXML($link, $id, $feed_id, true, true);
 			} else {
 				catchupArticleById($link, $id, 0);
+				ccache_update($link, $feed_id, $_SESSION["uid"]);
 			}
 
 			if (!$_SESSION["bw_limit"]) {

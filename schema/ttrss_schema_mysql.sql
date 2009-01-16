@@ -18,6 +18,7 @@ drop table if exists ttrss_user_entries;
 drop table if exists ttrss_entries;
 drop table if exists ttrss_scheduled_updates;
 drop table if exists ttrss_counters_cache;
+drop table if exists ttrss_cat_counters_cache;
 drop table if exists ttrss_feeds;
 drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
@@ -64,7 +65,14 @@ create table ttrss_counters_cache (
 	owner_uid integer not null,
 	value integer not null default 0,
 	updated datetime not null,
-	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
+);
+
+create table ttrss_cat_counters_cache (
+	feed_id integer not null,
+	owner_uid integer not null,
+	value integer not null default 0,
+	updated datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 );
 
@@ -224,7 +232,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (49);
+insert into ttrss_version values (50);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

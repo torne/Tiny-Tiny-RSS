@@ -2327,15 +2327,22 @@
 
 		$age_qpart = getMaxAgeSubquery();
 
-		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
+/*		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
 				FROM ttrss_user_entries, ttrss_entries WHERE feed_id = ttrss_feeds.id 
 					AND id = ref_id AND $age_qpart 
 					AND unread = true)) AS unread FROM ttrss_feeds 
+			WHERE 
+			hidden = false AND owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id"); */
+
+		$result = db_query($link, "SELECT cat_id FROM ttrss_feeds 
 			WHERE 
 				hidden = false AND owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
+
+			$line["unread"] = ccache_find($link, $line["cat_id"], $_SESSION["uid"], true);
+
 			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
 				$line["unread"]."\"/>";
 		}
@@ -2522,7 +2529,7 @@
 			$user_id = $_SESSION["uid"];
 		}
 
-		$age_qpart = getMaxAgeSubquery();
+/*		$age_qpart = getMaxAgeSubquery();
 
 		$result = db_query($link, "SELECT count(ttrss_entries.id) as c_id FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
 			WHERE unread = true AND 
@@ -2530,8 +2537,14 @@
 			ttrss_user_entries.ref_id = ttrss_entries.id AND 
 			hidden = false AND
 			$age_qpart AND
-			ttrss_user_entries.owner_uid = '$user_id'");
-		$c_id = db_fetch_result($result, 0, "c_id");
+			ttrss_user_entries.owner_uid = '$user_id'"); */
+
+
+		$result = db_query($link, "SELECT SUM(value) AS c_id FROM ttrss_counters_cache
+			WHERE owner_uid = '$user_id' AND feed_id > 0");
+
+		$c_id = db_fetch_result($result, 0, "c_id"); 
+
 		return $c_id;
 	}
 
@@ -2680,9 +2693,11 @@
 
 			$label_name = $line["description"];
 
+			$count = ccache_find($link, $id, $_SESSION["uid"]);
+
 			error_reporting (0);
 
-			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
+/*			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
 				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
 				ttrss_feeds.hidden = false AND
 				$age_qpart AND
@@ -2708,10 +2723,29 @@
 					$ret_arr[$id]["counter"] = $count;
 					$ret_arr[$id]["description"] = $label_name;
 				}
-			}
+			} */
+
+			if (!$smart_mode || $old_counters[$id] != $count) {	
+				$old_counters[$id] = $count;
+				$lctrs_modified = true;
+				if (!$ret_mode) {
+
+					if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+						$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+					} else {
+						$xmsg_part = "";
+					}
+
+					print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
+				} else {
+					$ret_arr[$id]["counter"] = $count;
+					$ret_arr[$id]["description"] = $label_name;
+				}
+			} 
+
 
 			error_reporting (DEFAULT_ERROR_LEVEL);
-		}
+		} 
 
 		if ($smart_mode && $lctrs_modified) {
 			$_SESSION["lctr_last_value"] = $old_counters;
@@ -2757,7 +2791,7 @@
 			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"] . "
 			AND parent_feed IS NULL"); */
 
-		$query = "SELECT ttrss_feeds.id,
+/*		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
 				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
 				last_error, 
@@ -2770,7 +2804,18 @@
 					$age_qpart) 
 			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
 				AND parent_feed IS NULL 
-			GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, last_error";
+				GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, last_error"; */
+
+		$query = "SELECT ttrss_feeds.id,
+				ttrss_feeds.title,
+				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
+				last_error 
+			FROM ttrss_feeds 
+			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
+				AND parent_feed IS NULL 
+				GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, 
+				last_error";
+
 
 		$result = db_query($link, $query);
 		$fctrs_modified = false;
@@ -2780,7 +2825,7 @@
 		while ($line = db_fetch_assoc($result)) {
 		
 			$id = $line["id"];
-			$count = $line["count"];
+			$count = ccache_find($link, $line["id"], $_SESSION["uid"]);
 			$last_error = htmlspecialchars($line["last_error"]);
 
 			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
@@ -4332,11 +4377,6 @@
 
 			$query = "SELECT ttrss_feeds.*,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
-				(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
-					WHERE feed_id = ttrss_feeds.id AND unread = true
-						AND $age_qpart
-						AND ttrss_user_entries.ref_id = ttrss_entries.id
-						AND owner_uid = '$owner_uid') as unread,
 				cat_id,last_error,
 				ttrss_feed_categories.title AS category,
 				ttrss_feed_categories.collapsed	
@@ -4371,7 +4411,7 @@
 	
 				$subop = $_GET["subop"];
 				
-				$unread = $line["unread"];
+				$unread = ccache_find($link, $feed_id, $_SESSION["uid"]);
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$last_updated = smart_date_time(strtotime($line["last_updated_noms"]));
@@ -4646,6 +4686,8 @@
 			$result = db_query($link, "UPDATE ttrss_user_entries 
 				SET unread = false,last_read = NOW() 
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+			ccache_update($link, $feed_id, $_SESSION["uid"]);
 		}
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
@@ -5944,45 +5986,98 @@
 
 	}
 
-	function ccache_invalidate($link, $feed_id, $owner_uid) {
-
+	function ccache_zero($link, $feed_id, $owner_uid) {
 		db_query($link, "UPDATE ttrss_counters_cache SET
 			value = 0, updated = NOW() WHERE
 			feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
-
 	}
 
-	function ccache_find($link, $feed_id, $owner_uid) {
-		$result = db_query($link, "SELECT value FROM ttrss_counters_cache
-			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
+	function ccache_invalidate($link, $feed_id, $owner_uid, $is_cat = false) {
+
+		if (!$is_cat) {
+			$table = "ttrss_counters_cache";
+		} else {
+			$table = "ttrss_cat_counters_cache";
+		}
+
+		db_query($link, "DELETE FROM $table
+			WHERE feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
+	}
+
+	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false) {
+
+		if (!$is_cat) {
+			$table = "ttrss_counters_cache";
+		} else {
+			$table = "ttrss_cat_counters_cache";
+		}
+
+		if (DB_TYPE == "pgsql") {
+			$date_qpart = "updated > NOW() - INTERVAL '15 minutes'";
+		} else if (DB_TYPE == "mysql") {
+			$date_qpart = "updated > DATE_SUB(NOW(), INTERVAL 15 MINUTE)";
+		}
+
+		$result = db_query($link, "SELECT value FROM $table
+			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' 
+			AND $date_qpart LIMIT 1");
 
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "value");
 		} else {
-			return -1;
+			return ccache_update($link, $feed_id, $owner_uid, $is_cat);
+
 		}
 
 	}
 
-	function ccache_update($link, $feed_id, $owner_uid) {
+	function ccache_update($link, $feed_id, $owner_uid, $is_cat = false) {
 
-		$unread = (int) getFeedArticles($link, $feed_id, false, true, $owner_uid);
+		if (!$is_cat) {
+			$table = "ttrss_counters_cache";
+		} else {
+			$table = "ttrss_cat_counters_cache";
+		}
 
-		$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
+		$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
+
+		$result = db_query($link, "SELECT feed_id FROM $table
 			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
 
 		if (db_num_rows($result) == 1) {
-			db_query($link, "UPDATE ttrss_counters_cache SET
+			db_query($link, "UPDATE $table SET
 				value = '$unread', updated = NOW() WHERE
 				feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
 
 		} else {
-			db_query($link, "INSERT INTO ttrss_counters_cache
+			db_query($link, "INSERT INTO $table
 				(feed_id, value, owner_uid, updated) 
 				VALUES 
 				($feed_id, $unread, $owner_uid, NOW())");
 				
 		}
 
+		/* As it is a real feed, we have to update labels, possibly referencing
+		 * this feed; when browsing the category - update counters for underlying
+		 * feeds */
+
+		if ($feed_id > 0) {
+
+
+			if ($is_cat) {
+				$result = db_query($link, "SELECT id AS feed_id FROM ttrss_feeds
+					WHERE owner_uid = '$owner_uid' AND cat_id = '$feed_id'");
+			} else {			
+				$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
+					WHERE owner_uid = '$owner_uid' AND feed_id < 0");
+			}
+
+			while ($line = db_fetch_assoc($result)) {
+				ccache_update($link, $line["feed_id"], $owner_uid);
+
+			}
+		}
+
+		return $unread;
 	}
 ?>
