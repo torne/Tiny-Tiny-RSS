@@ -2536,17 +2536,6 @@
 			$user_id = $_SESSION["uid"];
 		}
 
-/*		$age_qpart = getMaxAgeSubquery();
-
-		$result = db_query($link, "SELECT count(ttrss_entries.id) as c_id FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
-			WHERE unread = true AND 
-			ttrss_user_entries.feed_id = ttrss_feeds.id AND
-			ttrss_user_entries.ref_id = ttrss_entries.id AND 
-			hidden = false AND
-			$age_qpart AND
-			ttrss_user_entries.owner_uid = '$user_id'"); */
-
-
 		$result = db_query($link, "SELECT SUM(value) AS c_id FROM ttrss_counters_cache
 			WHERE owner_uid = '$user_id' AND feed_id > 0");
 
@@ -2816,10 +2805,11 @@
 		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
 				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
-				last_error 
-			FROM ttrss_feeds 
+				last_error, value AS count
+			FROM ttrss_feeds, ttrss_counters_cache
 			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
 				AND parent_feed IS NULL 
+				AND ttrss_counters_cache.feed_id = id
 				GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, 
 				last_error";
 
@@ -2832,7 +2822,7 @@
 		while ($line = db_fetch_assoc($result)) {
 		
 			$id = $line["id"];
-			$count = ccache_find($link, $line["id"], $_SESSION["uid"]);
+			$count = $line["count"];
 			$last_error = htmlspecialchars($line["last_error"]);
 
 			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
@@ -2845,18 +2835,18 @@
 
 			$has_img = feed_has_icon($id);
 
-			$tmp_result = db_query($link,
+/*			$tmp_result = db_query($link,
 				"SELECT ttrss_feeds.id,COUNT(unread) AS unread
 				FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
 					ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
 				LEFT JOIN ttrss_entries ON (ttrss_user_entries.ref_id = ttrss_entries.id) 
-				WHERE parent_feed = '$id' AND $age_qpart AND unread = true GROUP BY ttrss_feeds.id");
-			
-			if (db_num_rows($tmp_result) > 0) {				
-				while ($l = db_fetch_assoc($tmp_result)) {
-					$count += $l["unread"];
-				}
-			}
+				WHERE parent_feed = '$id' AND $age_qpart AND unread = true GROUP BY ttrss_feeds.id"); */
+
+			$tmp_result = db_query($link,
+				"SELECT SUM(value) AS unread FROM ttrss_feeds, ttrss_counters_cache 
+					WHERE parent_feed = '$id' AND feed_id = id");
+
+			$count += db_fetch_result($tmp_result, 0, "unread");
 
 			if (!$smart_mode || $old_counters[$id] != $count) {
 				$old_counters[$id] = $count;
@@ -4439,18 +4429,11 @@
 				}
 
 				$tmp_result = db_query($link,
-					"SELECT id,COUNT(unread) AS unread
-					FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
-						ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
-					WHERE parent_feed = '$feed_id' AND unread = true 
-					GROUP BY ttrss_feeds.id");
-			
-				if (db_num_rows($tmp_result) > 0) {				
-					while ($l = db_fetch_assoc($tmp_result)) {
-						$unread += $l["unread"];
-					}
-				}
+					"SELECT SUM(value) AS unread FROM ttrss_feeds, ttrss_counters_cache 
+						WHERE parent_feed = '$feed_id' AND feed_id = id");
 
+				$unread += db_fetch_result($tmp_result, 0, "unread");
+	
 				$cat_id = $line["cat_id"];
 
 				$tmp_category = $line["category"];
