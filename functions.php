@@ -2335,7 +2335,7 @@
 			WHERE 
 				ttrss_cat_counters_cache.feed_id = cat_id AND
 				hidden = false AND 
-				ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+				ttrss_feeds.owner_uid = ".$_SESSION["uid"]);
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
