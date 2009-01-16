@@ -1,3 +1,4 @@
+drop table ttrss_feedbrowser_cache;
 drop table ttrss_version;
 drop table ttrss_labels;
 drop table ttrss_filters;
@@ -199,7 +200,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (47);
+insert into ttrss_version values (48);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -344,5 +345,9 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 create index ttrss_sessions_expire_index on ttrss_sessions(expire);
 
 create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT SUBSTRING(CAST($1 AS text), $2, $3)' LANGUAGE 'sql';
+
+create table ttrss_feedbrowser_cache (
+	feed_url text not null primary key,
+	subscribers integer not null);	
 
 commit;

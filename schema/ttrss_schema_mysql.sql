@@ -1,6 +1,7 @@
 -- SET NAMES utf8;
 -- SET CHARACTER SET utf8;
 
+drop table if exists ttrss_feedbrowser_cache;
 drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
 drop table if exists ttrss_filters;
@@ -374,5 +375,9 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 	expire integer not null,
 	index (id), 
 	index (expire)) TYPE=InnoDB;
+
+create table ttrss_feedbrowser_cache (
+	feed_url text not null,
+	subscribers integer not null);	
 
 commit;
