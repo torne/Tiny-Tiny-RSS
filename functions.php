@@ -3980,6 +3980,15 @@
 			unread = NOT unread,last_read = NOW()
 			WHERE ($ids_qpart) AND owner_uid = $owner_uid");
 		}
+
+		/* update ccache */
+
+		$result = db_query($link, "SELECT DISTINCT feed_id FROM ttrss_user_entries
+			WHERE ($ids_qpart) AND owner_uid = $owner_uid");
+
+		while ($line = db_fetch_assoc($result)) {
+			ccache_update($link, $line["feed_id"], $owner_uid);
+		}
 	}
 
 	function catchupArticleById($link, $id, $cmode) {

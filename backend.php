@@ -270,6 +270,8 @@
 			$csync = $_GET["csync"];
 			$order_by = db_escape_string($_GET["order_by"]);
 
+			ccache_update($link, $feed, $_SESSION["uid"]);
+
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
 			set_pref($link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
@@ -322,7 +324,7 @@
 				print "<headlines-count value=\"$headlines_count\"/>";
 				print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
 
-				$headlines_unread = getFeedUnread($link, $returned_feed);
+				$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"]);
 	
 				print "<headlines-unread value=\"$headlines_unread\"/>";
 				printf("<disable-cache value=\"%d\"/>", $disable_cache);
