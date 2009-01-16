@@ -6020,13 +6020,12 @@
 
 		$result = db_query($link, "SELECT value FROM $table
 			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' 
-			AND $date_qpart LIMIT 1");
+			LIMIT 1");
 
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "value");
 		} else {
 			return ccache_update($link, $feed_id, $owner_uid, $is_cat);
-
 		}
 
 	}
@@ -6039,7 +6038,26 @@
 			$table = "ttrss_cat_counters_cache";
 		}
 
-		$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
+		if (!$is_cat) {
+
+			$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
+
+		} else {
+
+			if ($feed_id != 0) {
+				$cat_qpart = "cat_id = '$feed_id'";
+			} else {
+				$cat_qpart = "cat_id IS NULL";
+			}
+
+			$result = db_query($link, "SELECT SUM(value) AS sv 
+				FROM ttrss_counters_cache, ttrss_feeds 
+				WHERE id = feed_id AND $cat_qpart AND 
+				ttrss_feeds.owner_uid = '$owner_uid'");
+
+			$unread = db_fetch_result($result, 0, "sv");
+
+		}
 
 		$result = db_query($link, "SELECT feed_id FROM $table
 			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
@@ -6057,26 +6075,56 @@
 				
 		}
 
-		/* As it is a real feed, we have to update labels, possibly referencing
-		 * this feed; when browsing the category - update counters for underlying
-		 * feeds */
-
 		if ($feed_id > 0) {
 
+			if (!$is_cat) {
 
-			if ($is_cat) {
-				$result = db_query($link, "SELECT id AS feed_id FROM ttrss_feeds
-					WHERE owner_uid = '$owner_uid' AND cat_id = '$feed_id'");
-			} else {			
+				$result = db_query($link, "SELECT cat_id FROM ttrss_feeds
+					WHERE owner_uid = '$owner_uid' AND id = '$feed_id'");
+
+				$cat_id = (int) db_fetch_result($result, 0, "cat_id");
+
+				ccache_update($link, $cat_id, $owner_uid, true);
+
 				$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
-					WHERE owner_uid = '$owner_uid' AND feed_id < 0");
-			}
+						WHERE owner_uid = '$owner_uid' AND feed_id < 0");
 
-			while ($line = db_fetch_assoc($result)) {
-				ccache_update($link, $line["feed_id"], $owner_uid);
-
+				while ($line = db_fetch_assoc($result)) {
+					ccache_update($link, $line["feed_id"], $owner_uid);
+				}
 			}
 		}
+
+#		if ($feed_id > 0) {
+#
+#			/* update parent cat if needed OR in cat mode update cat feeds */
+#
+#			if ($is_cat) {
+#				$result = db_query($link, "SELECT id AS feed_id FROM ttrss_feeds
+#					WHERE owner_uid = '$owner_uid' AND cat_id = '$feed_id'");
+#
+#				while ($line = db_fetch_assoc($result)) {
+#					ccache_update($link, (int)$line["feed_id"], $owner_uid, false);
+#				}
+#
+#			} else {			
+#				$result = db_query($link, "SELECT cat_id AS feed_id FROM ttrss_feeds
+#					WHERE owner_uid = '$owner_uid' AND id = '$feed_id'");
+#
+#				while ($line = db_fetch_assoc($result)) {
+#					ccache_update($link, (int)$line["feed_id"], $owner_uid, true);
+#				}
+#			}
+#
+#			/* update labels */
+#
+#			$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
+#					WHERE owner_uid = '$owner_uid' AND feed_id < 0");
+#
+#			while ($line = db_fetch_assoc($result)) {
+#				ccache_update($link, $line["feed_id"], $owner_uid);
+#			}
+#		}
 
 		return $unread;
 	}
