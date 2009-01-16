@@ -2444,7 +2444,7 @@
 		} else if ($n_feed == -3) {
 			$match_part = "unread = true";
 
-			$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE");
+			$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 			if (DB_TYPE == "pgsql") {
 				$match_part .= " AND updated > NOW() - INTERVAL '$intl hour' "; 
