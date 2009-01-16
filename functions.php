@@ -1408,6 +1408,12 @@
 				}
 			} 
 
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				_debug("update_rss_feed: updating counters cache...");
+			}
+
+			ccache_update($link, $feed, $owner_uid);
+
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
@@ -2401,11 +2407,15 @@
 	}
 
 	function getFeedUnread($link, $feed, $is_cat = false) {
-		return getFeedArticles($link, $feed, $is_cat, true);
+		return getFeedArticles($link, $feed, $is_cat, true, $_SESSION["uid"]);
 	}
 
-	function getFeedArticles($link, $feed, $is_cat = false, $unread_only = false) {
+	function getFeedArticles($link, $feed, $is_cat = false, $unread_only = false,
+		$owner_uid = false) {
+
 		$n_feed = sprintf("%d", $feed);
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		if ($unread_only) {
 			$unread_qpart = "unread = true";
@@ -2437,7 +2447,7 @@
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
 					WHERE parent_feed = '$n_feed'
 					AND hidden = false
-					AND owner_uid = " . $_SESSION["uid"]);
+					AND owner_uid = " . $owner_uid);
 
 			if (db_num_rows($result) > 0) {
 
@@ -2456,7 +2466,7 @@
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					$age_qpart AND
 					($match_part) AND
-					owner_uid = " . $_SESSION["uid"]);
+					owner_uid = " . $owner_uid);
 
 				$unread = 0;
 
@@ -2475,7 +2485,7 @@
 			$label_id = -$feed - 11;
 
 			$result = db_query($link, "SELECT sql_exp FROM ttrss_labels WHERE
-				id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
+				id = '$label_id' AND owner_uid = " . $owner_uid);
 
 			$match_part = db_fetch_result($result, 0, "sql_exp");
 		}
@@ -2488,7 +2498,7 @@
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
 				ttrss_feeds.hidden = false AND
 				$age_qpart AND
-				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
+				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = " . $owner_uid);
 				
 		} else {
 		
@@ -2496,7 +2506,7 @@
 				FROM ttrss_tags,ttrss_user_entries,ttrss_entries 
 				WHERE tag_name = '$feed' AND post_int_id = int_id AND ref_id = ttrss_entries.id 
 				AND $unread_qpart AND $age_qpart AND
-					ttrss_tags.owner_uid = " . $_SESSION["uid"]);
+					ttrss_tags.owner_uid = " . $owner_uid);
 		}
 		
 		$unread = db_fetch_result($result, 0, "unread");
@@ -5931,6 +5941,48 @@
 		db_query($link, "COMMIT");
 
 		return $count;
+
+	}
+
+	function ccache_invalidate($link, $feed_id, $owner_uid) {
+
+		db_query($link, "UPDATE ttrss_counters_cache SET
+			value = 0, updated = NOW() WHERE
+			feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
+
+	}
+
+	function ccache_find($link, $feed_id, $owner_uid) {
+		$result = db_query($link, "SELECT value FROM ttrss_counters_cache
+			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "value");
+		} else {
+			return -1;
+		}
+
+	}
+
+	function ccache_update($link, $feed_id, $owner_uid) {
+
+		$unread = (int) getFeedArticles($link, $feed_id, false, true, $owner_uid);
+
+		$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
+			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
+
+		if (db_num_rows($result) == 1) {
+			db_query($link, "UPDATE ttrss_counters_cache SET
+				value = '$unread', updated = NOW() WHERE
+				feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
+
+		} else {
+			db_query($link, "INSERT INTO ttrss_counters_cache
+				(feed_id, value, owner_uid, updated) 
+				VALUES 
+				($feed_id, $unread, $owner_uid, NOW())");
+				
+		}
 
 	}
 ?>
