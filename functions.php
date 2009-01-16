@@ -5903,4 +5903,34 @@
 			}
 		}
 	}
+
+	function update_feedbrowser_cache($link) {
+
+		$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
+	  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf 
+				WHERE tf.feed_url = ttrss_feeds.feed_url 
+				AND (private IS true OR feed_url LIKE '%:%@%/%')) 
+				GROUP BY feed_url ORDER BY subscribers DESC");
+	
+		db_query($link, "BEGIN");
+	
+		db_query($link, "DELETE FROM ttrss_feedbrowser_cache");
+	
+		$count = 0;
+	
+		while ($line = db_fetch_assoc($result)) {
+			$subscribers = db_escape_string($line["subscribers"]);
+			$feed_url = db_escape_string($line["feed_url"]);
+	
+			db_query($link, "INSERT INTO ttrss_feedbrowser_cache 
+				(feed_url, subscribers) VALUES ('$feed_url', '$subscribers')");
+	
+			++$count;
+		}
+	
+		db_query($link, "COMMIT");
+
+		return $count;
+
+	}
 ?>
