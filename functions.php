@@ -2334,25 +2334,25 @@
 
 		$age_qpart = getMaxAgeSubquery();
 
-/*		$result = db_query($link, "SELECT cat_id,SUM((SELECT COUNT(int_id) 
-				FROM ttrss_user_entries, ttrss_entries WHERE feed_id = ttrss_feeds.id 
-					AND id = ref_id AND $age_qpart 
-					AND unread = true)) AS unread FROM ttrss_feeds 
+		$result = db_query($link, "SELECT cat_id, value AS unread
+			FROM ttrss_feeds, ttrss_cat_counters_cache
 			WHERE 
-			hidden = false AND owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id"); */
-
-		$result = db_query($link, "SELECT cat_id FROM ttrss_feeds 
-			WHERE 
-				hidden = false AND owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
+				ttrss_cat_counters_cache.feed_id = cat_id AND
+				hidden = false AND 
+				ttrss_feeds.owner_uid = ".$_SESSION["uid"]." GROUP BY cat_id");
 
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
 
-			$line["unread"] = ccache_find($link, $line["cat_id"], $_SESSION["uid"], true);
-
 			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
 				$line["unread"]."\"/>";
 		}
+
+		/* Special case: NULL category doesn't actually exist in the DB */
+
+		print "<counter type=\"category\" id=\"0\" counter=\"".
+			ccache_find($link, 0, $_SESSION["uid"], true)."\"/>";
+
 	}
 
 	function getCategoryUnread($link, $cat) {
