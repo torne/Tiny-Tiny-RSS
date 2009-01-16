@@ -88,6 +88,7 @@ insert into ttrss_feeds (owner_uid, title, feed_url) values
 create table ttrss_counters_cache (
 	feed_id integer not null references ttrss_feeds(id) ON DELETE CASCADE,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	updated timestamp not null,
 	value integer not null default 0);
 
 create table ttrss_entries (id serial not null primary key, 
@@ -200,7 +201,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (48);
+insert into ttrss_version values (49);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
