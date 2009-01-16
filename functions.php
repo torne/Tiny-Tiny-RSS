@@ -4208,7 +4208,7 @@
 	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true) {
 
 			$tmp_category = getCategoryTitle($link, $cat_id);
-			$cat_unread = getCategoryUnread($link, $cat_id);
+			$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
 
 			if ($hidden) {
 				$holder_style = "display:none;";
@@ -6058,12 +6058,7 @@
 			$table = "ttrss_cat_counters_cache";
 		}
 
-		if (!$is_cat) {
-
-			$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
-
-		} else {
-
+		if ($is_cat && $feed_id > 0) {
 			if ($feed_id != 0) {
 				$cat_qpart = "cat_id = '$feed_id'";
 			} else {
@@ -6077,6 +6072,8 @@
 
 			$unread = db_fetch_result($result, 0, "sv");
 
+		} else {
+			$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
 		}
 
 		$result = db_query($link, "SELECT feed_id FROM $table

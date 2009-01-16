@@ -623,17 +623,13 @@ function request_counters() {
 //		if (getInitParam("sync_counters") == "1" || 
 //				timestamp - counters_last_request > 10) {
 
-/*		if (timestamp - counters_last_request > 10) {
-
+		if (timestamp - counters_last_request > 5) {
 			debug("scheduling request of counters...");
 			window.setTimeout("request_counters_real()", 1000);
 			counters_last_request = timestamp;
 		} else {
 			debug("request_counters: rate limit reached: " + (timestamp - counters_last_request));
-		} */
-
-		window.setTimeout("request_counters_real()", 1000);
-		counters_last_request = timestamp;
+		}
 
 	} catch (e) {
 		exception_error("request_counters", e);
