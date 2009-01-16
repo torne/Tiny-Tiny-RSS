@@ -107,7 +107,7 @@
 		print "<div style=\"float : right\">
 			".__('Top')." <select id=\"feedBrowserLimit\">";
 
-		foreach (array(25, 50, 100) as $l) {
+		foreach (array(25, 50, 100, 200) as $l) {
 			$issel = ($l == $limit) ? "selected" : "";
 			print "<option $issel>$l</option>";
 		}
