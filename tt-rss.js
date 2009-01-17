@@ -447,7 +447,7 @@ function resize_headlines(delta_x, delta_y) {
 	
 			h_frame.style.height = (300 - ver_offset) + "px";
 	
-			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 1) + "px";
+			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 0) + "px";
 			h_frame.style.height = h_frame.offsetHeight + "px";
 	
 			var theme_c = 0;
