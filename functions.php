@@ -5934,6 +5934,10 @@
 				ccache_update($link, $line["feed_id"], $owner_uid, true);
 			}
 
+			/* We have to manually include category 0 */
+
+			ccache_update($link, 0, $owner_uid, true);
+
 
 		} else {
 			$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
