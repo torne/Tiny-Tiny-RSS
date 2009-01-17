@@ -349,9 +349,11 @@
 //			}
 
 			if (get_pref($link, 'COMBINED_DISPLAY_MODE')) {
-				print "<counters>";
-				getAllCounters($link, $omode, $feed);
-				print "</counters>";
+				if (!$offset) {
+					print "<counters>";
+					getAllCounters($link, $omode, $feed);
+					print "</counters>";
+				}
 			}
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
