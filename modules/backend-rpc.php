@@ -142,26 +142,26 @@
 
 			print "<counters>";
 
- 			$omode = $_GET["omode"];
-	 
- 			if (!$omode) $omode = "tflc";
-
- 			if (strchr($omode, "l")) getLabelCounters($link);
-
- 			if (strchr($omode, "c")) {			
-	 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-	 				getCategoryCounters($link);
-	 			}
-			}
-
 			if ($global_unread_caller != $global_unread) {
 
+	 			$omode = $_GET["omode"];
+	 
+	 			if (!$omode) $omode = "tflc";
+
+	 			if (strchr($omode, "l")) getLabelCounters($link);
+
+	 			if (strchr($omode, "c")) {			
+		 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+		 				getCategoryCounters($link);
+		 			}
+				}
+
 	 			if (strchr($omode, "f")) getFeedCounters($link);
-	 			if (strchr($omode, "t")) getTagCounters($link);
+				if (strchr($omode, "t")) getTagCounters($link);
+
+				getGlobalCounters($link, $global_unread);
 			}
-
- 			getGlobalCounters($link, $global_unread);
-
+ 
 			print "</counters>";
 
 			print_runtime_info($link);

@@ -337,11 +337,6 @@
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			$viewfeed_ctr_interval = 300;
-
-			if ($csync || $_SESSION["bw_limit"]) {
-				$viewfeed_ctr_interval = 60;
-			}
 
 //			if (get_pref($link, "SYNC_COUNTERS") ||				
 //					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
@@ -350,11 +345,13 @@
 //				print "</counters>";
 //			}
 
-			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop) {
+			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || 
+				time() - $_SESSION["viewfeed:counters_stamp"] > 30) {
 				if (!$offset) {
 					print "<counters>";
 					getAllCounters($link, $omode, $feed);
 					print "</counters>";
+					$_SESSION["viewfeed:counters_stamp"] = time();
 				}
 			}
 

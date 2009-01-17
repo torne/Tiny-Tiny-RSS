@@ -394,7 +394,8 @@ function feedlist_init() {
 		document.onmousemove = mouse_move_handler;
 		document.onmousedown = mouse_down_handler;
 		document.onmouseup = mouse_up_handler;
-		setTimeout("timeout()", 0);
+
+		setTimeout("timeout()", 1);
 
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
