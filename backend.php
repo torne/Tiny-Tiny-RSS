@@ -270,9 +270,9 @@
 			$csync = $_GET["csync"];
 			$order_by = db_escape_string($_GET["order_by"]);
 
-			if (!$cat_view) {
-				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
-			}
+//			if (!$cat_view) {
+//				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+//			}
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);

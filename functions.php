@@ -5949,7 +5949,8 @@
 			WHERE feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
 	} */
 
-	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false) {
+	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false, 
+		$no_update = false) {
 
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
@@ -5970,13 +5971,19 @@
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "value");
 		} else {
-			return ccache_update($link, $feed_id, $owner_uid, $is_cat);
+			if ($no_update) {
+				return -1;
+			} else {
+				return ccache_update($link, $feed_id, $owner_uid, $is_cat);
+			}
 		}
 
 	}
 
 	function ccache_update($link, $feed_id, $owner_uid, $is_cat = false, 
-			$direct_only = false) {
+		$update_pcat = true) {
+
+		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
 
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
@@ -5989,6 +5996,15 @@
 				$cat_qpart = "cat_id = '$feed_id'";
 			} else {
 				$cat_qpart = "cat_id IS NULL";
+			}
+
+			/* Recalculate counters for child feeds */
+
+			$result = db_query($link, "SELECT id FROM ttrss_feeds
+						WHERE owner_uid = '$owner_uid' AND $cat_qpart");
+
+			while ($line = db_fetch_assoc($result)) {
+				ccache_update($link, $line["id"], $owner_uid, false, false);
 			}
 
 			$result = db_query($link, "SELECT SUM(value) AS sv 
@@ -6018,16 +6034,24 @@
 				
 		}
 
-		if ($feed_id > 0 && !$direct_only) {
+		if ($feed_id > 0 && $prev_unread != $unread) {
 
 			if (!$is_cat) {
 
-				$result = db_query($link, "SELECT cat_id FROM ttrss_feeds
-					WHERE owner_uid = '$owner_uid' AND id = '$feed_id'");
+				/* Update parent category */
 
-				$cat_id = (int) db_fetch_result($result, 0, "cat_id");
+				if ($update_pcat) {
 
-				ccache_update($link, $cat_id, $owner_uid, true);
+					$result = db_query($link, "SELECT cat_id FROM ttrss_feeds
+						WHERE owner_uid = '$owner_uid' AND id = '$feed_id'");
+
+					$cat_id = (int) db_fetch_result($result, 0, "cat_id");
+
+					ccache_update($link, $cat_id, $owner_uid, true);
+
+				}
+
+				/* Update possibly referenced labels */
 
 				$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
 						WHERE owner_uid = '$owner_uid' AND feed_id < 0");
@@ -6035,27 +6059,6 @@
 				while ($line = db_fetch_assoc($result)) {
 					ccache_update($link, $line["feed_id"], $owner_uid);
 				}
-			} else {
-
-				if ($feed_id == 0) {
-					$cat_qpart = "cat_id IS NULL";
-				} else {
-					$cat_qpart = "cat_id = '$feed_id'";
-				}
-
-				/* Update counters for our child feeds */
-
-				$result = db_query($link, "SELECT id FROM ttrss_feeds
-						WHERE owner_uid = '$owner_uid' AND $cat_qpart");
-
-				while ($line = db_fetch_assoc($result)) {
-					ccache_update($link, $line["id"], $owner_uid, false, true);
-				}
-
-				/* With that done, update our own counter again */
-
-				ccache_update($link, $feed_id, $owner_uid, true, true);
-
 			}
 		}
 
