@@ -25,7 +25,6 @@ function toggle_sortable_feedlist(enabled) {
 }
 
 function viewCategory(cat) {
-	active_feed_is_cat = true;
 	viewfeed(cat, '', true);
 	return false;
 }
@@ -239,14 +238,15 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 			clean_feed_selections();
 
-			setActiveFeedId(feed);
+			setActiveFeedId(feed, is_cat);
 		
-			if (is_cat != undefined) {
-				active_feed_is_cat = is_cat;
-			}
-	
 			if (!is_cat) {
 				var feedr = document.getElementById("FEEDR-" + feed);
+				if (feedr && !feedr.className.match("Selected")) {	
+					feedr.className = feedr.className + "Selected";
+				} 
+			} else {
+				var feedr = document.getElementById("FCAT-" + feed_id);
 				if (feedr && !feedr.className.match("Selected")) {	
 					feedr.className = feedr.className + "Selected";
 				} 
@@ -264,7 +264,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
-					headlines_callback2(transport, feed, is_cat, page_offset); 
+					headlines_callback2(transport, page_offset); 
 				} });
 		}
 

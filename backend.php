@@ -281,7 +281,7 @@
 					WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 			}
 
-			print "<headlines id=\"$feed\"><![CDATA[";
+			print "<headlines id=\"$feed\" is_cat=\"$cat_view\"><![CDATA[";
 		
 			$override_order = false;
 

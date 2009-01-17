@@ -67,7 +67,7 @@ function clean_feed_selections() {
 	}
 }
 
-function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
+function headlines_callback2(transport, feed_cur_page) {
 	try {
 
 		loading_set_progress(100);
@@ -75,20 +75,26 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 		debug("headlines_callback2 [page=" + feed_cur_page + "]");
 
 		clean_feed_selections();
+	
+		var is_cat = false;
+		var feed_id = false;
 
-		setActiveFeedId(active_feed_id);
-		
-		if (is_cat != undefined) {
-			active_feed_is_cat = is_cat;
+		if (transport.responseXML) {
+			var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
+			if (headlines) {
+				is_cat = headlines.getAttribute("is_cat");
+				feed_id = headlines.getAttribute("id");
+				setActiveFeedId(feed_id, is_cat);
+			}
 		}
 
 		if (!is_cat) {
-			var feedr = document.getElementById("FEEDR-" + active_feed_id);
+			var feedr = document.getElementById("FEEDR-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
 		} else {
-			var feedr = document.getElementById("FCAT-" + active_feed_id);
+			var feedr = document.getElementById("FCAT-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
@@ -138,10 +144,10 @@ function headlines_callback2(transport, active_feed_id, is_cat, feed_cur_page) {
 						cache_prefix = "F:";
 					}
 
-					cache_invalidate(cache_prefix + active_feed_id);
+					cache_invalidate(cache_prefix + feed_id);
 
 					if (!disable_cache) {
-						cache_inject(cache_prefix + active_feed_id,
+						cache_inject(cache_prefix + feed_id,
 							headlines.firstChild.nodeValue, headlines_unread);
 					}
 
@@ -1090,7 +1096,7 @@ function cdmSelectArticles(mode) {
 
 function catchupPage() {
 
-	var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
+	var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 	
 	var str = __("Mark all visible articles in %s as read?");
 
@@ -1129,7 +1135,7 @@ function catchupSelection() {
 		}
 	
 	
-		var fn = getFeedName(getActiveFeedId(), active_feed_is_cat);
+		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 		
 		var str = __("Mark %d selected articles in %s as read?");
 	

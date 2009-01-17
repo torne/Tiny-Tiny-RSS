@@ -4188,7 +4188,7 @@
 				$inner_title_class = "catTitleNL";
 			}
 
-			if ($cat_id > 0) {
+			if ($cat_id >= 0) {
 				$cat_class = "feedCat";
 			} else {
 				$cat_class = "virtCat";

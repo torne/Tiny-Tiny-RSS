@@ -406,30 +406,6 @@ function gotoExportOpml() {
 	document.location.href = "opml.php?op=Export";
 }
 
-function getActiveFeedId() {
-//	return getCookie("ttrss_vf_actfeed");
-	try {
-		debug("gAFID: " + active_feed_id);
-		return active_feed_id;
-	} catch (e) {
-		exception_error("getActiveFeedId", e);
-	}
-}
-
-function activeFeedIsCat() {
-	return active_feed_is_cat;
-}
-
-function setActiveFeedId(id) {
-//	return setCookie("ttrss_vf_actfeed", id);
-	try {
-		debug("sAFID(" + id + ")");
-		active_feed_id = id;
-	} catch (e) {
-		exception_error("setActiveFeedId", e);
-	}
-}
-
 function parse_counters(reply, scheduled_call) {
 	try {
 
