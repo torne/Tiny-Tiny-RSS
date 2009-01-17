@@ -60,7 +60,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 //		if (!offset) page_offset = 0;
 
 		last_requested_article = 0;
-		counters_last_request = 0;
+		//counters_last_request = 0;
 
 		if (feed == getActiveFeedId()) {
 			cache_invalidate("F:" + feed);
@@ -623,7 +623,7 @@ function request_counters() {
 //		if (getInitParam("sync_counters") == "1" || 
 //				timestamp - counters_last_request > 10) {
 
-		if (timestamp - counters_last_request > 10) {
+		if (timestamp - counters_last_request > 15) {
 			debug("scheduling request of counters...");
 			window.setTimeout("request_counters_real()", 1000);
 			counters_last_request = timestamp;
