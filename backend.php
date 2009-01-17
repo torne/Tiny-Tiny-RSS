@@ -343,10 +343,16 @@
 
 //			if (get_pref($link, "SYNC_COUNTERS") ||				
 //					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
+//				print "<counters>";
+//				getAllCounters($link, $omode, $feed);
+//				print "</counters>";
+//			}
+
+			if (get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 				print "<counters>";
 				getAllCounters($link, $omode, $feed);
 				print "</counters>";
-//			}
+			}
 
 			if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
