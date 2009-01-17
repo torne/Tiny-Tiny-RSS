@@ -350,7 +350,7 @@
 //				print "</counters>";
 //			}
 
-			if (get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop) {
 				if (!$offset) {
 					print "<counters>";
 					getAllCounters($link, $omode, $feed);
