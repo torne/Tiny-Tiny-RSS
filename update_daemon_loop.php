@@ -76,7 +76,7 @@
 		update_daemon_common($link);
 	} else {
 		$count = update_feedbrowser_cache($link);
-		print "Finished, $count feeds processed.\n";
+		_debug("Finished, $count feeds processed.");
 	}
 
 

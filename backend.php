@@ -401,15 +401,6 @@
 			update_daemon_common($link, 0, true, true);
 			print " -->";
 
-			// FIXME : old feed update way. To be removed.
-			//$result = db_query($link, "SELECT id FROM ttrss_users");
-
-			//while ($line = db_fetch_assoc($result)) {
-			//	$user_id = $line["id"];
-			//	print "<!-- updating feeds of uid $user_id -->";
-			//	update_all_feeds($link, false, $user_id);
-			//}
-
 			print "<rpc-reply>
 				<message msg=\"All feeds updated\"/>
 			</rpc-reply>";

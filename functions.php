@@ -1825,11 +1825,11 @@
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
-			'http://tt-rss.spb.ru/releases.rss')");
+			'http://tt-rss.org/releases.rss')");
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: Forum',
-			'http://tt-rss.spb.ru/forum/rss.php')");
+			'http://tt-rss.org/forum/rss.php')");
 	}
 
 	function logout_user() {
@@ -2349,7 +2349,9 @@
 
 	}
 
-	function getCategoryUnread($link, $cat) {
+	function getCategoryUnread($link, $cat, $owner_uid = false) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		if ($cat >= 0) {
 
@@ -2363,7 +2365,7 @@
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
 					AND hidden = false
-					AND owner_uid = " . $_SESSION["uid"]);
+					AND owner_uid = " . $owner_uid);
 	
 			$cat_feeds = array();
 			while ($line = db_fetch_assoc($result)) {
@@ -2377,7 +2379,7 @@
 			$result = db_query($link, "SELECT COUNT(int_id) AS unread 
 				FROM ttrss_user_entries,ttrss_entries 
 				WHERE	unread = true AND ($match_part) AND id = ref_id 
-				AND $age_qpart AND owner_uid = " . $_SESSION["uid"]);
+				AND $age_qpart AND owner_uid = " . $owner_uid);
 	
 			$unread = 0;
 	
@@ -2434,7 +2436,7 @@
 		$age_qpart = getMaxAgeSubquery();
 
 		if ($is_cat) {
-			return getCategoryUnread($link, $n_feed);		
+			return getCategoryUnread($link, $n_feed, $owner_uid);		
 		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
 		} else if ($n_feed == -2) {
@@ -2521,8 +2523,6 @@
 
 		return $unread;
 	}
-
-	/* FIXME this needs reworking */
 
 	function getGlobalUnread($link, $user_id = false) {
 
@@ -2744,21 +2744,6 @@
 		return $ret_arr;
 	}
 
-/*	function getFeedCounter($link, $id) {
-	
-		$result = db_query($link, "SELECT 
-				count(id) as count,last_error
-			FROM ttrss_entries,ttrss_user_entries,ttrss_feeds
-			WHERE feed_id = '$id' AND unread = true
-			AND ttrss_user_entries.feed_id = ttrss_feeds.id
-			AND ttrss_user_entries.ref_id = ttrss_entries.id");
-	
-			$count = db_fetch_result($result, 0, "count");
-			$last_error = htmlspecialchars(db_fetch_result($result, 0, "last_error"));
-			
-			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" error=\"$last_error\"/>";		
-	} */
-
 	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS, $active_feed = false) {
 
 		$age_qpart = getMaxAgeSubquery();
@@ -2770,16 +2755,6 @@
 		}
 
 		$old_counters = $_SESSION["fctr_last_value"];
-
-/*		$result = db_query($link, "SELECT id,last_error,parent_feed,
-			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated,
-			(SELECT count(id) 
-				FROM ttrss_entries,ttrss_user_entries 
-				WHERE feed_id = ttrss_feeds.id AND 
-					ttrss_user_entries.ref_id = ttrss_entries.id
-				AND unread = true AND owner_uid = ".$_SESSION["uid"].") as count
-			FROM ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"] . "
-			AND parent_feed IS NULL"); */
 
 /*		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
@@ -3824,7 +3799,7 @@
 	}
 
 	function check_for_update($link, $brief_fmt = true) {
-		$releases_feed = "http://tt-rss.spb.ru/releases.rss";
+		$releases_feed = "http://tt-rss.org/releases.rss";
 
 		if (!CHECK_FOR_NEW_VERSION || $_SESSION["access_level"] < 10) {
 			return;
@@ -3884,7 +3859,7 @@
 				} else {
 					return "New version of Tiny-Tiny RSS ($latest_version) is available:
 						<div class='milestoneDetails'>$content</div>
-						Visit <a target=\"_blank\" href=\"http://tt-rss.spb.ru/\">official site</a> for
+						Visit <a target=\"_blank\" href=\"http://tt-rss.org/\">official site</a> for
 						download and update information.";	
 				}
 
@@ -6008,7 +5983,7 @@
 			$table = "ttrss_cat_counters_cache";
 		}
 
-		if ($is_cat && $feed_id > 0) {
+		if ($is_cat && $feed_id >= 0) {
 			if ($feed_id != 0) {
 				$cat_qpart = "cat_id = '$feed_id'";
 			} else {
