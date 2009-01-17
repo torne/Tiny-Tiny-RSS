@@ -321,7 +321,12 @@
 			print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
 
 			$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"],
-					$cat_view);
+					$cat_view, true);
+
+			if ($headlines_unread == -1) {
+				$headlines_unread = getFeedUnread($link, $returned_feed, $cat_view);
+
+			}
 
 			print "<headlines-unread value=\"$headlines_unread\"/>";
 			printf("<disable-cache value=\"%d\"/>", $disable_cache);
