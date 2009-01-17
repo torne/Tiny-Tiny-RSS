@@ -555,7 +555,7 @@
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method
+				auth_pass,cache_images,update_method,hidden
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -567,6 +567,7 @@
 			return false;
 		}
 
+		$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
 		$update_method = db_fetch_result($result, 0, "update_method");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
@@ -1408,11 +1409,13 @@
 				}
 			} 
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
-				_debug("update_rss_feed: updating counters cache...");
-			}
+			if (!$hidden) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: updating counters cache...");
+				}
 
-			ccache_update($link, $feed, $owner_uid);
+				ccache_update($link, $feed, $owner_uid);
+			}
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
