@@ -5974,6 +5974,12 @@
 	function ccache_update($link, $feed_id, $owner_uid, $is_cat = false, 
 		$update_pcat = true) {
 
+		/* Labels are no currently supported */
+
+		if ($feed_id < 0) {
+			return -1;
+		}
+
 		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
 
 		if (!$is_cat) {
