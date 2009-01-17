@@ -5938,7 +5938,6 @@
 
 			ccache_update($link, 0, $owner_uid, true);
 
-
 		} else {
 			$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
 				WHERE feed_id > 0 AND owner_uid = '$owner_uid'");
@@ -6022,7 +6021,7 @@
 				WHERE id = feed_id AND $cat_qpart AND 
 				ttrss_feeds.owner_uid = '$owner_uid'");
 
-			$unread = db_fetch_result($result, 0, "sv");
+			$unread = (int) db_fetch_result($result, 0, "sv");
 
 		} else {
 			$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
@@ -6041,7 +6040,6 @@
 				(feed_id, value, owner_uid, updated) 
 				VALUES 
 				($feed_id, $unread, $owner_uid, NOW())");
-				
 		}
 
 		if ($feed_id > 0 && $prev_unread != $unread) {

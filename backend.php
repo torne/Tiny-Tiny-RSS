@@ -270,7 +270,12 @@
 			$csync = $_GET["csync"];
 			$order_by = db_escape_string($_GET["order_by"]);
 
-			ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+			/* Updating a label ccache means recalculating all of the caches
+			 * so for performance reasons we don't do that here */
+
+			if ($feed >= 0) {
+				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+			}
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
