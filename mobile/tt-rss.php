@@ -124,7 +124,7 @@
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
 	<?php } ?>
-	&copy; 2005-2008 Andrew Dolgov
+	&copy; 2005-2009 Andrew Dolgov
 </div>
 
 <?php } ?>

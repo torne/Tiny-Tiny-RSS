@@ -277,7 +277,7 @@ window.onload = init;
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
 	<?php } ?>
-	&copy; 2005&ndash;2008 <a href="http://bah.org.ru/">Andrew Dolgov</a>
+	&copy; 2005&ndash;2009 <a href="http://bah.org.ru/">Andrew Dolgov</a>
 </div>
 
 <?php db_close($link); ?>
