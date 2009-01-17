@@ -135,29 +135,6 @@
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 	
-			if (ENABLE_UPDATE_DAEMON) {
-
-				if ($subop == "forceUpdateAllFeeds") {
-
-					$result = db_query($link, "SELECT count(id) AS cid FROM
-						ttrss_scheduled_updates WHERE feed_id IS NULL AND
-							owner_uid = " . $_SESSION["uid"]);
-	
-					$cid = db_fetch_result($result, 0, "cid");
-
-					if ($cid == 0) {
-	
-						db_query($link, "INSERT INTO ttrss_scheduled_updates
-							(owner_uid, feed_id, entered) VALUES
-							(".$_SESSION["uid"].", NULL, NOW())");
-					
-					}
-				}
-				
-			} else {	
-				update_all_feeds($link, $subop == "forceUpdateAllFeeds");
-			}
-
 			$global_unread_caller = sprintf("%d", $_GET["uctr"]);
 			$global_unread = getGlobalUnread($link);
 
