@@ -2678,47 +2678,49 @@
 			$ret_arr["-3"]["description"] = __("Fresh articles");
 		}
 
+		if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
 
-		$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
-			ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
+			$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
+				ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
+		
+			while ($line = db_fetch_assoc($result)) {
 	
-		while ($line = db_fetch_assoc($result)) {
-
-			$id = -$line["id"] - 11;
-
-			$label_name = $line["description"];
-
-			error_reporting (0);
-
-			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
-				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
-				ttrss_feeds.hidden = false AND
-				$age_qpart AND
-				ttrss_user_entries.feed_id = ttrss_feeds.id AND
-				ttrss_user_entries.ref_id = ttrss_entries.id AND 
-				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
-
-			$count = db_fetch_result($tmp_result, 0, "count");
-
-			if (!$smart_mode || $old_counters[$id] != $count) {	
-				$old_counters[$id] = $count;
-				$lctrs_modified = true;
-				if (!$ret_mode) {
-
-					if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-						$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+				$id = -$line["id"] - 11;
+	
+				$label_name = $line["description"];
+	
+				error_reporting (0);
+	
+				$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
+					WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
+					ttrss_feeds.hidden = false AND
+					$age_qpart AND
+					ttrss_user_entries.feed_id = ttrss_feeds.id AND
+					ttrss_user_entries.ref_id = ttrss_entries.id AND 
+					ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+	
+				$count = db_fetch_result($tmp_result, 0, "count");
+	
+				if (!$smart_mode || $old_counters[$id] != $count) {	
+					$old_counters[$id] = $count;
+					$lctrs_modified = true;
+					if (!$ret_mode) {
+	
+						if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+							$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+						} else {
+							$xmsg_part = "";
+						}
+	
+						print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
 					} else {
-						$xmsg_part = "";
+						$ret_arr[$id]["counter"] = $count;
+						$ret_arr[$id]["description"] = $label_name;
 					}
-
-					print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
-				} else {
-					$ret_arr[$id]["counter"] = $count;
-					$ret_arr[$id]["description"] = $label_name;
 				}
+	
+				error_reporting (DEFAULT_ERROR_LEVEL);
 			}
-
-			error_reporting (DEFAULT_ERROR_LEVEL);
 		}
 
 		if ($smart_mode && $lctrs_modified) {

@@ -358,7 +358,7 @@
 //			}
 
 			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || 
-				time() - $_SESSION["viewfeed:counters_stamp"] > 30) {
+				time() - $_SESSION["viewfeed:counters_stamp"] > 60) {
 				if (!$offset) {
 					print "<counters>";
 					getAllCounters($link, $omode, $feed);
