@@ -1095,13 +1095,6 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 82) { // r
-				if (getActiveFeedId()) {
-					viewfeed(getActiveFeedId(), "ForceUpdate", activeFeedIsCat());
-					return;
-				}
-			}
-
 			if (keycode == 74) { // j
 				var feed = getActiveFeedId();
 				var new_feed = getRelativeFeedId2(feed, activeFeedIsCat(), 'prev');
@@ -1229,13 +1222,6 @@ function hotkey_handler(e) {
 				}
 			}
 
-			if (keycode == 81) { // q
-				if (getActiveFeedId()) {
-					catchupCurrentFeed();
-					return;
-				}
-			}
-
 			if (keycode == 220 && shift_key) { // shift + |
 				if (document.getElementById("subtoolbar_search")) {
 					if (Element.visible("subtoolbar_search")) {
@@ -1261,6 +1247,20 @@ function hotkey_handler(e) {
 		if (hotkey_prefix == 70) { // f 
 
 			hotkey_prefix = false;
+
+			if (keycode == 81) { // q
+				if (getActiveFeedId()) {
+					catchupCurrentFeed();
+					return;
+				}
+			}
+
+			if (keycode == 82) { // r
+				if (getActiveFeedId()) {
+					viewfeed(getActiveFeedId(), "ForceUpdate", activeFeedIsCat());
+					return;
+				}
+			}
 
 			if (keycode == 65) { // a
 				toggleDispRead();
