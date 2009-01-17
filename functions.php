@@ -2683,11 +2683,9 @@
 
 			$label_name = $line["description"];
 
-			$count = ccache_find($link, $id, $_SESSION["uid"]);
-
 			error_reporting (0);
 
-/*			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
+			$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
 				WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
 				ttrss_feeds.hidden = false AND
 				$age_qpart AND
@@ -2713,29 +2711,10 @@
 					$ret_arr[$id]["counter"] = $count;
 					$ret_arr[$id]["description"] = $label_name;
 				}
-			} */
-
-			if (!$smart_mode || $old_counters[$id] != $count) {	
-				$old_counters[$id] = $count;
-				$lctrs_modified = true;
-				if (!$ret_mode) {
-
-					if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-						$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-					} else {
-						$xmsg_part = "";
-					}
-
-					print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
-				} else {
-					$ret_arr[$id]["counter"] = $count;
-					$ret_arr[$id]["description"] = $label_name;
-				}
-			} 
-
+			}
 
 			error_reporting (DEFAULT_ERROR_LEVEL);
-		} 
+		}
 
 		if ($smart_mode && $lctrs_modified) {
 			$_SESSION["lctr_last_value"] = $old_counters;
@@ -5937,17 +5916,29 @@
 			value = 0 WHERE owner_uid = '$owner_uid'");
 	}
 
-/*	function ccache_invalidate($link, $feed_id, $owner_uid, $is_cat = false) {
+	function ccache_update_all($link, $owner_uid) {
 
-		if (!$is_cat) {
-			$table = "ttrss_counters_cache";
+		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid)) {
+
+			$result = db_query($link, "SELECT feed_id FROM ttrss_cat_counters_cache
+				WHERE feed_id > 0 AND owner_uid = '$owner_uid'");
+
+			while ($line = db_fetch_assoc($result)) {
+				ccache_update($link, $line["feed_id"], $owner_uid, true);
+			}
+
+
 		} else {
-			$table = "ttrss_cat_counters_cache";
-		}
+			$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
+				WHERE feed_id > 0 AND owner_uid = '$owner_uid'");
 
-		db_query($link, "DELETE FROM $table
-			WHERE feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
-	} */
+			while ($line = db_fetch_assoc($result)) {
+				print ccache_update($link, $line["feed_id"], $owner_uid);
+
+			}
+
+		}
+	}
 
 	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false, 
 		$no_update = false) {
@@ -6050,16 +6041,9 @@
 					ccache_update($link, $cat_id, $owner_uid, true);
 
 				}
-
-				/* Update possibly referenced labels */
-
-				$result = db_query($link, "SELECT feed_id FROM ttrss_counters_cache
-						WHERE owner_uid = '$owner_uid' AND feed_id < 0");
-
-				while ($line = db_fetch_assoc($result)) {
-					ccache_update($link, $line["feed_id"], $owner_uid);
-				}
 			}
+		} else if ($feed_id < 0) {
+			ccache_update_all($link, $owner_uid);
 		}
 
 		return $unread;
