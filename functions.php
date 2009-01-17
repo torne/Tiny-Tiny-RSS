@@ -5981,13 +5981,15 @@
 	function ccache_update($link, $feed_id, $owner_uid, $is_cat = false, 
 		$update_pcat = true) {
 
-		/* Labels are no currently supported */
+		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
+
+		/* When updating a label, all we need to do is recalculate feed counters
+		 * because labels are not cached */
 
 		if ($feed_id < 0) {
-			return -1;
+			ccache_update_all($link, $owner_uid);
+			return;
 		}
-
-		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
 
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
