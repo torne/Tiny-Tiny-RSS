@@ -201,6 +201,8 @@
 
 		}
 
+		ccache_update($link, $feed_id, $owner_uid);
+
 		if ($debug) {
 			_debug("Purged feed $feed_id ($purge_interval): deleted $rows articles");
 		}
@@ -5623,6 +5625,8 @@
 
 		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+
+		ccache_update($link, $id, $_SESSION['uid']);
 	} // function clear_feed_articles
 
 	/**
