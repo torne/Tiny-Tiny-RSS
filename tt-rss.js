@@ -562,6 +562,11 @@ function quickMenuGo(opid) {
 				return;
 			}	
 
+			if (actid <= 0) {
+				alert(__("You can't unsubscribe from this kind of feed."));
+				return;
+			}	
+
 			if (!actid) {
 				alert(__("Please select some feed first."));
 				return;

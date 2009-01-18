@@ -703,28 +703,19 @@
 
 		if ($subop == "remove") {
 
-			if (!WEB_DEMO_MODE) {
+			$ids = split(",", db_escape_string($_GET["ids"]));
 
-				$ids = split(",", db_escape_string($_GET["ids"]));
+			foreach ($ids as $id) {
 
-				foreach ($ids as $id) {
+				if ($id > 0) {
 
-					if ($id > 0) {
+					db_query($link, "DELETE FROM ttrss_feeds 
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-						db_query($link, "DELETE FROM ttrss_feeds 
-							WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
-						$icons_dir = ICONS_DIR;
+					$icons_dir = ICONS_DIR;
 					
-						if (file_exists($icons_dir . "/$id.ico")) {
-							unlink($icons_dir . "/$id.ico");
-						}
-					} else if ($id < -10) {
-
-						$label_id = -$id - 11;
-
-						db_query($link, "DELETE FROM ttrss_labels
-						  	WHERE	id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
+					if (file_exists($icons_dir . "/$id.ico")) {
+						unlink($icons_dir . "/$id.ico");
 					}
 				}
 			}
