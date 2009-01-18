@@ -2307,11 +2307,11 @@
 	function getCategoryCounters($link) {
 		# two special categories are -1 and -2 (all virtuals; all labels)
 
-		$ctr = getCategoryUnread($link, -1);
+/*		$ctr = getCategoryUnread($link, -1);
 
-		print "<counter type=\"category\" id=\"-1\" counter=\"$ctr\"/>";
+		print "<counter type=\"category\" id=\"-1\" counter=\"$ctr\"/>"; */
 
-		$ctr = getCategoryUnread($link, -2);
+		$ctr = getCategoryUnread($link, -2); 
 
 		print "<counter type=\"category\" id=\"-2\" counter=\"$ctr\"/>";
 
@@ -2380,18 +2380,18 @@
 			return getFeedUnread($link, -1) + getFeedUnread($link, -2) + getFeedUnread($link, -3);
 		} else if ($cat == -2) {
 
-			// FIXME: NEW_LABELS
+			$result = db_query($link, "
+				SELECT COUNT(unread) AS unread FROM 
+					ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds 
+				WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND 
+					ttrss_labels2.owner_uid = '$owner_uid'
+					AND unread = true AND hidden = false AND feed_id = ttrss_feeds.id
+					AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
-/*			$rv = getLabelCounters($link, false, true);
-			$ctr = 0;
+			$unread = db_fetch_result($result, 0, "unread");
 
-			foreach (array_keys($rv) as $k) {
-				if ($k < -10) {
-					$ctr += $rv[$k]["counter"];
-				}
-			}
+			return $unread;
 
-			return $ctr; */
 		} 
 	}
 
@@ -2458,7 +2458,8 @@
 			} else {
 				$match_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 			}
-
+		} else if ($n_feed == -4) {
+			$match_part = "true";
 		} else if ($n_feed > 0) {
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
@@ -2627,7 +2628,7 @@
 
 		$ret_arr = array();
 
-		for ($i = -1; $i >= -3; $i--) {
+		for ($i = -1; $i >= -4; $i--) {
 
 			$count = getFeedUnread($link, $i);
 	
@@ -2967,6 +2968,8 @@
 			return __("Published articles");
 		} else if ($id == -3) {
 			return __("Fresh articles");
+		} else if ($id == -4) {
+			return __("All articles");
 		} else if ($id < -10) {
 			$label_id = -$id - 11;
 			$result = db_query($link, "SELECT caption FROM ttrss_labels2 WHERE id = '$label_id'");
@@ -3275,6 +3278,9 @@
 				}
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else if ($feed == -4) { // all articles virtual feed
+				$query_strategy_part = "true";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= -10) { // labels
 				$label_id = -$feed - 11;
 
@@ -3349,6 +3355,9 @@
 				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed == -3) {
 				$feed_title = __("Fresh articles");
+				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
+			} else if ($feed == -4) {
+				$feed_title = __("All articles");
 				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
@@ -4116,7 +4125,7 @@
 
 			if ($cat_id > 0) {
 				$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
-			} else {
+			} else if ($cat_id == 0 || $cat_id == -2) {
 				$cat_unread = getCategoryUnread($link, $cat_id);
 			}
 
@@ -4186,6 +4195,14 @@
 		$num_starred = getFeedUnread($link, -1);
 		$num_published = getFeedUnread($link, -2);
 		$num_fresh = getFeedUnread($link, -3);
+		$num_total = getFeedUnread($link, -4);
+
+		$class = "virt";
+
+		if ($num_total > 0) $class .= "Unread";
+
+		printFeedEntry(-4, $class, __("All articles"), $num_total, 
+			"images/tag.png", $link);
 
 		$class = "virt";
 
