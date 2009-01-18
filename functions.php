@@ -3374,7 +3374,7 @@
 } */
 				}
 
-				$query = "SELECT 
+				$query = "SELECT DISTINCT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
