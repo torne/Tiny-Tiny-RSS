@@ -2221,12 +2221,10 @@
 
 				} else if ($feed < -10) { // label
 
-					// TODO make this more efficient
-
 					$label_id = -$feed - 11;
 
 					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2 
-						SET unread = false WHERE label_id = '$label_id' 
+						SET unread = false WHERE label_id = '$label_id' AND unread = true
 							AND owner_uid = '".$_SESSION["uid"]."' AND ref_id = article_id");
 
 				}
@@ -2413,10 +2411,11 @@
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$result = db_query($link, "
-			SELECT SUM(unread) AS unread FROM 
+			SELECT COUNT(unread) AS unread FROM 
 				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2 
 			WHERE label_id = id AND article_id = ref_id AND 
 				ttrss_labels2.owner_uid = '$owner_uid' AND id = '$label_id'
+				AND unread = true
 				AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) != 0) {
@@ -2653,9 +2652,10 @@
 			$owner_uid = $_SESSION["uid"];
 
 			$result = db_query($link,
-				"SELECT id, caption, SUM(unread) AS unread FROM ttrss_labels2 
+				"SELECT id, caption, COUNT(unread) AS unread FROM ttrss_labels2 
 					LEFT JOIN ttrss_user_labels2 ON (label_id = id) 
 						LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND
+							unread = true AND
 							ttrss_user_entries.owner_uid = '$owner_uid')
 			  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
 					GROUP BY id");
