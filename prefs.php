@@ -139,12 +139,12 @@ window.onload = init;
 		<!-- <div id="pubItemsTab" class="prefsTab" 
 			onclick="selectTab('pubItems')"><?php echo __('Published Articles') ?></div> -->
 		<div id="filterConfigTab" class="prefsTab" 
-			onclick="selectTab('filterConfig')"><?php echo __('Content Filtering') ?></div>
+			onclick="selectTab('filterConfig')"><?php echo __('Filters') ?></div>
 		<div id="labelConfigTab" class="prefsTab" 
-			onclick="selectTab('labelConfig')"><?php echo __('Label Editor') ?></div>
+			onclick="selectTab('labelConfig')"><?php echo __('Labels') ?></div>
 		<?php if ($_SESSION["access_level"] >= 10) { ?>
 		<div id="userConfigTab" class="prefsTab" 
-			onclick="selectTab('userConfig')"><?php echo __('User Manager') ?></div>
+			onclick="selectTab('userConfig')"><?php echo __('Users') ?></div>
 		<?php } ?>		
 </div>
 
