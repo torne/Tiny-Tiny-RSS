@@ -942,7 +942,7 @@ function viewLimitChanged() {
 	return viewCurrentFeed(0, '')
 }
 
-function adjustArticleScore(id, score) {
+/* function adjustArticleScore(id, score) {
 	try {
 
 		var pr = prompt(__("Assign score to article:"), score);
@@ -959,7 +959,7 @@ function adjustArticleScore(id, score) {
 	} catch (e) {
 		exception_error("adjustArticleScore", e);
 	}
-}	
+} */
 
 function rescoreCurrentFeed() {
 

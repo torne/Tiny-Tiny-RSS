@@ -5106,10 +5106,12 @@
 
 				$score_pic = get_score_pic($score);
 
-				$score_title = __("(Click to change)");
+/*				$score_title = __("(Click to change)");
+				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\" 
+					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">"; */
 
 				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\" 
-					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">";
+					title=\"$score\">";
 
 				if ($score > 500) {
 					$hlc_suffix = "H";

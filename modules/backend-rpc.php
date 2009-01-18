@@ -378,7 +378,7 @@
 			return;
 		}
 
-		if ($subop == "setScore") {
+/*		if ($subop == "setScore") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$score = sprintf("%d", $_REQUEST["score"]);
 
@@ -389,7 +389,7 @@
 
 			return;
 
-		}
+		} */
 
 		if ($subop == "getArticles") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
