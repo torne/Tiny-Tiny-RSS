@@ -850,6 +850,38 @@ function toggleUnread(id, cmode, effect) {
 	}
 }
 
+function selectionAssignLabel(id) {
+	try {
+
+		var ids = getSelectedArticleIds2();
+
+		if (ids.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+
+		var ok = confirm(__("Assign selected articles to label?"));
+
+		if (ok) {
+
+			var query = "backend.php?op=rpc&subop=assignToLabel&ids=" +
+				param_escape(ids.toString()) + "&lid=" + param_escape(id);
+
+//			notify_progress("Loading, please wait...");
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					all_counters_callback2(transport); 
+				} });
+
+		}
+
+	} catch (e) {
+		exception_error("selectionAssignLabel", e);
+
+	}
+}
+
 function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 	try {
 		var rows;

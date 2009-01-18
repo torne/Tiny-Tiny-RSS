@@ -4027,7 +4027,7 @@
 							<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
 							<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
 							<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-							<li><span class=\"insensitive\">--------</span></li>
+							<!-- <li><span class=\"insensitive\">--------</span></li> -->
 							<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
 							<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
 
@@ -4045,9 +4045,21 @@
 
 				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed')."</li>";
 
-				print "<li><span class=\"insensitive\">--------</span></li>";
-				print "<li><span class=\"insensitive\">".__('Other actions:')."</span></li>";
-				
+				//print "<li><span class=\"insensitive\">--------</span></li>";
+				print "<li><span class=\"insensitive\">".__('Assign label:')."</span></li>";
+
+				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
+					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+
+				while ($line = db_fetch_assoc($result)) {
+
+					$label_id = $line["id"];
+					$label_caption = $line["caption"];
+
+					print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
+						&nbsp;&nbsp;$label_caption</li>";
+			}
+
 				print	"</ul></li></ul>";
 				print "</td>"; 
 	
@@ -6044,6 +6056,18 @@
 			return db_fetch_result($result, 0, "id");
 		} else {
 			return 0;
+		}
+	}
+
+	function label_find_caption($link, $label, $owner_uid) {
+		$result = db_query($link, 
+			"SELECT caption FROM ttrss_labels2 WHERE id = '$label' 
+				AND owner_uid = '$owner_uid' LIMIT 1");
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "caption");
+		} else {
+			return "";
 		}
 	}
 

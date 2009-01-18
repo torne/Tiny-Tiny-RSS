@@ -424,6 +424,35 @@
 			return;
 		}
 
+		if ($subop == "assignToLabel") {
+
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$label_id = db_escape_string($_REQUEST["lid"]);
+
+			$label = label_find_caption($link, $label_id, $_SESSION["uid"]);
+
+			if ($label) {
+
+				foreach ($ids as $id) {
+					label_add_article($link, $id, $label, $_SESSION["uid"]);
+				}
+			}
+
+			print "<rpc-reply><counters>";
+
+			if ($label) {
+				getGlobalCounters($link);
+				getLabelCounters($link);
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					getCategoryCounters($link);
+				}
+			}
+
+			print "</counters></rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
