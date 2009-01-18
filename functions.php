@@ -3317,8 +3317,12 @@
 				$feed_title = __("Starred articles");
 				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed == -2) {
-				$feed_title = __("Published articles");
-				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
+				if (!$cat_view) {
+					$feed_title = __("Published articles");
+					if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
+				} else {
+					$feed_title = __("Labels");
+				}
 			} else if ($feed == -3) {
 				$feed_title = __("Fresh articles");
 				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
