@@ -232,6 +232,7 @@
 			$feed_id = db_escape_string($_GET["feed_id"]);
 			$action_id = db_escape_string($_GET["action_id"]); 
 			$action_param = db_escape_string($_GET["action_param"]); 
+			$action_param_label = db_escape_string($_GET["action_param_label"]); 
 			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
 
 			# for the time being, no other filters use params anyway...
@@ -243,6 +244,13 @@
 				$feed_id = 'NULL';
 			} else {
 				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+			}
+
+			/* When processing 'assign label' filters, action_param_label dropbox
+			 * overrides action_param */
+
+			if ($action_id == 7) {
+				$action_param = $action_param_label;
 			}
 
 			$result = db_query($link,
