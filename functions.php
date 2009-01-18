@@ -1836,6 +1836,14 @@
 
 	function initialize_user($link, $uid) {
 
+		db_query($link, "INSERT INTO ttrss_labels2 (owner_uid, caption)
+			VALUES ('$uid', 'All Articles')");
+
+		db_query($link, "INSERT INTO ttrss_filters 
+			(owner_uid, feed_id, filter_type, reg_exp, enabled, 
+				action_id, action_param, filter_param) 
+			VALUES ('$uid', NULL, 1, '.', true, 7, 'All Articles', 'before')");
+
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
 			'http://tt-rss.org/releases.rss')");
