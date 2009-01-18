@@ -2646,12 +2646,14 @@
 			$owner_uid = $_SESSION["uid"];
 
 			$result = db_query($link,
-				"SELECT id, caption, COUNT(unread) AS unread FROM ttrss_labels2 
-					LEFT JOIN ttrss_user_labels2 ON (label_id = id) 
+				"SELECT ttrss_labels2.id, caption, COUNT(unread) AS unread FROM ttrss_labels2 
+					LEFT JOIN ttrss_user_labels2 ON (label_id = ttrss_labels2.id) 
 						LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND
 							unread = true AND
-							ttrss_user_entries.owner_uid = '$owner_uid')
-			  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
+							ttrss_user_entries.owner_uid = '$owner_uid'),ttrss_feeds
+						WHERE ttrss_feeds.id = feed_id AND
+							hidden = false AND						
+							ttrss_labels2.owner_uid = '$owner_uid'
 					GROUP BY id, caption");
 		
 			while ($line = db_fetch_assoc($result)) {
