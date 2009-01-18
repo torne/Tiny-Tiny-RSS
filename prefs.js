@@ -1,7 +1,6 @@
 var xmlhttp = false;
 
 var active_feed_cat = false;
-var active_label = false;
 var active_tab = false;
 var feed_to_expand = false;
 
@@ -418,31 +417,6 @@ function addUser() {
 
 		sqlexp.value = "";
 	}
-
-}
-
-function editLabel(id) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-//	document.getElementById("label_create_btn").disabled = true;
-
-	active_label = id;
-
-	selectTableRowsByIdPrefix('prefLabelList', 'LILRR-', 'LICHK-', false);
-	selectTableRowById('LILRR-'+id, 'LICHK-'+id, true);
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=edit&id=" +
-		param_escape(id), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
 
 }
 
@@ -889,25 +863,6 @@ function feedCatEditSave() {
 	return false;
 }
 
-function labelEditCancel() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	try {
-		document.getElementById("label_create_btn").disabled = false;
-		selectPrefRows('label', false); // cleanup feed selection
-	} catch (e) { }
-
-	active_label = false;
-
-	closeInfoBox();
-
-	return false;
-}
-
 function userEditCancel() {
 
 	if (!xmlhttp_ready(xmlhttp)) {
@@ -934,46 +889,6 @@ function filterEditCancel() {
 	} catch (e) { }
 
 	closeInfoBox();
-
-	return false;
-}
-
-function labelEditSave() {
-
-	var label = active_label;
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-/*	if (!is_opera()) {
-
-		var sql_exp = document.forms["label_edit_form"].sql_exp.value;
-		var description = document.forms["label_edit_form"].description.value;
-	
-		if (sql_exp.length == 0) {
-			alert("SQL Expression cannot be blank.");
-			return false;
-		}
-	
-		if (description.length == 0) {
-			alert("Caption field cannot be blank.");
-			return false;
-		}
-	} */
-
-	closeInfoBox();
-
-	notify_progress("Saving label...");
-
-	active_label = false;
-
-	query = Form.serialize("label_edit_form");
-
-	xmlhttp.open("GET", "backend.php?" + query, true);		
-	xmlhttp.onreadystatechange=labellist_callback;
-	xmlhttp.send(null);
 
 	return false;
 }
@@ -1037,24 +952,6 @@ function filterEditSave() {
 	return false;
 }
 
-function editSelectedLabel() {
-	var rows = getSelectedLabels();
-
-	if (rows.length == 0) {
-		alert(__("No labels are selected."));
-		return;
-	}
-
-	if (rows.length > 1) {
-		alert(__("Please select only one label."));
-		return;
-	}
-
-	notify("");
-
-	editLabel(rows[0]);
-
-}
 
 function editSelectedUser() {
 	var rows = getSelectedUsers();
@@ -1349,7 +1246,6 @@ function selectTab(id, noupdate, subop) {
 	
 			// clean up all current selections, just in case
 			active_feed_cat = false;
-			active_label = false;
 
 //			Effect.Fade("prefContent", {duration: 1, to: 0.01, 
 //				queue: { position:'end', scope: 'FEED_TAB', limit: 1 } } );
