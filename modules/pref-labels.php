@@ -160,11 +160,11 @@
 					<a href=\"javascript:selectPrefRows('label', false)\">".__('None')."</a>
 				</td</tr>";
 
-			print "<tr class=\"title\">
+/*			print "<tr class=\"title\">
 						<td width=\"5%\">&nbsp;</td>
-						<td width=\"95%\"><a href=\"javascript:updateLabelList('description')\">".__('Caption')."</a></td>
+						<td width=\"95%\"><a href=\"javascript:updateLabelList('caption')\">".__('Caption')."</a></td>
 						</td>
-						</tr>";
+						</tr>"; */
 			
 			$lnum = 0;
 			
@@ -179,7 +179,7 @@
 	
 				$line["caption"] = htmlspecialchars($line["caption"]);
 	
-				print "<td align='center'><input 
+				print "<td width='5%' align='center'><input 
 					onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
