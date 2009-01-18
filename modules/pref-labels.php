@@ -33,6 +33,8 @@
 							AND owner_uid = " . $_SESSION["uid"]);
 
 						print $_REQUEST["value"];
+					} else {
+						print $old_caption;
 					}
 				} else {
 					print $old_caption;
