@@ -13,7 +13,7 @@
 
 		$subop = $_REQUEST["subop"];
 
-		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS");
+		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS");
 
 		if ($subop == "change-password") {
 
