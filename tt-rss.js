@@ -792,7 +792,7 @@ function editFeedDlg(feed) {
 			return;
 		}
 	
-		if ((feed <= 0 && feed > -10) || activeFeedIsCat() || tagsAreDisplayed()) {
+		if ((feed <= 0) || activeFeedIsCat() || tagsAreDisplayed()) {
 			alert(__("You can't edit this kind of feed."));
 			return;
 		}
