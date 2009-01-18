@@ -869,6 +869,8 @@ function selectionRemoveLabel(id) {
 
 //			notify_progress("Loading, please wait...");
 
+			cache_invalidate("F:" + (-11 - id));
+
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
 					viewCurrentFeed();
@@ -895,6 +897,8 @@ function selectionAssignLabel(id) {
 		var ok = confirm(__("Assign selected articles to label?"));
 
 		if (ok) {
+
+			cache_invalidate("F:" + (-11 - id));
 
 			var query = "backend.php?op=rpc&subop=assignToLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
