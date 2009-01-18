@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-16 17:20+0300\n"
+"POT-Creation-Date: 2009-01-18 15:24+0300\n"
 "PO-Revision-Date: 2008-11-29 20:45+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -169,198 +169,192 @@ msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 "SQL escaping testen feilen, sjekk database og PHP konfigurasjonene dine."
 
-#: functions.php:2628 functions.php:2992 functions.php:3373 functions.php:4237
-#: help/3.php:57 mobile/functions.php:52
+#: functions.php:2883 modules/popup-dialog.php:175
+#: modules/pref-filters.php:405 mobile/functions.php:735
+msgid "All feeds"
+msgstr "Alle Nyhetsstrømmer"
+
+#: functions.php:2912 functions.php:2951 functions.php:3319 functions.php:4348
+#: functions.php:4378 modules/pref-feeds.php:1244
+msgid "Uncategorized"
+msgstr "Ukategorisert"
+
+#: functions.php:2941 functions.php:3508 mobile/functions.php:33
+msgid "Special"
+msgstr "Snarveier"
+
+#: functions.php:2943 functions.php:3510 prefs.php:144 mobile/functions.php:74
+msgid "Labels"
+msgstr "Merkelapper"
+
+#: functions.php:2961 functions.php:3341 functions.php:4205 help/3.php:57
+#: mobile/functions.php:52
 msgid "Starred articles"
 msgstr "Favorittartikler"
 
-#: functions.php:2644 functions.php:2994 functions.php:3376 functions.php:4244
+#: functions.php:2963 functions.php:3344 functions.php:4212
 #: modules/pref-feeds.php:1413 help/3.php:59 mobile/functions.php:61
 msgid "Published articles"
 msgstr "Publiserte artikler"
 
-#: functions.php:2660 functions.php:2996 functions.php:3379 functions.php:4222
-#: help/3.php:58 mobile/functions.php:43
+#: functions.php:2965 functions.php:3347 functions.php:4190 help/3.php:58
+#: mobile/functions.php:43
 msgid "Fresh articles"
 msgstr "Ferske artikler"
 
-#: functions.php:2914 modules/popup-dialog.php:175
-#: modules/pref-filters.php:388 mobile/functions.php:741
-msgid "All feeds"
-msgstr "Alle Nyhetsstrømmer"
-
-#: functions.php:2943 functions.php:2982 functions.php:3351 functions.php:4398
-#: functions.php:4428 modules/pref-feeds.php:1244
-msgid "Uncategorized"
-msgstr "Ukategorisert"
-
-#: functions.php:2972 functions.php:3540 mobile/functions.php:33
-msgid "Special"
-msgstr "Snarveier"
-
-#: functions.php:2974 functions.php:3542 mobile/functions.php:75
-msgid "Labels"
-msgstr "Merkelapper"
-
-#: functions.php:3337 functions.php:3339
+#: functions.php:3305 functions.php:3307
 msgid "Search results"
 msgstr "Søkeresultat"
 
-#: functions.php:3355 functions.php:3368 functions.php:3374 functions.php:3377
-#: functions.php:3380 functions.php:3388
+#: functions.php:3323 functions.php:3336 functions.php:3342 functions.php:3345
+#: functions.php:3348 functions.php:3356
 msgid "Searched for"
 msgstr "Søkte etter"
 
-#: functions.php:4014 functions.php:4064 functions.php:5416
+#: functions.php:3989 functions.php:4045 functions.php:5368
 #: modules/pref-feeds.php:1025 modules/pref-feeds.php:1206
-#: modules/pref-filters.php:341 modules/pref-labels.php:275
-#: modules/pref-users.php:408
+#: modules/pref-filters.php:358 modules/pref-labels-old.php:275
+#: modules/pref-labels.php:136 modules/pref-users.php:408
 msgid "Select:"
 msgstr "Velg:"
 
-#: functions.php:4015 functions.php:4065 modules/pref-feeds.php:1026
-#: modules/pref-feeds.php:1207 modules/pref-filters.php:342
-#: modules/pref-labels.php:276 modules/pref-users.php:409
-#: mobile/functions.php:567
+#: functions.php:3990 functions.php:4046 modules/pref-feeds.php:1026
+#: modules/pref-feeds.php:1207 modules/pref-filters.php:359
+#: modules/pref-labels-old.php:276 modules/pref-labels.php:137
+#: modules/pref-users.php:409 mobile/functions.php:561
 msgid "All"
 msgstr "Alle"
 
-#: functions.php:4016 functions.php:4022 functions.php:4066 functions.php:4069
-#: tt-rss.php:196 mobile/functions.php:455 mobile/functions.php:568
+#: functions.php:3991 functions.php:3997 functions.php:4047 functions.php:4050
+#: tt-rss.php:196 mobile/functions.php:449 mobile/functions.php:562
 msgid "Unread"
 msgstr "Ulest"
 
-#: functions.php:4017 mobile/functions.php:570
+#: functions.php:3992 mobile/functions.php:564
 msgid "Invert"
 msgstr "Motsatt"
 
-#: functions.php:4018 functions.php:4067 modules/pref-feeds.php:1027
-#: modules/pref-feeds.php:1208 modules/pref-filters.php:343
-#: modules/pref-labels.php:277 modules/pref-users.php:410
-#: mobile/functions.php:569
+#: functions.php:3993 functions.php:4048 modules/pref-feeds.php:1027
+#: modules/pref-feeds.php:1208 modules/pref-filters.php:360
+#: modules/pref-labels-old.php:277 modules/pref-labels.php:138
+#: modules/pref-users.php:410 mobile/functions.php:563
 msgid "None"
 msgstr "Ingen"
 
-#: functions.php:4020 tt-rss.php:147 modules/pref-feeds.php:1367
+#: functions.php:3995 tt-rss.php:147 modules/pref-feeds.php:1367
 msgid "Actions..."
 msgstr "Handlinger..."
 
-#: functions.php:4021
+#: functions.php:3996
 msgid "Selection toggle:"
 msgstr "Marker utvalg:"
 
-#: functions.php:4023 functions.php:4070 tt-rss.php:195
-#: mobile/functions.php:456
+#: functions.php:3998 functions.php:4051 tt-rss.php:195
+#: mobile/functions.php:450
 msgid "Starred"
 msgstr "Favoritter"
 
-#: functions.php:4024
+#: functions.php:3999
 msgid "Published"
 msgstr "Publisert"
 
-#: functions.php:4026 functions.php:4072
+#: functions.php:4001 functions.php:4053
 msgid "Mark as read:"
 msgstr "Marker som lest:"
 
-#: functions.php:4027 mobile/functions.php:575
+#: functions.php:4002 mobile/functions.php:569
 msgid "Selection"
 msgstr "Utvalg"
 
-#: functions.php:4041 mobile/functions.php:577
+#: functions.php:4016 mobile/functions.php:571
 msgid "Entire feed"
 msgstr "Hele nyhetsstrømmen"
 
-#: functions.php:4044 tt-rss.php:162
-msgid "Other actions:"
-msgstr "Andre handlinger:"
+#: functions.php:4019
+#, fuzzy
+msgid "Assign label:"
+msgstr "Tildel stikkord"
 
-#: functions.php:4051 functions.php:4053
-msgid "Search to label"
-msgstr "Søk etter merkelapp"
+#: functions.php:4031
+#, fuzzy
+msgid "(remove)"
+msgstr "Fjern"
 
-#: functions.php:4069
+#: functions.php:4050
 msgid "Toggle:"
 msgstr "Vis:"
 
-#: functions.php:4073 mobile/functions.php:576
+#: functions.php:4054 mobile/functions.php:570
 msgid "Page"
 msgstr "Side"
 
-#: functions.php:4074 modules/popup-dialog.php:70 modules/pref-feeds.php:165
-#: modules/pref-feeds.php:415 modules/pref-filters.php:378
+#: functions.php:4055 modules/popup-dialog.php:70 modules/pref-feeds.php:165
+#: modules/pref-feeds.php:415 modules/pref-filters.php:395
 msgid "Feed"
 msgstr "Nyhetsstrøm"
 
-#: functions.php:4081
-msgid "Convert to label"
-msgstr "Konverter til merkelapp"
-
-#: functions.php:4128
+#: functions.php:4096
 msgid "Generated feed"
 msgstr "Generert nyhetsstrøm"
 
-#: functions.php:4172
+#: functions.php:4145
 msgid "Click to collapse category"
 msgstr "Velg for å slå sammen kategorien"
 
-#: functions.php:4210
-msgid "Dashboard"
-msgstr "Skrivebord"
-
-#: functions.php:4448
+#: functions.php:4398
 msgid "No feeds to display."
 msgstr "Ingen nyhetstrømmer å vise"
 
-#: functions.php:4465 mobile/functions.php:12
+#: functions.php:4415 mobile/functions.php:12
 msgid "Tags"
 msgstr "Stikkord"
 
-#: functions.php:4705
+#: functions.php:4657
 msgid " - "
 msgstr "-"
 
-#: functions.php:4764 functions.php:4765
+#: functions.php:4716 functions.php:4717
 msgid "no tags"
 msgstr "Ingen stikkord"
 
-#: functions.php:4772
+#: functions.php:4724
 msgid "Edit tags for this article"
 msgstr "Rediger stikkordene for denne artikkelen"
 
-#: functions.php:4780
+#: functions.php:4732
 msgid "Display original article content"
 msgstr "Vis opprinnelig artikkelinnhold"
 
-#: functions.php:4787 functions.php:5426
+#: functions.php:4739 functions.php:5378
 msgid "Show article summary in new window"
 msgstr "Åpne artikkelsammendraget i nytt nettleservindu"
 
-#: functions.php:4823 functions.php:5350
+#: functions.php:4775 functions.php:5302
 msgid "unknown type"
 msgstr "Ukjent type"
 
-#: functions.php:4829 functions.php:5356
+#: functions.php:4781 functions.php:5308
 msgid "audio/mpeg"
 msgstr "Lyd/mpeg"
 
-#: functions.php:4865 functions.php:5390
+#: functions.php:4817 functions.php:5342
 msgid "Attachment:"
 msgstr "Vedlegg:"
 
-#: functions.php:4867 functions.php:5392
+#: functions.php:4819 functions.php:5344
 msgid "Attachments:"
 msgstr "Vedlegg:"
 
-#: functions.php:4887 modules/help.php:22 modules/popup-dialog.php:52
+#: functions.php:4839 modules/help.php:22 modules/popup-dialog.php:52
 #: modules/popup-dialog.php:565 modules/pref-feeds.php:1076
 msgid "Close this window"
 msgstr "Lukk dette vinduet"
 
-#: functions.php:4943 modules/pref-feed-browser.php:75
+#: functions.php:4895 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "Nyhetsstrømmen ble ikke funnet"
 
-#: functions.php:5012 mobile/functions.php:420
+#: functions.php:4964 mobile/functions.php:414
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -368,67 +362,67 @@ msgstr ""
 "Kunne ikke vise nyhetsstrøm (spørring feilet). Vennligst sjekk "
 "merkelappsyntaksen eller lokal konfigurasjon."
 
-#: functions.php:5125
+#: functions.php:5077
 msgid "(Click to change)"
 msgstr "(Trykk for å endre)"
 
-#: functions.php:5324
+#: functions.php:5276
 msgid "Click to expand article"
 msgstr "Trykk for å utvide artikkel"
 
-#: functions.php:5488
+#: functions.php:5440
 msgid "No unread articles found to display."
 msgstr "Ingen uleste artikler funnet som kunne vises"
 
-#: functions.php:5491
+#: functions.php:5443
 msgid "No starred articles found to display."
 msgstr "Ingen markerte artikler som kan vises"
 
-#: functions.php:5494
+#: functions.php:5446
 msgid "No articles found to display."
 msgstr "Ingen artikler funnet som kan vises"
 
-#: functions.php:5862
+#: functions.php:5793
 msgid "Match "
 msgstr "Match"
 
-#: functions.php:5870
+#: functions.php:5801
 msgid "Unread articles"
 msgstr "Uleste artikler"
 
-#: functions.php:5871
+#: functions.php:5802
 msgid "Updated articles"
 msgstr "Oppdaterte artikler"
 
-#: functions.php:5872
+#: functions.php:5803
 msgid "Title contains"
 msgstr "Tittel inneholder"
 
-#: functions.php:5873
+#: functions.php:5804
 msgid "Content contains"
 msgstr "Innholdet inneholder"
 
-#: functions.php:5874
+#: functions.php:5805
 msgid "Score equals"
 msgstr "Poeng er lik"
 
-#: functions.php:5875
+#: functions.php:5806
 msgid "Score is greater than"
 msgstr "Fler poeng enn"
 
-#: functions.php:5876
+#: functions.php:5807
 msgid "Score is less than"
 msgstr "Færre poeng enn"
 
-#: functions.php:5877
+#: functions.php:5808
 msgid "Articles newer than X hours"
 msgstr "Artikler nyere enn X timer"
 
-#: functions.php:5878
+#: functions.php:5809
 msgid "Articles newer than X days"
 msgstr "Artikler nyere enn X dager"
 
-#: functions.php:5887
+#: functions.php:5818
 msgid "Add"
 msgstr "Legg til"
 
@@ -440,7 +434,7 @@ msgstr "Vis nyhetsstrømmer"
 msgid "display tags"
 msgstr "Vis stikkord"
 
-#: localized_js.php:37 prefs.php:69 prefs.php:155 tt-rss.php:71
+#: localized_js.php:37 prefs.php:69 prefs.php:153 tt-rss.php:71
 msgid "Loading, please wait..."
 msgstr "laster, vennligst vent"
 
@@ -812,7 +806,7 @@ msgstr "Lagrer Nyhetsstrømmene..."
 
 #: localized_schema.php:9 tt-rss.php:205 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:1219 modules/pref-feeds.php:1280
-#: mobile/functions.php:772
+#: mobile/functions.php:766
 msgid "Title"
 msgstr "Tittel"
 
@@ -825,7 +819,7 @@ msgid "Link"
 msgstr "Lenke"
 
 #: localized_schema.php:12 modules/popup-dialog.php:166
-#: mobile/functions.php:773
+#: mobile/functions.php:767
 msgid "Content"
 msgstr "Innhold"
 
@@ -837,7 +831,7 @@ msgstr ""
 msgid "Filter article"
 msgstr "Filtrer artikkel"
 
-#: localized_schema.php:16 mobile/functions.php:580
+#: localized_schema.php:16 mobile/functions.php:574
 msgid "Mark as read"
 msgstr "Marker som lest"
 
@@ -1204,7 +1198,7 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "Returner til innstillinger"
 
-#: prefs.php:77 prefs.php:158 tt-rss.php:79
+#: prefs.php:77 prefs.php:156 tt-rss.php:79
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
@@ -1251,17 +1245,15 @@ msgstr "Andres nyhetsstrømmer"
 msgid "Published Articles"
 msgstr "Publiserte artikler"
 
-#: prefs.php:142 help/4.php:11
-msgid "Content Filtering"
-msgstr "Innholdsfilter"
+#: prefs.php:142
+#, fuzzy
+msgid "Filters"
+msgstr "Fil:"
 
-#: prefs.php:145 help/4.php:12
-msgid "Label Editor"
-msgstr "Merkelappredigerer"
-
-#: prefs.php:149 help/4.php:13
-msgid "User Manager"
-msgstr "Brukeradministrering"
+#: prefs.php:147
+#, fuzzy
+msgid "Users"
+msgstr "Bruker"
 
 #: sanity_check.php:8
 msgid ""
@@ -1372,9 +1364,10 @@ msgstr "Tag-sky"
 
 #: tt-rss.php:148 modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:1121
-#: modules/pref-filters.php:282 modules/pref-labels.php:239
-#: modules/pref-users.php:364 mobile/functions.php:19 mobile/functions.php:432
-#: mobile/functions.php:726 mobile/functions.php:780
+#: modules/pref-filters.php:299 modules/pref-labels-old.php:239
+#: modules/pref-labels.php:103 modules/pref-users.php:364
+#: mobile/functions.php:19 mobile/functions.php:426 mobile/functions.php:720
+#: mobile/functions.php:774
 msgid "Search"
 msgstr "Søk"
 
@@ -1414,6 +1407,10 @@ msgstr "&nbsp;&nbsp;Marker som lest"
 msgid "&nbsp;&nbsp;(Un)hide read feeds"
 msgstr "&nbsp;&nbsp;Skjul/vis leste nyhetsstrømmer"
 
+#: tt-rss.php:162
+msgid "Other actions:"
+msgstr "Andre handlinger:"
+
 #: tt-rss.php:163
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Lag filter"
@@ -1438,15 +1435,15 @@ msgstr "Skjul nyhetskanalsslisten"
 msgid "Toggle Feedlist"
 msgstr "Vis nyhetskanallisten"
 
-#: tt-rss.php:185 mobile/functions.php:735
+#: tt-rss.php:185 mobile/functions.php:729
 msgid "Search:"
 msgstr "Søk:"
 
-#: tt-rss.php:193 mobile/functions.php:453
+#: tt-rss.php:193 mobile/functions.php:447
 msgid "Adaptive"
 msgstr "Tilpasset"
 
-#: tt-rss.php:194 mobile/functions.php:454
+#: tt-rss.php:194 mobile/functions.php:448
 msgid "All Articles"
 msgstr "Alle artikler"
 
@@ -1459,7 +1456,7 @@ msgid "Order:"
 msgstr "Rekkefølge:"
 
 #: tt-rss.php:204 modules/popup-dialog.php:362 modules/pref-filters.php:51
-#: modules/pref-filters.php:418
+#: modules/pref-filters.php:435
 msgid "Date"
 msgstr "Dato"
 
@@ -1472,7 +1469,7 @@ msgid "Limit:"
 msgstr "Antall:"
 
 #: tt-rss.php:235 modules/pref-feeds.php:261 modules/pref-feeds.php:451
-#: mobile/functions.php:433
+#: mobile/functions.php:427
 msgid "Update"
 msgstr "Oppdater"
 
@@ -1643,10 +1640,10 @@ msgid "Subscribe"
 msgstr "Abonner"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
-#: modules/popup-dialog.php:279 modules/popup-dialog.php:446
-#: modules/popup-dialog.php:541 modules/pref-feeds.php:130
-#: modules/pref-feeds.php:395 modules/pref-feeds.php:546
-#: modules/pref-filters.php:157 modules/pref-users.php:184
+#: modules/popup-dialog.php:446 modules/popup-dialog.php:541
+#: modules/pref-feeds.php:130 modules/pref-feeds.php:395
+#: modules/pref-feeds.php:546 modules/pref-filters.php:166
+#: modules/pref-users.php:184
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1654,7 +1651,7 @@ msgstr "Avbryt"
 msgid "match on:"
 msgstr "Match på:"
 
-#: modules/popup-dialog.php:167 mobile/functions.php:774
+#: modules/popup-dialog.php:167 mobile/functions.php:768
 msgid "Title or content"
 msgstr "Tittel eller innhold"
 
@@ -1662,34 +1659,9 @@ msgstr "Tittel eller innhold"
 msgid "Limit search to:"
 msgstr "Begrens søket til:"
 
-#: modules/popup-dialog.php:188 mobile/functions.php:754
+#: modules/popup-dialog.php:188 mobile/functions.php:748
 msgid "This feed"
 msgstr "Denne nyhetsstrømmen"
-
-#: modules/popup-dialog.php:223
-msgid "Create Label"
-msgstr "Lag merkelapp"
-
-#: modules/popup-dialog.php:231 modules/pref-labels.php:36
-#: modules/pref-labels.php:282
-msgid "Caption"
-msgstr "Overskrift"
-
-#: modules/popup-dialog.php:241 modules/pref-labels.php:46
-msgid "Match SQL"
-msgstr "Match SQL"
-
-#: modules/popup-dialog.php:265 modules/pref-labels.php:68
-msgid "Help"
-msgstr "Hjelp"
-
-#: modules/popup-dialog.php:268
-msgid "Test"
-msgstr "Test"
-
-#: modules/popup-dialog.php:275 modules/popup-dialog.php:442
-msgid "Create"
-msgstr "Lag"
 
 #: modules/popup-dialog.php:288
 msgid "Create Filter"
@@ -1701,17 +1673,17 @@ msgid "description"
 msgstr "beskrivelse"
 
 #: modules/popup-dialog.php:357 modules/pref-filters.php:42
-#: modules/pref-filters.php:377
+#: modules/pref-filters.php:394
 msgid "Match"
 msgstr "Match"
 
 #: modules/popup-dialog.php:365 modules/pref-filters.php:54
-#: modules/pref-filters.php:408
+#: modules/pref-filters.php:425
 msgid "before"
 msgstr ""
 
 #: modules/popup-dialog.php:366 modules/pref-filters.php:55
-#: modules/pref-filters.php:409
+#: modules/pref-filters.php:426
 #, fuzzy
 msgid "after"
 msgstr "Dato"
@@ -1737,18 +1709,22 @@ msgid "with parameters:"
 msgstr "med parametrene:"
 
 #: modules/popup-dialog.php:421 modules/pref-feeds.php:308
-#: modules/pref-feeds.php:500 modules/pref-filters.php:114
+#: modules/pref-feeds.php:500 modules/pref-filters.php:123
 #: modules/pref-users.php:165
 msgid "Options"
 msgstr "Alternativer:"
 
-#: modules/popup-dialog.php:427 modules/pref-filters.php:126
+#: modules/popup-dialog.php:427 modules/pref-filters.php:135
 msgid "Enabled"
 msgstr "Tillatt"
 
-#: modules/popup-dialog.php:430 modules/pref-filters.php:135
+#: modules/popup-dialog.php:430 modules/pref-filters.php:144
 msgid "Inverse match"
 msgstr "Motsatt markering"
+
+#: modules/popup-dialog.php:442
+msgid "Create"
+msgstr "Lag"
 
 #: modules/popup-dialog.php:457
 msgid "Update Errors"
@@ -1771,7 +1747,7 @@ msgid "Tags for this article (separated by commas):"
 msgstr "Denne artikkelens stikkord (separert med kommaer):"
 
 #: modules/popup-dialog.php:537 modules/pref-feeds.php:393
-#: modules/pref-feeds.php:544 modules/pref-filters.php:153
+#: modules/pref-feeds.php:544 modules/pref-filters.php:162
 #: modules/pref-users.php:181
 msgid "Save"
 msgstr "Lagre"
@@ -1938,9 +1914,9 @@ msgstr "Lag kategori"
 msgid "No feed categories defined."
 msgstr "Ingen kategorier ble markert"
 
-#: modules/pref-feeds.php:1082 modules/pref-filters.php:147
-#: modules/pref-filters.php:462 modules/pref-labels.php:330
-#: modules/pref-users.php:481
+#: modules/pref-feeds.php:1082 modules/pref-filters.php:156
+#: modules/pref-filters.php:479 modules/pref-labels-old.php:330
+#: modules/pref-labels.php:176 modules/pref-users.php:481
 msgid "Remove"
 msgstr "Fjern"
 
@@ -1965,12 +1941,12 @@ msgid "Last&nbsp;Article"
 msgstr "Siste&nbsp;Artikkel"
 
 #: modules/pref-feeds.php:1225 modules/pref-feeds.php:1288
-#: mobile/functions.php:498 mobile/functions.php:501
+#: mobile/functions.php:492 mobile/functions.php:495
 msgid "Updated"
 msgstr "Oppdatert"
 
-#: modules/pref-feeds.php:1309 modules/pref-filters.php:436
-#: modules/pref-labels.php:310 modules/pref-users.php:456
+#: modules/pref-feeds.php:1309 modules/pref-filters.php:453
+#: modules/pref-labels-old.php:310 modules/pref-users.php:456
 msgid "Click to edit"
 msgstr "Trykk for å endre"
 
@@ -1982,8 +1958,8 @@ msgstr "Utvalg:"
 msgid "Recategorize"
 msgstr "Rekategoriser"
 
-#: modules/pref-feeds.php:1370 modules/pref-filters.php:460
-#: modules/pref-labels.php:328 modules/pref-users.php:479
+#: modules/pref-feeds.php:1370 modules/pref-filters.php:477
+#: modules/pref-labels-old.php:328 modules/pref-users.php:479
 msgid "Edit"
 msgstr "Rediger"
 
@@ -1995,7 +1971,7 @@ msgstr "Slett manuelt"
 msgid "Clear feed data"
 msgstr "Slett nyhetsstrømsdata"
 
-#: modules/pref-feeds.php:1373 modules/pref-filters.php:299
+#: modules/pref-feeds.php:1373 modules/pref-filters.php:316
 msgid "Rescore articles"
 msgstr "Tilbakestill poengsummene for artiklene"
 
@@ -2060,54 +2036,54 @@ msgstr "Genererer en ny adresse"
 msgid "Filter Editor"
 msgstr "Filteradministrering"
 
-#: modules/pref-filters.php:197
+#: modules/pref-filters.php:214
 #, php-format
 msgid "Saved filter <b>%s</b>"
 msgstr "Lagret filter <b>%s</b>"
 
-#: modules/pref-filters.php:239
+#: modules/pref-filters.php:256
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Laget filter <b>%s</b>"
 
-#: modules/pref-filters.php:292 help/3.php:31 help/4.php:25
+#: modules/pref-filters.php:309 help/3.php:31 help/4.php:25
 msgid "Create filter"
 msgstr "Lag filter"
 
-#: modules/pref-filters.php:367
+#: modules/pref-filters.php:384
 msgid "filter_type_descr"
 msgstr "Beskrivelse av filtertype"
 
-#: modules/pref-filters.php:368
+#: modules/pref-filters.php:385
 msgid "action_description"
 msgstr "Handlingsbeskrivelse"
 
-#: modules/pref-filters.php:379
+#: modules/pref-filters.php:396
 #, fuzzy
 msgid "Field"
 msgstr "Nyhetsstrøm"
 
-#: modules/pref-filters.php:380
+#: modules/pref-filters.php:397
 msgid "Params"
 msgstr "Parametre"
 
-#: modules/pref-filters.php:425
+#: modules/pref-filters.php:442
 msgid "(Disabled)"
 msgstr "(Avskrudd)"
 
-#: modules/pref-filters.php:441
+#: modules/pref-filters.php:458
 msgid "(Inverse)"
 msgstr "(Motsatt)"
 
-#: modules/pref-filters.php:470
+#: modules/pref-filters.php:487
 msgid "No filters defined."
 msgstr "Ingen filtre er valgt"
 
-#: modules/pref-filters.php:472
+#: modules/pref-filters.php:489
 msgid "No matching filters found."
 msgstr "Ingen filtre ble funnet."
 
-#: modules/pref-labels.php:9
+#: modules/pref-labels-old.php:9
 msgid ""
 "Sorry, labels have been administratively disabled for this installation. "
 "Please contact instance owner or edit configuration file to enable this "
@@ -2117,37 +2093,50 @@ msgstr ""
 "installasjonen. Vennligst kontakt sideadministratoren eller rediger "
 "konfigurasjonsfilen for å åpne for denne funksjonaliteten."
 
-#: modules/pref-labels.php:99
+#: modules/pref-labels-old.php:36 modules/pref-labels-old.php:282
+#: modules/pref-labels.php:143
+msgid "Caption"
+msgstr "Overskrift"
+
+#: modules/pref-labels-old.php:46
+msgid "Match SQL"
+msgstr "Match SQL"
+
+#: modules/pref-labels-old.php:68
+msgid "Help"
+msgstr "Hjelp"
+
+#: modules/pref-labels-old.php:99
 msgid "Error: SQL expression is blank."
 msgstr "Feil: SQL uttrykket er blankt."
 
-#: modules/pref-labels.php:179
+#: modules/pref-labels-old.php:179
 #, php-format
 msgid "Saved label <b>%s</b>"
 msgstr "Lagret merkelapp <b>%s</b>"
 
-#: modules/pref-labels.php:211
+#: modules/pref-labels-old.php:211 modules/pref-labels.php:73
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr "Laget merkelappen <b>%s</b>"
 
-#: modules/pref-labels.php:249 help/4.php:26
+#: modules/pref-labels-old.php:249 modules/pref-labels.php:111 help/4.php:26
 msgid "Create label"
 msgstr "Lag merkelapp"
 
-#: modules/pref-labels.php:283
+#: modules/pref-labels-old.php:283
 msgid "SQL Expression"
 msgstr "SQL-uttrykk"
 
-#: modules/pref-labels.php:308
+#: modules/pref-labels-old.php:308
 msgid "[No caption]"
 msgstr "Ingen bildetekst"
 
-#: modules/pref-labels.php:335
+#: modules/pref-labels-old.php:335 modules/pref-labels.php:182
 msgid "No labels defined."
 msgstr "Ingen merkelapper er valgt"
 
-#: modules/pref-labels.php:337
+#: modules/pref-labels-old.php:337 modules/pref-labels.php:184
 msgid "No matching labels found."
 msgstr "Ingen passende merkelapper ble funnet."
 
@@ -2557,6 +2546,18 @@ msgstr "Gå til..."
 msgid "Press any key to close this window."
 msgstr "Trykk på en knapp for å lukk dette vinduet"
 
+#: help/4.php:11
+msgid "Content Filtering"
+msgstr "Innholdsfilter"
+
+#: help/4.php:12
+msgid "Label Editor"
+msgstr "Merkelappredigerer"
+
+#: help/4.php:13
+msgid "User Manager"
+msgstr "Brukeradministrering"
+
 #: help/4.php:19
 msgid "Panel actions"
 msgstr "Panelhandlinger"
@@ -2588,32 +2589,32 @@ msgstr "Nyhetsstrøm"
 msgid "View tags"
 msgstr "Endre stikkord"
 
-#: mobile/functions.php:431
+#: mobile/functions.php:425
 msgid "Back"
 msgstr ""
 
-#: mobile/functions.php:441
+#: mobile/functions.php:435
 msgid "View:"
 msgstr "Vis:"
 
-#: mobile/functions.php:463
+#: mobile/functions.php:457
 msgid "Refresh"
 msgstr ""
 
-#: mobile/functions.php:695
+#: mobile/functions.php:689
 #, fuzzy
 msgid "Tags:"
 msgstr "Stikkord"
 
-#: mobile/functions.php:727
+#: mobile/functions.php:721
 msgid "Go back"
 msgstr ""
 
-#: mobile/functions.php:738
+#: mobile/functions.php:732
 msgid "Where:"
 msgstr "Hvor:"
 
-#: mobile/functions.php:769
+#: mobile/functions.php:763
 #, fuzzy
 msgid "Match on:"
 msgstr "Match på:"
@@ -2621,6 +2622,21 @@ msgstr "Match på:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
+
+#~ msgid "Search to label"
+#~ msgstr "Søk etter merkelapp"
+
+#~ msgid "Convert to label"
+#~ msgstr "Konverter til merkelapp"
+
+#~ msgid "Dashboard"
+#~ msgstr "Skrivebord"
+
+#~ msgid "Create Label"
+#~ msgstr "Lag merkelapp"
+
+#~ msgid "Test"
+#~ msgstr "Test"
 
 #, fuzzy
 #~ msgid "Perform action"
