@@ -2658,7 +2658,7 @@
 							unread = true AND
 							ttrss_user_entries.owner_uid = '$owner_uid')
 			  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
-					GROUP BY id");
+					GROUP BY id, caption");
 		
 			while ($line = db_fetch_assoc($result)) {
 	
