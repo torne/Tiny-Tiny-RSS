@@ -562,11 +562,6 @@ function quickMenuGo(opid) {
 				return;
 			}	
 
-			if (actid <= 0) {
-				alert(__("You can't unsubscribe from this kind of feed."));
-				return;
-			}	
-
 			if (!actid) {
 				alert(__("Please select some feed first."));
 				return;
@@ -625,6 +620,10 @@ function quickMenuGo(opid) {
 	
 		if (opid == "qmcAddFilter") {
 			displayDlg("quickAddFilter", getActiveFeedId());
+		}
+
+		if (opid == "qmcAddLabel") {
+			addLabel();
 		}
 
 		if (opid == "qmcRescoreFeed") {
@@ -1391,3 +1390,35 @@ function hotkey_handler(e) {
 function feedsSortByUnread() {
 	return feeds_sort_by_unread;
 }
+
+function addLabel() {
+
+	try {
+
+		var caption = prompt(__("Please enter label caption:"), "");
+
+		if (caption != undefined) {
+	
+			if (caption == "") {
+				alert(__("Can't create label: missing caption."));
+				return false;
+			}
+
+			var query = "backend.php?op=pref-labels&subop=add&caption=" + 
+				param_escape(caption);
+
+			notify_progress("Loading, please wait...", true);
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					updateFeedList();
+			} });
+
+		}
+
+	} catch (e) {
+		exception_error("addLabel", e);
+	}
+}
+
+

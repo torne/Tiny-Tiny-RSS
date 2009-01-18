@@ -6102,4 +6102,29 @@
 				(label_id, article_id) VALUES ('$label_id', '$id')");
 		}
 	}
+
+	function label_remove($link, $id, $owner_uid) {
+
+		db_query($link, "BEGIN");
+
+		$result = db_query($link, "SELECT caption FROM ttrss_labels2
+			WHERE id = '$id'");
+
+		$caption = db_fetch_result($result, 0, "caption");
+
+		$result = db_query($link, "DELETE FROM ttrss_labels2 WHERE id = '$id'
+			AND owner_uid = " . $_SESSION["uid"]);
+
+		if (db_affected_rows($link, $result) != 0 && $caption) {
+
+			/* Disable filters that reference label being removed */
+	
+			db_query($link, "UPDATE ttrss_filters SET
+				enabled = false WHERE action_param = '$caption'
+					AND action_id = 7
+					AND owner_uid = " . $_SESSION["uid"]);
+			}
+
+		db_query($link, "COMMIT");
+	}
 ?>

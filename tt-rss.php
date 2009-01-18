@@ -160,6 +160,8 @@ window.onload = init;
 					<option value="qmcShowOnlyUnread"><?php echo __('&nbsp;&nbsp;(Un)hide read feeds') ?></option>
 					<option disabled="disabled">--------</option>
 					<option style="color : #5050aa" disabled="disabled"><?php echo __('Other actions:') ?></option>				
+
+					<option value="qmcAddLabel"><?php echo __('&nbsp;&nbsp;Create label') ?></option>
 					<option value="qmcAddFilter"><?php echo __('&nbsp;&nbsp;Create filter') ?></option>
 					<option value="qmcResetUI"><?php echo __('&nbsp;&nbsp;Reset UI layout') ?></option>
 					<option value="qmcResetCats"><?php echo __('&nbsp;&nbsp;Reset category order') ?></option>

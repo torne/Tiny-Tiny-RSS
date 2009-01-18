@@ -717,6 +717,8 @@
 					if (file_exists($icons_dir . "/$id.ico")) {
 						unlink($icons_dir . "/$id.ico");
 					}
+				} else {
+					label_remove($link, -11-$id, $_SESSION["uid"]);
 				}
 			}
 		}
