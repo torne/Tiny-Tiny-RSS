@@ -907,7 +907,8 @@ function selectionAssignLabel(id) {
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
-					viewCurrentFeed();
+					show_labels_in_headlines(transport);
+					all_counters_callback2(transport);
 				} });
 
 		}
@@ -2006,5 +2007,33 @@ function scrollArticle(offset) {
 		}
 	} catch (e) {
 		exception_error("scrollArticle", e);
+	}
+}
+
+function show_labels_in_headlines(transport) {
+	try {
+		if (transport.responseXML) {
+			var info = transport.responseXML.getElementsByTagName("info-for-headlines")[0];
+
+			var elems = info.getElementsByTagName("entry");
+
+			for (var l = 0; l < elems.length; l++) {
+				var e_id = elems[l].getAttribute("id");
+
+				if (e_id) {
+
+					var ctr = document.getElementById("HLLCTR-" + e_id);
+
+					if (ctr) {
+						ctr.innerHTML = elems[l].firstChild.nodeValue;
+					}
+				}
+
+			}
+
+		}
+	} catch (e) {
+		exception_error("show_labels_in_headlines", e);
+
 	}
 }

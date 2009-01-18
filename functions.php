@@ -5019,13 +5019,15 @@
 				$feed_id = $line["feed_id"];
 
 				$labels = get_article_labels($link, $id);
-				$labels_str = "";
+				$labels_str = "<span id=\"HLLCTR-$id\">";
 
 				foreach ($labels as $l) {
 					$labels_str .= "<span 
 						class='hlLabelRef'>".
 						$l[1]."</span>";
 				}
+
+				$labels_str .= "</span>";
 
 				if (count($topmost_article_ids) < 5) {
 					array_push($topmost_article_ids, $id);
