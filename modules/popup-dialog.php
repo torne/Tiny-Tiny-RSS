@@ -219,68 +219,6 @@
 
 		}
 
-/*		if ($id == "quickAddLabel") {
-			print "<div id=\"infoBoxTitle\">".__('Create Label')."</div>";
-			print "<div class=\"infoBoxContents\">";
-
-			print "<form id=\"label_edit_form\" onsubmit='return false'>";
-
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
-
-			print "<div class=\"dlgSec\">".__("Caption")."</div>";
-
-			print "<div class=\"dlgSecCont\">";
-
-			print "<input onkeypress=\"return filterCR(event, addLabel)\"
-					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"description\" size=\"30\" value=\"$description\">";
-			print "</div>";
-
-			print "<div class=\"dlgSec\">".__("Match SQL")."</div>";
-
-			print "<div class=\"dlgSecCont\">";
-
-			print "<textarea onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-				rows=\"6\" name=\"sql_exp\" class=\"labelSQL\" 
-				cols=\"50\">$sql_exp</textarea>";
-
-			print "<br/>";
-
-			print_label_dlg_common_examples();
-
-
-			print "</div>";
-
-			print "</form>";
-
-			print "<div style=\"display : none\" id=\"label_test_result\"></div>";
-
-			print "<div class=\"dlgButtons\">";
-
-			print "<div style='float : left'>";
-			print "<input type=\"submit\" 
-				class=\"button\" onclick=\"return displayHelpInfobox(1)\" 
-				value=\"".__('Help')."\"> ";
-			print "</div>";
-
-			print "<input type=\"submit\" onclick=\"labelTest()\" value=\"".__('Test')."\">
-				";
-
-			print "<input type=\"submit\" 
-				id=\"infobox_submit\"
-				disabled=\"true\"
-				class=\"button\" onclick=\"return addLabel()\" 
-				value=\"".__('Create')."\"> ";
-
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return labelEditCancel()\" 
-				value=\"".__('Cancel')."\">";
-
-			return;
-		} */
-
 		if ($id == "quickAddFilter") {
 
 			$active_feed_id = db_escape_string($_GET["param"]);
@@ -293,8 +231,6 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
 			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
-
-//			print "<div class=\"notice\"><b>Note:</b> filter will only apply to new articles.</div>";
 		
 			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
@@ -305,54 +241,6 @@
 				//array_push($filter_types, $line["description"]);
 				$filter_types[$line["id"]] = __($line["description"]);
 			}
-
-/*			print "<table width='100%'>";
-
-			print "<tr><td>".__('Match:')."</td>
-				<td><input onkeypress=\"return filterCR(event, createFilter)\"
-					onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
- 					onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"reg_exp\" class=\"iedit\">";		
-
-			print "</td></tr><tr><td>".__('On field:')."</td><td>";
-
-			print_select_hash("filter_type", 1, $filter_types, "class=\"_iedit\"");	
-	
-			print "</td></tr>";
-			print "<tr><td>".__('Feed:')."</td><td colspan='2'>";
-
-			print_feed_select($link, "feed_id", $active_feed_id);
-			
-			print "</td></tr>";
-	
-			print "<tr><td>".__('Action:')."</td>";
-	
-			print "<td colspan='2'><select name=\"action_id\" 
-				onchange=\"filterDlgCheckAction(this)\">";
-	
-			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
-				ORDER BY name");
-
-			while ($line = db_fetch_assoc($result)) {
-				printf("<option value='%d'>%s</option>", $line["id"], __($line["description"]));
-			}
-	
-			print "</select>";
-
-			print "</td></tr>";
-
-			print "<tr><td>".__('Params:')."</td>";
-
-			print "<td><input disabled class='iedit' name='action_param'></td></tr>";
-
-			print "<tr><td valign='top'>".__('Options:')."</td><td>";
-
-			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
-				<label for=\"inverse\">".__('Inverse match')."</label></td></tr>";
-
-			print "</table>";
-
-			print "</form>"; */
 
 			print "<div class=\"dlgSec\">".__("Match")."</div>";
 

@@ -856,34 +856,6 @@ function feedEditSave() {
 	} 
 }
 
-function labelEditCancel() {
-	closeInfoBox();
-	return false;
-}
-
-function labelEditSave() {
-
-	try {
-
-		closeInfoBox();
-	
-		notify_progress("Saving label...");
-	
-		query = Form.serialize("label_edit_form");
-	
-		new Ajax.Request("backend.php?" + query, {
-			onComplete: function(transport) { 
-				dlg_frefresh_callback(transport); 
-			} });
-
-		return false;
-
-	} catch (e) {
-		exception_error("feedEditSave (main)", e);
-	} 
-
-}
-
 function clearFeedArticles(feed_id) {
 
 	notify_progress("Clearing feed...");
@@ -897,28 +869,6 @@ function clearFeedArticles(feed_id) {
 
 	return false;
 }
-
-/*
-function toggle_feedlist() {
-	try {
-		debug("toggle_feedlist");
-
-		var fl = document.getElementById("feeds-holder");
-
-		if (!Element.visible(fl)) {
-			Element.show(fl);
-			fl.style.zIndex = 30;
-			fl.scrollTop = _hfd_scrolltop;
-		} else {
-			_hfd_scrolltop = fl.scrollTop;
-			Element.hide(fl);			
-//			Effect.Fade(fl, {duration : 0.2, 
-//				queue: { position: 'end', scope: 'FLFADEQ', limit: 1 }});
-		}
-	} catch (e) {
-		exception_error("toggle_feedlist", e);
-	}
-} */
 
 function collapse_feedlist() {
 	try {

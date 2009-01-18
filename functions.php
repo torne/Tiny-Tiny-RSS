@@ -5792,36 +5792,6 @@
 		print "</table>";
 	}
 
-	function print_label_dlg_common_examples() {
-
-		print __("Match ") . " ";
-
-/*		print "<select name=\"label_andor\">";
-		print "<option value=\"and\">AND</option>";
-		print "<option value=\"or\">OR</option>";
-		print "</select>"; */
-
-		print "<select name=\"label_fields\" onchange=\"labelFieldsCheck(this)\">";
-		print "<option value=\"unread\">".__("Unread articles")."</option>";
-		print "<option value=\"updated\">".__("Updated articles")."</option>";
-		print "<option value=\"kw_title\">".__("Title contains")."</option>";
-		print "<option value=\"kw_content\">".__("Content contains")."</option>";
-		print "<option value=\"scoreE\">".__("Score equals")."</option>";
-		print "<option value=\"scoreG\">".__("Score is greater than")."</option>";
-		print "<option value=\"scoreL\">".__("Score is less than")."</option>";
-		print "<option value=\"newerH\">".__("Articles newer than X hours")."</option>";
-		print "<option value=\"newerD\">".__("Articles newer than X days")."</option>";
-
-		print "</select>";
-
-		print "<input style=\"display : none\" name=\"label_fields_param\"
-			size=\"10\">";
-
-		print " <input type=\"submit\" 
-			onclick=\"return addLabelExample()\"
-			value=\"".__("Add")."\">";
-	}
-
 	function feed_has_icon($id) {
 		return is_file(ICONS_DIR . "/$id.ico") && filesize(ICONS_DIR . "/$id.ico") > 0;
 	}
