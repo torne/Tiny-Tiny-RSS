@@ -431,14 +431,33 @@
 
 			$label = label_find_caption($link, $label_id, $_SESSION["uid"]);
 
+			print "<rpc-reply>";
+			print "<info-for-headlines>";
+
 			if ($label) {
 
 				foreach ($ids as $id) {
 					label_remove_article($link, $id, $label, $_SESSION["uid"]);
+
+					print "<entry id=\"$id\"><![CDATA[";
+
+					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
+
+					foreach ($labels as $l) {
+						print  "<span class='hlLabelRef'>".$l[1]."</span>";
+					}
+
+					print "]]></entry>";
+
 				}
 			}
 
-			print "<rpc-reply>OK</rpc-reply>";
+			print "</info-for-headlines>";
+
+			print "<counters>";
+			getAllCounters($link, $omode);
+			print "</counters>";
+			print "</rpc-reply>";
 
 			return;
 		}

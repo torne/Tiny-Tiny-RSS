@@ -873,7 +873,8 @@ function selectionRemoveLabel(id) {
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
-					viewCurrentFeed();
+					show_labels_in_headlines(transport);
+					all_counters_callback2(transport);
 				} });
 
 		}
