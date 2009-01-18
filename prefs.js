@@ -151,7 +151,8 @@ function labellist_callback() {
 
 						var id = elems[i].id.replace("LILT-", "");
 							new Ajax.InPlaceEditor(elems[i],
-							'backend.php?op=pref-labels&subop=save&id=' + id);
+							'backend.php?op=pref-labels&subop=save&id=' + id,
+							{cols: 20, rows: 1});
 					}
 				}
 			}

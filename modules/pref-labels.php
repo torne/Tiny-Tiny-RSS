@@ -6,7 +6,7 @@
 		if ($subop == "save") {
 
 			$id = db_escape_string($_REQUEST["id"]);
-			$caption = trim(db_escape_string($_REQUEST["value"]));
+			$caption = db_escape_string(trim($_REQUEST["value"]));
 
 			db_query($link, "BEGIN");
 
@@ -32,7 +32,7 @@
 							AND action_id = 7
 							AND owner_uid = " . $_SESSION["uid"]);
 
-						print $caption;
+						print $_REQUEST["value"];
 					}
 				} else {
 					print $old_caption;
