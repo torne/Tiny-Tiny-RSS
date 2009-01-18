@@ -1836,13 +1836,13 @@
 
 	function initialize_user($link, $uid) {
 
-		db_query($link, "INSERT INTO ttrss_labels2 (owner_uid, caption)
+/*		db_query($link, "INSERT INTO ttrss_labels2 (owner_uid, caption)
 			VALUES ('$uid', 'All Articles')");
 
 		db_query($link, "INSERT INTO ttrss_filters 
 			(owner_uid, feed_id, filter_type, reg_exp, enabled, 
 				action_id, action_param, filter_param) 
-			VALUES ('$uid', NULL, 1, '.', true, 7, 'All Articles', 'before')");
+			VALUES ('$uid', NULL, 1, '.', true, 7, 'All Articles', 'before')"); */
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
@@ -5001,6 +5001,15 @@
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
 
+				$labels = get_article_labels($link, $id);
+				$labels_str = "";
+
+				foreach ($labels as $l) {
+					$labels_str .= "<span 
+						class='hlLabelRef'>".
+						$l[1]."</span>";
+				}
+
 				if (count($topmost_article_ids) < 5) {
 					array_push($topmost_article_ids, $id);
 				}
@@ -5162,6 +5171,8 @@
 
 					print "</a>";
 
+					print $labels_str;
+
 #							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 #							$line["feed_title"]."</a>	
 
@@ -5266,6 +5277,8 @@
 							print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
 						}
 					}
+
+					print $labels_str;
 
 					print "</span></div>";
 
@@ -6014,7 +6027,8 @@
 				FROM ttrss_labels2, ttrss_user_labels2 
 			WHERE id = label_id 
 				AND article_id = '$id' 
-				AND owner_uid = ".$_SESSION["uid"]);
+				AND owner_uid = ".$_SESSION["uid"] . "
+			ORDER BY caption");
 
 		$rv = array();
 

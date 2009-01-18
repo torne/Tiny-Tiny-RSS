@@ -907,7 +907,7 @@ function selectionAssignLabel(id) {
 
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					viewCurrentFeed();
 				} });
 
 		}

@@ -457,17 +457,7 @@
 				}
 			}
 
-			print "<rpc-reply><counters>";
-
-			if ($label) {
-				getGlobalCounters($link);
-				getLabelCounters($link);
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					getCategoryCounters($link);
-				}
-			}
-
-			print "</counters></rpc-reply>";
+			print "<rpc-reply>OK</rpc-reply>";
 
 			return;
 		}

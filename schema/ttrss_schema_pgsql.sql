@@ -368,11 +368,11 @@ create table ttrss_labels2 (id serial not null primary key,
 	caption varchar(250) not null
 );
 
-INSERT INTO ttrss_labels2 (owner_uid, caption) VALUES (1, 'All Articles');
-
-INSERT INTO ttrss_filters (owner_uid, feed_id, filter_type, reg_exp, enabled, 
-    action_id, action_param, filter_param) 
-    VALUES (1, NULL, 1, '.', true, 7, 'All Articles', 'before');
+--INSERT INTO ttrss_labels2 (owner_uid, caption) VALUES (1, 'All Articles');
+--
+--INSERT INTO ttrss_filters (owner_uid, feed_id, filter_type, reg_exp, enabled, 
+--    action_id, action_param, filter_param) 
+--    VALUES (1, NULL, 1, '.', true, 7, 'All Articles', 'before');
 
 create table ttrss_user_labels2 (
 	label_id integer not null references ttrss_labels2(id) ON DELETE CASCADE,
