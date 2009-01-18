@@ -850,6 +850,38 @@ function toggleUnread(id, cmode, effect) {
 	}
 }
 
+function selectionRemoveLabel(id) {
+	try {
+
+		var ids = getSelectedArticleIds2();
+
+		if (ids.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+
+		var ok = confirm(__("Remove selected articles from label?"));
+
+		if (ok) {
+
+			var query = "backend.php?op=rpc&subop=removeFromLabel&ids=" +
+				param_escape(ids.toString()) + "&lid=" + param_escape(id);
+
+//			notify_progress("Loading, please wait...");
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					viewCurrentFeed();
+				} });
+
+		}
+
+	} catch (e) {
+		exception_error("selectionAssignLabel", e);
+
+	}
+}
+
 function selectionAssignLabel(id) {
 	try {
 

@@ -424,6 +424,25 @@
 			return;
 		}
 
+		if ($subop == "removeFromLabel") {
+
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$label_id = db_escape_string($_REQUEST["lid"]);
+
+			$label = label_find_caption($link, $label_id, $_SESSION["uid"]);
+
+			if ($label) {
+
+				foreach ($ids as $id) {
+					label_remove_article($link, $id, $label, $_SESSION["uid"]);
+				}
+			}
+
+			print "<rpc-reply>OK</rpc-reply>";
+
+			return;
+		}
+
 		if ($subop == "assignToLabel") {
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));

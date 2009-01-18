@@ -2225,42 +2225,10 @@
 
 					$label_id = -$feed - 11;
 
-					$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
-						WHERE id = '$label_id'");					
+					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2 
+						SET unread = false WHERE label_id = '$label_id' 
+							AND owner_uid = '".$_SESSION["uid"]."' AND ref_id = article_id");
 
-					if ($tmp_result) {
-						$sql_exp = db_fetch_result($tmp_result, 0, "sql_exp");
-
-						db_query($link, "BEGIN");
-
-						$tmp2_result = db_query($link,
-							"SELECT 
-								int_id 
-							FROM 
-								ttrss_user_entries,ttrss_entries,ttrss_feeds
-							WHERE
-								ref_id = ttrss_entries.id AND 
-								ttrss_user_entries.feed_id = ttrss_feeds.id AND
-								$sql_exp AND
-								ttrss_user_entries.owner_uid = " . $_SESSION["uid"]);
-
-						while ($tmp_line = db_fetch_assoc($tmp2_result)) {
-							db_query($link, "UPDATE 
-								ttrss_user_entries 
-							SET 
-								unread = false, last_read = NOW()
-							WHERE
-								int_id = " . $tmp_line["int_id"]);
-						}
-								
-						db_query($link, "COMMIT");
-
-/*						db_query($link, "UPDATE ttrss_user_entries,ttrss_entries 
-							SET unread = false,last_read = NOW()
-							WHERE $sql_exp
-							AND ref_id = id
-							AND owner_uid = ".$_SESSION["uid"]); */
-					}
 				}
 
 				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
@@ -2448,7 +2416,8 @@
 			SELECT SUM(unread) AS unread FROM 
 				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2 
 			WHERE label_id = id AND article_id = ref_id AND 
-				ttrss_labels2.owner_uid = '$owner_uid' AND id = '$label_id'");
+				ttrss_labels2.owner_uid = '$owner_uid' AND id = '$label_id'
+				AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "unread");
@@ -2686,8 +2655,9 @@
 			$result = db_query($link,
 				"SELECT id, caption, SUM(unread) AS unread FROM ttrss_labels2 
 					LEFT JOIN ttrss_user_labels2 ON (label_id = id) 
-						LEFT JOIN ttrss_user_entries ON (ref_id = article_id)
-				  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
+						LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND
+							ttrss_user_entries.owner_uid = '$owner_uid')
+			  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
 					GROUP BY id");
 		
 			while ($line = db_fetch_assoc($result)) {
@@ -4056,8 +4026,13 @@
 					$label_id = $line["id"];
 					$label_caption = $line["caption"];
 
-					print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
-						&nbsp;&nbsp;$label_caption</li>";
+					if ($feed_id < -10 && $feed_id == -11-$label_id) {
+						print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
+							&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
+					} else {					
+						print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
+							&nbsp;&nbsp;$label_caption</li>";
+					}
 			}
 
 				print	"</ul></li></ul>";
@@ -6069,6 +6044,19 @@
 		} else {
 			return "";
 		}
+	}
+
+	function label_remove_article($link, $id, $label, $owner_uid) {
+
+		$label_id = label_find_id($link, $label, $owner_uid);
+
+		if (!$label_id) return;
+
+		$result = db_query($link, 
+			"DELETE FROM ttrss_user_labels2
+			WHERE 
+				label_id = '$label_id' AND
+				article_id = '$id'");
 	}
 
 	function label_add_article($link, $id, $label, $owner_uid) {
