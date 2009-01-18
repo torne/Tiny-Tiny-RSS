@@ -321,6 +321,10 @@ function addLabel() {
 
 	var caption = prompt(__("Please enter label caption:"), "");
 
+	if (caption == null) { 
+		return false;
+	}
+
 	if (caption == "") {
 		alert(__("Can't create label: missing caption."));
 		return false;
