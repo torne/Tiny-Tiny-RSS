@@ -5271,14 +5271,13 @@
 							(".__('Show article').")</a>";
 					} */
 
+					print $labels_str;
 
 					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if ($line["feed_title"]) {	
 							print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
 						}
 					}
-
-					print $labels_str;
 
 					print "</span></div>";
 
