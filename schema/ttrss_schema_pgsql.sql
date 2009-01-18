@@ -1,3 +1,5 @@
+drop table ttrss_user_labels2;
+drop table ttrss_labels2;
 drop table ttrss_feedbrowser_cache;
 drop table ttrss_version;
 drop table ttrss_labels;
@@ -175,6 +177,9 @@ insert into ttrss_filter_actions (id,name,description) values (5, 'publish',
 insert into ttrss_filter_actions (id,name,description) values (6, 'score', 
 	'Modify score');
 
+insert into ttrss_filter_actions (id,name,description) values (7, 'label', 
+	'Assign label');
+
 create table ttrss_filters (id serial not null primary key, 	
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,
@@ -208,7 +213,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (50);
+insert into ttrss_version values (51);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -357,5 +362,15 @@ create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT 
 create table ttrss_feedbrowser_cache (
 	feed_url text not null primary key,
 	subscribers integer not null);	
+
+create table ttrss_labels2 (id serial not null primary key, 
+	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	caption varchar(250) not null
+);
+
+create table ttrss_user_labels2 (
+	label_id integer not null references ttrss_labels2(id) ON DELETE CASCADE,
+	article_id integer not null references ttrss_entries(id) ON DELETE CASCADE
+);
 
 commit;

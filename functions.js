@@ -1557,8 +1557,15 @@ function filterDlgCheckAction(sender) {
 		}
 
 		// if selected action supports parameters, enable params field
-		if (action == 4 || action == 6) {
+		if (action == 4 || action == 6 || action == 7) {
 			Element.show(action_param);
+			if (action != 7) {
+				Element.show(form.action_param);
+				Element.hide(form.action_param_label);
+			} else {
+				Element.show(form.action_param_label);
+				Element.hide(form.action_param);
+			}
 		} else {
 			Element.hide(action_param);
 		}

@@ -467,56 +467,6 @@
 			}
 		break; // rss
 
-		case "labelFromSearch":
-			$search = db_escape_string($_GET["search"]);
-			$search_mode = db_escape_string($_GET["smode"]);
-			$match_on = db_escape_string($_GET["match"]);
-			$is_cat = db_escape_string($_GET["is_cat"]);
-			$title = db_escape_string($_GET["title"]);
-			$feed = sprintf("%d", $_GET["feed"]);
-
-			$label_qparts = array();
-
-			$search_expr = getSearchSql($search, $match_on);
-
-			if ($is_cat) {
-				if ($feed != 0) {
-					$search_expr .= " AND ttrss_feeds.cat_id = $feed ";
-				} else {
-					$search_expr .= " AND ttrss_feeds.cat_id IS NULL ";
-				}
-			} else {
-				if ($search_mode == "all_feeds") {
-					// NOOP
-				} else if ($search_mode == "this_cat") {
-
-					$tmp_result = db_query($link, "SELECT cat_id
-						FROM ttrss_feeds WHERE id = '$feed'");
-
-					$cat_id = db_fetch_result($tmp_result, 0, "cat_id");
-
-					if ($cat_id > 0) {
-						$search_expr .= " AND ttrss_feeds.cat_id = $cat_id ";
-					} else {
-						$search_expr .= " AND ttrss_feeds.cat_id IS NULL ";
-					}
-				} else {
-					$search_expr .= " AND ttrss_feeds.id = $feed ";
-				}
-
-			}
-
-			$search_expr = db_escape_string($search_expr);
-
-			print $search_expr;
-
-			if ($title) {
-				$result = db_query($link,
-					"INSERT INTO ttrss_labels (sql_exp,description,owner_uid) 
-					VALUES ('$search_expr', '$title', '".$_SESSION["uid"]."')");
-			}
-		break; // labelFromSearch
-
 		case "getUnread":
 			$login = db_escape_string($_GET["login"]);
 

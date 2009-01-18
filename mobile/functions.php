@@ -65,11 +65,10 @@
 				print "</ul>";
 			}
 
-			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
 	
-				$result = db_query($link, "SELECT id,description FROM
-					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
-		
+				$result = db_query($link, "SELECT id,caption FROM					
+					ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
+
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 						print "<li class=\"feedCat\">".__("Labels")."</li>";
@@ -81,8 +80,6 @@
 		
 				while ($line = db_fetch_assoc($result)) {
 	
-					error_reporting (0);
-		
 					$count = getFeedUnread($link, -$line["id"]-11);
 	
 					$class = "label";
@@ -90,11 +87,9 @@
 					if ($count > 0) {
 						$class .= "Unread";
 					}
-					
-					error_reporting (DEFAULT_ERROR_LEVEL);
-	
+			
 					printMobileFeedEntry(-$line["id"]-11, 
-						$class, $line["description"], $count, "../images/label.png", $link);
+						$class, $line["caption"], $count, "../images/label.png", $link);
 		
 				}
 
@@ -104,7 +99,6 @@
 					}
 				}
 
-			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				$order_by_qpart = "category,title";

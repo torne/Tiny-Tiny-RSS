@@ -1301,6 +1301,13 @@
 				db_query($link, "COMMIT");
 
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: assigning labels...");
+				}
+
+				assign_article_to_labels($link, $entry_ref_id, $article_filters,
+					$owner_uid);
+
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: looking for enclosures...");
 				}
 
@@ -1588,6 +1595,13 @@
 		return $score;
 	}
 
+	function assign_article_to_labels($link, $id, $filters, $owner_uid) {
+		foreach ($filters as $f) {
+			if ($f[0] == "label") {
+				label_add_article($link, $id, $f[1], $owner_uid);
+			};
+		}
+	}
 
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
 		$rtl_content = false, $last_updated = false, $last_error = false) {
@@ -1822,11 +1836,11 @@
 
 	function initialize_user($link, $uid) {
 
-		db_query($link, "insert into ttrss_labels (owner_uid,sql_exp,description) 
+/*		db_query($link, "insert into ttrss_labels (owner_uid,sql_exp,description) 
 			values ('$uid','unread = true', 'Unread articles')");
 
 		db_query($link, "insert into ttrss_labels (owner_uid,sql_exp,description) 
-			values ('$uid','last_read is null and unread = false', 'Updated articles')");
+			values ('$uid','last_read is null and unread = false', 'Updated articles')"); */
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
@@ -2398,7 +2412,9 @@
 			return getFeedUnread($link, -1) + getFeedUnread($link, -2) + getFeedUnread($link, -3);
 		} else if ($cat == -2) {
 
-			$rv = getLabelCounters($link, false, true);
+			// FIXME: NEW_LABELS
+
+/*			$rv = getLabelCounters($link, false, true);
 			$ctr = 0;
 
 			foreach (array_keys($rv) as $k) {
@@ -2407,8 +2423,8 @@
 				}
 			}
 
-			return $ctr;
-		}
+			return $ctr; */
+		} 
 	}
 
 	function getMaxAgeSubquery($days = COUNTERS_MAX_AGE) {
@@ -2423,6 +2439,22 @@
 
 	function getFeedUnread($link, $feed, $is_cat = false) {
 		return getFeedArticles($link, $feed, $is_cat, true, $_SESSION["uid"]);
+	}
+
+	function getLabelUnread($link, $label_id, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$result = db_query($link, "
+			SELECT SUM(unread) AS unread FROM 
+				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2 
+			WHERE label_id = id AND article_id = ref_id AND 
+				ttrss_labels2.owner_uid = '$owner_uid' AND id = '$label_id'");
+
+		if (db_num_rows($result) != 0) {
+			return db_fetch_result($result, 0, "unread");
+		} else {
+			return 0;
+		}
 	}
 
 	function getFeedArticles($link, $feed, $is_cat = false, $unread_only = false,
@@ -2499,10 +2531,8 @@
 
 			$label_id = -$feed - 11;
 
-			$result = db_query($link, "SELECT sql_exp FROM ttrss_labels WHERE
-				id = '$label_id' AND owner_uid = " . $owner_uid);
+			return getLabelUnread($link, $label_id, $owner_uid);
 
-			$match_part = db_fetch_result($result, 0, "sql_exp");
 		}
 
 		if ($match_part) {
@@ -2626,81 +2656,47 @@
 		}
 
 		$ret_arr = array();
-		
+
+		for ($i = -1; $i >= -3; $i--) {
+
+			$count = getFeedUnread($link, $i);
+	
+			if (!$ret_mode) {
+	
+				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $i) . " total)\"";
+				} else {
+					$xmsg_part = "";
+				}
+
+				print "<counter type=\"label\" id=\"$i\" counter=\"$count\" $xmsg_part/>";
+			} else {
+				$ret_arr[$i]["counter"] = $count;
+				$ret_arr[$i]["description"] = getFeedTitle($link, $i);
+			}
+	
+		}
+
 		$old_counters = $_SESSION["lctr_last_value"];
 		$lctrs_modified = false;
 
-		$count = getFeedUnread($link, -1);
 
-		if (!$ret_mode) {
+			$owner_uid = $_SESSION["uid"];
 
-			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-			} else {
-				$xmsg_part = "";
-			}
-
-			print "<counter type=\"label\" id=\"-1\" counter=\"$count\" $xmsg_part/>";
-		} else {
-			$ret_arr["-1"]["counter"] = $count;
-			$ret_arr["-1"]["description"] = __("Starred articles");
-		}
-
-		$count = getFeedUnread($link, -2);
-
-		if (!$ret_mode) {
-
-			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-			} else {
-				$xmsg_part = "";
-			}
-
-			print "<counter type=\"label\" id=\"-2\" counter=\"$count\" $xmsg_part/>";
-		} else {
-			$ret_arr["-2"]["counter"] = $count;
-			$ret_arr["-2"]["description"] = __("Published articles");
-		}
-
-		$count = getFeedUnread($link, -3);
-
-		if (!$ret_mode) {
-
-			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-			} else {
-				$xmsg_part = "";
-			}
-
-			print "<counter type=\"label\" id=\"-3\" counter=\"$count\" $xmsg_part/>";
-		} else {
-			$ret_arr["-3"]["counter"] = $count;
-			$ret_arr["-3"]["description"] = __("Fresh articles");
-		}
-
-		if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
-
-			$result = db_query($link, "SELECT owner_uid,id,sql_exp,description FROM
-				ttrss_labels WHERE owner_uid = ".$_SESSION["uid"]." ORDER by description");
+			$result = db_query($link,
+				"SELECT id, caption, SUM(unread) AS unread FROM ttrss_labels2 
+					LEFT JOIN ttrss_user_labels2 ON (label_id = id) 
+						LEFT JOIN ttrss_user_entries ON (ref_id = article_id)
+				  			WHERE ttrss_labels2.owner_uid = '$owner_uid'
+					GROUP BY id");
 		
 			while ($line = db_fetch_assoc($result)) {
 	
 				$id = -$line["id"] - 11;
 	
-				$label_name = $line["description"];
-	
-				error_reporting (0);
-	
-				$tmp_result = db_query($link, "SELECT count(ttrss_entries.id) as count FROM ttrss_user_entries,ttrss_entries,ttrss_feeds
-					WHERE (" . $line["sql_exp"] . ") AND unread = true AND 
-					ttrss_feeds.hidden = false AND
-					$age_qpart AND
-					ttrss_user_entries.feed_id = ttrss_feeds.id AND
-					ttrss_user_entries.ref_id = ttrss_entries.id AND 
-					ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
-	
-				$count = db_fetch_result($tmp_result, 0, "count");
-	
+				$label_name = $line["caption"];
+				$count = $line["unread"];
+		
 				if (!$smart_mode || $old_counters[$id] != $count) {	
 					$old_counters[$id] = $count;
 					$lctrs_modified = true;
@@ -2721,7 +2717,6 @@
 	
 				error_reporting (DEFAULT_ERROR_LEVEL);
 			}
-		}
 
 		if ($smart_mode && $lctrs_modified) {
 			$_SESSION["lctr_last_value"] = $old_counters;
@@ -3000,9 +2995,9 @@
 			return __("Fresh articles");
 		} else if ($id < -10) {
 			$label_id = -$id - 11;
-			$result = db_query($link, "SELECT description FROM ttrss_labels WHERE id = '$label_id'");
+			$result = db_query($link, "SELECT caption FROM ttrss_labels2 WHERE id = '$label_id'");
 			if (db_num_rows($result) == 1) {
-				return db_fetch_result($result, 0, "description");
+				return db_fetch_result($result, 0, "caption");
 			} else {
 				return "Unknown label ($label_id)";
 			}
@@ -3308,17 +3303,14 @@
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= -10) { // labels
 				$label_id = -$feed - 11;
-	
-				$tmp_result = db_query($link, "SELECT sql_exp FROM ttrss_labels
-					WHERE id = '$label_id'");
-			
-				$query_strategy_part = "(" . db_fetch_result($tmp_result, 0, "sql_exp") . ")";
 
-				if (!$query_strategy_part) {
-					return false;
-				}
+				$query_strategy_part = "label_id = '$label_id' AND
+					ttrss_labels2.id = ttrss_user_labels2.label_id AND
+					ttrss_user_labels2.article_id = ref_id";
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				$ext_tables_part = ",ttrss_labels2,ttrss_user_labels2";
+ 
 			} else {
 				$query_strategy_part = "id > 0"; // dumb
 			}
@@ -3386,9 +3378,9 @@
 				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
 			} else if ($feed < -10) {
 				$label_id = -$feed - 11;
-				$result = db_query($link, "SELECT description FROM ttrss_labels
+				$result = db_query($link, "SELECT caption FROM ttrss_labels2
 					WHERE id = '$label_id'");
-				$feed_title = db_fetch_result($result, 0, "description");
+				$feed_title = db_fetch_result($result, 0, "caption");
 
 				if ($search) {
 					$feed_title = __("Searched for") . " $search ($feed_title)";
@@ -3440,7 +3432,7 @@
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
 						author,score
 					FROM
-						ttrss_entries,ttrss_user_entries,ttrss_feeds
+						ttrss_entries,ttrss_user_entries,ttrss_feeds$ext_tables_part
 					WHERE
 					$group_limit_part
 					ttrss_feeds.hidden = false AND 
@@ -4055,17 +4047,6 @@
 
 				print "<li><span class=\"insensitive\">--------</span></li>";
 				print "<li><span class=\"insensitive\">".__('Other actions:')."</span></li>";
-		
-
-				if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-					print "
-						<li onclick=\"javascript:labelFromSearch('$search', '$search_mode',
-							'$match_on', '$feed_id', '$is_cat');\">&nbsp;&nbsp;
-							".__('Search to label')."</li>";
-				} else {
-					print "<li><span class=\"insensitive\">&nbsp;&nbsp;".__('Search to label')."</li>";
-
-				}
 				
 				print	"</ul></li></ul>";
 				print "</td>"; 
@@ -4085,15 +4066,7 @@
 							__('Mark as read:')."
 								<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
 								<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
-	
-					if ($search && $feed_id >= 0 && get_pref($link, 'ENABLE_LABELS') && GLOBAL_ENABLE_LABELS) {
-	
-						print "&nbsp;&nbsp;
-								<a href=\"javascript:labelFromSearch('$search', '$search_mode',
-									'$match_on', '$feed_id', '$is_cat');\">
-								".__('Convert to label')."</a>";
-					}
-	
+
 					print "</td>";  
 	
 				}
@@ -4258,10 +4231,9 @@
 
 		if (!$tags) {
 
-			if (GLOBAL_ENABLE_LABELS && get_pref($link, 'ENABLE_LABELS')) {
-	
-				$result = db_query($link, "SELECT id,sql_exp,description FROM
-					ttrss_labels WHERE owner_uid = '$owner_uid' ORDER by description");
+
+				$result = db_query($link, "SELECT id,caption FROM					
+					ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
 		
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -4281,8 +4253,6 @@
 		
 				while ($line = db_fetch_assoc($result)) {
 	
-					error_reporting (0);
-
 					$label_id = -$line['id'] - 11;
 					$count = getFeedUnread($link, $label_id);
 
@@ -4291,11 +4261,9 @@
 					if ($count > 0) {
 						$class .= "Unread";
 					}
-					
-					error_reporting (DEFAULT_ERROR_LEVEL);
 	
 					printFeedEntry($label_id, 
-						$class, $line["description"], 
+						$class, $line["caption"], 
 						$count, "images/label.png", $link);
 		
 				}
@@ -4304,9 +4272,8 @@
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 						print "</ul>";
 					}
-				}
+				} 
 
-			}
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "<li><hr></li>";
@@ -6066,5 +6033,38 @@
 		}
 
 		return $unread;
+	}
+
+	function label_find_id($link, $label, $owner_uid) {
+		$result = db_query($link, 
+			"SELECT id FROM ttrss_labels2 WHERE caption = '$label' 
+				AND owner_uid = '$owner_uid' LIMIT 1");
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "id");
+		} else {
+			return 0;
+		}
+	}
+
+	function label_add_article($link, $id, $label, $owner_uid) {
+
+		$label_id = label_find_id($link, $label, $owner_uid);
+
+		if (!$label_id) return;
+
+		$result = db_query($link, 
+			"SELECT 
+				article_id FROM ttrss_labels2, ttrss_user_labels2
+			WHERE 
+				label_id = id AND 
+				label_id = '$label_id' AND
+				article_id = '$id' AND owner_uid = '$owner_uid'
+			LIMIT 1");
+
+		if (db_num_rows($result) == 0) {
+			db_query($link, "INSERT INTO ttrss_user_labels2 
+				(label_id, article_id) VALUES ('$label_id', '$id')");
+		}
 	}
 ?>

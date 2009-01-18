@@ -23,7 +23,7 @@
 		<tr><td class='n'>c T</td><td><?php echo __("Top 25 feeds") ?></td></tr>
 		<tr><td class='n'>c c</td><td><?php echo __("Edit feed categories") ?></td></tr>
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
-		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
+		<!-- <tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr> -->
 		<!-- <tr><td class='n'>c u</td><td><?php echo __("Create user") ?></td></tr> -->
 	</table>
 

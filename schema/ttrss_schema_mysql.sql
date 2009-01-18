@@ -189,6 +189,9 @@ insert into ttrss_filter_actions (id,name,description) values (5, 'publish',
 insert into ttrss_filter_actions (id,name,description) values (6, 'score', 
 	'Modify score');
 
+insert into ttrss_filter_actions (id,name,description) values (7, 'label', 
+	'Assign label');
+
 create table ttrss_filters (id integer not null primary key auto_increment,
 	owner_uid integer not null, 
 	feed_id integer default null,
@@ -232,7 +235,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (50);
+insert into ttrss_version values (51);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -388,5 +391,17 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 create table ttrss_feedbrowser_cache (
 	feed_url text not null,
 	subscribers integer not null);	
+
+create table ttrss_labels2 (id integer not null primary key auto_increment, 
+	owner_uid integer not null,
+	caption varchar(250) not null,
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
+) TYPE=InnoDB;
+
+create table ttrss_user_labels2 (label_id integer not null,
+	article_id integer not null,
+	foreign key (label_id) references ttrss_labels2(id) ON DELETE CASCADE,
+	foreign key (article_id) references ttrss_entries(id) ON DELETE CASCADE
+) TYPE=InnoDB;
 
 commit;

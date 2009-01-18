@@ -98,13 +98,22 @@
 	
 			print "</select>";
 
-			$param_hidden = ($action_id == 4 || $action_id == 6) ? "" : "display : none";
+			$param_hidden = ($action_id == 4 || $action_id == 6 || $action_id == 7) ? "" : "display : none";
 
 			print "<span id=\"filter_dlg_param_box\" style=\"$param_hidden\">";
 			print " " . __("with parameters:") . " ";
-			print "<input size=\"20\"
+
+			$param_int_hidden = ($action_id != 7) ? "" : "display : none";
+
+			print "<input size=\"20\" style=\"$param_int_hidden\"
 					onkeypress=\"return filterCR(event, filterEditSave)\"		
 					name=\"action_param\" value=\"$action_param\">";
+
+			$param_int_hidden = ($action_id == 7) ? "" : "display : none";
+
+			print_label_select($link, "action_param_label", $action_param, 
+				$param_int_hidden);
+
 			print "</span>";
 
 			print "&nbsp;"; // tiny layout hack
@@ -170,6 +179,7 @@
 			$feed_id = db_escape_string($_GET["feed_id"]);
 			$action_id = db_escape_string($_GET["action_id"]); 
 			$action_param = db_escape_string($_GET["action_param"]); 
+			$action_param_label = db_escape_string($_GET["action_param_label"]); 
 			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
 			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
 
@@ -181,7 +191,14 @@
 			} else {
 				$feed_id = sprintf("'%s'", db_escape_string($feed_id));
 			}
-			
+
+			/* When processing 'assign label' filters, action_param_label dropbox
+			 * overrides action_param */
+
+			if ($action_id == 7) {
+				$action_param = $action_param_label;
+			}
+
 			$result = db_query($link, "UPDATE ttrss_filters SET 
 					reg_exp = '$reg_exp', 
 					feed_id = $feed_id,
@@ -474,5 +491,25 @@
 			print "</p>";
 
 		}
+	}
+
+	function print_label_select($link, $name, $value, $style = "") {
+
+		$result = db_query($link, "SELECT caption FROM ttrss_labels2
+			WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+
+		print "<select name=\"$name\" style=\"$style\">";
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$issel = ($line["caption"] == $value) ? "selected" : "";
+
+			print "<option $issel>" . $line["caption"] . "</option>";
+
+		}
+
+		print "</select>";
+
+
 	}
 ?>

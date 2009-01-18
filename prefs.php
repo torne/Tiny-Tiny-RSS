@@ -140,10 +140,8 @@ window.onload = init;
 			onclick="selectTab('pubItems')"><?php echo __('Published Articles') ?></div> -->
 		<div id="filterConfigTab" class="prefsTab" 
 			onclick="selectTab('filterConfig')"><?php echo __('Content Filtering') ?></div>
-		<?php if (get_pref($link, 'ENABLE_LABELS')) { ?>
 		<div id="labelConfigTab" class="prefsTab" 
 			onclick="selectTab('labelConfig')"><?php echo __('Label Editor') ?></div>
-		<?php } ?>
 		<?php if ($_SESSION["access_level"] >= 10) { ?>
 		<div id="userConfigTab" class="prefsTab" 
 			onclick="selectTab('userConfig')"><?php echo __('User Manager') ?></div>

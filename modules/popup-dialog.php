@@ -219,7 +219,7 @@
 
 		}
 
-		if ($id == "quickAddLabel") {
+/*		if ($id == "quickAddLabel") {
 			print "<div id=\"infoBoxTitle\">".__('Create Label')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
@@ -279,7 +279,7 @@
 				value=\"".__('Cancel')."\">";
 
 			return;
-		}
+		} */
 
 		if ($id == "quickAddFilter") {
 

@@ -135,28 +135,36 @@ function filterlist_callback() {
 }
 
 function labellist_callback() {
-	var container = document.getElementById('prefContent');
-	if (xmlhttp.readyState == 4) {
-		closeInfoBox();
-		container.innerHTML=xmlhttp.responseText;
-		if (active_label) {
-			var row = document.getElementById("LILRR-" + active_label);
-			if (row) {
-				if (!row.className.match("Selected")) {
-					row.className = row.className + "Selected";
-				}		
+
+	try {
+
+		var container = document.getElementById('prefContent');
+		if (xmlhttp.readyState == 4) {
+			closeInfoBox();
+			container.innerHTML=xmlhttp.responseText;
+	
+			if (document.getElementById("prefLabelList")) {
+				var elems = document.getElementById("prefLabelList").getElementsByTagName("SPAN");
+
+				for (var i = 0; i < elems.length; i++) {
+					if (elems[i].id && elems[i].id.match("LILT-")) {
+
+						var id = elems[i].id.replace("LILT-", "");
+							new Ajax.InPlaceEditor(elems[i],
+							'backend.php?op=pref-labels&subop=save&id=' + id);
+					}
+				}
 			}
-			var checkbox = document.getElementById("LICHK-" + active_label);
-			
-			if (checkbox) {
-				checkbox.checked = true;
+	
+			if (typeof correctPNG != 'undefined') {
+				correctPNG();
 			}
+			notify("");
+			remove_splash();
 		}
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-		notify("");
-		remove_splash();
+
+	} catch (e) {
+		exception_error("labellist_callback", e);
 	}
 }
 
@@ -304,34 +312,32 @@ function updateUsersList(sort_key) {
 
 function addLabel() {
 
+	try {
+
 	if (!xmlhttp_ready(xmlhttp)) {
 		printLockingError();
 		return
 	}
 
-	var form = document.forms['label_edit_form'];
+	var caption = prompt(__("Please enter label caption:"), "");
 
-	var sql_exp = form.sql_exp.value;
-	var description = form.description.value;
-
-	if (sql_exp == "") {
-		alert(__("Can't create label: missing SQL expression."));
-		return false;
-	}
-
-	if (description == "") {
+	if (caption == "") {
 		alert(__("Can't create label: missing caption."));
 		return false;
 	}
 
-	var query = Form.serialize("label_edit_form");
-
 	// we can be called from some other tab
 	active_tab = "labelConfig";
+
+	var query = "caption=" + param_escape(caption);
 
 	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&" + query, true);			
 	xmlhttp.onreadystatechange=infobox_submit_callback;
 	xmlhttp.send(null);
+
+	} catch (e) {
+		exception_error("addLabel", e);
+	}
 }
 
 function addFeed() {
@@ -1834,10 +1840,10 @@ function pref_hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 76) { // l
+/*			if (keycode == 76) { // l
 				displayDlg("quickAddLabel");
 				return false;
-			}
+			} */
 
 			if (keycode == 85) { // u
 				// no-op
