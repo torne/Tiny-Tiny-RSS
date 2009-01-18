@@ -412,6 +412,9 @@
 			print "<input size=\"20\"
 					onkeypress=\"return filterCR(event, createFilter)\"
 					name=\"action_param\">";
+
+			print_label_select($link, "action_param_label", $action_param);
+
 			print "</span>";
 
 			print "&nbsp;"; // tiny layout hack
