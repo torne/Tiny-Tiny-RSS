@@ -1936,9 +1936,6 @@
 				}
 			}
 
-//			print session_id();
-//			print_r($_SESSION);
-
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 				render_login_form($link, $mobile);
 				exit;
@@ -2278,30 +2275,18 @@
 
 	function getAllCounters($link, $omode = "flc", $active_feed = false) {
 
-		/* getting all counters is a resource intensive operation, so we
-		 * rate limit it a little bit */
-
-
-
-//		if (get_pref($link, "SYNC_COUNTERS") || 
-//				time() - $_SESSION["get_all_counters_stamp"] > 5) {
-
-			if (!$omode) $omode = "flc";
+		if (!$omode) $omode = "flc";
 	
-			getGlobalCounters($link);
+		getGlobalCounters($link);
 	
-			if (strchr($omode, "l")) getLabelCounters($link);
-			if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
-			if (strchr($omode, "t")) getTagCounters($link);
-			if (strchr($omode, "c")) {			
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					getCategoryCounters($link);
-				}
+		if (strchr($omode, "l")) getLabelCounters($link);
+		if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
+		if (strchr($omode, "t")) getTagCounters($link);
+		if (strchr($omode, "c")) {			
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
 			}
-
-			$_SESSION["get_all_counters_stamp"] = time();
-//		}
-
+		}
 	}	
 
 	function getCategoryCounters($link) {
@@ -2573,15 +2558,6 @@
 
 		$tctrs_modified = false;
 
-/*		$result = db_query($link, "SELECT tag_name,count(ttrss_entries.id) AS count
-			FROM ttrss_tags,ttrss_entries,ttrss_user_entries WHERE
-			ttrss_user_entries.ref_id = ttrss_entries.id AND 
-			ttrss_tags.owner_uid = ".$_SESSION["uid"]." AND
-			post_int_id = ttrss_user_entries.int_id AND unread = true GROUP BY tag_name 
-		UNION
-			select tag_name,0 as count FROM ttrss_tags
-			WHERE ttrss_tags.owner_uid = ".$_SESSION["uid"]); */
-
 		$age_qpart = getMaxAgeSubquery();
 
 		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
@@ -2712,21 +2688,6 @@
 
 		$old_counters = $_SESSION["fctr_last_value"];
 
-/*		$query = "SELECT ttrss_feeds.id,
-				ttrss_feeds.title,
-				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
-				last_error, 
-				COUNT(ttrss_entries.id) AS count 
-			FROM ttrss_feeds 
-				LEFT JOIN ttrss_user_entries ON (ttrss_user_entries.feed_id = ttrss_feeds.id 
-					AND ttrss_user_entries.owner_uid = ttrss_feeds.owner_uid 
-					AND ttrss_user_entries.unread = true) 
-				LEFT JOIN ttrss_entries ON (ttrss_user_entries.ref_id = ttrss_entries.id AND
-					$age_qpart) 
-			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
-				AND parent_feed IS NULL 
-				GROUP BY ttrss_feeds.id, ttrss_feeds.title, ttrss_feeds.last_updated, last_error"; */
-
 		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
 				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated, 
@@ -2756,13 +2717,6 @@
 			$last_updated = htmlspecialchars($last_updated);
 
 			$has_img = feed_has_icon($id);
-
-/*			$tmp_result = db_query($link,
-				"SELECT ttrss_feeds.id,COUNT(unread) AS unread
-				FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
-					ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
-				LEFT JOIN ttrss_entries ON (ttrss_user_entries.ref_id = ttrss_entries.id) 
-				WHERE parent_feed = '$id' AND $age_qpart AND unread = true GROUP BY ttrss_feeds.id"); */
 
 			$tmp_result = db_query($link,
 				"SELECT SUM(value) AS unread FROM ttrss_feeds, ttrss_counters_cache 
@@ -4635,12 +4589,6 @@
 				$feed_icon = "&nbsp;";
 			}
 
-/*			if ($line["comments"] && $line["link"] != $line["comments"]) {
-				$entry_comments = "(<a href=\"".$line["comments"]."\">Comments</a>)";
-			} else {
-				$entry_comments = "";
-			} */
-
 			$num_comments = $line["num_comments"];
 			$entry_comments = "";
 
@@ -4689,10 +4637,6 @@
 			} else {
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
-
-/*			$tmp_result = db_query($link, "SELECT DISTINCT tag_name FROM
-				ttrss_tags WHERE post_int_id = " . $line["int_id"] . "
-				ORDER BY tag_name"); */
 
 			$tags = get_article_tags($link, $id);
 	
@@ -5465,10 +5409,6 @@
 				print "</table>";
 			}
 
-//			print_headline_subtoolbar($link, 
-//				"javascript:catchupPage()", "Mark page as read", true, $rtl_content);
-
-
 		} else {
 			$message = "";
 
@@ -5498,26 +5438,6 @@
 
 	function printTagCloud($link) {
 
-		/* get first ref_id to count from */
-
-		/*
-
-		$query = "";
-
-		if (DB_TYPE == "pgsql") {
-			$query = "SELECT MIN(id) AS id FROM ttrss_user_entries, ttrss_entries 
-				WHERE int_id = id AND owner_uid = ".$_SESSION["uid"]."
-			  	AND date_entered > NOW() - INTERVAL '30 days'";
-		} else {
-			$query = "SELECT MIN(id) AS id FROM ttrss_user_entries, ttrss_entries 
-				WHERE int_id = id AND owner_uid = ".$_SESSION["uid"]." 
-				AND date_entered > DATE_SUB(NOW(), INTERVAL 30 DAY)";
-		}
-
-		$result = db_query($link, $query);
-		$first_id = db_fetch_result($result, 0, "id"); */
-
-		//AND post_int_id >= '$first_id'
 		$query = "SELECT tag_name, COUNT(post_int_id) AS count 
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]." 
 			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
