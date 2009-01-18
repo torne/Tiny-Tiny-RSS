@@ -3217,9 +3217,21 @@
 			} else if ($feed == -1) { // starred virtual feed
 				$query_strategy_part = "marked = true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-			} else if ($feed == -2) { // published virtual feed
-				$query_strategy_part = "published = true";
-				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+			} else if ($feed == -2) { // published virtual feed OR labels category
+
+				if (!$cat_view) {
+					$query_strategy_part = "published = true";
+					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				} else {
+					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+
+					$ext_tables_part = ",ttrss_labels2,ttrss_user_labels2";
+	
+					$query_strategy_part = "ttrss_labels2.id = ttrss_user_labels2.label_id AND
+						ttrss_user_labels2.article_id = ref_id";
+
+				}
+
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true";
 
@@ -4206,7 +4218,7 @@
 							$cat_hidden = false;
 						}
 
-						printCategoryHeader($link, -2, $cat_hidden, false);
+						printCategoryHeader($link, -2, $cat_hidden, true);
 
 					} else {
 						print "<li><hr></li>";
