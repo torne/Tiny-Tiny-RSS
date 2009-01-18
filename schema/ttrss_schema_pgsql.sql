@@ -191,19 +191,6 @@ create table ttrss_filters (id serial not null primary key,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(250) not null default '');
 
-create table ttrss_labels (id serial not null primary key, 
-	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	sql_exp text not null,
-	description varchar(250) not null);
-
-create index ttrss_labels_owner_uid_index on ttrss_labels(owner_uid);
-
-insert into ttrss_labels (owner_uid,sql_exp,description) values (1,'unread = true', 
-	'Unread articles');
-
-insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
-	'last_read is null and unread = false', 'Updated articles');
-
 create table ttrss_tags (id serial not null primary key, 
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,

@@ -213,19 +213,6 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	index (action_id),
 	foreign key (action_id) references ttrss_filter_actions(id) ON DELETE CASCADE) TYPE=InnoDB;
 
-create table ttrss_labels (id integer not null primary key auto_increment, 
-	owner_uid integer not null, 
-	sql_exp text not null,
-	description varchar(250) not null,
-	index (owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
-
-insert into ttrss_labels (owner_uid,sql_exp,description) values (1,'unread = true', 
-	'Unread articles');
-
-insert into ttrss_labels (owner_uid,sql_exp,description) values (1,
-	'last_read is null and unread = false', 'Updated articles');
-
 create table ttrss_tags (id integer primary key auto_increment, 
 	owner_uid integer not null, 
 	tag_name varchar(250) not null,
