@@ -1,6 +1,8 @@
 -- SET NAMES utf8;
 -- SET CHARACTER SET utf8;
 
+drop table if exists ttrss_user_labels2;
+drop table if exists ttrss_labels2;
 drop table if exists ttrss_feedbrowser_cache;
 drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
@@ -397,6 +399,12 @@ create table ttrss_labels2 (id integer not null primary key auto_increment,
 	caption varchar(250) not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 ) TYPE=InnoDB;
+
+INSERT INTO ttrss_labels2 (owner_uid, caption) VALUES (1, 'All Articles');
+
+INSERT INTO ttrss_filters (owner_uid, feed_id, filter_type, reg_exp, enabled, 
+    action_id, action_param, filter_param) 
+    VALUES (1, NULL, 1, '.', true, 7, 'All Articles', 'before');
 
 create table ttrss_user_labels2 (label_id integer not null,
 	article_id integer not null,
