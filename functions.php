@@ -2654,7 +2654,7 @@
 						WHERE ttrss_feeds.id = feed_id AND
 							hidden = false AND						
 							ttrss_labels2.owner_uid = '$owner_uid'
-					GROUP BY id, caption");
+					GROUP BY ttrss_labels2.id, caption");
 		
 			while ($line = db_fetch_assoc($result)) {
 	
