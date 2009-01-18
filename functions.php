@@ -6008,6 +6008,25 @@
 		}
 	}
 
+	function get_article_labels($link, $id) {
+		$result = db_query($link, 
+			"SELECT DISTINCT label_id,caption 
+				FROM ttrss_labels2, ttrss_user_labels2 
+			WHERE id = label_id 
+				AND article_id = '$id' 
+				AND owner_uid = ".$_SESSION["uid"]);
+
+		$rv = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$rk = array($line["label_id"], $line["caption"]);
+			array_push($rv, $rk);
+		}
+
+		return $rv;
+	}
+
+
 	function label_find_caption($link, $label, $owner_uid) {
 		$result = db_query($link, 
 			"SELECT caption FROM ttrss_labels2 WHERE id = '$label' 
