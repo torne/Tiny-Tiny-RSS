@@ -2406,10 +2406,10 @@
 
 		$result = db_query($link, "
 			SELECT COUNT(unread) AS unread FROM 
-				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2 
-			WHERE label_id = id AND article_id = ref_id AND 
-				ttrss_labels2.owner_uid = '$owner_uid' AND id = '$label_id'
-				AND unread = true
+				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds 
+			WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND 
+				ttrss_labels2.owner_uid = '$owner_uid' AND ttrss_labels2.id = '$label_id'
+				AND unread = true AND hidden = false AND feed_id = ttrss_feeds.id
 				AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) != 0) {
