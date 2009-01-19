@@ -54,7 +54,7 @@
 			print "<tr><td>".__('Registered')."</td><td>$created</td></tr>";
 			print "<tr><td>".__('Last logged in')."</td><td>$last_login</td></tr>";
 
-			$result = db_query($link, "SELECT 
+/*			$result = db_query($link, "SELECT 
 				SUM(LENGTH(content)) AS db_size 
 				FROM ttrss_user_entries,ttrss_entries 
 					WHERE owner_uid = '$uid' AND ref_id = id");
@@ -62,7 +62,7 @@
 			$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
 
 			print "<tr><td>".__('Stored articles').
-				"</td><td>$stored_articles (${db_size}K)</td></tr>";
+				"</td><td>$stored_articles (${db_size}K)</td></tr>"; */
 
 			$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
 				WHERE owner_uid = '$uid'");
