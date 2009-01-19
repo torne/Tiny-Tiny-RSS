@@ -56,7 +56,6 @@
 <title>Create new account</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="utility.css">
-<link rel="alternate" type="application/rss+xml" title="online.tt-rss.org - Registration Status" href="http://online.tt-rss.org/register_rss.php">
 <script type="text/javascript" src="functions.js"></script>
 <script type="text/javascript" src="prototype.js"></script>
 <script type="text/javascript" src="scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
