@@ -129,7 +129,7 @@ window.onload = init;
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 
 			<input type="submit" class="button" value="<?php echo __('Log in') ?>" name='click'>
-			<?php if (defined('_ENABLE_REGISTRATION')) { ?>
+			<?php if (defined('ENABLE_REGISTRATION') && ENABLE_REGISTRATION) { ?>
 				<input type="submit" class="button" onclick="return gotoRegForm()"
 					value="<?php echo __("Create new account") ?>"/>
 			<?php } ?>

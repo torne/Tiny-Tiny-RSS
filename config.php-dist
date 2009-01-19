@@ -184,6 +184,19 @@
 	define('PHP_EXECUTABLE', '/usr/bin/php');
 	// Path to PHP executable
 
+	define('ENABLE_REGISTRATION', false);
+	// Allow users to register themselves. Please be vary that allowing
+	// random people to access your tt-rss installation is a security risk
+	// and potentially might lead to data loss or server exploit. Disabled
+	// by default.
+
+	define('REG_NOTIFY_ADDRESS', 'user@your.domain.dom');
+	// Email address to send new user notifications to.
+
+	define('REG_MAX_USERS', 10);
+	// Maximum amount of users which will be allowed to register on this
+	// system. 0 - no limit.
+
 	define('CONFIG_VERSION', 18);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
