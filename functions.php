@@ -4732,8 +4732,9 @@
 			print "</div>";
 
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
+
 			print "<div class=\"postContent\">";
-			
+
 			#print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 
 			$article_content = sanitize_rss($link, $line["content"]);
