@@ -3131,7 +3131,7 @@
 				} else if ($feed != -1) {
 					$unread = getFeedUnread($link, $feed, $cat_view);
 					if ($unread > 0) {
-						$view_query_part = " unread = true AND ";
+						$view_query_part = " (unread = true OR (last_read is null and unread = false)) AND ";
 					}
 				}
 			}
