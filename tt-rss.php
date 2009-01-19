@@ -197,6 +197,7 @@ window.onload = init;
 			<option value="marked"><?php echo __('Starred') ?></option>
 			<option value="unread"><?php echo __('Unread') ?></option>
 			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
+			<option value="updated"><?php echo __('Updated') ?></option>
 		</select>
 
 		<?php echo __('Order:') ?>

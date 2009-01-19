@@ -3143,7 +3143,11 @@
 			if ($view_mode == "unread") {
 				$view_query_part = " unread = true AND ";
 			}
-	
+
+			if ($view_mode == "updated") {
+				$view_query_part = " (last_read is null and unread = false) AND ";
+			}
+
 			if ($limit > 0) {
 				$limit_query_part = "LIMIT " . $limit;
 			} 
@@ -5436,6 +5440,9 @@
 			switch ($view_mode) {
 				case "unread":
 					$message = __("No unread articles found to display.");
+					break;
+				case "updated":
+					$message = __("No updated articles found to display.");
 					break;
 				case "marked":
 					$message = __("No starred articles found to display.");
