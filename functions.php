@@ -2218,6 +2218,12 @@
 						catchupArticlesById($link, $affected_ids, 0);
 					}
 
+					if ($feed == -4) {
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW()
+							WHERE owner_uid = ".$_SESSION["uid"]);
+					}
+
 				} else if ($feed < -10) { // label
 
 					$label_id = -$feed - 11;
