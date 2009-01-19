@@ -197,16 +197,16 @@
 
 	<? } else if ($action == "do_register") { ?>
 	
-	<p><?php echo __('Processing registration...') ?></p>
-	
 	<?
 		$login = mb_strtolower(trim(db_escape_string($_REQUEST["login"])));
 		$email = trim(db_escape_string($_REQUEST["email"]));
 		$test = trim(db_escape_string($_REQUEST["turing_test"]));
 	
 		if (!$login || !$email || !$test) {
-			print "<div class='error'>Please fill in the form.</div>";
-			print "<p><a href='register.php'>Return to registration form</a></p>";
+			print_error(__("Your registration information is incomplete."));
+			print "<p><form method=\"GET\" action=\"tt-rss.php\">
+				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+				</form>";
 			return;
 		}
 	
