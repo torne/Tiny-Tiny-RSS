@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-18 15:24+0300\n"
+"POT-Creation-Date: 2009-01-19 11:56+0300\n"
 "PO-Revision-Date: 2008-12-16 13:32+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -85,7 +85,7 @@ msgstr "Раз в день"
 msgid "Weekly"
 msgstr "Раз в неделю"
 
-#: backend.php:122 tt-rss.php:203 modules/pref-prefs.php:312
+#: backend.php:122 tt-rss.php:206 modules/pref-prefs.php:312
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -173,135 +173,142 @@ msgstr ""
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 
-#: functions.php:2883 modules/popup-dialog.php:175
-#: modules/pref-filters.php:405 mobile/functions.php:735
+#: functions.php:2847 modules/popup-dialog.php:175
+#: modules/pref-filters.php:413 mobile/functions.php:744
 msgid "All feeds"
 msgstr "Все каналы"
 
-#: functions.php:2912 functions.php:2951 functions.php:3319 functions.php:4348
-#: functions.php:4378 modules/pref-feeds.php:1244
+#: functions.php:2876 functions.php:2915 functions.php:3304 functions.php:4348
+#: functions.php:4378 modules/pref-feeds.php:1237
 msgid "Uncategorized"
 msgstr "Нет категории"
 
-#: functions.php:2941 functions.php:3508 mobile/functions.php:33
+#: functions.php:2905 functions.php:3500 mobile/functions.php:33
 msgid "Special"
 msgstr "Особые"
 
-#: functions.php:2943 functions.php:3510 prefs.php:144 mobile/functions.php:74
+#: functions.php:2907 functions.php:3333 functions.php:3502 prefs.php:144
+#: mobile/functions.php:83
 msgid "Labels"
 msgstr "Метки"
 
-#: functions.php:2961 functions.php:3341 functions.php:4205 help/3.php:57
-#: mobile/functions.php:52
+#: functions.php:2925 functions.php:3326 functions.php:4205 help/3.php:57
+#: mobile/functions.php:61
 msgid "Starred articles"
 msgstr "Отмеченные"
 
-#: functions.php:2963 functions.php:3344 functions.php:4212
-#: modules/pref-feeds.php:1413 help/3.php:59 mobile/functions.php:61
+#: functions.php:2927 functions.php:3330 functions.php:4212
+#: modules/pref-feeds.php:1406 help/3.php:59 mobile/functions.php:70
 msgid "Published articles"
 msgstr "Опубликованные"
 
-#: functions.php:2965 functions.php:3347 functions.php:4190 help/3.php:58
-#: mobile/functions.php:43
+#: functions.php:2929 functions.php:3336 functions.php:4190 help/3.php:58
+#: mobile/functions.php:52
 msgid "Fresh articles"
 msgstr "Свежие"
 
-#: functions.php:3305 functions.php:3307
+#: functions.php:2931 functions.php:3339 functions.php:4183
+#: mobile/functions.php:43
+#, fuzzy
+msgid "All articles"
+msgstr "Все статьи"
+
+#: functions.php:3290 functions.php:3292
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: functions.php:3323 functions.php:3336 functions.php:3342 functions.php:3345
-#: functions.php:3348 functions.php:3356
+#: functions.php:3308 functions.php:3321 functions.php:3327 functions.php:3331
+#: functions.php:3337 functions.php:3340 functions.php:3348
 msgid "Searched for"
 msgstr "Поиск"
 
-#: functions.php:3989 functions.php:4045 functions.php:5368
-#: modules/pref-feeds.php:1025 modules/pref-feeds.php:1206
-#: modules/pref-filters.php:358 modules/pref-labels-old.php:275
-#: modules/pref-labels.php:136 modules/pref-users.php:408
+#: functions.php:3981 functions.php:4037 functions.php:5374
+#: modules/pref-feeds.php:1018 modules/pref-feeds.php:1199
+#: modules/pref-filters.php:366 modules/pref-labels.php:138
+#: modules/pref-users.php:408
 msgid "Select:"
 msgstr "Выбрать:"
 
-#: functions.php:3990 functions.php:4046 modules/pref-feeds.php:1026
-#: modules/pref-feeds.php:1207 modules/pref-filters.php:359
-#: modules/pref-labels-old.php:276 modules/pref-labels.php:137
-#: modules/pref-users.php:409 mobile/functions.php:561
+#: functions.php:3982 functions.php:4038 modules/pref-feeds.php:1019
+#: modules/pref-feeds.php:1200 modules/pref-filters.php:367
+#: modules/pref-labels.php:139 modules/pref-users.php:409
+#: mobile/functions.php:570
 msgid "All"
 msgstr "Все"
 
-#: functions.php:3991 functions.php:3997 functions.php:4047 functions.php:4050
-#: tt-rss.php:196 mobile/functions.php:449 mobile/functions.php:562
+#: functions.php:3983 functions.php:3989 functions.php:4039 functions.php:4042
+#: tt-rss.php:198 mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "Новые"
 
-#: functions.php:3992 mobile/functions.php:564
+#: functions.php:3984 mobile/functions.php:573
 msgid "Invert"
 msgstr "Инвертировать"
 
-#: functions.php:3993 functions.php:4048 modules/pref-feeds.php:1027
-#: modules/pref-feeds.php:1208 modules/pref-filters.php:360
-#: modules/pref-labels-old.php:277 modules/pref-labels.php:138
-#: modules/pref-users.php:410 mobile/functions.php:563
+#: functions.php:3985 functions.php:4040 modules/pref-feeds.php:1020
+#: modules/pref-feeds.php:1201 modules/pref-filters.php:368
+#: modules/pref-labels.php:140 modules/pref-users.php:410
+#: mobile/functions.php:572
 msgid "None"
 msgstr "Ничего"
 
-#: functions.php:3995 tt-rss.php:147 modules/pref-feeds.php:1367
+#: functions.php:3987 tt-rss.php:147 modules/pref-feeds.php:1360
 msgid "Actions..."
 msgstr "Действия..."
 
-#: functions.php:3996
+#: functions.php:3988
 msgid "Selection toggle:"
 msgstr "Переключить выбранное:"
 
-#: functions.php:3998 functions.php:4051 tt-rss.php:195
-#: mobile/functions.php:450
+#: functions.php:3990 functions.php:4043 tt-rss.php:197
+#: mobile/functions.php:459
 msgid "Starred"
 msgstr "Отмеченные"
 
-#: functions.php:3999
+#: functions.php:3991
 msgid "Published"
 msgstr "Опубликован"
 
-#: functions.php:4001 functions.php:4053
+#: functions.php:3993 functions.php:4045
 msgid "Mark as read:"
 msgstr "Пометить как прочит.:"
 
-#: functions.php:4002 mobile/functions.php:569
+#: functions.php:3994 mobile/functions.php:578
 msgid "Selection"
 msgstr "Выбранные"
 
-#: functions.php:4016 mobile/functions.php:571
+#: functions.php:4008 mobile/functions.php:580
 msgid "Entire feed"
 msgstr "Весь канал"
 
-#: functions.php:4019
+#: functions.php:4011
 #, fuzzy
 msgid "Assign label:"
 msgstr "Применить теги"
 
-#: functions.php:4031
+#: functions.php:4023
 #, fuzzy
 msgid "(remove)"
 msgstr "Удалить"
 
-#: functions.php:4050
+#: functions.php:4042
 msgid "Toggle:"
 msgstr "Изменить:"
 
-#: functions.php:4054 mobile/functions.php:570
+#: functions.php:4046 mobile/functions.php:579
 msgid "Page"
 msgstr "Страница"
 
-#: functions.php:4055 modules/popup-dialog.php:70 modules/pref-feeds.php:165
-#: modules/pref-feeds.php:415 modules/pref-filters.php:395
+#: functions.php:4047 modules/popup-dialog.php:70 modules/pref-feeds.php:165
+#: modules/pref-feeds.php:415 modules/pref-filters.php:403
 msgid "Feed"
 msgstr "Канал"
 
-#: functions.php:4096
+#: functions.php:4088
 msgid "Generated feed"
 msgstr "Генерировать канал"
 
-#: functions.php:4145
+#: functions.php:4137
 msgid "Click to collapse category"
 msgstr "Щёлкните, чтобы развернуть категорию"
 
@@ -313,52 +320,52 @@ msgstr "Нет каналов для отображения."
 msgid "Tags"
 msgstr "Теги"
 
-#: functions.php:4657
+#: functions.php:4651
 msgid " - "
 msgstr " - "
 
-#: functions.php:4716 functions.php:4717
+#: functions.php:4706 functions.php:4707
 msgid "no tags"
 msgstr "нет тегов"
 
-#: functions.php:4724
+#: functions.php:4714
 msgid "Edit tags for this article"
 msgstr "Редактировать теги статьи"
 
-#: functions.php:4732
+#: functions.php:4722
 msgid "Display original article content"
 msgstr "Показать оригинальное содержимое статьи"
 
-#: functions.php:4739 functions.php:5378
+#: functions.php:4729 functions.php:5384
 msgid "Show article summary in new window"
 msgstr "Показать детали статьи в новом окне"
 
-#: functions.php:4775 functions.php:5302
+#: functions.php:4765 functions.php:5308
 msgid "unknown type"
 msgstr "Неизвестный тип"
 
-#: functions.php:4781 functions.php:5308
+#: functions.php:4771 functions.php:5314
 msgid "audio/mpeg"
 msgstr "audio/mpeg"
 
-#: functions.php:4817 functions.php:5342
+#: functions.php:4807 functions.php:5348
 msgid "Attachment:"
 msgstr "Вложение:"
 
-#: functions.php:4819 functions.php:5344
+#: functions.php:4809 functions.php:5350
 msgid "Attachments:"
 msgstr "Вложения:"
 
-#: functions.php:4839 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:565 modules/pref-feeds.php:1076
+#: functions.php:4829 modules/help.php:22 modules/popup-dialog.php:52
+#: modules/popup-dialog.php:456 modules/pref-feeds.php:1069
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
-#: functions.php:4895 modules/pref-feed-browser.php:75
+#: functions.php:4885 modules/pref-feed-browser.php:75
 msgid "Feed not found."
 msgstr "Канал не найден."
 
-#: functions.php:4964 mobile/functions.php:414
+#: functions.php:4954 mobile/functions.php:423
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -366,69 +373,32 @@ msgstr ""
 "Не могу показать канал (ошибка в запросе). Пожалуйста проверьте синтаксис "
 "или локальную конфигурацию."
 
-#: functions.php:5077
-msgid "(Click to change)"
-msgstr "(Щёлкните для изменения)"
-
-#: functions.php:5276
+#: functions.php:5282
 msgid "Click to expand article"
 msgstr "Щёлкните чтобы развернуть статью"
 
-#: functions.php:5440
+#: functions.php:5442
 msgid "No unread articles found to display."
 msgstr "Не найдено не прочитанных статей"
 
-#: functions.php:5443
+#: functions.php:5445
+#, fuzzy
+msgid "No updated articles found to display."
+msgstr "Не найдено не прочитанных статей"
+
+#: functions.php:5448
 msgid "No starred articles found to display."
 msgstr "Не найдено отмеченных статей"
 
-#: functions.php:5446
+#: functions.php:5452
+msgid ""
+"No articles found to display. You can assign articles to labels manually "
+"(see the Actions menu above) or use a filter."
+msgstr ""
+
+#: functions.php:5454
 msgid "No articles found to display."
 msgstr "Статей не найдено."
-
-#: functions.php:5793
-msgid "Match "
-msgstr "Соответствие"
-
-#: functions.php:5801
-msgid "Unread articles"
-msgstr "Отмеченные"
-
-#: functions.php:5802
-msgid "Updated articles"
-msgstr "Обновлённые статьи"
-
-#: functions.php:5803
-msgid "Title contains"
-msgstr "Заголовок содержит"
-
-#: functions.php:5804
-msgid "Content contains"
-msgstr "В содержимом"
-
-#: functions.php:5805
-msgid "Score equals"
-msgstr "Оценка равна"
-
-#: functions.php:5806
-msgid "Score is greater than"
-msgstr "Оценка выше чем"
-
-#: functions.php:5807
-msgid "Score is less than"
-msgstr "Оценка меньше чем"
-
-#: functions.php:5808
-msgid "Articles newer than X hours"
-msgstr "Статье меньше X часов"
-
-#: functions.php:5809
-msgid "Articles newer than X days"
-msgstr "Статье меньше X дней"
-
-#: functions.php:5818
-msgid "Add"
-msgstr "Добавить"
 
 #: localized_js.php:35
 msgid "display feeds"
@@ -636,7 +606,7 @@ msgstr "Не могу обновить заголовки (отсутствуе�
 msgid "Could not display article (missing XML object)"
 msgstr "Не могу показать статью (отсутствует XML объект)"
 
-#: localized_js.php:95 tt-rss.php:249 tt-rss.php:262
+#: localized_js.php:95 tt-rss.php:252 tt-rss.php:265
 msgid "No feed selected."
 msgstr "Канал не выбран."
 
@@ -810,9 +780,9 @@ msgstr "Сохранить изменения выбранных каналов?
 msgid "Saving feeds..."
 msgstr "Сохраняются каналы..."
 
-#: localized_schema.php:9 tt-rss.php:205 modules/popup-dialog.php:165
-#: modules/pref-feeds.php:1219 modules/pref-feeds.php:1280
-#: mobile/functions.php:766
+#: localized_schema.php:9 tt-rss.php:208 modules/popup-dialog.php:165
+#: modules/pref-feeds.php:1212 modules/pref-feeds.php:1273
+#: mobile/functions.php:775
 msgid "Title"
 msgstr "Заголовок"
 
@@ -825,7 +795,7 @@ msgid "Link"
 msgstr "Ссылка"
 
 #: localized_schema.php:12 modules/popup-dialog.php:166
-#: mobile/functions.php:767
+#: mobile/functions.php:776
 msgid "Content"
 msgstr "Содержимое"
 
@@ -837,7 +807,7 @@ msgstr "Дата Статьи"
 msgid "Filter article"
 msgstr "Отфильтровать статью"
 
-#: localized_schema.php:16 mobile/functions.php:574
+#: localized_schema.php:16 mobile/functions.php:583
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
@@ -1359,11 +1329,10 @@ msgid "tag cloud"
 msgstr "облако тегов"
 
 #: tt-rss.php:148 modules/popup-dialog.php:140 modules/popup-dialog.php:152
-#: modules/popup-dialog.php:211 modules/pref-feeds.php:1121
-#: modules/pref-filters.php:299 modules/pref-labels-old.php:239
-#: modules/pref-labels.php:103 modules/pref-users.php:364
-#: mobile/functions.php:19 mobile/functions.php:426 mobile/functions.php:720
-#: mobile/functions.php:774
+#: modules/popup-dialog.php:211 modules/pref-feeds.php:1114
+#: modules/pref-filters.php:307 modules/pref-labels.php:105
+#: modules/pref-users.php:364 mobile/functions.php:19 mobile/functions.php:435
+#: mobile/functions.php:729 mobile/functions.php:783
 msgid "Search"
 msgstr "Поиск"
 
@@ -1407,69 +1376,79 @@ msgstr "&nbsp;&nbsp;Спрятать прочитанные"
 msgid "Other actions:"
 msgstr "Другие действия:"
 
-#: tt-rss.php:163
+#: tt-rss.php:164
+#, fuzzy
+msgid "&nbsp;&nbsp;Create label"
+msgstr "&nbsp;&nbsp;Создать фильтр"
+
+#: tt-rss.php:165
 msgid "&nbsp;&nbsp;Create filter"
 msgstr "&nbsp;&nbsp;Создать фильтр"
 
-#: tt-rss.php:164
+#: tt-rss.php:166
 msgid "&nbsp;&nbsp;Reset UI layout"
 msgstr "&nbsp;&nbsp;Сбросить UI расположение"
 
-#: tt-rss.php:165
+#: tt-rss.php:167
 msgid "&nbsp;&nbsp;Reset category order"
 msgstr "&nbsp;&nbsp;Сбросить порядок категорий"
 
-#: tt-rss.php:167
+#: tt-rss.php:169
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Горячие клавиши"
 
-#: tt-rss.php:175
+#: tt-rss.php:177
 msgid "Collapse feedlist"
 msgstr "Свернуть список каналов"
 
-#: tt-rss.php:177
+#: tt-rss.php:179
 msgid "Toggle Feedlist"
 msgstr "Переключить Список Каналов"
 
-#: tt-rss.php:185 mobile/functions.php:729
+#: tt-rss.php:187 mobile/functions.php:738
 msgid "Search:"
 msgstr "Искать:"
 
-#: tt-rss.php:193 mobile/functions.php:447
+#: tt-rss.php:195 mobile/functions.php:456
 msgid "Adaptive"
 msgstr "Адаптивно"
 
-#: tt-rss.php:194 mobile/functions.php:448
+#: tt-rss.php:196 mobile/functions.php:457
 msgid "All Articles"
 msgstr "Все статьи"
 
-#: tt-rss.php:197
+#: tt-rss.php:199
 msgid "Ignore Scoring"
 msgstr "Игнорировать Оценки"
 
-#: tt-rss.php:200
+#: tt-rss.php:200 modules/pref-feeds.php:1218 modules/pref-feeds.php:1281
+#: mobile/functions.php:501 mobile/functions.php:504
+msgid "Updated"
+msgstr "Обновлено"
+
+#: tt-rss.php:203
 msgid "Order:"
 msgstr "Порядок:"
 
-#: tt-rss.php:204 modules/popup-dialog.php:362 modules/pref-filters.php:51
-#: modules/pref-filters.php:435
+#: tt-rss.php:207 modules/popup-dialog.php:250 modules/pref-filters.php:51
+#: modules/pref-filters.php:443
 msgid "Date"
 msgstr "Дата"
 
-#: tt-rss.php:206
+#: tt-rss.php:209
 msgid "Score"
 msgstr "Оценка"
 
-#: tt-rss.php:210
+#: tt-rss.php:213
 msgid "Limit:"
 msgstr "Сколько:"
 
-#: tt-rss.php:235 modules/pref-feeds.php:261 modules/pref-feeds.php:451
-#: mobile/functions.php:427
+#: tt-rss.php:238 modules/pref-feeds.php:261 modules/pref-feeds.php:451
+#: mobile/functions.php:436
 msgid "Update"
 msgstr "Обновить"
 
-#: tt-rss.php:253
+#: tt-rss.php:256
 msgid "Drag me to resize panels"
 msgstr "Потяни за меня изменения размера панелей"
 
@@ -1624,7 +1603,7 @@ msgid "Subscribe"
 msgstr "Подписаться"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
-#: modules/popup-dialog.php:446 modules/popup-dialog.php:541
+#: modules/popup-dialog.php:337 modules/popup-dialog.php:432
 #: modules/pref-feeds.php:130 modules/pref-feeds.php:395
 #: modules/pref-feeds.php:546 modules/pref-filters.php:166
 #: modules/pref-users.php:184
@@ -1635,7 +1614,7 @@ msgstr "Отмена"
 msgid "match on:"
 msgstr "соответствие:"
 
-#: modules/popup-dialog.php:167 mobile/functions.php:768
+#: modules/popup-dialog.php:167 mobile/functions.php:777
 msgid "Title or content"
 msgstr "Заголовок или содержимое"
 
@@ -1643,107 +1622,107 @@ msgstr "Заголовок или содержимое"
 msgid "Limit search to:"
 msgstr "Ограничить поиск:"
 
-#: modules/popup-dialog.php:188 mobile/functions.php:748
+#: modules/popup-dialog.php:188 mobile/functions.php:757
 msgid "This feed"
 msgstr "Этот канал"
 
-#: modules/popup-dialog.php:288
+#: modules/popup-dialog.php:226
 msgid "Create Filter"
 msgstr "Создать фильтр"
 
-#: modules/popup-dialog.php:306 modules/popup-dialog.php:405
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
 #: modules/pref-filters.php:39 modules/pref-filters.php:96
 msgid "description"
 msgstr "описание"
 
-#: modules/popup-dialog.php:357 modules/pref-filters.php:42
-#: modules/pref-filters.php:394
+#: modules/popup-dialog.php:245 modules/pref-filters.php:42
+#: modules/pref-filters.php:402
 msgid "Match"
 msgstr "Искать"
 
-#: modules/popup-dialog.php:365 modules/pref-filters.php:54
-#: modules/pref-filters.php:425
+#: modules/popup-dialog.php:253 modules/pref-filters.php:54
+#: modules/pref-filters.php:433
 msgid "before"
 msgstr "перед"
 
-#: modules/popup-dialog.php:366 modules/pref-filters.php:55
-#: modules/pref-filters.php:426
+#: modules/popup-dialog.php:254 modules/pref-filters.php:55
+#: modules/pref-filters.php:434
 msgid "after"
 msgstr "после"
 
-#: modules/popup-dialog.php:380 modules/pref-filters.php:70
+#: modules/popup-dialog.php:268 modules/pref-filters.php:70
 msgid "Check it"
 msgstr ""
 
-#: modules/popup-dialog.php:383 modules/pref-filters.php:73
+#: modules/popup-dialog.php:271 modules/pref-filters.php:73
 msgid "on field"
 msgstr "по полю:"
 
-#: modules/popup-dialog.php:389 modules/pref-filters.php:79
+#: modules/popup-dialog.php:277 modules/pref-filters.php:79
 msgid "in"
 msgstr "в"
 
-#: modules/popup-dialog.php:394 modules/pref-filters.php:84
+#: modules/popup-dialog.php:282 modules/pref-filters.php:84
 msgid "Perform Action"
 msgstr "Выполнить действия"
 
-#: modules/popup-dialog.php:411 modules/pref-filters.php:104
+#: modules/popup-dialog.php:299 modules/pref-filters.php:104
 msgid "with parameters:"
 msgstr "с параметрами:"
 
-#: modules/popup-dialog.php:421 modules/pref-feeds.php:308
+#: modules/popup-dialog.php:312 modules/pref-feeds.php:308
 #: modules/pref-feeds.php:500 modules/pref-filters.php:123
 #: modules/pref-users.php:165
 msgid "Options"
 msgstr "Опции:"
 
-#: modules/popup-dialog.php:427 modules/pref-filters.php:135
+#: modules/popup-dialog.php:318 modules/pref-filters.php:135
 msgid "Enabled"
 msgstr "Включен"
 
-#: modules/popup-dialog.php:430 modules/pref-filters.php:144
+#: modules/popup-dialog.php:321 modules/pref-filters.php:144
 msgid "Inverse match"
 msgstr "Инвертировать фильтр"
 
-#: modules/popup-dialog.php:442
+#: modules/popup-dialog.php:333
 msgid "Create"
 msgstr "Создать"
 
-#: modules/popup-dialog.php:457
+#: modules/popup-dialog.php:348
 msgid "Update Errors"
 msgstr "Ошибки обновления"
 
-#: modules/popup-dialog.php:460
+#: modules/popup-dialog.php:351
 msgid "These feeds have not been updated because of errors:"
 msgstr "Эти каналы не были обновлены из-за ошибок:"
 
-#: modules/popup-dialog.php:478
+#: modules/popup-dialog.php:369
 msgid "Close"
 msgstr "Закрыть"
 
-#: modules/popup-dialog.php:487
+#: modules/popup-dialog.php:378
 msgid "Edit Tags"
 msgstr "Редактировать теги"
 
-#: modules/popup-dialog.php:492
+#: modules/popup-dialog.php:383
 msgid "Tags for this article (separated by commas):"
 msgstr "Теги для этой статьи (разделенные запятыми):"
 
-#: modules/popup-dialog.php:537 modules/pref-feeds.php:393
+#: modules/popup-dialog.php:428 modules/pref-feeds.php:393
 #: modules/pref-feeds.php:544 modules/pref-filters.php:162
 #: modules/pref-users.php:181
 msgid "Save"
 msgstr "Сохранить"
 
-#: modules/popup-dialog.php:550 help/3.php:60
+#: modules/popup-dialog.php:441 help/3.php:60
 msgid "Tag cloud"
 msgstr "Облако тегов"
 
-#: modules/popup-dialog.php:553
+#: modules/popup-dialog.php:444
 msgid "Showing most popular tags "
 msgstr "Самые популярные теги "
 
-#: modules/popup-dialog.php:554
+#: modules/popup-dialog.php:445
 msgid "browse more"
 msgstr "еще"
 
@@ -1852,7 +1831,7 @@ msgstr "Включить в e-mail дайджест"
 msgid "Cache images locally"
 msgstr "Кэшировать изображения локально"
 
-#: modules/pref-feeds.php:390 modules/pref-feeds.php:1374
+#: modules/pref-feeds.php:390 modules/pref-feeds.php:1367
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
@@ -1861,133 +1840,128 @@ msgstr "Отписаться"
 msgid "Multiple Feed Editor"
 msgstr "Редактор канала"
 
-#: modules/pref-feeds.php:781 modules/pref-feeds.php:828
+#: modules/pref-feeds.php:774 modules/pref-feeds.php:821
 msgid "All done."
 msgstr "Всё выполнено."
 
-#: modules/pref-feeds.php:859
+#: modules/pref-feeds.php:852
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Добавлена подписка на <b>%s</b>."
 
-#: modules/pref-feeds.php:861
+#: modules/pref-feeds.php:854
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Канал <b>%s</b> уже подписан."
 
-#: modules/pref-feeds.php:943
+#: modules/pref-feeds.php:936
 msgid "Category editor"
 msgstr "Редактор категорий"
 
-#: modules/pref-feeds.php:966
+#: modules/pref-feeds.php:959
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "Категория <b>$%s</b> уже существует."
 
-#: modules/pref-feeds.php:994
+#: modules/pref-feeds.php:987
 msgid "Unable to delete non empty feed categories."
 msgstr "Не могу удалить не пустую категорию"
 
-#: modules/pref-feeds.php:1011
+#: modules/pref-feeds.php:1004
 msgid "Create category"
 msgstr "Создать категорию"
 
-#: modules/pref-feeds.php:1071
+#: modules/pref-feeds.php:1064
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:1082 modules/pref-filters.php:156
-#: modules/pref-filters.php:479 modules/pref-labels-old.php:330
-#: modules/pref-labels.php:176 modules/pref-users.php:481
+#: modules/pref-feeds.php:1075 modules/pref-filters.php:156
+#: modules/pref-filters.php:487 modules/pref-labels.php:178
+#: modules/pref-users.php:481
 msgid "Remove"
 msgstr "Удалить"
 
-#: modules/pref-feeds.php:1104
+#: modules/pref-feeds.php:1097
 msgid "Some feeds have update errors (click for details)"
 msgstr "Некоторые каналы не могут быть обновлены (щёлкните для подробностей)"
 
-#: modules/pref-feeds.php:1126 help/3.php:45 help/4.php:22
+#: modules/pref-feeds.php:1119 help/3.php:45 help/4.php:22
 msgid "Subscribe to feed"
 msgstr "Подписаться на канал"
 
-#: modules/pref-feeds.php:1131
+#: modules/pref-feeds.php:1124
 msgid "Top 25"
 msgstr "Топ 25"
 
-#: modules/pref-feeds.php:1205
+#: modules/pref-feeds.php:1198
 msgid "Show last article times"
 msgstr "Показать дату последней статьи"
 
-#: modules/pref-feeds.php:1222 modules/pref-feeds.php:1284
+#: modules/pref-feeds.php:1215 modules/pref-feeds.php:1277
 msgid "Last&nbsp;Article"
 msgstr "Последняя&nbsp;статья"
 
-#: modules/pref-feeds.php:1225 modules/pref-feeds.php:1288
-#: mobile/functions.php:492 mobile/functions.php:495
-msgid "Updated"
-msgstr "Обновлено"
-
-#: modules/pref-feeds.php:1309 modules/pref-filters.php:453
-#: modules/pref-labels-old.php:310 modules/pref-users.php:456
+#: modules/pref-feeds.php:1302 modules/pref-filters.php:461
+#: modules/pref-users.php:456
 msgid "Click to edit"
 msgstr "Щёлкните для редактирования"
 
-#: modules/pref-feeds.php:1355 modules/pref-feeds.php:1369
+#: modules/pref-feeds.php:1348 modules/pref-feeds.php:1362
 #, fuzzy
 msgid "Selection:"
 msgstr "Выбрать:"
 
-#: modules/pref-feeds.php:1361
+#: modules/pref-feeds.php:1354
 msgid "Recategorize"
 msgstr "Изменить категорию"
 
-#: modules/pref-feeds.php:1370 modules/pref-filters.php:477
-#: modules/pref-labels-old.php:328 modules/pref-users.php:479
+#: modules/pref-feeds.php:1363 modules/pref-filters.php:485
+#: modules/pref-users.php:479
 msgid "Edit"
 msgstr "Редактировать"
 
-#: modules/pref-feeds.php:1371
+#: modules/pref-feeds.php:1364
 msgid "Manual purge"
 msgstr "Ручная очистка"
 
-#: modules/pref-feeds.php:1372
+#: modules/pref-feeds.php:1365
 msgid "Clear feed data"
 msgstr "Очистить данные канала."
 
-#: modules/pref-feeds.php:1373 modules/pref-filters.php:316
+#: modules/pref-feeds.php:1366 modules/pref-filters.php:324
 #, fuzzy
 msgid "Rescore articles"
 msgstr "Отмеченные"
 
-#: modules/pref-feeds.php:1379
+#: modules/pref-feeds.php:1372
 msgid "Other:"
 msgstr "Другой:"
 
-#: modules/pref-feeds.php:1380
+#: modules/pref-feeds.php:1373
 msgid "Edit categories"
 msgstr "Редактировать категории"
 
-#: modules/pref-feeds.php:1387
+#: modules/pref-feeds.php:1380
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1391
+#: modules/pref-feeds.php:1384
 msgid "File:"
 msgstr "Файл:"
 
-#: modules/pref-feeds.php:1394
+#: modules/pref-feeds.php:1387
 msgid "Import"
 msgstr "Импортировать"
 
-#: modules/pref-feeds.php:1401
+#: modules/pref-feeds.php:1394
 msgid "Export OPML"
 msgstr "Экспортировать OPML"
 
-#: modules/pref-feeds.php:1404
+#: modules/pref-feeds.php:1397
 msgid "Firefox Integration"
 msgstr "Интеграция в Firefox"
 
-#: modules/pref-feeds.php:1406
+#: modules/pref-feeds.php:1399
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
@@ -1995,11 +1969,11 @@ msgstr ""
 "Этот сайт с Tiny Tiny RSS можно использовать в Firefox как агрегатор RSS. "
 "Для этого щёлкните по ссылке ниже."
 
-#: modules/pref-feeds.php:1410
+#: modules/pref-feeds.php:1403
 msgid "Click here to register this site as a feed reader."
 msgstr "Щёлкните здесь для регистрации сайта в роли RSS агрегатора"
 
-#: modules/pref-feeds.php:1419
+#: modules/pref-feeds.php:1412
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
@@ -2007,11 +1981,11 @@ msgstr ""
 "Опубликованные статьи экспортируется в качестве общего RSS канала и могут "
 "быть подписаны кем-либо ещё, кто знает URL, указанный ниже."
 
-#: modules/pref-feeds.php:1423
+#: modules/pref-feeds.php:1416
 msgid "Link to published articles feed."
 msgstr "Ссылка на общий канал со статьями."
 
-#: modules/pref-feeds.php:1426
+#: modules/pref-feeds.php:1419
 msgid "Generate another link"
 msgstr "Создать другую ссылку"
 
@@ -2024,99 +1998,62 @@ msgstr "Редактор фильтров"
 msgid "Saved filter <b>%s</b>"
 msgstr "Фильтр <b>%s</b> сохранен"
 
-#: modules/pref-filters.php:256
+#: modules/pref-filters.php:264
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Добавлен фильтр <b>%s</b>"
 
-#: modules/pref-filters.php:309 help/3.php:31 help/4.php:25
+#: modules/pref-filters.php:317 help/3.php:31 help/4.php:25
 msgid "Create filter"
 msgstr "Создать фильтр"
 
-#: modules/pref-filters.php:384
+#: modules/pref-filters.php:392
 msgid "filter_type_descr"
 msgstr ""
 
-#: modules/pref-filters.php:385
+#: modules/pref-filters.php:393
 #, fuzzy
 msgid "action_description"
 msgstr "описание"
 
-#: modules/pref-filters.php:396
+#: modules/pref-filters.php:404
 msgid "Field"
 msgstr "Поле"
 
-#: modules/pref-filters.php:397
+#: modules/pref-filters.php:405
 msgid "Params"
 msgstr "Параметры:"
 
-#: modules/pref-filters.php:442
+#: modules/pref-filters.php:450
 msgid "(Disabled)"
 msgstr "(Отключен)"
 
-#: modules/pref-filters.php:458
+#: modules/pref-filters.php:466
 msgid "(Inverse)"
 msgstr "(Инвертирован)"
 
-#: modules/pref-filters.php:487
+#: modules/pref-filters.php:495
 msgid "No filters defined."
 msgstr "Фильтры отсутствуют."
 
-#: modules/pref-filters.php:489
+#: modules/pref-filters.php:497
 msgid "No matching filters found."
 msgstr "Не найдено совпадений с фильтром."
 
-#: modules/pref-labels-old.php:9
-msgid ""
-"Sorry, labels have been administratively disabled for this installation. "
-"Please contact instance owner or edit configuration file to enable this "
-"functionality."
-msgstr ""
-
-#: modules/pref-labels-old.php:36 modules/pref-labels-old.php:282
-#: modules/pref-labels.php:143
-msgid "Caption"
-msgstr "Заголовок"
-
-#: modules/pref-labels-old.php:46
-msgid "Match SQL"
-msgstr "Совпадение SQL"
-
-#: modules/pref-labels-old.php:68
-msgid "Help"
-msgstr "Помощь"
-
-#: modules/pref-labels-old.php:99
-msgid "Error: SQL expression is blank."
-msgstr "Ошибка: пустое SQL выражение."
-
-#: modules/pref-labels-old.php:179
-#, php-format
-msgid "Saved label <b>%s</b>"
-msgstr "Метка <b>%s</b> сохранена"
-
-#: modules/pref-labels-old.php:211 modules/pref-labels.php:73
+#: modules/pref-labels.php:75
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr "Добавлена метка <b>%s</b>"
 
-#: modules/pref-labels-old.php:249 modules/pref-labels.php:111 help/4.php:26
+#: modules/pref-labels.php:113 help/4.php:26
 msgid "Create label"
 msgstr "Создать метку"
 
-#: modules/pref-labels-old.php:283
-msgid "SQL Expression"
-msgstr "SQL выражение"
-
-#: modules/pref-labels-old.php:308
-msgid "[No caption]"
-msgstr "[Нет заголовка]"
-
-#: modules/pref-labels-old.php:335 modules/pref-labels.php:182
+#: modules/pref-labels.php:184
 msgid "No labels defined."
 msgstr "Метки отсутствуют."
 
-#: modules/pref-labels-old.php:337 modules/pref-labels.php:184
+#: modules/pref-labels.php:186
 msgid "No matching labels found."
 msgstr "Не найдено совпадений с метками."
 
@@ -2321,40 +2258,6 @@ msgstr "Пользователи не определены."
 msgid "No matching users found."
 msgstr "Подходящих пользователей не найдено."
 
-#: help/1.php:1
-msgid "Labels and SQL Expressions"
-msgstr "Метки и SQL выражения"
-
-#: help/1.php:3
-msgid ""
-"Label content is generated using SQL expressions. The &laquo;SQL "
-"expression&raquo; is added to WHERE clause of view feed query. You can match "
-"on ttrss_entries table fields and even use subselect to query additional "
-"information. This \tfunctionality is considered to be advanced and requires "
-"some understanding of SQL."
-msgstr ""
-
-#: help/1.php:5
-msgid "Examples"
-msgstr "Примеры"
-
-#: help/1.php:7
-#, fuzzy
-msgid "Match all unread articles:"
-msgstr "Отмеченные"
-
-#: help/1.php:11
-msgid "Matches all articles which mention Linux in the title:"
-msgstr ""
-
-#: help/1.php:15
-msgid "Matches all articles for the last week (PostgreSQL):"
-msgstr ""
-
-#: help/1.php:19
-msgid "Matches all articles with scores between 100 and 500:"
-msgstr ""
-
 #: help/2.php:1
 msgid "Content filtering"
 msgstr "Фильтровать содержимое"
@@ -2548,37 +2451,104 @@ msgstr "Каналы"
 msgid "View tags"
 msgstr "Теги"
 
-#: mobile/functions.php:425
+#: mobile/functions.php:434
 msgid "Back"
 msgstr "Назад"
 
-#: mobile/functions.php:435
+#: mobile/functions.php:444
 msgid "View:"
 msgstr "Показать:"
 
-#: mobile/functions.php:457
+#: mobile/functions.php:466
 msgid "Refresh"
 msgstr "Обновить"
 
-#: mobile/functions.php:689
+#: mobile/functions.php:698
 msgid "Tags:"
 msgstr "Теги:"
 
-#: mobile/functions.php:721
+#: mobile/functions.php:730
 msgid "Go back"
 msgstr "Идти назад"
 
-#: mobile/functions.php:732
+#: mobile/functions.php:741
 msgid "Where:"
 msgstr "Где:"
 
-#: mobile/functions.php:763
+#: mobile/functions.php:772
 msgid "Match on:"
 msgstr "Соответствие:"
 
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr "Внутренняя ошибка: Функция не реализована"
+
+#~ msgid "(Click to change)"
+#~ msgstr "(Щёлкните для изменения)"
+
+#~ msgid "Match "
+#~ msgstr "Соответствие"
+
+#~ msgid "Unread articles"
+#~ msgstr "Отмеченные"
+
+#~ msgid "Updated articles"
+#~ msgstr "Обновлённые статьи"
+
+#~ msgid "Title contains"
+#~ msgstr "Заголовок содержит"
+
+#~ msgid "Content contains"
+#~ msgstr "В содержимом"
+
+#~ msgid "Score equals"
+#~ msgstr "Оценка равна"
+
+#~ msgid "Score is greater than"
+#~ msgstr "Оценка выше чем"
+
+#~ msgid "Score is less than"
+#~ msgstr "Оценка меньше чем"
+
+#~ msgid "Articles newer than X hours"
+#~ msgstr "Статье меньше X часов"
+
+#~ msgid "Articles newer than X days"
+#~ msgstr "Статье меньше X дней"
+
+#~ msgid "Add"
+#~ msgstr "Добавить"
+
+#~ msgid "Caption"
+#~ msgstr "Заголовок"
+
+#~ msgid "Match SQL"
+#~ msgstr "Совпадение SQL"
+
+#~ msgid "Help"
+#~ msgstr "Помощь"
+
+#~ msgid "Error: SQL expression is blank."
+#~ msgstr "Ошибка: пустое SQL выражение."
+
+#~ msgid "Saved label <b>%s</b>"
+#~ msgstr "Метка <b>%s</b> сохранена"
+
+#~ msgid "SQL Expression"
+#~ msgstr "SQL выражение"
+
+#~ msgid "[No caption]"
+#~ msgstr "[Нет заголовка]"
+
+#~ msgid "Labels and SQL Expressions"
+#~ msgstr "Метки и SQL выражения"
+
+#~ msgid "Examples"
+#~ msgstr "Примеры"
+
+#, fuzzy
+#~ msgid "Match all unread articles:"
+#~ msgstr "Отмеченные"
 
 #~ msgid "Search to label"
 #~ msgstr "Искать метку"
