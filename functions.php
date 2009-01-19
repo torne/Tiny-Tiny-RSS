@@ -5448,7 +5448,11 @@
 					$message = __("No starred articles found to display.");
 					break;
 				default:
-					$message = __("No articles found to display.");
+					if ($feed < -10) {
+						$message = __("No articles found to display. You can assign articles to labels manually (see the Actions menu above) or use a filter.");
+					} else {
+						$message = __("No articles found to display.");
+					}
 			}
 
 			if (!$offset) print "<div class='whiteBox'>$message</div>";
