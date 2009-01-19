@@ -4126,11 +4126,7 @@
 				$inner_title_class = "catTitleNL";
 			}
 
-			if ($cat_id >= 0) {
-				$cat_class = "feedCat";
-			} else {
-				$cat_class = "virtCat";
-			}
+			$cat_class = "feedCat";
 
 			print "<li class=\"$cat_class\" id=\"FCAT-$cat_id\">
 				<img onclick=\"toggleCollapseCat($cat_id)\" class=\"catCollapse\"
