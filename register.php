@@ -190,7 +190,11 @@
 	</td></tr>
 	</table>
 	</form>
-	
+
+	<?php print "<p><form method=\"GET\" action=\"tt-rss.php\">
+				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+				</form>"; ?>
+
 	<? } else if ($action == "do_register") { ?>
 	
 	<p><?php echo __('Processing registration...') ?></p>
