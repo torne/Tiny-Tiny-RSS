@@ -2644,15 +2644,22 @@
 
 			$owner_uid = $_SESSION["uid"];
 
-			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
-				WHERE owner_uid = '$owner_uid'");
+			$result = db_query($link,
+				"SELECT ttrss_labels2.id, caption, COUNT(unread) AS unread FROM ttrss_labels2 
+					LEFT JOIN ttrss_user_labels2 ON (label_id = ttrss_labels2.id) 
+						LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND
+							unread = true AND
+							ttrss_user_entries.owner_uid = '$owner_uid')
+						LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = feed_id AND hidden = false)
+						WHERE ttrss_labels2.owner_uid = '$owner_uid'
+					GROUP BY ttrss_labels2.id, caption");
 		
 			while ($line = db_fetch_assoc($result)) {
 	
 				$id = -$line["id"] - 11;
 	
 				$label_name = $line["caption"];
-				$count = getFeedUnread($link, $id);
+				$count = $line["unread"];
 		
 				if (!$smart_mode || $old_counters[$id] != $count) {	
 					$old_counters[$id] = $count;
