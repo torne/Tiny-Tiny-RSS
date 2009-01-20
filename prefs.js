@@ -1723,7 +1723,7 @@ function pref_hotkey_handler(e) {
 
 			if (keycode == 191 || keychar == '/') { // /
 				var search_boxes = new Array("label_search", 
-					"feed_search", "filter_search", "user_search");
+					"feed_search", "filter_search", "user_search", "feed_browser_search");
 
 				for (var i = 0; i < search_boxes.length; i++) {
 					var elem = document.getElementById(search_boxes[i]);
