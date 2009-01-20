@@ -1432,7 +1432,7 @@
 				//ccache_update($link, $feed, $owner_uid);
 			}
 
-			purge_feed($link, $feed, 0, true);
+			purge_feed($link, $feed, 0);
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
