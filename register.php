@@ -158,18 +158,18 @@
 		}
 ?>
 
-<!-- If you have any rules or ToS you'd like to display, enter them here -->
-
-<?php	if (file_exists("templates/register_notice.txt")) {
-		require_once "templates/register_notice.txt";
-} ?>
-
 <?php if (REG_MAX_USERS > 0) {
 		$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
 		$num_users = db_fetch_result($result, 0, "cu");
 } ?>
 
 <? if (!REG_MAX_USERS || $num_users < REG_MAX_USERS) { ?>
+
+	<!-- If you have any rules or ToS you'd like to display, enter them here -->
+
+	<?php	if (file_exists("templates/register_notice.txt")) {
+			require_once "templates/register_notice.txt";
+	} ?>
 
 	<? if (!$action) { ?>
 	
