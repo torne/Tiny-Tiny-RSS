@@ -4053,6 +4053,9 @@
 				//print "<li><span class=\"insensitive\">--------</span></li>";
 				print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 
+				print "<li onclick=\"javascript:addLabel()\">
+					&nbsp;&nbsp;".__("Create label...")."</li>";
+
 				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
 					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
 
