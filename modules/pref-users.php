@@ -212,21 +212,21 @@
 			}
 		} else if ($subop == "remove") {
 
-			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+			if ($_SESSION["access_level"] >= 10) {
 
 				$ids = split(",", db_escape_string($_GET["ids"]));
 
 				foreach ($ids as $id) {
-					db_query($link, "BEGIN");
-					db_query($link, "DELETE FROM ttrss_feeds WHERE owner_uid = '$id' AND owner_uid != " . $_SESSION["uid"]);
-					db_query($link, "DELETE FROM ttrss_users WHERE id = '$id' AND id != " . $_SESSION["uid"]);
-					db_query($link, "COMMIT");
-					
+					if ($id != $_SESSION["uid"]) {
+						db_query($link, "DELETE FROM ttrss_tags WHERE owner_uid = '$id'");
+						db_query($link, "DELETE FROM ttrss_feeds WHERE owner_uid = '$id'");
+						db_query($link, "DELETE FROM ttrss_users WHERE id = '$id'");
+					}
 				}
 			}
 		} else if ($subop == "add") {
 		
-			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+			if ($_SESSION["access_level"] >= 10) {
 
 				$login = db_escape_string(trim($_GET["login"]));
 				$tmp_user_pwd = make_password(8);
