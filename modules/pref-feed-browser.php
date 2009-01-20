@@ -181,34 +181,37 @@
 					ORDER BY last_updated $order_fix LIMIT 1");
 	
 				$details = db_fetch_assoc($det_result);
+
+				if ($details) {
 			
-				$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
-	
-				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
-							"/".$details["id"].".ico\">";
-				} else {
-					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+					$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+		
+					if (file_exists($icon_file) && filesize($icon_file) > 0) {
+							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+								"/".$details["id"].".ico\">";
+					} else {
+						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+					}
+		
+					$check_box = "<input onclick='toggleSelectFBListRow(this)' class='feedBrowseCB' 
+						type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
+		
+					$class = ($feedctr % 2) ? "even" : "odd";
+		
+					print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+						"$feed_icon ";
+						
+					print "<a href=\"javascript:browserToggleExpand('".$details["id"]."')\">" . 
+						$details["title"] ."</a>&nbsp;" .
+						"<span class='subscribers'>($subscribers)</span>";
+					
+					print "<div class=\"browserDetails\" style=\"display : none\" id=\"BRDET-" . $details["id"] . "\">";
+					print "</div>";
+						
+					print "</li>";
+		
+					++$feedctr;
 				}
-	
-				$check_box = "<input onclick='toggleSelectFBListRow(this)' class='feedBrowseCB' 
-					type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
-	
-				$class = ($feedctr % 2) ? "even" : "odd";
-	
-				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-					"$feed_icon ";
-					
-				print "<a href=\"javascript:browserToggleExpand('".$details["id"]."')\">" . 
-					$details["title"] ."</a>&nbsp;" .
-					"<span class='subscribers'>($subscribers)</span>";
-				
-				print "<div class=\"browserDetails\" style=\"display : none\" id=\"BRDET-" . $details["id"] . "\">";
-				print "</div>";
-					
-				print "</li>";
-	
-				++$feedctr;
 			}
 	
 			print "</ul>";
