@@ -200,7 +200,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (51);
+insert into ttrss_version values (52);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -348,6 +348,7 @@ create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT 
 
 create table ttrss_feedbrowser_cache (
 	feed_url text not null primary key,
+	title text not null,
 	subscribers integer not null);	
 
 create table ttrss_labels2 (id serial not null primary key, 

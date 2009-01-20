@@ -127,14 +127,14 @@
 
 		if ($browser_search) {
 			$search_qpart = " AND (
-				UPPER(ttrss_feedbrowser_cache.feed_url) LIKE UPPER('%$browser_search%'))";
-				//UPPER(title) LIKE UPPER('%$browser_search%'))";
+				UPPER(ttrss_feedbrowser_cache.feed_url) LIKE UPPER('%$browser_search%') OR
+				UPPER(title) LIKE UPPER('%$browser_search%'))";
 		} else {
 			$search_qpart = "";
 		}	
 
 		$result = db_query($link, "SELECT ttrss_feedbrowser_cache.feed_url,
-		  		subscribers 
+		  		subscribers,title
 			FROM
 				ttrss_feedbrowser_cache 
 			WHERE 
