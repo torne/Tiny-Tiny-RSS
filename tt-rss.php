@@ -150,26 +150,26 @@ window.onload = init;
 		<div style="float : right">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
-					<option value="qmcSearch"><?php echo __('Search') ?></option>
+					<option value="qmcSearch"><?php echo __('Search...') ?></option>
 					<!-- <option value="qmcPrefs"><?php echo __('Preferences') ?></option> -->
 					<option disabled="disabled">--------</option>
 					<option style="color : #5050aa" disabled="disabled"><?php echo __('Feed actions:') ?></option>
-					<option value="qmcAddFeed"><?php echo __('&nbsp;&nbsp;Subscribe to feed') ?></option>
-					<option value="qmcEditFeed"><?php echo __('&nbsp;&nbsp;Edit this feed') ?></option>
-					<!-- <option value="qmcClearFeed"><?php echo __('&nbsp;&nbsp;Clear articles') ?></option> -->
-					<option value="qmcRescoreFeed"><?php echo __('&nbsp;&nbsp;Rescore feed') ?></option>
-					<option value="qmcRemoveFeed"><?php echo __('&nbsp;&nbsp;Unsubscribe') ?></option>
+					<option value="qmcAddFeed">&nbsp;&nbsp;<?php echo __('Subscribe to feed...') ?></option>
+					<option value="qmcEditFeed">&nbsp;&nbsp;<?php echo __('Edit this feed...') ?></option>
+					<!-- <option value="qmcClearFeed">&nbsp;&nbsp;<?php echo __('Clear articles') ?></option> -->
+					<option value="qmcRescoreFeed">&nbsp;&nbsp;<?php echo __('Rescore feed') ?></option>
+					<option value="qmcRemoveFeed">&nbsp;&nbsp;<?php echo __('Unsubscribe') ?></option>
 					<option disabled="disabled">--------</option>
 					<option style="color : #5050aa" disabled="disabled"><?php echo __('All feeds:') ?></option>
-					<option value="qmcCatchupAll"><?php echo __('&nbsp;&nbsp;Mark as read') ?></option>
-					<option value="qmcShowOnlyUnread"><?php echo __('&nbsp;&nbsp;(Un)hide read feeds') ?></option>
+					<option value="qmcCatchupAll">&nbsp;&nbsp;<?php echo __('Mark as read') ?></option>
+					<option value="qmcShowOnlyUnread">&nbsp;&nbsp;<?php echo __('(Un)hide read feeds') ?></option>
 					<option disabled="disabled">--------</option>
 					<option style="color : #5050aa" disabled="disabled"><?php echo __('Other actions:') ?></option>				
 
-					<option value="qmcAddLabel"><?php echo __('&nbsp;&nbsp;Create label') ?></option>
-					<option value="qmcAddFilter"><?php echo __('&nbsp;&nbsp;Create filter') ?></option>
-					<option value="qmcResetUI"><?php echo __('&nbsp;&nbsp;Reset UI layout') ?></option>
-					<option value="qmcResetCats"><?php echo __('&nbsp;&nbsp;Reset category order') ?></option>
+					<option value="qmcAddLabel">&nbsp;&nbsp;<?php echo __('Create label...') ?></option>
+					<option value="qmcAddFilter">&nbsp;&nbsp;<?php echo __('Create filter...') ?></option>
+					<option value="qmcResetUI">>&nbsp;&nbsp;<?php echo __('Reset UI layout') ?></option>
+					<option value="qmcResetCats">>&nbsp;&nbsp;<?php echo __('Reset category order') ?></option>
 
 					<option value="qmcHKhelp"><?php echo __('&nbsp;&nbsp;Keyboard shortcuts') ?></option>
 			</select>

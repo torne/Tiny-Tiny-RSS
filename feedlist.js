@@ -554,7 +554,7 @@ function mouse_move_handler(e) {
 }
 
 function enable_selection(b) {
-	disable_selection = !b;
+	selection_disabled = !b;
 }
 
 function enable_resize(b) {
@@ -589,7 +589,7 @@ function mouse_up_handler(e) {
 	try {
 		mouse_is_down = false;
 
-		if (!disable_selection) {
+		if (!selection_disabled) {
 			document.onselectstart = null;
 			var e = document.getElementById("headlineActionsBody");
 			if (e) Element.hide(e);
