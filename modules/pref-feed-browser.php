@@ -170,7 +170,7 @@
 			$feedctr = 0;
 	
 			while ($line = db_fetch_assoc($result)) {
-				$feed_url = $line["feed_url"];
+				$feed_url = db_escape_string($line["feed_url"]);
 				$subscribers = $line["subscribers"];
 	
 				// mysql returns NULL records first by default
