@@ -240,24 +240,32 @@ function changepass_callback() {
 	}
 }
 
+function init_cat_inline_editor() {
+	try {
+
+		if (document.getElementById("prefFeedCatList")) {
+			var elems = document.getElementById("prefFeedCatList").getElementsByTagName("SPAN");
+
+			for (var i = 0; i < elems.length; i++) {
+				if (elems[i].id && elems[i].id.match("FCATT-")) {
+					var cat_id = elems[i].id.replace("FCATT-", "");
+						new Ajax.InPlaceEditor(elems[i],
+						'backend.php?op=pref-feeds&subop=editCats&action=save&cid=' + cat_id);
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("init_cat_inline_editor", e);
+	}
+}
+
 function infobox_feed_cat_callback() {
 	if (xmlhttp.readyState == 4) {
 		try {
 
 			infobox_callback();
-
-			if (document.getElementById("prefFeedCatList")) {
-				var elems = document.getElementById("prefFeedCatList").getElementsByTagName("SPAN");
-
-				for (var i = 0; i < elems.length; i++) {
-					if (elems[i].id && elems[i].id.match("FCATT-")) {
-						var cat_id = elems[i].id.replace("FCATT-", "");
-
-						new Ajax.InPlaceEditor(elems[i],
-							'backend.php?op=pref-feeds&subop=editCats&action=save&cid=' + cat_id);
-					}
-				}
-			}
+			init_cat_inline_editor();
 
 		} catch (e) {
 			exception_error("infobox_feed_cat_callback", e);
@@ -388,7 +396,7 @@ function addFeedCat() {
 
 		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
 			param_escape(cat.value), true);
-		xmlhttp.onreadystatechange=infobox_callback;
+		xmlhttp.onreadystatechange=infobox_feed_cat_callback;
 		xmlhttp.send(null);
 
 		link.value = "";
@@ -763,7 +771,7 @@ function removeSelectedFeedCats() {
 	
 			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
 				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=infobox_callback;
+			xmlhttp.onreadystatechange=infobox_feed_cat_callback;
 			xmlhttp.send(null);
 		}
 

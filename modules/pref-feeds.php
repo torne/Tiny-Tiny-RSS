@@ -933,11 +933,30 @@
 
 				$cat_title = db_escape_string(trim($_REQUEST["value"]));
 				$cat_id = db_escape_string($_GET["cid"]);
-	
-				$result = db_query($link, "UPDATE ttrss_feed_categories SET
-					title = '$cat_title' WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
 
-				print $_REQUEST["value"];
+				db_query($link, "BEGIN");
+
+				$result = db_query($link, "SELECT title FROM ttrss_feed_categories
+					WHERE id = '$cat_id' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 1) {
+
+					$old_title = db_fetch_result($result, 0, "title");
+					
+					if ($cat_title != "") {
+						$result = db_query($link, "UPDATE ttrss_feed_categories SET
+							title = '$cat_title' WHERE id = '$cat_id' AND 
+							owner_uid = ".$_SESSION["uid"]);
+
+						print $cat_title;
+					} else {
+						print $old_title;
+					}
+				} else {
+					print $_REQUEST["value"];
+				}
+
+				db_query($link, "COMMIT");
 
 				return;
 
@@ -1370,8 +1389,14 @@
 				<option value=\"facDefault\" selected>".__('Actions...')."</option>
 				<option disabled>--------</option>
 				<option style=\"color : #5050aa\" disabled>".__('Selection:')."</option>
-				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>
-				<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>
+				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>";
+
+			if (FORCE_ARTICLE_PURGE == 0) {
+				print 
+					"<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>";
+			}
+
+			print "
 				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
 				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
 				<option value=\"facUnsubscribe\">&nbsp;&nbsp;".__('Unsubscribe')."</option>";
