@@ -283,7 +283,7 @@
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			if ($purge_interval == 0) $purge_interval = get_pref($link, 
-				'PURGE_OLD_DAYS', $user_id);
+				'PURGE_OLD_DAYS', $owner_uid);
 
 			return $purge_interval;
 
