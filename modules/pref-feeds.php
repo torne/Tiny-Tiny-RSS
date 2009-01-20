@@ -276,17 +276,20 @@
 				print_select_hash("update_method", $update_method, $update_methods);			
 			}
 
+			$purge_interval = db_fetch_result($result, 0, "purge_interval");
+
 			if (FORCE_ARTICLE_PURGE == 0) {
 
 				/* Purge intl */
 
 				print "<br/>";
 
-				$purge_interval = db_fetch_result($result, 0, "purge_interval");
-
 				print __('Article purging:') . " ";
 
 				print_select_hash("purge_interval", $purge_interval, $purge_intervals);
+
+			} else {
+				print "<input type='hidden' name='purge_interval' value='$purge_interval'>";
 
 			}
 
