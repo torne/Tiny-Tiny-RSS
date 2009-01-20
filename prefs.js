@@ -814,7 +814,12 @@ function feedCatEditCancel() {
 
 	active_feed_cat = false;
 
-//	notify("Operation cancelled.");
+	try {
+		document.getElementById("subscribe_to_feed_btn").disabled = false;
+		document.getElementById("top25_feeds_btn").disabled = false;
+	} catch (e) {
+		// this button is not always available, no-op if not found
+	}
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
 	xmlhttp.onreadystatechange=infobox_callback;
@@ -850,26 +855,6 @@ function feedEditSave() {
 	} catch (e) {
 		exception_error("feedEditSave", e);
 	} 
-}
-
-function feedCatEditSave() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	notify_progress("Saving category...");
-
-	var query = Form.serialize("feed_cat_edit_form");
-
-	xmlhttp.open("GET", "backend.php?" + query, true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
-	active_feed_cat = false;
-
-	return false;
 }
 
 function userEditCancel() {
