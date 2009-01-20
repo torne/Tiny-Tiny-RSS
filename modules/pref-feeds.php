@@ -276,15 +276,19 @@
 				print_select_hash("update_method", $update_method, $update_methods);			
 			}
 
-			/* Purge intl */
+			if (FORCE_ARTICLE_PURGE == 0) {
 
-			print "<br/>";
+				/* Purge intl */
 
-			$purge_interval = db_fetch_result($result, 0, "purge_interval");
+				print "<br/>";
 
-			print __('Article purging:') . " ";
+				$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
-			print_select_hash("purge_interval", $purge_interval, $purge_intervals);
+				print __('Article purging:') . " ";
+
+				print_select_hash("purge_interval", $purge_interval, $purge_intervals);
+
+			}
 
 			print "</div>";
 			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
@@ -469,14 +473,17 @@
 
 			/* Purge intl */
 
-			print "<br/>";
+			if (FORCE_ARTICLE_PURGE != 0) {
 
-			print __('Article purging:') . " ";
+				print "<br/>";
 
-			print_select_hash("purge_interval", $purge_interval, $purge_intervals,
-				"disabled");
+				print __('Article purging:') . " ";
 
-			batch_edit_cbox("purge_interval");
+				print_select_hash("purge_interval", $purge_interval, $purge_intervals,
+					"disabled");
+
+				batch_edit_cbox("purge_interval");
+			}
 
 			print "</div>";
 			print "<div class=\"dlgSec\">".__("Authentication")."</div>";

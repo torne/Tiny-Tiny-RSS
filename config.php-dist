@@ -201,6 +201,11 @@
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.
 
+	define('FORCE_ARTICLE_PURGE', 0);
+	// When this option is not 0, users ability to control feed purging
+	// intervals is disabled and all articles (which are not starred) 
+	// older than this amount of days are purged.
+
 	define('CONFIG_VERSION', 18);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).

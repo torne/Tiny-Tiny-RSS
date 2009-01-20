@@ -15,6 +15,11 @@
 
 		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS");
 
+		if (FORCE_ARTICLE_PURGE != 0) {
+			array_push($prefs_blacklist, "PURGE_OLD_DAYS");
+			array_push($prefs_blacklist, "PURGE_UNREAD_ARTICLES");
+		}
+
 		if ($subop == "change-password") {
 
 			$old_pw = $_POST["OLD_PASSWORD"];

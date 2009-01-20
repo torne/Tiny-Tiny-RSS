@@ -147,8 +147,13 @@
 
 		if (!$owner_uid) return;
 
-		$purge_unread = get_pref($link, "PURGE_UNREAD_ARTICLES",
-			$owner_uid, false);
+		if (FORCE_ARTICLE_PURGE == 0) {
+			$purge_unread = get_pref($link, "PURGE_UNREAD_ARTICLES",
+				$owner_uid, false);
+		} else {
+			$purge_unread = true;
+			$purge_interval = FORCE_ARTICLE_PURGE;
+		}
 
 		if (!$purge_unread) $query_limit = " unread = false AND ";
 
@@ -252,7 +257,7 @@
 //				print "Feed $feed_id: purge interval = $purge_interval\n";
 			}
 
-			if ($purge_interval > 0) {
+			if ($purge_interval > 0 || FORCE_ARTICLE_PURGE) {
 				purge_feed($link, $feed_id, $purge_interval, $do_output);
 			}
 		}	
@@ -1423,8 +1428,11 @@
 					_debug("update_rss_feed: updating counters cache...");
 				}
 
-				ccache_update($link, $feed, $owner_uid);
+				// disabled, purge_feed() does that...
+				//ccache_update($link, $feed, $owner_uid);
 			}
+
+			purge_feed($link, $feed, 0, true);
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
