@@ -1529,7 +1529,7 @@
 				$inverse = $filter["inverse"];
 
 				if ($inverse) {
-					if (!preg_match("/$reg_exp/i", $title) || !preg_match("/$reg_exp/i", $content)) {
+					if (!preg_match("/$reg_exp/i", $title) && !preg_match("/$reg_exp/i", $content)) {
 						array_push($matches, array($filter["action"], $filter["action_param"]));
 					}
 				} else {
