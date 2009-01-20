@@ -2050,6 +2050,7 @@ function toggleHeadlineActions() {
 			Element.hide(e);
 		}
 
+		e.scrollTop = 0;
 		e.style.left = (p.offsetLeft + 1) + "px";
 //		e.style.top = (p.offsetTop + p.offsetHeight - 1) + "px";
 
