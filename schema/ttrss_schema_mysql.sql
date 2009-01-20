@@ -1,5 +1,5 @@
--- SET NAMES utf8;
--- SET CHARACTER SET utf8;
+SET NAMES utf8;
+SET CHARACTER SET utf8;
 
 drop table if exists ttrss_user_labels2;
 drop table if exists ttrss_labels2;
