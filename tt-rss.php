@@ -168,8 +168,8 @@ window.onload = init;
 
 					<option value="qmcAddLabel">&nbsp;&nbsp;<?php echo __('Create label...') ?></option>
 					<option value="qmcAddFilter">&nbsp;&nbsp;<?php echo __('Create filter...') ?></option>
-					<option value="qmcResetUI">>&nbsp;&nbsp;<?php echo __('Reset UI layout') ?></option>
-					<option value="qmcResetCats">>&nbsp;&nbsp;<?php echo __('Reset category order') ?></option>
+					<option value="qmcResetUI">&nbsp;&nbsp;<?php echo __('Reset UI layout') ?></option>
+					<option value="qmcResetCats">&nbsp;&nbsp;<?php echo __('Reset category order') ?></option>
 
 					<option value="qmcHKhelp"><?php echo __('&nbsp;&nbsp;Keyboard shortcuts') ?></option>
 			</select>
