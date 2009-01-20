@@ -1,8 +1,8 @@
 <?php
-	// Note: this script uses an undocumented constant in config.php named
-	// REG_NOTIFY_ADDRESS - email address to send registration notifications to.
+	// This file uses two additional include files:
 	//
-	// define('REG_NOTIFY_ADDRESS', 'my-address@domain.dom');
+	// 1) templates/register_notice.txt - displayed above the registration form
+	// 2) register_expire_do.php - contains user expiration queries when necessary
 
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -29,6 +29,10 @@
 	} else {
 		db_query($link, "DELETE FROM ttrss_users WHERE last_login IS NULL 
 				AND created < DATE_SUB(NOW(), INTERVAL 1 DAY) AND access_level = 0");
+	}
+
+	if (file_exists("register_expire_do.php")) {
+		require_once "register_expire_do.php";
 	}
 
 	if ($action == "check") {
@@ -158,6 +162,9 @@
 
 <!-- If you have any rules or ToS you'd like to display, enter them here -->
 
+<?php	if (file_exists("templates/register_notice.txt")) {
+		require_once "templates/register_notice.txt";
+} ?>
 
 <?php if (REG_MAX_USERS > 0) {
 		$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
