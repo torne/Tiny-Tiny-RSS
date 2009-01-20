@@ -4039,19 +4039,19 @@
 
 				print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
 
-				print "<li><span class=\"insensitive\">".__('Selection toggle:')."</span></li>
+				print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
 					<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
 					<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
 					<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
 					<!-- <li><span class=\"insensitive\">--------</span></li> -->
-					<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
+					<li class=\"insensitive\">".__('Mark as read:')."</li>
 					<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
 
 				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
 					"</li>";
 
 				//print "<li><span class=\"insensitive\">--------</span></li>";
-				print "<li><span class=\"insensitive\">".__('Assign label:')."</span></li>";
+				print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 
 				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
 					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
