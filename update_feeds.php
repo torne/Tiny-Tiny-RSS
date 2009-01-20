@@ -44,9 +44,6 @@
 	// Update all feeds needing a update.
 	update_daemon_common($link);
 
-	// Send feed digests by email if needed.
-	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
-
 	db_close($link);
 
 	unlink(LOCK_DIRECTORY . "/$lock_filename");

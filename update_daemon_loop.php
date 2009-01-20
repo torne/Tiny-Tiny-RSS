@@ -79,7 +79,6 @@
 		_debug("Finished, $count feeds processed.");
 	}
 
-
 	db_close($link);
 
 ?>

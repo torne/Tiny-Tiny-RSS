@@ -311,6 +311,10 @@
 			}
 		}	
 
+		purge_orphans($link);
+	}
+
+	function purge_orphans($link) {
 		// purge orphaned posts in main content table
 		db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
@@ -5707,8 +5711,10 @@
 			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
-	// Send feed digests by email if needed.
-	if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+		// Send feed digests by email if needed.
+		if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+
+		purge_orphans($link);
 
 	} // function update_daemon_common
 
