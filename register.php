@@ -8,8 +8,6 @@
 
 	$action = $_REQUEST["action"];
 
-	define('MAX_USERS', 55);
-
 	require_once "sessions.php";
 	
 	require_once "sanity_check.php";
