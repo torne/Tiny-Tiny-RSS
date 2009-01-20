@@ -114,16 +114,29 @@
 
 		}
 
-		print "<div class=\"insensitive\">".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
+		/*		print "<div class=\"insensitive\">".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>"; */
 
-		print "<p>
+		print "<div class=\"feedEditSearch\">
 			<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateBigFeedBrowserBtn()\" value=\"$browser_search\">
 			<input type=\"submit\" class=\"button\" 
 				onclick=\"javascript:updateBigFeedBrowserBtn()\" value=\"".__('Search')."\">
-			</p>";
+			</div>";
+
+		print "<div>
+			".__('Top')." <select id=\"feedBrowserLimit\">";
+
+		foreach (array(25, 50, 100, 200) as $l) {
+			$issel = ($l == $limit) ? "selected" : "";
+			print "<option $issel>$l</option>";
+		}
+			
+		print "</select>
+			<input type=\"submit\" class=\"button\"
+				onclick=\"updateBigFeedBrowserBtn()\" value=\"".__('Show')."\">
+		</div>";
 
 		if ($browser_search) {
 			$search_qpart = " AND (
@@ -145,19 +158,6 @@
 		  	ORDER BY subscribers DESC LIMIT $limit");
 		
 		print "<br/>";
-			
-		print "<div style=\"float : right\">
-			".__('Top')." <select id=\"feedBrowserLimit\">";
-
-		foreach (array(25, 50, 100, 200) as $l) {
-			$issel = ($l == $limit) ? "selected" : "";
-			print "<option $issel>$l</option>";
-		}
-			
-		print "</select>
-			<input type=\"submit\" class=\"button\"
-				onclick=\"updateBigFeedBrowserBtn()\" value=\"".__('Show')."\">
-		</div>";
 
 		if (db_num_rows($result) > 0) {
 
