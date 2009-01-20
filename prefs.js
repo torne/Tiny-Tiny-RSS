@@ -61,6 +61,7 @@ function expand_feed_callback() {
 			container.innerHTML=xmlhttp.responseText;
 //			container.style.display = "block";
 			Effect.Appear(container, {duration : 0.5});
+			notify('');
 		} catch (e) {
 			exception_error("expand_feed_callback", e);
 		}
