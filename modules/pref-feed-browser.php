@@ -84,6 +84,14 @@
 
 		$limit = db_escape_string($_GET["limit"]);
 
+		$browser_search = db_escape_string($_GET["search"]);
+
+		if (array_key_exists("search", $_GET)) {
+			$_SESSION["prefs_browser_search"] = $browser_search;
+		} else {
+			$browser_search = $_SESSION["prefs_browser_search"];
+		}
+
 		if (!$limit) $limit = 25;
 
 		$owner_uid = $_SESSION["uid"];
@@ -108,12 +116,36 @@
 
 		print "<div class=\"insensitive\">".__('This panel shows feeds subscribed by other users of this system, just in case you are interested in them too.')."</div>";
 
+		print "<p>
+			<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
+				onchange=\"javascript:updateBigFeedBrowserBtn()\" value=\"$browser_search\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateBigFeedBrowserBtn()\" value=\"".__('Search')."\">
+			</p>";
 
-		$result = db_query($link, "SELECT feed_url, subscribers FROM
-			ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
-			WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
-			AND owner_uid = '$owner_uid') ORDER BY subscribers DESC LIMIT $limit");
+		if ($browser_search) {
+			$search_qpart = " AND (
+				UPPER(ttrss_feedbrowser_cache.feed_url) LIKE UPPER('%$browser_search%') OR 
+				UPPER(title) LIKE UPPER('%$browser_search%'))";
+		} else {
+			$search_qpart = "";
+		}	
 
+		$result = db_query($link, "SELECT ttrss_feedbrowser_cache.feed_url,
+		  		subscribers, 
+				title 
+			FROM
+				ttrss_feedbrowser_cache LEFT JOIN ttrss_feeds 
+					ON (ttrss_feedbrowser_cache.feed_url = ttrss_feeds.feed_url)
+			WHERE 
+				(SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
+					WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
+					AND owner_uid = '$owner_uid') 
+				$search_qpart
+		  	ORDER BY subscribers DESC LIMIT $limit");
+		
 		print "<br/>";
 			
 		print "<div style=\"float : right\">

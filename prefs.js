@@ -1515,6 +1515,12 @@ function updateBigFeedBrowser(limit, from_button) {
 		query = query + "&limit=" + param_escape(limit);
 	}
 
+	var search = document.getElementById("feed_browser_search");
+
+	if (search) {
+		query = query + "&search=" + param_escape(search.value);
+	}
+
 	xmlhttp.open("GET", query, true);
 	xmlhttp.onreadystatechange=feed_browser_callback;
 	xmlhttp.send(null);
