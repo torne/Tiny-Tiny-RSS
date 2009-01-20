@@ -3978,10 +3978,10 @@
 
 			}
 
-				if (strpos($_SESSION["client.userAgent"], "MSIE") === false) {
+					print "<td class=\"headlineActions$rtl_cpart\">";
 
-					print "<td class=\"headlineActions$rtl_cpart\">
-						<ul class=\"headlineDropdownMenu\">
+
+/*					print"<ul class=\"headlineDropdownMenu\">
 						<li class=\"top2\">
 						".__('Select:')."
 							<a href=\"$sel_all_link\">".__('All')."</a>,
@@ -3997,18 +3997,6 @@
 							<!-- <li><span class=\"insensitive\">--------</span></li> -->
 							<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
 							<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
-
-/*				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
-	
-					print "
-						<li onclick=\"catchupRelativeToArticle(0)\">&nbsp;&nbsp;".__("Above active article")."</li>
-						<li onclick=\"catchupRelativeToArticle(1)\">&nbsp;&nbsp;".__("Below active article")."</li>";
-				} else {
-					print "
-						<li><span class=\"insensitive\">&nbsp;&nbsp;".__("Above active article")."</span></li>
-						<li><span class=\"insensitive\">&nbsp;&nbsp;".__("Below active article")."</span></li>";
-
-				} */
 
 				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed')."</li>";
 
@@ -4032,29 +4020,60 @@
 					}
 			}
 
-				print	"</ul></li></ul>";
-				print "</td>"; 
-	
-				} else {
-					// old style subtoolbar:
-	
-					print "<td class=\"headlineActions$rtl_cpart\">".
-						__('Select:')."
-									<a href=\"$sel_all_link\">".__('All')."</a>,
-									<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-									<a href=\"$sel_none_link\">".__('None')."</a>
-							&nbsp;&nbsp;".
-							__('Toggle:')." <a href=\"$tog_unread_link\">".__('Unread')."</a>,
-								<a href=\"$tog_marked_link\">".__('Starred')."</a>
-							&nbsp;&nbsp;".
-							__('Mark as read:')."
-								<a href=\"#\" onclick=\"$catchup_page_link\">".__('Page')."</a>,
-								<a href=\"#\" onclick=\"$catchup_feed_link\">".__('Feed')."</a>";
+				print	"</ul></li></ul>"; */
 
-					print "</td>";  
-	
+				print __('Select:')."
+							<a href=\"$sel_all_link\">".__('All')."</a>,
+							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+							<a href=\"$sel_inv_link\">".__('Invert')."</a>,
+							<a href=\"$sel_none_link\">".__('None')."</a></li>";
+
+				print "&nbsp;&nbsp;";
+
+					print "<span 
+						onmouseover=\"enable_selection(false)\" 
+		            onmouseout=\"enable_selection(true)\"
+						onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
+						__("Actions...") . "&nbsp;&nbsp;<img src=\"images/down_arrow.png\">
+						</span>";
+
+				print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
+
+				print "<li><span class=\"insensitive\">".__('Selection toggle:')."</span></li>
+					<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
+					<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
+					<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
+					<!-- <li><span class=\"insensitive\">--------</span></li> -->
+					<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
+					<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
+
+				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
+					"</li>";
+
+				//print "<li><span class=\"insensitive\">--------</span></li>";
+				print "<li><span class=\"insensitive\">".__('Assign label:')."</span></li>";
+
+				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
+					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+
+				while ($line = db_fetch_assoc($result)) {
+
+					$label_id = $line["id"];
+					$label_caption = $line["caption"];
+
+					if ($feed_id < -10 && $feed_id == -11-$label_id) {
+						print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
+							&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
+					} else {					
+						print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
+							&nbsp;&nbsp;$label_caption</li>";
+					}
 				}
 
+				print "</ul>";
+
+				print "</td>"; 
+	
 			print "<td class=\"headlineTitle$rtl_cpart\">";
 
 			print "<span id=\"subtoolbar_search\" 

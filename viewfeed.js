@@ -2038,3 +2038,22 @@ function show_labels_in_headlines(transport) {
 
 	}
 }
+
+function toggleHeadlineActions() {
+	try {
+		var e = document.getElementById("headlineActionsBody");
+		var p = document.getElementById("headlineActionsDrop");
+
+		if (!Element.visible(e)) {
+			Element.show(e);
+		} else {
+			Element.hide(e);
+		}
+
+		e.style.left = (p.offsetLeft + 1) + "px";
+//		e.style.top = (p.offsetTop + p.offsetHeight - 1) + "px";
+
+	} catch (e) {
+		exception_error("toggleHeadlineActions", e);
+	}
+}

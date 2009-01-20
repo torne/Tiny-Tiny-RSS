@@ -2130,3 +2130,39 @@ pre, code {
 	font-size : 12px;
 	font-family : monospace;
 }
+
+span#headlineActionsDrop {
+	border : 1px solid #c0c0c0;
+	padding : 1px 5px 1px 10px;
+	color : #063064;
+	cursor : pointer;
+}
+
+ul#headlineActionsBody {
+	list-style-type : none;
+	position : absolute;
+	margin : 0px;
+	padding : 0px;
+	background-color : white;
+	width : 150px;
+	z-index : 4;
+	top : auto;
+	left : auto;
+	border-width : 1px 1px 1px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	margin-left : -1px;
+	max-height : 250px;
+	overflow : auto;
+}
+
+ul#headlineActionsBody li {
+	padding : 2px 5px 2px 10px;
+	color : black;
+}
+
+ul#headlineActionsBody li:hover {
+	color : #4684ff;
+	cursor : pointer;
+	background : #ecf4ff;
+}
