@@ -4282,9 +4282,13 @@
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 				cat_id,last_error,
 				ttrss_feed_categories.title AS category,
-				ttrss_feed_categories.collapsed	
-				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
-					ON (ttrss_feed_categories.id = cat_id)				
+				ttrss_feed_categories.collapsed,
+				value AS unread	
+				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
+					ON (ttrss_feed_categories.id = cat_id)			
+				LEFT JOIN ttrss_counters_cache 
+					ON
+						(ttrss_feeds.id = feed_id)
 				WHERE 
 					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
@@ -4311,10 +4315,9 @@
 				if (!$feed) $feed = "[Untitled]";
 
 				$feed_id = $line["id"];	  
+				$unread = $line["unread"];
 	
 				$subop = $_GET["subop"];
-				
-				$unread = ccache_find($link, $feed_id, $_SESSION["uid"]);
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$last_updated = smart_date_time(strtotime($line["last_updated_noms"]));
