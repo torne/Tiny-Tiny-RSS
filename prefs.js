@@ -1544,6 +1544,8 @@ function browserToggleExpand(id) {
 
 		var d = document.getElementById("BRDET-" + id);
 	
+		notify_progress("Loading, please wait...");
+
 		if (Element.visible(d)) {
 			Effect.Fade(d, {duration : 0.5});
 		} else {
