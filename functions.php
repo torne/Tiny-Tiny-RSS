@@ -3978,114 +3978,64 @@
 
 			}
 
-					print "<td class=\"headlineActions$rtl_cpart\">";
+			print "<td class=\"headlineActions$rtl_cpart\">";
 
 
-/*					print"<ul class=\"headlineDropdownMenu\">
-						<li class=\"top2\">
-						".__('Select:')."
-							<a href=\"$sel_all_link\">".__('All')."</a>,
-							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-							<a href=\"$sel_inv_link\">".__('Invert')."</a>,
-							<a href=\"$sel_none_link\">".__('None')."</a></li>
-						<li class=\"vsep\">&nbsp;</li>
-						<li class=\"top\">".__('Actions...')."<ul>
-							<li><span class=\"insensitive\">".__('Selection toggle:')."</span></li>
-							<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
-							<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
-							<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-							<!-- <li><span class=\"insensitive\">--------</span></li> -->
-							<li><span class=\"insensitive\">".__('Mark as read:')."</span></li>
-							<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
+			print __('Select:')."
+				<a href=\"$sel_all_link\">".__('All')."</a>,
+				<a href=\"$sel_unread_link\">".__('Unread')."</a>,
+				<a href=\"$sel_inv_link\">".__('Invert')."</a>,
+				<a href=\"$sel_none_link\">".__('None')."</a></li>";
 
-				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed')."</li>";
+			print "&nbsp;&nbsp;";
 
-				//print "<li><span class=\"insensitive\">--------</span></li>";
-				print "<li><span class=\"insensitive\">".__('Assign label:')."</span></li>";
+			print "<span 
+				onmouseover=\"enable_selection(false)\" 
+            onmouseout=\"enable_selection(true)\"
+				onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
+				__("Actions...") . "&nbsp;&nbsp;<img src=\"images/down_arrow.png\">
+				</span>";
 
-				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
-					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+			print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
 
-				while ($line = db_fetch_assoc($result)) {
+			print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
+				<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
+				<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
+				<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
+				<!-- <li><span class=\"insensitive\">--------</span></li> -->
+				<li class=\"insensitive\">".__('Mark as read:')."</li>
+				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
 
-					$label_id = $line["id"];
-					$label_caption = $line["caption"];
+			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
+				"</li>";
 
-					if ($feed_id < -10 && $feed_id == -11-$label_id) {
-						print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
-							&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
-					} else {					
-						print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
-							&nbsp;&nbsp;$label_caption</li>";
-					}
+			//print "<li><span class=\"insensitive\">--------</span></li>";
+			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
+
+			print "<li onclick=\"javascript:addLabel()\">
+				&nbsp;&nbsp;".__("Create label...")."</li>";
+
+			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
+				owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$label_id = $line["id"];
+				$label_caption = $line["caption"];
+
+				if ($feed_id < -10 && $feed_id == -11-$label_id) {
+					print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
+						&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
+				} else {					
+					print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
+						&nbsp;&nbsp;$label_caption</li>";
+				}
 			}
 
-				print	"</ul></li></ul>"; */
-
-				print __('Select:')."
-							<a href=\"$sel_all_link\">".__('All')."</a>,
-							<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-							<a href=\"$sel_inv_link\">".__('Invert')."</a>,
-							<a href=\"$sel_none_link\">".__('None')."</a></li>";
-
-				print "&nbsp;&nbsp;";
-
-					print "<span 
-						onmouseover=\"enable_selection(false)\" 
-		            onmouseout=\"enable_selection(true)\"
-						onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
-						__("Actions...") . "&nbsp;&nbsp;<img src=\"images/down_arrow.png\">
-						</span>";
-
-				print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
-
-				print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
-					<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
-					<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
-					<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-					<!-- <li><span class=\"insensitive\">--------</span></li> -->
-					<li class=\"insensitive\">".__('Mark as read:')."</li>
-					<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
-
-				print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
-					"</li>";
-
-				//print "<li><span class=\"insensitive\">--------</span></li>";
-				print "<li class=\"insensitive\">".__('Assign label:')."</li>";
-
-				print "<li onclick=\"javascript:addLabel()\">
-					&nbsp;&nbsp;".__("Create label...")."</li>";
-
-				$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
-					owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
-
-				while ($line = db_fetch_assoc($result)) {
-
-					$label_id = $line["id"];
-					$label_caption = $line["caption"];
-
-					if ($feed_id < -10 && $feed_id == -11-$label_id) {
-						print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
-							&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
-					} else {					
-						print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
-							&nbsp;&nbsp;$label_caption</li>";
-					}
-				}
-
-				print "</ul>";
-
-				print "</td>"; 
+			print "</ul>";
+			print "</td>"; 
 	
 			print "<td class=\"headlineTitle$rtl_cpart\">";
-
-			print "<span id=\"subtoolbar_search\" 
-				style=\"display : none\"><input 
-				id=\"subtoolbar_search_box\"
-				onblur=\"javascript:enableHotkeys();\" 
-				onfocus=\"javascript:disableHotkeys();\"
-				onchange=\"subtoolbarSearch()\"
-				onkeyup=\"subtoolbarSearch()\" type=\"search\"></span>";
 
 			print "<span id=\"subtoolbar_ftitle\">";
 

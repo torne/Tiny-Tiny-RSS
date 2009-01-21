@@ -1202,19 +1202,6 @@ function hotkey_handler(e) {
 				}
 			}
 
-			if (keycode == 220 && shift_key) { // shift + |
-				if (document.getElementById("subtoolbar_search")) {
-					if (Element.visible("subtoolbar_search")) {
-						Element.hide("subtoolbar_search");
-						Element.show("subtoolbar_ftitle");
-						setTimeout("Element.focus('subtoolbar_search_box')", 100);
-					} else {
-							Element.show("subtoolbar_search");
-						Element.hide("subtoolbar_ftitle");
-					}
-				}
-			}
-
 			if (keycode == 88) { // x
 				if (activeFeedIsCat()) {
 					toggleCollapseCat(getActiveFeedId());

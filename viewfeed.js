@@ -177,8 +177,6 @@ function headlines_callback2(transport, feed_cur_page) {
 							markHeadline(ids[i]);
 						}
 
-						subtoolbarSearch();
-
 					} else {
 						debug("no new headlines received");
 					}
@@ -1820,44 +1818,6 @@ function fixHeadlinesOrder(ids) {
 	} catch (e) {
 		exception_error("fixHeadlinesOrder", e);
 	}
-}
-
-function subtoolbarSearch() {
-	try {
-
-		var q = document.getElementById("subtoolbar_search_box");
-		
-		if (!q) return;
-
-		q = q.value.toUpperCase();
-
-		var ids = false;
-		var vis_ids = new Array();
-
-		if (document.getElementById("headlinesList")) {
-			ids = getVisibleHeadlineIds();
-		} else {
-			ids = cdmGetVisibleArticles();
-		}
-
-		for (var i = 0; i < ids.length; i++) {
-			var title = document.getElementById("RTITLE-" + ids[i]);
-
-			if (title) {
-				if (!title.innerHTML.toUpperCase().match(q)) {
-					Element.hide(document.getElementById("RROW-" + ids[i]));
-				} else {
-					Element.show(document.getElementById("RROW-" + ids[i]));
-					vis_ids.push(ids[i]);
-				}
-			}
-		}
-
-		fixHeadlinesOrder(vis_ids);
-
-	} catch (e) {
-		exception_error("subtoolbarSearch", e);
-	} 
 }
 
 function hideReadHeadlines() {
