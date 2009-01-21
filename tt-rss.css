@@ -1725,89 +1725,6 @@ a.feedUpdErrLink {
 	display : none;
 }
 
-ul.headlineDropdownMenu {
-	list-style-type : none;
-	margin : 0px;
-	padding : 0px;
-}
-
-ul.headlineDropdownMenu li.top {
-	float : left;
-	width : 12em;
-	background-image : url("images/down_arrow.png");
-	background-position : center right;
-	background-repeat : no-repeat;
-	margin : 0px; 
-	cursor : pointer;
-	border-width : 1px 1px 1px 1px;
-	border-color : transparent;
-	border-style : solid;
-}
-
-ul.headlineDropdownMenu li.top2 {
-	float : left;
-}
-
-ul.headlineDropdownMenu li.top3 {
-	float : left;
-	margin : 0px; 
-	cursor : pointer;
-	border-width : 1px 1px 1px 1px;
-	border-color : transparent;
-	border-style : solid;
-}
-
-ul.headlineDropdownMenu li.vsep {
-	float : left;
-	margin : 0px 5px 0px 0px;
-	border-width : 0px 1px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : dotted;
-	color : white;
-}
-
-ul.headlineDropdownMenu li.top:hover {
-	cursor : pointer;
-	border-width : 1px 1px 1px 1px;
-	border-color : #c0c0c0;
-	border-style : solid;
-}
-
-ul.headlineDropdownMenu li.top:hover ul {
-	display : block;
-}
-
-ul.headlineDropdownMenu ul {
-	list-style-type : none;
-	position : absolute;
-	float : none;
-	margin : 0px;
-	padding : 0px;
-	display : none;
-	background-color : white;
-	width : 12em;
-	z-index : 3;
-	top : auto;
-	left : auto;
-	border-width : 0px 1px 1px 1px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	margin-left : -1px;
-	max-height : 300px;
-	overflow : auto;
-}
-
-ul.headlineDropdownMenu ul li {
-	float: none;
-	padding : 2px 0px 2px 10px;
-	color : black;
-}
-
-ul.headlineDropdownMenu ul li:hover {
-	color : #4684ff;
-	background-color : #f0f0f0;
-}
-
 #newVersionIcon {
 	vertical-align : middle;
 	cursor : pointer;
@@ -2116,10 +2033,6 @@ div.dlgSecCont {
 div.dlgButtons {
 	text-align : right;
 	clear : both;
-}
-
-textarea.labelSQL {
-	font-family : monospace;
 }
 
 div#label_test_result {
