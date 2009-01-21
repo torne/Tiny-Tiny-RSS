@@ -858,9 +858,9 @@ function selectionRemoveLabel(id) {
 			return;
 		}
 
-		var ok = confirm(__("Remove selected articles from label?"));
+//		var ok = confirm(__("Remove selected articles from label?"));
 
-		if (ok) {
+//		if (ok) {
 
 			var query = "backend.php?op=rpc&subop=removeFromLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
@@ -875,7 +875,7 @@ function selectionRemoveLabel(id) {
 					all_counters_callback2(transport);
 				} });
 
-		}
+//		}
 
 	} catch (e) {
 		exception_error("selectionAssignLabel", e);
@@ -893,9 +893,9 @@ function selectionAssignLabel(id) {
 			return;
 		}
 
-		var ok = confirm(__("Assign selected articles to label?"));
+//		var ok = confirm(__("Assign selected articles to label?"));
 
-		if (ok) {
+//		if (ok) {
 
 			cache_invalidate("F:" + (-11 - id));
 
@@ -910,7 +910,7 @@ function selectionAssignLabel(id) {
 					all_counters_callback2(transport);
 				} });
 
-		}
+//		}
 
 	} catch (e) {
 		exception_error("selectionAssignLabel", e);
