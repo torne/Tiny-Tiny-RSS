@@ -1329,6 +1329,12 @@ function hotkey_handler(e) {
 
 			hotkey_prefix = false;
 
+
+			if (keycode == 65) { // a
+				viewfeed(-4);
+				return false;
+			}
+
 			if (keycode == 83) { // s
 				viewfeed(-1);
 				return false;

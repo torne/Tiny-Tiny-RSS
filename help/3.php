@@ -54,8 +54,9 @@
 	<h2><?php echo __("Go to...") ?></h2>
 
 	<table>
-		<tr><td class='n'>g s</td><td><?php echo __("Starred articles") ?></td></tr>
+		<tr><td class='n'>g a</td><td><?php echo __("All articles") ?></td></tr>
 		<tr><td class='n'>g f</td><td><?php echo __("Fresh articles") ?></td></tr>
+		<tr><td class='n'>g s</td><td><?php echo __("Starred articles") ?></td></tr>
 		<tr><td class='n'>g p</td><td><?php echo __("Published articles") ?></td></tr>
 		<tr><td class='n'>g t</td><td><?php echo __("Tag cloud") ?></td></tr>
 		<tr><td class='n'>g P</td><td><?php echo __("Preferences") ?></td></tr>
