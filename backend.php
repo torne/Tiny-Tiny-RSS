@@ -289,7 +289,11 @@
 					WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 			}
 
-			print "<headlines id=\"$feed\" is_cat=\"$cat_view\"><![CDATA[";
+			if (!$next_unread_feed) {
+				print "<headlines id=\"$feed\" is_cat=\"$cat_view\"><![CDATA[";
+			} else {
+				print "<headlines id=\"$next_unread_feed\" is_cat=\"$cat_view\"><![CDATA[";
+			}
 		
 			$override_order = false;
 
