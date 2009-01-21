@@ -1292,6 +1292,11 @@ function hotkey_handler(e) {
 				return false;
 			}
 
+			if (keycode == 76) { // l
+				addLabel();
+				return false;
+			}
+
 			if (keycode == 83) { // s
 				if (typeof collapse_feedlist != 'undefined') {
 					collapse_feedlist();

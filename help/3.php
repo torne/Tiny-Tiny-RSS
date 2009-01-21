@@ -27,7 +27,7 @@
 
 	<table>
 		<tr><td class='n'>[tab]</td><td><?php echo __("Select article under mouse cursor") ?></td></tr>
-
+		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c s</td><td><?php echo __("Collapse sidebar") ?></td></tr>
 		<tr><td class='n'>c m</td><td><?php echo __("Toggle category reordering mode") ?></td></tr>
