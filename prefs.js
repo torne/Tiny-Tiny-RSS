@@ -443,6 +443,8 @@ function editUser(id) {
 	selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
 	selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
+	disableContainerChildren("userOpToolbar", false);
+
 	xmlhttp.open("GET", "backend.php?op=pref-users&subop=edit&id=" +
 		param_escape(id), true);
 	xmlhttp.onreadystatechange=infobox_callback;
@@ -462,6 +464,8 @@ function editFilter(id) {
 	notify_progress("Loading, please wait...");
 
 //	document.getElementById("create_filter_btn").disabled = true;
+
+	disableContainerChildren("filterOpToolbar", false);
 
 	selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
 	selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
@@ -495,6 +499,8 @@ function editFeed(feed) {
 	// clean selection from all rows & select row being edited
 	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
 	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
+
+	disableContainerChildren("feedOpToolbar", false);
 
 	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
 		param_escape(feed), true);
