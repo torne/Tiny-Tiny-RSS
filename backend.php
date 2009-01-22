@@ -240,7 +240,7 @@
 
 //			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
 
-			if (time() - $_SESSION["view:counters_stamp"] > 5 && $mode == "prefetch") {
+			if (time() - $_SESSION["view:counters_stamp"] > 3 && $mode == "prefetch") {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
