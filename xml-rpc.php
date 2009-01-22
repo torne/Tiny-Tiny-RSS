@@ -1,6 +1,6 @@
 <?php
-	require "xmlrpc/lib/xmlrpc.inc";
-	require "xmlrpc/lib/xmlrpcs.inc";
+	require "lib/xmlrpc/lib/xmlrpc.inc";
+	require "lib/xmlrpc/lib/xmlrpcs.inc";
 
 	require_once "sanity_check.php";
 	require_once "config.php";
