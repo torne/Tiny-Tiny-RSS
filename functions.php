@@ -133,6 +133,7 @@
 	function purge_feed($link, $feed_id, $purge_interval, $debug = false) {
 
 		if (!$purge_interval) $purge_interval = feed_purge_interval($link, $feed_id);
+		if ($purge_interval == -1 || !$purge_interval) return;
 
 		$rows = -1;
 
