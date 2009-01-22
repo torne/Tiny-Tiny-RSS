@@ -3079,7 +3079,7 @@
 
 		if (CHECK_FOR_NEW_VERSION && $_SESSION["access_level"] >= 10) {
 			
-			if ($_SESSION["last_version_check"] + 86400 < time()) {
+			if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
 				$new_version_details = check_for_update($link);
 
 				print "<param key=\"new_version_available\" value=\"".
