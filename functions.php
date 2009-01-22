@@ -573,7 +573,7 @@
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method,hidden
+				auth_pass,cache_images,update_method,hidden,last_updated
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -587,6 +587,7 @@
 
 		$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
 		$update_method = db_fetch_result($result, 0, "update_method");
+		$last_updated = db_fetch_result($result, 0, "last_updated");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
@@ -1433,6 +1434,13 @@
 					_debug("update_rss_feed: article processed");
 				}
 			} 
+
+			if (!$last_updated) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					_debug("update_rss_feed: new feed, catching it up...");
+				}
+				catchup_feed($link, $feed, false);
+			}
 
 			if (!$hidden) {
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
