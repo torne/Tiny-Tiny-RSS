@@ -3665,7 +3665,7 @@
 
 	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
 
-		require_once "MiniTemplator.class.php";
+		require_once "lib/MiniTemplator.class.php";
 
 		$tpl = new MiniTemplator;
 		$tpl_t = new MiniTemplator;

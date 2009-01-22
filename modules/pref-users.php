@@ -290,7 +290,7 @@
 				if ($email) {
 					print_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 
-					require_once "MiniTemplator.class.php";
+					require_once "lib/MiniTemplator.class.php";
 
 					$tpl = new MiniTemplator;
 
