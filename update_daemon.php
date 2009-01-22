@@ -8,8 +8,6 @@
 
 	declare(ticks = 1);
 
-	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";
@@ -34,7 +32,6 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
-	require_once "magpierss/rss_fetch.inc";
 
 	error_reporting(DEFAULT_ERROR_LEVEL);
 

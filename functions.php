@@ -103,8 +103,8 @@
 	define('MAGPIE_CACHE_AGE', 60*15); // 15 minutes
 
 	require_once "lib/simplepie/simplepie.inc";
-	require_once "magpierss/rss_fetch.inc";
-	require_once 'magpierss/rss_utils.inc';
+	require_once "lib/magpierss/rss_fetch.inc";
+	require_once 'lib/magpierss/rss_utils.inc';
 
 	/**
 	 * Print a timestamped debug message.

@@ -34,7 +34,7 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
-	require_once "magpierss/rss_fetch.inc";
+	require_once "lib/magpierss/rss_fetch.inc";
 
 	error_reporting(DEFAULT_ERROR_LEVEL);
 
