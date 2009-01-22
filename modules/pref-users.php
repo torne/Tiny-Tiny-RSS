@@ -142,7 +142,11 @@
 
 			print "<input size=\"30\" style=\"font-size : 16px\" 
 				onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
-				name=\"login\" value=\"$login\">";
+				value=\"$login\">";
+
+			if ($sel_disabled) {
+				print "<input type=\"hidden\" name=\"login\" value=\"$login\">";
+			}
 
 			print "</div>";
 
