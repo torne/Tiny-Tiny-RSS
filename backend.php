@@ -238,12 +238,14 @@
 				}
 			}
 
-
 //			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
+
+			if (time() - $_SESSION["view:counters_stamp"] > 10) {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
-//			}
+				$_SESSION["view:counters_stamp"] = time();
+			}
 
 			print "</reply>";
 		break; // view
