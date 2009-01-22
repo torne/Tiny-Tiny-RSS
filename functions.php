@@ -102,7 +102,7 @@
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 	define('MAGPIE_CACHE_AGE', 60*15); // 15 minutes
 
-	require_once "simplepie/simplepie.inc";
+	require_once "lib/simplepie/simplepie.inc";
 	require_once "magpierss/rss_fetch.inc";
 	require_once 'magpierss/rss_utils.inc';
 
