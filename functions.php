@@ -346,65 +346,6 @@
 		}
 	}
 
-	function update_all_feeds($link, $fetch, $user_id = false, $force_daemon = false) {
-
-		if (WEB_DEMO_MODE) return;
-
-		if (!$user_id) {
-			$user_id = $_SESSION["uid"];
-			purge_old_posts($link);
-		}
-
-//		db_query($link, "BEGIN");
-
-		if (MAX_UPDATE_TIME > 0) {
-			if (DB_TYPE == "mysql") {
-				$q_order = "RAND()";
-			} else {
-				$q_order = "RANDOM()";
-			}
-		} else {
-			$q_order = "last_updated DESC";
-		}
-
-		$result = db_query($link, "SELECT feed_url,id,
-			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated,
-			update_interval FROM ttrss_feeds WHERE owner_uid = '$user_id'
-			ORDER BY $q_order");
-
-		$upd_start = time();
-
-		while ($line = db_fetch_assoc($result)) {
-			$upd_intl = $line["update_interval"];
-
-			if (!$upd_intl || $upd_intl == 0) {
-				$upd_intl = get_pref($link, 'DEFAULT_UPDATE_INTERVAL', $user_id, false);
-			}
-
-			if ($upd_intl < 0) { 
-				// Updates for this feed are disabled
-				continue; 
-			}
-
-			if ($fetch || (!$line["last_updated"] || 
-				time() - strtotime($line["last_updated"]) > ($upd_intl * 60))) {
-
-//				print "<!-- feed: ".$line["feed_url"]." -->";
-
-				update_rss_feed($link, $line["feed_url"], $line["id"], $force_daemon);
-
-				$upd_elapsed = time() - $upd_start;
-
-				if (MAX_UPDATE_TIME > 0 && $upd_elapsed > MAX_UPDATE_TIME) {
-					return;
-				}
-			}
-		}
-
-//		db_query($link, "COMMIT");
-
-	}
-
 	function fetch_file_contents($url) {
 		if (USE_CURL_FOR_ICONS) {
 			$tmpfile = tempnam(TMP_DIRECTORY, "ttrss-tmp");
