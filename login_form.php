@@ -8,7 +8,7 @@
 	<![endif]-->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="prototype.js"></script>
-	<script type="text/javascript" src="scriptaculous/scriptaculous.js"></script>
+	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js"></script>
 	<script type="text/javascript" src="functions.js"></script>
 </head>
 
