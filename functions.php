@@ -96,7 +96,7 @@
 	require_once 'errors.php';
 	require_once 'version.php';
 
-	require_once 'phpmailer/class.phpmailer.php';
+	require_once 'lib/phpmailer/class.phpmailer.php';
 
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
@@ -3618,8 +3618,8 @@
 
 					$mail = new PHPMailer();
 
-					$mail->PluginDir = "phpmailer/";
-					$mail->SetLanguage("en", "phpmailer/language/");
+					$mail->PluginDir = "lib/phpmailer/";
+					$mail->SetLanguage("en", "lib/phpmailer/language/");
 
 					$mail->CharSet = "UTF-8";
 

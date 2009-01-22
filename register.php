@@ -268,8 +268,8 @@
 			
 					$mail = new PHPMailer();
 			
-					$mail->PluginDir = "phpmailer/";
-					$mail->SetLanguage("en", "phpmailer/language/");
+					$mail->PluginDir = "lib/phpmailer/";
+					$mail->SetLanguage("en", "lib/phpmailer/language/");
 			
 					$mail->CharSet = "UTF-8";
 			
@@ -302,8 +302,8 @@
 			
 					$mail = new PHPMailer();
 			
-					$mail->PluginDir = "phpmailer/";
-					$mail->SetLanguage("en", "phpmailer/language/");
+					$mail->PluginDir = "lib/phpmailer/";
+					$mail->SetLanguage("en", "lib/phpmailer/language/");
 			
 					$mail->CharSet = "UTF-8";
 			

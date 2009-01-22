@@ -283,7 +283,7 @@
 				print_notice(T_sprintf("Changed password of user <b>%s</b>
 					 to <b>%s</b>", $login, $tmp_user_pwd));
 
-				if (MAIL_RESET_PASS && $email) {
+				if ($email) {
 					print_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 
 					require_once "MiniTemplator.class.php";
@@ -303,8 +303,8 @@
 
 					$mail = new PHPMailer();
 
-					$mail->PluginDir = "phpmailer/";
-					$mail->SetLanguage("en", "phpmailer/language/");
+					$mail->PluginDir = "lib/phpmailer/";
+					$mail->SetLanguage("en", "lib/phpmailer/language/");
 
 					$mail->CharSet = "UTF-8";
 
