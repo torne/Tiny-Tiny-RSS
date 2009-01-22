@@ -848,14 +848,13 @@
 				if ($p_from != 'tt-rss') {
 					print "<html>
 						<head>
-							<title>Tiny Tiny RSS - Subscribe to feed...</title>
-							<link rel=\"stylesheet\" type=\"text/css\" href=\"quicksub.css\">
+							<title>Tiny Tiny RSS</title>
+							<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
 						</head>
 						<body>
-						<img class=\"logo\" src=\"images/ttrss_logo.png\"
+						<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
 					  		alt=\"Tiny Tiny RSS\"/>	
-						<h1>Subscribe to feed...</h1>
-						<div class=\"content\">";
+						<h1>Subscribe to feed...</h1>";
 				}
 
 				if (subscribe_to_feed($link, $feed_url, $cat_id, $auth_login, $auth_pass)) {
@@ -870,21 +869,28 @@
 
 					$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
 
-					print "<p><a href='$tt_uri'>Return to Tiny Tiny RSS</a> |";
-
 					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
 					$feed_id = db_fetch_result($result, 0, "id");
 
+					print "<p>";
+
 					if ($feed_id) {
-						print "<a href='$tp_uri?tab=feedConfig&subop=editFeed:$feed_id'>
-							Edit subscription options</a> | ";
+						print "<form method=\"GET\" style='display: inline' 
+							action=\"$tp_uri\">
+							<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
+							<input type=\"hidden\" name=\"subop\" value=\"editFeed\">
+							<input type=\"hidden\" name=\"subopparam\" value=\"$feed_id\">
+							<input type=\"submit\" value=\"".__("Edit subscription options")."\">
+							</form>";
 					}
 
-					print "<a href='javascript:window.close()'>Close this window</a>.</p>";
+					print "<form style='display: inline' method=\"GET\" action=\"$tt_uri\">
+						<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+						</form></p>";
 
-					print "</div></body></html>";
+					print "</body></html>";
 					return;
 				}
 

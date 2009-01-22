@@ -1364,6 +1364,10 @@ function init_second_stage() {
 		
 		caller_subop = getURLParam('subop');
 
+		if (getURLParam("subopparam")) {
+			caller_subop = caller_subop + ":" + getURLParam("subopparam");
+		}
+
 		if (tab) {
 			active_tab = tab;
 		}
