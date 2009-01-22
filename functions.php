@@ -134,11 +134,6 @@
 
 		if (!$purge_interval) $purge_interval = feed_purge_interval($link, $feed_id);
 		
-		if ($purge_interval == -1 || !$purge_interval) {
-			ccache_update($link, $feed_id, $owner_uid);
-			return;
-		}
-
 		$rows = -1;
 
 		$result = db_query($link, 
@@ -148,6 +143,13 @@
 
 		if (db_num_rows($result) == 1) {
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+		}
+
+		if ($purge_interval == -1 || !$purge_interval) {
+			if ($owner_uid) {
+				ccache_update($link, $feed_id, $owner_uid);
+			}
+			return;
 		}
 
 		if (!$owner_uid) return;
