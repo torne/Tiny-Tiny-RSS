@@ -131,14 +131,14 @@ function backend_sanity_check_callback(transport) {
 		}
 
 		if (!transport.responseXML) {
-			fatalError(3, "[D001, Received reply is not XML]: " + transport.responseText);
+			fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
 			return;
 		}
 
 		var reply = transport.responseXML.firstChild.firstChild;
 
 		if (!reply) {
-			fatalError(3, "[D002, Invalid RPC reply]: " + transport.responseText);
+			fatalError(3, "Sanity check: invalid RPC reply", transport.responseText);
 			return;
 		}
 
@@ -170,7 +170,7 @@ function backend_sanity_check_callback(transport) {
 		init_second_stage();
 
 	} catch (e) {
-		exception_error("backend_sanity_check_callback", e);	
+		exception_error("backend_sanity_check_callback", e, transport);	
 	} 
 }
 

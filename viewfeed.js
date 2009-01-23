@@ -39,7 +39,7 @@ function catchup_callback2(transport, callback) {
 			setTimeout(callback, 10);	
 		}
 	} catch (e) {
-		exception_error("catchup_callback2", e);
+		exception_error("catchup_callback2", e, transport);
 	}
 }
 
@@ -234,7 +234,7 @@ function headlines_callback2(transport, feed_cur_page) {
 		remove_splash();
 
 	} catch (e) {
-		exception_error_ext("headlines_callback2", e, transport);
+		exception_error("headlines_callback2", e, transport);
 	}
 }
 
@@ -290,7 +290,7 @@ function showArticleInHeadlines(id) {
 			view_mode = document.forms['main_toolbar_form'].view_mode;	
 			view_mode = view_mode[view_mode.selectedIndex].value;
 		} catch (e) {
-			exception_error("showArticleInHeadlines/viewmode", e, true);
+			//
 		}
 
 		if (upd_img_pic && upd_img_pic.src.match("updated.png")) {
@@ -386,7 +386,7 @@ function article_callback2(transport, id, feed_id) {
 
 		notify("");
 	} catch (e) {
-		exception_error("article_callback2", e);
+		exception_error("article_callback2", e, transport);
 	}
 }
 

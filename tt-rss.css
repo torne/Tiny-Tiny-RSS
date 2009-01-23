@@ -567,13 +567,25 @@ div.helpResponse {
 	top : -4px;
 }
 
-html>body #infoBox {
+div#errorBox {
+	background-color : #ffcccc;
+	border : 1px solid #ff0000;
+	font-size : 12px;
+	position: relative;
+	overflow : hidden;
+	left : -4px;
+	top : -4px;
+}
+
+
+html>body #infoBox, html>body #errorBox {
 	left : -10px;
 	top : -10px;
 	margin : 0;
 }
 
-#infoBoxShadow:before, #infoBoxShadow:after {
+#infoBoxShadow:before, #infoBoxShadow:after, 
+#errorBoxShadow:before, #errorBoxShadow:after {
 	content : " ";
 	display : block;
 	background : inherit;
@@ -581,7 +593,7 @@ html>body #infoBox {
 	height : 10px;
 }
 
-#infoBoxShadow:before {
+#infoBoxShadow:before, #errorBoxShadow:before {
 	position : absolute;
 	top : 0;
 	right : 0;
@@ -589,23 +601,29 @@ html>body #infoBox {
 	background-position : right top;
 }
 
-#infoBoxShadow:after {
+#infoBoxShadow:after, #errorBoxShadow:after {
 	margin : -10px 0 0 -10px;
 	background-position : left bottom;
 }
 
 
-#infoBoxShadow {
+#infoBoxShadow, #errorBoxShadow {
 	background-image : url("images/shadow.png");
 	background-position : bottom right;
 	left : 25%;
 	top : 70px;
 	width : 50%;
-	z-index : 5;
 	position : absolute;
-	display : none;
 	min-width : 600px;
 } 
+
+#infoBoxShadow {
+	z-index : 5;
+}
+
+#errorBoxShadow {
+	z-index : 400;
+}
 
 div.infoBoxContents {
 	padding : 10px;
@@ -1328,44 +1346,6 @@ a.cdmToggleLink:hover {
 	margin : 10px;
 }
 
-#fatal_error {
-	background : white;
-	left : 0;
-	top : 0;
-	height : 100%;
-	width : 100%;
-	z-index : 200;
-	display : none;
-	position : absolute;
-}
-
-#fatal_error_inner {
-	font-weight : bold;
-	margin : 10px;
-	color : red;
-}
-
-#fatal_error_msg {
-	color : black;
-	padding : 10px;
-	font-weight : normal;
-	background-color : #ffcccc;
-	border : 1px solid #ff0000;
-}
-
-#fatal_error_msg a {
-	color : red;
-}
-
-#fatal_error_msg a:hover {
-	color : red;
-	text-decoration : underline;
-}
-
-#fatal_error_msg img {
-	vertical-align : middle;
-}
-
 #noDaemonWarning {	
 	position : absolute;
 	background-color : #ecf4ff;		  
@@ -2084,19 +2064,7 @@ ul#headlineActionsBody li.insensitive:hover {
 	color : gray;
 }
 
-div#extendedErrorBox {
-	left : 25%;
-	top : 70px;
-	width : 50%;
-	z-index : 999;
-	position : absolute;
-	min-width : 600px;
-	background-color : #ffcccc;
-	border : 1px solid #ff0000;
-	font-size : 12px;
-}
-
-div#extendedErrorBox div#xebTitle {
+div#errorBox div#xebTitle {
 	background-color : #ff0000;
 	color : white;
 	padding : 4px 2px 4px 10px;
@@ -2105,16 +2073,18 @@ div#extendedErrorBox div#xebTitle {
 	font-size : 12px;
 }
 
-div#extendedErrorBox div#xebContent {
+div#errorBox div#xebContent {
 	font-size : 12px;
 	padding : 10px;
 }
 
-div#extendedErrorBox textarea {
+div#errorBox textarea {
 	width : 100%;
 	height : 200px;
 }
 
-div#extendedErrorBox input {
+div#errorBox input {
 	margin-bottom : 10px;
 }
+
+

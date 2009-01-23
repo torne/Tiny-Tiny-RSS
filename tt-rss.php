@@ -51,14 +51,6 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<div id="extendedErrorBox" style="display : none">
-		<div id="xebTitle">Fatal Exception</div>
-		<div id="xebContent">&nbsp;</div>
-		<div align='center'>
-		<input type="submit" onclick="closeErrorBox()" value="Close this window"/>
-		</div>
-	</div>
-
 	<script type="text/javascript">
 	//<![CDATA[
 		if (navigator.userAgent.match("Opera")) {
@@ -96,11 +88,6 @@
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 
-<div id="fatal_error"><div id="fatal_error_inner">
-	<h1>Fatal Error</h1>
-	<div id="fatal_error_msg">Unknown Error</div>
-</div></div>
-
 <div id="dialog_overlay" style="display : none"> </div>
 
 <script type="text/javascript">
@@ -112,7 +99,15 @@ window.onload = init;
 
 <ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
 
-<div id="infoBoxShadow"><div id="infoBox">&nbsp;</div></div>
+<div id="infoBoxShadow" style="display : none"><div id="infoBox">&nbsp;</div></div>
+
+<div id="errorBoxShadow" style="display : none">
+	<div id="errorBox">
+		<div id="xebTitle">Fatal Exception</div><div id="xebContent">&nbsp;</div>
+		<div id="xebBtn" align='center'><input type="submit" 
+			onclick="closeErrorBox()" value="Close this window"/></div>
+	</div>
+</div>
 
 <div id="header">
 	<div class="topLinks">

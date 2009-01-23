@@ -16,40 +16,41 @@ function is_opera() {
 	return window.opera;
 }
 
-function exception_error_ext(location, e, ext_info) {
+function exception_error(location, e, ext_info) {
 	var msg = format_exception_error(location, e);
-	var ebc = document.getElementById("xebContent");
 
 	disableHotkeys();
 
-	if (ebc) {
+	try {
 
-		Element.show("dialog_overlay");
-		Element.show("extendedErrorBox");
-
-		if (ext_info) {
-			if (ext_info.responseText) {
-				ext_info = ext_info.responseText;
+		var ebc = document.getElementById("xebContent");
+	
+		if (ebc) {
+	
+			Element.show("dialog_overlay");
+			Element.show("errorBoxShadow");
+	
+			if (ext_info) {
+				if (ext_info.responseText) {
+					ext_info = ext_info.responseText;
+				}
 			}
+	
+			ebc.innerHTML = 
+				"<div><b>Error message:</b></div>" +
+				"<pre>" + msg + "</pre>" +
+				"<div><b>Additional information:</b></div>" +
+				"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+	
+		} else {
+			alert(msg);
 		}
 
-		ebc.innerHTML = 
-			"<div><b>Error message:</b></div>" +
-			"<pre>" + msg + "</pre>" +
-			"<div><b>Additional information:</b></div>" +
-			"<textarea readonly=\"1\">" + ext_info + "</textarea>";
-
-	} else {
+	} catch (e) {
 		alert(msg);
-	}
-}
 
-function exception_error(location, e, silent) {
-	var msg = format_exception_error(location, e);
-
-	if (!silent) {
-		alert(msg);
 	}
+
 }
 
 function format_exception_error(location, e) {
@@ -647,7 +648,7 @@ function all_counters_callback2(transport, async_call) {
 		debug("<b>all_counters_callback2 OUT: " + transport + "</b>");
 
 	} catch (e) {
-		exception_error("all_counters_callback2", e);
+		exception_error("all_counters_callback2", e, transport);
 	}
 }
 
@@ -655,7 +656,6 @@ function get_feed_unread(id) {
 	try {
 		return parseInt(document.getElementById("FEEDU-" + id).innerHTML);	
 	} catch (e) {
-		exception_error("get_feed_unread", e, true);
 		return -1;
 	}
 }
@@ -667,7 +667,6 @@ function get_cat_unread(id) {
 		ctr = ctr.replace(")", "");
 		return parseInt(ctr);
 	} catch (e) {
-		exception_error("get_feed_unread", e, true);
 		return -1;
 	}
 }
@@ -1280,10 +1279,9 @@ function leading_zero(p) {
 
 function closeErrorBox() {
 
-	if (Element.visible("extendedErrorBox")) {
+	if (Element.visible("errorBoxShadow")) {
 		Element.hide("dialog_overlay");
-	
-		Element.hide("extendedErrorBox");
+		Element.hide("errorBoxShadow");
 
 		enableHotkeys();
 	}
@@ -1507,7 +1505,7 @@ function storeInitParam(key, value) {
 	init_params[key] = value;
 }
 
-function fatalError(code, message) {
+function fatalError(code, msg, ext_info) {
 	try {	
 
 		if (code == 6) {
@@ -1515,14 +1513,29 @@ function fatalError(code, message) {
 		} else if (code == 5) {
 			window.location.href = "update.php";
 		} else {
-			var fe = document.getElementById("fatal_error");
-			var fc = document.getElementById("fatal_error_msg");
 	
-			if (message == "") message = "Unknown error";
+			if (msg == "") msg = "Unknown error";
 
-			fc.innerHTML = "<img src='images/sign_excl.gif'> " + message + " (Code " + code + ")";
+			var ebc = document.getElementById("xebContent");
 	
-			fe.style.display = "block";
+			if (ebc) {
+	
+				Element.show("dialog_overlay");
+				Element.show("errorBoxShadow");
+				Element.hide("xebBtn");
+
+				if (ext_info) {
+					if (ext_info.responseText) {
+						ext_info = ext_info.responseText;
+					}
+				}
+	
+				ebc.innerHTML = 
+					"<div><b>Error message:</b></div>" +
+					"<pre>" + msg + "</pre>" +
+					"<div><b>Additional information:</b></div>" +
+					"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+			}
 		}
 
 	} catch (e) {

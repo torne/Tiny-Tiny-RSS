@@ -78,7 +78,6 @@
 	</div>
 </div> 
 
-
 <div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
 	<?php rounded_table_start("hho"); ?>
 	<?php include "help/4.php" ?>
@@ -95,11 +94,6 @@ window.onload = init;
 </script>
 
 <ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
-
-<div id="fatal_error"><div id="fatal_error_inner">
-	<h1>Fatal Error</h1>
-	<div id="fatal_error_msg"><?php echo __('Unknown Error') ?></div>
-</div></div>
 
 <div id="prefHeader">
 	<div class="topLinks">
@@ -159,6 +153,14 @@ window.onload = init;
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
+
+<div id="errorBoxShadow" style="display : none">
+	<div id="errorBox">
+		<div id="xebTitle">Fatal Exception</div><div id="xebContent">&nbsp;</div>
+		<div id="xebBtn" align='center'><input type="submit" 
+			onclick="closeErrorBox()" value="Close this window"/></div>
+	</div>
+</div>
 
 <div id="dialog_overlay" style="display : none"> </div>
 
