@@ -51,6 +51,14 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
+	<div id="extendedErrorBox" style="display : none">
+		<div id="xebTitle">Fatal Exception</div>
+		<div id="xebContent">&nbsp;</div>
+		<div align='center'>
+		<input type="submit" onclick="closeErrorBox()" value="Close this window"/>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 	//<![CDATA[
 		if (navigator.userAgent.match("Opera")) {

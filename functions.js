@@ -16,7 +16,43 @@ function is_opera() {
 	return window.opera;
 }
 
+function exception_error_ext(location, e, ext_info) {
+	var msg = format_exception_error(location, e);
+	var ebc = document.getElementById("xebContent");
+
+	disableHotkeys();
+
+	if (ebc) {
+
+		Element.show("dialog_overlay");
+		Element.show("extendedErrorBox");
+
+		if (ext_info) {
+			if (ext_info.responseText) {
+				ext_info = ext_info.responseText;
+			}
+		}
+
+		ebc.innerHTML = 
+			"<div><b>Error message:</b></div>" +
+			"<pre>" + msg + "</pre>" +
+			"<div><b>Additional information:</b></div>" +
+			"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+
+	} else {
+		alert(msg);
+	}
+}
+
 function exception_error(location, e, silent) {
+	var msg = format_exception_error(location, e);
+
+	if (!silent) {
+		alert(msg);
+	}
+}
+
+function format_exception_error(location, e) {
 	var msg;
 
 	if (e.fileName) {
@@ -34,10 +70,9 @@ function exception_error(location, e, silent) {
 
 	debug("<b>EXCEPTION: " + msg + "</b>");
 
-	if (!silent) {
-		alert(msg);
-	}
+	return msg;
 }
+
 
 function disableHotkeys() {
 	hotkeys_enabled = false;
@@ -1243,22 +1278,33 @@ function leading_zero(p) {
 	return s;
 }
 
-function closeInfoBox(cleanup) {
+function closeErrorBox() {
 
-	Element.hide("dialog_overlay");
+	if (Element.visible("extendedErrorBox")) {
+		Element.hide("dialog_overlay");
+	
+		Element.hide("extendedErrorBox");
 
-	var box = document.getElementById('infoBox');
-	var shadow = document.getElementById('infoBoxShadow');
-
-	if (shadow) {
-		shadow.style.display = "none";
-	} else if (box) {
-		box.style.display = "none";
+		enableHotkeys();
 	}
 
-	if (cleanup) box.innerHTML = "&nbsp;";
+	return false;
+}
 
-	enableHotkeys();
+function closeInfoBox(cleanup) {
+
+	if (Element.visible("infoBoxShadow")) {
+		Element.hide("dialog_overlay");
+	
+		var shadow = document.getElementById('infoBoxShadow');
+		var box = document.getElementById('infoBoxShadow');
+
+		Element.hide(shadow);
+
+		if (cleanup) box.innerHTML = "&nbsp;";
+
+		enableHotkeys();
+	}
 
 	return false;
 }

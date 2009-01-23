@@ -234,7 +234,7 @@ function headlines_callback2(transport, feed_cur_page) {
 		remove_splash();
 
 	} catch (e) {
-		exception_error("headlines_callback2", e);
+		exception_error_ext("headlines_callback2", e, transport);
 	}
 }
 
