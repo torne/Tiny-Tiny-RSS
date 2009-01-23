@@ -3961,25 +3961,7 @@
 			//print "<li><span class=\"insensitive\">--------</span></li>";
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 
-			print "<li onclick=\"javascript:addLabel()\">
-				&nbsp;&nbsp;".__("Create label...")."</li>";
-
-			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
-				owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
-
-			while ($line = db_fetch_assoc($result)) {
-
-				$label_id = $line["id"];
-				$label_caption = $line["caption"];
-
-				if ($feed_id < -10 && $feed_id == -11-$label_id) {
-					print "<li onclick=\"javascript:selectionRemoveLabel($label_id)\">
-						&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
-				} else {					
-					print "<li onclick=\"javascript:selectionAssignLabel($label_id)\">
-						&nbsp;&nbsp;$label_caption</li>";
-				}
-			}
+			print_labels_headlines_dropdown($link, $feed_id);
 
 			print "</ul>";
 			print "</td>"; 
@@ -6020,5 +6002,29 @@
 			}
 
 		db_query($link, "COMMIT");
+	}
+
+	function print_labels_headlines_dropdown($link, $feed_id) {
+		print "<li onclick=\"javascript:addLabel()\">
+			&nbsp;&nbsp;".__("Create label...")."</li>";
+
+		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
+			owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$label_id = $line["id"];
+			$label_caption = $line["caption"];
+
+			if ($feed_id < -10 && $feed_id == -11-$label_id) {
+				print "<li id=\"LHDL-$id\" 
+					onclick=\"javascript:selectionRemoveLabel($label_id)\">
+					&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
+			} else {					
+				print "<li id=\"LHDL-$id\" 
+					onclick=\"javascript:selectionAssignLabel($label_id)\">
+					&nbsp;&nbsp;$label_caption</li>";
+			}
+		}
 	}
 ?>
