@@ -3699,7 +3699,7 @@
 		return array($tmp, $headlines_count, $affected_ids, $tmp_t);
 	}
 
-	function check_for_update($link, $brief_fmt = true) {
+	function check_for_update($link) {
 		$releases_feed = "http://tt-rss.org/releases.rss";
 
 		if (!CHECK_FOR_NEW_VERSION || $_SESSION["access_level"] < 10) {
@@ -3753,18 +3753,11 @@
 			}
 
 			if (version_compare(VERSION, $latest_version) == -1) {
-				if ($brief_fmt) {
-					return format_notice("<a href=\"javascript:showBlockElement('milestoneDetails')\">	
-						New version of Tiny-Tiny RSS ($latest_version) is available (click for details)</a>
-						<div id=\"milestoneDetails\">$content</div>");
-				} else {
-					return "New version of Tiny-Tiny RSS ($latest_version) is available:
-						<div class='milestoneDetails'>$content</div>
-						Visit <a target=\"_blank\" href=\"http://tt-rss.org/\">official site</a> for
-						download and update information.";	
-				}
-
-			}			
+				return sprintf("New version of Tiny-Tiny RSS (%s) is available:", 
+					$latest_version)."<div class='milestoneDetails'>$content</div>";
+			} else {
+				return false;
+			}	
 		}
 	}
 

@@ -1419,4 +1419,6 @@ function addLabel() {
 	}
 }
 
-
+function visitOfficialSite() {
+	window.open("http://tt-rss.org/");
+}

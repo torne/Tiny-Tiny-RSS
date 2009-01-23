@@ -8,10 +8,10 @@
 			print "<div id=\"infoBoxTitle\">".__('Notice')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
+			print "<div class=\"errorExplained\">";
+
 			if ($param == 1) {
-				print __("Update daemon is enabled in configuration, but daemon
-					process is not running, which prevents all feeds from updating. Please
-					start the daemon process or contact instance owner.");
+				print __("Update daemon is enabled in configuration, but daemon process is not running, which prevents all feeds from updating. Please start the daemon process or contact instance owner.");
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
@@ -20,11 +20,10 @@
 			}
 
 			if ($param == 2) {
-				$msg = check_for_update($link, false);
+				$msg = check_for_update($link);
 
 				if (!$msg) {
-					print __("You are running the latest version of Tiny Tiny RSS. The
-						fact that you are seeing this dialog is probably a bug.");
+					print __("You are running the latest version of Tiny Tiny RSS. The fact that you are seeing this dialog is probably a bug.");
 				} else {
 					print $msg;
 				}
@@ -32,10 +31,7 @@
 			}
 
 			if ($param == 3) {
-				print __("TT-RSS has detected that update daemon is taking too long to
-					perform a feed update. This could indicate a problem like crash
-					or a hang. Please check the daemon process or contact instance
-					owner.");
+				print __("Update daemon is taking too long to perform a feed update. This could indicate a problem like crash or a hang. Please check the daemon process or contact instance owner.");
 
 				$stamp = (int)read_stampfile("update_daemon.stamp");
 
@@ -44,14 +40,18 @@
 			}
 
 			print "</div>";
-
+			
 			print "<div align='center'>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return visitOfficialSite()\" 
+				value=\"".__('Visit official site')."\"> ";
 
 			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
 				value=\"".__('Close this window')."\">";
 
-			print "</div>";
+			print "</div></div>";
 
 			return;
 		}

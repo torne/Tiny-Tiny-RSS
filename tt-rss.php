@@ -108,6 +108,7 @@ window.onload = init;
 
 <div id="header">
 	<div class="topLinks">
+
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
@@ -123,8 +124,9 @@ window.onload = init;
 	<?php } ?>
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
-		src="images/new_version.png" title="New version is available!" 
+		src="images/new_version.png" title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
+
 	</div>
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
