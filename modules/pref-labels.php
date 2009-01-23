@@ -62,19 +62,10 @@
 
 			if ($caption) {
 
-				$result = db_query($link, "SELECT id FROM ttrss_labels2
-					WHERE caption = '$caption' AND owner_uid =  ". $_SESSION["uid"]);
-
-				if (db_num_rows($result) == 0) {
-
-					$result = db_query($link,
-						"INSERT INTO ttrss_labels2 (caption,owner_uid) 
-						VALUES ('$caption', '".$_SESSION["uid"]."')");
-
-					if (db_affected_rows($link, $result) != 0) {
-						print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
-					}
+				if (label_create($link, $caption)) {
+					print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
 				}
+
 			}
 
 			return;

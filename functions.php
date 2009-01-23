@@ -6004,6 +6004,28 @@
 		db_query($link, "COMMIT");
 	}
 
+	function label_create($link, $caption) {
+
+		db_query($link, "BEGIN");
+
+		$result = false;
+
+		$result = db_query($link, "SELECT id FROM ttrss_labels2
+			WHERE caption = '$caption' AND owner_uid =  ". $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 0) {
+			$result = db_query($link,
+				"INSERT INTO ttrss_labels2 (caption,owner_uid) 
+					VALUES ('$caption', '".$_SESSION["uid"]."')");
+
+			$result = db_affected_rows($link, $result) != 0;
+		}
+
+		db_query($link, "COMMIT");
+
+		return $result;
+	}
+
 	function print_labels_headlines_dropdown($link, $feed_id) {
 		print "<li onclick=\"javascript:addLabel()\">
 			&nbsp;&nbsp;".__("Create label...")."</li>";
