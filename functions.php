@@ -5684,6 +5684,8 @@
 	function ccache_find($link, $feed_id, $owner_uid, $is_cat = false, 
 		$no_update = false) {
 
+		if (!is_numeric($feed_id)) return;
+
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
 		} else {
@@ -5714,6 +5716,8 @@
 
 	function ccache_update($link, $feed_id, $owner_uid, $is_cat = false, 
 		$update_pcat = true) {
+
+		if (!is_numeric($feed_id)) return;
 
 		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
 

@@ -275,12 +275,12 @@
 			/* Updating a label ccache means recalculating all of the caches
 			 * so for performance reasons we don't do that here */
 
-			if (time() - $_SESSION["viewfeed:ccache_update_stamp"] > 120) {
+//			if (time() - $_SESSION["viewfeed:ccache_update_stamp"] > 120) {
 				if ($feed >= 0) {
 					ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
 				}
 				$_SESSION["viewfeed:ccache_update_stamp"] = time();
-			}
+//			}
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
