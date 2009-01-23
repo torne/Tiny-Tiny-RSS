@@ -2256,3 +2256,8 @@ function batchFeedsToggleField(cb, elem, label) {
 	}
 }
 
+function updateFeedBrowser() {
+	alert("FIXME");
+}
+
+

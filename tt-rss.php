@@ -140,7 +140,7 @@ window.onload = init;
 			href="javascript:toggleTags()"><?php echo __("tag cloud") ?></a>
 		<?php if (!SINGLE_USER_MODE) { ?>
 		<br/>
-		<a id="feedBrowserPrompt" href="prefs.php?tab=feedBrowser" 
+		<a id="feedBrowserPrompt" onclick="return browseFeeds()" href="#"
 			title="<?php echo __('More feeds...') ?>">+</a>
 		<?php } ?>
 	</div>

@@ -60,66 +60,33 @@
 				return;
 			}
 
-			print "<div id=\"infoBoxTitle\">".__('Other feeds: Top 25')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
 
-			print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
+
+			$browser_search = db_escape_string($_GET["search"]);
+
+			if (array_key_exists("search", $_GET)) {
+				$_SESSION["feed_browser_search"] = $browser_search;
+				} else {
+				$browser_search = $_SESSION["feed_browser_search"];
+			}
+
+			//print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
+			print "<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
+				onfocus=\"javascript:disableHotkeys();\" 
+				onblur=\"javascript:enableHotkeys();\"
+				onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
+			<input type=\"submit\" class=\"button\" 
+				onclick=\"javascript:updateFeedBrowser()\" value=\"".__('Search')."\">";
+
+			print "<p>";
 
 			$owner_uid = $_SESSION["uid"];
 
-/*			$result = db_query($link, "SELECT feed_url,COUNT(id) AS subscribers
-		  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf 
-					WHERE tf.feed_url = ttrss_feeds.feed_url 
-						AND owner_uid = '$owner_uid') GROUP BY feed_url 
-						ORDER BY subscribers DESC LIMIT 25"); */
-
-			$result = db_query($link, "SELECT feed_url, subscribers FROM
-				ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
-				WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
-				AND owner_uid = '$owner_uid') ORDER BY subscribers DESC LIMIT 25");
-
 			print "<ul class='browseFeedList' id='browseFeedList'>";
-
-			$feedctr = 0;
-			
-			while ($line = db_fetch_assoc($result)) {
-				$feed_url = $line["feed_url"];
-				$subscribers = $line["subscribers"];
-
-				$det_result = db_query($link, "SELECT site_url,title,id 
-					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
-
-				$details = db_fetch_assoc($det_result);
-			
-				$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
-
-				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
-							"/".$details["id"].".ico\">";
-				} else {
-					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
-				}
-
-				$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
-					type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
-
-				$class = ($feedctr % 2) ? "even" : "odd";
-
-				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-					"$feed_icon " . $details["title"] . 
-					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
-
-					++$feedctr;
-			}
-
-			if ($feedctr == 0) {
-				print "<li style=\"text-align : center\"><p>".__('No feeds found.')."</p></li>";
-				$subscribe_btn_disabled = "disabled";
-			} else {
-				$subscribe_btn_disabled = "";
-			}
-
+			$subscribe_btn_disabled = print_feed_browser($link, $search, $limit) == 0 ? "disabled" : "";
 			print "</ul>";
 
 			print "<div align='center'>
@@ -1461,6 +1428,53 @@
 		/* print " <input type=\"submit\" onclick=\"return pubToClipboard()\" class=\"button\"
 			value=\"".__('Copy link to clipboard')."\">"; */
 		print "</p>";
+
+	}
+
+	function print_feed_browser($link, $search, $limit) {
+
+			$result = db_query($link, "SELECT feed_url, subscribers FROM
+				ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
+				WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
+				AND owner_uid = '$owner_uid') ORDER BY subscribers DESC LIMIT 25");
+
+			$feedctr = 0;
+			
+			while ($line = db_fetch_assoc($result)) {
+				$feed_url = $line["feed_url"];
+				$subscribers = $line["subscribers"];
+
+				$det_result = db_query($link, "SELECT site_url,title,id 
+					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+
+				$details = db_fetch_assoc($det_result);
+			
+				$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+
+				if (file_exists($icon_file) && filesize($icon_file) > 0) {
+						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+							"/".$details["id"].".ico\">";
+				} else {
+					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+				}
+
+				$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+					type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
+
+				$class = ($feedctr % 2) ? "even" : "odd";
+
+				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+					"$feed_icon " . $details["title"] . 
+					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
+
+					++$feedctr;
+			}
+
+			if ($feedctr == 0) {
+				print "<li style=\"text-align : center\"><p>".__('No feeds found.')."</p></li>";
+			}
+
+		return $feedctr;
 
 	}
 ?>
