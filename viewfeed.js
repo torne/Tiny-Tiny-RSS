@@ -2,13 +2,6 @@ var active_post_id = false;
 var last_article_view = false;
 var active_real_feed_id = false;
 
-var _tag_active_post_id = false;
-var _tag_active_feed_id = false;
-var _tag_active_cdm = false;
-
-// FIXME: kludge, to restore scrollTop after tag editor terminates
-var _tag_cdm_scroll = false;
-
 // FIXME: kludges, needs proper implementation
 var _reload_feedlist_after_view = false;
 
@@ -231,15 +224,6 @@ function headlines_callback2(transport, feed_cur_page) {
 			_cdm_wd_vishist = new Array();
 		} else {
 			debug("not in CDM mode or watchdog disabled");
-		}
-	
-		if (_tag_cdm_scroll) {
-			try {
-				document.getElementById("headlinesInnerContainer").scrollTop = _tag_cdm_scroll;
-				_tag_cdm_scroll = false;
-				debug("resetting headlinesInner scrollTop");
-	
-			} catch (e) { }
 		}
 	
 		_feed_cur_page = feed_cur_page;
@@ -1228,15 +1212,6 @@ function catchupSelection() {
 }
 
 function editArticleTags(id, feed_id, cdm_enabled) {
-	_tag_active_post_id = id;
-	_tag_active_feed_id = feed_id;
-	_tag_active_cdm = cdm_enabled;
-
-	cache_invalidate(id);
-
-	try {
-		_tag_cdm_scroll = document.getElementById("headlinesInnerContainer").scrollTop;
-	} catch (e) { }
 	displayDlg('editArticleTags', id);
 }
 
@@ -1252,18 +1227,24 @@ function tag_saved_callback(transport) {
 			_reload_feedlist_after_view = true;
 		}
 
-		if (!_tag_active_cdm) {
-			if (active_post_id == _tag_active_post_id) {
-				debug("reloading current article");
-				view(_tag_active_post_id, _tag_active_feed_id);			
+
+		if (transport.responseXML) {
+			var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
+			
+			if (tags_str) {
+				var id = tags_str.getAttribute("id");
+
+				if (id) {
+					var tags = document.getElementById("ATSTR-" + id);
+					if (tags) {
+						tags.innerHTML = tags_str.firstChild.nodeValue;
+					}
+				}
 			}
-		} else {
-			debug("reloading current feed");
-			viewCurrentFeed();
 		}
 
 	} catch (e) {
-		exception_error("catchup_callback", e);
+		exception_error("tag_saved_callback", e);
 	}
 }
 

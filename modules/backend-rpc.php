@@ -296,7 +296,7 @@
 						continue;
 					}
 
-					print "<!-- $id : $int_id : $tag -->";
+//					print "<!-- $id : $int_id : $tag -->";
 					
 					if ($tag != '') {
 						db_query($link, "INSERT INTO ttrss_tags 
@@ -307,8 +307,10 @@
 
 			db_query($link, "COMMIT");
 
+			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
+
 			print "<rpc-reply>
-				<message>$id</message>
+				<tags-str id=\"$id\"><![CDATA[$tags_str]]></tags-str>
 				</rpc-reply>";
 
 			return;

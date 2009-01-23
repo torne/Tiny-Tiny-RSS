@@ -4533,54 +4533,15 @@
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			$tags = get_article_tags($link, $id);
-	
-			$tags_str = "";
-			$tags_nolinks_str = "";
-			$f_tags_str = "";
-
-			$num_tags = 0;
-
-			if ($_SESSION["theme"] == "3pane") {
-				$tag_limit = 3;
-			} else {
-				$tag_limit = 6;
-			}
-
-			foreach ($tags as $tag) {
-				$num_tags++;
-				$tag_escaped = str_replace("'", "\\'", $tag);
-
-				$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>, ";
-				
-				if ($num_tags == $tag_limit) {
-					$tags_str .= "&hellip;";
-					$tags_nolinks_str .= "&hellip;";
-
-				} else if ($num_tags < $tag_limit) {
-					$tags_str .= $tag_str;
-					$tags_nolinks_str .= "$tag, ";
-				}
-				$f_tags_str .= $tag_str;
-			}
-
-			$tags_str = preg_replace("/, $/", "", $tags_str);
-			$tags_nolinks_str = preg_replace("/, $/", "", $tags_nolinks_str);
-			$f_tags_str = preg_replace("/, $/", "", $f_tags_str);
-
-			$all_tags_div = "<span class='cdmAllTagsCtr'>&hellip;<div class='cdmAllTags'>All Tags: $f_tags_str</div></span>";
-			$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
+			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
-
-			if (!$tags_str) $tags_str = '<span class="tagList">'.__('no tags').'</span>';
-			if (!$tags_nolinks_str) $tags_nolinks_str = '<span class="tagList">'.__('no tags').'</span>';
 
 			print "<div style='float : right'>
 					<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>";
 
 			if (!$zoom_mode) {
-				print "$tags_str 
+				print "<span id=\"ATSTR-$id\">$tags_str</span>
 					<a title=\"".__('Edit tags for this article')."\" 
 					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>";
 
@@ -4597,8 +4558,6 @@
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
-			} else {
-				print "$tags_nolinks_str";
 			}
 			print "</div>";
 			print "<div clear='both'>$entry_comments</div>";
@@ -4608,8 +4567,6 @@
 			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
 
 			print "<div class=\"postContent\">";
-
-			#print "<div id=\"allEntryTags\">".__('Tags:')." $f_tags_str</div>";
 
 			$article_content = sanitize_rss($link, $line["content"]);
 
@@ -5253,38 +5210,15 @@
 						alt='Zoom' 
 						title='".__('Show article summary in new window')."'></span>";
 
-					$tags = get_article_tags($link, $id);
-
-					$tags_str = "";
-					$full_tags_str = "";
-					$num_tags = 0;
-
-					foreach ($tags as $tag) {
-						$num_tags++;
-						$full_tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
-						if ($num_tags < 5) {
-							$tags_str .= "<a href=\"javascript:viewfeed('$tag')\">$tag</a>, "; 
-						} else if ($num_tags == 5) {
-							$tags_str .= "&hellip;";
-						}
-					}
-
-					$tags_str = preg_replace("/, $/", "", $tags_str);
-					$full_tags_str = preg_replace("/, $/", "", $full_tags_str);
-
-					$all_tags_div = "<span class='cdmAllTagsCtr'>&hellip;<div class='cdmAllTags'>All Tags: $full_tags_str</div></span>";
-
-					$tags_str = preg_replace("/\.\.\.$/", "$all_tags_div", $tags_str);
-
-
-					if ($tags_str == "") $tags_str = "no tags";
+					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
 //					print "<img src='images/tag.png' class='markedPic'>";
 
 					print "<span class='s1'>
-						<img class='tagsPic' src='images/tag.png' alt='Tags' 
-							title='Tags'> $tags_str <a title=\"Edit tags for this article\" 
-							href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
+						<img class='tagsPic' src='images/tag.png' alt='Tags' title='Tags'>
+						<span id=\"ATSTR-$id\">$tags_str</span>
+						<a title=\"".__('Edit tags for this article')."\" 
+						href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
 
 					print "</span>";
 
@@ -6010,5 +5944,47 @@
 					&nbsp;&nbsp;$label_caption</li>";
 			}
 		}
+	}
+
+	function format_tags_string($tags, $id) {
+
+		$tags_str = "";
+		$tags_nolinks_str = "";
+
+		$num_tags = 0;
+
+		if ($_SESSION["theme"] == "3pane") {
+			$tag_limit = 3;
+		} else {
+			$tag_limit = 6;
+		}
+
+		$formatted_tags = array();
+
+		foreach ($tags as $tag) {
+			$num_tags++;
+			$tag_escaped = str_replace("'", "\\'", $tag);
+
+			$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>";
+
+			array_push($formatted_tags, $tag_str);
+				
+			if ($num_tags == $tag_limit) {
+				break;
+			}
+		}
+
+		$tags_str = implode(", ", $formatted_tags);
+
+		if ($num_tags < count($tags)) {
+			$tags_str .= ", &hellip;";
+		}
+
+		if ($num_tags == 0) {
+			$tags_str = __("no tags");
+		}
+
+		return $tags_str;
+
 	}
 ?>
