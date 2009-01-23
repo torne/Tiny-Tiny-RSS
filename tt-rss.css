@@ -812,7 +812,7 @@ td.selectPrompt {
 	color : gray;
 }
 
-table.headlinesSubToolbar {
+div.headlinesSubToolbar {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #f0f0f0;
@@ -820,6 +820,9 @@ table.headlinesSubToolbar {
 	left : 0px;
 	top : 0px;
 	height : 25px;
+	line-height : 25px;
+	padding-left : 5px;
+	padding-right : 5px;
 	right : 0px;
 	background-color : white;
 	font-size : 11px;
@@ -827,28 +830,8 @@ table.headlinesSubToolbar {
 	color : gray;
 }
 
-input#subtoolbar_search_box {
-	height : 10px;
-	font-size : 9px;
-	vertical-align : middle;
-}
-
-table.headlinesSubToolbar td.headlineActions {
-	padding : 0px 5px 0px 5px;
-}
-
-table.headlinesSubToolbar td.headlineActionsRTL {
-	padding : 0px 5px 0px 5px;
-}
-
-table.headlinesSubToolbar td.headlineTitle {
-	padding : 0px 5px 0px 5px;
-	text-align : right;
-}
-
-table.headlinesSubToolbar td.headlineTitleRTL {
-	padding : 0px 5px 0px 5px;
-	text-align : left;
+div.headlinesSubToolbar div#subtoolbar_ftitle {
+	float : right;
 }
 
 span.contentPreview {

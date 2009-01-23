@@ -3312,8 +3312,6 @@
 				$feed_title = "?";
 			}
 
-			if ($feed < -10) error_reporting (0);
-
 			$content_query_part = "content as content_preview,";
 
 			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
@@ -3870,29 +3868,10 @@
 	}
 
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
-			$bottom = false, $rtl_content = false, $feed_id = 0,
-			$is_cat = false, $search = false, $match_on = false,
-			$search_mode = false, $offset = 0, $limit = 0, 
-			$dashboard_menu = 0, $disable_feed = 0, $feed_small_icon = 0) {
+			$feed_id, $is_cat, $search, $match_on,
+			$search_mode) {
 
-			$user_page_offset = $offset + 1;
-
-			if (!$bottom) {
-				$class = "headlinesSubToolbar";
-				$tid = "headlineActionsTop";
-			} else {
-				$class = "headlinesSubToolbar";
-				$tid = "headlineActionsBottom";
-			}
-
-			print "<nobr><table class=\"$class\" id=\"$tid\"
-				width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
-
-			if ($rtl_content) {
-				$rtl_cpart = "RTL";
-			} else {
-				$rtl_cpart = "";
-			}
+			print "<div class=\"headlinesSubToolbar\">";
 
 			$page_prev_link = "javascript:viewFeedGoPage(-1)";
 			$page_next_link = "javascript:viewFeedGoPage(1)";
@@ -3927,8 +3906,30 @@
 
 			}
 
-			print "<td class=\"headlineActions$rtl_cpart\">";
+			print "<div id=\"subtoolbar_ftitle\">";
 
+			if ($feed_site_url) {
+				if (!$bottom) {
+					$target = "target=\"_blank\"";
+				}
+				print "<a $target href=\"$feed_site_url\">".
+					truncate_string($feed_title,30)."</a>";
+			} else {
+				print $feed_title;
+			}
+
+			if ($search) {
+				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			}
+
+			print "
+				<a target=\"_blank\" 
+					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
+					<img class=\"noborder\" 
+						alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
+						</a>";
+
+			print "</div>";
 
 			print __('Select:')."
 				<a href=\"$sel_all_link\">".__('All')."</a>,
@@ -3964,46 +3965,8 @@
 			print_labels_headlines_dropdown($link, $feed_id);
 
 			print "</ul>";
-			print "</td>"; 
-	
-			print "<td class=\"headlineTitle$rtl_cpart\">";
 
-			print "<span id=\"subtoolbar_ftitle\">";
-
-			if ($feed_site_url) {
-				if (!$bottom) {
-					$target = "target=\"_blank\"";
-				}
-				print "<a $target href=\"$feed_site_url\">".
-					truncate_string($feed_title,30)."</a>";
-			} else {
-				print $feed_title;
-			}
-
-			if ($search) {
-				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-			}
-
-			if ($user_page_offset > 1) {
-				print " [$user_page_offset] ";
-			}
-
-			if (!$bottom && !$disable_feed) {
-				print "
-					<a target=\"_blank\" 
-						href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
-						<img class=\"noborder\" 
-							alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
-					</a>";
-			} else if ($feed_small_icon) {
-				print "<img class=\"noborder\" alt=\"\" src=\"images/$feed_small_icon\">";
-			}
-
-			print "</span>";
-
-			print "</td>";
-			print "</tr></table></nobr>";
-
+			print "</div>";
 		}
 
 	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true) {
@@ -4863,9 +4826,8 @@
 				return;
 			}
 
-			print_headline_subtoolbar($link, $feed_site_url, $feed_title, false, 
-				$rtl_content, $feed, $cat_view, $search, $match_on, $search_mode, 
-				$offset, $limit);
+			print_headline_subtoolbar($link, $feed_site_url, $feed_title,
+				$feed, $cat_view, $search, $match_on, $search_mode);
 
 			print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 		}
