@@ -53,12 +53,6 @@ function replace_pubkey_callback() {
 	}
 }
 
-function feedlist_callback() {
-	if (xmlhttp.readyState == 4) {
-		return feedlist_callback2(xmlhttp);
-	}
-}
-
 function feedlist_callback2(transport) {
 
 	try {	
@@ -100,13 +94,6 @@ function filterlist_callback2(transport) {
 	}
 	notify("");
 	remove_splash();
-}
-
-
-function filterlist_callback() {
-	if (xmlhttp.readyState == 4) {
-		filterlist_callback2(xmlhttp);
-	}
 }
 
 function labellist_callback2(transport) {
@@ -566,27 +553,32 @@ function removeSelectedUsers() {
 
 function removeSelectedFilters() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var sel_rows = getSelectedFilters();
-
-	if (sel_rows.length > 0) {
-
-		var ok = confirm(__("Remove selected filters?"));
-
-		if (ok) {
-			notify_progress("Removing selected filters...");
+		var sel_rows = getSelectedFilters();
 	
-			xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=filterlist_callback;
-			xmlhttp.send(null);
+		if (sel_rows.length > 0) {
+	
+			var ok = confirm(__("Remove selected filters?"));
+	
+			if (ok) {
+				notify_progress("Removing selected filters...");
+		
+				var query = "backend.php?op=pref-filters&subop=remove&ids="+
+					param_escape(sel_rows.toString());
+	
+				new Ajax.Request(query,	{
+						onComplete: function(transport) {
+								filterlist_callback2(transport);
+					} });
+	
+			}
+		} else {
+			alert(__("No filters are selected."));
 		}
-	} else {
-		alert(__("No filters are selected."));
+
+	} catch (e) {
+		exception_error("removeSelectedFilters", e);
 	}
 
 	return false;
@@ -831,31 +823,24 @@ function userEditSave() {
 
 function filterEditSave() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-/*	if (!is_opera()) {
-		var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
+		notify_progress("Saving filter...");
 	
-		if (reg_exp.length == 0) {
-			alert("Filter expression field cannot be blank.");
-			return;
-		}
-	} */
+		var query = "backend.php?" + Form.serialize("filter_edit_form");
+	
+		closeInfoBox();
+	
+		document.getElementById("create_filter_btn").disabled = false;
 
-	notify_progress("Saving filter...");
+		new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						filterlist_callback2(transport);
+			} });
 
-	var query = Form.serialize("filter_edit_form");
-
-	closeInfoBox();
-
-	document.getElementById("create_filter_btn").disabled = false;
-
-	xmlhttp.open("GET", "backend.php?" + query, true);
-	xmlhttp.onreadystatechange=filterlist_callback;
-	xmlhttp.send(null);
+	} catch (e) {
+		exception_error("filterEditSave", e);
+	}
 
 	return false;
 }
@@ -1031,21 +1016,24 @@ function validateOpmlImport() {
 }
 
 function updateFilterList(sort_key) {
+	try {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+		var filter_search = document.getElementById("filter_search");
+		var search = "";
+		if (filter_search) { search = filter_search.value; }
+	
+		var query = "backend.php?op=pref-filters&sort=" + 
+			param_escape(sort_key) + 
+			"&search=" + param_escape(search);
+
+		new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						filterlist_callback2(transport);
+			} });
+
+	} catch (e) {
+		exception_error("updateFilterList", e);
 	}
-
-	var filter_search = document.getElementById("filter_search");
-	var search = "";
-	if (filter_search) { search = filter_search.value; }
-
-	xmlhttp.open("GET", "backend.php?op=pref-filters&sort=" + 
-		param_escape(sort_key) + 
-		"&search=" + param_escape(search), true);
-	xmlhttp.onreadystatechange=filterlist_callback;
-	xmlhttp.send(null);
 
 }
 
@@ -1951,27 +1939,29 @@ function removeFilter(id, title) {
 
 function unsubscribeFeed(id, title) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var msg = __("Unsubscribe from %s?").replace("%s", title);
-
-	var ok = confirm(msg);
-
-	if (ok) {
-		closeInfoBox();
-
-		notify_progress("Removing feed...");
+		var msg = __("Unsubscribe from %s?").replace("%s", title);
 	
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
-			param_escape(id), true);
-		xmlhttp.onreadystatechange=filterlist_callback;
-		xmlhttp.send(null);
+		var ok = confirm(msg);
+	
+		if (ok) {
+			closeInfoBox();
+	
+			notify_progress("Removing feed...");
+		
+			var query = "backend.php?op=pref-feeds&subop=remove&ids="+
+				param_escape(id);
+	
+			new Ajax.Request(query,	{
+					onComplete: function(transport) {
+							feedlist_callback2(transport);
+				} });
+		}
+	
+	} catch (e) {
+		exception_error("unsubscribeFeed", e);
 	}
-
-	return false;
 
 	return false;
 
