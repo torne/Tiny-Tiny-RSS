@@ -8,7 +8,7 @@
 			return;
 		}
 
-		$subop = $_GET["subop"];
+		$subop = $_REQUEST["subop"];
 
 		if ($subop == "user-details") {
 
@@ -205,11 +205,11 @@
 	
 			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
 
-				$login = db_escape_string(trim($_GET["login"]));
-				$uid = db_escape_string($_GET["id"]);
-				$access_level = (int) $_GET["access_level"];
-				$email = db_escape_string(trim($_GET["email"]));
-				$password = db_escape_string(trim($_GET["password"]));
+				$login = db_escape_string(trim($_REQUEST["login"]));
+				$uid = db_escape_string($_REQUEST["id"]);
+				$access_level = (int) $_REQUEST["access_level"];
+				$email = db_escape_string(trim($_REQUEST["email"]));
+				$password = db_escape_string(trim($_REQUEST["password"]));
 
 				if ($password) {
 					$pwd_hash = encrypt_password($password, $login);

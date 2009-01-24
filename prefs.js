@@ -1,28 +1,11 @@
-var xmlhttp = false;
-
 var active_feed_cat = false;
 var active_tab = false;
-
-var xmlhttp = Ajax.getTransport();
 
 var init_params = new Array();
 
 var caller_subop = false;
 var sanity_check_done = false;
 var hotkey_prefix = false;
-
-function infobox_callback() {
-	if (xmlhttp.readyState == 4) {
-		infobox_callback2(xmlhttp);
-	}
-}
-
-function infobox_submit_callback() {
-	if (xmlhttp.readyState == 4) {
-		infobox_submit_callback2(xmlhttp);
-	}
-}
-
 
 function replace_pubkey_callback(transport) {
 	try {	
@@ -127,12 +110,16 @@ function labellist_callback2(transport) {
 	}
 }
 
-function userlist_callback() {
-	var container = document.getElementById('prefContent');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-		notify("");
-		remove_splash();
+function userlist_callback2(transport) {
+	try {
+		var container = document.getElementById('prefContent');
+		if (transport.readyState == 4) {
+			container.innerHTML=transport.responseText;
+			notify("");
+			remove_splash();
+		}
+	} catch (e) {
+		exception_error("userlist_callback2", e);
 	}
 }
 
@@ -145,12 +132,6 @@ function prefslist_callback2(transport) {
 	} catch (e) {
 		exception_error("prefslist_callback2", e);
 	}
-}
-
-function notify_callback() {
-	if (xmlhttp.readyState == 4) {
-		notify_callback2(xmlhttp);
-	} 
 }
 
 function notify_callback2(transport) {
@@ -167,23 +148,21 @@ function prefs_reset_callback2(transport) {
 }
 
 
-function changepass_callback() {
+function changepass_callback2(transport) {
 	try {
-		if (xmlhttp.readyState == 4) {
 	
-			if (xmlhttp.responseText.indexOf("ERROR: ") == 0) {
-				notify_error(xmlhttp.responseText.replace("ERROR: ", ""));
+			if (transport.responseText.indexOf("ERROR: ") == 0) {
+				notify_error(transport.responseText.replace("ERROR: ", ""));
 			} else {
-				notify_info(xmlhttp.responseText);
+				notify_info(transport.responseText);
 				var warn = document.getElementById("default_pass_warning");
 				if (warn) warn.style.display = "none";
 			}
 	
 			document.forms['change_pass_form'].reset();
 
-		} 
 	} catch (e) {
-		exception_error("changepass_callback", e);
+		exception_error("changepass_callback2", e);
 	}
 }
 
@@ -247,21 +226,24 @@ function updateFeedList(sort_key) {
 
 function updateUsersList(sort_key) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		var user_search = document.getElementById("user_search");
+		var search = "";
+		if (user_search) { search = user_search.value; }
+	
+		var query = "backend.php?op=pref-users&sort="
+			+ param_escape(sort_key) +
+			"&search=" + param_escape(search);
+	
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				userlist_callback2(transport); 
+			} });
+
+	} catch (e) {
+		exception_error("updateUsersList", e);
 	}
-
-	var user_search = document.getElementById("user_search");
-	var search = "";
-	if (user_search) { search = user_search.value; }
-
-	xmlhttp.open("GET", "backend.php?op=pref-users&sort="
-		+ param_escape(sort_key) +
-		"&search=" + param_escape(search), true);
-	xmlhttp.onreadystatechange=userlist_callback;
-	xmlhttp.send(null);
-
 }
 
 function addLabel() {
@@ -328,11 +310,6 @@ function addFeed() {
 
 function addFeedCat() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var cat = document.getElementById("fadd_cat");
 
 	if (cat.value.length == 0) {
@@ -355,27 +332,29 @@ function addFeedCat() {
 }
 function addUser() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		var sqlexp = document.getElementById("uadd_box");
+	
+		if (sqlexp.value.length == 0) {
+			alert(__("Can't add user: no login specified."));
+		} else {
+			notify_progress("Adding user...");
+	
+			var query = "backend.php?op=pref-users&subop=add&login=" +
+				param_escape(sqlexp.value);
+				
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					userlist_callback2(transport); 
+				} });
+	
+			sqlexp.value = "";
+		}
+
+	} catch (e) {
+		exception_error("addUser", e);
 	}
-
-	var sqlexp = document.getElementById("uadd_box");
-
-	if (sqlexp.value.length == 0) {
-		alert(__("Can't add user: no login specified."));
-	} else {
-		notify_progress("Adding user...");
-
-		xmlhttp.open("GET", "backend.php?op=pref-users&subop=add&login=" +
-			param_escape(sqlexp.value), true);			
-			
-		xmlhttp.onreadystatechange=userlist_callback;
-		xmlhttp.send(null);
-
-		sqlexp.value = "";
-	}
-
 }
 
 function editUser(id) {
@@ -507,28 +486,33 @@ function removeSelectedLabels() {
 
 function removeSelectedUsers() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var sel_rows = getSelectedUsers();
-
-	if (sel_rows.length > 0) {
-
-		var ok = confirm(__("Remove selected users?"));
-
-		if (ok) {
-			notify_progress("Removing selected users...");
+		var sel_rows = getSelectedUsers();
 	
-			xmlhttp.open("GET", "backend.php?op=pref-users&subop=remove&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=userlist_callback;
-			xmlhttp.send(null);
+		if (sel_rows.length > 0) {
+	
+			var ok = confirm(__("Remove selected users?"));
+	
+			if (ok) {
+				notify_progress("Removing selected users...");
+		
+				var query = "backend.php?op=pref-users&subop=remove&ids="+
+					param_escape(sel_rows.toString());
+	
+				new Ajax.Request(query, {
+					onComplete: function(transport) { 
+						userlist_callback2(transport); 
+					} });
+	
+			}
+	
+		} else {
+			alert(__("No users are selected."));
 		}
 
-	} else {
-		alert(__("No users are selected."));
+	} catch (e) {
+		exception_error("removeSelectedUsers", e);
 	}
 
 	return false;
@@ -631,11 +615,6 @@ function clearSelectedFeeds() {
 
 function purgeSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedFeeds();
 
 	if (sel_rows.length > 0) {
@@ -667,11 +646,6 @@ function purgeSelectedFeeds() {
 
 function removeSelectedFeedCats() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedFeedCats();
 
 	if (sel_rows.length > 0) {
@@ -701,11 +675,6 @@ function removeSelectedFeedCats() {
 }
 
 function feedEditCancel() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
 
 	try {
 		document.getElementById("subscribe_to_feed_btn").disabled = false;
@@ -748,11 +717,6 @@ function feedEditSave() {
 
 function userEditCancel() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	selectPrefRows('user', false); // cleanup feed selection
 	closeInfoBox();
 
@@ -760,11 +724,6 @@ function userEditCancel() {
 }
 
 function filterEditCancel() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
 
 	try {
 		document.getElementById("create_filter_btn").disabled = false;
@@ -778,29 +737,33 @@ function filterEditCancel() {
 
 function userEditSave() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var login = document.forms["user_edit_form"].login.value;
-
-	if (login.length == 0) {
-		alert(__("Login field cannot be blank."));
-		return;
-	}
+		var login = document.forms["user_edit_form"].login.value;
 	
-	notify_progress("Saving user...");
-
-	closeInfoBox();
-
-	var query = Form.serialize("user_edit_form");
+		if (login.length == 0) {
+			alert(__("Login field cannot be blank."));
+			return;
+		}
+		
+		notify_progress("Saving user...");
 	
-	xmlhttp.open("GET", "backend.php?" + query, true);			
-	xmlhttp.onreadystatechange=userlist_callback;
-	xmlhttp.send(null);
+		closeInfoBox();
+	
+		var query = Form.serialize("user_edit_form");
+		
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				userlist_callback2(transport); 
+			} });
+	
+	} catch (e) {
+		exception_error("userEditSave", e);
+	}
 
 	return false;
+
 }
 
 
@@ -848,29 +811,40 @@ function editSelectedUser() {
 }
 
 function resetSelectedUserPass() {
-	var rows = getSelectedUsers();
 
-	if (rows.length == 0) {
-		alert(__("No users are selected."));
-		return;
-	}
+	try {
 
-	if (rows.length > 1) {
-		alert(__("Please select only one user."));
-		return;
-	}
-
-	var ok = confirm(__("Reset password of selected user?"));
-
-	if (ok) {
-		notify_progress("Resetting password for selected user...");
+		var rows = getSelectedUsers();
 	
-		var id = rows[0];
+		if (rows.length == 0) {
+			alert(__("No users are selected."));
+			return;
+		}
 	
-		xmlhttp.open("GET", "backend.php?op=pref-users&subop=resetPass&id=" +
-			param_escape(id), true);
-		xmlhttp.onreadystatechange=userlist_callback;
-		xmlhttp.send(null);
+		if (rows.length > 1) {
+			alert(__("Please select only one user."));
+			return;
+		}
+	
+		var ok = confirm(__("Reset password of selected user?"));
+	
+		if (ok) {
+			notify_progress("Resetting password for selected user...");
+		
+			var id = rows[0];
+		
+			var query = "backend.php?op=pref-users&subop=resetPass&id=" +
+				param_escape(id);
+	
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					userlist_callback2(transport); 
+				} });
+	
+		}
+
+	} catch (e) {
+		exception_error("resetSelectedUserPass", e);
 	}
 }
 
@@ -1061,11 +1035,6 @@ function selectTab(id, noupdate, subop) {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
-
 		try {
 			var c = document.getElementById('prefContent');	
 			c.scrollTop = 0;
@@ -1128,63 +1097,60 @@ function selectTab(id, noupdate, subop) {
 	}
 }
 
-function backend_sanity_check_callback() {
+function backend_sanity_check_callback2(transport) {
 
-	if (xmlhttp.readyState == 4) {
+	try {
 
-		try {
-
-			if (sanity_check_done) {
-				fatalError(11, "Sanity check request received twice. This can indicate "+
-			      "presence of Firebug or some other disrupting extension. "+
-					"Please disable it and try again.");
-				return;
-			}
-
-			if (!xmlhttp.responseXML) {
-				fatalError(3, "Sanity Check: Received reply is not XML", 
-					xmlhttp.responseText);
-				return;
-			}
-	
-			var reply = xmlhttp.responseXML.firstChild.firstChild;
-	
-			if (!reply) {
-				fatalError(3, "Sanity Check: Invalid RPC reply", xmlhttp.responseText);
-				return;
-			}
-	
-			var error_code = reply.getAttribute("error-code");
-		
-			if (error_code && error_code != 0) {
-				return fatalError(error_code, reply.getAttribute("error-msg"));
-			}
-	
-			debug("sanity check ok");
-
-			var params = reply.nextSibling;
-
-			if (params) {
-				debug('reading init-params...');
-				var param = params.firstChild;
-
-				while (param) {
-					var k = param.getAttribute("key");
-					var v = param.getAttribute("value");
-					debug(k + " => " + v);
-					init_params[k] = v;					
-					param = param.nextSibling;
-				}
-			}
-
-			sanity_check_done = true;
-
-			init_second_stage();
-
-		} catch (e) {
-			exception_error("backend_sanity_check_callback", e);
+		if (sanity_check_done) {
+			fatalError(11, "Sanity check request received twice. This can indicate "+
+		      "presence of Firebug or some other disrupting extension. "+
+				"Please disable it and try again.");
+			return;
 		}
-	} 
+
+		if (!transport.responseXML) {
+			fatalError(3, "Sanity Check: Received reply is not XML", 
+				transport.responseText);
+			return;
+		}
+
+		var reply = transport.responseXML.firstChild.firstChild;
+
+		if (!reply) {
+			fatalError(3, "Sanity Check: Invalid RPC reply", transport.responseText);
+			return;
+		}
+
+		var error_code = reply.getAttribute("error-code");
+	
+		if (error_code && error_code != 0) {
+			return fatalError(error_code, reply.getAttribute("error-msg"));
+		}
+
+		debug("sanity check ok");
+
+		var params = reply.nextSibling;
+
+		if (params) {
+			debug('reading init-params...');
+			var param = params.firstChild;
+
+			while (param) {
+				var k = param.getAttribute("key");
+				var v = param.getAttribute("value");
+				debug(k + " => " + v);
+				init_params[k] = v;					
+				param = param.nextSibling;
+			}
+		}
+
+		sanity_check_done = true;
+
+		init_second_stage();
+
+	} catch (e) {
+		exception_error("backend_sanity_check_callback", e);
+	}
 }
 
 function init_second_stage() {
@@ -1234,19 +1200,14 @@ function init() {
 			debug('debug mode activated');
 		}
 
-		// IE kludge
-		if (!xmlhttp) {
-			document.getElementById("prefContent").innerHTML = 
-				"<b>Fatal error:</b> This program needs XmlHttpRequest " + 
-				"to function properly. Your browser doesn't seem to support it.";
-			return;
-		}
-
 		loading_set_progress(30);
 
-		xmlhttp.open("GET", "backend.php?op=rpc&subop=sanityCheck", true);
-		xmlhttp.onreadystatechange=backend_sanity_check_callback;
-		xmlhttp.send(null);
+		var query = "backend.php?op=rpc&subop=sanityCheck";
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				backend_sanity_check_callback2(transport);
+			} });
 
 	} catch (e) {
 		exception_error("init", e);
@@ -1631,11 +1592,6 @@ function changeUserPassword() {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return false;
-		}
-	
 		var f = document.forms["change_pass_form"];
 
 		if (f) {
@@ -1669,11 +1625,13 @@ function changeUserPassword() {
 		var query = Form.serialize("change_pass_form");
 	
 		notify_progress("Trying to change password...");
-	
-		xmlhttp.open("POST", "backend.php", true);
-		xmlhttp.onreadystatechange=changepass_callback;
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				changepass_callback2(transport); 
+			} });
+
 
 	} catch (e) {
 		exception_error("changeUserPassword", e);
@@ -1686,19 +1644,15 @@ function changeUserEmail() {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return false;
-		}
-	
 		var query = Form.serialize("change_email_form");
 	
 		notify_progress("Trying to change e-mail...");
 	
-		xmlhttp.open("POST", "backend.php", true);
-		xmlhttp.onreadystatechange=notify_callback;
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query);
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				notify_callback2(transport); 
+			} });
 
 	} catch (e) {
 		exception_error("changeUserPassword", e);
@@ -1714,11 +1668,6 @@ function feedlistToggleSLAT() {
 }
 
 function pubRegenKey() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return false;
-	}
 
 	var ok = confirm(__("Replace current publishing address with a new one?"));
 
@@ -1738,25 +1687,6 @@ function pubRegenKey() {
 	return false;
 }
 
-function pubToClipboard() {
-
-	try {
-
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return false;
-		}
-	
-		var link = document.getElementById("pubGenAddress");
-		alert(link.href);
-
-	} catch (e) {
-		exception_error("pubToClipboard", e);
-	}
-
-	return false; 
-}
-
 function validatePrefsSave() {
 	try {
 
@@ -1768,10 +1698,12 @@ function validatePrefsSave() {
 			query = query + "&subop=save-config";
 			debug(query);
 
-			xmlhttp.open("POST", "backend.php", true);
-			xmlhttp.onreadystatechange=notify_callback;
-			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xmlhttp.send(query);
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+				notify_callback2(transport); 
+			} });
+
 		}
 
 	} catch (e) {
@@ -1951,11 +1883,6 @@ function unsubscribeFeed(id, title) {
 
 function feedsEditSave() {
 	try {
-
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
 
 		var ok = confirm(__("Save changes to selected feeds?"));
 
