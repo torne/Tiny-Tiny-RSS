@@ -416,103 +416,81 @@ function addUser() {
 
 function editUser(id) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		disableHotkeys();
+
+		notify_progress("Loading, please wait...");
+
+		selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
+		selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
+
+		disableContainerChildren("userOpToolbar", false);
+
+		var query = "backend.php?op=pref-users&subop=edit&id=" +
+			param_escape(id);
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_callback2(transport);
+				} });
+
+	} catch (e) {
+		exception_error("editUser", e);
 	}
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-	selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
-	selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
-
-	disableContainerChildren("userOpToolbar", false);
-
-	xmlhttp.open("GET", "backend.php?op=pref-users&subop=edit&id=" +
-		param_escape(id), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
+		
 }
 
 function editFilter(id) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		disableHotkeys();
+
+		notify_progress("Loading, please wait...");
+
+		disableContainerChildren("filterOpToolbar", false);
+
+		selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
+		selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
+
+		var query = "backend.php?op=pref-filters&subop=edit&id=" + 
+			param_escape(id);
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_callback2(transport);
+				} });
+	} catch (e) {
+		exception_error("editFilter", e);
 	}
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-//	document.getElementById("create_filter_btn").disabled = true;
-
-	disableContainerChildren("filterOpToolbar", false);
-
-	selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
-	selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
-
-	xmlhttp.open("GET", "backend.php?op=pref-filters&subop=edit&id=" + param_escape(id), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
 }
 
 function editFeed(feed) {
 
-//	notify("Editing feed...");
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-/*	document.getElementById("subscribe_to_feed_btn").disabled = true;
-
 	try {
-		document.getElementById("top25_feeds_btn").disabled = true;
+
+		disableHotkeys();
+	
+		notify_progress("Loading, please wait...");
+	
+		// clean selection from all rows & select row being edited
+		selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
+		selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
+	
+		disableContainerChildren("feedOpToolbar", false);
+	
+		var query = "backend.php?op=pref-feeds&subop=editfeed&id=" +
+			param_escape(feed);
+	
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_callback2(transport);
+				} });
+
 	} catch (e) {
-		// this button is not always available, no-op if not found
-	} */
-
-	// clean selection from all rows & select row being edited
-	selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
-	selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
-
-	disableContainerChildren("feedOpToolbar", false);
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeed&id=" +
-		param_escape(feed), true);
-
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
-}
-
-function editFeedCat(cat) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+		exception_error("editFeed", e);
 	}
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-	active_feed_cat = cat;
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=edit&id=" +
-		param_escape(cat), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
 }
 
 function getSelectedLabels() {
@@ -770,29 +748,6 @@ function feedEditCancel() {
 	closeInfoBox();
 
 	selectPrefRows('feed', false); // cleanup feed selection
-
-	return false;
-}
-
-function feedCatEditCancel() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	active_feed_cat = false;
-
-	try {
-		document.getElementById("subscribe_to_feed_btn").disabled = false;
-		document.getElementById("top25_feeds_btn").disabled = false;
-	} catch (e) {
-		// this button is not always available, no-op if not found
-	}
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
 
 	return false;
 }
@@ -1084,25 +1039,6 @@ function editSelectedFeeds() {
 
 	xmlhttp.onreadystatechange=infobox_callback;
 	xmlhttp.send(null);
-
-}
-
-function editSelectedFeedCat() {
-	var rows = getSelectedFeedCats();
-
-	if (rows.length == 0) {
-		alert(__("No categories are selected."));
-		return;
-	}
-
-	if (rows.length > 1) {
-		alert(__("Please select only one category."));
-		return;
-	}
-
-	notify("");
-
-	editFeedCat(rows[0]);
 
 }
 
