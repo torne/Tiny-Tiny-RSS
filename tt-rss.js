@@ -1442,53 +1442,6 @@ function browseFeeds(limit) {
 	}
 }
 
-function updateFeedBrowser() {
-	try {
-
-		var query = "backend.php?op=rpc&subop=feedBrowser";
-
-		var search = document.getElementById("feed_browser_search");
-		var limit = document.getElementById("feed_browser_limit");
-
-		if (limit) {
-			query = query + "&limit=" + limit[limit.selectedIndex].value;
-		}
-
-		if (search) {
-			query = query + "&search=" + param_escape(search.value);
-		}
-
-		notify_progress("Loading, please wait...", true);
-
-		new Ajax.Request(query, {
-			onComplete: function(transport) { 
-				notify('');
-
-				var c = document.getElementById("browseFeedList");
-				var r = transport.responseXML.getElementsByTagName("content")[0];
-				var nr = transport.responseXML.getElementsByTagName("num-results")[0];
-				var sb = document.getElementById("feed_browser_subscribe");
-
-				if (c && r) {
-					c.innerHTML = r.firstChild.nodeValue;
-				}
-	
-				if (nr && sb) {
-					if (nr.getAttribute("value") > 0) {
-						sb.disabled = false;
-					} else {
-						sb.disabled = true;
-					}
-				}
-
-			} });
-
-
-	} catch (e) {
-		exception_error("updateFeedBrowser", e);
-	}
-}
-
 
 function feedBrowserSubscribe() {
 	try {

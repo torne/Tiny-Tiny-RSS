@@ -1131,7 +1131,7 @@
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
 				id=\"top25_feeds_btn\"
-				onclick=\"javascript:browseFeeds()\" value=\"".__('Top 25')."\">";
+				onclick=\"javascript:browseFeeds()\" value=\"".__('Other Feeds')."\">";
 		}
 
 		$feeds_sort = db_escape_string($_GET["sort"]);
@@ -1481,9 +1481,18 @@
 
 				$class = ($feedctr % 2) ? "even" : "odd";
 
+				if ($details["site_url"]) {
+					$site_url = "<a target=\"_blank\" href=\"".$details["site_url"]."\">
+						<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
+				} else {
+					$site_url = "";
+				}
+
 				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
 					"$feed_icon " . $details["title"] . 
-					"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
+					"&nbsp;<span class='subscribers'>($subscribers)</span>
+					$site_url
+					</li>";
 
 					++$feedctr;
 			}
