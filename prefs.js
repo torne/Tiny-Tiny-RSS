@@ -1333,6 +1333,7 @@ function init_second_stage() {
 
 	try {
 		active_tab = getInitParam("prefs_active_tab");
+		if (!document.getElementById(active_tab+"Tab")) active_tab = "genConfig";
 		if (!active_tab || active_tab == '0') active_tab = "genConfig";
 
 		document.onkeydown = pref_hotkey_handler;
