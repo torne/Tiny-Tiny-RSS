@@ -24,32 +24,30 @@ function infobox_submit_callback() {
 }
 
 
-function replace_pubkey_callback() {
-	if (xmlhttp.readyState == 4) {
-		try {	
-			var link = document.getElementById("pubGenAddress");
+function replace_pubkey_callback(transport) {
+	try {	
+		var link = document.getElementById("pubGenAddress");
 
-			if (xmlhttp.responseXML) {
+		if (transport.responseXML) {
 
-				var new_link = xmlhttp.responseXML.getElementsByTagName("link")[0];
+			var new_link = transport.responseXML.getElementsByTagName("link")[0];
 
-				if (new_link) {
-					link.href = new_link.firstChild.nodeValue;
-					//link.innerHTML = new_link.firstChild.nodeValue;
+			if (new_link) {
+				link.href = new_link.firstChild.nodeValue;
+				//link.innerHTML = new_link.firstChild.nodeValue;
 
-					new Effect.Highlight(link);
+				new Effect.Highlight(link);
 
-					notify_info("Published feed URL changed.");
-				} else {
-					notify_error("Could not change feed URL.");
-				}
-
+				notify_info("Published feed URL changed.");
 			} else {
 				notify_error("Could not change feed URL.");
 			}
-		} catch (e) {
-			exception_error("replace_pubkey_callback", e);
+
+		} else {
+			notify_error("Could not change feed URL.");
 		}
+	} catch (e) {
+		exception_error("replace_pubkey_callback", e);
 	}
 }
 
@@ -129,15 +127,6 @@ function labellist_callback2(transport) {
 	}
 }
 
-function feed_browser_callback() {
-	var container = document.getElementById('prefContent');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-		notify("");
-		remove_splash();
-	}
-}
-
 function userlist_callback() {
 	var container = document.getElementById('prefContent');
 	if (xmlhttp.readyState == 4) {
@@ -147,22 +136,14 @@ function userlist_callback() {
 	}
 }
 
-function prefslist_callback() {
-	var container = document.getElementById('prefContent');
-	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
+function prefslist_callback2(transport) {
+	try {
+		var container = document.getElementById('prefContent');
+		container.innerHTML=transport.responseText;
 		notify("");
 		remove_splash();
-	}
-}
-
-function gethelp_callback() {
-	var container = document.getElementById('prefHelpBox');
-	if (xmlhttp.readyState == 4) {
-
-		container.innerHTML = xmlhttp.responseText;
-		container.style.display = "block";
-
+	} catch (e) {
+		exception_error("prefslist_callback2", e);
 	}
 }
 
@@ -176,11 +157,13 @@ function notify_callback2(transport) {
 	notify_info(transport.responseText);	 
 }
 
-function prefs_reset_callback() {
-	if (xmlhttp.readyState == 4) {
-		notify_info(xmlhttp.responseText);
+function prefs_reset_callback2(transport) {
+	try {
+		notify_info(transport.responseText);
 		selectTab();
-	} 
+	} catch (e) {
+		exception_error("prefs_reset_callback2", e);
+	}
 }
 
 
@@ -1061,14 +1044,12 @@ function updateLabelList(sort_key) {
 
 function updatePrefsList() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	var query = "backend.php?op=pref-prefs";
 
-	xmlhttp.open("GET", "backend.php?op=pref-prefs", true);
-	xmlhttp.onreadystatechange=prefslist_callback;
-	xmlhttp.send(null);
+	new Ajax.Request(query, {
+		onComplete: function(transport) { 
+			prefslist_callback2(transport); 
+		} });
 
 }
 
@@ -1274,11 +1255,6 @@ function init() {
 
 function categorizeSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedFeeds();
 
 	var cat_sel = document.getElementById("sfeed_set_fcat");
@@ -1314,10 +1290,12 @@ function validatePrefsReset() {
 			query = query + "&subop=reset-config";
 			debug(query);
 
-			xmlhttp.open("POST", "backend.php", true);
-			xmlhttp.onreadystatechange=prefs_reset_callback;
-			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xmlhttp.send(query);
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					prefs_reset_callback2(transport);
+				} });
+
 		}
 
 	} catch (e) {
@@ -1748,9 +1726,13 @@ function pubRegenKey() {
 
 		notify_progress("Trying to change address...");
 
-		xmlhttp.open("GET", "backend.php?op=rpc&subop=regenPubKey");
-		xmlhttp.onreadystatechange=replace_pubkey_callback;
-		xmlhttp.send(null);
+		var query = "backend.php?op=rpc&subop=regenPubKey";
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					replace_pubkey_callback(transport);
+				} });
+
 	}
 
 	return false;
