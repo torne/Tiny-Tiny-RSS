@@ -60,7 +60,9 @@ function feedlist_callback() {
 }
 
 function feedlist_callback2(transport) {
+
 	try {	
+
 		var container = document.getElementById('prefContent');	
 		container.innerHTML=transport.responseText;
 		selectTab("feedConfig", true);
@@ -90,15 +92,20 @@ function dlg_frefresh_callback(transport) {
 	return feedlist_callback2(transport);
 }
 
-function filterlist_callback() {
+function filterlist_callback2(transport) {
 	var container = document.getElementById('prefContent');
+	container.innerHTML=transport.responseText;
+	if (typeof correctPNG != 'undefined') {
+		correctPNG();
+	}
+	notify("");
+	remove_splash();
+}
+
+
+function filterlist_callback() {
 	if (xmlhttp.readyState == 4) {
-		container.innerHTML=xmlhttp.responseText;
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-		notify("");
-		remove_splash();
+		filterlist_callback2(xmlhttp);
 	}
 }
 
@@ -174,8 +181,12 @@ function gethelp_callback() {
 
 function notify_callback() {
 	if (xmlhttp.readyState == 4) {
-		notify_info(xmlhttp.responseText);
+		notify_callback2(xmlhttp);
 	} 
+}
+
+function notify_callback2(transport) {
+	notify_info(transport.responseText);	 
 }
 
 function prefs_reset_callback() {
@@ -237,10 +248,7 @@ function infobox_feed_cat_callback2(transport) {
 
 function updateFeedList(sort_key) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
 	var feed_search = document.getElementById("feed_search");
 	var search = "";
@@ -253,13 +261,18 @@ function updateFeedList(sort_key) {
 		slat_checked = slat.checked;
 	}
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds" +
+	var query = "backend.php?op=pref-feeds" +
 		"&sort=" + param_escape(sort_key) + 
 		"&slat=" + param_escape(slat_checked) +
-		"&search=" + param_escape(search), true);
-	xmlhttp.onreadystatechange=feedlist_callback;
-	xmlhttp.send(null);
+		"&search=" + param_escape(search);
 
+	new Ajax.Request(query, {
+		onComplete: function(transport) { 
+			feedlist_callback2(transport); 
+		} });
+	} catch (e) {
+		exception_error("updateFeedList", e);
+	}
 }
 
 function updateUsersList(sort_key) {
@@ -616,11 +629,6 @@ function removeSelectedFeeds() {
 
 function clearSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedFeeds();
 
 	if (sel_rows.length > 1) {
@@ -742,21 +750,17 @@ function feedEditSave() {
 
 	try {
 	
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
-
 		// FIXME: add parameter validation
 
 		var query = Form.serialize("edit_feed_form");
 
 		notify_progress("Saving feed...");
 
-		xmlhttp.open("POST", "backend.php", true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.send(query);
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				feedlist_callback2(transport); 
+			} });
 
 		closeInfoBox();
 
@@ -1296,10 +1300,13 @@ function categorizeSelectedFeeds() {
 
 		notify_progress("Changing category of selected feeds...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=categorize&ids="+
-			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
+		var query = "backend.php?op=pref-feeds&subop=categorize&ids="+
+			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id);
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				feedlist_callback2(transport); 
+			} });
 
 	} else {
 
@@ -1340,10 +1347,15 @@ function feedBrowserSubscribe() {
 
 		if (selected.length > 0) {
 			closeInfoBox();
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=massSubscribe&ids="+
-				param_escape(selected.toString()), true);
-			xmlhttp.onreadystatechange=feedlist_callback;
-			xmlhttp.send(null);
+
+			var query = "backend.php?op=pref-feeds&subop=massSubscribe&ids="+
+				param_escape(selected.toString());
+
+			new Ajax.Request(query, {
+				onComplete: function(transport) { 
+					feedlist_callback2(transport); 
+				} });
+
 		} else {
 			alert(__("No feeds are selected."));
 		}
@@ -1866,11 +1878,6 @@ function clearFeedArticles(feed_id) {
 
 function rescoreSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedFeeds();
 
 	if (sel_rows.length > 0) {
@@ -1881,10 +1888,14 @@ function rescoreSelectedFeeds() {
 		if (ok) {
 			notify_progress("Rescoring selected feeds...", true);
 	
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=notify_callback;
-			xmlhttp.send(null);
+			var query = "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						notify_callback2(transport);
+			} });
+
 		}
 	} else {
 		alert(__("No feeds are selected."));
@@ -1894,37 +1905,45 @@ function rescoreSelectedFeeds() {
 }
 
 function rescore_all_feeds() {
-		var ok = confirm(__("Rescore all articles? This operation may take a lot of time."));
+	var ok = confirm(__("Rescore all articles? This operation may take a lot of time."));
 
-		if (ok) {
-			notify_progress("Rescoring feeds...", true);
+	if (ok) {
+		notify_progress("Rescoring feeds...", true);
 
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=rescoreAll&quiet=1", true);
-			xmlhttp.onreadystatechange=notify_callback;
-			xmlhttp.send(null);
-		}
+		var query = "backend.php?op=pref-feeds&subop=rescoreAll&quiet=1";
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					notify_callback2(transport);
+		} });
+	}
 }
 
 function removeFilter(id, title) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var msg = __("Remove filter %s?").replace("%s", title);
-
-	var ok = confirm(msg);
-
-	if (ok) {
-		closeInfoBox();
-
-		notify_progress("Removing filter...");
+		var msg = __("Remove filter %s?").replace("%s", title);
 	
-		xmlhttp.open("GET", "backend.php?op=pref-filters&subop=remove&ids="+
-			param_escape(id), true);
-		xmlhttp.onreadystatechange=filterlist_callback;
-		xmlhttp.send(null);
+		var ok = confirm(msg);
+	
+		if (ok) {
+			closeInfoBox();
+	
+			notify_progress("Removing filter...");
+		
+			var query = "backend.php?op=pref-filters&subop=remove&ids="+
+				param_escape(id);
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						filterlist_callback2(transport);
+			} });
+
+		}
+
+	} catch (e) {
+		exception_error("removeFilter", e);
 	}
 
 	return false;
@@ -2005,10 +2024,12 @@ function feedsEditSave() {
 	
 			notify_progress("Saving feeds...");
 	
-			xmlhttp.open("POST", "backend.php", true);
-			xmlhttp.onreadystatechange=feedlist_callback;
-			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xmlhttp.send(query);
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					feedlist_callback2(transport); 
+				} });
+
 		}
 
 		return false;
