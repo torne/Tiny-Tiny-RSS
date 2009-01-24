@@ -2,7 +2,6 @@ var xmlhttp = false;
 
 var active_feed_cat = false;
 var active_tab = false;
-var feed_to_expand = false;
 
 var xmlhttp = Ajax.getTransport();
 
@@ -50,20 +49,6 @@ function replace_pubkey_callback() {
 			}
 		} catch (e) {
 			exception_error("replace_pubkey_callback", e);
-		}
-	}
-}
-
-function expand_feed_callback() {
-	if (xmlhttp.readyState == 4) {
-		try {	
-			var container = document.getElementById("BRDET-" + feed_to_expand);	
-			container.innerHTML=xmlhttp.responseText;
-//			container.style.display = "block";
-			Effect.Appear(container, {duration : 0.5});
-			notify('');
-		} catch (e) {
-			exception_error("expand_feed_callback", e);
 		}
 	}
 }
