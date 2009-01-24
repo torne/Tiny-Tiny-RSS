@@ -503,6 +503,23 @@
 			return;
 		}
 
+		if ($subop == "feedBrowser") {
+
+			$search = db_escape_string($_REQUEST["search"]);
+			$limit = db_escape_string($_REQUEST["limit"]);
+
+			print "<rpc-reply>";
+			print "<content>";
+			print "<![CDATA[";
+			$ctr = print_feed_browser($link, $search, $limit);
+			print "]]>";
+			print "</content>";
+			print "<num-results value=\"$ctr\"/>";
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

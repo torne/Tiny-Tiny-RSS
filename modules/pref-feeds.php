@@ -64,33 +64,41 @@
 			
 			print "<div class=\"infoBoxContents\">";
 
-
 			$browser_search = db_escape_string($_GET["search"]);
 
-			if (array_key_exists("search", $_GET)) {
-				$_SESSION["feed_browser_search"] = $browser_search;
-				} else {
-				$browser_search = $_SESSION["feed_browser_search"];
-			}
-
 			//print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
-			print "<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
+
+			print "
+				<div style='float : right'>
+				<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
 			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateFeedBrowser()\" value=\"".__('Search')."\">";
+				onclick=\"javascript:updateFeedBrowser()\" value=\"".__('Search')."\">
+			</div>";
+
+			print __('Top')." <select id=\"feed_browser_limit\">";
+
+			foreach (array(25, 50, 100, 200) as $l) {
+				$issel = ($l == $limit) ? "selected" : "";
+				print "<option $issel>$l</option>";
+			}
+			
+			print "</select>
+				<input type=\"submit\" class=\"button\"
+					onclick=\"updateFeedBrowser()\" value=\"".__('Show')."\">";
 
 			print "<p>";
 
 			$owner_uid = $_SESSION["uid"];
 
 			print "<ul class='browseFeedList' id='browseFeedList'>";
-			$subscribe_btn_disabled = print_feed_browser($link, $search, $limit) == 0 ? "disabled" : "";
+			$subscribe_btn_disabled = print_feed_browser($link, $search, 25) == 0 ? "disabled" : "";
 			print "</ul>";
 
 			print "<div align='center'>
-				<input type=\"submit\" class=\"button\" 
+				<input type=\"submit\" class=\"button\" id=\"feed_browser_subscribe\"
 				$subscribe_btn_disabled
 				onclick=\"feedBrowserSubscribe()\" value=\"".__('Subscribe')."\">
 				<input type='submit' class='button'			
@@ -1433,10 +1441,20 @@
 
 	function print_feed_browser($link, $search, $limit) {
 
+			$owner_uid = $_SESSION["uid"];
+
+			if ($search) {
+				$search_qpart = "AND (UPPER(feed_url) LIKE UPPER('%$search%') OR 
+					UPPER(title) LIKE UPPER('%$search%'))";
+			} else {
+				$search_qpart = "";
+			}
+
 			$result = db_query($link, "SELECT feed_url, subscribers FROM
 				ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
-				WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url 
-				AND owner_uid = '$owner_uid') ORDER BY subscribers DESC LIMIT 25");
+				WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
+				AND owner_uid = '$owner_uid') $search_qpart 
+				ORDER BY subscribers DESC LIMIT $limit");
 
 			$feedctr = 0;
 			

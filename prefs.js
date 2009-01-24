@@ -550,28 +550,6 @@ function getSelectedFeedCats() {
 	return getSelectedTableRowIds("prefFeedCatList", "FCATR");
 }
 
-function getSelectedFeedsFromBrowser() {
-
-	var list = document.getElementById("browseFeedList");
-	if (!list) list = document.getElementById("browseBigFeedList");
-
-	var selected = new Array();
-	
-	for (i = 0; i < list.childNodes.length; i++) {
-		var child = list.childNodes[i];
-		if (child.id && child.id.match("FBROW-")) {
-			var id = child.id.replace("FBROW-", "");
-			
-			var cb = document.getElementById("FBCHK-" + id);
-
-			if (cb.checked) {
-				selected.push(id);
-			}
-		}
-	}
-
-	return selected;
-}
 
 function removeSelectedLabels() {
 
