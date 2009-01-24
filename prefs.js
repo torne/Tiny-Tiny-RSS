@@ -1284,14 +1284,15 @@ function backend_sanity_check_callback() {
 			}
 
 			if (!xmlhttp.responseXML) {
-				fatalError(3, "[D001, Received reply is not XML]: " + xmlhttp.responseText);
+				fatalError(3, "Sanity Check: Received reply is not XML", 
+					xmlhttp.responseText);
 				return;
 			}
 	
 			var reply = xmlhttp.responseXML.firstChild.firstChild;
 	
 			if (!reply) {
-				fatalError(3, "[D002, Invalid RPC reply]: " + xmlhttp.responseText);
+				fatalError(3, "Sanity Check: Invalid RPC reply", xmlhttp.responseText);
 				return;
 			}
 	

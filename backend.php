@@ -141,7 +141,6 @@
 	require_once "modules/pref-filters.php";
 	require_once "modules/pref-labels.php";
 	require_once "modules/pref-users.php";
-	require_once "modules/pref-feed-browser.php"; 
 
 	if (!sanity_check($link)) { return; }
 
