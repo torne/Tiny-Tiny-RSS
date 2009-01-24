@@ -1238,8 +1238,6 @@ function selectTab(id, noupdate, subop) {
 				updatePrefsList();
 			} else if (id == "userConfig") {
 				updateUsersList();
-			} else if (id == "feedBrowser") {
-				updateBigFeedBrowser();
 			}
 		}
 
@@ -1481,69 +1479,6 @@ function updateBigFeedBrowserBtn() {
 	return updateBigFeedBrowser();
 }
 
-function updateBigFeedBrowser(limit, from_button) {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var query = "backend.php?op=pref-feed-browser";
-
-	var limit_sel = document.getElementById("feedBrowserLimit");
-
-	if (limit_sel) {
-		var limit = limit_sel[limit_sel.selectedIndex].value;
-		query = query + "&limit=" + param_escape(limit);
-	}
-
-	var search = document.getElementById("feed_browser_search");
-
-	if (search) {
-		query = query + "&search=" + param_escape(search.value);
-	}
-
-	xmlhttp.open("GET", query, true);
-	xmlhttp.onreadystatechange=feed_browser_callback;
-	xmlhttp.send(null);
-}
-
-function browserToggleExpand(id) {
-	try {
-/*		if (feed_to_expand && feed_to_expand != id) {
-			var d = document.getElementById("BRDET-" + feed_to_expand);
-			d.style.display = "none";
-		} */
-
-		if (!xmlhttp_ready(xmlhttp)) {
-			printLockingError();
-			return
-		}
-
-/*		if (feed_to_expand && id != feed_to_expand) {
-			Effect.Fade('BRDET-' + feed_to_expand, {duration : 0.5});
-		} */
-
-		var d = document.getElementById("BRDET-" + id);
-	
-		notify_progress("Loading, please wait...");
-
-		if (Element.visible(d)) {
-			Effect.Fade(d, {duration : 0.5});
-		} else {
-			feed_to_expand = id;
-
-			xmlhttp.open("GET", "backend.php?op=pref-feed-browser&subop=details&id="
-				+ param_escape(id), true);
-			xmlhttp.onreadystatechange=expand_feed_callback;
-			xmlhttp.send(null);
-		}
-
-	} catch (e) {
-		exception_error("browserToggleExpand", e);
-	}
-}
-
 function selectPrefRows(kind, select) {
 
 	if (kind) {
@@ -1768,22 +1703,17 @@ function pref_hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 51 && document.getElementById("feedBrowserTab")) { // 3
-				selectTab("feedBrowser");
-				return false;
-			}
-
-			if (keycode == 52 && document.getElementById("filterConfigTab")) { // 4
+			if (keycode == 51 && document.getElementById("filterConfigTab")) { // 4
 				selectTab("filterConfig");
 				return false;
 			}
 
-			if (keycode == 53 && document.getElementById("labelConfigTab")) { // 5
+			if (keycode == 52 && document.getElementById("labelConfigTab")) { // 5
 				selectTab("labelConfig");
 				return false;
 			}
 
-			if (keycode == 54 && document.getElementById("userConfigTab")) { // 6
+			if (keycode == 53 && document.getElementById("userConfigTab")) { // 6
 				selectTab("userConfig");
 				return false;
 			}

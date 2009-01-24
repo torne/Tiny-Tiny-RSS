@@ -7,10 +7,10 @@
 	<table>
 		<tr><td class='n'>g 1</td><td><?php echo __("Preferences") ?></td></tr>
 		<tr><td class='n'>g 2</td><td><?php echo __("My Feeds") ?></td></tr>
-		<tr><td class='n'>g 3</td><td><?php echo __("Other Feeds") ?></td></tr>
-		<tr><td class='n'>g 4</td><td><?php echo __("Content Filtering") ?></td></tr>
-		<tr><td class='n'>g 5</td><td><?php echo __("Label Editor") ?></td></tr>
-		<tr><td class='n'>g 6</td><td><?php echo __("User Manager") ?></td></tr>
+		<!-- <tr><td class='n'>g 3</td><td><?php echo __("Other Feeds") ?></td></tr> -->
+		<tr><td class='n'>g 3</td><td><?php echo __("Filters") ?></td></tr>
+		<tr><td class='n'>g 4</td><td><?php echo __("Labels") ?></td></tr>
+		<tr><td class='n'>g 5</td><td><?php echo __("Users") ?></td></tr>
 		<tr><td class='n'>g x</td><td><?php echo __("Exit preferences") ?></td></tr>
 	</table>
 

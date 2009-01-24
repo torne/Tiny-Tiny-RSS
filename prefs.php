@@ -124,9 +124,9 @@ window.onload = init;
 		<div id="feedConfigTab" class="prefsTab" 
 			onclick="selectTab('feedConfig')"><?php echo __('My Feeds') ?></div>
 		<?php if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) { ?>
-		<div id="feedBrowserTab" class="prefsTab" 
+		<!-- <div id="feedBrowserTab" class="prefsTab" 
 			onclick="selectTab('feedBrowser')"><?php echo __('Other Feeds') ?></div>
-		<?php } ?>
+		<?php } ?> -->
 		<!-- <div id="pubItemsTab" class="prefsTab" 
 			onclick="selectTab('pubItems')"><?php echo __('Published Articles') ?></div> -->
 		<div id="filterConfigTab" class="prefsTab" 
