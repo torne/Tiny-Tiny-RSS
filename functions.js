@@ -2086,4 +2086,23 @@ function updateFeedBrowser() {
 	}
 }
 
+function browseFeeds(limit) {
+
+	try {
+
+		var query = "backend.php?op=pref-feeds&subop=browse";
+
+		notify_progress("Loading, please wait...", true);
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				infobox_callback2(transport);
+			} });
+
+		return false;
+	} catch (e) {
+		exception_error("browseFeeds", e);
+	}
+}
+
 

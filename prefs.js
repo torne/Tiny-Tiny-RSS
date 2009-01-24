@@ -245,16 +245,12 @@ function init_cat_inline_editor() {
 	}
 }
 
-function infobox_feed_cat_callback() {
-	if (xmlhttp.readyState == 4) {
-		try {
-
-			infobox_callback();
-			init_cat_inline_editor();
-
-		} catch (e) {
-			exception_error("infobox_feed_cat_callback", e);
-		}
+function infobox_feed_cat_callback2(transport) {
+	try {
+		infobox_callback2(transport);
+		init_cat_inline_editor();
+	} catch (e) {
+		exception_error("infobox_feed_cat_callback2", e);
 	}
 }
 
@@ -379,10 +375,13 @@ function addFeedCat() {
 	} else {
 		notify_progress("Adding feed category...");
 
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
-			param_escape(cat.value), true);
-		xmlhttp.onreadystatechange=infobox_feed_cat_callback;
-		xmlhttp.send(null);
+		var query = "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
+			param_escape(cat.value);
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_feed_cat_callback2(transport);
+				} });
 
 		link.value = "";
 
@@ -716,10 +715,14 @@ function removeSelectedFeedCats() {
 		if (ok) {
 			notify_progress("Removing selected categories...");
 	
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=infobox_feed_cat_callback;
-			xmlhttp.send(null);
+			var query = "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+					infobox_feed_cat_callback2(transport);
+				} });
+
 		}
 
 	} else {
@@ -918,62 +921,35 @@ function resetSelectedUserPass() {
 
 function selectedUserDetails() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		var rows = getSelectedUsers();
+	
+		if (rows.length == 0) {
+			alert(__("No users are selected."));
+			return;
+		}
+	
+		if (rows.length > 1) {
+			alert(__("Please select only one user."));
+			return;
+		}
+	
+		notify_progress("Loading, please wait...");
+	
+		var id = rows[0];
+	
+		var query = "backend.php?op=pref-users&subop=user-details&id=" + id;
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_callback2(transport);
+				} });
+	} catch (e) {
+		exception_error("selectedUserDetails", e);
 	}
-
-	var rows = getSelectedUsers();
-
-	if (rows.length == 0) {
-		alert(__("No users are selected."));
-		return;
-	}
-
-	if (rows.length > 1) {
-		alert(__("Please select only one user."));
-		return;
-	}
-
-	notify_progress("Loading, please wait...");
-
-	var id = rows[0];
-
-	xmlhttp.open("GET", "backend.php?op=pref-users&subop=user-details&id=" + id, true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
 }
 
-function selectedFeedDetails() {
-
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var rows = getSelectedFeeds();
-
-	if (rows.length == 0) {
-		alert(__("No feeds are selected."));
-		return;
-	}
-
-	if (rows.length > 1) {
-		alert(__("Please select only one feed."));
-		return;
-	}
-
-//	var id = rows[0];
-
-	notify("");
-
-	xmlhttp.open("GET", "backend.php?op=feed-details&id=" + 
-		param_escape(rows.toString()), true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
-}
 
 function editSelectedFilter() {
 	var rows = getSelectedFilters();
@@ -1016,30 +992,31 @@ function editSelectedFeed() {
 
 function editSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+		var rows = getSelectedFeeds();
+	
+		if (rows.length == 0) {
+			alert(__("No feeds are selected."));
+			return;
+		}
+	
+		notify("");
+	
+		disableHotkeys();
+	
+		notify_progress("Loading, please wait...");
+	
+		var query = "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
+			param_escape(rows.toString());
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_callback2(transport);
+				} });
+
+	} catch (e) {
+		exception_error("editSelectedFeeds", e);
 	}
-
-	var rows = getSelectedFeeds();
-
-	if (rows.length == 0) {
-		alert(__("No feeds are selected."));
-		return;
-	}
-
-	notify("");
-
-	disableHotkeys();
-
-	notify_progress("Loading, please wait...");
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
-		param_escape(rows.toString()), true);
-
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
 }
 
 function piggie(enable) {
@@ -1369,14 +1346,6 @@ function validatePrefsReset() {
 
 }
 
-function browseFeeds(limit) {
-
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=browse", true);
-	xmlhttp.onreadystatechange=infobox_callback;
-	xmlhttp.send(null);
-
-}
-
 function feedBrowserSubscribe() {
 	try {
 
@@ -1669,22 +1638,24 @@ function pref_hotkey_handler(e) {
 }
 
 function editFeedCats() {
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	document.getElementById("subscribe_to_feed_btn").disabled = true;
-
 	try {
-		document.getElementById("top25_feeds_btn").disabled = true;
-	} catch (e) {
-		// this button is not always available, no-op if not found
-	}
+		document.getElementById("subscribe_to_feed_btn").disabled = true;
+	
+		try {
+			document.getElementById("top25_feeds_btn").disabled = true;
+		} catch (e) {
+			// this button is not always available, no-op if not found
+		}
+	
+		var query = "backend.php?op=pref-feeds&subop=editCats";
 
-	xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=editCats", true);
-	xmlhttp.onreadystatechange=infobox_feed_cat_callback;
-	xmlhttp.send(null);
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+				infobox_feed_cat_callback2(transport);
+			} });
+	} catch (e) {
+		exception_error("editFeedCats", e);
+	}
 }
 
 function showFeedsWithErrors() {
