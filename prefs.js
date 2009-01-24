@@ -55,36 +55,12 @@ function replace_pubkey_callback() {
 
 function feedlist_callback() {
 	if (xmlhttp.readyState == 4) {
-		try {	
-			var container = document.getElementById('prefContent');	
-			container.innerHTML=xmlhttp.responseText;
-			selectTab("feedConfig", true);
-
-			if (caller_subop) {
-				var tuple = caller_subop.split(":");
-				if (tuple[0] == 'editFeed') {
-					window.setTimeout('editFeed('+tuple[1]+')', 100);
-				}				
-
-				caller_subop = false;
-			}
-			if (typeof correctPNG != 'undefined') {
-				correctPNG();
-			}
-			notify("");
-			remove_splash();
-
-		} catch (e) {
-			exception_error("feedlist_callback", e);
-		}
+		return feedlist_callback2(xmlhttp);
 	}
 }
 
-/* stub for subscription dialog */
-
-function dlg_frefresh_callback(transport) {
-
-	try {
+function feedlist_callback2(transport) {
+	try {	
 		var container = document.getElementById('prefContent');	
 		container.innerHTML=transport.responseText;
 		selectTab("feedConfig", true);
@@ -101,10 +77,17 @@ function dlg_frefresh_callback(transport) {
 			correctPNG();
 		}
 		notify("");
-	} catch (e) {
-		exception_error("feedlist_callback", e);
-	}
+		remove_splash();
 
+	} catch (e) {
+		exception_error("feedlist_callback2", e);
+	}
+}
+
+/* stub for subscription dialog */
+
+function dlg_frefresh_callback(transport) {
+	return feedlist_callback2(transport);
 }
 
 function filterlist_callback() {
@@ -119,14 +102,13 @@ function filterlist_callback() {
 	}
 }
 
-function labellist_callback() {
+function labellist_callback2(transport) {
 
 	try {
 
 		var container = document.getElementById('prefContent');
-		if (xmlhttp.readyState == 4) {
 			closeInfoBox();
-			container.innerHTML=xmlhttp.responseText;
+			container.innerHTML=transport.responseText;
 	
 			if (document.getElementById("prefLabelList")) {
 				var elems = document.getElementById("prefLabelList").getElementsByTagName("SPAN");
@@ -147,10 +129,9 @@ function labellist_callback() {
 			}
 			notify("");
 			remove_splash();
-		}
 
 	} catch (e) {
-		exception_error("labellist_callback", e);
+		exception_error("labellist_callback2", e);
 	}
 }
 
@@ -304,30 +285,27 @@ function addLabel() {
 
 	try {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
-	var caption = prompt(__("Please enter label caption:"), "");
-
-	if (caption == null) { 
-		return false;
-	}
-
-	if (caption == "") {
-		alert(__("Can't create label: missing caption."));
-		return false;
-	}
-
-	// we can be called from some other tab
-	active_tab = "labelConfig";
-
-	var query = "caption=" + param_escape(caption);
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels&subop=add&" + query, true);			
-	xmlhttp.onreadystatechange=infobox_submit_callback;
-	xmlhttp.send(null);
+		var caption = prompt(__("Please enter label caption:"), "");
+	
+		if (caption == null) { 
+			return false;
+		}
+	
+		if (caption == "") {
+			alert(__("Can't create label: missing caption."));
+			return false;
+		}
+	
+		// we can be called from some other tab
+		active_tab = "labelConfig";
+	
+		query = "backend.php?op=pref-labels&subop=add&caption=" + 
+			param_escape(caption);
+	
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					infobox_submit_callback2(transport);
+				} });
 
 	} catch (e) {
 		exception_error("addLabel", e);
@@ -336,27 +314,31 @@ function addLabel() {
 
 function addFeed() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var link = document.getElementById("fadd_link");
+		var link = document.getElementById("fadd_link");
+	
+		if (link.value.length == 0) {
+			alert(__("Error: No feed URL given."));
+		} else if (!isValidURL(link.value)) {
+			alert(__("Error: Invalid feed URL."));
+		} else {
+			notify_progress("Adding feed...");
+	
+			var query = "backend.php?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
+				param_escape(link.value);
+	
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						feedlist_callback2(transport);
+					} });
+	
+			link.value = "";
+	
+		}
 
-	if (link.value.length == 0) {
-		alert(__("Error: No feed URL given."));
-	} else if (!isValidURL(link.value)) {
-		alert(__("Error: Invalid feed URL."));
-	} else {
-		notify_progress("Adding feed...");
-
-		xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
-			param_escape(link.value), true);
-		xmlhttp.onreadystatechange=feedlist_callback;
-		xmlhttp.send(null);
-
-		link.value = "";
-
+	} catch (e) {
+		exception_error("addFeed", e);
 	}
 
 }
@@ -515,11 +497,6 @@ function getSelectedFeedCats() {
 
 function removeSelectedLabels() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
-
 	var sel_rows = getSelectedLabels();
 
 	if (sel_rows.length > 0) {
@@ -529,10 +506,14 @@ function removeSelectedLabels() {
 		if (ok) {
 			notify_progress("Removing selected labels...");
 	
-			xmlhttp.open("GET", "backend.php?op=pref-labels&subop=remove&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=labellist_callback;
-			xmlhttp.send(null);
+			var query = "backend.php?op=pref-labels&subop=remove&ids="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						labellist_callback2(transport);
+					} });
+
 		}
 	} else {
 		alert(__("No labels are selected."));
@@ -601,31 +582,33 @@ function removeSelectedFilters() {
 
 function removeSelectedFeeds() {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
-	}
+	try {
 
-	var sel_rows = getSelectedFeeds();
-
-	if (sel_rows.length > 0) {
-
-		var ok = confirm(__("Unsubscribe from selected feeds?"));
-
-		if (ok) {
-
-			notify_progress("Unsubscribing from selected feeds...");
+		var sel_rows = getSelectedFeeds();
 	
-			xmlhttp.open("GET", "backend.php?op=pref-feeds&subop=remove&ids="+
-				param_escape(sel_rows.toString()), true);
-			xmlhttp.onreadystatechange=feedlist_callback;
-			xmlhttp.send(null);
+		if (sel_rows.length > 0) {
+	
+			var ok = confirm(__("Unsubscribe from selected feeds?"));
+	
+			if (ok) {
+	
+				notify_progress("Unsubscribing from selected feeds...");
+		
+				var query = "backend.php?op=pref-feeds&subop=remove&ids="+
+					param_escape(sel_rows.toString());
+	
+				new Ajax.Request(query,	{
+					onComplete: function(transport) {
+							feedlist_callback2(transport);
+						} });
+			}
+	
+		} else {
+			alert(__("No feeds are selected."));
 		}
 
-	} else {
-
-		alert(__("No feeds are selected."));
-
+	} catch (e) {
+		exception_error("removeSelectedFeeds", e);
 	}
 	
 	return false;
@@ -1064,20 +1047,24 @@ function updateFilterList(sort_key) {
 
 function updateLabelList(sort_key) {
 
-	if (!xmlhttp_ready(xmlhttp)) {
-		printLockingError();
-		return
+	try {
+
+		var label_search = document.getElementById("label_search");
+		var search = "";
+		if (label_search) { search = label_search.value; }
+	
+		var query = "backend.php?op=pref-labels&sort=" + 
+			param_escape(sort_key) +
+			"&search=" + param_escape(search);
+	
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+				labellist_callback2(transport);
+			} });
+
+	} catch (e) {
+		exception_error("updateLabelList", e);
 	}
-
-	var label_search = document.getElementById("label_search");
-	var search = "";
-	if (label_search) { search = label_search.value; }
-
-	xmlhttp.open("GET", "backend.php?op=pref-labels&sort=" + 
-		param_escape(sort_key) +
-		"&search=" + param_escape(search), true);
-	xmlhttp.onreadystatechange=labellist_callback;
-	xmlhttp.send(null);
 }
 
 function updatePrefsList() {
