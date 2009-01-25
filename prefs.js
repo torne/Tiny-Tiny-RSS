@@ -328,29 +328,32 @@ function addFeedCat() {
 		link.value = "";
 
 	}
-
 }
+
 function addUser() {
 
 	try {
 
-		var sqlexp = document.getElementById("uadd_box");
+		var login = prompt(__("Please enter login:"), "");
 	
-		if (sqlexp.value.length == 0) {
-			alert(__("Can't add user: no login specified."));
-		} else {
-			notify_progress("Adding user...");
-	
-			var query = "backend.php?op=pref-users&subop=add&login=" +
-				param_escape(sqlexp.value);
-				
-			new Ajax.Request(query, {
-				onComplete: function(transport) { 
-					userlist_callback2(transport); 
-				} });
-	
-			sqlexp.value = "";
+		if (login == null) { 
+			return false;
 		}
+	
+		if (login == "") {
+			alert(__("Can't create user: no login specified."));
+			return false;
+		}
+	
+		notify_progress("Adding user...");
+	
+		var query = "backend.php?op=pref-users&subop=add&login=" +
+			param_escape(login);
+				
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				userlist_callback2(transport); 
+			} });
 
 	} catch (e) {
 		exception_error("addUser", e);

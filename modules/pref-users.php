@@ -383,14 +383,8 @@
 			$sort = "login";
 		}
 
-		print "<div class=\"prefGenericAddBox\">
-			<input id=\"uadd_box\" 			
-				onkeyup=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
-				onchange=\"toggleSubmitNotEmpty(this, 'user_add_btn')\"
-				size=\"15\">&nbsp;";
-			
 		print "<input type=\"submit\" class=\"button\" 
-			id=\"user_add_btn\" disabled=\"true\"
+			id=\"user_add_btn\" 
 			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\"></div>";
 
 		if ($user_search) {

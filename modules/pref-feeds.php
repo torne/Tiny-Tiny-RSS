@@ -1131,7 +1131,7 @@
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
 				id=\"top25_feeds_btn\"
-				onclick=\"javascript:browseFeeds()\" value=\"".__('Other Feeds')."\">";
+				onclick=\"javascript:browseFeeds()\" value=\"".__('More Feeds')."\">";
 		}
 
 		$feeds_sort = db_escape_string($_GET["sort"]);
