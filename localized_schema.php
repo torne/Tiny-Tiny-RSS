@@ -17,6 +17,7 @@
 	__("Set starred");
 	__("Publish article");
 	__("Assign tags");
+	__("Assign label");
 
 	# prefs
 
