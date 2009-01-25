@@ -129,7 +129,7 @@
 				$help_text = db_fetch_result($result, 0, "help_text");
 				print $help_text;
 			} else {
-				print "Unknown option: $pref_name";
+				printf(__("Unknown option: %s"), $pref_name);
 			}
 
 		} else if ($subop == "change-email") {

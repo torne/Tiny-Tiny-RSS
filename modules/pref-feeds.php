@@ -1316,7 +1316,8 @@
 				}
 
 				if ($hidden) {
-					$edit_title = "<span class=\"insensitive\">$edit_title (Hidden)</span>";
+					$edit_title = "<span class=\"insensitive\">$edit_title ".
+						__('(Hidden)')."</span>";
 					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
 					$last_article = "<span class=\"insensitive\">$last_article</span>";
 				}
@@ -1329,8 +1330,8 @@
 
 				$parent_title = $line["parent_title"];
 				if ($parent_title) {
-					$parent_title = "<span class='groupPrompt'>(linked to 
-						$parent_title)</span>";
+					$linked_to = sprintf(__("(linked to %s)"), $parent_title);
+					$parent_title = "<span class='groupPrompt'>$linked_to</span>";
 				}
 
 				print "<td $onclick>" . "$edit_title $parent_title" . "</td>";

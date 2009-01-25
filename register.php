@@ -190,7 +190,7 @@
 	<td><?php echo __('How much is two plus two:') ?></td><td>
 		<input name="turing_test"></td></tr>
 	<tr><td colspan="2" align="right">
-	<input type="submit" name="sub_btn" value="<?php echo __('Submit registration"') ?>"
+	<input type="submit" name="sub_btn" value="<?php echo __('Submit registration') ?>"
 			disabled="true" onclick='return validateRegForm()'>
 	</td></tr>
 	</table>

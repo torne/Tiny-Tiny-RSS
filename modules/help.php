@@ -3,7 +3,7 @@
 
 		if (!$_GET["noheaders"]) {
 			print "<html><head>
-				<title>Tiny Tiny RSS : Help</title>
+				<title>".__('Help')."</title>
 				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
 				</head><body>";

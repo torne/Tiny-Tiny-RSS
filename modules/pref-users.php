@@ -14,7 +14,7 @@
 
 			$uid = sprintf("%d", $_GET["id"]);
 
-			print "<div id=\"infoBoxTitle\">User details</div>";
+			print "<div id=\"infoBoxTitle\">".__('User details')."</div>";
 
 			print "<div class='infoBoxContents'>";
 
@@ -28,15 +28,13 @@
 				WHERE id = '$uid'");
 				
 			if (db_num_rows($result) == 0) {
-				print "<h1>User not found</h1>";
+				print "<h1>".__('User not found')."</h1>";
 				return;
 			}
 			
 			// print "<h1>User Details</h1>";
 
 			$login = db_fetch_result($result, 0, "login");
-
-			// print "<h1>$login</h1>";
 
 			print "<table width='100%'>";
 
@@ -49,20 +47,8 @@
 			$access_level = db_fetch_result($result, 0, "access_level");
 			$stored_articles = db_fetch_result($result, 0, "stored_articles");
 
-			// print "<tr><td>Username</td><td>$login</td></tr>";
-			// print "<tr><td>Access level</td><td>$access_level</td></tr>";
 			print "<tr><td>".__('Registered')."</td><td>$created</td></tr>";
 			print "<tr><td>".__('Last logged in')."</td><td>$last_login</td></tr>";
-
-/*			$result = db_query($link, "SELECT 
-				SUM(LENGTH(content)) AS db_size 
-				FROM ttrss_user_entries,ttrss_entries 
-					WHERE owner_uid = '$uid' AND ref_id = id");
-
-			$db_size = round(db_fetch_result($result, 0, "db_size") / 1024);
-
-			print "<tr><td>".__('Stored articles').
-				"</td><td>$stored_articles (${db_size}K)</td></tr>"; */
 
 			$result = db_query($link, "SELECT COUNT(id) as num_feeds FROM ttrss_feeds
 				WHERE owner_uid = '$uid'");
