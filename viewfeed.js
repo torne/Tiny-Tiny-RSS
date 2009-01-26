@@ -535,6 +535,9 @@ function toggleMark(id, client_only, no_effects) {
 		}
 	
 		var mark_img = document.getElementById("FMPIC-" + id);
+
+		if (!mark_img) return;
+
 		var vfeedu = document.getElementById("FEEDU--1");
 		var crow = document.getElementById("RROW-" + id);
 	
@@ -586,6 +589,9 @@ function togglePub(id, client_only, no_effects) {
 		}
 	
 		var mark_img = document.getElementById("FPPIC-" + id);
+
+		if (!mark_img) return;
+
 		var vfeedu = document.getElementById("FEEDU--2");
 		var crow = document.getElementById("RROW-" + id);
 	
