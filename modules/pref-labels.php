@@ -244,6 +244,7 @@
 
 				print "<div class='labelColorIndicator' id='LICID-$id' 
 					style='color : $fg_color; background-color : $bg_color'
+					title='".__('Click to change color')."'
 					onclick=\"colorPicker('$id', '$fg_color', '$bg_color')\">&alpha;";
 				print_color_picker($id);
 				print "</div>";
