@@ -224,7 +224,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (52);
+insert into ttrss_version values (53);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -385,6 +385,8 @@ create table ttrss_feedbrowser_cache (
 create table ttrss_labels2 (id integer not null primary key auto_increment, 
 	owner_uid integer not null,
 	caption varchar(250) not null,
+	fg_color varchar(15) not null default '',
+	bg_color varchar(15) not null default '',
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 ) TYPE=InnoDB;
 

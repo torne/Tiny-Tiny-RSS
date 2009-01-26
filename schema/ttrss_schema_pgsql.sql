@@ -200,7 +200,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (52);
+insert into ttrss_version values (53);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -353,6 +353,8 @@ create table ttrss_feedbrowser_cache (
 
 create table ttrss_labels2 (id serial not null primary key, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+	fg_color varchar(15) not null default '',
+	bg_color varchar(15) not null default '',
 	caption varchar(250) not null
 );
 
