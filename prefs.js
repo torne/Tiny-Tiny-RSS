@@ -77,6 +77,29 @@ function filterlist_callback2(transport) {
 	remove_splash();
 }
 
+function init_label_inline_editor() {
+	try {
+		if (document.getElementById("prefLabelList")) {
+			var elems = document.getElementById("prefLabelList").getElementsByTagName("SPAN");
+
+			for (var i = 0; i < elems.length; i++) {
+				if (elems[i].id && elems[i].id.match("LILT-")) {
+
+					var id = elems[i].id.replace("LILT-", "");
+
+					new Ajax.InPlaceEditor(elems[i],
+						'backend.php?op=pref-labels&subop=save&id=' + id,
+						{cols: 20, rows: 1});
+
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("init_label_inline_editor", e);
+	}
+}
+
 function labellist_callback2(transport) {
 
 	try {
@@ -84,20 +107,8 @@ function labellist_callback2(transport) {
 		var container = document.getElementById('prefContent');
 			closeInfoBox();
 			container.innerHTML=transport.responseText;
-	
-			if (document.getElementById("prefLabelList")) {
-				var elems = document.getElementById("prefLabelList").getElementsByTagName("SPAN");
 
-				for (var i = 0; i < elems.length; i++) {
-					if (elems[i].id && elems[i].id.match("LILT-")) {
-
-						var id = elems[i].id.replace("LILT-", "");
-							new Ajax.InPlaceEditor(elems[i],
-							'backend.php?op=pref-labels&subop=save&id=' + id,
-							{cols: 20, rows: 1});
-					}
-				}
-			}
+			init_label_inline_editor();
 	
 			if (typeof correctPNG != 'undefined') {
 				correctPNG();
@@ -1994,17 +2005,33 @@ function labelColorSet(kind) {
 	try {
 		var labels = getSelectedLabels();
 
-		var p = prompt(__("Please enter new label color:"));
+		var p = null
+
+		if (kind == "fg") {
+			p = prompt(__("Please enter new label foreground color:"));
+		} else {
+			p = prompt(__("Please enter new label background color:"));
+		}
 
 		if (p != null) {
 
 			var query = "backend.php?op=pref-labels&subop=color-set&kind=" + kind +
 				"&ids="+	param_escape(labels.toString()) + "&color=" + param_escape(p);
 
-			new Ajax.Request(query,	{
-				onComplete: function(transport) {
-						labellist_callback2(transport);
-					} });
+			selectPrefRows('label', false);
+
+			for (var i = 0; i < labels.length; i++) {
+				var e = document.getElementById("LICID-" + labels[i]);
+				if (e) {
+					if (kind == "fg") {
+						e.style.color = p;
+					} else {
+						e.style.backgroundColor = p;
+					}
+				}
+			}
+
+			new Ajax.Request(query);
 		}
 
 	} catch (e) {

@@ -14,6 +14,18 @@
 					AND owner_uid = " . $_SESSION["uid"]);			
 			}
 
+			return;
+		}
+
+		if ($subop == "color-reset") {
+			$ids = split(',', db_escape_string($_REQUEST["ids"]));
+
+			foreach ($ids as $id) {
+				db_query($link, "UPDATE ttrss_labels2 SET
+					fg_color = '', bg_color = '' WHERE id = '$id'
+					AND owner_uid = " . $_SESSION["uid"]);			
+			}
+
 		}
 
 		if ($subop == "save") {
@@ -192,8 +204,8 @@
 				$fg_color = $line["fg_color"];
 				$bg_color = $line["bg_color"];
 
-				if (!$fg_color) $fg_color = "black";
-				if (!$bg_color) $bg_color = "transparent";
+				if (!$fg_color) $fg_color = "";
+				if (!$bg_color) $bg_color = "";
 
 				print "<td width='5%' align='center'><input 
 					onclick='toggleSelectPrefRow(this, \"label\");' 
@@ -201,15 +213,14 @@
 	
 				$id = $line['id'];
 
-/*				print "<td width='30' align='center'>
-					<div class='labelColorIndicator' 
-					style='color : $fg_color; background-color : $bg_color'
-					onclick=\"colorPicker(this, '$id', '$fg_color', '$bg_color')\">z</div>";
+				print "<td>";
 
-				print "</td>"; */
-
-				print "<td><span class='prefsLabelEntry' 
+				print "<div class='labelColorIndicator' id='LICID-$id' 
 					style='color : $fg_color; background-color : $bg_color'
+					onclick=\"colorPicker(this, '$id', '$fg_color', '$bg_color')\">&alpha;</div>&nbsp;";
+
+
+				print "<span class='prefsLabelEntry' 
 					id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
 					"</span>";
 
