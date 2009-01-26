@@ -110,7 +110,7 @@
 		}
 
 		$result = db_query($link, "SELECT 
-				id,caption
+				*
 			FROM 
 				ttrss_labels2
 			WHERE 
@@ -149,12 +149,20 @@
 				print "<tr class=\"$class\" $this_row_id>";
 	
 				$line["caption"] = htmlspecialchars($line["caption"]);
-	
+
+				$fg_color = $line["fg_color"];
+				$bg_color = $line["bg_color"];
+
+				if (!$fg_color) $fg_color = "black";
+				if (!$bg_color) $bg_color = "transparent";
+
 				print "<td width='5%' align='center'><input 
 					onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
-				print "<td><span id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
+				print "<td><span class='prefsLabelEntry' 
+					style='color : $fg_color; background-color : $bg_color'
+					id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
 					"</span></td>";
 
 				print "</tr>";

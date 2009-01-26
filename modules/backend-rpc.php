@@ -444,10 +444,7 @@
 					print "<entry id=\"$id\"><![CDATA[";
 
 					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
-
-					foreach ($labels as $l) {
-						print  "<span class='hlLabelRef'>".$l[1]."</span>";
-					}
+					print format_article_labels($labels, $id);
 
 					print "]]></entry>";
 
@@ -483,10 +480,7 @@
 					print "<entry id=\"$id\"><![CDATA[";
 
 					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
-
-					foreach ($labels as $l) {
-						print  "<span class='hlLabelRef'>".$l[1]."</span>";
-					}
+					print format_article_labels($labels, $id);
 
 					print "]]></entry>";
 

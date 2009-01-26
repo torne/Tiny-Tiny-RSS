@@ -1572,7 +1572,8 @@
 	}
 
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
-		$rtl_content = false, $last_updated = false, $last_error = false) {
+		$rtl_content = false, $last_updated = false, $last_error = false,
+		$fg_content = false, $bg_content = false) {
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
@@ -1598,6 +1599,18 @@
 		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
 			href=\"javascript:viewfeed('$feed_id', '', false, '', false, 0);\">$feed_title</a>";
 
+/*		if ($feed_id < -10) {
+			$bg_color = "#00ccff";
+			$fg_color = "white";
+		}
+
+		if ($fg_color || $bg_color) {
+			$color_str = "<div class='labelColorIndicator'
+				style='color : $fg_color; background-color : $bg_color'>l</div>";
+		} 
+
+		print $color_str; */
+
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
 		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
 			print "$feed_icon";
@@ -1619,7 +1632,7 @@
 			print "<div class=\"feedExtInfo\">
 				<span id=\"FLUPD-$feed_id\">$last_updated ($total total) $error_notify_msg</span></div>";
 		}
-		 	 
+
 		print "</li>";
 
 	}
@@ -4086,7 +4099,7 @@
 		if (!$tags) {
 
 
-				$result = db_query($link, "SELECT id,caption FROM					
+				$result = db_query($link, "SELECT * FROM
 					ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
 		
 				if (db_num_rows($result) > 0) {
@@ -4118,7 +4131,9 @@
 	
 					printFeedEntry($label_id, 
 						$class, $line["caption"], 
-						$count, "images/label.png", $link);
+						$count, "images/label.png", $link, 
+						false, false, false,
+						$line['fg_color'], $line['bg_color']);
 		
 				}
 
@@ -4815,16 +4830,11 @@
 				$feed_id = $line["feed_id"];
 
 				$labels = get_article_labels($link, $id);
+
 				$labels_str = "<span id=\"HLLCTR-$id\">";
-
-				foreach ($labels as $l) {
-					$labels_str .= "<span 
-						class='hlLabelRef'>".
-						$l[1]."</span>";
-				}
-
+				$labels_str .= format_article_labels($labels, $id);
 				$labels_str .= "</span>";
-
+	
 				if (count($topmost_article_ids) < 5) {
 					array_push($topmost_article_ids, $id);
 				}
@@ -5815,7 +5825,7 @@
 
 	function get_article_labels($link, $id) {
 		$result = db_query($link, 
-			"SELECT DISTINCT label_id,caption 
+			"SELECT DISTINCT label_id,caption,fg_color,bg_color 
 				FROM ttrss_labels2, ttrss_user_labels2 
 			WHERE id = label_id 
 				AND article_id = '$id' 
@@ -5825,7 +5835,8 @@
 		$rv = array();
 
 		while ($line = db_fetch_assoc($result)) {
-			$rk = array($line["label_id"], $line["caption"]);
+			$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
+				$line["bg_color"]);
 			array_push($rv, $rk);
 		}
 
@@ -5989,6 +6000,20 @@
 		}
 
 		return $tags_str;
+
+	}
+
+	function format_article_labels($labels, $id) {
+
+		$labels_str = "";
+
+		foreach ($labels as $l) {
+			$labels_str .= sprintf("<span class='hlLabelRef' 
+				style='color : %s; background-color : %s'>%s</span>",
+					$l[2], $l[3], $l[1]);
+			}
+
+		return $labels_str;
 
 	}
 ?>
