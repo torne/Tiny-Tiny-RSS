@@ -7,6 +7,10 @@ var caller_subop = false;
 var sanity_check_done = false;
 var hotkey_prefix = false;
 
+var color_picker_active = false;
+var selection_disabled = false;
+var mouse_is_down = false;
+
 function replace_pubkey_callback(transport) {
 	try {	
 		var link = document.getElementById("pubGenAddress");
@@ -1175,6 +1179,8 @@ function init_second_stage() {
 		if (!active_tab || active_tab == '0') active_tab = "genConfig";
 
 		document.onkeydown = pref_hotkey_handler;
+		document.onmousedown = mouse_down_handler;
+		document.onmouseup = mouse_up_handler;
 
 		var tab = getURLParam('tab');
 		
@@ -1418,6 +1424,7 @@ function pref_hotkey_handler(e) {
 			if (Element.visible("hotkey_help_overlay")) {
 				Element.hide("hotkey_help_overlay");
 			}
+			colorPickerHideAll();
 			hotkey_prefix = false;
 			closeInfoBox();
 		} 
@@ -1983,7 +1990,7 @@ function labelColorReset() {
 	try {
 		var labels = getSelectedLabels();
 
-		var ok = confirm(__("Clear colors of labels?"));
+		var ok = confirm(__("Reset label colors to default?"));
 
 		if (ok) {
 
@@ -2001,9 +2008,8 @@ function labelColorReset() {
 	}
 }
 
-function labelColorSet(kind) {
+function labelColorAsk(id, kind) {
 	try {
-		var labels = getSelectedLabels();
 
 		var p = null
 
@@ -2016,18 +2022,17 @@ function labelColorSet(kind) {
 		if (p != null) {
 
 			var query = "backend.php?op=pref-labels&subop=color-set&kind=" + kind +
-				"&ids="+	param_escape(labels.toString()) + "&color=" + param_escape(p);
+				"&ids="+	param_escape(id) + "&color=" + param_escape(p);
 
 			selectPrefRows('label', false);
 
-			for (var i = 0; i < labels.length; i++) {
-				var e = document.getElementById("LICID-" + labels[i]);
-				if (e) {
-					if (kind == "fg") {
-						e.style.color = p;
-					} else {
-						e.style.backgroundColor = p;
-					}
+			var e = document.getElementById("LICID-" + id);
+
+			if (e) {		
+				if (kind == "fg") {
+					e.style.color = p
+				} else {
+					e.style.backgroundColor = p;
 				}
 			}
 
@@ -2040,16 +2045,90 @@ function labelColorSet(kind) {
 }
 
 
-/*
-function colorPicker(caller, id, fg, bg) {
+function colorPicker(id, fg, bg) {
 	try {
-		var picker = document.getElementById("colorPicker");
+		var picker = document.getElementById("colorPicker-" + id);
 
-
-		picker.style.left = caller.offsetLeft;
-		picker.style.top = caller.offsetTop;
+		if (picker) Element.show(picker);
 
 	} catch (e) {
 		exception_error("colorPicker", e);
 	}
-}*/
+}
+
+function colorPickerHideAll() {
+	try {
+		if (document.getElementById("prefLabelList")) {
+
+			var elems = document.getElementById("prefLabelList").getElementsByTagName("DIV");
+
+			for (var i = 0; i < elems.length; i++) {
+				if (elems[i].id && elems[i].id.match("colorPicker-")) {
+					Element.hide(elems[i]);
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("colorPickerHideAll", e);
+	}
+}
+
+function colorPickerDo(id, fg, bg) {
+	try {
+
+		var query = "backend.php?op=pref-labels&subop=color-set&kind=both"+
+			"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
+			"&bg=" + param_escape(bg);
+
+		var e = document.getElementById("LICID-" + id);
+
+		if (e) {		
+			e.style.color = fg;
+			e.style.backgroundColor = bg;
+		}
+
+		new Ajax.Request(query);
+
+	} catch (e) {
+		exception_error("colorPickerDo", e);
+	}
+}
+
+function colorPickerActive(b) {
+	color_picker_active = b;
+}
+
+function mouse_down_handler(e) {
+	try {
+
+		/* do not prevent right click */
+		if (e.button && e.button == 2) return;
+
+		if (selection_disabled) {
+			document.onselectstart = function() { return false; };
+			return false;
+		}
+
+	} catch (e) {
+		exception_error("mouse_move_handler", e);
+	}
+}
+
+function mouse_up_handler(e) {
+	try {
+		mouse_is_down = false;
+
+		if (!selection_disabled) {
+			document.onselectstart = null;
+		}
+
+		if (!color_picker_active) {
+			colorPickerHideAll();
+		}
+
+	} catch (e) {
+		exception_error("mouse_move_handler", e);
+	}
+}
+

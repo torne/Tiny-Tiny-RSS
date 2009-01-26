@@ -7,11 +7,20 @@
 			$kind = db_escape_string($_REQUEST["kind"]);
 			$ids = split(',', db_escape_string($_REQUEST["ids"]));
 			$color = db_escape_string($_REQUEST["color"]);
+			$fg = db_escape_string($_REQUEST["fg"]);
+			$bg = db_escape_string($_REQUEST["bg"]);
 
 			foreach ($ids as $id) {
-				db_query($link, "UPDATE ttrss_labels2 SET
-					${kind}_color = '$color' WHERE id = '$id'
-					AND owner_uid = " . $_SESSION["uid"]);			
+
+				if ($kind == "fg" || $kind == "bg") {
+					db_query($link, "UPDATE ttrss_labels2 SET
+						${kind}_color = '$color' WHERE id = '$id'
+						AND owner_uid = " . $_SESSION["uid"]);			
+				} else {
+					db_query($link, "UPDATE ttrss_labels2 SET
+						fg_color = '$fg', bg_color = '$bg' WHERE id = '$id'
+						AND owner_uid = " . $_SESSION["uid"]);			
+				}
 			}
 
 			return;
@@ -112,31 +121,49 @@
 			$label_search = $_SESSION["prefs_label_search"];
 		}
 
-		print "<div id=\"colorPicker\" style=\"display : none\">";
-		
-		$color_picker_pairs = array(
-			array('#063064', '#fff7d5'),
-			array('#ffffff', '#00ccff'),
-			array('#ffffff', '#cc00ff'),
-			array('#ffffff', '#00ffcc'),
-			array('#ffffff', '#0000ff'),
-			array('#ffffff', '#ff00ff'),
-			array('#ffffff', '#ff0000'),
-			array('#394f00', '#ccff00'));
+		function print_color_picker($id) {
 
-		foreach ($color_picker_pairs as $c) { 
-			$fg_color = $c[0];
-			$bg_color = $c[1];
+			print "<div id=\"colorPicker-$id\" 
+				onmouseover=\"colorPickerActive(true)\"
+				onmouseout=\"colorPickerActive(false)\"
+				class=\"colorPicker\" style='display : none'>";
+	
+			$color_picker_pairs = array(
+				array('#ff0000', '#ffffff'),
+				array('#009000', '#ffffff'),
+				array('#0000ff', '#ffffff'),	
+				array('#ff00ff', '#ffffff'),	
+				array('#009090', '#ffffff'),
+				array('#ffffff', '#ff0000'),
+				array('#000000', '#00ff00'),
+				array('#ffffff', '#0000ff'),
+				array('#ffffff', '#ff00ff'),
+				array('#000000', '#00ffff'),
+				array('#000000', '#ffffff'),
+				array('#ffffff', '#000000'),
+				array('#ffffff', '#909000'),
+				array('#063064', '#fff7d5'),
+				array('#ffffff', '#4E4E90'),
+			);
+	
+			foreach ($color_picker_pairs as $c) { 
+				$fg_color = $c[0];
+				$bg_color = $c[1];
+	
+				print "<div class='colorPickerEntry' 
+					style='color : $fg_color; background-color : $bg_color;'
+					onclick=\"colorPickerDo('$id', '$fg_color', '$bg_color')\">&alpha;</div>";
+	
+			}
+	
+			print "<br clear='both'>";
 
-			print "<div class='colorPickerEntry' 
-				style='color : $fg_color; background-color : $bg_color;'
-				onclick=\"colorPickerDo('$fg_color', '$bg_color')\">z</div>";
+			print "<br/><b>".__('custom color:')."</b>";
+			print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'fg')\">".__("foreground")."</div>";
+			print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'bg')\">".__("background")."</div>";
 
+			print "</div>";
 		}
-
-		print "<br clear='both'>";
-
-		print "</div>";
 
 		print "<div class=\"feedEditSearch\">
 			<input id=\"label_search\" size=\"20\" type=\"search\"
@@ -217,7 +244,9 @@
 
 				print "<div class='labelColorIndicator' id='LICID-$id' 
 					style='color : $fg_color; background-color : $bg_color'
-					onclick=\"colorPicker(this, '$id', '$fg_color', '$bg_color')\">&alpha;</div>&nbsp;";
+					onclick=\"colorPicker('$id', '$fg_color', '$bg_color')\">&alpha;";
+				print_color_picker($id);
+				print "</div>";
 
 
 				print "<span class='prefsLabelEntry' 
@@ -238,14 +267,13 @@
 			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
 
-			print "&nbsp;&nbsp;";
-			print __("Color:");
-			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
+			print "&nbsp;";
+/*			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"labelColorSet('fg')\" value=\"".__('Fg')."\">&nbsp;";
 			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;";
+				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;"; */
 			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorReset()\" value=\"".__('Clear')."\">";
+				onclick=\"labelColorReset()\" value=\"".__('Clear colors')."\">";
 
 			print "</p>";
 

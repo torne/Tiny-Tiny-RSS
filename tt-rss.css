@@ -2101,9 +2101,18 @@ div.labelColorIndicator {
 	float : left;
 	background-color : #fff7d5;	
 	color : #063064;
+	margin-right : 10px;
 }
 
-div.colorPickerEntry {
+div.colorPicker div.colorPickerEntry:hover {
+	border : 1px solid #88b0f0;
+}
+
+div.colorPicker div.ccPrompt:hover {
+	color : black;
+}
+
+div.colorPicker div.colorPickerEntry {
 	height : 15px;
 	width : 15px;
 	line-height : 13px;
@@ -2114,15 +2123,16 @@ div.colorPickerEntry {
 	float : left;
 }
 
-div#colorPicker {
+div.colorPicker {
 	border : 1px solid #cccccc;
 	background : #f0f0f0;
 	width : 110px;
 	padding : 0px 0px 5px 5px;
 	position : absolute;
-	left : 150px;
-	top : 50px;
+	left : auto;
+	top : auto;
 	z-index : 3;
+	color : #909090;
 }
 
 
