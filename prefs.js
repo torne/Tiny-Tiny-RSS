@@ -1968,6 +1968,51 @@ function batchFeedsToggleField(cb, elem, label) {
 	}
 }
 
+function labelColorReset() {
+	try {
+		var labels = getSelectedLabels();
+
+		var ok = confirm(__("Clear colors of labels?"));
+
+		if (ok) {
+
+			var query = "backend.php?op=pref-labels&subop=color-reset&ids="+
+				param_escape(labels.toString());
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						labellist_callback2(transport);
+					} });
+		}
+
+	} catch (e) {
+		exception_error("labelColorReset", e);
+	}
+}
+
+function labelColorSet(kind) {
+	try {
+		var labels = getSelectedLabels();
+
+		var p = prompt(__("Please enter new label color:"));
+
+		if (p != null) {
+
+			var query = "backend.php?op=pref-labels&subop=color-set&kind=" + kind +
+				"&ids="+	param_escape(labels.toString()) + "&color=" + param_escape(p);
+
+			new Ajax.Request(query,	{
+				onComplete: function(transport) {
+						labellist_callback2(transport);
+					} });
+		}
+
+	} catch (e) {
+		exception_error("labelColorReset", e);
+	}
+}
+
+
 /*
 function colorPicker(caller, id, fg, bg) {
 	try {

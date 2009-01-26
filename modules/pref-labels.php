@@ -3,6 +3,19 @@
 
 		$subop = $_GET["subop"];
 
+		if ($subop == "color-set") {
+			$kind = db_escape_string($_REQUEST["kind"]);
+			$ids = split(',', db_escape_string($_REQUEST["ids"]));
+			$color = db_escape_string($_REQUEST["color"]);
+
+			foreach ($ids as $id) {
+				db_query($link, "UPDATE ttrss_labels2 SET
+					${kind}_color = '$color' WHERE id = '$id'
+					AND owner_uid = " . $_SESSION["uid"]);			
+			}
+
+		}
+
 		if ($subop == "save") {
 
 			$id = db_escape_string($_REQUEST["id"]);
@@ -211,19 +224,18 @@
 	
 			print "<p id=\"labelOpToolbar\">";
 
-			print "<div style='float : right'>";
-			print __("Color:");
-			print " <input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"\" value=\"".__('Fg')."\">&nbsp;";
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"\" value=\"".__('Bg')."\">&nbsp;";
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"\" value=\"".__('Clear')."\">";
-
-			print "</div>";
-
 			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
+
+			print "&nbsp;&nbsp;";
+			print __("Color:");
+			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"labelColorSet('fg')\" value=\"".__('Fg')."\">&nbsp;";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"labelColorReset()\" value=\"".__('Clear')."\">";
+
 			print "</p>";
 
 		} else {
