@@ -210,6 +210,18 @@
 			print "</table>";
 	
 			print "<p id=\"labelOpToolbar\">";
+
+			print "<div style='float : right'>";
+			print __("Color:");
+			print " <input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"\" value=\"".__('Fg')."\">&nbsp;";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"\" value=\"".__('Bg')."\">&nbsp;";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"\" value=\"".__('Clear')."\">";
+
+			print "</div>";
+
 			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
 				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
 			print "</p>";
