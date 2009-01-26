@@ -186,9 +186,9 @@
 					onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
-/*				$id = $line['id'];
+				$id = $line['id'];
 
-				print "<td width='30' align='center'>
+/*				print "<td width='30' align='center'>
 					<div class='labelColorIndicator' 
 					style='color : $fg_color; background-color : $bg_color'
 					onclick=\"colorPicker(this, '$id', '$fg_color', '$bg_color')\">z</div>";
@@ -196,9 +196,11 @@
 				print "</td>"; */
 
 				print "<td><span class='prefsLabelEntry' 
+					style='color : $fg_color; background-color : $bg_color'
 					id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
 					"</span>";
 
+				print "</td>";
 
 				print "</tr>";
 	
