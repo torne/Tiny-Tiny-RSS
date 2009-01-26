@@ -2092,10 +2092,32 @@ span.prefsLabelEntry {
 }
 
 div.labelColorIndicator {
-	float : right;
 	height : 14px;
 	width : 14px;
 	line-height : 14px;
 	font-height : 9px;
 	text-align : center;
+	border : 1px solid black;
+}
+
+div.colorPickerEntry {
+	height : 15px;
+	width : 15px;
+	line-height : 13px;
+	font-height : 9px;
+	text-align : center;
+	border : 1px solid black;
+	margin : 5px 5px 0px 0px;
+	float : left;
+}
+
+div#colorPicker {
+	border : 1px solid #cccccc;
+	background : #f0f0f0;
+	width : 110px;
+	padding : 0px 0px 5px 5px;
+	position : absolute;
+	left : 150px;
+	top : 50px;
+	z-index : 3;
 }

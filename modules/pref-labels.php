@@ -87,6 +87,32 @@
 			$label_search = $_SESSION["prefs_label_search"];
 		}
 
+		print "<div id=\"colorPicker\" style=\"display : none\">";
+		
+		$color_picker_pairs = array(
+			array('#063064', '#fff7d5'),
+			array('#ffffff', '#00ccff'),
+			array('#ffffff', '#cc00ff'),
+			array('#ffffff', '#00ffcc'),
+			array('#ffffff', '#0000ff'),
+			array('#ffffff', '#ff00ff'),
+			array('#ffffff', '#ff0000'),
+			array('#394f00', '#ccff00'));
+
+		foreach ($color_picker_pairs as $c) { 
+			$fg_color = $c[0];
+			$bg_color = $c[1];
+
+			print "<div class='colorPickerEntry' 
+				style='color : $fg_color; background-color : $bg_color;'
+				onclick=\"colorPickerDo('$fg_color', '$bg_color')\">z</div>";
+
+		}
+
+		print "<br clear='both'>";
+
+		print "</div>";
+
 		print "<div class=\"feedEditSearch\">
 			<input id=\"label_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
@@ -160,10 +186,19 @@
 					onclick='toggleSelectPrefRow(this, \"label\");' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
-				print "<td><span class='prefsLabelEntry' 
+/*				$id = $line['id'];
+
+				print "<td width='30' align='center'>
+					<div class='labelColorIndicator' 
 					style='color : $fg_color; background-color : $bg_color'
+					onclick=\"colorPicker(this, '$id', '$fg_color', '$bg_color')\">z</div>";
+
+				print "</td>"; */
+
+				print "<td><span class='prefsLabelEntry' 
 					id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
-					"</span></td>";
+					"</span>";
+
 
 				print "</tr>";
 	

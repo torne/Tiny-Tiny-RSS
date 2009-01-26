@@ -1968,4 +1968,15 @@ function batchFeedsToggleField(cb, elem, label) {
 	}
 }
 
+function colorPicker(caller, id, fg, bg) {
+	try {
+		var picker = document.getElementById("colorPicker");
 
+
+		picker.style.left = caller.offsetLeft;
+		picker.style.top = caller.offsetTop;
+
+	} catch (e) {
+		exception_error("colorPicker", e);
+	}
+}
