@@ -121,50 +121,6 @@
 			$label_search = $_SESSION["prefs_label_search"];
 		}
 
-		function print_color_picker($id) {
-
-			print "<div id=\"colorPicker-$id\" 
-				onmouseover=\"colorPickerActive(true)\"
-				onmouseout=\"colorPickerActive(false)\"
-				class=\"colorPicker\" style='display : none'>";
-	
-			$color_picker_pairs = array(
-				array('#ff0000', '#ffffff'),
-				array('#009000', '#ffffff'),
-				array('#0000ff', '#ffffff'),	
-				array('#ff00ff', '#ffffff'),	
-				array('#009090', '#ffffff'),
-				array('#ffffff', '#ff0000'),
-				array('#000000', '#00ff00'),
-				array('#ffffff', '#0000ff'),
-				array('#ffffff', '#ff00ff'),
-				array('#000000', '#00ffff'),
-				array('#000000', '#ffffff'),
-				array('#ffffff', '#000000'),
-				array('#ffffff', '#909000'),
-				array('#063064', '#fff7d5'),
-				array('#ffffff', '#4E4E90'),
-			);
-	
-			foreach ($color_picker_pairs as $c) { 
-				$fg_color = $c[0];
-				$bg_color = $c[1];
-	
-				print "<div class='colorPickerEntry' 
-					style='color : $fg_color; background-color : $bg_color;'
-					onclick=\"colorPickerDo('$id', '$fg_color', '$bg_color')\">&alpha;</div>";
-	
-			}
-	
-			print "<br clear='both'>";
-
-			print "<br/><b>".__('custom color:')."</b>";
-			print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'fg')\">".__("foreground")."</div>";
-			print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'bg')\">".__("background")."</div>";
-
-			print "</div>";
-		}
-
 		print "<div class=\"feedEditSearch\">
 			<input id=\"label_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
@@ -289,4 +245,63 @@
 
 		}
 	}
+
+	function print_color_picker($id) {
+
+		print "<div id=\"colorPicker-$id\" 
+			onmouseover=\"colorPickerActive(true)\"
+			onmouseout=\"colorPickerActive(false)\"
+			class=\"colorPicker\" style='display : none'>";
+
+		$color_picker_pairs = array(
+			array('#ff0000', '#ffffff'),
+			array('#009000', '#ffffff'),
+			array('#0000ff', '#ffffff'),	
+			array('#ff00ff', '#ffffff'),				
+			array('#009090', '#ffffff'),
+
+			array('#ffffff', '#ff0000'),
+			array('#000000', '#00ff00'),
+			array('#ffffff', '#0000ff'),
+			array('#ffffff', '#ff00ff'),
+			array('#000000', '#00ffff'),
+
+			array('#7b07e1', '#ffffff'),
+			array('#0091b4', '#ffffff'),
+			array('#00aa71', '#ffffff'),
+			array('#7d9e01', '#ffffff'),
+			array('#e14a00', '#ffffff'),
+
+			array('#ffffff', '#7b07e1'),
+			array('#ffffff', '#00b5e1'),
+			array('#ffffff', '#00e196'),
+			array('#ffffff', '#b3e100'),
+			array('#ffffff', '#e14a00'),
+
+			array('#000000', '#ffffff'),
+			array('#ffffff', '#000000'),
+			array('#ffffff', '#909000'),
+			array('#063064', '#fff7d5'),
+			array('#ffffff', '#4E4E90'),
+		);
+
+		foreach ($color_picker_pairs as $c) { 
+			$fg_color = $c[0];
+			$bg_color = $c[1];
+
+			print "<div class='colorPickerEntry' 
+				style='color : $fg_color; background-color : $bg_color;'
+				onclick=\"colorPickerDo('$id', '$fg_color', '$bg_color')\">&alpha;</div>";
+
+		}
+
+		print "<br clear='both'>";
+
+		print "<br/><b>".__('custom color:')."</b>";
+		print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'fg')\">".__("foreground")."</div>";
+		print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'bg')\">".__("background")."</div>";
+
+		print "</div>";
+	}
+
 ?>
