@@ -2114,7 +2114,7 @@
 			
 				if ($cat_view) {
 
-					if $feed >= 0) {
+					if ($feed >= 0) {
 
 						if ($feed > 0) {
 							$cat_qpart = "cat_id = '$feed'";
