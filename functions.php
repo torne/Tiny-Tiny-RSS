@@ -2114,23 +2114,29 @@
 			
 				if ($cat_view) {
 
-					if ($feed > 0) {
-						$cat_qpart = "cat_id = '$feed'";
-					} else {
-						$cat_qpart = "cat_id IS NULL";
-					}
+					if $feed >= 0) {
+
+						if ($feed > 0) {
+							$cat_qpart = "cat_id = '$feed'";
+						} else {
+							$cat_qpart = "cat_id IS NULL";
+						}
 					
-					$tmp_result = db_query($link, "SELECT id 
-						FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = " . 
-						$_SESSION["uid"]);
+						$tmp_result = db_query($link, "SELECT id 
+							FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = " . 
+							$_SESSION["uid"]);
 
-					while ($tmp_line = db_fetch_assoc($tmp_result)) {
+						while ($tmp_line = db_fetch_assoc($tmp_result)) {
 
-						$tmp_feed = $tmp_line["id"];
+							$tmp_feed = $tmp_line["id"];
 
-						db_query($link, "UPDATE ttrss_user_entries 
-							SET unread = false,last_read = NOW() 
-							WHERE feed_id = '$tmp_feed' AND owner_uid = " . $_SESSION["uid"]);
+							db_query($link, "UPDATE ttrss_user_entries 
+								SET unread = false,last_read = NOW() 
+								WHERE feed_id = '$tmp_feed' AND owner_uid = " . $_SESSION["uid"]);
+						}
+					} else if ($feed == -2) {
+
+						/* FIXME catchup for all labels vfeed */
 					}
 
 				} else if ($feed > 0) {
