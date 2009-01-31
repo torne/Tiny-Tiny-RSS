@@ -604,24 +604,8 @@ function parse_counters_reply(transport, scheduled_call) {
 		updateTitle("");
 		return;
 	} 
-	
-	var error_code = false;
-	var error_msg = false;
 
-	if (reply.firstChild) {
-		error_code = reply.firstChild.getAttribute("error-code");
-		error_msg = reply.firstChild.getAttribute("error-msg");
-	}
-
-	if (!error_code) {	
-		error_code = reply.getAttribute("error-code");
-		error_msg = reply.getAttribute("error-msg");
-	}
-	
-	if (error_code && error_code != 0) {
-		debug("refetch_callback: got error code " + error_code);
-		return fatalError(error_code, error_msg);
-	}
+	if (!transport_error_check(transport)) return;
 
 	var counters = reply.getElementsByTagName("counters")[0];
 	
@@ -2104,4 +2088,23 @@ function browseFeeds(limit) {
 	}
 }
 
+function transport_error_check(transport) {
+	try {
+		if (transport.responseXML) {
+			var error = transport.responseXML.getElementsByTagName("error")[0];
+
+			if (error) {
+				var code = error.getAttribute("error-code");
+				var msg = error.getAttribute("error-msg");
+				if (code != 0) {
+					fatalError(code, msg);
+					return false;
+				}
+			}
+		}
+	} catch (e) {
+		exception_error("check_for_error_xml", e);
+	}
+	return true;
+}
 

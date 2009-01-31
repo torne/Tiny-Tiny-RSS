@@ -67,6 +67,8 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		debug("headlines_callback2 [page=" + feed_cur_page + "]");
 
+		if (!transport_error_check(transport)) return;
+
 		clean_feed_selections();
 	
 		var is_cat = false;
@@ -326,6 +328,8 @@ function article_callback2(transport, id, feed_id) {
 		debug("article_callback2 " + id);
 
 		if (transport.responseXML) {
+
+			if (!transport_error_check(transport)) return;
 
 			debug("looking for articles to cache...");
 

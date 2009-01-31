@@ -33,6 +33,7 @@ function viewCategory(cat) {
 function feedlist_callback2(transport) {
 	try {
 		debug("feedlist_callback2");
+		if (!transport_error_check(transport)) return;
 		var f = document.getElementById("feeds-frame");
 		f.innerHTML = transport.responseText;
 		feedlist_init();
