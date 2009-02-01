@@ -202,6 +202,8 @@
 
 			}
 
+			$_SESSION["viewfeed:counters_stamp"] = time();
+
 			outputFeedList($link, $tags);
 		break; // feeds
 
