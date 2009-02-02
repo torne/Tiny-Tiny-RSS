@@ -514,7 +514,11 @@ function init_second_stage() {
 
 		if (fl) {
 			render_feedlist(fl);
-			request_counters();
+			if (document.getElementById("feedList")) {
+				request_counters();
+			} else {
+				setTimeout('updateFeedList(false, false)', 50);
+			}
 		} else {
 			setTimeout('updateFeedList(false, false)', 50);
 		}

@@ -579,10 +579,11 @@ function parse_counters(reply, scheduled_call) {
 				setTimeout('updateFeedList(false, false)', 50);
 			}
 		} else {
-			cache_invalidate("FEEDLIST");
-			cache_inject("FEEDLIST", 
-				document.getElementById("feedList").innerHTML, 
-				getInitParam("num_feeds"));
+			var fl = document.getElementById("feeds-frame").innerHTML;
+			if (fl) {
+				cache_invalidate("FEEDLIST");
+				cache_inject("FEEDLIST", fl, getInitParam("num_feeds"));
+			}
 		}
 
 	} catch (e) {
