@@ -1,12 +1,12 @@
 <?php
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-	require_once "sessions.php";
+	require_once "../sessions.php";
 	
-	require_once "sanity_check.php";
-	require_once "functions.php";
-	require_once "config.php";
-	require_once "db.php";
+	require_once "../sanity_check.php";
+	require_once "../functions.php";
+	require_once "../config.php";
+	require_once "../db.php";
 	
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
