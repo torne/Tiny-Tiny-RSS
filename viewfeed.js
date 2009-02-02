@@ -1583,7 +1583,10 @@ function cache_expire() {
 		var date = new Date();
 		var ts = Math.round(date.getTime() / 1000);
 
-		db.execute("DELETE FROM cache WHERE added < ? - 600", [ts]);
+		db.execute("DELETE FROM cache WHERE added < ? - 1800 AND id LIKE 'FEEDLIST'", [ts]);
+		db.execute("DELETE FROM cache WHERE added < ? - 600 AND (id LIKE 'F:%' OR id LIKE 'C:%')", [ts]);
+		db.execute("DELETE FROM cache WHERE added < ? - 86400", [ts]);
+
 
 	} else {
 		while (article_cache.length > 25) {
