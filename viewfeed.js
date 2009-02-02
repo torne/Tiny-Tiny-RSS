@@ -1466,65 +1466,116 @@ function cdmWatchdog() {
 
 
 function cache_inject(id, article, param) {
-	if (!cache_check_param(id, param)) {
-		debug("cache_article: miss: " + id + " [p=" + param + "]");
+	try {
+		if (!cache_check_param(id, param)) {
+			debug("cache_article: miss: " + id + " [p=" + param + "]");
+	
+	
+			if (db) {
 
-		var cache_obj = new Array();
+			   var date = new Date();
+		      var ts = Math.round(date.getTime() / 1000);
 
-		cache_obj["id"] = id;
-		cache_obj["data"] = article;
-		cache_obj["param"] = param;
-
-		article_cache.push(cache_obj);
-
-	} else {
-		debug("cache_article: hit: " + id + " [p=" + param + "]");
+				db.execute("INSERT INTO cache (id, article, param, added) VALUES (?, ?, ?, ?)",
+					[id, article, param, ts]);				
+			} else {
+	
+				var cache_obj = new Array();
+	
+				cache_obj["id"] = id;
+				cache_obj["data"] = article;
+				cache_obj["param"] = param;
+	
+				article_cache.push(cache_obj);
+			}
+	
+		} else {
+			debug("cache_article: hit: " + id + " [p=" + param + "]");
+		}
+	} catch (e) {	
+		exception_error("cache_inject", e);
 	}
 }
 
 function cache_find(id) {
-	for (var i = 0; i < article_cache.length; i++) {
-		if (article_cache[i]["id"] == id) {
-			return article_cache[i]["data"];
+
+	if (db) {
+
+	} else {
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id) {
+				return article_cache[i]["data"];
+			}
 		}
 	}
 	return false;
 }
 
 function cache_find_param(id, param) {
-	for (var i = 0; i < article_cache.length; i++) {
-		if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-			return article_cache[i]["data"];
+
+	if (db) {
+		var rs = db.execute("SELECT article FROM cache WHERE id = ? AND param = ?",
+			[id, param]);
+
+		if (rs.isValidRow()) {
+			return rs.field(0);
+		}
+
+	} else {
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+				return article_cache[i]["data"];
+			}
 		}
 	}
 	return false;
 }
 
 function cache_check(id) {
-	for (var i = 0; i < article_cache.length; i++) {
-		if (article_cache[i]["id"] == id) {
-			return true;
+
+	if (db) {
+		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ?",
+			[id]);
+
+		if (rs.isValidRow()) {
+			return rs.field(0) != "0";
+		}
+
+	} else {
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id) {
+				return true;
+			}
 		}
 	}
 	return false;
 }
 
 function cache_check_param(id, param) {
-	for (var i = 0; i < article_cache.length; i++) {
 
-//		debug("cache_check_param " + article_cache[i]["id"] + ":" + 
-//			article_cache[i]["param"] + " vs " + id + ":" + param);
+	if (db) {
+		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ? AND param = ?",
+			[id, param]);
 
-		if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-			return true;
+		if (rs.isValidRow()) {
+			return rs.field(0) != "0";
+		}
+
+	} else {
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+				return true;
+			}
 		}
 	}
 	return false;
 }
 
 function cache_expire() {
-	while (article_cache.length > 25) {
-		article_cache.shift();
+	if (!db) {
+		while (article_cache.length > 25) {
+			article_cache.shift();
+		}
 	}
 }
 
@@ -1533,18 +1584,25 @@ function cache_empty() {
 }
 
 function cache_invalidate(id) {
-	var i = 0
-
 	try {	
 
-		while (i < article_cache.length) {
-			if (article_cache[i]["id"] == id) {
-				debug("cache_invalidate: removed id " + id);
-				article_cache.splice(i, 1);
-				return true;
+		if (db) {
+			rs = db.execute("DELETE FROM cache WHERE id = ?", [id]);
+			return rs.rowsAffected != 0;
+		} else {
+
+			var i = 0
+
+			while (i < article_cache.length) {
+				if (article_cache[i]["id"] == id) {
+					debug("cache_invalidate: removed id " + id);
+					article_cache.splice(i, 1);
+					return true;
+				}
+				i++;
 			}
-			i++;
 		}
+
 		debug("cache_invalidate: id not found: " + id);
 		return false;
 	} catch (e) {

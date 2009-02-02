@@ -19,6 +19,10 @@ var ver_offset = 0;
 var hor_offset = 0;
 var feeds_sort_by_unread = false;
 var feedlist_sortable_enabled = false;
+var offline_mode = false;
+var store = false;
+var localServer = false;
+var db = false;
 
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
@@ -131,7 +135,11 @@ function backend_sanity_check_callback(transport) {
 		}
 
 		if (!transport.responseXML) {
-			fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
+			if (!google.gears) {
+				fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
+			} else {
+				init_offline();
+			}
 			return;
 		}
 
@@ -368,6 +376,8 @@ function init() {
 
 		if (arguments.callee.done) return;
 		arguments.callee.done = true;		
+
+		init_gears();
 
 		disableContainerChildren("headlinesToolbar", true);
 
@@ -1448,6 +1458,34 @@ function feedBrowserSubscribe() {
 
 	} catch (e) {
 		exception_error("feedBrowserSubscribe", e);
+	}
+}
+
+function init_gears() {
+	try {
+
+		if (google.gears) {
+			localServer = google.gears.factory.create("beta.localserver");
+			store = localServer.createManagedStore("tt-rss");
+			db = google.gears.factory.create('beta.database');
+			db.open('tt-rss');
+
+			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
+		}	
+
+	} catch (e) {
+		exception_error("init_gears", e);
+	}
+}
+
+function init_offline() {
+	try {
+		offline_mode = true;
+
+		remove_splash();
+
+	} catch (e) {
+		exception_error("init_offline", e);
 	}
 }
 
