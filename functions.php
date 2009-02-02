@@ -3002,11 +3002,27 @@
 
 		print "<param key=\"sync_counters\" value=\"1\"/>";
 
+		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
+			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+		$num_feeds = db_fetch_result($result, 0, "cf");
+
+		print "<param key=\"num_feeds\" value=\"".
+			(int)$num_feeds. "\"/>";
+
 		print "</init-params>";
 	}
 
 	function print_runtime_info($link) {
 		print "<runtime-info>";
+
+		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
+			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+		$num_feeds = db_fetch_result($result, 0, "cf");
+
+		print "<param key=\"num_feeds\" value=\"".
+			(int)$num_feeds. "\"/>";
 
 		if (ENABLE_UPDATE_DAEMON) {
 			print "<param key=\"daemon_is_running\" value=\"".

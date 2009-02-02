@@ -510,7 +510,7 @@ function init_second_stage() {
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		var fl = cache_find("FEEDLIST");
+		var fl = cache_find_param("FEEDLIST", getInitParam("num_feeds"));
 
 		if (fl) {
 			render_feedlist(fl);
@@ -736,6 +736,10 @@ function parse_runtime_info(elem) {
 		var v = param.getAttribute("value");
 
 		debug("RI: " + k + " => " + v);
+
+		if (k == "num_feeds") {
+			init_params[k] = v;					
+		}
 
 		if (k == "new_version_available") {
 			var icon = document.getElementById("newVersionIcon");
