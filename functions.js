@@ -578,6 +578,11 @@ function parse_counters(reply, scheduled_call) {
 				debug("Subscribed feed number changed, refreshing feedlist");
 				setTimeout('updateFeedList(false, false)', 50);
 			}
+		} else {
+			cache_invalidate("FEEDLIST");
+			cache_inject("FEEDLIST", 
+				document.getElementById("feedList").innerHTML, 
+				getInitParam("num_feeds"));
 		}
 
 	} catch (e) {
