@@ -1479,7 +1479,7 @@ function feedBrowserSubscribe() {
 function init_gears() {
 	try {
 
-		if (google.gears) {
+		if (window.google && google.gears) {
 			localServer = google.gears.factory.create("beta.localserver");
 			store = localServer.createManagedStore("tt-rss");
 			db = google.gears.factory.create('beta.database');
