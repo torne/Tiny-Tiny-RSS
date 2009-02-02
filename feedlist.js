@@ -30,13 +30,25 @@ function viewCategory(cat) {
 	return false;
 }
 
+function render_feedlist(data) {
+	try {
+
+		var f = document.getElementById("feeds-frame");
+		f.innerHTML = data;
+		cache_invalidate("FEEDLIST");
+		cache_inject("FEEDLIST", data);
+		feedlist_init();
+
+	} catch (e) {
+		exception_error("render_feedlist", e);
+	}
+}
+
 function feedlist_callback2(transport) {
 	try {
 		debug("feedlist_callback2");
 		if (!transport_error_check(transport)) return;
-		var f = document.getElementById("feeds-frame");
-		f.innerHTML = transport.responseText;
-		feedlist_init();
+		render_feedlist(transport.responseText);
 	} catch (e) {
 		exception_error("feedlist_callback2", e);
 	}
@@ -257,6 +269,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			f.innerHTML = cache_find_param(cache_prefix + feed, unread_ctr);
 
 			request_counters();
+			remove_splash();
 
 		} else {
 

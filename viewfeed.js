@@ -1500,6 +1500,11 @@ function cache_inject(id, article, param) {
 function cache_find(id) {
 
 	if (db) {
+		var rs = db.execute("SELECT article FROM cache WHERE id = ?", [id]);
+
+		if (rs.isValidRow()) {
+			return rs.field(0);
+		}
 
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
@@ -1572,7 +1577,13 @@ function cache_check_param(id, param) {
 }
 
 function cache_expire() {
-	if (!db) {
+	if (db) {
+		var date = new Date();
+		var ts = Math.round(date.getTime() / 1000);
+
+		db.execute("DELETE FROM cache WHERE added < ? - 600", [ts]);
+
+	} else {
 		while (article_cache.length > 25) {
 			article_cache.shift();
 		}

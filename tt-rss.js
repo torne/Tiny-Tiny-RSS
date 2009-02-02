@@ -510,7 +510,14 @@ function init_second_stage() {
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		setTimeout('updateFeedList(false, false)', 50);
+		var fl = cache_find("FEEDLIST");
+
+		if (fl) {
+			render_feedlist(fl);
+			request_counters();
+		} else {
+			setTimeout('updateFeedList(false, false)', 50);
+		}
 
 		debug("second stage ok");
 
@@ -1472,6 +1479,8 @@ function init_gears() {
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 		}	
+	
+		cache_expire();
 
 	} catch (e) {
 		exception_error("init_gears", e);
