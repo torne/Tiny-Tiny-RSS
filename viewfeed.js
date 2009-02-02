@@ -362,14 +362,16 @@ function article_callback2(transport, id, feed_id) {
 			setTimeout('updateFeedList(false, false)', 50);			
 			_reload_feedlist_after_view = false;
 		} else {
-			var counters = transport.responseXML.getElementsByTagName("counters")[0];
+			if (transport.responseXML) {
+				var counters = transport.responseXML.getElementsByTagName("counters")[0];
 
-			if (counters) {
-				debug("parsing piggybacked counters: " + counters);
-				parse_counters(counters, false);
-			} else {
-				debug("counters container not found in reply, requesting...");
-				request_counters();
+				if (counters) {
+					debug("parsing piggybacked counters: " + counters);
+					parse_counters(counters, false);
+				} else {
+					debug("counters container not found in reply, requesting...");
+					request_counters();
+				}
 			}
 		}
 
