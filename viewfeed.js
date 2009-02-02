@@ -15,21 +15,6 @@ var post_under_pointer = false;
 
 var last_requested_article = false;
 
-function catchup_callback() {
-	if (xmlhttp_rpc.readyState == 4) {
-		try {
-			debug("catchup_callback");
-			notify("");			
-			all_counters_callback2(xmlhttp_rpc);
-			if (_catchup_callback_func) {
-				setTimeout(_catchup_callback_func, 10);	
-			}
-		} catch (e) {
-			exception_error("catchup_callback", e);
-		}
-	}
-}
-
 function catchup_callback2(transport, callback) {
 	try {
 		debug("catchup_callback2 " + transport + ", " + callback);
@@ -1696,10 +1681,7 @@ function catchupRelativeToArticle(below) {
 
 	try {
 
-		if (!xmlhttp_ready(xmlhttp_rpc)) {
-			printLockingError();
-		}
-	
+
 		if (!getActiveArticleId()) {
 			alert(__("No article is selected."));
 			return;

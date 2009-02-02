@@ -1,5 +1,4 @@
 var hotkeys_enabled = true;
-var xmlhttp_rpc = Ajax.getTransport();
 var notify_silent = false;
 var last_progress_point = 0;
 var async_counters_work = false;
@@ -81,10 +80,6 @@ function disableHotkeys() {
 
 function enableHotkeys() {
 	hotkeys_enabled = true;
-}
-
-function xmlhttp_ready(obj) {
-	return obj.readyState == 4 || obj.readyState == 0 || !obj.readyState;
 }
 
 function open_article_callback(transport) {
