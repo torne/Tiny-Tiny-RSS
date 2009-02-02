@@ -1496,6 +1496,7 @@ function init_offline() {
 		offline_mode = true;
 
 		render_feedlist(cache_find("FEEDLIST"));
+		document.getElementById("quickMenuChooser").disabled = true;
 
 		remove_splash();
 	} catch (e) {
