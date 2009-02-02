@@ -618,6 +618,8 @@ function request_counters_real() {
 
 	try {
 
+		if (offline_mode) return;
+
 		debug("requesting counters...");
 
 		var query = "backend.php?op=rpc&subop=getAllCounters";
