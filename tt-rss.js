@@ -1495,8 +1495,9 @@ function init_offline() {
 	try {
 		offline_mode = true;
 
-		remove_splash();
+		render_feedlist(cache_find("FEEDLIST"));
 
+		remove_splash();
 	} catch (e) {
 		exception_error("init_offline", e);
 	}
