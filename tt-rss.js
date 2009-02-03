@@ -26,7 +26,6 @@ var store = false;
 var localServer = false;
 var db = false;
 var download_progress_last = 0;
-var offline_dl_max_id = 0;
 
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
@@ -1584,7 +1583,7 @@ function offline_download_parse(stage, transport) {
 						[id, title, has_icon]);
 				}
 		
-				window.setTimeout("update_offline_data("+(stage+1)+")", 30*1000);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 60*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -1614,6 +1613,12 @@ function offline_download_parse(stage, transport) {
 					window.setTimeout("update_offline_data("+(stage+1)+")", 60*1000);
 				} else {
 					window.setTimeout("update_offline_data(0)", 1800*1000);
+
+					var date = new Date();
+					var ts = Math.round(date.getTime() / 1000);
+
+					db.execute("DELETE FROM articles WHERE added < ? - 2592000", [ts]);
+
 				}
 			}
 
@@ -1634,15 +1639,13 @@ function update_offline_data(stage) {
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
-		if (stage == 0) {
-			var rs = db.execute("SELECT MAX(id) FROM articles");
-			if (rs.isValidRow() && rs.field(0)) {
-				offline_dl_max_id = rs.field(0);
-			}
-		}
+		var rs = db.execute("SELECT MAX(id), MIN(id) FROM articles");
+		if (rs.isValidRow() && rs.field(0)) {
+			var offline_dl_max_id = rs.field(0);
+			var offline_dl_min_id = rs.field(1);
 
-		if (offline_dl_max_id) {
-			query = query + "&cid=" + offline_dl_max_id;
+			query = query + "&cidt=" + offline_dl_max_id;
+			query = query + "&cidb=" + offline_dl_min_id;
 		}
 
 		new Ajax.Request(query, {

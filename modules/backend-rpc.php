@@ -516,12 +516,13 @@
 
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];
-			$cid = db_escape_string($_REQUEST["cid"]);
+			$cidt = db_escape_string($_REQUEST["cidt"]);
+			$cidb = db_escape_string($_REQUEST["cidb"]);
 			//$amount = (int) $_REQUEST["amount"];
 			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
 			//if (!$amount) $amount = 50;
 
-			$amount = 200;
+			$amount = 100;
 			$unread_only = true;
 
 			print "<rpc-reply>";
@@ -564,15 +565,21 @@
 						$unread_qpart = "unread = true AND ";
 					}
 
-					if ($cid) {
-						$cid_qpart =  "id > $cid AND ";
+					if ($cidt && $cidb) {
+						$cid_qpart =  "(id > $cidt OR id < $cidb) AND ";
 					}
+
+					if (DB_TYPE == "pgsql") {
+						$date_qpart = "updated >= NOW() - INTERVAL '1 month' AND";
+					} else {
+						$date_qpart = "updated >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND";
+					}			
 
 					$result = db_query($link,
 						"SELECT DISTINCT id,title,guid,link,
 								feed_id,content,updated,unread,marked FROM
 							ttrss_user_entries,ttrss_entries
-							WHERE $unread_qpart $cid_qpart
+							WHERE $unread_qpart $cid_qpart $date_qpart
 							ref_id = id AND owner_uid = ".$_SESSION["uid"]."
 							ORDER BY updated DESC LIMIT $limit OFFSET $skip");
 	
