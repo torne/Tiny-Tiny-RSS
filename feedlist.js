@@ -129,8 +129,160 @@ function viewNextFeedPage() {
 	}
 }
 
-function viewfeed_offline(feed, subop, is_cat, subop_param, skip_history, offset) {
+function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, offset) {
 	try {
+		notify('');
+
+		loading_set_progress(100);
+
+		clean_feed_selections();
+	
+		setActiveFeedId(feed_id, is_cat);
+
+		if (!is_cat) {
+			var feedr = document.getElementById("FEEDR-" + feed_id);
+			if (feedr && !feedr.className.match("Selected")) {	
+				feedr.className = feedr.className + "Selected";
+			} 
+		} else {
+			var feedr = document.getElementById("FCAT-" + feed_id);
+			if (feedr && !feedr.className.match("Selected")) {	
+				feedr.className = feedr.className + "Selected";
+			} 
+		}
+
+		var f = document.getElementById("headlines-frame");
+		try {
+			if (reply.offset == 0) { 
+				debug("resetting headlines scrollTop");
+				f.scrollTop = 0; 
+			}
+		} catch (e) { };
+
+
+		var container = document.getElementById("headlines-frame");
+
+		var tmp = "";
+
+		rs = db.execute("SELECT title FROM feeds WHERE id = ?", [feed_id]);
+
+		if (rs.isValidRow()) {
+
+			var feed_title = rs.field(0);
+
+			if (offset == 0) {
+				tmp += "<div id=\"headlinesContainer\">";
+		
+				tmp += "<div class=\"headlinesSubToolbar\">";
+				tmp += "<div id=\"subtoolbar_ftitle\">";
+				tmp += feed_title;
+				tmp += "</div>";
+
+				var sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
+				var sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
+				var sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
+				var sel_inv_link = "javascript:invertHeadlineSelection()";
+
+				tmp += __('Select:')+
+					" <a href=\""+sel_all_link+"\">"+__('All')+"</a>, "+
+					"<a href=\""+sel_unread_link+"\">"+__('Unread')+"</a>, "+
+					"<a href=\""+sel_inv_link+"\">"+__('Invert')+"</a>, "+
+					"<a href=\""+sel_none_link+"\">"+__('None')+"</a>";
+	
+				tmp += "&nbsp;&nbsp;";
+	
+				tmp += "</div>";
+	
+				tmp += "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
+	
+				tmp += "<table class=\"headlinesList\" id=\"headlinesList\" cellspacing=\"0\">";
+			
+			}
+	
+			var rs = db.execute("SELECT * FROM articles WHERE feed_id = ?", [feed_id]);
+
+			var line_num = 0;
+
+			while (rs.isValidRow()) {
+
+				var id = rs.fieldByName("id");
+				var feed_id = rs.fieldByName("feed_id");
+
+				var marked_pic;
+	
+				var row_class = (line_num % 2) ? "even" : "odd";
+
+				if (rs.fieldByName("unread") == "1") {
+					row_class += "Unread";
+				}
+	
+				if (rs.fieldByName("marked") == "1") {
+					marked_pic = "<img id=\"FMPIC-"+id+"\" "+
+						"src=\"images/mark_set.png\" class=\"markedPic\""+
+						"alt=\"Unstar article\" onclick='javascript:tMark("+id+")'>";
+				} else {
+					marked_pic = "<img id=\"FMPIC-"+id+"\" "+
+						"src=\"images/mark_unset.png\" class=\"markedPic\""+
+						"alt=\"Star article\" onclick='javascript:tMark("+id+")'>";
+				}
+
+				var mouseover_attrs = "onmouseover='postMouseIn($id)' "+
+					"onmouseout='postMouseOut($id)'";
+	
+				tmp += "<tr class='"+row_class+"' id='RROW-"+id+"' "+mouseover_attrs+">";
+				
+				tmp += "<td class='hlUpdPic'> </td>";
+
+				tmp += "<td class='hlSelectRow'>"+
+					"<input type=\"checkbox\" onclick=\"tSR(this)\"	id=\"RCHK-"+id+"\"></td>";
+				
+				tmp += "<td class='hlMarkedPic'>"+marked_pic+"</td>";
+	
+				tmp += "<td onclick='view("+id+","+feed_id+")' "+
+					"class='hlContent' valign='middle'>";
+	
+				tmp += "<a id=\"RTITLE-$id\" href=\"" + 
+					param_escape(rs.fieldByName("link")) + "\"" +
+					"onclick=\"return view("+id+","+feed_id+");\">"+
+					rs.fieldByName("title");
+
+				var content_preview = truncate_string(strip_tags(rs.fieldByName("content")), 
+					100);
+
+				tmp += "<span class=\"contentPreview\"> - "+content_preview+"</span>";
+
+				tmp += "</a>";
+
+				tmp += "</td>";
+	
+				tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
+					"<nobr>"+rs.fieldByName("updated").substring(0,16)+"</nobr></td>";
+
+				tmp += "</tr>";
+
+				rs.next();
+				line_num++;
+			}
+	
+			if (offset == 0) {
+				tmp += "</table>";
+				tmp += "</div></div>";
+			}
+	
+			if (offset == 0) {
+				container.innerHTML = tmp;
+			} else {
+				var ids = getSelectedArticleIds2();
+		
+				//container.innerHTML = container.innerHTML + tmp;
+	
+				for (var i = 0; i < ids.length; i++) {
+					markHeadline(ids[i]);
+				}
+			}
+		}
+
+		remove_splash();
 
 
 	} catch (e) {

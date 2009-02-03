@@ -2109,3 +2109,13 @@ function transport_error_check(transport) {
 	return true;
 }
 
+function strip_tags(s) {
+	return s.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+function truncate_string(s, length) {
+	if (!length) length = 30;
+	var tmp = s.substring(0, length);
+	if (s.length > length) tmp += "&hellip;";
+	return tmp;
+}
