@@ -1,3 +1,5 @@
+var SCHEMA_VERSION = 1;
+
 var total_unread = 0;
 var first_run = true;
 var display_tags = false;
@@ -1506,11 +1508,29 @@ function init_gears() {
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
 
+			db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
+
+			var rs = db.execute("SELECT schema_version FROM version");
+
+			var version = "";
+
+			if (rs.isValidRow()) {
+				version = rs.field(0);
+			}
+
+			if (version != SCHEMA_VERSION) {
+				db.execute("DROP TABLE cache");
+				db.execute("DROP TABLE feeds");
+				db.execute("DROP TABLE articles");
+				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
+					[SCHEMA_VERSION]);
+			}
+
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 
 			db.execute("CREATE TABLE if not exists feeds (id integer, title text, has_icon integer)");
 
-			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text)");
+			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text)");
 
 			var qmcDownload = document.getElementById("qmcDownload");
 			if (qmcDownload) Element.show(qmcDownload);
@@ -1528,8 +1548,13 @@ function init_offline() {
 	try {
 		offline_mode = true;
 
-		render_offline_feedlist();
+		Element.hide("dispSwitchPrompt");
+		Element.hide("feedBrowserPrompt");
+		Element.hide("quickMenuChooser");
 
+		init_params["theme"] = "";
+
+		render_offline_feedlist();
 		remove_splash();
 	} catch (e) {
 		exception_error("init_offline", e);
@@ -1569,13 +1594,17 @@ function offline_download_parse(stage, transport) {
 					var a = eval("("+articles[i].firstChild.nodeValue+")");
 					articles_found++;
 					if (a) {
+
+						var date = new Date();
+						var ts = Math.round(date.getTime() / 1000);
+
 						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
 						db.execute("INSERT INTO articles "+
 						"(id, feed_id, title, link, guid, updated, content, "+
-							"unread, marked, tags) "+
-						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+							"unread, marked, tags, added) "+
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
-								a.content, a.unread, a.marked, a.tags]);
+								a.content, a.unread, a.marked, a.tags, ts]);
 
 					}
 				}

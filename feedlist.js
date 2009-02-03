@@ -46,10 +46,11 @@ function render_offline_feedlist() {
 				[id]);
 			var unread = 0;
 
-			if (rs.isValidRow()) {
+			if (rs_u.isValidRow()) {
 				unread = rs_u.field(0);
 				if (!unread) unread = 0;
 			}
+
 
 			var feed_icon = "";
 
