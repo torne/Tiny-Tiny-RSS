@@ -144,6 +144,10 @@ function backend_sanity_check_callback(transport) {
 			return;
 		}
 
+		if (getURLParam("offline")) {
+			return init_offline();
+		}
+
 		var reply = transport.responseXML.firstChild.firstChild;
 
 		if (!reply) {
@@ -1505,7 +1509,7 @@ function init_gears() {
 
 			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text)");
 
-			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text)");
+			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text)");
 
 			var qmcDownload = document.getElementById("qmcDownload");
 			if (qmcDownload) Element.show(qmcDownload);
@@ -1564,9 +1568,10 @@ function offline_download_parse(stage, transport) {
 					if (a) {
 						db.execute("DELETE FROM offline_data WHERE id = ?", [a.id]);
 						db.execute("INSERT INTO offline_data "+
-							"(id, feed_id, title, link, guid, updated, content) "+
-							"VALUES (?, ?, ?, ?, ?, ?, ?)", 
-							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, a.content]);
+							"(id, feed_id, title, link, guid, updated, content, unread, marked) "+
+							"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
+								a.content, a.unread, a.marked]);
 
 					}
 				}

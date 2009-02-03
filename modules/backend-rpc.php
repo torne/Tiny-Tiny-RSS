@@ -568,6 +568,10 @@
 	
 					while ($line = db_fetch_assoc($result)) {
 						print "<article><![CDATA[";
+
+						$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
+						$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
+
 						print json_encode($line);
 						print "]]></article>";
 					}
