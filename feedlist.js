@@ -34,6 +34,41 @@ function render_offline_feedlist() {
 	try {
 		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
 
+		var rs = db.execute("SELECT SUM(unread) FROM articles WHERE marked = 1");
+
+		var unread = 0;
+
+		if (rs.isValidRow()) {
+			unread = rs.field(0);
+		}
+
+		var id = -1;
+		var title = __("Starred articles");
+		var row_class = "feed";
+
+		if (unread > 0) {
+			row_class += "Unread";
+			fctr_class = "feedCtrHasUnread";
+		} else {
+			fctr_class = "feedCtrNoUnread";
+		}
+
+		var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
+			"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
+			title + "</a>";
+
+		feed_icon = "<img id='FIMG-"+id+"' src='images/mark_set.png'>";
+
+		tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
+			"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
+
+		tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
+           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
+				
+		tmp += "</li>";
+
+		tmp += "<li><hr/></li>";
+
 		var rs = db.execute("SELECT id,title,has_icon FROM feeds ORDER BY title");
 
 		while (rs.isValidRow()) {
@@ -170,9 +205,13 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 		rs = db.execute("SELECT title FROM feeds WHERE id = ?", [feed_id]);
 
-		if (rs.isValidRow()) {
+		if (rs.isValidRow() || feed_id == -1) {
 
-			var feed_title = rs.field(0);
+			feed_title = rs.field(0);
+
+			if (feed_id == -1) {
+				feed_title = __("Starred articles");
+			}
 
 			if (offset == 0) {
 				tmp += "<div id=\"headlinesContainer\">";
@@ -203,7 +242,15 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			
 			}
 	
-			var rs = db.execute("SELECT * FROM articles WHERE feed_id = ?", [feed_id]);
+			var rs;
+			
+			if (feed_id > 0) {
+				rs = db.execute("SELECT * FROM articles WHERE feed_id = ? "+
+					"ORDER BY updated DESC", [feed_id]);
+			} else if (feed_id = -1) {
+				rs = db.execute("SELECT * FROM articles WHERE marked = 1 "+
+					"ORDER BY updated DESC");
+			}
 
 			var line_num = 0;
 
