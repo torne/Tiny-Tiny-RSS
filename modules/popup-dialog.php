@@ -479,7 +479,7 @@
 
 			print_select_hash("amount", 50, $amount);
 
-			print " " . __("newest articles for offline reading.");
+			print " " . __("latest articles for offline reading.");
 
 			print "<br/>";
 
@@ -491,8 +491,8 @@
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-				<input class=\"button\"					
-					type=\"submit\" onclick=\"return initiate_offline_download()\" value=\"".__('Download')."\">
+				<input class=\"button\"
+					type=\"submit\" onclick=\"return initiate_offline_download(0, this)\" value=\"".__('Download')."\">
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
 					value=\"".__('Cancel')."\"></div>";

@@ -129,8 +129,20 @@ function viewNextFeedPage() {
 	}
 }
 
+function viewfeed_offline(feed, subop, is_cat, subop_param, skip_history, offset) {
+	try {
+
+
+	} catch (e) {
+		exception_error("viewfeed_offline", e);
+	}
+}
+
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
+
+		if (offline_mode) return viewfeed_offline(feed, subop, is_cat, subop_param,
+			skip_history, offset);
 
 //		if (!offset) page_offset = 0;
 

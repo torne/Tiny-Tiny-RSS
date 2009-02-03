@@ -579,6 +579,8 @@
 
 						$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
 						$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
+						$line["tags"] = format_tags_string(get_article_tags($link, $id), $id);
+
 
 						print json_encode($line);
 						print "]]></article>";
