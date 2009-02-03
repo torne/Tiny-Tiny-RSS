@@ -23,6 +23,7 @@ var offline_mode = false;
 var store = false;
 var localServer = false;
 var db = false;
+var download_progress_last = 0;
 
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
@@ -135,7 +136,7 @@ function backend_sanity_check_callback(transport) {
 		}
 
 		if (!transport.responseXML) {
-			if (!google.gears) {
+			if (!window.google && !google.gears) {
 				fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
 			} else {
 				init_offline();
@@ -660,6 +661,11 @@ function quickMenuGo(opid) {
 			hor_offset = 0;
 			ver_offset = 0;
 			resize_headlines();
+		}
+
+		if (opid == "qmcDownload") {
+			displayDlg("offlineDownload");
+			return;
 		}
 
 		if (opid == "qmcResetCats") {
@@ -1295,6 +1301,16 @@ function hotkey_handler(e) {
 				}
 			}
 
+			if (keycode == 68 && shift_key) { // D
+				initiate_offline_download();
+				return false;
+			}
+
+			if (keycode == 68) { // d
+				displayDlg("offlineDownload");
+				return false;
+			}
+
 			if (keycode == 87) { // w
 				feeds_sort_by_unread = !feeds_sort_by_unread;
 				return resort_feedlist();
@@ -1486,6 +1502,14 @@ function init_gears() {
 			db.open('tt-rss');
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
+
+			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text)");
+
+			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, updated text, content text, tags text)");
+
+			var qmcDownload = document.getElementById("qmcDownload");
+			if (qmcDownload) Element.show(qmcDownload);
+
 		}	
 	
 		cache_expire();
@@ -1499,8 +1523,7 @@ function init_offline() {
 	try {
 		offline_mode = true;
 
-		render_feedlist(cache_find("FEEDLIST"));
-		document.getElementById("quickMenuChooser").disabled = true;
+		render_offline_feedlist();
 
 		remove_splash();
 	} catch (e) {
@@ -1508,3 +1531,77 @@ function init_offline() {
 	}
 }
 
+function offline_download_parse(stage, transport) {
+	try {
+		if (transport.responseXML) {
+
+			if (stage == 0) {
+
+				var feeds = transport.responseXML.getElementsByTagName("feed");
+
+				if (feeds.length > 0) {
+					db.execute("DELETE FROM offline_feeds");
+				}
+
+				for (var i = 0; i < feeds.length; i++) {
+					var id = feeds[i].getAttribute("id");
+					var title = feeds[i].firstChild.nodeValue;
+	
+					db.execute("INSERT INTO offline_feeds (id,title) VALUES (?,?)",
+						[id, title]);
+				}
+		
+				window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);
+			}
+
+			notify_info("All done.");
+
+		}
+	} catch (e) {
+		exception_error("offline_download_parse", e);
+	}
+}
+
+function download_set_progress(p) {
+	try {
+		var o = document.getElementById("d_progress_i");
+
+		if (!o) return;
+
+		Element.show(o);
+
+		new Effect.Scale(o, p, { 
+			scaleY : false,
+			scaleFrom : download_progress_last,
+			scaleMode: { originalWidth : 100 },
+			queue: { position: 'end', scope: 'LSP-Q', limit: 3 } }); 
+
+		download_progress_last = p;
+	} catch (e) {
+		exception_error("download_progress", e);
+	}
+}
+
+function initiate_offline_download(stage) {
+	try {
+
+		if (!stage) stage = 0;
+
+		notify_progress("Loading, please wait... S" + stage, true);
+		download_set_progress(20);
+
+		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
+
+		if (document.getElementById("download_ops_form")) {
+			query = query + "&" + Form.serialize("download_ops_form");
+		}
+
+		new Ajax.Request(query, {
+			onComplete: function(transport) { 
+				offline_download_parse(stage, transport);				
+			} });
+
+	} catch (e) {
+		exception_error("initiate_offline_download", e);
+	}
+}

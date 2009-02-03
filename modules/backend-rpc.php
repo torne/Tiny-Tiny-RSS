@@ -514,6 +514,34 @@
 			return;
 		}
 
+		if ($subop == "download") {
+			$stage = (int) $_REQUEST["stage"];
+
+			print "<rpc-reply>";
+
+			if ($stage == 0) {
+				print "<feeds>";
+
+				$reply = array();
+
+				$result = db_query($link, "SELECT id, title FROM
+					ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
+
+				while ($line = db_fetch_assoc($result)) {
+					print "<feed id=\"".$line["id"]."\"><![CDATA[";
+					print $line["title"];
+					print "]]></feed>";
+				}
+
+				print "</feeds>";
+
+			}
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

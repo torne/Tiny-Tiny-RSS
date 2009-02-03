@@ -30,6 +30,14 @@ function viewCategory(cat) {
 	return false;
 }
 
+function render_offline_feedlist() {
+	try {
+		// FIXME
+	} catch (e) {
+		exception_error("render_offline_feedlist", e);
+	}
+}
+
 function render_feedlist(data) {
 	try {
 

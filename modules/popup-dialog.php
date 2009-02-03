@@ -461,6 +461,45 @@
 			return;
 		}
 
+		if ($id == "offlineDownload") {
+			print "<div id=\"infoBoxTitle\">".__('Download articles')."</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<form name='download_ops_form' id='download_ops_form'>";
+
+			print "<div class=\"dlgSec\">".__("Download")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			$amount = array(
+				50  => 50,
+				100 => 100,
+				0   => "All unread");
+
+			print_select_hash("amount", 50, $amount);
+
+			print " " . __("newest articles for offline reading.");
+
+			print "</div>";
+
+			print "</form>";
+
+			print "<div class=\"dlgButtons\">
+			<div id=\"d_progress_o\" style=\"display : none\">
+				<div id=\"d_progress_i\"></div>
+			</div>
+				<input class=\"button\"					
+					type=\"submit\" onclick=\"return initiate_offline_download()\" value=\"".__('Download')."\">
+				<input class=\"button\"
+					type=\"submit\" onclick=\"return closeInfoBox()\" 
+					value=\"".__('Cancel')."\"></div>";
+
+			print "</div>";
+
+			return;
+		}
+
+
 		print "<div id='infoBoxTitle'>Internal Error</div>
 			<div id='infoBoxContents'>
 			<p>Unknown dialog <b>$id</b></p>
