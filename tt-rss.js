@@ -1600,6 +1600,11 @@ function initiate_offline_download(stage) {
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
+		var rs = db.execute("SELECT MAX(id) FROM articles");
+		if (rs.isValidRow()) {
+			query = query + "&cid=" + rs.field(0);
+		}
+
 		if (document.getElementById("download_ops_form")) {
 			query = query + "&" + Form.serialize("download_ops_form");
 		}

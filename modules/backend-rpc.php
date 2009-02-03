@@ -516,6 +516,7 @@
 
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];
+			$cid = db_escape_string($_REQUEST["cid"]);
 			$amount = (int) $_REQUEST["amount"];
 			$unread_only = db_escape_string($_REQUEST["unread_only"]);
 
@@ -561,11 +562,15 @@
 						$unread_qpart = "unread = true AND ";
 					}
 
+					if ($cid) {
+						$cid_qpart =  "id > $cid AND ";
+					}
+
 					$result = db_query($link,
 						"SELECT DISTINCT id,title,guid,link,
 								feed_id,content,updated,unread,marked FROM
 							ttrss_user_entries,ttrss_entries
-							WHERE $unread_qpart
+							WHERE $unread_qpart $cid_qpart
 							ref_id = id AND owner_uid = ".$_SESSION["uid"]."
 							ORDER BY updated DESC LIMIT $limit OFFSET $skip");
 	
