@@ -343,6 +343,10 @@ function article_callback2(transport, id, feed_id) {
 
 			showArticleInHeadlines(id);	
 
+			if (db) {
+				db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
+			}
+
 			var reply = transport.responseXML.firstChild.firstChild;
 		
 		} else {
@@ -386,6 +390,10 @@ function view_offline(id, feed_id) {
 
 		enableHotkeys();
 		showArticleInHeadlines(id);
+
+		if (db) {
+			db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
+		}
 
 		render_article("FIXME");
 
@@ -554,6 +562,10 @@ function toggleMark(id, client_only, no_effects) {
 			mark_img.alt = __("Unstar article");
 			query = query + "&mark=1";
 
+			if (db) {
+				db.execute("UPDATE articles SET marked = 1 WHERE id = ?", [id]);
+			}
+
 		} else {
 			//mark_img.src = "images/mark_unset.png";
 			mark_img.alt = __("Please wait...");
@@ -565,6 +577,11 @@ function toggleMark(id, client_only, no_effects) {
 				mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
 				mark_img.alt = __("Star article");
 			}
+
+			if (db) {
+				db.execute("UPDATE articles SET marked = 0 WHERE id = ?", [id]);
+			}
+
 		}
 
 		if (!client_only) {
