@@ -854,25 +854,28 @@ function hideOrShowFeedsCategory(id, hide) {
 		}	
 	
 	//	debug("end cat: " + node.id + " unread " + cat_unread);
-	
-		if (cat_unread == 0) {
-			if (cat_node.style == undefined) {
-				debug("ERROR: supplied cat_node " + cat_node + 
-					" has no styles. WTF?");
-				return;
-			}
-			if (hide) {
-				//cat_node.style.display = "none";
-				Effect.Fade(cat_node, {duration : 0.3, 
-					queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
+
+		if (cat_node) {
+
+			if (cat_unread == 0) {
+				if (cat_node.style == undefined) {
+					debug("ERROR: supplied cat_node " + cat_node + 
+						" has no styles. WTF?");
+					return;
+				}
+				if (hide) {
+					//cat_node.style.display = "none";
+					Effect.Fade(cat_node, {duration : 0.3, 
+						queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
+				} else {
+					cat_node.style.display = "list-item";
+				}
 			} else {
-				cat_node.style.display = "list-item";
-			}
-		} else {
-			try {
-				cat_node.style.display = "list-item";
-			} catch (e) {
-				debug(e);
+				try {
+					cat_node.style.display = "list-item";
+				} catch (e) {
+					debug(e);
+				}
 			}
 		}
 
