@@ -151,6 +151,9 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			} 
 		}
 
+		disableContainerChildren("headlinesToolbar", false);
+		Form.enable("main_toolbar_form");
+
 		var f = document.getElementById("headlines-frame");
 		try {
 			if (reply.offset == 0) { 
@@ -241,8 +244,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				tmp += "<td onclick='view("+id+","+feed_id+")' "+
 					"class='hlContent' valign='middle'>";
 	
-				tmp += "<a id=\"RTITLE-$id\" href=\"" + 
-					param_escape(rs.fieldByName("link")) + "\"" +
+				tmp += "<a target=\"_blank\" id=\"RTITLE-$id\" href=\"" + 
+					rs.fieldByName("link") + "\"" +
 					"onclick=\"return view("+id+","+feed_id+");\">"+
 					rs.fieldByName("title");
 

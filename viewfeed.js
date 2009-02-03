@@ -381,11 +381,28 @@ function article_callback2(transport, id, feed_id) {
 	}
 }
 
+function view_offline(id, feed_id) {
+	try {
+
+		enableHotkeys();
+		showArticleInHeadlines(id);
+
+		render_article("FIXME");
+
+		return false;
+
+	} catch (e) {
+		exception_error("view_offline", e);
+	}
+}
+
 function view(id, feed_id, skip_history) {
 	
 	try {
 		debug("loading article: " + id + "/" + feed_id);
-	
+
+		if (offline_mode) return view_offline(id, feed_id);
+
 		var cached_article = cache_find(id);
 
 		debug("cache check result: " + (cached_article != false));
