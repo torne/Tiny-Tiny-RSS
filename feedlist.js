@@ -32,7 +32,60 @@ function viewCategory(cat) {
 
 function render_offline_feedlist() {
 	try {
-		// FIXME
+		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
+
+		var rs = db.execute("SELECT id,title,has_icon FROM offline_feeds ORDER BY title");
+
+		while (rs.isValidRow()) {
+
+			var id = rs.field(0);
+			var title = rs.field(1);
+			var has_icon = rs.field(2);
+
+			var rs_u = db.execute("SELECT SUM(unread) FROM offline_data WHERE feed_id = ?",
+				[id]);
+			var unread = 0;
+
+			if (rs.isValidRow()) {
+				unread = rs_u.field(0);
+				if (!unread) unread = 0;
+			}
+
+			var feed_icon = "";
+
+			if (has_icon) {
+				feed_icon = "<img id='FIMG-"+id+"' src='" + "icons/" + id + ".ico'>";
+			} else {
+				feed_icon = "<img id='FIMG-"+id+"' src='images/blank_icon.gif'>";
+			}
+
+			var row_class = "feed";
+
+			if (unread > 0) {
+				row_class += "Unread";
+				fctr_class = "feedCtrHasUnread";
+			} else {
+				fctr_class = "feedCtrNoUnread";
+			}
+
+			var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
+				"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
+				title + "</a>";
+
+			tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
+				"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
+
+			tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
+	           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
+				
+			tmp += "</li>";
+
+			rs.next();
+		}
+
+		tmp += "</ul>";
+
+		render_feedlist(tmp);
 	} catch (e) {
 		exception_error("render_offline_feedlist", e);
 	}

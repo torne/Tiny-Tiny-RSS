@@ -1507,7 +1507,7 @@ function init_gears() {
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 
-			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text)");
+			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text, has_icon integer)");
 
 			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text)");
 
@@ -1549,10 +1549,12 @@ function offline_download_parse(stage, transport) {
 
 				for (var i = 0; i < feeds.length; i++) {
 					var id = feeds[i].getAttribute("id");
+					var has_icon = feeds[i].getAttribute("has_icon");
 					var title = feeds[i].firstChild.nodeValue;
 	
-					db.execute("INSERT INTO offline_feeds (id,title) VALUES (?,?)",
-						[id, title]);
+					db.execute("INSERT INTO offline_feeds (id,title,has_icon)"+
+						"VALUES (?,?,?)",
+						[id, title, has_icon]);
 				}
 		
 				window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);

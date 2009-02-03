@@ -532,7 +532,10 @@
 					ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 
 				while ($line = db_fetch_assoc($result)) {
-					print "<feed id=\"".$line["id"]."\"><![CDATA[";
+
+					$has_icon = (int) feed_has_icon($line["id"]);
+
+					print "<feed has_icon=\"$has_icon\" id=\"".$line["id"]."\"><![CDATA[";
 					print $line["title"];
 					print "]]></feed>";
 				}
