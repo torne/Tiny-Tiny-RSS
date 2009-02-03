@@ -670,10 +670,10 @@ function quickMenuGo(opid) {
 			resize_headlines();
 		}
 
-		if (opid == "qmcDownload") {
+/*		if (opid == "qmcDownload") {
 			displayDlg("offlineDownload");
 			return;
-		}
+		} */
 
 		if (opid == "qmcResetCats") {
 
@@ -1308,7 +1308,7 @@ function hotkey_handler(e) {
 				}
 			}
 
-			if (keycode == 68 && shift_key) { // D
+/*			if (keycode == 68 && shift_key) { // D
 				initiate_offline_download();
 				return false;
 			}
@@ -1316,7 +1316,7 @@ function hotkey_handler(e) {
 			if (keycode == 68) { // d
 				displayDlg("offlineDownload");
 				return false;
-			}
+			} */
 
 			if (keycode == 87) { // w
 				feeds_sort_by_unread = !feeds_sort_by_unread;
@@ -1532,8 +1532,7 @@ function init_gears() {
 
 			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text)");
 
-			var qmcDownload = document.getElementById("qmcDownload");
-			if (qmcDownload) Element.show(qmcDownload);
+			window.setTimeout("update_offline_data(0)", 100);
 
 		}	
 	
@@ -1583,7 +1582,7 @@ function offline_download_parse(stage, transport) {
 						[id, title, has_icon]);
 				}
 		
-				window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 50);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -1610,10 +1609,10 @@ function offline_download_parse(stage, transport) {
 				}
 
 				if (articles_found > 0) {
-					window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);
+					window.setTimeout("update_offline_data("+(stage+1)+")", 50);
 				} else {
-					notify_info("All done.");
-					closeInfoBox();
+//					notify_info("All done.");
+//					closeInfoBox();
 				}
 			}
 
@@ -1623,13 +1622,14 @@ function offline_download_parse(stage, transport) {
 	}
 }
 
-function initiate_offline_download(stage, caller) {
+function update_offline_data(stage) {
 	try {
 
 		if (!stage) stage = 0;
-		if (caller) caller.disabled = true;
 
-		notify_progress("Loading, please wait... (" + stage +")", true);
+		debug("update_offline_data: stage " + stage);
+
+//		notify_progress("Loading, please wait... (" + stage +")", true);
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
@@ -1642,10 +1642,6 @@ function initiate_offline_download(stage, caller) {
 
 		if (offline_dl_max_id) {
 			query = query + "&cid=" + offline_dl_max_id;
-		}
-
-		if (document.getElementById("download_ops_form")) {
-			query = query + "&" + Form.serialize("download_ops_form");
 		}
 
 		new Ajax.Request(query, {

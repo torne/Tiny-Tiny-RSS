@@ -461,7 +461,7 @@
 			return;
 		}
 
-		if ($id == "offlineDownload") {
+/*		if ($id == "offlineDownload") {
 			print "<div id=\"infoBoxTitle\">".__('Download articles')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
@@ -500,7 +500,7 @@
 			print "</div>";
 
 			return;
-		}
+		} */
 
 
 		print "<div id='infoBoxTitle'>Internal Error</div>

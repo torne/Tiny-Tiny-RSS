@@ -517,10 +517,12 @@
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];
 			$cid = db_escape_string($_REQUEST["cid"]);
-			$amount = (int) $_REQUEST["amount"];
-			$unread_only = db_escape_string($_REQUEST["unread_only"]);
+			//$amount = (int) $_REQUEST["amount"];
+			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
+			//if (!$amount) $amount = 50;
 
-			if (!$amount) $amount = 50;
+			$amount = 100;
+			$unread_only = true;
 
 			print "<rpc-reply>";
 
