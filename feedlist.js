@@ -30,70 +30,102 @@ function viewCategory(cat) {
 	return false;
 }
 
+function printFeedEntry(id, title, row_class, unread, icon) {
+
+	var tmp = "";
+	var fctr_class = "";
+	var feed_icon = "";
+
+	if (unread > 0) {
+		row_class += "Unread";
+		fctr_class = "feedCtrHasUnread";
+	} else {
+		fctr_class = "feedCtrNoUnread";
+	}
+
+	if (icon) {
+		feed_icon = "<img id='FIMG-"+id+"' src='" + icon + "'>";
+	} else {
+		feed_icon = "<img id='FIMG-"+id+"' src='images/blank_icon.gif'>";
+	}
+
+	var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
+		"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
+		title + "</a>";
+
+	tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
+		"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
+
+	tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
+           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
+			
+	tmp += "</li>";
+
+	return tmp;
+}
+
+function get_local_feed_unread(id) {
+	try {
+		var rs;
+
+		if (id == -4) {
+			rs = db.execute("SELECT SUM(unread) FROM articles");
+		} else if (id == -1) {
+			rs = db.execute("SELECT SUM(unread) FROM articles WHERE marked = 1");
+		} else {
+			rs = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?", [id]);
+		}
+
+		if (rs.isValidRow()) {
+			return rs.field(0);
+		} else {
+			return 0;
+		}
+
+	} catch (e) {
+		exception_error("get_local_feed_unread", e);
+	}
+}
+
 function render_offline_feedlist() {
 	try {
 		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
 
-		var rs = db.execute("SELECT SUM(unread) FROM articles WHERE marked = 1");
+		var unread = get_local_feed_unread(-4);
 
-		var unread = 0;
+		global_unread = unread;
+		updateTitle();
 
-		if (rs.isValidRow()) {
-			unread = rs.field(0);
-		}
+		tmp += printFeedEntry(-4, __("All articles"), "feed", unread,
+			"images/tag.png");
 
-		var id = -1;
-		var title = __("Starred articles");
-		var row_class = "feed";
+		var unread = get_local_feed_unread(-1);
 
-		if (unread > 0) {
-			row_class += "Unread";
-			fctr_class = "feedCtrHasUnread";
-		} else {
-			fctr_class = "feedCtrNoUnread";
-		}
-
-		var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
-			"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
-			title + "</a>";
-
-		feed_icon = "<img id='FIMG-"+id+"' src='images/mark_set.png'>";
-
-		tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
-			"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
-
-		tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
-           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
-				
-		tmp += "</li>";
+		tmp += printFeedEntry(-1, __("Starred articles"), "feed", unread,
+			"images/mark_set.png");
 
 		tmp += "<li><hr/></li>";
 
-		var rs = db.execute("SELECT id,title,has_icon FROM feeds ORDER BY title");
+		var rs = db.execute("SELECT feeds.id,feeds.title,has_icon,COUNT(articles.id) "+
+			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
+			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
+			"ORDER BY feeds.title");
 
 		while (rs.isValidRow()) {
 
 			var id = rs.field(0);
 			var title = rs.field(1);
 			var has_icon = rs.field(2);
+			var unread = rs.field(3);
 
-			var rs_u = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?",
-				[id]);
-			var unread = 0;
+			var icon = "";
 
-			if (rs_u.isValidRow()) {
-				unread = rs_u.field(0);
-				if (!unread) unread = 0;
+			if (has_icon) {
+				icon = "icons/" + id + ".ico";
 			}
 
 
 			var feed_icon = "";
-
-			if (has_icon) {
-				feed_icon = "<img id='FIMG-"+id+"' src='" + "icons/" + id + ".ico'>";
-			} else {
-				feed_icon = "<img id='FIMG-"+id+"' src='images/blank_icon.gif'>";
-			}
 
 			var row_class = "feed";
 
@@ -104,17 +136,7 @@ function render_offline_feedlist() {
 				fctr_class = "feedCtrNoUnread";
 			}
 
-			var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
-				"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
-				title + "</a>";
-
-			tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
-				"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
-
-			tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
-	           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
-				
-			tmp += "</li>";
+			tmp += printFeedEntry(id, title, "feed", unread, icon);
 
 			rs.next();
 		}
@@ -686,7 +708,7 @@ function feedlist_init() {
 		document.onmousedown = mouse_down_handler;
 		document.onmouseup = mouse_up_handler;
 
-		setTimeout("timeout()", 1);
+		if (!offline_mode) setTimeout("timeout()", 1);
 
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
@@ -943,5 +965,66 @@ function request_counters() {
 
 	} catch (e) {
 		exception_error("request_counters", e);
+	}
+}
+
+function update_feedlist_counters() {
+	try {
+		var rs = db.execute("SELECT feeds.id,COUNT(articles.id) "+
+			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
+			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
+			"ORDER BY feeds.title");
+
+		while (rs.isValidRow()) {
+			var id = rs.field(0);
+			var ctr = rs.field(1);
+
+			var feedctr = document.getElementById("FEEDCTR-" + id);
+			var feedu = document.getElementById("FEEDU-" + id);
+			var feedr = document.getElementById("FEEDR-" + id);
+
+			if (feedctr && feedu && feedr) {
+
+				var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
+
+				feedu.innerHTML = ctr;
+	
+				if (ctr > 0) {					
+					feedctr.className = "feedCtrHasUnread";
+					if (!feedr.className.match("Unread")) {
+						var is_selected = feedr.className.match("Selected");
+		
+						feedr.className = feedr.className.replace("Selected", "");
+						feedr.className = feedr.className.replace("Unread", "");
+		
+						feedr.className = feedr.className + "Unread";
+		
+						if (is_selected) {
+							feedr.className = feedr.className + "Selected";
+						}	
+						
+					}
+
+					if (row_needs_hl) { 
+						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5",
+							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
+					}
+				} else {
+					feedctr.className = "feedCtrNoUnread";
+					feedr.className = feedr.className.replace("Unread", "");
+				}			
+			}
+			rs.next();
+		}
+
+		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
+
+		var unread = get_local_feed_unread(-4);
+
+		global_unread = unread;
+		updateTitle();
+
+	} catch (e) {
+		exception_error("update_feedlist_counters", e);
 	}
 }

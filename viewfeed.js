@@ -396,6 +396,7 @@ function view_offline(id, feed_id) {
 		}
 
 		render_article("FIXME");
+		update_feedlist_counters();
 
 		return false;
 
