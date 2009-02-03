@@ -34,7 +34,7 @@ function render_offline_feedlist() {
 	try {
 		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
 
-		var rs = db.execute("SELECT id,title,has_icon FROM offline_feeds ORDER BY title");
+		var rs = db.execute("SELECT id,title,has_icon FROM feeds ORDER BY title");
 
 		while (rs.isValidRow()) {
 
@@ -42,7 +42,7 @@ function render_offline_feedlist() {
 			var title = rs.field(1);
 			var has_icon = rs.field(2);
 
-			var rs_u = db.execute("SELECT SUM(unread) FROM offline_data WHERE feed_id = ?",
+			var rs_u = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?",
 				[id]);
 			var unread = 0;
 

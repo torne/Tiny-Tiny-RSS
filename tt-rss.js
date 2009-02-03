@@ -1507,9 +1507,9 @@ function init_gears() {
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 
-			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text, has_icon integer)");
+			db.execute("CREATE TABLE if not exists feeds (id integer, title text, has_icon integer)");
 
-			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text)");
+			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text)");
 
 			var qmcDownload = document.getElementById("qmcDownload");
 			if (qmcDownload) Element.show(qmcDownload);
@@ -1544,7 +1544,7 @@ function offline_download_parse(stage, transport) {
 				var feeds = transport.responseXML.getElementsByTagName("feed");
 
 				if (feeds.length > 0) {
-					db.execute("DELETE FROM offline_feeds");
+					db.execute("DELETE FROM feeds");
 				}
 
 				for (var i = 0; i < feeds.length; i++) {
@@ -1552,7 +1552,7 @@ function offline_download_parse(stage, transport) {
 					var has_icon = feeds[i].getAttribute("has_icon");
 					var title = feeds[i].firstChild.nodeValue;
 	
-					db.execute("INSERT INTO offline_feeds (id,title,has_icon)"+
+					db.execute("INSERT INTO feeds (id,title,has_icon)"+
 						"VALUES (?,?,?)",
 						[id, title, has_icon]);
 				}
@@ -1568,8 +1568,8 @@ function offline_download_parse(stage, transport) {
 					var a = eval("("+articles[i].firstChild.nodeValue+")");
 					articles_found++;
 					if (a) {
-						db.execute("DELETE FROM offline_data WHERE id = ?", [a.id]);
-						db.execute("INSERT INTO offline_data "+
+						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
+						db.execute("INSERT INTO articles "+
 							"(id, feed_id, title, link, guid, updated, content, unread, marked) "+
 							"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
