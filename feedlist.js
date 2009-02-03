@@ -1019,9 +1019,7 @@ function update_feedlist_counters() {
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
-		var unread = get_local_feed_unread(-4);
-
-		global_unread = unread;
+		global_unread = get_local_feed_unread(-4);
 		updateTitle();
 
 	} catch (e) {

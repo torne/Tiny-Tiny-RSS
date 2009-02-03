@@ -521,7 +521,7 @@
 			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
 			//if (!$amount) $amount = 50;
 
-			$amount = 100;
+			$amount = 200;
 			$unread_only = true;
 
 			print "<rpc-reply>";
@@ -582,7 +582,6 @@
 						$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
 						$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
 						$line["tags"] = format_tags_string(get_article_tags($link, $id), $id);
-
 
 						print json_encode($line);
 						print "]]></article>";

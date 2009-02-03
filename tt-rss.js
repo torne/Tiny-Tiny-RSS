@@ -242,6 +242,8 @@ function updateFeedList(silent, fetch) {
 
 	debug("<b>updateFeedList</b>");
 
+	if (offline_mode) return render_offline_feedlist();
+
 	var query_str = "backend.php?op=feeds";
 
 	if (display_tags) {
@@ -1582,7 +1584,7 @@ function offline_download_parse(stage, transport) {
 						[id, title, has_icon]);
 				}
 		
-				window.setTimeout("update_offline_data("+(stage+1)+")", 50);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 30*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -1609,10 +1611,9 @@ function offline_download_parse(stage, transport) {
 				}
 
 				if (articles_found > 0) {
-					window.setTimeout("update_offline_data("+(stage+1)+")", 50);
+					window.setTimeout("update_offline_data("+(stage+1)+")", 60*1000);
 				} else {
-//					notify_info("All done.");
-//					closeInfoBox();
+					window.setTimeout("update_offline_data(0)", 1800*1000);
 				}
 			}
 
@@ -1647,6 +1648,7 @@ function update_offline_data(stage) {
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				offline_download_parse(stage, transport);				
+				debug("update_offline_data: done " + stage);
 			} });
 
 	} catch (e) {
