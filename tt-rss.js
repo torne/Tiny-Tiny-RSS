@@ -1505,7 +1505,7 @@ function init_gears() {
 
 			db.execute("CREATE TABLE if not exists offline_feeds (id integer, title text)");
 
-			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, updated text, content text, tags text)");
+			db.execute("CREATE TABLE if not exists offline_data (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text)");
 
 			var qmcDownload = document.getElementById("qmcDownload");
 			if (qmcDownload) Element.show(qmcDownload);
@@ -1552,6 +1552,28 @@ function offline_download_parse(stage, transport) {
 				}
 		
 				window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);
+			} else {
+
+				var articles = transport.responseXML.getElementsByTagName("article");
+
+				var articles_found = 0;
+
+				for (var i = 0; i < articles.length; i++) {					
+					var a = eval("("+articles[i].firstChild.nodeValue+")");
+					articles_found++;
+					if (a) {
+						db.execute("DELETE FROM offline_data WHERE id = ?", [a.id]);
+						db.execute("INSERT INTO offline_data "+
+							"(id, feed_id, title, link, guid, updated, content) "+
+							"VALUES (?, ?, ?, ?, ?, ?, ?)", 
+							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, a.content]);
+
+					}
+				}
+
+				if (articles_found > 0) {
+					window.setTimeout("initiate_offline_download("+(stage+1)+")", 50);
+				}
 			}
 
 			notify_info("All done.");
@@ -1562,33 +1584,12 @@ function offline_download_parse(stage, transport) {
 	}
 }
 
-function download_set_progress(p) {
-	try {
-		var o = document.getElementById("d_progress_i");
-
-		if (!o) return;
-
-		Element.show(o);
-
-		new Effect.Scale(o, p, { 
-			scaleY : false,
-			scaleFrom : download_progress_last,
-			scaleMode: { originalWidth : 100 },
-			queue: { position: 'end', scope: 'LSP-Q', limit: 3 } }); 
-
-		download_progress_last = p;
-	} catch (e) {
-		exception_error("download_progress", e);
-	}
-}
-
 function initiate_offline_download(stage) {
 	try {
 
 		if (!stage) stage = 0;
 
-		notify_progress("Loading, please wait... S" + stage, true);
-		download_set_progress(20);
+		notify_progress("Loading, please wait... (" + stage +")", true);
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 

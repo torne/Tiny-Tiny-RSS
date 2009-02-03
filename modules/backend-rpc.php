@@ -516,6 +516,10 @@
 
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];
+			$amount = (int) $_REQUEST["amount"];
+			$unread_only = db_escape_string($_REQUEST["unread_only"]);
+
+			if (!$amount) $amount = 50;
 
 			print "<rpc-reply>";
 
@@ -534,6 +538,43 @@
 				}
 
 				print "</feeds>";
+
+			}
+
+			if ($stage > 0) {
+
+				print "<articles>";
+
+				$limit = 50;
+				$skip = $limit*($stage-1);
+
+				if ($amount > 0) $amount -= $skip;
+
+				if ($amount > 0) {
+
+					$limit = min($limit, $amount);
+
+					if ($unread_only) {
+						$unread_qpart = "unread = true AND ";
+					}
+
+					$result = db_query($link,
+						"SELECT DISTINCT id,title,guid,link,
+								feed_id,content,updated,unread,marked FROM
+							ttrss_user_entries,ttrss_entries
+							WHERE $unread_qpart
+							ref_id = id AND owner_uid = ".$_SESSION["uid"]."
+							ORDER BY updated DESC LIMIT $limit OFFSET $skip");
+	
+					while ($line = db_fetch_assoc($result)) {
+						print "<article><![CDATA[";
+						print json_encode($line);
+						print "]]></article>";
+					}
+
+				}
+
+				print "</articles>";
 
 			}
 

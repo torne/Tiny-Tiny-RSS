@@ -474,20 +474,22 @@
 			$amount = array(
 				50  => 50,
 				100 => 100,
-				0   => "All unread");
+				250 => 250);
 
 			print_select_hash("amount", 50, $amount);
 
 			print " " . __("newest articles for offline reading.");
+
+			print "<br/>";
+
+			print "<input checked='yes' type='checkbox' name='unread_only' id='unread_only'>";
+			print "<label for='unread_only'>".__('Only include unread articles')."</label>";
 
 			print "</div>";
 
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-			<div id=\"d_progress_o\" style=\"display : none\">
-				<div id=\"d_progress_i\"></div>
-			</div>
 				<input class=\"button\"					
 					type=\"submit\" onclick=\"return initiate_offline_download()\" value=\"".__('Download')."\">
 				<input class=\"button\"
