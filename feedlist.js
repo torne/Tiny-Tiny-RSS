@@ -227,12 +227,16 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 		rs = db.execute("SELECT title FROM feeds WHERE id = ?", [feed_id]);
 
-		if (rs.isValidRow() || feed_id == -1) {
+		if (rs.isValidRow() || feed_id == -1 || feed_id == -4) {
 
 			feed_title = rs.field(0);
 
 			if (feed_id == -1) {
 				feed_title = __("Starred articles");
+			}
+
+			if (feed_id == -4) {
+				feed_title = __("All articles");
 			}
 
 			if (offset == 0) {
@@ -265,14 +269,53 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 	
 			var rs;
+
+			var limit = 30;
+		
+			var toolbar_form = document.forms["main_toolbar_form"];
 			
-			if (feed_id > 0) {
-				rs = db.execute("SELECT * FROM articles WHERE feed_id = ? "+
-					"ORDER BY updated DESC", [feed_id]);
-			} else if (feed_id = -1) {
-				rs = db.execute("SELECT * FROM articles WHERE marked = 1 "+
-					"ORDER BY updated DESC");
+			var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex].value;
+			var view_mode = toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value;
+
+			var limit_qpart = "";
+			var strategy_qpart = "";
+			var mode_qpart = "";
+
+			if (limit != 0) {
+				limit_qpart = "LIMIT " + limit;
 			}
+
+			if (view_mode == "all_articles") {
+				mode_qpart = "1";
+			} else if (view_mode == "adaptive") {
+				if (get_local_feed_unread(feed_id) > 0) {
+					mode_qpart = "unread = 1";
+				} else {
+					mode_qpart = "1";
+				}
+			} else if (view_mode == "marked") {
+				mode_qpart = "marked = 1";
+			} else if (view_mode == "unread") {
+				mode_qpart = "unread = 1";
+			} else {
+				mode_qpart = "1";
+			}
+
+			if (feed_id > 0) {
+				strategy_qpart = "feed_id = " + feed_id;
+			} else if (feed_id == -1) {
+				strategy_qpart = "marked = 1";
+			} else if (feed_id == -4) {
+				strategy_qpart = "1";
+			}				
+
+			var query = "SELECT * FROM articles WHERE " +
+				strategy_qpart +
+				" AND " + mode_qpart + 
+				" ORDER BY updated DESC "+
+				limit_qpart;
+
+			var rs = db.execute(query);
 
 			var line_num = 0;
 
