@@ -99,8 +99,6 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 		} catch (e) { };
 
 
-		var container = document.getElementById("headlines-frame");
-
 		var tmp = "";
 
 		rs = db.execute("SELECT title FROM feeds WHERE id = ?", [feed_id]);
@@ -156,6 +154,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			var limit_qpart = "";
 			var strategy_qpart = "";
 			var mode_qpart = "";
+			var offset_qpart = "";
 
 			if (limit != 0) {
 				limit_qpart = "LIMIT " + limit;
@@ -183,17 +182,24 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				strategy_qpart = "marked = 1";
 			} else if (feed_id == -4) {
 				strategy_qpart = "1";
-			}				
+			}
+
+			if (offset > 0) {
+				offset_qpart = "OFFSET " + (offset*30);
+			} else {
+				offset_qpart = "";
+			}
 
 			var query = "SELECT * FROM articles WHERE " +
 				strategy_qpart +
 				" AND " + mode_qpart + 
 				" ORDER BY updated DESC "+
-				limit_qpart;
+				limit_qpart + " " +
+				offset_qpart;
 
 			var rs = db.execute(query);
 
-			var line_num = 0;
+			var line_num = offset*30;
 
 			while (rs.isValidRow()) {
 
@@ -264,11 +270,13 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 	
 			if (offset == 0) {
+				var container = document.getElementById("headlines-frame");
 				container.innerHTML = tmp;
 			} else {
 				var ids = getSelectedArticleIds2();
 		
-				//container.innerHTML = container.innerHTML + tmp;
+				var container = document.getElementById("headlinesList");
+				container.innerHTML = container.innerHTML + tmp;
 	
 				for (var i = 0; i < ids.length; i++) {
 					markHeadline(ids[i]);
