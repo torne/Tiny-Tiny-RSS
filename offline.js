@@ -445,11 +445,15 @@ function init_offline() {
 
 		Element.hide("dispSwitchPrompt");
 		Element.hide("feedBrowserPrompt");
-		Element.hide("quickMenuChooser");
 
 		var tb_form = document.getElementById("main_toolbar_form");
-
 		Element.hide(tb_form.update);
+
+		var top_links = document.getElementById("topLinks");
+		top_links.innerHTML = __("Offline mode");
+
+		var chooser = document.getElementById("quickMenuChooser");
+		chooser.disabled = true;
 
 		var rs = db.execute("SELECT key, value FROM init_params");
 

@@ -113,7 +113,7 @@ window.onload = init;
 </div>
 
 <div id="header">
-	<div class="topLinks">
+	<div class="topLinks" id="topLinks">
 
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
