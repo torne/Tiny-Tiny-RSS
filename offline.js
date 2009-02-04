@@ -490,3 +490,28 @@ function update_local_feedlist_counters() {
 		exception_error("update_local_feedlist_counters", e);
 	}
 }
+
+function get_local_feed_unread(id) {
+	try {
+		var rs;
+
+		if (id == -4) {
+			rs = db.execute("SELECT SUM(unread) FROM articles");
+		} else if (id == -1) {
+			rs = db.execute("SELECT SUM(unread) FROM articles WHERE marked = 1");
+		} else {
+			rs = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?", [id]);
+		}
+
+		if (rs.isValidRow()) {
+			return rs.field(0);
+		} else {
+			return 0;
+		}
+
+	} catch (e) {
+		exception_error("get_local_feed_unread", e);
+	}
+}
+
+
