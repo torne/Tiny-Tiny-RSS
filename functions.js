@@ -18,6 +18,8 @@ function is_opera() {
 function exception_error(location, e, ext_info) {
 	var msg = format_exception_error(location, e);
 
+	if (!ext_info) ext_info = "N/A";
+
 	disableHotkeys();
 
 	try {
@@ -1497,6 +1499,8 @@ function storeInitParam(key, value) {
 
 function fatalError(code, msg, ext_info) {
 	try {	
+
+		if (!ext_info) ext_info = "N/A";
 
 		if (code == 6) {
 			window.location.href = "tt-rss.php";			
