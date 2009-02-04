@@ -1675,9 +1675,9 @@ function cdmClicked(id) {
 			var id = elem.id.replace("RROW-", "");
 			active_post_id = id;
 
-			cdmSelectArticles("none");
+//			cdmSelectArticles("none");
 			toggleUnread(id, 0, true);
-			toggleSelected(id);
+//			toggleSelected(id);
 
 		}
 	} catch (e) {
