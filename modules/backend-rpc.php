@@ -562,7 +562,7 @@
 					$limit = min($limit, $amount);
 
 					if ($unread_only) {
-						$unread_qpart = "unread = true AND ";
+						$unread_qpart = "(unread = true OR marked = true) AND ";
 					}
 
 					if ($cidt && $cidb) {
