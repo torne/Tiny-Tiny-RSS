@@ -453,11 +453,11 @@ function init_offline() {
 		Element.hide("dispSwitchPrompt");
 		Element.hide("feedBrowserPrompt");
 
+		Element.hide("topLinksOnline");
+		Element.show("topLinksOffline");
+
 		var tb_form = document.getElementById("main_toolbar_form");
 		Element.hide(tb_form.update);
-
-		var top_links = document.getElementById("topLinks");
-		top_links.innerHTML = __("Offline mode");
 
 		var chooser = document.getElementById("quickMenuChooser");
 		chooser.disabled = true;
@@ -728,8 +728,10 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
 
-
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
+
+			Element.show("restartOfflinePic");
+
 		}	
 	
 		cache_expire();
@@ -739,4 +741,11 @@ function init_gears() {
 	}
 }
 
+function gotoOffline() {
+	window.location.href = "tt-rss.php?offline=1";
+}
+
+function gotoOnline() {
+	window.location.href = "tt-rss.php";
+}
 

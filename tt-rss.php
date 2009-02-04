@@ -115,6 +115,8 @@ window.onload = init;
 <div id="header">
 	<div class="topLinks" id="topLinks">
 
+	<span id="topLinksOnline">
+
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
@@ -129,11 +131,24 @@ window.onload = init;
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
+	<img id="restartOfflinePic" src="images/offline.png" style="display:none"
+		onclick="gotoOffline()"
+		title="<?php echo __('Restart in offline mode') ?>"/>
+
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
 
+	</span>
+
+	<span id="topLinksOffline" style="display : none">
+		<img id="restartOnlinePic" src="images/online.png" 
+			onclick="gotoOnline()"
+			title="<?php echo __('Restart in online mode') ?>"/>
+	</span>
+
 	</div>
+
 	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
