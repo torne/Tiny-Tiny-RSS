@@ -385,26 +385,6 @@ function article_callback2(transport, id, feed_id) {
 	}
 }
 
-function view_offline(id, feed_id) {
-	try {
-
-		enableHotkeys();
-		showArticleInHeadlines(id);
-
-		if (db) {
-			db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
-		}
-
-		render_article("FIXME");
-		update_local_feedlist_counters();
-
-		return false;
-
-	} catch (e) {
-		exception_error("view_offline", e);
-	}
-}
-
 function view(id, feed_id, skip_history) {
 	
 	try {

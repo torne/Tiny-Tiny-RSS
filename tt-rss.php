@@ -48,6 +48,7 @@
 	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="feedlist.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="viewfeed.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="offline.js?<?php echo $dt_add ?>"></script>
 
 	<script type="text/javascript" src="gears_init.js"></script>
 
