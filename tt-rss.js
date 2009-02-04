@@ -553,6 +553,8 @@ function init_second_stage() {
 
 		resize_headlines();
 
+		window.setTimeout("update_offline_data(0)", 100);
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}

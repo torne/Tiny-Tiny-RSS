@@ -551,10 +551,11 @@ function update_offline_data(stage) {
 	try {
 
 		if (!stage) stage = 0;
+		if (offline_mode) return;
 
 		debug("update_offline_data: stage " + stage);
 
-//		notify_progress("Loading, please wait... (" + stage +")", true);
+		notify_progress("Updating offline data... (" + stage +")", true);
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
@@ -727,9 +728,6 @@ function init_gears() {
 
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
-
-			window.setTimeout("update_offline_data(0)", 100);
-
 		}	
 	
 		cache_expire();
