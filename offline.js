@@ -283,9 +283,10 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					tmp += "</a>";
 	
 					tmp += "</td>";
-		
+
 					tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
-						"<nobr>"+rs.fieldByName("updated").substring(0,16)+"</nobr></td>";
+						"<nobr>"+rs.fieldByName("updated").substring(0,16)+
+						"</nobr></td>";
 	
 					tmp += "</tr>";
 				} else {
@@ -299,9 +300,15 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					tmp += "<div class=\"cdmArticle"+add_class+"\" id=\"RROW-"+id+"\" "+
 						mouseover_attrs+"'>";
 
+					feed_icon_img = "<img class=\"tinyFeedIcon\" src=\""+
+						getInitParam("icons_url")+"/"+feed_id+".ico\" alt=\"\">";
+					cdm_feed_icon = "<span style=\"cursor : pointer\" "+
+						"onclick=\"viewfeed("+feed_id+")\">"+feed_icon_img+"</span>";
+
 					tmp += "<div class=\"cdmHeader\">";
 					tmp += "<div class=\"articleUpdated\">"+
-						rs.fieldByName("updated").substring(0,16)+"</div>";
+						rs.fieldByName("updated").substring(0,16)+
+						" "+cdm_feed_icon+"</div>";
 
 					tmp += "<span id=\"RTITLE-"+id+"\" class=\"titleWrap\">"+
 						"<a class=\"title\" onclick=\"javascript:toggleUnread("+id+", 0)\""+
