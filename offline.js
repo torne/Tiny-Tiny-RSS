@@ -378,6 +378,7 @@ function init_offline() {
 		rs.close();
 
 		render_offline_feedlist();
+		init_second_stage();
 		remove_splash();
 	} catch (e) {
 		exception_error("init_offline", e);
