@@ -191,6 +191,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 	try {
 		notify('');
 
+		if (!offset) offset = 0;
+
 		loading_set_progress(100);
 
 		clean_feed_selections();
