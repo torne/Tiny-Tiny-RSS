@@ -496,9 +496,26 @@ function init_offline() {
 
 		rs.close();
 
+		var rs = db.execute("SELECT COUNT(*) FROM feeds");
+
+		var num_feeds = 0;
+
+		if (rs.isValidRow()) {
+			num_feeds = rs.field(0);			
+		}
+		
+		rs.close();
+
+		if (num_feeds == 0) {
+			remove_splash();
+			return fatalError(0, 
+				__("Data for offline browsing has not been downloaded yet."));
+		}
+
 		render_offline_feedlist();
 		init_second_stage();
-		remove_splash();
+		window.setTimeout("viewfeed(-4)", 50);
+
 	} catch (e) {
 		exception_error("init_offline", e);
 	}
