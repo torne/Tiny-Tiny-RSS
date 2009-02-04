@@ -244,7 +244,7 @@ window.onload = init;
 
 		&nbsp;
 
-		<input class="button" type="submit"
+		<input class="button" type="submit" name="update"
 			onclick="return viewCurrentFeed('ForceUpdate')" 
 			value="<?php echo __('Update') ?>"/>
 

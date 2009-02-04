@@ -349,6 +349,10 @@ function init_offline() {
 		Element.hide("feedBrowserPrompt");
 		Element.hide("quickMenuChooser");
 
+		var tb_form = document.getElementById("main_toolbar_form");
+
+		Element.hide(tb_form.update);
+
 		init_params["theme"] = "";
 
 		render_offline_feedlist();
