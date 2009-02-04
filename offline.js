@@ -4,12 +4,45 @@ function view_offline(id, feed_id) {
 		enableHotkeys();
 		showArticleInHeadlines(id);
 
-		if (db) {
-			db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
-		}
+		db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
 
-		render_article("FIXME");
-		update_local_feedlist_counters();
+		var rs = db.execute("SELECT * FROM articles WHERE id = ?", [id]);
+
+		if (rs.isValidRow()) {
+
+			var tmp = "<div class=\"postReply\">";
+
+			tmp += "<div class=\"postHeader\" onmouseover=\"enable_resize(true)\" "+
+				"onmouseout=\"enable_resize(false)\">";
+
+			tmp += "<div class=\"postDate\">"+rs.fieldByName("updated")+"</div>";
+
+			if (rs.fieldByName("link") != "") {
+				tmp += "<div clear='both'><a target=\"_blank\" "+
+					"href=\"" + rs.fieldByName("link") + "\">" +
+					rs.fieldByName("title") + "</a></div>";
+			} else {
+				tmp += "<div clear='both'>" + rs.fieldByName("title") + "</div>";
+			}
+
+			tmp += "<div style='float : right'> "+
+				"<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>";
+			tmp += rs.fieldByName("tags");
+			tmp += "</div>";
+
+			tmp += "<div clear='both'>fixme-comments</div>";
+
+			tmp += "</div>";
+
+			tmp += "<div class=\"postContent\">"
+			tmp += rs.fieldByName("content");
+			tmp += "</div>";
+
+			tmp += "</div>";
+
+			render_article(tmp);
+			update_local_feedlist_counters();
+		}
 
 		return false;
 
