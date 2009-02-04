@@ -1,4 +1,3 @@
-var SCHEMA_VERSION = 1;
 
 var total_unread = 0;
 var first_run = true;

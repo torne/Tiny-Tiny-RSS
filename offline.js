@@ -1,3 +1,5 @@
+var SCHEMA_VERSION = 2;
+
 var offline_mode = false;
 var store = false;
 var localServer = false;
@@ -572,19 +574,16 @@ function init_gears() {
 			}
 
 			if (version != SCHEMA_VERSION) {
-				db.execute("DROP TABLE cache");
-				db.execute("DROP TABLE feeds");
-				db.execute("DROP TABLE articles");
+				db.execute("DROP TABLE IF EXISTS cache");
+				db.execute("DROP TABLE IF EXISTS feeds");
+				db.execute("DROP TABLE IF EXISTS articles");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
 					[SCHEMA_VERSION]);
 			}
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
-
-			db.execute("CREATE TABLE if not exists feeds (id integer, title text, has_icon integer)");
-
-			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text)");
-
+			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
 			window.setTimeout("update_offline_data(0)", 100);
 
 		}	
