@@ -2745,11 +2745,12 @@
 	}
 
 	function get_script_dt_add() {
-		if (strpos(VERSION, ".99") === false) {
+/*		if (strpos(VERSION, ".99") === false) {
 			return VERSION;
 		} else {
 			return time();
-		}
+		} */
+		return time();
 	}
 
 	function get_pgsql_version($link) {
