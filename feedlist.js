@@ -92,10 +92,10 @@ function viewNextFeedPage() {
 	try {
 		//if (!getActiveFeedId()) return;
 
-		debug("viewNextFeedPage: calling viewfeed(), p: " + _feed_cur_page+1);
+		debug("viewNextFeedPage: calling viewfeed(), p: " + parseInt(_feed_cur_page+1));
 
 		viewfeed(getActiveFeedId(), undefined, activeFeedIsCat(), undefined,
-			undefined, _feed_cur_page+1);
+			undefined, parseInt(_feed_cur_page+1));
 
 	} catch (e) {
 		exception_error("viewNextFeedPage", e);

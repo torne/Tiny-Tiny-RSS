@@ -69,6 +69,22 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 		if (!offset) offset = 0;
 
+		if (offset > 0) {
+			_feed_cur_page = parseInt(offset);
+			if (_infscroll_request_sent) {
+				return;
+			}
+		} else {
+			_feed_cur_page = 0;
+			_infscroll_disable = 0;
+		}
+
+		if (getActiveFeedId() != feed_id) {
+			_feed_cur_page = 0;
+			active_post_id = 0;
+			_infscroll_disable = 0;
+		}
+
 		loading_set_progress(100);
 
 		clean_feed_selections();
@@ -262,6 +278,10 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				line_num++;
 			}
 
+			if (line_num - offset*30 < 30) {
+				_infscroll_disable = 1;
+			}
+
 			rs.close();
 	
 			if (offset == 0) {
@@ -286,6 +306,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 		remove_splash();
 
+		_infscroll_request_sent = 0;
 
 	} catch (e) {
 		exception_error("viewfeed_offline", e);
