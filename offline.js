@@ -51,6 +51,8 @@ function view_offline(id, feed_id) {
 			update_local_feedlist_counters();
 		}
 
+		rs.close();
+
 		return false;
 
 	} catch (e) {
@@ -141,8 +143,6 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			
 			}
 	
-			var rs;
-
 			var limit = 30;
 		
 			var toolbar_form = document.forms["main_toolbar_form"];
@@ -252,6 +252,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				rs.next();
 				line_num++;
 			}
+
+			rs.close();
 	
 			if (offset == 0) {
 				tmp += "</table>";
@@ -332,6 +334,8 @@ function render_offline_feedlist() {
 
 			rs.next();
 		}
+
+		rs.close();
 
 		tmp += "</ul>";
 
@@ -449,6 +453,7 @@ function update_offline_data(stage) {
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
 		var rs = db.execute("SELECT MAX(id), MIN(id) FROM articles");
+
 		if (rs.isValidRow() && rs.field(0)) {
 			var offline_dl_max_id = rs.field(0);
 			var offline_dl_min_id = rs.field(1);
@@ -456,6 +461,8 @@ function update_offline_data(stage) {
 			query = query + "&cidt=" + offline_dl_max_id;
 			query = query + "&cidb=" + offline_dl_min_id;
 		}
+
+		rs.close();
 
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
@@ -530,6 +537,8 @@ function update_local_feedlist_counters() {
 			rs.next();
 		}
 
+		rs.close();
+
 		set_feedlist_counter(-4, get_local_feed_unread(-4));
 		set_feedlist_counter(-1, get_local_feed_unread(-1));
 
@@ -555,11 +564,17 @@ function get_local_feed_unread(id) {
 			rs = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?", [id]);
 		}
 
+		var a = false;
+
 		if (rs.isValidRow()) {
-			return rs.field(0);
+			a = rs.field(0);
 		} else {
-			return 0;
+			a = 0;
 		}
+
+		rs.close();
+
+		return a;
 
 	} catch (e) {
 		exception_error("get_local_feed_unread", e);

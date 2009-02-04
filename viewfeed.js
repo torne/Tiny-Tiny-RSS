@@ -1520,10 +1520,15 @@ function cache_find(id) {
 
 	if (db) {
 		var rs = db.execute("SELECT article FROM cache WHERE id = ?", [id]);
+		var a = false;
 
 		if (rs.isValidRow()) {
-			return rs.field(0);
+			var a = rs.field(0);			
 		}
+
+		rs.close();
+
+		return a;
 
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
@@ -1540,10 +1545,15 @@ function cache_find_param(id, param) {
 	if (db) {
 		var rs = db.execute("SELECT article FROM cache WHERE id = ? AND param = ?",
 			[id, param]);
+		var a = false;
 
 		if (rs.isValidRow()) {
-			return rs.field(0);
+			a = rs.field(0);
 		}
+
+		rs.close();
+
+		return a;
 
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
@@ -1560,10 +1570,15 @@ function cache_check(id) {
 	if (db) {
 		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ?",
 			[id]);
+		var a = false;
 
 		if (rs.isValidRow()) {
-			return rs.field(0) != "0";
+			 a = rs.field(0) != "0";
 		}
+
+		rs.close();
+
+		return a;
 
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
@@ -1580,10 +1595,15 @@ function cache_check_param(id, param) {
 	if (db) {
 		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ? AND param = ?",
 			[id, param]);
+		var a = false;
 
 		if (rs.isValidRow()) {
-			return rs.field(0) != "0";
+			a = rs.field(0) != "0";
 		}
+
+		rs.close();
+
+		return a;
 
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
