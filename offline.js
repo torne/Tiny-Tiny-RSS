@@ -401,17 +401,20 @@ function render_offline_feedlist() {
 
 		tmp += "<li><hr/></li>";
 
-		var rs = db.execute("SELECT feeds.id,feeds.title,has_icon,COUNT(articles.id) "+
+/*		var rs = db.execute("SELECT feeds.id,feeds.title,has_icon,COUNT(articles.id) "+
 			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
 			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
-			"ORDER BY feeds.title");
+			"ORDER BY feeds.title"); */
+
+		var rs = db.execute("SELECT id,title,has_icon FROM feeds "+
+			"ORDER BY title");
 
 		while (rs.isValidRow()) {
 
 			var id = rs.field(0);
 			var title = rs.field(1);
 			var has_icon = rs.field(2);
-			var unread = rs.field(3);
+			var unread = get_local_feed_unread(id);
 
 			var icon = "";
 
@@ -630,16 +633,19 @@ function set_feedlist_counter(id, ctr) {
 
 function update_local_feedlist_counters() {
 	try {
-		if (!db) return;
+		if (!offline_mode) return;
 
-		var rs = db.execute("SELECT feeds.id,COUNT(articles.id) "+
+/*		var rs = db.execute("SELECT feeds.id,COUNT(articles.id) "+
 			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
 			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
-			"ORDER BY feeds.title");
+			"ORDER BY feeds.title"); */
+
+		var rs = db.execute("SELECT id,title,has_icon FROM feeds "+
+			"ORDER BY title");
 
 		while (rs.isValidRow()) {
 			var id = rs.field(0);
-			var ctr = rs.field(1);
+			var ctr = get_local_feed_unread(id);
 
 			set_feedlist_counter(id, ctr);
 
