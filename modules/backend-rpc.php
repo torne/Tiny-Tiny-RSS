@@ -576,22 +576,25 @@
 					}			
 
 					$result = db_query($link,
-						"SELECT DISTINCT id,title,guid,link,
+						"SELECT DISTINCT id,title,guid,link,comments,
 								feed_id,content,updated,unread,marked FROM
 							ttrss_user_entries,ttrss_entries
 							WHERE $unread_qpart $cid_qpart $date_qpart
 							ref_id = id AND owner_uid = ".$_SESSION["uid"]."
 							ORDER BY updated DESC LIMIT $limit OFFSET $skip");
+
+					if (function_exists('json_encode')) {
+
+						while ($line = db_fetch_assoc($result)) {
+							print "<article><![CDATA[";
 	
-					while ($line = db_fetch_assoc($result)) {
-						print "<article><![CDATA[";
-
-						$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
-						$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
-						$line["tags"] = format_tags_string(get_article_tags($link, $id), $id);
-
-						print json_encode($line);
-						print "]]></article>";
+							$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
+							$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
+							$line["tags"] = format_tags_string(get_article_tags($link, $id), $id);
+	
+							print json_encode($line);
+							print "]]></article>";
+						}	
 					}
 
 				}

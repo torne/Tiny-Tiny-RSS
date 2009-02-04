@@ -170,6 +170,13 @@ function backend_sanity_check_callback(transport) {
 				var v = param.getAttribute("value");
 				debug(k + " => " + v);
 				init_params[k] = v;					
+
+				if (db) {
+					db.execute("DELETE FROM init_params WHERE key = ?", [k]);
+					db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
+						[k, v]);
+				}
+
 				param = param.nextSibling;
 			}
 		}

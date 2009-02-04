@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 2;
+var SCHEMA_VERSION = 3;
 
 var offline_mode = false;
 var store = false;
@@ -353,7 +353,14 @@ function init_offline() {
 
 		Element.hide(tb_form.update);
 
-		init_params["theme"] = "";
+		var rs = db.execute("SELECT key, value FROM init_params");
+
+		while (rs.isValidRow()) {
+			init_params[rs.field(0)] = rs.field(1);
+			rs.next();
+		}
+
+		rs.close();
 
 		render_offline_feedlist();
 		remove_splash();
@@ -402,10 +409,11 @@ function offline_download_parse(stage, transport) {
 						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
 						db.execute("INSERT INTO articles "+
 						"(id, feed_id, title, link, guid, updated, content, "+
-							"unread, marked, tags, added) "+
-						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+							"unread, marked, tags, added, comments) "+
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
-								a.content, a.unread, a.marked, a.tags, ts]);
+								a.content, a.unread, a.marked, a.tags, ts,
+								a.comments]);
 
 					}
 				}
@@ -577,13 +585,20 @@ function init_gears() {
 				version = rs.field(0);
 			}
 
+			rs.close();
+
 			if (version != SCHEMA_VERSION) {
+				db.execute("DROP TABLE IF EXISTS init_params");
 				db.execute("DROP TABLE IF EXISTS cache");
 				db.execute("DROP TABLE IF EXISTS feeds");
 				db.execute("DROP TABLE IF EXISTS articles");
+				db.execute("DROP TABLE IF EXISTS version");
+				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
 					[SCHEMA_VERSION]);
 			}
+
+			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text, value text)");
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer)");
