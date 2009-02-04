@@ -139,10 +139,22 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				tmp += feed_title;
 				tmp += "</div>";
 
-				var sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
-				var sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
-				var sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
-				var sel_inv_link = "javascript:invertHeadlineSelection()";
+				var sel_all_link;
+				var sel_unread_link;
+				var sel_none_link;
+				var sel_inv_link;
+
+				if (document.getElementById("content-frame")) {
+					sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
+					sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
+					sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
+					sel_inv_link = "javascript:invertHeadlineSelection()";
+				} else {
+					sel_all_link = "javascript:cdmSelectArticles('all')";
+					sel_unread_link = "javascript:cdmSelectArticles('unread')";
+					sel_none_link = "javascript:cdmSelectArticles('none')";
+					sel_inv_link = "javascript:invertHeadlineSelection()";
+				}
 
 				tmp += __('Select:')+
 					" <a href=\""+sel_all_link+"\">"+__('All')+"</a>, "+
@@ -155,8 +167,9 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				tmp += "</div>";
 	
 				tmp += "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
-	
-				tmp += "<table class=\"headlinesList\" id=\"headlinesList\" cellspacing=\"0\">";
+				if (document.getElementById("content-frame")) {
+					tmp += "<table class=\"headlinesList\" id=\"headlinesList\" cellspacing=\"0\">";
+				}
 			
 			}
 	
@@ -242,37 +255,86 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 				var mouseover_attrs = "onmouseover='postMouseIn($id)' "+
 					"onmouseout='postMouseOut($id)'";
-	
-				tmp += "<tr class='"+row_class+"' id='RROW-"+id+"' "+mouseover_attrs+">";
-				
-				tmp += "<td class='hlUpdPic'> </td>";
-
-				tmp += "<td class='hlSelectRow'>"+
-					"<input type=\"checkbox\" onclick=\"tSR(this)\"	id=\"RCHK-"+id+"\"></td>";
-				
-				tmp += "<td class='hlMarkedPic'>"+marked_pic+"</td>";
-	
-				tmp += "<td onclick='view("+id+","+feed_id+")' "+
-					"class='hlContent' valign='middle'>";
-	
-				tmp += "<a target=\"_blank\" id=\"RTITLE-$id\" href=\"" + 
-					rs.fieldByName("link") + "\"" +
-					"onclick=\"return view("+id+","+feed_id+");\">"+
-					rs.fieldByName("title");
 
 				var content_preview = truncate_string(strip_tags(rs.fieldByName("content")), 
-					100);
-
-				tmp += "<span class=\"contentPreview\"> - "+content_preview+"</span>";
-
-				tmp += "</a>";
-
-				tmp += "</td>";
+						100);
 	
-				tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
-					"<nobr>"+rs.fieldByName("updated").substring(0,16)+"</nobr></td>";
+				if (document.getElementById("content-frame")) {
 
-				tmp += "</tr>";
+					tmp += "<tr class='"+row_class+"' id='RROW-"+id+"' "+mouseover_attrs+">";
+					
+					tmp += "<td class='hlUpdPic'> </td>";
+	
+					tmp += "<td class='hlSelectRow'>"+
+						"<input type=\"checkbox\" onclick=\"tSR(this)\"	id=\"RCHK-"+id+"\"></td>";
+					
+					tmp += "<td class='hlMarkedPic'>"+marked_pic+"</td>";
+		
+					tmp += "<td onclick='view("+id+","+feed_id+")' "+
+						"class='hlContent' valign='middle'>";
+		
+					tmp += "<a target=\"_blank\" id=\"RTITLE-$id\" href=\"" + 
+						rs.fieldByName("link") + "\"" +
+						"onclick=\"return view("+id+","+feed_id+");\">"+
+						rs.fieldByName("title");
+	
+					tmp += "<span class=\"contentPreview\"> - "+content_preview+"</span>";
+	
+					tmp += "</a>";
+	
+					tmp += "</td>";
+		
+					tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
+						"<nobr>"+rs.fieldByName("updated").substring(0,16)+"</nobr></td>";
+	
+					tmp += "</tr>";
+				} else {
+
+					var add_class = "";
+
+					if (rs.fieldByName("unread") == "1") {
+						add_class = "Unread";					
+					}
+				
+					tmp += "<div class=\"cdmArticle"+add_class+"\" id=\"RROW-"+id+"\" "+
+						mouseover_attrs+"'>";
+
+					tmp += "<div class=\"cdmHeader\">";
+					tmp += "<div class=\"articleUpdated\">"+
+						rs.fieldByName("updated").substring(0,16)+"</div>";
+
+					tmp += "<span id=\"RTITLE-"+id+"\" class=\"titleWrap\">"+
+						"<a class=\"title\" onclick=\"javascript:toggleUnread("+id+", 0)\""+
+						"target=\"_blank\" href=\""+rs.fieldByName("link")+
+						"\">"+rs.fieldByName("title")+"</a>";
+					tmp += "</span></div>";
+
+					tmp += "<div class=\"cdmContent\" onclick=\"cdmClicked("+id+")\""+
+						"id=\"CICD-"+id+"\">";
+					tmp += rs.fieldByName("content");
+					tmp += "<br clear='both'>"
+					tmp += "</div>"; 
+
+					tmp += "<div class=\"cdmFooter\"><span class='s0'>";
+					tmp += __("Select:")+
+						" <input type=\"checkbox\" "+
+						"onclick=\"toggleSelectRowById(this, 'RROW-"+id+"')\" "+
+						"class=\"feedCheckBox\" id=\"RCHK-"+id+"\">";
+
+					tmp += "</span><span class='s1'>"+marked_pic+"</span> ";
+
+					tmp += "<span class='s1'>"+
+						"<img class='tagsPic' src='images/tag.png' alt='Tags' title='Tags'>"+
+						"<span id=\"ATSTR-"+id+"\">"+rs.fieldByName("tags")+"</span>"+
+						"</span>";
+
+					tmp += "<span class='s2'>Toggle: <a class=\"cdmToggleLink\""+
+						"href=\"javascript:toggleUnread("+id+")\">"+
+						"Unread</a></span>";
+					tmp += "</div>";
+
+					tmp += "</div>";
+				}
 
 				rs.next();
 				line_num++;
@@ -651,6 +713,10 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
+
+
+			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
+
 			window.setTimeout("update_offline_data(0)", 100);
 
 		}	
