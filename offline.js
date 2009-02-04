@@ -37,7 +37,10 @@ function view_offline(id, feed_id) {
 			tmp += rs.fieldByName("tags");
 			tmp += "</div>";
 
-			tmp += "<div clear='both'>fixme-comments</div>";
+			tmp += "<div clear='both'>"+
+				"<a target=\"_blank\" "+
+					"href=\"" + rs.fieldByName("comments") + "\">" +
+					__("comments") + "</a></div>";
 
 			tmp += "</div>";
 
