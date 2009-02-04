@@ -219,7 +219,9 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				offset_qpart = "";
 			}
 
-			var query = "SELECT * FROM articles WHERE " +
+			var query = "SELECT *,feeds.title AS feed_title "+
+				"FROM articles,feeds WHERE " +
+				"feed_id = feeds.id AND " +
 				strategy_qpart +
 				" AND " + mode_qpart + 
 				" ORDER BY updated DESC "+
@@ -230,10 +232,18 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 			var line_num = offset*30;
 
+			var real_feed_id = feed_id;
+
 			while (rs.isValidRow()) {
 
 				var id = rs.fieldByName("id");
 				var feed_id = rs.fieldByName("feed_id");
+
+				var entry_feed_title = false;
+
+				if (real_feed_id < 0) {
+					entry_feed_title = rs.fieldByName("feed_title");
+				}
 
 				var marked_pic;
 	
@@ -273,7 +283,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					tmp += "<td onclick='view("+id+","+feed_id+")' "+
 						"class='hlContent' valign='middle'>";
 		
-					tmp += "<a target=\"_blank\" id=\"RTITLE-$id\" href=\"" + 
+					tmp += "<a target=\"_blank\" id=\"RTITLE-"+id+"\" href=\"" + 
 						rs.fieldByName("link") + "\"" +
 						"onclick=\"return view("+id+","+feed_id+");\">"+
 						rs.fieldByName("title");
@@ -281,7 +291,13 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					tmp += "<span class=\"contentPreview\"> - "+content_preview+"</span>";
 	
 					tmp += "</a>";
-	
+
+					if (entry_feed_title) {
+						tmp += " <span class=\"hlFeed\">"+
+							"(<a href='javascript:viewfeed("+feed_id+
+							")'>"+entry_feed_title+"</a>)</span>";
+					}
+
 					tmp += "</td>";
 
 					tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
@@ -314,6 +330,12 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 						"<a class=\"title\" onclick=\"javascript:toggleUnread("+id+", 0)\""+
 						"target=\"_blank\" href=\""+rs.fieldByName("link")+
 						"\">"+rs.fieldByName("title")+"</a>";
+
+					if (entry_feed_title) {
+						tmp += "&nbsp;(<a href='javascript:viewfeed("+feed_id+
+							")'>"+entry_feed_title+"</a>)";
+					}
+
 					tmp += "</span></div>";
 
 					tmp += "<div class=\"cdmContent\" onclick=\"cdmClicked("+id+")\""+
