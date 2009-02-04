@@ -377,6 +377,12 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 	
 			if (offset == 0) {
 				tmp += "</table>";
+
+				if (line_num - offset*30 == 0) {
+					tmp += "<div class='whiteBox'>" +
+						__("No articles found to display.") +
+						"</div>";
+				}
 				tmp += "</div></div>";
 			}
 	
