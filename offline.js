@@ -541,6 +541,8 @@ function offline_download_parse(stage, transport) {
 				}
 			}
 
+			notify('');
+
 		}
 	} catch (e) {
 		exception_error("offline_download_parse", e);
