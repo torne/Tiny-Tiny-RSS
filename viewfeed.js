@@ -811,6 +811,12 @@ function toggleUnread(id, cmode, effect) {
 				} else {
 					row.className = nc + "Unread";
 				}
+
+				if (db) {
+					db.execute("UPDATE articles SET unread = not unread "+
+						"WHERE id = ?", [id]);
+				}
+
 			} else if (cmode == 0) {
 				row.className = nc;
 
@@ -819,9 +825,23 @@ function toggleUnread(id, cmode, effect) {
 						afterFinish: toggleUnread_afh,
 						queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
 				} 
+
+				if (db) {
+					db.execute("UPDATE articles SET unread = 0 "+
+						"WHERE id = ?", [id]);
+				}
+
 			} else if (cmode == 1) {
 				row.className = nc + "Unread";
+
+				if (db) {
+					db.execute("UPDATE articles SET unread = 1 "+
+						"WHERE id = ?", [id]);
+				}
+
 			}
+
+			update_local_feedlist_counters();
 
 			// Disable unmarking as selected for the time being (16.05.08) -fox
 			if (is_selected) row.className = row.className + "Selected";
@@ -839,7 +859,6 @@ function toggleUnread(id, cmode, effect) {
 				} });
 
 		}
-
 
 	} catch (e) {
 		exception_error("toggleUnread", e);
