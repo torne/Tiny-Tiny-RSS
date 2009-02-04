@@ -520,7 +520,7 @@ function init_second_stage() {
 		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		var fl = cache_find_param("FEEDLIST", getInitParam("num_feeds"));
+/*		var fl = cache_find_param("FEEDLIST", getInitParam("num_feeds"));
 
 		if (fl) {
 			render_feedlist(fl);
@@ -531,7 +531,9 @@ function init_second_stage() {
 			}
 		} else {
 			setTimeout('updateFeedList(false, false)', 50);
-		}
+		} */
+
+		setTimeout('updateFeedList(false, false)', 50);
 
 		debug("second stage ok");
 

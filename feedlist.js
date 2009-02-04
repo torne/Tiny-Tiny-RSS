@@ -69,8 +69,8 @@ function render_feedlist(data) {
 
 		var f = document.getElementById("feeds-frame");
 		f.innerHTML = data;
-		cache_invalidate("FEEDLIST");
-		cache_inject("FEEDLIST", data, getInitParam("num_feeds"));
+//		cache_invalidate("FEEDLIST");
+//		cache_inject("FEEDLIST", data, getInitParam("num_feeds"));
 		feedlist_init();
 
 	} catch (e) {
