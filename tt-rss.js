@@ -21,11 +21,6 @@ var ver_offset = 0;
 var hor_offset = 0;
 var feeds_sort_by_unread = false;
 var feedlist_sortable_enabled = false;
-var offline_mode = false;
-var store = false;
-var localServer = false;
-var db = false;
-var download_progress_last = 0;
 
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
@@ -1497,50 +1492,6 @@ function feedBrowserSubscribe() {
 
 	} catch (e) {
 		exception_error("feedBrowserSubscribe", e);
-	}
-}
-
-function init_gears() {
-	try {
-
-		if (window.google && google.gears) {
-			localServer = google.gears.factory.create("beta.localserver");
-			store = localServer.createManagedStore("tt-rss");
-			db = google.gears.factory.create('beta.database');
-			db.open('tt-rss');
-
-			db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
-
-			var rs = db.execute("SELECT schema_version FROM version");
-
-			var version = "";
-
-			if (rs.isValidRow()) {
-				version = rs.field(0);
-			}
-
-			if (version != SCHEMA_VERSION) {
-				db.execute("DROP TABLE cache");
-				db.execute("DROP TABLE feeds");
-				db.execute("DROP TABLE articles");
-				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
-					[SCHEMA_VERSION]);
-			}
-
-			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
-
-			db.execute("CREATE TABLE if not exists feeds (id integer, title text, has_icon integer)");
-
-			db.execute("CREATE TABLE if not exists articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text)");
-
-			window.setTimeout("update_offline_data(0)", 100);
-
-		}	
-	
-		cache_expire();
-
-	} catch (e) {
-		exception_error("init_gears", e);
 	}
 }
 
