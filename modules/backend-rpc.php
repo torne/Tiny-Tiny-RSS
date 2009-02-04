@@ -555,6 +555,8 @@
 				$limit = 50;
 				$skip = $limit*($stage-1);
 
+				print "<limit value=\"$limit\"/>";
+
 				if ($amount > 0) $amount -= $skip;
 
 				if ($amount > 0) {

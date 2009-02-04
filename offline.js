@@ -549,10 +549,18 @@ function offline_download_parse(stage, transport) {
 						[id, title, has_icon]);
 				}
 		
-				window.setTimeout("update_offline_data("+(stage+1)+")", 60*1000);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
+
+				var limit = transport.responseXML.getElementsByTagName("limit")[0];
+
+				if (limit) {
+					limit = limit.getAttribute("value");
+				} else {
+					limit = 0;
+				}
 
 				var articles_found = 0;
 
@@ -576,10 +584,14 @@ function offline_download_parse(stage, transport) {
 					}
 				}
 
-				if (articles_found > 0) {
-					window.setTimeout("update_offline_data("+(stage+1)+")", 60*1000);
+				debug("downloaded articles: " + articles_found + " limit: " + limit);
+
+				if (articles_found >= limit) {
+					window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
+					debug("update_offline_data: done " + stage);
 				} else {
 					window.setTimeout("update_offline_data(0)", 1800*1000);
+					debug("update_offline_data: finished");
 
 					var date = new Date();
 					var ts = Math.round(date.getTime() / 1000);
@@ -624,7 +636,6 @@ function update_offline_data(stage) {
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				offline_download_parse(stage, transport);				
-				debug("update_offline_data: done " + stage);
 			} });
 
 	} catch (e) {
