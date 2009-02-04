@@ -396,7 +396,7 @@ function view_offline(id, feed_id) {
 		}
 
 		render_article("FIXME");
-		update_feedlist_counters();
+		update_local_feedlist_counters();
 
 		return false;
 
@@ -584,6 +584,8 @@ function toggleMark(id, client_only, no_effects) {
 			}
 
 		}
+
+		update_local_feedlist_counters();
 
 		if (!client_only) {
 			debug(query);
