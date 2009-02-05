@@ -530,21 +530,38 @@
 			if ($stage == 0) {
 				print "<feeds>";
 
-				$reply = array();
-
-				$result = db_query($link, "SELECT id, title FROM
+				$result = db_query($link, "SELECT id, title, cat_id FROM
 					ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 
 				while ($line = db_fetch_assoc($result)) {
 
 					$has_icon = (int) feed_has_icon($line["id"]);
 
-					print "<feed has_icon=\"$has_icon\" id=\"".$line["id"]."\"><![CDATA[";
+					print "<feed has_icon=\"$has_icon\" 
+						cat_id=\"".(int)$line["cat_id"]."\" id=\"".$line["id"]."\"><![CDATA[";
 					print $line["title"];
 					print "]]></feed>";
 				}
 
 				print "</feeds>";
+
+				print "<feed-categories>";
+
+				$result = db_query($link, "SELECT id, title FROM
+					ttrss_feed_categories WHERE owner_uid = ".$_SESSION["uid"]);
+
+					print "<category id=\"0\"><![CDATA[";
+					print __("Uncategorized");
+					print "]]></category>";
+
+				while ($line = db_fetch_assoc($result)) {
+					print "<category id=\"".$line["id"]."\"><![CDATA[";
+					print $line["title"];
+					print "]]></category>";
+				}
+
+				print "</feed-categories>";
+
 
 			}
 

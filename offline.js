@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 3;
+var SCHEMA_VERSION = 4;
 
 var offline_mode = false;
 var store = false;
@@ -543,10 +543,11 @@ function offline_download_parse(stage, transport) {
 					var id = feeds[i].getAttribute("id");
 					var has_icon = feeds[i].getAttribute("has_icon");
 					var title = feeds[i].firstChild.nodeValue;
-	
-					db.execute("INSERT INTO feeds (id,title,has_icon)"+
-						"VALUES (?,?,?)",
-						[id, title, has_icon]);
+					var cat_id = feeds[i].getAttribute("cat_id");
+
+					db.execute("INSERT INTO feeds (id,title,has_icon,cat_id)"+
+						"VALUES (?,?,?, ?)",
+						[id, title, has_icon, cat_id]);
 				}
 		
 				window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
@@ -777,6 +778,7 @@ function init_gears() {
 				db.execute("DROP TABLE IF EXISTS init_params");
 				db.execute("DROP TABLE IF EXISTS cache");
 				db.execute("DROP TABLE IF EXISTS feeds");
+				db.execute("DROP TABLE IF EXISTS categories");
 				db.execute("DROP TABLE IF EXISTS articles");
 				db.execute("DROP TABLE IF EXISTS version");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
@@ -787,7 +789,8 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text, value text)");
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
-			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer, cat_id integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
