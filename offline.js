@@ -32,10 +32,10 @@ function view_offline(id, feed_id) {
 				tmp += "<div clear='both'>" + rs.fieldByName("title") + "</div>";
 			}
 
-			tmp += "<div style='float : right'> "+
+/*			tmp += "<div style='float : right'> "+
 				"<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>";
 			tmp += rs.fieldByName("tags");
-			tmp += "</div>";
+			tmp += "</div>"; */
 
 			tmp += "<div clear='both'>"+
 				"<a target=\"_blank\" "+
@@ -352,10 +352,10 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 					tmp += "</span><span class='s1'>"+marked_pic+"</span> ";
 
-					tmp += "<span class='s1'>"+
+/*					tmp += "<span class='s1'>"+
 						"<img class='tagsPic' src='images/tag.png' alt='Tags' title='Tags'>"+
 						"<span id=\"ATSTR-"+id+"\">"+rs.fieldByName("tags")+"</span>"+
-						"</span>";
+						"</span>"; */
 
 					tmp += "<span class='s2'>Toggle: <a class=\"cdmToggleLink\""+
 						"href=\"javascript:toggleUnread("+id+")\">"+
