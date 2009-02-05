@@ -496,6 +496,10 @@ function render_offline_feedlist() {
 
 		rs.close();
 
+		if (cats_enabled) {
+			tmp += "</ul>";
+		}
+
 		tmp += "</ul>";
 
 		render_feedlist(tmp);
