@@ -555,6 +555,11 @@
 					print __("Uncategorized");
 					print "]]></category>";
 
+					print "<category id=\"-1\" collapsed=\"".
+						(int)$_COOKIE["ttrss_vf_vclps"]."\"><![CDATA[";
+					print __("Special");
+					print "]]></category>";
+
 				while ($line = db_fetch_assoc($result)) {
 					print "<category 
 						id=\"".$line["id"]."\"

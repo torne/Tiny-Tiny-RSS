@@ -412,12 +412,18 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 function render_offline_feedlist() {
 	try {
+		var cats_enabled = 1;
+
 		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
 
 		var unread = get_local_feed_unread(-4);
 
 		global_unread = unread;
 		updateTitle();
+
+		if (cats_enabled) {
+			tmp += printCategoryHeader(-1, getCookie("ttrss_vf_vclps"), false);
+		}
 
 		tmp += printFeedEntry(-4, __("All articles"), "feed", unread,
 			"images/tag.png");
@@ -427,15 +433,27 @@ function render_offline_feedlist() {
 		tmp += printFeedEntry(-1, __("Starred articles"), "feed", unread,
 			"images/mark_set.png");
 
-		tmp += "<li><hr/></li>";
+		if (cats_enabled) {
+			tmp += "</ul></li>";
+		} else {
+			tmp += "<li><hr/></li>";
+		}
 
 /*		var rs = db.execute("SELECT feeds.id,feeds.title,has_icon,COUNT(articles.id) "+
 			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
 			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
 			"ORDER BY feeds.title"); */
 
-		var rs = db.execute("SELECT id,title,has_icon FROM feeds "+
-			"ORDER BY title");
+		var order_by = "feeds.title";
+
+		if (cats_enabled) order_by = "categories.title," + order_by;
+
+		var rs = db.execute("SELECT "+
+			"feeds.id,feeds.title,has_icon,cat_id,collapsed "+
+			"FROM feeds,categories WHERE cat_id = categories.id "+
+			"ORDER BY "+order_by);
+
+		var tmp_cat_id = -1;
 
 		while (rs.isValidRow()) {
 
@@ -443,13 +461,22 @@ function render_offline_feedlist() {
 			var title = rs.field(1);
 			var has_icon = rs.field(2);
 			var unread = get_local_feed_unread(id);
+			var cat_id = rs.field(3);
+			var cat_hidden = rs.field(4);
+
+			if (cat_id != tmp_cat_id && cats_enabled) {
+				if (tmp_cat_id != -1) {
+					tmp += "</ul></li>";
+				}
+				tmp += printCategoryHeader(cat_id, cat_hidden, false);
+				tmp_cat_id = cat_id;
+			}
 
 			var icon = "";
 
 			if (has_icon) {
 				icon = "icons/" + id + ".ico";
 			}
-
 
 			var feed_icon = "";
 
@@ -660,14 +687,24 @@ function update_offline_data(stage) {
 	}
 }
 
-function set_feedlist_counter(id, ctr) {
+function set_feedlist_counter(id, ctr, is_cat) {
 	try {
 
 		var feedctr = document.getElementById("FEEDCTR-" + id);
 		var feedu = document.getElementById("FEEDU-" + id);
 		var feedr = document.getElementById("FEEDR-" + id);
 
-		if (feedctr && feedu && feedr) {
+		if (is_cat) {
+			var catctr = document.getElementById("FCATCTR-" + id);
+			if (catctr) {
+				catctr.innerHTML = "(" + ctr + ")";
+				if (ctr > 0) {
+					catctr.className = "catCtrHasUnread";
+				} else {
+					catctr.className = "catCtrNoUnread";
+				}
+			}
+		} else if (feedctr && feedu && feedr) {
 
 			var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
 
@@ -713,15 +750,25 @@ function update_local_feedlist_counters() {
 			"WHERE unread = 1 OR unread IS NULL GROUP BY feeds.id "+
 			"ORDER BY feeds.title"); */
 
-		var rs = db.execute("SELECT id,title,has_icon FROM feeds "+
+		var rs = db.execute("SELECT id FROM feeds "+
 			"ORDER BY title");
 
 		while (rs.isValidRow()) {
 			var id = rs.field(0);
 			var ctr = get_local_feed_unread(id);
+			set_feedlist_counter(id, ctr, false);
+			rs.next();
+		}
 
-			set_feedlist_counter(id, ctr);
+		rs.close();
 
+		var rs = db.execute("SELECT cat_id,SUM(unread) "+
+			"FROM articles, feeds WHERE feeds.id = feed_id GROUP BY cat_id");
+
+		while (rs.isValidRow()) {
+			var id = rs.field(0);
+			var ctr = rs.field(1);
+			set_feedlist_counter(id, ctr, true);
 			rs.next();
 		}
 
@@ -840,3 +887,96 @@ function local_collapse_cat(id) {
 		exception_error("local_collapse_cat", e);
 	}
 }
+
+function get_local_category_title(id) {
+	try {
+		var rs = db.execute("SELECT title FROM categories WHERE id = ?", [id]);
+		var tmp = "";
+
+		if (rs.isValidRow()) {
+			tmp = rs.field(0);
+		}
+
+		rs.close();
+
+		return tmp;
+
+	} catch (e) {
+		exception_error("get_local_category_title", e);
+	}
+}
+
+function get_local_category_unread(id) {
+	try {
+		var rs = db.execute("SELECT SUM(unread) FROM articles, feeds "+
+			"WHERE feeds.id = feed_id AND cat_id = ?",
+			[id]);
+
+		var tmp = 0;
+
+		if (rs.isValidRow()) {
+			tmp = rs.field(0);
+		}
+
+		rs.close();
+
+		return tmp;
+
+	} catch (e) {
+		exception_error("get_local_category_unread", e);
+	}
+}
+
+function printCategoryHeader(cat_id, hidden, can_browse) {
+	try {
+		if (hidden == undefined) hidden = false;
+		if (can_browse == undefined) can_browse = false;
+
+			var tmp_category = get_local_category_title(cat_id);
+			var tmp = "";
+
+			var cat_unread = get_local_category_unread(cat_id);
+
+			var holder_style = "";
+			var ellipsis = "";
+
+			if (hidden) {
+				holder_style = "display:none;";
+				ellipsis = "…";
+			}
+
+			var catctr_class = (cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
+
+			var browse_cat_link = "";
+			var inner_title_class = "catTitleNL";
+
+			if (can_browse) {
+				browse_cat_link = "onclick=\"javascript:viewCategory($cat_id)\"";
+				inner_title_class = "catTitle";
+			}
+
+			var cat_class = "feedCat";
+
+			tmp += "<li class=\""+cat_class+"\" id=\"FCAT-"+cat_id+"\">"+
+				"<img onclick=\"toggleCollapseCat("+cat_id+")\" class=\"catCollapse\""+
+					" title=\""+__('Click to collapse category')+"\""+
+					" src=\"images/cat-collapse.png\"><span class=\""+inner_title_class+"\" "+
+					" id=\"FCATN-"+cat_id+"\" "+browse_cat_link+
+				"\">"+tmp_category+"</span>";
+
+			tmp += "<span id=\"FCAP-"+cat_id+"\">";
+
+			tmp += " <span id=\"FCATCTR-"+cat_id+"\" "+
+				"class=\""+catctr_class+"\">("+cat_unread+")</span> "+ellipsis;
+
+			tmp += "</span>";
+
+			tmp += "<ul class=\"feedCatList\" id=\"FCATLIST-"+cat_id+"\" "+
+				"style='"+holder_style+"'>";
+
+			return tmp;
+	} catch (e) {
+		exception_error("printCategoryHeader", e);
+	}
+}
+
