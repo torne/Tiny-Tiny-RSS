@@ -547,15 +547,18 @@
 
 				print "<feed-categories>";
 
-				$result = db_query($link, "SELECT id, title FROM
+				$result = db_query($link, "SELECT id, title, collapsed FROM
 					ttrss_feed_categories WHERE owner_uid = ".$_SESSION["uid"]);
 
-					print "<category id=\"0\"><![CDATA[";
+					print "<category id=\"0\" collapsed=\"".
+						(int)$_COOKIE["ttrss_vf_uclps"]."\"><![CDATA[";
 					print __("Uncategorized");
 					print "]]></category>";
 
 				while ($line = db_fetch_assoc($result)) {
-					print "<category id=\"".$line["id"]."\"><![CDATA[";
+					print "<category 
+						id=\"".$line["id"]."\"
+						collapsed=\"".(int)sql_bool_to_bool($line["collapsed"])."\"><![CDATA[";
 					print $line["title"];
 					print "]]></category>";
 				}

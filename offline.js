@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 4;
+var SCHEMA_VERSION = 5;
 
 var offline_mode = false;
 var store = false;
@@ -546,10 +546,26 @@ function offline_download_parse(stage, transport) {
 					var cat_id = feeds[i].getAttribute("cat_id");
 
 					db.execute("INSERT INTO feeds (id,title,has_icon,cat_id)"+
-						"VALUES (?,?,?, ?)",
+						"VALUES (?,?,?,?)",
 						[id, title, has_icon, cat_id]);
 				}
-		
+
+				var cats = transport.responseXML.getElementsByTagName("category");
+
+				if (feeds.length > 0) {
+					db.execute("DELETE FROM categories");
+				}
+
+				for (var i = 0; i < cats.length; i++) {
+					var id = cats[i].getAttribute("id");
+					var collapsed = cats[i].getAttribute("collapsed");
+					var title = cats[i].firstChild.nodeValue;
+
+					db.execute("INSERT INTO categories (id,title,collapsed)"+
+						"VALUES (?,?,?)",
+						[id, title, collapsed]);
+				}
+
 				window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
 			} else {
 
@@ -790,7 +806,7 @@ function init_gears() {
 
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer, cat_id integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text)");
+			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text, collapsed integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
