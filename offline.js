@@ -601,7 +601,7 @@ function offline_download_parse(stage, transport) {
 				}
 			}
 
-			notify('');
+//			notify('');
 
 		}
 	} catch (e) {
@@ -617,7 +617,7 @@ function update_offline_data(stage) {
 
 		debug("update_offline_data: stage " + stage);
 
-		notify_progress("Updating offline data... (" + stage +")", true);
+//		notify_progress("Updating offline data... (" + stage +")", true);
 
 		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
 
