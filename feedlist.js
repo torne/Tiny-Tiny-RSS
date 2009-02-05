@@ -400,6 +400,8 @@ function toggleCollapseCat(cat) {
 		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 
 			param_escape(cat));
 
+		local_collapse_cat(cat);
+
 	} catch (e) {
 		exception_error("toggleCollapseCat", e);
 	}

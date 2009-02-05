@@ -830,3 +830,13 @@ function gotoOnline() {
 	window.location.href = "tt-rss.php";
 }
 
+function local_collapse_cat(id) {
+	try {
+		if (db) {
+			db.execute("UPDATE categories SET collapsed = NOT collapsed WHERE id = ?",
+				[id]);
+		}	
+	} catch (e) {
+		exception_error("local_collapse_cat", e);
+	}
+}
