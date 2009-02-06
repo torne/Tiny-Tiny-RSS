@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 7;
+var SCHEMA_VERSION = 9;
 
 var offline_mode = false;
 var store = false;
@@ -837,6 +837,8 @@ function update_local_feedlist_counters() {
 
 		rs.close();
 
+		set_feedlist_counter(-2, get_local_category_unread(-2), true);
+
 		set_feedlist_counter(-4, get_local_feed_unread(-4));
 		set_feedlist_counter(-1, get_local_feed_unread(-1));
 
@@ -923,6 +925,9 @@ function init_gears() {
 				db.execute("DROP TABLE IF EXISTS labels");
 				db.execute("DROP TABLE IF EXISTS article_labels");
 				db.execute("DROP TABLE IF EXISTS articles");
+				db.execute("DROP INDEX IF EXISTS article_labels_label_id_idx");
+				db.execute("DROP INDEX IF EXISTS articles_unread_idx");
+				db.execute("DROP INDEX IF EXISTS articles_feed_id_idx");
 				db.execute("DROP TABLE IF EXISTS version");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
@@ -937,6 +942,10 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS labels (id integer, caption text, fg_color text, bg_color text)");
 			db.execute("CREATE TABLE IF NOT EXISTS article_labels (id integer, label_id integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
+	
+			db.execute("CREATE INDEX IF NOT EXISTS articles_unread_idx ON articles(unread)");
+			db.execute("CREATE INDEX IF NOT EXISTS article_labels_label_id_idx ON article_labels(label_id)");
+			db.execute("CREATE INDEX IF NOT EXISTS articles_feed_id_idx ON articles(feed_id)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
 
@@ -990,9 +999,17 @@ function get_local_category_title(id) {
 
 function get_local_category_unread(id) {
 	try {
-		var rs = db.execute("SELECT SUM(unread) FROM articles, feeds "+
-			"WHERE feeds.id = feed_id AND cat_id = ?",
-			[id]);
+		var rs = false;
+
+		if (id >= 0) {
+			rs = db.execute("SELECT SUM(unread) FROM articles, feeds "+
+				"WHERE feeds.id = feed_id AND cat_id = ?", [id]);
+		} else if (id == -2) {
+			rs = db.execute("SELECT SUM(unread) FROM article_labels, articles "+
+				"where article_labels.id = articles.id");
+		} else {
+			return 0;
+		}
 
 		var tmp = 0;
 
