@@ -195,6 +195,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				mode_qpart = "1";
 			}
 
+			var ext_tables_qpart = "";
+
 			if (feed_id > 0) {
 				strategy_qpart = "feed_id = " + feed_id;
 			} else if (feed_id == -1) {
@@ -203,8 +205,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				strategy_qpart = "1";
 			} else if (feed_id < -10) {
 				var label_id = -11 - feed_id;
-				strategy_qpart = "label_id = " + label_id;
-
+				strategy_qpart = "article_labels.id = articles.id AND label_id = " + label_id;
+				ext_tables_qpart = ",article_labels";
 			}
 
 			if (offset > 0) {
@@ -214,8 +216,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 
 			var query = "SELECT *,feeds.title AS feed_title "+
-				"FROM articles,feeds LEFT JOIN article_labels "+
-					"ON (article_labels.id = articles.id) WHERE " +
+				"FROM articles,feeds"+ext_tables_qpart+" "+
+				"WHERE " +
 				"feed_id = feeds.id AND " +
 				strategy_qpart +
 				" AND " + mode_qpart + 
