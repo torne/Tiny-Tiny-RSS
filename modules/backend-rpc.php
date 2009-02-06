@@ -560,6 +560,11 @@
 					print __("Special");
 					print "]]></category>";
 
+					print "<category id=\"-2\" collapsed=\"".
+						(int)$_COOKIE["ttrss_vf_lclps"]."\"><![CDATA[";
+					print __("Labels");
+					print "]]></category>";
+
 				while ($line = db_fetch_assoc($result)) {
 					print "<category 
 						id=\"".$line["id"]."\"
@@ -634,6 +639,8 @@
 	
 							$line["marked"] = (int)sql_bool_to_bool($line["marked"]);
 							$line["unread"] = (int)sql_bool_to_bool($line["unread"]);
+
+							$line["labels"] = get_article_labels($link, $line["id"]);
 
 //							too slow :(							
 //							$line["tags"] = format_tags_string(

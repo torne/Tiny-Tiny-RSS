@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 6;
+var SCHEMA_VERSION = 7;
 
 var offline_mode = false;
 var store = false;
@@ -422,16 +422,7 @@ function render_offline_feedlist() {
 		updateTitle();
 
 		if (cats_enabled) {
-			var rs = db.execute("SELECT collapsed FROM categories WHERE id = -1");
-			var cat_hidden = 0;
-
-			if (rs.isValidRow()) {
-				cat_hidden = rs.field(0);
-			}
-
-			rs.close();
-
-			tmp += printCategoryHeader(-1, cat_hidden, false);
+			tmp += printCategoryHeader(-1, is_local_cat_collapsed(-1), false);
 		}
 
 		tmp += printFeedEntry(-4, __("All articles"), "feed", unread,
@@ -441,6 +432,33 @@ function render_offline_feedlist() {
 
 		tmp += printFeedEntry(-1, __("Starred articles"), "feed", unread,
 			"images/mark_set.png");
+
+		if (cats_enabled) {
+			tmp += "</ul></li>";
+		} else {
+			tmp += "<li><hr/></li>";
+		}
+
+		if (cats_enabled) {
+			tmp += printCategoryHeader(-2, is_local_cat_collapsed(-2), false);
+		}
+
+		var rs = db.execute("SELECT id,caption "+
+			"FROM labels "+
+			"ORDER BY caption");
+
+		while (rs.isValidRow()) {
+			var id = -11 - parseInt(rs.field(0));
+			var caption = rs.field(1);
+			var unread = get_local_feed_unread(id);
+
+			tmp += printFeedEntry(id, caption, "feed", unread,
+				"images/label.png");
+
+			rs.next();
+		}
+
+		rs.close();
 
 		if (cats_enabled) {
 			tmp += "</ul></li>";
@@ -647,6 +665,8 @@ function offline_download_parse(stage, transport) {
 						var ts = Math.round(date.getTime() / 1000);
 
 						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
+						db.execute("DELETE FROM article_labels WHERE id = ?", [a.id]);
+
 						db.execute("INSERT INTO articles "+
 						"(id, feed_id, title, link, guid, updated, content, "+
 							"unread, marked, tags, added, comments) "+
@@ -654,6 +674,12 @@ function offline_download_parse(stage, transport) {
 							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
 								a.content, a.unread, a.marked, a.tags, ts,
 								a.comments]);
+
+						if (a.labels.length > 0) {
+							for (var j = 0; j < a.labels.length; j++) {
+								label_local_add_article(a.id, a.labels[j][0]);
+							}
+						}
 
 					}
 				}
@@ -1014,3 +1040,44 @@ function printCategoryHeader(cat_id, hidden, can_browse) {
 	}
 }
 
+function is_local_cat_collapsed(id) {
+	try {
+
+		var rs = db.execute("SELECT collapsed FROM categories WHERE id = ?", [id]);
+		var cat_hidden = 0;
+
+		if (rs.isValidRow()) {
+			cat_hidden = rs.field(0);
+		}
+
+		rs.close();
+
+		return cat_hidden == "1";
+
+	} catch (e) {
+		exception_error("is_local_cat_collapsed", e);
+	}
+}
+
+function label_local_add_article(id, label_id) {
+	try {
+		debug("label_local_add_article " + id + " => " + label_id);
+
+		var rs = db.execute("SELECT COUNT(id) FROM article_labels WHERE "+
+			"id = ? AND label_id = ?", [id, label_id]);
+		var check = rs.field(0);
+
+		if (rs.isValidRow()) {
+			var check = rs.field(0);
+		}
+		rs.close();
+
+		if (check == 0) {
+			db.execute("INSERT INTO article_labels (id, label_id) VALUES "+
+				"(?,?)", [id, label_id]);
+		}
+
+	} catch (e) {
+		exception_error("label_local_add_article", e);
+	}
+}
