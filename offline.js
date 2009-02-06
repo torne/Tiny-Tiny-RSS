@@ -117,19 +117,9 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 		var tmp = "";
 
-		rs = db.execute("SELECT title FROM feeds WHERE id = ?", [feed_id]);
+		var feed_title = get_local_feed_title(feed_id);
 
-		if (rs.isValidRow() || feed_id == -1 || feed_id == -4) {
-
-			feed_title = rs.field(0);
-
-			if (feed_id == -1) {
-				feed_title = __("Starred articles");
-			}
-
-			if (feed_id == -4) {
-				feed_title = __("All articles");
-			}
+		if (feed_title) {
 
 			if (offset == 0) {
 				tmp += "<div id=\"headlinesContainer\">";
@@ -211,6 +201,10 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				strategy_qpart = "marked = 1";
 			} else if (feed_id == -4) {
 				strategy_qpart = "1";
+			} else if (feed_id < -10) {
+				var label_id = -11 - feed_id;
+				strategy_qpart = "label_id = " + label_id;
+
 			}
 
 			if (offset > 0) {
@@ -220,7 +214,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 
 			var query = "SELECT *,feeds.title AS feed_title "+
-				"FROM articles,feeds WHERE " +
+				"FROM articles,feeds LEFT JOIN article_labels "+
+					"ON (article_labels.id = articles.id) WHERE " +
 				"feed_id = feeds.id AND " +
 				strategy_qpart +
 				" AND " + mode_qpart + 
@@ -833,6 +828,17 @@ function update_local_feedlist_counters() {
 		set_feedlist_counter(-4, get_local_feed_unread(-4));
 		set_feedlist_counter(-1, get_local_feed_unread(-1));
 
+		var rs = db.execute("SELECT id FROM labels");
+			
+		while (rs.isValidRow()) {
+			var id = -11 - rs.field(0);
+			var ctr = get_local_feed_unread(id);
+			set_feedlist_counter(id, ctr, false);
+			rs.next();		
+		}
+
+		rs.close();
+
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 		global_unread = get_local_feed_unread(-4);
@@ -851,8 +857,12 @@ function get_local_feed_unread(id) {
 			rs = db.execute("SELECT SUM(unread) FROM articles");
 		} else if (id == -1) {
 			rs = db.execute("SELECT SUM(unread) FROM articles WHERE marked = 1");
-		} else {
+		} else if (id > 0) {
 			rs = db.execute("SELECT SUM(unread) FROM articles WHERE feed_id = ?", [id]);
+		} else if (id < -10) {
+			var label_id = -11 - id;
+			rs = db.execute("SELECT SUM(unread) FROM articles,article_labels "+
+				"WHERE article_labels.id = articles.id AND label_id = ?", [label_id]);
 		}
 
 		var a = false;
@@ -1079,5 +1089,42 @@ function label_local_add_article(id, label_id) {
 
 	} catch (e) {
 		exception_error("label_local_add_article", e);
+	}
+}
+
+function get_local_feed_title(id) {
+	try {
+
+		var feed_title = "Unknown feed: " + id;
+
+		if (id > 0) {
+			var rs = db.execute("SELECT title FROM feeds WHERE id = ?", [id]);
+
+			if (rs.isValidRow()) {
+				feed_title = rs.field(0);
+			}
+
+			rs.close();
+		} else if (id == -1) {
+			feed_title = __("Starred articles");
+		} else if (id == -4) {
+			feed_title = __("All articles");
+		} else if (id < -10) {
+			
+			var label_id = -11 - id;
+				
+			var rs = db.execute("SELECT caption FROM labels WHERE id = ?", [label_id]);
+
+			if (rs.isValidRow()) {
+				feed_title = rs.field(0);
+			}
+
+			rs.close();
+		}
+
+		return feed_title;
+
+	} catch (e) {
+		exception_error("get_local_feed_title", e);
 	}
 }
