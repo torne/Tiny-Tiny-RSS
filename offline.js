@@ -247,7 +247,15 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				if (rs.fieldByName("unread") == "1") {
 					row_class += "Unread";
 				}
-	
+
+				var labels = get_local_article_labels(id);
+
+				debug(labels);
+
+				var labels_str = "<span id=\"HLLCTR-"+id+"\">";
+				labels_str += format_article_labels(labels, id);
+				labels_str += "</span>";
+
 				if (rs.fieldByName("marked") == "1") {
 					marked_pic = "<img id=\"FMPIC-"+id+"\" "+
 						"src=\"images/mark_set.png\" class=\"markedPic\""+
@@ -287,6 +295,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 	
 					tmp += "</a>";
 
+					tmp += labels_str;
+
 					if (entry_feed_title) {
 						tmp += " <span class=\"hlFeed\">"+
 							"(<a href='javascript:viewfeed("+feed_id+
@@ -325,6 +335,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 						"<a class=\"title\" onclick=\"javascript:toggleUnread("+id+", 0)\""+
 						"target=\"_blank\" href=\""+rs.fieldByName("link")+
 						"\">"+rs.fieldByName("title")+"</a>";
+
+					tmp += labels_str;
 
 					if (entry_feed_title) {
 						tmp += "&nbsp;(<a href='javascript:viewfeed("+feed_id+
@@ -1069,6 +1081,34 @@ function is_local_cat_collapsed(id) {
 	}
 }
 
+function get_local_article_labels(id) {
+	try {
+		var rs = db.execute("SELECT DISTINCT label_id,caption,fg_color,bg_color "+
+			"FROM labels, article_labels "+
+			"WHERE labels.id = label_id AND article_labels.id = ?", [id]);
+
+		var tmp = new Array();
+
+		while (rs.isValidRow()) {
+			var e = new Array();
+
+			e[0] = rs.field(0);
+			e[1] = rs.field(1);
+			e[2] = rs.field(2);
+			e[3] = rs.field(3);
+
+			tmp.push(e);
+
+			rs.next();
+		}
+
+		return tmp;
+
+	} catch (e) {
+		exception_error("get_local_article_labels", e);
+	}
+}
+
 function label_local_add_article(id, label_id) {
 	try {
 		debug("label_local_add_article " + id + " => " + label_id);
@@ -1128,3 +1168,25 @@ function get_local_feed_title(id) {
 		exception_error("get_local_feed_title", e);
 	}
 }
+
+function format_article_labels(labels, id) {
+	try {
+
+		var labels_str = "";
+
+		if (!labels) return "";
+
+		for (var i = 0; i < labels.length; i++) {
+			var l = labels[i];
+
+			labels_str += "<span class='hlLabelRef' "+
+				"style='color : "+l[2]+"; background-color : "+l[3]+"'>"+l[1]+"</span>";
+		}
+
+		return labels_str;
+
+	} catch (e) {
+		exception_error("format_article_labels", e);
+	}
+}
+
