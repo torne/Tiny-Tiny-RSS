@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 5;
+var SCHEMA_VERSION = 6;
 
 var offline_mode = false;
 var store = false;
@@ -606,6 +606,23 @@ function offline_download_parse(stage, transport) {
 						[id, title, collapsed]);
 				}
 
+				var labels = transport.responseXML.getElementsByTagName("label");
+
+				if (labels.length > 0) {
+					db.execute("DELETE FROM labels");
+				}
+
+				for (var i = 0; i < labels.length; i++) {
+					var id = labels[i].getAttribute("id");
+					var fg_color = labels[i].getAttribute("fg_color");
+					var bg_color = labels[i].getAttribute("bg_color");
+					var caption = labels[i].firstChild.nodeValue;
+
+					db.execute("INSERT INTO labels (id,caption,fg_color,bg_color)"+
+						"VALUES (?,?,?,?)",
+						[id, caption, fg_color, bg_color]);
+				}
+
 				window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
 			} else {
 
@@ -855,6 +872,8 @@ function init_gears() {
 				db.execute("DROP TABLE IF EXISTS cache");
 				db.execute("DROP TABLE IF EXISTS feeds");
 				db.execute("DROP TABLE IF EXISTS categories");
+				db.execute("DROP TABLE IF EXISTS labels");
+				db.execute("DROP TABLE IF EXISTS article_labels");
 				db.execute("DROP TABLE IF EXISTS articles");
 				db.execute("DROP TABLE IF EXISTS version");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
@@ -867,6 +886,8 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
 			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer, cat_id integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text, collapsed integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS labels (id integer, caption text, fg_color text, bg_color text)");
+			db.execute("CREATE TABLE IF NOT EXISTS article_labels (id integer, label_id integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");

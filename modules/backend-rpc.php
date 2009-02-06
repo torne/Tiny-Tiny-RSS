@@ -570,6 +570,23 @@
 
 				print "</feed-categories>";
 
+				print "<labels>";
+
+				$result = db_query($link, "SELECT * FROM
+					ttrss_labels2 WHERE owner_uid = ".$_SESSION["uid"]);
+
+				while ($line = db_fetch_assoc($result)) {
+					print "<label
+						id=\"".$line["id"]."\"
+						fg_color=\"".$line["fg_color"]."\"
+						bg_color=\"".$line["bg_color"]."\"
+						><![CDATA[";
+					print $line["caption"];
+					print "]]></label>";
+				}
+
+
+				print "</labels>";
 
 			}
 
