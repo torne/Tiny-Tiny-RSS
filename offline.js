@@ -422,7 +422,16 @@ function render_offline_feedlist() {
 		updateTitle();
 
 		if (cats_enabled) {
-			tmp += printCategoryHeader(-1, getCookie("ttrss_vf_vclps"), false);
+			var rs = db.execute("SELECT collapsed FROM categories WHERE id = -1");
+			var cat_hidden = 0;
+
+			if (rs.isValidRow()) {
+				cat_hidden = rs.field(0);
+			}
+
+			rs.close();
+
+			tmp += printCategoryHeader(-1, cat_hidden, false);
 		}
 
 		tmp += printFeedEntry(-4, __("All articles"), "feed", unread,
