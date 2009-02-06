@@ -412,7 +412,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 function render_offline_feedlist() {
 	try {
-		var cats_enabled = 1;
+		var cats_enabled = getInitParam("enable_feed_cats") == "1";
 
 		var tmp = "<ul class=\"feedList\" id=\"feedList\">";
 
