@@ -564,6 +564,19 @@
 
 						}
 					}
+
+					/* Maybe we need to further update local DB for this client */
+
+					$query = "SELECT ref_id,unread FROM ttrss_user_entries
+						WHERE last_read >= '$last_online' AND
+								owner_uid = ".$_SESSION["uid"];
+
+					$result = db_query($link, $query);
+
+					while ($line = db_fetch_assoc($result)) {
+						print "<sync-ok id=\"".$line["ref_id"]."\"/>";
+					}
+
 				}
 			}
 

@@ -734,9 +734,9 @@ function offline_download_parse(stage, transport) {
 						"updated < DATETIME('NOW', 'localtime', '-31 days')");
 
 				}
-
-				update_local_sync_data();
 			}
+
+			update_local_sync_data();
 
 //			notify('');
 
