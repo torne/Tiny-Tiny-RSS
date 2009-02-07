@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 9;
+var SCHEMA_VERSION = 10;
 
 var offline_mode = false;
 var store = false;
@@ -255,8 +255,6 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				}
 
 				var labels = get_local_article_labels(id);
-
-				debug(labels);
 
 				var labels_str = "<span id=\"HLLCTR-"+id+"\">";
 				labels_str += format_article_labels(labels, id);
@@ -940,12 +938,12 @@ function init_gears() {
 					[SCHEMA_VERSION]);
 			}
 
-			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text PRIMARY KEY, value text)");
+			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text, value text)");
 
-			db.execute("CREATE TABLE IF NOT EXISTS cache (id PRIMARY KEY, article text, param text, added text)");
-			db.execute("CREATE TABLE IF NOT EXISTS feeds (id PRIMARY KEY, title text, has_icon integer, cat_id integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS categories (id PRIMARY KEY, title text, collapsed integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS labels (id PRIMARY KEY, caption text, fg_color text, bg_color text)");
+			db.execute("CREATE TABLE IF NOT EXISTS cache (id integer, article text, param text, added text)");
+			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer, cat_id integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text, collapsed integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS labels (id integer, caption text, fg_color text, bg_color text)");
 			db.execute("CREATE TABLE IF NOT EXISTS article_labels (id integer, label_id integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated timestamp, content text, tags text, unread integer, marked integer, added text, modified timestamp, comments text)");
 	
@@ -953,7 +951,7 @@ function init_gears() {
 			db.execute("CREATE INDEX IF NOT EXISTS article_labels_label_id_idx ON article_labels(label_id)");
 			db.execute("CREATE INDEX IF NOT EXISTS articles_feed_id_idx ON articles(feed_id)");
 
-			db.execute("CREATE TABLE IF NOT EXISTS syncdata (key PRIMARY KEY, value text)");
+			db.execute("CREATE TABLE IF NOT EXISTS syncdata (key integer, value text)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
 
@@ -1012,6 +1010,7 @@ function local_collapse_cat(id) {
 
 function get_local_category_title(id) {
 	try {
+	
 		var rs = db.execute("SELECT title FROM categories WHERE id = ?", [id]);
 		var tmp = "";
 
