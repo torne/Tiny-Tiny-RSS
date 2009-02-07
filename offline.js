@@ -712,7 +712,7 @@ function offline_download_parse(stage, transport) {
 					debug("<b>update_offline_data: done " + stage + " HSD: " + 
 						has_sync_data + "</b>");
 				} else {
-					window.setTimeout("update_offline_data(0)", 1800*1000);
+					window.setTimeout("update_offline_data(0)", 180*1000);
 					debug("update_offline_data: finished");
 
 					db.execute("DELETE FROM articles WHERE "+
