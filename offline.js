@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 9;
+var SCHEMA_VERSION = 10;
 
 var offline_mode = false;
 var store = false;
@@ -698,10 +698,8 @@ function offline_download_parse(stage, transport) {
 					window.setTimeout("update_offline_data(0)", 1800*1000);
 					debug("update_offline_data: finished");
 
-					var date = new Date();
-					var ts = Math.round(date.getTime() / 1000);
-
-					db.execute("DELETE FROM articles WHERE added < ? - 2592000", [ts]);
+					db.execute("DELETE FROM articles WHERE "+
+						"updated < DATETIME('NOW', 'localtime', '-31 days')");
 
 				}
 			}
@@ -952,7 +950,8 @@ function init_gears() {
 			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_modified "+
 				"UPDATE OF unread ON articles "+
 				"BEGIN "+
-				"UPDATE articles SET modified = DATETIME('NOW') WHERE id = old.id AND "+
+				"UPDATE articles SET modified = DATETIME('NOW', 'localtime') "+
+				"WHERE id = old.id AND "+
 				"old.unread = 1;"+
 				"END;");
 
