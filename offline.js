@@ -600,6 +600,18 @@ function offline_download_parse(stage, transport) {
 	try {
 		if (transport.responseXML) {
 
+			var sync_ok = transport.responseXML.getElementsByTagName("sync-ok");
+
+			if (sync_ok.length > 0) {
+				for (var i = 0; i < sync_ok.length; i++) {
+					var id = sync_ok[i].getAttribute("id");
+					if (id) {
+						debug("synced offline info for id " + id);
+						db.execute("UPDATE articles SET modified = '' WHERE id = ?", [id]);
+					}
+				}
+			}
+
 			if (stage == 0) {
 
 				var feeds = transport.responseXML.getElementsByTagName("feed");
@@ -693,9 +705,12 @@ function offline_download_parse(stage, transport) {
 
 				debug("downloaded articles: " + articles_found + " limit: " + limit);
 
-				if (articles_found >= limit) {
+				var has_sync_data = has_local_sync_data();
+
+				if (articles_found >= limit || has_sync_data) {
 					window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
-					debug("update_offline_data: done " + stage);
+					debug("<b>update_offline_data: done " + stage + " HSD: " + 
+						has_sync_data + "</b>");
 				} else {
 					window.setTimeout("update_offline_data(0)", 1800*1000);
 					debug("update_offline_data: finished");
@@ -740,7 +755,16 @@ function update_offline_data(stage) {
 
 		rs.close();
 
+		var to_sync = prepare_local_sync_data();
+
+		if (to_sync != "") {
+			to_sync = "?sync=" + param_escape(to_sync);
+		}
+
+		debug(query + "/" + to_sync);
+
 		new Ajax.Request(query, {
+			parameters: to_sync,
 			onComplete: function(transport) { 
 				offline_download_parse(stage, transport);				
 			} });
@@ -928,6 +952,8 @@ function init_gears() {
 				db.execute("DROP INDEX IF EXISTS article_labels_label_id_idx");
 				db.execute("DROP INDEX IF EXISTS articles_unread_idx");
 				db.execute("DROP INDEX IF EXISTS articles_feed_id_idx");
+				db.execute("DROP INDEX IF EXISTS articles_id_idx");
+				db.execute("DROP INDEX IF EXISTS article_labels_id_idx");
 				db.execute("DROP TABLE IF EXISTS version");
 				db.execute("DROP TRIGGER IF EXISTS articles_update_unread");
 				db.execute("DROP TRIGGER IF EXISTS articles_update_marked");
@@ -950,6 +976,8 @@ function init_gears() {
 			db.execute("CREATE INDEX IF NOT EXISTS articles_unread_idx ON articles(unread)");
 			db.execute("CREATE INDEX IF NOT EXISTS article_labels_label_id_idx ON article_labels(label_id)");
 			db.execute("CREATE INDEX IF NOT EXISTS articles_feed_id_idx ON articles(feed_id)");
+			db.execute("CREATE INDEX IF NOT EXISTS articles_id_idx ON articles(id)");
+			db.execute("CREATE INDEX IF NOT EXISTS article_labels_id_idx ON article_labels(id)");
 
 			db.execute("CREATE TABLE IF NOT EXISTS syncdata (key integer, value text)");
 
@@ -1258,11 +1286,91 @@ function init_local_sync_data() {
 	}
 }
 
+function has_local_sync_data() {
+	try {
+
+		var rs = db.execute("SELECT id FROM articles "+
+			"WHERE modified > (SELECT value FROM syncdata WHERE key = 'last_online') "+
+			"LIMIT 1");
+
+		var tmp = 0;
+
+		if (rs.isValidRow()) {
+			tmp = rs.field(0);
+		}
+
+		rs.close();
+
+		return tmp != 0;
+
+	} catch (e) {
+		exception_error("has_local_sync_data", e);
+	}
+}
+
+function prepare_local_sync_data() {
+	try {
+		var rs = db.execute("SELECT value FROM syncdata WHERE key = 'last_online'");
+
+		var last_online = "";
+		
+		if (rs.isValidRow()) {
+			last_online = rs.field(0);
+		}
+
+		rs.close();
+
+		var rs = db.execute("SELECT id,unread,marked FROM articles "+
+			"WHERE modified > ? LIMIT 200", [last_online]);
+
+		var tmp = last_online + ";";
+
+		var entries = 0;
+
+		while (rs.isValidRow()) {
+			var e = new Array();
+
+			tmp = tmp + rs.field(0) + "," + rs.field(1) + "," + rs.field(2) + ";";
+			entries++;
+
+			rs.next();
+		}
+
+		rs.close();
+
+		if (entries > 0) {
+			return tmp;
+		} else {
+			return '';
+		}
+
+	} catch (e) {
+		exception_error("prepare_local_sync_data", e);
+	}
+}
+
 function update_local_sync_data() {
 	try {
 		if (db && !offline_mode) {
-			db.execute("UPDATE syncdata SET value = DATETIME('NOW', 'localtime') "+
-				"WHERE key = 'last_online'");
+
+			var rs = db.execute("SELECT id FROM articles "+
+				"WHERE modified > (SELECT value FROM syncdata WHERE "+
+					"key = 'last_online') LIMIT 1")
+
+			var f_id = 0;
+
+			if (rs.isValidRow()) {
+				f_id = rs.field(0);
+			}
+
+			rs.close();
+
+			/* no pending articles to sync */
+
+			if (f_id == 0) {
+				db.execute("UPDATE syncdata SET value = DATETIME('NOW', 'localtime') "+
+					"WHERE key = 'last_online'");
+			}
 
 		}
 	} catch (e) {

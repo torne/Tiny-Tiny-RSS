@@ -518,6 +518,7 @@
 			$stage = (int) $_REQUEST["stage"];
 			$cidt = db_escape_string($_REQUEST["cidt"]);
 			$cidb = db_escape_string($_REQUEST["cidb"]);
+			$sync = db_escape_string($_REQUEST["sync"]);
 			//$amount = (int) $_REQUEST["amount"];
 			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
 			//if (!$amount) $amount = 50;
@@ -526,6 +527,47 @@
 			$unread_only = true;
 
 			print "<rpc-reply>";
+
+			$sync = split(";", $sync);
+
+			print "<sync>";
+
+			if (count($sync) > 0) {
+				if (strtotime($sync[0])) {
+					$last_online = db_escape_string($sync[0]);
+
+					print "<sync-point><![CDATA[$last_online]]></sync-point>";
+					
+					for ($i = 1; $i < count($sync); $i++) {
+						$e = split(",", $sync[$i]);
+
+						if (count($e) == 3) {
+
+							$id = (int) $e[0];
+							$unread = bool_to_sql_bool((bool) $e[1]);
+							$marked = bool_to_sql_bool((bool) $e[2]);
+
+							/* Marked status is not synchronized yet */
+
+							$query = "UPDATE ttrss_user_entries SET 
+								unread = $unread, 
+								last_read = '$last_online' 
+							WHERE ref_id = '$id' AND 
+								(last_read IS NULL OR last_read < '$last_online') AND
+								owner_uid = ".$_SESSION["uid"];
+
+							$result = db_query($link, $query);
+
+//							if (db_affected_rows($result) > 0) {
+								print "<sync-ok id=\"$id\"/>";
+//							}
+
+						}
+					}
+				}
+			}
+
+			print "</sync>";
 
 			if ($stage == 0) {
 				print "<feeds>";
@@ -596,7 +638,6 @@
 			}
 
 			if ($stage > 0) {
-
 				print "<articles>";
 
 				$limit = 50;

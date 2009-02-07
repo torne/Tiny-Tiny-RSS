@@ -1996,6 +1996,13 @@
 		}
 	}
 	
+	function bool_to_sql_bool($s) {
+		if ($s) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
 
 	function toggleEvenOdd($a) {
 		if ($a == "even") 
