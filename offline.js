@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 10;
+var SCHEMA_VERSION = 9;
 
 var offline_mode = false;
 var store = false;
@@ -671,7 +671,6 @@ function offline_download_parse(stage, transport) {
 					if (a) {
 
 						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
-						db.execute("DELETE FROM article_labels WHERE id = ?", [a.id]);
 
 						db.execute("INSERT INTO articles "+
 						"(id, feed_id, title, link, guid, updated, content, "+
@@ -929,6 +928,7 @@ function init_gears() {
 				db.execute("DROP INDEX IF EXISTS articles_feed_id_idx");
 				db.execute("DROP TABLE IF EXISTS version");
 				db.execute("DROP TRIGGER IF EXISTS articles_update_modified");
+				db.execute("DROP TRIGGER IF EXISTS articles_remove_labelrefs");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
 					[SCHEMA_VERSION]);
@@ -952,8 +952,15 @@ function init_gears() {
 			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_modified "+
 				"UPDATE OF unread ON articles "+
 				"BEGIN "+
-				"UPDATE articles SET modified = DATETIME('NOW') WHERE id = old.id; "+
+				"UPDATE articles SET modified = DATETIME('NOW') WHERE id = old.id AND "+
+				"old.unread = 1;"+
 				"END;");
+
+			db.execute("CREATE TRIGGER IF NOT EXISTS articles_remove_labelrefs "+
+				"DELETE ON articles "+
+				"BEGIN "+
+				"DELETE FROM article_labels WHERE id = OLD.id; "+
+				"END; ");
 
 			Element.show("restartOfflinePic");
 
@@ -1134,7 +1141,7 @@ function get_local_article_labels(id) {
 
 function label_local_add_article(id, label_id) {
 	try {
-		debug("label_local_add_article " + id + " => " + label_id);
+		//debug("label_local_add_article " + id + " => " + label_id);
 
 		var rs = db.execute("SELECT COUNT(id) FROM article_labels WHERE "+
 			"id = ? AND label_id = ?", [id, label_id]);
