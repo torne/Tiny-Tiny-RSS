@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 9;
+var SCHEMA_VERSION = 10;
 
 var offline_mode = false;
 var store = false;
@@ -670,18 +670,15 @@ function offline_download_parse(stage, transport) {
 					articles_found++;
 					if (a) {
 
-						var date = new Date();
-						var ts = Math.round(date.getTime() / 1000);
-
 						db.execute("DELETE FROM articles WHERE id = ?", [a.id]);
 						db.execute("DELETE FROM article_labels WHERE id = ?", [a.id]);
 
 						db.execute("INSERT INTO articles "+
 						"(id, feed_id, title, link, guid, updated, content, "+
-							"unread, marked, tags, added, comments) "+
-						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+							"unread, marked, tags, comments) "+
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 							[a.id, a.feed_id, a.title, a.link, a.guid, a.updated, 
-								a.content, a.unread, a.marked, a.tags, ts,
+								a.content, a.unread, a.marked, a.tags,
 								a.comments]);
 
 						if (a.labels.length > 0) {
@@ -931,6 +928,7 @@ function init_gears() {
 				db.execute("DROP INDEX IF EXISTS articles_unread_idx");
 				db.execute("DROP INDEX IF EXISTS articles_feed_id_idx");
 				db.execute("DROP TABLE IF EXISTS version");
+				db.execute("DROP TRIGGER IF EXISTS articles_update_modified");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
 					[SCHEMA_VERSION]);
@@ -943,13 +941,19 @@ function init_gears() {
 			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text, collapsed integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS labels (id integer, caption text, fg_color text, bg_color text)");
 			db.execute("CREATE TABLE IF NOT EXISTS article_labels (id integer, label_id integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated text, content text, tags text, unread text, marked text, added text, comments text)");
+			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated timestamp, content text, tags text, unread integer, marked integer, added text, modified timestamp, comments text)");
 	
 			db.execute("CREATE INDEX IF NOT EXISTS articles_unread_idx ON articles(unread)");
 			db.execute("CREATE INDEX IF NOT EXISTS article_labels_label_id_idx ON article_labels(label_id)");
 			db.execute("CREATE INDEX IF NOT EXISTS articles_feed_id_idx ON articles(feed_id)");
 
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
+
+			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_modified "+
+				"UPDATE OF unread ON articles "+
+				"BEGIN "+
+				"UPDATE articles SET modified = DATETIME('NOW') WHERE id = old.id; "+
+				"END;");
 
 			Element.show("restartOfflinePic");
 
