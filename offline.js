@@ -1,4 +1,4 @@
-var SCHEMA_VERSION = 10;
+var SCHEMA_VERSION = 9;
 
 var offline_mode = false;
 var store = false;
@@ -702,6 +702,8 @@ function offline_download_parse(stage, transport) {
 						"updated < DATETIME('NOW', 'localtime', '-31 days')");
 
 				}
+
+				update_local_sync_data();
 			}
 
 //			notify('');
@@ -925,19 +927,21 @@ function init_gears() {
 				db.execute("DROP INDEX IF EXISTS articles_unread_idx");
 				db.execute("DROP INDEX IF EXISTS articles_feed_id_idx");
 				db.execute("DROP TABLE IF EXISTS version");
-				db.execute("DROP TRIGGER IF EXISTS articles_update_modified");
+				db.execute("DROP TRIGGER IF EXISTS articles_update_unread");
+				db.execute("DROP TRIGGER IF EXISTS articles_update_marked");
 				db.execute("DROP TRIGGER IF EXISTS articles_remove_labelrefs");
 				db.execute("CREATE TABLE IF NOT EXISTS version (schema_version text)");
+				db.execute("DROP TABLE IF EXISTS syncdata");
 				db.execute("INSERT INTO version (schema_version) VALUES (?)", 
 					[SCHEMA_VERSION]);
 			}
 
-			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text, value text)");
+			db.execute("CREATE TABLE IF NOT EXISTS init_params (key text PRIMARY KEY, value text)");
 
-			db.execute("CREATE TABLE IF NOT EXISTS cache (id text, article text, param text, added text)");
-			db.execute("CREATE TABLE IF NOT EXISTS feeds (id integer, title text, has_icon integer, cat_id integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS categories (id integer, title text, collapsed integer)");
-			db.execute("CREATE TABLE IF NOT EXISTS labels (id integer, caption text, fg_color text, bg_color text)");
+			db.execute("CREATE TABLE IF NOT EXISTS cache (id PRIMARY KEY, article text, param text, added text)");
+			db.execute("CREATE TABLE IF NOT EXISTS feeds (id PRIMARY KEY, title text, has_icon integer, cat_id integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS categories (id PRIMARY KEY, title text, collapsed integer)");
+			db.execute("CREATE TABLE IF NOT EXISTS labels (id PRIMARY KEY, caption text, fg_color text, bg_color text)");
 			db.execute("CREATE TABLE IF NOT EXISTS article_labels (id integer, label_id integer)");
 			db.execute("CREATE TABLE IF NOT EXISTS articles (id integer, feed_id integer, title text, link text, guid text, updated timestamp, content text, tags text, unread integer, marked integer, added text, modified timestamp, comments text)");
 	
@@ -945,14 +949,23 @@ function init_gears() {
 			db.execute("CREATE INDEX IF NOT EXISTS article_labels_label_id_idx ON article_labels(label_id)");
 			db.execute("CREATE INDEX IF NOT EXISTS articles_feed_id_idx ON articles(feed_id)");
 
+			db.execute("CREATE TABLE IF NOT EXISTS syncdata (key PRIMARY KEY, value text)");
+
 			db.execute("DELETE FROM cache WHERE id LIKE 'F:%' OR id LIKE 'C:%'");
 
-			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_modified "+
+			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_unread "+
 				"UPDATE OF unread ON articles "+
 				"BEGIN "+
 				"UPDATE articles SET modified = DATETIME('NOW', 'localtime') "+
-				"WHERE id = old.id AND "+
-				"old.unread = 1;"+
+				"WHERE id = OLD.id AND "+
+				"OLD.unread != NEW.unread;"+
+				"END;");
+
+			db.execute("CREATE TRIGGER IF NOT EXISTS articles_update_marked "+
+				"UPDATE OF marked ON articles "+
+				"BEGIN "+
+				"UPDATE articles SET modified = DATETIME('NOW', 'localtime') "+
+				"WHERE id = OLD.id;"+
 				"END;");
 
 			db.execute("CREATE TRIGGER IF NOT EXISTS articles_remove_labelrefs "+
@@ -960,6 +973,8 @@ function init_gears() {
 				"BEGIN "+
 				"DELETE FROM article_labels WHERE id = OLD.id; "+
 				"END; ");
+
+			init_local_sync_data();
 
 			Element.show("restartOfflinePic");
 
@@ -1219,3 +1234,35 @@ function format_article_labels(labels, id) {
 	}
 }
 
+function init_local_sync_data() {
+	try {
+		var rs = db.execute("SELECT COUNT(*) FROM syncdata WHERE key = 'last_online'");
+		var has_last_online = 0;
+
+		if (rs.isValidRow()) {
+			has_last_online = rs.field(0);
+		}
+
+		rs.close();
+
+		if (!has_last_online) {
+			db.execute("INSERT INTO syncdata (key, value) VALUES ('last_online', '')");
+		}
+
+	} catch (e) {
+		exception_error("init_local_sync_data", e);
+
+	}
+}
+
+function update_local_sync_data() {
+	try {
+		if (db && !offline_mode) {
+			db.execute("UPDATE syncdata SET value = DATETIME('NOW', 'localtime') "+
+				"WHERE key = 'last_online'");
+
+		}
+	} catch (e) {
+		exception_error("update_local_sync_data", e);
+	}
+}

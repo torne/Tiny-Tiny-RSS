@@ -588,6 +588,8 @@ function parse_counters(reply, scheduled_call) {
 			} */
 		}
 
+		update_local_sync_data();
+
 	} catch (e) {
 		exception_error("parse_counters", e);
 	}
