@@ -120,8 +120,13 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 
 		var tmp = "";
+		var feed_title = "";
 
-		var feed_title = get_local_feed_title(feed_id);
+		if (is_cat) {
+			feed_title = get_local_category_title(feed_id);
+		} else {		
+			feed_title = get_local_feed_title(feed_id);
+		}
 
 		if (feed_title) {
 
@@ -186,11 +191,13 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			if (view_mode == "all_articles") {
 				mode_qpart = "1";
 			} else if (view_mode == "adaptive") {
-				if (get_local_feed_unread(feed_id) > 0) {
-					mode_qpart = "unread = 1";
+				if (is_cat && get_local_category_unread(feed_id) ||
+					get_local_feed_unread(feed_id) > 0) {
+						mode_qpart = "unread = 1";
 				} else {
 					mode_qpart = "1";
 				}
+				
 			} else if (view_mode == "marked") {
 				mode_qpart = "marked = 1";
 			} else if (view_mode == "unread") {
@@ -201,7 +208,14 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 			var ext_tables_qpart = "";
 
-			if (feed_id > 0) {
+			if (is_cat) {
+				if (feed_id >= 0) {
+					strategy_qpart = "cat_id = " + feed_id;
+				} else if (feed_id == -2) {
+					strategy_qpart = "article_labels.id = articles.id";
+					ext_tables_qpart = ",article_labels";
+				}
+			} else if (feed_id > 0) {
 				strategy_qpart = "feed_id = " + feed_id;
 			} else if (feed_id == -1) {
 				strategy_qpart = "marked = 1";
@@ -220,8 +234,9 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 
 			var query = "SELECT *,feeds.title AS feed_title "+
-				"FROM articles,feeds"+ext_tables_qpart+" "+
+				"FROM articles,feeds,categories"+ext_tables_qpart+" "+
 				"WHERE " +
+				"cat_id = categories.id AND " +
 				"feed_id = feeds.id AND " +
 				strategy_qpart +
 				" AND " + mode_qpart + 
@@ -242,7 +257,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 				var entry_feed_title = false;
 
-				if (real_feed_id < 0) {
+				if (real_feed_id < 0 || is_cat) {
 					entry_feed_title = rs.fieldByName("feed_title");
 				}
 
@@ -506,14 +521,14 @@ function render_offline_feedlist() {
 				if (tmp_cat_id != -1) {
 					tmp += "</ul></li>";
 				}
-				tmp += printCategoryHeader(cat_id, cat_hidden, false);
+				tmp += printCategoryHeader(cat_id, cat_hidden, true);
 				tmp_cat_id = cat_id;
 			}
 
 			var icon = "";
 
 			if (has_icon) {
-				icon = "icons/" + id + ".ico";
+				icon = getInitParam("icons_url") + "/" + id + ".ico";
 			}
 
 			var feed_icon = "";
@@ -1108,7 +1123,7 @@ function printCategoryHeader(cat_id, hidden, can_browse) {
 			var inner_title_class = "catTitleNL";
 
 			if (can_browse) {
-				browse_cat_link = "onclick=\"javascript:viewCategory($cat_id)\"";
+				browse_cat_link = "onclick=\"javascript:viewCategory("+cat_id+")\"";
 				inner_title_class = "catTitle";
 			}
 
