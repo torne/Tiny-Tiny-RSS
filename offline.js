@@ -806,7 +806,7 @@ function set_feedlist_counter(id, ctr, is_cat) {
 
 function update_local_feedlist_counters() {
 	try {
-		if (!offline_mode) return;
+		if (!offline_mode || !db) return;
 
 /*		var rs = db.execute("SELECT feeds.id,COUNT(articles.id) "+
 			"FROM feeds LEFT JOIN articles ON (feed_id = feeds.id) "+
