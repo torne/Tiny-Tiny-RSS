@@ -1272,6 +1272,8 @@ function update_local_sync_data() {
 
 function catchup_local_feed(id, is_cat) {
 	try {
+		if (!db) return;
+
 		if (!is_cat) {
 			if (id >= 0) {
 				db.execute("UPDATE articles SET unread = 0 WHERE feed_id = ?", [id]);

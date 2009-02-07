@@ -186,6 +186,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		if (subop == "MarkAllRead") {
 
+			catchup_local_feed(feed, is_cat);
+
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 			if (show_next_feed) {
