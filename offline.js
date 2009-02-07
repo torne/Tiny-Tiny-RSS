@@ -103,6 +103,10 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			} 
 		}
 
+		if (subop == "MarkAllRead") {
+			catchup_local_feed(feed_id, is_cat);
+		}
+
 		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
 
@@ -1264,5 +1268,30 @@ function update_local_sync_data() {
 		}
 	} catch (e) {
 		exception_error("update_local_sync_data", e);
+	}
+}
+
+function catchup_local_feed(id, is_cat) {
+	try {
+		if (!is_cat) {
+			if (id >= 0) {
+				db.execute("UPDATE articles SET unread = 0 WHERE feed_id = ?", [id]);
+			} else if (id == -1) {
+				db.execute("UPDATE articles SET unread = 0 WHERE marked = 1");
+			} else if (id == -4) {
+				db.execute("UPDATE articles SET unread = 0");
+			} else if (id < -10) {
+				var label_id = -11-id;
+
+				db.execute("UPDATE articles SET unread = 0 WHERE "+
+					"(SELECT COUNT(*) FROM article_labels WHERE "+
+					"article_labels.id = articles.id AND label_id = ?) > 0", [label_id]);
+			}
+		}
+
+		update_local_feedlist_counters();
+
+	} catch (e) {
+		exception_error("catchup_local_feed", e);
 	}
 }
