@@ -750,8 +750,7 @@ function update_offline_data(stage) {
 	try {
 
 		if (!stage) stage = 0;
-		if (offline_mode) return;
-		if (getInitParam("offline_enabled") != "1") return;
+		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
 		debug("update_offline_data: stage " + stage);
 
@@ -939,7 +938,7 @@ function get_local_feed_unread(id) {
 function enable_offline_reading() {
 	try {
 
-		if (getInitParam("offline_enabled") == "1") {
+		if (db && getInitParam("offline_enabled") == "1") {
 			init_local_sync_data();
 			Element.show("restartOfflinePic");
 			window.setTimeout("update_offline_data(0)", 100);
@@ -1293,6 +1292,9 @@ function format_article_labels(labels, id) {
 
 function init_local_sync_data() {
 	try {
+
+		if (!db) return;
+
 		var rs = db.execute("SELECT COUNT(*) FROM syncdata WHERE key = 'last_online'");
 		var has_last_online = 0;
 
