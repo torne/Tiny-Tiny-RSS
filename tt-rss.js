@@ -65,7 +65,7 @@ function toggleTags(show_all) {
 
 	debug("toggleTags: " + show_all + "; " + display_tags);
 
-	var p = document.getElementById("dispSwitchPrompt");
+	var p = $("dispSwitchPrompt");
 
 	if (!show_all && !display_tags) {
 		displayDlg("printTagCloud");
@@ -89,7 +89,7 @@ function toggleTags(show_all) {
 
 function dlg_frefresh_callback(transport, deleted_feed) {
 	if (getActiveFeedId() == deleted_feed) {
-		var h = document.getElementById("headlines-frame");
+		var h = $("headlines-frame");
 		if (h) {
 			h.innerHTML = "<div class='whiteBox'>" + __('No feed selected.') + "</div>";
 		}
@@ -260,7 +260,7 @@ function updateFeedList(silent, fetch) {
 	
 	if (fetch) query_str = query_str + "&fetch=yes";
 
-//	var feeds_frame = document.getElementById("feeds-frame");
+//	var feeds_frame = $("feeds-frame");
 //	feeds_frame.src = query_str;
 
 	debug("updateFeedList Q=" + query_str);
@@ -324,7 +324,7 @@ function timeout() {
 }
 
 function resetSearch() {
-	var searchbox = document.getElementById("searchbox")
+	var searchbox = $("searchbox")
 
 	if (searchbox.value != "" && getActiveFeedId()) {	
 		searchbox.value = "";
@@ -421,12 +421,12 @@ function resize_headlines(delta_x, delta_y) {
 
 		debug("resize_headlines: " + delta_x + ":" + delta_y);
 	
-		var h_frame = document.getElementById("headlines-frame");
-		var c_frame = document.getElementById("content-frame");
-		var f_frame = document.getElementById("footer");
-		var feeds_frame = document.getElementById("feeds-holder");
-		var resize_grab = document.getElementById("resize-grabber");
-		var resize_handle = document.getElementById("resize-handle");
+		var h_frame = $("headlines-frame");
+		var c_frame = $("content-frame");
+		var f_frame = $("footer");
+		var feeds_frame = $("feeds-holder");
+		var resize_grab = $("resize-grabber");
+		var resize_handle = $("resize-handle");
 
 		if (!c_frame || !h_frame) return;
 	
@@ -524,7 +524,7 @@ function init_second_stage() {
 
 		if (fl) {
 			render_feedlist(fl);
-			if (document.getElementById("feedList")) {
+			if ($("feedList")) {
 				request_counters();
 			} else {
 				setTimeout('updateFeedList(false, false)', 50);
@@ -561,7 +561,7 @@ function init_second_stage() {
 }
 
 function quickMenuChange() {
-	var chooser = document.getElementById("quickMenuChooser");
+	var chooser = $("quickMenuChooser");
 	var opid = chooser[chooser.selectedIndex].value;
 
 	chooser.selectedIndex = 0;
@@ -760,7 +760,7 @@ function parse_runtime_info(elem) {
 		}
 
 		if (k == "new_version_available") {
-			var icon = document.getElementById("newVersionIcon");
+			var icon = $("newVersionIcon");
 			if (icon) {
 				if (v == "1") {
 					icon.style.display = "inline";
@@ -786,7 +786,7 @@ function parse_runtime_info(elem) {
 			notify('');
 		}
 
-/*		var w = document.getElementById("noDaemonWarning");
+/*		var w = $("noDaemonWarning");
 		
 		if (w) {
 			if (k == "daemon_is_running" && v != 1) {
@@ -916,13 +916,13 @@ function collapse_feedlist() {
 		if (theme != "" && theme != "compact" && theme != "graycube" &&
 				theme != "compat") return;
 
-		var fl = document.getElementById("feeds-holder");
-		var fh = document.getElementById("headlines-frame");
-		var fc = document.getElementById("content-frame");
-		var ft = document.getElementById("toolbar");
-		var ff = document.getElementById("footer");
-		var fhdr = document.getElementById("header");
-		var fbtn = document.getElementById("collapse_feeds_btn");
+		var fl = $("feeds-holder");
+		var fh = $("headlines-frame");
+		var fc = $("content-frame");
+		var ft = $("toolbar");
+		var ff = $("footer");
+		var fhdr = $("header");
+		var fbtn = $("collapse_feeds_btn");
 
 		if (!Element.visible(fl)) {
 			Element.show(fl);
@@ -1036,7 +1036,7 @@ function hotkey_handler(e) {
 		var keycode;
 		var shift_key = false;
 
-		var feedlist = document.getElementById('feedList');
+		var feedlist = $('feedList');
 
 		try {
 			shift_key = e.shiftKey;
@@ -1217,7 +1217,7 @@ function hotkey_handler(e) {
 			if (keycode == 9) { // tab
 				var id = getArticleUnderPointer();
 				if (id) {				
-					var cb = document.getElementById("RCHK-" + id);
+					var cb = $("RCHK-" + id);
 
 					if (cb) {
 						cb.checked = !cb.checked;

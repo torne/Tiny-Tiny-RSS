@@ -67,7 +67,7 @@ function printFeedEntry(id, title, row_class, unread, icon) {
 function render_feedlist(data) {
 	try {
 
-		var f = document.getElementById("feeds-frame");
+		var f = $("feeds-frame");
 		f.innerHTML = data;
 //		cache_invalidate("FEEDLIST");
 //		cache_inject("FEEDLIST", data, getInitParam("num_feeds"));
@@ -175,7 +175,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 
-		if (document.getElementById("search_form")) {
+		if ($("search_form")) {
 			var search_query = Form.serialize("search_form");
 			query = query + "&" + search_query;
 			closeInfoBox(true);
@@ -194,7 +194,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 				if (!activeFeedIsCat()) {
 	
-					var feedlist = document.getElementById('feedList');
+					var feedlist = $('feedList');
 				
 					var next_unread_feed = getRelativeFeedId(feedlist,
 							feed, "next", true);
@@ -260,7 +260,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 		debug(query);
 
-		var container = document.getElementById("headlinesInnerContainer");
+		var container = $("headlinesInnerContainer");
 
 /*		if (container && page_offset == 0 && !isCdmMode()) {
 			new Effect.Fade(container, {duration: 1, to: 0.01,
@@ -288,19 +288,19 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		}
 
 		if (cache_check) {
-			var f = document.getElementById("headlines-frame");
+			var f = $("headlines-frame");
 
 			clean_feed_selections();
 
 			setActiveFeedId(feed, is_cat);
 		
 			if (!is_cat) {
-				var feedr = document.getElementById("FEEDR-" + feed);
+				var feedr = $("FEEDR-" + feed);
 				if (feedr && !feedr.className.match("Selected")) {	
 					feedr.className = feedr.className + "Selected";
 				} 
 			} else {
-				var feedr = document.getElementById("FCAT-" + feed_id);
+				var feedr = $("FCAT-" + feed_id);
 				if (feedr && !feedr.className.match("Selected")) {	
 					feedr.className = feedr.className + "Selected";
 				} 
@@ -335,7 +335,7 @@ function toggleCollapseCat_af(effect) {
 
 		var elem = effect.element;
 		var cat = elem.id.replace("FCATLIST-", "");
-		var cap = document.getElementById("FCAP-" + cat);
+		var cap = $("FCAP-" + cat);
 
 		if (Element.visible(elem)) {
 			cap.innerHTML = cap.innerHTML.replace("…", "");
@@ -353,9 +353,9 @@ function toggleCollapseCat_af(effect) {
 function toggleCollapseCat(cat) {
 	try {
 	
-		var cat_elem = document.getElementById("FCAT-" + cat);
-		var cat_list = document.getElementById("FCATLIST-" + cat).parentNode;
-		var caption = document.getElementById("FCAP-" + cat);
+		var cat_elem = $("FCAT-" + cat);
+		var cat_list = $("FCATLIST-" + cat).parentNode;
+		var caption = $("FCAP-" + cat);
 		
 /*		if (cat_list.className.match("invisible")) {
 			cat_list.className = "";
@@ -411,7 +411,7 @@ function toggleCollapseCat(cat) {
 
 function feedlist_dragsorted(ctr) {
 	try {
-		var elem = document.getElementById("feedList");
+		var elem = $("feedList");
 
 		var cats = elem.getElementsByTagName("LI");
 		var ordered_cats = new Array();
@@ -485,19 +485,19 @@ function feedlist_init() {
 
 function hide_footer_af(effect) {
 	try {
-		var c = document.getElementById("content-frame");
+		var c = $("content-frame");
 
 		if (c) {
 			c.style.bottom = "0px";
 
-			var ioa = document.getElementById("inline_orig_article");
+			var ioa = $("inline_orig_article");
 
 			if (ioa) {
 				ioa.height = c.offsetHeight;
 			}
 
 		} else {
-			var h = document.getElementById("headlines-frame");
+			var h = $("headlines-frame");
 
 			if (h) {
 				h.style.bottom = "0px";
@@ -526,14 +526,14 @@ function init_hidden_feedlist(theme) {
 
 		if (theme != "" && theme != "compact") return;
 
-		var fl = document.getElementById("feeds-holder");
-		var fh = document.getElementById("headlines-frame");
-		var fc = document.getElementById("content-frame");
-		var ft = document.getElementById("toolbar");
-		var ff = document.getElementById("footer");
-		var fhdr = document.getElementById("header");
+		var fl = $("feeds-holder");
+		var fh = $("headlines-frame");
+		var fc = $("content-frame");
+		var ft = $("toolbar");
+		var ff = $("footer");
+		var fhdr = $("header");
 
-		var fbtn = document.getElementById("toggle_feeds_btn");
+		var fbtn = $("toggle_feeds_btn");
 
 		if (fbtn) Element.show(fbtn);
 
@@ -564,7 +564,7 @@ function init_collapsable_feedlist(theme) {
 		if (theme != "" && theme != "compact" && theme != "graycube" &&
 				theme != "compat") return;
 
-		var fbtn = document.getElementById("collapse_feeds_btn");
+		var fbtn = $("collapse_feeds_btn");
 
 		if (fbtn) Element.show(fbtn);
 
@@ -647,7 +647,7 @@ function mouse_up_handler(e) {
 
 		if (!selection_disabled) {
 			document.onselectstart = null;
-			var e = document.getElementById("headlineActionsBody");
+			var e = $("headlineActionsBody");
 			if (e) Element.hide(e);
 		}
 

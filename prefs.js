@@ -13,7 +13,7 @@ var mouse_is_down = false;
 
 function replace_pubkey_callback(transport) {
 	try {	
-		var link = document.getElementById("pubGenAddress");
+		var link = $("pubGenAddress");
 
 		if (transport.responseXML) {
 
@@ -42,7 +42,7 @@ function feedlist_callback2(transport) {
 
 	try {	
 
-		var container = document.getElementById('prefContent');	
+		var container = $('prefContent');	
 		container.innerHTML=transport.responseText;
 		selectTab("feedConfig", true);
 
@@ -72,7 +72,7 @@ function dlg_frefresh_callback(transport) {
 }
 
 function filterlist_callback2(transport) {
-	var container = document.getElementById('prefContent');
+	var container = $('prefContent');
 	container.innerHTML=transport.responseText;
 	if (typeof correctPNG != 'undefined') {
 		correctPNG();
@@ -83,8 +83,8 @@ function filterlist_callback2(transport) {
 
 function init_label_inline_editor() {
 	try {
-		if (document.getElementById("prefLabelList")) {
-			var elems = document.getElementById("prefLabelList").getElementsByTagName("SPAN");
+		if ($("prefLabelList")) {
+			var elems = $("prefLabelList").getElementsByTagName("SPAN");
 
 			for (var i = 0; i < elems.length; i++) {
 				if (elems[i].id && elems[i].id.match("LILT-")) {
@@ -108,7 +108,7 @@ function labellist_callback2(transport) {
 
 	try {
 
-		var container = document.getElementById('prefContent');
+		var container = $('prefContent');
 			closeInfoBox();
 			container.innerHTML=transport.responseText;
 
@@ -127,7 +127,7 @@ function labellist_callback2(transport) {
 
 function userlist_callback2(transport) {
 	try {
-		var container = document.getElementById('prefContent');
+		var container = $('prefContent');
 		if (transport.readyState == 4) {
 			container.innerHTML=transport.responseText;
 			notify("");
@@ -140,7 +140,7 @@ function userlist_callback2(transport) {
 
 function prefslist_callback2(transport) {
 	try {
-		var container = document.getElementById('prefContent');
+		var container = $('prefContent');
 		container.innerHTML=transport.responseText;
 		notify("");
 		remove_splash();
@@ -170,7 +170,7 @@ function changepass_callback2(transport) {
 				notify_error(transport.responseText.replace("ERROR: ", ""));
 			} else {
 				notify_info(transport.responseText);
-				var warn = document.getElementById("default_pass_warning");
+				var warn = $("default_pass_warning");
 				if (warn) warn.style.display = "none";
 			}
 	
@@ -184,8 +184,8 @@ function changepass_callback2(transport) {
 function init_cat_inline_editor() {
 	try {
 
-		if (document.getElementById("prefFeedCatList")) {
-			var elems = document.getElementById("prefFeedCatList").getElementsByTagName("SPAN");
+		if ($("prefFeedCatList")) {
+			var elems = $("prefFeedCatList").getElementsByTagName("SPAN");
 
 			for (var i = 0; i < elems.length; i++) {
 				if (elems[i].id && elems[i].id.match("FCATT-")) {
@@ -214,11 +214,11 @@ function updateFeedList(sort_key) {
 
 	try {
 
-	var feed_search = document.getElementById("feed_search");
+	var feed_search = $("feed_search");
 	var search = "";
 	if (feed_search) { search = feed_search.value; }
 
-	var slat = document.getElementById("show_last_article_times");
+	var slat = $("show_last_article_times");
 
 	var slat_checked = false;
 	if (slat) {
@@ -243,7 +243,7 @@ function updateUsersList(sort_key) {
 
 	try {
 
-		var user_search = document.getElementById("user_search");
+		var user_search = $("user_search");
 		var search = "";
 		if (user_search) { search = user_search.value; }
 	
@@ -296,7 +296,7 @@ function addFeed() {
 
 	try {
 
-		var link = document.getElementById("fadd_link");
+		var link = $("fadd_link");
 	
 		if (link.value.length == 0) {
 			alert(__("Error: No feed URL given."));
@@ -325,7 +325,7 @@ function addFeed() {
 
 function addFeedCat() {
 
-	var cat = document.getElementById("fadd_cat");
+	var cat = $("fadd_cat");
 
 	if (cat.value.length == 0) {
 		alert(__("Can't add category: no name specified."));
@@ -695,8 +695,8 @@ function removeSelectedFeedCats() {
 function feedEditCancel() {
 
 	try {
-		document.getElementById("subscribe_to_feed_btn").disabled = false;
-		document.getElementById("top25_feeds_btn").disabled = false;
+		$("subscribe_to_feed_btn").disabled = false;
+		$("top25_feeds_btn").disabled = false;
 	} catch (e) {
 		// this button is not always available, no-op if not found
 	}
@@ -744,7 +744,7 @@ function userEditCancel() {
 function filterEditCancel() {
 
 	try {
-		document.getElementById("create_filter_btn").disabled = false;
+		$("create_filter_btn").disabled = false;
 		selectPrefRows('filter', false); // cleanup feed selection
 	} catch (e) { }
 
@@ -795,7 +795,7 @@ function filterEditSave() {
 	
 		closeInfoBox();
 	
-		document.getElementById("create_filter_btn").disabled = false;
+		$("create_filter_btn").disabled = false;
 
 		new Ajax.Request(query,	{
 				onComplete: function(transport) {
@@ -969,7 +969,7 @@ function editSelectedFeeds() {
 function piggie(enable) {
 	if (enable) {
 		debug("I LOVEDED IT!");
-		var piggie = document.getElementById("piggie");
+		var piggie = $("piggie");
 
 		Element.show(piggie);
 		Position.Center(piggie);
@@ -980,7 +980,7 @@ function piggie(enable) {
 
 function validateOpmlImport() {
 	
-	var opml_file = document.getElementById("opml_file");
+	var opml_file = $("opml_file");
 
 	if (opml_file.value.length == 0) {
 		alert(__("No OPML file to upload."));
@@ -993,7 +993,7 @@ function validateOpmlImport() {
 function updateFilterList(sort_key) {
 	try {
 
-		var filter_search = document.getElementById("filter_search");
+		var filter_search = $("filter_search");
 		var search = "";
 		if (filter_search) { search = filter_search.value; }
 	
@@ -1016,7 +1016,7 @@ function updateLabelList(sort_key) {
 
 	try {
 
-		var label_search = document.getElementById("label_search");
+		var label_search = $("label_search");
 		var search = "";
 		if (label_search) { search = label_search.value; }
 	
@@ -1054,7 +1054,7 @@ function selectTab(id, noupdate, subop) {
 	try {
 
 		try {
-			var c = document.getElementById('prefContent');	
+			var c = $('prefContent');	
 			c.scrollTop = 0;
 		} catch (e) { };
 
@@ -1088,7 +1088,7 @@ function selectTab(id, noupdate, subop) {
 
 		/* clean selection from all tabs */
 	
-		var tabs_holder = document.getElementById("prefTabs");
+		var tabs_holder = $("prefTabs");
 		var tab = tabs_holder.firstChild;
 
 		while (tab) {
@@ -1100,7 +1100,7 @@ function selectTab(id, noupdate, subop) {
 
 		/* mark new tab as selected */
 
-		tab = document.getElementById(id + "Tab");
+		tab = $(id + "Tab");
 	
 		if (tab) {
 			if (!tab.className.match("Selected")) {
@@ -1175,7 +1175,7 @@ function init_second_stage() {
 
 	try {
 		active_tab = getInitParam("prefs_active_tab");
-		if (!document.getElementById(active_tab+"Tab")) active_tab = "genConfig";
+		if (!$(active_tab+"Tab")) active_tab = "genConfig";
 		if (!active_tab || active_tab == '0') active_tab = "genConfig";
 
 		document.onkeydown = pref_hotkey_handler;
@@ -1238,7 +1238,7 @@ function categorizeSelectedFeeds() {
 
 	var sel_rows = getSelectedFeeds();
 
-	var cat_sel = document.getElementById("sfeed_set_fcat");
+	var cat_sel = $("sfeed_set_fcat");
 	var cat_id = cat_sel[cat_sel.selectedIndex].value;
 
 	if (sel_rows.length > 0) {
@@ -1481,7 +1481,7 @@ function pref_hotkey_handler(e) {
 					"feed_search", "filter_search", "user_search", "feed_browser_search");
 
 				for (var i = 0; i < search_boxes.length; i++) {
-					var elem = document.getElementById(search_boxes[i]);
+					var elem = $(search_boxes[i]);
 					if (elem) {
 						focus_element(search_boxes[i]);
 						return false;
@@ -1532,27 +1532,27 @@ function pref_hotkey_handler(e) {
 
 			hotkey_prefix = false;
 
-			if (keycode == 49 && document.getElementById("genConfigTab")) { // 1
+			if (keycode == 49 && $("genConfigTab")) { // 1
 				selectTab("genConfig");
 				return false;
 			}
 
-			if (keycode == 50 && document.getElementById("feedConfigTab")) { // 2
+			if (keycode == 50 && $("feedConfigTab")) { // 2
 				selectTab("feedConfig");
 				return false;
 			}
 
-			if (keycode == 51 && document.getElementById("filterConfigTab")) { // 4
+			if (keycode == 51 && $("filterConfigTab")) { // 4
 				selectTab("filterConfig");
 				return false;
 			}
 
-			if (keycode == 52 && document.getElementById("labelConfigTab")) { // 5
+			if (keycode == 52 && $("labelConfigTab")) { // 5
 				selectTab("labelConfig");
 				return false;
 			}
 
-			if (keycode == 53 && document.getElementById("userConfigTab")) { // 6
+			if (keycode == 53 && $("userConfigTab")) { // 6
 				selectTab("userConfig");
 				return false;
 			}
@@ -1563,7 +1563,7 @@ function pref_hotkey_handler(e) {
 
 		}
 
-		if (document.getElementById("piggie")) {
+		if ($("piggie")) {
 	
 			if (seq.match("807371717369")) {
 				seq = "";
@@ -1586,10 +1586,10 @@ function pref_hotkey_handler(e) {
 
 function editFeedCats() {
 	try {
-		document.getElementById("subscribe_to_feed_btn").disabled = true;
+		$("subscribe_to_feed_btn").disabled = true;
 	
 		try {
-			document.getElementById("top25_feeds_btn").disabled = true;
+			$("top25_feeds_btn").disabled = true;
 		} catch (e) {
 			// this button is not always available, no-op if not found
 		}
@@ -1736,7 +1736,7 @@ function validatePrefsSave() {
 
 function feedActionChange() {
 	try {
-		var chooser = document.getElementById("feedActionChooser");
+		var chooser = $("feedActionChooser");
 		var opid = chooser[chooser.selectedIndex].value;
 
 		chooser.selectedIndex = 0;
@@ -1961,7 +1961,7 @@ function feedsEditSave() {
 function batchFeedsToggleField(cb, elem, label) {
 	try {
 		var f = document.forms["batch_edit_feed_form"];
-		var l = document.getElementById(label);
+		var l = $(label);
 
 		if (cb.checked) {
 			f[elem].disabled = false;
@@ -2026,7 +2026,7 @@ function labelColorAsk(id, kind) {
 
 			selectPrefRows('label', false);
 
-			var e = document.getElementById("LICID-" + id);
+			var e = $("LICID-" + id);
 
 			if (e) {		
 				if (kind == "fg") {
@@ -2047,7 +2047,7 @@ function labelColorAsk(id, kind) {
 
 function colorPicker(id, fg, bg) {
 	try {
-		var picker = document.getElementById("colorPicker-" + id);
+		var picker = $("colorPicker-" + id);
 
 		if (picker) Element.show(picker);
 
@@ -2058,9 +2058,9 @@ function colorPicker(id, fg, bg) {
 
 function colorPickerHideAll() {
 	try {
-		if (document.getElementById("prefLabelList")) {
+		if ($("prefLabelList")) {
 
-			var elems = document.getElementById("prefLabelList").getElementsByTagName("DIV");
+			var elems = $("prefLabelList").getElementsByTagName("DIV");
 
 			for (var i = 0; i < elems.length; i++) {
 				if (elems[i].id && elems[i].id.match("colorPicker-")) {
@@ -2081,7 +2081,7 @@ function colorPickerDo(id, fg, bg) {
 			"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
 			"&bg=" + param_escape(bg);
 
-		var e = document.getElementById("LICID-" + id);
+		var e = $("LICID-" + id);
 
 		if (e) {		
 			e.style.color = fg;

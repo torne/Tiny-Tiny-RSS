@@ -24,7 +24,7 @@ function exception_error(location, e, ext_info) {
 
 	try {
 
-		var ebc = document.getElementById("xebContent");
+		var ebc = $("xebContent");
 	
 		if (ebc) {
 	
@@ -106,7 +106,7 @@ function open_article_callback(transport) {
 
 				if (id) {
 					id = id.firstChild.nodeValue;
-					if (!document.getElementById("headlinesList")) {
+					if (!$("headlinesList")) {
 						window.setTimeout("toggleUnread(" + id + ", 0)", 100);
 					}
 				}
@@ -148,7 +148,7 @@ function delay(gap) {
 var notify_hide_timerid = false;
 
 function hide_notify() {
-	var n = document.getElementById("notify");
+	var n = $("notify");
 	if (n) {
 		n.style.display = "none";
 	}
@@ -165,8 +165,8 @@ function notify_real(msg, no_hide, n_type) {
 		return;
 	}
 
-	var n = document.getElementById("notify");
-	var nb = document.getElementById("notify_body");
+	var n = $("notify");
+	var nb = $("notify_body");
 
 	if (!n || !nb) return;
 
@@ -240,7 +240,7 @@ function printLockingError() {
 }
 
 function cleanSelected(element) {
-	var content = document.getElementById(element);
+	var content = $(element);
 
 	for (i = 0; i < content.rows.length; i++) {
 		content.rows[i].className = content.rows[i].className.replace("Selected", "");
@@ -248,7 +248,7 @@ function cleanSelected(element) {
 }
 
 function getVisibleUnreadHeadlines() {
-	var content = document.getElementById("headlinesList");
+	var content = $("headlinesList");
 
 	var rows = new Array();
 
@@ -265,7 +265,7 @@ function getVisibleUnreadHeadlines() {
 
 function getVisibleHeadlineIds() {
 
-	var content = document.getElementById("headlinesList");
+	var content = $("headlinesList");
 
 	var rows = new Array();
 
@@ -301,7 +301,7 @@ function getLastVisibleHeadlineId() {
 }
 
 function markHeadline(id) {
-	var row = document.getElementById("RROW-" + id);
+	var row = $("RROW-" + id);
 	if (row) {
 		var is_active = false;
 	
@@ -316,7 +316,7 @@ function markHeadline(id) {
 			row.className = row.className = "Active";
 		}
 		
-		var check = document.getElementById("RCHK-" + id);
+		var check = $("RCHK-" + id);
 
 		if (check) {
 			check.checked = true;
@@ -328,7 +328,7 @@ function markHeadline(id) {
 }
 
 function getFeedIds() {
-	var content = document.getElementById("feedsList");
+	var content = $("feedsList");
 
 	var rows = new Array();
 
@@ -398,7 +398,7 @@ function disableContainerChildren(id, disable, doc) {
 
 	if (!doc) doc = document;
 
-	var container = doc.getElementById(id);
+	var container = $(id);
 
 	if (!container) {
 		//alert("disableContainerChildren: element " + id + " not found");
@@ -469,7 +469,7 @@ function parse_counters(reply, scheduled_call) {
 			}
 	
 			if (t == "category") {
-				var catctr = document.getElementById("FCATCTR-" + id);
+				var catctr = $("FCATCTR-" + id);
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + ")";
 					if (ctr > 0) {
@@ -481,12 +481,12 @@ function parse_counters(reply, scheduled_call) {
 				continue;
 			}
 		
-			var feedctr = document.getElementById("FEEDCTR-" + id);
-			var feedu = document.getElementById("FEEDU-" + id);
-			var feedr = document.getElementById("FEEDR-" + id);
-			var feed_img = document.getElementById("FIMG-" + id);
-			var feedlink = document.getElementById("FEEDL-" + id);
-			var feedupd = document.getElementById("FLUPD-" + id);
+			var feedctr = $("FEEDCTR-" + id);
+			var feedu = $("FEEDU-" + id);
+			var feedr = $("FEEDR-" + id);
+			var feed_img = $("FIMG-" + id);
+			var feedlink = $("FEEDL-" + id);
+			var feedupd = $("FLUPD-" + id);
 
 			if (updated && feedlink) {
 				if (error) {
@@ -581,7 +581,7 @@ function parse_counters(reply, scheduled_call) {
 				setTimeout('updateFeedList(false, false)', 50);
 			}
 		} else {
-/*			var fl = document.getElementById("feeds-frame").innerHTML;
+/*			var fl = $("feeds-frame").innerHTML;
 			if (fl) {
 				cache_invalidate("FEEDLIST");
 				cache_inject("FEEDLIST", fl, getInitParam("num_feeds"));
@@ -643,7 +643,7 @@ function all_counters_callback2(transport, async_call) {
 
 function get_feed_unread(id) {
 	try {
-		return parseInt(document.getElementById("FEEDU-" + id).innerHTML);	
+		return parseInt($("FEEDU-" + id).innerHTML);	
 	} catch (e) {
 		return -1;
 	}
@@ -651,7 +651,7 @@ function get_feed_unread(id) {
 
 function get_cat_unread(id) {
 	try {
-		var ctr = document.getElementById("FCATCTR-" + id).innerHTML;
+		var ctr = $("FCATCTR-" + id).innerHTML;
 		ctr = ctr.replace("(", "");
 		ctr = ctr.replace(")", "");
 		return parseInt(ctr);
@@ -669,7 +669,7 @@ function get_feed_entry_unread(elem) {
 	}
 
 	try {
-		return parseInt(document.getElementById("FEEDU-" + id).innerHTML);	
+		return parseInt($("FEEDU-" + id).innerHTML);	
 	} catch (e) {
 		return -1;
 	}
@@ -719,7 +719,7 @@ function resort_category(node) {
 function resort_feedlist() {
 	debug("resort_feedlist");
 
-	if (document.getElementById("FCATLIST--1")) {
+	if ($("FCATLIST--1")) {
 
 		var lists = document.getElementsByTagName("UL");
 
@@ -730,7 +730,7 @@ function resort_feedlist() {
 		}
 
 	} else {
-		resort_category(document.getElementById("feedList"));
+		resort_category($("feedList"));
 	}
 }
 
@@ -774,7 +774,7 @@ function hideOrShowFeeds(hide) {
 
 	debug("hideOrShowFeeds: " + hide);
 
-	if (document.getElementById("FCATLIST--1")) {
+	if ($("FCATLIST--1")) {
 
 		var lists = document.getElementsByTagName("UL");
 
@@ -803,10 +803,10 @@ function hideOrShowFeedsCategory(id, hide) {
 		var cat_node = null;
 
 		if (id) {
-			node = document.getElementById("FCATLIST-" + id);
-			cat_node = document.getElementById("FCAT-" + id);
+			node = $("FCATLIST-" + id);
+			cat_node = $("FCAT-" + id);
 		} else {
-			node = document.getElementById("feedList"); // no categories
+			node = $("feedList"); // no categories
 		}
 
 	//	debug("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
@@ -902,13 +902,13 @@ function selectTableRowById(elem_id, check_id, do_select) {
 
 	try {
 
-		var row = document.getElementById(elem_id);
+		var row = $(elem_id);
 
 		if (row) {
 			selectTableRow(row, do_select);
 		}		
 
-		var check = document.getElementById(check_id);
+		var check = $(check_id);
 
 		if (check) {
 			check.checked = do_select;
@@ -921,7 +921,7 @@ function selectTableRowById(elem_id, check_id, do_select) {
 function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select, 
 	classcheck, reset_others) {
 
-	var content = document.getElementById(content_id);
+	var content = $(content_id);
 
 	if (!content) {
 		alert("[selectTableRows] Element " + content_id + " not found.");
@@ -936,7 +936,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 					selectTableRow(content.rows[i], do_select);
 				
 					var row_id = content.rows[i].id.replace(prefix, "");
-					var check = document.getElementById(check_prefix + row_id);
+					var check = $(check_prefix + row_id);
 	
 					if (check) {
 						check.checked = do_select;
@@ -945,7 +945,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 					selectTableRow(content.rows[i], false);
 	
 					var row_id = content.rows[i].id.replace(prefix, "");
-					var check = document.getElementById(check_prefix + row_id);
+					var check = $(check_prefix + row_id);
 	
 					if (check) {
 						check.checked = false;
@@ -956,7 +956,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 				selectTableRow(content.rows[i], false);
 	
 				var row_id = content.rows[i].id.replace(prefix, "");
-				var check = document.getElementById(check_prefix + row_id);
+				var check = $(check_prefix + row_id);
 	
 				if (check) {
 					check.checked = false;
@@ -969,7 +969,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 
 function getSelectedTableRowIds(content_id, prefix) {
 
-	var content = document.getElementById(content_id);
+	var content = $(content_id);
 
 	if (!content) {
 		alert("[getSelectedTableRowIds] Element " + content_id + " not found.");
@@ -992,7 +992,7 @@ function getSelectedTableRowIds(content_id, prefix) {
 }
 
 function toggleSelectRowById(sender, id) {
-	var row = document.getElementById(id);
+	var row = $(id);
 
 	if (sender.checked) {
 		if (!row.className.match("Selected")) {
@@ -1039,7 +1039,7 @@ function toggleSelectRow(sender) {
 
 function getNextUnreadCat(id) {
 	try {
-		var rows = document.getElementById("feedList").getElementsByTagName("LI");
+		var rows = $("feedList").getElementsByTagName("LI");
 		var feeds = new Array();
 
 		var unread_only = true;
@@ -1077,7 +1077,7 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 
 //		alert(id + " IC: " + is_cat + " D: " + direction + " U: " + unread_only);
 
-		var rows = document.getElementById("feedList").getElementsByTagName("LI");
+		var rows = $("feedList").getElementsByTagName("LI");
 		var feeds = new Array();
 	
 		for (var i = 0; i < rows.length; i++) {
@@ -1185,13 +1185,13 @@ function getRelativeFeedId(list, id, direction, unread_only) {
 }
 
 function showBlockElement(id, h_id) {
-	var elem = document.getElementById(id);
+	var elem = $(id);
 
 	if (elem) {
 		elem.style.display = "block";
 
 		if (h_id) {
-			elem = document.getElementById(h_id);
+			elem = $(h_id);
 			if (elem) {
 				elem.style.display = "none";
 			}
@@ -1286,8 +1286,8 @@ function closeInfoBox(cleanup) {
 	if (Element.visible("infoBoxShadow")) {
 		Element.hide("dialog_overlay");
 	
-		var shadow = document.getElementById('infoBoxShadow');
-		var box = document.getElementById('infoBoxShadow');
+		var shadow = $('infoBoxShadow');
+		var box = $('infoBoxShadow');
 
 		Element.hide(shadow);
 
@@ -1341,8 +1341,8 @@ function infobox_callback2(transport) {
 			Element.show("dialog_overlay");
 		}
 
-		var box = document.getElementById('infoBox');
-		var shadow = document.getElementById('infoBoxShadow');
+		var box = $('infoBox');
+		var shadow = $('infoBoxShadow');
 		if (box) {			
 
 			box.innerHTML=transport.responseText;			
@@ -1355,7 +1355,7 @@ function infobox_callback2(transport) {
 
 		/* FIXME this needs to be moved out somewhere */
 
-		if (document.getElementById("tags_choices")) {
+		if ($("tags_choices")) {
 			new Ajax.Autocompleter('tags_str', 'tags_choices',
 				"backend.php?op=rpc&subop=completeTags",
 				{ tokens: ',', paramName: "search" });
@@ -1402,7 +1402,7 @@ function createFilter() {
 
 function toggleSubmitNotEmpty(e, submit_id) {
 	try {
-		document.getElementById(submit_id).disabled = (e.value == "")
+		$(submit_id).disabled = (e.value == "")
 	} catch (e) {
 		exception_error("toggleSubmitNotEmpty", e);
 	}
@@ -1474,7 +1474,7 @@ function debug(msg) {
 		debug_last_class = "even";
 	}
 
-	var c = document.getElementById('debug_output');
+	var c = $('debug_output');
 	if (c && Element.visible(c)) {
 		while (c.lastChild != 'undefined' && c.childNodes.length > 100) {
 			c.removeChild(c.lastChild);
@@ -1510,7 +1510,7 @@ function fatalError(code, msg, ext_info) {
 	
 			if (msg == "") msg = "Unknown error";
 
-			var ebc = document.getElementById("xebContent");
+			var ebc = $("xebContent");
 	
 			if (ebc) {
 	
@@ -1541,9 +1541,9 @@ function getFeedName(id, is_cat) {
 	var e;
 
 	if (is_cat) {
-		e = document.getElementById("FCATN-" + id);
+		e = $("FCATN-" + id);
 	} else {
-		e = document.getElementById("FEEDN-" + id);
+		e = $("FEEDN-" + id);
 	}
 	if (e) {
 		return e.innerHTML.stripTags();
@@ -1602,7 +1602,7 @@ function filterDlgCheckAction(sender) {
 			return;
 		}
 
-		var action_param = document.getElementById("filter_dlg_param_box");
+		var action_param = $("filter_dlg_param_box");
 
 		if (!action_param) {
 			debug("filterDlgCheckAction: can't find action param box!");
@@ -1690,7 +1690,7 @@ function getRelativePostIds(id, limit) {
 	debug("getRelativePostIds: " + id + " limit=" + limit);
 
 	var ids = new Array();
-	var container = document.getElementById("headlinesList");
+	var container = $("headlinesList");
 
 	if (container) {
 		var rows = container.rows;
@@ -1773,7 +1773,7 @@ Position.Center = function(element, parent) {
 
 function labeltest_callback(transport) {
 	try {
-		var container = document.getElementById('label_test_result');
+		var container = $('label_test_result');
 	
 		container.innerHTML = transport.responseText;
 		if (!Element.visible(container)) {
@@ -1789,7 +1789,7 @@ function labeltest_callback(transport) {
 function labelTest() {
 
 	try {
-		var container = document.getElementById('label_test_result');
+		var container = $('label_test_result');
 	
 		var form = document.forms['label_edit_form'];
 	
@@ -1814,7 +1814,7 @@ function labelTest() {
 }
 
 function isCdmMode() {
-	return !document.getElementById("headlinesList");
+	return !$("headlinesList");
 }
 
 function getSelectedArticleIds2() {
@@ -1830,7 +1830,7 @@ function getSelectedArticleIds2() {
 	var ids = new Array();
 
 	for (var i = 0; i < rows.length; i++) {
-		var chk = document.getElementById("RCHK-" + rows[i]);
+		var chk = $("RCHK-" + rows[i]);
 		if (chk && chk.checked) {
 			ids.push(rows[i]);
 		}
@@ -1850,7 +1850,7 @@ function displayHelpInfobox(topic_id) {
 
 function focus_element(id) {
 	try {
-		var e = document.getElementById(id);
+		var e = $(id);
 		if (e) e.focus();
 	} catch (e) {
 		exception_error("focus_element", e);
@@ -1864,7 +1864,7 @@ function loading_set_progress(p) {
 
 		debug("<b>loading_set_progress : " + p + " (" + last_progress_point + ")</b>");
 
-		var o = document.getElementById("l_progress_i");
+		var o = $("l_progress_i");
 
 //		o.style.width = (p * 2) + "px";
 
@@ -2011,8 +2011,8 @@ function labelFieldsCheck(elem) {
 
 function getSelectedFeedsFromBrowser() {
 
-	var list = document.getElementById("browseFeedList");
-	if (!list) list = document.getElementById("browseBigFeedList");
+	var list = $("browseFeedList");
+	if (!list) list = $("browseBigFeedList");
 
 	var selected = new Array();
 	
@@ -2021,7 +2021,7 @@ function getSelectedFeedsFromBrowser() {
 		if (child.id && child.id.match("FBROW-")) {
 			var id = child.id.replace("FBROW-", "");
 			
-			var cb = document.getElementById("FBCHK-" + id);
+			var cb = $("FBCHK-" + id);
 
 			if (cb.checked) {
 				selected.push(id);
@@ -2037,8 +2037,8 @@ function updateFeedBrowser() {
 
 		var query = "backend.php?op=rpc&subop=feedBrowser";
 
-		var search = document.getElementById("feed_browser_search");
-		var limit = document.getElementById("feed_browser_limit");
+		var search = $("feed_browser_search");
+		var limit = $("feed_browser_limit");
 
 		if (limit) {
 			query = query + "&limit=" + limit[limit.selectedIndex].value;
@@ -2054,10 +2054,10 @@ function updateFeedBrowser() {
 			onComplete: function(transport) { 
 				notify('');
 
-				var c = document.getElementById("browseFeedList");
+				var c = $("browseFeedList");
 				var r = transport.responseXML.getElementsByTagName("content")[0];
 				var nr = transport.responseXML.getElementsByTagName("num-results")[0];
-				var sb = document.getElementById("feed_browser_subscribe");
+				var sb = $("feed_browser_subscribe");
 
 				if (c && r) {
 					c.innerHTML = r.firstChild.nodeValue;

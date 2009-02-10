@@ -92,12 +92,12 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 		setActiveFeedId(feed_id, is_cat);
 
 		if (!is_cat) {
-			var feedr = document.getElementById("FEEDR-" + feed_id);
+			var feedr = $("FEEDR-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
 		} else {
-			var feedr = document.getElementById("FCAT-" + feed_id);
+			var feedr = $("FCAT-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
@@ -110,7 +110,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
 
-		var f = document.getElementById("headlines-frame");
+		var f = $("headlines-frame");
 		try {
 			if (reply.offset == 0) { 
 				debug("resetting headlines scrollTop");
@@ -143,7 +143,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				var sel_none_link;
 				var sel_inv_link;
 
-				if (document.getElementById("content-frame")) {
+				if ($("content-frame")) {
 					sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
 					sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
 					sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
@@ -166,7 +166,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				tmp += "</div>";
 	
 				tmp += "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
-				if (document.getElementById("content-frame")) {
+				if ($("content-frame")) {
 					tmp += "<table class=\"headlinesList\" id=\"headlinesList\" cellspacing=\"0\">";
 				}
 			
@@ -291,7 +291,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				var content_preview = truncate_string(strip_tags(rs.fieldByName("content")), 
 						100);
 	
-				if (document.getElementById("content-frame")) {
+				if ($("content-frame")) {
 
 					tmp += "<tr class='"+row_class+"' id='RROW-"+id+"' "+mouseover_attrs+">";
 					
@@ -413,12 +413,12 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			}
 	
 			if (offset == 0) {
-				var container = document.getElementById("headlines-frame");
+				var container = $("headlines-frame");
 				container.innerHTML = tmp;
 			} else {
 				var ids = getSelectedArticleIds2();
 		
-				var container = document.getElementById("headlinesList");
+				var container = $("headlinesList");
 				container.innerHTML = container.innerHTML + tmp;
 	
 				for (var i = 0; i < ids.length; i++) {
@@ -571,10 +571,10 @@ function init_offline() {
 		Element.hide("topLinksOnline");
 		Element.show("topLinksOffline");
 
-		var tb_form = document.getElementById("main_toolbar_form");
+		var tb_form = $("main_toolbar_form");
 		Element.hide(tb_form.update);
 
-		var chooser = document.getElementById("quickMenuChooser");
+		var chooser = $("quickMenuChooser");
 		chooser.disabled = true;
 
 		var rs = db.execute("SELECT key, value FROM init_params");
@@ -792,12 +792,12 @@ function update_offline_data(stage) {
 function set_feedlist_counter(id, ctr, is_cat) {
 	try {
 
-		var feedctr = document.getElementById("FEEDCTR-" + id);
-		var feedu = document.getElementById("FEEDU-" + id);
-		var feedr = document.getElementById("FEEDR-" + id);
+		var feedctr = $("FEEDCTR-" + id);
+		var feedu = $("FEEDU-" + id);
+		var feedr = $("FEEDR-" + id);
 
 		if (is_cat) {
-			var catctr = document.getElementById("FCATCTR-" + id);
+			var catctr = $("FCATCTR-" + id);
 			if (catctr) {
 				catctr.innerHTML = "(" + ctr + ")";
 				if (ctr > 0) {
