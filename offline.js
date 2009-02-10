@@ -751,6 +751,7 @@ function update_offline_data(stage) {
 
 		if (!stage) stage = 0;
 		if (offline_mode) return;
+		if (getInitParam("offline_enabled") != "1") return;
 
 		debug("update_offline_data: stage " + stage);
 
@@ -935,6 +936,20 @@ function get_local_feed_unread(id) {
 	}
 }
 
+function enable_offline_reading() {
+	try {
+
+		if (getInitParam("offline_enabled") == "1") {
+			init_local_sync_data();
+			Element.show("restartOfflinePic");
+			window.setTimeout("update_offline_data(0)", 100);
+		}
+
+	} catch (e) {
+		exception_error("enable_offline_reading", e);
+	}
+}
+
 function init_gears() {
 	try {
 
@@ -1018,10 +1033,6 @@ function init_gears() {
 				"BEGIN "+
 				"DELETE FROM article_labels WHERE id = OLD.id; "+
 				"END; ");
-
-			init_local_sync_data();
-
-			Element.show("restartOfflinePic");
 
 		}	
 	

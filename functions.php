@@ -3013,6 +3013,8 @@
 
 		print "<param key=\"sync_counters\" value=\"1\"/>";
 
+		print "<param key=\"offline_enabled\" value=\"0\"/>";
+
 		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
