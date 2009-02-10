@@ -190,7 +190,6 @@ window.onload = init;
 					<option value="qmcAddFilter">&nbsp;&nbsp;<?php echo __('Create filter...') ?></option>
 					<option value="qmcResetUI">&nbsp;&nbsp;<?php echo __('Reset UI layout') ?></option>
 					<option value="qmcResetCats">&nbsp;&nbsp;<?php echo __('Reset category order') ?></option>
-					<option id="qmcDownload" style="display : none" value="qmcDownload"><?php echo __('&nbsp;&nbsp;Download new articles...') ?></option>
 					<option value="qmcHKhelp"><?php echo __('&nbsp;&nbsp;Keyboard shortcuts') ?></option>
 
 			</select>

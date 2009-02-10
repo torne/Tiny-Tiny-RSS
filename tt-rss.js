@@ -676,11 +676,6 @@ function quickMenuGo(opid) {
 			resize_headlines();
 		}
 
-/*		if (opid == "qmcDownload") {
-			displayDlg("offlineDownload");
-			return;
-		} */
-
 		if (opid == "qmcResetCats") {
 
 			if (confirm(__("Reset category order?"))) {
@@ -1313,16 +1308,6 @@ function hotkey_handler(e) {
 					return false;
 				}
 			}
-
-/*			if (keycode == 68 && shift_key) { // D
-				initiate_offline_download();
-				return false;
-			}
-
-			if (keycode == 68) { // d
-				displayDlg("offlineDownload");
-				return false;
-			} */
 
 			if (keycode == 87) { // w
 				feeds_sort_by_unread = !feeds_sort_by_unread;
