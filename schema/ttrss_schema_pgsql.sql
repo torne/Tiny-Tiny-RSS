@@ -200,7 +200,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (53);
+insert into ttrss_version values (54);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -325,6 +325,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_ORDER_BY', 2, 'default', '', 1);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_OFFLINE_READING', 1, 'false', 'Enable offline reading',1);
+
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	pref_name varchar(250) not null references ttrss_prefs(pref_name) ON DELETE CASCADE,
@@ -357,12 +359,6 @@ create table ttrss_labels2 (id serial not null primary key,
 	bg_color varchar(15) not null default '',
 	caption varchar(250) not null
 );
-
---INSERT INTO ttrss_labels2 (owner_uid, caption) VALUES (1, 'All Articles');
---
---INSERT INTO ttrss_filters (owner_uid, feed_id, filter_type, reg_exp, enabled, 
---    action_id, action_param, filter_param) 
---    VALUES (1, NULL, 1, '.', true, 7, 'All Articles', 'before');
 
 create table ttrss_user_labels2 (
 	label_id integer not null references ttrss_labels2(id) ON DELETE CASCADE,
