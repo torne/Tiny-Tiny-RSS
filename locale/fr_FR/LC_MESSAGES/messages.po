@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-11 18:36+0300\n"
+"POT-Creation-Date: 2009-02-11 19:47+0300\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -193,7 +193,7 @@ msgid "Labels"
 msgstr "Intitulé"
 
 #: functions.php:2913 functions.php:3336 functions.php:4121 help/3.php:59
-#: mobile/functions.php:61
+#: mobile/functions.php:61 offline.js:459 offline.js:1268
 msgid "Starred articles"
 msgstr "Articles remarquables"
 
@@ -208,7 +208,7 @@ msgid "Fresh articles"
 msgstr "Nouveaux articles"
 
 #: functions.php:2919 functions.php:3349 functions.php:4099 help/3.php:57
-#: mobile/functions.php:43
+#: mobile/functions.php:43 offline.js:454 offline.js:1270
 #, fuzzy
 msgid "All articles"
 msgstr "Tous les articles"
@@ -228,7 +228,7 @@ msgstr "Flux généré"
 
 #: functions.php:3983 functions.php:5247 modules/pref-feeds.php:1028
 #: modules/pref-feeds.php:1209 modules/pref-filters.php:366
-#: modules/pref-labels.php:163 modules/pref-users.php:401
+#: modules/pref-labels.php:163 modules/pref-users.php:401 offline.js:374
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
@@ -379,7 +379,7 @@ msgid ""
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5304
+#: functions.php:5304 offline.js:409
 #, fuzzy
 msgid "No articles found to display."
 msgstr "Aucun article à marquer"
@@ -398,7 +398,7 @@ msgstr "Supprimer"
 msgid "no tags"
 msgstr "aucune étiquette"
 
-#: localized_js.php:35
+#: localized_js.php:35 tt-rss.js:75
 msgid "display feeds"
 msgstr "afficher les flux"
 
@@ -430,7 +430,7 @@ msgstr "Suppression d'un flux..."
 msgid "Saving feed..."
 msgstr "Enregistrement d'un flux..."
 
-#: localized_js.php:43
+#: localized_js.php:43 prefs.js:331
 msgid "Can't add category: no name specified."
 msgstr "Impossible d'ajouter une catégorie : aucun nom fourni."
 
@@ -450,11 +450,11 @@ msgstr "Ajout d'un utilisateur..."
 msgid "Can't create label: missing SQL expression."
 msgstr "Impossible de créer un intitulé : expression SQL manquante."
 
-#: localized_js.php:49 localized_js.php:103
+#: localized_js.php:49 localized_js.php:103 prefs.js:275 tt-rss.js:1440
 msgid "Can't create label: missing caption."
 msgstr "Impossible de créer un intitulé : descriptif manquant."
 
-#: localized_js.php:50
+#: localized_js.php:50 prefs.js:484
 msgid "Remove selected labels?"
 msgstr "Supprimer les intitulés sélectionnés ?"
 
@@ -462,11 +462,11 @@ msgstr "Supprimer les intitulés sélectionnés ?"
 msgid "Removing selected labels..."
 msgstr "Suppression des intitulés sélectionnés..."
 
-#: localized_js.php:52 localized_js.php:71 localized_js.php:105
+#: localized_js.php:52 localized_js.php:71 localized_js.php:105 prefs.js:499
 msgid "No labels are selected."
 msgstr "Aucun intitulé sélectionné."
 
-#: localized_js.php:53
+#: localized_js.php:53 prefs.js:513
 msgid "Remove selected users?"
 msgstr "Supprimer les utilisateurs sélectionnés ?"
 
@@ -475,11 +475,11 @@ msgid "Removing selected users..."
 msgstr "Suppression des utilisateurs sélectionnés..."
 
 #: localized_js.php:55 localized_js.php:73 localized_js.php:75
-#: localized_js.php:106
+#: localized_js.php:106 prefs.js:529 prefs.js:817 prefs.js:838 prefs.js:876
 msgid "No users are selected."
 msgstr "Aucun utilisateur sélectionné."
 
-#: localized_js.php:56
+#: localized_js.php:56 prefs.js:547
 msgid "Remove selected filters?"
 msgstr "Supprimer les filtres sélectionnés ?"
 
@@ -487,11 +487,12 @@ msgstr "Supprimer les filtres sélectionnés ?"
 msgid "Removing selected filters..."
 msgstr "Suppression des filtres sélectionnés..."
 
-#: localized_js.php:58 localized_js.php:81 localized_js.php:107
+#: localized_js.php:58 localized_js.php:81 localized_js.php:107 prefs.js:562
+#: prefs.js:905
 msgid "No filters are selected."
 msgstr "Aucun filtre sélectionné."
 
-#: localized_js.php:59
+#: localized_js.php:59 prefs.js:581
 msgid "Unsubscribe from selected feeds?"
 msgstr "Se désinscrire des flux sélectionnés ?"
 
@@ -500,11 +501,13 @@ msgid "Unsubscribing from selected feeds..."
 msgstr "Désinscription des flux sélectionnés..."
 
 #: localized_js.php:61 localized_js.php:79 localized_js.php:83
-#: localized_js.php:108 localized_js.php:111
+#: localized_js.php:108 localized_js.php:111 prefs.js:597 prefs.js:627
+#: prefs.js:658 prefs.js:925 prefs.js:946 prefs.js:1258 prefs.js:1307
+#: prefs.js:1824 tt-rss.js:1485
 msgid "No feeds are selected."
 msgstr "Aucun flux sélectionné."
 
-#: localized_js.php:62
+#: localized_js.php:62 prefs.js:671
 msgid "Remove selected categories?"
 msgstr "Supprimer les catégories sélectionnées ?"
 
@@ -512,7 +515,7 @@ msgstr "Supprimer les catégories sélectionnées ?"
 msgid "Removing selected categories..."
 msgstr "Suppression des catégories sélectionnées..."
 
-#: localized_js.php:64 localized_js.php:85 localized_js.php:109
+#: localized_js.php:64 localized_js.php:85 localized_js.php:109 prefs.js:688
 msgid "No categories are selected."
 msgstr "Aucune catégorie sélectionnée."
 
@@ -528,7 +531,7 @@ msgstr "Ouverture de l'aide..."
 msgid "Saving label..."
 msgstr "Enregistrement de l'intitulé..."
 
-#: localized_js.php:68 localized_js.php:110
+#: localized_js.php:68 localized_js.php:110 prefs.js:763
 msgid "Login field cannot be blank."
 msgstr "Le nom ne peut pas être vide."
 
@@ -544,11 +547,12 @@ msgstr "Enregistrement du filtre..."
 msgid "Please select only one label."
 msgstr "Veuillez sélectionner un seul intitulé."
 
-#: localized_js.php:74 localized_js.php:76
+#: localized_js.php:74 localized_js.php:76 prefs.js:822 prefs.js:843
+#: prefs.js:881
 msgid "Please select only one user."
 msgstr "Veuillez sélectionner un seul utilisateur."
 
-#: localized_js.php:77
+#: localized_js.php:77 prefs.js:847
 msgid "Reset password of selected user?"
 msgstr "Réinitialiser le mot de passe de l'utilisateur sélectionné ?"
 
@@ -556,15 +560,15 @@ msgstr "Réinitialiser le mot de passe de l'utilisateur sélectionné ?"
 msgid "Resetting password for selected user..."
 msgstr "Réinitialisation du mot de passe de l'utilisateur sélectionné..."
 
-#: localized_js.php:80
+#: localized_js.php:80 prefs.js:612
 msgid "Please select only one feed."
 msgstr "Veuillez sélectionner un seul flux."
 
-#: localized_js.php:82
+#: localized_js.php:82 prefs.js:910
 msgid "Please select only one filter."
 msgstr "Veuillez sélectionner un seul filtre."
 
-#: localized_js.php:84
+#: localized_js.php:84 prefs.js:930
 msgid "Please select one feed."
 msgstr "Veuillez sélectionner un flux."
 
@@ -572,7 +576,7 @@ msgstr "Veuillez sélectionner un flux."
 msgid "Please select only one category."
 msgstr "Veuillez sélectionner une seule catégorie."
 
-#: localized_js.php:87
+#: localized_js.php:87 prefs.js:986
 msgid "No OPML file to upload."
 msgstr "Aucun fichier OPML à envoyer."
 
@@ -580,7 +584,7 @@ msgstr "Aucun fichier OPML à envoyer."
 msgid "Changing category of selected feeds..."
 msgstr "Modification de la catégorie des flux sélectionnés..."
 
-#: localized_js.php:89
+#: localized_js.php:89 prefs.js:1266
 msgid "Reset to defaults?"
 msgstr "Revenir aux valeurs par défaut ?"
 
@@ -592,7 +596,8 @@ msgstr "Tentative de modification du mot de passe..."
 msgid "Trying to change e-mail..."
 msgstr "Tentative de modification de l'adresse électronique..."
 
-#: localized_js.php:92
+#: localized_js.php:92 viewfeed.js:874 viewfeed.js:909 viewfeed.js:949
+#: viewfeed.js:1019 viewfeed.js:1066 viewfeed.js:1218
 msgid "No articles are selected."
 msgstr "Aucun article sélectionné."
 
@@ -608,7 +613,7 @@ msgstr "Impossible d'afficher l'article (objet XML manquant)"
 msgid "No feed selected."
 msgstr "Aucun flux sélectionné."
 
-#: localized_js.php:96
+#: localized_js.php:96 prefs.js:1693
 msgid "Replace current publishing address with a new one?"
 msgstr "Remplacer l'adresse de publication actuelle ?"
 
@@ -620,42 +625,43 @@ msgstr "Adresse modifiée."
 msgid "Could not change address."
 msgstr "Impossible de changer l'adresse."
 
-#: localized_js.php:99
+#: localized_js.php:99 tt-rss.js:596
 msgid "You can't unsubscribe from the category."
 msgstr "Vous ne pouvez pas vous désinscrire de la catégorie."
 
-#: localized_js.php:100
+#: localized_js.php:100 tt-rss.js:601 tt-rss.js:620 tt-rss.js:834
+#: tt-rss.js:1013
 msgid "Please select some feed first."
 msgstr "Veuillez d'abord sélectionner un flux."
 
-#: localized_js.php:101
+#: localized_js.php:101 tt-rss.js:839
 msgid "You can't edit this kind of feed."
 msgstr "Vous ne pouvez pas modifier ce type de flux."
 
-#: localized_js.php:112
+#: localized_js.php:112 functions.js:1380
 msgid "Can't add filter: nothing to match on."
 msgstr "Impossible d'ajouter un filtre : aucune correspondance."
 
-#: localized_js.php:113
+#: localized_js.php:113 functions.js:1421
 msgid "Can't subscribe: no feed URL given."
 msgstr "Impossible de s'inscrire : aucune URL de flux n'a été fournie."
 
-#: localized_js.php:114
+#: localized_js.php:114 prefs.js:1879 tt-rss.js:607 tt-rss.js:702
 #, php-format
 msgid "Unsubscribe from %s?"
 msgstr "Se désinscrire de %s ?"
 
-#: localized_js.php:115
+#: localized_js.php:115 viewfeed.js:1186
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr "Marquer tous les articles visibles de %s comme lus ?"
 
-#: localized_js.php:116
+#: localized_js.php:116 tt-rss.js:806 tt-rss.js:819
 #, php-format
 msgid "Mark all articles in %s as read?"
 msgstr "Marquer tous les articles de %s comme lus ?"
 
-#: localized_js.php:117
+#: localized_js.php:117 viewfeed.js:1225
 #, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Marquer %d articles sélectionnés de %s comme lus ?"
@@ -664,7 +670,7 @@ msgstr "Marquer %d articles sélectionnés de %s comme lus ?"
 msgid "Please enter label title:"
 msgstr "Veuillez saisir le titre de l'intitulé :"
 
-#: localized_js.php:119
+#: localized_js.php:119 prefs.js:1714
 msgid "Save current configuration?"
 msgstr "Enregistrer la configuration actuelle ?"
 
@@ -680,54 +686,55 @@ msgstr "Le nouveau mot de passe ne peut pas être vide."
 msgid "Entered passwords do not match."
 msgstr "Les mots de passe saisie ne sont pas identiques."
 
-#: localized_js.php:123
+#: localized_js.php:123 viewfeed.js:1857
 msgid "No articles found to mark"
 msgstr "Aucun article à marquer"
 
-#: localized_js.php:124
+#: localized_js.php:124 viewfeed.js:1859
 #, php-format
 msgid "Mark %d article(s) as read?"
 msgstr "Marquer %d article(s) comme lu(s) ?"
 
-#: localized_js.php:125
+#: localized_js.php:125 viewfeed.js:1816
 msgid "No article is selected."
 msgstr "Aucun article sélectionné."
 
-#: localized_js.php:126
+#: localized_js.php:126 viewfeed.js:494 viewfeed.js:559
 msgid "Star article"
 msgstr "Marquer comme remarquable"
 
-#: localized_js.php:127
+#: localized_js.php:127 viewfeed.js:543
 msgid "Unstar article"
 msgstr "Ne plus marquer comme remarquable"
 
-#: localized_js.php:128
+#: localized_js.php:128 viewfeed.js:552 viewfeed.js:614
 msgid "Please wait..."
 msgstr "Veuillez patienter..."
 
-#: localized_js.php:129 localized_schema.php:18
+#: localized_js.php:129 localized_schema.php:18 viewfeed.js:511
+#: viewfeed.js:621
 msgid "Publish article"
 msgstr "Publier l'article"
 
-#: localized_js.php:130
+#: localized_js.php:130 viewfeed.js:608
 msgid "Unpublish article"
 msgstr "Ne plus publier l'article"
 
-#: localized_js.php:131
+#: localized_js.php:131 tt-rss.js:625
 msgid "You can't clear this type of feed."
 msgstr "Vous ne pouvez pas purger ce type de flux."
 
-#: localized_js.php:132
+#: localized_js.php:132 tt-rss.js:631
 #, php-format
 msgid "Erase all non-starred articles in %s?"
 msgstr "Supprimer tous les articles non remarquables dans %s ?"
 
-#: localized_js.php:133
+#: localized_js.php:133 tt-rss.js:277
 #, fuzzy
 msgid "Mark all articles as read?"
 msgstr "Marquer tous les articles de %s comme lus ?"
 
-#: localized_js.php:134
+#: localized_js.php:134 prefs.js:1809
 #, fuzzy
 msgid "Rescore articles in selected feeds?"
 msgstr "Aucun article sélectionné."
@@ -746,12 +753,12 @@ msgstr ""
 msgid "Rescoring feeds..."
 msgstr "Suppression d'un flux..."
 
-#: localized_js.php:138
+#: localized_js.php:138 tt-rss.js:1008
 #, fuzzy
 msgid "You can't rescore this kind of feed."
 msgstr "Vous ne pouvez pas modifier ce type de flux."
 
-#: localized_js.php:139
+#: localized_js.php:139 tt-rss.js:1018
 #, fuzzy, php-format
 msgid "Rescore articles in %s?"
 msgstr "Articles mémorisés"
@@ -761,7 +768,7 @@ msgstr "Articles mémorisés"
 msgid "Rescoring articles..."
 msgstr "Articles mémorisés"
 
-#: localized_js.php:141
+#: localized_js.php:141 tt-rss.js:681
 #, fuzzy
 msgid "Reset category order?"
 msgstr "Supprimer les catégories sélectionnées ?"
@@ -774,7 +781,7 @@ msgstr ""
 msgid "Category reordering disabled"
 msgstr ""
 
-#: localized_js.php:144
+#: localized_js.php:144 prefs.js:1908
 #, fuzzy
 msgid "Save changes to selected feeds?"
 msgstr "Aucun article sélectionné."
@@ -1249,7 +1256,7 @@ msgstr ""
 msgid "Comments?"
 msgstr "Contenu"
 
-#: tt-rss.php:136
+#: tt-rss.php:136 offline.js:737
 #, fuzzy
 msgid "Restart in offline mode"
 msgstr "Échec du test de configuration"
@@ -1262,7 +1269,7 @@ msgstr ""
 msgid "Restart in online mode"
 msgstr ""
 
-#: tt-rss.php:158
+#: tt-rss.php:158 tt-rss.js:80
 msgid "tag cloud"
 msgstr "Nuage d'étiquettes"
 
@@ -2535,6 +2542,76 @@ msgstr "Correspondance sur&nbsp;:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
+
+#: functions.js:1425
+#, fuzzy
+msgid "Subscribing to feed..."
+msgstr "S'inscrire à un flux"
+
+#: offline.js:602
+msgid "Data for offline browsing has not been downloaded yet."
+msgstr ""
+
+#: offline.js:797
+msgid "Synchronizing offline data..."
+msgstr ""
+
+#: prefs.js:268 tt-rss.js:1435
+#, fuzzy
+msgid "Please enter label caption:"
+msgstr "Veuillez saisir le titre de l'intitulé :"
+
+#: prefs.js:302
+#, fuzzy
+msgid "Error: No feed URL given."
+msgstr "Impossible de s'inscrire : aucune URL de flux n'a été fournie."
+
+#: prefs.js:304
+msgid "Error: Invalid feed URL."
+msgstr ""
+
+#: prefs.js:352
+#, fuzzy
+msgid "Please enter login:"
+msgstr "Veuillez saisir le titre de l'intitulé :"
+
+#: prefs.js:359
+#, fuzzy
+msgid "Can't create user: no login specified."
+msgstr "Impossible d'ajouter un utilisateur : aucun nom fourni."
+
+#: prefs.js:618
+#, fuzzy
+msgid "Erase all non-starred articles in selected feed?"
+msgstr "Supprimer tous les articles non remarquables dans %s ?"
+
+#: prefs.js:640
+msgid "How many days of articles to keep (0 - use default)?"
+msgstr ""
+
+#: prefs.js:1831
+msgid "Rescore all articles? This operation may take a lot of time."
+msgstr ""
+
+#: prefs.js:1849
+#, fuzzy
+msgid "Remove filter %s?"
+msgstr "Supprimer les filtres sélectionnés ?"
+
+#: prefs.js:1993
+#, fuzzy
+msgid "Reset label colors to default?"
+msgstr "Revenir aux valeurs par défaut ?"
+
+#: prefs.js:2017
+#, fuzzy
+msgid "Please enter new label foreground color:"
+msgstr "Veuillez saisir le titre de l'intitulé :"
+
+#: prefs.js:2019
+#, fuzzy
+msgid "Please enter new label background color:"
+msgstr "Veuillez saisir le titre de l'intitulé :"
 
 #~ msgid "MySQL Charset Updater"
 #~ msgstr "Outil de mise à jour du jeu de caractères MySQL"
