@@ -516,14 +516,14 @@
 
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];
-			$cidt = db_escape_string($_REQUEST["cidt"]);
-			$cidb = db_escape_string($_REQUEST["cidb"]);
+			$cidt = (int)db_escape_string($_REQUEST["cidt"]);
+			$cidb = (int)db_escape_string($_REQUEST["cidb"]);
 			$sync = db_escape_string($_REQUEST["sync"]);
 			//$amount = (int) $_REQUEST["amount"];
 			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
 			//if (!$amount) $amount = 50;
 
-			$amount = 100;
+			$amount = 2000;
 			$unread_only = true;
 
 			print "<rpc-reply>";
@@ -653,7 +653,7 @@
 			if ($stage > 0) {
 				print "<articles>";
 
-				$limit = 50;
+				$limit = 200;
 				$skip = $limit*($stage-1);
 
 				print "<limit value=\"$limit\"/>";
@@ -669,7 +669,7 @@
 					}
 
 					if ($cidt && $cidb) {
-						$cid_qpart =  "(id > $cidt OR id < $cidb) AND ";
+						$cid_qpart =  "(ttrss_entries.id > $cidt OR ttrss_entries.id < $cidb) AND ";
 					}
 
 					if (DB_TYPE == "pgsql") {

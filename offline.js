@@ -679,7 +679,7 @@ function offline_download_parse(stage, transport) {
 						[id, caption, fg_color, bg_color]);
 				}
 
-				window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 5*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -723,12 +723,19 @@ function offline_download_parse(stage, transport) {
 				var has_sync_data = has_local_sync_data();
 
 				if (articles_found >= limit || has_sync_data) {
-					window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
+					window.setTimeout("update_offline_data("+(stage+1)+")", 5*1000);
 					debug("<b>update_offline_data: done " + stage + " HSD: " + 
 						has_sync_data + "</b>");
 				} else {
 					window.setTimeout("update_offline_data(0)", 180*1000);
 					debug("update_offline_data: finished");
+
+					var pic = $("restartOfflinePic");
+
+					if (pic) { 
+						pic.src = "images/offline.png";
+						pic.title = __("Restart in offline mode");
+					}			 
 
 					db.execute("DELETE FROM articles WHERE "+
 						"updated < DATETIME('NOW', 'localtime', '-31 days')");
@@ -737,6 +744,7 @@ function offline_download_parse(stage, transport) {
 			}
 
 			update_local_sync_data();
+		
 
 //			notify('');
 
@@ -777,6 +785,13 @@ function update_offline_data(stage) {
 		}
 
 		debug(query + "/" + to_sync);
+
+		var pic = $("restartOfflinePic");
+
+		if (pic) {
+			pic.src = "images/offline-sync.gif";
+			pic.title = __("Synchronizing offline data...");
+		}
 
 		new Ajax.Request(query, {
 			parameters: to_sync,
