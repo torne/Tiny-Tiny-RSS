@@ -36,6 +36,6 @@
 
 </td></tr></table>
 
-<p class='insensitive'><span class='small'><?php echo _("<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS configuration and your access level.") ?></span></p>
+<p class='insensitive'><span class='small'><?php echo __("<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS configuration and your access level.") ?></span></p>
 
 <p class="small"><?php echo __("Press any key to close this window.") ?></p>
