@@ -760,12 +760,10 @@ function update_offline_data(stage) {
 		if (!stage) stage = 0;
 		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
-		debug("update_offline_data: stage " + stage);
-
 //		notify_progress("Updating offline data... (" + stage +")", true);
 
-		var query = "backend.php?op=rpc&subop=download&stage=" + stage;
-
+		var query = "backend.php?op=rpc&subop=download";
+		
 		var rs = db.execute("SELECT MAX(id), MIN(id) FROM articles");
 
 		if (rs.isValidRow() && rs.field(0)) {
@@ -774,9 +772,15 @@ function update_offline_data(stage) {
 
 			query = query + "&cidt=" + offline_dl_max_id;
 			query = query + "&cidb=" + offline_dl_min_id;
+
+			stage = 1;
 		}
 
 		rs.close();
+
+		debug("update_offline_data: stage " + stage);
+
+		query = query + "&stage=" + stage;
 
 		var to_sync = prepare_local_sync_data();
 
