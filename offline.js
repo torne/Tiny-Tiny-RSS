@@ -974,6 +974,9 @@ function init_gears() {
 		if (window.google && google.gears) {
 			localServer = google.gears.factory.create("beta.localserver");
 			store = localServer.createManagedStore("tt-rss");
+			store.manifestUrl = "manifest.json";
+			store.checkForUpdate();
+
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
 
