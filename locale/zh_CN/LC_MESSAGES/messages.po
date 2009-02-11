@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-09 23:01+0300\n"
+"POT-Creation-Date: 2009-02-11 18:35+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -77,7 +77,7 @@ msgstr "每天"
 msgid "Weekly"
 msgstr "每周"
 
-#: backend.php:122 tt-rss.php:213 modules/pref-prefs.php:315
+#: backend.php:122 tt-rss.php:231 modules/pref-prefs.php:315
 msgid "Default"
 msgstr "默认"
 
@@ -162,227 +162,228 @@ msgstr ""
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 
-#: functions.php:2828 modules/popup-dialog.php:175
+#: functions.php:2835 modules/popup-dialog.php:175
 #: modules/pref-filters.php:413 mobile/functions.php:744
 msgid "All feeds"
 msgstr "所有feed"
 
-#: functions.php:2857 functions.php:2896 functions.php:3285 functions.php:4240
-#: functions.php:4270 modules/pref-feeds.php:1247
+#: functions.php:2864 functions.php:2903 functions.php:3314 functions.php:4269
+#: functions.php:4299 modules/backend-rpc.php:610 modules/pref-feeds.php:1247
 msgid "Uncategorized"
 msgstr "未分类"
 
-#: functions.php:2886 functions.php:3479 mobile/functions.php:33
+#: functions.php:2893 functions.php:3508 modules/backend-rpc.php:615
+#: mobile/functions.php:33
 msgid "Special"
 msgstr "专用"
 
-#: functions.php:2888 functions.php:3314 functions.php:3481 prefs.php:129
-#: help/4.php:12 mobile/functions.php:83
+#: functions.php:2895 functions.php:3343 functions.php:3510 prefs.php:129
+#: modules/backend-rpc.php:620 help/4.php:12 mobile/functions.php:83
 msgid "Labels"
 msgstr "标记"
 
-#: functions.php:2906 functions.php:3307 functions.php:4092 help/3.php:59
+#: functions.php:2913 functions.php:3336 functions.php:4121 help/3.php:59
 #: mobile/functions.php:61
 msgid "Starred articles"
 msgstr "星级文章"
 
-#: functions.php:2908 functions.php:3311 functions.php:4099
+#: functions.php:2915 functions.php:3340 functions.php:4128
 #: modules/pref-feeds.php:1423 help/3.php:60 mobile/functions.php:70
 msgid "Published articles"
 msgstr "已发布文章"
 
-#: functions.php:2910 functions.php:3317 functions.php:4077 help/3.php:58
+#: functions.php:2917 functions.php:3346 functions.php:4106 help/3.php:58
 #: mobile/functions.php:52
 #, fuzzy
 msgid "Fresh articles"
 msgstr "星级文章"
 
-#: functions.php:2912 functions.php:3320 functions.php:4070 help/3.php:57
+#: functions.php:2919 functions.php:3349 functions.php:4099 help/3.php:57
 #: mobile/functions.php:43
 #, fuzzy
 msgid "All articles"
 msgstr "所有文章"
 
-#: functions.php:3271 functions.php:3273
+#: functions.php:3300 functions.php:3302
 msgid "Search results"
 msgstr "搜索结果"
 
-#: functions.php:3289 functions.php:3302 functions.php:3308 functions.php:3312
-#: functions.php:3318 functions.php:3321 functions.php:3329
+#: functions.php:3318 functions.php:3331 functions.php:3337 functions.php:3341
+#: functions.php:3347 functions.php:3350 functions.php:3358
 msgid "Searched for"
 msgstr "搜索"
 
-#: functions.php:3949
+#: functions.php:3978
 msgid "Generated feed"
 msgstr "产生feed"
 
-#: functions.php:3954 functions.php:5218 modules/pref-feeds.php:1028
+#: functions.php:3983 functions.php:5247 modules/pref-feeds.php:1028
 #: modules/pref-feeds.php:1209 modules/pref-filters.php:366
 #: modules/pref-labels.php:163 modules/pref-users.php:401
 msgid "Select:"
 msgstr "选择："
 
-#: functions.php:3955 modules/pref-feeds.php:1029 modules/pref-feeds.php:1210
+#: functions.php:3984 modules/pref-feeds.php:1029 modules/pref-feeds.php:1210
 #: modules/pref-filters.php:367 modules/pref-labels.php:164
 #: modules/pref-users.php:402 mobile/functions.php:570
 msgid "All"
 msgstr "所有"
 
-#: functions.php:3956 functions.php:3972 tt-rss.php:205
+#: functions.php:3985 functions.php:4001 tt-rss.php:223
 #: mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "未读"
 
-#: functions.php:3957 mobile/functions.php:573
+#: functions.php:3986 mobile/functions.php:573
 #, fuzzy
 msgid "Invert"
 msgstr "(逆)"
 
-#: functions.php:3958 modules/pref-feeds.php:1030 modules/pref-feeds.php:1211
+#: functions.php:3987 modules/pref-feeds.php:1030 modules/pref-feeds.php:1211
 #: modules/pref-filters.php:368 modules/pref-labels.php:165
 #: modules/pref-users.php:403 mobile/functions.php:572
 msgid "None"
 msgstr "无"
 
-#: functions.php:3966 tt-rss.php:154 modules/pref-feeds.php:1371
+#: functions.php:3995 tt-rss.php:172 modules/pref-feeds.php:1371
 msgid "Actions..."
 msgstr "激活..."
 
-#: functions.php:3971
+#: functions.php:4000
 #, fuzzy
 msgid "Selection toggle:"
 msgstr "选择："
 
-#: functions.php:3973 tt-rss.php:204 mobile/functions.php:459
+#: functions.php:4002 tt-rss.php:222 mobile/functions.php:459
 msgid "Starred"
 msgstr "星级"
 
-#: functions.php:3974
+#: functions.php:4003
 msgid "Published"
 msgstr "已发布"
 
-#: functions.php:3976
+#: functions.php:4005
 msgid "Mark as read:"
 msgstr "标记为已读："
 
-#: functions.php:3977 mobile/functions.php:578
+#: functions.php:4006 mobile/functions.php:578
 msgid "Selection"
 msgstr "选择："
 
-#: functions.php:3979 mobile/functions.php:580
+#: functions.php:4008 mobile/functions.php:580
 msgid "Entire feed"
 msgstr "输入feed"
 
-#: functions.php:3983
+#: functions.php:4012
 #, fuzzy
 msgid "Assign label:"
 msgstr "指定标签"
 
-#: functions.php:4024
+#: functions.php:4053
 msgid "Click to collapse category"
 msgstr ""
 
-#: functions.php:4290
+#: functions.php:4319
 msgid "No feeds to display."
 msgstr "无feed显示。"
 
-#: functions.php:4307 mobile/functions.php:12
+#: functions.php:4336 mobile/functions.php:12
 msgid "Tags"
 msgstr "标签"
 
-#: functions.php:4543
+#: functions.php:4572
 #, fuzzy
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4567 functions.php:5237
+#: functions.php:4596 functions.php:5266
 msgid "Edit tags for this article"
 msgstr ""
 
-#: functions.php:4575
+#: functions.php:4604
 #, fuzzy
 msgid "Display original article content"
 msgstr "显示最近文章时间"
 
-#: functions.php:4582 functions.php:5228
+#: functions.php:4611 functions.php:5257
 #, fuzzy
 msgid "Show article summary in new window"
 msgstr "新窗口打开文章连结"
 
-#: functions.php:4615 functions.php:5152
+#: functions.php:4644 functions.php:5181
 #, fuzzy
 msgid "unknown type"
 msgstr "未知错误"
 
-#: functions.php:4621 functions.php:5158
+#: functions.php:4650 functions.php:5187
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4657 functions.php:5192
+#: functions.php:4686 functions.php:5221
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4659 functions.php:5194
+#: functions.php:4688 functions.php:5223
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4679 modules/help.php:22 modules/popup-dialog.php:52
+#: functions.php:4708 modules/help.php:22 modules/popup-dialog.php:52
 #: modules/popup-dialog.php:456 modules/pref-feeds.php:1079
 msgid "Close this window"
 msgstr "关闭此窗口"
 
-#: functions.php:4735
+#: functions.php:4764
 msgid "Feed not found."
 msgstr "未找到Feed."
 
-#: functions.php:4804 mobile/functions.php:423
+#: functions.php:4833 mobile/functions.php:423
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:5126
+#: functions.php:5155
 #, fuzzy
 msgid "Click to expand article"
 msgstr "星级文章"
 
-#: functions.php:5263
+#: functions.php:5292
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5266
+#: functions.php:5295
 #, fuzzy
 msgid "No updated articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5269
+#: functions.php:5298
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5273
+#: functions.php:5302
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5275
+#: functions.php:5304
 #, fuzzy
 msgid "No articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5949 tt-rss.php:171
+#: functions.php:5978 tt-rss.php:189
 #, fuzzy
 msgid "Create label..."
 msgstr "创建标记"
 
-#: functions.php:5962
+#: functions.php:5991
 #, fuzzy
 msgid "(remove)"
 msgstr "移除"
 
-#: functions.php:6006
+#: functions.php:6035
 msgid "no tags"
 msgstr "无标签"
 
@@ -394,7 +395,7 @@ msgstr "显示Feed"
 msgid "display tags"
 msgstr "显示标签"
 
-#: localized_js.php:37 prefs.php:66 prefs.php:138 tt-rss.php:68
+#: localized_js.php:37 prefs.php:66 prefs.php:138 tt-rss.php:71
 msgid "Loading, please wait..."
 msgstr "读取中，请等待..."
 
@@ -592,7 +593,7 @@ msgstr "更新提要失败（缺少XML支持）"
 msgid "Could not display article (missing XML object)"
 msgstr "显示条目失败（缺少XML支持）"
 
-#: localized_js.php:95 tt-rss.php:259 tt-rss.php:272
+#: localized_js.php:95 tt-rss.php:277 tt-rss.php:290
 msgid "No feed selected."
 msgstr "无选定feed."
 
@@ -780,7 +781,7 @@ msgstr "无选定文章。"
 msgid "Saving feeds..."
 msgstr "保存feed中..."
 
-#: localized_schema.php:9 tt-rss.php:215 modules/popup-dialog.php:165
+#: localized_schema.php:9 tt-rss.php:233 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:1222 modules/pref-feeds.php:1283
 #: mobile/functions.php:775
 msgid "Title"
@@ -807,7 +808,7 @@ msgstr ""
 msgid "Filter article"
 msgstr "过滤文章"
 
-#: localized_schema.php:16 tt-rss.php:166 mobile/functions.php:583
+#: localized_schema.php:16 tt-rss.php:184 mobile/functions.php:583
 msgid "Mark as read"
 msgstr "标记为已读"
 
@@ -1114,14 +1115,14 @@ msgstr "未检测到DOMXML 扩展， 要求PHP5以下版本。"
 msgid "Return to preferences"
 msgstr "返回 我的最爱"
 
-#: prefs.php:74 prefs.php:141 tt-rss.php:76
+#: prefs.php:74 prefs.php:141 tt-rss.php:79
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
 "\t\tbrowser settings."
 msgstr "您的浏览器不支持Javascript, 请检查设置。"
 
-#: prefs.php:101 tt-rss.php:116
+#: prefs.php:101 tt-rss.php:121
 msgid "Hello,"
 msgstr "你好,"
 
@@ -1129,7 +1130,7 @@ msgstr "你好,"
 msgid "Exit preferences"
 msgstr "退出我的最爱"
 
-#: prefs.php:105 tt-rss.php:126 mobile/functions.php:21
+#: prefs.php:105 tt-rss.php:131 mobile/functions.php:21
 msgid "Logout"
 msgstr "注销"
 
@@ -1138,7 +1139,7 @@ msgstr "注销"
 msgid "Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
-#: prefs.php:123 tt-rss.php:118 tt-rss.php:156 help/3.php:62 help/4.php:8
+#: prefs.php:123 tt-rss.php:123 tt-rss.php:174 help/3.php:62 help/4.php:8
 msgid "Preferences"
 msgstr "我的最爱"
 
@@ -1216,145 +1217,154 @@ msgstr ""
 msgid "New user registrations are currently closed."
 msgstr ""
 
-#: tt-rss.php:122
+#: tt-rss.php:127
 #, fuzzy
 msgid "Comments?"
 msgstr "内容"
 
-#: tt-rss.php:130
+#: tt-rss.php:136
+#, fuzzy
+msgid "Restart in offline mode"
+msgstr "设置检查失败"
+
+#: tt-rss.php:139
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr ""
 
-#: tt-rss.php:140
+#: tt-rss.php:147
+msgid "Restart in online mode"
+msgstr ""
+
+#: tt-rss.php:158
 msgid "tag cloud"
 msgstr "标签簇"
 
-#: tt-rss.php:144
+#: tt-rss.php:162
 #, fuzzy
 msgid "More feeds..."
 msgstr "移除feed中..."
 
-#: tt-rss.php:155
+#: tt-rss.php:173
 #, fuzzy
 msgid "Search..."
 msgstr "搜索"
 
-#: tt-rss.php:158
+#: tt-rss.php:176
 msgid "Feed actions:"
 msgstr "Feed 操作："
 
-#: tt-rss.php:159
+#: tt-rss.php:177
 #, fuzzy
 msgid "Subscribe to feed..."
 msgstr "订阅feed"
 
-#: tt-rss.php:160
+#: tt-rss.php:178
 #, fuzzy
 msgid "Edit this feed..."
 msgstr "输入feed"
 
-#: tt-rss.php:161
+#: tt-rss.php:179
 #, fuzzy
 msgid "Clear articles"
 msgstr "过滤文章"
 
-#: tt-rss.php:162
+#: tt-rss.php:180
 #, fuzzy
 msgid "Rescore feed"
 msgstr "移除feed中..."
 
-#: tt-rss.php:163 modules/pref-feeds.php:372 modules/pref-feeds.php:1384
+#: tt-rss.php:181 modules/pref-feeds.php:372 modules/pref-feeds.php:1384
 msgid "Unsubscribe"
 msgstr "退订"
 
-#: tt-rss.php:165
+#: tt-rss.php:183
 msgid "All feeds:"
 msgstr "所有feed:"
 
-#: tt-rss.php:167 help/3.php:44
+#: tt-rss.php:185 help/3.php:44
 #, fuzzy
 msgid "(Un)hide read feeds"
 msgstr "&nbsp;&nbsp;(显示)隐藏已读feed"
 
-#: tt-rss.php:169
+#: tt-rss.php:187
 msgid "Other actions:"
 msgstr "其他操作:"
 
-#: tt-rss.php:172
+#: tt-rss.php:190
 #, fuzzy
 msgid "Create filter..."
 msgstr "创建过滤器"
 
-#: tt-rss.php:173
+#: tt-rss.php:191
 #, fuzzy
 msgid "Reset UI layout"
 msgstr "&nbsp;&nbsp;订阅feed"
 
-#: tt-rss.php:174
+#: tt-rss.php:192
 #, fuzzy
 msgid "Reset category order"
 msgstr "移除选定分类?"
 
-#: tt-rss.php:176
+#: tt-rss.php:193
 #, fuzzy
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;创建过滤器"
 
-#: tt-rss.php:184
+#: tt-rss.php:202
 #, fuzzy
 msgid "Collapse feedlist"
 msgstr "隐藏我的Feed列表"
 
-#: tt-rss.php:186
+#: tt-rss.php:204
 msgid "Toggle Feedlist"
 msgstr ""
 
-#: tt-rss.php:194 mobile/functions.php:738
+#: tt-rss.php:212 mobile/functions.php:738
 msgid "Search:"
 msgstr "搜索:"
 
-#: tt-rss.php:202 mobile/functions.php:456
+#: tt-rss.php:220 mobile/functions.php:456
 msgid "Adaptive"
 msgstr "自适应"
 
-#: tt-rss.php:203 mobile/functions.php:457
+#: tt-rss.php:221 mobile/functions.php:457
 msgid "All Articles"
 msgstr "所有文章"
 
-#: tt-rss.php:206
+#: tt-rss.php:224
 msgid "Ignore Scoring"
 msgstr ""
 
-#: tt-rss.php:207 modules/pref-feeds.php:1228 modules/pref-feeds.php:1291
+#: tt-rss.php:225 modules/pref-feeds.php:1228 modules/pref-feeds.php:1291
 #: mobile/functions.php:501 mobile/functions.php:504
 msgid "Updated"
 msgstr "已更新"
 
-#: tt-rss.php:210
+#: tt-rss.php:228
 #, fuzzy
 msgid "Order:"
 msgstr "地点:"
 
-#: tt-rss.php:214 modules/popup-dialog.php:250 modules/pref-filters.php:51
+#: tt-rss.php:232 modules/popup-dialog.php:250 modules/pref-filters.php:51
 #: modules/pref-filters.php:443
 #, fuzzy
 msgid "Date"
 msgstr "更新"
 
-#: tt-rss.php:216
+#: tt-rss.php:234
 msgid "Score"
 msgstr ""
 
-#: tt-rss.php:220
+#: tt-rss.php:238
 msgid "Limit:"
 msgstr "限制:"
 
-#: tt-rss.php:245 modules/pref-feeds.php:236 modules/pref-feeds.php:433
+#: tt-rss.php:263 modules/pref-feeds.php:236 modules/pref-feeds.php:433
 #: mobile/functions.php:436
 msgid "Update"
 msgstr "更新"
 
-#: tt-rss.php:263
+#: tt-rss.php:281
 msgid "Drag me to resize panels"
 msgstr ""
 
@@ -2432,6 +2442,12 @@ msgstr "编辑分类"
 
 #: help/4.php:33
 msgid "Focus search (if present)"
+msgstr ""
+
+#: help/4.php:39
+msgid ""
+"<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS "
+"configuration and your access level."
 msgstr ""
 
 #: mobile/functions.php:13

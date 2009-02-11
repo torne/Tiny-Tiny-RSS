@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-09 23:01+0300\n"
+"POT-Creation-Date: 2009-02-11 18:35+0300\n"
 "PO-Revision-Date: 2009-01-26 08:36+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -85,7 +85,7 @@ msgstr "Раз в день"
 msgid "Weekly"
 msgstr "Раз в неделю"
 
-#: backend.php:122 tt-rss.php:213 modules/pref-prefs.php:315
+#: backend.php:122 tt-rss.php:231 modules/pref-prefs.php:315
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -175,171 +175,172 @@ msgstr ""
 "неудавшийся тест экранирования SQL, проверьте вашу базу данных и "
 "конфигурацию PHP"
 
-#: functions.php:2828 modules/popup-dialog.php:175
+#: functions.php:2835 modules/popup-dialog.php:175
 #: modules/pref-filters.php:413 mobile/functions.php:744
 msgid "All feeds"
 msgstr "Все каналы"
 
-#: functions.php:2857 functions.php:2896 functions.php:3285 functions.php:4240
-#: functions.php:4270 modules/pref-feeds.php:1247
+#: functions.php:2864 functions.php:2903 functions.php:3314 functions.php:4269
+#: functions.php:4299 modules/backend-rpc.php:610 modules/pref-feeds.php:1247
 msgid "Uncategorized"
 msgstr "Нет категории"
 
-#: functions.php:2886 functions.php:3479 mobile/functions.php:33
+#: functions.php:2893 functions.php:3508 modules/backend-rpc.php:615
+#: mobile/functions.php:33
 msgid "Special"
 msgstr "Особые"
 
-#: functions.php:2888 functions.php:3314 functions.php:3481 prefs.php:129
-#: help/4.php:12 mobile/functions.php:83
+#: functions.php:2895 functions.php:3343 functions.php:3510 prefs.php:129
+#: modules/backend-rpc.php:620 help/4.php:12 mobile/functions.php:83
 msgid "Labels"
 msgstr "Метки"
 
-#: functions.php:2906 functions.php:3307 functions.php:4092 help/3.php:59
+#: functions.php:2913 functions.php:3336 functions.php:4121 help/3.php:59
 #: mobile/functions.php:61
 msgid "Starred articles"
 msgstr "Отмеченные"
 
-#: functions.php:2908 functions.php:3311 functions.php:4099
+#: functions.php:2915 functions.php:3340 functions.php:4128
 #: modules/pref-feeds.php:1423 help/3.php:60 mobile/functions.php:70
 msgid "Published articles"
 msgstr "Опубликованные"
 
-#: functions.php:2910 functions.php:3317 functions.php:4077 help/3.php:58
+#: functions.php:2917 functions.php:3346 functions.php:4106 help/3.php:58
 #: mobile/functions.php:52
 msgid "Fresh articles"
 msgstr "Свежие"
 
-#: functions.php:2912 functions.php:3320 functions.php:4070 help/3.php:57
+#: functions.php:2919 functions.php:3349 functions.php:4099 help/3.php:57
 #: mobile/functions.php:43
 msgid "All articles"
 msgstr "Все статьи"
 
-#: functions.php:3271 functions.php:3273
+#: functions.php:3300 functions.php:3302
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: functions.php:3289 functions.php:3302 functions.php:3308 functions.php:3312
-#: functions.php:3318 functions.php:3321 functions.php:3329
+#: functions.php:3318 functions.php:3331 functions.php:3337 functions.php:3341
+#: functions.php:3347 functions.php:3350 functions.php:3358
 msgid "Searched for"
 msgstr "Поиск"
 
-#: functions.php:3949
+#: functions.php:3978
 msgid "Generated feed"
 msgstr "Генерировать канал"
 
-#: functions.php:3954 functions.php:5218 modules/pref-feeds.php:1028
+#: functions.php:3983 functions.php:5247 modules/pref-feeds.php:1028
 #: modules/pref-feeds.php:1209 modules/pref-filters.php:366
 #: modules/pref-labels.php:163 modules/pref-users.php:401
 msgid "Select:"
 msgstr "Выбрать:"
 
-#: functions.php:3955 modules/pref-feeds.php:1029 modules/pref-feeds.php:1210
+#: functions.php:3984 modules/pref-feeds.php:1029 modules/pref-feeds.php:1210
 #: modules/pref-filters.php:367 modules/pref-labels.php:164
 #: modules/pref-users.php:402 mobile/functions.php:570
 msgid "All"
 msgstr "Все"
 
-#: functions.php:3956 functions.php:3972 tt-rss.php:205
+#: functions.php:3985 functions.php:4001 tt-rss.php:223
 #: mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "Новые"
 
-#: functions.php:3957 mobile/functions.php:573
+#: functions.php:3986 mobile/functions.php:573
 msgid "Invert"
 msgstr "Инвертировать"
 
-#: functions.php:3958 modules/pref-feeds.php:1030 modules/pref-feeds.php:1211
+#: functions.php:3987 modules/pref-feeds.php:1030 modules/pref-feeds.php:1211
 #: modules/pref-filters.php:368 modules/pref-labels.php:165
 #: modules/pref-users.php:403 mobile/functions.php:572
 msgid "None"
 msgstr "Ничего"
 
-#: functions.php:3966 tt-rss.php:154 modules/pref-feeds.php:1371
+#: functions.php:3995 tt-rss.php:172 modules/pref-feeds.php:1371
 msgid "Actions..."
 msgstr "Действия..."
 
-#: functions.php:3971
+#: functions.php:4000
 msgid "Selection toggle:"
 msgstr "Переключить выбранное:"
 
-#: functions.php:3973 tt-rss.php:204 mobile/functions.php:459
+#: functions.php:4002 tt-rss.php:222 mobile/functions.php:459
 msgid "Starred"
 msgstr "Отмеченные"
 
-#: functions.php:3974
+#: functions.php:4003
 msgid "Published"
 msgstr "Опубликован"
 
-#: functions.php:3976
+#: functions.php:4005
 msgid "Mark as read:"
 msgstr "Пометить как прочит.:"
 
-#: functions.php:3977 mobile/functions.php:578
+#: functions.php:4006 mobile/functions.php:578
 msgid "Selection"
 msgstr "Выбранные"
 
-#: functions.php:3979 mobile/functions.php:580
+#: functions.php:4008 mobile/functions.php:580
 msgid "Entire feed"
 msgstr "Весь канал"
 
-#: functions.php:3983
+#: functions.php:4012
 msgid "Assign label:"
 msgstr "Применить метку:"
 
-#: functions.php:4024
+#: functions.php:4053
 msgid "Click to collapse category"
 msgstr "Щёлкните, чтобы развернуть категорию"
 
-#: functions.php:4290
+#: functions.php:4319
 msgid "No feeds to display."
 msgstr "Нет каналов для отображения."
 
-#: functions.php:4307 mobile/functions.php:12
+#: functions.php:4336 mobile/functions.php:12
 msgid "Tags"
 msgstr "Теги"
 
-#: functions.php:4543
+#: functions.php:4572
 msgid " - "
 msgstr " - "
 
-#: functions.php:4567 functions.php:5237
+#: functions.php:4596 functions.php:5266
 msgid "Edit tags for this article"
 msgstr "Редактировать теги статьи"
 
-#: functions.php:4575
+#: functions.php:4604
 msgid "Display original article content"
 msgstr "Показать оригинальное содержимое статьи"
 
-#: functions.php:4582 functions.php:5228
+#: functions.php:4611 functions.php:5257
 msgid "Show article summary in new window"
 msgstr "Показать детали статьи в новом окне"
 
-#: functions.php:4615 functions.php:5152
+#: functions.php:4644 functions.php:5181
 msgid "unknown type"
 msgstr "Неизвестный тип"
 
-#: functions.php:4621 functions.php:5158
+#: functions.php:4650 functions.php:5187
 msgid "audio/mpeg"
 msgstr "audio/mpeg"
 
-#: functions.php:4657 functions.php:5192
+#: functions.php:4686 functions.php:5221
 msgid "Attachment:"
 msgstr "Вложение:"
 
-#: functions.php:4659 functions.php:5194
+#: functions.php:4688 functions.php:5223
 msgid "Attachments:"
 msgstr "Вложения:"
 
-#: functions.php:4679 modules/help.php:22 modules/popup-dialog.php:52
+#: functions.php:4708 modules/help.php:22 modules/popup-dialog.php:52
 #: modules/popup-dialog.php:456 modules/pref-feeds.php:1079
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
-#: functions.php:4735
+#: functions.php:4764
 msgid "Feed not found."
 msgstr "Канал не найден."
 
-#: functions.php:4804 mobile/functions.php:423
+#: functions.php:4833 mobile/functions.php:423
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -347,23 +348,23 @@ msgstr ""
 "Не могу показать канал (ошибка в запросе). Пожалуйста проверьте синтаксис "
 "или локальную конфигурацию."
 
-#: functions.php:5126
+#: functions.php:5155
 msgid "Click to expand article"
 msgstr "Щёлкните чтобы развернуть статью"
 
-#: functions.php:5263
+#: functions.php:5292
 msgid "No unread articles found to display."
 msgstr "Не найдено не прочитанных статей"
 
-#: functions.php:5266
+#: functions.php:5295
 msgid "No updated articles found to display."
 msgstr "Не найдено не прочитанных статей."
 
-#: functions.php:5269
+#: functions.php:5298
 msgid "No starred articles found to display."
 msgstr "Не найдено отмеченных статей"
 
-#: functions.php:5273
+#: functions.php:5302
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -371,19 +372,19 @@ msgstr ""
 "Нет статей для показа. Вы можете присвоить метку вручную (смотрите выше меню "
 "Действия) или используйте фильтр."
 
-#: functions.php:5275
+#: functions.php:5304
 msgid "No articles found to display."
 msgstr "Статей не найдено."
 
-#: functions.php:5949 tt-rss.php:171
+#: functions.php:5978 tt-rss.php:189
 msgid "Create label..."
 msgstr "Создать метку..."
 
-#: functions.php:5962
+#: functions.php:5991
 msgid "(remove)"
 msgstr "(удалить)"
 
-#: functions.php:6006
+#: functions.php:6035
 msgid "no tags"
 msgstr "нет тегов"
 
@@ -395,7 +396,7 @@ msgstr "показать каналы"
 msgid "display tags"
 msgstr "показать теги"
 
-#: localized_js.php:37 prefs.php:66 prefs.php:138 tt-rss.php:68
+#: localized_js.php:37 prefs.php:66 prefs.php:138 tt-rss.php:71
 msgid "Loading, please wait..."
 msgstr "Идет загрузка..."
 
@@ -593,7 +594,7 @@ msgstr "Не могу обновить заголовки (отсутствуе�
 msgid "Could not display article (missing XML object)"
 msgstr "Не могу показать статью (отсутствует XML объект)"
 
-#: localized_js.php:95 tt-rss.php:259 tt-rss.php:272
+#: localized_js.php:95 tt-rss.php:277 tt-rss.php:290
 msgid "No feed selected."
 msgstr "Канал не выбран."
 
@@ -766,7 +767,7 @@ msgstr "Сохранить изменения выбранных каналов?
 msgid "Saving feeds..."
 msgstr "Сохраняются каналы..."
 
-#: localized_schema.php:9 tt-rss.php:215 modules/popup-dialog.php:165
+#: localized_schema.php:9 tt-rss.php:233 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:1222 modules/pref-feeds.php:1283
 #: mobile/functions.php:775
 msgid "Title"
@@ -793,7 +794,7 @@ msgstr "Дата Статьи"
 msgid "Filter article"
 msgstr "Отфильтровать статью"
 
-#: localized_schema.php:16 tt-rss.php:166 mobile/functions.php:583
+#: localized_schema.php:16 tt-rss.php:184 mobile/functions.php:583
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
@@ -1116,7 +1117,7 @@ msgstr "Расширение DOMXML не найдено. Оно необходи
 msgid "Return to preferences"
 msgstr "Вернуться к настройкам"
 
-#: prefs.php:74 prefs.php:141 tt-rss.php:76
+#: prefs.php:74 prefs.php:141 tt-rss.php:79
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
@@ -1126,7 +1127,7 @@ msgstr ""
 "\t\tдля функционала этой программы. Пожалуйста, проверьте\n"
 "\t\tнастройки вашего браузера."
 
-#: prefs.php:101 tt-rss.php:116
+#: prefs.php:101 tt-rss.php:121
 msgid "Hello,"
 msgstr "Привет,"
 
@@ -1134,7 +1135,7 @@ msgstr "Привет,"
 msgid "Exit preferences"
 msgstr "Закрыть настройки"
 
-#: prefs.php:105 tt-rss.php:126 mobile/functions.php:21
+#: prefs.php:105 tt-rss.php:131 mobile/functions.php:21
 msgid "Logout"
 msgstr "Выход"
 
@@ -1142,7 +1143,7 @@ msgstr "Выход"
 msgid "Keyboard shortcuts"
 msgstr "Горячие Клавиши"
 
-#: prefs.php:123 tt-rss.php:118 tt-rss.php:156 help/3.php:62 help/4.php:8
+#: prefs.php:123 tt-rss.php:123 tt-rss.php:174 help/3.php:62 help/4.php:8
 msgid "Preferences"
 msgstr "Настройки"
 
@@ -1217,130 +1218,139 @@ msgstr "Аккаунт успешно создан."
 msgid "New user registrations are currently closed."
 msgstr "Регистрация новых пользователей временно закрыта."
 
-#: tt-rss.php:122
+#: tt-rss.php:127
 msgid "Comments?"
 msgstr "Комментарии?"
 
-#: tt-rss.php:130
+#: tt-rss.php:136
+#, fuzzy
+msgid "Restart in offline mode"
+msgstr "Неудачная регистрация."
+
+#: tt-rss.php:139
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Доступная новая версия Tiny Tiny RSS!"
 
-#: tt-rss.php:140
+#: tt-rss.php:147
+msgid "Restart in online mode"
+msgstr ""
+
+#: tt-rss.php:158
 msgid "tag cloud"
 msgstr "облако тегов"
 
-#: tt-rss.php:144
+#: tt-rss.php:162
 msgid "More feeds..."
 msgstr "Больше каналов..."
 
-#: tt-rss.php:155
+#: tt-rss.php:173
 msgid "Search..."
 msgstr "Поиск..."
 
-#: tt-rss.php:158
+#: tt-rss.php:176
 msgid "Feed actions:"
 msgstr "Действия над каналами:"
 
-#: tt-rss.php:159
+#: tt-rss.php:177
 msgid "Subscribe to feed..."
 msgstr "Подписаться на канал..."
 
-#: tt-rss.php:160
+#: tt-rss.php:178
 msgid "Edit this feed..."
 msgstr "Редактировать канал..."
 
-#: tt-rss.php:161
+#: tt-rss.php:179
 msgid "Clear articles"
 msgstr "Очистить статьи"
 
-#: tt-rss.php:162
+#: tt-rss.php:180
 msgid "Rescore feed"
 msgstr "Заново оценить канал"
 
-#: tt-rss.php:163 modules/pref-feeds.php:372 modules/pref-feeds.php:1384
+#: tt-rss.php:181 modules/pref-feeds.php:372 modules/pref-feeds.php:1384
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
-#: tt-rss.php:165
+#: tt-rss.php:183
 msgid "All feeds:"
 msgstr "Все каналы:"
 
-#: tt-rss.php:167 help/3.php:44
+#: tt-rss.php:185 help/3.php:44
 msgid "(Un)hide read feeds"
 msgstr "&nbsp;&nbsp;Показать/скрыть прочитанные"
 
-#: tt-rss.php:169
+#: tt-rss.php:187
 msgid "Other actions:"
 msgstr "Другие действия:"
 
-#: tt-rss.php:172
+#: tt-rss.php:190
 msgid "Create filter..."
 msgstr "Создать фильтр..."
 
-#: tt-rss.php:173
+#: tt-rss.php:191
 msgid "Reset UI layout"
 msgstr "Сбросить панели"
 
-#: tt-rss.php:174
+#: tt-rss.php:192
 msgid "Reset category order"
 msgstr "Сбросить порядок категорий"
 
-#: tt-rss.php:176
+#: tt-rss.php:193
 msgid "&nbsp;&nbsp;Keyboard shortcuts"
 msgstr "&nbsp;&nbsp;Горячие клавиши"
 
-#: tt-rss.php:184
+#: tt-rss.php:202
 msgid "Collapse feedlist"
 msgstr "Свернуть список каналов"
 
-#: tt-rss.php:186
+#: tt-rss.php:204
 msgid "Toggle Feedlist"
 msgstr "Переключить Список Каналов"
 
-#: tt-rss.php:194 mobile/functions.php:738
+#: tt-rss.php:212 mobile/functions.php:738
 msgid "Search:"
 msgstr "Искать:"
 
-#: tt-rss.php:202 mobile/functions.php:456
+#: tt-rss.php:220 mobile/functions.php:456
 msgid "Adaptive"
 msgstr "Адаптивно"
 
-#: tt-rss.php:203 mobile/functions.php:457
+#: tt-rss.php:221 mobile/functions.php:457
 msgid "All Articles"
 msgstr "Все статьи"
 
-#: tt-rss.php:206
+#: tt-rss.php:224
 msgid "Ignore Scoring"
 msgstr "Игнорировать Оценки"
 
-#: tt-rss.php:207 modules/pref-feeds.php:1228 modules/pref-feeds.php:1291
+#: tt-rss.php:225 modules/pref-feeds.php:1228 modules/pref-feeds.php:1291
 #: mobile/functions.php:501 mobile/functions.php:504
 msgid "Updated"
 msgstr "Обновлено"
 
-#: tt-rss.php:210
+#: tt-rss.php:228
 msgid "Order:"
 msgstr "Порядок:"
 
-#: tt-rss.php:214 modules/popup-dialog.php:250 modules/pref-filters.php:51
+#: tt-rss.php:232 modules/popup-dialog.php:250 modules/pref-filters.php:51
 #: modules/pref-filters.php:443
 msgid "Date"
 msgstr "Дата"
 
-#: tt-rss.php:216
+#: tt-rss.php:234
 msgid "Score"
 msgstr "Оценка"
 
-#: tt-rss.php:220
+#: tt-rss.php:238
 msgid "Limit:"
 msgstr "Сколько:"
 
-#: tt-rss.php:245 modules/pref-feeds.php:236 modules/pref-feeds.php:433
+#: tt-rss.php:263 modules/pref-feeds.php:236 modules/pref-feeds.php:433
 #: mobile/functions.php:436
 msgid "Update"
 msgstr "Обновить"
 
-#: tt-rss.php:263
+#: tt-rss.php:281
 msgid "Drag me to resize panels"
 msgstr "Потяни за меня для изменения размера панелей"
 
@@ -2367,6 +2377,14 @@ msgstr "Редактировать категории канала"
 msgid "Focus search (if present)"
 msgstr "Фокус на поиск (если поиск показан)"
 
+#: help/4.php:39
+msgid ""
+"<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS "
+"configuration and your access level."
+msgstr ""
+"<b>Замечание:</b> не все действия могут быть доступны. Это зависит от "
+"конфигурации Tiny Tiny RSS и вашего уровня доступа."
+
 #: mobile/functions.php:13
 msgid "View feeds"
 msgstr "Каналы"
@@ -2543,13 +2561,6 @@ msgstr "Внутренняя ошибка: Функция не реализов�
 
 #~ msgid "<h1>User not found</h1>"
 #~ msgstr "<h1>Пользователь не найден</h1>"
-
-#~ msgid ""
-#~ "<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS "
-#~ "configuration and your access level."
-#~ msgstr ""
-#~ "<b>Замечание:</b> не все действия могут быть доступны. Это зависит от "
-#~ "конфигурации Tiny Tiny RSS и вашего уровня доступа."
 
 #~ msgid "Tiny Tiny RSS - Subscribe to feed..."
 #~ msgstr "Tiny Tiny RSS - Подписка на канал..."
