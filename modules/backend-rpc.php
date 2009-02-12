@@ -569,7 +569,7 @@
 
 					$query = "SELECT ref_id,unread FROM ttrss_user_entries
 						WHERE last_read >= '$last_online' AND
-								owner_uid = ".$_SESSION["uid"];
+								owner_uid = ".$_SESSION["uid"] . " LIMIT 500";
 
 					$result = db_query($link, $query);
 

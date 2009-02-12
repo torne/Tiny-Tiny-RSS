@@ -460,9 +460,7 @@ function parse_counters(reply, scheduled_call) {
 			if (id == "global-unread") {
 
 				if (ctr > global_unread) {
-					if (db && getInitParam("offline_enabled") == "1") {
-					window.setTimeout("update_offline_data(0)", 100);
-					}
+					offlineDownloadStart();
 				}
 
 				global_unread = ctr;

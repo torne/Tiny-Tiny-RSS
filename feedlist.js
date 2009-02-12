@@ -649,6 +649,10 @@ function mouse_up_handler(e) {
 			document.onselectstart = null;
 			var e = $("headlineActionsBody");
 			if (e) Element.hide(e);
+			
+			var e = $("offlineModeDrop");
+			if (e) Element.hide(e);
+
 		}
 
 	} catch (e) {

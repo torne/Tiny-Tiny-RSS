@@ -4,6 +4,8 @@ var offline_mode = false;
 var store = false;
 var localServer = false;
 var db = false;
+var articles_synced = 0;
+var sync_in_progress = false;
 
 function view_offline(id, feed_id) {
 	try {
@@ -564,6 +566,7 @@ function render_offline_feedlist() {
 function init_offline() {
 	try {
 		offline_mode = true;
+		store.enabled = true;
 
 		Element.hide("dispSwitchPrompt");
 		Element.hide("feedBrowserPrompt");
@@ -720,6 +723,12 @@ function offline_download_parse(stage, transport) {
 
 				debug("downloaded articles: " + articles_found + " limit: " + limit);
 
+				articles_synced += articles_found;
+
+				var msg =__("Synchronizing (got %d articles)...").replace("%d", articles_synced);
+
+				$("offlineModeSyncMsg").innerHTML = msg;
+
 				var has_sync_data = has_local_sync_data();
 
 				if (articles_found >= limit || has_sync_data) {
@@ -730,12 +739,33 @@ function offline_download_parse(stage, transport) {
 					window.setTimeout("update_offline_data(0)", 180*1000);
 					debug("update_offline_data: finished");
 
-					var pic = $("restartOfflinePic");
+					var pic = $("offlineModePic");
 
 					if (pic) { 
 						pic.src = "images/offline.png";
-						pic.title = __("Restart in offline mode");
+
+						var rs = db.execute("SELECT value FROM syncdata WHERE key = 'last_online'");
+						var last_sync = "";
+
+						if (rs.isValidRow()) {
+							last_sync = rs.field(0).substring(0,16);
+						}
+						rs.close();
+
+						var msg = __("Last sync: %s").replace("%s", last_sync);
+
+						articles_synced = 0;
+
+						$("offlineModeSyncMsg").innerHTML = msg;					
 					}			 
+
+					var hide_elems = $$("div.hideWhenSyncing");
+
+					for (var j = 0; j < hide_elems.length; j++) {
+						Element.show(hide_elems[j]);
+					}
+
+					sync_in_progress = false;
 
 					db.execute("DELETE FROM articles WHERE "+
 						"updated < DATETIME('NOW', 'localtime', '-31 days')");
@@ -758,6 +788,7 @@ function update_offline_data(stage) {
 	try {
 
 		if (!stage) stage = 0;
+
 		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
 //		notify_progress("Updating offline data... (" + stage +")", true);
@@ -790,12 +821,22 @@ function update_offline_data(stage) {
 
 		debug(query + "/" + to_sync);
 
-		var pic = $("restartOfflinePic");
+		var pic = $("offlineModePic");
 
 		if (pic) {
 			pic.src = "images/offline-sync.gif";
-			pic.title = __("Synchronizing offline data...");
+			if (articles_synced == 0) {
+				$("offlineModeSyncMsg").innerHTML = __("Synchronizing...");
+			}
 		}
+
+		var hide_elems = $$("div.hideWhenSyncing");
+
+		for (var j = 0; j < hide_elems.length; j++) {
+			Element.hide(hide_elems[j]);
+		}
+		
+		sync_in_progress = true;
 
 		new Ajax.Request(query, {
 			parameters: to_sync,
@@ -959,8 +1000,8 @@ function enable_offline_reading() {
 
 		if (db && getInitParam("offline_enabled") == "1") {
 			init_local_sync_data();
-			Element.show("restartOfflinePic");
-			window.setTimeout("update_offline_data(0)", 100);
+			Element.show("offlineModePic");
+			offlineDownloadStart();
 		}
 
 	} catch (e) {
@@ -974,8 +1015,9 @@ function init_gears() {
 		if (window.google && google.gears) {
 			localServer = google.gears.factory.create("beta.localserver");
 			store = localServer.createManagedStore("tt-rss");
-			store.manifestUrl = "manifest.json.php";
+			store.manifestUrl = "manifest.json.php";		
 			store.checkForUpdate();
+			store.enabled = false;
 
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
@@ -1452,5 +1494,52 @@ function catchup_local_feed(id, is_cat) {
 
 	} catch (e) {
 		exception_error("catchup_local_feed", e);
+	}
+}
+
+function toggleOfflineModeInfo() {
+	try {
+		var e = $('offlineModeDrop');
+		var p = $('offlineModePic');
+		
+		if (Element.visible(e)) {
+			Element.hide(e);
+		} else {
+			Element.show(e);
+		}
+
+	} catch (e) {
+		exception_error("toggleOfflineModeInfo", e);
+	}
+}
+
+function offlineDownloadStart() {
+	try {
+		if (db && !sync_in_progress && getInitParam("offline_enabled") == "1") {
+			window.setTimeout("update_offline_data(0)", 100);
+		}
+	} catch (e) {
+		exception_error("offlineDownloadStart", e);
+	}
+}
+
+function offlineClearData() {
+	try {
+		if (db) {
+
+			if (confirm(__("Remove offline data?"))) {
+
+				notify_progress("Removing offline data...");
+
+				db.execute("DELETE FROM articles");
+				db.execute("DELETE FROM article_labels");
+				db.execute("DELETE FROM labels");
+				db.execute("DELETE FROM feeds");
+
+				notify_info("Offline data removed");
+			}
+		}
+	} catch (e) {
+		exception_error("offlineClearData", e);
 	}
 }

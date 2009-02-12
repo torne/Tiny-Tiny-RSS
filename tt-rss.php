@@ -131,9 +131,23 @@ window.onload = init;
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
-	<img id="restartOfflinePic" src="images/offline.png" style="display:none"
-		onclick="gotoOffline()"
-		title="<?php echo __('Restart in offline mode') ?>"/>
+	<img id="offlineModePic" 
+		onmouseover="enable_selection(false)" 
+		onmouseout="enable_selection(true)"
+		onclick="toggleOfflineModeInfo()"
+		src="images/offline.png" style="display:none"
+		title="<?php echo __('Offline mode') ?>"/>
+
+	<div id="offlineModeDrop" style="display : none">
+		<div id="offlineModeSyncMsg">---</div>
+		<div class="hideWhenSyncing">
+			<a href="javascript:offlineDownloadStart()">
+			<?php echo __('Start synchronization') ?></a></div>
+		<div class="hideWhenSyncing"><a href="javascript:offlineClearData()">
+			<?php echo __('Remove offline data') ?></a></div>
+		<div><a href="javascript:gotoOffline()">
+			<?php echo __('Restart in offline mode') ?></a></div>
+	</div>
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		src="images/new_version.png" title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 

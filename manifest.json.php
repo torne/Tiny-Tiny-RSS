@@ -79,7 +79,7 @@
 
 	foreach ($manifest_files as $f) {
 		$tmp = filemtime($f);
-		if ($tmp > $mtime) {
+		if ($tmp > $mtime_max) {
 			$mtime_max = $tmp;
 		}
 
@@ -89,7 +89,7 @@
 
 {
   "betaManifestVersion": 1,
-  "version": "<?php echo $mtime_max ?>",
+  "version": "<?php echo date("Y.m.d H:i:s", $mtime_max) ?>",
   "entries": [
      <?php echo join(",\n     ", $manifest_formatted); ?>
     ]
