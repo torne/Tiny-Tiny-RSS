@@ -432,7 +432,25 @@
 				$filter_params = array(
 					"before" => __("before"),
 					"after" => __("after"));
-	
+
+				if ($line["action_name"] == 'label') {
+
+					$tmp_result = db_query($link, "SELECT fg_color, bg_color
+						FROM ttrss_labels2 WHERE caption = '".
+							db_escape_string($line["action_param"])."' AND
+							owner_uid = " . $_SESSION["uid"]);
+
+					$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
+					$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
+
+					$tmp = "<div class='labelColorIndicator' id='LICID-$id' 
+						style='color : $fg_color; background-color : $bg_color'>
+						&alpha;";
+					$tmp .= "</div>";
+
+					$line["action_param"] = "$tmp " . $line["action_param"];
+				}
+
 				if ($line["filter_type"] == 5) {
 
 					if (!strtotime($line["reg_exp"])) {
