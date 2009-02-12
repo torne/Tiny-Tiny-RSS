@@ -458,6 +458,13 @@ function parse_counters(reply, scheduled_call) {
 			var xmsg = elems[l].getAttribute("xmsg");
 	
 			if (id == "global-unread") {
+
+				if (ctr > global_unread) {
+					if (db && getInitParam("offline_enabled") == "1") {
+					window.setTimeout("update_offline_data(0)", 100);
+					}
+				}
+
 				global_unread = ctr;
 				updateTitle();
 				continue;
