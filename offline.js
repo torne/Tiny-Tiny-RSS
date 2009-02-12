@@ -1148,7 +1148,7 @@ function gotoOffline() {
 
 		store.checkForUpdate();
 	
-		notify_progress("Preparing offline mode...");
+		notify_progress("Preparing offline mode...", true);
 	
 		var timerId = window.setInterval(function() {
 			if (store.currentVersion) {
