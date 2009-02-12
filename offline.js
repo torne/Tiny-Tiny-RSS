@@ -566,7 +566,6 @@ function render_offline_feedlist() {
 function init_offline() {
 	try {
 		offline_mode = true;
-		store.enabled = true;
 
 		Element.hide("dispSwitchPrompt");
 		Element.hide("feedBrowserPrompt");
@@ -1017,8 +1016,7 @@ function init_gears() {
 			store = localServer.createManagedStore("tt-rss");
 			store.manifestUrl = "manifest.json.php";		
 			store.checkForUpdate();
-			store.enabled = false;
-
+			
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
 
