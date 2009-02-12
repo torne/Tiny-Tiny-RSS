@@ -2228,7 +2228,8 @@
 					$label_id = -$feed - 11;
 
 					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2 
-						SET unread = false WHERE label_id = '$label_id' AND unread = true
+						SET unread = false, last_read = NOW() 
+							WHERE label_id = '$label_id' AND unread = true
 							AND owner_uid = '".$_SESSION["uid"]."' AND ref_id = article_id");
 
 				}
