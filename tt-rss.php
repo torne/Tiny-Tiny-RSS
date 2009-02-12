@@ -136,15 +136,19 @@ window.onload = init;
 		onmouseout="enable_selection(true)"
 		onclick="toggleOfflineModeInfo()"
 		src="images/offline.png" style="display:none"
-		title="<?php echo __('Offline mode') ?>"/>
+		title="<?php echo __('Offline reading') ?>"/>
 
 	<div id="offlineModeDrop" style="display : none">
 		<div id="offlineModeSyncMsg">---</div>
+
+		<div class="showWhenSyncing" style="display : none">
+			<a href="javascript:offlineDownloadStop()">
+			<?php echo __('Cancel synchronization') ?></a></div>
 		<div class="hideWhenSyncing">
 			<a href="javascript:offlineDownloadStart()">
-			<?php echo __('Start synchronization') ?></a></div>
+			<?php echo __('Synchronize') ?></a></div>
 		<div class="hideWhenSyncing"><a href="javascript:offlineClearData()">
-			<?php echo __('Remove offline data') ?></a></div>
+			<?php echo __('Remove stored data') ?></a></div>
 		<div><a href="javascript:gotoOffline()">
 			<?php echo __('Go offline') ?></a></div>
 	</div>

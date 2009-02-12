@@ -634,6 +634,8 @@ function offline_download_parse(stage, transport) {
 
 			if (stage == 0) {
 
+				$("offlineModeSyncMsg").innerHTML = __("Synchronizing feeds...");
+
 				var feeds = transport.responseXML.getElementsByTagName("feed");
 
 				if (feeds.length > 0) {
@@ -651,6 +653,8 @@ function offline_download_parse(stage, transport) {
 						[id, title, has_icon, cat_id]);
 				}
 
+				$("offlineModeSyncMsg").innerHTML = __("Synchronizing categories...");
+
 				var cats = transport.responseXML.getElementsByTagName("category");
 
 				if (feeds.length > 0) {
@@ -666,6 +670,8 @@ function offline_download_parse(stage, transport) {
 						"VALUES (?,?,?)",
 						[id, title, collapsed]);
 				}
+
+				$("offlineModeSyncMsg").innerHTML = __("Synchronizing labels...");
 
 				var labels = transport.responseXML.getElementsByTagName("label");
 
@@ -684,7 +690,9 @@ function offline_download_parse(stage, transport) {
 						[id, caption, fg_color, bg_color]);
 				}
 
-				sync_timer = window.setTimeout("update_offline_data("+(stage+1)+")", 10*1000);
+				$("offlineModeSyncMsg").innerHTML = __("Synchronizing articles...");
+
+				sync_timer = window.setTimeout("update_offline_data("+(stage+1)+")", 2*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -735,7 +743,7 @@ function offline_download_parse(stage, transport) {
 
 				if (articles_found >= limit || has_sync_data) {
 					sync_timer = window.setTimeout("update_offline_data("+(stage+1)+")", 
-						5*1000);
+						3*1000);
 					debug("<b>update_offline_data: done " + stage + " HSD: " + 
 						has_sync_data + "</b>");
 				} else {
@@ -762,11 +770,7 @@ function offline_download_parse(stage, transport) {
 						$("offlineModeSyncMsg").innerHTML = msg;					
 					}			 
 
-					var hide_elems = $$("div.hideWhenSyncing");
-
-					for (var j = 0; j < hide_elems.length; j++) {
-						Element.show(hide_elems[j]);
-					}
+					offlineSyncShowHideElems(false);
 
 					sync_in_progress = false;
 
@@ -788,17 +792,12 @@ function offline_download_parse(stage, transport) {
 
 			if (pic) { 
 				pic.src = "images/offline.png";
-				var msg = __("Last sync: Error receiving data");
+				var msg = __("Last sync: Error receiving data.");
 				articles_synced = 0;
 				$("offlineModeSyncMsg").innerHTML = msg;					
 			}			 
 
-			var hide_elems = $$("div.hideWhenSyncing");
-
-			for (var j = 0; j < hide_elems.length; j++) {
-				Element.show(hide_elems[j]);
-			}
-
+			offlineSyncShowHideElems(false);
 		}
 
 	} catch (e) {
@@ -852,12 +851,8 @@ function update_offline_data(stage) {
 			}
 		}
 
-		var hide_elems = $$("div.hideWhenSyncing");
+		offlineSyncShowHideElems(true);
 
-		for (var j = 0; j < hide_elems.length; j++) {
-			Element.hide(hide_elems[j]);
-		}
-		
 		sync_in_progress = true;
 
 		new Ajax.Request(query, {
@@ -1035,7 +1030,13 @@ function init_gears() {
 	try {
 
 		if (window.google && google.gears) {
-			localServer = google.gears.factory.create("beta.localserver");
+
+			try {
+				localServer = google.gears.factory.create("beta.localserver");
+			} catch (e) {
+				return;
+			}
+
 			store = localServer.createManagedStore("tt-rss");
 			store.manifestUrl = "manifest.json.php";
 
@@ -1130,6 +1131,19 @@ function gotoOffline() {
 
 //	debug("[Local store] currentVersion = " + store.currentVersion);
 
+	var rs = db.execute("SELECT COUNT(*) FROM articles");
+	var count = 0;
+	if (rs.isValidRow()) {
+		count = rs.field(0);
+	}
+
+	rs.close();
+
+	if (count == 0) {
+		notify_error("You have to synchronize some articles before going into offline mode.");
+		return;
+	}
+
 	if (confirm(__("Switch Tiny Tiny RSS into offline mode?"))) {
 
 		store.checkForUpdate();
@@ -1139,10 +1153,19 @@ function gotoOffline() {
 		var timerId = window.setInterval(function() {
 			if (store.currentVersion) {
 				window.clearInterval(timerId);
-				//debug("[Local store] sync complete: " + store.currentVersion);
-				window.location.href = "tt-rss.php";
+				debug("[Local store] sync complete: " + store.currentVersion);
+
+				//window.location.href = "tt-rss.php";
+
+				offlineDownloadStop();
+				offline_mode = true;
+				init_offline();
+
+				notify_info("Tiny Tiny RSS is in offline mode.");
+
 			} else if (store.updateStatus == 3) {
 				debug("[Local store] sync error: " + store.lastErrorMessage);
+				notify_error(store.lastErrorMessage, true);
 			} }, 500);
 	}
 }
@@ -1566,7 +1589,25 @@ function offlineDownloadStart() {
 function offlineDownloadStop() {
 	try {
 		if (db && sync_in_progress && getInitParam("offline_enabled") == "1") {
-			window.clearTimeout(sync_timer);
+
+			sync_in_progress = false;
+
+			if (sync_timer) {
+				window.clearTimeout(sync_timer);
+				sync_timer = false;
+			}
+
+			var pic = $("offlineModePic");
+	
+			if (pic) { 
+				pic.src = "images/offline.png";
+				var msg = __("Last sync: Cancelled.");
+				articles_synced = 0;
+				$("offlineModeSyncMsg").innerHTML = msg;					
+			}			 
+
+			offlineSyncShowHideElems(false);
+
 		}
 	} catch (e) {
 		exception_error("offlineDownloadStart", e);
@@ -1587,8 +1628,9 @@ function offlineClearData() {
 				db.execute("DELETE FROM article_labels");
 				db.execute("DELETE FROM labels");
 				db.execute("DELETE FROM feeds");
+				db.execute("DELETE FROM cache");
 
-				notify_info("Offline data removed.");
+				notify_info("Local data removed.");
 			}
 		}
 	} catch (e) {
@@ -1603,5 +1645,33 @@ function offlineUpdateStore() {
 
 	} catch (e) {
 		exception_error("offlineUpdateStore", e);
+	}
+}
+
+function offlineSyncShowHideElems(syncing) {
+	try {
+
+		var elems = $$("div.hideWhenSyncing");
+	
+		for (var j = 0; j < elems.length; j++) {
+			if (syncing) {
+				Element.hide(elems[j]);
+			} else {
+				Element.show(elems[j]);
+			}
+		}
+
+		var elems = $$("div.showWhenSyncing");
+	
+		for (var j = 0; j < elems.length; j++) {
+			if (syncing) {
+				Element.show(elems[j]);
+			} else {
+				Element.hide(elems[j]);
+			}
+		}
+
+	} catch (e) {
+		exception_error("offlineSyncShowHideElems", e);
 	}
 }
