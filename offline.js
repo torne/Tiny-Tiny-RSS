@@ -681,7 +681,7 @@ function offline_download_parse(stage, transport) {
 						[id, caption, fg_color, bg_color]);
 				}
 
-				window.setTimeout("update_offline_data("+(stage+1)+")", 5*1000);
+				window.setTimeout("update_offline_data("+(stage+1)+")", 1*1000);
 			} else {
 
 				var articles = transport.responseXML.getElementsByTagName("article");
@@ -724,7 +724,7 @@ function offline_download_parse(stage, transport) {
 
 				articles_synced += articles_found;
 
-				var msg =__("Synchronizing (got %d articles)...").replace("%d", articles_synced);
+				var msg =__("Synchronizing articles (%d)...").replace("%d", articles_synced);
 
 				$("offlineModeSyncMsg").innerHTML = msg;
 
@@ -777,7 +777,26 @@ function offline_download_parse(stage, transport) {
 
 //			notify('');
 
+		} else {
+			sync_in_progress = false;
+
+			var pic = $("offlineModePic");
+
+			if (pic) { 
+				pic.src = "images/offline.png";
+				var msg = __("Last sync: Error receiving data");
+				articles_synced = 0;
+				$("offlineModeSyncMsg").innerHTML = msg;					
+			}			 
+
+			var hide_elems = $$("div.hideWhenSyncing");
+
+			for (var j = 0; j < hide_elems.length; j++) {
+				Element.show(hide_elems[j]);
+			}
+
 		}
+
 	} catch (e) {
 		exception_error("offline_download_parse", e);
 	}
@@ -998,6 +1017,10 @@ function enable_offline_reading() {
 	try {
 
 		if (db && getInitParam("offline_enabled") == "1") {
+
+			store.manifestUrl = "manifest.json.php";
+			store.checkForUpdate();
+
 			init_local_sync_data();
 			Element.show("offlineModePic");
 			offlineDownloadStart();
@@ -1014,8 +1037,6 @@ function init_gears() {
 		if (window.google && google.gears) {
 			localServer = google.gears.factory.create("beta.localserver");
 			store = localServer.createManagedStore("tt-rss");
-			store.manifestUrl = "manifest.json.php";		
-			store.checkForUpdate();
 			
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
@@ -1525,16 +1546,18 @@ function offlineClearData() {
 	try {
 		if (db) {
 
-			if (confirm(__("Remove offline data?"))) {
+			if (confirm(__("This will remove all offline data stored by Tiny Tiny RSS on this computer. Continue?"))) {
 
 				notify_progress("Removing offline data...");
+
+				localServer.removeManagedStore("tt-rss");
 
 				db.execute("DELETE FROM articles");
 				db.execute("DELETE FROM article_labels");
 				db.execute("DELETE FROM labels");
 				db.execute("DELETE FROM feeds");
 
-				notify_info("Offline data removed");
+				notify_info("Offline data removed.");
 			}
 		}
 	} catch (e) {
