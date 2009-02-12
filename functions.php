@@ -2144,7 +2144,11 @@
 						}
 					} else if ($feed == -2) {
 
-						/* FIXME catchup for all labels vfeed */
+
+						db_query($link, "UPDATE ttrss_user_entries 
+							SET unread = false,last_read = NOW() WHERE (SELECT COUNT(*) 
+								FROM ttrss_user_labels2 WHERE article_id = ref_id) > 0 
+							AND unread = true AND owner_uid = " . $_SESSION["uid"]);
 					}
 
 				} else if ($feed > 0) {
