@@ -1508,7 +1508,7 @@ function fatalError(code, msg, ext_info) {
 		if (!ext_info) ext_info = "N/A";
 
 		if (code == 6) {
-			window.location.href = "login.php";			
+			window.location.href = "tt-rss.php";			
 		} else if (code == 5) {
 			window.location.href = "update.php";
 		} else {

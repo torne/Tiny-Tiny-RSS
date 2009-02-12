@@ -146,7 +146,7 @@ window.onload = init;
 		<div class="hideWhenSyncing"><a href="javascript:offlineClearData()">
 			<?php echo __('Remove offline data') ?></a></div>
 		<div><a href="javascript:gotoOffline()">
-			<?php echo __('Restart in offline mode') ?></a></div>
+			<?php echo __('Go offline') ?></a></div>
 	</div>
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
@@ -157,8 +157,7 @@ window.onload = init;
 
 	<span id="topLinksOffline" style="display : none">
 		<img id="restartOnlinePic" src="images/online.png" 
-			onclick="gotoOnline()"
-			title="<?php echo __('Restart in online mode') ?>"/>
+			onclick="gotoOnline()" title="<?php echo __('Go online') ?>"/>
 	</span>
 
 	</div>

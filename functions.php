@@ -1918,8 +1918,8 @@
 			}
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
-				//render_login_form($link, $mobile);
-				header("Location: login.php");
+				render_login_form($link, $mobile);
+				//header("Location: login.php");
 				exit;
 			} else {
 				/* bump login timestamp */

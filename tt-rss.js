@@ -132,16 +132,8 @@ function backend_sanity_check_callback(transport) {
 		}
 
 		if (!transport.responseXML) {
-			if (!window.google && !google.gears) {
-				fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
-			} else {
-				init_offline();
-			}
+			fatalError(3, "Sanity check: Received reply is not XML", transport.responseText);
 			return;
-		}
-
-		if (getURLParam("offline")) {
-			return init_offline();
 		}
 
 		var reply = transport.responseXML.firstChild.firstChild;
@@ -405,10 +397,17 @@ function init() {
 
 		loading_set_progress(30);
 
-		new Ajax.Request("backend.php?op=rpc&subop=sanityCheck" + params,	{
-			onComplete: function(transport) {
-					backend_sanity_check_callback(transport);
-				} });
+		offline_mode = false;
+		if (store) offline_mode = store.currentVersion;
+
+		if (offline_mode) {
+			init_offline();
+		} else {
+			new Ajax.Request("backend.php?op=rpc&subop=sanityCheck" + params,	{
+				onComplete: function(transport) {
+						backend_sanity_check_callback(transport);
+					} });
+		}
 
 	} catch (e) {
 		exception_error("init", e);
