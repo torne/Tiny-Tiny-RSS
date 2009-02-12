@@ -48,6 +48,11 @@ function clean_feed_selections() {
 function headlines_callback2(transport, feed_cur_page) {
 	try {
 
+		if (!transport.responseText && db) {
+			offlineConfirmModeChange();
+			return;
+		}
+
 		loading_set_progress(100);
 
 		debug("headlines_callback2 [page=" + feed_cur_page + "]");
@@ -311,6 +316,11 @@ function showArticleInHeadlines(id) {
 function article_callback2(transport, id, feed_id) {
 	try {
 		debug("article_callback2 " + id);
+
+		if (!transport.responseText && db) {
+			offlineConfirmModeChange();
+			return;
+		}
 
 		if (transport.responseXML) {
 

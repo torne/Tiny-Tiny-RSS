@@ -567,6 +567,7 @@ function render_offline_feedlist() {
 function init_offline() {
 	try {
 		offline_mode = true;
+		store.enabled = true;
 
 		Element.hide("dispSwitchPrompt");
 		Element.hide("feedBrowserPrompt");
@@ -852,6 +853,7 @@ function update_offline_data(stage) {
 		}
 
 		offlineSyncShowHideElems(true);
+		offlineUpdateStore();
 
 		sync_in_progress = true;
 
@@ -1039,6 +1041,7 @@ function init_gears() {
 
 			store = localServer.createManagedStore("tt-rss");
 			store.manifestUrl = "manifest.json.php";
+			store.enabled = false;
 
 			db = google.gears.factory.create('beta.database');
 			db.open('tt-rss');
@@ -1146,6 +1149,7 @@ function gotoOffline() {
 
 	if (confirm(__("Switch Tiny Tiny RSS into offline mode?"))) {
 
+		store.enabled = true;
 		store.checkForUpdate();
 	
 		notify_progress("Preparing offline mode...", true);
@@ -1158,7 +1162,6 @@ function gotoOffline() {
 				//window.location.href = "tt-rss.php";
 
 				offlineDownloadStop();
-				offline_mode = true;
 				init_offline();
 
 				notify_info("Tiny Tiny RSS is in offline mode.");
@@ -1171,8 +1174,9 @@ function gotoOffline() {
 }
 
 function gotoOnline() {
-	if (confirm(__("You won't be able to access offline version of Tiny Tiny RSS until you switch it into offline mode again. Go online?"))) {
-		localServer.removeManagedStore("tt-rss");
+//	if (confirm(__("You won't be able to access offline version of Tiny Tiny RSS until you switch it into offline mode again. Go online?"))) {
+	if (confirm(__("Tiny Tiny RSS will reload. Go online?"))) {
+		//localServer.removeManagedStore("tt-rss");
 		window.location.href = "tt-rss.php";
 	}
 }
@@ -1640,8 +1644,17 @@ function offlineClearData() {
 
 function offlineUpdateStore() {
 	try {
+		if (offline_mode || !store) return;
 
-		if (offline_mode) return;
+		store.checkForUpdate();
+	
+		var timerId = window.setInterval(function() {
+			if (store.currentVersion) {
+				window.clearInterval(timerId);
+				debug("[Local store] sync complete: " + store.currentVersion);
+			} else if (store.updateStatus == 3) {
+				debug("[Local store] sync error: " + store.lastErrorMessage);
+			} }, 500);
 
 	} catch (e) {
 		exception_error("offlineUpdateStore", e);
@@ -1673,5 +1686,21 @@ function offlineSyncShowHideElems(syncing) {
 
 	} catch (e) {
 		exception_error("offlineSyncShowHideElems", e);
+	}
+}
+
+function offlineConfirmModeChange() {
+	try {
+		
+		if (db) {
+			var ok = confirm(__("Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?")); 
+
+			if (ok) {
+				init_offline();
+			}
+		}
+
+	} catch (e) {
+		exception_error("offlineConfirmModeChange", e);
 	}
 }
