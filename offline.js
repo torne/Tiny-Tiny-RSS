@@ -1130,9 +1130,7 @@ function init_gears() {
 	}
 }
 
-function gotoOffline() {
-
-//	debug("[Local store] currentVersion = " + store.currentVersion);
+function offlineArticlesStored() {
 
 	var rs = db.execute("SELECT COUNT(*) FROM articles");
 	var count = 0;
@@ -1142,7 +1140,15 @@ function gotoOffline() {
 
 	rs.close();
 
-	if (count == 0) {
+	return count;
+}
+
+function gotoOffline() {
+
+//	debug("[Local store] currentVersion = " + store.currentVersion);
+
+
+	if (offlineArticlesStored() == 0) {
 		notify_error("You have to synchronize some articles before going into offline mode.");
 		return;
 	}
@@ -1692,7 +1698,7 @@ function offlineSyncShowHideElems(syncing) {
 function offlineConfirmModeChange() {
 	try {
 		
-		if (db) {
+		if (db && getInitParam("offline_enabled") == "1" && offlineArticlesStored() > 0) {
 			var ok = confirm(__("Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?")); 
 
 			if (ok) {
