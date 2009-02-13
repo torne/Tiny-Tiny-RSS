@@ -166,6 +166,30 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 	
 				tmp += "&nbsp;&nbsp;";
 	
+				tmp += "<span onmouseover=\"enable_selection(false)\" "+
+					"onmouseout=\"enable_selection(true) \"" +
+					"onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">" +
+					__("Actions...") + "&nbsp;&nbsp;<img src=\"images/down_arrow.png\">" +
+				"</span>";
+
+				tmp += "<ul id=\"headlineActionsBody\" style=\"display : none\">";
+
+				var tog_unread_link = "";
+				var tog_marked_link = "";
+				var catchup_sel_link = "";
+				var catchup_feed_link = "";
+
+				tmp += "<li class=\"insensitive\">"+__('Selection toggle:')+"</li>"+
+				"<li onclick=\""+tog_unread_link+"\">&nbsp;&nbsp;"+__('Unread')+"</li>"+
+				"<li onclick=\""+tog_marked_link+"\">&nbsp;&nbsp;"+__('Starred')+"</li>"+
+				"<li class=\"insensitive\">"+__('Mark as read:')+"</li>"+
+				"<li onclick=\""+catchup_sel_link+"\">&nbsp;&nbsp;"+__('Selection')+"</li>";
+
+				tmp += "<li onclick=\""+catchup_feed_link+"\">&nbsp;&nbsp;"+__('Entire feed')+
+					"</li>";
+
+				tmp += "</ul>";
+
 				tmp += "</div>";
 	
 				tmp += "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";

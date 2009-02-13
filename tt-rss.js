@@ -142,6 +142,10 @@ function backend_sanity_check_callback(transport) {
 			}
 		}
 
+		if (getURLParam("offline")) {
+			return init_offline();
+		}
+
 		var reply = transport.responseXML.firstChild.firstChild;
 
 		if (!reply) {
