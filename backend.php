@@ -462,6 +462,10 @@
 			$match_on = db_escape_string($_GET["m"]);
 			$search_mode = db_escape_string($_GET["smode"]);
 
+			if (SINGLE_USER_MODE) {
+				authenticate_user($link, "admin", null);
+			}
+
 			if (!$_SESSION["uid"] && $user && $pass) {
 				authenticate_user($link, $user, $pass);
 			}
