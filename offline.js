@@ -858,7 +858,7 @@ function update_offline_data(stage) {
 			query = query + "&cidt=" + offline_dl_max_id;
 			query = query + "&cidb=" + offline_dl_min_id;
 
-			if (stage > 1) stage = 1;
+			if (stage > 0) stage = 1;
 		}
 
 		rs.close();
