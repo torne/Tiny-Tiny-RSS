@@ -575,7 +575,7 @@ function toggleMark(id, client_only, no_effects) {
 
 		}
 
-		update_local_feedlist_counters();
+		if (!no_effects) update_local_feedlist_counters();
 
 		if (!client_only) {
 			debug(query);
@@ -973,19 +973,33 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 					} else {
 						row.className = nc + "UnreadSelected";
 					}
+					if (db) {
+						db.execute("UPDATE articles SET unread = NOT unread WHERE id = ?", 
+							[rows[i]]);
+					}
 				}
 
 				if (set_state == false) {
 					row.className = nc + "Selected";
+					if (db) {
+						db.execute("UPDATE articles SET unread = 0 WHERE id = ?", 
+							[rows[i]]);
+					}
 				}
 
 				if (set_state == true) {
 					row.className = nc + "UnreadSelected";
+					if (db) {
+						db.execute("UPDATE articles SET unread = 1 WHERE id = ?", 
+							[rows[i]]);
+					}
 				}
 			}
 		}
 
 		if (rows.length > 0) {
+
+			update_local_feedlist_counters();
 
 			var cmode = "";
 
@@ -1033,6 +1047,8 @@ function selectionToggleMarked(cdm_mode) {
 		for (i = 0; i < rows.length; i++) {
 			toggleMark(rows[i], true, true);
 		}
+
+		update_local_feedlist_counters();
 
 		if (rows.length > 0) {
 

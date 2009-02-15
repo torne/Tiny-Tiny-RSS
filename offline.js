@@ -146,16 +146,29 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				var sel_none_link;
 				var sel_inv_link;
 
+				var catchup_feed_link = "javascript:catchupCurrentFeed()";
+				var catchup_sel_link = "javascript:catchupSelection()";
+
+				var tog_unread_link;
+				var tog_marked_link;
+
 				if ($("content-frame")) {
 					sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
 					sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
 					sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
 					sel_inv_link = "javascript:invertHeadlineSelection()";
+
+					tog_unread_link = "javascript:selectionToggleUnread()";
+					tog_marked_link = "javascript:selectionToggleMarked()";
+
 				} else {
 					sel_all_link = "javascript:cdmSelectArticles('all')";
 					sel_unread_link = "javascript:cdmSelectArticles('unread')";
 					sel_none_link = "javascript:cdmSelectArticles('none')";
 					sel_inv_link = "javascript:invertHeadlineSelection()";
+
+					tog_unread_link = "javascript:selectionToggleUnread(true)";
+					tog_marked_link = "javascript:selectionToggleMarked(true)";
 				}
 
 				tmp += __('Select:')+
@@ -173,11 +186,6 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 				"</span>";
 
 				tmp += "<ul id=\"headlineActionsBody\" style=\"display : none\">";
-
-				var tog_unread_link = "";
-				var tog_marked_link = "";
-				var catchup_sel_link = "";
-				var catchup_feed_link = "";
 
 				tmp += "<li class=\"insensitive\">"+__('Selection toggle:')+"</li>"+
 				"<li onclick=\""+tog_unread_link+"\">&nbsp;&nbsp;"+__('Unread')+"</li>"+
