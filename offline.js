@@ -841,7 +841,7 @@ function offline_download_parse(stage, transport) {
 function update_offline_data(stage) {
 	try {
 
-		if (!stage) stage = 0;
+		if (stage) stage = 0;
 
 		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
@@ -858,7 +858,7 @@ function update_offline_data(stage) {
 			query = query + "&cidt=" + offline_dl_max_id;
 			query = query + "&cidb=" + offline_dl_min_id;
 
-			stage = 1;
+			if (stage > 1) stage = 1;
 		}
 
 		rs.close();
