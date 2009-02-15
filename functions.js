@@ -459,7 +459,7 @@ function parse_counters(reply, scheduled_call) {
 	
 			if (id == "global-unread") {
 
-				if (ctr > global_unread) {
+				if (ctr != global_unread) {
 					offlineDownloadStart();
 				}
 
