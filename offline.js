@@ -1618,10 +1618,12 @@ function toggleOfflineModeInfo() {
 	}
 }
 
-function offlineDownloadStart() {
+function offlineDownloadStart(stage) {
 	try {
+		if (!stage) stage = 0;
+
 		if (db && !sync_in_progress && getInitParam("offline_enabled") == "1") {
-			window.setTimeout("update_offline_data(0)", 100);
+			window.setTimeout("update_offline_data("+stage+")", 100);
 		}
 	} catch (e) {
 		exception_error("offlineDownloadStart", e);
