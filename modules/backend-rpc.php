@@ -545,9 +545,15 @@
 
 							$id = (int) $e[0];
 							$unread = bool_to_sql_bool((bool) $e[1]);
-							$marked = bool_to_sql_bool((bool) $e[2]);
+							$marked = (bool)$e[2];
+
+							if ($marked) {
+								$marked = bool_to_sql_bool($marked);
+								$marked_qpart = "marked = $marked,";
+							}
 
 							$query = "UPDATE ttrss_user_entries SET 
+								$marked_qpart
 								unread = $unread, 
 								last_read = '$last_online' 
 							WHERE ref_id = '$id' AND 
@@ -555,17 +561,6 @@
 								owner_uid = ".$_SESSION["uid"];
 
 							$result = db_query($link, $query);
-
-							if ($marked) {
-								$query = "UPDATE ttrss_user_entries SET 
-									marked = $marked, 
-									last_read = '$last_online' 
-								WHERE ref_id = '$id' AND 
-									(last_read IS NULL OR last_read < '$last_online') AND
-									owner_uid = ".$_SESSION["uid"];
-
-								$result = db_query($link, $query);
-							}
 
 							print "<sync-ok id=\"$id\"/>";
 
