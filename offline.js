@@ -658,8 +658,17 @@ function offline_download_parse(stage, transport) {
 			if (sync_ok.length > 0) {
 				for (var i = 0; i < sync_ok.length; i++) {
 					var id = sync_ok[i].getAttribute("id");
+					var unread = sync_ok[i].getAttribute("unread");
+					var marked = sync_ok[i].getAttribute("marked");
+
 					if (id) {
 						debug("synced offline info for id " + id);
+
+						if (unread != undefined && marked != undefined) {
+							db.execute("UPDATE articles SET "+
+								"unread = ?, marked = ? WHERE id = ?", [unread, marked, id]);
+
+						}
 						db.execute("UPDATE articles SET modified = '' WHERE id = ?", [id]);
 					}
 				}

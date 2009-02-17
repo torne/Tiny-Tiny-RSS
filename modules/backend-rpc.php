@@ -547,8 +547,6 @@
 							$unread = bool_to_sql_bool((bool) $e[1]);
 							$marked = bool_to_sql_bool((bool) $e[2]);
 
-							/* Marked status is not synchronized yet */
-
 							$query = "UPDATE ttrss_user_entries SET 
 								unread = $unread, 
 								last_read = '$last_online' 
@@ -558,23 +556,36 @@
 
 							$result = db_query($link, $query);
 
-//							if (db_affected_rows($result) > 0) {
-								print "<sync-ok id=\"$id\"/>";
-//							}
+							if ($marked) {
+								$query = "UPDATE ttrss_user_entries SET 
+									marked = $marked, 
+									last_read = '$last_online' 
+								WHERE ref_id = '$id' AND 
+									(last_read IS NULL OR last_read < '$last_online') AND
+									owner_uid = ".$_SESSION["uid"];
+
+								$result = db_query($link, $query);
+							}
+
+							print "<sync-ok id=\"$id\"/>";
 
 						}
 					}
 
 					/* Maybe we need to further update local DB for this client */
 
-					$query = "SELECT ref_id,unread FROM ttrss_user_entries
+					$query = "SELECT ref_id,unread,marked FROM ttrss_user_entries
 						WHERE last_read >= '$last_online' AND
 								owner_uid = ".$_SESSION["uid"] . " LIMIT 1000";
 
 					$result = db_query($link, $query);
 
 					while ($line = db_fetch_assoc($result)) {
-						print "<sync-ok id=\"".$line["ref_id"]."\"/>";
+						$unread = (int) sql_bool_to_bool($line["unread"]);
+						$marked = (int) sql_bool_to_bool($line["marked"]);
+
+						print "<sync-ok unread=\"$unread\" marked=\"$marked\" 
+							id=\"".$line["ref_id"]."\"/>";
 					}
 
 				}
