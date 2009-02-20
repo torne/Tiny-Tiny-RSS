@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-12 20:53+0300\n"
+"POT-Creation-Date: 2009-02-20 11:38+0300\n"
 "PO-Revision-Date: 2008-02-03 22:22::+0100\n"
 "Last-Translator: MiszterX <miszterx@miszterx.hu>\n"
 "Language-Team: HUNGARIAN <miszterx@miszterx.hu>\n"
@@ -170,22 +170,22 @@ msgid "All feeds"
 msgstr "Minden feed"
 
 #: functions.php:2870 functions.php:2909 functions.php:3320 functions.php:4275
-#: functions.php:4305 modules/backend-rpc.php:610 modules/pref-feeds.php:1247
+#: functions.php:4305 modules/backend-rpc.php:616 modules/pref-feeds.php:1247
 msgid "Uncategorized"
 msgstr "Kategorizálatlan"
 
-#: functions.php:2899 functions.php:3514 modules/backend-rpc.php:615
+#: functions.php:2899 functions.php:3514 modules/backend-rpc.php:621
 #: mobile/functions.php:33
 msgid "Special"
 msgstr "Speciális"
 
 #: functions.php:2901 functions.php:3349 functions.php:3516 prefs.php:129
-#: modules/backend-rpc.php:620 help/4.php:12 mobile/functions.php:83
+#: modules/backend-rpc.php:626 help/4.php:12 mobile/functions.php:83
 msgid "Labels"
 msgstr "Címkék"
 
 #: functions.php:2919 functions.php:3342 functions.php:4127 help/3.php:59
-#: mobile/functions.php:61 offline.js:462 offline.js:1376
+#: mobile/functions.php:61 offline.js:494 offline.js:1427
 msgid "Starred articles"
 msgstr "Csillagost hírek"
 
@@ -200,7 +200,7 @@ msgid "Fresh articles"
 msgstr "Olvasatlan hírek"
 
 #: functions.php:2925 functions.php:3355 functions.php:4105 help/3.php:57
-#: mobile/functions.php:43 offline.js:457 offline.js:1378
+#: mobile/functions.php:43 offline.js:489 offline.js:1429
 #, fuzzy
 msgid "All articles"
 msgstr "Minden hír"
@@ -220,7 +220,7 @@ msgstr ""
 
 #: functions.php:3989 functions.php:5253 modules/pref-feeds.php:1028
 #: modules/pref-feeds.php:1209 modules/pref-filters.php:366
-#: modules/pref-labels.php:163 modules/pref-users.php:401 offline.js:377
+#: modules/pref-labels.php:163 modules/pref-users.php:401 offline.js:409
 msgid "Select:"
 msgstr "Kiválaszt:"
 
@@ -247,6 +247,7 @@ msgid "None"
 msgstr "Egyiksem"
 
 #: functions.php:4001 tt-rss.php:189 modules/pref-feeds.php:1371
+#: offline.js:185
 msgid "Actions..."
 msgstr "Műveletek"
 
@@ -367,7 +368,7 @@ msgid ""
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5310 offline.js:412
+#: functions.php:5310 offline.js:444
 #, fuzzy
 msgid "No articles found to display."
 msgstr "Nincs megjeleníthető hír"
@@ -438,7 +439,7 @@ msgstr ""
 msgid "Can't create label: missing SQL expression."
 msgstr ""
 
-#: localized_js.php:49 localized_js.php:103 prefs.js:275 tt-rss.js:1439
+#: localized_js.php:49 localized_js.php:103 prefs.js:275 tt-rss.js:1442
 msgid "Can't create label: missing caption."
 msgstr ""
 
@@ -491,7 +492,7 @@ msgstr "Leiratkozás a kiválasztott feedekről..."
 #: localized_js.php:61 localized_js.php:79 localized_js.php:83
 #: localized_js.php:108 localized_js.php:111 prefs.js:597 prefs.js:627
 #: prefs.js:658 prefs.js:925 prefs.js:946 prefs.js:1258 prefs.js:1307
-#: prefs.js:1824 tt-rss.js:1484
+#: prefs.js:1824 tt-rss.js:1487
 msgid "No feeds are selected."
 msgstr "Nincs feed kiválasztva."
 
@@ -584,8 +585,8 @@ msgstr ""
 msgid "Trying to change e-mail..."
 msgstr ""
 
-#: localized_js.php:92 viewfeed.js:874 viewfeed.js:909 viewfeed.js:949
-#: viewfeed.js:1019 viewfeed.js:1066 viewfeed.js:1218
+#: localized_js.php:92 viewfeed.js:884 viewfeed.js:919 viewfeed.js:959
+#: viewfeed.js:1043 viewfeed.js:1092 viewfeed.js:1244
 msgid "No articles are selected."
 msgstr ""
 
@@ -613,16 +614,16 @@ msgstr ""
 msgid "Could not change address."
 msgstr ""
 
-#: localized_js.php:99 tt-rss.js:595
+#: localized_js.php:99 tt-rss.js:598
 msgid "You can't unsubscribe from the category."
 msgstr ""
 
-#: localized_js.php:100 tt-rss.js:600 tt-rss.js:619 tt-rss.js:833
-#: tt-rss.js:1012
+#: localized_js.php:100 tt-rss.js:603 tt-rss.js:622 tt-rss.js:836
+#: tt-rss.js:1015
 msgid "Please select some feed first."
 msgstr ""
 
-#: localized_js.php:101 tt-rss.js:838
+#: localized_js.php:101 tt-rss.js:841
 msgid "You can't edit this kind of feed."
 msgstr ""
 
@@ -634,22 +635,22 @@ msgstr ""
 msgid "Can't subscribe: no feed URL given."
 msgstr ""
 
-#: localized_js.php:114 prefs.js:1879 tt-rss.js:606 tt-rss.js:701
+#: localized_js.php:114 prefs.js:1879 tt-rss.js:609 tt-rss.js:704
 #, php-format
 msgid "Unsubscribe from %s?"
 msgstr "Leiratkozás innen: %s?"
 
-#: localized_js.php:115 viewfeed.js:1186
+#: localized_js.php:115 viewfeed.js:1212
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr ""
 
-#: localized_js.php:116 tt-rss.js:805 tt-rss.js:818
+#: localized_js.php:116 tt-rss.js:808 tt-rss.js:821
 #, php-format
 msgid "Mark all articles in %s as read?"
 msgstr "Minden hírt olvasottá tesz itt: %s?"
 
-#: localized_js.php:117 viewfeed.js:1225
+#: localized_js.php:117 viewfeed.js:1251
 #, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr ""
@@ -674,50 +675,50 @@ msgstr ""
 msgid "Entered passwords do not match."
 msgstr ""
 
-#: localized_js.php:123 viewfeed.js:1857
+#: localized_js.php:123 viewfeed.js:1883
 msgid "No articles found to mark"
 msgstr ""
 
-#: localized_js.php:124 viewfeed.js:1859
+#: localized_js.php:124 viewfeed.js:1885
 #, php-format
 msgid "Mark %d article(s) as read?"
 msgstr ""
 
-#: localized_js.php:125 viewfeed.js:1816
+#: localized_js.php:125 viewfeed.js:1842
 msgid "No article is selected."
 msgstr ""
 
-#: localized_js.php:126 viewfeed.js:494 viewfeed.js:559
+#: localized_js.php:126 viewfeed.js:504 viewfeed.js:569
 msgid "Star article"
 msgstr "Csillagoz hí"
 
-#: localized_js.php:127 viewfeed.js:543
+#: localized_js.php:127 viewfeed.js:553
 msgid "Unstar article"
 msgstr ""
 
-#: localized_js.php:128 viewfeed.js:552 viewfeed.js:614
+#: localized_js.php:128 viewfeed.js:562 viewfeed.js:624
 msgid "Please wait..."
 msgstr "Kérem várjon"
 
-#: localized_js.php:129 localized_schema.php:18 viewfeed.js:511
-#: viewfeed.js:621
+#: localized_js.php:129 localized_schema.php:18 viewfeed.js:521
+#: viewfeed.js:631
 msgid "Publish article"
 msgstr "Hír publikálása"
 
-#: localized_js.php:130 viewfeed.js:608
+#: localized_js.php:130 viewfeed.js:618
 msgid "Unpublish article"
 msgstr "Hír nem publikálása"
 
-#: localized_js.php:131 tt-rss.js:624
+#: localized_js.php:131 tt-rss.js:627
 msgid "You can't clear this type of feed."
 msgstr ""
 
-#: localized_js.php:132 tt-rss.js:630
+#: localized_js.php:132 tt-rss.js:633
 #, php-format
 msgid "Erase all non-starred articles in %s?"
 msgstr ""
 
-#: localized_js.php:133 tt-rss.js:269
+#: localized_js.php:133 tt-rss.js:279
 #, fuzzy
 msgid "Mark all articles as read?"
 msgstr "Minden hírt olvasottá tesz itt: %s?"
@@ -740,11 +741,11 @@ msgstr ""
 msgid "Rescoring feeds..."
 msgstr ""
 
-#: localized_js.php:138 tt-rss.js:1007
+#: localized_js.php:138 tt-rss.js:1010
 msgid "You can't rescore this kind of feed."
 msgstr ""
 
-#: localized_js.php:139 tt-rss.js:1017
+#: localized_js.php:139 tt-rss.js:1020
 #, fuzzy, php-format
 msgid "Rescore articles in %s?"
 msgstr "Tárolt hírek"
@@ -754,7 +755,7 @@ msgstr "Tárolt hírek"
 msgid "Rescoring articles..."
 msgstr "Tárolt hírek"
 
-#: localized_js.php:141 tt-rss.js:680
+#: localized_js.php:141 tt-rss.js:683
 #, fuzzy
 msgid "Reset category order?"
 msgstr "Kiválasztott kategória eltávolítása?"
@@ -1354,7 +1355,7 @@ msgid "Order:"
 msgstr "Más:"
 
 #: tt-rss.php:249 modules/popup-dialog.php:250 modules/pref-filters.php:51
-#: modules/pref-filters.php:443
+#: modules/pref-filters.php:461
 #, fuzzy
 msgid "Date"
 msgstr "Frissítés"
@@ -1802,7 +1803,7 @@ msgid "No feed categories defined."
 msgstr "Nincs feed kategória definiálva"
 
 #: modules/pref-feeds.php:1085 modules/pref-filters.php:156
-#: modules/pref-filters.php:487 modules/pref-labels.php:225
+#: modules/pref-filters.php:505 modules/pref-labels.php:225
 #: modules/pref-users.php:474
 msgid "Remove"
 msgstr "Eltávolít"
@@ -1828,7 +1829,7 @@ msgstr "Mutasd az utolsó hír időpontját"
 msgid "Last&nbsp;Article"
 msgstr "Utolsó&nbsp;Hír"
 
-#: modules/pref-feeds.php:1312 modules/pref-filters.php:461
+#: modules/pref-feeds.php:1312 modules/pref-filters.php:479
 #: modules/pref-users.php:449
 msgid "Click to edit"
 msgstr ""
@@ -1850,7 +1851,7 @@ msgstr "Kiválaszt:"
 msgid "Recategorize"
 msgstr "Újrakategorizál"
 
-#: modules/pref-feeds.php:1374 modules/pref-filters.php:485
+#: modules/pref-feeds.php:1374 modules/pref-filters.php:503
 #: modules/pref-users.php:472
 msgid "Edit"
 msgstr "Szerkesztés"
@@ -1964,19 +1965,19 @@ msgstr "Ebben a mezőben:"
 msgid "Params"
 msgstr "Paraméterek"
 
-#: modules/pref-filters.php:450
+#: modules/pref-filters.php:468
 msgid "(Disabled)"
 msgstr "(Kikapcsolva)"
 
-#: modules/pref-filters.php:466
+#: modules/pref-filters.php:484
 msgid "(Inverse)"
 msgstr "(ellentét)"
 
-#: modules/pref-filters.php:495
+#: modules/pref-filters.php:513
 msgid "No filters defined."
 msgstr "Nincs szűrő definiálva."
 
-#: modules/pref-filters.php:497
+#: modules/pref-filters.php:515
 #, fuzzy
 msgid "No matching filters found."
 msgstr "Nincs szűrő definiálva."
@@ -2486,68 +2487,71 @@ msgstr ""
 msgid "Subscribing to feed..."
 msgstr "Feliratkozás feedre"
 
-#: offline.js:605
+#: offline.js:638
 msgid "Data for offline browsing has not been downloaded yet."
 msgstr ""
 
-#: offline.js:637
+#: offline.js:679
 #, fuzzy
 msgid "Synchronizing feeds..."
 msgstr "Címke mentése"
 
-#: offline.js:656
+#: offline.js:698
 #, fuzzy
 msgid "Synchronizing categories..."
 msgstr "Kategória mentése"
 
-#: offline.js:674
+#: offline.js:716
 #, fuzzy
 msgid "Synchronizing labels..."
 msgstr "Címke mentése"
 
-#: offline.js:693
+#: offline.js:735
 #, fuzzy
 msgid "Synchronizing articles..."
 msgstr "Tárolt hírek"
 
-#: offline.js:738
+#: offline.js:780
 #, fuzzy
 msgid "Synchronizing articles (%d)..."
 msgstr "Tárolt hírek"
 
-#: offline.js:766
+#: offline.js:808
 msgid "Last sync: %s"
 msgstr ""
 
-#: offline.js:795
+#: offline.js:837
 msgid "Last sync: Error receiving data."
 msgstr ""
 
-#: offline.js:850
+#: offline.js:892
 msgid "Synchronizing..."
 msgstr ""
 
-#: offline.js:1147
+#: offline.js:1197
 msgid "Switch Tiny Tiny RSS into offline mode?"
 msgstr ""
 
-#: offline.js:1174
-msgid ""
-"You won't be able to access offline version of Tiny Tiny RSS until you "
-"switch it into offline mode again. Go online?"
+#: offline.js:1225
+msgid "Tiny Tiny RSS will reload. Go online?"
 msgstr ""
 
-#: offline.js:1604
+#: offline.js:1657
 msgid "Last sync: Cancelled."
 msgstr ""
 
-#: offline.js:1621
+#: offline.js:1674
 msgid ""
 "This will remove all offline data stored by Tiny Tiny RSS on this computer. "
 "Continue?"
 msgstr ""
 
-#: prefs.js:268 tt-rss.js:1434
+#: offline.js:1745
+msgid ""
+"Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?"
+msgstr ""
+
+#: prefs.js:268 tt-rss.js:1437
 #, fuzzy
 msgid "Please enter label caption:"
 msgstr "Add meg a címke címét:"
