@@ -3,6 +3,7 @@
 
 	$manifest_formatted = array();
 	$manifest_files = array(
+		"localized_js.php",
       "tt-rss.php",
       "tt-rss.css",
       "viewfeed.js",
