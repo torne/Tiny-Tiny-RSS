@@ -25,3 +25,5 @@ for lang in $LANGS; do
 	PO_BASENAME=`echo $lang | sed s/.po//`
 	update_lang $PO_BASENAME
 done
+
+./utils/update-js-translations.sh

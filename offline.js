@@ -854,8 +854,6 @@ function update_offline_data(stage) {
 
 		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
-//		notify_progress("Updating offline data... (" + stage +")", true);
-
 		var query = "backend.php?op=rpc&subop=download";
 		
 		var rs = db.execute("SELECT MAX(id), MIN(id) FROM articles");
