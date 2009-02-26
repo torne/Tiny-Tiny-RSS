@@ -1369,8 +1369,7 @@
 
 			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 				<option value=\"facDefault\" selected>".__('Actions...')."</option>
-				<option disabled>--------</option>
-				<option style=\"color : #5050aa\" disabled>".__('Selection:')."</option>
+				<optgroup label=\"".__('Selection:')."\">
 				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>";
 
 			if (FORCE_ARTICLE_PURGE == 0) {
@@ -1383,12 +1382,15 @@
 				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
 				<option value=\"facUnsubscribe\">&nbsp;&nbsp;".__('Unsubscribe')."</option>";
 
+			print "</optgroup>";
+
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-					print "<option disabled>--------</option>
-					<option style=\"color : #5050aa\" disabled>".__('Other:')."</option>
-					<option value=\"facEditCats\">&nbsp;&nbsp;".__('Edit categories')."
-					</option>";
+					print "<optgroup label=\"".__('Other:')."\">
+						<option value=\"facEditCats\">&nbsp;&nbsp;".__('Edit categories')."
+							</option>
+					</optgroup>";
+
 				}
 
 			print "</select>";
