@@ -1370,24 +1370,24 @@
 			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 				<option value=\"facDefault\" selected>".__('Actions...')."</option>
 				<optgroup label=\"".__('Selection:')."\">
-				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>";
+				<option value=\"facEdit\">".__('Edit')."</option>";
 
 			if (FORCE_ARTICLE_PURGE == 0) {
 				print 
-					"<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>";
+					"<option value=\"facPurge\">".__('Manual purge')."</option>";
 			}
 
 			print "
-				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
-				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
-				<option value=\"facUnsubscribe\">&nbsp;&nbsp;".__('Unsubscribe')."</option>";
+				<option value=\"facClear\">".__('Clear feed data')."</option>
+				<option value=\"facRescore\">".__('Rescore articles')."</option>
+				<option value=\"facUnsubscribe\">".__('Unsubscribe')."</option>";
 
 			print "</optgroup>";
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
 					print "<optgroup label=\"".__('Other:')."\">
-						<option value=\"facEditCats\">&nbsp;&nbsp;".__('Edit categories')."
+						<option value=\"facEditCats\">".__('Edit categories')."
 							</option>
 					</optgroup>";
 
