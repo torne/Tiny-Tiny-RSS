@@ -188,7 +188,6 @@ window.onload = init;
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search...') ?></option>
-					<!-- <option value="qmcPrefs"><?php echo __('Preferences') ?></option> -->
 					<optgroup label="<?php echo __('Feed actions:') ?>">
 					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
 					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
