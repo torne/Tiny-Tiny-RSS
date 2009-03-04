@@ -395,10 +395,14 @@
 					$faviconURL = $urlParts['scheme'].'://'.$urlParts['host'].$linkUrl;
 				} else if (substr($linkUrl, 0, 7) == 'http://') {
 					$faviconURL = $linkUrl;
-				} else if (substr($url, -1, 1) == '/') {
-					$faviconURL = $url.$linkUrl;
 				} else {
-					$faviconURL = $url.'/'.$linkUrl;
+					$pos = strrpos($url, "/");
+					// no "/" in url or "/" is part of "://"
+					if ($pos === false || $pos == (strpos($url, "://")+2)) {
+						$faviconURL = $url.'/'.$linkUrl;
+					} else {
+						$faviconURL = substr($url, 0, $pos+1).$linkUrl;
+					}
 				}
 
 			} else {
@@ -454,7 +458,7 @@
 
 		$http_response = fgets( $socket, 22 );
 
-		$responses = "/(200 OK)|(30[0-9] Moved)/";
+		$responses = "/(200 OK)|(30[123])/";
 		if ( preg_match($responses, $http_response) ) {
 				fclose($socket);
 				return true;
