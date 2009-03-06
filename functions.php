@@ -5861,6 +5861,8 @@
 			$unread = (int) getFeedArticles($link, $feed_id, $is_cat, true, $owner_uid);
 		}
 
+		db_query($link, "BEGIN");
+
 		$result = db_query($link, "SELECT feed_id FROM $table
 			WHERE owner_uid = '$owner_uid' AND feed_id = '$feed_id' LIMIT 1");
 
@@ -5875,6 +5877,8 @@
 				VALUES 
 				($feed_id, $unread, $owner_uid, NOW())");
 		}
+
+		db_query($link, "COMMIT");
 
 		if ($feed_id > 0 && $prev_unread != $unread) {
 
