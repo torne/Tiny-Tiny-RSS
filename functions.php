@@ -2239,7 +2239,7 @@
 
 				}
 
-				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+				ccache_update($link, $feed, $owner_uid, $cat_view);
 
 			} else { // tag
 				db_query($link, "BEGIN");
