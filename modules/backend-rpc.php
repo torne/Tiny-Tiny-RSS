@@ -87,8 +87,9 @@
 		}
 
 		if ($subop == "publ") {
-			$pub = $_GET["pub"];
-			$id = db_escape_string($_GET["id"]);
+			$pub = $_REQUEST["pub"];
+			$id = db_escape_string($_REQUEST["id"]);
+			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
 
 			if ($pub == "1") {
 				$pub = "true";
@@ -96,18 +97,36 @@
 				$pub = "false";
 			}
 
+			if ($note != 'undefined') {
+				$note_qpart = "note = '$note',";
+			}
+
 			// FIXME this needs collision testing
 
-			$result = db_query($link, "UPDATE ttrss_user_entries SET published = $pub
+			$result = db_query($link, "UPDATE ttrss_user_entries SET 
+				$note_qpart
+				published = $pub
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><counters>";
+
+			print "<rpc-reply>";
+			
+			print "<counters>";
 			getGlobalCounters($link);
 			getLabelCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
 			}
-			print "</counters></rpc-reply>";
+			print "</counters>";
+
+			if ($note != 'undefined') {
+				$note_size = strlen($note);
+				print "<note id=\"$id\" size=\"$note_size\">";
+				print "<![CDATA[" . format_article_note($id, $note) . "]]>";
+				print "</note>";
+			}
+
+			print "</rpc-reply>";
 
 			return;
 		}

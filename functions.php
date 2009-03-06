@@ -3405,6 +3405,7 @@
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
+						note,
 						unread,feed_id,marked,published,link,last_read,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
@@ -3435,6 +3436,7 @@
 	
 				$result = db_query($link, "SELECT
 					guid,
+					note,
 					ttrss_entries.id as id,title,
 					updated,
 					unread,feed_id,
@@ -3462,6 +3464,10 @@
 
 	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
 		$limit, $search, $search_mode, $match_on) {
+
+		$note_style = 	"background-color : #fff7d5; border-width : 1px; ".
+			"padding : 5px; border-style : dashed; border-color : #e7d796;".
+			"margin-top : 5px; color : #9a8c59;";
 
 		if (!$limit) $limit = 30;
 
@@ -3502,8 +3508,14 @@
  			print "<title>" . 
  				htmlspecialchars($line["title"]) . "</title>";
   
- 			print "<description><![CDATA[" . 
- 				$line["content_preview"] . "]]></description>";
+ 			print "<description><![CDATA[";
+			print $line["content_preview"];
+			if ($line["note"]) {
+				print "<div style='$note_style'>";
+				print $line["note"];
+				print "</div>";
+			}
+			print "]]></description>";
   
  			print "</item>";
   		}
@@ -4525,7 +4537,8 @@
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			num_comments,
-			author
+			author,
+			note
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
 
@@ -4599,7 +4612,7 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			print "<div style='float : right'>
-					<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>";
+					<img src='images/tag.png' class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
 			if (!$zoom_mode) {
 				print "<span id=\"ATSTR-$id\">$tags_str</span>
@@ -4619,6 +4632,14 @@
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
+
+				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+
+				print "<img src=\"images/art-pub-note.png\" class='tagsPic' 
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"publishWithNote($id, '$note_escaped')\"
+						alt='PubNote' title='".__('Publish article with a note')."'>";
+
 			}
 			print "</div>";
 			print "<div clear='both'>$entry_comments</div>";
@@ -4637,6 +4658,12 @@
 			}
 
 			print $article_content;
+
+			print "<div id=\"POSTNOTE-$id\">";
+				if ($line['note']) {
+					print format_article_note($id, $line['note']);
+				}
+			print "</div>";
 
 			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 				post_id = '$id' AND content_url != ''");
@@ -5174,6 +5201,13 @@
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
 					print sanitize_rss($link, $line["content_preview"]);
+
+					print "<div id=\"POSTNOTE-$id\">";
+					if ($line['note']) {
+						print format_article_note($id, $line['note']);
+					}
+					print "</div>";
+
 					$article_content = $line["content_preview"];
 
 					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
@@ -5258,13 +5292,22 @@
 							" <input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
 
-					print "</span><span class='s1'>$marked_pic</span> ";
-					print "<span class='s1'>$published_pic</span> ";
-					print "<span class='s1'><img src=\"images/art-zoom.png\" class='tagsPic' 
+					print "</span><span class='s1'>$marked_pic&nbsp;";
+					print "$published_pic&nbsp;";
+					print "<img src=\"images/art-zoom.png\" class='tagsPic' 
 						onclick=\"zoomToArticle($id)\"
 						style=\"cursor : pointer\"
 						alt='Zoom' 
-						title='".__('Show article summary in new window')."'></span>";
+						title='".__('Show article summary in new window')."'>&nbsp;";
+
+					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+
+					print "<img src=\"images/art-pub-note.png\" class='tagsPic' 
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"publishWithNote($id, '$note_escaped')\"
+						alt='PubNote' title='".__('Publish article with a note')."'>";
+
+					print "</span>";
 
 					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
@@ -5278,9 +5321,9 @@
 
 					print "</span>";
 
-					print "<span class='s2'>Toggle: <a class=\"cdmToggleLink\"
+					print "<span class='s2'><a class=\"cdmToggleLink\"
 							href=\"javascript:toggleUnread($id)\">
-							Unread</a></span>";
+							".__('toggle unread')."</a></span>";
 
 					print "</div>";
 					print "</div>";	
@@ -6061,5 +6104,20 @@
 
 		return $labels_str;
 
+	}
+
+	function format_article_note($id, $note) {
+
+		$note_escaped = htmlspecialchars($note, ENT_QUOTES);
+
+		$str = "<div class='articleNote'>";
+		$str .= "<div class='articleNoteOps'>";
+		$str .= "<a href=\"javascript:publishWithNote($id, '$note_escaped')\">".
+			__('edit note')."</a>";
+		$str .= "</div>";
+		$str .= $note;
+		$str .= "</div>";
+
+		return $str;
 	}
 ?>
