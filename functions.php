@@ -1384,7 +1384,7 @@
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
 					_debug("update_rss_feed: new feed, catching it up...");
 				}
-				catchup_feed($link, $feed, false);
+				catchup_feed($link, $feed, false, $owner_uid);
 			}
 
 			if (!$hidden) {
@@ -2120,7 +2120,9 @@
 		}
 	}
 
-	function catchup_feed($link, $feed, $cat_view) {
+	function catchup_feed($link, $feed, $cat_view, $owner_uid) {
+
+			if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
 			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 			
@@ -2135,8 +2137,7 @@
 						}
 					
 						$tmp_result = db_query($link, "SELECT id 
-							FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = " . 
-							$_SESSION["uid"]);
+							FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = $owner_uid");
 
 						while ($tmp_line = db_fetch_assoc($tmp_result)) {
 
@@ -2144,7 +2145,7 @@
 
 							db_query($link, "UPDATE ttrss_user_entries 
 								SET unread = false,last_read = NOW() 
-								WHERE feed_id = '$tmp_feed' AND owner_uid = " . $_SESSION["uid"]);
+								WHERE feed_id = '$tmp_feed' AND owner_uid = $owner_uid");
 						}
 					} else if ($feed == -2) {
 
@@ -2152,7 +2153,7 @@
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW() WHERE (SELECT COUNT(*) 
 								FROM ttrss_user_labels2 WHERE article_id = ref_id) > 0 
-							AND unread = true AND owner_uid = " . $_SESSION["uid"]);
+							AND unread = true AND owner_uid = $owner_uid");
 					}
 
 				} else if ($feed > 0) {
@@ -2173,12 +2174,12 @@
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW() 
 							WHERE (feed_id = '$feed' OR $children_qpart) 
-							AND owner_uid = " . $_SESSION["uid"]);
+							AND owner_uid = $owner_uid");
 
 					} else {						
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW() 
-							WHERE feed_id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+							WHERE feed_id = '$feed' AND owner_uid = $owner_uid");
 					}
 						
 				} else if ($feed < 0 && $feed > -10) { // special, like starred
@@ -2186,13 +2187,13 @@
 					if ($feed == -1) {
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW()
-							WHERE marked = true AND owner_uid = ".$_SESSION["uid"]);
+							WHERE marked = true AND owner_uid = $owner_uid");
 					}
 
 					if ($feed == -2) {
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW()
-							WHERE published = true AND owner_uid = ".$_SESSION["uid"]);
+							WHERE published = true AND owner_uid = $owner_uid");
 					}
 
 					if ($feed == -3) {
@@ -2210,7 +2211,7 @@
 							ttrss_user_entries WHERE $match_part AND
 							unread = true AND
 						  	ttrss_user_entries.ref_id = ttrss_entries.id AND	
-							owner_uid = ".$_SESSION["uid"]);
+							owner_uid = $owner_uid");
 
 						$affected_ids = array();
 
@@ -2224,7 +2225,7 @@
 					if ($feed == -4) {
 						db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW()
-							WHERE owner_uid = ".$_SESSION["uid"]);
+							WHERE owner_uid = $owner_uid");
 					}
 
 				} else if ($feed < -10) { // label
@@ -2234,7 +2235,7 @@
 					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2 
 						SET unread = false, last_read = NOW() 
 							WHERE label_id = '$label_id' AND unread = true
-							AND owner_uid = '".$_SESSION["uid"]."' AND ref_id = article_id");
+							AND owner_uid = '$owner_uid' AND ref_id = article_id");
 
 				}
 
@@ -2246,7 +2247,7 @@
 				$tag_name = db_escape_string($feed);
 
 				$result = db_query($link, "SELECT post_int_id FROM ttrss_tags
-					WHERE tag_name = '$tag_name' AND owner_uid = " . $_SESSION["uid"]);
+					WHERE tag_name = '$tag_name' AND owner_uid = $owner_uid");
 
 				while ($line = db_fetch_assoc($result)) {
 					db_query($link, "UPDATE ttrss_user_entries SET
