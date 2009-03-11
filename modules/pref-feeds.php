@@ -702,8 +702,12 @@
 					if (file_exists($icons_dir . "/$id.ico")) {
 						unlink($icons_dir . "/$id.ico");
 					}
+
+					ccache_remove($link, $id, $_SESSION["uid"]);
+
 				} else {
 					label_remove($link, -11-$id, $_SESSION["uid"]);
+					ccache_remove($link, -11-$id, $_SESSION["uid"]);
 				}
 			}
 		}
@@ -992,6 +996,9 @@
 						if ($num_feeds == 0) {
 							db_query($link, "DELETE FROM ttrss_feed_categories
 								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+							ccache_remove($link, $id, $_SESSION["uid"], true);
+
 						} else {
 	
 							print format_warning(__("Unable to delete non empty feed categories."));

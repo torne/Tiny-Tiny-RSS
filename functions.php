@@ -5754,6 +5754,19 @@
 			value = 0 WHERE owner_uid = '$owner_uid'");
 	}
 
+	function ccache_remove($link, $feed_id, $owner_uid, $is_cat = false) {
+
+		if (!$is_cat) {
+			$table = "ttrss_counters_cache";
+		} else {
+			$table = "ttrss_cat_counters_cache";
+		}
+
+		db_query($link, "DELETE FROM $table WHERE
+			feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
+
+	}
+
 	function ccache_update_all($link, $owner_uid) {
 
 		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid)) {
