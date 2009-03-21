@@ -188,26 +188,25 @@ window.onload = init;
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search...') ?></option>
-					<!-- <option value="qmcPrefs"><?php echo __('Preferences') ?></option> -->
-					<option disabled="disabled">--------</option>
-					<option style="color : #5050aa" disabled="disabled"><?php echo __('Feed actions:') ?></option>
-					<option value="qmcAddFeed">&nbsp;&nbsp;<?php echo __('Subscribe to feed...') ?></option>
-					<option value="qmcEditFeed">&nbsp;&nbsp;<?php echo __('Edit this feed...') ?></option>
-					<!-- <option value="qmcClearFeed">&nbsp;&nbsp;<?php echo __('Clear articles') ?></option> -->
-					<option value="qmcRescoreFeed">&nbsp;&nbsp;<?php echo __('Rescore feed') ?></option>
-					<option value="qmcRemoveFeed">&nbsp;&nbsp;<?php echo __('Unsubscribe') ?></option>
-					<option disabled="disabled">--------</option>
-					<option style="color : #5050aa" disabled="disabled"><?php echo __('All feeds:') ?></option>
-					<option value="qmcCatchupAll">&nbsp;&nbsp;<?php echo __('Mark as read') ?></option>
-					<option value="qmcShowOnlyUnread">&nbsp;&nbsp;<?php echo __('(Un)hide read feeds') ?></option>
-					<option disabled="disabled">--------</option>
-					<option style="color : #5050aa" disabled="disabled"><?php echo __('Other actions:') ?></option>				
+					<optgroup label="<?php echo __('Feed actions:') ?>">
+					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
+					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
+					<!-- <option value="qmcClearFeed"><?php echo __('Clear articles') ?></option> -->
+					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
+					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
+					</optgroup>
+					<optgroup label="<?php echo __('All feeds:') ?>">
+					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
+					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
+					</optgroup>
+					<optgroup label="<?php echo __('Other actions:') ?>">
 
-					<option value="qmcAddLabel">&nbsp;&nbsp;<?php echo __('Create label...') ?></option>
-					<option value="qmcAddFilter">&nbsp;&nbsp;<?php echo __('Create filter...') ?></option>
-					<option value="qmcResetUI">&nbsp;&nbsp;<?php echo __('Reset UI layout') ?></option>
-					<option value="qmcResetCats">&nbsp;&nbsp;<?php echo __('Reset category order') ?></option>
-					<option value="qmcHKhelp"><?php echo __('&nbsp;&nbsp;Keyboard shortcuts') ?></option>
+					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
+					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
+					<option value="qmcResetUI"><?php echo __('Reset UI layout') ?></option>
+					<option value="qmcResetCats"><?php echo __('Reset category order') ?></option>
+					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts') ?></option>
+					</optgroup>
 
 			</select>
 		</div>

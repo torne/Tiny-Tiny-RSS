@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2008-09-25 12:43+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -108,16 +108,12 @@ msgid "Unknown error"
 msgstr "未知のエラー"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
+msgid "This program requires XmlHttpRequest "
+msgstr "このプログラムは、XmlHttpRequest を要求します"
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
+msgid "This program requires cookies "
+msgstr "このプログラムはクッキーを要求します"
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1778,6 +1774,11 @@ msgstr "このフィード"
 msgid "Create Filter"
 msgstr "フィルターを作成する"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+msgid "description"
+msgstr "説明"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2123,6 +2124,14 @@ msgstr "フィルター <b>%s</b> を作成しました"
 msgid "Create filter"
 msgstr "フィルターを作成する"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr "filter_type_descr"
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr "action_description"
+
 #: modules/pref-filters.php:404
 #, fuzzy
 msgid "Field"
@@ -2263,6 +2272,10 @@ msgstr "テーマを選択する"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "テーマを変更する"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr ""
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2620,21 +2633,6 @@ msgstr "対象項目:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr "インターナルエラー: 機能が実装されていません"
-
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "このプログラムは、XmlHttpRequest を要求します"
-
-#~ msgid "This program requires cookies "
-#~ msgstr "このプログラムはクッキーを要求します"
-
-#~ msgid "description"
-#~ msgstr "説明"
-
-#~ msgid "filter_type_descr"
-#~ msgstr "filter_type_descr"
-
-#~ msgid "action_description"
-#~ msgstr "action_description"
 
 #~ msgid "display tags"
 #~ msgstr "タグの表示"

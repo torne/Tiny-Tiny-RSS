@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2008-02-03 22:22::+0100\n"
 "Last-Translator: MiszterX <miszterx@miszterx.hu>\n"
 "Language-Team: HUNGARIAN <miszterx@miszterx.hu>\n"
@@ -111,15 +111,11 @@ msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
+msgid "This program requires XmlHttpRequest "
 msgstr ""
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
+msgid "This program requires cookies "
 msgstr ""
 
 #: errors.php:11
@@ -1780,6 +1776,12 @@ msgstr "Ez a feed"
 msgid "Create Filter"
 msgstr "Szárő készítése"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+#, fuzzy
+msgid "description"
+msgstr "Kiválasztottakat"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2132,6 +2134,14 @@ msgstr ""
 msgid "Create filter"
 msgstr "Szárő készítése"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr ""
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr ""
+
 #: modules/pref-filters.php:404
 #, fuzzy
 msgid "Field"
@@ -2274,6 +2284,10 @@ msgstr "Kinézet választó"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Kinlzet megváltozatása"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr ""
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2654,10 +2668,6 @@ msgstr "Egyezés ezzel:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
-
-#, fuzzy
-#~ msgid "description"
-#~ msgstr "Kiválasztottakat"
 
 #~ msgid "Loading help..."
 #~ msgstr "Segítség betöltése..."

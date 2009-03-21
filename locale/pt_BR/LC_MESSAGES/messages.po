@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss 1.2.14.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2007-10-24 00:47-0200\n"
 "Last-Translator: Marcelo Jorge VIeira (metal) <metal@alucinados.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -111,16 +111,12 @@ msgid "Unknown error"
 msgstr "Erro desconhecido"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
+msgid "This program requires XmlHttpRequest "
+msgstr "Este programa requer XmlHttpRequest"
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
+msgid "This program requires cookies "
+msgstr "Este programa requer cookies "
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1775,6 +1771,11 @@ msgstr ""
 msgid "Create Filter"
 msgstr "Criar um usuário"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+msgid "description"
+msgstr "descrição"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2126,6 +2127,14 @@ msgstr ""
 msgid "Create filter"
 msgstr ""
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr "filter_type_descr"
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr "action_description"
+
 #: modules/pref-filters.php:404
 #, fuzzy
 msgid "Field"
@@ -2267,6 +2276,10 @@ msgstr "Selecionar o tema"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Mudar Tema"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr "short_desc"
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2651,24 +2664,6 @@ msgstr ""
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
-
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "Este programa requer XmlHttpRequest"
-
-#~ msgid "This program requires cookies "
-#~ msgstr "Este programa requer cookies "
-
-#~ msgid "description"
-#~ msgstr "descrição"
-
-#~ msgid "filter_type_descr"
-#~ msgstr "filter_type_descr"
-
-#~ msgid "action_description"
-#~ msgstr "action_description"
-
-#~ msgid "short_desc"
-#~ msgstr "short_desc"
 
 #~ msgid "Please select only one category."
 #~ msgstr "Por favor selecione somente uma categoria."

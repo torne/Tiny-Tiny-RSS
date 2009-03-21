@@ -15,6 +15,39 @@ var post_under_pointer = false;
 
 var last_requested_article = false;
 
+function toggle_published_callback(transport) {
+	try {
+		if (transport.responseXML) {
+
+			all_counters_callback2(transport);
+
+			var note = transport.responseXML.getElementsByTagName("note")[0];
+
+			if (note) {
+				var note_id = note.getAttribute("id");
+				var note_size = note.getAttribute("size");
+				var note_content = note.firstChild.nodeValue;
+
+				var container = $('POSTNOTE-' + note_id);
+
+				cache_invalidate(note_id);
+
+				if (container) {
+					if (note_size == "0") {
+						Element.hide(container);
+					} else {
+						container.innerHTML = note_content;
+						Element.show(container);
+					}
+				}
+			}	
+		}
+
+	} catch (e) {
+		exception_error("toggle_published_callback", e, transport);
+	}
+}
+
 function catchup_callback2(transport, callback) {
 	try {
 		debug("catchup_callback2 " + transport + ", " + callback);
@@ -592,13 +625,19 @@ function toggleMark(id, client_only, no_effects) {
 	}
 }
 
-function togglePub(id, client_only, no_effects) {
+function togglePub(id, client_only, no_effects, note) {
 
 	try {
 
 		var query = "backend.php?op=rpc&id=" + id + "&subop=publ";
 	
 		query = query + "&afid=" + getActiveFeedId();
+
+		if (note != undefined) {
+			query = query + "&note=" + param_escape(note);
+		} else {
+			query = query + "&note=undefined";
+		}
 	
 		if (tagsAreDisplayed()) {
 			query = query + "&omode=tl";
@@ -613,11 +652,10 @@ function togglePub(id, client_only, no_effects) {
 		var vfeedu = $("FEEDU--2");
 		var crow = $("RROW-" + id);
 	
-		if (mark_img.src.match("pub_unset")) {
+		if (mark_img.src.match("pub_unset") || note != undefined) {
 			mark_img.src = mark_img.src.replace("pub_unset", "pub_set");
 			mark_img.alt = __("Unpublish article");
 			query = query + "&pub=1";
-	
 
 		} else {
 			//mark_img.src = "images/pub_unset.png";
@@ -635,7 +673,7 @@ function togglePub(id, client_only, no_effects) {
 		if (!client_only) {
 			new Ajax.Request(query, {
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					toggle_published_callback(transport); 
 				} });
 		}
 
@@ -2145,5 +2183,20 @@ function toggleHeadlineActions() {
 
 	} catch (e) {
 		exception_error("toggleHeadlineActions", e);
+	}
+}
+
+function publishWithNote(id, def_note) {
+	try {
+		if (!def_note) def_note = '';
+
+		var note = prompt(__("Please enter a note for this article:"), def_note);
+
+		if (note != undefined) {
+			togglePub(id, false, false, note);
+		}
+
+	} catch (e) {
+		exception_error("publishWithNote", e);
 	}
 }

@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Tiny Tiny RSS 1.3.2\n"
+"Project-Id-Version: Tiny Tiny RSS 1.2.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
-"PO-Revision-Date: 2009-03-21 19:22+0100\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
+"PO-Revision-Date: 2009-02-20 13:47+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
 "MIME-Version: 1.0\n"
@@ -108,20 +108,12 @@ msgid "Unknown error"
 msgstr "Ukjent feil"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
-"Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
-"nettleser ser ikke ut til å støtte dette."
+msgid "This program requires XmlHttpRequest "
+msgstr "Dette programmet krever XmlHttpRequest "
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
-"Dette programmet krever cookies for å fungere ordentlig. Din nettleser ser "
-"ikke ut til å støtte dette."
+msgid "This program requires cookies "
+msgstr "Dette programmet krever informasjonskapsler påslått"
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1778,6 +1770,11 @@ msgstr "Denne nyhetsstrømmen"
 msgid "Create Filter"
 msgstr "Lag filter"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+msgid "description"
+msgstr "beskrivelse"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2119,6 +2116,14 @@ msgstr "Laget filter <b>%s</b>"
 msgid "Create filter"
 msgstr "Lag filter"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr "Beskrivelse av filtertype"
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr "Handlingsbeskrivelse"
+
 #: modules/pref-filters.php:404
 msgid "Field"
 msgstr "Felt"
@@ -2256,6 +2261,10 @@ msgstr "Velg utseende"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Endre utseende"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr "kort beskrivelse"
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2621,35 +2630,19 @@ msgstr "Match på:"
 msgid "Internal error: Function not implemented"
 msgstr "Intern feil: funksjonen er ikke implementert"
 
-#~ msgid "Publish article with a note"
-#~ msgstr "Publiser artikkelen med et notat"
+#~ msgid ""
+#~ "This program requires XmlHttpRequest to function properly. Your browser "
+#~ "doesn't seem to support it."
+#~ msgstr ""
+#~ "Dette programmet krever XmlHttpRequest for å fungere slik det skal. Din "
+#~ "nettleser ser ikke ut til å støtte dette."
 
-#~ msgid "toggle unread"
-#~ msgstr "Merk som ulest"
-
-#~ msgid "edit note"
-#~ msgstr "Endre notat"
-
-#~ msgid "Please enter a note for this article:"
-#~ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
-
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "Dette programmet krever XmlHttpRequest "
-
-#~ msgid "This program requires cookies "
-#~ msgstr "Dette programmet krever informasjonskapsler påslått"
-
-#~ msgid "description"
-#~ msgstr "beskrivelse"
-
-#~ msgid "filter_type_descr"
-#~ msgstr "Beskrivelse av filtertype"
-
-#~ msgid "action_description"
-#~ msgstr "Handlingsbeskrivelse"
-
-#~ msgid "short_desc"
-#~ msgstr "kort beskrivelse"
+#~ msgid ""
+#~ "This program requires cookies to function properly. Your browser doesn't "
+#~ "seem to support them."
+#~ msgstr ""
+#~ "Dette programmet krever cookies for å fungere ordentlig. Din nettleser "
+#~ "ser ikke ut til å støtte dette."
 
 #~ msgid "display tags"
 #~ msgstr "Vis stikkord"
@@ -2674,6 +2667,9 @@ msgstr "Intern feil: funksjonen er ikke implementert"
 
 #~ msgid "Address changed."
 #~ msgstr "Adresse er endret"
+
+#~ msgid "Please enter label title:"
+#~ msgstr "Vennligst skriv inn merkelapp:"
 
 #~ msgid ""
 #~ "Rescore articles in all feeds? This operation may take a lot of time."

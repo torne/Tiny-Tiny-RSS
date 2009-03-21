@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ttrss-1.2.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2009-01-03 16:43+0100\n"
 "Last-Translator: Andrea Zagli <azagli@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -107,20 +107,12 @@ msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
+msgid "This program requires XmlHttpRequest "
 msgstr ""
-"Questo programma richiede XmlHttpRequest per funzionare correttamente. Il "
-"browser sembra non supportarla."
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
+msgid "This program requires cookies "
 msgstr ""
-"Questo programma richiede i cookie per funzionare correttamente. Il browser "
-"sembra non supportarli."
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1841,6 +1833,12 @@ msgstr "Questo notiziario"
 msgid "Create Filter"
 msgstr "Crea filtro"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+#, fuzzy
+msgid "description"
+msgstr "Selezione"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2186,6 +2184,14 @@ msgstr "Filtro <b>%s</b> creato"
 msgid "Create filter"
 msgstr "Crea filtro"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr ""
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr ""
+
 #: modules/pref-filters.php:404
 msgid "Field"
 msgstr "Campo"
@@ -2325,6 +2331,10 @@ msgstr "Seleziona tema"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Cambia tema"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr ""
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2690,10 +2700,6 @@ msgstr "Corrisponde a:"
 msgid "Internal error: Function not implemented"
 msgstr "Errore interno: funzione non implementata"
 
-#, fuzzy
-#~ msgid "description"
-#~ msgstr "Selezione"
-
 #~ msgid "display tags"
 #~ msgstr "visualizza etichette"
 
@@ -2752,8 +2758,8 @@ msgstr "Errore interno: funzione non implementata"
 #~ "\t\t\tIn base all&apos;insieme di caratteri attuale del database si "
 #~ "potrebbero avere delle corruzioni dei dati (caratteri accentati persi, "
 #~ "ecc.). \n"
-#~ "\t\t\tDopo l&apos;aggiornamento, occorre impostare l&apos;opzione a «utf8» "
-#~ "<b>MYSQL_CHARSET</b> in config.php."
+#~ "\t\t\tDopo l&apos;aggiornamento, occorre impostare l&apos;opzione a "
+#~ "«utf8» <b>MYSQL_CHARSET</b> in config.php."
 
 #~ msgid "Converting database..."
 #~ msgstr "Conversione del database..."
@@ -3040,6 +3046,20 @@ msgstr "Errore interno: funzione non implementata"
 
 #~ msgid "Test"
 #~ msgstr "Prova"
+
+#~ msgid ""
+#~ "This program requires XmlHttpRequest to function properly. Your browser "
+#~ "doesn't seem to support it."
+#~ msgstr ""
+#~ "Questo programma richiede XmlHttpRequest per funzionare correttamente. Il "
+#~ "browser sembra non supportarla."
+
+#~ msgid ""
+#~ "This program requires cookies to function properly. Your browser doesn't "
+#~ "seem to support them."
+#~ msgstr ""
+#~ "Questo programma richiede i cookie per funzionare correttamente. Il "
+#~ "browser sembra non supportarli."
 
 #~ msgid "Filter expression"
 #~ msgstr "Espressione del filtro"

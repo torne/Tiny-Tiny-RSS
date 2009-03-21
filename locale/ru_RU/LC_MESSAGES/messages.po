@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2009-01-26 08:36+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -114,18 +114,12 @@ msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
-"Программе требуется функционал XmlHttpRequest. Ваш браузер его не "
-"поддерживает."
+msgid "This program requires XmlHttpRequest "
+msgstr "Этой программе нужен XmlHttpRequest "
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr "Для работы программы необходимы куки. Ваш браузер их не поддерживает."
+msgid "This program requires cookies "
+msgstr "Этой программе нужны включённые куки"
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1805,6 +1799,11 @@ msgstr "Этот канал"
 msgid "Create Filter"
 msgstr "Создать фильтр"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+msgid "description"
+msgstr "описание"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2146,6 +2145,14 @@ msgstr "Добавлен фильтр <b>%s</b>"
 msgid "Create filter"
 msgstr "Создать фильтр"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr "описание типа фильтра"
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr "описание действия"
+
 #: modules/pref-filters.php:404
 msgid "Field"
 msgstr "Поле"
@@ -2285,6 +2292,10 @@ msgstr "Выбор темы"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Изменить тему"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr "краткое описание"
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2648,24 +2659,6 @@ msgstr "Соответствие:"
 msgid "Internal error: Function not implemented"
 msgstr "Внутренняя ошибка: Функция не реализована"
 
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "Этой программе нужен XmlHttpRequest "
-
-#~ msgid "This program requires cookies "
-#~ msgstr "Этой программе нужны включённые куки"
-
-#~ msgid "description"
-#~ msgstr "описание"
-
-#~ msgid "filter_type_descr"
-#~ msgstr "описание типа фильтра"
-
-#~ msgid "action_description"
-#~ msgstr "описание действия"
-
-#~ msgid "short_desc"
-#~ msgstr "краткое описание"
-
 #~ msgid "display tags"
 #~ msgstr "показать теги"
 
@@ -2815,6 +2808,19 @@ msgstr "Внутренняя ошибка: Функция не реализов�
 
 #~ msgid "Fatal Error"
 #~ msgstr "Фатальная Ошибка"
+
+#~ msgid ""
+#~ "This program requires XmlHttpRequest to function properly. Your browser "
+#~ "doesn't seem to support it."
+#~ msgstr ""
+#~ "Программе требуется функционал XmlHttpRequest. Ваш браузер его не "
+#~ "поддерживает."
+
+#~ msgid ""
+#~ "This program requires cookies to function properly. Your browser doesn't "
+#~ "seem to support them."
+#~ msgstr ""
+#~ "Для работы программы необходимы куки. Ваш браузер их не поддерживает."
 
 #~ msgid "Modify score"
 #~ msgstr "Изменить оценку"

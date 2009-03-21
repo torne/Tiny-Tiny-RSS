@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-21 22:58+0300\n"
+"POT-Creation-Date: 2009-02-20 15:55+0300\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -111,16 +111,12 @@ msgid "Unknown error"
 msgstr "Erreur inconnue"
 
 #: errors.php:5
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
+msgid "This program requires XmlHttpRequest "
+msgstr "Ce logiciel nécessite XmlHttpRequest "
 
 #: errors.php:8
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
+msgid "This program requires cookies "
+msgstr "Les cookies doivent être activés pour ce logiciel "
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1853,6 +1849,11 @@ msgstr "Ce flux"
 msgid "Create Filter"
 msgstr "Créer un filtre"
 
+#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
+#: modules/pref-filters.php:39 modules/pref-filters.php:96
+msgid "description"
+msgstr "description"
+
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2212,6 +2213,14 @@ msgstr "Filtre <b>%s</b> créé"
 msgid "Create filter"
 msgstr "Créer un filtre"
 
+#: modules/pref-filters.php:392
+msgid "filter_type_descr"
+msgstr ""
+
+#: modules/pref-filters.php:393
+msgid "action_description"
+msgstr ""
+
 #: modules/pref-filters.php:404
 #, fuzzy
 msgid "Field"
@@ -2356,6 +2365,10 @@ msgstr "Sélectionner un thème"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "Modifier le thème"
+
+#: modules/pref-prefs.php:388
+msgid "short_desc"
+msgstr ""
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2745,15 +2758,6 @@ msgstr "Correspondance sur&nbsp;:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
-
-#~ msgid "This program requires XmlHttpRequest "
-#~ msgstr "Ce logiciel nécessite XmlHttpRequest "
-
-#~ msgid "This program requires cookies "
-#~ msgstr "Les cookies doivent être activés pour ce logiciel "
-
-#~ msgid "description"
-#~ msgstr "description"
 
 #~ msgid "display tags"
 #~ msgstr "afficher les étiquettes"
