@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-20 15:55+0300\n"
+"POT-Creation-Date: 2009-03-21 22:58+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -107,12 +107,16 @@ msgid "Unknown error"
 msgstr "未知错误"
 
 #: errors.php:5
-msgid "This program requires XmlHttpRequest "
-msgstr "本程序需要xmlhttprequest支持"
+msgid ""
+"This program requires XmlHttpRequest to function properly. Your browser "
+"doesn't seem to support it."
+msgstr ""
 
 #: errors.php:8
-msgid "This program requires cookies "
-msgstr "本程序需要开启cookies"
+msgid ""
+"This program requires cookies to function properly. Your browser doesn't "
+"seem to support them."
+msgstr ""
 
 #: errors.php:11
 msgid "Backend sanity check failed"
@@ -1814,11 +1818,6 @@ msgstr "本feed"
 msgid "Create Filter"
 msgstr "创建过滤器"
 
-#: modules/popup-dialog.php:242 modules/popup-dialog.php:293
-#: modules/pref-filters.php:39 modules/pref-filters.php:96
-msgid "description"
-msgstr "描述"
-
 #: modules/popup-dialog.php:245 modules/pref-filters.php:42
 #: modules/pref-filters.php:402
 msgid "Match"
@@ -2176,15 +2175,6 @@ msgstr "创建过滤器 <b>%s</b>"
 msgid "Create filter"
 msgstr "创建过滤器"
 
-#: modules/pref-filters.php:392
-msgid "filter_type_descr"
-msgstr ""
-
-#: modules/pref-filters.php:393
-#, fuzzy
-msgid "action_description"
-msgstr "描述"
-
 #: modules/pref-filters.php:404
 #, fuzzy
 msgid "Field"
@@ -2329,10 +2319,6 @@ msgstr "选择模板"
 #: modules/pref-prefs.php:331
 msgid "Change theme"
 msgstr "更改模板"
-
-#: modules/pref-prefs.php:388
-msgid "short_desc"
-msgstr "short_desc"
 
 #: modules/pref-prefs.php:400 modules/pref-prefs.php:405
 msgid "Yes"
@@ -2725,6 +2711,22 @@ msgstr "匹配:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr ""
+
+#~ msgid "This program requires XmlHttpRequest "
+#~ msgstr "本程序需要xmlhttprequest支持"
+
+#~ msgid "This program requires cookies "
+#~ msgstr "本程序需要开启cookies"
+
+#~ msgid "description"
+#~ msgstr "描述"
+
+#, fuzzy
+#~ msgid "action_description"
+#~ msgstr "描述"
+
+#~ msgid "short_desc"
+#~ msgstr "short_desc"
 
 #~ msgid "display tags"
 #~ msgstr "显示标签"

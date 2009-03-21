@@ -138,7 +138,6 @@ create table ttrss_user_entries (
 	published bool not null default 0,
 	last_read datetime,
 	score int not null default 0,
-	note text,
 	unread bool not null default 1,
 	index (ref_id),
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
@@ -225,7 +224,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (55);
+insert into ttrss_version values (54);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

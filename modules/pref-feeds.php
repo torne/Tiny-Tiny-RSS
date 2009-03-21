@@ -702,12 +702,8 @@
 					if (file_exists($icons_dir . "/$id.ico")) {
 						unlink($icons_dir . "/$id.ico");
 					}
-
-					ccache_remove($link, $id, $_SESSION["uid"]);
-
 				} else {
 					label_remove($link, -11-$id, $_SESSION["uid"]);
-					ccache_remove($link, -11-$id, $_SESSION["uid"]);
 				}
 			}
 		}
@@ -996,9 +992,6 @@
 						if ($num_feeds == 0) {
 							db_query($link, "DELETE FROM ttrss_feed_categories
 								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
-							ccache_remove($link, $id, $_SESSION["uid"], true);
-
 						} else {
 	
 							print format_warning(__("Unable to delete non empty feed categories."));
@@ -1376,28 +1369,26 @@
 
 			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 				<option value=\"facDefault\" selected>".__('Actions...')."</option>
-				<optgroup label=\"".__('Selection:')."\">
-				<option value=\"facEdit\">".__('Edit')."</option>";
+				<option disabled>--------</option>
+				<option style=\"color : #5050aa\" disabled>".__('Selection:')."</option>
+				<option value=\"facEdit\">&nbsp;&nbsp;".__('Edit')."</option>";
 
 			if (FORCE_ARTICLE_PURGE == 0) {
 				print 
-					"<option value=\"facPurge\">".__('Manual purge')."</option>";
+					"<option value=\"facPurge\">&nbsp;&nbsp;".__('Manual purge')."</option>";
 			}
 
 			print "
-				<option value=\"facClear\">".__('Clear feed data')."</option>
-				<option value=\"facRescore\">".__('Rescore articles')."</option>
-				<option value=\"facUnsubscribe\">".__('Unsubscribe')."</option>";
-
-			print "</optgroup>";
+				<option value=\"facClear\">&nbsp;&nbsp;".__('Clear feed data')."</option>
+				<option value=\"facRescore\">&nbsp;&nbsp;".__('Rescore articles')."</option>
+				<option value=\"facUnsubscribe\">&nbsp;&nbsp;".__('Unsubscribe')."</option>";
 
 				if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-					print "<optgroup label=\"".__('Other:')."\">
-						<option value=\"facEditCats\">".__('Edit categories')."
-							</option>
-					</optgroup>";
-
+					print "<option disabled>--------</option>
+					<option style=\"color : #5050aa\" disabled>".__('Other:')."</option>
+					<option value=\"facEditCats\">&nbsp;&nbsp;".__('Edit categories')."
+					</option>";
 				}
 
 			print "</select>";
