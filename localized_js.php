@@ -100,7 +100,6 @@ print T_js_decl("None");
 print T_js_decl("No OPML file to upload.");
 print T_js_decl("No users are selected.");
 print T_js_decl("Old password cannot be blank.");
-print T_js_decl("Please enter a note for this article:");
 print T_js_decl("Please enter label caption:");
 print T_js_decl("Please enter login:");
 print T_js_decl("Please enter new label background color:");
