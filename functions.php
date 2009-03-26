@@ -4708,7 +4708,7 @@
 
 				print "<div class=\"postEnclosures\">";
 
-				if (!preg_match("/img/i", $article_content)) {
+				if (!preg_match("/<img/i", $article_content)) {
 					foreach ($entries as $entry) {
 						if (preg_match("/image/", $entry["type"])) {
 							print "<p><img 
