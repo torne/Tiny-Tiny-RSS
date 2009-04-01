@@ -5801,6 +5801,9 @@
 
 		if (!$is_cat) {
 			$table = "ttrss_counters_cache";
+			$tmp_result = db_query($link, "SELECT owner_uid FROM ttrss_feeds 
+				WHERE id = '$feed_id'");
+			$owner_uid = db_fetch_result($tmp_result, 0, "owner_uid");
 		} else {
 			$table = "ttrss_cat_counters_cache";
 		}
@@ -5831,6 +5834,12 @@
 		$update_pcat = true) {
 
 		if (!is_numeric($feed_id)) return;
+
+		if (!$is_cat) {
+			$tmp_result = db_query($link, "SELECT owner_uid FROM ttrss_feeds 
+				WHERE id = '$feed_id'");
+			$owner_uid = db_fetch_result($tmp_result, 0, "owner_uid");
+		}
 
 		$prev_unread = ccache_find($link, $feed_id, $owner_uid, $is_cat, true);
 
