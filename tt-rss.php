@@ -173,7 +173,7 @@ window.onload = init;
 	<div id="dispSwitch"> 
 		<a id="dispSwitchPrompt" 
 			href="javascript:toggleTags()"><?php echo __("tag cloud") ?></a>
-		<?php if (!SINGLE_USER_MODE) { ?>
+		<?php if (!SINGLE_USER_MODE && ENABLE_FEED_BROWSER) { ?>
 		<br/>
 		<a id="feedBrowserPrompt" onclick="return browseFeeds()" href="#"
 			title="<?php echo __('More feeds...') ?>">+</a>
