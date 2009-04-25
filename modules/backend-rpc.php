@@ -193,8 +193,8 @@
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			$cmode = sprintf("%d", $_GET["cmode"]);
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
 

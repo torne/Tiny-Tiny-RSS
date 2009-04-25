@@ -896,12 +896,15 @@ function toggleUnread(id, cmode, effect) {
 
 			if (cmode == undefined) cmode = 2;
 
-			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
-				param_escape(id) + "&cmode=" + param_escape(cmode);
+			var query = "backend.php?op=rpc&subop=catchupSelected" +
+				"&cmode=" + param_escape(cmode);
+
+			var ids = "?ids=" + param_escape(id);
 
 //			notify_progress("Loading, please wait...");
 
 			new Ajax.Request(query, {
+				parameters: ids,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -1049,12 +1052,15 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 				cmode = "0";
 			}
 
-			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
-				param_escape(rows.toString()) + "&cmode=" + cmode;
+			var query = "backend.php?op=rpc&subop=catchupSelected" +
+				"&cmode=" + cmode;
+
+			var ids = "?ids=" + param_escape(rows.toString()); 
 
 			notify_progress("Loading, please wait...");
 
 			new Ajax.Request(query, {
+				parameters: ids,
 				onComplete: function(transport) { 
 					catchup_callback2(transport, callback_func); 
 				} });
@@ -1548,10 +1554,13 @@ function cdmWatchdog() {
 				}
 			}
 
-			var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
-				param_escape(ids.toString()) + "&cmode=0";
+			var query = "backend.php?op=rpc&subop=catchupSelected" +
+				"&cmode=0";
+
+			var ids = "?ids=" + param_escape(ids.toString());
 
 			new Ajax.Request(query, {
+				parameters: ids,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -1929,10 +1938,13 @@ function catchupRelativeToArticle(below) {
 					e.className = e.className.replace("Unread", "");
 				}
 
-				var query = "backend.php?op=rpc&subop=catchupSelected&ids=" +
-					param_escape(ids_to_mark.toString()) + "&cmode=0";
+				var query = "backend.php?op=rpc&subop=catchupSelected" +
+					"&cmode=0";
+
+				var ids = "?ids=" + param_escape(ids_to_mark.toString()); 
 
 				new Ajax.Request(query, {
+					parameters: ids,
 					onComplete: function(transport) { 
 						catchup_callback2(transport); 
 					} });
