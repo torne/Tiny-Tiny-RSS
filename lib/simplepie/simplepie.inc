@@ -9010,7 +9010,7 @@ class SimplePie_Misc
 		$url['scheme'] = strtolower($url['scheme']);
 		if ($url['authority'] !== '')
 		{
-			$url['authority'] = strtolower($url['authority']);
+//			$url['authority'] = strtolower($url['authority']); (tt-rss: remove as per #238)
 			$url['path'] = SimplePie_Misc::remove_dot_segments($url['path']);
 		}
 		return SimplePie_Misc::compress_parse_url($url['scheme'], $url['authority'], $url['path'], $url['query'], $url['fragment']);
