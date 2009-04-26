@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ttrss-1.2.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-27 20:20+0300\n"
+"POT-Creation-Date: 2009-04-26 16:40+0400\n"
 "PO-Revision-Date: 2009-03-27 18:10+0100\n"
 "Last-Translator: Andrea Zagli <azagli@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -198,7 +198,7 @@ msgid "Labels"
 msgstr "Etichette"
 
 #: functions.php:2924 functions.php:3347 functions.php:4144
-#: localized_js.php:153 help/3.php:59 mobile/functions.php:61 offline.js:494
+#: localized_js.php:154 help/3.php:59 mobile/functions.php:61 offline.js:494
 #: offline.js:1425
 msgid "Starred articles"
 msgstr "Articoli con stella"
@@ -232,7 +232,7 @@ msgstr "Ricerca"
 msgid "Generated feed"
 msgstr "Notiziario generato"
 
-#: functions.php:4006 functions.php:5292 localized_js.php:148
+#: functions.php:4006 functions.php:5292 localized_js.php:149
 #: modules/pref-feeds.php:1035 modules/pref-feeds.php:1216
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
@@ -246,7 +246,7 @@ msgstr "Seleziona:"
 msgid "All"
 msgstr "Tutti"
 
-#: functions.php:4008 functions.php:4024 localized_js.php:171 tt-rss.php:239
+#: functions.php:4008 functions.php:4024 localized_js.php:172 tt-rss.php:239
 #: mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "Non letti"
@@ -267,11 +267,11 @@ msgstr "Nessuno"
 msgid "Actions..."
 msgstr "Azioni..."
 
-#: functions.php:4023 localized_js.php:150
+#: functions.php:4023 localized_js.php:151
 msgid "Selection toggle:"
 msgstr "Inverti selezione:"
 
-#: functions.php:4025 localized_js.php:152 tt-rss.php:238
+#: functions.php:4025 localized_js.php:153 tt-rss.php:238
 #: mobile/functions.php:459
 msgid "Starred"
 msgstr "Con stella"
@@ -284,7 +284,7 @@ msgstr "Pubblicati"
 msgid "Mark as read:"
 msgstr "Segna come letti:"
 
-#: functions.php:4029 localized_js.php:149 mobile/functions.php:578
+#: functions.php:4029 localized_js.php:150 mobile/functions.php:578
 msgid "Selection"
 msgstr "Selezione"
 
@@ -394,19 +394,19 @@ msgstr ""
 msgid "No articles found to display."
 msgstr "Nessun articolo trovato da visualizzare."
 
-#: functions.php:6049 tt-rss.php:204
+#: functions.php:6060 tt-rss.php:204
 msgid "Create label..."
 msgstr "Crea etichetta..."
 
-#: functions.php:6062
+#: functions.php:6073
 msgid "(remove)"
 msgstr "(rimuovi)"
 
-#: functions.php:6106
+#: functions.php:6117
 msgid "no tags"
 msgstr "nessuna etichetta"
 
-#: functions.php:6134
+#: functions.php:6145
 msgid "edit note"
 msgstr "modifica note"
 
@@ -590,17 +590,17 @@ msgstr "Segnare tutti gli articoli come letti?"
 msgid "Mark all articles in %s as read?"
 msgstr "Segnare tutti gli articoli in «%s» come letti?"
 
-#: localized_js.php:84 viewfeed.js:1250
+#: localized_js.php:84 viewfeed.js:1256
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr "Segnare tutti gli articoli visibili in «%s» come letti?"
 
-#: localized_js.php:86 viewfeed.js:1923
+#: localized_js.php:86 viewfeed.js:1932
 #, php-format
 msgid "Mark %d article(s) as read?"
 msgstr "Segnare %d articolo/i come letto/i?"
 
-#: localized_js.php:87 viewfeed.js:1289
+#: localized_js.php:87 viewfeed.js:1295
 #, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Segnare %d articoli selezionati in «%s» come letti?"
@@ -613,16 +613,16 @@ msgstr "Segnatura dei notiziari come letti..."
 msgid "New password cannot be blank."
 msgstr "La nuova password non può essere vuota."
 
-#: localized_js.php:90 viewfeed.js:1880
+#: localized_js.php:90 viewfeed.js:1889
 msgid "No article is selected."
 msgstr "Nessun articolo selezionato."
 
-#: localized_js.php:91 viewfeed.js:922 viewfeed.js:957 viewfeed.js:997
-#: viewfeed.js:1081 viewfeed.js:1130 viewfeed.js:1282
+#: localized_js.php:91 viewfeed.js:925 viewfeed.js:960 viewfeed.js:1000
+#: viewfeed.js:1087 viewfeed.js:1136 viewfeed.js:1288
 msgid "No articles are selected."
 msgstr "Nessun articolo selezionato."
 
-#: localized_js.php:93 viewfeed.js:1921
+#: localized_js.php:93 viewfeed.js:1930
 msgid "No articles found to mark"
 msgstr "Nessun articolo trovato da segnare"
 
@@ -659,235 +659,239 @@ msgstr "Nessun utente selezionato."
 msgid "Old password cannot be blank."
 msgstr "La vecchia password non può essere vuota."
 
-#: localized_js.php:103 prefs.js:268 tt-rss.js:1437
+#: localized_js.php:103 viewfeed.js:2205
+msgid "Please enter a note for this article:"
+msgstr "Inserire una nota per questo articolo:"
+
+#: localized_js.php:104 prefs.js:268 tt-rss.js:1437
 msgid "Please enter label caption:"
 msgstr "Inserire l'intestazione dell'etichetta:"
 
-#: localized_js.php:104 prefs.js:352
+#: localized_js.php:105 prefs.js:352
 msgid "Please enter login:"
 msgstr "Inserire l'accesso:"
 
-#: localized_js.php:105 prefs.js:2019
+#: localized_js.php:106 prefs.js:2019
 msgid "Please enter new label background color:"
 msgstr "Inserire il colore di sfondo della nuova etichetta:"
 
-#: localized_js.php:106 prefs.js:2017
+#: localized_js.php:107 prefs.js:2017
 msgid "Please enter new label foreground color:"
 msgstr "Inserire il colore del testo nella nuova etichetta:"
 
-#: localized_js.php:107 prefs.js:930
+#: localized_js.php:108 prefs.js:930
 msgid "Please select one feed."
 msgstr "Selezionare un solo notiziario."
 
-#: localized_js.php:108 prefs.js:612
+#: localized_js.php:109 prefs.js:612
 msgid "Please select only one feed."
 msgstr "Selezionare solo un notiziario."
 
-#: localized_js.php:109 prefs.js:910
+#: localized_js.php:110 prefs.js:910
 msgid "Please select only one filter."
 msgstr "Selezionare solo un filtro."
 
-#: localized_js.php:110 prefs.js:822 prefs.js:843 prefs.js:881
+#: localized_js.php:111 prefs.js:822 prefs.js:843 prefs.js:881
 msgid "Please select only one user."
 msgstr "Selezionare un solo utente."
 
-#: localized_js.php:111 tt-rss.js:603 tt-rss.js:622 tt-rss.js:836
+#: localized_js.php:112 tt-rss.js:603 tt-rss.js:622 tt-rss.js:836
 #: tt-rss.js:1015
 msgid "Please select some feed first."
 msgstr "Selezionare prima qualche notiziario."
 
-#: localized_js.php:112 viewfeed.js:595 viewfeed.js:662
+#: localized_js.php:113 viewfeed.js:595 viewfeed.js:662
 msgid "Please wait..."
 msgstr "Attendere prego..."
 
-#: localized_js.php:113
+#: localized_js.php:114
 msgid "Please wait until operation finishes."
 msgstr "Attendere fino a quando l'operazione non è finita."
 
-#: localized_js.php:114 localized_schema.php:18 viewfeed.js:554
+#: localized_js.php:115 localized_schema.php:18 viewfeed.js:554
 #: viewfeed.js:669
 msgid "Publish article"
 msgstr "Pubblica articolo"
 
-#: localized_js.php:115
+#: localized_js.php:116
 msgid "Published feed URL changed."
 msgstr "L'URL del notiziario pubblicato è cambiata."
 
-#: localized_js.php:116
+#: localized_js.php:117
 msgid "Purging selected feed..."
 msgstr "Pulizia dei notiziari selezionati..."
 
-#: localized_js.php:117 prefs.js:1849
+#: localized_js.php:118 prefs.js:1849
 #, php-format
 msgid "Remove filter %s?"
 msgstr "Rimuovere il filtro «%s»?"
 
-#: localized_js.php:118
+#: localized_js.php:119
 msgid "Remove selected articles from label?"
 msgstr "Rimuovere dall'etichetta gli articoli selezionati?"
 
-#: localized_js.php:119 prefs.js:671
+#: localized_js.php:120 prefs.js:671
 msgid "Remove selected categories?"
 msgstr "Rimuovere le categorie selezionate?"
 
-#: localized_js.php:120 prefs.js:547
+#: localized_js.php:121 prefs.js:547
 msgid "Remove selected filters?"
 msgstr "Rimuovere i filtri selezionati?"
 
-#: localized_js.php:121 prefs.js:484
+#: localized_js.php:122 prefs.js:484
 msgid "Remove selected labels?"
 msgstr "Rimuovere le etichette selezionate?"
 
-#: localized_js.php:122 prefs.js:513
+#: localized_js.php:123 prefs.js:513
 msgid "Remove selected users?"
 msgstr "Rimuovere gli utenti selezionati?"
 
-#: localized_js.php:123
+#: localized_js.php:124
 msgid "Removing feed..."
 msgstr "Rimozione notiziario..."
 
-#: localized_js.php:124
+#: localized_js.php:125
 msgid "Removing filter..."
 msgstr "Rimozione del filtro..."
 
-#: localized_js.php:125
+#: localized_js.php:126
 msgid "Removing offline data..."
 msgstr "Rimozione dati «fuori linea»..."
 
-#: localized_js.php:126
+#: localized_js.php:127
 msgid "Removing selected categories..."
 msgstr "Rimozione delle categorie selezionate..."
 
-#: localized_js.php:127
+#: localized_js.php:128
 msgid "Removing selected filters..."
 msgstr "Rimozione dei filtri selezionati..."
 
-#: localized_js.php:128
+#: localized_js.php:129
 msgid "Removing selected labels..."
 msgstr "Rimozione delle etichette selezionate..."
 
-#: localized_js.php:129
+#: localized_js.php:130
 msgid "Removing selected users..."
 msgstr "Rimozione degli utenti selezionati..."
 
-#: localized_js.php:130 prefs.js:1693
+#: localized_js.php:131 prefs.js:1693
 msgid "Replace current publishing address with a new one?"
 msgstr "Sostituire l&apos;indirizzo di pubblicazione attuale con uno nuovo?"
 
-#: localized_js.php:131 prefs.js:1831
+#: localized_js.php:132 prefs.js:1831
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Cambiare il punteggio a tutti i notiziari? Questa operazione può durare "
 "molto tempo."
 
-#: localized_js.php:132 tt-rss.js:1020
+#: localized_js.php:133 tt-rss.js:1020
 #, php-format
 msgid "Rescore articles in %s?"
 msgstr "Cambiare il punteggio degli articoli in «%s»?"
 
-#: localized_js.php:133 prefs.js:1809
+#: localized_js.php:134 prefs.js:1809
 msgid "Rescore articles in selected feeds?"
 msgstr "Cambiare il punteggio agli articoli nel notiziario selezionato?"
 
-#: localized_js.php:134
+#: localized_js.php:135
 msgid "Rescore last 100 articles in selected feeds?"
 msgstr ""
 "Cambiare il punteggio degli ultimi 100 articoli nei notiziari selezionati?"
 
-#: localized_js.php:135
+#: localized_js.php:136
 msgid "Rescoring articles..."
 msgstr "Cambiamento del punteggio degli articoli..."
 
-#: localized_js.php:136 tt-rss.js:683
+#: localized_js.php:137 tt-rss.js:683
 msgid "Reset category order?"
 msgstr "Reimpostare l&apos;ordine dalla categoria?"
 
-#: localized_js.php:137 prefs.js:1993
+#: localized_js.php:138 prefs.js:1993
 msgid "Reset label colors to default?"
 msgstr "Reimpostare i colori delle etichette ai valori predefiniti?"
 
-#: localized_js.php:138 prefs.js:847
+#: localized_js.php:139 prefs.js:847
 msgid "Reset password of selected user?"
 msgstr "Reimpostare la password per l&apos;utente selezionato?"
 
-#: localized_js.php:139
+#: localized_js.php:140
 msgid "Resetting password for selected user..."
 msgstr "Reimpostazione della password per l&apos;utente selezionato..."
 
-#: localized_js.php:140 prefs.js:1266
+#: localized_js.php:141 prefs.js:1266
 msgid "Reset to defaults?"
 msgstr "Reimpostare ai valori predefiniti?"
 
-#: localized_js.php:141 prefs.js:1908
+#: localized_js.php:142 prefs.js:1908
 msgid "Save changes to selected feeds?"
 msgstr "Salvare i cambiamenti ai notiziari selezionati?"
 
-#: localized_js.php:142 prefs.js:1714
+#: localized_js.php:143 prefs.js:1714
 msgid "Save current configuration?"
 msgstr "Salvare la configurazione attuale?"
 
-#: localized_js.php:143
+#: localized_js.php:144
 msgid "Saving article tags..."
 msgstr "Salvataggio etichette articolo..."
 
-#: localized_js.php:144
+#: localized_js.php:145
 msgid "Saving feed..."
 msgstr "Salvataggio notiziario..."
 
-#: localized_js.php:145
+#: localized_js.php:146
 msgid "Saving feeds..."
 msgstr "Salvataggio notiziari..."
 
-#: localized_js.php:146
+#: localized_js.php:147
 msgid "Saving filter..."
 msgstr "Salvataggio filtro..."
 
-#: localized_js.php:147
+#: localized_js.php:148
 msgid "Saving user..."
 msgstr "Salvataggio utente..."
 
-#: localized_js.php:151 viewfeed.js:537 viewfeed.js:602
+#: localized_js.php:152 viewfeed.js:537 viewfeed.js:602
 msgid "Star article"
 msgstr "Metti la stella all&apos;articolo"
 
-#: localized_js.php:154 functions.js:1430
+#: localized_js.php:155 functions.js:1430
 msgid "Subscribing to feed..."
 msgstr "Sottoscrizione al notiziario..."
 
-#: localized_js.php:155 offline.js:1195
+#: localized_js.php:156 offline.js:1195
 msgid "Switch Tiny Tiny RSS into offline mode?"
 msgstr "Cambiare la modalità di Tiny Tiny RSS a «fuori linea»?"
 
-#: localized_js.php:156 offline.js:890
+#: localized_js.php:157 offline.js:890
 msgid "Synchronizing..."
 msgstr "Sincronizzazione..."
 
-#: localized_js.php:157 offline.js:735
+#: localized_js.php:158 offline.js:735
 msgid "Synchronizing articles..."
 msgstr "Sincronizzazione articoli..."
 
-#: localized_js.php:158 offline.js:780
+#: localized_js.php:159 offline.js:780
 #, php-format
 msgid "Synchronizing articles (%d)..."
 msgstr "Sincronizzazione articoli (%d)..."
 
-#: localized_js.php:159 offline.js:698
+#: localized_js.php:160 offline.js:698
 msgid "Synchronizing categories..."
 msgstr "Sincronizzazione categorie..."
 
-#: localized_js.php:160 offline.js:679
+#: localized_js.php:161 offline.js:679
 msgid "Synchronizing feeds..."
 msgstr "Sincronizzazioni notiziari..."
 
-#: localized_js.php:161 offline.js:716
+#: localized_js.php:162 offline.js:716
 msgid "Synchronizing labels..."
 msgstr "Sincronizzazione etichette..."
 
-#: localized_js.php:162 tt-rss.php:175 tt-rss.js:80
+#: localized_js.php:163 tt-rss.php:175 tt-rss.js:80
 msgid "tag cloud"
 msgstr "nuvola etichette"
 
-#: localized_js.php:163 offline.js:1672
+#: localized_js.php:164 offline.js:1672
 msgid ""
 "This will remove all offline data stored by Tiny Tiny RSS on this computer. "
 "Continue?"
@@ -895,77 +899,77 @@ msgstr ""
 "Questo eliminerà tutti i dati «fuori linea» salvati da Tiny Tiny RSS su "
 "questo computer. Continuare?"
 
-#: localized_js.php:164 offline.js:1743
+#: localized_js.php:165 offline.js:1743
 msgid ""
 "Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?"
 msgstr ""
 "Tiny Tiny RSS ha dei problemi a connettersi al proprio server. Si vuole "
 "andare «fuori linea»?"
 
-#: localized_js.php:165
+#: localized_js.php:166
 msgid "Tiny Tiny RSS is in offline mode."
 msgstr "Tiny Tiny RSS è in modalità «fuori linea»."
 
-#: localized_js.php:166 offline.js:1223
+#: localized_js.php:167 offline.js:1223
 msgid "Tiny Tiny RSS will reload. Go online?"
 msgstr "Tiny Tiny RSS verrà riavviato. Andare «in linea»?"
 
-#: localized_js.php:167
+#: localized_js.php:168
 msgid "Trying to change address..."
 msgstr "Tentativo di cambio dell'indirizzo..."
 
-#: localized_js.php:168
+#: localized_js.php:169
 msgid "Trying to change e-mail..."
 msgstr "Tentativo di cambio dell&apos;email..."
 
-#: localized_js.php:169
+#: localized_js.php:170
 msgid "Trying to change password..."
 msgstr "Tentativo di cambio della password..."
 
-#: localized_js.php:170 viewfeed.js:657
+#: localized_js.php:171 viewfeed.js:657
 msgid "Unpublish article"
 msgstr "Non pubblicare articolo"
 
-#: localized_js.php:172 viewfeed.js:586
+#: localized_js.php:173 viewfeed.js:586
 msgid "Unstar article"
 msgstr "Togli la stella all&apos;articolo"
 
-#: localized_js.php:173 prefs.js:1879 tt-rss.js:609 tt-rss.js:704
+#: localized_js.php:174 prefs.js:1879 tt-rss.js:609 tt-rss.js:704
 #, php-format
 msgid "Unsubscribe from %s?"
 msgstr "Annullare la sottoscrizione a «%s»?"
 
-#: localized_js.php:174 prefs.js:581
+#: localized_js.php:175 prefs.js:581
 msgid "Unsubscribe from selected feeds?"
 msgstr "Annullare la sottoscrizione ai notiziari selezionati?"
 
-#: localized_js.php:175
+#: localized_js.php:176
 msgid "Unsubscribing from selected feeds..."
 msgstr "Annullamento della sottoscrizione dai notiziari selezionati..."
 
-#: localized_js.php:176 tt-rss.js:627
+#: localized_js.php:177 tt-rss.js:627
 msgid "You can't clear this type of feed."
 msgstr "Impossibile pulire questo tipo di notiziario."
 
-#: localized_js.php:177 tt-rss.js:841
+#: localized_js.php:178 tt-rss.js:841
 msgid "You can't edit this kind of feed."
 msgstr "Impossibile modificare questo tipo di notiziario."
 
-#: localized_js.php:178 tt-rss.js:1010
+#: localized_js.php:179 tt-rss.js:1010
 msgid "You can't rescore this kind of feed."
 msgstr "Impossibile cambiare il punteggio a questo tipo di notiziari."
 
-#: localized_js.php:179 tt-rss.js:598
+#: localized_js.php:180 tt-rss.js:598
 msgid "You can't unsubscribe from the category."
 msgstr "Impossibile annullare la sottoscrizione alla categoria."
 
-#: localized_js.php:180
+#: localized_js.php:181
 msgid "You have to synchronize some articles before going into offline mode."
 msgstr ""
 "Occorre sincronizzare alcuni articoli prima di andare nella modalità «fuori "
 "linea»."
 
-#: localized_js.php:181
+#: localized_js.php:182
 msgid ""
 "You won't be able to access offline version of Tiny Tiny RSS until you "
 "switch it into offline mode again. Go online?"
@@ -1285,31 +1289,31 @@ msgstr ""
 msgid "Do not show images in articles"
 msgstr "Non mostrare le immagini negli articoli"
 
-#: login.php:129 login_form.php:108 modules/popup-dialog.php:107
+#: login_form.php:108 login.php:129 modules/popup-dialog.php:107
 #: modules/pref-feeds.php:277 modules/pref-feeds.php:470
 #: mobile/login_form.php:59
 msgid "Login:"
 msgstr "Accesso:"
 
-#: login.php:132 login_form.php:111 modules/popup-dialog.php:111
+#: login_form.php:111 login.php:132 modules/popup-dialog.php:111
 #: modules/pref-feeds.php:281 modules/pref-feeds.php:476
 #: mobile/login_form.php:60
 msgid "Password:"
 msgstr "Password:"
 
-#: login.php:136 login_form.php:115 mobile/login_form.php:62
+#: login_form.php:115 login.php:136 mobile/login_form.php:62
 msgid "Language:"
 msgstr "Lingua:"
 
-#: login.php:152 login_form.php:131 mobile/login_form.php:71
+#: login_form.php:131 login.php:152 mobile/login_form.php:71
 msgid "Log in"
 msgstr "Accedi"
 
-#: login.php:155 login_form.php:134 register.php:148
+#: login_form.php:134 login.php:155 register.php:148
 msgid "Create new account"
 msgstr "Crea un nuovo utente"
 
-#: login.php:169 login_form.php:148
+#: login_form.php:148 login.php:169
 msgid "Limit bandwidth usage"
 msgstr "Limitare l&apos;uso della banda"
 
@@ -2647,10 +2651,6 @@ msgstr "Corrisponde a:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr "Errore interno: funzione non implementata"
-
-#: viewfeed.js:2193
-msgid "Please enter a note for this article:"
-msgstr "Inserire una nota per questo articolo:"
 
 #~ msgid "MySQL Charset Updater"
 #~ msgstr "Aggiornatore del set di caratteri di MySQL"

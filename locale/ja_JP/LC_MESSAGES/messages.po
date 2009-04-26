@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-27 20:20+0300\n"
+"POT-Creation-Date: 2009-04-26 16:40+0400\n"
 "PO-Revision-Date: 2008-09-25 12:43+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -191,7 +191,7 @@ msgid "Labels"
 msgstr "ラベル"
 
 #: functions.php:2924 functions.php:3347 functions.php:4144
-#: localized_js.php:153 help/3.php:59 mobile/functions.php:61 offline.js:494
+#: localized_js.php:154 help/3.php:59 mobile/functions.php:61 offline.js:494
 #: offline.js:1425
 msgid "Starred articles"
 msgstr "お気に入りの記事"
@@ -227,7 +227,7 @@ msgstr "検索"
 msgid "Generated feed"
 msgstr "生成したフィード"
 
-#: functions.php:4006 functions.php:5292 localized_js.php:148
+#: functions.php:4006 functions.php:5292 localized_js.php:149
 #: modules/pref-feeds.php:1035 modules/pref-feeds.php:1216
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
@@ -241,7 +241,7 @@ msgstr "選択:"
 msgid "All"
 msgstr "すべて"
 
-#: functions.php:4008 functions.php:4024 localized_js.php:171 tt-rss.php:239
+#: functions.php:4008 functions.php:4024 localized_js.php:172 tt-rss.php:239
 #: mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "未読"
@@ -262,11 +262,11 @@ msgstr "なし"
 msgid "Actions..."
 msgstr "操作..."
 
-#: functions.php:4023 localized_js.php:150
+#: functions.php:4023 localized_js.php:151
 msgid "Selection toggle:"
 msgstr "選択の切り替え:"
 
-#: functions.php:4025 localized_js.php:152 tt-rss.php:238
+#: functions.php:4025 localized_js.php:153 tt-rss.php:238
 #: mobile/functions.php:459
 msgid "Starred"
 msgstr "お気に入り"
@@ -279,7 +279,7 @@ msgstr "公開済み"
 msgid "Mark as read:"
 msgstr "既読にする:"
 
-#: functions.php:4029 localized_js.php:149 mobile/functions.php:578
+#: functions.php:4029 localized_js.php:150 mobile/functions.php:578
 msgid "Selection"
 msgstr "選択"
 
@@ -389,21 +389,21 @@ msgstr ""
 msgid "No articles found to display."
 msgstr "表示する記事が見つかりません。"
 
-#: functions.php:6049 tt-rss.php:204
+#: functions.php:6060 tt-rss.php:204
 #, fuzzy
 msgid "Create label..."
 msgstr "ラベルを作成する"
 
-#: functions.php:6062
+#: functions.php:6073
 #, fuzzy
 msgid "(remove)"
 msgstr "削除"
 
-#: functions.php:6106
+#: functions.php:6117
 msgid "no tags"
 msgstr "タグがありません"
 
-#: functions.php:6134
+#: functions.php:6145
 msgid "edit note"
 msgstr ""
 
@@ -595,17 +595,17 @@ msgstr "すべての記事を既読にしますか?"
 msgid "Mark all articles in %s as read?"
 msgstr "すべての記事を既読に設定しますか?"
 
-#: localized_js.php:84 viewfeed.js:1250
+#: localized_js.php:84 viewfeed.js:1256
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr "%s のすべての可視記事を既読に設定しますか?"
 
-#: localized_js.php:86 viewfeed.js:1923
+#: localized_js.php:86 viewfeed.js:1932
 #, php-format
 msgid "Mark %d article(s) as read?"
 msgstr "%d 件のマークした記事を既読として設定しますか?"
 
-#: localized_js.php:87 viewfeed.js:1289
+#: localized_js.php:87 viewfeed.js:1295
 #, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr "選択した %d 件の記事を既読にしますか?"
@@ -618,16 +618,16 @@ msgstr "すべてのフィードを既読に設定しています..."
 msgid "New password cannot be blank."
 msgstr "新しいパスワードを空にできません。"
 
-#: localized_js.php:90 viewfeed.js:1880
+#: localized_js.php:90 viewfeed.js:1889
 msgid "No article is selected."
 msgstr "選択された記事はありません。"
 
-#: localized_js.php:91 viewfeed.js:922 viewfeed.js:957 viewfeed.js:997
-#: viewfeed.js:1081 viewfeed.js:1130 viewfeed.js:1282
+#: localized_js.php:91 viewfeed.js:925 viewfeed.js:960 viewfeed.js:1000
+#: viewfeed.js:1087 viewfeed.js:1136 viewfeed.js:1288
 msgid "No articles are selected."
 msgstr "記事は選択されていません。"
 
-#: localized_js.php:93 viewfeed.js:1921
+#: localized_js.php:93 viewfeed.js:1930
 msgid "No articles found to mark"
 msgstr "マークした記事が見つかりません"
 
@@ -664,325 +664,330 @@ msgstr "選択されたユーザーはありません。"
 msgid "Old password cannot be blank."
 msgstr "古いパスワードを空にできません。"
 
-#: localized_js.php:103 prefs.js:268 tt-rss.js:1437
+#: localized_js.php:103 viewfeed.js:2205
+#, fuzzy
+msgid "Please enter a note for this article:"
+msgstr "ラベルの題名を入力してください:"
+
+#: localized_js.php:104 prefs.js:268 tt-rss.js:1437
 #, fuzzy
 msgid "Please enter label caption:"
 msgstr "ラベルの題名を入力してください:"
 
-#: localized_js.php:104 prefs.js:352
+#: localized_js.php:105 prefs.js:352
 #, fuzzy
 msgid "Please enter login:"
 msgstr "ラベルの題名を入力してください:"
 
-#: localized_js.php:105 prefs.js:2019
+#: localized_js.php:106 prefs.js:2019
 #, fuzzy
 msgid "Please enter new label background color:"
 msgstr "ラベルの題名を入力してください:"
 
-#: localized_js.php:106 prefs.js:2017
+#: localized_js.php:107 prefs.js:2017
 #, fuzzy
 msgid "Please enter new label foreground color:"
 msgstr "ラベルの題名を入力してください:"
 
-#: localized_js.php:107 prefs.js:930
+#: localized_js.php:108 prefs.js:930
 msgid "Please select one feed."
 msgstr "フィードをひとつ選択してください"
 
-#: localized_js.php:108 prefs.js:612
+#: localized_js.php:109 prefs.js:612
 msgid "Please select only one feed."
 msgstr "フィードをひとつだけ選択してください。"
 
-#: localized_js.php:109 prefs.js:910
+#: localized_js.php:110 prefs.js:910
 msgid "Please select only one filter."
 msgstr "フィルターをひとつだけ選択してください。"
 
-#: localized_js.php:110 prefs.js:822 prefs.js:843 prefs.js:881
+#: localized_js.php:111 prefs.js:822 prefs.js:843 prefs.js:881
 msgid "Please select only one user."
 msgstr "ひとつだけユーザーを選択してください。"
 
-#: localized_js.php:111 tt-rss.js:603 tt-rss.js:622 tt-rss.js:836
+#: localized_js.php:112 tt-rss.js:603 tt-rss.js:622 tt-rss.js:836
 #: tt-rss.js:1015
 msgid "Please select some feed first."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
-#: localized_js.php:112 viewfeed.js:595 viewfeed.js:662
+#: localized_js.php:113 viewfeed.js:595 viewfeed.js:662
 msgid "Please wait..."
 msgstr "しばらくお待ちください..."
 
-#: localized_js.php:113
+#: localized_js.php:114
 msgid "Please wait until operation finishes."
 msgstr ""
 
-#: localized_js.php:114 localized_schema.php:18 viewfeed.js:554
+#: localized_js.php:115 localized_schema.php:18 viewfeed.js:554
 #: viewfeed.js:669
 msgid "Publish article"
 msgstr "公開記事"
 
-#: localized_js.php:115
+#: localized_js.php:116
 msgid "Published feed URL changed."
 msgstr ""
 
-#: localized_js.php:116
+#: localized_js.php:117
 #, fuzzy
 msgid "Purging selected feed..."
 msgstr "選択されたフィードのスコアの再計算中"
 
-#: localized_js.php:117 prefs.js:1849
+#: localized_js.php:118 prefs.js:1849
 #, fuzzy, php-format
 msgid "Remove filter %s?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: localized_js.php:118
+#: localized_js.php:119
 #, fuzzy
 msgid "Remove selected articles from label?"
 msgstr "選択したラベルを削除しますか?"
 
-#: localized_js.php:119 prefs.js:671
+#: localized_js.php:120 prefs.js:671
 msgid "Remove selected categories?"
 msgstr "選択されたカテゴリーを削除しますか?"
 
-#: localized_js.php:120 prefs.js:547
+#: localized_js.php:121 prefs.js:547
 msgid "Remove selected filters?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: localized_js.php:121 prefs.js:484
+#: localized_js.php:122 prefs.js:484
 msgid "Remove selected labels?"
 msgstr "選択したラベルを削除しますか?"
 
-#: localized_js.php:122 prefs.js:513
+#: localized_js.php:123 prefs.js:513
 msgid "Remove selected users?"
 msgstr "選択されたユーザーを削除しますか?"
 
-#: localized_js.php:123
-msgid "Removing feed..."
-msgstr "フィードの削除中..."
-
 #: localized_js.php:124
-#, fuzzy
-msgid "Removing filter..."
+msgid "Removing feed..."
 msgstr "フィードの削除中..."
 
 #: localized_js.php:125
 #, fuzzy
-msgid "Removing offline data..."
+msgid "Removing filter..."
 msgstr "フィードの削除中..."
 
 #: localized_js.php:126
+#, fuzzy
+msgid "Removing offline data..."
+msgstr "フィードの削除中..."
+
+#: localized_js.php:127
 msgid "Removing selected categories..."
 msgstr "選択されたカテゴリーを削除しますか?"
 
-#: localized_js.php:127
+#: localized_js.php:128
 msgid "Removing selected filters..."
 msgstr "選択されたフィルターの削除中..."
 
-#: localized_js.php:128
+#: localized_js.php:129
 msgid "Removing selected labels..."
 msgstr "選択したラベルの削除中..."
 
-#: localized_js.php:129
+#: localized_js.php:130
 msgid "Removing selected users..."
 msgstr "選択されたユーザーの削除中..."
 
-#: localized_js.php:130 prefs.js:1693
+#: localized_js.php:131 prefs.js:1693
 msgid "Replace current publishing address with a new one?"
 msgstr "新しいもので現在の公開アドレスを置き換えますか?"
 
-#: localized_js.php:131 prefs.js:1831
+#: localized_js.php:132 prefs.js:1831
 #, fuzzy
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "すべてのフィードの記事のスコアを再計算しますか? この操作は大量の時間を使うで"
 "しょう。"
 
-#: localized_js.php:132 tt-rss.js:1020
+#: localized_js.php:133 tt-rss.js:1020
 #, php-format
 msgid "Rescore articles in %s?"
 msgstr "%s の記事のスコアを再計算しますか?"
 
-#: localized_js.php:133 prefs.js:1809
+#: localized_js.php:134 prefs.js:1809
 msgid "Rescore articles in selected feeds?"
 msgstr "選択されたフィードの記事のスコアを再計算しますか?"
 
-#: localized_js.php:134
+#: localized_js.php:135
 #, fuzzy
 msgid "Rescore last 100 articles in selected feeds?"
 msgstr "選択されたフィードの記事のスコアを再計算しますか?"
 
-#: localized_js.php:135
+#: localized_js.php:136
 msgid "Rescoring articles..."
 msgstr "記事のスコアの再計算中..."
 
-#: localized_js.php:136 tt-rss.js:683
+#: localized_js.php:137 tt-rss.js:683
 msgid "Reset category order?"
 msgstr "選択されたカテゴリーの順序をリセットしますか?"
 
-#: localized_js.php:137 prefs.js:1993
+#: localized_js.php:138 prefs.js:1993
 #, fuzzy
 msgid "Reset label colors to default?"
 msgstr "標準に戻しますか?"
 
-#: localized_js.php:138 prefs.js:847
+#: localized_js.php:139 prefs.js:847
 msgid "Reset password of selected user?"
 msgstr "選択されたユーザーのパスワードをリセットしますか?"
 
-#: localized_js.php:139
+#: localized_js.php:140
 msgid "Resetting password for selected user..."
 msgstr "選択されたユーザーのパスワードのリセット中..."
 
-#: localized_js.php:140 prefs.js:1266
+#: localized_js.php:141 prefs.js:1266
 msgid "Reset to defaults?"
 msgstr "標準に戻しますか?"
 
-#: localized_js.php:141 prefs.js:1908
+#: localized_js.php:142 prefs.js:1908
 msgid "Save changes to selected feeds?"
 msgstr "選択されたフィードの変更を保存しますか?"
 
-#: localized_js.php:142 prefs.js:1714
+#: localized_js.php:143 prefs.js:1714
 msgid "Save current configuration?"
 msgstr "現在の設定を保存しますか?"
 
-#: localized_js.php:143
+#: localized_js.php:144
 #, fuzzy
 msgid "Saving article tags..."
 msgstr "カテゴリーの保存中..."
 
-#: localized_js.php:144
+#: localized_js.php:145
 msgid "Saving feed..."
 msgstr "フィードの保存中..."
 
-#: localized_js.php:145
+#: localized_js.php:146
 msgid "Saving feeds..."
 msgstr "フィードの保存中..."
 
-#: localized_js.php:146
+#: localized_js.php:147
 msgid "Saving filter..."
 msgstr "フィルターの保存中..."
 
-#: localized_js.php:147
+#: localized_js.php:148
 msgid "Saving user..."
 msgstr "ユーザーの保存中..."
 
-#: localized_js.php:151 viewfeed.js:537 viewfeed.js:602
+#: localized_js.php:152 viewfeed.js:537 viewfeed.js:602
 msgid "Star article"
 msgstr "記事をお気に入りにする"
 
-#: localized_js.php:154 functions.js:1430
+#: localized_js.php:155 functions.js:1430
 #, fuzzy
 msgid "Subscribing to feed..."
 msgstr "フィードを購読する"
 
-#: localized_js.php:155 offline.js:1195
+#: localized_js.php:156 offline.js:1195
 msgid "Switch Tiny Tiny RSS into offline mode?"
 msgstr ""
 
-#: localized_js.php:156 offline.js:890
+#: localized_js.php:157 offline.js:890
 msgid "Synchronizing..."
 msgstr ""
 
-#: localized_js.php:157 offline.js:735
+#: localized_js.php:158 offline.js:735
 #, fuzzy
 msgid "Synchronizing articles..."
 msgstr "記事のスコアの再計算中..."
 
-#: localized_js.php:158 offline.js:780
+#: localized_js.php:159 offline.js:780
 #, fuzzy, php-format
 msgid "Synchronizing articles (%d)..."
 msgstr "記事のスコアの再計算中..."
 
-#: localized_js.php:159 offline.js:698
+#: localized_js.php:160 offline.js:698
 #, fuzzy
 msgid "Synchronizing categories..."
 msgstr "カテゴリーの保存中..."
 
-#: localized_js.php:160 offline.js:679
+#: localized_js.php:161 offline.js:679
 #, fuzzy
 msgid "Synchronizing feeds..."
 msgstr "フィードの保存中..."
 
-#: localized_js.php:161 offline.js:716
+#: localized_js.php:162 offline.js:716
 #, fuzzy
 msgid "Synchronizing labels..."
 msgstr "ラベルの保存中..."
 
-#: localized_js.php:162 tt-rss.php:175 tt-rss.js:80
+#: localized_js.php:163 tt-rss.php:175 tt-rss.js:80
 msgid "tag cloud"
 msgstr "タグクラウド"
 
-#: localized_js.php:163 offline.js:1672
+#: localized_js.php:164 offline.js:1672
 msgid ""
 "This will remove all offline data stored by Tiny Tiny RSS on this computer. "
 "Continue?"
 msgstr ""
 
-#: localized_js.php:164 offline.js:1743
+#: localized_js.php:165 offline.js:1743
 msgid ""
 "Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?"
 msgstr ""
 
-#: localized_js.php:165
+#: localized_js.php:166
 #, fuzzy
 msgid "Tiny Tiny RSS is in offline mode."
 msgstr "Tiny Tiny RSS のデータベースを更新しました。"
 
-#: localized_js.php:166 offline.js:1223
+#: localized_js.php:167 offline.js:1223
 msgid "Tiny Tiny RSS will reload. Go online?"
 msgstr ""
 
-#: localized_js.php:167
+#: localized_js.php:168
 #, fuzzy
 msgid "Trying to change address..."
 msgstr "パスワードの変更を試行中..."
 
-#: localized_js.php:168
+#: localized_js.php:169
 msgid "Trying to change e-mail..."
 msgstr "電子メールの変更を試行中..."
 
-#: localized_js.php:169
+#: localized_js.php:170
 msgid "Trying to change password..."
 msgstr "パスワードの変更を試行中..."
 
-#: localized_js.php:170 viewfeed.js:657
+#: localized_js.php:171 viewfeed.js:657
 msgid "Unpublish article"
 msgstr "非公開記事"
 
-#: localized_js.php:172 viewfeed.js:586
+#: localized_js.php:173 viewfeed.js:586
 msgid "Unstar article"
 msgstr "記事のお気に入りを解除する"
 
-#: localized_js.php:173 prefs.js:1879 tt-rss.js:609 tt-rss.js:704
+#: localized_js.php:174 prefs.js:1879 tt-rss.js:609 tt-rss.js:704
 #, php-format
 msgid "Unsubscribe from %s?"
 msgstr "%s の購読をやめますか?"
 
-#: localized_js.php:174 prefs.js:581
+#: localized_js.php:175 prefs.js:581
 msgid "Unsubscribe from selected feeds?"
 msgstr "選択されたフィードの購読をやめますか?"
 
-#: localized_js.php:175
+#: localized_js.php:176
 msgid "Unsubscribing from selected feeds..."
 msgstr "選択されたフィードの購読を解除中..."
 
-#: localized_js.php:176 tt-rss.js:627
+#: localized_js.php:177 tt-rss.js:627
 msgid "You can't clear this type of feed."
 msgstr "フィードのこの種類を消去できません。"
 
-#: localized_js.php:177 tt-rss.js:841
+#: localized_js.php:178 tt-rss.js:841
 msgid "You can't edit this kind of feed."
 msgstr ""
 
-#: localized_js.php:178 tt-rss.js:1010
+#: localized_js.php:179 tt-rss.js:1010
 msgid "You can't rescore this kind of feed."
 msgstr ""
 
-#: localized_js.php:179 tt-rss.js:598
+#: localized_js.php:180 tt-rss.js:598
 msgid "You can't unsubscribe from the category."
 msgstr "カテゴリーから購読をやめることができません。"
 
-#: localized_js.php:180
+#: localized_js.php:181
 msgid "You have to synchronize some articles before going into offline mode."
 msgstr ""
 
-#: localized_js.php:181
+#: localized_js.php:182
 msgid ""
 "You won't be able to access offline version of Tiny Tiny RSS until you "
 "switch it into offline mode again. Go online?"
@@ -1269,31 +1274,31 @@ msgstr ""
 msgid "Do not show images in articles"
 msgstr "記事内に画像を表示しない"
 
-#: login.php:129 login_form.php:108 modules/popup-dialog.php:107
+#: login_form.php:108 login.php:129 modules/popup-dialog.php:107
 #: modules/pref-feeds.php:277 modules/pref-feeds.php:470
 #: mobile/login_form.php:59
 msgid "Login:"
 msgstr "ログイン:"
 
-#: login.php:132 login_form.php:111 modules/popup-dialog.php:111
+#: login_form.php:111 login.php:132 modules/popup-dialog.php:111
 #: modules/pref-feeds.php:281 modules/pref-feeds.php:476
 #: mobile/login_form.php:60
 msgid "Password:"
 msgstr "パスワード:"
 
-#: login.php:136 login_form.php:115 mobile/login_form.php:62
+#: login_form.php:115 login.php:136 mobile/login_form.php:62
 msgid "Language:"
 msgstr "言語:"
 
-#: login.php:152 login_form.php:131 mobile/login_form.php:71
+#: login_form.php:131 login.php:152 mobile/login_form.php:71
 msgid "Log in"
 msgstr "ログイン"
 
-#: login.php:155 login_form.php:134 register.php:148
+#: login_form.php:134 login.php:155 register.php:148
 msgid "Create new account"
 msgstr ""
 
-#: login.php:169 login_form.php:148
+#: login_form.php:148 login.php:169
 msgid "Limit bandwidth usage"
 msgstr "帯域の制限を使う"
 
@@ -2630,11 +2635,6 @@ msgstr "対象項目:"
 #: mobile/tt-rss.php:114
 msgid "Internal error: Function not implemented"
 msgstr "インターナルエラー: 機能が実装されていません"
-
-#: viewfeed.js:2193
-#, fuzzy
-msgid "Please enter a note for this article:"
-msgstr "ラベルの題名を入力してください:"
 
 #~ msgid "This program requires XmlHttpRequest "
 #~ msgstr "このプログラムは、XmlHttpRequest を要求します"

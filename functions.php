@@ -22,8 +22,9 @@
 	 */
 	function get_translations() {
 		$tr = array(
-					"auto"  => "Detect automatically",
+					"auto"  => "Detect automatically",					
 					"en_US" => "English",
+					"de_DE" => "Deutsch",
 					"fr_FR" => "Français",
 					"hu_HU" => "Magyar (Hungarian)",
 					"it_IT" => "Italiano",
