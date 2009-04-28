@@ -1858,7 +1858,7 @@
 		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
 			if ($_SESSION["ip_address"]) {
 				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
-					$_SESSION["login_error_msg"] = "Session failed to validate (incorrect IP)";
+					$_SESSION["login_error_msg"] = __("Session failed to validate (incorrect IP)");
 					return false;
 				}
 			}
@@ -1918,7 +1918,7 @@
 
 					return;
 				} else {
-					$_SESSION["login_error_msg"] = "Incorrect username or password";
+					$_SESSION["login_error_msg"] = __("Incorrect username or password");
 				}
 			}
 
@@ -5027,7 +5027,7 @@
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>mark as read</a>)";
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
@@ -5110,7 +5110,7 @@
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>mark as read</a>)";
+							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
 							$has_feed_icon = feed_has_icon($feed_id);
 

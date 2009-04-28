@@ -31,6 +31,8 @@
 	__("Purge old posts after this number of days (0 - disables)");
 	__("Update post on checksum change");
 	__("Mark articles in e-mail digest as read");
+	__("Enable offline reading");
+	__("Synchronize new articles for offline reading using Google Gears.");
 
 	__("Interface");
 

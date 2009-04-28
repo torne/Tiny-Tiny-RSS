@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-26 16:40+0400\n"
+"POT-Creation-Date: 2009-04-28 12:24+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Thibaut Cousin <informatique@thibaut-cousin.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -176,192 +176,200 @@ msgstr ""
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 
-#: functions.php:2846 modules/popup-dialog.php:175
+#: functions.php:1861
+msgid "Session failed to validate (incorrect IP)"
+msgstr ""
+
+#: functions.php:1921
+msgid "Incorrect username or password"
+msgstr ""
+
+#: functions.php:2847 modules/popup-dialog.php:175
 #: modules/pref-filters.php:413 mobile/functions.php:744
 msgid "All feeds"
 msgstr "Tous les flux"
 
-#: functions.php:2875 functions.php:2914 functions.php:3325 functions.php:4292
-#: functions.php:4322 modules/backend-rpc.php:635 modules/pref-feeds.php:1254
+#: functions.php:2876 functions.php:2915 functions.php:3326 functions.php:4293
+#: functions.php:4323 modules/backend-rpc.php:635 modules/pref-feeds.php:1254
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
-#: functions.php:2904 functions.php:3531 modules/backend-rpc.php:640
+#: functions.php:2905 functions.php:3532 modules/backend-rpc.php:640
 #: mobile/functions.php:33
 msgid "Special"
 msgstr "Spécial"
 
-#: functions.php:2906 functions.php:3354 functions.php:3533 prefs.php:129
+#: functions.php:2907 functions.php:3355 functions.php:3534 prefs.php:129
 #: modules/backend-rpc.php:645 help/4.php:12 mobile/functions.php:83
 msgid "Labels"
 msgstr "Intitulé"
 
-#: functions.php:2924 functions.php:3347 functions.php:4144
+#: functions.php:2925 functions.php:3348 functions.php:4145
 #: localized_js.php:154 help/3.php:59 mobile/functions.php:61 offline.js:494
 #: offline.js:1425
 msgid "Starred articles"
 msgstr "Articles remarquables"
 
-#: functions.php:2926 functions.php:3351 functions.php:4151
+#: functions.php:2927 functions.php:3352 functions.php:4152
 #: modules/pref-feeds.php:1432 help/3.php:60 mobile/functions.php:70
 msgid "Published articles"
 msgstr "Articles publiés"
 
-#: functions.php:2928 functions.php:3357 functions.php:4129 help/3.php:58
+#: functions.php:2929 functions.php:3358 functions.php:4130 help/3.php:58
 #: mobile/functions.php:52
 msgid "Fresh articles"
 msgstr "Nouveaux articles"
 
-#: functions.php:2930 functions.php:3360 functions.php:4122
+#: functions.php:2931 functions.php:3361 functions.php:4123
 #: localized_js.php:40 help/3.php:57 mobile/functions.php:43 offline.js:489
 #: offline.js:1427
 #, fuzzy
 msgid "All articles"
 msgstr "Tous les articles"
 
-#: functions.php:3311 functions.php:3313
+#: functions.php:3312 functions.php:3314
 msgid "Search results"
 msgstr "Résultats de recherche"
 
-#: functions.php:3329 functions.php:3342 functions.php:3348 functions.php:3352
-#: functions.php:3358 functions.php:3361 functions.php:3369
+#: functions.php:3330 functions.php:3343 functions.php:3349 functions.php:3353
+#: functions.php:3359 functions.php:3362 functions.php:3370
 msgid "Searched for"
 msgstr "Recherché"
 
-#: functions.php:4001
+#: functions.php:4002
 msgid "Generated feed"
 msgstr "Flux généré"
 
-#: functions.php:4006 functions.php:5292 localized_js.php:149
+#: functions.php:4007 functions.php:5293 localized_js.php:149
 #: modules/pref-feeds.php:1035 modules/pref-feeds.php:1216
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
 msgid "Select:"
 msgstr "Sélectionner&nbsp;:"
 
-#: functions.php:4007 localized_js.php:39 modules/pref-feeds.php:1036
-#: modules/pref-feeds.php:1217 modules/pref-filters.php:367
-#: modules/pref-labels.php:164 modules/pref-users.php:402
-#: mobile/functions.php:570
+#: functions.php:4008 localized_js.php:39 tt-rss.php:256
+#: modules/pref-feeds.php:1036 modules/pref-feeds.php:1217
+#: modules/pref-filters.php:367 modules/pref-labels.php:164
+#: modules/pref-users.php:402 mobile/functions.php:570
 msgid "All"
 msgstr "Tout"
 
-#: functions.php:4008 functions.php:4024 localized_js.php:172 tt-rss.php:239
+#: functions.php:4009 functions.php:4025 localized_js.php:172 tt-rss.php:239
 #: mobile/functions.php:458 mobile/functions.php:571
 msgid "Unread"
 msgstr "Non lus"
 
-#: functions.php:4009 localized_js.php:74 mobile/functions.php:573
+#: functions.php:4010 localized_js.php:74 mobile/functions.php:573
 #, fuzzy
 msgid "Invert"
 msgstr "(Inverse)"
 
-#: functions.php:4010 localized_js.php:99 modules/pref-feeds.php:1037
+#: functions.php:4011 localized_js.php:99 modules/pref-feeds.php:1037
 #: modules/pref-feeds.php:1218 modules/pref-filters.php:368
 #: modules/pref-labels.php:165 modules/pref-users.php:403
 #: mobile/functions.php:572
 msgid "None"
 msgstr "Aucun"
 
-#: functions.php:4018 localized_js.php:35 tt-rss.php:189
+#: functions.php:4019 localized_js.php:35 tt-rss.php:189
 #: modules/pref-feeds.php:1378 offline.js:185
 msgid "Actions..."
 msgstr "Actions..."
 
-#: functions.php:4023 localized_js.php:151
+#: functions.php:4024 localized_js.php:151
 #, fuzzy
 msgid "Selection toggle:"
 msgstr "Sélection&nbsp;:"
 
-#: functions.php:4025 localized_js.php:153 tt-rss.php:238
+#: functions.php:4026 localized_js.php:153 tt-rss.php:238
 #: mobile/functions.php:459
 msgid "Starred"
 msgstr "Remarquables"
 
-#: functions.php:4026
+#: functions.php:4027
 msgid "Published"
 msgstr "Publiés"
 
-#: functions.php:4028 localized_js.php:85
+#: functions.php:4029 localized_js.php:85
 msgid "Mark as read:"
 msgstr "Marquer comme lu&nbsp;:"
 
-#: functions.php:4029 localized_js.php:150 mobile/functions.php:578
+#: functions.php:4030 localized_js.php:150 mobile/functions.php:578
 msgid "Selection"
 msgstr "La sélection"
 
-#: functions.php:4031 localized_js.php:65 mobile/functions.php:580
+#: functions.php:4032 localized_js.php:65 mobile/functions.php:580
 msgid "Entire feed"
 msgstr "Tout le flux"
 
-#: functions.php:4035
+#: functions.php:4036
 #, fuzzy
 msgid "Assign label:"
 msgstr "Attribuer des étiquettes"
 
-#: functions.php:4076 localized_js.php:56
+#: functions.php:4077 localized_js.php:56
 msgid "Click to collapse category"
 msgstr ""
 
-#: functions.php:4342
+#: functions.php:4343
 msgid "No feeds to display."
 msgstr "Aucun flux à afficher."
 
-#: functions.php:4359 mobile/functions.php:12
+#: functions.php:4360 mobile/functions.php:12
 msgid "Tags"
 msgstr "Étiquettes"
 
-#: functions.php:4596
+#: functions.php:4597
 #, fuzzy
 msgid " - "
 msgstr "- par "
 
-#: functions.php:4620 functions.php:5320
+#: functions.php:4621 functions.php:5321
 msgid "Edit tags for this article"
 msgstr ""
 
-#: functions.php:4628
+#: functions.php:4629
 #, fuzzy
 msgid "Display original article content"
 msgstr "Afficher l'heure du dernier article"
 
-#: functions.php:4635 functions.php:5302
+#: functions.php:4636 functions.php:5303
 #, fuzzy
 msgid "Show article summary in new window"
 msgstr "Ouvrir les liens des articles dans une nouvelle fenêtre"
 
-#: functions.php:4642 functions.php:5309
+#: functions.php:4643 functions.php:5310
 #, fuzzy
 msgid "Publish article with a note"
 msgstr "Publier l'article"
 
-#: functions.php:4682 functions.php:5226
+#: functions.php:4683 functions.php:5227
 #, fuzzy
 msgid "unknown type"
 msgstr "Erreur inconnue"
 
-#: functions.php:4688 functions.php:5232
+#: functions.php:4689 functions.php:5233
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4724 functions.php:5266
+#: functions.php:4725 functions.php:5267
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4726 functions.php:5268
+#: functions.php:4727 functions.php:5269
 msgid "Attachments:"
 msgstr ""
 
-#: functions.php:4746 modules/help.php:22 modules/popup-dialog.php:52
+#: functions.php:4747 modules/help.php:22 modules/popup-dialog.php:52
 #: modules/popup-dialog.php:456 modules/pref-feeds.php:1086
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
-#: functions.php:4802
+#: functions.php:4803
 msgid "Feed not found."
 msgstr "Flux non trouvé."
 
-#: functions.php:4871 mobile/functions.php:423
+#: functions.php:4872 mobile/functions.php:423
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -369,57 +377,62 @@ msgstr ""
 "Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez vérifier "
 "la syntaxe de son intitulé ou la configuration locale."
 
-#: functions.php:5193
+#: functions.php:5030 functions.php:5113
+#, fuzzy
+msgid "mark as read"
+msgstr "Marquer comme lu"
+
+#: functions.php:5194
 #, fuzzy
 msgid "Click to expand article"
 msgstr "Articles mémorisés"
 
-#: functions.php:5327
+#: functions.php:5328
 #, fuzzy
 msgid "toggle unread"
 msgstr "Marquages spéciaux&nbsp;"
 
-#: functions.php:5346
+#: functions.php:5347
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:5349
+#: functions.php:5350
 #, fuzzy
 msgid "No updated articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:5352
+#: functions.php:5353
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:5356
+#: functions.php:5357
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5358 localized_js.php:92 offline.js:444
+#: functions.php:5359 localized_js.php:92 offline.js:444
 #, fuzzy
 msgid "No articles found to display."
 msgstr "Aucun article à marquer"
 
-#: functions.php:6060 tt-rss.php:204
+#: functions.php:6061 tt-rss.php:204
 #, fuzzy
 msgid "Create label..."
 msgstr "Créer un intitulé"
 
-#: functions.php:6073
+#: functions.php:6074
 #, fuzzy
 msgid "(remove)"
 msgstr "Supprimer"
 
-#: functions.php:6117
+#: functions.php:6118
 msgid "no tags"
 msgstr "aucune étiquette"
 
-#: functions.php:6145
+#: functions.php:6146
 msgid "edit note"
 msgstr ""
 
@@ -1107,15 +1120,24 @@ msgstr "Mettre à jour lors d'un changement du code de contrôle"
 msgid "Mark articles in e-mail digest as read"
 msgstr "Marquer tous les articles de %s comme lus ?"
 
+#: localized_schema.php:34
+#, fuzzy
+msgid "Enable offline reading"
+msgstr "Utiliser les catégories de flux"
+
 #: localized_schema.php:35
+msgid "Synchronize new articles for offline reading using Google Gears."
+msgstr ""
+
+#: localized_schema.php:37
 msgid "Interface"
 msgstr "Interface"
 
-#: localized_schema.php:37
+#: localized_schema.php:39
 msgid "Combined feed display"
 msgstr "Affichage combiné des flux"
 
-#: localized_schema.php:38
+#: localized_schema.php:40
 msgid ""
 "Display expanded list of feed articles, instead of separate displays for "
 "headlines and article content"
@@ -1123,33 +1145,33 @@ msgstr ""
 "Affiche les articles sous la forme d'une liste étendue, au lieu de deux "
 "listes séparées (une pour les en-têtes et une pour le contenu)"
 
-#: localized_schema.php:39
+#: localized_schema.php:41
 msgid "Default article limit"
 msgstr "Nombre maximal d'articles par défaut"
 
-#: localized_schema.php:40
+#: localized_schema.php:42
 msgid ""
 "Default limit for articles to display, any custom number you like (0 - "
 "disables)."
 msgstr "Nombre maximal d'articles à afficher (0 pour supprimer toute limite)."
 
-#: localized_schema.php:41
+#: localized_schema.php:43
 msgid "Enable feed categories"
 msgstr "Utiliser les catégories de flux"
 
-#: localized_schema.php:42
+#: localized_schema.php:44
 msgid "Enable search toolbar"
 msgstr "Activer la barre de recherche"
 
-#: localized_schema.php:43
+#: localized_schema.php:45
 msgid "Hide feeds with no unread messages"
 msgstr "Masquer les flux sans article non lu"
 
-#: localized_schema.php:44
+#: localized_schema.php:46
 msgid "Mark articles as read automatically"
 msgstr "Marquer les articles comme lus automatiquement"
 
-#: localized_schema.php:45
+#: localized_schema.php:47
 #, fuzzy
 msgid ""
 "This option enables marking articles as read automatically in combined mode "
@@ -1158,11 +1180,11 @@ msgstr ""
 "Cette option active le marquage automatique des articles comme lus en "
 "affichage combiné, pendant que vous faites défiler la liste des articles"
 
-#: localized_schema.php:46
+#: localized_schema.php:48
 msgid "On catchup show next feed"
 msgstr "Sauter automatiquement au flux suivant"
 
-#: localized_schema.php:47
+#: localized_schema.php:49
 msgid ""
 "When \"Mark as read\" button is clicked in toolbar, automatically open next "
 "feed with unread articles."
@@ -1170,66 +1192,66 @@ msgstr ""
 "Lorsque vous cliquez sur «&nbsp;Marquer comme lus&nbsp;», le prochain flux "
 "contenant des articles non lus est automatiquement affiché"
 
-#: localized_schema.php:48
+#: localized_schema.php:50
 msgid "Open article links in new browser window"
 msgstr "Ouvrir les liens des articles dans une nouvelle fenêtre"
 
-#: localized_schema.php:49
+#: localized_schema.php:51
 msgid "Reverse headline order (oldest first)"
 msgstr "Inverser l'order des en-têtes (les plus anciens en premier)"
 
-#: localized_schema.php:50
+#: localized_schema.php:52
 msgid "Show content preview in headlines list"
 msgstr "Donner un aperçu du contenu dans la liste des en-têtes"
 
-#: localized_schema.php:51
+#: localized_schema.php:53
 msgid "Sort feeds by unread articles count"
 msgstr "Trier les flux par nombre d'articles non lus"
 
-#: localized_schema.php:52
+#: localized_schema.php:54
 msgid "User stylesheet URL"
 msgstr "URL de la feuille de style personnalisée"
 
-#: localized_schema.php:53
+#: localized_schema.php:55
 msgid "Link to user stylesheet to override default style, disabled if empty."
 msgstr ""
 "Lien vers une feuille de style personnalisée pour remplacer le style par "
 "défaut (laisser vide pour ne pas en utiliser)"
 
-#: localized_schema.php:54
+#: localized_schema.php:56
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "Ancienneté maximale pour un nouvel article (en heures)"
 
-#: localized_schema.php:55
+#: localized_schema.php:57
 #, fuzzy
 msgid "Hide feedlist"
 msgstr "Masquer dans la liste de «&nbsp;Mes flux&nbsp;»"
 
-#: localized_schema.php:56
+#: localized_schema.php:58
 msgid ""
 "This option hides feedlist and allows it to be toggled on the fly, useful "
 "for small screens."
 msgstr ""
 
-#: localized_schema.php:57
+#: localized_schema.php:59
 msgid "Group headlines in virtual feeds"
 msgstr ""
 
-#: localized_schema.php:58
+#: localized_schema.php:60
 msgid ""
 "When this option is enabled, headlines in Special feeds and Labels are "
 "grouped by feeds"
 msgstr ""
 
-#: localized_schema.php:60
+#: localized_schema.php:62
 msgid "Advanced"
 msgstr "Avancé"
 
-#: localized_schema.php:62
+#: localized_schema.php:64
 msgid "Blacklisted tags"
 msgstr "Étiquettes exclues"
 
-#: localized_schema.php:63
+#: localized_schema.php:65
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
@@ -1237,20 +1259,20 @@ msgstr ""
 "Lors de l'autodétection des étiquettes dans les articles, ces étiquettes ne "
 "sont pas utilisées (en faire une liste, séparées par des virgules)"
 
-#: localized_schema.php:64
+#: localized_schema.php:66
 msgid "Confirm marking feed as read"
 msgstr "Demander confirmation pour marquer un flux comme lu"
 
-#: localized_schema.php:65
+#: localized_schema.php:67
 #, fuzzy
 msgid "Enable feed icons"
 msgstr "Utiliser les catégories de flux"
 
-#: localized_schema.php:66
+#: localized_schema.php:68
 msgid "Enable labels"
 msgstr "Utiliser les intitulés"
 
-#: localized_schema.php:67
+#: localized_schema.php:69
 msgid ""
 "Experimental support for virtual feeds based on user crafted SQL queries. "
 "This feature is highly experimental and at this point not user friendly. Use "
@@ -1260,62 +1282,62 @@ msgstr ""
 "personnalisées. Cette fonctionnalité est hautement expérimentale et pas "
 "encore ergonomique. Utilisez-là avec précaution."
 
-#: localized_schema.php:68
+#: localized_schema.php:70
 msgid "Long date format"
 msgstr "Format de date long"
 
-#: localized_schema.php:69
+#: localized_schema.php:71
 msgid "Set articles as unread on update"
 msgstr "Marquer les articles comme non lus lors des mises à jour"
 
-#: localized_schema.php:70
+#: localized_schema.php:72
 msgid "Short date format"
 msgstr "Format de date court"
 
-#: localized_schema.php:71
+#: localized_schema.php:73
 msgid "Show additional information in feedlist"
 msgstr "Afficher des informations supplémentaires dans la liste des flux"
 
-#: localized_schema.php:72
+#: localized_schema.php:74
 msgid "Strip unsafe tags from articles"
 msgstr "Éliminer les étiquettes non sûres des articles"
 
-#: localized_schema.php:73
+#: localized_schema.php:75
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 "Élimine toutes les balises HTML sauf les plus courantes lors de la lecture "
 "des articles"
 
-#: localized_schema.php:74
+#: localized_schema.php:76
 msgid "Use more accessible date/time format for headlines"
 msgstr "Afficher la date et l'heure de manière plus lisible dans les en-têtes"
 
-#: localized_schema.php:75
+#: localized_schema.php:77
 msgid "Automatically expand articles in combined mode"
 msgstr "Développer automatiquement les articles en affichage combiné"
 
-#: localized_schema.php:76
+#: localized_schema.php:78
 msgid "Purge unread articles"
 msgstr "Purger les articles non lus"
 
-#: localized_schema.php:77
+#: localized_schema.php:79
 msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
-#: localized_schema.php:78
+#: localized_schema.php:80
 msgid "Prefer more accurate feedlist counters to UI speed"
 msgstr ""
 
-#: localized_schema.php:79
+#: localized_schema.php:81
 msgid "Enable inline MP3 player"
 msgstr ""
 
-#: localized_schema.php:80
+#: localized_schema.php:82
 msgid ""
 "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 msgstr ""
 
-#: localized_schema.php:81
+#: localized_schema.php:83
 msgid "Do not show images in articles"
 msgstr ""
 

@@ -253,7 +253,7 @@ window.onload = init;
 
 		<?php echo __('Limit:') ?>
 		<?php
-		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => "All");
+		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => __("All"));
 			
 		$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
 
