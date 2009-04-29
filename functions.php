@@ -2946,7 +2946,11 @@
 				return "Unknown feed ($id)";
 			}
 		} else {
-			return "getFeedTitle($id) failed";
+			if (preg_match("/^-?[0-9][0-9]*$/", $id)) {
+				return "getFeedTitle($id) failed";
+			} else {
+				return $id;
+			}
 		}
 
 	}
