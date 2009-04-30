@@ -67,8 +67,12 @@
 
 	$sop = db_escape_string($_GET["sop"]);
 
-	if ($sop && $go == "view") {
-		$a_id = db_escape_string($_GET["id"]);
+	if ($sop) {
+		if ($go == "view") {
+			$a_id = db_escape_string($_GET["id"]);
+		} elseif ($go == "vf") {
+			$a_id = db_escape_string($_GET["aid"]);
+		}
 
 		if ($a_id) {
 
@@ -80,7 +84,11 @@
 				toggleMarked($link, $a_id);
 			}
 
-			$query_string = preg_replace("/&sop=t[sp]/", "", $_SERVER["QUERY_STRING"]);
+			if ($sop == "mu") {
+				markUnread($link, $a_id);
+			}
+
+			$query_string = str_replace("&sop=$sop", "", $_SERVER["QUERY_STRING"]);
 			header("Location: tt-rss.php?$query_string");
 		}
 	}

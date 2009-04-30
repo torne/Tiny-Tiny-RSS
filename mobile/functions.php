@@ -710,9 +710,14 @@
 				$published_pic = "<img class='marked' src=\"../images/pub_unset.gif\">";
 			}
 
+
 			print "<div class=\"postStarOps\">";
-			print "<a href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=ts\">$marked_pic</a>";
-			print "<a href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=tp\">$published_pic</a>";
+			print "<a title=\"".__('Toggle starred')."\"href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=ts\">$marked_pic</a>";
+			print "<a title=\"".__('Toggle published')."\" href=\"?go=view&id=$id&ret_feed=$ret_feed_id&feed=$feed_id&sop=tp\">$published_pic</a>";
+			// Mark unread
+			print "<a title=\"".__('Mark as unread')."\" href=\"?go=vf&id=$ret_feed_id&feed=$feed_id&sop=mu&aid=$id";
+			if ($cat_view) { print "&cat=$cat_view"; }
+			print "\"><img class='marked' src=\"../images/art-set-unread.png\"></a>";
 			print "</div>";
 
 			print sanitize_rss($link, $line["content"], true);; 
@@ -796,4 +801,10 @@
 		$result = db_query($link, "UPDATE ttrss_user_entries SET published = NOT published
 			WHERE ref_id = '$tp_id' AND owner_uid = " . $_SESSION["uid"]);
 	}
+
+	function markUnread($link, $mu_id) {
+		$result = db_query($link, "UPDATE ttrss_user_entries SET unread = true 
+			WHERE ref_id = '$mu_id' AND owner_uid = " . $_SESSION["uid"]);
+	}
+
 ?>
