@@ -1741,6 +1741,7 @@
 
 			$pwd_hash1 = encrypt_password($password);
 			$pwd_hash2 = encrypt_password($password, $login);
+			$login = db_escape_string($login);
 
 			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH 
 					&& $_SERVER["REMOTE_USER"] && $login != "admin") {
