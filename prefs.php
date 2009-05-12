@@ -122,7 +122,7 @@ window.onload = init;
 		<div id="genConfigTab" class="prefsTab" 
 			onclick="selectTab('genConfig')"><?php echo __('Preferences') ?></div>
 		<div id="feedConfigTab" class="prefsTab" 
-			onclick="selectTab('feedConfig')"><?php echo __('My Feeds') ?></div>
+			onclick="selectTab('feedConfig')"><?php echo __('Feeds') ?></div>
 		<div id="filterConfigTab" class="prefsTab" 
 			onclick="selectTab('filterConfig')"><?php echo __('Filters') ?></div>
 		<div id="labelConfigTab" class="prefsTab" 
