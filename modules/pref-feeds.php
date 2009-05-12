@@ -274,17 +274,22 @@
 
 			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 
-			print __('Login:') . " ";
+			print "<table>";
+
+			print "<tr><td>" . __('Login:') . "</td><td>";
+
 			print "<input size=\"20\" onkeypress=\"return filterCR(event, feedEditSave)\"
 				name=\"auth_login\" value=\"$auth_login\">";
 
-			print " " . __("Password:") . " ";
+			print "</tr><tr><td>" . __("Password:") . "</td><td>";
 
 			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
 			print "<input size=\"20\" type=\"password\" name=\"auth_pass\" 
 				onkeypress=\"return filterCR(event, feedEditSave)\"
 				value=\"$auth_pass\">";
+
+			print "</td></tr></table>";
 
 			print "</div>";
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
