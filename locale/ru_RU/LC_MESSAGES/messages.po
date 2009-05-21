@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-12 12:58+0400\n"
+"POT-Creation-Date: 2009-05-21 11:53+0400\n"
 "PO-Revision-Date: 2009-01-26 08:36+0400\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -195,7 +195,7 @@ msgid "All feeds"
 msgstr "Все каналы"
 
 #: functions.php:2877 functions.php:2916 functions.php:3331 functions.php:4298
-#: functions.php:4328 modules/backend-rpc.php:635 modules/pref-feeds.php:1254
+#: functions.php:4328 modules/backend-rpc.php:635 modules/pref-feeds.php:1259
 msgid "Uncategorized"
 msgstr "Нет категории"
 
@@ -216,7 +216,7 @@ msgid "Starred articles"
 msgstr "Отмеченные"
 
 #: functions.php:2928 functions.php:3357 functions.php:4157
-#: modules/pref-feeds.php:1432 help/3.php:60 mobile/functions.php:70
+#: modules/pref-feeds.php:1437 help/3.php:60 mobile/functions.php:70
 msgid "Published articles"
 msgstr "Опубликованные"
 
@@ -245,14 +245,14 @@ msgid "Generated feed"
 msgstr "Генерировать канал"
 
 #: functions.php:4012 functions.php:5298 localized_js.php:149
-#: modules/pref-feeds.php:1035 modules/pref-feeds.php:1216
+#: modules/pref-feeds.php:1040 modules/pref-feeds.php:1221
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
 msgid "Select:"
 msgstr "Выбрать:"
 
 #: functions.php:4013 localized_js.php:39 tt-rss.php:256
-#: modules/pref-feeds.php:1036 modules/pref-feeds.php:1217
+#: modules/pref-feeds.php:1041 modules/pref-feeds.php:1222
 #: modules/pref-filters.php:367 modules/pref-labels.php:164
 #: modules/pref-users.php:402 mobile/functions.php:570
 msgid "All"
@@ -267,15 +267,15 @@ msgstr "Новые"
 msgid "Invert"
 msgstr "Инвертировать"
 
-#: functions.php:4016 localized_js.php:99 modules/pref-feeds.php:1037
-#: modules/pref-feeds.php:1218 modules/pref-filters.php:368
+#: functions.php:4016 localized_js.php:99 modules/pref-feeds.php:1042
+#: modules/pref-feeds.php:1223 modules/pref-filters.php:368
 #: modules/pref-labels.php:165 modules/pref-users.php:403
 #: mobile/functions.php:572
 msgid "None"
 msgstr "Ничего"
 
 #: functions.php:4024 localized_js.php:35 tt-rss.php:189
-#: modules/pref-feeds.php:1378 offline.js:185
+#: modules/pref-feeds.php:1383 offline.js:185
 msgid "Actions..."
 msgstr "Действия..."
 
@@ -358,7 +358,7 @@ msgid "Attachments:"
 msgstr "Вложения:"
 
 #: functions.php:4752 modules/help.php:22 modules/popup-dialog.php:52
-#: modules/popup-dialog.php:456 modules/pref-feeds.php:1086
+#: modules/popup-dialog.php:456 modules/pref-feeds.php:1091
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
@@ -1015,7 +1015,7 @@ msgid ""
 msgstr ""
 
 #: localized_schema.php:9 tt-rss.php:249 modules/popup-dialog.php:165
-#: modules/pref-feeds.php:1229 modules/pref-feeds.php:1290
+#: modules/pref-feeds.php:1234 modules/pref-feeds.php:1295
 #: mobile/functions.php:780
 msgid "Title"
 msgstr "Заголовок"
@@ -1327,31 +1327,31 @@ msgstr "Разрешить XSPF Flash плеер для проигрывания
 msgid "Do not show images in articles"
 msgstr "Не показывать изображения в статьях"
 
-#: login_form.php:108 login.php:129 modules/popup-dialog.php:107
-#: modules/pref-feeds.php:277 modules/pref-feeds.php:470
+#: login.php:129 login_form.php:108 modules/popup-dialog.php:107
+#: modules/pref-feeds.php:279 modules/pref-feeds.php:475
 #: mobile/login_form.php:59
 msgid "Login:"
 msgstr "Логин:"
 
-#: login_form.php:111 login.php:132 modules/popup-dialog.php:111
-#: modules/pref-feeds.php:281 modules/pref-feeds.php:476
+#: login.php:132 login_form.php:111 modules/popup-dialog.php:111
+#: modules/pref-feeds.php:284 modules/pref-feeds.php:481
 #: mobile/login_form.php:60
 msgid "Password:"
 msgstr "Пароль:"
 
-#: login_form.php:115 login.php:136 mobile/login_form.php:62
+#: login.php:136 login_form.php:115 mobile/login_form.php:62
 msgid "Language:"
 msgstr "Язык:"
 
-#: login_form.php:131 login.php:152 mobile/login_form.php:71
+#: login.php:152 login_form.php:131 mobile/login_form.php:71
 msgid "Log in"
 msgstr "Войти"
 
-#: login_form.php:134 login.php:155 register.php:148
+#: login.php:155 login_form.php:134 register.php:148
 msgid "Create new account"
 msgstr "Создать новый аккаунт"
 
-#: login_form.php:148 login.php:169
+#: login.php:169 login_form.php:148
 msgid "Limit bandwidth usage"
 msgstr "Ограничить скорость передачи"
 
@@ -1423,7 +1423,7 @@ msgstr "Регистрация новых пользователей запре�
 
 #: register.php:155 register.php:200 register.php:213 register.php:228
 #: register.php:246 register.php:331 register.php:341 register.php:353
-#: update.php:94 update.php:162 modules/pref-feeds.php:869
+#: update.php:94 update.php:162 modules/pref-feeds.php:874
 msgid "Return to Tiny Tiny RSS"
 msgstr "Вернуться к Tiny Tiny RSS"
 
@@ -1540,7 +1540,7 @@ msgstr "Очистить статьи"
 msgid "Rescore feed"
 msgstr "Заново оценить канал"
 
-#: tt-rss.php:196 modules/pref-feeds.php:372 modules/pref-feeds.php:1390
+#: tt-rss.php:196 modules/pref-feeds.php:377 modules/pref-feeds.php:1395
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
@@ -1592,7 +1592,7 @@ msgstr "Все статьи"
 msgid "Ignore Scoring"
 msgstr "Игнорировать Оценки"
 
-#: tt-rss.php:241 modules/pref-feeds.php:1235 modules/pref-feeds.php:1298
+#: tt-rss.php:241 modules/pref-feeds.php:1240 modules/pref-feeds.php:1303
 #: mobile/functions.php:501 mobile/functions.php:504
 msgid "Updated"
 msgstr "Обновлено"
@@ -1614,7 +1614,7 @@ msgstr "Оценка"
 msgid "Limit:"
 msgstr "Сколько:"
 
-#: tt-rss.php:279 modules/pref-feeds.php:236 modules/pref-feeds.php:433
+#: tt-rss.php:279 modules/pref-feeds.php:236 modules/pref-feeds.php:438
 #: mobile/functions.php:436
 msgid "Update"
 msgstr "Обновить"
@@ -1777,22 +1777,22 @@ msgid "Subscribe to Feed"
 msgstr "Подписаться на канал"
 
 #: modules/popup-dialog.php:70 modules/pref-feeds.php:140
-#: modules/pref-feeds.php:397 modules/pref-filters.php:403
+#: modules/pref-feeds.php:402 modules/pref-filters.php:403
 msgid "Feed"
 msgstr "Канал"
 
 #: modules/popup-dialog.php:73 modules/pref-feeds.php:156
-#: modules/pref-feeds.php:411
+#: modules/pref-feeds.php:416
 msgid "URL:"
 msgstr "URL:"
 
 #: modules/popup-dialog.php:84 modules/pref-feeds.php:168
-#: modules/pref-feeds.php:423
+#: modules/pref-feeds.php:428
 msgid "Place in category:"
 msgstr "Поместить в категорию..."
 
 #: modules/popup-dialog.php:104 modules/pref-feeds.php:272
-#: modules/pref-feeds.php:467 modules/pref-prefs.php:262
+#: modules/pref-feeds.php:472 modules/pref-prefs.php:262
 #: modules/pref-users.php:142
 msgid "Authentication"
 msgstr "Авторизация"
@@ -1807,15 +1807,15 @@ msgstr "Подписаться"
 
 #: modules/popup-dialog.php:133 modules/popup-dialog.php:214
 #: modules/popup-dialog.php:337 modules/popup-dialog.php:432
-#: modules/pref-feeds.php:105 modules/pref-feeds.php:377
-#: modules/pref-feeds.php:531 modules/pref-filters.php:166
+#: modules/pref-feeds.php:105 modules/pref-feeds.php:382
+#: modules/pref-feeds.php:536 modules/pref-filters.php:166
 #: modules/pref-users.php:183
 msgid "Cancel"
 msgstr "Отмена"
 
 #: modules/popup-dialog.php:140 modules/popup-dialog.php:152
 #: modules/popup-dialog.php:211 modules/pref-feeds.php:78
-#: modules/pref-feeds.php:1131 modules/pref-filters.php:307
+#: modules/pref-feeds.php:1136 modules/pref-filters.php:307
 #: modules/pref-labels.php:130 modules/pref-users.php:363
 #: mobile/functions.php:19 mobile/functions.php:435 mobile/functions.php:734
 #: mobile/functions.php:788
@@ -1877,8 +1877,8 @@ msgstr "Выполнить действия"
 msgid "with parameters:"
 msgstr "с параметрами:"
 
-#: modules/popup-dialog.php:312 modules/pref-feeds.php:290
-#: modules/pref-feeds.php:485 modules/pref-filters.php:123
+#: modules/popup-dialog.php:312 modules/pref-feeds.php:295
+#: modules/pref-feeds.php:490 modules/pref-filters.php:123
 #: modules/pref-users.php:164
 msgid "Options"
 msgstr "Опции:"
@@ -1915,8 +1915,8 @@ msgstr "Редактировать теги"
 msgid "Tags for this article (separated by commas):"
 msgstr "Теги для этой статьи (разделенные запятыми):"
 
-#: modules/popup-dialog.php:428 modules/pref-feeds.php:375
-#: modules/pref-feeds.php:529 modules/pref-filters.php:162
+#: modules/popup-dialog.php:428 modules/pref-feeds.php:380
+#: modules/pref-feeds.php:534 modules/pref-filters.php:162
 #: modules/pref-users.php:180
 msgid "Save"
 msgstr "Сохранить"
@@ -1969,171 +1969,171 @@ msgstr "Связать с:"
 msgid "Not linked"
 msgstr "Нет связей"
 
-#: modules/pref-feeds.php:250 modules/pref-feeds.php:446
+#: modules/pref-feeds.php:250 modules/pref-feeds.php:451
 msgid "using"
 msgstr "использование"
 
-#: modules/pref-feeds.php:262 modules/pref-feeds.php:458
+#: modules/pref-feeds.php:262 modules/pref-feeds.php:463
 msgid "Article purging:"
 msgstr "Удаление сообщений:"
 
-#: modules/pref-feeds.php:304 modules/pref-feeds.php:491
+#: modules/pref-feeds.php:309 modules/pref-feeds.php:496
 msgid "Hide from \"Other Feeds\""
 msgstr "Спрятать из \"Других каналов\""
 
-#: modules/pref-feeds.php:315 modules/pref-feeds.php:496
+#: modules/pref-feeds.php:320 modules/pref-feeds.php:501
 msgid "Right-to-left content"
 msgstr "Язык канала пишется справа налево"
 
-#: modules/pref-feeds.php:326 modules/pref-feeds.php:501
+#: modules/pref-feeds.php:331 modules/pref-feeds.php:506
 msgid "Hide from my feed list"
 msgstr "Спрятать из моего списка каналов"
 
-#: modules/pref-feeds.php:338 modules/pref-feeds.php:507
+#: modules/pref-feeds.php:343 modules/pref-feeds.php:512
 msgid "Include in e-mail digest"
 msgstr "Включить в e-mail дайджест"
 
-#: modules/pref-feeds.php:359 modules/pref-feeds.php:515
+#: modules/pref-feeds.php:364 modules/pref-feeds.php:520
 msgid "Cache images locally"
 msgstr "Кэшировать изображения локально"
 
-#: modules/pref-feeds.php:387
+#: modules/pref-feeds.php:392
 msgid "Multiple Feed Editor"
 msgstr "Редактор канала"
 
-#: modules/pref-feeds.php:763 modules/pref-feeds.php:810
+#: modules/pref-feeds.php:768 modules/pref-feeds.php:815
 msgid "All done."
 msgstr "Всё выполнено."
 
-#: modules/pref-feeds.php:840
+#: modules/pref-feeds.php:845
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Добавлена подписка на <b>%s</b>."
 
-#: modules/pref-feeds.php:842
+#: modules/pref-feeds.php:847
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Канал <b>%s</b> уже подписан."
 
-#: modules/pref-feeds.php:864
+#: modules/pref-feeds.php:869
 msgid "Edit subscription options"
 msgstr "Редактировать опции  подписки"
 
-#: modules/pref-feeds.php:950
+#: modules/pref-feeds.php:955
 msgid "Category editor"
 msgstr "Редактор категорий"
 
-#: modules/pref-feeds.php:973
+#: modules/pref-feeds.php:978
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "Категория <b>$%s</b> уже существует."
 
-#: modules/pref-feeds.php:1004
+#: modules/pref-feeds.php:1009
 msgid "Unable to delete non empty feed categories."
 msgstr "Не могу удалить не пустую категорию"
 
-#: modules/pref-feeds.php:1021
+#: modules/pref-feeds.php:1026
 msgid "Create category"
 msgstr "Создать категорию"
 
-#: modules/pref-feeds.php:1081
+#: modules/pref-feeds.php:1086
 msgid "No feed categories defined."
 msgstr "Категории отсутствуют."
 
-#: modules/pref-feeds.php:1092 modules/pref-filters.php:156
+#: modules/pref-feeds.php:1097 modules/pref-filters.php:156
 #: modules/pref-filters.php:505 modules/pref-labels.php:225
 #: modules/pref-users.php:474
 msgid "Remove"
 msgstr "Удалить"
 
-#: modules/pref-feeds.php:1114
+#: modules/pref-feeds.php:1119
 msgid "Some feeds have update errors (click for details)"
 msgstr "Некоторые каналы не могут быть обновлены (щёлкните для подробностей)"
 
-#: modules/pref-feeds.php:1136 help/3.php:45 help/4.php:22
+#: modules/pref-feeds.php:1141 help/3.php:45 help/4.php:22
 msgid "Subscribe to feed"
 msgstr "Подписаться на канал"
 
-#: modules/pref-feeds.php:1141
+#: modules/pref-feeds.php:1146
 msgid "More Feeds"
 msgstr "Больше каналов"
 
-#: modules/pref-feeds.php:1215
+#: modules/pref-feeds.php:1220
 msgid "Show last article times"
 msgstr "Показать дату последней статьи"
 
-#: modules/pref-feeds.php:1232 modules/pref-feeds.php:1294
+#: modules/pref-feeds.php:1237 modules/pref-feeds.php:1299
 msgid "Last&nbsp;Article"
 msgstr "Последняя&nbsp;статья"
 
-#: modules/pref-feeds.php:1319 modules/pref-filters.php:479
+#: modules/pref-feeds.php:1324 modules/pref-filters.php:479
 #: modules/pref-users.php:449
 msgid "Click to edit"
 msgstr "Щёлкните для редактирования"
 
-#: modules/pref-feeds.php:1327
+#: modules/pref-feeds.php:1332
 msgid "(Hidden)"
 msgstr "(Скрыт)"
 
-#: modules/pref-feeds.php:1340
+#: modules/pref-feeds.php:1345
 #, php-format
 msgid "(linked to %s)"
 msgstr "(ссылка на %s)"
 
-#: modules/pref-feeds.php:1366 modules/pref-feeds.php:1379
+#: modules/pref-feeds.php:1371 modules/pref-feeds.php:1384
 msgid "Selection:"
 msgstr "Выбрано:"
 
-#: modules/pref-feeds.php:1372
+#: modules/pref-feeds.php:1377
 msgid "Recategorize"
 msgstr "Изменить категорию"
 
-#: modules/pref-feeds.php:1380 modules/pref-filters.php:503
+#: modules/pref-feeds.php:1385 modules/pref-filters.php:503
 #: modules/pref-users.php:472
 msgid "Edit"
 msgstr "Редактировать"
 
-#: modules/pref-feeds.php:1384
+#: modules/pref-feeds.php:1389
 msgid "Manual purge"
 msgstr "Ручная очистка"
 
-#: modules/pref-feeds.php:1388
+#: modules/pref-feeds.php:1393
 msgid "Clear feed data"
 msgstr "Очистить данные канала."
 
-#: modules/pref-feeds.php:1389 modules/pref-filters.php:324
+#: modules/pref-feeds.php:1394 modules/pref-filters.php:324
 msgid "Rescore articles"
 msgstr "Заново оценить статьи"
 
-#: modules/pref-feeds.php:1396
+#: modules/pref-feeds.php:1401
 msgid "Other:"
 msgstr "Другой:"
 
-#: modules/pref-feeds.php:1397
+#: modules/pref-feeds.php:1402
 msgid "Edit categories"
 msgstr "Редактировать категории"
 
-#: modules/pref-feeds.php:1406
+#: modules/pref-feeds.php:1411
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1410
+#: modules/pref-feeds.php:1415
 msgid "File:"
 msgstr "Файл:"
 
-#: modules/pref-feeds.php:1413
+#: modules/pref-feeds.php:1418
 msgid "Import"
 msgstr "Импортировать"
 
-#: modules/pref-feeds.php:1420
+#: modules/pref-feeds.php:1425
 msgid "Export OPML"
 msgstr "Экспортировать OPML"
 
-#: modules/pref-feeds.php:1423
+#: modules/pref-feeds.php:1428
 msgid "Firefox Integration"
 msgstr "Интеграция в Firefox"
 
-#: modules/pref-feeds.php:1425
+#: modules/pref-feeds.php:1430
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
@@ -2141,11 +2141,11 @@ msgstr ""
 "Этот сайт с Tiny Tiny RSS можно использовать в Firefox как агрегатор RSS. "
 "Для этого щёлкните по ссылке ниже."
 
-#: modules/pref-feeds.php:1429
+#: modules/pref-feeds.php:1434
 msgid "Click here to register this site as a feed reader."
 msgstr "Щёлкните здесь для регистрации сайта в роли RSS агрегатора"
 
-#: modules/pref-feeds.php:1438
+#: modules/pref-feeds.php:1443
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
@@ -2153,15 +2153,15 @@ msgstr ""
 "Опубликованные статьи экспортируется в качестве общего RSS канала и могут "
 "быть подписаны кем-либо ещё, кто знает URL, указанный ниже."
 
-#: modules/pref-feeds.php:1442
+#: modules/pref-feeds.php:1447
 msgid "Link to published articles feed."
 msgstr "Ссылка на общий канал со статьями."
 
-#: modules/pref-feeds.php:1445
+#: modules/pref-feeds.php:1450
 msgid "Generate another link"
 msgstr "Создать другую ссылку"
 
-#: modules/pref-feeds.php:1511
+#: modules/pref-feeds.php:1516
 msgid "No feeds found."
 msgstr "Каналы не найдены."
 
