@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-21 11:53+0400\n"
-"PO-Revision-Date: 2009-01-26 08:36+0400\n"
+"POT-Creation-Date: 2009-05-29 23:17+0400\n"
+"PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -183,11 +183,11 @@ msgstr ""
 
 #: functions.php:1862
 msgid "Session failed to validate (incorrect IP)"
-msgstr ""
+msgstr "Ошибка проверки сессии (некорректный IP)"
 
 #: functions.php:1922
 msgid "Incorrect username or password"
-msgstr ""
+msgstr "Некорректное имя пользователя или пароль"
 
 #: functions.php:2848 modules/popup-dialog.php:175
 #: modules/pref-filters.php:413 mobile/functions.php:749
@@ -337,9 +337,8 @@ msgid "Show article summary in new window"
 msgstr "Показать детали статьи в новом окне"
 
 #: functions.php:4648 functions.php:5315
-#, fuzzy
 msgid "Publish article with a note"
-msgstr "Опубликовать"
+msgstr "Опубликовать статью с заметкой"
 
 #: functions.php:4688 functions.php:5232
 msgid "unknown type"
@@ -375,18 +374,16 @@ msgstr ""
 "или локальную конфигурацию."
 
 #: functions.php:5035 functions.php:5118
-#, fuzzy
 msgid "mark as read"
-msgstr "Как прочитанные"
+msgstr "Отметить как прочитанные"
 
 #: functions.php:5199
 msgid "Click to expand article"
 msgstr "Щёлкните чтобы развернуть статью"
 
 #: functions.php:5333
-#, fuzzy
 msgid "toggle unread"
-msgstr "Прочитано / не прочитано"
+msgstr "переключить непрочитанные"
 
 #: functions.php:5352
 msgid "No unread articles found to display."
@@ -426,7 +423,7 @@ msgstr "нет тегов"
 
 #: functions.php:6151
 msgid "edit note"
-msgstr ""
+msgstr "править заметку"
 
 #: localized_js.php:36
 msgid "Adding feed..."
@@ -445,14 +442,12 @@ msgid "All feeds updated."
 msgstr "Все каналы обновлены."
 
 #: localized_js.php:42
-#, fuzzy
 msgid "Assign score to article:"
-msgstr "Заново оценить статьи"
+msgstr "Привязать счёт к статье:"
 
 #: localized_js.php:43
-#, fuzzy
 msgid "Assign selected articles to label?"
-msgstr "Отметить %d выбранные статьи в %s как прочитанные?"
+msgstr "Привязать выбранную статью к метке?"
 
 #: localized_js.php:44 prefs.js:331
 msgid "Can't add category: no name specified."
@@ -467,17 +462,16 @@ msgid "Can't create label: missing caption."
 msgstr "Не могу создать метку: отсутствует заголовок."
 
 #: localized_js.php:47 prefs.js:359
-#, fuzzy
 msgid "Can't create user: no login specified."
-msgstr "Не могу добавить пользователя без логина"
+msgstr "Не могу добавить пользователя: не указан логин."
 
 #: localized_js.php:48
 msgid "Can't open article: received invalid article link"
-msgstr ""
+msgstr "Не могу открыть статью: получена неверная ссылка на статью"
 
 #: localized_js.php:49
 msgid "Can't open article: received invalid XML"
-msgstr ""
+msgstr "Не могу открыть статью: получен неверный XML"
 
 #: localized_js.php:50 functions.js:1426
 msgid "Can't subscribe: no feed URL given."
@@ -496,33 +490,28 @@ msgid "Changing category of selected feeds..."
 msgstr "Идет изменение категории..."
 
 #: localized_js.php:54
-#, fuzzy
 msgid "Clearing feed..."
-msgstr "Идёт сохранение..."
+msgstr "Очистка канала..."
 
 #: localized_js.php:55
-#, fuzzy
 msgid "Clearing selected feed..."
-msgstr "Переоценка выбранных каналов..."
+msgstr "Очистка выбранных каналов..."
 
 #: localized_js.php:57
-#, fuzzy
 msgid "comments"
-msgstr "Комментарии?"
+msgstr "комментарии"
 
 #: localized_js.php:58
-#, fuzzy
 msgid "Could not change feed URL."
-msgstr "Не получилось изменить адрес."
+msgstr "Не получилось изменить URL канала."
 
 #: localized_js.php:59
 msgid "Could not display article (missing XML object)"
 msgstr "Не могу показать статью (отсутствует XML объект)"
 
 #: localized_js.php:60
-#, fuzzy
 msgid "Could not update headlines (missing XML data)"
-msgstr "Не могу обновить заголовки (отсутствует XML объект)"
+msgstr "Не получается обновить заголовки (отсутствуют XML данные)"
 
 #: localized_js.php:61
 msgid "Could not update headlines (missing XML object)"
@@ -530,7 +519,7 @@ msgstr "Не могу обновить заголовки (отсутствуе�
 
 #: localized_js.php:62 offline.js:638
 msgid "Data for offline browsing has not been downloaded yet."
-msgstr ""
+msgstr "Данные для оффлайн обзора не были загружены."
 
 #: localized_js.php:63 tt-rss.js:75
 msgid "display feeds"
@@ -546,54 +535,49 @@ msgid "Erase all non-starred articles in %s?"
 msgstr "Стереть все не отмеченные статьи в %s?"
 
 #: localized_js.php:67 prefs.js:618
-#, fuzzy
 msgid "Erase all non-starred articles in selected feed?"
-msgstr "Стереть все не отмеченные статьи в %s?"
+msgstr "Стереть все не отмеченные статьи в выбранном канале?"
 
 #: localized_js.php:68 prefs.js:304
 msgid "Error: Invalid feed URL."
-msgstr ""
+msgstr "Ошибка: Не верный URL канала."
 
 #: localized_js.php:69 prefs.js:302
-#, fuzzy
 msgid "Error: No feed URL given."
-msgstr "Не могу подписаться: нет URL"
+msgstr "Ошибка: Канал не отдаёт URL."
 
 #: localized_js.php:70
-#, fuzzy
 msgid "Error while trying to load more headlines"
-msgstr "Ошибка при разборе документа."
+msgstr "Ошибка при попытке загрузить больше заголовков"
 
 #: localized_js.php:71
-#, fuzzy
 msgid "Failed to load article in new window"
-msgstr "Открыть статью в новом окне"
+msgstr "Ошибка загрузки статей в новом окне"
 
 #: localized_js.php:72
 msgid "Failed to open window for the article"
-msgstr ""
+msgstr "Ошибка открытия окна для статьи"
 
 #: localized_js.php:73 prefs.js:640
 msgid "How many days of articles to keep (0 - use default)?"
-msgstr ""
+msgstr "Сколько дней хранить статьи (0 - по умолчанию)?"
 
 #: localized_js.php:75 offline.js:1655
 msgid "Last sync: Cancelled."
-msgstr ""
+msgstr "Последняя синхронизация: Отменена."
 
 #: localized_js.php:76 offline.js:837
 msgid "Last sync: Error receiving data."
-msgstr ""
+msgstr "Последняя синхронизация: Ошибка получения данных."
 
 #: localized_js.php:77 offline.js:808
 #, php-format
 msgid "Last sync: %s"
-msgstr ""
+msgstr "Последняя синхронизация: %s"
 
 #: localized_js.php:78
-#, fuzzy
 msgid "Loading feed list..."
-msgstr "Идет загрузка..."
+msgstr "Загрузка списка каналов..."
 
 #: localized_js.php:79 prefs.php:66 prefs.php:138 tt-rss.php:71
 msgid "Loading, please wait..."
@@ -601,7 +585,7 @@ msgstr "Идет загрузка..."
 
 #: localized_js.php:80
 msgid "Local data removed."
-msgstr ""
+msgstr "Локальные данные удалены."
 
 #: localized_js.php:81 prefs.js:763
 msgid "Login field cannot be blank."
@@ -686,29 +670,24 @@ msgid "Old password cannot be blank."
 msgstr "Старый пароль не может быть пустым."
 
 #: localized_js.php:103 viewfeed.js:2205
-#, fuzzy
 msgid "Please enter a note for this article:"
-msgstr "Пожалуйста, введите заголовок метки:"
+msgstr "Пожалуйста, укажите заметку для статьи:"
 
 #: localized_js.php:104 prefs.js:268 tt-rss.js:1437
-#, fuzzy
 msgid "Please enter label caption:"
 msgstr "Пожалуйста, введите заголовок метки:"
 
 #: localized_js.php:105 prefs.js:352
-#, fuzzy
 msgid "Please enter login:"
-msgstr "Пожалуйста, введите заголовок метки:"
+msgstr "Пожалуйста, введите логин:"
 
 #: localized_js.php:106 prefs.js:2019
-#, fuzzy
 msgid "Please enter new label background color:"
-msgstr "Пожалуйста, введите заголовок метки:"
+msgstr "Пожалуйста, введите новую метку цвета фона:"
 
 #: localized_js.php:107 prefs.js:2017
-#, fuzzy
 msgid "Please enter new label foreground color:"
-msgstr "Пожалуйста, введите заголовок метки:"
+msgstr "Пожалуйста, введите новую метку цвета переднего плана:"
 
 #: localized_js.php:108 prefs.js:930
 msgid "Please select one feed."
@@ -737,7 +716,7 @@ msgstr "Пожалуйста, подождите..."
 
 #: localized_js.php:114
 msgid "Please wait until operation finishes."
-msgstr ""
+msgstr "Пожалуйста подождите пока операция завершится."
 
 #: localized_js.php:115 localized_schema.php:18 viewfeed.js:554
 #: viewfeed.js:669
@@ -746,22 +725,20 @@ msgstr "Опубликовать"
 
 #: localized_js.php:116
 msgid "Published feed URL changed."
-msgstr ""
+msgstr "Опубликованный URL канала изменён."
 
 #: localized_js.php:117
-#, fuzzy
 msgid "Purging selected feed..."
-msgstr "Переоценка выбранных каналов..."
+msgstr "Очистка выбранных каналов..."
 
 #: localized_js.php:118 prefs.js:1849
-#, fuzzy, php-format
+#, php-format
 msgid "Remove filter %s?"
-msgstr "Удалить выбранные фильтры?"
+msgstr "Удалить фильтр %s?"
 
 #: localized_js.php:119
-#, fuzzy
 msgid "Remove selected articles from label?"
-msgstr "Удалить выбранные метки?"
+msgstr "Удалить выбранные статьи из меток?"
 
 #: localized_js.php:120 prefs.js:671
 msgid "Remove selected categories?"
@@ -784,14 +761,12 @@ msgid "Removing feed..."
 msgstr "Канал удаляется..."
 
 #: localized_js.php:125
-#, fuzzy
 msgid "Removing filter..."
-msgstr "Канал удаляется..."
+msgstr "Удаление фильтра..."
 
 #: localized_js.php:126
-#, fuzzy
 msgid "Removing offline data..."
-msgstr "Канал удаляется..."
+msgstr "Удаление оффлайн данных..."
 
 #: localized_js.php:127
 msgid "Removing selected categories..."
@@ -814,11 +789,9 @@ msgid "Replace current publishing address with a new one?"
 msgstr "Изменить текущий адрес публикации на новый?"
 
 #: localized_js.php:132 prefs.js:1831
-#, fuzzy
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
-"Оценить заново все статьи в каналах? Эта операция может продолжаться "
-"длительное время."
+"Оценить заново все статьи? Эта операция может продолжаться длительное время."
 
 #: localized_js.php:133 tt-rss.js:1020
 #, php-format
@@ -830,9 +803,8 @@ msgid "Rescore articles in selected feeds?"
 msgstr "Заново оценить статьи в выбранных каналах?"
 
 #: localized_js.php:135
-#, fuzzy
 msgid "Rescore last 100 articles in selected feeds?"
-msgstr "Заново оценить статьи в выбранных каналах?"
+msgstr "Переоценить последние 100 статей в выбранных каналах?"
 
 #: localized_js.php:136
 msgid "Rescoring articles..."
@@ -843,9 +815,8 @@ msgid "Reset category order?"
 msgstr "Сбросить порядок категорий?"
 
 #: localized_js.php:138 prefs.js:1993
-#, fuzzy
 msgid "Reset label colors to default?"
-msgstr "Сбросить настройки?"
+msgstr "Сбросить метку цветов, на цвета по умолчанию?"
 
 #: localized_js.php:139 prefs.js:847
 msgid "Reset password of selected user?"
@@ -868,9 +839,8 @@ msgid "Save current configuration?"
 msgstr "Сохранить конфигурацию"
 
 #: localized_js.php:144
-#, fuzzy
 msgid "Saving article tags..."
-msgstr "Категория сохраняется..."
+msgstr "Сохранить теги статьи..."
 
 #: localized_js.php:145
 msgid "Saving feed..."
@@ -893,42 +863,37 @@ msgid "Star article"
 msgstr "Отмеченные"
 
 #: localized_js.php:155 functions.js:1430
-#, fuzzy
 msgid "Subscribing to feed..."
 msgstr "Подписаться на канал..."
 
 #: localized_js.php:156 offline.js:1195
 msgid "Switch Tiny Tiny RSS into offline mode?"
-msgstr ""
+msgstr "Переключить Tiny Tiny RSS в оффлайн режим?"
 
 #: localized_js.php:157 offline.js:890
 msgid "Synchronizing..."
-msgstr ""
+msgstr "Синхронизация..."
 
 #: localized_js.php:158 offline.js:735
-#, fuzzy
 msgid "Synchronizing articles..."
-msgstr "Переоценка статей..."
+msgstr "Синхронизация статей..."
 
 #: localized_js.php:159 offline.js:780
-#, fuzzy, php-format
+#, php-format
 msgid "Synchronizing articles (%d)..."
-msgstr "Переоценка статей..."
+msgstr "Синхронизация статей (%d)..."
 
 #: localized_js.php:160 offline.js:698
-#, fuzzy
 msgid "Synchronizing categories..."
-msgstr "Категория сохраняется..."
+msgstr "Синхронизация категорий..."
 
 #: localized_js.php:161 offline.js:679
-#, fuzzy
 msgid "Synchronizing feeds..."
-msgstr "Сохраняются каналы..."
+msgstr "Синхронизация каналов..."
 
 #: localized_js.php:162 offline.js:716
-#, fuzzy
 msgid "Synchronizing labels..."
-msgstr "Идет сохранение метки..."
+msgstr "Синхронизация меток..."
 
 #: localized_js.php:163 tt-rss.php:175 tt-rss.js:80
 msgid "tag cloud"
@@ -939,25 +904,26 @@ msgid ""
 "This will remove all offline data stored by Tiny Tiny RSS on this computer. "
 "Continue?"
 msgstr ""
+"Это удалит все оффлайн данные, хранящиеся на этом компьютере. Продолжит?"
 
 #: localized_js.php:165 offline.js:1743
 msgid ""
 "Tiny Tiny RSS has trouble accessing its server. Would you like to go offline?"
 msgstr ""
+"У Tiny Tiny RSS есть проблемы с доступом к серверу. Хотели бы вы перейти в "
+"режим оффлайн?"
 
 #: localized_js.php:166
-#, fuzzy
 msgid "Tiny Tiny RSS is in offline mode."
-msgstr "Tiny Tiny RSS база данных обновлена."
+msgstr "Tiny Tiny RSS в оффлайн режиме."
 
 #: localized_js.php:167 offline.js:1223
 msgid "Tiny Tiny RSS will reload. Go online?"
-msgstr ""
+msgstr "Tiny Tiny RSS будет перезагружен. Переходим в онлайн?"
 
 #: localized_js.php:168
-#, fuzzy
 msgid "Trying to change address..."
-msgstr "Идет сохранение пароля..."
+msgstr "Попытка изменить адрес.."
 
 #: localized_js.php:169
 msgid "Trying to change e-mail..."
@@ -1007,12 +973,15 @@ msgstr "Нельзя отписаться от категории."
 #: localized_js.php:181
 msgid "You have to synchronize some articles before going into offline mode."
 msgstr ""
+"Нужно синхронизировать несколько статей перед переходом в оффлайн режим."
 
 #: localized_js.php:182
 msgid ""
 "You won't be able to access offline version of Tiny Tiny RSS until you "
 "switch it into offline mode again. Go online?"
 msgstr ""
+"Вы не сможете перейти в оффлайн режим Tiny Tiny RSS до тех пор, пока не "
+"переключитесь в оффлайн снова. Выходим в онлайн?"
 
 #: localized_schema.php:9 tt-rss.php:249 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:1234 modules/pref-feeds.php:1295
@@ -1103,13 +1072,12 @@ msgid "Mark articles in e-mail digest as read"
 msgstr "Отметить все статьи в e-mail дайджесте как прочитанные?"
 
 #: localized_schema.php:34
-#, fuzzy
 msgid "Enable offline reading"
-msgstr "Разрешить иконки каналов"
+msgstr "Разрешить чтение оффлайн"
 
 #: localized_schema.php:35
 msgid "Synchronize new articles for offline reading using Google Gears."
-msgstr ""
+msgstr "Синхронизация новых статей для чтения оффлайн, использую Google Gears."
 
 #: localized_schema.php:37
 msgid "Interface"
@@ -1482,35 +1450,31 @@ msgstr "Комментарии?"
 
 #: tt-rss.php:139
 msgid "Offline reading"
-msgstr ""
+msgstr "Оффлайн чтение"
 
 #: tt-rss.php:146
-#, fuzzy
 msgid "Cancel synchronization"
-msgstr "Сохранить конфигурацию"
+msgstr "Отменить синхронизацию"
 
 #: tt-rss.php:149
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронизация"
 
 #: tt-rss.php:151
-#, fuzzy
 msgid "Remove stored data"
-msgstr "Удалить выбранные метки?"
+msgstr "Удалить сохранённые данные"
 
 #: tt-rss.php:153
-#, fuzzy
 msgid "Go offline"
-msgstr "Нет связей"
+msgstr "Перейти в оффлайн"
 
 #: tt-rss.php:157
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Доступная новая версия Tiny Tiny RSS!"
 
 #: tt-rss.php:164
-#, fuzzy
 msgid "Go online"
-msgstr "Нет связей"
+msgstr "Перейти в онлайн"
 
 #: tt-rss.php:179
 msgid "More feeds..."
@@ -2217,14 +2181,12 @@ msgid "Create label"
 msgstr "Создать метку"
 
 #: modules/pref-labels.php:203
-#, fuzzy
 msgid "Click to change color"
-msgstr "(Щёлкните для изменения)"
+msgstr "Щёлкните для изменения цвета"
 
 #: modules/pref-labels.php:233
-#, fuzzy
 msgid "Clear colors"
-msgstr "Очистить статьи"
+msgstr "Очистить цвета"
 
 #: modules/pref-labels.php:240
 msgid "No labels defined."
@@ -2236,15 +2198,15 @@ msgstr "Не найдено совпадений с метками."
 
 #: modules/pref-labels.php:300
 msgid "custom color:"
-msgstr ""
+msgstr "пользовательский цвет:"
 
 #: modules/pref-labels.php:301
 msgid "foreground"
-msgstr ""
+msgstr "передний план"
 
 #: modules/pref-labels.php:302
 msgid "background"
-msgstr ""
+msgstr "фон"
 
 #: modules/pref-prefs.php:65
 msgid "Password has been changed."
@@ -2670,9 +2632,8 @@ msgid "Tags:"
 msgstr "Теги:"
 
 #: mobile/functions.php:718
-#, fuzzy
 msgid "Mark as unread"
-msgstr "Как прочитанные"
+msgstr "Отметить как прочитанные"
 
 #: mobile/functions.php:735
 msgid "Go back"
