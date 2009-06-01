@@ -4442,6 +4442,7 @@
 	function tag_is_valid($tag) {
 		if ($tag == '') return false;
 		if (preg_match("/^[0-9]*$/", $tag)) return false;
+		if (mb_strlen($tag) > 250) return false;
 
 		if (function_exists('iconv')) {
 			$tag = iconv("utf-8", "utf-8", $tag);
