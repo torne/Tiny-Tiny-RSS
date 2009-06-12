@@ -4261,7 +4261,7 @@
 	
 			while ($line = db_fetch_assoc($result)) {
 			
-				$feed = trim($line["title"]);
+				$feed = htmlspecialchars(trim($line["title"]));
 
 				if (!$feed) $feed = "[Untitled]";
 
