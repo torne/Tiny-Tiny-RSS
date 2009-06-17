@@ -2133,3 +2133,32 @@ function truncate_string(s, length) {
 	if (s.length > length) tmp += "&hellip;";
 	return tmp;
 }
+function switchToFlash(e) {
+        var targ = e;
+        if (!e) var e = window.event;
+        if (e.target) targ = e.target;
+        else if (e.srcElement) targ = e.srcElement;
+        if (targ.nodeType == 3) // defeat Safari bug
+                targ = targ.parentNode;
+
+        //targ is the link that was clicked
+        var audioTag=targ;
+        do {
+                audioTag=audioTag.previousSibling;
+        } while(audioTag && audioTag.nodeType != 1)
+
+        var flashPlayer = audioTag.getElementsByTagName('div')[0];
+        targ.parentNode.insertBefore(flashPlayer,targ);
+        targ.parentNode.removeChild(targ);
+        audioTag.parentNode.removeChild(audioTag);
+
+        return false;
+}
+function html5AudioOrFlash(type) {
+	var audioTag = document.createElement('audio');
+	if(! audioTag.canPlayType || audioTag.canPlayType(type)=="no"){
+		if($('switchToFlashLink')){
+			switchToFlash($('switchToFlashLink'));
+		}
+	}
+}

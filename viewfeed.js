@@ -275,8 +275,10 @@ function render_article(article) {
 		try {
 			fi.scrollTop = 0;
 		} catch (e) { };
-
+		
 		fi.innerHTML = article;
+		
+		article.evalScripts();		
 
 	} catch (e) {
 		exception_error("render_article", e);
