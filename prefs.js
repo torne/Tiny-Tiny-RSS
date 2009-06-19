@@ -2103,7 +2103,7 @@ function mouse_down_handler(e) {
 	try {
 
 		/* do not prevent right click */
-		if (e.button && e.button == 2) return;
+		if (e && e.button && e.button == 2) return;
 
 		if (selection_disabled) {
 			document.onselectstart = function() { return false; };
@@ -2111,7 +2111,7 @@ function mouse_down_handler(e) {
 		}
 
 	} catch (e) {
-		exception_error("mouse_move_handler", e);
+		exception_error("mouse_down_handler", e);
 	}
 }
 
@@ -2128,7 +2128,7 @@ function mouse_up_handler(e) {
 		}
 
 	} catch (e) {
-		exception_error("mouse_move_handler", e);
+		exception_error("mouse_up_handler", e);
 	}
 }
 
