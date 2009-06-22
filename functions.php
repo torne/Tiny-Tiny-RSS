@@ -3517,7 +3517,7 @@
  				htmlspecialchars($line["title"]) . "</title>";
   
  			print "<description><![CDATA[";
-			print $line["content_preview"];
+			print sanitize_rss($link, $line["content_preview"]);
 			if ($line["note"]) {
 				print "<div style='$note_style'>";
 				print $line["note"];
