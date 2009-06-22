@@ -1714,7 +1714,7 @@
 
 	function http_authenticate_user($link) {
 
-		error_log("http_authenticate_user: ".$_SERVER["PHP_AUTH_USER"]."\n", 3, '/tmp/tt-rss.log');
+//		error_log("http_authenticate_user: ".$_SERVER["PHP_AUTH_USER"]."\n", 3, '/tmp/tt-rss.log');
 
 		if (!$_SERVER["PHP_AUTH_USER"]) {
 
