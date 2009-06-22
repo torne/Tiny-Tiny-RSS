@@ -2134,25 +2134,29 @@ function truncate_string(s, length) {
 	return tmp;
 }
 function switchToFlash(e) {
-        var targ = e;
-        if (!e) var e = window.event;
-        if (e.target) targ = e.target;
-        else if (e.srcElement) targ = e.srcElement;
-        if (targ.nodeType == 3) // defeat Safari bug
-                targ = targ.parentNode;
+	try {
+		var targ = e;
+		if (!e) var e = window.event;
+		if (e.target) targ = e.target;
+		else if (e.srcElement) targ = e.srcElement;
+		if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+		
+		//targ is the link that was clicked
+		var audioTag=targ;
+		do {
+		        audioTag=audioTag.previousSibling;
+		} while(audioTag && audioTag.nodeType != 1)
+		
+		var flashPlayer = audioTag.getElementsByTagName('span')[0];
+		targ.parentNode.insertBefore(flashPlayer,targ);
+		targ.parentNode.removeChild(targ);
+		audioTag.parentNode.removeChild(audioTag);
 
-        //targ is the link that was clicked
-        var audioTag=targ;
-        do {
-                audioTag=audioTag.previousSibling;
-        } while(audioTag && audioTag.nodeType != 1)
-
-        var flashPlayer = audioTag.getElementsByTagName('div')[0];
-        targ.parentNode.insertBefore(flashPlayer,targ);
-        targ.parentNode.removeChild(targ);
-        audioTag.parentNode.removeChild(audioTag);
-
-        return false;
+		return false;
+	} catch (e) {
+		exception_error("switchToFlash", e);
+	}
 }
 function html5AudioOrFlash(type) {
 	var audioTag = document.createElement('audio');
