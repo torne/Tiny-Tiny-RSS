@@ -106,6 +106,7 @@
 	require_once "lib/simplepie/simplepie.inc";
 	require_once "lib/magpierss/rss_fetch.inc";
 	require_once 'lib/magpierss/rss_utils.inc';
+	require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
 
 	/**
 	 * Print a timestamped debug message.
@@ -3550,9 +3551,20 @@
 		}
 	}
 
+	function strip_tags_long($string, $allowed) {
+
+		$config = HTMLPurifier_Config::createDefault();
+
+		$config->set('HTML', 'Allowed', $allowed);
+		$purifier = new HTMLPurifier($config);
+
+		return $purifier->purify($string);		
+
+	}
+
 	// http://ru2.php.net/strip-tags
 
-	function strip_tags_long($textstring, $allowed){
+/*	function strip_tags_long($textstring, $allowed){
 	while($textstring != strip_tags($textstring, $allowed))
     {
     while (strlen($textstring) != 0)
@@ -3569,7 +3581,7 @@
     $textstring = $safetext;
     }
 	return $textstring;
-	}
+} */
 
 
 	function sanitize_rss($link, $str, $force_strip_tags = false) {
@@ -3577,11 +3589,12 @@
 
 		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
 
-			$res = strip_tags_long($res, 
-				"<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li>");
+//			$res = strip_tags_long($res, 
+//				"<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li>");
 
-//			$res = preg_replace("/\r\n|\n|\r/", "", $res);
-//			$res = strip_tags_long($res, "<p><a><i><em><b><strong><blockquote><br><img><div><span>");			
+			$res = strip_tags_long($res, 
+				"p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4");
+
 		}
 
 		if (get_pref($link, "STRIP_IMAGES")) {
