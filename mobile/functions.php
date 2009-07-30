@@ -689,9 +689,11 @@
 				$feed_link = "<a href=\"tt-rss.php?go=vf&id=$ret_feed_id\">$feed_title</a>";
 			}
 
+			$feedlist = "<a href=\"tt-rss.php\">".__('Back to feedlist')."</a>";
+
 			print "<a href=\"" . $line["link"] . "\">" . 
 				truncate_string($line["title"], 30) . "</a>";
-			print " <span id=\"headingAddon\">$parsed_updated ($feed_link)</span>";
+			print " <span id=\"headingAddon\">$parsed_updated ($feed_link, $feedlist)</span>";
 			print "</div>";
 
 			if ($num_tags > 0) {
