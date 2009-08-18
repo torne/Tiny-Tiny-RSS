@@ -2160,7 +2160,8 @@ function switchToFlash(e) {
 }
 function html5AudioOrFlash(type) {
 	var audioTag = document.createElement('audio');
-	if(! audioTag.canPlayType || audioTag.canPlayType(type)=="no"){
+	if(! audioTag.canPlayType || audioTag.canPlayType(type) == "no" ||
+			audioTag.canPlayType(type) == ""){
 		if($('switchToFlashLink')){
 			switchToFlash($('switchToFlashLink'));
 		}
