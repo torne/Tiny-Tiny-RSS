@@ -320,7 +320,9 @@ function showArticleInHeadlines(id) {
 			//
 		}
 
-		if (upd_img_pic && upd_img_pic.src.match("updated.png")) {
+		if (upd_img_pic && (upd_img_pic.src.match("updated.png") || 
+					upd_img_pic.src.match("fresh_sign.png"))) {
+
 			upd_img_pic.src = "images/blank_icon.gif";
 
 			cache_invalidate(cache_prefix + getActiveFeedId());

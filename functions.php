@@ -4926,6 +4926,8 @@
 			$num_unread = 0;
 			$cur_feed_title = '';
 
+			$fresh_intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE") * 60 * 60;
+
 			while ($line = db_fetch_assoc($result)) {
 
 				$class = ($lnum % 2) ? "even" : "odd";
@@ -4943,14 +4945,20 @@
 					array_push($topmost_article_ids, $id);
 				}
 
-				if ($line["last_read"] == "" && 
-						($line["unread"] != "t" && $line["unread"] != "1")) {
+				if ($line["last_read"] == "" && !sql_bool_to_bool($line["unread"])) {
 	
 					$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
 						alt=\"Updated\">";
 				} else {
 					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
 						alt=\"Updated\">";
+				}
+
+				if (sql_bool_to_bool($line["unread"]) && 
+					time() - strtotime($line["updated_noms"]) < $fresh_intl) {
+
+					$update_pic = "<img id='FUPDPIC-$id' src=\"images/fresh_sign.png\" 
+							alt=\"Fresh\">";
 				}
 	
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
