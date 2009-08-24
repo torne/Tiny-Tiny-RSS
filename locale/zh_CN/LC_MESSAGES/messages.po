@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-18 11:05+0400\n"
+"POT-Creation-Date: 2009-08-24 11:14+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -231,7 +231,7 @@ msgstr "搜索"
 msgid "Generated feed"
 msgstr "产生feed"
 
-#: functions.php:4025 functions.php:5332 localized_js.php:149
+#: functions.php:4025 functions.php:5340 localized_js.php:149
 #: modules/pref-feeds.php:1040 modules/pref-feeds.php:1221
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
@@ -315,7 +315,7 @@ msgstr "标签"
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4640 functions.php:5360
+#: functions.php:4640 functions.php:5368
 msgid "Edit tags for this article"
 msgstr ""
 
@@ -324,34 +324,34 @@ msgstr ""
 msgid "Display original article content"
 msgstr "显示最近文章时间"
 
-#: functions.php:4655 functions.php:5342
+#: functions.php:4655 functions.php:5350
 #, fuzzy
 msgid "Show article summary in new window"
 msgstr "新窗口打开文章连结"
 
-#: functions.php:4662 functions.php:5349
+#: functions.php:4662 functions.php:5357
 #, fuzzy
 msgid "Publish article with a note"
 msgstr "发布文章"
 
-#: functions.php:4702 functions.php:5256
+#: functions.php:4702 functions.php:5264
 #, fuzzy
 msgid "unknown type"
 msgstr "未知错误"
 
-#: functions.php:4710 functions.php:4715 functions.php:5264 functions.php:5269
+#: functions.php:4710 functions.php:4715 functions.php:5272 functions.php:5277
 msgid "audio/mpeg"
 msgstr ""
 
-#: functions.php:4717 functions.php:5271
+#: functions.php:4717 functions.php:5279
 msgid "Switch to Flash Player"
 msgstr ""
 
-#: functions.php:4754 functions.php:5306
+#: functions.php:4754 functions.php:5314
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:4756 functions.php:5308
+#: functions.php:4756 functions.php:5316
 msgid "Attachments:"
 msgstr ""
 
@@ -370,62 +370,62 @@ msgid ""
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:5059 functions.php:5142
+#: functions.php:5067 functions.php:5150
 #, fuzzy
 msgid "mark as read"
 msgstr "标记为已读"
 
-#: functions.php:5223
+#: functions.php:5231
 #, fuzzy
 msgid "Click to expand article"
 msgstr "星级文章"
 
-#: functions.php:5367
+#: functions.php:5375
 #, fuzzy
 msgid "toggle unread"
 msgstr "触发开关"
 
-#: functions.php:5386
+#: functions.php:5394
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5389
+#: functions.php:5397
 #, fuzzy
 msgid "No updated articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5392
+#: functions.php:5400
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5396
+#: functions.php:5404
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5398 localized_js.php:92 offline.js:444
+#: functions.php:5406 localized_js.php:92 offline.js:444
 #, fuzzy
 msgid "No articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:6100 tt-rss.php:204
+#: functions.php:6108 tt-rss.php:204
 #, fuzzy
 msgid "Create label..."
 msgstr "创建标记"
 
-#: functions.php:6113
+#: functions.php:6121
 #, fuzzy
 msgid "(remove)"
 msgstr "移除"
 
-#: functions.php:6157
+#: functions.php:6165
 msgid "no tags"
 msgstr "无标签"
 
-#: functions.php:6185
+#: functions.php:6193
 msgid "edit note"
 msgstr ""
 
@@ -618,17 +618,17 @@ msgstr "标记  %s 中所有访问过的主题为已读"
 msgid "Mark all articles in %s as read?"
 msgstr "标记  %s 中所有访问过的主题为已读"
 
-#: localized_js.php:84 viewfeed.js:1258
+#: localized_js.php:84 viewfeed.js:1260
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr "标记  %s 中所有访问过的主题为已读"
 
-#: localized_js.php:86 viewfeed.js:1934
+#: localized_js.php:86 viewfeed.js:1936
 #, fuzzy, php-format
 msgid "Mark %d article(s) as read?"
 msgstr "标记  %s 中所有所选Feed为已读..."
 
-#: localized_js.php:87 viewfeed.js:1297
+#: localized_js.php:87 viewfeed.js:1299
 #, fuzzy, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr "标记  %s 中所有所选Feed为已读..."
@@ -641,17 +641,17 @@ msgstr "标记所有Feed未已读..."
 msgid "New password cannot be blank."
 msgstr "新密码不可留空."
 
-#: localized_js.php:90 viewfeed.js:1891
+#: localized_js.php:90 viewfeed.js:1893
 #, fuzzy
 msgid "No article is selected."
 msgstr "无选定文章。"
 
-#: localized_js.php:91 viewfeed.js:927 viewfeed.js:962 viewfeed.js:1002
-#: viewfeed.js:1089 viewfeed.js:1138 viewfeed.js:1290
+#: localized_js.php:91 viewfeed.js:929 viewfeed.js:964 viewfeed.js:1004
+#: viewfeed.js:1091 viewfeed.js:1140 viewfeed.js:1292
 msgid "No articles are selected."
 msgstr "无选定文章。"
 
-#: localized_js.php:93 viewfeed.js:1932
+#: localized_js.php:93 viewfeed.js:1934
 #, fuzzy
 msgid "No articles found to mark"
 msgstr "未找到文章。"
@@ -689,7 +689,7 @@ msgstr "未选定用户."
 msgid "Old password cannot be blank."
 msgstr "原密码不可留空."
 
-#: localized_js.php:103 viewfeed.js:2207
+#: localized_js.php:103 viewfeed.js:2209
 #, fuzzy
 msgid "Please enter a note for this article:"
 msgstr "请输入标签主题"
@@ -735,7 +735,7 @@ msgstr "请只选择一个用户."
 msgid "Please select some feed first."
 msgstr "请先选择若干feed"
 
-#: localized_js.php:113 viewfeed.js:597 viewfeed.js:664
+#: localized_js.php:113 viewfeed.js:599 viewfeed.js:666
 #, fuzzy
 msgid "Please wait..."
 msgstr "读取中，请等待..."
@@ -744,8 +744,8 @@ msgstr "读取中，请等待..."
 msgid "Please wait until operation finishes."
 msgstr ""
 
-#: localized_js.php:115 localized_schema.php:18 viewfeed.js:556
-#: viewfeed.js:671
+#: localized_js.php:115 localized_schema.php:18 viewfeed.js:558
+#: viewfeed.js:673
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -896,7 +896,7 @@ msgstr "保存过滤器..."
 msgid "Saving user..."
 msgstr "保存用户..."
 
-#: localized_js.php:152 viewfeed.js:539 viewfeed.js:604
+#: localized_js.php:152 viewfeed.js:541 viewfeed.js:606
 #, fuzzy
 msgid "Star article"
 msgstr "星级文章"
@@ -976,12 +976,12 @@ msgstr "尝试更改e-mail..."
 msgid "Trying to change password..."
 msgstr "尝试更改密码..."
 
-#: localized_js.php:171 viewfeed.js:659
+#: localized_js.php:171 viewfeed.js:661
 #, fuzzy
 msgid "Unpublish article"
 msgstr "发布文章"
 
-#: localized_js.php:173 viewfeed.js:588
+#: localized_js.php:173 viewfeed.js:590
 #, fuzzy
 msgid "Unstar article"
 msgstr "星级文章"

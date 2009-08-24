@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-18 11:05+0400\n"
+"POT-Creation-Date: 2009-08-24 11:14+0400\n"
 "PO-Revision-Date: 2009-05-02 00:10+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -240,7 +240,7 @@ msgstr "Søkte etter"
 msgid "Generated feed"
 msgstr "Generert nyhetsstrøm"
 
-#: functions.php:4025 functions.php:5332 localized_js.php:149
+#: functions.php:4025 functions.php:5340 localized_js.php:149
 #: modules/pref-feeds.php:1040 modules/pref-feeds.php:1221
 #: modules/pref-filters.php:366 modules/pref-labels.php:163
 #: modules/pref-users.php:401 offline.js:409
@@ -320,7 +320,7 @@ msgstr "Stikkord"
 msgid " - "
 msgstr "-"
 
-#: functions.php:4640 functions.php:5360
+#: functions.php:4640 functions.php:5368
 msgid "Edit tags for this article"
 msgstr "Rediger stikkordene for denne artikkelen"
 
@@ -328,31 +328,31 @@ msgstr "Rediger stikkordene for denne artikkelen"
 msgid "Display original article content"
 msgstr "Vis opprinnelig artikkelinnhold"
 
-#: functions.php:4655 functions.php:5342
+#: functions.php:4655 functions.php:5350
 msgid "Show article summary in new window"
 msgstr "Åpne artikkelsammendraget i nytt nettleservindu"
 
-#: functions.php:4662 functions.php:5349
+#: functions.php:4662 functions.php:5357
 msgid "Publish article with a note"
 msgstr "Publiser artikelen med notat"
 
-#: functions.php:4702 functions.php:5256
+#: functions.php:4702 functions.php:5264
 msgid "unknown type"
 msgstr "Ukjent type"
 
-#: functions.php:4710 functions.php:4715 functions.php:5264 functions.php:5269
+#: functions.php:4710 functions.php:4715 functions.php:5272 functions.php:5277
 msgid "audio/mpeg"
 msgstr "Lyd/mpeg"
 
-#: functions.php:4717 functions.php:5271
+#: functions.php:4717 functions.php:5279
 msgid "Switch to Flash Player"
 msgstr ""
 
-#: functions.php:4754 functions.php:5306
+#: functions.php:4754 functions.php:5314
 msgid "Attachment:"
 msgstr "Vedlegg:"
 
-#: functions.php:4756 functions.php:5308
+#: functions.php:4756 functions.php:5316
 msgid "Attachments:"
 msgstr "Vedlegg:"
 
@@ -373,31 +373,31 @@ msgstr ""
 "Kunne ikke vise nyhetsstrøm (spørring feilet). Vennligst sjekk "
 "merkelappsyntaksen eller lokal konfigurasjon."
 
-#: functions.php:5059 functions.php:5142
+#: functions.php:5067 functions.php:5150
 msgid "mark as read"
 msgstr "marker som lest"
 
-#: functions.php:5223
+#: functions.php:5231
 msgid "Click to expand article"
 msgstr "Trykk for å utvide artikkel"
 
-#: functions.php:5367
+#: functions.php:5375
 msgid "toggle unread"
 msgstr "sett som ulest"
 
-#: functions.php:5386
+#: functions.php:5394
 msgid "No unread articles found to display."
 msgstr "Ingen uleste artikler funnet som kunne vises"
 
-#: functions.php:5389
+#: functions.php:5397
 msgid "No updated articles found to display."
 msgstr "Ingen oppdaterte artikler funnet som kunne vises"
 
-#: functions.php:5392
+#: functions.php:5400
 msgid "No starred articles found to display."
 msgstr "Ingen markerte artikler som kan vises"
 
-#: functions.php:5396
+#: functions.php:5404
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -405,23 +405,23 @@ msgstr ""
 "Ingen artikler ble funnet. Du kan gi artikler merkelapper manuelt (se aksjon-"
 "menyen ovenfor) eller bruke et filter."
 
-#: functions.php:5398 localized_js.php:92 offline.js:444
+#: functions.php:5406 localized_js.php:92 offline.js:444
 msgid "No articles found to display."
 msgstr "Ingen artikler funnet som kan vises"
 
-#: functions.php:6100 tt-rss.php:204
+#: functions.php:6108 tt-rss.php:204
 msgid "Create label..."
 msgstr "Lag merkelapp..."
 
-#: functions.php:6113
+#: functions.php:6121
 msgid "(remove)"
 msgstr "(fjern)"
 
-#: functions.php:6157
+#: functions.php:6165
 msgid "no tags"
 msgstr "Ingen stikkord"
 
-#: functions.php:6185
+#: functions.php:6193
 msgid "edit note"
 msgstr "Rediger notat"
 
@@ -600,17 +600,17 @@ msgstr "Marker alle artikler som leste?"
 msgid "Mark all articles in %s as read?"
 msgstr "Marker alle artikler i %s som leste?"
 
-#: localized_js.php:84 viewfeed.js:1258
+#: localized_js.php:84 viewfeed.js:1260
 #, php-format
 msgid "Mark all visible articles in %s as read?"
 msgstr "Marker alle synlige artikler i %s som leste?"
 
-#: localized_js.php:86 viewfeed.js:1934
+#: localized_js.php:86 viewfeed.js:1936
 #, php-format
 msgid "Mark %d article(s) as read?"
 msgstr "Marker %d artikkel/artikler som leste?"
 
-#: localized_js.php:87 viewfeed.js:1297
+#: localized_js.php:87 viewfeed.js:1299
 #, php-format
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Marker %d valgte artikler i %s som leste?"
@@ -623,16 +623,16 @@ msgstr "Marker alle nyhetsstrømmer som lest"
 msgid "New password cannot be blank."
 msgstr "Nytt passord kan ikke vært blankt."
 
-#: localized_js.php:90 viewfeed.js:1891
+#: localized_js.php:90 viewfeed.js:1893
 msgid "No article is selected."
 msgstr "Ingen artikkel er valgt."
 
-#: localized_js.php:91 viewfeed.js:927 viewfeed.js:962 viewfeed.js:1002
-#: viewfeed.js:1089 viewfeed.js:1138 viewfeed.js:1290
+#: localized_js.php:91 viewfeed.js:929 viewfeed.js:964 viewfeed.js:1004
+#: viewfeed.js:1091 viewfeed.js:1140 viewfeed.js:1292
 msgid "No articles are selected."
 msgstr "Ingen artikler er valgt."
 
-#: localized_js.php:93 viewfeed.js:1932
+#: localized_js.php:93 viewfeed.js:1934
 msgid "No articles found to mark"
 msgstr "Ingen artikler funnet som kan markeres"
 
@@ -669,7 +669,7 @@ msgstr "Ingen bruker er markert"
 msgid "Old password cannot be blank."
 msgstr "Gammelt passord kan ikke være blankt."
 
-#: localized_js.php:103 viewfeed.js:2207
+#: localized_js.php:103 viewfeed.js:2209
 msgid "Please enter a note for this article:"
 msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 
@@ -710,7 +710,7 @@ msgstr "Vennligst velg kun en bruker"
 msgid "Please select some feed first."
 msgstr "Vennligst velg en eller flere nyhetsstrømmer først"
 
-#: localized_js.php:113 viewfeed.js:597 viewfeed.js:664
+#: localized_js.php:113 viewfeed.js:599 viewfeed.js:666
 msgid "Please wait..."
 msgstr "Vennligst vent..."
 
@@ -718,8 +718,8 @@ msgstr "Vennligst vent..."
 msgid "Please wait until operation finishes."
 msgstr "Vennligst venn til operasjonen avsluttes."
 
-#: localized_js.php:115 localized_schema.php:18 viewfeed.js:556
-#: viewfeed.js:671
+#: localized_js.php:115 localized_schema.php:18 viewfeed.js:558
+#: viewfeed.js:673
 msgid "Publish article"
 msgstr "Publiser artiklen"
 
@@ -858,7 +858,7 @@ msgstr "Lagrer filter..."
 msgid "Saving user..."
 msgstr "Lagrer bruker..."
 
-#: localized_js.php:152 viewfeed.js:539 viewfeed.js:604
+#: localized_js.php:152 viewfeed.js:541 viewfeed.js:606
 msgid "Star article"
 msgstr "Marker artikkel som favoritt"
 
@@ -934,11 +934,11 @@ msgstr "Prøver å endre e-posten..."
 msgid "Trying to change password..."
 msgstr "Prøver å endre passordet..."
 
-#: localized_js.php:171 viewfeed.js:659
+#: localized_js.php:171 viewfeed.js:661
 msgid "Unpublish article"
 msgstr "Fjern publiseringen av artikkelen."
 
-#: localized_js.php:173 viewfeed.js:588
+#: localized_js.php:173 viewfeed.js:590
 msgid "Unstar article"
 msgstr "Fjern favorittmerkingen fra artiklen"
 
