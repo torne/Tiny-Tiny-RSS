@@ -5229,7 +5229,14 @@
 						print "<div class=\"cdmExcerpt\" id=\"CEXC-$id\"
 							onclick=\"cdmExpandArticle($id)\"
 							title=\"".__('Click to expand article')."\">";
-						print truncate_string(strip_tags($line["content_preview"]), 100);
+
+						$content_preview = trim(truncate_string(strip_tags($line["content_preview"]), 100));
+
+						if (strlen($content_preview) != 0) {
+							print $content_preview;
+						} else {
+							print __('Click to expand article');
+						}
 						print "</div>";
 					}
 	
