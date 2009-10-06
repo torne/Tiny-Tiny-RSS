@@ -328,6 +328,7 @@
 			$filter_search_query = "(
 				UPPER(ttrss_filter_actions.description) LIKE UPPER('%$filter_search%') OR 
 				UPPER(reg_exp) LIKE UPPER('%$filter_search%') OR 
+				UPPER(action_param) LIKE UPPER('%$filter_search%') OR 
 				UPPER(ttrss_feeds.title) LIKE UPPER('%$filter_search%') OR
 				UPPER(ttrss_filter_types.description) LIKE UPPER('%$filter_search%')) AND";
 		} else {
