@@ -2133,6 +2133,8 @@ function truncate_string(s, length) {
 	if (s.length > length) tmp += "&hellip;";
 	return tmp;
 }
+
+/*
 function switchToFlash(e) {
 	try {
 		var targ = e;
@@ -2158,6 +2160,7 @@ function switchToFlash(e) {
 		exception_error("switchToFlash", e);
 	}
 }
+
 function html5AudioOrFlash(type) {
 	var audioTag = document.createElement('audio');
 	if(! audioTag.canPlayType || audioTag.canPlayType(type) == "no" ||
@@ -2166,4 +2169,4 @@ function html5AudioOrFlash(type) {
 			switchToFlash($('switchToFlashLink'));
 		}
 	}
-}
+} */
