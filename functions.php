@@ -3473,9 +3473,9 @@
 	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
 		$limit, $search, $search_mode, $match_on) {
 
-		$note_style = 	"background-color : #fff7d5; border-width : 1px; ".
+		$note_style = 	"float : right; background-color : #fff7d5; border-width : 1px; ".
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
-			"margin-top : 5px; color : #9a8c59;";
+			"margin-bottom : 1em; color : #9a8c59;";
 
 		if (!$limit) $limit = 30;
 
@@ -3516,13 +3516,15 @@
  			print "<title>" . 
  				htmlspecialchars($line["title"]) . "</title>";
   
- 			print "<description><![CDATA[";
-			print sanitize_rss($link, $line["content_preview"]);
+			print "<description><![CDATA[";
+
 			if ($line["note"]) {
 				print "<div style='$note_style'>";
 				print $line["note"];
 				print "</div>";
 			}
+
+			print sanitize_rss($link, $line["content_preview"]);
 			print "]]></description>";
   
  			print "</item>";
@@ -4678,13 +4680,13 @@
 					$article_content);
 			}
 
-			print $article_content;
-
 			print "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
 					print format_article_note($id, $line['note']);
 				}
 			print "</div>";
+
+			print $article_content;
 
 			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
 				post_id = '$id' AND content_url != ''");
@@ -6195,11 +6197,11 @@
 		$note_escaped = htmlspecialchars($note, ENT_QUOTES);
 
 		$str = "<div class='articleNote'>";
+		$str .= $note;
 		$str .= "<div class='articleNoteOps'>";
 		$str .= "<a href=\"javascript:publishWithNote($id, '$note_escaped')\">".
 			__('edit note')."</a>";
 		$str .= "</div>";
-		$str .= $note;
 		$str .= "</div>";
 
 		return $str;
