@@ -454,6 +454,8 @@ function feedlist_init() {
 
 		if (!offline_mode) setTimeout("timeout()", 1);
 
+		setTimeout("hotkey_prefix_timeout()", 5*1000);
+
 		if (typeof correctPNG != 'undefined') {
 			correctPNG();
 		}
