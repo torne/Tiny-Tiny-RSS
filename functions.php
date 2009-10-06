@@ -6158,11 +6158,17 @@
 			$num_tags++;
 			$tag_escaped = str_replace("'", "\\'", $tag);
 
+			if (mb_strlen($tag) > 30) {
+				$tag = truncate_string($tag, 30);
+			}
+
 			$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>";
 
 			array_push($formatted_tags, $tag_str);
+
+			$tmp_tags_str = implode(", ", $formatted_tags);
 				
-			if ($num_tags == $tag_limit) {
+			if ($num_tags == $tag_limit || mb_strlen($tmp_tags_str) > 150) {
 				break;
 			}
 		}
