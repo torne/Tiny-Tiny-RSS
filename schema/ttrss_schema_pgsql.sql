@@ -78,6 +78,7 @@ create table ttrss_feeds (id serial not null primary key,
 	last_viewed timestamp default null,
 	last_update_started timestamp default null,
 	update_method integer not null default 0,
+	always_display_enclosures boolean not null default false,
 	auth_pass_encrypted boolean not null default false);	
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
@@ -201,7 +202,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (56);
+insert into ttrss_version values (57);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
