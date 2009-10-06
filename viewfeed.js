@@ -278,7 +278,7 @@ function render_article(article) {
 		
 		fi.innerHTML = article;
 		
-		article.evalScripts();		
+//		article.evalScripts();		
 
 	} catch (e) {
 		exception_error("render_article", e);
