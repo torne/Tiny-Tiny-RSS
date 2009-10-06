@@ -178,6 +178,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		if ($("search_form")) {
 			var search_query = Form.serialize("search_form");
 			query = query + "&" + search_query;
+			$("search_form").query.value = "";
 			closeInfoBox(true);
 			force_nocache = true;
 		}
