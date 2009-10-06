@@ -527,6 +527,12 @@
 
 			print "&nbsp;"; batch_edit_cbox("include_in_digest", "include_in_digest_l");
 
+			print "<br/><input disabled type=\"checkbox\" id=\"always_display_enclosures\" 
+				name=\"always_display_enclosures\" 
+				$checked>&nbsp;<label id=\"always_display_enclosures_l\" class='insensitive' for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
+
 			print "<br/><input disabled type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\" 
 				$checked>&nbsp;<label class='insensitive' id=\"cache_images_l\" 
@@ -676,6 +682,10 @@
 
 						case "include_in_digest":
 							$qpart = "include_in_digest = '$include_in_digest'";
+							break;
+
+						case "always_display_enclosures":
+							$qpart = "always_display_enclosures = '$always_display_enclosures'";
 							break;
 
 						case "cache_images":
