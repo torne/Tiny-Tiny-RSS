@@ -4036,7 +4036,8 @@
 				onmouseover=\"enable_selection(false)\" 
             onmouseout=\"enable_selection(true)\"
 				onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
-				__("Actions...") . "&nbsp;&nbsp;<img src=\"images/down_arrow.png\">
+				__("Actions...") . "&nbsp;&nbsp;<img width='11' height'7' 
+				src=\"images/down_arrow.png\">
 				</span>";
 
 			print "<ul id=\"headlineActionsBody\" style=\"display : none\">";

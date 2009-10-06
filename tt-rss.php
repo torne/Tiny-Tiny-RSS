@@ -136,6 +136,7 @@ window.onload = init;
 		onmouseout="enable_selection(true)"
 		onclick="toggleOfflineModeInfo()"
 		src="images/offline.png" style="display:none"
+		width="16" height="16"
 		title="<?php echo __('Offline reading') ?>"/>
 
 	<div id="offlineModeDrop" style="display : none">
@@ -154,14 +155,15 @@ window.onload = init;
 	</div>
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
-		src="images/new_version.png" title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
+		width="13" height="13" src="images/new_version.png" 
+		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
 
 	</span>
 
 	<span id="topLinksOffline" style="display : none">
 		<img id="restartOnlinePic" src="images/online.png" 
-			onclick="gotoOnline()" title="<?php echo __('Go online') ?>"/>
+			height="13" width="13" onclick="gotoOnline()" title="<?php echo __('Go online') ?>"/>
 	</span>
 
 	</div>
