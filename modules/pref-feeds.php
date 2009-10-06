@@ -342,6 +342,20 @@
 				name=\"include_in_digest\"
 				$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
+
+			$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
+
+			if ($always_display_enclosures) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<br/><input type=\"checkbox\" id=\"always_display_enclosures\" 
+				name=\"always_display_enclosures\"
+				$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
+
+
 			$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
 			if ($cache_images) {
@@ -560,6 +574,9 @@
 				db_escape_string($_POST["cache_images"]));
 			$update_method = (int) db_escape_string($_POST["update_method"]);
 
+			$always_display_enclosures = checkbox_to_sql_bool(
+				db_escape_string($_POST["always_display_enclosures"]));
+
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
 				if ($cat_id && $cat_id != 0) {
 					$category_qpart = "cat_id = '$cat_id',";
@@ -599,6 +616,7 @@
 					hidden = $hidden,
 					$cache_images_qpart
 					include_in_digest = $include_in_digest,
+					always_display_enclosures = $always_display_enclosures,
 					update_method = '$update_method'
 					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 

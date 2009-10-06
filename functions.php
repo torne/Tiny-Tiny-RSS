@@ -4568,13 +4568,15 @@
 
 		if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
-		$result = db_query($link, "SELECT rtl_content FROM ttrss_feeds
+		$result = db_query($link, "SELECT rtl_content, always_display_enclosures FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		if (db_num_rows($result) == 1) {
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
+			$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
 		} else {
 			$rtl_content = false;
+			$always_display_enclosures = false;
 		}
 
 		if ($rtl_content) {
@@ -4760,7 +4762,7 @@
 
 				print "<div class=\"postEnclosures\">";
 
-				if (!preg_match("/<img/i", $article_content)) {
+				if ($always_display_enclosures || !preg_match("/<img/i", $article_content)) {
 					foreach ($entries as $entry) {
 						if (preg_match("/image/", $entry["type"])) {
 							print "<p><img 
@@ -5268,13 +5270,13 @@
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
-					print sanitize_rss($link, $line["content_preview"]);
-
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
 						print format_article_note($id, $line['note']);
 					}
 					print "</div>";
+
+					print sanitize_rss($link, $line["content_preview"]);
 
 					$article_content = $line["content_preview"];
 
@@ -5310,7 +5312,12 @@
 					array_push($entries, $entry);
 				}
 
-				if (!preg_match("/img/i", $article_content)) {
+				$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
+					ttrss_feeds WHERE id = ".$line['feed_id']." AND owner_uid = ".$_SESSION["uid"]);
+
+				$always_display_enclosures = db_fetch_result($tmp_result, 0, "always_display_enclosures");
+
+				if ($always_display_enclosures || !preg_match("/img/i", $article_content)) {
 					foreach ($entries as $entry) {
 						if (preg_match("/image/", $entry["type"])) {
 							print "<p><img 
