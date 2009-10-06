@@ -1054,8 +1054,10 @@ function selectTab(id, noupdate, subop) {
 	try {
 
 		try {
-			var c = $('prefContent');	
-			c.scrollTop = 0;
+			if (id != active_tab) {
+				var c = $('prefContent');	
+				c.scrollTop = 0;
+			}
 		} catch (e) { };
 
 		if (!noupdate) {
