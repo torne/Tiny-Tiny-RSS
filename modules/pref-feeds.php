@@ -1157,6 +1157,7 @@
 
 		if ($feed_search) {
 			$search_qpart = "(UPPER(F1.title) LIKE UPPER('%$feed_search%') OR
+				UPPER(C1.title) LIKE UPPER('%$feed_search%') OR
 				UPPER(F1.feed_url) LIKE UPPER('%$feed_search%')) AND";
 		} else {
 			$search_qpart = "";
@@ -1406,6 +1407,17 @@
 				}
 
 			print "</select>";
+		} else {
+
+			print "<p>";
+
+			if (!$feed_search) { 
+				print_warning(__("You don't have any subscribed feeds."));
+			} else {
+				print_warning(__('No matching feeds found.'));
+			}
+			print "</p>";
+
 		}
 
 		print "<h3>".__('OPML')."</h3>

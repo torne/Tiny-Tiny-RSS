@@ -510,9 +510,9 @@
 
 			print "<p>";
 			if (!$filter_search) {
-				print __('No filters defined.');
+				print_warning(__('No filters defined.'));
 			} else {
-				print __('No matching filters found.');
+				print_warning(__('No matching filters found.'));
 			}
 			print "</p>";
 

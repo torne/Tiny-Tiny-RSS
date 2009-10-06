@@ -237,9 +237,9 @@
 		} else {
 			print "<p>";
 			if (!$label_search) {
-				print __('No labels defined.');
+				print_warning(__('No labels defined.'));
 			} else {
-				print __('No matching labels found.');
+				print_warning(__('No matching labels found.'));
 			}
 			print "</p>";
 

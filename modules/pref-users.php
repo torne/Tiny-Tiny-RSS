@@ -478,9 +478,9 @@
 		} else {
 			print "<p>";
 			if (!$user_search) {
-				print __('No users defined.');
+				print_warning(__('No users defined.'));
 			} else {
-				print __('No matching users found.');
+				print_warning(__('No matching users found.'));
 			}
 			print "</p>";
 
