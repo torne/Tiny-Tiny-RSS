@@ -119,7 +119,9 @@ function headlines_callback2(transport, feed_cur_page) {
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
-			if (feedr && ll) feedr.removeChild(ll);
+
+			var fcap = $("FCAP-" + feed_id);
+			if (fcap && ll) fcap.removeChild(ll);
 
 		}
 

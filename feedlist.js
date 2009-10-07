@@ -315,7 +315,13 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		} else {
 
 			if (!page_offset) {
-				var feedr = $('FEEDR-' + feed);
+				var feedr;
+
+				if (is_cat) {
+					feedr = $('FCAP-' + feed);
+				} else {
+					feedr = $('FEEDR-' + feed);
+				}
 
 				if (feedr) {
 					var ll = document.createElement('img');
