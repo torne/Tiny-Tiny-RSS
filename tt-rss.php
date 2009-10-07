@@ -75,10 +75,10 @@
 		</div>
 
 	<noscript>
-		<div class="error"><?php echo
-		__("Your browser doesn't support Javascript, which is required
+		<p>
+		<?php print_error(__("Your browser doesn't support Javascript, which is required
 		for this application to function properly. Please check your
-		browser settings.") ?></div>
+		browser settings.")) ?></p>
 	</noscript>
 	</div>
 </div> 
