@@ -324,13 +324,26 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				}
 
 				if (feedr && !$('FLL-' + feed)) {
-					var ll = document.createElement('img');
 
-					ll.src = 'images/indicator_tiny.gif';
-					ll.className = 'hlLoading';
-					ll.id = 'FLL-' + feed;
+					var img = $('FIMG-' + feed);
 
-					feedr.appendChild(ll);
+					if (!is_cat && img) {
+
+						img.alt = img.src;
+						img.src = 'images/indicator_white.gif';
+
+					} else {
+
+						var ll = document.createElement('img');
+
+						ll.src = 'images/indicator_tiny.gif';
+						ll.className = 'hlLoading';
+						ll.id = 'FLL-' + feed;
+	
+						feedr.appendChild(ll);
+
+
+					}
 				}
 			}
 

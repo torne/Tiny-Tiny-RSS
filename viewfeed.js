@@ -125,6 +125,13 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		}
 
+		var img = $('FIMG-' + feed_id);
+
+		if (img && !is_cat) {
+			img.src = img.alt;
+			img.alt = '';
+		}
+
 		var f = $("headlines-frame");
 		try {
 			if (feed_cur_page == 0) { 
