@@ -377,11 +377,17 @@ function article_callback2(transport, id, feed_id) {
 
 			if (!transport_error_check(transport)) return;
 
-			var ll = $('LL-' + id);
+/*			var ll = $('LL-' + id);
 			var content = $('HLC-' + id);
 
-			if (ll && content) content.removeChild(ll);
+			if (ll && content) content.removeChild(ll); */
 			
+			var upic = $('FUPDPIC-' + id);
+
+			if (upic) {
+				upic.src = 'images/blank_icon.gif';
+			}
+
 			if (id != last_requested_article) {
 				debug("requested article id is out of sequence, aborting");
 				return;
@@ -513,7 +519,7 @@ function view(id, feed_id, skip_history) {
 
 //			notify_progress("Loading, please wait...", true);
 
-			var content = $('HLC-' + id);
+/*			var content = $('HLC-' + id);
 
 			if (content && !$('LL-' + id)) {
 				var ll = document.createElement('img');
@@ -524,6 +530,12 @@ function view(id, feed_id, skip_history) {
 
 				content.appendChild(ll);
 
+			} */
+
+			var upic = $('FUPDPIC-' + id);
+
+			if (upic) {	
+				upic.src = 'images/indicator_white.gif'; 
 			}
 
 		} else if (cached_article && article_is_unread) {
