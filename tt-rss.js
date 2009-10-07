@@ -872,6 +872,8 @@ function editFeedDlg(feed) {
 
 		disableHotkeys();
 
+		notify_progress("Loading, please wait...", true);
+
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				infobox_callback2(transport); 
