@@ -324,13 +324,23 @@
 			value=\"".__('Rescore articles')."\">"; 
 
 		if ($filter_search) {
-			$filter_search = db_escape_string($filter_search);
-			$filter_search_query = "(
-				UPPER(ttrss_filter_actions.description) LIKE UPPER('%$filter_search%') OR 
-				UPPER(reg_exp) LIKE UPPER('%$filter_search%') OR 
-				UPPER(action_param) LIKE UPPER('%$filter_search%') OR 
-				UPPER(ttrss_feeds.title) LIKE UPPER('%$filter_search%') OR
-				UPPER(ttrss_filter_types.description) LIKE UPPER('%$filter_search%')) AND";
+			$filter_search = split(' ', db_escape_string($filter_search));
+
+			$tokens = array();
+
+			foreach ($filter_search as $token) {
+				$token = trim($token);
+
+				array_push($tokens, "(
+					UPPER(ttrss_filter_actions.description) LIKE UPPER('%$token%') OR 
+					UPPER(reg_exp) LIKE UPPER('%$token%') OR 
+					UPPER(action_param) LIKE UPPER('%$token%') OR 
+					UPPER(ttrss_feeds.title) LIKE UPPER('%$token%') OR
+					UPPER(ttrss_filter_types.description) LIKE UPPER('%$token%'))");
+			}
+
+			$filter_search_query = "(" . join($tokens, " AND ") . ") AND ";
+
 		} else {
 			$filter_search_query = "";
 		}

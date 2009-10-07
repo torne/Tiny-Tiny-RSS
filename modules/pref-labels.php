@@ -138,7 +138,19 @@
 			value=\"".__('Create label')."\"></div>";
 
 		if ($label_search) {
-			$label_search_query = "caption LIKE '%$label_search%' AND";
+
+			$label_search = split(" ", $label_search);
+			$tokens = array();
+
+			foreach ($label_search as $token) {
+
+				$token = trim($token);
+				array_push($tokens, "(UPPER(caption) LIKE UPPER('%$token%'))");
+
+			}
+
+			$label_search_query = "(" . join($tokens, " AND ") . ") AND ";
+			
 		} else {
 			$label_search_query = "";
 		}

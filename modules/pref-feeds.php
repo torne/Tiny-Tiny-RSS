@@ -1184,9 +1184,21 @@
 		$_SESSION["pref_sort_feeds"] = $feeds_sort;
 
 		if ($feed_search) {
-			$search_qpart = "(UPPER(F1.title) LIKE UPPER('%$feed_search%') OR
-				UPPER(C1.title) LIKE UPPER('%$feed_search%') OR
-				UPPER(F1.feed_url) LIKE UPPER('%$feed_search%')) AND";
+
+			$feed_search = split(" ", $feed_search);
+			$tokens = array();
+
+			foreach ($feed_search as $token) {
+
+				$token = trim($token);
+
+				array_push($tokens, "(UPPER(F1.title) LIKE UPPER('%$token%') OR
+					UPPER(C1.title) LIKE UPPER('%$token%') OR
+					UPPER(F1.feed_url) LIKE UPPER('%$token%'))");
+			}
+
+			$search_qpart = "(" . join($tokens, " AND ") . ") AND ";
+
 		} else {
 			$search_qpart = "";
 		}

@@ -374,7 +374,17 @@
 			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\"></div>";
 
 		if ($user_search) {
-			$user_search_query = "UPPER(login) LIKE UPPER('%$user_search%') AND";
+
+			$user_search = split(" ", $user_search);
+			$tokens = array();
+
+			foreach ($user_search as $token) {			
+				$token = trim($token);
+				array_push($tokens, "(UPPER(login) LIKE UPPER('%$token%'))");
+			}
+
+			$user_search_query = "(" . join($tokens, " AND ") . ") AND ";
+
 		} else {
 			$user_search_query = "";
 		}
