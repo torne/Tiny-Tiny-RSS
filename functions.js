@@ -1290,13 +1290,9 @@ function closeInfoBox(cleanup) {
 
 	if (Element.visible("infoBoxShadow")) {
 		Element.hide("dialog_overlay");
-	
-		var shadow = $('infoBoxShadow');
-		var box = $('infoBoxShadow');
+		Element.hide("infoBoxShadow");
 
-		Element.hide(shadow);
-
-		if (cleanup) box.innerHTML = "&nbsp;";
+		if (cleanup) $("infoBoxShadow").innerHTML = "&nbsp;";
 
 		enableHotkeys();
 	}
@@ -1342,20 +1338,19 @@ function infobox_callback2(transport) {
 
 		debug("infobox_callback2");
 
-		if (!getInitParam("infobox_disable_overlay")) {
-			Element.show("dialog_overlay");
-		}
-
 		var box = $('infoBox');
-		var shadow = $('infoBoxShadow');
+		
 		if (box) {			
 
-			box.innerHTML=transport.responseText;			
-			if (shadow) {
-				shadow.style.display = "block";
-			} else {
-				box.style.display = "block";				
+			if (!getInitParam("infobox_disable_overlay")) {
+				Element.show("dialog_overlay");
 			}
+
+			box.innerHTML=transport.responseText;			
+			Element.show("infoBoxShadow");
+			//Effect.SlideDown("infoBoxShadow", {duration : 1.0});
+
+
 		}
 
 		/* FIXME this needs to be moved out somewhere */

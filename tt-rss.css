@@ -582,14 +582,15 @@ div.helpResponse {
 }
 
 #infoBoxTitle {
-	border-width : 1px 1px 1px 1px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #99d67a;
+	border-color : #659a4c;
 	background-color : #99d67a;
 	padding : 4px 2px 4px 10px;
 	color : white;
 	font-weight : bold;
-	font-size : 12px;
+	font-size : 16px;
+	text-shadow : #659a4c 0px 1px 0px;
 }
 
 /* shadow stuff from http://www.sixapart.com/pronet/articles/ydsf_-_robust_c.html */
@@ -597,12 +598,13 @@ div.helpResponse {
 #infoBox {	
 	border-width : 1px 1px 1px 1px;
 	border-style : solid;
-	border-color : #99d67a;
+	border-color : #659a4c;
 	background-color : #f8fcf5;
 	position: relative;
 	overflow : hidden;
 	left : -4px;
 	top : -4px;
+	
 }
 
 div#errorBox {
@@ -649,7 +651,7 @@ html>body #infoBox, html>body #errorBox {
 	background-image : url("images/shadow.png");
 	background-position : bottom right;
 	left : 25%;
-	top : 70px;
+	top : 50px;
 	width : 50%;
 	position : absolute;
 	min-width : 600px;

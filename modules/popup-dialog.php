@@ -149,7 +149,7 @@
 			$active_feed_id = sprintf("%d", $params[0]);
 			$is_cat = $params[1] == "true";
 
-			print "<div class=\"dlgSec\">".__('Search')."</div>";
+			print "<div class=\"dlgSec\">".__('Look for')."</div>";
 
 			print "<div class=\"dlgSecCont\">";
 
