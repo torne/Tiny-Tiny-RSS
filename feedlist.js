@@ -323,7 +323,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 					feedr = $('FEEDR-' + feed);
 				}
 
-				if (feedr) {
+				if (feedr && !$('FLL-' + feed)) {
 					var ll = document.createElement('img');
 
 					ll.src = 'images/indicator_tiny.gif';
