@@ -315,7 +315,17 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		} else {
 
 			if (!page_offset) {
-				notify_progress("Loading, please wait...", true);
+				var feedr = $('FEEDR-' + feed);
+
+				if (feedr) {
+					var ll = document.createElement('img');
+
+					ll.src = 'images/indicator_tiny.gif';
+					ll.className = 'hlLoading';
+					ll.id = 'FLL-' + feed;
+
+					feedr.appendChild(ll);
+				}
 			}
 
 			new Ajax.Request(query, {

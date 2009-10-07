@@ -106,18 +106,23 @@ function headlines_callback2(transport, feed_cur_page) {
 			}
 		}
 
+		var ll = $('FLL-' + feed_id);
+
 		if (!is_cat) {
 			var feedr = $("FEEDR-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
+			if (feedr && ll) feedr.removeChild(ll);
 		} else {
 			var feedr = $("FCAT-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
+			if (feedr && ll) feedr.removeChild(ll);
+
 		}
-	
+
 		var f = $("headlines-frame");
 		try {
 			if (feed_cur_page == 0) { 
@@ -363,6 +368,19 @@ function article_callback2(transport, id, feed_id) {
 
 			if (!transport_error_check(transport)) return;
 
+			var ll = $('LL-' + id);
+			var content = $('HLC-' + id);
+
+			if (ll && content) content.removeChild(ll);
+			
+			if (id != last_requested_article) {
+				debug("requested article id is out of sequence, aborting");
+				return;
+			}
+
+			active_real_feed_id = feed_id;
+			active_post_id = id; 
+
 			debug("looking for articles to cache...");
 
 			var articles = transport.responseXML.getElementsByTagName("article");
@@ -380,13 +398,6 @@ function article_callback2(transport, id, feed_id) {
 				cache_inject(a_id, articles[i].firstChild.nodeValue);
 			}
 
-			if (id != last_requested_article) {
-				debug("requested article id is out of sequence, aborting");
-				return;
-			}
-
-			active_real_feed_id = feed_id;
-			active_post_id = id; 
 
 			showArticleInHeadlines(id);	
 
@@ -491,7 +502,20 @@ function view(id, feed_id, skip_history) {
 
 		if (!cached_article) {
 
-			notify_progress("Loading, please wait...", true);
+//			notify_progress("Loading, please wait...", true);
+
+			var content = $('HLC-' + id);
+
+			if (content && !$('LL-' + id)) {
+				var ll = document.createElement('img');
+		
+				ll.src = 'images/indicator_tiny.gif';
+				ll.className = 'hlLoading';
+				ll.id = 'LL-' + id;
+
+				content.appendChild(ll);
+
+			}
 
 		} else if (cached_article && article_is_unread) {
 

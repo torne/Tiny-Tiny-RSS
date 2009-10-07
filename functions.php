@@ -5119,11 +5119,11 @@
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
 
-					print "<td onclick='view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle'>";
+					print "<td onclick='view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
 
 					print "<a id=\"RTITLE-$id\" 
 						href=\"" . htmlspecialchars($line["link"]) . "\"
-						onclick=\"return view($id,$feed_id);\">" .
+						onclick=\"return false\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
@@ -5147,6 +5147,10 @@
 							</span>";
 						}
 					}
+
+//					print "<img id='HLL-$id' class='hlLoading' 
+//						src='images/indicator_tiny.gif' style='display : none'>";
+
 					print "</td>";
 
 #					}
