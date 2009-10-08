@@ -1288,15 +1288,19 @@ function closeErrorBox() {
 
 function closeInfoBox(cleanup) {
 
-	if (Element.visible("infoBoxShadow")) {
-		Element.hide("dialog_overlay");
-		Element.hide("infoBoxShadow");
-
-		if (cleanup) $("infoBoxShadow").innerHTML = "&nbsp;";
-
+	try {
 		enableHotkeys();
-	}
 
+		if (Element.visible("infoBoxShadow")) {
+			Element.hide("dialog_overlay");
+			Element.hide("infoBoxShadow");
+
+			if (cleanup) $("infoBoxShadow").innerHTML = "&nbsp;";
+		}
+	} catch (e) {
+		exception_error("closeInfoBox", e);
+	}
+	
 	return false;
 }
 
