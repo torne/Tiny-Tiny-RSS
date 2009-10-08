@@ -153,13 +153,13 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input name=\"query\" size=\"30\" type=\"search\"
+			print "<input name=\"query\" size=\"20\" type=\"search\"
 				onkeypress=\"return filterCR(event, search)\"
 				onchange=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
 				value=\"\">";
 
-			print " " . __('match on:')." ";
+			print " " . __('match on')." ";
 
 			$search_fields = array(
 				"title" => __("Title"),

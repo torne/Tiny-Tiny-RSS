@@ -2862,8 +2862,11 @@
 			} else {
 				$is_selected = "";
 			}
+
+			$title = truncate_string(htmlspecialchars($line["title"]), 40);
+
 			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], htmlspecialchars($line["title"]));
+				$line["id"], $title);
 		}
 	
 		print "</select>";
