@@ -2052,11 +2052,15 @@ function updateFeedBrowser() {
 			query = query + "&search=" + param_escape(search.value);
 		}
 
-		notify_progress("Loading, please wait...", true);
+		//notify_progress("Loading, please wait...", true);
+
+		Element.show('feed_browser_spinner');
 
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				notify('');
+
+				Element.hide('feed_browser_spinner');
 
 				var c = $("browseFeedList");
 				var r = transport.responseXML.getElementsByTagName("content")[0];
