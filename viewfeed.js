@@ -129,7 +129,6 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		if (img && !is_cat) {
 			img.src = img.alt;
-			img.alt = '';
 		}
 
 		var f = $("headlines-frame");
