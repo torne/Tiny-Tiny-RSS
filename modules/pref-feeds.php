@@ -224,8 +224,11 @@
 					} else {
 						$is_selected = "";
 					}
+
+					$title = truncate_string(htmlspecialchars($tmp_line["title"]), 40);
+
 					printf("<option $is_selected value='%d'>%s</option>", 
-						$tmp_line["id"], $tmp_line["title"]);
+						$tmp_line["id"], $title);
 				}
 
 			print "</select>";

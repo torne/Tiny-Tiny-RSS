@@ -188,7 +188,7 @@ window.onload = init;
 
 <div id="toolbar">
 
-		<div style="float : right">
+		<div class="actionChooser">
 			<select id="quickMenuChooser" onchange="quickMenuChange()">
 					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search...') ?></option>
