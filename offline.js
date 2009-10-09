@@ -1222,7 +1222,7 @@ function gotoOnline() {
 //	if (confirm(__("You won't be able to access offline version of Tiny Tiny RSS until you switch it into offline mode again. Go online?"))) {
 	if (confirm(__("Tiny Tiny RSS will reload. Go online?"))) {
 		//localServer.removeManagedStore("tt-rss");
-		window.location.href = "tt-rss.php";
+		window.location.href = "tt-rss.php?online";
 	}
 }
 
