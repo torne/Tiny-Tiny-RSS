@@ -314,25 +314,6 @@ function viewfeed(feed, subop) {
 	f.viewfeed(feed, subop);
 }
 
-function hotkey_prefix_timeout() {
-	try {
-
-		var date = new Date();
-		var ts = Math.round(date.getTime() / 1000);
-
-		if (hotkey_prefix_pressed && ts - hotkey_prefix_pressed >= 5) {
-			debug("hotkey_prefix seems to be stuck, aborting");
-			hotkey_prefix_pressed = false;
-			hotkey_prefix = false;
-		}
-
-		setTimeout("hotkey_prefix_timeout()", 10);
-
-	} catch  (e) {
-		exception_error("hotkey_prefix_timeout", e);
-	}
-}
-
 function timeout() {
 	if (getInitParam("bw_limit") == "1") return;
 
@@ -1060,6 +1041,7 @@ function hotkey_handler(e) {
 		var keycode;
 		var shift_key = false;
 
+		var cmdline = $('cmdline');
 		var feedlist = $('feedList');
 
 		try {
@@ -1099,6 +1081,10 @@ function hotkey_handler(e) {
 
 			hotkey_prefix = keycode;
 			hotkey_prefix_pressed = ts;
+
+			cmdline.innerHTML = keychar;
+			Element.show(cmdline);
+
 			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar + " TS=" + ts);
 			return true;
 		}
@@ -1108,6 +1094,8 @@ function hotkey_handler(e) {
 		}
 
 		/* Global hotkeys */
+
+		Element.hide(cmdline);
 
 		if (!hotkey_prefix) {
 

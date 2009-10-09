@@ -6,6 +6,7 @@ var init_params = new Array();
 var caller_subop = false;
 var sanity_check_done = false;
 var hotkey_prefix = false;
+var hotkey_prefix_pressed = false;
 
 var color_picker_active = false;
 var selection_disabled = false;
@@ -1205,6 +1206,8 @@ function init_second_stage() {
 
 		loading_set_progress(60);
 
+		setTimeout("hotkey_prefix_timeout()", 5*1000);
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
@@ -1408,6 +1411,8 @@ function pref_hotkey_handler(e) {
 		var keycode;
 		var shift_key = false;
 
+		var cmdline = $('cmdline');
+
 		try {
 			shift_key = e.shiftKey;
 		} catch (e) {
@@ -1440,6 +1445,15 @@ function pref_hotkey_handler(e) {
 
 		if ((keycode == 67 || keycode == 71) && !hotkey_prefix) {
 			hotkey_prefix = keycode;
+
+			var date = new Date();
+			var ts = Math.round(date.getTime() / 1000);
+
+			hotkey_prefix_pressed = ts;
+
+			cmdline.innerHTML = keychar;
+			Element.show(cmdline);
+
 			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar);
 			return;
 		}
@@ -1455,6 +1469,8 @@ function pref_hotkey_handler(e) {
 		}
 
 		/* Global hotkeys */
+
+		Element.hide(cmdline);
 
 		if (!hotkey_prefix) {
 

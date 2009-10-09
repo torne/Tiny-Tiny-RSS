@@ -147,6 +147,8 @@ window.onload = init;
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 
+<div id="cmdline" style="display : none"></div>
+
 <div id="errorBoxShadow" style="display : none">
 	<div id="errorBox">
 		<div id="xebTitle">Fatal Exception</div><div id="xebContent">&nbsp;</div>

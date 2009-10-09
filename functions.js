@@ -2169,3 +2169,25 @@ function html5AudioOrFlash(type) {
 		}
 	}
 } */
+
+function hotkey_prefix_timeout() {
+	try {
+
+		var date = new Date();
+		var ts = Math.round(date.getTime() / 1000);
+
+		if (hotkey_prefix_pressed && ts - hotkey_prefix_pressed >= 5) {
+			debug("hotkey_prefix seems to be stuck, aborting");
+			hotkey_prefix_pressed = false;
+			hotkey_prefix = false;
+			Element.hide('cmdline');
+		}
+
+		setTimeout("hotkey_prefix_timeout()", 1000);
+
+	} catch  (e) {
+		exception_error("hotkey_prefix_timeout", e);
+	}
+}
+
+
