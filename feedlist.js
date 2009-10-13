@@ -157,7 +157,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		}
 
 		enableHotkeys();
-
+		hideAuxDlg();
 		closeInfoBox();
 
 		Form.enable("main_toolbar_form");
