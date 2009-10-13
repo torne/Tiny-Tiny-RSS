@@ -531,7 +531,7 @@ function parse_counters(reply, scheduled_call) {
 
 			if (feedctr && feedu && feedr) {
 
-				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
+				if (parseInt(ctr) > 0 && feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
 					displayNewContentPrompt(id);
 				}
 
