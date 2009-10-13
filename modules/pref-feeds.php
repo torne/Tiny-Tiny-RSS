@@ -70,6 +70,8 @@
 
 			print "
 				<div style='float : right'>
+				<img style='display : none' 
+					id='feed_browser_spinner' src='images/indicator_white.gif'>
 				<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"

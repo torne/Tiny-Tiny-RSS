@@ -532,7 +532,7 @@ function parse_counters(reply, scheduled_call) {
 			if (feedctr && feedu && feedr) {
 
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
-					viewCurrentFeed();
+					displayNewContentPrompt(id);
 				}
 
 				var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
@@ -2052,11 +2052,15 @@ function updateFeedBrowser() {
 			query = query + "&search=" + param_escape(search.value);
 		}
 
-		notify_progress("Loading, please wait...", true);
+		//notify_progress("Loading, please wait...", true);
+
+		Element.show('feed_browser_spinner');
 
 		new Ajax.Request(query, {
 			onComplete: function(transport) { 
 				notify('');
+
+				Element.hide('feed_browser_spinner');
 
 				var c = $("browseFeedList");
 				var r = transport.responseXML.getElementsByTagName("content")[0];
@@ -2190,4 +2194,25 @@ function hotkey_prefix_timeout() {
 	}
 }
 
+function hideAuxDlg() {
+	try {
+		Element.hide('auxDlg');
+	} catch (e) {
+		exception_error("hideAuxDlg", e);
+	}
+}
 
+function displayNewContentPrompt(id) {
+	try {
+		var msg = __("New articles in &laquo;%s&raquo;. <a href='#' onclick='viewCurrentFeed()'>Click to view</a>.");
+
+		msg = msg.replace("%s", getFeedName(id));
+
+		$('auxDlg').innerHTML = msg;
+
+		Element.show('auxDlg');
+
+	} catch (e) {
+		exception_error("displayNewContentPrompt", e);
+	}
+}

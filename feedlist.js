@@ -157,7 +157,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 		}
 
 		enableHotkeys();
-
+		hideAuxDlg();
 		closeInfoBox();
 
 		Form.enable("main_toolbar_form");
@@ -329,20 +329,22 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 					if (!is_cat && img) {
 
-						img.alt = img.src;
-						img.src = 'images/indicator_white.gif';
+						if (!img.src.match("indicator_white")) {
+							img.alt = img.src;
+							img.src = 'images/indicator_white.gif';
+						}
 
 					} else {
 
-						var ll = document.createElement('img');
+						if (!$('FLL-' + feed)) {
+							var ll = document.createElement('img');
 
-						ll.src = 'images/indicator_tiny.gif';
-						ll.className = 'hlLoading';
-						ll.id = 'FLL-' + feed;
+							ll.src = 'images/indicator_tiny.gif';
+							ll.className = 'hlLoading';
+							ll.id = 'FLL-' + feed;
 	
-						feedr.appendChild(ll);
-
-
+							feedr.appendChild(ll);
+						}
 					}
 				}
 			}
