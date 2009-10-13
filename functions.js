@@ -532,7 +532,7 @@ function parse_counters(reply, scheduled_call) {
 			if (feedctr && feedu && feedr) {
 
 				if (feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
-					viewCurrentFeed();
+					displayNewContentPrompt(id);
 				}
 
 				var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
@@ -2194,4 +2194,25 @@ function hotkey_prefix_timeout() {
 	}
 }
 
+function hideAuxDlg() {
+	try {
+		Element.hide('auxDlg');
+	} catch (e) {
+		exception_error("hideAuxDlg", e);
+	}
+}
 
+function displayNewContentPrompt(id) {
+	try {
+		var msg = __("New articles in &laquo;%s&raquo;. <a href='#' onclick='viewCurrentFeed()'>Click to view</a>.");
+
+		msg = msg.replace("%s", getFeedName(id));
+
+		$('auxDlg').innerHTML = msg;
+
+		Element.show('auxDlg');
+
+	} catch (e) {
+		exception_error("displayNewContentPrompt", e);
+	}
+}
