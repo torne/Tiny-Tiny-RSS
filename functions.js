@@ -2207,7 +2207,8 @@ function hideAuxDlg() {
 
 function displayNewContentPrompt(id) {
 	try {
-		var msg = __("New articles in &laquo;%s&raquo;. <a href='#' onclick='viewCurrentFeed()'>Click to view</a>.");
+		var msg = __("New articles in &laquo;%s&raquo;.") +
+			" <a href='#' onclick='viewfeed("+id+")'>" + __('Click to view') + "</a>.";
 
 		msg = msg.replace("%s", getFeedName(id));
 
