@@ -567,6 +567,8 @@ function parse_counters(reply, scheduled_call) {
 					if (row_needs_hl) { 
 						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5",
 							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
+
+						cache_invalidate("F:" + id);
 					}
 				} else {
 					feedctr.className = "feedCtrNoUnread";
