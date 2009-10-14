@@ -531,7 +531,10 @@ function parse_counters(reply, scheduled_call) {
 
 			if (feedctr && feedu && feedr) {
 
-				if (parseInt(ctr) > 0 && feedu.innerHTML != ctr && id == getActiveFeedId() && scheduled_call) {
+				if (parseInt(ctr) > 0 && 
+						parseInt(feedu.innerHTML) < parseInt(ctr) && 
+						id == getActiveFeedId() && scheduled_call) {
+
 					displayNewContentPrompt(id);
 				}
 
@@ -2204,7 +2207,8 @@ function hideAuxDlg() {
 
 function displayNewContentPrompt(id) {
 	try {
-		var msg = __("New articles in &laquo;%s&raquo;. <a href='#' onclick='viewCurrentFeed()'>Click to view</a>.");
+		var msg = __("New articles in &laquo;%s&raquo;.") +
+			" <a href='#' onclick='viewfeed("+id+")'>" + __('Click to view') + "</a>.";
 
 		msg = msg.replace("%s", getFeedName(id));
 

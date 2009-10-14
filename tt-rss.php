@@ -105,7 +105,7 @@ window.onload = init;
 <div id="infoBoxShadow" style="display : none"><div id="infoBox">&nbsp;</div></div>
 
 <div id="cmdline" style="display : none"></div>
-<div id="auxDlg" style="zdisplay : none"></div>
+<div id="auxDlg" style="display : none"></div>
 
 <div id="errorBoxShadow" style="display : none">
 	<div id="errorBox">
