@@ -450,7 +450,8 @@
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
 
-			$label = label_find_caption($link, $label_id, $_SESSION["uid"]);
+			$label = db_escape_string(label_find_caption($link, $label_id, 
+				$_SESSION["uid"]));
 
 			print "<rpc-reply>";
 			print "<info-for-headlines>";
@@ -485,7 +486,8 @@
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
 
-			$label = label_find_caption($link, $label_id, $_SESSION["uid"]);
+			$label = db_escape_string(label_find_caption($link, $label_id, 
+				$_SESSION["uid"]));
 
 			print "<rpc-reply>";			
 
