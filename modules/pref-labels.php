@@ -61,6 +61,8 @@
 
 						/* Update filters that reference label being renamed */
 
+						$old_caption = db_escape_string($old_caption);
+
 						db_query($link, "UPDATE ttrss_filters SET
 							action_param = '$caption' WHERE action_param = '$old_caption'
 							AND action_id = 7
