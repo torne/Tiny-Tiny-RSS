@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-15 16:17+0400\n"
+"POT-Creation-Date: 2009-10-21 11:41+0400\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Ploc <plub2009@acampado.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -198,17 +198,17 @@ msgid "All feeds"
 msgstr "Tous les flux"
 
 #: functions.php:2881 functions.php:2920 functions.php:3335 functions.php:4317
-#: functions.php:4347 modules/backend-rpc.php:635 modules/pref-feeds.php:1305
+#: functions.php:4347 modules/backend-rpc.php:637 modules/pref-feeds.php:1305
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
-#: functions.php:2910 functions.php:3543 modules/backend-rpc.php:640
+#: functions.php:2910 functions.php:3543 modules/backend-rpc.php:642
 #: mobile/functions.php:33
 msgid "Special"
 msgstr "Spécial"
 
 #: functions.php:2912 functions.php:3364 functions.php:3545 prefs.php:128
-#: modules/backend-rpc.php:645 help/4.php:12 mobile/functions.php:83
+#: modules/backend-rpc.php:647 help/4.php:12 mobile/functions.php:83
 msgid "Labels"
 msgstr "Etiquettes"
 
@@ -249,14 +249,14 @@ msgstr "Flux généré"
 
 #: functions.php:4030 functions.php:5366 localized_js.php:151
 #: modules/pref-feeds.php:1073 modules/pref-feeds.php:1267
-#: modules/pref-filters.php:377 modules/pref-labels.php:175
+#: modules/pref-filters.php:377 modules/pref-labels.php:177
 #: modules/pref-users.php:411 offline.js:409
 msgid "Select:"
 msgstr "Sélectionner :"
 
 #: functions.php:4031 localized_js.php:39 tt-rss.php:261
 #: modules/pref-feeds.php:1074 modules/pref-feeds.php:1268
-#: modules/pref-filters.php:378 modules/pref-labels.php:176
+#: modules/pref-filters.php:378 modules/pref-labels.php:178
 #: modules/pref-users.php:412 mobile/functions.php:570
 msgid "All"
 msgstr "Tout"
@@ -272,7 +272,7 @@ msgstr "Inverse"
 
 #: functions.php:4034 localized_js.php:101 modules/pref-feeds.php:1075
 #: modules/pref-feeds.php:1269 modules/pref-filters.php:379
-#: modules/pref-labels.php:177 modules/pref-users.php:413
+#: modules/pref-labels.php:179 modules/pref-users.php:413
 #: mobile/functions.php:572
 msgid "None"
 msgstr "Aucun"
@@ -501,7 +501,7 @@ msgstr "Suppression du flux..."
 msgid "Clearing selected feed..."
 msgstr "Suppression des flux sélectionnés..."
 
-#: localized_js.php:57 localized_js.php:186
+#: localized_js.php:57
 #, fuzzy
 msgid "Click to view"
 msgstr "Cliquer pour éditer"
@@ -632,7 +632,7 @@ msgstr "Marquer %d articles sélectionnés de %s comme lus ?"
 msgid "Marking all feeds as read..."
 msgstr "Marquage de tous les flux comme lus..."
 
-#: localized_js.php:90 localized_js.php:185 functions.js:2212
+#: localized_js.php:90 functions.js:2212
 #, php-format
 msgid "New articles in &laquo;%s&raquo;."
 msgstr ""
@@ -1814,7 +1814,7 @@ msgstr "Annuler"
 
 #: modules/popup-dialog.php:140 modules/popup-dialog.php:211
 #: modules/pref-feeds.php:80 modules/pref-feeds.php:1169
-#: modules/pref-filters.php:307 modules/pref-labels.php:130
+#: modules/pref-filters.php:307 modules/pref-labels.php:132
 #: modules/pref-users.php:363 mobile/functions.php:19 mobile/functions.php:435
 #: mobile/functions.php:736 mobile/functions.php:790
 msgid "Search"
@@ -2048,7 +2048,7 @@ msgid "No feed categories defined."
 msgstr "Aucune catégorie de flux définie."
 
 #: modules/pref-feeds.php:1130 modules/pref-filters.php:156
-#: modules/pref-filters.php:516 modules/pref-labels.php:237
+#: modules/pref-filters.php:516 modules/pref-labels.php:239
 #: modules/pref-users.php:484
 msgid "Remove"
 msgstr "Supprimer"
@@ -2227,40 +2227,40 @@ msgstr "Aucun filtre défini."
 msgid "No matching filters found."
 msgstr "Aucun filtre correspondant trouvé."
 
-#: modules/pref-labels.php:100
+#: modules/pref-labels.php:102
 #, php-format
 msgid "Created label <b>%s</b>"
 msgstr "Etiquette <b>%s</b> créé"
 
-#: modules/pref-labels.php:138 help/3.php:30 help/4.php:26
+#: modules/pref-labels.php:140 help/3.php:30 help/4.php:26
 msgid "Create label"
 msgstr "Créer une étiquette"
 
-#: modules/pref-labels.php:215
+#: modules/pref-labels.php:217
 msgid "Click to change color"
 msgstr "Cliquer pour changer la couleur"
 
-#: modules/pref-labels.php:245
+#: modules/pref-labels.php:247
 msgid "Clear colors"
 msgstr "Ré-initialiser les couleurs"
 
-#: modules/pref-labels.php:252
+#: modules/pref-labels.php:254
 msgid "No labels defined."
 msgstr "Aucune étiquette définie."
 
-#: modules/pref-labels.php:254
+#: modules/pref-labels.php:256
 msgid "No matching labels found."
 msgstr "Aucune étiquette correspondante trouvée."
 
-#: modules/pref-labels.php:312
+#: modules/pref-labels.php:314
 msgid "custom color:"
 msgstr "couleur personnalisée"
 
-#: modules/pref-labels.php:313
+#: modules/pref-labels.php:315
 msgid "foreground"
 msgstr "avant-plan"
 
-#: modules/pref-labels.php:314
+#: modules/pref-labels.php:316
 msgid "background"
 msgstr "arrière-plan"
 
