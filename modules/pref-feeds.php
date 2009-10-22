@@ -227,10 +227,10 @@
 						$is_selected = "";
 					}
 
-					$title = truncate_string(htmlspecialchars($tmp_line["title"]), 40);
+					$linked_title = truncate_string(htmlspecialchars($tmp_line["title"]), 40);
 
 					printf("<option $is_selected value='%d'>%s</option>", 
-						$tmp_line["id"], $title);
+						$tmp_line["id"], $linked_title);
 				}
 
 			print "</select>";
