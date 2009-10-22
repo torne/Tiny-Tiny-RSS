@@ -691,11 +691,11 @@ function get_feed_entry_name(elem) {
 }
 
 
-function resort_category(node) {
+function resort_category(node, cat_mode) {
 
 	try {
 
-		debug("resort_category: " + node);
+		debug("resort_category: " + node + " CM=" + cat_mode);
 	
 		var by_unread = feedsSortByUnread();
 	
@@ -710,8 +710,11 @@ function resort_category(node) {
 	
 				var tmp_name = get_feed_entry_name(list[i]);
 				var cur_name = get_feed_entry_name(list[j]);
-	
-				if ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name))) {
+
+				var valid_pair = cat_mode || (list[i].id.match(/FEEDR-[0-9]/) &&
+						list[j].id.match(/FEEDR-[0-9]/));
+
+				if (valid_pair && ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name)))) {
 					tempnode_i = list[i].cloneNode(true);
 					tempnode_j = list[j].cloneNode(true);
 					node.replaceChild(tempnode_i, list[j]);
@@ -735,12 +738,12 @@ function resort_feedlist() {
 
 		for (var i = 0; i < lists.length; i++) {
 			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
-				resort_category(lists[i]);
+				resort_category(lists[i], true);
 			}
 		}
 
 	} else {
-		//resort_category($("feedList"));
+		resort_category($("feedList"), false);
 	}
 }
 
