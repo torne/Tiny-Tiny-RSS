@@ -740,7 +740,7 @@ function resort_feedlist() {
 		}
 
 	} else {
-		resort_category($("feedList"));
+		//resort_category($("feedList"));
 	}
 }
 
