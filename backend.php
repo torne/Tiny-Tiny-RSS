@@ -75,7 +75,11 @@
 		header("Content-Type: application/xml");
 		print_error_xml(7); exit;
 	}
-	
+
+	if (SINGLE_USER_MODE) {
+		authenticate_user($link, "admin", null);
+	}
+
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
 			&& $op != "rss" && $op != "getUnread" && $op != "publish") {
 
