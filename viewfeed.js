@@ -469,7 +469,8 @@ function view(id, feed_id, skip_history) {
 		debug("cache check result: " + (cached_article != false));
 	
 		enableHotkeys();
-	
+		hideAuxDlg();
+
 		//setActiveFeedId(feed_id);
 
 		var query = "backend.php?op=view&id=" + param_escape(id) +
