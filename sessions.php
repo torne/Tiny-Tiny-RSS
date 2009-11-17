@@ -12,7 +12,7 @@
 	ini_set("session.use_only_cookies", true);
 	ini_set("session.gc_maxlifetime", SESSION_EXPIRE_TIME);
 
-	function open ($s, $n) {
+	function ttrss_open ($s, $n) {
 	
 		global $session_connection;
 		
@@ -21,7 +21,7 @@
 		return true;
 	}
 
-	function read ($id){
+	function ttrss_read ($id){
 	
 		global $session_connection,$session_read;					 
 
@@ -38,7 +38,7 @@
 		}
 	}
 
-	function write ($id, $data) {
+	function ttrss_write ($id, $data) {
  
 		if (! $data) { 
 			return false; 
@@ -62,7 +62,7 @@
 		return true;
 	}
 
-	function close () {
+	function ttrss_close () {
 	
 		global $session_connection;
 		
@@ -71,7 +71,7 @@
 		return true;
 	}
 
-	function destroy ($id) {
+	function ttrss_destroy ($id) {
 	
 		global $session_connection;
 
@@ -82,7 +82,7 @@
 		return true;
 	}
 
-	function gc ($expire) {
+	function ttrss_gc ($expire) {
 	
 		global $session_connection;
 		
@@ -92,7 +92,9 @@
 	}
 
 	if (DATABASE_BACKED_SESSIONS) {
-		session_set_save_handler("open", "close", "read", "write", "destroy", "gc");
+		session_set_save_handler("ttrss_open", 
+			"ttrss_close", "ttrss_read", "ttrss_write", 
+			"ttrss_destroy", "ttrss_gc");
 	}
 
 	session_set_cookie_params(SESSION_COOKIE_LIFETIME);
