@@ -3528,7 +3528,7 @@
 				print "</div>";
 			}
 
-			print sanitize_rss($link, $line["content_preview"]);
+			print sanitize_rss($link, $line["content_preview"], false, $owner_uid);
 			print "]]></description>";
   
  			print "</item>";
@@ -3590,10 +3590,12 @@
 } */
 
 
-	function sanitize_rss($link, $str, $force_strip_tags = false) {
+	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false) {
 		$res = $str;
 
-		if (get_pref($link, "STRIP_UNSAFE_TAGS") || $force_strip_tags) {
+		if (!$owner) $owner = $_SESSION["uid"];
+
+		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
 
 //			$res = strip_tags_long($res, 
 //				"<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li>");
@@ -3603,7 +3605,7 @@
 
 		}
 
-		if (get_pref($link, "STRIP_IMAGES")) {
+		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 
