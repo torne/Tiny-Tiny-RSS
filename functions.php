@@ -23,6 +23,7 @@
 	function get_translations() {
 		$tr = array(
 					"auto"  => "Detect automatically",					
+					"ca_CA" => "Català",
 					"en_US" => "English",
 					"es_ES" => "Español",
 					"de_DE" => "Deutsch",
