@@ -93,12 +93,13 @@
 
 			while ($line = db_fetch_assoc($result)) {
 
-				$unread = getFeedUnread($link, $line["id"]);
+				$unread = getFeedUnread($link, $line["id"], true);
 				
 				$line_struct = new xmlrpcval(
 					array(
 						"title" => new xmlrpcval($line["title"]),
-						"id" => new xmlrpcval($line["id"], "int")
+						"id" => new xmlrpcval($line["id"], "int"),
+						"unread" => new xmlrpcval($unread, "int")
 					),
 					"struct");
 
