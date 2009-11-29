@@ -9,6 +9,8 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 
+	$GLOBALS['xmlrpc_internalencoding'] = "UTF-8";
+
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	if (!$link) {
