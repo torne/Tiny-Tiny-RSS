@@ -9,6 +9,8 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 
+	$GLOBALS['xmlrpc_internalencoding'] = "UTF-8";
+
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	if (!$link) {
@@ -91,12 +93,13 @@
 
 			while ($line = db_fetch_assoc($result)) {
 
-				$unread = getFeedUnread($link, $line["id"]);
+				$unread = getFeedUnread($link, $line["id"], true);
 				
 				$line_struct = new xmlrpcval(
 					array(
 						"title" => new xmlrpcval($line["title"]),
-						"id" => new xmlrpcval($line["id"], "int")
+						"id" => new xmlrpcval($line["id"], "int"),
+						"unread" => new xmlrpcval($unread, "int")
 					),
 					"struct");
 

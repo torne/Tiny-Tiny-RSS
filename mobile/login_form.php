@@ -56,7 +56,7 @@ window.onload = init;
 	<?php } ?>
 
 	<table>
-		<tr><td align='right'><?php echo __("Login:") ?></td><td><input name="login"></td>
+		<tr><td align='right'><?php echo __("Login:") ?></td><td><input type="text" name="login"></td>
 		<tr><td align='right'><?php echo __("Password:") ?></td><td><input type="password" name="password"></tr>
 
 		<tr><td align="right"><?php echo __("Language:") ?></td>

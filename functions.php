@@ -4709,6 +4709,9 @@
 						onclick=\"publishWithNote($id, '$note_escaped')\"
 						alt='PubNote' title='".__('Publish article with a note')."'>";
 
+			} else {
+				$tags_str = strip_tags($tags_str);
+				print "<span id=\"ATSTR-$id\">$tags_str</span>";
 			}
 			print "</div>";
 			print "<div clear='both'>$entry_comments</div>";
