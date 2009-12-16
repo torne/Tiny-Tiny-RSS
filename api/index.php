@@ -13,11 +13,6 @@
 	require_once "../db-prefs.php";
 	require_once "../functions.php";
 
-	if (!defined('_JSON_API_ENABLED')) {
-		print json_encode(array("error" => "API_DISABLED"));
-		return;
-	}
-
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	$session_expire = SESSION_EXPIRE_TIME; //seconds
