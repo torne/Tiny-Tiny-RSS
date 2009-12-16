@@ -81,5 +81,6 @@
 	__("Enable inline MP3 player");
 	__("Enable the Flash-based XSPF Player to play MP3-format podcast enclosures.");
 	__("Do not show images in articles");
+	__("Enable external API");
 
 ?>

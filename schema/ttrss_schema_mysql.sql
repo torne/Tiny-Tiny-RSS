@@ -226,7 +226,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (57);
+insert into ttrss_version values (58);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -358,6 +358,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_ORDER_BY', 2, 'default', '', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ENABLE_OFFLINE_READING', 1, 'false', 'Enable offline reading',1,	'Synchronize new articles for offline reading using Google Gears.');
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_API_ACCESS', 1, 'false', 'Enable external API', 3);
 
 create table ttrss_user_prefs (
    owner_uid integer not null,

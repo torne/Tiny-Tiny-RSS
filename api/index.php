@@ -44,11 +44,10 @@
 		return;
 	}
 
-/*	TODO: add pref key to disable/enable API
-	if ($_SESSION["uid"] && !get_pref($link, 'API_ENABLED')) {
+	if ($_SESSION["uid"] && $op != "logout" && !get_pref($link, 'ENABLE_API_ACCESS')) {
 		print json_encode(array("error" => 'API_DISABLED'));
 		return;
-	} */
+	} 
 
 	switch ($op) {
 		case "getVersion":
@@ -62,7 +61,7 @@
 			if (authenticate_user($link, $login, $password)) {
 				print json_encode(array("uid" => $_SESSION["uid"]));
 			} else {
-				print json_encode(array("uid" => 0));
+				print json_encode(array("error" => "LOGIN_ERROR"));
 			}
 
 			break;
