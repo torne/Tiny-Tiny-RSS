@@ -344,7 +344,11 @@
 	
 			print json_encode($config);
 
+			break;
 
+		case "getPref":
+			$pref_name = db_escape_string($_REQUEST["pref_name"]);
+			print json_encode(array("value" => get_pref($link, $pref_name)));
 			break;
 	}
 
