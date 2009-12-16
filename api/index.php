@@ -326,6 +326,26 @@
 			print json_encode($article);
 
 			break;
+		case "getConfig":
+			$config = array(
+				"icons_dir" => ICONS_DIR,
+				"icons_url" => ICONS_URL);
+
+			if (ENABLE_UPDATE_DAEMON) {
+				$config["daemon_is_running"] = file_is_locked("update_daemon.lock");
+			}
+
+			$result = db_query($link, "SELECT COUNT(*) AS cf FROM
+				ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+			$num_feeds = db_fetch_result($result, 0, "cf");
+
+			$config["num_feeds"] = (int)$num_feeds;
+	
+			print json_encode($config);
+
+
+			break;
 	}
 
 	db_close($link);
