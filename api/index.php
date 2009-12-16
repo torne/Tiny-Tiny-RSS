@@ -12,6 +12,12 @@
 	$session_expire = SESSION_EXPIRE_TIME; //seconds
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid_api" : TTRSS_SESSION_NAME . "_api";
 
+	session_name($session_name);
+
+	if ($_REQUEST["sid"]) {
+		session_id($_REQUEST["sid"]);
+	}
+
 	session_start();
 
 	if (!$link) {
@@ -57,7 +63,7 @@
 
 			if (get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {
-					print json_encode(array("uid" => $_SESSION["uid"]));
+					print json_encode(array("session_id" => session_id()));
 				} else {
 					print json_encode(array("error" => "LOGIN_ERROR"));
 				}
@@ -68,7 +74,7 @@
 			break;
 		case "logout":
 			logout_user();
-			print json_encode(array("uid" => 0));
+			print json_encode(array("status" => "OK"));
 			break;
 		case "isLoggedIn":
 			print json_encode(array("status" => $_SESSION["uid"] != ''));
