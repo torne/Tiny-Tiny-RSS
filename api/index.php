@@ -58,10 +58,15 @@
 			$login = db_escape_string($_REQUEST["user"]);
 			$password = db_escape_string($_REQUEST["password"]);
 
-			if (authenticate_user($link, $login, $password)) {
-				print json_encode(array("uid" => $_SESSION["uid"]));
+			if (get_pref($link, "ENABLE_API_ACCESS", $login)) {
+				if (authenticate_user($link, $login, $password)) {
+					print json_encode(array("uid" => $_SESSION["uid"]));
+				} else {
+					print json_encode(array("error" => "LOGIN_ERROR"));
+				}
 			} else {
-				print json_encode(array("error" => "LOGIN_ERROR"));
+				logout_user();
+				print json_encode(array("error" => "API_DISABLED"));
 			}
 
 			break;
