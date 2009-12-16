@@ -182,8 +182,9 @@
 				$unread = getFeedUnread($link, $line["id"], true);
 
 				if ($unread || !$unread_only) {
-					array_push($cats, array($line["id"] => 
-						array("title" => $line["title"], "unread" => $unread)));
+					array_push($cats, array("id" => $line["id"],
+						"title" => $line["title"], 
+						"unread" => $unread));
 				}
 			}
 
