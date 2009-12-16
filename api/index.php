@@ -121,7 +121,9 @@
 				}
 			}
 
-			if (!$cat_id || $cat_id == -1) {
+			/* Labels */
+
+			if (!$cat_id || $cat_id == -2) {
 				$counters = getLabelCounters($link, false, true);
 
 				foreach (array_keys($counters) as $id) {
@@ -134,11 +136,32 @@
 								"id" => $id,
 								"title" => $counters[$id]["description"],
 								"unread" => $counters[$id]["counter"],
-								"cat_id" => -1,
+								"cat_id" => -2,
 							);
 	
 						array_push($feeds, $row);
 					}
+				}
+			}
+
+			/* Virtual feeds */
+
+			if (!$cat_id || $cat_id == -1) {
+				foreach (array(-1, -2, -3, -4) as $i) {
+					$unread = getFeedUnread($link, $i);
+
+					if ($unread || !$unread_only) {
+						$title = getFeedTitle($link, $i);
+
+						$row = array(
+								"id" => $i,
+								"title" => $title,
+								"unread" => $unread,
+								"cat_id" => -1,
+							);
+						array_push($feeds, $row);
+					}
+
 				}
 			}
 
@@ -276,6 +299,7 @@
 				$article = array(
 					"title" => $line["title"],
 					"link" => $line["link"],
+					"labels" => get_article_labels($link, $article_id),
 					"unread" => sql_bool_to_bool($line["unread"]),
 					"marked" => sql_bool_to_bool($line["marked"]),
 					"published" => sql_bool_to_bool($line["published"]),
