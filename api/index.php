@@ -58,14 +58,21 @@
 			$login = db_escape_string($_REQUEST["user"]);
 			$password = db_escape_string($_REQUEST["password"]);
 
-			if (get_pref($link, "ENABLE_API_ACCESS", $login)) {
+			$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
+
+			if (db_num_rows($result) != 0) {
+				$uid = db_fetch_result($result, 0, "id");
+			} else {
+				$uid = 0;
+			}
+
+			if (get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {
 					print json_encode(array("uid" => $_SESSION["uid"]));
 				} else {
 					print json_encode(array("error" => "LOGIN_ERROR"));
 				}
 			} else {
-				logout_user();
 				print json_encode(array("error" => "API_DISABLED"));
 			}
 
