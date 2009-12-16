@@ -115,6 +115,8 @@
 
 			break;
 		case "getCategories":
+			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
+
 			$result = db_query($link, "SELECT 
 					id, title FROM ttrss_feed_categories 
 				WHERE owner_uid = " . 
@@ -124,8 +126,11 @@
 
 			while ($line = db_fetch_assoc($result)) {
 				$unread = getFeedUnread($link, $line["id"], true);
-				array_push($cats, array($line["id"] => 
-					array("title" => $line["title"], "unread" => $unread)));
+
+				if ($unread || !$unread_only) {
+					array_push($cats, array($line["id"] => 
+						array("title" => $line["title"], "unread" => $unread)));
+				}
 			}
 
 			print json_encode($cats);
@@ -171,6 +176,41 @@
 			}
 
 			print json_encode($headlines);
+
+			break;
+		case "getArticle":
+
+			$article_id = (int)db_escape_string($_REQUEST["article_id"]);
+
+			$query = "SELECT title,link,content,feed_id,comments,int_id,
+				marked,unread,
+				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
+				author
+				FROM ttrss_entries,ttrss_user_entries
+				WHERE	id = '$article_id' AND ref_id = id AND owner_uid = " . 
+					$_SESSION["uid"] ;
+
+			$result = db_query($link, $query);
+
+			$article = array();
+			
+			if (db_num_rows($result) != 0) {
+				$line = db_fetch_assoc($result);
+	
+				$article = array(
+					"title" => $line["title"],
+					"link" => $line["link"],
+					"unread" => sql_bool_to_bool($line["unread"]),
+					"marked" => sql_bool_to_bool($line["marked"]),
+					"comments" => $line["comments"],
+					"author" => $line["author"],
+					"updated" => strtotime($line["updated"]),
+					"content" => $line["content"],
+					"feed_id" => $line["feed_id"],			
+				);
+			}
+
+			print json_encode($article);
 
 			break;
 	}
