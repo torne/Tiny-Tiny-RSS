@@ -353,6 +353,8 @@
 				update_rss_feed($link, $feed_url, $feed_id);
 			}
 
+			print json_encode(array("status" => "OK"));
+
 			break;
 
 		case "getPref":
