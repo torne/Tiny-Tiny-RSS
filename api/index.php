@@ -188,12 +188,57 @@
 			print json_encode($headlines);
 
 			break;
+		case "updateArticle":
+			$article_id = (int) db_escape_string($_GET["article_id"]);
+			$mode = (int) db_escape_string($_REQUEST["mode"]);
+			$field_raw = (int)db_escape_string($_REQUEST["field"]);
+
+			$field = "";
+			$set_to = "";
+
+			switch ($field_raw) {
+				case 0:
+					$field = "marked";
+					break;
+				case 1:
+					$field = "published";
+					break;
+				case 2:
+					$field = "unread";
+					break;
+			};
+
+			switch ($mode) {
+				case 1:
+					$set_to = "true";
+					break;
+				case 0:
+					$set_to = "false";
+					break;
+				case 2:
+					$set_to = "NOT $field";
+					break;
+			}
+
+			if ($field && $set_to) {
+				if ($field == "unread") {
+					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to,
+						last_read = NOW()
+						WHERE ref_id = '$article_id' AND owner_uid = " . $_SESSION["uid"]);
+				} else {
+					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to
+						WHERE ref_id = '$article_id' AND owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+
+			break;
+
 		case "getArticle":
 
 			$article_id = (int)db_escape_string($_REQUEST["article_id"]);
 
 			$query = "SELECT title,link,content,feed_id,comments,int_id,
-				marked,unread,
+				marked,unread,published,
 				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author
 				FROM ttrss_entries,ttrss_user_entries
@@ -212,6 +257,7 @@
 					"link" => $line["link"],
 					"unread" => sql_bool_to_bool($line["unread"]),
 					"marked" => sql_bool_to_bool($line["marked"]),
+					"published" => sql_bool_to_bool($line["published"]),
 					"comments" => $line["comments"],
 					"author" => $line["author"],
 					"updated" => strtotime($line["updated"]),
