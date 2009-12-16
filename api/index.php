@@ -108,7 +108,7 @@
 
 				if ($unread || !$unread_only) {
 
-					$line_struct = array(
+					$row = array(
 							"feed_url" => $line["feed_url"],
 							"title" => $line["title"],
 							"id" => (int)$line["id"],
@@ -117,7 +117,28 @@
 							"last_updated" => strtotime($line["last_updated"])
 						);
 	
-					array_push($feeds, $line_struct);
+					array_push($feeds, $row);
+				}
+			}
+
+			if (!$cat_id || $cat_id == -1) {
+				$counters = getLabelCounters($link, false, true);
+
+				foreach (array_keys($counters) as $id) {
+
+					$unread = $counters[$id]["counter"];
+	
+					if ($unread || !$unread_only) {
+	
+						$row = array(
+								"id" => $id,
+								"title" => $counters[$id]["description"],
+								"unread" => $counters[$id]["counter"],
+								"cat_id" => -1,
+							);
+	
+						array_push($feeds, $row);
+					}
 				}
 			}
 
