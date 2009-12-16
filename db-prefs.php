@@ -2,7 +2,7 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
+	if (!defined('DISABLE_SESSIONS')) {
 		if (!$_SESSION["prefs_cache"])
 			$_SESSION["prefs_cache"] = array();
 	}

@@ -362,11 +362,17 @@
 				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
 				curl_setopt($ch, CURLOPT_TIMEOUT, 45);
 				curl_exec($ch);
-				curl_close($ch);
-				fclose($fp);					
+
+				if (strpos(curl_getinfo($ch, CURLINFO_CONTENT_TYPE), "image/") !== false) {
+					curl_close($ch);
+					fclose($fp);					
+					$contents = file_get_contents($tmpfile);
+				} else {
+					curl_close($ch);
+					fclose($fp);					
+				}
 			}
 
-			$contents =  file_get_contents($tmpfile);
 			unlink($tmpfile);
 
 			return $contents;
