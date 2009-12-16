@@ -73,6 +73,16 @@
 		case "isLoggedIn":
 			print json_encode(array("status" => $_SESSION["uid"] != ''));
 			break;
+		case "getUnread":
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+			$is_cat = db_escape_string($_REQUEST["is_cat"]);
+
+			if ($feed_id) {
+				print json_encode(array("unread" => getFeedUnread($link, $feed_id, $is_cat)));
+			} else {
+				print json_encode(array("unread" => getGlobalUnread($link)));
+			}
+			break;
 		case "getFeeds":
 			$cat_id = db_escape_string($_REQUEST["cat_id"]);
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
