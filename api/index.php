@@ -231,7 +231,10 @@
 						"feed_id" => $line["feed_id"],
 					);
 
-				if ($show_except) $headline_row["excerpt"] = $line["content_preview"];
+				if ($show_except) {
+					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
+					$headline_row["excerpt"] = $excerpt;
+				}
 			
 				array_push($headlines, $headline_row);
 			}
