@@ -1,10 +1,4 @@
 <?php
-
-	/* This is experimental JSON-based API. It has to be manually enabled:
-	 * 
-	 * Add define('_JSON_API_ENABLED', true) to config.php
-	 */
-
 	error_reporting(E_ERROR | E_PARSE);
 
 	require_once "../config.php";
