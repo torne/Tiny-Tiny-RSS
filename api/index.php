@@ -201,7 +201,8 @@
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
 			$filter = db_escape_string($_REQUEST["filter"]);
 			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
-			$show_except = (bool)db_escape_string($_REQUEST["show_excerpt"]);
+			$show_excerpt = (bool)db_escape_string($_REQUEST["show_excerpt"]);
+			$show_content = (bool)db_escape_string($_REQUEST["show_content"]);
 
 			/* do not rely on params below */
 
@@ -231,11 +232,15 @@
 						"feed_id" => $line["feed_id"],
 					);
 
-				if ($show_except) {
+				if ($show_excerpt) {
 					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
 					$headline_row["excerpt"] = $excerpt;
 				}
-			
+
+				if ($show_content) {
+					$headline_row["content"] = $line["content_preview"];
+				}
+
 				array_push($headlines, $headline_row);
 			}
 
