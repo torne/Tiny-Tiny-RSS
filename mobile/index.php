@@ -1,1 +1,74 @@
-<?php require "tt-rss.php" ?>
+<?php
+	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+	header('Content-Type: text/html; charset=utf-8');
+
+	define('MOBILE_VERSION', true);
+
+	require_once "../config.php";
+	require_once "functions.php";
+	require_once "../functions.php"; 
+
+	require_once "../sessions.php";
+
+	require_once "../version.php"; 
+	require_once "../db-prefs.php";
+
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+	init_connection($link);
+
+	login_sequence($link, true);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Tiny Tiny RSS</title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<link rel="apple-touch-icon" href="../lib/iui/iui-logo-touch-icon.png" />
+<meta name="apple-touch-fullscreen" content="YES" />
+<style type="text/css" media="screen">@import "../lib/iui/iui.css";</style>
+<script type="application/x-javascript" src="../lib/iui/iui.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+</head>
+
+<style type="text/css">
+	img { max-width : 75%; }
+
+	li.oldItem {
+		color : gray;
+	}
+
+	img.tinyIcon {
+		max-width : 16px;
+		max-height : 16px;
+		margin-right : 10px;
+		vertical-align : middle;
+	}
+</style>
+
+<script type="text/javascript">
+	function toggleMarked(id, elem) {
+		alert(id + " => " + elem.getAttribute('toggled'));
+	}
+
+	function togglePublished(id, elem) {
+		alert(id + " => " + elem.getAttribute('toggled'));
+	}
+
+</script>
+
+<body>
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+		  <a id="backButton" class="button" href="#"></a>
+        <a class="button"  target="_self" href="logout.php">Logout</a>
+    </div>
+    
+	<?php render_categories_list($link); ?>
+
+</body>
+</html>

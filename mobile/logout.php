@@ -5,5 +5,5 @@
 
 	logout_user();
 
-	header("Location: tt-rss.php");
+	header("Location: index.php");
 ?>

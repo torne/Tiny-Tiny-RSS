@@ -1,36 +1,23 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Tiny Tiny RSS : Login</title>
-	<link rel="stylesheet" type="text/css" href="mobile.css">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script type="text/javascript" charset="utf-8" src="mobile.js"></script>
+<title>Tiny Tiny RSS</title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<link rel="apple-touch-icon" href="../lib/iui/iui-logo-touch-icon.png" />
+<meta name="apple-touch-fullscreen" content="YES" />
+<style type="text/css" media="screen">@import "../lib/iui/iui.css";</style>
+<script type="application/x-javascript" src="../lib/iui/iui.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
+
 <script type="text/javascript">
-function init() {
-
-	if (arguments.callee.done) return;
-	arguments.callee.done = true;		
-
-	var login = document.forms["loginForm"].login;
-	var click = document.forms["loginForm"].click;
-
-	login.focus();
-	click.disabled = false;
-
+function do_login() {
+	var f = document.forms['login'];
+	f.submit();
 }
-function languageChange(elem) {
-	try {
-		document.forms['loginForm']['click'].disabled = true;
-	
-		var lang = elem[elem.selectedIndex].value;
-		setCookie("ttrss_lang", lang, <?php print SESSION_COOKIE_LIFETIME ?>);
-		window.location.reload();
-	} catch (e) {
-		exception_error("languageChange", e);
-	}
-}
-
 </script>
 
 <script type="text/javascript">
@@ -43,36 +30,31 @@ window.onload = init;
 
 <body>
 
-	<div id="content">
-	<div id="heading">Tiny Tiny RSS</div>
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+		  <a id="backButton" class="button" href="#"></a>
+        <a class="button blueButton" onclick='do_login()'><?php echo __('Log in') ?></a>
+    </div>
 
-	<form action="tt-rss.php" method="POST" name="loginForm">
-	<input type="hidden" name="rt" value="<?php echo $_GET['rt'] ?>">
-	<input type="hidden" name="login_action" value="do_login">
+	<form target="_self" title="Login" action="index.php" id="login" class="panel" method="POST" name="login" selected="true">
 
-	<?php if ($_SESSION['login_error_msg']) { ?>
-		<div class="loginError"><?php echo $_SESSION['login_error_msg'] ?></div>
-		<?php $_SESSION['login_error_msg'] = ""; ?>
-	<?php } ?>
+	<fieldset>
 
-	<table>
-		<tr><td align='right'><?php echo __("Login:") ?></td><td><input type="text" name="login"></td>
-		<tr><td align='right'><?php echo __("Password:") ?></td><td><input type="password" name="password"></tr>
+		<input type="hidden" name="login_action" value="do_login">
 
-		<tr><td align="right"><?php echo __("Language:") ?></td>
-		<td>
-			<?php
-				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
-					"style='width : 100%' onchange='languageChange(this)'");
+		<div class="row">
+			<label><?php echo __("Login:") ?></label>
+			<input type="text" name="login">
+		</div>
 
-			?>
-		</td></tr>
-		<tr><td colspan='2'>
-		<input type="submit" class="button" value="<?php echo __('Log in') ?>" name="click">
-		</td></tr>
-		</table>
+		<div class="row">
+		<label><?php echo __("Password:") ?></label>
+		<input type="password" name="password">
+		</div>
+
+		</fieldset>
+	
 	</form>
-	</div>
 
 </body>
 </html>
