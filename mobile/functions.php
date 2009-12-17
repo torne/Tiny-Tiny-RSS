@@ -67,6 +67,8 @@
 			print "</ul>";
 		} else if ($cat_id == -1) {
 
+			$title = __('Special');
+
 			print "<ul id='cat--1' title='$title' myBackLabel='Feeds'
 				myBackHref='index.php' myBackTarget='_self'>";
 
@@ -85,6 +87,37 @@
 					<a href='feed.php?id=$id&cat_id=-1'>$title</a></li>";
 			}
 
+			print "</ul>";
+		} else if ($cat_id == -2) {
+
+			$title = __('Labels');
+
+			print "<ul id='cat--2' title='$title' myBackLabel='Feeds'
+				myBackHref='index.php' myBackTarget='_self'>";
+
+			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
+				WHERE owner_uid = '$owner_uid'");
+
+			$label_data = array();
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$id = -$line["id"] - 11;
+
+				$unread = getFeedUnread($link, $id);
+				$title = $line["caption"];
+
+				if ($unread > 0) {
+					$title = $title . " ($unread)";
+					$class = '';
+				} else {
+					$class = 'oldItem';
+				}
+
+				print "<li class='$class'>
+					<a href='feed.php?id=$id&cat=-1'>$title</a></li>";
+
+			}
 			print "</ul>";
 		}
 	}
