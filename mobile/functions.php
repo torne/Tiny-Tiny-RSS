@@ -43,7 +43,7 @@
 			while ($line = db_fetch_assoc($result)) {
 				$id = $line["id"];
 				$unread = $line["unread"];
-	
+
 	//			$unread = rand(0, 100);
 	
 				if ($unread > 0) {
@@ -115,7 +115,7 @@
 				}
 
 				print "<li class='$class'>
-					<a href='feed.php?id=$id&cat=-1'>$title</a></li>";
+					<a href='feed.php?id=$id&cat=-2'>$title</a></li>";
 
 			}
 			print "</ul>";
@@ -230,6 +230,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 			$id = $line["id"];
+			$real_feed_id = $line["feed_id"];
 
 			if (sql_bool_to_bool($line["unread"])) {
 				$class = '';
@@ -237,8 +238,14 @@
 				$class = 'oldItem';
 			}
 
-			print "<li class='$class'>
-				<a href='article.php?id=$id&feed=$feed_id&cat=$cat_id'>";
+			if (mobile_feed_has_icon($real_feed_id)) {
+				$icon_url = "../".ICONS_URL."/$real_feed_id.ico";
+			} else {
+				$icon_url = "../images/blank_icon.gif";
+			}
+
+			print "<li class='$class'><a href='article.php?id=$id&feed=$feed_id&cat=$cat_id'>
+				<img class='tinyIcon' src='$icon_url'>";
 			print $line["title"];
 			print "</a></li>";
 
