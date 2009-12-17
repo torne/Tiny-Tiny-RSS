@@ -364,6 +364,11 @@
 			$pref_name = db_escape_string($_REQUEST["pref_name"]);
 			print json_encode(array("value" => get_pref($link, $pref_name)));
 			break;
+
+		default:
+			print json_encode(array("error" => 'UNKNOWN_METHOD'));
+			break;
+
 	}
 
 	db_close($link);
