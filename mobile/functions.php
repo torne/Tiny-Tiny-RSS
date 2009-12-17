@@ -11,77 +11,82 @@
 	function render_category($link, $cat_id) {
 		$owner_uid = $_SESSION["uid"];
 
-		if ($cat_id != 0) {
-			$cat_query = "cat_id = '$cat_id'";
-		} else {
-			$cat_query = "cat_id IS NULL";
-		}
+		if ($cat_id >= 0) {
 
-		$result = db_query($link, "SELECT id,
-			title,
-		(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
-			WHERE feed_id = ttrss_feeds.id AND unread = true
-				AND ttrss_user_entries.ref_id = ttrss_entries.id
-				AND owner_uid = '$owner_uid') as unread
-		FROM ttrss_feeds
-		WHERE 
-			ttrss_feeds.hidden = false AND
-			ttrss_feeds.owner_uid = '$owner_uid' AND 
-			parent_feed IS NULL AND
-			$cat_query
-		ORDER BY unread DESC,title"); 
-		
-		$title = getCategoryTitle($link, $cat_id);
-
-		print "<ul id='cat-$cat_id' title='$title' myBackLabel='Feeds'
-			myBackHref='index.php' myBackTarget='_self'>";
-
-//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
-
-		while ($line = db_fetch_assoc($result)) {
-			$id = $line["id"];
-			$unread = $line["unread"];
-
-//			$unread = rand(0, 100);
-
-			if ($unread > 0) {
-				$line["title"] = $line["title"] . " ($unread)";
-				$class = '';
+			if ($cat_id != 0) {
+				$cat_query = "cat_id = '$cat_id'";
 			} else {
-				$class = 'oldItem';
+				$cat_query = "cat_id IS NULL";
 			}
-
-			if (mobile_feed_has_icon($id)) {
-				$icon_url = "../".ICONS_URL."/$id.ico";
-			} else {
-				$icon_url = "../images/blank_icon.gif";
+	
+			$result = db_query($link, "SELECT id,
+				title,
+			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
+				WHERE feed_id = ttrss_feeds.id AND unread = true
+					AND ttrss_user_entries.ref_id = ttrss_entries.id
+					AND owner_uid = '$owner_uid') as unread
+			FROM ttrss_feeds
+			WHERE 
+				ttrss_feeds.hidden = false AND
+				ttrss_feeds.owner_uid = '$owner_uid' AND 
+				parent_feed IS NULL AND
+				$cat_query
+			ORDER BY unread DESC,title"); 
+			
+			$title = getCategoryTitle($link, $cat_id);
+	
+			print "<ul id='cat-$cat_id' title='$title' myBackLabel='Feeds'
+				myBackHref='index.php' myBackTarget='_self'>";
+	
+	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
+	
+			while ($line = db_fetch_assoc($result)) {
+				$id = $line["id"];
+				$unread = $line["unread"];
+	
+	//			$unread = rand(0, 100);
+	
+				if ($unread > 0) {
+					$line["title"] = $line["title"] . " ($unread)";
+					$class = '';
+				} else {
+					$class = 'oldItem';
+				}
+	
+				if (mobile_feed_has_icon($id)) {
+					$icon_url = "../".ICONS_URL."/$id.ico";
+				} else {
+					$icon_url = "../images/blank_icon.gif";
+				}
+	
+				print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
+					"<img class='tinyIcon' src='$icon_url'/>".				
+					$line["title"] . "</a></li>";
 			}
+	
+			print "</ul>";
+		} else if ($cat_id == -1) {
 
-			print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
-				"<img class='tinyIcon' src='$icon_url'/>".				
-				$line["title"] . "</a></li>";
-		}
+			print "<ul id='cat--1' title='$title' myBackLabel='Feeds'
+				myBackHref='index.php' myBackTarget='_self'>";
 
-		print "</ul>";
+			foreach (array(-4, -1,-2,-3) as $id) {
+				$title = getFeedTitle($link, $id);
+				$unread = getFeedUnread($link, $id, false);
 
-	/*			print "<ul id='cat--1' title='$title'>";
-
-				foreach (array(-4, -1,-2,-3) as $id) {
-					$title = getFeedTitle($link, $id);
-					$unread = getFeedUnread($link, $id, false);
-
-					if ($unread > 0) {
-						$title = $title . " ($unread)";
-						$class = '';
-					} else {
-						$class = 'oldItem';
-					}
-
-					print "<li class='$class'><a href='feed.php?id=$id'>$title</a></li>";
+				if ($unread > 0) {
+					$title = $title . " ($unread)";
+					$class = '';
+				} else {
+					$class = 'oldItem';
 				}
 
-		print "</ul>"; */
+				print "<li class='$class'>
+					<a href='feed.php?id=$id&cat_id=-1'>$title</a></li>";
+			}
 
+			print "</ul>";
+		}
 	}
 
 	function render_categories_list($link) {
