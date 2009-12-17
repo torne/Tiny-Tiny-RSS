@@ -22,7 +22,8 @@
 
 	$id = db_escape_string($_REQUEST["id"]);
 	$feed_id = db_escape_string($_REQUEST["feed"]);
+	$cat_id = db_escape_string($_REQUEST["cat"]);
 
-  	render_article($link, $id, $feed_id);
+  	render_article($link, $id, $feed_id, $cat_id);
 ?>
 

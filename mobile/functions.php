@@ -33,15 +33,16 @@
 		
 		$title = getCategoryTitle($link, $cat_id);
 
-		print "<ul id='cat-$cat_id' title='$title'>";
+		print "<ul id='cat-$cat_id' title='$title' myBackLabel='Feeds'
+			myBackHref='index.php' myBackTarget='_self'>";
 
-		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
+//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
 
 		while ($line = db_fetch_assoc($result)) {
 			$id = $line["id"];
 			$unread = $line["unread"];
 
-			$unread = rand(0, 100);
+//			$unread = rand(0, 100);
 
 			if ($unread > 0) {
 				$line["title"] = $line["title"] . " ($unread)";
@@ -56,7 +57,7 @@
 				$icon_url = "../images/blank_icon.gif";
 			}
 
-			print "<li class='$class'><a href='feed.php?id=$id'>" . 
+			print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
 				"<img class='tinyIcon' src='$icon_url'/>".				
 				$line["title"] . "</a></li>";
 		}
@@ -164,12 +165,12 @@
 		print "</ul>";
 	}
 
-	function render_headlines_list($link, $feed_id, $is_cat = false) {
+	function render_headlines_list($link, $feed_id, $cat_id) {
 
 		$feed_id = $feed_id;
 		$limit = 30;
 		$filter = '';
-		$is_cat = $is_cat;
+		$is_cat = false;
 		$view_mode = 'adaptive';
 
 		/* do not rely on params below */
@@ -184,7 +185,10 @@
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
 
- 		print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\">";
+		$cat_title = getCategoryTitle($link, $cat_id);
+
+		print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
+			myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
 
 		while ($line = db_fetch_assoc($result)) {
 			$id = $line["id"];
@@ -195,7 +199,8 @@
 				$class = 'oldItem';
 			}
 
-			print "<li class='$class'><a href='article.php?id=$id&feed=$feed_id'>";
+			print "<li class='$class'>
+				<a href='article.php?id=$id&feed=$feed_id&cat=$cat_id'>";
 			print $line["title"];
 			print "</a></li>";
 
@@ -205,7 +210,7 @@
 
 	}
 
-	function render_article($link, $id, $feed_id) {
+	function render_article($link, $id, $feed_id, $cat_id) {
 
 		$query = "SELECT title,link,content,feed_id,comments,int_id,
 			marked,unread,published,
@@ -217,56 +222,67 @@
 
 		$result = db_query($link, $query);
 
-		$line = db_fetch_assoc($result);
+		if (db_num_rows($result) != 0) {
 
-		if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-			$updated_fmt = smart_date_time(strtotime($line["updated"]));
-		} else {
-			$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-			$updated_fmt = date($short_date, strtotime($line["updated"]));
-		}				
+			$line = db_fetch_assoc($result);
 
-		$title = $line["title"];
-		$link = $line["link"];
+			$tmp_result = db_query($link, "UPDATE ttrss_user_entries 
+				SET unread = false,last_read = NOW() 
+				WHERE ref_id = '$id'
+				AND owner_uid = " . $_SESSION["uid"]);
 
-		print "<div class=\"panel\" id=\"article-$id\" title=\"$title\" 
-			selected=\"true\">";
+			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+				$updated_fmt = smart_date_time(strtotime($line["updated"]));
+			} else {
+				$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
+				$updated_fmt = date($short_date, strtotime($line["updated"]));
+			}				
+	
+			$title = $line["title"];
+			$article_link = $line["link"];
+	
+			$feed_title = getFeedTitle($link, $feed_id, false);
+	
+			print "<div class=\"panel\" id=\"article-$id\" title=\"$title\" 
+				selected=\"true\"
+				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id'>";
+	
+	//		print "<h2><a target='_blank' href='$link'>$title</a></h2>";
+	
+			print "<fieldset>";
+	
+			print "<div class=\"row\">";
+			print "<label id='title'><a target='_blank' href='$article_link'>$title</a></label>";
+			print "</div>";
+	
+			$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
+			$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
+	
+			print "<div class=\"row\">
+	                <label>Starred</label>
+	                <div class=\"toggle\" onclick=\"toggleMarked($id, this)\" toggled=\"$is_starred\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
+	            </div>";
+	
+			print "<div class=\"row\">
+	                <label>Published</label>
+	                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
+	            </div>";
+	
+	
+			print "<div class=\"row\">";
+			print "<label id='updated'>Updated:</label>";
+			print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
+			print "</div>";
+	
+			print "</fieldset>";
+	
+			print "<p>";
+			print $line["content"];
+			print "</p>";
+	
+			print "</div>";
 
-//		print "<h2><a target='_blank' href='$link'>$title</a></h2>";
-
-		print "<fieldset>";
-
-		print "<div class=\"row\">";
-		print "<label id='title'><a target='_blank' href='$link'>$title</a></label>";
-		print "</div>";
-
-		$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
-		$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
-
-		print "<div class=\"row\">
-                <label>Starred</label>
-                <div class=\"toggle\" onclick=\"toggleMarked($id, this)\" toggled=\"$is_starred\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
-            </div>";
-
-		print "<div class=\"row\">
-                <label>Published</label>
-                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
-            </div>";
-
-
-		print "<div class=\"row\">";
-		print "<label id='updated'>Updated:</label>";
-		print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
-		print "</div>";
-
-		print "</fieldset>";
-
-		print "<p>";
-		print $line["content"];
-		print "</p>";
-
-
-		print "</div>";
+		}
 
 	}
 ?>

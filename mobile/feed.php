@@ -20,8 +20,9 @@
 
 	login_sequence($link, true);
 
-	$feed = db_escape_string($_REQUEST["id"]);
+	$feed_id = db_escape_string($_REQUEST["id"]);
+	$cat_id = db_escape_string($_REQUEST["cat"]);
 
-  	render_headlines_list($link, $feed);
+  	render_headlines_list($link, $feed_id, $cat_id);
 ?>
 

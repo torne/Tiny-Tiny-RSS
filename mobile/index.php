@@ -42,6 +42,16 @@
 		color : gray;
 	}
 
+	#myBackButton {
+	    display: none;
+	    left: 6px;
+	    right: auto;
+	    padding: 0;
+	    max-width: 55px;
+	    border-width: 0 8px 0 14px;
+	    -webkit-border-image: url(../lib/iui/backButton.png) 0 8 0 14;
+	}
+
 	img.tinyIcon {
 		max-width : 16px;
 		max-height : 16px;
@@ -58,13 +68,12 @@
 	function togglePublished(id, elem) {
 		alert(id + " => " + elem.getAttribute('toggled'));
 	}
-
 </script>
 
 <body>
     <div class="toolbar">
         <h1 id="pageTitle"></h1>
-		  <a id="backButton" class="button" href="#"></a>
+		  <a id="myBackButton" class="button" href="#"></a>
         <a class="button"  target="_self" href="logout.php">Logout</a>
     </div>
     
