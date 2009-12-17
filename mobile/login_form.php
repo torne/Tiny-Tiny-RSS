@@ -20,14 +20,6 @@ function do_login() {
 }
 </script>
 
-<script type="text/javascript">
-if (document.addEventListener) {
-	document.addEventListener("DOMContentLoaded", init, null);
-}
-window.onload = init;
-</script>
-
-
 <body>
 
     <div class="toolbar">
