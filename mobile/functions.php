@@ -36,7 +36,7 @@
 			$title = getCategoryTitle($link, $cat_id);
 	
 			print "<ul id='cat-$cat_id' title='$title' myBackLabel='Feeds'
-				myBackHref='index.php' myBackTarget='_self'>";
+				myBackHref='home.php'>";
 	
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
 	
@@ -292,13 +292,13 @@
 				selected=\"true\"
 				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id'>";
 	
-	//		print "<h2><a target='_blank' href='$link'>$title</a></h2>";
+			print "<h2><a target='_blank' href='$link'>$title</a></h2>";
 	
 			print "<fieldset>";
 	
-			print "<div class=\"row\">";
+/*			print "<div class=\"row\">";
 			print "<label id='title'><a target='_blank' href='$article_link'>$title</a></label>";
-			print "</div>";
+			print "</div>"; */
 	
 			$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
 			$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
