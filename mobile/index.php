@@ -65,7 +65,7 @@
     <div class="toolbar">
         <h1 id="pageTitle"></h1>
 		  <a id="myBackButton" class="button" href="#"></a>
-        <a class="button"  target="_self" href="logout.php">Logout</a>
+        <a class="button" href="prefs.php">Preferences</a>
     </div>
 
 	<?php	 

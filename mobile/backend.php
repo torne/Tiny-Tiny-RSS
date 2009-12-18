@@ -35,6 +35,12 @@
 
 		publishArticlesById($link, array($id), $cmode);
 		break;
+	case "setPref":
+		$id = db_escape_string($_REQUEST["id"]);
+		$value = db_escape_string($_REQUEST["to"]);
+		mobile_set_pref($link, $id, $value);
+		print_r($_SESSION);
+		break;
 	default:
 		print json_encode(array("error", "UNKNOWN_METHOD"));
 		break;

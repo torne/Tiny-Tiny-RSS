@@ -1,6 +1,21 @@
 <?php
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
+	/* TODO replace with interface to db-prefs */
+
+	function mobile_pref_toggled($link, $id) {
+		if ($_SESSION["mobile-prefs"][$id]) return "true";
+
+	}
+
+	function mobile_get_pref($link, $id) {
+		return $_SESSION["mobile-prefs"][$id];
+	}
+
+	function mobile_set_pref($link, $id, $value) {
+		$_SESSION["mobile-prefs"][$id] = $value;
+	}
+
 	function mobile_feed_has_icon($id) {
 		$filename = "../".ICONS_DIR."/$id.ico";
 
@@ -9,6 +24,12 @@
 
 	function render_flat_feed_list($link) {
 		$owner_uid = $_SESSION["uid"];
+
+		if (mobile_get_pref($link, "SORT_FEEDS_UNREAD")) {
+			$order_by = "unread DESC, title";
+		} else {
+			$order_by = "title";
+		}
 
 		$result = db_query($link, "SELECT id,
 				title,
@@ -21,9 +42,10 @@
 				ttrss_feeds.hidden = false AND
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL
-			ORDER BY unread DESC,title"); 
+			ORDER BY $order_by"); 
 	
-			print '<ul id="home" title="Feeds" selected="true">';
+		print '<ul id="home" title="Feeds" selected="true"
+			myBackLabel="Logout" myBackHref="logout.php" myBackTarget="_self">';
 
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
 	
@@ -45,10 +67,12 @@
 				} else {
 					$icon_url = "../images/blank_icon.gif";
 				}
-	
-				print "<li class='$class'><a href='feed.php?id=$id'>" . 
-					"<img class='tinyIcon' src='$icon_url'/>".				
-					$line["title"] . "</a></li>";
+
+				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+					print "<li class='$class'><a href='feed.php?id=$id'>" . 
+						"<img class='tinyIcon' src='$icon_url'/>".				
+						$line["title"] . "</a></li>";
+				}
 			}
 	
 			print "</ul>";
@@ -67,7 +91,13 @@
 			} else {
 				$cat_query = "cat_id IS NULL";
 			}
-	
+
+			if (mobile_get_pref($link, "SORT_FEEDS_UNREAD")) {
+				$order_by = "unread DESC, title";
+			} else {
+				$order_by = "title";
+			}
+
 			$result = db_query($link, "SELECT id,
 				title,
 			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
@@ -80,7 +110,7 @@
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL AND
 				$cat_query
-			ORDER BY unread DESC,title"); 
+			ORDER BY $order_by"); 
 			
 			$title = getCategoryTitle($link, $cat_id);
 	
@@ -107,10 +137,12 @@
 				} else {
 					$icon_url = "../images/blank_icon.gif";
 				}
-	
-				print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
-					"<img class='tinyIcon' src='$icon_url'/>".				
-					$line["title"] . "</a></li>";
+
+				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+					print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
+						"<img class='tinyIcon' src='$icon_url'/>".				
+						$line["title"] . "</a></li>";
+				}
 			}
 	
 			print "</ul>";
@@ -132,8 +164,10 @@
 					$class = 'oldItem';
 				}
 
-				print "<li class='$class'>
-					<a href='feed.php?id=$id&cat_id=-1'>$title</a></li>";
+				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+					print "<li class='$class'>
+						<a href='feed.php?id=$id&cat_id=-1'>$title</a></li>";
+				}
 			}
 
 			print "</ul>";
@@ -163,9 +197,10 @@
 					$class = 'oldItem';
 				}
 
-				print "<li class='$class'>
-					<a href='feed.php?id=$id&cat=-2'>$title</a></li>";
-
+				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+					print "<li class='$class'>
+						<a href='feed.php?id=$id&cat=-2'>$title</a></li>";
+				}
 			}
 			print "</ul>";
 		}
@@ -175,7 +210,8 @@
 		$owner_uid = $_SESSION["uid"];
 
 
-		print '<ul id="home" title="Feeds" selected="true">';
+		print '<ul id="home" title="'.__('Categories').'" selected="true"
+			myBackLabel="Logout" myBackHref="logout.php" myBackTarget="_self">';
 
 		foreach (array(-1, -2) as $id) {
 			$title = getCategoryTitle($link, $id);
@@ -202,8 +238,6 @@
 					ttrss_feed_categories.title
 				ORDER BY ttrss_feed_categories.title");
 
-		$cat_ids = array();
-
 		while ($line = db_fetch_assoc($result)) {
 
 			if ($line["num_feeds"] > 0) {
@@ -217,13 +251,11 @@
 				} else {
 					$class = 'oldItem';
 				}
-				
 
-				print "<li class='$class'><a href='cat.php?id=$id'>" . 
-					$line["title"] . "</a></li>";
-
-				array_push($cat_ids, $id);
-
+				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+					print "<li class='$class'><a href='cat.php?id=$id'>" . 
+						$line["title"] . "</a></li>";
+				}
 			}
 		}
 
@@ -244,9 +276,9 @@
 				$class = 'oldItem';
 			}
 
-			array_push($cat_ids, 0);
-
-			print "<li class='$class'><a href='cat.php?id=0'>$title</a></li>";
+			if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
+				print "<li class='$class'><a href='cat.php?id=0'>$title</a></li>";
+			}
 		}
 
 		print "</ul>";
@@ -367,6 +399,10 @@
 			$content = sanitize_rss($link, $line["content"]);
 			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
 
+			if (!mobile_get_pref($link, "SHOW_IMAGES")) {
+				$content = preg_replace('/<img[^>]+>/is', '', $content);
+			}
+
 			print "<p>$content</p>";
 
 			print "<fieldset>";
@@ -386,6 +422,5 @@
 			print "</div>";
 
 		}
-
 	}
 ?>

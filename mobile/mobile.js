@@ -39,3 +39,22 @@ function togglePublished(id, elem) {
 
 }
 
+function setPref(elem) {
+	var toggled = false;
+	var id = elem.id;
+
+	if (elem.getAttribute("toggled") == "true") {
+		toggled = 1;
+	} else {
+		toggled = 0;
+	}
+
+	var query = "?op=setPref&id=" + id + "&to=" + toggled;
+
+	new Ajax.Request(backend, {
+		parameters: query,
+		onComplete: function (transport) {
+			//
+		} });
+
+}
