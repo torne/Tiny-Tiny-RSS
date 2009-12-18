@@ -284,10 +284,10 @@
 		print "</ul>";
 	}
 
-	function render_headlines_list($link, $feed_id, $cat_id) {
+	function render_headlines_list($link, $feed_id, $cat_id, $offset) {
 
 		$feed_id = $feed_id;
-		$limit = 30;
+		$limit = 15;
 		$filter = '';
 		$is_cat = false;
 		$view_mode = 'adaptive';
@@ -297,22 +297,26 @@
 		$search = '';
 		$search_mode = '';
 		$match_on = '';
-			
+
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
-			$view_mode, $is_cat, $search, $search_mode, $match_on);
+			$view_mode, $is_cat, $search, $search_mode, $match_on, false, $offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
 
-		if ($cat_id) {
-			$cat_title = getCategoryTitle($link, $cat_id);
+		if (!$offset) {
+			if ($cat_id) {
+				$cat_title = getCategoryTitle($link, $cat_id);
 
-			print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
-				myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
-		} else {
-			print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
-				myBackLabel='".__("Home")."' myBackHref='home.php'>";
+				print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
+					myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
+			} else {
+				print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
+					myBackLabel='".__("Home")."' myBackHref='home.php'>";
+			}
 		}
+
+		$num_headlines = 0;
 
 		while ($line = db_fetch_assoc($result)) {
 			$id = $line["id"];
@@ -335,9 +339,23 @@
 			print $line["title"];
 			print "</a></li>";
 
+			++$num_headlines;
+
 		}
 
-		print "</ul>";
+//		print "<a target='_replace' href='feed.php?id=$feed_id&cat=$cat_id&skip=0'>Next $limit articles...</a>";
+
+		$next_offset = $offset + $num_headlines;
+		$num_unread = getFeedUnread($link, $feed_id, $is_cat);
+
+		/* FIXME needs normal implementation */
+
+		if ($num_unread == 0 || $num_unread > $next_offset) {
+			print "<li><a href=\"feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset\" 
+				target=\"_replace\">Get more articles...</a></li>";
+		}
+
+		if (!$offset) print "</ul>";
 
 	}
 

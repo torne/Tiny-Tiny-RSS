@@ -22,7 +22,8 @@
 
 	$feed_id = db_escape_string($_REQUEST["id"]);
 	$cat_id = db_escape_string($_REQUEST["cat"]);
+	$offset = (int) db_escape_string($_REQUEST["skip"]);
 
-  	render_headlines_list($link, $feed_id, $cat_id);
+  	render_headlines_list($link, $feed_id, $cat_id, $offset);
 ?>
 
