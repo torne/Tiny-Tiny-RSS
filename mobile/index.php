@@ -67,8 +67,16 @@
 		  <a id="myBackButton" class="button" href="#"></a>
         <a class="button"  target="_self" href="logout.php">Logout</a>
     </div>
-    
-	<?php render_categories_list($link); ?>
+
+	<?php	 
+	$use_cats = get_pref($link, 'ENABLE_FEED_CATS');
+
+	if ($use_cats) {
+		render_categories_list($link); 
+	} else {
+		render_flat_feed_list($link);
+	}
+	?>
 
 </body>
 </html>

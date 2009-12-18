@@ -20,5 +20,11 @@
 
 	login_sequence($link, true);
 
-	render_categories_list($link); 
+	$use_cats = get_pref($link, 'ENABLE_FEED_CATS');
+
+	if ($use_cats) {
+		render_categories_list($link); 
+	} else {
+		render_flat_feed_list($link);
+	}
 ?>

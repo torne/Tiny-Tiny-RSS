@@ -1,11 +1,60 @@
 <?php
-	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
 	function mobile_feed_has_icon($id) {
 		$filename = "../".ICONS_DIR."/$id.ico";
 
 		return file_exists($filename) && filesize($filename) > 0;
+	}
+
+	function render_flat_feed_list($link) {
+		$owner_uid = $_SESSION["uid"];
+
+		$result = db_query($link, "SELECT id,
+				title,
+			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
+				WHERE feed_id = ttrss_feeds.id AND unread = true
+					AND ttrss_user_entries.ref_id = ttrss_entries.id
+					AND owner_uid = '$owner_uid') as unread
+			FROM ttrss_feeds
+			WHERE 
+				ttrss_feeds.hidden = false AND
+				ttrss_feeds.owner_uid = '$owner_uid' AND 
+				parent_feed IS NULL
+			ORDER BY unread DESC,title"); 
+	
+			print '<ul id="home" title="Feeds" selected="true">';
+
+	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
+	
+			while ($line = db_fetch_assoc($result)) {
+				$id = $line["id"];
+				$unread = $line["unread"];
+
+	//			$unread = rand(0, 100);
+	
+				if ($unread > 0) {
+					$line["title"] = $line["title"] . " ($unread)";
+					$class = '';
+				} else {
+					$class = 'oldItem';
+				}
+	
+				if (mobile_feed_has_icon($id)) {
+					$icon_url = "../".ICONS_URL."/$id.ico";
+				} else {
+					$icon_url = "../images/blank_icon.gif";
+				}
+	
+				print "<li class='$class'><a href='feed.php?id=$id'>" . 
+					"<img class='tinyIcon' src='$icon_url'/>".				
+					$line["title"] . "</a></li>";
+			}
+	
+			print "</ul>";
+
+
+
 	}
 
 	function render_category($link, $cat_id) {
@@ -223,10 +272,15 @@
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
 
-		$cat_title = getCategoryTitle($link, $cat_id);
+		if ($cat_id) {
+			$cat_title = getCategoryTitle($link, $cat_id);
 
-		print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
-			myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
+			print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
+				myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
+		} else {
+			print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
+				myBackLabel='Feeds' myBackHref='home.php'>";
+		}
 
 		while ($line = db_fetch_assoc($result)) {
 			$id = $line["id"];
