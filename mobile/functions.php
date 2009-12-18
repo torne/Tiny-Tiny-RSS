@@ -217,10 +217,12 @@
 
 	function render_categories_list($link) {
 		$owner_uid = $_SESSION["uid"];
-
-
+  
 		print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
+
+		
+//		print "<li><a href='#searchForm'>Search...</a></li>";
 
 		foreach (array(-1, -2) as $id) {
 			$title = getCategoryTitle($link, $id);
@@ -293,7 +295,7 @@
 		print "</ul>";
 	}
 
-	function render_headlines_list($link, $feed_id, $cat_id, $offset) {
+	function render_headlines_list($link, $feed_id, $cat_id, $offset, $search) {
 
 		$feed_id = $feed_id;
 		$limit = 15;
@@ -301,11 +303,13 @@
 		$is_cat = false;
 		$view_mode = 'adaptive';
 
-		/* do not rely on params below */
-
-		$search = '';
-		$search_mode = '';
-		$match_on = '';
+		if ($search) {
+			$search_mode = 'this_feed';
+			$match_on = 'both';
+		} else {
+			$search_mode = '';
+			$match_on = '';
+		}
 
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
 			$view_mode, $is_cat, $search, $search_mode, $match_on, false, $offset);
@@ -314,6 +318,23 @@
 		$feed_title = $qfh_ret[1];
 
 		if (!$offset) {
+
+			print "<form id=\"searchForm\" class=\"dialog\" method=\"POST\" 
+				action=\"feed.php\">
+
+				<input type=\"hidden\" name=\"id\" value=\"$feed_id\">
+				<input type=\"hidden\" name=\"cat\" value=\"$cat_id\">
+
+	        <fieldset>
+   	         <h1>Search</h1>
+	            <a class=\"button leftButton\" type=\"cancel\">Cancel</a>
+	            <a class=\"button blueButton\" type=\"submit\">Search</a>
+
+	            <label>Search:</label>
+					<input id=\"search\" type=\"text\" name=\"search\"/>
+	        </fieldset>
+			  </form>"; 
+
 			if ($cat_id) {
 				$cat_title = getCategoryTitle($link, $cat_id);
 
@@ -323,6 +344,8 @@
 				print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
 					myBackLabel='".__("Home")."' myBackHref='home.php'>";
 			}
+
+			print "<li><a href='#searchForm'>Search...</a></li>";
 		}
 
 		$num_headlines = 0;
@@ -352,6 +375,13 @@
 
 		}
 
+		if ($num_headlines == 0 && $search) {
+			$articles_url = "feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset";
+
+			print "<li><a href=\"$articles_url\">" . __("Nothing found (click to reload feed).") . "</a></li>";
+
+		}
+
 //		print "<a target='_replace' href='feed.php?id=$feed_id&cat=$cat_id&skip=0'>Next $limit articles...</a>";
 
 		$next_offset = $offset + $num_headlines;
@@ -359,8 +389,12 @@
 
 		/* FIXME needs normal implementation */
 
-		if ($num_unread == 0 || $num_unread > $next_offset) {
-			print "<li><a href=\"feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset\" 
+		if ($num_headlines > 0 && ($num_unread == 0 || $num_unread > $next_offset)) {
+
+			$articles_url = "feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset".
+				"&search=$search";
+
+			print "<li><a href=\"$articles_url\" 
 				target=\"_replace\">Get more articles...</a></li>";
 		}
 
