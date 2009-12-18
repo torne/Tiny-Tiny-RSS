@@ -309,10 +309,11 @@
 			print "</div>";
 	
 			print "</fieldset>";
-	
-			print "<p>";
-			print $line["content"];
-			print "</p>";
+
+			$content = sanitize_rss($link, $line["content"]);
+			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
+
+			print "<div>$content</div>";
 
 			print "<fieldset>";
 
