@@ -4110,8 +4110,7 @@
 				<img onclick=\"toggleCollapseCat($cat_id)\" class=\"catCollapse\"
 					title=\"".__('Click to collapse category')."\"
 					src=\"images/cat-collapse.png\"><span class=\"$inner_title_class\" 
-					id=\"FCATN-$cat_id\" $browse_cat_link
-				\">$tmp_category</span>";
+					id=\"FCATN-$cat_id\" $browse_cat_link/>$tmp_category</span>";
 
 			print "<span id=\"FCAP-$cat_id\">";
 
