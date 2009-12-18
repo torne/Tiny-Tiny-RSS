@@ -44,8 +44,8 @@
 				parent_feed IS NULL
 			ORDER BY $order_by"); 
 	
-		print '<ul id="home" title="Feeds" selected="true"
-			myBackLabel="Logout" myBackHref="logout.php" myBackTarget="_self">';
+		print '<ul id="home" title="'.__('Home').'" selected="true"
+			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
 
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
 	
@@ -114,7 +114,7 @@
 			
 			$title = getCategoryTitle($link, $cat_id);
 	
-			print "<ul id='cat-$cat_id' title='$title' myBackLabel='Feeds'
+			print "<ul id='cat-$cat_id' title='$title' myBackLabel='".__("Home")."'
 				myBackHref='home.php'>";
 	
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
@@ -150,8 +150,8 @@
 
 			$title = __('Special');
 
-			print "<ul id='cat--1' title='$title' myBackLabel='Feeds'
-				myBackHref='index.php' myBackTarget='_self'>";
+			print "<ul id='cat--1' title='$title' myBackLabel='".__("Home")."'
+				myBackHref='home.php'>";
 
 			foreach (array(-4, -1,-2,-3) as $id) {
 				$title = getFeedTitle($link, $id);
@@ -175,8 +175,8 @@
 
 			$title = __('Labels');
 
-			print "<ul id='cat--2' title='$title' myBackLabel='Feeds'
-				myBackHref='index.php' myBackTarget='_self'>";
+			print "<ul id='cat--2' title='$title' myBackLabel='".__("Home")."'
+				myBackHref='home.php'>";
 
 			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
 				WHERE owner_uid = '$owner_uid'");
@@ -210,8 +210,8 @@
 		$owner_uid = $_SESSION["uid"];
 
 
-		print '<ul id="home" title="'.__('Categories').'" selected="true"
-			myBackLabel="Logout" myBackHref="logout.php" myBackTarget="_self">';
+		print '<ul id="home" title="'.__('Home').'" selected="true"
+			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
 
 		foreach (array(-1, -2) as $id) {
 			$title = getCategoryTitle($link, $id);
@@ -311,7 +311,7 @@
 				myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
 		} else {
 			print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
-				myBackLabel='Feeds' myBackHref='home.php'>";
+				myBackLabel='".__("Home")."' myBackHref='home.php'>";
 		}
 
 		while ($line = db_fetch_assoc($result)) {

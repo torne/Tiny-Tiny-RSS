@@ -22,7 +22,7 @@
 ?>
 
 <div class="panel" id="prefs" selected="yes" title="Preferences"
-	myBackLabel="Feeds" myBackHref="home.php">
+	myBackLabel="<?php echo __('Home') ?>" myBackHref="home.php">
 
 <fieldset>
 <div class="row">
