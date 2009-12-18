@@ -32,7 +32,8 @@
 <style type="text/css" media="screen">@import "../lib/iui/iui.css";</style>
 <script type="application/x-javascript" src="../lib/iui/iui.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+<script type="text/javascript" src="../lib/prototype.js"></script>
+<script type="text/javascript" src="mobile.js"></script>
 </head>
 
 <style type="text/css">
@@ -59,16 +60,6 @@
 		vertical-align : middle;
 	}
 </style>
-
-<script type="text/javascript">
-	function toggleMarked(id, elem) {
-		alert(id + " => " + elem.getAttribute('toggled'));
-	}
-
-	function togglePublished(id, elem) {
-		alert(id + " => " + elem.getAttribute('toggled'));
-	}
-</script>
 
 <body>
     <div class="toolbar">

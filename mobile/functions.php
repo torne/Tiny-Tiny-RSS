@@ -303,17 +303,6 @@
 			$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
 			$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
 	
-			print "<div class=\"row\">
-	                <label>Starred</label>
-	                <div class=\"toggle\" onclick=\"toggleMarked($id, this)\" toggled=\"$is_starred\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
-	            </div>";
-	
-			print "<div class=\"row\">
-	                <label>Published</label>
-	                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
-	            </div>";
-	
-	
 			print "<div class=\"row\">";
 			print "<label id='updated'>Updated:</label>";
 			print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
@@ -324,7 +313,21 @@
 			print "<p>";
 			print $line["content"];
 			print "</p>";
+
+			print "<fieldset>";
+
+			print "<div class=\"row\">
+	                <label>Starred</label>
+	                <div class=\"toggle\" onclick=\"toggleMarked($id, this)\" toggled=\"$is_starred\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
+	            </div>";
 	
+			print "<div class=\"row\">
+	                <label>Published</label>
+	                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
+	            </div>";
+
+			print "</fieldset>";
+
 			print "</div>";
 
 		}
