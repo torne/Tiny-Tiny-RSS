@@ -22,8 +22,11 @@
 		return file_exists($filename) && filesize($filename) > 0;
 	}
 
-	function render_flat_feed_list($link) {
+	function render_flat_feed_list($link, $offset) {
 		$owner_uid = $_SESSION["uid"];
+		$limit = 30;
+
+		if (!$offset) $offset = 0;
 
 		if (mobile_get_pref($link, "SORT_FEEDS_UNREAD")) {
 			$order_by = "unread DESC, title";
@@ -42,13 +45,15 @@
 				ttrss_feeds.hidden = false AND
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL
-			ORDER BY $order_by"); 
+			ORDER BY $order_by LIMIT $limit OFFSET $offset"); 
 	
-		print '<ul id="home" title="'.__('Home').'" selected="true"
+		if (!$offset) print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
 
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
-	
+
+			$num_feeds = 0;
+
 			while ($line = db_fetch_assoc($result)) {
 				$id = $line["id"];
 				$unread = $line["unread"];
@@ -72,12 +77,16 @@
 					print "<li class='$class'><a href='feed.php?id=$id'>" . 
 						"<img class='tinyIcon' src='$icon_url'/>".				
 						$line["title"] . "</a></li>";
+					++$num_feeds;
 				}
 			}
-	
-			print "</ul>";
 
+			$next_offset = $offset + $num_feeds;
 
+			print "<li><a href=\"home.php?skip=$next_offset\" 
+				target=\"_replace\">Show more feeds...</a></li>";
+
+			if (!$offset) print "</ul>";
 
 	}
 

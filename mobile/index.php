@@ -69,12 +69,13 @@
     </div>
 
 	<?php	 
-	$use_cats = get_pref($link, 'ENABLE_FEED_CATS');
+	$use_cats = mobile_get_pref($link, 'ENABLE_CATS');
+	$offset = (int) db_escape_string($_REQUEST["skip"]);
 
 	if ($use_cats) {
 		render_categories_list($link); 
 	} else {
-		render_flat_feed_list($link);
+		render_flat_feed_list($link, $offset);
 	}
 	?>
 

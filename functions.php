@@ -2568,6 +2568,13 @@
 
 	}
 
+	function getSubscribedFeeds($link) {
+		$result = db_query($link, "SELECT COUNT(id) AS fn FROM 
+			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+		return db_fetch_result($result, 0, "fn");
+	}
+
 	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
 
 		if ($smart_mode) {
