@@ -313,7 +313,7 @@
 			$content = sanitize_rss($link, $line["content"]);
 			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
 
-			print "<div>$content</div>";
+			print "<p>$content</p>";
 
 			print "<fieldset>";
 
