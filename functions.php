@@ -2940,6 +2940,26 @@
 
 	}
 
+	function getFeedIcon($id) {
+		switch ($id) {
+		case -1:
+			return "images/mark_set.gif";
+			break;
+		case -2:
+			return "images/pub_set.gif";
+			break;
+		case -3:
+			return "images/fresh.png";
+			break;
+		case -4:
+			return "images/tag.png";
+			break;
+		default:
+			return ICONS_URL . "/$id.ico";
+			break;
+		}
+	}
+
 	function getFeedTitle($link, $id) {
 		if ($id == -1) {
 			return __("Starred articles");

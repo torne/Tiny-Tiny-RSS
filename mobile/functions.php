@@ -24,7 +24,7 @@
 
 	function render_flat_feed_list($link, $offset) {
 		$owner_uid = $_SESSION["uid"];
-		$limit = 30;
+		$limit = 0;
 
 		if (!$offset) $offset = 0;
 
@@ -34,21 +34,28 @@
 			$order_by = "title";
 		}
 
+		if ($limit > 0) {
+			$limit_qpart = "LIMIT $limit OFFSET $offset";
+		} else {
+			$limit_qpart = "";
+		}
+
 		$result = db_query($link, "SELECT id,
 				title,
 			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 				WHERE feed_id = ttrss_feeds.id AND unread = true
 					AND ttrss_user_entries.ref_id = ttrss_entries.id
-					AND owner_uid = '$owner_uid') as unread
+					AND owner_uid = '$owner_uid') AS unread
 			FROM ttrss_feeds
 			WHERE 
 				ttrss_feeds.hidden = false AND
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL
-			ORDER BY $order_by LIMIT $limit OFFSET $offset"); 
+			ORDER BY $order_by $limit_qpart"); 
 	
 		if (!$offset) print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
+
 
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
 
@@ -77,14 +84,15 @@
 					print "<li class='$class'><a href='feed.php?id=$id'>" . 
 						"<img class='tinyIcon' src='$icon_url'/>".				
 						$line["title"] . "</a></li>";
-					++$num_feeds;
 				}
+
+				++$num_feeds;
 			}
 
-			$next_offset = $offset + $num_feeds;
+/*			$next_offset = $offset + $num_feeds;
 
 			print "<li><a href=\"home.php?skip=$next_offset\" 
-				target=\"_replace\">Show more feeds...</a></li>";
+	target=\"_replace\">Show more feeds...</a></li>"; */
 
 			if (!$offset) print "</ul>";
 
@@ -165,6 +173,7 @@
 			foreach (array(-4, -1,-2,-3) as $id) {
 				$title = getFeedTitle($link, $id);
 				$unread = getFeedUnread($link, $id, false);
+				$icon = getFeedIcon($id);
 
 				if ($unread > 0) {
 					$title = $title . " ($unread)";
@@ -175,7 +184,8 @@
 
 				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
 					print "<li class='$class'>
-						<a href='feed.php?id=$id&cat_id=-1'>$title</a></li>";
+						<a href='feed.php?id=$id&cat=-1'>
+						<img class='tinyIcon' src='../$icon'/>$title</a></li>";
 				}
 			}
 
