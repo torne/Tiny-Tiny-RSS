@@ -92,18 +92,28 @@
 		case "getFeeds":
 			$cat_id = db_escape_string($_REQUEST["cat_id"]);
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
+			$limit = (int) db_escape_string($_REQUEST["limit"]);
+			$offset = (int) db_escape_string($_REQUEST["offset"]);
+
+			if ($limit) {
+				$limit_qpart = "LIMIT $limit OFFSET $offset";
+			} else {
+				$limit_qpart = "";
+			}
 
 			if (!$cat_id) {
 				$result = db_query($link, "SELECT 
 					id, feed_url, cat_id, title, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
+						"ORDER BY cat_id, title " . $limit_qpart);
 			} else {
 				$result = db_query($link, "SELECT 
 					id, feed_url, cat_id, title, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds WHERE 
-							cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"]);
+						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
+						"ORDER BY cat_id, title " . $limit_qpart);
 			}
 
 			$feeds = array();
