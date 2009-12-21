@@ -144,10 +144,10 @@
 
 <?php if (!$go) { ?>
 
-<div id="footer">
+<!-- <div id="footer">
 	<a href="http://tt-rss.org/">Tiny-Tiny RSS</a>
 	&copy; 2005-2009 Andrew Dolgov
-</div>
+</div> -->
 
 <?php } ?>
 
