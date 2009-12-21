@@ -32,7 +32,7 @@
 </div>
 
 <div class="row">
-	<label>Display images</label>
+	<label>Show post images</label>
 	<div class="toggle" id="SHOW_IMAGES" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "SHOW_IMAGES") ?>"><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
 </div>
 
