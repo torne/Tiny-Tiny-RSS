@@ -89,6 +89,11 @@
 				print json_encode(array("unread" => getGlobalUnread($link)));
 			}
 			break;
+		case "getCounters":
+
+			/* TODO */
+
+			break;
 		case "getFeeds":
 			$cat_id = db_escape_string($_REQUEST["cat_id"]);
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
@@ -122,6 +127,9 @@
 
 				$unread = getFeedUnread($link, $line["id"]);
 
+				$icon_path = "../" . ICONS_DIR . "/" . $line["id"] . ".ico";
+				$has_icon = file_exists($icon_path) && filesize($icon_path) > 0;
+
 				if ($unread || !$unread_only) {
 
 					$row = array(
@@ -129,6 +137,7 @@
 							"title" => $line["title"],
 							"id" => (int)$line["id"],
 							"unread" => (int)$unread,
+							"has_icon" => $has_icon,
 							"cat_id" => (int)$line["cat_id"],
 							"last_updated" => strtotime($line["last_updated"])
 						);
@@ -209,6 +218,7 @@
 		case "getHeadlines":
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
+			$offset = (int)db_escape_string($_REQUEST["skip"]);
 			$filter = db_escape_string($_REQUEST["filter"]);
 			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
 			$show_excerpt = (bool)db_escape_string($_REQUEST["show_excerpt"]);
@@ -221,7 +231,8 @@
 			$match_on = db_escape_string($_REQUEST["match_on"]);
 			
 			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
-				$view_mode, $is_cat, $search, $search_mode, $match_on);
+				$view_mode, $is_cat, $search, $search_mode, $match_on,
+				false, $offset);
 
 			$result = $qfh_ret[0];
 			$feed_title = $qfh_ret[1];
