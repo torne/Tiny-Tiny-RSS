@@ -8,7 +8,7 @@
 	<head>
 		<title><xsl:value-of select="rss/channel/title"/></title>
 		<link rel="stylesheet" type="text/css" href="utility.css"/>
-		<script language="javascript" src="xsl_mop-up.js"></script>
+		<script language="javascript" src="lib/xsl_mop-up.js"></script>
 	</head>
 
 	<body onload="go_decoding()">

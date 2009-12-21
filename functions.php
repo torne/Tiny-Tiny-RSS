@@ -40,7 +40,7 @@
 	}
 
 	if (ENABLE_TRANSLATIONS == true) { // If translations are enabled.
-		require_once "accept-to-gettext.php";
+		require_once "lib/accept-to-gettext.php";
 		require_once "lib/gettext/gettext.inc";
 
 		function startup_gettext() {
