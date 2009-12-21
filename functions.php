@@ -4508,11 +4508,16 @@
 		return true;
 	}
 
-	function render_login_form($link, $mobile = false) {
-		if (!$mobile) {
+	function render_login_form($link, $mobile = 0) {
+		switch ($mobile) {
+		case 0:
 			require_once "login_form.php";
-		} else {
+			break;
+		case 1:
 			require_once "mobile/login_form.php";
+			break;
+		case 2:
+			require_once "mobile/classic/login_form.php";
 		}
 	}
 
