@@ -4,88 +4,38 @@ Tiny Tiny RSS
 Web-based news feed aggregator, designed to allow you to read news from 
 any location, while feeling as close to a real desktop application as possible.
 
-	http://tt-rss.org
-
-Copyright (C) 2005 Andrew Dolgov unless stated otherwise.
-
-Portions (C):
-
-	Bob Osola <bobosola@gmail.com> (pngfix.js)
-	Sundar Dorai-Raj <sdoraira@vt.edu> (isNumeric() in functions.js)
-	Sean M. Burke. <sburke@cpan.org> (xsl_mop-up.js)
-
-Other bundled libraries:
-
-	Prototype javascript library, from http://prototype.conio.net/
-	Script.aculo.us javascript library, http://http://script.aculo.us/
-	MagpieRSS feed parser, http://magpierss.sourceforge.net/
-	SimplePie feed parser, http://simplepie.org/
-	PHPMailer class, http://phpmailer.sourceforge.net/
+http://tt-rss.org
 
 Licensed under GNU GPL version 2
+
+Copyright (c) 2005-2009 Andrew Dolgov (unless explicitly stated otherwise).
 
 Features Overview
 =================
 
-	Updates: http://tt-rss.org/trac/wiki/FeatureList
-
-	* Server-side application, user only needs a web browser
-	* Supports RSS, RDF, Atom feeds using Magpie or SimplePie library
-	* Supports OPML import/export
-	* Easy setup and configuration
-	* Streamlined interface using XmlHttpRequest (or AJAX for laypeople)
+	http://tt-rss.org/wiki/FeatureList
 
 Requirements
 ============
 
-	* Compatible browser on the client side
-
-		Basically, Firefox, Konqueror or MSIE6 are okay. See here
-		for more information:
-
-		http://tt-rss.org/trac/wiki/CompatibleBrowsers
-
+	* Compatible web browser (http://tt-rss.org/wiki/CompatibleBrowsers)
 	* Web server, for example Apache
-	* PHP (requires PHP4 DOMXML extension)
-	* PostgreSQL (tested on 7.4) or MySQL (InnoDB and version 4.1+ required)
-
-	* XML-RPC for PHP library for XML-RPC support. Optional.
-	
-		http://phpxmlrpc.sourceforge.net
+	* PHP (with support for mbstring functions)
+	* PostgreSQL (tested on 8.3) or MySQL (InnoDB and version 4.1+ required)
 		
 Installation Notes
 ==================
 
-	Updates: http://tt-rss.org/trac/wiki/InstallationNotes
-
-	* If you are upgrading from the previous version, don't forget to update 
-	schema and logout.
-
-	* icons directory should be writable to your httpd user if you plan on 
-	using feed icons
-
-	* Leave DB_HOST empty if you want to connect to database via unix socket
-
-	* For PostgreSQL don't forget to create database with UTF-8 encoding 
-
-			createdb -E utf-8 -O owner_user database)
-
-	* Don't forget to change your password from default value on your first login
-
-	* Check your config.php for blank lines out of PHP code tags (e.g. 
-	before <? and after ?>), See #1 
-
-	* Default username:password for multiuser mode is admin:password.
+	http://tt-rss.org/wiki/InstallationNotes
 
 See also
 ========
 
-	* FAQ:				http://tt-rss.org/trac/wiki/FrequentlyAskedQuestions
+	* FAQ:				http://tt-rss.org/wiki/FrequentlyAskedQuestions
 	* Forum:				http://tt-rss.org/forum
-	* Wiki:				http://tt-rss.org/trac/wiki/WikiStart
-	* Bug Tracker:		http://tt-rss.org/trac/report
+	* Wiki:				http://tt-rss.org/wiki/WikiStart
 
 Contact
 =======
 
-Send your questions, comments, patches to Andrew Dolgov <cthulhoo@gmail.com>
+Send your questions, comments, patches to Andrew Dolgov <cthulhoo(at)gmail.com>
