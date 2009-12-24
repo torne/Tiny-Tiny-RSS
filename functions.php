@@ -6266,4 +6266,34 @@
 
 		return $str;
 	}
+
+	function toggle_collapse_cat($link, $cat_id) {
+		if ($cat_id > 0) {
+			db_query($link, "UPDATE ttrss_feed_categories SET
+				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
+				$_SESSION["uid"]);
+		} else {
+			$pref_name = '';
+
+			switch ($cat_id) {
+			case -1:
+				$pref_name = '_COLLAPSED_SPECIAL';
+				break;
+			case -2:
+				$pref_name = '_COLLAPSED_LABELS';
+				break;
+			case 0:
+				$pref_name = '_COLLAPSED_UNCAT';
+				break;
+			}
+
+			if ($pref_name) {
+				if (get_pref($link, $pref_name)) {
+					set_pref($link, $pref_name, 'false');
+				} else {
+					set_pref($link, $pref_name, 'true');
+				}
+			}
+		}
+	}
 ?>
