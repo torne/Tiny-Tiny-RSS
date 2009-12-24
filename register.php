@@ -163,7 +163,7 @@
 		$num_users = db_fetch_result($result, 0, "cu");
 } ?>
 
-<? if (!REG_MAX_USERS || $num_users < REG_MAX_USERS) { ?>
+<?php if (!REG_MAX_USERS || $num_users < REG_MAX_USERS) { ?>
 
 	<!-- If you have any rules or ToS you'd like to display, enter them here -->
 
@@ -171,7 +171,7 @@
 			require_once "templates/register_notice.txt";
 	} ?>
 
-	<? if (!$action) { ?>
+	<?php if (!$action) { ?>
 	
 	<p><?php echo __('Your temporary password will be sent to the specified email. Accounts, which were not logged in once, are erased automatically 24 hours after temporary password is sent.') ?></p> 
 	
@@ -200,9 +200,9 @@
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>"; ?>
 
-	<? } else if ($action == "do_register") { ?>
+	<?php } else if ($action == "do_register") { ?>
 	
-	<?
+	<?php
 		$login = mb_strtolower(trim(db_escape_string($_REQUEST["login"])));
 		$email = trim(db_escape_string($_REQUEST["email"]));
 		$test = trim(db_escape_string($_REQUEST["turing_test"]));
@@ -345,7 +345,7 @@
 		}
 	?>
 
-<? } else { ?>
+<?php } else { ?>
 
 	<?php print_notice(__('New user registrations are currently closed.')) ?>
 
@@ -353,7 +353,7 @@
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>"; ?>
 
-<? } ?>
+<?php } ?>
 
 </body>
 </html>
