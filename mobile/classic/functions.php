@@ -30,11 +30,8 @@
 			/* virtual feeds */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				if ($_COOKIE["ttrss_vf_vclps"] == 1) {
-					$collapsed = true;
-				} else {
-					$collapsed = false;
-				}
+
+				$collapsed = get_pref($link, "_COLLAPSED_SPECIAL");
 
 				if ($collapsed == "t" || $collapsed == "1") {
 					$holder_class = "invisible";
@@ -100,11 +97,7 @@
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-						if ($_COOKIE["ttrss_vf_lclps"] == 1) {
-							$collapsed = true;
-						} else {
-							$collapsed = false;
-						}
+						$collapsed = get_pref($link, "_COLLAPSED_LABELS");
 
 						if ($collapsed == "t" || $collapsed == "1") {
 							$holder_class = "invisible";
@@ -250,9 +243,7 @@
 
 					// workaround for NULL category
 					if ($category == "Uncategorized") {
-						if ($_COOKIE["ttrss_vf_uclps"] == 1) {
-							$collapsed = "t";
-						}
+						$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
 					}
 
 					if ($collapsed == "t" || $collapsed == "1") {

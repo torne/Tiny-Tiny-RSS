@@ -633,17 +633,17 @@
 					ttrss_feed_categories WHERE owner_uid = ".$_SESSION["uid"]);
 
 					print "<category id=\"0\" collapsed=\"".
-						(int)$_COOKIE["ttrss_vf_uclps"]."\"><![CDATA[";
+						(int)get_pref($link, "_COLLAPSED_UNCAT")."\"><![CDATA[";
 					print __("Uncategorized");
 					print "]]></category>";
 
 					print "<category id=\"-1\" collapsed=\"".
-						(int)$_COOKIE["ttrss_vf_vclps"]."\"><![CDATA[";
+						(int)get_pref($link, "_COLLAPSED_SPECIAL")."\"><![CDATA[";
 					print __("Special");
 					print "]]></category>";
 
 					print "<category id=\"-2\" collapsed=\"".
-						(int)$_COOKIE["ttrss_vf_lclps"]."\"><![CDATA[";
+						(int)get_pref($link, "_COLLAPSED_LABELS")."\"><![CDATA[";
 					print __("Labels");
 					print "]]></category>";
 

@@ -3080,6 +3080,9 @@
 		print "<param key=\"num_feeds\" value=\"".
 			(int)$num_feeds. "\"/>";
 
+		print "<param key=\"collapsed_feedlist\" value=\"" . 
+			(int) get_pref($link, "_COLLAPSED_FEEDLIST") . "\"/>";
+
 		print "</init-params>";
 	}
 
@@ -4162,11 +4165,7 @@
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-			if ($_COOKIE["ttrss_vf_vclps"] == 1) {
-				$cat_hidden = true;
-			} else {
-				$cat_hidden = false;
-			}
+			$cat_hidden = get_pref($link, "_COLLAPSED_SPECIAL");
 
 			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
@@ -4225,11 +4224,7 @@
 				if (db_num_rows($result) > 0) {
 					if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-						if ($_COOKIE["ttrss_vf_lclps"] == 1) {
-							$cat_hidden = true;
-						} else {
-							$cat_hidden = false;
-						}
+						$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
 
 						printCategoryHeader($link, -2, $cat_hidden, true);
 
@@ -4381,9 +4376,7 @@
 
 					// workaround for NULL category
 					if ($category == __("Uncategorized")) {
-						if ($_COOKIE["ttrss_vf_uclps"] == 1) {
-							$collapsed = "t";
-						}
+						$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
 					}
 
 					$cat_id = sprintf("%d", $cat_id);

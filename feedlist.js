@@ -389,45 +389,6 @@ function toggleCollapseCat(cat) {
 		var cat_list = $("FCATLIST-" + cat).parentNode;
 		var caption = $("FCAP-" + cat);
 		
-/*		if (cat_list.className.match("invisible")) {
-			cat_list.className = "";
-			caption.innerHTML = caption.innerHTML.replace("...", "");
-			if (cat == 0) {
-				setCookie("ttrss_vf_uclps", "0");
-			}
-		} else {
-			cat_list.className = "invisible";
-			caption.innerHTML = caption.innerHTML + "...";
-			if (cat == 0) {
-				setCookie("ttrss_vf_uclps", "1");
-			} 
-
-		} */
-
-		if (cat == 0) {
-			if (Element.visible("FCATLIST-" + cat)) {
-				setCookie("ttrss_vf_uclps", "1");
-			} else {
-				setCookie("ttrss_vf_uclps", "0");
-			}
-		} 
-
-		if (cat == -2) {
-			if (Element.visible("FCATLIST-" + cat)) {
-				setCookie("ttrss_vf_lclps", "1");
-			} else {
-				setCookie("ttrss_vf_lclps", "0");
-			}
-		} 
-
-		if (cat == -1) {
-			if (Element.visible("FCATLIST-" + cat)) {
-				setCookie("ttrss_vf_vclps", "1");
-			} else {
-				setCookie("ttrss_vf_vclps", "0");
-			}
-		} 
-
 		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5,
 			afterFinish: toggleCollapseCat_af });
 
@@ -602,7 +563,7 @@ function init_collapsable_feedlist(theme) {
 
 		if (fbtn) Element.show(fbtn);
 
-		if (getCookie("ttrss_vf_fclps") == 1) {
+		if (getInitParam("collapsed_feedlist") == 1) {
 			collapse_feedlist();
 		}
 
