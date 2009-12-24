@@ -49,14 +49,13 @@
 	<script type="text/javascript" charset="utf-8" src="prefs.js?<?php echo $dt_add ?>"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+		
 	<script type="text/javascript">
-	//<![CDATA[
-		if (navigator.userAgent.match("Opera")) {
-			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
-		}
-	//]]>
+		Event.observe(window, 'load', function() {
+			init();
+		});
 	</script>
+
 </head>
 
 <body id="ttrssPrefs">
@@ -85,13 +84,6 @@
 
 <img id="piggie" src="images/piggie.png" style="display : none" alt="piggie"/>
 
-<script type="text/javascript">
-if (document.addEventListener) {
-	document.addEventListener("DOMContentLoaded", init, null);
-}
-window.onload = init;
-</script>
-
 <ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
 
 <div id="prefHeader">
@@ -108,10 +100,6 @@ window.onload = init;
 </div>
 
 <div id="prefTabs">
-		<!-- <div class="return">
-			<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
-		</div> -->
-
 		<div class='prefKbdHelp'>
 			<img src="images/small_question.png" alt="?"/> <a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})"><?php echo __("Keyboard shortcuts") ?></a>
 		</div>
@@ -178,21 +166,6 @@ window.onload = init;
 </div>
 
 <?php db_close($link); ?>
-
-<script type="text/javascript">
-	/* for IE */
-	function statechange() {
-		if (document.readyState == "interactive") init();
-	}
-
-	if (document.readyState) {	
-		if (document.readyState == "interactive" || document.readyState == "complete") {
-			init();
-		} else {
-			document.onreadystatechange = statechange;
-		}
-	}
-</script>
 
 </body>
 </html>

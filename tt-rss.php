@@ -51,16 +51,12 @@
 	<script type="text/javascript" charset="utf-8" src="offline.js?<?php echo $dt_add ?>"></script>
 
 	<script type="text/javascript" src="gears_init.js"></script>
-
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<script type="text/javascript">
-	//<![CDATA[
-		if (navigator.userAgent.match("Opera")) {
-			document.write('<link rel="stylesheet" type="text/css" href="opera.css">');
-		}
-		window.onresize=resize_headlines;
-	//]]>
+		Event.observe(window, 'load', function() {
+			init();
+		});
 	</script>
 </head>
 
@@ -92,13 +88,6 @@
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 
 <div id="dialog_overlay" style="display : none"> </div>
-
-<script type="text/javascript">
-if (document.addEventListener) {
-	document.addEventListener("DOMContentLoaded", init, null);
-}
-window.onload = init;
-</script>
 
 <ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
 
@@ -285,12 +274,6 @@ window.onload = init;
 
 		</form>
 
-		<!-- &nbsp;<input class="button" type="submit"
-			onclick="quickMenuGo('qmcSearch')" value="Search (tmp)"> -->
-
-		<!-- <input class="button" type="submit"
-			onclick="catchupCurrentFeed()" value="Mark as read">  -->
-
 	</div>
 
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
@@ -330,21 +313,6 @@ window.onload = init;
 </div>
 
 <?php db_close($link); ?>
-
-<script type="text/javascript">
-	/* for IE */
-	function statechange() {
-		if (document.readyState == "interactive") init();
-	}
-
-	if (document.readyState) {	
-		if (document.readyState == "interactive" || document.readyState == "complete") {
-			init();
-		} else {
-			document.onreadystatechange = statechange;
-		}
-	}
-</script>
 
 </body>
 </html>

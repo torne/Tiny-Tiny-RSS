@@ -1217,9 +1217,6 @@ function init() {
 
 	try {
 	
-		if (arguments.callee.done) return;
-		arguments.callee.done = true;		
-
 		if (getURLParam('debug')) {
 			Element.show("debug_output");
 			debug('debug mode activated');

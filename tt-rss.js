@@ -385,11 +385,6 @@ function init() {
 
 	try {
 
-		// this whole shebang is based on http://www.birnamdesigns.com/misc/busted2.html
-
-		if (arguments.callee.done) return;
-		arguments.callee.done = true;		
-
 		init_gears();
 
 		disableContainerChildren("headlinesToolbar", true);
@@ -512,6 +507,7 @@ function init_second_stage() {
 		delCookie("ttrss_vf_test");
 
 //		document.onresize = resize_headlines;
+		window.onresize=resize_headlines;
 
 		var toolbar = document.forms["main_toolbar_form"];
 
