@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-17 13:02+0300\n"
+"POT-Creation-Date: 2009-12-24 15:59+0300\n"
 "PO-Revision-Date: 2009-05-12 03:25+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -79,7 +79,7 @@ msgstr "毎日"
 msgid "Weekly"
 msgstr "毎週"
 
-#: backend.php:126 tt-rss.php:252 modules/pref-prefs.php:315
+#: backend.php:126 tt-rss.php:241 modules/pref-prefs.php:315
 msgid "Default"
 msgstr "標準"
 
@@ -186,183 +186,177 @@ msgstr "セッションの検査に失敗しました (IP が正しくない)"
 msgid "Incorrect username or password"
 msgstr "ユーザー名かパスワードが正しくありません"
 
-#: functions.php:2857 modules/popup-dialog.php:175
-#: modules/pref-filters.php:424 mobile/functions.php:751
+#: functions.php:2864 modules/popup-dialog.php:175
+#: modules/pref-filters.php:424
 msgid "All feeds"
 msgstr "すべてのフィード"
 
-#: functions.php:2889 functions.php:2928 functions.php:3343 functions.php:4327
-#: functions.php:4357 modules/backend-rpc.php:637 modules/pref-feeds.php:1305
+#: functions.php:2896 functions.php:2935 functions.php:3373 functions.php:4348
+#: functions.php:4378 modules/backend-rpc.php:637 modules/pref-feeds.php:1305
 msgid "Uncategorized"
 msgstr "カテゴリー割り当てなし"
 
-#: functions.php:2918 functions.php:3551 modules/backend-rpc.php:642
-#: mobile/functions.php:33
+#: functions.php:2925 functions.php:3581 modules/backend-rpc.php:642
+#: mobile/functions.php:168
 msgid "Special"
 msgstr "特別"
 
-#: functions.php:2920 functions.php:3372 functions.php:3553 prefs.php:128
-#: modules/backend-rpc.php:647 help/4.php:12 mobile/functions.php:83
+#: functions.php:2927 functions.php:3402 functions.php:3583 prefs.php:116
+#: modules/backend-rpc.php:647 help/4.php:12 mobile/functions.php:195
 msgid "Labels"
 msgstr "ラベル"
 
-#: functions.php:2938 functions.php:3365 functions.php:4179
-#: localized_js.php:155 help/3.php:59 mobile/functions.php:61 offline.js:494
-#: offline.js:1425
+#: functions.php:2965 functions.php:3395 functions.php:4204
+#: localized_js.php:155 help/3.php:59 offline.js:494 offline.js:1425
 msgid "Starred articles"
 msgstr "お気に入りの記事"
 
-#: functions.php:2940 functions.php:3369 functions.php:4186
-#: modules/pref-feeds.php:1494 help/3.php:60 mobile/functions.php:70
+#: functions.php:2967 functions.php:3399 functions.php:4211
+#: modules/pref-feeds.php:1494 help/3.php:60
 msgid "Published articles"
 msgstr "公開済みの記事"
 
-#: functions.php:2942 functions.php:3375 functions.php:4164 help/3.php:58
-#: mobile/functions.php:52
+#: functions.php:2969 functions.php:3405 functions.php:4189 help/3.php:58
 msgid "Fresh articles"
 msgstr "新しい記事"
 
-#: functions.php:2944 functions.php:3378 functions.php:4157
-#: localized_js.php:40 help/3.php:57 mobile/functions.php:43 offline.js:489
-#: offline.js:1427
+#: functions.php:2971 functions.php:3408 functions.php:4182
+#: localized_js.php:40 help/3.php:57 offline.js:489 offline.js:1427
 msgid "All articles"
 msgstr "すべての記事"
 
-#: functions.php:3329 functions.php:3331
+#: functions.php:3359 functions.php:3361
 msgid "Search results"
 msgstr "検索結果"
 
-#: functions.php:3347 functions.php:3360 functions.php:3366 functions.php:3370
-#: functions.php:3376 functions.php:3379 functions.php:3387
+#: functions.php:3377 functions.php:3390 functions.php:3396 functions.php:3400
+#: functions.php:3406 functions.php:3409 functions.php:3417
 msgid "Searched for"
 msgstr ""
 
-#: functions.php:4035
+#: functions.php:4065
 msgid "Generated feed"
 msgstr "生成したフィード"
 
-#: functions.php:4040 functions.php:5379 localized_js.php:150
+#: functions.php:4070 functions.php:5403 localized_js.php:150
 #: modules/pref-feeds.php:1073 modules/pref-feeds.php:1267
 #: modules/pref-filters.php:377 modules/pref-labels.php:177
 #: modules/pref-users.php:411 offline.js:409
 msgid "Select:"
 msgstr "選択:"
 
-#: functions.php:4041 localized_js.php:39 tt-rss.php:261
+#: functions.php:4071 localized_js.php:39 tt-rss.php:250
 #: modules/pref-feeds.php:1074 modules/pref-feeds.php:1268
 #: modules/pref-filters.php:378 modules/pref-labels.php:178
-#: modules/pref-users.php:412 mobile/functions.php:570
+#: modules/pref-users.php:412
 msgid "All"
 msgstr "すべて"
 
-#: functions.php:4042 functions.php:4059 localized_js.php:173 tt-rss.php:244
-#: mobile/functions.php:458 mobile/functions.php:571
+#: functions.php:4072 functions.php:4089 localized_js.php:173 tt-rss.php:233
 msgid "Unread"
 msgstr "未読"
 
-#: functions.php:4043 localized_js.php:74 mobile/functions.php:573
+#: functions.php:4073 localized_js.php:74
 msgid "Invert"
 msgstr "反転"
 
-#: functions.php:4044 localized_js.php:100 modules/pref-feeds.php:1075
+#: functions.php:4074 localized_js.php:100 modules/pref-feeds.php:1075
 #: modules/pref-feeds.php:1269 modules/pref-filters.php:379
 #: modules/pref-labels.php:179 modules/pref-users.php:413
-#: mobile/functions.php:572
 msgid "None"
 msgstr "なし"
 
-#: functions.php:4052 localized_js.php:35 tt-rss.php:194
+#: functions.php:4082 localized_js.php:35 tt-rss.php:183
 #: modules/pref-feeds.php:1429 offline.js:185
 msgid "Actions..."
 msgstr "操作..."
 
-#: functions.php:4058 localized_js.php:152
+#: functions.php:4088 localized_js.php:152
 msgid "Selection toggle:"
 msgstr "選択の切り替え:"
 
-#: functions.php:4060 localized_js.php:154 tt-rss.php:243
-#: mobile/functions.php:459
+#: functions.php:4090 localized_js.php:154 tt-rss.php:232
 msgid "Starred"
 msgstr "お気に入り"
 
-#: functions.php:4061
+#: functions.php:4091
 msgid "Published"
 msgstr "公開済み"
 
-#: functions.php:4063 localized_js.php:85
+#: functions.php:4093 localized_js.php:85
 msgid "Mark as read:"
 msgstr "既読にする:"
 
-#: functions.php:4064 localized_js.php:151 mobile/functions.php:578
+#: functions.php:4094 localized_js.php:151
 msgid "Selection"
 msgstr "選択"
 
-#: functions.php:4066 localized_js.php:65 mobile/functions.php:580
+#: functions.php:4096 localized_js.php:65
 msgid "Entire feed"
 msgstr "元のフィード"
 
-#: functions.php:4070
+#: functions.php:4100
 msgid "Assign label:"
 msgstr "ラベルの割り当て:"
 
-#: functions.php:4111 localized_js.php:56
+#: functions.php:4141 localized_js.php:56
 msgid "Click to collapse category"
 msgstr "閉じたカテゴリーのクリック"
 
-#: functions.php:4377
+#: functions.php:4396
 msgid "No feeds to display."
 msgstr "表示するフィードがありません。"
 
-#: functions.php:4394 mobile/functions.php:12
+#: functions.php:4413
 msgid "Tags"
 msgstr "タグ"
 
-#: functions.php:4539
+#: functions.php:4563
 msgid "audio/mpeg"
 msgstr "audio/mpeg"
 
-#: functions.php:4670
+#: functions.php:4694
 msgid " - "
 msgstr " - "
 
-#: functions.php:4694 functions.php:5407
+#: functions.php:4718 functions.php:5431
 msgid "Edit tags for this article"
 msgstr "この記事のタグを編集する"
 
-#: functions.php:4702
+#: functions.php:4726
 msgid "Display original article content"
 msgstr "元の記事内容を表示する"
 
-#: functions.php:4709 functions.php:5389
+#: functions.php:4733 functions.php:5413
 msgid "Show article summary in new window"
 msgstr "記事の要約を新しいウィンドウで表示する"
 
-#: functions.php:4716 functions.php:5396
+#: functions.php:4740 functions.php:5420
 msgid "Publish article with a note"
 msgstr "ノートと記事を公開する"
 
-#: functions.php:4759 functions.php:5315
+#: functions.php:4783 functions.php:5339
 msgid "unknown type"
 msgstr "未知の種類"
 
-#: functions.php:4794 functions.php:5353
+#: functions.php:4818 functions.php:5377
 msgid "Attachment:"
 msgstr "添付:"
 
-#: functions.php:4796 functions.php:5355
+#: functions.php:4820 functions.php:5379
 msgid "Attachments:"
 msgstr "添付:"
 
-#: functions.php:4816 modules/help.php:22 modules/popup-dialog.php:52
+#: functions.php:4840 modules/help.php:22 modules/popup-dialog.php:52
 #: modules/popup-dialog.php:456 modules/pref-feeds.php:1124
 msgid "Close this window"
 msgstr "このウィンドウを閉じる"
 
-#: functions.php:4872
+#: functions.php:4896
 msgid "Feed not found."
 msgstr "フィードが見つかりません。"
 
-#: functions.php:4941 mobile/functions.php:423
+#: functions.php:4965
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -370,31 +364,31 @@ msgstr ""
 "フィードを表示できません (問い合わせの失敗)。ラベル一致の文法かローカルの設定"
 "を確認してください。"
 
-#: functions.php:5107 functions.php:5194
+#: functions.php:5131 functions.php:5218
 msgid "mark as read"
 msgstr "既読にする"
 
-#: functions.php:5275 functions.php:5282
+#: functions.php:5299 functions.php:5306
 msgid "Click to expand article"
 msgstr "開いた記事のクリック"
 
-#: functions.php:5414
+#: functions.php:5438
 msgid "toggle unread"
 msgstr "未読/既読を切り替える"
 
-#: functions.php:5433
+#: functions.php:5457
 msgid "No unread articles found to display."
 msgstr "表示する未読記事が見つかりませんでした。"
 
-#: functions.php:5436
+#: functions.php:5460
 msgid "No updated articles found to display."
 msgstr "表示する更新された記事が見つかりませんでした。"
 
-#: functions.php:5439
+#: functions.php:5463
 msgid "No starred articles found to display."
 msgstr "表示するお気に入りの記事が見つかりませんでした。"
 
-#: functions.php:5443
+#: functions.php:5467
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -402,23 +396,23 @@ msgstr ""
 "表示する記事が見つかりません。手動でラベルに記事を割り当てるか(上の操作メ"
 "ニューを参照します)、フィルターを使うことができます。"
 
-#: functions.php:5445 localized_js.php:93 offline.js:444
+#: functions.php:5469 localized_js.php:93 offline.js:444
 msgid "No articles found to display."
 msgstr "表示する記事が見つかりません。"
 
-#: functions.php:6147 tt-rss.php:209
+#: functions.php:6171 tt-rss.php:198
 msgid "Create label..."
 msgstr "ラベルを作成する..."
 
-#: functions.php:6160
+#: functions.php:6184
 msgid "(remove)"
 msgstr "(削除)"
 
-#: functions.php:6210
+#: functions.php:6234
 msgid "no tags"
 msgstr "タグがありません"
 
-#: functions.php:6239
+#: functions.php:6263
 msgid "edit note"
 msgstr "ノートの編集"
 
@@ -454,7 +448,7 @@ msgstr "カテゴリーが追加できません: 名前が指定されていま�
 msgid "Can't add filter: nothing to match on."
 msgstr "フィルターを追加できません: 一致するものがありません。"
 
-#: localized_js.php:46 prefs.js:276 tt-rss.js:1456
+#: localized_js.php:46 prefs.js:276 tt-rss.js:1455
 msgid "Can't create label: missing caption."
 msgstr "ラベルが作成できません: キャプションが見当たりません。"
 
@@ -518,7 +512,7 @@ msgstr "ヘッドラインを更新できません (XML オブジェクトが見
 msgid "Data for offline browsing has not been downloaded yet."
 msgstr "オフライン閲覧のためのデータはまだダウンロードされていません。"
 
-#: localized_js.php:63 tt-rss.js:76
+#: localized_js.php:63 tt-rss.js:74
 msgid "display feeds"
 msgstr "フィードの表示"
 
@@ -526,7 +520,7 @@ msgstr "フィードの表示"
 msgid "Entered passwords do not match."
 msgstr "パスワードが一致しません。"
 
-#: localized_js.php:66 tt-rss.js:634
+#: localized_js.php:66 tt-rss.js:628
 #, php-format
 msgid "Erase all non-starred articles in %s?"
 msgstr "%s にあるお気に入りに設定していない記事をすべて削除しますか?"
@@ -577,7 +571,7 @@ msgstr "最終同期: %s"
 msgid "Loading feed list..."
 msgstr "フィード一覧を読み込んでいます..."
 
-#: localized_js.php:79 prefs.php:66 prefs.php:137 tt-rss.php:71
+#: localized_js.php:79 prefs.php:65 prefs.php:125 tt-rss.php:67
 msgid "Loading, please wait..."
 msgstr "読み込みんでいます。しばらくお待ちください..."
 
@@ -589,11 +583,11 @@ msgstr "ローカルのデータを削除しました。"
 msgid "Login field cannot be blank."
 msgstr "ログイン名の項目は空にできません。"
 
-#: localized_js.php:82 tt-rss.js:280
+#: localized_js.php:82 tt-rss.js:278
 msgid "Mark all articles as read?"
 msgstr "すべての記事を既読にしますか?"
 
-#: localized_js.php:83 tt-rss.js:809 tt-rss.js:822
+#: localized_js.php:83 tt-rss.js:803 tt-rss.js:816
 #, php-format
 msgid "Mark all articles in %s as read?"
 msgstr "「%s」のすべての記事を既読に設定しますか?"
@@ -617,7 +611,7 @@ msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 msgid "Marking all feeds as read..."
 msgstr "すべてのフィードを既読に設定しています..."
 
-#: localized_js.php:89 localized_js.php:184 functions.js:2217
+#: localized_js.php:89 functions.js:2217
 msgid "New articles available (Click to show)"
 msgstr ""
 
@@ -643,11 +637,11 @@ msgid "No categories are selected."
 msgstr "選択されたカテゴリーはありません。"
 
 #: localized_js.php:96 prefs.js:598 prefs.js:628 prefs.js:659 prefs.js:926
-#: prefs.js:947 prefs.js:1263 prefs.js:1312 prefs.js:1842 tt-rss.js:1501
+#: prefs.js:947 prefs.js:1260 prefs.js:1309 prefs.js:1839 tt-rss.js:1500
 msgid "No feeds are selected."
 msgstr "選択されたフィードはありません。"
 
-#: localized_js.php:97 tt-rss.php:298 tt-rss.php:311
+#: localized_js.php:97 tt-rss.php:281 tt-rss.php:294
 msgid "No feed selected."
 msgstr "フィードは選択されていません。"
 
@@ -675,7 +669,7 @@ msgstr "古いパスワードを空にできません。"
 msgid "Please enter a note for this article:"
 msgstr "このアーティクルのノートを入力してください:"
 
-#: localized_js.php:105 prefs.js:269 tt-rss.js:1451
+#: localized_js.php:105 prefs.js:269 tt-rss.js:1450
 msgid "Please enter label caption:"
 msgstr "ラベルのキャプションを入力してください:"
 
@@ -683,11 +677,11 @@ msgstr "ラベルのキャプションを入力してください:"
 msgid "Please enter login:"
 msgstr "ログイン名を入力してください:"
 
-#: localized_js.php:107 prefs.js:2037
+#: localized_js.php:107 prefs.js:2034
 msgid "Please enter new label background color:"
 msgstr "新しいラベルの背景色を入力してください:"
 
-#: localized_js.php:108 prefs.js:2035
+#: localized_js.php:108 prefs.js:2032
 msgid "Please enter new label foreground color:"
 msgstr "新しいラベルの前景色を入力してください:"
 
@@ -707,8 +701,8 @@ msgstr "フィルターをひとつだけ選択してください。"
 msgid "Please select only one user."
 msgstr "ひとつだけユーザーを選択してください。"
 
-#: localized_js.php:113 tt-rss.js:604 tt-rss.js:623 tt-rss.js:837
-#: tt-rss.js:1018
+#: localized_js.php:113 tt-rss.js:598 tt-rss.js:617 tt-rss.js:831
+#: tt-rss.js:1017
 msgid "Please select some feed first."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
@@ -733,7 +727,7 @@ msgstr "公開フィードの URL を変更しました。"
 msgid "Purging selected feed..."
 msgstr "選択したフィードを削除しています..."
 
-#: localized_js.php:119 prefs.js:1867
+#: localized_js.php:119 prefs.js:1864
 #, php-format
 msgid "Remove filter %s?"
 msgstr "フィルター %s を削除しますか?"
@@ -786,21 +780,21 @@ msgstr "選択したラベルを削除しています..."
 msgid "Removing selected users..."
 msgstr "選択されたユーザーを削除しています..."
 
-#: localized_js.php:132 prefs.js:1711
+#: localized_js.php:132 prefs.js:1708
 msgid "Replace current publishing address with a new one?"
 msgstr "新しいもので現在の公開アドレスを置き換えますか?"
 
-#: localized_js.php:133 prefs.js:1849
+#: localized_js.php:133 prefs.js:1846
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "すべての記事のスコアを再計算しますか? この操作は大量の時間を使うでしょう。"
 
-#: localized_js.php:134 tt-rss.js:1023
+#: localized_js.php:134 tt-rss.js:1022
 #, php-format
 msgid "Rescore articles in %s?"
 msgstr "%s の記事のスコアを再計算しますか?"
 
-#: localized_js.php:135 prefs.js:1827
+#: localized_js.php:135 prefs.js:1824
 msgid "Rescore articles in selected feeds?"
 msgstr "選択したフィードの記事のスコアを再計算しますか?"
 
@@ -812,11 +806,11 @@ msgstr "選択したフィードの最後 100 件の記事のスコアを再計�
 msgid "Rescoring articles..."
 msgstr "記事のスコアを再計算しています..."
 
-#: localized_js.php:138 tt-rss.js:684
+#: localized_js.php:138 tt-rss.js:678
 msgid "Reset category order?"
 msgstr "選択したカテゴリーの順序をリセットしますか?"
 
-#: localized_js.php:139 prefs.js:2011
+#: localized_js.php:139 prefs.js:2008
 msgid "Reset label colors to default?"
 msgstr "ラベルの色を標準にリセットしますか?"
 
@@ -828,15 +822,15 @@ msgstr "選択したユーザーのパスワードをリセットしますか?"
 msgid "Resetting password for selected user..."
 msgstr "選択したユーザーのパスワードをリセットしています..."
 
-#: localized_js.php:142 prefs.js:1271
+#: localized_js.php:142 prefs.js:1268
 msgid "Reset to defaults?"
 msgstr "標準に戻しますか?"
 
-#: localized_js.php:143 prefs.js:1926
+#: localized_js.php:143 prefs.js:1923
 msgid "Save changes to selected feeds?"
 msgstr "選択したフィードの変更を保存しますか?"
 
-#: localized_js.php:144 prefs.js:1732
+#: localized_js.php:144 prefs.js:1729
 msgid "Save current configuration?"
 msgstr "現在の設定を保存しますか?"
 
@@ -897,7 +891,7 @@ msgstr "フィードを同期しています..."
 msgid "Synchronizing labels..."
 msgstr "ラベルを同期しています..."
 
-#: localized_js.php:164 tt-rss.php:180 tt-rss.js:81
+#: localized_js.php:164 tt-rss.php:169 tt-rss.js:79
 msgid "tag cloud"
 msgstr "タグクラウド"
 
@@ -944,7 +938,7 @@ msgstr "非公開記事"
 msgid "Unstar article"
 msgstr "記事のお気に入りを解除する"
 
-#: localized_js.php:175 prefs.js:1897 tt-rss.js:610 tt-rss.js:705
+#: localized_js.php:175 prefs.js:1894 tt-rss.js:604 tt-rss.js:699
 #, php-format
 msgid "Unsubscribe from %s?"
 msgstr "%s の購読をやめますか?"
@@ -957,19 +951,19 @@ msgstr "選択されたフィードの購読をやめますか?"
 msgid "Unsubscribing from selected feeds..."
 msgstr "選択されたフィードの購読を解除しています..."
 
-#: localized_js.php:178 tt-rss.js:628
+#: localized_js.php:178 tt-rss.js:622
 msgid "You can't clear this type of feed."
 msgstr "フィードのこの種類を消去できません。"
 
-#: localized_js.php:179 tt-rss.js:842
+#: localized_js.php:179 tt-rss.js:836
 msgid "You can't edit this kind of feed."
 msgstr ""
 
-#: localized_js.php:180 tt-rss.js:1013
+#: localized_js.php:180 tt-rss.js:1012
 msgid "You can't rescore this kind of feed."
 msgstr ""
 
-#: localized_js.php:181 tt-rss.js:599
+#: localized_js.php:181 tt-rss.js:593
 msgid "You can't unsubscribe from the category."
 msgstr "カテゴリーから購読をやめることができません。"
 
@@ -983,9 +977,8 @@ msgid ""
 "switch it into offline mode again. Go online?"
 msgstr ""
 
-#: localized_schema.php:9 tt-rss.php:254 modules/popup-dialog.php:165
+#: localized_schema.php:9 tt-rss.php:243 modules/popup-dialog.php:165
 #: modules/pref-feeds.php:1280 modules/pref-feeds.php:1341
-#: mobile/functions.php:782
 msgid "Title"
 msgstr "題名"
 
@@ -998,7 +991,6 @@ msgid "Link"
 msgstr "リンク"
 
 #: localized_schema.php:12 modules/popup-dialog.php:166
-#: mobile/functions.php:783
 msgid "Content"
 msgstr "内容"
 
@@ -1010,7 +1002,7 @@ msgstr "記事の日付"
 msgid "Filter article"
 msgstr "記事フィルター"
 
-#: localized_schema.php:16 tt-rss.php:204 mobile/functions.php:583
+#: localized_schema.php:16 tt-rss.php:193
 msgid "Mark as read"
 msgstr "既読にする"
 
@@ -1276,31 +1268,29 @@ msgstr "記事内に画像を表示しない"
 msgid "Enable external API"
 msgstr ""
 
-#: login_form.php:108 login.php:129 modules/popup-dialog.php:107
-#: modules/pref-feeds.php:284 modules/pref-feeds.php:494
-#: mobile/login_form.php:59
+#: login_form.php:105 modules/popup-dialog.php:107 modules/pref-feeds.php:284
+#: modules/pref-feeds.php:494 mobile/login_form.php:38
 msgid "Login:"
 msgstr "ログイン:"
 
-#: login_form.php:111 login.php:132 modules/popup-dialog.php:111
-#: modules/pref-feeds.php:289 modules/pref-feeds.php:500
-#: mobile/login_form.php:60
+#: login_form.php:108 modules/popup-dialog.php:111 modules/pref-feeds.php:289
+#: modules/pref-feeds.php:500 mobile/login_form.php:43
 msgid "Password:"
 msgstr "パスワード:"
 
-#: login_form.php:115 login.php:136 mobile/login_form.php:62
+#: login_form.php:112
 msgid "Language:"
 msgstr "言語:"
 
-#: login_form.php:131 login.php:152 mobile/login_form.php:71
+#: login_form.php:128 mobile/login_form.php:28
 msgid "Log in"
 msgstr "ログイン"
 
-#: login_form.php:134 login.php:155 register.php:148
+#: login_form.php:131 register.php:148
 msgid "Create new account"
 msgstr "新規アカウントの作成"
 
-#: login_form.php:148 login.php:169
+#: login_form.php:145
 msgid "Limit bandwidth usage"
 msgstr "帯域の制限を使う"
 
@@ -1325,42 +1315,43 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "設定に戻る"
 
-#: prefs.php:73 prefs.php:140 tt-rss.php:79
+#: prefs.php:72 prefs.php:128 tt-rss.php:75
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
 "\t\tbrowser settings."
 msgstr ""
 
-#: prefs.php:100 tt-rss.php:124
+#: prefs.php:92 tt-rss.php:113
 msgid "Hello,"
 msgstr "ようこそ、"
 
-#: prefs.php:102 prefs.php:112 help/4.php:14
+#: prefs.php:94 help/4.php:14
 msgid "Exit preferences"
 msgstr "設定を終了する"
 
-#: prefs.php:104 tt-rss.php:134 mobile/functions.php:21
+#: prefs.php:96 tt-rss.php:123 mobile/functions.php:57
+#: mobile/functions.php:232
 msgid "Logout"
 msgstr "ログアウト"
 
-#: prefs.php:116 tt-rss.php:213
+#: prefs.php:104 tt-rss.php:202
 msgid "Keyboard shortcuts"
 msgstr "キーボードショートカット"
 
-#: prefs.php:122 tt-rss.php:126 help/3.php:62 help/4.php:8
+#: prefs.php:110 tt-rss.php:115 help/3.php:62 help/4.php:8
 msgid "Preferences"
 msgstr "設定"
 
-#: prefs.php:124 mobile/functions.php:15
+#: prefs.php:112
 msgid "Feeds"
 msgstr "フィード"
 
-#: prefs.php:126 help/4.php:11
+#: prefs.php:114 help/4.php:11
 msgid "Filters"
 msgstr "フィルター"
 
-#: prefs.php:131 help/4.php:13
+#: prefs.php:119 help/4.php:13
 msgid "Users"
 msgstr "ユーザー"
 
@@ -1421,146 +1412,144 @@ msgstr "アカウントの作成に成功しました。"
 msgid "New user registrations are currently closed."
 msgstr "新規ユーザーの登録は現在行っていません。"
 
-#: tt-rss.php:130
+#: tt-rss.php:119
 msgid "Comments?"
 msgstr "コメントしますか?"
 
-#: tt-rss.php:143
+#: tt-rss.php:132
 msgid "Offline reading"
 msgstr "オフライン処理"
 
-#: tt-rss.php:150
+#: tt-rss.php:139
 msgid "Cancel synchronization"
 msgstr "同期の取り消し"
 
-#: tt-rss.php:153
+#: tt-rss.php:142
 msgid "Synchronize"
 msgstr "同期"
 
-#: tt-rss.php:155
+#: tt-rss.php:144
 msgid "Remove stored data"
 msgstr "保存したデータを削除する"
 
-#: tt-rss.php:157
+#: tt-rss.php:146
 msgid "Go offline"
 msgstr "オフラインに移行する"
 
-#: tt-rss.php:162
+#: tt-rss.php:151
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
 
-#: tt-rss.php:169
+#: tt-rss.php:158
 msgid "Go online"
 msgstr "オンラインに移行する"
 
-#: tt-rss.php:184
+#: tt-rss.php:173
 msgid "More feeds..."
 msgstr "更なるフィード..."
 
-#: tt-rss.php:195
+#: tt-rss.php:184
 msgid "Search..."
 msgstr "検索..."
 
-#: tt-rss.php:196
+#: tt-rss.php:185
 msgid "Feed actions:"
 msgstr "フィード操作"
 
-#: tt-rss.php:197
+#: tt-rss.php:186
 msgid "Subscribe to feed..."
 msgstr "フィードを購読する..."
 
-#: tt-rss.php:198
+#: tt-rss.php:187
 msgid "Edit this feed..."
 msgstr "フィードを編集する..."
 
-#: tt-rss.php:199
+#: tt-rss.php:188
 msgid "Clear articles"
 msgstr "記事を消去する"
 
-#: tt-rss.php:200
+#: tt-rss.php:189
 msgid "Rescore feed"
 msgstr "フィードのスコアを再計算しています..."
 
-#: tt-rss.php:201 modules/pref-feeds.php:396 modules/pref-feeds.php:1441
+#: tt-rss.php:190 modules/pref-feeds.php:396 modules/pref-feeds.php:1441
 msgid "Unsubscribe"
 msgstr "購読をやめる"
 
-#: tt-rss.php:203
+#: tt-rss.php:192
 msgid "All feeds:"
 msgstr "すべてのフィード:"
 
-#: tt-rss.php:205 help/3.php:44
+#: tt-rss.php:194 help/3.php:44
 msgid "(Un)hide read feeds"
 msgstr "読んだフィードを隠す/再表示する"
 
-#: tt-rss.php:207
+#: tt-rss.php:196
 msgid "Other actions:"
 msgstr "その他の操作:"
 
-#: tt-rss.php:210
+#: tt-rss.php:199
 msgid "Create filter..."
 msgstr "フィルターを作成しています..."
 
-#: tt-rss.php:211
+#: tt-rss.php:200
 msgid "Reset UI layout"
 msgstr "UI レイアウトをリセットする"
 
-#: tt-rss.php:212
+#: tt-rss.php:201
 msgid "Reset category order"
 msgstr "カテゴリーの順序をリセットする"
 
-#: tt-rss.php:223
+#: tt-rss.php:212
 msgid "Collapse feedlist"
 msgstr "フィード一覧を閉じる"
 
-#: tt-rss.php:225
+#: tt-rss.php:214
 msgid "Toggle Feedlist"
 msgstr "フィード一覧を切り替える"
 
-#: tt-rss.php:233 mobile/functions.php:745
+#: tt-rss.php:222
 msgid "Search:"
 msgstr "検索:"
 
-#: tt-rss.php:241 mobile/functions.php:456
+#: tt-rss.php:230
 msgid "Adaptive"
 msgstr ""
 
-#: tt-rss.php:242 mobile/functions.php:457
+#: tt-rss.php:231
 msgid "All Articles"
 msgstr "すべての記事"
 
-#: tt-rss.php:245
+#: tt-rss.php:234
 msgid "Ignore Scoring"
 msgstr "スコア計算の無効化"
 
-#: tt-rss.php:246 modules/pref-feeds.php:1286 modules/pref-feeds.php:1349
-#: mobile/functions.php:501 mobile/functions.php:504
+#: tt-rss.php:235 modules/pref-feeds.php:1286 modules/pref-feeds.php:1349
 msgid "Updated"
 msgstr "更新日時"
 
-#: tt-rss.php:249
+#: tt-rss.php:238
 msgid "Order:"
 msgstr "並べ替え:"
 
-#: tt-rss.php:253 modules/popup-dialog.php:250 modules/pref-filters.php:51
+#: tt-rss.php:242 modules/popup-dialog.php:250 modules/pref-filters.php:51
 #: modules/pref-filters.php:472
 msgid "Date"
 msgstr "日付"
 
-#: tt-rss.php:255
+#: tt-rss.php:244
 msgid "Score"
 msgstr "スコア"
 
-#: tt-rss.php:259
+#: tt-rss.php:248
 msgid "Limit:"
 msgstr "制限:"
 
-#: tt-rss.php:284 modules/pref-feeds.php:241 modules/pref-feeds.php:457
-#: mobile/functions.php:436
+#: tt-rss.php:273 modules/pref-feeds.php:241 modules/pref-feeds.php:457
 msgid "Update"
 msgstr "更新"
 
-#: tt-rss.php:302
+#: tt-rss.php:285
 msgid "Drag me to resize panels"
 msgstr "パネルの大きさを変更するにはここをドラッグします"
 
@@ -1750,8 +1739,7 @@ msgstr "取り消し"
 #: modules/popup-dialog.php:140 modules/popup-dialog.php:211
 #: modules/pref-feeds.php:80 modules/pref-feeds.php:1169
 #: modules/pref-filters.php:307 modules/pref-labels.php:132
-#: modules/pref-users.php:363 mobile/functions.php:19 mobile/functions.php:435
-#: mobile/functions.php:736 mobile/functions.php:790
+#: modules/pref-users.php:363
 msgid "Search"
 msgstr "検索"
 
@@ -1764,7 +1752,7 @@ msgstr ""
 msgid "match on"
 msgstr "対象項目:"
 
-#: modules/popup-dialog.php:167 mobile/functions.php:784
+#: modules/popup-dialog.php:167
 msgid "Title or content"
 msgstr "題名か内容"
 
@@ -1772,7 +1760,7 @@ msgstr "題名か内容"
 msgid "Limit search to:"
 msgstr "対象範囲"
 
-#: modules/popup-dialog.php:188 mobile/functions.php:764
+#: modules/popup-dialog.php:188
 msgid "This feed"
 msgstr "このフィード"
 
@@ -2453,11 +2441,11 @@ msgstr "検索ダイアログを表示する"
 msgid "Active article actions"
 msgstr "有効な記事の操作"
 
-#: help/3.php:16 mobile/functions.php:717
+#: help/3.php:16
 msgid "Toggle starred"
 msgstr "お気に入りを切り替える"
 
-#: help/3.php:17 mobile/functions.php:718
+#: help/3.php:17
 msgid "Toggle published"
 msgstr "公開を切り替える"
 
@@ -2575,58 +2563,76 @@ msgid ""
 "configuration and your access level."
 msgstr ""
 
-#: mobile/functions.php:13
-msgid "View feeds"
-msgstr "フィードを閲覧する"
-
-#: mobile/functions.php:16
-msgid "View tags"
-msgstr "タグを閲覧する"
-
-#: mobile/functions.php:434
-msgid "Back"
-msgstr "戻る"
-
-#: mobile/functions.php:444
-msgid "View:"
+#: mobile/functions.php:56 mobile/functions.php:134 mobile/functions.php:170
+#: mobile/functions.php:197 mobile/functions.php:231 mobile/functions.php:355
+#: mobile/prefs.php:25
+msgid "Home"
 msgstr ""
 
-#: mobile/functions.php:466
-msgid "Refresh"
-msgstr "再描画"
+#: mobile/functions.php:391
+msgid "Nothing found (click to reload feed)."
+msgstr ""
 
-#: mobile/functions.php:579
-msgid "Page"
-msgstr "ページ"
-
-#: mobile/functions.php:692
+#: mobile/prefs.php:30
 #, fuzzy
-msgid "Back to feedlist"
-msgstr "編集するにはクリック"
+msgid "Enable categories"
+msgstr "フィードカテゴリーを有効にする"
 
-#: mobile/functions.php:700
-msgid "Tags:"
-msgstr "タグ:"
-
-#: mobile/functions.php:720
-msgid "Mark as unread"
-msgstr "未読にする"
-
-#: mobile/functions.php:737
-msgid "Go back"
-msgstr "戻る"
-
-#: mobile/functions.php:748
-msgid "Where:"
+#: mobile/prefs.php:31 mobile/prefs.php:36 mobile/prefs.php:41
+#: mobile/prefs.php:46
+msgid "ON"
 msgstr ""
 
-#: mobile/functions.php:779
-msgid "Match on:"
+#: mobile/prefs.php:31 mobile/prefs.php:36 mobile/prefs.php:41
+#: mobile/prefs.php:46
+msgid "OFF"
 msgstr ""
 
-#: mobile/tt-rss.php:122
-msgid "Internal error: Function not implemented"
-msgstr "インターナルエラー: 機能が実装されていません"
+#: mobile/prefs.php:35
+#, fuzzy
+msgid "Show images in posts"
+msgstr "記事内に画像を表示しない"
+
+#: mobile/prefs.php:40
+#, fuzzy
+msgid "Hide read items"
+msgstr "読んだフィードを隠す/再表示する"
+
+#: mobile/prefs.php:45
+#, fuzzy
+msgid "Sort feeds by unread count"
+msgstr "未読記事数によるフィードの並び替え"
+
+#~ msgid "View feeds"
+#~ msgstr "フィードを閲覧する"
+
+#~ msgid "View tags"
+#~ msgstr "タグを閲覧する"
+
+#~ msgid "Back"
+#~ msgstr "戻る"
+
+#~ msgid "Refresh"
+#~ msgstr "再描画"
+
+#~ msgid "Page"
+#~ msgstr "ページ"
+
+#, fuzzy
+#~ msgid "Back to feedlist"
+#~ msgstr "編集するにはクリック"
+
+#~ msgid "Tags:"
+#~ msgstr "タグ:"
+
+#~ msgid "Mark as unread"
+#~ msgstr "未読にする"
+
+#~ msgid "Go back"
+#~ msgstr "戻る"
+
+#~ msgid "Internal error: Function not implemented"
+#~ msgstr "インターナルエラー: 機能が実装されていません"
 
 #, fuzzy
 #~ msgid "Click to view"
