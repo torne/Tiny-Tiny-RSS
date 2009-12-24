@@ -1,4 +1,11 @@
 <?php
+	/* This file is disabled by default.
+	 *
+	 * Warning: XML-RPC server is not disabled by "Enable API access" per-user preference.
+	 *
+	 * To use the XML-RPC api server place required XML-RPC library in lib/xmlrpc and
+	 * move this file to tt-rss directory */
+
 	require "lib/xmlrpc/lib/xmlrpc.inc";
 	require "lib/xmlrpc/lib/xmlrpcs.inc";
 
