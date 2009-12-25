@@ -4051,7 +4051,27 @@
 				print "<a $target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
 			} else {
-				print $feed_title;
+				if ($feed_id < -10) {
+					$label_id = -11-$feed_id;
+
+					$result = db_query($link, "SELECT fg_color, bg_color
+						FROM ttrss_labels2 WHERE id = '$label_id' AND owner_uid = " .
+						$_SESSION["uid"]);
+
+					if (db_num_rows($result) != 0) {
+						$fg_color = db_fetch_result($result, 0, "fg_color");
+						$bg_color = db_fetch_result($result, 0, "bg_color");
+
+						print "<span style='background : $bg_color; color : $fg_color'>";
+						print $feed_title;
+						print "</span>";
+					} else {
+						print $feed_title;
+					}
+
+				} else {
+					print $feed_title;
+				}
 			}
 
 			if ($search) {
