@@ -86,6 +86,57 @@
 			return;
 		}
 
+		if ($subop == "delete") {
+			$ids = db_escape_string($_GET["ids"]);
+
+			$result = db_query($link, "DELETE FROM ttrss_user_entries 				
+				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+
+			print "<rpc-reply><counters>";
+			getGlobalCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
+			print "</counters></rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "unarchive") {
+			$ids = db_escape_string($_GET["ids"]);
+
+			$result = db_query($link, "UPDATE ttrss_user_entries 
+				SET feed_id = orig_feed_id
+				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+
+			print "<rpc-reply><counters>";
+			getGlobalCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
+			print "</counters></rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "archive") {
+			$ids = db_escape_string($_GET["ids"]);
+
+			$result = db_query($link, "UPDATE ttrss_user_entries 
+				SET orig_feed_id = feed_id, feed_id = NULL, marked = true
+				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+
+			print "<rpc-reply><counters>";
+			getGlobalCounters($link);
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				getCategoryCounters($link);
+			}
+			print "</counters></rpc-reply>";
+
+			return;
+		}
+
+
 		if ($subop == "publ") {
 			$pub = $_REQUEST["pub"];
 			$id = db_escape_string($_REQUEST["id"]);

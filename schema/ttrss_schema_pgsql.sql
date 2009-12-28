@@ -121,7 +121,8 @@ create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
 create table ttrss_user_entries (
 	int_id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
-	feed_id int references ttrss_feeds(id) ON DELETE CASCADE not null, 
+	feed_id int references ttrss_feeds(id) ON DELETE CASCADE, 
+	orig_feed_id int references ttrss_feeds(id) ON DELETE SET NULL, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
 	published boolean not null default false,
@@ -202,7 +203,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (59);
+insert into ttrss_version values (60);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

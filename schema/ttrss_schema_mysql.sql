@@ -133,7 +133,8 @@ create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
 create table ttrss_user_entries (
 	int_id integer not null primary key auto_increment,
 	ref_id integer not null,
-	feed_id int not null, 
+	feed_id int, 
+	orig_feed_id int, 
 	owner_uid integer not null,
 	marked bool not null default 0,
 	published bool not null default 0,
@@ -145,6 +146,8 @@ create table ttrss_user_entries (
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
+	index (orig_feed_id),
+	foreign key (orig_feed_id) references ttrss_feeds(id) ON DELETE SET NULL,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
@@ -226,7 +229,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (59);
+insert into ttrss_version values (60);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

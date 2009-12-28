@@ -211,7 +211,6 @@
 		case "view":
 
 			$id = db_escape_string($_GET["id"]);
-			$feed_id = db_escape_string($_GET["feed"]);
 			$cids = split(",", db_escape_string($_GET["cids"]));
 			$mode = db_escape_string($_GET["mode"]);
 			$omode = db_escape_string($_GET["omode"]);
@@ -224,9 +223,9 @@
 			// just gets marked as read (it already exists in client cache)
 
 			if ($mode == "") {
-				outputArticleXML($link, $id, $feed_id);
+				outputArticleXML($link, $id, false);
 			} else if ($mode == "zoom") {
-				outputArticleXML($link, $id, $feed_id, true, true);
+				outputArticleXML($link, $id, false, true, true);
 			} else {
 				catchupArticleById($link, $id, 0);
 				ccache_update($link, $feed_id, $_SESSION["uid"]);
@@ -235,7 +234,7 @@
 			if (!$_SESSION["bw_limit"]) {
 				foreach ($cids as $cid) {
 					if ($cid) {
-						outputArticleXML($link, $cid, $feed_id, false);
+						outputArticleXML($link, $cid, false, false);
 					}
 				}
 			}

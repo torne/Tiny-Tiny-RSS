@@ -1321,6 +1321,106 @@ function catchupPage() {
 	}
 }
 
+function deleteSelection() {
+
+	try {
+
+		var rows;
+	
+		if ($("headlinesList")) {
+			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		} else {	
+			rows = cdmGetSelectedArticles();
+		}
+	
+		if (rows.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+	
+	
+		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
+		var str;
+		var op;
+	
+		if (getActiveFeedId() != 0) {
+			str = __("Delete %d selected articles in %s?");
+		} else {
+			str = __("Delete %d selected articles?");
+		}
+	
+		str = str.replace("%d", rows.length);
+		str = str.replace("%s", fn);
+	
+		if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
+			return;
+		}
+
+		query = "backend.php?op=rpc&subop=delete&ids=" + param_escape(rows);
+
+		debug(query);
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					viewCurrentFeed();
+				} });
+
+	} catch (e) {
+		exception_error("archiveSelection", e);
+	}
+}
+
+function archiveSelection() {
+
+	try {
+
+		var rows;
+	
+		if ($("headlinesList")) {
+			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
+		} else {	
+			rows = cdmGetSelectedArticles();
+		}
+	
+		if (rows.length == 0) {
+			alert(__("No articles are selected."));
+			return;
+		}
+	
+	
+		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
+		var str;
+		var op;
+	
+		if (getActiveFeedId() != 0) {
+			str = __("Archive %d selected articles in %s?");
+			op = "archive";
+		} else {
+			str = __("Move %d archived articles back?");
+			op = "unarchive";
+		}
+	
+		str = str.replace("%d", rows.length);
+		str = str.replace("%s", fn);
+	
+		if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
+			return;
+		}
+
+		query = "backend.php?op=rpc&subop="+op+"&ids=" + param_escape(rows);
+
+		debug(query);
+
+		new Ajax.Request(query,	{
+			onComplete: function(transport) {
+					viewCurrentFeed();
+				} });
+
+	} catch (e) {
+		exception_error("archiveSelection", e);
+	}
+}
+
 function catchupSelection() {
 
 	try {

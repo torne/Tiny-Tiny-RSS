@@ -754,9 +754,8 @@
 
 			foreach ($iterator as $item) {
 
-				if ($_GET['xdebug']) {
+				if ($_GET['xdebug'] == 2) {
 					print_r($item);
-
 				}
 
 				if ($use_simplepie) {
@@ -857,7 +856,7 @@
 					} 
 				}
 
-				if ($_GET["xdebug"]) {
+				if ($_GET["xdebug"] == 2) {
 					print "update_rss_feed: content: ";
 					print_r(htmlspecialchars($entry_content));
 				}
@@ -1135,7 +1134,7 @@
 
 					// do we allow duplicate posts with same GUID in different feeds?
 					if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
-						$dupcheck_qpart = "AND feed_id = '$feed'";
+						$dupcheck_qpart = "AND (feed_id = '$feed' OR feed_id IS NULL)";
 					} else { 
 						$dupcheck_qpart = "";
 					}
@@ -1213,6 +1212,10 @@
 							$entry_int_id = db_fetch_result($result, 0, "int_id");
 						}
 					} else {
+						if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+							_debug("update_rss_feed: user record FOUND");
+						}
+
 						$entry_ref_id = db_fetch_result($result, 0, "ref_id");
 						$entry_int_id = db_fetch_result($result, 0, "int_id");
 					}
@@ -1588,6 +1591,8 @@
 	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
 		$rtl_content = false, $last_updated = false, $last_error = false,
 		$fg_content = false, $bg_content = false) {
+
+		if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id, false);
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
@@ -2467,7 +2472,7 @@
 			}
 		} else if ($n_feed == -4) {
 			$match_part = "true";
-		} else if ($n_feed > 0) {
+		} else if ($n_feed >= 0) {
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
 					WHERE parent_feed = '$n_feed'
@@ -2503,7 +2508,11 @@
 				return $unread;
 
 			} else {
-				$match_part = "feed_id = '$n_feed'";
+				if ($n_feed != 0) {
+					$match_part = "feed_id = '$n_feed'";
+				} else {
+					$match_part = "feed_id IS NULL";
+				}
 			}
 		} else if ($feed < -10) {
 
@@ -2514,12 +2523,18 @@
 		}
 
 		if ($match_part) {
-		
+
+			if ($n_feed != 0) {
+				$from_qpart = "ttrss_user_entries,ttrss_feeds,ttrss_entries";
+				$feeds_qpart = "ttrss_feeds.hidden = false AND
+					ttrss_user_entries.feed_id = ttrss_feeds.id AND";
+			} else {
+				$from_qpart = "ttrss_user_entries,ttrss_entries";
+			}
+
 			$result = db_query($link, "SELECT count(int_id) AS unread 
-				FROM ttrss_user_entries,ttrss_feeds,ttrss_entries WHERE
-				ttrss_user_entries.feed_id = ttrss_feeds.id AND
+				FROM $from_qpart WHERE
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
-				ttrss_feeds.hidden = false AND
 				$age_qpart AND
 				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = " . $owner_uid);
 				
@@ -2633,7 +2648,7 @@
 
 		$ret_arr = array();
 
-		for ($i = -1; $i >= -4; $i--) {
+		for ($i = 0; $i >= -4; $i--) {
 
 			$count = getFeedUnread($link, $i);
 	
@@ -2969,6 +2984,8 @@
 			return __("Fresh articles");
 		} else if ($id == -4) {
 			return __("All articles");
+		} else if ($id == 0) {
+			return __("Archived articles");
 		} else if ($id < -10) {
 			$label_id = -$id - 11;
 			$result = db_query($link, "SELECT caption FROM ttrss_labels2 WHERE id = '$label_id'");
@@ -3231,7 +3248,7 @@
 				$query_strategy_part = "ttrss_entries.id > 0";
 				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 					id = feed_id) as feed_title,";
-			} else if ($feed >= 0 && $search && $search_mode == "this_cat") {
+			} else if ($feed > 0 && $search && $search_mode == "this_cat") {
 	
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
 
@@ -3260,7 +3277,7 @@
 					$query_strategy_part = "ttrss_entries.id > 0";
 				}
 				
-			} else if ($feed >= 0) {
+			} else if ($feed > 0) {
 	
 				if ($cat_view) {
 
@@ -3292,6 +3309,8 @@
 						$query_strategy_part = "feed_id = '$feed'";
 					}
 				}
+			} else if ($feed == 0) { // starred virtual feed
+				$query_strategy_part = "feed_id IS NULL";
 			} else if ($feed == -1) { // starred virtual feed
 				$query_strategy_part = "marked = true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
@@ -3450,6 +3469,16 @@
 } */
 				}
 
+				if ($feed != "0") {
+					$from_qpart = "ttrss_entries,ttrss_user_entries,ttrss_feeds$ext_tables_part";
+					$feed_check_qpart = "ttrss_feeds.hidden = false AND 
+						ttrss_user_entries.feed_id = ttrss_feeds.id AND";
+
+				} else {
+					$from_qpart = "ttrss_entries,ttrss_user_entries$ext_tables_part
+						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)";
+				}
+
 				$query = "SELECT DISTINCT 
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
@@ -3462,11 +3491,10 @@
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
 						author,score
 					FROM
-						ttrss_entries,ttrss_user_entries,ttrss_feeds$ext_tables_part
+						$from_qpart
 					WHERE
 					$group_limit_part
-					ttrss_feeds.hidden = false AND 
-					ttrss_user_entries.feed_id = ttrss_feeds.id AND
+					$feed_check_qpart
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
@@ -3506,6 +3534,8 @@
 						$query_strategy_part ORDER BY $order_by
 					$limit_query_part");	
 			}
+
+			if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id);
 
 			return array($result, $feed_title, $feed_site_url, $last_error);
 			
@@ -4017,6 +4047,9 @@
 			$catchup_feed_link = "javascript:catchupCurrentFeed()";
 			$catchup_sel_link = "javascript:catchupSelection()";
 
+			$archive_sel_link = "javascript:archiveSelection()";
+			$delete_sel_link = "javascript:deleteSelection()";
+
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
 
 				$sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
@@ -4116,6 +4149,15 @@
 			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
 				"</li>";
 
+			if ($feed_id != "0") {
+				print "<li class=\"insensitive\">".__('Selection:')."</li>
+					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
+			} else {
+				print "<li class=\"insensitive\">".__('Selection:')."</li>
+					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>
+					<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
+			} 
+
 			//print "<li><span class=\"insensitive\">--------</span></li>";
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 
@@ -4194,41 +4236,41 @@
 		$num_published = getFeedUnread($link, -2);
 		$num_fresh = getFeedUnread($link, -3);
 		$num_total = getFeedUnread($link, -4);
+		$num_archive = getFeedUnread($link, 0);
 
 		$class = "virt";
 
 		if ($num_total > 0) $class .= "Unread";
 
-		printFeedEntry(-4, $class, __("All articles"), $num_total, 
+		printFeedEntry(-4, $class, false, $num_total, 
+			"images/tag.png", $link);
+
+		$class = "virt";
+
+		if ($num_archive > 0) $class .= "Unread";
+
+		printFeedEntry(0, $class, false, $num_archive, 
 			"images/tag.png", $link);
 
 		$class = "virt";
 
 		if ($num_fresh > 0) $class .= "Unread";
 
-		printFeedEntry(-3, $class, __("Fresh articles"), $num_fresh, 
+		printFeedEntry(-3, $class, false, $num_fresh, 
 			"images/fresh.png", $link);
 
 		$class = "virt";
 
 		if ($num_starred > 0) $class .= "Unread";
 
-		$is_ie = (strpos($_SESSION["client.userAgent"], "MSIE") !== false);
-
-		if ($is_ie) {
-			$mark_img_ext = "gif";
-		} else {
-			$mark_img_ext = "png";
-		}
-
-		printFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
-			"images/mark_set.$mark_img_ext", $link);
+		printFeedEntry(-1, $class, false, $num_starred, 
+			"images/mark_set.png", $link);
 
 		$class = "virt";
 
 		if ($num_published > 0) $class .= "Unread";
 
-		printFeedEntry(-2, $class, __("Published articles"), $num_published, 
+		printFeedEntry(-2, $class, false, $num_published, 
 			"images/pub_set.gif", $link);
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -4616,12 +4658,12 @@
 		$zoom_mode = false) {
 
 		/* we can figure out feed_id from article id anyway, why do we
-		 * pass feed_id here? */
+		 * pass feed_id here? let's ignore the argument :( */
 
 		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries
 			WHERE ref_id = '$id'");
 
-		$feed_id = db_fetch_result($result, 0, "feed_id");
+		$feed_id = (int) db_fetch_result($result, 0, "feed_id");
 
 		if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
@@ -5179,7 +5221,7 @@
 #								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
 #					} else {			
 
-					print "<td onclick='view($id,$feed_id)' class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
+					print "<td onclick='view($id)' class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
 
 					print "<a id=\"RTITLE-$id\" 
 						href=\"" . htmlspecialchars($line["link"]) . "\"
@@ -5215,7 +5257,7 @@
 
 #					}
 					
-					print "<td class=\"hlUpdated\" onclick='view($id,$feed_id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
+					print "<td class=\"hlUpdated\" onclick='view($id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 
@@ -5600,8 +5642,14 @@
 	 * @return void
 	 */
 	function clear_feed_articles($link, $id) {
-		$result = db_query($link, "DELETE FROM ttrss_user_entries
+
+		if ($id != 0) {
+			$result = db_query($link, "DELETE FROM ttrss_user_entries
 			WHERE feed_id = '$id' AND marked = false AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			$result = db_query($link, "DELETE FROM ttrss_user_entries
+			WHERE feed_id IS NULL AND marked = false AND owner_uid = " . $_SESSION["uid"]);
+		}
 
 		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
@@ -6320,8 +6368,21 @@
 	function remove_feed($link, $id, $owner_uid) {
 
 		if ($id > 0) {
+
+			/* save starred articles in Archived feed */
+
+			db_query($link, "BEGIN");
+
+			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL 
+				WHERE feed_id = '$id' AND 
+					marked = true AND owner_uid = $owner_uid");
+
+			/* remove the feed */
+
 			db_query($link, "DELETE FROM ttrss_feeds 
 					WHERE id = '$id' AND owner_uid = $owner_uid");
+
+			db_query($link, "COMMIT");
 
 			if (file_exists(ICONS_DIR . "/$id.ico")) {
 				unlink(ICONS_DIR . "/$id.ico");
