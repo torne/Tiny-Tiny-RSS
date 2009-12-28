@@ -6407,4 +6407,35 @@
 		ccache_remove($link, $id, $owner_uid, true);
 	}
 
+	function archive_article($link, $id, $owner_uid) {
+		db_query($link, "BEGIN");
+
+		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries
+			WHERE ref_id = '$id' AND owner_uid = $owner_uid");
+
+		if (db_num_rows($result) != 0) {
+
+			/* prepare the archived table */
+
+			$feed_id = (int) db_fetch_result($result, 0, "feed_id");
+
+			if ($feed_id) {
+				$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
+					WHERE id = '$feed_id'");
+
+				if (db_num_rows($result) == 0) {
+					db_query($link, "INSERT INTO ttrss_archived_feeds 
+						(id, owner_uid, title, feed_url, site_url)
+					SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
+				  	WHERE id = '$feed_id'");
+				}
+
+				db_query($link, "UPDATE ttrss_user_entries 
+					SET orig_feed_id = feed_id, feed_id = NULL
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			}
+		}
+
+		db_query($link, "COMMIT");
+	}
 ?>

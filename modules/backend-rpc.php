@@ -120,11 +120,11 @@
 		}
 
 		if ($subop == "archive") {
-			$ids = db_escape_string($_GET["ids"]);
+			$ids = split(",", db_escape_string($_GET["ids"]));
 
-			$result = db_query($link, "UPDATE ttrss_user_entries 
-				SET orig_feed_id = feed_id, feed_id = NULL, marked = true
-				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+			foreach ($ids as $id) {
+				archive_article($link, $id, $_SESSION["uid"]);
+			}
 
 			print "<rpc-reply><counters>";
 			getGlobalCounters($link);
