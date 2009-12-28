@@ -6376,6 +6376,18 @@
 
 			db_query($link, "BEGIN");
 
+			/* prepare feed if necessary */
+
+			$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
+				WHERE id = '$id'");
+
+			if (db_num_rows($result) == 0) {
+				db_query($link, "INSERT INTO ttrss_archived_feeds 
+					(id, owner_uid, title, feed_url, site_url)
+				SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
+			  	WHERE id = '$id'");
+			}
+
 			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL 
 				WHERE feed_id = '$id' AND 
 					marked = true AND owner_uid = $owner_uid");
