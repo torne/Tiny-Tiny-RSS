@@ -1366,7 +1366,7 @@ function deleteSelection() {
 				} });
 
 	} catch (e) {
-		exception_error("archiveSelection", e);
+		exception_error("deleteSelection", e);
 	}
 }
 
@@ -1410,6 +1410,10 @@ function archiveSelection() {
 		query = "backend.php?op=rpc&subop="+op+"&ids=" + param_escape(rows);
 
 		debug(query);
+
+		for (var i = 0; i < rows.length; i++) {
+			cache_invalidate(rows[i]);
+		}
 
 		new Ajax.Request(query,	{
 			onComplete: function(transport) {
