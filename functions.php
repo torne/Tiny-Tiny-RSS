@@ -1596,6 +1596,11 @@
 		$fg_content = false, $bg_content = false) {
 
 		if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id, false);
+		if (!$unread) $unread = getFeedUnread($link, $feed_id);	
+
+		if ($unread > 0) $class .= "Unread";
+
+		if (!$icon_file) $icon_file = getFeedIcon($feed_id);
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
@@ -2963,6 +2968,9 @@
 
 	function getFeedIcon($id) {
 		switch ($id) {
+		case 0:
+			return "images/archive.png";
+			break;
 		case -1:
 			return "images/mark_set.gif";
 			break;
@@ -2976,7 +2984,11 @@
 			return "images/tag.png";
 			break;
 		default:
-			return ICONS_URL . "/$id.ico";
+			if ($id < -10) {
+				return "images/label.png";
+			} else {
+				return ICONS_URL . "/$id.ico";
+			}
 			break;
 		}
 	}
@@ -4239,46 +4251,10 @@
 			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
 
-		$num_starred = getFeedUnread($link, -1);
-		$num_published = getFeedUnread($link, -2);
-		$num_fresh = getFeedUnread($link, -3);
-		$num_total = getFeedUnread($link, -4);
-		$num_archive = getFeedUnread($link, 0);
-
-		$class = "virt";
-
-		if ($num_total > 0) $class .= "Unread";
-
-		printFeedEntry(-4, $class, false, $num_total, 
-			"images/tag.png", $link);
-
-		$class = "virt";
-
-		if ($num_archive > 0) $class .= "Unread";
-
-		printFeedEntry(0, $class, false, $num_archive, 
-			"images/tag.png", $link);
-
-		$class = "virt";
-
-		if ($num_fresh > 0) $class .= "Unread";
-
-		printFeedEntry(-3, $class, false, $num_fresh, 
-			"images/fresh.png", $link);
-
-		$class = "virt";
-
-		if ($num_starred > 0) $class .= "Unread";
-
-		printFeedEntry(-1, $class, false, $num_starred, 
-			"images/mark_set.png", $link);
-
-		$class = "virt";
-
-		if ($num_published > 0) $class .= "Unread";
-
-		printFeedEntry(-2, $class, false, $num_published, 
-			"images/pub_set.gif", $link);
+		foreach (array(-4, 0, -3, -1, -2) as $i) {
+			printFeedEntry($i, "virt", false, false, 
+				false, $link);
+		}
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			print "</ul></li>";
@@ -4306,16 +4282,10 @@
 	
 					$label_id = -$line['id'] - 11;
 					$count = getFeedUnread($link, $label_id);
-
-					$class = "label";
-	
-					if ($count > 0) {
-						$class .= "Unread";
-					}
 	
 					printFeedEntry($label_id, 
-						$class, $line["caption"], 
-						$count, "images/label.png", $link, 
+						"label", $line["caption"], 
+						$count, false, $link, 
 						false, false, false,
 						$line['fg_color'], $line['bg_color']);
 		
@@ -4425,8 +4395,6 @@
 					$class = "feed";
 				}
 	
-				if ($unread > 0) $class .= "Unread";
-	
 				if ($actid == $feed_id) {
 					$class .= "Selected";
 				}
@@ -4455,7 +4423,7 @@
 				}
 	
 				printFeedEntry($feed_id, $class, $feed, $unread, 
-					ICONS_URL."/$feed_id.ico", $link, $rtl_content, 
+					false, $link, $rtl_content, 
 					$last_updated, $line["last_error"]);
 	
 				++$lnum;
