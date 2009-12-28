@@ -729,24 +729,7 @@
 			$ids = split(",", db_escape_string($_GET["ids"]));
 
 			foreach ($ids as $id) {
-
-				if ($id > 0) {
-
-					db_query($link, "DELETE FROM ttrss_feeds 
-						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
-					$icons_dir = ICONS_DIR;
-					
-					if (file_exists($icons_dir . "/$id.ico")) {
-						unlink($icons_dir . "/$id.ico");
-					}
-
-					ccache_remove($link, $id, $_SESSION["uid"]);
-
-				} else {
-					label_remove($link, -11-$id, $_SESSION["uid"]);
-					ccache_remove($link, -11-$id, $_SESSION["uid"]);
-				}
+				remove_feed($link, $id, $_SESSION["uid"]);
 			}
 		}
 
@@ -1017,34 +1000,10 @@
 
 			if ($action == "remove") {
 	
-				if (!WEB_DEMO_MODE) {
+				$ids = split(",", db_escape_string($_GET["ids"]));
 	
-					$ids = split(",", db_escape_string($_GET["ids"]));
-	
-					foreach ($ids as $id) {
-	
-						db_query($link, "BEGIN");
-	
-						$result = db_query($link, 
-							"SELECT count(id) as num_feeds FROM ttrss_feeds 
-								WHERE cat_id = '$id'");
-	
-						$num_feeds = db_fetch_result($result, 0, "num_feeds");
-	
-						if ($num_feeds == 0) {
-							db_query($link, "DELETE FROM ttrss_feed_categories
-								WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
-							ccache_remove($link, $id, $_SESSION["uid"], true);
-
-						} else {
-	
-							print format_warning(__("Unable to delete non empty feed categories."));
-								
-						}
-	
-						db_query($link, "COMMIT");
-					}
+				foreach ($ids as $id) {
+					remove_feed_category($link, $id, $_SESSION["uid"]);
 				}
 			}
 

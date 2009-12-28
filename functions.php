@@ -6316,4 +6316,31 @@
 			}
 		}
 	}
+
+	function remove_feed($link, $id, $owner_uid) {
+
+		if ($id > 0) {
+			db_query($link, "DELETE FROM ttrss_feeds 
+					WHERE id = '$id' AND owner_uid = $owner_uid");
+
+			if (file_exists(ICONS_DIR . "/$id.ico")) {
+				unlink(ICONS_DIR . "/$id.ico");
+			}
+
+			ccache_remove($link, $id, $owner_uid);
+
+		} else {
+			label_remove($link, -11-$id, $owner_uid);
+			ccache_remove($link, -11-$id, $owner_uid);
+		}
+	}
+
+	function remove_feed_category($link, $id, $owner_uid) {
+
+		db_query($link, "DELETE FROM ttrss_feed_categories
+			WHERE id = '$id' AND owner_uid = $owner_uid");
+
+		ccache_remove($link, $id, $owner_uid, true);
+	}
+
 ?>
