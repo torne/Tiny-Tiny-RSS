@@ -2490,7 +2490,7 @@
 				
 				$match_part = implode(" OR ", $linked_feeds);
 
-				$result = db_query($link, "SELECT COUNT(int_id) AS unread 
+				$tmp_result = db_query($link, "SELECT COUNT(int_id) AS unread 
 					FROM ttrss_user_entries,ttrss_entries
 					WHERE	$unread_qpart AND
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
@@ -2501,7 +2501,7 @@
 				$unread = 0;
 
 				# this needs to be rewritten
-				while ($line = db_fetch_assoc($result)) {
+				while ($line = db_fetch_assoc($tmp_result)) {
 					$unread += $line["unread"];
 				}
 
@@ -2532,11 +2532,14 @@
 				$from_qpart = "ttrss_user_entries,ttrss_entries";
 			}
 
-			$result = db_query($link, "SELECT count(int_id) AS unread 
+			$query = "SELECT count(int_id) AS unread 
 				FROM $from_qpart WHERE
 				ttrss_user_entries.ref_id = ttrss_entries.id AND 
 				$age_qpart AND
-				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = " . $owner_uid);
+				$feeds_qpart
+				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = $owner_uid";
+
+			$result = db_query($link, $query);
 				
 		} else {
 		
