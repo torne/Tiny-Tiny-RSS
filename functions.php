@@ -3490,7 +3490,7 @@
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
 						note,
-						unread,feed_id,marked,published,link,last_read,
+						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
@@ -3522,7 +3522,7 @@
 					note,
 					ttrss_entries.id as id,title,
 					updated,
-					unread,feed_id,
+					unread,feed_id,orig_feed_id,
 					marked,link,last_read,				
 					".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 					$vfeed_query_part
@@ -5130,20 +5130,12 @@
 					$is_unread = false;
 				}
 
-				$is_ie = (strpos($_SESSION["client.userAgent"], "MSIE") !== false);
-
-				if ($is_ie) {
-					$mark_img_ext = "gif";
-				} else {
-					$mark_img_ext = "png";
-				}
-
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.$mark_img_ext\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_set.png\" 
 						class=\"markedPic\"
 						alt=\"Unstar article\" onclick='javascript:tMark($id)'>";
 				} else {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.$mark_img_ext\" 
+					$marked_pic = "<img id=\"FMPIC-$id\" src=\"images/mark_unset.png\" 
 						class=\"markedPic\"
 						alt=\"Star article\" onclick='javascript:tMark($id)'>";
 				}
@@ -5408,6 +5400,33 @@
 					print "<div class=\"cdmContent\" 
 						onclick=\"cdmClicked($id)\"
 						id=\"CICD-$id\" $cdm_cstyle>";
+
+					if ($line["orig_feed_id"]) {
+
+						$tmp_result = db_query($link, "SELECT * FROM ttrss_archived_feeds
+						WHERE id = ".$line["orig_feed_id"]);
+
+						if (db_num_rows($tmp_result) != 0) {
+
+						print "<div clear='both'>";
+						print __("Originally from:");
+
+						print "&nbsp;";
+
+						$tmp_line = db_fetch_assoc($tmp_result);
+
+						print "<a target='_blank' 
+							href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
+							$tmp_line['title'] . "</a>";
+
+						print "&nbsp;";
+
+						print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+						print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+
+						print "</div>";
+					}
+				}
 
 //					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
 
