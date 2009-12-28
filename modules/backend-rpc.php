@@ -106,7 +106,7 @@
 			$ids = db_escape_string($_GET["ids"]);
 
 			$result = db_query($link, "UPDATE ttrss_user_entries 
-				SET feed_id = orig_feed_id
+				SET feed_id = orig_feed_id, orig_feed_id = NULL
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 			print "<rpc-reply><counters>";

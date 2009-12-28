@@ -1164,10 +1164,13 @@
 						_debug("update_rss_feed: initial score: $score");
 					}
 
-					$result = db_query($link,
-						"SELECT ref_id, int_id FROM ttrss_user_entries WHERE
+					$query = "SELECT ref_id, int_id FROM ttrss_user_entries WHERE
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
-							$dupcheck_qpart");
+							$dupcheck_qpart";
+
+//					if ($_GET["xdebug"]) print "$query\n";
+
+					$result = db_query($link, $query);
 
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
@@ -4154,7 +4157,8 @@
 
 			if ($feed_id != "0") {
 				print "<li class=\"insensitive\">".__('Selection:')."</li>
-					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
+					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>
+					<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
 			} else {
 				print "<li class=\"insensitive\">".__('Selection:')."</li>
 					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>
@@ -4702,6 +4706,7 @@
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			num_comments,
 			author,
+			orig_feed_id,
 			note
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
@@ -4810,6 +4815,33 @@
 			}
 			print "</div>";
 			print "<div clear='both'>$entry_comments</div>";
+
+			if ($line["orig_feed_id"]) {
+
+				$tmp_result = db_query($link, "SELECT * FROM ttrss_archived_feeds
+					WHERE id = ".$line["orig_feed_id"]);
+
+				if (db_num_rows($tmp_result) != 0) {
+
+					print "<div clear='both'>";
+					print __("Originally from:");
+
+					print "&nbsp;";
+
+					$tmp_line = db_fetch_assoc($tmp_result);
+
+					print "<a target='_blank' 
+						href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
+						$tmp_line['title'] . "</a>";
+
+					print "&nbsp;";
+
+					print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+					print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+
+					print "</div>";
+				}
+			}
 
 			print "</div>";
 
