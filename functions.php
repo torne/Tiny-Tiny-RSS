@@ -4251,7 +4251,7 @@
 			printCategoryHeader($link, -1, $cat_hidden, false);
 		}
 
-		foreach (array(-4, 0, -3, -1, -2) as $i) {
+		foreach (array(-4, -3, -1, -2, 0) as $i) {
 			printFeedEntry($i, "virt", false, false, 
 				false, $link);
 		}
