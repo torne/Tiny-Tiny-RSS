@@ -2972,7 +2972,7 @@
 			return "images/archive.png";
 			break;
 		case -1:
-			return "images/mark_set.gif";
+			return "images/mark_set.png";
 			break;
 		case -2:
 			return "images/pub_set.gif";
