@@ -22,6 +22,7 @@ drop table if exists ttrss_scheduled_updates;
 drop table if exists ttrss_counters_cache;
 drop table if exists ttrss_cat_counters_cache;
 drop table if exists ttrss_feeds;
+drop table if exists ttrss_archived_feeds;
 drop table if exists ttrss_feed_categories;
 drop table if exists ttrss_users;
 drop table if exists ttrss_themes;
@@ -59,6 +60,14 @@ create table ttrss_feed_categories(id integer not null primary key auto_incremen
 	title varchar(200) not null,
 	collapsed bool not null default false,
 	order_id integer not null default 0,
+	index(owner_uid),
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+
+create table ttrss_archived_feeds (id integer not null primary key,
+	owner_uid integer not null,
+	title varchar(200) not null, 
+	feed_url text not null, 
+	site_url varchar(250) not null default '',
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
@@ -147,7 +156,7 @@ create table ttrss_user_entries (
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
 	index (orig_feed_id),
-	foreign key (orig_feed_id) references ttrss_feeds(id) ON DELETE SET NULL,
+	foreign key (orig_feed_id) references ttrss_archived_feeds(id) ON DELETE SET NULL,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 

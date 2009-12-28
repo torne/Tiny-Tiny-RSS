@@ -18,6 +18,7 @@ drop table ttrss_entries;
 drop table ttrss_scheduled_updates;
 drop table ttrss_counters_cache;
 drop table ttrss_cat_counters_cache;
+drop table ttrss_archived_feeds;
 drop table ttrss_feeds;
 drop table ttrss_feed_categories;
 drop table ttrss_users;
@@ -89,6 +90,12 @@ insert into ttrss_feeds (owner_uid, title, feed_url) values
 insert into ttrss_feeds (owner_uid, title, feed_url) values 
 	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.spb.ru/forum/rss.php');
 
+create table ttrss_archived_feeds (id integer not null primary key,
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
+	title varchar(200) not null, 
+	feed_url text not null, 
+	site_url varchar(250) not null default '');	
+
 create table ttrss_counters_cache (
 	feed_id integer not null,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
@@ -122,7 +129,7 @@ create table ttrss_user_entries (
 	int_id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE, 
-	orig_feed_id int references ttrss_feeds(id) ON DELETE SET NULL, 
+	orig_feed_id integer references ttrss_archived_feeds(id) ON DELETE SET NULL, 
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
 	published boolean not null default false,
