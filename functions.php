@@ -6475,7 +6475,7 @@
 
 	function getArticleFeed($link, $id) {
 		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries 
-			WHERE ref_id = '$id'");
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "feed_id");
