@@ -2397,7 +2397,7 @@
 	
 			return $unread;
 		} else if ($cat == -1) {
-			return getFeedUnread($link, -1) + getFeedUnread($link, -2) + getFeedUnread($link, -3);
+			return getFeedUnread($link, -1) + getFeedUnread($link, -2) + getFeedUnread($link, -3) + getFeedUnread($link, 0);
 		} else if ($cat == -2) {
 
 			$result = db_query($link, "
