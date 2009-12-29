@@ -2149,7 +2149,7 @@
 			if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
 			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
-			
+
 				if ($cat_view) {
 
 					if ($feed >= 0) {
@@ -2343,7 +2343,7 @@
 			ttrss_feed_categories.owner_uid = " . $_SESSION["uid"]);
 
 		while ($line = db_fetch_assoc($result)) {
-			$line["cat_id"] = sprintf("%d", $line["cat_id"]);
+			$line["cat_id"] = (int) $line["cat_id"];
 
 			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
 				$line["unread"]."\"/>";
@@ -2450,7 +2450,7 @@
 	function getFeedArticles($link, $feed, $is_cat = false, $unread_only = false,
 		$owner_uid = false) {
 
-		$n_feed = sprintf("%d", $feed);
+		$n_feed = (int) $feed;
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -3030,13 +3030,8 @@
 				return "Unknown feed ($id)";
 			}
 		} else {
-			if (preg_match("/^-?[0-9][0-9]*$/", $id)) {
-				return "getFeedTitle($id) failed";
-			} else {
-				return $id;
-			}
+			return $id;
 		}
-
 	}
 
 	function get_session_cookie_name() {
@@ -3143,7 +3138,7 @@
 
 		if (ENABLE_UPDATE_DAEMON) {
 			print "<param key=\"daemon_is_running\" value=\"".
-				sprintf("%d", file_is_locked("update_daemon.lock")) . "\"/>";
+				(int) file_is_locked("update_daemon.lock") . "\"/>";
 
 			if (time() - $_SESSION["daemon_stamp_check"] > 30) {
 
@@ -3271,6 +3266,7 @@
 			if ($search && $search_mode == "all_feeds") {
 				$query_strategy_part = "ttrss_entries.id > 0";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";		
+			/* tags */
 			} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
 				$query_strategy_part = "ttrss_entries.id > 0";
 				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
@@ -3401,69 +3397,23 @@
 	
 			$feed_title = "";
 
-			if ($search && $search_mode == "all_feeds") {
-				$feed_title = __("Search results")." ($search)";
-			} else if ($search && preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = __("Search results")." ($search, $feed)";
-			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) == false) {
-				$feed_title = $feed;
-			} else if (preg_match('/^-?[0-9][0-9]*$/', $feed) != false && $feed >= 0) {
-	
-				if ($cat_view) {
-
-					if ($feed != 0) {			
-						$result = db_query($link, "SELECT title FROM ttrss_feed_categories
-							WHERE id = '$feed' AND owner_uid = $owner_uid");
-						$feed_title = db_fetch_result($result, 0, "title");
-					} else {
-						$feed_title = __("Uncategorized");
-					}
-
-					if ($search) {
-						$feed_title = __("Searched for")." $search ($feed_title)";
-					}
-
-				} else {
-					
-					$result = db_query($link, "SELECT title,site_url,last_error FROM ttrss_feeds 
-						WHERE id = '$feed' AND owner_uid = $owner_uid");
-		
-					$feed_title = db_fetch_result($result, 0, "title");
-					$feed_site_url = db_fetch_result($result, 0, "site_url");
-					$last_error = db_fetch_result($result, 0, "last_error");
-
-					if ($search) {
-						$feed_title = __("Searched for") . " $search ($feed_title)";
-					}
-				}
-	
-			} else if ($feed == -1) {
-				$feed_title = __("Starred articles");
-				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
-			} else if ($feed == -2) {
-				if (!$cat_view) {
-					$feed_title = __("Published articles");
-					if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
-				} else {
-					$feed_title = __("Labels");
-				}
-			} else if ($feed == -3) {
-				$feed_title = __("Fresh articles");
-				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
-			} else if ($feed == -4) {
-				$feed_title = __("All articles");
-				if ($search) {	$feed_title = __("Searched for") . " $search ($feed_title)"; }
-			} else if ($feed < -10) {
-				$label_id = -$feed - 11;
-				$result = db_query($link, "SELECT caption FROM ttrss_labels2
-					WHERE id = '$label_id'");
-				$feed_title = db_fetch_result($result, 0, "caption");
-
-				if ($search) {
-					$feed_title = __("Searched for") . " $search ($feed_title)";
-				}
+			if ($search) {
+				$feed_title = "Search results";
 			} else {
-				$feed_title = "?";
+				if ($cat_view) {
+					$feed_title = getCategoryTitle($link, $feed);
+				} else {
+					if ((int)$feed == $feed && $feed > 0) {
+						$result = db_query($link, "SELECT title,site_url,last_error 
+							FROM ttrss_feeds WHERE id = '$feed' AND owner_uid = $owner_uid");
+		
+						$feed_title = db_fetch_result($result, 0, "title");
+						$feed_site_url = db_fetch_result($result, 0, "site_url");
+						$last_error = db_fetch_result($result, 0, "last_error");
+					} else {
+						$feed_title = getFeedTitle($link, $feed);
+					} 
+				}
 			}
 
 			$content_query_part = "content as content_preview,";
@@ -3484,16 +3434,6 @@
 					if (!$override_order) {
 						$order_by = "ttrss_feeds.title, $order_by";	
 					}
-
-					// Special output for Fresh feed
-
-/*					if ($feed == -3) {
-						$group_limit_part = "(select count(*) from 
-							ttrss_user_entries AS t1, ttrss_entries AS t2 where
-								t1.ref_id = t2.id and t1.owner_uid = 2 and
-								t1.feed_id = ttrss_user_entries.feed_id and
-								t2.updated > ttrss_entries.updated) <= 5 AND";
-} */
 				}
 
 				if ($feed != "0") {
@@ -3562,10 +3502,8 @@
 					$limit_query_part");	
 			}
 
-			if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id);
-
 			return array($result, $feed_title, $feed_site_url, $last_error);
-			
+		
 	}
 
 	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
@@ -4428,7 +4366,7 @@
 						$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
 					}
 
-					$cat_id = sprintf("%d", $cat_id);
+					$cat_id = (int) $cat_id;
 
 					printCategoryHeader($link, $cat_id, $collapsed, true);
 
