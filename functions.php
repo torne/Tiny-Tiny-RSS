@@ -2464,6 +2464,15 @@
 
 		if ($is_cat) {
 			return getCategoryUnread($link, $n_feed, $owner_uid);		
+		} if ($feed != "0" && $n_feed == 0) {
+
+			$result = db_query($link, "SELECT SUM((SELECT COUNT(int_id)
+				FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id 
+					AND ref_id = id AND $age_qpart
+					AND $unread_qpart)) AS count FROM ttrss_tags 
+				WHERE owner_uid = $owner_uid AND tag_name = '$feed'");
+			return db_fetch_result($result, 0, "count");
+
 		} else if ($n_feed == -1) {
 			$match_part = "marked = true";
 		} else if ($n_feed == -2) {
@@ -4472,13 +4481,8 @@
 			foreach (array_keys($tags) as $tag) {
 	
 				$unread = $tags[$tag];
-	
 				$class = "tag";
-	
-				if ($unread > 0) {
-					$class .= "Unread";
-				}
-	
+
 				printFeedEntry($tag, $class, $tag, $unread, "images/tag.png", $link);
 	
 			} 
