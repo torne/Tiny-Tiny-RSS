@@ -457,9 +457,10 @@ function article_callback2(transport, id, feed_id) {
 	}
 }
 
-function view(id, feed_id, skip_history) {
-	
+function view(id, feed_id) {
 	try {
+		if (!feed_id) feed_id = 0;
+
 		debug("loading article: " + id + "/" + feed_id);
 
 		if (offline_mode) return view_offline(id, feed_id);
