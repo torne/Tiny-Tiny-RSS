@@ -226,12 +226,13 @@ function updateFeedList(sort_key) {
 		slat_checked = slat.checked;
 	}
 
-	var query = "backend.php?op=pref-feeds" +
+	var query = "?op=pref-feeds" +
 		"&sort=" + param_escape(sort_key) + 
 		"&slat=" + param_escape(slat_checked) +
 		"&search=" + param_escape(search);
 
-	new Ajax.Request(query, {
+	new Ajax.Request("backend.php", {
+		parameters: query,
 		onComplete: function(transport) { 
 			feedlist_callback2(transport); 
 		} });
@@ -248,11 +249,12 @@ function updateUsersList(sort_key) {
 		var search = "";
 		if (user_search) { search = user_search.value; }
 	
-		var query = "backend.php?op=pref-users&sort="
+		var query = "?op=pref-users&sort="
 			+ param_escape(sort_key) +
 			"&search=" + param_escape(search);
 	
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				userlist_callback2(transport); 
 			} });
@@ -280,10 +282,11 @@ function addLabel() {
 		// we can be called from some other tab
 		active_tab = "labelConfig";
 	
-		query = "backend.php?op=pref-labels&subop=add&caption=" + 
+		query = "?op=pref-labels&subop=add&caption=" + 
 			param_escape(caption);
 	
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_submit_callback2(transport);
 				} });
@@ -306,10 +309,11 @@ function addFeed() {
 		} else {
 			notify_progress("Adding feed...");
 	
-			var query = "backend.php?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
+			var query = "?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
 				param_escape(link.value);
 	
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						feedlist_callback2(transport);
 					} });
@@ -333,10 +337,11 @@ function addFeedCat() {
 	} else {
 		notify_progress("Adding feed category...");
 
-		var query = "backend.php?op=pref-feeds&subop=editCats&action=add&cat=" +
+		var query = "?op=pref-feeds&subop=editCats&action=add&cat=" +
 			param_escape(cat.value);
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_feed_cat_callback2(transport);
 				} });
@@ -363,10 +368,11 @@ function addUser() {
 	
 		notify_progress("Adding user...");
 	
-		var query = "backend.php?op=pref-users&subop=add&login=" +
+		var query = "?op=pref-users&subop=add&login=" +
 			param_escape(login);
 				
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				userlist_callback2(transport); 
 			} });
@@ -389,10 +395,11 @@ function editUser(id) {
 
 		disableContainerChildren("userOpToolbar", false);
 
-		var query = "backend.php?op=pref-users&subop=edit&id=" +
+		var query = "?op=pref-users&subop=edit&id=" +
 			param_escape(id);
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
 				} });
@@ -416,10 +423,11 @@ function editFilter(id) {
 		selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
 		selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
 
-		var query = "backend.php?op=pref-filters&subop=edit&id=" + 
+		var query = "?op=pref-filters&subop=edit&id=" + 
 			param_escape(id);
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
 				} });
@@ -442,10 +450,11 @@ function editFeed(feed) {
 	
 		disableContainerChildren("feedOpToolbar", false);
 	
-		var query = "backend.php?op=pref-feeds&subop=editfeed&id=" +
+		var query = "?op=pref-feeds&subop=editfeed&id=" +
 			param_escape(feed);
 	
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
 				} });
@@ -487,10 +496,11 @@ function removeSelectedLabels() {
 		if (ok) {
 			notify_progress("Removing selected labels...");
 	
-			var query = "backend.php?op=pref-labels&subop=remove&ids="+
+			var query = "?op=pref-labels&subop=remove&ids="+
 				param_escape(sel_rows.toString());
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						labellist_callback2(transport);
 					} });
@@ -516,10 +526,11 @@ function removeSelectedUsers() {
 			if (ok) {
 				notify_progress("Removing selected users...");
 		
-				var query = "backend.php?op=pref-users&subop=remove&ids="+
+				var query = "?op=pref-users&subop=remove&ids="+
 					param_escape(sel_rows.toString());
 	
-				new Ajax.Request(query, {
+				new Ajax.Request("backend.php", {
+					parameters: query,
 					onComplete: function(transport) { 
 						userlist_callback2(transport); 
 					} });
@@ -550,10 +561,11 @@ function removeSelectedFilters() {
 			if (ok) {
 				notify_progress("Removing selected filters...");
 		
-				var query = "backend.php?op=pref-filters&subop=remove&ids="+
+				var query = "?op=pref-filters&subop=remove&ids="+
 					param_escape(sel_rows.toString());
 	
-				new Ajax.Request(query,	{
+				new Ajax.Request("backend.php",	{
+						parameters: query,
 						onComplete: function(transport) {
 								filterlist_callback2(transport);
 					} });
@@ -585,10 +597,11 @@ function removeSelectedFeeds() {
 	
 				notify_progress("Unsubscribing from selected feeds...");
 		
-				var query = "backend.php?op=pref-feeds&subop=remove&ids="+
+				var query = "?op=pref-feeds&subop=remove&ids="+
 					param_escape(sel_rows.toString());
 	
-				new Ajax.Request(query,	{
+				new Ajax.Request("backend.php",	{
+					parameters: query,
 					onComplete: function(transport) {
 							feedlist_callback2(transport);
 						} });
@@ -643,12 +656,13 @@ function purgeSelectedFeeds() {
 		if (pr != undefined) {
 			notify_progress("Purging selected feed...");
 
-			var query = "backend.php?op=rpc&subop=purge&ids="+
+			var query = "?op=rpc&subop=purge&ids="+
 				param_escape(sel_rows.toString()) + "&days=" + pr;
 
 			debug(query);
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("prefs.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 					notify('');
 				} });
@@ -674,10 +688,11 @@ function removeSelectedFeedCats() {
 		if (ok) {
 			notify_progress("Removing selected categories...");
 	
-			var query = "backend.php?op=pref-feeds&subop=editCats&action=remove&ids="+
+			var query = "?op=pref-feeds&subop=editCats&action=remove&ids="+
 				param_escape(sel_rows.toString());
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 					infobox_feed_cat_callback2(transport);
 				} });
@@ -792,13 +807,14 @@ function filterEditSave() {
 
 		notify_progress("Saving filter...");
 	
-		var query = "backend.php?" + Form.serialize("filter_edit_form");
+		var query = "?" + Form.serialize("filter_edit_form");
 	
 		closeInfoBox();
 	
 		$("create_filter_btn").disabled = false;
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						filterlist_callback2(transport);
 			} });
@@ -852,10 +868,11 @@ function resetSelectedUserPass() {
 		
 			var id = rows[0];
 		
-			var query = "backend.php?op=pref-users&subop=resetPass&id=" +
+			var query = "?op=pref-users&subop=resetPass&id=" +
 				param_escape(id);
 	
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					userlist_callback2(transport); 
 				} });
@@ -887,9 +904,10 @@ function selectedUserDetails() {
 	
 		var id = rows[0];
 	
-		var query = "backend.php?op=pref-users&subop=user-details&id=" + id;
+		var query = "?op=pref-users&subop=user-details&id=" + id;
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
 				} });
@@ -954,10 +972,11 @@ function editSelectedFeeds() {
 	
 		notify_progress("Loading, please wait...");
 	
-		var query = "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
+		var query = "?op=pref-feeds&subop=editfeeds&ids=" +
 			param_escape(rows.toString());
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
 				} });
@@ -998,11 +1017,12 @@ function updateFilterList(sort_key) {
 		var search = "";
 		if (filter_search) { search = filter_search.value; }
 	
-		var query = "backend.php?op=pref-filters&sort=" + 
+		var query = "?op=pref-filters&sort=" + 
 			param_escape(sort_key) + 
 			"&search=" + param_escape(search);
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						filterlist_callback2(transport);
 			} });
@@ -1021,11 +1041,12 @@ function updateLabelList(sort_key) {
 		var search = "";
 		if (label_search) { search = label_search.value; }
 	
-		var query = "backend.php?op=pref-labels&sort=" + 
+		var query = "?op=pref-labels&sort=" + 
 			param_escape(sort_key) +
 			"&search=" + param_escape(search);
 	
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 				labellist_callback2(transport);
 			} });
@@ -1037,9 +1058,10 @@ function updateLabelList(sort_key) {
 
 function updatePrefsList() {
 
-	var query = "backend.php?op=pref-prefs";
+	var query = "?op=pref-prefs";
 
-	new Ajax.Request(query, {
+	new Ajax.Request("backend.php", {
+		parameters: query,
 		onComplete: function(transport) { 
 			prefslist_callback2(transport); 
 		} });
@@ -1224,9 +1246,10 @@ function init() {
 
 		loading_set_progress(30);
 
-		var query = "backend.php?op=rpc&subop=sanityCheck";
+		var query = "?op=rpc&subop=sanityCheck";
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				backend_sanity_check_callback2(transport);
 			} });
@@ -1247,10 +1270,11 @@ function categorizeSelectedFeeds() {
 
 		notify_progress("Changing category of selected feeds...");
 
-		var query = "backend.php?op=pref-feeds&subop=categorize&ids="+
+		var query = "?op=pref-feeds&subop=categorize&ids="+
 			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id);
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				feedlist_callback2(transport); 
 			} });
@@ -1297,10 +1321,11 @@ function feedBrowserSubscribe() {
 		if (selected.length > 0) {
 			closeInfoBox();
 
-			var query = "backend.php?op=pref-feeds&subop=massSubscribe&ids="+
+			var query = "?op=pref-feeds&subop=massSubscribe&ids="+
 				param_escape(selected.toString());
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					feedlist_callback2(transport); 
 				} });
@@ -1609,9 +1634,10 @@ function editFeedCats() {
 			// this button is not always available, no-op if not found
 		}
 	
-		var query = "backend.php?op=pref-feeds&subop=editCats";
+		var query = "?op=pref-feeds&subop=editCats";
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 				infobox_feed_cat_callback2(transport);
 			} });
@@ -1711,9 +1737,10 @@ function pubRegenKey() {
 
 		notify_progress("Trying to change address...");
 
-		var query = "backend.php?op=rpc&subop=regenPubKey";
+		var query = "?op=rpc&subop=regenPubKey";
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) {
 					replace_pubkey_callback(transport);
 				} });
@@ -1804,9 +1831,10 @@ function clearFeedArticles(feed_id) {
 
 	notify_progress("Clearing feed...");
 
-	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+	var query = "?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
 
-	new Ajax.Request(query,	{
+	new Ajax.Request("backend.php",	{
+		parameters: query,
 		onComplete: function(transport) {
 				notify('');
 			} });
@@ -1826,10 +1854,11 @@ function rescoreSelectedFeeds() {
 		if (ok) {
 			notify_progress("Rescoring selected feeds...", true);
 	
-			var query = "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids="+
+			var query = "?op=pref-feeds&subop=rescore&quiet=1&ids="+
 				param_escape(sel_rows.toString());
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						notify_callback2(transport);
 			} });
@@ -1848,9 +1877,10 @@ function rescore_all_feeds() {
 	if (ok) {
 		notify_progress("Rescoring feeds...", true);
 
-		var query = "backend.php?op=pref-feeds&subop=rescoreAll&quiet=1";
+		var query = "?op=pref-feeds&subop=rescoreAll&quiet=1";
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					notify_callback2(transport);
 		} });
@@ -1870,10 +1900,11 @@ function removeFilter(id, title) {
 	
 			notify_progress("Removing filter...");
 		
-			var query = "backend.php?op=pref-filters&subop=remove&ids="+
+			var query = "?op=pref-filters&subop=remove&ids="+
 				param_escape(id);
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+				parameters: query,
 				onComplete: function(transport) {
 						filterlist_callback2(transport);
 			} });
@@ -1900,10 +1931,11 @@ function unsubscribeFeed(id, title) {
 	
 			notify_progress("Removing feed...");
 		
-			var query = "backend.php?op=pref-feeds&subop=remove&ids="+
+			var query = "?op=pref-feeds&subop=remove&ids="+
 				param_escape(id);
 	
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php", {
+					parameters: query,
 					onComplete: function(transport) {
 							feedlist_callback2(transport);
 				} });
@@ -2009,10 +2041,11 @@ function labelColorReset() {
 
 		if (ok) {
 
-			var query = "backend.php?op=pref-labels&subop=color-reset&ids="+
+			var query = "?op=pref-labels&subop=color-reset&ids="+
 				param_escape(labels.toString());
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) {
 						labellist_callback2(transport);
 					} });
@@ -2036,7 +2069,7 @@ function labelColorAsk(id, kind) {
 
 		if (p != null) {
 
-			var query = "backend.php?op=pref-labels&subop=color-set&kind=" + kind +
+			var query = "?op=pref-labels&subop=color-set&kind=" + kind +
 				"&ids="+	param_escape(id) + "&color=" + param_escape(p);
 
 			selectPrefRows('label', false);
@@ -2051,7 +2084,7 @@ function labelColorAsk(id, kind) {
 				}
 			}
 
-			new Ajax.Request(query);
+			new Ajax.Request("backend.php", { parameters: query });
 		}
 
 	} catch (e) {
@@ -2092,7 +2125,7 @@ function colorPickerHideAll() {
 function colorPickerDo(id, fg, bg) {
 	try {
 
-		var query = "backend.php?op=pref-labels&subop=color-set&kind=both"+
+		var query = "?op=pref-labels&subop=color-set&kind=both"+
 			"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
 			"&bg=" + param_escape(bg);
 
@@ -2103,7 +2136,7 @@ function colorPickerDo(id, fg, bg) {
 			e.style.backgroundColor = bg;
 		}
 
-		new Ajax.Request(query);
+		new Ajax.Request("backend.php", { parameters: query });
 
 	} catch (e) {
 		exception_error("colorPickerDo", e);

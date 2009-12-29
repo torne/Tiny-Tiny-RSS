@@ -12,7 +12,7 @@
 
 		if ($subop == "user-details") {
 
-			$uid = sprintf("%d", $_GET["id"]);
+			$uid = sprintf("%d", $_REQUEST["id"]);
 
 			print "<div id=\"infoBoxTitle\">".__('User details')."</div>";
 
@@ -103,7 +103,7 @@
 
 		if ($subop == "edit") {
 
-			$id = db_escape_string($_GET["id"]);
+			$id = db_escape_string($_REQUEST["id"]);
 
 			print "<div id=\"infoBoxTitle\">".__('User Editor')."</div>";
 			
@@ -213,7 +213,7 @@
 
 			if ($_SESSION["access_level"] >= 10) {
 
-				$ids = split(",", db_escape_string($_GET["ids"]));
+				$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 				foreach ($ids as $id) {
 					if ($id != $_SESSION["uid"]) {
@@ -227,7 +227,7 @@
 		
 			if ($_SESSION["access_level"] >= 10) {
 
-				$login = db_escape_string(trim($_GET["login"]));
+				$login = db_escape_string(trim($_REQUEST["login"]));
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = encrypt_password($tmp_user_pwd, $login);
 
@@ -266,7 +266,7 @@
 
 			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
 
-				$uid = db_escape_string($_GET["id"]);
+				$uid = db_escape_string($_REQUEST["id"]);
 
 				$result = db_query($link, "SELECT login,email 
 					FROM ttrss_users WHERE id = '$uid'");
@@ -346,9 +346,9 @@
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "userConfig");
 
-		$user_search = db_escape_string($_GET["search"]);
+		$user_search = db_escape_string($_REQUEST["search"]);
 
-		if (array_key_exists("search", $_GET)) {
+		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_user_search"] = $user_search;
 		} else {
 			$user_search = $_SESSION["prefs_user_search"];
@@ -363,7 +363,7 @@
 				onclick=\"javascript:updateUsersList()\" value=\"".__('Search')."\">
 			</div>";
 
-		$sort = db_escape_string($_GET["sort"]);
+		$sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "login";
@@ -427,7 +427,7 @@
 			$class = ($lnum % 2) ? "even" : "odd";
 
 			$uid = $line["id"];
-			$edit_uid = $_GET["id"];
+			$edit_uid = $_REQUEST["id"];
 
 			if ($subop == "edit" && $uid != $edit_uid) {
 				$class .= "Grayed";

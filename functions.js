@@ -1319,10 +1319,11 @@ function displayDlg(id, param) {
 
 	disableHotkeys();
 
-	var query = "backend.php?op=dlg&id=" +
+	var query = "?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param);
 
-	new Ajax.Request(query, {
+	new Ajax.Request("backend.php", {
+		parameters: query,
 		onComplete: function (transport) {
 			infobox_callback2(transport);
 		} });
@@ -1656,9 +1657,10 @@ function filterDlgCheckDate() {
 
 		var reg_exp = form.reg_exp.value;
 
-		var query = "backend.php?op=rpc&subop=checkDate&date=" + reg_exp;
+		var query = "?op=rpc&subop=checkDate&date=" + reg_exp;
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 
 				var form = document.forms["filter_add_form"];
@@ -1733,7 +1735,7 @@ function openArticleInNewWindow(id) {
 	try {
 		debug("openArticleInNewWindow: " + id);
 
-		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
+		var query = "?op=rpc&subop=getArticleLink&id=" + id;
 		var wname = "ttrss_article_" + id;
 
 		debug(query + " " + wname);
@@ -1742,7 +1744,8 @@ function openArticleInNewWindow(id) {
 
 		if (!w) notify_error("Failed to open window for the article");
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				open_article_callback(transport); 
 			} });
@@ -1810,10 +1813,11 @@ function labelTest() {
 	
 		notify_progress("Loading, please wait...");
 	
-		var query = "backend.php?op=pref-labels&subop=test&expr=" +
+		var query = "?op=pref-labels&subop=test&expr=" +
 			param_escape(sql_exp) + "&descr=" + param_escape(description);
 	
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function (transport) {
 				labeltest_callback(transport);
 			} });
@@ -2047,7 +2051,7 @@ function getSelectedFeedsFromBrowser() {
 function updateFeedBrowser() {
 	try {
 
-		var query = "backend.php?op=rpc&subop=feedBrowser";
+		var query = "?op=rpc&subop=feedBrowser";
 
 		var search = $("feed_browser_search");
 		var limit = $("feed_browser_limit");
@@ -2064,7 +2068,8 @@ function updateFeedBrowser() {
 
 		Element.show('feed_browser_spinner');
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				notify('');
 
@@ -2099,11 +2104,12 @@ function browseFeeds(limit) {
 
 	try {
 
-		var query = "backend.php?op=pref-feeds&subop=browse";
+		var query = "?op=pref-feeds&subop=browse";
 
 		notify_progress("Loading, please wait...", true);
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				infobox_callback2(transport);
 			} });

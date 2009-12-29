@@ -4,7 +4,7 @@
 	/* remove ill effects of magic quotes */
 
 	if (get_magic_quotes_gpc()) {
-		$_GET = array_map('stripslashes', $_GET);
+		$_REQUEST = array_map('stripslashes', $_REQUEST);
 		$_POST = array_map('stripslashes', $_POST);
 		$_REQUEST = array_map('stripslashes', $_REQUEST);
 		$_COOKIE = array_map('stripslashes', $_COOKIE);
@@ -13,7 +13,7 @@
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
 
-/*	if ($_GET["debug"]) {
+/*	if ($_REQUEST["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
@@ -159,9 +159,9 @@
 				ob_start("ob_gzhandler");
 			}
 
-			$tags = $_GET["tags"];
+			$tags = $_REQUEST["tags"];
 
-			$subop = $_GET["subop"];
+			$subop = $_REQUEST["subop"];
 
 			switch($subop) {
 				case "catchupAll":
@@ -172,7 +172,7 @@
 				break;
 
 				case "collapse":
-					$cat_id = db_escape_string($_GET["cid"]);
+					$cat_id = db_escape_string($_REQUEST["cid"]);
 					toggle_collapse_cat($link, $cat_id);
 					return;
 				break;
@@ -184,7 +184,7 @@
 				break;
 
 				case "catsort":
-					$corder = db_escape_string($_GET["corder"]);
+					$corder = db_escape_string($_REQUEST["corder"]);
 
 					$cats = split(",", $corder);
 
@@ -210,12 +210,12 @@
 
 		case "view":
 
-			$id = db_escape_string($_GET["id"]);
-			$cids = split(",", db_escape_string($_GET["cids"]));
-			$mode = db_escape_string($_GET["mode"]);
-			$omode = db_escape_string($_GET["omode"]);
+			$id = db_escape_string($_REQUEST["id"]);
+			$cids = split(",", db_escape_string($_REQUEST["cids"]));
+			$mode = db_escape_string($_REQUEST["mode"]);
+			$omode = db_escape_string($_REQUEST["omode"]);
 
-			$csync = $_GET["csync"];
+			$csync = $_REQUEST["csync"];
 
 			print "<reply>";
 
@@ -259,20 +259,20 @@
 
 			print "<reply>";
 
-			if ($_GET["debug"]) $timing_info = print_checkpoint("0", $timing_info);
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
-			$omode = db_escape_string($_GET["omode"]);
+			$omode = db_escape_string($_REQUEST["omode"]);
 
-			$feed = db_escape_string($_GET["feed"]);
-			$subop = db_escape_string($_GET["subop"]);
-			$view_mode = db_escape_string($_GET["view_mode"]);
-			$limit = db_escape_string($_GET["limit"]);
-			$cat_view = db_escape_string($_GET["cat"]);
-			$next_unread_feed = db_escape_string($_GET["nuf"]);
-			$offset = db_escape_string($_GET["skip"]);
-			$vgroup_last_feed = db_escape_string($_GET["vgrlf"]);
-			$csync = $_GET["csync"];
-			$order_by = db_escape_string($_GET["order_by"]);
+			$feed = db_escape_string($_REQUEST["feed"]);
+			$subop = db_escape_string($_REQUEST["subop"]);
+			$view_mode = db_escape_string($_REQUEST["view_mode"]);
+			$limit = db_escape_string($_REQUEST["limit"]);
+			$cat_view = db_escape_string($_REQUEST["cat"]);
+			$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
+			$offset = db_escape_string($_REQUEST["skip"]);
+			$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
+			$csync = $_REQUEST["csync"];
+			$order_by = db_escape_string($_REQUEST["order_by"]);
 
 			/* Updating a label ccache means recalculating all of the caches
 			 * so for performance reasons we don't do that here */
@@ -345,7 +345,7 @@
 			print "<headlines-unread value=\"$headlines_unread\"/>";
 			printf("<disable-cache value=\"%d\"/>", $disable_cache);
 
-			if ($_GET["debug"]) $timing_info = print_checkpoint("10", $timing_info);
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 
 			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
 				print "<articles>";
@@ -355,7 +355,7 @@
 				print "</articles>";
 			}
 
-			if ($_GET["debug"]) $timing_info = print_checkpoint("20", $timing_info);
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
 
 //			if (get_pref($link, "SYNC_COUNTERS") ||				
@@ -375,7 +375,7 @@
 				}
 			}
 
-			if ($_GET["debug"]) $timing_info = print_checkpoint("30", $timing_info);
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
 			print_runtime_info($link);
 
@@ -432,8 +432,8 @@
 		break; // pref-feed-browser
 
 		case "publish":
-			$key = db_escape_string($_GET["key"]);
-			$limit = (int)db_escape_string($_GET["limit"]);
+			$key = db_escape_string($_REQUEST["key"]);
+			$limit = (int)db_escape_string($_REQUEST["limit"]);
 
 			$result = db_query($link, "SELECT login, owner_uid 
 				FROM ttrss_user_prefs, ttrss_users WHERE
@@ -453,15 +453,15 @@
 		break; // publish
 
 		case "rss":
-			$feed = db_escape_string($_GET["id"]);
-			$user = db_escape_string($_GET["user"]);
-			$pass = db_escape_string($_GET["pass"]);
-			$is_cat = $_GET["is_cat"] != false;
-			$limit = (int)db_escape_string($_GET["limit"]);
+			$feed = db_escape_string($_REQUEST["id"]);
+			$user = db_escape_string($_REQUEST["user"]);
+			$pass = db_escape_string($_REQUEST["pass"]);
+			$is_cat = $_REQUEST["is_cat"] != false;
+			$limit = (int)db_escape_string($_REQUEST["limit"]);
 
-			$search = db_escape_string($_GET["q"]);
-			$match_on = db_escape_string($_GET["m"]);
-			$search_mode = db_escape_string($_GET["smode"]);
+			$search = db_escape_string($_REQUEST["q"]);
+			$match_on = db_escape_string($_REQUEST["m"]);
+			$search_mode = db_escape_string($_REQUEST["smode"]);
 
 			if (SINGLE_USER_MODE) {
 				authenticate_user($link, "admin", null);
@@ -480,7 +480,7 @@
 		break; // rss
 
 		case "getUnread":
-			$login = db_escape_string($_GET["login"]);
+			$login = db_escape_string($_REQUEST["login"]);
 
 			header("Content-Type: text/plain; charset=utf-8");
 

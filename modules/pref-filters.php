@@ -1,11 +1,11 @@
 <?php
 	function module_pref_filters($link) {
-		$subop = $_GET["subop"];
-		$quiet = $_GET["quiet"];
+		$subop = $_REQUEST["subop"];
+		$quiet = $_REQUEST["quiet"];
 
 		if ($subop == "edit") {
 
-			$filter_id = db_escape_string($_GET["id"]);
+			$filter_id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, 
 				"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -173,18 +173,18 @@
 
 		if ($subop == "editSave") {
 
-			$reg_exp = db_escape_string(trim($_GET["reg_exp"]));
-			$filter_type = db_escape_string(trim($_GET["filter_type"]));
-			$filter_id = db_escape_string($_GET["id"]);
-			$feed_id = db_escape_string($_GET["feed_id"]);
-			$action_id = db_escape_string($_GET["action_id"]); 
-			$action_param = db_escape_string($_GET["action_param"]); 
-			$action_param_label = db_escape_string($_GET["action_param_label"]); 
-			$enabled = checkbox_to_sql_bool(db_escape_string($_GET["enabled"]));
-			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
+			$reg_exp = db_escape_string(trim($_REQUEST["reg_exp"]));
+			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
+			$filter_id = db_escape_string($_REQUEST["id"]);
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+			$action_id = db_escape_string($_REQUEST["action_id"]); 
+			$action_param = db_escape_string($_REQUEST["action_param"]); 
+			$action_param_label = db_escape_string($_REQUEST["action_param_label"]); 
+			$enabled = checkbox_to_sql_bool(db_escape_string($_REQUEST["enabled"]));
+			$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
 
 			# for the time being, no other filters use params anyway...
-			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
+			$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
 
 			if (!$feed_id) {
 				$feed_id = 'NULL';
@@ -218,7 +218,7 @@
 
 		if ($subop == "remove") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
@@ -227,16 +227,16 @@
 
 		if ($subop == "add") {
 		
-			$regexp = db_escape_string(trim($_GET["reg_exp"]));
-			$filter_type = db_escape_string(trim($_GET["filter_type"]));
-			$feed_id = db_escape_string($_GET["feed_id"]);
-			$action_id = db_escape_string($_GET["action_id"]); 
-			$action_param = db_escape_string($_GET["action_param"]); 
-			$action_param_label = db_escape_string($_GET["action_param_label"]); 
-			$inverse = checkbox_to_sql_bool(db_escape_string($_GET["inverse"]));
+			$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));
+			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+			$action_id = db_escape_string($_REQUEST["action_id"]); 
+			$action_param = db_escape_string($_REQUEST["action_param"]); 
+			$action_param_label = db_escape_string($_REQUEST["action_param_label"]); 
+			$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
 
 			# for the time being, no other filters use params anyway...
-			$filter_param = db_escape_string($_GET["filter_date_modifier"]);
+			$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
 
 			if (!$regexp) return;
 
@@ -271,7 +271,7 @@
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "filterConfig");
 
-		$sort = db_escape_string($_GET["sort"]);
+		$sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "reg_exp";
@@ -290,9 +290,9 @@
 		}
 
 
-		$filter_search = db_escape_string($_GET["search"]);
+		$filter_search = db_escape_string($_REQUEST["search"]);
 
-		if (array_key_exists("search", $_GET)) {
+		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_filter_search"] = $filter_search;
 		} else {
 			$filter_search = $_SESSION["prefs_filter_search"];
@@ -388,7 +388,7 @@
 				$class = ($lnum % 2) ? "even" : "odd";
 	
 				$filter_id = $line["id"];
-				$edit_filter_id = $_GET["id"];
+				$edit_filter_id = $_REQUEST["id"];
 
 				$enabled = sql_bool_to_bool($line["enabled"]);
 				$inverse = sql_bool_to_bool($line["inverse"]);

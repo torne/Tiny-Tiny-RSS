@@ -1,7 +1,7 @@
 <?php
 	function module_popup_dialog($link) {
-		$id = $_GET["id"];
-		$param = db_escape_string($_GET["param"]);
+		$id = $_REQUEST["id"];
+		$param = db_escape_string($_REQUEST["param"]);
 
 		if ($id == "explainError") {
 
@@ -142,9 +142,9 @@
 
 			print "<form id='search_form'  onsubmit='return false'>";
 
-			#$active_feed_id = db_escape_string($_GET["param"]);
+			#$active_feed_id = db_escape_string($_REQUEST["param"]);
 
-			$params = split(":", db_escape_string($_GET["param"]));
+			$params = split(":", db_escape_string($_REQUEST["param"]));
 
 			$active_feed_id = sprintf("%d", $params[0]);
 			$is_cat = $params[1] == "true";
@@ -221,7 +221,7 @@
 
 		if ($id == "quickAddFilter") {
 
-			$active_feed_id = db_escape_string($_GET["param"]);
+			$active_feed_id = db_escape_string($_REQUEST["param"]);
 
 			print "<div id=\"infoBoxTitle\">".__('Create Filter')."</div>";
 			print "<div class=\"infoBoxContents\">";

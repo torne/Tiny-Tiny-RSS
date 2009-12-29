@@ -1,7 +1,7 @@
 <?php
 	function handle_rpc_request($link) {
 
-		$subop = $_GET["subop"];
+		$subop = $_REQUEST["subop"];
 
 		if ($subop == "setpref") {
 			if (WEB_DEMO_MODE) {
@@ -10,8 +10,8 @@
 
 			print "<rpc-reply>";
 
-			$key = db_escape_string($_GET["key"]);
-			$value = db_escape_string($_GET["value"]);
+			$key = db_escape_string($_REQUEST["key"]);
+			$value = db_escape_string($_REQUEST["value"]);
 
 			set_pref($link, $key, $value);
 
@@ -23,7 +23,7 @@
 		}
 
 		if ($subop == "getLabelCounters") {
-			$aid = $_GET["aid"];		
+			$aid = $_REQUEST["aid"];		
 			print "<rpc-reply>";
 			print "<counters>";
 			getLabelCounters($link);
@@ -50,7 +50,7 @@
 			print "<rpc-reply>";			
 			print "<counters>";
 
-			$omode = $_GET["omode"];
+			$omode = $_REQUEST["omode"];
 
 			getAllCounters($link, $omode);
 			print "</counters>";
@@ -61,8 +61,8 @@
 		}
 
 		if ($subop == "mark") {
-			$mark = $_GET["mark"];
-			$id = db_escape_string($_GET["id"]);
+			$mark = $_REQUEST["mark"];
+			$id = db_escape_string($_REQUEST["id"]);
 
 			if ($mark == "1") {
 				$mark = "true";
@@ -87,7 +87,7 @@
 		}
 
 		if ($subop == "delete") {
-			$ids = db_escape_string($_GET["ids"]);
+			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "DELETE FROM ttrss_user_entries 				
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
@@ -103,7 +103,7 @@
 		}
 
 		if ($subop == "unarchive") {
-			$ids = db_escape_string($_GET["ids"]);
+			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "UPDATE ttrss_user_entries 
 				SET feed_id = orig_feed_id, orig_feed_id = NULL
@@ -120,7 +120,7 @@
 		}
 
 		if ($subop == "archive") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				archive_article($link, $id, $_SESSION["uid"]);
@@ -183,7 +183,7 @@
 		}
 
 		if ($subop == "updateFeed") {
-			$feed_id = db_escape_string($_GET["feed"]);
+			$feed_id = db_escape_string($_REQUEST["feed"]);
 
 			$result = db_query($link, 
 				"SELECT feed_url FROM ttrss_feeds WHERE id = '$feed_id'
@@ -205,7 +205,7 @@
 
 		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
 	
-			$global_unread_caller = sprintf("%d", $_GET["uctr"]);
+			$global_unread_caller = sprintf("%d", $_REQUEST["uctr"]);
 			$global_unread = getGlobalUnread($link);
 
 			print "<rpc-reply>";
@@ -214,7 +214,7 @@
 
 			if ($global_unread_caller != $global_unread) {
 
-	 			$omode = $_GET["omode"];
+	 			$omode = $_REQUEST["omode"];
 	 
 	 			if (!$omode) $omode = "tflc";
 
@@ -251,7 +251,7 @@
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link, $_GET["omode"]);
+			getAllCounters($link, $_REQUEST["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
@@ -261,14 +261,14 @@
 
 		if ($subop == "markSelected") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			$cmode = sprintf("%d", $_GET["cmode"]);
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			markArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link, $_GET["omode"]);
+			getAllCounters($link, $_REQUEST["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
@@ -278,14 +278,14 @@
 
 		if ($subop == "publishSelected") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			$cmode = sprintf("%d", $_GET["cmode"]);
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			publishArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
 			print "<counters>";
-			getAllCounters($link, $_GET["omode"]);
+			getAllCounters($link, $_REQUEST["omode"]);
 			print "</counters>";
 			print_runtime_info($link);
 			print "</rpc-reply>";
@@ -301,7 +301,7 @@
 				print_runtime_info($link);
 
 				# assign client-passed params to session
-				$_SESSION["client.userAgent"] = $_GET["ua"];
+				$_SESSION["client.userAgent"] = $_REQUEST["ua"];
 
 			}
 			print "</rpc-reply>";
@@ -320,7 +320,7 @@
 
 		if ($subop == "getArticleLink") {
 
-			$id = db_escape_string($_GET["id"]);
+			$id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, "SELECT link FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'");
@@ -337,9 +337,9 @@
 
 		if ($subop == "setArticleTags") {
 
-			$id = db_escape_string($_GET["id"]);
+			$id = db_escape_string($_REQUEST["id"]);
 
-			$tags_str = db_escape_string($_GET["tags_str"]);
+			$tags_str = db_escape_string($_REQUEST["tags_str"]);
 
 			$tags = array_unique(trim_array(split(",", $tags_str)));
 
@@ -426,8 +426,8 @@
 		}
 
 		if ($subop == "purge") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			$days = sprintf("%d", $_GET["days"]);
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$days = sprintf("%d", $_REQUEST["days"]);
 
 			print "<rpc-reply>";
 

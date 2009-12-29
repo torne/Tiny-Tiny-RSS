@@ -269,7 +269,7 @@
 
 			break;
 		case "updateArticle":
-			$article_id = (int) db_escape_string($_GET["article_id"]);
+			$article_id = (int) db_escape_string($_REQUEST["article_id"]);
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
 			$field_raw = (int)db_escape_string($_REQUEST["field"]);
 

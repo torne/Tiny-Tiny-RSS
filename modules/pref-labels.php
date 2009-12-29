@@ -1,7 +1,7 @@
 <?php
 	function module_pref_labels($link) {
 
-		$subop = $_GET["subop"];
+		$subop = $_REQUEST["subop"];
 
 		if ($subop == "color-set") {
 			$kind = db_escape_string($_REQUEST["kind"]);
@@ -84,7 +84,7 @@
 
 		if ($subop == "remove") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				label_remove($link, $id, $_SESSION["uid"]);
@@ -94,7 +94,7 @@
 
 		if ($subop == "add") {
 
-			$caption = db_escape_string($_GET["caption"]);
+			$caption = db_escape_string($_REQUEST["caption"]);
 
 			if ($caption) {
 
@@ -109,15 +109,15 @@
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "labelConfig");
 
-		$sort = db_escape_string($_GET["sort"]);
+		$sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "caption";
 		}
 
-		$label_search = db_escape_string($_GET["search"]);
+		$label_search = db_escape_string($_REQUEST["search"]);
 
-		if (array_key_exists("search", $_GET)) {
+		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_label_search"] = $label_search;
 		} else {
 			$label_search = $_SESSION["prefs_label_search"];

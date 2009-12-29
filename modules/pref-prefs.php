@@ -120,7 +120,7 @@
 
 		} else if ($subop == "getHelp") {
 
-			$pref_name = db_escape_string($_GET["pn"]);
+			$pref_name = db_escape_string($_REQUEST["pn"]);
 
 			$result = db_query($link, "SELECT help_text FROM ttrss_prefs
 				WHERE pref_name = '$pref_name'");

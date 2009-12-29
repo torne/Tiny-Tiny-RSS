@@ -1,6 +1,6 @@
 <?php
 
-/*	if ($_GET["debug"]) {
+/*	if ($_REQUEST["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	} else {
 		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
@@ -505,11 +505,11 @@
 
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
-		if (!$_GET["daemon"] && !$ignore_daemon) {
+		if (!$_REQUEST["daemon"] && !$ignore_daemon) {
 			return false;
 		}
 
-		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("update_rss_feed: start");
 		}
 
@@ -534,7 +534,7 @@
 		}
 
 		if (db_num_rows($result) == 0) {
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("update_rss_feed: feed $feed [$feed_url] NOT FOUND/SKIPPED");
 			}		
 			return false;
@@ -560,7 +560,7 @@
 			$use_simplepie = ENABLE_SIMPLEPIE;
 		}
 
-		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("use simplepie: $use_simplepie (feed setting: $update_method)\n");
 		}
 
@@ -588,11 +588,11 @@
 
 		}
 
-		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("update_rss_feed: fetching [$fetch_url]...");
 		}
 
-		if (!defined('DAEMON_EXTENDED_DEBUG') && !$_GET['xdebug']) {
+		if (!defined('DAEMON_EXTENDED_DEBUG') && !$_REQUEST['xdebug']) {
 			error_reporting(0);
 		}
 
@@ -610,14 +610,14 @@
 			$rss->set_output_encoding('UTF-8');
 
 			if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("enabling image cache");
 				}
 
 				$rss->set_image_handler('./image.php', 'i');
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("feed update interval (sec): " .
 					get_feed_update_interval($link, $feed)*60);
 			}
@@ -632,7 +632,7 @@
 
 //		print_r($rss);
 
-		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("update_rss_feed: fetch done, parsing...");
 		} else {
 			error_reporting (DEFAULT_ERROR_LEVEL);
@@ -648,7 +648,7 @@
 
 		if ($fetch_ok) {
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("update_rss_feed: processing feed data...");
 			}
 
@@ -670,7 +670,7 @@
 			}
 
 			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: checking favicon...");
 				}
 
@@ -685,7 +685,7 @@
 					$feed_title = db_escape_string($rss->channel["title"]);
 				}
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: registering title: $feed_title");
 				}
 				
@@ -716,7 +716,7 @@
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("update_rss_feed: loading filters...");
 			}
 
@@ -738,7 +738,7 @@
 				// clear any errors and mark feed as updated if fetched okay
 				// even if it's blank
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: entry iterator is not an array, no articles?");
 				}
 
@@ -748,13 +748,13 @@
 				return; // no articles
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("update_rss_feed: processing articles...");
 			}
 
 			foreach ($iterator as $item) {
 
-				if ($_GET['xdebug'] == 2) {
+				if ($_REQUEST['xdebug'] == 2) {
 					print_r($item);
 				}
 
@@ -772,7 +772,7 @@
 					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
 				}
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: guid $entry_guid");
 				}
 
@@ -802,7 +802,7 @@
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: date $entry_timestamp [$entry_timestamp_fmt]");
 				}
 
@@ -820,7 +820,7 @@
 					if (!$entry_link) $entry_link = $item["link"];
 				}
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: title $entry_title");
 				}
 
@@ -856,7 +856,7 @@
 					} 
 				}
 
-				if ($_GET["xdebug"] == 2) {
+				if ($_REQUEST["xdebug"] == 2) {
 					print "update_rss_feed: content: ";
 					print_r(htmlspecialchars($entry_content));
 				}
@@ -934,7 +934,7 @@
 						}
 					}
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: category tags:");
 						print_r($additional_tags);
 					}
@@ -1049,7 +1049,7 @@
 				$entry_content = sanitize_article_content($entry_content);
 				$entry_title = sanitize_article_content($entry_title);
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
 				}
 
@@ -1057,7 +1057,7 @@
 
 				if (db_num_rows($result) == 0) {
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: base guid not found");
 					}
 
@@ -1116,7 +1116,7 @@
 
 				if (db_num_rows($result) == 1) {
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: base guid found, checking for user record");
 					}
 
@@ -1144,7 +1144,7 @@
 					$article_filters = get_article_filters($filters, $entry_title, 
 							$entry_content, $entry_link, $entry_timestamp);
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
 						if (count($article_filters) != 0) {
 							print_r($article_filters);
@@ -1160,7 +1160,7 @@
 
 					$score = calculate_article_score($article_filters);
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: initial score: $score");
 					}
 
@@ -1168,14 +1168,14 @@
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
 							$dupcheck_qpart";
 
-//					if ($_GET["xdebug"]) print "$query\n";
+//					if ($_REQUEST["xdebug"]) print "$query\n";
 
 					$result = db_query($link, $query);
 
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
 
-						if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+						if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 							_debug("update_rss_feed: user record not found, creating...");
 						}
 
@@ -1215,7 +1215,7 @@
 							$entry_int_id = db_fetch_result($result, 0, "int_id");
 						}
 					} else {
-						if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+						if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 							_debug("update_rss_feed: user record FOUND");
 						}
 
@@ -1223,7 +1223,7 @@
 						$entry_int_id = db_fetch_result($result, 0, "int_id");
 					}
 
-					if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: RID: $entry_ref_id, IID: $entry_int_id");
 					}
 
@@ -1278,18 +1278,18 @@
 
 				db_query($link, "COMMIT");
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: assigning labels...");
 				}
 
 				assign_article_to_labels($link, $entry_ref_id, $article_filters,
 					$owner_uid);
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: looking for enclosures...");
 				}
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					print_r($enclosures);
 				}
 
@@ -1312,7 +1312,7 @@
 
 				db_query($link, "COMMIT");
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: looking for tags...");
 				}
 
@@ -1359,7 +1359,7 @@
 
 //				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					print_r($entry_tags);
 				}
 
@@ -1391,20 +1391,20 @@
 					db_query($link, "COMMIT");
 				} 
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: article processed");
 				}
 			} 
 
 			if (!$last_updated) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: new feed, catching it up...");
 				}
 				catchup_feed($link, $feed, false, $owner_uid);
 			}
 
 			if (!$hidden) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: updating counters cache...");
 				}
 
@@ -1427,7 +1427,7 @@
 				$error_msg = mb_substr(magpie_error(), 0, 250);
 			}
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");
 			}
 
@@ -1442,7 +1442,7 @@
 			unset($rss);
 		}
 
-		if (defined('DAEMON_EXTENDED_DEBUG') || $_GET['xdebug']) {
+		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("update_rss_feed: done");
 		}
 
@@ -3520,7 +3520,7 @@
 					$query_strategy_part ORDER BY $order_by
 					$limit_query_part $offset_query_part";
 
-				if ($_GET["debug"]) print $query;
+				if ($_REQUEST["debug"]) print $query;
 
 				$result = db_query($link, $query);
 	
@@ -4339,7 +4339,7 @@
 
 			$result = db_query($link, $query);
 
-			$actid = $_GET["actid"];
+			$actid = $_REQUEST["actid"];
 	
 			/* real feeds */
 	
@@ -4360,7 +4360,7 @@
 				$feed_id = $line["id"];	  
 				$unread = $line["unread"];
 	
-				$subop = $_GET["subop"];
+				$subop = $_REQUEST["subop"];
 
 				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
 					$last_updated = smart_date_time(strtotime($line["last_updated_noms"]));
@@ -4931,8 +4931,8 @@
 		$subop_split = split(":", $subop);
 
 		if ($subop == "CatchupSelected") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
-			$cmode = sprintf("%d", $_GET["cmode"]);
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
 		}
@@ -4991,14 +4991,14 @@
 
 		/// START /////////////////////////////////////////////////////////////////////////////////
 
-		$search = db_escape_string($_GET["query"]);
+		$search = db_escape_string($_REQUEST["query"]);
 
 		if ($search) { 
 			$disable_cache = true;
 		}
 
-		$search_mode = db_escape_string($_GET["search_mode"]);
-		$match_on = db_escape_string($_GET["match_on"]);
+		$search_mode = db_escape_string($_REQUEST["search_mode"]);
+		$match_on = db_escape_string($_REQUEST["match_on"]);
 
 		if (!$match_on) {
 			$match_on = "both";
@@ -5006,12 +5006,12 @@
 
 		$real_offset = $offset * $limit;
 
-		if ($_GET["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
+		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, 
 			$search, $search_mode, $match_on, $override_order, $real_offset);
 
-		if ($_GET["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
+		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];

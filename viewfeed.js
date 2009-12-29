@@ -474,7 +474,7 @@ function view(id, feed_id) {
 
 		//setActiveFeedId(feed_id);
 
-		var query = "backend.php?op=view&id=" + param_escape(id) +
+		var query = "?op=view&id=" + param_escape(id) +
 			"&feed=" + param_escape(feed_id);
 
 		var date = new Date();
@@ -556,7 +556,8 @@ function view(id, feed_id) {
 
 		last_requested_article = id;
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				article_callback2(transport, id, feed_id); 
 			} });
@@ -614,7 +615,7 @@ function toggleMark(id, client_only, no_effects) {
 
 	try {
 
-		var query = "backend.php?op=rpc&id=" + id + "&subop=mark";
+		var query = "?op=rpc&id=" + id + "&subop=mark";
 	
 		query = query + "&afid=" + getActiveFeedId();
 	
@@ -663,7 +664,8 @@ function toggleMark(id, client_only, no_effects) {
 		if (!client_only) {
 			debug(query);
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -679,7 +681,7 @@ function togglePub(id, client_only, no_effects, note) {
 
 	try {
 
-		var query = "backend.php?op=rpc&id=" + id + "&subop=publ";
+		var query = "?op=rpc&id=" + id + "&subop=publ";
 	
 		query = query + "&afid=" + getActiveFeedId();
 
@@ -721,7 +723,8 @@ function togglePub(id, client_only, no_effects, note) {
 		}
 
 		if (!client_only) {
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					toggle_published_callback(transport); 
 				} });
@@ -946,15 +949,13 @@ function toggleUnread(id, cmode, effect) {
 
 			if (cmode == undefined) cmode = 2;
 
-			var query = "backend.php?op=rpc&subop=catchupSelected" +
-				"&cmode=" + param_escape(cmode);
-
-			var ids = "?ids=" + param_escape(id);
+			var query = "?op=rpc&subop=catchupSelected" +
+				"&cmode=" + param_escape(cmode) + "&ids=" + param_escape(id);
 
 //			notify_progress("Loading, please wait...");
 
-			new Ajax.Request(query, {
-				parameters: ids,
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -980,14 +981,15 @@ function selectionRemoveLabel(id) {
 
 //		if (ok) {
 
-			var query = "backend.php?op=rpc&subop=removeFromLabel&ids=" +
+			var query = "?op=rpc&subop=removeFromLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 //			notify_progress("Loading, please wait...");
 
 			cache_invalidate("F:" + (-11 - id));
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					show_labels_in_headlines(transport);
 					all_counters_callback2(transport);
@@ -1017,12 +1019,13 @@ function selectionAssignLabel(id) {
 
 			cache_invalidate("F:" + (-11 - id));
 
-			var query = "backend.php?op=rpc&subop=assignToLabel&ids=" +
+			var query = "?op=rpc&subop=assignToLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 //			notify_progress("Loading, please wait...");
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					show_labels_in_headlines(transport);
 					all_counters_callback2(transport);
@@ -1102,15 +1105,13 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 				cmode = "0";
 			}
 
-			var query = "backend.php?op=rpc&subop=catchupSelected" +
-				"&cmode=" + cmode;
-
-			var ids = "?ids=" + param_escape(rows.toString()); 
+			var query = "?op=rpc&subop=catchupSelected" +
+				"&cmode=" + cmode + "&ids=" + param_escape(rows.toString()); 
 
 			notify_progress("Loading, please wait...");
 
-			new Ajax.Request(query, {
-				parameters: ids,
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					catchup_callback2(transport, callback_func); 
 				} });
@@ -1146,7 +1147,7 @@ function selectionToggleMarked(cdm_mode) {
 
 		if (rows.length > 0) {
 
-			var query = "backend.php?op=rpc&subop=markSelected&ids=" +
+			var query = "?op=rpc&subop=markSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
 			query = query + "&afid=" + getActiveFeedId();
@@ -1159,7 +1160,8 @@ function selectionToggleMarked(cdm_mode) {
 
 			query = query + "&omode=lc";
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -1193,7 +1195,7 @@ function selectionTogglePublished(cdm_mode) {
 
 		if (rows.length > 0) {
 
-			var query = "backend.php?op=rpc&subop=publishSelected&ids=" +
+			var query = "?op=rpc&subop=publishSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
 			query = query + "&afid=" + getActiveFeedId();
@@ -1206,7 +1208,8 @@ function selectionTogglePublished(cdm_mode) {
 
 			query = query + "&omode=lc";
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -1357,11 +1360,12 @@ function deleteSelection() {
 			return;
 		}
 
-		query = "backend.php?op=rpc&subop=delete&ids=" + param_escape(rows);
+		query = "?op=rpc&subop=delete&ids=" + param_escape(rows);
 
 		debug(query);
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					viewCurrentFeed();
 				} });
@@ -1408,7 +1412,7 @@ function archiveSelection() {
 			return;
 		}
 
-		query = "backend.php?op=rpc&subop="+op+"&ids=" + param_escape(rows);
+		query = "?op=rpc&subop="+op+"&ids=" + param_escape(rows);
 
 		debug(query);
 
@@ -1416,7 +1420,8 @@ function archiveSelection() {
 			cache_invalidate(rows[i]);
 		}
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) {
 					viewCurrentFeed();
 				} });
@@ -1513,11 +1518,12 @@ function editTagsSave() {
 
 	var query = Form.serialize("tag_edit_form");
 
-	query = "backend.php?op=rpc&subop=setArticleTags&" + query;
+	query = "?op=rpc&subop=setArticleTags&" + query;
 
 	debug(query);
 
-	new Ajax.Request(query,	{
+	new Ajax.Request("backend.php",	{
+		parameters: query,
 		onComplete: function(transport) {
 				tag_saved_callback(transport);
 			} });
@@ -1708,13 +1714,11 @@ function cdmWatchdog() {
 				}
 			}
 
-			var query = "backend.php?op=rpc&subop=catchupSelected" +
-				"&cmode=0";
+			var query = "?op=rpc&subop=catchupSelected" +
+				"&cmode=0" + "&ids=" + param_escape(ids.toString());
 
-			var ids = "?ids=" + param_escape(ids.toString());
-
-			new Ajax.Request(query, {
-				parameters: ids,
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					all_counters_callback2(transport); 
 				} });
@@ -1972,9 +1976,11 @@ function preloadArticleUnderPointer(id) {
 
 			cids_to_request.push(id);
 
-			var query = "backend.php?op=rpc&subop=getArticles&ids=" + 
+			var query = "?op=rpc&subop=getArticles&ids=" + 
 				cids_to_request.toString();
-			new Ajax.Request(query, {
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					preload_article_callback(transport);
 			} });
@@ -2092,13 +2098,11 @@ function catchupRelativeToArticle(below) {
 					e.className = e.className.replace("Unread", "");
 				}
 
-				var query = "backend.php?op=rpc&subop=catchupSelected" +
-					"&cmode=0";
+				var query = "?op=rpc&subop=catchupSelected" +
+					"&cmode=0" + "&ids=" + param_escape(ids_to_mark.toString()); 
 
-				var ids = "?ids=" + param_escape(ids_to_mark.toString()); 
-
-				new Ajax.Request(query, {
-					parameters: ids,
+				new Ajax.Request("backend.php", {
+					parameters: query,
 					onComplete: function(transport) { 
 						catchup_callback2(transport); 
 					} });
@@ -2252,11 +2256,12 @@ function zoomToArticle(id) {
 function showOriginalArticleInline(id) {
 	try {
 
-		var query = "backend.php?op=rpc&subop=getArticleLink&id=" + id;
+		var query = "?op=rpc&subop=getArticleLink&id=" + id;
 
 		notify_progress("Loading, please wait...", true);
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 
 				if (transport.responseXML) {

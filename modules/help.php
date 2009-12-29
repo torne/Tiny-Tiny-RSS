@@ -1,7 +1,7 @@
 <?php
 	function module_help($link) {
 
-		if (!$_GET["noheaders"]) {
+		if (!$_REQUEST["noheaders"]) {
 			print "<html><head>
 				<title>".__('Help')."</title>
 				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
@@ -9,7 +9,7 @@
 				</head><body>";
 		}
 
-		$tid = sprintf("%d", $_GET["tid"]);
+		$tid = sprintf("%d", $_REQUEST["tid"]);
 
 		if (file_exists("help/$tid.php")) {
 			include("help/$tid.php");
@@ -21,7 +21,7 @@
 			onclick=\"javascript:window.close()\" 
 			value=\"".__('Close this window')."\"></div>";
 
-		if (!$_GET["noheaders"]) { 
+		if (!$_REQUEST["noheaders"]) { 
 			print "</body></html>";
 		}
 	}

@@ -854,7 +854,7 @@ function update_offline_data(stage) {
 
 		if (!db || offline_mode || getInitParam("offline_enabled") != "1") return;
 
-		var query = "backend.php?op=rpc&subop=download";
+		var query = "?op=rpc&subop=download";
 		
 		var rs = db.execute("SELECT MAX(id), MIN(id) FROM articles");
 
@@ -877,10 +877,10 @@ function update_offline_data(stage) {
 		var to_sync = prepare_local_sync_data();
 
 		if (to_sync != "") {
-			to_sync = "?sync=" + param_escape(to_sync);
+			to_sync = "&sync=" + param_escape(to_sync);
 		}
 
-		debug(query + "/" + to_sync);
+		query = query + to_sync;
 
 		var pic = $("offlineModePic");
 
@@ -896,8 +896,10 @@ function update_offline_data(stage) {
 
 		sync_in_progress = true;
 
-		new Ajax.Request(query, {
-			parameters: to_sync,
+		debug(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				offline_download_parse(stage, transport);				
 			} });

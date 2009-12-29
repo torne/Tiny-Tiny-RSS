@@ -15,7 +15,7 @@
 		$quiet = $_REQUEST["quiet"];
 
 		if ($subop == "massSubscribe") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			$subscribed = array();
 
@@ -64,7 +64,7 @@
 			
 			print "<div class=\"infoBoxContents\">";
 
-			$browser_search = db_escape_string($_GET["search"]);
+			$browser_search = db_escape_string($_REQUEST["search"]);
 
 			//print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
 
@@ -726,7 +726,7 @@
 
 		if ($subop == "remove") {
 
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				remove_feed($link, $id, $_SESSION["uid"]);
@@ -734,12 +734,12 @@
 		}
 
 		if ($subop == "clear") {
-			$id = db_escape_string($_GET["id"]);
+			$id = db_escape_string($_REQUEST["id"]);
 			clear_feed_articles($link, $id);
 		}
 
 		if ($subop == "rescore") {
-			$ids = split(",", db_escape_string($_GET["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 
@@ -901,9 +901,9 @@
 
 			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", db_escape_string($_GET["ids"]));
+				$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
-				$cat_id = db_escape_string($_GET["cat_id"]);
+				$cat_id = db_escape_string($_REQUEST["cat_id"]);
 
 				if ($cat_id == 0) {
 					$cat_id_qpart = 'NULL';
@@ -938,7 +938,7 @@
 			if ($action == "save") {
 
 				$cat_title = db_escape_string(trim($_REQUEST["value"]));
-				$cat_id = db_escape_string($_GET["cid"]);
+				$cat_id = db_escape_string($_REQUEST["cid"]);
 
 				db_query($link, "BEGIN");
 
@@ -977,7 +977,7 @@
 
 				if (!WEB_DEMO_MODE) {
 	
-					$feed_cat = db_escape_string(trim($_GET["cat"]));
+					$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
 	
 					$result = db_query($link,
 						"SELECT id FROM ttrss_feed_categories
@@ -1000,7 +1000,7 @@
 
 			if ($action == "remove") {
 	
-				$ids = split(",", db_escape_string($_GET["ids"]));
+				$ids = split(",", db_escape_string($_REQUEST["ids"]));
 	
 				foreach ($ids as $id) {
 					remove_feed_category($link, $id, $_SESSION["uid"]);
@@ -1111,9 +1111,9 @@
 				__('Some feeds have update errors (click for details)')."</a>");
 		}
 
-		$feed_search = db_escape_string($_GET["search"]);
+		$feed_search = db_escape_string($_REQUEST["search"]);
 
-		if (array_key_exists("search", $_GET)) {
+		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_feed_search"] = $feed_search;
 		} else {
 			$feed_search = $_SESSION["prefs_feed_search"];
@@ -1138,7 +1138,7 @@
 				onclick=\"javascript:browseFeeds()\" value=\"".__('More Feeds')."\">";
 		}
 
-		$feeds_sort = db_escape_string($_GET["sort"]);
+		$feeds_sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$feeds_sort || $feeds_sort == "undefined") {
 			$feeds_sort = $_SESSION["pref_sort_feeds"];			
@@ -1171,7 +1171,7 @@
 		$show_last_article_checked = "";
 		$show_last_article_qpart = "";
 
-		if ($_GET["slat"] == "true") {
+		if ($_REQUEST["slat"] == "true") {
 			$show_last_article_info = true;
 			$show_last_article_checked = "checked";
 			$show_last_article_qpart = ", (SELECT ".SUBSTRING_FOR_DATE."(MAX(updated),1,16) FROM ttrss_user_entries,

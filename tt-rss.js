@@ -229,7 +229,8 @@ function scheduleFeedUpdate(force) {
 
 	debug("REFETCH query: " + query_str);
 
-	new Ajax.Request(query_str, {
+	new Ajax.Request("backend.php", {
+		parameters: query_str,
 		onComplete: function(transport) { 
 				refetch_callback2(transport); 
 			} });
@@ -266,7 +267,8 @@ function updateFeedList(silent, fetch) {
 
 	debug("updateFeedList Q=" + query_str);
 
-	new Ajax.Request(query_str, {
+	new Ajax.Request("backend.php", {
+		parameters: query_str,
 		onComplete: function(transport) { 
 			feedlist_callback2(transport); 
 		} });
@@ -285,7 +287,8 @@ function catchupAllFeeds() {
 
 		debug("catchupAllFeeds Q=" + query_str);
 
-		new Ajax.Request(query_str, {
+		new Ajax.Request("backend.php", {
+			parameters: query_str,
 			onComplete: function(transport) { 
 				feedlist_callback2(transport); 
 			} });
@@ -401,7 +404,8 @@ function init() {
 
 		loading_set_progress(30);
 
-		new Ajax.Request("backend.php?op=rpc&subop=sanityCheck" + params,	{
+		new Ajax.Request("backend.php",	{
+			parameters: "backend.php?op=rpc&subop=sanityCheck" + params,
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
@@ -677,11 +681,12 @@ function quickMenuGo(opid) {
 
 			if (confirm(__("Reset category order?"))) {
 
-				var query = "backend.php?op=feeds&subop=catsortreset";
+				var query = "?op=feeds&subop=catsortreset";
 
 				notify_progress("Loading, please wait...", true);
 
-				new Ajax.Request(query, {
+				new Ajax.Request("backend.php", {
+					parameters: query,
 					onComplete: function(transport) { 
 						window.setTimeout('updateFeedList(false, false)', 50);
 					} });
@@ -701,9 +706,10 @@ function unsubscribeFeed(feed_id, title) {
 	if (title == undefined || confirm(msg)) {
 		notify_progress("Removing feed...");
 
-		var query = "backend.php?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
+		var query = "?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
 
-		new Ajax.Request(query,	{
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) {
 					dlg_frefresh_callback(transport, feed_id);
 				} });
@@ -840,16 +846,17 @@ function editFeedDlg(feed) {
 		var query = "";
 	
 		if (feed > 0) {
-			query = "backend.php?op=pref-feeds&subop=editfeed&id=" +	param_escape(feed);
+			query = "?op=pref-feeds&subop=editfeed&id=" +	param_escape(feed);
 		} else {
-			query = "backend.php?op=pref-labels&subop=edit&id=" +	param_escape(-feed-11);
+			query = "?op=pref-labels&subop=edit&id=" +	param_escape(-feed-11);
 		}
 
 		disableHotkeys();
 
 		notify_progress("Loading, please wait...", true);
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				infobox_callback2(transport); 
 			} });
@@ -897,9 +904,10 @@ function clearFeedArticles(feed_id) {
 
 	notify_progress("Clearing feed...");
 
-	var query = "backend.php?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+	var query = "?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
 
-	new Ajax.Request(query,	{
+	new Ajax.Request("backend.php",	{
+		parameters: query,
 		onComplete: function(transport) {
 				dlg_frefresh_callback(transport, feed_id);
 			} });
@@ -941,9 +949,9 @@ function collapse_feedlist() {
 				if (fc) fc.style.left = fl.offsetWidth + 40 + "px";
 			}
 
-			query = "backend.php?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=false";
+			query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=false";
 
-			new Ajax.Request(query);
+			new Ajax.Request("backend.php", { parameters: query });
 
 		} else {
 			Element.hide(fl);
@@ -965,9 +973,9 @@ function collapse_feedlist() {
 
 			}
 
-			query = "backend.php?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
+			query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
 
-			new Ajax.Request(query);
+			new Ajax.Request("backend.php", { parameters: query });
 
 		}
 	} catch (e) {
@@ -991,9 +999,10 @@ function viewLimitChanged() {
 		var pr = prompt(__("Assign score to article:"), score);
 
 		if (pr != undefined) {
-			var query = "backend.php?op=rpc&subop=setScore&id=" + id + "&score=" + pr;
+			var query = "?op=rpc&subop=setScore&id=" + id + "&score=" + pr;
 
-			new Ajax.Request(query,	{
+			new Ajax.Request("backend.php",	{
+			parameters: query,
 			onComplete: function(transport) {
 					viewCurrentFeed();
 				} });
@@ -1024,12 +1033,13 @@ function rescoreCurrentFeed() {
 	if (confirm(pr)) {
 		notify_progress("Rescoring articles...");
 
-		var query = "backend.php?op=pref-feeds&subop=rescore&quiet=1&ids=" + actid;
+		var query = "?op=pref-feeds&subop=rescore&quiet=1&ids=" + actid;
 
-		new Ajax.Request(query,	{
-		onComplete: function(transport) {
-			viewCurrentFeed();
-		} });
+		new Ajax.Request("backend.php",	{
+			parameters: query,
+			onComplete: function(transport) {
+				viewCurrentFeed();
+			} });
 	}
 }
 
@@ -1456,12 +1466,13 @@ function addLabel() {
 				return false;
 			}
 
-			var query = "backend.php?op=pref-labels&subop=add&caption=" + 
+			var query = "?op=pref-labels&subop=add&caption=" + 
 				param_escape(caption);
 
 			notify_progress("Loading, please wait...", true);
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					updateFeedList();
 			} });
@@ -1491,7 +1502,8 @@ function feedBrowserSubscribe() {
 			var query =  "backend.php?op=pref-feeds&subop=massSubscribe&ids="+
 				param_escape(selected.toString());
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					updateFeedList();
 				} });

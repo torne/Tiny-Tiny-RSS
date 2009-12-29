@@ -172,7 +172,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			toolbar_form.query.value = "";
 		}
 
-		var query = "backend.php?op=viewfeed&feed=" + feed + "&" +
+		var query = "?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 
 		if ($("search_form")) {
@@ -349,7 +349,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 				}
 			}
 
-			new Ajax.Request(query, {
+			new Ajax.Request("backend.php", {
+				parameters: query,
 				onComplete: function(transport) { 
 					headlines_callback2(transport, page_offset); 
 				} });
@@ -392,8 +393,9 @@ function toggleCollapseCat(cat) {
 		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5,
 			afterFinish: toggleCollapseCat_af });
 
-		new Ajax.Request("backend.php?op=feeds&subop=collapse&cid=" + 
-			param_escape(cat));
+		new Ajax.Request("backend.php", 
+			{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
+				param_escape(cat) } );
 
 		local_collapse_cat(cat);
 
@@ -417,12 +419,12 @@ function feedlist_dragsorted(ctr) {
 
 		if (ordered_cats.length > 0) {
 
-			var query = "backend.php?op=feeds&subop=catsort&corder=" + 
+			var query = "?op=feeds&subop=catsort&corder=" + 
 				param_escape(ordered_cats.toString());
 
 			debug(query);
 
-			new Ajax.Request(query);
+			new Ajax.Request("backend.php", { parameters: query });
 		}
 
 	} catch (e) {
@@ -663,7 +665,7 @@ function request_counters_real() {
 
 		debug("requesting counters...");
 
-		var query = "backend.php?op=rpc&subop=getAllCounters";
+		var query = "?op=rpc&subop=getAllCounters";
 
 		if (tagsAreDisplayed()) {
 			query = query + "&omode=tl";
@@ -671,7 +673,8 @@ function request_counters_real() {
 			query = query + "&omode=flc";
 		}
 
-		new Ajax.Request(query, {
+		new Ajax.Request("backend.php", {
+			parameters: query,
 			onComplete: function(transport) { 
 				try {
 					all_counters_callback2(transport, true);
