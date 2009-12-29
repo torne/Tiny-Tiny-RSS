@@ -595,6 +595,9 @@
 			//$unread_only = db_escape_string($_REQUEST["unread_only"]);
 			//if (!$amount) $amount = 50;
 
+			/* Amount is not used by the frontend offline.js anymore, it goes by
+			 * date_qpart below + cidb/cidt IDs */
+
 			$amount = 2000;
 			$unread_only = true;
 
@@ -731,7 +734,7 @@
 			if ($stage > 0) {
 				print "<articles>";
 
-				$limit = 200;
+				$limit = 10;
 				$skip = $limit*($stage-1);
 
 				print "<limit value=\"$limit\"/>";
@@ -751,9 +754,9 @@
 					}
 
 					if (DB_TYPE == "pgsql") {
-						$date_qpart = "updated >= NOW() - INTERVAL '1 month' AND";
+						$date_qpart = "updated >= NOW() - INTERVAL '1 week' AND";
 					} else {
-						$date_qpart = "updated >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND";
+						$date_qpart = "updated >= DATE_SUB(NOW(), INTERVAL 1 WEEK) AND";
 					}			
 
 					$result = db_query($link,
