@@ -363,7 +363,7 @@ function showArticleInHeadlines(id) {
 	}
 }
 
-function article_callback2(transport, id, feed_id) {
+function article_callback2(transport, id) {
 	try {
 		debug("article_callback2 " + id);
 
@@ -392,7 +392,6 @@ function article_callback2(transport, id, feed_id) {
 				return;
 			}
 
-			active_real_feed_id = feed_id;
 			active_post_id = id; 
 
 			debug("looking for articles to cache...");
@@ -457,13 +456,11 @@ function article_callback2(transport, id, feed_id) {
 	}
 }
 
-function view(id, feed_id) {
+function view(id) {
 	try {
-		if (!feed_id) feed_id = 0;
+		debug("loading article: " + id);
 
-		debug("loading article: " + id + "/" + feed_id);
-
-		if (offline_mode) return view_offline(id, feed_id);
+		if (offline_mode) return view_offline(id);
 
 		var cached_article = cache_find(id);
 
@@ -472,10 +469,7 @@ function view(id, feed_id) {
 		enableHotkeys();
 		hideAuxDlg();
 
-		//setActiveFeedId(feed_id);
-
-		var query = "?op=view&id=" + param_escape(id) +
-			"&feed=" + param_escape(feed_id);
+		var query = "?op=view&id=" + param_escape(id);
 
 		var date = new Date();
 
@@ -559,7 +553,7 @@ function view(id, feed_id) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				article_callback2(transport, id, feed_id); 
+				article_callback2(transport, id); 
 			} });
 
 		return false;

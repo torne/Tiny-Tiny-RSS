@@ -8,7 +8,7 @@ var articles_synced = 0;
 var sync_in_progress = false;
 var sync_timer = false;
 
-function view_offline(id, feed_id) {
+function view_offline(id) {
 	try {
 
 		enableHotkeys();
@@ -337,12 +337,12 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					
 					tmp += "<td class='hlMarkedPic'>"+marked_pic+"</td>";
 		
-					tmp += "<td onclick='view("+id+","+feed_id+")' "+
+					tmp += "<td onclick='view("+id+")' "+
 						"class='hlContent' valign='middle'>";
 		
 					tmp += "<a target=\"_blank\" id=\"RTITLE-"+id+"\" href=\"" + 
 						rs.fieldByName("link") + "\"" +
-						"onclick=\"return view("+id+","+feed_id+");\">"+
+						"onclick=\"return view("+id+");\">"+
 						rs.fieldByName("title");
 	
 					tmp += "<span class=\"contentPreview\"> - "+content_preview+"</span>";
@@ -359,7 +359,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 
 					tmp += "</td>";
 
-					tmp += "<td class=\"hlUpdated\" onclick='view("+id+","+feed_id+")'>"+
+					tmp += "<td class=\"hlUpdated\" onclick='view("+id+")'>"+
 						"<nobr>"+rs.fieldByName("updated").substring(0,16)+
 						"</nobr></td>";
 	

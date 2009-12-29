@@ -222,8 +222,6 @@
 			// in prefetch mode we only output requested cids, main article 
 			// just gets marked as read (it already exists in client cache)
 
-			$feed_id = false;
-
 			if ($mode == "") {
 				outputArticleXML($link, $id, false);
 			} else if ($mode == "zoom") {
