@@ -59,6 +59,10 @@
 		margin-right : 10px;
 		vertical-align : middle;
 	}
+
+	a img {
+		border-width : 0px;
+	}
 </style>
 
 <body>

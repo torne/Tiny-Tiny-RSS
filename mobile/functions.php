@@ -170,7 +170,7 @@
 			print "<ul id='cat--1' title='$title' myBackLabel='".__("Home")."'
 				myBackHref='home.php'>";
 
-			foreach (array(-4, -1,-2,-3) as $id) {
+			foreach (array(-4, -3, -1, -2, 0) as $id) {
 				$title = getFeedTitle($link, $id);
 				$unread = getFeedUnread($link, $id, false);
 				$icon = getFeedIcon($id);
