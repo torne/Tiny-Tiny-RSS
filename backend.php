@@ -222,13 +222,14 @@
 			// in prefetch mode we only output requested cids, main article 
 			// just gets marked as read (it already exists in client cache)
 
+			$feed_id = false;
+
 			if ($mode == "") {
 				outputArticleXML($link, $id, false);
 			} else if ($mode == "zoom") {
 				outputArticleXML($link, $id, false, true, true);
 			} else {
 				catchupArticleById($link, $id, 0);
-				ccache_update($link, $feed_id, $_SESSION["uid"]);
 			}
 
 			if (!$_SESSION["bw_limit"]) {
@@ -241,7 +242,7 @@
 
 //			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
 
-			if (time() - $_SESSION["view:counters_stamp"] > 3 && $mode == "prefetch") {
+			if (time() - $_SESSION["view:counters_stamp"] > 5 && $mode == "prefetch") {
 				print "<counters>";
 				getAllCounters($link, $omode);
 				print "</counters>";
@@ -365,7 +366,7 @@
 //			}
 
 			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || 
-				time() - $_SESSION["viewfeed:counters_stamp"] > 60) {
+				time() - $_SESSION["viewfeed:counters_stamp"] > 5) {
 				if (!$offset) {
 					print "<counters>";
 					getAllCounters($link, $omode, $feed);

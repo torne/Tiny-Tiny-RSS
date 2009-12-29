@@ -4044,6 +4044,9 @@
 			unread = NOT unread,last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
+
+		$feed_id = getArticleFeed($link, $id);
+		ccache_update($link, $feed_id, $_SESSION["uid"]);
 	}
 
 	function make_guid_from_title($title) {
@@ -6468,5 +6471,16 @@
 		}
 
 		db_query($link, "COMMIT");
+	}
+
+	function getArticleFeed($link, $id) {
+		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries 
+			WHERE ref_id = '$id'");
+
+		if (db_num_rows($result) != 0) {
+			return db_fetch_result($result, 0, "feed_id");
+		} else {
+			return 0;
+		}
 	}
 ?>
