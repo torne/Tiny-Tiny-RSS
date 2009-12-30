@@ -1,5 +1,4 @@
 <?php
-	define('MOBILE_FEEDLIST_ENABLE_ICONS', false);
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
 	function render_feeds_list($link) {
@@ -50,41 +49,10 @@
 				print "<li class=\"$holder_class\"><ul class=\"feedCatList\">";
 			}
 
-			$num_total = getFeedUnread($link, -4);
-
-			$class = "virt";
-
-			if ($num_total > 0) $class .= "Unread";
-
-			printMobileFeedEntry(-4, $class, __("All articles"), $num_total, 
-				"../../images/fresh.png", $link);
-
-			$num_fresh = getFeedUnread($link, -3);
-
-			$class = "virt";
-
-			if ($num_fresh > 0) $class .= "Unread";
-
-			printMobileFeedEntry(-3, $class, __("Fresh articles"), $num_fresh, 
-				"../../images/fresh.png", $link);
-
-			$num_starred = getFeedUnread($link, -1);
-
-			$class = "virt";
-
-			if ($num_starred > 0) $class .= "Unread";
-
-			printMobileFeedEntry(-1, $class, __("Starred articles"), $num_starred, 
-				"../../images/mark_set.png", $link);
-
-			$class = "virt";
-
-			$num_published = getFeedUnread($link, -2);
-
-			if ($num_published > 0) $class .= "Unread";
-
-			printMobileFeedEntry(-2, $class, __("Published articles"), $num_published, 
-				"../../images/pub_set.png", $link);
+			foreach (array(-4, -3, -1, -2, 0) as $i) {
+				printMobileFeedEntry($i, "virt", false, false, 
+					false, $link);
+			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print "</ul>";
@@ -125,12 +93,8 @@
 	
 					$class = "label";
 	
-					if ($count > 0) {
-						$class .= "Unread";
-					}
-			
 					printMobileFeedEntry(-$line["id"]-11, 
-						$class, $line["caption"], $count, "../images/label.png", $link);
+						$class, $line["caption"], $count, false, $link);
 		
 				}
 
@@ -225,12 +189,6 @@
 					$class = "feed";
 				}
 	
-				if ($unread > 0) $class .= "Unread";
-	
-				if ($actid == $feed_id) {
-					$class .= "Selected";
-				}
-
 				if ($category != $tmp_category && get_pref($link, 'ENABLE_FEED_CATS')) {
 				
 					if ($category) {
@@ -280,7 +238,7 @@
 				}
 	
 				printMobileFeedEntry($feed_id, $class, $feed, $unread, 
-					"../icons/$feed_id.ico", $link, $rtl_content);
+					false, $link, $rtl_content);
 	
 				++$lnum;
 			}
@@ -305,10 +263,6 @@
 	
 				$class = "tag";
 	
-				if ($unread > 0) {
-					$class .= "Unread";
-				}
-	
 				printMobileFeedEntry($tag, $class, $tag, $unread, 
 					"../images/tag.png", $link);
 	
@@ -320,6 +274,13 @@
 
 	function printMobileFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
 		$rtl_content = false) {
+
+		if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id, false);
+		if (!$unread) $unread = getFeedUnread($link, $feed_id);	
+
+		if ($unread > 0) $class .= "Unread";
+
+		if (!$icon_file) $icon_file = "../../" . getFeedIcon($feed_id);
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
 				$feed_icon = "<img src=\"$icon_file\">";
@@ -336,9 +297,9 @@
 		$feed = "<a href=\"?go=vf&id=$feed_id\">$feed_title</a>";
 
 		print "<li class=\"$class\">";
-#		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-#			print "$feed_icon";
-#		}
+		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
+			print "$feed_icon";
+		}
 
 		print "<span $rtl_tag>$feed</span> ";
 
