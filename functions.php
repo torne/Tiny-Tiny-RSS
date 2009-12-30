@@ -2313,7 +2313,8 @@
 		if (!$omode) $omode = "flc";
 	
 		getGlobalCounters($link);
-	
+		getVirtCounters($link);
+
 		if (strchr($omode, "l")) getLabelCounters($link);
 		if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
 		if (strchr($omode, "t")) getTagCounters($link);
@@ -2656,15 +2657,7 @@
 
 	}
 
-	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
-
-		$age_qpart = getMaxAgeSubquery();
-
-		if ($smart_mode) {
-			if (!$_SESSION["lctr_last_value"]) {
-				$_SESSION["lctr_last_value"] = array();
-			}
-		}
+	function getVirtCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
 
 		$ret_arr = array();
 
@@ -2685,7 +2678,19 @@
 				$ret_arr[$i]["counter"] = $count;
 				$ret_arr[$i]["description"] = getFeedTitle($link, $i);
 			}
-	
+		} 
+
+		return $ret_arr;
+	}
+
+	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
+
+		$age_qpart = getMaxAgeSubquery();
+
+		if ($smart_mode) {
+			if (!$_SESSION["lctr_last_value"]) {
+				$_SESSION["lctr_last_value"] = array();
+			}
 		}
 
 		$old_counters = $_SESSION["lctr_last_value"];

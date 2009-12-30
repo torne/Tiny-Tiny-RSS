@@ -22,30 +22,6 @@
 			return;
 		}
 
-		if ($subop == "getLabelCounters") {
-			$aid = $_REQUEST["aid"];		
-			print "<rpc-reply>";
-			print "<counters>";
-			getLabelCounters($link);
-			if ($aid) {
-				getFeedCounter($link, $aid);
-			}
-			print "</counters>";
-			print "</rpc-reply>";
-
-			return;
-		}
-
-		if ($subop == "getFeedCounters") {
-			print "<rpc-reply>";
-			print "<counters>";
-			getFeedCounters($link);
-			print "</counters>";
-			print "</rpc-reply>";
-
-			return;
-		}
-
 		if ($subop == "getAllCounters") {
 			print "<rpc-reply>";			
 			print "<counters>";
@@ -77,6 +53,7 @@
 
 			print "<rpc-reply><counters>";
 			getGlobalCounters($link);
+			getVirtCounters($link);
 			getLabelCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
@@ -94,6 +71,7 @@
 
 			print "<rpc-reply><counters>";
 			getGlobalCounters($link);
+			getVirtCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
 			}
@@ -111,6 +89,7 @@
 
 			print "<rpc-reply><counters>";
 			getGlobalCounters($link);
+			getVirtCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
 			}
@@ -128,6 +107,7 @@
 
 			print "<rpc-reply><counters>";
 			getGlobalCounters($link);
+			getVirtCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
 			}
@@ -164,6 +144,7 @@
 			
 			print "<counters>";
 			getGlobalCounters($link);
+			getVirtCounters($link);
 			getLabelCounters($link);
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				getCategoryCounters($link);
@@ -217,6 +198,8 @@
 	 			$omode = $_REQUEST["omode"];
 	 
 	 			if (!$omode) $omode = "tflc";
+
+				getVirtCounters($link);
 
 	 			if (strchr($omode, "l")) getLabelCounters($link);
 
