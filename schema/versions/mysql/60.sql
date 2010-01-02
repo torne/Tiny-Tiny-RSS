@@ -13,7 +13,7 @@ create table ttrss_archived_feeds (id integer not null primary key,
 alter table ttrss_user_entries add column orig_feed_id integer;
 update ttrss_user_entries set orig_feed_id = NULL;
 
-alter table ttrss_user_entries add constraint FOREIGN KEY (orig_feed_id) REFERENCES ttrss_archived_feeds(id) ON DELETE SET NULL;
+alter table ttrss_user_entries add FOREIGN KEY (orig_feed_id) REFERENCES ttrss_archived_feeds(id) ON DELETE SET NULL;
 
 update ttrss_version set schema_version = 60;
 
