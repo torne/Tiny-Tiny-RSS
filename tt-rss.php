@@ -244,7 +244,6 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-
 		<?php echo __('Limit:') ?>
 		<?php
 		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => __("All"));
@@ -263,7 +262,7 @@
 
 		print_select_hash("limit", $def_art_limit, $limits, 
 			'onchange="viewLimitChanged()"');
-	
+
 		?>		
 
 		&nbsp;
@@ -271,6 +270,10 @@
 		<input class="button" type="submit" name="update"
 			onclick="return viewCurrentFeed('ForceUpdate')" 
 			value="<?php echo __('Update') ?>"/>
+
+		<input class="button" type="submit" name="update"
+			onclick="return catchupCurrentFeed()" 
+			value="<?php echo __('Mark as read') ?>"/>
 
 		</form>
 

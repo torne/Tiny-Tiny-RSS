@@ -4115,22 +4115,19 @@
 				<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
 				<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
 				<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-				<!-- <li><span class=\"insensitive\">--------</span></li> -->
-				<li class=\"insensitive\">".__('Mark as read:')."</li>
-				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Selection')."</li>";
+				<li class=\"insensitive\">".__('Selection:')."</li>
+				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Mark as read')."</li>";
 
-			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
-				"</li>";
+//			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
+//				"</li>";
 
 			if ($feed_id != "0") {
-				print "<li class=\"insensitive\">".__('Selection:')."</li>
-					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>
-					<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
+				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
 			} else {
-				print "<li class=\"insensitive\">".__('Selection:')."</li>
-					<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>
-					<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
+				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>";
 			} 
+
+			print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
 
 			//print "<li><span class=\"insensitive\">--------</span></li>";
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
