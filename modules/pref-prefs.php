@@ -105,6 +105,10 @@
 
 //					print "$pref_name : $type_name : $value<br>";
 
+					if ($pref_name == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
+						$value = 30;
+					}
+
 					db_query($link, "UPDATE ttrss_user_prefs SET value = '$value' 
 						WHERE pref_name = '$pref_name' AND owner_uid = ".$_SESSION["uid"]);
 

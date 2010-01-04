@@ -514,7 +514,6 @@ function init_second_stage() {
 		var toolbar = document.forms["main_toolbar_form"];
 
 		dropboxSelect(toolbar.view_mode, getInitParam("default_view_mode"));
-		dropboxSelect(toolbar.limit, getInitParam("default_view_limit"));
 		dropboxSelect(toolbar.order_by, getInitParam("default_view_order_by"));
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;

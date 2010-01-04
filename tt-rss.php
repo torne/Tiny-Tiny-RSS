@@ -226,7 +226,8 @@
 
 		<?php } ?>
 
-		<select name="view_mode" onchange="viewModeChanged()">
+		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
+				onchange="viewModeChanged()">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
@@ -235,35 +236,15 @@
 			<option value="updated"><?php echo __('Updated') ?></option>
 		</select>
 
-		<?php echo __('Order:') ?>
+		&nbsp;
 
-		<select name="order_by" onchange="viewModeChanged()">
+		<select title="<?php echo __('Sort articles') ?>" 
+				name="order_by" onchange="viewModeChanged()">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date"><?php echo __('Date') ?></option>
 			<option value="title"><?php echo __('Title') ?></option>
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
-
-		<?php echo __('Limit:') ?>
-		<?php
-		$limits = array(15 => 15, 30 => 30, 60 => 60, 0 => __("All"));
-			
-		$def_art_limit = get_pref($link, 'DEFAULT_ARTICLE_LIMIT');
-
-		if ($def_art_limit >= 0 && !array_key_exists($def_art_limit, $limits)) {
-			$limits[$def_art_limit] = $def_art_limit; 
-		}
-
-		asort($limits);
-
-		if (!$def_art_limit) {
-			$def_art_limit = 30;
-		}
-
-		print_select_hash("limit", $def_art_limit, $limits, 
-			'onchange="viewLimitChanged()"');
-
-		?>		
 
 		&nbsp;
 

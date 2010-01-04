@@ -2011,21 +2011,15 @@ function headlines_scroll_handler() {
 
 		var e = $("headlinesInnerContainer");
 
-		// don't do infinite scrolling when Limit == All
-
 		var toolbar_form = document.forms["main_toolbar_form"];
 
-		var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex];
-		if (limit.value != 0) {
-		
-			debug((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
-				_infscroll_disable);
+		debug((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
+			_infscroll_disable);
 
-			if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
-				if (!_infscroll_disable) {
-					debug("more cowbell!");
-					viewNextFeedPage();
-				}
+		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
+			if (!_infscroll_disable) {
+				debug("more cowbell!");
+				viewNextFeedPage();
 			}
 		}
 
