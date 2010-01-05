@@ -223,6 +223,8 @@
 			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
 			$show_excerpt = (bool)db_escape_string($_REQUEST["show_excerpt"]);
 			$show_content = (bool)db_escape_string($_REQUEST["show_content"]);
+			/* all_articles, unread, adaptive, marked, updated */
+			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 
 			/* do not rely on params below */
 
@@ -250,6 +252,7 @@
 						"updated" => strtotime($line["updated"]),
 						"is_updated" => $is_updated,
 						"title" => $line["title"],
+						"link" => $line["link"],
 						"feed_id" => $line["feed_id"],
 					);
 
@@ -269,7 +272,7 @@
 
 			break;
 		case "updateArticle":
-			$article_id = (int) db_escape_string($_REQUEST["article_id"]);
+			$article_ids = split(",", db_escape_string($_REQUEST["article_ids"]));
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
 			$field_raw = (int)db_escape_string($_REQUEST["field"]);
 
@@ -300,14 +303,17 @@
 					break;
 			}
 
-			if ($field && $set_to) {
+			if ($field && $set_to && count($article_ids) > 0) {
+
+				$article_ids = join(", ", $article_ids);
+
 				if ($field == "unread") {
 					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to,
 						last_read = NOW()
-						WHERE ref_id = '$article_id' AND owner_uid = " . $_SESSION["uid"]);
+						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 				} else {
 					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to
-						WHERE ref_id = '$article_id' AND owner_uid = " . $_SESSION["uid"]);
+						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 				}
 			}
 
