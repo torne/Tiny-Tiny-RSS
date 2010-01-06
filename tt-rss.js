@@ -581,7 +581,8 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcAddFeed") {
-			displayDlg("quickAddFeed");
+			displayDlg('quickAddFeed', '',
+					   function () {$('feed_url').focus();});
 			return;
 		}
 

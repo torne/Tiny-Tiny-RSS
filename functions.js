@@ -1313,7 +1313,7 @@ function closeInfoBox(cleanup) {
 }
 
 
-function displayDlg(id, param) {
+function displayDlg(id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
 
@@ -1326,6 +1326,7 @@ function displayDlg(id, param) {
 		parameters: query,
 		onComplete: function (transport) {
 			infobox_callback2(transport);
+			if (callback) callback(transport);
 		} });
 
 	return false;
@@ -1364,14 +1365,6 @@ function infobox_callback2(transport) {
 			//Effect.SlideDown("infoBoxShadow", {duration : 1.0});
 
 
-		}
-
-		/* FIXME this needs to be moved out somewhere */
-
-		if ($("tags_choices")) {
-			new Ajax.Autocompleter('tags_str', 'tags_choices',
-				"backend.php?op=rpc&subop=completeTags",
-				{ tokens: ',', paramName: "search" });
 		}
 
 		disableHotkeys();

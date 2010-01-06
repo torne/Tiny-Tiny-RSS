@@ -101,7 +101,7 @@
 
 			print "<input size=\"40\"
 					onkeypress=\"return filterCR(event, subscribeToFeed)\"
-					name=\"feed_url\"></td></tr>";
+					name=\"feed_url\" id=\"feed_url\"></td></tr>";
 
 			print "<br/>";
 
