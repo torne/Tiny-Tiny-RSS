@@ -449,7 +449,7 @@
 				selected=\"true\"
 				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id'>";
 	
-			print "<h2><a target='_blank' href='$link'>$title</a></h2>";
+			print "<h2><a target='_blank' href='$article_link'>$title</a></h2>";
 	
 			print "<fieldset>";
 	
