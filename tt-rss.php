@@ -217,15 +217,6 @@
 
 		&nbsp;
 
-		<?php if (get_pref($link, 'ENABLE_SEARCH_TOOLBAR')) { ?>
-
-		<?php echo __('Search:') ?>
-		<input name="query" type="text"
-			onkeypress="return filterCR(event, viewCurrentFeed)"
-			onblur="javascript:enableHotkeys();" onfocus="javascript:disableHotkeys();"/>
-
-		<?php } ?>
-
 		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
 				onchange="viewModeChanged()">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
