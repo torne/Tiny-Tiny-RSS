@@ -1135,11 +1135,11 @@
 			type=\"submit\" id=\"subscribe_to_feed_btn\" 
 			class=\"button\" value=\"".__('Subscribe to feed')."\">"; 
 
-		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
+/*		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
 				id=\"top25_feeds_btn\"
 				onclick=\"javascript:browseFeeds()\" value=\"".__('More feeds')."\">";
-		}
+		} */
 
 		$feeds_sort = db_escape_string($_REQUEST["sort"]);
 
@@ -1533,7 +1533,16 @@
 	
 				} else if ($mode == 2) {
 					$feed_url = $line["feed_url"];
+
+					$icon_file = ICONS_DIR . "/" . $line["id"] . ".ico";
 	
+					if (file_exists($icon_file) && filesize($icon_file) > 0) {
+							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+								"/".$line["id"].".ico\">";
+					} else {
+						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+					}
+
 					$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
 						type=\"checkbox\" id=\"FBCHK-" . $line["id"] . "\">";
 	
@@ -1547,7 +1556,7 @@
 					}
 	
 					print "<li class='$class' id=\"FBROW-".$line["id"]."\">$check_box".
-						$line["title"] . $site_url . "</li>";
+						"$feed_icon " . $line["title"] . $site_url . "</li>";
 
 
 				}

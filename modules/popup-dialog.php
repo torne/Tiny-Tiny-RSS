@@ -128,6 +128,9 @@
 				<input class=\"button\"
 					id=\"fadd_submit_btn\" disabled=\"true\"
 					type=\"submit\" onclick=\"return subscribeToFeed()\" value=\"".__('Subscribe')."\">
+				<input class=\"button\"					
+					type=\"submit\" onclick=\"return browseFeeds()\" value=\"".__('More feeds')."\">
+
 				<input class=\"button\"
 					type=\"submit\" onclick=\"return closeInfoBox()\" 
 					value=\"".__('Cancel')."\"></div>";
