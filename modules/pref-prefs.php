@@ -84,36 +84,7 @@
 				$pref_name = db_escape_string($pref_name);
 				$value = db_escape_string($_POST[$pref_name]);
 
-				$result = db_query($link, "SELECT type_name 
-					FROM ttrss_prefs,ttrss_prefs_types 
-					WHERE pref_name = '$pref_name' AND type_id = ttrss_prefs_types.id");
-
-				if (db_num_rows($result) > 0) {
-
-					$type_name = db_fetch_result($result, 0, "type_name");
-
-//					print "$pref_name : $type_name : $value<br>";
-
-					if ($type_name == "bool") {
-						if ($value == "1") {
-							$value = "true";
-						} else {
-							$value = "false";
-						}
-					} else if ($type_name == "integer") {
-						$value = sprintf("%d", $value);
-					}
-
-//					print "$pref_name : $type_name : $value<br>";
-
-					if ($pref_name == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
-						$value = 30;
-					}
-
-					db_query($link, "UPDATE ttrss_user_prefs SET value = '$value' 
-						WHERE pref_name = '$pref_name' AND owner_uid = ".$_SESSION["uid"]);
-
-				}
+				set_pref($link, $pref_name, $value);
 
 			}
 

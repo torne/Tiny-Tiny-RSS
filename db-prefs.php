@@ -73,12 +73,35 @@
 	function set_pref($link, $key, $value) {
 		$key = db_escape_string($key);
 		$value = db_escape_string($value);
-	
-		db_query($link, "UPDATE ttrss_user_prefs SET 
-			value = '$value' WHERE pref_name = '$key' 
-				AND owner_uid = " . $_SESSION["uid"]);
 
-		$_SESSION["prefs_cache"] = array();
+		$result = db_query($link, "SELECT type_name 
+			FROM ttrss_prefs,ttrss_prefs_types 
+			WHERE pref_name = '$key' AND type_id = ttrss_prefs_types.id");
 
+		if (db_num_rows($result) > 0) {
+
+			$type_name = db_fetch_result($result, 0, "type_name");
+
+			if ($type_name == "bool") {
+				if ($value == "1" || $value == "true") {
+					$value = "true";
+				} else {
+					$value = "false";
+				}
+			} else if ($type_name == "integer") {
+				$value = sprintf("%d", $value);
+			}
+
+			if ($pref_name == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
+				$value = 30;
+			}
+
+			db_query($link, "UPDATE ttrss_user_prefs SET 
+				value = '$value' WHERE pref_name = '$key' 
+					AND owner_uid = " . $_SESSION["uid"]);
+
+			$_SESSION["prefs_cache"] = array();
+
+		}
 	}
 ?>

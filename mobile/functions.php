@@ -4,16 +4,20 @@
 	/* TODO replace with interface to db-prefs */
 
 	function mobile_pref_toggled($link, $id) {
-		if ($_SESSION["mobile-prefs"][$id]) return "true";
-
+		if (get_pref($link, "_MOBILE_$id")) 
+			return "true";
+		else
+			return "";
 	}
 
 	function mobile_get_pref($link, $id) {
-		return $_SESSION["mobile-prefs"][$id];
+		//return $_SESSION["mobile-prefs"][$id];
+		return get_pref($link, "_MOBILE_$id");
 	}
 
 	function mobile_set_pref($link, $id, $value) {
-		$_SESSION["mobile-prefs"][$id] = $value;
+		//$_SESSION["mobile-prefs"][$id] = $value;
+		return set_pref($link, "_MOBILE_$id", $value);
 	}
 
 	function mobile_feed_has_icon($id) {

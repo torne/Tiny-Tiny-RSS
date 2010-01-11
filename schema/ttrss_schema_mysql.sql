@@ -238,7 +238,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (61);
+insert into ttrss_version values (62);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -380,6 +380,14 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_COLLAPSED_UNCAT', 1, 'false', '', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_COLLAPSED_FEEDLIST', 1, 'false', '', 1);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_ENABLE_CATS', 1, 'false', '', 1);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_SHOW_IMAGES', 1, 'false', '', 1);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_HIDE_READ', 1, 'false', '', 1);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_SORT_FEEDS_UNREAD', 1, 'false', '', 1);
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
