@@ -305,8 +305,9 @@
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
 			<input type=\"submit\" class=\"button\" 
 			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">
-			<p<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img src='images/sign_quest.gif'></a></p>
+			&nbsp;
+			<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
+			<img src='images/sign_quest.gif'></a>
 			</div>";
 
 
@@ -314,14 +315,19 @@
 			class=\"button\" 
 			onclick=\"return displayDlg('quickAddFilter', false)\" 
 			id=\"create_filter_btn\"
-			value=\"".__('Create filter')."\">"; 
+			value=\"".__('Create filter')."\"> "; 
 
-		print "&nbsp;";
+		print "<input type=\"submit\" class=\"button\"
+			onclick=\"return editSelectedFilter()\" value=\"".__('Edit')."\"> ";
+
+		print "<input type=\"submit\" class=\"button\"
+				onclick=\"return removeSelectedFilters()\" value=\"".__('Remove')."\"> ";
 
 		print "<input type=\"submit\" 
 			class=\"button\" 
 			onclick=\"rescore_all_feeds()\" 
-			value=\"".__('Rescore articles')."\">"; 
+			value=\"".__('Rescore articles')."\"> "; 
+
 
 		if ($filter_search) {
 			$filter_search = split(' ', db_escape_string($filter_search));
@@ -507,15 +513,6 @@
 			}
 
 			print "</table>";
-
-			print "<p id=\"filterOpToolbar\">";
-
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return editSelectedFilter()\" value=\"".__('Edit')."\">
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return removeSelectedFilters()\" value=\"".__('Remove')."\">";
-
-			print "</p>";
 
 		} else {
 

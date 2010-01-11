@@ -371,7 +371,19 @@
 
 		print "<input type=\"submit\" class=\"button\" 
 			id=\"user_add_btn\" 
-			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\"></div>";
+			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\">";
+
+		print "				
+			<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:selectedUserDetails()\" value=\"".__('Details')."\">
+			<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:editSelectedUser()\" value=\"".__('Edit')."\">
+			<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:removeSelectedUsers()\" value=\"".__('Remove')."\">
+			<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:resetSelectedUserPass()\" value=\"".__('Reset password')."\">";
+
+		print "</div>";
 
 		if ($user_search) {
 
@@ -472,18 +484,6 @@
 		}
 
 		print "</table>";
-
-		print "<p id='userOpToolbar'>";
-
-		print "				
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:selectedUserDetails()\" value=\"".__('User details')."\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:editSelectedUser()\" value=\"".__('Edit')."\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:removeSelectedUsers()\" value=\"".__('Remove')."\">
-			<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:resetSelectedUserPass()\" value=\"".__('Reset password')."\">";
 
 		} else {
 			print "<p>";

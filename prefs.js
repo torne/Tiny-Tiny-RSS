@@ -946,8 +946,7 @@ function editSelectedFeed() {
 	}
 
 	if (rows.length > 1) {
-		alert(__("Please select one feed."));
-		return;
+		return editSelectedFeeds();
 	}
 
 	notify("");

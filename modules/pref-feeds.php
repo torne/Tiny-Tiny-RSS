@@ -1133,7 +1133,37 @@
 		
 		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
 			type=\"submit\" id=\"subscribe_to_feed_btn\" 
-			class=\"button\" value=\"".__('Subscribe to feed')."\">"; 
+			class=\"button\" value=\"".__('Subscribe to feed')."\"> ";
+
+		print "<input onclick=\"javascript:editSelectedFeed()\"
+			type=\"submit\"
+			class=\"button\" value=\"".__('Edit feeds')."\"> ";
+
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+			print "<input onclick=\"javascript:editFeedCats()\"
+				type=\"submit\"
+				class=\"button\" value=\"".__('Edit categories')."\"> ";
+		}
+
+		print "<input onclick=\"javascript:removeSelectedFeeds()\"
+			type=\"submit\"
+			class=\"button\" value=\"".__('Unsubscribe')."\"> ";
+
+/*		print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
+			<option value=\"facDefault\" selected>".__('Other actions...')."</option>";
+
+		if (FORCE_ARTICLE_PURGE == 0) {
+			print 
+				"<option value=\"facPurge\">".__('Manual purge')."</option>";
+		}
+
+		print "
+			<option value=\"facClear\">".__('Clear feed data')."</option>
+			<option value=\"facRescore\">".__('Rescore articles')."</option>
+			<option value=\"facUnsubscribe\">".__('Unsubscribe')."</option>";
+
+		print "</select>"; */
 
 /*		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
@@ -1362,7 +1392,7 @@
 
 			print "<p>";
 
-			print "<div id=\"feedOpToolbar\">";
+/*			print "<div id=\"feedOpToolbar\">";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
@@ -1375,35 +1405,8 @@
 					__('Recategorize')."\">";
 			}
 				
-			print "</div>";
+			print "</div>"; */
 
-			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
-				<option value=\"facDefault\" selected>".__('Actions...')."</option>
-				<optgroup label=\"".__('Selection:')."\">
-				<option value=\"facEdit\">".__('Edit')."</option>";
-
-			if (FORCE_ARTICLE_PURGE == 0) {
-				print 
-					"<option value=\"facPurge\">".__('Manual purge')."</option>";
-			}
-
-			print "
-				<option value=\"facClear\">".__('Clear feed data')."</option>
-				<option value=\"facRescore\">".__('Rescore articles')."</option>
-				<option value=\"facUnsubscribe\">".__('Unsubscribe')."</option>";
-
-			print "</optgroup>";
-
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-
-					print "<optgroup label=\"".__('Other:')."\">
-						<option value=\"facEditCats\">".__('Edit categories')."
-							</option>
-					</optgroup>";
-
-				}
-
-			print "</select>";
 		} else {
 
 			print "<p>";

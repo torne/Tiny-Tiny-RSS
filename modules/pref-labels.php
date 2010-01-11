@@ -137,7 +137,21 @@
 		print"<input type=\"submit\" class=\"button\" 
 			id=\"label_create_btn\"
 			onclick=\"return addLabel()\" 
-			value=\"".__('Create label')."\"></div>";
+			value=\"".__('Create label')."\"> ";
+
+			print "<input type=\"submit\" class=\"button\"
+				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
+
+			print "&nbsp;";
+/*			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"labelColorSet('fg')\" value=\"".__('Fg')."\">&nbsp;";
+			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
+				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;"; */
+			print "<input type=\"submit\" class=\"button\"
+				onclick=\"labelColorReset()\" value=\"".__('Clear colors')."\">";
+
+
+		print "</div>";
 
 		if ($label_search) {
 
@@ -233,20 +247,6 @@
 
 			print "</table>";
 	
-			print "<p id=\"labelOpToolbar\">";
-
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
-
-			print "&nbsp;";
-/*			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorSet('fg')\" value=\"".__('Fg')."\">&nbsp;";
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;"; */
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorReset()\" value=\"".__('Clear colors')."\">";
-
-			print "</p>";
 
 		} else {
 			print "<p>";
