@@ -26,9 +26,10 @@
 					$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
 						WHERE id = '$id'");
 				} else if ($mode == 2) {
-					$result = db_query($link, "SELECT id,feed_url,title FROM ttrss_archived_feeds
+					$result = db_query($link, "SELECT * FROM ttrss_archived_feeds
 						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 					$orig_id = db_escape_string(db_fetch_result($result, 0, "id"));
+					$site_url = db_escape_string(db_fetch_result($result, 0, "site_url"));
 				}
 	
 				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
@@ -46,8 +47,8 @@
 							VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
 					} else if ($mode == 2) {
 						$result = db_query($link,
-							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id) 
-							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id,site_url) 
+							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL, '$site_url')");
 					}
 					array_push($subscribed, $title_orig);
 				}
