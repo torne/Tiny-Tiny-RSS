@@ -4814,12 +4814,14 @@
 
 				print "<div class=\"postEnclosures\">";
 
-				if ($always_display_enclosures || !preg_match("/<img/i", $article_content)) {
-					foreach ($entries as $entry) {
-						if (preg_match("/image/", $entry["type"])) {
-							print "<p><img 
-								alt=\"".htmlspecialchars($entry["filename"])."\"
-								src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+				if (!get_pref($link, "STRIP_IMAGES")) {
+					if ($always_display_enclosures || !preg_match("/<img/i", $article_content)) {
+						foreach ($entries as $entry) {
+							if (preg_match("/image/", $entry["type"])) {
+								print "<p><img 
+									alt=\"".htmlspecialchars($entry["filename"])."\"
+									src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+							}
 						}
 					}
 				}
@@ -5392,12 +5394,14 @@
 
 				$always_display_enclosures = db_fetch_result($tmp_result, 0, "always_display_enclosures");
 
-				if ($always_display_enclosures || !preg_match("/img/i", $article_content)) {
-					foreach ($entries as $entry) {
-						if (preg_match("/image/", $entry["type"])) {
-							print "<p><img 
-								alt=\"".htmlspecialchars($entry["filename"])."\"
-								src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+				if (!get_pref($link, "STRIP_IMAGES")) {
+					if ($always_display_enclosures || !preg_match("/img/i", $article_content)) {
+						foreach ($entries as $entry) {
+							if (preg_match("/image/", $entry["type"])) {
+								print "<p><img 
+									alt=\"".htmlspecialchars($entry["filename"])."\"
+									src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+							}
 						}
 					}
 				}
