@@ -333,14 +333,14 @@
 
 		if (!$offset) {
 
-			print "<form id=\"searchForm\" class=\"dialog\" method=\"POST\" 
+			print "<form id=\"searchForm-$feed_id-$cat_id\" class=\"dialog\" method=\"POST\" 
 				action=\"feed.php\">
 
 				<input type=\"hidden\" name=\"id\" value=\"$feed_id\">
 				<input type=\"hidden\" name=\"cat\" value=\"$cat_id\">
 
 	        <fieldset>
-   	         <h1>Search</h1>
+			  <h1>Search</h1>
 	            <a class=\"button leftButton\" type=\"cancel\">Cancel</a>
 	            <a class=\"button blueButton\" type=\"submit\">Search</a>
 
@@ -359,7 +359,7 @@
 					myBackLabel='".__("Home")."' myBackHref='home.php'>";
 			}
 
-			print "<li><a href='#searchForm'>Search...</a></li>";
+			print "<li><a href='#searchForm-$feed_id-$cat_id'>Search...</a></li>";
 		}
 
 		$num_headlines = 0;
