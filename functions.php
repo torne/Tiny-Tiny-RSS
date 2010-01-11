@@ -4110,9 +4110,9 @@
 				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
 			} else {
 				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>";
-			} 
+				print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
 
-			print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
+			} 
 
 			//print "<li><span class=\"insensitive\">--------</span></li>";
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
