@@ -556,11 +556,12 @@
 
 			$search = db_escape_string($_REQUEST["search"]);
 			$limit = db_escape_string($_REQUEST["limit"]);
+			$mode = db_escape_string($_REQUEST["mode"]);
 
 			print "<rpc-reply>";
 			print "<content>";
 			print "<![CDATA[";
-			$ctr = print_feed_browser($link, $search, $limit);
+			$ctr = print_feed_browser($link, $search, $limit, $mode);
 			print "]]>";
 			print "</content>";
 			print "<num-results value=\"$ctr\"/>";

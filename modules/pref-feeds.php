@@ -13,6 +13,7 @@
 
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
+		$mode = $_REQUEST["mode"];
 
 		if ($subop == "massSubscribe") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
@@ -20,22 +21,34 @@
 			$subscribed = array();
 
 			foreach ($ids as $id) {
-				$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
-					WHERE id = '$id'");
 
+				if ($mode == 1) {
+					$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
+						WHERE id = '$id'");
+				} else if ($mode == 2) {
+					$result = db_query($link, "SELECT id,feed_url,title FROM ttrss_archived_feeds
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+					$orig_id = db_escape_string(db_fetch_result($result, 0, "id"));
+				}
+	
 				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
 				$title = db_escape_string(db_fetch_result($result, 0, "title"));
-
+	
 				$title_orig = db_fetch_result($result, 0, "title");
-
+	
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
-
+						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+	
 				if (db_num_rows($result) == 0) {			
-					$result = db_query($link,
-						"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
-						VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
-
+					if ($mode == 1) {
+						$result = db_query($link,
+							"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+							VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+					} else if ($mode == 2) {
+						$result = db_query($link,
+							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id) 
+							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+					}
 					array_push($subscribed, $title_orig);
 				}
 			}
@@ -68,11 +81,13 @@
 
 			//print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
 
+			print "<form onsubmit='return false;' display='inline' name='feed_browser' id='feed_browser'>";
+
 			print "
 				<div style='float : right'>
 				<img style='display : none' 
 					id='feed_browser_spinner' src='images/indicator_white.gif'>
-				<input id=\"feed_browser_search\" size=\"20\" type=\"search\"
+				<input name=\"search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
@@ -80,14 +95,23 @@
 				onclick=\"javascript:updateFeedBrowser()\" value=\"".__('Search')."\">
 			</div>";
 
-			print __('Top')." <select id=\"feed_browser_limit\">";
+			print " <select name=\"mode\" onchange=\"updateFeedBrowser()\">
+				<option value='1'>" . __('Popular feeds') . "</option>
+				<option value='2'>" . __('Feed archive') . "</option>
+				</select> ";
+
+			print __("limit:");
+
+			print " <select name=\"limit\">";
 
 			foreach (array(25, 50, 100, 200) as $l) {
 				$issel = ($l == $limit) ? "selected" : "";
 				print "<option $issel>$l</option>";
 			}
 			
-			print "</select>
+			print "</select> ";
+
+			print "
 				<input type=\"submit\" class=\"button\"
 					onclick=\"updateFeedBrowser()\" value=\"".__('Show')."\">";
 
@@ -1135,7 +1159,7 @@
 		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
 				id=\"top25_feeds_btn\"
-				onclick=\"javascript:browseFeeds()\" value=\"".__('More Feeds')."\">";
+				onclick=\"javascript:browseFeeds()\" value=\"".__('More feeds')."\">";
 		}
 
 		$feeds_sort = db_escape_string($_REQUEST["sort"]);
@@ -1470,7 +1494,7 @@
 
 	}
 
-	function print_feed_browser($link, $search, $limit) {
+	function print_feed_browser($link, $search, $limit, $mode = 1) {
 
 			$owner_uid = $_SESSION["uid"];
 
@@ -1481,51 +1505,85 @@
 				$search_qpart = "";
 			}
 
-			$result = db_query($link, "SELECT feed_url, subscribers FROM
-				ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
-				WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
-				AND owner_uid = '$owner_uid') $search_qpart 
-				ORDER BY subscribers DESC LIMIT $limit");
+			if ($mode == 1) {
+				$result = db_query($link, "SELECT feed_url, subscribers FROM
+					ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
+					WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
+					AND owner_uid = '$owner_uid') $search_qpart 
+					ORDER BY subscribers DESC LIMIT $limit");
+			} else if ($mode == 2) {
+				$result = db_query($link, "SELECT * FROM
+					ttrss_archived_feeds WHERE 
+					(SELECT COUNT(*) FROM ttrss_feeds 
+						WHERE ttrss_feeds.feed_url = ttrss_archived_feeds.feed_url AND
+							owner_uid = '$owner_uid') = 0	AND					
+					owner_uid = '$owner_uid' $search_qpart 
+					ORDER BY id DESC LIMIT $limit");
+			}
 
 			$feedctr = 0;
 			
 			while ($line = db_fetch_assoc($result)) {
-				$feed_url = $line["feed_url"];
-				$subscribers = $line["subscribers"];
 
-				$det_result = db_query($link, "SELECT site_url,title,id 
-					FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+				if ($mode == 1) {
 
-				$details = db_fetch_assoc($det_result);
-			
-				$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+					$feed_url = $line["feed_url"];
+					$subscribers = $line["subscribers"];
+	
+					$det_result = db_query($link, "SELECT site_url,title,id 
+						FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
+	
+					$details = db_fetch_assoc($det_result);
+				
+					$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
+	
+					if (file_exists($icon_file) && filesize($icon_file) > 0) {
+							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+								"/".$details["id"].".ico\">";
+					} else {
+						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+					}
+	
+					$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+						type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
+	
+					$class = ($feedctr % 2) ? "even" : "odd";
+	
+					if ($details["site_url"]) {
+						$site_url = "<a target=\"_blank\" href=\"".$details["site_url"]."\">
+							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
+					} else {
+						$site_url = "";
+					}
+	
+					print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+						"$feed_icon " . $details["title"] . 
+						"&nbsp;<span class='subscribers'>($subscribers)</span>
+						$site_url
+						</li>";
+	
+				} else if ($mode == 2) {
+					$feed_url = $line["feed_url"];
+	
+					$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+						type=\"checkbox\" id=\"FBCHK-" . $line["id"] . "\">";
+	
+					$class = ($feedctr % 2) ? "even" : "odd";
+	
+					if ($line["site_url"]) {
+						$site_url = "<a target=\"_blank\" href=\"".$line["site_url"]."\">
+							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
+					} else {
+						$site_url = "";
+					}
+	
+					print "<li class='$class' id=\"FBROW-".$line["id"]."\">$check_box".
+						$line["title"] . $site_url . "</li>";
 
-				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
-							"/".$details["id"].".ico\">";
-				} else {
-					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
+
 				}
 
-				$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
-					type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
-
-				$class = ($feedctr % 2) ? "even" : "odd";
-
-				if ($details["site_url"]) {
-					$site_url = "<a target=\"_blank\" href=\"".$details["site_url"]."\">
-						<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
-				} else {
-					$site_url = "";
-				}
-
-				print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-					"$feed_icon " . $details["title"] . 
-					"&nbsp;<span class='subscribers'>($subscribers)</span>
-					$site_url
-					</li>";
-
-					++$feedctr;
+				++$feedctr;
 			}
 
 			if ($feedctr == 0) {

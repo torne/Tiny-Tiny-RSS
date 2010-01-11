@@ -2051,18 +2051,9 @@ function getSelectedFeedsFromBrowser() {
 function updateFeedBrowser() {
 	try {
 
-		var query = "?op=rpc&subop=feedBrowser";
+		var options = Form.serialize("feed_browser");
 
-		var search = $("feed_browser_search");
-		var limit = $("feed_browser_limit");
-
-		if (limit) {
-			query = query + "&limit=" + limit[limit.selectedIndex].value;
-		}
-
-		if (search) {
-			query = query + "&search=" + param_escape(search.value);
-		}
+		var query = "?op=rpc&subop=feedBrowser&" + options;
 
 		//notify_progress("Loading, please wait...", true);
 
@@ -2094,10 +2085,10 @@ function updateFeedBrowser() {
 
 			} });
 
-
 	} catch (e) {
 		exception_error("updateFeedBrowser", e);
 	}
+
 }
 
 function browseFeeds(limit) {
