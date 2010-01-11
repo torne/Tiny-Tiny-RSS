@@ -3016,7 +3016,7 @@
 			return __("Fresh articles");
 		} else if ($id == -4) {
 			return __("All articles");
-		} else if ($id == 0) {
+		} else if ($id === 0) {
 			return __("Archived articles");
 		} else if ($id < -10) {
 			$label_id = -$id - 11;
