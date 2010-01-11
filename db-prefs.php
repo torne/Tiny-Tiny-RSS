@@ -68,8 +68,6 @@
 		}
 	}
 
-	// doesn't peform any type checking, be vigilant
-	
 	function set_pref($link, $key, $value) {
 		$key = db_escape_string($key);
 		$value = db_escape_string($value);
