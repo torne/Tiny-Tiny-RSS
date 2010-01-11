@@ -6358,8 +6358,8 @@
 			  	WHERE id = '$id'");
 			}
 
-			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL 
-				WHERE feed_id = '$id' AND 
+			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL,
+				orig_feed_id = '$id' WHERE feed_id = '$id' AND 
 					marked = true AND owner_uid = $owner_uid");
 
 			/* remove the feed */
