@@ -651,7 +651,7 @@
 				print "<feeds>";
 
 				$result = db_query($link, "SELECT id, title, cat_id FROM
-					ttrss_feeds WHERE hidden = false AND owner_uid = ".$_SESSION["uid"]);
+					ttrss_feeds WHERE owner_uid = ".$_SESSION["uid"]);
 
 				while ($line = db_fetch_assoc($result)) {
 
@@ -749,7 +749,6 @@
 							feed_id,content,updated,unread,marked FROM
 							ttrss_user_entries,ttrss_entries,ttrss_feeds
 						WHERE $unread_qpart $cid_qpart $date_qpart
-							hidden = false AND
 							ttrss_feeds.id = feed_id AND
 							ref_id = ttrss_entries.id AND 
 							ttrss_user_entries.owner_uid = ".$_SESSION["uid"]."

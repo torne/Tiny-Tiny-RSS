@@ -336,7 +336,7 @@
 			}
 
 			print "<input type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked>&nbsp;<label for=\"private\">".__('Hide from "Other Feeds"')."</label>";
+				$checked>&nbsp;<label for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
@@ -348,17 +348,6 @@
 
 			print "<br/><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
 				$checked>&nbsp;<label for=\"rtl_content\">".__('Right-to-left content')."</label>";
-
-			$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
-
-			if ($hidden) {
-				$checked = "checked";
-			} else {
-				$checked = "";
-			}
-
-			print "<br/><input type=\"checkbox\" id=\"hidden\" name=\"hidden\"
-				$checked>&nbsp;<label for=\"hidden\">".__('Hide from my feed list')."</label>";
 
 			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
 
@@ -537,7 +526,7 @@
 			print "<div style=\"line-height : 100%\">";
 
 			print "<input disabled type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from "Other Feeds"')."</label>";
+				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds"')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("private", "private_l");
 
@@ -545,11 +534,6 @@
 				$checked>&nbsp;<label class='insensitive' id=\"rtl_content_l\" for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("rtl_content", "rtl_content_l");
-
-			print "<br/><input disabled type=\"checkbox\" id=\"hidden\" name=\"hidden\"
-				$checked>&nbsp;<label class='insensitive' id=\"hidden_l\" for=\"hidden\">".__('Hide from my feed list')."</label>";
-
-			print "&nbsp;"; batch_edit_cbox("hidden", "hidden_l");
 
 			print "<br/><input disabled type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\" 
@@ -603,7 +587,6 @@
 			$parent_feed = db_escape_string($_POST["parent_feed"]);
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
 			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
-			$hidden = checkbox_to_sql_bool(db_escape_string($_POST["hidden"]));
 			$include_in_digest = checkbox_to_sql_bool(
 				db_escape_string($_POST["include_in_digest"]));
 			$cache_images = checkbox_to_sql_bool(
@@ -649,7 +632,6 @@
 					auth_pass = '$auth_pass',
 					private = $private,
 					rtl_content = $rtl_content,
-					hidden = $hidden,
 					$cache_images_qpart
 					include_in_digest = $include_in_digest,
 					always_display_enclosures = $always_display_enclosures,
@@ -704,10 +686,6 @@
 
 						case "private":
 							$qpart = "private = '$private'";
-							break;
-
-						case "hidden":
-							$qpart = "hidden = '$hidden'";
 							break;
 
 						case "include_in_digest":
@@ -1224,7 +1202,6 @@
 				F1.cat_id,
 				F2.title AS parent_title,
 				C1.title AS category,
-				F1.hidden,
 				F1.include_in_digest
 				$show_last_article_qpart
 			FROM 
@@ -1281,8 +1258,6 @@
 
 				$edit_title = htmlspecialchars($line["title"]);
 				$edit_cat = htmlspecialchars($line["category"]);
-
-				$hidden = sql_bool_to_bool($line["hidden"]);
 
 				$last_error = $line["last_error"];
 
@@ -1355,13 +1330,6 @@
 
 				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
 					print "<td $onclick class='feedIcon'>$feed_icon</td>";		
-				}
-
-				if ($hidden) {
-					$edit_title = "<span class=\"insensitive\">$edit_title ".
-						__('(Hidden)')."</span>";
-					$last_updated = "<span class=\"insensitive\">$last_updated</span>";
-					$last_article = "<span class=\"insensitive\">$last_article</span>";
 				}
 
 				if ($last_error) {

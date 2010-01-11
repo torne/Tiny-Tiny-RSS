@@ -528,7 +528,7 @@
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method,hidden,last_updated
+				auth_pass,cache_images,update_method,last_updated
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -540,7 +540,6 @@
 			return false;
 		}
 
-		$hidden = sql_bool_to_bool(db_fetch_result($result, 0, "hidden"));
 		$update_method = db_fetch_result($result, 0, "update_method");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 
@@ -1401,15 +1400,6 @@
 					_debug("update_rss_feed: new feed, catching it up...");
 				}
 				catchup_feed($link, $feed, false, $owner_uid);
-			}
-
-			if (!$hidden) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					_debug("update_rss_feed: updating counters cache...");
-				}
-
-				// disabled, purge_feed() does that...
-				//ccache_update($link, $feed, $owner_uid);
 			}
 
 			purge_feed($link, $feed, 0);
@@ -2372,7 +2362,6 @@
 			$age_qpart = getMaxAgeSubquery();
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query 
-					AND hidden = false
 					AND owner_uid = " . $owner_uid);
 	
 			$cat_feeds = array();
@@ -2406,7 +2395,7 @@
 					ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds 
 				WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND 
 					ttrss_labels2.owner_uid = '$owner_uid'
-					AND unread = true AND hidden = false AND feed_id = ttrss_feeds.id
+					AND unread = true AND feed_id = ttrss_feeds.id
 					AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 			$unread = db_fetch_result($result, 0, "unread");
@@ -2438,7 +2427,7 @@
 				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds 
 			WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND 
 				ttrss_labels2.owner_uid = '$owner_uid' AND ttrss_labels2.id = '$label_id'
-				AND unread = true AND hidden = false AND feed_id = ttrss_feeds.id
+				AND unread = true AND feed_id = ttrss_feeds.id
 				AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 		if (db_num_rows($result) != 0) {
@@ -2494,7 +2483,6 @@
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds 
 					WHERE parent_feed = '$n_feed'
-					AND hidden = false
 					AND owner_uid = " . $owner_uid);
 
 			if (db_num_rows($result) > 0) {
@@ -2544,8 +2532,7 @@
 
 			if ($n_feed != 0) {
 				$from_qpart = "ttrss_user_entries,ttrss_feeds,ttrss_entries";
-				$feeds_qpart = "ttrss_feeds.hidden = false AND
-					ttrss_user_entries.feed_id = ttrss_feeds.id AND";
+				$feeds_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 			} else {
 				$from_qpart = "ttrss_user_entries,ttrss_entries";
 			}
@@ -3443,8 +3430,7 @@
 
 				if ($feed != "0") {
 					$from_qpart = "ttrss_entries,ttrss_user_entries,ttrss_feeds$ext_tables_part";
-					$feed_check_qpart = "ttrss_feeds.hidden = false AND 
-						ttrss_user_entries.feed_id = ttrss_feeds.id AND";
+					$feed_check_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 
 				} else {
 					$from_qpart = "ttrss_entries,ttrss_user_entries$ext_tables_part
@@ -3775,7 +3761,6 @@
 				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id 
 				AND include_in_digest = true
 				AND $interval_query
-				AND hidden = false
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true 
 			ORDER BY ttrss_feeds.title, date_entered DESC
@@ -4282,7 +4267,6 @@
 					ON
 						(ttrss_feeds.id = feed_id)
 				WHERE 
-					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
 				ORDER BY $order_by_qpart"; 
 

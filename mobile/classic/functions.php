@@ -127,7 +127,6 @@
 				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
 					ON (ttrss_feed_categories.id = cat_id)				
 				WHERE 
-					ttrss_feeds.hidden = false AND
 					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
 				ORDER BY $order_by_qpart"); 
 

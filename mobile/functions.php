@@ -52,7 +52,6 @@
 					AND owner_uid = '$owner_uid') AS unread
 			FROM ttrss_feeds
 			WHERE 
-				ttrss_feeds.hidden = false AND
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL
 			ORDER BY $order_by $limit_qpart"); 
@@ -127,7 +126,6 @@
 					AND owner_uid = '$owner_uid') as unread
 			FROM ttrss_feeds
 			WHERE 
-				ttrss_feeds.hidden = false AND
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
 				parent_feed IS NULL AND
 				$cat_query
@@ -258,7 +256,6 @@
 			FROM ttrss_feed_categories, ttrss_feeds
 			WHERE ttrss_feed_categories.owner_uid = $owner_uid 
 				AND ttrss_feed_categories.id = cat_id	
-				AND hidden = false
 				GROUP BY ttrss_feed_categories.id, 
 					ttrss_feed_categories.title
 				ORDER BY ttrss_feed_categories.title");
