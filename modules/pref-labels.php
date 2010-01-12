@@ -135,7 +135,6 @@
 		print "<div class=\"prefGenericAddBox\">";
 
 		print"<input type=\"submit\" class=\"button\" 
-			id=\"label_create_btn\"
 			onclick=\"return addLabel()\" 
 			value=\"".__('Create label')."\"> ";
 

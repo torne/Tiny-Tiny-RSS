@@ -1132,7 +1132,7 @@
 			</div>";
 		
 		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
-			type=\"submit\" id=\"subscribe_to_feed_btn\" 
+			type=\"submit\"
 			class=\"button\" value=\"".__('Subscribe to feed')."\"> ";
 
 		print "<input onclick=\"javascript:editSelectedFeed()\"

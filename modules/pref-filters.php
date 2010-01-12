@@ -314,7 +314,6 @@
 		print "<input type=\"submit\" 
 			class=\"button\" 
 			onclick=\"return displayDlg('quickAddFilter', false)\" 
-			id=\"create_filter_btn\"
 			value=\"".__('Create filter')."\"> "; 
 
 		print "<input type=\"submit\" class=\"button\"

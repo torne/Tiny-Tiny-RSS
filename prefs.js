@@ -710,13 +710,6 @@ function removeSelectedFeedCats() {
 
 function feedEditCancel() {
 
-	try {
-		$("subscribe_to_feed_btn").disabled = false;
-		$("top25_feeds_btn").disabled = false;
-	} catch (e) {
-		// this button is not always available, no-op if not found
-	}
-
 	closeInfoBox();
 
 	selectPrefRows('feed', false); // cleanup feed selection
@@ -760,7 +753,6 @@ function userEditCancel() {
 function filterEditCancel() {
 
 	try {
-		$("create_filter_btn").disabled = false;
 		selectPrefRows('filter', false); // cleanup feed selection
 	} catch (e) { }
 
@@ -810,8 +802,6 @@ function filterEditSave() {
 		var query = "?" + Form.serialize("filter_edit_form");
 	
 		closeInfoBox();
-	
-		$("create_filter_btn").disabled = false;
 
 		new Ajax.Request("backend.php",	{
 				parameters: query,
@@ -1629,14 +1619,6 @@ function pref_hotkey_handler(e) {
 
 function editFeedCats() {
 	try {
-		$("subscribe_to_feed_btn").disabled = true;
-	
-		try {
-			$("top25_feeds_btn").disabled = true;
-		} catch (e) {
-			// this button is not always available, no-op if not found
-		}
-	
 		var query = "?op=pref-feeds&subop=editCats";
 
 		new Ajax.Request("backend.php",	{

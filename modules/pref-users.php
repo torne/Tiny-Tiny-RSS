@@ -370,7 +370,6 @@
 		}
 
 		print "<input type=\"submit\" class=\"button\" 
-			id=\"user_add_btn\" 
 			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\">";
 
 		print "				
