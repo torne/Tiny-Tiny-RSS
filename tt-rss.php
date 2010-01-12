@@ -98,9 +98,10 @@
 
 <div id="errorBoxShadow" style="display : none">
 	<div id="errorBox">
-		<div id="xebTitle">Fatal Exception</div><div id="xebContent">&nbsp;</div>
-		<div id="xebBtn" align='center'><input type="submit" 
-			onclick="closeErrorBox()" value="Close this window"/></div>
+	<div id="xebTitle"><?php echo __('Fatal Exception') ?></div><div id="xebContent">&nbsp;</div>
+		<div id="xebBtn" align='center'>
+			<button onclick="closeErrorBox()"><?php echo __('Close this window') ?></button>
+		</div>
 	</div>
 </div>
 
@@ -206,10 +207,6 @@
 			id="collapse_feeds_btn" onclick="collapse_feedlist()" class="button"
 			title="<?php echo __('Collapse feedlist') ?>" style="display : none"/>
 
-		<input type="submit" value="<?php echo __("Toggle Feedlist") ?>" 
-			id="toggle_feeds_btn" class="button"
-			onclick="toggle_feedlist()" style="display : none"/>
-
 		&nbsp;
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
@@ -234,13 +231,11 @@
 
 		&nbsp;
 
-		<input class="button" type="submit" name="update"
-			onclick="return viewCurrentFeed('ForceUpdate')" 
-			value="<?php echo __('Update') ?>"/>
+		<button onclick="return viewCurrentFeed('ForceUpdate')">
+			<?php echo __('Update') ?></button>
 
-		<input class="button" type="submit" name="update"
-			onclick="return catchupCurrentFeed()" 
-			value="<?php echo __('Mark as read') ?>"/>
+		<button onclick="return catchupCurrentFeed()">
+			<?php echo __('Mark as read') ?></button>
 
 		</form>
 

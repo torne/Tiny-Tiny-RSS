@@ -72,11 +72,9 @@
 
 			print __("URL:") . " ";
 
-			print "<input size=\"40\" onblur=\"javascript:enableHotkeys()\" 
+			print "<input size=\"40\"
 					onkeypress=\"return filterCR(event, subscribeToFeed)\"
-					onkeyup=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-					onchange=\"toggleSubmitNotEmpty(this, 'fadd_submit_btn')\"
-					onfocus=\"javascript:disableHotkeys()\" name=\"feed_url\"></td></tr>";
+					name=\"feed_url\"></td></tr>";
 
 			print "<br/>";
 
@@ -87,31 +85,15 @@
 
 			print "</div>";
 
-
-/*			print "<tr><td colspan='2'><div class='insensitive'>";
-
-			print __("Some feeds require authentication. If you subscribe to such
-				feed, you will have to enter your login and password in Feed Editor");
-
-			print "</div></td></tr>"; */
-
-/*			print "<div id='fadd_login_prompt'><br/>
-				<a href='javascript:appearBlockElement(\"fadd_login_container\", 
-				\"fadd_login_prompt\")'>".__('Click here if this feed requires authentication.')."</a></div>"; */
-
 			print "<div id='fadd_login_container' style='display:none'>
 	
 					<div class=\"dlgSec\">".__("Authentication")."</div>
 					<div class=\"dlgSecCont\">".
 
 					__('Login:') . " <input name='auth_login' size=\"20\" 
-							onfocus=\"javascript:disableHotkeys()\" 
-							onfocus=\"javascript:disableHotkeys()\" 
 							onkeypress=\"return filterCR(event, subscribeToFeed)\"> ".
 					__('Password:') . "<input type='password'
 							name='auth_pass' size=\"20\" 
-							onfocus=\"javascript:disableHotkeys()\" 
-							onfocus=\"javascript:disableHotkeys()\" 
 							onkeypress=\"return filterCR(event, subscribeToFeed)\">
 				</div></div>";
 
@@ -125,15 +107,10 @@
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-				<input class=\"button\"
-					id=\"fadd_submit_btn\" disabled=\"true\"
-					type=\"submit\" onclick=\"return subscribeToFeed()\" value=\"".__('Subscribe')."\">
-				<input class=\"button\"					
-					type=\"submit\" onclick=\"return browseFeeds()\" value=\"".__('More feeds')."\">
-
-				<input class=\"button\"
-					type=\"submit\" onclick=\"return closeInfoBox()\" 
-					value=\"".__('Cancel')."\"></div>";
+				<button class=\"button\" id=\"fadd_submit_btn\"
+					onclick=\"return subscribeToFeed()\">".__('Subscribe')."</button>
+				<button onclick=\"return browseFeeds()\">".__('More feeds')."</button>
+				<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button></div>";
 			
 			return;
 		}

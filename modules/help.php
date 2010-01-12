@@ -17,9 +17,8 @@
 			print "<p>".__("Help topic not found.")."</p>";
 		}
 		print "<div align='center'>
-			<input type='submit' class='button'			
-			onclick=\"javascript:window.close()\" 
-			value=\"".__('Close this window')."\"></div>";
+			<button onclick=\"javascript:window.close()\">".
+			__('Close this window')."</button></div>";
 
 		if (!$_REQUEST["noheaders"]) { 
 			print "</body></html>";

@@ -139,9 +139,10 @@
 
 <div id="errorBoxShadow" style="display : none">
 	<div id="errorBox">
-		<div id="xebTitle">Fatal Exception</div><div id="xebContent">&nbsp;</div>
-		<div id="xebBtn" align='center'><input type="submit" 
-			onclick="closeErrorBox()" value="Close this window"/></div>
+	<div id="xebTitle"><?php echo __('Fatal Exception') ?></div><div id="xebContent">&nbsp;</div>
+		<div id="xebBtn" align='center'>
+			<button onclick="closeErrorBox()"><?php echo __('Close this window') ?></button>
+		</div>
 	</div>
 </div>
 

@@ -919,7 +919,7 @@ function clearFeedArticles(feed_id) {
 
 function collapse_feedlist() {
 	try {
-		debug("toggle_feedlist");
+		debug("collapse_feedlist");
 		
 		var theme = getInitParam("theme");
 		if (theme != "" && theme != "compact" && theme != "graycube" &&
@@ -981,7 +981,7 @@ function collapse_feedlist() {
 
 		}
 	} catch (e) {
-		exception_error("toggle_feedlist", e);
+		exception_error("collapse_feedlist", e);
 	}
 }
 

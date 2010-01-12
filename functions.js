@@ -2068,20 +2068,11 @@ function updateFeedBrowser() {
 				var c = $("browseFeedList");
 				var r = transport.responseXML.getElementsByTagName("content")[0];
 				var nr = transport.responseXML.getElementsByTagName("num-results")[0];
-				var sb = $("feed_browser_subscribe");
 
 				if (c && r) {
 					c.innerHTML = r.firstChild.nodeValue;
 				}
 	
-				if (nr && sb) {
-					if (nr.getAttribute("value") > 0) {
-						sb.disabled = false;
-					} else {
-						sb.disabled = true;
-					}
-				}
-
 			} });
 
 	} catch (e) {

@@ -121,15 +121,12 @@
 			$owner_uid = $_SESSION["uid"];
 
 			print "<ul class='browseFeedList' id='browseFeedList'>";
-			$subscribe_btn_disabled = print_feed_browser($link, $search, 25) == 0 ? "disabled" : "";
+			print_feed_browser($link, $search, 25);
 			print "</ul>";
 
 			print "<div align='center'>
-				<input type=\"submit\" class=\"button\" id=\"feed_browser_subscribe\"
-				$subscribe_btn_disabled
-				onclick=\"feedBrowserSubscribe()\" value=\"".__('Subscribe')."\">
-				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"".__('Cancel')."\"></div>";
+				<button onclick=\"feedBrowserSubscribe()\">".__('Subscribe')."</button>
+				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
 
 			print "</div>";
 			return;
