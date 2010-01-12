@@ -4834,8 +4834,8 @@
 		} else {
 			print "
 				<div style=\"text-align : center\">
-				<input type=\"submit\" onclick=\"return window.close()\" 
-				value=\"".__("Close this window")."\"></div>";
+				<button onclick=\"return window.close()\">".
+					__("Close this window")."</button></div>";
 			print "</body></html>";
 
 		}

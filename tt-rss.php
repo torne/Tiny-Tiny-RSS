@@ -207,8 +207,6 @@
 			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
 			&lt;&lt;</button>
 
-		&nbsp;
-
 		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
 				onchange="viewModeChanged()">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
@@ -226,8 +224,6 @@
 			<option value="title"><?php echo __('Title') ?></option>
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
-
-		&nbsp;
 
 		<button onclick="return viewCurrentFeed('ForceUpdate')">
 			<?php echo __('Update') ?></button>

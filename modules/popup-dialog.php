@@ -363,41 +363,14 @@
 					style=\"display:none\"></div>	
 			</td></tr>";
 
-/*			print "<tr><td>".__('Add existing tag:')."</td>";
-
-			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
-				WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY tag_name");
-
-			$found_tags = array();
-
-			array_push($found_tags, '');
-
-			while ($line = db_fetch_assoc($result)) {
-				array_push($found_tags, truncate_string($line["tag_name"], 20));
-			}
-
-			print "<td align='right'>";
-
-			print_select("found_tags", '', $found_tags, "onchange=\"javascript:editTagsInsert()\"");
-
-			print "</td>"; 
-
-			print "</tr>"; */
-
 			print "</table>";
 
 			print "</form>";
 
 			print "<div align='right'>";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return editTagsSave()\" 
-				value=\"".__('Save')."\"> ";
-
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Cancel')."\">";
-
+			print "<button onclick=\"return editTagsSave()\">".__('Save')."</button> ";
+			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
 
 			print "</div>";
 
