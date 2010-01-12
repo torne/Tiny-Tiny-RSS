@@ -181,7 +181,7 @@
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-			<button disabled='true' onclick=\"javascript:search()\">".__('Search')."</button>
+			<button onclick=\"javascript:search()\">".__('Search')."</button>
 			<button onclick=\"javascript:searchCancel()\">".__('Cancel')."</button>
 			</div>";
 
@@ -405,7 +405,7 @@
 		}
 
 		if ($id == "printTagCloud") {
-			print "<div id=\"infoBoxTitle\">".__('Tag cloud')."</div>";
+			print "<div id=\"infoBoxTitle\">".__('Tag Cloud')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
 			print __("Showing most popular tags ")." (<a 
@@ -418,9 +418,8 @@
 			print "</div>";
 
 			print "<div align='center'>";
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
 			print "</div>";
 
 			print "</div>";

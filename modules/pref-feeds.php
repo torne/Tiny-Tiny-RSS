@@ -996,12 +996,9 @@
 			print "<div class=\"prefGenericAddBox\">
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"
-					onkeyup=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
-					onchange=\"toggleSubmitNotEmpty(this, 'catadd_submit_btn')\"
-					size=\"40\">&nbsp;
-				<input 
-					type=\"submit\" class=\"button\" disabled=\"true\" id=\"catadd_submit_btn\"
-					onclick=\"javascript:addFeedCat()\" value=\"".__('Create category')."\"></div>";
+					size=\"40\">
+					<button onclick=\"javascript:addFeedCat()\">".
+					__('Create category')."</button></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
@@ -1011,16 +1008,9 @@
 
 			if (db_num_rows($result) != 0) {
 
-				print "<table width=\"100%\" class=\"prefFeedCatList\" 
-					cellspacing=\"0\">";
-
-				print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				".__('Select:')." 
+				print	__('Select:')." 
 					<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>
-					</td></tr>";
-
-				print "</table>";
+					<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>";
 
 				print "<div class=\"prefFeedCatHolder\">";
 
@@ -1064,17 +1054,14 @@
 				print "<p>".__('No feed categories defined.')."</p>";
 			}
 
-			print "<div style='float : right'>
-				<input type='submit' class='button'			
-				onclick=\"selectTab('feedConfig')\" value=\"".__('Close this window')."\"></div>";
+			print "<div class='dlgButtons'>
+				<div style='float : left'>
+				<button onclick=\"return removeSelectedFeedCats()\">".
+				__('Remove')."</button>
+				</div>";
 
-			print "<div id=\"catOpToolbar\">";
-	
-			print "
-				<input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"return removeSelectedFeedCats()\" value=\"".__('Remove')."\">";
-	
-			print "</div>";
+			print "<button onclick=\"selectTab('feedConfig')\">".
+				__('Close this window')."</button></div>";
 
 			print "</div>";
 
