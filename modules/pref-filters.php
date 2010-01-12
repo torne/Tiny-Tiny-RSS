@@ -60,8 +60,6 @@
 			print "&nbsp;</span>";
 
 			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
 					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
 			print "<span id=\"filter_dlg_date_chk_box\" $date_ops_invisible>";			
@@ -151,19 +149,15 @@
 			$reg_exp = htmlspecialchars($reg_exp, ENT_QUOTES); // second escaping seems to be needed for javascript
 
 			print "<div style=\"float : left\">";
-			print "<input type=\"submit\" 
-				class=\"button\" onclick='return removeFilter($filter_id, \"$reg_exp\")' 
-				value=\"".__('Remove')."\"> ";
+			print "<button onclick='return removeFilter($filter_id, \"$reg_exp\")'>".
+				__('Remove')."</button>";
 			print "</div>";
 
-			print "<input type=\"submit\" 
-				id=\"infobox_submit\"
-				class=\"button\" onclick=\"return filterEditSave()\" 
-				value=\"".__('Save')."\"> ";
+			print "<button onclick=\"return filterEditSave()\">".
+				__('Save')."</button> ";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return filterEditCancel()\" 
-				value=\"".__('Cancel')."\">";
+			print "<button onclick=\"return filterEditCancel()\">".
+				__('Cancel')."</button>";
 
 			print "</div>";
 
@@ -298,35 +292,28 @@
 			$filter_search = $_SESSION["prefs_filter_search"];
 		}
 
-		print "<div class=\"feedEditSearch\">
+		print "<div style='float : right'>
 			<input id=\"filter_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
-			<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:updateFilterList()\" value=\"".__('Search')."\">
+			<button onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
 			&nbsp;
 			<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
 			<img src='images/sign_quest.gif'></a>
-			</div>";
+		</div>";
 
+		print "<button onclick=\"return displayDlg('quickAddFilter', false)\">".
+			__('Create filter')."</button> "; 
 
-		print "<input type=\"submit\" 
-			class=\"button\" 
-			onclick=\"return displayDlg('quickAddFilter', false)\" 
-			value=\"".__('Create filter')."\"> "; 
+		print "<button onclick=\"return editSelectedFilter()\">".
+			__('Edit')."</button> ";
 
-		print "<input type=\"submit\" class=\"button\"
-			onclick=\"return editSelectedFilter()\" value=\"".__('Edit')."\"> ";
+		print "<button onclick=\"return removeSelectedFilters()\">".
+			__('Remove')."</button> ";
 
-		print "<input type=\"submit\" class=\"button\"
-				onclick=\"return removeSelectedFilters()\" value=\"".__('Remove')."\"> ";
-
-		print "<input type=\"submit\" 
-			class=\"button\" 
-			onclick=\"rescore_all_feeds()\" 
-			value=\"".__('Rescore articles')."\"> "; 
-
+		print "<button onclick=\"rescore_all_feeds()\">".
+			__('Rescore articles')."</button> "; 
 
 		if ($filter_search) {
 			$filter_search = split(' ', db_escape_string($filter_search));

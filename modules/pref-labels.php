@@ -123,31 +123,24 @@
 			$label_search = $_SESSION["prefs_label_search"];
 		}
 
-		print "<div class=\"feedEditSearch\">
+		print "<div style='float : right'>
 			<input id=\"label_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateLabelList()\" value=\"$label_search\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateLabelList()\" value=\"".__('Search')."\">
+			<button onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
 			</div>";
 
 		print "<div class=\"prefGenericAddBox\">";
 
-		print"<input type=\"submit\" class=\"button\" 
-			onclick=\"return addLabel()\" 
-			value=\"".__('Create label')."\"> ";
+		print"<button onclick=\"return addLabel()\">".
+			__('Create label')."</button> ";
 
-			print "<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:removeSelectedLabels()\" value=\"".__('Remove')."\">";
+		print "<button onclick=\"javascript:removeSelectedLabels()\">".
+			__('Remove')."</button> ";
 
-			print "&nbsp;";
-/*			print "&nbsp;<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorSet('fg')\" value=\"".__('Fg')."\">&nbsp;";
-			print "<input type=\"submit\" class=\"button\" disabled=\"true\"
-				onclick=\"labelColorSet('bg')\" value=\"".__('Bg')."\">&nbsp;"; */
-			print "<input type=\"submit\" class=\"button\"
-				onclick=\"labelColorReset()\" value=\"".__('Clear colors')."\">";
+		print "<button onclick=\"labelColorReset()\">".
+			__('Clear colors')."</button>";
 
 
 		print "</div>";

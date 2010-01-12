@@ -487,10 +487,6 @@ tr.title td a:hover {
 	color : black;
 }
 
-div.feedEditSearch {
-	float : right;
-}
-
 table.prefFeedList td.feedEditCat {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -2270,8 +2266,8 @@ button, select {
 	font-size : 100%;
 /*	line-height : 120%; */
 	text-decoration : none;
-	font-weight : bold;
-	color : #565656;
+/*	font-weight : bold; */
+	color : #303030;
 	cursor : pointer;
 	padding : 1px 3px 1px 3px;
 }
@@ -2279,6 +2275,13 @@ button, select {
 select {
 	background : #ffffff;
 	padding : 1px 0px 1px 3px;
+}
+
+input {
+	background : white;
+	border : 1px solid #bebebe;
+	font-size : 100%;
+	padding : 1px 3px 1px 3px;
 }
 
 button:hover {

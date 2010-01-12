@@ -69,11 +69,6 @@
 
 		if ($subop == "browse") {
 
-			if (!ENABLE_FEED_BROWSER) {
-				print __("Feed browser is administratively disabled.");
-				return;
-			}
-
 			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
 			
 			print "<div class=\"infoBoxContents\">";
@@ -89,11 +84,8 @@
 				<img style='display : none' 
 					id='feed_browser_spinner' src='images/indicator_white.gif'>
 				<input name=\"search\" size=\"20\" type=\"search\"
-				onfocus=\"javascript:disableHotkeys();\" 
-				onblur=\"javascript:enableHotkeys();\"
-				onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateFeedBrowser()\" value=\"".__('Search')."\">
+					onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
+				<button onclick=\"javascript:updateFeedBrowser()\">".__('Search')."</button>
 			</div>";
 
 			print " <select name=\"mode\" onchange=\"updateFeedBrowser()\">
@@ -103,7 +95,7 @@
 
 			print __("limit:");
 
-			print " <select name=\"limit\">";
+			print " <select name=\"limit\" onchange='updateFeedBrowser()'>";
 
 			foreach (array(25, 50, 100, 200) as $l) {
 				$issel = ($l == $limit) ? "selected" : "";
@@ -111,10 +103,6 @@
 			}
 			
 			print "</select> ";
-
-			print "
-				<input type=\"submit\" class=\"button\"
-					onclick=\"updateFeedBrowser()\" value=\"".__('Show')."\">";
 
 			print "<p>";
 
@@ -1117,33 +1105,29 @@
 			$feed_search = $_SESSION["prefs_feed_search"];
 		}
 
-		print "<div class=\"feedEditSearch\">
+		print "<div style='float : right'> 
 			<input id=\"feed_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateFeedList()\" value=\"".__('Search')."\">
+			<button onclick=\"javascript:updateFeedList()\">".
+				__('Search')."</button>
 			</div>";
 		
-		print "<input onclick=\"javascript:displayDlg('quickAddFeed')\"
-			type=\"submit\"
-			class=\"button\" value=\"".__('Subscribe to feed')."\"> ";
+		print "<button onclick=\"javascript:displayDlg('quickAddFeed')\">"
+			.__('Subscribe to feed')."</button> ";
 
-		print "<input onclick=\"javascript:editSelectedFeed()\"
-			type=\"submit\"
-			class=\"button\" value=\"".__('Edit feeds')."\"> ";
+		print "<button onclick=\"javascript:editSelectedFeed()\">".
+			__('Edit feeds')."</button> ";
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-			print "<input onclick=\"javascript:editFeedCats()\"
-				type=\"submit\"
-				class=\"button\" value=\"".__('Edit categories')."\"> ";
+			print "<button onclick=\"javascript:editFeedCats()\">".
+				__('Edit categories')."</button> ";
 		}
 
-		print "<input onclick=\"javascript:removeSelectedFeeds()\"
-			type=\"submit\"
-			class=\"button\" value=\"".__('Unsubscribe')."\"> ";
+		print "<button onclick=\"javascript:removeSelectedFeeds()\">"
+			.__('Unsubscribe')."</button> ";
 
 /*		print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 			<option value=\"facDefault\" selected>".__('Other actions...')."</option>";
@@ -1421,15 +1405,14 @@
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
 		".__('File:')." <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"Import\">
-			<input class=\"button\" onclick=\"return validateOpmlImport();\"
-				type=\"submit\" value=\"".__('Import')."\">
+			<button onclick=\"return validateOpmlImport();\"
+				type=\"submit\">".__('Import')."</button>
 				</form></div>";
 
 		print "&nbsp;";
 
-		print "<input type=\"submit\" 
-			class=\"button\" onclick=\"gotoExportOpml()\" 
-				value=\"".__('Export OPML')."\">";			
+		print "<button onclick=\"gotoExportOpml()\">".
+			__('Export OPML')."</button>";
 
 
 		print "<h3>" . __("Firefox Integration") . "</h3>";
@@ -1453,11 +1436,8 @@
 
 		print "<p><a class=\"visibleLinkB\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">".__("Link to published articles feed.")."</a></p>";
 
-		print "<p><input type=\"submit\" onclick=\"return pubRegenKey()\" class=\"button\"
-			value=\"".__('Generate another link')."\">";
-		/* print " <input type=\"submit\" onclick=\"return pubToClipboard()\" class=\"button\"
-			value=\"".__('Copy link to clipboard')."\">"; */
-		print "</p>";
+		print "<button onclick=\"return pubRegenKey()\">".
+			__('Generate another link')."</button>";
 
 	}
 

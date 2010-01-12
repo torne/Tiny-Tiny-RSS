@@ -93,8 +93,8 @@
 			print "</ul>";
 
 			print "<div align='center'>
-				<input type='submit' class='button'			
-				onclick=\"closeInfoBox()\" value=\"Close this window\"></div>";
+				<button onclick=\"closeInfoBox()\">".__("Close this window").
+				"</button></div>";
 
 			print "</div>";
 
@@ -175,12 +175,10 @@
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-				<input class=\"button\"
-					type=\"submit\" onclick=\"return userEditSave()\" 
-					value=\"".__('Save')."\">
-				<input class=\"button\"
-					type=\"submit\" onclick=\"return userEditCancel()\" 
-					value=\"".__('Cancel')."\"></div>";
+				<button onclick=\"return userEditSave()\">".
+					__('Save')."</button>
+				<button onclick=\"return userEditCancel()\">".
+					__('Cancel')."</button></div>";
 
 			print "</div>";
 
@@ -354,13 +352,13 @@
 			$user_search = $_SESSION["prefs_user_search"];
 		}
 
-		print "<div class=\"feedEditSearch\">
+		print "<div style='float : right'>
 			<input id=\"user_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateUsersList()\" value=\"$user_search\">
-			<input type=\"submit\" class=\"button\" 
-				onclick=\"javascript:updateUsersList()\" value=\"".__('Search')."\">
+			<button onclick=\"javascript:updateUsersList()\">".
+				__('Search')."</button>
 			</div>";
 
 		$sort = db_escape_string($_REQUEST["sort"]);
@@ -369,18 +367,17 @@
 			$sort = "login";
 		}
 
-		print "<input type=\"submit\" class=\"button\" 
-			onclick=\"javascript:addUser()\" value=\"".__('Create user')."\">";
+		print "<button onclick=\"javascript:addUser()\">".__('Create user')."</button>";
 
-		print "				
-			<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:selectedUserDetails()\" value=\"".__('Details')."\">
-			<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:editSelectedUser()\" value=\"".__('Edit')."\">
-			<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:removeSelectedUsers()\" value=\"".__('Remove')."\">
-			<input type=\"submit\" class=\"button\"
-				onclick=\"javascript:resetSelectedUserPass()\" value=\"".__('Reset password')."\">";
+		print "
+			<button onclick=\"javascript:selectedUserDetails()\">".
+			__('Details')."</button>
+			<button onclick=\"javascript:editSelectedUser()\">".
+			__('Edit')."</button>
+			<button onclick=\"javascript:removeSelectedUsers()\">".
+			__('Remove')."</button>
+			<button onclick=\"javascript:resetSelectedUserPass()\">".
+			__('Reset password')."</button>";
 
 		print "</div>";
 

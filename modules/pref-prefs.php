@@ -228,8 +228,8 @@
 
 				print "</form>";
 
-				print "<p><input class=\"button\" type=\"submit\"
-					onclick=\"return changeUserEmail()\" value=\"".__("Change e-mail")."\">";
+				print "<p><button onclick=\"return changeUserEmail()\">".
+					__("Change e-mail")."</button>";
 
 				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";
@@ -267,9 +267,8 @@
 
 				print "</form>";
 
-				print "<p><input class=\"button\" type=\"submit\" 
-					onclick=\"return changeUserPassword()\"
-					value=\"".__("Change password")."\">";
+				print "<p><button	onclick=\"return changeUserPassword()\">".
+					__("Change password")."</button>";
 
 			}
 
@@ -303,8 +302,7 @@
 				print "</table>";
 				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
 				print "<input type=\"hidden\" name=\"subop\" value=\"change-theme\">";
-				print "<p><input class=\"button\" type=\"submit\" 
-					value=\"".__('Change theme')."\">";
+				print "<p><button>".__('Change theme')."</button>";
 				print "</form>";
 			}
 
@@ -398,13 +396,11 @@
 
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
 
-			print "<p><input class=\"button\" type=\"submit\" 
-				onclick=\"return validatePrefsSave()\"
-				value=\"".__('Save configuration')."\">";
+			print "<p><button onclick=\"return validatePrefsSave()\">".
+				__('Save configuration')."</button> ";
 				
-			print "&nbsp;<input class=\"button\" type=\"submit\" 
-				onclick=\"return validatePrefsReset()\" 
-				value=\"".__('Reset to defaults')."\"></p>";
+			print "<button onclick=\"return validatePrefsReset()\">".
+				__('Reset to defaults')."</button></p>";
 
 			print "</form>";
 
