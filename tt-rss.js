@@ -935,7 +935,7 @@ function collapse_feedlist() {
 
 		if (!Element.visible(fl)) {
 			Element.show(fl);
-			fbtn.value = "<<";
+			fbtn.innerHTML = "<<";
 
 			if (theme != "graycube") {
 
@@ -957,7 +957,7 @@ function collapse_feedlist() {
 
 		} else {
 			Element.hide(fl);
-			fbtn.value = ">>";
+			fbtn.innerHTML = ">>";
 
 			if (theme != "graycube") {
 
