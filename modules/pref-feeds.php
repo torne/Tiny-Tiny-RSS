@@ -526,7 +526,7 @@
 			print "<div style=\"line-height : 100%\">";
 
 			print "<input disabled type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds"')."</label>";
+				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("private", "private_l");
 
