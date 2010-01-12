@@ -14,7 +14,7 @@
 		$subop = $_REQUEST["subop"];
 
 		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS",
-			"ENABLE_SEARCH_TOOLBAR");
+			"ENABLE_SEARCH_TOOLBAR", "HIDE_READ_FEEDS");
 
 		if (FORCE_ARTICLE_PURGE != 0) {
 			array_push($prefs_blacklist, "PURGE_OLD_DAYS");

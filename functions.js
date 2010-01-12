@@ -1505,8 +1505,7 @@ function getInitParam(key) {
 	return init_params[key];
 }
 
-function storeInitParam(key, value) {
-	debug("<b>storeInitParam is OBSOLETE: " + key + " => " + value + "</b>");
+function setInitParam(key, value) {
 	init_params[key] = value;
 }
 

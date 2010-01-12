@@ -726,15 +726,18 @@ function updateFeedTitle(t) {
 function toggleDispRead() {
 	try {
 
-		var hide_read_feeds = (getInitParam("hide_read_feeds") == "1");
+		var hide = !(getInitParam("hide_read_feeds") == "1");
 
-		hide_read_feeds = !hide_read_feeds;
+		hideOrShowFeeds(hide);
 
-		debug("toggle_disp_read => " + hide_read_feeds);
+		var query = "?op=rpc&subop=setpref&key=HIDE_READ_FEEDS&value=" + 
+			param_escape(hide);
 
-		hideOrShowFeeds(hide_read_feeds);
-
-		storeInitParam("hide_read_feeds", hide_read_feeds, true);
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				setInitParam("hide_read_feeds", hide);
+			} });
 				
 	} catch (e) {
 		exception_error("toggleDispRead", e);
