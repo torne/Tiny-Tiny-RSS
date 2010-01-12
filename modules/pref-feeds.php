@@ -403,13 +403,11 @@
 
 			print "<div class='dlgButtons'>
 				<div style=\"float : left\">
-					<input type='submit' class='button'			
-					onclick='return unsubscribeFeed($feed_id, \"$title\")' value=\"".__('Unsubscribe')."\">
+				<button onclick='return unsubscribeFeed($feed_id, \"$title\")'>".
+					__('Unsubscribe')."</button>
 				</div>
-				<input type=\"submit\" class=\"button\" 
-				onclick=\"return feedEditSave()\" value=\"".__('Save')."\">
-				<input type='submit' class='button'			
-				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
+				<button onclick=\"return feedEditSave()\">".__('Save')."</button>
+				<button onclick=\"return feedEditCancel()\">".__('Cancel')."</button>
 				</div>";
 
 			return;

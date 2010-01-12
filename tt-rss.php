@@ -203,9 +203,9 @@
 
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
-		<input type="submit" value="&lt;&lt;" 
-			id="collapse_feeds_btn" onclick="collapse_feedlist()" class="button"
-			title="<?php echo __('Collapse feedlist') ?>" style="display : none"/>
+		<button id="collapse_feeds_btn" onclick="collapse_feedlist()"
+			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
+			&lt;&lt;</button>
 
 		&nbsp;
 
@@ -218,8 +218,6 @@
 			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
 			<option value="updated"><?php echo __('Updated') ?></option>
 		</select>
-
-		&nbsp;
 
 		<select title="<?php echo __('Sort articles') ?>" 
 				name="order_by" onchange="viewModeChanged()">

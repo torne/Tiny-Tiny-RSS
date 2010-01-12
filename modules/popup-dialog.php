@@ -133,11 +133,7 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input name=\"query\" size=\"20\" type=\"search\"
-				onkeypress=\"return filterCR(event, search)\"
-				onchange=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
-				onkeyup=\"toggleSubmitNotEmpty(this, 'search_submit_btn')\"
-				value=\"\">";
+			print "<input name=\"query\" size=\"20\" type=\"search\"	value=''>";
 
 			print " " . __('match on')." ";
 
@@ -185,13 +181,9 @@
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-			<input type=\"submit\" 
-				class=\"button\" onclick=\"javascript:search()\" 
-				id=\"search_submit_btn\" disabled=\"true\"
-				value=\"".__('Search')."\">
-			<input class=\"button\"
-				type=\"submit\" onclick=\"javascript:searchCancel()\" 
-				value=\"".__('Cancel')."\"></div>";
+			<button disabled='true' onclick=\"javascript:search()\">".__('Search')."</button>
+			<button onclick=\"javascript:searchCancel()\">".__('Cancel')."</button>
+			</div>";
 
 			print "</div>";
 
@@ -238,9 +230,7 @@
 			print "&nbsp;</span>";
 
 			print "<input onkeypress=\"return filterCR(event, createFilter)\"
-					 onkeyup=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 onchange=\"toggleSubmitNotEmpty(this, 'infobox_submit')\"
-					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
+				 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
 			print "<span id=\"filter_dlg_date_chk_box\" style=\"display : none\">";
 			print "&nbsp;<input class=\"button\"
@@ -307,14 +297,11 @@
 
 			print "<div class=\"dlgButtons\">";
 
-			print "<input type=\"submit\" 
-				id=\"infobox_submit\"
-				class=\"button\" onclick=\"return createFilter()\" 
-				disabled=\"true\" value=\"".__('Create')."\"> ";
+			print "<button onclick=\"return createFilter()\">".
+				__('Create')."</button> ";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Cancel')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".__('Cancel').
+				"</button>";
 
 			print "</div>";
 
