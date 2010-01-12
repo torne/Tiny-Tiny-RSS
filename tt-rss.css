@@ -38,10 +38,6 @@ div.postReply div.postHeader {
 	color : #909090;
 }
 
-/* div.postReply > div.postHeader {
-	padding : 5px;
-} */
-
 div.postReply div.postContent {
 	padding : 10px;
 	font-size : 14px;
@@ -260,15 +256,6 @@ a:hover {
 	position : absolute;
 }
 
-#iedit_title, #iedit_link, #iedit_regexp, #iedit_descr, #iedit_expr, #iedit_updintl,
-#iedit_purgintl, #iedit_ulogin, #iedit_ulevel, #iedit_match, #iedit_feed,
-#iedit_fcat, #iedit_filter_action, #iedit_login, #iedit_pass, #iedit_email,
-#iedit_parent_feed {
-	width : 100%;
-	padding-left : 2px;
-	background-color : #f0fff0;
-}
-
 textarea.iedit {
 	width : 100%;
 }
@@ -349,36 +336,6 @@ input.editbox {
 #dispSwitch a:hover {
 	color : #4684ff;
 }
-
-div.expPane {
-	margin : 15px;
-}
-
-/*.button {
-	border : 1px solid #d0d0d0;
-	background-image : url("images/button.png");
-	background-position : top;
-	background-repeat : repeat-x;
-	background-color : white;
-	color : black;  
-}
-
-.button:hover {
-	background : white;
-	text-decoration : none;
-	color : black;
-}
-
-.disabledButton {
-	border : 1px solid #c0c0c0;
-	background-color : white;
-	color : gray;   
-}
-
-a.button {
-	padding : 2px 5px 2px 5px;
-	font-size : small;
-} */
 
 .evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
 	.evenSelectedUnread td {
@@ -569,15 +526,6 @@ a.helpLink:hover {
 	color : #4684ff;
 }
 
-div.helpResponse {
-	margin : 10px;
-	background-image : url("images/vgrad_light_rev2.png");
-	background-position : top left;
-	background-repeat : repeat-x;
-	padding : 10px 20px 10px 20px;
-	border : 1px solid #f0f0f0;
-}
-
 #infoBoxTitle {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -601,7 +549,6 @@ div.helpResponse {
 	overflow : hidden;
 	left : -4px;
 	top : -4px;
-	
 }
 
 div#errorBox {
@@ -613,7 +560,6 @@ div#errorBox {
 	left : -4px;
 	top : -4px;
 }
-
 
 html>body #infoBox, html>body #errorBox {
 	left : -10px;
@@ -642,7 +588,6 @@ html>body #infoBox, html>body #errorBox {
 	margin : -10px 0 0 -10px;
 	background-position : left bottom;
 }
-
 
 #infoBoxShadow, #errorBoxShadow {
 	background-image : url("images/shadow.png");
@@ -678,18 +623,6 @@ div.infoBoxContents a {
 
 div.infoBoxContents a:hover {
 	color : black;
-}
-
-div.helpResponse h1, div.infoBoxContents h1 {
-/*        border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0; */
-	font-size : 18px;
-}
-
-div.helpResponse h2, div.infoBoxContents h2 {
-/*        border-width : 0px 0px 0px 0px; */
-	font-size : 16px;
 }
 
 pre {
@@ -770,7 +703,6 @@ div.warning {
 	margin : 0px 0px 5px 0px;
 }
 
-
 div.warning img, div.notice img, div.error img {
 	vertical-align : middle;
 	padding : 5px;
@@ -803,16 +735,6 @@ table.loginForm {
 	background-color : #ecf4ff;
 }
 
-table.innerLoginForm {
-	border : 1px solid #88b0f0;
-	padding : 50px;
-	background-color : white;
-}
-
-table.innerLoginForm td {
-	padding : 3px 3px 5px 3px;
-}
-
 span.feed_error {
 	color : red;
 }
@@ -829,32 +751,8 @@ span.feed_error {
 	color : black;
 }
 
-/* .prefGenericAddBox {
-	font-size : 14px;
-} */
-
-body.logoutBody {
-	background-color : #f0f0f0;
-	color : black;
-}
-
-span.logoutWarning {
-	color : red;
-	font-weight : bold;
-}
-
-div.logoutContent {
-	width : 600px;
-	border : 1px solid #c0c0c0;
-	background-color : white;
-	margin-left : auto;
-	margin-right : auto;
-	margin-top : 20px;
-	padding : 10px;
-}
-
 .small {
-	font-size : 14px;
+	font-size : 13px;
 }
 
 table.innerFeedTable td {
@@ -988,12 +886,6 @@ div.postHeader div {
 	display : none;
 }
 
-/*td.hlContent {
-	overflow : hidden;
-	height : 1em;
-	display : block;
-} */
-
 td.hlMarkedPic, td.hlSelectRow, td.hlUpdated, td.hlFeed {
 	height : 1em;
 }
@@ -1010,10 +902,6 @@ span.hlFeed, span.hlFeed a {
 span.hlFeed a:hover {
 	color : #4684ff;
 }
-
-/* div.cdmArticle:hover {
-	background-color : white;
-} */
 
 div.cdmAllTags {
 	float : left;
@@ -1039,14 +927,8 @@ div.cdmArticle {
 	background-color : #f9faff;
 	margin : 0px;
 	color : #505050;
-	/* padding : 10px; */
 	color : black;
-
 }
-
-/* div.cdmArticleUnread:hover {
-	background-color : white;
-} */
 
 div.cdmArticleUnread {
 	border-color : #a0a0a0;
@@ -1054,7 +936,6 @@ div.cdmArticleUnread {
 	border-style : solid;
 	background-color : white;
 	margin : 0px;
-	/* padding : 10px; */
 	color : black;
 }
 
@@ -1086,19 +967,10 @@ div.cdmFooter {
 	color : black;
 	padding : 5px;
 	color : gray;
-/*	background-color : white; */
 	border-width : 1px 0px 0px 0px;
 	border-color : #c0c0c0;
 	border-style : dotted;
 }
-
-/*div.cdmArticleSelected div.cdmFooter {
-	background-color : transparent;
-}
-
-div.cdmArticleUnreadSelected div.cdmFooter {
-	background-color : transparent;
-}*/
 
 div.cdmFooter span.s0 {
 	border-width : 0px 1px 0px 0px;
@@ -1193,8 +1065,6 @@ span.groupPrompt {
 }
 
 div.tagCloudContainer {
-/*	height : 300px;
-	overflow : auto; */
 	border : 1px solid #99d67a;
 	background-color : white;
 	margin : 5px 0px 5px 0px;
@@ -1227,41 +1097,6 @@ ul.userFeedList {
 	background-color : white;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-}
-
-/* #browseBigFeedList li.oddSelected {
-	border : 1px solid #d0d0f6;
-	background-color : #eaeaff;
-	-moz-border-radius : 5px;
-} */
-
-/*#browseBigFeedList li {
-	padding :0px;
-}*/
-
-div.labelTestError {
-	margin : 5px 0px 5px 0px;
-	color : #f04040;
-}
-
-ul.labelTestResults {
-	height : 100px;
-	overflow : auto;
-	list-style-type : none;
-	margin : 0px 0px 5px 0px;
-	padding : 0px;
-	border : 1px solid #99d67a;
-	background-color : white;
-}
-
-ul.filterTestResults {
-	height : 300px;
-	overflow : auto;
-	list-style-type : none;
-	margin : 0px 0px 5px 0px;
-	padding : 0px;
-	border : 1px solid #99d67a;
-	background-color : white;
 }
 
 ul.browseFeedList {
@@ -1656,10 +1491,6 @@ div.headlines_cdm {
 }
 
 #headlineActionsTop {
-/*	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	background-color : #fafafa; */
 	font-size : 14px;
 }
 
@@ -1759,9 +1590,6 @@ a.helpLinkPic img {
 	vertical-align : middle;
 }
 
-#fadd_login_container {
-}
-
 li.feedCatHolder {
 	display : inline;
 }
@@ -1769,12 +1597,6 @@ li.feedCatHolder {
 table.prefFeedCatList {
 	background-color : white;
 }
-
-/*a[target="_new"], a[target="_blank"] {
-	border-width : 0px 0px 1px 0px;
-	border-color : #778899;
-	border-style : dotted;
-}*/
 
 div.autocomplete {
 	position : absolute;
@@ -1831,7 +1653,6 @@ div.dashboard {
 
 a.visibleLink {
 	color : #4684ff;
-
 }
 
 a.visibleLinkB {
@@ -2207,6 +2028,7 @@ div#offlineModeDrop {
 optgroup {
 	color : #5050aa;
 	font-style : normal;
+
 }
 
 option {

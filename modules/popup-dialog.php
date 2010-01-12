@@ -3,6 +3,33 @@
 		$id = $_REQUEST["id"];
 		$param = db_escape_string($_REQUEST["param"]);
 
+		if ($id == "pubUrl") {
+
+			print "<div id=\"infoBoxTitle\">".__('Published Articles')."</div>";
+			print "<div class=\"infoBoxContents\">";
+	
+			$url_path = article_publish_url($link);
+
+			print __("Your Published articles feed URL is:");
+
+			print "<div class=\"tagCloudContainer\">";
+			print "<a id='pub_feed_url' href='$url_path' target='_blank'>$url_path</a>";
+			print "</div>";
+
+			print "<div align='center'>";
+
+			print "<button onclick=\"return pubRegenKey()\">".
+				__('Generate new URL')."</button> ";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"".__('Close this window')."\">";
+
+			print "</div></div>";
+
+			return;
+		}
+
 		if ($id == "explainError") {
 
 			print "<div id=\"infoBoxTitle\">".__('Notice')."</div>";

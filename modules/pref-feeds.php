@@ -1404,12 +1404,17 @@
 
 		print "<h3>" . __("Firefox Integration") . "</h3>";
                 
-                print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.');
-		print "</p><p> <a class='visibleLinkB' href='javascript:window.navigator.registerContentHandler(" .
+		print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
+
+		print "<p";
+
+		print "<button onclick='window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
                       "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
-                      __('Click here to register this site as a feed reader.') . "</a></p>";
+							 __('Click here to register this site as a feed reader.') . 
+				"</button>";
 
+		print "</p>";
 
 		print "<h3>".__("Published articles")."</h3>";
 
@@ -1419,12 +1424,9 @@
 		
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
-		$url_path = article_publish_url($link);
+		print "<button onclick=\"return displayDlg('pubUrl')\">".
+			__('Display URL')."</button> ";
 
-		print "<p><a class=\"visibleLinkB\" id=\"pubGenAddress\" target=\"_blank\" href=\"$url_path\">".__("Link to published articles feed.")."</a></p>";
-
-		print "<button onclick=\"return pubRegenKey()\">".
-			__('Generate another link')."</button>";
 
 	}
 

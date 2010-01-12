@@ -12,33 +12,6 @@ var color_picker_active = false;
 var selection_disabled = false;
 var mouse_is_down = false;
 
-function replace_pubkey_callback(transport) {
-	try {	
-		var link = $("pubGenAddress");
-
-		if (transport.responseXML) {
-
-			var new_link = transport.responseXML.getElementsByTagName("link")[0];
-
-			if (new_link) {
-				link.href = new_link.firstChild.nodeValue;
-				//link.innerHTML = new_link.firstChild.nodeValue;
-
-				new Effect.Highlight(link);
-
-				notify_info("Published feed URL changed.");
-			} else {
-				notify_error("Could not change feed URL.");
-			}
-
-		} else {
-			notify_error("Could not change feed URL.");
-		}
-	} catch (e) {
-		exception_error("replace_pubkey_callback", e);
-	}
-}
-
 function feedlist_callback2(transport) {
 
 	try {	
@@ -1716,22 +1689,38 @@ function feedlistToggleSLAT() {
 
 function pubRegenKey() {
 
-	var ok = confirm(__("Replace current publishing address with a new one?"));
+	try {
+		var ok = confirm(__("Replace current publishing address with a new one?"));
+	
+		if (ok) {
+	
+			notify_progress("Trying to change address...", true);
+	
+			var query = "?op=rpc&subop=regenPubKey";
+	
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+						var new_link = transport.responseXML.getElementsByTagName("link")[0];
+	
+						var e = $('pub_feed_url');
+	
+						if (new_link) {
+							e.href = new_link.firstChild.nodeValue;
+							e.innerHTML = new_link.firstChild.nodeValue;
+	
+							new Effect.Highlight(e);
 
-	if (ok) {
-
-		notify_progress("Trying to change address...");
-
-		var query = "?op=rpc&subop=regenPubKey";
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-					replace_pubkey_callback(transport);
+							notify('');
+	
+						} else {
+							notify_error("Could not change feed URL.");
+						}
 				} });
-
+		}
+	} catch (e) {
+		exception_error("pubRegenKey", e);
 	}
-
 	return false;
 }
 
