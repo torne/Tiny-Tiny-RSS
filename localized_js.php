@@ -30,13 +30,16 @@ function __(msg) {
 
 <?php
 
-	$l10n = _get_reader();
+	if (ENABLE_TRANSLATIONS) {
 
-	for ($i = 0; $i < $l10n->total; $i++) {
-		$orig = $l10n->get_original_string($i);
-		$translation = __($orig);
+		$l10n = _get_reader();
 
-		print T_js_decl($orig, $translation);
+		for ($i = 0; $i < $l10n->total; $i++) {
+			$orig = $l10n->get_original_string($i);
+			$translation = __($orig);
+	
+			print T_js_decl($orig, $translation);
+		}
 	}
 
 ?>
