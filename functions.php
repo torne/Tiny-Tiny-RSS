@@ -1685,17 +1685,19 @@
 
 		if (!$profile) {
 			$profile = "NULL";
-			$profile_qpart = "profile IS NULL";
+			$profile_qpart = "AND profile IS NULL";
 		} else {
-			$profile_qpart = "profile = '$profile'";
+			$profile_qpart = "AND profile = '$profile'";
 		}
+
+		if (get_schema_version($link) < 63) $profile_qpart = "";
 
 		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT pref_name,def_value FROM ttrss_prefs");
 		
 		$u_result = db_query($link, "SELECT pref_name 
-			FROM ttrss_user_prefs WHERE owner_uid = '$uid' AND $profile_qpart");
+			FROM ttrss_user_prefs WHERE owner_uid = '$uid' $profile_qpart");
 
 		$active_prefs = array();
 
@@ -1707,9 +1709,16 @@
 			if (array_search($line["pref_name"], $active_prefs) === FALSE) {
 //				print "adding " . $line["pref_name"] . "<br>";
 
-				db_query($link, "INSERT INTO ttrss_user_prefs
-					(owner_uid,pref_name,value, profile) VALUES 
-					('$uid', '".$line["pref_name"]."','".$line["def_value"]."', $profile)");
+				if (get_schema_version($link) < 63) {
+					db_query($link, "INSERT INTO ttrss_user_prefs
+						(owner_uid,pref_name,value) VALUES 
+						('$uid', '".$line["pref_name"]."','".$line["def_value"]."')");
+
+				} else {
+					db_query($link, "INSERT INTO ttrss_user_prefs
+						(owner_uid,pref_name,value, profile) VALUES 
+						('$uid', '".$line["pref_name"]."','".$line["def_value"]."', $profile)");
+				}
 
 			}
 		}

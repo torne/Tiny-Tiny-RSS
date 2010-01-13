@@ -21,11 +21,12 @@
 		}
 
 		if ($profile) {
-			$profile_qpart = "profile = '$profile'";
+			$profile_qpart = "profile = '$profile' AND";
 		} else {
-			$profile_qpart = "profile IS NULL";
+			$profile_qpart = "profile IS NULL AND";
 		}
 
+		if (get_schema_version($link) < 63) $profile_qpart = "";
 
 		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
 			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
@@ -39,7 +40,7 @@
 			FROM 
 				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
 			WHERE 
-				$profile_qpart AND
+				$profile_qpart
 				ttrss_user_prefs.pref_name = '$pref_name' AND 
 				ttrss_prefs_types.id = type_id AND
 				owner_uid = '$user_id' AND
@@ -90,10 +91,12 @@
 		}
 
 		if ($profile) {
-			$profile_qpart = "profile = '$profile'";
+			$profile_qpart = "AND profile = '$profile'";
 		} else {
-			$profile_qpart = "profile IS NULL";
+			$profile_qpart = "AND profile IS NULL AND";
 		}
+
+		if (get_schema_version($link) < 63) $profile_qpart = "";
 
 		$result = db_query($link, "SELECT type_name 
 			FROM ttrss_prefs,ttrss_prefs_types 
@@ -119,7 +122,7 @@
 
 			db_query($link, "UPDATE ttrss_user_prefs SET 
 				value = '$value' WHERE pref_name = '$key' 
-					AND $profile_qpart
+					$profile_qpart
 					AND owner_uid = " . $_SESSION["uid"]);
 
 			$_SESSION["prefs_cache"] = array();
