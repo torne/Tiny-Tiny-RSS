@@ -15,7 +15,7 @@
 		$quiet = $_REQUEST["quiet"];
 		$mode = $_REQUEST["mode"];
 
-		if ($subop == "massSubscribe") {
+/*		if ($subop == "massSubscribe") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			$subscribed = array();
@@ -65,9 +65,11 @@
 
 				print format_notice($msg);
 			}
-		}		
 
-		if ($subop == "browse") {
+			return;
+		} */
+
+/*		if ($subop == "browse") {
 
 			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
 			
@@ -118,7 +120,7 @@
 
 			print "</div>";
 			return;
-		}
+		} */
 
 		if ($subop == "editfeed") {
 			$feed_id = db_escape_string($_REQUEST["id"]);
@@ -1437,8 +1439,12 @@
 					AND owner_uid = '$owner_uid') $search_qpart 
 					ORDER BY subscribers DESC LIMIT $limit");
 			} else if ($mode == 2) {
-				$result = db_query($link, "SELECT * FROM
-					ttrss_archived_feeds WHERE 
+				$result = db_query($link, "SELECT *,
+					(SELECT COUNT(*) FROM ttrss_user_entries WHERE
+				 		orig_feed_id = ttrss_archived_feeds.id) AS articles_archived
+					FROM
+						ttrss_archived_feeds
+					WHERE 
 					(SELECT COUNT(*) FROM ttrss_feeds 
 						WHERE ttrss_feeds.feed_url = ttrss_archived_feeds.feed_url AND
 							owner_uid = '$owner_uid') = 0	AND					
@@ -1452,7 +1458,7 @@
 
 				if ($mode == 1) {
 
-					$feed_url = $line["feed_url"];
+					$feed_url = htmlspecialchars($line["feed_url"]);
 					$subscribers = $line["subscribers"];
 	
 					$det_result = db_query($link, "SELECT site_url,title,id 
@@ -1469,26 +1475,30 @@
 						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 					}
 	
-					$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
+					$check_box = "<input onclick='toggleSelectListRow(this)' 
+						class='feedBrowseCB' 
 						type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
 	
 					if ($details["site_url"]) {
-						$site_url = "<a target=\"_blank\" href=\"".$details["site_url"]."\">
+						$site_url = "<a target=\"_blank\" href=\"".
+							htmlspecialchars($details["site_url"])."\">
 							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
 					} else {
 						$site_url = "";
 					}
 	
-					print "<li class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-						"$feed_icon " . $details["title"] . 
+					print "<li title=\"".htmlspecialchars($details["site_url"])."\" 
+						class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+						"$feed_icon " . htmlspecialchars($details["title"]) . 
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
-						$site_url
-						</li>";
+						$site_url</li>";
 	
 				} else if ($mode == 2) {
-					$feed_url = $line["feed_url"];
+					$feed_url = htmlspecialchars($line["feed_url"]);
+					$site_url = htmlspecialchars($line["site_url"]); 
+					$title = htmlspecialchars($line["title"]);
 
 					$icon_file = ICONS_DIR . "/" . $line["id"] . ".ico";
 	
@@ -1503,16 +1513,24 @@
 						type=\"checkbox\" id=\"FBCHK-" . $line["id"] . "\">";
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
-	
+
+					if ($line['articles_archived'] > 0) {
+						$archived = sprintf(__("%d archived articles"), $line['articles_archived']);
+						$archived = "&nbsp;<span class='subscribers'>($archived)</span>";
+					} else {
+						$archived = '';
+					}
+
 					if ($line["site_url"]) {
-						$site_url = "<a target=\"_blank\" href=\"".$line["site_url"]."\">
+						$site_url = "<a target=\"_blank\" href=\"$site_url\">
 							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
 					} else {
 						$site_url = "";
 					}
 	
-					print "<li class='$class' id=\"FBROW-".$line["id"]."\">$check_box".
-						"$feed_icon " . $line["title"] . $site_url . "</li>";
+					print "<li title='".$line['site_url']."' class='$class' 
+						id=\"FBROW-".$line["id"]."\">".
+						$check_box . "$feed_icon " . $title . $archived . $site_url . "</li>";
 
 
 				}

@@ -3,6 +3,28 @@
 
 		$subop = $_REQUEST["subop"];
 
+		if ($subop == "remarchive") {
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+
+			print "<rpc-reply>";
+
+			foreach ($ids as $id) {
+				$result = db_query($link, "DELETE FROM ttrss_archived_feeds WHERE
+					(SELECT COUNT(*) FROM ttrss_user_entries 
+						WHERE orig_feed_id = '$id') = 0 AND
+						id = '$id' AND owner_uid = ".$_SESSION["uid"]);
+
+				$rc = db_affected_rows($link, $result);
+
+				print "<feed id='$id' rc='$rc'/>";
+
+			}
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		if ($subop == "addfeed") {
 
 			$feed = db_escape_string($_REQUEST['feed']);
@@ -569,7 +591,7 @@
 			return;
 		}
 
-		if ($subop == "feedBrowser") {
+		if ($subop == "updateFeedBrowser") {
 
 			$search = db_escape_string($_REQUEST["search"]);
 			$limit = db_escape_string($_REQUEST["limit"]);
@@ -582,10 +604,62 @@
 			print "]]>";
 			print "</content>";
 			print "<num-results value=\"$ctr\"/>";
+			print "<mode value=\"$mode\"/>";
 			print "</rpc-reply>";
 
 			return;
 		}
+
+
+		if ($subop == "massSubscribe") {
+
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$mode = $_REQUEST["mode"];
+
+			$subscribed = array();
+
+			foreach ($ids as $id) {
+
+				if ($mode == 1) {
+					$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
+						WHERE id = '$id'");
+				} else if ($mode == 2) {
+					$result = db_query($link, "SELECT * FROM ttrss_archived_feeds
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+					$orig_id = db_escape_string(db_fetch_result($result, 0, "id"));
+					$site_url = db_escape_string(db_fetch_result($result, 0, "site_url"));
+				}
+	
+				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
+				$title = db_escape_string(db_fetch_result($result, 0, "title"));
+	
+				$title_orig = db_fetch_result($result, 0, "title");
+	
+				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+	
+				if (db_num_rows($result) == 0) {			
+					if ($mode == 1) {
+						$result = db_query($link,
+							"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+							VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
+					} else if ($mode == 2) {
+						$result = db_query($link,
+							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id,site_url) 
+							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL, '$site_url')");
+					}
+					array_push($subscribed, $title_orig);
+				}
+			}
+
+			$num_feeds = count($subscribed);
+
+			print "<rpc-reply>";
+			print "<num-feeds value='$num_feeds'/>";
+			print "</rpc-reply>";
+
+			return;
+		} 
 
 		if ($subop == "download") {
 			$stage = (int) $_REQUEST["stage"];

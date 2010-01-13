@@ -1214,7 +1214,7 @@ function validatePrefsReset() {
 
 }
 
-function feedBrowserSubscribe() {
+/*function feedBrowserSubscribe() {
 	try {
 
 		var selected = getSelectedFeedsFromBrowser();
@@ -1242,7 +1242,7 @@ function feedBrowserSubscribe() {
 	} catch (e) {
 		exception_error("feedBrowserSubscribe", e);
 	}
-}
+} */
 
 function updateBigFeedBrowserBtn() {
 	notify_progress("Loading, please wait...");

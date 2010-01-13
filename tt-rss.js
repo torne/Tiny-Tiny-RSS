@@ -1470,39 +1470,6 @@ function visitOfficialSite() {
 	window.open("http://tt-rss.org/");
 }
 
-
-function feedBrowserSubscribe() {
-	try {
-
-		var selected = getSelectedFeedsFromBrowser();
-
-		var mode = document.forms['feed_browser'].mode;
-
-		mode = mode[mode.selectedIndex].value;
-
-		if (selected.length > 0) {
-			closeInfoBox();
-
-			notify_progress("Loading, please wait...", true);
-
-			var query = "?op=pref-feeds&subop=massSubscribe&ids="+
-				param_escape(selected.toString()) + "&mode=" + param_escape(mode);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					updateFeedList();
-				} });
-
-		} else {
-			alert(__("No feeds are selected."));
-		}
-
-	} catch (e) {
-		exception_error("feedBrowserSubscribe", e);
-	}
-}
-
 function inPreferences() {
 	return false;
 }

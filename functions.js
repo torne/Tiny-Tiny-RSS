@@ -2006,11 +2006,7 @@ function getSelectedFeedsFromBrowser() {
 function updateFeedBrowser() {
 	try {
 
-		var options = Form.serialize("feed_browser");
-
-		var query = "?op=rpc&subop=feedBrowser&" + options;
-
-		//notify_progress("Loading, please wait...", true);
+		var query = Form.serialize("feed_browser");
 
 		Element.show('feed_browser_spinner');
 
@@ -2024,9 +2020,16 @@ function updateFeedBrowser() {
 				var c = $("browseFeedList");
 				var r = transport.responseXML.getElementsByTagName("content")[0];
 				var nr = transport.responseXML.getElementsByTagName("num-results")[0];
+				var mode = transport.responseXML.getElementsByTagName("mode")[0];
 
 				if (c && r) {
 					c.innerHTML = r.firstChild.nodeValue;
+				}
+
+				if (parseInt(mode.getAttribute("value")) == 2) {
+					Element.show('feed_archive_remove');
+				} else {
+					Element.hide('feed_archive_remove');
 				}
 	
 			} });
@@ -2041,7 +2044,7 @@ function browseFeeds(limit) {
 
 	try {
 
-		var query = "?op=pref-feeds&subop=browse";
+/*		var query = "?op=ialog&subop=browse";
 
 		notify_progress("Loading, please wait...", true);
 
@@ -2049,7 +2052,9 @@ function browseFeeds(limit) {
 			parameters: query,
 			onComplete: function(transport) { 
 				infobox_callback2(transport);
-			} });
+			} }); */
+
+		displayDlg('feedBrowser');
 
 		return false;
 	} catch (e) {
@@ -2169,3 +2174,77 @@ function displayNewContentPrompt(id) {
 		exception_error("displayNewContentPrompt", e);
 	}
 }
+
+function feedBrowserSubscribe() {
+	try {
+
+		var selected = getSelectedFeedsFromBrowser();
+
+		var mode = document.forms['feed_browser'].mode;
+
+		mode = mode[mode.selectedIndex].value;
+
+		if (selected.length > 0) {
+			closeInfoBox();
+
+			notify_progress("Loading, please wait...", true);
+
+			var query = "?op=rpc&subop=massSubscribe&ids="+
+				param_escape(selected.toString()) + "&mode=" + param_escape(mode);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+
+					var nf = transport.responseXML.getElementsByTagName('num-feeds')[0];
+					var nf_value = nf.getAttribute("value");
+
+					notify_info(__("Subscribed to %d feed(s).").replace("%d", nf_value));
+
+					if (inPreferences()) {
+						updateFeedList();
+					} else {
+						setTimeout('updateFeedList(false, false)', 50);
+					}
+				} });
+
+		} else {
+			alert(__("No feeds are selected."));
+		}
+
+	} catch (e) {
+		exception_error("feedBrowserSubscribe", e);
+	}
+}
+
+function feedArchiveRemove() {
+	try {
+
+		var selected = getSelectedFeedsFromBrowser();
+
+		if (selected.length > 0) {
+
+			var pr = __("Remove selected feeds from archive?");
+
+			if (confirm(pr)) {
+				Element.show('feed_browser_spinner');
+
+				var query = "?op=rpc&subop=remarchived&ids=" + 
+					param_escape(selected.toString());;
+
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) { 
+						updateFeedBrowser();
+					} }); 
+			}
+
+		} else {
+			alert(__("No feeds are selected."));
+		}
+
+	} catch (e) {
+		exception_error("feedArchiveRemove", e);
+	}
+}
+

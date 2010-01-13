@@ -142,6 +142,62 @@
 			return;
 		}
 
+		if ($id == "feedBrowser") {
+
+			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
+			
+			print "<div class=\"infoBoxContents\">";
+
+			$browser_search = db_escape_string($_REQUEST["search"]);
+			
+			print "<form onsubmit='return false;' display='inline' 
+				name='feed_browser' id='feed_browser'>";
+
+			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"updateFeedBrowser\">"; 
+
+			print "
+				<div style='float : right'>
+				<img style='display : none' 
+					id='feed_browser_spinner' src='images/indicator_white.gif'>
+				<input name=\"search\" size=\"20\" type=\"search\"
+					onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
+				<button onclick=\"javascript:updateFeedBrowser()\">".__('Search')."</button>
+			</div>";
+
+			print " <select name=\"mode\" onchange=\"updateFeedBrowser()\">
+				<option value='1'>" . __('Popular feeds') . "</option>
+				<option value='2'>" . __('Feed archive') . "</option>
+				</select> ";
+
+			print __("limit:");
+
+			print " <select name=\"limit\" onchange='updateFeedBrowser()'>";
+
+			foreach (array(25, 50, 100, 200) as $l) {
+				$issel = ($l == $limit) ? "selected" : "";
+				print "<option $issel>$l</option>";
+			}
+			
+			print "</select> ";
+
+			print "<p>";
+
+			$owner_uid = $_SESSION["uid"];
+
+			print "<ul class='browseFeedList' id='browseFeedList'>";
+			print_feed_browser($link, $search, 25);
+			print "</ul>";
+
+			print "<div align='center'>
+				<button onclick=\"feedBrowserSubscribe()\">".__('Subscribe')."</button>
+				<button style='display : none' id='feed_archive_remove' onclick=\"feedArchiveRemove()\">".__('Remove from archive')."</button>
+				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
+
+			print "</div>";
+			return;
+		}
+
 		if ($id == "search") {
 
 			print "<div id=\"infoBoxTitle\">".__('Search')."</div>";
