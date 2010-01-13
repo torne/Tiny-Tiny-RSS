@@ -17,7 +17,7 @@
 			print "<p>";
 
 			$result = db_query($link, "SELECT title,id FROM ttrss_settings_profiles
-				WHERE owner_uid = ".$_SESSION["uid"]."ORDER BY title");
+				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
 
 			print	__('Select:')." 
 				<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
