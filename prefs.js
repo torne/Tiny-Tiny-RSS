@@ -576,15 +576,17 @@ function removeSelectedFeeds() {
 	
 			if (ok) {
 	
-				notify_progress("Unsubscribing from selected feeds...");
+				notify_progress("Unsubscribing from selected feeds...", true);
 		
 				var query = "?op=pref-feeds&subop=remove&ids="+
 					param_escape(sel_rows.toString());
-	
+
+				debug(query);
+
 				new Ajax.Request("backend.php",	{
 					parameters: query,
 					onComplete: function(transport) {
-							feedlist_callback2(transport);
+						updateFeedList();
 						} });
 			}
 	
@@ -996,7 +998,7 @@ function piggie(enable) {
 	}
 }
 
-function validateOpmlImport() {
+function opmlImport() {
 	
 	var opml_file = $("opml_file");
 
@@ -1006,6 +1008,8 @@ function validateOpmlImport() {
 	} else {
 		return true;
 	}
+
+	notify_progress("Importing, please wait...", true);
 }
 
 function updateFilterList(sort_key) {
@@ -2224,4 +2228,19 @@ function activatePrefProfile() {
 	return false;
 }
 
+function opmlImportDone() {
+	closeInfoBox();
+	updateFeedList();
+}
 
+function opml_import_handler(iframe) {
+	try {
+		var tmp = new Object();
+		tmp.responseText = iframe.document.body.innerHTML;
+		notify('');
+		infobox_callback2(tmp);
+
+	} catch (e) {
+		exception_error("opml_import_handler", e);
+	}
+}

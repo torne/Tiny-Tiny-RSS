@@ -719,6 +719,8 @@
 			foreach ($ids as $id) {
 				remove_feed($link, $id, $_SESSION["uid"]);
 			}
+
+			return;
 		}
 
 		if ($subop == "clear") {
@@ -1377,9 +1379,9 @@
 
 		}
 
-		print "<h3>".__('OPML')."</h3>
+		print "<h3>".__('OPML')."</h3>";
 
-		<div style='float : left'>
+/*		print "<div style='float : left'>
 		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
 		".__('File:')." <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"Import\">
@@ -1387,7 +1389,22 @@
 				type=\"submit\">".__('Import')."</button>
 				</form></div>";
 
-		print "&nbsp;";
+		print "&nbsp;"; */
+
+		print "<iframe name=\"upload_iframe\" onchange=\"opml_import_handler(this)\"
+			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
+
+		print "<div style='float : left'>";
+		print "<form style='display : block' target=\"upload_iframe\"
+			enctype=\"multipart/form-data\" method=\"POST\" 
+				action=\"backend.php\">
+			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
+			<input type=\"hidden\" name=\"op\" value=\"dlg\">
+			<input type=\"hidden\" name=\"id\" value=\"importOpml\">
+			<button onclick=\"return opmlImport();\"
+				type=\"submit\">".__('Import')."</button>
+			</form>";
+		print "</div>&nbsp;";
 
 		print "<button onclick=\"gotoExportOpml()\">".
 			__('Export OPML')."</button>";

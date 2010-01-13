@@ -3,6 +3,67 @@
 		$id = $_REQUEST["id"];
 		$param = db_escape_string($_REQUEST["param"]);
 
+		if ($id == "importOpml") {
+			print "<div id=\"infoBoxTitle\">".__('OPML Import')."</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<div class=\"prefFeedCatHolder\">";
+
+			$owner_uid = $_SESSION["uid"];
+
+			db_query($link, "BEGIN");
+
+			/* create Imported feeds category just in case */
+
+			$result = db_query($link, "SELECT id FROM
+				ttrss_feed_categories WHERE title = 'Imported feeds' AND
+				owner_uid = '$owner_uid' LIMIT 1");
+
+			if (db_num_rows($result) == 0) {
+				db_query($link, "INSERT INTO ttrss_feed_categories
+					(title,owner_uid) 
+						VALUES ('Imported feeds', '$owner_uid')");
+			}
+
+			db_query($link, "COMMIT");
+
+			/* Handle OPML import by DOMXML/DOMDocument */
+
+			if (function_exists('domxml_open_file')) {
+				print "<ul class='nomarks'>";
+				print "<li>".__("Importing using DOMXML.")."</li>";
+				require_once "modules/opml_domxml.php";
+				opml_import_domxml($link, $owner_uid);
+				print "</ul>";
+			} else if (PHP_VERSION >= 5) {
+				print "<ul class='nomarks'>";
+				print "<li>".__("Importing using DOMDocument.")."</li>";
+				require_once "modules/opml_domdoc.php";
+				opml_import_domdoc($link, $owner_uid);
+				print "</ul>";
+			} else {
+				print_error(__("DOMXML extension is not found. It is required for PHP versions below 5."));
+			}
+
+			print "</div>";
+
+			print "<div align='center'>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return opmlImportDone()\" 
+				value=\"".__('Close this window')."\">";
+
+			print "</div>";
+
+			print "<script type=\"text/javascript\">";
+			print "parent.opml_import_handler(this)";
+			print "</script>";
+
+			print "</div></div>";
+
+			return;
+		}
+
 		if ($id == "editPrefProfiles") {
 
 			print "<div id=\"infoBoxTitle\">".__('Settings Profiles')."</div>";

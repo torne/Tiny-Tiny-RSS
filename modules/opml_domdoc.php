@@ -22,8 +22,6 @@
 
 				$outlines = $xpath->query($query);
 
-				print "<table>";
-
 				foreach ($outlines as $outline) {
 
 					$feed_title = db_escape_string($outline->attributes->getNamedItem('text')->nodeValue);
@@ -51,7 +49,7 @@
 
 						if (db_num_rows($result) == 0) {
 
-							printf(__("Adding category <b>%s</b>...<br>"), $cat_title);
+							printf(__("<li>Adding category <b>%s</b>.</li>"), $cat_title);
 
 							db_query($link, "INSERT INTO ttrss_feed_categories
 									(title,owner_uid) 
@@ -96,11 +94,11 @@
 							feed_url = '$feed_url'
 							AND owner_uid = '$owner_uid'");
 
-					print "<tr><td><a target='_blank' href='$site_url'><b>$feed_title</b></a></b> 
-						(<a target='_blank' href=\"$feed_url\">rss</a>)</td>";
+					print "<li><a target='_blank' href='$site_url'><b>$feed_title</b></a></b> 
+						(<a target='_blank' href=\"$feed_url\">rss</a>)&nbsp;";
 
 					if (db_num_rows($result) > 0) {
-						print "<td>".__('Already imported.')."</td>";
+						print __('is already imported.');
 					} else {
 
 						if ($cat_id) {
@@ -120,22 +118,20 @@
 						//print $add_query;
 						db_query($link, $add_query);
 
-						print "<td><b>".__('Done.')."</b></td>";
+						print __('OK');
 					}
 
-					print "</tr>";
+					print "</li>";
 
 					db_query($link, "COMMIT");
 				}
 
-				print "</table>";
-
 			} else {
-				print "<div class=\"error\">".__('Error while parsing document.')."</div>";
+				print_error(__('Error while parsing document.'));
 			}
 
 		} else {
-			print "<div class=\"error\">".__('Error: please upload OPML file.')."</div>";
+			print_error(__('Error: please upload OPML file.'));
 		}
 
 
