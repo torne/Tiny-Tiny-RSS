@@ -1891,6 +1891,10 @@
 			}
 		}
 
+		if ($_SESSION["ref_schema_version"] != get_schema_version($link, true)) {
+			return false;
+		}
+
 		if ($_SESSION["uid"]) {
 
 			$result = db_query($link, 
@@ -1930,6 +1934,7 @@
 					$_POST["password"] = "";
 
 					$_SESSION["language"] = $_POST["language"];
+					$_SESSION["ref_schema_version"] = get_schema_version($link, true);
 					$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
 
 					if ($_POST["profile"]) {
@@ -2070,8 +2075,7 @@
 		error_reporting(0);
 
 		$error_code = 0;
-		$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-		$schema_version = db_fetch_result($result, 0, "schema_version");
+		$schema_version = get_schema_version($link);
 
 		if ($schema_version != SCHEMA_VERSION) {
 			$error_code = 5;
