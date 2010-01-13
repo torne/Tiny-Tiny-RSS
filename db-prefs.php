@@ -93,7 +93,7 @@
 		if ($profile) {
 			$profile_qpart = "AND profile = '$profile'";
 		} else {
-			$profile_qpart = "AND profile IS NULL AND";
+			$profile_qpart = "AND profile IS NULL";
 		}
 
 		if (get_schema_version($link) < 63) $profile_qpart = "";
