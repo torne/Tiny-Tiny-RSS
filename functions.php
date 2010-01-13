@@ -2054,9 +2054,15 @@
 			return "even";
 	}
 
-	function get_schema_version($link) {
-		$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-		return (int) db_fetch_result($result, 0, "schema_version");
+	function get_schema_version($link, $nocache = false) {
+		if (!$_SESSION["schema_version"] || $nocache) {
+			$result = db_query($link, "SELECT schema_version FROM ttrss_version");
+			$version = db_fetch_result($result, 0, "schema_version");
+			$_SESSION["schema_version"] = $version;
+			return $version;
+		} else {
+			return $_SESSION["schema_version"];
+		}
 	}
 
 	function sanity_check($link) {
