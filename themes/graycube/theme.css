@@ -2,32 +2,33 @@ body {
 	background : #f6f6f6;
 }
 
+h3 {
+	border-color : #999999;
+}
+
 a:hover {
 	color : gray;
 }
 
 div.cdmArticle {
-	border-width : 0px 0px 1px 0px;
 	border-color : #999999;
-	margin : 0px;
 	background : #f9f9f9;
-	-moz-border-radius : 0px;
 }
 
 div.cdmArticleUnread {
-	border-width : 0px 0px 1px 0px;
 	border-color : #999999;
-	margin : 0px;
 	background : white;
-	-moz-border-radius : 0px;
 }
 
+div.cdmArticleUnread div.cdmHeader {
+	background : transparent;
+	background-repeat : repeat-x;
+}
+
+
 div.cdmArticleSelected, div.cdmArticleUnreadSelected {
-	border-width : 0px 0px 1px 0px;
 	border-color : #999999;
-	margin : 0px;
 	background : #ffcccc;
-	-moz-border-radius : 0px;
 }
 
 div.cdmArticleUnread div.cdmHeader a.title, 
@@ -242,8 +243,9 @@ span.contentPreview:hover {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #999999;
-	background : #f9f9f9;
+	background : #ffcccc;
 	color : black;
+	text-shadow : #ffffff 0px 1px 0px;
 }
 
 
