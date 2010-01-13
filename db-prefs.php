@@ -77,7 +77,7 @@
 		}
 	}
 
-	function set_pref($link, $key, $value, $user_id) {
+	function set_pref($link, $key, $value, $user_id = false) {
 		$key = db_escape_string($key);
 		$value = db_escape_string($value);
 
