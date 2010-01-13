@@ -3,6 +3,23 @@
 
 		$subop = $_REQUEST["subop"];
 
+		if ($subop == "addfeed") {
+
+			$feed = db_escape_string($_REQUEST['feed']);
+			$cat = db_escape_string($_REQUEST['cat']);
+			$login = db_escape_string($_REQUEST['login']);
+			$pass = db_escape_string($_REQUEST['pass']);
+
+			$rc = subscribe_to_feed($link, $feed, $cat, $login, $pass);
+
+			print "<rpc-reply>";
+			print "<result code='$rc'/>";
+			print "</rpc-reply>";
+
+			return;
+
+		}
+
 		if ($subop == "setpref") {
 			if (WEB_DEMO_MODE) {
 				return;

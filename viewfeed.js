@@ -15,39 +15,6 @@ var post_under_pointer = false;
 
 var last_requested_article = false;
 
-function toggle_published_callback(transport) {
-	try {
-		if (transport.responseXML) {
-
-			all_counters_callback2(transport);
-
-			var note = transport.responseXML.getElementsByTagName("note")[0];
-
-			if (note) {
-				var note_id = note.getAttribute("id");
-				var note_size = note.getAttribute("size");
-				var note_content = note.firstChild.nodeValue;
-
-				var container = $('POSTNOTE-' + note_id);
-
-				cache_invalidate(note_id);
-
-				if (container) {
-					if (note_size == "0") {
-						Element.hide(container);
-					} else {
-						container.innerHTML = note_content;
-						Element.show(container);
-					}
-				}
-			}	
-		}
-
-	} catch (e) {
-		exception_error("toggle_published_callback", e, transport);
-	}
-}
-
 function catchup_callback2(transport, callback) {
 	try {
 		debug("catchup_callback2 " + transport + ", " + callback);
@@ -720,12 +687,33 @@ function togglePub(id, client_only, no_effects, note) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					toggle_published_callback(transport); 
+					all_counters_callback2(transport);
+		
+					var note = transport.responseXML.getElementsByTagName("note")[0];
+		
+					if (note) {
+						var note_id = note.getAttribute("id");
+						var note_size = note.getAttribute("size");
+						var note_content = note.firstChild.nodeValue;
+		
+						var container = $('POSTNOTE-' + note_id);
+		
+						cache_invalidate(note_id);
+		
+						if (container) {
+							if (note_size == "0") {
+								Element.hide(container);
+							} else {
+								container.innerHTML = note_content;
+								Element.show(container);
+							}
+						}
+					}	
+
 				} });
 		}
 
 	} catch (e) {
-
 		exception_error("togglePub", e);
 	}
 }
@@ -1476,39 +1464,6 @@ function editArticleTags(id, feed_id, cdm_enabled) {
 			   });
 }
 
-
-function tag_saved_callback(transport) {
-	try {
-		debug("in tag_saved_callback");
-
-		closeInfoBox();
-		notify("");
-
-		if (tagsAreDisplayed()) {
-			_reload_feedlist_after_view = true;
-		}
-
-
-		if (transport.responseXML) {
-			var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
-			
-			if (tags_str) {
-				var id = tags_str.getAttribute("id");
-
-				if (id) {
-					var tags = $("ATSTR-" + id);
-					if (tags) {
-						tags.innerHTML = tags_str.firstChild.nodeValue;
-					}
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("tag_saved_callback", e);
-	}
-}
-
 function editTagsSave() {
 
 	notify_progress("Saving article tags...");
@@ -1524,9 +1479,35 @@ function editTagsSave() {
 	new Ajax.Request("backend.php",	{
 		parameters: query,
 		onComplete: function(transport) {
-				tag_saved_callback(transport);
+				try {
+					debug("tags saved...");
+			
+					closeInfoBox();
+					notify("");
+			
+					if (tagsAreDisplayed()) {
+						_reload_feedlist_after_view = true;
+					}			
+			
+					if (transport.responseXML) {
+						var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
+						
+						if (tags_str) {
+							var id = tags_str.getAttribute("id");
+			
+							if (id) {
+								var tags = $("ATSTR-" + id);
+								if (tags) {
+									tags.innerHTML = tags_str.firstChild.nodeValue;
+								}
+							}
+						}
+					}
+			
+				} catch (e) {
+					exception_error("editTagsSave", e);
+				}
 			} });
-
 }
 
 function editTagsInsert() {
@@ -1934,24 +1915,6 @@ function cdmClicked(id) {
 	} 
 }
 
-function preload_article_callback(transport) {
-	try {
-		if (transport.responseXML) {
-			var articles = transport.responseXML.getElementsByTagName("article");
-
-			for (var i = 0; i < articles.length; i++) {
-				var id = articles[i].getAttribute("id");
-				if (!cache_check(id)) {
-					cache_inject(id, articles[i].firstChild.nodeValue);				
-					debug("preloaded article: " + id);
-				}
-			}
-		}
-	} catch (e) {
-		exception_error("preload_article_callback", e);
-	}
-}
-
 function preloadArticleUnderPointer(id) {
 	try {
 		if (getInitParam("bw_limit") == "1") return;
@@ -1981,7 +1944,15 @@ function preloadArticleUnderPointer(id) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					preload_article_callback(transport);
+					var articles = transport.responseXML.getElementsByTagName("article");
+
+					for (var i = 0; i < articles.length; i++) {
+						var id = articles[i].getAttribute("id");
+						if (!cache_check(id)) {
+							cache_inject(id, articles[i].firstChild.nodeValue);				
+							debug("preloaded article: " + id);
+						}
+					}
 			} });
 		}
 	} catch (e) {

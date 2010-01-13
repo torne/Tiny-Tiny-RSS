@@ -98,27 +98,6 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 	closeInfoBox();
 }
 
-function refetch_callback2(transport) {
-	try {
-
-		var date = new Date();
-
-		parse_counters_reply(transport, true);
-
-		debug("refetch_callback2: done");
-
-/*		if (!daemon_enabled && !daemon_refresh_only) {
-			notify_info("All feeds updated.");
-			updateTitle("");
-		} else {
-			//notify("");
-		} */
-	} catch (e) {
-		exception_error("refetch_callback", e);
-		updateTitle("");
-	}
-}
-
 function backend_sanity_check_callback(transport) {
 
 	try {
@@ -232,7 +211,7 @@ function scheduleFeedUpdate(force) {
 	new Ajax.Request("backend.php", {
 		parameters: query_str,
 		onComplete: function(transport) { 
-				refetch_callback2(transport); 
+				parse_counters_reply(transport, true);
 			} });
 }
 
@@ -1524,4 +1503,6 @@ function feedBrowserSubscribe() {
 	}
 }
 
-
+function inPreferences() {
+	return false;
+}

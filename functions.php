@@ -2836,18 +2836,16 @@
 		print "</rpc-reply>";
 	}
 
-	function subscribe_to_feed($link, $feed_link, $cat_id = 0, 
+	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
 
-		# check for feed:http://url
-		$feed_link = trim(preg_replace("/^feed:/", "", $feed_link));
+		$parts = parse_url($url);
 
-		# check for feed://URL
-		if (strpos($feed_link, "//") === 0) {
-			$feed_link = "http:$feed_link";
-		}
+		if (!validate_feed_url($url)) return 2;
 
-		if ($feed_link == "") return;
+		if ($parts['scheme'] == 'feed') $parts['scheme'] = 'http';
+
+		$url = make_url_from_parts($parts);
 
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
@@ -2857,29 +2855,29 @@
 	
 		$result = db_query($link,
 			"SELECT id FROM ttrss_feeds 
-			WHERE feed_url = '$feed_link' AND owner_uid = ".$_SESSION["uid"]);
+			WHERE feed_url = '$url' AND owner_uid = ".$_SESSION["uid"]);
 	
 		if (db_num_rows($result) == 0) {
 			
 			$result = db_query($link,
 				"INSERT INTO ttrss_feeds 
 					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass) 
-				VALUES ('".$_SESSION["uid"]."', '$feed_link', 
+				VALUES ('".$_SESSION["uid"]."', '$url', 
 				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass')");
 	
 			$result = db_query($link,
-				"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_link' 
+				"SELECT id FROM ttrss_feeds WHERE feed_url = '$url' 
 					AND owner_uid = " . $_SESSION["uid"]);
 	
 			$feed_id = db_fetch_result($result, 0, "id");
 	
 			if ($feed_id) {
-				update_rss_feed($link, $feed_link, $feed_id, true);
+				update_rss_feed($link, $url, $feed_id, true);
 			}
 
-			return true;
+			return 1;
 		} else {
-			return false;
+			return 0;
 		}
 	}
 
@@ -6400,5 +6398,21 @@
 		} else {
 			return 0;
 		}
+	}
+
+	function make_url_from_parts($parts) {
+		$url = $parts['scheme'] . '://' . $parts['host'];
+
+		if ($parts['path']) $url .= $parts['path'];
+		if ($parts['query']) $url .= '?' . $parts['query'];
+
+		return $url;
+	}
+
+	function validate_feed_url($url) {
+		$parts = parse_url($url);
+
+		return ($parts['scheme'] == 'http' || $parts['scheme'] == 'feed' || $parts['scheme'] == 'https');
+
 	}
 ?>

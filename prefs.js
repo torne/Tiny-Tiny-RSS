@@ -39,12 +39,6 @@ function feedlist_callback2(transport) {
 	}
 }
 
-/* stub for subscription dialog */
-
-function dlg_frefresh_callback(transport) {
-	return feedlist_callback2(transport);
-}
-
 function filterlist_callback2(transport) {
 	var container = $('prefContent');
 	container.innerHTML=transport.responseText;
@@ -125,34 +119,6 @@ function prefslist_callback2(transport) {
 
 function notify_callback2(transport) {
 	notify_info(transport.responseText);	 
-}
-
-function prefs_reset_callback2(transport) {
-	try {
-		notify_info(transport.responseText);
-		selectTab();
-	} catch (e) {
-		exception_error("prefs_reset_callback2", e);
-	}
-}
-
-
-function changepass_callback2(transport) {
-	try {
-	
-			if (transport.responseText.indexOf("ERROR: ") == 0) {
-				notify_error(transport.responseText.replace("ERROR: ", ""));
-			} else {
-				notify_info(transport.responseText);
-				var warn = $("default_pass_warning");
-				if (warn) warn.style.display = "none";
-			}
-	
-			document.forms['change_pass_form'].reset();
-
-	} catch (e) {
-		exception_error("changepass_callback2", e);
-	}
 }
 
 function init_cat_inline_editor() {
@@ -1221,34 +1187,6 @@ function init() {
 	}
 }
 
-function categorizeSelectedFeeds() {
-
-	var sel_rows = getSelectedFeeds();
-
-	var cat_sel = $("sfeed_set_fcat");
-	var cat_id = cat_sel[cat_sel.selectedIndex].value;
-
-	if (sel_rows.length > 0) {
-
-		notify_progress("Changing category of selected feeds...");
-
-		var query = "?op=pref-feeds&subop=categorize&ids="+
-			param_escape(sel_rows.toString()) + "&cat_id=" + param_escape(cat_id);
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				feedlist_callback2(transport); 
-			} });
-
-	} else {
-
-		alert(__("No feeds are selected."));
-
-	}
-
-}
-
 function validatePrefsReset() {
 	try {
 		var ok = confirm(__("Reset to defaults?"));
@@ -1262,7 +1200,8 @@ function validatePrefsReset() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					prefs_reset_callback2(transport);
+					notify_info(transport.responseText);
+					selectTab();
 				} });
 
 		}
@@ -1644,12 +1583,20 @@ function changeUserPassword() {
 
 		var query = Form.serialize("change_pass_form");
 	
-		notify_progress("Trying to change password...");
+		notify_progress("Changing password...");
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				changepass_callback2(transport); 
+				if (transport.responseText.indexOf("ERROR: ") == 0) {
+					notify_error(transport.responseText.replace("ERROR: ", ""));
+				} else {
+					notify_info(transport.responseText);
+					var warn = $("default_pass_warning");
+					if (warn) warn.style.display = "none";
+				}
+		
+				document.forms['change_pass_form'].reset();
 			} });
 
 
@@ -2154,3 +2101,6 @@ function mouse_up_handler(e) {
 	}
 }
 
+function inPreferences() {
+	return true;
+}

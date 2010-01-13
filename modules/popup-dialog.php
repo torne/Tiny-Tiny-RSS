@@ -90,9 +90,9 @@
 
 			print "<form id='feed_add_form' onsubmit='return false'>";
 
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
-			print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
+			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"addfeed\">"; 
+			//print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
@@ -101,13 +101,13 @@
 
 			print "<input size=\"40\"
 					onkeypress=\"return filterCR(event, subscribeToFeed)\"
-					name=\"feed_url\" id=\"feed_url\"></td></tr>";
+					name=\"feed\" id=\"feed_url\"></td></tr>";
 
 			print "<br/>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print __('Place in category:') . " ";
-				print_feed_cat_select($link, "cat_id");			
+				print_feed_cat_select($link, "cat");			
 			}
 
 			print "</div>";
@@ -117,10 +117,10 @@
 					<div class=\"dlgSec\">".__("Authentication")."</div>
 					<div class=\"dlgSecCont\">".
 
-					__('Login:') . " <input name='auth_login' size=\"20\" 
+					__('Login:') . " <input name='login' size=\"20\" 
 							onkeypress=\"return filterCR(event, subscribeToFeed)\"> ".
 					__('Password:') . "<input type='password'
-							name='auth_pass' size=\"20\" 
+							name='pass' size=\"20\" 
 							onkeypress=\"return filterCR(event, subscribeToFeed)\">
 				</div></div>";
 

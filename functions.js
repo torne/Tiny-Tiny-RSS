@@ -84,44 +84,6 @@ function enableHotkeys() {
 	hotkeys_enabled = true;
 }
 
-function open_article_callback(transport) {
-	try {
-
-		if (transport.responseXML) {
-			
-			var link = transport.responseXML.getElementsByTagName("link")[0];
-			var id = transport.responseXML.getElementsByTagName("id")[0];
-
-			debug("open_article_callback, received link: " + link);
-
-			if (link && id) {
-
-				var wname = "ttrss_article_" + id.firstChild.nodeValue;
-
-				debug("link url: " + link.firstChild.nodeValue + ", wname " + wname);
-
-				var w = window.open(link.firstChild.nodeValue, wname);
-
-				if (!w) { notify_error("Failed to load article in new window"); }
-
-				if (id) {
-					id = id.firstChild.nodeValue;
-					if (!$("headlinesList")) {
-						window.setTimeout("toggleUnread(" + id + ", 0)", 100);
-					}
-				}
-			} else {
-				notify_error("Can't open article: received invalid article link");
-			}
-		} else {
-			notify_error("Can't open article: received invalid XML");
-		}
-
-	} catch (e) {
-		exception_error("open_article_callback", e);
-	}
-}
-
 function param_escape(arg) {
 	if (typeof encodeURIComponent != 'undefined')
 		return encodeURIComponent(arg);	
@@ -1406,19 +1368,13 @@ function createFilter() {
 	}
 }
 
-function toggleSubmitNotEmpty(e, submit_id) {
-	try {
-		$(submit_id).disabled = (e.value == "")
-	} catch (e) {
-		exception_error("toggleSubmitNotEmpty", e);
-	}
-}
-
 function isValidURL(s) {
 	return s.match("http://") != null || s.match("https://") != null || s.match("feed://") != null;
 }
 
 function subscribeToFeed() {
+
+	try {
 
 	var form = document.forms['feed_add_form'];
 	var feed_url = form.feed_url.value;
@@ -1430,21 +1386,48 @@ function subscribeToFeed() {
 
 	notify_progress(__("Subscribing to feed..."), true);
 
-	closeInfoBox();
-
-	var feeds_doc = document;
-
-//	feeds_doc.location.href = "backend.php?op=error&msg=Loading,%20please wait...";
-	
 	var query = Form.serialize("feed_add_form");
 	
 	debug("subscribe q: " + query);
 
+	Form.disable("feed_add_form");
+
 	new Ajax.Request("backend.php", {
 		parameters: query,
 		onComplete: function(transport) { 
-			dlg_frefresh_callback(transport); 
+			//dlg_frefresh_callback(transport); 
+
+			notify('');
+
+			var result = transport.responseXML.getElementsByTagName('result')[0];
+			var rc = parseInt(result.getAttribute('code'));
+
+			Form.enable("feed_add_form");
+
+			switch (rc) {
+			case 1:
+				closeInfoBox();
+				notify_info(__("Subscribed to %s").replace("%s", feed_url));
+
+				if (inPreferences()) {
+					updateFeedList();
+				} else {
+					setTimeout('updateFeedList(false, false)', 50);
+				}
+				break;
+			case 2:
+				alert(__("Can't subscribe to the specified URL."));
+				break;
+			case 0:
+				alert(__("You are already subscribed to this feed."));
+				break;
+			}
+
 		} });
+
+	} catch (e) {
+		exception_error("subscribeToFeed", e);
+	}
 
 	return false;
 }
@@ -1739,9 +1722,32 @@ function openArticleInNewWindow(id) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				open_article_callback(transport); 
-			} });
 
+					var link = transport.responseXML.getElementsByTagName("link")[0];
+					var id = transport.responseXML.getElementsByTagName("id")[0];
+		
+					debug("open_article received link: " + link);
+		
+					if (link && id) {
+		
+						var wname = "ttrss_article_" + id.firstChild.nodeValue;
+		
+						debug("link url: " + link.firstChild.nodeValue + ", wname " + wname);
+		
+						var w = window.open(link.firstChild.nodeValue, wname);
+		
+						if (!w) { notify_error("Failed to load article in new window"); }
+		
+						if (id) {
+							id = id.firstChild.nodeValue;
+							if (!$("headlinesList")) {
+								window.setTimeout("toggleUnread(" + id + ", 0)", 100);
+							}
+						}
+					} else {
+						notify_error("Can't open article: received invalid article link");
+					}
+				} });
 
 	} catch (e) {
 		exception_error("openArticleInNewWindow", e);
@@ -1777,49 +1783,6 @@ Position.Center = function(element, parent) {
         element.style.left = (pw/2) - (w/2) -  Position.deltaX + "px";
 }
 
-
-function labeltest_callback(transport) {
-	try {
-		var container = $('label_test_result');
-	
-		container.innerHTML = transport.responseText;
-		if (!Element.visible(container)) {
-			Effect.SlideDown(container, { duration : 0.5 });
-		}
-
-		notify("");
-	} catch (e) {
-		exception_error("labeltest_callback", e);
-	}
-}
-
-function labelTest() {
-
-	try {
-		var container = $('label_test_result');
-	
-		var form = document.forms['label_edit_form'];
-	
-		var sql_exp = form.sql_exp.value;
-		var description = form.description.value;
-	
-		notify_progress("Loading, please wait...");
-	
-		var query = "?op=pref-labels&subop=test&expr=" +
-			param_escape(sql_exp) + "&descr=" + param_escape(description);
-	
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function (transport) {
-				labeltest_callback(transport);
-			} });
-	
-		return false;
-
-	} catch (e) {
-		exception_error("labelTest", e);
-	}
-}
 
 function isCdmMode() {
 	return !$("headlinesList");

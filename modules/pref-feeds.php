@@ -819,67 +819,71 @@
 		}
 
 		if ($subop == "add") {
-		
-			if (!WEB_DEMO_MODE) {
 
-				$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
-				$cat_id = db_escape_string($_REQUEST["cat_id"]);
-				$p_from = db_escape_string($_REQUEST["from"]);
+			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+			$cat_id = db_escape_string($_REQUEST["cat_id"]);
+			$p_from = db_escape_string($_REQUEST["from"]);
 
-				/* only read authentication information from POST */
+			/* only read authentication information from POST */
 
-				$auth_login = db_escape_string(trim($_POST["auth_login"]));
-				$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
+			$auth_login = db_escape_string(trim($_POST["auth_login"]));
+			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 
-				if ($p_from != 'tt-rss') {
-					print "<html>
-						<head>
-							<title>Tiny Tiny RSS</title>
-							<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
-						</head>
-						<body>
-						<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
-					  		alt=\"Tiny Tiny RSS\"/>	
-						<h1>Subscribe to feed...</h1>";
+			if ($p_from != 'tt-rss') {
+				print "<html>
+					<head>
+						<title>Tiny Tiny RSS</title>
+						<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					</head>
+					<body>
+					<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
+				  		alt=\"Tiny Tiny RSS\"/>	
+					<h1>Subscribe to feed...</h1>";
+			}
+
+			$rc = subscribe_to_feed($link, $feed_url, $cat_id, $auth_login, $auth_pass);
+
+			switch ($rc) {
+			case 1: 
+				print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
+				break;
+			case 2:
+				print_error(T_sprintf("Could not subscribe to <b>%s</b>.", $feed_url));
+				break;
+			case 0:
+				print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
+				break;
+			}
+
+			if ($p_from != 'tt-rss') {
+				$tt_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'tt-rss.php', $_SERVER["REQUEST_URI"]);
+
+
+				$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
+
+				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+				$feed_id = db_fetch_result($result, 0, "id");
+
+				print "<p>";
+
+				if ($feed_id) {
+					print "<form method=\"GET\" style='display: inline' 
+						action=\"$tp_uri\">
+						<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
+						<input type=\"hidden\" name=\"subop\" value=\"editFeed\">
+						<input type=\"hidden\" name=\"subopparam\" value=\"$feed_id\">
+						<input type=\"submit\" value=\"".__("Edit subscription options")."\">
+						</form>";
 				}
 
-				if (subscribe_to_feed($link, $feed_url, $cat_id, $auth_login, $auth_pass)) {
-					print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
-				} else {
-					print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
-				}
+				print "<form style='display: inline' method=\"GET\" action=\"$tt_uri\">
+					<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+					</form></p>";
 
-				if ($p_from != 'tt-rss') {
-					$tt_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'tt-rss.php', $_SERVER["REQUEST_URI"]);
-
-
-					$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
-
-					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
-
-					$feed_id = db_fetch_result($result, 0, "id");
-
-					print "<p>";
-
-					if ($feed_id) {
-						print "<form method=\"GET\" style='display: inline' 
-							action=\"$tp_uri\">
-							<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
-							<input type=\"hidden\" name=\"subop\" value=\"editFeed\">
-							<input type=\"hidden\" name=\"subopparam\" value=\"$feed_id\">
-							<input type=\"submit\" value=\"".__("Edit subscription options")."\">
-							</form>";
-					}
-
-					print "<form style='display: inline' method=\"GET\" action=\"$tt_uri\">
-						<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
-						</form></p>";
-
-					print "</body></html>";
-					return;
-				}
-
+				print "</body></html>";
+				return;
 			}
 		}
 
@@ -1358,21 +1362,6 @@
 
 			print "<p>";
 
-/*			print "<div id=\"feedOpToolbar\">";
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-
-				print __('Selection:') . " ";
-
-				print_feed_cat_select($link, "sfeed_set_fcat", "", "disabled");
-
-				print " <input type=\"submit\" class=\"button\" disabled=\"true\"
-					onclick=\"javascript:categorizeSelectedFeeds()\" value=\"".
-					__('Recategorize')."\">";
-			}
-				
-			print "</div>"; */
-
 		} else {
 
 			print "<p>";
@@ -1538,4 +1527,5 @@
 		return $feedctr;
 
 	}
+
 ?>
