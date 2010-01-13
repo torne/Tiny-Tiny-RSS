@@ -3629,9 +3629,11 @@
 		}
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
-			
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
+		}
 
+		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+			$res = preg_replace("/href=/i", "target=\"_blank\" href=", $res);
 		}
 
 		return $res;
@@ -4612,12 +4614,6 @@
 
 		if ($result) {
 
-			$link_target = "";
-
-			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-				$link_target = "target=\"_blank\"";
-			}
-
 			$line = db_fetch_assoc($result);
 
 			if ($line["icon_url"]) {
@@ -4635,10 +4631,10 @@
 				} else {
 					$comments_url = $line["link"];
 				}
-				$entry_comments = "<a $link_target href=\"$comments_url\">$num_comments comments</a>";
+				$entry_comments = "<a target='_blank' href=\"$comments_url\">$num_comments comments</a>";
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "<a $link_target href=\"".$line["comments"]."\">comments</a>";
+					$entry_comments = "<a target='_blank' href=\"".$line["comments"]."\">comments</a>";
 				}				
 			}
 
@@ -4669,7 +4665,7 @@
 			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				print "<div clear='both'><a $link_target href=\"" . $line["link"] . "\">" . 
+				print "<div clear='both'><a target='_blank' href=\"" . $line["link"] . "\">" . 
 					$line["title"] . "</a><span class='author'>$entry_author</span></div>";
 			} else {
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
@@ -4749,11 +4745,6 @@
 			print "<div class=\"postContent\">";
 
 			$article_content = sanitize_rss($link, $line["content"]);
-
-			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-				$article_content = preg_replace("/href=/i", "target=\"_blank\" href=", 
-					$article_content);
-			}
 
 			print "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
@@ -5277,11 +5268,6 @@
 					}
 
 					print "</span></div>";
-
-					if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
-						$line["content_preview"] = preg_replace("/href=/i", 
-							"target=\"_blank\" href=", $line["content_preview"]);
-					}
 
 					if ($show_excerpt) {
 						print "<div class=\"cdmExcerpt\" id=\"CEXC-$id\"

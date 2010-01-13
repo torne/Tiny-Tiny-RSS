@@ -921,30 +921,29 @@ span.cdmAllTagsCtr:hover div {
 }
 
 div.cdmArticle {
-	border-color : #a0a0a0;
-	border-width : 0px 0px 1px 0px;
+	border-color : #c0c0c0;
+	border-width : 1px;
 	border-style : solid;
-	background-color : #f9faff;
-	margin : 0px;
-	color : #505050;
+	background : white;
+	margin : 5px 5px 0px 5px;
 	color : black;
 }
 
 div.cdmArticleUnread {
-	border-color : #a0a0a0;
-	border-width : 0px 0px 1px 0px;
+	border-color : #88b0f0;
+	border-width : 1px;
 	border-style : solid;
 	background-color : white;
-	margin : 0px;
+	margin : 5px 5px 0px 5px;
 	color : black;
 }
 
 div.cdmArticleSelected, div.cdmArticleUnreadSelected {
-	margin : 0px;
 	background-color : #fff7d5;
 	border-color : #e7d796;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
+	border-width : 1px;
+	border-style : solid;	
+	margin : 5px 5px 0px 5px;
 }
 
 div.cdmArticleUnread div.cdmHeader a.title, 
@@ -955,11 +954,23 @@ div.cdmArticleUnreadSelected div.cdmHeader a.title {
 div.cdmHeader {
 	padding : 5px 5px 10px 5px;
 	color : gray;
+}
 
+div.cdmArticleUnread div.cdmHeader {
+	background : url("images/footer.png") top left;
+	background-repeat : repeat-x;
 }
 
 div.cdmArticleUnread div.cdmHeader span.titleWrap a {
 	color : black;
+}
+
+div.cdmArticleSelected div.cdmFooter, div.cdmArticleUnreadSelected div.cdmFooter {
+	background : #e7d796;
+}
+
+div.cdmFooter input {
+	vertical-align : middle;
 }
 
 div.cdmFooter {
@@ -967,9 +978,10 @@ div.cdmFooter {
 	color : black;
 	padding : 5px;
 	color : gray;
-	border-width : 1px 0px 0px 0px;
-	border-color : #c0c0c0;
-	border-style : dotted;
+	background : #f9f9f9;
+/*	border-width : 1px 0px 0px 0px;
+	border-style : solid;
+	border-color : #88b0f0; */
 }
 
 div.cdmFooter span.s0 {
@@ -994,11 +1006,7 @@ div.cdmFooter img.markedPic, div.cdmFooter img.tagsPic {
 	width : 16px;
 	height : 16px;
 	vertical-align : middle;
-}
-
-img.markedPic {
-	cursor : pointer;
-}
+} 
 
 div.cdmHeader div.articleUpdated {
 	float : right;
@@ -1048,6 +1056,10 @@ div.cdmExcerpt:hover {
 div.cdmEnclosures {
 	margin-top : 1em;
 	color : gray;
+}
+
+img.markedPic {
+	cursor : pointer;
 }
 
 a.warning {
@@ -1384,6 +1396,10 @@ div.whiteBox {
 	background-position : bottom left;
 	background-repeat : repeat-x;
 	font-size : 14px;
+}
+
+#toolbar input {
+	vertical-align : middle;
 }
 
 div.headlines_normal {
