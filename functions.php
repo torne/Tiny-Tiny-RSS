@@ -1978,7 +1978,12 @@
 	}
 
 	function get_user_theme_path($link) {
-		$theme_id = get_pref($link, "_THEME_ID");
+
+		if (get_schema_version($link) >= 63) {
+			$theme_id = get_pref($link, "_THEME_ID");
+		} else {
+			$theme_id = 1;
+		}
 
 		$result = db_query($link, "SELECT theme_path 
 			FROM ttrss_themes	WHERE id = '$theme_id'");
@@ -2038,6 +2043,11 @@
 			return "odd";
 		else
 			return "even";
+	}
+
+	function get_schema_version($link) {
+		$result = db_query($link, "SELECT schema_version FROM ttrss_version");
+		return (int) db_fetch_result($result, 0, "schema_version");
 	}
 
 	function sanity_check($link) {
