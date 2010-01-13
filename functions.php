@@ -1909,14 +1909,6 @@
 	function login_sequence($link, $mobile = false) {
 		if (!SINGLE_USER_MODE) {
 
-			if (defined('_DEBUG_USER_SWITCH') && $_SESSION["uid"]) {
-				$swu = db_escape_string($_REQUEST["swu"]);
-				if ($swu) {
-					$_SESSION["prefs_cache"] = false;
-					return authenticate_user($link, $swu, null, true);
-				}
-			}
-
 			$login_action = $_POST["login_action"];
 
 			# try to authenticate user if called from login form			

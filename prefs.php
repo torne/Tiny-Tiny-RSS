@@ -149,16 +149,6 @@
 <div id="dialog_overlay" style="display : none"> </div>
 
 <div id="prefFooter">
-	<?php if (defined('_DEBUG_USER_SWITCH')) { ?>
-		<select id="userSwitch" onchange="userSwitch()">
-		<?php 
-			foreach (array('admin', 'fox', 'test') as $u) {
-				$op_sel = ($u == $_SESSION["name"]) ? "selected" : "";
-				print "<option $op_sel>$u</option>";
-			}
-		?>
-		</select>
-	<?php } ?>
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
