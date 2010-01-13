@@ -114,14 +114,5 @@
 ?>
 </div>
 
-<?php if (!$go) { ?>
-
-<!-- <div id="footer">
-	<a href="http://tt-rss.org/">Tiny-Tiny RSS</a>
-	&copy; 2005-2009 Andrew Dolgov
-</div> -->
-
-<?php } ?>
-
 </body>
 </html>
