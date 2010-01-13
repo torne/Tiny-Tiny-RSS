@@ -36,8 +36,14 @@
 				onclick='toggleSelectPrefRow(this, \"fcat\");' 
 				type=\"checkbox\" id=\"FCCHK-0\"></td>";
 
+			if (!$_SESSION["profile"]) {
+				$is_active = __("(active)");
+			} else {
+				$is_active = "";
+			}
+
 			print "<td><span id=\"FCATT-0\">" . 
-				__("Default profile") . "</span></td>";		
+				__("Default profile") . " $is_active</span></td>";
 				
 			print "</tr>";
 
