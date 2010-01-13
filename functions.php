@@ -1994,7 +1994,7 @@
 	function get_user_theme_path($link) {
 
 		if (get_schema_version($link) >= 63) {
-			$theme_id = get_pref($link, "_THEME_ID");
+			$theme_id = (int) get_pref($link, "_THEME_ID");
 		} else {
 			$theme_id = 1;
 		}
