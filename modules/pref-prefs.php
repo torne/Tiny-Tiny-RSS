@@ -107,8 +107,6 @@
 					$theme_path = "";
 				}
 
-				$_SESSION["theme"] = $theme_path;
-
 				print "PREFS_THEME_CHANGED";
 			} else {
 				print __("The configuration was saved.");
@@ -146,11 +144,20 @@
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
-			db_query($link, "DELETE FROM ttrss_user_prefs 
-				WHERE owner_uid = ".$_SESSION["uid"]);
-			initialize_user_prefs($link, $_SESSION["uid"]);
+			if ($_SESSION["profile"]) {
+				$profile_qpart = "profile = '" . $_SESSION["profile"] . "'";
+			} else {
+				$profile_qpart = "profile IS NULL";
+			}
 
-			print __("The configuration was reset to defaults.");
+			db_query($link, "DELETE FROM ttrss_user_prefs 
+				WHERE $profile_qpart AND owner_uid = ".$_SESSION["uid"]);
+
+			initialize_user_prefs($link, $_SESSION["uid"], $_SESSION["profile"]);
+
+			print "PREFS_THEME_CHANGED";
+
+//			print __("The configuration was reset to defaults.");
 
 			return;
 
@@ -183,9 +190,9 @@
 
 				$_SESSION["pwd_change_result"] = ""; */
 
-				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
+/*				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
 					print format_notice(__("The configuration was reset to defaults."));
-				}
+} */
 
 #				if ($_SESSION["prefs_op_result"] == "save-config") {
 #					print format_notice(__("The configuration was saved."));
