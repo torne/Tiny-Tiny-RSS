@@ -16,6 +16,12 @@
 		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS",
 			"ENABLE_SEARCH_TOOLBAR", "HIDE_READ_FEEDS");
 
+		$profile_blacklist = array("ALLOW_DUPLICATE_POSTS", "PURGE_OLD_DAYS", 
+			"PURGE_UNREAD_ARTICLES", "DIGEST_ENABLE", "DIGEST_CATCHUP", 
+			"BLACKLISTED_TAGS", "ENABLE_FEED_ICONS", "ENABLE_API_ACCESS",
+			"UPDATE_POST_ON_CHECKSUM_CHANGE", "DEFAULT_UPDATE_INTERVAL",
+			"MARK_UNREAD_ON_UPDATE");
+
 		if (FORCE_ARTICLE_PURGE != 0) {
 			array_push($prefs_blacklist, "PURGE_OLD_DAYS");
 			array_push($prefs_blacklist, "PURGE_UNREAD_ARTICLES");
@@ -79,6 +85,8 @@
 
 //			print_r($_POST);
 
+			$orig_theme_id = get_pref($link, "_THEME_ID");
+
 			foreach (array_keys($_POST) as $pref_name) {
 			
 				$pref_name = db_escape_string($pref_name);
@@ -88,9 +96,23 @@
 
 			}
 
-			#return prefs_js_redirect();
+			if ($orig_theme_id != get_pref($link, "_THEME_ID")) {
 
-			print __("The configuration was saved.");
+				$result = db_query($link, "SELECT theme_path FROM ttrss_themes
+					WHERE id = '".get_pref($link, "_THEME_ID")."'");
+
+				if (db_num_rows($result) == 1) {
+					$theme_path = db_fetch_result($result, 0, "theme_path");
+				} else {
+					$theme_path = "";
+				}
+
+				$_SESSION["theme"] = $theme_path;
+
+				print "PREFS_THEME_CHANGED";
+			} else {
+				print __("The configuration was saved.");
+			}
 
 			return;
 
@@ -132,37 +154,13 @@
 
 			return;
 
-		} else if ($subop == "change-theme") {
-
-			$theme = db_escape_string($_POST["theme"]);
-
-			if ($theme == "Default") {
-				$theme_qpart = 'NULL';
-			} else {
-				$theme_qpart = "'$theme'";
-			}
-
-			$result = db_query($link, "SELECT id,theme_path FROM ttrss_themes
-				WHERE theme_name = '$theme'");
-
-			if (db_num_rows($result) == 1) {
-				$theme_id = db_fetch_result($result, 0, "id");
-				$theme_path = db_fetch_result($result, 0, "theme_path");
-			} else {
-				$theme_id = "NULL";
-				$theme_path = "";
-			}
-
-			db_query($link, "UPDATE ttrss_users SET
-				theme_id = $theme_id WHERE id = " . $_SESSION["uid"]);
-
-			$_SESSION["theme"] = $theme_path;
-
-			return prefs_js_redirect();
-
 		} else {
 
 			set_pref($link, "_PREFS_ACTIVE_TAB", "genConfig");
+
+			if ($_SESSION["profile"]) {
+				print_notice("Some preferences are only available in default profile.");
+			}
 
 			if (!SINGLE_USER_MODE) {
 
@@ -272,47 +270,20 @@
 
 			}
 
-			$result = db_query($link, "SELECT
-				theme_id FROM ttrss_users WHERE id = " . $_SESSION["uid"]);
-
-			$user_theme_id = db_fetch_result($result, 0, "theme_id");
-
-			$result = db_query($link, "SELECT
-				id,theme_name FROM ttrss_themes ORDER BY theme_name");
-
-			if (db_num_rows($result) > 0) {
-
-				print "<form action=\"backend.php\" method=\"POST\">";
-				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>".__("Themes")."</h3></tr></td>";
-				print "<tr><td width=\"40%\">".__("Select theme")."</td>";
-				print "<td><select name=\"theme\">";
-				print "<option value='Default'>".__('Default')."</option>";
-				print "<option disabled>--------</option>";				
-				
-				while ($line = db_fetch_assoc($result)) {	
-					if ($line["id"] == $user_theme_id) {
-						$selected = "selected";
-					} else {
-						$selected = "";
-					}
-					print "<option $selected>" . $line["theme_name"] . "</option>";
-				}
-				print "</select></td></tr>";
-				print "</table>";
-				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-				print "<input type=\"hidden\" name=\"subop\" value=\"change-theme\">";
-				print "<p><button>".__('Change theme')."</button>";
-				print "</form>";
+			if ($_SESSION["profile"]) {
+				initialize_user_prefs($link, $_SESSION["uid"], $_SESSION["profile"]);
+				$profile_qpart = "profile = '" . $_SESSION["profile"] . "'";
+			} else {
+				initialize_user_prefs($link, $_SESSION["uid"]);
+				$profile_qpart = "profile IS NULL";
 			}
-
-			initialize_user_prefs($link, $_SESSION["uid"]);
 
 			$result = db_query($link, "SELECT 
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
-				section_name,def_value
+				section_name,def_value,section_id
 				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
 				WHERE type_id = ttrss_prefs_types.id AND 
+					$profile_qpart AND
 					section_id = ttrss_prefs_sections.id AND
 					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
 					short_desc != '' AND
@@ -332,6 +303,11 @@
 					continue;
 				}
 
+				if ($_SESSION["profile"] && in_array($line["pref_name"], 
+						$profile_blacklist)) {
+					continue;
+				}
+
 				if ($active_section != $line["section_name"]) {
 
 					if ($active_section != "") {
@@ -339,10 +315,34 @@
 					}
 
 					print "<p><table width=\"100%\" class=\"prefPrefsList\">";
-				
+
 					$active_section = $line["section_name"];				
 					
 					print "<tr><td colspan=\"3\"><h3>".__($active_section)."</h3></td></tr>";
+
+					if ($line["section_id"] == 2) {
+						print "<tr><td width=\"40%\">".__("Select theme")."</td>";
+						print "<td><select name=\"_THEME_ID\">";
+						print "<option value='0'>".__('Default')."</option>";
+						print "<option disabled>--------</option>";				
+			
+						$user_theme_id = get_pref($link, "_THEME_ID");
+			
+						$tmp_result = db_query($link, "SELECT
+							id,theme_name FROM ttrss_themes ORDER BY theme_name");
+			
+						while ($tmp_line = db_fetch_assoc($tmp_result)) {	
+							if ($tmp_line["id"] == $user_theme_id) {
+								$selected = "selected";
+							} else {
+								$selected = "";
+							}
+							print "<option value=\"".$tmp_line["id"]."\" $selected>" . 
+								$tmp_line["theme_name"] . "</option>";
+						}
+						print "</select></td></tr>";
+					}
+
 //					print "<tr class=\"title\">
 //						<td width=\"25%\">Option</td><td>Value</td></tr>";
 
@@ -398,7 +398,10 @@
 
 			print "<p><button onclick=\"return validatePrefsSave()\">".
 				__('Save configuration')."</button> ";
-				
+
+			print "<button onclick=\"return editProfiles()\">".
+				__('Manage profiles')."</button> ";
+
 			print "<button onclick=\"return validatePrefsReset()\">".
 				__('Reset to defaults')."</button></p>";
 

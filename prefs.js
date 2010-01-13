@@ -121,6 +121,26 @@ function notify_callback2(transport) {
 	notify_info(transport.responseText);	 
 }
 
+function init_profile_inline_editor() {
+	try {
+
+		if ($("prefFeedCatList")) {
+			var elems = $("prefFeedCatList").getElementsByTagName("SPAN");
+
+			for (var i = 0; i < elems.length; i++) {
+				if (elems[i].id && elems[i].id.match("FCATT-")) {
+					var id = elems[i].id.replace("FCATT-", "");
+						new Ajax.InPlaceEditor(elems[i],
+						'backend.php?op=rpc&subop=saveprofile&id=' + id);
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("init_profile_inline_editor", e);
+	}
+}
+
 function init_cat_inline_editor() {
 	try {
 
@@ -266,6 +286,28 @@ function addFeed() {
 	}
 
 }
+
+function addPrefProfile() {
+
+	var profile = $("fadd_profile");
+
+	if (profile.value.length == 0) {
+		alert(__("Can't add profile: no name specified."));
+	} else {
+		notify_progress("Adding profile...");
+
+		var query = "?op=rpc&subop=addprofile&title=" +	
+			param_escape(profile.value);
+
+		new Ajax.Request("backend.php",	{
+			parameters: query,
+			onComplete: function(transport) {
+					editProfiles();
+				} });
+
+	}
+}
+
 
 function addFeedCat() {
 
@@ -613,6 +655,34 @@ function purgeSelectedFeeds() {
 
 	}
 	
+	return false;
+}
+
+function removeSelectedPrefProfiles() {
+
+	var sel_rows = getSelectedFeedCats();
+
+	if (sel_rows.length > 0) {
+
+		var ok = confirm(__("Remove selected profiles? Active and default profiles will not be removed."));
+
+		if (ok) {
+			notify_progress("Removing selected profiles...");
+	
+			var query = "?op=rpc&subop=remprofiles&ids="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					editProfiles();
+				} });
+		}
+
+	} else {
+		alert(__("No profiles selected."));
+	}
+
 	return false;
 }
 
@@ -1207,7 +1277,7 @@ function validatePrefsReset() {
 		}
 
 	} catch (e) {
-		exception_error("validatePrefsSave", e);
+		exception_error("validatePrefsReset", e);
 	}
 
 	return false;
@@ -1282,6 +1352,11 @@ function selectPrefRows(kind, select) {
 			nrow = "UMRR-";
 			nchk = "UMCHK-";
 			lname = "prefUserList";
+		} else if (kind == "fbrowse") {
+			opbarid = "browseOpToolbar";
+			nrow = "FBROW-";
+			nchk = "FBCHK-";
+			lname = "browseFeedList";
 		}
 
 		if (opbarid) {
@@ -1685,7 +1760,12 @@ function validatePrefsSave() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-				notify_callback2(transport); 
+					var msg = transport.responseText;
+					if (msg.match("PREFS_THEME_CHANGED")) {
+						window.location.reload();
+					} else {
+						notify_info(msg);
+					}
 			} });
 
 		}
@@ -2104,3 +2184,39 @@ function mouse_up_handler(e) {
 function inPreferences() {
 	return true;
 }
+
+function editProfiles() {
+	displayDlg('editPrefProfiles', false, function() {
+		init_profile_inline_editor();			
+			});
+}
+
+function activatePrefProfile() {
+
+	var sel_rows = getSelectedFeedCats();
+
+	if (sel_rows.length == 1) {
+
+		var ok = confirm(__("Activate selected profile?"));
+
+		if (ok) {
+			notify_progress("Loading, please wait...");
+	
+			var query = "?op=rpc&subop=setprofile&id="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					window.location.reload();
+				} });
+		}
+
+	} else {
+		alert(__("Please choose a profile to activate."));
+	}
+
+	return false;
+}
+
+

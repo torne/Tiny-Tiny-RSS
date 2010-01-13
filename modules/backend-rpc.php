@@ -3,6 +3,87 @@
 
 		$subop = $_REQUEST["subop"];
 
+		if ($subop == "setprofile") {
+			$id = db_escape_string($_REQUEST["id"]);
+
+			$_SESSION["profile"] = $id;
+			$_SESSION["prefs_cache"] = array();
+			return;
+		}
+
+		if ($subop == "remprofiles") {
+			$ids = split(",", db_escape_string(trim($_REQUEST["ids"])));
+
+			foreach ($ids as $id) {
+				if ($_SESSION["profile"] != $id) {
+					db_query($link, "DELETE FROM ttrss_settings_profiles WHERE id = '$id' AND
+						owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+			return;
+		}
+
+		if ($subop == "addprofile") {
+			$title = db_escape_string(trim($_REQUEST["title"]));
+			if ($title) {
+				db_query($link, "BEGIN");
+
+				$result = db_query($link, "SELECT id FROM ttrss_settings_profiles
+					WHERE title = '$title' AND owner_uid = " . $_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+
+					db_query($link, "INSERT INTO ttrss_settings_profiles (title, owner_uid)
+						VALUES ('$title', ".$_SESSION["uid"] .")");
+	
+					$result = db_query($link, "SELECT id FROM ttrss_settings_profiles WHERE
+						title = '$title'");
+	
+					if (db_num_rows($result) != 0) {
+						$profile_id = db_fetch_result($result, 0, "id");
+	
+						if ($profile_id) {
+							initialize_user_prefs($link, $_SESSION["uid"], $profile_id); 
+						}
+					}
+				}
+
+				db_query($link, "COMMIT");
+			}
+			return;
+		}
+
+		if ($subop == "saveprofile") {
+			$id = db_escape_string($_REQUEST["id"]);
+			$title = db_escape_string(trim($_REQUEST["value"]));
+
+			if ($id == 0) {
+				print __("Default profile");
+				return;
+			}
+
+			if ($title) {
+				db_query($link, "BEGIN");
+
+				$result = db_query($link, "SELECT id FROM ttrss_settings_profiles
+					WHERE title = '$title' AND owner_uid =" . $_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+					db_query($link, "UPDATE ttrss_settings_profiles
+						SET title = '$title' WHERE id = '$id' AND
+						owner_uid = " . $_SESSION["uid"]);
+					print $title;
+				} else {
+					$result = db_query($link, "SELECT title FROM ttrss_settings_profiles
+						WHERE id = '$id' AND owner_uid =" . $_SESSION["uid"]);
+					print db_fetch_result($result, 0, "title");
+				}
+
+				db_query($link, "COMMIT");
+			}			
+			return;
+		}
+
 		if ($subop == "remarchive") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -412,7 +493,7 @@
 
 			print "<rpc-reply>";
 
-			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
+			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key(), $_SESSION["uid"]);
 
 			$new_link = article_publish_url($link);		
 

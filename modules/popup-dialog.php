@@ -3,6 +3,97 @@
 		$id = $_REQUEST["id"];
 		$param = db_escape_string($_REQUEST["param"]);
 
+		if ($id == "editPrefProfiles") {
+
+			print "<div id=\"infoBoxTitle\">".__('Settings Profiles')."</div>";
+			print "<div class=\"infoBoxContents\">";
+
+			print "<div><input id=\"fadd_profile\" 
+					onkeypress=\"return filterCR(event, addPrefProfile)\"
+					size=\"40\">
+					<button onclick=\"javascript:addPrefProfile()\">".
+					__('Create profile')."</button></div>";
+
+			print "<p>";
+
+			$result = db_query($link, "SELECT title,id FROM ttrss_settings_profiles
+				WHERE owner_uid = ".$_SESSION["uid"]."ORDER BY title");
+
+			print	__('Select:')." 
+				<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
+				<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>";
+
+			print "<div class=\"prefFeedCatHolder\">";
+
+			print "<form id=\"profile_edit_form\" onsubmit=\"return false\">";
+
+			print "<table width=\"100%\" class=\"prefFeedCatList\" 
+				cellspacing=\"0\" id=\"prefFeedCatList\">";
+
+			print "<tr class=\"odd\" id=\"FCATR-0\">";
+
+			print "<td width='5%' align='center'><input 
+				onclick='toggleSelectPrefRow(this, \"fcat\");' 
+				type=\"checkbox\" id=\"FCCHK-0\"></td>";
+
+			print "<td><span id=\"FCATT-0\">" . 
+				__("Default profile") . "</span></td>";		
+				
+			print "</tr>";
+
+			$lnum = 1;
+			
+			while ($line = db_fetch_assoc($result)) {
+	
+				$class = ($lnum % 2) ? "even" : "odd";
+	
+				$cat_id = $line["id"];
+				$this_row_id = "id=\"FCATR-$cat_id\"";
+	
+				print "<tr class=\"$class\" $this_row_id>";
+	
+				$edit_title = htmlspecialchars($line["title"]);
+	
+				print "<td width='5%' align='center'><input 
+					onclick='toggleSelectPrefRow(this, \"fcat\");' 
+					type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
+
+				if ($_SESSION["profile"] == $line["id"]) {
+					$is_active = __("(active)");
+				} else {
+					$is_active = "";
+				}
+
+				print "<td><span id=\"FCATT-$cat_id\">" . 
+					$edit_title . "</span> $is_active</td>";
+				
+				print "</tr>";
+	
+				++$lnum;
+			}
+
+			print "</table>";
+			print "</form>";
+			print "</div>";
+
+			print "<div class='dlgButtons'>
+				<div style='float : left'>
+				<button onclick=\"return removeSelectedPrefProfiles()\">".
+				__('Remove')."</button>
+				<input class=\"button\"
+				type=\"submit\" onclick=\"return activatePrefProfile()\" 
+				value=\"".__('Activate')."\">
+				</div>";
+
+			print "<input class=\"button\"
+				type=\"submit\" onclick=\"return closeInfoBox()\" 
+				value=\"".__('Close this window')."\">";
+
+			print "</div></div>";
+
+			return;
+		}
+
 		if ($id == "pubUrl") {
 
 			print "<div id=\"infoBoxTitle\">".__('Published Articles')."</div>";
@@ -185,13 +276,17 @@
 
 			$owner_uid = $_SESSION["uid"];
 
+/*			print	__('Select:')." 
+				<a href=\"javascript:selectPrefRows('fbrowse', true)\">".__('All')."</a>,
+					<a href=\"javascript:selectPrefRows('fbrowse', false)\">".__('None')."</a>"; */
+
 			print "<ul class='browseFeedList' id='browseFeedList'>";
 			print_feed_browser($link, $search, 25);
 			print "</ul>";
 
 			print "<div align='center'>
 				<button onclick=\"feedBrowserSubscribe()\">".__('Subscribe')."</button>
-				<button style='display : none' id='feed_archive_remove' onclick=\"feedArchiveRemove()\">".__('Remove from archive')."</button>
+				<button style='display : none' id='feed_archive_remove' onclick=\"feedArchiveRemove()\">".__('Remove')."</button>
 				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
 
 			print "</div>";

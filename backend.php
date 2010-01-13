@@ -49,6 +49,7 @@
 	init_connection($link);
 
 	$op = $_REQUEST["op"];
+	$subop = $_REQUEST["subop"];
 	$mode = $_REQUEST["mode"];
 
 	$print_exec_time = false;
@@ -81,7 +82,7 @@
 	}
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
-			&& $op != "rss" && $op != "getUnread" && $op != "publish") {
+		&& $op != "rss" && $op != "getUnread" && $op != "publish" && $op != "getProfiles") {
 
 		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
 			print_error_xml(6); die;
@@ -505,6 +506,32 @@
 			send_headlines_digests($link);
 			$print_exec_time = false;
 		break; // digestSend
+
+		case "getProfiles":
+			$login = db_escape_string($_REQUEST["login"]);
+			$password = db_escape_string($_REQUEST["password"]);
+
+			if (authenticate_user($link, $login, $password)) {
+				$result = db_query($link, "SELECT * FROM ttrss_settings_profiles
+					WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY title");
+
+				print "<select style='width: 100%' name='profile'>";
+
+				print "<option value='0'>" . __("Default profile") . "</option>";
+
+				while ($line = db_fetch_assoc($result)) {
+					$id = $line["id"];
+					$title = $line["title"];
+
+					print "<option value='$id'>$title</option>";
+				}
+
+				print "</select>";
+
+				$_SESSION = array();
+
+		break;
+		}
 
 	} // Select action according to $op value.
 

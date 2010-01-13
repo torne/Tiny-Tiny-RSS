@@ -12,6 +12,7 @@ drop table ttrss_prefs_types;
 drop table ttrss_prefs_sections; 
 drop table ttrss_tags;
 drop table ttrss_enclosures;
+drop table ttrss_settings_profiles;
 drop table ttrss_entry_comments;
 drop table ttrss_user_entries;
 drop table ttrss_entries;
@@ -210,7 +211,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (62);
+insert into ttrss_version values (63);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -218,6 +219,10 @@ create table ttrss_enclosures (id serial not null primary key,
 	title text not null,
 	duration text not null,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
+
+create table ttrss_settings_profiles(id serial not null primary key,
+	title varchar(250) not null,
+	owner_uid integer not null references ttrss_users(id) on delete cascade);
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null);
@@ -355,9 +360,12 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_SORT_FEEDS_UNREAD', 1, 'false', '', 1);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_THEME_ID', 3, '0', '', 1);
+
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	pref_name varchar(250) not null references ttrss_prefs(pref_name) ON DELETE CASCADE,
+	profile integer references ttrss_settings_profiles(id) ON DELETE CASCADE,
 	value text not null);
 
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);

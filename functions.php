@@ -1679,16 +1679,23 @@
 		}
 	}
 
-	function initialize_user_prefs($link, $uid) {
+	function initialize_user_prefs($link, $uid, $profile = false) {
 
 		$uid = db_escape_string($uid);
+
+		if (!$profile) {
+			$profile = "NULL";
+			$profile_qpart = "profile IS NULL";
+		} else {
+			$profile_qpart = "profile = '$profile'";
+		}
 
 		db_query($link, "BEGIN");
 
 		$result = db_query($link, "SELECT pref_name,def_value FROM ttrss_prefs");
 		
 		$u_result = db_query($link, "SELECT pref_name 
-			FROM ttrss_user_prefs WHERE owner_uid = '$uid'");
+			FROM ttrss_user_prefs WHERE owner_uid = '$uid' AND $profile_qpart");
 
 		$active_prefs = array();
 
@@ -1701,8 +1708,8 @@
 //				print "adding " . $line["pref_name"] . "<br>";
 
 				db_query($link, "INSERT INTO ttrss_user_prefs
-					(owner_uid,pref_name,value) VALUES 
-					('$uid', '".$line["pref_name"]."','".$line["def_value"]."')");
+					(owner_uid,pref_name,value, profile) VALUES 
+					('$uid', '".$line["pref_name"]."','".$line["def_value"]."', $profile)");
 
 			}
 		}
@@ -1783,7 +1790,6 @@
 	
 				$user_theme = get_user_theme_path($link);
 	
-				$_SESSION["theme"] = $user_theme;
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
 	
@@ -1801,7 +1807,6 @@
 
 			$user_theme = get_user_theme_path($link);
 	
-			$_SESSION["theme"] = $user_theme;
 			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 	
 			initialize_user_prefs($link, $_SESSION["uid"]);
@@ -1926,6 +1931,19 @@
 					$_SESSION["language"] = $_POST["language"];
 					$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
 
+					if ($_POST["profile"]) {
+
+						$profile = db_escape_string($_POST["profile"]);
+
+						$result = db_query($link, "SELECT id FROM ttrss_settings_profiles
+							WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
+
+						if (db_num_rows($result) != 0) {
+							$_SESSION["profile"] = $profile;
+							$_SESSION["prefs_cache"] = array();
+						}
+					}
+
 					header("Location: " . $_SERVER["REQUEST_URI"]);
 					exit;
 
@@ -1968,10 +1986,10 @@
 	}
 
 	function get_user_theme_path($link) {
+		$theme_id = get_pref($link, "_THEME_ID");
+
 		$result = db_query($link, "SELECT theme_path 
-			FROM 
-				ttrss_themes,ttrss_users
-			WHERE ttrss_themes.id = theme_id AND ttrss_users.id = " . $_SESSION["uid"]);
+			FROM ttrss_themes	WHERE id = '$theme_id'");
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "theme_path");
 		} else {
@@ -3039,7 +3057,7 @@
 			}
 		}
 
-		print "<param key=\"theme\" value=\"".$_SESSION["theme"]."\"/>";
+		print "<param key=\"theme\" value=\"".get_user_theme_path($link)."\"/>";
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
 		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
@@ -5570,7 +5588,8 @@
 		}
 
 		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-		$url_path .= "/backend.php?op=publish&key=" . get_pref($link, "_PREFS_PUBLISH_KEY");
+		$url_path .= "/backend.php?op=publish&key=" . 
+			get_pref($link, "_PREFS_PUBLISH_KEY", $_SESSION["uid"]);
 
 		return $url_path;
 	}
@@ -6206,11 +6225,13 @@
 
 		$num_tags = 0;
 
-		if ($_SESSION["theme"] == "3pane") {
+/*		if (get_user_theme_path($link) == "3pane") {
 			$tag_limit = 3;
 		} else {
 			$tag_limit = 6;
-		}
+		} */
+
+		$tag_limit = 6;
 
 		$formatted_tags = array();
 
@@ -6415,4 +6436,5 @@
 		return ($parts['scheme'] == 'http' || $parts['scheme'] == 'feed' || $parts['scheme'] == 'https');
 
 	}
+
 ?>

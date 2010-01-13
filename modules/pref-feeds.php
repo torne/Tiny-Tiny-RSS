@@ -999,7 +999,7 @@
 				}
 			}
 
-			print "<div class=\"prefGenericAddBox\">
+			print "<div>
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"
 					size=\"40\">

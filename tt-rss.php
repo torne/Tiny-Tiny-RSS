@@ -27,7 +27,7 @@
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 
-	<?php	$user_theme = $_SESSION["theme"];
+	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>
 			<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css?<?php echo $dt_add ?>">
 	<?php } ?>

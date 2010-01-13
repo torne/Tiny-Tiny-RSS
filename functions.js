@@ -2224,7 +2224,7 @@ function feedArchiveRemove() {
 
 		if (selected.length > 0) {
 
-			var pr = __("Remove selected feeds from archive?");
+			var pr = __("Remove selected feeds from the archive? Feeds with stored articles will not be removed.");
 
 			if (confirm(pr)) {
 				Element.show('feed_browser_spinner');

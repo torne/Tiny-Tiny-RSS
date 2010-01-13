@@ -14,10 +14,18 @@
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];
+			$profile = $_SESSION["profile"];
 		} else {
 			$user_id = sprintf("%d", $user_id);
 			$prefs_cache = false;
 		}
+
+		if ($profile) {
+			$profile_qpart = "profile = '$profile'";
+		} else {
+			$profile_qpart = "profile IS NULL";
+		}
+
 
 		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
 			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
@@ -31,6 +39,7 @@
 			FROM 
 				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
 			WHERE 
+				$profile_qpart AND
 				ttrss_user_prefs.pref_name = '$pref_name' AND 
 				ttrss_prefs_types.id = type_id AND
 				owner_uid = '$user_id' AND
@@ -68,9 +77,23 @@
 		}
 	}
 
-	function set_pref($link, $key, $value) {
+	function set_pref($link, $key, $value, $user_id) {
 		$key = db_escape_string($key);
 		$value = db_escape_string($value);
+
+		if (!$user_id) {
+			$user_id = $_SESSION["uid"];
+			$profile = $_SESSION["profile"];
+		} else {
+			$user_id = sprintf("%d", $user_id);
+			$prefs_cache = false;
+		}
+
+		if ($profile) {
+			$profile_qpart = "profile = '$profile'";
+		} else {
+			$profile_qpart = "profile IS NULL";
+		}
 
 		$result = db_query($link, "SELECT type_name 
 			FROM ttrss_prefs,ttrss_prefs_types 
@@ -96,6 +119,7 @@
 
 			db_query($link, "UPDATE ttrss_user_prefs SET 
 				value = '$value' WHERE pref_name = '$key' 
+					AND $profile_qpart
 					AND owner_uid = " . $_SESSION["uid"]);
 
 			$_SESSION["prefs_cache"] = array();

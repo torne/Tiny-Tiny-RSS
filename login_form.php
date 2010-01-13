@@ -28,6 +28,27 @@ function init() {
 	login.focus();
 
 }
+function fetchProfiles() {
+	try {
+		var params = Form.serialize('loginForm');
+		var query = "?op=getProfiles&" + params;
+		
+		if (query) {
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+					onComplete: function(transport) {
+						if (transport.responseText.match("select")) {
+							$('profile_box').innerHTML = transport.responseText;
+						}
+				} });
+		}
+
+	} catch (e) {
+		exception_error("fetchProfiles", e);
+	}
+}
+
+
 function languageChange(elem) {
 	try {
 		document.forms['loginForm']['click'].disabled = true;
@@ -87,7 +108,7 @@ if (document.addEventListener) {
 window.onload = init;
 </script>
 
-<form action="" method="POST" name="loginForm" onsubmit="return validateLoginForm(this)">
+<form action="" method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
 <input type="hidden" name="login_action" value="do_login">
 
 <table width="100%" class="loginForm2">
@@ -104,9 +125,11 @@ window.onload = init;
 		<table>
 			<tr><td align="right"><?php echo __("Login:") ?></td>
 			<td align="right"><input name="login" 
+				onchange="fetchProfiles()"
 				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
 			<td align="right"><input type="password" name="password"
+				onchange="fetchProfiles()"
 				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<?php if (ENABLE_TRANSLATIONS) { ?>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
@@ -118,6 +141,13 @@ window.onload = init;
 			?>
 			</td></tr>
 			<?php } ?>
+
+			<tr><td align="right"><?php echo __("Profile:") ?></td>
+			<td align="right" id="profile_box">
+			<select style='width : 100%' disabled='1'>
+				<option><?php echo __("Default profile") ?></option></select>
+			</td></tr>
+
 			<!-- <tr><td colspan="2">
 				<input type="checkbox" name="remember_me" id="remember_me">
 				<label for="remember_me">Remember me on this computer</label>

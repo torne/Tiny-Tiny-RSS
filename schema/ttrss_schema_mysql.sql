@@ -15,6 +15,7 @@ drop table if exists ttrss_prefs_types;
 drop table if exists ttrss_prefs_sections; 
 drop table if exists ttrss_tags;
 drop table if exists ttrss_enclosures;
+drop table if exists ttrss_settings_profiles;
 drop table if exists ttrss_entry_comments;
 drop table if exists ttrss_user_entries;
 drop table if exists ttrss_entries;
@@ -238,9 +239,9 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB;
 
-insert into ttrss_version values (62);
+insert into ttrss_version values (63);
 
-create table ttrss_enclosures (id serial not null primary key,
+create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
 	content_type varchar(250) not null,
 	post_id integer not null,
@@ -248,6 +249,12 @@ create table ttrss_enclosures (id serial not null primary key,
 	duration text not null,
 	index (post_id),
 	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade) TYPE=InnoDB;
+
+create table ttrss_settings_profiles(id integer primary key auto_increment,
+	title varchar(250) not null,
+	owner_uid integer not null,
+	index (owner_uid),
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
 
 create table ttrss_prefs_types (id integer not null primary key, 
 	type_name varchar(100) not null) TYPE=InnoDB;
@@ -389,10 +396,15 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_SORT_FEEDS_UNREAD', 1, 'false', '', 1);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_THEME_ID', 3, '0', '', 1);
+
 create table ttrss_user_prefs (
    owner_uid integer not null,
    pref_name varchar(250),
    value text not null,
+	profile integer,
+	index (profile),
+  	foreign key (profile) references ttrss_settings_profiles(id) ON DELETE CASCADE,
 	index (owner_uid),
  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index (pref_name),
