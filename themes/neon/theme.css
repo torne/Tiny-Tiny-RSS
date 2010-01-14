@@ -62,6 +62,16 @@ input, select, button {
 	padding : 2px 4px 2px 4px;
 }
 
+button:active {
+	background : url("images/button_pressed.png") top left;
+	background-repeat : repeat-x;
+}
+
+button {
+	background : url("images/button.png") top left;
+	background-repeat : repeat-x;
+}
+
 textarea {
 	background : #3c2c4c;
 	border : 1px solid black;
@@ -73,7 +83,7 @@ select {
 }
 
 div.headlines_normal {
-	border-color : #304040;
+	border-color : #404040;
 	background : #202020;
 }
 
@@ -507,4 +517,10 @@ code::-moz-selection {
 code::selection {
 	background: #3c2c4c;
 }
+
+div.whiteBox {
+	color : gray;
+	background : #202020;
+}
+
 
