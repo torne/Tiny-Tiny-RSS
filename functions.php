@@ -1592,10 +1592,8 @@
 
 		if (!$icon_file) $icon_file = getFeedIcon($feed_id);
 
-		$theme_path = get_user_theme_path($link);
-
-		if ($theme_path && strpos($icon_file, "images") !== false) {
-			$icon_file = $theme_path . $icon_file;
+		if (strpos($icon_file, "images") !== false) {
+			$icon_file = theme_image($link, $icon_file);
 		}
 
 		if (file_exists($icon_file) && filesize($icon_file) > 0) {
@@ -1990,6 +1988,16 @@
 			return mb_substr($str, 0, $max_len, "utf-8") . "&hellip;";
 		} else {
 			return $str;
+		}
+	}
+
+	function theme_image($link, $filename) {
+		$theme_path = get_user_theme_path($link);
+
+		if ($theme_path && is_file($theme_path.$filename)) {
+			return $theme_path.$filename;
+		} else {
+			return $filename;
 		}
 	}
 
@@ -4657,8 +4665,6 @@
 		$result = db_query($link, "SELECT rtl_content, always_display_enclosures FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-		$theme_path = get_user_theme_path($link);
-
 		if (db_num_rows($result) == 1) {
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 			$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
@@ -4757,22 +4763,23 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			print "<div style='float : right'>
-					<img src='${theme_path}images/tag.png' class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
+				<img src='".theme_image($link, 'images/tag.png')."' 
+				class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
 			if (!$zoom_mode) {
 				print "<span id=\"ATSTR-$id\">$tags_str</span>
 					<a title=\"".__('Edit tags for this article')."\" 
 					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>";
 
-				print "<img src=\"${theme_path}images/art-zoom.png\" class='tagsPic' 
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
+				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
+						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
 
 				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
-				print "<img src=\"${theme_path}images/art-pub-note.png\" class='tagsPic' 
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
+				print "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\" 
+						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"publishWithNote($id, '$note_escaped')\"
 						alt='PubNote' title='".__('Publish article with a note')."'>";
 
@@ -5053,8 +5060,6 @@
 
 			$fresh_intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE") * 60 * 60;
 
-			$theme_path = get_user_theme_path($link);
-
 			while ($line = db_fetch_assoc($result)) {
 
 				$class = ($lnum % 2) ? "even" : "odd";
@@ -5084,8 +5089,8 @@
 				if (sql_bool_to_bool($line["unread"]) && 
 					time() - strtotime($line["updated_noms"]) < $fresh_intl) {
 
-					$update_pic = "<img id='FUPDPIC-$id' src=\"${theme_path}images/fresh_sign.png\" 
-							alt=\"Fresh\">";
+					$update_pic = "<img id='FUPDPIC-$id' src=\"".
+						theme_image($link, 'images/fresh_sign.png')."\" alt=\"Fresh\">";
 				}
 	
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
@@ -5097,21 +5102,25 @@
 				}
 
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"${theme_path}images/mark_set.png\" 
-						class=\"markedPic\"
-						alt=\"Unstar article\" onclick='javascript:tMark($id)'>";
+					$marked_pic = "<img id=\"FMPIC-$id\" 
+						src=\"".theme_image($link, 'images/mark_set.png')."\" 
+						class=\"markedPic\" alt=\"Unstar article\" 
+						onclick='javascript:tMark($id)'>";
 				} else {
-					$marked_pic = "<img id=\"FMPIC-$id\" src=\"${theme_path}images/mark_unset.png\" 
-						class=\"markedPic\"
-						alt=\"Star article\" onclick='javascript:tMark($id)'>";
+					$marked_pic = "<img id=\"FMPIC-$id\" 
+						src=\"".theme_image($link, 'images/mark_unset.png')."\" 
+						class=\"markedPic\" alt=\"Star article\" 
+						onclick='javascript:tMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"${theme_path}images/pub_set.png\" 
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link, 
+						'images/pub_set.png')."\" 
 						class=\"markedPic\"
 						alt=\"Unpublish article\" onclick='javascript:tPub($id)'>";
 				} else {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"${theme_path}images/pub_unset.png\" 
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link,
+						'images/pub_unset.png')."\" 
 						class=\"markedPic\"
 						alt=\"Publish article\" onclick='javascript:tPub($id)'>";
 				}
@@ -5503,7 +5512,8 @@
 					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
 					print "<span class='s1'>
-						<img class='tagsPic' src='${theme_path}images/tag.png' alt='Tags' title='Tags'>
+						<img class='tagsPic' src='".theme_image($link,
+							'images/tag.png')."' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\" 
 						href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";

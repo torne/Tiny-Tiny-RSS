@@ -94,7 +94,7 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 		<?php } ?>
 	</div>
-	<img src="<?php echo $user_theme ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
+	<img src="<?php echo theme_image($link, 'images/ttrss_logo.png') ?>" alt="Tiny Tiny RSS"/>	
 </div>
 
 <div id="prefTabs">
