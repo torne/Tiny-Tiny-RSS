@@ -331,7 +331,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 						if (!img.src.match("indicator_white")) {
 							img.alt = img.src;
-							img.src = 'images/indicator_white.gif';
+							img.src = getInitParam("sign_progress");
 						}
 
 					} else {
@@ -339,7 +339,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 						if (!$('FLL-' + feed)) {
 							var ll = document.createElement('img');
 
-							ll.src = 'images/indicator_tiny.gif';
+							ll.src = getInitParam("sign_progress");
 							ll.className = 'hlLoading';
 							ll.id = 'FLL-' + feed;
 	
@@ -467,7 +467,7 @@ function feedlist_init() {
 			}
 		}
 
-		if (getInitParam("theme") == "" || getInitParam("theme") == "darkroom" || 
+		if (getInitParam("theme") == "" || getInitParam("theme") == "lejla" || 
 				getInitParam("theme") == "neon") {
 			setTimeout("hide_footer()", 5000);
 		}

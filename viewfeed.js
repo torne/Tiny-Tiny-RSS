@@ -497,7 +497,7 @@ function view(id) {
 			var upic = $('FUPDPIC-' + id);
 
 			if (upic) {	
-				upic.src = 'images/indicator_white.gif'; 
+				upic.src = getInitParam("sign_progress");
 			}
 
 		} else if (cached_article && article_is_unread) {

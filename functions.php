@@ -1992,10 +1992,14 @@
 	}
 
 	function theme_image($link, $filename) {
-		$theme_path = get_user_theme_path($link);
+		if ($link) {
+			$theme_path = get_user_theme_path($link);
 
-		if ($theme_path && is_file($theme_path.$filename)) {
-			return $theme_path.$filename;
+			if ($theme_path && is_file($theme_path.$filename)) {
+				return $theme_path.$filename;
+			} else {
+				return $filename;
+			}
 		} else {
 			return $filename;
 		}
@@ -3132,6 +3136,15 @@
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
 		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
+
+		print "<param key=\"sign_progress\" value=\"".
+			theme_image($link, "images/indicator_white.gif")."\"/>";
+
+		print "<param key=\"sign_excl\" value=\"".
+			theme_image($link, "images/sign_excl.png")."\"/>";
+
+		print "<param key=\"sign_info\" value=\"".
+			theme_image($link, "images/sign_info.png")."\"/>";
 
 		print "<param key=\"on_catchup_show_next_feed\" value=\"" . 
 			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";
@@ -4581,18 +4594,21 @@
 	}
 
 	function format_warning($msg, $id = "") {
+		global $link;
 		return "<div class=\"warning\" id=\"$id\"> 
-			<img src=\"images/sign_excl.gif\">$msg</div>";
+			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";
 	}
 
 	function format_notice($msg) {
-		return "<div class=\"notice\"> 
-			<img src=\"images/sign_info.gif\">$msg</div>";
+		global $link;
+		return "<div class=\"notice\" id=\"$id\"> 
+			<img src=\"".theme_image($link, "images/sign_info.png")."\">$msg</div>";
 	}
 
 	function format_error($msg) {
-		return "<div class=\"error\"> 
-			<img src=\"images/sign_excl.gif\">$msg</div>";
+		global $link;
+		return "<div class=\"error\" id=\"$id\"> 
+			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";
 	}
 
 	function print_notice($msg) {
@@ -5079,7 +5095,8 @@
 
 				if ($line["last_read"] == "" && !sql_bool_to_bool($line["unread"])) {
 	
-					$update_pic = "<img id='FUPDPIC-$id' src=\"images/updated.png\" 
+					$update_pic = "<img id='FUPDPIC-$id' src=\"".
+						theme_image($link, 'images/updated.png')."\" 
 						alt=\"Updated\">";
 				} else {
 					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\" 
@@ -5150,13 +5167,14 @@
 
 				$score = $line["score"];
 
-				$score_pic = get_score_pic($score);
+				$score_pic = theme_image($link, 
+					"images/" . get_score_pic($score));
 
 /*				$score_title = __("(Click to change)");
 				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\" 
 					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">"; */
 
-				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\" 
+				$score_pic = "<img class='hlScorePic' src=\"$score_pic\" 
 					title=\"$score\">";
 
 				if ($score > 500) {
@@ -5866,13 +5884,13 @@
 		if ($score > 100) { 
 			return "score_high.png"; 
 		} else if ($score > 0) { 
-			return "score_half_high.png"; 
+			return "score_half_high.png";
 		} else if ($score < -100) {
-			return "score_low.png"; 
+			return "score_low.png";
 		} else if ($score < 0) {
-			return "score_half_low.png"; 
+			return "score_half_low.png";
 		} else { 
-			return "score_neutral.png"; 
+			return "score_neutral.png";
 		}
 	}
 

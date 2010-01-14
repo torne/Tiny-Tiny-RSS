@@ -162,13 +162,13 @@ function notify_real(msg, no_hide, n_type) {
 		n.className = "notify";
 	} else if (n_type == 2) {
 		n.className = "notifyProgress";
-		msg = "<img src='images/indicator_white.gif'> " + msg;
+		msg = "<img src='"+getInitParam("sign_progress")+"'> " + msg;
 	} else if (n_type == 3) {
 		n.className = "notifyError";
-		msg = "<img src='images/sign_excl.gif'> " + msg;
+		msg = "<img src='"+getInitParam("sign_excl")+"'> " + msg;
 	} else if (n_type == 4) {
 		n.className = "notifyInfo";
-		msg = "<img src='images/sign_info.gif'> " + msg;
+		msg = "<img src='"+getInitParam("sign_info")+"'> " + msg;
 	}
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
@@ -526,7 +526,8 @@ function parse_counters(reply, scheduled_call) {
 						
 					}
 
-					if (row_needs_hl && getInitParam("theme") != 'neon') { 
+					if (row_needs_hl && getInitParam("theme") != 'neon' &&
+							getInitParam("theme") != 'lejla') { 
 						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5",
 							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
 

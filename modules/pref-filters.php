@@ -300,7 +300,7 @@
 			<button onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
 			&nbsp;
 			<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img src='images/sign_quest.gif'></a>
+			<img style='vertical-align : top;' src='".theme_image($link, "images/sign_quest.png")."'></a>
 		</div>";
 
 		print "<button onclick=\"return displayDlg('quickAddFilter', false)\">".
@@ -415,9 +415,10 @@
 					$line["action_param"] = "&mdash;";
 				} else if ($line["action_name"] == "score") {
 
-					$score_pic = get_score_pic($line["action_param"]);
+					$score_pic = theme_image($link,
+						"images/" . get_score_pic($line["action_param"]));
 
-					$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\">";
+					$score_pic = "<img class='hlScorePic' src=\"$score_pic\">";
 
 					$line["action_param"] = "$score_pic " . $line["action_param"];
 

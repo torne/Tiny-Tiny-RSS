@@ -321,7 +321,13 @@ div.notice {
 	color : gray;
 }
 
-.notify, .notifyInfo, .notifyProgress {
+div.error, div.warning {
+	background : #3c2c4c;
+	border : 1px solid #404040;
+	color : #b077ec:;
+}
+
+.notify, .notifyInfo, .notifyProgress, .notifyError {
 	border-color : #b077ec;
 	background-color : #3c2c4c;
 	color : gray;
@@ -563,5 +569,10 @@ div.colorPicker {
 	border : 1px solid #202020;
 	background : #404040;
 	color : gray;
+}
+
+ul.feedErrorsList {
+	border : 1px solid #404040;
+	background-color : #303030;
 }
 

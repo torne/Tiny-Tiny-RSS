@@ -146,7 +146,8 @@
 	</div>
 
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
-		width="13" height="13" src="images/new_version.png" 
+		width="13" height="13" 
+		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
 		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
 

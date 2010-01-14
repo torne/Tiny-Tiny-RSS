@@ -316,7 +316,8 @@
 			print "
 				<div style='float : right'>
 				<img style='display : none' 
-					id='feed_browser_spinner' src='images/indicator_white.gif'>
+					id='feed_browser_spinner' src='".
+					theme_image($link, 'images/indicator_white.gif')."'>
 				<input name=\"search\" size=\"20\" type=\"search\"
 					onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
 				<button onclick=\"javascript:updateFeedBrowser()\">".__('Search')."</button>
