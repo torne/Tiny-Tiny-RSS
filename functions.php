@@ -1999,12 +1999,18 @@
 			$theme_id = 1;
 		}
 
-		$result = db_query($link, "SELECT theme_path 
-			FROM ttrss_themes	WHERE id = '$theme_id'");
-		if (db_num_rows($result) != 0) {
-			return db_fetch_result($result, 0, "theme_path");
+		if (!$_SESSION["theme_path"][$theme_id]) {
+			$result = db_query($link, "SELECT theme_path 
+				FROM ttrss_themes	WHERE id = '$theme_id'");
+			if (db_num_rows($result) != 0) {
+				$theme = db_fetch_result($result, 0, "theme_path");
+				$_SESSION["theme_path"][$theme_id] = $theme;
+				return $theme;
+			} else {
+				return null;
+			}
 		} else {
-			return null;
+			return $_SESSION["theme_path"][$theme_id];
 		}
 	}
 
