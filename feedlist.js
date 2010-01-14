@@ -339,7 +339,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 						if (!$('FLL-' + feed)) {
 							var ll = document.createElement('img');
 
-							ll.src = getInitParam("sign_progress");
+							ll.src = getInitParam("sign_progress_tiny");
 							ll.className = 'hlLoading';
 							ll.id = 'FLL-' + feed;
 	

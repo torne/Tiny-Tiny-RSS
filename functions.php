@@ -3140,6 +3140,9 @@
 		print "<param key=\"sign_progress\" value=\"".
 			theme_image($link, "images/indicator_white.gif")."\"/>";
 
+		print "<param key=\"sign_progress_tiny\" value=\"".
+			theme_image($link, "images/indicator_tiny.gif")."\"/>";
+
 		print "<param key=\"sign_excl\" value=\"".
 			theme_image($link, "images/sign_excl.png")."\"/>";
 
