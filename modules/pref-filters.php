@@ -377,20 +377,13 @@
 
 			while ($line = db_fetch_assoc($result)) {
 	
-				$class = ($lnum % 2) ? "even" : "odd";
-	
 				$filter_id = $line["id"];
 				$edit_filter_id = $_REQUEST["id"];
 
 				$enabled = sql_bool_to_bool($line["enabled"]);
 				$inverse = sql_bool_to_bool($line["inverse"]);
 
-				if ($subop == "edit" && $filter_id != $edit_filter_id) {
-					$class .= "Grayed";
-					$this_row_id = "";
-				} else {
-					$this_row_id = "id=\"FILRR-$filter_id\"";
-				}
+				$this_row_id = "id=\"FILRR-$filter_id\"";
 
 				$line["filter_type_descr"] = __($line["filter_type_descr"]);
 				$line["action_description"] = __($line["action_description"]);
@@ -407,7 +400,10 @@
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Field')."</a></td>
 						<td width=\"20%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>"; 
 
+					$lnum = 0;
 				}
+
+				$class = ($lnum % 2) ? "even" : "odd";
 
 				print "<tr class=\"$class\" $this_row_id>";
 	
