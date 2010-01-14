@@ -15,9 +15,45 @@
 		$quiet = $_REQUEST["quiet"];
 		$mode = $_REQUEST["mode"];
 
+		if ($subop == "removeicon") {			
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+
+			$result = db_query($link, "SELECT id FROM ttrss_feeds
+				WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
+
+			if (db_num_rows($result) != 0) {
+				unlink(ICONS_DIR . "/$feed_id.ico");
+			}
+
+			return;
+		}
+
 		if ($subop == "uploadicon") {
+			$icon_file = $_FILES['icon_file']['tmp_name'];
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+
+			if (is_file($icon_file) && $feed_id) {
+				if (filesize($icon_file) < 2000) {
+					
+					$result = db_query($link, "SELECT id FROM ttrss_feeds
+						WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
+
+					if (db_num_rows($result) != 0) {
+						unlink(ICONS_DIR . "/$feed_id.ico");
+						move_uploaded_file($icon_file, ICONS_DIR . "/$feed_id.ico");
+						$rc = 0;
+					} else {
+						$rc = 2;
+					}
+				} else {
+					$rc = 1;
+				}
+			} else {
+				$rc = 2;
+			}
+
 			print "<script type=\"text/javascript\">";
-			print "parent.uploadIconHandler(this);";
+			print "parent.uploadIconHandler($rc);";
 			print "</script>";
 			return;
 		}
@@ -400,7 +436,7 @@
 
 			print "<br/>";
 
-/*			print "<div class=\"dlgSec\">".__("Icon")."</div>";
+			print "<div class=\"dlgSec\">".__("Icon")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
 			print "<iframe name=\"icon_upload_iframe\"
@@ -409,14 +445,17 @@
 			print "<form style='display : block' target=\"icon_upload_iframe\"
 				enctype=\"multipart/form-data\" method=\"POST\" 
 				action=\"backend.php\">
-				<input id=\"icon_file\" name=\"icon_file\" type=\"file\">
+				<input id=\"icon_file\" size=\"10\" name=\"icon_file\" type=\"file\">
 				<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">
+				<input type=\"hidden\" name=\"feed_id\" value=\"$feed_id\">
 				<input type=\"hidden\" name=\"subop\" value=\"uploadicon\">
 				<button onclick=\"return uploadFeedIcon();\"
 					type=\"submit\">".__('Replace')."</button>
+				<button onclick=\"return removeFeedIcon($feed_id);\"
+					type=\"submit\">".__('Remove')."</button>
 				</form>";
 
-			print "</div>"; */
+			print "</div>";
 
 			$title = htmlspecialchars($title, ENT_QUOTES);
 

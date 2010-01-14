@@ -2248,15 +2248,56 @@ function feedArchiveRemove() {
 	}
 }
 
-function uploadIconHandler(iframe) {
+function uploadIconHandler(rc) {
 	try {
-		notify_info("Icon changed!");
-
-		alert("Icon changed, blah blah");
-
+		switch (rc) {
+			case 0:
+				notify_info("Upload complete.");
+				if (inPreferences()) {
+					updateFeedList();
+				} else {
+					setTimeout('updateFeedList(false, false)', 50);
+				}
+				break;
+			case 1:
+				notify_error("Upload failed: icon is too big.");
+				break;
+			case 2:
+				notify_error("Upload failed.");
+				break;
+		}
 
 	} catch (e) {
 		exception_error("uploadIconHandler", e);
+	}
+}
+
+function removeFeedIcon(id) {
+
+	try {
+
+		if (confirm(__("Remove stored feed icon?"))) {
+			var query = "backend.php?op=pref-feeds&subop=removeicon&feed_id=" + param_escape(id);
+
+			debug(query);
+
+			notify_progress("Removing feed icon...", true);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					notify_info("Feed icon removed.");
+					if (inPreferences()) {
+						updateFeedList();
+					} else {
+						setTimeout('updateFeedList(false, false)', 50);
+					}
+				} }); 
+		}
+
+		return false;
+	} catch (e) {
+		exception_error("uploadFeedIcon", e);
 	}
 }
 
@@ -2268,11 +2309,14 @@ function uploadFeedIcon() {
 
 		if (file.value.length == 0) {
 			alert(__("Please select an image file to upload."));
-			return false;
 		} else {
-			notify_progress("Uploading, please wait...", true);
-			return true;
+			if (confirm(__("Upload new icon for this feed?"))) {
+				notify_progress("Uploading, please wait...", true);
+				return true;
+			}
 		}
+
+		return false;
 
 	} catch (e) {
 		exception_error("uploadFeedIcon", e);
