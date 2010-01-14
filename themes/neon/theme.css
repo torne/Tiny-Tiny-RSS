@@ -56,6 +56,11 @@ option {
 	color : #b077ec;
 }
 
+button[disabled], input[disabled], select[disabled], textarea[disabled] {
+	background : #404040;
+	color : gray;
+}
+
 input, select, button {
 	background : #3c2c4c;
 	border : 1px solid black;
@@ -324,7 +329,7 @@ div.notice {
 
 div.tagCloudContainer {
 	border : 1px solid #404040;
-	background : #202020;
+	background : #303030;
 }
 
 div.tagCloudContainer a:hover {
@@ -423,12 +428,12 @@ table.prefFilterList td.filterEditCat {
 
 ul.browseFeedList, ul.userFeedList {
 	border : 1px solid #404040;
-	background : #202020;
+	background : #303030;
 }
 
 div.prefFeedCatHolder {
 	border : 1px solid #404040;
-	background-color : #202020;
+	background-color : #303030;
 }
 
 #debug_output {
@@ -532,5 +537,31 @@ table.prefPrefsList tr:hover td.prefValue {
 
 table.prefPrefsList tr:hover td.prefValue input {
 	color : #b077ec;
+}
+
+span.groupPrompt {
+	color : #b077ec;
+}
+
+div.labelColorIndicator {
+	border-color : #202020;
+}
+
+div.colorPicker div.colorPickerEntry:hover {
+	border : 1px solid #b077ec;
+}
+
+div.colorPicker div.ccPrompt:hover {
+	color : #b077ec;
+}
+
+div.colorPicker div.colorPickerEntry {
+	border : 1px solid #202020;
+}
+
+div.colorPicker {
+	border : 1px solid #202020;
+	background : #404040;
+	color : gray;
 }
 

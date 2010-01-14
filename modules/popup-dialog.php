@@ -49,9 +49,8 @@
 
 			print "<div align='center'>";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return opmlImportDone()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return opmlImportDone()\">".
+				__('Close this window')."</button>";
 
 			print "</div>";
 
