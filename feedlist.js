@@ -467,7 +467,8 @@ function feedlist_init() {
 			}
 		}
 
-		if (getInitParam("theme") == "" || getInitParam("theme") == "neon") {
+		if (getInitParam("theme") == "" || getInitParam("theme") == "darkroom" || 
+				getInitParam("theme") == "neon") {
 			setTimeout("hide_footer()", 5000);
 		}
 

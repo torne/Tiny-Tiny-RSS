@@ -51,6 +51,10 @@ div#l_progress_i {
 	background : #202020;
 }
 
+option {
+	color : #b077ec;
+}
+
 input, select, button {
 	background : #3c2c4c;
 	border : 1px solid black;
@@ -241,36 +245,36 @@ span.contentPreview:hover, td.hlContent a:hover {
 }
 
 span#headlineActionsDrop {
-	border : 1px solid #202020;
-	color : gray;
-	background : #202020;
+	border : 1px solid black;
+	color : #b077ec;
+	background : #3c2c4c;
 }
 
 ul#headlineActionsBody {
-	background-color : #202020;
-	border-color : #202020;
+	background-color : #3c2c4c;
+	border-color : black;
 }
 
 ul#headlineActionsBody li {
-	color : gray;
+	color : #b077ec;
 }
 
 ul#headlineActionsBody li:hover {
-	color : gray;
-	background : #404040;
+	color : white;
+	background : #b077ec;
 }
 
 ul#headlineActionsBody li.insensitive {
-	color : #404040;
+	color : white;
 }
 
 ul#headlineActionsBody li.insensitive:hover {
-	background : #202020;
-	color : #404040;
+	background : #3c2c4c;
+	color : white;
 }
 
 optgroup {
-	color : #b077ec;
+	color : white;
 }
 
 #infoBoxTitle {
@@ -484,5 +488,23 @@ div.cdmContent a {
 
 div.cdmContent a:hover {
 	color : #3c2c4c;
+}
+
+::-moz-selection {
+	background : #3c2c4c;
+	color : white;
+}
+
+::selection {
+	background : #3c2c4c;
+	color : white;
+}
+
+code::-moz-selection {
+	background: #3c2c4c;
+}
+
+code::selection {
+	background: #3c2c4c;
 }
 
