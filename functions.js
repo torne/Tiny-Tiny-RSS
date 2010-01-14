@@ -2248,3 +2248,34 @@ function feedArchiveRemove() {
 	}
 }
 
+function uploadIconHandler(iframe) {
+	try {
+		notify_info("Icon changed!");
+
+		alert("Icon changed, blah blah");
+
+
+	} catch (e) {
+		exception_error("uploadIconHandler", e);
+	}
+}
+
+function uploadFeedIcon() {
+
+	try {
+
+		var file = $("icon_file");
+
+		if (file.value.length == 0) {
+			alert(__("Please select an image file to upload."));
+			return false;
+		} else {
+			notify_progress("Uploading, please wait...", true);
+			return true;
+		}
+
+	} catch (e) {
+		exception_error("uploadFeedIcon", e);
+	}
+}
+

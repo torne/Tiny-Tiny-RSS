@@ -2233,13 +2233,12 @@ function opmlImportDone() {
 	updateFeedList();
 }
 
-function opml_import_handler(iframe) {
+function opmlImportHandler(iframe) {
 	try {
 		var tmp = new Object();
 		tmp.responseText = iframe.document.body.innerHTML;
 		notify('');
 		infobox_callback2(tmp);
-
 	} catch (e) {
 		exception_error("opml_import_handler", e);
 	}

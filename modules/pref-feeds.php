@@ -15,6 +15,13 @@
 		$quiet = $_REQUEST["quiet"];
 		$mode = $_REQUEST["mode"];
 
+		if ($subop == "uploadicon") {
+			print "<script type=\"text/javascript\">";
+			print "parent.uploadIconHandler(this);";
+			print "</script>";
+			return;
+		}
+
 /*		if ($subop == "massSubscribe") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -247,7 +254,7 @@
 
 			print "</select>";
 
-
+	
 			print "</div>";
 
 			print "<div class=\"dlgSec\">".__("Update")."</div>";
@@ -388,6 +395,28 @@
 			print "</div>";
 
 			print "</form>";
+
+			/* Icon */
+
+			print "<br/>";
+
+/*			print "<div class=\"dlgSec\">".__("Icon")."</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print "<iframe name=\"icon_upload_iframe\"
+				style=\"width: 400px; height: 100px; display: none;\"></iframe>";
+
+			print "<form style='display : block' target=\"icon_upload_iframe\"
+				enctype=\"multipart/form-data\" method=\"POST\" 
+				action=\"backend.php\">
+				<input id=\"icon_file\" name=\"icon_file\" type=\"file\">
+				<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">
+				<input type=\"hidden\" name=\"subop\" value=\"uploadicon\">
+				<button onclick=\"return uploadFeedIcon();\"
+					type=\"submit\">".__('Replace')."</button>
+				</form>";
+
+			print "</div>"; */
 
 			$title = htmlspecialchars($title, ENT_QUOTES);
 
@@ -1391,7 +1420,7 @@
 
 		print "&nbsp;"; */
 
-		print "<iframe name=\"upload_iframe\" onchange=\"opml_import_handler(this)\"
+		print "<iframe name=\"upload_iframe\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
 		print "<div style='float : left'>";

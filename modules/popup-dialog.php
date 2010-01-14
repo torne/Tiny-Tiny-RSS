@@ -56,7 +56,7 @@
 			print "</div>";
 
 			print "<script type=\"text/javascript\">";
-			print "parent.opml_import_handler(this)";
+			print "parent.opmlImportHandler(this)";
 			print "</script>";
 
 			print "</div></div>";
