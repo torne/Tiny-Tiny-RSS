@@ -28,10 +28,8 @@
 
 	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>
-		<link rel="stylesheet" type="text/css" href="themes/<?php echo $user_theme ?>/theme.css"/>
+		<link rel="stylesheet" type="text/css" href="<?php echo $user_theme ?>/theme.css"/>
 	<?php } ?>
-
-	<?php if ($user_theme) { $theme_image_path = "themes/$user_theme/"; } ?>
 	
 	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
 	<?php if ($user_css_url) { ?>
@@ -96,7 +94,7 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 		<?php } ?>
 	</div>
-	<img src="<?php echo $theme_image_path ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
+	<img src="<?php echo $user_theme ?>images/ttrss_logo.png" alt="Tiny Tiny RSS"/>	
 </div>
 
 <div id="prefTabs">

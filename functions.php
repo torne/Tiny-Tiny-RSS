@@ -1797,8 +1797,6 @@
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 
 					$_SESSION["uid"]);
 	
-				$user_theme = get_user_theme_path($link);
-	
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
 	
@@ -1814,8 +1812,6 @@
 			$_SESSION["uid"] = 1;
 			$_SESSION["name"] = "admin";
 
-			$user_theme = get_user_theme_path($link);
-	
 			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 	
 			initialize_user_prefs($link, $_SESSION["uid"]);
@@ -1991,27 +1987,54 @@
 		}
 	}
 
+	function get_user_theme($link) {
+
+		if (get_schema_version($link) >= 63) {
+			return get_pref($link, "_THEME_ID");
+		} else {
+			return false;
+		}
+
+	}
+
 	function get_user_theme_path($link) {
 
 		if (get_schema_version($link) >= 63) {
-			$theme_id = (int) get_pref($link, "_THEME_ID");
-		} else {
-			$theme_id = 1;
-		}
+			$theme_name = get_pref($link, "_THEME_ID");
 
-		if (!$_SESSION["theme_path"][$theme_id]) {
-			$result = db_query($link, "SELECT theme_path 
-				FROM ttrss_themes	WHERE id = '$theme_id'");
-			if (db_num_rows($result) != 0) {
-				$theme = db_fetch_result($result, 0, "theme_path");
-				$_SESSION["theme_path"][$theme_id] = $theme;
-				return $theme;
+			if ($theme_name) {
+				$theme_path = "themes/$theme_name/";
 			} else {
-				return null;
+				$theme_name = '';
 			}
 		} else {
-			return $_SESSION["theme_path"][$theme_id];
+			$theme_path = '';
 		}
+
+		return $theme_path;
+	}
+
+	function get_all_themes() {
+		$themes = glob("themes/*");
+
+		$rv = array();
+
+		foreach ($themes as $t) {
+			if (is_file("$t/theme.ini")) {
+				$ini = parse_ini_file("$t/theme.ini", true);
+				if ($ini['theme']['version']) {
+					$entry = array();
+					$entry["path"] = $t;
+					$entry["base"] = basename($t);
+					$entry["name"] = $ini['theme']['name'];
+					$entry["version"] = $ini['theme']['version'];
+					$entry["author"] = $ini['theme']['author'];
+					array_push($rv, $entry);
+				}
+			}
+		}
+
+		return $rv;
 	}
 
 	function smart_date_time($timestamp) {
@@ -3084,7 +3107,7 @@
 			}
 		}
 
-		print "<param key=\"theme\" value=\"".get_user_theme_path($link)."\"/>";
+		print "<param key=\"theme\" value=\"".get_user_theme($link)."\"/>";
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
 		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
@@ -6252,7 +6275,7 @@
 
 		$num_tags = 0;
 
-/*		if (get_user_theme_path($link) == "3pane") {
+/*		if (get_user_theme($link) == "3pane") {
 			$tag_limit = 3;
 		} else {
 			$tag_limit = 6;

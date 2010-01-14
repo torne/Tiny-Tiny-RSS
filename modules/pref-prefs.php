@@ -85,7 +85,7 @@
 
 //			print_r($_POST);
 
-			$orig_theme_id = get_pref($link, "_THEME_ID");
+			$orig_theme = get_pref($link, "_THEME_ID");
 
 			foreach (array_keys($_POST) as $pref_name) {
 			
@@ -96,17 +96,7 @@
 
 			}
 
-			if ($orig_theme_id != get_pref($link, "_THEME_ID")) {
-
-				$result = db_query($link, "SELECT theme_path FROM ttrss_themes
-					WHERE id = '".get_pref($link, "_THEME_ID")."'");
-
-				if (db_num_rows($result) == 1) {
-					$theme_path = db_fetch_result($result, 0, "theme_path");
-				} else {
-					$theme_path = "";
-				}
-
+			if ($orig_theme != get_pref($link, "_THEME_ID")) {
 				print "PREFS_THEME_CHANGED";
 			} else {
 				print __("The configuration was saved.");
@@ -329,24 +319,28 @@
 
 					if ($line["section_id"] == 2) {
 						print "<tr><td width=\"40%\">".__("Select theme")."</td>";
+
+						$user_theme = get_pref($link, "_THEME_ID");
+						$themes = get_all_themes();
+
 						print "<td><select name=\"_THEME_ID\">";
-						print "<option value='0'>".__('Default')."</option>";
+						print "<option value=''>".__('Default')."</option>";
 						print "<option disabled>--------</option>";				
-			
-						$user_theme_id = get_pref($link, "_THEME_ID");
-			
-						$tmp_result = db_query($link, "SELECT
-							id,theme_name FROM ttrss_themes ORDER BY theme_name");
-			
-						while ($tmp_line = db_fetch_assoc($tmp_result)) {	
-							if ($tmp_line["id"] == $user_theme_id) {
-								$selected = "selected";
+
+						foreach ($themes as $t) {
+							$base = $t['base'];
+							$name = $t['name'];
+
+							if ($base == $user_theme) {
+								$selected = "selected=\"1\"";
 							} else {
 								$selected = "";
 							}
-							print "<option value=\"".$tmp_line["id"]."\" $selected>" . 
-								$tmp_line["theme_name"] . "</option>";
+
+							print "<option $selected value='$base'>$name</option>";
+
 						}
+			
 						print "</select></td></tr>";
 					}
 
