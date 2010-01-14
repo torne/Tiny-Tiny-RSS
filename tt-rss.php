@@ -240,7 +240,7 @@
 	<div id="resize-grabber"
 		onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
 		title="<?php echo __('Drag me to resize panels') ?>"> 
-		<img src="images/resize_handle_horiz.png" id="resize-handle" 
+		<img src="<?php echo $user_theme ?>images/resize_handle_horiz.png" id="resize-handle" 
 			onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
 			alt=""/>
 		</div>

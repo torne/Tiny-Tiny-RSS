@@ -526,7 +526,7 @@ function parse_counters(reply, scheduled_call) {
 						
 					}
 
-					if (row_needs_hl) { 
+					if (row_needs_hl && getInitParam("theme") != 'neon') { 
 						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5",
 							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
 

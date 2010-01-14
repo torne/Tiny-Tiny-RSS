@@ -413,7 +413,7 @@ function resize_headlines(delta_x, delta_y) {
 				feeds_frame.style.bottom = f_frame.offsetHeight + "px";		
 		}
 	
-		if (getInitParam("theme") == "3pane") {
+		if (getInitParam("theme") == "triple-pane") {
 	
 			if (delta_x != undefined) {
 				if (c_frame.offsetLeft - delta_x > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100 && c_frame.offsetWidth + delta_x > 100) {
@@ -431,7 +431,7 @@ function resize_headlines(delta_x, delta_y) {
 				4) + "px";
 			resize_grab.style.display = "block";
 
-			resize_handle.src = "themes/3pane/images/resize_handle_vert.png";
+			resize_handle.src = "themes/triple-pane/images/resize_handle_vert.png";
 			resize_handle.style.paddingTop = (resize_grab.offsetHeight / 2 - 7) + "px";
 	
 		} else {
