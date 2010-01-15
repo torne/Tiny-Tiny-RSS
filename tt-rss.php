@@ -224,7 +224,7 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<button onclick="return viewCurrentFeed('ForceUpdate')">
+		<button name="update" onclick="return viewCurrentFeed('ForceUpdate')">
 			<?php echo __('Update') ?></button>
 
 		<button onclick="return catchupCurrentFeed()">

@@ -211,7 +211,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 		
 			var toolbar_form = document.forms["main_toolbar_form"];
 			
-			var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex].value;
+			//var limit = toolbar_form.limit[toolbar_form.limit.selectedIndex].value;
 			var view_mode = toolbar_form.view_mode[toolbar_form.view_mode.selectedIndex].value;
 
 			var limit_qpart = "";
@@ -602,7 +602,6 @@ function init_offline() {
 		store.enabled = true;
 
 		Element.hide("dispSwitchPrompt");
-		Element.hide("feedBrowserPrompt");
 
 		Element.hide("topLinksOnline");
 		Element.show("topLinksOffline");
