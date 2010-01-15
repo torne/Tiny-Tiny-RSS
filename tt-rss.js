@@ -888,8 +888,8 @@ function collapse_feedlist() {
 		debug("collapse_feedlist");
 		
 		var theme = getInitParam("theme");
-		if (theme != "" && theme != "compact" && theme != "graycube" &&
-				theme != "old-skool") return;
+		if (theme != "" && 
+				!getInitParam("theme_options").match("collapse_feedlist")) return;
 
 		var fl = $("feeds-holder");
 		var fh = $("headlines-frame");

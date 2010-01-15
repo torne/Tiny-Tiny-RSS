@@ -555,12 +555,14 @@ function init_hidden_feedlist(theme) {
 	}
 } */
 
-function init_collapsable_feedlist(theme) {
+function init_collapsable_feedlist() {
 	try {
 		debug("init_collapsable_feedlist");
 
-		if (theme != "" && theme != "compact" && theme != "graycube" &&
-				theme != "compat") return;
+		var theme = getInitParam("theme");
+		var options = getInitParam("theme_options");
+
+		if (theme != "" && !options.match("collapse_feedlist")) return;
 
 		var fbtn = $("collapse_feeds_btn");
 
