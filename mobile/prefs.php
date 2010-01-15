@@ -37,7 +37,7 @@
 </div>
 
 <div class="row">
-	<label><?php echo __('Hide read items') ?></label>
+	<label><?php echo __('Hide read feeds') ?></label>
 	<div class="toggle" id="HIDE_READ" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "HIDE_READ") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
 </div>
 
