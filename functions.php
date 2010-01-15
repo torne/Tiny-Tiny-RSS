@@ -2037,6 +2037,21 @@
 		return $theme_path;
 	}
 
+	function get_user_theme_options($link) {
+		$t = get_user_theme_path($link);
+
+		if ($t) {
+			if (is_file("$t/theme.ini")) {
+				$ini = parse_ini_file("$t/theme.ini", true);
+				if ($ini['theme']['version']) {
+					return $ini['theme']['options'];
+				}
+			}
+		}
+		return false;
+	}
+
+
 	function get_all_themes() {
 		$themes = glob("themes/*");
 
@@ -2054,6 +2069,7 @@
 					$entry["name"] = $ini['theme']['name'];
 					$entry["version"] = $ini['theme']['version'];
 					$entry["author"] = $ini['theme']['author'];
+					$entry["options"] = $ini['theme']['options'];
 					array_push($rv, $entry);
 				}
 			}
@@ -3133,6 +3149,7 @@
 		}
 
 		print "<param key=\"theme\" value=\"".get_user_theme($link)."\"/>";
+		print "<param key=\"theme_options\" value=\"".get_user_theme_options($link)."\"/>";
 		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
 		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
 		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";

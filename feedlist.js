@@ -467,8 +467,8 @@ function feedlist_init() {
 			}
 		}
 
-		if (getInitParam("theme") == "" || getInitParam("theme") == "lejla" || 
-				getInitParam("theme") == "neon") {
+		if (getInitParam("theme") == "" || 
+				getInitParam("theme_options").match("hide_footer")) {
 			setTimeout("hide_footer()", 5000);
 		}
 
