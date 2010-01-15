@@ -2415,7 +2415,7 @@
 		getVirtCounters($link);
 
 		if (strchr($omode, "l")) getLabelCounters($link);
-		if (strchr($omode, "f")) getFeedCounters($link, SMART_RPC_COUNTERS, $active_feed);
+		if (strchr($omode, "f")) getFeedCounters($link, $active_feed);
 		if (strchr($omode, "t")) getTagCounters($link);
 		if (strchr($omode, "c")) {			
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -2707,17 +2707,7 @@
 		return db_fetch_result($result, 0, "fn");
 	}
 
-	function getTagCounters($link, $smart_mode = SMART_RPC_COUNTERS) {
-
-		if ($smart_mode) {
-			if (!$_SESSION["tctr_last_value"]) {
-				$_SESSION["tctr_last_value"] = array();
-			}
-		}
-
-		$old_counters = $_SESSION["tctr_last_value"];
-
-		$tctrs_modified = false;
+	function getTagCounters($link) {
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2736,24 +2726,12 @@
 
 		foreach (array_keys($tags) as $tag) {
 			$unread = $tags[$tag];			
-
 			$tag = htmlspecialchars($tag);
-
-			if (!$smart_mode || $old_counters[$tag] != $unread) {			
-				$old_counters[$tag] = $unread;
-				$tctrs_modified = true;
-				print "<counter type=\"tag\" id=\"$tag\" counter=\"$unread\"/>";
-			}
-
+			print "<counter type=\"tag\" id=\"$tag\" counter=\"$unread\"/>";
 		} 
-
-		if ($smart_mode && $tctrs_modified) {
-			$_SESSION["tctr_last_value"] = $old_counters;
-		}
-
 	}
 
-	function getVirtCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
+	function getVirtCounters($link, $ret_mode = false) {
 
 		$ret_arr = array();
 
@@ -2779,71 +2757,44 @@
 		return $ret_arr;
 	}
 
-	function getLabelCounters($link, $smart_mode = SMART_RPC_COUNTERS, $ret_mode = false) {
+	function getLabelCounters($link, $ret_mode = false) {
 
 		$age_qpart = getMaxAgeSubquery();
 
-		if ($smart_mode) {
-			if (!$_SESSION["lctr_last_value"]) {
-				$_SESSION["lctr_last_value"] = array();
-			}
-		}
+		$owner_uid = $_SESSION["uid"];
 
-		$old_counters = $_SESSION["lctr_last_value"];
-		$lctrs_modified = false;
+		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
+			WHERE owner_uid = '$owner_uid'");
+	
+		while ($line = db_fetch_assoc($result)) {
 
+			$id = -$line["id"] - 11;
 
-			$owner_uid = $_SESSION["uid"];
+			$label_name = $line["caption"];
+			$count = getFeedUnread($link, $id);
+	
+			if (!$ret_mode) {
 
-			$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
-				WHERE owner_uid = '$owner_uid'");
-		
-			while ($line = db_fetch_assoc($result)) {
-	
-				$id = -$line["id"] - 11;
-	
-				$label_name = $line["caption"];
-				$count = getFeedUnread($link, $id);
-		
-				if (!$smart_mode || $old_counters[$id] != $count) {	
-					$old_counters[$id] = $count;
-					$lctrs_modified = true;
-					if (!$ret_mode) {
-	
-						if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-							$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-						} else {
-							$xmsg_part = "";
-						}
-	
-						print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
-					} else {
-						$ret_arr[$id]["counter"] = $count;
-						$ret_arr[$id]["description"] = $label_name;
-					}
+				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+				} else {
+					$xmsg_part = "";
 				}
-	
-				error_reporting (DEFAULT_ERROR_LEVEL);
+
+				print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
+
+			} else {
+				$ret_arr[$id]["counter"] = $count;
+				$ret_arr[$id]["description"] = $label_name;
 			}
-
-		if ($smart_mode && $lctrs_modified) {
-			$_SESSION["lctr_last_value"] = $old_counters;
 		}
-
+	
 		return $ret_arr;
 	}
 
-	function getFeedCounters($link, $smart_mode = SMART_RPC_COUNTERS, $active_feed = false) {
+	function getFeedCounters($link, $active_feed = false) {
 
 		$age_qpart = getMaxAgeSubquery();
-
-		if ($smart_mode) {
-			if (!$_SESSION["fctr_last_value"]) {
-				$_SESSION["fctr_last_value"] = array();
-			}
-		}
-
-		$old_counters = $_SESSION["fctr_last_value"];
 
 		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
@@ -2881,38 +2832,29 @@
 
 			$count += db_fetch_result($tmp_result, 0, "unread");
 
-			if (!$smart_mode || $old_counters[$id] != $count) {
-				$old_counters[$id] = $count;
-				$fctrs_modified = true;
-
-				if ($last_error) {
-					$error_part = "error=\"$last_error\"";
-				} else {
-					$error_part = "";
-				}
-
-				if ($has_img) {
-					$has_img_part = "hi=\"$has_img\"";
-				} else {
-					$has_img_part = "";
-				}				
-
-				if ($active_feed && $id == $active_feed) {
-					$has_title_part = "title=\"" . htmlspecialchars($line["title"]) . "\"";
-				} else {
-					$has_title_part = "";
-				}
-
-				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-				}
-
-				print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $xmsg_part $has_title_part/>";
+			if ($last_error) {
+				$error_part = "error=\"$last_error\"";
+			} else {
+				$error_part = "";
 			}
-		}
 
-		if ($smart_mode && $fctrs_modified) {
-			$_SESSION["fctr_last_value"] = $old_counters;
+			if ($has_img) {
+				$has_img_part = "hi=\"$has_img\"";
+			} else {
+				$has_img_part = "";
+			}				
+
+			if ($active_feed && $id == $active_feed) {
+				$has_title_part = "title=\"" . htmlspecialchars($line["title"]) . "\"";
+			} else {
+				$has_title_part = "";
+			}
+
+			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
+				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
+			}
+
+			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $xmsg_part $has_title_part/>";
 		}
 	}
 

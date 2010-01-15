@@ -149,7 +149,7 @@
 			/* Labels */
 
 			if (!$cat_id || $cat_id == -2) {
-				$counters = getLabelCounters($link, false, true);
+				$counters = getLabelCounters($link, true);
 
 				foreach (array_keys($counters) as $id) {
 

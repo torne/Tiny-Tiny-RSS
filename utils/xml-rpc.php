@@ -47,7 +47,7 @@
 		
 		if (authenticate_user($link, $login, $pass)) {
 
-			$counters = getLabelCounters($link, false, true);
+			$counters = getLabelCounters($link, true);
 
 			foreach (array_keys($counters) as $id) {
 				$line_struct = new xmlrpcval(

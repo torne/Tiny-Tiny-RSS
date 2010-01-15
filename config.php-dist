@@ -37,14 +37,6 @@
 	// Operate in single user mode, disables all functionality related to
 	// multiple users.
 	
-	define('SMART_RPC_COUNTERS', false);
-	// If enabled, stores feed counter information on the server side and sends
-	// only diffs to the client. In the nutshell, it saves your bandwidth and
-	// makes UI more responsive, but eats server memory.
-	// This option can introduce a lot of weird interface glitches in
-	// some use-cases (if you have more than one tt-rss window open, for example)
-	// so it is disabled by default.
-
 	define('ENABLE_FEED_BROWSER', true);
 	// Enable or disable local feed browser
 
