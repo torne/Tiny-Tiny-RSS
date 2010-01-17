@@ -6505,7 +6505,6 @@
 		$rv = array();
 
 		if ($memcache && $obj = $memcache->get($cache_id)) {
-			print_r($obj);
 			$rv = $obj;
 		} else {
 			$result = db_query($link, $query);
