@@ -94,6 +94,11 @@
 		}
 	} // If translations are enabled.
 
+	if (defined('MEMCACHE_SERVER')) {
+		$memcache = new Memcache;
+		$memcache->connect(MEMCACHE_SERVER, 11211);
+	}
+
 	require_once 'db-prefs.php';
 	require_once 'compat.php';
 	require_once 'errors.php';
@@ -4811,15 +4816,20 @@
 
 			print $article_content;
 
-			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
-				post_id = '$id' AND content_url != ''");
+//			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
+//				post_id = '$id' AND content_url != ''");
 
-			if (db_num_rows($result) > 0) {
+			$result = get_article_enclosures($link, $id);
+
+//			if (db_num_rows($result) > 0) {
+
+			if (count($result) > 0) {
 
 				$entries_html = array();
 				$entries = array();
 
-				while ($line = db_fetch_assoc($result)) {
+				//while ($line = db_fetch_assoc($result)) {
+				foreach ($result as $line) {
 
 					$url = $line["content_url"];
 					$ctype = $line["content_type"];
@@ -6481,6 +6491,34 @@
 
 		return ($parts['scheme'] == 'http' || $parts['scheme'] == 'feed' || $parts['scheme'] == 'https');
 
+	}
+
+	function get_article_enclosures($link, $id) {
+
+		global $memcache;
+
+		$query = "SELECT * FROM ttrss_enclosures 
+			WHERE post_id = '$id' AND content_url != ''";
+
+		$cache_id = md5($query);
+
+		$rv = array();
+
+		if ($memcache && $obj = $memcache->get($cache_id)) {
+			print_r($obj);
+			$rv = $obj;
+		} else {
+			$result = db_query($link, $query);
+
+			if (db_num_rows($result) > 0) {
+				while ($line = db_fetch_assoc($result)) {
+					array_push($rv, $line);
+				}
+				if ($memcache) $memcache->add($cache_id, $rv, 0, 3600);
+			}
+		}
+
+		return $rv;
 	}
 
 ?>
