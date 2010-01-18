@@ -378,7 +378,8 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input name=\"query\" size=\"20\" type=\"search\"	value=''>";
+			print "<input onkeypress=\"return filterCR(event, search)\"
+				name=\"query\" size=\"20\" type=\"search\"	value=''>";
 
 			print " " . __('match on')." ";
 
