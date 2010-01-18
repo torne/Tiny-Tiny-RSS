@@ -1500,6 +1500,8 @@ function editTagsSave() {
 								if (tags) {
 									tags.innerHTML = tags_str.firstChild.nodeValue;
 								}
+
+								cache_invalidate(id);
 							}
 						}
 					}

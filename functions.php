@@ -4496,19 +4496,30 @@
 
 	function get_article_tags($link, $id, $owner_uid = 0) {
 
+		global $memcache;
+
 		$a_id = db_escape_string($id);
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
-		$tmp_result = db_query($link, "SELECT DISTINCT tag_name, 
+		$query = "SELECT DISTINCT tag_name, 
 			owner_uid as owner FROM
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$a_id' AND owner_uid = '$owner_uid' LIMIT 1) ORDER BY tag_name");
+			ref_id = '$a_id' AND owner_uid = '$owner_uid' LIMIT 1) ORDER BY tag_name";
 
+		$obj_id = md5("TAGS:$owner_uid:$id");
 		$tags = array();	
-	
-		while ($tmp_line = db_fetch_assoc($tmp_result)) {
-			array_push($tags, $tmp_line["tag_name"]);				
+
+		if ($memcache && $obj = $memcache->get($obj_id)) {
+			$tags = $obj;
+		} else {
+			$tmp_result = db_query($link, $query);
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				array_push($tags, $tmp_line["tag_name"]);				
+			}
+
+			if ($memcache) $memcache->add($obj_id, $tags, 0, 3600);
 		}
 
 		return $tags;
@@ -6500,11 +6511,11 @@
 		$query = "SELECT * FROM ttrss_enclosures 
 			WHERE post_id = '$id' AND content_url != ''";
 
-		$cache_id = md5($query);
+		$obj_id = md5("ENCLOSURES:$id");
 
 		$rv = array();
 
-		if ($memcache && $obj = $memcache->get($cache_id)) {
+		if ($memcache && $obj = $memcache->get($obj_id)) {
 			$rv = $obj;
 		} else {
 			$result = db_query($link, $query);
@@ -6513,7 +6524,7 @@
 				while ($line = db_fetch_assoc($result)) {
 					array_push($rv, $line);
 				}
-				if ($memcache) $memcache->add($cache_id, $rv, 0, 3600);
+				if ($memcache) $memcache->add($obj_id, $rv, 0, 3600);
 			}
 		}
 

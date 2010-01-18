@@ -440,6 +440,8 @@
 
 		if ($subop == "setArticleTags") {
 
+			global $memcache;
+
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$tags_str = db_escape_string($_REQUEST["tags_str"]);
@@ -479,6 +481,11 @@
 			}
 
 			db_query($link, "COMMIT");
+
+			if ($memcache) {
+				$obj_id = md5("TAGS:".$_SESSION["uid"].":$id");
+				$memcache->delete($obj_id);
+			}
 
 			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
