@@ -146,14 +146,12 @@
 				<div style='float : left'>
 				<button onclick=\"return removeSelectedPrefProfiles()\">".
 				__('Remove')."</button>
-				<input class=\"button\"
-				type=\"submit\" onclick=\"return activatePrefProfile()\" 
-				value=\"".__('Activate')."\">
+				<button onclick=\"return activatePrefProfile()\">".
+				__('Activate')."</button>
 				</div>";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
 
 			print "</div></div>";
 
