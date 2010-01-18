@@ -1573,10 +1573,14 @@
 					} else {
 						$site_url = "";
 					}
-	
+
+					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img 
+						style='border-width : 0px; vertical-align : middle' 
+						src='images/feed-icon-12x12.png'></a>";
+
 					print "<li title=\"".htmlspecialchars($details["site_url"])."\" 
 						class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
-						"$feed_icon " . htmlspecialchars($details["title"]) . 
+						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) . 
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
 						$site_url</li>";
 	
@@ -1612,10 +1616,15 @@
 					} else {
 						$site_url = "";
 					}
-	
+
+					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img 
+						style='border-width : 0px; vertical-align : middle' 
+						src='images/feed-icon-12x12.png'></a>";
+
 					print "<li title='".$line['site_url']."' class='$class' 
 						id=\"FBROW-".$line["id"]."\">".
-						$check_box . "$feed_icon " . $title . $archived . $site_url . "</li>";
+						$check_box . "$feed_icon $feed_url " . $title . 
+						$archived . $site_url . "</li>";
 
 
 				}
