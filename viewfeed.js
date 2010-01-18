@@ -1718,8 +1718,6 @@ function cache_inject(id, article, param) {
 	try {
 		if (!cache_check_param(id, param)) {
 			debug("cache_article: miss: " + id + " [p=" + param + "]");
-
-			return;	
 	
 			if (db) {
 
