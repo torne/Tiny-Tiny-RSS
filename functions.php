@@ -6148,6 +6148,8 @@
 	}
 
 	function get_article_labels($link, $id) {
+		global $memcache;
+
 		$result = db_query($link, 
 			"SELECT DISTINCT label_id,caption,fg_color,bg_color 
 				FROM ttrss_labels2, ttrss_user_labels2 
@@ -6156,12 +6158,19 @@
 				AND owner_uid = ".$_SESSION["uid"] . "
 			ORDER BY caption");
 
+		$obj_id = md5("LABELS:$id:" . $_SESSION["uid"]);
+
 		$rv = array();
 
-		while ($line = db_fetch_assoc($result)) {
-			$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
-				$line["bg_color"]);
-			array_push($rv, $rk);
+		if ($memcache && $obj = $memcache->get($obj_id)) {
+			return $obj;
+		} else {
+			while ($line = db_fetch_assoc($result)) {
+				$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
+					$line["bg_color"]);
+				array_push($rv, $rk);
+			}
+			if ($memcache) $memcache->add($obj_id, $rv, 0, 3600);
 		}
 
 		return $rv;
@@ -6195,6 +6204,13 @@
 
 	function label_add_article($link, $id, $label, $owner_uid) {
 
+		global $memcache;
+
+		if ($memcache) {
+			$obj_id = md5("LABELS:$id:$owner_uid");
+			$memcache->delete($obj_id);
+		}
+
 		$label_id = label_find_id($link, $label, $owner_uid);
 
 		if (!$label_id) return;
@@ -6215,6 +6231,12 @@
 	}
 
 	function label_remove($link, $id, $owner_uid) {
+		global $memcache;
+
+		if ($memcache) {
+			$obj_id = md5("LABELS:$id:$owner_uid");
+			$memcache->delete($obj_id);
+		}
 
 		db_query($link, "BEGIN");
 
