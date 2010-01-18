@@ -3251,8 +3251,15 @@
 		if ($match_on == "both") {
 
 			foreach ($keywords as $k) {
-				array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%')
-					OR UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+				if (strpos($k, "-") === 0) {
+					$k = substr($k, 1);
+					$not = "NOT";
+				} else {
+					$not = "";
+				}
+
+				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+					OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 			}
 
 			$search_query_part = implode("AND", $query_keywords) . " AND ";
@@ -3260,7 +3267,14 @@
 		} else if ($match_on == "title") {
 
 			foreach ($keywords as $k) {
-				array_push($query_keywords, "(UPPER(ttrss_entries.title) LIKE UPPER('%$k%'))");
+				if (strpos($k, "-") === 0) {
+					$k = substr($k, 1);
+					$not = "NOT";
+				} else {
+					$not = "";
+				}
+
+				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%'))");
 			}
 
 			$search_query_part = implode("AND", $query_keywords) . " AND ";
@@ -3268,7 +3282,14 @@
 		} else if ($match_on == "content") {
 
 			foreach ($keywords as $k) {
-				array_push($query_keywords, "(UPPER(ttrss_entries.content) LIKE UPPER('%$k%'))");
+				if (strpos($k, "-") === 0) {
+					$k = substr($k, 1);
+					$not = "NOT";
+				} else {
+					$not = "";
+				}
+
+				array_push($query_keywords, "(UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 			}
 		}
 
