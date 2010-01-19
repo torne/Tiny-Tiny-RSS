@@ -1863,7 +1863,7 @@ function cache_expire() {
 	}
 }
 
-function cache_empty() {
+function cache_flush() {
 	article_cache = new Array();
 }
 

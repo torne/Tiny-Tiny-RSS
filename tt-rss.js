@@ -858,7 +858,7 @@ function feedEditSave() {
 				dlg_frefresh_callback(transport); 
 			} });
 
-
+		cache_flush();
 		closeInfoBox();
 
 		return false;
@@ -952,12 +952,12 @@ function collapse_feedlist() {
 }
 
 function viewModeChanged() {
-	cache_empty();
+	cache_flush();
 	return viewCurrentFeed(0, '')
 }
 
 function viewLimitChanged() {
-	cache_empty();
+	cache_flush();
 	return viewCurrentFeed(0, '')
 }
 
