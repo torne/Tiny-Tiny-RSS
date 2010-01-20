@@ -5854,34 +5854,47 @@
 	function load_filters($link, $feed, $owner_uid, $action_id = false) {
 		$filters = array();
 
-		if ($action_id) $ftype_query_part = "action_id = '$action_id' AND";
+		global $memcache;
 
-		$result = db_query($link, "SELECT reg_exp,
-			ttrss_filter_types.name AS name,
-			ttrss_filter_actions.name AS action,
-			inverse,
-			action_param,
-			filter_param
-			FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
-				enabled = true AND
-				$ftype_query_part
-				owner_uid = $owner_uid AND
-				ttrss_filter_types.id = filter_type AND
-				ttrss_filter_actions.id = action_id AND
-				(feed_id IS NULL OR feed_id = '$feed') ORDER BY reg_exp");
+		if ($memcache && $obj = $memcache->get($obj_id)) {
 
-		while ($line = db_fetch_assoc($result)) {
-			if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-				$filter["reg_exp"] = $line["reg_exp"];
-				$filter["action"] = $line["action"];
-				$filter["action_param"] = $line["action_param"];
-				$filter["filter_param"] = $line["filter_param"];
-				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
-			
-				array_push($filters[$line["name"]], $filter);
-			}
+			print_r($obj);
 
-		return $filters;
+			return $obj;
+
+		} else {
+
+			if ($action_id) $ftype_query_part = "action_id = '$action_id' AND";
+	
+			$result = db_query($link, "SELECT reg_exp,
+				ttrss_filter_types.name AS name,
+				ttrss_filter_actions.name AS action,
+				inverse,
+				action_param,
+				filter_param
+				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE 					
+					enabled = true AND
+					$ftype_query_part
+					owner_uid = $owner_uid AND
+					ttrss_filter_types.id = filter_type AND
+					ttrss_filter_actions.id = action_id AND
+					(feed_id IS NULL OR feed_id = '$feed') ORDER BY reg_exp");
+	
+			while ($line = db_fetch_assoc($result)) {
+				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
+					$filter["reg_exp"] = $line["reg_exp"];
+					$filter["action"] = $line["action"];
+					$filter["action_param"] = $line["action_param"];
+					$filter["filter_param"] = $line["filter_param"];
+					$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
+				
+					array_push($filters[$line["name"]], $filter);
+				}
+
+			if ($memcache) $memcache->add($obj_id, $filters, 0, 3600*8);
+
+			return $filters;
+		}
 	}
 
 	function get_score_pic($score) {

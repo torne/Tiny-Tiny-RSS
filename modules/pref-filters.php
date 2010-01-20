@@ -167,6 +167,10 @@
 
 		if ($subop == "editSave") {
 
+			global $memcache;
+
+			if ($memcache) $memcache->flush();
+
 			$reg_exp = db_escape_string(trim($_REQUEST["reg_exp"]));
 			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
 			$filter_id = db_escape_string($_REQUEST["id"]);
