@@ -5856,6 +5856,8 @@
 
 		global $memcache;
 
+		$obj_id = md5("FILTER:$feed:$owner_uid:$action_id");
+
 		if ($memcache && $obj = $memcache->get($obj_id)) {
 
 			print_r($obj);
