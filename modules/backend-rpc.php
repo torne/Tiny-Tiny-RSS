@@ -286,14 +286,7 @@
 		if ($subop == "updateFeed") {
 			$feed_id = db_escape_string($_REQUEST["feed"]);
 
-			$result = db_query($link, 
-				"SELECT feed_url FROM ttrss_feeds WHERE id = '$feed_id'
-					AND owner_uid = " . $_SESSION["uid"]);
-
-			if (db_num_rows($result) > 0) {			
-				$feed_url = db_fetch_result($result, 0, "feed_url");
-				update_rss_feed($link, $feed_url, $feed_id);
-			}
+			update_rss_feed($link, $feed_id);
 
 			print "<rpc-reply>";	
 			print "<counters>";

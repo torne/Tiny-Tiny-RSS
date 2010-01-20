@@ -508,7 +508,26 @@
 
 	}
 
-	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
+	function update_rss_feed($link, $feed, $ignore_daemon = false) {
+
+		global $memcache;
+
+		/* Update all feeds with the same URL to utilize memcache */
+
+		if ($memcache) {
+			$result = db_query($link, "SELECT f1.id 
+				FROM ttrss_feeds AS f1, ttrss_feeds AS f2 
+				WHERE	f2.feed_url = f1.feed_url AND f2.id = '$feed'");
+
+			while ($line = db_fetch_assoc($result)) {
+				update_rss_feed_real($link, $line["id"], $ignore_daemon);
+			}
+		} else {
+			update_rss_feed_real($link, $feed, $ignore_daemon);
+		}
+	}
+
+	function update_rss_feed_real($link, $feed, $ignore_daemon = false) {
 
 		global $memcache;
 
@@ -535,14 +554,14 @@
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method,last_updated
+				feed_url,auth_pass,cache_images,update_method,last_updated
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
 
 		if (db_num_rows($result) == 0) {
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-				_debug("update_rss_feed: feed $feed [$feed_url] NOT FOUND/SKIPPED");
+				_debug("update_rss_feed: feed $feed NOT FOUND/SKIPPED");
 			}		
 			return false;
 		}
@@ -577,12 +596,11 @@
 
 		$update_interval = db_fetch_result($result, 0, "update_interval");
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
 		if ($update_interval < 0) { return; }
 
 		$feed = db_escape_string($feed);
-
-		$fetch_url = $feed_url;
 
 		if ($auth_login && $auth_pass) {
 			$url_parts = array();
@@ -602,40 +620,54 @@
 			error_reporting(0);
 		}
 
-		if (!$use_simplepie) {
-			$rss = fetch_rss($fetch_url);
-		} else {
-			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
-				mkdir(SIMPLEPIE_CACHE_DIR);
-			}
+		$obj_id = md5("FDATA:$fetch_url");
 
-			$rss = new SimplePie();
-			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
-#			$rss->set_timeout(10);
-			$rss->set_feed_url($fetch_url);
-			$rss->set_output_encoding('UTF-8');
-
-			if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					_debug("enabling image cache");
-				}
-
-				$rss->set_image_handler('./image.php', 'i');
-			}
+		if ($memcache && $obj = $memcache->get($obj_id)) {
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-				_debug("feed update interval (sec): " .
-					get_feed_update_interval($link, $feed)*60);
+				_debug("update_rss_feed: data found in memcache.");
 			}
 
-			if (is_dir(SIMPLEPIE_CACHE_DIR)) {
-				$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
-				$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
-			}
+			$rss = $obj;
 
-			$rss->init();
-		}
+		} else {
+
+			if (!$use_simplepie) {
+				$rss = fetch_rss($fetch_url);
+			} else {
+				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
+					mkdir(SIMPLEPIE_CACHE_DIR);
+				}
 	
+				$rss = new SimplePie();
+				$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+	#			$rss->set_timeout(10);
+				$rss->set_feed_url($fetch_url);
+				$rss->set_output_encoding('UTF-8');
+	
+				if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+						_debug("enabling image cache");
+					}
+	
+					$rss->set_image_handler('./image.php', 'i');
+				}
+	
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("feed update interval (sec): " .
+						get_feed_update_interval($link, $feed)*60);
+				}
+	
+				if (is_dir(SIMPLEPIE_CACHE_DIR)) {
+					$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
+					$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
+				}
+	
+				$rss->init();
+			}
+
+			if ($memcache && $rss) $memcache->add($obj_id, $rss, 0, 300);
+		}
 
 //		print_r($rss);
 
@@ -2398,20 +2430,16 @@
 					$cat_qpart = "cat_id IS NULL";
 				}
 				
-				$tmp_result = db_query($link, "SELECT id,feed_url FROM ttrss_feeds
+				$tmp_result = db_query($link, "SELECT id FROM ttrss_feeds
 					WHERE $cat_qpart AND owner_uid = " . $_SESSION["uid"]);
 
 				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
-					$feed_url = $tmp_line["feed_url"];
 					$feed_id = $tmp_line["id"];
-					update_rss_feed($link, $feed_url, $feed_id, $force_update);
+					update_rss_feed($link, $feed_id, $force_update);
 				}
 
 			} else {
-				$tmp_result = db_query($link, "SELECT feed_url FROM ttrss_feeds
-					WHERE id = '$feed'");
-				$feed_url = db_fetch_result($tmp_result, 0, "feed_url");				
-				update_rss_feed($link, $feed_url, $feed, $force_update);
+				update_rss_feed($link, $feed, $force_update);
 			}
 	}
 
@@ -2931,7 +2959,7 @@
 			$feed_id = db_fetch_result($result, 0, "id");
 	
 			if ($feed_id) {
-				update_rss_feed($link, $url, $feed_id, true);
+				update_rss_feed($link, $feed_id, true);
 			}
 
 			return 1;
@@ -5833,7 +5861,7 @@
 			// We setup a alarm to alert if the feed take more than 300s to update.
 			// => HANG alarm.
 			if(!$from_http && function_exists('pcntl_alarm')) pcntl_alarm(300);
-			update_rss_feed($link, $line["feed_url"], $line["id"], true);
+			update_rss_feed($link, $line["id"], true);
 			// Cancel the alarm (the update went well)
 			if(!$from_http && function_exists('pcntl_alarm')) pcntl_alarm(0);
 
