@@ -510,6 +510,8 @@
 
 	function update_rss_feed($link, $feed_url, $feed, $ignore_daemon = false) {
 
+		global $memcache;
+
 		if (!$_REQUEST["daemon"] && !$ignore_daemon) {
 			return false;
 		}
@@ -600,38 +602,50 @@
 			error_reporting(0);
 		}
 
-		if (!$use_simplepie) {
-			$rss = fetch_rss($fetch_url);
-		} else {
-			if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
-				mkdir(SIMPLEPIE_CACHE_DIR);
-			}
+		$obj_id = md5("FEEDOBJ:$fetch_url");
 
-			$rss = new SimplePie();
-			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
-#			$rss->set_timeout(10);
-			$rss->set_feed_url($fetch_url);
-			$rss->set_output_encoding('UTF-8');
-
-			if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					_debug("enabling image cache");
-				}
-
-				$rss->set_image_handler('./image.php', 'i');
-			}
-
+		if ($memcache && $obj = $memcache->get($obj_id)) {
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-				_debug("feed update interval (sec): " .
-					get_feed_update_interval($link, $feed)*60);
+				_debug("update_rss_feed: data found in memcache [$obj_id]");
 			}
+			$rss = $obj;
+		} else {
 
-			if (is_dir(SIMPLEPIE_CACHE_DIR)) {
-				$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
-				$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
+			if (!$use_simplepie) {
+				$rss = fetch_rss($fetch_url);
+			} else {
+				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
+					mkdir(SIMPLEPIE_CACHE_DIR);
+				}
+	
+				$rss = new SimplePie();
+				$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+	#			$rss->set_timeout(10);
+				$rss->set_feed_url($fetch_url);
+				$rss->set_output_encoding('UTF-8');
+	
+				if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
+					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+						_debug("enabling image cache");
+					}
+	
+					$rss->set_image_handler('./image.php', 'i');
+				}
+	
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("feed update interval (sec): " .
+						get_feed_update_interval($link, $feed)*60);
+				}
+	
+				if (is_dir(SIMPLEPIE_CACHE_DIR)) {
+					$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
+					$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
+				}
+	
+				$rss->init();
 			}
-
-			$rss->init();
+	
+			if ($rss && $memcache) $memcache->add($obj_id, $rss, 0, 300);
 		}
 
 //		print_r($rss);
