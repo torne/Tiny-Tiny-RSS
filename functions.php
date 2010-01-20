@@ -645,7 +645,7 @@
 				$rss->init();
 			}
 	
-			if ($rss && $memcache) $memcache->add($obj_id, $rss, 0, 300);
+			if ($rss && $memcache) $memcache->add($obj_id, $rss, MEMCACHE_COMPRESSED, 300);
 		}
 
 //		print_r($rss);
