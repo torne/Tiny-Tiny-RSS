@@ -5860,8 +5860,6 @@
 
 		if ($memcache && $obj = $memcache->get($obj_id)) {
 
-			print_r($obj);
-
 			return $obj;
 
 		} else {
