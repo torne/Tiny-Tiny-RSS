@@ -123,6 +123,16 @@
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
+	$update_intervals_nodefault = array(
+		-1  => __("Disable updates"),
+		15  => __("Each 15 minutes"),
+		30  => __("Each 30 minutes"),
+		60  => __("Hourly"),
+		240 => __("Each 4 hours"),
+		720 => __("Each 12 hours"),
+		1440 => __("Daily"),
+		10080 => __("Weekly"));
+
 	$update_methods = array(
 		0   => __("Default"),
 		1   => __("Magpie"),

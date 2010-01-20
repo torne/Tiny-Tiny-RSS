@@ -368,7 +368,13 @@
 
 				print "<td class=\"prefValue\">";
 
-				if ($type_name == "bool") {
+				if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
+
+					global $update_intervals_nodefault;
+
+					print_select_hash($pref_name, $value, $update_intervals_nodefault);
+
+				} else if ($type_name == "bool") {
 //					print_select($pref_name, $value, array("true", "false"));
 
 					if ($value == "true") {
