@@ -211,7 +211,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (64);
+insert into ttrss_version values (65);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -252,7 +252,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ENABLE_LABELS', 1, 'false', 'Enable labels',3,
 	'Experimental support for virtual feeds based on user crafted SQL queries. This feature is highly experimental and at this point not user friendly. Use with caution.');
 	
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates (in minutes)',1);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates',1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_ARTICLE_LIMIT', 3, '30', 'Amount of articles to display at once',2);
 
