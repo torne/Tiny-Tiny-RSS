@@ -1972,11 +1972,6 @@ function feedsEditSave() {
 
 			/* Form.serialize ignores unchecked checkboxes */
 
-			if (!query.match("&hidden=") && 
-					f.hidden.disabled == false) {
-				query = query + "&hidden=false";
-			}
-
 			if (!query.match("&rtl_content=") && 
 					f.rtl_content.disabled == false) {
 				query = query + "&rtl_content=false";
