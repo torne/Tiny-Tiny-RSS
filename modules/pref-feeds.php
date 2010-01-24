@@ -1192,8 +1192,8 @@
 		print "<button onclick=\"javascript:removeSelectedFeeds()\">"
 			.__('Unsubscribe')."</button> ";
 
-/*		print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
-			<option value=\"facDefault\" selected>".__('Other actions...')."</option>";
+		print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
+			<option value=\"facDefault\" selected>".__('More actions...')."</option>";
 
 		if (FORCE_ARTICLE_PURGE == 0) {
 			print 
@@ -1202,10 +1202,9 @@
 
 		print "
 			<option value=\"facClear\">".__('Clear feed data')."</option>
-			<option value=\"facRescore\">".__('Rescore articles')."</option>
-			<option value=\"facUnsubscribe\">".__('Unsubscribe')."</option>";
+			<option value=\"facRescore\">".__('Rescore articles')."</option>";
 
-		print "</select>"; */
+		print "</select>";
 
 /*		if (ENABLE_FEED_BROWSER && !SINGLE_USER_MODE) {
 			print " <input type=\"submit\" class=\"button\"
