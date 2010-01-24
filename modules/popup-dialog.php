@@ -575,9 +575,8 @@
 
 			print "<div align='center'>";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
 
 			print "</div>";
 
