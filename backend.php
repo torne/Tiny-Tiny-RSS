@@ -539,9 +539,8 @@
 				print "</select>";
 
 				$_SESSION = array();
-
+			}
 		break;
-		}
 
 	} // Select action according to $op value.
 

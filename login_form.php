@@ -14,20 +14,15 @@
 <script type="text/javascript">
 function init() {
 
-	if (arguments.callee.done) return;
-	arguments.callee.done = true;		
-
-	var login = document.forms["loginForm"].login;
-
 	var limit_set = getCookie("ttrss_bwlimit");
 
 	if (limit_set == "true") {
 		document.forms["loginForm"].bw_limit.checked = true;
 	}
 
-	login.focus();
-
+	document.forms["loginForm"].login.focus();
 }
+
 function fetchProfiles() {
 	try {
 		var params = Form.serialize('loginForm');
@@ -102,10 +97,9 @@ function validateLoginForm(f) {
 </script>
 
 <script type="text/javascript">
-if (document.addEventListener) {
-	document.addEventListener("DOMContentLoaded", init, null);
-}
-window.onload = init;
+	Event.observe(window, 'load', function() {
+		init();
+	});
 </script>
 
 <form action="" method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
@@ -125,11 +119,11 @@ window.onload = init;
 		<table>
 			<tr><td align="right"><?php echo __("Login:") ?></td>
 			<td align="right"><input name="login" 
-				onchange="fetchProfiles()"
+				onchange="fetchProfiles()" onfocus="fetchProfiles()"
 				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
 			<td align="right"><input type="password" name="password"
-				onchange="fetchProfiles()"
+				onchange="fetchProfiles()" onfocus="fetchProfiles()"
 				value="<?php echo $_SERVER["REMOTE_USER"] ?>"></td></tr>
 			<?php if (ENABLE_TRANSLATIONS) { ?>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
