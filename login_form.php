@@ -149,7 +149,7 @@ function validateLoginForm(f) {
 
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 
-			<button name='click'><?php echo __('Log in') ?></button>
+			<button type="submit" name='click'><?php echo __('Log in') ?></button>
 			<?php if (defined('ENABLE_REGISTRATION') && ENABLE_REGISTRATION) { ?>
 				<button onclick="return gotoRegForm()">
 					<?php echo __("Create new account") ?></button>
