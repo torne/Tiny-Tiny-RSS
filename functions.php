@@ -3751,7 +3751,7 @@
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
 
-		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
 			$res = preg_replace("/href=/i", "target=\"_blank\" href=", $res);
 		}
 
