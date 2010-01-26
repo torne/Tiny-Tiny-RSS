@@ -100,9 +100,8 @@
 	// If update daemon and update_feeds should send digests
 	// Disable if you prefer querying special URL (see wiki)
 
-	define('ENABLE_TRANSLATIONS', false);
-	// Enable experimental support for interface translations
-	// based on PHP-Gettext. This is of no much use right now.
+	define('ENABLE_TRANSLATIONS', true);
+	// Enable support for interface translations
 
 	define('MYSQL_CHARSET', '');
 	// Connection charset for MySQL. Only enable if having charset-related
