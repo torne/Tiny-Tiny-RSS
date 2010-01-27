@@ -1371,15 +1371,15 @@
 
 				# check for manual tags
 
-				$tag_filter = find_article_filter($article_filters, "tag"); 
+				foreach ($article_filters as $f) {
+					if ($f[0] == "tag") {
 
-				if ($tag_filter) {
+						$manual_tags = trim_array(split(",", $f[1]));
 
-					$manual_tags = trim_array(split(",", $tag_filter[1]));
-
-					foreach ($manual_tags as $tag) {
-						if (tag_is_valid($tag)) {
-							array_push($entry_tags, $tag);
+						foreach ($manual_tags as $tag) {
+							if (tag_is_valid($tag)) {
+								array_push($entry_tags, $tag);
+							}
 						}
 					}
 				}
