@@ -2047,7 +2047,7 @@
 
 	function get_user_theme($link) {
 
-		if (get_schema_version($link) >= 63 && $_SESSION["uid"]) {
+		if (get_schema_version($link) >= 63) {
 			$theme_name = get_pref($link, "_THEME_ID");
 			if (is_dir("themes/$theme_name")) {
 				return $theme_name;
@@ -2062,7 +2062,7 @@
 
 	function get_user_theme_path($link) {
 
-		if (get_schema_version($link) >= 63 && $_SESSION["uid"]) {
+		if (get_schema_version($link) >= 63) {
 			$theme_name = get_pref($link, "_THEME_ID");
 
 			if ($theme_name && is_dir("themes/$theme_name")) {
@@ -3751,7 +3751,7 @@
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
 
-		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW')) {
+		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
 			$res = preg_replace("/href=/i", "target=\"_blank\" href=", $res);
 		}
 

@@ -215,6 +215,8 @@
 		}
 
 		if ($subop == "remove") {
+			
+			if ($memcache) $memcache->flush();
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -224,7 +226,9 @@
 		}
 
 		if ($subop == "add") {
-		
+
+			if ($memcache) $memcache->flush();
+
 			$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));
 			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
