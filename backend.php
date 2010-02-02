@@ -6,7 +6,7 @@
 	if (get_magic_quotes_gpc()) {
 		$_REQUEST = array_map('stripslashes', $_REQUEST);
 		$_POST = array_map('stripslashes', $_POST);
-		$_REQUEST = array_map('stripslashes', $_REQUEST);
+//		$_REQUEST = array_map('stripslashes', $_REQUEST);
 		$_COOKIE = array_map('stripslashes', $_COOKIE);
 	}
 
