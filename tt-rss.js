@@ -619,7 +619,8 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcAddFilter") {
-			displayDlg("quickAddFilter", getActiveFeedId());
+			displayDlg('quickAddFilter', '',
+			   function () {document.forms['filter_add_form'].reg_exp.focus();});
 		}
 
 		if (opid == "qmcAddLabel") {
@@ -1286,7 +1287,9 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 83) { // s
-				displayDlg("quickAddFeed");
+				displayDlg('quickAddFeed', '',
+					   function () {$('feed_url').focus();});
+
 				return false;
 			}
 
@@ -1322,7 +1325,8 @@ function hotkey_handler(e) {
 			hotkey_prefix = false;
 
 			if (keycode == 70) { // f
-				displayDlg("quickAddFilter", getActiveFeedId());
+				displayDlg('quickAddFilter', '',
+				   function () {document.forms['filter_add_form'].reg_exp.focus();});
 				return false;
 			}
 
