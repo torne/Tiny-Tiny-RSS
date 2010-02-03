@@ -315,10 +315,6 @@ function resetSearch() {
 	}
 }
 
-function searchCancel() {
-	closeInfoBox(true);
-}
-
 function search() {
 	closeInfoBox();	
 	viewCurrentFeed(0, "");

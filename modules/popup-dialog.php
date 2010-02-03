@@ -426,7 +426,7 @@
 
 			print "<div class=\"dlgButtons\">
 			<button onclick=\"javascript:search()\">".__('Search')."</button>
-			<button onclick=\"javascript:searchCancel()\">".__('Cancel')."</button>
+			<button onclick=\"javascript:closeInfoBox(true)\">".__('Cancel')."</button>
 			</div>";
 
 			print "</div>";

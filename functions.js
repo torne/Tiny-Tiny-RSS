@@ -1266,7 +1266,7 @@ function closeInfoBox(cleanup) {
 			Element.hide("dialog_overlay");
 			Element.hide("infoBoxShadow");
 
-			if (cleanup) $("infoBoxShadow").innerHTML = "&nbsp;";
+			if (cleanup) $("infoBox").innerHTML = "&nbsp;";
 		}
 	} catch (e) {
 		exception_error("closeInfoBox", e);
