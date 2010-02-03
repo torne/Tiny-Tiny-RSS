@@ -45,16 +45,6 @@ function db_escape_string($s) {
 	}
 }
 
-/* I hate MySQL :( */
-
-function db_escape_string_2($s, $link) {
-	if (DB_TYPE == "pgsql") {	
-		return pg_escape_string($s);
-	} else {
-		return mysql_real_escape_string($s, $link);
-	}
-}
-
 function db_query($link, $query, $die_on_error = true) {
 	if (DB_TYPE == "pgsql") {
 		$result = pg_query($link, $query);
@@ -74,14 +64,6 @@ function db_query($link, $query, $die_on_error = true) {
 			}
 		}
 		return $result;
-	}
-}
-
-function db_query_2($query) {
-	if (DB_TYPE == "pgsql") {
-		return pg_query($query);
-	} else if (DB_TYPE == "mysql") {
-		return mysql_query($link);
 	}
 }
 
