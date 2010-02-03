@@ -534,8 +534,7 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcAddFeed") {
-			displayDlg('quickAddFeed', '',
-					   function () {$('feed_url').focus();});
+			quickAddFeed();
 			return;
 		}
 
@@ -791,6 +790,7 @@ function editFeedDlg(feed) {
 			parameters: query,
 			onComplete: function(transport) { 
 				infobox_callback2(transport); 
+				document.forms["edit_feed_form"].title.focus();
 			} });
 
 	} catch (e) {
@@ -1236,9 +1236,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 83) { // s
-				displayDlg('quickAddFeed', '',
-					   function () {$('feed_url').focus();});
-
+				quickAddFeed();
 				return false;
 			}
 

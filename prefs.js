@@ -400,6 +400,7 @@ function editFeed(feed) {
 			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
+					document.forms["edit_feed_form"].title.focus();
 				} });
 
 	} catch (e) {
@@ -1446,19 +1447,14 @@ function pref_hotkey_handler(e) {
 			hotkey_prefix = false;
 
 			if (keycode == 70) { // f
-				displayDlg("quickAddFilter");
+				quickAddFilter();
 				return false;
 			}
 
 			if (keycode == 83) { // s
-				displayDlg("quickAddFeed");
+				quickAddFeed();
 				return false;
 			}
-
-/*			if (keycode == 76) { // l
-				displayDlg("quickAddLabel");
-				return false;
-			} */
 
 			if (keycode == 85) { // u
 				// no-op

@@ -311,7 +311,7 @@
 			<img style='vertical-align : top;' src='".theme_image($link, "images/sign_quest.png")."'></a>
 		</div>";
 
-		print "<button onclick=\"return displayDlg('quickAddFilter', false)\">".
+		print "<button onclick=\"return quickAddFilter()\">".
 			__('Create filter')."</button> "; 
 
 		print "<button onclick=\"return editSelectedFilter()\">".

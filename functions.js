@@ -2147,3 +2147,12 @@ function addLabel() {
 	}
 }
 
+function quickAddFeed() {
+	displayDlg('quickAddFeed', '',
+	   function () {$('feed_url').focus();});
+}
+
+function quickAddFilter() {
+	displayDlg('quickAddFilter', '',
+	   function () {document.forms['filter_add_form'].reg_exp.focus();});
+}

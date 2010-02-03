@@ -1177,10 +1177,10 @@
 				__('Search')."</button>
 			</div>";
 		
-		print "<button onclick=\"javascript:displayDlg('quickAddFeed')\">"
+		print "<button onclick=\"quickAddFeed()\">"
 			.__('Subscribe to feed')."</button> ";
 
-		print "<button onclick=\"javascript:editSelectedFeed()\">".
+		print "<button onclick=\"editSelectedFeed()\">".
 			__('Edit feeds')."</button> ";
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
