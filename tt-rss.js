@@ -202,10 +202,6 @@ function scheduleFeedUpdate(force) {
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
 
-	var date = new Date();
-	var timestamp = Math.round(date.getTime() / 1000);
-	query_str = query_str + "&ts=" + timestamp
-
 	debug("REFETCH query: " + query_str);
 
 	new Ajax.Request("backend.php", {
@@ -234,10 +230,6 @@ function updateFeedList(silent, fetch) {
 	if (getActiveFeedId() && !activeFeedIsCat()) {
 		query_str = query_str + "&actid=" + getActiveFeedId();
 	}
-
-	var date = new Date();
-	var timestamp = Math.round(date.getTime() / 1000);
-	query_str = query_str + "&ts=" + timestamp
 	
 	if (fetch) query_str = query_str + "&fetch=yes";
 
@@ -283,7 +275,6 @@ function viewCurrentFeed(subop) {
 	if (getActiveFeedId() != undefined) {
 		viewfeed(getActiveFeedId(), subop, activeFeedIsCat());
 	} else {
-		disableContainerChildren("headlinesToolbar", false, document);
 //		viewfeed(-1, subop); // FIXME
 	}
 	return false; // block unneeded form submits
@@ -362,8 +353,6 @@ function init() {
 	try {
 
 		init_gears();
-
-		disableContainerChildren("headlinesToolbar", true);
 
 		Form.disable("main_toolbar_form");
 
@@ -577,31 +566,6 @@ function quickMenuGo(opid) {
 		
 			return;
 		}
-
-		if (opid == "qmcClearFeed") {
-			var actid = getActiveFeedId();
-
-			if (!actid) {
-				alert(__("Please select some feed first."));
-				return;
-			}
-
-			if (activeFeedIsCat() || actid < 0) {
-				alert(__("You can't clear this type of feed."));
-				return;
-			}	
-
-			var fn = getFeedName(actid);
-
-			var pr = __("Erase all non-starred articles in %s?").replace("%s", fn);
-
-			if (confirm(pr)) {
-				clearFeedArticles(actid);
-			}
-		
-			return;
-		}
-	
 
 		if (opid == "qmcUpdateFeeds") {
 			scheduleFeedUpdate(true);
@@ -866,21 +830,6 @@ function feedEditSave() {
 	} catch (e) {
 		exception_error("feedEditSave (main)", e);
 	} 
-}
-
-function clearFeedArticles(feed_id) {
-
-	notify_progress("Clearing feed...");
-
-	var query = "?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
-
-	new Ajax.Request("backend.php",	{
-		parameters: query,
-		onComplete: function(transport) {
-				dlg_frefresh_callback(transport, feed_id);
-			} });
-
-	return false;
 }
 
 function collapse_feedlist() {
@@ -1425,41 +1374,6 @@ function hotkey_handler(e) {
 
 function feedsSortByUnread() {
 	return feeds_sort_by_unread;
-}
-
-function addLabel() {
-
-	try {
-
-		var caption = prompt(__("Please enter label caption:"), "");
-
-		if (caption != undefined) {
-	
-			if (caption == "") {
-				alert(__("Can't create label: missing caption."));
-				return false;
-			}
-
-			var query = "?op=pref-labels&subop=add&caption=" + 
-				param_escape(caption);
-
-			notify_progress("Loading, please wait...", true);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					updateFeedList();
-			} });
-
-		}
-
-	} catch (e) {
-		exception_error("addLabel", e);
-	}
-}
-
-function visitOfficialSite() {
-	window.open("http://tt-rss.org/");
 }
 
 function inPreferences() {

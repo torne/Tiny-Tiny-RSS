@@ -356,39 +356,6 @@ function getCookie(name) {
 	return unescape(dc.substring(begin + prefix.length, end));
 }
 
-function disableContainerChildren(id, disable, doc) {
-
-	if (!doc) doc = document;
-
-	var container = $(id);
-
-	if (!container) {
-		//alert("disableContainerChildren: element " + id + " not found");
-		return;
-	}
-
-	for (var i = 0; i < container.childNodes.length; i++) {
-		var child = container.childNodes[i];
-
-		try {
-			child.disabled = disable;
-		} catch (E) {
-
-		}
-
-		if (disable) {
-			if (child.className && child.className.match("button")) {
-				child.className = "disabledButton";
-			}
-		} else {
-			if (child.className && child.className.match("disabledButton")) {
-				child.className = "button";
-			}
-		} 
-	}
-
-}
-
 function gotoPreferences() {
 	document.location.href = "prefs.php";
 }
@@ -1115,7 +1082,6 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 		exception_error("getRelativeFeedId2", e);
 	}
 }
-
 
 function getRelativeFeedId(list, id, direction, unread_only) {	
 	var rows = list.getElementsByTagName("LI");
@@ -1861,130 +1827,9 @@ function remove_splash() {
 	}
 }
 
-function addLabelExample() {
-	try {
-		var form = document.forms["label_edit_form"];
-
-		var text = form.sql_exp;
-		var op = form.label_fields[form.label_fields.selectedIndex];
-		var p = form.label_fields_param;
-
-		if (op) {
-			op = op.value;
-
-			var tmp = "";
-
-			if (text.value != "") {			
-				if (text.value.substring(text.value.length-3, 3).toUpperCase() != "AND") {
-					tmp = " AND ";
-				} else {
-					tmp = " ";
-				}
-			}
-
-			if (op == "unread") {
-				tmp = tmp + "unread = true";
-			}
-
-			if (op == "updated") {
-				tmp = tmp + "last_read is null and unread = false";
-			}
-
-			if (op == "kw_title") {
-				if (p.value == "") {
-					alert("This action requires a parameter.");
-					return false;
-				}
-				tmp = tmp + "ttrss_entries.title like '%"+p.value+"%'";
-			}
-
-			if (op == "kw_content") {
-				if (p.value == "") {
-					alert("This action requires a parameter.");
-					return false;
-				}
-
-				tmp = tmp + "ttrss_entries.content like '%"+p.value+"%'";
-			}
-
-			if (op == "scoreE") {
-				if (isNaN(parseInt(p.value))) {
-					alert("This action expects numeric parameter.");
-					return false;
-				}
-				tmp = tmp + "score = " + p.value;
-			}
-
-			if (op == "scoreG") {
-				if (isNaN(parseInt(p.value))) {
-					alert("This action expects numeric parameter.");
-					return false;
-				}
-				tmp = tmp + "score > " + p.value;
-			}
-
-			if (op == "scoreL") {
-				if (isNaN(parseInt(p.value))) {
-					alert("This action expects numeric parameter.");
-					return false;
-				}
-				tmp = tmp + "score < " + p.value;
-			}
-
-			if (op == "newerD") {
-				if (isNaN(parseInt(p.value))) {
-					alert("This action expects numeric parameter.");
-					return false;
-				}
-				tmp = tmp + "updated > NOW() - INTERVAL '"+parseInt(p.value)+" days'";
-			}
-
-			if (op == "newerH") {
-				if (isNaN(parseInt(p.value))) {
-					alert("This action expects numeric parameter.");
-					return false;
-				}
-
-				tmp = tmp + "updated > NOW() - INTERVAL '"+parseInt(p.value)+" hours'";
-			}
-
-			text.value = text.value + tmp;
-
-			p.value = "";
-
-		}
-		
-	} catch (e) {
-		exception_error("addLabelExample", e);
-	}
-
-	return false;
-}
-
-function labelFieldsCheck(elem) {
-	try {
-		var op = elem[elem.selectedIndex].value;
-
-		var p = document.forms["label_edit_form"].label_fields_param;
-
-		if (op == "kw_title" || op == "kw_content" || op == "scoreL" || 
-				op == "scoreG" ||	op == "scoreE" || op == "newerD" ||
-				op == "newerH" ) {
-			Element.show(p);
-		} else {
-			Element.hide(p);
-		}
-
-	} catch (e) {
-		exception_error("labelFieldsCheck", e);
-
-	}
-}
-
 function getSelectedFeedsFromBrowser() {
 
 	var list = $("browseFeedList");
-	if (!list) list = $("browseBigFeedList");
 
 	var selected = new Array();
 	
@@ -2041,28 +1886,6 @@ function updateFeedBrowser() {
 
 }
 
-function browseFeeds(limit) {
-
-	try {
-
-/*		var query = "?op=ialog&subop=browse";
-
-		notify_progress("Loading, please wait...", true);
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				infobox_callback2(transport);
-			} }); */
-
-		displayDlg('feedBrowser');
-
-		return false;
-	} catch (e) {
-		exception_error("browseFeeds", e);
-	}
-}
-
 function transport_error_check(transport) {
 	try {
 		if (transport.responseXML) {
@@ -2093,43 +1916,6 @@ function truncate_string(s, length) {
 	if (s.length > length) tmp += "&hellip;";
 	return tmp;
 }
-
-/*
-function switchToFlash(e) {
-	try {
-		var targ = e;
-		if (!e) var e = window.event;
-		if (e.target) targ = e.target;
-		else if (e.srcElement) targ = e.srcElement;
-		if (targ.nodeType == 3) // defeat Safari bug
-		        targ = targ.parentNode;
-		
-		//targ is the link that was clicked
-		var audioTag=targ;
-		do {
-		        audioTag=audioTag.previousSibling;
-		} while(audioTag && audioTag.nodeType != 1)
-		
-		var flashPlayer = audioTag.getElementsByTagName('span')[0];
-		targ.parentNode.insertBefore(flashPlayer,targ);
-		targ.parentNode.removeChild(targ);
-		audioTag.parentNode.removeChild(audioTag);
-
-		return false;
-	} catch (e) {
-		exception_error("switchToFlash", e);
-	}
-}
-
-function html5AudioOrFlash(type) {
-	var audioTag = document.createElement('audio');
-	if(! audioTag.canPlayType || audioTag.canPlayType(type) == "no" ||
-			audioTag.canPlayType(type) == ""){
-		if($('switchToFlashLink')){
-			switchToFlash($('switchToFlashLink'));
-		}
-	}
-} */
 
 function hotkey_prefix_timeout() {
 	try {
@@ -2321,6 +2107,43 @@ function uploadFeedIcon() {
 
 	} catch (e) {
 		exception_error("uploadFeedIcon", e);
+	}
+}
+
+function addLabel() {
+
+	try {
+
+		var caption = prompt(__("Please enter label caption:"), "");
+
+		if (caption != undefined) {
+	
+			if (caption == "") {
+				alert(__("Can't create label: missing caption."));
+				return false;
+			}
+
+			var query = "?op=pref-labels&subop=add&caption=" + 
+				param_escape(caption);
+
+			notify_progress("Loading, please wait...", true);
+
+			if (inPreferences()) active_tab = "labelConfig";
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					if (inPreferences()) {
+						infobox_submit_callback2(transport);
+					} else {
+						updateFeedList();
+					}
+			} });
+
+		}
+
+	} catch (e) {
+		exception_error("addLabel", e);
 	}
 }
 

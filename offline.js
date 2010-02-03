@@ -110,7 +110,6 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 			catchup_local_feed(feed_id, is_cat);
 		}
 
-		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
 
 		var f = $("headlines-frame");

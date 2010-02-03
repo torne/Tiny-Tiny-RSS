@@ -223,38 +223,6 @@ function updateUsersList(sort_key) {
 	}
 }
 
-function addLabel() {
-
-	try {
-
-		var caption = prompt(__("Please enter label caption:"), "");
-	
-		if (caption == null) { 
-			return false;
-		}
-	
-		if (caption == "") {
-			alert(__("Can't create label: missing caption."));
-			return false;
-		}
-	
-		// we can be called from some other tab
-		active_tab = "labelConfig";
-	
-		query = "?op=pref-labels&subop=add&caption=" + 
-			param_escape(caption);
-	
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_submit_callback2(transport);
-				} });
-
-	} catch (e) {
-		exception_error("addLabel", e);
-	}
-}
-
 function addFeed() {
 
 	try {
@@ -374,8 +342,6 @@ function editUser(id) {
 		selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
 		selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
-		disableContainerChildren("userOpToolbar", false);
-
 		var query = "?op=pref-users&subop=edit&id=" +
 			param_escape(id);
 
@@ -398,8 +364,6 @@ function editFilter(id) {
 		disableHotkeys();
 
 		notify_progress("Loading, please wait...");
-
-		disableContainerChildren("filterOpToolbar", false);
 
 		selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
 		selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
@@ -428,8 +392,6 @@ function editFeed(feed) {
 		// clean selection from all rows & select row being edited
 		selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
 		selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
-	
-		disableContainerChildren("feedOpToolbar", false);
 	
 		var query = "?op=pref-feeds&subop=editfeed&id=" +
 			param_escape(feed);
@@ -1293,41 +1255,6 @@ function validatePrefsReset() {
 
 }
 
-/*function feedBrowserSubscribe() {
-	try {
-
-		var selected = getSelectedFeedsFromBrowser();
-
-		var mode = document.forms['feed_browser'].mode;
-
-		mode = mode[mode.selectedIndex].value;
-
-		if (selected.length > 0) {
-			closeInfoBox();
-
-			var query = "?op=pref-feeds&subop=massSubscribe&ids="+
-				param_escape(selected.toString()) + "&mode=" + param_escape(mode);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					feedlist_callback2(transport); 
-				} });
-
-		} else {
-			alert(__("No feeds are selected."));
-		}
-
-	} catch (e) {
-		exception_error("feedBrowserSubscribe", e);
-	}
-} */
-
-function updateBigFeedBrowserBtn() {
-	notify_progress("Loading, please wait...");
-	return updateBigFeedBrowser();
-}
-
 function selectPrefRows(kind, select) {
 
 	if (kind) {
@@ -1370,7 +1297,6 @@ function selectPrefRows(kind, select) {
 
 		if (opbarid) {
 			selectTableRowsByIdPrefix(lname, nrow, nchk, select);
-			disableContainerChildren(opbarid, !select);
 		}
 
 	} 
@@ -1402,16 +1328,11 @@ function toggleSelectPrefRow(sender, kind) {
 			nsel = getSelectedUsers();
 		}
 
-		if (opbarid && nsel != -1) {
-			disableContainerChildren(opbarid, nsel == false);
-		}
-
 	} 
 }
 
 function toggleSelectFBListRow(sender) {
 	toggleSelectListRow(sender);
-	disableContainerChildren("fbrOpToolbar", getSelectedFeedsFromBrowser() == 0);
 }
 
 var seq = "";
@@ -1549,7 +1470,7 @@ function pref_hotkey_handler(e) {
 			}
 
 			if (keycode == 84 && shift_key) { // T
-				browseFeeds();
+				displayDlg('feedBrowser');
 				return false;
 			}
 

@@ -180,7 +180,6 @@
 					<optgroup label="<?php echo __('Feed actions:') ?>">
 					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
 					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
-					<!-- <option value="qmcClearFeed"><?php echo __('Clear articles') ?></option> -->
 					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
 					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
 					</optgroup>

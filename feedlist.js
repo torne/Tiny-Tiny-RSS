@@ -240,11 +240,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			}
 		}
 
-		var date = new Date();
-		var timestamp = Math.round(date.getTime() / 1000);
-		query = query + "&ts=" + timestamp
-		
-		disableContainerChildren("headlinesToolbar", false);
 		Form.enable("main_toolbar_form");
 
 		// for piggybacked counters
@@ -516,44 +511,6 @@ function hide_footer() {
 		exception_error("hide_footer", e);
 	}
 }
-
-/*
-function init_hidden_feedlist(theme) {
-	try {
-		debug("init_hidden_feedlist");
-
-		if (theme != "" && theme != "compact") return;
-
-		var fl = $("feeds-holder");
-		var fh = $("headlines-frame");
-		var fc = $("content-frame");
-		var ft = $("toolbar");
-		var ff = $("footer");
-		var fhdr = $("header");
-
-		var fbtn = $("toggle_feeds_btn");
-
-		if (fbtn) Element.show(fbtn);
-
-		fl.style.top = fh.offsetTop + "px";
-		fl.style.backgroundColor = "white"; //FIXME
-
-		Element.hide(fl);
-		
-		fh.style.left = "0px";
-		ft.style.left = "0px";
-		if (fc) fc.style.left = "0px";
-		if (ff) ff.style.left = "0px";
-
-		if (theme == "compact") {
-			fhdr.style.left = "10px";
-			fl.style.top = (fh.offsetTop + 1) + "px";
-		}
-
-	} catch (e) {
-		exception_error("init_hidden_feedlist", e);
-	}
-} */
 
 function init_collapsable_feedlist() {
 	try {

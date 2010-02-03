@@ -438,8 +438,6 @@ function view(id) {
 
 		var query = "?op=view&id=" + param_escape(id);
 
-		var date = new Date();
-
 		var neighbor_ids = getRelativePostIds(active_post_id);
 
 		/* only request uncached articles */
@@ -461,10 +459,6 @@ function view(id) {
 		} else {
 			query = query + "&omode=flc";
 		}
-
-		var date = new Date();
-		var timestamp = Math.round(date.getTime() / 1000);
-		query = query + "&ts=" + timestamp;
 
 		query = query + "&cids=" + cids_to_request.toString();
 

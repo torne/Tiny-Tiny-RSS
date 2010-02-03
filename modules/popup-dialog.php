@@ -226,10 +226,6 @@
 			print "<div align='center'>";
 
 			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return visitOfficialSite()\" 
-				value=\"".__('Visit official site')."\"> ";
-
-			print "<input class=\"button\"
 				type=\"submit\" onclick=\"return closeInfoBox()\" 
 				value=\"".__('Close this window')."\">";
 
@@ -291,7 +287,7 @@
 			print "<div class=\"dlgButtons\">
 				<button class=\"button\" id=\"fadd_submit_btn\"
 					onclick=\"return subscribeToFeed()\">".__('Subscribe')."</button>
-				<button onclick=\"return browseFeeds()\">".__('More feeds')."</button>
+				<button onclick=\"return displayDlg('feedBrowser')\">".__('More feeds')."</button>
 				<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button></div>";
 			
 			return;
