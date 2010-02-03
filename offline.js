@@ -1751,3 +1751,39 @@ function offlineConfirmModeChange() {
 		exception_error("offlineConfirmModeChange", e);
 	}
 }
+
+function printFeedEntry(id, title, row_class, unread, icon) {
+
+	var tmp = "";
+	var fctr_class = "";
+	var feed_icon = "";
+
+	if (unread > 0) {
+		row_class += "Unread";
+		fctr_class = "feedCtrHasUnread";
+	} else {
+		fctr_class = "feedCtrNoUnread";
+	}
+
+	if (icon) {
+		feed_icon = "<img id='FIMG-"+id+"' src='" + icon + "'>";
+	} else {
+		feed_icon = "<img id='FIMG-"+id+"' src='images/blank_icon.gif'>";
+	}
+
+	var link = "<a title=\"FIXME\" id=\"FEEDL-"+id+"\""+
+		"href=\"javascript:viewfeed('"+id+"', '', false, '', false, 0);\">"+
+		title + "</a>";
+
+	tmp += "<li id='FEEDR-"+id+"' class="+row_class+">" + feed_icon + 
+		"<span id=\"FEEDN-"+id+"\">" + link + "</span>";
+
+	tmp += " <span class='"+fctr_class+"' id=\"FEEDCTR-"+id+"\">" +
+           "(<span id=\"FEEDU-"+id+"\">"+unread+"</span>)</span>";
+			
+	tmp += "</li>";
+
+	return tmp;
+}
+
+

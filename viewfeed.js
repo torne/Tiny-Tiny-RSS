@@ -473,21 +473,6 @@ function view(id) {
 
 		if (!cached_article) {
 
-//			notify_progress("Loading, please wait...", true);
-
-/*			var content = $('HLC-' + id);
-
-			if (content && !$('LL-' + id)) {
-				var ll = document.createElement('img');
-		
-				ll.src = 'images/indicator_tiny.gif';
-				ll.className = 'hlLoading';
-				ll.id = 'LL-' + id;
-
-				content.appendChild(ll);
-
-			} */
-
 			var upic = $('FUPDPIC-' + id);
 
 			if (upic) {	
@@ -597,7 +582,6 @@ function toggleMark(id, client_only, no_effects) {
 			}
 
 		} else {
-			//mark_img.src = "images/mark_unset.png";
 			mark_img.alt = __("Please wait...");
 			query = query + "&mark=0";
 	
@@ -665,7 +649,6 @@ function togglePub(id, client_only, no_effects, note) {
 			query = query + "&pub=1";
 
 		} else {
-			//mark_img.src = "images/pub_unset.png";
 			mark_img.alt = __("Please wait...");
 			query = query + "&pub=0";
 	
@@ -1128,12 +1111,6 @@ function selectionToggleMarked(cdm_mode) {
 
 			query = query + "&afid=" + getActiveFeedId();
 
-/*			if (tagsAreDisplayed()) {
-				query = query + "&omode=tl";
-			} else {
-				query = query + "&omode=flc";
-			} */
-
 			query = query + "&omode=lc";
 
 			new Ajax.Request("backend.php", {
@@ -1175,12 +1152,6 @@ function selectionTogglePublished(cdm_mode) {
 				param_escape(rows.toString()) + "&cmode=2";
 
 			query = query + "&afid=" + getActiveFeedId();
-
-/*			if (tagsAreDisplayed()) {
-				query = query + "&omode=tl";
-			} else {
-				query = query + "&omode=flc";
-			} */
 
 			query = query + "&omode=lc";
 
@@ -1438,10 +1409,8 @@ function catchupSelection() {
 	
 		if ($("headlinesList")) {
 			selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
-	//		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 		} else {
 			selectionToggleUnread(true, false, 'viewCurrentFeed()', true)
-	//		cdmSelectArticles('none');
 		}
 
 	} catch (e) {
@@ -2211,43 +2180,6 @@ function zoomToArticle(id) {
 		exception_error("zoomToArticle", e);
 	}
 }
-
-function showOriginalArticleInline(id) {
-	try {
-
-		var query = "?op=rpc&subop=getArticleLink&id=" + id;
-
-		notify_progress("Loading, please wait...", true);
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-
-				if (transport.responseXML) {
-			
-					var link = transport.responseXML.getElementsByTagName("link")[0];
-					var id = transport.responseXML.getElementsByTagName("id")[0];
-
-					notify("");
-
-					if (link && id) {
-						link = link.firstChild.nodeValue;
-
-						var ci = $("content-insert");
-
-						var tmp = "<iframe id=\"inline_orig_article\" width=\""+ci.offsetWidth+"\" height=\""+ci.offsetHeight+"\" style=\"border-width : 0px;\" src=\""+link+"\"></iframe>";
-
-						render_article(tmp);
-
-					}
-				}
-			} });
-
-	} catch (e) {
-		exception_error("showOriginalArticleInline", e);
-	}
-}
-
 
 function scrollArticle(offset) {
 	try {
