@@ -541,7 +541,10 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcSearch") {
-			displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
+			displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat(), 
+				function() { 
+					document.forms['search_form'].query.focus();
+				});
 			return;
 		}
 	
@@ -1098,7 +1101,10 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 191 || keychar == '/') { // /
-				displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat());
+				displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat(), 
+					function() { 
+						document.forms['search_form'].query.focus();
+					});
 				return false;
 			}
 
