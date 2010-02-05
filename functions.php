@@ -4920,18 +4920,21 @@
 				print "<div class=\"postEnclosures\">";
 
 				if (!get_pref($link, "STRIP_IMAGES")) {
-					if ($always_display_enclosures || !preg_match("/<img/i", $article_content)) {
+					if ($always_display_enclosures ||
+								!preg_match("/<img/i", $article_content)) {
+									
 						foreach ($entries as $entry) {
-							if (preg_match("/image/", $entry["type"])) {
-								print "<p><img 
+
+							if (preg_match("/image/", $entry["type"]) ||
+									preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
+
+									print "<p><img
 									alt=\"".htmlspecialchars($entry["filename"])."\"
-									src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
+									src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
 							}
 						}
 					}
 				}
-
-				print "<div class=\"postEnclosures\">";
 
 				if (db_num_rows($result) == 1) {
 					print __("Attachment:") . " ";
@@ -5501,9 +5504,12 @@
 				$always_display_enclosures = db_fetch_result($tmp_result, 0, "always_display_enclosures");
 
 				if (!get_pref($link, "STRIP_IMAGES")) {
-					if ($always_display_enclosures || !preg_match("/img/i", $article_content)) {
+					if ($always_display_enclosures || 
+									!preg_match("/img/i", $article_content)) {
+
 						foreach ($entries as $entry) {
-							if (preg_match("/image/", $entry["type"])) {
+							if (preg_match("/image/", $entry["type"]) || 
+								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
 								print "<p><img 
 									alt=\"".htmlspecialchars($entry["filename"])."\"
 									src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
