@@ -33,7 +33,7 @@
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 
 			if (is_file($icon_file) && $feed_id) {
-				if (filesize($icon_file) < 2000) {
+				if (filesize($icon_file) < 20000) {
 					
 					$result = db_query($link, "SELECT id FROM ttrss_feeds
 						WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
