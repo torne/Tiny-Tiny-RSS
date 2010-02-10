@@ -69,6 +69,8 @@
 					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
 						WHERE id = '$active_uid'");				
 
+					$_SESSION["pwd_hash"] = $new_pw_hash;
+
 					print __("Password has been changed.");
 				} else {
 					print "ERROR: ".__('Old password is incorrect.');
