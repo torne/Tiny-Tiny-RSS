@@ -1845,7 +1845,7 @@ function removeFilter(id, title) {
 	return false;
 }
 
-function unsubscribeFeed(id, title) {
+/*function unsubscribeFeed(id, title) {
 
 	try {
 
@@ -1874,7 +1874,7 @@ function unsubscribeFeed(id, title) {
 
 	return false;
 
-}
+} */
 
 function feedsEditSave() {
 	try {

@@ -626,27 +626,6 @@ function quickMenuGo(opid) {
 	}
 }
 
-function unsubscribeFeed(feed_id, title) {
-
-
-	var msg = __("Unsubscribe from %s?").replace("%s", title);
-
-	if (title == undefined || confirm(msg)) {
-		notify_progress("Removing feed...");
-
-		var query = "?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-					dlg_frefresh_callback(transport, feed_id);
-				} });
-	}
-
-	return false;
-}
-
-
 function updateFeedTitle(t) {
 	active_title_text = t;
 	updateTitle();

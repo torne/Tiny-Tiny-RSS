@@ -2156,3 +2156,33 @@ function quickAddFilter() {
 	displayDlg('quickAddFilter', '',
 	   function () {document.forms['filter_add_form'].reg_exp.focus();});
 }
+
+function unsubscribeFeed(feed_id, title) {
+
+	var msg = __("Unsubscribe from %s?").replace("%s", title);
+
+	if (title == undefined || confirm(msg)) {
+		notify_progress("Removing feed...");
+
+		var query = "?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) {
+
+					closeInfoBox();
+
+					if (inPreferences()) {
+						updateFeedList();				
+					} else {
+						dlg_frefresh_callback(transport, feed_id);
+					}
+
+				} });
+	}
+
+	return false;
+}
+
+
+
