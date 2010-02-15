@@ -191,18 +191,21 @@ ul.feedList li {
 	padding : 2px 0px 2px 0px;
 }
 
-
-li.feedSelected a,
-li.labelSelected a,
-li.virtSelected a,
-li.tagSelected a {
+ul.feedList span.feedlink:hover {
 	color : gray;
 }
 
-li.feedUnreadSelected a,
-li.labelUnreadSelected a,
-li.virtUnreadSelected a,
-li.tagUnreadSelected a {
+li.feedSelected span.feedlink,
+li.labelSelected span.feedlink,
+li.virtSelected span.feedlink,
+li.tagSelected span.feedlink {
+	color : gray;
+}
+
+li.feedUnreadSelected span.feedlink,
+li.labelUnreadSelected span.feedlink,
+li.virtUnreadSelected span.feedlink,
+li.tagUnreadSelected span.feedlink {
 	color : gray;
 }
 

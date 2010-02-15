@@ -101,6 +101,12 @@ div.postReply span.author {
 	font-size : 12px;
 }
 
+ul.feedList span.feedlink:hover {
+	cursor : pointer;
+	color : #4684ff;
+}
+
+
 ul.feedList img.hlLoading {
 	margin-left : 5px;
 	vertical-align : middle;
@@ -174,24 +180,24 @@ li.tagUnread {
 	font-weight : bold;
 }
 
-li.errorSelected a,
-li.error a,
-li.errorUnread a,
-li.errorUnreadSelected a {
+li.errorSelected span.feedlink,
+li.error span.feedlink,
+li.errorUnread span.feedlink,
+li.errorUnreadSelected span.feedlink {
 	color : #f04040;
 }
 
-li.feedSelected a,
-li.labelSelected a,
-li.virtSelected a,
-li.tagSelected a {
+li.feedSelected span.feedlink,
+li.labelSelected span.feedlink,
+li.virtSelected span.feedlink,
+li.tagSelected span.feedlink {
 	color : #4684ff;
 }
 
-li.feedUnreadSelected a,
-li.labelUnreadSelected a,
-li.virtUnreadSelected a,
-li.tagUnreadSelected a {
+li.feedUnreadSelected span.feedlink,
+li.labelUnreadSelected span.feedlink,
+li.virtUnreadSelected span.feedlink,
+li.tagUnreadSelected span.feedlink {
 	color : #4684ff;
 }
 

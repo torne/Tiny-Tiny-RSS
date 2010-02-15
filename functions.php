@@ -1657,8 +1657,8 @@
 			$link_title = "Updated: $last_updated";
 		}
 
-		$feed = "<a title=\"$link_title\" id=\"FEEDL-$feed_id\" 
-			href=\"javascript:viewfeed('$feed_id', '', false, '', false, 0);\">$feed_title</a>";
+		$feed = "<span class='feedlink' title=\"$link_title\" id=\"FEEDL-$feed_id\" href=\"#\"
+			onclick=\"viewfeed('$feed_id');\">$feed_title</span>";
 
 /*		if ($feed_id < -10) {
 			$bg_color = "#00ccff";
