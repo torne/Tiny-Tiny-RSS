@@ -416,7 +416,7 @@ function resize_headlines(delta_x, delta_y) {
 				4) + "px";
 			resize_grab.style.display = "block";
 
-			resize_handle.src = "themes/"+getInitParam('theme')+"/images/resize_handle_vert.png";
+			//resize_handle.src = "themes/"+getInitParam('theme')+"/images/resize_handle_vert.png";
 			resize_handle.style.paddingTop = (resize_grab.offsetHeight / 2 - 7) + "px";
 	
 		} else {
