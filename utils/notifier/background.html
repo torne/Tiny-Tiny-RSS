@@ -30,16 +30,30 @@ function update() {
 
 			var icon = new Object();
 			var title = new Object();
+			var badge = new Object();
+
+			var showBadge = localStorage["show_badge"];
 
 			if (xhr.status == 200) {
 				var unread = parseInt(xhr.responseText);
 	
 				if (unread > 0) {
-					icon.path = "images/alert.png";		
+
+					icon.path = "images/alert.png";
 					title.title = "You have %s unread articles.".replace("%s", unread);
+					badge.text = unread + "";
+				} else if (unread == -1) {
+					icon.path = "images/error.png";		
+
+					var errorMsg = xhr.responseText.split(";")[1];
+
+					title.title = "Error: %s.".replace("%s", errorMsg.trim());
+					badge.text = "";
+
 				} else {
 					icon.path = "images/normal.png";
 					title.title = "You have no unread articles.";
+					badge.text = "";
 				}
 
 				localStorage["last_updated"] = d.getTime();
@@ -48,8 +62,12 @@ function update() {
 				localStorage["last_error"] = xhr.responseText;
 
 				icon.path = "images/error.png";
-				title.title = "Error (%s) while requesting article information.".replace("%s", xhr.status);
+				title.title = "Error (%s) while updating.".replace("%s", xhr.status);
 			}
+
+			if (showBadge !== "1") badge.text = "";	
+
+			chrome.browserAction.setBadgeText(badge);
 
 			chrome.browserAction.setTitle(title);
 			chrome.browserAction.setIcon(icon);
@@ -104,7 +122,7 @@ function init() {
 			chrome.tabs.create(cp);
 		}
 
-	});	
+	});
 		
 	window.setTimeout("timeout()", 1000);
 
