@@ -490,6 +490,7 @@
 
 		case "getUnread":
 			$login = db_escape_string($_REQUEST["login"]);
+			$fresh = $_REQUEST["fresh"] == "1";
 
 			header("Content-Type: text/plain; charset=utf-8");
 
@@ -497,7 +498,14 @@
 
 			if (db_num_rows($result) == 1) {
 				$uid = db_fetch_result($result, 0, "id");
+
 				print getGlobalUnread($link, $uid);
+
+				if ($fresh) {
+					print ";";
+					print getFeedArticles($link, -3, false, true, $uid);
+				}
+
 			} else {
 				print "-1;User not found";
 			}
