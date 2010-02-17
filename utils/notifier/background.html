@@ -16,7 +16,7 @@ function update() {
 	var login = localStorage["login"];
 
 	var requestUrl = localStorage["site_url"] + "/backend.php";
-	var params = "op=getUnread&login=" + param_escape(login);
+	var params = "op=getUnread&fresh=1&login=" + param_escape(login);
 
 	var xhr = new XMLHttpRequest();
 
@@ -31,17 +31,36 @@ function update() {
 			var icon = new Object();
 			var title = new Object();
 			var badge = new Object();
+			var badge_color = new Object();
 
-			var showBadge = localStorage["show_badge"];
-
+			var show_badge = localStorage["show_badge"] == "1";
+			var show_fresh = localStorage["show_fresh"] == "1";
+		
 			if (xhr.status == 200) {
-				var unread = parseInt(xhr.responseText);
-	
-				if (unread > 0) {
+				var response = xhr.responseText.split(";");
 
+				var unread = parseInt(response[0]);
+
+				var fresh;
+
+				if (response.length == 2)
+					fresh = parseInt(response[1]);
+				else
+					fresh = 0;
+
+				if (unread > 0) {
 					icon.path = "images/alert.png";
 					title.title = "You have %s unread articles.".replace("%s", unread);
-					badge.text = unread + "";
+
+					if (show_fresh) {
+						badge.text = fresh + "";
+						badge_color.color = [0, 200, 0, 255];
+
+					} else {
+						badge.text = unread + "";
+						badge_color.color = [255, 0, 0, 255];
+					}
+
 				} else if (unread == -1) {
 					icon.path = "images/error.png";		
 
@@ -65,10 +84,10 @@ function update() {
 				title.title = "Error (%s) while updating.".replace("%s", xhr.status);
 			}
 
-			if (showBadge !== "1") badge.text = "";	
+			if (!show_badge) badge.text = "";	
 
+			chrome.browserAction.setBadgeBackgroundColor(badge_color);
 			chrome.browserAction.setBadgeText(badge);
-
 			chrome.browserAction.setTitle(title);
 			chrome.browserAction.setIcon(icon);
 

@@ -38,6 +38,7 @@ function save() {
 	}
 
 	localStorage['show_badge'] = (f.show_badge.checked) ? "1" : "0";
+	localStorage['show_fresh'] = (f.show_fresh.checked) ? "1" : "0";
 
 	var d = new Date();
 
@@ -70,6 +71,11 @@ function init() {
 		f.show_badge.checked = localStorage['show_badge'] == "1";
 	else
 		f.show_badge.checked = true;
+
+	if (localStorage['show_fresh'])
+		f.show_fresh.checked = localStorage['show_fresh'] == "1";
+	else
+		f.show_fresh.checked = false;
 
 	var last_updated = $('last_updated');
 
@@ -106,6 +112,11 @@ label {
 p.last-updated {
 	color : gray;
 }
+fieldset span.note {
+	color : gray;
+	font-style : italic;
+}
+
 </style>
 
 <body onload="init()">
@@ -138,6 +149,12 @@ p.last-updated {
 		<fieldset>
 			<label>Show badge:</label>
 			<input name="show_badge" type="checkbox"  value="1"/>
+		</fieldset>
+
+		<fieldset>
+			<label>Badge shows fresh articles:</label>
+			<input name="show_fresh" type="checkbox"  value="1"/>
+			<span class="note">(requires Tiny Tiny RSS 1.4.1 or trunk)</span>
 		</fieldset>
 
 		<input type="submit" value="Save"/>
