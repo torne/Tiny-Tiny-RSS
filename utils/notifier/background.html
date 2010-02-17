@@ -1,0 +1,116 @@
+<html>
+<script type="text/javascript">
+
+var last_updated = 0;
+var prefs_last_updated = 0;
+
+function param_escape(arg) {
+	if (typeof encodeURIComponent != 'undefined')
+		return encodeURIComponent(arg);	
+	else
+		return escape(arg);
+}
+
+function update() {
+	var d = new Date();
+	var login = localStorage["login"];
+
+	var requestUrl = localStorage["site_url"] + "/backend.php";
+	var params = "op=getUnread&login=" + param_escape(login);
+
+	var xhr = new XMLHttpRequest();
+
+
+	xhr.open("POST", requestUrl, true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(params);
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+
+			var icon = new Object();
+			var title = new Object();
+
+			if (xhr.status == 200) {
+				var unread = parseInt(xhr.responseText);
+	
+				if (unread > 0) {
+					icon.path = "images/alert.png";		
+					title.title = "You have %s unread articles.".replace("%s", unread);
+				} else {
+					icon.path = "images/normal.png";
+					title.title = "You have no unread articles.";
+				}
+
+				localStorage["last_updated"] = d.getTime();
+				localStorage["last_error"] = "";
+			} else {
+				localStorage["last_error"] = xhr.responseText;
+
+				icon.path = "images/error.png";
+				title.title = "Error (%s) while requesting article information.".replace("%s", xhr.status);
+			}
+
+			chrome.browserAction.setTitle(title);
+			chrome.browserAction.setIcon(icon);
+
+		}
+	};
+
+}
+
+function timeout() {
+
+	var update_interval;
+	var prefs_updated;
+
+	if (localStorage["update_interval"])
+		update_interval = localStorage["update_interval"] * 60 * 1000;
+	else
+		update_interval = 15 * 60 * 1000;
+
+	if (localStorage["prefs_updated"])
+		prefs_updated = localStorage["prefs_updated"];
+	else
+		prefs_updated = -1;
+
+	var d = new Date();
+
+	if (d.getTime() > last_updated + update_interval || 
+			prefs_updated != prefs_last_updated) {
+
+		last_updated = d.getTime();
+		prefs_last_updated = prefs_updated;
+		try {
+			update();
+		} catch (e) {
+			//
+		}
+	}
+
+	window.setTimeout("timeout()", 1000);
+}
+
+function init() {
+
+	chrome.browserAction.onClicked.addListener(function() { 
+		var site_url = localStorage['site_url'];
+
+		if (site_url) {
+			var cp = new Object();
+
+			cp.url = site_url;
+
+			chrome.tabs.create(cp);
+		}
+
+	});	
+		
+	window.setTimeout("timeout()", 1000);
+
+}
+</script>
+
+<body onload="init()"> </body>
+
+</html>
