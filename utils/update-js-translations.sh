@@ -5,6 +5,10 @@ if [ ! -f localized_js.php ]; then
 	exit 1
 fi
 
+echo "This script is not used anymore."
+
+exit 0 # disabled
+
 cat >localized_js.php <<HEADER
 <?php 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);

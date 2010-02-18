@@ -26,4 +26,4 @@ for lang in $LANGS; do
 	update_lang $PO_BASENAME
 done
 
-./utils/update-js-translations.sh
+#./utils/update-js-translations.sh
