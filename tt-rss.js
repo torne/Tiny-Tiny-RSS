@@ -332,6 +332,14 @@ function updateTitle(s) {
 		tmp = tmp + " > " + active_title_text;
 	}
 
+	if (window.fluid) {
+		if (global_unread > 0) {
+			window.fluid.dockBadge = global_unread;
+		} else {
+			window.fluid.dockBadge = "";
+		}
+	}
+
 	document.title = tmp;
 }
 
