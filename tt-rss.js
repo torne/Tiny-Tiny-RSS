@@ -1251,6 +1251,10 @@ function hotkey_handler(e) {
 				return;
 			}
 
+			if (keycode == 88) { // x
+				reverseHeadlineOrder();
+				return;
+			}
 		}
 
 		/* Prefix c */
@@ -1363,4 +1367,20 @@ function feedsSortByUnread() {
 
 function inPreferences() {
 	return false;
+}
+
+function reverseHeadlineOrder() {
+	try {
+
+		var query_str = "?op=rpc&subop=togglepref&key=REVERSE_HEADLINES";
+
+		new Ajax.Request("backend.php", {
+			parameters: query_str,
+			onComplete: function(transport) { 
+					viewCurrentFeed();
+				} });
+
+	} catch (e) {
+		exception_error("reverseHeadlineOrder", e);
+	}
 }

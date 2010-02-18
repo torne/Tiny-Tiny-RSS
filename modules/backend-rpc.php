@@ -123,11 +123,23 @@
 
 		}
 
-		if ($subop == "setpref") {
-			if (WEB_DEMO_MODE) {
-				return;
-			}
+		if ($subop == "togglepref") {
+			print "<rpc-reply>";
 
+			$key = db_escape_string($_REQUEST["key"]);
+
+			set_pref($link, $key, !get_pref($link, $key));
+
+			$value = get_pref($link, $key);
+
+			print "<param-set key=\"$key\" value=\"$value\"/>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "setpref") {
 			print "<rpc-reply>";
 
 			$key = db_escape_string($_REQUEST["key"]);
