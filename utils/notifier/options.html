@@ -39,6 +39,7 @@ function save() {
 
 	localStorage['show_badge'] = (f.show_badge.checked) ? "1" : "0";
 	localStorage['show_fresh'] = (f.show_fresh.checked) ? "1" : "0";
+	localStorage['single_user'] = (f.single_user.checked) ? "1" : "0";
 
 	var d = new Date();
 
@@ -47,6 +48,12 @@ function save() {
 	Element.show(s);
 		
 	return false;
+}
+
+function single_user_toggle() {
+	var f = document.forms['options'];
+
+	f.login.disabled = f.single_user.checked;
 }
 
 function init() {
@@ -76,6 +83,13 @@ function init() {
 		f.show_fresh.checked = localStorage['show_fresh'] == "1";
 	else
 		f.show_fresh.checked = false;
+
+	if (localStorage['single_user'])
+		f.single_user.checked = localStorage['single_user'] == "1";
+	else
+		f.single_user.checked = false;
+
+	single_user_toggle();
 
 	var last_updated = $('last_updated');
 
@@ -139,6 +153,12 @@ fieldset span.note {
 		<fieldset>
 			<label>Login:</label>
 			<input name="login" size="30" value=""/>
+		</fieldset>
+
+		<fieldset>
+			<label>Single-user mode:</label>
+			<input name="single_user" onchange="single_user_toggle()" 
+				type="checkbox"  value="1"/>
 		</fieldset>
 
 		<fieldset>

@@ -14,6 +14,9 @@ function param_escape(arg) {
 function update() {
 	var d = new Date();
 	var login = localStorage["login"];
+	var single_user = localStorage["single_user"];
+
+	if (single_user == "1") login = "admin";
 
 	var requestUrl = localStorage["site_url"] + "/backend.php";
 	var params = "op=getUnread&fresh=1&login=" + param_escape(login);
@@ -33,6 +36,12 @@ function update() {
 			var badge = new Object();
 			var badge_color = new Object();
 
+			// init stuff
+			icon.path = "images/normal.png";
+			title.title = "";	
+			badge.text = "";
+			badge_color.color = [0, 0, 0, 0];
+
 			var show_badge = localStorage["show_badge"] == "1";
 			var show_fresh = localStorage["show_fresh"] == "1";
 		
@@ -41,21 +50,24 @@ function update() {
 
 				var unread = parseInt(response[0]);
 
-				var fresh;
+				if (isNaN(unread)) unread = 0;
 
+				var fresh;
+	
 				if (response.length == 2)
 					fresh = parseInt(response[1]);
 				else
 					fresh = 0;
 
+				if (isNaN(fresh)) fresh = 0;
+
 				if (unread > 0) {
 					icon.path = "images/alert.png";
 					title.title = "You have %s unread articles.".replace("%s", unread);
 
-					if (show_fresh) {
+					if (show_fresh && fresh > 0) {
 						badge.text = fresh + "";
 						badge_color.color = [0, 200, 0, 255];
-
 					} else {
 						badge.text = unread + "";
 						badge_color.color = [255, 0, 0, 255];
@@ -67,12 +79,9 @@ function update() {
 					var errorMsg = xhr.responseText.split(";")[1];
 
 					title.title = "Error: %s.".replace("%s", errorMsg.trim());
-					badge.text = "";
 
 				} else {
-					icon.path = "images/normal.png";
 					title.title = "You have no unread articles.";
-					badge.text = "";
 				}
 
 				localStorage["last_updated"] = d.getTime();
