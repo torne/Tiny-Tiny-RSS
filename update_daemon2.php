@@ -27,8 +27,12 @@
 
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
 
+	if (!function_exists('pcntl_fork')) {
+		die("error: This script requires PHP compiled with PCNTL module.\n");
+	}
+
 	if (!ENABLE_UPDATE_DAEMON) {
-		die("Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
+		die("error: Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
 	}
 	
 	require_once "db.php";

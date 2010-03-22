@@ -44,8 +44,12 @@
 		die("received SIGALRM, hang in feed update?\n");
 	}
 
-	pcntl_signal(SIGINT, sigint_handler);
-	pcntl_signal(SIGALRM, sigalrm_handler);
+	if (function_exists('pcntl_signal')) {
+		pcntl_signal(SIGINT, sigint_handler);
+		pcntl_signal(SIGALRM, sigalrm_handler);
+	} else {
+		_debug("Warning: pcntl_signal function not present, continuing without support for signals.");	
+	}
 
 	$lock_handle = make_lockfile("update_daemon.lock");
 
