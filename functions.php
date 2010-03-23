@@ -1181,7 +1181,7 @@
 //					error_reporting(0);
 
 					$article_filters = get_article_filters($filters, $entry_title, 
-							$entry_content, $entry_link, $entry_timestamp);
+							$entry_content, $entry_link, $entry_timestamp, $entry_author);
 
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
@@ -1505,7 +1505,7 @@
 		print "</select>";
 	}
 
-	function get_article_filters($filters, $title, $content, $link, $timestamp) {
+	function get_article_filters($filters, $title, $content, $link, $timestamp, $author) {
 		$matches = array();
 
 		if ($filters["title"]) {
@@ -1589,6 +1589,18 @@
 				}
 			}
 		} 
+
+		if ($filters["author"]) {
+			foreach ($filters["author"] as $filter) {
+				$reg_exp = $filter["reg_exp"];		
+				$inverse = $filter["inverse"];	
+				if ((!$inverse && preg_match("/$reg_exp/i", $author)) || 
+						($inverse && !preg_match("/$reg_exp/i", $author))) {
+
+					array_push($matches, array($filter["action"], $filter["action_param"]));
+				}
+			}
+		}
 
 		return $matches;
 	}
