@@ -4069,6 +4069,7 @@
 	function catchupArticlesById($link, $ids, $cmode, $owner_uid = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+		if (count($ids) == 0) return;
 
 		$tmp_ids = array();
 
