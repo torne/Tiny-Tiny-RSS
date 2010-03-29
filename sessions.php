@@ -25,7 +25,7 @@
 	
 		global $session_connection,$session_read;					 
 
-		$query = "SELECT data FROM ttrss_sessions WHERE id='$id' $address_check_qpart";
+		$query = "SELECT data FROM ttrss_sessions WHERE id='$id'";
 
 		$res = db_query($session_connection, $query);
 		
@@ -52,7 +52,7 @@
 		
 		if ($session_read) {
 		 	$query = "UPDATE ttrss_sessions SET data='$data', 
-					expire='$expire' WHERE id='$id' $address_check_qpart"; 
+					expire='$expire' WHERE id='$id'"; 
 		} else {
 		 	$query = "INSERT INTO ttrss_sessions (id, data, expire)
 					VALUES ('$id', '$data', '$expire')";
@@ -75,7 +75,7 @@
 	
 		global $session_connection;
 
-		$query = "DELETE FROM ttrss_sessions WHERE id = '$id' $address_check_qpart";
+		$query = "DELETE FROM ttrss_sessions WHERE id = '$id'";
 		
 		db_query($session_connection, $query);
 		
