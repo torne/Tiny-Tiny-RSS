@@ -1,10 +1,8 @@
 <?php
 
-/*	if ($_REQUEST["debug"]) {
+	if ($_REQUEST["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
-	} else {
-		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
-	} */
+	}
 
 	require_once 'config.php';
 
@@ -620,7 +618,7 @@
 			error_reporting(0);
 		}
 
-		$obj_id = md5("FDATA:$fetch_url");
+		$obj_id = md5("FDATA:$use_simplepie:$fetch_url");
 
 		if ($memcache && $obj = $memcache->get($obj_id)) {
 
