@@ -364,12 +364,14 @@
 		}
 
 		if ($catchup_op == "selection") {
-			$ids_to_mark = array_keys($_GET["sel_ids"]);
-			if ($ids_to_mark) {
-				foreach ($ids_to_mark as $id) {
-					db_query($link, "UPDATE ttrss_user_entries SET 
-						unread = false,last_read = NOW()
-						WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			if (is_array($_GET["sel_ids"])) {
+				$ids_to_mark = array_keys($_GET["sel_ids"]);
+				if ($ids_to_mark) {
+					foreach ($ids_to_mark as $id) {
+						db_query($link, "UPDATE ttrss_user_entries SET 
+							unread = false,last_read = NOW()
+							WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+					}
 				}
 			}
 		}
