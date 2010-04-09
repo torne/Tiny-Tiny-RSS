@@ -5732,6 +5732,22 @@
 
 		return $url_path;
 	}
+        function opml_publish_url($link){
+		$url_path = "";
+		
+
+		if ($_SERVER['HTTPS'] != "on") {
+			$url_path = "http://";
+		} else {
+			$url_path = "https://";
+		}
+
+		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
+		$url_path .= "/opml.php?op=publish&key=" . 
+			get_pref($link, "_PREFS_PUBLISH_KEY", $_SESSION["uid"]);
+
+		return $url_path;
+	}
 
 	/**
 	 * Purge a feed contents, marked articles excepted.
