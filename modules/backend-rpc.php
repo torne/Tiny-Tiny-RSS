@@ -516,6 +516,16 @@
 			return;
 		}
 
+		if ($subop == "regenOPMLKey") {
+
+			print "<rpc-reply>";
+			set_pref($link, " _PREFS_OPML_PUBLISH_KEY", generate_publish_key(), $_SESSION["uid"]);
+			$new_link = opml_publish_url($link);		
+			print "<link><![CDATA[$new_link]]></link>";
+			print "</rpc-reply>";
+			return;
+		}
+
 		if ($subop == "logout") {
 			logout_user();
 			print_error_xml(6);

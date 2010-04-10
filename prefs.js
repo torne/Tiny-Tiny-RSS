@@ -1672,6 +1672,42 @@ function pubRegenKey() {
 	return false;
 }
 
+function opmlRegenKey() {
+
+	try {
+		var ok = confirm(__("Replace current OPML publishing address with a new one?"));
+	
+		if (ok) {
+	
+			notify_progress("Trying to change address...", true);
+	
+			var query = "?op=rpc&subop=regenOPMLKey";
+	
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+						var new_link = transport.responseXML.getElementsByTagName("link")[0];
+	
+						var e = $('pub_opml_url');
+	
+						if (new_link) {
+							e.href = new_link.firstChild.nodeValue;
+							e.innerHTML = new_link.firstChild.nodeValue;
+	
+							new Effect.Highlight(e);
+
+							notify('');
+	
+						} else {
+							notify_error("Could not change feed URL.");
+						}
+				} });
+		}
+	} catch (e) {
+		exception_error("opmlRegenKey", e);
+	}
+	return false;
+}
 function validatePrefsSave() {
 	try {
 
