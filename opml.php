@@ -15,7 +15,7 @@
 
 	$owner_uid = $_SESSION["uid"];
 
-	function opml_export($link, $owner_uid) {
+	function opml_export($link, $owner_uid, $hide_private_feeds=False) {
 		header("Content-type: application/xml+opml");
 		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
@@ -27,20 +27,24 @@
 		print "<body>";
 
 		$cat_mode = false;
+                
+                $select = "SELECT * ";
+                $where = "WHERE owner_uid = '$owner_uid'";
+                $orderby = "ORDER BY title";
+		if ($hide_private_feeds){
+			$where = "WHERE owner_uid = '$owner_uid' AND private IS false";
+		}
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			$cat_mode = true;
-			$result = db_query($link, "SELECT 
-					title,feed_url,site_url,
-					(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title
-					FROM ttrss_feeds
-				WHERE
-					owner_uid = '$owner_uid'
-				ORDER BY cat_title,title");
-		} else {
-			$result = db_query($link, "SELECT * FROM ttrss_feeds 
-				WHERE owner_uid = '$owner_uid' ORDER BY title");
+                        $select = "SELECT 
+				title, feed_url, site_url,
+				(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title";
+			$orderby = "ORDER BY cat_title, title";
+
 		}
+
+ 		$result = db_query($link, $select." FROM ttrss_feeds ".$where." ".$orderby);
 
 		$old_cat_title = "";
 
@@ -89,6 +93,22 @@
 	
 	if ($op == "Export") {
 		return opml_export($link, $owner_uid);
+	}
+        if ($op == "publish"){
+		$key = db_escape_string($_REQUEST["key"]);
+
+		$result = db_query($link, "SELECT login, owner_uid 
+				FROM ttrss_user_prefs, ttrss_users WHERE
+				pref_name = '_PREFS_PUBLISH_KEY' AND 
+				value = '$key' AND 
+				ttrss_users.id = owner_uid");
+
+		if (db_num_rows($result) == 1) {
+			$owner = db_fetch_result($result, 0, "owner_uid");
+			return opml_export($link, $owner, True);
+		} else {
+			print "<error>User not found</error>";
+		}
 	}
 
 	if ($op == "Import") {
