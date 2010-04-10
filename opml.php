@@ -11,9 +11,6 @@
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	init_connection($link);
-	login_sequence($link);
-
-	$owner_uid = $_SESSION["uid"];
 
 	function opml_export($link, $owner_uid, $hide_private_feeds=False) {
 		header("Content-type: application/xml+opml");
@@ -92,6 +89,9 @@
 	if (!$op) $op = "Export";
 	
 	if ($op == "Export") {
+	        
+		login_sequence($link);
+		$owner_uid = $_SESSION["uid"];
 		return opml_export($link, $owner_uid);
 	}
         if ($op == "publish"){
@@ -112,6 +112,9 @@
 	}
 
 	if ($op == "Import") {
+
+		login_sequence($link);
+		$owner_uid = $_SESSION["uid"];
 
 		print "<html>
 			<head>
