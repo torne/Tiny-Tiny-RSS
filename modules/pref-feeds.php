@@ -1497,6 +1497,7 @@
 
                 if (!get_pref($link, "_PREFS_OPML_PUBLISH_KEY")){
 			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", generate_publish_key());
+		}
 		
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
