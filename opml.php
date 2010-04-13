@@ -32,7 +32,9 @@
 			$where = "WHERE owner_uid = '$owner_uid' AND private IS false";
 		}
 
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+
+		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid) == true) {
 			$cat_mode = true;
                         $select = "SELECT 
 				title, feed_url, site_url,
@@ -40,6 +42,13 @@
 			$orderby = "ORDER BY cat_title, title";
 
 		}
+		else{
+			$cat_feed = get_pref($link, 'ENABLE_FEED_CATS');
+			print "<!-- feeding cats is not enabled -->";
+			print "<!-- $cat_feed -->";
+
+		}
+
 
  		$result = db_query($link, $select." FROM ttrss_feeds ".$where." ".$orderby);
 
@@ -59,7 +68,7 @@
 					}
 
 					if ($cat_title) {
-						print "<outline title=\"$cat_title\">\n";
+						print "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
 					}
 
 					$old_cat_title = $cat_title;
