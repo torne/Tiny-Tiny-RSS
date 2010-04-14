@@ -8,8 +8,6 @@
 
 	declare(ticks = 1);
 
-	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";

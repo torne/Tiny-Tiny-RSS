@@ -1,9 +1,5 @@
 #!/usr/bin/php
 <?php
-	// this script is probably run not from your httpd-user, so cache
-	// directory defined in config.php won't be accessible
-	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-cli');
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-cli');
 	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
 	define('DISABLE_SESSIONS', true);
 
