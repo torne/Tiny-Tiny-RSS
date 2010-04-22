@@ -353,33 +353,31 @@
 		}
 	}
 
-	function fetch_file_contents($url) {
+	function fetch_file_contents($url, $type) {
 		if (USE_CURL_FOR_ICONS) {
-			$tmpfile = tempnam(TMP_DIRECTORY, "ttrss-tmp");
-
 			$ch = curl_init($url);
-			$fp = fopen($tmpfile, "w");
 
-			if ($fp) {
-				curl_setopt($ch, CURLOPT_FILE, $fp);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 45);
-				curl_exec($ch);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 45);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-				if (strpos(curl_getinfo($ch, CURLINFO_CONTENT_TYPE), "image/") !== false) {
-					curl_close($ch);
-					fclose($fp);					
-					$contents = file_get_contents($tmpfile);
-				} else {
-					curl_close($ch);
-					fclose($fp);					
-				}
+			$contents = curl_exec($ch);
+			if ($contents === false) {
+				curl_close($ch);
+				return false;
 			}
 
-			unlink($tmpfile);
+			$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+			curl_close($ch);
+
+			if ($type && strpos($content_type, "$type") === false) {
+				return false;
+			}
 
 			return $contents;
-
 		} else {
 			return file_get_contents($url);
 		}
@@ -491,14 +489,16 @@
 		$icon_file = ICONS_DIR . "/$feed.ico";
 
 		if ($favicon_url && !file_exists($icon_file)) {
-			$contents = fetch_file_contents($favicon_url);
+			$contents = fetch_file_contents($favicon_url, "image");
 
-			$fp = fopen($icon_file, "w");
+			if ($contents) {
+				$fp = fopen($icon_file, "w");
 
-			if ($fp) {
-				fwrite($fp, $contents);
-				fclose($fp);
-				chmod($icon_file, 0644);
+				if ($fp) {
+					fwrite($fp, $contents);
+					fclose($fp);
+					chmod($icon_file, 0644);
+				}
 			}
 		}
 
