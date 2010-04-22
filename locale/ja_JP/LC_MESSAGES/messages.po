@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-22 22:16+0300\n"
+"POT-Creation-Date: 2010-04-22 10:05+0400\n"
 "PO-Revision-Date: 2009-05-12 03:25+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -184,194 +184,195 @@ msgstr ""
 "SQL のエスケープ処理のテストに失敗しました。データベースの設定と PHP の設定を"
 "確認してください。"
 
-#: functions.php:1928
+#: functions.php:1938
 msgid "Session failed to validate (incorrect IP)"
 msgstr "セッションの検査に失敗しました (IP が正しくない)"
 
-#: functions.php:1998
+#: functions.php:2008
 msgid "Incorrect username or password"
 msgstr "ユーザー名かパスワードが正しくありません"
 
-#: functions.php:2979 modules/popup-dialog.php:391
+#: functions.php:2989 modules/popup-dialog.php:418
 #: modules/pref-filters.php:420
 msgid "All feeds"
 msgstr "すべてのフィード"
 
-#: functions.php:3011 functions.php:3050 functions.php:4447 functions.php:4475
-#: modules/backend-rpc.php:859 modules/pref-feeds.php:1333
+#: functions.php:3021 functions.php:3060 functions.php:4458 functions.php:4486
+#: modules/backend-rpc.php:869 modules/pref-feeds.php:1333
 msgid "Uncategorized"
 msgstr "カテゴリー割り当てなし"
 
-#: functions.php:3040 functions.php:3689 modules/backend-rpc.php:864
+#: functions.php:3050 functions.php:3699 modules/backend-rpc.php:874
 #: mobile/functions.php:170
 msgid "Special"
 msgstr "特別"
 
-#: functions.php:3042 functions.php:3691 prefs.php:114
-#: modules/backend-rpc.php:869 help/4.php:12 mobile/functions.php:197
+#: functions.php:3052 functions.php:3701 prefs.php:114
+#: modules/backend-rpc.php:879 help/4.php:12 mobile/functions.php:197
 msgid "Labels"
 msgstr "ラベル"
 
-#: functions.php:3087 help/3.php:60 offline.js:493 offline.js:1425
+#: functions.php:3097 help/3.php:60 offline.js:493 offline.js:1425
 msgid "Starred articles"
 msgstr "お気に入りの記事"
 
-#: functions.php:3089 modules/pref-feeds.php:1492 help/3.php:61
+#: functions.php:3099 modules/pref-feeds.php:1492 help/3.php:61
 msgid "Published articles"
 msgstr "公開済みの記事"
 
-#: functions.php:3091 help/3.php:59
+#: functions.php:3101 help/3.php:59
 msgid "Fresh articles"
 msgstr "新しい記事"
 
-#: functions.php:3093 help/3.php:58 offline.js:488 offline.js:1427
+#: functions.php:3103 help/3.php:58 offline.js:488 offline.js:1427
 msgid "All articles"
 msgstr "すべての記事"
 
-#: functions.php:3095
+#: functions.php:3105
 #, fuzzy
 msgid "Archived articles"
 msgstr "未読記事"
 
-#: functions.php:4200
+#: functions.php:4211
 msgid "Generated feed"
 msgstr "生成したフィード"
 
-#: functions.php:4205 functions.php:5553 modules/popup-dialog.php:82
+#: functions.php:4216 functions.php:5564 modules/popup-dialog.php:82
 #: modules/pref-feeds.php:1087 modules/pref-feeds.php:1297
 #: modules/pref-filters.php:377 modules/pref-labels.php:183
 #: modules/pref-users.php:419 offline.js:408
 msgid "Select:"
 msgstr "選択:"
 
-#: functions.php:4206 modules/popup-dialog.php:83 modules/pref-feeds.php:1088
+#: functions.php:4217 modules/popup-dialog.php:83 modules/pref-feeds.php:1088
 #: modules/pref-feeds.php:1298 modules/pref-filters.php:378
 #: modules/pref-labels.php:184 modules/pref-users.php:420
 msgid "All"
 msgstr "すべて"
 
-#: functions.php:4207 functions.php:4224 tt-rss.php:213
+#: functions.php:4218 functions.php:4235 tt-rss.php:213
 msgid "Unread"
 msgstr "未読"
 
-#: functions.php:4208
+#: functions.php:4219
 msgid "Invert"
 msgstr "反転"
 
-#: functions.php:4209 modules/popup-dialog.php:84 modules/pref-feeds.php:1089
+#: functions.php:4220 modules/popup-dialog.php:84 modules/pref-feeds.php:1089
 #: modules/pref-feeds.php:1299 modules/pref-filters.php:379
 #: modules/pref-labels.php:185 modules/pref-users.php:421
 msgid "None"
 msgstr "なし"
 
-#: functions.php:4217 tt-rss.php:178 offline.js:184
+#: functions.php:4228 tt-rss.php:178 offline.js:184
 msgid "Actions..."
 msgstr "操作..."
 
-#: functions.php:4223
+#: functions.php:4234
 msgid "Selection toggle:"
 msgstr "選択の切り替え:"
 
-#: functions.php:4225 tt-rss.php:212
+#: functions.php:4236 tt-rss.php:212
 msgid "Starred"
 msgstr "お気に入り"
 
-#: functions.php:4226
+#: functions.php:4237
 msgid "Published"
 msgstr "公開済み"
 
-#: functions.php:4227
+#: functions.php:4238
 msgid "Selection:"
 msgstr "選択:"
 
-#: functions.php:4228 localized_schema.php:16 tt-rss.php:187 tt-rss.php:230
+#: functions.php:4239 localized_schema.php:16 tt-rss.php:187 tt-rss.php:230
 msgid "Mark as read"
 msgstr "既読にする"
 
-#: functions.php:4234
+#: functions.php:4245
 msgid "Archive"
 msgstr ""
 
-#: functions.php:4236
+#: functions.php:4247
 #, fuzzy
 msgid "Move back"
 msgstr "戻る"
 
-#: functions.php:4237
+#: functions.php:4248
 #, fuzzy
 msgid "Delete"
 msgstr "標準"
 
-#: functions.php:4242
+#: functions.php:4253
 msgid "Assign label:"
 msgstr "ラベルの割り当て:"
 
-#: functions.php:4283
+#: functions.php:4294
 msgid "Click to collapse category"
 msgstr "閉じたカテゴリーのクリック"
 
-#: functions.php:4493
+#: functions.php:4504
 msgid "No feeds to display."
 msgstr "表示するフィードがありません。"
 
-#: functions.php:4510
+#: functions.php:4521
 msgid "Tags"
 msgstr "タグ"
 
-#: functions.php:4669
+#: functions.php:4680
 msgid "audio/mpeg"
 msgstr "audio/mpeg"
 
-#: functions.php:4795
+#: functions.php:4806
 msgid " - "
 msgstr " - "
 
-#: functions.php:4820 functions.php:5580
+#: functions.php:4831 functions.php:5591
 msgid "Edit tags for this article"
 msgstr "この記事のタグを編集する"
 
-#: functions.php:4826 functions.php:5563
+#: functions.php:4837 functions.php:5574
 msgid "Show article summary in new window"
 msgstr "記事の要約を新しいウィンドウで表示する"
 
-#: functions.php:4833 functions.php:5570
+#: functions.php:4844 functions.php:5581
 msgid "Publish article with a note"
 msgstr "ノートと記事を公開する"
 
-#: functions.php:4850 functions.php:5441
+#: functions.php:4861 functions.php:5452
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4863 functions.php:5454
+#: functions.php:4874 functions.php:5465
 #, fuzzy
 msgid "Feed URL"
 msgstr "フィード"
 
-#: functions.php:4903 functions.php:5484
+#: functions.php:4914 functions.php:5495
 msgid "unknown type"
 msgstr "未知の種類"
 
-#: functions.php:4943 functions.php:5527
+#: functions.php:4954 functions.php:5538
 msgid "Attachment:"
 msgstr "添付:"
 
-#: functions.php:4945 functions.php:5529
+#: functions.php:4956 functions.php:5540
 msgid "Attachments:"
 msgstr "添付:"
 
-#: functions.php:4965 prefs.php:142 tt-rss.php:101 modules/help.php:21
+#: functions.php:4976 prefs.php:142 tt-rss.php:101 modules/help.php:21
 #: modules/popup-dialog.php:53 modules/popup-dialog.php:154
-#: modules/popup-dialog.php:181 modules/popup-dialog.php:230
-#: modules/popup-dialog.php:575 modules/popup-dialog.php:634
-#: modules/pref-feeds.php:1140 modules/pref-users.php:96
+#: modules/popup-dialog.php:181 modules/popup-dialog.php:208
+#: modules/popup-dialog.php:257 modules/popup-dialog.php:602
+#: modules/popup-dialog.php:661 modules/pref-feeds.php:1140
+#: modules/pref-users.php:96
 msgid "Close this window"
 msgstr "このウィンドウを閉じる"
 
-#: functions.php:5021
+#: functions.php:5032
 msgid "Feed not found."
 msgstr "フィードが見つかりません。"
 
-#: functions.php:5090
+#: functions.php:5101
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -379,31 +380,31 @@ msgstr ""
 "フィードを表示できません (問い合わせの失敗)。ラベル一致の文法かローカルの設定"
 "を確認してください。"
 
-#: functions.php:5254 functions.php:5341
+#: functions.php:5265 functions.php:5352
 msgid "mark as read"
 msgstr "既読にする"
 
-#: functions.php:5417 functions.php:5424
+#: functions.php:5428 functions.php:5435
 msgid "Click to expand article"
 msgstr "開いた記事のクリック"
 
-#: functions.php:5587
+#: functions.php:5598
 msgid "toggle unread"
 msgstr "未読/既読を切り替える"
 
-#: functions.php:5606
+#: functions.php:5617
 msgid "No unread articles found to display."
 msgstr "表示する未読記事が見つかりませんでした。"
 
-#: functions.php:5609
+#: functions.php:5620
 msgid "No updated articles found to display."
 msgstr "表示する更新された記事が見つかりませんでした。"
 
-#: functions.php:5612
+#: functions.php:5623
 msgid "No starred articles found to display."
 msgstr "表示するお気に入りの記事が見つかりませんでした。"
 
-#: functions.php:5616
+#: functions.php:5627
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -411,27 +412,27 @@ msgstr ""
 "表示する記事が見つかりません。手動でラベルに記事を割り当てるか(上の操作メ"
 "ニューを参照します)、フィルターを使うことができます。"
 
-#: functions.php:5618 offline.js:443
+#: functions.php:5629 offline.js:443
 msgid "No articles found to display."
 msgstr "表示する記事が見つかりません。"
 
-#: functions.php:6362 tt-rss.php:192
+#: functions.php:6389 tt-rss.php:192
 msgid "Create label..."
 msgstr "ラベルを作成する..."
 
-#: functions.php:6375
+#: functions.php:6402
 msgid "(remove)"
 msgstr "(削除)"
 
-#: functions.php:6427
+#: functions.php:6454
 msgid "no tags"
 msgstr "タグがありません"
 
-#: functions.php:6456
+#: functions.php:6483
 msgid "edit note"
 msgstr "ノートの編集"
 
-#: localized_schema.php:9 tt-rss.php:222 modules/popup-dialog.php:381
+#: localized_schema.php:9 tt-rss.php:222 modules/popup-dialog.php:408
 #: modules/pref-feeds.php:1310 modules/pref-feeds.php:1369
 msgid "Title"
 msgstr "題名"
@@ -444,7 +445,7 @@ msgstr "題名か内容"
 msgid "Link"
 msgstr "リンク"
 
-#: localized_schema.php:12 modules/popup-dialog.php:382
+#: localized_schema.php:12 modules/popup-dialog.php:409
 msgid "Content"
 msgstr "内容"
 
@@ -722,12 +723,12 @@ msgstr "記事内に画像を表示しない"
 msgid "Enable external API"
 msgstr ""
 
-#: login_form.php:120 modules/popup-dialog.php:271 modules/pref-feeds.php:339
+#: login_form.php:120 modules/popup-dialog.php:298 modules/pref-feeds.php:339
 #: modules/pref-feeds.php:561 mobile/login_form.php:38
 msgid "Login:"
 msgstr "ログイン:"
 
-#: login_form.php:124 modules/popup-dialog.php:273 modules/pref-feeds.php:344
+#: login_form.php:124 modules/popup-dialog.php:300 modules/pref-feeds.php:344
 #: modules/pref-feeds.php:567 mobile/login_form.php:43
 msgid "Password:"
 msgstr "パスワード:"
@@ -753,24 +754,24 @@ msgstr "新規アカウントの作成"
 msgid "Limit bandwidth usage"
 msgstr "帯域の制限を使う"
 
-#: opml.php:99 opml.php:103
+#: opml.php:131 opml.php:135
 msgid "OPML Utility"
 msgstr "OPML ユーティリティ"
 
-#: opml.php:124
+#: opml.php:156
 msgid "Importing OPML (using DOMXML extension)..."
 msgstr "OPML のインポート中 (DOMXML 機能拡張を用いて)..."
 
-#: opml.php:128
+#: opml.php:160
 msgid "Importing OPML (using DOMDocument extension)..."
 msgstr "OPML のインポート中 (DOMDocument 機能拡張を用いて)..."
 
-#: opml.php:132 modules/popup-dialog.php:45
+#: opml.php:164 modules/popup-dialog.php:45
 msgid "DOMXML extension is not found. It is required for PHP versions below 5."
 msgstr ""
 "DOMXML 機能拡張が見つかりません。PHP バージョン 5 未満はそれを要求します。"
 
-#: opml.php:136
+#: opml.php:168
 msgid "Return to preferences"
 msgstr "設定に戻る"
 
@@ -994,7 +995,7 @@ msgstr "更新日時"
 msgid "Sort articles"
 msgstr "記事を保管しました"
 
-#: tt-rss.php:221 modules/popup-dialog.php:462 modules/pref-filters.php:51
+#: tt-rss.php:221 modules/popup-dialog.php:489 modules/pref-filters.php:51
 #: modules/pref-filters.php:469
 msgid "Date"
 msgstr "日付"
@@ -1150,7 +1151,7 @@ msgstr "フィルターを作成する"
 msgid "(active)"
 msgstr ""
 
-#: modules/popup-dialog.php:148 modules/popup-dialog.php:350
+#: modules/popup-dialog.php:148 modules/popup-dialog.php:377
 #: modules/pref-feeds.php:455 modules/pref-feeds.php:1136
 #: modules/pref-filters.php:153 modules/pref-filters.php:321
 #: modules/pref-labels.php:140 modules/pref-users.php:378
@@ -1171,221 +1172,230 @@ msgstr "公開された記事"
 msgid "Your Published articles feed URL is:"
 msgstr "公開記事フィードへのリンクです。"
 
-#: modules/popup-dialog.php:177
+#: modules/popup-dialog.php:177 modules/popup-dialog.php:204
 #, fuzzy
 msgid "Generate new URL"
 msgstr "生成したフィード"
 
 #: modules/popup-dialog.php:190
+msgid "Public OPML URL"
+msgstr ""
+
+#: modules/popup-dialog.php:195
+#, fuzzy
+msgid "Your Public OPML URL is:"
+msgstr "公開記事フィードへのリンクです。"
+
+#: modules/popup-dialog.php:217
 msgid "Notice"
 msgstr "通知"
 
-#: modules/popup-dialog.php:196
+#: modules/popup-dialog.php:223
 msgid ""
 "Update daemon is enabled in configuration, but daemon process is not "
 "running, which prevents all feeds from updating. Please start the daemon "
 "process or contact instance owner."
 msgstr ""
 
-#: modules/popup-dialog.php:200 modules/popup-dialog.php:220
+#: modules/popup-dialog.php:227 modules/popup-dialog.php:247
 msgid "Last update:"
 msgstr "最終更新:"
 
-#: modules/popup-dialog.php:208
+#: modules/popup-dialog.php:235
 msgid ""
 "You are running the latest version of Tiny Tiny RSS. The fact that you are "
 "seeing this dialog is probably a bug."
 msgstr ""
 
-#: modules/popup-dialog.php:216
+#: modules/popup-dialog.php:243
 msgid ""
 "Update daemon is taking too long to perform a feed update. This could "
 "indicate a problem like crash or a hang. Please check the daemon process or "
 "contact instance owner."
 msgstr ""
 
-#: modules/popup-dialog.php:239
+#: modules/popup-dialog.php:266
 msgid "Subscribe to Feed"
 msgstr "フィードを購読する"
 
-#: modules/popup-dialog.php:248 modules/pref-feeds.php:197
+#: modules/popup-dialog.php:275 modules/pref-feeds.php:197
 #: modules/pref-feeds.php:488 modules/pref-filters.php:407
 msgid "Feed"
 msgstr "フィード"
 
-#: modules/popup-dialog.php:251 modules/pref-feeds.php:213
+#: modules/popup-dialog.php:278 modules/pref-feeds.php:213
 #: modules/pref-feeds.php:502
 msgid "URL:"
 msgstr "URL:"
 
-#: modules/popup-dialog.php:260 modules/pref-feeds.php:225
+#: modules/popup-dialog.php:287 modules/pref-feeds.php:225
 #: modules/pref-feeds.php:514
 msgid "Place in category:"
 msgstr "カテゴリーの場所:"
 
-#: modules/popup-dialog.php:268 modules/pref-feeds.php:332
+#: modules/popup-dialog.php:295 modules/pref-feeds.php:332
 #: modules/pref-feeds.php:558 modules/pref-prefs.php:235
 #: modules/pref-users.php:142
 msgid "Authentication"
 msgstr "認証"
 
-#: modules/popup-dialog.php:283
+#: modules/popup-dialog.php:310
 msgid "This feed requires authentication."
 msgstr "このフィードは認証を要求します。"
 
-#: modules/popup-dialog.php:289 modules/popup-dialog.php:349
+#: modules/popup-dialog.php:316 modules/popup-dialog.php:376
 msgid "Subscribe"
 msgstr "購読"
 
-#: modules/popup-dialog.php:290
+#: modules/popup-dialog.php:317
 #, fuzzy
 msgid "More feeds"
 msgstr "さらなるフィード"
 
-#: modules/popup-dialog.php:291 modules/popup-dialog.php:351
-#: modules/popup-dialog.php:425 modules/popup-dialog.php:543
-#: modules/popup-dialog.php:612 modules/pref-feeds.php:468
+#: modules/popup-dialog.php:318 modules/popup-dialog.php:378
+#: modules/popup-dialog.php:452 modules/popup-dialog.php:570
+#: modules/popup-dialog.php:639 modules/pref-feeds.php:468
 #: modules/pref-feeds.php:623 modules/pref-filters.php:160
 #: modules/pref-users.php:181
 msgid "Cancel"
 msgstr "取り消し"
 
-#: modules/popup-dialog.php:298
+#: modules/popup-dialog.php:325
 msgid "Feed Browser"
 msgstr "フィードブラウザー"
 
-#: modules/popup-dialog.php:317 modules/popup-dialog.php:359
-#: modules/popup-dialog.php:424 modules/pref-feeds.php:1177
+#: modules/popup-dialog.php:344 modules/popup-dialog.php:386
+#: modules/popup-dialog.php:451 modules/pref-feeds.php:1177
 #: modules/pref-filters.php:308 modules/pref-labels.php:131
 #: modules/pref-users.php:361
 msgid "Search"
 msgstr "検索"
 
-#: modules/popup-dialog.php:321
+#: modules/popup-dialog.php:348
 #, fuzzy
 msgid "Popular feeds"
 msgstr "フィードの表示"
 
-#: modules/popup-dialog.php:322
+#: modules/popup-dialog.php:349
 #, fuzzy
 msgid "Feed archive"
 msgstr "フィード操作"
 
-#: modules/popup-dialog.php:325
+#: modules/popup-dialog.php:352
 #, fuzzy
 msgid "limit:"
 msgstr "制限:"
 
-#: modules/popup-dialog.php:371
+#: modules/popup-dialog.php:398
 msgid "Look for"
 msgstr ""
 
-#: modules/popup-dialog.php:378
+#: modules/popup-dialog.php:405
 #, fuzzy
 msgid "match on"
 msgstr "対象項目:"
 
-#: modules/popup-dialog.php:383
+#: modules/popup-dialog.php:410
 msgid "Title or content"
 msgstr "題名か内容"
 
-#: modules/popup-dialog.php:388
+#: modules/popup-dialog.php:415
 msgid "Limit search to:"
 msgstr "対象範囲"
 
-#: modules/popup-dialog.php:404
+#: modules/popup-dialog.php:431
 msgid "This feed"
 msgstr "このフィード"
 
-#: modules/popup-dialog.php:438
+#: modules/popup-dialog.php:465
 msgid "Create Filter"
 msgstr "フィルターを作成する"
 
-#: modules/popup-dialog.php:457 modules/pref-filters.php:42
+#: modules/popup-dialog.php:484 modules/pref-filters.php:42
 #: modules/pref-filters.php:406
 msgid "Match"
 msgstr "一致"
 
-#: modules/popup-dialog.php:465 modules/pref-filters.php:54
+#: modules/popup-dialog.php:492 modules/pref-filters.php:54
 #: modules/pref-filters.php:441
 msgid "before"
 msgstr "前"
 
-#: modules/popup-dialog.php:466 modules/pref-filters.php:55
+#: modules/popup-dialog.php:493 modules/pref-filters.php:55
 #: modules/pref-filters.php:442
 msgid "after"
 msgstr "後"
 
-#: modules/popup-dialog.php:478 modules/pref-filters.php:68
+#: modules/popup-dialog.php:505 modules/pref-filters.php:68
 msgid "Check it"
 msgstr ""
 
-#: modules/popup-dialog.php:481 modules/pref-filters.php:71
+#: modules/popup-dialog.php:508 modules/pref-filters.php:71
 msgid "on field"
 msgstr ""
 
-#: modules/popup-dialog.php:487 modules/pref-filters.php:77
+#: modules/popup-dialog.php:514 modules/pref-filters.php:77
 msgid "in"
 msgstr ""
 
-#: modules/popup-dialog.php:492 modules/pref-filters.php:82
+#: modules/popup-dialog.php:519 modules/pref-filters.php:82
 msgid "Perform Action"
 msgstr "操作の実行"
 
-#: modules/popup-dialog.php:509 modules/pref-filters.php:102
+#: modules/popup-dialog.php:536 modules/pref-filters.php:102
 msgid "with parameters:"
 msgstr "パラメーター:"
 
-#: modules/popup-dialog.php:522 modules/pref-feeds.php:355
+#: modules/popup-dialog.php:549 modules/pref-feeds.php:355
 #: modules/pref-feeds.php:576 modules/pref-filters.php:121
 #: modules/pref-users.php:164
 msgid "Options"
 msgstr "オプション"
 
-#: modules/popup-dialog.php:528 modules/pref-filters.php:133
+#: modules/popup-dialog.php:555 modules/pref-filters.php:133
 msgid "Enabled"
 msgstr "有効にする"
 
-#: modules/popup-dialog.php:531 modules/pref-filters.php:142
+#: modules/popup-dialog.php:558 modules/pref-filters.php:142
 msgid "Inverse match"
 msgstr "一致しない"
 
-#: modules/popup-dialog.php:541
+#: modules/popup-dialog.php:568
 msgid "Create"
 msgstr "作成"
 
-#: modules/popup-dialog.php:555
+#: modules/popup-dialog.php:582
 msgid "Update Errors"
 msgstr "更新エラー"
 
-#: modules/popup-dialog.php:558
+#: modules/popup-dialog.php:585
 msgid "These feeds have not been updated because of errors:"
 msgstr "エラーのため、フィードは更新されませんでした:"
 
-#: modules/popup-dialog.php:584
+#: modules/popup-dialog.php:611
 msgid "Edit Tags"
 msgstr "タグを編集する"
 
-#: modules/popup-dialog.php:589
+#: modules/popup-dialog.php:616
 msgid "Tags for this article (separated by commas):"
 msgstr "この記事のタグ (カンマで区切ります):"
 
-#: modules/popup-dialog.php:611 modules/pref-feeds.php:467
+#: modules/popup-dialog.php:638 modules/pref-feeds.php:467
 #: modules/pref-feeds.php:621 modules/pref-filters.php:157
 #: modules/pref-users.php:179
 msgid "Save"
 msgstr "保存"
 
-#: modules/popup-dialog.php:620
+#: modules/popup-dialog.php:647
 #, fuzzy
 msgid "Tag Cloud"
 msgstr "タグクラウド"
 
-#: modules/popup-dialog.php:623
+#: modules/popup-dialog.php:650
 msgid "Showing most popular tags "
 msgstr "もっとも人気のあるタグを表示中 "
 
-#: modules/popup-dialog.php:624
+#: modules/popup-dialog.php:651
 #, fuzzy
 msgid "more tags"
 msgstr "タグがありません"
@@ -1578,23 +1588,29 @@ msgstr ""
 msgid "Click here to register this site as a feed reader."
 msgstr "クリックするとフィードリーダーとしてこのサイトを登録します。"
 
-#: modules/pref-feeds.php:1498
+#: modules/pref-feeds.php:1502
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
 msgstr ""
 
-#: modules/pref-feeds.php:1501
+#: modules/pref-feeds.php:1505 modules/pref-feeds.php:1510
 #, fuzzy
 msgid "Display URL"
 msgstr "タグの表示"
 
-#: modules/pref-feeds.php:1604
+#: modules/pref-feeds.php:1507
+msgid ""
+"Your OPML can be published publicly and can be subscribed by anyone who "
+"knows the URL below."
+msgstr ""
+
+#: modules/pref-feeds.php:1613
 #, fuzzy, php-format
 msgid "%d archived articles"
 msgstr "お気に入りの記事"
 
-#: modules/pref-feeds.php:1633
+#: modules/pref-feeds.php:1642
 msgid "No feeds found."
 msgstr "フィードがありません。"
 
@@ -2157,7 +2173,7 @@ msgid "Subscribed to %d feed(s)."
 msgstr "フィードを購読する:"
 
 #: functions.js:1999 functions.js:2030 prefs.js:557 prefs.js:587 prefs.js:619
-#: prefs.js:908 prefs.js:928 prefs.js:1795
+#: prefs.js:908 prefs.js:928 prefs.js:1831
 msgid "No feeds are selected."
 msgstr "選択されたフィードはありません。"
 
@@ -2369,44 +2385,49 @@ msgid "Replace current publishing address with a new one?"
 msgstr "新しいもので現在の公開アドレスを置き換えますか?"
 
 #: prefs.js:1678
+#, fuzzy
+msgid "Replace current OPML publishing address with a new one?"
+msgstr "新しいもので現在の公開アドレスを置き換えますか?"
+
+#: prefs.js:1714
 msgid "Save current configuration?"
 msgstr "現在の設定を保存しますか?"
 
-#: prefs.js:1779
+#: prefs.js:1815
 msgid "Rescore articles in selected feeds?"
 msgstr "選択したフィードの記事のスコアを再計算しますか?"
 
-#: prefs.js:1802
+#: prefs.js:1838
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "すべての記事のスコアを再計算しますか? この操作は大量の時間を使うでしょう。"
 
-#: prefs.js:1821
+#: prefs.js:1857
 msgid "Remove filter %s?"
 msgstr "フィルター %s を削除しますか?"
 
-#: prefs.js:1882
+#: prefs.js:1918
 msgid "Save changes to selected feeds?"
 msgstr "選択したフィードの変更を保存しますか?"
 
-#: prefs.js:1962
+#: prefs.js:1998
 msgid "Reset label colors to default?"
 msgstr "ラベルの色を標準にリセットしますか?"
 
-#: prefs.js:1987
+#: prefs.js:2023
 msgid "Please enter new label foreground color:"
 msgstr "新しいラベルの前景色を入力してください:"
 
-#: prefs.js:1989
+#: prefs.js:2025
 msgid "Please enter new label background color:"
 msgstr "新しいラベルの背景色を入力してください:"
 
-#: prefs.js:2121
+#: prefs.js:2157
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: prefs.js:2137
+#: prefs.js:2173
 msgid "Please choose a profile to activate."
 msgstr ""
 
