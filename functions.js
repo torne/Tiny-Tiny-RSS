@@ -867,7 +867,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 	var content = $(content_id);
 
 	if (!content) {
-		alert("[selectTableRows] Element " + content_id + " not found.");
+		debug("[selectTableRows] Element " + content_id + " not found.");
 		return;
 	}
 
@@ -915,8 +915,8 @@ function getSelectedTableRowIds(content_id, prefix) {
 	var content = $(content_id);
 
 	if (!content) {
-		alert("[getSelectedTableRowIds] Element " + content_id + " not found.");
-		return;
+		debug("[getSelectedTableRowIds] Element " + content_id + " not found.");
+		return new Array();
 	}
 
 	var sel_rows = new Array();
