@@ -477,6 +477,12 @@
 
 			print "<p>$content</p>";
 
+            print "<div class='nav'>
+                    <label>Navigation</label>
+                    <div class='button left' onclick='goPrev($id, $feed_id, this)'>Prev</div>
+                    <div class='button right' onclick='goNext($id, $feed_id, this)'>Next</div>
+                  </div>";
+
 			print "<fieldset>";
 
 			print "<div class=\"row\">

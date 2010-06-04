@@ -34,6 +34,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../lib/prototype.js"></script>
 <script type="text/javascript" src="mobile.js"></script>
+<style type="text/css" media="screen">@import "mobile.css";</style>
 </head>
 
 <style type="text/css">
