@@ -465,7 +465,7 @@ function removeSelectedUsers() {
 	
 		if (sel_rows.length > 0) {
 	
-			var ok = confirm(__("Remove selected users?"));
+			var ok = confirm(__("Remove selected users? Neither default admin nor your account will be removed."));
 	
 			if (ok) {
 				notify_progress("Removing selected users...");

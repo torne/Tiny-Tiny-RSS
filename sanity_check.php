@@ -66,6 +66,18 @@
 		$err_msg = "config: DATABASE_BACKED_SESSIONS are currently broken with MySQL";
 	}
 
+	if (SINGLE_USER_MODE) {
+		$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+		if ($link) {
+			$result = db_query($link, "SELECT id FROM ttrss_users WHERE id = 1");
+
+			if (db_num_rows($result) != 1) {	
+				$err_msg = "config: SINGLE_USER_MODE is enabled but default admin account (UID=1) is not found.";
+			}
+		}
+	}
+
 	if (defined('MAIL_FROM')) {
 		$err_msg = "config: MAIL_FROM has been split into DIGEST_FROM_NAME and DIGEST_FROM_ADDRESS";
 	}

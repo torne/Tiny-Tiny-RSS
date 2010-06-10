@@ -214,7 +214,7 @@
 				$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 				foreach ($ids as $id) {
-					if ($id != $_SESSION["uid"]) {
+					if ($id != $_SESSION["uid"] && $id != 1) {
 						db_query($link, "DELETE FROM ttrss_tags WHERE owner_uid = '$id'");
 						db_query($link, "DELETE FROM ttrss_feeds WHERE owner_uid = '$id'");
 						db_query($link, "DELETE FROM ttrss_users WHERE id = '$id'");
