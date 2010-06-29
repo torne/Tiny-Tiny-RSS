@@ -13,7 +13,11 @@
 	init_connection($link);
 
 	function opml_export($link, $owner_uid, $hide_private_feeds=False) {
-		header("Content-type: application/xml+opml");
+		if (!$_REQUEST["debug"]) {
+			header("Content-type: application/xml+opml");
+		} else {
+			header("Content-type: text/xml");
+		}
 		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
 		print "<opml version=\"1.0\">";
@@ -88,6 +92,26 @@
 			print "</outline>\n";	
 		}
 
+		# export tt-rss settings
+
+		print "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
+
+		$result = db_query($link, "SELECT pref_name, value FROM ttrss_user_prefs WHERE
+		   profile IS NULL AND owner_uid = " . $_SESSION["uid"]);
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$name = $line["pref_name"];
+			$value = htmlspecialchars($line["value"]);
+		
+			print "<outline pref-name=\"$name\" value=\"$value\">";
+
+			print "</outline>";
+
+		}		
+
+		print "</outline>";
+
 		print "</body></opml>";
 	}
 
@@ -125,10 +149,13 @@
 		login_sequence($link);
 		$owner_uid = $_SESSION["uid"];
 
+		header('Content-Type: text/html; charset=utf-8');
+
 		print "<html>
 			<head>
 				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
 				<title>".__("OPML Utility")."</title>
+				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head>
 			<body>
 			<div class=\"floatingLogo\"><img src=\"images/ttrss_logo.png\"></div>

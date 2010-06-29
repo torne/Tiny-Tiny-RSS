@@ -1,6 +1,8 @@
 <?php
 	function opml_import_domdoc($link, $owner_uid) {
 
+		$_FILES['opml_file']['tmp_name'] = '/home/fox/opml.php';
+
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$doc = DOMDocument::load($_FILES['opml_file']['tmp_name']);
 
@@ -39,27 +41,50 @@
 					$feed_url = db_escape_string($outline->attributes->getNamedItem('xmlUrl')->nodeValue);
 					$site_url = db_escape_string($outline->attributes->getNamedItem('htmlUrl')->nodeValue);
 
+					$pref_name = db_escape_string($outline->attributes->getNamedItem('pref-name')->nodeValue);
+
 					if ($cat_title && !$feed_url) {
 
-						db_query($link, "BEGIN");
+						if ($cat_title != "tt-rss-prefs") {
 
-						$result = db_query($link, "SELECT id FROM
-								ttrss_feed_categories WHERE title = '$cat_title' AND
-								owner_uid = '$owner_uid' LIMIT 1");
-
-						if (db_num_rows($result) == 0) {
-
-							printf(__("<li>Adding category <b>%s</b>.</li>"), $cat_title);
-
-							db_query($link, "INSERT INTO ttrss_feed_categories
-									(title,owner_uid) 
-									VALUES ('$cat_title', '$owner_uid')");
+							db_query($link, "BEGIN");
+	
+							$result = db_query($link, "SELECT id FROM
+									ttrss_feed_categories WHERE title = '$cat_title' AND
+									owner_uid = '$owner_uid' LIMIT 1");
+	
+							if (db_num_rows($result) == 0) {
+	
+								printf(__("<li>Adding category <b>%s</b>.</li>"), $cat_title);
+	
+								db_query($link, "INSERT INTO ttrss_feed_categories
+										(title,owner_uid) 
+										VALUES ('$cat_title', '$owner_uid')");
+							}
+	
+							db_query($link, "COMMIT");
 						}
-
-						db_query($link, "COMMIT");
 					}
 
 					//						print "$active_category : $feed_title : $feed_url<br>";
+
+					if ($pref_name) {
+						$parent_node = $outline->parentNode;
+
+						if ($parent_node && $parent_node->nodeName == "outline") {
+							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
+							if ($cat_check == "tt-rss-prefs") {
+								$pref_value = db_escape_string($outline->attributes->getNamedItem('value')->nodeValue);
+
+								printf("<li>".
+									__("Setting preference key %s to %s")."</li>", 
+										$pref_name, $pref_value);
+
+								set_pref($link, $pref_name, $pref_value);	
+
+							}
+						}
+					}
 
 					if (!$feed_title || !$feed_url) continue;
 
