@@ -12,7 +12,7 @@
 
 	init_connection($link);
 
-	function opml_export($link, $owner_uid, $hide_private_feeds=False) {
+	function opml_export($link, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
 		if (!$_REQUEST["debug"]) {
 			header("Content-type: application/xml+opml");
 		} else {
@@ -94,23 +94,25 @@
 
 		# export tt-rss settings
 
-		print "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
+		if ($include_settings) {
+			print "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
 
-		$result = db_query($link, "SELECT pref_name, value FROM ttrss_user_prefs WHERE
-		   profile IS NULL AND owner_uid = " . $_SESSION["uid"]);
+			$result = db_query($link, "SELECT pref_name, value FROM ttrss_user_prefs WHERE
+			   profile IS NULL AND owner_uid = " . $_SESSION["uid"]);
 
-		while ($line = db_fetch_assoc($result)) {
+			while ($line = db_fetch_assoc($result)) {
 
-			$name = $line["pref_name"];
-			$value = htmlspecialchars($line["value"]);
+				$name = $line["pref_name"];
+				$value = htmlspecialchars($line["value"]);
 		
-			print "<outline pref-name=\"$name\" value=\"$value\">";
+				print "<outline pref-name=\"$name\" value=\"$value\">";
+
+				print "</outline>";
+
+			}		
 
 			print "</outline>";
-
-		}		
-
-		print "</outline>";
+		}
 
 		print "</body></opml>";
 	}
@@ -127,7 +129,8 @@
 		$owner_uid = $_SESSION["uid"];
 		return opml_export($link, $owner_uid);
 	}
-        if ($op == "publish"){
+ 
+	if ($op == "publish"){
 		$key = db_escape_string($_REQUEST["key"]);
 
 		$result = db_query($link, "SELECT login, owner_uid 
@@ -138,7 +141,7 @@
 
 		if (db_num_rows($result) == 1) {
 			$owner = db_fetch_result($result, 0, "owner_uid");
-			return opml_export($link, $owner, True);
+			return opml_export($link, $owner, true, false);
 		} else {
 			print "<error>User not found</error>";
 		}
