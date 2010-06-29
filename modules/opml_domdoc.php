@@ -1,8 +1,6 @@
 <?php
 	function opml_import_domdoc($link, $owner_uid) {
 
-		$_FILES['opml_file']['tmp_name'] = '/home/fox/opml.php';
-
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$doc = DOMDocument::load($_FILES['opml_file']['tmp_name']);
 
