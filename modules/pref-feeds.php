@@ -1456,6 +1456,10 @@
 
 		print "&nbsp;"; */
 
+		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.");
+
+		print "</p>";
+
 		print "<iframe name=\"upload_iframe\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
