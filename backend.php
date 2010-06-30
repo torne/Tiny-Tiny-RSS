@@ -138,7 +138,7 @@
 		1   => __("Magpie"),
 		2   => __("SimplePie"));
 
-	if (ENABLE_SIMPLEPIE) {
+	if (DEFAULT_UPDATE_METHOD == "1") {
 		$update_methods[0] .= ' (SimplePie)';
 	} else {
 		$update_methods[0] .= ' (Magpie)';

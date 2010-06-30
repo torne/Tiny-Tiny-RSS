@@ -107,18 +107,10 @@
 	// Connection charset for MySQL. Only enable if having charset-related
 	// errors with MySQL (mangled characters, errors when updating feeds, etc).
 
-	define('ENABLE_SIMPLEPIE', false);
-	// Enables SimplePie RSS parsing library (experimental). When this option 
-	// is disabled, Tiny Tiny RSS defaults to Magpie library. 
-
-	// SimplePie is somewhat faster, more robust and less clunky as Magpie. 
-	// While it doesn't internally support HTTP Digest authentication 
-	// (required for Livejournal protected feeds and such) and SSL, it can
-	// support it when using CURL.
-
-	// To summarize, if your PHP has CURL extension or you aren't subscribed
-	// to any feeds using HTTP Digest authentication and Magpie XML parsing 
-	// errors are bothering you too much, you can try enabling SimplePie.
+	define('DEFAULT_UPDATE_METHOD', 0);
+	// Which feed parsing library to use as default:
+	// 0 - Magpie
+	// 1 - SimplePie
 
 	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache');
 	// Cache directory for RSS feeds when using SimplePie
@@ -196,7 +188,7 @@
 	// intervals is disabled and all articles (which are not starred) 
 	// older than this amount of days are purged.
 
-	define('CONFIG_VERSION', 18);
+	define('CONFIG_VERSION', 19);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

@@ -413,7 +413,7 @@
 				$checked = "";
 			}
 
-			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+			if (SIMPLEPIE_CACHE_IMAGES) {
 				$disabled = "";
 				$label_class = "";
 			} else {
@@ -607,7 +607,7 @@
 				__('Cache images locally')."</label>";
 
 
-			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+			if (SIMPLEPIE_CACHE_IMAGES) {
 				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
 			}
 
@@ -668,7 +668,7 @@
 				$parent_qpart = 'parent_feed = NULL';
 			}
 
-			if (ENABLE_SIMPLEPIE && SIMPLEPIE_CACHE_IMAGES) {
+			if (SIMPLEPIE_CACHE_IMAGES) {
 				$cache_images_qpart = "cache_images = $cache_images,";
 			} else {
 				$cache_images_qpart = "";

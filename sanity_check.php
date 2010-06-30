@@ -1,7 +1,7 @@
 <?php
 	require_once "functions.php";
 
-	define('EXPECTED_CONFIG_VERSION', 18);
+	define('EXPECTED_CONFIG_VERSION', 19);
 	define('SCHEMA_VERSION', 66);
 
 	if (!file_exists("config.php")) {
@@ -89,6 +89,15 @@
 	if (defined('DAEMON_REFRESH_ONLY')) {
 		$err_msg = "config: option DAEMON_REFRESH_ONLY is obsolete. Please remove this option and read about other ways to update feeds on the <a href='http://tt-rss.spb.ru/trac/wiki/UpdatingFeeds'>wiki</a>.";
 
+	}
+
+	if (defined('ENABLE_SIMPLEPIE')) {
+		$err_msg = "config: ENABLE_SIMPLEPIE is obsolete and replaced with DEFAULT_UPDATE_METHOD. Please adjust your config.php.";
+	}
+
+	if (!defined('DEFAULT_UPDATE_METHOD') || (DEFAULT_UPDATE_METHOD != 0 &&
+			DEFAULT_UPDATE_METHOD != 1)) {
+		$err_msg = "config: DEFAULT_UPDATE_METHOD should be either 0 or 1.";		
 	}
 
 	if ($err_msg) {

@@ -573,14 +573,10 @@
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
-		if (ALLOW_SELECT_UPDATE_METHOD) {
-			if (ENABLE_SIMPLEPIE) {
-				$use_simplepie = $update_method != 1;
-			} else {
-				$use_simplepie = $update_method == 2;
-			}
+		if (DEFAULT_UPDATE_METHOD == "1") {
+			$use_simplepie = $update_method != 1;
 		} else {
-			$use_simplepie = ENABLE_SIMPLEPIE;
+			$use_simplepie = $update_method == 2;
 		}
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
@@ -3961,7 +3957,7 @@
 		}
 
 		error_reporting(0);
-		if (ENABLE_SIMPLEPIE) {
+		if (DEFAULT_UPDATE_INTERVAL == "1") {
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
 //			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
@@ -3975,7 +3971,7 @@
 
 		if ($rss) {
 
-			if (ENABLE_SIMPLEPIE) {
+			if (DEFAULT_UPDATE_METHOD == "1") {
 				$items = $rss->get_items();
 			} else {
 				$items = $rss->items;
@@ -3990,7 +3986,7 @@
 
 			$latest_item = $items[0];
 
-			if (ENABLE_SIMPLEPIE) {
+			if (DEFAULT_UPDATE_METHOD == "1") {
 				$last_title = $latest_item->get_title();
 			} else {
 				$last_title = $latest_item["title"];
@@ -3998,7 +3994,7 @@
 
 			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_title));
 
-			if (ENABLE_SIMPLEPIE) {
+			if (DEFAULT_UPDATE_METHOD == "1") {
 				$release_url = sanitize_rss($link, $latest_item->get_link());
 				$content = sanitize_rss($link, $latest_item->get_description());
 			} else {
