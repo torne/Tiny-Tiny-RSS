@@ -1454,7 +1454,7 @@
 
 		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.");
 
-		print "<div class=\"insensitive\">" . __("Note: only main settings profile can be migrated using OPML.") . "</div>";
+		print "<div class=\"insensitive\">" . __("Note: Only main settings profile can be migrated using OPML.") . "</div>";
 
 		print "</p>";
 
