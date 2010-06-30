@@ -151,7 +151,7 @@
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
 	<?php } ?>
-	&copy; 2005&ndash;2010 <a href="http://fakecake.org/">Andrew Dolgov</a>
+	&copy; 2005&ndash;<?php echo date('Y') ?> <a href="http://fakecake.org/">Andrew Dolgov</a>
 </div>
 
 <?php db_close($link); ?>
