@@ -33,7 +33,8 @@
                 $where = "WHERE owner_uid = '$owner_uid'";
                 $orderby = "ORDER BY title";
 		if ($hide_private_feeds){
-			$where = "WHERE owner_uid = '$owner_uid' AND private IS false";
+			$where = "WHERE owner_uid = '$owner_uid' AND private IS false AND 
+				auth_login = '' AND auth_pass = ''";
 		}
 
 

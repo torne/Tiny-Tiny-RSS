@@ -1458,6 +1458,8 @@
 
 		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.");
 
+		print "<div class=\"insensitive\">" . __("Note: only main settings profile can be migrated using OPML.") . "</div>";
+
 		print "</p>";
 
 		print "<iframe name=\"upload_iframe\"
@@ -1478,41 +1480,46 @@
 		print "<button onclick=\"gotoExportOpml()\">".
 			__('Export OPML')."</button>";
 
+		if (!get_pref($link, "_PREFS_OPML_PUBLISH_KEY")){
+			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", generate_publish_key());
+		}
 
-		print "<h3>" . __("Firefox Integration") . "</h3>";
+		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
+
+		print "<div class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</div>" . "</p>";
+
+		print "<button onclick=\"return displayDlg('pubOPMLUrl')\">".
+			__('Display URL')."</button> ";
+
+
+		if (strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
+	
+			print "<h3>" . __("Firefox Integration") . "</h3>";
                 
-		print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
+			print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
 
-		print "<p";
+			print "<p";
 
-		print "<button onclick='window.navigator.registerContentHandler(" .
+			print "<button onclick='window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
                       "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
 							 __('Click here to register this site as a feed reader.') . 
 				"</button>";
 
-		print "</p>";
+			print "</p>";
+		}
 
 		print "<h3>".__("Published articles")."</h3>";
 
 		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
 			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
 		}
-
-                if (!get_pref($link, "_PREFS_OPML_PUBLISH_KEY")){
-			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", generate_publish_key());
-		}
 		
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
 		print "<button onclick=\"return displayDlg('pubUrl')\">".
 			__('Display URL')."</button> ";
-                
-		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.')."</p>";
-
-		print "<button onclick=\"return displayDlg('pubOPMLUrl')\">".
-			__('Display URL')."</button> ";
-
+               
 
 	}
 
