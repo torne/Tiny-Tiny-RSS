@@ -304,12 +304,10 @@
 
 			/* Update method */
 
-			if (ALLOW_SELECT_UPDATE_METHOD) {
-				$update_method = db_fetch_result($result, 0, "update_method");
+			$update_method = db_fetch_result($result, 0, "update_method");
 
-				print " " . __('using') . " ";
-				print_select_hash("update_method", $update_method, $update_methods);			
-			}
+			print " " . __('using') . " ";
+			print_select_hash("update_method", $update_method, $update_methods);			
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
@@ -533,12 +531,10 @@
 
 			/* Update method */
 
-			if (ALLOW_SELECT_UPDATE_METHOD) {
-				print " " . __('using') . " ";
-				print_select_hash("update_method", $update_method, $update_methods, 
-					"disabled");			
-				batch_edit_cbox("update_method");
-			}
+			print " " . __('using') . " ";
+			print_select_hash("update_method", $update_method, $update_methods, 
+				"disabled");			
+			batch_edit_cbox("update_method");
 
 			/* Purge intl */
 

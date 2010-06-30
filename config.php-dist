@@ -155,10 +155,6 @@
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
 
-	define('ALLOW_SELECT_UPDATE_METHOD', true);
-	// Allow users to select the library to update feeds with - e.g.
-	// Magpie or SimplePie
-
 	define('ENABLE_GZIP_OUTPUT', false);
 	// Selectively gzip output to improve wire performance. This requires
 	// PHP Zlib extension on the server.
