@@ -46,15 +46,6 @@
 	define('FEEDS_FRAME_REFRESH', 600);
 	// Auto refresh interval for feeds frame (in seconds)
 
-	define('MAX_UPDATE_TIME', 0);
-	// Limit one update sequence run to this number of seconds.
-	// The valiue is not exact, because it is being checked between feed updates,
-	// which could use abritrary amount of time.	Feeds which could not be updated
-	// in time, are being skipped.
-	// If this option is enabled (non-zero) feeds are updated in random order.
-	// It is also recommended to set FEEDS_FRAME_REFRESH to a lower value if using
-	// this option.
-
 	define('ENABLE_UPDATE_DAEMON', false);
 	// This enables different mechanism for user-triggered updates designed
 	// for update daemon running in background on the server.
