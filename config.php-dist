@@ -32,9 +32,6 @@
 	// Operate in single user mode, disables all functionality related to
 	// multiple users.
 	
-	define('ENABLE_FEED_BROWSER', true);
-	// Enable or disable local feed browser
-
 	define('TMP_DIRECTORY', '/tmp');
 	// Directory for temporary files
 
@@ -67,8 +64,8 @@
 	// greater or equal to SESSION_COOKIE_LIFETIME
 
 	define('DAEMON_UPDATE_LOGIN_LIMIT', 0);
-	// Stop updating feeds of user who haven't logged in
-	// in specified amount of days. 0 disables.
+	// Stop updating feeds of user who haven't logged in specified 
+	// amount of days. 0 disables.
 
 	define('CHECK_FOR_NEW_VERSION', true);
 	// Check for new versions of tt-rss when entering preferences.
