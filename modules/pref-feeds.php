@@ -1556,9 +1556,9 @@
 
 				if ($mode == 1) {
 
-					$feed_url = htmlspecialchars($line["feed_url"]);
+					$feed_url = $line["feed_url"];
 					$subscribers = $line["subscribers"];
-	
+
 					$det_result = db_query($link, "SELECT site_url,title,id 
 						FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
 	
@@ -1579,6 +1579,8 @@
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
 	
+					$feed_url = htmlspecialchars($line["feed_url"]);
+
 					if ($details["site_url"]) {
 						$site_url = "<a target=\"_blank\" href=\"".
 							htmlspecialchars($details["site_url"])."\">
