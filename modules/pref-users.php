@@ -187,7 +187,7 @@
 
 		if ($subop == "editSave") {
 	
-			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+			if ($_SESSION["access_level"] >= 10) {
 
 				$login = db_escape_string(trim($_REQUEST["login"]));
 				$uid = db_escape_string($_REQUEST["id"]);
@@ -262,7 +262,7 @@
 			} 
 		} else if ($subop == "resetPass") {
 
-			if (!WEB_DEMO_MODE && $_SESSION["access_level"] >= 10) {
+			if ($_SESSION["access_level"] >= 10) {
 
 				$uid = db_escape_string($_REQUEST["id"]);
 

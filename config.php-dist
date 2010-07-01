@@ -22,11 +22,6 @@
 	// How long to store cached RSS objects? In seconds.
 	// Defaults to 30 minutes
 
-	define('WEB_DEMO_MODE', false);
-	// Demo mode with reduced functionality.
-	// Warning: this option is obsolete. Don't rely on it being
-	// checked in all necessary places.
-
 	define('ICONS_DIR', "icons");
 	define('ICONS_URL', "icons");
 	// Local and URL path to the directory, where feed favicons are stored.
@@ -72,7 +67,7 @@
 	// greater or equal to SESSION_COOKIE_LIFETIME
 
 	define('DAEMON_UPDATE_LOGIN_LIMIT', 0);
-	// Stop updating feeds of user who was never logged in
+	// Stop updating feeds of user who haven't logged in
 	// in specified amount of days. 0 disables.
 
 	define('CHECK_FOR_NEW_VERSION', true);

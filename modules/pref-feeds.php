@@ -957,35 +957,33 @@
 
 		if ($subop == "categorize") {
 
-			if (!WEB_DEMO_MODE) {
 
-				$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
-				$cat_id = db_escape_string($_REQUEST["cat_id"]);
+			$cat_id = db_escape_string($_REQUEST["cat_id"]);
 
-				if ($cat_id == 0) {
-					$cat_id_qpart = 'NULL';
-				} else {
-					$cat_id_qpart = "'$cat_id'";
-				}
-
-				db_query($link, "BEGIN");
-
-				foreach ($ids as $id) {
-				
-					db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
-						WHERE id = '$id' AND parent_feed IS NULL
-					  	AND owner_uid = " . $_SESSION["uid"]);
-
-					# update linked feed categories
-					db_query($link, "UPDATE ttrss_feeds SET
-						cat_id = $cat_id_qpart WHERE parent_feed = '$id' AND 
-						owner_uid = " . $_SESSION["uid"]);
-
-				}
-
-				db_query($link, "COMMIT");
+			if ($cat_id == 0) {
+				$cat_id_qpart = 'NULL';
+			} else {
+				$cat_id_qpart = "'$cat_id'";
 			}
+
+			db_query($link, "BEGIN");
+
+			foreach ($ids as $id) {
+			
+				db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
+					WHERE id = '$id' AND parent_feed IS NULL
+				  	AND owner_uid = " . $_SESSION["uid"]);
+
+				# update linked feed categories
+				db_query($link, "UPDATE ttrss_feeds SET
+					cat_id = $cat_id_qpart WHERE parent_feed = '$id' AND 
+					owner_uid = " . $_SESSION["uid"]);
+
+			}
+
+			db_query($link, "COMMIT");
 
 		}
 
@@ -1033,27 +1031,25 @@
 
 			if ($action == "add") {
 
-				if (!WEB_DEMO_MODE) {
 	
-					$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
-	
-					$result = db_query($link,
-						"SELECT id FROM ttrss_feed_categories
-						WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
-	
-					if (db_num_rows($result) == 0) {
-						
-						$result = db_query($link,
-							"INSERT INTO ttrss_feed_categories (owner_uid,title) 
-							VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
-	
-					} else {
-	
-						print_warning(T_sprintf("Category <b>$%s</b> already exists in the database.", 
-							$feed_cat));
-					}
+				$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
 
+				$result = db_query($link,
+					"SELECT id FROM ttrss_feed_categories
+					WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+					
+					$result = db_query($link,
+						"INSERT INTO ttrss_feed_categories (owner_uid,title) 
+						VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
+
+				} else {
+
+					print_warning(T_sprintf("Category <b>$%s</b> already exists in the database.", 
+						$feed_cat));
 				}
+
 			}
 
 			if ($action == "remove") {
