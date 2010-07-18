@@ -388,6 +388,16 @@
 
 			break;
 
+		case "catchupFeed":
+			$feed_id = db_escape_string($_REQUEST["feed_id"]);
+			$is_cat = db_escape_string($_REQUEST["category"]);
+
+			catchup_feed($link, $feed, $is_cat);
+
+			print json_encode(array("status" => "OK"));
+
+			break;
+
 		case "getPref":
 			$pref_name = db_escape_string($_REQUEST["pref_name"]);
 			print json_encode(array("value" => get_pref($link, $pref_name)));
