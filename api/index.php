@@ -331,6 +331,8 @@
 				WHERE	id = '$article_id' AND ref_id = id AND owner_uid = " . 
 					$_SESSION["uid"] ;
 
+			$attachments = get_article_enclosures($link, $article_id);
+
 			$result = db_query($link, $query);
 
 			$article = array();
@@ -349,7 +351,8 @@
 					"author" => $line["author"],
 					"updated" => strtotime($line["updated"]),
 					"content" => $line["content"],
-					"feed_id" => $line["feed_id"],			
+					"feed_id" => $line["feed_id"],
+					"attachments" => $attachments
 				);
 			}
 
