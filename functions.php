@@ -3667,7 +3667,11 @@
 
  			$rfc822_date = date('r', strtotime($line["updated"]));
   
- 			print "<pubDate>$rfc822_date</pubDate>";
+			print "<pubDate>$rfc822_date</pubDate>";
+
+			if ($line["author"]) {
+				print "<author>" . htmlspecialchars($line["author"]) . "</author>";
+			}
  
  			print "<title>" . 
  				htmlspecialchars($line["title"]) . "</title>";
