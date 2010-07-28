@@ -61,7 +61,7 @@
 				$uid = 0;
 			}
 
-			if (get_pref($link, "ENABLE_API_ACCESS", $uid)) {
+			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {
 					print json_encode(array("session_id" => session_id()));
 				} else {
