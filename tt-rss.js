@@ -613,6 +613,18 @@ function quickMenuGo(opid) {
 			resize_headlines();
 		}
 
+		if (opid == "qmcToggleReorder") {
+			feedlist_sortable_enabled = !feedlist_sortable_enabled;
+
+			if (feedlist_sortable_enabled) {
+				notify_info("Category reordering enabled");
+				toggle_sortable_feedlist(true);
+			} else {
+				notify_info("Category reordering disabled");
+				toggle_sortable_feedlist(false);
+			}
+		}
+
 		if (opid == "qmcResetCats") {
 
 			if (confirm(__("Reset category order?"))) {
