@@ -23,8 +23,6 @@
 	require_once "config.php";
 
 	define('MAX_JOBS', 2);
-	define('SPAWN_INTERVAL', 1);
-
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
 
 	if (!function_exists('pcntl_fork')) {
