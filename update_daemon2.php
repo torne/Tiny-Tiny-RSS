@@ -17,11 +17,13 @@
 	}
 
 	define('PURGE_INTERVAL', 3600); // seconds
+	define('MAX_CHILD_RUNTIME', 600); // seconds
 
 	require_once "sanity_check.php";
 	require_once "config.php";
 
 	define('MAX_JOBS', 2);
+	define('SPAWN_INTERVAL', 1);
 
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
 
@@ -41,6 +43,7 @@
 	error_reporting(DEFAULT_ERROR_LEVEL);
 
 	$children = array();
+	$ctimes = array();
 
 	$last_checkpoint = -1;
 
@@ -54,6 +57,7 @@
 				array_push($tmp, $pid);
 			} else {
 				_debug("[SIGCHLD] child $pid reaped.");
+				unset($ctimes[$pid]);
 			}
 		}
 
@@ -62,8 +66,17 @@
 		return count($tmp);
 	}
 
-	function sigalrm_handler() {
-		die("[SIGALRM] hang in feed update?\n");
+	function check_ctimes() {
+		global $ctimes;
+		
+		foreach (array_keys($ctimes) as $pid) {
+			$started = $ctimes[$pid];
+
+			if (time() - $started > MAX_CHILD_RUNTIME) {
+				_debug("[MASTER] child process $pid seems to be stuck, aborting...");
+				posix_kill($pid, SIGINT);
+			}
+		}
 	}
 
 	function sigchld_handler($signal) {
@@ -79,7 +92,6 @@
 		die("[SIGINT] removing lockfile and exiting.\n");
 	}
 
-	pcntl_signal(SIGALRM, 'sigalrm_handler');
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
 
 	if (file_is_locked("update_daemon.lock")) {
@@ -128,6 +140,7 @@
 
 		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
 
+			check_ctimes();
 			reap_children();
 
 			for ($j = count($children); $j < MAX_JOBS; $j++) {
@@ -137,6 +150,7 @@
 				} else if ($pid) {
 					_debug("[MASTER] spawned client $j [PID:$pid]...");
 					array_push($children, $pid);
+					$ctimes[$pid] = time();
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
 					pcntl_signal(SIGINT, SIG_DFL);

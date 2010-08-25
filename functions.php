@@ -5895,13 +5895,6 @@
 
 			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
-			// We setup a alarm to alert if the feed take more than 300s to update.
-			// => HANG alarm.
-			if(!$from_http && function_exists('pcntl_alarm')) pcntl_alarm(300);
-			update_rss_feed($link, $line["id"], true);
-			// Cancel the alarm (the update went well)
-			if(!$from_http && function_exists('pcntl_alarm')) pcntl_alarm(0);
-
 			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
