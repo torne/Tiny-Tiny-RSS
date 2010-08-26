@@ -47,6 +47,7 @@
 
 	function reap_children() {
 		global $children;
+		global $ctimes;
 
 		$tmp = array();
 
