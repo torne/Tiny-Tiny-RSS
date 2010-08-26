@@ -5895,6 +5895,8 @@
 
 			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
+			update_rss_feed($link, $line["id"], true);
+
 			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
