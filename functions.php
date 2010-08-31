@@ -2611,6 +2611,8 @@
 			return getCategoryUnread($link, $n_feed, $owner_uid);		
 		} if ($feed != "0" && $n_feed == 0) {
 
+			$feed = db_escape_string($feed);
+
 			$result = db_query($link, "SELECT SUM((SELECT COUNT(int_id)
 				FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id 
 					AND ref_id = id AND $age_qpart
