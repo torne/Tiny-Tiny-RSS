@@ -11,14 +11,17 @@ Array.prototype.remove = function(s) {
 	}
 }
 
-function is_opera() {
-	return window.opera;
-}
+/* create console.log if it doesn't exist */
+
+if (!window.console) console = {};
+console.log = console.log || function(msg) { debug(msg); };
+console.warn = console.warn || function(msg) { debug(msg); };
+console.error = console.error || function(msg) { debug(msg); };
 
 function exception_error(location, e, ext_info) {
 	var msg = format_exception_error(location, e);
 
-	if (!ext_info) ext_info = "N/A";
+	if (!ext_info) ext_info = false;
 
 	disableHotkeys();
 
@@ -39,10 +42,16 @@ function exception_error(location, e, ext_info) {
 	
 			ebc.innerHTML = 
 				"<div><b>Error message:</b></div>" +
-				"<pre>" + msg + "</pre>" +
-				"<div><b>Additional information:</b></div>" +
-				"<textarea readonly=\"1\">" + ext_info + "</textarea>";
-	
+				"<pre>" + msg + "</pre>";
+
+			if (ext_info) {
+				ebc.innerHTML += "<div><b>Additional information:</b></div>" +
+					"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+			}
+
+			ebc.innerHTML += "<div><b>Stack trace:</b></div>" +
+				"<textarea readonly=\"1\">" + e.stack + "</textarea>";
+
 		} else {
 			alert(msg);
 		}
@@ -70,7 +79,7 @@ function format_exception_error(location, e) {
 		msg = "Exception: " + e + "\nFunction: " + location + "()";
 	}
 
-	debug("<b>EXCEPTION: " + msg + "</b>");
+	console.error("EXCEPTION: " + msg);
 
 	return msg;
 }
@@ -313,7 +322,7 @@ function setCookie(name, value, lifetime, path, domain, secure) {
 		d.setTime(d.getTime() + (lifetime * 1000));
 	}
 
-	debug("setCookie: " + name + " => " + value + ": " + d);
+	console.log("setCookie: " + name + " => " + value + ": " + d);
 	
 	int_setCookie(name, value, d, path, domain, secure);
 
@@ -511,13 +520,13 @@ function parse_counters(reply, scheduled_call) {
 
 		var feeds_stored = number_of_feeds;
 
-		debug("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
+		console.log("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
 
 		if (feeds_stored != feeds_found) {
 			number_of_feeds = feeds_found;
 
 			if (feeds_stored != 0 && feeds_found != 0) {
-				debug("Subscribed feed number changed, refreshing feedlist");
+				console.log("Subscribed feed number changed, refreshing feedlist");
 				setTimeout('updateFeedList(false, false)', 50);
 			}
 		} else {
@@ -572,9 +581,9 @@ function all_counters_callback2(transport, async_call) {
 		
 		if (offline_mode) return;
 
-		debug("<b>all_counters_callback2 IN: " + transport + "</b>");
+		console.log("<b>all_counters_callback2 IN: " + transport + "</b>");
 		parse_counters_reply(transport);
-		debug("<b>all_counters_callback2 OUT: " + transport + "</b>");
+		console.log("<b>all_counters_callback2 OUT: " + transport + "</b>");
 
 	} catch (e) {
 		exception_error("all_counters_callback2", e, transport);
@@ -625,7 +634,7 @@ function resort_category(node, cat_mode) {
 
 	try {
 
-		debug("resort_category: " + node + " CM=" + cat_mode);
+		console.log("resort_category: " + node + " CM=" + cat_mode);
 	
 		var by_unread = feedsSortByUnread();
 	
@@ -660,7 +669,7 @@ function resort_category(node, cat_mode) {
 }
 
 function resort_feedlist() {
-	debug("resort_feedlist");
+	console.log("resort_feedlist");
 
 	if ($("FCATLIST--1")) {
 
@@ -715,7 +724,7 @@ function hideOrShowFeeds(hide) {
 
 	try {
 
-	debug("hideOrShowFeeds: " + hide);
+	console.log("hideOrShowFeeds: " + hide);
 
 	if ($("FCATLIST--1")) {
 
@@ -752,16 +761,16 @@ function hideOrShowFeedsCategory(id, hide) {
 			node = $("feedList"); // no categories
 		}
 
-	//	debug("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
+	//	console.log("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
 	
 		var cat_unread = 0;
 	
 		if (!node) {
-			debug("hideOrShowFeeds: passed node is null, aborting");
+			console.log("hideOrShowFeeds: passed node is null, aborting");
 			return;
 		}
 	
-	//	debug("cat: " + node.id);
+	//	console.log("cat: " + node.id);
 	
 		if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
 			for (i = 0; i < node.childNodes.length; i++) {
@@ -776,7 +785,7 @@ function hideOrShowFeedsCategory(id, hide) {
 						node.childNodes[i].className != "error" && 
 						node.childNodes[i].className != "tag");
 		
-	//				debug(node.childNodes[i].id + " --> " + has_unread);
+	//				console.log(node.childNodes[i].id + " --> " + has_unread);
 		
 					if (hide && !has_unread) {
 						//node.childNodes[i].style.display = "none";
@@ -800,13 +809,13 @@ function hideOrShowFeedsCategory(id, hide) {
 			}
 		}	
 	
-	//	debug("end cat: " + node.id + " unread " + cat_unread);
+	//	console.log("end cat: " + node.id + " unread " + cat_unread);
 
 		if (cat_node) {
 
 			if (cat_unread == 0) {
 				if (cat_node.style == undefined) {
-					debug("ERROR: supplied cat_node " + cat_node + 
+					console.log("ERROR: supplied cat_node " + cat_node + 
 						" has no styles. WTF?");
 					return;
 				}
@@ -821,12 +830,12 @@ function hideOrShowFeedsCategory(id, hide) {
 				try {
 					cat_node.style.display = "list-item";
 				} catch (e) {
-					debug(e);
+					console.log(e);
 				}
 			}
 		}
 
-//	debug("unread for category: " + cat_unread);
+//	console.log("unread for category: " + cat_unread);
 
 	} catch (e) {
 		exception_error("hideOrShowFeedsCategory", e);
@@ -867,7 +876,7 @@ function selectTableRowsByIdPrefix(content_id, prefix, check_prefix, do_select,
 	var content = $(content_id);
 
 	if (!content) {
-		debug("[selectTableRows] Element " + content_id + " not found.");
+		console.log("[selectTableRows] Element " + content_id + " not found.");
 		return;
 	}
 
@@ -915,7 +924,7 @@ function getSelectedTableRowIds(content_id, prefix) {
 	var content = $(content_id);
 
 	if (!content) {
-		debug("[getSelectedTableRowIds] Element " + content_id + " not found.");
+		console.log("[getSelectedTableRowIds] Element " + content_id + " not found.");
 		return new Array();
 	}
 
@@ -1211,6 +1220,14 @@ function leading_zero(p) {
 	return s;
 }
 
+function make_timestamp() {
+	var d = new Date();
+
+  	return leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
+			":" + leading_zero(d.getSeconds());
+}
+
+
 function closeErrorBox() {
 
 	if (Element.visible("errorBoxShadow")) {
@@ -1279,7 +1296,7 @@ function infobox_submit_callback2(transport) {
 function infobox_callback2(transport) {
 	try {
 
-		debug("infobox_callback2");
+		console.log("infobox_callback2");
 
 		var box = $('infoBox');
 		
@@ -1355,7 +1372,7 @@ function subscribeToFeed() {
 
 	var query = Form.serialize("feed_add_form");
 	
-	debug("subscribe q: " + query);
+	console.log("subscribe q: " + query);
 
 	Form.disable("feed_add_form");
 
@@ -1436,9 +1453,7 @@ function debug(msg) {
 			c.removeChild(c.lastChild);
 		}
 	
-		var d = new Date();
-		var ts = leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
-			":" + leading_zero(d.getSeconds());
+		var ts = make_timestamp();
 		c.innerHTML = "<li class=\"" + debug_last_class + "\"><span class=\"debugTS\">[" + ts + "]</span> " + 
 			msg + "</li>" + c.innerHTML;
 	}
@@ -1520,7 +1535,7 @@ function filterDlgCheckType(sender) {
 		}
 
 		if (!form) {
-			debug("filterDlgCheckType: can't find form!");
+			console.log("filterDlgCheckType: can't find form!");
 			return;
 		}
 
@@ -1553,14 +1568,14 @@ function filterDlgCheckAction(sender) {
 		}
 
 		if (!form) {
-			debug("filterDlgCheckAction: can't find form!");
+			console.log("filterDlgCheckAction: can't find form!");
 			return;
 		}
 
 		var action_param = $("filter_dlg_param_box");
 
 		if (!action_param) {
-			debug("filterDlgCheckAction: can't find action param box!");
+			console.log("filterDlgCheckAction: can't find action param box!");
 			return;
 		}
 
@@ -1593,7 +1608,7 @@ function filterDlgCheckDate() {
 		}
 
 		if (!form) {
-			debug("filterDlgCheckAction: can't find form!");
+			console.log("filterDlgCheckAction: can't find form!");
 			return;
 		}
 
@@ -1643,7 +1658,7 @@ function getRelativePostIds(id, limit) {
 
 	if (!limit) limit = 3;
 
-	debug("getRelativePostIds: " + id + " limit=" + limit);
+	console.log("getRelativePostIds: " + id + " limit=" + limit);
 
 	var ids = new Array();
 	var container = $("headlinesList");
@@ -1675,12 +1690,12 @@ function getRelativePostIds(id, limit) {
 
 function openArticleInNewWindow(id) {
 	try {
-		debug("openArticleInNewWindow: " + id);
+		console.log("openArticleInNewWindow: " + id);
 
 		var query = "?op=rpc&subop=getArticleLink&id=" + id;
 		var wname = "ttrss_article_" + id;
 
-		debug(query + " " + wname);
+		console.log(query + " " + wname);
 
 		var w = window.open("", wname);
 
@@ -1693,13 +1708,13 @@ function openArticleInNewWindow(id) {
 					var link = transport.responseXML.getElementsByTagName("link")[0];
 					var id = transport.responseXML.getElementsByTagName("id")[0];
 		
-					debug("open_article received link: " + link);
+					console.log("open_article received link: " + link);
 		
 					if (link && id) {
 		
 						var wname = "ttrss_article_" + id.firstChild.nodeValue;
 		
-						debug("link url: " + link.firstChild.nodeValue + ", wname " + wname);
+						console.log("link url: " + link.firstChild.nodeValue + ", wname " + wname);
 		
 						var w = window.open(link.firstChild.nodeValue, wname);
 		
@@ -1800,7 +1815,7 @@ function loading_set_progress(p) {
 	try {
 		if (p < last_progress_point || !Element.visible("overlay")) return;
 
-		debug("<b>loading_set_progress : " + p + " (" + last_progress_point + ")</b>");
+		console.log("<b>loading_set_progress : " + p + " (" + last_progress_point + ")</b>");
 
 		var o = $("l_progress_i");
 
@@ -1821,9 +1836,9 @@ function loading_set_progress(p) {
 
 function remove_splash() {
 	if (Element.visible("overlay")) {
-		debug("about to remove splash, OMG!");
+		console.log("about to remove splash, OMG!");
 		Element.hide("overlay");
-		debug("removed splash!");
+		console.log("removed splash!");
 	}
 }
 
@@ -1924,7 +1939,7 @@ function hotkey_prefix_timeout() {
 		var ts = Math.round(date.getTime() / 1000);
 
 		if (hotkey_prefix_pressed && ts - hotkey_prefix_pressed >= 5) {
-			debug("hotkey_prefix seems to be stuck, aborting");
+			console.log("hotkey_prefix seems to be stuck, aborting");
 			hotkey_prefix_pressed = false;
 			hotkey_prefix = false;
 			Element.hide('cmdline');
@@ -2066,7 +2081,7 @@ function removeFeedIcon(id) {
 		if (confirm(__("Remove stored feed icon?"))) {
 			var query = "backend.php?op=pref-feeds&subop=removeicon&feed_id=" + param_escape(id);
 
-			debug(query);
+			console.log(query);
 
 			notify_progress("Removing feed icon...", true);
 

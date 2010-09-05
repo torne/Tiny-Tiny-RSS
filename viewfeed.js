@@ -17,7 +17,7 @@ var last_requested_article = false;
 
 function catchup_callback2(transport, callback) {
 	try {
-		debug("catchup_callback2 " + transport + ", " + callback);
+		console.log("catchup_callback2 " + transport + ", " + callback);
 		notify("");			
 		all_counters_callback2(transport);
 		if (callback) {
@@ -55,7 +55,7 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		loading_set_progress(100);
 
-		debug("headlines_callback2 [page=" + feed_cur_page + "]");
+		console.log("headlines_callback2 [page=" + feed_cur_page + "]");
 
 		if (!transport_error_check(transport)) return;
 
@@ -101,7 +101,7 @@ function headlines_callback2(transport, feed_cur_page) {
 		var f = $("headlines-frame");
 		try {
 			if (feed_cur_page == 0) { 
-				debug("resetting headlines scrollTop");
+				console.log("resetting headlines scrollTop");
 				f.scrollTop = 0; 
 			}
 		} catch (e) { };
@@ -150,14 +150,14 @@ function headlines_callback2(transport, feed_cur_page) {
 					}
 
 				} else {
-					debug("headlines_callback: returned no data");
+					console.log("headlines_callback: returned no data");
 				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
 	
 				}
 			} else {
 				if (headlines) {
 					if (headlines_count > 0) {
-						debug("adding some more headlines...");
+						console.log("adding some more headlines...");
 	
 						var c = $("headlinesList");
 		
@@ -169,17 +169,17 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 						c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
 
-						debug("restore selected ids: " + ids);
+						console.log("restore selected ids: " + ids);
 
 						for (var i = 0; i < ids.length; i++) {
 							markHeadline(ids[i]);
 						}
 
 					} else {
-						debug("no new headlines received");
+						console.log("no new headlines received");
 					}
 				} else {
-					debug("headlines_callback: returned no data");
+					console.log("headlines_callback: returned no data");
 					notify_error("Error while trying to load more headlines");	
 				}
 
@@ -188,30 +188,30 @@ function headlines_callback2(transport, feed_cur_page) {
 			if (articles) {
 				for (var i = 0; i < articles.length; i++) {
 					var a_id = articles[i].getAttribute("id");
-					debug("found id: " + a_id);
+					console.log("found id: " + a_id);
 					cache_inject(a_id, articles[i].firstChild.nodeValue);
 				}
 			} else {
-				debug("no cached articles received");
+				console.log("no cached articles received");
 			}
 	
 			if (counters) {
-				debug("parsing piggybacked counters: " + counters);
+				console.log("parsing piggybacked counters: " + counters);
 				parse_counters(counters, false);
 			} else {
-				debug("counters container not found in reply, requesting...");
+				console.log("counters container not found in reply, requesting...");
 				request_counters();
 			}
 	
 			if (runtime_info) {
-				debug("parsing runtime info: " + runtime_info[0]);
+				console.log("parsing runtime info: " + runtime_info[0]);
 				parse_runtime_info(runtime_info[0]);
 			} else {
-				debug("counters container not found in reply");
+				console.log("counters container not found in reply");
 			}
 	
 		} else {
-			debug("headlines_callback: returned no XML object");
+			console.log("headlines_callback: returned no XML object");
 			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 		}
 	
@@ -224,11 +224,11 @@ function headlines_callback2(transport, feed_cur_page) {
 		if (!$("headlinesList") && 
 				getActiveFeedId() != -3 &&
 				getInitParam("cdm_auto_catchup") == 1) {
-			debug("starting CDM watchdog");
+			console.log("starting CDM watchdog");
 			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
 			_cdm_wd_vishist = new Array();
 		} else {
-			debug("not in CDM mode or watchdog disabled");
+			console.log("not in CDM mode or watchdog disabled");
 		}
 	
 		_feed_cur_page = feed_cur_page;
@@ -332,7 +332,7 @@ function showArticleInHeadlines(id) {
 
 function article_callback2(transport, id) {
 	try {
-		debug("article_callback2 " + id);
+		console.log("article_callback2 " + id);
 
 		if (!transport.responseText && db) {
 			offlineConfirmModeChange();
@@ -355,23 +355,23 @@ function article_callback2(transport, id) {
 			}
 
 			if (id != last_requested_article) {
-				debug("requested article id is out of sequence, aborting");
+				console.log("requested article id is out of sequence, aborting");
 				return;
 			}
 
 			active_post_id = id; 
 
-			debug("looking for articles to cache...");
+			console.log("looking for articles to cache...");
 
 			var articles = transport.responseXML.getElementsByTagName("article");
 
 			for (var i = 0; i < articles.length; i++) {
 				var a_id = articles[i].getAttribute("id");
 
-				debug("found id: " + a_id);
+				console.log("found id: " + a_id);
 
 				if (a_id == active_post_id) {
-					debug("active article, rendering...");					
+					console.log("active article, rendering...");					
 					render_article(articles[i].firstChild.nodeValue);
 				}
 
@@ -388,7 +388,7 @@ function article_callback2(transport, id) {
 			var reply = transport.responseXML.firstChild.firstChild;
 		
 		} else {
-			debug("article_callback: returned no XML object");
+			console.log("article_callback: returned no XML object");
 			//var f = $("content-frame");
 			//f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 		}
@@ -408,10 +408,10 @@ function article_callback2(transport, id) {
 				var counters = transport.responseXML.getElementsByTagName("counters")[0];
 
 				if (counters) {
-					debug("parsing piggybacked counters: " + counters);
+					console.log("parsing piggybacked counters: " + counters);
 					parse_counters(counters, false);
 				} else {
-					debug("counters container not found in reply, requesting...");
+					console.log("counters container not found in reply, requesting...");
 					request_counters();
 				}
 			}
@@ -425,13 +425,13 @@ function article_callback2(transport, id) {
 
 function view(id) {
 	try {
-		debug("loading article: " + id);
+		console.log("loading article: " + id);
 
 		if (offline_mode) return view_offline(id);
 
 		var cached_article = cache_find(id);
 
-		debug("cache check result: " + (cached_article != false));
+		console.log("cache check result: " + (cached_article != false));
 	
 		enableHotkeys();
 		hideAuxDlg();
@@ -450,7 +450,7 @@ function view(id) {
 			}
 		}
 
-		debug("additional ids: " + cids_to_request.toString());			
+		console.log("additional ids: " + cids_to_request.toString());			
 
 		/* additional info for piggyback counters */
 
@@ -521,7 +521,7 @@ function tMark_afh_off(effect) {
 	try {
 		var elem = effect.effects[0].element;
 
-		debug("tMark_afh_off : " + elem.id);
+		console.log("tMark_afh_off : " + elem.id);
 
 		if (elem) {
 			elem.src = elem.src.replace("mark_set", "mark_unset");
@@ -538,7 +538,7 @@ function tPub_afh_off(effect) {
 	try {
 		var elem = effect.effects[0].element;
 
-		debug("tPub_afh_off : " + elem.id);
+		console.log("tPub_afh_off : " + elem.id);
 
 		if (elem) {
 			elem.src = elem.src.replace("pub_set", "pub_unset");
@@ -601,7 +601,7 @@ function toggleMark(id, client_only, no_effects) {
 		if (!no_effects) update_local_feedlist_counters();
 
 		if (!client_only) {
-			debug(query);
+			console.log(query);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -708,8 +708,8 @@ function correctHeadlinesOffset(id) {
 		var rel_offset_top = row.offsetTop - container.scrollTop;
 		var rel_offset_bottom = row.offsetTop + row.offsetHeight - container.scrollTop;
 	
-		debug("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
-		debug("Vport: " + viewport);
+		console.log("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
+		console.log("Vport: " + viewport);
 
 		if (rel_offset_top <= 0 || rel_offset_top > viewport) {
 			container.scrollTop = row.offsetTop;
@@ -1309,7 +1309,7 @@ function deleteSelection() {
 
 		query = "?op=rpc&subop=delete&ids=" + param_escape(rows);
 
-		debug(query);
+		console.log(query);
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -1361,7 +1361,7 @@ function archiveSelection() {
 
 		query = "?op=rpc&subop="+op+"&ids=" + param_escape(rows);
 
-		debug(query);
+		console.log(query);
 
 		for (var i = 0; i < rows.length; i++) {
 			cache_invalidate(rows[i]);
@@ -1437,13 +1437,13 @@ function editTagsSave() {
 
 	query = "?op=rpc&subop=setArticleTags&" + query;
 
-	debug(query);
+	console.log(query);
 
 	new Ajax.Request("backend.php",	{
 		parameters: query,
 		onComplete: function(transport) {
 				try {
-					debug("tags saved...");
+					console.log("tags saved...");
 			
 					closeInfoBox();
 					notify("");
@@ -1501,7 +1501,7 @@ function editTagsInsert() {
 }
 
 function cdmScrollViewport(where) {
-	debug("cdmScrollViewport: " + where);
+	console.log("cdmScrollViewport: " + where);
 
 	var ctr = $("headlinesInnerContainer");
 
@@ -1620,7 +1620,7 @@ function cdmWatchdog() {
 				if (ctr.scrollTop <= e.offsetTop && e.offsetTop + e.offsetHeight <=
 						ctr.scrollTop + ctr.offsetHeight) {
 
-//					debug(e.id + " is visible " + e.offsetTop + "." + 
+//					console.log(e.id + " is visible " + e.offsetTop + "." + 
 //						(e.offsetTop + e.offsetHeight) + " vs " + ctr.scrollTop + "." +
 //						(ctr.scrollTop + ctr.offsetHeight));
 
@@ -1648,7 +1648,7 @@ function cdmWatchdog() {
 			e = e.nextSibling;
 		}
 
-		debug("cdmWatchdog, ids= " + ids.toString());
+		console.log("cdmWatchdog, ids= " + ids.toString());
 
 		if (ids.length > 0) {
 
@@ -1682,7 +1682,7 @@ function cdmWatchdog() {
 function cache_inject(id, article, param) {
 	try {
 		if (!cache_check_param(id, param)) {
-			debug("cache_article: miss: " + id + " [p=" + param + "]");
+			console.log("cache_article: miss: " + id + " [p=" + param + "]");
 	
 			if (db) {
 
@@ -1703,7 +1703,7 @@ function cache_inject(id, article, param) {
 			}
 	
 		} else {
-			debug("cache_article: hit: " + id + " [p=" + param + "]");
+			console.log("cache_article: hit: " + id + " [p=" + param + "]");
 		}
 	} catch (e) {	
 		exception_error("cache_inject", e);
@@ -1842,7 +1842,7 @@ function cache_invalidate(id) {
 
 			while (i < article_cache.length) {
 				if (article_cache[i]["id"] == id) {
-					debug("cache_invalidate: removed id " + id);
+					console.log("cache_invalidate: removed id " + id);
 					article_cache.splice(i, 1);
 					return true;
 				}
@@ -1850,7 +1850,7 @@ function cache_invalidate(id) {
 			}
 		}
 
-		debug("cache_invalidate: id not found: " + id);
+		console.log("cache_invalidate: id not found: " + id);
 		return false;
 	} catch (e) {
 		exception_error("cache_invalidate", e);
@@ -1885,7 +1885,7 @@ function preloadArticleUnderPointer(id) {
 
 		if (post_under_pointer == id && !cache_check(id)) {
 
-			debug("trying to preload article " + id);
+			console.log("trying to preload article " + id);
 
 			var neighbor_ids = getRelativePostIds(id, 1);
 
@@ -1898,7 +1898,7 @@ function preloadArticleUnderPointer(id) {
 					cids_to_request.push(neighbor_ids[i]);
 				}
 			}
-			debug("additional ids: " + cids_to_request.toString());
+			console.log("additional ids: " + cids_to_request.toString());
 
 			cids_to_request.push(id);
 
@@ -1914,7 +1914,7 @@ function preloadArticleUnderPointer(id) {
 						var id = articles[i].getAttribute("id");
 						if (!cache_check(id)) {
 							cache_inject(id, articles[i].firstChild.nodeValue);				
-							debug("preloaded article: " + id);
+							console.log("preloaded article: " + id);
 						}
 					}
 			} });
@@ -1953,12 +1953,12 @@ function headlines_scroll_handler() {
 
 		var toolbar_form = document.forms["main_toolbar_form"];
 
-		debug((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
+		console.log((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
 			_infscroll_disable);
 
 		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 			if (!_infscroll_disable) {
-				debug("more cowbell!");
+				console.log("more cowbell!");
 				viewNextFeedPage();
 			}
 		}

@@ -28,7 +28,7 @@ function activeFeedIsCat() {
 
 function getActiveFeedId() {
 	try {
-		debug("gAFID: " + _active_feed_id);
+		console.log("gAFID: " + _active_feed_id);
 		return _active_feed_id;
 	} catch (e) {
 		exception_error("getActiveFeedId", e);
@@ -37,7 +37,7 @@ function getActiveFeedId() {
 
 function setActiveFeedId(id, is_cat) {
 	try {
-		debug("sAFID(" + id + ", " + is_cat + ")");
+		console.log("sAFID(" + id + ", " + is_cat + ")");
 		_active_feed_id = id;
 
 		if (is_cat != undefined) {
@@ -62,7 +62,7 @@ function toggleTags(show_all) {
 
 	try {
 
-	debug("toggleTags: " + show_all + "; " + display_tags);
+	console.log("toggleTags: " + show_all + "; " + display_tags);
 
 	var p = $("dispSwitchPrompt");
 
@@ -137,18 +137,18 @@ function backend_sanity_check_callback(transport) {
 			return fatalError(error_code, reply.getAttribute("error-msg"));
 		}
 
-		debug("sanity check ok");
+		console.log("sanity check ok");
 
 		var params = reply.nextSibling;
 
 		if (params) {
-			debug('reading init-params...');
+			console.log('reading init-params...');
 			var param = params.firstChild;
 
 			while (param) {
 				var k = param.getAttribute("key");
 				var v = param.getAttribute("value");
-				debug(k + " => " + v);
+				console.log(k + " => " + v);
 				init_params[k] = v;					
 
 				if (db) {
@@ -172,7 +172,7 @@ function backend_sanity_check_callback(transport) {
 
 function scheduleFeedUpdate(force) {
 
-	debug("in scheduleFeedUpdate");
+	console.log("in scheduleFeedUpdate");
 
 /*	if (!daemon_enabled && !daemon_refresh_only) {
 		notify_progress("Updating feeds...", true);
@@ -202,7 +202,7 @@ function scheduleFeedUpdate(force) {
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
 
-	debug("REFETCH query: " + query_str);
+	console.log("REFETCH query: " + query_str);
 
 	new Ajax.Request("backend.php", {
 		parameters: query_str,
@@ -217,7 +217,7 @@ function updateFeedList(silent, fetch) {
 //		notify("Loading feed list...");
 //	}
 
-	debug("<b>updateFeedList</b>");
+	console.log("<b>updateFeedList</b>");
 
 	if (offline_mode) return render_offline_feedlist();
 
@@ -236,7 +236,7 @@ function updateFeedList(silent, fetch) {
 //	var feeds_frame = $("feeds-frame");
 //	feeds_frame.src = query_str;
 
-	debug("updateFeedList Q=" + query_str);
+	console.log("updateFeedList Q=" + query_str);
 
 	new Ajax.Request("backend.php", {
 		parameters: query_str,
@@ -256,7 +256,7 @@ function catchupAllFeeds() {
 
 		notify_progress("Marking all feeds as read...");
 
-		debug("catchupAllFeeds Q=" + query_str);
+		console.log("catchupAllFeeds Q=" + query_str);
 
 		new Ajax.Request("backend.php", {
 			parameters: query_str,
@@ -369,7 +369,7 @@ function init() {
 
 		if (getURLParam('debug')) {
 			Element.show("debug_output");
-			debug('debug mode activated');
+			console.log('debug mode activated');
 		}
 
 		var params = "&ua=" + param_escape(navigator.userAgent);
@@ -391,7 +391,7 @@ function resize_headlines(delta_x, delta_y) {
 
 	try {
 
-		debug("resize_headlines: " + delta_x + ":" + delta_y);
+		console.log("resize_headlines: " + delta_x + ":" + delta_y);
 	
 		var h_frame = $("headlines-frame");
 		var c_frame = $("content-frame");
@@ -414,7 +414,7 @@ function resize_headlines(delta_x, delta_y) {
 				}
 			}
 	
-			debug("resize_headlines: HOR-mode: " + hor_offset);
+			console.log("resize_headlines: HOR-mode: " + hor_offset);
 	
 			c_frame.style.width = (400 + hor_offset) + "px";
 			h_frame.style.right = c_frame.offsetWidth - 1 + "px";
@@ -435,7 +435,7 @@ function resize_headlines(delta_x, delta_y) {
 				}
 			}
 	
-			debug("resize_headlines: VER-mode: " + ver_offset);
+			console.log("resize_headlines: VER-mode: " + ver_offset);
 	
 			h_frame.style.height = (300 - ver_offset) + "px";
 	
@@ -493,21 +493,21 @@ function init_second_stage() {
 
 		setTimeout('updateFeedList(false, false)', 50);
 
-		debug("second stage ok");
+		console.log("second stage ok");
 
 		loading_set_progress(60);
 
 		ver_offset = parseInt(getCookie("ttrss_offset_ver"));
 		hor_offset = parseInt(getCookie("ttrss_offset_hor"));
 
-		debug("got offsets from cookies: ver " + ver_offset + " hor " + hor_offset);
+		console.log("got offsets from cookies: ver " + ver_offset + " hor " + hor_offset);
 
 		/* fuck IE */
 
 		if (isNaN(hor_offset)) hor_offset = 0;
 		if (isNaN(ver_offset)) ver_offset = 0;
 
-		debug("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
+		console.log("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
 
 		resize_headlines();
 
@@ -674,19 +674,19 @@ function toggleDispRead() {
 
 function parse_runtime_info(elem) {
 	if (!elem) {
-		debug("parse_runtime_info: elem is null, aborting");
+		console.log("parse_runtime_info: elem is null, aborting");
 		return;
 	}
 
 	var param = elem.firstChild;
 
-	debug("parse_runtime_info: " + param);
+	console.log("parse_runtime_info: " + param);
 
 	while (param) {
 		var k = param.getAttribute("key");
 		var v = param.getAttribute("value");
 
-		debug("RI: " + k + " => " + v);
+		console.log("RI: " + k + " => " + v);
 
 		if (k == "num_feeds") {
 			init_params[k] = v;					
@@ -833,7 +833,7 @@ function feedEditSave() {
 
 function collapse_feedlist() {
 	try {
-		debug("collapse_feedlist");
+		console.log("collapse_feedlist");
 		
 		var theme = getInitParam("theme");
 		if (theme != "" && 
@@ -992,7 +992,7 @@ function hotkey_handler(e) {
 		} 
 
 		if (!hotkeys_enabled) {
-			debug("hotkeys disabled");
+			console.log("hotkeys disabled");
 			return;
 		}
 
@@ -1010,7 +1010,7 @@ function hotkey_handler(e) {
 			cmdline.innerHTML = keychar;
 			Element.show(cmdline);
 
-			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar + " TS=" + ts);
+			console.log("KP: PREFIX=" + keycode + " CHAR=" + keychar + " TS=" + ts);
 			return true;
 		}
 
@@ -1027,7 +1027,7 @@ function hotkey_handler(e) {
 			if (keycode == 68 && shift_key) { // d
 				if (!Element.visible("debug_output")) {
 					Element.show("debug_output");
-					debug('debug mode activated');
+					console.log('debug mode activated');
 				} else {
 					Element.hide("debug_output");
 				}
@@ -1362,9 +1362,9 @@ function hotkey_handler(e) {
 		}
 
 		if (hotkey_prefix) {
-			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
+			console.log("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
 		} else {
-			debug("KP: CODE=" + keycode + " CHAR=" + keychar);
+			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
 		}
 
 

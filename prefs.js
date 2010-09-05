@@ -544,7 +544,7 @@ function removeSelectedFeeds() {
 				var query = "?op=pref-feeds&subop=remove&ids="+
 					param_escape(sel_rows.toString());
 
-				debug(query);
+				console.log(query);
 
 				new Ajax.Request("backend.php",	{
 					parameters: query,
@@ -605,7 +605,7 @@ function purgeSelectedFeeds() {
 			var query = "?op=rpc&subop=purge&ids="+
 				param_escape(sel_rows.toString()) + "&days=" + pr;
 
-			debug(query);
+			console.log(query);
 
 			new Ajax.Request("prefs.php",	{
 				parameters: query,
@@ -951,7 +951,7 @@ function editSelectedFeeds() {
 
 function piggie(enable) {
 	if (enable) {
-		debug("I LOVEDED IT!");
+		console.log("I LOVEDED IT!");
 		var piggie = $("piggie");
 
 		Element.show(piggie);
@@ -1050,7 +1050,7 @@ function selectTab(id, noupdate, subop) {
 
 		if (!noupdate) {
 
-			debug("selectTab: " + id + "(NU: " + noupdate + ")");
+			console.log("selectTab: " + id + "(NU: " + noupdate + ")");
 	
 			notify_progress("Loading, please wait...");
 	
@@ -1135,18 +1135,18 @@ function backend_sanity_check_callback2(transport) {
 			return fatalError(error_code, reply.getAttribute("error-msg"));
 		}
 
-		debug("sanity check ok");
+		console.log("sanity check ok");
 
 		var params = reply.nextSibling;
 
 		if (params) {
-			debug('reading init-params...');
+			console.log('reading init-params...');
 			var param = params.firstChild;
 
 			while (param) {
 				var k = param.getAttribute("key");
 				var v = param.getAttribute("value");
-				debug(k + " => " + v);
+				console.log(k + " => " + v);
 				init_params[k] = v;					
 				param = param.nextSibling;
 			}
@@ -1206,7 +1206,7 @@ function init() {
 	
 		if (getURLParam('debug')) {
 			Element.show("debug_output");
-			debug('debug mode activated');
+			console.log('debug mode activated');
 		}
 
 		loading_set_progress(30);
@@ -1232,7 +1232,7 @@ function validatePrefsReset() {
 
 			var query = Form.serialize("pref_prefs_form");
 			query = query + "&subop=reset-config";
-			debug(query);
+			console.log(query);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -1370,7 +1370,7 @@ function pref_hotkey_handler(e) {
 		} 
 
 		if (!hotkeys_enabled) {
-			debug("hotkeys disabled");
+			console.log("hotkeys disabled");
 			return;
 		}
 
@@ -1387,7 +1387,7 @@ function pref_hotkey_handler(e) {
 			cmdline.innerHTML = keychar;
 			Element.show(cmdline);
 
-			debug("KP: PREFIX=" + keycode + " CHAR=" + keychar);
+			console.log("KP: PREFIX=" + keycode + " CHAR=" + keychar);
 			return;
 		}
 
@@ -1410,7 +1410,7 @@ function pref_hotkey_handler(e) {
 			if (keycode == 68 && shift_key) { // d
 				if (!Element.visible("debug_output")) {
 					Element.show("debug_output");
-					debug('debug mode activated');
+					console.log('debug mode activated');
 				} else {
 					Element.hide("debug_output");
 				}
@@ -1520,9 +1520,9 @@ function pref_hotkey_handler(e) {
 		}
 
 		if (hotkey_prefix) {
-			debug("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
+			console.log("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
 		} else {
-			debug("KP: CODE=" + keycode + " CHAR=" + keychar);
+			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
 		}
 
 	} catch (e) {
@@ -1717,7 +1717,7 @@ function validatePrefsSave() {
 
 			var query = Form.serialize("pref_prefs_form");
 			query = query + "&subop=save-config";
-			debug(query);
+			console.log(query);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,

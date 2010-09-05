@@ -115,7 +115,7 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 		var f = $("headlines-frame");
 		try {
 			if (reply.offset == 0) { 
-				debug("resetting headlines scrollTop");
+				console.log("resetting headlines scrollTop");
 				f.scrollTop = 0; 
 			}
 		} catch (e) { };
@@ -660,7 +660,7 @@ function offline_download_parse(stage, transport) {
 					var marked = sync_ok[i].getAttribute("marked");
 
 					if (id) {
-						debug("synced offline info for id " + id);
+						console.log("synced offline info for id " + id);
 
 						if (unread != undefined && marked != undefined) {
 							db.execute("UPDATE articles SET "+
@@ -771,7 +771,7 @@ function offline_download_parse(stage, transport) {
 					}
 				}
 
-				debug("downloaded articles: " + articles_found + " limit: " + limit);
+				console.log("downloaded articles: " + articles_found + " limit: " + limit);
 
 				articles_synced += articles_found;
 
@@ -784,11 +784,11 @@ function offline_download_parse(stage, transport) {
 				if (articles_found >= limit || has_sync_data) {
 					sync_timer = window.setTimeout("update_offline_data("+(stage+1)+")", 
 						3*1000);
-					debug("<b>update_offline_data: done " + stage + " HSD: " + 
+					console.log("<b>update_offline_data: done " + stage + " HSD: " + 
 						has_sync_data + "</b>");
 				} else {
 					window.setTimeout("offlineDownloadStart()", 180*1000);
-					debug("update_offline_data: finished");
+					console.log("update_offline_data: finished");
 
 					var pic = $("offlineModePic");
 
@@ -868,7 +868,7 @@ function update_offline_data(stage) {
 
 		rs.close();
 
-		debug("update_offline_data: stage " + stage);
+		console.log("update_offline_data: stage " + stage);
 
 		query = query + "&stage=" + stage;
 
@@ -894,7 +894,7 @@ function update_offline_data(stage) {
 
 		sync_in_progress = true;
 
-		debug(query);
+		console.log(query);
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -1184,7 +1184,7 @@ function offlineArticlesStored() {
 
 function gotoOffline() {
 
-//	debug("[Local store] currentVersion = " + store.currentVersion);
+//	console.log("[Local store] currentVersion = " + store.currentVersion);
 
 
 	if (offlineArticlesStored() == 0) {
@@ -1202,7 +1202,7 @@ function gotoOffline() {
 		var timerId = window.setInterval(function() {
 			if (store.currentVersion) {
 				window.clearInterval(timerId);
-				debug("[Local store] sync complete: " + store.currentVersion);
+				console.log("[Local store] sync complete: " + store.currentVersion);
 
 				//window.location.href = "tt-rss.php";
 
@@ -1212,7 +1212,7 @@ function gotoOffline() {
 				notify_info("Tiny Tiny RSS is in offline mode.");
 
 			} else if (store.updateStatus == 3) {
-				debug("[Local store] sync error: " + store.lastErrorMessage);
+				console.log("[Local store] sync error: " + store.lastErrorMessage);
 				notify_error(store.lastErrorMessage, true);
 			} }, 500);
 	}
@@ -1387,7 +1387,7 @@ function get_local_article_labels(id) {
 
 function label_local_add_article(id, label_id) {
 	try {
-		//debug("label_local_add_article " + id + " => " + label_id);
+		//console.log("label_local_add_article " + id + " => " + label_id);
 
 		var rs = db.execute("SELECT COUNT(id) FROM article_labels WHERE "+
 			"id = ? AND label_id = ?", [id, label_id]);
@@ -1698,9 +1698,9 @@ function offlineUpdateStore() {
 		var timerId = window.setInterval(function() {
 			if (store.currentVersion) {
 				window.clearInterval(timerId);
-				debug("[Local store] sync complete: " + store.currentVersion);
+				console.log("[Local store] sync complete: " + store.currentVersion);
 			} else if (store.updateStatus == 3) {
-				debug("[Local store] sync error: " + store.lastErrorMessage);
+				console.log("[Local store] sync error: " + store.lastErrorMessage);
 			} }, 500);
 
 	} catch (e) {
