@@ -3,6 +3,16 @@ var last_feeds = [];
 var _active_feed_id = false;
 var _active_feed_offset = false;
 
+function view(article_id) {
+	try {
+		new Effect.Fade('A-' + article_id, {duration : 0.3});
+
+		return true;
+	} catch (e) {
+		exception_error("view", e);
+	}
+}
+
 function viewfeed(feed_id, offset) {
 	try {
 
@@ -108,9 +118,11 @@ function add_headline_entry(article, feed) {
 		if (article.has_icon) 
 			icon_part = "<img src='icons/" + article.feed_id + ".ico'/>";
 
-		var tmp_html = "<li>" + 
+		var tmp_html = "<li id=\"A-"+article.id+"\">" + 
 			icon_part +
-			"<a class='title'>" + article.title + "</a>" +
+			"<a target=\"_blank\" href=\""+article.link+"\""+
+		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
+				article.title + "</a>" +
 			"<div class='body'><div class='excerpt'>" + article.excerpt + "</div>" +
 			"<div class='info'><a>" + feed.title + "</a> " + " @ " + 
 				new Date(article.updated * 1000) + "</div>" +
@@ -153,9 +165,9 @@ function digest_update(transport) {
 				add_headline_entry(headlines[i], find_feed(feeds, headlines[i].feed_id));
 			}
 
-			$('headlines-content').innerHTML += "<li>" +
-				"<div class='body'><a href=\"#\" onclick=\"viewfeed(false, 10)\">" +
-			  	__("More articles...") + "</a></div></li>";
+//			$('headlines-content').innerHTML += "<li>" +
+//				"<div class='body'><a href=\"#\" onclick=\"viewfeed(false, 10)\">" +
+//			  	__("More articles...") + "</a></div></li>";
 
 			new Effect.Appear('headlines-content');
 
