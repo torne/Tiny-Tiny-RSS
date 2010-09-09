@@ -978,11 +978,29 @@
 			return;
 		}
 
-		if ($subop == "digest-init") {
+		if ($subop == "digest-update") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
-
+			$offset = db_escape_string($_REQUEST['offset']);
+		
 			if (!$feed_id) $feed_id = -4;
+			if (!$offset) $offset = 0;
 
+
+			print "<rpc-reply>";
+
+			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
+				'', ($feed_id == -4), true, false, "unread", "updated DESC");
+
+			//function api_get_headlines($link, $feed_id, $limit, $offset,
+			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
+
+			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
+
+			print "</rpc-reply>";
+			return;
+		}
+
+		if ($subop == "digest-init") {
 			print "<rpc-reply>";
 
 			$tmp_feeds = api_get_feeds($link, false, true, false, 0);
@@ -1007,13 +1025,6 @@
 
 			print "<feeds><![CDATA[" . json_encode($feeds) . "]]></feeds>";
 
-			$headlines = api_get_headlines($link, $feed_id, 10, 0,
-				'', ($feed_id == -4), true, false, "all_articles", "updated DESC");
-
-			//function api_get_headlines($link, $feed_id, $limit, $offset,
-			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
-
-			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
 			print "</rpc-reply>";
 			return;
 		}
