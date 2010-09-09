@@ -978,6 +978,42 @@
 			return;
 		}
 
+		if ($subop == "digest-init") {
+			print "<rpc-reply>";
+
+			$tmp_feeds = api_get_feeds($link, false, true, false, 0);
+			$feeds = array();
+
+			foreach ($tmp_feeds as $f) {
+				if ($f['id'] > 0) array_push($feeds, $f);
+			}
+
+			function feeds_sort_by_unread_rev($a, $b) {
+				$a = $a['unread'];
+				$b = $b['unread'];
+
+				if ($a == $b) {
+					return 0;
+				}
+				return ($a < $b) ? 1 : -1;
+			}
+
+//			uasort($feeds, 'feeds_sort_by_unread_rev');
+//			$feeds = array_slice($feeds, 0, 10);
+
+			print "<feeds><![CDATA[" . json_encode($feeds) . "]]></feeds>";
+
+			$headlines = api_get_headlines($link, -4, 20, 0,
+				'', true, true, false, "all_articles", "updated DESC");
+
+			//function api_get_headlines($link, $feed_id, $limit, $offset,
+			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
+
+			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
+			print "</rpc-reply>";
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
