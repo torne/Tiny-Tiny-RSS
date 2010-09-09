@@ -6653,50 +6653,8 @@
 	}
 
 	function api_get_feeds($link, $cat_id, $unread_only, $limit, $offset) {
-			if ($limit) {
-				$limit_qpart = "LIMIT $limit OFFSET $offset";
-			} else {
-				$limit_qpart = "";
-			}
-
-			if (!$cat_id) {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
-						" ORDER BY cat_id, title " . $limit_qpart);
-			} else {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE 
-						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
-						" ORDER BY cat_id, title " . $limit_qpart);
-			}
 
 			$feeds = array();
-
-			while ($line = db_fetch_assoc($result)) {
-
-				$unread = getFeedUnread($link, $line["id"]);
-
-				$has_icon = feed_has_icon($line['id']);
-
-				if ($unread || !$unread_only) {
-
-					$row = array(
-							"feed_url" => $line["feed_url"],
-							"title" => $line["title"],
-							"id" => (int)$line["id"],
-							"unread" => (int)$unread,
-							"has_icon" => $has_icon,
-							"cat_id" => (int)$line["cat_id"],
-							"last_updated" => strtotime($line["last_updated"])
-						);
-	
-					array_push($feeds, $row);
-				}
-			}
 
 			/* Labels */
 
@@ -6741,6 +6699,52 @@
 
 				}			
 			}
+
+			/* Real feeds */
+
+			if ($limit) {
+				$limit_qpart = "LIMIT $limit OFFSET $offset";
+			} else {
+				$limit_qpart = "";
+			}
+
+			if (!$cat_id) {
+				$result = db_query($link, "SELECT 
+					id, feed_url, cat_id, title, ".
+						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
+						" ORDER BY cat_id, title " . $limit_qpart);
+			} else {
+				$result = db_query($link, "SELECT 
+					id, feed_url, cat_id, title, ".
+						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+						FROM ttrss_feeds WHERE 
+						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
+						" ORDER BY cat_id, title " . $limit_qpart);
+			}
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$unread = getFeedUnread($link, $line["id"]);
+
+				$has_icon = feed_has_icon($line['id']);
+
+				if ($unread || !$unread_only) {
+
+					$row = array(
+							"feed_url" => $line["feed_url"],
+							"title" => $line["title"],
+							"id" => (int)$line["id"],
+							"unread" => (int)$unread,
+							"has_icon" => $has_icon,
+							"cat_id" => (int)$line["cat_id"],
+							"last_updated" => strtotime($line["last_updated"])
+						);
+	
+					array_push($feeds, $row);
+				}
+			}
+
 		return $feeds;
 	}
 
