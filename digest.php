@@ -64,11 +64,11 @@
 
 	</div>
 
-	Tiny Tiny Digest
+	<?php echo __('Tiny Tiny RSS') ?>
 
 	</div>
 	<div id="content">
-		<div id="title">
+		<!-- <div id="title">
 			<div id="search">
 				<input name="search" type="search"></input>
 				<button>Search</button>
@@ -82,16 +82,16 @@
 			<em>TODO</em>
 
 			<div id="latest-content"> </div>
-		</div>
+		</div> -->
 
 		<div id="feeds">
-			<h1>feeds</h1>
+			<h1><?php echo __('feeds') ?></h1>
 
 			<ul id="feeds-content"> </ul>
 		</div>
 
 		<div id="headlines">
-			<h1>headlines</h1>
+			<h1><?php echo __('headlines') ?></h1>
 
 			<ul id="headlines-content"> </ul>
 		</div>

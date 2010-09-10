@@ -212,7 +212,8 @@ function add_headline_entry(article, feed) {
 				article.excerpt + "</div>" +
 			"<div style='display : none' class='content'>" + 
 				article.content + "</div>" +
-			"<div class='info'><a>" + feed.title + "</a> " + " @ " + 
+			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" + 
+				feed.title + "</a> " + " @ " + 
 				new Date(article.updated * 1000) + "</div>" +
 			"</div></li>";
 
