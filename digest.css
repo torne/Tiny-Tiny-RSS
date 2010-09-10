@@ -137,6 +137,13 @@ a:hover {
 #headlines {
 	padding : 5px;
 	font-size : 14px;
+	max-width : 65%;
+}
+
+#headlines ul#headlines-content img.digest-check {
+	float : right;
+	cursor : pointer;
+
 }
 
 #headlines ul#headlines-content img {
@@ -159,6 +166,10 @@ a:hover {
 	clear : left;
 }
 
+#headlines ul#headlines-content li:hover {
+	background : #fafafa;
+}
+
 #headlines ul#headlines-content a.title {
 	font-weight : bold;
 	font-size : 16px;
@@ -166,10 +177,16 @@ a:hover {
 
 #headlines ul#headlines-content div.excerpt {
 	color : #404040;
+	cursor : pointer;
+}
+
+#headlines ul#headlines-content div.content {
+	color : #404040;
 }
 
 #headlines ul#headlines-content div.body {
 	margin-left : 21px;
+	/*margin-left : 42px;*/
 }
 
 #headlines ul#headlines-content div.info {
