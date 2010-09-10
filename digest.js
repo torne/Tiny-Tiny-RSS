@@ -203,7 +203,11 @@ function add_headline_entry(article, feed) {
 
 		var tmp_html = "<li id=\"A-"+article.id+"\">" + 
 			icon_part +
+			"<div class='digest-check'>" +
+			"<img title='Set starred' onclick=\"toggleMark(this, "+article.id+")\" src='images/mark_unset.png'>" +
+			"<img title='Set published' onclick=\"togglePub(this, "+article.id+")\" src='images/pub_unset.png'>" +
 			"<img title='Dismiss' onclick=\"view("+article.id+", true)\" class='digest-check' src='images/digest_checkbox.png'>" +
+			"</div>" + 
 			"<a target=\"_blank\" href=\""+article.link+"\""+
 		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
 				article.title + "</a>" +
@@ -296,3 +300,117 @@ function digest_init() {
 		exception_error("digest_init", e);
 	}
 }
+
+function tMark_afh_off(effect) {
+	try {
+		var elem = effect.effects[0].element;
+
+		console.log("tMark_afh_off : " + elem.id);
+
+		if (elem) {
+			elem.src = elem.src.replace("mark_set", "mark_unset");
+			elem.alt = __("Star article");
+			Element.show(elem);
+		}
+
+	} catch (e) {
+		exception_error("tMark_afh_off", e);
+	}
+}
+
+function tPub_afh_off(effect) {
+	try {
+		var elem = effect.effects[0].element;
+
+		console.log("tPub_afh_off : " + elem.id);
+
+		if (elem) {
+			elem.src = elem.src.replace("pub_set", "pub_unset");
+			elem.alt = __("Publish article");
+			Element.show(elem);
+		}
+
+	} catch (e) {
+		exception_error("tPub_afh_off", e);
+	}
+}
+
+function toggleMark(mark_img, id) {
+
+	try {
+
+		var query = "?op=rpc&id=" + id + "&subop=mark";
+	
+		query = query + "&afid=" + _active_feed_id;
+		query = query + "&omode=c";
+
+		if (!mark_img) return;
+
+		var vfeedu = $("FEEDU--1");
+		var crow = $("RROW-" + id);
+	
+		if (mark_img.src.match("mark_unset")) {
+			mark_img.src = mark_img.src.replace("mark_unset", "mark_set");
+			mark_img.alt = __("Unstar article");
+			query = query + "&mark=1";
+		} else {
+			mark_img.alt = __("Please wait...");
+			query = query + "&mark=0";
+	
+			mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
+			mark_img.alt = __("Star article");
+		}
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				//
+			} });
+
+	} catch (e) {
+		exception_error("toggleMark", e);
+	}
+}
+
+function togglePub(mark_img, id, note) {
+
+	try {
+
+		var query = "?op=rpc&id=" + id + "&subop=publ";
+	
+		query = query + "&afid=" + _active_feed_id;
+
+		if (note != undefined) {
+			query = query + "&note=" + param_escape(note);
+		} else {
+			query = query + "&note=undefined";
+		}
+
+		query = query + "&omode=c";
+
+		if (!mark_img) return;
+
+		if (mark_img.src.match("pub_unset") || note != undefined) {
+			mark_img.src = mark_img.src.replace("pub_unset", "pub_set");
+			mark_img.alt = __("Unpublish article");
+			query = query + "&pub=1";
+
+		} else {
+			mark_img.alt = __("Please wait...");
+			query = query + "&pub=0";
+	
+			mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
+			mark_img.alt = __("Publish article");
+		}
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				//
+			} });
+
+	} catch (e) {
+		exception_error("togglePub", e);
+	}
+}
+
