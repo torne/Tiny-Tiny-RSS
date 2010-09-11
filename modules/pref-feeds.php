@@ -1501,6 +1501,18 @@
 			print "</p>";
 		}
 
+		print "<h3>".__("Subscribing via bookmarklet")."</h3>";
+
+		print "<p>" . __("Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it.") . "</p>";
+
+		$bm_subscribe_url = str_replace('%s', '', add_feed_url());
+
+		$confirm_str = __('Subscribe to %s in Tiny Tiny RSS?');
+
+		$bm_url = htmlspecialchars("javascript:{if(confirm('$confirm_str'.replace('%s',window.location.href)))window.location.href='$bm_subscribe_url'+window.location.href}");
+
+		print "<a href=\"$bm_url\" class='visibleLink'>" . __('Subscribe in Tiny Tiny RSS'). "</a>";
+
 		print "<h3>".__("Published articles")."</h3>";
 
 		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
