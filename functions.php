@@ -6782,7 +6782,6 @@
 						"title" => $line["title"],
 						"link" => $line["link"],
 						"feed_id" => $line["feed_id"],
-						"has_icon" => feed_has_icon($line["feed_id"])
 					);
 
 				if ($show_excerpt) {

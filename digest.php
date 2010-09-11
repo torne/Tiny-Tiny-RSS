@@ -45,7 +45,7 @@
 
 	<script type="text/javascript">
 		Event.observe(window, 'load', function() {
-			digest_init();
+			init();
 		});
 	</script>
 </head>
