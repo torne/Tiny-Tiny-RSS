@@ -4,6 +4,22 @@ var _active_feed_id = false;
 var _active_feed_offset = false;
 var _update_timeout = false;
 
+function mark_selected_feed(feed_id) {
+	try {
+		var feeds = $("feeds-content").getElementsByTagName("LI");
+
+		for (var i = 0; i < feeds.length; i++) {
+			if (feeds[i].id == "F-" + feed_id)
+				feeds[i].className = "selected";
+			else
+				feeds[i].className = "";
+		}
+
+	} catch (e) {
+		exception_error("mark_selected_feed", e);
+	}
+}
+
 function zoom(article_id) {
 	try {
 		var elem = $('A-' + article_id);
@@ -103,7 +119,8 @@ function viewfeed(feed_id, offset) {
 				digest_update(transport, feed_id);
 				_active_feed_id = feed_id;
 				_active_feed_offset = offset;
-				} });
+				mark_selected_feed(feed_id);
+			} });
 
 	} catch (e) {
 		exception_error("view", e);
@@ -169,7 +186,7 @@ function add_feed_entry(feed) {
 
 		icon_part = "<img src='" + get_feed_icon(feed) + "'/>";
 
-		var tmp_html = "<li>" + 
+		var tmp_html = "<li id=\"F-"+feed.id+"\">" + 
 			icon_part +
 			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title +
 			"<div class='unread-ctr'>" + feed.unread + "</div>" +	
@@ -199,7 +216,7 @@ function add_headline_entry(article, feed) {
 		var icon_part = "";
 
 		if (article.has_icon) 
-			icon_part = "<img src='icons/" + article.feed_id + ".ico'/>";
+			icon_part = "<img class='icon' src='icons/" + article.feed_id + ".ico'/>";
 
 		var tmp_html = "<li id=\"A-"+article.id+"\">" + 
 			icon_part +

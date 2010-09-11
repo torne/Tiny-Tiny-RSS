@@ -116,6 +116,19 @@ a:hover {
 
 #feeds ul#feeds-content li {
 	margin : 0px 0px 2px 0px;
+	padding : 2px;
+}
+
+#feeds ul#feeds-content li.selected {
+	background : #f0f0f0;
+}
+
+#feeds ul#feeds-content li.selected a {
+	color : #404040;
+}
+
+#feeds ul#feeds-content li.selected a:hover {
+	color : #659a4c;
 }
 
 #feeds ul#feeds-content {
@@ -148,7 +161,7 @@ a:hover {
 	float : right;
 }
 
-#headlines ul#headlines-content img {
+#headlines ul#headlines-content img.icon {
 	width : 16px;
 	height : 16px;
 	vertical-align : middle;
@@ -184,6 +197,10 @@ a:hover {
 
 #headlines ul#headlines-content div.content {
 	color : #404040;
+}
+
+#headlines ul#headlines-content div.content img {
+	max-width : 75%;
 }
 
 #headlines ul#headlines-content div.body {
