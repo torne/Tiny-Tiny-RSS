@@ -5,6 +5,14 @@ var _active_feed_offset = false;
 var _update_timeout = false;
 var _feedlist_expanded = false;
 
+function article_appear(article_id) {
+	try {
+		new Effect.Appear('A-' + article_id);
+	} catch (e) {
+		exception_error("article_appear", e);
+	}
+}
+
 function catchup_feed(feed_id, callback) {
 	try {
 
@@ -165,8 +173,8 @@ function view(article_id, dismiss_only) {
 
 		catchup_article(article_id, 
 			function() { 
-				viewfeed(_active_feed_id, _active_feed_offset);
-				update();				
+				viewfeed(_active_feed_id, _active_feed_offset, false, true);
+				update();	
 			});
 
 		return dismiss_only != true;
@@ -175,7 +183,7 @@ function view(article_id, dismiss_only) {
 	}
 }
 
-function viewfeed(feed_id, offset) {
+function viewfeed(feed_id, offset, replace, no_effects) {
 	try {
 
 		if (!feed_id) feed_id = _active_feed_id;
@@ -186,6 +194,8 @@ function viewfeed(feed_id, offset) {
 			offset = _active_feed_offset + offset;
 		}
 
+		if (replace == undefined) replace = (offset == 0);
+
 		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" + 
 				param_escape(feed_id) +	"&offset=" + offset;
 
@@ -195,7 +205,7 @@ function viewfeed(feed_id, offset) {
 			parameters: query, 
 			onComplete: function(transport) {
 				fatal_error_check(transport);
-				parse_headlines(transport, offset == 0);
+				parse_headlines(transport, replace, no_effects);
 				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
 			} });
@@ -285,7 +295,7 @@ function add_feed_entry(feed) {
 	}
 }
 
-function add_headline_entry(article, feed) {
+function add_headline_entry(article, feed, no_effects) {
 	try {
 
 		var icon_part = "";
@@ -321,8 +331,11 @@ function add_headline_entry(article, feed) {
 		else
 			publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
 
+		var style = "";
 
-		var tmp_html = "<li id=\"A-"+article.id+"\">" + 
+		if (!no_effects) style = "style=\"display : none\"";
+
+		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+">" + 
 			icon_part +
 			"<div class='digest-check'>" +
 			mark_part +
@@ -343,6 +356,9 @@ function add_headline_entry(article, feed) {
 			"</div></li>";
 
 		$("headlines-content").innerHTML += tmp_html;
+
+		if (!no_effects)
+			window.setTimeout('article_appear(' + article.id + ')', 100);
 
 	} catch (e) {
 		exception_error("add_headline_entry", e);
@@ -423,7 +439,7 @@ function parse_feeds(transport) {
 	}
 }
 
-function parse_headlines(transport, replace) {
+function parse_headlines(transport, replace, no_effects) {
 	try {
 		if (!transport.responseXML) return;
 
@@ -452,7 +468,7 @@ function parse_headlines(transport, replace) {
 				
 				if (!$('A-' + headlines[i].id)) {
 					add_headline_entry(headlines[i], 
-							find_feed(last_feeds, headlines[i].feed_id));
+							find_feed(last_feeds, headlines[i].feed_id), !no_effects);
 
 					inserted = $("A-" + headlines[i].id);
 				}
@@ -460,7 +476,7 @@ function parse_headlines(transport, replace) {
 
 			if (pr) {
 				$('headlines-content').appendChild(pr);
-				new Effect.ScrollTo(inserted);
+				if (!no_effects) new Effect.ScrollTo(inserted);
 			} else {
 				$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 					"<div class='body'>" +
@@ -471,7 +487,8 @@ function parse_headlines(transport, replace) {
 					"</div></li>";
 			}
 
-			if (replace) new Effect.Appear('headlines-content', {duration : 0.3});
+			if (replace && !no_effects) 
+				new Effect.Appear('headlines-content', {duration : 0.3});
 
 			//new Effect.Appear('headlines-content');
 		}
