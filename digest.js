@@ -3,7 +3,9 @@ var last_feeds = [];
 var _active_feed_id = false;
 var _active_feed_offset = false;
 var _update_timeout = false;
+var _view_update_timeout = false;
 var _feedlist_expanded = false;
+var _update_seq = 1;
 
 function article_appear(article_id) {
 	try {
@@ -181,14 +183,23 @@ function remove_headline_entry(article_id) {
 	}
 }
 
+function view_update() {
+	try {
+		viewfeed(_active_feed_id, _active_feed_offset, false, true);
+		update();
+	} catch (e) {
+		exception_error("view_update", e);
+	}
+}
+
 function view(article_id, dismiss_only) {
 	try {
 		remove_headline_entry(article_id);
 
 		catchup_article(article_id, 
 			function() { 
-				viewfeed(_active_feed_id, _active_feed_offset, false, true);
-				update();	
+				window.clearTimeout(_view_update_timeout);
+				_view_update_timeout = window.setTimeout("view_update()", 1000);
 			});
 
 		return dismiss_only != true;
@@ -210,8 +221,11 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 
 		if (replace == undefined) replace = (offset == 0);
 
+		_update_seq = _update_seq + 1;
+
 		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" + 
-				param_escape(feed_id) +	"&offset=" + offset;
+				param_escape(feed_id) +	"&offset=" + offset +
+				"&seq=" + _update_seq;
 
 		console.log(query);
 
@@ -221,6 +235,7 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 		img.src = 'images/indicator_tiny.gif';
 
 		if ($('H-LOADING-IMG')) Element.show("H-LOADING-IMG");
+
 
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
@@ -464,6 +479,18 @@ function parse_feeds(transport) {
 function parse_headlines(transport, replace, no_effects) {
 	try {
 		if (!transport.responseXML) return;
+
+		var seq = transport.responseXML.getElementsByTagName('seq')[0];
+
+		if (seq) {
+			seq = seq.firstChild.nodeValue;
+			if (seq != _update_seq) {
+				console.log("parse_headlines: wrong sequence received.");
+				return;
+			}
+		} else {
+			return;
+		}
 
 		var headlines = transport.responseXML.getElementsByTagName('headlines')[0];
 		var headlines_title = transport.responseXML.getElementsByTagName('headlines-title')[0];

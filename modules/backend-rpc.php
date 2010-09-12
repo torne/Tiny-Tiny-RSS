@@ -1003,10 +1003,13 @@
 		if ($subop == "digest-update") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
+			$seq = db_escape_string($_REQUEST['seq']);
 		
 			if (!$feed_id) $feed_id = -4;
 			if (!$offset) $offset = 0;
 			print "<rpc-reply>";
+
+			print "<seq>$seq</seq>";
 
 			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
 				'', ($feed_id == -4), true, false, "unread", "updated DESC");
