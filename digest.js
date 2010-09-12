@@ -102,24 +102,28 @@ function set_selected_feed(feed_id) {
 	}
 }
 
-function zoom(article_id) {
+function zoom(elem, article_id) {
 	try {
-		var elem = $('A-' + article_id);
+		//alert(elem + "/" + article_id);
 
-		if (elem) {
-			var divs = elem.getElementsByTagName('DIV');
-			
-			for (var i = 0; i < divs.length; i++) {
-				if (divs[i].className == 'excerpt') 
-					Element.hide(divs[i]);
+		elem.innerHTML = "<img src='images/indicator_tiny.gif'> " +
+			__("Loading, please wait...");
 
-				if (divs[i].className == 'content') 
-					Element.show(divs[i]);
-			}
-		}
+		new Ajax.Request("backend.php",	{
+			parameters: "?op=rpc&subop=digest-get-contents&article_id=" +
+				article_id,
+			onComplete: function(transport) {
+				fatal_error_check(transport);
 
-		//catchup_article(article_id, 
-		//	function() { update(); });
+				if (transport.responseXML) {
+					var article = transport.responseXML.getElementsByTagName('article')[0];
+					elem.innerHTML = article.firstChild.nodeValue;
+				} else {
+					elem.innerHTML = __("Error: unable to load article.");
+				}
+				
+				} });
+
 
 	} catch (e) {
 		exception_error("zoom", e);
@@ -346,10 +350,8 @@ function add_headline_entry(article, feed, no_effects) {
 		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
 				article.title + "</a>" +
 			"<div class='body'>" + 
-			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom("+article.id+")\" class='excerpt'>" + 
+			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom(this, "+article.id+")\" class='excerpt'>" + 
 				article.excerpt + "</div>" +
-			"<div style='display : none' class='content'>" + 
-				article.content + "</div>" +
 			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" + 
 				feed.title + "</a> " + tags_part + " @ " + 
 				new Date(article.updated * 1000) + "</div>" +

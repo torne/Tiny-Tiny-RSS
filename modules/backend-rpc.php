@@ -978,6 +978,28 @@
 			return;
 		}
 
+		if ($subop == "digest-get-contents") {
+			$article_id = db_escape_string($_REQUEST['article_id']);
+
+			$result = db_query($link, "SELECT content 
+				FROM ttrss_entries, ttrss_user_entries
+				WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
+
+			print "<rpc-reply>";
+
+			print "<article id=\"$article_id\"><![CDATA[";
+
+			$content = sanitize_rss($link, db_fetch_result($result, 0, "content"));
+
+			print $content;
+
+			print "]]></article>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		if ($subop == "digest-update") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
@@ -987,7 +1009,7 @@
 			print "<rpc-reply>";
 
 			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
-				'', ($feed_id == -4), true, true, "unread", "updated DESC");
+				'', ($feed_id == -4), true, false, "unread", "updated DESC");
 
 			//function api_get_headlines($link, $feed_id, $limit, $offset,
 			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
@@ -1010,19 +1032,6 @@
 			foreach ($tmp_feeds as $f) {
 				if ($f['id'] > 0 || $f['id'] == -4) array_push($feeds, $f);
 			}
-
-			function feeds_sort_by_unread_rev($a, $b) {
-				$a = $a['unread'];
-				$b = $b['unread'];
-
-				if ($a == $b) {
-					return 0;
-				}
-				return ($a < $b) ? 1 : -1;
-			}
-
-			//uasort($feeds, 'feeds_sort_by_unread_rev');
-			//$feeds = array_slice($feeds, 0, 10);
 
 			print "<feeds><![CDATA[" . json_encode($feeds) . "]]></feeds>";
 
