@@ -437,22 +437,30 @@ function parse_headlines(transport, replace) {
 
 			$("headlines-title").innerHTML = title;
 
-			if (replace) $('headlines-content').innerHTML = '';
+			if (replace) {
+				$('headlines-content').innerHTML = '';
+				Element.hide('headlines-content');
+			}
 
 			var pr = $('H-MORE-PROMPT');
 
 			if (pr) pr.parentNode.removeChild(pr);
+
+			var inserted = false;
 
 			for (var i = 0; i < headlines.length; i++) {
 				
 				if (!$('A-' + headlines[i].id)) {
 					add_headline_entry(headlines[i], 
 							find_feed(last_feeds, headlines[i].feed_id));
+
+					inserted = $("A-" + headlines[i].id);
 				}
 			}
 
 			if (pr) {
 				$('headlines-content').appendChild(pr);
+				new Effect.ScrollTo(inserted);
 			} else {
 				$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 					"<div class='body'>" +
@@ -463,7 +471,9 @@ function parse_headlines(transport, replace) {
 					"</div></li>";
 			}
 
-			new Effect.Appear('headlines-content');
+			if (replace) new Effect.Appear('headlines-content', {duration : 0.3});
+
+			//new Effect.Appear('headlines-content');
 		}
 
 	} catch (e) {
