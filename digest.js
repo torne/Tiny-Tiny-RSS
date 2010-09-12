@@ -346,6 +346,10 @@ function parse_feeds(transport) {
 							return 0;					
 				});
 
+			var all_articles = find_feed(feeds, -4);
+
+			update_title(all_articles.unread);
+
 			last_feeds = feeds;
 
 			redraw_feedlist(feeds);
@@ -602,3 +606,16 @@ function feed_mo(elem) {
 		exception_error("feed_mo", e);
 	}
 }
+
+function update_title(unread) {
+	try {
+		document.title = "Tiny Tiny RSS";
+
+		if (unread > 0)
+			document.title += " (" + unread + ")";
+
+	} catch (e) {
+		exception_error("update_title", e);
+	}
+}
+

@@ -24,7 +24,7 @@
 
 <html>
 <head>
-	<title>Tiny Tiny Digest</title>
+	<title>Tiny Tiny RSS</title>
 	<link rel="stylesheet" type="text/css" href="digest.css?<?php echo $dt_add ?>"/>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
