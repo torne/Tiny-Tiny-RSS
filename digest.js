@@ -43,25 +43,30 @@ function catchup_feed(feed_id, callback) {
 
 function catchup_visible_articles(callback) {
 	try {
-		var elems = $("headlines-content").getElementsByTagName("LI");
-		var ids = [];
-		
-		for (var i = 0; i < elems.length; i++) {
-			if (elems[i].id && elems[i].id.match("A-")) {
-				ids.push(elems[i].id.replace("A-", ""));
+
+		if (confirm(__("Mark all displayed articles as read?"))) {
+
+			var elems = $("headlines-content").getElementsByTagName("LI");
+			var ids = [];
+			
+			for (var i = 0; i < elems.length; i++) {
+				if (elems[i].id && elems[i].id.match("A-")) {
+					ids.push(elems[i].id.replace("A-", ""));
+				}
 			}
-		}
-
-		var query = "?op=rpc&subop=catchupSelected" +
-			"&cmode=0&ids=" + param_escape(ids);
-
-		new Ajax.Request("backend.php",	{
-			parameters: query, 
-			onComplete: function(transport) {
-				if (callback) callback(transport);
-
-				viewfeed(_active_feed_id, 0);
-			} });
+	
+			var query = "?op=rpc&subop=catchupSelected" +
+				"&cmode=0&ids=" + param_escape(ids);
+	
+			new Ajax.Request("backend.php",	{
+				parameters: query, 
+				onComplete: function(transport) {
+					if (callback) callback(transport);
+	
+					viewfeed(_active_feed_id, 0);
+				} });
+	
+			}
 
 	} catch (e) {
 		exception_error("catchup_visible_articles", e);
@@ -215,6 +220,8 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 		img.setAttribute("orig_src", img.src);
 		img.src = 'images/indicator_tiny.gif';
 
+		if ($('H-LOADING-IMG')) Element.show("H-LOADING-IMG");
+
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
@@ -223,6 +230,7 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
 				img.src = img.getAttribute("orig_src");
+				if ($('H-LOADING-IMG')) Element.hide("H-LOADING-IMG");
 			} });
 
 	} catch (e) {
@@ -498,6 +506,8 @@ function parse_headlines(transport, replace, no_effects) {
 				  	__("Mark as read") + "</a> | " + 
 					"<a href=\"javascript:load_more()\">" +
 				  	__("Load more...") + "</a>" + 
+					"<img style=\"display : none\" "+
+						"id=\"H-LOADING-IMG\" src='images/indicator_tiny.gif'>" +
 					"</div></li>";
 			}
 
