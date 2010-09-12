@@ -33,6 +33,32 @@ function catchup_feed(feed_id, callback) {
 	}
 }
 
+function catchup_visible_articles(callback) {
+	try {
+		var elems = $("headlines-content").getElementsByTagName("LI");
+		var ids = [];
+		
+		for (var i = 0; i < elems.length; i++) {
+			if (elems[i].id && elems[i].id.match("A-")) {
+				ids.push(elems[i].id.replace("A-", ""));
+			}
+		}
+
+		var query = "?op=rpc&subop=catchupSelected" +
+			"&cmode=0&ids=" + param_escape(ids);
+
+		new Ajax.Request("backend.php",	{
+			parameters: query, 
+			onComplete: function(transport) {
+				if (callback) callback(transport);
+
+				viewfeed(_active_feed_id, 0);
+			} });
+
+	} catch (e) {
+		exception_error("catchup_visible_articles", e);
+	}
+}
 
 function catchup_article(article_id, callback) {
 	try {
@@ -243,7 +269,9 @@ function add_feed_entry(feed) {
 			icon_part +
 			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title + "</a>" +
 			"<div class='unread-ctr'>" + 
-				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"Dismiss\" class=\"dismiss\" style='display : none' src=\"images/digest_checkbox.png\">" +
+				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"" + 
+					__("Mark as read") + 
+					"\" class=\"dismiss\" style='display : none' src=\"images/digest_checkbox.png\">" +
 				"<span class=\"unread\">" + feed.unread + "</span>" + 
 			"</div>" +	
 			"</li>";
@@ -267,7 +295,7 @@ function add_headline_entry(article, feed) {
 			"<div class='digest-check'>" +
 			"<img title='Set starred' onclick=\"toggleMark(this, "+article.id+")\" src='images/mark_unset.png'>" +
 			"<img title='Set published' onclick=\"togglePub(this, "+article.id+")\" src='images/pub_unset.png'>" +
-			"<img title='Dismiss' onclick=\"view("+article.id+", true)\" class='digest-check' src='images/digest_checkbox.png'>" +
+			"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" class='digest-check' src='images/digest_checkbox.png'>" +
 			"</div>" + 
 			"<a target=\"_blank\" href=\""+article.link+"\""+
 		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
@@ -390,8 +418,12 @@ function parse_headlines(transport, replace) {
 				$('headlines-content').appendChild(pr);
 			} else {
 				$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
-					"<div class='body'><a href=\"javascript:load_more()\">" +
-				  	__("More articles...") + "</a></div></li>";
+					"<div class='body'>" +
+					"<a href=\"javascript:catchup_visible_articles()\">" +
+				  	__("Mark as read") + "</a> | " + 
+					"<a href=\"javascript:load_more()\">" +
+				  	__("Load more...") + "</a>" + 
+					"</div></li>";
 			}
 
 			new Effect.Appear('headlines-content');
