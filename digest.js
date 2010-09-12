@@ -110,8 +110,8 @@ function zoom(article_id) {
 			}
 		}
 
-		catchup_article(article_id, 
-			function() { update(); });
+		//catchup_article(article_id, 
+		//	function() { update(); });
 
 	} catch (e) {
 		exception_error("zoom", e);
