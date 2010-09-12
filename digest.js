@@ -79,6 +79,7 @@ function update() {
 		new Ajax.Request("backend.php",	{
 			parameters: "?op=rpc&subop=digest-init",
 			onComplete: function(transport) {
+				fatal_error_check(transport);
 				parse_feeds(transport);
 				set_selected_feed(_active_feed_id);
 				} });
@@ -132,6 +133,7 @@ function viewfeed(feed_id, offset) {
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
+				fatal_error_check(transport);
 				parse_headlines(transport, offset == 0);
 				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
@@ -257,6 +259,19 @@ function parse_feeds(transport) {
 
 		if (feeds) {
 			feeds = eval("(" + feeds.firstChild.nodeValue + ")");
+
+			feeds.sort( function (a,b) 
+				{ 
+					if (b.unread != a.unread)
+						return (b.unread - a.unread) 
+					else
+						if (a.title > b.title)
+							return 1;
+						else if (a.title < b.title)
+							return -1;
+						else
+							return 0;					
+				});
 
 			last_feeds = feeds;
 
@@ -498,4 +513,46 @@ function togglePub(mark_img, id, note) {
 		exception_error("togglePub", e);
 	}
 }
+
+function fatal_error(code, msg) {
+	try {	
+
+		if (code == 6) {
+			window.location.href = "digest.php";
+		} else if (code == 5) {
+			window.location.href = "update.php";
+		} else {
+	
+			if (msg == "") msg = "Unknown error";
+
+			console.error("Fatal error: " + code + "\n" + 
+				msg);
+			
+		}
+
+	} catch (e) {
+		exception_error("fatalError", e);
+	}
+}
+
+function fatal_error_check(transport) {
+	try {
+		if (transport.responseXML) {
+			var error = transport.responseXML.getElementsByTagName("error")[0];
+
+			if (error) {
+				var code = error.getAttribute("error-code");
+				var msg = error.getAttribute("error-msg");
+				if (code != 0) {
+					fatal_error(code, msg);
+					return false;
+				}
+			}
+		}
+	} catch (e) {
+		exception_error("fatal_error_check", e);
+	}
+	return true;
+}
+
 
