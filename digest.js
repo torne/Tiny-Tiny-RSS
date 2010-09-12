@@ -210,6 +210,11 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 
 		console.log(query);
 
+		var img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
+
+		img.setAttribute("orig_src", img.src);
+		img.src = 'images/indicator_tiny.gif';
+
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
@@ -217,6 +222,7 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 				parse_headlines(transport, replace, no_effects);
 				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
+				img.src = img.getAttribute("orig_src");
 			} });
 
 	} catch (e) {
