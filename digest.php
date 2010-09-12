@@ -91,7 +91,8 @@
 		</div>
 
 		<div id="headlines">
-			<h1><?php echo __('headlines') ?></h1>
+			<h1><a href="#" onclick="viewfeed(-4)"><?php echo __('headlines') ?></a>: 
+				<span id="headlines-title"></span></h1>
 
 			<ul id="headlines-content"> </ul>
 		</div>
@@ -107,6 +108,13 @@
 		 v<?php echo VERSION ?> 
 	<?php } ?>
 	&copy; 2005&ndash;<?php echo date('Y') ?> 
-	<a href="http://fakecake.org/">Andrew Dolgov</a></div>
+	<a href="http://fakecake.org/">Andrew Dolgov</a>
+	
+	<br/>
+
+	<a href="tt-rss.php">
+		<?php echo __("You are viewing the digest page. Click to open full version.") ?></a>
+
+</div>
 
 </body>

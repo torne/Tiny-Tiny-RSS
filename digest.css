@@ -18,6 +18,10 @@ a:hover {
 	color : gray;
 }
 
+#header a:hover, #footer a:hover {
+	color : #0069D8;
+}
+
 #header {
 	font-weight : bold;
 	font-size : 14px;
@@ -159,6 +163,18 @@ a:hover {
 	max-width : 65%;
 }
 
+#headlines h1 a {
+	color : #684C99;
+}
+
+#headlines h1 a:hover {
+	color : gray;
+}
+
+#headlines h1 #headlines-title {
+	color : gray;
+}
+
 #headlines ul#headlines-content div.digest-check {
 	float : right;	
 }
@@ -214,15 +230,23 @@ a:hover {
 }
 
 #headlines ul#headlines-content div.info {
-	margin-top : 2px;
 	font-size : 11px;
 }
 
 #headlines ul#headlines-content div.info a {
 	color : gray;
-	font-weight : bold;
 }
 
-#headlines ul#headlines-content div.info a:hover {
+#headlines ul#headlines-content span.tags {
+	font-size : 11px;
+	margin-bottom : 2px;
+}
+
+#headlines ul#headlines-content span.tags a {
+	color : #684C99;
+}
+
+#headlines ul#headlines-content div.info a:hover, 
+#headlines ul#headlines-content span.tags a:hover {
 	color : #659a4c;
 }

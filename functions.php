@@ -6783,6 +6783,7 @@
 						"title" => $line["title"],
 						"link" => $line["link"],
 						"feed_id" => $line["feed_id"],
+						"tags" => get_article_tags($link, $line["id"]),
 					);
 
 				if ($show_excerpt) {

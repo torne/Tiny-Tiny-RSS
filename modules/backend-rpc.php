@@ -984,8 +984,6 @@
 		
 			if (!$feed_id) $feed_id = -4;
 			if (!$offset) $offset = 0;
-
-
 			print "<rpc-reply>";
 
 			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
@@ -993,6 +991,9 @@
 
 			//function api_get_headlines($link, $feed_id, $limit, $offset,
 			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
+
+			print "<headlines-title><![CDATA[" . getFeedTitle($link, $feed_id) . 
+				"]]></headlines-title>";
 
 			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
 

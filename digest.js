@@ -186,8 +186,10 @@ function viewfeed(feed_id, offset) {
 			offset = _active_feed_offset + offset;
 		}
 
-		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" + feed_id +
-				"&offset=" + offset;
+		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" + 
+				param_escape(feed_id) +	"&offset=" + offset;
+
+		console.log(query);
 
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
@@ -293,6 +295,22 @@ function add_headline_entry(article, feed) {
 		var mark_part = "";
 		var publ_part = "";
 
+		var tags_part = "";
+
+		if (article.tags.length > 0) {
+
+			tags_part = " " + __("in") + " ";
+
+			for (var i = 0; i < Math.min(5, article.tags.length); i++) {
+				tags_part += "<a href=\"#\" onclick=\"viewfeed('" + 
+						article.tags[i] + "')\">" + 
+					article.tags[i] + "</a>, ";
+			}
+
+			tags_part = tags_part.replace(/, $/, "");
+			tags_part = "<span class=\"tags\">" + tags_part + "</span>";
+		}
+
 		if (article.marked)
 			mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.png'>";
 		else
@@ -320,7 +338,7 @@ function add_headline_entry(article, feed) {
 			"<div style='display : none' class='content'>" + 
 				article.content + "</div>" +
 			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" + 
-				feed.title + "</a> " + " @ " + 
+				feed.title + "</a> " + tags_part + " @ " + 
 				new Date(article.updated * 1000) + "</div>" +
 			"</div></li>";
 
@@ -410,9 +428,14 @@ function parse_headlines(transport, replace) {
 		if (!transport.responseXML) return;
 
 		var headlines = transport.responseXML.getElementsByTagName('headlines')[0];
+		var headlines_title = transport.responseXML.getElementsByTagName('headlines-title')[0];
 
-		if (headlines) {
+		if (headlines && headlines_title) {
 			headlines = eval("(" + headlines.firstChild.nodeValue + ")");
+
+			var title = headlines_title.firstChild.nodeValue;
+
+			$("headlines-title").innerHTML = title;
 
 			if (replace) $('headlines-content').innerHTML = '';
 
