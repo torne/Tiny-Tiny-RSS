@@ -14,7 +14,7 @@ function catchup_feed(feed_id, callback) {
 
 			var is_cat = "";
 
-			if (feed_id == -4) is_cat = "true";
+			if (feed_id < 0) is_cat = "true"; // KLUDGE
 
 			var query = "?op=rpc&subop=catchupFeed&feed_id=" + 
 				feed_id + "&is_cat=" + is_cat;
@@ -290,18 +290,32 @@ function add_headline_entry(article, feed) {
 
 		icon_part = "<img class='icon' src='" + get_feed_icon(feed) + "'/>";
 
+		var mark_part = "";
+		var publ_part = "";
+
+		if (article.marked)
+			mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.png'>";
+		else
+			mark_part =	"<img title='"+__("Star article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_unset.png'>";
+
+		if (article.published)
+			publ_part = "<img title='"+__("Unpublish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_set.png'>";
+		else
+			publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
+
+
 		var tmp_html = "<li id=\"A-"+article.id+"\">" + 
 			icon_part +
 			"<div class='digest-check'>" +
-			"<img title='Set starred' onclick=\"toggleMark(this, "+article.id+")\" src='images/mark_unset.png'>" +
-			"<img title='Set published' onclick=\"togglePub(this, "+article.id+")\" src='images/pub_unset.png'>" +
-			"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" class='digest-check' src='images/digest_checkbox.png'>" +
+			mark_part +
+			publ_part +
+			"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
 			"</div>" + 
 			"<a target=\"_blank\" href=\""+article.link+"\""+
 		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
 				article.title + "</a>" +
 			"<div class='body'>" + 
-			"<div title=\"Click to expand article\" onclick=\"zoom("+article.id+")\" class='excerpt'>" + 
+			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom("+article.id+")\" class='excerpt'>" + 
 				article.excerpt + "</div>" +
 			"<div style='display : none' class='content'>" + 
 				article.content + "</div>" +
@@ -450,41 +464,7 @@ function init() {
 	}
 }
 
-function tMark_afh_off(effect) {
-	try {
-		var elem = effect.effects[0].element;
-
-		console.log("tMark_afh_off : " + elem.id);
-
-		if (elem) {
-			elem.src = elem.src.replace("mark_set", "mark_unset");
-			elem.alt = __("Star article");
-			Element.show(elem);
-		}
-
-	} catch (e) {
-		exception_error("tMark_afh_off", e);
-	}
-}
-
-function tPub_afh_off(effect) {
-	try {
-		var elem = effect.effects[0].element;
-
-		console.log("tPub_afh_off : " + elem.id);
-
-		if (elem) {
-			elem.src = elem.src.replace("pub_set", "pub_unset");
-			elem.alt = __("Publish article");
-			Element.show(elem);
-		}
-
-	} catch (e) {
-		exception_error("tPub_afh_off", e);
-	}
-}
-
-function toggleMark(mark_img, id) {
+function toggle_mark(mark_img, id) {
 
 	try {
 
@@ -510,15 +490,15 @@ function toggleMark(mark_img, id) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				//
+				update();
 			} });
 
 	} catch (e) {
-		exception_error("toggleMark", e);
+		exception_error("toggle_mark", e);
 	}
 }
 
-function togglePub(mark_img, id, note) {
+function toggle_pub(mark_img, id, note) {
 
 	try {
 
@@ -552,11 +532,11 @@ function togglePub(mark_img, id, note) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				//
+				update();
 			} });
 
 	} catch (e) {
-		exception_error("togglePub", e);
+		exception_error("toggle_pub", e);
 	}
 }
 

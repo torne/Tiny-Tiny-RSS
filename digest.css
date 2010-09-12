@@ -159,13 +159,16 @@ a:hover {
 	max-width : 65%;
 }
 
-#headlines ul#headlines-content img.digest-check {
-	cursor : pointer;
+#headlines ul#headlines-content div.digest-check {
+	float : right;	
 }
 
-#headlines ul#headlines-content div.digest-check {
-	float : right;
+#headlines ul#headlines-content div.digest-check img {
+	cursor : pointer;
+	margin-right : 0px;
+	margin-left : 3px;
 }
+
 
 #headlines ul#headlines-content img.icon {
 	width : 16px;

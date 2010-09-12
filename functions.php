@@ -6777,6 +6777,7 @@
 						"id" => (int)$line["id"],
 						"unread" => sql_bool_to_bool($line["unread"]),
 						"marked" => sql_bool_to_bool($line["marked"]),
+						"published" => sql_bool_to_bool($line["published"]),
 						"updated" => strtotime($line["updated"]),
 						"is_updated" => $is_updated,
 						"title" => $line["title"],
