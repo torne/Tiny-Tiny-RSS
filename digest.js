@@ -138,7 +138,10 @@ function view(article_id, dismiss_only) {
 		remove_headline_entry(article_id);
 
 		catchup_article(article_id, 
-			function() { update(); });
+			function() { 
+				viewfeed(_active_feed_id, _active_feed_offset);
+				update();				
+			});
 
 		return dismiss_only != true;
 	} catch (e) {
