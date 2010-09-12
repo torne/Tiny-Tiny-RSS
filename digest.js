@@ -3,6 +3,36 @@ var last_feeds = [];
 var _active_feed_id = false;
 var _active_feed_offset = false;
 var _update_timeout = false;
+var _feedlist_expanded = false;
+
+function catchup_feed(feed_id, callback) {
+	try {
+
+		var fn = find_feed(last_feeds, feed_id).title;
+
+		if (confirm(__("Mark all articles in %s as read?").replace("%s", fn))) {
+
+			var is_cat = "";
+
+			if (feed_id == -4) is_cat = "true";
+
+			var query = "?op=rpc&subop=catchupFeed&feed_id=" + 
+				feed_id + "&is_cat=" + is_cat;
+
+			new Ajax.Request("backend.php",	{
+				parameters: query, 
+				onComplete: function(transport) {
+					if (callback) callback(transport);
+	
+					update();
+				} });
+		}
+
+	} catch (e) {
+		exception_error("catchup_article", e);
+	}
+}
+
 
 function catchup_article(article_id, callback) {
 	try {
@@ -205,10 +235,14 @@ function add_feed_entry(feed) {
 
 		icon_part = "<img src='" + get_feed_icon(feed) + "'/>";
 
-		var tmp_html = "<li id=\"F-"+feed.id+"\">" + 
+		var tmp_html = "<li id=\"F-"+feed.id+"\" " +
+				"onmouseover=\"feed_mi(this)\" onmouseout=\"feed_mo(this)\">" + 
 			icon_part +
-			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title +
-			"<div class='unread-ctr'>" + feed.unread + "</div>" +	
+			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title + "</a>" +
+			"<div class='unread-ctr'>" + 
+				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"Dismiss\" class=\"dismiss\" style='display : none' src=\"images/digest_checkbox.png\">" +
+				"<span class=\"unread\">" + feed.unread + "</span>" + 
+			"</div>" +	
 			"</li>";
 
 		$("feeds-content").innerHTML += tmp_html;
@@ -252,8 +286,47 @@ function add_headline_entry(article, feed) {
 	}
 }
 
+function expand_feeds() {
+	try {
+		_feedlist_expanded = true;
+
+		redraw_feedlist(last_feeds);
+
+	} catch (e) {
+		exception_error("expand_feeds", e);
+	}
+}
+
+function redraw_feedlist(feeds) {
+	try {
+
+		$('feeds-content').innerHTML = "";
+
+		var limit = 10;
+
+		if (_feedlist_expanded) limit = feeds.length;
+
+		for (var i = 0; i < Math.min(limit, feeds.length); i++) {
+			add_feed_entry(feeds[i]);
+		}
+
+		if (feeds.length > limit) {
+			$('feeds-content').innerHTML += "<li id='F-MORE-PROMPT'>" +
+				"<img src='images/blank_icon.gif'>" + 
+				"<a href=\"#\" onclick=\"expand_feeds()\">" +
+				__("%d more...").replace("%d", feeds.length-10) + 
+				"</a>" + "</li>";
+		}
+
+	} catch (e) {
+		exception_error("redraw_feedlist", e);
+	}
+}
+
 function parse_feeds(transport) {
 	try {
+
+		if (!transport.responseXML) return;
 
 		var feeds = transport.responseXML.getElementsByTagName('feeds')[0];
 
@@ -275,11 +348,7 @@ function parse_feeds(transport) {
 
 			last_feeds = feeds;
 
-			$('feeds-content').innerHTML = "";
-
-			for (var i = 0; i < feeds.length; i++) {
-				add_feed_entry(feeds[i]);
-			}
+			redraw_feedlist(feeds);
 		}
 
 	} catch (e) {
@@ -289,6 +358,8 @@ function parse_feeds(transport) {
 
 function parse_headlines(transport, replace) {
 	try {
+		if (!transport.responseXML) return;
+
 		var headlines = transport.responseXML.getElementsByTagName('headlines')[0];
 
 		if (headlines) {
@@ -296,7 +367,7 @@ function parse_headlines(transport, replace) {
 
 			if (replace) $('headlines-content').innerHTML = '';
 
-			var pr = $('MORE-PROMPT');
+			var pr = $('H-MORE-PROMPT');
 
 			if (pr) pr.parentNode.removeChild(pr);
 
@@ -311,7 +382,7 @@ function parse_headlines(transport, replace) {
 			if (pr) {
 				$('headlines-content').appendChild(pr);
 			} else {
-				$('headlines-content').innerHTML += "<li id='MORE-PROMPT'>" +
+				$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 					"<div class='body'><a href=\"javascript:load_more()\">" +
 				  	__("More articles...") + "</a></div></li>";
 			}
@@ -323,70 +394,6 @@ function parse_headlines(transport, replace) {
 		exception_error("parse_headlines", e);
 	}
 }
-
-/*function digest_update(transport, feed_id, offset) {
-	try {
-		var feeds = transport.responseXML.getElementsByTagName('feeds')[0];
-		var headlines = transport.responseXML.getElementsByTagName('headlines')[0];
-
-		if (feeds) {
-			feeds = eval("(" + feeds.firstChild.nodeValue + ")");
-
-			last_feeds = feeds;
-
-			$('feeds-content').innerHTML = "";
-
-			for (var i = 0; i < feeds.length; i++) {
-				add_feed_entry(feeds[i]);
-			}
-		} else {
-			feeds = last_feeds;
-		}
-
-		if (headlines) {
-			headlines = eval("(" + headlines.firstChild.nodeValue + ")");
-
-			if (_active_feed_id != feed_id || !offset) 
-				$('headlines-content').innerHTML = "";
-
-			var pr = $('MORE-PROMPT');
-
-			if (pr) {
-				pr.id = '';
-				Element.hide(pr);
-			}
-
-			for (var i = 0; i < headlines.length; i++) {
-				var elem = $('A-' + headlines[i].id);
-				
-				if (elem && Element.visible(elem)) {
-					if (!headlines[i].unread)
-						remove_headline_entry(headlines[i].id);
-
-				} else {
-					add_headline_entry(headlines[i], find_feed(feeds, headlines[i].feed_id));
-				}
-			}
-
-			$('headlines-content').innerHTML += "<li id='MORE-PROMPT'>" +
-				"<div class='body'><a href=\"#\" onclick=\"load_more()\">" +
-			  	__("More articles...") + "</a></div></li>";
-
-			new Effect.Appear('headlines-content');
-		}
-
-		if (feed_id != undefined) {
-			_active_feed_id = feed_id;
-		}
-
-		if (offset != undefined) _active_feed_offset = offset;
-
-		mark_selected_feed(_active_feed_id);
-
-	} catch (e) {
-		exception_error("digest_update", e);
-	}
-} */
 
 function init() {
 	try {
@@ -555,4 +562,43 @@ function fatal_error_check(transport) {
 	return true;
 }
 
+function feed_mi(elem) {
+	try {
+		var imgs = elem.getElementsByTagName('IMG');
+		var spans = elem.getElementsByTagName('SPAN');
 
+		for (var i = 0; i < imgs.length; i++) {
+			if (imgs[i].className == "dismiss")
+				Element.show(imgs[i]);
+		}
+
+		for (var i = 0; i < spans.length; i++) {
+			if (spans[i].className == "unread")
+				Element.hide(spans[i]);
+		}
+
+
+	} catch (e) {
+		exception_error("feed_mi", e);
+	}
+}
+
+function feed_mo(elem) {
+	try {
+		var imgs = elem.getElementsByTagName('IMG');
+		var spans = elem.getElementsByTagName('SPAN');
+
+		for (var i = 0; i < imgs.length; i++) {
+			if (imgs[i].className == "dismiss")
+				Element.hide(imgs[i]);
+		}
+
+		for (var i = 0; i < spans.length; i++) {
+			if (spans[i].className == "unread")
+				Element.show(spans[i]);
+		}
+
+	} catch (e) {
+		exception_error("feed_mo", e);
+	}
+}

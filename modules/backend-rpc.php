@@ -1029,6 +1029,20 @@
 			return;
 		}
 
+		if ($subop == "catchupFeed") {
+
+			$feed_id = db_escape_string($_REQUEST['feed_id']);
+			$is_cat = db_escape_string($_REQUEST['is_cat']);
+
+			print "<rpc-reply>";
+
+			catchup_feed($link, $feed_id, $is_cat);
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
