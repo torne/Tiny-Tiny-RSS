@@ -118,6 +118,11 @@ function zoom(elem, article_id) {
 				if (transport.responseXML) {
 					var article = transport.responseXML.getElementsByTagName('article')[0];
 					elem.innerHTML = article.firstChild.nodeValue;
+
+					new Effect.BlindDown(elem, {duration : 0.5});
+
+					elem.onclick = false;
+					elem.style.cursor = "auto";
 				} else {
 					elem.innerHTML = __("Error: unable to load article.");
 				}
@@ -341,10 +346,11 @@ function add_headline_entry(article, feed, no_effects) {
 
 		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+">" + 
 			icon_part +
+
 			"<div class='digest-check'>" +
-			mark_part +
-			publ_part +
-			"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
+				mark_part +
+				publ_part +
+				"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
 			"</div>" + 
 			"<a target=\"_blank\" href=\""+article.link+"\""+
 		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
