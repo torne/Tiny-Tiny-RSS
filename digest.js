@@ -1,4 +1,8 @@
 var last_feeds = [];
+var init_params = {};
+
+var db = false;
+var store = false;
 
 var _active_feed_id = false;
 var _active_feed_offset = false;
@@ -309,7 +313,7 @@ function find_feed(feeds, feed_id) {
 function get_feed_icon(feed) {
 	try {
 		if (feed.has_icon)
-			return 'icons/' + feed.id + '.ico';
+			return getInitParam('icons_location') + "/" + feed.id + '.ico';
 
 		if (feed.id == -1)
 			return 'images/mark_set.png';
@@ -592,22 +596,13 @@ function init_second_stage() {
 	}
 }
 
-function sanity_check(transport) {
-	try {
-
-
-	} catch (e) {
-		exception_error("sanity_check", e);
-	}
-}
-
 function init() {
 	try {
 
 		new Ajax.Request("backend.php", {
 			parameters: "?op=rpc&subop=sanityCheck",
 			onComplete: function(transport) { 
-				sanity_check(transport);
+				backend_sanity_check_callback(transport);
 			} });
 
 	} catch (e) {
