@@ -405,7 +405,15 @@ function add_headline_entry(article, feed, no_effects) {
 		if (article.excerpt.trim() == "")
 			article.excerpt = __("Click to expand article.");
 
-		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\"unread\">" + 
+		var li_class = "unread";
+
+		var fresh_max = getInitParam("fresh_article_max_age") * 60 * 60;
+		var d = new Date();
+
+		if (d.getTime() / 1000 - article.updated < fresh_max)
+			li_class = "fresh";
+
+		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\""+li_class+"\">" + 
 			icon_part +
 
 			"<div class='digest-check'>" +
