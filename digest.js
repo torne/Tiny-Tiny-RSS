@@ -259,6 +259,8 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
+				Element.hide("overlay");
+
 				fatal_error_check(transport);
 				parse_headlines(transport, replace, no_effects);
 				set_selected_feed(feed_id);				

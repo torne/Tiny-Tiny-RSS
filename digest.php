@@ -50,6 +50,20 @@
 	</script>
 </head>
 <body id="ttrssDigest">
+	<div id="overlay" style="display : block">
+		<div id="overlay_inner">
+		<noscript>
+			<p>
+			<?php print_error(__("Your browser doesn't support Javascript, which is required
+			for this application to function properly. Please check your
+			browser settings.")) ?></p>
+		</noscript>
+
+		<img src="images/indicator_white.gif"/>
+			<?php echo __("Loading, please wait...") ?>
+		</div>
+	</div> 
+
 	<div id="header">
 
 	<div class="links">
