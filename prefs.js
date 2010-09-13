@@ -4,13 +4,15 @@ var active_tab = false;
 var init_params = new Array();
 
 var caller_subop = false;
-var sanity_check_done = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 
 var color_picker_active = false;
 var selection_disabled = false;
 var mouse_is_down = false;
+
+var db = false;
+var store = false;
 
 function feedlist_callback2(transport) {
 
@@ -1105,62 +1107,6 @@ function selectTab(id, noupdate, subop) {
 	}
 }
 
-function backend_sanity_check_callback2(transport) {
-
-	try {
-
-		if (sanity_check_done) {
-			fatalError(11, "Sanity check request received twice. This can indicate "+
-		      "presence of Firebug or some other disrupting extension. "+
-				"Please disable it and try again.");
-			return;
-		}
-
-		if (!transport.responseXML) {
-			fatalError(3, "Sanity Check: Received reply is not XML", 
-				transport.responseText);
-			return;
-		}
-
-		var reply = transport.responseXML.firstChild.firstChild;
-
-		if (!reply) {
-			fatalError(3, "Sanity Check: Invalid RPC reply", transport.responseText);
-			return;
-		}
-
-		var error_code = reply.getAttribute("error-code");
-	
-		if (error_code && error_code != 0) {
-			return fatalError(error_code, reply.getAttribute("error-msg"));
-		}
-
-		console.log("sanity check ok");
-
-		var params = reply.nextSibling;
-
-		if (params) {
-			console.log('reading init-params...');
-			var param = params.firstChild;
-
-			while (param) {
-				var k = param.getAttribute("key");
-				var v = param.getAttribute("value");
-				console.log(k + " => " + v);
-				init_params[k] = v;					
-				param = param.nextSibling;
-			}
-		}
-
-		sanity_check_done = true;
-
-		init_second_stage();
-
-	} catch (e) {
-		exception_error("backend_sanity_check_callback", e);
-	}
-}
-
 function init_second_stage() {
 
 	try {
@@ -1216,7 +1162,7 @@ function init() {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				backend_sanity_check_callback2(transport);
+				backend_sanity_check_callback(transport);
 			} });
 
 	} catch (e) {
