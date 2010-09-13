@@ -3966,7 +3966,7 @@
 		}
 
 		error_reporting(0);
-		if (DEFAULT_UPDATE_INTERVAL == "1") {
+		if (DEFAULT_UPDATE_METHOD == "1") {
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
 //			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
