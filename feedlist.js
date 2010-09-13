@@ -163,14 +163,22 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	
 					var feedlist = $('feedList');
 				
-					var next_unread_feed = getRelativeFeedId(feedlist,
-							feed, "next", true);
-	
+					var next_unread_feed = getRelativeFeedId2(feed, false,
+							"next", true);
+
+					/* gRFI2 also returns categories which we don't really 
+					 * need here, so we skip them */
+
+					while (next_unread_feed && next_unread_feed.match("CAT:")) 
+						next_unread_feed = getRelativeFeedId2(
+								next_unread_feed.replace("CAT:", ""),
+								true, "next", true);
+					
 					if (!next_unread_feed) {
-						next_unread_feed = getRelativeFeedId(feedlist,
-							-3, "next", true);
+						next_unread_feed = getRelativeFeedId2(-3, true,
+							"next", true);
 					}
-		
+	
 					if (next_unread_feed) {
 						query = query + "&nuf=" + param_escape(next_unread_feed);
 						//setActiveFeedId(next_unread_feed);

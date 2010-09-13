@@ -1093,93 +1093,12 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 	}
 }
 
-function getRelativeFeedId(list, id, direction, unread_only) {	
-	var rows = list.getElementsByTagName("LI");
-	var feeds = new Array();
-
-	for (var i = 0; i < rows.length; i++) {
-		if (rows[i].id.match("FEEDR-")) {
-
-			if (rows[i].id == "FEEDR-" + id || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
-
-				if (!unread_only || 
-						(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
-					feeds.push(rows[i].id.replace("FEEDR-", ""));
-				}
-			}
-		}
-	}
-
-	if (!id) {
-		if (direction == "next") {
-			return feeds.shift();
-		} else {
-			return feeds.pop();
-		}
-	} else {
-		if (direction == "next") {
-			var idx = feeds.indexOf(id);
-			if (idx != -1 && idx < feeds.length) {
-				return feeds[idx+1];					
-			} else {
-				return getRelativeFeedId(list, false, direction, unread_only);
-			}
-		} else {
-			var idx = feeds.indexOf(id);
-			if (idx > 0) {
-				return feeds[idx-1];
-			} else {
-				return getRelativeFeedId(list, false, direction, unread_only);
-			}
-		}
-
-	}
-}
-
-function showBlockElement(id, h_id) {
-	var elem = $(id);
-
-	if (elem) {
-		elem.style.display = "block";
-
-		if (h_id) {
-			elem = $(h_id);
-			if (elem) {
-				elem.style.display = "none";
-			}
-		}
-	} else {
-		alert("[showBlockElement] can't find element with id " + id);
-	} 
-}
-
-function appearBlockElement_afh(effect) {
-
-}
-
 function checkboxToggleElement(elem, id) {
 	if (elem.checked) {
 		Effect.Appear(id, {duration : 0.5});
 	} else {
 		Effect.Fade(id, {duration : 0.5});
 	}
-}
-
-function appearBlockElement(id, h_id) {
-
-	try {
-		if (h_id) {
-			Effect.Fade(h_id);
-		}
-		Effect.SlideDown(id, {duration : 1.0, afterFinish: appearBlockElement_afh});
-	} catch (e) {
-		exception_error("appearBlockElement", e);
-	}
-
-}
-
-function hideParentElement(e) {
-	e.parentNode.style.display = "none";
 }
 
 function dropboxSelect(e, v) {

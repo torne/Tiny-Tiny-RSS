@@ -2062,7 +2062,7 @@ function cdmExpandArticle(a_id) {
 
 
 	} catch (e) {
-		exception_error("appearBlockElementF", e);
+		exception_error("cdmExpandArticle", e);
 	}
 
 }
