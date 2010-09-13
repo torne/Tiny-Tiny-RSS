@@ -46,17 +46,17 @@ function catchup_feed(feed_id, callback) {
 function catchup_visible_articles(callback) {
 	try {
 
-		if (confirm(__("Mark all displayed articles as read?"))) {
-
-			var elems = $("headlines-content").getElementsByTagName("LI");
-			var ids = [];
+		var elems = $("headlines-content").getElementsByTagName("LI");
+		var ids = [];
 			
-			for (var i = 0; i < elems.length; i++) {
-				if (elems[i].id && elems[i].id.match("A-")) {
-					ids.push(elems[i].id.replace("A-", ""));
-				}
+		for (var i = 0; i < elems.length; i++) {
+			if (elems[i].id && elems[i].id.match("A-")) {
+			ids.push(elems[i].id.replace("A-", ""));
 			}
-	
+		}
+
+		if (confirm(__("Mark %d displayed articles as read?").replace("%d", ids.length))) {
+
 			var query = "?op=rpc&subop=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(ids);
 	
@@ -153,13 +153,22 @@ function zoom(elem, article_id) {
 
 function load_more() {
 	try {
-		viewfeed(_active_feed_id, _active_feed_offset + 10);
+		var pr = $("H-LOADING-IMG");
+
+		if (pr) Element.show(pr);
+
+		viewfeed(_active_feed_id, _active_feed_offset + 10, false, false, true,
+			function() { 
+				var pr = $("H-LOADING-IMG");
+
+				if (pr) Element.hide(pr);	
+			});
 	} catch (e) {
 		exception_error("load_more", e);
 	}
 }
 
-function update() {
+function update(callback) {
 	try {
 		console.log('updating feeds...');
 
@@ -171,6 +180,8 @@ function update() {
 				fatal_error_check(transport);
 				parse_feeds(transport);
 				set_selected_feed(_active_feed_id);
+
+				if (callback) callback(transport);
 				} });
 
 		_update_timeout = window.setTimeout('update()', 5*1000);
@@ -194,7 +205,7 @@ function remove_headline_entry(article_id) {
 
 function view_update() {
 	try {
-		viewfeed(_active_feed_id, _active_feed_offset, false, true);
+		viewfeed(_active_feed_id, _active_feed_offset, false, true, true);
 		update();
 	} catch (e) {
 		exception_error("view_update", e);
@@ -217,7 +228,7 @@ function view(article_id, dismiss_only) {
 	}
 }
 
-function viewfeed(feed_id, offset, replace, no_effects) {
+function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) {
 	try {
 
 		if (!feed_id) feed_id = _active_feed_id;
@@ -240,17 +251,24 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 
 		var img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
 
-		img.setAttribute("orig_src", img.src);
-		img.src = 'images/indicator_tiny.gif';
+		if (img && !no_indicator) {
+			img.setAttribute("orig_src", img.src);
+			img.src = 'images/indicator_tiny.gif';
+		}
 
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
 				fatal_error_check(transport);
 				parse_headlines(transport, replace, no_effects);
-				set_selected_feed(feed_id);
+				set_selected_feed(feed_id);				
 				_active_feed_offset = offset;
-				img.src = img.getAttribute("orig_src");
+
+				if (img && !no_indicator)
+					img.src = img.getAttribute("orig_src");
+
+				if (callback) callback(transport);
+
 			} });
 
 	} catch (e) {
