@@ -234,9 +234,6 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 		img.setAttribute("orig_src", img.src);
 		img.src = 'images/indicator_tiny.gif';
 
-		if ($('H-LOADING-IMG')) Element.show("H-LOADING-IMG");
-
-
 		new Ajax.Request("backend.php",	{
 			parameters: query, 
 			onComplete: function(transport) {
@@ -245,7 +242,6 @@ function viewfeed(feed_id, offset, replace, no_effects) {
 				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
 				img.src = img.getAttribute("orig_src");
-				if ($('H-LOADING-IMG')) Element.hide("H-LOADING-IMG");
 			} });
 
 	} catch (e) {
