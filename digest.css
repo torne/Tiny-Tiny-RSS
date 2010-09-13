@@ -207,11 +207,23 @@ a:hover {
 	clear : left;
 }
 
-#headlines ul#headlines-content a.title {
+#headlines ul#headlines-content li.unread a.title {
 	font-weight : bold;
 	font-size : 16px;
 	display : block;
 	padding-left : 21px;
+}
+
+#headlines ul#headlines-content li.read a.title {
+	font-size : 16px;
+	font-weight : bold;
+	display : block;
+	padding-left : 21px;
+	color : #8DB1D6;
+}
+
+#headlines ul#headlines-content li.read a.title:hover {
+	color : gray;
 }
 
 #headlines ul#headlines-content img#H-LOADING-IMG {

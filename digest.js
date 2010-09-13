@@ -130,6 +130,15 @@ function zoom(elem, article_id) {
 
 					elem.onclick = false;
 					elem.style.cursor = "auto";
+
+					catchup_article(article_id, 
+						function() { 							
+							window.clearTimeout(_view_update_timeout);
+							_view_update_timeout = window.setTimeout("view_update()", 500);
+							$("A-" + article_id).className = "read";
+					});
+
+
 				} else {
 					elem.innerHTML = __("Error: unable to load article.");
 				}
@@ -199,7 +208,7 @@ function view(article_id, dismiss_only) {
 		catchup_article(article_id, 
 			function() { 
 				window.clearTimeout(_view_update_timeout);
-				_view_update_timeout = window.setTimeout("view_update()", 1000);
+				_view_update_timeout = window.setTimeout("view_update()", 500);
 			});
 
 		return dismiss_only != true;
@@ -372,7 +381,7 @@ function add_headline_entry(article, feed, no_effects) {
 		if (article.excerpt.trim() == "")
 			article.excerpt = __("Click to expand article.");
 
-		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+">" + 
+		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\"unread\">" + 
 			icon_part +
 
 			"<div class='digest-check'>" +
