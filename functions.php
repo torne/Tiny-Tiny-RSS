@@ -1850,6 +1850,8 @@
 	
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
+
+				$_SESSION["last_version_check"] = time();
 	
 				initialize_user_prefs($link, $_SESSION["uid"]);
 	
