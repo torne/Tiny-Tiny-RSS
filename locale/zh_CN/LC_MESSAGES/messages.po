@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -107,30 +107,6 @@ msgstr "管理员"
 #, fuzzy
 msgid "Default profile"
 msgstr "默认文章限制"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "你好,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "注销"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "返回Tiny Tiny RSS"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Feed"
-
-#: digest.php:94
-#, fuzzy
-msgid "headlines"
-msgstr "最新提要："
 
 #: errors.php:3
 msgid "Unknown error"
@@ -487,8 +463,7 @@ msgstr "过滤文章"
 msgid "Set starred"
 msgstr "设置星级"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -820,9 +795,18 @@ msgid ""
 "\t\tbrowser settings."
 msgstr "您的浏览器不支持Javascript, 请检查设置。"
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "你好,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "退出我的最爱"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "注销"
 
 #: prefs.php:102
 #, fuzzy
@@ -2307,31 +2291,6 @@ msgstr "&nbsp;&nbsp;(显示)隐藏已读feed"
 msgid "Sort feeds by unread count"
 msgstr "以未读文章数量排序feed源"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "激活..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-#, fuzzy
-msgid "Star article"
-msgstr "星级文章"
-
-#: digest.js:371 viewfeed.js:577
-#, fuzzy
-msgid "Unstar article"
-msgstr "星级文章"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-#, fuzzy
-msgid "Please wait..."
-msgstr "读取中，请等待..."
-
-#: digest.js:412 viewfeed.js:648
-#, fuzzy
-msgid "Unpublish article"
-msgstr "发布文章"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "未能添加过滤：无匹配。"
@@ -2681,6 +2640,26 @@ msgstr "您不能编辑本分类feed"
 #, fuzzy
 msgid "Rescore articles in %s?"
 msgstr "星级文章"
+
+#: viewfeed.js:528 viewfeed.js:592
+#, fuzzy
+msgid "Star article"
+msgstr "星级文章"
+
+#: viewfeed.js:577
+#, fuzzy
+msgid "Unstar article"
+msgstr "星级文章"
+
+#: viewfeed.js:585 viewfeed.js:652
+#, fuzzy
+msgid "Please wait..."
+msgstr "读取中，请等待..."
+
+#: viewfeed.js:648
+#, fuzzy
+msgid "Unpublish article"
+msgstr "发布文章"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
@@ -3171,6 +3150,9 @@ msgstr "请输入标签主题"
 #, fuzzy
 #~ msgid "Last updated:"
 #~ msgstr "已更新"
+
+#~ msgid "Last headlines:"
+#~ msgstr "最新提要："
 
 #~ msgid "Other feeds: Top 25"
 #~ msgstr " 其他feed: Top 25"

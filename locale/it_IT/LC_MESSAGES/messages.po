@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ttrss-1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2010-04-19 16:36+0200\n"
 "Last-Translator: Andrea Zagli <azagli@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -106,30 +106,6 @@ msgstr "Amministratore"
 #: modules/popup-dialog.php:106
 msgid "Default profile"
 msgstr "Profilo predefinito"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Salve,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Esci"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Ritorna a Tiny Tiny RSS"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Notiziari"
-
-#: digest.php:94
-#, fuzzy
-msgid "headlines"
-msgstr "Ultimi sommari:"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -480,8 +456,7 @@ msgstr "Filtra articoli"
 msgid "Set starred"
 msgstr "Imposta con stella"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Pubblica articolo"
 
@@ -842,9 +817,18 @@ msgstr ""
 "\t\tda questa applicazione per funzionare correttamente. Controllare\n"
 "\t\tle impostazioni del browser."
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Salve,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Esci dalle preferenze"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Esci"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2245,27 +2229,6 @@ msgstr "Nascondi notiziari letti"
 msgid "Sort feeds by unread count"
 msgstr "Ordinare i notiziari per numero di non letti"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Altre azioni..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Metti la stella all&apos;articolo"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Togli la stella all&apos;articolo"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Attendere prego..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Non pubblicare articolo"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "Impossibile aggiungere il filtro: niente a cui corrisponda."
@@ -2602,6 +2565,22 @@ msgstr "Impossibile cambiare il punteggio a questo tipo di notiziari."
 msgid "Rescore articles in %s?"
 msgstr "Cambiare il punteggio degli articoli in «%s»?"
 
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Metti la stella all&apos;articolo"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Togli la stella all&apos;articolo"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Attendere prego..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Non pubblicare articolo"
+
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
 msgid "No articles are selected."
@@ -2688,6 +2667,9 @@ msgstr "Inserire una nota per questo articolo:"
 
 #~ msgid "Last updated:"
 #~ msgstr "Ultimo aggiornamento:"
+
+#~ msgid "Last headlines:"
+#~ msgstr "Ultimi sommari:"
 
 #~ msgid ""
 #~ "Feed browser cache information is missing. Please refer to the <a "

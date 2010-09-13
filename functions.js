@@ -46,12 +46,12 @@ function exception_error(location, e, ext_info) {
 
 			if (ext_info) {
 				ebc.innerHTML += "<div><b>Additional information:</b></div>" +
-					"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+				"<textarea readonly=\"1\">" + ext_info + "</textarea>";
 			}
 
 			ebc.innerHTML += "<div><b>Stack trace:</b></div>" +
 				"<textarea readonly=\"1\">" + e.stack + "</textarea>";
-
+	
 		} else {
 			alert(msg);
 		}

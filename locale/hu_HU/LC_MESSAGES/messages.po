@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2009-08-17 23:04+0100\n"
 "Last-Translator: MoJo2009\n"
 "Language-Team: HUNGARIAN\n"
@@ -110,29 +110,6 @@ msgstr "Adminisztrátor"
 #, fuzzy
 msgid "Default profile"
 msgstr "Hírek maximális száma"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Üdv,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Kijelentkezés"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Vissza az RSS-olvasóhoz"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Hírcsatornák"
-
-#: digest.php:94
-msgid "headlines"
-msgstr ""
 
 #: errors.php:3
 msgid "Unknown error"
@@ -479,8 +456,7 @@ msgstr "Hír szűrése"
 msgid "Set starred"
 msgstr "Csillagoz"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Hír publikálása"
 
@@ -834,9 +810,18 @@ msgstr ""
 "\t\telengedhetetlen a program működéséhez.\n"
 "\t\tKérem ellenőrizze böngészőbeállításait, és engedélyezze a Javascriptet!"
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Üdv,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Kilépés a beállításokból"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Kijelentkezés"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2246,27 +2231,6 @@ msgstr "Olvasottak rejtése/mutatása"
 msgid "Sort feeds by unread count"
 msgstr "Hírcsatornák rendezése olvasatlan hírek száma alapján"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Műveletek"
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Hír csillagozása"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Csillagot levesz a hírről"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Kérem várjon..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Publikálás visszavonása"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "Szűrő hozzáadása sikertelen: nincs érvényes szűrőfeltétel."
@@ -2606,6 +2570,22 @@ msgstr ""
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr ""
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Hír csillagozása"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Csillagot levesz a hírről"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Kérem várjon..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Publikálás visszavonása"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394

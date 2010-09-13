@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2009-05-12 03:25+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -108,30 +108,6 @@ msgstr "管理者"
 #, fuzzy
 msgid "Default profile"
 msgstr "標準の記事制限"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "ようこそ、"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "ログアウト"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Tiny Tiny RSS に戻る"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "フィード"
-
-#: digest.php:94
-#, fuzzy
-msgid "headlines"
-msgstr "最終ヘッドライン:"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -485,8 +461,7 @@ msgstr "記事フィルター"
 msgid "Set starred"
 msgstr "お気に入りに設定する"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "公開記事"
 
@@ -811,9 +786,18 @@ msgid ""
 "\t\tbrowser settings."
 msgstr ""
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "ようこそ、"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "設定を終了する"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "ログアウト"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2208,27 +2192,6 @@ msgstr "読んだフィードを隠す/再表示する"
 msgid "Sort feeds by unread count"
 msgstr "未読記事数によるフィードの並び替え"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "操作..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "記事をお気に入りにする"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "記事のお気に入りを解除する"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "しばらくお待ちください..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "非公開記事"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "フィルターを追加できません: 一致するものがありません。"
@@ -2561,6 +2524,22 @@ msgstr ""
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr "%s の記事のスコアを再計算しますか?"
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "記事をお気に入りにする"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "記事のお気に入りを解除する"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "しばらくお待ちください..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "非公開記事"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
@@ -3118,6 +3097,9 @@ msgstr "このアーティクルのノートを入力してください:"
 
 #~ msgid "Last updated:"
 #~ msgstr "最終更新:"
+
+#~ msgid "Last headlines:"
+#~ msgstr "最終ヘッドライン:"
 
 #~ msgid "Other feeds: Top 25"
 #~ msgstr "その他のフィード: トップ 25"

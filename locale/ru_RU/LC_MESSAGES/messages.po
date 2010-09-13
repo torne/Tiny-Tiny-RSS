@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -114,30 +114,6 @@ msgstr "Администратор"
 #, fuzzy
 msgid "Default profile"
 msgstr "Количество статей по умолчанию"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Привет,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Выход"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Вернуться к Tiny Tiny RSS"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Каналы"
-
-#: digest.php:94
-#, fuzzy
-msgid "headlines"
-msgstr "Последние заголовки:"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -488,8 +464,7 @@ msgstr "Отфильтровать статью"
 msgid "Set starred"
 msgstr "Отметить"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Опубликовать"
 
@@ -839,9 +814,18 @@ msgstr ""
 "\t\tдля функционала этой программы. Пожалуйста, проверьте\n"
 "\t\tнастройки вашего браузера."
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Привет,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Закрыть настройки"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Выход"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2265,27 +2249,6 @@ msgstr "&nbsp;&nbsp;Показать/скрыть прочитанные"
 msgid "Sort feeds by unread count"
 msgstr "Сортировать каналы по количеству непрочитанных статей"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Действия..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Отмеченные"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Не отмеченные"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Пожалуйста, подождите..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Не публиковать"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "Не могу добавить фильтр: нет соответствия."
@@ -2616,6 +2579,22 @@ msgstr "Вы не можете снова оценить этот канал."
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr "Установить оценку статьям в %s?"
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Отмеченные"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Не отмеченные"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Не публиковать"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
@@ -3168,6 +3147,9 @@ msgstr "Пожалуйста, укажите заметку для статьи:
 
 #~ msgid "Last updated:"
 #~ msgstr "Последнее обновление"
+
+#~ msgid "Last headlines:"
+#~ msgstr "Последние заголовки:"
 
 #, fuzzy
 #~ msgid ""

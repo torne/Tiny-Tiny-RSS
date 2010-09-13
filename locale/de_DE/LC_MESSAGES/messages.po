@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin Kraft <kev@nurzen.de>\n"
 "Language-Team: Deutsch <de.org>\n"
@@ -112,29 +112,6 @@ msgstr "Administrator"
 #, fuzzy
 msgid "Default profile"
 msgstr "Standard Artikelgrenzwert"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Hallo,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Abmelden"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Zu Tiny Tiny RSS zurückkehren"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Feeds"
-
-#: digest.php:94
-msgid "headlines"
-msgstr ""
 
 #: errors.php:3
 msgid "Unknown error"
@@ -492,8 +469,7 @@ msgstr "Artikel filtern"
 msgid "Set starred"
 msgstr "Bewertung setzen"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Artikel veröffentlichen"
 
@@ -846,9 +822,18 @@ msgstr ""
 "\t\tfunktionieren, welches von Ihrem Browser nicht unterstützt wird.\t"
 "\tBitte überprüfen Sie Ihre Browser Einstellungen."
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Hallo,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Einstellungen verlassen"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Abmelden"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2276,27 +2261,6 @@ msgstr "Gelesene ein-/ausblenden"
 msgid "Sort feeds by unread count"
 msgstr "Feeds nach Anzahl der ungelesenen Artikel sortieren"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Aktionen..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Artikel bewerten"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Artikelbewertung zurücknehmen"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Bitte warten..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Artikelveröffentlichung widerrufen"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "Kann den Filter nicht hinzufügen: keine Übereinstimmung vorhanden."
@@ -2635,6 +2599,22 @@ msgstr "Sie können diese Art von Feed nicht neu bewerten."
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr "Artikel in %s neu bewerten?"
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Artikel bewerten"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Artikelbewertung zurücknehmen"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Bitte warten..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Artikelveröffentlichung widerrufen"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2009-11-10 00:12+0100\n"
 "Last-Translator: Manuel Gualda Caballero <manuel@utopiaverde.org>\n"
 "Language-Team: Español <manuel@utopiaverde.org>\n"
@@ -106,29 +106,6 @@ msgstr "Administrador"
 #, fuzzy
 msgid "Default profile"
 msgstr "Límite de artículos por defecto"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Hola,"
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Cerrar sesión"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Volver a Tiny Tiny RSS"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Fuentes"
-
-#: digest.php:94
-msgid "headlines"
-msgstr ""
 
 #: errors.php:3
 msgid "Unknown error"
@@ -483,8 +460,7 @@ msgstr "Filtrar artículo"
 msgid "Set starred"
 msgstr "Fijar como favorito"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Publicar artículo"
 
@@ -850,9 +826,18 @@ msgstr ""
 "navegador no lo soporta actualmente. Por favor, revise las opciones de "
 "configuración de su navegador."
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Hola,"
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Salir de las preferencias"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Cerrar sesión"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2284,27 +2269,6 @@ msgstr "Ocultar/Mostrar las leídas"
 msgid "Sort feeds by unread count"
 msgstr "Ordenar las fuentes en función del número de artículos sin leer"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Acciones..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Marcar el artículo como favorito"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Quitar el artículo de los favoritos"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Por favor, espere..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Anular la publicación del artículo"
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "No se puede añadir el filtro: no se ha indicado ninguna coincidencia."
@@ -2640,6 +2604,22 @@ msgstr "No puede reiniciar la puntuación de esta clase de fuente."
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr "¿Reiniciar la puntuación de los artículos de %s?"
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Marcar el artículo como favorito"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Quitar el artículo de los favoritos"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Por favor, espere..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Anular la publicación del artículo"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394

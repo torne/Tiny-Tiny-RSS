@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 12:07+0400\n"
+"POT-Creation-Date: 2010-09-11 12:16+0400\n"
 "PO-Revision-Date: 2009-05-02 00:10+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -108,30 +108,6 @@ msgstr "Administrator"
 #, fuzzy
 msgid "Default profile"
 msgstr "Standard artikkelbegrensning"
-
-#: digest.php:58 prefs.php:90 tt-rss.php:112
-msgid "Hello,"
-msgstr "Hei, "
-
-#: digest.php:62 prefs.php:94 tt-rss.php:122 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Logg ut"
-
-#: digest.php:67
-#, fuzzy
-msgid "Tiny Tiny RSS"
-msgstr "Returner til Tiny Tiny RSS"
-
-#: digest.php:88
-#, fuzzy
-msgid "feeds"
-msgstr "Nyhetsstrømmer"
-
-#: digest.php:94
-#, fuzzy
-msgid "headlines"
-msgstr "Siste artikler:"
 
 #: errors.php:3
 msgid "Unknown error"
@@ -484,8 +460,7 @@ msgstr "Filtrer artikkel"
 msgid "Set starred"
 msgstr "Sett som favorittartikkel"
 
-#: localized_schema.php:18 digest.js:346 digest.js:420 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
 msgid "Publish article"
 msgstr "Publiser artiklen"
 
@@ -841,9 +816,18 @@ msgstr ""
 "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
 "\t\tnettlesers instillinger."
 
+#: prefs.php:90 tt-rss.php:112
+msgid "Hello,"
+msgstr "Hei, "
+
 #: prefs.php:92 help/4.php:14
 msgid "Exit preferences"
 msgstr "Forlat innstillinger"
+
+#: prefs.php:94 tt-rss.php:122 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Logg ut"
 
 #: prefs.php:102
 msgid "Keyboard shortcuts"
@@ -2271,27 +2255,6 @@ msgstr "Skjul/vis leste nyhetsstrømmer"
 msgid "Sort feeds by unread count"
 msgstr "Sorter nyhetsstrømer ut i fra antall uleste artikler"
 
-#: digest.js:295
-#, fuzzy
-msgid "More articles..."
-msgstr "Handlinger..."
-
-#: digest.js:329 digest.js:378 viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Marker artikkel som favoritt"
-
-#: digest.js:371 viewfeed.js:577
-msgid "Unstar article"
-msgstr "Fjern favorittmerkingen fra artiklen"
-
-#: digest.js:374 digest.js:416 viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Vennligst vent..."
-
-#: digest.js:412 viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Fjern publiseringen av artikkelen."
-
 #: functions.js:1332
 msgid "Can't add filter: nothing to match on."
 msgstr "Kan ikke legge til filter, ingen match på kriteriene"
@@ -2622,6 +2585,22 @@ msgstr "Du kan ikke endre poengsummen for denne typen nyhetskanal"
 #: tt-rss.js:947
 msgid "Rescore articles in %s?"
 msgstr "Endre poengene for artiklene i %s?"
+
+#: viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Marker artikkel som favoritt"
+
+#: viewfeed.js:577
+msgid "Unstar article"
+msgstr "Fjern favorittmerkingen fra artiklen"
+
+#: viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Vennligst vent..."
+
+#: viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Fjern publiseringen av artikkelen."
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
@@ -3169,6 +3148,9 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 
 #~ msgid "Last updated:"
 #~ msgstr "Siste oppdatering:"
+
+#~ msgid "Last headlines:"
+#~ msgstr "Siste artikler:"
 
 #~ msgid "Other feeds: Top 25"
 #~ msgstr "Andre nyhetsstrømmer: Topp 25"
