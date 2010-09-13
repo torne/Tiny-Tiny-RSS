@@ -12,7 +12,6 @@ var firsttime_update = true;
 var _active_feed_id = 0;
 var _active_feed_is_cat = false;
 var number_of_feeds = 0;
-var sanity_check_done = false;
 var _hfd_scrolltop = 0;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
@@ -96,78 +95,6 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 
 	setTimeout('updateFeedList(false, false)', 50);
 	closeInfoBox();
-}
-
-function backend_sanity_check_callback(transport) {
-
-	try {
-
-		if (sanity_check_done) {
-			fatalError(11, "Sanity check request received twice. This can indicate "+
-		      "presence of Firebug or some other disrupting extension. "+
-				"Please disable it and try again.");
-			return;
-		}
-
-		if (!transport.responseXML) {
-			if (!store) {
-				fatalError(3, "Sanity check: Received reply is not XML", 
-					transport.responseText);
-				return;
-			} else {
-				init_offline();
-				return;
-			}
-		}
-
-		if (getURLParam("offline")) {
-			return init_offline();
-		}
-
-		var reply = transport.responseXML.firstChild.firstChild;
-
-		if (!reply) {
-			fatalError(3, "Sanity check: invalid RPC reply", transport.responseText);
-			return;
-		}
-
-		var error_code = reply.getAttribute("error-code");
-	
-		if (error_code && error_code != 0) {
-			return fatalError(error_code, reply.getAttribute("error-msg"));
-		}
-
-		console.log("sanity check ok");
-
-		var params = reply.nextSibling;
-
-		if (params) {
-			console.log('reading init-params...');
-			var param = params.firstChild;
-
-			while (param) {
-				var k = param.getAttribute("key");
-				var v = param.getAttribute("value");
-				console.log(k + " => " + v);
-				init_params[k] = v;					
-
-				if (db) {
-					db.execute("DELETE FROM init_params WHERE key = ?", [k]);
-					db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
-						[k, v]);
-				}
-
-				param = param.nextSibling;
-			}
-		}
-
-		sanity_check_done = true;
-
-		init_second_stage();
-
-	} catch (e) {
-		exception_error("backend_sanity_check_callback", e, transport);	
-	} 
 }
 
 function scheduleFeedUpdate(force) {

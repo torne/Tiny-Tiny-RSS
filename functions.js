@@ -2,6 +2,7 @@ var hotkeys_enabled = true;
 var notify_silent = false;
 var last_progress_point = 0;
 var async_counters_work = false;
+var sanity_check_done = false;
 
 /* add method to remove element from array */
 
@@ -2199,5 +2200,77 @@ function unsubscribeFeed(feed_id, title) {
 	return false;
 }
 
+
+function backend_sanity_check_callback(transport) {
+
+	try {
+
+		if (sanity_check_done) {
+			fatalError(11, "Sanity check request received twice. This can indicate "+
+		      "presence of Firebug or some other disrupting extension. "+
+				"Please disable it and try again.");
+			return;
+		}
+
+		if (!transport.responseXML) {
+			if (!store) {
+				fatalError(3, "Sanity check: Received reply is not XML", 
+					transport.responseText);
+				return;
+			} else {
+				init_offline();
+				return;
+			}
+		}
+
+		if (getURLParam("offline")) {
+			return init_offline();
+		}
+
+		var reply = transport.responseXML.firstChild.firstChild;
+
+		if (!reply) {
+			fatalError(3, "Sanity check: invalid RPC reply", transport.responseText);
+			return;
+		}
+
+		var error_code = reply.getAttribute("error-code");
+	
+		if (error_code && error_code != 0) {
+			return fatalError(error_code, reply.getAttribute("error-msg"));
+		}
+
+		console.log("sanity check ok");
+
+		var params = reply.nextSibling;
+
+		if (params) {
+			console.log('reading init-params...');
+			var param = params.firstChild;
+
+			while (param) {
+				var k = param.getAttribute("key");
+				var v = param.getAttribute("value");
+				console.log(k + " => " + v);
+				init_params[k] = v;					
+
+				if (db) {
+					db.execute("DELETE FROM init_params WHERE key = ?", [k]);
+					db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
+						[k, v]);
+				}
+
+				param = param.nextSibling;
+			}
+		}
+
+		sanity_check_done = true;
+
+		init_second_stage();
+
+	} catch (e) {
+		exception_error("backend_sanity_check_callback", e, transport);	
+	} 
+}
 
 
