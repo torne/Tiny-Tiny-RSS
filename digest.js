@@ -577,7 +577,7 @@ function parse_headlines(transport, replace, no_effects) {
 	}
 }
 
-function init() {
+function init_second_stage() {
 	try {
 		new Ajax.Request("backend.php",	{
 			parameters: "backend.php?op=rpc&subop=digest-init",
@@ -586,6 +586,29 @@ function init() {
 				window.setTimeout('viewfeed(-4)', 100);
 				_update_timeout = window.setTimeout('update()', 5*1000);
 				} });
+
+	} catch (e) {
+		exception_error("init_second_stage", e);
+	}
+}
+
+function sanity_check(transport) {
+	try {
+
+
+	} catch (e) {
+		exception_error("sanity_check", e);
+	}
+}
+
+function init() {
+	try {
+
+		new Ajax.Request("backend.php", {
+			parameters: "?op=rpc&subop=sanityCheck",
+			onComplete: function(transport) { 
+				sanity_check(transport);
+			} });
 
 	} catch (e) {
 		exception_error("digest_init", e);
