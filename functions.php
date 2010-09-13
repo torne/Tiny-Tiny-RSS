@@ -3176,6 +3176,9 @@
 		print "<param key=\"cdm_auto_catchup\" value=\"" . 
 			(int) get_pref($link, "CDM_AUTO_CATCHUP") . "\"/>";
 
+		print "<param key=\"fresh_article_max_age\" value=\"" . 
+			(int) get_pref($link, "FRESH_ARTICLE_MAX_AGE") . "\"/>";
+
 		print "<param key=\"icons_url\" value=\"" . ICONS_URL . "\"/>";
 
 		print "<param key=\"cookie_lifetime\" value=\"" . SESSION_COOKIE_LIFETIME . "\"/>";
