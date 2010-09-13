@@ -531,105 +531,6 @@ a.helpLink:hover {
 	color : #4684ff;
 }
 
-#infoBoxTitle {
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #659a4c;
-	background-color : #99d67a;
-	padding : 4px 2px 4px 10px;
-	color : white;
-	font-weight : bold;
-	font-size : 16px;
-	text-shadow : #659a4c 0px 1px 0px;
-}
-
-/* shadow stuff from http://www.sixapart.com/pronet/articles/ydsf_-_robust_c.html */
-
-#infoBox {	
-	border-width : 1px 1px 1px 1px;
-	border-style : solid;
-	border-color : #659a4c;
-	background-color : #f8fcf5;
-	position: relative;
-	overflow : hidden;
-	left : -4px;
-	top : -4px;
-}
-
-div#errorBox {
-	background-color : #ffcccc;
-	border : 1px solid #ff0000;
-	font-size : 12px;
-	position: relative;
-	overflow : hidden;
-	left : -4px;
-	top : -4px;
-}
-
-html>body #infoBox, html>body #errorBox {
-	left : -10px;
-	top : -10px;
-	margin : 0;
-}
-
-#infoBoxShadow:before, #infoBoxShadow:after, 
-#errorBoxShadow:before, #errorBoxShadow:after {
-	content : " ";
-	display : block;
-	background : inherit;
-	width : 10px;
-	height : 10px;
-}
-
-#infoBoxShadow:before, #errorBoxShadow:before {
-	position : absolute;
-	top : 0;
-	right : 0;
-	margin : -10px 0 0 auto;
-	background-position : right top;
-}
-
-#infoBoxShadow:after, #errorBoxShadow:after {
-	margin : -10px 0 0 -10px;
-	background-position : left bottom;
-}
-
-#infoBoxShadow, #errorBoxShadow {
-	background-image : url("images/shadow.png");
-	background-position : bottom right;
-	left : 25%;
-	top : 50px;
-	width : 50%;
-	position : absolute;
-	min-width : 600px;
-} 
-
-#infoBoxShadow {
-	z-index : 5;
-}
-
-#errorBoxShadow {
-	z-index : 400;
-}
-
-div.infoBoxContents {
-	padding : 10px;
-	margin-bottom : 5px;
-	font-size : 12px;
-}
-
-div.infoBoxContents td {
-	font-size : 12px;
-}
-
-div.infoBoxContents a {
-	color : #527040;
-}
-
-div.infoBoxContents a:hover {
-	color : black;
-}
-
 pre {
 	margin : 5px;
 }
@@ -1937,29 +1838,6 @@ ul#headlineActionsBody li.insensitive:hover {
 	background : white;
 	cursor : normal;
 	color : gray;
-}
-
-div#errorBox div#xebTitle {
-	background-color : #ff0000;
-	color : white;
-	padding : 4px 2px 4px 10px;
-	color : white;
-	font-weight : bold;
-	font-size : 12px;
-}
-
-div#errorBox div#xebContent {
-	font-size : 12px;
-	padding : 10px;
-}
-
-div#errorBox textarea {
-	width : 100%;
-	height : 100px;
-}
-
-div#errorBox input {
-	margin-bottom : 10px;
 }
 
 span.prefsLabelEntry {
