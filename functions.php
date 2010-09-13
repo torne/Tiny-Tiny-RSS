@@ -1850,6 +1850,8 @@
 	
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
+
+				$_SESSION["last_version_check"] = time();
 	
 				initialize_user_prefs($link, $_SESSION["uid"]);
 	
@@ -3966,7 +3968,7 @@
 		}
 
 		error_reporting(0);
-		if (DEFAULT_UPDATE_INTERVAL == "1") {
+		if (DEFAULT_UPDATE_METHOD == "1") {
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
 //			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
