@@ -579,7 +579,6 @@ function parse_headlines(transport, replace, no_effects) {
 
 function init() {
 	try {
-		
 		new Ajax.Request("backend.php",	{
 			parameters: "backend.php?op=rpc&subop=digest-init",
 			onComplete: function(transport) {

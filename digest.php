@@ -26,6 +26,7 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 	<link rel="stylesheet" type="text/css" href="digest.css?<?php echo $dt_add ?>"/>
+	<link rel="stylesheet" type="text/css" href="infobox.css?<?php echo $dt_add ?>"/>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -63,6 +64,17 @@
 			<?php echo __("Loading, please wait...") ?>
 		</div>
 	</div> 
+
+	<div id="dialog_overlay" style="display : none"> </div>
+
+	<div id="errorBoxShadow" style="display : none">
+		<div id="errorBox">
+		<div id="xebTitle"><?php echo __('Fatal Exception') ?></div><div id="xebContent">&nbsp;</div>
+			<div id="xebBtn" align='center'>
+				<button onclick="closeErrorBox()"><?php echo __('Close this window') ?></button>
+			</div>
+		</div>
+	</div>
 
 	<div id="header">
 
