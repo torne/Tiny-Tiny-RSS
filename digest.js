@@ -369,6 +369,9 @@ function add_headline_entry(article, feed, no_effects) {
 
 		if (!no_effects) style = "style=\"display : none\"";
 
+		if (article.excerpt.trim() == "")
+			article.excerpt = __("Click to expand article.");
+
 		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+">" + 
 			icon_part +
 
