@@ -37,6 +37,10 @@
 					}
 
 					$feed_url = db_escape_string($outline->attributes->getNamedItem('xmlUrl')->nodeValue);
+
+					if (!$feed_url) 
+						$feed_url = db_escape_string($outline->attributes->getNamedItem('xmlURL')->nodeValue);
+
 					$site_url = db_escape_string($outline->attributes->getNamedItem('htmlUrl')->nodeValue);
 
 					$pref_name = db_escape_string($outline->attributes->getNamedItem('pref-name')->nodeValue);

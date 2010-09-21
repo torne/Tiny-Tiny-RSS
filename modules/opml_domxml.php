@@ -39,6 +39,10 @@
 					}
 
 					$feed_url = db_escape_string($outline->get_attribute('xmlUrl'));
+
+					if (!$feed_url)
+						$feed_url = db_escape_string($outline->get_attribute('xmlURL'));
+
 					$site_url = db_escape_string($outline->get_attribute('htmlUrl'));
 
 					if ($cat_title && !$feed_url) {
