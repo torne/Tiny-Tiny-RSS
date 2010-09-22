@@ -253,11 +253,13 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		console.log(query);
 
-		var img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
+		if ($("F-" + feed_id)) {
+			var img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
 
-		if (img && !no_indicator) {
-			img.setAttribute("orig_src", img.src);
-			img.src = 'images/indicator_tiny.gif';
+			if (img && !no_indicator) {
+				img.setAttribute("orig_src", img.src);
+				img.src = 'images/indicator_tiny.gif';
+			}
 		}
 
 		new Ajax.Request("backend.php",	{
