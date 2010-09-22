@@ -47,9 +47,8 @@ function catchup_feed(feed_id, callback) {
 	}
 }
 
-function catchup_visible_articles(callback) {
+function get_visible_article_ids() {
 	try {
-
 		var elems = $("headlines-content").getElementsByTagName("LI");
 		var ids = [];
 			
@@ -58,6 +57,18 @@ function catchup_visible_articles(callback) {
 			ids.push(elems[i].id.replace("A-", ""));
 			}
 		}
+
+		return ids;
+
+	} catch (e) {
+		exception_error("get_visible_article_ids", e);
+	}
+}
+
+function catchup_visible_articles(callback) {
+	try {
+
+		var ids = get_visible_article_ids();
 
 		if (confirm(__("Mark %d displayed articles as read?").replace("%d", ids.length))) {
 
@@ -565,19 +576,25 @@ function parse_headlines(transport, replace, no_effects) {
 				}
 			}
 
-			if (pr) {
-				$('headlines-content').appendChild(pr);
-				if (!no_effects) new Effect.ScrollTo(inserted);
-			} else {
-				$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
-					"<div class='body'>" +
-					"<a href=\"javascript:catchup_visible_articles()\">" +
-				  	__("Mark as read") + "</a> | " + 
-					"<a href=\"javascript:load_more()\">" +
-				  	__("Load more...") + "</a>" + 
-					"<img style=\"display : none\" "+
+			var ids = get_visible_article_ids();
+
+			if (ids.length > 0) {
+				if (pr) {
+					$('headlines-content').appendChild(pr);
+					if (!no_effects) new Effect.ScrollTo(inserted);
+				} else {
+					$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
+						"<div class='body'>" +
+						"<a href=\"javascript:catchup_visible_articles()\">" +
+					  	__("Mark as read") + "</a> | " + 
+						"<a href=\"javascript:load_more()\">" +
+					  	__("Load more...") + "</a>" + 
+						"<img style=\"display : none\" "+
 						"id=\"H-LOADING-IMG\" src='images/indicator_tiny.gif'>" +
-					"</div></li>";
+						"</div></li>";
+				}
+			} else {
+				// FIXME : display some kind of "nothing to see here" prompt here
 			}
 
 			if (replace && !no_effects) 
