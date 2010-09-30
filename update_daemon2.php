@@ -73,7 +73,7 @@
 
 			if (time() - $started > MAX_CHILD_RUNTIME) {
 				_debug("[MASTER] child process $pid seems to be stuck, aborting...");
-				posix_kill($pid, SIGINT);
+				posix_kill($pid, SIGKILL);
 			}
 		}
 	}
