@@ -1456,8 +1456,7 @@ function pref_hotkey_handler(e) {
 		}
 
 		if ($("piggie")) {
-	
-			if (seq.match("807371717369")) {
+			if (seq.match("8073717369")) {
 				seq = "";
 				piggie(true);
 			} else {
