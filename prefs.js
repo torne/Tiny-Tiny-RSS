@@ -1479,6 +1479,8 @@ function editFeedCats() {
 	try {
 		var query = "?op=pref-feeds&subop=editCats";
 
+		notify_progress("Loading, please wait...");
+
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
