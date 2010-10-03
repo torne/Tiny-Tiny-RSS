@@ -228,7 +228,7 @@
 	} // function purge_feed
 
 	/**
-	 * Purge old posts from old feeds.
+	 * Purge old posts from old feeds. Not used anymore, purging is done after feed update.
 	 * 
 	 * @param mixed $link A database connection
 	 * @param boolean $do_output Set to true to enable printed output, false by default.
@@ -236,7 +236,7 @@
 	 * @access public
 	 * @return void
 	 */
-	function global_purge_old_posts($link, $do_output = false, $limit = false) {
+	/* function global_purge_old_posts($link, $do_output = false, $limit = false) {
 
 		$random_qpart = sql_random_function();
 
@@ -276,16 +276,9 @@
 			}
 		}	
 
-		// purge orphaned posts in main content table
-		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
-			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+		purge_orphans($link, $do_output);
 
-		if ($do_output) {
-			$rows = db_affected_rows($link, $result);
-			_debug("Purged $rows orphaned posts.");
-		}
-
-	} // function global_purge_old_posts
+	} // function global_purge_old_posts */
 
 	function feed_purge_interval($link, $feed_id) {
 
@@ -328,10 +321,16 @@
 		purge_orphans($link);
 	}
 
-	function purge_orphans($link) {
+	function purge_orphans($link, $do_output = false) {
+
 		// purge orphaned posts in main content table
-		db_query($link, "DELETE FROM ttrss_entries WHERE 
+		$result = db_query($link, "DELETE FROM ttrss_entries WHERE 
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+
+		if ($do_output) {
+			$rows = db_affected_rows($link, $result);
+			_debug("Purged $rows orphaned posts.");
+		}
 	}
 
 	function get_feed_update_interval($link, $feed_id) {

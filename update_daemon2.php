@@ -177,11 +177,6 @@
 						print "warning: unable to create stampfile";
 					}	
 
-					// FIXME : $last_purge is of no use in a multiprocess update.
-					// FIXME : We ALWAYS purge old posts.
-					//_debug("Purging old posts (random 30 feeds)...");
-					//global_purge_old_posts($link, true, 30);
-
 					// Call to the feed batch update function 
 					// or regenerate feedbrowser cache
 

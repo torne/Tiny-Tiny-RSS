@@ -61,12 +61,6 @@
 		die;
 	}
 
-/*	if (time() - $last_purge > PURGE_INTERVAL) {
-		_debug("Purging old posts (random 30 feeds)...");
-		global_purge_old_posts($link, true, 30);
-		$last_purge = time();
-	} */
-
 	// Call to the feed batch update function 
 	// or regenerate feedbrowser cache
 
