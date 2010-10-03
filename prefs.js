@@ -1456,8 +1456,7 @@ function pref_hotkey_handler(e) {
 		}
 
 		if ($("piggie")) {
-	
-			if (seq.match("807371717369")) {
+			if (seq.match("8073717369")) {
 				seq = "";
 				piggie(true);
 			} else {
@@ -1479,6 +1478,8 @@ function pref_hotkey_handler(e) {
 function editFeedCats() {
 	try {
 		var query = "?op=pref-feeds&subop=editCats";
+
+		notify_progress("Loading, please wait...");
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
