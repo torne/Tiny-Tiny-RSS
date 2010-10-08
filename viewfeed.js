@@ -2019,7 +2019,7 @@ function catchupRelativeToArticle(below) {
 		} else {
 			var msg = __("Mark %d article(s) as read?").replace("%d", ids_to_mark.length);
 
-			if (confirm(msg)) {
+			if (getInitParam("confirm_feed_catchup") != 1 || confirm(msg)) {
 
 				for (var i = 0; i < ids_to_mark.length; i++) {
 					var e = $("RROW-" + ids_to_mark[i]);
