@@ -5520,7 +5520,9 @@
 				}
 
 				$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
-					ttrss_feeds WHERE id = ".$line['feed_id']." AND owner_uid = ".$_SESSION["uid"]);
+					ttrss_feeds WHERE id = ".
+						(($line['feed_id'] == null) ? $line['orig_feed_id'] : 
+								$line['feed_id'])." AND owner_uid = ".$_SESSION["uid"]);
 
 				$always_display_enclosures = db_fetch_result($tmp_result, 0, "always_display_enclosures");
 
