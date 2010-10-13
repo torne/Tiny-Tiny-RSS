@@ -166,7 +166,7 @@ function validateLoginForm(f) {
 			<input name="bw_limit" id="bw_limit" type="checkbox"
 				onchange="bwLimitChange(this)">
 			<label for="bw_limit">
-			<?php echo __("Limit bandwidth usage") ?></label></div>
+			<?php echo __("Use less traffic") ?></label></div>
 
 			</td></tr>
 
