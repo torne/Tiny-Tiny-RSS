@@ -978,6 +978,84 @@
 			return;
 		}
 
+		if ($subop == "digest-get-contents") {
+			$article_id = db_escape_string($_REQUEST['article_id']);
+
+			$result = db_query($link, "SELECT content 
+				FROM ttrss_entries, ttrss_user_entries
+				WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
+
+			print "<rpc-reply>";
+
+			print "<article id=\"$article_id\"><![CDATA[";
+
+			$content = sanitize_rss($link, db_fetch_result($result, 0, "content"));
+
+			print $content;
+
+			print "]]></article>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "digest-update") {
+			$feed_id = db_escape_string($_REQUEST['feed_id']);
+			$offset = db_escape_string($_REQUEST['offset']);
+			$seq = db_escape_string($_REQUEST['seq']);
+		
+			if (!$feed_id) $feed_id = -4;
+			if (!$offset) $offset = 0;
+			print "<rpc-reply>";
+
+			print "<seq>$seq</seq>";
+
+			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
+				'', ($feed_id == -4), true, false, "unread", "updated DESC");
+
+			//function api_get_headlines($link, $feed_id, $limit, $offset,
+			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
+
+			print "<headlines-title><![CDATA[" . getFeedTitle($link, $feed_id) . 
+				"]]></headlines-title>";
+
+			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
+
+			print "</rpc-reply>";
+			return;
+		}
+
+		if ($subop == "digest-init") {
+			print "<rpc-reply>";
+
+			$tmp_feeds = api_get_feeds($link, false, true, false, 0);
+			$feeds = array();
+
+			foreach ($tmp_feeds as $f) {
+				if ($f['id'] > 0 || $f['id'] == -4) array_push($feeds, $f);
+			}
+
+			print "<feeds><![CDATA[" . json_encode($feeds) . "]]></feeds>";
+
+			print "</rpc-reply>";
+			return;
+		}
+
+		if ($subop == "catchupFeed") {
+
+			$feed_id = db_escape_string($_REQUEST['feed_id']);
+			$is_cat = db_escape_string($_REQUEST['is_cat']);
+
+			print "<rpc-reply>";
+
+			catchup_feed($link, $feed_id, $is_cat);
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

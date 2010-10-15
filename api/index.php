@@ -100,95 +100,7 @@
 			$limit = (int) db_escape_string($_REQUEST["limit"]);
 			$offset = (int) db_escape_string($_REQUEST["offset"]);
 
-			if ($limit) {
-				$limit_qpart = "LIMIT $limit OFFSET $offset";
-			} else {
-				$limit_qpart = "";
-			}
-
-			if (!$cat_id) {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
-						" ORDER BY cat_id, title " . $limit_qpart);
-			} else {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE 
-						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
-						" ORDER BY cat_id, title " . $limit_qpart);
-			}
-
-			$feeds = array();
-
-			while ($line = db_fetch_assoc($result)) {
-
-				$unread = getFeedUnread($link, $line["id"]);
-
-				$icon_path = "../" . ICONS_DIR . "/" . $line["id"] . ".ico";
-				$has_icon = file_exists($icon_path) && filesize($icon_path) > 0;
-
-				if ($unread || !$unread_only) {
-
-					$row = array(
-							"feed_url" => $line["feed_url"],
-							"title" => $line["title"],
-							"id" => (int)$line["id"],
-							"unread" => (int)$unread,
-							"has_icon" => $has_icon,
-							"cat_id" => (int)$line["cat_id"],
-							"last_updated" => strtotime($line["last_updated"])
-						);
-	
-					array_push($feeds, $row);
-				}
-			}
-
-			/* Labels */
-
-			if (!$cat_id || $cat_id == -2) {
-				$counters = getLabelCounters($link, true);
-
-				foreach (array_keys($counters) as $id) {
-
-					$unread = $counters[$id]["counter"];
-	
-					if ($unread || !$unread_only) {
-	
-						$row = array(
-								"id" => $id,
-								"title" => $counters[$id]["description"],
-								"unread" => $counters[$id]["counter"],
-								"cat_id" => -2,
-							);
-	
-						array_push($feeds, $row);
-					}
-				}
-			}
-
-			/* Virtual feeds */
-
-			if (!$cat_id || $cat_id == -1) {
-				foreach (array(-1, -2, -3, -4, 0) as $i) {
-					$unread = getFeedUnread($link, $i);
-
-					if ($unread || !$unread_only) {
-						$title = getFeedTitle($link, $i);
-
-						$row = array(
-								"id" => $i,
-								"title" => $title,
-								"unread" => $unread,
-								"cat_id" => -1,
-							);
-						array_push($feeds, $row);
-					}
-
-				}
-			}
+			$feeds = api_get_feeds($link, $cat_id, $unread_only, $limit, $offset);
 
 			print json_encode($feeds);
 
@@ -226,47 +138,8 @@
 			/* all_articles, unread, adaptive, marked, updated */
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 
-			/* do not rely on params below */
-
-			$search = db_escape_string($_REQUEST["search"]);
-			$search_mode = db_escape_string($_REQUEST["search_mode"]);
-			$match_on = db_escape_string($_REQUEST["match_on"]);
-			
-			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
-				$view_mode, $is_cat, $search, $search_mode, $match_on,
-				false, $offset);
-
-			$result = $qfh_ret[0];
-			$feed_title = $qfh_ret[1];
-
-			$headlines = array();
-
-			while ($line = db_fetch_assoc($result)) {
-				$is_updated = ($line["last_read"] == "" && 
-					($line["unread"] != "t" && $line["unread"] != "1"));
-
-				$headline_row = array(
-						"id" => (int)$line["id"],
-						"unread" => sql_bool_to_bool($line["unread"]),
-						"marked" => sql_bool_to_bool($line["marked"]),
-						"updated" => strtotime($line["updated"]),
-						"is_updated" => $is_updated,
-						"title" => $line["title"],
-						"link" => $line["link"],
-						"feed_id" => $line["feed_id"],
-					);
-
-				if ($show_excerpt) {
-					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
-					$headline_row["excerpt"] = $excerpt;
-				}
-
-				if ($show_content) {
-					$headline_row["content"] = $line["content_preview"];
-				}
-
-				array_push($headlines, $headline_row);
-			}
+			$headlines = api_get_headlines($link, $feed_id, $limit, $offset,
+				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false);
 
 			print json_encode($headlines);
 
