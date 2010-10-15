@@ -194,42 +194,43 @@
 
 		case "getArticle":
 
-			$article_id = (int)db_escape_string($_REQUEST["article_id"]);
+			$article_id = db_escape_string($_REQUEST["article_id"]);
 
-			$query = "SELECT title,link,content,feed_id,comments,int_id,
+			$query = "SELECT id,title,link,content,feed_id,comments,int_id,
 				marked,unread,published,
 				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author
 				FROM ttrss_entries,ttrss_user_entries
-				WHERE	id = '$article_id' AND ref_id = id AND owner_uid = " . 
+				WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " . 
 					$_SESSION["uid"] ;
 
-			$attachments = get_article_enclosures($link, $article_id);
-
 			$result = db_query($link, $query);
-
-			$article = array();
-			
+		
 			if (db_num_rows($result) != 0) {
-				$line = db_fetch_assoc($result);
-	
-				$article = array(
-					"title" => $line["title"],
-					"link" => $line["link"],
-					"labels" => get_article_labels($link, $article_id),
-					"unread" => sql_bool_to_bool($line["unread"]),
-					"marked" => sql_bool_to_bool($line["marked"]),
-					"published" => sql_bool_to_bool($line["published"]),
-					"comments" => $line["comments"],
-					"author" => $line["author"],
-					"updated" => strtotime($line["updated"]),
-					"content" => $line["content"],
-					"feed_id" => $line["feed_id"],
-					"attachments" => $attachments
-				);
-			}
 
-			print json_encode($article);
+				while ($line = db_fetch_assoc($result)) {
+
+					$attachments = get_article_enclosures($link, $line['id']);
+
+					$article = array(
+						"id" => $line["id"],
+						"title" => $line["title"],
+						"link" => $line["link"],
+						"labels" => get_article_labels($link, $line['id']),
+						"unread" => sql_bool_to_bool($line["unread"]),
+						"marked" => sql_bool_to_bool($line["marked"]),
+						"published" => sql_bool_to_bool($line["published"]),
+						"comments" => $line["comments"],
+						"author" => $line["author"],
+						"updated" => strtotime($line["updated"]),
+						"content" => $line["content"],
+						"feed_id" => $line["feed_id"],
+						"attachments" => $attachments
+					);
+
+					print json_encode($article);
+				}
+			}
 
 			break;
 		case "getConfig":
