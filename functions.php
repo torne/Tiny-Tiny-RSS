@@ -3512,9 +3512,9 @@
 			}
 
 			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-				$order_by = "updated";
+				$order_by = "date_entered";
 			} else {	
-				$order_by = "updated DESC";
+				$order_by = "date_entered DESC";
 			}
 
 			if ($view_mode != "noscores") {
@@ -3645,7 +3645,7 @@
 		if (!$limit) $limit = 30;
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-			$limit, false, $is_cat, $search, $search_mode, $match_on, "updated DESC", 0,
+			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_entered DESC", 0,
 			$owner_uid);
 
 		$result = $qfh_ret[0];
