@@ -3576,6 +3576,7 @@
 				}
 
 				$query = "SELECT DISTINCT 
+						date_entered,
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
