@@ -369,6 +369,10 @@ function resize_headlines(delta_x, delta_y) {
 			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 0) + "px";
 			h_frame.style.height = h_frame.offsetHeight + "px";
 
+			// Workaround for Opera: force the content page to be re-rendered, 
+			// so it is not truncated:
+			var content_pane = $("content-insert");
+			content_pane.innerHTML = content_pane.innerHTML;
 		}
 	
 		if (getInitParam("cookie_lifetime") != 0) {
@@ -776,7 +780,7 @@ function collapse_feedlist() {
 
 		if (!Element.visible(fl)) {
 			Element.show(fl);
-			fbtn.innerHTML = "<<";
+			fbtn.innerHTML = "&lt;&lt;";
 
 			if (theme != "graycube") {
 
@@ -798,7 +802,7 @@ function collapse_feedlist() {
 
 		} else {
 			Element.hide(fl);
-			fbtn.innerHTML = ">>";
+			fbtn.innerHTML = "&gt;&gt;";
 
 			if (theme != "graycube") {
 
