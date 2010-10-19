@@ -3512,9 +3512,9 @@
 			}
 
 			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-				$order_by = "date_entered";
+				$order_by = "updated";
 			} else {	
-				$order_by = "date_entered DESC";
+				$order_by = "updated DESC";
 			}
 
 			if ($view_mode != "noscores") {

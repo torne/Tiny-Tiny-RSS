@@ -327,17 +327,17 @@
 
 				case "title":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "title DESC, date_entered";
+						$override_order = "title DESC, updated";
 					} else {
-						$override_order = "title, date_entered DESC";
+						$override_order = "title, updated DESC";
 					}
 					break;
 
 				case "score":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "score, date_entered";
+						$override_order = "score, updated";
 					} else {
-						$override_order = "score DESC, date_entered DESC";
+						$override_order = "score DESC, updated DESC";
 					}
 					break;
 			}
