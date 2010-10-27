@@ -319,25 +319,25 @@
 			switch ($order_by) {
 				case "date":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "date_updated";
+						$override_order = "date_entered";
 					} else {	
-						$override_order = "date_updated DESC";
+						$override_order = "date_entered DESC";
 					}
 					break;
 
 				case "title":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "title DESC, updated";
+						$override_order = "title DESC, date_entered";
 					} else {
-						$override_order = "title, updated DESC";
+						$override_order = "title, date_entered DESC";
 					}
 					break;
 
 				case "score":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "score, updated";
+						$override_order = "score, date_entered";
 					} else {
-						$override_order = "score DESC, updated DESC";
+						$override_order = "score DESC, date_entered DESC";
 					}
 					break;
 			}
