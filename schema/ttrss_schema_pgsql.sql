@@ -117,7 +117,8 @@ create table ttrss_entries (id serial not null primary key,
 	content text not null,
 	content_hash varchar(250) not null,
 	no_orig_date boolean not null default false,
-	date_entered timestamp not null default NOW(),
+	date_entered timestamp not null,
+	date_updated timestamp not null,
 	num_comments integer not null default 0,
 	comments varchar(250) not null default '',
 	author varchar(250) not null default '');
@@ -212,7 +213,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (66);
+insert into ttrss_version values (67);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

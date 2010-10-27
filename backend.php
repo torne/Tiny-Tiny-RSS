@@ -319,9 +319,9 @@
 			switch ($order_by) {
 				case "date":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "date_entered";
+						$override_order = "date_updated";
 					} else {	
-						$override_order = "date_entered DESC";
+						$override_order = "date_updated DESC";
 					}
 					break;
 

@@ -174,7 +174,7 @@
 		if (DB_TYPE == "pgsql") {
 /*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
-				(SELECT date_entered FROM ttrss_entries WHERE
+				(SELECT date_updated FROM ttrss_entries WHERE
 					id = ref_id) < NOW() - INTERVAL '$purge_interval days'"); */
 
 			$pg_version = get_pgsql_version($link);
@@ -186,7 +186,7 @@
 					marked = false AND 
 					feed_id = '$feed_id' AND 
 					$query_limit
-					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
+					ttrss_entries.date_updated < NOW() - INTERVAL '$purge_interval days'");
 
 			} else {
 
@@ -196,7 +196,7 @@
 					marked = false AND 
 					feed_id = '$feed_id' AND 
 					$query_limit
-					ttrss_entries.date_entered < NOW() - INTERVAL '$purge_interval days'");
+					ttrss_entries.date_updated < NOW() - INTERVAL '$purge_interval days'");
 			}
 
 			$rows = pg_affected_rows($result);
@@ -205,7 +205,7 @@
 		
 /*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
 				marked = false AND feed_id = '$feed_id' AND
-				(SELECT date_entered FROM ttrss_entries WHERE 
+				(SELECT date_updated FROM ttrss_entries WHERE 
 					id = ref_id) < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)"); */
 
 			$result = db_query($link, "DELETE FROM ttrss_user_entries 
@@ -214,7 +214,7 @@
 				marked = false AND 
 				feed_id = '$feed_id' AND 
 				$query_limit
-				ttrss_entries.date_entered < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
+				ttrss_entries.date_updated < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
 					
 			$rows = mysql_affected_rows($link);
 
@@ -1105,6 +1105,7 @@
 							content,
 							content_hash,
 							no_orig_date,
+							date_updated,
 							date_entered,
 							comments,
 							num_comments,
@@ -1117,19 +1118,20 @@
 							'$entry_content', 
 							'$content_hash',
 							$no_orig_date, 
-							NOW(), 
+							NOW(),
+							NOW(),
 							'$entry_comments',
 							'$num_comments',
 							'$entry_author')");
 				} else {
 					// we keep encountering the entry in feeds, so we need to
-					// update date_entered column so that we don't get horrible
+					// update date_updated column so that we don't get horrible
 					// dupes when the entry gets purged and reinserted again e.g.
 					// in the case of SLOW SLOW OMG SLOW updating feeds
 
 					$base_entry_id = db_fetch_result($result, 0, "id");
 
-					db_query($link, "UPDATE ttrss_entries SET date_entered = NOW()
+					db_query($link, "UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
 				}
 
@@ -1137,7 +1139,7 @@
 
 				$result = db_query($link, "SELECT 
 						id,content_hash,no_orig_date,title,
-						".SUBSTRING_FOR_DATE."(date_entered,1,19) as date_entered,
+						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
 						num_comments
 					FROM 
@@ -1157,8 +1159,8 @@
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_title = db_fetch_result($result, 0, "title");
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
-					$orig_date_entered = strtotime(db_fetch_result($result, 
-						0, "date_entered"));
+					$orig_date_updated = strtotime(db_fetch_result($result, 
+						0, "date_updated"));
 
 					$ref_id = db_fetch_result($result, 0, "id");
 					$entry_ref_id = $ref_id;
@@ -2563,10 +2565,10 @@
 
 	function getMaxAgeSubquery($days = COUNTERS_MAX_AGE) {
 		if (DB_TYPE == "pgsql") {
-			return "ttrss_entries.date_entered > 
+			return "ttrss_entries.date_updated > 
 				NOW() - INTERVAL '$days days'";
 		} else {
-			return "ttrss_entries.date_entered > 
+			return "ttrss_entries.date_updated > 
 				DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
 	}
@@ -3576,7 +3578,7 @@
 				}
 
 				$query = "SELECT DISTINCT 
-						date_entered,
+						date_updated,
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
@@ -3646,7 +3648,7 @@
 		if (!$limit) $limit = 30;
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_entered DESC", 0,
+			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_updated DESC", 0,
 			$owner_uid);
 
 		$result = $qfh_ret[0];
@@ -3888,14 +3890,14 @@
 		$affected_ids = array();
 
 		if (DB_TYPE == "pgsql") {
-			$interval_query = "ttrss_entries.date_entered > NOW() - INTERVAL '$days days'";
+			$interval_query = "ttrss_entries.date_updated > NOW() - INTERVAL '$days days'";
 		} else if (DB_TYPE == "mysql") {
-			$interval_query = "ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL $days DAY)";
+			$interval_query = "ttrss_entries.date_updated > DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
 
 		$result = db_query($link, "SELECT ttrss_entries.title,
 				ttrss_feeds.title AS feed_title,
-				date_entered,
+				date_updated,
 				ttrss_user_entries.ref_id,
 				link,
 				SUBSTRING(content, 1, 120) AS excerpt,
@@ -3908,7 +3910,7 @@
 				AND $interval_query
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true 
-			ORDER BY ttrss_feeds.title, date_entered DESC
+			ORDER BY ttrss_feeds.title, date_updated DESC
 			LIMIT $limit");
 
 		$cur_feed_title = "";

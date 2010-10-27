@@ -63,7 +63,7 @@
 			$entry_guid = db_escape_string($data["guid"]);
 			$entry_link = db_escape_string($data["link"]);
 			$updated = db_escape_string($data["updated"]);
-			$date_entered = db_escape_string($data["date_entered"]);
+			$date_updated = db_escape_string($data["date_updated"]);
 			$entry_content = db_escape_string($data["content"]);
 			$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 			$entry_comments = db_escape_string($data["comments"]);
@@ -77,7 +77,7 @@
 					content,
 					content_hash,
 					no_orig_date,
-					date_entered,
+					date_updated,
 					comments)
 				VALUES
 					('$entry_title', 
@@ -87,7 +87,7 @@
 					'$entry_content', 
 					'$content_hash',
 					false, 
-					'$date_entered', 
+					'$date_updated', 
 					'$entry_comments')");
 		}
 
