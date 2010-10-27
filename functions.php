@@ -3514,9 +3514,9 @@
 			}
 
 			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-				$order_by = "updated";
+				$order_by = "date_entered";
 			} else {	
-				$order_by = "updated DESC";
+				$order_by = "date_entered DESC";
 			}
 
 			if ($view_mode != "noscores") {
@@ -3578,7 +3578,7 @@
 				}
 
 				$query = "SELECT DISTINCT 
-						date_updated,
+						date_entered,
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
