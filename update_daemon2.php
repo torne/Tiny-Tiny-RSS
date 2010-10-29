@@ -53,9 +53,13 @@
 
 		foreach ($children as $pid) {
 			if (pcntl_waitpid($pid, $status, WNOHANG) != $pid) {
-				array_push($tmp, $pid);
+				if (file_is_locked(LOCK_DIRECTORY . "/update_daemon-$pid.lock")) {
+					array_push($tmp, $pid);
+				} else {
+					_debug("[reap_children] child $pid seems active but lockfile is unlocked.");
+				}
 			} else {
-				_debug("[SIGCHLD] child $pid reaped.");
+				_debug("[reap_children] child $pid reaped.");
 				unset($ctimes[$pid]);
 			}
 		}
@@ -86,10 +90,27 @@
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
-	function sigint_handler() {
-		unlink(LOCK_DIRECTORY . "/update_daemon.lock");
-		die("[SIGINT] removing lockfile and exiting.\n");
+	function shutdown() {
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock"))
+			unlink(LOCK_DIRECTORY . "/update_daemon.lock");
 	}
+
+	function task_shutdown() {
+		$pid = posix_getpid();
+
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon-$pid.lock"))
+			unlink(LOCK_DIRECTORY . "/update_daemon-$pid.lock");
+	}
+
+	function sigint_handler() {
+		shutdown();
+		die("[SIGINT] removing lockfile and exiting.\n");
+	} 
+
+	function task_sigint_handler() {
+		task_shutdown();
+		die("[SIGINT] removing lockfile and exiting.\n");
+	} 
 
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
 
@@ -100,6 +121,7 @@
 
 	if (!pcntl_fork()) {
 		pcntl_signal(SIGINT, 'sigint_handler');
+		register_shutdown_function('shutdown');
 
 		// Try to lock a file in order to avoid concurrent update.
 		$lock_handle = make_lockfile("update_daemon.lock");
@@ -152,7 +174,19 @@
 					$ctimes[$pid] = time();
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
-					pcntl_signal(SIGINT, SIG_DFL);
+					pcntl_signal(SIGINT, 'task_sigint_handler');
+
+					register_shutdown_function('task_shutdown');
+
+					$my_pid = posix_getpid();
+					$lock_filename = "update_daemon-$my_pid.lock";
+
+					$lock_handle = make_lockfile($lock_filename);
+
+					if (!$lock_handle) {
+						die("error: Can't create lockfile ($lock_filename). ".
+						"Maybe another daemon is already running.\n");
+					}
 
 					// ****** Updating RSS code *******
 					// Only run in fork process.
@@ -180,7 +214,7 @@
 					// Call to the feed batch update function 
 					// or regenerate feedbrowser cache
 
-					if (rand(0,100) > 50) {
+					if (rand(0,100) > 30) {
 						update_daemon_common($link);
 					} else {
 						$count = update_feedbrowser_cache($link);
@@ -194,6 +228,9 @@
 					// We are in a fork.
 					// We wait a little before exiting to avoid to be faster than our parent process.
 					sleep(1);
+
+					unlink(LOCK_DIRECTORY . "/$lock_filename");
+
 					// We exit in order to avoid fork bombing.
 					exit(0);
 				}
