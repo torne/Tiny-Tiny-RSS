@@ -53,7 +53,8 @@
 
 		foreach ($children as $pid) {
 			if (pcntl_waitpid($pid, $status, WNOHANG) != $pid) {
-				if (file_is_locked(LOCK_DIRECTORY . "/update_daemon-$pid.lock")) {
+
+				if (file_is_locked("update_daemon-$pid.lock")) {
 					array_push($tmp, $pid);
 				} else {
 					_debug("[reap_children] child $pid seems active but lockfile is unlocked.");
