@@ -100,6 +100,10 @@
 		$err_msg = "config: DEFAULT_UPDATE_METHOD should be either 0 or 1.";		
 	}
 
+	if (!is_writable(ICONS_DIR)) {
+		$err_msg = "config: your ICONS_DIR (" . ICONS_DIR . ") is not writable.\n";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
