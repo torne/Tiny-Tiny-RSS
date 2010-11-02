@@ -15,7 +15,7 @@
 	// longer than 5 seconds to generate.  To prevent failed
 	// updates, increase this.
 
-	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache');
+	define('MAGPIE_CACHE_DIR', 'cache/magpie');
 	// Local cache directory for RSS feeds
 
 	define('MAGPIE_CACHE_AGE', 60*30); 
@@ -95,7 +95,7 @@
 	// 0 - Magpie
 	// 1 - SimplePie
 
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache');
+	define('SIMPLEPIE_CACHE_DIR',	'cache/simplepie');
 	// Cache directory for RSS feeds when using SimplePie
 
 	define('SIMPLEPIE_CACHE_IMAGES', false);
@@ -134,7 +134,7 @@
 	// option can be used to integrate tt-rss with Apache's external
 	// authentication modules.
 
-	define('LOCK_DIRECTORY', '.');
+	define('LOCK_DIRECTORY', 'lock');
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
 
