@@ -3648,7 +3648,7 @@
 		if (!$limit) $limit = 30;
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_updated DESC", 0,
+			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_entered DESC", 0,
 			$owner_uid);
 
 		$result = $qfh_ret[0];
