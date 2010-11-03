@@ -270,6 +270,8 @@
 					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to
 						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 				}
+
+				// FIXME: find out which feeds reference this article id and do ccache_update() on them
 			}
 
 			break;
