@@ -216,6 +216,7 @@
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
+			<option value="published"><?php echo __('Published') ?></option>
 			<option value="unread"><?php echo __('Unread') ?></option>
 			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
 			<option value="updated"><?php echo __('Updated') ?></option>

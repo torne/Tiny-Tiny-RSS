@@ -3376,7 +3376,11 @@
 			if ($view_mode == "marked") {
 				$view_query_part = " marked = true AND ";
 			}
-	
+
+			if ($view_mode == "published") {
+				$view_query_part = " published = true AND ";
+			}
+
 			if ($view_mode == "unread") {
 				$view_query_part = " unread = true AND ";
 			}
@@ -3639,7 +3643,7 @@
 	}
 
 	function generate_syndicated_feed($link, $owner_uid, $feed, $is_cat,
-		$limit, $search, $search_mode, $match_on) {
+		$limit, $search, $search_mode, $match_on, $view_mode = false) {
 
 		$note_style = 	"float : right; background-color : #fff7d5; border-width : 1px; ".
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
@@ -3648,8 +3652,8 @@
 		if (!$limit) $limit = 30;
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
-			$limit, false, $is_cat, $search, $search_mode, $match_on, "date_entered DESC", 0,
-			$owner_uid);
+			$limit, $view_mode, $is_cat, $search, $search_mode, 
+			$match_on, "date_entered DESC", 0, $owner_uid);
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);
@@ -4141,7 +4145,7 @@
 
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$feed_id, $is_cat, $search, $match_on,
-			$search_mode) {
+			$search_mode, $view_mode) {
 
 			print "<div class=\"headlinesSubToolbar\">";
 
@@ -4218,11 +4222,10 @@
 			}
 
 			print "
-				<a target=\"_blank\" 
-					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat$search_q\">
-					<img class=\"noborder\" 
-						alt=\"".__('Generated feed')."\" src=\"images/feed-icon-12x12.png\">
-						</a>";
+				<a target=\"_blank\"
+					title=\"".__("RSS feed for this buffer")."\"
+					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q\">
+					<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "</div>";
 
@@ -5116,7 +5119,7 @@
 			}
 
 			print_headline_subtoolbar($link, $feed_site_url, $feed_title,
-				$feed, $cat_view, $search, $match_on, $search_mode);
+				$feed, $cat_view, $search, $match_on, $search_mode, $view_mode);
 
 			print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 		}

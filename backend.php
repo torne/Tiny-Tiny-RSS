@@ -485,6 +485,7 @@
 			$search = db_escape_string($_REQUEST["q"]);
 			$match_on = db_escape_string($_REQUEST["m"]);
 			$search_mode = db_escape_string($_REQUEST["smode"]);
+			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 
 			if (SINGLE_USER_MODE) {
 				authenticate_user($link, "admin", null);
@@ -494,11 +495,9 @@
 				authenticate_user($link, $user, $pass);
 			}
 
-			if ($_SESSION["uid"] ||
-				http_authenticate_user($link)) {
-
-					generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
-						$search, $search_mode, $match_on);
+			if ($_SESSION["uid"] || http_authenticate_user($link)) {
+				generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
+					$search, $search_mode, $match_on, $view_mode);
 			}
 		break; // rss
 
