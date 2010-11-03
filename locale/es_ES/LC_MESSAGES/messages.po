@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-13 14:48+0400\n"
+"POT-Creation-Date: 2010-11-03 13:38+0300\n"
 "PO-Revision-Date: 2009-11-10 00:12+0100\n"
 "Last-Translator: Manuel Gualda Caballero <manuel@utopiaverde.org>\n"
 "Language-Team: Español <manuel@utopiaverde.org>\n"
@@ -101,11 +101,66 @@ msgstr "Usuario con poder"
 msgid "Administrator"
 msgstr "Administrador"
 
-#: backend.php:544 login_form.php:142 modules/backend-rpc.php:61
+#: backend.php:552 login_form.php:142 modules/backend-rpc.php:61
 #: modules/popup-dialog.php:106
 #, fuzzy
 msgid "Default profile"
 msgstr "Límite de artículos por defecto"
+
+#: digest.php:58
+#, fuzzy
+msgid ""
+"Your browser doesn't support Javascript, which is required\n"
+"\t\t\tfor this application to function properly. Please check your\n"
+"\t\t\tbrowser settings."
+msgstr ""
+"Esta aplicación requiere Javascript para funcionar apropiadamente y su "
+"navegador no lo soporta actualmente. Por favor, revise las opciones de "
+"configuración de su navegador."
+
+#: digest.php:64 prefs.php:64 prefs.php:124 tt-rss.php:66 digest.js:132
+msgid "Loading, please wait..."
+msgstr "Cargando. Por favor, espere..."
+
+#: digest.php:72 prefs.php:141 tt-rss.php:100
+msgid "Fatal Exception"
+msgstr ""
+
+#: digest.php:74 functions.php:4989 prefs.php:143 tt-rss.php:102
+#: modules/help.php:21 modules/popup-dialog.php:53
+#: modules/popup-dialog.php:154 modules/popup-dialog.php:181
+#: modules/popup-dialog.php:208 modules/popup-dialog.php:257
+#: modules/popup-dialog.php:602 modules/popup-dialog.php:661
+#: modules/pref-feeds.php:1132 modules/pref-users.php:96
+msgid "Close this window"
+msgstr "Cerrar esta ventana"
+
+#: digest.php:84 prefs.php:91 tt-rss.php:113
+msgid "Hello,"
+msgstr "Hola,"
+
+#: digest.php:88 prefs.php:95 tt-rss.php:123 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: digest.php:93
+#, fuzzy
+msgid "Tiny Tiny RSS"
+msgstr "Volver a Tiny Tiny RSS"
+
+#: digest.php:114
+#, fuzzy
+msgid "feeds"
+msgstr "Fuentes"
+
+#: digest.php:120
+msgid "headlines"
+msgstr ""
+
+#: digest.php:142
+msgid "You are viewing the digest page. Click to open full version."
+msgstr ""
 
 #: errors.php:3
 msgid "Unknown error"
@@ -182,195 +237,187 @@ msgstr ""
 "La prueba de escape SQL ha fallado. Por favor, revise la configuración de su "
 "base de datos y PHP."
 
-#: functions.php:1936
+#: functions.php:1938
 msgid "Session failed to validate (incorrect IP)"
 msgstr "No se pudo validar la sesión (IP incorrecta)"
 
-#: functions.php:2006
+#: functions.php:2008
 msgid "Incorrect username or password"
 msgstr "Nombre de usuario o contraseña incorrecta"
 
-#: functions.php:2989 modules/popup-dialog.php:418
+#: functions.php:2991 modules/popup-dialog.php:418
 #: modules/pref-filters.php:420
 msgid "All feeds"
 msgstr "Todas las fuentes"
 
-#: functions.php:3021 functions.php:3060 functions.php:4465 functions.php:4493
+#: functions.php:3023 functions.php:3062 functions.php:4471 functions.php:4499
 #: modules/backend-rpc.php:869 modules/pref-feeds.php:1325
 msgid "Uncategorized"
 msgstr "Sin clasificar"
 
-#: functions.php:3050 functions.php:3706 modules/backend-rpc.php:874
+#: functions.php:3052 functions.php:3712 modules/backend-rpc.php:874
 #: mobile/functions.php:170
 msgid "Special"
 msgstr "Especial"
 
-#: functions.php:3052 functions.php:3708 prefs.php:115
+#: functions.php:3054 functions.php:3714 prefs.php:115
 #: modules/backend-rpc.php:879 help/4.php:12 mobile/functions.php:197
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: functions.php:3097 help/3.php:60 offline.js:493 offline.js:1425
+#: functions.php:3099 help/3.php:60 offline.js:493 offline.js:1425
 msgid "Starred articles"
 msgstr "Favoritos"
 
-#: functions.php:3099 modules/pref-feeds.php:1516 help/3.php:61
+#: functions.php:3101 modules/pref-feeds.php:1516 help/3.php:61
 msgid "Published articles"
 msgstr "Publicados"
 
-#: functions.php:3101 help/3.php:59
+#: functions.php:3103 help/3.php:59
 msgid "Fresh articles"
 msgstr "Recientes"
 
-#: functions.php:3103 help/3.php:58 offline.js:488 offline.js:1427
+#: functions.php:3105 help/3.php:58 offline.js:488 offline.js:1427
 msgid "All articles"
 msgstr "Todos"
 
-#: functions.php:3105
+#: functions.php:3107
 #, fuzzy
 msgid "Archived articles"
 msgstr "Favoritos"
 
-#: functions.php:4218
+#: functions.php:4224
 msgid "Generated feed"
 msgstr "Fuente generada"
 
-#: functions.php:4223 functions.php:5573 modules/popup-dialog.php:82
+#: functions.php:4229 functions.php:5579 modules/popup-dialog.php:82
 #: modules/pref-feeds.php:1079 modules/pref-feeds.php:1289
 #: modules/pref-filters.php:377 modules/pref-labels.php:183
 #: modules/pref-users.php:419 offline.js:408
 msgid "Select:"
 msgstr "Seleccione:"
 
-#: functions.php:4224 modules/popup-dialog.php:83 modules/pref-feeds.php:1080
+#: functions.php:4230 modules/popup-dialog.php:83 modules/pref-feeds.php:1080
 #: modules/pref-feeds.php:1290 modules/pref-filters.php:378
 #: modules/pref-labels.php:184 modules/pref-users.php:420
 msgid "All"
 msgstr "No"
 
-#: functions.php:4225 functions.php:4242 tt-rss.php:219
+#: functions.php:4231 functions.php:4248 tt-rss.php:219
 msgid "Unread"
 msgstr "Sin leer"
 
-#: functions.php:4226
+#: functions.php:4232
 msgid "Invert"
 msgstr "Invertir"
 
-#: functions.php:4227 modules/popup-dialog.php:84 modules/pref-feeds.php:1081
+#: functions.php:4233 modules/popup-dialog.php:84 modules/pref-feeds.php:1081
 #: modules/pref-feeds.php:1291 modules/pref-filters.php:379
 #: modules/pref-labels.php:185 modules/pref-users.php:421
 msgid "None"
 msgstr "Ninguno"
 
-#: functions.php:4235 tt-rss.php:179 offline.js:184
+#: functions.php:4241 tt-rss.php:179 offline.js:184
 msgid "Actions..."
 msgstr "Acciones..."
 
-#: functions.php:4241
+#: functions.php:4247
 msgid "Selection toggle:"
 msgstr "Cambiar la selección:"
 
-#: functions.php:4243 tt-rss.php:218
+#: functions.php:4249 tt-rss.php:218
 msgid "Starred"
 msgstr "Favoritos"
 
-#: functions.php:4244
+#: functions.php:4250
 msgid "Published"
 msgstr "Publicado"
 
-#: functions.php:4245
+#: functions.php:4251
 msgid "Selection:"
 msgstr "Selección:"
 
-#: functions.php:4246 localized_schema.php:16 tt-rss.php:188 tt-rss.php:236
+#: functions.php:4252 localized_schema.php:16 tt-rss.php:188 tt-rss.php:236
+#: digest.js:365 digest.js:435 digest.js:589
 msgid "Mark as read"
 msgstr "Marcar como leído"
 
-#: functions.php:4252
+#: functions.php:4258
 msgid "Archive"
 msgstr ""
 
-#: functions.php:4254
+#: functions.php:4260
 #, fuzzy
 msgid "Move back"
 msgstr "Volver atrás"
 
-#: functions.php:4255
+#: functions.php:4261
 #, fuzzy
 msgid "Delete"
 msgstr "Por defecto"
 
-#: functions.php:4260
+#: functions.php:4266
 msgid "Assign label:"
 msgstr "Asignar etiqueta:"
 
-#: functions.php:4301
+#: functions.php:4307
 msgid "Click to collapse category"
 msgstr "Plegar la categoría"
 
-#: functions.php:4511
+#: functions.php:4517
 msgid "No feeds to display."
 msgstr "No hay fuentes que mostrar."
 
-#: functions.php:4528
+#: functions.php:4534
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: functions.php:4687
+#: functions.php:4693
 msgid "audio/mpeg"
 msgstr "audio/mpeg"
 
-#: functions.php:4813
+#: functions.php:4819
 msgid " - "
 msgstr " - "
 
-#: functions.php:4838 functions.php:5600
+#: functions.php:4844 functions.php:5606
 msgid "Edit tags for this article"
 msgstr "Editar las etiquetas de este artículo"
 
-#: functions.php:4844 functions.php:5583
+#: functions.php:4850 functions.php:5589
 msgid "Show article summary in new window"
 msgstr "Mostrar el sumario del artículo en una nueva pestaña o ventana"
 
-#: functions.php:4851 functions.php:5590
+#: functions.php:4857 functions.php:5596
 msgid "Publish article with a note"
 msgstr "Publicar el artículo con una nota"
 
-#: functions.php:4868 functions.php:5459
+#: functions.php:4874 functions.php:5465
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4881 functions.php:5472
+#: functions.php:4887 functions.php:5478
 #, fuzzy
 msgid "Feed URL"
 msgstr "Fuente"
 
-#: functions.php:4921 functions.php:5502
+#: functions.php:4927 functions.php:5508
 msgid "unknown type"
 msgstr "tipo desconocido"
 
-#: functions.php:4961 functions.php:5547
+#: functions.php:4967 functions.php:5553
 msgid "Attachment:"
 msgstr "Adjunto:"
 
-#: functions.php:4963 functions.php:5549
+#: functions.php:4969 functions.php:5555
 msgid "Attachments:"
 msgstr "Adjuntos:"
 
-#: functions.php:4983 prefs.php:143 tt-rss.php:102 modules/help.php:21
-#: modules/popup-dialog.php:53 modules/popup-dialog.php:154
-#: modules/popup-dialog.php:181 modules/popup-dialog.php:208
-#: modules/popup-dialog.php:257 modules/popup-dialog.php:602
-#: modules/popup-dialog.php:661 modules/pref-feeds.php:1132
-#: modules/pref-users.php:96
-msgid "Close this window"
-msgstr "Cerrar esta ventana"
-
-#: functions.php:5039
+#: functions.php:5045
 msgid "Feed not found."
 msgstr "Fuente no encontrada."
 
-#: functions.php:5108
+#: functions.php:5114
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -378,31 +425,31 @@ msgstr ""
 "No se puede mostrar la fuente (consulta fallida). Por favor, compruebe la "
 "sintaxis de la coincidencia de etiqueta o la configuración local."
 
-#: functions.php:5272 functions.php:5359
+#: functions.php:5278 functions.php:5365
 msgid "mark as read"
 msgstr "marcar como leído"
 
-#: functions.php:5435 functions.php:5442
+#: functions.php:5441 functions.php:5448 digest.js:441
 msgid "Click to expand article"
 msgstr "Desplegar el artículo"
 
-#: functions.php:5607
+#: functions.php:5613
 msgid "toggle unread"
 msgstr "cambiar a sin leer"
 
-#: functions.php:5626
+#: functions.php:5632
 msgid "No unread articles found to display."
 msgstr "No se han encontrado artículos sin leer."
 
-#: functions.php:5629
+#: functions.php:5635
 msgid "No updated articles found to display."
 msgstr "No se han encontrado artículos actualizados."
 
-#: functions.php:5632
+#: functions.php:5638
 msgid "No starred articles found to display."
 msgstr "No se han encontrado artículos favoritos."
 
-#: functions.php:5636
+#: functions.php:5642
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -411,23 +458,23 @@ msgstr ""
 "artículos a las etiquetas manualmente (ver el menú Acciones -arriba-) o usar "
 "un filtro."
 
-#: functions.php:5638 offline.js:443
+#: functions.php:5644 offline.js:443
 msgid "No articles found to display."
 msgstr "No se han encontrado artículos que desplegar."
 
-#: functions.php:6393 tt-rss.php:199
+#: functions.php:6399 tt-rss.php:199
 msgid "Create label..."
 msgstr "Crear etiqueta..."
 
-#: functions.php:6406
+#: functions.php:6412
 msgid "(remove)"
 msgstr "(eliminar)"
 
-#: functions.php:6458
+#: functions.php:6464
 msgid "no tags"
 msgstr "sin etiquetas"
 
-#: functions.php:6487
+#: functions.php:6493
 msgid "edit note"
 msgstr "editar nota"
 
@@ -460,7 +507,8 @@ msgstr "Filtrar artículo"
 msgid "Set starred"
 msgstr "Fijar como favorito"
 
-#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
+#: localized_schema.php:18 digest.js:412 digest.js:702 viewfeed.js:545
+#: viewfeed.js:659
 msgid "Publish article"
 msgstr "Publicar artículo"
 
@@ -812,10 +860,6 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "Volver a las preferencias"
 
-#: prefs.php:64 prefs.php:124 tt-rss.php:66
-msgid "Loading, please wait..."
-msgstr "Cargando. Por favor, espere..."
-
 #: prefs.php:71 prefs.php:127 tt-rss.php:74
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
@@ -826,18 +870,9 @@ msgstr ""
 "navegador no lo soporta actualmente. Por favor, revise las opciones de "
 "configuración de su navegador."
 
-#: prefs.php:91 tt-rss.php:113
-msgid "Hello,"
-msgstr "Hola,"
-
 #: prefs.php:93 help/4.php:14
 msgid "Exit preferences"
 msgstr "Salir de las preferencias"
-
-#: prefs.php:95 tt-rss.php:123 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Cerrar sesión"
 
 #: prefs.php:103
 msgid "Keyboard shortcuts"
@@ -858,10 +893,6 @@ msgstr "Filtros"
 #: prefs.php:118 help/4.php:13
 msgid "Users"
 msgstr "Usuarios"
-
-#: prefs.php:141 tt-rss.php:100
-msgid "Fatal Exception"
-msgstr ""
 
 #: register.php:152
 msgid "New user registrations are administratively disabled."
@@ -1411,7 +1442,7 @@ msgstr "Comprobarlo"
 msgid "on field"
 msgstr "en el campo"
 
-#: modules/popup-dialog.php:514 modules/pref-filters.php:77
+#: modules/popup-dialog.php:514 modules/pref-filters.php:77 digest.js:392
 msgid "in"
 msgstr "en"
 
@@ -2269,6 +2300,50 @@ msgstr "Ocultar/Mostrar las leídas"
 msgid "Sort feeds by unread count"
 msgstr "Ordenar las fuentes en función del número de artículos sin leer"
 
+#: digest.js:27 tt-rss.js:670 tt-rss.js:683
+msgid "Mark all articles in %s as read?"
+msgstr "¿Marcar todos los artículos de %s como leídos?"
+
+#: digest.js:73
+#, fuzzy
+msgid "Mark %d displayed articles as read?"
+msgstr "¿Marcar %d artículo(s) como leído(s)?"
+
+#: digest.js:158
+#, fuzzy
+msgid "Error: unable to load article."
+msgstr "Error: por favor, suba un fichero OPML."
+
+#: digest.js:405 digest.js:653 viewfeed.js:577
+msgid "Unstar article"
+msgstr "Quitar el artículo de los favoritos"
+
+#: digest.js:407 digest.js:660 viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Marcar el artículo como favorito"
+
+#: digest.js:410 digest.js:694 viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Anular la publicación del artículo"
+
+#: digest.js:419
+#, fuzzy
+msgid "Click to expand article."
+msgstr "Desplegar el artículo"
+
+#: digest.js:486
+msgid "%d more..."
+msgstr ""
+
+#: digest.js:591
+#, fuzzy
+msgid "Load more..."
+msgstr "Ir a..."
+
+#: digest.js:656 digest.js:698 viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Por favor, espere..."
+
 #: functions.js:1252
 msgid "Can't add filter: nothing to match on."
 msgstr "No se puede añadir el filtro: no se ha indicado ninguna coincidencia."
@@ -2589,10 +2664,6 @@ msgstr "Por favor, seleccione alguna fuente primero."
 msgid "Reset category order?"
 msgstr "¿Reajustar el orden de la categoría?"
 
-#: tt-rss.js:670 tt-rss.js:683
-msgid "Mark all articles in %s as read?"
-msgstr "¿Marcar todos los artículos de %s como leídos?"
-
 #: tt-rss.js:703
 msgid "You can't edit this kind of feed."
 msgstr "No puede editar esta clase de fuente."
@@ -2604,22 +2675,6 @@ msgstr "No puede reiniciar la puntuación de esta clase de fuente."
 #: tt-rss.js:878
 msgid "Rescore articles in %s?"
 msgstr "¿Reiniciar la puntuación de los artículos de %s?"
-
-#: viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Marcar el artículo como favorito"
-
-#: viewfeed.js:577
-msgid "Unstar article"
-msgstr "Quitar el artículo de los favoritos"
-
-#: viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Por favor, espere..."
-
-#: viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Anular la publicación del artículo"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394

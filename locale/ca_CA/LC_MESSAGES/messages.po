@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-13 14:48+0400\n"
+"POT-Creation-Date: 2010-11-03 13:38+0300\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -104,11 +104,69 @@ msgstr "Súper usuari"
 msgid "Administrator"
 msgstr "Administrador"
 
-#: backend.php:544 login_form.php:142 modules/backend-rpc.php:61
+#: backend.php:552 login_form.php:142 modules/backend-rpc.php:61
 #: modules/popup-dialog.php:106
 #, fuzzy
 msgid "Default profile"
 msgstr "Nombre maximal d'articles par défaut"
+
+#: digest.php:58
+#, fuzzy
+msgid ""
+"Your browser doesn't support Javascript, which is required\n"
+"\t\t\tfor this application to function properly. Please check your\n"
+"\t\t\tbrowser settings."
+msgstr ""
+"El  vostre navegador no és compatible amb Javascript, el qual és necessari\n"
+" /t/t per tal que aquesta aplicació funcioni correctament. Si us plau "
+"reviseu els vostres\n"
+"/t/t paràmetres del navegador."
+
+#: digest.php:64 prefs.php:64 prefs.php:124 tt-rss.php:66 digest.js:132
+msgid "Loading, please wait..."
+msgstr "S'està obrint, preneu paciència..."
+
+#: digest.php:72 prefs.php:141 tt-rss.php:100
+#, fuzzy
+msgid "Fatal Exception"
+msgstr "Erreur critique"
+
+#: digest.php:74 functions.php:4989 prefs.php:143 tt-rss.php:102
+#: modules/help.php:21 modules/popup-dialog.php:53
+#: modules/popup-dialog.php:154 modules/popup-dialog.php:181
+#: modules/popup-dialog.php:208 modules/popup-dialog.php:257
+#: modules/popup-dialog.php:602 modules/popup-dialog.php:661
+#: modules/pref-feeds.php:1132 modules/pref-users.php:96
+msgid "Close this window"
+msgstr "Tanca la finestra"
+
+#: digest.php:84 prefs.php:91 tt-rss.php:113
+msgid "Hello,"
+msgstr "Hola, "
+
+#: digest.php:88 prefs.php:95 tt-rss.php:123 mobile/functions.php:60
+#: mobile/functions.php:234
+msgid "Logout"
+msgstr "Surt"
+
+#: digest.php:93
+#, fuzzy
+msgid "Tiny Tiny RSS"
+msgstr "Torna a Tiny Tiny RSS"
+
+#: digest.php:114
+#, fuzzy
+msgid "feeds"
+msgstr "Canals"
+
+#: digest.php:120
+#, fuzzy
+msgid "headlines"
+msgstr "Derniers en-têtes&nbsp;:"
+
+#: digest.php:142
+msgid "You are viewing the digest page. Click to open full version."
+msgstr ""
 
 #: errors.php:3
 msgid "Unknown error"
@@ -185,195 +243,187 @@ msgstr ""
 "Ha fallat la sortida de prova de SQL, reviseu la base configuració de la "
 "bases de dades i de PHP"
 
-#: functions.php:1936
+#: functions.php:1938
 msgid "Session failed to validate (incorrect IP)"
 msgstr "No s'ha pogut validar la sessió (IP incorrecta)"
 
-#: functions.php:2006
+#: functions.php:2008
 msgid "Incorrect username or password"
 msgstr "El nom d'usuari o la contrasenya és incorrecte"
 
-#: functions.php:2989 modules/popup-dialog.php:418
+#: functions.php:2991 modules/popup-dialog.php:418
 #: modules/pref-filters.php:420
 msgid "All feeds"
 msgstr "Tots els canals"
 
-#: functions.php:3021 functions.php:3060 functions.php:4465 functions.php:4493
+#: functions.php:3023 functions.php:3062 functions.php:4471 functions.php:4499
 #: modules/backend-rpc.php:869 modules/pref-feeds.php:1325
 msgid "Uncategorized"
 msgstr "Sense categoria"
 
-#: functions.php:3050 functions.php:3706 modules/backend-rpc.php:874
+#: functions.php:3052 functions.php:3712 modules/backend-rpc.php:874
 #: mobile/functions.php:170
 msgid "Special"
 msgstr "Especial"
 
-#: functions.php:3052 functions.php:3708 prefs.php:115
+#: functions.php:3054 functions.php:3714 prefs.php:115
 #: modules/backend-rpc.php:879 help/4.php:12 mobile/functions.php:197
 msgid "Labels"
 msgstr "Etiquetes"
 
-#: functions.php:3097 help/3.php:60 offline.js:493 offline.js:1425
+#: functions.php:3099 help/3.php:60 offline.js:493 offline.js:1425
 msgid "Starred articles"
 msgstr "Articles marcats"
 
-#: functions.php:3099 modules/pref-feeds.php:1516 help/3.php:61
+#: functions.php:3101 modules/pref-feeds.php:1516 help/3.php:61
 msgid "Published articles"
 msgstr "Articles publicats"
 
-#: functions.php:3101 help/3.php:59
+#: functions.php:3103 help/3.php:59
 msgid "Fresh articles"
 msgstr "Articles nous"
 
-#: functions.php:3103 help/3.php:58 offline.js:488 offline.js:1427
+#: functions.php:3105 help/3.php:58 offline.js:488 offline.js:1427
 msgid "All articles"
 msgstr "Tots els articles"
 
-#: functions.php:3105
+#: functions.php:3107
 #, fuzzy
 msgid "Archived articles"
 msgstr "Articles mémorisés"
 
-#: functions.php:4218
+#: functions.php:4224
 msgid "Generated feed"
 msgstr "Canals generats"
 
-#: functions.php:4223 functions.php:5573 modules/popup-dialog.php:82
+#: functions.php:4229 functions.php:5579 modules/popup-dialog.php:82
 #: modules/pref-feeds.php:1079 modules/pref-feeds.php:1289
 #: modules/pref-filters.php:377 modules/pref-labels.php:183
 #: modules/pref-users.php:419 offline.js:408
 msgid "Select:"
 msgstr "Selecciona:"
 
-#: functions.php:4224 modules/popup-dialog.php:83 modules/pref-feeds.php:1080
+#: functions.php:4230 modules/popup-dialog.php:83 modules/pref-feeds.php:1080
 #: modules/pref-feeds.php:1290 modules/pref-filters.php:378
 #: modules/pref-labels.php:184 modules/pref-users.php:420
 msgid "All"
 msgstr "Tot"
 
-#: functions.php:4225 functions.php:4242 tt-rss.php:219
+#: functions.php:4231 functions.php:4248 tt-rss.php:219
 msgid "Unread"
 msgstr "Per llegir"
 
-#: functions.php:4226
+#: functions.php:4232
 msgid "Invert"
 msgstr "Inverteix"
 
-#: functions.php:4227 modules/popup-dialog.php:84 modules/pref-feeds.php:1081
+#: functions.php:4233 modules/popup-dialog.php:84 modules/pref-feeds.php:1081
 #: modules/pref-feeds.php:1291 modules/pref-filters.php:379
 #: modules/pref-labels.php:185 modules/pref-users.php:421
 msgid "None"
 msgstr "Cap"
 
-#: functions.php:4235 tt-rss.php:179 offline.js:184
+#: functions.php:4241 tt-rss.php:179 offline.js:184
 msgid "Actions..."
 msgstr "Accions..."
 
-#: functions.php:4241
+#: functions.php:4247
 msgid "Selection toggle:"
 msgstr "Commuta la selecció"
 
-#: functions.php:4243 tt-rss.php:218
+#: functions.php:4249 tt-rss.php:218
 msgid "Starred"
 msgstr "Marcats"
 
-#: functions.php:4244
+#: functions.php:4250
 msgid "Published"
 msgstr "Publicats"
 
-#: functions.php:4245
+#: functions.php:4251
 msgid "Selection:"
 msgstr "Selecció:"
 
-#: functions.php:4246 localized_schema.php:16 tt-rss.php:188 tt-rss.php:236
+#: functions.php:4252 localized_schema.php:16 tt-rss.php:188 tt-rss.php:236
+#: digest.js:365 digest.js:435 digest.js:589
 msgid "Mark as read"
 msgstr "Marca'l com a llegit"
 
-#: functions.php:4252
+#: functions.php:4258
 msgid "Archive"
 msgstr ""
 
-#: functions.php:4254
+#: functions.php:4260
 #, fuzzy
 msgid "Move back"
 msgstr "Vés enrere"
 
-#: functions.php:4255
+#: functions.php:4261
 #, fuzzy
 msgid "Delete"
 msgstr "Per defecte"
 
-#: functions.php:4260
+#: functions.php:4266
 msgid "Assign label:"
 msgstr "Assigna-l'hi l'etiqueta:"
 
-#: functions.php:4301
+#: functions.php:4307
 msgid "Click to collapse category"
 msgstr "Clica-hi per a reduir la categoria"
 
-#: functions.php:4511
+#: functions.php:4517
 msgid "No feeds to display."
 msgstr "No hi ha canals per a mostrar."
 
-#: functions.php:4528
+#: functions.php:4534
 msgid "Tags"
 msgstr "Etiqueta"
 
-#: functions.php:4687
+#: functions.php:4693
 msgid "audio/mpeg"
 msgstr "àudio/mpeg"
 
-#: functions.php:4813
+#: functions.php:4819
 msgid " - "
 msgstr " - "
 
-#: functions.php:4838 functions.php:5600
+#: functions.php:4844 functions.php:5606
 msgid "Edit tags for this article"
 msgstr "Edita les etiquetes d'aquest article"
 
-#: functions.php:4844 functions.php:5583
+#: functions.php:4850 functions.php:5589
 msgid "Show article summary in new window"
 msgstr "Obre els enllaços de l'article en una nova finestra"
 
-#: functions.php:4851 functions.php:5590
+#: functions.php:4857 functions.php:5596
 msgid "Publish article with a note"
 msgstr "Publica l'article amb una nota"
 
-#: functions.php:4868 functions.php:5459
+#: functions.php:4874 functions.php:5465
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4881 functions.php:5472
+#: functions.php:4887 functions.php:5478
 #, fuzzy
 msgid "Feed URL"
 msgstr "Canal"
 
-#: functions.php:4921 functions.php:5502
+#: functions.php:4927 functions.php:5508
 msgid "unknown type"
 msgstr "tipus desconegut"
 
-#: functions.php:4961 functions.php:5547
+#: functions.php:4967 functions.php:5553
 msgid "Attachment:"
 msgstr "Adjunció:"
 
-#: functions.php:4963 functions.php:5549
+#: functions.php:4969 functions.php:5555
 msgid "Attachments:"
 msgstr "Adjuncions:"
 
-#: functions.php:4983 prefs.php:143 tt-rss.php:102 modules/help.php:21
-#: modules/popup-dialog.php:53 modules/popup-dialog.php:154
-#: modules/popup-dialog.php:181 modules/popup-dialog.php:208
-#: modules/popup-dialog.php:257 modules/popup-dialog.php:602
-#: modules/popup-dialog.php:661 modules/pref-feeds.php:1132
-#: modules/pref-users.php:96
-msgid "Close this window"
-msgstr "Tanca la finestra"
-
-#: functions.php:5039
+#: functions.php:5045
 msgid "Feed not found."
 msgstr "No s'ha trobat el canal."
 
-#: functions.php:5108
+#: functions.php:5114
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -382,31 +432,31 @@ msgstr ""
 "seleccioneu reviseu que coincideixi la sintaxi o que la configuració local "
 "sigui correcta."
 
-#: functions.php:5272 functions.php:5359
+#: functions.php:5278 functions.php:5365
 msgid "mark as read"
 msgstr "Marca'l com a llegit"
 
-#: functions.php:5435 functions.php:5442
+#: functions.php:5441 functions.php:5448 digest.js:441
 msgid "Click to expand article"
 msgstr "Clica-hi per a veure el cos de l'article"
 
-#: functions.php:5607
+#: functions.php:5613
 msgid "toggle unread"
 msgstr "commuta els no llegits"
 
-#: functions.php:5626
+#: functions.php:5632
 msgid "No unread articles found to display."
 msgstr "No es poden mostrar els articles no llegits perquè no n'hi ha."
 
-#: functions.php:5629
+#: functions.php:5635
 msgid "No updated articles found to display."
 msgstr "No hi ha cap article actualitzat."
 
-#: functions.php:5632
+#: functions.php:5638
 msgid "No starred articles found to display."
 msgstr "No hi ha articles marcats per mostrar."
 
-#: functions.php:5636
+#: functions.php:5642
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -414,23 +464,23 @@ msgstr ""
 "No s'han trobat articles per a mostrar. Podeu assignar articles a etiquetes "
 "manualment (mireu el menú Accions) o utilitzeu un filtre."
 
-#: functions.php:5638 offline.js:443
+#: functions.php:5644 offline.js:443
 msgid "No articles found to display."
 msgstr "No s'han trobat articles per a mostrar."
 
-#: functions.php:6393 tt-rss.php:199
+#: functions.php:6399 tt-rss.php:199
 msgid "Create label..."
 msgstr "Crea una etiqueta"
 
-#: functions.php:6406
+#: functions.php:6412
 msgid "(remove)"
 msgstr "Elimina"
 
-#: functions.php:6458
+#: functions.php:6464
 msgid "no tags"
 msgstr "sense etiqueta"
 
-#: functions.php:6487
+#: functions.php:6493
 msgid "edit note"
 msgstr "edita la nota"
 
@@ -463,7 +513,8 @@ msgstr "Filtra l'article"
 msgid "Set starred"
 msgstr "Marca'l com a destacat"
 
-#: localized_schema.php:18 viewfeed.js:545 viewfeed.js:659
+#: localized_schema.php:18 digest.js:412 digest.js:702 viewfeed.js:545
+#: viewfeed.js:659
 msgid "Publish article"
 msgstr "Publica l'article"
 
@@ -811,10 +862,6 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "Torna a les preferències"
 
-#: prefs.php:64 prefs.php:124 tt-rss.php:66
-msgid "Loading, please wait..."
-msgstr "S'està obrint, preneu paciència..."
-
 #: prefs.php:71 prefs.php:127 tt-rss.php:74
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
@@ -826,18 +873,9 @@ msgstr ""
 "reviseu els vostres\n"
 "/t/t paràmetres del navegador."
 
-#: prefs.php:91 tt-rss.php:113
-msgid "Hello,"
-msgstr "Hola, "
-
 #: prefs.php:93 help/4.php:14
 msgid "Exit preferences"
 msgstr "Surt de les preferències"
-
-#: prefs.php:95 tt-rss.php:123 mobile/functions.php:60
-#: mobile/functions.php:234
-msgid "Logout"
-msgstr "Surt"
 
 #: prefs.php:103
 msgid "Keyboard shortcuts"
@@ -858,11 +896,6 @@ msgstr "Filtres"
 #: prefs.php:118 help/4.php:13
 msgid "Users"
 msgstr "Usuaris"
-
-#: prefs.php:141 tt-rss.php:100
-#, fuzzy
-msgid "Fatal Exception"
-msgstr "Erreur critique"
 
 #: register.php:152
 msgid "New user registrations are administratively disabled."
@@ -1407,7 +1440,7 @@ msgstr "Revisa-ho"
 msgid "on field"
 msgstr "al camp"
 
-#: modules/popup-dialog.php:514 modules/pref-filters.php:77
+#: modules/popup-dialog.php:514 modules/pref-filters.php:77 digest.js:392
 msgid "in"
 msgstr "a"
 
@@ -2258,6 +2291,50 @@ msgstr "Mostra/amaga els canals llegits"
 msgid "Sort feeds by unread count"
 msgstr "Ordena els canals per articles no llegits"
 
+#: digest.js:27 tt-rss.js:670 tt-rss.js:683
+msgid "Mark all articles in %s as read?"
+msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
+
+#: digest.js:73
+#, fuzzy
+msgid "Mark %d displayed articles as read?"
+msgstr "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
+
+#: digest.js:158
+#, fuzzy
+msgid "Error: unable to load article."
+msgstr "Error: si us plau carregueu el fitxer OPML."
+
+#: digest.js:405 digest.js:653 viewfeed.js:577
+msgid "Unstar article"
+msgstr "Treu la marca de l'article"
+
+#: digest.js:407 digest.js:660 viewfeed.js:528 viewfeed.js:592
+msgid "Star article"
+msgstr "Marca l'article"
+
+#: digest.js:410 digest.js:694 viewfeed.js:648
+msgid "Unpublish article"
+msgstr "Deixa de publicar l'article"
+
+#: digest.js:419
+#, fuzzy
+msgid "Click to expand article."
+msgstr "Clica-hi per a veure el cos de l'article"
+
+#: digest.js:486
+msgid "%d more..."
+msgstr ""
+
+#: digest.js:591
+#, fuzzy
+msgid "Load more..."
+msgstr "Ouverture de l'aide..."
+
+#: digest.js:656 digest.js:698 viewfeed.js:585 viewfeed.js:652
+msgid "Please wait..."
+msgstr "Si us plau, espereu..."
+
 #: functions.js:1252
 msgid "Can't add filter: nothing to match on."
 msgstr "No s'ha pogut afegir el filtre: no hi ha coincidències."
@@ -2581,10 +2658,6 @@ msgstr "Primerament heu de seleccionar un canal."
 msgid "Reset category order?"
 msgstr "Esteu segur que voleu eliminar l'ordre de les categories?"
 
-#: tt-rss.js:670 tt-rss.js:683
-msgid "Mark all articles in %s as read?"
-msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
-
 #: tt-rss.js:703
 msgid "You can't edit this kind of feed."
 msgstr "No podeu editar aquest tipus de canal."
@@ -2596,22 +2669,6 @@ msgstr "No podeu canviar la puntuació d'aquest tipus de canal."
 #: tt-rss.js:878
 msgid "Rescore articles in %s?"
 msgstr "Esteu segur que voleu canviar la puntuació dels articles a %s?"
-
-#: viewfeed.js:528 viewfeed.js:592
-msgid "Star article"
-msgstr "Marca l'article"
-
-#: viewfeed.js:577
-msgid "Unstar article"
-msgstr "Treu la marca de l'article"
-
-#: viewfeed.js:585 viewfeed.js:652
-msgid "Please wait..."
-msgstr "Si us plau, espereu..."
-
-#: viewfeed.js:648
-msgid "Unpublish article"
-msgstr "Deixa de publicar l'article"
 
 #: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
 #: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
@@ -3020,9 +3077,6 @@ msgstr "Si us plau, escriviu una nota per aquest article:"
 #~ msgid "Can't create label: missing SQL expression."
 #~ msgstr "Impossible de créer un intitulé : expression SQL manquante."
 
-#~ msgid "Loading help..."
-#~ msgstr "Ouverture de l'aide..."
-
 #~ msgid "Saving label..."
 #~ msgstr "Enregistrement de l'intitulé..."
 
@@ -3176,9 +3230,6 @@ msgstr "Si us plau, escriviu una nota per aquest article:"
 #, fuzzy
 #~ msgid "Last updated:"
 #~ msgstr "Dernière mise à jour&nbsp;:"
-
-#~ msgid "Last headlines:"
-#~ msgstr "Derniers en-têtes&nbsp;:"
 
 #~ msgid "Other feeds: Top 25"
 #~ msgstr "Autres flux&nbsp;: Top 25"

@@ -24,7 +24,7 @@
 		<h1><xsl:value-of select="rss/channel/title"/></h1>
 
 		<p class="description">This is an RSS feed exported from
-			<a target="_new" class="extlink" href="http://tt-rss.spb.ru">Tiny Tiny RSS</a>.
+			<a target="_new" class="extlink" href="http://tt-rss.org">Tiny Tiny RSS</a>.
 		   You must install a news aggregator to subscribe to it.
 			This feed contains the following items:</p>
 

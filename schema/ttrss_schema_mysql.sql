@@ -120,10 +120,10 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	foreign key (parent_feed) references ttrss_feeds(id) ON DELETE SET NULL) TYPE=InnoDB;
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
-	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.spb.ru/releases.rss');
+	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values 
-	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.spb.ru/forum/rss.php');
+	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.org/forum/rss.php');
 
 create table ttrss_entries (id integer not null primary key auto_increment, 
 	title text not null, 

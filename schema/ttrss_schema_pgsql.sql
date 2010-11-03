@@ -86,10 +86,10 @@ create table ttrss_feeds (id serial not null primary key,
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
-	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.spb.ru/releases.rss');
+	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values 
-	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.spb.ru/forum/rss.php');
+	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.org/forum/rss.php');
 
 create table ttrss_archived_feeds (id integer not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,

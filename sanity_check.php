@@ -87,7 +87,7 @@
 	}
 
 	if (defined('DAEMON_REFRESH_ONLY')) {
-		$err_msg = "config: option DAEMON_REFRESH_ONLY is obsolete. Please remove this option and read about other ways to update feeds on the <a href='http://tt-rss.spb.ru/trac/wiki/UpdatingFeeds'>wiki</a>.";
+		$err_msg = "config: option DAEMON_REFRESH_ONLY is obsolete. Please remove this option and read about other ways to update feeds on the <a href='http://tt-rss.org/wiki/UpdatingFeeds'>wiki</a>.";
 
 	}
 
