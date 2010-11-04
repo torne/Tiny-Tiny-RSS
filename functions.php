@@ -4195,7 +4195,7 @@
 				if (!$bottom) {
 					$target = "target=\"_blank\"";
 				}
-				print "<a $target href=\"$feed_site_url\">".
+				print "<a title=\"".__("Visit the website")."\"$target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
 			} else {
 				if ($feed_id < -10) {
