@@ -562,11 +562,13 @@ function parse_counters_reply(transport, scheduled_call) {
 
 	var counters = reply.getElementsByTagName("counters")[0];
 	
-	parse_counters(counters, scheduled_call);
+	if (counters)
+		parse_counters(counters, scheduled_call);
 
 	var runtime_info = reply.getElementsByTagName("runtime-info")[0];
 
-	parse_runtime_info(runtime_info);
+	if (runtime_info)
+		parse_runtime_info(runtime_info);
 
 	if (feedsSortByUnread()) {
 		resort_feedlist();

@@ -293,15 +293,13 @@
 
 			print "<rpc-reply>";
 
-			print "<counters><![CDATA[";
-
 			if ($global_unread_caller != $global_unread) {
+				print "<counters><![CDATA[";
 				$omode = $_REQUEST["omode"];
 				print json_encode(getAllCounters($link, $omode));
+				print "]]></counters>";
 			}
  
-			print "]]></counters>";
-
 			print_runtime_info($link);
 
 			print "</rpc-reply>";
