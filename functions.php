@@ -6673,7 +6673,7 @@
 
 			/* Labels */
 
-			if (!$cat_id || $cat_id == -2) {
+			if ($cat_id == -4 || $cat_id == -2) {
 				$counters = getLabelCounters($link, true);
 
 				foreach (array_keys($counters) as $id) {
@@ -6696,7 +6696,7 @@
 
 			/* Virtual feeds */
 
-			if (!$cat_id || $cat_id == -1) {
+			if ($cat_id == -4 || $cat_id == -1) {
 				foreach (array(-1, -2, -3, -4, 0) as $i) {
 					$unread = getFeedUnread($link, $i);
 
@@ -6723,18 +6723,24 @@
 				$limit_qpart = "";
 			}
 
-			if (!$cat_id) {
+			if ($cat_id == -4 || $cat_id == -3) {
 				$result = db_query($link, "SELECT 
 					id, feed_url, cat_id, title, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
 						" ORDER BY cat_id, title " . $limit_qpart);
 			} else {
+
+				if ($cat_id)
+					$cat_qpart = "cat_id = '$cat_id'";
+				else
+					$cat_qpart = "cat_id IS NULL";
+
 				$result = db_query($link, "SELECT 
 					id, feed_url, cat_id, title, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds WHERE 
-						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
+						$cat_qpart AND owner_uid = " . $_SESSION["uid"] . 
 						" ORDER BY cat_id, title " . $limit_qpart);
 			}
 
