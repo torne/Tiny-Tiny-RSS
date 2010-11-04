@@ -1295,9 +1295,7 @@
 				print "<tr class=\"title\">
 					<td width='5%' align='center'>&nbsp;</td>";
 
-				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-					print "<td width='3%'>&nbsp;</td>";
-				}
+				print "<td width='3%'>&nbsp;</td>";
 
 				print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
 
@@ -1354,9 +1352,7 @@
 					print "<tr class=\"title\">
 						<td width='5%'>&nbsp;</td>";
 
-					if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-						print "<td width='3%'>&nbsp;</td>";
-					}
+					print "<td width='3%'>&nbsp;</td>";
 
 					print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
 
@@ -1389,9 +1385,7 @@
 
 				$onclick = "onclick='editFeed($feed_id)' title='".__('Click to edit')."'";
 
-				if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-					print "<td $onclick class='feedIcon'>$feed_icon</td>";		
-				}
+				print "<td $onclick class='feedIcon'>$feed_icon</td>";		
 
 				if ($last_error) {
 					$edit_title = "<span class=\"feed_error\">$edit_title</span>";

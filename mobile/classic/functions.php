@@ -296,10 +296,7 @@
 		$feed = "<a href=\"?go=vf&id=$feed_id\">$feed_title</a>";
 
 		print "<li class=\"$class\">";
-		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-			print "$feed_icon";
-		}
-
+		print "$feed_icon";
 		print "<span $rtl_tag>$feed</span> ";
 
 		if ($unread != 0) {

@@ -701,13 +701,11 @@
 				$site_url = $rss->channel["link"];
 			}
 
-			if (get_pref($link, 'ENABLE_FEED_ICONS', $owner_uid, false)) {	
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					_debug("update_rss_feed: checking favicon...");
-				}
-
-				check_feed_favicon($site_url, $feed, $link);
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+				_debug("update_rss_feed: checking favicon...");
 			}
+
+			check_feed_favicon($site_url, $feed, $link);
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
@@ -1681,10 +1679,7 @@
 		print $color_str; */
 
 		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
-		if (get_pref($link, 'ENABLE_FEED_ICONS')) {
-			print "$feed_icon";
-		}
-
+		print "$feed_icon";
 		print "<span $rtl_tag id=\"FEEDN-$feed_id\">$feed</span>";
 
 		if ($unread != 0) {
