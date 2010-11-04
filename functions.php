@@ -2454,30 +2454,32 @@
 	function getAllCounters($link, $omode = "flc", $active_feed = false) {
 
 		if (!$omode) $omode = "flc";
-	
-		getGlobalCounters($link);
-		getVirtCounters($link);
 
-		if (strchr($omode, "l")) getLabelCounters($link);
-		if (strchr($omode, "f")) getFeedCounters($link, $active_feed);
-		if (strchr($omode, "t")) getTagCounters($link);
+		$data = getGlobalCounters($link);
+		
+		$data = array_merge($data, getVirtCounters($link));
+
+		if (strchr($omode, "l")) $data = array_merge($data, getLabelCounters($link));
+		if (strchr($omode, "f")) $data = array_merge($data, getFeedCounters($link, $active_feed));
+		if (strchr($omode, "t")) $data = array_merge($data, getTagCounters($link));
 		if (strchr($omode, "c")) {			
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				getCategoryCounters($link);
+				$data = array_merge($data, getCategoryCounters($link));
 			}
 		}
+
+		return $data;
 	}	
 
 	function getCategoryCounters($link) {
-		# two special categories are -1 and -2 (all virtuals; all labels)
+		$ret_arr = array();
 
-/*		$ctr = getCategoryUnread($link, -1);
+		/* Labels category */
 
-		print "<counter type=\"category\" id=\"-1\" counter=\"$ctr\"/>"; */
+		$cv = array("id" => -2, "cat" => true,
+			"counter" => getCategoryUnread($link, -2));
 
-		$ctr = getCategoryUnread($link, -2); 
-
-		print "<counter type=\"category\" id=\"-2\" counter=\"$ctr\"/>";
+		array_push($ret_arr, $cv);
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2489,15 +2491,20 @@
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = (int) $line["cat_id"];
 
-			print "<counter type=\"category\" id=\"".$line["cat_id"]."\" counter=\"".
-				$line["unread"]."\"/>";
+			$cv = array("id" => $line["cat_id"], "cat" => true,
+				"counter" => $line["unread"]);
+
+			array_push($ret_arr, $cv);
 		}
 
 		/* Special case: NULL category doesn't actually exist in the DB */
 
-		print "<counter type=\"category\" id=\"0\" counter=\"".
-			ccache_find($link, 0, $_SESSION["uid"], true)."\"/>";
+		$cv = array("id" => 0, "cat" => true,
+			"counter" => ccache_find($link, 0, $_SESSION["uid"], true));
 
+		array_push($ret_arr, $cv);
+
+		return $ret_arr;
 	}
 
 	function getCategoryUnread($link, $cat, $owner_uid = false) {
@@ -2730,20 +2737,28 @@
 	}
 
 	function getGlobalCounters($link, $global_unread = -1) {
+		$ret_arr = array();
+
 		if ($global_unread == -1) {	
 			$global_unread = getGlobalUnread($link);
 		}
-		print "<counter type=\"global\" id='global-unread' 
-			counter='$global_unread'/>";
+
+		$cv = array("id" => "global-unread", 
+			"counter" => $global_unread);
+
+		array_push($ret_arr, $cv);
 
 		$result = db_query($link, "SELECT COUNT(id) AS fn FROM 
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
 		$subscribed_feeds = db_fetch_result($result, 0, "fn");
 
-		print "<counter type=\"global\" id='subscribed-feeds' 
-			counter='$subscribed_feeds'/>";
+		$cv = array("id" => "subscribed-feeds", 
+			"counter" => $subscribed_feeds);
 
+		array_push($ret_arr, $cv);
+
+		return $ret_arr;
 	}
 
 	function getSubscribedFeeds($link) {
@@ -2754,6 +2769,8 @@
 	}
 
 	function getTagCounters($link) {
+		
+		$ret_arr = array();
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2773,37 +2790,41 @@
 		foreach (array_keys($tags) as $tag) {
 			$unread = $tags[$tag];			
 			$tag = htmlspecialchars($tag);
-			print "<counter type=\"tag\" id=\"$tag\" counter=\"$unread\"/>";
-		} 
+
+			$cv = array("id" => $tag,
+				"tag" => true,
+				"counter" => $unread);
+
+			array_push($ret_arr, $cv);
+		}
+
+		return $ret_arr;	
 	}
 
-	function getVirtCounters($link, $ret_mode = false) {
+	function getVirtCounters($link) {
 
 		$ret_arr = array();
 
 		for ($i = 0; $i >= -4; $i--) {
 
 			$count = getFeedUnread($link, $i);
-	
-			if (!$ret_mode) {
-	
-				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $i) . " total)\"";
-				} else {
-					$xmsg_part = "";
-				}
 
-				print "<counter type=\"label\" id=\"$i\" counter=\"$count\" $xmsg_part/>";
-			} else {
-				$ret_arr[$i]["counter"] = $count;
-				$ret_arr[$i]["description"] = getFeedTitle($link, $i);
-			}
+			$cv = array("id" => $i,
+				"counter" => $count,
+				"description" => getFeedTitle($link, $i));
+	
+			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
+
+			array_push($ret_arr, $cv);
 		} 
 
 		return $ret_arr;
 	}
 
-	function getLabelCounters($link, $ret_mode = false) {
+	function getLabelCounters($link) {
+
+		$ret_arr = array();
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2818,27 +2839,23 @@
 
 			$label_name = $line["caption"];
 			$count = getFeedUnread($link, $id);
-	
-			if (!$ret_mode) {
 
-				if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-					$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-				} else {
-					$xmsg_part = "";
-				}
+			$cv = array("id" => $id,
+				"counter" => $count,
+				"description" => $label_name);
 
-				print "<counter type=\"label\" id=\"$id\" counter=\"$count\" $xmsg_part/>";
+			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
 
-			} else {
-				$ret_arr[$id]["counter"] = $count;
-				$ret_arr[$id]["description"] = $label_name;
-			}
+			array_push($ret_arr, $cv);
 		}
 	
 		return $ret_arr;
 	}
 
 	function getFeedCounters($link, $active_feed = false) {
+
+		$ret_arr = array();
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -2868,8 +2885,6 @@
 				$last_updated = date($short_date, strtotime($line["last_updated"]));
 			}				
 
-			$last_updated = htmlspecialchars($last_updated);
-
 			$has_img = feed_has_icon($id);
 
 			$tmp_result = db_query($link,
@@ -2878,38 +2893,28 @@
 
 			$count += db_fetch_result($tmp_result, 0, "unread");
 
-			if ($last_error) {
-				$error_part = "error=\"$last_error\"";
-			} else {
-				$error_part = "";
-			}
+			$cv = array("id" => $id,
+				"last_updated" => $last_updated,
+				"counter" => $count,
+				"has_img" => (int) $has_img);
 
-			if ($has_img) {
-				$has_img_part = "hi=\"$has_img\"";
-			} else {
-				$has_img_part = "";
-			}				
+			if ($last_error)
+				$cv["error"] = $last_error;
 
-			if ($active_feed && $id == $active_feed) {
-				$has_title_part = "title=\"" . htmlspecialchars($line["title"]) . "\"";
-			} else {
-				$has_title_part = "";
-			}
+			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
 
-			if (get_pref($link, 'EXTENDED_FEEDLIST')) {
-				$xmsg_part = "xmsg=\"(" . getFeedArticles($link, $id) . " total)\"";
-			}
+			if ($active_feed && $id == $active_feed)
+				$cv["title"] = $line["title"];
 
-			print "<counter type=\"feed\" id=\"$id\" counter=\"$count\" $has_img_part $error_part updated=\"$last_updated\" $xmsg_part $has_title_part/>";
+			array_push($ret_arr, $cv);
+
 		}
+
+		return $ret_arr;
 	}
 
 	function get_script_dt_add() {
-/*		if (strpos(VERSION, ".99") === false) {
-			return VERSION;
-		} else {
-			return time();
-		} */
 		return time();
 	}
 

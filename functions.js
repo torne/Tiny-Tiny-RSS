@@ -383,18 +383,18 @@ function parse_counters(reply, scheduled_call) {
 
 		var feeds_found = 0;
 
-		var elems = reply.getElementsByTagName("counter");
+		var elems = JSON.parse(reply.firstChild.nodeValue);
 
 		for (var l = 0; l < elems.length; l++) {
 
-			var id = elems[l].getAttribute("id");
-			var t = elems[l].getAttribute("type");
-			var ctr = elems[l].getAttribute("counter");
-			var error = elems[l].getAttribute("error");
-			var has_img = elems[l].getAttribute("hi");
-			var updated = elems[l].getAttribute("updated");
-			var title = elems[l].getAttribute("title");
-			var xmsg = elems[l].getAttribute("xmsg");
+			var id = elems[l].id
+			var is_cat = elems[l].cat;
+			var ctr = parseInt(elems[l].counter)
+			var error = elems[l].error;
+			var has_img = elems[l].has_img;
+			var updated = elems[l].updated;
+			var title = elems[l].title;
+			var xmsg = elems[l].xmsg;
 	
 			if (id == "global-unread") {
 
@@ -412,7 +412,7 @@ function parse_counters(reply, scheduled_call) {
 				continue;
 			}
 	
-			if (t == "category") {
+			if (is_cat) {
 				var catctr = $("FCATCTR-" + id);
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + ")";

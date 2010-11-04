@@ -258,9 +258,9 @@
 //			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
 
 			if (time() - $_SESSION["view:counters_stamp"] > 5 && $mode == "prefetch") {
-				print "<counters>";
-				getAllCounters($link, $omode);
-				print "</counters>";
+				print "<counters><![CDATA[";
+				print json_encode(getAllCounters($link, $omode));
+				print "]]></counters>";
 				$_SESSION["view:counters_stamp"] = time();
 			}
 
@@ -389,20 +389,12 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-
-//			if (get_pref($link, "SYNC_COUNTERS") ||				
-//					time() - $_SESSION["get_all_counters_stamp"] > $viewfeed_ctr_interval) {
-//				print "<counters>";
-//				getAllCounters($link, $omode, $feed);
-//				print "</counters>";
-//			}
-
 			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || 
 				time() - $_SESSION["viewfeed:counters_stamp"] > 5) {
 				if (!$offset) {
-					print "<counters>";
-					getAllCounters($link, $omode, $feed);
-					print "</counters>";
+					print "<counters><![CDATA[";
+					print json_encode(getAllCounters($link, $omode, $feed));
+					print "]]></counters>";
 					$_SESSION["viewfeed:counters_stamp"] = time();
 				}
 			}
