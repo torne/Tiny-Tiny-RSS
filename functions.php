@@ -3702,7 +3702,16 @@
 
 			print sanitize_rss($link, $line["content_preview"], false, $owner_uid);
 			print "]]></description>";
-  
+	
+			$enclosures = get_article_enclosures($link, $line["id"]);
+
+			foreach ($enclosures as $e) {
+				$type = htmlspecialchars($e['content_type']);
+				$url = htmlspecialchars($e['content_url']);
+				$length = $e['duration'];
+				print "<enclosure url=\"$url\" type=\"$type\" length=\"$length\"/>";
+			}
+
  			print "</item>";
   		}
   
