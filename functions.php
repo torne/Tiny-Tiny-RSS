@@ -6835,16 +6835,32 @@
 
 		print "<div class='whiteBox'>".__('No feed selected.');
 
+		print "<p class=\"small\"><span class=\"insensitive\">";
+
+		$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
+			WHERE owner_uid = " . $_SESSION['uid']);
+
+		$last_updated = db_fetch_result($result, 0, "last_updated");
+
+		if (get_pref($link, 'HEADLINES_SMART_DATE')) {
+			$last_updated = smart_date_time(strtotime($last_updated));
+		} else {
+			$last_updated = date($short_date, strtotime($last_updated));
+		}				
+
+		printf(__("Feeds last updated at %s"), $last_updated);
+
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
 		$num_errors = db_fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
-
-			print "<p><a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+			print "<br/>";
+			print "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 				__('Some feeds have update errors (click for details)')."</a>";
 		}
+		print "</span></p>";
 
 		print "</div>]]>";
 		print "</headlines>";
