@@ -4230,10 +4230,12 @@
 				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
 			}
 
+			$rss_link = "backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q";
+
 			print "
 				<a target=\"_blank\"
 					title=\"".__("View as RSS feed")."\"
-					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q\">
+					href=\"$rss_link\">
 					<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "</div>";
@@ -4278,6 +4280,9 @@
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 
 			print_labels_headlines_dropdown($link, $feed_id);
+
+			print "<li class=\"insensitive\">".__('Feed:')."</li>";
+			print "<li onclick=\"window.open('$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
 
 			print "</ul>";
 
