@@ -2146,7 +2146,7 @@ function backend_sanity_check_callback(transport) {
 			return init_offline();
 		}
 
-		var reply = transport.responseXML.firstChild.firstChild;
+		var reply = transport.responseXML.getElementsByTagName("error")[0];
 
 		if (!reply) {
 			fatalError(3, "Sanity check: invalid RPC reply", transport.responseText);
@@ -2161,7 +2161,7 @@ function backend_sanity_check_callback(transport) {
 
 		console.log("sanity check ok");
 
-		var params = reply.nextSibling;
+		var params = transport.responseXML.getElementsByTagName("init-params")[0];
 
 		if (params) {
 			console.log('reading init-params...');
