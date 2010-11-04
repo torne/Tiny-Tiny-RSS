@@ -87,10 +87,7 @@ function toggleTags(show_all) {
 
 function dlg_frefresh_callback(transport, deleted_feed) {
 	if (getActiveFeedId() == deleted_feed) {
-		var h = $("headlines-frame");
-		if (h) {
-			h.innerHTML = "<div class='whiteBox'>" + __('No feed selected.') + "</div>";
-		}
+		setTimeout("viewfeed(-5)", 100);
 	}
 
 	setTimeout('updateFeedList(false, false)', 50);
@@ -1327,3 +1324,8 @@ function reverseHeadlineOrder() {
 		exception_error("reverseHeadlineOrder", e);
 	}
 }
+
+function showFeedsWithErrors() {
+	displayDlg('feedUpdateErrors');
+}
+

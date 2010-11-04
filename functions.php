@@ -6828,4 +6828,31 @@
 			return $headlines;
 	}
 
+	function generate_dashboard_feed($link) {
+		print "<headlines id=\"-5\" is_cat=\"\">";
+
+		print '<![CDATA[<div id="headlinesContainer">';
+
+		print "<div class='whiteBox'>".__('No feed selected.');
+
+		$result = db_query($link, "SELECT COUNT(id) AS num_errors
+			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+
+		$num_errors = db_fetch_result($result, 0, "num_errors");
+
+		if ($num_errors > 0) {
+
+			print "<p><a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+				__('Some feeds have update errors (click for details)')."</a>";
+		}
+
+		print "</div>]]>";
+		print "</headlines>";
+
+		print "<headlines-count value=\"0\"/>";
+		print "<vgroup-last-feed value=\"0\"/>";
+		print "<headlines-unread value=\"0\"/>";
+		print "<disable-cache value=\"1\"/>";
+
+	}
 ?>

@@ -242,7 +242,7 @@
 
 <?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 	<div id="headlines-frame" class="headlines_normal">
-		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
+		<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div></div>
 	<div id="content-frame">
 	<div id="resize-grabber"
 		onmouseover="enable_resize(true)" onmouseout="enable_resize(false)"
@@ -256,7 +256,7 @@
 	<!-- <div class="whiteBox">&nbsp;</div> --> </div>
 <?php } else { ?>
 	<div id="headlines-frame" class="headlines_cdm">
-		<div class="whiteBox"><?php echo __('No feed selected.') ?></div></div>
+		<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div></div>
 <?php } ?>
 
 <div id="footer">

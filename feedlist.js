@@ -429,6 +429,7 @@ function feedlist_init() {
 				notify_silent_next();
 				setTimeout("viewfeed(-3)", 100);
 			} else {
+				setTimeout("viewfeed(-5)", 100);
 				remove_splash();
 			}
 		}

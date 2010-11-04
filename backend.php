@@ -289,6 +289,15 @@
 			$csync = $_REQUEST["csync"];
 			$order_by = db_escape_string($_REQUEST["order_by"]);
 
+			/* Feed -5 is a special case: it is used to display auxiliary information
+			 * when there's nothing to load - e.g. no stuff in fresh feed */
+
+			if ($feed == -5) {
+				generate_dashboard_feed($link);
+				print "</reply>";
+				return;
+			}
+
 			/* Updating a label ccache means recalculating all of the caches
 			 * so for performance reasons we don't do that here */
 
