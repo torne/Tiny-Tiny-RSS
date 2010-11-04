@@ -4223,7 +4223,7 @@
 
 			print "
 				<a target=\"_blank\"
-					title=\"".__("RSS feed for this buffer")."\"
+					title=\"".__("View as RSS feed")."\"
 					href=\"backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q\">
 					<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
