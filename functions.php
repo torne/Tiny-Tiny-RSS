@@ -3147,7 +3147,7 @@
 			theme_image($link, "images/indicator_white.gif")));
 
 		array_push($params, make_init_param("sign_progress_tiny", 
-			theme_image($link, "images/indicator_white.gif")));
+			theme_image($link, "images/indicator_tiny.gif")));
 
 		array_push($params, make_init_param("sign_excl", 
 			theme_image($link, "images/sign_excl.png")));
