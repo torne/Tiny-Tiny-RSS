@@ -4787,7 +4787,7 @@
 
 			print "<div class=\"postReply\">";
 
-			print "<div class=\"postHeader\" onmouseover=\"enable_resize(true)\" 
+			print "<div class=\"postHeader\" onmouseover=\"enable_resize(false)\" 
 				onmouseout=\"enable_resize(false)\">";
 
 			$entry_author = $line["author"];
@@ -4819,7 +4819,7 @@
 			if (!$zoom_mode) {
 				print "<span id=\"ATSTR-$id\">$tags_str</span>
 					<a title=\"".__('Edit tags for this article')."\" 
-					href=\"javascript:editArticleTags($id, $feed_id)\">(+)</a>";
+					href=\"#\" onclick=\"editArticleTags($id, $feed_id)\">(+)</a>";
 
 				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
@@ -4832,6 +4832,13 @@
 						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"publishWithNote($id, '$note_escaped')\"
 						alt='PubNote' title='".__('Publish article with a note')."'>";
+
+				if (DIGEST_ENABLE) {
+					print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
+						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"emailArticle($id)\"
+						alt='Zoom' title='".__('Forward by email')."'>";
+				}
 
 			} else {
 				$tags_str = strip_tags($tags_str);
@@ -6837,5 +6844,15 @@
 		print "<headlines-unread value=\"0\"/>";
 		print "<disable-cache value=\"1\"/>";
 
+	}
+
+	function save_email_address($link, $email) {
+		// FIXME: implement persistent storage of emails
+
+		if (!$_SESSION['stored_emails']) 
+			$_SESSION['stored_emails'] = array();
+
+		if (!in_array($email, $_SESSION['stored_emails']))
+			array_push($_SESSION['stored_emails'], $email);
 	}
 ?>

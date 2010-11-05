@@ -279,7 +279,7 @@
 
 			print "<input size=\"40\"
 					onkeypress=\"return filterCR(event, subscribeToFeed)\"
-					name=\"feed\" id=\"feed_url\"></td></tr>";
+					name=\"feed\" id=\"feed_url\">";
 
 			print "<br/>";
 
@@ -666,47 +666,113 @@
 			return;
 		}
 
-/*		if ($id == "offlineDownload") {
-			print "<div id=\"infoBoxTitle\">".__('Download articles')."</div>";
+		if ($id == "emailArticle") {
+
+			print "<div id=\"infoBoxTitle\">".__('Forward article by email')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			print "<form name='download_ops_form' id='download_ops_form'>";
+			print "<form id=\"article_email_form\" onsubmit='return false'>";
 
-			print "<div class=\"dlgSec\">".__("Download")."</div>";
+			$secretkey = sha1(make_password(10));
 
-			print "<div class=\"dlgSecCont\">";
+			$_SESSION['email_secretkey'] = $secretkey;
 
-			$amount = array(
-				50  => 50,
-				100 => 100,
-				250 => 250,
-				500 => 500);
+			print "<input type=\"hidden\" name=\"secretkey\" value=\"$secretkey\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"sendEmail\">"; 
 
-			print_select_hash("amount", 50, $amount);
+			require_once "lib/MiniTemplator.class.php";
 
-			print " " . __("latest articles for offline reading.");
+			$tpl = new MiniTemplator;
+			$tpl_t = new MiniTemplator;
 
-			print "<br/>";
+			$tpl->readTemplateFromFile("templates/email_article_template.txt");
 
-			print "<input checked='yes' type='checkbox' name='unread_only' id='unread_only'>";
-			print "<label for='unread_only'>".__('Only include unread articles')."</label>";
+			$result = db_query($link, "SELECT link, content, title
+				FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND
+				id = '$param' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "</div>";
+			$line = db_fetch_assoc($result);
+
+			$subject = htmlspecialchars(__("[Forwarded]") . " " . $line["title"]);
+
+			$tpl->setVariable('ARTICLE_TITLE', strip_tags($line["title"]));
+
+/*			$tpl->setVariable('ARTICLE_EXCERPT', 
+				truncate_string(strip_tags($line["content"]), 200)); */
+
+			$tpl->setVariable('ARTICLE_URL', strip_tags($line["link"]));
+
+			$result = db_query($link, "SELECT email FROM ttrss_users WHERE
+				id = " . $_SESSION["uid"]);
+
+			$user_email = htmlspecialchars(db_fetch_result($result, 0, "email"));
+			$user_name = htmlspecialchars($_SESSION["name"]);
+
+			//print "<input type=\"hidden\" name=\"replyto\" value=\"$user_email\">"; 
+			//print "<input type=\"hidden\" name=\"fromname\" value=\"$user_name\">"; 
+
+			$_SESSION['email_replyto'] = $user_email;
+			$_SESSION['email_fromname'] = $user_name;
+
+			$tpl->setVariable('USER_NAME', $_SESSION["name"]);
+			$tpl->setVariable('USER_EMAIL', $user_email);
+			$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"]);
+
+			$tpl->addBlock('email');
+		
+			$content = "";
+			$tpl->generateOutputToString($content);
+
+			print "<table width='100%'><tr><td>";
+
+			print __('From:');
+
+			print "</td><td>";
+
+			print "<input size=\"40\" disabled
+					onkeypress=\"return filterCR(event, false)\"
+					value=\"$user_name <$user_email>\">";
+
+			print "</td></tr><tr><td>";
+
+			print __('To:');
+
+			print "</td><td>";
+
+			print "<input size=\"40\"
+					onkeypress=\"return filterCR(event, false)\"
+					name=\"destination\" id=\"destination\">";
+
+			print "<div class=\"autocomplete\" id=\"destination_choices\" 
+					style=\"display:none\"></div>";	
+
+			print "</td></tr><tr><td>";
+
+			print __('Subject:');
+
+			print "</td><td>";
+
+			print "<input size=\"60\" class=\"iedit\"
+					onkeypress=\"return filterCR(event, false)\"
+					name=\"subject\" value=\"$subject\" id=\"subject\">";
+
+			print "</td></tr></table>";
+
+			print "<textarea rows='10' class='iedit' style='font-size : small'
+				name='content'>$content</textarea>";
 
 			print "</form>";
 
-			print "<div class=\"dlgButtons\">
-				<input class=\"button\"
-					type=\"submit\" onclick=\"return initiate_offline_download(0, this)\" value=\"".__('Download')."\">
-				<input class=\"button\"
-					type=\"submit\" onclick=\"return closeInfoBox()\" 
-					value=\"".__('Cancel')."\"></div>";
+			print "<div class='dlgButtons'>";
+
+			print "<button onclick=\"return emailArticleDo()\">".__('Send e-mail')."</button> ";
+			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
 
 			print "</div>";
 
 			return;
-		} */
-
+		}
 
 		print "<div id='infoBoxTitle'>Internal Error</div>
 			<div id='infoBoxContents'>

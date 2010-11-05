@@ -1019,6 +1019,81 @@
 			return;
 		}
 
+		if ($subop == "sendEmail") {
+			$secretkey = $_REQUEST['secretkey'];
+
+			print "<rpc-reply>";
+
+			if (DIGEST_ENABLE && $_SESSION['email_secretkey'] && 
+						$secretkey == $_SESSION['email_secretkey']) {
+
+				$_SESSION['email_secretkey'] = '';
+
+				$destination = $_REQUEST['destination'];
+				$subject = $_REQUEST['subject'];
+				$content = $_REQUEST['content'];
+
+				$replyto = strip_tags($_SESSION['email_replyto']);
+				$fromname = strip_tags($_SESSION['email_fromname']);
+
+				$mail = new PHPMailer();
+
+				$mail->PluginDir = "lib/phpmailer/";
+				$mail->SetLanguage("en", "lib/phpmailer/language/");
+
+				$mail->CharSet = "UTF-8";
+
+				$mail->From = $replyto;
+				$mail->FromName = $fromname;
+				$mail->AddAddress($destination);
+
+				if (DIGEST_SMTP_HOST) {
+					$mail->Host = DIGEST_SMTP_HOST;
+					$mail->Mailer = "smtp";
+					$mail->SMTPAuth = DIGEST_SMTP_LOGIN != '';
+					$mail->Username = DIGEST_SMTP_LOGIN;
+					$mail->Password = DIGEST_SMTP_PASSWORD;
+				}
+
+				$mail->IsHTML(false);
+				$mail->Subject = $subject;
+				$mail->Body = $content;
+
+				$rc = $mail->Send();
+
+				if (!$rc) {
+					print "<error><![CDATA[" . $mail->ErrorInfo . "]]></error>";
+				} else {
+					save_email_address($link, db_escape_string($destination));
+					print "<message>OK</message>";
+				}
+
+			} else {
+				print "<error>Not authorized.</error>";
+			}
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "completeEmails") {
+
+			$search = db_escape_string($_REQUEST["search"]);
+
+			print "<ul>";
+
+			foreach ($_SESSION['stored_emails'] as $email) {
+				if (strpos($email, $search) !== false) {
+					print "<li>$email</li>";
+				}
+			}
+
+			print "</ul>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

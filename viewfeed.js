@@ -2262,3 +2262,63 @@ function publishWithNote(id, def_note) {
 		exception_error("publishWithNote", e);
 	}
 }
+
+function emailArticle(id) {
+	try {
+		displayDlg('emailArticle', id, 
+		   function () {				
+				document.forms['article_email_form'].destination.focus();
+
+			   new Ajax.Autocompleter('destination', 'destination_choices',
+				   "backend.php?op=rpc&subop=completeEmails",
+				   { tokens: '', paramName: "search" });
+
+			});
+
+	} catch (e) {
+		exception_error("emailArticle", e);
+	}
+}
+
+function emailArticleDo(id) {
+	try {
+		var f = document.forms['article_email_form'];
+
+		if (f.destination.value == "") {
+			alert("Please fill in the destination email.");
+			return;
+		}
+
+		if (f.subject.value == "") {
+			alert("Please fill in the subject.");
+			return;
+		}
+
+		var query = Form.serialize("article_email_form");
+
+//		console.log(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				try {
+
+					var error = transport.responseXML.getElementsByTagName('error')[0];
+
+					if (error) {
+						alert(__('Error sending email:') + ' ' + error.firstChild.nodeValue);
+					} else {
+						notify_info('Your message has been sent.');
+						closeInfoBox();
+					}
+
+				} catch (e) {
+					exception_error("sendEmailDo", e);
+				}
+
+			} });
+
+	} catch (e) {
+		exception_error("emailArticleDo", e);
+	}
+}

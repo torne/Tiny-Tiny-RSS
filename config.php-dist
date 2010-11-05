@@ -74,7 +74,8 @@
 	// Fetch favicons using CURL, useful if your PHP has disabled remote fopen()
 
 	define('DIGEST_ENABLE', true);
-	// Global option to enable daily digests
+	// Global option to enable daily digests. Also toggles the ability of users
+	// to forward articles by email.
 
 	define('DIGEST_EMAIL_LIMIT', 10);
 	// The maximum amount of emails sent in one digest batch
