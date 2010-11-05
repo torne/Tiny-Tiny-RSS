@@ -2894,7 +2894,7 @@
 			$count += db_fetch_result($tmp_result, 0, "unread");
 
 			$cv = array("id" => $id,
-				"last_updated" => $last_updated,
+				"updated" => $last_updated,
 				"counter" => $count,
 				"has_img" => (int) $has_img);
 
