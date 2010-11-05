@@ -1894,21 +1894,13 @@
 
 	function initialize_user($link, $uid) {
 
-/*		db_query($link, "INSERT INTO ttrss_labels2 (owner_uid, caption)
-			VALUES ('$uid', 'All Articles')");
-
-		db_query($link, "INSERT INTO ttrss_filters 
-			(owner_uid, feed_id, filter_type, reg_exp, enabled, 
-				action_id, action_param, filter_param) 
-			VALUES ('$uid', NULL, 1, '.', true, 7, 'All Articles', 'before')"); */
-
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: New Releases',
 			'http://tt-rss.org/releases.rss')");
 
 		db_query($link, "insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: Forum',
-			'http://tt-rss.org/forum/rss.php')");
+				'http://tt-rss.org/forum/rss.php')");
 	}
 
 	function logout_user() {
@@ -4240,9 +4232,13 @@
 			print "</div>";
 		}
 
-	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true) {
+	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true, 
+					$title_override = false) {
 
-			$tmp_category = getCategoryTitle($link, $cat_id);
+			if (!$title_override)
+				$tmp_category = getCategoryTitle($link, $cat_id);
+			else
+				$tmp_category = $title_override;
 
 			if ($cat_id > 0) {
 				$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
@@ -4482,7 +4478,20 @@
 			}
 
 			if (db_num_rows($result) == 0) {
-				print "<li>".__('No feeds to display.')."</li>";
+
+				if (!get_pref($link, 'ENABLE_FEED_CATS')) {
+					print "<li style='text-align : center'><a href=\"#\"
+					  onclick=\"quickAddFeed()\">".
+						__('Subscribe to feed...')."</a></li>";
+				} else {
+					printCategoryHeader($link, -1, false, false, "Feeds");
+
+					print "<li><a href=\"#\"
+					  onclick=\"quickAddFeed()\">".
+						__('Subscribe to feed...')."</a></li>";
+
+					print "</ul>";
+				}
 			}
 
 		} else {
