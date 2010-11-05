@@ -104,73 +104,11 @@
 			
 		/* Method added for ttrss-reader for Android */
 		case "getCounters":
-			$counters = array();
-			
-			$result = db_query($link, "SELECT 
-					id FROM ttrss_feed_categories 
-				WHERE owner_uid = " . 
-				$_SESSION["uid"]);
 
-			$cats = array();
+			/* flct (flc is the default) FIXME: document */
+			$output_mode = db_escape_string($_REQUEST["output_mode"]);
 
-			while ($line = db_fetch_assoc($result)) {
-				array_push($cats, $line["id"]);
-			}
-			array_push($cats, "0");
-			array_push($cats, "-1");
-			array_push($cats, "-2");
-			array_push($cats, "-3");
-			array_push($cats, "-4");
-			
-			foreach ($cats as $cat) {
-				
-				$cat_part = "cat_id = '$cat'";
-				if ($cat == 0) {
-					$cat_part = "cat_id IS null";
-				}
-				
-				$result = db_query($link, "SELECT 
-					id FROM ttrss_feeds WHERE ".
-					$cat_part." AND owner_uid = " . $_SESSION["uid"]);
-				
-				$feeds = array();
-
-				while ($line = db_fetch_assoc($result)) {
-
-					$unread = getFeedArticles($link, $line["id"], false, true,  $_SESSION["uid"]);
-
-					if ($unread) {
-						$row = array(
-								"feed_id" => (int)$line["id"],
-								"unread" => (int)$unread
-							);
-						array_push($feeds, $row);
-					}
-				}
-				
-				$is_cat = true;
-				if ($cat < 0) {
-					$is_cat = false;
-				}
-				
-				$unread_cat = getFeedArticles($link, $cat, $is_cat, true,  $_SESSION["uid"]);
-				
-				if ($feeds) {
-					$count = array(
-						"cat_id" => $cat,
-						"unread" => $unread_cat,
-						"feeds" => $feeds
-					);
-				} else {
-					$count = array(
-						"cat_id" => $cat,
-						"unread" => $unread_cat
-					);
-				}
-				
-				array_push($counters, $count);
-			}
-			print json_encode($counters);
+			print json_encode(getAllCounters($link, $output_mode));
 			break;
 			
 		case "getFeeds":

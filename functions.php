@@ -2480,7 +2480,7 @@
 
 		/* Special case: NULL category doesn't actually exist in the DB */
 
-		$cv = array("id" => 0, "cat" => true,
+		$cv = array("id" => 0, "kind" => "cat",
 			"counter" => ccache_find($link, 0, $_SESSION["uid"], true));
 
 		array_push($ret_arr, $cv);
