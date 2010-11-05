@@ -5009,7 +5009,7 @@
 
 		// FIXME: might break tag display?
 
-		if ($feed > 0) {		
+		if ($feed > 0 && !$cat_view) {		
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 		
