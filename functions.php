@@ -2093,7 +2093,7 @@
 				}
 			}
 		}
-		return false;
+		return '';
 	}
 
 
@@ -3130,107 +3130,83 @@
 		return ((!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME);
 	}
 
+	function make_init_param($param, $value) {
+		return array("param" => $param, "value" => $value);
+	}
+
 	function print_init_params($link) {
-		print "<init-params>";
-		if ($_SESSION["stored-params"]) {
-			foreach (array_keys($_SESSION["stored-params"]) as $key) {
-				if ($key) {
-					$value = htmlspecialchars($_SESSION["stored-params"][$key]);
-					print "<param key=\"$key\" value=\"$value\"/>";
-				}
-			}
-		}
+		print "<init-params><![CDATA[";
 
-		print "<param key=\"theme\" value=\"".get_user_theme($link)."\"/>";
-		print "<param key=\"theme_options\" value=\"".get_user_theme_options($link)."\"/>";
-		print "<param key=\"daemon_enabled\" value=\"" . ENABLE_UPDATE_DAEMON . "\"/>";
-		print "<param key=\"feeds_frame_refresh\" value=\"" . FEEDS_FRAME_REFRESH . "\"/>";
-		print "<param key=\"daemon_refresh_only\" value=\"true\"/>";
+		$params = array();
 
-		print "<param key=\"sign_progress\" value=\"".
-			theme_image($link, "images/indicator_white.gif")."\"/>";
+		array_push($params, make_init_param("theme", get_user_theme($link)));
+		array_push($params, make_init_param("theme_options", get_user_theme_options($link)));
+		array_push($params, make_init_param("daemon_enabled", ENABLE_UPDATE_DAEMON));
+		array_push($params, make_init_param("feeds_frame_refresh", FEEDS_FRAME_REFRESH));
+		array_push($params, make_init_param("daemon_refresh_only", true));
 
-		print "<param key=\"sign_progress_tiny\" value=\"".
-			theme_image($link, "images/indicator_tiny.gif")."\"/>";
+		array_push($params, make_init_param("sign_progress", 
+			theme_image($link, "images/indicator_white.gif")));
 
-		print "<param key=\"sign_excl\" value=\"".
-			theme_image($link, "images/sign_excl.png")."\"/>";
+		array_push($params, make_init_param("sign_progress_tiny", 
+			theme_image($link, "images/indicator_white.gif")));
 
-		print "<param key=\"sign_info\" value=\"".
-			theme_image($link, "images/sign_info.png")."\"/>";
+		array_push($params, make_init_param("sign_excl", 
+			theme_image($link, "images/sign_excl.png")));
 
-		print "<param key=\"on_catchup_show_next_feed\" value=\"" . 
-			get_pref($link, "ON_CATCHUP_SHOW_NEXT_FEED") . "\"/>";
+		array_push($params, make_init_param("sign_info", 
+			theme_image($link, "images/sign_info.png")));
 
-		print "<param key=\"hide_read_feeds\" value=\"" . 
-			(int) get_pref($link, "HIDE_READ_FEEDS") . "\"/>";
+		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
+			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
+			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", 
+			"HIDE_READ_SHOWS_SPECIAL", "HIDE_FEEDLIST") as $param) {
 
-		print "<param key=\"enable_feed_cats\" value=\"" . 
-			(int) get_pref($link, "ENABLE_FEED_CATS") . "\"/>";
+				 array_push($params, make_init_param(strtolower($param), 
+					 (int) get_pref($link, $param)));
+		 }
 
-		print "<param key=\"feeds_sort_by_unread\" value=\"" . 
-			(int) get_pref($link, "FEEDS_SORT_BY_UNREAD") . "\"/>";
+		array_push($params, make_init_param("icons_url", ICONS_URL));
 
-		print "<param key=\"confirm_feed_catchup\" value=\"" . 
-			(int) get_pref($link, "CONFIRM_FEED_CATCHUP") . "\"/>";
+		array_push($params, make_init_param("cookie_lifetime", SESSION_COOKIE_LIFETIME));
 
-		print "<param key=\"cdm_auto_catchup\" value=\"" . 
-			(int) get_pref($link, "CDM_AUTO_CATCHUP") . "\"/>";
+		array_push($params, make_init_param("default_view_mode", 
+			get_pref($link, "_DEFAULT_VIEW_MODE")));
 
-		print "<param key=\"fresh_article_max_age\" value=\"" . 
-			(int) get_pref($link, "FRESH_ARTICLE_MAX_AGE") . "\"/>";
+		array_push($params, make_init_param("default_view_limit", 
+			(int) get_pref($link, "_DEFAULT_VIEW_LIMIT")));
 
-		print "<param key=\"icons_url\" value=\"" . ICONS_URL . "\"/>";
+		array_push($params, make_init_param("default_view_order_by", 
+			get_pref($link, "_DEFAULT_VIEW_ORDER_BY")));
 
-		print "<param key=\"cookie_lifetime\" value=\"" . SESSION_COOKIE_LIFETIME . "\"/>";
+		array_push($params, make_init_param("prefs_active_tab", 
+			get_pref($link, "_PREFS_ACTIVE_TAB")));
 
-		print "<param key=\"default_view_mode\" value=\"" . 
-			get_pref($link, "_DEFAULT_VIEW_MODE") . "\"/>";
+		array_push($params, make_init_param("infobox_disable_overlay", 
+			get_pref($link, "_INFOBOX_DISABLE_OVERLAY")));
 
-		print "<param key=\"default_view_limit\" value=\"" . 
-			(int) get_pref($link, "_DEFAULT_VIEW_LIMIT") . "\"/>";
+		array_push($params, make_init_param("bw_limit", 
+			(int) $_SESSION["bw_limit"]));
 
-		print "<param key=\"default_view_order_by\" value=\"" . 
-			get_pref($link, "_DEFAULT_VIEW_ORDER_BY") . "\"/>";
+		array_push($params, make_init_param("sync_counters", 1));
 
-		print "<param key=\"prefs_active_tab\" value=\"" . 
-			get_pref($link, "_PREFS_ACTIVE_TAB") . "\"/>";
-
-		print "<param key=\"infobox_disable_overlay\" value=\"" . 
-			get_pref($link, "_INFOBOX_DISABLE_OVERLAY") . "\"/>";
-
-		print "<param key=\"icons_location\" value=\"" . 
-			ICONS_URL . "\"/>";
-
-		print "<param key=\"hide_read_shows_special\" value=\"" . 
-			(int) get_pref($link, "HIDE_READ_SHOWS_SPECIAL") . "\"/>";
-
-		print "<param key=\"hide_feedlist\" value=\"" .
-			(int) get_pref($link, "HIDE_FEEDLIST") . "\"/>";
-
-		print "<param key=\"bw_limit\" value=\"".
-			(int) $_SESSION["bw_limit"]."\"/>";
-
-//		print "<param key=\"sync_counters\" value=\"" . 
-//			(int) get_pref($link, "SYNC_COUNTERS") . "\"/>";
-
-		print "<param key=\"sync_counters\" value=\"1\"/>";
-
-		print "<param key=\"offline_enabled\" value=\"".
-			(int) get_pref($link, "ENABLE_OFFLINE_READING") . "\"/>";
+		array_push($params, make_init_param("offline_enabled", 
+			(int) get_pref($link, "ENABLE_OFFLINE_READING")));
 
 		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
 		$num_feeds = db_fetch_result($result, 0, "cf");
 
-		print "<param key=\"num_feeds\" value=\"".
-			(int)$num_feeds. "\"/>";
+		array_push($params, make_init_param("num_feeds", 
+			(int) $num_feeds));
 
-		print "<param key=\"collapsed_feedlist\" value=\"" . 
-			(int) get_pref($link, "_COLLAPSED_FEEDLIST") . "\"/>";
+		array_push($params, make_init_param("collapsed_feedlist", 
+			(int) get_pref($link, "_COLLAPSED_FEEDLIST")));
 
-		print "</init-params>";
+		print json_encode($params);
+
+		print "]]></init-params>";
 	}
 
 	function print_runtime_info($link) {

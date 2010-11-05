@@ -460,7 +460,7 @@ function parse_counters(reply, scheduled_call) {
 
 			if (has_img && feed_img) {
 				if (!feed_img.src.match(id + ".ico")) {
-					feed_img.src = getInitParam("icons_location") + "/" + id + ".ico";
+					feed_img.src = getInitParam("icons_url") + "/" + id + ".ico";
 				}
 			}
 
@@ -2167,21 +2167,25 @@ function backend_sanity_check_callback(transport) {
 
 		if (params) {
 			console.log('reading init-params...');
-			var param = params.firstChild;
+			//var param = params.firstChild;
 
-			while (param) {
-				var k = param.getAttribute("key");
-				var v = param.getAttribute("value");
-				console.log(k + " => " + v);
-				init_params[k] = v;					
+			params = JSON.parse(params.firstChild.nodeValue);
 
-				if (db) {
-					db.execute("DELETE FROM init_params WHERE key = ?", [k]);
-					db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
-						[k, v]);
+			if (params) {
+				for (var i = 0; i < params.length; i++) {
+	
+					var k = params[i].param;
+					var v = params[i].value;
+	
+					console.log(k + " => " + v);
+					init_params[k] = v;					
+	
+					if (db) {
+						db.execute("DELETE FROM init_params WHERE key = ?", [k]);
+						db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
+							[k, v]);
+					}
 				}
-
-				param = param.nextSibling;
 			}
 		}
 

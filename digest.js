@@ -326,7 +326,7 @@ function find_feed(feeds, feed_id) {
 function get_feed_icon(feed) {
 	try {
 		if (feed.has_icon)
-			return getInitParam('icons_location') + "/" + feed.id + '.ico';
+			return getInitParam('icons_url') + "/" + feed.id + '.ico';
 
 		if (feed.id == -1)
 			return 'images/mark_set.png';
