@@ -3124,7 +3124,6 @@
 		array_push($params, make_init_param("theme_options", get_user_theme_options($link)));
 		array_push($params, make_init_param("daemon_enabled", ENABLE_UPDATE_DAEMON));
 		array_push($params, make_init_param("feeds_frame_refresh", FEEDS_FRAME_REFRESH));
-		array_push($params, make_init_param("daemon_refresh_only", true));
 
 		array_push($params, make_init_param("sign_progress", 
 			theme_image($link, "images/indicator_white.gif")));
@@ -3168,8 +3167,6 @@
 
 		array_push($params, make_init_param("bw_limit", 
 			(int) $_SESSION["bw_limit"]));
-
-		array_push($params, make_init_param("sync_counters", 1));
 
 		array_push($params, make_init_param("offline_enabled", 
 			(int) get_pref($link, "ENABLE_OFFLINE_READING")));

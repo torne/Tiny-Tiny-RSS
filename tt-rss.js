@@ -6,7 +6,6 @@ var global_unread = -1;
 var active_title_text = "";
 var current_subtitle = "";
 var daemon_enabled = false;
-var daemon_refresh_only = false;
 //var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var _active_feed_id = 0;
@@ -97,10 +96,6 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 function scheduleFeedUpdate(force) {
 
 	console.log("in scheduleFeedUpdate");
-
-/*	if (!daemon_enabled && !daemon_refresh_only) {
-		notify_progress("Updating feeds...", true);
-	} */
 
 	var query_str = "backend.php?op=rpc&subop=";
 
@@ -403,7 +398,6 @@ function init_second_stage() {
 		dropboxSelect(toolbar.order_by, getInitParam("default_view_order_by"));
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
-		daemon_refresh_only = getInitParam("daemon_refresh_only") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
 /*		var fl = cache_find_param("FEEDLIST", getInitParam("num_feeds"));
