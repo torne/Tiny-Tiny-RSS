@@ -2263,26 +2263,6 @@
 		}
 	}
 
-	function read_stampfile($filename) {
-
-		error_reporting(0);
-		$fp = fopen(LOCK_DIRECTORY . "/$filename", "r");
-		error_reporting (DEFAULT_ERROR_LEVEL);
-
-		if ($fp) {
-			if (flock($fp, LOCK_EX)) {
-				$stamp = fgets($fp);
-				flock($fp, LOCK_UN);
-				fclose($fp);
-				return $stamp;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
 	function sql_random_function() {
 		if (DB_TYPE == "mysql") {
 			return "RAND()";
@@ -3223,9 +3203,7 @@
 
 			if (time() - $_SESSION["daemon_stamp_check"] > 30) {
 
-				$stamp = (int)read_stampfile("update_daemon.stamp");
-
-//				print "<param key=\"daemon_stamp_delta\" value=\"$stamp_delta\"/>";
+				$stamp = (int) file_get_contents(LOCK_DIRECTORY . "/update_daemon.stamp");
 
 				if ($stamp) {
 					$stamp_delta = time() - $stamp;
