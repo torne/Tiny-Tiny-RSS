@@ -2822,7 +2822,7 @@
 		return $ret_arr;
 	}
 
-	function getLabelCounters($link) {
+	function getLabelCounters($link, $descriptions = false) {
 
 		$ret_arr = array();
 
@@ -2841,8 +2841,10 @@
 			$count = getFeedUnread($link, $id);
 
 			$cv = array("id" => $id,
-				"counter" => $count,
-				"description" => $label_name);
+				"counter" => $count);
+
+			if ($descriptions)
+				$cv["description"] = $label_name;
 
 			if (get_pref($link, 'EXTENDED_FEEDLIST'))
 				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
@@ -6662,16 +6664,16 @@
 			if ($cat_id == -4 || $cat_id == -2) {
 				$counters = getLabelCounters($link, true);
 
-				foreach (array_keys($counters) as $id) {
+				foreach (array_values($counters) as $cv) {
 
-					$unread = $counters[$id]["counter"];
+					$unread = $cv["counter"];
 	
 					if ($unread || !$unread_only) {
 	
 						$row = array(
-								"id" => $id,
-								"title" => $counters[$id]["description"],
-								"unread" => $counters[$id]["counter"],
+								"id" => $cv["id"],
+								"title" => $cv["description"],
+								"unread" => $cv["counter"],
 								"cat_id" => -2,
 							);
 	
