@@ -2810,8 +2810,7 @@
 			$count = getFeedUnread($link, $i);
 
 			$cv = array("id" => $i,
-				"counter" => $count,
-				"description" => getFeedTitle($link, $i));
+				"counter" => $count);
 	
 			if (get_pref($link, 'EXTENDED_FEEDLIST'))
 				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
