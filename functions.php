@@ -3134,9 +3134,7 @@
 		return array("param" => $param, "value" => $value);
 	}
 
-	function print_init_params($link) {
-		print "<init-params><![CDATA[";
-
+	function make_init_params($link) {
 		$params = array();
 
 		array_push($params, make_init_param("theme", get_user_theme($link)));
@@ -3204,9 +3202,7 @@
 		array_push($params, make_init_param("collapsed_feedlist", 
 			(int) get_pref($link, "_COLLAPSED_FEEDLIST")));
 
-		print json_encode($params);
-
-		print "]]></init-params>";
+		return $params;
 	}
 
 	function print_runtime_info($link) {

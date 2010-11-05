@@ -364,7 +364,11 @@
 			print "<rpc-reply>";
 			if (sanity_check($link)) {
 				print "<error error-code=\"0\"/>";
-				print_init_params($link);
+
+				print "<init-params><![CDATA[";
+				print json_encode(make_init_params($link));
+				print "]]></init-params>";
+
 				print_runtime_info($link);
 
 				# assign client-passed params to session
