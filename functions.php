@@ -2476,7 +2476,7 @@
 
 		/* Labels category */
 
-		$cv = array("id" => -2, "cat" => true,
+		$cv = array("id" => -2, "kind" => "cat",
 			"counter" => getCategoryUnread($link, -2));
 
 		array_push($ret_arr, $cv);
@@ -2491,7 +2491,7 @@
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = (int) $line["cat_id"];
 
-			$cv = array("id" => $line["cat_id"], "cat" => true,
+			$cv = array("id" => $line["cat_id"], "kind" => "cat",
 				"counter" => $line["unread"]);
 
 			array_push($ret_arr, $cv);
@@ -2792,7 +2792,7 @@
 			$tag = htmlspecialchars($tag);
 
 			$cv = array("id" => $tag,
-				"tag" => true,
+				"kind" => "tag",
 				"counter" => $unread);
 
 			array_push($ret_arr, $cv);

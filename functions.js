@@ -388,7 +388,7 @@ function parse_counters(reply, scheduled_call) {
 		for (var l = 0; l < elems.length; l++) {
 
 			var id = elems[l].id
-			var is_cat = elems[l].cat;
+			var kind = elems[l].kind;
 			var ctr = parseInt(elems[l].counter)
 			var error = elems[l].error;
 			var has_img = elems[l].has_img;
@@ -412,7 +412,7 @@ function parse_counters(reply, scheduled_call) {
 				continue;
 			}
 	
-			if (is_cat) {
+			if (kind && kind == "cat") {
 				var catctr = $("FCATCTR-" + id);
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + ")";
