@@ -282,10 +282,10 @@
 			$subop = db_escape_string($_REQUEST["subop"]);
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 			$limit = (int) get_pref($link, "DEFAULT_ARTICLE_LIMIT");
-			$cat_view = db_escape_string($_REQUEST["cat"]);
-			$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
-			$offset = db_escape_string($_REQUEST["skip"]);
-			$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
+			@$cat_view = db_escape_string($_REQUEST["cat"]);
+			@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
+			@$offset = db_escape_string($_REQUEST["skip"]);
+			@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 			$csync = $_REQUEST["csync"];
 			$order_by = db_escape_string($_REQUEST["order_by"]);
 

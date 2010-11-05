@@ -11,10 +11,11 @@
 
 		$pref_name = db_escape_string($pref_name);
 		$prefs_cache = true;
+		$profile = false;
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];
-			$profile = $_SESSION["profile"];
+			@$profile = $_SESSION["profile"];
 		} else {
 			$user_id = sprintf("%d", $user_id);
 			$prefs_cache = false;
@@ -29,7 +30,7 @@
 		if (get_schema_version($link) < 63) $profile_qpart = "";
 
 		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {	
-			if ($_SESSION["prefs_cache"] && $_SESSION["prefs_cache"][$pref_name]) {
+			if ($_SESSION["prefs_cache"] && @$_SESSION["prefs_cache"][$pref_name]) {
 				$tuple = $_SESSION["prefs_cache"][$pref_name];
 				return convert_pref_type($tuple["value"], $tuple["type"]);
 			}
@@ -84,7 +85,7 @@
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];
-			$profile = $_SESSION["profile"];
+			@$profile = $_SESSION["profile"];
 		} else {
 			$user_id = sprintf("%d", $user_id);
 			$prefs_cache = false;

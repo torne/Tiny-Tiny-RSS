@@ -2066,6 +2066,7 @@
 	}
 
 	function get_user_theme_path($link) {
+		$theme_path = '';
 
 		if (get_schema_version($link) >= 63 && $_SESSION["uid"]) {
 			$theme_name = get_pref($link, "_THEME_ID");
@@ -2677,6 +2678,7 @@
 				$feeds_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 			} else {
 				$from_qpart = "ttrss_user_entries,ttrss_entries";
+				$feeds_qpart = '';
 			}
 
 			$query = "SELECT count(int_id) AS unread 
@@ -3302,6 +3304,8 @@
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
+		$ext_tables_part = "";
+
 			if ($search) {
 			
 				$search_query_part = getSearchSql($search, $match_on);
@@ -3547,7 +3551,6 @@
 					FROM
 						$from_qpart
 					WHERE
-					$group_limit_part
 					$feed_check_qpart
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
@@ -4148,9 +4151,7 @@
 			print "<div id=\"subtoolbar_ftitle\">";
 
 			if ($feed_site_url) {
-				if (!$bottom) {
-					$target = "target=\"_blank\"";
-				}
+				$target = "target=\"_blank\"";
 				print "<a title=\"".__("Visit the website")."\"$target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
 			} else {
@@ -4179,6 +4180,8 @@
 
 			if ($search) {
 				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			} else {
+				$search_q = "";
 			}
 
 			$rss_link = "backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q";
@@ -5004,8 +5007,9 @@
 			catchup_feed($link, $subop_split[1], false);
 		}
 
+		// FIXME: might break tag display?
 
-		if ($feed_id > 0) {		
+		if ($feed > 0) {		
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 		
@@ -5040,14 +5044,14 @@
 
 		/// START /////////////////////////////////////////////////////////////////////////////////
 
-		$search = db_escape_string($_REQUEST["query"]);
+		@$search = db_escape_string($_REQUEST["query"]);
 
 		if ($search) { 
 			$disable_cache = true;
 		}
 
-		$search_mode = db_escape_string($_REQUEST["search_mode"]);
-		$match_on = db_escape_string($_REQUEST["match_on"]);
+		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
+		@$match_on = db_escape_string($_REQUEST["match_on"]);
 
 		if (!$match_on) {
 			$match_on = "both";
@@ -5295,7 +5299,7 @@
 #							$line["feed_title"]."</a>	
 
 					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						if ($line["feed_title"]) {			
+						if (@$line["feed_title"]) {			
 							print "<span class=\"hlFeed\">
 								(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
 								$line["feed_title"]."</a>)
@@ -5314,7 +5318,7 @@
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 
-					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
+					if (@$line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						print "<td onclick=\"viewfeed($feed_id)\" class=\"hlFeedIcon\">$feed_icon_img</td>";
 					}
 
@@ -6373,6 +6377,7 @@
 
 			$label_id = $line["id"];
 			$label_caption = $line["caption"];
+			$id = $line["id"];
 
 			if ($feed_id < -10 && $feed_id == -11-$label_id) {
 				print "<li id=\"LHDL-$id\" 
