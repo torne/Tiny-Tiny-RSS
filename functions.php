@@ -4789,9 +4789,7 @@
 
 
 			print "<div class=\"postReply\">";
-
-			print "<div class=\"postHeader\" onmouseover=\"enable_resize(false)\" 
-				onmouseout=\"enable_resize(false)\">";
+			print "<div class=\"postHeader\">";
 
 			$entry_author = $line["author"];
 
@@ -4825,20 +4823,20 @@
 					href=\"#\" onclick=\"editArticleTags($id, $feed_id)\">(+)</a>";
 
 				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
-						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
+						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
 						alt='Zoom' title='".__('Show article summary in new window')."'>";
 
 				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
 				print "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\" 
-						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
+						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"publishWithNote($id, '$note_escaped')\"
 						alt='PubNote' title='".__('Publish article with a note')."'>";
 
 				if (DIGEST_ENABLE) {
 					print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
-						class='tagsPic' style=\"cursor : pointer\" style=\"cursor : pointer\"
+						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"emailArticle($id)\"
 						alt='Zoom' title='".__('Forward by email')."'>";
 				}
