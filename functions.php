@@ -4219,6 +4219,9 @@
 
 			} 
 
+			print "<li onclick=\"emailArticle(false)\">&nbsp;&nbsp;".
+				__('Forward by email')."</li>";
+
 			//print "<li><span class=\"insensitive\">--------</span></li>";
 			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
 

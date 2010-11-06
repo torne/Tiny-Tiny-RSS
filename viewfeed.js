@@ -2265,6 +2265,17 @@ function publishWithNote(id, def_note) {
 
 function emailArticle(id) {
 	try {
+		if (!id) {
+			var ids = getSelectedArticleIds2();
+
+			if (ids.length == 0) {
+				alert(__("No articles are selected."));
+				return;
+			}
+
+			id = ids.toString();
+		}
+
 		displayDlg('emailArticle', id, 
 		   function () {				
 				document.forms['article_email_form'].destination.focus();
@@ -2280,7 +2291,7 @@ function emailArticle(id) {
 	}
 }
 
-function emailArticleDo(id) {
+function emailArticleDo() {
 	try {
 		var f = document.forms['article_email_form'];
 
