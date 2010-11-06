@@ -107,18 +107,21 @@ function headlines_callback2(transport, feed_cur_page) {
 		} catch (e) { };
 	
 		if (transport.responseXML) {
-			var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
-			var headlines_count_obj = transport.responseXML.getElementsByTagName("headlines-count")[0];
-			var headlines_unread_obj = transport.responseXML.getElementsByTagName("headlines-unread")[0];
-			var disable_cache_obj = transport.responseXML.getElementsByTagName("disable-cache")[0];
+			var response = transport.responseXML;
 
-			var vgroup_last_feed_obj =  transport.responseXML.getElementsByTagName("vgroup-last-feed")[0];
+			var headlines = response.getElementsByTagName("headlines")[0];
+			var headlines_info = response.getElementsByTagName("headlines-info")[0];
 
-			var headlines_count = headlines_count_obj.getAttribute("value");
-			var headlines_unread = headlines_unread_obj.getAttribute("value");
-			var disable_cache = disable_cache_obj.getAttribute("value") != "0";
+			if (headlines_info)
+				headlines_info = JSON.parse(headlines_info.firstChild.nodeValue);
+			else
+				console.log("didn't find headlines-info object in response");
 
-			vgroup_last_feed = vgroup_last_feed_obj.getAttribute("value");
+			var headlines_count = headlines_info.count;
+			var headlines_unread = headlines_info.unread;
+			var disable_cache = headlines_info.disable_cache;
+			
+			vgroup_last_feed = headlines_info.vgroup_last_feed;
 
 			if (headlines_count == 0) {
 				_infscroll_disable = 1;
@@ -126,9 +129,9 @@ function headlines_callback2(transport, feed_cur_page) {
 				_infscroll_disable = 0;
 			}
 
-			var counters = transport.responseXML.getElementsByTagName("counters")[0];
-			var articles = transport.responseXML.getElementsByTagName("article");
-			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info");
+			var counters = response.getElementsByTagName("counters")[0];
+			var articles = response.getElementsByTagName("article");
+			var runtime_info = response.getElementsByTagName("runtime-info");
 	
 			if (feed_cur_page == 0) {
 				if (headlines) {

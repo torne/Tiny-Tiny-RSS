@@ -6842,10 +6842,16 @@
 		print "</div>]]>";
 		print "</headlines>";
 
-		print "<headlines-count value=\"0\"/>";
-		print "<vgroup-last-feed value=\"0\"/>";
-		print "<headlines-unread value=\"0\"/>";
-		print "<disable-cache value=\"1\"/>";
+		print "<headlines-info><![CDATA[";
+
+		$info = array("count" => 0,
+			"vgroup_last_feed" => '',
+			"unread" => 0,
+			"disable_cache" => true);
+
+		print json_encode($info);
+
+		print "]]></headlines-info>";
 
 	}
 

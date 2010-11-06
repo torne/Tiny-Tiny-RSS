@@ -363,8 +363,8 @@
 
 			print "]]></headlines>";
 
-			print "<headlines-count value=\"$headlines_count\"/>";
-			print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
+			//print "<headlines-count value=\"$headlines_count\"/>";
+			//print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
 
 			$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"],
 					$cat_view, true);
@@ -374,8 +374,19 @@
 
 			}
 
-			print "<headlines-unread value=\"$headlines_unread\"/>";
-			printf("<disable-cache value=\"%d\"/>", $disable_cache);
+			//print "<headlines-unread value=\"$headlines_unread\"/>";
+			//printf("<disable-cache value=\"%d\"/>", $disable_cache);
+
+			print "<headlines-info><![CDATA[";
+
+			$info = array("count" => (int) $headlines_count,
+				"vgroup_last_feed" => $vgroup_last_feed,
+				"unread" => (int) $headlines_unread,
+				"disable_cache" => (bool) $disable_cache);
+
+			print json_encode($info);
+
+			print "]]></headlines-info>";
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 
