@@ -673,7 +673,7 @@
 
 			print "<form id=\"article_email_form\" onsubmit='return false'>";
 
-			$secretkey = sha1(make_password(10));
+			$secretkey = sha1(uniqid(rand(), true));
 
 			$_SESSION['email_secretkey'] = $secretkey;
 
