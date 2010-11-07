@@ -15,9 +15,9 @@ Array.prototype.remove = function(s) {
 /* create console.log if it doesn't exist */
 
 if (!window.console) console = {};
-console.log = console.log || function(msg) { debug(msg); };
-console.warn = console.warn || function(msg) { debug(msg); };
-console.error = console.error || function(msg) { debug(msg); };
+console.log = console.log || function(msg) { };
+console.warn = console.warn || function(msg) { };
+console.error = console.error || function(msg) { };
 
 function exception_error(location, e, ext_info) {
 	var msg = format_exception_error(location, e);
@@ -1353,28 +1353,6 @@ function filterCR(e, f)
 		}
 	} else {
 		return true;
-	}
-}
-
-var debug_last_class = "even";
-
-function debug(msg) {
-
-	if (debug_last_class == "even") {
-		debug_last_class = "odd";
-	} else {
-		debug_last_class = "even";
-	}
-
-	var c = $('debug_output');
-	if (c && Element.visible(c)) {
-		while (c.lastChild != 'undefined' && c.childNodes.length > 100) {
-			c.removeChild(c.lastChild);
-		}
-	
-		var ts = make_timestamp();
-		c.innerHTML = "<li class=\"" + debug_last_class + "\"><span class=\"debugTS\">[" + ts + "]</span> " + 
-			msg + "</li>" + c.innerHTML;
 	}
 }
 

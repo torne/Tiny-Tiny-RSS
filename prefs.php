@@ -83,8 +83,6 @@
 
 <img id="piggie" src="images/piggie.png" style="display : none" alt="piggie"/>
 
-<ul id="debug_output" style='display : none'><li>&nbsp;</li></ul>
-
 <div id="prefHeader">
 	<div class="topLinks">
 		<?php if (!SINGLE_USER_MODE) { ?>
@@ -133,7 +131,6 @@
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
-
 <div id="cmdline" style="display : none"></div>
 
 <div id="errorBoxShadow" style="display : none">

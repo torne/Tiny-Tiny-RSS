@@ -272,11 +272,6 @@ function init() {
 		if (!genericSanityCheck()) 
 			return;
 
-		if (getURLParam('debug')) {
-			Element.show("debug_output");
-			console.log('debug mode activated');
-		}
-
 		var params = "&ua=" + param_escape(navigator.userAgent);
 
 		loading_set_progress(30);
@@ -935,17 +930,6 @@ function hotkey_handler(e) {
 
 		if (!hotkey_prefix) {
 
-			if (keycode == 68 && shift_key) { // d
-				if (!Element.visible("debug_output")) {
-					Element.show("debug_output");
-					console.log('debug mode activated');
-				} else {
-					Element.hide("debug_output");
-				}
-	
-				return;
-			}
-	
 			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
 				if (!Element.visible("hotkey_help_overlay")) {
 					//Element.show("hotkey_help_overlay");
