@@ -209,7 +209,22 @@
 						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 				}
 
-				// FIXME: find out which feeds reference this article id and do ccache_update() on them
+				$num_updated = db_affected_rows($link, $result);
+
+				if ($num_updated > 0 && $field == "unread") {
+					$result = db_query($link, "SELECT DISTINCT feed_id FROM ttrss_user_entries
+						WHERE ref_id IN ($article_ids)");
+
+					while ($line = db_fetch_assoc($result)) {
+						ccache_update($link, $line["feed_id"], $_SESSION["uid"]);
+					}
+				}
+
+				print json_encode(array("status" => "OK", 
+					"updated" => $num_updated));
+
+			} else {
+				print json_encode(array("error" => 'INCORRECT_USAGE'));
 			}
 
 			break;
