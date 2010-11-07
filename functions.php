@@ -2940,6 +2940,20 @@
 		print "</rpc-reply>";
 	}
 
+	/**
+	 * Subscribes the user to the given feed
+	 *
+	 * @param resource $link       Database connection
+	 * @param string   $url        Feed URL to subscribe to
+	 * @param integer  $cat_id     Category ID the feed shall be added to
+	 * @param string   $auth_login (optional) Feed username
+	 * @param string   $auth_pass  (optional) Feed password
+	 *
+	 * @return integer Status code:
+	 *                 0 - OK, Feed already exists
+	 *                 1 - OK, Feed added
+	 *                 2 - Invalid URL
+	 */
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
 
