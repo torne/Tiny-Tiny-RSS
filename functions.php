@@ -2953,6 +2953,7 @@
 	 *                 0 - OK, Feed already exists
 	 *                 1 - OK, Feed added
 	 *                 2 - Invalid URL
+	 *                 3 - URL content is HTML, not a feed
 	 */
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
@@ -2971,6 +2972,9 @@
 			WHERE feed_url = '$url' AND owner_uid = ".$_SESSION["uid"]);
 	
 		if (db_num_rows($result) == 0) {
+			if (url_is_html($url)) {
+				return 3;
+			}
 			
 			$result = db_query($link,
 				"INSERT INTO ttrss_feeds 
@@ -7026,4 +7030,21 @@
 		return $feedUrls;
 	}
 
+	/**
+	 * Checks if the content behind the given URL is a HTML file
+	 *
+	 * @param string $url URL to check
+	 *
+	 * @return boolean True if the URL contains HTML content
+	 */
+	function url_is_html($url) {
+		$content = substr(fetch_file_contents($url, false), 0, 1000);
+		if (strpos($content, '<html>') === false
+			&& strpos($content, '<html ') === false
+		) {
+			return false;
+		}
+
+		return true;
+	}
 ?>
