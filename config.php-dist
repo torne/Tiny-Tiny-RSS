@@ -87,9 +87,8 @@
 	define('ENABLE_TRANSLATIONS', true);
 	// Enable support for interface translations
 
-	define('MYSQL_CHARSET', '');
-	// Connection charset for MySQL. Only enable if having charset-related
-	// errors with MySQL (mangled characters, errors when updating feeds, etc).
+	define('MYSQL_CHARSET', 'UTF8');
+	// Connection charset for MySQL.
 
 	define('DEFAULT_UPDATE_METHOD', 0);
 	// Which feed parsing library to use as default:
