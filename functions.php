@@ -2137,7 +2137,8 @@
 		$user_timestamp = $dt->format('U') + $user_tz->getOffset($dt);
 
 		if (!$no_smart_dt && get_pref($link, 'HEADLINES_SMART_DATE', $owner_uid)) {
-			return smart_date_time($user_timestamp);
+			return smart_date_time($link, $user_timestamp, 
+				$user_tz->getOffset($dt), $owner_uid);
 		} else {
 			if ($long)
 				$format = get_pref($link, 'LONG_DATE_FORMAT', $owner_uid);
@@ -2148,13 +2149,17 @@
 		}
 	}
 
-	function smart_date_time($timestamp) {
-		if (date("Y.m.d", $timestamp) == date("Y.m.d")) {
+	function smart_date_time($link, $timestamp, $tz_offset = 0, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
+
+		if (date("Y.m.d", $timestamp) == date("Y.m.d", time() + $tz_offset)) {
 			return date("G:i", $timestamp);
-		} else if (date("Y", $timestamp) == date("Y")) {
-			return date("M d, G:i", $timestamp);
+		} else if (date("Y", $timestamp) == date("Y", time() + $tz_offset)) {
+			$format = get_pref($link, 'SHORT_DATE_FORMAT', $owner_uid);
+			return date($format, $timestamp);
 		} else {
-			return date("Y/m/d, G:i", $timestamp);
+			$format = get_pref($link, 'LONG_DATE_FORMAT', $owner_uid);
+			return date($format, $timestamp);
 		}
 	}
 
