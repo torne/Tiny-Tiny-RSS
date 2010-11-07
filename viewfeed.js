@@ -1001,11 +1001,11 @@ function selectionAssignLabel(id) {
 	}
 }
 
-function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
+function selectionToggleUnread(set_state, callback_func, no_error) {
 	try {
 		var rows;
 
-		if (cdm_mode) {
+		if (isCdmMode()) {
 			rows = cdmGetSelectedArticles();
 		} else {	
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
@@ -1085,12 +1085,12 @@ function selectionToggleUnread(cdm_mode, set_state, callback_func, no_error) {
 	}
 }
 
-function selectionToggleMarked(cdm_mode) {
+function selectionToggleMarked() {
 	try {
 	
 		var rows;
 		
-		if (cdm_mode) {
+		if (isCdmMode()) {
 			rows = cdmGetSelectedArticles();
 		} else {	
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
@@ -1129,12 +1129,12 @@ function selectionToggleMarked(cdm_mode) {
 	}
 }
 
-function selectionTogglePublished(cdm_mode) {
+function selectionTogglePublished() {
 	try {
 	
 		var rows;
 		
-		if (cdm_mode) {
+		if (isCdmMode()) {
 			rows = cdmGetSelectedArticles();
 		} else {	
 			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
@@ -1266,11 +1266,11 @@ function catchupPage() {
 
 	if ($("headlinesList")) {
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true);
-		selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
+		selectionToggleUnread(false, 'viewCurrentFeed()', true);
 		selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false);
 	} else {
 		cdmSelectArticles('all');
-		selectionToggleUnread(true, false, 'viewCurrentFeed()', true)
+		selectionToggleUnread(false, 'viewCurrentFeed()', true)
 		cdmSelectArticles('none');
 	}
 }
@@ -1411,9 +1411,9 @@ function catchupSelection() {
 		}
 	
 		if ($("headlinesList")) {
-			selectionToggleUnread(false, false, 'viewCurrentFeed()', true);
+			selectionToggleUnread(false, 'viewCurrentFeed()', true);
 		} else {
-			selectionToggleUnread(true, false, 'viewCurrentFeed()', true)
+			selectionToggleUnread(false, 'viewCurrentFeed()', true)
 		}
 
 	} catch (e) {

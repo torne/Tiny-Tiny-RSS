@@ -4131,9 +4131,9 @@
 
 				$sel_inv_link = "javascript:invertHeadlineSelection()";
 
-				$tog_unread_link = "javascript:selectionToggleUnread(true)";
-				$tog_marked_link = "javascript:selectionToggleMarked(true)";
-				$tog_published_link = "javascript:selectionTogglePublished(true)";
+				$tog_unread_link = "javascript:selectionToggleUnread()";
+				$tog_marked_link = "javascript:selectionToggleMarked()";
+				$tog_published_link = "javascript:selectionTogglePublished()";
 
 			}
 

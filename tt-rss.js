@@ -26,7 +26,7 @@ function activeFeedIsCat() {
 
 function getActiveFeedId() {
 	try {
-		console.log("gAFID: " + _active_feed_id);
+		//console.log("gAFID: " + _active_feed_id);
 		return _active_feed_id;
 	} catch (e) {
 		exception_error("getActiveFeedId", e);
@@ -35,7 +35,7 @@ function getActiveFeedId() {
 
 function setActiveFeedId(id, is_cat) {
 	try {
-		console.log("sAFID(" + id + ", " + is_cat + ")");
+		//console.log("sAFID(" + id + ", " + is_cat + ")");
 		_active_feed_id = id;
 
 		if (is_cat != undefined) {
@@ -93,17 +93,11 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 	closeInfoBox();
 }
 
-function scheduleFeedUpdate(force) {
+function scheduleFeedUpdate() {
 
 	console.log("in scheduleFeedUpdate");
 
-	var query_str = "backend.php?op=rpc&subop=";
-
-	if (force) {
-		query_str = query_str + "forceUpdateAllFeeds";
-	} else {
-		query_str = query_str + "updateAllFeeds";
-	}
+	var query_str = "backend.php?op=rpc&subop=updateAllFeeds";
 
 	var omode;
 
@@ -130,39 +124,31 @@ function scheduleFeedUpdate(force) {
 			} });
 }
 
-function updateFeedList(silent, fetch) {
-
-//	if (silent != true) {
-//		notify("Loading feed list...");
-//	}
-
-	console.log("<b>updateFeedList</b>");
-
-	if (offline_mode) return render_offline_feedlist();
-
-	var query_str = "backend.php?op=feeds";
-
-	if (display_tags) {
-		query_str = query_str + "&tags=1";
-	}
-
-	if (getActiveFeedId() && !activeFeedIsCat()) {
-		query_str = query_str + "&actid=" + getActiveFeedId();
-	}
+function updateFeedList() {
+	try {
+		console.log("updateFeedList");
 	
-	if (fetch) query_str = query_str + "&fetch=yes";
+		if (offline_mode) return render_offline_feedlist();
+	
+		var query_str = "backend.php?op=feeds";
+	
+		if (display_tags) {
+			query_str = query_str + "&tags=1";
+		}
+	
+		if (getActiveFeedId() && !activeFeedIsCat()) {
+			query_str = query_str + "&actid=" + getActiveFeedId();
+		}
+		
+		new Ajax.Request("backend.php", {
+			parameters: query_str,
+			onComplete: function(transport) { 
+				render_feedlist(transport.responseText);
+			} });
 
-//	var feeds_frame = $("feeds-frame");
-//	feeds_frame.src = query_str;
-
-	console.log("updateFeedList Q=" + query_str);
-
-	new Ajax.Request("backend.php", {
-		parameters: query_str,
-		onComplete: function(transport) { 
-			feedlist_callback2(transport); 
-		} });
-
+	} catch (e) {
+		exception_error("updateFeedList", e);
+	}
 }
 
 function catchupAllFeeds() {

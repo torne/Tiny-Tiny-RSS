@@ -44,16 +44,6 @@ function render_feedlist(data) {
 	}
 }
 
-function feedlist_callback2(transport) {
-	try {
-		console.log("feedlist_callback2");
-		if (!transport_error_check(transport)) return;
-		render_feedlist(transport.responseText);
-	} catch (e) {
-		exception_error("feedlist_callback2", e);
-	}
-}
-
 function viewNextFeedPage() {
 	try {
 		//if (!getActiveFeedId()) return;
@@ -112,7 +102,7 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			var date = new Date();
 			var timestamp = Math.round(date.getTime() / 1000);
 
-			console.log("<b>" + _infscroll_request_sent + " : " + timestamp + "</b>");
+			console.log(_infscroll_request_sent + " : " + timestamp);
 
 			if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
 				console.log("infscroll request in progress, aborting");

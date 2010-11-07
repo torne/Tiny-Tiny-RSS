@@ -166,8 +166,8 @@ function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, off
 					sel_none_link = "javascript:cdmSelectArticles('none')";
 					sel_inv_link = "javascript:invertHeadlineSelection()";
 
-					tog_unread_link = "javascript:selectionToggleUnread(true)";
-					tog_marked_link = "javascript:selectionToggleMarked(true)";
+					tog_unread_link = "javascript:selectionToggleUnread()";
+					tog_marked_link = "javascript:selectionToggleMarked()";
 				}
 
 				tmp += __('Select:')+

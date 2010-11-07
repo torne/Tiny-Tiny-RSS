@@ -581,12 +581,9 @@ function parse_counters_reply(transport, scheduled_call) {
 function all_counters_callback2(transport, async_call) {
 	try {
 		if (async_call) async_counters_work = true;
-		
 		if (offline_mode) return;
 
-		console.log("<b>all_counters_callback2 IN: " + transport + "</b>");
 		parse_counters_reply(transport);
-		console.log("<b>all_counters_callback2 OUT: " + transport + "</b>");
 
 	} catch (e) {
 		exception_error("all_counters_callback2", e, transport);
@@ -1723,21 +1720,11 @@ function displayHelpInfobox(topic_id) {
 
 }
 
-function focus_element(id) {
-	try {
-		var e = $(id);
-		if (e) e.focus();
-	} catch (e) {
-		exception_error("focus_element", e);
-	}
-	return false;
-}
-
 function loading_set_progress(p) {
 	try {
 		if (p < last_progress_point || !Element.visible("overlay")) return;
 
-		console.log("<b>loading_set_progress : " + p + " (" + last_progress_point + ")</b>");
+		console.log("loading_set_progress : " + p + " (" + last_progress_point + ")");
 
 		var o = $("l_progress_i");
 
@@ -1892,7 +1879,7 @@ function displayNewContentPrompt(id) {
 
 		$('auxDlg').innerHTML = msg;
 
-		Element.show('auxDlg');
+		new Effect.Appear('auxDlg', {duration : 0.5});
 
 	} catch (e) {
 		exception_error("displayNewContentPrompt", e);
@@ -2167,7 +2154,6 @@ function backend_sanity_check_callback(transport) {
 
 		if (params) {
 			console.log('reading init-params...');
-			//var param = params.firstChild;
 
 			params = JSON.parse(params.firstChild.nodeValue);
 
@@ -2177,7 +2163,7 @@ function backend_sanity_check_callback(transport) {
 					var k = params[i].param;
 					var v = params[i].value;
 	
-					console.log(k + " => " + v);
+					if (getURLParam('debug')) console.log(k + " => " + v);
 					init_params[k] = v;					
 	
 					if (db) {
@@ -2197,5 +2183,4 @@ function backend_sanity_check_callback(transport) {
 		exception_error("backend_sanity_check_callback", e, transport);	
 	} 
 }
-
 

@@ -1380,7 +1380,7 @@ function pref_hotkey_handler(e) {
 				for (var i = 0; i < search_boxes.length; i++) {
 					var elem = $(search_boxes[i]);
 					if (elem) {
-						focus_element(search_boxes[i]);
+						$(search_boxes[i]).focus();
 						return false;
 					}
 				}

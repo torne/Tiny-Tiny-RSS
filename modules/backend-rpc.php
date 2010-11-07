@@ -286,7 +286,7 @@
 			return;
 		}
 
-		if ($subop == "forceUpdateAllFeeds" || $subop == "updateAllFeeds") {
+		if ($subop == "updateAllFeeds") {
 	
 			$global_unread_caller = sprintf("%d", $_REQUEST["uctr"]);
 			$global_unread = getGlobalUnread($link);
