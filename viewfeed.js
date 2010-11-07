@@ -1870,7 +1870,7 @@ function cache_expire() {
 	} else {
 		if (has_local_storage()) {
 			while (localStorage.length > 25) {
-				localStorage.removeItem(localStorage.key(localStorage.length-1));
+				localStorage.removeItem(localStorage.key(0));
 			}
 		} else {
 			while (article_cache.length > 25) {
