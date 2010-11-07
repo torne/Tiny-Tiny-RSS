@@ -2943,6 +2943,7 @@
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
 
+		$url   = fix_url($url);
 		$parts = parse_url($url);
 
 		if (!validate_feed_url($url)) return 2;
@@ -6668,6 +6669,20 @@
 		if ($parts['path']) $url .= $parts['path'];
 		if ($parts['query']) $url .= '?' . $parts['query'];
 
+		return $url;
+	}
+
+	/**
+	 * Fixes incomplete URLs by prepending "http://".
+	 *
+	 * @param string $url Possibly incomplete URL
+	 *
+	 * @return string Fixed URL.
+	 */
+	function fix_url($url) {
+		if (strpos($url, '://') === false) {
+			$url = 'http://' . $url;
+		}
 		return $url;
 	}
 
