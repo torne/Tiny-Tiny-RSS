@@ -1696,13 +1696,19 @@ function cache_inject(id, article, param) {
 					[id, article, param, ts]);				
 			} else {
 	
-				var cache_obj = new Array();
+				var cache_obj = {};
 	
 				cache_obj["id"] = id;
 				cache_obj["data"] = article;
 				cache_obj["param"] = param;
-	
-				article_cache.push(cache_obj);
+				cache_obj["added"] = new Date();
+
+				if (param) id = id + ":" + param;
+
+				if (has_local_storage()) 
+					localStorage.setItem(id, JSON.stringify(cache_obj));
+				else
+					article_cache.push(cache_obj);
 			}
 	
 		} else {
@@ -1728,9 +1734,22 @@ function cache_find(id) {
 		return a;
 
 	} else {
-		for (var i = 0; i < article_cache.length; i++) {
-			if (article_cache[i]["id"] == id) {
-				return article_cache[i]["data"];
+
+		if (has_local_storage()) {
+			var cache_obj = localStorage.getItem(id);
+	
+			if (cache_obj) {
+				cache_obj = JSON.parse(cache_obj);
+
+				if (cache_obj)
+					return cache_obj['data'];
+			}
+
+		} else {
+			for (var i = 0; i < article_cache.length; i++) {
+				if (article_cache[i]["id"] == id) {
+					return article_cache[i]["data"];
+				}
 			}
 		}
 	}
@@ -1753,9 +1772,22 @@ function cache_find_param(id, param) {
 		return a;
 
 	} else {
-		for (var i = 0; i < article_cache.length; i++) {
-			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-				return article_cache[i]["data"];
+
+		if (has_local_storage()) {
+			var cache_obj = localStorage.getItem(id + ":" + param);
+
+			if (cache_obj) {
+				cache_obj = JSON.parse(cache_obj);
+
+				if (cache_obj)
+					return cache_obj['data'];
+			}
+
+		} else {
+			for (var i = 0; i < article_cache.length; i++) {
+				if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+					return article_cache[i]["data"];
+				}
 			}
 		}
 	}
@@ -1778,9 +1810,14 @@ function cache_check(id) {
 		return a;
 
 	} else {
-		for (var i = 0; i < article_cache.length; i++) {
-			if (article_cache[i]["id"] == id) {
-				return true;
+		if (has_local_storage) {
+			if (localStorage.getItem(id))
+					return true;
+		} else {
+			for (var i = 0; i < article_cache.length; i++) {
+				if (article_cache[i]["id"] == id) {
+					return true;
+				}
 			}
 		}
 	}
@@ -1803,9 +1840,15 @@ function cache_check_param(id, param) {
 		return a;
 
 	} else {
-		for (var i = 0; i < article_cache.length; i++) {
-			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-				return true;
+
+		if (has_local_storage) {
+			if (localStorage.getItem(id + ':' + param))
+					return true;
+		} else {
+			for (var i = 0; i < article_cache.length; i++) {
+				if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+					return true;
+				}
 			}
 		}
 	}
@@ -1823,8 +1866,14 @@ function cache_expire() {
 
 
 	} else {
-		while (article_cache.length > 25) {
-			article_cache.shift();
+		if (has_local_storage()) {
+			while (localStorage.length > 25) {
+				localStorage.removeItem(localStorage.key(localStorage.length-1));
+			}
+		} else {
+			while (article_cache.length > 25) {
+				article_cache.shift();
+			}
 		}
 	}
 }
@@ -1841,15 +1890,25 @@ function cache_invalidate(id) {
 			return rs.rowsAffected != 0;
 		} else {
 
-			var i = 0
+			if (has_local_storage()) {
+				for (var i = 0; i < localStorage.length; i++) {
+					var key = localStorage.key(i);
 
-			while (i < article_cache.length) {
-				if (article_cache[i]["id"] == id) {
-					console.log("cache_invalidate: removed id " + id);
-					article_cache.splice(i, 1);
-					return true;
+					if (key == id || key.indexOf(id + ":") == 0)
+						localStorage.removeItem(key);
+
 				}
-				i++;
+			} else {
+				var i = 0
+
+				while (i < article_cache.length) {
+					if (article_cache[i]["id"] == id) {
+						console.log("cache_invalidate: removed id " + id);
+						article_cache.splice(i, 1);
+						return true;
+					}
+					i++;
+				}
 			}
 		}
 

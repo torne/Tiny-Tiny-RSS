@@ -421,6 +421,9 @@ function init_second_stage() {
 
 		enable_offline_reading();
 
+		if (has_local_storage())
+			localStorage.clear();
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
