@@ -430,7 +430,7 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 create table ttrss_feedbrowser_cache (
 	feed_url text not null,
 	title text not null,
-	subscribers integer not null);	
+	subscribers integer not null) DEFAULT CHARSET=UTF8;	
 
 create table ttrss_labels2 (id integer not null primary key auto_increment, 
 	owner_uid integer not null,
