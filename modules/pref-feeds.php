@@ -1031,24 +1031,10 @@
 
 			if ($action == "add") {
 
-	
 				$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
 
-				$result = db_query($link,
-					"SELECT id FROM ttrss_feed_categories
-					WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
-
-				if (db_num_rows($result) == 0) {
-					
-					$result = db_query($link,
-						"INSERT INTO ttrss_feed_categories (owner_uid,title) 
-						VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
-
-				} else {
-
-					print_warning(T_sprintf("Category <b>$%s</b> already exists in the database.", 
-						$feed_cat));
-				}
+				if (!add_feed_category($link, $feed_cat))
+					print_warning(T_sprintf("Category <b>$%s</b> already exists in the database.", $feed_cat));
 
 			}
 

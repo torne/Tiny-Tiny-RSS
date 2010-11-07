@@ -3018,7 +3018,7 @@
 	function print_feed_cat_select($link, $id, $default_id = "", 
 		$attributes = "", $include_all_cats = true) {
 		
-		print "<select id=\"$id\" name=\"$id\" $attributes>";
+		print "<select id=\"$id\" name=\"$id\" default=\"$default_id\" onchange=\"catSelectOnChange(this)\" $attributes>";
 
 		if ($include_all_cats) {
 			print "<option value=\"0\">".__('Uncategorized')."</option>";
@@ -3040,6 +3040,8 @@
 			printf("<option $is_selected value='%d'>%s</option>", 
 				$line["id"], htmlspecialchars($line["title"]));
 		}
+
+		print "<option value=\"ADD_CAT\">" .__("Add category...") . "</option>";
 
 		print "</select>";
 	}
@@ -6576,6 +6578,27 @@
 			ccache_remove($link, -11-$id, $owner_uid);
 		}
 	}
+
+	function add_feed_category($link, $feed_cat) {
+		db_query($link, "BEGIN");
+
+		$result = db_query($link,
+			"SELECT id FROM ttrss_feed_categories
+			WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+
+		if (db_num_rows($result) == 0) {
+			
+			$result = db_query($link,
+				"INSERT INTO ttrss_feed_categories (owner_uid,title) 
+				VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
+
+			db_query($link, "COMMIT");
+
+			return true;
+		}
+
+		return false;
+	}			
 
 	function remove_feed_category($link, $id, $owner_uid) {
 

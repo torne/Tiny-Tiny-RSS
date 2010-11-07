@@ -2169,3 +2169,50 @@ function has_local_storage() {
 		return false;
 	}
 }
+
+function catSelectOnChange(elem) {
+	try {
+		var value = elem[elem.selectedIndex].value;
+		var def = elem.getAttribute('default');
+
+		if (value == "ADD_CAT") {
+
+			if (def)
+				dropboxSelect(elem, def);
+			else
+				elem.selectedIndex = 0;
+
+			quickAddCat(elem);
+		}
+
+	} catch (e) {
+		exception_error("catSelectOnChange", e);
+	}
+}
+
+function quickAddCat(select) {
+	try {
+		var cat = prompt(__("Please enter category title:"));
+
+		if (cat) {
+
+			var query = "?op=rpc&subop=quickAddCat&cat=" + param_escape(cat);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function (transport) {
+					var response = transport.responseXML;
+
+					var payload = response.getElementsByTagName("payload")[0];
+
+					if (payload)
+						select.innerHTML = payload.firstChild.nodeValue;
+
+			} });
+
+		}
+
+	} catch (e) {
+		exception_error("quickAddCat", e);
+	}
+}

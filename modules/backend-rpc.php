@@ -1094,6 +1094,31 @@
 			return;
 		}
 
+		if ($subop == "quickAddCat") {
+			print "<rpc-reply>";	
+
+			$cat = db_escape_string($_REQUEST["cat"]);
+
+			add_feed_category($link, $cat);
+
+			$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
+				title = '$cat' AND owner_uid = " . $_SESSION["uid"]);
+
+			if (db_num_rows($result) == 1) {
+				$id = db_fetch_result($result, 0, "id");
+			} else {
+				$id = 0;
+			}
+
+			print "<payload><![CDATA[";
+			print_feed_cat_select($link, "cat_id", $id);
+			print "]]></payload>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
