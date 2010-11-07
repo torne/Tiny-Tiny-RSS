@@ -1424,7 +1424,9 @@ function catchupSelection() {
 function editArticleTags(id, feed_id, cdm_enabled) {
 	displayDlg('editArticleTags', id,
 			   function () {
-				   new Ajax.Autocompleter('tags_str', 'tags_choices',
+					$("tags_str").focus();
+
+					new Ajax.Autocompleter('tags_str', 'tags_choices',
 					   "backend.php?op=rpc&subop=completeTags",
 					   { tokens: ',', paramName: "search" });
 			   });
