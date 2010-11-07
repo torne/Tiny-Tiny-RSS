@@ -123,6 +123,16 @@
 
 		}
 
+		if ($subop == "extractfeedurls") {
+			print "<rpc-reply>";
+
+			$urls = get_feeds_from_html($_REQUEST['url']);
+			print "<urls><![CDATA[" . json_encode($urls) . "]]></urls>";
+
+			print "</rpc-reply>";
+			return;
+		}
+
 		if ($subop == "togglepref") {
 			print "<rpc-reply>";
 

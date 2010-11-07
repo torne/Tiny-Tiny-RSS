@@ -2943,14 +2943,8 @@
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
 
-		$url   = fix_url($url);
-		$parts = parse_url($url);
-
+		$url = fix_url($url);
 		if (!validate_feed_url($url)) return 2;
-
-		if ($parts['scheme'] == 'feed') $parts['scheme'] = 'http';
-
-		$url = make_url_from_parts($parts);
 
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
@@ -6674,6 +6668,8 @@
 
 	/**
 	 * Fixes incomplete URLs by prepending "http://".
+	 * Also replaces feed:// with http://, and
+	 * prepends a trailing slash if the url is a domain name only.
 	 *
 	 * @param string $url Possibly incomplete URL
 	 *
@@ -6682,6 +6678,14 @@
 	function fix_url($url) {
 		if (strpos($url, '://') === false) {
 			$url = 'http://' . $url;
+		} else if (substr($url, 0, 5) == 'feed:') {
+			$url = 'http:' . substr($url, 5);
+		}
+
+		//prepend slash if the URL has no slash in it
+		// "http://www.example" -> "http://www.example/"
+		if (strpos($url, '/', 7) === false) {
+			$url .= '/';
 		}
 		return $url;
 	}
@@ -6973,4 +6977,39 @@
 		}
 		return false;
 	}
+
+	/**
+	 * Extracts RSS/Atom feed URLs from the given HTML URL.
+	 *
+	 * @param string $url HTML page URL
+	 *
+	 * @return array Array of feeds. Key is the full URL, value the title
+	 */
+	function get_feeds_from_html($url)
+	{
+		$url     = fix_url($url);
+		$baseUrl = substr($url, 0, strrpos($url, '/') + 1);
+
+		$doc = new DOMDocument();
+		$doc->loadHTMLFile($url);
+		$xpath = new DOMXPath($doc);
+		$entries = $xpath->query('/html/head/link[@rel="alternate"]');
+		$feedUrls = array();
+		foreach ($entries as $entry) {
+			if ($entry->hasAttribute('href')) {
+				$title = $entry->getAttribute('title');
+				if ($title == '') {
+					$title = $entry->getAttribute('type');
+				}
+				$feedUrl = $entry->getAttribute('href');
+				if (strpos($feedUrl, '://') === false) {
+					//no protocol -> relative URL
+					$feedUrl = $baseUrl . $feedUrl;
+				}
+				$feedUrls[$feedUrl] = $title;
+			}
+		}
+		return $feedUrls;
+	}
+
 ?>
