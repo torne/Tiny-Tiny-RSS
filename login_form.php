@@ -5,7 +5,7 @@
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="lib/prototype.js"></script>
-	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js"></script>
+	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
 	<script type="text/javascript" src="functions.js"></script>
 </head>
 
