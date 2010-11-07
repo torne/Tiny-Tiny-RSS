@@ -370,7 +370,13 @@
 
 				print "<td class=\"prefValue\">";
 
-				if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
+				if ($pref_name == "USER_TIMEZONE") {
+
+					$timezones = explode("\n", file_get_contents("lib/timezones.txt"));
+
+					print_select($pref_name, $value, $timezones);
+
+				} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 
 					global $update_intervals_nodefault;
 

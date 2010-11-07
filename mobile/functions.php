@@ -434,13 +434,8 @@
 				WHERE ref_id = '$id'
 				AND owner_uid = " . $_SESSION["uid"]);
 
-			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-				$updated_fmt = smart_date_time(strtotime($line["updated"]));
-			} else {
-				$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-				$updated_fmt = date($short_date, strtotime($line["updated"]));
-			}				
-	
+			$updated_fmt = make_local_datetime($link, $line['updated'], false);
+
 			$title = $line["title"];
 			$article_link = $line["link"];
 	

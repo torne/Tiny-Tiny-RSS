@@ -1,5 +1,7 @@
 <?php
 
+	date_default_timezone_set('UTC');
+
 	if ($_REQUEST["debug"]) {
 		define('DEFAULT_ERROR_LEVEL', E_ALL);
 	}
@@ -2116,6 +2118,36 @@
 		return $rv;
 	}
 
+	function make_local_datetime($link, $timestamp, $long, $owner_uid = false,
+					$no_smart_dt = false) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
+		if (!$timestamp) $timestamp = '1970-01-01 0:00';
+
+		$user_tz_string = get_pref($link, 'USER_TIMEZONE', $owner_uid);
+
+		try {
+			$user_tz = new DateTimeZone($user_tz_string);
+		} catch (Exception $e) {
+			$user_tz = new DateTimeZone('UTC');
+		}
+
+		# We store date in UTC internally
+		$dt = new DateTime($timestamp, new DateTimeZone('UTC'));
+		$user_timestamp = $dt->format('U') + $user_tz->getOffset($dt);
+
+		if (!$no_smart_dt && get_pref($link, 'HEADLINES_SMART_DATE', $owner_uid)) {
+			return smart_date_time($user_timestamp);
+		} else {
+			if ($long)
+				$format = get_pref($link, 'LONG_DATE_FORMAT', $owner_uid);
+			else
+				$format = get_pref($link, 'SHORT_DATE_FORMAT', $owner_uid);
+
+			return date($format, $user_timestamp);
+		}
+	}
+
 	function smart_date_time($timestamp) {
 		if (date("Y.m.d", $timestamp) == date("Y.m.d")) {
 			return date("G:i", $timestamp);
@@ -2846,19 +2878,13 @@
 		$result = db_query($link, $query);
 		$fctrs_modified = false;
 
-		$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-
 		while ($line = db_fetch_assoc($result)) {
 		
 			$id = $line["id"];
 			$count = $line["count"];
 			$last_error = htmlspecialchars($line["last_error"]);
 
-			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-				$last_updated = smart_date_time(strtotime($line["last_updated"]));
-			} else {
-				$last_updated = date($short_date, strtotime($line["last_updated"]));
-			}				
+			$last_updated = make_local_datetime($link, $line['last_updated'], false);
 
 			$has_img = feed_has_icon($id);
 
@@ -3885,7 +3911,8 @@
 
 			array_push($affected_ids, $line["ref_id"]);
 
-			$updated = smart_date_time(strtotime($line["last_updated"]));
+			$updated = make_local_datetime($link, $line['last_updated'], false,
+				$user_id);
 
 			$tpl->setVariable('FEED_TITLE', $line["feed_title"]);
 			$tpl->setVariable('ARTICLE_TITLE', $line["title"]);
@@ -4396,8 +4423,6 @@
 			$total_unread = 0;
 
 			$category = "";
-
-			$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
 	
 			while ($line = db_fetch_assoc($result)) {
 			
@@ -4410,11 +4435,8 @@
 	
 				$subop = $_REQUEST["subop"];
 
-				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$last_updated = smart_date_time(strtotime($line["last_updated_noms"]));
-				} else {
-					$last_updated = date($short_date, strtotime($line["last_updated_noms"]));
-				}
+				$last_updated = make_local_datetime($link, $line['last_updated_noms'], 
+					false);
 
 				$rtl_content = sql_bool_to_bool($line["rtl_content"]);
 
@@ -4797,9 +4819,9 @@
 				$entry_author = __(" - ") . $entry_author;
 			}
 
-			$parsed_updated = date(get_pref($link, 'LONG_DATE_FORMAT'), 
-				strtotime($line["updated"]));
-		
+			$parsed_updated = make_local_datetime($link, $line["updated"], true, 
+				false, true);
+
 			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
@@ -5204,12 +5226,7 @@
 #				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
 #					$line["title"] . "</a>";
 
-				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$updated_fmt = smart_date_time(strtotime($line["updated_noms"]));
-				} else {
-					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-					$updated_fmt = date($short_date, strtotime($line["updated_noms"]));
-				}				
+				$updated_fmt = make_local_datetime($link, $line["updated_noms"], false);	
 
 				if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]), 
@@ -5995,7 +6012,10 @@
 			pg_query($link, "set client_encoding = 'UTF-8'");
 			pg_set_client_encoding("UNICODE");
 			pg_query($link, "set datestyle = 'ISO, european'");
+			pg_query($link, "set TIME ZONE 0");
 		} else {
+			db_query($link, "SET time_zone = '+0:0'");
+
 			if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
 				db_query($link, "SET NAMES " . MYSQL_CHARSET);
 	//			db_query($link, "SET CHARACTER SET " . MYSQL_CHARSET);
@@ -6816,12 +6836,7 @@
 			WHERE owner_uid = " . $_SESSION['uid']);
 
 		$last_updated = db_fetch_result($result, 0, "last_updated");
-
-		if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-			$last_updated = smart_date_time(strtotime($last_updated));
-		} else {
-			$last_updated = date($short_date, strtotime($last_updated));
-		}				
+		$last_updated = make_local_datetime($link, $last_updated, false);
 
 		printf(__("Feeds last updated at %s"), $last_updated);
 

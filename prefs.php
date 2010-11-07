@@ -10,6 +10,8 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
+	init_connection($link);
+
 	login_sequence($link);
 
 	$dt_add = get_script_dt_add();

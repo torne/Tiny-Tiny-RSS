@@ -1326,22 +1326,16 @@
 
 				if (!$last_updated) {
 					$last_updated = "&mdash;";
-				} else if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$last_updated = smart_date_time(strtotime($last_updated));
 				} else {
-					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-					$last_updated = date($short_date, strtotime($last_updated));
+					$last_updated = make_local_datetime($link, $last_updated, false);
 				}
 
 				$last_article = $line["last_article"];
 
 				if (!$last_article) {
 					$last_article = "&mdash;";	
-				} else if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$last_article = smart_date_time(strtotime($last_article));
 				} else {
-					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-					$last_article = date($short_date, strtotime($last_article));
+					$last_article = make_local_datetime($link, $last_article, false);
 				}
 
 				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {

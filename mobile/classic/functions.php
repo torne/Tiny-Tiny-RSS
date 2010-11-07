@@ -522,13 +522,8 @@
 				$content_link = "<a href=\"?go=view&id=$id&cat=$cat_view&ret_feed=$feed&feed=$feed_id\">" .
 					$line["title"] . "</a>";
 
-				if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-					$updated_fmt = smart_date_time(strtotime($line["updated"]));
-				} else {
-					$short_date = get_pref($link, 'SHORT_DATE_FORMAT');
-					$updated_fmt = date($short_date, strtotime($line["updated"]));
-				}				
-				
+				$updated_fmt = make_local_datetime($link, $line['updated'], false);
+
 				print "<li class='$class' id=\"HROW-$id\">";
 
 				print "<input type=\"checkbox\" name=\"sel_ids[$id]\"

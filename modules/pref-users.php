@@ -38,11 +38,11 @@
 
 			print "<table width='100%'>";
 
-			$last_login = date(get_pref($link, 'LONG_DATE_FORMAT'),
-				strtotime(db_fetch_result($result, 0, "last_login")));
+			$last_login = make_local_datetime($link,
+				db_fetch_result($result, 0, "last_login"));
 
-			$created = date(get_pref($link, 'LONG_DATE_FORMAT'),
-				strtotime(db_fetch_result($result, 0, "created")));
+			$created = make_local_datetime($link,
+				db_fetch_result($result, 0, "created"));
 
 			$access_level = db_fetch_result($result, 0, "access_level");
 			$stored_articles = db_fetch_result($result, 0, "stored_articles");
@@ -448,18 +448,8 @@
 
 			$line["login"] = htmlspecialchars($line["login"]);
 
-#			$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
-#				strtotime($line["last_login"]));
-
-			if (get_pref($link, 'HEADLINES_SMART_DATE')) {
-				$line["last_login"] = smart_date_time(strtotime($line["last_login"]));
-				$line["created"] = smart_date_time(strtotime($line["created"]));
-			} else {
-				$line["last_login"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
-					strtotime($line["last_login"]));
-				$line["created"] = date(get_pref($link, 'SHORT_DATE_FORMAT'),
-					strtotime($line["created"]));
-			}				
+			$line["created"] = make_local_datetime($link, $line["created"], false);
+			$line["last_login"] = make_local_datetime($link, $line["last_login"], false);
 
 			print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
