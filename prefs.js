@@ -971,10 +971,9 @@ function opmlImport() {
 		alert(__("No OPML file to upload."));
 		return false;
 	} else {
+		notify_progress("Importing, please wait...", true);
 		return true;
 	}
-
-	notify_progress("Importing, please wait...", true);
 }
 
 function updateFilterList(sort_key) {
