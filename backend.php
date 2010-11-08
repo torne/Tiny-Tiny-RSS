@@ -475,7 +475,7 @@
 			$search = db_escape_string($_REQUEST["q"]);
 			$match_on = db_escape_string($_REQUEST["m"]);
 			$search_mode = db_escape_string($_REQUEST["smode"]);
-			$view_mode = db_escape_string($_REQUEST["view_mode"]);
+			$view_mode = db_escape_string($_REQUEST["view-mode"]);
 
 			if (SINGLE_USER_MODE) {
 				authenticate_user($link, "admin", null);
