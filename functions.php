@@ -4203,12 +4203,19 @@
 				$search_q = "";
 			}
 
-			$rss_link = "backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q";
+			$rss_link = htmlspecialchars(get_self_url_prefix() . 
+				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view-mode=$view_mode$search_q");
+
+			#print "
+			#	<a target=\"_blank\"
+			#		title=\"".__("View as RSS feed")."\"
+			#		href=\"$rss_link\">
+			#		<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "
-				<a target=\"_blank\"
+				<a href=\"#\"
 					title=\"".__("View as RSS feed")."\"
-					href=\"$rss_link\">
+					onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">
 					<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "</div>";
@@ -5110,9 +5117,9 @@
 
 		$vgroup_last_feed = $vgr_last_feed;
 
-		if ($feed == -2) {
+/*		if ($feed == -2) {
 			$feed_site_url = article_publish_url($link);
-		}
+		} */
 
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
@@ -5730,15 +5737,10 @@
 		return $tag;
 	}
 
-	function generate_publish_key() {
-		return sha1(uniqid(rand(), true));
-	}
-
-	function article_publish_url($link) {
+	function get_self_url_prefix() {
 
 		$url_path = "";
-		
-
+	
 		if ($_SERVER['HTTPS'] != "on") {
 			$url_path = "http://";
 		} else {
@@ -5746,22 +5748,13 @@
 		}
 
 		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-		$url_path .= "/backend.php?op=publish&key=" . 
-			get_pref($link, "_PREFS_PUBLISH_KEY", $_SESSION["uid"]);
 
 		return $url_path;
+
 	}
-        function opml_publish_url($link){
-		$url_path = "";
-		
+	function opml_publish_url($link){
 
-		if ($_SERVER['HTTPS'] != "on") {
-			$url_path = "http://";
-		} else {
-			$url_path = "https://";
-		}
-
-		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
+		$url_path = get_self_url_prefix();
 		$url_path .= "/opml.php?op=publish&key=" . 
 			get_pref($link, "_PREFS_PUBLISH_KEY", $_SESSION["uid"]);
 
@@ -6368,6 +6361,13 @@
 
 		if (db_affected_rows($link, $result) != 0 && $caption) {
 
+			/* Remove access key for the label */
+
+			$ext_id = -11 - $id;
+
+			db_query($link, "DELETE FROM ttrss_access_keys WHERE
+				feed_id = '$ext_id' AND owner_uid = $owner_uid");
+
 			/* Disable filters that reference label being removed */
 	
 			db_query($link, "UPDATE ttrss_filters SET
@@ -6558,6 +6558,11 @@
 			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL,
 				orig_feed_id = '$id' WHERE feed_id = '$id' AND 
 					marked = true AND owner_uid = $owner_uid");
+
+			/* Remove access key for the feed */
+
+			db_query($link, "DELETE FROM ttrss_access_keys WHERE
+				feed_id = '$id' AND owner_uid = $owner_uid");
 
 			/* remove the feed */
 
@@ -6898,5 +6903,52 @@
 
 		if (!in_array($email, $_SESSION['stored_emails']))
 			array_push($_SESSION['stored_emails'], $email);
+	}
+
+	function update_feed_access_key($link, $feed_id, $is_cat, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$sql_is_cat = bool_to_sql_bool($is_cat);
+
+		$result = db_query($link, "SELECT access_key FROM ttrss_access_keys 
+			WHERE feed_id = '$feed_id'	AND is_cat = $sql_is_cat 
+			AND owner_uid = " . $owner_uid);
+
+		if (db_num_rows($result) == 1) {
+			$key = db_escape_string(sha1(uniqid(rand(), true)));
+
+			db_query($link, "UPDATE ttrss_access_keys SET access_key = '$key'
+				WHERE feed_id = '$feed_id' AND is_cat = $sql_is_cat 
+				AND owner_uid = " . $owner_uid);
+
+			return $key;
+
+		} else {
+			return get_feed_access_key($link, $feed_id, $is_cat, $owner_uid);
+		}
+	}
+
+	function get_feed_access_key($link, $feed_id, $is_cat, $owner_uid = false) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$sql_is_cat = bool_to_sql_bool($is_cat);
+
+		$result = db_query($link, "SELECT access_key FROM ttrss_access_keys 
+			WHERE feed_id = '$feed_id'	AND is_cat = $sql_is_cat 
+			AND owner_uid = " . $owner_uid);
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "access_key");
+		} else {
+			$key = db_escape_string(sha1(uniqid(rand(), true)));
+
+			$result = db_query($link, "INSERT INTO ttrss_access_keys 
+				(access_key, feed_id, is_cat, owner_uid)
+				VALUES ('$key', '$feed_id', $sql_is_cat, '$owner_uid')");
+
+			return $key;
+		}
+		return false;
 	}
 ?>

@@ -464,25 +464,11 @@
 			return;
 		}
 
-		if ($subop == "regenPubKey") {
-
-			print "<rpc-reply>";
-
-			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key(), $_SESSION["uid"]);
-
-			$new_link = article_publish_url($link);		
-
-			print "<link><![CDATA[$new_link]]></link>";
-
-			print "</rpc-reply>";
-
-			return;
-		}
-
 		if ($subop == "regenOPMLKey") {
 
 			print "<rpc-reply>";
-			set_pref($link, " _PREFS_OPML_PUBLISH_KEY", generate_publish_key(), $_SESSION["uid"]);
+			set_pref($link, " _PREFS_OPML_PUBLISH_KEY", 
+				sha1(uniqid(rand(), true)), $_SESSION["uid"]);
 			$new_link = opml_publish_url($link);		
 			print "<link><![CDATA[$new_link]]></link>";
 			print "</rpc-reply>";
@@ -1113,6 +1099,21 @@
 			print "<payload><![CDATA[";
 			print_feed_cat_select($link, "cat_id", $id);
 			print "]]></payload>";
+
+			print "</rpc-reply>";
+
+			return;
+		}
+
+		if ($subop == "regenFeedKey") {
+			$feed_id = db_escape_string($_REQUEST['id']);
+			$is_cat = (bool) db_escape_string($_REQUEST['is_cat']);
+
+			print "<rpc-reply>";
+
+			$new_key = update_feed_access_key($link, $feed_id, $is_cat);
+
+			print "<link><![CDATA[$new_key]]></link>";
 
 			print "</rpc-reply>";
 

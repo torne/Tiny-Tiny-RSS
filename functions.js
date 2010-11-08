@@ -2216,3 +2216,48 @@ function quickAddCat(select) {
 		exception_error("quickAddCat", e);
 	}
 }
+
+function genUrlChangeKey(feed, is_cat) {
+
+	try {
+		var ok = confirm(__("Generate new syndication address for this feed?"));
+	
+		if (ok) {
+	
+			notify_progress("Trying to change address...", true);
+	
+			var query = "?op=rpc&subop=regenFeedKey&id=" + param_escape(feed) + 
+				"&is_cat=" + param_escape(is_cat);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+						var new_link = transport.responseXML.getElementsByTagName("link")[0];
+	
+						var e = $('gen_feed_url');
+	
+						if (new_link) {
+							
+							new_link = new_link.firstChild.nodeValue;
+
+							e.innerHTML = e.innerHTML.replace(/\&amp;key=.*$/, 
+								"&amp;key=" + new_link);
+
+							e.href = e.href.replace(/\&amp;key=.*$/,
+								"&amp;key=" + new_link);
+
+							new Effect.Highlight(e);
+
+							notify('');
+	
+						} else {
+							notify_error("Could not change feed URL.");
+						}
+				} });
+		}
+	} catch (e) {
+		exception_error("genUrlChangeKey", e);
+	}
+	return false;
+}
+

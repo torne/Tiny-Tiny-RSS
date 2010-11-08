@@ -1,6 +1,7 @@
 SET NAMES utf8;
 SET CHARACTER SET utf8;
 
+drop table if exists ttrss_access_keys;
 drop table if exists ttrss_user_labels2;
 drop table if exists ttrss_labels2;
 drop table if exists ttrss_feedbrowser_cache;
@@ -241,7 +242,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (68);
+insert into ttrss_version values (69);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -445,5 +446,12 @@ create table ttrss_user_labels2 (label_id integer not null,
 	foreign key (label_id) references ttrss_labels2(id) ON DELETE CASCADE,
 	foreign key (article_id) references ttrss_entries(id) ON DELETE CASCADE
 ) TYPE=InnoDB DEFAULT CHARSET=UTF8;
+
+create table ttrss_access_keys (id serial not null primary key,
+	access_key varchar(250) not null,
+	feed_id varchar(250) not null,
+	is_cat bool not null default false,
+	owner_uid integer not null,
+  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
 commit;

@@ -466,31 +466,10 @@
 			module_pref_feed_browser($link);
 		break; // pref-feed-browser
 
-		case "publish":
-			$key = db_escape_string($_REQUEST["key"]);
-			$limit = (int)db_escape_string($_REQUEST["limit"]);
-
-			$result = db_query($link, "SELECT login, owner_uid 
-				FROM ttrss_user_prefs, ttrss_users WHERE
-				pref_name = '_PREFS_PUBLISH_KEY' AND 
-				value = '$key' AND 
-				ttrss_users.id = owner_uid");
-
-			if (db_num_rows($result) == 1) {
-				$owner = db_fetch_result($result, 0, "owner_uid");
-				$login = db_fetch_result($result, 0, "login");
-
-				generate_syndicated_feed($link, $owner, -2, false, $limit);
-
-			} else {
-				print "<error>User not found</error>";
-			}
-		break; // publish
-
 		case "rss":
 			$feed = db_escape_string($_REQUEST["id"]);
 			$user = db_escape_string($_REQUEST["user"]);
-			$pass = db_escape_string($_REQUEST["pass"]);
+			$key = db_escape_string($_REQUEST["key"]);
 			$is_cat = $_REQUEST["is_cat"] != false;
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
 
@@ -503,8 +482,13 @@
 				authenticate_user($link, "admin", null);
 			}
 
-			if (!$_SESSION["uid"] && $user && $pass) {
-				authenticate_user($link, $user, $pass);
+			if ($key && !$_SESSION["uid"]) {
+				$result = db_query($link, "SELECT owner_uid FROM
+					ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
+
+				if (db_num_rows($result) == 1)
+					$_SESSION["uid"] = db_fetch_result($result, 0, "owner_uid");
+
 			}
 
 			if ($_SESSION["uid"] || http_authenticate_user($link)) {

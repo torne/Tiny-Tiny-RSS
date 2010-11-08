@@ -1447,7 +1447,8 @@
 			__('Export OPML')."</button>";
 
 		if (!get_pref($link, "_PREFS_OPML_PUBLISH_KEY")){
-			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", generate_publish_key());
+			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", 
+				sha1(uniqid(rand(), true)));
 		}
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
@@ -1489,13 +1490,12 @@
 
 		print "<h3>".__("Published articles")."</h3>";
 
-		if (!get_pref($link, "_PREFS_PUBLISH_KEY")) {
-			set_pref($link, "_PREFS_PUBLISH_KEY", generate_publish_key());
-		}
-		
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
-		print "<button onclick=\"return displayDlg('pubUrl')\">".
+		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() . 
+				"/backend.php?op=rss&id=-2&view-mode=all_articles");;
+
+		print "<button onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";
                
 

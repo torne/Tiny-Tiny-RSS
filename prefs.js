@@ -1569,43 +1569,6 @@ function feedlistToggleSLAT() {
 	updateFeedList()
 }
 
-function pubRegenKey() {
-
-	try {
-		var ok = confirm(__("Replace current publishing address with a new one?"));
-	
-		if (ok) {
-	
-			notify_progress("Trying to change address...", true);
-	
-			var query = "?op=rpc&subop=regenPubKey";
-	
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-						var new_link = transport.responseXML.getElementsByTagName("link")[0];
-	
-						var e = $('pub_feed_url');
-	
-						if (new_link) {
-							e.href = new_link.firstChild.nodeValue;
-							e.innerHTML = new_link.firstChild.nodeValue;
-	
-							new Effect.Highlight(e);
-
-							notify('');
-	
-						} else {
-							notify_error("Could not change feed URL.");
-						}
-				} });
-		}
-	} catch (e) {
-		exception_error("pubRegenKey", e);
-	}
-	return false;
-}
-
 function opmlRegenKey() {
 
 	try {
