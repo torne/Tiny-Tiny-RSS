@@ -4265,7 +4265,7 @@
 			print_labels_headlines_dropdown($link, $feed_id);
 
 			print "<li class=\"insensitive\">".__('Feed:')."</li>";
-			print "<li onclick=\"window.open('$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
+			print "<li onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
 
 			print "</ul>";
 
