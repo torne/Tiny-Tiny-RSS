@@ -2088,3 +2088,24 @@ function opmlImportHandler(iframe) {
 		exception_error("opml_import_handler", e);
 	}
 }
+
+function clearFeedAccessKeys() {
+
+	var ok = confirm(__("This will invalidate all previously generated feed URLs. Continue?"));
+
+	if (ok) {
+		notify_progress("Clearing URLs...");
+
+		var query = "?op=rpc&subop=clearKeys";
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+				notify_info("Generated URLs cleared.");
+			} });
+	}
+	
+	return false;
+}
+
+

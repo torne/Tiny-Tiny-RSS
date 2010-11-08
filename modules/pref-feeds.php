@@ -1498,6 +1498,8 @@
 		print "<button onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";
                
+		print "<button onclick=\"return clearFeedAccessKeys()\">".
+			__('Clear all generated URLs')."</button> ";
 
 	}
 

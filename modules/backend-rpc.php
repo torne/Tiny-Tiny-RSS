@@ -1120,6 +1120,16 @@
 			return;
 		}
 
+		if ($subop == "clearKeys") {
+
+			db_query($link, "DELETE FROM ttrss_access_keys WHERE
+				owner_uid = " . $_SESSION["uid"]);
+
+			print "<rpc-reply><message>OK</message></rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
