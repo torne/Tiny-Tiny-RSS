@@ -3661,8 +3661,8 @@
 				print "<author>" . htmlspecialchars($line["author"]) . "</author>";
 			}
  
- 			print "<title>" . 
- 				htmlspecialchars($line["title"]) . "</title>";
+ 			print "<title><![CDATA[" . 
+ 				htmlspecialchars($line["title"]) . "]]></title>";
   
 			print "<description><![CDATA[";
 
