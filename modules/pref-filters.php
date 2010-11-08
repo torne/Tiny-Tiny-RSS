@@ -523,7 +523,8 @@
 		$result = db_query($link, "SELECT caption FROM ttrss_labels2
 			WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
 
-		print "<select name=\"$name\" style=\"$style\">";
+		print "<select default=\"$value\" name=\"$name\" style=\"$style\" 
+			onchange=\"labelSelectOnChange(this)\" >";
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -532,6 +533,8 @@
 			print "<option $issel>" . $line["caption"] . "</option>";
 
 		}
+
+		print "<option value=\"ADD_LABEL\">" .__("Add label...") . "</option>";
 
 		print "</select>";
 

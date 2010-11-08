@@ -1983,7 +1983,7 @@ function uploadFeedIcon() {
 	}
 }
 
-function addLabel() {
+function addLabel(select, callback) {
 
 	try {
 
@@ -1999,14 +1999,19 @@ function addLabel() {
 			var query = "?op=pref-labels&subop=add&caption=" + 
 				param_escape(caption);
 
+			if (select)
+				query += "&output=select";
+
 			notify_progress("Loading, please wait...", true);
 
-			if (inPreferences()) active_tab = "labelConfig";
+			if (inPreferences() && !select) active_tab = "labelConfig";
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					if (inPreferences()) {
+					if (callback) {
+						callback(transport);
+					} else if (inPreferences()) {
 						infobox_submit_callback2(transport);
 					} else {
 						updateFeedList();
@@ -2231,4 +2236,32 @@ function genUrlChangeKey(feed, is_cat) {
 	}
 	return false;
 }
+
+function labelSelectOnChange(elem) {
+	try {
+		var value = elem[elem.selectedIndex].value;
+		var def = elem.getAttribute('default');
+
+		if (value == "ADD_LABEL") {
+
+			if (def)
+				dropboxSelect(elem, def);
+			else
+				elem.selectedIndex = 0;
+
+			addLabel(elem, function(transport) {
+					var response = transport.responseXML;
+
+					var payload = response.getElementsByTagName("payload")[0];
+
+					if (payload)
+						elem.innerHTML = payload.firstChild.nodeValue;
+			});
+		}
+
+	} catch (e) {
+		exception_error("catSelectOnChange", e);
+	}
+}
+
 

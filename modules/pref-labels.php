@@ -93,15 +93,27 @@
 		}
 
 		if ($subop == "add") {
-
 			$caption = db_escape_string($_REQUEST["caption"]);
+			$output = db_escape_string($_REQUEST["output"]);
 
 			if ($caption) {
 
 				if (label_create($link, $caption)) {
-					print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
+					if (!$output) {
+						print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
+					}
 				}
 
+				if ($output == "select") {
+					header("Content-Type: text/xml");
+
+					print "<rpc-reply><payload><![CDATA[";
+
+					print_label_select($link, "select_label", 
+						$caption, "");
+
+					print "]]></payload></rpc-reply>";
+				}
 			}
 
 			return;
