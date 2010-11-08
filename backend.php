@@ -468,7 +468,6 @@
 
 		case "rss":
 			$feed = db_escape_string($_REQUEST["id"]);
-			$user = db_escape_string($_REQUEST["user"]);
 			$key = db_escape_string($_REQUEST["key"]);
 			$is_cat = $_REQUEST["is_cat"] != false;
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
@@ -491,7 +490,7 @@
 
 			}
 
-			if ($_SESSION["uid"] || http_authenticate_user($link)) {
+			if ($_SESSION["uid"]) {
 				generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
 					$search, $search_mode, $match_on, $view_mode);
 			}
