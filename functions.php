@@ -3843,12 +3843,12 @@
 						print "Marking affected articles as read...\n";
 						catchupArticlesById($link, $affected_ids, 0, $line["id"]);
 					}
-
-					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
-							WHERE id = " . $line["id"]);
 				} else {
 					print "No headlines\n";
 				}
+
+				db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW() 
+					WHERE id = " . $line["id"]);
 			}
 		}
 
