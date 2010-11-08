@@ -352,6 +352,7 @@ function editUser(id) {
 			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
+					document.forms['user_edit_form'].login.focus();	
 				} });
 
 	} catch (e) {
