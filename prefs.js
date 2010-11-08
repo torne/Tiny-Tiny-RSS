@@ -378,6 +378,7 @@ function editFilter(id) {
 			parameters: query,
 			onComplete: function(transport) {
 					infobox_callback2(transport);
+					document.forms['filter_edit_form'].reg_exp.focus();
 				} });
 	} catch (e) {
 		exception_error("editFilter", e);
