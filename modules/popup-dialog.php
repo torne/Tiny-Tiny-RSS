@@ -363,10 +363,10 @@
 
 			#$active_feed_id = db_escape_string($_REQUEST["param"]);
 
-			$params = split(":", db_escape_string($_REQUEST["param"]));
+			$params = explode(":", db_escape_string($_REQUEST["param"]), 2);
 
 			$active_feed_id = sprintf("%d", $params[0]);
-			$is_cat = $params[1] == "true";
+			$is_cat = (bool) $params[1];
 
 			print "<div class=\"dlgSec\">".__('Look for')."</div>";
 
