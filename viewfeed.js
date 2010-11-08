@@ -1003,13 +1003,7 @@ function selectionAssignLabel(id) {
 
 function selectionToggleUnread(set_state, callback_func, no_error) {
 	try {
-		var rows;
-
-		if (isCdmMode()) {
-			rows = cdmGetSelectedArticles();
-		} else {	
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		}
+		var rows = getSelectedArticleIds2();
 
 		if (rows.length == 0 && !no_error) {
 			alert(__("No articles are selected."));
@@ -1088,14 +1082,8 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 function selectionToggleMarked() {
 	try {
 	
-		var rows;
+		var rows = getSelectedArticleIds2();
 		
-		if (isCdmMode()) {
-			rows = cdmGetSelectedArticles();
-		} else {	
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		}	
-
 		if (rows.length == 0) {
 			alert(__("No articles are selected."));
 			return;
@@ -1132,13 +1120,7 @@ function selectionToggleMarked() {
 function selectionTogglePublished() {
 	try {
 	
-		var rows;
-		
-		if (isCdmMode()) {
-			rows = cdmGetSelectedArticles();
-		} else {	
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		}	
+		var rows = getSelectedArticleIds2();
 
 		if (rows.length == 0) {
 			alert(__("No articles are selected."));
@@ -1278,20 +1260,13 @@ function catchupPage() {
 function deleteSelection() {
 
 	try {
+	
+		var rows = getSelectedArticleIds2();
 
-		var rows;
-	
-		if ($("headlinesList")) {
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		} else {	
-			rows = cdmGetSelectedArticles();
-		}
-	
 		if (rows.length == 0) {
 			alert(__("No articles are selected."));
 			return;
 		}
-	
 	
 		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 		var str;
@@ -1329,19 +1304,12 @@ function archiveSelection() {
 
 	try {
 
-		var rows;
-	
-		if ($("headlinesList")) {
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		} else {	
-			rows = cdmGetSelectedArticles();
-		}
-	
+		var rows = getSelectedArticleIds2();
+
 		if (rows.length == 0) {
 			alert(__("No articles are selected."));
 			return;
 		}
-	
 	
 		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 		var str;
@@ -1385,19 +1353,12 @@ function catchupSelection() {
 
 	try {
 
-		var rows;
-	
-		if ($("headlinesList")) {
-			rows = getSelectedTableRowIds("headlinesList", "RROW", "RCHK");
-		} else {	
-			rows = cdmGetSelectedArticles();
-		}
-	
+		var rows = getSelectedArticleIds2();
+
 		if (rows.length == 0) {
 			alert(__("No articles are selected."));
 			return;
 		}
-	
 	
 		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 		
