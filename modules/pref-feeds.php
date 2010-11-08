@@ -1446,11 +1446,6 @@
 		print "<button onclick=\"gotoExportOpml()\">".
 			__('Export OPML')."</button>";
 
-		if (!get_pref($link, "_PREFS_OPML_PUBLISH_KEY")){
-			set_pref($link, "_PREFS_OPML_PUBLISH_KEY", 
-				sha1(uniqid(rand(), true)));
-		}
-
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
 
 		print "<div class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</div>" . "</p>";
