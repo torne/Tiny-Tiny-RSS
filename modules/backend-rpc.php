@@ -467,8 +467,10 @@
 		if ($subop == "regenOPMLKey") {
 
 			print "<rpc-reply>";
-			set_pref($link, "_PREFS_PUBLISH_KEY", 
-				sha1(uniqid(rand(), true)), $_SESSION["uid"]);
+
+			update_feed_access_key($link, 'OPML:Publish', 
+				false, $_SESSION["uid"]);
+
 			$new_link = opml_publish_url($link);		
 			print "<link><![CDATA[$new_link]]></link>";
 			print "</rpc-reply>";

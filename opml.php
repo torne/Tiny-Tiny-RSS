@@ -134,15 +134,13 @@
 	if ($op == "publish"){
 		$key = db_escape_string($_REQUEST["key"]);
 
-		$result = db_query($link, "SELECT login, owner_uid 
-				FROM ttrss_user_prefs, ttrss_users WHERE
-				pref_name = '_PREFS_PUBLISH_KEY' AND 
-				value = '$key' AND 
-				ttrss_users.id = owner_uid");
+		$result = db_query($link, "SELECT owner_uid
+				FROM ttrss_access_keys WHERE
+				access_key = '$key' AND feed_id = 'OPML:Publish'");
 
 		if (db_num_rows($result) == 1) {
-			$owner = db_fetch_result($result, 0, "owner_uid");
-			return opml_export($link, $owner, true, false);
+			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+			return opml_export($link, $owner_uid, true, false);
 		} else {
 			print "<error>User not found</error>";
 		}

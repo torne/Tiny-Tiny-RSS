@@ -163,10 +163,6 @@
 			print "<div id=\"infoBoxTitle\">".__('Public OPML URL')."</div>";
 			print "<div class=\"infoBoxContents\">";
 
-			if (!get_pref($link, "_PREFS_PUBLISH_KEY"))
-				set_pref($link, "_PREFS_PUBLISH_KEY", 
-					sha1(uniqid(rand(), true)));
-
 			$url_path = opml_publish_url($link);
 
 			print __("Your Public OPML URL is:");

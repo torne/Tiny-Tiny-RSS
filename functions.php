@@ -5763,7 +5763,7 @@
 
 		$url_path = get_self_url_prefix();
 		$url_path .= "/opml.php?op=publish&key=" . 
-			get_pref($link, "_PREFS_PUBLISH_KEY", $_SESSION["uid"]);
+			get_feed_access_key($link, 'OPML:Publish', false, $_SESSION["uid"]);
 
 		return $url_path;
 	}
