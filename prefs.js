@@ -167,6 +167,7 @@ function infobox_feed_cat_callback2(transport) {
 	try {
 		infobox_callback2(transport);
 		init_cat_inline_editor();
+		$('fadd_cat').focus();
 	} catch (e) {
 		exception_error("infobox_feed_cat_callback2", e);
 	}
