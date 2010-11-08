@@ -123,12 +123,14 @@
 		} else if ($subop == "change-email") {
 
 			$email = db_escape_string($_POST["email"]);
+			$full_name = db_escape_string($_POST["full_name"]);
+
 			$active_uid = $_SESSION["uid"];
 
-			db_query($link, "UPDATE ttrss_users SET email = '$email' 
-				WHERE id = '$active_uid'");				
+			db_query($link, "UPDATE ttrss_users SET email = '$email',
+				full_name = '$full_name' WHERE id = '$active_uid'");				
 		
-			print __("E-mail has been changed.");
+			print __("Your personal data has been saved.");
 		
 			return;
 
@@ -197,11 +199,20 @@
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	 			print "<tr><td colspan='3'><h3>".__("Personal data")."</h3></tr></td>";
 
-				$result = db_query($link, "SELECT email,access_level FROM ttrss_users
+				$result = db_query($link, "SELECT email,full_name,
+					access_level FROM ttrss_users
 					WHERE id = ".$_SESSION["uid"]);
 					
-				$email = db_fetch_result($result, 0, "email");
-	
+				$email = htmlspecialchars(db_fetch_result($result, 0, "email"));
+				$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
+
+				print "<tr><td width=\"40%\">".__('Full name')."</td>";
+				print "<td class=\"prefValue\"><input class=\"editbox\" name=\"full_name\" 
+					onfocus=\"javascript:disableHotkeys();\" 
+					onblur=\"javascript:enableHotkeys();\"
+					onkeypress=\"return filterCR(event, changeUserEmail)\"
+					value=\"$full_name\"></td></tr>";
+
 				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
 				print "<td class=\"prefValue\"><input class=\"editbox\" name=\"email\" 
 					onfocus=\"javascript:disableHotkeys();\" 
@@ -226,7 +237,7 @@
 				print "</form>";
 
 				print "<p><button onclick=\"return changeUserEmail()\">".
-					__("Change e-mail")."</button>";
+					__("Save data")."</button>";
 
 				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";

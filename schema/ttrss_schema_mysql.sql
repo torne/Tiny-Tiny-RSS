@@ -48,6 +48,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	access_level integer not null default 0,
 	theme_id integer default null,
 	email varchar(250) not null default '',
+	full_name varchar(250) not null default '',
 	email_digest bool not null default false,
 	last_digest_sent datetime default null,
 	created datetime default null,
@@ -242,7 +243,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (69);
+insert into ttrss_version values (70);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

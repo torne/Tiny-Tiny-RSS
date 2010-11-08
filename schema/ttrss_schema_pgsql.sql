@@ -45,6 +45,7 @@ create table ttrss_users (id serial not null primary key,
 	last_login timestamp default null,
 	access_level integer not null default 0,
 	email varchar(250) not null default '',
+	full_name varchar(250) not null default '',
 	email_digest boolean not null default false,
 	last_digest_sent timestamp default null,
 	created timestamp default null,
@@ -214,7 +215,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (69);
+insert into ttrss_version values (70);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

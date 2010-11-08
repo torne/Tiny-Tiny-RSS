@@ -654,11 +654,13 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"sendEmail\">"; 
 
-			$result = db_query($link, "SELECT email FROM ttrss_users WHERE
+			$result = db_query($link, "SELECT email, full_name FROM ttrss_users WHERE
 				id = " . $_SESSION["uid"]);
 
 			$user_email = htmlspecialchars(db_fetch_result($result, 0, "email"));
-			$user_name = htmlspecialchars($_SESSION["name"]);
+			$user_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
+
+			if (!$user_name) $user_name = $_SESSION['name'];
 
 			$_SESSION['email_replyto'] = $user_email;
 			$_SESSION['email_fromname'] = $user_name;

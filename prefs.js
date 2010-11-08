@@ -1548,7 +1548,7 @@ function changeUserEmail() {
 
 		var query = Form.serialize("change_email_form");
 	
-		notify_progress("Trying to change e-mail...");
+		notify_progress("Saving...");
 	
 		new Ajax.Request("backend.php", {
 			parameters: query,
