@@ -2973,7 +2973,12 @@
 	
 		if (db_num_rows($result) == 0) {
 			if (url_is_html($url)) {
-				return 3;
+				$feedUrls = get_feeds_from_html($url);
+				if (count($feedUrls) != 1) {
+					return 3;
+				}
+				//use feed url as new URL
+				$url = key($feedUrls);
 			}
 			
 			$result = db_query($link,
