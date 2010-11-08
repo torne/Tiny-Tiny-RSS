@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-03 13:38+0300\n"
+"POT-Creation-Date: 2010-11-08 14:28+0300\n"
 "PO-Revision-Date: 2009-05-02 00:10+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -79,7 +79,7 @@ msgstr "Daglig"
 msgid "Weekly"
 msgstr "Ukentlig"
 
-#: backend.php:143 tt-rss.php:226 modules/pref-prefs.php:329
+#: backend.php:143 tt-rss.php:224 modules/pref-prefs.php:329
 msgid "Default"
 msgstr "Standard"
 
@@ -103,7 +103,7 @@ msgstr "Superbruker"
 msgid "Administrator"
 msgstr "Administrator"
 
-#: backend.php:552 login_form.php:142 modules/backend-rpc.php:61
+#: backend.php:546 login_form.php:142 modules/backend-rpc.php:61
 #: modules/popup-dialog.php:106
 #, fuzzy
 msgid "Default profile"
@@ -120,29 +120,30 @@ msgstr ""
 "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
 "\t\tnettlesers instillinger."
 
-#: digest.php:64 prefs.php:64 prefs.php:124 tt-rss.php:66 digest.js:132
+#: digest.php:64 prefs.php:67 prefs.php:125 tt-rss.php:68 tt-rss.php:242
+#: tt-rss.php:256 digest.js:132
 msgid "Loading, please wait..."
 msgstr "laster, vennligst vent"
 
-#: digest.php:72 prefs.php:141 tt-rss.php:100
+#: digest.php:72 prefs.php:141 tt-rss.php:97
 #, fuzzy
 msgid "Fatal Exception"
 msgstr "Alvorlig feil"
 
-#: digest.php:74 functions.php:4989 prefs.php:143 tt-rss.php:102
+#: digest.php:74 functions.php:5006 prefs.php:143 tt-rss.php:99
 #: modules/help.php:21 modules/popup-dialog.php:53
 #: modules/popup-dialog.php:154 modules/popup-dialog.php:181
-#: modules/popup-dialog.php:208 modules/popup-dialog.php:257
-#: modules/popup-dialog.php:602 modules/popup-dialog.php:661
-#: modules/pref-feeds.php:1132 modules/pref-users.php:96
+#: modules/popup-dialog.php:230 modules/popup-dialog.php:575
+#: modules/popup-dialog.php:634 modules/popup-dialog.php:779
+#: modules/pref-feeds.php:1118 modules/pref-users.php:96
 msgid "Close this window"
 msgstr "Lukk dette vinduet"
 
-#: digest.php:84 prefs.php:91 tt-rss.php:113
+#: digest.php:84 prefs.php:92 tt-rss.php:110
 msgid "Hello,"
 msgstr "Hei, "
 
-#: digest.php:88 prefs.php:95 tt-rss.php:123 mobile/functions.php:60
+#: digest.php:88 prefs.php:96 tt-rss.php:120 mobile/functions.php:60
 #: mobile/functions.php:234
 msgid "Logout"
 msgstr "Logg ut"
@@ -240,187 +241,215 @@ msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 "SQL escaping testen feilen, sjekk database og PHP konfigurasjonene dine."
 
-#: functions.php:1938
+#: functions.php:1927
 msgid "Session failed to validate (incorrect IP)"
 msgstr "Sesjonen kunne ikke valideres (feil IP)"
 
-#: functions.php:2008
+#: functions.php:1997
 msgid "Incorrect username or password"
 msgstr "Feil brukernavn og/eller passord"
 
-#: functions.php:2991 modules/popup-dialog.php:418
+#: functions.php:2827 functions.php:2860 functions.php:2911
+msgid "total"
+msgstr ""
+
+#: functions.php:2993 modules/popup-dialog.php:391
 #: modules/pref-filters.php:420
 msgid "All feeds"
 msgstr "Alle Nyhetsstrømmer"
 
-#: functions.php:3023 functions.php:3062 functions.php:4471 functions.php:4499
-#: modules/backend-rpc.php:869 modules/pref-feeds.php:1325
+#: functions.php:3025 functions.php:3066 functions.php:4470 functions.php:4498
+#: modules/backend-rpc.php:818 modules/pref-feeds.php:1309
 msgid "Uncategorized"
 msgstr "Ukategorisert"
 
-#: functions.php:3052 functions.php:3712 modules/backend-rpc.php:874
+#: functions.php:3045
+#, fuzzy
+msgid "Add category..."
+msgstr "Legger til kategori for nyhetsstrømmer"
+
+#: functions.php:3056 functions.php:3697 modules/backend-rpc.php:823
 #: mobile/functions.php:170
 msgid "Special"
 msgstr "Snarveier"
 
-#: functions.php:3054 functions.php:3714 prefs.php:115
-#: modules/backend-rpc.php:879 help/4.php:12 mobile/functions.php:197
+#: functions.php:3058 functions.php:3699 prefs.php:116
+#: modules/backend-rpc.php:828 help/4.php:12 mobile/functions.php:197
 msgid "Labels"
 msgstr "Merkelapper"
 
-#: functions.php:3099 help/3.php:60 offline.js:493 offline.js:1425
+#: functions.php:3103 help/3.php:60 offline.js:493 offline.js:1425
 msgid "Starred articles"
 msgstr "Favorittartikler"
 
-#: functions.php:3101 modules/pref-feeds.php:1516 help/3.php:61
+#: functions.php:3105 modules/pref-feeds.php:1491 help/3.php:61
 msgid "Published articles"
 msgstr "Publiserte artikler"
 
-#: functions.php:3103 help/3.php:59
+#: functions.php:3107 help/3.php:59
 msgid "Fresh articles"
 msgstr "Ferske artikler"
 
-#: functions.php:3105 help/3.php:58 offline.js:488 offline.js:1427
+#: functions.php:3109 help/3.php:58 offline.js:488 offline.js:1427
 msgid "All articles"
 msgstr "Alle artikler"
 
-#: functions.php:3107
+#: functions.php:3111
 #, fuzzy
 msgid "Archived articles"
 msgstr "Lagrede artikler"
 
-#: functions.php:4224
-msgid "Generated feed"
-msgstr "Generert nyhetsstrøm"
+#: functions.php:4174
+#, fuzzy
+msgid "Visit the website"
+msgstr "Besøk den offisielle siden"
 
-#: functions.php:4229 functions.php:5579 modules/popup-dialog.php:82
-#: modules/pref-feeds.php:1079 modules/pref-feeds.php:1289
+#: functions.php:4217
+#, fuzzy
+msgid "View as RSS feed"
+msgstr "Se nyhetsstrømmene"
+
+#: functions.php:4223 functions.php:5590 modules/popup-dialog.php:82
+#: modules/pref-feeds.php:1065 modules/pref-feeds.php:1275
 #: modules/pref-filters.php:377 modules/pref-labels.php:183
 #: modules/pref-users.php:419 offline.js:408
 msgid "Select:"
 msgstr "Velg:"
 
-#: functions.php:4230 modules/popup-dialog.php:83 modules/pref-feeds.php:1080
-#: modules/pref-feeds.php:1290 modules/pref-filters.php:378
+#: functions.php:4224 modules/popup-dialog.php:83 modules/pref-feeds.php:1066
+#: modules/pref-feeds.php:1276 modules/pref-filters.php:378
 #: modules/pref-labels.php:184 modules/pref-users.php:420
 msgid "All"
 msgstr "Alle"
 
-#: functions.php:4231 functions.php:4248 tt-rss.php:219
+#: functions.php:4225 functions.php:4242 tt-rss.php:217
 msgid "Unread"
 msgstr "Ulest"
 
-#: functions.php:4232
+#: functions.php:4226
 msgid "Invert"
 msgstr "Motsatt"
 
-#: functions.php:4233 modules/popup-dialog.php:84 modules/pref-feeds.php:1081
-#: modules/pref-feeds.php:1291 modules/pref-filters.php:379
+#: functions.php:4227 modules/popup-dialog.php:84 modules/pref-feeds.php:1067
+#: modules/pref-feeds.php:1277 modules/pref-filters.php:379
 #: modules/pref-labels.php:185 modules/pref-users.php:421
 msgid "None"
 msgstr "Ingen"
 
-#: functions.php:4241 tt-rss.php:179 offline.js:184
+#: functions.php:4235 tt-rss.php:176 offline.js:184
 msgid "Actions..."
 msgstr "Handlinger..."
 
-#: functions.php:4247
+#: functions.php:4241
 msgid "Selection toggle:"
 msgstr "Marker utvalg:"
 
-#: functions.php:4249 tt-rss.php:218
+#: functions.php:4243 tt-rss.php:215
 msgid "Starred"
 msgstr "Favoritter"
 
-#: functions.php:4250
+#: functions.php:4244 tt-rss.php:216
 msgid "Published"
 msgstr "Publisert"
 
-#: functions.php:4251
+#: functions.php:4245
 msgid "Selection:"
 msgstr "Utvalg:"
 
-#: functions.php:4252 localized_schema.php:16 tt-rss.php:188 tt-rss.php:236
+#: functions.php:4246 localized_schema.php:16 tt-rss.php:185 tt-rss.php:234
 #: digest.js:365 digest.js:435 digest.js:589
 msgid "Mark as read"
 msgstr "Marker som lest"
 
-#: functions.php:4258
+#: functions.php:4252
 msgid "Archive"
 msgstr ""
 
-#: functions.php:4260
+#: functions.php:4254
 #, fuzzy
 msgid "Move back"
 msgstr "Gå tilbake"
 
-#: functions.php:4261
+#: functions.php:4255
 #, fuzzy
 msgid "Delete"
 msgstr "Standard"
 
-#: functions.php:4266
+#: functions.php:4260 functions.php:4873
+msgid "Forward by email"
+msgstr ""
+
+#: functions.php:4263
 msgid "Assign label:"
 msgstr "Tildel stikkord:"
 
-#: functions.php:4307
+#: functions.php:4267
+msgid "Feed:"
+msgstr "Nyhetsstrøm:"
+
+#: functions.php:4268 modules/popup-dialog.php:755
+#, fuzzy
+msgid "View as RSS"
+msgstr "Se stikkord"
+
+#: functions.php:4311
 msgid "Click to collapse category"
 msgstr "Velg for å slå sammen kategorien"
 
-#: functions.php:4517
-msgid "No feeds to display."
-msgstr "Ingen nyhetstrømmer å vise"
+#: functions.php:4520 functions.php:4526 tt-rss.php:179
+msgid "Subscribe to feed..."
+msgstr "Abonner på nyhetsstrøm..."
 
-#: functions.php:4534
+#: functions.php:4546
 msgid "Tags"
 msgstr "Stikkord"
 
-#: functions.php:4693
+#: functions.php:4705
 msgid "audio/mpeg"
 msgstr "Lyd/mpeg"
 
-#: functions.php:4819
+#: functions.php:4829
 msgid " - "
 msgstr "-"
 
-#: functions.php:4844 functions.php:5606
+#: functions.php:4854 functions.php:5617
 msgid "Edit tags for this article"
 msgstr "Rediger stikkordene for denne artikkelen"
 
-#: functions.php:4850 functions.php:5589
+#: functions.php:4860 functions.php:5600
 msgid "Show article summary in new window"
 msgstr "Åpne artikkelsammendraget i nytt nettleservindu"
 
-#: functions.php:4857 functions.php:5596
+#: functions.php:4867 functions.php:5607
 msgid "Publish article with a note"
 msgstr "Publiser artikelen med notat"
 
-#: functions.php:4874 functions.php:5465
+#: functions.php:4891 functions.php:5476
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4887 functions.php:5478
+#: functions.php:4904 functions.php:5489
 #, fuzzy
 msgid "Feed URL"
 msgstr "Nyhetsstrøm"
 
-#: functions.php:4927 functions.php:5508
+#: functions.php:4944 functions.php:5519
 msgid "unknown type"
 msgstr "Ukjent type"
 
-#: functions.php:4967 functions.php:5553
+#: functions.php:4984 functions.php:5564
 msgid "Attachment:"
 msgstr "Vedlegg:"
 
-#: functions.php:4969 functions.php:5555
+#: functions.php:4986 functions.php:5566
 msgid "Attachments:"
 msgstr "Vedlegg:"
 
-#: functions.php:5045
+#: functions.php:5063
 msgid "Feed not found."
 msgstr "Nyhetsstrømmen ble ikke funnet"
 
-#: functions.php:5114
+#: functions.php:5130
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -428,31 +457,31 @@ msgstr ""
 "Kunne ikke vise nyhetsstrøm (spørring feilet). Vennligst sjekk "
 "merkelappsyntaksen eller lokal konfigurasjon."
 
-#: functions.php:5278 functions.php:5365
+#: functions.php:5289 functions.php:5376
 msgid "mark as read"
 msgstr "marker som lest"
 
-#: functions.php:5441 functions.php:5448 digest.js:441
+#: functions.php:5452 functions.php:5459 digest.js:441
 msgid "Click to expand article"
 msgstr "Trykk for å utvide artikkel"
 
-#: functions.php:5613
+#: functions.php:5624
 msgid "toggle unread"
 msgstr "sett som ulest"
 
-#: functions.php:5632
+#: functions.php:5643
 msgid "No unread articles found to display."
 msgstr "Ingen uleste artikler funnet som kunne vises"
 
-#: functions.php:5635
+#: functions.php:5646
 msgid "No updated articles found to display."
 msgstr "Ingen oppdaterte artikler funnet som kunne vises"
 
-#: functions.php:5638
+#: functions.php:5649
 msgid "No starred articles found to display."
 msgstr "Ingen markerte artikler som kan vises"
 
-#: functions.php:5642
+#: functions.php:5653
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -460,28 +489,41 @@ msgstr ""
 "Ingen artikler ble funnet. Du kan gi artikler merkelapper manuelt (se aksjon-"
 "menyen ovenfor) eller bruke et filter."
 
-#: functions.php:5644 offline.js:443
+#: functions.php:5655 offline.js:443
 msgid "No articles found to display."
 msgstr "Ingen artikler funnet som kan vises"
 
-#: functions.php:6399 tt-rss.php:199
+#: functions.php:6406 tt-rss.php:196
 msgid "Create label..."
 msgstr "Lag merkelapp..."
 
-#: functions.php:6412
+#: functions.php:6420
 msgid "(remove)"
 msgstr "(fjern)"
 
-#: functions.php:6464
+#: functions.php:6472
 msgid "no tags"
 msgstr "Ingen stikkord"
 
-#: functions.php:6493
+#: functions.php:6501
 msgid "edit note"
 msgstr "Rediger notat"
 
-#: localized_schema.php:9 tt-rss.php:228 modules/popup-dialog.php:408
-#: modules/pref-feeds.php:1302 modules/pref-feeds.php:1361
+#: functions.php:6858
+msgid "No feed selected."
+msgstr "Ingen valgt nyhetsstrøm"
+
+#: functions.php:6868
+#, php-format
+msgid "Feeds last updated at %s"
+msgstr ""
+
+#: functions.php:6878 modules/pref-feeds.php:1138
+msgid "Some feeds have update errors (click for details)"
+msgstr "Noen nyhetsstrømmer har oppdateringsfeil (trykk for detaljer)"
+
+#: localized_schema.php:9 tt-rss.php:226 modules/popup-dialog.php:381
+#: modules/pref-feeds.php:1286 modules/pref-feeds.php:1337
 msgid "Title"
 msgstr "Tittel"
 
@@ -493,7 +535,7 @@ msgstr "Tittel eller innhold"
 msgid "Link"
 msgstr "Lenke"
 
-#: localized_schema.php:12 modules/popup-dialog.php:409
+#: localized_schema.php:12 modules/popup-dialog.php:382
 msgid "Content"
 msgstr "Innhold"
 
@@ -509,8 +551,8 @@ msgstr "Filtrer artikkel"
 msgid "Set starred"
 msgstr "Sett som favorittartikkel"
 
-#: localized_schema.php:18 digest.js:412 digest.js:702 viewfeed.js:545
-#: viewfeed.js:659
+#: localized_schema.php:18 digest.js:412 digest.js:702 viewfeed.js:548
+#: viewfeed.js:662
 msgid "Publish article"
 msgstr "Publiser artiklen"
 
@@ -800,12 +842,12 @@ msgstr "Ikke vis bilder i artiklene"
 msgid "Enable external API"
 msgstr ""
 
-#: login_form.php:120 modules/popup-dialog.php:298 modules/pref-feeds.php:337
+#: login_form.php:120 modules/popup-dialog.php:271 modules/pref-feeds.php:337
 #: modules/pref-feeds.php:557 mobile/login_form.php:38
 msgid "Login:"
 msgstr "Brukernavn:"
 
-#: login_form.php:124 modules/popup-dialog.php:300 modules/pref-feeds.php:342
+#: login_form.php:124 modules/popup-dialog.php:273 modules/pref-feeds.php:342
 #: modules/pref-feeds.php:563 mobile/login_form.php:43
 msgid "Password:"
 msgstr "Passord:"
@@ -852,7 +894,7 @@ msgstr ""
 msgid "Return to preferences"
 msgstr "Returner til innstillinger"
 
-#: prefs.php:71 prefs.php:127 tt-rss.php:74
+#: prefs.php:74 prefs.php:128 tt-rss.php:76
 msgid ""
 "Your browser doesn't support Javascript, which is required\n"
 "\t\tfor this application to function properly. Please check your\n"
@@ -862,27 +904,27 @@ msgstr ""
 "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
 "\t\tnettlesers instillinger."
 
-#: prefs.php:93 help/4.php:14
+#: prefs.php:94 help/4.php:14
 msgid "Exit preferences"
 msgstr "Forlat innstillinger"
 
-#: prefs.php:103
+#: prefs.php:104
 msgid "Keyboard shortcuts"
 msgstr "Tastatursnarveier"
 
-#: prefs.php:109 tt-rss.php:115 help/3.php:63 help/4.php:8
+#: prefs.php:110 tt-rss.php:112 help/3.php:63 help/4.php:8
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: prefs.php:111
+#: prefs.php:112
 msgid "Feeds"
 msgstr "Nyhetsstrømmer"
 
-#: prefs.php:113 help/4.php:11
+#: prefs.php:114 help/4.php:11
 msgid "Filters"
 msgstr "Filtre"
 
-#: prefs.php:118 help/4.php:13
+#: prefs.php:119 help/4.php:13
 msgid "Users"
 msgstr "Brukere"
 
@@ -946,154 +988,146 @@ msgstr "Kontoen ble opprettet med suksess."
 msgid "New user registrations are currently closed."
 msgstr "Registrering av nye brukere er stengt."
 
-#: tt-rss.php:119
+#: tt-rss.php:116
 msgid "Comments?"
 msgstr "Kommentarer?"
 
-#: tt-rss.php:132
+#: tt-rss.php:129
 msgid "Offline reading"
 msgstr "Lesning uten internett-tilgang"
 
-#: tt-rss.php:139
+#: tt-rss.php:136
 msgid "Cancel synchronization"
 msgstr "Avbryt synkroniseringen"
 
-#: tt-rss.php:142
+#: tt-rss.php:139
 msgid "Synchronize"
 msgstr "Synkroniser"
 
-#: tt-rss.php:144
+#: tt-rss.php:141
 msgid "Remove stored data"
 msgstr "Fjern lagrede data"
 
-#: tt-rss.php:146
+#: tt-rss.php:143
 msgid "Go offline"
 msgstr "Benytt modus for lesning uten internett-tilgang"
 
-#: tt-rss.php:152
+#: tt-rss.php:149
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Ny versjon av Tiny Tiny Rss er tilgjengelig!"
 
-#: tt-rss.php:159
+#: tt-rss.php:156
 msgid "Go online"
 msgstr "Benytt modus for lesning med internett-tilgang"
 
-#: tt-rss.php:170 tt-rss.js:78
+#: tt-rss.php:167 tt-rss.js:77
 msgid "tag cloud"
 msgstr "Tag-sky"
 
-#: tt-rss.php:180
+#: tt-rss.php:177
 msgid "Search..."
 msgstr "Søk..."
 
-#: tt-rss.php:181
+#: tt-rss.php:178
 msgid "Feed actions:"
 msgstr "Nyhetsstrømshandlinger:"
 
-#: tt-rss.php:182
-msgid "Subscribe to feed..."
-msgstr "Abonner på nyhetsstrøm..."
-
-#: tt-rss.php:183
+#: tt-rss.php:180
 msgid "Edit this feed..."
 msgstr "Rediger nyhetsstrømmen..."
 
-#: tt-rss.php:184
+#: tt-rss.php:181
 msgid "Rescore feed"
 msgstr "Sett poeng på nytt for nyhetskanalene"
 
-#: tt-rss.php:185 modules/pref-feeds.php:463 modules/pref-feeds.php:1185
+#: tt-rss.php:182 modules/pref-feeds.php:463 modules/pref-feeds.php:1171
 msgid "Unsubscribe"
 msgstr "Avabonner"
 
-#: tt-rss.php:187
+#: tt-rss.php:184
 msgid "All feeds:"
 msgstr "Alle nyhetsstrømmer:"
 
-#: tt-rss.php:189 help/3.php:44
+#: tt-rss.php:186 help/3.php:44
 msgid "(Un)hide read feeds"
 msgstr "Skjul/vis leste nyhetsstrømmer"
 
-#: tt-rss.php:191
+#: tt-rss.php:188
 #, fuzzy
 msgid "Categories:"
 msgstr "Kategori:"
 
-#: tt-rss.php:193
+#: tt-rss.php:190
 #, fuzzy
 msgid "Toggle reordering mode"
 msgstr "Tillatt endringer i kategorirekkefølgen?"
 
-#: tt-rss.php:194
+#: tt-rss.php:191
 #, fuzzy
 msgid "Reset order"
 msgstr "Nullstill passordet"
 
-#: tt-rss.php:197
+#: tt-rss.php:194
 msgid "Other actions:"
 msgstr "Andre handlinger:"
 
-#: tt-rss.php:200
+#: tt-rss.php:197
 msgid "Create filter..."
 msgstr "Lag filter..."
 
-#: tt-rss.php:201
+#: tt-rss.php:198
 msgid "Reset UI layout"
 msgstr "Tilbakestill de grafiske instillingene"
 
-#: tt-rss.php:202
+#: tt-rss.php:199
 #, fuzzy
 msgid "Keyboard shortcuts help"
 msgstr "Tastatursnarveier"
 
-#: tt-rss.php:211
+#: tt-rss.php:208
 msgid "Collapse feedlist"
 msgstr "Skjul nyhetskanalsslisten"
 
-#: tt-rss.php:214
+#: tt-rss.php:211
 #, fuzzy
 msgid "Show articles"
 msgstr "Lagrede artikler"
 
-#: tt-rss.php:216
+#: tt-rss.php:213
 msgid "Adaptive"
 msgstr "Tilpasset"
 
-#: tt-rss.php:217
+#: tt-rss.php:214
 msgid "All Articles"
 msgstr "Alle artikler"
 
-#: tt-rss.php:220
+#: tt-rss.php:218
 msgid "Ignore Scoring"
 msgstr "Ignorer poenggivning"
 
-#: tt-rss.php:221 modules/pref-feeds.php:1308 modules/pref-feeds.php:1369
+#: tt-rss.php:219 modules/pref-feeds.php:1292 modules/pref-feeds.php:1345
 msgid "Updated"
 msgstr "Oppdatert"
 
-#: tt-rss.php:224
+#: tt-rss.php:222
 #, fuzzy
 msgid "Sort articles"
 msgstr "Lagrede artikler"
 
-#: tt-rss.php:227 modules/popup-dialog.php:489 modules/pref-filters.php:51
+#: tt-rss.php:225 modules/popup-dialog.php:462 modules/pref-filters.php:51
 #: modules/pref-filters.php:469
 msgid "Date"
 msgstr "Dato"
 
-#: tt-rss.php:229
+#: tt-rss.php:227
 msgid "Score"
 msgstr "Poeng"
 
-#: tt-rss.php:233 modules/pref-feeds.php:296 modules/pref-feeds.php:522
+#: tt-rss.php:231 modules/pref-feeds.php:296 modules/pref-feeds.php:522
 msgid "Update"
 msgstr "Oppdater"
 
-#: tt-rss.php:244 tt-rss.php:258
-msgid "No feed selected."
-msgstr "Ingen valgt nyhetsstrøm"
-
-#: tt-rss.php:248
+#: tt-rss.php:246
 msgid "Drag me to resize panels"
 msgstr "Dra i meg for å endre størrelsen på panelene."
 
@@ -1237,8 +1271,8 @@ msgstr "Lag filter"
 msgid "(active)"
 msgstr "Tilpasset"
 
-#: modules/popup-dialog.php:148 modules/popup-dialog.php:377
-#: modules/pref-feeds.php:453 modules/pref-feeds.php:1128
+#: modules/popup-dialog.php:148 modules/popup-dialog.php:350
+#: modules/pref-feeds.php:453 modules/pref-feeds.php:1114
 #: modules/pref-filters.php:153 modules/pref-filters.php:321
 #: modules/pref-labels.php:140 modules/pref-users.php:378
 msgid "Remove"
@@ -1250,33 +1284,24 @@ msgid "Activate"
 msgstr "Tilpasset"
 
 #: modules/popup-dialog.php:163
-msgid "Published Articles"
-msgstr "Publiserte artikler"
+msgid "Public OPML URL"
+msgstr ""
 
 #: modules/popup-dialog.php:168
 #, fuzzy
-msgid "Your Published articles feed URL is:"
+msgid "Your Public OPML URL is:"
 msgstr "Lenke til nyhetsstrøm for publiserte artikler"
 
-#: modules/popup-dialog.php:177 modules/popup-dialog.php:204
+#: modules/popup-dialog.php:177 modules/popup-dialog.php:775
 #, fuzzy
 msgid "Generate new URL"
 msgstr "Generert nyhetsstrøm"
 
 #: modules/popup-dialog.php:190
-msgid "Public OPML URL"
-msgstr ""
-
-#: modules/popup-dialog.php:195
-#, fuzzy
-msgid "Your Public OPML URL is:"
-msgstr "Lenke til nyhetsstrøm for publiserte artikler"
-
-#: modules/popup-dialog.php:217
 msgid "Notice"
 msgstr "Notis"
 
-#: modules/popup-dialog.php:223
+#: modules/popup-dialog.php:196
 msgid ""
 "Update daemon is enabled in configuration, but daemon process is not "
 "running, which prevents all feeds from updating. Please start the daemon "
@@ -1286,11 +1311,11 @@ msgstr ""
 "ikke kjørt, noe som gjør at ingen nyhetsstrømmer blir oppdatert. Vennligst "
 "start prosessen eller konakt administratoren."
 
-#: modules/popup-dialog.php:227 modules/popup-dialog.php:247
+#: modules/popup-dialog.php:200 modules/popup-dialog.php:220
 msgid "Last update:"
 msgstr "Siste oppdatering:"
 
-#: modules/popup-dialog.php:235
+#: modules/popup-dialog.php:208
 msgid ""
 "You are running the latest version of Tiny Tiny RSS. The fact that you are "
 "seeing this dialog is probably a bug."
@@ -1298,7 +1323,7 @@ msgstr ""
 "Du kjører siste utgave av Tiny Tiny RSS. Det at du ser denne dialogboksen er "
 "mest sannsynlig en feil."
 
-#: modules/popup-dialog.php:243
+#: modules/popup-dialog.php:216
 msgid ""
 "Update daemon is taking too long to perform a feed update. This could "
 "indicate a problem like crash or a hang. Please check the daemon process or "
@@ -1309,191 +1334,227 @@ msgstr ""
 "sjekk oppdateringsprosessen eller kontakt vedkommende som innehar "
 "nyhetsstrømmen."
 
-#: modules/popup-dialog.php:266
+#: modules/popup-dialog.php:239
 msgid "Subscribe to Feed"
 msgstr "Abonner på nyhetsstrøm"
 
-#: modules/popup-dialog.php:275 modules/pref-feeds.php:197
+#: modules/popup-dialog.php:248 modules/pref-feeds.php:197
 #: modules/pref-feeds.php:486 modules/pref-filters.php:407
 msgid "Feed"
 msgstr "Nyhetsstrøm"
 
-#: modules/popup-dialog.php:278 modules/pref-feeds.php:213
+#: modules/popup-dialog.php:251 modules/pref-feeds.php:213
 #: modules/pref-feeds.php:500
 msgid "URL:"
 msgstr "Nettadresse:"
 
-#: modules/popup-dialog.php:287 modules/pref-feeds.php:225
+#: modules/popup-dialog.php:260 modules/pref-feeds.php:225
 #: modules/pref-feeds.php:512
 msgid "Place in category:"
 msgstr "Plasser i kategori..."
 
-#: modules/popup-dialog.php:295 modules/pref-feeds.php:330
+#: modules/popup-dialog.php:268 modules/pref-feeds.php:330
 #: modules/pref-feeds.php:554 modules/pref-prefs.php:235
 #: modules/pref-users.php:142
 msgid "Authentication"
 msgstr "Autentifisering"
 
-#: modules/popup-dialog.php:310
+#: modules/popup-dialog.php:283
 msgid "This feed requires authentication."
 msgstr "Denne nyhetsstrømmen krever autentifisering"
 
-#: modules/popup-dialog.php:316 modules/popup-dialog.php:376
+#: modules/popup-dialog.php:289 modules/popup-dialog.php:349
 msgid "Subscribe"
 msgstr "Abonner"
 
-#: modules/popup-dialog.php:317
+#: modules/popup-dialog.php:290
 #, fuzzy
 msgid "More feeds"
 msgstr "Flere nyhetsstrømmer"
 
-#: modules/popup-dialog.php:318 modules/popup-dialog.php:378
-#: modules/popup-dialog.php:452 modules/popup-dialog.php:570
-#: modules/popup-dialog.php:639 modules/pref-feeds.php:466
-#: modules/pref-feeds.php:619 modules/pref-filters.php:160
-#: modules/pref-users.php:181
+#: modules/popup-dialog.php:291 modules/popup-dialog.php:351
+#: modules/popup-dialog.php:425 modules/popup-dialog.php:543
+#: modules/popup-dialog.php:612 modules/popup-dialog.php:746
+#: modules/pref-feeds.php:466 modules/pref-feeds.php:619
+#: modules/pref-filters.php:160 modules/pref-users.php:181
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: modules/popup-dialog.php:325
+#: modules/popup-dialog.php:298
 msgid "Feed Browser"
 msgstr "Nyhetsstrømsredigerer"
 
-#: modules/popup-dialog.php:344 modules/popup-dialog.php:386
-#: modules/popup-dialog.php:451 modules/pref-feeds.php:1169
+#: modules/popup-dialog.php:317 modules/popup-dialog.php:359
+#: modules/popup-dialog.php:424 modules/pref-feeds.php:1155
 #: modules/pref-filters.php:308 modules/pref-labels.php:131
 #: modules/pref-users.php:361
 msgid "Search"
 msgstr "Søk"
 
-#: modules/popup-dialog.php:348
+#: modules/popup-dialog.php:321
 #, fuzzy
 msgid "Popular feeds"
 msgstr "Vis nyhetsstrømmer"
 
-#: modules/popup-dialog.php:349
+#: modules/popup-dialog.php:322
 #, fuzzy
 msgid "Feed archive"
 msgstr "Nyhetsstrømshandlinger"
 
-#: modules/popup-dialog.php:352
+#: modules/popup-dialog.php:325
 #, fuzzy
 msgid "limit:"
 msgstr "Antall:"
 
-#: modules/popup-dialog.php:398
+#: modules/popup-dialog.php:371
 msgid "Look for"
 msgstr ""
 
-#: modules/popup-dialog.php:405
+#: modules/popup-dialog.php:378
 #, fuzzy
 msgid "match on"
 msgstr "Match på:"
 
-#: modules/popup-dialog.php:410
+#: modules/popup-dialog.php:383
 msgid "Title or content"
 msgstr "Tittel eller innhold"
 
-#: modules/popup-dialog.php:415
+#: modules/popup-dialog.php:388
 msgid "Limit search to:"
 msgstr "Begrens søket til:"
 
-#: modules/popup-dialog.php:431
+#: modules/popup-dialog.php:404
 msgid "This feed"
 msgstr "Denne nyhetsstrømmen"
 
-#: modules/popup-dialog.php:465
+#: modules/popup-dialog.php:438
 msgid "Create Filter"
 msgstr "Lag filter"
 
-#: modules/popup-dialog.php:484 modules/pref-filters.php:42
+#: modules/popup-dialog.php:457 modules/pref-filters.php:42
 #: modules/pref-filters.php:406
 msgid "Match"
 msgstr "Match"
 
-#: modules/popup-dialog.php:492 modules/pref-filters.php:54
+#: modules/popup-dialog.php:465 modules/pref-filters.php:54
 #: modules/pref-filters.php:441
 msgid "before"
 msgstr "før"
 
-#: modules/popup-dialog.php:493 modules/pref-filters.php:55
+#: modules/popup-dialog.php:466 modules/pref-filters.php:55
 #: modules/pref-filters.php:442
 msgid "after"
 msgstr "etter"
 
-#: modules/popup-dialog.php:505 modules/pref-filters.php:68
+#: modules/popup-dialog.php:478 modules/pref-filters.php:68
 msgid "Check it"
 msgstr "Sjekk det"
 
-#: modules/popup-dialog.php:508 modules/pref-filters.php:71
+#: modules/popup-dialog.php:481 modules/pref-filters.php:71
 msgid "on field"
 msgstr "På felt:"
 
-#: modules/popup-dialog.php:514 modules/pref-filters.php:77 digest.js:392
+#: modules/popup-dialog.php:487 modules/pref-filters.php:77 digest.js:392
 msgid "in"
 msgstr "i"
 
-#: modules/popup-dialog.php:519 modules/pref-filters.php:82
+#: modules/popup-dialog.php:492 modules/pref-filters.php:82
 msgid "Perform Action"
 msgstr "Utfør handlingen"
 
-#: modules/popup-dialog.php:536 modules/pref-filters.php:102
+#: modules/popup-dialog.php:509 modules/pref-filters.php:102
 msgid "with parameters:"
 msgstr "med parametrene:"
 
-#: modules/popup-dialog.php:549 modules/pref-feeds.php:353
+#: modules/popup-dialog.php:522 modules/pref-feeds.php:353
 #: modules/pref-feeds.php:572 modules/pref-filters.php:121
 #: modules/pref-users.php:164
 msgid "Options"
 msgstr "Alternativer:"
 
-#: modules/popup-dialog.php:555 modules/pref-filters.php:133
+#: modules/popup-dialog.php:528 modules/pref-filters.php:133
 msgid "Enabled"
 msgstr "Tillatt"
 
-#: modules/popup-dialog.php:558 modules/pref-filters.php:142
+#: modules/popup-dialog.php:531 modules/pref-filters.php:142
 msgid "Inverse match"
 msgstr "Motsatt markering"
 
-#: modules/popup-dialog.php:568
+#: modules/popup-dialog.php:541
 msgid "Create"
 msgstr "Lag"
 
-#: modules/popup-dialog.php:582
+#: modules/popup-dialog.php:555
 msgid "Update Errors"
 msgstr "Oppdaterer feil"
 
-#: modules/popup-dialog.php:585
+#: modules/popup-dialog.php:558
 msgid "These feeds have not been updated because of errors:"
 msgstr "Disse nyhetsstrømmene kunne ikke oppdateres på grunn av feil:"
 
-#: modules/popup-dialog.php:611
+#: modules/popup-dialog.php:584
 msgid "Edit Tags"
 msgstr "Endre Stikkord"
 
-#: modules/popup-dialog.php:616
+#: modules/popup-dialog.php:589
 msgid "Tags for this article (separated by commas):"
 msgstr "Denne artikkelens stikkord (separert med kommaer):"
 
-#: modules/popup-dialog.php:638 modules/pref-feeds.php:465
+#: modules/popup-dialog.php:611 modules/pref-feeds.php:465
 #: modules/pref-feeds.php:617 modules/pref-filters.php:157
 #: modules/pref-users.php:179
 msgid "Save"
 msgstr "Lagre"
 
-#: modules/popup-dialog.php:647
+#: modules/popup-dialog.php:620
 #, fuzzy
 msgid "Tag Cloud"
 msgstr "Tag-sky"
 
-#: modules/popup-dialog.php:650
+#: modules/popup-dialog.php:623
 msgid "Showing most popular tags "
 msgstr "Vis mest populære stikkord"
 
-#: modules/popup-dialog.php:651
+#: modules/popup-dialog.php:624
 #, fuzzy
 msgid "more tags"
 msgstr "Ingen stikkord"
+
+#: modules/popup-dialog.php:644
+msgid "Forward article by email"
+msgstr ""
+
+#: modules/popup-dialog.php:684 modules/popup-dialog.php:690
+msgid "[Forwarded]"
+msgstr ""
+
+#: modules/popup-dialog.php:684
+#, fuzzy
+msgid "Multiple articles"
+msgstr "Alle artikler"
+
+#: modules/popup-dialog.php:705
+msgid "From:"
+msgstr ""
+
+#: modules/popup-dialog.php:715
+#, fuzzy
+msgid "To:"
+msgstr "Topp"
+
+#: modules/popup-dialog.php:728
+#, fuzzy
+msgid "Subject:"
+msgstr "Velg:"
+
+#: modules/popup-dialog.php:745
+#, fuzzy
+msgid "Send e-mail"
+msgstr "Skift e-post"
+
+#: modules/popup-dialog.php:766
+msgid "You can view this feed as RSS using the following URL:"
+msgstr ""
 
 #: modules/pref-feeds.php:4
 msgid "Check to enable field"
@@ -1580,103 +1641,99 @@ msgstr "Rediger abonnementsalternativer"
 msgid "Category editor"
 msgstr "Kategoriredigerer"
 
-#: modules/pref-feeds.php:1049
+#: modules/pref-feeds.php:1037
 #, php-format
 msgid "Category <b>$%s</b> already exists in the database."
 msgstr "Kategorien <b>$%s</b> eksisterer allerede i databasen"
 
-#: modules/pref-feeds.php:1069
+#: modules/pref-feeds.php:1055
 msgid "Create category"
 msgstr "Lag kategori"
 
-#: modules/pref-feeds.php:1122
+#: modules/pref-feeds.php:1108
 msgid "No feed categories defined."
 msgstr "Ingen kategorier ble markert"
 
-#: modules/pref-feeds.php:1152
-msgid "Some feeds have update errors (click for details)"
-msgstr "Noen nyhetsstrømmer har oppdateringsfeil (trykk for detaljer)"
-
-#: modules/pref-feeds.php:1173 help/3.php:45 help/4.php:22
+#: modules/pref-feeds.php:1159 help/3.php:45 help/4.php:22
 msgid "Subscribe to feed"
 msgstr "Abonner på nyhetsstrøm"
 
-#: modules/pref-feeds.php:1176
+#: modules/pref-feeds.php:1162
 #, fuzzy
 msgid "Edit feeds"
 msgstr "Rediger nyhetsstrømmen"
 
-#: modules/pref-feeds.php:1181
+#: modules/pref-feeds.php:1167
 msgid "Edit categories"
 msgstr "Rediger kategorier"
 
-#: modules/pref-feeds.php:1190
+#: modules/pref-feeds.php:1176
 #, fuzzy
 msgid "More actions..."
 msgstr "Handlinger..."
 
-#: modules/pref-feeds.php:1194
+#: modules/pref-feeds.php:1180
 msgid "Manual purge"
 msgstr "Slett manuelt"
 
-#: modules/pref-feeds.php:1198
+#: modules/pref-feeds.php:1184
 msgid "Clear feed data"
 msgstr "Slett nyhetsstrømsdata"
 
-#: modules/pref-feeds.php:1199 modules/pref-filters.php:324
+#: modules/pref-feeds.php:1185 modules/pref-filters.php:324
 msgid "Rescore articles"
 msgstr "Tilbakestill poengsummene for artiklene"
 
-#: modules/pref-feeds.php:1288
+#: modules/pref-feeds.php:1274
 msgid "Show last article times"
 msgstr "Vis tidspunktene for siste artikkel"
 
-#: modules/pref-feeds.php:1305 modules/pref-feeds.php:1365
+#: modules/pref-feeds.php:1289 modules/pref-feeds.php:1341
 msgid "Last&nbsp;Article"
 msgstr "Siste&nbsp;Artikkel"
 
-#: modules/pref-feeds.php:1390 modules/pref-filters.php:487
-#: modules/pref-users.php:467
+#: modules/pref-feeds.php:1366 modules/pref-filters.php:487
+#: modules/pref-users.php:457
 msgid "Click to edit"
 msgstr "Trykk for å endre"
 
-#: modules/pref-feeds.php:1404
+#: modules/pref-feeds.php:1378
 #, php-format
 msgid "(linked to %s)"
 msgstr "(koblet til %s)"
 
-#: modules/pref-feeds.php:1431
+#: modules/pref-feeds.php:1405
 #, fuzzy
 msgid "You don't have any subscribed feeds."
 msgstr "Du kan ikke fjerne abonnement fra kategorien."
 
-#: modules/pref-feeds.php:1433
+#: modules/pref-feeds.php:1407
 #, fuzzy
 msgid "No matching feeds found."
 msgstr "Ingen filtre ble funnet."
 
-#: modules/pref-feeds.php:1439
+#: modules/pref-feeds.php:1413
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1451
+#: modules/pref-feeds.php:1425
 msgid ""
 "Using OPML you can export and import your feeds and Tiny Tiny RSS settings."
 msgstr ""
 
-#: modules/pref-feeds.php:1453
+#: modules/pref-feeds.php:1427
 msgid "Note: Only main settings profile can be migrated using OPML."
 msgstr ""
 
-#: modules/pref-feeds.php:1468
+#: modules/pref-feeds.php:1442
 msgid "Import"
 msgstr "Importer"
 
-#: modules/pref-feeds.php:1473
+#: modules/pref-feeds.php:1447
 msgid "Export OPML"
 msgstr "Eksporter OPML"
 
-#: modules/pref-feeds.php:1479
+#: modules/pref-feeds.php:1454
 #, fuzzy
 msgid ""
 "Your OPML can be published publicly and can be subscribed by anyone who "
@@ -1685,22 +1742,22 @@ msgstr ""
 "Publiserte artikler kan bli eksportert som en offentlig RSS-nyhetskanal og "
 "kan bli abonnert på av alle som vet adressen som blir spesifisert nedenfor."
 
-#: modules/pref-feeds.php:1481
+#: modules/pref-feeds.php:1456
 msgid ""
 "Note: Published OPML does not include your Tiny Tiny RSS settings, feeds "
 "that require authentication or feeds hidden from Popular feeds."
 msgstr ""
 
-#: modules/pref-feeds.php:1484 modules/pref-feeds.php:1525
+#: modules/pref-feeds.php:1459 modules/pref-feeds.php:1499
 #, fuzzy
 msgid "Display URL"
 msgstr "Vis stikkord"
 
-#: modules/pref-feeds.php:1489
+#: modules/pref-feeds.php:1464
 msgid "Firefox Integration"
 msgstr "Firefox integrering"
 
-#: modules/pref-feeds.php:1491
+#: modules/pref-feeds.php:1466
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
@@ -1708,31 +1765,31 @@ msgstr ""
 "Denne Tiny Tiny RSS siden kan bli brukt som nyhetsstrømsleser for Firefox "
 "ved å trykke på lenken nedenfor."
 
-#: modules/pref-feeds.php:1498
+#: modules/pref-feeds.php:1473
 msgid "Click here to register this site as a feed reader."
 msgstr "Trykk her for å registrere denne siden som nyhetsstrømsleser"
 
-#: modules/pref-feeds.php:1504
+#: modules/pref-feeds.php:1479
 msgid "Subscribing via bookmarklet"
 msgstr ""
 
-#: modules/pref-feeds.php:1506
+#: modules/pref-feeds.php:1481
 msgid ""
 "Drag the link below to your browser toolbar, open the feed you're interested "
 "in in your browser and click on the link to subscribe to it."
 msgstr ""
 
-#: modules/pref-feeds.php:1510
+#: modules/pref-feeds.php:1485
 #, fuzzy, php-format
 msgid "Subscribe to %s in Tiny Tiny RSS?"
 msgstr "Returner til Tiny Tiny RSS"
 
-#: modules/pref-feeds.php:1514
+#: modules/pref-feeds.php:1489
 #, fuzzy
 msgid "Subscribe in Tiny Tiny RSS"
 msgstr "Returner til Tiny Tiny RSS"
 
-#: modules/pref-feeds.php:1522
+#: modules/pref-feeds.php:1493
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
@@ -1740,12 +1797,12 @@ msgstr ""
 "Publiserte artikler kan bli eksportert som en offentlig RSS-nyhetskanal og "
 "kan bli abonnert på av alle som vet adressen som blir spesifisert nedenfor."
 
-#: modules/pref-feeds.php:1630
+#: modules/pref-feeds.php:1604
 #, fuzzy, php-format
 msgid "%d archived articles"
 msgstr "Favorittartikler"
 
-#: modules/pref-feeds.php:1659
+#: modules/pref-feeds.php:1633
 msgid "No feeds found."
 msgstr "Ingen nyhetsstrømmer ble funnet."
 
@@ -1909,23 +1966,23 @@ msgstr "Endre passord"
 msgid "Select theme"
 msgstr "Velg utseende"
 
-#: modules/pref-prefs.php:383 modules/pref-prefs.php:388
+#: modules/pref-prefs.php:389 modules/pref-prefs.php:394
 msgid "Yes"
 msgstr "Ja"
 
-#: modules/pref-prefs.php:385 modules/pref-prefs.php:388
+#: modules/pref-prefs.php:391 modules/pref-prefs.php:394
 msgid "No"
 msgstr "Nei"
 
-#: modules/pref-prefs.php:409
+#: modules/pref-prefs.php:415
 msgid "Save configuration"
 msgstr "Lagre konfigurasjonen"
 
-#: modules/pref-prefs.php:412
+#: modules/pref-prefs.php:418
 msgid "Manage profiles"
 msgstr ""
 
-#: modules/pref-prefs.php:415
+#: modules/pref-prefs.php:421
 msgid "Reset to defaults"
 msgstr "Tilbake til standard"
 
@@ -2036,11 +2093,11 @@ msgstr "Tilgangsnivå"
 msgid "Last login"
 msgstr "Siste innlogging"
 
-#: modules/pref-users.php:487
+#: modules/pref-users.php:477
 msgid "No users defined."
 msgstr "Ingen brukere er valgt"
 
-#: modules/pref-users.php:489
+#: modules/pref-users.php:479
 msgid "No matching users found."
 msgstr "Ingen matchende brukere ble funnet"
 
@@ -2287,7 +2344,7 @@ msgstr "Skjul/vis leste nyhetsstrømmer"
 msgid "Sort feeds by unread count"
 msgstr "Sorter nyhetsstrømer ut i fra antall uleste artikler"
 
-#: digest.js:27 tt-rss.js:670 tt-rss.js:683
+#: digest.js:27 tt-rss.js:645 tt-rss.js:658
 msgid "Mark all articles in %s as read?"
 msgstr "Marker alle artikler i %s som leste?"
 
@@ -2301,15 +2358,15 @@ msgstr "Marker %d artikkel/artikler som leste?"
 msgid "Error: unable to load article."
 msgstr "Feil: Kan ikke laste opp OPMLfil"
 
-#: digest.js:405 digest.js:653 viewfeed.js:577
+#: digest.js:405 digest.js:653 viewfeed.js:580
 msgid "Unstar article"
 msgstr "Fjern favorittmerkingen fra artiklen"
 
-#: digest.js:407 digest.js:660 viewfeed.js:528 viewfeed.js:592
+#: digest.js:407 digest.js:660 viewfeed.js:531 viewfeed.js:595
 msgid "Star article"
 msgstr "Marker artikkel som favoritt"
 
-#: digest.js:410 digest.js:694 viewfeed.js:648
+#: digest.js:410 digest.js:694 viewfeed.js:651
 msgid "Unpublish article"
 msgstr "Fjern publiseringen av artikkelen."
 
@@ -2327,82 +2384,91 @@ msgstr ""
 msgid "Load more..."
 msgstr "Laster hjelp..."
 
-#: digest.js:656 digest.js:698 viewfeed.js:585 viewfeed.js:652
+#: digest.js:656 digest.js:698 viewfeed.js:588 viewfeed.js:655
 msgid "Please wait..."
 msgstr "Vennligst vent..."
 
-#: functions.js:1252
+#: functions.js:1251
 msgid "Can't add filter: nothing to match on."
 msgstr "Kan ikke legge til filter, ingen match på kriteriene"
 
-#: functions.js:1287
+#: functions.js:1286
 msgid "Can't subscribe: no feed URL given."
 msgstr "Kan ikke abonnere: Ingen nyhetsstrømsadresse er blitt gitt"
 
-#: functions.js:1291
+#: functions.js:1290
 msgid "Subscribing to feed..."
 msgstr "Abonnerer på nyhetsstrømmen..."
 
-#: functions.js:1314
+#: functions.js:1313
 #, fuzzy
 msgid "Subscribed to %s"
 msgstr "Abonnerer på følgende nyhetsstrømmer:"
 
-#: functions.js:1323
+#: functions.js:1322
 #, fuzzy
 msgid "Can't subscribe to the specified URL."
 msgstr "Kan ikke abonnere: Ingen nyhetsstrømsadresse er blitt gitt"
 
-#: functions.js:1326
+#: functions.js:1325
 #, fuzzy
 msgid "You are already subscribed to this feed."
 msgstr "Du kan ikke fjerne abonnement fra kategorien."
 
-#: functions.js:1887
+#: functions.js:1824
 msgid "New articles available in this feed (click to show)"
 msgstr ""
 
-#: functions.js:1924
+#: functions.js:1861
 #, fuzzy
 msgid "Subscribed to %d feed(s)."
 msgstr "Abonnerer på følgende nyhetsstrømmer:"
 
-#: functions.js:1934 functions.js:1965 prefs.js:559 prefs.js:589 prefs.js:621
-#: prefs.js:910 prefs.js:930 prefs.js:1778
+#: functions.js:1871 functions.js:1902 prefs.js:562 prefs.js:592 prefs.js:624
+#: prefs.js:913 prefs.js:933 prefs.js:1728
 msgid "No feeds are selected."
 msgstr "Ingen nyhetsstrømmer er valgt"
 
-#: functions.js:1949
+#: functions.js:1886
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
 msgstr ""
 
-#: functions.js:2001
+#: functions.js:1938
 #, fuzzy
 msgid "Remove stored feed icon?"
 msgstr "Fjern lagrede data"
 
-#: functions.js:2033
+#: functions.js:1970
 #, fuzzy
 msgid "Please select an image file to upload."
 msgstr "Vennligst velg en nyhetsstrøm"
 
-#: functions.js:2035
+#: functions.js:1972
 msgid "Upload new icon for this feed?"
 msgstr ""
 
-#: functions.js:2052
+#: functions.js:1989
 msgid "Please enter label caption:"
 msgstr "Vennligst skriv inn merkelappstekst:"
 
-#: functions.js:2057
+#: functions.js:1994
 msgid "Can't create label: missing caption."
 msgstr "Kan ikke skape merkelapp, mangler overskrift."
 
-#: functions.js:2097 tt-rss.js:499
+#: functions.js:2034 tt-rss.js:474
 msgid "Unsubscribe from %s?"
 msgstr "Fjerne abonnement på %s?"
+
+#: functions.js:2165
+#, fuzzy
+msgid "Please enter category title:"
+msgstr "Vennligst skriv inn et notat for denne artikkelen:"
+
+#: functions.js:2193
+msgid "Generate new syndication address for this feed?"
+msgstr ""
 
 #: offline.js:636
 msgid "Data for offline browsing has not been downloaded yet."
@@ -2467,244 +2533,257 @@ msgstr ""
 "Tiny Tiny RSS har problem med å koble til tjeneren. Ønsker du å benytte "
 "muligheten til å lese uten internett-tilgang?"
 
-#: prefs.js:235
+#: prefs.js:236
 msgid "Error: No feed URL given."
 msgstr "Feil: Ingen nyhetsstrømsadresse ble oppgitt."
 
-#: prefs.js:237
+#: prefs.js:238
 msgid "Error: Invalid feed URL."
 msgstr "Feil: Ugyldig nyhetsstrømsadresse."
 
-#: prefs.js:265
+#: prefs.js:266
 #, fuzzy
 msgid "Can't add profile: no name specified."
 msgstr "Kan ikke legge til kategori: mangler navn"
 
-#: prefs.js:287
+#: prefs.js:288
 msgid "Can't add category: no name specified."
 msgstr "Kan ikke legge til kategori: mangler navn"
 
-#: prefs.js:309
+#: prefs.js:310
 msgid "Please enter login:"
 msgstr "Vennligst skriv inn brukernavn:"
 
-#: prefs.js:316
+#: prefs.js:317
 msgid "Can't create user: no login specified."
 msgstr "Kan ikke legge til bruker: brukernavn mangler."
 
-#: prefs.js:440
+#: prefs.js:443
 msgid "Remove selected labels?"
 msgstr "Fjerne merkede merkelapper?"
 
-#: prefs.js:456
+#: prefs.js:459
 msgid "No labels are selected."
 msgstr "Ingen merkelapper er markert"
 
-#: prefs.js:470
+#: prefs.js:473
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
-#: prefs.js:487 prefs.js:800 prefs.js:821 prefs.js:860
+#: prefs.js:490 prefs.js:803 prefs.js:824 prefs.js:863
 msgid "No users are selected."
 msgstr "Ingen bruker er markert"
 
-#: prefs.js:505
+#: prefs.js:508
 msgid "Remove selected filters?"
 msgstr "Fjerne valgte filtre?"
 
-#: prefs.js:521 prefs.js:890
+#: prefs.js:524 prefs.js:893
 msgid "No filters are selected."
 msgstr "Ingen filtre er valgt"
 
-#: prefs.js:540
+#: prefs.js:543
 msgid "Unsubscribe from selected feeds?"
 msgstr "Fjern abonnement på valgte nyhetsstrømmer"
 
-#: prefs.js:574
+#: prefs.js:577
 msgid "Please select only one feed."
 msgstr "Vennligst velg kun en nyhetsstrøm"
 
-#: prefs.js:580
+#: prefs.js:583
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Fjern alle ikke-favoriserte artikler i den valgte nyhetsstrømmen?"
 
-#: prefs.js:602
+#: prefs.js:605
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Hvor mange dager med artikler skal beholdes (0 - bruk standard)?"
 
-#: prefs.js:634
+#: prefs.js:637
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: prefs.js:650
+#: prefs.js:653
 #, fuzzy
 msgid "No profiles selected."
 msgstr "Ingen artikkel er valgt."
 
-#: prefs.js:662
+#: prefs.js:665
 msgid "Remove selected categories?"
 msgstr "Fjerne valgte kategorier?"
 
-#: prefs.js:680
+#: prefs.js:683
 msgid "No categories are selected."
 msgstr "Ingen kategorier er valgt."
 
-#: prefs.js:747
+#: prefs.js:750
 msgid "Login field cannot be blank."
 msgstr "Brukernavn kan ikke være blankt"
 
-#: prefs.js:805 prefs.js:826 prefs.js:865
+#: prefs.js:808 prefs.js:829 prefs.js:868
 msgid "Please select only one user."
 msgstr "Vennligst velg kun en bruker"
 
-#: prefs.js:830
+#: prefs.js:833
 msgid "Reset password of selected user?"
 msgstr "Nullstill passordet til utvalgte bruker?"
 
-#: prefs.js:895
+#: prefs.js:898
 msgid "Please select only one filter."
 msgstr "Vennligst velg kun et filter"
 
-#: prefs.js:971
+#: prefs.js:974
 msgid "No OPML file to upload."
 msgstr "Ingen OPML-fil til å lastes opp."
 
-#: prefs.js:1175
+#: prefs.js:1172
 msgid "Reset to defaults?"
 msgstr "Tilbakefør til standardinnstillingene"
 
-#: prefs.js:1588
-msgid "Replace current publishing address with a new one?"
-msgstr "Bytt ut nåværende publiseringsadresse med en ny?"
-
-#: prefs.js:1625
+#: prefs.js:1575
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Bytt ut nåværende publiseringsadresse med en ny?"
 
-#: prefs.js:1661
+#: prefs.js:1611
 msgid "Save current configuration?"
 msgstr "Lagre nåværende konfigurasjon?"
 
-#: prefs.js:1762
+#: prefs.js:1712
 msgid "Rescore articles in selected feeds?"
 msgstr "Sett poeng på nytt for artiklene i de valgte nyhetskanalene?"
 
-#: prefs.js:1785
+#: prefs.js:1735
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr "Endre poengene til artiklene? Dette kan ta lang tid."
 
-#: prefs.js:1804
+#: prefs.js:1754
 msgid "Remove filter %s?"
 msgstr "Fjerne %s filteret?"
 
-#: prefs.js:1865
+#: prefs.js:1815
 msgid "Save changes to selected feeds?"
 msgstr "Lagre endringer til de valgte nyhetsstrømmene?"
 
-#: prefs.js:1945
+#: prefs.js:1895
 msgid "Reset label colors to default?"
 msgstr "Sett merkelappsfargene til standard?"
 
-#: prefs.js:1970
+#: prefs.js:1920
 msgid "Please enter new label foreground color:"
 msgstr "Vennligst legg inn forgrunnsfarge for merkelappen:"
 
-#: prefs.js:1972
+#: prefs.js:1922
 msgid "Please enter new label background color:"
 msgstr "Vennligst skriv inn bakgrunnsfarge for merkelappen:"
 
-#: prefs.js:2104
+#: prefs.js:2054
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "Fjerne valgte filtre?"
 
-#: prefs.js:2120
+#: prefs.js:2070
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: tt-rss.js:73
+#: tt-rss.js:72
 msgid "display feeds"
 msgstr "Vis nyhetsstrømmer"
 
-#: tt-rss.js:178
+#: tt-rss.js:156
 msgid "Mark all articles as read?"
 msgstr "Marker alle artikler som leste?"
 
-#: tt-rss.js:488
+#: tt-rss.js:463
 msgid "You can't unsubscribe from the category."
 msgstr "Du kan ikke fjerne abonnement fra kategorien."
 
-#: tt-rss.js:493 tt-rss.js:698 tt-rss.js:873
+#: tt-rss.js:468 tt-rss.js:673 tt-rss.js:848
 msgid "Please select some feed first."
 msgstr "Vennligst velg en eller flere nyhetsstrømmer først"
 
-#: tt-rss.js:561
+#: tt-rss.js:536
 msgid "Reset category order?"
 msgstr "Tilbakestill kategorirekkefølgen?"
 
-#: tt-rss.js:703
+#: tt-rss.js:678
 msgid "You can't edit this kind of feed."
 msgstr "Du kan ikke endre denne typen nyhetsstrøm"
 
-#: tt-rss.js:868
+#: tt-rss.js:843
 msgid "You can't rescore this kind of feed."
 msgstr "Du kan ikke endre poengsummen for denne typen nyhetskanal"
 
-#: tt-rss.js:878
+#: tt-rss.js:853
 msgid "Rescore articles in %s?"
 msgstr "Endre poengene for artiklene i %s?"
 
-#: viewfeed.js:935 viewfeed.js:971 viewfeed.js:1012 viewfeed.js:1097
-#: viewfeed.js:1141 viewfeed.js:1288 viewfeed.js:1338 viewfeed.js:1394
+#: viewfeed.js:938 viewfeed.js:974 viewfeed.js:1009 viewfeed.js:1088
+#: viewfeed.js:1126 viewfeed.js:1267 viewfeed.js:1310 viewfeed.js:1359
+#: viewfeed.js:2297
 msgid "No articles are selected."
 msgstr "Ingen artikler er valgt."
 
-#: viewfeed.js:1256
+#: viewfeed.js:1241
 msgid "Mark all visible articles in %s as read?"
 msgstr "Marker alle synlige artikler i %s som leste?"
 
-#: viewfeed.js:1298
+#: viewfeed.js:1276
 #, fuzzy
 msgid "Delete %d selected articles in %s?"
 msgstr "Marker %d valgte artikler i %s som leste?"
 
-#: viewfeed.js:1300
+#: viewfeed.js:1278
 #, fuzzy
 msgid "Delete %d selected articles?"
 msgstr "Fjerne merkede artikler fra merkelappen?"
 
-#: viewfeed.js:1348
+#: viewfeed.js:1319
 #, fuzzy
 msgid "Archive %d selected articles in %s?"
 msgstr "Marker %d valgte artikler i %s som leste?"
 
-#: viewfeed.js:1351
+#: viewfeed.js:1322
 msgid "Move %d archived articles back?"
 msgstr ""
 
-#: viewfeed.js:1401
+#: viewfeed.js:1365
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Marker %d valgte artikler i %s som leste?"
 
-#: viewfeed.js:1977
+#: viewfeed.js:2002
 msgid "No article is selected."
 msgstr "Ingen artikkel er valgt."
 
-#: viewfeed.js:2018
+#: viewfeed.js:2043
 msgid "No articles found to mark"
 msgstr "Ingen artikler funnet som kan markeres"
 
-#: viewfeed.js:2020
+#: viewfeed.js:2045
 msgid "Mark %d article(s) as read?"
 msgstr "Marker %d artikkel/artikler som leste?"
 
-#: viewfeed.js:2255
+#: viewfeed.js:2280
 msgid "Please enter a note for this article:"
 msgstr "Vennligst skriv inn et notat for denne artikkelen:"
+
+#~ msgid "Generated feed"
+#~ msgstr "Generert nyhetsstrøm"
+
+#~ msgid "No feeds to display."
+#~ msgstr "Ingen nyhetstrømmer å vise"
+
+#~ msgid "Published Articles"
+#~ msgstr "Publiserte artikler"
+
+#, fuzzy
+#~ msgid "Your Published articles feed URL is:"
+#~ msgstr "Lenke til nyhetsstrøm for publiserte artikler"
+
+#~ msgid "Replace current publishing address with a new one?"
+#~ msgstr "Bytt ut nåværende publiseringsadresse med en ny?"
 
 #~ msgid "Limit bandwidth usage"
 #~ msgstr "Begrens båndbreddebruken"
@@ -2717,9 +2796,6 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 
 #~ msgid "Adding feed..."
 #~ msgstr "Legger til nyhetsstrøm..."
-
-#~ msgid "Adding feed category..."
-#~ msgstr "Legger til kategori for nyhetsstrømmer"
 
 #, fuzzy
 #~ msgid "Adding profile..."
@@ -2921,9 +2997,6 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 #~ msgid "Done."
 #~ msgstr "Ferdig."
 
-#~ msgid "Visit official site"
-#~ msgstr "Besøk den offisielle siden"
-
 #~ msgid "Close"
 #~ msgstr "Steng"
 
@@ -2968,9 +3041,6 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 #~ msgid "Feed browser is administratively disabled."
 #~ msgstr "Nyhetsstrømsutforsker er administrativt avskrudd"
 
-#~ msgid "Top"
-#~ msgstr "Topp"
-
 #~ msgid "Show"
 #~ msgstr "Vis"
 
@@ -2991,12 +3061,6 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 
 #~ msgid "Generate another link"
 #~ msgstr "Genererer en ny adresse"
-
-#~ msgid "View feeds"
-#~ msgstr "Se nyhetsstrømmene"
-
-#~ msgid "View tags"
-#~ msgstr "Se stikkord"
 
 #~ msgid "Back"
 #~ msgstr "Tilbake"
@@ -3386,9 +3450,6 @@ msgstr "Vennligst skriv inn et notat for denne artikkelen:"
 
 #~ msgid "Match:"
 #~ msgstr "Matcher:"
-
-#~ msgid "Feed:"
-#~ msgstr "Nyhetsstrøm:"
 
 #~ msgid "Action:"
 #~ msgstr "Handling:"
