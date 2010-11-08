@@ -14,7 +14,7 @@
 
 	login_sequence($link);
 
-	$dt_add = get_script_dt_add();
+	$dt_add = time();
 
 	no_cache_incantation();
 

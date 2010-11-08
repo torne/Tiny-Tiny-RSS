@@ -2920,10 +2920,6 @@
 		return $ret_arr;
 	}
 
-	function get_script_dt_add() {
-		return time();
-	}
-
 	function get_pgsql_version($link) {
 		$result = db_query($link, "SELECT version() AS version");
 		$version = split(" ", db_fetch_result($result, 0, "version"));
@@ -5082,8 +5078,6 @@
 			$rtl_tag = "";
 			$rtl_content = false;
 		}
-
-		$script_dt_add = get_script_dt_add();
 
 		/// START /////////////////////////////////////////////////////////////////////////////////
 
