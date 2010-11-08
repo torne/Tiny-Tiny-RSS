@@ -4216,7 +4216,7 @@
 				<a href=\"#\"
 					title=\"".__("View as RSS feed")."\"
 					onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">
-					<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
+					<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "</div>";
 
