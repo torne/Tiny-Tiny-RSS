@@ -960,9 +960,10 @@
 
 				// parse <category> entries into tags
 
+				$additional_tags = array();
+
 				if ($use_simplepie) {
 
-					$additional_tags = array();
 					$additional_tags_src = $item->get_categories();
 					
 					if (is_array($additional_tags_src)) {
@@ -980,10 +981,8 @@
 
 					$t_ctr = $item['category#'];
 
-					$additional_tags = false;
-	
 					if ($t_ctr == 0) {
-						$additional_tags = false;
+						$additional_tags = array();
 					} else if ($t_ctr > 0) {
 						$additional_tags = array($item['category']);
 
@@ -1007,7 +1006,7 @@
 					$t_ctr = $item['dc']['subject#'];
 	
 					if ($t_ctr > 0) {
-						$additional_tags = array($item['dc']['subject']);
+						array_push($additional_tags, $item['dc']['subject']);
 
 						for ($i = 0; $i <= $t_ctr; $i++ ) {
 							if ($item['dc']["subject#$i"]) {
