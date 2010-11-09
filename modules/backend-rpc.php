@@ -423,8 +423,8 @@
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$tags_str = db_escape_string($_REQUEST["tags_str"]);
-
 			$tags = array_unique(trim_array(split(",", $tags_str)));
+			$tags_str = db_escape_string(join(",", $tags));
 
 			db_query($link, "BEGIN");
 
@@ -457,6 +457,10 @@
 					}
 				}
 			}
+
+			db_query($link, "UPDATE ttrss_user_entries 
+				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
+				AND owner_uid = " . $_SESSION["uid"]);
 
 			db_query($link, "COMMIT");
 

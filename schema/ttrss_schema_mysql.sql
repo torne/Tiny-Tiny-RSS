@@ -151,6 +151,7 @@ create table ttrss_user_entries (
 	owner_uid integer not null,
 	marked bool not null default 0,
 	published bool not null default 0,
+	tag_cache text not null,
 	last_read datetime,
 	score int not null default 0,
 	note longtext,
@@ -244,7 +245,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (71);
+insert into ttrss_version values (72);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

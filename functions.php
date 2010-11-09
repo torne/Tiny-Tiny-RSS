@@ -1199,9 +1199,9 @@
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries 
 								(ref_id, owner_uid, feed_id, unread, last_read, marked, 
-									published, score) 
+									published, score, tag_cache) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked, $published, '$score')");
+								$last_read_qpart, $marked, $published, '$score', '')");
 
 						$result = db_query($link, 
 							"SELECT int_id FROM ttrss_user_entries WHERE
@@ -1433,6 +1433,14 @@
 									(owner_uid,tag_name,post_int_id)
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
 							}							
+
+							/* update the cache */
+
+							$tags_str = db_escape_string(join(",", $filtered_tags));
+
+							db_query($link, "UPDATE ttrss_user_entries 
+								SET tag_cache = '$tags_str' WHERE ref_id = '$entry_ref_id'
+								AND owner_uid = $owner_uid");
 						}
 
 					db_query($link, "COMMIT");
@@ -4660,10 +4668,32 @@
 		if ($memcache && $obj = $memcache->get($obj_id)) {
 			$tags = $obj;
 		} else {
-			$tmp_result = db_query($link, $query);
+			/* check cache first */
 
-			while ($tmp_line = db_fetch_assoc($tmp_result)) {
-				array_push($tags, $tmp_line["tag_name"]);				
+			$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+			$tag_cache = db_fetch_result($result, 0, "tag_cache");
+
+			if ($tag_cache) {
+				$tags = explode(",", $tag_cache);
+			} else {
+
+				/* do it the hard way */
+
+				$tmp_result = db_query($link, $query);
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					array_push($tags, $tmp_line["tag_name"]);				
+				}
+
+				/* update the cache */
+
+				$tags_str = db_escape_string(join(",", $tags));
+
+				db_query($link, "UPDATE ttrss_user_entries 
+					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
+					AND owner_uid = " . $_SESSION["uid"]);
 			}
 
 			if ($memcache) $memcache->add($obj_id, $tags, 0, 3600);

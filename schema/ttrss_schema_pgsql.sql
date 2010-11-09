@@ -137,6 +137,7 @@ create table ttrss_user_entries (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
 	published boolean not null default false,
+	tag_cache text not null,
 	last_read timestamp,
 	score int not null default 0,
 	note text,
@@ -216,7 +217,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (71);
+insert into ttrss_version values (72);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
