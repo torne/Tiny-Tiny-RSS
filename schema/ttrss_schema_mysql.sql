@@ -187,6 +187,7 @@ insert into ttrss_filter_types (id,name,description) values (4, 'link',
 insert into ttrss_filter_types (id,name,description) values (5, 'date', 
 	'Article Date');
 insert into ttrss_filter_types (id,name,description) values (6, 'author', 'Author');
+insert into ttrss_filter_types (id,name,description) values (7, 'tag', 'Article Tags');
 
 create table ttrss_filter_actions (id integer not null primary key, 
 	name varchar(120) unique not null, 
@@ -243,7 +244,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (70);
+insert into ttrss_version values (71);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

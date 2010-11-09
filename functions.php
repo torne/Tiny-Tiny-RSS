@@ -954,6 +954,10 @@
 
 				if (!$num_comments) $num_comments = 0;
 
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("update_rss_feed: looking for tags [1]...");
+				}
+
 				// parse <category> entries into tags
 
 				if ($use_simplepie) {
@@ -1013,68 +1017,25 @@
 					}
 				}
 
-				// enclosures
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("update_rss_feed: looking for tags [2]...");
+				}
 
-				$enclosures = array();
+				/* taaaags */
+				// <a href="..." rel="tag">Xorg</a>, //
 
-				if ($use_simplepie) {
-					$encs = $item->get_enclosures();
+				$entry_tags = null;
 
-					if (is_array($encs)) {
-						foreach ($encs as $e) {
-							$e_item = array(
-								$e->link, $e->type, $e->length);
-	
-							array_push($enclosures, $e_item);
-						}
-					}
+				preg_match_all("/<a.*?rel=['\"]tag['\"].*?\>([^<]+)<\/a>/i",
+					$entry_content_unescaped, $entry_tags);
 
-				} else {
-					// <enclosure>
+				$entry_tags = $entry_tags[1];
 
-					$e_ctr = $item['enclosure#'];
+				$entry_tags = array_merge($entry_tags, $additional_tags);
 
-					if ($e_ctr > 0) {
-						$e_item = array($item['enclosure@url'],
-							$item['enclosure@type'],
-							$item['enclosure@length']);
-
-						array_push($enclosures, $e_item);
-
-						for ($i = 0; $i <= $e_ctr; $i++ ) {
-
-							if ($item["enclosure#$i@url"]) {
-								$e_item = array($item["enclosure#$i@url"],
-									$item["enclosure#$i@type"],
-									$item["enclosure#$i@length"]);
-								array_push($enclosures, $e_item);
-							}
-						}
-					}
-
-					// <media:content>
-					// can there be many of those? yes -fox
-
-					$m_ctr = $item['media']['content#'];
-
-					if ($m_ctr > 0) {
-						$e_item = array($item['media']['content@url'],
-							$item['media']['content@medium'],
-							$item['media']['content@length']);
-
-						array_push($enclosures, $e_item);
-
-						for ($i = 0; $i <= $m_ctr; $i++ ) {
-
-							if ($item["media"]["content#$i@url"]) {
-								$e_item = array($item["media"]["content#$i@url"],
-									$item["media"]["content#$i@medium"],
-									$item["media"]["content#$i@length"]);
-								array_push($enclosures, $e_item);
-							}
-						}
-
-					}
+				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("update_rss_feed: unfiltered tags found:");
+					print_r($entry_tags);
 				}
 
 				# sanitize content
@@ -1176,8 +1137,10 @@
 
 //					error_reporting(0);
 
+					/* Collect article tags here so we could filter by them: */
+
 					$article_filters = get_article_filters($filters, $entry_title, 
-							$entry_content, $entry_link, $entry_timestamp, $entry_author);
+							$entry_content, $entry_link, $entry_timestamp, $entry_author, $entry_tags);
 
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
@@ -1324,7 +1287,73 @@
 					_debug("update_rss_feed: looking for enclosures...");
 				}
 
+				// enclosures
+
+				$enclosures = array();
+
+				if ($use_simplepie) {
+					$encs = $item->get_enclosures();
+
+					if (is_array($encs)) {
+						foreach ($encs as $e) {
+							$e_item = array(
+								$e->link, $e->type, $e->length);
+	
+							array_push($enclosures, $e_item);
+						}
+					}
+
+				} else {
+					// <enclosure>
+
+					$e_ctr = $item['enclosure#'];
+
+					if ($e_ctr > 0) {
+						$e_item = array($item['enclosure@url'],
+							$item['enclosure@type'],
+							$item['enclosure@length']);
+
+						array_push($enclosures, $e_item);
+
+						for ($i = 0; $i <= $e_ctr; $i++ ) {
+
+							if ($item["enclosure#$i@url"]) {
+								$e_item = array($item["enclosure#$i@url"],
+									$item["enclosure#$i@type"],
+									$item["enclosure#$i@length"]);
+								array_push($enclosures, $e_item);
+							}
+						}
+					}
+
+					// <media:content>
+					// can there be many of those? yes -fox
+
+					$m_ctr = $item['media']['content#'];
+
+					if ($m_ctr > 0) {
+						$e_item = array($item['media']['content@url'],
+							$item['media']['content@medium'],
+							$item['media']['content@length']);
+
+						array_push($enclosures, $e_item);
+
+						for ($i = 0; $i <= $m_ctr; $i++ ) {
+
+							if ($item["media"]["content#$i@url"]) {
+								$e_item = array($item["media"]["content#$i@url"],
+									$item["media"]["content#$i@medium"],
+									$item["media"]["content#$i@length"]);
+								array_push($enclosures, $e_item);
+							}
+						}
+
+					}
+				}
+
+
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+					_debug("update_rss_feed: article enclosures:");
 					print_r($enclosures);
 				}
 
@@ -1347,25 +1376,7 @@
 
 				db_query($link, "COMMIT");
 
-				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					_debug("update_rss_feed: looking for tags...");
-				}
-
-				/* taaaags */
-				// <a href="..." rel="tag">Xorg</a>, //
-
-				$entry_tags = null;
-
-				preg_match_all("/<a.*?rel=['\"]tag['\"].*?>([^<]+)<\/a>/i", 
-					$entry_content_unescaped, $entry_tags);
-
-/*				print "<p><br/>$entry_title : $entry_content_unescaped<br>";
-				print_r($entry_tags);
-				print "<br/></p>"; */
-
-				$entry_tags = $entry_tags[1];
-
-				# check for manual tags
+				// check for manual tags (we have to do it here since they're loaded from filters)
 
 				foreach ($article_filters as $f) {
 					if ($f[0] == "tag") {
@@ -1380,29 +1391,33 @@
 					}
 				}
 
+				// Skip boring tags
+
 				$boring_tags = trim_array(split(",", mb_strtolower(get_pref($link, 
 					'BLACKLISTED_TAGS', $owner_uid, ''), 'utf-8')));
 
-				if ($additional_tags && is_array($additional_tags)) {
-					foreach ($additional_tags as $tag) {
-						if (tag_is_valid($tag) && 
-								array_search($tag, $boring_tags) === FALSE) {
-							array_push($entry_tags, $tag);
+				$filtered_tags = array();
+
+				if ($entry_tags && is_array($entry_tags)) {
+					foreach ($entry_tags as $tag) {
+						if (array_search($tag, $boring_tags) === false) {
+							array_push($filtered_tags, $tag);
 						}
 					}
 				} 
 
-//				print "<p>TAGS: "; print_r($entry_tags); print "</p>";
-
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-					print_r($entry_tags);
+					_debug("update_rss_feed: filtered article tags:");
+					print_r($filtered_tags);
 				}
 
-				if (count($entry_tags) > 0) {
+				// Save article tags in the database
+
+				if (count($filtered_tags) > 0) {
 				
 					db_query($link, "BEGIN");
 			
-						foreach ($entry_tags as $tag) {
+						foreach ($filtered_tags as $tag) {
 
 							$tag = sanitize_tag($tag);
 							$tag = db_escape_string($tag);
@@ -1412,8 +1427,6 @@
 							$result = db_query($link, "SELECT id FROM ttrss_tags		
 								WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
 								owner_uid = '$owner_uid' LIMIT 1");
-	
-	//						print db_fetch_result($result, 0, "id");
 	
 							if ($result && db_num_rows($result) == 0) {
 								
@@ -1501,7 +1514,7 @@
 		print "</select>";
 	}
 
-	function get_article_filters($filters, $title, $content, $link, $timestamp, $author) {
+	function get_article_filters($filters, $title, $content, $link, $timestamp, $author, $tags) {
 		$matches = array();
 
 		if ($filters["title"]) {
@@ -1597,6 +1610,23 @@
 				}
 			}
 		}
+
+		if ($filters["tag"]) {
+
+			$tag_string = join(",", $tags);
+
+			foreach ($filters["tag"] as $filter) {
+				$reg_exp = $filter["reg_exp"];
+				$inverse = $filter["inverse"];
+
+				if ((!$inverse && preg_match("/$reg_exp/i", $tag_string)) || 
+						($inverse && !preg_match("/$reg_exp/i", $tag_string))) {
+
+					array_push($matches, array($filter["action"], $filter["action_param"]));
+				}		
+			}
+		}
+
 
 		return $matches;
 	}
