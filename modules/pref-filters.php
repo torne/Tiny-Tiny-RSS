@@ -523,14 +523,14 @@
 		$result = db_query($link, "SELECT caption FROM ttrss_labels2
 			WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
 
-		print "<select default=\"$value\" name=\"$name\" style=\"$style\" 
-			onchange=\"labelSelectOnChange(this)\" >";
+		print "<select default=\"$value\" name=\"" . htmlspecialchars($name) . 
+			"\" style=\"$style\" onchange=\"labelSelectOnChange(this)\" >";
 
 		while ($line = db_fetch_assoc($result)) {
 
-			$issel = ($line["caption"] == $value) ? "selected" : "";
+			$issel = ($line["caption"] == $value) ? "selected=\"1\"" : "";
 
-			print "<option $issel>" . $line["caption"] . "</option>";
+			print "<option $issel>" . htmlspecialchars($line["caption"]) . "</option>";
 
 		}
 

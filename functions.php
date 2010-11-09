@@ -3020,7 +3020,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 			if ($line["id"] == $default_id) {
-				$is_selected = "selected";
+				$is_selected = "selected=\"1\"";
 			} else {
 				$is_selected = "";
 			}
@@ -3052,7 +3052,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 			if ($line["id"] == $default_id) {
-				$is_selected = "selected";
+				$is_selected = "selected=\"1\"";
 			} else {
 				$is_selected = "";
 			}

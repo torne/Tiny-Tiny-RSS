@@ -107,12 +107,12 @@
 				if ($output == "select") {
 					header("Content-Type: text/xml");
 
-					print "<rpc-reply><payload><![CDATA[";
+					print "<rpc-reply><payload>";
 
 					print_label_select($link, "select_label", 
 						$caption, "");
 
-					print "]]></payload></rpc-reply>";
+					print "</payload></rpc-reply>";
 				}
 			}
 

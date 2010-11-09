@@ -2250,18 +2250,47 @@ function labelSelectOnChange(elem) {
 				elem.selectedIndex = 0;
 
 			addLabel(elem, function(transport) {
-					var response = transport.responseXML;
 
-					var payload = response.getElementsByTagName("payload")[0];
+					try {
 
-					if (payload)
-						elem.innerHTML = payload.firstChild.nodeValue;
+						var response = transport.responseXML;
+						var select = response.getElementsByTagName("select")[0];
+						var options = select.getElementsByTagName("option");
+
+						dropbox_replace_options(elem, options);
+
+						notify('');
+					} catch (e) {
+						exception_error("addLabel", e);
+					}
 			});
 		}
 
 	} catch (e) {
-		exception_error("catSelectOnChange", e);
+		exception_error("labelSelectOnChange", e);
 	}
 }
 
+function dropbox_replace_options(elem, options) {
 
+	try {
+		while (elem.hasChildNodes())
+			elem.removeChild(elem.firstChild);
+
+		var sel_idx = -1;
+
+		for (var i = 0; i < options.length; i++) {
+			var text = options[i].firstChild.nodeValue;
+			var value = options[i].getAttribute("value");
+			var issel = options[i].getAttribute("selected") == "1";
+			elem.insert(new Option(text, value, issel));
+			if (issel) sel_idx = i;
+		}
+
+		// Chrome doesn't seem to just select stuff when you pass new Option(x, y, true)
+		if (sel_idx >= 0) elem.selectedIndex = sel_idx;
+
+	} catch (e) {
+		exception_error("dropbox_replace_options", e);
+	}
+}
