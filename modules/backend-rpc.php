@@ -1108,9 +1108,7 @@
 				$id = 0;
 			}
 
-			print "<payload><![CDATA[";
 			print_feed_cat_select($link, "cat_id", $id);
-			print "]]></payload>";
 
 			print "</rpc-reply>";
 

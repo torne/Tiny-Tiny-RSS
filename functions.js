@@ -2166,7 +2166,7 @@ function catSelectOnChange(elem) {
 	}
 }
 
-function quickAddCat(select) {
+function quickAddCat(elem) {
 	try {
 		var cat = prompt(__("Please enter category title:"));
 
@@ -2174,15 +2174,18 @@ function quickAddCat(select) {
 
 			var query = "?op=rpc&subop=quickAddCat&cat=" + param_escape(cat);
 
+			notify_progress("Loading, please wait...", true);
+
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function (transport) {
 					var response = transport.responseXML;
+					var select = response.getElementsByTagName("select")[0];
+					var options = select.getElementsByTagName("option");
 
-					var payload = response.getElementsByTagName("payload")[0];
+					dropbox_replace_options(elem, options);
 
-					if (payload)
-						select.innerHTML = payload.firstChild.nodeValue;
+					notify('');
 
 			} });
 
@@ -2283,7 +2286,14 @@ function dropbox_replace_options(elem, options) {
 			var text = options[i].firstChild.nodeValue;
 			var value = options[i].getAttribute("value");
 			var issel = options[i].getAttribute("selected") == "1";
-			elem.insert(new Option(text, value, issel));
+
+			var option = new Option(text, value, issel);
+
+			if (options[i].getAttribute("disabled"))
+				option.setAttribute("disabled", true);
+
+			elem.insert(option);
+
 			if (issel) sel_idx = i;
 		}
 

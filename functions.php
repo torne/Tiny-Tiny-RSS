@@ -3047,17 +3047,19 @@
 			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
 
 		if (db_num_rows($result) > 0 && $include_all_cats) {
-			print "<option disabled>--------</option>";
+			print "<option disabled=\"1\">--------</option>";
 		}
 
 		while ($line = db_fetch_assoc($result)) {
 			if ($line["id"] == $default_id) {
 				$is_selected = "selected=\"1\"";
 			} else {
-				$is_selected = "";
+				$is_selected = "";			
 			}
-			printf("<option $is_selected value='%d'>%s</option>", 
-				$line["id"], htmlspecialchars($line["title"]));
+
+			if ($line["title"])
+				printf("<option $is_selected value='%d'>%s</option>", 
+					$line["id"], htmlspecialchars($line["title"]));
 		}
 
 		print "<option value=\"ADD_CAT\">" .__("Add category...") . "</option>";
@@ -6609,6 +6611,9 @@
 	}
 
 	function add_feed_category($link, $feed_cat) {
+
+		if (!$feed_cat) return false;
+
 		db_query($link, "BEGIN");
 
 		$result = db_query($link,
