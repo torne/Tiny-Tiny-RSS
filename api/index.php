@@ -7,6 +7,9 @@
 	require_once "../db-prefs.php";
 	require_once "../functions.php";
 
+	define('API_STATUS_OK', 0);
+	define('API_STATUS_ERR', 1);
+
 	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT) {
 		ob_start("ob_gzhandler");
 	}
@@ -35,16 +38,23 @@
 	init_connection($link);
 
 	$op = db_escape_string($_REQUEST["op"]);
+	$seq = (int) $_REQUEST["seq"];
 
 //	header("Content-Type: application/json");
 
+	function api_wrap_reply($status, $seq, $reply) {
+		print json_encode(array("seq" => $seq,
+			"status" => $status,
+			"content" => $reply));
+	}
+
 	if (!$_SESSION["uid"] && $op != "login" && $op != "isLoggedIn") {
-		print json_encode(array("error" => 'NOT_LOGGED_IN'));
+		print api_wrap_reply(API_STATUS_ERR, $seq, array("error" => 'NOT_LOGGED_IN'));
 		return;
 	}
 
 	if ($_SESSION["uid"] && $op != "logout" && !get_pref($link, 'ENABLE_API_ACCESS')) {
-		print json_encode(array("error" => 'API_DISABLED'));
+		print api_wrap_reply(API_STATUS_ERR, $seq, array("error" => 'API_DISABLED'));
 		return;
 	} 
 
@@ -52,7 +62,7 @@
 	
 		case "getVersion":
 			$rv = array("version" => VERSION);
-			print json_encode($rv);
+			print api_wrap_reply(API_STATUS_OK, $seq, $rv);
 			break;
 		
 		case "login":
@@ -70,25 +80,30 @@
 
 			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {               // try login with normal password
-					print json_encode(array("session_id" => session_id()));
+					print api_wrap_reply(API_STATUS_OK, $seq, 
+						array("session_id" => session_id()));
 				} else if (authenticate_user($link, $login, $password_base64)) { // else try with base64_decoded password
-					print json_encode(array("session_id" => session_id()));
+					print api_wrap_reply(API_STATUS_OK, $seq, 
+						array("session_id" => session_id()));
 				} else {                                                         // else we are not logged in
-					print json_encode(array("error" => "LOGIN_ERROR"));
+					print api_wrap_reply(API_STATUS_ERR, $seq, 
+						array("error" => "LOGIN_ERROR"));
 				}
 			} else {
-				print json_encode(array("error" => "API_DISABLED"));
+				print api_wrap_reply(API_STATUS_ERR, $seq,
+					array("error" => "API_DISABLED"));
 			}
 
 			break;
 			
 		case "logout":
 			logout_user();
-			print json_encode(array("status" => "OK"));
+			print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK"));
 			break;
 			
 		case "isLoggedIn":
-			print json_encode(array("status" => $_SESSION["uid"] != ''));
+			print api_wrap_reply(API_STATUS_OK, $seq, 
+				array("status" => $_SESSION["uid"] != ''));
 			break;
 			
 		case "getUnread":
@@ -96,9 +111,11 @@
 			$is_cat = db_escape_string($_REQUEST["is_cat"]);
 
 			if ($feed_id) {
-				print json_encode(array("unread" => getFeedUnread($link, $feed_id, $is_cat)));
+				print api_wrap_reply(API_STATUS_OK, $seq, 
+					array("unread" => getFeedUnread($link, $feed_id, $is_cat)));
 			} else {
-				print json_encode(array("unread" => getGlobalUnread($link)));
+				print api_wrap_reply(API_STATUS_OK, $seq, 
+					array("unread" => getGlobalUnread($link)));
 			}
 			break;
 			
@@ -108,7 +125,8 @@
 			/* flct (flc is the default) FIXME: document */
 			$output_mode = db_escape_string($_REQUEST["output_mode"]);
 
-			print json_encode(getAllCounters($link, $output_mode));
+			print api_wrap_reply(API_STATUS_OK, $seq, 
+				getAllCounters($link, $output_mode));
 			break;
 			
 		case "getFeeds":
@@ -119,7 +137,7 @@
 
 			$feeds = api_get_feeds($link, $cat_id, $unread_only, $limit, $offset);
 
-			print json_encode($feeds);
+			print api_wrap_reply(API_STATUS_OK, $seq, $feeds);
 
 			break;
 			
@@ -143,7 +161,7 @@
 				}
 			}
 
-			print json_encode($cats);
+			print api_wrap_reply(API_STATUS_OK, $seq, $cats);
 			break;
 			
 		case "getHeadlines":
@@ -160,7 +178,7 @@
 			$headlines = api_get_headlines($link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false);
 
-			print json_encode($headlines);
+			print api_wrap_reply(API_STATUS_OK, $seq, $headlines);
 
 			break;
 			
@@ -220,11 +238,12 @@
 					}
 				}
 
-				print json_encode(array("status" => "OK", 
+				print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK", 
 					"updated" => $num_updated));
 
 			} else {
-				print json_encode(array("error" => 'INCORRECT_USAGE'));
+				print api_wrap_reply(API_STATUS_ERR, $seq, 
+					array("error" => 'INCORRECT_USAGE'));
 			}
 
 			break;
@@ -242,7 +261,9 @@
 					$_SESSION["uid"] ;
 
 			$result = db_query($link, $query);
-		
+
+			$articles = array();
+
 			if (db_num_rows($result) != 0) {
 
 				while ($line = db_fetch_assoc($result)) {
@@ -265,9 +286,12 @@
 						"attachments" => $attachments
 					);
 
-					print json_encode($article);
+					array_push($articles, $article);
+
 				}
 			}
+
+			print api_wrap_reply(API_STATUS_OK, $seq, $articles);
 
 			break;
 			
@@ -287,7 +311,7 @@
 
 			$config["num_feeds"] = (int)$num_feeds;
 	
-			print json_encode($config);
+			print api_wrap_reply(API_STATUS_OK, $seq, $config);
 
 			break;
 
@@ -296,7 +320,7 @@
 
 			update_rss_feed($link, $feed_id, true);
 
-			print json_encode(array("status" => "OK"));
+			print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK"));
 
 			break;
 
@@ -306,13 +330,15 @@
 
 			catchup_feed($link, $feed_id, $is_cat);
 
-			print json_encode(array("status" => "OK"));
+			print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK"));
 
 			break;
 
 		case "getPref":
 			$pref_name = db_escape_string($_REQUEST["pref_name"]);
-			print json_encode(array("value" => get_pref($link, $pref_name)));
+
+			print api_wrap_reply(API_STATUS_OK, $seq, 
+				array("value" => get_pref($link, $pref_name)));
 			break;
 		
 		/* Method added for ttrss-reader for Android */
@@ -431,7 +457,7 @@
 				}
 			}
 
-			print json_encode($ret);
+			print api_wrap_reply(API_STATUS_OK, $seq, $ret);
 			break;
 		
 		/* Method added for ttrss-reader for Android */
@@ -583,11 +609,12 @@
 							"feeds" => $feeds));
 				}
 			}
-			print json_encode($cats);
+			print api_wrap_reply(API_STATUS_OK, $seq, $cats);
 			break;
 		
 		default:
-			print json_encode(array("error" => 'UNKNOWN_METHOD'));
+			print api_wrap_reply(API_STATUS_ERR, $seq, 
+				array("error" => 'UNKNOWN_METHOD'));
 			break;
 
 	}
