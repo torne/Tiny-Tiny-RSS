@@ -2285,6 +2285,9 @@ function dropbox_replace_options(elem, options) {
 		for (var i = 0; i < options.length; i++) {
 			var text = options[i].firstChild.nodeValue;
 			var value = options[i].getAttribute("value");
+
+			if (value == undefined) value = text;
+
 			var issel = options[i].getAttribute("selected") == "1";
 
 			var option = new Option(text, value, issel);
