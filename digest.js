@@ -719,7 +719,7 @@ function fatal_error(code, msg) {
 		if (code == 6) {
 			window.location.href = "digest.php";
 		} else if (code == 5) {
-			window.location.href = "update.php";
+			window.location.href = "db-updater.php";
 		} else {
 	
 			if (msg == "") msg = "Unknown error";

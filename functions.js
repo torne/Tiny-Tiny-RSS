@@ -1375,7 +1375,7 @@ function fatalError(code, msg, ext_info) {
 		if (code == 6) {
 			window.location.href = "tt-rss.php";			
 		} else if (code == 5) {
-			window.location.href = "update.php";
+			window.location.href = "db-updater.php";
 		} else {
 	
 			if (msg == "") msg = "Unknown error";

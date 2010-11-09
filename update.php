@@ -1,171 +1,98 @@
+#!/usr/bin/php
 <?php
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
+	define('DISABLE_SESSIONS', true);
 
-	require_once "sessions.php";
-	
+	if (!defined('PHP_EXECUTABLE'))
+		define('PHP_EXECUTABLE', '/usr/bin/php');
+
+	error_reporting(DEFAULT_ERROR_LEVEL);
+
 	require_once "sanity_check.php";
-	require_once "functions.php";
 	require_once "config.php";
 	require_once "db.php";
-	
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	require_once "db-prefs.php";
+	require_once "functions.php";
 
-	init_connection($link);	
-	login_sequence($link);
-	
-	$owner_uid = $_SESSION["uid"];
-	
-	if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) { 
-		$_SESSION["login_error_msg"] = __("Your access level is insufficient to run this script.");
-		render_login_form($link);
-		exit;
-	}
+	$op = $argv[1];
 
-
-?>
-
-<html>
-<head>
-<title>Database Updater</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="utility.css">
-</head>
-
-<body>
-
-<script type='text/javascript'>
-function confirmOP() {
-	return confirm(__("Update the database?"));
-}
-</script>
-
-<div class="floatingLogo"><img src="images/ttrss_logo.png"></div>
-
-<h1><?php echo __("Database Updater") ?></h1>
-
-<?php
-	function getline($fp, $delim) {
-		$result = "";
-		while(!feof($fp)) {
-			$tmp = fgetc($fp);
-	
-			if($tmp == $delim) {
-				return $result;
-			}
-			$result .= $tmp;
-		}
-		return $result;
-	}
-	
-	$op = $_POST["op"];
-	
-	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-	$version = db_fetch_result($result, 0, "schema_version");
-	
-	$update_files = glob("schema/versions/".DB_TYPE."/*sql");
-	$update_versions = array();
-	
-	foreach ($update_files as $f) {
-		$m = array();
-		preg_match_all("/schema\/versions\/".DB_TYPE."\/(\d*)\.sql/", $f, $m,
-			PREG_PATTERN_ORDER);
-	
-		if ($m[1][0]) {
-			$update_versions[$m[1][0]] = $f;
-		}
-	}
-	
-	ksort($update_versions, SORT_NUMERIC);
-	
-	$latest_version = max(array_keys($update_versions));
-
-	if ($version == $latest_version) {
-
-		if ($version != SCHEMA_VERSION) {
-			print_error(__("Could not update database"));
-
-			print "<p>" . 
-				__("Could not find necessary schema file, need version:") .
-				" " . SCHEMA_VERSION . __(", found: ") . $latest_version . "</p>";
-
-		} else {
-			print "<p>".__("Tiny Tiny RSS database is up to date.")."</p>";
-			print "<form method=\"GET\" action=\"tt-rss.php\">
-				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
-				</form>";
-		}
-
+	if (!$op || $op == "-help") {
+		print "Tiny Tiny RSS data update script.\n\n";
+		print "Options:\n";
+		print "  -feeds         - update feeds\n";
+		print "  -feedbrowser   - update feedbrowser\n";
+		print "  -daemon        - start single-process update daemon\n";
+		print "  -help          - show this help\n";
 		return;
 	}
-	
-	if (!$op) {
-		print_warning(__("Please backup your database before proceeding."));
-	
-		print "<p>" . T_sprintf("Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>).", $version, $latest_version) . "</p>";
-	
-	/*		print "<p>Available incremental updates:";
-	
-		foreach (array_keys($update_versions) as $v) {
-			if ($v > $version) {
-				print " <a href='$update_versions[$v]'>$v</a>";
-			}
-		} */
-	
-		print "</p>";
-	
-		print "<form method='POST'>
-			<input type='hidden' name='op' value='do'>
-			<input type='submit' onclick='return confirmOP()' value='".__("Perform updates")."'>
-			</form>";
-	
-	} else if ($op == "do") {
-	
-		print "<p>".__("Performing updates...")."</p>";
-	
-		$num_updates = 0;
-	
-		foreach (array_keys($update_versions) as $v) {
-			if ($v == $version + 1) {
-				print "<p>".T_sprintf("Updating to version %d...", $v)."</p>";
-				$fp = fopen($update_versions[$v], "r");
-				if ($fp) {
-					while (!feof($fp)) {
-						$query = trim(getline($fp, ";"));
-						if ($query != "") {
-							print "<p class='query'>$query</p>";
-							db_query($link, $query);
-						}
-					}
-				}
-				fclose($fp);
-	
-				print "<p>".__("Checking version... ");
-	
-				$result = db_query($link, "SELECT schema_version FROM ttrss_version");
-				$version = db_fetch_result($result, 0, "schema_version");
-	
-				if ($version == $v) {
-					print __("OK!");
-				} else {
-					print "<b>".__("ERROR!")."</b>";
-					return;
-				}
-	
-				$num_updates++;
-			}
+
+	if ($op != "-daemon") {
+		$lock_filename = "update.lock";
+	} else {
+		$lock_filename = "update_daemon.lock";
+	}
+
+	$lock_handle = make_lockfile($lock_filename);
+	$must_exit = false;
+
+	// Try to lock a file in order to avoid concurrent update.
+	if (!$lock_handle) {
+		die("error: Can't create lockfile ($lock_filename). ".
+			"Maybe another update process is already running.\n");
+	}
+
+	// Create a database connection.
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+
+	if (!$link) {
+		if (DB_TYPE == "mysql") {
+			print mysql_error();
 		}
-	
-		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
-			version <b>%d</b>.", $num_updates, $version)."</p>";
-	
-		print "<form method=\"GET\" action=\"logout.php\">
-			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
-			</form>";
+		// PG seems to display its own errors just fine by default.		
+		return;
+	}
+
+	init_connection($link);
+
+	if ($op == "-feeds") {
+		// Update all feeds needing a update.
+		update_daemon_common($link);
+	}
+
+	if ($op == "-feedbrowser") {
+		$count = update_feedbrowser_cache($link);
+		print "Finished, $count feeds processed.\n";
+	}
+
+	if ($op == "-daemon") {
+		if (!ENABLE_UPDATE_DAEMON)
+			die("Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
+
+		while (true) {
+			passthru(PHP_EXECUTABLE . " " . $argv[0] . " -daemon-loop");
+			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
+			sleep(DAEMON_SLEEP_INTERVAL);
+		}
+	}
+
+	if ($op == "-daemon-loop") {
+		if (!make_stampfile('update_daemon.stamp')) {
+			die("error: unable to create stampfile\n");
+		}
+
+		// Call to the feed batch update function 
+		// or regenerate feedbrowser cache
+
+		if (rand(0,100) > 30) {
+			update_daemon_common($link);
+		} else {
+			$count = update_feedbrowser_cache($link);
+			_debug("Finished, $count feeds processed.");
+		}
 
 	}
-	
+
+	db_close($link);
+
+	unlink(LOCK_DIRECTORY . "/$lock_filename");
 ?>
-
-</body>
-</html>
-
