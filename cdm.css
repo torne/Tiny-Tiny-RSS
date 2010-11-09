@@ -1,0 +1,56 @@
+div.cdmHeader img, div.cdmHeader input, div.cdmFooter img {
+	vertical-align : middle;
+}
+
+div.cdmHeader {
+	padding : 5px;
+}
+
+div.cdmHeader span.updated {
+	color : gray;
+	font-weight : normal;
+}
+
+div.cdmHeader input {
+	margin-right : 5px;
+}
+
+div.cdmHeader img, div.cdmFooter img {
+	margin-left : 5px;
+	width : 16px;
+	height : 16px;
+}
+
+div.cdmContent {
+	font-weight : normal;
+}
+
+div.cdmContentInner {
+	margin : 0px 10px 10px 10px;
+}
+
+div.cdmFooter {
+	background : #f9f9f9;
+	padding : 5px;
+	font-weight : normal;
+	color : gray;
+	clear : both;
+}
+
+.evenUnreadSelected div.cdmFooter, .oddUnreadSelected div.cdmFooter,
+.evenSelected div.cdmFooter, .oddSelected div.cdmFooter {
+	background-color : #FFF2BF;
+}
+
+span.cdmExcerpt {
+	font-size : 11px;
+	color : gray;
+	font-weight : normal;
+	cursor : pointer;
+}
+
+div.cdmContent div.postEnclosures {
+	margin-top : 1em;
+	color : gray;
+}
+

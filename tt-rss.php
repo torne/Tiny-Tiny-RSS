@@ -29,6 +29,7 @@
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="infobox.css?<?php echo $dt_add ?>"/>
+	<link rel="stylesheet" type="text/css" href="cdm.css?<?php echo $dt_add ?>"/>
 
 	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>

@@ -4979,76 +4979,11 @@
 
 			print $article_content;
 
-//			$result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
-//				post_id = '$id' AND content_url != ''");
+			print_article_enclosures($link, $id, $always_display_enclosures, 
+				$article_content);
 
-			$result = get_article_enclosures($link, $id);
-
-//			if (db_num_rows($result) > 0) {
-
-			if (count($result) > 0) {
-
-				$entries_html = array();
-				$entries = array();
-
-				//while ($line = db_fetch_assoc($result)) {
-				foreach ($result as $line) {
-
-					$url = $line["content_url"];
-					$ctype = $line["content_type"];
-
-					if (!$ctype) $ctype = __("unknown type");
-
-					$filename = substr($url, strrpos($url, "/")+1);
-
-					$entry = format_inline_player($link, $url, $ctype);
-
-					$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-						$filename . " (" . $ctype . ")" . "</a>";
-
-					array_push($entries_html, $entry);
-
-					$entry = array();
-
-					$entry["type"] = $ctype;
-					$entry["filename"] = $filename;
-					$entry["url"] = $url;
-
-					array_push($entries, $entry);
-				}
-
-				print "<div class=\"postEnclosures\">";
-
-				if (!get_pref($link, "STRIP_IMAGES")) {
-					if ($always_display_enclosures ||
-								!preg_match("/<img/i", $article_content)) {
-									
-						foreach ($entries as $entry) {
-
-							if (preg_match("/image/", $entry["type"]) ||
-									preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
-
-									print "<p><img
-									alt=\"".htmlspecialchars($entry["filename"])."\"
-									src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
-							}
-						}
-					}
-				}
-
-				if (db_num_rows($result) == 1) {
-					print __("Attachment:") . " ";
-				} else {
-					print __("Attachments:") . " ";
-				}
-
-				print join(", ", $entries_html);
-
-				print "</div>";
-			}
-		
 			print "</div>";
-			
+
 			print "</div>";
 
 		}
@@ -5453,102 +5388,85 @@
 					}	
 
 					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
-					$show_excerpt = false;
-
-					if ($expand_cdm && $score >= -100) {
-						$cdm_cstyle = "";
-						$show_excerpt = false;
-					} else {
-						$cdm_cstyle = "style=\"display : none\"";
-						$show_excerpt = true;
-					}
 
 					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
 						onmouseout='postMouseOut($id)'";
 
-					print "<div class=\"cdmArticle$add_class\" 
+					print "<div class=\"$class\" 
 						id=\"RROW-$id\"						
 						$mouseover_attrs'>";
 
 					print "<div class=\"cdmHeader\">";
 
-					if (!get_pref($link, "VFEED_GROUP_BY_FEED") || !$line["feed_title"]) {
-						$cdm_feed_icon = "<span style=\"cursor : pointer\" onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
+					print "<div style='float : right'>";
+					print "<span class='updated'>$updated_fmt</span>";
+					print "$marked_pic";
+					print "$published_pic";
+					print "$score_pic";
+
+					if (!get_pref($link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
+						print "<span style=\"cursor : pointer\" 
+							title=\"".htmlspecialchars($line["feed_title"])."\"
+							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
+					print "</div>";
+	
+					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
+							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"/>";
 
-					print "<div class=\"articleUpdated\">$updated_fmt $score_pic $cdm_feed_icon
-						</div>";
-
-					print "<span id=\"RTITLE-$id\" class=\"titleWrap$hlc_suffix\"><a class=\"title\" 
-						onclick=\"javascript:toggleUnread($id, 0)\"
+					print "<span id=\"RTITLE-$id\" 
+						onclick=\"return cdmExpandArticle($id)\"
+						class=\"titleWrap$hlc_suffix\">
+						<a class=\"title\"
 						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
-						";
-
-					print $entry_author;
-
-/*					if (!$expand_cdm || $score < -100) {
-						print "&nbsp;<a id=\"CICH-$id\" 
-							href=\"javascript:cdmExpandArticle($id)\">
-							(".__('Show article').")</a>";
-					} */
+						</span>";
 
 					print $labels_str;
 
-					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						if ($line["feed_title"]) {	
-							print "&nbsp;(<a href='javascript:viewfeed($feed_id)'>".$line["feed_title"]."</a>)";
-						}
-					}
+					if ($expand_cdm)
+						$content_hidden = "style=\"display : none\"";
+					else
+						$excerpt_hidden = "style=\"display : none\"";
 
-					print "</span></div>";
+					print "<span $excerpt_hidden
+						onclick=\"return cdmExpandArticle($id)\"
+						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
-					if ($show_excerpt) {
-						print "<div class=\"cdmExcerpt\" id=\"CEXC-$id\"
-							onclick=\"cdmExpandArticle($id)\"
-							title=\"".__('Click to expand article')."\">";
+					print "</div>";
 
-						$content_preview = trim(truncate_string(strip_tags($line["content_preview"]), 100));
+					print "<div class=\"cdmContent\" $content_hidden 
+						id=\"CICD-$id\">";
 
-						if (strlen($content_preview) != 0) {
-							print $content_preview;
-						} else {
-							print __('Click to expand article');
-						}
-						print "</div>";
-					}
-	
-					print "<div class=\"cdmContent\" 
-						onclick=\"cdmClicked($id)\"
-						id=\"CICD-$id\" $cdm_cstyle>";
+					print "<div class=\"cdmContentInner\">";
 
-					if ($line["orig_feed_id"]) {
+			if ($line["orig_feed_id"]) {
 
-						$tmp_result = db_query($link, "SELECT * FROM ttrss_archived_feeds
-						WHERE id = ".$line["orig_feed_id"]);
+				$tmp_result = db_query($link, "SELECT * FROM ttrss_archived_feeds
+					WHERE id = ".$line["orig_feed_id"]);
 
 						if (db_num_rows($tmp_result) != 0) {
-
-						print "<div clear='both'>";
-						print __("Originally from:");
-
-						print "&nbsp;";
-
-						$tmp_line = db_fetch_assoc($tmp_result);
-
-						print "<a target='_blank' 
-							href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
-							$tmp_line['title'] . "</a>";
-
-						print "&nbsp;";
-
-						print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-						print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
-
-						print "</div>";
+		
+							print "<div clear='both'>";
+							print __("Originally from:");
+		
+							print "&nbsp;";
+		
+							$tmp_line = db_fetch_assoc($tmp_result);
+		
+							print "<a target='_blank' 
+								href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
+								$tmp_line['title'] . "</a>";
+		
+							print "&nbsp;";
+		
+							print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+							print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+		
+							print "</div>";
+						}
 					}
-				}
 
-//					print "<div class=\"cdmInnerContent\" id=\"CICD-$id\" $cdm_cstyle>";
+					$article_content = sanitize_rss($link, $line["content_preview"]);
 
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
@@ -5556,136 +5474,69 @@
 					}
 					print "</div>";
 
-					print sanitize_rss($link, $line["content_preview"]);
+					print $article_content;
 
-					$article_content = $line["content_preview"];
-
-					$e_result = db_query($link, "SELECT * FROM ttrss_enclosures WHERE
-						post_id = '$id' AND content_url != ''");
-
-					if (db_num_rows($e_result) > 0) {
-
-				$entries_html = array();
-				$entries = array();
-
-				while ($e_line = db_fetch_assoc($e_result)) {
-
-					$url = $e_line["content_url"];
-					$ctype = $e_line["content_type"];
-					if (!$ctype) $ctype = __("unknown type");
-
-					$filename = substr($url, strrpos($url, "/")+1);
-
-					$entry = format_inline_player($link, $url, $ctype);
-
-					$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-						$filename . " (" . $ctype . ")" . "</a>";
-
-					array_push($entries_html, $entry);
-
-					$entry = array();
-
-					$entry["type"] = $ctype;
-					$entry["filename"] = $filename;
-					$entry["url"] = $url;
-
-					array_push($entries, $entry);
-				}
-
-				$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
-					ttrss_feeds WHERE id = ".
+					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
+						ttrss_feeds WHERE id = ".
 						(($line['feed_id'] == null) ? $line['orig_feed_id'] : 
 								$line['feed_id'])." AND owner_uid = ".$_SESSION["uid"]);
 
-				$always_display_enclosures = db_fetch_result($tmp_result, 0, "always_display_enclosures");
+					$always_display_enclosures = sql_bool_to_bool(db_fetch_result($tmp_result, 
+						0, "always_display_enclosures"));
 
-				if (!get_pref($link, "STRIP_IMAGES")) {
-					if ($always_display_enclosures || 
-									!preg_match("/img/i", $article_content)) {
-
-						foreach ($entries as $entry) {
-							if (preg_match("/image/", $entry["type"]) || 
-								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
-								print "<p><img 
-									alt=\"".htmlspecialchars($entry["filename"])."\"
-									src=\"" .htmlspecialchars($entry["url"]) . "\"></p>";
-							}
-						}
-					}
-				}
-
-				print "<div class=\"cdmEnclosures\">";
-
-				if (db_num_rows($e_result) == 1) {
-					print __("Attachment:") . " ";
-				} else {
-					print __("Attachments:") . " ";
-				}
-
-				print join(", ", $entries_html);
-
-				print "</div>";
-			}
-
-
-					print "<br clear='both'>";
-//					print "</div>";
-
-/*					if (!$expand_cdm) {
-						print "<a id=\"CICH-$id\" 
-							href=\"javascript:cdmExpandArticle($id)\">
-							Show article</a>";
-					} */
+					print_article_enclosures($link, $id, $always_display_enclosures,
+						$article_content);
 
 					print "</div>";
 
-					print "<div class=\"cdmFooter\"><span class='s0'>";
-
-					/* print "<div class=\"markedPic\">Star it: $marked_pic</div>"; */
-
-					print __("Select:").
-							" <input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
-							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\">";
-
-					print "</span><span class='s1'>$marked_pic&nbsp;";
-					print "$published_pic&nbsp;";
-					print "<img src=\"images/art-zoom.png\" class='tagsPic' 
-						onclick=\"zoomToArticle($id)\"
-						style=\"cursor : pointer\"
-						alt='Zoom' 
-						title='".__('Show article summary in new window')."'>&nbsp;";
-
-					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
-
-					print "<img src=\"images/art-pub-note.png\" class='tagsPic' 
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"publishWithNote($id, '$note_escaped')\"
-						alt='PubNote' title='".__('Publish article with a note')."'>";
-
-					print "</span>";
+					print "<div class=\"cdmFooter\">";
 
 					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
-					print "<span class='s1'>
-						<img class='tagsPic' src='".theme_image($link,
+					print "<img src='".theme_image($link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\" 
 						href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
 
-					print "</span>";
+					print "<div style=\"float : right\">";
 
-					print "<span class='s2'><a class=\"cdmToggleLink\"
-							href=\"javascript:toggleUnread($id)\">
-							".__('toggle unread')."</a></span>";
+					print "<img src=\"images/art-zoom.png\" 
+						onclick=\"zoomToArticle($id)\"
+						style=\"cursor : pointer\"
+						alt='Zoom' 
+						title='".__('Show article summary in new window')."'>";
+
+					if (DIGEST_ENABLE) {
+						print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
+							style=\"cursor : pointer\"
+							onclick=\"emailArticle($id)\"
+							alt='Zoom' title='".__('Forward by email')."'>";
+					}
+
+					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+
+					print "<img src=\"images/art-pub-note.png\"
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"publishWithNote($id, '$note_escaped')\"
+						alt='PubNote' title='".__('Publish article with a note')."'>";
+
+					print "<img src=\"images/digest_checkbox.png\"
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"cdmDismissArticle($id)\"
+						alt='Dismiss' title='".__('Dismiss article')."'>";
 
 					print "</div>";
-					print "</div>";	
+					print "</div>";
 
-				}				
+					print "</div>";
+
+					print "</div>";
+
+				} 
 	
 				++$lnum;
-			}
+			} 
 
 			if (!get_pref($link, 'COMBINED_DISPLAY_MODE') && !$offset) {			
 				print "</table>";
@@ -7108,6 +6959,72 @@
 		print "</select>";
 
 
+	}
+
+	function print_article_enclosures($link, $id, $always_display_enclosures, 
+					$article_content) {
+
+		$result = get_article_enclosures($link, $id);
+	
+		if (count($result) > 0) {
+	
+			$entries_html = array();
+			$entries = array();
+	
+			foreach ($result as $line) {
+	
+				$url = $line["content_url"];
+				$ctype = $line["content_type"];
+	
+				if (!$ctype) $ctype = __("unknown type");
+	
+				$filename = substr($url, strrpos($url, "/")+1);
+	
+				$entry = format_inline_player($link, $url, $ctype);
+	
+				$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+					$filename . " (" . $ctype . ")" . "</a>";
+	
+				array_push($entries_html, $entry);
+	
+				$entry = array();
+	
+				$entry["type"] = $ctype;
+				$entry["filename"] = $filename;
+				$entry["url"] = $url;
+	
+				array_push($entries, $entry);
+			}
+	
+			print "<div class=\"postEnclosures\">";
+	
+			if (!get_pref($link, "STRIP_IMAGES")) {
+				if ($always_display_enclosures ||
+							!preg_match("/<img/i", $article_content)) {
+								
+					foreach ($entries as $entry) {
+	
+						if (preg_match("/image/", $entry["type"]) ||
+								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
+	
+								print "<p><img
+								alt=\"".htmlspecialchars($entry["filename"])."\"
+								src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+						}
+					}
+				}
+			}
+	
+			if (db_num_rows($result) == 1) {
+				print __("Attachment:") . " ";
+			} else {
+				print __("Attachments:") . " ";
+			}
+	
+			print join(", ", $entries_html);
+	
+			print "</div>";
+		}
 	}
 
 ?>

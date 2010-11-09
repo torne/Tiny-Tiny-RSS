@@ -1009,14 +1009,14 @@ function hotkey_handler(e) {
 			if (keycode == 78 || keycode == 40) { // n, down
 				if (typeof moveToPost != 'undefined') {
 					moveToPost('next');
-					return;
+					return false;
 				}
 			}
 	
 			if (keycode == 80 || keycode == 38) { // p, up
 				if (typeof moveToPost != 'undefined') {
 					moveToPost('prev');
-					return;
+					return false;
 				}
 			}
 

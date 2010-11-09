@@ -765,12 +765,8 @@ function moveToPost(mode) {
 		 	if (next_id) {
 				if (isCdmMode()) {
 	
-					if (!cdmArticleIsActuallyVisible(next_id)) {
-						cdmScrollToArticleId(next_id);
-					}
-					cdmSelectArticles("none");
-					toggleUnread(next_id, 0, true);
-					toggleSelected(next_id);
+					cdmExpandArticle(next_id);
+					cdmScrollToArticleId(next_id);
 
 				} else {
 					correctHeadlinesOffset(next_id);
@@ -782,10 +778,8 @@ function moveToPost(mode) {
 		if (mode == "prev") {
 			if (prev_id) {
 				if (isCdmMode()) {
+					cdmExpandArticle(prev_id);
 					cdmScrollToArticleId(prev_id);
-					cdmSelectArticles("none");
-					toggleUnread(prev_id, 0, true);
-					toggleSelected(prev_id);
 				} else {
 					correctHeadlinesOffset(prev_id);
 					view(prev_id, getActiveFeedId());
@@ -1886,24 +1880,6 @@ function getActiveArticleId() {
 	return active_post_id;
 }
 
-function cdmClicked(id) {
-	try {
-		var elem = $("RROW-" + id);
-
-		if (elem) {
-			var id = elem.id.replace("RROW-", "");
-			active_post_id = id;
-
-//			cdmSelectArticles("none");
-			toggleUnread(id, 0, true);
-//			toggleSelected(id);
-
-		}
-	} catch (e) {
-		exception_error("cdmClicked", e);
-	} 
-}
-
 function preloadArticleUnderPointer(id) {
 	try {
 		if (getInitParam("bw_limit") == "1") return;
@@ -1978,8 +1954,8 @@ function headlines_scroll_handler() {
 
 		var toolbar_form = document.forms["main_toolbar_form"];
 
-		console.log((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
-			_infscroll_disable);
+//		console.log((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
+//			_infscroll_disable);
 
 		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 			if (!_infscroll_disable) {
@@ -2068,28 +2044,47 @@ function catchupRelativeToArticle(below) {
 	}
 }
 
-function cdmExpandArticle(a_id) {
+function cdmExpandArticle(id) {
 	try {
-		var id = 'CICD-' + a_id;
 
-		try {
-			Element.hide("CEXC-" + a_id);
-		} catch (e) { } 
+		var elem = $("CICD-" + active_post_id);
 
-		Effect.Appear(id, {duration : 0.5, 
-			beforeStart: function(effect) { 
-				var h_id = 'CICH-' + a_id;
-				var h_elem = $(h_id);
-				if (h_elem) { h_elem.style.display = "none"; }
+		if (id == active_post_id && Element.visible(elem))
+			return true;
 
-				toggleUnread(a_id, 0);
-			}});
+		cdmSelectArticles("none");
 
+		var old_offset = $("RROW-" + id).offsetTop;
+
+		if (active_post_id && elem) {
+		  	Element.hide(elem);
+			Element.show("CEXC-" + active_post_id);
+		}
+
+		active_post_id = id;
+
+		elem = $("CICD-" + id);
+
+		if (!Element.visible(elem)) {
+			Element.show(elem);
+			Element.hide("CEXC-" + id);
+		}
+
+		var new_offset = $("RROW-" + id).offsetTop;
+
+		$("headlinesInnerContainer").scrollTop += (new_offset-old_offset);
+
+		if ($("RROW-" + id).offsetTop != old_offset) 
+			$("headlinesInnerContainer").scrollTop = new_offset;
+
+		toggleUnread(id, 0, true);
+		toggleSelected(id);
 
 	} catch (e) {
 		exception_error("cdmExpandArticle", e);
 	}
 
+	return false;
 }
 
 function fixHeadlinesOrder(ids) {
@@ -2356,5 +2351,18 @@ function emailArticleDo() {
 
 	} catch (e) {
 		exception_error("emailArticleDo", e);
+	}
+}
+
+function cdmDismissArticle(id) {
+	try {
+		var elem = $("RROW-" + id);
+
+		toggleUnread(id, 0, true);
+
+		new Effect.Fade(elem, {duration : 0.5});
+
+	} catch (e) {
+		exception_error("cdmDismissArticle", e);
 	}
 }
