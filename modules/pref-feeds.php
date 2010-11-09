@@ -799,7 +799,10 @@
 
 				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
 
-				$result = db_query($link, "SELECT title, content, link, ref_id FROM
+				$result = db_query($link, "SELECT 
+					title, content, link, ref_id, author,".
+					SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
+				  	FROM
 						ttrss_user_entries, ttrss_entries 
 						WHERE ref_id = id AND feed_id = '$id' AND 
 							owner_uid = " .$_SESSION['uid']."
@@ -809,8 +812,11 @@
 
 				while ($line = db_fetch_assoc($result)) {
 
+					$tags = get_article_tags($link, $line["ref_id"]);
+
 					$article_filters = get_article_filters($filters, $line['title'], 
-						$line['content'], $line['link']);
+						$line['content'], $line['link'], strtotime($line['updated']), 
+						$line['author'], $tags);
 					
 					$new_score = calculate_article_score($article_filters);
 
@@ -850,7 +856,10 @@
 
 				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
 
-				$tmp_result = db_query($link, "SELECT title, content, link, ref_id FROM
+				$tmp_result = db_query($link, "SELECT 
+					title, content, link, ref_id, author,".
+					  	SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
+						FROM
 						ttrss_user_entries, ttrss_entries 
 						WHERE ref_id = id AND feed_id = '$id' AND 
 							owner_uid = " .$_SESSION['uid']."
@@ -860,9 +869,12 @@
 
 				while ($line = db_fetch_assoc($tmp_result)) {
 
+					$tags = get_article_tags($link, $line["ref_id"]);
+
 					$article_filters = get_article_filters($filters, $line['title'], 
-						$line['content'], $line['link']);
-					
+						$line['content'], $line['link'], strtotime($line['updated']), 
+						$line['author'], $tags);
+
 					$new_score = calculate_article_score($article_filters);
 
 					if (!$scores[$new_score]) $scores[$new_score] = array();
