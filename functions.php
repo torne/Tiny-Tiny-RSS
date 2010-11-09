@@ -5423,7 +5423,7 @@
 
 					print $labels_str;
 
-					if ($expand_cdm)
+					if (!$expand_cdm)
 						$content_hidden = "style=\"display : none\"";
 					else
 						$excerpt_hidden = "style=\"display : none\"";
