@@ -2998,6 +2998,15 @@
 		$url = fix_url($url);
 		if (!validate_feed_url($url)) return 2;
 
+		if (url_is_html($url)) {
+			$feedUrls = get_feeds_from_html($url);
+			if (count($feedUrls) != 1) {
+				return 3;
+			}
+			//use feed url as new URL
+			$url = key($feedUrls);
+		}
+
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
 		} else {
@@ -3009,15 +3018,6 @@
 			WHERE feed_url = '$url' AND owner_uid = ".$_SESSION["uid"]);
 	
 		if (db_num_rows($result) == 0) {
-			if (url_is_html($url)) {
-				$feedUrls = get_feeds_from_html($url);
-				if (count($feedUrls) != 1) {
-					return 3;
-				}
-				//use feed url as new URL
-				$url = key($feedUrls);
-			}
-			
 			$result = db_query($link,
 				"INSERT INTO ttrss_feeds 
 					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass) 
