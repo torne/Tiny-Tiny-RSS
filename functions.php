@@ -2990,7 +2990,10 @@
 	 *                 0 - OK, Feed already exists
 	 *                 1 - OK, Feed added
 	 *                 2 - Invalid URL
-	 *                 3 - URL content is HTML, not a feed
+	 *                 3 - URL content is HTML, no feeds available
+	 *                 4 - URL content is HTML which contains multiple feeds.
+	 *                     Here you should call extractfeedurls in rpc-backend
+	 *                     to get all possible feeds.
 	 */
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
@@ -3000,8 +3003,10 @@
 
 		if (url_is_html($url)) {
 			$feedUrls = get_feeds_from_html($url);
-			if (count($feedUrls) != 1) {
+			if (count($feedUrls) == 0) {
 				return 3;
+			} else if (count($feedUrls) > 1) {
+				return 4;
 			}
 			//use feed url as new URL
 			$url = key($feedUrls);

@@ -1322,6 +1322,7 @@ function subscribeToFeed() {
 				break;
 			case 2:
 			case 3:
+			case 4:
 				alert(__("Can't subscribe to the specified URL."));
 				break;
 			case 0:
