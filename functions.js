@@ -650,8 +650,10 @@ function resort_category(node, cat_mode) {
 				var tmp_name = get_feed_entry_name(list[i]);
 				var cur_name = get_feed_entry_name(list[j]);
 
-				var valid_pair = cat_mode || (list[i].id.match(/FEEDR-[0-9]/) &&
-						list[j].id.match(/FEEDR-[0-9]/));
+				/* we don't want to match FEEDR-0 - e.g. Archived articles */
+
+				var valid_pair = cat_mode || (list[i].id.match(/FEEDR-[1-9]/) &&
+						list[j].id.match(/FEEDR-[1-9]/));
 
 				if (valid_pair && ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name)))) {
 					tempnode_i = list[i].cloneNode(true);
