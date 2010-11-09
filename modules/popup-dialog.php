@@ -263,6 +263,14 @@
 
 			print "</div>";
 
+			print '<div id="fadd_feeds_container" style="display:none">
+
+					<div class="dlgSec">' . __('Available feeds') . '</div>
+					<div class="dlgSecCont">'
+
+					. ' <select name="feed" id="faad_feeds_container_select" size="3"></select>'
+				. '</div></div>';
+
 			print "<div id='fadd_login_container' style='display:none'>
 	
 					<div class=\"dlgSec\">".__("Authentication")."</div>

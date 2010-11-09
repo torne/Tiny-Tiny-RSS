@@ -1322,8 +1322,30 @@ function subscribeToFeed() {
 				break;
 			case 2:
 			case 3:
-			case 4:
 				alert(__("Can't subscribe to the specified URL."));
+				break;
+			case 4:
+				new Ajax.Request("backend.php", {
+					parameters: 'op=rpc&subop=extractfeedurls&url=' + encodeURIComponent(feed_url),
+					onComplete: function(transport) {
+						var result = transport.responseXML.getElementsByTagName('urls')[0];
+						var feeds = JSON.parse(result.firstChild.nodeValue);
+						var select = document.getElementById("faad_feeds_container_select");
+
+						while (select.hasChildNodes()) {
+							select.removeChild(elem.firstChild);
+						}
+						var count = 0;
+						for (var feedUrl in feeds) {
+							select.insert(new Option(feeds[feedUrl], feedUrl, false));
+							count++;
+						}
+						if (count > 5) count = 5;
+						select.size = count;
+
+						Effect.Appear('fadd_feeds_container', {duration : 0.5});
+					}
+				});
 				break;
 			case 0:
 				alert(__("You are already subscribed to this feed."));
