@@ -1005,6 +1005,11 @@ function hotkey_handler(e) {
 				return;
 			}
 
+			if (keycode == 68 && shift_key) { // shift-D
+				if (isCdmMode() && active_post_id) {
+					cdmDismissArticle(active_post_id);
+				}
+			}
 
 			if (keycode == 78 || keycode == 40) { // n, down
 				if (typeof moveToPost != 'undefined') {
