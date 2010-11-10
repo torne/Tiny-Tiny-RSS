@@ -520,7 +520,7 @@ function parse_counters(reply, scheduled_call) {
 
 		var feeds_stored = number_of_feeds;
 
-		console.log("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
+		//console.log("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
 
 		if (feeds_stored != feeds_found) {
 			number_of_feeds = feeds_found;
@@ -542,7 +542,7 @@ function parse_counters(reply, scheduled_call) {
 	}
 }
 
-function parse_counters_reply(transport, scheduled_call) {
+/*function parse_counters_reply(transport, scheduled_call) {
 
 	if (!transport.responseXML) {
 		notify_error("Backend did not return valid XML", true);
@@ -575,17 +575,56 @@ function parse_counters_reply(transport, scheduled_call) {
 
 	hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
-}
+} */
 
-function all_counters_callback2(transport) {
+function handle_rpc_reply(transport, scheduled_call) {
 	try {
-		if (offline_mode) return;
+		if (offline_mode) return false;
 
-		parse_counters_reply(transport);
+		if (!transport.responseText && db) {
+			offlineConfirmModeChange();
+			return false;
+		} 
+
+		if (transport.responseXML) {
+
+			if (!transport_error_check(transport)) return false;
+
+			var message = transport.responseXML.getElementsByTagName("message")[0];
+
+			if (message) {
+				message = message.firstChild.nodeValue;
+
+				if (message == "UPDATE_COUNTERS") {
+					setInitParam("last_article_id", -1);
+					_force_scheduled_update = true;
+				}
+			}
+
+			var counters = transport.responseXML.getElementsByTagName("counters")[0];
+	
+			if (counters)
+				parse_counters(counters, scheduled_call);
+
+			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info")[0];
+
+			if (runtime_info)
+				parse_runtime_info(runtime_info);
+
+			if (feedsSortByUnread())
+				resort_feedlist();
+
+			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
+
+		} else {
+			notify_error("Error communicating with server.");
+		}
 
 	} catch (e) {
-		exception_error("all_counters_callback2", e, transport);
+		exception_error("handle_rpc_reply", e, transport);
 	}
+
+	return true;
 }
 
 function get_feed_unread(id) {
@@ -724,7 +763,7 @@ function hideOrShowFeeds(hide) {
 
 	try {
 
-	console.log("hideOrShowFeeds: " + hide);
+	//console.log("hideOrShowFeeds: " + hide);
 
 	if ($("FCATLIST--1")) {
 
@@ -766,7 +805,7 @@ function hideOrShowFeedsCategory(id, hide) {
 		var cat_unread = 0;
 	
 		if (!node) {
-			console.log("hideOrShowFeeds: passed node is null, aborting");
+			console.warn("hideOrShowFeeds: passed node is null, aborting");
 			return;
 		}
 	
@@ -1593,7 +1632,7 @@ function getRelativePostIds(id, limit) {
 
 	if (!limit) limit = 3;
 
-	console.log("getRelativePostIds: " + id + " limit=" + limit);
+	//console.log("getRelativePostIds: " + id + " limit=" + limit);
 
 	var ids = new Array();
 	var container = $("headlinesList");

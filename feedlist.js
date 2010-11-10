@@ -379,7 +379,7 @@ function feedlist_dragsorted(ctr) {
 			var query = "?op=feeds&subop=catsort&corder=" + 
 				param_escape(ordered_cats.toString());
 
-			console.log(query);
+			//console.log(query);
 
 			new Ajax.Request("backend.php", { parameters: query });
 		}
@@ -393,7 +393,7 @@ function feedlist_init() {
 	try {
 		loading_set_progress(90);
 
-		console.log("in feedlist init");
+		//console.log("in feedlist init");
 		
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
@@ -470,7 +470,7 @@ function hide_footer() {
 
 function init_collapsable_feedlist() {
 	try {
-		console.log("init_collapsable_feedlist");
+		//console.log("init_collapsable_feedlist");
 
 		var theme = getInitParam("theme");
 		var options = getInitParam("theme_options");
@@ -593,7 +593,7 @@ function request_counters_real() {
 			parameters: query,
 			onComplete: function(transport) { 
 				try {
-					all_counters_callback2(transport);
+					handle_rpc_reply(transport);
 				} catch (e) {
 					exception_error("viewfeed/getcounters", e);
 				}

@@ -179,9 +179,9 @@
 			$result = db_query($link, "UPDATE ttrss_user_entries SET marked = $mark
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><counters><![CDATA[";
-			print json_encode(getAllCounters($link));
-			print "]]></counters></rpc-reply>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
+			print "</rpc-reply>";
 
 			return;
 		}
@@ -192,9 +192,9 @@
 			$result = db_query($link, "DELETE FROM ttrss_user_entries 				
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><counters><![CDATA[";
-			print json_encode(getAllCounters($link));
-			print "]]></counters></rpc-reply>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
+			print "</rpc-reply>";
 
 			return;
 		}
@@ -206,9 +206,9 @@
 				SET feed_id = orig_feed_id, orig_feed_id = NULL
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><counters><![CDATA[";
-			print json_encode(getAllCounters($link));
-			print "]]></counters></rpc-reply>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
+			print "</rpc-reply>";
 
 			return;
 		}
@@ -220,9 +220,9 @@
 				archive_article($link, $id, $_SESSION["uid"]);
 			}
 
-			print "<rpc-reply><counters><![CDATA[";
-			print json_encode(getAllCounters($link));
-			print "]]></counters></rpc-reply>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
+			print "</rpc-reply>";
 
 			return;
 		}
@@ -253,16 +253,14 @@
 
 			print "<rpc-reply>";
 			
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link));
-			print "]]></counters>";
-
 			if ($note != 'undefined') {
 				$note_size = strlen($note);
 				print "<note id=\"$id\" size=\"$note_size\">";
 				print "<![CDATA[" . format_article_note($id, $note) . "]]>";
 				print "</note>";
 			}
+
+			print "<message>UPDATE_COUNTERS</message>";
 
 			print "</rpc-reply>";
 
@@ -274,26 +272,28 @@
 
 			update_rss_feed($link, $feed_id);
 
-			print "<rpc-reply>";	
-			print "<counters><![CDATA[";
-			print json_encode(getFeedCounters($link, $feed_id));
-			print "]]></counters>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
-			
+
 			return;
 		}
 
 		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
-	
-			$global_unread_caller = sprintf("%d", $_REQUEST["uctr"]);
-			$global_unread = getGlobalUnread($link);
+
+			$last_article_id = (int) $_REQUEST["last_article_id"];	
 
 			print "<rpc-reply>";
 
-			if ($global_unread_caller != $global_unread) {
+			if ($last_article_id != getLastArticleId($link)) {
 				print "<counters><![CDATA[";
 				$omode = $_REQUEST["omode"];
-				print json_encode(getAllCounters($link, $omode));
+
+				if ($omode != "T") 
+					print json_encode(getAllCounters($link, $omode));
+				else
+					print json_encode(getGlobalCounters($link));
+
 				print "]]></counters>";
 			}
  
@@ -313,11 +313,7 @@
 			catchupArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-			print "]]></counters>";
-
-			print_runtime_info($link);
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
 			return;
@@ -331,10 +327,7 @@
 			markArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-			print "]]></counters>";
-			print_runtime_info($link);
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
 			return;
@@ -348,10 +341,7 @@
 			publishArticlesById($link, $ids, $cmode);
 
 			print "<rpc-reply>";
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-			print "]]></counters>";
-			print_runtime_info($link);
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
 			return;
@@ -608,9 +598,8 @@
 
 			print "</info-for-headlines>";
 
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-			print "]]></counters>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
 			return;
@@ -645,9 +634,8 @@
 
 			print "</info-for-headlines>";
 
-			print "<counters><![CDATA[";
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-			print "]]></counters>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
 			return;
@@ -1061,7 +1049,7 @@
 					print "<error><![CDATA[" . $mail->ErrorInfo . "]]></error>";
 				} else {
 					save_email_address($link, db_escape_string($destination));
-					print "<message>OK</message>";
+					print "<message>UPDATE_COUNTERS</message>";
 				}
 
 			} else {
@@ -1133,7 +1121,9 @@
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply><message>OK</message></rpc-reply>";
+			print "<rpc-reply>";
+			print "<message>UPDATE_COUNTERS</message>";
+			print "</rpc-reply>";
 
 			return;
 		}

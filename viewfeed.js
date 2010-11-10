@@ -24,7 +24,7 @@ function catchup_callback2(transport, callback) {
 	try {
 		console.log("catchup_callback2 " + transport + ", " + callback);
 		notify("");			
-		all_counters_callback2(transport);
+		handle_rpc_reply(transport);
 		if (callback) {
 			setTimeout(callback, 10);	
 		}
@@ -53,10 +53,7 @@ function clean_feed_selections() {
 function headlines_callback2(transport, feed_cur_page) {
 	try {
 
-		if (!transport.responseText && db) {
-			offlineConfirmModeChange();
-			return;
-		}
+		if (!handle_rpc_reply(transport)) return;
 
 		loading_set_progress(100);
 
@@ -106,7 +103,7 @@ function headlines_callback2(transport, feed_cur_page) {
 		var f = $("headlines-frame");
 		try {
 			if (feed_cur_page == 0) { 
-				console.log("resetting headlines scrollTop");
+				//console.log("resetting headlines scrollTop");
 				f.scrollTop = 0; 
 			}
 		} catch (e) { };
@@ -119,8 +116,10 @@ function headlines_callback2(transport, feed_cur_page) {
 
 			if (headlines_info)
 				headlines_info = JSON.parse(headlines_info.firstChild.nodeValue);
-			else
-				console.log("didn't find headlines-info object in response");
+			else {
+				console.error("didn't find headlines-info object in response");
+				return;
+			}
 
 			var headlines_count = headlines_info.count;
 			var headlines_unread = headlines_info.unread;
@@ -158,14 +157,14 @@ function headlines_callback2(transport, feed_cur_page) {
 					}
 
 				} else {
-					console.log("headlines_callback: returned no data");
+					console.warn("headlines_callback: returned no data");
 				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
 	
 				}
 			} else {
 				if (headlines) {
 					if (headlines_count > 0) {
-						console.log("adding some more headlines...");
+						console.warn("adding some more headlines...");
 	
 						var c = $("headlinesList");
 		
@@ -187,7 +186,7 @@ function headlines_callback2(transport, feed_cur_page) {
 						console.log("no new headlines received");
 					}
 				} else {
-					console.log("headlines_callback: returned no data");
+					console.warn("headlines_callback: returned no data");
 					notify_error("Error while trying to load more headlines");	
 				}
 
@@ -196,30 +195,21 @@ function headlines_callback2(transport, feed_cur_page) {
 			if (articles) {
 				for (var i = 0; i < articles.length; i++) {
 					var a_id = articles[i].getAttribute("id");
-					console.log("found id: " + a_id);
+					//console.log("found id: " + a_id);
 					cache_inject(a_id, articles[i].firstChild.nodeValue);
 				}
 			} else {
 				console.log("no cached articles received");
 			}
 	
-			if (counters) {
-				console.log("parsing piggybacked counters: " + counters);
-				parse_counters(counters, false);
-			} else {
-				console.log("counters container not found in reply, requesting...");
-				request_counters();
-			}
-	
+			request_counters();
+
 			if (runtime_info) {
-				console.log("parsing runtime info: " + runtime_info[0]);
 				parse_runtime_info(runtime_info[0]);
-			} else {
-				console.log("runtime info container not found in reply");
-			}
+			} 
 	
 		} else {
-			console.log("headlines_callback: returned no XML object");
+			console.warn("headlines_callback: returned no XML object");
 			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 		}
 	
@@ -339,10 +329,7 @@ function article_callback2(transport, id) {
 	try {
 		console.log("article_callback2 " + id);
 
-		if (!transport.responseText && db) {
-			offlineConfirmModeChange();
-			return;
-		}
+		if (!handle_rpc_reply(transport)) return;
 
 		if (transport.responseXML) {
 
@@ -366,17 +353,17 @@ function article_callback2(transport, id) {
 
 			active_post_id = id; 
 
-			console.log("looking for articles to cache...");
+			//console.log("looking for articles to cache...");
 
 			var articles = transport.responseXML.getElementsByTagName("article");
 
 			for (var i = 0; i < articles.length; i++) {
 				var a_id = articles[i].getAttribute("id");
 
-				console.log("found id: " + a_id);
+				//console.log("found id: " + a_id);
 
 				if (a_id == active_post_id) {
-					console.log("active article, rendering...");					
+					//console.log("active article, rendering...");					
 					render_article(articles[i].firstChild.nodeValue);
 				}
 
@@ -393,7 +380,7 @@ function article_callback2(transport, id) {
 			var reply = transport.responseXML.firstChild.firstChild;
 		
 		} else {
-			console.log("article_callback: returned no XML object");
+			console.warn("article_callback: returned no XML object");
 			//var f = $("content-frame");
 			//f.innerHTML = "<div class='whiteBox'>" + __('Could not display article (missing XML object)') + "</div>";
 		}
@@ -405,17 +392,7 @@ function article_callback2(transport, id) {
 			setTimeout('updateFeedList(false, false)', 50);			
 			_reload_feedlist_after_view = false;
 		} else {
-			if (transport.responseXML) {
-				var counters = transport.responseXML.getElementsByTagName("counters")[0];
-
-				if (counters) {
-					console.log("parsing piggybacked counters: " + counters);
-					parse_counters(counters, false);
-				} else {
-					console.log("counters container not found in reply, requesting...");
-					request_counters();
-				}
-			}
+			request_counters();
 		}
 
 		notify("");
@@ -518,7 +495,7 @@ function tMark_afh_off(effect) {
 	try {
 		var elem = effect.effects[0].element;
 
-		console.log("tMark_afh_off : " + elem.id);
+		//console.log("tMark_afh_off : " + elem.id);
 
 		if (elem) {
 			elem.src = elem.src.replace("mark_set", "mark_unset");
@@ -535,7 +512,7 @@ function tPub_afh_off(effect) {
 	try {
 		var elem = effect.effects[0].element;
 
-		console.log("tPub_afh_off : " + elem.id);
+		//console.log("tPub_afh_off : " + elem.id);
 
 		if (elem) {
 			elem.src = elem.src.replace("pub_set", "pub_unset");
@@ -598,12 +575,12 @@ function toggleMark(id, client_only, no_effects) {
 		if (!no_effects) update_local_feedlist_counters();
 
 		if (!client_only) {
-			console.log(query);
+			//console.log(query);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					handle_rpc_reply(transport); 
 				} });
 
 		}
@@ -661,7 +638,7 @@ function togglePub(id, client_only, no_effects, note) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport);
+					handle_rpc_reply(transport);
 		
 					var note = transport.responseXML.getElementsByTagName("note")[0];
 		
@@ -907,7 +884,7 @@ function toggleUnread(id, cmode, effect) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					handle_rpc_reply(transport); 
 				} });
 
 		}
@@ -944,7 +921,7 @@ function selectionRemoveLabel(id) {
 				parameters: query,
 				onComplete: function(transport) { 
 					show_labels_in_headlines(transport);
-					all_counters_callback2(transport);
+					handle_rpc_reply(transport);
 				} });
 
 //		}
@@ -982,7 +959,7 @@ function selectionAssignLabel(id) {
 				parameters: query,
 				onComplete: function(transport) { 
 					show_labels_in_headlines(transport);
-					all_counters_callback2(transport);
+					handle_rpc_reply(transport);
 				} });
 
 //		}
@@ -1099,7 +1076,7 @@ function selectionToggleMarked() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					handle_rpc_reply(transport); 
 				} });
 
 		}
@@ -1135,7 +1112,7 @@ function selectionTogglePublished() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					handle_rpc_reply(transport); 
 				} });
 
 		}
@@ -1395,13 +1372,13 @@ function editTagsSave() {
 
 	query = "?op=rpc&subop=setArticleTags&" + query;
 
-	console.log(query);
+	//console.log(query);
 
 	new Ajax.Request("backend.php",	{
 		parameters: query,
 		onComplete: function(transport) {
 				try {
-					console.log("tags saved...");
+					//console.log("tags saved...");
 			
 					closeInfoBox();
 					notify("");
@@ -1623,7 +1600,7 @@ function cdmWatchdog() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					all_counters_callback2(transport); 
+					handle_rpc_reply(transport); 
 				} });
 
 		}
@@ -1641,7 +1618,7 @@ function cache_inject(id, article, param) {
 
 	try {
 		if (!cache_check_param(id, param)) {
-			console.log("cache_article: miss: " + id + " [p=" + param + "]");
+			//console.log("cache_article: miss: " + id + " [p=" + param + "]");
 
 		   var date = new Date();
 	      var ts = Math.round(date.getTime() / 1000);
@@ -1669,7 +1646,7 @@ function cache_inject(id, article, param) {
 			}
 	
 		} else {
-			console.log("cache_article: hit: " + id + " [p=" + param + "]");
+			//console.log("cache_article: hit: " + id + " [p=" + param + "]");
 		}
 	} catch (e) {	
 		exception_error("cache_inject", e);
@@ -1893,7 +1870,7 @@ function cache_invalidate(id) {
 
 				while (i < article_cache.length) {
 					if (article_cache[i]["id"] == id) {
-						console.log("cache_invalidate: removed id " + id);
+						//console.log("cache_invalidate: removed id " + id);
 						article_cache.splice(i, 1);
 						return true;
 					}
@@ -1902,7 +1879,7 @@ function cache_invalidate(id) {
 			}
 		}
 
-		console.log("cache_invalidate: id not found: " + id);
+		//console.log("cache_invalidate: id not found: " + id);
 		return false;
 	} catch (e) {
 		exception_error("cache_invalidate", e);
@@ -1964,7 +1941,7 @@ function preloadArticleUnderPointer(id) {
 			if (preload_id_batch.indexOf(id) == -1)
 				preload_id_batch.push(id);
 
-			console.log("preload ids batch: " + preload_id_batch.toString());
+			//console.log("preload ids batch: " + preload_id_batch.toString());
 
 			window.clearTimeout(preload_timeout_id);
 			preload_batch_timeout_id = window.setTimeout('preloadBatchedArticles()', 1000);
@@ -2009,7 +1986,6 @@ function headlines_scroll_handler() {
 
 		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 			if (!_infscroll_disable) {
-				console.log("more cowbell!");
 				viewNextFeedPage();
 			}
 		}

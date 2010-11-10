@@ -1,23 +1,19 @@
-
 var total_unread = 0;
-var first_run = true;
 var display_tags = false;
 var global_unread = -1;
-var current_subtitle = "";
-var daemon_enabled = false;
-//var _qfd_deleted_feed = 0;
 var firsttime_update = true;
 var _active_feed_id = 0;
 var _active_feed_is_cat = false;
 var number_of_feeds = 0;
-var _hfd_scrolltop = 0;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
-var init_params = new Object();
+var init_params = {};
 var ver_offset = 0;
 var hor_offset = 0;
 var feeds_sort_by_unread = false;
 var feedlist_sortable_enabled = false;
+var _force_scheduled_update = false;
+var last_scheduled_update = false;
 
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
@@ -92,40 +88,9 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 	closeInfoBox();
 }
 
-function scheduleFeedUpdate() {
-
-	window.clearTimeout(counter_timeout_id);
-
-	var query_str = "backend.php?op=rpc&subop=getAllCounters";
-
-	var omode;
-
-	if (firsttime_update && !navigator.userAgent.match("Opera")) {
-		firsttime_update = false;
-		omode = "T";
-	} else {
-		if (display_tags) {
-			omode = "tl";
-		} else {
-			omode = "flc";
-		}
-	}
-	
-	query_str = query_str + "&omode=" + omode;
-	query_str = query_str + "&uctr=" + global_unread;
-
-	console.log("[scheduleFeedUpdate] " + query_str);
-
-	new Ajax.Request("backend.php", {
-		parameters: query_str,
-		onComplete: function(transport) { 
-				parse_counters_reply(transport, true);
-			} });
-}
-
 function updateFeedList() {
 	try {
-		console.log("updateFeedList");
+		//console.log("updateFeedList");
 	
 		if (offline_mode) return render_offline_feedlist();
 	
@@ -160,7 +125,7 @@ function catchupAllFeeds() {
 
 		notify_progress("Marking all feeds as read...");
 
-		console.log("catchupAllFeeds Q=" + query_str);
+		//console.log("catchupAllFeeds Q=" + query_str);
 
 		new Ajax.Request("backend.php", {
 			parameters: query_str,
@@ -184,17 +149,56 @@ function viewCurrentFeed(subop) {
 	return false; // block unneeded form submits
 }
 
-function viewfeed(feed, subop) {
+/*function viewfeed(feed, subop) {
 	var f = window.frames["feeds-frame"];
 	f.viewfeed(feed, subop);
-}
+} */
 
 function timeout() {
 	if (getInitParam("bw_limit") == "1") return;
 
-	scheduleFeedUpdate(false);
+	try {
+	   var date = new Date();
+      var ts = Math.round(date.getTime() / 1000);
 
-	setTimeout("timeout()", 10*1000);
+		if (ts - last_scheduled_update > 10 || _force_scheduled_update) {
+
+			window.clearTimeout(counter_timeout_id);
+		
+			var query_str = "?op=rpc&subop=getAllCounters";
+		
+			var omode;
+		
+			if (firsttime_update && !navigator.userAgent.match("Opera")) {
+				firsttime_update = false;
+				omode = "T";
+			} else {
+				if (display_tags) {
+					omode = "tl";
+				} else {
+					omode = "flc";
+				}
+			}
+			
+			query_str = query_str + "&omode=" + omode;
+			query_str = query_str + "&last_article_id=" + getInitParam("last_article_id");
+		
+			//console.log("[timeout]" + query_str);
+		
+			new Ajax.Request("backend.php", {
+				parameters: query_str,
+				onComplete: function(transport) { 
+						handle_rpc_reply(transport, true);
+					} });
+
+			last_scheduled_update = ts;
+		}
+
+	} catch (e) {
+		exception_error("timeout", e);
+	}
+
+	setTimeout("timeout()", 3000);
 }
 
 function resetSearch() {
@@ -211,21 +215,11 @@ function search() {
 	viewCurrentFeed(0, "");
 }
 
-// if argument is undefined, current subtitle is not updated
-// use blank string to clear subtitle
-function updateTitle(s) {
+function updateTitle() {
 	var tmp = "Tiny Tiny RSS";
-
-	if (s != undefined) {
-		current_subtitle = s;
-	}
 
 	if (global_unread > 0) {
 		tmp = tmp + " (" + global_unread + ")";
-	}
-
-	if (current_subtitle) {
-		tmp = tmp + " - " + current_subtitle;
 	}
 
 	if (window.fluid) {
@@ -365,7 +359,6 @@ function init_second_stage() {
 		dropboxSelect(toolbar.view_mode, getInitParam("default_view_mode"));
 		dropboxSelect(toolbar.order_by, getInitParam("default_view_order_by"));
 
-		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
 		setTimeout('updateFeedList(false, false)', 50);
@@ -454,11 +447,6 @@ function quickMenuGo(opid) {
 			return;
 		}
 
-		if (opid == "qmcUpdateFeeds") {
-			scheduleFeedUpdate(true);
-			return;
-		}
-	
 		if (opid == "qmcCatchupAll") {
 			catchupAllFeeds();
 			return;
@@ -550,19 +538,20 @@ function toggleDispRead() {
 function parse_runtime_info(elem) {
 
 	if (!elem || !elem.firstChild) {
+		console.warn("parse_runtime_info: invalid node passed");
 		return;
 	}
 
 	var data = JSON.parse(elem.firstChild.nodeValue);
 
-	console.log("parsing runtime info...");
+	//console.log("parsing runtime info...");
 
 	for (k in data) {
 		var v = data[k];
 
-		console.log("RI: " + k + " => " + v);
+		// console.log("RI: " + k + " => " + v);
 
-		if (k == "num_feeds") {
+		if (k == "num_feeds" || k == "last_article_id") {
 			init_params[k] = v;					
 		}
 
@@ -697,7 +686,7 @@ function feedEditSave() {
 
 function collapse_feedlist() {
 	try {
-		console.log("collapse_feedlist");
+		//console.log("collapse_feedlist");
 		
 		var theme = getInitParam("theme");
 		if (theme != "" && 
@@ -906,10 +895,10 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 82 && shift_key) { // R
+/*			if (keycode == 82 && shift_key) { // R
 				scheduleFeedUpdate(true);
 				return;
-			}
+			} */
 
 			if (keycode == 74) { // j
 				var feed = getActiveFeedId();
@@ -1076,10 +1065,10 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 85 && shift_key) { // U
+/*			if (keycode == 85 && shift_key) { // U
 				scheduleFeedUpdate(true);
 				return false;
-			}
+			} */
 
 			if (keycode == 85) { // u
 				if (getActiveFeedId()) {

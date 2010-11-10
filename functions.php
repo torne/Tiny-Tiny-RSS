@@ -3178,6 +3178,8 @@
 
 		$data['num_feeds'] = (int) $num_feeds;
 
+		$data['last_article_id'] = getLastArticleId($link);
+
 		if (ENABLE_UPDATE_DAEMON) {
 
 			$data['daemon_is_running'] = (int) file_is_locked("update_daemon.lock");
@@ -7006,4 +7008,14 @@
 		}
 	}
 
+	function getLastArticleId($link) {
+		$result = db_query($link, "SELECT MAX(ref_id) AS id FROM ttrss_user_entries
+			WHERE owner_uid = " . $_SESSION["uid"]);
+
+		if (db_num_rows($result) == 1) {
+			return db_fetch_result($result, 0, "id");
+		} else {
+			return -1;
+		}
+	}
 ?>
