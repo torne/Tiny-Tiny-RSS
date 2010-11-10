@@ -4972,7 +4972,7 @@
 			catchupArticlesById($link, $ids, $cmode);
 		}
 
-		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0 && !$cat_view) {
 			update_generic_feed($link, $feed, $cat_view, true);
 		}
 
