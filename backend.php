@@ -334,6 +334,8 @@
 					break;
 			}
 
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("04", $timing_info);
+
 			$ret = outputHeadlinesList($link, $feed, $subop, 
 				$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
 				$vgroup_last_feed, $override_order);
@@ -345,6 +347,8 @@
 			$vgroup_last_feed = $ret[4];
 
 			print "]]></headlines>";
+
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
 
 			//print "<headlines-count value=\"$headlines_count\"/>";
 			//print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";

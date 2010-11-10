@@ -1181,9 +1181,9 @@
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries 
 								(ref_id, owner_uid, feed_id, unread, last_read, marked, 
-									published, score, tag_cache) 
+									published, score, tag_cache, label_cache) 
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked, $published, '$score', '')");
+								$last_read_qpart, $marked, $published, '$score', '', '')");
 
 						$result = db_query($link, 
 							"SELECT int_id FROM ttrss_user_entries WHERE
@@ -5080,7 +5080,7 @@
 				$labels_str .= format_article_labels($labels, $id);
 				$labels_str .= "</span>";
 	
-				if (count($topmost_article_ids) < 5) {
+				if (count($topmost_article_ids) < 3) {
 					array_push($topmost_article_ids, $id);
 				}
 
@@ -6089,14 +6089,6 @@
 	function get_article_labels($link, $id) {
 		global $memcache;
 
-		$result = db_query($link, 
-			"SELECT DISTINCT label_id,caption,fg_color,bg_color 
-				FROM ttrss_labels2, ttrss_user_labels2 
-			WHERE id = label_id 
-				AND article_id = '$id' 
-				AND owner_uid = ".$_SESSION["uid"] . "
-			ORDER BY caption");
-
 		$obj_id = md5("LABELS:$id:" . $_SESSION["uid"]);
 
 		$rv = array();
@@ -6104,12 +6096,42 @@
 		if ($memcache && $obj = $memcache->get($obj_id)) {
 			return $obj;
 		} else {
+
+			$result = db_query($link, "SELECT label_cache FROM
+				ttrss_user_entries WHERE ref_id = '$id' AND owner_uid = " .
+				$_SESSION["uid"]);
+
+			$label_cache = db_fetch_result($result, 0, "label_cache");
+
+			if ($label_cache) {
+
+				$label_cache = json_decode($label_cache, true);
+
+				if ($label_cache["no-labels"] == 1)
+					return $rv;
+				else
+					return $label_cache;
+			}
+
+			$result = db_query($link, 
+				"SELECT DISTINCT label_id,caption,fg_color,bg_color 
+					FROM ttrss_labels2, ttrss_user_labels2 
+				WHERE id = label_id 
+					AND article_id = '$id' 
+					AND owner_uid = ".$_SESSION["uid"] . "
+				ORDER BY caption");
+
 			while ($line = db_fetch_assoc($result)) {
 				$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
 					$line["bg_color"]);
 				array_push($rv, $rk);
 			}
 			if ($memcache) $memcache->add($obj_id, $rv, 0, 3600);
+
+			if (count($rv) > 0) 
+				label_update_cache($link, $id, $rv);
+			else
+				label_update_cache($link, $id, array("no-labels" => 1));
 		}
 
 		return $rv;
@@ -6128,6 +6150,28 @@
 		}
 	}
 
+	function label_update_cache($link, $id, $labels = false, $force = false) {
+
+		if ($force)
+			label_clear_cache($link, $id);
+
+		if (!$labels) 
+			$labels = get_article_labels($link, $id);
+
+		$labels = db_escape_string(json_encode($labels));
+
+		db_query($link, "UPDATE ttrss_user_entries SET
+			label_cache = '$labels' WHERE ref_id = '$id'");
+
+	}
+
+	function label_clear_cache($link, $id) {
+
+		db_query($link, "UPDATE ttrss_user_entries SET
+			label_cache = '' WHERE ref_id = '$id'");
+
+	}
+
 	function label_remove_article($link, $id, $label, $owner_uid) {
 
 		$label_id = label_find_id($link, $label, $owner_uid);
@@ -6139,6 +6183,8 @@
 			WHERE 
 				label_id = '$label_id' AND
 				article_id = '$id'");
+
+		label_clear_cache($link, $id);
 	}
 
 	function label_add_article($link, $id, $label, $owner_uid) {
@@ -6167,10 +6213,15 @@
 			db_query($link, "INSERT INTO ttrss_user_labels2 
 				(label_id, article_id) VALUES ('$label_id', '$id')");
 		}
+
+		label_clear_cache($link, $id);	
+
 	}
 
 	function label_remove($link, $id, $owner_uid) {
 		global $memcache;
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		if ($memcache) {
 			$obj_id = md5("LABELS:$id:$owner_uid");
@@ -6185,7 +6236,7 @@
 		$caption = db_fetch_result($result, 0, "caption");
 
 		$result = db_query($link, "DELETE FROM ttrss_labels2 WHERE id = '$id'
-			AND owner_uid = " . $_SESSION["uid"]);
+			AND owner_uid = " . $owner_uid);
 
 		if (db_affected_rows($link, $result) != 0 && $caption) {
 
@@ -6201,8 +6252,14 @@
 			db_query($link, "UPDATE ttrss_filters SET
 				enabled = false WHERE action_param = '$caption'
 					AND action_id = 7
-					AND owner_uid = " . $_SESSION["uid"]);
-			}
+					AND owner_uid = " . $owner_uid);
+
+			/* Remove cached data */
+
+			db_query($link, "UPDATE ttrss_user_entries SET label_cache = ''
+				WHERE label_cache LIKE '%$caption%' AND owner_uid = " . $owner_uid);
+
+		}
 
 		db_query($link, "COMMIT");
 	}
@@ -6938,7 +6995,7 @@
 				}
 			}
 	
-			if (db_num_rows($result) == 1) {
+			if (count($entries) == 1) {
 				print __("Attachment:") . " ";
 			} else {
 				print __("Attachments:") . " ";

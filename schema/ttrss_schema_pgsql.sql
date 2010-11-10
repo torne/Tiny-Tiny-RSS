@@ -138,6 +138,7 @@ create table ttrss_user_entries (
 	marked boolean not null default false,
 	published boolean not null default false,
 	tag_cache text not null,
+	label_cache text not null,
 	last_read timestamp,
 	score int not null default 0,
 	note text,
@@ -217,7 +218,7 @@ create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (73);
+insert into ttrss_version values (74);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

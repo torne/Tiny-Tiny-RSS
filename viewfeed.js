@@ -934,6 +934,8 @@ function selectionRemoveLabel(id) {
 			var query = "?op=rpc&subop=removeFromLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
+			console.log(query);
+
 //			notify_progress("Loading, please wait...");
 
 			cache_invalidate("F:" + (-11 - id));
@@ -971,6 +973,8 @@ function selectionAssignLabel(id) {
 
 			var query = "?op=rpc&subop=assignToLabel&ids=" +
 				param_escape(ids.toString()) + "&lid=" + param_escape(id);
+
+			console.log(query);
 
 //			notify_progress("Loading, please wait...");
 
@@ -1831,20 +1835,13 @@ function cache_expire() {
 			var date = new Date();
 			var timestamp = Math.round(date.getTime() / 1000);
 
-			for (var id in cache_added) {
-				var tmp = [];
+			for (var i = 0; i < localStorage.length; i++) {
 
-				var key_id = id.replace("TS:", "");
+				var id = localStorage.key(i);
 
-				//console.warn("CEXP:" + key_id);
-
-				if (timestamp - cache_added[id] > 180) {
-					cache_invalidate(key_id);
-				} else {
-					tmp[id] = cache_added[id];
+				if (timestamp - cache_added["TS:" + id] > 180) {
+					localStorage.removeItem(id);
 				}
-
-				cache_added = tmp;
 			}
 
 		} else {
@@ -1875,24 +1872,19 @@ function cache_invalidate(id) {
 
 			if (has_local_storage()) {
 
-				var tmp = [];
 				var found = false;
 
-				for (var key in cache_added) {
-					var key_id = key.replace("TS:", "");
+				for (var i = 0; i < localStorage.length; i++) {
+					var key = localStorage.key(i);
 
 //					console.warn("cache_invalidate: " + key_id + " cmp " + id);
 
-					if (key_id == id || key_id.indexOf(id + ":") == 0) {
-						localStorage.removeItem(key_id);
+					if (key == id || key.indexOf(id + ":") == 0) {
+						localStorage.removeItem(key);
 						found = true;
 						break;
-					} else {
-						tmp[key] = cache_added[key];
 					}
 				}
-
-				cache_added = tmp;
 
 				return found;
 

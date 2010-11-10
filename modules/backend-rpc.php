@@ -595,7 +595,7 @@
 
 		if ($subop == "removeFromLabel") {
 
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
 
 			$label = db_escape_string(label_find_caption($link, $label_id, 

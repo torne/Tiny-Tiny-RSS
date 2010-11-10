@@ -21,6 +21,14 @@
 						fg_color = '$fg', bg_color = '$bg' WHERE id = '$id'
 						AND owner_uid = " . $_SESSION["uid"]);			
 				}
+
+				$caption = db_escape_string(label_find_caption($link, $id, $_SESSION["uid"]));
+
+				/* Remove cached data */
+
+				db_query($link, "UPDATE ttrss_user_entries SET label_cache = ''
+					WHERE label_cache LIKE '%$caption%' AND owner_uid = " . $_SESSION["uid"]);
+
 			}
 
 			return;
@@ -33,6 +41,13 @@
 				db_query($link, "UPDATE ttrss_labels2 SET
 					fg_color = '', bg_color = '' WHERE id = '$id'
 					AND owner_uid = " . $_SESSION["uid"]);			
+
+				$caption = db_escape_string(label_find_caption($link, $id, $_SESSION["uid"]));
+
+				/* Remove cached data */
+
+				db_query($link, "UPDATE ttrss_user_entries SET label_cache = ''
+					WHERE label_cache LIKE '%$caption%' AND owner_uid = " . $_SESSION["uid"]);
 			}
 
 		}
