@@ -1,9 +1,7 @@
 <?php
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
+	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
-	require_once "functions.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";

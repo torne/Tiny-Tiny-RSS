@@ -3,9 +3,6 @@
 	// This is an experimental multiprocess update daemon.
 	// Some configurable variable may be found below.
 
-	// define('DEFAULT_ERROR_LEVEL', E_ALL);
-	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
-
 	declare(ticks = 1);
 
 	define('DISABLE_SESSIONS', true);
@@ -37,8 +34,6 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 	require_once "lib/magpierss/rss_fetch.inc";
-
-	error_reporting(DEFAULT_ERROR_LEVEL);
 
 	$children = array();
 	$ctimes = array();

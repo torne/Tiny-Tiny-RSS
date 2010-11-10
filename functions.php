@@ -1,10 +1,7 @@
 <?php
 
 	date_default_timezone_set('UTC');
-
-	if ($_REQUEST["debug"]) {
-		define('DEFAULT_ERROR_LEVEL', E_ALL);
-	}
+	error_reporting(E_ALL & ~E_NOTICE);
 
 	require_once 'config.php';
 
@@ -365,7 +362,7 @@
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-			$contents = curl_exec($ch);
+			$contents = @curl_exec($ch);
 			if ($contents === false) {
 				curl_close($ch);
 				return false;
@@ -380,7 +377,7 @@
 
 			return $contents;
 		} else {
-			return file_get_contents($url);
+			return @file_get_contents($url);
 		}
 
 	}
@@ -485,8 +482,6 @@
 
 #		print "FAVICON [$site_url]: $favicon_url\n";
 
-		error_reporting(0);
-
 		$icon_file = ICONS_DIR . "/$feed.ico";
 
 		if ($favicon_url && !file_exists($icon_file)) {
@@ -502,9 +497,6 @@
 				}
 			}
 		}
-
-		error_reporting(DEFAULT_ERROR_LEVEL);
-
 	}
 
 	function update_rss_feed($link, $feed, $ignore_daemon = false) {
@@ -611,10 +603,6 @@
 			_debug("update_rss_feed: fetching [$fetch_url]...");
 		}
 
-		if (!defined('DAEMON_EXTENDED_DEBUG') && !$_REQUEST['xdebug']) {
-			error_reporting(0);
-		}
-
 		$obj_id = md5("FDATA:$use_simplepie:$fetch_url");
 
 		if ($memcache && $obj = $memcache->get($obj_id)) {
@@ -628,7 +616,7 @@
 		} else {
 
 			if (!$use_simplepie) {
-				$rss = fetch_rss($fetch_url);
+				$rss = @fetch_rss($fetch_url);
 			} else {
 				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
 					mkdir(SIMPLEPIE_CACHE_DIR);
@@ -668,8 +656,6 @@
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 			_debug("update_rss_feed: fetch done, parsing...");
-		} else {
-			error_reporting (DEFAULT_ERROR_LEVEL);
 		}
 
 		$feed = db_escape_string($feed);
@@ -1134,8 +1120,6 @@
 						$dupcheck_qpart = "";
 					}
 
-//					error_reporting(0);
-
 					/* Collect article tags here so we could filter by them: */
 
 					$article_filters = get_article_filters($filters, $entry_title, 
@@ -1152,8 +1136,6 @@
 						db_query($link, "COMMIT"); // close transaction in progress
 						continue;
 					}
-
-//					error_reporting (DEFAULT_ERROR_LEVEL);
 
 					$score = calculate_article_score($article_filters);
 
@@ -2261,8 +2243,6 @@
 
 	function sanity_check($link) {
 
-		error_reporting(0);
-
 		$error_code = 0;
 		$schema_version = get_schema_version($link);
 
@@ -2281,8 +2261,6 @@
 			$error_code = 12;
 		}
 
-		error_reporting (DEFAULT_ERROR_LEVEL);
-
 		if ($error_code != 0) {
 			print_error_xml($error_code);
 			return false;
@@ -2293,9 +2271,7 @@
 
 	function file_is_locked($filename) {
 		if (function_exists('flock')) {
-			error_reporting(0);
-			$fp = fopen(LOCK_DIRECTORY . "/$filename", "r");
-			error_reporting(DEFAULT_ERROR_LEVEL);
+			$fp = @fopen(LOCK_DIRECTORY . "/$filename", "r");
 			if ($fp) {
 				if (flock($fp, LOCK_EX | LOCK_NB)) {
 					flock($fp, LOCK_UN);
@@ -3232,7 +3208,7 @@
 
 			if (time() - $_SESSION["daemon_stamp_check"] > 30) {
 
-				$stamp = (int) file_get_contents(LOCK_DIRECTORY . "/update_daemon.stamp");
+				$stamp = (int) @file_get_contents(LOCK_DIRECTORY . "/update_daemon.stamp");
 
 				if ($stamp) {
 					$stamp_delta = time() - $stamp;
@@ -3256,7 +3232,7 @@
 		if (CHECK_FOR_NEW_VERSION && $_SESSION["access_level"] >= 10) {
 			
 			if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
-				$new_version_details = check_for_update($link);
+				$new_version_details = @check_for_update($link);
 
 				print "<param key=\"new_version_available\" value=\"".
 					sprintf("%d", $new_version_details != ""). "\"/>";
@@ -3950,18 +3926,15 @@
 			return;
 		}
 
-		error_reporting(0);
 		if (DEFAULT_UPDATE_METHOD == "1") {
 			$rss = new SimplePie();
 			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
-//			$rss->set_timeout(MAGPIE_FETCH_TIME_OUT);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 			$rss->init();
 		} else {
 			$rss = fetch_rss($releases_feed);
 		}
-		error_reporting (DEFAULT_ERROR_LEVEL);
 
 		if ($rss) {
 
@@ -5100,8 +5073,6 @@
 
 			$lnum = $limit*$offset;
 
-			error_reporting (DEFAULT_ERROR_LEVEL);
-	
 			$num_unread = 0;
 			$cur_feed_title = '';
 
@@ -6858,6 +6829,8 @@
 	{
 		$url     = fix_url($url);
 		$baseUrl = substr($url, 0, strrpos($url, '/') + 1);
+
+		libxml_use_internal_errors(true);
 
 		$doc = new DOMDocument();
 		$doc->loadHTMLFile($url);

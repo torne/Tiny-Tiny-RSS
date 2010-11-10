@@ -1,6 +1,4 @@
 <?php
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
 	/* remove ill effects of magic quotes */
 
 	if (get_magic_quotes_gpc()) {
@@ -16,23 +14,13 @@
 		$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 	}
 
+	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
-
-/*	if ($_REQUEST["debug"]) {
-		define('DEFAULT_ERROR_LEVEL', E_ALL);
-	} else {
-		define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
-	}
-	
-	error_reporting(DEFAULT_ERROR_LEVEL); */
-
 	require_once "sanity_check.php";
 	require_once "config.php";
-	
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "functions.php";
 
 	no_cache_incantation();
 
