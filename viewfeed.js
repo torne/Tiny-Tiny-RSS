@@ -15,6 +15,11 @@ var post_under_pointer = false;
 
 var last_requested_article = false;
 
+var preload_id_batch = [];
+var preload_timeout_id = false;
+
+var cache_added = [];
+
 function catchup_callback2(transport, callback) {
 	try {
 		console.log("catchup_callback2 " + transport + ", " + callback);
@@ -210,7 +215,7 @@ function headlines_callback2(transport, feed_cur_page) {
 				console.log("parsing runtime info: " + runtime_info[0]);
 				parse_runtime_info(runtime_info[0]);
 			} else {
-				console.log("counters container not found in reply");
+				console.log("runtime info container not found in reply");
 			}
 	
 		} else {
@@ -447,7 +452,7 @@ function view(id) {
 		}
 
 		console.log("additional ids: " + cids_to_request.toString());			
-
+	
 		/* additional info for piggyback counters */
 
 		if (tagsAreDisplayed()) {
@@ -1629,14 +1634,15 @@ function cdmWatchdog() {
 
 
 function cache_inject(id, article, param) {
+
 	try {
 		if (!cache_check_param(id, param)) {
 			console.log("cache_article: miss: " + id + " [p=" + param + "]");
-	
-			if (db) {
 
-			   var date = new Date();
-		      var ts = Math.round(date.getTime() / 1000);
+		   var date = new Date();
+	      var ts = Math.round(date.getTime() / 1000);
+
+			if (db) {
 
 				db.execute("INSERT INTO cache (id, article, param, added) VALUES (?, ?, ?, ?)",
 					[id, article, param, ts]);				
@@ -1647,9 +1653,10 @@ function cache_inject(id, article, param) {
 				cache_obj["id"] = id;
 				cache_obj["data"] = article;
 				cache_obj["param"] = param;
-				cache_obj["added"] = new Date();
 
 				if (param) id = id + ":" + param;
+
+				cache_added["TS:" + id] = ts;
 
 				if (has_local_storage()) 
 					localStorage.setItem(id, JSON.stringify(cache_obj));
@@ -1720,7 +1727,10 @@ function cache_find_param(id, param) {
 	} else {
 
 		if (has_local_storage()) {
-			var cache_obj = localStorage.getItem(id + ":" + param);
+
+			if (param) id = id + ":" + param;
+
+			var cache_obj = localStorage.getItem(id);
 
 			if (cache_obj) {
 				cache_obj = JSON.parse(cache_obj);
@@ -1756,9 +1766,9 @@ function cache_check(id) {
 		return a;
 
 	} else {
-		if (has_local_storage) {
+		if (has_local_storage()) {
 			if (localStorage.getItem(id))
-					return true;
+				return true;
 		} else {
 			for (var i = 0; i < article_cache.length; i++) {
 				if (article_cache[i]["id"] == id) {
@@ -1787,9 +1797,13 @@ function cache_check_param(id, param) {
 
 	} else {
 
-		if (has_local_storage) {
-			if (localStorage.getItem(id + ':' + param))
-					return true;
+		if (has_local_storage()) {
+
+			if (param) id = id + ":" + param;
+
+			if (localStorage.getItem(id))
+				return true;
+
 		} else {
 			for (var i = 0; i < article_cache.length; i++) {
 				if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
@@ -1813,9 +1827,23 @@ function cache_expire() {
 
 	} else {
 		if (has_local_storage()) {
-			while (localStorage.length > 25) {
-				localStorage.removeItem(localStorage.key(0));
+
+			var date = new Date();
+			var timestamp = Math.round(date.getTime() / 1000);
+
+			for (var id in cache_added) {
+				var tmp = [];
+
+				if (timestamp - cache_added[id] > 60) {
+					console.warn("CEXP:" + id);
+					cache_invalidate(id);
+				} else {
+					tmp[id] = cache_added[id];
+				}
+
+				cache_added = tmp;
 			}
+
 		} else {
 			while (article_cache.length > 25) {
 				article_cache.shift();
@@ -1843,13 +1871,28 @@ function cache_invalidate(id) {
 		} else {
 
 			if (has_local_storage()) {
-				for (var i = 0; i < localStorage.length; i++) {
-					var key = localStorage.key(i);
 
-					if (key == id || key.indexOf(id + ":") == 0)
-						localStorage.removeItem(key);
+				var tmp = [];
+				var found = false;
 
+				for (var key in cache_added) {
+					var key_id = key.replace("TS:", "");
+
+//					console.warn("cache_invalidate: " + key_id + " cmp " + id);
+
+					if (key_id == id || key_id.indexOf(id + ":") == 0) {
+						localStorage.removeItem(key_id);
+						found = true;
+						break;
+					} else {
+						tmp[key] = cache_added[key];
+					}
 				}
+
+				cache_added = tmp;
+
+				return found;
+
 			} else {
 				var i = 0
 
@@ -1875,6 +1918,34 @@ function getActiveArticleId() {
 	return active_post_id;
 }
 
+function preloadBatchedArticles() {
+	try {
+
+		var query = "?op=rpc&subop=getArticles&ids=" + 
+			preload_id_batch.toString();
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+
+				preload_id_batch = [];
+
+				var articles = transport.responseXML.getElementsByTagName("article");
+
+				for (var i = 0; i < articles.length; i++) {
+					var id = articles[i].getAttribute("id");
+					if (!cache_check(id)) {
+						cache_inject(id, articles[i].firstChild.nodeValue);				
+						console.log("preloaded article: " + id);
+					}
+				}
+		} }); 
+
+	} catch (e) {
+		exception_error("preloadBatchedArticles", e);
+	}
+}
+
 function preloadArticleUnderPointer(id) {
 	try {
 		if (getInitParam("bw_limit") == "1") return;
@@ -1887,33 +1958,22 @@ function preloadArticleUnderPointer(id) {
 
 			/* only request uncached articles */
 
-			var cids_to_request = Array();
-
-			for (var i = 0; i < neighbor_ids.length; i++) {
-				if (!cache_check(neighbor_ids[i])) {
-					cids_to_request.push(neighbor_ids[i]);
+			if (preload_id_batch.indexOf(id) == -1) {
+				for (var i = 0; i < neighbor_ids.length; i++) {
+					if (!cache_check(neighbor_ids[i])) {
+						preload_id_batch.push(neighbor_ids[i]);
+					}
 				}
 			}
-			console.log("additional ids: " + cids_to_request.toString());
 
-			cids_to_request.push(id);
+			if (preload_id_batch.indexOf(id) == -1)
+				preload_id_batch.push(id);
 
-			var query = "?op=rpc&subop=getArticles&ids=" + 
-				cids_to_request.toString();
+			console.log("preload ids batch: " + preload_id_batch.toString());
 
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					var articles = transport.responseXML.getElementsByTagName("article");
+			window.clearTimeout(preload_timeout_id);
+			preload_batch_timeout_id = window.setTimeout('preloadBatchedArticles()', 1000);
 
-					for (var i = 0; i < articles.length; i++) {
-						var id = articles[i].getAttribute("id");
-						if (!cache_check(id)) {
-							cache_inject(id, articles[i].firstChild.nodeValue);				
-							console.log("preloaded article: " + id);
-						}
-					}
-			} });
 		}
 	} catch (e) {
 		exception_error("preloadArticleUnderPointer", e);

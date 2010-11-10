@@ -614,7 +614,7 @@ function request_counters() {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
-		if (timestamp - counters_last_request > 10) {
+		if (timestamp - counters_last_request > 5) {
 			console.log("scheduling request of counters...");
 
 			window.clearTimeout(counter_timeout_id);
