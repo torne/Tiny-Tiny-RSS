@@ -1834,9 +1834,12 @@ function cache_expire() {
 			for (var id in cache_added) {
 				var tmp = [];
 
-				if (timestamp - cache_added[id] > 60) {
-					console.warn("CEXP:" + id);
-					cache_invalidate(id);
+				var key_id = id.replace("TS:", "");
+
+				//console.warn("CEXP:" + key_id);
+
+				if (timestamp - cache_added[id] > 180) {
+					cache_invalidate(key_id);
 				} else {
 					tmp[id] = cache_added[id];
 				}
