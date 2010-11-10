@@ -6941,11 +6941,9 @@
 				if ($title == '') {
 					$title = $entry->getAttribute('type');
 				}
-				$feedUrl = $entry->getAttribute('href');
-				if (strpos($feedUrl, '://') === false) {
-					//no protocol -> relative URL
-					$feedUrl = $baseUrl . $feedUrl;
-				}
+				$feedUrl = rewrite_relative_url(
+					$baseUrl, $entry->getAttribute('href')
+				);
 				$feedUrls[$feedUrl] = $title;
 			}
 		}
