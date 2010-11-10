@@ -2151,14 +2151,12 @@ function backend_sanity_check_callback(transport) {
 			params = JSON.parse(params.firstChild.nodeValue);
 
 			if (params) {
-				for (var i = 0; i < params.length; i++) {
+				for (k in params) {
 	
-					var k = params[i].param;
-					var v = params[i].value;
+					var v = params[k];
 	
-					if (getURLParam('debug')) console.log(k + " => " + v);
-					init_params[k] = v;					
-	
+					console.log("IP: " + k + " => " + v);
+
 					if (db) {
 						db.execute("DELETE FROM init_params WHERE key = ?", [k]);
 						db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
@@ -2166,6 +2164,8 @@ function backend_sanity_check_callback(transport) {
 					}
 				}
 			}
+
+			init_params = params;
 		}
 
 		sanity_check_done = true;

@@ -579,18 +579,17 @@ function toggleDispRead() {
 }
 
 function parse_runtime_info(elem) {
-	if (!elem) {
-		console.log("parse_runtime_info: elem is null, aborting");
+
+	if (!elem || !elem.firstChild) {
 		return;
 	}
 
-	var param = elem.firstChild;
+	var data = JSON.parse(elem.firstChild.nodeValue);
 
-	console.log("parse_runtime_info: " + param);
+	console.log("parsing runtime info...");
 
-	while (param) {
-		var k = param.getAttribute("key");
-		var v = param.getAttribute("value");
+	for (k in data) {
+		var v = data[k];
 
 		console.log("RI: " + k + " => " + v);
 
@@ -623,18 +622,8 @@ function parse_runtime_info(elem) {
 
 		if (!error_flag) {
 			notify('');
-		}
+		} 
 
-/*		var w = $("noDaemonWarning");
-		
-		if (w) {
-			if (k == "daemon_is_running" && v != 1) {
-				w.style.display = "block";
-			} else {
-				w.style.display = "none";
-			}
-		} */
-		param = param.nextSibling;
 	}
 }
 

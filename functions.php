@@ -3128,85 +3128,64 @@
 	function make_init_params($link) {
 		$params = array();
 
-		array_push($params, make_init_param("theme", get_user_theme($link)));
-		array_push($params, make_init_param("theme_options", get_user_theme_options($link)));
-		array_push($params, make_init_param("daemon_enabled", ENABLE_UPDATE_DAEMON));
-		array_push($params, make_init_param("feeds_frame_refresh", FEEDS_FRAME_REFRESH));
+		$params["theme"] = get_user_theme($link);
+		$params["theme_options"] = get_user_theme_options($link);
+		$params["daemon_enabled"] = ENABLE_UPDATE_DAEMON;
+		$params["feeds_frame_refresh"] = FEEDS_FRAME_REFRESH;
 
-		array_push($params, make_init_param("sign_progress", 
-			theme_image($link, "images/indicator_white.gif")));
-
-		array_push($params, make_init_param("sign_progress_tiny", 
-			theme_image($link, "images/indicator_tiny.gif")));
-
-		array_push($params, make_init_param("sign_excl", 
-			theme_image($link, "images/sign_excl.png")));
-
-		array_push($params, make_init_param("sign_info", 
-			theme_image($link, "images/sign_info.png")));
+		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
+		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
+		$params["sign_excl"] = theme_image($link, "images/sign_excl.png");
+		$params["sign_info"] = theme_image($link, "images/sign_info.png");
 
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
 			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", 
 			"HIDE_READ_SHOWS_SPECIAL", "HIDE_FEEDLIST") as $param) {
 
-				 array_push($params, make_init_param(strtolower($param), 
-					 (int) get_pref($link, $param)));
+				 $params[strtolower($param)] = (int) get_pref($link, $param);
 		 }
 
-		array_push($params, make_init_param("icons_url", ICONS_URL));
-
-		array_push($params, make_init_param("cookie_lifetime", SESSION_COOKIE_LIFETIME));
-
-		array_push($params, make_init_param("default_view_mode", 
-			get_pref($link, "_DEFAULT_VIEW_MODE")));
-
-		array_push($params, make_init_param("default_view_limit", 
-			(int) get_pref($link, "_DEFAULT_VIEW_LIMIT")));
-
-		array_push($params, make_init_param("default_view_order_by", 
-			get_pref($link, "_DEFAULT_VIEW_ORDER_BY")));
-
-		array_push($params, make_init_param("prefs_active_tab", 
-			get_pref($link, "_PREFS_ACTIVE_TAB")));
-
-		array_push($params, make_init_param("infobox_disable_overlay", 
-			get_pref($link, "_INFOBOX_DISABLE_OVERLAY")));
-
-		array_push($params, make_init_param("bw_limit", 
-			(int) $_SESSION["bw_limit"]));
-
-		array_push($params, make_init_param("offline_enabled", 
-			(int) get_pref($link, "ENABLE_OFFLINE_READING")));
+		$params["icons_url"] = ICONS_URL;
+		$params["cookie_lifetime"] = SESSION_COOKIE_LIFETIME;
+		$params["default_view_mode"] = get_pref($link, "_DEFAULT_VIEW_MODE");
+		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
+		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");
+		$params["prefs_active_tab"] = get_pref($link, "_PREFS_ACTIVE_TAB");
+		$params["infobox_disable_overlay"] = get_pref($link, "_INFOBOX_DISABLE_OVERLAY");
+		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
+		$params["offline_enabled"] = (int) get_pref($link, "ENABLE_OFFLINE_READING");
 
 		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
 		$num_feeds = db_fetch_result($result, 0, "cf");
 
-		array_push($params, make_init_param("num_feeds", 
-			(int) $num_feeds));
-
-		array_push($params, make_init_param("collapsed_feedlist", 
-			(int) get_pref($link, "_COLLAPSED_FEEDLIST")));
+		$params["num_feeds"] = (int) $num_feeds;
+		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
 
 		return $params;
 	}
 
 	function print_runtime_info($link) {
-		print "<runtime-info>";
+		print "<runtime-info><![CDATA[";
+		print json_encode(make_runtime_info($link));
+		print "]]></runtime-info>";
+	}
 
+	function make_runtime_info($link) {
 		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
 		$num_feeds = db_fetch_result($result, 0, "cf");
 
-		print "<param key=\"num_feeds\" value=\"".
-			(int)$num_feeds. "\"/>";
+		$data = array();
+
+		$data['num_feeds'] = (int) $num_feeds;
 
 		if (ENABLE_UPDATE_DAEMON) {
-			print "<param key=\"daemon_is_running\" value=\"".
-				(int) file_is_locked("update_daemon.lock") . "\"/>";
+
+			$data['daemon_is_running'] = (int) file_is_locked("update_daemon.lock");
 
 			if (time() - $_SESSION["daemon_stamp_check"] > 30) {
 
@@ -3222,11 +3201,11 @@
 						$_SESSION["daemon_stamp_check"] = time();
 					}
 
-					print "<param key=\"daemon_stamp_ok\" value=\"$stamp_check\"/>";
+					$data['daemon_stamp_ok'] = $stamp_check;
 
 					$stamp_fmt = date("Y.m.d, G:i", $stamp);
 
-					print "<param key=\"daemon_stamp\" value=\"$stamp_fmt\"/>";
+					$data['daemon_stamp'] = $stamp_fmt;
 				}
 			}
 		}
@@ -3245,7 +3224,7 @@
 
 //		print "<param key=\"new_version_available\" value=\"1\"/>";
 
-		print "</runtime-info>";
+		return $data;
 	}
 
 	function getSearchSql($search, $match_on) {
