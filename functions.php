@@ -1,7 +1,11 @@
 <?php
 
 	date_default_timezone_set('UTC');
-	error_reporting(E_ALL & ~E_NOTICE);
+	if (defined('E_DEPRECATED')) {
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+	} else {
+		error_reporting(E_ALL & ~E_NOTICE);
+	}
 
 	require_once 'config.php';
 
