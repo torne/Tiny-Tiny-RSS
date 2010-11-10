@@ -6622,7 +6622,7 @@
 
 		//prepend slash if the URL has no slash in it
 		// "http://www.example" -> "http://www.example/"
-		if (strpos($url, '/', 7) === false) {
+		if (strpos($url, '/', strpos($url, ':') + 3) === false) {
 			$url .= '/';
 		}
 		return $url;
