@@ -52,8 +52,7 @@
 					AND owner_uid = '$owner_uid') AS unread
 			FROM ttrss_feeds
 			WHERE 
-				ttrss_feeds.owner_uid = '$owner_uid' AND 
-				parent_feed IS NULL
+				ttrss_feeds.owner_uid = '$owner_uid'
 			ORDER BY $order_by $limit_qpart"); 
 	
 		if (!$offset) print '<ul id="home" title="'.__('Home').'" selected="true"
@@ -127,7 +126,6 @@
 			FROM ttrss_feeds
 			WHERE 
 				ttrss_feeds.owner_uid = '$owner_uid' AND 
-				parent_feed IS NULL AND
 				$cat_query
 			ORDER BY $order_by"); 
 			

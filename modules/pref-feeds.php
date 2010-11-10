@@ -224,73 +224,9 @@
 
 				print __('Place in category:') . " ";
 
-				$parent_feed = db_fetch_result($result, 0, "parent_feed");
-
-				if (sprintf("%d", $parent_feed) > 0) {
-					$disabled = "disabled";
-				} else {
-					$disabled = "";
-				}
-
 				print_feed_cat_select($link, "cat_id", $cat_id, $disabled);
 			}
 
-			/* Link to */
-
-			print "<br/>";
-
-			print __('Link to feed:') . " ";
-
-			$tmp_result = db_query($link, "SELECT COUNT(id) AS count
-				FROM ttrss_feeds WHERE parent_feed = '$feed_id'");
-
-			$linked_count = db_fetch_result($tmp_result, 0, "count");
-
-			$parent_feed = db_fetch_result($result, 0, "parent_feed");
-
-			if ($linked_count > 0) {
-				$disabled = "disabled";
-			} else {
-				$disabled = "";
-			}
-
-			print "<select $disabled name=\"parent_feed\">";
-			
-			print "<option value=\"0\">".__('Not linked')."</option>";
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				if ($cat_id) {
-					$cat_qpart = "AND cat_id = '$cat_id'";
-				} else {
-					$cat_qpart = "AND cat_id IS NULL";
-				}
-			}
-
-			$tmp_result = db_query($link, "SELECT id,title FROM ttrss_feeds
-				WHERE id != '$feed_id' AND owner_uid = ".$_SESSION["uid"]." AND
-			  		(SELECT COUNT(id) FROM ttrss_feeds AS T2 WHERE T2.id = ttrss_feeds.parent_feed) = 0
-					$cat_qpart ORDER BY title");
-
-				if (db_num_rows($tmp_result) > 0) {
-					print "<option disabled>--------</option>";
-				}
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {
-					if ($tmp_line["id"] == $parent_feed) {
-						$is_selected = "selected";
-					} else {
-						$is_selected = "";
-					}
-
-					$linked_title = truncate_string(htmlspecialchars($tmp_line["title"]), 40);
-
-					printf("<option $is_selected value='%d'>%s</option>", 
-						$tmp_line["id"], $linked_title);
-				}
-
-			print "</select>";
-
-	
 			print "</div>";
 
 			print "<div class=\"dlgSec\">".__("Update")."</div>";
@@ -633,7 +569,6 @@
 			$cat_id = db_escape_string($_POST["cat_id"]);
 			$auth_login = db_escape_string(trim($_POST["auth_login"]));
 			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
-			$parent_feed = db_escape_string($_POST["parent_feed"]);
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
 			$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
 			$include_in_digest = checkbox_to_sql_bool(
@@ -658,12 +593,6 @@
 				$category_qpart_nocomma = "";
 			}
 
-			if ($parent_feed && $parent_feed != 0) {
-				$parent_qpart = "parent_feed = '$parent_feed'";
-			} else {
-				$parent_qpart = 'parent_feed = NULL';
-			}
-
 			if (SIMPLEPIE_CACHE_IMAGES) {
 				$cache_images_qpart = "cache_images = $cache_images,";
 			} else {
@@ -673,7 +602,7 @@
 			if ($subop == "editSave") {
 
 				$result = db_query($link, "UPDATE ttrss_feeds SET 
-					$category_qpart $parent_qpart,
+					$category_qpart
 					title = '$feed_title', feed_url = '$feed_link',
 					update_interval = '$upd_intl',
 					purge_interval = '$purge_intl',
@@ -687,12 +616,6 @@
 					update_method = '$update_method'
 					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					# update linked feed categories
-					$result = db_query($link, "UPDATE ttrss_feeds SET
-						$category_qpart_nocomma WHERE parent_feed = '$feed_id' AND
-						owner_uid = " . $_SESSION["uid"]);
-				}
 			} else if ($subop == "batchEditSave") {
 				$feed_data = array();
 
@@ -985,13 +908,8 @@
 			foreach ($ids as $id) {
 			
 				db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
-					WHERE id = '$id' AND parent_feed IS NULL
+					WHERE id = '$id'
 				  	AND owner_uid = " . $_SESSION["uid"]);
-
-				# update linked feed categories
-				db_query($link, "UPDATE ttrss_feeds SET
-					cat_id = $cat_id_qpart WHERE parent_feed = '$id' AND 
-					owner_uid = " . $_SESSION["uid"]);
 
 			}
 
@@ -1254,19 +1172,15 @@
 				F1.title,
 				F1.feed_url,
 				".SUBSTRING_FOR_DATE."(F1.last_updated,1,16) AS last_updated,
-				F1.parent_feed,
 				F1.update_interval,
 				F1.last_error,
 				F1.purge_interval,
 				F1.cat_id,
-				F2.title AS parent_title,
 				C1.title AS category,
 				F1.include_in_digest
 				$show_last_article_qpart
 			FROM 
 				ttrss_feeds AS F1 
-				LEFT JOIN ttrss_feeds AS F2
-					ON (F1.parent_feed = F2.id)
 				LEFT JOIN ttrss_feed_categories AS C1
 					ON (F1.cat_id = C1.id)
 			WHERE 
@@ -1385,13 +1299,7 @@
 					$last_article = "<span class=\"feed_error\">$last_article</span>";
 				}
 
-				$parent_title = $line["parent_title"];
-				if ($parent_title) {
-					$linked_to = sprintf(__("(linked to %s)"), $parent_title);
-					$parent_title = "<span class='groupPrompt'>$linked_to</span>";
-				}
-
-				print "<td $onclick>" . "$edit_title $parent_title" . "</td>";
+				print "<td $onclick>" . $edit_title . "</td>";
 
 				if ($show_last_article_info) {
 					print "<td align='right' $onclick>" . 

@@ -2383,30 +2383,10 @@
 
 				} else if ($feed > 0) {
 
-					$tmp_result = db_query($link, "SELECT id 
-						FROM ttrss_feeds WHERE parent_feed = '$feed'
-						ORDER BY cat_id,title");
-
-					$parent_ids = array();
-
-					if (db_num_rows($tmp_result) > 0) {
-						while ($p = db_fetch_assoc($tmp_result)) {
-							array_push($parent_ids, "feed_id = " . $p["id"]);
-						}
-
-						$children_qpart = implode(" OR ", $parent_ids);
-						
-						db_query($link, "UPDATE ttrss_user_entries 
-							SET unread = false,last_read = NOW() 
-							WHERE (feed_id = '$feed' OR $children_qpart) 
-							AND owner_uid = $owner_uid");
-
-					} else {						
-						db_query($link, "UPDATE ttrss_user_entries 
+					db_query($link, "UPDATE ttrss_user_entries 
 							SET unread = false,last_read = NOW() 
 							WHERE feed_id = '$feed' AND owner_uid = $owner_uid");
-					}
-						
+					
 				} else if ($feed < 0 && $feed > -10) { // special, like starred
 
 					if ($feed == -1) {
@@ -2697,45 +2677,12 @@
 			$match_part = "true";
 		} else if ($n_feed >= 0) {
 
-			$result = db_query($link, "SELECT id FROM ttrss_feeds 
-					WHERE parent_feed = '$n_feed'
-					AND owner_uid = " . $owner_uid);
-
-			if (db_num_rows($result) > 0) {
-
-				$linked_feeds = array();
-				while ($line = db_fetch_assoc($result)) {
-					array_push($linked_feeds, "feed_id = " . $line["id"]);
-				}
-
-				array_push($linked_feeds, "feed_id = $n_feed");
-				
-				$match_part = implode(" OR ", $linked_feeds);
-
-				$tmp_result = db_query($link, "SELECT COUNT(int_id) AS unread 
-					FROM ttrss_user_entries,ttrss_entries
-					WHERE	$unread_qpart AND
-					ttrss_user_entries.ref_id = ttrss_entries.id AND
-					$age_qpart AND
-					($match_part) AND
-					owner_uid = " . $owner_uid);
-
-				$unread = 0;
-
-				# this needs to be rewritten
-				while ($line = db_fetch_assoc($tmp_result)) {
-					$unread += $line["unread"];
-				}
-
-				return $unread;
-
+			if ($n_feed != 0) {
+				$match_part = "feed_id = '$n_feed'";
 			} else {
-				if ($n_feed != 0) {
-					$match_part = "feed_id = '$n_feed'";
-				} else {
-					$match_part = "feed_id IS NULL";
-				}
+				$match_part = "feed_id IS NULL";
 			}
+
 		} else if ($feed < -10) {
 
 			$label_id = -$feed - 11;
@@ -2921,7 +2868,6 @@
 				last_error, value AS count
 			FROM ttrss_feeds, ttrss_counters_cache
 			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."  
-				AND parent_feed IS NULL 
 				AND ttrss_counters_cache.feed_id = id";
 
 		$result = db_query($link, $query);
@@ -2936,12 +2882,6 @@
 			$last_updated = make_local_datetime($link, $line['last_updated'], false);
 
 			$has_img = feed_has_icon($id);
-
-			$tmp_result = db_query($link,
-				"SELECT SUM(value) AS unread FROM ttrss_feeds, ttrss_counters_cache 
-					WHERE parent_feed = '$id' AND feed_id = id");
-
-			$count += db_fetch_result($tmp_result, 0, "unread");
 
 			$cv = array("id" => $id,
 				"updated" => $last_updated,
@@ -3488,24 +3428,7 @@
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
 				} else {		
-					$tmp_result = db_query($link, "SELECT id 
-						FROM ttrss_feeds WHERE parent_feed = '$feed'
-						ORDER BY cat_id,title");
-		
-					$parent_ids = array();
-		
-					if (db_num_rows($tmp_result) > 0) {
-						while ($p = db_fetch_assoc($tmp_result)) {
-							array_push($parent_ids, "feed_id = " . $p["id"]);
-						}
-		
-						$query_strategy_part = sprintf("(feed_id = %d OR %s)", 
-							$feed, implode(" OR ", $parent_ids));
-		
-						$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-					} else {
-						$query_strategy_part = "feed_id = '$feed'";
-					}
+					$query_strategy_part = "feed_id = '$feed'";
 				}
 			} else if ($feed == 0 && !$cat_view) { // archive virtual feed
 				$query_strategy_part = "feed_id IS NULL";
@@ -4495,7 +4418,7 @@
 					ON
 						(ttrss_feeds.id = feed_id)
 				WHERE 
-					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
+					ttrss_feeds.owner_uid = '$owner_uid'
 				ORDER BY $order_by_qpart"; 
 
 			$result = db_query($link, $query);
@@ -4532,12 +4455,6 @@
 					$rtl_tag = "";
 				}
 
-				$tmp_result = db_query($link,
-					"SELECT SUM(value) AS unread FROM ttrss_feeds, ttrss_counters_cache 
-						WHERE parent_feed = '$feed_id' AND feed_id = id");
-
-				$unread += db_fetch_result($tmp_result, 0, "unread");
-	
 				$cat_id = $line["cat_id"];
 
 				$tmp_category = $line["category"];

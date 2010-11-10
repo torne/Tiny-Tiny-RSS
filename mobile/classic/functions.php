@@ -127,7 +127,7 @@
 				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories 
 					ON (ttrss_feed_categories.id = cat_id)				
 				WHERE 
-					ttrss_feeds.owner_uid = '$owner_uid' AND parent_feed IS NULL
+					ttrss_feeds.owner_uid = '$owner_uid'
 				ORDER BY $order_by_qpart"); 
 
 			$actid = $_GET["actid"];
@@ -157,19 +157,6 @@
 					$rtl_tag = "dir=\"RTL\"";
 				} else {
 					$rtl_tag = "";
-				}
-
-				$tmp_result = db_query($link,
-					"SELECT id,COUNT(unread) AS unread
-					FROM ttrss_feeds LEFT JOIN ttrss_user_entries 
-						ON (ttrss_feeds.id = ttrss_user_entries.feed_id) 
-					WHERE parent_feed = '$feed_id' AND unread = true 
-					GROUP BY ttrss_feeds.id");
-			
-				if (db_num_rows($tmp_result) > 0) {				
-					while ($l = db_fetch_assoc($tmp_result)) {
-						$unread += $l["unread"];
-					}
 				}
 
 				$cat_id = $line["cat_id"];
