@@ -218,7 +218,7 @@
 			$mode = db_escape_string($_REQUEST["mode"]);
 			$omode = db_escape_string($_REQUEST["omode"]);
 
-			print "<reply>";
+			if ($mode != "zoom") print "<reply>";
 
 			// in prefetch mode we only output requested cids, main article 
 			// just gets marked as read (it already exists in client cache)
@@ -245,7 +245,7 @@
 				print "]]></counters>";
 			} */
 
-			print "</reply>";
+			if ($mode != "zoom") print "</reply>";
 		break; // view
 
 		case "viewfeed":
