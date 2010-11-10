@@ -3701,7 +3701,8 @@
 } */
 
 
-	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false) {
+	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
+
 		$res = $str;
 
 		if (!$owner) $owner = $_SESSION["uid"];
@@ -3720,11 +3721,39 @@
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
 
-		if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
-			$res = preg_replace("/href=/i", "target=\"_blank\" href=", $res);
-		}
+		$charset_hack = '<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		</head>';
 
-		return $res;
+		libxml_use_internal_errors(true);
+
+		$doc = new DOMDocument();
+		$doc->loadHTML($charset_hack . $res);
+		$xpath = new DOMXPath($doc);
+	
+		$entries = $xpath->query('(//a[@href]|//img[@src])');
+
+		foreach ($entries as $entry) {
+
+			if ($site_url) {
+
+				if ($entry->hasAttribute('href'))
+					$entry->setAttribute('href',
+						rewrite_relative_url($site_url, $entry->getAttribute('href')));
+		
+				if ($entry->hasAttribute('src'))
+					$entry->setAttribute('src',
+						rewrite_relative_url($site_url, $entry->getAttribute('src')));
+			}
+
+			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
+				$entry->setAttribute("target", "_blank");
+			}
+		}
+	
+		$node = $doc->getElementsByTagName('body')->item(0)->firstChild;
+
+		return $doc->saveXML($node); 
 	}
 
 	/**
@@ -4755,6 +4784,7 @@
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
+			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
 			num_comments,
 			author,
 			orig_feed_id,
@@ -4771,6 +4801,8 @@
 			} else {
 				$feed_icon = "&nbsp;";
 			}
+
+			$feed_site_url = $line['site_url'];
 
 			$num_comments = $line["num_comments"];
 			$entry_comments = "";
@@ -4891,7 +4923,8 @@
 
 			print "<div class=\"postContent\">";
 
-			$article_content = sanitize_rss($link, $line["content"]);
+			$article_content = sanitize_rss($link, $line["content"], false, false,
+				$feed_site_url);
 
 			print "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
@@ -5388,7 +5421,8 @@
 						}
 					}
 
-					$article_content = sanitize_rss($link, $line["content_preview"]);
+					$article_content = sanitize_rss($link, $line["content_preview"], 
+						false, false, $feed_site_url);
 
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
@@ -7018,4 +7052,28 @@
 			return -1;
 		}
 	}
+
+	function build_url($parts) {
+		return $parts['scheme'] . "://" . $parts['host'] . $parts['path'];
+	}
+
+	function rewrite_relative_url($url, $rel_url) {
+		if (strpos($rel_url, "://") !== false) {
+			return $rel_url;
+		} else if (strpos($rel_url, "/") === 0) 
+		{
+			$parts = parse_url($url);
+			$parts['path'] = $rel_url;
+
+			return build_url($parts);
+
+		} else {
+			$parts = parse_url($url);
+
+			$parts['path'] = dirname($parts['path']) . "/$rel_url";
+
+			return build_url($parts);
+		}
+	}
+
 ?>
