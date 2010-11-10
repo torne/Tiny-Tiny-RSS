@@ -3460,10 +3460,16 @@
 				$query_strategy_part = "id > 0"; // dumb
 			}
 
+			if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+				$date_sort_field = "updated";
+			} else {
+				$date_sort_field = "date_entered";
+			}
+
 			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-				$order_by = "date_entered";
+				$order_by = "$date_sort_field";
 			} else {	
-				$order_by = "date_entered DESC";
+				$order_by = "$date_sort_field DESC";
 			}
 
 			if ($view_mode != "noscores") {
@@ -3593,9 +3599,15 @@
 
 		if (!$limit) $limit = 30;
 
+		if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+			$date_sort_field = "updated";
+		} else {
+			$date_sort_field = "date_entered";
+		}
+
 		$qfh_ret = queryFeedHeadlines($link, $feed, 
 			$limit, $view_mode, $is_cat, $search, $search_mode, 
-			$match_on, "date_entered DESC", 0, $owner_uid);
+			$match_on, "$date_sort_field DESC", 0, $owner_uid);
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);

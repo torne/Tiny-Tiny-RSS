@@ -313,28 +313,34 @@
 		
 			$override_order = false;
 
+			if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+				$date_sort_field = "updated";
+			} else {
+				$date_sort_field = "date_entered";
+			}
+
 			switch ($order_by) {
 				case "date":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "date_entered";
+						$override_order = "$date_sort_field";
 					} else {	
-						$override_order = "date_entered DESC";
+						$override_order = "$date_sort_field DESC";
 					}
 					break;
 
 				case "title":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "title DESC, date_entered";
+						$override_order = "title DESC, $date_sort_field";
 					} else {
-						$override_order = "title, date_entered DESC";
+						$override_order = "title, $date_sort_field DESC";
 					}
 					break;
 
 				case "score":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "score, date_entered";
+						$override_order = "score, $date_sort_field";
 					} else {
-						$override_order = "score DESC, date_entered DESC";
+						$override_order = "score DESC, $date_sort_field DESC";
 					}
 					break;
 			}
