@@ -6961,8 +6961,8 @@
 	 */
 	function url_is_html($url) {
 		$content = substr(fetch_file_contents($url, false), 0, 1000);
-		if (strpos($content, '<html>') === false
-			&& strpos($content, '<html ') === false
+		if (stripos($content, '<html>') === false
+			&& stripos($content, '<html ') === false
 		) {
 			return false;
 		}
