@@ -424,7 +424,6 @@
 
 			$tags_str = db_escape_string($_REQUEST["tags_str"]);
 			$tags = array_unique(trim_array(split(",", $tags_str)));
-			$tags_str = db_escape_string(join(",", $tags));
 
 			db_query($link, "BEGIN");
 
@@ -432,6 +431,8 @@
 				ref_id = '$id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1");
 
 			if (db_num_rows($result) == 1) {
+
+				$tags_to_cache = array();
 
 				$int_id = db_fetch_result($result, 0, "int_id");
 
@@ -455,12 +456,18 @@
 						db_query($link, "INSERT INTO ttrss_tags 
 							(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
 					}
-				}
-			}
 
-			db_query($link, "UPDATE ttrss_user_entries 
-				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
-				AND owner_uid = " . $_SESSION["uid"]);
+					array_push($tags_to_cache, $tag);
+				}
+
+				/* update tag cache */
+
+				$tags_str = join(",", $tags_to_cache);
+
+				db_query($link, "UPDATE ttrss_user_entries 
+					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
+					AND owner_uid = " . $_SESSION["uid"]);
+			}
 
 			db_query($link, "COMMIT");
 

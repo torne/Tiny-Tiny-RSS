@@ -1396,6 +1396,7 @@
 					'BLACKLISTED_TAGS', $owner_uid, ''), 'utf-8')));
 
 				$filtered_tags = array();
+				$tags_to_cache = array();
 
 				if ($entry_tags && is_array($entry_tags)) {
 					foreach ($entry_tags as $tag) {
@@ -1404,6 +1405,8 @@
 						}
 					}
 				} 
+
+				$filtered_tags = array_unique($filtered_tags);
 
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: filtered article tags:");
@@ -1416,32 +1419,36 @@
 				
 					db_query($link, "BEGIN");
 			
-						foreach ($filtered_tags as $tag) {
+					foreach ($filtered_tags as $tag) {
 
-							$tag = sanitize_tag($tag);
-							$tag = db_escape_string($tag);
+						$tag = sanitize_tag($tag);
+						$tag = db_escape_string($tag);
 
-							if (!tag_is_valid($tag)) continue;
-							
-							$result = db_query($link, "SELECT id FROM ttrss_tags		
-								WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
-								owner_uid = '$owner_uid' LIMIT 1");
-	
+						if (!tag_is_valid($tag)) continue;
+						
+						$result = db_query($link, "SELECT id FROM ttrss_tags		
+							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND 
+							owner_uid = '$owner_uid' LIMIT 1");
+
 							if ($result && db_num_rows($result) == 0) {
 								
 								db_query($link, "INSERT INTO ttrss_tags 
 									(owner_uid,tag_name,post_int_id)
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
-							}							
+							}
 
-							/* update the cache */
+						array_push($tags_to_cache, $tag);
+					}
 
-							$tags_str = db_escape_string(join(",", $filtered_tags));
+					/* update the cache */
+							
+					$tags_to_cache = array_unique($tags_to_cache);
+		
+					$tags_str = db_escape_string(join(",", $tags_to_cache));
 
-							db_query($link, "UPDATE ttrss_user_entries 
-								SET tag_cache = '$tags_str' WHERE ref_id = '$entry_ref_id'
-								AND owner_uid = $owner_uid");
-						}
+					db_query($link, "UPDATE ttrss_user_entries 
+						SET tag_cache = '$tags_str' WHERE ref_id = '$entry_ref_id'
+						AND owner_uid = $owner_uid");
 
 					db_query($link, "COMMIT");
 				} 
