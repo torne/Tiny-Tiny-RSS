@@ -5421,6 +5421,19 @@
 						}
 					}
 
+					// FIXME: make this less of a hack
+
+					$feed_site_url = false;
+
+					if ($line["feed_id"]) {
+						$tmp_result = db_query($link, "SELECT site_url FROM ttrss_feeds
+							WHERE id = " . $line["feed_id"]);
+
+						if (db_num_rows($tmp_result) == 1) {
+							$feed_site_url = db_fetch_result($tmp_result, 0, "site_url");
+						}
+					}
+
 					$article_content = sanitize_rss($link, $line["content_preview"], 
 						false, false, $feed_site_url);
 
