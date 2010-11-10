@@ -177,6 +177,69 @@ HTM
         );
         $this->assertFalse(url_is_html($this->tmpFile));
     }
+
+
+
+    /**
+     * Test rewrite_relative_url() with a relative path
+     */
+    public function testRewriteRelativeUrlRelative()
+    {
+        $this->assertEquals(
+            'http://tt-rss.org/foo/bar',
+            rewrite_relative_url('http://tt-rss.org', 'foo/bar')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/foo/bar',
+            rewrite_relative_url('http://tt-rss.org/', 'foo/bar')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/bar',
+            rewrite_relative_url('http://tt-rss.org/foo', 'bar')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/foo/bar',
+            rewrite_relative_url('http://tt-rss.org/foo/', 'bar')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/f/o/bar',
+            rewrite_relative_url('http://tt-rss.org/f/o/o', 'bar')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/f/o/o/bar',
+            rewrite_relative_url('http://tt-rss.org/f/o/o/', 'bar')
+        );
+    }
+
+    /**
+     * Test rewrite_relative_url() with an absolute path
+     */
+    public function testRewriteRelativeUrlAbsolutePath()
+    {
+        $this->assertEquals(
+            'http://tt-rss.org/bar/',
+            rewrite_relative_url('http://tt-rss.org/foo/', '/bar/')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/bar/',
+            rewrite_relative_url('http://tt-rss.org/so/what/is/next', '/bar/')
+        );
+        $this->assertEquals(
+            'http://tt-rss.org/bar/',
+            rewrite_relative_url('http://tt-rss.org/so/what/is/next/', '/bar/')
+        );
+    }
+
+    /**
+     * Test rewrite_relative_url() with an absolute URL
+     */
+    public function testRewriteRelativeUrlAbsoluteUrl()
+    {
+        $this->assertEquals(
+            'http://example.org/bar/',
+            rewrite_relative_url('http://tt-rss.org/foo/', 'http://example.org/bar/')
+        );
+    }
 }
 
 ?>

@@ -7074,6 +7074,14 @@
 		return $parts['scheme'] . "://" . $parts['host'] . $parts['path'];
 	}
 
+	/**
+	 * Converts a (possibly) relative URL to a absolute one.
+	 *
+	 * @param string $url     Base URL (i.e. from where the document is)
+	 * @param string $rel_url Possibly relative URL in the document
+	 *
+	 * @return string Absolute URL
+	 */
 	function rewrite_relative_url($url, $rel_url) {
 		if (strpos($rel_url, "://") !== false) {
 			return $rel_url;
@@ -7086,8 +7094,15 @@
 
 		} else {
 			$parts = parse_url($url);
-
-			$parts['path'] = dirname($parts['path']) . "/$rel_url";
+			if (!isset($parts['path'])) {
+				$parts['path'] = '/';
+			}
+			$dir = $parts['path'];
+			if (substr($dir, -1) !== '/') {
+				$dir = dirname($parts['path']);
+				$dir !== '/' && $dir .= '/';
+			}
+			$parts['path'] = $dir . $rel_url;
 
 			return build_url($parts);
 		}
