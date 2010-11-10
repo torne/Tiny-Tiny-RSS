@@ -1006,8 +1006,9 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 68 && shift_key) { // shift-D
-				if (isCdmMode() && active_post_id) {
-					cdmDismissArticle(active_post_id);
+				if (isCdmMode()) {
+					//cdmDismissArticle(active_post_id);
+					cdmDismissSelectedArticles();
 				}
 			}
 

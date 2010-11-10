@@ -2366,3 +2366,21 @@ function cdmDismissArticle(id) {
 		exception_error("cdmDismissArticle", e);
 	}
 }
+
+function cdmDismissSelectedArticles() {
+	try {
+
+		var ids = getSelectedArticleIds2();
+
+		for (var i = 0; i < ids.length; i++) {
+			var elem = $("RROW-" + ids[i]);
+			new Effect.Fade(elem, {duration : 0.5});
+		}
+
+		if (ids.length > 0)
+			selectionToggleUnread(false);
+
+	} catch (e) {
+		exception_error("cdmDismissArticle", e);
+	}
+}

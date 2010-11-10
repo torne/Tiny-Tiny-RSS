@@ -5476,7 +5476,9 @@
 
 					print "</div>";
 
-					print "<div class=\"cdmContent\" $content_hidden 
+					print "<div class=\"cdmContent\" $content_hidden
+						title=\"".__("Click to select article")."\"
+						onclick=\"toggleSelected($id);\"
 						id=\"CICD-$id\">";
 
 					print "<div class=\"cdmContentInner\">";
