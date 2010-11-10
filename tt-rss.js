@@ -194,11 +194,7 @@ function timeout() {
 
 	scheduleFeedUpdate(false);
 
-	var refresh_time = getInitParam("feeds_frame_refresh");
-
-	if (!refresh_time) refresh_time = 600; 
-
-	setTimeout("timeout()", refresh_time*1000);
+	setTimeout("timeout()", 10*1000);
 }
 
 function resetSearch() {

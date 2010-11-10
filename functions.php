@@ -3127,7 +3127,6 @@
 		$params["theme"] = get_user_theme($link);
 		$params["theme_options"] = get_user_theme_options($link);
 		$params["daemon_enabled"] = ENABLE_UPDATE_DAEMON;
-		$params["feeds_frame_refresh"] = FEEDS_FRAME_REFRESH;
 
 		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
 		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
