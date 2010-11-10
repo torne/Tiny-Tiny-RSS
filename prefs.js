@@ -30,9 +30,6 @@ function feedlist_callback2(transport) {
 
 			caller_subop = false;
 		}
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
 		notify("");
 		remove_splash();
 
@@ -44,9 +41,6 @@ function feedlist_callback2(transport) {
 function filterlist_callback2(transport) {
 	var container = $('prefContent');
 	container.innerHTML=transport.responseText;
-	if (typeof correctPNG != 'undefined') {
-		correctPNG();
-	}
 	notify("");
 	remove_splash();
 }
@@ -84,9 +78,6 @@ function labellist_callback2(transport) {
 
 			init_label_inline_editor();
 	
-			if (typeof correctPNG != 'undefined') {
-				correctPNG();
-			}
 			notify("");
 			remove_splash();
 

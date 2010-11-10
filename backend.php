@@ -208,8 +208,6 @@
 
 			}
 
-			$_SESSION["viewfeed:counters_stamp"] = time();
-
 			outputFeedList($link, $tags);
 		break; // feeds
 
@@ -219,8 +217,6 @@
 			$cids = split(",", db_escape_string($_REQUEST["cids"]));
 			$mode = db_escape_string($_REQUEST["mode"]);
 			$omode = db_escape_string($_REQUEST["omode"]);
-
-			$csync = $_REQUEST["csync"];
 
 			print "<reply>";
 
@@ -243,14 +239,11 @@
 				}
 			}
 
-//			if (get_pref($link, "SYNC_COUNTERS") || ($mode == "prefetch" && $csync)) {
-
-			if (time() - $_SESSION["view:counters_stamp"] > 5 && $mode == "prefetch") {
+			/* if ($mode == "prefetch") {
 				print "<counters><![CDATA[";
 				print json_encode(getAllCounters($link, $omode));
 				print "]]></counters>";
-				$_SESSION["view:counters_stamp"] = time();
-			}
+			} */
 
 			print "</reply>";
 		break; // view
@@ -274,7 +267,6 @@
 			@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
 			@$offset = db_escape_string($_REQUEST["skip"]);
 			@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
-			$csync = $_REQUEST["csync"];
 			$order_by = db_escape_string($_REQUEST["order_by"]);
 
 			/* Feed -5 is a special case: it is used to display auxiliary information
@@ -289,12 +281,9 @@
 			/* Updating a label ccache means recalculating all of the caches
 			 * so for performance reasons we don't do that here */
 
-//			if (time() - $_SESSION["viewfeed:ccache_update_stamp"] > 120) {
-				if ($feed >= 0) {
-					ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
-				}
-				$_SESSION["viewfeed:ccache_update_stamp"] = time();
-//			}
+			if ($feed >= 0) {
+				ccache_update($link, $feed, $_SESSION["uid"], $cat_view);
+			}
 
 			set_pref($link, "_DEFAULT_VIEW_MODE", $view_mode);
 			set_pref($link, "_DEFAULT_VIEW_LIMIT", $limit);
@@ -394,15 +383,11 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || 
-				time() - $_SESSION["viewfeed:counters_stamp"] > 5) {
-				if (!$offset) {
-					print "<counters><![CDATA[";
-					print json_encode(getAllCounters($link, $omode, $feed));
-					print "]]></counters>";
-					$_SESSION["viewfeed:counters_stamp"] = time();
-				}
-			}
+			/* if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || !$offset) {
+				print "<counters><![CDATA[";
+				print json_encode(getAllCounters($link, $omode, $feed));
+				print "]]></counters>";
+			} */
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 

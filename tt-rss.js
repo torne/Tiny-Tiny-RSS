@@ -3,7 +3,6 @@ var total_unread = 0;
 var first_run = true;
 var display_tags = false;
 var global_unread = -1;
-var active_title_text = "";
 var current_subtitle = "";
 var daemon_enabled = false;
 //var _qfd_deleted_feed = 0;
@@ -233,10 +232,6 @@ function updateTitle(s) {
 		tmp = tmp + " - " + current_subtitle;
 	}
 
-	if (active_title_text.length > 0) {
-		tmp = tmp + " > " + active_title_text;
-	}
-
 	if (window.fluid) {
 		if (global_unread > 0) {
 			window.fluid.dockBadge = global_unread;
@@ -249,9 +244,6 @@ function updateTitle(s) {
 }
 
 function genericSanityCheck() {
-
-//	if (!Ajax.getTransport()) fatalError(1);
-
 	setCookie("ttrss_test", "TEST");
 	
 	if (getCookie("ttrss_test") != "TEST") {
@@ -370,7 +362,6 @@ function init_second_stage() {
 
 		delCookie("ttrss_test");
 
-//		document.onresize = resize_headlines;
 		window.onresize=resize_headlines;
 
 		var toolbar = document.forms["main_toolbar_form"];
@@ -380,19 +371,6 @@ function init_second_stage() {
 
 		daemon_enabled = getInitParam("daemon_enabled") == 1;
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
-
-/*		var fl = cache_find_param("FEEDLIST", getInitParam("num_feeds"));
-
-		if (fl) {
-			render_feedlist(fl);
-			if ($("feedList")) {
-				request_counters();
-			} else {
-				setTimeout('updateFeedList(false, false)', 50);
-			}
-		} else {
-			setTimeout('updateFeedList(false, false)', 50);
-		} */
 
 		setTimeout('updateFeedList(false, false)', 50);
 
@@ -550,11 +528,6 @@ function quickMenuGo(opid) {
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}
-}
-
-function updateFeedTitle(t) {
-	active_title_text = t;
-	updateTitle();
 }
 
 function toggleDispRead() {

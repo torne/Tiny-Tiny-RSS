@@ -218,10 +218,7 @@ function headlines_callback2(transport, feed_cur_page) {
 			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 		}
 	
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-	
+
 		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
 	
 		if (!$("headlinesList") && 
@@ -399,10 +396,6 @@ function article_callback2(transport, id) {
 		var date = new Date();
 		last_article_view = date.getTime() / 1000;
 
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-
 		if (_reload_feedlist_after_view) {
 			setTimeout('updateFeedList(false, false)', 50);			
 			_reload_feedlist_after_view = false;
@@ -467,10 +460,6 @@ function view(id) {
 
 		var crow = $("RROW-" + id);
 		var article_is_unread = crow.className.match("Unread");
-
-		if (!async_counters_work) {
-			query = query + "&csync=true";
-		}
 
 		showArticleInHeadlines(id);
 
@@ -1836,7 +1825,13 @@ function cache_expire() {
 }
 
 function cache_flush() {
-	article_cache = new Array();
+	if (db) {
+		db.execute("DELETE FROM cache");
+	} else if (has_local_storage()) {
+		localStorage.clear();
+	} else {
+		article_cache = new Array();
+	}
 }
 
 function cache_invalidate(id) {

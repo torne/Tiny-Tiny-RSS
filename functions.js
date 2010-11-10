@@ -1,7 +1,6 @@
 var hotkeys_enabled = true;
 var notify_silent = false;
 var last_progress_point = 0;
-var async_counters_work = false;
 var sanity_check_done = false;
 
 /* add method to remove element from array */
@@ -578,9 +577,8 @@ function parse_counters_reply(transport, scheduled_call) {
 
 }
 
-function all_counters_callback2(transport, async_call) {
+function all_counters_callback2(transport) {
 	try {
-		if (async_call) async_counters_work = true;
 		if (offline_mode) return;
 
 		parse_counters_reply(transport);

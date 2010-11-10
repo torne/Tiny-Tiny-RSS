@@ -7,6 +7,8 @@ var mouse_is_down = false;
 var mouse_y = 0;
 var mouse_x = 0;
 
+var counter_timeout_id = false;
+
 var resize_enabled = false;
 var selection_disabled = false;
 var counters_last_request = 0;
@@ -214,10 +216,6 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 			query = query + "&omode=flc";
 		}
 
-		if (!async_counters_work) {
-			query = query + "&csync=true";
-		}
-
 		console.log(query);
 
 		var container = $("headlinesInnerContainer");
@@ -407,10 +405,6 @@ function feedlist_init() {
 
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
-		if (typeof correctPNG != 'undefined') {
-			correctPNG();
-		}
-
 		if (getActiveFeedId()) {
 			//console.log("some feed is open on feedlist refresh, reloading");
 			//setTimeout("viewCurrentFeed()", 100);
@@ -599,7 +593,7 @@ function request_counters_real() {
 			parameters: query,
 			onComplete: function(transport) { 
 				try {
-					all_counters_callback2(transport, true);
+					all_counters_callback2(transport);
 				} catch (e) {
 					exception_error("viewfeed/getcounters", e);
 				}
@@ -620,9 +614,12 @@ function request_counters() {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
-		if (timestamp - counters_last_request > 15) {
+		if (timestamp - counters_last_request > 10) {
 			console.log("scheduling request of counters...");
-			window.setTimeout("request_counters_real()", 1000);
+
+			window.clearTimeout(counter_timeout_id);
+			counter_timeout_id = window.setTimeout("request_counters_real()", 1000);
+
 			counters_last_request = timestamp;
 		} else {
 			console.log("request_counters: rate limit reached: " + (timestamp - counters_last_request));
