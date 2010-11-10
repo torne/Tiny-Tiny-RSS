@@ -164,19 +164,6 @@
 			return;
 		}
 
-		if ($subop == "getAllCounters") {
-			print "<rpc-reply>";			
-			print "<counters><![CDATA[";
-
-			print json_encode(getAllCounters($link, $_REQUEST['omode']));
-
-			print "]]></counters>";
-			print_runtime_info($link);
-			print "</rpc-reply>";
-
-			return;
-		}
-
 		if ($subop == "mark") {
 			$mark = $_REQUEST["mark"];
 			$id = db_escape_string($_REQUEST["id"]);
@@ -296,7 +283,7 @@
 			return;
 		}
 
-		if ($subop == "updateAllFeeds") {
+		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
 	
 			$global_unread_caller = sprintf("%d", $_REQUEST["uctr"]);
 			$global_unread = getGlobalUnread($link);

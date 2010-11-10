@@ -94,9 +94,9 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 
 function scheduleFeedUpdate() {
 
-	console.log("in scheduleFeedUpdate");
+	window.clearTimeout(counter_timeout_id);
 
-	var query_str = "backend.php?op=rpc&subop=updateAllFeeds";
+	var query_str = "backend.php?op=rpc&subop=getAllCounters";
 
 	var omode;
 
@@ -114,7 +114,7 @@ function scheduleFeedUpdate() {
 	query_str = query_str + "&omode=" + omode;
 	query_str = query_str + "&uctr=" + global_unread;
 
-	console.log("REFETCH query: " + query_str);
+	console.log("[scheduleFeedUpdate] " + query_str);
 
 	new Ajax.Request("backend.php", {
 		parameters: query_str,
