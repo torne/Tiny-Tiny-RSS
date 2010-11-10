@@ -351,7 +351,7 @@
 		}
 	}
 
-	function fetch_file_contents($url, $type) {
+	function fetch_file_contents($url, $type = false) {
 		if (USE_CURL_FOR_ICONS) {
 			$ch = curl_init($url);
 
@@ -2917,12 +2917,14 @@
 	 *                 4 - URL content is HTML which contains multiple feeds.
 	 *                     Here you should call extractfeedurls in rpc-backend
 	 *                     to get all possible feeds.
+	 *                 5 - Couldn't download the URL content.
 	 */
 	function subscribe_to_feed($link, $url, $cat_id = 0, 
 			$auth_login = '', $auth_pass = '') {
 
 		$url = fix_url($url);
 		if (!validate_feed_url($url)) return 2;
+		if (!fetch_file_contents($url)) return 5;
 
 		if (url_is_html($url)) {
 			$feedUrls = get_feeds_from_html($url);

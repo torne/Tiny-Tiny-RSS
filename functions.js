@@ -1304,6 +1304,9 @@ function subscribeToFeed() {
 
 			try {
 
+				if (!transport.responseXML)
+					console.log(transport.responseText);
+
 				var result = transport.responseXML.getElementsByTagName('result')[0];
 				var rc = parseInt(result.getAttribute('code'));
 	
@@ -1323,8 +1326,10 @@ function subscribeToFeed() {
 					}
 					break;
 				case 2:
+					alert(__("Specified URL seems to be invalid."));
+					break;
 				case 3:
-					alert(__("Can't subscribe to the specified URL."));
+					alert(__("Specified URL doesn't seem to contain any feeds."));
 					break;
 				case 4:
 					new Ajax.Request("backend.php", {
@@ -1348,6 +1353,9 @@ function subscribeToFeed() {
 							Effect.Appear('fadd_feeds_container', {duration : 0.5});
 						}
 					});
+					break;
+				case 5:
+					alert(__("Couldn't download the specified URL."));
 					break;
 				case 0:
 					alert(__("You are already subscribed to this feed."));
