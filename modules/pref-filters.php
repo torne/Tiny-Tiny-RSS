@@ -320,8 +320,10 @@
 		print "<button onclick=\"return removeSelectedFilters()\">".
 			__('Remove')."</button> ";
 
-		print "<button onclick=\"rescore_all_feeds()\">".
-			__('Rescore articles')."</button> "; 
+		if (defined('_ENABLE_FEED_DEBUGGING')) {
+			print "<button onclick=\"rescore_all_feeds()\">".
+				__('Rescore articles')."</button> "; 
+		}
 
 		if ($filter_search) {
 			$filter_search = split(' ', db_escape_string($filter_search));
