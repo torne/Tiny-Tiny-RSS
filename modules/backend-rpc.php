@@ -1128,6 +1128,22 @@
 			return;
 		}
 
+		if ($subop == "verifyRegexp") {
+			$reg_exp = $_REQUEST["reg_exp"];
+
+			print "<rpc-reply><status>";
+
+			if (@preg_match("/$reg_exp/i", "TEST") === false) {
+				print "INVALID";
+			} else {
+				print "OK";
+			}
+
+			print "</status></rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

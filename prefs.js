@@ -764,19 +764,44 @@ function userEditSave() {
 
 
 function filterEditSave() {
-
 	try {
+		var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
 
-		notify_progress("Saving filter...");
-	
-		var query = "?" + Form.serialize("filter_edit_form");
-	
-		closeInfoBox();
+		var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + param_escape(reg_exp);
+
+		notify_progress("Verifying regular expression...");
 
 		new Ajax.Request("backend.php",	{
 				parameters: query,
 				onComplete: function(transport) {
-						filterlist_callback2(transport);
+					handle_rpc_reply(transport);
+
+					var response = transport.responseXML;
+
+					if (response) {
+						var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
+	
+						notify('');
+
+						if (s == "INVALID") {
+							alert("Match regular expression seems to be invalid.");
+							return;
+						} else {
+
+							var query = "?" + Form.serialize("filter_edit_form");
+					
+							notify_progress("Saving filter...");
+			
+							Form.disable("filter_edit_form");
+
+							new Ajax.Request("backend.php",	{
+									parameters: query,
+									onComplete: function(transport) {
+											closeInfoBox();
+											filterlist_callback2(transport);
+								} });
+						}
+					}
 			} });
 
 	} catch (e) {
@@ -2099,4 +2124,20 @@ function clearFeedAccessKeys() {
 	return false;
 }
 
+function handle_rpc_reply(transport, scheduled_call) {
+	try {
+		if (transport.responseXML) {
+
+			if (!transport_error_check(transport)) return false;
+
+		} else {
+			notify_error("Error communicating with server.");
+		}
+
+	} catch (e) {
+		exception_error("handle_rpc_reply", e, transport);
+	}
+
+	return true;
+}
 

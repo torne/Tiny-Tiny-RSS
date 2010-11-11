@@ -577,55 +577,6 @@ function parse_counters(reply, scheduled_call) {
 
 } */
 
-function handle_rpc_reply(transport, scheduled_call) {
-	try {
-		if (offline_mode) return false;
-
-		if (!transport.responseText && db) {
-			offlineConfirmModeChange();
-			return false;
-		} 
-
-		if (transport.responseXML) {
-
-			if (!transport_error_check(transport)) return false;
-
-			var message = transport.responseXML.getElementsByTagName("message")[0];
-
-			if (message) {
-				message = message.firstChild.nodeValue;
-
-				if (message == "UPDATE_COUNTERS") {
-					setInitParam("last_article_id", -1);
-					_force_scheduled_update = true;
-				}
-			}
-
-			var counters = transport.responseXML.getElementsByTagName("counters")[0];
-	
-			if (counters)
-				parse_counters(counters, scheduled_call);
-
-			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info")[0];
-
-			if (runtime_info)
-				parse_runtime_info(runtime_info);
-
-			if (feedsSortByUnread())
-				resort_feedlist();
-
-			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
-
-		} else {
-			notify_error("Error communicating with server.");
-		}
-
-	} catch (e) {
-		exception_error("handle_rpc_reply", e, transport);
-	}
-
-	return true;
-}
 
 function get_feed_unread(id) {
 	try {
@@ -1290,20 +1241,45 @@ function createFilter() {
 			alert(__("Can't add filter: nothing to match on."));
 			return false;
 		}
+
+		var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + param_escape(reg_exp);
+
+		notify_progress("Verifying regular expression...");
+
+		new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					handle_rpc_reply(transport);
+
+					var response = transport.responseXML;
+
+					if (response) {
+						var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
 	
-		var query = Form.serialize("filter_add_form");
-	
-		// we can be called from some other tab in Prefs		
-		if (typeof active_tab != 'undefined' && active_tab) {
-			active_tab = "filterConfig";
-		}
-	
-		new Ajax.Request("backend.php?" + query, {
-			onComplete: function (transport) {
-				infobox_submit_callback2(transport);
+						notify('');
+
+						if (s == "INVALID") {
+							alert("Match regular expression seems to be invalid.");
+							return;
+						} else {
+
+							var query = Form.serialize("filter_add_form");
+						
+							// we can be called from some other tab in Prefs		
+							if (typeof active_tab != 'undefined' && active_tab) {
+								active_tab = "filterConfig";
+							}
+						
+							new Ajax.Request("backend.php?" + query, {
+								onComplete: function (transport) {
+									infobox_submit_callback2(transport);
+								} });
+							
+							return true;
+						}
+					}
+
 			} });
-		
-		return true;
 
 	} catch (e) {
 		exception_error("createFilter", e);
