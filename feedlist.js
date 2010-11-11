@@ -287,11 +287,28 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 
 					if (!is_cat && img) {
 
-						if (!img.src.match("indicator_white")) {
-							img.alt = img.src;
-							img.src = getInitParam("sign_progress");
-						}
+						var cat_list = feedr.parentNode;
 
+						if (!cat_list || Element.visible(cat_list)) {
+							if (!img.src.match("indicator_white")) {
+								img.alt = img.src;
+								img.src = getInitParam("sign_progress");
+							}
+						} else if (cat_list) {
+							feed_cat_id = cat_list.id.replace("FCATLIST-", "");
+
+							if (!$('FLL-' + feed_cat_id)) {
+
+								var ll = document.createElement('img');
+
+								ll.src = getInitParam("sign_progress_tiny");
+								ll.className = 'hlLoading';
+								ll.id = 'FLL-' + feed;
+
+								$("FCAP-" + feed_cat_id).appendChild(ll);
+							}
+						} 
+					
 					} else {
 
 						if (!$('FLL-' + feed)) {
@@ -304,8 +321,8 @@ function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 							feedr.appendChild(ll);
 						}
 					}
-				}
-			}
+				} 
+			}  
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -359,6 +376,14 @@ function toggleCollapseCat(cat) {
 
 	} catch (e) {
 		exception_error("toggleCollapseCat", e);
+	}
+}
+
+function isCatCollapsed(cat) {
+	try {
+		return Element.visible("FCATLIST-" + cat);
+	} catch (e) {
+		exception_error("isCatCollapsed", e);
 	}
 }
 

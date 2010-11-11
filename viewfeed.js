@@ -77,21 +77,19 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		var ll = $('FLL-' + feed_id);
 
+		if (ll && ll.parentNode) 
+			ll.parentNode.removeChild(ll);
+
 		if (!is_cat) {
 			var feedr = $("FEEDR-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
-			if (feedr && ll) feedr.removeChild(ll);
 		} else {
 			var feedr = $("FCAT-" + feed_id);
 			if (feedr && !feedr.className.match("Selected")) {	
 				feedr.className = feedr.className + "Selected";
 			} 
-
-			var fcap = $("FCAP-" + feed_id);
-			if (fcap && ll) fcap.removeChild(ll);
-
 		}
 
 		var img = $('FIMG-' + feed_id);
