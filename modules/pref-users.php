@@ -417,16 +417,16 @@
 
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"javascript:selectPrefRows('user', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('user', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectPrefRows('user', true)\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectPrefRows('user', false)\">".__('None')."</a>
 				</td</tr>";
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>
-					<td width=''><a href=\"javascript:updateUsersList('login')\">".__('Login')."</a></td>
-					<td width='20%'><a href=\"javascript:updateUsersList('access_level')\">".__('Access Level')."</a></td>
-					<td width='20%'><a href=\"javascript:updateUsersList('created')\">".__('Registered')."</a></td>
-					<td width='20%'><a href=\"javascript:updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
+					<td width=''><a href=\"#\" onclick=\"updateUsersList('login')\">".__('Login')."</a></td>
+					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('access_level')\">".__('Access Level')."</a></td>
+					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('created')\">".__('Registered')."</a></td>
+					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
 		
 		$lnum = 0;
 		
@@ -451,10 +451,10 @@
 			$line["created"] = make_local_datetime($link, $line["created"], false);
 			$line["last_login"] = make_local_datetime($link, $line["last_login"], false);
 
-			print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"user\");' 
+			print "<td align='center'><input onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
-			$onclick = "onclick='editUser($uid)' title='".__('Click to edit')."'";
+			$onclick = "onclick='editUser($uid, event)' title='".__('Click to edit')."'";
 
 			print "<td $onclick>" . $line["login"] . "</td>";		
 

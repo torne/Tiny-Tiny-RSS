@@ -981,7 +981,7 @@
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"
 					size=\"40\">
-					<button onclick=\"javascript:addFeedCat()\">".
+					<button onclick=\"addFeedCat()\">".
 					__('Create category')."</button></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
@@ -993,8 +993,8 @@
 			if (db_num_rows($result) != 0) {
 
 				print	__('Select:')." 
-					<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>";
+					<a href=\"#\" onclick=\"selectPrefRows('fcat', true)\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectPrefRows('fcat', false)\">".__('None')."</a>";
 
 				print "<div class=\"prefFeedCatHolder\">";
 
@@ -1017,7 +1017,7 @@
 					$edit_title = htmlspecialchars($line["title"]);
 		
 					print "<td width='5%' align='center'><input 
-						onclick='toggleSelectPrefRow(this, \"fcat\");' 
+						onclick='toggleSelectRow(this);' 
 						type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
 	
 					print "<td><span id=\"FCATT-$cat_id\">" . 
@@ -1078,10 +1078,10 @@
 
 		print "<div style='float : right'> 
 			<input id=\"feed_search\" size=\"20\" type=\"search\"
-				onfocus=\"javascript:disableHotkeys();\" 
-				onblur=\"javascript:enableHotkeys();\"
-				onchange=\"javascript:updateFeedList()\" value=\"$feed_search\">
-			<button onclick=\"javascript:updateFeedList()\">".
+				onfocus=\"disableHotkeys();\" 
+				onblur=\"enableHotkeys();\"
+				onchange=\"updateFeedList()\" value=\"$feed_search\">
+			<button onclick=\"updateFeedList()\">".
 				__('Search')."</button>
 			</div>";
 		
@@ -1093,11 +1093,11 @@
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-			print "<button onclick=\"javascript:editFeedCats()\">".
+			print "<button onclick=\"editFeedCats()\">".
 				__('Edit categories')."</button> ";
 		}
 
-		print "<button onclick=\"javascript:removeSelectedFeeds()\">"
+		print "<button onclick=\"removeSelectedFeeds()\">"
 			.__('Unsubscribe')."</button> ";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
@@ -1199,8 +1199,8 @@
 				$show_last_article_checked><label 
 					for='show_last_article_times'>".__('Show last article times')."</label></div>".
 				__('Select:')."
-					<a href=\"javascript:selectPrefRows('feed', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('feed', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectPrefRows('feed', true)\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectPrefRows('feed', false)\">".__('None')."</a>
 				</td</tr>";
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
@@ -1209,13 +1209,13 @@
 
 				print "<td width='3%'>&nbsp;</td>";
 
-				print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
+				print "<td width='60%'><a href=\"#\" onclick=\"updateFeedList('title')\">".__('Title')."</a></td>";
 
 				if ($show_last_article_info) {
-					print "<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
+					print "<td width='20%' align='right'><a href=\"#\" onclick=\"updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
 				}
 
-				print "<td width='20%' align='right'><a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+				print "<td width='20%' align='right'><a href=\"#\" onclick=\"updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 			}
 			
 			$lnum = 0;
@@ -1260,15 +1260,15 @@
 
 					print "<td width='3%'>&nbsp;</td>";
 
-					print "<td width='60%'><a href=\"javascript:updateFeedList('title')\">".__('Title')."</a></td>";
+					print "<td width='60%'><a href=\"#\" onclick=\"updateFeedList('title')\">".__('Title')."</a></td>";
 
 					if ($show_last_article_info) {
 						print "<td width='20%' align='right'>
-							<a href=\"javascript:updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
+							<a href=\"#\" onclick=\"updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
 					}
 
 					print "<td width='20%' align='right'>
-						<a href=\"javascript:updateFeedList('last_updated')\">".__('Updated')."</a></td>";
+						<a href=\"#\" onclick=\"updateFeedList('last_updated')\">".__('Updated')."</a></td>";
 
 					$cur_cat_id = $cat_id;
 				}
@@ -1286,10 +1286,10 @@
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 				
-				print "<td class='feedSelect'><input onclick='toggleSelectPrefRow(this, \"feed\");' 
+				print "<td class='feedSelect'><input onclick='toggleSelecRow(this);' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
-				$onclick = "onclick='editFeed($feed_id)' title='".__('Click to edit')."'";
+				$onclick = "onclick='editFeed($feed_id, event)' title='".__('Click to edit')."'";
 
 				print "<td $onclick class='feedIcon'>$feed_icon</td>";		
 

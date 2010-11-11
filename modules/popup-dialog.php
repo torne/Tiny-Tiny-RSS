@@ -80,8 +80,8 @@
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
 
 			print	__('Select:')." 
-				<a href=\"javascript:selectPrefRows('fcat', true)\">".__('All')."</a>,
-				<a href=\"javascript:selectPrefRows('fcat', false)\">".__('None')."</a>";
+				<a href=\"#\" onclick=\"selectPrefRows('fcat', true)\">".__('All')."</a>,
+				<a href=\"#\" onclick=\"selectPrefRows('fcat', false)\">".__('None')."</a>";
 
 			print "<div class=\"prefFeedCatHolder\">";
 
@@ -93,7 +93,7 @@
 			print "<tr class=\"odd\" id=\"FCATR-0\">";
 
 			print "<td width='5%' align='center'><input 
-				onclick='toggleSelectPrefRow(this, \"fcat\");' 
+				onclick='toggleSelectRow(this);' 
 				type=\"checkbox\" id=\"FCCHK-0\"></td>";
 
 			if (!$_SESSION["profile"]) {
@@ -121,7 +121,7 @@
 				$edit_title = htmlspecialchars($line["title"]);
 	
 				print "<td width='5%' align='center'><input 
-					onclick='toggleSelectPrefRow(this, \"fcat\");' 
+					onclick='toggleSelectRow(this);' 
 					type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
 
 				if ($_SESSION["profile"] == $line["id"]) {

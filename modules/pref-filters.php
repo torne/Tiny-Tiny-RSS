@@ -377,8 +377,8 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"javascript:selectPrefRows('filter', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('filter', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectPrefRows('filter', true)\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectPrefRows('filter', false)\">".__('None')."</a>
 				</td</tr>";
 
 			$lnum = 0;
@@ -405,10 +405,10 @@
 
 					print "<tr class=\"title\">
 						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('reg_exp')\">".__('Match')."</a></td>
-						<td width=\"\"><a href=\"javascript:updateFilterList('feed_title')\">".__('Feed')."</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('filter_type')\">".__('Field')."</a></td>
-						<td width=\"20%\"><a href=\"javascript:updateFilterList('action_param')\">".__('Params')."</a></td>"; 
+						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('reg_exp')\">".__('Match')."</a></td>
+						<td width=\"\"><a href=\"#\" onclick=\"updateFilterList('feed_title')\">".__('Feed')."</a></td>
+						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('filter_type')\">".__('Field')."</a></td>
+						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('action_param')\">".__('Params')."</a></td>"; 
 
 					$lnum = 0;
 				}
@@ -436,7 +436,7 @@
 
 				$line["feed_title"] = htmlspecialchars($line["feed_title"]);
 
-				print "<td align='center'><input onclick='toggleSelectPrefRow(this, \"filter\");' 
+				print "<td align='center'><input onclick='toggleSelectRow(this);' 
 					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
 
 				$filter_params = array(
@@ -486,7 +486,7 @@
 						$line["action_param"] . "</span>";
 				}	
 
-				$onclick = "onclick='editFilter($filter_id)' title='".__('Click to edit')."'";
+				$onclick = "onclick='editFilter($filter_id, event)' title='".__('Click to edit')."'";
 
 				$inverse_label = "";
 

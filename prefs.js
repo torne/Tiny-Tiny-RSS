@@ -14,6 +14,8 @@ var mouse_is_down = false;
 var db = false;
 var store = false;
 
+var seq = "";
+
 function feedlist_callback2(transport) {
 
 	try {	
@@ -325,9 +327,11 @@ function addUser() {
 	}
 }
 
-function editUser(id) {
+function editUser(id, event) {
 
 	try {
+
+		if (!event || !event.ctrlKey) {
 
 		disableHotkeys();
 
@@ -346,58 +350,81 @@ function editUser(id) {
 					document.forms['user_edit_form'].login.focus();	
 				} });
 
+		} else if (event.ctrlKey) {
+			var cb = $('UMCHK-' + id);
+			cb.checked = !cb.checked;
+			toggleSelectRow(cb);
+		}
+
 	} catch (e) {
 		exception_error("editUser", e);
 	}
 		
 }
 
-function editFilter(id) {
+function editFilter(id, event) {
 
 	try {
 
-		disableHotkeys();
+		if (!event || !event.ctrlKey) {
 
-		notify_progress("Loading, please wait...");
+			disableHotkeys();
 
-		selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
-		selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
+			notify_progress("Loading, please wait...");
 
-		var query = "?op=pref-filters&subop=edit&id=" + 
-			param_escape(id);
+			selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
+			selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
 
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport);
-					document.forms['filter_edit_form'].reg_exp.focus();
-				} });
+			var query = "?op=pref-filters&subop=edit&id=" + 
+				param_escape(id);
+	
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+						infobox_callback2(transport);
+						document.forms['filter_edit_form'].reg_exp.focus();
+					} });
+		} else if (event.ctrlKey) {
+			var cb = $('FICHK-' + id);
+			cb.checked = !cb.checked;
+			toggleSelectRow(cb);
+		}
+
 	} catch (e) {
 		exception_error("editFilter", e);
 	}
 }
 
-function editFeed(feed) {
+function editFeed(feed, event) {
 
 	try {
 
-		disableHotkeys();
+		if (event && !event.ctrlKey) {
+
+			disableHotkeys();
 	
-		notify_progress("Loading, please wait...");
+			notify_progress("Loading, please wait...");
 	
-		// clean selection from all rows & select row being edited
-		selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
-		selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
+			// clean selection from all rows & select row being edited
+			selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
+			selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
 	
-		var query = "?op=pref-feeds&subop=editfeed&id=" +
-			param_escape(feed);
+			var query = "?op=pref-feeds&subop=editfeed&id=" +
+				param_escape(feed);
 	
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport);
-					document.forms["edit_feed_form"].title.focus();
-				} });
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+						infobox_callback2(transport);
+						document.forms["edit_feed_form"].title.focus();
+					} });
+
+		} else if (event.ctrlKey) {
+			var cb = $('FRCHK-' + feed);
+			cb.checked = !cb.checked;
+			toggleSelectRow(cb);
+		}
+
 
 	} catch (e) {
 		exception_error("editFeed", e);
@@ -1263,39 +1290,6 @@ function selectPrefRows(kind, select) {
 }
 
 
-function toggleSelectPrefRow(sender, kind) {
-
-	toggleSelectRow(sender);
-
-	if (kind) {
-		var opbarid = false;	
-		var nsel = -1;
-		
-		if (kind == "feed") {
-			opbarid = "feedOpToolbar";
-			nsel = getSelectedFeeds();
-		} else if (kind == "fcat") {
-			opbarid = "catOpToolbar";
-			nsel = getSelectedFeedCats();
-		} else if (kind == "filter") {
-			opbarid = "filterOpToolbar";
-			nsel = getSelectedFilters();
-		} else if (kind == "label") {
-			opbarid = "labelOpToolbar";
-			nsel = getSelectedLabels();
-		} else if (kind == "user") {
-			opbarid = "userOpToolbar";
-			nsel = getSelectedUsers();
-		}
-
-	} 
-}
-
-function toggleSelectFBListRow(sender) {
-	toggleSelectListRow(sender);
-}
-
-var seq = "";
 
 function pref_hotkey_handler(e) {
 	try {
@@ -1793,37 +1787,6 @@ function removeFilter(id, title) {
 
 	return false;
 }
-
-/*function unsubscribeFeed(id, title) {
-
-	try {
-
-		var msg = __("Unsubscribe from %s?").replace("%s", title);
-	
-		var ok = confirm(msg);
-	
-		if (ok) {
-			closeInfoBox();
-	
-			notify_progress("Removing feed...");
-		
-			var query = "?op=pref-feeds&subop=remove&ids="+
-				param_escape(id);
-	
-			new Ajax.Request("backend.php", {
-					parameters: query,
-					onComplete: function(transport) {
-							feedlist_callback2(transport);
-				} });
-		}
-	
-	} catch (e) {
-		exception_error("unsubscribeFeed", e);
-	}
-
-	return false;
-
-} */
 
 function feedsEditSave() {
 	try {

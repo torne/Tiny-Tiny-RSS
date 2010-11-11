@@ -208,8 +208,8 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"javascript:selectPrefRows('label', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('label', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectPrefRows('label', true)\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectPrefRows('label', false)\">".__('None')."</a>
 				</td</tr>";
 
 /*			print "<tr class=\"title\">
@@ -238,7 +238,7 @@
 				if (!$bg_color) $bg_color = "";
 
 				print "<td width='5%' align='center'><input 
-					onclick='toggleSelectPrefRow(this, \"label\");' 
+					onclick='toggleSelectRow(this);' 
 					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
 	
 				$id = $line['id'];
