@@ -421,6 +421,12 @@
 	
 				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
 
+				if (array_search($line["action_name"], 
+					array("score", "tag", "label")) === false) {
+
+						$line["action_param"] = false;
+				}
+
 				if (!$line["action_param"]) {
 					$line["action_param"] = "&mdash;";
 				} else if ($line["action_name"] == "score") {
