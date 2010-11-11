@@ -1520,8 +1520,8 @@
 			foreach ($filters["title"] as $filter) {
 				$reg_exp = $filter["reg_exp"];		
 				$inverse = $filter["inverse"];	
-				if ((!$inverse && preg_match("/$reg_exp/i", $title)) || 
-						($inverse && !preg_match("/$reg_exp/i", $title))) {
+				if ((!$inverse && @preg_match("/$reg_exp/i", $title)) || 
+						($inverse && !@preg_match("/$reg_exp/i", $title))) {
 
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
@@ -1533,8 +1533,8 @@
 				$reg_exp = $filter["reg_exp"];
 				$inverse = $filter["inverse"];
 
-				if ((!$inverse && preg_match("/$reg_exp/i", $content)) || 
-						($inverse && !preg_match("/$reg_exp/i", $content))) {
+				if ((!$inverse && @preg_match("/$reg_exp/i", $content)) || 
+						($inverse && !@preg_match("/$reg_exp/i", $content))) {
 
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}		
@@ -1547,11 +1547,11 @@
 				$inverse = $filter["inverse"];
 
 				if ($inverse) {
-					if (!preg_match("/$reg_exp/i", $title) && !preg_match("/$reg_exp/i", $content)) {
+					if (!@preg_match("/$reg_exp/i", $title) && !preg_match("/$reg_exp/i", $content)) {
 						array_push($matches, array($filter["action"], $filter["action_param"]));
 					}
 				} else {
-					if (preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
+					if (@preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
 						array_push($matches, array($filter["action"], $filter["action_param"]));
 					}
 				}
@@ -1564,8 +1564,8 @@
 				$reg_exp = $filter["reg_exp"];
 				$inverse = $filter["inverse"];
 
-				if ((!$inverse && preg_match("/$reg_exp/i", $link)) || 
-						($inverse && !preg_match("/$reg_exp/i", $link))) {
+				if ((!$inverse && @preg_match("/$reg_exp/i", $link)) || 
+						($inverse && !@preg_match("/$reg_exp/i", $link))) {
 						
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
@@ -1602,8 +1602,8 @@
 			foreach ($filters["author"] as $filter) {
 				$reg_exp = $filter["reg_exp"];		
 				$inverse = $filter["inverse"];	
-				if ((!$inverse && preg_match("/$reg_exp/i", $author)) || 
-						($inverse && !preg_match("/$reg_exp/i", $author))) {
+				if ((!$inverse && @preg_match("/$reg_exp/i", $author)) || 
+						($inverse && !@preg_match("/$reg_exp/i", $author))) {
 
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}
@@ -1618,8 +1618,8 @@
 				$reg_exp = $filter["reg_exp"];
 				$inverse = $filter["inverse"];
 
-				if ((!$inverse && preg_match("/$reg_exp/i", $tag_string)) || 
-						($inverse && !preg_match("/$reg_exp/i", $tag_string))) {
+				if ((!$inverse && @preg_match("/$reg_exp/i", $tag_string)) || 
+						($inverse && !@preg_match("/$reg_exp/i", $tag_string))) {
 
 					array_push($matches, array($filter["action"], $filter["action_param"]));
 				}		
