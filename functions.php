@@ -5269,7 +5269,6 @@
 					print "<td class='hlMarkedPic'>$published_pic</td>";
 
 					print "<td onclick='return hlClicked(event,$id)' 
-						title=\"".__("Click to select, ctrl-click selects multiple")."\"
 						class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
 
 					print "<a id=\"RTITLE-$id\" 
