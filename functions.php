@@ -2321,7 +2321,7 @@
 		}
 	}
 
-	function catchup_feed($link, $feed, $cat_view, $owner_uid) {
+	function catchup_feed($link, $feed, $cat_view, $owner_uid = false) {
 
 			if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 

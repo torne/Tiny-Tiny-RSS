@@ -387,11 +387,11 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			/* if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop || !$offset) {
+			 if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop) {
 				print "<counters><![CDATA[";
 				print json_encode(getAllCounters($link, $omode, $feed));
 				print "]]></counters>";
-			} */
+			} 
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 

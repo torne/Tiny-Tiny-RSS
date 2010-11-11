@@ -201,8 +201,11 @@ function headlines_callback2(transport, feed_cur_page) {
 			} else {
 				console.log("no cached articles received");
 			}
-	
-			request_counters();
+
+			if (counters)
+				parse_counters(counters);
+			else
+				request_counters();
 
 			if (runtime_info) {
 				parse_runtime_info(runtime_info[0]);
