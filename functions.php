@@ -3751,8 +3751,18 @@
 						rewrite_relative_url($site_url, $entry->getAttribute('src')));
 			}
 
-			if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
-				$entry->setAttribute("target", "_blank");
+			if (strtolower($entry->nodeName) == "a") {
+				if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
+					$entry->setAttribute("target", "_blank");
+				}
+			}
+
+			if (strtolower($entry->nodeName) == "img") {
+				$br = $doc->createElement("br");
+
+				if ($entry->parentNode->nextSibling)
+					$entry->parentNode->insertBefore($br, $entry->nextSibling);
+
 			}
 		}
 	
