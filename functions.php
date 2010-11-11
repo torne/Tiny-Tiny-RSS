@@ -4160,7 +4160,7 @@
 
 			if ($feed_site_url) {
 				$target = "target=\"_blank\"";
-				print "<a title=\"".__("Visit the website")."\"$target href=\"$feed_site_url\">".
+				print "<a title=\"".__("Visit the website")."\" $target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
 			} else {
 				if ($feed_id < -10) {
@@ -4924,7 +4924,10 @@
 
 			print "</div>";
 
-			print "<div class=\"postIcon\">" . $feed_icon . "</div>";
+			print "<div class=\"postIcon\">" . 
+				"<a target=\"_blank\" title=\"".__("Visit the website")."\"$ 
+				href=\"".htmlspecialchars($feed_site_url)."\">".
+				$feed_icon . "</a></div>";
 
 			print "<div class=\"postContent\">";
 
