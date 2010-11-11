@@ -728,7 +728,9 @@
 			}
 
 			if ($icon_url && $orig_icon_url != $icon_url) { 
-				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
+				if (USE_CURL_FOR_ICONS || url_validate($icon_url)) {
+					db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
+				}
 			}
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
