@@ -2469,6 +2469,7 @@ function cdmClicked(event, id) {
 					handle_rpc_reply(transport); 
 				} });
 
+			return true;
 		} else {
 			toggleSelected(id);
 		}
