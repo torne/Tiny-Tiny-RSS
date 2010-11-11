@@ -3707,9 +3707,9 @@
 
 	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
 
-		$res = $str;
-
 		if (!$owner) $owner = $_SESSION["uid"];
+
+		$res = trim($str); if (!$res) return '';
 
 		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
 
@@ -3728,6 +3728,8 @@
 		$charset_hack = '<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		</head>';
+
+		$res = trim($res); if (!$res) return '';
 
 		libxml_use_internal_errors(true);
 
