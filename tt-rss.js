@@ -15,6 +15,17 @@ var feedlist_sortable_enabled = false;
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
 
+var _rpc_seq = 0;
+
+function next_seq() {
+	_rpc_seq += 1;
+	return _rpc_seq;
+}
+
+function get_seq() {
+	return _rpc_seq;
+}
+
 function activeFeedIsCat() {
 	return _active_feed_is_cat;
 }
@@ -167,7 +178,7 @@ function timeout() {
 
 			window.clearTimeout(counter_timeout_id);
 		
-			var query_str = "?op=rpc&subop=getAllCounters";
+			var query_str = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
 		
 			var omode;
 		
@@ -1262,6 +1273,17 @@ function handle_rpc_reply(transport, scheduled_call) {
 		if (transport.responseXML) {
 
 			if (!transport_error_check(transport)) return false;
+
+			var seq = transport.responseXML.getElementsByTagName("seq")[0];
+
+			if (seq) {
+				seq = seq.firstChild.nodeValue;
+
+				if (get_seq() != seq) {
+					//console.log("[handle_rpc_reply] sequence mismatch: " + seq);
+					return true;
+				}
+			}
 
 			var message = transport.responseXML.getElementsByTagName("message")[0];
 

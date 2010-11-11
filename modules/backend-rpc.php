@@ -2,6 +2,7 @@
 	function handle_rpc_request($link) {
 
 		$subop = $_REQUEST["subop"];
+		$seq = (int) $_REQUEST["seq"];
 
 		if ($subop == "setprofile") {
 			$id = db_escape_string($_REQUEST["id"]);
@@ -284,6 +285,9 @@
 			$last_article_id = (int) $_REQUEST["last_article_id"];	
 
 			print "<rpc-reply>";
+
+			if ($seq)
+				print "<seq>$seq</seq>";
 
 			if ($last_article_id != getLastArticleId($link)) {
 				print "<counters><![CDATA[";

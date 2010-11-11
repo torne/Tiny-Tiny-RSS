@@ -607,7 +607,7 @@ function request_counters_real() {
 
 		console.log("requesting counters...");
 
-		var query = "?op=rpc&subop=getAllCounters";
+		var query = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
 
 		if (tagsAreDisplayed()) {
 			query = query + "&omode=tl";
