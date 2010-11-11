@@ -323,6 +323,9 @@ function showArticleInHeadlines(id) {
 
 		markHeadline(id);
 
+		if (article_is_unread)
+			_force_scheduled_update = true;
+
 	} catch (e) {
 		exception_error("showArticleInHeadlines", e);
 	}

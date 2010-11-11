@@ -163,6 +163,8 @@ function timeout() {
 
 		if (ts - last_scheduled_update > 10 || _force_scheduled_update) {
 
+			//console.log("timeout()");
+
 			window.clearTimeout(counter_timeout_id);
 		
 			var query_str = "?op=rpc&subop=getAllCounters";
@@ -181,7 +183,9 @@ function timeout() {
 			}
 			
 			query_str = query_str + "&omode=" + omode;
-			query_str = query_str + "&last_article_id=" + getInitParam("last_article_id");
+
+			if (!_force_scheduled_update)
+				query_str = query_str + "&last_article_id=" + getInitParam("last_article_id");
 		
 			//console.log("[timeout]" + query_str);
 		
@@ -192,6 +196,7 @@ function timeout() {
 					} });
 
 			last_scheduled_update = ts;
+			_force_scheduled_update = false;
 		}
 
 	} catch (e) {
