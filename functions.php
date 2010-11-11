@@ -3751,7 +3751,7 @@
 			}
 		}
 	
-		$node = $doc->getElementsByTagName('body')->item(0)->firstChild;
+		$node = $doc->getElementsByTagName('body')->item(0);
 
 		return $doc->saveXML($node); 
 	}
