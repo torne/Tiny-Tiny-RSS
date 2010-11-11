@@ -469,6 +469,10 @@ function parse_counters(reply, scheduled_call) {
 
 			if (feedctr && feedu && feedr) {
 
+//				if (id == getActiveFeedId())
+//					console.log("HAS CTR: " + feedu.innerHTML + " GOT CTR: " + ctr + 
+//							" IS_SCHED: " + scheduled_call);
+
 				if (parseInt(ctr) > 0 && 
 						parseInt(feedu.innerHTML) < parseInt(ctr) && 
 						id == getActiveFeedId() && scheduled_call) {

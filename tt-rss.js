@@ -203,11 +203,11 @@ function timeout() {
 			new Ajax.Request("backend.php", {
 				parameters: query_str,
 				onComplete: function(transport) { 
-						handle_rpc_reply(transport, true);
+						handle_rpc_reply(transport, !_force_scheduled_update);
+						_force_scheduled_update = false;
 					} });
 
 			last_scheduled_update = ts;
-			_force_scheduled_update = false;
 		}
 
 	} catch (e) {
@@ -1291,6 +1291,7 @@ function handle_rpc_reply(transport, scheduled_call) {
 				message = message.firstChild.nodeValue;
 
 				if (message == "UPDATE_COUNTERS") {
+					console.log("need to refresh counters...");
 					setInitParam("last_article_id", -1);
 					_force_scheduled_update = true;
 				}
