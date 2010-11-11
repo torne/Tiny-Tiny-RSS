@@ -39,10 +39,10 @@
 			print "<table width='100%'>";
 
 			$last_login = make_local_datetime($link,
-				db_fetch_result($result, 0, "last_login"));
+				db_fetch_result($result, 0, "last_login"), true);
 
 			$created = make_local_datetime($link,
-				db_fetch_result($result, 0, "created"));
+				db_fetch_result($result, 0, "created"), true);
 
 			$access_level = db_fetch_result($result, 0, "access_level");
 			$stored_articles = db_fetch_result($result, 0, "stored_articles");
