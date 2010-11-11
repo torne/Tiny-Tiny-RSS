@@ -63,6 +63,7 @@ function viewNextFeedPage() {
 
 function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
 	try {
+		if (is_cat == undefined) is_cat = false;
 
 		if (offline_mode) return viewfeed_offline(feed, subop, is_cat, subop_param,
 			skip_history, offset);
