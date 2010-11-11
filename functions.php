@@ -397,37 +397,31 @@
 	 */
 	function get_favicon_url($url) {
 
+		$favicon_url = false;
+
 		if ($html = @fetch_file_contents($url)) {
 
-			if ( preg_match('/<link[^>]+rel="(?:shortcut )?icon"[^>]+?href="([^"]+?)"/si', $html, $matches)) {
-				// Attempt to grab a favicon link from their webpage url
-				$linkUrl = html_entity_decode($matches[1]);
+			libxml_use_internal_errors(true);
 
-				if (substr($linkUrl, 0, 1) == '/') {
-					$urlParts = parse_url($url);
-					$faviconURL = $urlParts['scheme'].'://'.$urlParts['host'].$linkUrl;
-				} else if (substr($linkUrl, 0, 7) == 'http://') {
-					$faviconURL = $linkUrl;
-				} else {
-					$pos = strrpos($url, "/");
-					// no "/" in url or "/" is part of "://"
-					if ($pos === false || $pos == (strpos($url, "://")+2)) {
-						$faviconURL = $url.'/'.$linkUrl;
-					} else {
-						$faviconURL = substr($url, 0, $pos+1).$linkUrl;
-					}
+			$doc = new DOMDocument();
+			$doc->loadHTML($html);
+			$xpath = new DOMXPath($doc);
+			$entries = $xpath->query('/html/head/link[@rel="shortcut icon"]');
+
+			if (count($entries) > 0) {
+				foreach ($entries as $entry) {
+					$favicon_url = rewrite_relative_url($url, $entry->getAttribute("href"));
+					break;
 				}
-
-			} else {
-				// If unsuccessful, attempt to "guess" the favicon location
-				$urlParts = parse_url($url);
-				$faviconURL = $urlParts['scheme'].'://'.$urlParts['host'].'/favicon.ico';
-			}
+			}		
 		}
 
+		if (!$favicon_url)
+			$favicon_url = rewrite_relative_url($url, "/favicon.ico");
+
 		// Run a test to see if what we have attempted to get actually exists.
-		if(USE_CURL_FOR_ICONS || url_validate($faviconURL)) {
-			return $faviconURL;
+		if(USE_CURL_FOR_ICONS || url_validate($favicon_url)) {
+			return $favicon_url;
 		} else {
 			return false;
 		}
