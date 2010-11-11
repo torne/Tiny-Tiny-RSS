@@ -728,13 +728,12 @@
 //			print "I: " . $rss->channel["image"]["url"];
 
 			if (!$use_simplepie) {
-				$icon_url = $rss->image["url"];
+				$icon_url = db_escape_string($rss->image["url"]);
 			} else {
-				$icon_url = $rss->get_image_url();
+				$icon_url = db_escape_string($rss->get_image_url());
 			}
 
-			if ($icon_url && !$orig_icon_url != db_escape_string($icon_url)) {
-				$icon_url = db_escape_string($icon_url);
+			if ($icon_url && $orig_icon_url != $icon_url) { 
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
