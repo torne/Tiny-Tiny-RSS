@@ -176,9 +176,8 @@
 			print "<button onclick=\"return opmlRegenKey()\">".
 				__('Generate new URL')."</button> ";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
 
 			print "</div></div>";
 
@@ -225,9 +224,8 @@
 			
 			print "<div align='center'>";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return closeInfoBox()\"".
+				__('Close this window')."</button>";
 
 			print "</div></div>";
 
@@ -481,9 +479,8 @@
 				 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
 			print "<span id=\"filter_dlg_date_chk_box\" style=\"display : none\">";
-			print "&nbsp;<input class=\"button\"
-				type=\"submit\" onclick=\"return filterDlgCheckDate()\" 
-				value=\"".__('Check it')."\">";
+			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
+				__('Check it')."</button>";
 			print "</span>";
 
 			print "<br/> " . __("on field") . " ";
@@ -784,9 +781,8 @@
 			print "<button onclick=\"return genUrlChangeKey('$feed_id', '$is_cat')\">".
 				__('Generate new URL')."</button> ";
 
-			print "<input class=\"button\"
-				type=\"submit\" onclick=\"return closeInfoBox()\" 
-				value=\"".__('Close this window')."\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
 
 			print "</div></div>";
 

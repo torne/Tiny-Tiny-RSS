@@ -63,9 +63,8 @@
 					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
 
 			print "<span id=\"filter_dlg_date_chk_box\" $date_ops_invisible>";			
-			print "&nbsp;<input class=\"button\"
-				type=\"submit\" onclick=\"return filterDlgCheckDate()\" 
-				value=\"".__('Check it')."\">";
+			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
+				__('Check it')."</button>";
 			print "</span>";
 
 			print "<br/> " . __("on field") . " ";
