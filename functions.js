@@ -450,7 +450,7 @@ function parse_counters(reply, scheduled_call) {
 					}
 				} else {
 					if (xmsg) {
-						feedupd.innerHTML = updated + " " + xmsg;
+						feedupd.innerHTML = updated + " (" + xmsg + ")";
 					} else {
 						feedupd.innerHTML = updated;
 					}
