@@ -2488,8 +2488,10 @@ function hlClicked(event, id) {
 
 		if (!event.ctrlKey) {
 			view(id);
+			return true;
 		} else {
 			toggleSelected(id);
+			return false;
 		}
 
 	} catch (e) {
