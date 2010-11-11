@@ -5391,7 +5391,6 @@
 					print "</div>";
 
 					print "<div class=\"cdmContent\" $content_hidden
-						title=\"".__("Click to select, ctrl-click selects multiple")."\"
 						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
