@@ -17,7 +17,8 @@
 		<tr><td class='n'>S</td><td><?php echo __("Toggle published") ?></td></tr>
 		<tr><td class='n'>u</td><td><?php echo __("Toggle unread") ?></td></tr>
 		<tr><td class='n'>T</td><td><?php echo __("Edit tags") ?></td></tr>
-		<tr><td class='n'>D</td><td><?php echo __("In combined mode, dismiss selected articles") ?></td></tr>
+		<tr><td class='n'>D</td><td><?php echo __("Dismiss selected articles") ?></td></tr>
+		<tr><td class='n'>X</td><td><?php echo __("Dismiss read articles") ?></td></tr>
 		<tr><td class='n'>o</td><td><?php echo __("Open article in new window") ?></td></tr>
 		<tr><td class='n'>c n/c p</td><td><?php echo __("Mark articles below/above active one as read") ?></td></tr>
 		<tr><td class='n'>N/P</td><td><?php echo __("Scroll article content") ?></td></tr>

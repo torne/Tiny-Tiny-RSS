@@ -2386,7 +2386,7 @@ function emailArticleDo() {
 	}
 }
 
-function cdmDismissArticle(id) {
+function dismissArticle(id) {
 	try {
 		var elem = $("RROW-" + id);
 
@@ -2395,11 +2395,11 @@ function cdmDismissArticle(id) {
 		new Effect.Fade(elem, {duration : 0.5});
 
 	} catch (e) {
-		exception_error("cdmDismissArticle", e);
+		exception_error("dismissArticle", e);
 	}
 }
 
-function cdmDismissSelectedArticles() {
+function dismissSelectedArticles() {
 	try {
 
 		var ids = getSelectedArticleIds2();
@@ -2413,6 +2413,88 @@ function cdmDismissSelectedArticles() {
 			selectionToggleUnread(false);
 
 	} catch (e) {
-		exception_error("cdmDismissArticle", e);
+		exception_error("dismissSelectedArticles", e);
 	}
+}
+
+function dismissReadArticles() {
+	try {
+
+		var ids = getVisibleArticleIds();
+
+		for (var i = 0; i < ids.length; i++) {
+			var elem = $("RROW-" + ids[i]);
+
+			if (elem.className && !elem.className.match("Unread") && 
+					!elem.className.match("Selected")) {
+			
+				new Effect.Fade(elem, {duration : 0.5});
+			}
+		}
+
+	} catch (e) {
+		exception_error("dismissSelectedArticles", e);
+	}
+}
+
+function getVisibleArticleIds() {
+	try {
+		if (isCdmMode()) {
+			return cdmGetVisibleArticles();
+		} else {
+			return getVisibleHeadlineIds();
+		}
+	} catch (e) {
+		exception_error("getVisibleArticleIds");
+	}
+}
+
+function cdmClicked(event, id) {
+	try {
+		var shift_key = event.shiftKey;
+
+		if (!event.ctrlKey) {
+			cdmSelectArticles("none");
+			toggleSelected(id);
+
+			var elem = $("RROW-" + id);
+
+			if (elem)
+				elem.className = elem.className.replace("Unread", "");
+
+			var query = "?op=rpc&subop=catchupSelected" +
+				"&cmode=0&ids=" + param_escape(id);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					handle_rpc_reply(transport); 
+				} });
+
+		} else {
+			toggleSelected(id);
+		}
+
+	} catch (e) {
+		exception_error("cdmClicked");
+	}
+
+	return false;
+}
+
+function hlClicked(event, id) {
+	try {
+		var shift_key = event.shiftKey;
+
+		if (!event.ctrlKey) {
+			view(id);
+		} else {
+			toggleSelected(id);
+		}
+
+	} catch (e) {
+		exception_error("hlClicked");
+	}
+
+	return false;
 }

@@ -5262,14 +5262,9 @@
 					print "<td class='hlMarkedPic'>$marked_pic</td>";
 					print "<td class='hlMarkedPic'>$published_pic</td>";
 
-#					if ($line["feed_title"]) {			
-#						print "<td class='hlContent'>$content_link</td>";
-#						print "<td class='hlFeed'>
-#							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-#								truncate_string($line["feed_title"],30)."</a>&nbsp;</td>";
-#					} else {			
-
-					print "<td onclick='view($id)' class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
+					print "<td onclick='return hlClicked(event,$id)' 
+						title=\"".__("Click to select, ctrl-click selects multiple")."\"
+						class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
 
 					print "<a id=\"RTITLE-$id\" 
 						href=\"" . htmlspecialchars($line["link"]) . "\"
@@ -5286,9 +5281,6 @@
 
 					print $labels_str;
 
-#							<a href=\"javascript:viewfeed($feed_id, '', false)\">".
-#							$line["feed_title"]."</a>	
-
 					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {			
 							print "<span class=\"hlFeed\">
@@ -5298,14 +5290,12 @@
 						}
 					}
 
-//					print "<img id='HLL-$id' class='hlLoading' 
-//						src='images/indicator_tiny.gif' style='display : none'>";
-
 					print "</td>";
 
-#					}
-					
-					print "<td class=\"hlUpdated\" onclick='view($id)'><nobr>$updated_fmt&nbsp;</nobr></td>";
+		
+					print "<td class=\"hlUpdated\" 
+						onclick='return hlClicked(event,$id)'><nobr>$updated_fmt&nbsp;
+					</nobr></td>";
 
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 
@@ -5396,8 +5386,8 @@
 					print "</div>";
 
 					print "<div class=\"cdmContent\" $content_hidden
-						title=\"".__("Click to select article")."\"
-						onclick=\"toggleSelected($id);\"
+						title=\"".__("Click to select, ctrl-click selects multiple")."\"
+						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
 					print "<div class=\"cdmContentInner\">";
@@ -5444,6 +5434,8 @@
 
 					$article_content = sanitize_rss($link, $line["content_preview"], 
 						false, false, $feed_site_url);
+
+					if (!$article_content) $article_content = "&nbsp;";
 
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
@@ -5500,7 +5492,7 @@
 
 					print "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"cdmDismissArticle($id)\"
+						onclick=\"dismissArticle($id)\"
 						alt='Dismiss' title='".__('Dismiss article')."'>";
 
 					print "</div>";

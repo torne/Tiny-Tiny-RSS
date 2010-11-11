@@ -953,10 +953,11 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 68 && shift_key) { // shift-D
-				if (isCdmMode()) {
-					//cdmDismissArticle(active_post_id);
-					cdmDismissSelectedArticles();
-				}
+				dismissSelectedArticles();
+			}
+
+			if (keycode == 88 && shift_key) { // shift-X
+				dismissReadArticles();
 			}
 
 			if (keycode == 78 || keycode == 40) { // n, down
