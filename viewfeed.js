@@ -164,7 +164,7 @@ function headlines_callback2(transport, feed_cur_page) {
 			} else {
 				if (headlines) {
 					if (headlines_count > 0) {
-						console.warn("adding some more headlines...");
+						console.log("adding some more headlines...");
 	
 						var c = $("headlinesList");
 		
@@ -2088,7 +2088,7 @@ function cdmExpandArticle(id) {
 
 		var old_offset = $("RROW-" + id).offsetTop;
 
-		if (active_post_id && elem) {
+		if (active_post_id && elem && !getInitParam("cdm_expanded")) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + active_post_id);
 		}

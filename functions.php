@@ -3180,8 +3180,8 @@
 		$data = array();
 
 		$data['num_feeds'] = (int) $num_feeds;
-
 		$data['last_article_id'] = getLastArticleId($link);
+		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
 
 		if (ENABLE_UPDATE_DAEMON) {
 

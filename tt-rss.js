@@ -556,10 +556,6 @@ function parse_runtime_info(elem) {
 
 		// console.log("RI: " + k + " => " + v);
 
-		if (k == "num_feeds" || k == "last_article_id") {
-			init_params[k] = v;					
-		}
-
 		if (k == "new_version_available") {
 			var icon = $("newVersionIcon");
 			if (icon) {
@@ -569,24 +565,23 @@ function parse_runtime_info(elem) {
 					icon.style.display = "none";
 				}
 			}
+			return;
 		}
 
 		var error_flag;
 
 		if (k == "daemon_is_running" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>", true);
-			error_flag = true;
+			return;
 		}
 
 		if (k == "daemon_stamp_ok" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(3)\">Update daemon is not updating feeds.</span>", true);
-			error_flag = true;
+			return;
 		}
 
-		if (!error_flag) {
-			notify('');
-		} 
-
+		init_params[k] = v;					
+		notify('');
 	}
 }
 
