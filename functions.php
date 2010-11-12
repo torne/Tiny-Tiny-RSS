@@ -5536,7 +5536,31 @@
 					}
 			}
 
-			if (!$offset) print "<div class='whiteBox'>$message</div>";
+			if (!$offset && $message) {
+				print "<div class='whiteBox'>$message";
+
+				print "<p class=\"small\"><span class=\"insensitive\">";
+
+				$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
+					WHERE owner_uid = " . $_SESSION['uid']);
+		
+				$last_updated = db_fetch_result($result, 0, "last_updated");
+				$last_updated = make_local_datetime($link, $last_updated, false);
+		
+				printf(__("Feeds last updated at %s"), $last_updated);
+		
+				$result = db_query($link, "SELECT COUNT(id) AS num_errors
+					FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+		
+				$num_errors = db_fetch_result($result, 0, "num_errors");
+		
+				if ($num_errors > 0) {
+					print "<br/>";
+					print "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+						__('Some feeds have update errors (click for details)')."</a>";
+				}
+				print "</span></p></div>";
+			}
 		}
 
 		if (!$offset) {
