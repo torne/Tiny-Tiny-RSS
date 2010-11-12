@@ -337,7 +337,7 @@ function editUser(id, event) {
 
 		notify_progress("Loading, please wait...");
 
-		selectTableRowsByIdPrefix('prefUserList', 'UMRR-', 'UMCHK-', false);
+		selectTableRows('prefUserList', 'none');
 		selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
 		var query = "?op=pref-users&subop=edit&id=" +
@@ -372,7 +372,7 @@ function editFilter(id, event) {
 
 			notify_progress("Loading, please wait...");
 
-			selectTableRowsByIdPrefix('prefFilterList', 'FILRR-', 'FICHK-', false);
+			selectTableRows('prefFilterList', 'none');
 			selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
 
 			var query = "?op=pref-filters&subop=edit&id=" + 
@@ -404,9 +404,8 @@ function editFeed(feed, event) {
 			disableHotkeys();
 	
 			notify_progress("Loading, please wait...");
-	
-			// clean selection from all rows & select row being edited
-			selectTableRowsByIdPrefix('prefFeedList', 'FEEDR-', 'FRCHK-', false);
+
+			selectTableRows('prefFeedList', 'none');	
 			selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
 	
 			var query = "?op=pref-feeds&subop=editfeed&id=" +
@@ -432,23 +431,23 @@ function editFeed(feed, event) {
 }
 
 function getSelectedLabels() {
-	return getSelectedTableRowIds("prefLabelList", "LILRR");
+	return getSelectedTableRowIds("prefLabelList");
 }
 
 function getSelectedUsers() {
-	return getSelectedTableRowIds("prefUserList", "UMRR");
+	return getSelectedTableRowIds("prefUserList");
 }
 
 function getSelectedFeeds() {
-	return getSelectedTableRowIds("prefFeedList", "FEEDR");
+	return getSelectedTableRowIds("prefFeedList");
 }
 
 function getSelectedFilters() {
-	return getSelectedTableRowIds("prefFilterList", "FILRR");
+	return getSelectedTableRowIds("prefFilterList");
 }
 
 function getSelectedFeedCats() {
-	return getSelectedTableRowIds("prefFeedCatList", "FCATR");
+	return getSelectedTableRowIds("prefFeedCatList");
 }
 
 
@@ -706,11 +705,7 @@ function removeSelectedFeedCats() {
 }
 
 function feedEditCancel() {
-
 	closeInfoBox();
-
-	selectPrefRows('feed', false); // cleanup feed selection
-
 	return false;
 }
 
@@ -740,21 +735,12 @@ function feedEditSave() {
 }
 
 function userEditCancel() {
-
-	selectPrefRows('user', false); // cleanup feed selection
 	closeInfoBox();
-
 	return false;
 }
 
 function filterEditCancel() {
-
-	try {
-		selectPrefRows('filter', false); // cleanup feed selection
-	} catch (e) { }
-
 	closeInfoBox();
-
 	return false;
 }
 
@@ -1241,54 +1227,6 @@ function validatePrefsReset() {
 	return false;
 
 }
-
-function selectPrefRows(kind, select) {
-
-	if (kind) {
-		var opbarid = false;	
-		var nchk = false;
-		var nrow = false;
-		var lname = false;
-
-		if (kind == "feed") {
-			opbarid = "feedOpToolbar";
-			nrow = "FEEDR-";
-			nchk = "FRCHK-";			
-			lname = "prefFeedList";
-		} else if (kind == "fcat") {
-			opbarid = "catOpToolbar";
-			nrow = "FCATR-";
-			nchk = "FCCHK-";
-			lname = "prefFeedCatList";
-		} else if (kind == "filter") {
-			opbarid = "filterOpToolbar";
-			nrow = "FILRR-";
-			nchk = "FICHK-";
-			lname = "prefFilterList";
-		} else if (kind == "label") {
-			opbarid = "labelOpToolbar";
-			nrow = "LILRR-";
-			nchk = "LICHK-";
-			lname = "prefLabelList";
-		} else if (kind == "user") {
-			opbarid = "userOpToolbar";
-			nrow = "UMRR-";
-			nchk = "UMCHK-";
-			lname = "prefUserList";
-		} else if (kind == "fbrowse") {
-			opbarid = "browseOpToolbar";
-			nrow = "FBROW-";
-			nchk = "FBCHK-";
-			lname = "browseFeedList";
-		}
-
-		if (opbarid) {
-			selectTableRowsByIdPrefix(lname, nrow, nchk, select);
-		}
-
-	} 
-}
-
 
 
 function pref_hotkey_handler(e) {
@@ -1906,7 +1844,7 @@ function labelColorAsk(id, kind) {
 			var query = "?op=pref-labels&subop=color-set&kind=" + kind +
 				"&ids="+	param_escape(id) + "&color=" + param_escape(p);
 
-			selectPrefRows('label', false);
+			selectTableRows('prefLabelList', 'none');
 
 			var e = $("LICID-" + id);
 

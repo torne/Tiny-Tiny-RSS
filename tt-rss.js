@@ -10,8 +10,6 @@ var hotkey_prefix_pressed = false;
 var init_params = {};
 var ver_offset = 0;
 var hor_offset = 0;
-var feeds_sort_by_unread = false;
-var feedlist_sortable_enabled = false;
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
 
@@ -831,7 +829,6 @@ function hotkey_handler(e) {
 		var shift_key = false;
 
 		var cmdline = $('cmdline');
-		var feedlist = $('feedList');
 
 		try {
 			shift_key = e.shiftKey;
@@ -1118,11 +1115,6 @@ function hotkey_handler(e) {
 				return resort_feedlist();
 			}
 
-			if (keycode == 72) { // h
-				hideReadHeadlines();
-				return;
-			}
-
 			if (keycode == 88) { // x
 				reverseHeadlineOrder();
 				return;
@@ -1231,10 +1223,6 @@ function hotkey_handler(e) {
 	} catch (e) {
 		exception_error("hotkey_handler", e);
 	}
-}
-
-function feedsSortByUnread() {
-	return feeds_sort_by_unread;
 }
 
 function inPreferences() {

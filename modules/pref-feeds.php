@@ -993,8 +993,8 @@
 			if (db_num_rows($result) != 0) {
 
 				print	__('Select:')." 
-					<a href=\"#\" onclick=\"selectPrefRows('fcat', true)\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectPrefRows('fcat', false)\">".__('None')."</a>";
+					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
 
 				print "<div class=\"prefFeedCatHolder\">";
 
@@ -1199,8 +1199,8 @@
 				$show_last_article_checked><label 
 					for='show_last_article_times'>".__('Show last article times')."</label></div>".
 				__('Select:')."
-					<a href=\"#\" onclick=\"selectPrefRows('feed', true)\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectPrefRows('feed', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectTableRows('prefFeedList', 'all')\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectTableRows('prefFeedList', 'none')\">".__('None')."</a>
 				</td</tr>";
 
 			if (!get_pref($link, 'ENABLE_FEED_CATS')) {

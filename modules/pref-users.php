@@ -417,8 +417,8 @@
 
 		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectPrefRows('user', true)\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectPrefRows('user', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectTableRows('prefUserList', 'all')\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectTableRows('prefUserList', 'none')\">".__('None')."</a>
 				</td</tr>";
 
 		print "<tr class=\"title\">

@@ -80,8 +80,8 @@
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
 
 			print	__('Select:')." 
-				<a href=\"#\" onclick=\"selectPrefRows('fcat', true)\">".__('All')."</a>,
-				<a href=\"#\" onclick=\"selectPrefRows('fcat', false)\">".__('None')."</a>";
+				<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
+				<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
 
 			print "<div class=\"prefFeedCatHolder\">";
 
@@ -342,10 +342,6 @@
 			print "<p>";
 
 			$owner_uid = $_SESSION["uid"];
-
-/*			print	__('Select:')." 
-				<a href=\"javascript:selectPrefRows('fbrowse', true)\">".__('All')."</a>,
-					<a href=\"javascript:selectPrefRows('fbrowse', false)\">".__('None')."</a>"; */
 
 			print "<ul class='browseFeedList' id='browseFeedList'>";
 			print_feed_browser($link, $search, 25);

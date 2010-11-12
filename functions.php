@@ -4137,30 +4137,14 @@
 			$archive_sel_link = "javascript:archiveSelection()";
 			$delete_sel_link = "javascript:deleteSelection()";
 
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+			$sel_all_link = "javascript:selectArticles('all')";
+			$sel_unread_link = "javascript:selectArticles('unread')";
+			$sel_none_link = "javascript:selectArticles('none')";
+			$sel_inv_link = "javascript:selectArticles('invert')";
 
-				$sel_all_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, '', true)";
-				$sel_unread_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', true, 'Unread', true)";
-				$sel_none_link = "javascript:selectTableRowsByIdPrefix('headlinesList', 'RROW-', 'RCHK-', false)";
-				$sel_inv_link = "javascript:invertHeadlineSelection()";
-
-				$tog_unread_link = "javascript:selectionToggleUnread()";
-				$tog_marked_link = "javascript:selectionToggleMarked()";
-				$tog_published_link = "javascript:selectionTogglePublished()";
-
-			} else {
-
-				$sel_all_link = "javascript:cdmSelectArticles('all')";
-				$sel_unread_link = "javascript:cdmSelectArticles('unread')";
-				$sel_none_link = "javascript:cdmSelectArticles('none')";
-
-				$sel_inv_link = "javascript:invertHeadlineSelection()";
-
-				$tog_unread_link = "javascript:selectionToggleUnread()";
-				$tog_marked_link = "javascript:selectionToggleMarked()";
-				$tog_published_link = "javascript:selectionTogglePublished()";
-
-			}
+			$tog_unread_link = "javascript:selectionToggleUnread()";
+			$tog_marked_link = "javascript:selectionToggleMarked()";
+			$tog_published_link = "javascript:selectionTogglePublished()";
 
 			print "<div id=\"subtoolbar_ftitle\">";
 
@@ -4223,10 +4207,10 @@
 			print "</div>";
 
 			print __('Select:')."
-				<a href=\"$sel_all_link\">".__('All')."</a>,
-				<a href=\"$sel_unread_link\">".__('Unread')."</a>,
-				<a href=\"$sel_inv_link\">".__('Invert')."</a>,
-				<a href=\"$sel_none_link\">".__('None')."</a></li>";
+				<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
+				<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
+				<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
+				<a href=\"#\" onclick=\"$sel_none_link\">".__('None')."</a></li>";
 
 			print "&nbsp;&nbsp;";
 

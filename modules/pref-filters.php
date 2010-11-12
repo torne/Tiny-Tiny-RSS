@@ -376,8 +376,8 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectPrefRows('filter', true)\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectPrefRows('filter', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectTableRows('prefFilterList', 'all')\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectTableRows('prefFilterList', 'none')\">".__('None')."</a>
 				</td</tr>";
 
 			$lnum = 0;

@@ -46,6 +46,8 @@
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
 	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="deprecated.js?<?php echo $dt_add ?>"></script>
+
 	<script type="text/javascript" charset="utf-8" src="prefs.js?<?php echo $dt_add ?>"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

@@ -199,8 +199,6 @@
 				owner_uid = ".$_SESSION["uid"]."
 			ORDER BY $sort");
 
-//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
-
 		if (db_num_rows($result) != 0) {
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
@@ -208,16 +206,10 @@
 
 			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
 				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectPrefRows('label', true)\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectPrefRows('label', false)\">".__('None')."</a>
+					<a href=\"#\" onclick=\"selectTableRows('prefLabelList', 'all')\">".__('All')."</a>,
+					<a href=\"#\" onclick=\"selectTableRows('prefLabelList', 'none')\">".__('None')."</a>
 				</td</tr>";
 
-/*			print "<tr class=\"title\">
-						<td width=\"5%\">&nbsp;</td>
-						<td width=\"95%\"><a href=\"javascript:updateLabelList('caption')\">".__('Caption')."</a></td>
-						</td>
-						</tr>"; */
-			
 			$lnum = 0;
 			
 			while ($line = db_fetch_assoc($result)) {

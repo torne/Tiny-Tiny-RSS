@@ -47,7 +47,7 @@
 		<tr><td class='n'>f s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
 		<tr><td class='n'>f e</td><td><?php echo __("Edit feed") ?></td></tr>
 		<tr><td class='n'>f w</td><td><?php echo __("Sort by name or unread count") ?></td></tr>
-		<tr><td class='n'>f h</td><td><?php echo __("Hide visible read articles") ?></td></tr>
+		<!-- <tr><td class='n'>f h</td><td><?php echo __("Hide visible read articles") ?></td></tr> -->
 		<tr><td class='n'>f q</td><td><?php echo __("Mark feed as read") ?></td></tr>
 		<tr><td class='n'>f x</td><td><?php echo __("Reverse headlines order") ?></td></tr>
 		<tr><td class='n'>Q</td><td><?php echo __("Mark all feeds as read") ?></td></tr>

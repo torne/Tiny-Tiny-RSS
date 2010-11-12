@@ -13,6 +13,9 @@ var resize_enabled = false;
 var selection_disabled = false;
 var counters_last_request = 0;
 
+var feeds_sort_by_unread = false;
+var feedlist_sortable_enabled = false;
+
 function toggle_sortable_feedlist(enabled) {
 	try {
 
@@ -654,6 +657,551 @@ function request_counters() {
 	} catch (e) {
 		exception_error("request_counters", e);
 	}
+}
+
+function displayNewContentPrompt(id) {
+	try {
+
+		var msg = "<a href='#' onclick='viewfeed("+id+")'>" +
+			__("New articles available in this feed (click to show)") + "</a>";
+
+		msg = msg.replace("%s", getFeedName(id));
+
+		$('auxDlg').innerHTML = msg;
+
+		new Effect.Appear('auxDlg', {duration : 0.5});
+
+	} catch (e) {
+		exception_error("displayNewContentPrompt", e);
+	}
+}
+
+function parse_counters(reply, scheduled_call) {
+	try {
+
+		var feeds_found = 0;
+
+		var elems = JSON.parse(reply.firstChild.nodeValue);
+
+		for (var l = 0; l < elems.length; l++) {
+
+			var id = elems[l].id
+			var kind = elems[l].kind;
+			var ctr = parseInt(elems[l].counter)
+			var error = elems[l].error;
+			var has_img = elems[l].has_img;
+			var updated = elems[l].updated;
+			var title = elems[l].title;
+			var xmsg = elems[l].xmsg;
+	
+			if (id == "global-unread") {
+
+				if (ctr > global_unread) {
+					offlineDownloadStart(1);
+				}
+
+				global_unread = ctr;
+				updateTitle();
+				continue;
+			}
+
+			if (id == "subscribed-feeds") {
+				feeds_found = ctr;
+				continue;
+			}
+	
+			if (kind && kind == "cat") {
+				var catctr = $("FCATCTR-" + id);
+				if (catctr) {
+					catctr.innerHTML = "(" + ctr + ")";
+					if (ctr > 0) {
+						catctr.className = "catCtrHasUnread";
+					} else {
+						catctr.className = "catCtrNoUnread";
+					}
+				}
+				continue;
+			}
+		
+			var feedctr = $("FEEDCTR-" + id);
+			var feedu = $("FEEDU-" + id);
+			var feedr = $("FEEDR-" + id);
+			var feed_img = $("FIMG-" + id);
+			var feedlink = $("FEEDL-" + id);
+			var feedupd = $("FLUPD-" + id);
+
+			if (updated && feedlink) {
+				if (error) {
+					feedlink.title = "Error: " + error + " (" + updated + ")";
+				} else {
+					feedlink.title = "Updated: " + updated;
+				}
+			}
+
+			if (feedupd) {
+				if (!updated) updated = "";
+
+				if (error) {
+					if (xmsg) {
+						feedupd.innerHTML = updated + " " + xmsg + " (Error)";
+					} else {
+						feedupd.innerHTML = updated + " (Error)";
+					}
+				} else {
+					if (xmsg) {
+						feedupd.innerHTML = updated + " (" + xmsg + ")";
+					} else {
+						feedupd.innerHTML = updated;
+					}
+				}
+			}
+
+			if (has_img && feed_img) {
+				if (!feed_img.src.match(id + ".ico")) {
+					feed_img.src = getInitParam("icons_url") + "/" + id + ".ico";
+				}
+			}
+
+			if (feedlink && title) {
+				feedlink.innerHTML = title;
+			}
+
+			if (feedctr && feedu && feedr) {
+
+//				if (id == getActiveFeedId())
+//					console.log("HAS CTR: " + feedu.innerHTML + " GOT CTR: " + ctr + 
+//							" IS_SCHED: " + scheduled_call);
+
+				if (parseInt(ctr) > 0 && 
+						parseInt(feedu.innerHTML) < parseInt(ctr) && 
+						id == getActiveFeedId() && scheduled_call) {
+
+					displayNewContentPrompt(id);
+				}
+
+				var row_needs_hl = (ctr > 0 && ctr > parseInt(feedu.innerHTML));
+
+				feedu.innerHTML = ctr;
+
+				if (error) {
+					feedr.className = feedr.className.replace("feed", "error");
+				} else if (id > 0) {
+					feedr.className = feedr.className.replace("error", "feed");
+				}
+	
+				if (ctr > 0) {					
+					feedctr.className = "feedCtrHasUnread";
+					if (!feedr.className.match("Unread")) {
+						var is_selected = feedr.className.match("Selected");
+		
+						feedr.className = feedr.className.replace("Selected", "");
+						feedr.className = feedr.className.replace("Unread", "");
+		
+						feedr.className = feedr.className + "Unread";
+		
+						if (is_selected) {
+							feedr.className = feedr.className + "Selected";
+						}	
+						
+					}
+
+					if (row_needs_hl && 
+							!getInitParam("theme_options").match('no_highlights')) { 
+						new Effect.Highlight(feedr, {duration: 1, startcolor: "#fff7d5",
+							queue: { position:'end', scope: 'EFQ-' + id, limit: 1 } } );
+
+						cache_invalidate("F:" + id);
+					}
+				} else {
+					feedctr.className = "feedCtrNoUnread";
+					feedr.className = feedr.className.replace("Unread", "");
+				}			
+			}
+		}
+
+		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
+
+		var feeds_stored = number_of_feeds;
+
+		//console.log("Feed counters, C: " + feeds_found + ", S:" + feeds_stored);
+
+		if (feeds_stored != feeds_found) {
+			number_of_feeds = feeds_found;
+
+			if (feeds_stored != 0 && feeds_found != 0) {
+				console.log("Subscribed feed number changed, refreshing feedlist");
+				setTimeout('updateFeedList(false, false)', 50);
+			}
+		} else {
+/*			var fl = $("feeds-frame").innerHTML;
+			if (fl) {
+				cache_invalidate("FEEDLIST");
+				cache_inject("FEEDLIST", fl, getInitParam("num_feeds"));
+			} */
+		}
+
+	} catch (e) {
+		exception_error("parse_counters", e);
+	}
+}
+
+function get_feed_unread(id) {
+	try {
+		return parseInt($("FEEDU-" + id).innerHTML);	
+	} catch (e) {
+		return -1;
+	}
+}
+
+function get_cat_unread(id) {
+	try {
+		var ctr = $("FCATCTR-" + id).innerHTML;
+		ctr = ctr.replace("(", "");
+		ctr = ctr.replace(")", "");
+		return parseInt(ctr);
+	} catch (e) {
+		return -1;
+	}
+}
+
+function get_feed_entry_unread(elem) {
+
+	var id = elem.id.replace("FEEDR-", "");
+
+	if (id <= 0) {
+		return -1;
+	}
+
+	try {
+		return parseInt($("FEEDU-" + id).innerHTML);	
+	} catch (e) {
+		return -1;
+	}
+}
+
+function get_feed_entry_name(elem) {
+	var id = elem.id.replace("FEEDR-", "");
+	return getFeedName(id);
+}
+
+
+function resort_category(node, cat_mode) {
+
+	try {
+
+		console.log("resort_category: " + node + " CM=" + cat_mode);
+	
+		var by_unread = feedsSortByUnread();
+	
+		var list = node.getElementsByTagName("LI");
+	
+		for (i = 0; i < list.length; i++) {
+	
+			for (j = i+1; j < list.length; j++) {			
+	
+				var tmp_val = get_feed_entry_unread(list[i]);
+				var cur_val = get_feed_entry_unread(list[j]);
+	
+				var tmp_name = get_feed_entry_name(list[i]);
+				var cur_name = get_feed_entry_name(list[j]);
+
+				/* we don't want to match FEEDR-0 - e.g. Archived articles */
+
+				var valid_pair = cat_mode || (list[i].id.match(/FEEDR-[1-9]/) &&
+						list[j].id.match(/FEEDR-[1-9]/));
+
+				if (valid_pair && ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name)))) {
+					tempnode_i = list[i].cloneNode(true);
+					tempnode_j = list[j].cloneNode(true);
+					node.replaceChild(tempnode_i, list[j]);
+					node.replaceChild(tempnode_j, list[i]);
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("resort_category", e);
+	}
+
+}
+
+function resort_feedlist() {
+	console.log("resort_feedlist");
+
+	if ($("FCATLIST--1")) {
+
+		var lists = document.getElementsByTagName("UL");
+
+		for (var i = 0; i < lists.length; i++) {
+			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
+				resort_category(lists[i], true);
+			}
+		}
+
+	} else {
+		resort_category($("feedList"), false);
+	}
+}
+
+function hideOrShowFeeds(hide) {
+
+	try {
+
+	//console.log("hideOrShowFeeds: " + hide);
+
+	if ($("FCATLIST--1")) {
+
+		var lists = document.getElementsByTagName("UL");
+
+		for (var i = 0; i < lists.length; i++) {
+			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
+
+				var id = lists[i].id.replace("FCATLIST-", "");
+				hideOrShowFeedsCategory(id, hide);
+			}
+		}
+
+	} else {
+		hideOrShowFeedsCategory(null, hide);
+	}
+
+	} catch (e) {
+		exception_error("hideOrShowFeeds", e);
+	}
+}
+
+function hideOrShowFeedsCategory(id, hide) {
+
+	try {
+	
+		var node = null;
+		var cat_node = null;
+
+		if (id) {
+			node = $("FCATLIST-" + id);
+			cat_node = $("FCAT-" + id);
+		} else {
+			node = $("feedList"); // no categories
+		}
+
+	//	console.log("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
+	
+		var cat_unread = 0;
+	
+		if (!node) {
+			console.warn("hideOrShowFeeds: passed node is null, aborting");
+			return;
+		}
+	
+	//	console.log("cat: " + node.id);
+	
+		if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
+			for (i = 0; i < node.childNodes.length; i++) {
+				if (node.childNodes[i].nodeName != "LI") { continue; }
+	
+				if (node.childNodes[i].style != undefined) {
+	
+					var has_unread = (node.childNodes[i].className != "feed" &&
+						node.childNodes[i].className != "label" && 
+						!(!getInitParam("hide_read_shows_special") && 
+							node.childNodes[i].className == "virt") && 
+						node.childNodes[i].className != "error" && 
+						node.childNodes[i].className != "tag");
+
+					var has_error = node.childNodes[i].className.match("error");
+		
+	//				console.log(node.childNodes[i].id + " --> " + has_unread);
+		
+					if (hide && !has_unread) {
+						var id = node.childNodes[i].id;
+						Effect.Fade(node.childNodes[i], {duration : 0.3, 
+							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
+					}
+		
+					if (!hide) {
+						Element.show(node.childNodes[i]);
+					}
+		
+					if (has_unread) {
+						Element.show(node.childNodes[i]);
+						cat_unread++;
+					}
+
+					//if (has_error)	Element.hide(node.childNodes[i]);
+				}
+			}
+		}	
+	
+	//	console.log("end cat: " + node.id + " unread " + cat_unread);
+
+		if (cat_node) {
+
+			if (cat_unread == 0) {
+				if (cat_node.style == undefined) {
+					console.log("ERROR: supplied cat_node " + cat_node + 
+						" has no styles. WTF?");
+					return;
+				}
+				if (hide) {
+					//cat_node.style.display = "none";
+					Effect.Fade(cat_node, {duration : 0.3, 
+						queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
+				} else {
+					cat_node.style.display = "list-item";
+				}
+			} else {
+				try {
+					cat_node.style.display = "list-item";
+				} catch (e) {
+					console.log(e);
+				}
+			}
+		}
+
+//	console.log("unread for category: " + cat_unread);
+
+	} catch (e) {
+		exception_error("hideOrShowFeedsCategory", e);
+	}
+}
+
+function getFeedName(id, is_cat) {	
+	var e;
+
+	if (is_cat) {
+		e = $("FCATN-" + id);
+	} else {
+		e = $("FEEDN-" + id);
+	}
+	if (e) {
+		return e.innerHTML.stripTags();
+	} else {
+		return null;
+	}
+}
+
+function getNextUnreadCat(id) {
+	try {
+		var rows = $("feedList").getElementsByTagName("LI");
+		var feeds = new Array();
+
+		var unread_only = true;
+		var is_cat = true;
+
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].id.match("FCAT-")) {
+				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+
+					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
+
+					if (cat_id >= 0) {
+						if (!unread_only || get_cat_unread(cat_id) > 0) {
+							feeds.push(cat_id);
+						}
+					}
+				}
+			}
+		}
+
+		var idx = feeds.indexOf(id);
+		if (idx != -1 && idx < feeds.length) {
+			return feeds[idx+1];					
+		} else {
+			return feeds.shift();
+		}
+
+	} catch (e) {
+		exception_error("getNextUnreadCat", e);
+	}
+}
+
+function getRelativeFeedId2(id, is_cat, direction, unread_only) {	
+	try {
+
+//		alert(id + " IC: " + is_cat + " D: " + direction + " U: " + unread_only);
+
+		var rows = $("feedList").getElementsByTagName("LI");
+		var feeds = new Array();
+	
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].id.match("FEEDR-")) {
+	
+				if (rows[i].id == "FEEDR-" + id && !is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+	
+					if (!unread_only || 
+							(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
+						feeds.push(rows[i].id.replace("FEEDR-", ""));
+					}
+				}
+			}
+
+			if (rows[i].id.match("FCAT-")) {
+				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+
+					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
+
+					if (cat_id >= 0) {
+						if (!unread_only || get_cat_unread(cat_id) > 0) {
+							feeds.push("CAT:"+cat_id);
+						}
+					}
+				}
+			}
+		}
+	
+//		alert(feeds.toString());
+
+		if (!id) {
+			if (direction == "next") {
+				return feeds.shift();
+			} else {
+				return feeds.pop();
+			}
+		} else {
+			if (direction == "next") {
+				if (is_cat) id = "CAT:" + id;
+				var idx = feeds.indexOf(id);
+				if (idx != -1 && idx < feeds.length) {
+					return feeds[idx+1];					
+				} else {
+					return getRelativeFeedId2(false, is_cat, direction, unread_only);
+				}
+			} else {
+				if (is_cat) id = "CAT:" + id;
+				var idx = feeds.indexOf(id);
+				if (idx > 0) {
+					return feeds[idx-1];
+				} else {
+					return getRelativeFeedId2(false, is_cat, direction, unread_only);
+				}
+			}
+	
+		}
+
+	} catch (e) {
+		exception_error("getRelativeFeedId2", e);
+	}
+}
+
+function clean_feed_selections() {
+	try {
+		var feeds = $("feedList").getElementsByTagName("LI");
+
+		for (var i = 0; i < feeds.length; i++) {
+			if (feeds[i].id && feeds[i].id.match("FEEDR-")) {
+				feeds[i].className = feeds[i].className.replace("Selected", "");
+			}			
+			if (feeds[i].id && feeds[i].id.match("FCAT-")) {
+				feeds[i].className = feeds[i].className.replace("Selected", "");
+			}
+		}
+	} catch (e) {
+		exception_error("clean_feed_selections", e);
+	}
+}
+
+function feedsSortByUnread() {
+	return feeds_sort_by_unread;
 }
 
 
