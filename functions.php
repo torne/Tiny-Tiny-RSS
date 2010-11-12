@@ -1016,6 +1016,10 @@
 				$entry_tags = $entry_tags[1];
 
 				$entry_tags = array_merge($entry_tags, $additional_tags);
+				$entry_tags = array_unique($entry_tags);
+
+				for ($i = 0; $i < count($entry_tags); $i++)
+					$entry_tags[$i] = mb_strtolower($entry_tags[$i], 'utf-8');
 
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 					_debug("update_rss_feed: unfiltered tags found:");
@@ -1122,7 +1126,8 @@
 					/* Collect article tags here so we could filter by them: */
 
 					$article_filters = get_article_filters($filters, $entry_title, 
-							$entry_content, $entry_link, $entry_timestamp, $entry_author, $entry_tags);
+						$entry_content, $entry_link, $entry_timestamp, $entry_author, 
+						$entry_tags);
 
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
 						_debug("update_rss_feed: article filters: ");
