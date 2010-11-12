@@ -2001,8 +2001,33 @@ function cdmExpandArticle(id) {
 		elem = $("CICD-" + id);
 
 		if (!Element.visible(elem)) {
+			$("FUPDPIC-" + id).src = "images/indicator_tiny.gif";
+			$("CWRAP-" + id).innerHTML = "<div class=\"insensitive\">" + 
+				__("Loading, please wait...") + "</div>";
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
+
+			var query = "?op=rpc&subop=cdmGetArticle&id=" + param_escape(id);
+
+			//console.log(query);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					$("FUPDPIC-" + id).src = 'images/blank_icon.gif';
+
+					if (transport.responseXML) {
+						var article = transport.responseXML.getElementsByTagName("article")[0];
+						var recv_id = article.getAttribute("id");
+
+						if (recv_id == id)
+							$("CWRAP-" + id).innerHTML = article.firstChild.nodeValue;
+
+					} else {
+						$("CWRAP-" + id).innerHTML = __("Unable to load article.");
+
+					}
+			}});
 		}
 
 		var new_offset = $("RROW-" + id).offsetTop;

@@ -1146,6 +1146,33 @@
 			return;
 		}
 
+		if ($subop == "cdmGetArticle") {
+			$id = db_escape_string($_REQUEST["id"]);
+
+			$result = db_query($link, "SELECT content, 
+				ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds, 
+				ttrss_entries
+				WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND 
+				ttrss_entries.id = ref_id AND
+				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+
+			if (db_num_rows($result) != 0) {
+				$line = db_fetch_assoc($result);
+
+				$article_content = sanitize_rss($link, $line["content"], 
+					false, false, $line['site_url']);
+			
+			} else {
+				$article_content = '';
+			}
+
+			print "<rpc-reply><article id=\"$id\"><![CDATA[";
+			print "$article_content";
+			print "]]></article></rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>

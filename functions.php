@@ -5341,9 +5341,9 @@
 							title=\"".htmlspecialchars($line["feed_title"])."\"
 							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
-					print "</div>";
-
 					print "<div class=\"updPic\">$update_pic</div>";
+
+					print "</div>";
 				
 					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"/>";
@@ -5418,14 +5418,14 @@
 						}
 					}
 
-#					if ($expand_cdm) {
+					if ($expand_cdm) {
 						$article_content = sanitize_rss($link, $line["content_preview"], 
 							false, false, $feed_site_url);
 
 						if (!$article_content) $article_content = "&nbsp;";
-#					} else {
-#						$article_content = '';
-#					}
+					} else {
+						$article_content = '';
+					}
 
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
