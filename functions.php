@@ -5365,8 +5365,6 @@
 
 					print "<div style='float : right'>";
 					print "<span class='updated'>$updated_fmt</span>";
-					print "$marked_pic";
-					print "$published_pic";
 					print "$score_pic";
 
 					if (!get_pref($link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
@@ -5378,6 +5376,9 @@
 	
 					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"/>";
+
+					print "$marked_pic";
+					print "$published_pic";
 
 					print "<span id=\"RTITLE-$id\" 
 						onclick=\"return cdmExpandArticle($id)\"
