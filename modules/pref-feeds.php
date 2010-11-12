@@ -1286,7 +1286,8 @@
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 				
-				print "<td class='feedSelect'><input onclick='toggleSelecRow(this);' 
+				print "<td class='feedSelect'><input 
+				onclick='toggleSelectRowById(this, \"FEEDR-".$line['id']."\");' 
 				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
 
 				$onclick = "onclick='editFeed($feed_id, event)' title='".__('Click to edit')."'";
