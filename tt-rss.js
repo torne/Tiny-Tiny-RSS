@@ -149,19 +149,11 @@ function catchupAllFeeds() {
 
 function viewCurrentFeed(subop) {
 
-//	if (getActiveFeedId()) {
 	if (getActiveFeedId() != undefined) {
 		viewfeed(getActiveFeedId(), subop, activeFeedIsCat());
-	} else {
-//		viewfeed(-1, subop); // FIXME
 	}
 	return false; // block unneeded form submits
 }
-
-/*function viewfeed(feed, subop) {
-	var f = window.frames["feeds-frame"];
-	f.viewfeed(feed, subop);
-} */
 
 function timeout() {
 	if (getInitParam("bw_limit") == "1") return;
@@ -754,12 +746,12 @@ function collapse_feedlist() {
 
 function viewModeChanged() {
 	cache_flush();
-	return viewCurrentFeed(0, '')
+	return viewCurrentFeed('')
 }
 
 function viewLimitChanged() {
 	cache_flush();
-	return viewCurrentFeed(0, '')
+	return viewCurrentFeed('')
 }
 
 /* function adjustArticleScore(id, score) {
