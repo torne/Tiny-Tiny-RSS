@@ -117,6 +117,13 @@
 	require_once 'lib/magpierss/rss_utils.inc';
 	require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
 
+	$config = HTMLPurifier_Config::createDefault();
+
+	$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4";
+
+	$config->set('HTML', 'Allowed', $allowed);
+	$purifier = new HTMLPurifier($config);
+
 	/**
 	 * Print a timestamped debug message.
 	 * 
@@ -3682,53 +3689,15 @@
 		}
 	}
 
-	function strip_tags_long($string, $allowed) {
-
-		$config = HTMLPurifier_Config::createDefault();
-
-		$config->set('HTML', 'Allowed', $allowed);
-		$purifier = new HTMLPurifier($config);
-
-		return $purifier->purify($string);		
-
-	}
-
-	// http://ru2.php.net/strip-tags
-
-/*	function strip_tags_long($textstring, $allowed){
-	while($textstring != strip_tags($textstring, $allowed))
-    {
-    while (strlen($textstring) != 0)
-         {
-         if (strlen($textstring) > 1024) {
-              $otherlen = 1024;
-         } else {
-              $otherlen = strlen($textstring);
-         }
-         $temptext = strip_tags(substr($textstring,0,$otherlen), $allowed);
-         $safetext .= $temptext;
-         $textstring = substr_replace($textstring,'',0,$otherlen);
-         }  
-    $textstring = $safetext;
-    }
-	return $textstring;
-} */
-
-
 	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
+		global $purifier;
 
 		if (!$owner) $owner = $_SESSION["uid"];
 
 		$res = trim($str); if (!$res) return '';
 
 		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
-
-//			$res = strip_tags_long($res, 
-//				"<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li>");
-
-			$res = strip_tags_long($res, 
-				"p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4");
-
+			$res = $purifier->purify($res);
 		}
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
