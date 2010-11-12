@@ -5384,6 +5384,7 @@
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
 						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
+						$entry_author
 						</span>";
 
 					print $labels_str;
