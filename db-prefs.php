@@ -121,6 +121,10 @@
 				$value = 30;
 			}
 
+			if ($key == 'USER_TIMEZONE' && $value == '') {
+				$value = 'UTC';
+			}
+
 			db_query($link, "UPDATE ttrss_user_prefs SET 
 				value = '$value' WHERE pref_name = '$key' 
 					$profile_qpart
