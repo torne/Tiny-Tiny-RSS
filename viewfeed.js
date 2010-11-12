@@ -338,7 +338,7 @@ function article_callback2(transport, id) {
 				return;
 			}
 
-			active_post_id = id; 
+//			active_post_id = id; 
 
 			//console.log("looking for articles to cache...");
 
@@ -358,7 +358,7 @@ function article_callback2(transport, id) {
 			}
 
 
-			showArticleInHeadlines(id);	
+//			showArticleInHeadlines(id);	
 
 			if (db) {
 				db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
@@ -430,6 +430,7 @@ function view(id) {
 		var crow = $("RROW-" + id);
 		var article_is_unread = crow.className.match("Unread");
 
+		active_post_id = id;
 		showArticleInHeadlines(id);
 
 		if (!cached_article) {
