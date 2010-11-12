@@ -5079,10 +5079,13 @@
 				return;
 			}
 
-			print_headline_subtoolbar($link, $feed_site_url, $feed_title,
-				$feed, $cat_view, $search, $match_on, $search_mode, $view_mode);
+			if (db_num_rows($result) > 0) {
+				print_headline_subtoolbar($link, $feed_site_url, $feed_title,
+					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode);
 
-			print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
+				print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
+
+			}
 		}
 
 		$headlines_count = db_num_rows($result);
@@ -5554,7 +5557,7 @@
 		}
 
 		if (!$offset) {
-			print "</div>";
+			if ($headlines_count > 0) print "</div>";
 			print "</div>";
 		}
 
