@@ -1696,6 +1696,8 @@
 			$link_title = "Updated: $last_updated";
 		}
 
+		$feed_title = truncate_string($feed_title, 30);
+
 		$feed = "<span class='feedlink' title=\"$link_title\" id=\"FEEDL-$feed_id\" href=\"#\"
 			onclick=\"viewfeed('$feed_id');\">$feed_title</span>";
 
@@ -2872,7 +2874,7 @@
 				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
 
 			if ($active_feed && $id == $active_feed)
-				$cv["title"] = $line["title"];
+				$cv["title"] = truncate_string($line["title"], 30);
 
 			array_push($ret_arr, $cv);
 
