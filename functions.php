@@ -5288,14 +5288,14 @@
 
 					print $labels_str;
 
-					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
+					/* if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {			
 							print "<span class=\"hlFeed\">
 								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a>)
 							</span>";
 						}
-					}
+					} */
 
 					print "</td>";
 
