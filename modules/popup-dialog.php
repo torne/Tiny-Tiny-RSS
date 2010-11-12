@@ -374,17 +374,23 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input onkeypress=\"return filterCR(event, search)\"
-				name=\"query\" size=\"20\" type=\"search\"	value=''>";
+			if (!SPHINX_ENABLE) {
 
-			print " " . __('match on')." ";
+				print "<input onkeypress=\"return filterCR(event, search)\"
+					name=\"query\" size=\"20\" type=\"search\"	value=''>";
 
-			$search_fields = array(
-				"title" => __("Title"),
-				"content" => __("Content"),
-				"both" => __("Title or content"));
+				print " " . __('match on')." ";
 
-			print_select_hash("match_on", 3, $search_fields); 
+				$search_fields = array(
+					"title" => __("Title"),
+						"content" => __("Content"),
+					"both" => __("Title or content"));
+	
+				print_select_hash("match_on", 3, $search_fields); 
+			} else {
+				print "<input onkeypress=\"return filterCR(event, search)\"
+					name=\"query\" size=\"50\" type=\"search\"	value=''>";
+			}
 
 
 			print "<br/>".__('Limit search to:')." ";

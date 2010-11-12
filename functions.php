@@ -106,6 +106,7 @@
 	require_once 'version.php';
 
 	require_once 'lib/phpmailer/class.phpmailer.php';
+	require_once 'lib/sphinxapi.php';
 
 	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
@@ -3289,9 +3290,19 @@
 		$ext_tables_part = "";
 
 			if ($search) {
-			
-				$search_query_part = getSearchSql($search, $match_on);
-				$search_query_part .= " AND ";
+
+				if (SPHINX_ENABLED) {
+					$ids = join(",", @sphinx_search($search, 0, 500));
+
+					if ($ids) 
+						$search_query_part = "ref_id IN ($ids) AND ";
+					else
+						$search_query_part = "ref_id = -1 AND ";
+
+				} else {
+					$search_query_part = getSearchSql($search, $match_on);
+					$search_query_part .= " AND ";
+				}				
 
 			} else {
 				$search_query_part = "";
@@ -7121,6 +7132,35 @@
 
 			return build_url($parts);
 		}
+	}
+
+	function sphinx_search($query, $offset = 0, $limit = 30) {
+		$sphinxClient = new SphinxClient();
+
+		$sphinxClient->SetServer('localhost', 9312);
+		$sphinxClient->SetConnectTimeout(1);
+
+		$sphinxClient->SetFieldWeights(array('title' => 70, 'content' => 30, 
+			'feed_title' => 20));
+
+		$sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
+		$sphinxClient->SetRankingMode(SPH_RANK_PROXIMITY_BM25);
+		$sphinxClient->SetLimits($offset, $limit, 1000);
+		$sphinxClient->SetArrayResult(false);
+		$sphinxClient->SetFilter('owner_uid', array($_SESSION['uid']));
+		
+		$result = $sphinxClient->Query($query, SPHINX_INDEX);
+
+		$ids = array();
+
+		if (is_array($result['matches'])) {
+			foreach (array_keys($result['matches']) as $int_id) {
+				$ref_id = $result['matches'][$int_id]['attrs']['ref_id'];
+				array_push($ids, $ref_id);
+			}
+		}
+
+		return $ids;
 	}
 
 ?>
