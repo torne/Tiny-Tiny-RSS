@@ -4275,9 +4275,11 @@
 			if ($hidden) {
 				$holder_style = "display:none;";
 				$ellipsis = "…";
+				$collapse_pic = "cat-uncollapse.png";
 			} else {
 				$holder_style = "";
 				$ellipsis = "";
+				$collapse_pic = "cat-collapse.png";
 			}
 
 			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
@@ -4295,7 +4297,7 @@
 			print "<li class=\"$cat_class\" id=\"FCAT-$cat_id\">
 				<img onclick=\"toggleCollapseCat($cat_id)\" class=\"catCollapse\"
 					title=\"".__('Click to collapse category')."\"
-					src=\"images/cat-collapse.png\"><span class=\"$inner_title_class\" 
+					src=\"images/$collapse_pic?\"><span class=\"$inner_title_class\" 
 					id=\"FCATN-$cat_id\" $browse_cat_link/>$tmp_category</span>";
 
 			print "<span id=\"FCAP-$cat_id\">";

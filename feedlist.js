@@ -371,6 +371,13 @@ function toggleCollapseCat(cat) {
 		Effect.toggle('FCATLIST-' + cat, 'blind', { duration: 0.5,
 			afterFinish: toggleCollapseCat_af });
 
+		var img = cat_elem.getElementsByTagName("IMG")[0];
+
+		if (img.src.match("-collapse"))
+			img.src = img.src.replace("-collapse", "-uncollapse")
+		else
+			img.src = img.src.replace("-uncollapse", "-collapse")
+
 		new Ajax.Request("backend.php", 
 			{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
 				param_escape(cat) } );
