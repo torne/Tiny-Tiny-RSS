@@ -5342,7 +5342,9 @@
 							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
 					print "</div>";
-	
+
+					print "<div class=\"updPic\">$update_pic</div>";
+				
 					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
 							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"/>";
 
@@ -5416,10 +5418,14 @@
 						}
 					}
 
-					$article_content = sanitize_rss($link, $line["content_preview"], 
-						false, false, $feed_site_url);
+#					if ($expand_cdm) {
+						$article_content = sanitize_rss($link, $line["content_preview"], 
+							false, false, $feed_site_url);
 
-					if (!$article_content) $article_content = "&nbsp;";
+						if (!$article_content) $article_content = "&nbsp;";
+#					} else {
+#						$article_content = '';
+#					}
 
 					print "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
@@ -5427,7 +5433,7 @@
 					}
 					print "</div>";
 
-					print $article_content;
+					print "<span id=\"CWRAP-$id\">$article_content</span>";
 
 					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
 						ttrss_feeds WHERE id = ".

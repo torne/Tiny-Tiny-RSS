@@ -1976,6 +1976,14 @@ function cdmExpandArticle(id) {
 
 		var elem = $("CICD-" + active_post_id);
 
+		var upd_img_pic = $("FUPDPIC-" + id);
+
+		if (upd_img_pic && (upd_img_pic.src.match("updated.png") || 
+				upd_img_pic.src.match("fresh_sign.png"))) {
+
+			upd_img_pic.src = "images/blank_icon.gif";
+		}
+
 		if (id == active_post_id && Element.visible(elem))
 			return true;
 
@@ -2338,6 +2346,14 @@ function cdmClicked(event, id) {
 
 			if (elem)
 				elem.className = elem.className.replace("Unread", "");
+
+			var upd_img_pic = $("FUPDPIC-" + id);
+
+			if (upd_img_pic && (upd_img_pic.src.match("updated.png") || 
+					upd_img_pic.src.match("fresh_sign.png"))) {
+
+				upd_img_pic.src = "images/blank_icon.gif";
+			}
 
 			var query = "?op=rpc&subop=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(id);
