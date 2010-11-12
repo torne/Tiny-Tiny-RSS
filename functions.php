@@ -3216,14 +3216,11 @@
 			if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
 				$new_version_details = @check_for_update($link);
 
-				print "<param key=\"new_version_available\" value=\"".
-					sprintf("%d", $new_version_details != ""). "\"/>";
+				$data['new_version_available'] = (int) $new_version_details != "";
 
 				$_SESSION["last_version_check"] = time();
 			}
 		}
-
-//		print "<param key=\"new_version_available\" value=\"1\"/>";
 
 		return $data;
 	}
