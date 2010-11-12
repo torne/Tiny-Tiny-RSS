@@ -3748,6 +3748,7 @@
 		$xpath = new DOMXPath($doc);
 	
 		$entries = $xpath->query('(//a[@href]|//img[@src])');
+		$br_inserted = 0;
 
 		foreach ($entries as $entry) {
 
@@ -3768,11 +3769,13 @@
 				}
 			}
 
-			if (strtolower($entry->nodeName) == "img") {
+			if (strtolower($entry->nodeName) == "img" && !$br_inserted) {
 				$br = $doc->createElement("br");
 
-				if ($entry->parentNode->nextSibling)
+				if ($entry->parentNode->nextSibling) {
 					$entry->parentNode->insertBefore($br, $entry->nextSibling);
+					$br_inserted = 1;
+				}
 
 			}
 		}
