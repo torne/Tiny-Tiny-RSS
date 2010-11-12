@@ -602,7 +602,6 @@
 
 			print "</info-for-headlines>";
 
-			print "<rpc-reply>";
 			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
@@ -638,7 +637,6 @@
 
 			print "</info-for-headlines>";
 
-			print "<rpc-reply>";
 			print "<message>UPDATE_COUNTERS</message>";
 			print "</rpc-reply>";
 
