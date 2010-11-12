@@ -5239,7 +5239,7 @@
 
 							print "<tr class='feedTitle'><td colspan='7'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
-								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</td></tr>";
 						}
 					}
@@ -5280,7 +5280,7 @@
 					if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {			
 							print "<span class=\"hlFeed\">
-								(<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a>)
 							</span>";
 						}
@@ -5296,7 +5296,9 @@
 					print "<td class='hlMarkedPic'>$score_pic</td>";
 
 					if (@$line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						print "<td onclick=\"viewfeed($feed_id)\" class=\"hlFeedIcon\">$feed_icon_img</td>";
+						print "<td onclick=\"viewfeed($feed_id)\" 
+							title=\"".htmlspecialchars($line['feed_title'])."\"
+							class=\"hlFeedIcon\">$feed_icon_img</td>";
 					}
 
 					print "</tr>";
@@ -5323,7 +5325,7 @@
 
 							print "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
-								"<a href=\"javascript:viewfeed($feed_id, '', false)\">".
+								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
 						}
 					}
@@ -5461,7 +5463,7 @@
 							'images/tag.png')."' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\" 
-						href=\"javascript:editArticleTags($id, $feed_id, true)\">(+)</a>";
+						href=\"#\" onclick=\"editArticleTags($id, $feed_id, true)\">(+)</a>";
 
 					print "<div style=\"float : right\">";
 

@@ -55,8 +55,7 @@ function viewNextFeedPage() {
 
 		console.log("viewNextFeedPage: calling viewfeed(), p: " + parseInt(_feed_cur_page+1));
 
-		viewfeed(getActiveFeedId(), undefined, activeFeedIsCat(), undefined,
-			undefined, parseInt(_feed_cur_page+1));
+		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), parseInt(_feed_cur_page+1));
 
 	} catch (e) {
 		exception_error("viewNextFeedPage", e);
@@ -64,12 +63,11 @@ function viewNextFeedPage() {
 }
 
 
-function viewfeed(feed, subop, is_cat, subop_param, skip_history, offset) {
+function viewfeed(feed, subop, is_cat, offset) {
 	try {
 		if (is_cat == undefined) is_cat = false;
 
-		if (offline_mode) return viewfeed_offline(feed, subop, is_cat, subop_param,
-			skip_history, offset);
+		if (offline_mode) return viewfeed_offline(feed, subop, is_cat, offset);
 
 //		if (!offset) page_offset = 0;
 

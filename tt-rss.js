@@ -215,18 +215,9 @@ function timeout() {
 	setTimeout("timeout()", 3000);
 }
 
-function resetSearch() {
-	var searchbox = $("searchbox")
-
-	if (searchbox.value != "" && getActiveFeedId()) {	
-		searchbox.value = "";
-		viewfeed(getActiveFeedId(), "");
-	}
-}
-
 function search() {
 	closeInfoBox();	
-	viewCurrentFeed(0, "");
+	viewCurrentFeed();
 }
 
 function updateTitle() {

@@ -66,7 +66,7 @@ function view_offline(id) {
 	}
 }
 
-function viewfeed_offline(feed_id, subop, is_cat, subop_param, skip_history, offset) {
+function viewfeed_offline(feed_id, subop, is_cat, offset) {
 	try {
 		notify('');
 
