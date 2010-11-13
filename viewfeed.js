@@ -2191,6 +2191,8 @@ function dismissArticle(id) {
 
 		new Effect.Fade(elem, {duration : 0.5});
 
+		active_post_id = false;
+
 	} catch (e) {
 		exception_error("dismissArticle", e);
 	}
@@ -2206,7 +2208,8 @@ function dismissSelectedArticles() {
 		for (var i = 0; i < ids.length; i++) {
 			var elem = $("RROW-" + ids[i]);
 
-			if (elem.className && elem.className.match("Selected")) {
+			if (elem.className && elem.className.match("Selected") && 
+					ids[i] != active_post_id) {
 				new Effect.Fade(elem, {duration : 0.5});
 				sel.push(ids[i]);
 			} else {
