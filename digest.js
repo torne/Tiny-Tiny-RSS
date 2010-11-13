@@ -637,27 +637,22 @@ function init() {
 	}
 }
 
-function toggle_mark(mark_img, id) {
+function toggle_mark(img, id) {
 
 	try {
 
 		var query = "?op=rpc&id=" + id + "&subop=mark";
-	
-		query = query + "&afid=" + _active_feed_id;
-		query = query + "&omode=c";
 
-		if (!mark_img) return;
+		if (!img) return;
 
-		if (mark_img.src.match("mark_unset")) {
-			mark_img.src = mark_img.src.replace("mark_unset", "mark_set");
-			mark_img.alt = __("Unstar article");
+		if (img.src.match("mark_unset")) {
+			img.src = img.src.replace("mark_unset", "mark_set");
+			img.alt = __("Unstar article");
 			query = query + "&mark=1";
 		} else {
-			mark_img.alt = __("Please wait...");
+			img.src = img.src.replace("mark_set", "mark_unset");
+			img.alt = __("Star article");
 			query = query + "&mark=0";
-	
-			mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
-			mark_img.alt = __("Star article");
 		}
 
 		new Ajax.Request("backend.php", {
@@ -671,35 +666,29 @@ function toggle_mark(mark_img, id) {
 	}
 }
 
-function toggle_pub(mark_img, id, note) {
+function toggle_pub(img, id, note) {
 
 	try {
 
 		var query = "?op=rpc&id=" + id + "&subop=publ";
 	
-		query = query + "&afid=" + _active_feed_id;
-
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);
 		} else {
 			query = query + "&note=undefined";
 		}
 
-		query = query + "&omode=c";
+		if (!img) return;
 
-		if (!mark_img) return;
-
-		if (mark_img.src.match("pub_unset") || note != undefined) {
-			mark_img.src = mark_img.src.replace("pub_unset", "pub_set");
-			mark_img.alt = __("Unpublish article");
+		if (img.src.match("pub_unset") || note != undefined) {
+			img.src = img.src.replace("pub_unset", "pub_set");
+			img.alt = __("Unpublish article");
 			query = query + "&pub=1";
 
 		} else {
-			mark_img.alt = __("Please wait...");
+			img.src = img.src.replace("pub_set", "pub_unset");
+			img.alt = __("Publish article");
 			query = query + "&pub=0";
-	
-			mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
-			mark_img.alt = __("Publish article");
 		}
 
 		new Ajax.Request("backend.php", {

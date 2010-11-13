@@ -210,14 +210,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		Form.enable("main_toolbar_form");
 
-		// for piggybacked counters
-
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=lt";
-		} else {
-			query = query + "&omode=flc";
-		}
-
 		console.log(query);
 
 		var container = $("headlinesInnerContainer");

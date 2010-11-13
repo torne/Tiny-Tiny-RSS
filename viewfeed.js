@@ -417,14 +417,6 @@ function view(id) {
 
 		console.log("additional ids: " + cids_to_request.toString());			
 	
-		/* additional info for piggyback counters */
-
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=lt";
-		} else {
-			query = query + "&omode=flc";
-		}
-
 		query = query + "&cids=" + cids_to_request.toString();
 
 		var crow = $("RROW-" + id);
@@ -513,30 +505,17 @@ function tPub_afh_off(effect) {
 	}
 }
 
-function toggleMark(id, client_only, no_effects) {
-
+function toggleMark(id, client_only) {
 	try {
-
 		var query = "?op=rpc&id=" + id + "&subop=mark";
 	
-		query = query + "&afid=" + getActiveFeedId();
-	
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=tl";
-		} else {
-			query = query + "&omode=flc";
-		}
-	
-		var mark_img = $("FMPIC-" + id);
+		var img = $("FMPIC-" + id);
 
-		if (!mark_img) return;
-
-		var vfeedu = $("FEEDU--1");
-		var crow = $("RROW-" + id);
+		if (!img) return;
 	
-		if (mark_img.src.match("mark_unset")) {
-			mark_img.src = mark_img.src.replace("mark_unset", "mark_set");
-			mark_img.alt = __("Unstar article");
+		if (img.src.match("mark_unset")) {
+			img.src = img.src.replace("mark_unset", "mark_set");
+			img.alt = __("Unstar article");
 			query = query + "&mark=1";
 
 			if (db) {
@@ -544,29 +523,23 @@ function toggleMark(id, client_only, no_effects) {
 			}
 
 		} else {
-			mark_img.alt = __("Please wait...");
+			img.src = img.src.replace("mark_set", "mark_unset");
+			img.alt = __("Star article");
 			query = query + "&mark=0";
-	
-			mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
-			mark_img.alt = __("Star article");
 
 			if (db) {
 				db.execute("UPDATE articles SET marked = 0 WHERE id = ?", [id]);
 			}
-
 		}
 
-		if (!no_effects) update_local_feedlist_counters();
+		update_local_feedlist_counters();
 
 		if (!client_only) {
-			//console.log(query);
-
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
 					handle_rpc_reply(transport); 
 				} });
-
 		}
 
 	} catch (e) {
@@ -575,44 +548,29 @@ function toggleMark(id, client_only, no_effects) {
 }
 
 function togglePub(id, client_only, no_effects, note) {
-
 	try {
-
 		var query = "?op=rpc&id=" + id + "&subop=publ";
 	
-		query = query + "&afid=" + getActiveFeedId();
-
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);
 		} else {
 			query = query + "&note=undefined";
 		}
-	
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=tl";
-		} else {
-			query = query + "&omode=flc";
-		}
-	
-		var mark_img = $("FPPIC-" + id);
 
-		if (!mark_img) return;
+		var img = $("FPPIC-" + id);
 
-		var vfeedu = $("FEEDU--2");
-		var crow = $("RROW-" + id);
+		if (!img) return;
 	
-		if (mark_img.src.match("pub_unset") || note != undefined) {
-			mark_img.src = mark_img.src.replace("pub_unset", "pub_set");
-			mark_img.alt = __("Unpublish article");
+		if (img.src.match("pub_unset") || note != undefined) {
+			img.src = img.src.replace("pub_unset", "pub_set");
+			img.alt = __("Unpublish article");
 			query = query + "&pub=1";
 
 		} else {
-			mark_img.alt = __("Please wait...");
-			query = query + "&pub=0";
-	
-			mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
-			mark_img.alt = __("Publish article");
+			img.src = img.src.replace("pub_set", "pub_unset");
+			img.alt = __("Publish article");
 
+			query = query + "&pub=0";
 		}
 
 		if (!client_only) {
@@ -1012,10 +970,6 @@ function selectionToggleMarked() {
 			var query = "?op=rpc&subop=markSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
-			query = query + "&afid=" + getActiveFeedId();
-
-			query = query + "&omode=lc";
-
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
@@ -1047,10 +1001,6 @@ function selectionTogglePublished() {
 
 			var query = "?op=rpc&subop=publishSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
-
-			query = query + "&afid=" + getActiveFeedId();
-
-			query = query + "&omode=lc";
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
