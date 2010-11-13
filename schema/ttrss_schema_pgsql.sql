@@ -215,6 +215,7 @@ create table ttrss_tags (id serial not null primary key,
 	post_int_id integer references ttrss_user_entries(int_id) ON DELETE CASCADE not null);
 
 create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
+create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
