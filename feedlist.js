@@ -268,7 +268,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		} else {
 
-			if (!page_offset) {
+//			if (!page_offset) {
 				var feedr;
 
 				if (is_cat) {
@@ -318,7 +318,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 						}
 					}
 				} 
-			}  
+//			}  
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
