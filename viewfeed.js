@@ -112,7 +112,7 @@ function headlines_callback2(transport, feed_cur_page) {
 			
 			vgroup_last_feed = headlines_info.vgroup_last_feed;
 
-			if (headlines_count == 0) {
+			if (parseInt(headlines_count) < getInitParam("default_article_limit")) {
 				_infscroll_disable = 1;
 			} else {
 				_infscroll_disable = 0;
