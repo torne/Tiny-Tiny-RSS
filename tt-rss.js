@@ -841,6 +841,7 @@ function hotkey_handler(e) {
 		}
 
 		if (keycode == 16) return; // ignore lone shift
+		if (keycode == 17) return; // ignore lone ctrl
 
 		if ((keycode == 70 || keycode == 67 || keycode == 71) 
 				&& !hotkey_prefix) {
@@ -966,27 +967,18 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 83 && shift_key) { // S
-				var id = getActiveArticleId();
-				if (id) {				
-					togglePub(id);
-				}
+				selectionTogglePublished(undefined, false, true);
 				return;
 			}
 
 			if (keycode == 83) { // s
-				var id = getActiveArticleId();
-				if (id) {				
-					toggleMark(id);
-				}
+				selectionToggleMarked(undefined, false, true);
 				return;
 			}
 
 
 			if (keycode == 85) { // u
-				var id = getActiveArticleId();
-				if (id) {				
-					toggleUnread(id);
-				}
+				selectionToggleUnread(undefined, false, true)
 				return;
 			}
 
