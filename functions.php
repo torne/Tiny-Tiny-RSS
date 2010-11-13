@@ -7149,14 +7149,40 @@
 			$interval_query = "date_updated < DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
 
-		$query = "SELECT ttrss_tags.id AS id 
-			FROM ttrss_tags, ttrss_user_entries, ttrss_entries 
-			WHERE post_int_id = int_id AND $interval_query AND
-			ref_id = ttrss_entries.id AND tag_cache != '' LIMIT $limit";
+		$tags_deleted = 0;
 
-		$result = db_query($link, $query);
+		while ($limit > 0) {
+			$limit_part = 500;
 
-		return db_affected_rows($link, $result);
+			$query = "SELECT ttrss_tags.id AS id 
+				FROM ttrss_tags, ttrss_user_entries, ttrss_entries 
+				WHERE post_int_id = int_id AND $interval_query AND
+				ref_id = ttrss_entries.id AND tag_cache != '' LIMIT $limit_part";
+	
+			$result = db_query($link, $query);
+
+			$ids = array();
+
+			while ($line = db_fetch_assoc($result)) {
+				array_push($ids, $line['id']);
+			}
+
+			if (count($ids) > 0) {
+				$ids = join(",", $ids);
+				print ".";
+
+				$tmp_result = db_query($link, "DELETE FROM ttrss_tags WHERE id IN ($ids)");
+				$tags_deleted += db_affected_rows($link, $tmp_result);
+			} else {
+				break;
+			}
+
+			$limit -= $limit_part;
+		}
+
+		print "\n";
+
+		return $tags_deleted;
 	}
 
 ?>
