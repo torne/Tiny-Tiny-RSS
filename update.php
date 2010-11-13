@@ -19,6 +19,7 @@
 		print "  -feeds         - update feeds\n";
 		print "  -feedbrowser   - update feedbrowser\n";
 		print "  -daemon        - start single-process update daemon\n";
+		print "  -cleanup-tags  - perform tags table maintenance\n";
 		print "  -help          - show this help\n";
 		return;
 	}
@@ -87,6 +88,11 @@
 			_debug("Finished, $count feeds processed.");
 		}
 
+	}
+
+	if ($op == "-cleanup-tags") {
+		$rc = cleanup_tags($link, 14, 50000);
+		print "$rc tags deleted.\n";
 	}
 
 	db_close($link);

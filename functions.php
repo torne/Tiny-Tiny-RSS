@@ -5798,6 +5798,10 @@
 
 		purge_orphans($link);
 
+		$rc = cleanup_tags($link, 14, 50000);
+
+		if ($debug) _debug("$rc uncached tags cleaned.");
+
 	} // function update_daemon_common
 
 	function sanitize_article_content($text) {
@@ -7135,6 +7139,24 @@
 		}
 
 		return $ids;
+	}
+
+	function cleanup_tags($link, $days = 14, $limit = 1000) {
+
+		if (DB_TYPE == "pgsql") {
+			$interval_query = "date_updated < NOW() - INTERVAL '$days days'";
+		} else if (DB_TYPE == "mysql") {
+			$interval_query = "date_updated < DATE_SUB(NOW(), INTERVAL $days DAY)";
+		}
+
+		$query = "SELECT ttrss_tags.id AS id 
+			FROM ttrss_tags, ttrss_user_entries, ttrss_entries 
+			WHERE post_int_id = int_id AND $interval_query AND
+			ref_id = ttrss_entries.id AND tag_cache != '' LIMIT $limit";
+
+		$result = db_query($link, $query);
+
+		return db_affected_rows($link, $result);
 	}
 
 ?>
