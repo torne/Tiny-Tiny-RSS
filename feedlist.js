@@ -222,11 +222,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		var container = $("headlinesInnerContainer");
 
-/*		if (container && page_offset == 0 && !isCdmMode()) {
-			new Effect.Fade(container, {duration: 1, to: 0.01,
-				queue: { position:'end', scope: 'FEEDL-' + feed, limit: 1 } } );
-		} */
-
 		var unread_ctr = -1;
 		
 		if (!is_cat) unread_ctr = get_feed_unread(feed);

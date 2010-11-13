@@ -147,11 +147,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					if (headlines_count > 0) {
 						console.log("adding some more headlines...");
 	
-						var c = $("headlinesList");
-		
-						if (!c) {
-							c = $("headlinesInnerContainer");
-						}
+						c = $("headlinesInnerContainer");
 
 						var ids = getSelectedArticleIds2();
 	
@@ -199,7 +195,7 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 
 		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
-	
+
 		if (isCdmMode() && 
 				getActiveFeedId() != -3 &&
 				getInitParam("cdm_auto_catchup") == 1) {
@@ -248,8 +244,8 @@ function showArticleInHeadlines(id) {
 
 	try {
 
-		cleanSelected("headlinesList");
-	
+		selectArticles("none");
+
 		var crow = $("RROW-" + id);
 
 		if (!crow) return;
@@ -547,12 +543,8 @@ function toggleMark(id, client_only, no_effects) {
 			mark_img.alt = __("Please wait...");
 			query = query + "&mark=0";
 	
-			if (!isCdmMode() && !no_effects) {
-				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tMark_afh_off});
-			} else { 
-				mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
-				mark_img.alt = __("Star article");
-			}
+			mark_img.src = mark_img.src.replace("mark_set", "mark_unset");
+			mark_img.alt = __("Star article");
 
 			if (db) {
 				db.execute("UPDATE articles SET marked = 0 WHERE id = ?", [id]);
@@ -614,12 +606,9 @@ function togglePub(id, client_only, no_effects, note) {
 			mark_img.alt = __("Please wait...");
 			query = query + "&pub=0";
 	
-			if (!isCdmMode() && !no_effects) {
-				Effect.Puff(mark_img, {duration : 0.25, afterFinish: tPub_afh_off});
-			} else { 
-				mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
-				mark_img.alt = __("Publish article");
-			}
+			mark_img.src = mark_img.src.replace("pub_set", "pub_unset");
+			mark_img.alt = __("Publish article");
+
 		}
 
 		if (!client_only) {
@@ -655,38 +644,6 @@ function togglePub(id, client_only, no_effects, note) {
 	} catch (e) {
 		exception_error("togglePub", e);
 	}
-}
-
-function correctHeadlinesOffset(id) {
-	
-	try {
-
-		var hlist = $("headlinesList");
-		var container = $("headlinesInnerContainer");
-		var row = $("RROW-" + id);
-	
-		var viewport = container.offsetHeight;
-	
-		var rel_offset_top = row.offsetTop - container.scrollTop;
-		var rel_offset_bottom = row.offsetTop + row.offsetHeight - container.scrollTop;
-	
-		console.log("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
-		console.log("Vport: " + viewport);
-
-		if (rel_offset_top <= 0 || rel_offset_top > viewport) {
-			container.scrollTop = row.offsetTop;
-		} else if (rel_offset_bottom > viewport) {
-
-			/* doesn't properly work with Opera in some cases because
-				Opera fucks up element scrolling */
-
-			container.scrollTop = row.offsetTop + row.offsetHeight - viewport;		
-		} 
-
-	} catch (e) {
-		exception_error("correctHeadlinesOffset", e);
-	}
-
 }
 
 function moveToPost(mode) {
@@ -1109,10 +1066,7 @@ function getSelectedArticleIds2() {
 
 	var children;
 	
-	if (isCdmMode())
-		var children = $("headlinesInnerContainer").childNodes;
-	else
-		var children = $("headlinesList").rows;
+	var children = $("headlinesInnerContainer").childNodes;
 
 	for (i = 0; i < children.length; i++) {
 		var child = children[i];
@@ -1129,10 +1083,7 @@ function getSelectedArticleIds2() {
 function getLoadedArticleIds() {
 	var sel_articles = new Array();
 
-	if (isCdmMode())
-		var children = $("headlinesInnerContainer").childNodes;
-	else
-		var children = $("headlinesList").rows;
+	var children = $("headlinesInnerContainer").childNodes;
 
 	if (!children) return sel_articles;
 
@@ -1154,10 +1105,7 @@ function selectArticles(mode) {
 
 		var children;
 	
-		if (isCdmMode())
-			var children = $("headlinesInnerContainer").childNodes;
-		else
-			var children = $("headlinesList").rows;
+		var children = $("headlinesInnerContainer").childNodes;
 
 		for (i = 0; i < children.length; i++) {
 			var child = children[i];
@@ -1329,11 +1277,7 @@ function catchupSelection() {
 			return;
 		}
 	
-		if ($("headlinesList")) {
-			selectionToggleUnread(false, 'viewCurrentFeed()', true);
-		} else {
-			selectionToggleUnread(false, 'viewCurrentFeed()', true)
-		}
+		selectionToggleUnread(false, 'viewCurrentFeed()', true)
 
 	} catch (e) {
 		exception_error("catchupSelection", e);
@@ -2071,45 +2015,6 @@ function fixHeadlinesOrder(ids) {
 	}
 }
 
-function invertHeadlineSelection() {
-	try {
-		var rows = new Array();
-		var r = false;
-		
-		if (!isCdmMode()) {		
-			r = document.getElementsByTagName("TR");
-		} else {
-			r = document.getElementsByTagName("DIV");
-		}
-
-		for (var i = 0; i < r.length; i++) {
-			if (r[i].id && r[i].id.match("RROW-")) {
-				rows.push(r[i]);
-			}
-		}
-		
-		for (var i = 0; i < rows.length; i++) {
-			var nc = rows[i].className;
-			var id = rows[i].id.replace("RROW-", "");
-			var cb = $("RCHK-" + id);
-
-			if (!rows[i].className.match("Selected")) {
-				nc = nc + "Selected";
-				cb.checked = true;
-			} else {
-				nc = nc.replace("Selected", "");
-				cb.checked = false;
-			}
-
-			rows[i].className = nc;
-
-		}
-
-	} catch (e) {
-		exception_error("invertHeadlineSelection", e);
-	}
-}
-
 function getArticleUnderPointer() {
 	return post_under_pointer;
 }
@@ -2409,7 +2314,6 @@ function cdmClicked(event, id) {
 
 function hlClicked(event, id) {
 	try {
-		var shift_key = event.shiftKey;
 
 		if (!event.ctrlKey) {
 			view(id);
@@ -2435,41 +2339,6 @@ function getFirstVisibleHeadlineId() {
 function getLastVisibleHeadlineId() {
 	var rows = getVisibleArticleIds();
 	return rows[rows.length-1];
-}
-
-// this only searches loaded headlines list, not in CDM
-function getRelativePostIds(id, limit) {
-
-	if (!limit) limit = 3;
-
-	//console.log("getRelativePostIds: " + id + " limit=" + limit);
-
-	var ids = new Array();
-	var container = $("headlinesList");
-
-	if (container) {
-		var rows = container.rows;
-
-		for (var i = 0; i < rows.length; i++) {
-			var r_id = rows[i].id.replace("RROW-", "");
-
-			if (r_id == id) {
-				for (var k = 1; k <= limit; k++) {
-					var nid = false;
-
-					if (i > k-1) var nid = rows[i-k].id.replace("RROW-", "");
-					if (nid) ids.push(nid);
-
-					if (i < rows.length-k) nid = rows[i+k].id.replace("RROW-", "");
-					if (nid) ids.push(nid);
-				}
-
-				return ids;
-			}
-		}
-	}
-
-	return false;
 }
 
 function openArticleInNewWindow(id) {
@@ -2506,9 +2375,7 @@ function openArticleInNewWindow(id) {
 		
 						if (id) {
 							id = id.firstChild.nodeValue;
-							if (!$("headlinesList")) {
-								window.setTimeout("toggleUnread(" + id + ", 0)", 100);
-							}
+							window.setTimeout("toggleUnread(" + id + ", 0)", 100);
 						}
 					} else {
 						notify_error("Can't open article: received invalid article link");
@@ -2521,7 +2388,7 @@ function openArticleInNewWindow(id) {
 }
 
 function isCdmMode() {
-	return !$("headlinesList");
+	return getInitParam("combined_display_mode");
 }
 
 function markHeadline(id) {
@@ -2549,6 +2416,64 @@ function markHeadline(id) {
 		row.className = row.className + "Selected"; 
 		
 	}
+}
+
+function getRelativePostIds(id, limit) {
+
+	var tmp = [];
+
+	try {
+
+		if (!limit) limit = 3;
+	
+		var ids = getVisibleArticleIds();
+	
+		for (var i = 0; i < ids.length; i++) {
+			if (ids[i] == id) {
+				for (var k = 1; k <= limit; k++) {
+					if (i > k-1) tmp.push(ids[i-k]);
+					if (i < ids.length-k) tmp.push(ids[i+k]);
+				}
+				break;
+			}
+		}
+
+	} catch (e) {
+		exception_error("getRelativePostIds", e);
+	}
+
+	return tmp;
+}
+
+function correctHeadlinesOffset(id) {
+	
+	try {
+
+		var container = $("headlinesInnerContainer");
+		var row = $("RROW-" + id);
+	
+		var viewport = container.offsetHeight;
+	
+		var rel_offset_top = row.offsetTop - container.scrollTop;
+		var rel_offset_bottom = row.offsetTop + row.offsetHeight - container.scrollTop;
+	
+		//console.log("Rtop: " + rel_offset_top + " Rbtm: " + rel_offset_bottom);
+		//console.log("Vport: " + viewport);
+
+		if (rel_offset_top <= 0 || rel_offset_top > viewport) {
+			container.scrollTop = row.offsetTop;
+		} else if (rel_offset_bottom > viewport) {
+
+			/* doesn't properly work with Opera in some cases because
+				Opera fucks up element scrolling */
+
+			container.scrollTop = row.offsetTop + row.offsetHeight - viewport;		
+		} 
+
+	} catch (e) {
+		exception_error("correctHeadlinesOffset", e);
+	}
+
 }
 
 

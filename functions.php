@@ -3131,10 +3131,6 @@
 		return ((!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME);
 	}
 
-	function make_init_param($param, $value) {
-		return array("param" => $param, "value" => $value);
-	}
-
 	function make_init_params($link) {
 		$params = array();
 
@@ -3150,7 +3146,7 @@
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
 			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", 
-			"HIDE_READ_SHOWS_SPECIAL", "HIDE_FEEDLIST") as $param) {
+			"HIDE_READ_SHOWS_SPECIAL", "HIDE_FEEDLIST", "COMBINED_DISPLAY_MODE") as $param) {
 
 				 $params[strtolower($param)] = (int) get_pref($link, $param);
 		 }
@@ -5077,13 +5073,6 @@
 
 		if (db_num_rows($result) > 0) {
 
-#			print "\{$offset}";
-
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE') && !$offset) {
-				print "<table class=\"headlinesList\" id=\"headlinesList\" 
-					cellspacing=\"0\">";
-			}
-
 			$lnum = $limit*$offset;
 
 			$num_unread = 0;
@@ -5222,34 +5211,36 @@
 
 							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
-							print "<tr class='feedTitle'><td colspan='7'>".
+							print "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
 								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a> $vf_catchup_link</td></tr>";
+								$line["feed_title"]."</a> $vf_catchup_link</div>";
+
 						}
 					}
 
 					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
 						onmouseout='postMouseOut($id)'";
 
-					print "<tr class='$class' id='RROW-$id' $mouseover_attrs>";
-		
-					print "<td class='hlUpdPic'>$update_pic</td>";
-		
-					print "<td class='hlSelectRow'>
-						<input type=\"checkbox\" onclick=\"tSR(this)\"
-							id=\"RCHK-$id\">
-						</td>";
-		
-					print "<td class='hlMarkedPic'>$marked_pic</td>";
-					print "<td class='hlMarkedPic'>$published_pic</td>";
+					print "<div class='$class' id='RROW-$id' $mouseover_attrs>";
 
-					print "<td onclick='return hlClicked(event,$id)' 
-						class='hlContent$hlc_suffix' valign='middle' id='HLC-$id'>";
+					print "<div class='hlUpdPic'>$update_pic</div>";
 
+					print "<div class='hlLeft'>";
+
+					print "<input type=\"checkbox\" onclick=\"tSR(this)\"
+							id=\"RCHK-$id\">";
+		
+					print "$marked_pic";
+					print "$published_pic";
+
+					print "</div>";
+
+					print "<div onclick='return hlClicked(event, $id)' 
+						class=\"hlTitle\"><span class='hlContent$hlc_suffix'>";
 					print "<a id=\"RTITLE-$id\" 
 						href=\"" . htmlspecialchars($line["link"]) . "\"
-						onclick=\"return false\">" .
+						onclick=\"return false;\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
@@ -5258,7 +5249,7 @@
 						}
 					}
 
-					print "</a>";
+					print "</a></span>";
 
 					print $labels_str;
 
@@ -5271,22 +5262,21 @@
 						}
 					} */
 
-					print "</td>";
+					print "</div>";
 
-		
-					print "<td class=\"hlUpdated\" 
-						onclick='return hlClicked(event,$id)'><nobr>$updated_fmt&nbsp;
-					</nobr></td>";
+					print "<div class=\"hlRight\">";					
+					print "<span class=\"hlUpdated\">$updated_fmt</span>";
+					print $score_pic;
 
-					print "<td class='hlMarkedPic'>$score_pic</td>";
+					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 
-					if (@$line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
-						print "<td onclick=\"viewfeed($feed_id)\" 
-							title=\"".htmlspecialchars($line['feed_title'])."\"
-							class=\"hlFeedIcon\">$feed_icon_img</td>";
+						print "<span onclick=\"viewfeed($feed_id)\" 
+							title=\"".htmlspecialchars($line['feed_title'])."\">
+							$feed_icon_img<span>";
 					}
 
-					print "</tr>";
+					print "</div>";
+					print "</div>";
 
 				} else {
 
@@ -5496,10 +5486,6 @@
 	
 				++$lnum;
 			} 
-
-			if (!get_pref($link, 'COMBINED_DISPLAY_MODE') && !$offset) {			
-				print "</table>";
-			}
 
 		} else {
 			$message = "";

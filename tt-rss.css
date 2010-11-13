@@ -719,11 +719,7 @@ span.contentPreview:hover {
 	color : #4684ff;
 }
 
-table.headlinesList {
-	width : 100%;
-}
-
-table.headlinesList span.hlLabelRef, div.cdmHeader span.hlLabelRef {
+span.hlLabelRef {
 	background-color : #fff7d5;	
 	font-height : 8px;
 	color : #063064;
@@ -733,41 +729,9 @@ table.headlinesList span.hlLabelRef, div.cdmHeader span.hlLabelRef {
 	white-space: nowrap;
 }
 
-table.headlinesList img.hlLoading {
-	margin-left : 5px;
-	vertical-align : middle;
-}
-
-table.headlinesList td.hlFeedIcon {
-	width : 25px;
-	text-align : center;
-	cursor : pointer;
-}
-
-
-table.headlinesList td.hlMarkedPic {
-	width : 25px;
-	text-align : center;
-}
-
-table.headlinesList td.hlfeed {
-	text-align : right;
-}
-
 td.hlSelectRow, td.hlUpdPic {
 	width : 25px;
 	text-align : center;
-}
-
-table.headlinesList td.hlUpdated {
-	color : gray;
-	text-align : right;
-	width : 100px;
-	cursor : pointer;
-}
-
-table.headlinesList tr td {
-	padding : 2px 0px 2px 0px;
 }
 
 div.postHeader div.postDate {
@@ -1393,48 +1357,11 @@ a.visibleLinkB:hover {
 	background-color : #ecf4ff;
 }
 
-table.headlinesList tr.feedTitle td a, div.cdmFeedTitle a {
-	color : #4684ff;
-}
-
-div.cdmFeedTitle {
-	border-color : #a0a0a0;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	padding : 5px 3px 5px 5px;
-	background : url("images/toolbar.png") bottom left;
-	background-repeat : repeat-x;
-}
-
-table.headlinesList tr, table.headlinesList td {
-	border-collapse : collapse;
-	margin : 0px;
-}
-
-table.headlinesList tr.feedTitle td {
-/*	text-align : right;
-	margin-top : 10px; */
-	/*padding-left : 5px;*/
-
-	background : url("images/toolbar.png") bottom left;
-	background-repeat : repeat-x;
-
-	border-color : #c0c0c0;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	padding : 5px 3px 5px 5px;
-
-}
-
-td.hlContent, td.hlContentL, td.hlContentH {
-	cursor : pointer;
-}
-
-td.hlContentH a, td.hlContentH span {
+.hlContentH a, .hlContentH span {
 	color : #00cc00;
 }
 
-td.hlContentL a, td.hlContentL span {
+.hlContentL a, .hlContentL span {
 	color : #909090;
 	text-decoration : line-through;
 }
@@ -1773,48 +1700,53 @@ div#auxDlg a {
 	color : #4684ff;
 }
 
-/*
-button:active {
-	background-image : url("images/button_pressed.png");
-}
-
-button, select {
-	background-color : transparent;
-	background-repeat : repeat-x;
-	background-position : top left;
-	background-image : url("images/button.png");
-	border : 1px solid #bebebe;
-	font-family : "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-	font-size : 100%;
-	text-decoration : none;
-	color : #303030;
+div.hlTitle {
+	display : table-cell;
 	cursor : pointer;
-	padding : 1px 5px 1px 5px;
-	margin : 0px;
+	width : 100%;
+	vertical-align : middle;
+	padding-top : 4px;
+	padding-bottom : 4px;
 }
 
-select {
-	background : #ffffff;
-	padding : 1px 0px 1px 3px;
+div.hlLeft {
+	display : table-cell;
+	vertical-align : middle;
+	white-space: nowrap;
 }
 
-input {
-	background : white;
-	border : 1px solid #bebebe;
-	font-size : 100%;
-	padding : 1px 3px 1px 3px;
+div.hlRight {
+	display : table-cell;
+	white-space: nowrap;
+	text-align : right;
+	vertical-align : middle;
 }
 
-button:hover {
-	background-color : #f9faff;
-	border : 1px solid #88b0f0;
-	color : #336699;
+span.hlUpdated {
+	color : gray;
+	font-weight : medium;
+	width : 100px;
+	display : inline-block;
 }
 
-button[disabled] {
-	background : #f0f0f0;
-	color : #dedede;
-	border : 1px solid #dedede;
-} */
+div.hlLeft input {
+	margin-left : 4px;
+	margin-right : 4px;
+}
 
+div.hlLeft img, div.hlRight img {
+	margin : 0px 4px 0px 4px;
 
+}
+
+div.hlUpdPic {
+	display : table-cell;
+	padding-right : 4px;
+	padding-left : 4px;
+	text-align : center;
+	vertical-align : middle;
+}
+
+div.hlUpdPic img {
+	max-width : 16px;
+}
