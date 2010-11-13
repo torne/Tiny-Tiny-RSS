@@ -738,6 +738,8 @@
 				$icon_url = db_escape_string($rss->get_image_url());
 			}
 
+			$icon_url = substr($icon_url, 0, 250);
+
 			if ($icon_url && $orig_icon_url != $icon_url) { 
 				if (USE_CURL_FOR_ICONS || url_validate($icon_url)) {
 					db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
