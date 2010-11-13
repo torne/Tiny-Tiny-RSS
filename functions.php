@@ -5798,12 +5798,6 @@
 		// Send feed digests by email if needed.
 		if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
 
-		purge_orphans($link);
-
-		$rc = cleanup_tags($link, 14, 50000);
-
-		if ($debug) _debug("$rc uncached tags cleaned.");
-
 	} // function update_daemon_common
 
 	function sanitize_article_content($text) {

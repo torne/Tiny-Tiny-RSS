@@ -85,7 +85,13 @@
 			update_daemon_common($link);
 		} else {
 			$count = update_feedbrowser_cache($link);
-			_debug("Finished, $count feeds processed.");
+			_debug("Feedbrowser updated, $count feeds processed.");
+
+			purge_orphans($link, true);
+	
+			$rc = cleanup_tags($link, 14, 50000);
+
+			_debug("Cleaned $rc cached tags.");
 		}
 
 	}
