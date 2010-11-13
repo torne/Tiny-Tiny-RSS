@@ -585,8 +585,11 @@ function subscribeToFeed() {
 
 			try {
 
-				if (!transport.responseXML)
+				if (!transport.responseXML) {
 					console.log(transport.responseText);
+					alert(__("Server error while trying to subscribe to specified feed."));
+					return;
+				}
 
 				var result = transport.responseXML.getElementsByTagName('result')[0];
 				var rc = parseInt(result.getAttribute('code'));
