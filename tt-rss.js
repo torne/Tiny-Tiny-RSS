@@ -1286,3 +1286,39 @@ function handle_rpc_reply(transport, scheduled_call) {
 	return true;
 }
 
+function scheduleFeedUpdate() {
+	try {
+
+		if (!getActiveFeedId()) {
+			alert(__("Please select some feed first."));
+			return;
+		}
+
+		var query = "?op=rpc&subop=scheduleFeedUpdate&id=" + 
+			param_escape(getActiveFeedId()) +
+			"&is_cat=" + param_escape(activeFeedIsCat());
+
+		console.log(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+
+				if (transport.responseXML) {
+					var message = transport.responseXML.getElementsByTagName("message")[0];
+
+					if (message) {
+						notify_info(message.firstChild.nodeValue);
+						return;
+					}
+				}
+
+				notify_error("Error communicating with server.");
+
+			} });
+
+
+	} catch (e) {
+		exception_error("scheduleFeedUpdate", e);
+	}
+}

@@ -58,6 +58,10 @@ function headlines_callback2(transport, feed_cur_page) {
 			}
 		}
 
+		var update_btn = document.forms["main_toolbar_form"].update;
+
+		update_btn.disabled = !(feed_id >= 0 && !is_cat);
+
 		var ll = $('FLL-' + feed_id);
 
 		if (ll && ll.parentNode) 

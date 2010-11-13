@@ -226,12 +226,8 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<?php if (defined('_ENABLE_FEED_DEBUGGING')) { ?>
-
-		<button name="update" onclick="return viewCurrentFeed('ForceUpdate')">
+		<button name="update" onclick="return scheduleFeedUpdate()">
 			<?php echo __('Update') ?></button>
-
-		<?php } ?>
 
 		<button onclick="return catchupCurrentFeed()">
 			<?php echo __('Mark as read') ?></button>

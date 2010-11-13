@@ -732,10 +732,12 @@ function parse_counters(reply, scheduled_call) {
 
 			if (updated && feedlink) {
 				if (error) {
-					feedlink.title = "Error: " + error + " (" + updated + ")";
+					feedlink.title = __("Error:") + " " + error + " (" + updated + ")";
 				} else {
-					feedlink.title = "Updated: " + updated;
+					feedlink.title = __("Updated:") + " " + updated;
 				}
+			} else if (!updated && feedlink) {
+				feedlink.title = __("Updated:") + " " + __("Never");
 			}
 
 			if (feedupd) {

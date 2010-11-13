@@ -2872,6 +2872,9 @@
 
 			$has_img = feed_has_icon($id);
 
+			if (date('Y') - date('Y', strtotime($line['last_updated'])) > 2)
+				$last_updated = '';
+
 			$cv = array("id" => $id,
 				"updated" => $last_updated,
 				"counter" => $count,

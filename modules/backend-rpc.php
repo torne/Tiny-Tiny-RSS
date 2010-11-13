@@ -1173,6 +1173,45 @@
 			return;
 		}
 
+		if ($subop == "scheduleFeedUpdate") {
+			$feed_id = db_escape_string($_REQUEST["id"]);
+			$is_cat = db_escape_string($_REQUEST['is_cat']);
+
+			$message = __("Your request could not be completed.");
+
+			if ($feed_id >= 0) {
+				if (!$is_cat) {
+					$message = __("Feed update has been scheduled.");
+
+					db_query($link, "UPDATE ttrss_feeds SET
+						last_update_started = '1970-01-01',
+						last_updated = '1970-01-01' WHERE id = '$feed_id' AND
+						owner_uid = ".$_SESSION["uid"]);
+
+				} else {
+					$message = __("Category update has been scheduled.");
+
+					if ($feed_id) 
+						$cat_query = "cat_id = '$feed_id'";
+					else
+						$cat_query = "cat_id IS NULL";
+
+					db_query($link, "UPDATE ttrss_feeds SET
+						last_update_started = '1970-01-01',
+						last_updated = '1970-01-01' WHERE $cat_query AND
+						owner_uid = ".$_SESSION["uid"]);
+				}
+			} else {
+				$message = __("Can't update this kind of feed.");
+			}
+
+			print "<rpc-reply>";
+			print "<message>$message</message>";
+			print "</rpc-reply>";
+
+			return;
+		}
+
 		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
 	}
 ?>
