@@ -108,9 +108,12 @@
 	require_once 'lib/phpmailer/class.phpmailer.php';
 	require_once 'lib/sphinxapi.php';
 
-	define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
+	//define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 	define('MAGPIE_CACHE_AGE', 60*15); // 15 minutes
+
+	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
+	define('MAGPIE_USER_AGENT', SELF_USER_AGENT);
 
 	require_once "lib/simplepie/simplepie.inc";
 	require_once "lib/magpierss/rss_fetch.inc";
@@ -629,7 +632,7 @@
 				}
 	
 				$rss = new SimplePie();
-				$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+				$rss->set_useragent(SELF_USER_AGENT);
 	#			$rss->set_timeout(10);
 				$rss->set_feed_url($fetch_url);
 				$rss->set_output_encoding('UTF-8');
@@ -3941,7 +3944,7 @@
 
 		if (DEFAULT_UPDATE_METHOD == "1") {
 			$rss = new SimplePie();
-			$rss->set_useragent(SIMPLEPIE_USERAGENT . MAGPIE_USER_AGENT_EXT);
+			$rss->set_useragent(SELF_USER_AGENT);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 			$rss->init();
