@@ -128,6 +128,7 @@ create table ttrss_entries (id serial not null primary key,
 create index ttrss_entries_guid_index on ttrss_entries(guid);
 -- create index ttrss_entries_title_index on ttrss_entries(title);
 create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
+create index ttrss_entries_updated_idx on ttrss_entries(updated);
 
 create table ttrss_user_entries (
 	int_id serial not null primary key,
