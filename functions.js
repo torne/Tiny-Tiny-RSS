@@ -871,22 +871,18 @@ function remove_splash() {
 
 function getSelectedFeedsFromBrowser() {
 
-	var list = $("browseFeedList");
+	var list = $$("#browseFeedList li[id*=FBROW]");
 
 	var selected = new Array();
-	
-	for (i = 0; i < list.childNodes.length; i++) {
-		var child = list.childNodes[i];
-		if (child.id && child.id.match("FBROW-")) {
-			var id = child.id.replace("FBROW-", "");
-			
-			var cb = $("FBCHK-" + id);
 
-			if (cb.checked) {
-				selected.push(id);
-			}
-		}
-	}
+	list.each(function(child) {	
+		var id = child.id.replace("FBROW-", "");
+		var cb = $("FBCHK-" + id);
+
+		if (cb.checked) {
+			selected.push(id);
+		}	
+	});
 
 	return selected;
 }
