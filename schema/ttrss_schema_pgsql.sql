@@ -145,9 +145,10 @@ create table ttrss_user_entries (
 	unread boolean not null default true);
 
 -- create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
--- create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
+create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
 create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
 create index ttrss_user_entries_feed_id on ttrss_user_entries(feed_id);
+create index ttrss_user_entries_unread_idx on ttrss_user_entries(unread);
 
 create table ttrss_entry_comments (id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
