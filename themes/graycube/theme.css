@@ -15,24 +15,24 @@ div.cdmArticle {
 	background : #f9f9f9;
 }
 
-div.cdmArticleUnread {
+div.cdmArticle.Unread {
 	border-color : #999999;
 	background : white;
 }
 
-div.cdmArticleUnread div.cdmHeader {
+div.cdmArticle.Unread div.cdmHeader {
 	background : transparent;
 	background-repeat : repeat-x;
 }
 
 
-div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+div.cdmArticle.Selected, div.cdmArticle.Unread.Selected {
 	border-color : #999999;
 	background : #ffcccc;
 }
 
-div.cdmArticleUnread div.cdmHeader a.title, 
-div.cdmArticleUnreadSelected div.cdmHeader a.title {
+div.cdmArticle.Unread div.cdmHeader a.title, 
+div.cdmArticle.Unread.Selected div.cdmHeader a.title {
 	color : black;
 }
 
@@ -88,27 +88,27 @@ div.postReply > div.postHeader {
 	padding : 5px;
 }
 
-.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
-	.evenSelectedUnread td {
+.even.Unread.Selected, .even.Selected.Unread, .even.Unread.Selected td,
+	.even.Selected.Unread td {
 	background-color : #ffcccc;
 	font-weight : bold;
 	border-color : #ebebeb;
 }
 
-.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
-	.oddSelectedUnread td {
+.odd.Unread.Selected, .odd.Selected.Unread, .odd.Unread.Selected td,
+	.odd.Selected.Unread td {
 	background-color : #ffcccc;
 	font-weight : bold;
 	border-color : #ebebeb;
 
 }
 
-.evenSelected, .evenSelected td {
+.even.Selected, .even.Selected td {
 	background-color : #ffcccc;
 	border-color : #ebebeb;
 }
 
-.oddSelected, .oddSelected td {
+.odd.Selected, .odd.Selected td {
 	background-color : #ffcccc;
 	border-color : #ebebeb;
 }
@@ -138,13 +138,13 @@ div.postReply > div.postHeader {
 	border-color : #ebebeb;
 }
 
-.evenUnread, .evenUnread td {
+.even.Unread, .even.Unread td {
 	background-color : white;
 	font-weight : bold;
 	border-color : #ebebeb;
 }
 
-.oddUnread, .oddUnread td {
+.odd.Unread, .odd.Unread td {
 	font-weight : bold;
 	border-color : #ebebeb;
 }
@@ -195,17 +195,17 @@ ul.feedList span.feedlink:hover {
 	color : gray;
 }
 
-li.feedSelected span.feedlink,
-li.labelSelected span.feedlink,
-li.virtSelected span.feedlink,
-li.tagSelected span.feedlink {
+li.feed.Selected span.feedlink,
+li.label.Selected span.feedlink,
+li.virt.Selected span.feedlink,
+li.tag.Selected span.feedlink {
 	color : gray;
 }
 
-li.feedUnreadSelected span.feedlink,
-li.labelUnreadSelected span.feedlink,
-li.virtUnreadSelected span.feedlink,
-li.tagUnreadSelected span.feedlink {
+li.feed.Unread.Selected span.feedlink,
+li.label.Unread.Selected span.feedlink,
+li.virt.Unread.Selected span.feedlink,
+li.tag.Unread.Selected span.feedlink {
 	color : gray;
 }
 
@@ -402,7 +402,7 @@ div.prefsTab {
 	border-color : #999999;
 }
 
-div.prefsTabSelected {
+div.prefsTab.Selected {
 	border-color : #999999;
 	background : white;
 }
@@ -471,20 +471,20 @@ a.visibleLink {
 
 table.prefFilterList tr.even:hover td, 
 table.prefFilterList tr.odd:hover td,
-table.prefFilterList tr.evenSelected:hover td, 
-table.prefFilterList tr.oddSelected:hover td 
+table.prefFilterList tr.even.Selected:hover td, 
+table.prefFilterList tr.odd.Selected:hover td 
 table.prefLabelList tr.even:hover td, 
 table.prefLabelList tr.odd:hover td,
-table.prefLabelList tr.evenSelected:hover td, 
-table.prefLabelList tr.oddSelected:hover td,
+table.prefLabelList tr.even.Selected:hover td, 
+table.prefLabelList tr.odd.Selected:hover td,
 table.prefUserList tr.even:hover td, 
 table.prefUserList tr.odd:hover td,
-table.prefUserList tr.evenSelected:hover td, 
-table.prefUserList tr.oddSelected:hover td,
+table.prefUserList tr.even.Selected:hover td, 
+table.prefUserList tr.odd.Selected:hover td,
 table.prefFeedList tr.even:hover td, 
 table.prefFeedList tr.odd:hover td,
-table.prefFeedList tr.evenSelected:hover td, 
-table.prefFeedList tr.oddSelected:hover td
+table.prefFeedList tr.even.Selected:hover td, 
+table.prefFeedList tr.odd.Selected:hover td
 {
 	color : gray;
 }

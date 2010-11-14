@@ -93,14 +93,14 @@ ul.feedList li.feedCat a:hover {
 	color : #4684ff;
 }
 
-ul.feedList li.feedCatSelected {
+ul.feedList li.feedCat.Selected {
 	margin : 0px;
 	padding : 3px 0px 3px 0px;
 	color : #4684ff;
 	font-size : 12px;
 }
 
-ul.feedList li.feedCatSelected a {
+ul.feedList li.feedCat.Selected a {
 	color : #4684ff;
 }
 
@@ -120,18 +120,18 @@ ul.feedList > li {
 	padding : 0px 0px 2px 0px;
 }
 
-li.feedUnread, 
-li.errorUnread, 
-li.labelUnread, 
-li.virtUnread,
-li.tagUnread {
+li.feed.Unread, 
+li.error.Unread, 
+li.label.Unread, 
+li.virt.Unread,
+li.tag.Unread {
 	font-weight : bold;
 }
 
-li.errorSelected a,
+li.error.Selected a,
 li.error a,
-li.errorUnread a,
-li.errorUnreadSelected a {
+li.error.Unread a,
+li.error.Unread.Selected a {
 	color : #f04040;
 }
 
@@ -241,8 +241,8 @@ div.expPane {
 	margin : 15px;
 }
 
-.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
-	.evenSelectedUnread td {
+.even.Unread.Selected, .even.Selected.Unread, .even.Unread.Selected td,
+	.even.Selected.Unread td {
 	background-color : #192025;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -250,8 +250,8 @@ div.expPane {
 	border-color : #FFFFAA;
 }
 
-.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
-	.oddSelectedUnread td {
+.odd.Unread.Selected, .odd.Selected.Unread, .odd.Unread.Selected td,
+	.odd.Selected.Unread td {
 	background-color : #192025;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -259,7 +259,7 @@ div.expPane {
 	border-color : #FFFFAA;
 }
 
-.evenSelected, .evenSelected td {
+.even.Selected, .even.Selected td {
 	background-color : #192025;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -267,7 +267,7 @@ div.expPane {
 	border-collapse : collapse;
 }
 
-.oddSelected, .oddSelected td {
+.odd.Selected, .odd.Selected td {
 	background-color : #192025;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -303,7 +303,7 @@ div.expPane {
 	border-collapse : collapse;
 }
 
-.evenUnread, .evenUnread td {
+.even.Unread, .even.Unread td {
 	background-color : #202A30;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -312,7 +312,7 @@ div.expPane {
 	border-collapse : collapse;
 }
 
-.oddUnread, .oddUnread td {
+.odd.Unread, .odd.Unread td {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -372,40 +372,40 @@ table.prefFilterList td.filterEditCat {
 
 table.prefFilterList tr.even,
 table.prefFilterList tr.odd,
-table.prefFilterList tr.evenSelected,
-table.prefFilterList tr.oddSelected,
+table.prefFilterList tr.even.Selected,
+table.prefFilterList tr.odd.Selected,
 table.prefLabelList tr.even,
 table.prefLabelList tr.odd,
-table.prefLabelList tr.evenSelected,
-table.prefLabelList tr.oddSelected,
+table.prefLabelList tr.even.Selected,
+table.prefLabelList tr.odd.Selected,
 table.prefUserList tr.even,
 table.prefUserList tr.odd,
-table.prefUserList tr.evenSelected,
-table.prefUserList tr.oddSelected,
+table.prefUserList tr.even.Selected,
+table.prefUserList tr.odd.Selected,
 table.prefFeedList tr.even,
 table.prefFeedList tr.odd,
-table.prefFeedList tr.evenSelected,
-table.prefFeedList tr.oddSelected
+table.prefFeedList tr.even.Selected,
+table.prefFeedList tr.odd.Selected
 {	
 	cursor : pointer;
 }
 
 table.prefFilterList tr.even:hover td, 
 table.prefFilterList tr.odd:hover td,
-table.prefFilterList tr.evenSelected:hover td, 
-table.prefFilterList tr.oddSelected:hover td 
+table.prefFilterList tr.even.Selected:hover td, 
+table.prefFilterList tr.odd.Selected:hover td 
 table.prefLabelList tr.even:hover td, 
 table.prefLabelList tr.odd:hover td,
-table.prefLabelList tr.evenSelected:hover td, 
-table.prefLabelList tr.oddSelected:hover td,
+table.prefLabelList tr.even.Selected:hover td, 
+table.prefLabelList tr.odd.Selected:hover td,
 table.prefUserList tr.even:hover td, 
 table.prefUserList tr.odd:hover td,
-table.prefUserList tr.evenSelected:hover td, 
-table.prefUserList tr.oddSelected:hover td,
+table.prefUserList tr.even.Selected:hover td, 
+table.prefUserList tr.odd.Selected:hover td,
 table.prefFeedList tr.even:hover td, 
 table.prefFeedList tr.odd:hover td,
-table.prefFeedList tr.evenSelected:hover td, 
-table.prefFeedList tr.oddSelected:hover td
+table.prefFeedList tr.even.Selected:hover td, 
+table.prefFeedList tr.odd.Selected:hover td
 {
 	color : #00FF00;
 }
@@ -492,7 +492,7 @@ div.prefsTab:hover {
 	cursor : pointer;
 }
 
-div.prefsTabSelected:hover {
+div.prefsTab.Selected:hover {
 	cursor : pointer;
 }
 
@@ -503,7 +503,7 @@ div.prefsTab {
 	border-collapse : collapse;
 }
 
-div.prefsTabSelected {
+div.prefsTab.Selected {
 	border-width : 1px 1px 0px 1px;
 	border-color : #29353D;
 	border-style : solid;
@@ -798,11 +798,11 @@ div.cdmArticle {
 
 }
 
-/* div.cdmArticleUnread:hover {
+/* div.cdmArticle.Unread:hover {
 	background-color : #171D22;
 } */
 
-div.cdmArticleUnread {
+div.cdmArticle.Unread {
 	border-color : #29353D;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -812,7 +812,7 @@ div.cdmArticleUnread {
 	color : #8BB6C6;
 }
 
-div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+div.cdmArticle.Selected, div.cdmArticle.Unread.Selected {
 	margin : 0px;
 	background-color : #192025;
 	border-color : #FFFFAA;
@@ -820,8 +820,8 @@ div.cdmArticleSelected, div.cdmArticleUnreadSelected {
 	border-style : solid;
 }
 
-div.cdmArticleUnread div.cdmHeader a.title, 
-div.cdmArticleUnreadSelected div.cdmHeader a.title {
+div.cdmArticle.Unread div.cdmHeader a.title, 
+div.cdmArticle.Unread.Selected div.cdmHeader a.title {
 	font-weight : bold;
 }
 
@@ -831,7 +831,7 @@ div.cdmHeader {
 
 }
 
-div.cdmArticleUnread div.cdmHeader span.titleWrap a {
+div.cdmArticle.Unread div.cdmHeader span.titleWrap a {
 	color : #ff6c00;
 }
 
@@ -846,11 +846,11 @@ div.cdmFooter {
 	border-style : dotted;
 }
 
-/*div.cdmArticleSelected div.cdmFooter {
+/*div.cdmArticle.Selected div.cdmFooter {
 	background-color : transparent;
 }
 
-div.cdmArticleUnreadSelected div.cdmFooter {
+div.cdmArticle.Unread.Selected div.cdmFooter {
 	background-color : transparent;
 }*/
 
@@ -971,7 +971,7 @@ ul.userFeedList {
 	padding : 0px;
 }
 
-/* #browseBigFeedList li.oddSelected {
+/* #browseBigFeedList li.odd.Selected {
 	border : 1px solid #d0d0f6;
 	background-color : #eaeaff;
 	-moz-border-radius : 5px;
@@ -1467,13 +1467,9 @@ div.return a:hover {
 	background-repeat : repeat-x;
 }
 
-.catCtrHasUnread, .feedCtrHasUnread {
+.catCtr.Unread, .feedCtr.Unread {
 	font-weight : bold;
 	color : #8BB6C6;
-}
-
-.catCtrNoUnread, .feedCtrNoUnread {
-	display : none;
 }
 
 ul.headlineDropdownMenu {

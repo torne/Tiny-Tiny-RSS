@@ -124,27 +124,27 @@ div.headlinesSubToolbar {
 	background : #303030;
 }
 
-.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
-	.evenSelectedUnread td {
+.even.Unread.Selected, .even.Selected.Unread, .even.Unread.Selected td,
+	.even.Selected.Unread td {
 	background-color : #3c2c4c;
 	font-weight : bold;
 	border-color : #404040;
 }
 
-.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
-	.oddSelectedUnread td {
+.odd.Unread.Selected, .odd.Selected.Unread, .odd.Unread.Selected td,
+	.odd.Selected.Unread td {
 	background-color : #3c2c4c;
 	font-weight : bold;
 	border-color : #404040;
 
 }
 
-.evenSelected, .evenSelected td {
+.even.Selected, .even.Selected td {
 	background-color : #3c2c4c;
 	border-color : #404040;
 }
 
-.oddSelected, .oddSelected td {
+.odd.Selected, .odd.Selected td {
 	background-color : #3c2c4c;
 	border-color : #404040;
 }
@@ -174,23 +174,23 @@ div.headlinesSubToolbar {
 	border-color : #202020;
 }
 
-.evenUnread, .evenUnread td {
+.even.Unread, .even.Unread td {
 	background-color : #404040;
 	font-weight : bold;
 	border-color : #404040;
 }
 
-.oddUnread, .oddUnread td {
+.odd.Unread, .odd.Unread td {
 	font-weight : bold;
 	border-color : #404040;
 	background-color : #303030;
 }
 
-ul.feedList li.feedCatSelected {
+ul.feedList li.feedCat.Selected {
 	color : #b077ec;
 }
 
-ul.feedList li.feedCatSelected span.catTitle {
+ul.feedList li.feedCat.Selected span.catTitle {
 	color : #b077ec;
 }
 
@@ -226,7 +226,7 @@ div.prefsTab {
 	color : gray;
 }
 
-div.prefsTabSelected {
+div.prefsTab.Selected {
 	border-color : #404040;
 	background : #404040;
 	color : gray;
@@ -244,17 +244,17 @@ ul.feedList span.feedlink:hover {
 	color : #b077ec;
 }
 
-li.feedSelected span.feedlink,
-li.labelSelected span.feedlink,
-li.virtSelected span.feedlink,
-li.tagSelected span.feedlink {
+li.feed.Selected span.feedlink,
+li.label.Selected span.feedlink,
+li.virt.Selected span.feedlink,
+li.tag.Selected span.feedlink {
 	color : #b077ec;
 }
 
-li.feedUnreadSelected span.feedlink,
-li.labelUnreadSelected span.feedlink,
-li.virtUnreadSelected span.feedlink,
-li.tagUnreadSelected span.feedlink {
+li.feed.Unread.Selected span.feedlink,
+li.label.Unread.Selected span.feedlink,
+li.virt.Unread.Selected span.feedlink,
+li.tag.Unread.Selected span.feedlink {
 	color : #b077ec;
 }
 
@@ -262,7 +262,7 @@ span.contentPreview:hover, td.hlContent a:hover {
 	color : #b077ec;
 }
 
-.catCtrHasUnread, .feedCtrHasUnread {
+.catCtr.Unread, .feedCtr.Unread {
 	color : #8752c2;
 }
 
@@ -388,20 +388,20 @@ div#cmdline {
 
 table.prefFilterList tr.even:hover td, 
 table.prefFilterList tr.odd:hover td,
-table.prefFilterList tr.evenSelected:hover td, 
-table.prefFilterList tr.oddSelected:hover td 
+table.prefFilterList tr.even.Selected:hover td, 
+table.prefFilterList tr.odd.Selected:hover td 
 table.prefLabelList tr.even:hover td, 
 table.prefLabelList tr.odd:hover td,
-table.prefLabelList tr.evenSelected:hover td, 
-table.prefLabelList tr.oddSelected:hover td,
+table.prefLabelList tr.even.Selected:hover td, 
+table.prefLabelList tr.odd.Selected:hover td,
 table.prefUserList tr.even:hover td, 
 table.prefUserList tr.odd:hover td,
-table.prefUserList tr.evenSelected:hover td, 
-table.prefUserList tr.oddSelected:hover td,
+table.prefUserList tr.even.Selected:hover td, 
+table.prefUserList tr.odd.Selected:hover td,
 table.prefFeedList tr.even:hover td, 
 table.prefFeedList tr.odd:hover td,
-table.prefFeedList tr.evenSelected:hover td, 
-table.prefFeedList tr.oddSelected:hover td
+table.prefFeedList tr.even.Selected:hover td, 
+table.prefFeedList tr.odd.Selected:hover td
 {
 	color : #b077ec;
 }
@@ -464,38 +464,38 @@ div.cdmArticle {
 	color : gray;
 }
 
-div.cdmArticleUnread {
+div.cdmArticle.Unread {
 	border-color : #202020;
 	background : #404040;
 	color : gray;
 }
 
-div.cdmArticleUnread div.cdmHeader {
+div.cdmArticle.Unread div.cdmHeader {
 	background : transparent;
 	background-repeat : repeat-x;
 	color : gray;
 }
 
-div.cdmArticleUnread div.cdmHeader span.titleWrap a {
+div.cdmArticle.Unread div.cdmHeader span.titleWrap a {
 	color : white;
 }
 
-div.cdmArticleUnreadSelected div.cdmHeader span.titleWrap a {
+div.cdmArticle.Unread.Selected div.cdmHeader span.titleWrap a {
 	color : white;
 }
 
-div.cdmArticleSelected, div.cdmArticleUnreadSelected {
+div.cdmArticle.Selected, div.cdmArticle.Unread.Selected {
 	border-color : #404040;
 	background : #3c2c4c;
 	color : gray;
 }
 
-div.cdmArticleSelected div.cdmFooter, div.cdmArticleUnreadSelected div.cdmFooter {
+div.cdmArticle.Selected div.cdmFooter, div.cdmArticle.Unread.Selected div.cdmFooter {
 	background : gray;
 }
 
-div.cdmArticleUnread div.cdmHeader a.title, 
-div.cdmArticleUnreadSelected div.cdmHeader a.title {
+div.cdmArticle.Unread div.cdmHeader a.title, 
+div.cdmArticle.Unread.Selected div.cdmHeader a.title {
 	color : gray;
 }
 
