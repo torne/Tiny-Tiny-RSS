@@ -874,13 +874,15 @@ function resort_category(node, cat_mode) {
 		var by_unread = feedsSortByUnread();
 	
 		var list = node.getElementsByTagName("LI");
-	
+
 		for (i = 0; i < list.length; i++) {
 	
 			for (j = i+1; j < list.length; j++) {			
 	
 				var tmp_val = get_feed_entry_unread(list[i]);
 				var cur_val = get_feed_entry_unread(list[j]);
+				
+				//console.log(list[i].id + " vs " + list[j].id);
 	
 				var tmp_name = get_feed_entry_name(list[i]).toLowerCase();
 				var cur_name = get_feed_entry_name(list[j]).toLowerCase();
@@ -999,7 +1001,7 @@ function getFeedName(id, is_cat) {
 	if (e) {
 		return e.innerHTML.stripTags();
 	} else {
-		return null;
+		return '';
 	}
 }
 
