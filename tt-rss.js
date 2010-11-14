@@ -101,8 +101,6 @@ function updateFeedList() {
 	try {
 		//console.log("updateFeedList");
 	
-		if (offline_mode) return render_offline_feedlist();
-	
 		var query_str = "backend.php?op=feeds";
 	
 		if (display_tags) {
@@ -241,11 +239,7 @@ function genericSanityCheck() {
 }
 
 function init() {
-
 	try {
-
-		init_gears();
-
 		Form.disable("main_toolbar_form");
 
 		if (!genericSanityCheck()) 
@@ -377,8 +371,6 @@ function init_second_stage() {
 		console.log("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
 
 		resize_headlines();
-
-		enable_offline_reading();
 
 		if (has_local_storage())
 			localStorage.clear();
@@ -1226,13 +1218,6 @@ function showFeedsWithErrors() {
 
 function handle_rpc_reply(transport, scheduled_call) {
 	try {
-		if (offline_mode) return false;
-
-		if (!transport.responseText && db) {
-			offlineConfirmModeChange();
-			return false;
-		} 
-
 		if (transport.responseXML) {
 
 			if (!transport_error_check(transport)) return false;

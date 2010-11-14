@@ -11,9 +11,6 @@ var color_picker_active = false;
 var selection_disabled = false;
 var mouse_is_down = false;
 
-var db = false;
-var store = false;
-
 var seq = "";
 
 function feedlist_callback2(transport) {

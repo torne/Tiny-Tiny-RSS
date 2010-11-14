@@ -67,8 +67,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 	try {
 		if (is_cat == undefined) is_cat = false;
 
-		if (offline_mode) return viewfeed_offline(feed, subop, is_cat, offset);
-
 //		if (!offset) page_offset = 0;
 
 		last_requested_article = 0;
@@ -146,8 +144,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 //		console.log("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
 
 		if (subop == "MarkAllRead") {
-
-			catchup_local_feed(feed, is_cat);
 
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
@@ -367,8 +363,6 @@ function toggleCollapseCat(cat) {
 			{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
 				param_escape(cat) } );
 
-		local_collapse_cat(cat);
-
 	} catch (e) {
 		exception_error("toggleCollapseCat", e);
 	}
@@ -417,8 +411,6 @@ function feedlist_init() {
 		document.onmousemove = mouse_move_handler;
 		document.onmousedown = mouse_down_handler;
 		document.onmouseup = mouse_up_handler;
-
-		if (!offline_mode) setTimeout("timeout()", 1);
 
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
@@ -579,10 +571,6 @@ function mouse_up_handler(e) {
 			document.onselectstart = null;
 			var e = $("headlineActionsBody");
 			if (e) Element.hide(e);
-			
-			var e = $("offlineModeDrop");
-			if (e) Element.hide(e);
-
 		}
 
 	} catch (e) {
@@ -591,11 +579,7 @@ function mouse_up_handler(e) {
 }
 
 function request_counters_real() {
-
 	try {
-
-		if (offline_mode) return;
-
 		console.log("requesting counters...");
 
 		var query = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
@@ -683,11 +667,6 @@ function parse_counters(reply, scheduled_call) {
 			var xmsg = elems[l].xmsg;
 	
 			if (id == "global-unread") {
-
-				if (ctr > global_unread) {
-					offlineDownloadStart(1);
-				}
-
 				global_unread = ctr;
 				updateTitle();
 				continue;

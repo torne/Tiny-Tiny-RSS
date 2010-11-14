@@ -360,10 +360,6 @@ function article_callback2(transport, id) {
 
 //			showArticleInHeadlines(id);	
 
-			if (db) {
-				db.execute("UPDATE articles SET unread = 0 WHERE id = ?", [id]);
-			}
-
 			var reply = transport.responseXML.firstChild.firstChild;
 		
 		} else {
@@ -391,8 +387,6 @@ function article_callback2(transport, id) {
 function view(id) {
 	try {
 		console.log("loading article: " + id);
-
-		if (offline_mode) return view_offline(id);
 
 		var cached_article = cache_find(id);
 
@@ -518,21 +512,11 @@ function toggleMark(id, client_only) {
 			img.alt = __("Unstar article");
 			query = query + "&mark=1";
 
-			if (db) {
-				db.execute("UPDATE articles SET marked = 1 WHERE id = ?", [id]);
-			}
-
 		} else {
 			img.src = img.src.replace("mark_set", "mark_unset");
 			img.alt = __("Star article");
 			query = query + "&mark=0";
-
-			if (db) {
-				db.execute("UPDATE articles SET marked = 0 WHERE id = ?", [id]);
-			}
 		}
-
-		update_local_feedlist_counters();
 
 		if (!client_only) {
 			new Ajax.Request("backend.php", {
@@ -714,11 +698,6 @@ function toggleUnread(id, cmode, effect) {
 					row.addClassName("Unread");
 				}
 
-				if (db) {
-					db.execute("UPDATE articles SET unread = not unread "+
-						"WHERE id = ?", [id]);
-				}
-
 			} else if (cmode == 0) {
 
 				row.removeClassName("Unread");
@@ -729,22 +708,9 @@ function toggleUnread(id, cmode, effect) {
 						queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
 				} 
 
-				if (db) {
-					db.execute("UPDATE articles SET unread = 0 "+
-						"WHERE id = ?", [id]);
-				}
-
 			} else if (cmode == 1) {
 				row.addClassName("Unread");
-
-				if (db) {
-					db.execute("UPDATE articles SET unread = 1 "+
-						"WHERE id = ?", [id]);
-				}
-
 			}
-
-			update_local_feedlist_counters();
 
 			if (cmode == undefined) cmode = 2;
 
@@ -860,35 +826,19 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 					} else {
 						row.addClassName("Unread");
 					}
-					if (db) {
-						db.execute("UPDATE articles SET unread = NOT unread WHERE id = ?", 
-							[rows[i]]);
-					}
 				}
 
 				if (set_state == false) {
 					row.removeClassName("Unread");
-
-					if (db) {
-						db.execute("UPDATE articles SET unread = 0 WHERE id = ?", 
-							[rows[i]]);
-					}
 				}
 
 				if (set_state == true) {
 					row.addClassName("Unread");
-
-					if (db) {
-						db.execute("UPDATE articles SET unread = 1 WHERE id = ?", 
-							[rows[i]]);
-					}
 				}
 			}
 		}
 
 		if (rows.length > 0) {
-
-			update_local_feedlist_counters();
 
 			var cmode = "";
 
@@ -931,8 +881,6 @@ function selectionToggleMarked() {
 		for (i = 0; i < rows.length; i++) {
 			toggleMark(rows[i], true, true);
 		}
-
-		update_local_feedlist_counters();
 
 		if (rows.length > 0) {
 
@@ -1376,28 +1324,21 @@ function cache_inject(id, article, param) {
 		   var date = new Date();
 	      var ts = Math.round(date.getTime() / 1000);
 
-			if (db) {
-
-				db.execute("INSERT INTO cache (id, article, param, added) VALUES (?, ?, ?, ?)",
-					[id, article, param, ts]);				
-			} else {
+			var cache_obj = {};
 	
-				var cache_obj = {};
-	
-				cache_obj["id"] = id;
-				cache_obj["data"] = article;
-				cache_obj["param"] = param;
+			cache_obj["id"] = id;
+			cache_obj["data"] = article;
+			cache_obj["param"] = param;
 
-				if (param) id = id + ":" + param;
+			if (param) id = id + ":" + param;
 
-				cache_added["TS:" + id] = ts;
+			cache_added["TS:" + id] = ts;
 
-				if (has_local_storage()) 
-					localStorage.setItem(id, JSON.stringify(cache_obj));
-				else
-					article_cache.push(cache_obj);
-			}
-	
+			if (has_local_storage()) 
+				localStorage.setItem(id, JSON.stringify(cache_obj));
+			else
+				article_cache.push(cache_obj);
+
 		} else {
 			//console.log("cache_article: hit: " + id + " [p=" + param + "]");
 		}
@@ -1408,35 +1349,20 @@ function cache_inject(id, article, param) {
 
 function cache_find(id) {
 
-	if (db) {
-		var rs = db.execute("SELECT article FROM cache WHERE id = ?", [id]);
-		var a = false;
+	if (has_local_storage()) {
+		var cache_obj = localStorage.getItem(id);
 
-		if (rs.isValidRow()) {
-			var a = rs.field(0);			
+		if (cache_obj) {
+			cache_obj = JSON.parse(cache_obj);
+
+			if (cache_obj)
+				return cache_obj['data'];
 		}
 
-		rs.close();
-
-		return a;
-
 	} else {
-
-		if (has_local_storage()) {
-			var cache_obj = localStorage.getItem(id);
-	
-			if (cache_obj) {
-				cache_obj = JSON.parse(cache_obj);
-
-				if (cache_obj)
-					return cache_obj['data'];
-			}
-
-		} else {
-			for (var i = 0; i < article_cache.length; i++) {
-				if (article_cache[i]["id"] == id) {
-					return article_cache[i]["data"];
-				}
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id) {
+				return article_cache[i]["data"];
 			}
 		}
 	}
@@ -1445,69 +1371,38 @@ function cache_find(id) {
 
 function cache_find_param(id, param) {
 
-	if (db) {
-		var rs = db.execute("SELECT article FROM cache WHERE id = ? AND param = ?",
-			[id, param]);
-		var a = false;
+	if (has_local_storage()) {
 
-		if (rs.isValidRow()) {
-			a = rs.field(0);
+		if (param) id = id + ":" + param;
+
+		var cache_obj = localStorage.getItem(id);
+
+		if (cache_obj) {
+			cache_obj = JSON.parse(cache_obj);
+
+			if (cache_obj)
+				return cache_obj['data'];
 		}
 
-		rs.close();
-
-		return a;
-
 	} else {
-
-		if (has_local_storage()) {
-
-			if (param) id = id + ":" + param;
-
-			var cache_obj = localStorage.getItem(id);
-
-			if (cache_obj) {
-				cache_obj = JSON.parse(cache_obj);
-
-				if (cache_obj)
-					return cache_obj['data'];
-			}
-
-		} else {
-			for (var i = 0; i < article_cache.length; i++) {
-				if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-					return article_cache[i]["data"];
-				}
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
+				return article_cache[i]["data"];
 			}
 		}
 	}
+
 	return false;
 }
 
 function cache_check(id) {
-
-	if (db) {
-		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ?",
-			[id]);
-		var a = false;
-
-		if (rs.isValidRow()) {
-			 a = rs.field(0) != "0";
-		}
-
-		rs.close();
-
-		return a;
-
+	if (has_local_storage()) {
+		if (localStorage.getItem(id))
+			return true;
 	} else {
-		if (has_local_storage()) {
-			if (localStorage.getItem(id))
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id) {
 				return true;
-		} else {
-			for (var i = 0; i < article_cache.length; i++) {
-				if (article_cache[i]["id"] == id) {
-					return true;
-				}
 			}
 		}
 	}
@@ -1515,34 +1410,17 @@ function cache_check(id) {
 }
 
 function cache_check_param(id, param) {
+	if (has_local_storage()) {
 
-	if (db) {
-		var rs = db.execute("SELECT COUNT(*) AS c FROM cache WHERE id = ? AND param = ?",
-			[id, param]);
-		var a = false;
+		if (param) id = id + ":" + param;
 
-		if (rs.isValidRow()) {
-			a = rs.field(0) != "0";
-		}
-
-		rs.close();
-
-		return a;
+		if (localStorage.getItem(id))
+			return true;
 
 	} else {
-
-		if (has_local_storage()) {
-
-			if (param) id = id + ":" + param;
-
-			if (localStorage.getItem(id))
+		for (var i = 0; i < article_cache.length; i++) {
+			if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
 				return true;
-
-		} else {
-			for (var i = 0; i < article_cache.length; i++) {
-				if (article_cache[i]["id"] == id && article_cache[i]["param"] == param) {
-					return true;
-				}
 			}
 		}
 	}
@@ -1550,42 +1428,29 @@ function cache_check_param(id, param) {
 }
 
 function cache_expire() {
-	if (db) {
+if (has_local_storage()) {
+
 		var date = new Date();
-		var ts = Math.round(date.getTime() / 1000);
+		var timestamp = Math.round(date.getTime() / 1000);
 
-		db.execute("DELETE FROM cache WHERE added < ? - 1800 AND id LIKE 'FEEDLIST'", [ts]);
-		db.execute("DELETE FROM cache WHERE added < ? - 600 AND (id LIKE 'F:%' OR id LIKE 'C:%')", [ts]);
-		db.execute("DELETE FROM cache WHERE added < ? - 86400", [ts]);
+		for (var i = 0; i < localStorage.length; i++) {
 
+			var id = localStorage.key(i);
+
+			if (timestamp - cache_added["TS:" + id] > 180) {
+				localStorage.removeItem(id);
+			}
+		}
 
 	} else {
-		if (has_local_storage()) {
-
-			var date = new Date();
-			var timestamp = Math.round(date.getTime() / 1000);
-
-			for (var i = 0; i < localStorage.length; i++) {
-
-				var id = localStorage.key(i);
-
-				if (timestamp - cache_added["TS:" + id] > 180) {
-					localStorage.removeItem(id);
-				}
-			}
-
-		} else {
-			while (article_cache.length > 25) {
-				article_cache.shift();
-			}
+		while (article_cache.length > 25) {
+			article_cache.shift();
 		}
 	}
 }
 
 function cache_flush() {
-	if (db) {
-		db.execute("DELETE FROM cache");
-	} else if (has_local_storage()) {
+	if (has_local_storage()) {
 		localStorage.clear();
 	} else {
 		article_cache = new Array();
@@ -1594,41 +1459,34 @@ function cache_flush() {
 
 function cache_invalidate(id) {
 	try {	
+		if (has_local_storage()) {
 
-		if (db) {
-			rs = db.execute("DELETE FROM cache WHERE id = ?", [id]);
-			return rs.rowsAffected != 0;
-		} else {
+			var found = false;
 
-			if (has_local_storage()) {
-
-				var found = false;
-
-				for (var i = 0; i < localStorage.length; i++) {
-					var key = localStorage.key(i);
+			for (var i = 0; i < localStorage.length; i++) {
+				var key = localStorage.key(i);
 
 //					console.warn("cache_invalidate: " + key_id + " cmp " + id);
 
-					if (key == id || key.indexOf(id + ":") == 0) {
-						localStorage.removeItem(key);
-						found = true;
-						break;
-					}
+				if (key == id || key.indexOf(id + ":") == 0) {
+					localStorage.removeItem(key);
+					found = true;
+					break;
 				}
+			}
 
-				return found;
+			return found;
 
-			} else {
-				var i = 0
+		} else {
+			var i = 0
 
-				while (i < article_cache.length) {
-					if (article_cache[i]["id"] == id) {
-						//console.log("cache_invalidate: removed id " + id);
-						article_cache.splice(i, 1);
-						return true;
-					}
-					i++;
+			while (i < article_cache.length) {
+				if (article_cache[i]["id"] == id) {
+					//console.log("cache_invalidate: removed id " + id);
+					article_cache.splice(i, 1);
+					return true;
 				}
+				i++;
 			}
 		}
 

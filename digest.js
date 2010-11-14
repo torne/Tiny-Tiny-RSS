@@ -1,9 +1,6 @@
 var last_feeds = [];
 var init_params = {};
 
-var db = false;
-var store = false;
-
 var _active_feed_id = false;
 var _active_feed_offset = false;
 var _update_timeout = false;

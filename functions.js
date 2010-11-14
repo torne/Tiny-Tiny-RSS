@@ -1227,14 +1227,7 @@ function backend_sanity_check_callback(transport) {
 				fatalError(3, "Sanity check: Received reply is not XML", 
 					transport.responseText);
 				return;
-			} else {
-				init_offline();
-				return;
 			}
-		}
-
-		if (getURLParam("offline")) {
-			return init_offline();
 		}
 
 		var reply = transport.responseXML.getElementsByTagName("error")[0];
@@ -1261,16 +1254,8 @@ function backend_sanity_check_callback(transport) {
 
 			if (params) {
 				for (k in params) {
-	
 					var v = params[k];
-	
 					console.log("IP: " + k + " => " + v);
-
-					if (db) {
-						db.execute("DELETE FROM init_params WHERE key = ?", [k]);
-						db.execute("INSERT INTO init_params (key,value) VALUES (?, ?)",
-							[k, v]);
-					}
 				}
 			}
 

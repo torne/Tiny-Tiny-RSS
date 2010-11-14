@@ -48,9 +48,7 @@
 	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="feedlist.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="viewfeed.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="offline.js?<?php echo $dt_add ?>"></script>
 
-	<script type="text/javascript" src="gears_init.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<script type="text/javascript">
@@ -103,8 +101,6 @@
 <div id="header">
 	<div class="topLinks" id="topLinks">
 
-	<span id="topLinksOnline">
-
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
@@ -119,41 +115,11 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
-	<img id="offlineModePic" 
-		onmouseover="enable_selection(false)" 
-		onmouseout="enable_selection(true)"
-		onclick="toggleOfflineModeInfo()"
-		src="images/offline.png" style="display:none"
-		width="16" height="16"
-		title="<?php echo __('Offline reading') ?>"/>
-
-	<div id="offlineModeDrop" style="display : none">
-		<div id="offlineModeSyncMsg">---</div>
-
-		<div class="showWhenSyncing" style="display : none">
-			<a href="javascript:offlineDownloadStop()">
-			<?php echo __('Cancel synchronization') ?></a></div>
-		<div class="hideWhenSyncing">
-			<a href="javascript:offlineDownloadStart()">
-			<?php echo __('Synchronize') ?></a></div>
-		<div class="hideWhenSyncing"><a href="javascript:offlineClearData()">
-			<?php echo __('Remove stored data') ?></a></div>
-		<div><a href="javascript:gotoOffline()">
-			<?php echo __('Go offline') ?></a></div>
-	</div>
-
 	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
 		width="13" height="13" 
 		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
 		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
-
-	</span>
-
-	<span id="topLinksOffline" style="display : none">
-		<img id="restartOnlinePic" src="images/online.png" 
-			height="13" width="13" onclick="gotoOnline()" title="<?php echo __('Go online') ?>"/>
-	</span>
 
 	</div>
 
