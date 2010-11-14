@@ -960,9 +960,9 @@ function hideOrShowFeedsCategory(cat_id, hide) {
 		nodes.each(function(node) {
 
 			var is_unread = node.hasClassName("Unread") ||
+				node.hasClassName("Selected") || 
 				(node.hasClassName("virt") && 
-				 	getInitParam("hide_read_shows_special")) ||
-				node.hasClassName("error");
+				 	getInitParam("hide_read_shows_special"));
 
 			if (hide && !is_unread) {
 				Effect.Fade(node, {duration : 0.3, 
@@ -975,7 +975,7 @@ function hideOrShowFeedsCategory(cat_id, hide) {
 		});
 
 		if (cat_node) {
-			if (hide && cat_unread == 0) {
+			if (hide && cat_unread == 0 && !cat_node.hasClassName("Selected")) {
 				Effect.Fade(cat_node, {duration : 0.3, 
 					queue: { position: 'end', scope: 'CFADE-' + cat_node.id, limit: 1 }});
 			} else {
