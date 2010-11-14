@@ -149,14 +149,14 @@ ul.feedList span.catTitle:hover {
 	color : #4684ff;
 }
 
-ul.feedList li.feedCatSelected {
+ul.feedList li.feedCat.Selected {
 	margin : 0px;
 	padding : 3px 0px 3px 0px;
 	color : #4684ff;
 	font-size : 12px;
 }
 
-ul.feedList li.feedCatSelected span.catTitle {
+ul.feedList li.feedCat.Selected span.catTitle {
 	color : #4684ff;
 	cursor : pointer;
 }
@@ -181,40 +181,40 @@ ul.feedCatList img, ul.feedList img {
 	vertical-align : bottom;
 }
 
-li.feedUnread, 
-li.errorUnread, 
-li.labelUnread, 
-li.virtUnread,
-li.tagUnread {
+li.feed.Unread, 
+li.error.Unread, 
+li.label.Unread, 
+li.virt.Unread,
+li.tag.Unread {
 	font-weight : bold;
 }
 
-li.errorSelected span.feedlink,
+li.error.Selected span.feedlink,
 li.error span.feedlink,
-li.errorUnread span.feedlink,
-li.errorUnreadSelected span.feedlink {
+li.error.Unread span.feedlink,
+li.error.Unread.Selected span.feedlink {
 	color : #f04040;
 }
 
-li.feedSelected span.feedlink,
-li.labelSelected span.feedlink,
-li.virtSelected span.feedlink,
-li.tagSelected span.feedlink {
+li.feed.Selected span.feedlink,
+li.label.Selected span.feedlink,
+li.virt.Selected span.feedlink,
+li.tag.Selected span.feedlink {
 	color : #4684ff;
 }
 
-li.feedUnreadSelected span.feedlink,
-li.labelUnreadSelected span.feedlink,
-li.virtUnreadSelected span.feedlink,
-li.tagUnreadSelected span.feedlink {
+li.feed.Unread.Selected span.feedlink,
+li.label.Unread.Selected span.feedlink,
+li.virt.Unread.Selected span.feedlink,
+li.tag.Unread.Selected span.feedlink {
 	color : #4684ff;
 }
 
-li.feedUnreadSelected,
-li.errorUnreadSelected,
-li.labelUnreadSelected,
-li.virtUnreadSelected,
-li.tagUnreadSelected {
+li.feed.Unread.Selected,
+li.error.Unread.Selected,
+li.label.Unread.Selected,
+li.virt.Unread.Selected,
+li.tag.Unread.Selected {
 	font-weight : bold;
 }
 
@@ -351,8 +351,7 @@ input.editbox {
 	color : #4684ff;
 }
 
-.evenUnreadSelected, .evenSelectedUnread, .evenUnreadSelected td,
-	.evenSelectedUnread td {
+.even.Unread.Selected, .even.Unread.Selected td {
 	background-color : #fff7d5;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -360,8 +359,7 @@ input.editbox {
 	border-color : #e7d796;
 }
 
-.oddUnreadSelected, .oddSelectedUnread, .oddUnreadSelected td,
-	.oddSelectedUnread td {
+.odd.Unread.Selected, .odd.Unread.Selected td {
 	background-color : #fff7d5;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -369,7 +367,7 @@ input.editbox {
 	border-color : #e7d796;
 }
 
-.evenSelected, .evenSelected td {
+.even.Selected, .even.Selected td {
 	background-color : #fff7d5;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -377,7 +375,7 @@ input.editbox {
 	border-collapse : collapse;
 }
 
-.oddSelected, .oddSelected td {
+.odd.Selected, .odd.Selected td {
 	background-color : #fff7d5;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -385,7 +383,7 @@ input.editbox {
 	border-collapse : collapse;
 }
 
-.evenGrayed, .evenGrayed td {
+.even.Grayed, .even.Grayed td {
 	background-color : #f0f0f0;
 	color : #909090;
 	border-width : 0px 0px 1px 0px;
@@ -394,7 +392,7 @@ input.editbox {
 	border-collapse : collapse;
 }
 
-.oddGrayed {
+.odd.Grayed {
 	color : #909090;
 }
 
@@ -413,7 +411,7 @@ input.editbox {
 	border-collapse : collapse;
 }
 
-.evenUnread, .evenUnread td {
+.even.Unread, .even.Unread td {
 	background-color : #f0f0f0;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -422,7 +420,7 @@ input.editbox {
 	border-collapse : collapse;
 }
 
-.oddUnread, .oddUnread td {
+.odd.Unread, .odd.Unread td {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -557,7 +555,7 @@ div.prefsTab:hover {
 	cursor : pointer;
 }
 
-div.prefsTabSelected:hover {
+div.prefsTab.Selected:hover {
 	cursor : pointer;
 }
 
@@ -579,7 +577,7 @@ div.prefsTab {
 	height : 30px;
 }
 
-div.prefsTabSelected {
+div.prefsTab.Selected {
 	float : left;
 	border-width : 1px 1px 0px 1px;
 	border-color : #88b0f0;
@@ -1262,12 +1260,13 @@ div.return a:hover {
 	right : 2px;
 }
 
-.catCtrHasUnread, .feedCtrHasUnread {
+.catCtr.Unread, .feedCtr.Unread {
 	font-weight : bold;
 	color : #707070;
+	display : inline;
 }
 
-.catCtrNoUnread, .feedCtrNoUnread {
+.catCtr, .feedCtr {
 	display : none;
 }
 

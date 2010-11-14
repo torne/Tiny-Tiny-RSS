@@ -1679,7 +1679,7 @@
 		if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id, false);
 		if (!$unread) $unread = getFeedUnread($link, $feed_id);	
 
-		if ($unread > 0) $class .= "Unread";
+		if ($unread > 0) $class .= " Unread";
 
 		if (!$icon_file) $icon_file = getFeedIcon($feed_id);
 
@@ -1730,9 +1730,9 @@
 		print "<span $rtl_tag id=\"FEEDN-$feed_id\">$feed</span>";
 
 		if ($unread != 0) {
-			$fctr_class = "class=\"feedCtrHasUnread\"";
+			$fctr_class = "class=\"feedCtr Unread\"";
 		} else {
-			$fctr_class = "class=\"feedCtrNoUnread\"";
+			$fctr_class = "class=\"feedCtr\"";
 		}
 
 		print " <span $rtl_tag $fctr_class id=\"FEEDCTR-$feed_id\">
@@ -4273,7 +4273,7 @@
 				$collapse_pic = "cat-collapse.png";
 			}
 
-			$catctr_class = ($cat_unread > 0) ? "catCtrHasUnread" : "catCtrNoUnread";
+			$catctr_class = ($cat_unread > 0) ? "catCtr Unread" : "catCtr";
 
 			if ($can_browse) {
 				$browse_cat_link = "onclick=\"javascript:viewCategory($cat_id)\"";
@@ -4452,7 +4452,7 @@
 				}
 	
 				if ($actid == $feed_id) {
-					$class .= "Selected";
+					$class .= " Selected";
 				}
 	
 				$total_unread += $unread;
@@ -5123,7 +5123,7 @@
 				}
 	
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
-					$class .= "Unread";
+					$class .= " Unread";
 					++$num_unread;
 					$is_unread = true;
 				} else {
@@ -5313,12 +5313,6 @@
 						}
 					}
 
-					if ($is_unread) {
-						$add_class = "Unread";
-					} else {
-						$add_class = "";
-					}	
-
 					$expand_cdm = get_pref($link, 'CDM_EXPANDED');
 
 					$mouseover_attrs = "onmouseover='postMouseIn($id)' 
@@ -5344,7 +5338,7 @@
 					print "</div>";
 				
 					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this, 
-							'RROW-$id')\" class=\"feedCheckBox\" id=\"RCHK-$id\"/>";
+							'RROW-$id')\" id=\"RCHK-$id\"/>";
 
 					print "$marked_pic";
 					print "$published_pic";

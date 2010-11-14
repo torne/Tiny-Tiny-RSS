@@ -197,14 +197,6 @@ function notify_info(msg, no_hide) {
 	notify_real(msg, no_hide, 4);
 }
 
-function cleanSelected(element) {
-	var content = $(element);
-
-	for (i = 0; i < content.rows.length; i++) {
-		content.rows[i].className = content.rows[i].className.replace("Selected", "");
-	}
-}
-
 function setCookie(name, value, lifetime, path, domain, secure) {
 	
 	var d = false;
@@ -306,48 +298,26 @@ function gotoExportOpml() {
 
 function toggleSelectRowById(sender, id) {
 	var row = $(id);
-
-	if (sender.checked) {
-		if (!row.className.match("Selected")) {
-			row.className = row.className + "Selected";
-		}
-	} else {
-		if (row.className.match("Selected")) {
-			row.className = row.className.replace("Selected", "");
-		}
-	}
+	return toggleSelectRow(sender, row);
 }
 
 function toggleSelectListRow(sender) {
-	var parent_row = sender.parentNode;
-
-	if (sender.checked) {
-		if (!parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className + "Selected";
-		}
-	} else {
-		if (parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className.replace("Selected", "");
-		}
-	}
+	var row = sender.parentNode;
+	return toggleSelectRow(sender, row);
 }
 
-function tSR(sender) {
-	return toggleSelectRow(sender);
+function tSR(sender, row) {
+	return toggleSelectRow(sender, row);
 }
 
-function toggleSelectRow(sender) {
-	var parent_row = sender.parentNode.parentNode;
+function toggleSelectRow(sender, row) {
 
-	if (sender.checked) {
-		if (!parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className + "Selected";
-		}
-	} else {
-		if (parent_row.className.match("Selected")) {
-			parent_row.className = parent_row.className.replace("Selected", "");
-		}
-	}
+	if (!row) row = sender.parentNode.parentNode;
+
+	if (sender.checked && !row.hasClassName('Selected'))
+		row.addClassName('Selected');
+	else
+		row.removeClassName('Selected');
 }
 
 function checkboxToggleElement(elem, id) {
@@ -1516,21 +1486,21 @@ function selectTableRows(id, mode) {
 				}
 
 				if (cb) {
-					var issel = row.className.match("Selected");
+					var issel = row.hasClassName("Selected");
 
 					if (mode == "all" && !issel) {
-						row.className += "Selected";
+						row.addClassName("Selected");
 						cb.checked = true;
 					} else if (mode == "none" && issel) {
-						row.className = row.className.replace("Selected", "");
+						row.removeClassName("Selected");
 						cb.checked = false;
 					} else if (mode == "invert") {
 
 						if (issel) {
-							row.className = row.className.replace("Selected", "");
+							row.removeClassName("Selected");
 							cb.checked = false;
 						} else {
-							row.className += "Selected";
+							row.addClassName("Selected");
 							cb.checked = true;
 						}
 					}
@@ -1551,7 +1521,7 @@ function getSelectedTableRowIds(id) {
 		var elem_rows = $(id).rows;
 
 		for (i = 0; i < elem_rows.length; i++) {
-			if (elem_rows[i].className.match("Selected")) {
+			if (elem_rows[i].hasClassName("Selected")) {
 				var bare_id = elem_rows[i].id.replace(/^[A-Z]*?-/, "");
 				rows.push(bare_id);
 			}

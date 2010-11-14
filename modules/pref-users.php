@@ -438,7 +438,7 @@
 			$edit_uid = $_REQUEST["id"];
 
 			if ($subop == "edit" && $uid != $edit_uid) {
-				$class .= "Grayed";
+				$class .= " Grayed";
 				$this_row_id = "";
 			} else {
 				$this_row_id = "id=\"UMRR-$uid\"";

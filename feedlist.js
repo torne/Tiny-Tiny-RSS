@@ -243,13 +243,13 @@ function viewfeed(feed, subop, is_cat, offset) {
 		
 			if (!is_cat) {
 				var feedr = $("FEEDR-" + feed);
-				if (feedr && !feedr.className.match("Selected")) {	
-					feedr.className = feedr.className + "Selected";
+				if (feedr && !feedr.hasClassName("Selected")) {	
+					feedr.addClassName("Selected");
 				} 
 			} else {
 				var feedr = $("FCAT-" + feed_id);
-				if (feedr && !feedr.className.match("Selected")) {	
-					feedr.className = feedr.className + "Selected";
+				if (feedr && !feedr.hasClassName("Selected")) {	
+					feedr.addClassName("Selected");
 				} 
 			}
 
@@ -384,16 +384,12 @@ function isCatCollapsed(cat) {
 
 function feedlist_dragsorted(ctr) {
 	try {
-		var elem = $("feedList");
+		var cats = $$("#feedList > li[id*=FCAT-]");
+		var ordered_cats = [];
 
-		var cats = elem.getElementsByTagName("LI");
-		var ordered_cats = new Array();
-
-		for (var i = 0; i < cats.length; i++) {
-			if (cats[i].id && cats[i].id.match("FCAT-")) {
-				ordered_cats.push(cats[i].id.replace("FCAT-", ""));
-			}
-		}
+		cats.each(function(cat) {
+			ordered_cats.push(cat.id.replace("FCAT-", ""));
+		});
 
 		if (ordered_cats.length > 0) {
 
@@ -707,9 +703,9 @@ function parse_counters(reply, scheduled_call) {
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + ")";
 					if (ctr > 0) {
-						catctr.className = "catCtrHasUnread";
+						catctr.addClassName("Unread");
 					} else {
-						catctr.className = "catCtrNoUnread";
+						catctr.removeClassName("Unread");
 					}
 				}
 				continue;
@@ -778,26 +774,16 @@ function parse_counters(reply, scheduled_call) {
 				feedu.innerHTML = ctr;
 
 				if (error) {
-					feedr.className = feedr.className.replace("feed", "error");
+					feedr.removeClassName("feed");
+					feedr.addClassName("error");
 				} else if (id > 0) {
-					feedr.className = feedr.className.replace("error", "feed");
+					feedr.removeClassName("error");
+					feedr.addClassName("feed");
 				}
 	
 				if (ctr > 0) {					
-					feedctr.className = "feedCtrHasUnread";
-					if (!feedr.className.match("Unread")) {
-						var is_selected = feedr.className.match("Selected");
-		
-						feedr.className = feedr.className.replace("Selected", "");
-						feedr.className = feedr.className.replace("Unread", "");
-		
-						feedr.className = feedr.className + "Unread";
-		
-						if (is_selected) {
-							feedr.className = feedr.className + "Selected";
-						}	
-						
-					}
+					feedctr.addClassName("Unread");
+					feedr.addClassName("Unread");
 
 					if (row_needs_hl && 
 							!getInitParam("theme_options").match('no_highlights')) { 
@@ -807,8 +793,8 @@ function parse_counters(reply, scheduled_call) {
 						cache_invalidate("F:" + id);
 					}
 				} else {
-					feedctr.className = "feedCtrNoUnread";
-					feedr.className = feedr.className.replace("Unread", "");
+					feedctr.removeClassName("Unread");
+					feedr.removeClassName("Unread");
 				}			
 			}
 		}
@@ -883,7 +869,7 @@ function resort_category(node, cat_mode) {
 
 	try {
 
-		console.log("resort_category: " + node + " CM=" + cat_mode);
+		//console.log("resort_category: " + node + " CM=" + cat_mode);
 	
 		var by_unread = feedsSortByUnread();
 	
@@ -896,8 +882,8 @@ function resort_category(node, cat_mode) {
 				var tmp_val = get_feed_entry_unread(list[i]);
 				var cur_val = get_feed_entry_unread(list[j]);
 	
-				var tmp_name = get_feed_entry_name(list[i]);
-				var cur_name = get_feed_entry_name(list[j]);
+				var tmp_name = get_feed_entry_name(list[i]).toLowerCase();
+				var cur_name = get_feed_entry_name(list[j]).toLowerCase();
 
 				/* we don't want to match FEEDR-0 - e.g. Archived articles */
 
@@ -924,13 +910,11 @@ function resort_feedlist() {
 
 	if ($("FCATLIST--1")) {
 
-		var lists = document.getElementsByTagName("UL");
+		var lists = $$("#feedList ul[id*=FCATLIST]");
 
-		for (var i = 0; i < lists.length; i++) {
-			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
-				resort_category(lists[i], true);
-			}
-		}
+		lists.each(function(list) {
+				if (list.id != "FCATLIST--1") resort_category(list, true);
+			});
 
 	} else {
 		resort_category($("feedList"), false);
@@ -941,118 +925,63 @@ function hideOrShowFeeds(hide) {
 
 	try {
 
-	//console.log("hideOrShowFeeds: " + hide);
-
-	if ($("FCATLIST--1")) {
-
-		var lists = document.getElementsByTagName("UL");
-
-		for (var i = 0; i < lists.length; i++) {
-			if (lists[i].id && lists[i].id.match("FCATLIST-")) {
-
-				var id = lists[i].id.replace("FCATLIST-", "");
-				hideOrShowFeedsCategory(id, hide);
-			}
+		if ($("FCATLIST--1")) {
+	
+			var lists = $$("#feedList ul[id*=FCATLIST]");
+	
+			lists.each(function(list) {
+					hideOrShowFeedsCategory(list.id.replace("FCATLIST-", ""), hide);
+				});
+	
+		} else {
+			hideOrShowFeedsCategory(null, hide);
 		}
-
-	} else {
-		hideOrShowFeedsCategory(null, hide);
-	}
 
 	} catch (e) {
 		exception_error("hideOrShowFeeds", e);
 	}
 }
 
-function hideOrShowFeedsCategory(id, hide) {
-
+function hideOrShowFeedsCategory(cat_id, hide) {
 	try {
-	
-		var node = null;
-		var cat_node = null;
 
-		if (id) {
-			node = $("FCATLIST-" + id);
-			cat_node = $("FCAT-" + id);
+		var nodes;
+		var cat_node;
+		
+		if (cat_id) {
+			nodes = $$("#FCATLIST-" + cat_id + " > li");
+			cat_node = $("FCAT-" + cat_id);
 		} else {
-			node = $("feedList"); // no categories
+			nodes = $$("#feedList li");
 		}
 
-	//	console.log("hideOrShowFeedsCategory: " + node + " (" + hide + ")");
-	
 		var cat_unread = 0;
-	
-		if (!node) {
-			console.warn("hideOrShowFeeds: passed node is null, aborting");
-			return;
-		}
-	
-	//	console.log("cat: " + node.id);
-	
-		if (node.hasChildNodes() && node.firstChild.nextSibling != false) {  
-			for (i = 0; i < node.childNodes.length; i++) {
-				if (node.childNodes[i].nodeName != "LI") { continue; }
-	
-				if (node.childNodes[i].style != undefined) {
-	
-					var has_unread = (node.childNodes[i].className != "feed" &&
-						node.childNodes[i].className != "label" && 
-						!(!getInitParam("hide_read_shows_special") && 
-							node.childNodes[i].className == "virt") && 
-						node.childNodes[i].className != "error" && 
-						node.childNodes[i].className != "tag");
 
-					var has_error = node.childNodes[i].className.match("error");
-		
-	//				console.log(node.childNodes[i].id + " --> " + has_unread);
-		
-					if (hide && !has_unread) {
-						var id = node.childNodes[i].id;
-						Effect.Fade(node.childNodes[i], {duration : 0.3, 
-							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-					}
-		
-					if (!hide) {
-						Element.show(node.childNodes[i]);
-					}
-		
-					if (has_unread) {
-						Element.show(node.childNodes[i]);
-						cat_unread++;
-					}
+		nodes.each(function(node) {
 
-					//if (has_error)	Element.hide(node.childNodes[i]);
-				}
+			var is_unread = node.hasClassName("Unread") ||
+				(node.hasClassName("virt") && 
+				 	getInitParam("hide_read_shows_special")) ||
+				node.hasClassName("error");
+
+			if (hide && !is_unread) {
+				Effect.Fade(node, {duration : 0.3, 
+					queue: { position: 'end', scope: 'FFADE-' + node.id, limit: 1 }});
+			} else {
+				Element.show(node);
+				++cat_unread;
 			}
-		}	
-	
-	//	console.log("end cat: " + node.id + " unread " + cat_unread);
+
+		});
 
 		if (cat_node) {
-
-			if (cat_unread == 0) {
-				if (cat_node.style == undefined) {
-					console.log("ERROR: supplied cat_node " + cat_node + 
-						" has no styles. WTF?");
-					return;
-				}
-				if (hide) {
-					//cat_node.style.display = "none";
-					Effect.Fade(cat_node, {duration : 0.3, 
-						queue: { position: 'end', scope: 'CFADE-' + node.id, limit: 1 }});
-				} else {
-					cat_node.style.display = "list-item";
-				}
+			if (hide && cat_unread == 0) {
+				Effect.Fade(cat_node, {duration : 0.3, 
+					queue: { position: 'end', scope: 'CFADE-' + cat_node.id, limit: 1 }});
 			} else {
-				try {
-					cat_node.style.display = "list-item";
-				} catch (e) {
-					console.log(e);
-				}
+				Element.show(cat_node);
 			}
 		}
-
-//	console.log("unread for category: " + cat_unread);
 
 	} catch (e) {
 		exception_error("hideOrShowFeedsCategory", e);
@@ -1076,32 +1005,24 @@ function getFeedName(id, is_cat) {
 
 function getNextUnreadCat(id) {
 	try {
-		var rows = $("feedList").getElementsByTagName("LI");
-		var feeds = new Array();
+		var rows = $$("#feedList li[id*=FCAT]");
+		var unread_cats = [];
 
-		var unread_only = true;
-		var is_cat = true;
+		rows.each(function(row) {
+			var cat_id = row.id.replace("FCAT-", "");
 
-		for (var i = 0; i < rows.length; i++) {
-			if (rows[i].id.match("FCAT-")) {
-				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
+			if (Element.visible(row) && get_cat_unread(cat_id) > 0)
+				unread_cats.push(parseInt(cat_id));
+			});
 
-					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
+		console.log(unread_cats);
+		
+		var idx = unread_cats.indexOf(id);
 
-					if (cat_id >= 0) {
-						if (!unread_only || get_cat_unread(cat_id) > 0) {
-							feeds.push(cat_id);
-						}
-					}
-				}
-			}
-		}
-
-		var idx = feeds.indexOf(id);
-		if (idx != -1 && idx < feeds.length) {
-			return feeds[idx+1];					
+		if (idx != -1 && idx < unread_cats.length-1) {
+			return unread_cats[idx+1];					
 		} else {
-			return feeds.shift();
+			return unread_cats[0];
 		}
 
 	} catch (e) {
@@ -1114,7 +1035,7 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 
 //		alert(id + " IC: " + is_cat + " D: " + direction + " U: " + unread_only);
 
-		var rows = $("feedList").getElementsByTagName("LI");
+		var rows = $$("#feedList li");
 		var feeds = new Array();
 	
 		for (var i = 0; i < rows.length; i++) {
@@ -1123,7 +1044,7 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 				if (rows[i].id == "FEEDR-" + id && !is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
 	
 					if (!unread_only || 
-							(rows[i].className.match("Unread") || rows[i].id == "FEEDR-" + id)) {
+							(rows[i].hasClassName("Unread") || rows[i].id == "FEEDR-" + id)) {
 						feeds.push(rows[i].id.replace("FEEDR-", ""));
 					}
 				}
@@ -1179,16 +1100,7 @@ function getRelativeFeedId2(id, is_cat, direction, unread_only) {
 
 function clean_feed_selections() {
 	try {
-		var feeds = $("feedList").getElementsByTagName("LI");
-
-		for (var i = 0; i < feeds.length; i++) {
-			if (feeds[i].id && feeds[i].id.match("FEEDR-")) {
-				feeds[i].className = feeds[i].className.replace("Selected", "");
-			}			
-			if (feeds[i].id && feeds[i].id.match("FCAT-")) {
-				feeds[i].className = feeds[i].className.replace("Selected", "");
-			}
-		}
+		$$("#feedList li").invoke('removeClassName', 'Selected');
 	} catch (e) {
 		exception_error("clean_feed_selections", e);
 	}

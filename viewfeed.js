@@ -69,13 +69,13 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		if (!is_cat) {
 			var feedr = $("FEEDR-" + feed_id);
-			if (feedr && !feedr.className.match("Selected")) {	
-				feedr.className = feedr.className + "Selected";
+			if (feedr) {	
+				feedr.addClassName("Selected");
 			} 
 		} else {
 			var feedr = $("FCAT-" + feed_id);
-			if (feedr && !feedr.className.match("Selected")) {	
-				feedr.className = feedr.className + "Selected";
+			if (feedr) {	
+				feedr.addClassName("Selected");
 			} 
 		}
 
@@ -254,9 +254,9 @@ function showArticleInHeadlines(id) {
 
 		if (!crow) return;
 
-		var article_is_unread = crow.className.match("Unread");
+		var article_is_unread = crow.hasClassName("Unread");
 			
-		crow.className = crow.className.replace("Unread", "");
+		crow.removeClassName("Unread");
 
 		selectArticles('none');
 
@@ -420,7 +420,7 @@ function view(id) {
 		query = query + "&cids=" + cids_to_request.toString();
 
 		var crow = $("RROW-" + id);
-		var article_is_unread = crow.className.match("Unread");
+		var article_is_unread = crow.hasClassName("Unread");
 
 		active_post_id = id;
 		showArticleInHeadlines(id);
@@ -668,28 +668,16 @@ function toggleSelected(id) {
 	try {
 	
 		var cb = $("RCHK-" + id);
-
 		var row = $("RROW-" + id);
+
 		if (row) {
-			var nc = row.className;
-			
-			if (!nc.match("Selected")) {
-				nc = nc + "Selected";
-				if (cb) {
-					cb.checked = true;
-				}
-
-				// In CDM basically last selected article == active article
-				if (isCdmMode()) active_post_id = id;
+			if (row.hasClassName('Selected')) {
+				row.removeClassName('Selected');
+				if (cb) cb.checked = false;
 			} else {
-				nc = nc.replace("Selected", "");
-				if (cb) {
-					cb.checked = false;
-				}
-
+				row.addClassName('Selected');
+				if (cb) cb.checked = true;
 			}
-
-			row.className = nc;
 		}
 	} catch (e) {
 		exception_error("toggleSelected", e);
@@ -712,24 +700,9 @@ function toggleUnread(id, cmode, effect) {
 	
 		var row = $("RROW-" + id);
 		if (row) {
-			var nc = row.className;
-			var is_selected = row.className.match("Selected");
-			nc = nc.replace("Unread", "");
-			nc = nc.replace("Selected", "");
-
-			// since we are removing selection from the object, uncheck
-			// corresponding checkbox
-
-			var cb = $("RCHK-" + id);
-			if (cb) {
-				cb.checked = false;
-			}
-
-			// NOTE: I'm not sure that resetting selection here is a feature -fox
-
 			if (cmode == undefined || cmode == 2) {
-				if (row.className.match("Unread")) {
-					row.className = nc;
+				if (row.hasClassName("Unread")) {
+					row.removeClassName("Unread");
 
 					if (effect) {
 						new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
@@ -738,7 +711,7 @@ function toggleUnread(id, cmode, effect) {
 					} 
 
 				} else {
-					row.className = nc + "Unread";
+					row.addClassName("Unread");
 				}
 
 				if (db) {
@@ -747,7 +720,8 @@ function toggleUnread(id, cmode, effect) {
 				}
 
 			} else if (cmode == 0) {
-				row.className = nc;
+
+				row.removeClassName("Unread");
 
 				if (effect) {
 					new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
@@ -761,7 +735,7 @@ function toggleUnread(id, cmode, effect) {
 				}
 
 			} else if (cmode == 1) {
-				row.className = nc + "Unread";
+				row.addClassName("Unread");
 
 				if (db) {
 					db.execute("UPDATE articles SET unread = 1 "+
@@ -771,9 +745,6 @@ function toggleUnread(id, cmode, effect) {
 			}
 
 			update_local_feedlist_counters();
-
-			// Disable unmarking as selected for the time being (16.05.08) -fox
-			if (is_selected) row.className = row.className + "Selected";
 
 			if (cmode == undefined) cmode = 2;
 
@@ -883,15 +854,11 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 		for (i = 0; i < rows.length; i++) {
 			var row = $("RROW-" + rows[i]);
 			if (row) {
-				var nc = row.className;
-				nc = nc.replace("Unread", "");
-				nc = nc.replace("Selected", "");
-
 				if (set_state == undefined) {
-					if (row.className.match("Unread")) {
-						row.className = nc + "Selected";
+					if (row.hasClassName("Unread")) {
+						row.removeClassName("Unread");
 					} else {
-						row.className = nc + "UnreadSelected";
+						row.addClassName("Unread");
 					}
 					if (db) {
 						db.execute("UPDATE articles SET unread = NOT unread WHERE id = ?", 
@@ -900,7 +867,8 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 				}
 
 				if (set_state == false) {
-					row.className = nc + "Selected";
+					row.removeClassName("Unread");
+
 					if (db) {
 						db.execute("UPDATE articles SET unread = 0 WHERE id = ?", 
 							[rows[i]]);
@@ -908,7 +876,8 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 				}
 
 				if (set_state == true) {
-					row.className = nc + "UnreadSelected";
+					row.addClassName("Unread");
+
 					if (db) {
 						db.execute("UPDATE articles SET unread = 1 WHERE id = ?", 
 							[rows[i]]);
@@ -1016,84 +985,65 @@ function selectionTogglePublished() {
 }
 
 function getSelectedArticleIds2() {
-	var sel_articles = new Array();
 
-	var children;
-	
-	var children = $("headlinesInnerContainer").childNodes;
+	var rv = [];
 
-	for (i = 0; i < children.length; i++) {
-		var child = children[i];
+	$$("#headlinesInnerContainer > div[id*=RROW][class*=Selected]").each(
+		function(child) {
+			rv.push(child.id.replace("RROW-", ""));
+		});
 
-		if (child.id && child.id.match("RROW-") && child.className.match("Selected")) {
-			var c_id = child.id.replace("RROW-", "");
-			sel_articles.push(c_id);
-		}
-	}
-
-	return sel_articles;
+	return rv;
 }
 
 function getLoadedArticleIds() {
-	var sel_articles = new Array();
+	var rv = [];
 
-	var children = $("headlinesInnerContainer").childNodes;
+	var children = $$("#headlinesInnerContainer > div[id*=RROW-]");
 
-	if (!children) return sel_articles;
+	children.each(function(child) {
+			rv.push(child.id.replace("RROW-", ""));
+		});
 
-	for (i = 0; i < children.length; i++) {
-		var child = children[i];
+	return rv;
 
-		if (child.id && child.id.match("RROW-")) {
-			var c_id = child.id.replace("RROW-", "");
-			sel_articles.push(c_id);
-		}
-	}
-
-	return sel_articles;
 }
 
 // mode = all,none,unread,invert
 function selectArticles(mode) {
 	try {
 
-		var children;
-	
-		var children = $("headlinesInnerContainer").childNodes;
+		var children = $$("#headlinesInnerContainer > div[id*=RROW]");
 
-		for (i = 0; i < children.length; i++) {
-			var child = children[i];
-	
-			if (child.id && child.id.match("RROW-")) {
-				var aid = child.id.replace("RROW-", "");
-	
-				var cb = $("RCHK-" + aid);
-	
-				if (mode == "all") {
-					if (!child.className.match("Selected")) {
-						child.className = child.className + "Selected";
-						cb.checked = true;
-					}
-				} else if (mode == "unread") {
-					if (child.className.match("Unread") && !child.className.match("Selected")) {
-						child.className = child.className + "Selected";
-						cb.checked = true;
-					}
-				} else if (mode == "invert") {
-					if (child.className.match("Selected")) {
-						child.className = child.className.replace("Selected", "");
-						cb.checked = false;
-					} else {
-						child.className = child.className + "Selected";
-						cb.checked = true;
-					}
+		children.each(function(child) {
+			var id = child.id.replace("RROW-", "");
+			var cb = $("RCHK-" + id);
 
+			if (mode == "all") {
+				child.addClassName("Selected");
+				cb.checked = true;
+			} else if (mode == "unread") {
+				if (child.hasClassName("Unread")) {
+					child.addClassName("Selected");
+					cb.checked = true;
 				} else {
-					child.className = child.className.replace("Selected", "");
+					child.removeClassName("Selected");
 					cb.checked = false;
 				}
-			}		
-		}
+			} else if (mode == "invert") {
+				if (child.hasClassName("Selected")) {
+					child.removeClassName("Selected");
+					cb.checked = false;
+				} else {
+					child.addClassName("Selected");
+					cb.checked = true;
+				}
+
+			} else {
+				child.removeClassName("Selected");
+				cb.checked = false;
+			}
+		});
 
 	} catch (e) {
 		exception_error("selectArticles", e);
@@ -1349,7 +1299,7 @@ function cdmWatchdog() {
 		var e = ctr.firstChild;
 
 		while (e) {
-			if (e.className && e.className == "cdmArticleUnread" && e.id &&
+			if (e.className && e.hasClassName("Unread") && e.id &&
 					e.id.match("RROW-")) {
 
 				// article fits in viewport OR article is longer than viewport and
@@ -1393,7 +1343,7 @@ function cdmWatchdog() {
 			for (var i = 0; i < ids.length; i++) {
 				var e = $("RROW-" + ids[i]);
 				if (e) {
-					e.className = e.className.replace("Unread", "");
+					e.removeClassName("Unread");
 				}
 			}
 
@@ -1817,7 +1767,7 @@ function catchupRelativeToArticle(below) {
 				if (visible_ids[i] != getActiveArticleId()) {
 					var e = $("RROW-" + visible_ids[i]);
 
-					if (e && e.className.match("Unread")) {
+					if (e && e.hasClassName("Unread")) {
 						ids_to_mark.push(visible_ids[i]);
 					}
 				} else {
@@ -1829,7 +1779,7 @@ function catchupRelativeToArticle(below) {
 				if (visible_ids[i] != getActiveArticleId()) {
 					var e = $("RROW-" + visible_ids[i]);
 
-					if (e && e.className.match("Unread")) {
+					if (e && e.hasClassName("Unread")) {
 						ids_to_mark.push(visible_ids[i]);
 					}
 				} else {
@@ -1847,7 +1797,7 @@ function catchupRelativeToArticle(below) {
 
 				for (var i = 0; i < ids_to_mark.length; i++) {
 					var e = $("RROW-" + ids_to_mark[i]);
-					e.className = e.className.replace("Unread", "");
+					e.removeClassName("Unread");
 				}
 
 				var query = "?op=rpc&subop=catchupSelected" +
@@ -1958,9 +1908,11 @@ function fixHeadlinesOrder(ids) {
 
 			if (e) {
 				if (i % 2 == 0) {
-					e.className = e.className.replace("even", "odd");
+					e.removeClassName("even");
+					e.addClassName("odd");
 				} else {
-					e.className = e.className.replace("odd", "even");
+					e.removeClassName("odd");
+					e.addClassName("even");
 				}
 			}
 		}
@@ -2162,7 +2114,7 @@ function dismissSelectedArticles() {
 		for (var i = 0; i < ids.length; i++) {
 			var elem = $("RROW-" + ids[i]);
 
-			if (elem.className && elem.className.match("Selected") && 
+			if (elem.className && elem.hasClassName("Selected") && 
 					ids[i] != active_post_id) {
 				new Effect.Fade(elem, {duration : 0.5});
 				sel.push(ids[i]);
@@ -2190,8 +2142,8 @@ function dismissReadArticles() {
 		for (var i = 0; i < ids.length; i++) {
 			var elem = $("RROW-" + ids[i]);
 
-			if (elem.className && !elem.className.match("Unread") && 
-					!elem.className.match("Selected")) {
+			if (elem.className && !elem.hasClassName("Unread") && 
+					!elem.hasClassName("Selected")) {
 			
 				new Effect.Fade(elem, {duration : 0.5});
 			} else {
@@ -2210,13 +2162,12 @@ function getVisibleArticleIds() {
 	var ids = [];
 
 	try {
-		var tmp = getLoadedArticleIds();
-
-		for (var i = 0; i < tmp.length; i++) {
-			var elem = $("RROW-" + tmp[i]);
+		
+		getLoadedArticleIds().each(function(id) {
+			var elem = $("RROW-" + id);
 			if (elem && Element.visible(elem))
-				ids.push(tmp[i]);
-		}
+				ids.push(id);
+			});
 
 	} catch (e) {
 		exception_error("getVisibleArticleIds", e);
@@ -2238,7 +2189,7 @@ function cdmClicked(event, id) {
 			var elem = $("RROW-" + id);
 
 			if (elem)
-				elem.className = elem.className.replace("Unread", "");
+				elem.removeClassName("Unread");
 
 			var upd_img_pic = $("FUPDPIC-" + id);
 
@@ -2247,6 +2198,8 @@ function cdmClicked(event, id) {
 
 				upd_img_pic.src = "images/blank_icon.gif";
 			}
+
+			active_post_id = id;
 
 			var query = "?op=rpc&subop=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(id);
@@ -2351,27 +2304,13 @@ function isCdmMode() {
 function markHeadline(id) {
 	var row = $("RROW-" + id);
 	if (row) {
-		var is_active = false;
-	
-		if (row.className.match("Active")) {
-			is_active = true;
-		}
-		row.className = row.className.replace("Selected", "");
-		row.className = row.className.replace("Active", "");
-		row.className = row.className.replace("Insensitive", "");
-		
-		if (is_active) {
-			row.className = row.className = "Active";
-		}
-		
 		var check = $("RCHK-" + id);
 
 		if (check) {
 			check.checked = true;
 		}
 
-		row.className = row.className + "Selected"; 
-		
+		row.addClassName("Selected");
 	}
 }
 

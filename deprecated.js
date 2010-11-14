@@ -1,8 +1,9 @@
 function selectTableRow(r, do_select) {
-	r.className = r.className.replace("Selected", "");
 	
 	if (do_select) {
-		r.className = r.className + "Selected";
+		r.addClassName("Selected");
+	} else {
+		r.removeClassName("Selected");
 	}
 }
 

@@ -1111,25 +1111,11 @@ function selectTab(id, noupdate, subop) {
 
 		/* clean selection from all tabs */
 	
-		var tabs_holder = $("prefTabs");
-		var tab = tabs_holder.firstChild;
-
-		while (tab) {
-			if (tab.className && tab.className.match("prefsTabSelected")) {
-				tab.className = "prefsTab";
-			}
-			tab = tab.nextSibling;
-		}
+		$$("#prefTabs div").invoke('removeClassName', 'Selected');
 
 		/* mark new tab as selected */
 
-		tab = $(id + "Tab");
-	
-		if (tab) {
-			if (!tab.className.match("Selected")) {
-				tab.className = tab.className + "Selected";
-			}
-		}
+		$(id + "Tab").addClassName("Selected");
 	
 		active_tab = id;
 
