@@ -58,114 +58,13 @@
 			return;
 		}
 
-/*		if ($subop == "massSubscribe") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
-
-			$subscribed = array();
-
-			foreach ($ids as $id) {
-
-				if ($mode == 1) {
-					$result = db_query($link, "SELECT feed_url,title FROM ttrss_feeds
-						WHERE id = '$id'");
-				} else if ($mode == 2) {
-					$result = db_query($link, "SELECT * FROM ttrss_archived_feeds
-						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-					$orig_id = db_escape_string(db_fetch_result($result, 0, "id"));
-					$site_url = db_escape_string(db_fetch_result($result, 0, "site_url"));
-				}
-	
-				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
-				$title = db_escape_string(db_fetch_result($result, 0, "title"));
-	
-				$title_orig = db_fetch_result($result, 0, "title");
-	
-				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
-	
-				if (db_num_rows($result) == 0) {			
-					if ($mode == 1) {
-						$result = db_query($link,
-							"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
-							VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
-					} else if ($mode == 2) {
-						$result = db_query($link,
-							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id,site_url) 
-							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL, '$site_url')");
-					}
-					array_push($subscribed, $title_orig);
-				}
-			}
-
-			if (count($subscribed) > 0) {
-				$msg = "<b>".__('Subscribed to feeds:')."</b>".
-					"<ul class=\"nomarks\">";
-
-				foreach ($subscribed as $title) {
-					$msg .= "<li>$title</li>";
-				}
-				$msg .= "</ul>";
-
-				print format_notice($msg);
-			}
-
-			return;
-		} */
-
-/*		if ($subop == "browse") {
-
-			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
-			
-			print "<div class=\"infoBoxContents\">";
-
-			$browser_search = db_escape_string($_REQUEST["search"]);
-
-			//print "<p>".__("Showing top 25 registered feeds, sorted by popularity:")."</p>";
-
-			print "<form onsubmit='return false;' display='inline' name='feed_browser' id='feed_browser'>";
-
-			print "
-				<div style='float : right'>
-				<img style='display : none' 
-					id='feed_browser_spinner' src='images/indicator_white.gif'>
-				<input name=\"search\" size=\"20\" type=\"search\"
-					onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
-				<button onclick=\"javascript:updateFeedBrowser()\">".__('Search')."</button>
-			</div>";
-
-			print " <select name=\"mode\" onchange=\"updateFeedBrowser()\">
-				<option value='1'>" . __('Popular feeds') . "</option>
-				<option value='2'>" . __('Feed archive') . "</option>
-				</select> ";
-
-			print __("limit:");
-
-			print " <select name=\"limit\" onchange='updateFeedBrowser()'>";
-
-			foreach (array(25, 50, 100, 200) as $l) {
-				$issel = ($l == $limit) ? "selected" : "";
-				print "<option $issel>$l</option>";
-			}
-			
-			print "</select> ";
-
-			print "<p>";
-
-			$owner_uid = $_SESSION["uid"];
-
-			print "<ul class='browseFeedList' id='browseFeedList'>";
-			print_feed_browser($link, $search, 25);
-			print "</ul>";
-
-			print "<div align='center'>
-				<button onclick=\"feedBrowserSubscribe()\">".__('Subscribe')."</button>
-				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
-
-			print "</div>";
-			return;
-		} */
-
 		if ($subop == "editfeed") {
+			header("Content-Type: text/xml");
+
+			print "<dlg id=\"$subop\">";
+			print "<title>".__('Feed Editor')."</title>";
+			print "<content><![CDATA[";
+
 			$feed_id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, 
@@ -183,10 +82,6 @@
 			} else {
 				$feed_icon = "";
 			}
-
-			print "<div id=\"infoBoxTitle\">".__('Feed Editor')."</div>";
-
-			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"edit_feed_form\" onsubmit=\"return false\">";	
 
@@ -402,16 +297,19 @@
 				<button onclick=\"return feedEditCancel()\">".__('Cancel')."</button>
 				</div>";
 
+			print "]]></content></dlg>";
+
 			return;
 		}
 
 		if ($subop == "editfeeds") {
 
 			$feed_ids = db_escape_string($_REQUEST["ids"]);
-
-			print "<div id=\"infoBoxTitle\">".__('Multiple Feed Editor')."</div>";
-
-			print "<div class=\"infoBoxContents\">";
+			
+			header("Content-Type: text/xml");
+			print "<dlg id=\"$subop\">";
+			print "<title>".__('Multiple Feed Editor')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id=\"batch_edit_feed_form\" onsubmit=\"return false\">";	
 
@@ -554,6 +452,8 @@
 				<input type='submit' class='button'			
 				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
 				</div>";
+
+			print "]]></content></dlg>";
 
 			return;
 		}
@@ -954,10 +854,10 @@
 
 			}
 
-			print "<div id=\"infoBoxTitle\">".__('Category editor')."</div>";
-			
-			print "<div class=\"infoBoxContents\">";
-
+			header("Content-Type: text/xml");
+			print "<dlg id=\"$subop\">";
+			print "<title>".__('Category editor')."</title>";
+			print "<content><![CDATA[";
 
 			if ($action == "add") {
 
@@ -1047,7 +947,7 @@
 			print "<button onclick=\"selectTab('feedConfig')\">".
 				__('Close this window')."</button></div>";
 
-			print "</div>";
+			print "]]></content></dlg>";
 
 			return;
 
@@ -1188,8 +1088,6 @@
 			ORDER by $order_by_qpart");
 
 		if (db_num_rows($result) != 0) {
-
-//			print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefFeedList\" id=\"prefFeedList\">";

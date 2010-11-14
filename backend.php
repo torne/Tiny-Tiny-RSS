@@ -50,7 +50,7 @@
 
 	if ((!$op || $op == "rpc" || $op == "rss" || 
 			($op == "view" && $mode != "zoom") || 
-			$op == "digestSend" || $op == "viewfeed" || $op == "publish" ||
+			$op == "digestSend" || $op == "dlg" || $op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 				header("Content-Type: application/xml; charset=utf-8");
 

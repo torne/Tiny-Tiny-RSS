@@ -12,11 +12,14 @@
 
 		if ($subop == "user-details") {
 
+			header("Content-Type: text/xml");
+			print "<dlg id=\"$subop\">";
+
 			$uid = sprintf("%d", $_REQUEST["id"]);
 
-			print "<div id=\"infoBoxTitle\">".__('User details')."</div>";
+			print "<title>".__('User details')."</title>";
 
-			print "<div class='infoBoxContents'>";
+			print "<content><![CDATA[";
 
 			$result = db_query($link, "SELECT login,
 				".SUBSTRING_FOR_DATE."(last_login,1,16) AS last_login,
@@ -96,18 +99,20 @@
 				<button onclick=\"closeInfoBox()\">".__("Close this window").
 				"</button></div>";
 
-			print "</div>";
+			print "]]></content></dlg>";
 
 			return;
 		}
 
 		if ($subop == "edit") {
 
+			header("Content-Type: text/xml");
+
 			$id = db_escape_string($_REQUEST["id"]);
 
-			print "<div id=\"infoBoxTitle\">".__('User Editor')."</div>";
-			
-			print "<div class=\"infoBoxContents\">";
+			print "<dlg id=\"$subop\">";
+			print "<title>".__('User Editor')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id=\"user_edit_form\" onsubmit='return false'>";
 
@@ -180,7 +185,7 @@
 				<button onclick=\"return userEditCancel()\">".
 					__('Cancel')."</button></div>";
 
-			print "</div>";
+			print "]]></content></dlg>";
 
 			return;
 		}
@@ -409,8 +414,6 @@
 			ORDER BY $sort");
 
 		if (db_num_rows($result) > 0) {
-
-//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		print "<p><table width=\"100%\" cellspacing=\"0\" 
 			class=\"prefUserList\" id=\"prefUserList\">";

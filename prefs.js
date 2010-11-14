@@ -157,7 +157,6 @@ function infobox_feed_cat_callback2(transport) {
 	try {
 		infobox_callback2(transport);
 		init_cat_inline_editor();
-		$('fadd_cat').focus();
 	} catch (e) {
 		exception_error("infobox_feed_cat_callback2", e);
 	}
@@ -327,7 +326,6 @@ function addUser() {
 function editUser(id, event) {
 
 	try {
-
 		if (!event || !event.ctrlKey) {
 
 		disableHotkeys();
@@ -946,7 +944,7 @@ function editSelectedFeed() {
 
 	notify("");
 
-	editFeed(rows[0]);
+	editFeed(rows[0], {});
 
 }
 

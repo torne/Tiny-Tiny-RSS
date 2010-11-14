@@ -25,7 +25,7 @@
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
-	<link rel="stylesheet" type="text/css" href="infobox.css?<?php echo $dt_add ?>"/>
+	<link rel="stylesheet" type="text/css" href="lib/modalbox/modalbox.css"/>
 
 	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>
@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="lib/position.js"></script>
 	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
+	<script type="text/javascript" src="lib/modalbox/modalbox.js"></script>
 
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
@@ -133,19 +134,7 @@
 </div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-<div id="infoBoxShadow"><div id="infoBox">BAH</div></div>
 <div id="cmdline" style="display : none"></div>
-
-<div id="errorBoxShadow" style="display : none">
-	<div id="errorBox">
-	<div id="xebTitle"><?php echo __('Fatal Exception') ?></div><div id="xebContent">&nbsp;</div>
-		<div id="xebBtn" align='center'>
-			<button onclick="closeErrorBox()"><?php echo __('Close this window') ?></button>
-		</div>
-	</div>
-</div>
-
-<div id="dialog_overlay" style="display : none"> </div>
 
 <div id="prefFooter">
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>

@@ -26,8 +26,9 @@
 	<title>Tiny Tiny RSS</title>
 
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
-	<link rel="stylesheet" type="text/css" href="infobox.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="cdm.css?<?php echo $dt_add ?>"/>
+
+	<link rel="stylesheet" type="text/css" href="lib/modalbox/modalbox.css"/>
 
 	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>
@@ -42,7 +43,8 @@
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
 	<script type="text/javascript" src="lib/prototype.js"></script>
-	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
+	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls,builder"></script>
+	<script type="text/javascript" src="lib/modalbox/modalbox.js"></script>
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="tt-rss.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
@@ -84,19 +86,8 @@
 </div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-<div id="dialog_overlay" style="display : none"> </div>
-<div id="infoBoxShadow" style="display : none"><div id="infoBox">&nbsp;</div></div>
 <div id="cmdline" style="display : none"></div>
 <div id="auxDlg" style="display : none"></div>
-
-<div id="errorBoxShadow" style="display : none">
-	<div id="errorBox">
-	<div id="xebTitle"><?php echo __('Fatal Exception') ?></div><div id="xebContent">&nbsp;</div>
-		<div id="xebBtn" align='center'>
-			<button onclick="closeErrorBox()"><?php echo __('Close this window') ?></button>
-		</div>
-	</div>
-</div>
 
 <div id="header">
 	<div class="topLinks" id="topLinks">

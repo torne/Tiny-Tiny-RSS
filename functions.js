@@ -27,38 +27,34 @@ function exception_error(location, e, ext_info) {
 
 	try {
 
-		var ebc = $("xebContent");
-	
-		if (ebc) {
-	
-			Element.show("dialog_overlay");
-			Element.show("errorBoxShadow");
-	
-			if (ext_info) {
-				if (ext_info.responseText) {
-					ext_info = ext_info.responseText;
-				}
+		if (ext_info) {
+			if (ext_info.responseText) {
+				ext_info = ext_info.responseText;
 			}
-	
-			ebc.innerHTML = 
-				"<div><b>Error message:</b></div>" +
-				"<pre>" + msg + "</pre>";
-
-			if (ext_info) {
-				ebc.innerHTML += "<div><b>Additional information:</b></div>" +
-				"<textarea readonly=\"1\">" + ext_info + "</textarea>";
-			}
-
-			ebc.innerHTML += "<div><b>Stack trace:</b></div>" +
-				"<textarea readonly=\"1\">" + e.stack + "</textarea>";
-	
-		} else {
-			alert(msg);
 		}
+
+		var content = "<div class=\"fatalError\">" +
+			"<pre>" + msg + "</pre>";
+
+		if (ext_info) {
+			content += "<div><b>Additional information:</b></div>" +
+			"<textarea readonly=\"1\">" + ext_info + "</textarea>";
+		}
+
+		content += "<div><b>Stack trace:</b></div>" +
+			"<textarea readonly=\"1\">" + e.stack + "</textarea>";
+
+		content += "<div style='text-align : center'>" +
+			"<button onclick=\"closeInfoBox()\">" +
+			"Close this window" + "</button></div>";
+	
+		// TODO: add code to automatically report errors to tt-rss.org
+
+		Modalbox.show(content, {title: "Unhandled exception", width: 600, 
+			resizeDuration: 0, transitions: false});
 
 	} catch (e) {
 		alert(msg);
-
 	}
 
 }
@@ -322,7 +318,10 @@ function toggleSelectRow(sender, row) {
 
 function checkboxToggleElement(elem, id) {
 	if (elem.checked) {
-		Effect.Appear(id, {duration : 0.5});
+		Effect.Appear(id, {duration : 0.5, 
+			afterSetup: function() { 
+				Modalbox.resizeToContent();
+			}});
 	} else {
 		Effect.Fade(id, {duration : 0.5});
 	}
@@ -391,26 +390,19 @@ function closeInfoBox(cleanup) {
 
 	try {
 		enableHotkeys();
+		Modalbox.hide();
 
-		if (Element.visible("infoBoxShadow")) {
-			Element.hide("dialog_overlay");
-			Element.hide("infoBoxShadow");
-
-			if (cleanup) $("infoBox").innerHTML = "&nbsp;";
-		}
 	} catch (e) {
-		exception_error("closeInfoBox", e);
+		//exception_error("closeInfoBox", e);
 	}
-	
 	return false;
 }
 
 
 function displayDlg(id, param, callback) {
 
-	notify_progress("Loading, please wait...", true);
-
 	disableHotkeys();
+	notify_progress("Loading, please wait...", true);
 
 	var query = "?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param);
@@ -443,22 +435,29 @@ function infobox_submit_callback2(transport) {
 function infobox_callback2(transport) {
 	try {
 
-		console.log("infobox_callback2");
+		//console.log("infobox_callback2");
+		notify('');
 
-		var box = $('infoBox');
-		
-		if (box) {			
+		var content;
+		var dtitle = "Dialog";
 
-			if (!getInitParam("infobox_disable_overlay")) {
-				Element.show("dialog_overlay");
-			}
+		if (transport.responseXML) {
+			var dlg = transport.responseXML.getElementsByTagName("dlg")[0];
 
-			box.innerHTML=transport.responseText;			
-			Element.show("infoBoxShadow");
-			//Effect.SlideDown("infoBoxShadow", {duration : 1.0});
+			var title = transport.responseXML.getElementsByTagName("title")[0];
+			if (title)
+				dtitle = title.firstChild.nodeValue;
 
+			var content = transport.responseXML.getElementsByTagName("content")[0];
+			
+			content = content.firstChild.nodeValue;
 
+		} else {
+			content = transport.responseText;
 		}
+
+		Modalbox.show(content, {title: dtitle, width: 600, 
+			transitions: true, resizeDuration: 0 });
 
 		disableHotkeys();
 
@@ -604,7 +603,10 @@ function subscribeToFeed() {
 							if (count > 5) count = 5;
 							select.size = count;
 	
-							Effect.Appear('fadd_feeds_container', {duration : 0.5});
+							Effect.Appear('fadd_feeds_container', {duration : 0.5, 
+								afterSetup: function() { 
+							  		Modalbox.resizeToContent()
+								}});
 						}
 					});
 					break;

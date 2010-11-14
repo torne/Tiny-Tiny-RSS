@@ -7,6 +7,11 @@
 
 			$filter_id = db_escape_string($_REQUEST["id"]);
 
+			header("Content-Type: text/xml");
+			print "<dlg id=\"$subop\">";
+			print "<title>".__('Filter Editor')."</title>";
+			print "<content><![CDATA[";
+
 			$result = db_query($link, 
 				"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -19,9 +24,6 @@
 
 			$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 			$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
-
-			print "<div id=\"infoBoxTitle\">".__('Filter Editor')."</div>";
-			print "<div class=\"infoBoxContents\">";
 
 			print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
@@ -158,7 +160,7 @@
 			print "<button onclick=\"return filterEditCancel()\">".
 				__('Cancel')."</button>";
 
-			print "</div>";
+			print "]]></content></dlg>";
 
 			return;
 		}
@@ -277,8 +279,6 @@
 		if (!$sort || $sort == "undefined") {
 			$sort = "reg_exp";
 		}
-
-//		print "<div id=\"infoBoxShadow\"><div id=\"infoBox\">PLACEHOLDER</div></div>";
 
 		$result = db_query($link, "SELECT id,description 
 			FROM ttrss_filter_types ORDER BY description");

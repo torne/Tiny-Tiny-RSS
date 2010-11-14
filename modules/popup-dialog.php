@@ -3,9 +3,11 @@
 		$id = $_REQUEST["id"];
 		$param = db_escape_string($_REQUEST["param"]);
 
+		print "<dlg id=\"$id\">";
+
 		if ($id == "importOpml") {
-			print "<div id=\"infoBoxTitle\">".__('OPML Import')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('OPML Import')."</title>";
+			print "<content><![CDATA[";
 
 			print "<div class=\"prefFeedCatHolder\">";
 
@@ -58,15 +60,16 @@
 			print "parent.opmlImportHandler(this)";
 			print "</script>";
 
-			print "</div></div>";
+			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "editPrefProfiles") {
 
-			print "<div id=\"infoBoxTitle\">".__('Settings Profiles')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Settings Profiles')."</title>";
+			print "<content><![CDATA[";
 
 			print "<div><input id=\"fadd_profile\" 
 					onkeypress=\"return filterCR(event, addPrefProfile)\"
@@ -153,15 +156,16 @@
 			print "<button onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
-			print "</div></div>";
+			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "pubOPMLUrl") {
 
-			print "<div id=\"infoBoxTitle\">".__('Public OPML URL')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Public OPML URL')."</title>";
+			print "<content><![CDATA[";
 
 			$url_path = opml_publish_url($link);
 
@@ -179,15 +183,16 @@
 			print "<button onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
-			print "</div></div>";
+			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "explainError") {
 
-			print "<div id=\"infoBoxTitle\">".__('Notice')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Notice')."</title>";
+			print "<content><![CDATA[";
 
 			print "<div class=\"errorExplained\">";
 
@@ -227,15 +232,16 @@
 			print "<button onclick=\"return closeInfoBox()\"".
 				__('Close this window')."</button>";
 
-			print "</div></div>";
+			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "quickAddFeed") {
 
-			print "<div id=\"infoBoxTitle\">".__('Subscribe to Feed')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Subscribe to Feed')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id='feed_add_form' onsubmit='return false'>";
 
@@ -295,15 +301,17 @@
 					onclick=\"return subscribeToFeed()\">".__('Subscribe')."</button>
 				<button onclick=\"return displayDlg('feedBrowser')\">".__('More feeds')."</button>
 				<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button></div>";
-			
-			return;
+
+			print "]]></content>";
+
+			//return;
 		}
 
 		if ($id == "feedBrowser") {
 
-			print "<div id=\"infoBoxTitle\">".__('Feed Browser')."</div>";
+			print "<title>".__('Feed Browser')."</title>";
 			
-			print "<div class=\"infoBoxContents\">";
+			print "<content><![CDATA[";
 
 			$browser_search = db_escape_string($_REQUEST["search"]);
 			
@@ -352,14 +360,14 @@
 				<button style='display : none' id='feed_archive_remove' onclick=\"feedArchiveRemove()\">".__('Remove')."</button>
 				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
 
-			print "</div>";
-			return;
+			print "]]></content>";
+			//return;
 		}
 
 		if ($id == "search") {
 
-			print "<div id=\"infoBoxTitle\">".__('Search')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Search')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id='search_form'  onsubmit='return false'>";
 
@@ -433,9 +441,9 @@
 			<button onclick=\"javascript:closeInfoBox(true)\">".__('Cancel')."</button>
 			</div>";
 
-			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 
 		}
 
@@ -443,8 +451,8 @@
 
 			$active_feed_id = db_escape_string($_REQUEST["param"]);
 
-			print "<div id=\"infoBoxTitle\">".__('Create Filter')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Create Filter')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id=\"filter_add_form\" onsubmit='return false'>";
 
@@ -550,17 +558,17 @@
 			print "<button onclick=\"return closeInfoBox()\">".__('Cancel').
 				"</button>";
 
-			print "</div>";
+			print "]]></content>";
 
 //			print "</td></tr></table>"; 
 
-			return;
+			//return;
 		}
 
 		if ($id == "feedUpdateErrors") {
 
-			print "<div id=\"infoBoxTitle\">".__('Update Errors')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Update Errors')."</title>";
+			print "<content><![CDATA[";
 
 			print __("These feeds have not been updated because of errors:");
 
@@ -581,15 +589,15 @@
 			print "<button onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
-			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "editArticleTags") {
 
-			print "<div id=\"infoBoxTitle\">".__('Edit Tags')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Edit Tags')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id=\"tag_edit_form\" onsubmit='return false'>";
 
@@ -618,14 +626,14 @@
 			print "<button onclick=\"return editTagsSave()\">".__('Save')."</button> ";
 			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
 
-			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "printTagCloud") {
-			print "<div id=\"infoBoxTitle\">".__('Tag Cloud')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Tag Cloud')."</title>";
+			print "<content><![CDATA[";
 
 			print __("Showing most popular tags ")." (<a 
 			href='javascript:toggleTags(true)'>".__('more tags')."</a>):<br/>"; 
@@ -641,15 +649,15 @@
 				__('Close this window')."</button>";
 			print "</div>";
 
-			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "emailArticle") {
 
-			print "<div id=\"infoBoxTitle\">".__('Forward article by email')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('Forward article by email')."</title>";
+			print "<content><![CDATA[";
 
 			print "<form id=\"article_email_form\" onsubmit='return false'>";
 
@@ -754,15 +762,15 @@
 			print "<button onclick=\"return emailArticleDo()\">".__('Send e-mail')."</button> ";
 			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
 
-			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
 		if ($id == "generatedFeed") {
 
-			print "<div id=\"infoBoxTitle\">".__('View as RSS')."</div>";
-			print "<div class=\"infoBoxContents\">";
+			print "<title>".__('View as RSS')."</title>";
+			print "<content><![CDATA[";
 	
 			$params = explode(":", $param, 3);
 			$feed_id = db_escape_string($params[0]);
@@ -786,15 +794,12 @@
 			print "<button onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
-			print "</div></div>";
+			print "</div>";
+			print "]]></content>";
 
-			return;
+			//return;
 		}
 
-		print "<div id='infoBoxTitle'>Internal Error</div>
-			<div id='infoBoxContents'>
-			<p>Unknown dialog <b>$id</b></p>
-			</div></div>";
-	
+		print "</dlg>";	
 	}
 ?>
