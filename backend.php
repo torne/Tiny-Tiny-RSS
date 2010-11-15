@@ -176,7 +176,8 @@
 
 				case "collapse":
 					$cat_id = db_escape_string($_REQUEST["cid"]);
-					toggle_collapse_cat($link, $cat_id);
+					$mode = (int) db_escape_string($_REQUEST['mode']);
+					toggle_collapse_cat($link, $cat_id, $mode);
 					return;
 				break;
 

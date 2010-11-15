@@ -44,8 +44,6 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		if (!transport_error_check(transport)) return;
 
-		clean_feed_selections();
-	
 		var is_cat = false;
 		var feed_id = false;
 
@@ -85,11 +83,9 @@ function headlines_callback2(transport, feed_cur_page) {
 			img.src = img.alt;
 		}
 
-		var f = $("headlines-frame");
 		try {
 			if (feed_cur_page == 0) { 
-				//console.log("resetting headlines scrollTop");
-				f.scrollTop = 0; 
+				$("headlines-frame").scrollTop = 0; 
 			}
 		} catch (e) { };
 	
@@ -131,6 +127,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					$("headlinesInnerContainer").innerHTML = headlines_content.firstChild.nodeValue;
 					$("headlines-toolbar").innerHTML = headlines_toolbar.firstChild.nodeValue;
 
+					dojo.parser.parse("headlines-toolbar");
 					dijit.byId("main").resize();
 
 					var cache_prefix = "";
@@ -145,12 +142,12 @@ function headlines_callback2(transport, feed_cur_page) {
 
 					if (!disable_cache) {
 						cache_inject(cache_prefix + feed_id,
-							headlines.firstChild.nodeValue, headlines_unread);
+							$("headlines-frame").innerHTML, headlines_unread);
 					}
 
 				} else {
 					console.warn("headlines_callback: returned no data");
-				f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
+				$('headlinesInnerContainer').innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
 	
 				}
 			} else {
@@ -201,7 +198,7 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 		} else {
 			console.warn("headlines_callback: returned no XML object");
-			f.innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
+			$('headlinesInnerContainer').innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
 		}
 	
 
@@ -2237,4 +2234,15 @@ function correctHeadlinesOffset(id) {
 
 }
 
+function headlineActionsChange(elem) {
+	try {
+		var op = elem[elem.selectedIndex].value;
 
+		eval(op);
+
+		elem.selectedIndex = 0;
+
+	} catch (e) {
+		exception_error("headlineActionsChange", e);
+	}
+}

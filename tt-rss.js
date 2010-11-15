@@ -38,12 +38,13 @@ function getActiveFeedId() {
 
 function setActiveFeedId(id, is_cat) {
 	try {
-		//console.log("sAFID(" + id + ", " + is_cat + ")");
 		_active_feed_id = id;
 
 		if (is_cat != undefined) {
 			_active_feed_is_cat = is_cat;
 		}
+
+		selectFeed(id, is_cat);
 
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
@@ -92,13 +93,13 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 		setTimeout("viewfeed(-5)", 100);
 	}
 
-	setTimeout('updateFeedList(false, false)', 50);
+	setTimeout('updateFeedList()', 50);
 	closeInfoBox();
 }
 
 function updateFeedList() {
 	try {
-		console.log("updateFeedList");
+		console.warn("updateFeedList: function not implemented");
 	
 /*		var query_str = "backend.php?op=feeds";
 	
@@ -245,9 +246,10 @@ function init() {
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
-		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
+		dojo.require("dijit.form.Select");
+		dojo.require("dojo.parser");
 
 		dojo.addOnLoad(function() {
 
@@ -274,6 +276,10 @@ function init() {
 				getLabelClass: function (item, opened) {
 					return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
 				},
+				getRowClass: function (item, opened) {
+					return (!item.error || item.error == '') ? "dijitTreeRow" : 
+						"dijitTreeRow Error";
+				},
 				getLabel: function(item) {
 					if (item.unread > 0) {
 						return item.name + " (" + item.unread + ")";
@@ -281,6 +287,23 @@ function init() {
 						return item.name;
 					}
 				},
+				onOpen: function (item, node) {
+					var id = String(item.id);
+					var cat_id = id.substr(id.indexOf(":")+1);
+
+					new Ajax.Request("backend.php", 
+						{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
+							param_escape(cat_id) + "&mode=1" } );
+			   },
+				onClose: function (item, node) {
+					var id = String(item.id);
+					var cat_id = id.substr(id.indexOf(":")+1);
+
+					new Ajax.Request("backend.php", 
+						{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
+							param_escape(cat_id) + "&mode=0" } );
+
+			   },
 				onClick: function (item, node) {
 					var id = String(item.id);
 					var is_cat = id.match("^CAT:");
@@ -323,15 +346,14 @@ function init_second_stage() {
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		remove_splash();
-		feedlist_init();
-
-		console.log("second stage ok");
-
 		loading_set_progress(60);
 
 		if (has_local_storage())
 			localStorage.clear();
+
+		console.log("second stage ok");
+
+		feedlist_init();
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
@@ -626,69 +648,10 @@ function feedEditSave() {
 
 function collapse_feedlist() {
 	try {
-		//console.log("collapse_feedlist");
-		
-/*		var theme = getInitParam("theme");
-		if (theme != "" && 
-				!getInitParam("theme_options").match("collapse_feedlist")) return;
-
-		var fl = $("feeds-holder");
-		var fh = $("headlines-frame");
-		var fc = $("content-frame");
-		var ft = $("toolbar");
-		var ff = $("footer");
-		var fhdr = $("header");
-		var fbtn = $("collapse_feeds_btn");
-
-		if (!Element.visible(fl)) {
-			Element.show(fl);
-			fbtn.innerHTML = "&lt;&lt;";
-
-			if (theme != "graycube") {
-
-				fh.style.left = fl.offsetWidth + "px";
-				ft.style.left = fl.offsetWidth + "px";
-				if (fc) fc.style.left = fl.offsetWidth + "px";
-				if (ff && theme != "compat") ff.style.left = (fl.offsetWidth-1) + "px";
-
-				if (theme == "compact") fhdr.style.left = (fl.offsetWidth + 10) + "px";
-			} else {
-				fh.style.left = fl.offsetWidth + 40 + "px";
-				ft.style.left = fl.offsetWidth + 40 +"px";
-				if (fc) fc.style.left = fl.offsetWidth + 40 + "px";
-			}
-
-			query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=false";
-
-			new Ajax.Request("backend.php", { parameters: query });
-
-		} else {
-			Element.hide(fl);
-			fbtn.innerHTML = "&gt;&gt;";
-
-			if (theme != "graycube") {
-
-				fh.style.left = "0px";
-				ft.style.left = "0px";
-				if (fc) fc.style.left = "0px";
-				if (ff) ff.style.left = "0px";
-
-				if (theme == "compact") fhdr.style.left = "10px";
-
-			} else {
-				fh.style.left = "20px";
-				ft.style.left = "20px";
-				if (fc) fc.style.left = "20px";
-
-			}
-
-			query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
-
-			new Ajax.Request("backend.php", { parameters: query });
-
-		} */
+		console.warn("collapse_feedlist: function not implemented");
 
 		query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
+		new Ajax.Request("backend.php", { parameters: query });
 
 	} catch (e) {
 		exception_error("collapse_feedlist", e);

@@ -1,4 +1,4 @@
-body#ttrssMain {
+body#ttrssMain, body#ttrssPrefs {
 	background : white;
 	color : black;
 	margin : 0px;
@@ -104,130 +104,6 @@ div.articleNote {
 
 div.postReply span.author {
 	font-size : 12px;
-}
-
-ul.feedList span.feedlink:hover {
-	cursor : pointer;
-	color : #4684ff;
-}
-
-
-ul.feedList img.hlLoading {
-	margin-left : 5px;
-	vertical-align : middle;
-	height : 10px;
-}
-
-ul.feedList {
-	list-style-type : none;
-	margin : 5px 5px 5px 0px;
-	padding : 0px 0px 0px 5px;
-	font-size : 12px;
-}
-
-ul.feedList li.feedCat, ul.feedList li.virtCat {
-	margin : 0px;
-	padding : 3px 0px 3px 0px;
-	color : #707070;
-	font-size : 12px;
-}
-
-ul.feedList img.catCollapse {
-	cursor : pointer;
-	vertical-align : middle;
-	width : 11px;
-	height : 11px;
-	padding-bottom : 3px;
-}
-
-ul.feedList span.catTitle {
-	color : #707070;
-	cursor : pointer;
-}
-
-ul.feedList span.catTitle:hover {
-	color : #4684ff;
-}
-
-ul.feedList li.feedCat.Selected {
-	margin : 0px;
-	padding : 3px 0px 3px 0px;
-	color : #4684ff;
-	font-size : 12px;
-}
-
-ul.feedList li.feedCat.Selected span.catTitle {
-	color : #4684ff;
-	cursor : pointer;
-}
-
-ul.feedCatList {
-	list-style-type : none;
-	margin : 0px 0px 0px 20px;
-	padding : 0px;  
-}
-
-ul.feedCatList li {
-	margin : 0px;
-	padding : 0px 0px 2px 0px;
-	color : black;
-}
-
-ul.feedList > li {
-	padding : 0px 0px 2px 0px;
-}
-
-ul.feedCatList img, ul.feedList img {
-	vertical-align : bottom;
-}
-
-li.feed.Unread, 
-li.error.Unread, 
-li.label.Unread, 
-li.virt.Unread,
-li.tag.Unread {
-	font-weight : bold;
-}
-
-li.error.Selected span.feedlink,
-li.error span.feedlink,
-li.error.Unread span.feedlink,
-li.error.Unread.Selected span.feedlink {
-	color : #f04040;
-}
-
-li.feed.Selected span.feedlink,
-li.label.Selected span.feedlink,
-li.virt.Selected span.feedlink,
-li.tag.Selected span.feedlink {
-	color : #4684ff;
-}
-
-li.feed.Unread.Selected span.feedlink,
-li.label.Unread.Selected span.feedlink,
-li.virt.Unread.Selected span.feedlink,
-li.tag.Unread.Selected span.feedlink {
-	color : #4684ff;
-}
-
-li.feed.Unread.Selected,
-li.error.Unread.Selected,
-li.label.Unread.Selected,
-li.virt.Unread.Selected,
-li.tag.Unread.Selected {
-	font-weight : bold;
-}
-
-li.feed {
-	display : block;
-}
-
-ul.feedList img, img.tinyFeedIcon {
-	margin : 0px 3px 0px 0px;
-	width : 16px;
-	height : 16px;
-	vertical-align : middle;
-	border-width : 0px;
 }
 
 h1 {
@@ -684,18 +560,29 @@ div#headlines-toolbar {
 	font-size : 11px;
 	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
 	color : gray;
-	padding : 0px 5px 0px 0px;
+	padding : 0px;
 	margin : 0px;
 	overflow : hidden;
+	height : 21px;
 }
 
-/* div.headlines-toolbar * {
-	line-height : normal;
-} */
+div#headlines-toolbar .dijitSelect {
+	font-size : 11px;
+}
+
+div#headlines-toolbar div#subtoolbar_main {
+	display : table-cell;
+	width : 100%;
+	white-space : nowrap;
+	vertical-align : middle;
+}
 
 div#headlines-toolbar div#subtoolbar_ftitle {
-	float : right;
-	/* line-height : 20px; */
+	display : table-cell;
+	text-align : right;
+	vertical-align : middle;
+	white-space : nowrap;
+	padding-right : 5px;
 }
 
 span.contentPreview {
@@ -932,7 +819,9 @@ form {
 #main_toolbar_form {
 	margin : 0px;
 	padding : 0px;
-	display : inline;
+	display : table-cell;
+	white-space : nowrap;
+	width : 100%;
 }
 
 div.feedExtInfo {
@@ -1027,120 +916,23 @@ div.whiteBox {
 	padding : 1em;
 }
 
-html, body, #main {
+html, body#ttrssMain, #main {
 	width: 100%; 
 	height: 100%;
 	border: 0; 
 	padding: 0; 
 	margin: 0;
-}
+} 
 
 #toolbar div.actionChooser {
-	/* margin-right : 5px; */
-	float : right;
+	display : table-cell;
+	text-align : right;
+	padding-right : 5px;
 }
 
-/* layout */
+/* preferences layout */
 
-/* #header {
-	position : absolute;
-	white-space: nowrap;
-	top : 5px;
-	left : 15px;
-	right : 5px;
-	height : 35px;
-	color : #4684ff;
-	font-size : 12px;
-}
-
-#feeds-holder {
-	border-width : 1px 1px 0px 0px;
-	border-style : solid solid;
-	border-color : #C4D1E4 #88b0f0;
-	top : 40px;
-	left : 0px;
-	position : absolute;
-	width : 260px;
-	overflow : auto;
-	bottom : 0px;
-	border-collapse : collapse;
-}
-
-#toolbar div.actionChooser {
-	margin-right : 5px;
-	float : right;
-}
-
-#toolbar {
-	position : absolute;
-	left : 261px;
-	padding : 0px 0px 0px 10px;
-	top : 40px;
-	right : 0px;
-	white-space: nowrap;
-	height : 30px;
-	background-image : url("images/toolbar.png");
-	background-position : bottom left;
-	background-repeat : repeat-x;
-	font-size : 12px;
-}
-
-#toolbar input {
-	vertical-align : middle;
-}
-
-div.headlines_normal {
-	position : absolute;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	left : 261px;
-	height : 305px;
-	top : 70px;
-	right : 0px;
-	overflow : hidden;
-	font-size : 12px;
-	border-collapse : collapse;
-}
-
-div.headlines_cdm {
-	position : absolute;
-	border-width : 1px 0px 1px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	left : 261px;
-	bottom : 40px;
-	top : 70px;
-	right : 0px;
-	overflow : hidden;
-	font-size : 12px;
-	border-collapse : collapse;
-}
-
-#content-frame {
-	position : absolute;
-	border-width : 1px 0px 0px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	overflow : auto;
-	top : 390px;
-	left : 261px;
-	bottom : 40px;
-	right : 0px;
-	border-collapse : collapse;
-}
-
-#resize-grabber {
-	height : 5px;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	background : url("images/resize_horiz.png") top left;
-	cursor : move;
-	text-align : center;
-}
-
-#footer, #prefFooter {
+#prefFooter {
 	position : absolute;
 	bottom : 0px;
 	height : 20px;
@@ -1172,26 +964,6 @@ div.headlines_cdm {
 #footer a:hover, #prefFooter a:hover {
 	color : black;
 }
-
-#headlinesContainer {
-	margin-left : 0px;
-	background-color : white;
-}
-
-#headlineActionsTop {
-	font-size : 12px;
-}
-
-#headlinesInnerContainer {
-	overflow : auto;
-	position : absolute;
-	left : 0px;
-	right : 0px;
-	bottom : 0px;
-	top : 25px; 
-} */
-
-/* preferences layout */
 
 #prefHeader {
 	color : #4684ff;
@@ -1243,38 +1015,14 @@ div.return a:hover {
 
 }
 
-#userSwitch {
-	position : absolute;
-	bottom : 2px;
-	right : 2px;
-}
-
-.catCtr.Unread, .feedCtr.Unread {
-	font-weight : bold;
-	color : #707070;
-	display : inline;
-}
-
-.catCtr, .feedCtr {
-	display : none;
-}
-
 div.topLinks img {
 	vertical-align : middle;
 	cursor : pointer;
 }
 
-#offlineModePic {
-	margin-left : 5px;
-}
-
 a.helpLinkPic img {
 	border-width : 0px;
 	vertical-align : middle;
-}
-
-li.feedCatHolder {
-	display : inline;
 }
 
 table.prefFeedCatList {
@@ -1524,53 +1272,6 @@ pre, code {
 	font-family : monospace;
 }
 
-span#headlineActionsDrop {
-	border : 1px solid #c0c0c0;
-	padding : 1px 5px 1px 10px;
-	color : #063064;
-	cursor : pointer;
-}
-
-ul#headlineActionsBody {
-	list-style-type : none;
-	position : absolute;
-	margin : 0px;
-	padding : 0px;
-	background-color : white;
-	width : 150px;
-	z-index : 4;
-	top : auto;
-	left : auto;
-	border-width : 1px 1px 1px 1px;
-	border-color : #c0c0c0;
-	border-style : solid;
-	margin-left : -1px;
-	max-height : 250px;
-	overflow : auto;
-
-}
-
-ul#headlineActionsBody li {
-	padding : 2px 5px 2px 10px;
-	color : black;
-}
-
-ul#headlineActionsBody li:hover {
-	color : #4684ff;
-	cursor : pointer;
-	background : #ecf4ff;
-}
-
-ul#headlineActionsBody li.insensitive {
-	color : gray;
-}
-
-ul#headlineActionsBody li.insensitive:hover {
-	background : white;
-	cursor : normal;
-	color : gray;
-}
-
 span.prefsLabelEntry {
 	padding : 2px;
 }
@@ -1616,29 +1317,6 @@ div.colorPicker {
 	left : auto;
 	top : auto;
 	z-index : 3;
-	color : #909090;
-}
-
-div#offlineModeDrop div {
-	padding : 2px 2px 2px 2px;
-	text-align : left;
-}
-
-div#offlineModeDrop {
-	position : absolute;
-	margin : 0px;
-	padding : 2px;
-	background-color : white;
-	z-index : 2;
-	margin : 2px 0px 0px 0px;
-	top : auto;
-	right : 0px;
-	border : 1px solid #cccccc;
-	background : white;
-	min-width : 170px;
-	margin-left : -1px;
-	max-height : 250px;
-	overflow : auto;
 	color : #909090;
 }
 
@@ -1711,6 +1389,11 @@ div.hlRight {
 	vertical-align : middle;
 }
 
+div.hlRight img {
+	max-width : 16px;
+	max-height : 16px;
+}
+
 span.hlUpdated {
 	color : gray;
 	font-weight : medium;
@@ -1764,6 +1447,9 @@ div.fatalError textarea {
 
 #feeds-holder {
 	padding : 0px;
+	border-color : #88b0f0;
+	border-left-width : 0px;
+	border-bottom-width : 0px;
 }
 
 #headlines-wrap-inner {
@@ -1774,6 +1460,8 @@ div.fatalError textarea {
 
 #headlines-frame {
 	padding : 0px;
+	border-color : #88b0f0;
+	border-right-width : 0px;
 }
 
 #headlinesInnerContainer {
@@ -1802,10 +1490,19 @@ div.fatalError textarea {
 
 #content-insert {
 	padding : 0px;
+	border-color : #88b0f0;
+	border-bottom-width : 0px;
+	border-right-width : 0px;
 }
 
 .dijitTreeLabel.Unread {
 	font-weight : bold;
 }
 
+.dijitTreeRow.Error {
+	color : red;
+}
 
+.dijitTreeRow.Hidden {
+	display : none;
+}

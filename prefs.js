@@ -1162,6 +1162,14 @@ function init() {
 
 	try {
 	
+		//dojo.require("dijit.layout.BorderContainer");
+		//dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.form.Button");
+		//dojo.require("dojo.data.ItemFileReadStore");
+		//dojo.require("dojo.data.ItemFileWriteStore");
+		//dojo.require("dijit.Tree");
+
 		loading_set_progress(30);
 
 		var query = "?op=rpc&subop=sanityCheck";
@@ -1241,7 +1249,7 @@ function pref_hotkey_handler(e) {
 			closeInfoBox();
 		} 
 
-		if (!hotkeys_enabled) {
+		if (dialogs.length > 0 || !hotkeys_enabled) {
 			console.log("hotkeys disabled");
 			return;
 		}

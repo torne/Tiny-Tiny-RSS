@@ -4117,25 +4117,119 @@
 
 #			print "<div class=\"headlinesSubToolbar\">";
 
-			$page_prev_link = "javascript:viewFeedGoPage(-1)";
-			$page_next_link = "javascript:viewFeedGoPage(1)";
-			$page_first_link = "javascript:viewFeedGoPage(0)";
+			$page_prev_link = "viewFeedGoPage(-1)";
+			$page_next_link = "viewFeedGoPage(1)";
+			$page_first_link = "viewFeedGoPage(0)";
 
-			$catchup_page_link = "javascript:catchupPage()";
-			$catchup_feed_link = "javascript:catchupCurrentFeed()";
-			$catchup_sel_link = "javascript:catchupSelection()";
+			$catchup_page_link = "catchupPage()";
+			$catchup_feed_link = "catchupCurrentFeed()";
+			$catchup_sel_link = "catchupSelection()";
 
-			$archive_sel_link = "javascript:archiveSelection()";
-			$delete_sel_link = "javascript:deleteSelection()";
+			$archive_sel_link = "archiveSelection()";
+			$delete_sel_link = "deleteSelection()";
 
-			$sel_all_link = "javascript:selectArticles('all')";
-			$sel_unread_link = "javascript:selectArticles('unread')";
-			$sel_none_link = "javascript:selectArticles('none')";
-			$sel_inv_link = "javascript:selectArticles('invert')";
+			$sel_all_link = "selectArticles('all')";
+			$sel_unread_link = "selectArticles('unread')";
+			$sel_none_link = "selectArticles('none')";
+			$sel_inv_link = "selectArticles('invert')";
 
-			$tog_unread_link = "javascript:selectionToggleUnread()";
-			$tog_marked_link = "javascript:selectionToggleMarked()";
-			$tog_published_link = "javascript:selectionTogglePublished()";
+			$tog_unread_link = "selectionToggleUnread()";
+			$tog_marked_link = "selectionToggleMarked()";
+			$tog_published_link = "selectionTogglePublished()";
+
+			print "<div id=\"subtoolbar_main\">";
+
+			print __('Select:')."
+				<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
+				<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
+				<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
+				<a href=\"#\" onclick=\"$sel_none_link\">".__('None')."</a></li>";
+
+			print " ";
+
+/*			print "<span 
+				onmouseover=\"enable_selection(false)\" 
+            onmouseout=\"enable_selection(true)\"
+				onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
+				__("Actions...") . "&nbsp;&nbsp;<img width='11' height'7' 
+				src=\"images/down_arrow.png\">
+				</span>";
+
+			print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
+
+			print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
+				<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
+				<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
+				<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
+				<li class=\"insensitive\">".__('Selection:')."</li>
+				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Mark as read')."</li>";
+
+//			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
+//				"</li>";
+
+			if ($feed_id != "0") {
+				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
+			} else {
+				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>";
+				print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
+
+			} 
+
+			print "<li onclick=\"emailArticle(false)\">&nbsp;&nbsp;".
+				__('Forward by email')."</li>";
+
+			//print "<li><span class=\"insensitive\">--------</span></li>";
+			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
+
+			print_labels_headlines_dropdown($link, $feed_id);
+
+			print "<li class=\"insensitive\">".__('Feed:')."</li>";
+			print "<li onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
+
+			print "</ul>"; */
+
+			print "<select dojoType=\"dijit.form.Select\" 
+				onchange=\"headlineActionsChange(this)\">";
+			print "<option value=\"\">".__('Actions...')."</option>";
+
+#			print "<optgroup label=\"".__("Selection toggle:")."\">";
+
+			print "<option value=\"$tog_unread_link\">".__('Toggle unread')."</option>
+				<option value=\"$tog_marked_link\">".__('Toggle starred')."</option>
+				<option value=\"$tog_published_link\">".__('Toggle published')."</option>";
+
+#			print "</optgroup>
+#				<optgroup label=\"".__("Selection:")."\">";
+
+			print "<option>----------</option>";
+
+			print "<option value=\"$catchup_sel_link\">".__('Mark as read')."</option>";
+
+			if ($feed_id != "0") {
+				print "<option value=\"$archive_sel_link\">".__('Archive')."</option>";
+			} else {
+				print "<option value=\"$archive_sel_link\">".__('Move back')."</option>";
+				print "<option value=\"$delete_sel_link\">".__('Delete')."</option>";
+
+			} 
+
+			print "<option value=\"emailArticle(false)\">".__('Forward by email').
+				"</option>";
+
+#			print "<optgroup label=\"".__("Assign label:")."\">";
+			print "<option>----------</option>";
+
+			print_labels_headlines_dropdown($link, $feed_id);
+
+			print "<option>----------</option>";
+
+#			print "</optgroup>";
+
+			print "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
+
+			print "</select>";			
+
+			print "</div>";
 
 			print "<div id=\"subtoolbar_ftitle\">";
 
@@ -4197,56 +4291,6 @@
 
 			print "</div>";
 
-			print __('Select:')."
-				<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
-				<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
-				<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
-				<a href=\"#\" onclick=\"$sel_none_link\">".__('None')."</a></li>";
-
-			print "&nbsp;&nbsp;";
-
-			print "<span 
-				onmouseover=\"enable_selection(false)\" 
-            onmouseout=\"enable_selection(true)\"
-				onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
-				__("Actions...") . "&nbsp;&nbsp;<img width='11' height'7' 
-				src=\"images/down_arrow.png\">
-				</span>";
-
-			print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
-
-			print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
-				<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
-				<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
-				<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-				<li class=\"insensitive\">".__('Selection:')."</li>
-				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Mark as read')."</li>";
-
-//			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
-//				"</li>";
-
-			if ($feed_id != "0") {
-				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
-			} else {
-				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>";
-				print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
-
-			} 
-
-			print "<li onclick=\"emailArticle(false)\">&nbsp;&nbsp;".
-				__('Forward by email')."</li>";
-
-			//print "<li><span class=\"insensitive\">--------</span></li>";
-			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
-
-			print_labels_headlines_dropdown($link, $feed_id);
-
-			print "<li class=\"insensitive\">".__('Feed:')."</li>";
-			print "<li onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
-
-			print "</ul>";
-
-#			print "</div>";
 		}
 
 	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true, 
@@ -4437,8 +4481,10 @@
 					$cat = feedlist_init_cat($link, $cat_id, $collapsed);
 				}
 
+				$updated = make_local_datetime($link, $line["updated_noms"], false);	
+
 				array_push($cat['items'], feedlist_init_feed($link, $feed_id, 
-					$feed, $unread));
+					$feed, $unread, $line['last_error'], $updated));
 			}
 
 			if (!$enable_cats) {
@@ -6294,8 +6340,7 @@
 	}
 
 	function print_labels_headlines_dropdown($link, $feed_id) {
-		print "<li onclick=\"javascript:addLabel()\">
-			&nbsp;&nbsp;".__("Create label...")."</li>";
+		print "<option value=\"addLabel()\">".__("Create label...")."</option>";
 
 		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
 			owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
@@ -6307,13 +6352,13 @@
 			$id = $line["id"];
 
 			if ($feed_id < -10 && $feed_id == -11-$label_id) {
-				print "<li id=\"LHDL-$id\" 
-					onclick=\"javascript:selectionRemoveLabel($label_id)\">
-					&nbsp;&nbsp;$label_caption ".__('(remove)')."</li>";
+				print "<option id=\"LHDL-$id\" 
+					value=\"selectionRemoveLabel($label_id)\">".
+					__('Remove:') . " $label_caption</option>";
 			} else {					
-				print "<li id=\"LHDL-$id\" 
-					onclick=\"javascript:selectionAssignLabel($label_id)\">
-					&nbsp;&nbsp;$label_caption</li>";
+				print "<option id=\"LHDL-$id\" 
+					value=\"selectionAssignLabel($label_id)\">".
+					__('Assign:') . " $label_caption</option>";
 			}
 		}
 	}
@@ -6397,10 +6442,12 @@
 		return $str;
 	}
 
-	function toggle_collapse_cat($link, $cat_id) {
+	function toggle_collapse_cat($link, $cat_id, $mode) {
 		if ($cat_id > 0) {
+			$mode = bool_to_sql_bool($mode);
+
 			db_query($link, "UPDATE ttrss_feed_categories SET
-				collapsed = NOT collapsed WHERE id = '$cat_id' AND owner_uid = " . 
+				collapsed = $mode WHERE id = '$cat_id' AND owner_uid = " . 
 				$_SESSION["uid"]);
 		} else {
 			$pref_name = '';
@@ -6418,10 +6465,10 @@
 			}
 
 			if ($pref_name) {
-				if (get_pref($link, $pref_name)) {
-					set_pref($link, $pref_name, 'false');
-				} else {
+				if ($mode) {
 					set_pref($link, $pref_name, 'true');
+				} else {
+					set_pref($link, $pref_name, 'false');
 				}
 			}
 		}
@@ -7145,7 +7192,7 @@
 			$cat_unread = getCategoryUnread($link, $cat_id);
 		}
 
-		$obj['id'] = 'CAT:' . $cat_id;
+		$obj['id'] = 'CAT:' . ((int)$cat_id);
 		$obj['items'] = array();
 		$obj['name'] = getCategoryTitle($link, $cat_id);
 		$obj['type'] = 'feed';
@@ -7155,7 +7202,7 @@
 		return $obj;
 	}
 
-	function feedlist_init_feed($link, $feed_id, $title = false, $unread = false) {
+	function feedlist_init_feed($link, $feed_id, $title = false, $unread = false, $error = '', $updated = '') {
 		$obj = array();
 
 		if (!$title) 
@@ -7168,6 +7215,8 @@
 		$obj['name'] = $title;
 		$obj['unread'] = (int) $unread;
 		$obj['type'] = 'feed';
+		$obj['error'] = $error;
+		$obj['updated'] = $updated;
 
 		return $obj;
 	}

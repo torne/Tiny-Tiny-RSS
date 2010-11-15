@@ -25,7 +25,7 @@
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
-	<link rel="stylesheet" type="text/css" href="lib/modalbox/modalbox.css"/>
+	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 
 	<?php	$user_theme = get_user_theme_path($link);
 		if ($user_theme) { ?>
@@ -42,7 +42,7 @@
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="lib/position.js"></script>
 	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
-	<script type="text/javascript" src="lib/modalbox/modalbox.js"></script>
+	<script type="text/javascript" src="lib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
@@ -61,7 +61,7 @@
 
 </head>
 
-<body id="ttrssPrefs">
+<body id="ttrssPrefs" class="claro">
 
 <div id="overlay">
 	<div id="overlay_inner">

@@ -131,37 +131,6 @@
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 
-		<div class="actionChooser">
-			<select id="quickMenuChooser" onchange="quickMenuChange()">
-					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
-					<option value="qmcSearch"><?php echo __('Search...') ?></option>
-					<optgroup label="<?php echo __('Feed actions:') ?>">
-					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
-					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
-					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
-					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
-					</optgroup>
-					<optgroup label="<?php echo __('All feeds:') ?>">
-					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
-					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
-					</optgroup>
-					<optgroup label="<?php echo __('Categories:') ?>">
-
-					<option value="qmcToggleReorder"><?php echo __('Toggle reordering mode') ?></option>
-					<option value="qmcResetCats"><?php echo __('Reset order') ?></option>
-					</optgroup>
-
-					<optgroup label="<?php echo __('Other actions:') ?>">
-
-					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
-					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
-					<option value="qmcResetUI"><?php echo __('Reset UI layout') ?></option>
-					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts help') ?></option>
-					</optgroup>
-
-			</select>
-		</div>
-
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
 		<button id="collapse_feeds_btn" onclick="collapse_feedlist()"
@@ -195,6 +164,37 @@
 
 		</form>
 
+		<div class="actionChooser">
+			<select id="quickMenuChooser" onchange="quickMenuChange()">
+					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
+					<option value="qmcSearch"><?php echo __('Search...') ?></option>
+					<optgroup label="<?php echo __('Feed actions:') ?>">
+					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
+					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
+					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
+					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
+					</optgroup>
+					<optgroup label="<?php echo __('All feeds:') ?>">
+					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
+					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
+					</optgroup>
+					<optgroup label="<?php echo __('Categories:') ?>">
+
+					<option value="qmcToggleReorder"><?php echo __('Toggle reordering mode') ?></option>
+					<option value="qmcResetCats"><?php echo __('Reset order') ?></option>
+					</optgroup>
+
+					<optgroup label="<?php echo __('Other actions:') ?>">
+
+					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
+					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
+					<option value="qmcResetUI"><?php echo __('Reset UI layout') ?></option>
+					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts help') ?></option>
+					</optgroup>
+
+			</select>
+		</div>
+
 	</div>
 
 	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
@@ -216,13 +216,13 @@
 	</div>
 </div>
 
-<div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">
+<!-- <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?> 
 	<?php } ?>
 	&copy; 2005&ndash;<?php echo date('Y') ?> <a href="http://fakecake.org/">Andrew Dolgov</a>
-</div>
+</div> -->
 
 </div>
 
