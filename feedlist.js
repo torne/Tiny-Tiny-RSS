@@ -3,10 +3,6 @@ var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var feed_under_pointer = undefined;
 
-var mouse_is_down = false;
-var mouse_y = 0;
-var mouse_x = 0;
-
 var counter_timeout_id = false;
 
 var resize_enabled = false;
@@ -408,10 +404,6 @@ function feedlist_init() {
 		
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
-		document.onmousemove = mouse_move_handler;
-		document.onmousedown = mouse_down_handler;
-		document.onmouseup = mouse_up_handler;
-
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
 		if (getActiveFeedId()) {
@@ -432,7 +424,7 @@ function feedlist_init() {
 			setTimeout("hide_footer()", 5000);
 		}
 
-		init_collapsable_feedlist(getInitParam("theme"));
+		//init_collapsable_feedlist(getInitParam("theme"));
 
 		toggle_sortable_feedlist(isFeedlistSortable());
 
@@ -472,65 +464,12 @@ function hide_footer() {
 		if (Element.visible("footer")) {
 
 			Element.hide("footer");
+			dijit.byId("main").resize();
 
 			//new Effect.Fade("footer", { afterFinish: hide_footer_af });
 		}
 	} catch (e) {
 		exception_error("hide_footer", e);
-	}
-}
-
-function init_collapsable_feedlist() {
-	try {
-		//console.log("init_collapsable_feedlist");
-
-		var theme = getInitParam("theme");
-		var options = getInitParam("theme_options");
-
-		if (theme != "" && !options.match("collapse_feedlist")) return;
-
-		var fbtn = $("collapse_feeds_btn");
-
-		if (fbtn) Element.show(fbtn);
-
-		if (getInitParam("collapsed_feedlist") == 1) {
-			collapse_feedlist();
-		}
-
-	} catch (e) {
-		exception_error("init_hidden_feedlist", e);
-	}
-
-}
-
-function mouse_move_handler(e) {
-	try {
-		var client_y;
-		var client_x;
-
-		if (window.event) {
-			client_y = window.event.clientY;
-			client_x = window.event.clientX;
-		} else if (e) {
-			client_x = e.screenX;
-			client_y = e.screenY;
-		}
-
-		if (mouse_is_down) {
-
-			if (mouse_y == 0) mouse_y = client_y;
-			if (mouse_x == 0) mouse_x = client_x;
-
-			resize_headlines(mouse_x - client_x, mouse_y - client_y);
-
-			mouse_y = client_y;
-			mouse_x = client_x;
-
-			return false;
-		}
-
-	} catch (e) {
-		exception_error("mouse_move_handler", e);
 	}
 }
 
@@ -540,45 +479,6 @@ function enable_selection(b) {
 
 function enable_resize(b) {
 	resize_enabled = b;
-}
-
-function mouse_down_handler(e) {
-	try {
-
-		/* do not prevent right click */
-		if (e && e.button && e.button == 2) return;
-
-		if (resize_enabled) { 
-			mouse_is_down = true;
-			mouse_x = 0;
-			mouse_y = 0;
-			document.onselectstart = function() { return false; };
-			return false;
-		}
-
-		if (selection_disabled) {
-			document.onselectstart = function() { return false; };
-			return false;
-		}
-
-	} catch (e) {
-		exception_error("mouse_down_handler", e);
-	}
-}
-
-function mouse_up_handler(e) {
-	try {
-		mouse_is_down = false;
-
-		if (!selection_disabled) {
-			document.onselectstart = null;
-			var e = $("headlineActionsBody");
-			if (e) Element.hide(e);
-		}
-
-	} catch (e) {
-		exception_error("mouse_up_handler", e);
-	}
 }
 
 function request_counters_real() {

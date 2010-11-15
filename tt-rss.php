@@ -28,7 +28,6 @@
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="cdm.css?<?php echo $dt_add ?>"/>
 
-	<link rel="stylesheet" type="text/css" href="lib/modalbox/modalbox.css"/>
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 
 	<?php	$user_theme = get_user_theme_path($link);
@@ -45,7 +44,6 @@
 
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls,builder"></script>
-			<script type="text/javascript" src="lib/modalbox/modalbox.js"></script>
 	<script type="text/javascript" src="lib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="tt-rss.js?<?php echo $dt_add ?>"></script>
@@ -129,7 +127,7 @@
 	<div id="feeds-frame">&nbsp;</div>
 </div>
 
-<div dojoType="dijit.layout.BorderContainer" region="center">
+<div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 
@@ -199,15 +197,23 @@
 
 	</div>
 
-<?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
-	<div id="headlines-frame" class="headlines_normal" dojoType="dijit.layout.ContentPane" region="center">
-		<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div></div>
-	<div id="content-insert" dojoType="dijit.layout.ContentPane" region="bottom" style="height : 50%" splitter="true"></div>
-<?php } else { ?>
-	<div id="headlines-frame" class="headlines_cdm" dojoType="dijit.layout.ContentPane" region="center">
-		<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div></div>
-<?php } ?>
+	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
 
+		<div id="headlines-toolbar" dojoType="dijit.layout.ContentPane" region="top">
+		</div>
+
+		<div id="headlines-frame" dojoType="dijit.layout.ContentPane" region="center">
+			<div id="headlinesInnerContainer">
+				<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div>
+			</div>
+		</div>
+
+		<?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
+		<div id="content-insert" dojoType="dijit.layout.ContentPane" region="bottom"
+			style="height : 50%" splitter="true"></div>
+		<?php } ?>
+
+	</div>
 </div>
 
 <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">

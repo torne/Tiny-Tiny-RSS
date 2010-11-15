@@ -97,6 +97,10 @@ function headlines_callback2(transport, feed_cur_page) {
 			var response = transport.responseXML;
 
 			var headlines = response.getElementsByTagName("headlines")[0];
+
+			var headlines_content = headlines.getElementsByTagName("content")[0];
+			var headlines_toolbar = headlines.getElementsByTagName("toolbar")[0];
+			
 			var headlines_info = response.getElementsByTagName("headlines-info")[0];
 
 			if (headlines_info)
@@ -124,7 +128,10 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 			if (feed_cur_page == 0) {
 				if (headlines) {
-					f.innerHTML = headlines.firstChild.nodeValue;
+					$("headlinesInnerContainer").innerHTML = headlines_content.firstChild.nodeValue;
+					$("headlines-toolbar").innerHTML = headlines_toolbar.firstChild.nodeValue;
+
+					dijit.byId("main").resize();
 
 					var cache_prefix = "";
 

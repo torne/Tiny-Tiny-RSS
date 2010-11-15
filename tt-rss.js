@@ -8,8 +8,6 @@ var number_of_feeds = 0;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 var init_params = {};
-var ver_offset = 0;
-var hor_offset = 0;
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
 
@@ -244,6 +242,8 @@ function init() {
 
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.form.Button");
 
 		//return remove_splash();
 
@@ -265,90 +265,11 @@ function init() {
 	}
 }
 
-function resize_headlines(delta_x, delta_y) {
-
-/*	try {
-
-		console.log("resize_headlines: " + delta_x + ":" + delta_y);
-	
-		var h_frame = $("headlines-frame");
-		var c_frame = $("content-frame");
-		var f_frame = $("footer");
-		var feeds_frame = $("feeds-holder");
-		var resize_grab = $("resize-grabber");
-		var resize_handle = $("resize-handle");
-
-		if (!c_frame || !h_frame) return;
-	
-		if (feeds_frame && getInitParam("theme") == "old-skool") {
-				feeds_frame.style.bottom = f_frame.offsetHeight + "px";		
-		}
-	
-		if (getInitParam("theme_options").match("horiz_resize")) {
-	
-			if (delta_x != undefined) {
-				if (c_frame.offsetLeft - delta_x > feeds_frame.offsetWidth + feeds_frame.offsetLeft + 100 && c_frame.offsetWidth + delta_x > 100) {
-					hor_offset = hor_offset + delta_x;
-				}
-			}
-	
-			console.log("resize_headlines: HOR-mode: " + hor_offset);
-	
-			c_frame.style.width = (400 + hor_offset) + "px";
-			h_frame.style.right = c_frame.offsetWidth - 1 + "px";
-	
-			resize_grab.style.top = (h_frame.offsetTop + h_frame.offsetHeight - 60) + "px";
-			resize_grab.style.left = (h_frame.offsetLeft + h_frame.offsetWidth - 
-				4) + "px";
-			resize_grab.style.display = "block";
-
-			//resize_handle.src = "themes/"+getInitParam('theme')+"/images/resize_handle_vert.png";
-			resize_handle.style.paddingTop = (resize_grab.offsetHeight / 2 - 7) + "px";
-	
-		} else {
-	
-			if (delta_y != undefined) {
-				if (c_frame.offsetHeight + delta_y > 100 && h_frame.offsetHeight - delta_y > 100) {
-					ver_offset = ver_offset + delta_y;
-				}
-			}
-	
-			console.log("resize_headlines: VER-mode: " + ver_offset);
-	
-			h_frame.style.height = (300 - ver_offset) + "px";
-	
-			c_frame.style.top = (h_frame.offsetTop + h_frame.offsetHeight + 0) + "px";
-			h_frame.style.height = h_frame.offsetHeight + "px";
-
-			// Workaround for Opera: force the content page to be re-rendered, 
-			// so it is not truncated:
-			var content_pane = $("content-insert");
-			content_pane.innerHTML = content_pane.innerHTML;
-		}
-	
-		if (getInitParam("cookie_lifetime") != 0) {
-			setCookie("ttrss_offset_ver", ver_offset, 
-				getInitParam("cookie_lifetime"));
-			setCookie("ttrss_offset_hor", hor_offset, 
-				getInitParam("cookie_lifetime"));
-		} else {
-			setCookie("ttrss_offset_ver", ver_offset);
-			setCookie("ttrss_offset_hor", hor_offset);
-		}
-
-	} catch (e) {
-		exception_error("resize_headlines", e);
-	} */
-
-}
-
 function init_second_stage() {
 
 	try {
 
 		delCookie("ttrss_test");
-
-		window.onresize=resize_headlines;
 
 		var toolbar = document.forms["main_toolbar_form"];
 
@@ -362,20 +283,6 @@ function init_second_stage() {
 		console.log("second stage ok");
 
 		loading_set_progress(60);
-
-		ver_offset = parseInt(getCookie("ttrss_offset_ver"));
-		hor_offset = parseInt(getCookie("ttrss_offset_hor"));
-
-		console.log("got offsets from cookies: ver " + ver_offset + " hor " + hor_offset);
-
-		/* fuck IE */
-
-		if (isNaN(hor_offset)) hor_offset = 0;
-		if (isNaN(ver_offset)) ver_offset = 0;
-
-		console.log("offsets from cookies [x:y]: " + hor_offset + ":" + ver_offset);
-
-		resize_headlines();
 
 		if (has_local_storage())
 			localStorage.clear();
@@ -470,9 +377,7 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcResetUI") {
-			hor_offset = 0;
-			ver_offset = 0;
-			resize_headlines();
+			alert("Function not implemented");
 		}
 
 		if (opid == "qmcToggleReorder") {
@@ -677,7 +582,7 @@ function collapse_feedlist() {
 	try {
 		//console.log("collapse_feedlist");
 		
-		var theme = getInitParam("theme");
+/*		var theme = getInitParam("theme");
 		if (theme != "" && 
 				!getInitParam("theme_options").match("collapse_feedlist")) return;
 
@@ -735,7 +640,10 @@ function collapse_feedlist() {
 
 			new Ajax.Request("backend.php", { parameters: query });
 
-		}
+		} */
+
+		query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
+
 	} catch (e) {
 		exception_error("collapse_feedlist", e);
 	}
@@ -832,7 +740,7 @@ function hotkey_handler(e) {
 			closeInfoBox();
 		} 
 
-		if (!hotkeys_enabled) {
+		if (dialogs.length > 0 || !hotkeys_enabled) {
 			console.log("hotkeys disabled");
 			return;
 		}

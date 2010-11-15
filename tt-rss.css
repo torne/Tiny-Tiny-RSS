@@ -1,4 +1,4 @@
-body {
+body#ttrssMain {
 	background : white;
 	color : black;
 	margin : 0px;
@@ -678,35 +678,24 @@ td.selectPrompt {
 	color : gray;
 }
 
-div.headlinesSubToolbar {
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #f0f0f0;
-	height : 20px;
-	line-height : 20px; 
-
-/* 	position : absolute;
-	left : 0px;
-	top : 0px; 
-	height : 25px;
-	line-height : 25px; 
-	padding-left : 5px;
-	padding-right : 5px;
-	right : 0px; */
+div#headlines-toolbar {
+	border-width : 0px;
 	background-color : white;
 	font-size : 11px;
 	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
 	color : gray;
+	padding : 0px 5px 0px 0px;
+	margin : 0px;
+	overflow : hidden;
 }
 
-div.headlinesSubToolbar * {
+/* div.headlines-toolbar * {
 	line-height : normal;
-}
+} */
 
-div.headlinesSubToolbar div#subtoolbar_ftitle {
+div#headlines-toolbar div#subtoolbar_ftitle {
 	float : right;
-	line-height : 20px;
-
+	/* line-height : 20px; */
 }
 
 span.contentPreview {
@@ -1047,7 +1036,7 @@ html, body, #main {
 }
 
 #toolbar div.actionChooser {
-	margin-right : 5px;
+	/* margin-right : 5px; */
 	float : right;
 }
 
@@ -1558,6 +1547,7 @@ ul#headlineActionsBody {
 	margin-left : -1px;
 	max-height : 250px;
 	overflow : auto;
+
 }
 
 ul#headlineActionsBody li {
@@ -1762,19 +1752,40 @@ div.fatalError textarea {
 
 #main {
 	border-width : 0px;
+	margin : 0px;
+	padding : 0px;
+}
+
+#content-wrap {
+	padding : 0px;
+	border-width : 0px;
+	margin : 0px;
 }
 
 #feeds-holder {
 	padding : 0px;
 }
 
+#headlines-wrap-inner {
+	padding : 0px;
+	margin : 0px;
+	border-width : 0px;
+}
+
 #headlines-frame {
 	padding : 0px;
 }
 
+#headlinesInnerContainer {
+	font-size : 12px;
+}
+
 #toolbar {
-	padding : 4px;
+	padding : 0px;
+	margin : 0px;
 	border-width : 0px;
+	white-space: nowrap;
+	font-size : 12px;
 }
 
 #header {
@@ -1787,4 +1798,8 @@ div.fatalError textarea {
 	color : gray;
 	padding : 4px;
 	border-width : 0px;
+}
+
+#content-insert {
+	padding : 0px;
 }

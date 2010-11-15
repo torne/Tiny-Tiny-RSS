@@ -295,9 +295,9 @@
 			}
 
 			if (!$next_unread_feed) {
-				print "<headlines id=\"$feed\" is_cat=\"$cat_view\"><![CDATA[";
+				print "<headlines id=\"$feed\" is_cat=\"$cat_view\">";
 			} else {
-				print "<headlines id=\"$next_unread_feed\" is_cat=\"$cat_view\"><![CDATA[";
+				print "<headlines id=\"$next_unread_feed\" is_cat=\"$cat_view\">";
 			}
 		
 			$override_order = false;
@@ -346,7 +346,7 @@
 			$disable_cache = $ret[3];
 			$vgroup_last_feed = $ret[4];
 
-			print "]]></headlines>";
+			print "</headlines>";
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
 

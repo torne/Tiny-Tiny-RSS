@@ -4115,7 +4115,7 @@
 			$feed_id, $is_cat, $search, $match_on,
 			$search_mode, $view_mode) {
 
-			print "<div class=\"headlinesSubToolbar\">";
+#			print "<div class=\"headlinesSubToolbar\">";
 
 			$page_prev_link = "javascript:viewFeedGoPage(-1)";
 			$page_next_link = "javascript:viewFeedGoPage(1)";
@@ -4246,7 +4246,7 @@
 
 			print "</ul>";
 
-			print "</div>";
+#			print "</div>";
 		}
 
 	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true, 
@@ -5060,8 +5060,10 @@
 
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
+		print "<toolbar><![CDATA[";
+
 		if (!$offset) {
-			print "<div id=\"headlinesContainer\" $rtl_tag>";
+//			print "<div id=\"headlinesContainer\" $rtl_tag>";
 
 			if (!$result) {
 				print "<div align='center'>".__("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
@@ -5072,10 +5074,12 @@
 				print_headline_subtoolbar($link, $feed_site_url, $feed_title,
 					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode);
 
-				print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
+//				print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 
 			}
 		}
+
+		print "]]></toolbar><content><![CDATA[";
 
 		$headlines_count = db_num_rows($result);
 
@@ -5537,10 +5541,12 @@
 			}
 		}
 
-		if (!$offset) {
-			if ($headlines_count > 0) print "</div>";
-			print "</div>";
-		}
+#		if (!$offset) {
+#			if ($headlines_count > 0) print "</div>";
+#			print "</div>";
+#		}
+
+		print "]]></content>";
 
 		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache, $vgroup_last_feed);
 	}

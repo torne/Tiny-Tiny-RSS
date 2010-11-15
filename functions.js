@@ -2,6 +2,7 @@ var hotkeys_enabled = true;
 var notify_silent = false;
 var last_progress_point = 0;
 var sanity_check_done = false;
+var dialogs = [];
 
 /* add method to remove element from array */
 
@@ -23,8 +24,6 @@ function exception_error(location, e, ext_info) {
 
 	if (!ext_info) ext_info = false;
 
-	disableHotkeys();
-
 	try {
 
 		if (ext_info) {
@@ -44,14 +43,20 @@ function exception_error(location, e, ext_info) {
 		content += "<div><b>Stack trace:</b></div>" +
 			"<textarea readonly=\"1\">" + e.stack + "</textarea>";
 
-		content += "<div style='text-align : center'>" +
-			"<button onclick=\"closeInfoBox()\">" +
-			"Close this window" + "</button></div>";
-	
+//		content += "<div style='text-align : center'>" +
+//			"<button onclick=\"closeInfoBox()\">" +
+//			"Close this window" + "</button></div>";
+
+		content += "</div>";
+
 		// TODO: add code to automatically report errors to tt-rss.org
 
-		Modalbox.show(content, {title: "Unhandled exception", width: 600, 
-			resizeDuration: 0, transitions: false});
+		var dialog = new dijit.Dialog({
+			title: "Unhandled exception",
+			style: "width: 600px",
+			content: content});
+
+		dialog.show();
 
 	} catch (e) {
 		alert(msg);
@@ -318,10 +323,7 @@ function toggleSelectRow(sender, row) {
 
 function checkboxToggleElement(elem, id) {
 	if (elem.checked) {
-		Effect.Appear(id, {duration : 0.5, 
-			afterSetup: function() { 
-				Modalbox.resizeToContent();
-			}});
+		Effect.Appear(id, {duration : 0.5});
 	} else {
 		Effect.Fade(id, {duration : 0.5});
 	}
@@ -387,10 +389,13 @@ function closeErrorBox() {
 }
 
 function closeInfoBox(cleanup) {
-
 	try {
 		enableHotkeys();
-		Modalbox.hide();
+
+		var dialog = dialogs.pop();
+
+		if (dialog)
+			dialog.hide();
 
 	} catch (e) {
 		//exception_error("closeInfoBox", e);
@@ -401,7 +406,6 @@ function closeInfoBox(cleanup) {
 
 function displayDlg(id, param, callback) {
 
-	disableHotkeys();
 	notify_progress("Loading, please wait...", true);
 
 	var query = "?op=dlg&id=" +
@@ -446,7 +450,7 @@ function infobox_callback2(transport) {
 
 			var title = transport.responseXML.getElementsByTagName("title")[0];
 			if (title)
-				dtitle = title.firstChild.nodeValue;
+				title = title.firstChild.nodeValue;
 
 			var content = transport.responseXML.getElementsByTagName("content")[0];
 			
@@ -456,10 +460,26 @@ function infobox_callback2(transport) {
 			content = transport.responseText;
 		}
 
-		Modalbox.show(content, {title: dtitle, width: 600, 
-			transitions: true, resizeDuration: 0 });
+		var dialog = new dijit.Dialog({
+			title: title,
+			style: "width: 600px",
+			onCancel: function() {
+				dialogs.remove(this);
+				return true;
+			},
+			onExecute: function() {
+				dialogs.remove(this);
+				return true;
+			},
+			onClose: function() {
+				dialogs.remove(this);
+				return true;
+			},
+			content: content});
 
-		disableHotkeys();
+		dialog.show();
+
+		dialogs.push(dialog);
 
 		notify("");
 	} catch (e) {
@@ -603,10 +623,7 @@ function subscribeToFeed() {
 							if (count > 5) count = 5;
 							select.size = count;
 	
-							Effect.Appear('fadd_feeds_container', {duration : 0.5, 
-								afterSetup: function() { 
-							  		Modalbox.resizeToContent()
-								}});
+							Effect.Appear('fadd_feeds_container', {duration : 0.5});
 						}
 					});
 					break;
