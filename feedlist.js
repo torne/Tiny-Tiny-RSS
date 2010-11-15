@@ -13,7 +13,7 @@ var feeds_sort_by_unread = false;
 var feedlist_sortable_enabled = false;
 
 function toggle_sortable_feedlist(enabled) {
-	try {
+/*	try {
 
 		if (enabled) {
 			Sortable.create('feedList', {onChange: feedlist_dragsorted, only: "feedCat"});
@@ -23,7 +23,7 @@ function toggle_sortable_feedlist(enabled) {
 
 	} catch (e) {
 		exception_error("toggle_sortable_feedlist", e);
-	}
+	} */
 }
 
 function viewCategory(cat) {
@@ -31,7 +31,7 @@ function viewCategory(cat) {
 	return false;
 }
 
-function render_feedlist(data) {
+/* function render_feedlist(data) {
 	try {
 
 		var f = $("feeds-frame");
@@ -43,7 +43,7 @@ function render_feedlist(data) {
 	} catch (e) {
 		exception_error("render_feedlist", e);
 	}
-}
+} */
 
 function viewNextFeedPage() {
 	try {
@@ -579,8 +579,12 @@ function parse_counters(reply, scheduled_call) {
 				feeds_found = ctr;
 				continue;
 			}
+
+			var treeItem;
+
+			setFeedUnread(id, (kind == "cat"), ctr);
 	
-			if (kind && kind == "cat") {
+/*			if (kind && kind == "cat") {
 				var catctr = $("FCATCTR-" + id);
 				if (catctr) {
 					catctr.innerHTML = "(" + ctr + ")";
@@ -678,8 +682,8 @@ function parse_counters(reply, scheduled_call) {
 					feedctr.removeClassName("Unread");
 					feedr.removeClassName("Unread");
 				}			
-			}
-		}
+			} */
+		} 
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
@@ -692,7 +696,7 @@ function parse_counters(reply, scheduled_call) {
 
 			if (feeds_stored != 0 && feeds_found != 0) {
 				console.log("Subscribed feed number changed, refreshing feedlist");
-				setTimeout('updateFeedList(false, false)', 50);
+				setTimeout('updateFeedList()', 50);
 			}
 		} else {
 /*			var fl = $("feeds-frame").innerHTML;
@@ -807,7 +811,7 @@ function resort_feedlist() {
 
 function hideOrShowFeeds(hide) {
 
-	try {
+/*	try {
 
 		if ($("FCATLIST--1")) {
 	
@@ -823,7 +827,7 @@ function hideOrShowFeeds(hide) {
 
 	} catch (e) {
 		exception_error("hideOrShowFeeds", e);
-	}
+	} */
 }
 
 function hideOrShowFeedsCategory(cat_id, hide) {
@@ -994,4 +998,17 @@ function feedsSortByUnread() {
 	return feeds_sort_by_unread;
 }
 
+function setFeedUnread(feed, is_cat, unread) {
+	try {
+		if (is_cat) 
+			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
+		else
+			treeItem = treeModel.store._itemsByIdentity['FEED:' + feed];
 
+		if (treeItem)
+			treeModel.store.setValue(treeItem, 'unread', parseInt(unread));
+
+	} catch (e) {
+		exception_error("setFeedUnread", e);
+	}
+}

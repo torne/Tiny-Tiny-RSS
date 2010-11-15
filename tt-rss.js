@@ -10,6 +10,7 @@ var hotkey_prefix_pressed = false;
 var init_params = {};
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
+var treeModel;
 
 var _rpc_seq = 0;
 
@@ -97,9 +98,9 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 
 function updateFeedList() {
 	try {
-		//console.log("updateFeedList");
+		console.log("updateFeedList");
 	
-		var query_str = "backend.php?op=feeds";
+/*		var query_str = "backend.php?op=feeds";
 	
 		if (display_tags) {
 			query_str = query_str + "&tags=1";
@@ -113,7 +114,7 @@ function updateFeedList() {
 			parameters: query_str,
 			onComplete: function(transport) { 
 				render_feedlist(transport.responseText);
-			} });
+			} }); */
 
 	} catch (e) {
 		exception_error("updateFeedList", e);
@@ -244,8 +245,52 @@ function init() {
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
+		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dojo.data.ItemFileWriteStore");
+		dojo.require("dijit.Tree");
 
-		//return remove_splash();
+		dojo.addOnLoad(function() {
+
+			var store = new dojo.data.ItemFileWriteStore({
+          url: "backend.php?op=feeds"});
+
+			treeModel = new dijit.tree.ForestStoreModel({
+				store: store,
+				query: {
+					"type": "feed"
+				},
+				rootId: "root",
+				rootLabel: "Feeds",
+				childrenAttrs: ["items"]
+			});
+
+			var tree = new dijit.Tree({
+				model: treeModel,
+				_createTreeNode: function(args) {
+					var tnode = new dijit._TreeNode(args);
+					tnode.labelNode.innerHTML = args.label;
+					return tnode;
+					},
+				getLabelClass: function (item, opened) {
+					return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
+				},
+				getLabel: function(item) {
+					if (item.unread > 0) {
+						return item.name + " (" + item.unread + ")";
+					} else {
+						return item.name;
+					}
+				},
+				onClick: function (item, node) {
+					var id = String(item.id);
+					var is_cat = id.match("^CAT:");
+					var feed = id.substr(id.indexOf(":")+1);
+					viewfeed(feed, '', is_cat);				
+				},
+				showRoot: false,
+			}, "feedTree");
+
+		});
 
 		if (!genericSanityCheck()) 
 			return;
@@ -278,7 +323,8 @@ function init_second_stage() {
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		setTimeout('updateFeedList(false, false)', 50);
+		remove_splash();
+		feedlist_init();
 
 		console.log("second stage ok");
 

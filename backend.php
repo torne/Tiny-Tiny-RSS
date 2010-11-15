@@ -50,7 +50,8 @@
 
 	if ((!$op || $op == "rpc" || $op == "rss" || 
 			($op == "view" && $mode != "zoom") || 
-			$op == "digestSend" || $op == "dlg" || $op == "viewfeed" || $op == "publish" ||
+			$op == "digestSend" || $op == "dlg" || 
+			$op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 				header("Content-Type: application/xml; charset=utf-8");
 
@@ -160,10 +161,7 @@
 		break; // rpc
 
 		case "feeds":
-			if (ENABLE_GZIP_OUTPUT) {
-				ob_start("ob_gzhandler");
-			}
-
+			$print_exec_time = true;
 			$tags = $_REQUEST["tags"];
 
 			$subop = $_REQUEST["subop"];
@@ -208,7 +206,8 @@
 
 			}
 
-			outputFeedList($link, $tags);
+			print json_encode(outputFeedList($link, $tags));
+
 		break; // feeds
 
 		case "view":

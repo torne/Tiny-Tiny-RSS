@@ -124,7 +124,7 @@
 		<a id="dispSwitchPrompt" 
 			href="javascript:toggleTags()"><?php echo __("tag cloud") ?></a>
 	</div>
-	<div id="feeds-frame">&nbsp;</div>
+	<div id="feeds-frame"><div id="feedTree"></div></div>
 </div>
 
 <div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap">
