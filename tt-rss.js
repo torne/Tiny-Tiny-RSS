@@ -648,7 +648,16 @@ function feedEditSave() {
 
 function collapse_feedlist() {
 	try {
-		console.warn("collapse_feedlist: function not implemented");
+
+		if (!Element.visible('feeds-holder')) {
+			Element.show('feeds-holder');
+			$("collapse_feeds_btn").innerHTML = "&lt;&lt;";
+		} else {
+			Element.hide('feeds-holder');
+			$("collapse_feeds_btn").innerHTML = "&gt;&gt;";
+		}
+
+		dijit.byId("main").resize();
 
 		query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
 		new Ajax.Request("backend.php", { parameters: query });

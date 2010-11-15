@@ -555,15 +555,16 @@ td.selectPrompt {
 }
 
 div#headlines-toolbar {
-	border-width : 0px;
-	background-color : white;
+	border-width : 1px 0px 1px 1px;
+	background-color : #ecf4ff;
+	border-color : #88b0f0 #88b0f0 #ecf4ff #88b0f0;
 	font-size : 11px;
 	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
 	color : gray;
 	padding : 0px;
 	margin : 0px;
 	overflow : hidden;
-	height : 21px;
+	height : 23px;
 }
 
 div#headlines-toolbar .dijitSelect {
@@ -575,6 +576,7 @@ div#headlines-toolbar div#subtoolbar_main {
 	width : 100%;
 	white-space : nowrap;
 	vertical-align : middle;
+	padding-left : 5px;
 }
 
 div#headlines-toolbar div#subtoolbar_ftitle {
@@ -1462,6 +1464,12 @@ div.fatalError textarea {
 	padding : 0px;
 	border-color : #88b0f0;
 	border-right-width : 0px;
+	margin-top : 0px;
+	border-top-width : 0px;
+}
+
+#headlines-toolbar_splitter {
+	display : none;
 }
 
 #headlinesInnerContainer {
