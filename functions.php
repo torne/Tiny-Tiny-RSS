@@ -4384,13 +4384,11 @@
 			$result = db_query($link, "SELECT * FROM
 				ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
 		
-			if (db_num_rows($result) > 0) {
-				if (get_pref($link, 'ENABLE_FEED_CATS')) {
-					$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
-					$cat = feedlist_init_cat($link, -2, $cat_hidden);
-				} else {
-					$cat['items'] = array();
-				}
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
+				$cat = feedlist_init_cat($link, -2, $cat_hidden);
+			} else {
+				$cat['items'] = array();
 			}
 	
 			while ($line = db_fetch_assoc($result)) {
@@ -4407,7 +4405,7 @@
 			} else {
 				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 			}
-
+		
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
 					$order_by_qpart = "order_id,category,unread DESC,title";

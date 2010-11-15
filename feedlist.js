@@ -612,6 +612,8 @@ function resort_category(node, cat_mode) {
 }
 
 function resort_feedlist() {
+	return;
+
 	console.log("resort_feedlist");
 
 	if ($("FCATLIST--1")) {
