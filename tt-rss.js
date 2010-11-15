@@ -242,6 +242,11 @@ function init() {
 	try {
 		Form.disable("main_toolbar_form");
 
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.ContentPane");
+
+		//return remove_splash();
+
 		if (!genericSanityCheck()) 
 			return;
 
@@ -262,7 +267,7 @@ function init() {
 
 function resize_headlines(delta_x, delta_y) {
 
-	try {
+/*	try {
 
 		console.log("resize_headlines: " + delta_x + ":" + delta_y);
 	
@@ -333,7 +338,7 @@ function resize_headlines(delta_x, delta_y) {
 
 	} catch (e) {
 		exception_error("resize_headlines", e);
-	}
+	} */
 
 }
 

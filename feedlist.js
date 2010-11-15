@@ -441,7 +441,7 @@ function feedlist_init() {
 	}
 }
 
-function hide_footer_af(effect) {
+/* function hide_footer_af(effect) {
 	try {
 		var c = $("content-frame");
 
@@ -465,12 +465,15 @@ function hide_footer_af(effect) {
 	} catch (e) {
 		exception_error("hide_footer_af", e);
 	}
-}
+} */
 
 function hide_footer() {
 	try {
 		if (Element.visible("footer")) {
-			new Effect.Fade("footer", { afterFinish: hide_footer_af });
+
+			Element.hide("footer");
+
+			//new Effect.Fade("footer", { afterFinish: hide_footer_af });
 		}
 	} catch (e) {
 		exception_error("hide_footer", e);

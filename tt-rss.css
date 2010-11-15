@@ -682,14 +682,17 @@ div.headlinesSubToolbar {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #f0f0f0;
-	position : absolute;
+	height : 20px;
+	line-height : 20px; 
+
+/* 	position : absolute;
 	left : 0px;
-	top : 0px;
+	top : 0px; 
 	height : 25px;
-	line-height : 25px;
+	line-height : 25px; 
 	padding-left : 5px;
 	padding-right : 5px;
-	right : 0px;
+	right : 0px; */
 	background-color : white;
 	font-size : 11px;
 	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
@@ -700,10 +703,9 @@ div.headlinesSubToolbar * {
 	line-height : normal;
 }
 
-
 div.headlinesSubToolbar div#subtoolbar_ftitle {
 	float : right;
-	line-height : 25px;
+	line-height : 20px;
 
 }
 
@@ -1036,9 +1038,22 @@ div.whiteBox {
 	padding : 1em;
 }
 
+html, body, #main {
+	width: 100%; 
+	height: 100%;
+	border: 0; 
+	padding: 0; 
+	margin: 0;
+}
+
+#toolbar div.actionChooser {
+	margin-right : 5px;
+	float : right;
+}
+
 /* layout */
 
-#header {
+/* #header {
 	position : absolute;
 	white-space: nowrap;
 	top : 5px;
@@ -1126,21 +1141,6 @@ div.headlines_cdm {
 	border-collapse : collapse;
 }
 
-/*#resize-grabber {
-	position : absolute;
-	border-width : 1px;
-	border-style : dotted;
-	border-color : #88b0f0;
-	background-color : white;
-	width : 8px;
-	height : 8px;
-	z-index : 20;
-	right : 20px;
-	top : 20px;
-	display : none;
-	cursor : move;
-}*/
-
 #resize-grabber {
 	height : 5px;
 	border-width : 0px 0px 1px 0px;
@@ -1200,7 +1200,7 @@ div.headlines_cdm {
 	right : 0px;
 	bottom : 0px;
 	top : 25px; 
-}
+} */
 
 /* preferences layout */
 
@@ -1497,7 +1497,7 @@ div#l_progress_i {
 	height : 10px;
 }
 
-#content-insert {
+/* #content-insert {
 	background-color : white;
 	overflow : auto;
 	position : absolute;
@@ -1505,7 +1505,7 @@ div#l_progress_i {
 	right : 0px;
 	bottom : 0px;
 	top : 6px; 
-}
+} */
 
 div.dlgSec {
 	font-size : 12px;
@@ -1758,4 +1758,33 @@ div.fatalError button {
 div.fatalError textarea {
 	width : 100%;
 	height : 100px;
+}
+
+#main {
+	border-width : 0px;
+}
+
+#feeds-holder {
+	padding : 0px;
+}
+
+#headlines-frame {
+	padding : 0px;
+}
+
+#toolbar {
+	padding : 4px;
+	border-width : 0px;
+}
+
+#header {
+	padding : 4px;
+	border-width : 0px;
+}
+
+#footer {
+	text-align : center;
+	color : gray;
+	padding : 4px;
+	border-width : 0px;
 }
