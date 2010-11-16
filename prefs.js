@@ -1,5 +1,4 @@
 var active_feed_cat = false;
-var active_tab = false;
 
 var init_params = new Array();
 
@@ -17,7 +16,7 @@ function feedlist_callback2(transport) {
 
 	try {	
 
-		var container = $('prefContent');	
+		var container = $('feedConfigTab');	
 		container.innerHTML=transport.responseText;
 		selectTab("feedConfig", true);
 
@@ -38,7 +37,7 @@ function feedlist_callback2(transport) {
 }
 
 function filterlist_callback2(transport) {
-	var container = $('prefContent');
+	var container = $('filterConfigTab');
 	container.innerHTML=transport.responseText;
 	notify("");
 	remove_splash();
@@ -71,7 +70,7 @@ function labellist_callback2(transport) {
 
 	try {
 
-		var container = $('prefContent');
+		var container = $('labelConfigTab');
 			closeInfoBox();
 			container.innerHTML=transport.responseText;
 
@@ -87,7 +86,7 @@ function labellist_callback2(transport) {
 
 function userlist_callback2(transport) {
 	try {
-		var container = $('prefContent');
+		var container = $('userConfigTab');
 		if (transport.readyState == 4) {
 			container.innerHTML=transport.responseText;
 			notify("");
@@ -100,7 +99,7 @@ function userlist_callback2(transport) {
 
 function prefslist_callback2(transport) {
 	try {
-		var container = $('prefContent');
+		var container = $('genConfigTab');
 		container.innerHTML=transport.responseText;
 		notify("");
 		remove_splash();
@@ -1062,19 +1061,7 @@ function updatePrefsList() {
 }
 
 function selectTab(id, noupdate, subop) {
-
-//	alert(id);
-
-	if (!id) id = active_tab;
-
 	try {
-
-		try {
-			if (id != active_tab) {
-				var c = $('prefContent');	
-				c.scrollTop = 0;
-			}
-		} catch (e) { };
 
 		if (!noupdate) {
 
@@ -1102,6 +1089,10 @@ function selectTab(id, noupdate, subop) {
 			} else if (id == "userConfig") {
 				updateUsersList();
 			}
+
+			var tab = dijit.byId(id + "Tab");
+			dijit.byId("pref-tabs").selectChild(tab);
+
 		}
 
 		/* clean selection from all tabs */
@@ -1112,8 +1103,6 @@ function selectTab(id, noupdate, subop) {
 
 		$(id + "Tab").addClassName("Selected");
 	
-		active_tab = id;
-
 	} catch (e) {
 		exception_error("selectTab", e);
 	}
@@ -1122,7 +1111,7 @@ function selectTab(id, noupdate, subop) {
 function init_second_stage() {
 
 	try {
-		active_tab = getInitParam("prefs_active_tab");
+		var active_tab = getInitParam("prefs_active_tab");
 		if (!$(active_tab+"Tab")) active_tab = "genConfig";
 		if (!active_tab || active_tab == '0') active_tab = "genConfig";
 
@@ -1138,20 +1127,15 @@ function init_second_stage() {
 			caller_subop = caller_subop + ":" + getURLParam("subopparam");
 		}
 
-		if (tab) {
-			active_tab = tab;
-		}
-
-		if (navigator.userAgent.match("Opera")) {	
-			setTimeout("selectTab()", 500);
-		} else {
-			selectTab(active_tab);
-		}
-		notify("");
+		if (tab) active_tab = tab;
 
 		loading_set_progress(60);
 
+		selectTab(active_tab, true);
+		notify("");
+
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
+		remove_splash();
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
@@ -1162,8 +1146,9 @@ function init() {
 
 	try {
 	
-		//dojo.require("dijit.layout.BorderContainer");
-		//dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
 		//dojo.require("dojo.data.ItemFileReadStore");
