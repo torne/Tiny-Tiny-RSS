@@ -281,6 +281,7 @@ function init() {
 		Form.disable("main_toolbar_form");
 
 		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
@@ -290,9 +291,8 @@ function init() {
 		dojo.require("dojo.parser");
 
 		dojo.addOnLoad(function() {
-
 			updateFeedList();
-
+			closeArticlePanel();
 		});
 
 		if (!genericSanityCheck()) 

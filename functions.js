@@ -394,8 +394,9 @@ function closeInfoBox(cleanup) {
 
 		var dialog = dialogs.pop();
 
-		if (dialog)
-			dialog.hide();
+		if (dialog) {
+			dialog.destroy();
+		}
 
 	} catch (e) {
 		//exception_error("closeInfoBox", e);
@@ -407,6 +408,9 @@ function closeInfoBox(cleanup) {
 function displayDlg(id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
+
+	while (dialogs.length > 0)
+		closeInfoBox();
 
 	var query = "?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param);
@@ -465,10 +469,12 @@ function infobox_callback2(transport) {
 			style: "width: 600px",
 			onCancel: function() {
 				dialogs.remove(this);
+				this.destroy();
 				return true;
 			},
 			onExecute: function() {
 				dialogs.remove(this);
+				this.destroy();
 				return true;
 			},
 			onClose: function() {

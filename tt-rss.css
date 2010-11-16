@@ -539,7 +539,7 @@ td.selectPrompt {
 }
 
 div#headlines-toolbar {
-	border-width : 1px 0px 1px 1px;
+	border-width : 1px 0px 1px 0px;
 	background-color : #ecf4ff;
 	border-color : #88b0f0 #88b0f0 #ecf4ff #88b0f0;
 	font-size : 11px;
@@ -1447,6 +1447,7 @@ div.fatalError textarea {
 #headlines-frame {
 	padding : 0px;
 	border-color : #88b0f0;
+	border-left-width : 0px;
 	border-right-width : 0px;
 	margin-top : 0px;
 	border-top-width : 0px;
@@ -1460,8 +1461,19 @@ div.fatalError textarea {
 	font-size : 12px;
 }
 
-#toolbar {
+#content-tabs {
+	margin : 0px;
 	padding : 0px;
+	border-width : 0px;
+}
+
+#content-tabs .dijitTab {
+	margin-top : 0px;
+	padding-top : 0px;
+}
+
+#toolbar {
+	padding : 5px 0px 0px 5px;
 	margin : 0px;
 	border-width : 0px;
 	white-space: nowrap;
@@ -1485,6 +1497,7 @@ div.fatalError textarea {
 	border-color : #88b0f0;
 	border-bottom-width : 0px;
 	border-right-width : 0px;
+	border-left-width : 0px;
 }
 
 .dijitTreeLabel.Unread {

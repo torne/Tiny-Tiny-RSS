@@ -793,7 +793,6 @@ function setFeedUnread(feed, is_cat, unread) {
 function setFeedValue(feed, is_cat, key, value) {
 	try {
 		if (!value) value = '';
-		if (!treeModel) return;
 
 		if (is_cat) 
 			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
@@ -804,7 +803,8 @@ function setFeedValue(feed, is_cat, key, value) {
 			treeModel.store.setValue(treeItem, key, value);
 
 	} catch (e) {
-		exception_error("setFeedValue", e);
+		console.log(e);
+		//exception_error("setFeedValue", e);
 	}
 }
 

@@ -4577,8 +4577,10 @@
 					</head><body>";
 			}
 
+			print "<div id=\"PTITLE-$id\" style=\"display : none\">" . 
+				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
-			print "<div class=\"postReply\">";
+			print "<div class=\"postReply\" id=\"POST-$id\">";
 			print "<div class=\"postHeader\">";
 
 			$entry_author = $line["author"];
@@ -4615,7 +4617,7 @@
 				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"zoomToArticle($id)\"
-						alt='Zoom' title='".__('Show article summary in new window')."'>";
+						alt='Zoom' title='".__('Open article in new tab')."'>";
 
 				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
@@ -4630,6 +4632,11 @@
 						onclick=\"emailArticle($id)\"
 						alt='Zoom' title='".__('Forward by email')."'>";
 				}
+
+				print "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\" 
+						class='tagsPic' style=\"cursor : pointer\"
+						onclick=\"closeArticlePanel()\"
+						alt='Zoom' title='".__('Close this panel')."'>";
 
 			} else {
 				$tags_str = strip_tags($tags_str);
@@ -5083,7 +5090,8 @@
 						onmouseout='postMouseOut($id)'";
 
 					print "<div class=\"$class\" 
-						id=\"RROW-$id\"						
+						id=\"RROW-$id\" onclick=\"return cdmClicked(event, $id);\"
+	
 						$mouseover_attrs'>";
 
 					print "<div class=\"cdmHeader\">";
@@ -5108,7 +5116,7 @@
 					print "$published_pic";
 
 					print "<span id=\"RTITLE-$id\" 
-						onclick=\"return cdmExpandArticle($id)\"
+						onclick=\"return false;\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
 						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
@@ -5123,13 +5131,11 @@
 						$excerpt_hidden = "style=\"display : none\"";
 
 					print "<span $excerpt_hidden
-						onclick=\"return cdmExpandArticle($id)\"
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
 					print "</div>";
 
 					print "<div class=\"cdmContent\" $content_hidden
-						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
 					print "<div class=\"cdmContentInner\">";
@@ -5220,7 +5226,7 @@
 						onclick=\"zoomToArticle($id)\"
 						style=\"cursor : pointer\"
 						alt='Zoom' 
-						title='".__('Show article summary in new window')."'>";
+						title='".__('Open article in new tab')."'>";
 
 					if (DIGEST_ENABLE) {
 						print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 

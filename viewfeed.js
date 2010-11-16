@@ -207,6 +207,9 @@ function render_article(article) {
 			f.scrollTop = 0;
 		} catch (e) { };
 
+		dijit.byId("headlines-wrap-inner").addChild(
+				dijit.byId("content-insert"));
+
 		var fi = $("content-insert");
 
 		try {
@@ -582,14 +585,14 @@ function moveToPost(mode) {
 	}
 }
 
-function toggleSelected(id) {
+function toggleSelected(id, force_on) {
 	try {
 	
 		var cb = $("RCHK-" + id);
 		var row = $("RROW-" + id);
 
 		if (row) {
-			if (row.hasClassName('Selected')) {
+			if (row.hasClassName('Selected') && !force_on) {
 				row.removeClassName('Selected');
 				if (cb) cb.checked = false;
 			} else {
@@ -1091,7 +1094,7 @@ function editTagsSave() {
 
 	query = "?op=rpc&subop=setArticleTags&" + query;
 
-	//console.log(query);
+	console.log(query);
 
 	new Ajax.Request("backend.php",	{
 		parameters: query,
@@ -1715,9 +1718,56 @@ function getArticleUnderPointer() {
 
 function zoomToArticle(id) {
 	try {
-		var w = window.open("backend.php?op=view&mode=zoom&id=" + param_escape(id), 
+		/* var w = window.open("backend.php?op=view&mode=zoom&id=" + param_escape(id), 
 			"ttrss_zoom_" + id,
-			"status=0,toolbar=0,location=0,width=450,height=300,scrollbars=1,menubar=0");
+			"status=0,toolbar=0,location=0,width=450,height=300,scrollbars=1,menubar=0"); */
+
+		var cached_article = cache_find(id);
+
+		if (cached_article) {
+			
+			var article_pane = new dijit.layout.ContentPane({ 
+				title: __("Loading...") , content: cached_article, 
+				style: 'padding : 0px;',
+				closable: true });
+	
+			dijit.byId("content-tabs").addChild(article_pane);
+			dijit.byId("content-tabs").selectChild(article_pane);
+
+			if ($("PTITLE-" + id))
+				article_pane.attr('title', $("PTITLE-" + id).innerHTML);
+
+		} else {
+
+			var query = "?op=rpc&subop=getArticles&ids=" + param_escape(id);
+	
+			notify_progress("Loading, please wait...", true);
+	
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
+					notify('');
+	
+					if (transport.responseXML) {
+						closeArticlePanel();
+	
+						var article = transport.responseXML.getElementsByTagName("article")[0];
+						var content = article.firstChild.nodeValue;
+	
+						var article_pane = new dijit.layout.ContentPane({ 
+							title: "article-" + id , content: content, 
+							style: 'padding : 0px;',
+							closable: true });
+	
+						dijit.byId("content-tabs").addChild(article_pane);
+						dijit.byId("content-tabs").selectChild(article_pane);
+
+						if ($("PTITLE-" + id))
+							article_pane.attr('title', $("PTITLE-" + id).innerHTML);
+					}
+	
+				} });
+			}
 
 	} catch (e) {
 		exception_error("zoomToArticle", e);
@@ -1971,36 +2021,43 @@ function cdmClicked(event, id) {
 		hideAuxDlg();
 
 		if (!event.ctrlKey) {
-			selectArticles("none");
-			toggleSelected(id);
 
-			var elem = $("RROW-" + id);
+			if (!getInitParam("cdm_expanded")) {
+				return cdmExpandArticle(id);
+			} else {
 
-			if (elem)
-				elem.removeClassName("Unread");
-
-			var upd_img_pic = $("FUPDPIC-" + id);
-
-			if (upd_img_pic && (upd_img_pic.src.match("updated.png") || 
-					upd_img_pic.src.match("fresh_sign.png"))) {
-
-				upd_img_pic.src = "images/blank_icon.gif";
+				selectArticles("none");
+				toggleSelected(id);
+	
+				var elem = $("RROW-" + id);
+	
+				if (elem)
+					elem.removeClassName("Unread");
+	
+				var upd_img_pic = $("FUPDPIC-" + id);
+	
+				if (upd_img_pic && (upd_img_pic.src.match("updated.png") || 
+						upd_img_pic.src.match("fresh_sign.png"))) {
+	
+					upd_img_pic.src = "images/blank_icon.gif";
+				}
+	
+				active_post_id = id;
+	
+				var query = "?op=rpc&subop=catchupSelected" +
+					"&cmode=0&ids=" + param_escape(id);
+	
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) { 
+						handle_rpc_reply(transport); 
+					} });
 			}
 
-			active_post_id = id;
-
-			var query = "?op=rpc&subop=catchupSelected" +
-				"&cmode=0&ids=" + param_escape(id);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
-				} });
-
-			return true;
 		} else {
-			toggleSelected(id);
+			toggleSelected(id, true);
+			toggleUnread(id, 0, false);
+			zoomToArticle(id);
 		}
 
 	} catch (e) {
@@ -2017,7 +2074,9 @@ function hlClicked(event, id) {
 			view(id);
 			return true;
 		} else {
-			toggleSelected(id);
+			toggleSelected(id, true);
+			toggleUnread(id, 0, false);
+			zoomToArticle(id);
 			return false;
 		}
 
@@ -2171,4 +2230,10 @@ function headlineActionsChange(elem) {
 	} catch (e) {
 		exception_error("headlineActionsChange", e);
 	}
+}
+
+function closeArticlePanel() {
+	if (dijit.byId("content-insert"))
+		dijit.byId("headlines-wrap-inner").removeChild(
+			dijit.byId("content-insert"));
 }

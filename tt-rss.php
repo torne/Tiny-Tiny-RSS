@@ -126,7 +126,9 @@
 	<div id="feedTree"></div>
 </div>
 
-<div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap">
+<div dojoType="dijit.layout.TabContainer" region="center" id="content-tabs">
+<div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap"
+	title="News">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 
@@ -214,6 +216,7 @@
 		<?php } ?>
 
 	</div>
+</div>
 </div>
 
 <!-- <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">
