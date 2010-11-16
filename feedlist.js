@@ -916,7 +916,7 @@ function selectFeed(feed, is_cat) {
 
 		if (treeNode) {
 			treeNode = treeNode[0];
-			tree._expandNode(treeNode);
+			if (!is_cat) tree._expandNode(treeNode);
 			tree._selectNode(treeNode);
 		}
 

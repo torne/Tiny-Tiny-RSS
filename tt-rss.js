@@ -315,8 +315,10 @@ function init() {
 					var id = String(item.id);
 					var is_cat = id.match("^CAT:");
 					var feed = id.substr(id.indexOf(":")+1);
-					viewfeed(feed, '', is_cat);				
+					viewfeed(feed, '', is_cat);
+					return false;
 				},
+				openOnClick: false,
 				showRoot: false,
 			}, "feedTree");
 
