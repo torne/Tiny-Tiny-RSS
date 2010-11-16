@@ -1150,10 +1150,6 @@ function init() {
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
-		dojo.require("dijit.form.Button");
-		//dojo.require("dojo.data.ItemFileReadStore");
-		//dojo.require("dojo.data.ItemFileWriteStore");
-		//dojo.require("dijit.Tree");
 
 		loading_set_progress(30);
 
