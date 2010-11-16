@@ -202,23 +202,18 @@ function headlines_callback2(transport, feed_cur_page) {
 
 function render_article(article) {
 	try {
-		var f = $("content-frame");
-		try {
-			f.scrollTop = 0;
-		} catch (e) { };
-
 		dijit.byId("headlines-wrap-inner").addChild(
 				dijit.byId("content-insert"));
 
-		var fi = $("content-insert");
+		var c = $("content-insert");
 
 		try {
-			fi.scrollTop = 0;
+			c.scrollTop = 0;
 		} catch (e) { };
 		
-		fi.innerHTML = article;
-		
-//		article.evalScripts();		
+		c.innerHTML = article;
+
+		correctHeadlinesOffset(getActiveArticleId());		
 
 	} catch (e) {
 		exception_error("render_article", e);
