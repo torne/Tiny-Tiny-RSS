@@ -394,10 +394,8 @@ function closeInfoBox(cleanup) {
 
 		var dialog = dialogs.pop();
 
-		if (dialog) {
-			dialog.attr('content', '');
+		if (dialog)
 			dialog.hide();
-		}
 
 	} catch (e) {
 		//exception_error("closeInfoBox", e);
@@ -410,8 +408,10 @@ function displayDlg(id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
 
-	while (dialogs.length > 0)
-		closeInfoBox();
+	if (dijit.byId("infoBox")) {
+		dialogs.pop();
+		dijit.byId("infoBox").destroy();
+	}
 
 	var query = "?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param);
@@ -467,20 +467,18 @@ function infobox_callback2(transport) {
 
 		var dialog = new dijit.Dialog({
 			title: title,
+			id: 'infoBox',
 			style: "width: 600px",
 			onCancel: function() {
 				dialogs.remove(this);
-				this.attr('content', '');
 				return true;
 			},
 			onExecute: function() {
 				dialogs.remove(this);
-				this.attr('content', '');
 				return true;
 			},
 			onClose: function() {
 				dialogs.remove(this);
-				this.attr('content', '');
 				return true;
 			},
 			content: content});
