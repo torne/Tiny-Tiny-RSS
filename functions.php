@@ -5090,9 +5090,7 @@
 						onmouseout='postMouseOut($id)'";
 
 					print "<div class=\"$class\" 
-						id=\"RROW-$id\" onclick=\"return cdmClicked(event, $id);\"
-	
-						$mouseover_attrs'>";
+						id=\"RROW-$id\" $mouseover_attrs'>";
 
 					print "<div class=\"cdmHeader\">";
 
@@ -5116,12 +5114,11 @@
 					print "$published_pic";
 
 					print "<span id=\"RTITLE-$id\" 
-						onclick=\"return false;\"
+						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
 						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
-						$entry_author
-						</span>";
+						$entry_author";
 
 					print $labels_str;
 
@@ -5133,9 +5130,12 @@
 					print "<span $excerpt_hidden
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
+					print "</span>";
+
 					print "</div>";
 
 					print "<div class=\"cdmContent\" $content_hidden
+						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
 					print "<div class=\"cdmContentInner\">";
