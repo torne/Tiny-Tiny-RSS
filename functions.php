@@ -6963,6 +6963,7 @@
 
 	function feedlist_init_cat($link, $cat_id, $hidden = false) {
 		$obj = array();
+		$cat_id = (int) $cat_id;
 
 		if ($cat_id > 0) {
 			$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
