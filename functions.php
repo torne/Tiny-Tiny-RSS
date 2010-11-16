@@ -4635,7 +4635,7 @@
 
 				print "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"closeArticlePanel()\"
+						onclick=\"closeArticlePanel($id)\"
 						alt='Zoom' title='".__('Close this panel')."'>";
 
 			} else {

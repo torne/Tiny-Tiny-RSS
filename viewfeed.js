@@ -1724,11 +1724,15 @@ function zoomToArticle(id) {
 
 		var cached_article = cache_find(id);
 
+		if (dijit.byId("ATAB-" + id))
+			return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
+
 		if (cached_article) {
 			
 			var article_pane = new dijit.layout.ContentPane({ 
 				title: __("Loading...") , content: cached_article, 
 				style: 'padding : 0px;',
+				id: 'ATAB-' + id,
 				closable: true });
 	
 			dijit.byId("content-tabs").addChild(article_pane);
@@ -1757,6 +1761,7 @@ function zoomToArticle(id) {
 						var article_pane = new dijit.layout.ContentPane({ 
 							title: "article-" + id , content: content, 
 							style: 'padding : 0px;',
+							id: 'ATAB-' + id,
 							closable: true });
 	
 						dijit.byId("content-tabs").addChild(article_pane);
@@ -2232,7 +2237,12 @@ function headlineActionsChange(elem) {
 	}
 }
 
-function closeArticlePanel() {
+function closeArticlePanel(id) {
+
+	if (id)
+		if (dijit.byId("ATAB-" + id))
+			return dijit.byId("content-tabs").removeChild(dijit.byId("ATAB-" + id));
+
 	if (dijit.byId("content-insert"))
 		dijit.byId("headlines-wrap-inner").removeChild(
 			dijit.byId("content-insert"));
