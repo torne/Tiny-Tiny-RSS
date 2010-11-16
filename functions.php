@@ -15,6 +15,8 @@
 		define('SUBSTRING_FOR_DATE', 'SUBSTRING');
 	}
 
+	define('THEME_VERSION_REQUIRED', 1.1);
+
 	/**
 	 * Return available translations names.
 	 * 
@@ -2039,7 +2041,15 @@
 			$theme_path = '';
 		}
 
-		return $theme_path;
+		if ($theme_path) {
+			if (is_file("$t/theme.ini")) {
+				$ini = parse_ini_file("$t/theme.ini", true);
+				if ($ini['theme']['version'] > THEME_VERSION_REQUIRED) {
+					return $theme_path;
+				}
+			}
+		}
+		return '';
 	}
 
 	function get_user_theme_options($link) {
@@ -2067,7 +2077,8 @@
 		foreach ($themes as $t) {
 			if (is_file("$t/theme.ini")) {
 				$ini = parse_ini_file("$t/theme.ini", true);
-				if ($ini['theme']['version'] && !$ini['theme']['disabled']) {
+				if ($ini['theme']['version'] > THEME_VERSION_REQUIRED && 
+							!$ini['theme']['disabled']) {
 					$entry = array();
 					$entry["path"] = $t;
 					$entry["base"] = basename($t);
