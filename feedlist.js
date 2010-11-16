@@ -641,6 +641,8 @@ function resort_feedlist() {
 function hideOrShowFeeds(hide) {
 	var tree = dijit.byId("feedTree");
 
+	if (!tree) return;
+
 	if (getInitParam("enable_feed_cats")) {
 
 		var cats = tree.model.store._arrayOfTopLevelItems;
@@ -690,6 +692,9 @@ function hideOrShowFeedsCategory(feeds, hide) {
 	try {
 		//console.warn("hideOrShowFeedsCategory: function not implemented");
 	var tree = dijit.byId("feedTree");
+
+	if (!tree) return;
+
 	var cat_unread = 0;
 
 	feeds.each(function(feed) {
@@ -909,6 +914,8 @@ function selectFeed(feed, is_cat) {
 	try {
 		var tree = dijit.byId("feedTree");
 
+		if (!tree) return;
+
 		if (is_cat) 
 			treeNode = tree._itemNodesMap['CAT:' + feed];
 		else
@@ -928,6 +935,8 @@ function selectFeed(feed, is_cat) {
 function setFeedIcon(feed, is_cat, src) {
 	try {
 		var tree = dijit.byId("feedTree");
+
+		if (!tree) return;
 
 		if (is_cat) 
 			treeNode = tree._itemNodesMap['CAT:' + feed];
