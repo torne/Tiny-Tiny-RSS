@@ -295,6 +295,7 @@ function feedlist_init() {
 				getInitParam("cdm_auto_catchup") + " " + get_feed_unread(-3));
 
 		toggle_sortable_feedlist(isFeedlistSortable());
+		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -557,9 +558,12 @@ function hideOrShowFeeds(hide) {
 	
 			var id = String(cat.id);
 			var node = tree._itemNodesMap[id];
+			var bare_id = parseInt(id.substr(id.indexOf(":")+1));
 	
 			if (node) {
-				if (hide && cat_unread == 0) {
+				var check_unread = get_feed_unread(bare_id, true);
+
+				if (hide && cat_unread == 0 && check_unread == 0) {
 					Effect.Fade(node[0].rowNode, {duration : 0.3, 
 						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 				} else {
