@@ -4545,7 +4545,7 @@
 			$line = db_fetch_assoc($result);
 
 			if ($line["icon_url"]) {
-				$feed_icon = "<img class=\"feedIcon\" src=\"" . $line["icon_url"] . "\">";
+				$feed_icon = "<img src=\"" . $line["icon_url"] . "\">";
 			} else {
 				$feed_icon = "&nbsp;";
 			}
