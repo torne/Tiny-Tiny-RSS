@@ -270,9 +270,16 @@ function init() {
 				model: treeModel,
 				_createTreeNode: function(args) {
 					var tnode = new dijit._TreeNode(args);
-					tnode.labelNode.innerHTML = args.label;
+
+					if (args.item.icon) 
+						tnode.iconNode.src = args.item.icon[0];
+
+					//tnode.labelNode.innerHTML = args.label;
 					return tnode;
 					},
+				getIconClass: function (item, opened) {
+					return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
+				},
 				getLabelClass: function (item, opened) {
 					return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
 				},

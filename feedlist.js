@@ -506,6 +506,15 @@ function parse_counters(reply, scheduled_call) {
 			if (kind != "cat") {
 				//setFeedValue(id, false, 'error', error);
 				setFeedValue(id, false, 'updated', updated);
+
+				if (id > 0) {
+					if (has_img) {
+						setFeedIcon(id, false, 
+							getInitParam("icons_url") + "/" + id + ".ico");
+					} else {
+						setFeedIcon(id, false, 'images/blank_icon.gif');
+					}
+				}
 			}
 		}
 	
@@ -913,5 +922,24 @@ function selectFeed(feed, is_cat) {
 
 	} catch (e) {
 		exception_error("selectFeed", e);
+	}
+}
+
+function setFeedIcon(feed, is_cat, src) {
+	try {
+		var tree = dijit.byId("feedTree");
+
+		if (is_cat) 
+			treeNode = tree._itemNodesMap['CAT:' + feed];
+		else
+			treeNode = tree._itemNodesMap['FEED:' + feed];
+
+		if (treeNode) {
+			treeNode = treeNode[0];
+			treeNode.iconNode.src = src;
+		}
+
+	} catch (e) {
+		exception_error("setFeedIcon", e);
 	}
 }

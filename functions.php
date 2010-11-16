@@ -7215,6 +7215,7 @@
 		$obj['type'] = 'feed';
 		$obj['error'] = $error;
 		$obj['updated'] = $updated;
+		$obj['icon'] = getFeedIcon($feed_id);
 
 		return $obj;
 	}
