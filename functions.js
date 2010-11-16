@@ -408,11 +408,6 @@ function displayDlg(id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
 
-	if (dijit.byId("infoBox")) {
-		dialogs.pop();
-		dijit.byId("infoBox").destroy();
-	}
-
 	var query = "?op=dlg&id=" +
 		param_escape(id) + "&param=" + param_escape(param);
 
@@ -443,6 +438,10 @@ function infobox_submit_callback2(transport) {
 
 function infobox_callback2(transport) {
 	try {
+		if (dijit.byId("infoBox")) {
+			dialogs.pop();
+			dijit.byId("infoBox").destroy();
+		}
 
 		//console.log("infobox_callback2");
 		notify('');
