@@ -395,7 +395,8 @@ function closeInfoBox(cleanup) {
 		var dialog = dialogs.pop();
 
 		if (dialog) {
-			dialog.destroy();
+			dialog.attr('content', '');
+			dialog.hide();
 		}
 
 	} catch (e) {
@@ -469,16 +470,17 @@ function infobox_callback2(transport) {
 			style: "width: 600px",
 			onCancel: function() {
 				dialogs.remove(this);
-				this.destroy();
+				this.attr('content', '');
 				return true;
 			},
 			onExecute: function() {
 				dialogs.remove(this);
-				this.destroy();
+				this.attr('content', '');
 				return true;
 			},
 			onClose: function() {
 				dialogs.remove(this);
+				this.attr('content', '');
 				return true;
 			},
 			content: content});
