@@ -2740,8 +2740,8 @@
 			$cv = array("id" => $i,
 				"counter" => $count);
 	
-			if (get_pref($link, 'EXTENDED_FEEDLIST'))
-				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
+//			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+//				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
 
 			array_push($ret_arr, $cv);
 		} 
@@ -2773,8 +2773,8 @@
 			if ($descriptions)
 				$cv["description"] = $label_name;
 
-			if (get_pref($link, 'EXTENDED_FEEDLIST'))
-				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
+//			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+//				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
 
 			array_push($ret_arr, $cv);
 		}
@@ -2820,8 +2820,8 @@
 			if ($last_error)
 				$cv["error"] = $last_error;
 
-			if (get_pref($link, 'EXTENDED_FEEDLIST'))
-				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
+//			if (get_pref($link, 'EXTENDED_FEEDLIST'))
+//				$cv["xmsg"] = getFeedArticles($link, $id)." ".__("total");
 
 			if ($active_feed && $id == $active_feed)
 				$cv["title"] = truncate_string($line["title"], 30);
