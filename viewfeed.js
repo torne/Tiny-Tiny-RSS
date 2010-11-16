@@ -1716,7 +1716,7 @@ function getArticleUnderPointer() {
 	return post_under_pointer;
 }
 
-function zoomToArticle(id) {
+function zoomToArticle(event, id) {
 	try {
 		/* var w = window.open("backend.php?op=view&mode=zoom&id=" + param_escape(id), 
 			"ttrss_zoom_" + id,
@@ -1725,7 +1725,8 @@ function zoomToArticle(id) {
 		var cached_article = cache_find(id);
 
 		if (dijit.byId("ATAB-" + id))
-			return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
+			if (!event || !event.shiftKey)
+				return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
 
 		if (cached_article) {
 			
@@ -1736,7 +1737,9 @@ function zoomToArticle(id) {
 				closable: true });
 	
 			dijit.byId("content-tabs").addChild(article_pane);
-			dijit.byId("content-tabs").selectChild(article_pane);
+
+			if (!event || !event.shiftKey)
+				dijit.byId("content-tabs").selectChild(article_pane);
 
 			if ($("PTITLE-" + id))
 				article_pane.attr('title', $("PTITLE-" + id).innerHTML);
@@ -1765,7 +1768,9 @@ function zoomToArticle(id) {
 							closable: true });
 	
 						dijit.byId("content-tabs").addChild(article_pane);
-						dijit.byId("content-tabs").selectChild(article_pane);
+
+						if (!event || !event.shiftKey)
+							dijit.byId("content-tabs").selectChild(article_pane);
 
 						if ($("PTITLE-" + id))
 							article_pane.attr('title', $("PTITLE-" + id).innerHTML);
@@ -2062,7 +2067,7 @@ function cdmClicked(event, id) {
 		} else {
 			toggleSelected(id, true);
 			toggleUnread(id, 0, false);
-			zoomToArticle(id);
+			zoomToArticle(event, id);
 		}
 
 	} catch (e) {
@@ -2082,7 +2087,7 @@ function hlClicked(event, id) {
 			selectArticles('none');
 			toggleSelected(id);
 			toggleUnread(id, 0, false);
-			zoomToArticle(id);
+			zoomToArticle(event, id);
 			return false;
 		}
 
