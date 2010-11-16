@@ -2243,13 +2243,26 @@ function headlineActionsChange(elem) {
 	}
 }
 
-function closeArticlePanel(id) {
+function closeArticlePanel() {
 
-	if (id)
+	var tabs = dijit.byId("content-tabs");
+	var child = tabs.selectedChildWidget;
+
+	if (child && tabs.getIndexOfChild(child) > 0) {
+		tabs.removeChild(child);
+		child.destroy();
+	} else {
+		if (dijit.byId("content-insert"))
+			dijit.byId("headlines-wrap-inner").removeChild(
+				dijit.byId("content-insert"));
+	}
+
+
+/*	if (id)
 		if (dijit.byId("ATAB-" + id))
 			return dijit.byId("content-tabs").removeChild(dijit.byId("ATAB-" + id));
 
 	if (dijit.byId("content-insert"))
 		dijit.byId("headlines-wrap-inner").removeChild(
-			dijit.byId("content-insert"));
+			dijit.byId("content-insert")); */
 }
