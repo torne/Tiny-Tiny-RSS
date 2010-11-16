@@ -64,6 +64,9 @@ function viewfeed(feed, subop, is_cat, offset) {
 			}		
 		} */
 
+		dijit.byId("content-tabs").selectChild(
+			dijit.byId("content-tabs").getChildren()[0]);
+
 		var force_nocache = false;
 
 		var page_offset = 0;
@@ -225,7 +228,8 @@ function viewfeed(feed, subop, is_cat, offset) {
 		} else {
 
 			if (!is_cat)
-				setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif');
+				if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
+					notify_progress("Loading, please wait...", true);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -869,9 +873,11 @@ function setFeedExpandoIcon(feed, is_cat, src) {
 		if (treeNode) {
 			treeNode = treeNode[0];
 			treeNode.expandoNode.src = src;
+			return true;
 		}
 
 	} catch (e) {
 		exception_error("setFeedIcon", e);
 	}
+	return false;
 }
