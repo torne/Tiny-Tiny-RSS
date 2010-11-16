@@ -1226,7 +1226,7 @@ function editTagsInsert() {
 
 function cdmScrollToArticleId(id) {
 	try {
-		var ctr = $("headlinesInnerContainer");
+		var ctr = $("headlines-frame");
 		var e = $("RROW-" + id);
 
 		if (!e || !ctr) return;
@@ -1748,10 +1748,10 @@ function cdmExpandArticle(id) {
 
 		var new_offset = $("RROW-" + id).offsetTop;
 
-		$("headlinesInnerContainer").scrollTop += (new_offset-old_offset);
+		$("headlines-frame").scrollTop += (new_offset-old_offset);
 
 		if ($("RROW-" + id).offsetTop != old_offset) 
-			$("headlinesInnerContainer").scrollTop = new_offset;
+			$("headlines-frame").scrollTop = new_offset;
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
@@ -2207,7 +2207,7 @@ function correctHeadlinesOffset(id) {
 	
 	try {
 
-		var container = $("headlinesInnerContainer");
+		var container = $("headlines-frame");
 		var row = $("RROW-" + id);
 	
 		var viewport = container.offsetHeight;
