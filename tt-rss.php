@@ -120,11 +120,10 @@
 </div>
 
 <div id="feeds-holder" dojoType="dijit.layout.ContentPane" region="leading" style="width : 20%" splitter="true">
-	<div id="dispSwitch"> 
-		<a id="dispSwitchPrompt" 
-			href="javascript:toggleTags()"><?php echo __("tag cloud") ?></a>
-	</div>
-	<div id="feeds-frame"><div id="feedTree"></div></div>
+	<div id="feedlistLoading">
+		<img src='images/indicator_tiny.gif'>
+		<?php echo  __("Loading, please wait..."); ?></div>
+	<div id="feedTree"></div>
 </div>
 
 <div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap">
@@ -180,12 +179,13 @@
 					</optgroup>
 					<optgroup label="<?php echo __('Categories:') ?>">
 
-					<option value="qmcToggleReorder"><?php echo __('Toggle reordering mode') ?></option>
+					<!-- <option value="qmcToggleReorder"><?php echo __('Toggle reordering mode') ?></option> -->
 					<option value="qmcResetCats"><?php echo __('Reset order') ?></option>
 					</optgroup>
 
 					<optgroup label="<?php echo __('Other actions:') ?>">
 
+					<option value="qmcTagCloud"><?php echo __('Show tag cloud...') ?></option>
 					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
 					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
 					<option value="qmcResetUI"><?php echo __('Reset UI layout') ?></option>

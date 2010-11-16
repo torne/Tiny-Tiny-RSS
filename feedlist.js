@@ -224,61 +224,13 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		} else {
 
-//			if (!page_offset) {
-				var feedr;
-
-				if (is_cat) {
-					feedr = $('FCAP-' + feed);
-				} else {
-					feedr = $('FEEDR-' + feed);
-				}
-
-				if (feedr && !$('FLL-' + feed)) {
-
-					var img = $('FIMG-' + feed);
-
-					if (!is_cat && img) {
-
-						var cat_list = feedr.parentNode;
-
-						if (!cat_list || Element.visible(cat_list)) {
-							if (!img.src.match("indicator_white")) {
-								img.alt = img.src;
-								img.src = getInitParam("sign_progress");
-							}
-						} else if (cat_list) {
-							feed_cat_id = cat_list.id.replace("FCATLIST-", "");
-
-							if (!$('FLL-' + feed_cat_id)) {
-
-								var ll = document.createElement('img');
-
-								ll.src = getInitParam("sign_progress_tiny");
-								ll.className = 'hlLoading';
-								ll.id = 'FLL-' + feed;
-
-								$("FCAP-" + feed_cat_id).appendChild(ll);
-							}
-						} 
-					
-					} else {
-
-						if (!$('FLL-' + feed)) {
-							var ll = document.createElement('img');
-
-							ll.src = getInitParam("sign_progress_tiny");
-							ll.className = 'hlLoading';
-							ll.id = 'FLL-' + feed;
-	
-							feedr.appendChild(ll);
-						}
-					}
-				} 
-//			}  
+			if (!is_cat)
+				setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif');
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
+					setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
 					headlines_callback2(transport, page_offset); 
 				} });
 		}
@@ -406,11 +358,7 @@ function request_counters_real() {
 
 		var query = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
 
-		if (tagsAreDisplayed()) {
-			query = query + "&omode=tl";
-		} else {
-			query = query + "&omode=flc";
-		}
+		query = query + "&omode=flc";
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -892,6 +840,7 @@ function setFeedUnread(feed, is_cat, unread) {
 function setFeedValue(feed, is_cat, key, value) {
 	try {
 		if (!value) value = '';
+		if (!treeModel) return;
 
 		if (is_cat) 
 			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
@@ -946,6 +895,27 @@ function setFeedIcon(feed, is_cat, src) {
 		if (treeNode) {
 			treeNode = treeNode[0];
 			treeNode.iconNode.src = src;
+		}
+
+	} catch (e) {
+		exception_error("setFeedIcon", e);
+	}
+}
+
+function setFeedExpandoIcon(feed, is_cat, src) {
+	try {
+		var tree = dijit.byId("feedTree");
+
+		if (!tree) return;
+
+		if (is_cat) 
+			treeNode = tree._itemNodesMap['CAT:' + feed];
+		else
+			treeNode = tree._itemNodesMap['FEED:' + feed];
+
+		if (treeNode) {
+			treeNode = treeNode[0];
+			treeNode.expandoNode.src = src;
 		}
 
 	} catch (e) {

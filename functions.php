@@ -1672,82 +1672,6 @@
 		}
 	}
 
-	function printFeedEntry($feed_id, $class, $feed_title, $unread, $icon_file, $link,
-		$rtl_content = false, $last_updated = false, $last_error = false,
-		$fg_content = false, $bg_content = false) {
-
-		if (!$feed_title) $feed_title = getFeedTitle($link, $feed_id, false);
-		if (!$unread) $unread = getFeedUnread($link, $feed_id);	
-
-		if ($unread > 0) $class .= " Unread";
-
-		if (!$icon_file) $icon_file = getFeedIcon($feed_id);
-
-		if (strpos($icon_file, "images") !== false) {
-			$icon_file = theme_image($link, $icon_file);
-		}
-
-		if (file_exists($icon_file) && filesize($icon_file) > 0) {
-				$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"$icon_file\">";
-		} else {
-			$feed_icon = "<img id=\"FIMG-$feed_id\" src=\"images/blank_icon.gif\">";
-		}
-
-		if ($rtl_content) {
-			$rtl_tag = "dir=\"rtl\"";
-		} else {
-			$rtl_tag = "dir=\"ltr\"";
-		}
-
-		$error_notify_msg = "";
-		
-		if ($last_error) {
-			$link_title = "Error: $last_error ($last_updated)";
-			$error_notify_msg = "(Error)";
-		} else if ($last_updated) {
-			$link_title = "Updated: $last_updated";
-		}
-
-		$feed_title = truncate_string($feed_title, 30);
-
-		$feed = "<span class='feedlink' title=\"$link_title\" id=\"FEEDL-$feed_id\" href=\"#\"
-			onclick=\"viewfeed('$feed_id');\">$feed_title</span>";
-
-/*		if ($feed_id < -10) {
-			$bg_color = "#00ccff";
-			$fg_color = "white";
-		}
-
-		if ($fg_color || $bg_color) {
-			$color_str = "<div class='labelColorIndicator'
-				style='color : $fg_color; background-color : $bg_color'>l</div>";
-		} 
-
-		print $color_str; */
-
-		print "<li id=\"FEEDR-$feed_id\" class=\"$class\">";
-		print "$feed_icon";
-		print "<span $rtl_tag id=\"FEEDN-$feed_id\">$feed</span>";
-
-		if ($unread != 0) {
-			$fctr_class = "class=\"feedCtr Unread\"";
-		} else {
-			$fctr_class = "class=\"feedCtr\"";
-		}
-
-		print " <span $rtl_tag $fctr_class id=\"FEEDCTR-$feed_id\">
-			 (<span id=\"FEEDU-$feed_id\">$unread</span>)</span>";
-
-		if (get_pref($link, "EXTENDED_FEEDLIST")) {		 	 
-			$total = getFeedArticles($link, $feed_id);
-			print "<div class=\"feedExtInfo\">
-				<span id=\"FLUPD-$feed_id\">$last_updated ($total total) $error_notify_msg</span></div>";
-		}
-
-		print "</li>";
-
-	}
-
 	function getmicrotime() {
 		list($usec, $sec) = explode(" ",microtime());
 		return ((float)$usec + (float)$sec);
@@ -4147,47 +4071,6 @@
 
 			print " ";
 
-/*			print "<span 
-				onmouseover=\"enable_selection(false)\" 
-            onmouseout=\"enable_selection(true)\"
-				onclick=\"toggleHeadlineActions()\" id=\"headlineActionsDrop\">".
-				__("Actions...") . "&nbsp;&nbsp;<img width='11' height'7' 
-				src=\"images/down_arrow.png\">
-				</span>";
-
-			print "<ul id=\"headlineActionsBody\" style=\"display : none\">";
-
-			print "<li class=\"insensitive\">".__('Selection toggle:')."</li>
-				<li onclick=\"$tog_unread_link\">&nbsp;&nbsp;".__('Unread')."</li>
-				<li onclick=\"$tog_marked_link\">&nbsp;&nbsp;".__('Starred')."</li>
-				<li onclick=\"$tog_published_link\">&nbsp;&nbsp;".__('Published')."</li>
-				<li class=\"insensitive\">".__('Selection:')."</li>
-				<li onclick=\"$catchup_sel_link\">&nbsp;&nbsp;".__('Mark as read')."</li>";
-
-//			print "<li onclick=\"$catchup_feed_link\">&nbsp;&nbsp;".__('Entire feed').
-//				"</li>";
-
-			if ($feed_id != "0") {
-				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Archive')."</li>";
-			} else {
-				print "<li onclick=\"$archive_sel_link\">&nbsp;&nbsp;".__('Move back')."</li>";
-				print "<li onclick=\"$delete_sel_link\">&nbsp;&nbsp;".__('Delete')."</li>";
-
-			} 
-
-			print "<li onclick=\"emailArticle(false)\">&nbsp;&nbsp;".
-				__('Forward by email')."</li>";
-
-			//print "<li><span class=\"insensitive\">--------</span></li>";
-			print "<li class=\"insensitive\">".__('Assign label:')."</li>";
-
-			print_labels_headlines_dropdown($link, $feed_id);
-
-			print "<li class=\"insensitive\">".__('Feed:')."</li>";
-			print "<li onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">&nbsp;&nbsp;".__('View as RSS')."</li>";
-
-			print "</ul>"; */
-
 			print "<select dojoType=\"dijit.form.Select\" 
 				onchange=\"headlineActionsChange(this)\">";
 			print "<option value=\"\">".__('Actions...')."</option>";
@@ -4292,63 +4175,8 @@
 			print "</div>";
 
 		}
-
-	function printCategoryHeader($link, $cat_id, $hidden = false, $can_browse = true, 
-					$title_override = false) {
-
-			if (!$title_override)
-				$tmp_category = getCategoryTitle($link, $cat_id);
-			else
-				$tmp_category = $title_override;
-
-			if ($cat_id > 0) {
-				$cat_unread = ccache_find($link, $cat_id, $_SESSION["uid"], true);
-			} else if ($cat_id == 0 || $cat_id == -2) {
-				$cat_unread = getCategoryUnread($link, $cat_id);
-			}
-
-			if ($hidden) {
-				$holder_style = "display:none;";
-				$ellipsis = "…";
-				$collapse_pic = "cat-uncollapse.png";
-			} else {
-				$holder_style = "";
-				$ellipsis = "";
-				$collapse_pic = "cat-collapse.png";
-			}
-
-			$catctr_class = ($cat_unread > 0) ? "catCtr Unread" : "catCtr";
-
-			if ($can_browse) {
-				$browse_cat_link = "onclick=\"javascript:viewCategory($cat_id)\"";
-				$inner_title_class = "catTitle";
-			} else {
-				$browse_cat_link = "";
-				$inner_title_class = "catTitleNL";
-			}
-
-			$cat_class = "feedCat";
-
-			print "<li class=\"$cat_class\" id=\"FCAT-$cat_id\">
-				<img onclick=\"toggleCollapseCat($cat_id)\" class=\"catCollapse\"
-					title=\"".__('Click to collapse category')."\"
-					src=\"images/$collapse_pic?\"><span class=\"$inner_title_class\" 
-					id=\"FCATN-$cat_id\" $browse_cat_link/>$tmp_category</span>";
-
-			print "<span id=\"FCAP-$cat_id\">";
-
-			print " <span id=\"FCATCTR-$cat_id\" 
-				class=\"$catctr_class\">($cat_unread)</span> $ellipsis";
-
-			print "</span>";
-
-			//print "</li>";
-
-			print "<ul class=\"feedCatList\" id=\"FCATLIST-$cat_id\" style='$holder_style'>";
-
-	}
 	
-	function outputFeedList($link, $tags = false) {
+	function outputFeedList($link) {
 
 		$feedlist = array();
 
@@ -4379,178 +4207,113 @@
 			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 		}
 
-		if (!$tags) {
-
-			$result = db_query($link, "SELECT * FROM
-				ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
-		
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
-				$cat = feedlist_init_cat($link, -2, $cat_hidden);
-			} else {
-				$cat['items'] = array();
-			}
+		$result = db_query($link, "SELECT * FROM
+			ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
 	
-			while ($line = db_fetch_assoc($result)) {
-
-				$label_id = -$line['id'] - 11;
-				$count = getFeedUnread($link, $label_id);
-
-				array_push($cat['items'], feedlist_init_feed($link, $label_id, 
-					false, $count));
-			}
-
-			if ($enable_cats) {
-				array_push($feedlist['items'], $cat);
-			} else {
-				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-			}
-		
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
-					$order_by_qpart = "order_id,category,unread DESC,title";
-				} else {
-					$order_by_qpart = "order_id,category,title";
-				}
-			} else {
-				if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
-					$order_by_qpart = "unread DESC,title";
-				} else {		
-					$order_by_qpart = "title";
-				}
-			}
-
-			$age_qpart = getMaxAgeSubquery();
-
-			$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
-				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
-				cat_id,last_error,
-				ttrss_feed_categories.title AS category,
-				ttrss_feed_categories.collapsed,
-				value AS unread	
-				FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
-					ON (ttrss_feed_categories.id = cat_id)			
-				LEFT JOIN ttrss_counters_cache 
-					ON
-						(ttrss_feeds.id = feed_id)
-				WHERE 
-					ttrss_feeds.owner_uid = '$owner_uid'
-				ORDER BY $order_by_qpart"; 
-
-			$result = db_query($link, $query);
-
-			$actid = $_REQUEST["actid"];
-	
-			/* real feeds */
-	
-			$category = "";
-
-			if (!$enable_cats) 
-				$cat['items'] = array();
-			else
-				$cat = false;
-
-			while ($line = db_fetch_assoc($result)) {
-			
-				$feed = htmlspecialchars(trim($line["title"]));
-
-				if (!$feed) $feed = "[Untitled]";
-
-				$feed_id = $line["id"];	  
-				$unread = $line["unread"];
-
-				$cat_id = $line["cat_id"];
-				$tmp_category = $line["category"];
-				if (!$tmp_category) $tmp_category = __("Uncategorized");
-
-				if ($category != $tmp_category && $enable_cats) {
-		
-					$category = $tmp_category;
-
-					$collapsed = sql_bool_to_bool($line["collapsed"]);
-
-					// workaround for NULL category
-					if ($category == __("Uncategorized")) {
-						$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
-					}
-
-					if ($cat) array_push($feedlist['items'], $cat);
-
-					$cat = feedlist_init_cat($link, $cat_id, $collapsed);
-				}
-
-				$updated = make_local_datetime($link, $line["updated_noms"], false);	
-
-				array_push($cat['items'], feedlist_init_feed($link, $feed_id, 
-					$feed, $unread, $line['last_error'], $updated));
-			}
-
-			if (!$enable_cats) {
-				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-			}
-
-/*			if (db_num_rows($result) == 0) {
-
-				if (!get_pref($link, 'ENABLE_FEED_CATS')) {
-					print "<li style='text-align : center'><a href=\"#\"
-					  onclick=\"quickAddFeed()\">".
-						__('Subscribe to feed...')."</a></li>";
-				} else {
-					printCategoryHeader($link, -1, false, false, "Feeds");
-
-					print "<li><a href=\"#\"
-					  onclick=\"quickAddFeed()\">".
-						__('Subscribe to feed...')."</a></li>";
-
-					print "</ul>";
-				}
-			} */
-
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
+			$cat = feedlist_init_cat($link, -2, $cat_hidden);
 		} else {
-
-			// tags
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-#				print "<li class=\"feedCat\">".__('Tags')."</li>";
-#				print "<ul class=\"feedCatList\">";
-			}
-
-			$age_qpart = getMaxAgeSubquery();
-
-			$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id) 
-				FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id 
-					AND ref_id = id AND $age_qpart
-					AND unread = true)) AS count FROM ttrss_tags 
-					WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name 
-					ORDER BY count DESC LIMIT 50");
-
-			$tags = array();
-	
-			while ($line = db_fetch_assoc($result)) {
-				$tags[$line["tag_name"]] += $line["count"];
-			}
-	
-			foreach (array_keys($tags) as $tag) {
-	
-				$unread = $tags[$tag];
-				$class = "tag";
-
-#				printFeedEntry($tag, $class, $tag, $unread, "images/tag.png", $link);
-	
-			} 
-
-			if (db_num_rows($result) == 0) {
-#				print "<li>No tags to display.</li>";
-			}
-
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-#				print "</ul>";
-			}
-
+			$cat['items'] = array();
 		}
 
-#		print "</ul>";
+		while ($line = db_fetch_assoc($result)) {
 
+			$label_id = -$line['id'] - 11;
+			$count = getFeedUnread($link, $label_id);
+
+			array_push($cat['items'], feedlist_init_feed($link, $label_id, 
+				false, $count));
+		}
+
+		if ($enable_cats) {
+			array_push($feedlist['items'], $cat);
+		} else {
+			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+		}
+	
+		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
+				$order_by_qpart = "order_id,category,unread DESC,title";
+			} else {
+				$order_by_qpart = "order_id,category,title";
+			}
+		} else {
+			if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
+				$order_by_qpart = "unread DESC,title";
+			} else {		
+				$order_by_qpart = "title";
+			}
+		}
+
+		$age_qpart = getMaxAgeSubquery();
+
+		$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
+			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
+			cat_id,last_error,
+			ttrss_feed_categories.title AS category,
+			ttrss_feed_categories.collapsed,
+			value AS unread	
+			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
+				ON (ttrss_feed_categories.id = cat_id)			
+			LEFT JOIN ttrss_counters_cache 
+				ON
+					(ttrss_feeds.id = feed_id)
+			WHERE 
+				ttrss_feeds.owner_uid = '$owner_uid'
+			ORDER BY $order_by_qpart"; 
+
+		$result = db_query($link, $query);
+
+		$actid = $_REQUEST["actid"];
+
+		/* real feeds */
+
+		$category = "";
+
+		if (!$enable_cats) 
+			$cat['items'] = array();
+		else
+			$cat = false;
+
+		while ($line = db_fetch_assoc($result)) {
+		
+			$feed = htmlspecialchars(trim($line["title"]));
+
+			if (!$feed) $feed = "[Untitled]";
+
+			$feed_id = $line["id"];	  
+			$unread = $line["unread"];
+
+			$cat_id = $line["cat_id"];
+			$tmp_category = $line["category"];
+			if (!$tmp_category) $tmp_category = __("Uncategorized");
+
+			if ($category != $tmp_category && $enable_cats) {
+	
+				$category = $tmp_category;
+
+				$collapsed = sql_bool_to_bool($line["collapsed"]);
+
+				// workaround for NULL category
+				if ($category == __("Uncategorized")) {
+					$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
+				}
+
+				if ($cat) array_push($feedlist['items'], $cat);
+
+				$cat = feedlist_init_cat($link, $cat_id, $collapsed);
+			}
+
+			$updated = make_local_datetime($link, $line["updated_noms"], false);	
+
+			array_push($cat['items'], feedlist_init_feed($link, $feed_id, 
+				$feed, $unread, $line['last_error'], $updated));
+		}
+
+		if (!$enable_cats) {
+			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+		}
 
 		return $feedlist;
 	}

@@ -635,8 +635,8 @@
 			print "<title>".__('Tag Cloud')."</title>";
 			print "<content><![CDATA[";
 
-			print __("Showing most popular tags ")." (<a 
-			href='javascript:toggleTags(true)'>".__('more tags')."</a>):<br/>"; 
+#			print __("Showing most popular tags ")." (<a 
+#			href='javascript:toggleTags(true)'>".__('more tags')."</a>):<br/>"; 
 
 			print "<div class=\"tagCloudContainer\">";
 

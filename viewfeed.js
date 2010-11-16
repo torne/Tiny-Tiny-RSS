@@ -2,9 +2,6 @@ var active_post_id = false;
 var last_article_view = false;
 var active_real_feed_id = false;
 
-// FIXME: kludges, needs proper implementation
-var _reload_feedlist_after_view = false;
-
 var _cdm_wd_timeout = false;
 var _cdm_wd_vishist = new Array();
 
@@ -60,29 +57,6 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		update_btn.disabled = !(feed_id >= 0 && !is_cat);
 
-		var ll = $('FLL-' + feed_id);
-
-		if (ll && ll.parentNode) 
-			ll.parentNode.removeChild(ll);
-
-		if (!is_cat) {
-			var feedr = $("FEEDR-" + feed_id);
-			if (feedr) {	
-				feedr.addClassName("Selected");
-			} 
-		} else {
-			var feedr = $("FCAT-" + feed_id);
-			if (feedr) {	
-				feedr.addClassName("Selected");
-			} 
-		}
-
-		var img = $('FIMG-' + feed_id);
-
-		if (img && !is_cat) {
-			img.src = img.alt;
-		}
-
 		try {
 			if (feed_cur_page == 0) { 
 				$("headlines-frame").scrollTop = 0; 
@@ -128,7 +102,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					$("headlines-toolbar").innerHTML = headlines_toolbar.firstChild.nodeValue;
 
 					dojo.parser.parse("headlines-toolbar");
-					dijit.byId("main").resize();
+					//dijit.byId("main").resize();
 
 					var cache_prefix = "";
 
@@ -326,11 +300,6 @@ function article_callback2(transport, id) {
 
 			if (!transport_error_check(transport)) return;
 
-/*			var ll = $('LL-' + id);
-			var content = $('HLC-' + id);
-
-			if (ll && content) content.removeChild(ll); */
-			
 			var upic = $('FUPDPIC-' + id);
 
 			if (upic) {
@@ -375,12 +344,7 @@ function article_callback2(transport, id) {
 		var date = new Date();
 		last_article_view = date.getTime() / 1000;
 
-		if (_reload_feedlist_after_view) {
-			setTimeout('updateFeedList(false, false)', 50);			
-			_reload_feedlist_after_view = false;
-		} else {
-			request_counters();
-		}
+		request_counters();
 
 		notify("");
 	} catch (e) {
@@ -1171,11 +1135,7 @@ function editTagsSave() {
 			
 					closeInfoBox();
 					notify("");
-			
-					if (tagsAreDisplayed()) {
-						_reload_feedlist_after_view = true;
-					}			
-			
+		
 					if (transport.responseXML) {
 						var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
 						

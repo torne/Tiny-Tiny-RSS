@@ -211,22 +211,6 @@ input.editbox {
 	cursor : pointer;
 }
 
-#dispSwitch {
-	font-size : 12px;
-	font-family : "Lucida Grande", Arial, sans-serif;
-	text-align : right;
-	float : right;
-	margin : 5px 5px 0px 0px;
-}
-
-#dispSwitch a {
-	color : gray;
-}
-
-#dispSwitch a:hover {
-	color : #4684ff;
-}
-
 .even.Unread.Selected, .even.Unread.Selected td {
 	background-color : #fff7d5;
 	font-weight : bold;
@@ -1518,4 +1502,10 @@ div.fatalError textarea {
 img.feedIcon {
 	max-width : 16px;
 	max-height : 16px;
+}
+
+div#feedlistLoading {
+	text-align : center;
+	padding : 5px;
+	color : gray;
 }

@@ -1,5 +1,4 @@
 var total_unread = 0;
-var display_tags = false;
 var global_unread = -1;
 var firsttime_update = true;
 var _active_feed_id = 0;
@@ -57,35 +56,7 @@ function isFeedlistSortable() {
 }
 
 function tagsAreDisplayed() {
-	return display_tags;
-}
-
-function toggleTags(show_all) {
-
-	try {
-
-	console.log("toggleTags: " + show_all + "; " + display_tags);
-
-	var p = $("dispSwitchPrompt");
-
-	if (!show_all && !display_tags) {
-		displayDlg("printTagCloud");
-	} else if (show_all) {
-		closeInfoBox();
-		display_tags = true;
-		p.innerHTML = __("display feeds");
-		notify_progress("Loading, please wait...", true);
-		updateFeedList();
-	} else if (display_tags) {
-		display_tags = false;
-		p.innerHTML = __("tag cloud");
-		notify_progress("Loading, please wait...", true);
-		updateFeedList();
-	}
-
-	} catch (e) {
-		exception_error("toggleTags", e);
-	}
+	return false;
 }
 
 function dlg_frefresh_callback(transport, deleted_feed) {
@@ -99,6 +70,11 @@ function dlg_frefresh_callback(transport, deleted_feed) {
 
 function updateFeedList() {
 	try {
+
+//		$("feeds-holder").innerHTML = "<div id=\"feedlistLoading\">" + 
+//			__("Loading, please wait...") + "</div>";
+
+		Element.show("feedlistLoading");
 
 		if (dijit.byId("feedTree")) {
 			dijit.byId("feedTree").destroyRecursive();
@@ -122,7 +98,7 @@ function updateFeedList() {
 		_createTreeNode: function(args) {
 			var tnode = new dijit._TreeNode(args);
 
-			if (args.item.icon) 
+			if (args.item.icon)
 				tnode.iconNode.src = args.item.icon[0];
 
 			//tnode.labelNode.innerHTML = args.label;
@@ -175,6 +151,11 @@ function updateFeedList() {
 		}, "feedTree");
 
 		$("feeds-holder").appendChild(tree.domNode);
+
+		var tmph = dojo.connect(tree, 'onLoad', function() {
+	   	dojo.disconnect(tmph);
+			Element.hide("feedlistLoading");
+		});
 
 		tree.startup();
 
@@ -235,11 +216,7 @@ function timeout() {
 				firsttime_update = false;
 				omode = "T";
 			} else {
-				if (display_tags) {
-					omode = "tl";
-				} else {
-					omode = "flc";
-				}
+				omode = "flc";
 			}
 			
 			query_str = query_str + "&omode=" + omode;
@@ -379,6 +356,10 @@ function quickMenuGo(opid) {
 			gotoPreferences();
 		}
 	
+		if (opid == "qmcTagCloud") {
+			displayDlg("printTagCloud");
+		}
+
 		if (opid == "qmcSearch") {
 			displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat(), 
 				function() { 
@@ -452,7 +433,7 @@ function quickMenuGo(opid) {
 			alert("Function not implemented");
 		}
 
-		if (opid == "qmcToggleReorder") {
+/*		if (opid == "qmcToggleReorder") {
 			feedlist_sortable_enabled = !feedlist_sortable_enabled;
 
 			if (feedlist_sortable_enabled) {
@@ -462,7 +443,7 @@ function quickMenuGo(opid) {
 				notify_info("Category reordering disabled");
 				toggle_sortable_feedlist(false);
 			}
-		}
+		} */
 
 		if (opid == "qmcResetCats") {
 
@@ -475,7 +456,7 @@ function quickMenuGo(opid) {
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) { 
-						window.setTimeout('updateFeedList(false, false)', 50);
+						window.setTimeout('updateFeedList()', 50);
 					} });
 			}
 		}
@@ -587,7 +568,7 @@ function editFeedDlg(feed) {
 			return;
 		}
 	
-		if ((feed <= 0) || activeFeedIsCat() || tagsAreDisplayed()) {
+		if ((feed <= 0) || activeFeedIsCat()) {
 			alert(__("You can't edit this kind of feed."));
 			return;
 		}
@@ -705,7 +686,7 @@ function rescoreCurrentFeed() {
 
 	var actid = getActiveFeedId();
 
-	if (activeFeedIsCat() || actid < 0 || tagsAreDisplayed()) {
+	if (activeFeedIsCat() || actid < 0) {
 		alert(__("You can't rescore this kind of feed."));
 		return;
 	}	

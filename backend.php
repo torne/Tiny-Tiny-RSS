@@ -162,7 +162,6 @@
 
 		case "feeds":
 			$print_exec_time = true;
-			$tags = $_REQUEST["tags"];
 
 			$subop = $_REQUEST["subop"];
 
@@ -207,7 +206,7 @@
 
 			}
 
-			print json_encode(outputFeedList($link, $tags));
+			print json_encode(outputFeedList($link));
 
 		break; // feeds
 
