@@ -351,9 +351,10 @@ function init_second_stage() {
 		if (has_local_storage())
 			localStorage.clear();
 
-		console.log("second stage ok");
-
 		feedlist_init();
+		setTimeout("timeout()", 3000);
+
+		console.log("second stage ok");
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
