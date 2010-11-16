@@ -433,40 +433,6 @@ function tPub(id) {
 	return togglePub(id);
 }
 
-function tMark_afh_off(effect) {
-	try {
-		var elem = effect.effects[0].element;
-
-		//console.log("tMark_afh_off : " + elem.id);
-
-		if (elem) {
-			elem.src = elem.src.replace("mark_set", "mark_unset");
-			elem.alt = __("Star article");
-			Element.show(elem);
-		}
-
-	} catch (e) {
-		exception_error("tMark_afh_off", e);
-	}
-}
-
-function tPub_afh_off(effect) {
-	try {
-		var elem = effect.effects[0].element;
-
-		//console.log("tPub_afh_off : " + elem.id);
-
-		if (elem) {
-			elem.src = elem.src.replace("pub_set", "pub_unset");
-			elem.alt = __("Publish article");
-			Element.show(elem);
-		}
-
-	} catch (e) {
-		exception_error("tPub_afh_off", e);
-	}
-}
-
 function toggleMark(id, client_only) {
 	try {
 		var query = "?op=rpc&id=" + id + "&subop=mark";

@@ -290,57 +290,10 @@ function feedlist_init() {
 		console.log("T:" + 
 				getInitParam("cdm_auto_catchup") + " " + get_feed_unread(-3));
 
-		if (getInitParam("theme") == "" || 
-				getInitParam("theme_options").match("hide_footer")) {
-			setTimeout("hide_footer()", 5000);
-		}
-
-		//init_collapsable_feedlist(getInitParam("theme"));
-
 		toggle_sortable_feedlist(isFeedlistSortable());
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
-	}
-}
-
-/* function hide_footer_af(effect) {
-	try {
-		var c = $("content-frame");
-
-		if (c) {
-			c.style.bottom = "0px";
-
-			var ioa = $("inline_orig_article");
-
-			if (ioa) {
-				ioa.height = c.offsetHeight;
-			}
-
-		} else {
-			var h = $("headlines-frame");
-
-			if (h) {
-				h.style.bottom = "0px";
-			}
-		}
-
-	} catch (e) {
-		exception_error("hide_footer_af", e);
-	}
-} */
-
-function hide_footer() {
-	try {
-		/* if (Element.visible("footer")) {
-
-			Element.hide("footer");
-			dijit.byId("main").resize();
-
-			//new Effect.Fade("footer", { afterFinish: hide_footer_af });
-		} */
-	} catch (e) {
-		exception_error("hide_footer", e);
 	}
 }
 
