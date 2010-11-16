@@ -2079,7 +2079,8 @@ function hlClicked(event, id) {
 			view(id);
 			return true;
 		} else {
-			toggleSelected(id, true);
+			selectArticles('none');
+			toggleSelected(id);
 			toggleUnread(id, 0, false);
 			zoomToArticle(id);
 			return false;
