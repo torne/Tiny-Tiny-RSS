@@ -1107,28 +1107,36 @@ function selectTab(id, noupdate, subop) {
 function init_second_stage() {
 
 	try {
-		var active_tab = getInitParam("prefs_active_tab");
-		if (!$(active_tab+"Tab")) active_tab = "genConfig";
-		if (!active_tab || active_tab == '0') active_tab = "genConfig";
 
 		document.onkeydown = pref_hotkey_handler;
 		document.onmousedown = mouse_down_handler;
 		document.onmouseup = mouse_up_handler;
 
-		var tab = getURLParam('tab');
-		
 		caller_subop = getURLParam('subop');
 
 		if (getURLParam("subopparam")) {
 			caller_subop = caller_subop + ":" + getURLParam("subopparam");
 		}
 
-		if (tab) active_tab = tab;
-
 		loading_set_progress(60);
 
-		selectTab(active_tab, true);
 		notify("");
+
+		dojo.addOnLoad(function() {
+
+			var active_tab = getInitParam("prefs_active_tab");
+			if (!$(active_tab+"Tab")) active_tab = "genConfig";
+			if (!active_tab || active_tab == '0') active_tab = "genConfig";
+
+			var http_tab = getURLParam('tab');
+
+			if (http_tab) active_tab = http_tab;
+
+			var tab = dijit.byId(active_tab + "Tab");
+
+			if (tab) dijit.byId("pref-tabs").selectChild(tab);
+
+			});
 
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 		remove_splash();
