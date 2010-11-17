@@ -1165,6 +1165,8 @@ function init() {
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.RadioButton");
+		dojo.require("dijit.form.Select");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");

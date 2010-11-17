@@ -992,19 +992,13 @@
 				</div>"; */
 
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
-			"<span>" . __('Select')."</span>";
-
+				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
 		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(true)\" 
 			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
 		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(false)\" 
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
-		print "</div>";
-
-		/* print "<div onclick=\"selectTableRows('prefFeedList', 'all')\">".__('All')."</div>,
-			<div href=\"#\" onclick=\"selectTableRows('prefFeedList', 'none')\">".__('None')."</div>"; */
-
-		print "</div>";
+		print "</div></div>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"quickAddFeed()\">"
 			.__('Subscribe to feed')."</button dojoType=\"dijit.form.Button\"> ";

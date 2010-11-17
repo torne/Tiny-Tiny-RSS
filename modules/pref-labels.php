@@ -115,7 +115,7 @@
 
 				if (label_create($link, $caption)) {
 					if (!$output) {
-						//print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
+						print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
 					}
 				}
 
@@ -163,6 +163,15 @@
 			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
 			</div>";
 
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefLabelList', 'all')\" 
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefLabelList', 'none')\" 
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
 		print"<button dojoType=\"dijit.form.Button\" onclick=\"return addLabel()\">".
 			__('Create label')."</button dojoType=\"dijit.form.Button\"> ";
 
@@ -208,12 +217,6 @@
 
 			print "<p><table width=\"100%\" cellspacing=\"0\" 
 				class=\"prefLabelList\" id=\"prefLabelList\">";
-
-			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectTableRows('prefLabelList', 'all')\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectTableRows('prefLabelList', 'none')\">".__('None')."</a>
-				</td</tr>";
 
 			$lnum = 0;
 			

@@ -118,7 +118,7 @@
 	href="backend.php?op=pref-labels"
 	title="<?php echo __('Labels') ?>"></div>
 <?php if ($_SESSION["access_level"] >= 10) { ?>
-	<div id=userConfigTab" dojoType="dijit.layout.ContentPane" 
+	<div id="userConfigTab" dojoType="dijit.layout.ContentPane" 
 		href="backend.php?op=pref-users"
 		title="<?php echo __('Users') ?>"></div>
 <?php } ?>

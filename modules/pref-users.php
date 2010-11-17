@@ -203,7 +203,7 @@
 				if ($password) {
 					$pwd_hash = encrypt_password($password, $login);
 					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
-					print_notice(T_sprintf('Changed password of user <b>%s</b>.', $login));
+					$status_msg = format_notice(T_sprintf('Changed password of user <b>%s</b>.', $login));
 				} else {
 					$pass_query_part = "";
 				}
@@ -251,18 +251,18 @@
 	
 						$new_uid = db_fetch_result($result, 0, "id");
 	
-						print_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>", 
+						$status_msg = format_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>", 
 							$login, $tmp_user_pwd));
 	
 						initialize_user($link, $new_uid);
 	
 					} else {
 					
-						print_warning(T_sprintf("Could not create user <b>%s</b>", $login));
+						$status_msg = format_warning(T_sprintf("Could not create user <b>%s</b>", $login));
 	
 					}
 				} else {
-					print_warning(T_sprintf("User <b>%s</b> already exists.", $login));
+					$status_msg = format_warning(T_sprintf("User <b>%s</b> already exists.", $login));
 				}
 			} 
 		} else if ($subop == "resetPass") {
@@ -282,11 +282,11 @@
 				db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
 					WHERE id = '$uid'");
 
-				print_notice(T_sprintf("Changed password of user <b>%s</b>
+				$status_msg = format_notice(T_sprintf("Changed password of user <b>%s</b>
 					 to <b>%s</b>", $login, $tmp_user_pwd));
 
 				if ($email) {
-					print_notice(T_sprintf("Notifying <b>%s</b>.", $email));
+					$status_msg += format_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 
 					require_once "lib/MiniTemplator.class.php";
 
@@ -349,6 +349,7 @@
 
 		print "<div id=\"pref-user-wrap\" dojoType=\"dijit.layout.BorderContainer\" gutters=\"false\">";
 		print "<div id=\"pref-user-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
+
 		print "<div id=\"pref-user-toolbar\" dojoType=\"dijit.Toolbar\">";
 
 		set_pref($link, "_PREFS_ACTIVE_TAB", "userConfig");
@@ -362,11 +363,11 @@
 		}
 
 		print "<div style='float : right; padding-right : 4px;'>
-			<input id=\"user_search\" size=\"20\" type=\"search\"
+			<input dojoType=\"dijit.form.TextBox\" id=\"user_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateUsersList()\" value=\"$user_search\">
-			<button onclick=\"javascript:updateUsersList()\">".
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateUsersList()\">".
 				__('Search')."</button>
 			</div>";
 
@@ -376,21 +377,31 @@
 			$sort = "login";
 		}
 
-		print "<button onclick=\"javascript:addUser()\">".__('Create user')."</button>";
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefUserList', 'all')\" 
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefUserList', 'none')\" 
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"javascript:addUser()\">".__('Create user')."</button>";
 
 		print "
-			<button onclick=\"javascript:selectedUserDetails()\">".
-			__('Details')."</button>
-			<button onclick=\"javascript:editSelectedUser()\">".
-			__('Edit')."</button>
-			<button onclick=\"javascript:removeSelectedUsers()\">".
-			__('Remove')."</button>
-			<button onclick=\"javascript:resetSelectedUserPass()\">".
-			__('Reset password')."</button>";
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:selectedUserDetails()\">".
+			__('Details')."</button dojoType=\"dijit.form.Button\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:editSelectedUser()\">".
+			__('Edit')."</button dojoType=\"dijit.form.Button\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:removeSelectedUsers()\">".
+			__('Remove')."</button dojoType=\"dijit.form.Button\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:resetSelectedUserPass()\">".
+			__('Reset password')."</button dojoType=\"dijit.form.Button\">";
 
 		print "</div>"; #toolbar
 		print "</div>"; #pane
 		print "<div id=\"pref-user-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
+		print "<p>$status_msg";
 
 		if ($user_search) {
 
@@ -423,12 +434,6 @@
 
 		print "<p><table width=\"100%\" cellspacing=\"0\" 
 			class=\"prefUserList\" id=\"prefUserList\">";
-
-		print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectTableRows('prefUserList', 'all')\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectTableRows('prefUserList', 'none')\">".__('None')."</a>
-				</td</tr>";
 
 		print "<tr class=\"title\">
 					<td align='center' width=\"5%\">&nbsp;</td>

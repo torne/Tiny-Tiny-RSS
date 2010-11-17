@@ -346,7 +346,7 @@
 						$themes = get_all_themes();
 
 						print "<td><select name=\"_THEME_ID\">";
-						print "<option value=''>".__('Default')."</option>";
+						print "<option value='Default'>".__('Default')."</option>";
 						print "<option disabled>--------</option>";				
 
 						foreach ($themes as $t) {

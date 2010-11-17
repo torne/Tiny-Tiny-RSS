@@ -306,6 +306,15 @@
 			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
 		</div>";
 
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefFilterList', 'all')\" 
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefFilterList', 'none')\" 
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+		
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return quickAddFilter()\">".
 			__('Create filter')."</button dojoType=\"dijit.form.Button\"> "; 
 

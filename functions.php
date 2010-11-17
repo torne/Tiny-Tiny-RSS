@@ -1695,7 +1695,7 @@
 				$sel .= " value=\"0\"";
 			}
 			
-			print "<input class=\"noborder\" 
+			print "<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" 
 				type=\"radio\" $sel $attributes name=\"$id\">&nbsp;$v&nbsp;";
 
 		}
