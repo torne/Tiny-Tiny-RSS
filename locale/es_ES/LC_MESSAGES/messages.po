@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 13:44+0300\n"
+"POT-Creation-Date: 2010-11-17 15:38+0300\n"
 "PO-Revision-Date: 2009-11-10 00:12+0100\n"
 "Last-Translator: Manuel Gualda Caballero <manuel@utopiaverde.org>\n"
 "Language-Team: Español <manuel@utopiaverde.org>\n"
@@ -77,7 +77,7 @@ msgstr "Diariamente"
 msgid "Weekly"
 msgstr "Semanalmente"
 
-#: backend.php:132 tt-rss.php:151 modules/pref-prefs.php:341
+#: backend.php:132 tt-rss.php:153 modules/pref-prefs.php:349
 msgid "Default"
 msgstr "Por defecto"
 
@@ -198,7 +198,7 @@ msgstr ""
 "navegador no lo soporta actualmente. Por favor, revise las opciones de "
 "configuración de su navegador."
 
-#: digest.php:62 prefs.php:68 tt-rss.php:64 tt-rss.php:122 tt-rss.php:201
+#: digest.php:62 prefs.php:68 tt-rss.php:64 tt-rss.php:122 tt-rss.php:205
 #: digest.js:129 viewfeed.js:1639
 msgid "Loading, please wait..."
 msgstr "Cargando. Por favor, espere..."
@@ -323,12 +323,12 @@ msgid "Incorrect username or password"
 msgstr "Nombre de usuario o contraseña incorrecta"
 
 #: functions.php:2947 modules/popup-dialog.php:407
-#: modules/pref-filters.php:421
+#: modules/pref-filters.php:426
 msgid "All feeds"
 msgstr "Todas las fuentes"
 
 #: functions.php:2979 functions.php:3022 functions.php:4322 functions.php:4331
-#: modules/pref-feeds.php:1133
+#: modules/pref-feeds.php:1140
 msgid "Uncategorized"
 msgstr "Sin clasificar"
 
@@ -350,7 +350,7 @@ msgstr "Etiquetas"
 msgid "Starred articles"
 msgstr "Favoritos"
 
-#: functions.php:3061 modules/pref-feeds.php:1305 help/3.php:62
+#: functions.php:3061 help/3.php:62
 msgid "Published articles"
 msgstr "Publicados"
 
@@ -368,18 +368,18 @@ msgid "Archived articles"
 msgstr "Favoritos"
 
 #: functions.php:4093 modules/popup-dialog.php:85 modules/pref-feeds.php:895
-#: modules/pref-feeds.php:1099 modules/pref-filters.php:378
-#: modules/pref-labels.php:208 modules/pref-users.php:422
+#: modules/pref-feeds.php:1106 modules/pref-filters.php:383
+#: modules/pref-labels.php:212 modules/pref-users.php:428
 msgid "Select:"
 msgstr "Seleccione:"
 
 #: functions.php:4094 modules/popup-dialog.php:86 modules/pref-feeds.php:896
-#: modules/pref-feeds.php:1100 modules/pref-filters.php:379
-#: modules/pref-labels.php:209 modules/pref-users.php:423
+#: modules/pref-feeds.php:1107 modules/pref-filters.php:384
+#: modules/pref-labels.php:213 modules/pref-users.php:429
 msgid "All"
 msgstr "No"
 
-#: functions.php:4095 tt-rss.php:144
+#: functions.php:4095 tt-rss.php:146
 msgid "Unread"
 msgstr "Sin leer"
 
@@ -388,12 +388,12 @@ msgid "Invert"
 msgstr "Invertir"
 
 #: functions.php:4097 modules/popup-dialog.php:87 modules/pref-feeds.php:897
-#: modules/pref-feeds.php:1101 modules/pref-filters.php:380
-#: modules/pref-labels.php:210 modules/pref-users.php:424
+#: modules/pref-feeds.php:1108 modules/pref-filters.php:385
+#: modules/pref-labels.php:214 modules/pref-users.php:430
 msgid "None"
 msgstr "Ninguno"
 
-#: functions.php:4103 tt-rss.php:167
+#: functions.php:4103 tt-rss.php:169
 msgid "Actions..."
 msgstr "Acciones..."
 
@@ -409,7 +409,7 @@ msgstr "Alternar favoritos"
 msgid "Toggle published"
 msgstr "Alternar publicados"
 
-#: functions.php:4116 localized_schema.php:16 tt-rss.php:161 tt-rss.php:176
+#: functions.php:4116 localized_schema.php:16 tt-rss.php:163 tt-rss.php:178
 #: digest.js:362 digest.js:432 digest.js:586
 msgid "Mark as read"
 msgstr "Marcar como leído"
@@ -533,12 +533,12 @@ msgstr "No se han encontrado artículos que desplegar."
 msgid "Feeds last updated at %s"
 msgstr ""
 
-#: functions.php:5341 functions.php:6650 modules/pref-feeds.php:968
+#: functions.php:5341 functions.php:6650 modules/pref-feeds.php:971
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 "Error al actualizar algunas fuentes (pulse aquí para obtener los detalles)"
 
-#: functions.php:6147 tt-rss.php:183
+#: functions.php:6147 tt-rss.php:185
 msgid "Create label..."
 msgstr "Crear etiqueta..."
 
@@ -581,8 +581,8 @@ msgstr "Adjunto:"
 msgid "Attachments:"
 msgstr "Adjuntos:"
 
-#: localized_schema.php:9 tt-rss.php:153 modules/popup-dialog.php:393
-#: modules/pref-feeds.php:1110 modules/pref-feeds.php:1161
+#: localized_schema.php:9 tt-rss.php:155 modules/popup-dialog.php:393
+#: modules/pref-feeds.php:1117 modules/pref-feeds.php:1168
 msgid "Title"
 msgstr "Título"
 
@@ -980,11 +980,12 @@ msgstr "Salir de las preferencias"
 msgid "Keyboard shortcuts"
 msgstr "Atajos de teclado"
 
-#: prefs.php:110 tt-rss.php:97 help/3.php:64 help/4.php:8
+#: prefs.php:110 tt-rss.php:97 modules/pref-prefs.php:290 help/3.php:64
+#: help/4.php:8
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: prefs.php:113
+#: prefs.php:113 modules/pref-feeds.php:959
 msgid "Feeds"
 msgstr "Fuentes"
 
@@ -1059,122 +1060,122 @@ msgstr "¿Comentarios?"
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "¡Nueva versión de Tiny Tiny RSS disponible!"
 
-#: tt-rss.php:135
+#: tt-rss.php:137
 msgid "Collapse feedlist"
 msgstr "Plegar la lista de fuentes"
 
-#: tt-rss.php:138
+#: tt-rss.php:140
 #, fuzzy
 msgid "Show articles"
 msgstr "Recientes"
 
-#: tt-rss.php:140
+#: tt-rss.php:142
 msgid "Adaptive"
 msgstr "Adaptable"
 
-#: tt-rss.php:141
+#: tt-rss.php:143
 msgid "All Articles"
 msgstr "Todos"
 
-#: tt-rss.php:142
+#: tt-rss.php:144
 msgid "Starred"
 msgstr "Favoritos"
 
-#: tt-rss.php:143
+#: tt-rss.php:145
 msgid "Published"
 msgstr "Publicado"
 
-#: tt-rss.php:145
+#: tt-rss.php:147
 msgid "Ignore Scoring"
 msgstr "Ignorar la puntuación"
 
-#: tt-rss.php:146 modules/pref-feeds.php:1116 modules/pref-feeds.php:1169
+#: tt-rss.php:148 modules/pref-feeds.php:1123 modules/pref-feeds.php:1176
 msgid "Updated"
 msgstr "Actualizados"
 
-#: tt-rss.php:149
+#: tt-rss.php:151
 #, fuzzy
 msgid "Sort articles"
 msgstr "Marcar el artículo como favorito"
 
-#: tt-rss.php:152 modules/popup-dialog.php:478 modules/pref-filters.php:53
-#: modules/pref-filters.php:476
+#: tt-rss.php:154 modules/popup-dialog.php:478 modules/pref-filters.php:53
+#: modules/pref-filters.php:481
 msgid "Date"
 msgstr "Fecha"
 
-#: tt-rss.php:154
+#: tt-rss.php:156
 msgid "Score"
 msgstr "Puntos"
 
-#: tt-rss.php:158 modules/pref-feeds.php:127 modules/pref-feeds.php:356
+#: tt-rss.php:160 modules/pref-feeds.php:127 modules/pref-feeds.php:356
 msgid "Update"
 msgstr "Actualizar"
 
-#: tt-rss.php:168
+#: tt-rss.php:170
 msgid "Search..."
 msgstr "Buscar..."
 
-#: tt-rss.php:169
+#: tt-rss.php:171
 msgid "Feed actions:"
 msgstr "Acciones de la fuente:"
 
-#: tt-rss.php:170
+#: tt-rss.php:172
 msgid "Subscribe to feed..."
 msgstr "Suscribir a la fuente..."
 
-#: tt-rss.php:171
+#: tt-rss.php:173
 msgid "Edit this feed..."
 msgstr "Editar esta fuente..."
 
-#: tt-rss.php:172
+#: tt-rss.php:174
 msgid "Rescore feed"
 msgstr "Reiniciar la puntuación"
 
-#: tt-rss.php:173 modules/pref-feeds.php:294 modules/pref-feeds.php:1001
+#: tt-rss.php:175 modules/pref-feeds.php:294 modules/pref-feeds.php:1006
 msgid "Unsubscribe"
 msgstr "Cancelar la suscripción"
 
-#: tt-rss.php:175
+#: tt-rss.php:177
 msgid "All feeds:"
 msgstr "Todas las fuentes:"
 
-#: tt-rss.php:177 help/3.php:46
+#: tt-rss.php:179 help/3.php:46
 msgid "(Un)hide read feeds"
 msgstr "Ocultar/Mostrar las leídas"
 
-#: tt-rss.php:180
+#: tt-rss.php:182
 msgid "Other actions:"
 msgstr "Otras acciones:"
 
-#: tt-rss.php:182
+#: tt-rss.php:184
 #, fuzzy
 msgid "Show tag cloud..."
 msgstr "nube de etiquetas"
 
-#: tt-rss.php:184
+#: tt-rss.php:186
 msgid "Create filter..."
 msgstr "Crear filtro..."
 
-#: tt-rss.php:185
+#: tt-rss.php:187
 #, fuzzy
 msgid "Keyboard shortcuts help"
 msgstr "Atajos de teclado"
 
-#: modules/backend-rpc.php:966
+#: modules/backend-rpc.php:967
 #, fuzzy
 msgid "Your request could not be completed."
 msgstr "Su información de registro está incompleta"
 
-#: modules/backend-rpc.php:970
+#: modules/backend-rpc.php:971
 msgid "Feed update has been scheduled."
 msgstr ""
 
-#: modules/backend-rpc.php:978
+#: modules/backend-rpc.php:979
 #, fuzzy
 msgid "Category update has been scheduled."
 msgstr "La contraseña ha sido cambiada."
 
-#: modules/backend-rpc.php:991
+#: modules/backend-rpc.php:992
 #, fuzzy
 msgid "Can't update this kind of feed."
 msgstr "No puede editar esta clase de fuente."
@@ -1250,8 +1251,8 @@ msgstr "Adaptable"
 
 #: modules/popup-dialog.php:151 modules/popup-dialog.php:360
 #: modules/pref-feeds.php:284 modules/pref-feeds.php:944
-#: modules/pref-filters.php:154 modules/pref-filters.php:320
-#: modules/pref-labels.php:167 modules/pref-users.php:383
+#: modules/pref-filters.php:154 modules/pref-filters.php:321
+#: modules/pref-labels.php:169 modules/pref-users.php:387
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -1317,7 +1318,7 @@ msgid "Subscribe to Feed"
 msgstr "Suscribir a la fuente"
 
 #: modules/popup-dialog.php:252 modules/pref-feeds.php:92
-#: modules/pref-feeds.php:320 modules/pref-filters.php:408
+#: modules/pref-feeds.php:320 modules/pref-filters.php:413
 msgid "Feed"
 msgstr "Fuente"
 
@@ -1337,7 +1338,7 @@ msgid "Available feeds"
 msgstr "Todas las fuentes"
 
 #: modules/popup-dialog.php:280 modules/pref-feeds.php:161
-#: modules/pref-feeds.php:388 modules/pref-prefs.php:247
+#: modules/pref-feeds.php:388 modules/pref-prefs.php:246
 #: modules/pref-users.php:147
 msgid "Authentication"
 msgstr "Autenticación"
@@ -1368,9 +1369,9 @@ msgid "Feed Browser"
 msgstr "Navegador de fuentes"
 
 #: modules/popup-dialog.php:331 modules/popup-dialog.php:369
-#: modules/popup-dialog.php:440 modules/pref-feeds.php:985
-#: modules/pref-filters.php:307 modules/pref-labels.php:158
-#: modules/pref-users.php:366
+#: modules/popup-dialog.php:440 modules/pref-feeds.php:990
+#: modules/pref-filters.php:311 modules/pref-labels.php:162
+#: modules/pref-users.php:370
 msgid "Search"
 msgstr "Buscar"
 
@@ -1414,17 +1415,17 @@ msgid "Create Filter"
 msgstr "Crear filtro"
 
 #: modules/popup-dialog.php:473 modules/pref-filters.php:44
-#: modules/pref-filters.php:407
+#: modules/pref-filters.php:412
 msgid "Match"
 msgstr "Coincidir"
 
 #: modules/popup-dialog.php:481 modules/pref-filters.php:56
-#: modules/pref-filters.php:448
+#: modules/pref-filters.php:453
 msgid "before"
 msgstr "antes"
 
 #: modules/popup-dialog.php:482 modules/pref-filters.php:57
-#: modules/pref-filters.php:449
+#: modules/pref-filters.php:454
 msgid "after"
 msgstr "después"
 
@@ -1619,79 +1620,79 @@ msgstr "Crear categoría"
 msgid "No feed categories defined."
 msgstr "No se han definido categorías de fuentes."
 
-#: modules/pref-feeds.php:989 help/3.php:47 help/4.php:22
+#: modules/pref-feeds.php:994 help/3.php:47 help/4.php:22
 msgid "Subscribe to feed"
 msgstr "Suscribir a la fuente"
 
-#: modules/pref-feeds.php:992
+#: modules/pref-feeds.php:997
 #, fuzzy
 msgid "Edit feeds"
 msgstr "Editar la fuente"
 
-#: modules/pref-feeds.php:997
+#: modules/pref-feeds.php:1002
 msgid "Edit categories"
 msgstr "Editar categorías"
 
-#: modules/pref-feeds.php:1006
+#: modules/pref-feeds.php:1011
 #, fuzzy
 msgid "More actions..."
 msgstr "Acciones..."
 
-#: modules/pref-feeds.php:1010
+#: modules/pref-feeds.php:1015
 msgid "Manual purge"
 msgstr "Purga manual"
 
-#: modules/pref-feeds.php:1014
+#: modules/pref-feeds.php:1019
 msgid "Clear feed data"
 msgstr "Limpiar los datos de la fuente"
 
-#: modules/pref-feeds.php:1015 modules/pref-filters.php:324
+#: modules/pref-feeds.php:1020 modules/pref-filters.php:325
 msgid "Rescore articles"
 msgstr "Reiniciar la puntuación de los artículos"
 
-#: modules/pref-feeds.php:1098
+#: modules/pref-feeds.php:1105
 msgid "Show last article times"
 msgstr "Mostrar el horario de los últimos artículos"
 
-#: modules/pref-feeds.php:1113 modules/pref-feeds.php:1165
+#: modules/pref-feeds.php:1120 modules/pref-feeds.php:1172
 msgid "Last&nbsp;Article"
 msgstr "Último artículo"
 
-#: modules/pref-feeds.php:1191 modules/pref-filters.php:494
-#: modules/pref-users.php:460
+#: modules/pref-feeds.php:1198 modules/pref-filters.php:499
+#: modules/pref-users.php:466
 msgid "Click to edit"
 msgstr "Pulse aquí para editar"
 
-#: modules/pref-feeds.php:1224
+#: modules/pref-feeds.php:1231
 msgid "You don't have any subscribed feeds."
 msgstr "No está suscrito a ninguna fuente."
 
-#: modules/pref-feeds.php:1226
+#: modules/pref-feeds.php:1233
 msgid "No matching feeds found."
 msgstr "No se han encontrado fuentes coincidentes."
 
-#: modules/pref-feeds.php:1232
+#: modules/pref-feeds.php:1241
 msgid "OPML"
 msgstr "OPML"
 
-#: modules/pref-feeds.php:1244
+#: modules/pref-feeds.php:1243
 msgid ""
 "Using OPML you can export and import your feeds and Tiny Tiny RSS settings."
 msgstr ""
 
-#: modules/pref-feeds.php:1246
+#: modules/pref-feeds.php:1245
 msgid "Note: Only main settings profile can be migrated using OPML."
 msgstr ""
 
-#: modules/pref-feeds.php:1261
+#: modules/pref-feeds.php:1260
 msgid "Import"
 msgstr "Importar"
 
-#: modules/pref-feeds.php:1266
+#: modules/pref-feeds.php:1264
 msgid "Export OPML"
 msgstr "Exportar OPML"
 
-#: modules/pref-feeds.php:1268
+#: modules/pref-feeds.php:1266
 #, fuzzy
 msgid ""
 "Your OPML can be published publicly and can be subscribed by anyone who "
@@ -1701,18 +1702,19 @@ msgstr ""
 "cual podrá suscribirse cualquiera que conozca la URL especificada a "
 "continuación."
 
-#: modules/pref-feeds.php:1270
+#: modules/pref-feeds.php:1268
 msgid ""
 "Note: Published OPML does not include your Tiny Tiny RSS settings, feeds "
 "that require authentication or feeds hidden from Popular feeds."
 msgstr ""
 
-#: modules/pref-feeds.php:1273 modules/pref-feeds.php:1313
+#: modules/pref-feeds.php:1271 modules/pref-feeds.php:1317
 msgid "Display URL"
 msgstr ""
 
 #: modules/pref-feeds.php:1278
-msgid "Firefox Integration"
+#, fuzzy
+msgid "Firefox integration"
 msgstr "Integración con Firefox"
 
 #: modules/pref-feeds.php:1280
@@ -1727,27 +1729,33 @@ msgstr ""
 msgid "Click here to register this site as a feed reader."
 msgstr "Pulse aquí para registrar este sitio como un lector de fuentes."
 
-#: modules/pref-feeds.php:1293
-msgid "Subscribing via bookmarklet"
+#: modules/pref-feeds.php:1295
+msgid "Subscribing using bookmarklet"
 msgstr ""
 
-#: modules/pref-feeds.php:1295
+#: modules/pref-feeds.php:1297
 msgid ""
 "Drag the link below to your browser toolbar, open the feed you're interested "
 "in in your browser and click on the link to subscribe to it."
 msgstr ""
 
-#: modules/pref-feeds.php:1299
+#: modules/pref-feeds.php:1301
 #, fuzzy, php-format
 msgid "Subscribe to %s in Tiny Tiny RSS?"
 msgstr "Volver a Tiny Tiny RSS"
 
-#: modules/pref-feeds.php:1303
+#: modules/pref-feeds.php:1305
 #, fuzzy
 msgid "Subscribe in Tiny Tiny RSS"
 msgstr "Volver a Tiny Tiny RSS"
 
-#: modules/pref-feeds.php:1307
+#: modules/pref-feeds.php:1309
+#, fuzzy
+msgid "Published articles and generated feeds"
+msgstr ""
+"¿Reiniciar la puntuación de los artículos de las fuentes seleccionadas?"
+
+#: modules/pref-feeds.php:1311
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
@@ -1756,16 +1764,16 @@ msgstr ""
 "cual podrá suscribirse cualquiera que conozca la URL especificada a "
 "continuación."
 
-#: modules/pref-feeds.php:1316
+#: modules/pref-feeds.php:1320
 msgid "Clear all generated URLs"
 msgstr ""
 
-#: modules/pref-feeds.php:1420
+#: modules/pref-feeds.php:1427
 #, fuzzy, php-format
 msgid "%d archived articles"
 msgstr "Favoritos"
 
-#: modules/pref-feeds.php:1449
+#: modules/pref-feeds.php:1456
 msgid "No feeds found."
 msgstr "No se han encontrado fuentes."
 
@@ -1783,35 +1791,35 @@ msgstr "Se ha guardado el filtro <strong>%s</strong>"
 msgid "Created filter <b>%s</b>"
 msgstr "Se ha creado el filtro <strong>%s</strong>"
 
-#: modules/pref-filters.php:314 help/3.php:33 help/4.php:25
+#: modules/pref-filters.php:315 help/3.php:33 help/4.php:25
 msgid "Create filter"
 msgstr "Crear filtro"
 
-#: modules/pref-filters.php:317 modules/pref-users.php:381
+#: modules/pref-filters.php:318 modules/pref-users.php:385
 msgid "Edit"
 msgstr "Editar"
 
-#: modules/pref-filters.php:409
+#: modules/pref-filters.php:414
 msgid "Field"
 msgstr "campo"
 
-#: modules/pref-filters.php:410
+#: modules/pref-filters.php:415
 msgid "Params"
 msgstr "Parámetros"
 
-#: modules/pref-filters.php:483
+#: modules/pref-filters.php:488
 msgid "(Disabled)"
 msgstr "(desactivado)"
 
-#: modules/pref-filters.php:499
+#: modules/pref-filters.php:504
 msgid "(Inverse)"
 msgstr "(inverso)"
 
-#: modules/pref-filters.php:519
+#: modules/pref-filters.php:524
 msgid "No filters defined."
 msgstr "No se han definido filtros."
 
-#: modules/pref-filters.php:521
+#: modules/pref-filters.php:526
 msgid "No matching filters found."
 msgstr "No se han encontrado filtros coincidentes."
 
@@ -1820,35 +1828,35 @@ msgstr "No se han encontrado filtros coincidentes."
 msgid "Created label <b>%s</b>"
 msgstr "Se ha creado la etiqueta <strong>%s</strong>"
 
-#: modules/pref-labels.php:164 help/3.php:32 help/4.php:26
+#: modules/pref-labels.php:166 help/3.php:32 help/4.php:26
 msgid "Create label"
 msgstr "Crear etiqueta"
 
-#: modules/pref-labels.php:170
+#: modules/pref-labels.php:172
 msgid "Clear colors"
 msgstr "Limpiar los colores"
 
-#: modules/pref-labels.php:242
+#: modules/pref-labels.php:246
 msgid "Click to change color"
 msgstr "Pulse aquí para cambiar el color"
 
-#: modules/pref-labels.php:265
+#: modules/pref-labels.php:269
 msgid "No labels defined."
 msgstr "No se han definido etiquetas."
 
-#: modules/pref-labels.php:267
+#: modules/pref-labels.php:271
 msgid "No matching labels found."
 msgstr "No se han encontrado etiquetas coincidentes."
 
-#: modules/pref-labels.php:325
+#: modules/pref-labels.php:332
 msgid "custom color:"
 msgstr "color personalizado:"
 
-#: modules/pref-labels.php:326
+#: modules/pref-labels.php:333
 msgid "foreground"
 msgstr "primer plano"
 
-#: modules/pref-labels.php:327
+#: modules/pref-labels.php:334
 msgid "background"
 msgstr "fondo"
 
@@ -1891,64 +1899,64 @@ msgid ""
 "\t\t\t\t\t\tplease change it."
 msgstr "Su contraseña tiene el valor por defecto. Por favor, modifíquela."
 
-#: modules/pref-prefs.php:201
+#: modules/pref-prefs.php:199
 msgid "Personal data"
 msgstr "Datos personales"
 
-#: modules/pref-prefs.php:210
+#: modules/pref-prefs.php:212
 msgid "Full name"
 msgstr ""
 
-#: modules/pref-prefs.php:217
+#: modules/pref-prefs.php:219
 msgid "E-mail"
 msgstr "Correo electrónico"
 
-#: modules/pref-prefs.php:228
+#: modules/pref-prefs.php:230
 msgid "Access level"
 msgstr "Nivel de acceso"
 
-#: modules/pref-prefs.php:241
+#: modules/pref-prefs.php:243
 #, fuzzy
 msgid "Save data"
 msgstr "Guardar"
 
-#: modules/pref-prefs.php:249
+#: modules/pref-prefs.php:253
 msgid "Old password"
 msgstr "Antigua contraseña"
 
-#: modules/pref-prefs.php:256
+#: modules/pref-prefs.php:260
 msgid "New password"
 msgstr "Nueva contraseña"
 
-#: modules/pref-prefs.php:264
+#: modules/pref-prefs.php:268
 msgid "Confirm password"
 msgstr "Confirme la nueva contraseña"
 
-#: modules/pref-prefs.php:280
+#: modules/pref-prefs.php:284
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: modules/pref-prefs.php:335
+#: modules/pref-prefs.php:343
 msgid "Select theme"
 msgstr "Seleccionar plantilla"
 
-#: modules/pref-prefs.php:401 modules/pref-prefs.php:406
+#: modules/pref-prefs.php:409 modules/pref-prefs.php:414
 msgid "Yes"
 msgstr "Sí"
 
-#: modules/pref-prefs.php:403 modules/pref-prefs.php:406
+#: modules/pref-prefs.php:411 modules/pref-prefs.php:414
 msgid "No"
 msgstr "No"
 
-#: modules/pref-prefs.php:427
+#: modules/pref-prefs.php:435
 msgid "Save configuration"
 msgstr "Guardar la configuración"
 
-#: modules/pref-prefs.php:430
+#: modules/pref-prefs.php:438
 msgid "Manage profiles"
 msgstr ""
 
-#: modules/pref-prefs.php:433
+#: modules/pref-prefs.php:441
 msgid "Reset to defaults"
 msgstr "Opciones por defecto"
 
@@ -1964,7 +1972,7 @@ msgstr "Detalles del usuario"
 msgid "User not found"
 msgstr "Usuario no encontrado"
 
-#: modules/pref-users.php:53 modules/pref-users.php:431
+#: modules/pref-users.php:53 modules/pref-users.php:437
 msgid "Registered"
 msgstr "Registrado"
 
@@ -2036,36 +2044,36 @@ msgstr "Notificando a <strong>%s</strong>."
 msgid "[tt-rss] Password change notification"
 msgstr "[tt-rss] Notificación de cambio de contraseña"
 
-#: modules/pref-users.php:375 help/4.php:27
+#: modules/pref-users.php:379 help/4.php:27
 msgid "Create user"
 msgstr "Crear usuario"
 
-#: modules/pref-users.php:379
+#: modules/pref-users.php:383
 #, fuzzy
 msgid "Details"
 msgstr "Diariamente"
 
-#: modules/pref-users.php:385
+#: modules/pref-users.php:389
 msgid "Reset password"
 msgstr "Redefinir contraseña"
 
-#: modules/pref-users.php:429
+#: modules/pref-users.php:435
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: modules/pref-users.php:430
+#: modules/pref-users.php:436
 msgid "Access Level"
 msgstr "Nivel de acceso"
 
-#: modules/pref-users.php:432
+#: modules/pref-users.php:438
 msgid "Last login"
 msgstr "Última sesión"
 
-#: modules/pref-users.php:480
+#: modules/pref-users.php:486
 msgid "No users defined."
 msgstr "No se han definido usuarios."
 
-#: modules/pref-users.php:482
+#: modules/pref-users.php:488
 msgid "No matching users found."
 msgstr "No se han encontrado usuarios coincidentes."
 
@@ -2306,7 +2314,7 @@ msgstr "Ocultar/Mostrar las leídas"
 msgid "Sort feeds by unread count"
 msgstr "Ordenar las fuentes en función del número de artículos sin leer"
 
-#: digest.js:24 tt-rss.js:508 tt-rss.js:521
+#: digest.js:24 tt-rss.js:509 tt-rss.js:522
 msgid "Mark all articles in %s as read?"
 msgstr "¿Marcar todos los artículos de %s como leídos?"
 
@@ -2399,7 +2407,7 @@ msgid "Subscribed to %d feed(s)."
 msgstr "Suscrito a las fuentes:"
 
 #: functions.js:1041 functions.js:1072 prefs.js:573 prefs.js:603 prefs.js:635
-#: prefs.js:936 prefs.js:956 prefs.js:1652
+#: prefs.js:936 prefs.js:956 prefs.js:1655
 msgid "No feeds are selected."
 msgstr "No se han seleccionado fuentes."
 
@@ -2431,7 +2439,7 @@ msgstr "Por favor, introduzca el título de la etiqueta:"
 msgid "Can't create label: missing caption."
 msgstr "No se puede crear la etiqueta: falta el título."
 
-#: functions.js:1209 tt-rss.js:396
+#: functions.js:1209 tt-rss.js:397
 msgid "Unsubscribe from %s?"
 msgstr "¿Cancelar la suscripción a %s?"
 
@@ -2551,60 +2559,60 @@ msgstr "Por favor, seleccione un único filtro."
 msgid "No OPML file to upload."
 msgstr "No hay fichero OPML que subir."
 
-#: prefs.js:1171
+#: prefs.js:1174
 msgid "Reset to defaults?"
 msgstr "¿Reajustar a las opciones por defecto?"
 
-#: prefs.js:1499
+#: prefs.js:1502
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "¿Reemplazar la actual dirección de publicación por una nueva?"
 
-#: prefs.js:1535
+#: prefs.js:1538
 msgid "Save current configuration?"
 msgstr "¿Guardar la configuración actual?"
 
-#: prefs.js:1636
+#: prefs.js:1639
 msgid "Rescore articles in selected feeds?"
 msgstr ""
 "¿Reiniciar la puntuación de los artículos de las fuentes seleccionadas?"
 
-#: prefs.js:1659
+#: prefs.js:1662
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "¿Reiniciar la puntuación de todos los artículos? Esta operación puede tomar "
 "algo de tiempo."
 
-#: prefs.js:1678
+#: prefs.js:1681
 msgid "Remove filter %s?"
 msgstr "¿Eliminar el filtro %s?"
 
-#: prefs.js:1708
+#: prefs.js:1711
 msgid "Save changes to selected feeds?"
 msgstr "¿Guardar los cambios de las fuentes seleccionadas?"
 
-#: prefs.js:1788
+#: prefs.js:1791
 msgid "Reset label colors to default?"
 msgstr "¿Reajustar los colores de la etiqueta a las opciones por defecto?"
 
-#: prefs.js:1813
+#: prefs.js:1816
 msgid "Please enter new label foreground color:"
 msgstr "Por favor, introduzca un nuevo color de primer plano para la etiqueta:"
 
-#: prefs.js:1815
+#: prefs.js:1818
 msgid "Please enter new label background color:"
 msgstr "Por favor, introduzca un nuevo color de fondo para la etiqueta:"
 
-#: prefs.js:1947
+#: prefs.js:1950
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "¿Eliminar los filtros seleccionados?"
 
-#: prefs.js:1963
+#: prefs.js:1966
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: prefs.js:1987
+#: prefs.js:1990
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
@@ -2612,23 +2620,23 @@ msgstr ""
 msgid "Mark all articles as read?"
 msgstr "¿Marcar todos los artículos como leídos?"
 
-#: tt-rss.js:385
+#: tt-rss.js:386
 msgid "You can't unsubscribe from the category."
 msgstr "No puede cancelar la suscripción a la categoría."
 
-#: tt-rss.js:390 tt-rss.js:536 tt-rss.js:664 tt-rss.js:1127
+#: tt-rss.js:391 tt-rss.js:537 tt-rss.js:665 tt-rss.js:1128
 msgid "Please select some feed first."
 msgstr "Por favor, seleccione alguna fuente primero."
 
-#: tt-rss.js:541
+#: tt-rss.js:542
 msgid "You can't edit this kind of feed."
 msgstr "No puede editar esta clase de fuente."
 
-#: tt-rss.js:659
+#: tt-rss.js:660
 msgid "You can't rescore this kind of feed."
 msgstr "No puede reiniciar la puntuación de esta clase de fuente."
 
-#: tt-rss.js:669
+#: tt-rss.js:670
 msgid "Rescore articles in %s?"
 msgstr "¿Reiniciar la puntuación de los artículos de %s?"
 
