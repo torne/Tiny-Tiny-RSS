@@ -4243,7 +4243,7 @@
 			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 		}
 	
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+/*		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
 				$order_by_qpart = "order_id,category,unread DESC,title";
 			} else {
@@ -4255,7 +4255,12 @@
 			} else {		
 				$order_by_qpart = "title";
 			}
-		}
+		} */
+
+		if ($enable_cats)
+			$order_by_qpart = "order_id,category,title";
+		else
+			$order_by_qpart = "title";
 
 		$age_qpart = getMaxAgeSubquery();
 
@@ -4322,7 +4327,9 @@
 				$feed, $unread, $line['last_error'], $updated));
 		}
 
-		if (!$enable_cats) {
+		if ($enable_cats) {
+			array_push($feedlist['items'], $cat);
+		} else { 
 			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 		}
 
