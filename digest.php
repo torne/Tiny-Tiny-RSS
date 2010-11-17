@@ -88,7 +88,7 @@
 
 	</div>
 
-	<?php echo __('Tiny Tiny RSS') ?>
+	Tiny Tiny RSS
 
 	</div>
 	<div id="content">
