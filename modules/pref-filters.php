@@ -299,25 +299,25 @@
 		print "<div id=\"pref-filter-toolbar\" dojoType=\"dijit.Toolbar\">";
 
 		print "<div style='float : right; padding-right : 4px;'>
-			<input id=\"filter_search\" size=\"20\" type=\"search\"
+			<input dojoType=\"dijit.form.TextBox\" id=\"filter_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
-			<button onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
 		</div>";
 
-		print "<button onclick=\"return quickAddFilter()\">".
-			__('Create filter')."</button> "; 
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return quickAddFilter()\">".
+			__('Create filter')."</button dojoType=\"dijit.form.Button\"> "; 
 
-		print "<button onclick=\"return editSelectedFilter()\">".
-			__('Edit')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return editSelectedFilter()\">".
+			__('Edit')."</button dojoType=\"dijit.form.Button\"> ";
 
-		print "<button onclick=\"return removeSelectedFilters()\">".
-			__('Remove')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return removeSelectedFilters()\">".
+			__('Remove')."</button dojoType=\"dijit.form.Button\"> ";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
-			print "<button onclick=\"rescore_all_feeds()\">".
-				__('Rescore articles')."</button> "; 
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"rescore_all_feeds()\">".
+				__('Rescore articles')."</button dojoType=\"dijit.form.Button\"> "; 
 		}
 
 		print "</div>"; # toolbar

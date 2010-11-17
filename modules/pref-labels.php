@@ -115,7 +115,7 @@
 
 				if (label_create($link, $caption)) {
 					if (!$output) {
-						print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
+						//print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
 					}
 				}
 
@@ -156,20 +156,21 @@
 
 		print "<div style='float : right; padding-right : 4px'>
 			<input id=\"label_search\" size=\"20\" type=\"search\"
+				dojoType=\"dijit.form.TextBox\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateLabelList()\" value=\"$label_search\">
-			<button onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
 			</div>";
 
-		print"<button onclick=\"return addLabel()\">".
-			__('Create label')."</button> ";
+		print"<button dojoType=\"dijit.form.Button\" onclick=\"return addLabel()\">".
+			__('Create label')."</button dojoType=\"dijit.form.Button\"> ";
 
-		print "<button onclick=\"removeSelectedLabels()\">".
-			__('Remove')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedLabels()\">".
+			__('Remove')."</button dojoType=\"dijit.form.Button\"> ";
 
-		print "<button onclick=\"labelColorReset()\">".
-			__('Clear colors')."</button>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"labelColorReset()\">".
+			__('Clear colors')."</button dojoType=\"dijit.form.Button\">";
 
 
 		print "</div>"; #toolbar

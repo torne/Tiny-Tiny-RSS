@@ -4203,7 +4203,7 @@
 
 		}
 	
-	function outputFeedList($link) {
+	function outputFeedList($link, $special = true) {
 
 		$feedlist = array();
 
@@ -4217,47 +4217,51 @@
 
 		/* virtual feeds */
 
-		if ($enable_cats) {
-			$cat_hidden = get_pref($link, "_COLLAPSED_SPECIAL");
-			$cat = feedlist_init_cat($link, -1, $cat_hidden);
-		} else {
-			$cat['items'] = array();
-		}
+		if ($special) {
 
-		foreach (array(-4, -3, -1, -2, 0) as $i) {
-			array_push($cat['items'], feedlist_init_feed($link, $i));
-		}
-
-		if ($enable_cats) {
-			array_push($feedlist['items'], $cat);
-		} else {
-			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-		}
-
-		$result = db_query($link, "SELECT * FROM
-			ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
+			if ($enable_cats) {
+				$cat_hidden = get_pref($link, "_COLLAPSED_SPECIAL");
+				$cat = feedlist_init_cat($link, -1, $cat_hidden);
+			} else {
+				$cat['items'] = array();
+			}
 	
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
-			$cat = feedlist_init_cat($link, -2, $cat_hidden);
-		} else {
-			$cat['items'] = array();
+			foreach (array(-4, -3, -1, -2, 0) as $i) {
+				array_push($cat['items'], feedlist_init_feed($link, $i));
+			}
+	
+			if ($enable_cats) {
+				array_push($feedlist['items'], $cat);
+			} else {
+				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+			}
+	
+			$result = db_query($link, "SELECT * FROM
+				ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
+		
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+				$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
+				$cat = feedlist_init_cat($link, -2, $cat_hidden);
+			} else {
+				$cat['items'] = array();
+			}
+
+			while ($line = db_fetch_assoc($result)) {
+	
+				$label_id = -$line['id'] - 11;
+				$count = getFeedUnread($link, $label_id);
+	
+				array_push($cat['items'], feedlist_init_feed($link, $label_id, 
+					false, $count));
+			}
+	
+			if ($enable_cats) {
+				array_push($feedlist['items'], $cat);
+			} else {
+				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+			}
 		}
 
-		while ($line = db_fetch_assoc($result)) {
-
-			$label_id = -$line['id'] - 11;
-			$count = getFeedUnread($link, $label_id);
-
-			array_push($cat['items'], feedlist_init_feed($link, $label_id, 
-				false, $count));
-		}
-
-		if ($enable_cats) {
-			array_push($feedlist['items'], $cat);
-		} else {
-			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-		}
 	
 /*		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
@@ -6997,18 +7001,20 @@
 			$cat_unread = getCategoryUnread($link, $cat_id);
 		}
 
-		$obj['id'] = 'CAT:' . ((int)$cat_id);
+		$obj['id'] = 'CAT:' . $cat_id;
 		$obj['items'] = array();
 		$obj['name'] = getCategoryTitle($link, $cat_id);
 		$obj['type'] = 'feed';
 		$obj['unread'] = (int) $cat_unread;
 		$obj['hidden'] = $hidden;
+		$obj['bare_id'] = $cat_id;
 
 		return $obj;
 	}
 
 	function feedlist_init_feed($link, $feed_id, $title = false, $unread = false, $error = '', $updated = '') {
 		$obj = array();
+		$feed_id = (int) $feed_id;
 
 		if (!$title) 
 			$title = getFeedTitle($link, $feed_id, false);
@@ -7023,6 +7029,8 @@
 		$obj['error'] = $error;
 		$obj['updated'] = $updated;
 		$obj['icon'] = getFeedIcon($feed_id);
+		$obj['checkbox'] = false;
+		$obj['bare_id'] = $feed_id;
 
 		return $obj;
 	}

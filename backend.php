@@ -161,9 +161,8 @@
 		break; // rpc
 
 		case "feeds":
-			$print_exec_time = true;
-
 			$subop = $_REQUEST["subop"];
+			$root = (bool)$_REQUEST["root"];
 
 			switch($subop) {
 				case "catchupAll":
@@ -206,7 +205,24 @@
 
 			}
 
-			print json_encode(outputFeedList($link));
+			if (!$root) {
+				print json_encode(outputFeedList($link));
+			} else {
+
+				$feeds = outputFeedList($link, false);
+
+				$root = array();
+				$root['id'] = 'root';
+				$root['name'] = __('Feeds');
+				$root['items'] = $feeds['items'];
+
+				$fl = array();
+				$fl['identifier'] = 'id';
+				$fl['label'] = 'name';
+				$fl['items'] = array($root);
+
+				print json_encode($fl);
+			}
 
 		break; // feeds
 

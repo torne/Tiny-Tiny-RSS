@@ -981,6 +981,7 @@
 
 		print "<div dojoType=\"dijit.Toolbar\">";
 
+		/* 
 		print "<div style='float : right'> 
 			<input id=\"feed_search\" size=\"20\" type=\"search\"
 				onfocus=\"disableHotkeys();\" 
@@ -988,22 +989,37 @@
 				onchange=\"updateFeedList()\" value=\"$feed_search\">
 			<button onclick=\"updateFeedList()\">".
 				__('Search')."</button>
-			</div>";
-		
-		print "<button onclick=\"quickAddFeed()\">"
-			.__('Subscribe to feed')."</button> ";
+				</div>"; */
 
-		print "<button onclick=\"editSelectedFeed()\">".
-			__('Edit feeds')."</button> ";
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+			"<span>" . __('Select')."</span>";
+
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(true)\" 
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(false)\" 
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div>";
+
+		/* print "<div onclick=\"selectTableRows('prefFeedList', 'all')\">".__('All')."</div>,
+			<div href=\"#\" onclick=\"selectTableRows('prefFeedList', 'none')\">".__('None')."</div>"; */
+
+		print "</div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"quickAddFeed()\">"
+			.__('Subscribe to feed')."</button dojoType=\"dijit.form.Button\"> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"editSelectedFeed()\">".
+			__('Edit feeds')."</button dojoType=\"dijit.form.Button\"> ";
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
-			print "<button onclick=\"editFeedCats()\">".
-				__('Edit categories')."</button> ";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"editFeedCats()\">".
+				__('Edit categories')."</button dojoType=\"dijit.form.Button\"> ";
 		}
 
-		print "<button onclick=\"removeSelectedFeeds()\">"
-			.__('Unsubscribe')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedFeeds()\">"
+			.__('Unsubscribe')."</button dojoType=\"dijit.form.Button\"> ";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
 
@@ -1025,6 +1041,43 @@
 
 		print "</div>"; # toolbar
 
+		print "<div id=\"feedlistLoading\">
+		<img src='images/indicator_tiny.gif'>".
+		 __("Loading, please wait...")."</div>";
+
+		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"feedStore\" 
+			url=\"backend.php?op=feeds&root=1\">
+		</div>
+		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"feedModel\" store=\"feedStore\"
+		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
+			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
+		</div>
+		<div dojoType=\"lib.CheckBoxTree\" id=\"feedTree\" _dndController=\"dijit.tree.dndSource\" 
+			betweenThreshold=\"1\"
+			model=\"feedModel\" openOnClick=\"false\">
+		<script type=\"dojo/method\" event=\"onClick\" args=\"item\">
+			var id = String(item.id);
+			var bare_id = id.substr(id.indexOf(':')+1);
+
+			console.log('onClick: ' + id);
+
+			if (id.match('FEED')) {
+				editFeed(bare_id, event);
+			}
+			
+		</script>
+		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
+			Element.hide(\"feedlistLoading\");
+		</script>
+		<script type=\"dojo/method\" event=\"checkItemAcceptance\" args=\"item, source, position\">
+			var source_item = dijit.getEnclosingWidget(source);
+			console.log(item);
+			console.log(source_item);
+		</script>
+
+		</div>";
+
+		/*
 		$feeds_sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$feeds_sort || $feeds_sort == "undefined") {
@@ -1234,7 +1287,7 @@
 			}
 			print "</p>";
 
-		}
+		} */
 
 		print "</div>"; # feeds pane
 
