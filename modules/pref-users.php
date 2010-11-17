@@ -347,6 +347,10 @@
 			}
 		}
 
+		print "<div id=\"pref-user-wrap\" dojoType=\"dijit.layout.BorderContainer\" gutters=\"false\">";
+		print "<div id=\"pref-user-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
+		print "<div id=\"pref-user-toolbar\" dojoType=\"dijit.Toolbar\">";
+
 		set_pref($link, "_PREFS_ACTIVE_TAB", "userConfig");
 
 		$user_search = db_escape_string($_REQUEST["search"]);
@@ -357,7 +361,7 @@
 			$user_search = $_SESSION["prefs_user_search"];
 		}
 
-		print "<div style='float : right'>
+		print "<div style='float : right; padding-right : 4px;'>
 			<input id=\"user_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
@@ -384,7 +388,9 @@
 			<button onclick=\"javascript:resetSelectedUserPass()\">".
 			__('Reset password')."</button>";
 
-		print "</div>";
+		print "</div>"; #toolbar
+		print "</div>"; #pane
+		print "<div id=\"pref-user-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
 
 		if ($user_search) {
 
@@ -484,6 +490,9 @@
 			print "</p>";
 
 		}
+
+		print "</div>"; #pane
+		print "</div>"; #container
 
 	}
 ?>

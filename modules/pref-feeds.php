@@ -955,6 +955,9 @@
 
 		if ($quiet) return;
 
+		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Feeds')."\">";
+
 		set_pref($link, "_PREFS_ACTIVE_TAB", "feedConfig");
 
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
@@ -975,6 +978,8 @@
 		} else {
 			$feed_search = $_SESSION["prefs_feed_search"];
 		}
+
+		print "<div dojoType=\"dijit.Toolbar\">";
 
 		print "<div style='float : right'> 
 			<input id=\"feed_search\" size=\"20\" type=\"search\"
@@ -1017,6 +1022,8 @@
 			print "</select>";
 
 		}
+
+		print "</div>"; # toolbar
 
 		$feeds_sort = db_escape_string($_REQUEST["sort"]);
 
@@ -1229,17 +1236,9 @@
 
 		}
 
-		print "<h3>".__('OPML')."</h3>";
+		print "</div>"; # feeds pane
 
-/*		print "<div style='float : left'>
-		<form	enctype=\"multipart/form-data\" method=\"POST\" action=\"opml.php\">
-		".__('File:')." <input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
-			<input type=\"hidden\" name=\"op\" value=\"Import\">
-			<button onclick=\"return validateOpmlImport();\"
-				type=\"submit\">".__('Import')."</button>
-				</form></div>";
-
-		print "&nbsp;"; */
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
 
 		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.");
 
@@ -1262,8 +1261,7 @@
 			</form>";
 		print "</div>&nbsp;";
 
-		print "<button onclick=\"gotoExportOpml()\">".
-			__('Export OPML')."</button>";
+		print "<button onclick=\"gotoExportOpml()\">".__('Export OPML')."</button>";
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
 
@@ -1273,9 +1271,11 @@
 			__('Display URL')."</button> ";
 
 
-		if (strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
-	
-			print "<h3>" . __("Firefox Integration") . "</h3>";
+		print "</div>"; # pane
+
+		if (true || strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
+
+			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Firefox integration')."\">";
                 
 			print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
 
@@ -1288,10 +1288,12 @@
 				"</button>";
 
 			print "</p>";
+
+			print "</div>"; # pane
 		}
 
-		print "<h3>".__("Subscribing via bookmarklet")."</h3>";
-
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Subscribing using bookmarklet')."\">";
+		
 		print "<p>" . __("Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it.") . "</p>";
 
 		$bm_subscribe_url = str_replace('%s', '', add_feed_url());
@@ -1302,7 +1304,9 @@
 
 		print "<a href=\"$bm_url\" class='visibleLink'>" . __('Subscribe in Tiny Tiny RSS'). "</a>";
 
-		print "<h3>".__("Published articles")."</h3>";
+		print "</div>"; #pane
+
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published articles and generated feeds')."\">";
 
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
@@ -1314,6 +1318,9 @@
                
 		print "<button onclick=\"return clearFeedAccessKeys()\">".
 			__('Clear all generated URLs')."</button> ";
+
+		print "</div>"; #pane
+		print "</div>"; #container
 
 	}
 

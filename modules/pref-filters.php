@@ -298,16 +298,17 @@
 		} else {
 			$filter_search = $_SESSION["prefs_filter_search"];
 		}
+		
+		print "<div id=\"pref-filter-wrap\" dojoType=\"dijit.layout.BorderContainer\" gutters=\"false\">";
+		print "<div id=\"pref-filter-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
+		print "<div id=\"pref-filter-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		print "<div style='float : right'>
+		print "<div style='float : right; padding-right : 4px;'>
 			<input id=\"filter_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
 				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
 			<button onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
-			&nbsp;
-			<a class='helpLinkPic' href=\"javascript:displayHelpInfobox(2)\">
-			<img style='vertical-align : top;' src='".theme_image($link, "images/sign_quest.png")."'></a>
 		</div>";
 
 		print "<button onclick=\"return quickAddFilter()\">".
@@ -323,6 +324,10 @@
 			print "<button onclick=\"rescore_all_feeds()\">".
 				__('Rescore articles')."</button> "; 
 		}
+
+		print "</div>"; # toolbar
+		print "</div>"; # toolbar-frame
+		print "<div id=\"pref-filter-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
 
 		if ($filter_search) {
 			$filter_search = split(' ', db_escape_string($filter_search));
@@ -523,6 +528,9 @@
 			print "</p>";
 
 		}
+
+		print "</div>"; #pane
+		print "</div>"; #container
 	}
 
 ?>

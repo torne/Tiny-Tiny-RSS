@@ -312,6 +312,10 @@ table.prefPrefsList tr:hover td.prefValue input {
 	color : #88b0f0;
 }
 
+table.prefPrefsList h3 {
+	margin-top : 0px;
+}
+
 tr.title td {
 	border-width : 0px 0px 1px 0px;
 	border-color : #ecf4ff;
@@ -396,7 +400,7 @@ table.prefFeedList td.feedSelect {
 div.prefFeedCatHolder {
 	height : 250px;
 	overflow : auto;
-	border : 1px solid #99d67a;
+	border : 1px solid gray;
 	margin : 5px 0px 5px 0px;
 	background-color : white;
 }
@@ -679,7 +683,7 @@ div.tagCloudContainer {
 }
 
 div.errorExplained {
-	border : 1px solid #99d67a;
+	border : 1px solid gray;
 	background-color : white;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
@@ -689,7 +693,7 @@ ul.feedErrorsList {
 	height : 300px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #99d67a;
+	border : 1px solid gray;
 	background-color : white;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
@@ -699,7 +703,7 @@ ul.userFeedList {
 	height : 300px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #99d67a;
+	border : 1px solid gray;
 	background-color : white;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
@@ -711,7 +715,7 @@ ul.browseFeedList {
 	list-style-type : none;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	border : 1px solid #99d67a;
+	border : 1px solid gray;
 	background-color : white;
 }
 
@@ -1545,5 +1549,14 @@ div#pref-tabs .dijitContentPane h3 {
 	font-size : 11px;
 	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
 } */
+
+
+#pref-filter-wrap, #pref-filter-header, #pref-filter-content, 
+#pref-label-wrap, #pref-label-header, #pref-label-content,
+#pref-user-wrap, #pref-user-header, #pref-user-content {
+	margin : 0px;
+	padding : 0px;
+	border-width : 0px;
+}
 
 

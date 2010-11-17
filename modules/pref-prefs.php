@@ -195,10 +195,12 @@
 
 				$_SESSION["prefs_op_result"] = "";
 
+				print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
+				print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data')."\">";
+
 				print "<form onsubmit='return false' id='change_email_form'>";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>".__("Personal data")."</h3></tr></td>";
 
 				$result = db_query($link, "SELECT email,full_name,
 					access_level FROM ttrss_users
@@ -240,11 +242,13 @@
 				print "<p><button onclick=\"return changeUserEmail()\">".
 					__("Save data")."</button>";
 
+				print "</div>"; # pane
+				print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Authentication')."\">";
+
 				print "<form onsubmit=\"return false\" 
 					name=\"change_pass_form\" id=\"change_pass_form\">";
 	
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	 			print "<tr><td colspan='3'><h3>".__("Authentication")."</h3></tr></td>";
 	
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
 				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
@@ -279,7 +283,11 @@
 				print "<p><button	onclick=\"return changeUserPassword()\">".
 					__("Change password")."</button>";
 
+
+				print "</div>"; #pane
 			}
+
+			print "<div dojoType=\"dijit.layout.AccordionPane\" selected=\"true\" title=\"".__('Preferences')."\">";
 
 			if ($_SESSION["profile"]) {
 				initialize_user_prefs($link, $_SESSION["uid"], $_SESSION["profile"]);
@@ -325,7 +333,7 @@
 						print "</table>";
 					}
 
-					print "<p><table width=\"100%\" class=\"prefPrefsList\">";
+					print "<table width=\"100%\" class=\"prefPrefsList\">";
 
 					$active_section = $line["section_name"];				
 					
@@ -433,6 +441,9 @@
 				__('Reset to defaults')."</button></p>";
 
 			print "</form>";
+
+			print "</div>"; #pane
+			print "</div>"; #container
 
 		}
 	}

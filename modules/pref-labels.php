@@ -150,7 +150,11 @@
 			$label_search = $_SESSION["prefs_label_search"];
 		}
 
-		print "<div style='float : right'>
+		print "<div id=\"pref-label-wrap\" dojoType=\"dijit.layout.BorderContainer\" gutters=\"false\">";
+		print "<div id=\"pref-label-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
+		print "<div id=\"pref-label-toolbar\" dojoType=\"dijit.Toolbar\">";
+
+		print "<div style='float : right; padding-right : 4px'>
 			<input id=\"label_search\" size=\"20\" type=\"search\"
 				onfocus=\"javascript:disableHotkeys();\" 
 				onblur=\"javascript:enableHotkeys();\"
@@ -158,19 +162,19 @@
 			<button onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
 			</div>";
 
-		print "<div class=\"prefGenericAddBox\">";
-
 		print"<button onclick=\"return addLabel()\">".
 			__('Create label')."</button> ";
 
-		print "<button onclick=\"javascript:removeSelectedLabels()\">".
+		print "<button onclick=\"removeSelectedLabels()\">".
 			__('Remove')."</button> ";
 
 		print "<button onclick=\"labelColorReset()\">".
 			__('Clear colors')."</button>";
 
 
-		print "</div>";
+		print "</div>"; #toolbar
+		print "</div>"; #pane
+		print "<div id=\"pref-label-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
 
 		if ($label_search) {
 
@@ -269,6 +273,9 @@
 			print "</p>";
 
 		}
+
+		print "</div>"; #pane
+		print "</div>"; #container
 	}
 
 	function print_color_picker($id) {
