@@ -1046,14 +1046,13 @@
 		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
 			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
 		</div>
-		<div dojoType=\"lib.CheckBoxTree\" id=\"feedTree\" _dndController=\"dijit.tree.dndSource\" 
+		<div dojoType=\"fox.PrefFeedTree\" id=\"feedTree\" 
+			dndController=\"dijit.tree.dndSource\" 
 			betweenThreshold=\"1\"
 			model=\"feedModel\" openOnClick=\"false\">
 		<script type=\"dojo/method\" event=\"onClick\" args=\"item\">
 			var id = String(item.id);
 			var bare_id = id.substr(id.indexOf(':')+1);
-
-			console.log('onClick: ' + id);
 
 			if (id.match('FEED')) {
 				editFeed(bare_id, event);
@@ -1063,12 +1062,6 @@
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
 			Element.hide(\"feedlistLoading\");
 		</script>
-		<script type=\"dojo/method\" event=\"checkItemAcceptance\" args=\"item, source, position\">
-			var source_item = dijit.getEnclosingWidget(source);
-			console.log(item);
-			console.log(source_item);
-		</script>
-
 		</div>";
 
 		/*

@@ -1175,8 +1175,10 @@ function init() {
 		dojo.require("dijit.tree.dndSource");
 
 		dojo.registerModulePath("lib", "..");
+		dojo.registerModulePath("fox", "../..");
 
 		dojo.require("lib.CheckBoxTree");
+		dojo.require("fox.PrefFeedTree");
 
 		loading_set_progress(30);
 
