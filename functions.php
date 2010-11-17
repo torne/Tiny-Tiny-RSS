@@ -117,6 +117,8 @@
 	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
 	define('MAGPIE_USER_AGENT', SELF_USER_AGENT);
 
+	ini_set('user_agent', SELF_USER_AGENT);
+
 	require_once "lib/simplepie/simplepie.inc";
 	require_once "lib/magpierss/rss_fetch.inc";
 	require_once 'lib/magpierss/rss_utils.inc';
