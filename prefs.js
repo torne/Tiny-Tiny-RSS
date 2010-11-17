@@ -1230,7 +1230,13 @@ function pref_hotkey_handler(e) {
 			closeInfoBox();
 		} 
 
-		if (dialogs.length > 0 || !hotkeys_enabled) {
+		var dialog = dijit.byId("infoBox");
+		var dialog_visible = false;
+
+		if (dialog)
+			dialog_visible = Element.visible(dialog.domNode);
+
+		if (dialog_visible || !hotkeys_enabled) {
 			console.log("hotkeys disabled");
 			return;
 		}

@@ -2,7 +2,6 @@ var hotkeys_enabled = true;
 var notify_silent = false;
 var last_progress_point = 0;
 var sanity_check_done = false;
-var dialogs = [];
 
 /* add method to remove element from array */
 
@@ -392,10 +391,9 @@ function closeInfoBox(cleanup) {
 	try {
 		enableHotkeys();
 
-		var dialog = dialogs.pop();
+		dialog = dijit.byId("infoBox");
 
-		if (dialog)
-			dialog.hide();
+		if (dialog)	dialog.hide();
 
 	} catch (e) {
 		//exception_error("closeInfoBox", e);
@@ -438,9 +436,10 @@ function infobox_submit_callback2(transport) {
 
 function infobox_callback2(transport) {
 	try {
+		var dialog = false;
+
 		if (dijit.byId("infoBox")) {
-			dialogs.pop();
-			dijit.byId("infoBox").destroy();
+			dialog = dijit.byId("infoBox");
 		}
 
 		//console.log("infobox_callback2");
@@ -464,27 +463,27 @@ function infobox_callback2(transport) {
 			content = transport.responseText;
 		}
 
-		var dialog = new dijit.Dialog({
-			title: title,
-			id: 'infoBox',
-			style: "width: 600px",
-			onCancel: function() {
-				dialogs.remove(this);
-				return true;
-			},
-			onExecute: function() {
-				dialogs.remove(this);
-				return true;
-			},
-			onClose: function() {
-				dialogs.remove(this);
-				return true;
-			},
-			content: content});
+		if (!dialog) {
+			dialog = new dijit.Dialog({
+				title: title,
+				id: 'infoBox',
+				style: "width: 600px",
+				onCancel: function() {
+					return true;
+				},
+				onExecute: function() {
+					return true;
+				},
+				onClose: function() {
+					return true;
+					},
+				content: content});
+		} else {
+			dialog.attr('title', title);
+			dialog.attr('content', content);
+		}
 
 		dialog.show();
-
-		dialogs.push(dialog);
 
 		notify("");
 	} catch (e) {
