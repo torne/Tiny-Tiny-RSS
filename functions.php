@@ -4634,7 +4634,7 @@
 
 				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"zoomToArticle($id)\"
+						onclick=\"zoomToArticle(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
 				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
@@ -5241,7 +5241,7 @@
 					print "<div style=\"float : right\">";
 
 					print "<img src=\"images/art-zoom.png\" 
-						onclick=\"zoomToArticle($id)\"
+						onclick=\"zoomToArticle(event, $id)\"
 						style=\"cursor : pointer\"
 						alt='Zoom' 
 						title='".__('Open article in new tab')."'>";

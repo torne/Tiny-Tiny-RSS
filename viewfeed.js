@@ -1724,7 +1724,8 @@ function zoomToArticle(event, id) {
 				return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
 
 		if (cached_article) {
-			
+			closeArticlePanel();
+		
 			var article_pane = new dijit.layout.ContentPane({ 
 				title: __("Loading...") , content: cached_article, 
 				style: 'padding : 0px;',
