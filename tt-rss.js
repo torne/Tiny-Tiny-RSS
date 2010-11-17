@@ -51,14 +51,6 @@ function setActiveFeedId(id, is_cat) {
 }
 
 
-function isFeedlistSortable() {
-	return feedlist_sortable_enabled;
-}
-
-function tagsAreDisplayed() {
-	return false;
-}
-
 function dlg_frefresh_callback(transport, deleted_feed) {
 	if (getActiveFeedId() == deleted_feed) {
 		setTimeout("viewfeed(-5)", 100);
@@ -429,38 +421,6 @@ function quickMenuGo(opid) {
 			Effect.Appear("hotkey_help_overlay", {duration : 0.3});
 		}
 
-		if (opid == "qmcResetUI") {
-			alert("Function not implemented");
-		}
-
-/*		if (opid == "qmcToggleReorder") {
-			feedlist_sortable_enabled = !feedlist_sortable_enabled;
-
-			if (feedlist_sortable_enabled) {
-				notify_info("Category reordering enabled");
-				toggle_sortable_feedlist(true);
-			} else {
-				notify_info("Category reordering disabled");
-				toggle_sortable_feedlist(false);
-			}
-		} */
-
-		if (opid == "qmcResetCats") {
-
-			if (confirm(__("Reset category order?"))) {
-
-				var query = "?op=feeds&subop=catsortreset";
-
-				notify_progress("Loading, please wait...", true);
-
-				new Ajax.Request("backend.php", {
-					parameters: query,
-					onComplete: function(transport) { 
-						window.setTimeout('updateFeedList()', 50);
-					} });
-			}
-		}
-
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}
@@ -785,7 +745,6 @@ function hotkey_handler(e) {
 
 			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
 				if (!Element.visible("hotkey_help_overlay")) {
-					//Element.show("hotkey_help_overlay");
 					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
 				} else {
 					Element.hide("hotkey_help_overlay");
@@ -801,40 +760,13 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-/*			if (keycode == 82 && shift_key) { // R
-				scheduleFeedUpdate(true);
-				return;
-			} */
-
 			if (keycode == 74) { // j
-				var feed = getActiveFeedId();
-				var new_feed = getRelativeFeedId2(feed, activeFeedIsCat(), 'prev');
-//				alert(feed + " IC: " + activeFeedIsCat() + " => " + new_feed);
-				if (new_feed) {
-					var is_cat = new_feed.match("CAT:");
-					if (is_cat) {
-						new_feed = new_feed.replace("CAT:", "");
-						viewCategory(new_feed);
-					} else {
-						viewfeed(new_feed, '', false);
-					}
-				}
+				// TODO: move to previous feed
 				return;
 			}
 	
 			if (keycode == 75) { // k
-				var feed = getActiveFeedId();
-				var new_feed = getRelativeFeedId2(feed, activeFeedIsCat(), 'next');
-//				alert(feed + " IC: " + activeFeedIsCat() + " => " + new_feed);
-				if (new_feed) {
-					var is_cat = new_feed.match("CAT:");
-					if (is_cat == "CAT:") {
-						new_feed = new_feed.replace("CAT:", "");
-						viewCategory(new_feed);
-					} else {
-						viewfeed(new_feed, '', false);
-					}
-				}
+				// TODO: move to next feed
 				return;
 			}
 
@@ -963,11 +895,6 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-/*			if (keycode == 85 && shift_key) { // U
-				scheduleFeedUpdate(true);
-				return false;
-			} */
-
 			if (keycode == 85) { // u
 				if (getActiveFeedId()) {
 					viewfeed(getActiveFeedId(), "ForceUpdate");
@@ -1034,14 +961,8 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 77) { // m
-				feedlist_sortable_enabled = !feedlist_sortable_enabled;
-				if (feedlist_sortable_enabled) {
-					notify_info("Category reordering enabled");
-					toggle_sortable_feedlist(true);
-				} else {
-					notify_info("Category reordering disabled");
-					toggle_sortable_feedlist(false);
-				}
+				// TODO: sortable feedlist
+				return;
 			}
 
 			if (keycode == 78) { // n
@@ -1176,9 +1097,6 @@ function handle_rpc_reply(transport, scheduled_call) {
 
 			if (runtime_info)
 				parse_runtime_info(runtime_info);
-
-			if (feedsSortByUnread())
-				resort_feedlist();
 
 			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 

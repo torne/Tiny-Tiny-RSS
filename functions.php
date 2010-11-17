@@ -4599,7 +4599,9 @@
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
 			print "<div class=\"postReply\" id=\"POST-$id\">";
-			print "<div class=\"postHeader\">";
+			print "<div 
+				onclick=\"return postClicked(event, $id)\"
+				class=\"postHeader\">";
 
 			$entry_author = $line["author"];
 
@@ -4613,8 +4615,9 @@
 			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				print "<div clear='both'><a target='_blank' href=\"" . $line["link"] . "\">" . 
-					$line["title"] . "</a><span class='author'>$entry_author</span></div>";
+				print "<div clear='both'><a target='_blank' href=\"" . 
+					$line["link"] . "\">" . 
+					$line["title"] . "<span class='author'>$entry_author</span></a></div>";
 			} else {
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}

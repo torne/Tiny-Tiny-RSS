@@ -179,18 +179,12 @@
 					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
 					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
 					</optgroup>
-					<optgroup label="<?php echo __('Categories:') ?>">
-
-					<!-- <option value="qmcToggleReorder"><?php echo __('Toggle reordering mode') ?></option> -->
-					<option value="qmcResetCats"><?php echo __('Reset order') ?></option>
-					</optgroup>
 
 					<optgroup label="<?php echo __('Other actions:') ?>">
 
 					<option value="qmcTagCloud"><?php echo __('Show tag cloud...') ?></option>
 					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
 					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
-					<option value="qmcResetUI"><?php echo __('Reset UI layout') ?></option>
 					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts help') ?></option>
 					</optgroup>
 

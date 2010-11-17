@@ -574,8 +574,6 @@ function subscribeToFeed() {
 	new Ajax.Request("backend.php", {
 		parameters: query,
 		onComplete: function(transport) { 
-			//dlg_frefresh_callback(transport); 
-
 			try {
 
 				if (!transport.responseXML) {

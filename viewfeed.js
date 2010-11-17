@@ -264,7 +264,7 @@ function showArticleInHeadlines(id) {
 
 			cache_inject(cache_prefix + getActiveFeedId(),
 				$("headlines-frame").innerHTML,
-				get_feed_unread(getActiveFeedId()));
+				getFeedUnread(getActiveFeedId()));
 
 		} else if (article_is_unread && view_mode == "all_articles") {
 
@@ -272,7 +272,7 @@ function showArticleInHeadlines(id) {
 
 			cache_inject(cache_prefix + getActiveFeedId(),
 				$("headlines-frame").innerHTML,
-				get_feed_unread(getActiveFeedId())-1);
+				getFeedUnread(getActiveFeedId())-1);
 
 		} else if (article_is_unread) {
 			cache_invalidate(cache_prefix + getActiveFeedId());
@@ -1706,10 +1706,6 @@ function getArticleUnderPointer() {
 
 function zoomToArticle(event, id) {
 	try {
-		/* var w = window.open("backend.php?op=view&mode=zoom&id=" + param_escape(id), 
-			"ttrss_zoom_" + id,
-			"status=0,toolbar=0,location=0,width=450,height=300,scrollbars=1,menubar=0"); */
-
 		var cached_article = cache_find(id);
 
 		if (dijit.byId("ATAB-" + id))
@@ -2066,6 +2062,21 @@ function cdmClicked(event, id) {
 	return false;
 }
 
+function postClicked(event, id) {
+	try {
+
+		if (!event.ctrlKey) {
+			return true;
+		} else {
+			zoomToArticle(event, id);
+			return false;
+		}
+
+	} catch (e) {
+		exception_error("postClicked");
+	}
+}
+
 function hlClicked(event, id) {
 	try {
 
@@ -2083,8 +2094,6 @@ function hlClicked(event, id) {
 	} catch (e) {
 		exception_error("hlClicked");
 	}
-
-	return false;
 }
 
 function getFirstVisibleHeadlineId() {
@@ -2241,13 +2250,4 @@ function closeArticlePanel() {
 			dijit.byId("headlines-wrap-inner").removeChild(
 				dijit.byId("content-insert"));
 	}
-
-
-/*	if (id)
-		if (dijit.byId("ATAB-" + id))
-			return dijit.byId("content-tabs").removeChild(dijit.byId("ATAB-" + id));
-
-	if (dijit.byId("content-insert"))
-		dijit.byId("headlines-wrap-inner").removeChild(
-			dijit.byId("content-insert")); */
 }

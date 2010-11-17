@@ -1,30 +1,11 @@
 var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
-var feed_under_pointer = undefined;
 
 var counter_timeout_id = false;
 
 var resize_enabled = false;
-var selection_disabled = false;
 var counters_last_request = 0;
-
-var feeds_sort_by_unread = false;
-var feedlist_sortable_enabled = false;
-
-function toggle_sortable_feedlist(enabled) {
-/*	try {
-
-		if (enabled) {
-			Sortable.create('feedList', {onChange: feedlist_dragsorted, only: "feedCat"});
-		} else {
-			Sortable.destroy('feedList');
-		}
-
-	} catch (e) {
-		exception_error("toggle_sortable_feedlist", e);
-	} */
-}
 
 function viewCategory(cat) {
 	viewfeed(cat, '', true);
@@ -133,46 +114,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 			if (show_next_feed) {
-
-				if (!activeFeedIsCat()) {
-	
-					var feedlist = $('feedList');
-				
-					var next_unread_feed = getRelativeFeedId2(feed, false,
-							"next", true);
-
-					/* gRFI2 also returns categories which we don't really 
-					 * need here, so we skip them */
-
-					while (next_unread_feed && next_unread_feed.match("CAT:")) 
-						next_unread_feed = getRelativeFeedId2(
-								next_unread_feed.replace("CAT:", ""),
-								true, "next", true);
-					
-					if (!next_unread_feed) {
-						next_unread_feed = getRelativeFeedId2(-3, true,
-							"next", true);
-					}
-	
-					if (next_unread_feed) {
-						query = query + "&nuf=" + param_escape(next_unread_feed);
-						//setActiveFeedId(next_unread_feed);
-						feed = next_unread_feed;
-					}
-				} else {
-	
-					var next_unread_feed = getNextUnreadCat(feed);
-
-					/* we don't need to specify that our next feed is actually
-					a category, because we're in the is_cat mode by definition
-					already */
-
-					if (next_unread_feed && show_next_feed) {
-						query = query + "&nuf=" + param_escape(next_unread_feed);
-						feed = next_unread_feed;
-					}
-
-				}
+				// TODO: implement show_next_feed handling
 			}
 		}
 
@@ -197,7 +139,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		var unread_ctr = -1;
 		
-		if (!is_cat) unread_ctr = get_feed_unread(feed);
+		if (!is_cat) unread_ctr = getFeedUnread(feed);
 
 		var cache_check = false;
 
@@ -244,31 +186,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 	}		
 }
 
-
-function feedlist_dragsorted(ctr) {
-	try {
-		var cats = $$("#feedList > li[id*=FCAT-]");
-		var ordered_cats = [];
-
-		cats.each(function(cat) {
-			ordered_cats.push(cat.id.replace("FCAT-", ""));
-		});
-
-		if (ordered_cats.length > 0) {
-
-			var query = "?op=feeds&subop=catsort&corder=" + 
-				param_escape(ordered_cats.toString());
-
-			//console.log(query);
-
-			new Ajax.Request("backend.php", { parameters: query });
-		}
-
-	} catch (e) {
-		exception_error("feedlist_dragsorted", e);
-	}
-}
-
 function feedlist_init() {
 	try {
 		loading_set_progress(90);
@@ -279,10 +196,7 @@ function feedlist_init() {
 		document.onkeydown = hotkey_handler;
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
-		 if (getActiveFeedId()) {
-			//console.log("some feed is open on feedlist refresh, reloading");
-			//setTimeout("viewCurrentFeed()", 100);
-		} else {
+		 if (!getActiveFeedId()) {
 			if (getInitParam("cdm_auto_catchup") != 1) {
 				setTimeout("viewfeed(-3)", 100);
 			} else {
@@ -292,22 +206,13 @@ function feedlist_init() {
 		} 
 
 		console.log("T:" + 
-				getInitParam("cdm_auto_catchup") + " " + get_feed_unread(-3));
+				getInitParam("cdm_auto_catchup") + " " + getFeedUnread(-3));
 
-		toggle_sortable_feedlist(isFeedlistSortable());
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
 	}
-}
-
-function enable_selection(b) {
-	selection_disabled = !b;
-}
-
-function enable_resize(b) {
-	resize_enabled = b;
 }
 
 function request_counters_real() {
@@ -392,7 +297,6 @@ function parse_counters(reply, scheduled_call) {
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
 			var title = elems[l].title;
-			var xmsg = elems[l].xmsg;
 	
 			if (id == "global-unread") {
 				global_unread = ctr;
@@ -406,6 +310,10 @@ function parse_counters(reply, scheduled_call) {
 			}
 
 			var treeItem;
+
+			if (id == getActiveFeedId() && ctr > getFeedUnread(id) && scheduled_call) {
+				displayNewContentPrompt(id);
+			}
 
 			setFeedUnread(id, (kind == "cat"), ctr);
 
@@ -442,16 +350,9 @@ function parse_counters(reply, scheduled_call) {
 	}
 }
 
-function get_feed_unread(feed, is_cat) {
+function getFeedUnread(feed, is_cat) {
 	try {
-		if (is_cat) 
-			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
-		else
-			treeItem = treeModel.store._itemsByIdentity['FEED:' + feed];
-
-		if (treeItem)
-			return treeModel.store.getValue(treeItem, 'unread');
-
+		return parseInt(getFeedValue(feed, is_cat, 'unread'));
 	} catch (e) {
 		//
 	}
@@ -459,89 +360,8 @@ function get_feed_unread(feed, is_cat) {
 	return -1;
 }
 
-function get_cat_unread(id) {
-	return get_feed_unread(id, true);
-}
-
-function get_feed_entry_unread(elem) {
-
-	var id = elem.id.replace("FEEDR-", "");
-
-	if (id <= 0) {
-		return -1;
-	}
-
-	try {
-		return parseInt($("FEEDU-" + id).innerHTML);	
-	} catch (e) {
-		return -1;
-	}
-}
-
-function get_feed_entry_name(elem) {
-	var id = elem.id.replace("FEEDR-", "");
-	return getFeedName(id);
-}
-
-
-function resort_category(node, cat_mode) {
-
-	try {
-
-		//console.log("resort_category: " + node + " CM=" + cat_mode);
-	
-		var by_unread = feedsSortByUnread();
-	
-		var list = node.getElementsByTagName("LI");
-
-		for (i = 0; i < list.length; i++) {
-	
-			for (j = i+1; j < list.length; j++) {			
-	
-				var tmp_val = get_feed_entry_unread(list[i]);
-				var cur_val = get_feed_entry_unread(list[j]);
-				
-				//console.log(list[i].id + " vs " + list[j].id);
-	
-				var tmp_name = get_feed_entry_name(list[i]).toLowerCase();
-				var cur_name = get_feed_entry_name(list[j]).toLowerCase();
-
-				/* we don't want to match FEEDR-0 - e.g. Archived articles */
-
-				var valid_pair = cat_mode || (list[i].id.match(/FEEDR-[1-9]/) &&
-						list[j].id.match(/FEEDR-[1-9]/));
-
-				if (valid_pair && ((by_unread && (cur_val > tmp_val)) || (!by_unread && (cur_name < tmp_name)))) {
-					tempnode_i = list[i].cloneNode(true);
-					tempnode_j = list[j].cloneNode(true);
-					node.replaceChild(tempnode_i, list[j]);
-					node.replaceChild(tempnode_j, list[i]);
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("resort_category", e);
-	}
-
-}
-
 function resort_feedlist() {
-	return;
-
-	console.log("resort_feedlist");
-
-	if ($("FCATLIST--1")) {
-
-		var lists = $$("#feedList ul[id*=FCATLIST]");
-
-		lists.each(function(list) {
-				if (list.id != "FCATLIST--1") resort_category(list, true);
-			});
-
-	} else {
-		resort_category($("feedList"), false);
-	}
+	console.warn("resort_feedlist: function not implemented");
 }
 
 function hideOrShowFeeds(hide) {
@@ -561,7 +381,7 @@ function hideOrShowFeeds(hide) {
 			var bare_id = parseInt(id.substr(id.indexOf(":")+1));
 	
 			if (node) {
-				var check_unread = get_feed_unread(bare_id, true);
+				var check_unread = getFeedUnread(bare_id, true);
 
 				if (hide && cat_unread == 0 && check_unread == 0) {
 					Effect.Fade(node[0].rowNode, {duration : 0.3, 
@@ -577,92 +397,36 @@ function hideOrShowFeeds(hide) {
 	} else {
 		hideOrShowFeedsCategory(tree.model.store._arrayOfTopLevelItems, hide);
 	}
-
-/*	try {
-
-		if ($("FCATLIST--1")) {
-	
-			var lists = $$("#feedList ul[id*=FCATLIST]");
-	
-			lists.each(function(list) {
-					hideOrShowFeedsCategory(list.id.replace("FCATLIST-", ""), hide);
-				});
-	
-		} else {
-			hideOrShowFeedsCategory(null, hide);
-		}
-
-	} catch (e) {
-		exception_error("hideOrShowFeeds", e);
-	} */
 }
 
 function hideOrShowFeedsCategory(feeds, hide) {
 	try {
-		//console.warn("hideOrShowFeedsCategory: function not implemented");
-	var tree = dijit.byId("feedTree");
 
-	if (!tree) return;
+		var tree = dijit.byId("feedTree");
 
-	var cat_unread = 0;
-
-	feeds.each(function(feed) {
-		var id = String(feed.id);
-		var bare_id = parseInt(id.substr(id.indexOf(":")+1));
-
-		var unread = feed.unread[0];
-		var node = tree._itemNodesMap[id];
-
-		if (node) {
-			if (hide && unread == 0 && (bare_id > 0 || !getInitParam("hide_read_shows_special"))) {
-				Effect.Fade(node[0].rowNode, {duration : 0.3, 
-					queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-			} else {
-				Element.show(node[0].rowNode);
-				++cat_unread;
-			}
-		}
-	});
-
-	return cat_unread;
-
-/*		var nodes;
-		var cat_node;
-		
-		if (cat_id) {
-			nodes = $$("#FCATLIST-" + cat_id + " > li");
-			cat_node = $("FCAT-" + cat_id);
-		} else {
-			nodes = $$("#feedList li");
-		}
-
+		if (!tree) return;
+	
 		var cat_unread = 0;
-
-		nodes.each(function(node) {
-
-			var is_unread = node.hasClassName("Unread") ||
-				node.hasClassName("Selected") || 
-				(node.hasClassName("virt") && 
-				 	getInitParam("hide_read_shows_special"));
-
-			if (hide && !is_unread) {
-				Effect.Fade(node, {duration : 0.3, 
-					queue: { position: 'end', scope: 'FFADE-' + node.id, limit: 1 }});
-			} else {
-				Element.show(node);
-				++cat_unread;
+	
+		feeds.each(function(feed) {
+			var id = String(feed.id);
+			var bare_id = parseInt(id.substr(id.indexOf(":")+1));
+	
+			var unread = feed.unread[0];
+			var node = tree._itemNodesMap[id];
+	
+			if (node) {
+				if (hide && unread == 0 && (bare_id > 0 || !getInitParam("hide_read_shows_special"))) {
+					Effect.Fade(node[0].rowNode, {duration : 0.3, 
+						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
+				} else {
+					Element.show(node[0].rowNode);
+					++cat_unread;
+				}
 			}
-
 		});
-
-		if (cat_node) {
-			if (hide && cat_unread == 0 && !cat_node.hasClassName("Selected")) {
-				Effect.Fade(cat_node, {duration : 0.3, 
-					queue: { position: 'end', scope: 'CFADE-' + cat_node.id, limit: 1 }});
-			} else {
-				Element.show(cat_node);
-			}
-		} */
+	
+		return cat_unread;
 
 	} catch (e) {
 		exception_error("hideOrShowFeedsCategory", e);
@@ -689,105 +453,6 @@ function getFeedValue(feed, is_cat, key) {
 	}
 
 	return '';
-}
-
-function getNextUnreadCat(id) {
-	try {
-		var rows = $$("#feedList li[id*=FCAT]");
-		var unread_cats = [];
-
-		rows.each(function(row) {
-			var cat_id = row.id.replace("FCAT-", "");
-
-			if (Element.visible(row) && get_cat_unread(cat_id) > 0)
-				unread_cats.push(parseInt(cat_id));
-			});
-
-		console.log(unread_cats);
-		
-		var idx = unread_cats.indexOf(id);
-
-		if (idx != -1 && idx < unread_cats.length-1) {
-			return unread_cats[idx+1];					
-		} else {
-			return unread_cats[0];
-		}
-
-	} catch (e) {
-		exception_error("getNextUnreadCat", e);
-	}
-}
-
-function getRelativeFeedId2(id, is_cat, direction, unread_only) {	
-	try {
-
-//		alert(id + " IC: " + is_cat + " D: " + direction + " U: " + unread_only);
-
-		var rows = $$("#feedList li");
-		var feeds = new Array();
-	
-		for (var i = 0; i < rows.length; i++) {
-			if (rows[i].id.match("FEEDR-")) {
-	
-				if (rows[i].id == "FEEDR-" + id && !is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
-	
-					if (!unread_only || 
-							(rows[i].hasClassName("Unread") || rows[i].id == "FEEDR-" + id)) {
-						feeds.push(rows[i].id.replace("FEEDR-", ""));
-					}
-				}
-			}
-
-			if (rows[i].id.match("FCAT-")) {
-				if (rows[i].id == "FCAT-" + id && is_cat || (Element.visible(rows[i]) && Element.visible(rows[i].parentNode))) {
-
-					var cat_id = parseInt(rows[i].id.replace("FCAT-", ""));
-
-					if (cat_id >= 0) {
-						if (!unread_only || get_cat_unread(cat_id) > 0) {
-							feeds.push("CAT:"+cat_id);
-						}
-					}
-				}
-			}
-		}
-	
-//		alert(feeds.toString());
-
-		if (!id) {
-			if (direction == "next") {
-				return feeds.shift();
-			} else {
-				return feeds.pop();
-			}
-		} else {
-			if (direction == "next") {
-				if (is_cat) id = "CAT:" + id;
-				var idx = feeds.indexOf(id);
-				if (idx != -1 && idx < feeds.length) {
-					return feeds[idx+1];					
-				} else {
-					return getRelativeFeedId2(false, is_cat, direction, unread_only);
-				}
-			} else {
-				if (is_cat) id = "CAT:" + id;
-				var idx = feeds.indexOf(id);
-				if (idx > 0) {
-					return feeds[idx-1];
-				} else {
-					return getRelativeFeedId2(false, is_cat, direction, unread_only);
-				}
-			}
-	
-		}
-
-	} catch (e) {
-		exception_error("getRelativeFeedId2", e);
-	}
-}
-
-function feedsSortByUnread() {
-	return feeds_sort_by_unread;
 }
 
 function setFeedUnread(feed, is_cat, unread) {
