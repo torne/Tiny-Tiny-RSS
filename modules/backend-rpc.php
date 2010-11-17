@@ -763,8 +763,9 @@
 
 		if ($subop == "digest-init") {
 			print "<rpc-reply>";
+		
+			$tmp_feeds = api_get_feeds($link, -3, true, false, 0);
 
-			$tmp_feeds = api_get_feeds($link, false, true, false, 0);
 			$feeds = array();
 
 			foreach ($tmp_feeds as $f) {
