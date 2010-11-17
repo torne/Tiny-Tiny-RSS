@@ -1320,13 +1320,13 @@
 
 		print "</div>"; # pane
 
-		if (true || strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
+		if (strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
 
 			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Firefox integration')."\">";
                 
 			print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
 
-			print "<p";
+			print "<p>";
 
 			print "<button onclick='window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
