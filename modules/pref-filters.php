@@ -208,11 +208,6 @@
 					action_param = '$action_param',
 					filter_param = '$filter_param'
 					WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
-
-			if (db_affected_rows($link, $result) != 0) {
-				print_notice(T_sprintf("Saved filter <b>%s</b>", htmlspecialchars($reg_exp)));
-			}
-
 		}
 
 		if ($subop == "remove") {

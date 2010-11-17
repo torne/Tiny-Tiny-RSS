@@ -16,8 +16,8 @@ function feedlist_callback2(transport) {
 
 	try {	
 
-		var container = $('feedConfigTab');	
-		container.innerHTML=transport.responseText;
+		dijit.byId('feedConfigTab').attr('content', transport.responseText); 
+
 		selectTab("feedConfig", true);
 
 		if (caller_subop) {
@@ -37,8 +37,7 @@ function feedlist_callback2(transport) {
 }
 
 function filterlist_callback2(transport) {
-	var container = $('filterConfigTab');
-	container.innerHTML=transport.responseText;
+	dijit.byId('filterConfigTab').attr('content', transport.responseText); 
 	notify("");
 	remove_splash();
 }
@@ -70,14 +69,13 @@ function labellist_callback2(transport) {
 
 	try {
 
-		var container = $('labelConfigTab');
-			closeInfoBox();
-			container.innerHTML=transport.responseText;
+		dijit.byId('labelConfigTab').attr('content', transport.responseText); 
+		closeInfoBox();
 
-			init_label_inline_editor();
+		init_label_inline_editor();
 	
-			notify("");
-			remove_splash();
+		notify("");
+		remove_splash();
 
 	} catch (e) {
 		exception_error("labellist_callback2", e);
@@ -86,12 +84,10 @@ function labellist_callback2(transport) {
 
 function userlist_callback2(transport) {
 	try {
-		var container = $('userConfigTab');
-		if (transport.readyState == 4) {
-			container.innerHTML=transport.responseText;
-			notify("");
-			remove_splash();
-		}
+		dijit.byId('userConfigTab').attr('content', transport.responseText); 
+
+		notify("");
+		remove_splash();
 	} catch (e) {
 		exception_error("userlist_callback2", e);
 	}
@@ -99,8 +95,8 @@ function userlist_callback2(transport) {
 
 function prefslist_callback2(transport) {
 	try {
-		var container = $('genConfigTab');
-		container.innerHTML=transport.responseText;
+		dijit.byId('genConfigTab').attr('content', transport.responseText); 
+
 		notify("");
 		remove_splash();
 	} catch (e) {
