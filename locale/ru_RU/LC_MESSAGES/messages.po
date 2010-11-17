@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 15:38+0300\n"
+"POT-Creation-Date: 2010-11-17 16:11+0300\n"
 "PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -327,7 +327,7 @@ msgid "Incorrect username or password"
 msgstr "Некорректное имя пользователя или пароль"
 
 #: functions.php:2947 modules/popup-dialog.php:407
-#: modules/pref-filters.php:426
+#: modules/pref-filters.php:421
 msgid "All feeds"
 msgstr "Все каналы"
 
@@ -372,13 +372,13 @@ msgid "Archived articles"
 msgstr "Сохранённые статьи"
 
 #: functions.php:4093 modules/popup-dialog.php:85 modules/pref-feeds.php:895
-#: modules/pref-feeds.php:1106 modules/pref-filters.php:383
+#: modules/pref-feeds.php:1106 modules/pref-filters.php:378
 #: modules/pref-labels.php:212 modules/pref-users.php:428
 msgid "Select:"
 msgstr "Выбрать:"
 
 #: functions.php:4094 modules/popup-dialog.php:86 modules/pref-feeds.php:896
-#: modules/pref-feeds.php:1107 modules/pref-filters.php:384
+#: modules/pref-feeds.php:1107 modules/pref-filters.php:379
 #: modules/pref-labels.php:213 modules/pref-users.php:429
 msgid "All"
 msgstr "Все"
@@ -392,7 +392,7 @@ msgid "Invert"
 msgstr "Инвертировать"
 
 #: functions.php:4097 modules/popup-dialog.php:87 modules/pref-feeds.php:897
-#: modules/pref-feeds.php:1108 modules/pref-filters.php:385
+#: modules/pref-feeds.php:1108 modules/pref-filters.php:380
 #: modules/pref-labels.php:214 modules/pref-users.php:430
 msgid "None"
 msgstr "Ничего"
@@ -1083,7 +1083,7 @@ msgid "Sort articles"
 msgstr "Сохранённые статьи"
 
 #: tt-rss.php:154 modules/popup-dialog.php:478 modules/pref-filters.php:53
-#: modules/pref-filters.php:481
+#: modules/pref-filters.php:476
 msgid "Date"
 msgstr "Дата"
 
@@ -1235,7 +1235,7 @@ msgstr "Адаптивно"
 
 #: modules/popup-dialog.php:151 modules/popup-dialog.php:360
 #: modules/pref-feeds.php:284 modules/pref-feeds.php:944
-#: modules/pref-filters.php:154 modules/pref-filters.php:321
+#: modules/pref-filters.php:154 modules/pref-filters.php:316
 #: modules/pref-labels.php:169 modules/pref-users.php:387
 msgid "Remove"
 msgstr "Удалить"
@@ -1300,7 +1300,7 @@ msgid "Subscribe to Feed"
 msgstr "Подписаться на канал"
 
 #: modules/popup-dialog.php:252 modules/pref-feeds.php:92
-#: modules/pref-feeds.php:320 modules/pref-filters.php:413
+#: modules/pref-feeds.php:320 modules/pref-filters.php:408
 msgid "Feed"
 msgstr "Канал"
 
@@ -1352,7 +1352,7 @@ msgstr "Обзор Каналов"
 
 #: modules/popup-dialog.php:331 modules/popup-dialog.php:369
 #: modules/popup-dialog.php:440 modules/pref-feeds.php:990
-#: modules/pref-filters.php:311 modules/pref-labels.php:162
+#: modules/pref-filters.php:306 modules/pref-labels.php:162
 #: modules/pref-users.php:370
 msgid "Search"
 msgstr "Поиск"
@@ -1398,17 +1398,17 @@ msgid "Create Filter"
 msgstr "Создать фильтр"
 
 #: modules/popup-dialog.php:473 modules/pref-filters.php:44
-#: modules/pref-filters.php:412
+#: modules/pref-filters.php:407
 msgid "Match"
 msgstr "Искать"
 
 #: modules/popup-dialog.php:481 modules/pref-filters.php:56
-#: modules/pref-filters.php:453
+#: modules/pref-filters.php:448
 msgid "before"
 msgstr "перед"
 
 #: modules/popup-dialog.php:482 modules/pref-filters.php:57
-#: modules/pref-filters.php:454
+#: modules/pref-filters.php:449
 msgid "after"
 msgstr "после"
 
@@ -1629,7 +1629,7 @@ msgstr "Ручная очистка"
 msgid "Clear feed data"
 msgstr "Очистить данные канала."
 
-#: modules/pref-feeds.php:1020 modules/pref-filters.php:325
+#: modules/pref-feeds.php:1020 modules/pref-filters.php:320
 msgid "Rescore articles"
 msgstr "Заново оценить статьи"
 
@@ -1641,7 +1641,7 @@ msgstr "Показать дату последней статьи"
 msgid "Last&nbsp;Article"
 msgstr "Последняя&nbsp;статья"
 
-#: modules/pref-feeds.php:1198 modules/pref-filters.php:499
+#: modules/pref-feeds.php:1198 modules/pref-filters.php:494
 #: modules/pref-users.php:466
 msgid "Click to edit"
 msgstr "Щёлкните для редактирования"
@@ -1764,45 +1764,40 @@ msgstr "Каналы не найдены."
 msgid "Filter Editor"
 msgstr "Редактор фильтров"
 
-#: modules/pref-filters.php:213
-#, php-format
-msgid "Saved filter <b>%s</b>"
-msgstr "Фильтр <b>%s</b> сохранен"
-
-#: modules/pref-filters.php:267
+#: modules/pref-filters.php:262
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Добавлен фильтр <b>%s</b>"
 
-#: modules/pref-filters.php:315 help/3.php:33 help/4.php:25
+#: modules/pref-filters.php:310 help/3.php:33 help/4.php:25
 msgid "Create filter"
 msgstr "Создать фильтр"
 
-#: modules/pref-filters.php:318 modules/pref-users.php:385
+#: modules/pref-filters.php:313 modules/pref-users.php:385
 msgid "Edit"
 msgstr "Редактировать"
 
-#: modules/pref-filters.php:414
+#: modules/pref-filters.php:409
 msgid "Field"
 msgstr "Поле"
 
-#: modules/pref-filters.php:415
+#: modules/pref-filters.php:410
 msgid "Params"
 msgstr "Параметры:"
 
-#: modules/pref-filters.php:488
+#: modules/pref-filters.php:483
 msgid "(Disabled)"
 msgstr "(Отключен)"
 
-#: modules/pref-filters.php:504
+#: modules/pref-filters.php:499
 msgid "(Inverse)"
 msgstr "(Инвертирован)"
 
-#: modules/pref-filters.php:524
+#: modules/pref-filters.php:519
 msgid "No filters defined."
 msgstr "Фильтры отсутствуют."
 
-#: modules/pref-filters.php:526
+#: modules/pref-filters.php:521
 msgid "No matching filters found."
 msgstr "Не найдено совпадений с фильтром."
 
@@ -2387,8 +2382,8 @@ msgstr "Нельзя отписаться от категории."
 msgid "Subscribed to %d feed(s)."
 msgstr "Подписаны каналы:"
 
-#: functions.js:1041 functions.js:1072 prefs.js:573 prefs.js:603 prefs.js:635
-#: prefs.js:936 prefs.js:956 prefs.js:1655
+#: functions.js:1041 functions.js:1072 prefs.js:569 prefs.js:599 prefs.js:631
+#: prefs.js:932 prefs.js:952 prefs.js:1651
 msgid "No feeds are selected."
 msgstr "Нет выбранных каналов."
 
@@ -2433,163 +2428,163 @@ msgstr "Пожалуйста, укажите заметку для статьи:
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: prefs.js:224
+#: prefs.js:220
 msgid "Error: No feed URL given."
 msgstr "Ошибка: Канал не отдаёт URL."
 
-#: prefs.js:226
+#: prefs.js:222
 msgid "Error: Invalid feed URL."
 msgstr "Ошибка: Не верный URL канала."
 
-#: prefs.js:254
+#: prefs.js:250
 #, fuzzy
 msgid "Can't add profile: no name specified."
 msgstr "Не могу добавить категорию без имени"
 
-#: prefs.js:276
+#: prefs.js:272
 msgid "Can't add category: no name specified."
 msgstr "Не могу добавить категорию без имени"
 
-#: prefs.js:298
+#: prefs.js:294
 msgid "Please enter login:"
 msgstr "Пожалуйста, введите логин:"
 
-#: prefs.js:305
+#: prefs.js:301
 msgid "Can't create user: no login specified."
 msgstr "Не могу добавить пользователя: не указан логин."
 
-#: prefs.js:454
+#: prefs.js:450
 msgid "Remove selected labels?"
 msgstr "Удалить выбранные метки?"
 
-#: prefs.js:470
+#: prefs.js:466
 msgid "No labels are selected."
 msgstr "Нет выбранных меток."
 
-#: prefs.js:484
+#: prefs.js:480
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
-#: prefs.js:501 prefs.js:826 prefs.js:847 prefs.js:886
+#: prefs.js:497 prefs.js:822 prefs.js:843 prefs.js:882
 msgid "No users are selected."
 msgstr "Нет выбранных пользователей."
 
-#: prefs.js:519
+#: prefs.js:515
 msgid "Remove selected filters?"
 msgstr "Удалить выбранные фильтры?"
 
-#: prefs.js:535 prefs.js:916
+#: prefs.js:531 prefs.js:912
 msgid "No filters are selected."
 msgstr "Нет выбранных фильтров."
 
-#: prefs.js:554
+#: prefs.js:550
 msgid "Unsubscribe from selected feeds?"
 msgstr "Отписаться от выбранных каналов?"
 
-#: prefs.js:588
+#: prefs.js:584
 msgid "Please select only one feed."
 msgstr "Пожалуйста выберите только один канал."
 
-#: prefs.js:594
+#: prefs.js:590
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Стереть все не отмеченные статьи в выбранном канале?"
 
-#: prefs.js:616
+#: prefs.js:612
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Сколько дней хранить статьи (0 - по умолчанию)?"
 
-#: prefs.js:648
+#: prefs.js:644
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: prefs.js:664
+#: prefs.js:660
 #, fuzzy
 msgid "No profiles selected."
 msgstr "Статья не выбрана"
 
-#: prefs.js:676
+#: prefs.js:672
 msgid "Remove selected categories?"
 msgstr "Удалить выбранные категории?"
 
-#: prefs.js:694
+#: prefs.js:690
 msgid "No categories are selected."
 msgstr "Нет выбранных категорий."
 
-#: prefs.js:748
+#: prefs.js:744
 msgid "Login field cannot be blank."
 msgstr "Поле логина не может быть пустым."
 
-#: prefs.js:831 prefs.js:852 prefs.js:891
+#: prefs.js:827 prefs.js:848 prefs.js:887
 msgid "Please select only one user."
 msgstr "Пожалуйста выберите только одного пользователя."
 
-#: prefs.js:856
+#: prefs.js:852
 msgid "Reset password of selected user?"
 msgstr "Сбросить пароль выбранного пользователя?"
 
-#: prefs.js:921
+#: prefs.js:917
 msgid "Please select only one filter."
 msgstr "Пожалуйста выберите только один фильтр."
 
-#: prefs.js:997
+#: prefs.js:993
 msgid "No OPML file to upload."
 msgstr "Нет файла OPML для загрузки."
 
-#: prefs.js:1174
+#: prefs.js:1170
 msgid "Reset to defaults?"
 msgstr "Сбросить настройки?"
 
-#: prefs.js:1502
+#: prefs.js:1498
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Изменить текущий адрес публикации на новый?"
 
-#: prefs.js:1538
+#: prefs.js:1534
 msgid "Save current configuration?"
 msgstr "Сохранить конфигурацию"
 
-#: prefs.js:1639
+#: prefs.js:1635
 msgid "Rescore articles in selected feeds?"
 msgstr "Заново оценить статьи в выбранных каналах?"
 
-#: prefs.js:1662
+#: prefs.js:1658
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Оценить заново все статьи? Эта операция может продолжаться длительное время."
 
-#: prefs.js:1681
+#: prefs.js:1677
 msgid "Remove filter %s?"
 msgstr "Удалить фильтр %s?"
 
-#: prefs.js:1711
+#: prefs.js:1707
 msgid "Save changes to selected feeds?"
 msgstr "Сохранить изменения выбранных каналов?"
 
-#: prefs.js:1791
+#: prefs.js:1787
 msgid "Reset label colors to default?"
 msgstr "Сбросить метку цветов, на цвета по умолчанию?"
 
-#: prefs.js:1816
+#: prefs.js:1812
 msgid "Please enter new label foreground color:"
 msgstr "Пожалуйста, введите новую метку цвета переднего плана:"
 
-#: prefs.js:1818
+#: prefs.js:1814
 msgid "Please enter new label background color:"
 msgstr "Пожалуйста, введите новую метку цвета фона:"
 
-#: prefs.js:1950
+#: prefs.js:1946
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "Удалить выбранные фильтры?"
 
-#: prefs.js:1966
+#: prefs.js:1962
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: prefs.js:1990
+#: prefs.js:1986
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
@@ -2675,6 +2670,9 @@ msgstr "Загрузка списка каналов..."
 #: viewfeed.js:1843
 msgid "Please enter a note for this article:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
+
+#~ msgid "Saved filter <b>%s</b>"
+#~ msgstr "Фильтр <b>%s</b> сохранен"
 
 #, fuzzy
 #~ msgid "Tiny Tiny RSS"

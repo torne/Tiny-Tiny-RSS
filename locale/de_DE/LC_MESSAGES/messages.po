@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 15:38+0300\n"
+"POT-Creation-Date: 2010-11-17 16:11+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin Kraft <kev@nurzen.de>\n"
 "Language-Team: Deutsch <de.org>\n"
@@ -327,7 +327,7 @@ msgid "Incorrect username or password"
 msgstr "falscher Benutzername oder Passwort"
 
 #: functions.php:2947 modules/popup-dialog.php:407
-#: modules/pref-filters.php:426
+#: modules/pref-filters.php:421
 msgid "All feeds"
 msgstr "Alle Feeds"
 
@@ -372,13 +372,13 @@ msgid "Archived articles"
 msgstr "Bewertete Artikel"
 
 #: functions.php:4093 modules/popup-dialog.php:85 modules/pref-feeds.php:895
-#: modules/pref-feeds.php:1106 modules/pref-filters.php:383
+#: modules/pref-feeds.php:1106 modules/pref-filters.php:378
 #: modules/pref-labels.php:212 modules/pref-users.php:428
 msgid "Select:"
 msgstr "Auswahl:"
 
 #: functions.php:4094 modules/popup-dialog.php:86 modules/pref-feeds.php:896
-#: modules/pref-feeds.php:1107 modules/pref-filters.php:384
+#: modules/pref-feeds.php:1107 modules/pref-filters.php:379
 #: modules/pref-labels.php:213 modules/pref-users.php:429
 msgid "All"
 msgstr "Alle"
@@ -392,7 +392,7 @@ msgid "Invert"
 msgstr "Invertieren"
 
 #: functions.php:4097 modules/popup-dialog.php:87 modules/pref-feeds.php:897
-#: modules/pref-feeds.php:1108 modules/pref-filters.php:385
+#: modules/pref-feeds.php:1108 modules/pref-filters.php:380
 #: modules/pref-labels.php:214 modules/pref-users.php:430
 msgid "None"
 msgstr "Keine"
@@ -1089,7 +1089,7 @@ msgid "Sort articles"
 msgstr "Artikel bewerten"
 
 #: tt-rss.php:154 modules/popup-dialog.php:478 modules/pref-filters.php:53
-#: modules/pref-filters.php:481
+#: modules/pref-filters.php:476
 msgid "Date"
 msgstr "Datum"
 
@@ -1241,7 +1241,7 @@ msgstr "Adaptiv"
 
 #: modules/popup-dialog.php:151 modules/popup-dialog.php:360
 #: modules/pref-feeds.php:284 modules/pref-feeds.php:944
-#: modules/pref-filters.php:154 modules/pref-filters.php:321
+#: modules/pref-filters.php:154 modules/pref-filters.php:316
 #: modules/pref-labels.php:169 modules/pref-users.php:387
 msgid "Remove"
 msgstr "Entfernen"
@@ -1308,7 +1308,7 @@ msgid "Subscribe to Feed"
 msgstr "Feed abonnieren"
 
 #: modules/popup-dialog.php:252 modules/pref-feeds.php:92
-#: modules/pref-feeds.php:320 modules/pref-filters.php:413
+#: modules/pref-feeds.php:320 modules/pref-filters.php:408
 msgid "Feed"
 msgstr "Feed"
 
@@ -1360,7 +1360,7 @@ msgstr "Feed-Browser"
 
 #: modules/popup-dialog.php:331 modules/popup-dialog.php:369
 #: modules/popup-dialog.php:440 modules/pref-feeds.php:990
-#: modules/pref-filters.php:311 modules/pref-labels.php:162
+#: modules/pref-filters.php:306 modules/pref-labels.php:162
 #: modules/pref-users.php:370
 msgid "Search"
 msgstr "Suchen"
@@ -1406,17 +1406,17 @@ msgid "Create Filter"
 msgstr "Filter erstellen"
 
 #: modules/popup-dialog.php:473 modules/pref-filters.php:44
-#: modules/pref-filters.php:412
+#: modules/pref-filters.php:407
 msgid "Match"
 msgstr "Übereinstimmung"
 
 #: modules/popup-dialog.php:481 modules/pref-filters.php:56
-#: modules/pref-filters.php:453
+#: modules/pref-filters.php:448
 msgid "before"
 msgstr "vorher"
 
 #: modules/popup-dialog.php:482 modules/pref-filters.php:57
-#: modules/pref-filters.php:454
+#: modules/pref-filters.php:449
 msgid "after"
 msgstr "nacher"
 
@@ -1636,7 +1636,7 @@ msgstr "Manuelle Säuberung"
 msgid "Clear feed data"
 msgstr "Feed-Daten löschen"
 
-#: modules/pref-feeds.php:1020 modules/pref-filters.php:325
+#: modules/pref-feeds.php:1020 modules/pref-filters.php:320
 msgid "Rescore articles"
 msgstr "Artikel neu bewerten"
 
@@ -1648,7 +1648,7 @@ msgstr "Zeige Zeitstempel des letzten Artikels"
 msgid "Last&nbsp;Article"
 msgstr "Letzer&nbsp;Artikel"
 
-#: modules/pref-feeds.php:1198 modules/pref-filters.php:499
+#: modules/pref-feeds.php:1198 modules/pref-filters.php:494
 #: modules/pref-users.php:466
 msgid "Click to edit"
 msgstr "Zum Bearbeiten klicken"
@@ -1770,45 +1770,40 @@ msgstr "Keine Feeds gefunden."
 msgid "Filter Editor"
 msgstr "Filter-Editor"
 
-#: modules/pref-filters.php:213
-#, php-format
-msgid "Saved filter <b>%s</b>"
-msgstr "Filter <b>%s</b> gespeichert"
-
-#: modules/pref-filters.php:267
+#: modules/pref-filters.php:262
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "Filter <b>%s</b> erstellt"
 
-#: modules/pref-filters.php:315 help/3.php:33 help/4.php:25
+#: modules/pref-filters.php:310 help/3.php:33 help/4.php:25
 msgid "Create filter"
 msgstr "Filter erstellen"
 
-#: modules/pref-filters.php:318 modules/pref-users.php:385
+#: modules/pref-filters.php:313 modules/pref-users.php:385
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: modules/pref-filters.php:414
+#: modules/pref-filters.php:409
 msgid "Field"
 msgstr "Feld"
 
-#: modules/pref-filters.php:415
+#: modules/pref-filters.php:410
 msgid "Params"
 msgstr "Parameter"
 
-#: modules/pref-filters.php:488
+#: modules/pref-filters.php:483
 msgid "(Disabled)"
 msgstr "(Deaktiviert)"
 
-#: modules/pref-filters.php:504
+#: modules/pref-filters.php:499
 msgid "(Inverse)"
 msgstr "(Invertiert)"
 
-#: modules/pref-filters.php:524
+#: modules/pref-filters.php:519
 msgid "No filters defined."
 msgstr "Keine Filter definiert."
 
-#: modules/pref-filters.php:526
+#: modules/pref-filters.php:521
 msgid "No matching filters found."
 msgstr "Keine übereinstimmenden Filter gefunden."
 
@@ -2396,8 +2391,8 @@ msgstr "Sie können die Kategorie nicht abbestellen."
 msgid "Subscribed to %d feed(s)."
 msgstr "Abonnierte Feeds:"
 
-#: functions.js:1041 functions.js:1072 prefs.js:573 prefs.js:603 prefs.js:635
-#: prefs.js:936 prefs.js:956 prefs.js:1655
+#: functions.js:1041 functions.js:1072 prefs.js:569 prefs.js:599 prefs.js:631
+#: prefs.js:932 prefs.js:952 prefs.js:1651
 msgid "No feeds are selected."
 msgstr "Keine Feeds ausgewählt."
 
@@ -2445,40 +2440,40 @@ msgstr "Tags für diesen Artikel bearbeiten"
 msgid "Generate new syndication address for this feed?"
 msgstr "Neues Icon für diesen Feed hochladen"
 
-#: prefs.js:224
+#: prefs.js:220
 msgid "Error: No feed URL given."
 msgstr "Fehler: Keine Feed URL angegeben."
 
-#: prefs.js:226
+#: prefs.js:222
 msgid "Error: Invalid feed URL."
 msgstr "Fehler: Ungültige Feed URL."
 
-#: prefs.js:254
+#: prefs.js:250
 #, fuzzy
 msgid "Can't add profile: no name specified."
 msgstr "Kann die Kategorie nicht hinzufügen: kein Name angegeben."
 
-#: prefs.js:276
+#: prefs.js:272
 msgid "Can't add category: no name specified."
 msgstr "Kann die Kategorie nicht hinzufügen: kein Name angegeben."
 
-#: prefs.js:298
+#: prefs.js:294
 msgid "Please enter login:"
 msgstr "Bitte Benutzernamen eingeben:"
 
-#: prefs.js:305
+#: prefs.js:301
 msgid "Can't create user: no login specified."
 msgstr "Kann den Benutzer nicht hinzufügen: kein Login angegeben."
 
-#: prefs.js:454
+#: prefs.js:450
 msgid "Remove selected labels?"
 msgstr "Ausgewählte Label entfernen?"
 
-#: prefs.js:470
+#: prefs.js:466
 msgid "No labels are selected."
 msgstr "Keine Label ausgewählt."
 
-#: prefs.js:484
+#: prefs.js:480
 #, fuzzy
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
@@ -2487,126 +2482,126 @@ msgstr ""
 "ausgewählte Profile löschen? Das Aktive und das Standardprofil werden nicht "
 "gelöscht"
 
-#: prefs.js:501 prefs.js:826 prefs.js:847 prefs.js:886
+#: prefs.js:497 prefs.js:822 prefs.js:843 prefs.js:882
 msgid "No users are selected."
 msgstr "Keine Benutzer ausgewählt."
 
-#: prefs.js:519
+#: prefs.js:515
 msgid "Remove selected filters?"
 msgstr "Ausgewählte Filter entfernen?"
 
-#: prefs.js:535 prefs.js:916
+#: prefs.js:531 prefs.js:912
 msgid "No filters are selected."
 msgstr "Keine Filter ausgewählt."
 
-#: prefs.js:554
+#: prefs.js:550
 msgid "Unsubscribe from selected feeds?"
 msgstr "Ausgewählte Feeds abbestellen?"
 
-#: prefs.js:588
+#: prefs.js:584
 msgid "Please select only one feed."
 msgstr "Bitte nur einen Feed auswählen."
 
-#: prefs.js:594
+#: prefs.js:590
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Alle nicht bewerteten Artikel im ausgewählten Feed löschen?"
 
-#: prefs.js:616
+#: prefs.js:612
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Artikel von wievielen Tagen aufbewahren (0 - Standardwert nutzen)?"
 
-#: prefs.js:648
+#: prefs.js:644
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 "ausgewählte Profile löschen? Das Aktive und das Standardprofil werden nicht "
 "gelöscht"
 
-#: prefs.js:664
+#: prefs.js:660
 #, fuzzy
 msgid "No profiles selected."
 msgstr "Kein Artikel ausgewählt."
 
-#: prefs.js:676
+#: prefs.js:672
 msgid "Remove selected categories?"
 msgstr "Ausgewählte Kategorien entfernen?"
 
-#: prefs.js:694
+#: prefs.js:690
 msgid "No categories are selected."
 msgstr "Keine Kategorien ausgewählt."
 
-#: prefs.js:748
+#: prefs.js:744
 msgid "Login field cannot be blank."
 msgstr "Feld für Benutzername darf nicht leer sein."
 
-#: prefs.js:831 prefs.js:852 prefs.js:891
+#: prefs.js:827 prefs.js:848 prefs.js:887
 msgid "Please select only one user."
 msgstr "Bitte nur einen Benutzer auswählen."
 
-#: prefs.js:856
+#: prefs.js:852
 msgid "Reset password of selected user?"
 msgstr "Passwort des ausgewählten Benutzers zurücksetzen?"
 
-#: prefs.js:921
+#: prefs.js:917
 msgid "Please select only one filter."
 msgstr "Bitte nur einen Filter auswählen."
 
-#: prefs.js:997
+#: prefs.js:993
 msgid "No OPML file to upload."
 msgstr "Keine OPML Datei zum Hochladen."
 
-#: prefs.js:1174
+#: prefs.js:1170
 msgid "Reset to defaults?"
 msgstr "Auf Standardwerte zurücksetzen?"
 
-#: prefs.js:1502
+#: prefs.js:1498
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Aktuelle Veröffentlichungsadresse durch eine Neue ersetzen?"
 
-#: prefs.js:1538
+#: prefs.js:1534
 msgid "Save current configuration?"
 msgstr "Aktuelle Einstellungen speichern?"
 
-#: prefs.js:1639
+#: prefs.js:1635
 msgid "Rescore articles in selected feeds?"
 msgstr "Artikel in gewählten Feeds neu bewerten?"
 
-#: prefs.js:1662
+#: prefs.js:1658
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Alle Artikel neu bewerten? Dieser Vorgang kann viel Zeit in Anspruch nehmen."
 
-#: prefs.js:1681
+#: prefs.js:1677
 msgid "Remove filter %s?"
 msgstr "Filter entfernen %s?"
 
-#: prefs.js:1711
+#: prefs.js:1707
 msgid "Save changes to selected feeds?"
 msgstr "Änderungen an den gewählten Feeds speichern?"
 
-#: prefs.js:1791
+#: prefs.js:1787
 msgid "Reset label colors to default?"
 msgstr "Label-Farben auf Standardwerte zurücksetzen?"
 
-#: prefs.js:1816
+#: prefs.js:1812
 msgid "Please enter new label foreground color:"
 msgstr "Bitte eine neue Label-Vordergrundfarbe eingeben:"
 
-#: prefs.js:1818
+#: prefs.js:1814
 msgid "Please enter new label background color:"
 msgstr "Bitte eine neue Label-Hintergrundfarbe eingeben:"
 
-#: prefs.js:1950
+#: prefs.js:1946
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "Ausgewählte Filter entfernen?"
 
-#: prefs.js:1966
+#: prefs.js:1962
 msgid "Please choose a profile to activate."
 msgstr "Bitte ein Profil zum aktivieren auswählen"
 
-#: prefs.js:1990
+#: prefs.js:1986
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
@@ -2693,6 +2688,9 @@ msgstr "Lade Feedliste..."
 #, fuzzy
 msgid "Please enter a note for this article:"
 msgstr "Tags für diesen Artikel bearbeiten"
+
+#~ msgid "Saved filter <b>%s</b>"
+#~ msgstr "Filter <b>%s</b> gespeichert"
 
 #, fuzzy
 #~ msgid "Tiny Tiny RSS"

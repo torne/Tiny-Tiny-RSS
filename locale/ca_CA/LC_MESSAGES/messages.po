@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 15:38+0300\n"
+"POT-Creation-Date: 2010-11-17 16:11+0300\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -326,7 +326,7 @@ msgid "Incorrect username or password"
 msgstr "El nom d'usuari o la contrasenya és incorrecte"
 
 #: functions.php:2947 modules/popup-dialog.php:407
-#: modules/pref-filters.php:426
+#: modules/pref-filters.php:421
 msgid "All feeds"
 msgstr "Tots els canals"
 
@@ -371,13 +371,13 @@ msgid "Archived articles"
 msgstr "Articles mémorisés"
 
 #: functions.php:4093 modules/popup-dialog.php:85 modules/pref-feeds.php:895
-#: modules/pref-feeds.php:1106 modules/pref-filters.php:383
+#: modules/pref-feeds.php:1106 modules/pref-filters.php:378
 #: modules/pref-labels.php:212 modules/pref-users.php:428
 msgid "Select:"
 msgstr "Selecciona:"
 
 #: functions.php:4094 modules/popup-dialog.php:86 modules/pref-feeds.php:896
-#: modules/pref-feeds.php:1107 modules/pref-filters.php:384
+#: modules/pref-feeds.php:1107 modules/pref-filters.php:379
 #: modules/pref-labels.php:213 modules/pref-users.php:429
 msgid "All"
 msgstr "Tot"
@@ -391,7 +391,7 @@ msgid "Invert"
 msgstr "Inverteix"
 
 #: functions.php:4097 modules/popup-dialog.php:87 modules/pref-feeds.php:897
-#: modules/pref-feeds.php:1108 modules/pref-filters.php:385
+#: modules/pref-feeds.php:1108 modules/pref-filters.php:380
 #: modules/pref-labels.php:214 modules/pref-users.php:430
 msgid "None"
 msgstr "Cap"
@@ -1099,7 +1099,7 @@ msgid "Sort articles"
 msgstr "Articles mémorisés"
 
 #: tt-rss.php:154 modules/popup-dialog.php:478 modules/pref-filters.php:53
-#: modules/pref-filters.php:481
+#: modules/pref-filters.php:476
 msgid "Date"
 msgstr "Data"
 
@@ -1252,7 +1252,7 @@ msgstr "Adaptatiu"
 
 #: modules/popup-dialog.php:151 modules/popup-dialog.php:360
 #: modules/pref-feeds.php:284 modules/pref-feeds.php:944
-#: modules/pref-filters.php:154 modules/pref-filters.php:321
+#: modules/pref-filters.php:154 modules/pref-filters.php:316
 #: modules/pref-labels.php:169 modules/pref-users.php:387
 msgid "Remove"
 msgstr "Suprimeix"
@@ -1318,7 +1318,7 @@ msgid "Subscribe to Feed"
 msgstr "Subscriviu-vos al canal"
 
 #: modules/popup-dialog.php:252 modules/pref-feeds.php:92
-#: modules/pref-feeds.php:320 modules/pref-filters.php:413
+#: modules/pref-feeds.php:320 modules/pref-filters.php:408
 msgid "Feed"
 msgstr "Canal"
 
@@ -1370,7 +1370,7 @@ msgstr "Navegador de canals"
 
 #: modules/popup-dialog.php:331 modules/popup-dialog.php:369
 #: modules/popup-dialog.php:440 modules/pref-feeds.php:990
-#: modules/pref-filters.php:311 modules/pref-labels.php:162
+#: modules/pref-filters.php:306 modules/pref-labels.php:162
 #: modules/pref-users.php:370
 msgid "Search"
 msgstr "Cerca"
@@ -1415,17 +1415,17 @@ msgid "Create Filter"
 msgstr "Crea un filtre"
 
 #: modules/popup-dialog.php:473 modules/pref-filters.php:44
-#: modules/pref-filters.php:412
+#: modules/pref-filters.php:407
 msgid "Match"
 msgstr "Coincidència"
 
 #: modules/popup-dialog.php:481 modules/pref-filters.php:56
-#: modules/pref-filters.php:453
+#: modules/pref-filters.php:448
 msgid "before"
 msgstr "abans"
 
 #: modules/popup-dialog.php:482 modules/pref-filters.php:57
-#: modules/pref-filters.php:454
+#: modules/pref-filters.php:449
 msgid "after"
 msgstr "després"
 
@@ -1646,7 +1646,7 @@ msgstr "Purger manuellement"
 msgid "Clear feed data"
 msgstr "Esborra les dades del canal"
 
-#: modules/pref-feeds.php:1020 modules/pref-filters.php:325
+#: modules/pref-feeds.php:1020 modules/pref-filters.php:320
 msgid "Rescore articles"
 msgstr "Canvia la puntuació dels articles"
 
@@ -1658,7 +1658,7 @@ msgstr "Mostra l'hora de l'últim article"
 msgid "Last&nbsp;Article"
 msgstr "Últim&nbsp;article"
 
-#: modules/pref-feeds.php:1198 modules/pref-filters.php:499
+#: modules/pref-feeds.php:1198 modules/pref-filters.php:494
 #: modules/pref-users.php:466
 msgid "Click to edit"
 msgstr "Feu clic per editar"
@@ -1781,45 +1781,40 @@ msgstr "No s'ha trobat cap canal."
 msgid "Filter Editor"
 msgstr "Editor del filtre"
 
-#: modules/pref-filters.php:213
-#, php-format
-msgid "Saved filter <b>%s</b>"
-msgstr "S'ha desat el filtre <b>%s</b>"
-
-#: modules/pref-filters.php:267
+#: modules/pref-filters.php:262
 #, php-format
 msgid "Created filter <b>%s</b>"
 msgstr "S'ha creat el filtre <b>%s</b>"
 
-#: modules/pref-filters.php:315 help/3.php:33 help/4.php:25
+#: modules/pref-filters.php:310 help/3.php:33 help/4.php:25
 msgid "Create filter"
 msgstr "Crea un filtre"
 
-#: modules/pref-filters.php:318 modules/pref-users.php:385
+#: modules/pref-filters.php:313 modules/pref-users.php:385
 msgid "Edit"
 msgstr "Edita"
 
-#: modules/pref-filters.php:414
+#: modules/pref-filters.php:409
 msgid "Field"
 msgstr "Camp"
 
-#: modules/pref-filters.php:415
+#: modules/pref-filters.php:410
 msgid "Params"
 msgstr "Paràmetres"
 
-#: modules/pref-filters.php:488
+#: modules/pref-filters.php:483
 msgid "(Disabled)"
 msgstr "(Desactivat)"
 
-#: modules/pref-filters.php:504
+#: modules/pref-filters.php:499
 msgid "(Inverse)"
 msgstr "(Invers)"
 
-#: modules/pref-filters.php:524
+#: modules/pref-filters.php:519
 msgid "No filters defined."
 msgstr "No s'ha definit cap filtre."
 
-#: modules/pref-filters.php:526
+#: modules/pref-filters.php:521
 msgid "No matching filters found."
 msgstr "No s'ha trobat cap fitxer que coincideixi."
 
@@ -2400,8 +2395,8 @@ msgstr "No esteu subscrit a cap canal."
 msgid "Subscribed to %d feed(s)."
 msgstr "Subscrit als canals:"
 
-#: functions.js:1041 functions.js:1072 prefs.js:573 prefs.js:603 prefs.js:635
-#: prefs.js:936 prefs.js:956 prefs.js:1655
+#: functions.js:1041 functions.js:1072 prefs.js:569 prefs.js:599 prefs.js:631
+#: prefs.js:932 prefs.js:952 prefs.js:1651
 msgid "No feeds are selected."
 msgstr "No heu seleccionat cap canal."
 
@@ -2446,170 +2441,170 @@ msgstr "Si us plau, escriviu una nota per aquest article:"
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: prefs.js:224
+#: prefs.js:220
 msgid "Error: No feed URL given."
 msgstr "Error: No s'ha especificat la URL del canal."
 
-#: prefs.js:226
+#: prefs.js:222
 msgid "Error: Invalid feed URL."
 msgstr "Error: URL del canal no vàlida."
 
-#: prefs.js:254
+#: prefs.js:250
 #, fuzzy
 msgid "Can't add profile: no name specified."
 msgstr "No s'ha pogut afegir la categoria: no s'ha especificat cap nom."
 
-#: prefs.js:276
+#: prefs.js:272
 msgid "Can't add category: no name specified."
 msgstr "No s'ha pogut afegir la categoria: no s'ha especificat cap nom."
 
-#: prefs.js:298
+#: prefs.js:294
 msgid "Please enter login:"
 msgstr "Si us plau, introduïu la vostra identificació (login)"
 
-#: prefs.js:305
+#: prefs.js:301
 msgid "Can't create user: no login specified."
 msgstr "No s'ha pogut crear l'usuari: no hi ha cap nom especificat."
 
-#: prefs.js:454
+#: prefs.js:450
 msgid "Remove selected labels?"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: prefs.js:470
+#: prefs.js:466
 msgid "No labels are selected."
 msgstr "No heu seleccionat cap etiqueta."
 
-#: prefs.js:484
+#: prefs.js:480
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
-#: prefs.js:501 prefs.js:826 prefs.js:847 prefs.js:886
+#: prefs.js:497 prefs.js:822 prefs.js:843 prefs.js:882
 msgid "No users are selected."
 msgstr "No heu seleccionat cap usuari."
 
-#: prefs.js:519
+#: prefs.js:515
 msgid "Remove selected filters?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 
-#: prefs.js:535 prefs.js:916
+#: prefs.js:531 prefs.js:912
 msgid "No filters are selected."
 msgstr "No heu seleccionat cap filtre."
 
-#: prefs.js:554
+#: prefs.js:550
 msgid "Unsubscribe from selected feeds?"
 msgstr "Us voleu donar de baixa dels canals seleccionats?"
 
-#: prefs.js:588
+#: prefs.js:584
 msgid "Please select only one feed."
 msgstr "Si us plau, seleccioneu només un canal."
 
-#: prefs.js:594
+#: prefs.js:590
 msgid "Erase all non-starred articles in selected feed?"
 msgstr ""
 "Esteu segur que voleu suprimir tots els articles que no estan marcats als "
 "canals seleccionats?"
 
-#: prefs.js:616
+#: prefs.js:612
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Quants dies voleu mantenir els articles (0 - per defecte)?"
 
-#: prefs.js:648
+#: prefs.js:644
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: prefs.js:664
+#: prefs.js:660
 #, fuzzy
 msgid "No profiles selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: prefs.js:676
+#: prefs.js:672
 msgid "Remove selected categories?"
 msgstr "Esteu segur que voleu suprimir les categories seleccionades?"
 
-#: prefs.js:694
+#: prefs.js:690
 msgid "No categories are selected."
 msgstr "No heu seleccionat cap categoria."
 
-#: prefs.js:748
+#: prefs.js:744
 msgid "Login field cannot be blank."
 msgstr "El nom del camp no es pot deixar en blanc."
 
-#: prefs.js:831 prefs.js:852 prefs.js:891
+#: prefs.js:827 prefs.js:848 prefs.js:887
 msgid "Please select only one user."
 msgstr "Si us plau, seleccioneu només un usuari."
 
-#: prefs.js:856
+#: prefs.js:852
 msgid "Reset password of selected user?"
 msgstr "Voleu reiniciar la contrasenya de l'usuari seleccionat?"
 
-#: prefs.js:921
+#: prefs.js:917
 msgid "Please select only one filter."
 msgstr "Si us plau, seleccioneu només un filtre."
 
-#: prefs.js:997
+#: prefs.js:993
 msgid "No OPML file to upload."
 msgstr "No hi ha cap fitxer OPML per a carregar."
 
-#: prefs.js:1174
+#: prefs.js:1170
 msgid "Reset to defaults?"
 msgstr "Esteu segur que voleu establir els valors per defecte?"
 
-#: prefs.js:1502
+#: prefs.js:1498
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Voleu canviar l'adreça de publicació per una de nova?"
 
-#: prefs.js:1538
+#: prefs.js:1534
 msgid "Save current configuration?"
 msgstr "Voleu desar la configuració actual?"
 
-#: prefs.js:1639
+#: prefs.js:1635
 msgid "Rescore articles in selected feeds?"
 msgstr ""
 "Esteu segur que voleu canviar la puntuació dels articles en les etiquetes "
 "personalitzades?"
 
-#: prefs.js:1662
+#: prefs.js:1658
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Esteu segur que voleu recuperar tots els articles? Aquesta operació pot "
 "durar molt temps."
 
-#: prefs.js:1681
+#: prefs.js:1677
 msgid "Remove filter %s?"
 msgstr "Esteu segur que voleu suprimir el filtre %s?"
 
-#: prefs.js:1711
+#: prefs.js:1707
 msgid "Save changes to selected feeds?"
 msgstr "Esteu segur que voleu desar els canvis als canals seleccionats?"
 
-#: prefs.js:1791
+#: prefs.js:1787
 msgid "Reset label colors to default?"
 msgstr ""
 "Esteu segur que voleu canviar els colors de les etiquetes pels colors per "
 "defecte?"
 
-#: prefs.js:1816
+#: prefs.js:1812
 msgid "Please enter new label foreground color:"
 msgstr "Si us plau, escriviu un nou color pel primer pla de l'etiqueta:"
 
-#: prefs.js:1818
+#: prefs.js:1814
 msgid "Please enter new label background color:"
 msgstr "Si us plau, escriviu el nou color de fons de l'etiqueta:"
 
-#: prefs.js:1950
+#: prefs.js:1946
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 
-#: prefs.js:1966
+#: prefs.js:1962
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: prefs.js:1990
+#: prefs.js:1986
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
@@ -2703,6 +2698,9 @@ msgstr "S'està carregant la llista de canals..."
 #: viewfeed.js:1843
 msgid "Please enter a note for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
+
+#~ msgid "Saved filter <b>%s</b>"
+#~ msgstr "S'ha desat el filtre <b>%s</b>"
 
 #, fuzzy
 #~ msgid "Tiny Tiny RSS"
