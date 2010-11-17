@@ -30,10 +30,7 @@
 
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 
-	<?php	$user_theme = get_user_theme_path($link);
-		if ($user_theme) { ?>
-			<link rel="stylesheet" type="text/css" href="<?php echo $user_theme ?>/theme.css?<?php echo $dt_add ?>">
-	<?php } ?>
+	<?php print_theme_includes($link) ?>
 
 	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
 	<?php if ($user_css_url) { ?>

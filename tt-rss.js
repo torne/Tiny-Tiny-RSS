@@ -282,9 +282,18 @@ function init() {
 		dojo.require("dijit.form.Select");
 		dojo.require("dojo.parser");
 
+		if (typeof themeBeforeLayout == 'function') {
+			themeBeforeLayout();
+		}
+
 		dojo.addOnLoad(function() {
 			updateFeedList();
 			closeArticlePanel();
+
+			if (typeof themeAfterLayout == 'function') {
+				themeAfterLayout();
+			}
+
 		});
 
 		if (!genericSanityCheck()) 

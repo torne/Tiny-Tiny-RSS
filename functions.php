@@ -2044,9 +2044,9 @@
 		}
 
 		if ($theme_path) {
-			if (is_file("$t/theme.ini")) {
-				$ini = parse_ini_file("$t/theme.ini", true);
-				if ($ini['theme']['version'] > THEME_VERSION_REQUIRED) {
+			if (is_file("$theme_path/theme.ini")) {
+				$ini = parse_ini_file("$theme_path/theme.ini", true);
+				if ($ini['theme']['version'] >= THEME_VERSION_REQUIRED) {
 					return $theme_path;
 				}
 			}
@@ -2068,6 +2068,20 @@
 		return '';
 	}
 
+	function print_theme_includes($link) {
+
+		$t = get_user_theme_path($link);
+		$time = time();
+
+		if ($t) {
+			print "<link rel=\"stylesheet\" type=\"text/css\" 
+				href=\"$t/theme.css?$time \">";
+			if (file_exists("$t/theme.js")) {
+				print "<script type=\"text/javascript\" src=\"$t/theme.js?$time\">
+					</script>";
+			}
+		}
+	}
 
 	function get_all_themes() {
 		$themes = glob("themes/*");
@@ -2079,7 +2093,7 @@
 		foreach ($themes as $t) {
 			if (is_file("$t/theme.ini")) {
 				$ini = parse_ini_file("$t/theme.ini", true);
-				if ($ini['theme']['version'] > THEME_VERSION_REQUIRED && 
+				if ($ini['theme']['version'] >= THEME_VERSION_REQUIRED && 
 							!$ini['theme']['disabled']) {
 					$entry = array();
 					$entry["path"] = $t;
