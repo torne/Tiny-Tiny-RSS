@@ -204,7 +204,8 @@
 		<div id="headlines-toolbar" dojoType="dijit.layout.ContentPane" region="top">
 		</div>
 
-		<div id="headlines-frame" dojoType="dijit.layout.ContentPane" region="center">
+		<div id="headlines-frame" dojoType="dijit.layout.ContentPane" 
+				onscroll="headlines_scroll_handler(this)" region="center">
 			<div id="headlinesInnerContainer">
 				<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div>
 			</div>

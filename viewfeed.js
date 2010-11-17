@@ -133,7 +133,7 @@ function headlines_callback2(transport, feed_cur_page) {
 
 						var ids = getSelectedArticleIds2();
 	
-						c.innerHTML = c.innerHTML + headlines.firstChild.nodeValue;
+						c.innerHTML = c.innerHTML + headlines_content.firstChild.nodeValue;
 
 						console.log("restore selected ids: " + ids);
 
@@ -1513,15 +1513,8 @@ function postMouseOut(id) {
 	}
 }
 
-function headlines_scroll_handler() {
+function headlines_scroll_handler(e) {
 	try {
-
-		var e = $("headlinesInnerContainer");
-
-		var toolbar_form = document.forms["main_toolbar_form"];
-
-//		console.log((e.scrollTop + e.offsetHeight) + " vs " + e.scrollHeight + " dis? " +
-//			_infscroll_disable);
 
 		if (e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 			if (!_infscroll_disable) {
