@@ -367,70 +367,8 @@ function resort_feedlist() {
 function hideOrShowFeeds(hide) {
 	var tree = dijit.byId("feedTree");
 
-	if (!tree) return;
-
-	if (getInitParam("enable_feed_cats")) {
-
-		var cats = tree.model.store._arrayOfTopLevelItems;
-
-		cats.each(function(cat) {
-			var cat_unread = hideOrShowFeedsCategory(cat.items, hide);
-	
-			var id = String(cat.id);
-			var node = tree._itemNodesMap[id];
-			var bare_id = parseInt(id.substr(id.indexOf(":")+1));
-	
-			if (node) {
-				var check_unread = getFeedUnread(bare_id, true);
-
-				if (hide && cat_unread == 0 && check_unread == 0) {
-					Effect.Fade(node[0].rowNode, {duration : 0.3, 
-						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-				} else {
-					Element.show(node[0].rowNode);
-					++cat_unread;
-				}
-			}
-	
-		});
-
-	} else {
-		hideOrShowFeedsCategory(tree.model.store._arrayOfTopLevelItems, hide);
-	}
-}
-
-function hideOrShowFeedsCategory(feeds, hide) {
-	try {
-
-		var tree = dijit.byId("feedTree");
-
-		if (!tree) return;
-	
-		var cat_unread = 0;
-	
-		feeds.each(function(feed) {
-			var id = String(feed.id);
-			var bare_id = parseInt(id.substr(id.indexOf(":")+1));
-	
-			var unread = feed.unread[0];
-			var node = tree._itemNodesMap[id];
-	
-			if (node) {
-				if (hide && unread == 0 && (bare_id > 0 || !getInitParam("hide_read_shows_special"))) {
-					Effect.Fade(node[0].rowNode, {duration : 0.3, 
-						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-				} else {
-					Element.show(node[0].rowNode);
-					++cat_unread;
-				}
-			}
-		});
-	
-		return cat_unread;
-
-	} catch (e) {
-		exception_error("hideOrShowFeedsCategory", e);
-	}
+	if (tree)
+		return tree.hideRead(hide, getInitParam("hide_read_shows_special"));
 }
 
 function getFeedName(feed, is_cat) {	
@@ -479,10 +417,6 @@ function setFeedValue(feed, is_cat, key, value) {
 		console.log(e);
 		//exception_error("setFeedValue", e);
 	}
-}
-
-function toggleCollapseCat(id) {
-	console.warn("toggleCollapseCat: function not implemented");
 }
 
 function selectFeed(feed, is_cat) {

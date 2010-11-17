@@ -75,7 +75,7 @@ function updateFeedList() {
 		var store = new dojo.data.ItemFileWriteStore({
          url: "backend.php?op=feeds"});
 
-		treeModel = new dijit.tree.ForestStoreModel({
+		treeModel = new fox.FeedStoreModel({
 			store: store,
 			query: {
 				"type": "feed"
@@ -85,34 +85,8 @@ function updateFeedList() {
 			childrenAttrs: ["items"]
 		});
 
-		var tree = new dijit.Tree({
+		var tree = new fox.FeedTree({
 		model: treeModel,
-		_createTreeNode: function(args) {
-			var tnode = new dijit._TreeNode(args);
-
-			if (args.item.icon)
-				tnode.iconNode.src = args.item.icon[0];
-
-			//tnode.labelNode.innerHTML = args.label;
-			return tnode;
-			},
-		getIconClass: function (item, opened) {
-			return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
-		},
-		getLabelClass: function (item, opened) {
-			return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
-		},
-		getRowClass: function (item, opened) {
-			return (!item.error || item.error == '') ? "dijitTreeRow" : 
-				"dijitTreeRow Error";
-		},
-		getLabel: function(item) {
-			if (item.unread > 0) {
-				return item.name + " (" + item.unread + ")";
-			} else {
-				return item.name;
-			}
-		},
 		onOpen: function (item, node) {
 			var id = String(item.id);
 			var cat_id = id.substr(id.indexOf(":")+1);
@@ -283,6 +257,10 @@ function init() {
 		dojo.require("dijit.Toolbar");
 		dojo.require("dojo.parser");
 
+		dojo.registerModulePath("fox", "../..");
+
+		dojo.require("fox.FeedTree");
+
 		if (typeof themeBeforeLayout == 'function') {
 			themeBeforeLayout();
 		}
@@ -446,10 +424,11 @@ function toggleDispRead() {
 		var query = "?op=rpc&subop=setpref&key=HIDE_READ_FEEDS&value=" + 
 			param_escape(hide);
 
+		setInitParam("hide_read_feeds", hide);
+
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
-				setInitParam("hide_read_feeds", hide);
 			} });
 				
 	} catch (e) {
