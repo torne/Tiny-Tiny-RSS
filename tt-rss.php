@@ -129,6 +129,8 @@
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 
+	<div id="main-toolbar" dojoType="dijit.Toolbar">		
+
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
 		<button id="collapse_feeds_btn" onclick="collapse_feedlist()"
@@ -186,6 +188,8 @@
 					</optgroup>
 
 			</select>
+		</div>
+
 		</div>
 
 	</div>

@@ -280,6 +280,7 @@ function init() {
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.form.Select");
+		dojo.require("dijit.Toolbar");
 		dojo.require("dojo.parser");
 
 		if (typeof themeBeforeLayout == 'function') {
