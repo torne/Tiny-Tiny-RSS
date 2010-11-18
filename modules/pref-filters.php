@@ -61,12 +61,14 @@
 								db_escape_string($line["action_param"])."' AND
 								owner_uid = " . $_SESSION["uid"]);
 
-						$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
-						$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
-	
-						$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
+						if (db_num_rows($tmp_result) != 0) {
+							$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
+							$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
 
-						$line['action_param'] = $tmp;
+							$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
+
+							$line['action_param'] = $tmp;
+						}
 					}
 				}
 
