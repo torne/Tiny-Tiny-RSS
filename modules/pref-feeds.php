@@ -32,6 +32,7 @@
 			$root['id'] = 'root';
 			$root['name'] = __('Feeds');
 			$root['items'] = array();
+			$root['type'] = 'category';
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 
@@ -44,6 +45,7 @@
 					$cat['bare_id'] = $feed_id;
 					$cat['name'] = $line['title'];
 					$cat['items'] = array();
+					$cat['type'] = 'category';
 	
 					$feed_result = db_query($link, "SELECT id, title, last_error 
 						FROM ttrss_feeds
@@ -132,12 +134,14 @@
 		}	
 
 		if ($subop == "savefeedorder") {
-			if ($_POST['payload']) {
-				file_put_contents("/tmp/blahblah.txt", $_POST['payload']);
-			}
+#			if ($_POST['payload']) {
+#				file_put_contents("/tmp/blahblah.txt", $_POST['payload']);
+#				$data = json_decode($_POST['payload'], true);	
+#			} else {
+#				$data = json_decode(file_get_contents("/tmp/blahblah.txt"), true);
+#			}
 
-			$data = file_get_contents("/tmp/blahblah.txt");
-			$data = json_decode($data, true);	
+			$data = json_decode($_POST['payload'], true);
 
 			if (is_array($data) && is_array($data['items'])) {
 				$cat_order_id = 0;
@@ -145,7 +149,16 @@
 				$data_map = array();
 
 				foreach ($data['items'] as $item) {
-					$data_map[$item['id']] =& $item['items'];
+
+					if ($item['id'] != 'root') {
+						if (is_array($item['items'])) {
+							if (isset($item['items']['_reference'])) {
+								$data_map[$item['id']] = array($item['items']);
+							} else {
+								$data_map[$item['id']] =& $item['items'];
+							}
+						}
+					}
 				}
 
 				foreach ($data['items'][0]['items'] as $item) {
@@ -165,11 +178,18 @@
 					if (is_array($data_map[$id])) {
 						foreach ($data_map[$id] as $feed) {
 							$id = $feed['_reference'];
-							$bare_id = substr($id, strpos($id, ':')+1);
-	
+							$feed_id = substr($id, strpos($id, ':')+1);
+
+							if ($bare_id != 0) 
+								$cat_query = "cat_id = '$bare_id'";
+							else
+								$cat_query = "cat_id = NULL";
+
 							db_query($link, "UPDATE ttrss_feeds
-								SET order_id = '$feed_order_id' WHERE id = '$bare_id' AND
-								owner_uid = " . $_SESSION["uid"]);
+								SET order_id = '$feed_order_id',
+								$cat_query
+								WHERE id = '$feed_id' AND
+									owner_uid = " . $_SESSION["uid"]);
 	
 							++$feed_order_id;
 						} 

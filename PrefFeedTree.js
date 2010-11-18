@@ -36,7 +36,7 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 			"dijitTreeRow Error";
 	},
 	getIconClass: function (item, opened) {
-		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
+		return (!item || this.model.store.getValue(item, 'type') == 'category') ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
 	},
 	checkItemAcceptance: function(target, source, position) {
 		var item = dijit.getEnclosingWidget(target).item;
