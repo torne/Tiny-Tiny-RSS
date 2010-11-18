@@ -103,35 +103,6 @@ function init_profile_inline_editor() {
 	}
 }
 
-function init_cat_inline_editor() {
-	try {
-
-		if ($("prefFeedCatList")) {
-			var elems = $("prefFeedCatList").getElementsByTagName("SPAN");
-
-			for (var i = 0; i < elems.length; i++) {
-				if (elems[i].id && elems[i].id.match("FCATT-")) {
-					var cat_id = elems[i].id.replace("FCATT-", "");
-						new Ajax.InPlaceEditor(elems[i],
-						'backend.php?op=pref-feeds&subop=editCats&action=save&cid=' + cat_id);
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("init_cat_inline_editor", e);
-	}
-}
-
-function infobox_feed_cat_callback2(transport) {
-	try {
-		infobox_callback2(transport);
-		init_cat_inline_editor();
-	} catch (e) {
-		exception_error("infobox_feed_cat_callback2", e);
-	}
-}
-
 function updateFeedList(sort_key) {
 
 	try {
@@ -254,7 +225,7 @@ function addFeedCat() {
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
-					infobox_feed_cat_callback2(transport);
+					infobox_callback2(transport);
 				} });
 
 		link.value = "";
@@ -663,7 +634,7 @@ function removeSelectedFeedCats() {
 			new Ajax.Request("backend.php",	{
 				parameters: query,
 				onComplete: function(transport) {
-					infobox_feed_cat_callback2(transport);
+					infobox_callback2(transport);
 				} });
 
 		}
@@ -1401,7 +1372,7 @@ function editFeedCats() {
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
-				infobox_feed_cat_callback2(transport);
+				infobox_callback2(transport);
 			} });
 	} catch (e) {
 		exception_error("editFeedCats", e);

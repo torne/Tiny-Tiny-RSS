@@ -1085,10 +1085,30 @@
 						onclick='toggleSelectRow(this);' 
 						type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
 	
-					print "<td><span id=\"FCATT-$cat_id\">" . 
-						$edit_title . "</span></td>";		
+					print "<td>";
 					
-					print "</tr>";
+#					print "<span id=\"FCATT-$cat_id\">" . 
+#						$edit_title . "</span>";		
+
+					print "<span dojoType=\"dijit.InlineEditBox\" 
+						width=\"300px\" autoSave=\"false\"
+						cat-id=\"$cat_id\">" . $edit_title . 
+						"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
+							var elem = this;
+							dojo.xhrPost({
+								url: 'backend.php',
+								content: {op: 'pref-feeds', subop: 'editCats',
+									action: 'save',
+									value: this.value,
+									cid: this.srcNodeRef.getAttribute('cat-id')},
+									load: function(response) {
+										elem.attr('value', response);
+								}
+							});	
+						</script>
+					</span>";
+
+					print "</td></tr>";
 		
 					++$lnum;
 				}
