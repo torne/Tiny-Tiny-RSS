@@ -392,14 +392,6 @@
 		print "<div id=\"pref-filter-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
 		print "<div id=\"pref-filter-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		print "<div style='float : right; padding-right : 4px;'>
-			<input dojoType=\"dijit.form.TextBox\" id=\"filter_search\" size=\"20\" type=\"search\"
-				onfocus=\"javascript:disableHotkeys();\" 
-				onblur=\"javascript:enableHotkeys();\"
-				onchange=\"javascript:updateFilterList()\" value=\"$filter_search\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateFilterList()\">".__('Search')."</button>
-		</div>";
-
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";

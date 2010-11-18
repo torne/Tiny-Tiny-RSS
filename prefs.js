@@ -42,7 +42,7 @@ function filterlist_callback2(transport) {
 	remove_splash();
 }
 
-function init_label_inline_editor() {
+/* function init_label_inline_editor() {
 	try {
 		if ($("prefLabelList")) {
 			var elems = $("prefLabelList").getElementsByTagName("SPAN");
@@ -63,7 +63,7 @@ function init_label_inline_editor() {
 	} catch (e) {
 		exception_error("init_label_inline_editor", e);
 	}
-}
+} */
 
 function labellist_callback2(transport) {
 
@@ -72,7 +72,7 @@ function labellist_callback2(transport) {
 		dijit.byId('labelConfigTab').attr('content', transport.responseText); 
 		closeInfoBox();
 
-		init_label_inline_editor();
+		//init_label_inline_editor();
 	
 		notify("");
 		remove_splash();
