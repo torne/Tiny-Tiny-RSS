@@ -1271,6 +1271,19 @@ span.prefsLabelEntry {
 	padding : 2px;
 }
 
+span.labelColorIndicator {
+	height : 14px;
+	width : 14px;
+	line-height : 14px;
+	font-height : 9px;
+	display : inline-block;
+	border : 1px solid black;
+	background-color : #fff7d5;	
+	color : #063064;
+	text-align : center;
+	margin-right : 2px;
+}
+
 div.labelColorIndicator {
 	height : 14px;
 	width : 14px;
@@ -1513,6 +1526,10 @@ div.fatalError textarea {
 	font-weight : bold;
 }
 
+.dijitTreeLabel.Disabled, .labelParam.Disabled {
+	color : gray;
+}
+
 .dijitTreeRow.Error {
 	color : red;
 }
@@ -1526,10 +1543,14 @@ img.feedIcon, img.tinyFeedIcon {
 	height : 16px;
 }
 
-div#feedlistLoading {
+div#feedlistLoading, div#filterlistLoading {
 	text-align : center;
 	padding : 5px;
 	color : gray;
+}
+
+div#feedlistLoading img, div#filterlistLoading img {
+	margin-right : 5px;
 }
 
 div#pref-tabs .dijitContentPane {
@@ -1561,4 +1582,9 @@ div#pref-tabs .dijitContentPane h3 {
 
 #errorButton {
 	color : red;
+}
+
+span.labelFixedLength {
+	display : inline-block;
+	width : 70%;
 }

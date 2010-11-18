@@ -1247,6 +1247,10 @@
 		</script>
 		</div>";
 
+		print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedTree\" position=\"below\">
+			<b>Hint:</b> you can drag feeds and categories around.
+			</div>";
+
 		print "</div>"; # feeds pane
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";

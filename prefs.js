@@ -356,10 +356,7 @@ function editFilter(id, event) {
 
 		if (!event || !event.ctrlKey) {
 
-			notify_progress("Loading, please wait...");
-
-			selectTableRows('prefFilterList', 'none');
-			selectTableRowById('FILRR-'+id, 'FICHK-'+id, true);
+			notify_progress("Loading, please wait...", true);
 
 			var query = "?op=pref-filters&subop=edit&id=" + 
 				param_escape(id);
@@ -435,7 +432,16 @@ function getSelectedFeeds() {
 }
 
 function getSelectedFilters() {
-	return getSelectedTableRowIds("prefFilterList");
+	var tree = dijit.byId("filterTree");
+	var items = tree.model.getCheckedItems();
+	var rv = [];
+
+	items.each(function(item) {
+		rv.push(tree.model.store.getValue(item, 'bare_id'));
+	});
+
+	return rv;
+
 }
 
 function getSelectedFeedCats() {
@@ -1172,6 +1178,7 @@ function init() {
 
 		dojo.require("lib.CheckBoxTree");
 		dojo.require("fox.PrefFeedTree");
+		dojo.require("fox.PrefFilterTree");
 
 		loading_set_progress(30);
 

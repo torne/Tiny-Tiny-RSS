@@ -3,6 +3,100 @@
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
 
+		if ($subop == "getfiltertree") {
+			$root = array();
+			$root['id'] = 'root';
+			$root['name'] = __('Filters');
+			$root['items'] = array();
+
+			$result = db_query($link, "SELECT 
+					ttrss_filters.id AS id,reg_exp,
+					ttrss_filter_types.name AS filter_type_name,
+					ttrss_filter_types.description AS filter_type_descr,
+					enabled,
+					inverse,
+					feed_id,
+					action_id,
+					filter_param,
+					filter_type,
+					ttrss_filter_actions.description AS action_description,
+					ttrss_feeds.title AS feed_title,
+					ttrss_filter_actions.name AS action_name,
+					ttrss_filters.action_param AS action_param
+				FROM 
+					ttrss_filter_types,ttrss_filter_actions,ttrss_filters LEFT JOIN
+						ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id)
+				WHERE
+					filter_type = ttrss_filter_types.id AND
+					ttrss_filter_actions.id = action_id AND
+					ttrss_filters.owner_uid = ".$_SESSION["uid"]."
+				ORDER by action_description, reg_exp");
+
+			$cat = false;
+			$cur_action_description = "";
+
+			while ($line = db_fetch_assoc($result)) {
+				if ($cur_action_description != $line['action_description']) {
+
+					if ($cat)
+						array_push($root['items'], $cat);
+
+					$cat = array();
+					$cat['id'] = 'ACTION:' . $line['action_id'];
+					$cat['name'] = $line['action_description'];
+					$cat['items'] = array();
+
+					$cur_action_description = $line['action_description'];
+				}
+
+				if (array_search($line["action_name"], 
+					array("score", "tag", "label")) === false) {
+
+						$line["action_param"] = '';
+				} else {
+					if ($line['action_name'] == 'label') {
+
+						$tmp_result = db_query($link, "SELECT fg_color, bg_color
+							FROM ttrss_labels2 WHERE caption = '".
+								db_escape_string($line["action_param"])."' AND
+								owner_uid = " . $_SESSION["uid"]);
+
+						$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
+						$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
+	
+						$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
+
+						$line['action_param'] = $tmp;
+					}
+				}
+
+				$filter = array();
+				$filter['id'] = 'FILTER:' . $line['id'];
+				$filter['bare_id'] = $line['id'];
+				$filter['name'] = $line['reg_exp'];
+				$filter['type'] = $line['filter_type'];
+				$filter['enabled'] = sql_bool_to_bool($line['enabled']);
+				$filter['param'] = $line['action_param'];
+				$filter['inverse'] = sql_bool_to_bool($line['inverse']);
+				$filter['checkbox'] = false;
+
+				if ($line['feed_id'])
+					$filter['feed'] = $line['feed_title']; 
+
+				array_push($cat['items'], $filter);
+			}
+
+			array_push($root['items'], $cat);
+
+			$fl = array();
+			$fl['identifier'] = 'id';
+			$fl['label'] = 'name';
+			$fl['items'] = array($root);
+
+			print json_encode($fl);
+			return;
+		}
+
 		if ($subop == "edit") {
 
 			$filter_id = db_escape_string($_REQUEST["id"]);
@@ -309,9 +403,9 @@
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-		print "<div onclick=\"selectTableRows('prefFilterList', 'all')\" 
+		print "<div onclick=\"dijit.byId('filterTree').model.setAllChecked(true)\" 
 			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
-		print "<div onclick=\"selectTableRows('prefFilterList', 'none')\" 
+		print "<div onclick=\"dijit.byId('filterTree').model.setAllChecked(false)\" 
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 		print "</div></div>";
 		
@@ -333,205 +427,23 @@
 		print "</div>"; # toolbar-frame
 		print "<div id=\"pref-filter-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
 
-		if ($filter_search) {
-			$filter_search = split(' ', db_escape_string($filter_search));
+		print "<div id=\"filterlistLoading\">
+		<img src='images/indicator_tiny.gif'>".
+		 __("Loading, please wait...")."</div>";
 
-			$tokens = array();
-
-			foreach ($filter_search as $token) {
-				$token = trim($token);
-
-				array_push($tokens, "(
-					UPPER(ttrss_filter_actions.description) LIKE UPPER('%$token%') OR 
-					UPPER(reg_exp) LIKE UPPER('%$token%') OR 
-					UPPER(action_param) LIKE UPPER('%$token%') OR 
-					UPPER(ttrss_feeds.title) LIKE UPPER('%$token%') OR
-					UPPER(ttrss_filter_types.description) LIKE UPPER('%$token%'))");
-			}
-
-			$filter_search_query = "(" . join($tokens, " AND ") . ") AND ";
-
-		} else {
-			$filter_search_query = "";
-		}
-
-		$result = db_query($link, "SELECT 
-				ttrss_filters.id AS id,reg_exp,
-				ttrss_filter_types.name AS filter_type_name,
-				ttrss_filter_types.description AS filter_type_descr,
-				enabled,
-				inverse,
-				feed_id,
-				filter_param,
-				filter_type,
-				ttrss_filter_actions.description AS action_description,
-				ttrss_feeds.title AS feed_title,
-				ttrss_filter_actions.name AS action_name,
-				ttrss_filters.action_param AS action_param
-			FROM 
-				ttrss_filter_types,ttrss_filter_actions,ttrss_filters LEFT JOIN
-					ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id)
-			WHERE
-				filter_type = ttrss_filter_types.id AND
-				$filter_search_query
-				ttrss_filter_actions.id = action_id AND
-				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
-			ORDER by action_description, $sort");
-
-		if (db_num_rows($result) != 0) {
-
-			print "<p><table width=\"100%\" cellspacing=\"0\" class=\"prefFilterList\" 
-				id=\"prefFilterList\">";
-
-			print "<tr><td class=\"selectPrompt\" colspan=\"8\">
-				".__('Select:')." 
-					<a href=\"#\" onclick=\"selectTableRows('prefFilterList', 'all')\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectTableRows('prefFilterList', 'none')\">".__('None')."</a>
-				</td</tr>";
-
-			$lnum = 0;
-
-			$cur_action_description = "";
-
-			while ($line = db_fetch_assoc($result)) {
-	
-				$filter_id = $line["id"];
-				$edit_filter_id = $_REQUEST["id"];
-
-				$enabled = sql_bool_to_bool($line["enabled"]);
-				$inverse = sql_bool_to_bool($line["inverse"]);
-
-				$this_row_id = "id=\"FILRR-$filter_id\"";
-
-				$line["filter_type_descr"] = __($line["filter_type_descr"]);
-				$line["action_description"] = __($line["action_description"]);
-
-				if ($line["action_description"] != $cur_action_description) {
-					$cur_action_description = $line["action_description"];
-
-					print "<tr><td class='filterEditCat' colspan='6'>$cur_action_description</td></tr>";
-
-					print "<tr class=\"title\">
-						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('reg_exp')\">".__('Match')."</a></td>
-						<td width=\"\"><a href=\"#\" onclick=\"updateFilterList('feed_title')\">".__('Feed')."</a></td>
-						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('filter_type')\">".__('Field')."</a></td>
-						<td width=\"20%\"><a href=\"#\" onclick=\"updateFilterList('action_param')\">".__('Params')."</a></td>"; 
-
-					$lnum = 0;
-				}
-
-				$class = ($lnum % 2) ? "even" : "odd";
-
-				print "<tr class=\"$class\" $this_row_id>";
-	
-				$line["reg_exp"] = htmlspecialchars($line["reg_exp"]);
-	
-				if (!$line["feed_title"]) $line["feed_title"] = __("All feeds");
-
-				if (array_search($line["action_name"], 
-					array("score", "tag", "label")) === false) {
-
-						$line["action_param"] = false;
-				}
-
-				if (!$line["action_param"]) {
-					$line["action_param"] = "&mdash;";
-				} else if ($line["action_name"] == "score") {
-
-					$score_pic = theme_image($link,
-						"images/" . get_score_pic($line["action_param"]));
-
-					$score_pic = "<img class='hlScorePic' src=\"$score_pic\">";
-
-					$line["action_param"] = "$score_pic " . $line["action_param"];
-
-				}
-
-				$line["feed_title"] = htmlspecialchars($line["feed_title"]);
-
-				print "<td align='center'><input onclick='toggleSelectRow(this);' 
-					type=\"checkbox\" id=\"FICHK-".$line["id"]."\"></td>";
-
-				$filter_params = array(
-					"before" => __("before"),
-					"after" => __("after"));
-
-				if ($line["action_name"] == 'label') {
-
-					$tmp_result = db_query($link, "SELECT fg_color, bg_color
-						FROM ttrss_labels2 WHERE caption = '".
-							db_escape_string($line["action_param"])."' AND
-							owner_uid = " . $_SESSION["uid"]);
-
-					$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
-					$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
-
-					$tmp = "<div class='labelColorIndicator' id='LICID-$id' 
-						style='color : $fg_color; background-color : $bg_color'>
-						&alpha;";
-					$tmp .= "</div>";
-
-					$line["action_param"] = "$tmp " . $line["action_param"];
-				}
-
-				if ($line["filter_type"] == 5) {
-
-					if (!strtotime($line["reg_exp"])) {
-						$line["reg_exp"] = "<span class=\"filterDateError\">" . 
-							$line["reg_exp"] . "</span>";
-					}
-
-					$line["reg_exp"] = __("Date") . " " . 
-						$filter_params[$line['filter_param']] . " " .
-						$line["reg_exp"];
-				}
-
-				if (!$enabled) {
-					$line["reg_exp"] = "<span class=\"insensitive\">" . 
-						$line["reg_exp"] . " " .  __("(Disabled)")."</span>";
-					$line["feed_title"] = "<span class=\"insensitive\">" . 
-						$line["feed_title"] . "</span>";
-					$line["filter_type_descr"] = "<span class=\"insensitive\">" . 
-						$line["filter_type_descr"] . "</span>";
-					$line["action_description"] = "<span class=\"insensitive\">" . 
-						$line["action_description"] . "</span>";
-					$line["action_param"] = "<span class=\"insensitive\">" . 
-						$line["action_param"] . "</span>";
-				}	
-
-				$onclick = "onclick='editFilter($filter_id, event)' title='".__('Click to edit')."'";
-
-				$inverse_label = "";
-
-				if ($inverse) {
-					$inverse_label = " <span class='insensitive'>".__('(Inverse)')."</span>";
-				}
-
-				print "<td $onclick>" . $line["reg_exp"] . "$inverse_label</td>";		
-				print "<td $onclick>" . $line["feed_title"] . "</td>";			
-	
-				print "<td $onclick>" . $line["filter_type_descr"] . "</td>";
-				print "<td $onclick>" . $line["action_param"] . "</td>";
-
-				print "</tr>";
-	
-				++$lnum;
-			}
-
-			print "</table>";
-
-		} else {
-
-			print "<p>";
-			if (!$filter_search) {
-				print_warning(__('No filters defined.'));
-			} else {
-				print_warning(__('No matching filters found.'));
-			}
-			print "</p>";
-
-		}
+		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"filterStore\" 
+			url=\"backend.php?op=pref-filters&subop=getfiltertree\">
+		</div>
+		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"filterModel\" store=\"filterStore\"
+		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
+			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
+		</div>
+		<div dojoType=\"fox.PrefFilterTree\" id=\"filterTree\" 
+			model=\"filterModel\" openOnClick=\"true\">
+		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
+			Element.hide(\"filterlistLoading\");
+		</script>
+		</div>";
 
 		print "</div>"; #pane
 		print "</div>"; #container
