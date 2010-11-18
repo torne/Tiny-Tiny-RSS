@@ -967,8 +967,12 @@
 
 		if ($num_errors > 0) {
 
-			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">".
-				__('Some feeds have update errors (click for details)')."</a>");
+			$error_button = "<button dojoType=\"dijit.form.Button\"
+			  		onclick=\"showFeedsWithErrors\" id=\"errorButton\">" .
+				__("Feeds with errors") . "</button>";
+
+//			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">".
+//				__('Some feeds have update errors (click for details)')."</a>");
 		}
 
 		$feed_search = db_escape_string($_REQUEST["search"]);
@@ -1011,6 +1015,8 @@
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"editFeedCats()\">".
 				__('Edit categories')."</button dojoType=\"dijit.form.Button\"> ";
 		}
+
+		print $error_button;
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedFeeds()\">"
 			.__('Unsubscribe')."</button dojoType=\"dijit.form.Button\"> ";

@@ -323,8 +323,6 @@ function editUser(id, event) {
 	try {
 		if (!event || !event.ctrlKey) {
 
-		disableHotkeys();
-
 		notify_progress("Loading, please wait...");
 
 		selectTableRows('prefUserList', 'none');
@@ -358,8 +356,6 @@ function editFilter(id, event) {
 
 		if (!event || !event.ctrlKey) {
 
-			disableHotkeys();
-
 			notify_progress("Loading, please wait...");
 
 			selectTableRows('prefFilterList', 'none');
@@ -391,8 +387,6 @@ function editFeed(feed, event) {
 
 		if (event && !event.ctrlKey) {
 
-			disableHotkeys();
-	
 			notify_progress("Loading, please wait...");
 
 //			selectTableRows('prefFeedList', 'none');	
@@ -963,8 +957,6 @@ function editSelectedFeeds() {
 	
 		notify("");
 	
-		disableHotkeys();
-	
 		notify_progress("Loading, please wait...");
 	
 		var query = "?op=pref-feeds&subop=editfeeds&ids=" +
@@ -1271,6 +1263,7 @@ function pref_hotkey_handler(e) {
 		}
 
 		if (keycode == 16) return; // ignore lone shift
+		if (keycode == 17) return; // ignore lone ctrl
 
 		if ((keycode == 67 || keycode == 71) && !hotkey_prefix) {
 			hotkey_prefix = keycode;
