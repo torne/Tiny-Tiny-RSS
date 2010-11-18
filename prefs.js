@@ -1165,6 +1165,7 @@ function init() {
 		dojo.require("dijit.form.DropDownButton");
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.tree.dndSource");
+		dojo.require("dijit.TooltipDialog");
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -2040,3 +2041,59 @@ function handle_rpc_reply(transport, scheduled_call) {
 	return true;
 }
 
+function resetFeedOrder() {
+	try {
+		notify_progress("Loading, please wait...");
+
+		new Ajax.Request("backend.php", {
+			parameters: "?op=pref-feeds&subop=feedsortreset",
+			onComplete: function(transport) {
+		  		updateFeedList();	
+			} });
+
+
+	} catch (e) {
+		exception_error("resetFeedOrder");
+	}
+}
+
+function resetCatOrder() {
+	try {
+		notify_progress("Loading, please wait...");
+
+		new Ajax.Request("backend.php", {
+			parameters: "?op=pref-feeds&subop=catsortreset",
+			onComplete: function(transport) {
+		  		updateFeedList();	
+			} });
+
+
+	} catch (e) {
+		exception_error("resetCatOrder");
+	}
+}
+
+function editCat(id, item, event) {
+	try {
+		var new_name = prompt(__('Rename category to:'), item.name);
+
+		if (new_name && new_name != item.name) {
+
+			notify_progress("Loading, please wait...");
+
+			new Ajax.Request("backend.php", {
+			parameters: {
+				op: 'pref-feeds', 
+				subop: 'renamecat',
+				id: id,
+				title: new_name,
+			},
+			onComplete: function(transport) {
+		  		updateFeedList();	
+			} });
+		}
+
+	} catch (e) {
+		exception_error("editCat", e);
+	}
+}

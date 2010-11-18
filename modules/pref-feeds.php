@@ -15,6 +15,159 @@
 		$quiet = $_REQUEST["quiet"];
 		$mode = $_REQUEST["mode"];
 
+		if ($subop == "renamecat") {
+			$title = db_escape_string($_REQUEST['title']);
+			$id = db_escape_string($_REQUEST['id']);
+
+			if ($title) {
+				db_query($link, "UPDATE ttrss_feed_categories SET
+					title = '$title' WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			}
+			return;
+		}
+
+		if ($subop == "getfeedtree") {
+
+			$root = array();
+			$root['id'] = 'root';
+			$root['name'] = __('Feeds');
+			$root['items'] = array();
+
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
+
+				$result = db_query($link, "SELECT id, title FROM ttrss_feed_categories
+					WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY order_id, title");
+	
+				while ($line = db_fetch_assoc($result)) {
+					$cat = array();
+					$cat['id'] = 'CAT:' . $line['id'];
+					$cat['bare_id'] = $feed_id;
+					$cat['name'] = $line['title'];
+					$cat['items'] = array();
+	
+					$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+						WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
+						" ORDER BY order_id, title");
+	
+					while ($feed_line = db_fetch_assoc($feed_result)) {
+						$feed = array();
+						$feed['id'] = 'FEED:' . $feed_line['id'];
+						$feed['bare_id'] = $feed_line['id'];
+						$feed['name'] = $feed_line['title'];
+						$feed['checkbox'] = false;
+						array_push($cat['items'], $feed);
+					}
+	
+					array_push($root['items'], $cat);
+				}
+	
+				/* Uncategorized is a special case */
+	
+				$cat = array();
+				$cat['id'] = 'CAT:0';
+				$cat['bare_id'] = 0;
+				$cat['name'] = __("Uncategorized");
+				$cat['items'] = array();
+	
+				$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
+					" ORDER BY order_id, title");
+	
+				while ($feed_line = db_fetch_assoc($feed_result)) {
+					$feed = array();
+					$feed['id'] = 'FEED:' . $feed_line['id'];
+					$feed['bare_id'] = $feed_line['id'];
+					$feed['name'] = $feed_line['title'];
+					$feed['checkbox'] = false;
+					array_push($cat['items'], $feed);
+				}
+	
+				array_push($root['items'], $cat);
+			} else {
+				$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+					WHERE owner_uid = ".$_SESSION["uid"].
+					" ORDER BY order_id, title");
+	
+				while ($feed_line = db_fetch_assoc($feed_result)) {
+					$feed = array();
+					$feed['id'] = 'FEED:' . $feed_line['id'];
+					$feed['bare_id'] = $feed_line['id'];
+					$feed['name'] = $feed_line['title'];
+					$feed['checkbox'] = false;
+					array_push($root['items'], $feed);
+				}
+			}
+
+			$fl = array();
+			$fl['identifier'] = 'id';
+			$fl['label'] = 'name';
+			$fl['items'] = array($root);
+
+			print json_encode($fl);
+			return;
+		}
+
+		if ($subop == "catsortreset") {
+			db_query($link, "UPDATE ttrss_feed_categories 
+					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
+			return;
+		}	
+
+		if ($subop == "feedsortreset") {
+			db_query($link, "UPDATE ttrss_feeds 
+					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
+			return;
+		}	
+
+		if ($subop == "savefeedorder") {
+			if ($_POST['payload']) {
+				file_put_contents("/tmp/blahblah.txt", $_POST['payload']);
+			}
+
+			$data = file_get_contents("/tmp/blahblah.txt");
+			$data = json_decode($data, true);	
+
+			if (is_array($data) && is_array($data['items'])) {
+				$cat_order_id = 0;
+
+				$data_map = array();
+
+				foreach ($data['items'] as $item) {
+					$data_map[$item['id']] =& $item['items'];
+				}
+
+				foreach ($data['items'][0]['items'] as $item) {
+					$id = $item['_reference'];
+					$bare_id = substr($id, strpos($id, ':')+1);
+
+					++$cat_order_id;
+
+					if ($bare_id > 0) {
+						db_query($link, "UPDATE ttrss_feed_categories 
+							SET order_id = '$cat_order_id' WHERE id = '$bare_id' AND
+							owner_uid = " . $_SESSION["uid"]);
+					}
+
+					$feed_order_id = 0;
+
+					if (is_array($data_map[$id])) {
+						foreach ($data_map[$id] as $feed) {
+							$id = $feed['_reference'];
+							$bare_id = substr($id, strpos($id, ':')+1);
+	
+							db_query($link, "UPDATE ttrss_feeds
+								SET order_id = '$feed_order_id' WHERE id = '$bare_id' AND
+								owner_uid = " . $_SESSION["uid"]);
+	
+							++$feed_order_id;
+						} 
+					}
+				}
+			}
+
+			return;
+		}
+
 		if ($subop == "removeicon") {			
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 
@@ -1004,16 +1157,27 @@
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 		print "</div></div>";
 
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"quickAddFeed()\">"
-			.__('Subscribe to feed')."</button dojoType=\"dijit.form.Button\"> ";
-
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"editSelectedFeed()\">".
-			__('Edit feeds')."</button dojoType=\"dijit.form.Button\"> ";
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Feeds')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"quickAddFeed()\" 
+			dojoType=\"dijit.MenuItem\">".__('Subscribe to feed')."</div>";
+		print "<div onclick=\"editSelectedFeed()\" 
+			dojoType=\"dijit.MenuItem\">".__('Edit feeds')."</div>";
+		print "<div onclick=\"resetFeedOrder()\" 
+			dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
+		print "</div></div>";
 
 		if (get_pref($link, 'ENABLE_FEED_CATS')) {
+			print "<div dojoType=\"dijit.form.DropDownButton\">".
+					"<span>" . __('Categories')."</span>";
+			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+			print "<div onclick=\"editFeedCats()\" 
+				dojoType=\"dijit.MenuItem\">".__('Edit categories')."</div>";
+			print "<div onclick=\"resetCatOrder()\" 
+				dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
+			print "</div></div>";
 
-			print "<button dojoType=\"dijit.form.Button\" onclick=\"editFeedCats()\">".
-				__('Edit categories')."</button dojoType=\"dijit.form.Button\"> ";
 		}
 
 		print $error_button;
@@ -1045,8 +1209,8 @@
 		<img src='images/indicator_tiny.gif'>".
 		 __("Loading, please wait...")."</div>";
 
-		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"feedStore\" 
-			url=\"backend.php?op=feeds&root=1\">
+		print "<div dojoType=\"fox.PrefFeedStore\" jsId=\"feedStore\" 
+			url=\"backend.php?op=pref-feeds&subop=getfeedtree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"feedModel\" store=\"feedStore\"
 		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
@@ -1054,16 +1218,17 @@
 		</div>
 		<div dojoType=\"fox.PrefFeedTree\" id=\"feedTree\" 
 			dndController=\"dijit.tree.dndSource\" 
-			betweenThreshold=\"1\"
+			betweenThreshold=\"5\"
 			model=\"feedModel\" openOnClick=\"false\">
 		<script type=\"dojo/method\" event=\"onClick\" args=\"item\">
 			var id = String(item.id);
 			var bare_id = id.substr(id.indexOf(':')+1);
 
-			if (id.match('FEED')) {
+			if (id.match('FEED:')) {
 				editFeed(bare_id, event);
-			}
-			
+			} else if (id.match('CAT:')) {
+				editCat(bare_id, item, event);
+			}			
 		</script>
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
 			Element.hide(\"feedlistLoading\");

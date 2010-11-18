@@ -178,31 +178,6 @@
 					toggle_collapse_cat($link, $cat_id, $mode);
 					return;
 				break;
-
-				case "catsortreset":
-					db_query($link, "UPDATE ttrss_feed_categories 
-							SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
-					return;
-				break;
-
-				case "catsort":
-					$corder = db_escape_string($_REQUEST["corder"]);
-
-					$cats = split(",", $corder);
-
-					for ($i = 0; $i < count($cats); $i++) {
-						$cat_id = $cats[$i];
-
-						if ($cat_id > 0) {
-							db_query($link, "UPDATE ttrss_feed_categories 
-								SET order_id = '$i' WHERE id = '$cat_id' AND
-								owner_uid = " . $_SESSION["uid"]);
-						}
-					}
-
-					return;
-				break;
-
 			}
 
 			if (!$root) {

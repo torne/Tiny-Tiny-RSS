@@ -4278,7 +4278,8 @@
 		} */
 
 		if ($enable_cats)
-			$order_by_qpart = "order_id,category,title";
+			$order_by_qpart = "ttrss_feed_categories.order_id,category,
+				ttrss_feeds.order_id,title";
 		else
 			$order_by_qpart = "title";
 
@@ -7029,7 +7030,6 @@
 		$obj['error'] = $error;
 		$obj['updated'] = $updated;
 		$obj['icon'] = getFeedIcon($feed_id);
-		$obj['checkbox'] = false;
 		$obj['bare_id'] = $feed_id;
 
 		return $obj;
