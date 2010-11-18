@@ -957,7 +957,7 @@ function editSelectedFeeds() {
 	
 		notify("");
 	
-		notify_progress("Loading, please wait...");
+		notify_progress("Loading, please wait...", true);
 	
 		var query = "?op=pref-feeds&subop=editfeeds&ids=" +
 			param_escape(rows.toString());

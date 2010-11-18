@@ -19,9 +19,24 @@ dojo.declare("fox.PrefFeedStore", dojo.data.ItemFileWriteStore, {
 });		
 
 dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
+	_createTreeNode: function(args) {
+		var tnode = this.inherited(arguments);
+
+		if (args.item.icon)
+			tnode.iconNode.src = args.item.icon[0];
+
+		return tnode;
+	},
 	onDndDrop: function() {
 		this.inherited(arguments);
 		this.tree.model.store.save();
+	},
+	getRowClass: function (item, opened) {
+		return (!item.error || item.error == '') ? "dijitTreeRow" : 
+			"dijitTreeRow Error";
+	},
+	getIconClass: function (item, opened) {
+		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
 	},
 	checkItemAcceptance: function(target, source, position) {
 		var item = dijit.getEnclosingWidget(target).item;

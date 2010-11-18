@@ -45,7 +45,8 @@
 					$cat['name'] = $line['title'];
 					$cat['items'] = array();
 	
-					$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+					$feed_result = db_query($link, "SELECT id, title, last_error 
+						FROM ttrss_feeds
 						WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
 						" ORDER BY order_id, title");
 	
@@ -55,6 +56,9 @@
 						$feed['bare_id'] = $feed_line['id'];
 						$feed['name'] = $feed_line['title'];
 						$feed['checkbox'] = false;
+						$feed['error'] = $feed_line['last_error'];
+						$feed['icon'] = getFeedIcon($feed_line['id']);
+
 						array_push($cat['items'], $feed);
 					}
 	
@@ -69,7 +73,8 @@
 				$cat['name'] = __("Uncategorized");
 				$cat['items'] = array();
 	
-				$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+				$feed_result = db_query($link, "SELECT id, title,last_error 
+					FROM ttrss_feeds
 					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
 	
@@ -79,12 +84,16 @@
 					$feed['bare_id'] = $feed_line['id'];
 					$feed['name'] = $feed_line['title'];
 					$feed['checkbox'] = false;
+					$feed['error'] = $feed_line['last_error'];
+					$feed['icon'] = getFeedIcon($feed_line['id']);
+
 					array_push($cat['items'], $feed);
 				}
 	
 				array_push($root['items'], $cat);
 			} else {
-				$feed_result = db_query($link, "SELECT id, title FROM ttrss_feeds
+				$feed_result = db_query($link, "SELECT id, title, last_error 
+					FROM ttrss_feeds
 					WHERE owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
 	
@@ -94,6 +103,9 @@
 					$feed['bare_id'] = $feed_line['id'];
 					$feed['name'] = $feed_line['title'];
 					$feed['checkbox'] = false;
+					$feed['error'] = $feed_line['last_error'];
+					$feed['icon'] = getFeedIcon($feed_line['id']);
+
 					array_push($root['items'], $feed);
 				}
 			}
@@ -1163,7 +1175,7 @@
 		print "<div onclick=\"quickAddFeed()\" 
 			dojoType=\"dijit.MenuItem\">".__('Subscribe to feed')."</div>";
 		print "<div onclick=\"editSelectedFeed()\" 
-			dojoType=\"dijit.MenuItem\">".__('Edit feeds')."</div>";
+			dojoType=\"dijit.MenuItem\">".__('Edit selected feeds')."</div>";
 		print "<div onclick=\"resetFeedOrder()\" 
 			dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 		print "</div></div>";
@@ -1234,218 +1246,6 @@
 			Element.hide(\"feedlistLoading\");
 		</script>
 		</div>";
-
-		/*
-		$feeds_sort = db_escape_string($_REQUEST["sort"]);
-
-		if (!$feeds_sort || $feeds_sort == "undefined") {
-			$feeds_sort = $_SESSION["pref_sort_feeds"];			
-			if (!$feeds_sort) $feeds_sort = "title";
-		}
-
-		$_SESSION["pref_sort_feeds"] = $feeds_sort;
-
-		if ($feed_search) {
-
-			$feed_search = split(" ", $feed_search);
-			$tokens = array();
-
-			foreach ($feed_search as $token) {
-
-				$token = trim($token);
-
-				array_push($tokens, "(UPPER(F1.title) LIKE UPPER('%$token%') OR
-					UPPER(C1.title) LIKE UPPER('%$token%') OR
-					UPPER(F1.feed_url) LIKE UPPER('%$token%'))");
-			}
-
-			$search_qpart = "(" . join($tokens, " AND ") . ") AND ";
-
-		} else {
-			$search_qpart = "";
-		}
-
-		$show_last_article_info = false;
-		$show_last_article_checked = "";
-		$show_last_article_qpart = "";
-
-		if ($_REQUEST["slat"] == "true") {
-			$show_last_article_info = true;
-			$show_last_article_checked = "checked";
-			$show_last_article_qpart = ", (SELECT ".SUBSTRING_FOR_DATE."(MAX(updated),1,16) FROM ttrss_user_entries,
-				ttrss_entries WHERE ref_id = ttrss_entries.id
-				AND feed_id = F1.id) AS last_article";
-		} else if ($feeds_sort == "last_article") {
-			$feeds_sort = "title";
-		}
-
-		if (get_pref($link, 'ENABLE_FEED_CATS')) {
-			$order_by_qpart = "category,$feeds_sort,title";
-		} else {
-			$order_by_qpart = "$feeds_sort,title";
-		}
-
-		$result = db_query($link, "SELECT 
-				F1.id,
-				F1.title,
-				F1.feed_url,
-				".SUBSTRING_FOR_DATE."(F1.last_updated,1,16) AS last_updated,
-				F1.update_interval,
-				F1.last_error,
-				F1.purge_interval,
-				F1.cat_id,
-				C1.title AS category,
-				F1.include_in_digest
-				$show_last_article_qpart
-			FROM 
-				ttrss_feeds AS F1 
-				LEFT JOIN ttrss_feed_categories AS C1
-					ON (F1.cat_id = C1.id)
-			WHERE 
-				$search_qpart F1.owner_uid = '".$_SESSION["uid"]."' 			
-			ORDER by $order_by_qpart");
-
-		if (db_num_rows($result) != 0) {
-
-			print "<p><table width=\"100%\" cellspacing=\"0\" 
-				class=\"prefFeedList\" id=\"prefFeedList\">";
-			print "<tr><td class=\"selectPrompt\" colspan=\"8\">".
-				"<div style='float : right'>".
-				"<input id='show_last_article_times' type='checkbox' onchange='feedlistToggleSLAT()'
-				$show_last_article_checked><label 
-					for='show_last_article_times'>".__('Show last article times')."</label></div>".
-				__('Select:')."
-					<a href=\"#\" onclick=\"selectTableRows('prefFeedList', 'all')\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectTableRows('prefFeedList', 'none')\">".__('None')."</a>
-				</td</tr>";
-
-			if (!get_pref($link, 'ENABLE_FEED_CATS')) {
-				print "<tr class=\"title\">
-					<td width='5%' align='center'>&nbsp;</td>";
-
-				print "<td width='3%'>&nbsp;</td>";
-
-				print "<td width='60%'><a href=\"#\" onclick=\"updateFeedList('title')\">".__('Title')."</a></td>";
-
-				if ($show_last_article_info) {
-					print "<td width='20%' align='right'><a href=\"#\" onclick=\"updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
-				}
-
-				print "<td width='20%' align='right'><a href=\"#\" onclick=\"updateFeedList('last_updated')\">".__('Updated')."</a></td>";
-			}
-			
-			$lnum = 0;
-
-			$cur_cat_id = -1;
-			
-			while ($line = db_fetch_assoc($result)) {
-	
-				$feed_id = $line["id"];
-				$cat_id = $line["cat_id"];
-
-				$edit_title = htmlspecialchars($line["title"]);
-				$edit_cat = htmlspecialchars($line["category"]);
-
-				$last_error = $line["last_error"];
-
-				if (!$edit_cat) $edit_cat = __("Uncategorized");
-
-				$last_updated = $line["last_updated"];
-
-				if (!$last_updated) {
-					$last_updated = "&mdash;";
-				} else {
-					$last_updated = make_local_datetime($link, $last_updated, false);
-				}
-
-				$last_article = $line["last_article"];
-
-				if (!$last_article) {
-					$last_article = "&mdash;";	
-				} else {
-					$last_article = make_local_datetime($link, $last_article, false);
-				}
-
-				if (get_pref($link, 'ENABLE_FEED_CATS') && $cur_cat_id != $cat_id) {
-					$lnum = 0;
-				
-					print "<tr><td colspan=\"6\" class=\"feedEditCat\">$edit_cat</td></tr>";
-
-					print "<tr class=\"title\">
-						<td width='5%'>&nbsp;</td>";
-
-					print "<td width='3%'>&nbsp;</td>";
-
-					print "<td width='60%'><a href=\"#\" onclick=\"updateFeedList('title')\">".__('Title')."</a></td>";
-
-					if ($show_last_article_info) {
-						print "<td width='20%' align='right'>
-							<a href=\"#\" onclick=\"updateFeedList('last_article')\">".__('Last&nbsp;Article')."</a></td>";
-					}
-
-					print "<td width='20%' align='right'>
-						<a href=\"#\" onclick=\"updateFeedList('last_updated')\">".__('Updated')."</a></td>";
-
-					$cur_cat_id = $cat_id;
-				}
-
-				$class = ($lnum % 2) ? "even" : "odd";
-				$this_row_id = "id=\"FEEDR-$feed_id\"";
-
-				print "<tr class=\"$class\" $this_row_id>";
-	
-				$icon_file = ICONS_DIR . "/$feed_id.ico";
-	
-				if (file_exists($icon_file) && filesize($icon_file) > 0) {
-						$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . "/$feed_id.ico\">";
-				} else {
-					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
-				}
-				
-				print "<td class='feedSelect'><input 
-				onclick='toggleSelectRowById(this, \"FEEDR-".$line['id']."\");' 
-				type=\"checkbox\" id=\"FRCHK-".$line["id"]."\"></td>";
-
-				$onclick = "onclick='editFeed($feed_id, event)' title='".__('Click to edit')."'";
-
-				print "<td $onclick class='feedIcon'>$feed_icon</td>";		
-
-				if ($last_error) {
-					$edit_title = "<span class=\"feed_error\">$edit_title</span>";
-					$last_updated = "<span class=\"feed_error\">$last_updated</span>";
-					$last_article = "<span class=\"feed_error\">$last_article</span>";
-				}
-
-				print "<td $onclick>" . $edit_title . "</td>";
-
-				if ($show_last_article_info) {
-					print "<td align='right' $onclick>" . 
-						"$last_article</td>";
-				}
-
-				print "<td $onclick align='right'>$last_updated</td>";
-
-				print "</tr>";
-	
-				++$lnum;
-			}
-	
-			print "</table>";
-
-			print "<p>";
-
-		} else {
-
-			print "<p>";
-
-			if (!$feed_search) { 
-				print_warning(__("You don't have any subscribed feeds."));
-			} else {
-				print_warning(__('No matching feeds found.'));
-			}
-			print "</p>";
-
-		} */
 
 		print "</div>"; # feeds pane
 
