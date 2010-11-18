@@ -9,7 +9,6 @@ var hotkey_prefix_pressed = false;
 var init_params = {};
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
-var treeModel;
 
 var _rpc_seq = 0;
 
@@ -75,7 +74,7 @@ function updateFeedList() {
 		var store = new dojo.data.ItemFileWriteStore({
          url: "backend.php?op=feeds"});
 
-		treeModel = new fox.FeedStoreModel({
+		var treeModel = new fox.FeedStoreModel({
 			store: store,
 			query: {
 				"type": "feed"

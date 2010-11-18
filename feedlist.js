@@ -352,7 +352,11 @@ function parse_counters(reply, scheduled_call) {
 
 function getFeedUnread(feed, is_cat) {
 	try {
-		return parseInt(getFeedValue(feed, is_cat, 'unread'));
+		var tree = dijit.byId("feedTree");
+
+		if (tree && tree.model) 
+			return tree.model.getFeedUnread(feed, is_cat);
+
 	} catch (e) {
 		//
 	}
@@ -372,30 +376,32 @@ function hideOrShowFeeds(hide) {
 }
 
 function getFeedName(feed, is_cat) {	
-	return getFeedValue(feed, is_cat, 'name');
+	var tree = dijit.byId("feedTree");
+
+	if (tree && tree.model) 
+		return tree.model.getFeedValue(feed, is_cat, 'name');
 }
 
 function getFeedValue(feed, is_cat, key) {	
-
 	try {
-		if (is_cat) 
-			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
-		else
-			treeItem = treeModel.store._itemsByIdentity['FEED:' + feed];
+		var tree = dijit.byId("feedTree");
 
-		if (treeItem)
-			return treeModel.store.getValue(treeItem, key);
-
+		if (tree && tree.model) 
+			return tree.model.getFeedValue(feed, is_cat, key);
+	
 	} catch (e) {
 		//
 	}
-
 	return '';
 }
 
 function setFeedUnread(feed, is_cat, unread) {
 	try {
-		setFeedValue(feed, is_cat, 'unread', parseInt(unread));
+		var tree = dijit.byId("feedTree");
+
+		if (tree && tree.model) 
+			return tree.model.setFeedUnread(feed, is_cat, unread);
+
 	} catch (e) {
 		exception_error("setFeedUnread", e);
 	}
@@ -403,19 +409,13 @@ function setFeedUnread(feed, is_cat, unread) {
 
 function setFeedValue(feed, is_cat, key, value) {
 	try {
-		if (!value) value = '';
+		var tree = dijit.byId("feedTree");
 
-		if (is_cat) 
-			treeItem = treeModel.store._itemsByIdentity['CAT:' + feed];
-		else
-			treeItem = treeModel.store._itemsByIdentity['FEED:' + feed];
-
-		if (treeItem)
-			treeModel.store.setValue(treeItem, key, value);
+		if (tree && tree.model) 
+			return tree.model.setFeedValue(feed, is_cat, key, value);
 
 	} catch (e) {
-		console.log(e);
-		//exception_error("setFeedValue", e);
+		//
 	}
 }
 
@@ -423,18 +423,7 @@ function selectFeed(feed, is_cat) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (!tree) return;
-
-		if (is_cat) 
-			treeNode = tree._itemNodesMap['CAT:' + feed];
-		else
-			treeNode = tree._itemNodesMap['FEED:' + feed];
-
-		if (treeNode) {
-			treeNode = treeNode[0];
-			if (!is_cat) tree._expandNode(treeNode);
-			tree._selectNode(treeNode);
-		}
+		if (tree) return tree.selectFeed(feed, is_cat);
 
 	} catch (e) {
 		exception_error("selectFeed", e);
@@ -445,17 +434,7 @@ function setFeedIcon(feed, is_cat, src) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (!tree) return;
-
-		if (is_cat) 
-			treeNode = tree._itemNodesMap['CAT:' + feed];
-		else
-			treeNode = tree._itemNodesMap['FEED:' + feed];
-
-		if (treeNode) {
-			treeNode = treeNode[0];
-			treeNode.iconNode.src = src;
-		}
+		if (tree) return tree.setFeedIcon(feed, is_cat, src);
 
 	} catch (e) {
 		exception_error("setFeedIcon", e);
@@ -466,18 +445,7 @@ function setFeedExpandoIcon(feed, is_cat, src) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (!tree) return;
-
-		if (is_cat) 
-			treeNode = tree._itemNodesMap['CAT:' + feed];
-		else
-			treeNode = tree._itemNodesMap['FEED:' + feed];
-
-		if (treeNode) {
-			treeNode = treeNode[0];
-			treeNode.expandoNode.src = src;
-			return true;
-		}
+		if (tree) return tree.setFeedExpandoIcon(feed, is_cat, src);
 
 	} catch (e) {
 		exception_error("setFeedIcon", e);
