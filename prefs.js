@@ -6,10 +6,6 @@ var caller_subop = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 
-var color_picker_active = false;
-var selection_disabled = false;
-var mouse_is_down = false;
-
 var seq = "";
 
 function feedlist_callback2(transport) {
@@ -358,7 +354,15 @@ function editFeed(feed, event) {
 }
 
 function getSelectedLabels() {
-	return getSelectedTableRowIds("prefLabelList");
+	var tree = dijit.byId("labelTree");
+	var items = tree.model.getCheckedItems();
+	var rv = [];
+
+	items.each(function(item) {
+		rv.push(tree.model.store.getValue(item, 'bare_id'));
+	});
+
+	return rv;
 }
 
 function getSelectedUsers() {
@@ -1061,8 +1065,6 @@ function init_second_stage() {
 	try {
 
 		document.onkeydown = pref_hotkey_handler;
-		document.onmousedown = mouse_down_handler;
-		document.onmouseup = mouse_up_handler;
 
 		caller_subop = getURLParam('subop');
 
@@ -1119,6 +1121,7 @@ function init() {
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.tree.dndSource");
 		dojo.require("dijit.InlineEditBox");
+		dojo.require("dijit.ColorPalette");
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -1126,6 +1129,7 @@ function init() {
 		dojo.require("lib.CheckBoxTree");
 		dojo.require("fox.PrefFeedTree");
 		dojo.require("fox.PrefFilterTree");
+		dojo.require("fox.PrefLabelTree");
 
 		loading_set_progress(30);
 
@@ -1201,7 +1205,6 @@ function pref_hotkey_handler(e) {
 			if (Element.visible("hotkey_help_overlay")) {
 				Element.hide("hotkey_help_overlay");
 			}
-			colorPickerHideAll();
 			hotkey_prefix = false;
 			closeInfoBox();
 		} 
@@ -1463,11 +1466,6 @@ function changeUserEmail() {
 	
 	return false;
 
-}
-
-function feedlistToggleSLAT() {
-	notify_progress("Loading, please wait...");
-	updateFeedList()
 }
 
 function opmlRegenKey() {
@@ -1781,127 +1779,41 @@ function labelColorReset() {
 	}
 }
 
-function labelColorAsk(id, kind) {
+function setLabelColor(id, fg, bg) {
 	try {
 
-		var p = null
+		var kind = '';
+		var color = '';
 
-		if (kind == "fg") {
-			p = prompt(__("Please enter new label foreground color:"));
-		} else {
-			p = prompt(__("Please enter new label background color:"));
+		if (fg && bg) {
+			kind = 'both';
+		} else if (fg) {
+			kind = 'fg';
+			color = fg;
+		} else if (bg) {
+			kind = 'bg';
+			color = bg;
 		}
 
-		if (p != null) {
-
-			var query = "?op=pref-labels&subop=color-set&kind=" + kind +
-				"&ids="+	param_escape(id) + "&color=" + param_escape(p);
-
-			selectTableRows('prefLabelList', 'none');
-
-			var e = $("LICID-" + id);
-
-			if (e) {		
-				if (kind == "fg") {
-					e.style.color = p
-				} else {
-					e.style.backgroundColor = p;
-				}
-			}
-
-			new Ajax.Request("backend.php", { parameters: query });
-		}
-
-	} catch (e) {
-		exception_error("labelColorReset", e);
-	}
-}
-
-
-function colorPicker(id, fg, bg) {
-	try {
-		var picker = $("colorPicker-" + id);
-
-		if (picker) Element.show(picker);
-
-	} catch (e) {
-		exception_error("colorPicker", e);
-	}
-}
-
-function colorPickerHideAll() {
-	try {
-		if ($("prefLabelList")) {
-
-			var elems = $("prefLabelList").getElementsByTagName("DIV");
-
-			for (var i = 0; i < elems.length; i++) {
-				if (elems[i].id && elems[i].id.match("colorPicker-")) {
-					Element.hide(elems[i]);
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("colorPickerHideAll", e);
-	}
-}
-
-function colorPickerDo(id, fg, bg) {
-	try {
-
-		var query = "?op=pref-labels&subop=color-set&kind=both"+
+		var query = "?op=pref-labels&subop=color-set&kind="+kind+
 			"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
-			"&bg=" + param_escape(bg);
+			"&bg=" + param_escape(bg) + "&color=" + param_escape(color);
+
+//		console.log(query);
 
 		var e = $("LICID-" + id);
 
 		if (e) {		
-			e.style.color = fg;
-			e.style.backgroundColor = bg;
+			if (fg) e.style.color = fg;
+			if (bg) e.style.backgroundColor = bg;
 		}
 
 		new Ajax.Request("backend.php", { parameters: query });
 
+		updateFilterList();
+
 	} catch (e) {
 		exception_error("colorPickerDo", e);
-	}
-}
-
-function colorPickerActive(b) {
-	color_picker_active = b;
-}
-
-function mouse_down_handler(e) {
-	try {
-
-		/* do not prevent right click */
-		if (e && e.button && e.button == 2) return;
-
-		if (selection_disabled) {
-			document.onselectstart = function() { return false; };
-			return false;
-		}
-
-	} catch (e) {
-		exception_error("mouse_down_handler", e);
-	}
-}
-
-function mouse_up_handler(e) {
-	try {
-		mouse_is_down = false;
-
-		if (!selection_disabled) {
-			document.onselectstart = null;
-		}
-
-		if (!color_picker_active) {
-			colorPickerHideAll();
-		}
-
-	} catch (e) {
-		exception_error("mouse_up_handler", e);
 	}
 }
 
@@ -2049,5 +1961,23 @@ function editCat(id, item, event) {
 
 	} catch (e) {
 		exception_error("editCat", e);
+	}
+}
+
+function editLabel(id, event) {
+	try {
+		var query = "?op=pref-labels&subop=edit&id=" +
+			param_escape(id);
+
+		notify_progress("Loading, please wait...", true);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) {
+				infobox_callback2(transport);
+			} });
+
+	} catch (e) {
+		exception_error("editLabel", e);
 	}
 }

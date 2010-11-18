@@ -3,6 +3,114 @@
 
 		$subop = $_REQUEST["subop"];
 
+		if ($subop == "edit") {
+			$label_id = db_escape_string($_REQUEST['id']);
+
+			header("Content-Type: text/xml");
+			print "<dlg id=\"$subop\">";
+			print "<title>" . __("Label Editor") . "</title>";
+			print "<content><![CDATA[";
+
+			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
+				id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
+
+			$line = db_fetch_assoc($result);
+
+			print "<div class=\"dlgSec\">".__("Caption")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			print "<span dojoType=\"dijit.InlineEditBox\" style=\"font-size : 18px;\"
+				width=\"150px\" autoSave=\"false\"
+				label-id=\"$label_id\">" . $line["caption"] . 
+				"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
+					var elem = this;
+					dojo.xhrPost({
+						url: 'backend.php',
+						content: {op: 'pref-labels', subop: 'save',
+							value: this.value,
+							id: this.srcNodeRef.getAttribute('label-id')},
+							load: function(response) {
+								elem.attr('value', response);
+								dijit.byId('labelTree').setNameById($label_id, response);
+								updateFilterList();
+							}
+					});	
+				</script>
+			</span>";
+
+			print "</div>";
+			print "<div class=\"dlgSec\">" . __("Change colors") . "</div>";
+			print "<div class=\"dlgSecCont\">";
+
+			print "<table cellspacing=\"5\"><th>";
+
+			print "<tr><td>".__("Foreground color:")."</td><td>".__("Background color:").
+				"</td></tr>";
+
+			print "</th><tr><td>";
+
+			print "<div dojoType=\"dijit.ColorPalette\">
+				<script type=\"dojo/method\" event=\"onChange\" args=\"fg_color\">
+					setLabelColor('$label_id', fg_color, null);
+				</script>
+			</div>";
+			print "</div>";
+
+			print "</td><td>";
+
+			print "<div dojoType=\"dijit.ColorPalette\">
+				<script type=\"dojo/method\" event=\"onChange\" args=\"bg_color\">
+					setLabelColor('$label_id', null, bg_color);
+				</script>
+			</div>";
+			print "</div>";
+
+			print "</td></tr></table>";
+			print "</div>";
+
+			print "<div class=\"dlgButtons\" style=\"text-align : center\">";
+			print "<button onclick=\"return closeInfoBox()\">".
+				__('Close this window')."</button>";
+			print "</div>";
+
+			print "]]></content></dlg>";
+			return;
+		}
+
+		if ($subop == "getlabeltree") {
+			$root = array();
+			$root['id'] = 'root';
+			$root['name'] = __('Labels');
+			$root['items'] = array();
+
+			$result = db_query($link, "SELECT *
+				FROM ttrss_labels2
+				WHERE owner_uid = ".$_SESSION["uid"]."
+				ORDER BY caption");
+
+			while ($line = db_fetch_assoc($result)) {
+				$label = array();
+				$label['id'] = 'LABEL:' . $line['id'];
+				$label['bare_id'] = $line['id'];
+				$label['name'] = $line['caption'];
+				$label['fg_color'] = $line['fg_color'];
+				$label['bg_color'] = $line['bg_color'];
+				$label['type'] = 'label';
+				$label['checkbox'] = false;
+
+				array_push($root['items'], $label);
+			}
+
+			$fl = array();
+			$fl['identifier'] = 'id';
+			$fl['label'] = 'name';
+			$fl['items'] = array($root);
+
+			print json_encode($fl);
+			return;
+		}
+
 		if ($subop == "color-set") {
 			$kind = db_escape_string($_REQUEST["kind"]);
 			$ids = split(',', db_escape_string($_REQUEST["ids"]));
@@ -154,21 +262,12 @@
 		print "<div id=\"pref-label-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
 		print "<div id=\"pref-label-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		print "<div style='float : right; padding-right : 4px'>
-			<input id=\"label_search\" size=\"20\" type=\"search\"
-				dojoType=\"dijit.form.TextBox\"
-				onfocus=\"javascript:disableHotkeys();\" 
-				onblur=\"javascript:enableHotkeys();\"
-				onchange=\"javascript:updateLabelList()\" value=\"$label_search\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateLabelList()\">".__('Search')."</button>
-			</div>";
-
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-		print "<div onclick=\"selectTableRows('prefLabelList', 'all')\" 
+		print "<div onclick=\"dijit.byId('labelTree').model.setAllChecked(true)\" 
 			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
-		print "<div onclick=\"selectTableRows('prefLabelList', 'none')\" 
+		print "<div onclick=\"dijit.byId('labelTree').model.setAllChecked(false)\" 
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 		print "</div></div>";
 
@@ -186,170 +285,26 @@
 		print "</div>"; #pane
 		print "<div id=\"pref-label-content\" dojoType=\"dijit.layout.ContentPane\" region=\"center\">";
 
-		if ($label_search) {
+		print "<div id=\"labellistLoading\">
+		<img src='images/indicator_tiny.gif'>".
+		 __("Loading, please wait...")."</div>";
 
-			$label_search = split(" ", $label_search);
-			$tokens = array();
-
-			foreach ($label_search as $token) {
-
-				$token = trim($token);
-				array_push($tokens, "(UPPER(caption) LIKE UPPER('%$token%'))");
-
-			}
-
-			$label_search_query = "(" . join($tokens, " AND ") . ") AND ";
-			
-		} else {
-			$label_search_query = "";
-		}
-
-		$result = db_query($link, "SELECT 
-				*
-			FROM 
-				ttrss_labels2
-			WHERE 
-				$label_search_query
-				owner_uid = ".$_SESSION["uid"]."
-			ORDER BY $sort");
-
-		if (db_num_rows($result) != 0) {
-
-			print "<p><table width=\"100%\" cellspacing=\"0\" 
-				class=\"prefLabelList\" id=\"prefLabelList\">";
-
-			$lnum = 0;
-			
-			while ($line = db_fetch_assoc($result)) {
-	
-				$class = ($lnum % 2) ? "even" : "odd";
-	
-				$label_id = $line["id"];
-				$this_row_id = "id=\"LILRR-$label_id\"";
-
-				print "<tr class=\"$class\" $this_row_id>";
-	
-				$line["caption"] = htmlspecialchars($line["caption"]);
-
-				$fg_color = $line["fg_color"];
-				$bg_color = $line["bg_color"];
-
-				if (!$fg_color) $fg_color = "";
-				if (!$bg_color) $bg_color = "";
-
-				print "<td width='5%' align='center'><input 
-					onclick='toggleSelectRow(this);' 
-					type=\"checkbox\" id=\"LICHK-".$line["id"]."\"></td>";
-	
-				$id = $line['id'];
-
-				print "<td>";
-
-				print "<div class='labelColorIndicator' id='LICID-$id' 
-					style='color : $fg_color; background-color : $bg_color'
-					title='".__('Click to change color')."'
-					onclick=\"colorPicker('$id', '$fg_color', '$bg_color')\">&alpha;";
-				print_color_picker($id);
-				print "</div>";
-
-				print "<span dojoType=\"dijit.InlineEditBox\" 
-					width=\"300px\" autoSave=\"false\"
-					label-id=\"".$line["id"]."\">" . $line["caption"] . 
-					"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
-						var elem = this;
-						dojo.xhrPost({
-							url: 'backend.php',
-							content: {op: 'pref-labels', subop: 'save',
-								value: this.value,
-								id: this.srcNodeRef.getAttribute('label-id')},
-								load: function(response) {
-									elem.attr('value', response);
-							}
-						});	
-					</script>
-				</span>";
-
-				print "</td>";
-
-				print "</tr>";
-	
-				++$lnum;
-			}
-
-			print "</table>";
-	
-
-		} else {
-			print "<p>";
-			if (!$label_search) {
-				print_warning(__('No labels defined.'));
-			} else {
-				print_warning(__('No matching labels found.'));
-			}
-			print "</p>";
-
-		}
+		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"labelStore\" 
+			url=\"backend.php?op=pref-labels&subop=getlabeltree\">
+		</div>
+		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"labelModel\" store=\"labelStore\"
+		query=\"{id:'root'}\" rootId=\"root\"
+			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
+		</div>
+		<div dojoType=\"fox.PrefLabelTree\" id=\"labelTree\" 
+			model=\"labelModel\" openOnClick=\"true\">
+		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
+			Element.hide(\"labellistLoading\");
+		</script>
+		</div>";
 
 		print "</div>"; #pane
 		print "</div>"; #container
-	}
-
-	function print_color_picker($id) {
-
-		print "<div id=\"colorPicker-$id\" 
-			onmouseover=\"colorPickerActive(true)\"
-			onmouseout=\"colorPickerActive(false)\"
-			class=\"colorPicker\" style='display : none'>";
-
-		$color_picker_pairs = array(
-			array('#ff0000', '#ffffff'),
-			array('#009000', '#ffffff'),
-			array('#0000ff', '#ffffff'),	
-			array('#ff00ff', '#ffffff'),				
-			array('#009090', '#ffffff'),
-
-			array('#ffffff', '#ff0000'),
-			array('#000000', '#00ff00'),
-			array('#ffffff', '#0000ff'),
-			array('#ffffff', '#ff00ff'),
-			array('#000000', '#00ffff'),
-
-			array('#7b07e1', '#ffffff'),
-			array('#0091b4', '#ffffff'),
-			array('#00aa71', '#ffffff'),
-			array('#7d9e01', '#ffffff'),
-			array('#e14a00', '#ffffff'),
-
-			array('#ffffff', '#7b07e1'),
-			array('#ffffff', '#00b5e1'),
-			array('#ffffff', '#00e196'),
-			array('#ffffff', '#b3e100'),
-			array('#ffffff', '#e14a00'),
-
-			array('#000000', '#ffffff'),
-			array('#ffffff', '#000000'),
-			array('#ffffff', '#909000'),
-			array('#063064', '#fff7d5'),
-			array('#ffffff', '#4E4E90'),
-		);
-
-		foreach ($color_picker_pairs as $c) { 
-			$fg_color = $c[0];
-			$bg_color = $c[1];
-
-			print "<div class='colorPickerEntry' 
-				style='color : $fg_color; background-color : $bg_color;'
-				onclick=\"colorPickerDo('$id', '$fg_color', '$bg_color')\">&alpha;</div>";
-
-		}
-
-		print "<br clear='both'>";
-
-		print "<br/><b>".__('custom color:')."</b>";
-		print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'fg')\">".__("foreground")."</div>";
-		print "<div class=\"ccPrompt\" onclick=\"labelColorAsk('$id', 'bg')\">".__("background")."</div>";
-
-		print "</div>";
 	}
 
 ?>
