@@ -252,10 +252,22 @@
 				print_color_picker($id);
 				print "</div>";
 
-
-				print "<span class='prefsLabelEntry' 
-					id=\"LILT-".$line["id"]."\">" . $line["caption"] . 
-					"</span>";
+				print "<span dojoType=\"dijit.InlineEditBox\" 
+					width=\"300px\" autoSave=\"false\"
+					label-id=\"".$line["id"]."\">" . $line["caption"] . 
+					"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
+						var elem = this;
+						dojo.xhrPost({
+							url: 'backend.php',
+							content: {op: 'pref-labels', subop: 'save',
+								value: this.value,
+								id: this.srcNodeRef.getAttribute('label-id')},
+								load: function(response) {
+									elem.attr('value', response);
+							}
+						});	
+					</script>
+				</span>";
 
 				print "</td>";
 

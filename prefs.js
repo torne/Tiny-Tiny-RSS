@@ -42,29 +42,6 @@ function filterlist_callback2(transport) {
 	remove_splash();
 }
 
-/* function init_label_inline_editor() {
-	try {
-		if ($("prefLabelList")) {
-			var elems = $("prefLabelList").getElementsByTagName("SPAN");
-
-			for (var i = 0; i < elems.length; i++) {
-				if (elems[i].id && elems[i].id.match("LILT-")) {
-
-					var id = elems[i].id.replace("LILT-", "");
-
-					new Ajax.InPlaceEditor(elems[i],
-						'backend.php?op=pref-labels&subop=save&id=' + id,
-						{cols: 20, rows: 1});
-
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("init_label_inline_editor", e);
-	}
-} */
-
 function labellist_callback2(transport) {
 
 	try {
@@ -72,8 +49,6 @@ function labellist_callback2(transport) {
 		dijit.byId('labelConfigTab').attr('content', transport.responseText); 
 		closeInfoBox();
 
-		//init_label_inline_editor();
-	
 		notify("");
 		remove_splash();
 
@@ -1169,9 +1144,10 @@ function init() {
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.form.DropDownButton");
+		dojo.require("dijit.form.Form");
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.tree.dndSource");
-		dojo.require("dijit.TooltipDialog");
+		dojo.require("dijit.InlineEditBox");
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
