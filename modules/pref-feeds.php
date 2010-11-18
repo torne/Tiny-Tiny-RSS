@@ -1062,7 +1062,7 @@
 				}
 			}
 
-			print "<div>
+			print "<div dojoType=\"dijit.Toolbar\">
 				<input id=\"fadd_cat\" 
 					onkeypress=\"return filterCR(event, addFeedCat)\"
 					size=\"40\">
@@ -1073,14 +1073,14 @@
 				WHERE owner_uid = ".$_SESSION["uid"]."
 				ORDER BY title");
 
-			print "<p>";
+#			print "<p>";
 
 			if (db_num_rows($result) != 0) {
 
-				print	__('Select:')." 
-					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
-					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
-
+#				print	__('Select:')." 
+#					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
+#					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
+#
 				print "<div class=\"prefFeedCatHolder\">";
 
 				print "<form id=\"feed_cat_edit_form\" onsubmit=\"return false\">";
@@ -1097,12 +1097,12 @@
 					$cat_id = $line["id"];
 					$this_row_id = "id=\"FCATR-$cat_id\"";
 		
-					print "<tr class=\"$class\" $this_row_id>";
+					print "<tr class=\"\" $this_row_id>";
 		
 					$edit_title = htmlspecialchars($line["title"]);
 		
 					print "<td width='5%' align='center'><input 
-						onclick='toggleSelectRow(this);' 
+						onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\" 
 						type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
 	
 					print "<td>";
@@ -1427,14 +1427,14 @@
 					$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
 	
 					if (file_exists($icon_file) && filesize($icon_file) > 0) {
-							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+							$feed_icon = "<img style=\"vertical-align : middle\" class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
 								"/".$details["id"].".ico\">";
 					} else {
 						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 					}
 	
-					$check_box = "<input onclick='toggleSelectListRow(this)' 
-						class='feedBrowseCB' 
+					$check_box = "<input onclick='toggleSelectListRow2(this)' 
+						dojoType=\"dijit.form.CheckBox\"
 						type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
@@ -1454,7 +1454,7 @@
 						src='images/feed-icon-12x12.png'></a>";
 
 					print "<li title=\"".htmlspecialchars($details["site_url"])."\" 
-						class='$class' id=\"FBROW-".$details["id"]."\">$check_box".
+						id=\"FBROW-".$details["id"]."\">$check_box".
 						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) . 
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
 						$site_url</li>";

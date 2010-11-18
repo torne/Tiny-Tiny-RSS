@@ -222,6 +222,16 @@ input.editbox {
 	cursor : pointer;
 }
 
+.blankborder, .blankborder td {
+	border-style : solid;
+	border-color : transparent;
+	border-width : 0px 0px 1px 0px;
+}
+
+.Selected, .Selected td {
+	background-color : #fff7d5;
+}
+
 .even.Unread.Selected, .even.Unread.Selected td {
 	background-color : #fff7d5;
 	font-weight : bold;
@@ -400,8 +410,10 @@ table.prefFeedList td.feedSelect {
 div.prefFeedCatHolder {
 	height : 250px;
 	overflow : auto;
-	border : 1px solid gray;
-	margin : 5px 0px 5px 0px;
+	border-width : 0px 1px 1px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	margin : 0px 0px 5px 0px;
 	background-color : white;
 }
 
@@ -675,7 +687,7 @@ span.groupPrompt {
 }
 
 div.tagCloudContainer {
-	border : 1px solid gray;
+	border : 1px solid #c0c0c0;
 	background-color : white;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
@@ -683,7 +695,7 @@ div.tagCloudContainer {
 }
 
 div.errorExplained {
-	border : 1px solid gray;
+	border : 1px solid #c0c0c0;
 	background-color : white;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
@@ -712,16 +724,19 @@ ul.userFeedList {
 ul.browseFeedList {
 	height : 300px;
 	overflow : auto;
-	list-style-type : none;
+	border-width : 0px 1px 1px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
 	margin : 0px 0px 5px 0px;
-	padding : 0px;
-	border : 1px solid gray;
 	background-color : white;
+	list-style-type : none;
+	padding : 0px;
+
 }
 
 ul.browseFeedList li {
 	margin : 0px;
-	padding : 0px;
+	padding : 2px 4px 2px 4px;
 }
 
 span.subscribers {

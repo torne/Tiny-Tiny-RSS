@@ -321,7 +321,7 @@
 			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
 			print "<input type=\"hidden\" name=\"subop\" value=\"updateFeedBrowser\">"; 
 
-			print "
+			print "<div dojoType=\"dijit.Toolbar\">
 				<div style='float : right'>
 				<img style='display : none' 
 					id='feed_browser_spinner' src='".
@@ -347,7 +347,7 @@
 			
 			print "</select> ";
 
-			print "<p>";
+			print "</div>";
 
 			$owner_uid = $_SESSION["uid"];
 

@@ -224,7 +224,7 @@ function addFeedCat() {
 					infobox_callback2(transport);
 				} });
 
-		link.value = "";
+		cat.value = "";
 
 	}
 }
@@ -1078,17 +1078,12 @@ function init_second_stage() {
 
 		dojo.addOnLoad(function() {
 
-			var active_tab = getInitParam("prefs_active_tab");
-			if (!$(active_tab+"Tab")) active_tab = "genConfig";
-			if (!active_tab || active_tab == '0') active_tab = "genConfig";
+			var tab = getURLParam('tab');
 
-			var http_tab = getURLParam('tab');
-
-			if (http_tab) active_tab = http_tab;
-
-			var tab = dijit.byId(active_tab + "Tab");
-
-			if (tab) dijit.byId("pref-tabs").selectChild(tab);
+			if (tab) {
+			  	tab = dijit.byId(tab + "Tab");
+				if (tab) dijit.byId("pref-tabs").selectChild(tab);
+			}
 
 			});
 

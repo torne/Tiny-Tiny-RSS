@@ -306,9 +306,27 @@ function toggleSelectListRow(sender) {
 	return toggleSelectRow(sender, row);
 }
 
+/* this is for dijit Checkbox */
+function toggleSelectListRow2(sender) {
+	var row = sender.domNode.parentNode;
+	return toggleSelectRow(sender, row);
+}
+
 function tSR(sender, row) {
 	return toggleSelectRow(sender, row);
 }
+
+/* this is for dijit Checkbox */
+function toggleSelectRow2(sender, row) {
+
+	if (!row) row = sender.domNode.parentNode.parentNode;
+
+	if (sender.checked && !row.hasClassName('Selected'))
+		row.addClassName('Selected');
+	else
+		row.removeClassName('Selected');
+}
+
 
 function toggleSelectRow(sender, row) {
 
