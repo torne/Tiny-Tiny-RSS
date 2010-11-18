@@ -106,11 +106,17 @@ create table ttrss_counters_cache (
 	updated timestamp not null,
 	value integer not null default 0);
 
+create index ttrss_counters_cache_feed_id_idx on ttrss_counters_cache(feed_id);
+create index ttrss_counters_cache_owner_uid_idx on ttrss_counters_cache(owner_uid);
+create index ttrss_counters_cache_value_idx on ttrss_counters_cache(value);
+
 create table ttrss_cat_counters_cache (
 	feed_id integer not null,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	updated timestamp not null,
 	value integer not null default 0);
+
+create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
 create table ttrss_entries (id serial not null primary key, 
 	title text not null, 
