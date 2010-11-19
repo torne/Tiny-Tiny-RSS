@@ -8,6 +8,8 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		return this.store._itemsByIdentity[id];
 	},
 	getFeedValue: function(feed, is_cat, key) {	
+		if (!this.store._itemsByIdentity) return undefined;
+
 		if (is_cat) 
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
 		else
@@ -28,6 +30,7 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 	},
 	setFeedValue: function(feed, is_cat, key, value) {
 		if (!value) value = '';
+		if (!this.store._itemsByIdentity) return undefined;
 
 		if (is_cat) 
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
