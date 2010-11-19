@@ -169,9 +169,12 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		} else {
 
-			if (!is_cat)
+			if (!is_cat) {
 				if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
 					notify_progress("Loading, please wait...", true);
+			} else {
+				notify_progress("Loading, please wait...", true);
+			}
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
