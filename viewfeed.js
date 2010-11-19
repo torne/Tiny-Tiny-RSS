@@ -210,13 +210,13 @@ function render_article(article) {
 		dijit.byId("headlines-wrap-inner").addChild(
 				dijit.byId("content-insert"));
 
-		var c = $("content-insert");
+		var c = dijit.byId("content-insert");
 
 		try {
-			c.scrollTop = 0;
+			c.domNode.scrollTop = 0;
 		} catch (e) { };
 		
-		c.innerHTML = article;
+		c.attr('content', article);
 
 		correctHeadlinesOffset(getActiveArticleId());		
 
@@ -2073,7 +2073,7 @@ function postClicked(event, id) {
 		if (!event.ctrlKey) {
 			return true;
 		} else {
-			zoomToArticle(event, id);
+			postOpenInNewTab(event, id);
 			return false;
 		}
 
@@ -2084,6 +2084,11 @@ function postClicked(event, id) {
 
 function hlOpenInNewTab(event, id) {
 	toggleUnread(id, 0, false);
+	zoomToArticle(event, id);
+}
+
+function postOpenInNewTab(event, id) {
+	closeArticlePanel(id);
 	zoomToArticle(event, id);
 }
 

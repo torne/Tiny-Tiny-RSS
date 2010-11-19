@@ -4660,7 +4660,7 @@
 
 				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"zoomToArticle(event, $id)\"
+						onclick=\"postOpenInNewTab(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
 				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
