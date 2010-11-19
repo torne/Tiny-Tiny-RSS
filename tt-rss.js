@@ -256,7 +256,7 @@ function init() {
 		dojo.require("dijit.form.Select");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
-		dojo.require("dojo.parser");
+		dojo.require("dijit.Menu");
 
 		dojo.registerModulePath("fox", "../..");
 

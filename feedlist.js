@@ -135,8 +135,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		console.log(query);
 
-		var container = $("headlinesInnerContainer");
-
 		var unread_ctr = -1;
 		
 		if (!is_cat) unread_ctr = getFeedUnread(feed);

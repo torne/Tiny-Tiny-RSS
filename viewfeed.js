@@ -98,11 +98,11 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 			if (feed_cur_page == 0) {
 				if (headlines) {
-					$("headlinesInnerContainer").innerHTML = headlines_content.firstChild.nodeValue;
-					$("headlines-toolbar").innerHTML = headlines_toolbar.firstChild.nodeValue;
+					dijit.byId("headlines-frame").attr('content', 
+						headlines_content.firstChild.nodeValue);
 
-					dojo.parser.parse("headlines-toolbar");
-					//dijit.byId("main").resize();
+					dijit.byId("headlines-toolbar").attr('content',
+						headlines_toolbar.firstChild.nodeValue);
 
 					var cache_prefix = "";
 
@@ -121,19 +121,21 @@ function headlines_callback2(transport, feed_cur_page) {
 
 				} else {
 					console.warn("headlines_callback: returned no data");
-				$('headlinesInnerContainer').innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML data)') + "</div>";
+					dijit.byId("headlines-frame").attr('content', 
+						"<div class='whiteBox'>" + 
+						__('Could not update headlines (missing XML data)') + "</div>");
 	
 				}
 			} else {
 				if (headlines) {
 					if (headlines_count > 0) {
 						console.log("adding some more headlines...");
-	
-						c = $("headlinesInnerContainer");
 
+						var c = dijit.byId("headlines-frame");	
 						var ids = getSelectedArticleIds2();
 	
-						c.innerHTML = c.innerHTML + headlines_content.firstChild.nodeValue;
+						c.attr('content', c.attr('content') + 
+							headlines_content.firstChild.nodeValue);
 
 						console.log("restore selected ids: " + ids);
 
@@ -172,7 +174,8 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 		} else {
 			console.warn("headlines_callback: returned no XML object");
-			$('headlinesInnerContainer').innerHTML = "<div class='whiteBox'>" + __('Could not update headlines (missing XML object)') + "</div>";
+			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" + 
+					__('Could not update headlines (missing XML object)') + "</div>");
 		}
 	
 
@@ -866,7 +869,7 @@ function getSelectedArticleIds2() {
 
 	var rv = [];
 
-	$$("#headlinesInnerContainer > div[id*=RROW][class*=Selected]").each(
+	$$("#headlines-frame > div[id*=RROW][class*=Selected]").each(
 		function(child) {
 			rv.push(child.id.replace("RROW-", ""));
 		});
@@ -877,7 +880,7 @@ function getSelectedArticleIds2() {
 function getLoadedArticleIds() {
 	var rv = [];
 
-	var children = $$("#headlinesInnerContainer > div[id*=RROW-]");
+	var children = $$("#headlines-frame > div[id*=RROW-]");
 
 	children.each(function(child) {
 			rv.push(child.id.replace("RROW-", ""));
@@ -891,7 +894,7 @@ function getLoadedArticleIds() {
 function selectArticles(mode) {
 	try {
 
-		var children = $$("#headlinesInnerContainer > div[id*=RROW]");
+		var children = $$("#headlines-frame > div[id*=RROW]");
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
@@ -1164,7 +1167,7 @@ function cdmWatchdog() {
 
 	try {
 
-		var ctr = $("headlinesInnerContainer");
+		var ctr = $("headlines-frame");
 
 		if (!ctr) return;
 
@@ -1775,7 +1778,7 @@ function scrollArticle(offset) {
 				ci.scrollTop += offset;
 			}
 		} else {
-			var hi = $("headlinesInnerContainer");
+			var hi = $("headlines-frame");
 			if (hi) {
 				hi.scrollTop += offset;
 			}
