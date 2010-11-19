@@ -2,6 +2,7 @@ dojo.provide("fox.FeedTree");
 dojo.provide("fox.FeedStoreModel");
 
 dojo.require("dijit.Tree");
+dojo.require("dijit.Menu");
 
 dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 	getItemById: function(id) {
@@ -45,9 +46,32 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 dojo.declare("fox.FeedTree", dijit.Tree, {
 	_createTreeNode: function(args) {
 		var tnode = new dijit._TreeNode(args);
-
+		
 		if (args.item.icon)
 			tnode.iconNode.src = args.item.icon[0];
+
+		var id = args.item.id[0];
+		var bare_id = parseInt(id.substr(id.indexOf(':')+1));
+
+		if (id.match("FEED:") && bare_id > 0) {
+			var menu = new dijit.Menu();
+			menu.row_id = bare_id;
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Edit feed"),
+				onClick: function() {
+					editFeedDlg(this.getParent().row_id);
+				}}));
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Update feed"),
+				onClick: function() {
+					scheduleFeedUpdate(this.getParent().row_id, false);
+				}}));
+
+			menu.bindDomNode(tnode.domNode);
+			tnode._menu = menu;
+		}
 
 		//tnode.labelNode.innerHTML = args.label;
 		return tnode;

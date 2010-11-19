@@ -115,11 +115,28 @@ function updateFeedList() {
 		id: "feedTree",
 		}, "feedTree");
 
+/*		var menu = new dijit.Menu({id: 'feedMenu'});
+		
+		menu.addChild(new dijit.MenuItem({
+          label: "Simple menu item"
+		}));
+
+//		menu.bindDomNode(tree.domNode); */
+		
+		var tmph = dojo.connect(dijit.byId('feedMenu'), '_openMyself', function (event) { 
+			console.log(dijit.getEnclosingWidget(event.target));
+			dojo.disconnect(tmph);
+		});
+
 		$("feeds-holder").appendChild(tree.domNode);
 
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
+
+//			var node = dijit.byId("feedTree")._itemNodesMap['FEED:-2'][0].domNode
+//			menu.bindDomNode(node);
+
 			loading_set_progress(25);
 		});
 
@@ -1100,17 +1117,21 @@ function handle_rpc_reply(transport, scheduled_call) {
 	return true;
 }
 
-function scheduleFeedUpdate() {
+function scheduleFeedUpdate(id, is_cat) {
 	try {
+		if (!id) {
+			id = getActiveFeedId();
+			is_cat = activeFeedIsCat();
+		}
 
-		if (!getActiveFeedId()) {
+		if (!id) {
 			alert(__("Please select some feed first."));
 			return;
 		}
 
 		var query = "?op=rpc&subop=scheduleFeedUpdate&id=" + 
-			param_escape(getActiveFeedId()) +
-			"&is_cat=" + param_escape(activeFeedIsCat());
+			param_escape(id) +
+			"&is_cat=" + param_escape(is_cat);
 
 		console.log(query);
 

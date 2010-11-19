@@ -962,7 +962,7 @@
 
 		if ($subop == "scheduleFeedUpdate") {
 			$feed_id = db_escape_string($_REQUEST["id"]);
-			$is_cat = db_escape_string($_REQUEST['is_cat']);
+			$is_cat =  db_escape_string($_REQUEST['is_cat']) == 'true';
 
 			$message = __("Your request could not be completed.");
 
