@@ -1976,3 +1976,30 @@ function editLabel(id, event) {
 		exception_error("editLabel", e);
 	}
 }
+
+function editLabelSave() {
+	try {
+		var form = document.forms['label_edit_form'];
+
+		var id = form.id.value;
+		var caption = form.caption.value;
+		var fg_color = form.fg_color.value;
+		var bg_color = form.bg_color.value;
+
+		var query = Form.serialize('label_edit_form');
+
+		dijit.byId('labelTree').setNameById(id, caption);
+		setLabelColor(id, fg_color, bg_color);
+
+		closeInfoBox();
+		updateFilterList();
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) { 
+			} });
+
+	} catch (e) {
+		exception_error("editLabelSave", e);
+	}
+}

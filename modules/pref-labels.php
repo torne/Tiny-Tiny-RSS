@@ -16,43 +16,41 @@
 
 			$line = db_fetch_assoc($result);
 
+			print "<form id=\"label_edit_form\" name=\"label_edit_form\"
+				onsubmit=\"return false;\">";
+
+			print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
+			print "<input type=\"hidden\" name=\"subop\" value=\"save\">";
+
 			print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<span dojoType=\"dijit.InlineEditBox\" style=\"font-size : 18px;\"
-				width=\"150px\" autoSave=\"false\"
-				label-id=\"$label_id\">" . $line["caption"] . 
-				"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
-					var elem = this;
-					dojo.xhrPost({
-						url: 'backend.php',
-						content: {op: 'pref-labels', subop: 'save',
-							value: this.value,
-							id: this.srcNodeRef.getAttribute('label-id')},
-							load: function(response) {
-								elem.attr('value', response);
-								dijit.byId('labelTree').setNameById($label_id, response);
-								updateFilterList();
-							}
-					});	
-				</script>
-			</span>";
+			print "<input style=\"font-size : 18px\" name=\"caption\" 
+				onkeypress=\"return filterCR(event, editLabelSave)\"
+				value=\"".htmlspecialchars($line['caption'])."\">";
 
 			print "</div>";
-			print "<div class=\"dlgSec\">" . __("Change colors") . "</div>";
+			print "<div class=\"dlgSec\">" . __("Colors") . "</div>";
 			print "<div class=\"dlgSecCont\">";
 
 			print "<table cellspacing=\"5\"><th>";
 
-			print "<tr><td>".__("Foreground color:")."</td><td>".__("Background color:").
+			print "<tr><td>".__("Foreground:")."</td><td>".__("Background:").
 				"</td></tr>";
 
 			print "</th><tr><td>";
 
+			$fg_color = $line['fg_color'];
+			$bg_color = $line['bg_color'];
+
+			print "<input type=\"hidden\" name=\"fg_color\" value=\"$fg_color\">";
+			print "<input type=\"hidden\" name=\"bg_color\" value=\"$bg_color\">";
+
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"fg_color\">
-					setLabelColor('$label_id', fg_color, null);
+					document.forms['label_edit_form'].fg_color.value = fg_color;
 				</script>
 			</div>";
 			print "</div>";
@@ -61,7 +59,7 @@
 
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"bg_color\">
-					setLabelColor('$label_id', null, bg_color);
+					document.forms['label_edit_form'].bg_color.value = bg_color;
 				</script>
 			</div>";
 			print "</div>";
@@ -69,9 +67,13 @@
 			print "</td></tr></table>";
 			print "</div>";
 
-			print "<div class=\"dlgButtons\" style=\"text-align : center\">";
+			print "</form>";
+
+			print "<div class=\"dlgButtons\">";
+			print "<button onclick=\"return editLabelSave()\">".
+				__('Save')."</button>";
 			print "<button onclick=\"return closeInfoBox()\">".
-				__('Close this window')."</button>";
+				__('Cancel')."</button>";
 			print "</div>";
 
 			print "]]></content></dlg>";
@@ -163,7 +165,7 @@
 		if ($subop == "save") {
 
 			$id = db_escape_string($_REQUEST["id"]);
-			$caption = db_escape_string(trim($_REQUEST["value"]));
+			$caption = db_escape_string(trim($_REQUEST["caption"]));
 
 			db_query($link, "BEGIN");
 
