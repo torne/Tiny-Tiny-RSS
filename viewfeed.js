@@ -2231,7 +2231,12 @@ function initHeadlinesMenu() {
 			dijit.byId("headlinesMenu").destroyRecursive();
 
 		var ids = [];
-		var nodes = $$("#headlines-frame > div[id*=RROW]");
+
+		if (!isCdmMode()) {
+			nodes = $$("#headlines-frame > div[id*=RROW]");
+		} else {
+			nodes = $$("#headlines-frame span[id*=RTITLE]");
+		}
 
 		nodes.each(function(node) {
 			ids.push(node.id);
