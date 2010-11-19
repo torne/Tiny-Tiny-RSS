@@ -5048,6 +5048,17 @@
 
 					print "<div class='$class' id='RROW-$id' $mouseover_attrs>";
 
+					print "<div dojoType=\"dijit.Menu\" style=\"display: none;\" 
+						targetNodeIds=\"RROW-$id\">";
+					print "<div onclick=\"view($id)\" 
+						dojoType=\"dijit.MenuItem\">".__('View article')."</div>";
+					print "<div onclick=\"hlOpenInNewTab(event, $id)\" 
+						dojoType=\"dijit.MenuItem\">".__('View in a new tab')."</div>";
+					print "<div dojoType=\"dijit.MenuSeparator\"></div>";
+					print "<div onclick=\"openArticleInNewWindow($id)\" 
+						dojoType=\"dijit.MenuItem\">".__('Open original article')."</div>";
+					print "</div>";
+	
 					print "<div class='hlUpdPic'>$update_pic</div>";
 
 					print "<div class='hlLeft'>";
@@ -5087,6 +5098,8 @@
 					} */
 
 					print "</div>";
+
+
 
 					print "<div class=\"hlRight\">";					
 					print "<span class=\"hlUpdated\">$updated_fmt</span>";

@@ -251,6 +251,7 @@ function init() {
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.Menu");
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.form.Select");

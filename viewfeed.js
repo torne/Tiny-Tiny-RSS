@@ -1714,7 +1714,7 @@ function zoomToArticle(event, id) {
 				return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
 
 		if (cached_article) {
-			closeArticlePanel();
+			//closeArticlePanel();
 		
 			var article_pane = new dijit.layout.ContentPane({ 
 				title: __("Loading...") , content: cached_article, 
@@ -1742,7 +1742,7 @@ function zoomToArticle(event, id) {
 					notify('');
 	
 					if (transport.responseXML) {
-						closeArticlePanel();
+						//closeArticlePanel();
 	
 						var article = transport.responseXML.getElementsByTagName("article")[0];
 						var content = article.firstChild.nodeValue;
@@ -2078,6 +2078,11 @@ function postClicked(event, id) {
 	}
 }
 
+function hlOpenInNewTab(event, id) {
+	toggleUnread(id, 0, false);
+	zoomToArticle(event, id);
+}
+
 function hlClicked(event, id) {
 	try {
 
@@ -2085,7 +2090,6 @@ function hlClicked(event, id) {
 			view(id);
 			return true;
 		} else {
-			selectArticles('none');
 			toggleSelected(id);
 			toggleUnread(id, 0, false);
 			zoomToArticle(event, id);
