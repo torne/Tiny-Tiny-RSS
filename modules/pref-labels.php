@@ -27,6 +27,11 @@
 
 			print "<div class=\"dlgSecCont\">";
 
+			$fg_color = $line['fg_color'];
+			$bg_color = $line['bg_color'];
+
+			print "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span>";
+
 			print "<input style=\"font-size : 18px\" name=\"caption\" 
 				onkeypress=\"return filterCR(event, editLabelSave)\"
 				value=\"".htmlspecialchars($line['caption'])."\">";
@@ -42,15 +47,13 @@
 
 			print "<tr><td style='padding-right : 10px'>";
 
-			$fg_color = $line['fg_color'];
-			$bg_color = $line['bg_color'];
-
 			print "<input type=\"hidden\" name=\"fg_color\" value=\"$fg_color\">";
 			print "<input type=\"hidden\" name=\"bg_color\" value=\"$bg_color\">";
 
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"fg_color\">
 					document.forms['label_edit_form'].fg_color.value = fg_color;
+					$('label-editor-indicator').setStyle({color: fg_color});
 				</script>
 			</div>";
 			print "</div>";
@@ -60,6 +63,7 @@
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"bg_color\">
 					document.forms['label_edit_form'].bg_color.value = bg_color;
+					$('label-editor-indicator').setStyle({backgroundColor: bg_color});
 				</script>
 			</div>";
 			print "</div>";
