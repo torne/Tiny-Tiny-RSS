@@ -2260,11 +2260,12 @@ function initHeadlinesMenu() {
 
 		});
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("View article"),
-			onClick: function(event) {
-				view(this.getParent().callerRowId);
-			}}));
+		if (!isCdmMode())
+			menu.addChild(new dijit.MenuItem({
+				label: __("View article"),
+				onClick: function(event) {
+					view(this.getParent().callerRowId);
+				}}));
 
 		menu.addChild(new dijit.MenuItem({
 			label: __("View in a new tab"),
