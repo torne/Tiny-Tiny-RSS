@@ -37,6 +37,9 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 
 		return label;
 	},
+	getIconClass: function (item, opened) {
+		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "invisible";
+	},
 	getLabelClass: function (item, opened) {
 		var enabled = this.model.store.getValue(item, 'enabled');
 		return (enabled != false) ? "dijitTreeLabel labelFixedLength" : "dijitTreeLabel labelFixedLength Disabled";
