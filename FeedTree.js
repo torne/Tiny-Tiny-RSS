@@ -5,6 +5,17 @@ dojo.require("dijit.Tree");
 dojo.require("dijit.Menu");
 
 dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
+	getItemsInCategory: function (id) {
+		if (!this.store._itemsByIdentity) return undefined;
+
+		cat = this.store._itemsByIdentity['CAT:' + id];
+
+		if (cat && cat.items)
+			return cat.items;
+		else
+			return undefined;
+
+	},
 	getItemById: function(id) {
 		return this.store._itemsByIdentity[id];
 	},

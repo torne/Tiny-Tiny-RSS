@@ -133,6 +133,7 @@ function updateFeedList() {
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
+			feedlist_init();
 
 //			var node = dijit.byId("feedTree")._itemNodesMap['FEED:-2'][0].domNode
 //			menu.bindDomNode(node);
@@ -328,7 +329,6 @@ function init_second_stage() {
 		if (has_local_storage())
 			localStorage.clear();
 
-		feedlist_init();
 		setTimeout("timeout()", 3000);
 
 		console.log("second stage ok");

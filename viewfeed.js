@@ -669,10 +669,10 @@ function toggleUnread(id, cmode, effect) {
 	}
 }
 
-function selectionRemoveLabel(id) {
+function selectionRemoveLabel(id, ids) {
 	try {
 
-		var ids = getSelectedArticleIds2();
+		if (!ids) var ids = getSelectedArticleIds2();
 
 		if (ids.length == 0) {
 			alert(__("No articles are selected."));
@@ -707,10 +707,10 @@ function selectionRemoveLabel(id) {
 	}
 }
 
-function selectionAssignLabel(id) {
+function selectionAssignLabel(id, ids) {
 	try {
 
-		var ids = getSelectedArticleIds2();
+		if (!ids) ids = getSelectedArticleIds2();
 
 		if (ids.length == 0) {
 			alert(__("No articles are selected."));
@@ -2265,13 +2265,47 @@ function initHeadlinesMenu() {
 			label: __("View in a new tab"),
 			onClick: function(event) {
 				hlOpenInNewTab(event, this.getParent().callerRowId);
-			}}));
+				}}));
+
+		menu.addChild(new dijit.MenuSeparator());
 
 		menu.addChild(new dijit.MenuItem({
 			label: __("Open original article"),
 			onClick: function(event) {
 				openArticleInNewWindow(this.getParent().callerRowId);
 			}}));
+
+		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
+
+		if (labels) {
+
+			menu.addChild(new dijit.MenuSeparator());
+
+			var labelsMenu = new dijit.Menu({ownerMenu: menu});
+
+			labels.each(function(label) {
+				var id = label.id[0];
+				var bare_id = id.substr(id.indexOf(":")+1);
+				var name = label.name[0];
+
+				bare_id = -11-bare_id;
+
+				labelsMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						//console.log(this.labelId);
+						//console.log(this.getParent().ownerMenu.callerRowId);
+						selectionAssignLabel(this.labelId, 
+							[this.getParent().ownerMenu.callerRowId]);
+				}}));
+			});
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Labels"),
+				popup: labelsMenu,
+			}));
+		}
 
 		menu.startup();
 
