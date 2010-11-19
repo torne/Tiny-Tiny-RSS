@@ -7033,7 +7033,7 @@
 		if (!$title) 
 			$title = getFeedTitle($link, $feed_id, false);
 
-		if (!$unread)
+		if ($unread === false)
 			$unread = getFeedUnread($link, $feed_id, false);
 
 		$obj['id'] = 'FEED:' . $feed_id;

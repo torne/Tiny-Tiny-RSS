@@ -29,6 +29,7 @@ function viewNextFeedPage() {
 function viewfeed(feed, subop, is_cat, offset) {
 	try {
 		if (is_cat == undefined) is_cat = false;
+		if (subop == undefined) subop = '';
 
 //		if (!offset) page_offset = 0;
 
@@ -207,6 +208,8 @@ function feedlist_init() {
 				getInitParam("cdm_auto_catchup") + " " + getFeedUnread(-3));
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
+
+		setTimeout("timeout()", 5000);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);

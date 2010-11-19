@@ -329,8 +329,6 @@ function init_second_stage() {
 		if (has_local_storage())
 			localStorage.clear();
 
-		setTimeout("timeout()", 3000);
-
 		console.log("second stage ok");
 
 	} catch (e) {
