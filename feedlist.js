@@ -309,7 +309,10 @@ function parse_counters(reply, scheduled_call) {
 
 			var treeItem;
 
-			if (id == getActiveFeedId() && ctr > getFeedUnread(id) && scheduled_call) {
+			// TODO: enable new content notification for categories
+
+			if (!activeFeedIsCat() && id == getActiveFeedId() 
+					&& ctr > getFeedUnread(id) && scheduled_call) {
 				displayNewContentPrompt(id);
 			}
 
