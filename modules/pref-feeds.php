@@ -428,18 +428,10 @@
 				$checked = "";
 			}
 
-			if (SIMPLEPIE_CACHE_IMAGES) {
-				$disabled = "";
-				$label_class = "";
-			} else {
-				$disabled = "disabled";
-				$label_class = "class='insensitive'";
-			}
-
 			print "<br/><input type=\"checkbox\" id=\"cache_images\" 
-				name=\"cache_images\" $disabled
-				$checked>&nbsp;<label $label_class for=\"cache_images\">".
-				__('Cache images locally')."</label>";
+				name=\"cache_images\"
+				$checked>&nbsp;<label for=\"cache_images\">".
+				__('Cache images locally (SimplePie only)')."</label>";
 
 
 			print "</div>";
