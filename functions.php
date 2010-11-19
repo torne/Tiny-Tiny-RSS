@@ -4261,7 +4261,6 @@
 				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 			}
 		}
-
 	
 /*		if (get_pref($link, 'ENABLE_FEED_CATS')) {
 			if (get_pref($link, "FEEDS_SORT_BY_UNREAD")) {
@@ -4276,6 +4275,8 @@
 				$order_by_qpart = "title";
 			}
 		} */
+
+		/* real feeds */
 
 		if ($enable_cats)
 			$order_by_qpart = "ttrss_feed_categories.order_id,category,
@@ -4304,54 +4305,56 @@
 
 		$actid = $_REQUEST["actid"];
 
-		/* real feeds */
+		if (db_num_rows($result) > 0) {
 
-		$category = "";
-
-		if (!$enable_cats) 
-			$cat['items'] = array();
-		else
-			$cat = false;
-
-		while ($line = db_fetch_assoc($result)) {
-		
-			$feed = htmlspecialchars(trim($line["title"]));
-
-			if (!$feed) $feed = "[Untitled]";
-
-			$feed_id = $line["id"];	  
-			$unread = $line["unread"];
-
-			$cat_id = $line["cat_id"];
-			$tmp_category = $line["category"];
-			if (!$tmp_category) $tmp_category = __("Uncategorized");
-
-			if ($category != $tmp_category && $enable_cats) {
+			$category = "";
 	
-				$category = $tmp_category;
-
-				$collapsed = sql_bool_to_bool($line["collapsed"]);
-
-				// workaround for NULL category
-				if ($category == __("Uncategorized")) {
-					$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
+			if (!$enable_cats) 
+				$cat['items'] = array();
+			else
+				$cat = false;
+	
+			while ($line = db_fetch_assoc($result)) {
+			
+				$feed = htmlspecialchars(trim($line["title"]));
+	
+				if (!$feed) $feed = "[Untitled]";
+	
+				$feed_id = $line["id"];	  
+				$unread = $line["unread"];
+	
+				$cat_id = $line["cat_id"];
+				$tmp_category = $line["category"];
+				if (!$tmp_category) $tmp_category = __("Uncategorized");
+	
+				if ($category != $tmp_category && $enable_cats) {
+		
+					$category = $tmp_category;
+	
+					$collapsed = sql_bool_to_bool($line["collapsed"]);
+	
+					// workaround for NULL category
+					if ($category == __("Uncategorized")) {
+						$collapsed = get_pref($link, "_COLLAPSED_UNCAT");
+					}
+	
+					if ($cat) array_push($feedlist['items'], $cat);
+	
+					$cat = feedlist_init_cat($link, $cat_id, $collapsed);
 				}
-
-				if ($cat) array_push($feedlist['items'], $cat);
-
-				$cat = feedlist_init_cat($link, $cat_id, $collapsed);
+	
+				$updated = make_local_datetime($link, $line["updated_noms"], false);	
+	
+				array_push($cat['items'], feedlist_init_feed($link, $feed_id, 
+					$feed, $unread, $line['last_error'], $updated));
+			}
+	
+			if ($enable_cats) {
+				array_push($feedlist['items'], $cat);
+			} else { 
+				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 			}
 
-			$updated = make_local_datetime($link, $line["updated_noms"], false);	
-
-			array_push($cat['items'], feedlist_init_feed($link, $feed_id, 
-				$feed, $unread, $line['last_error'], $updated));
-		}
-
-		if ($enable_cats) {
-			array_push($feedlist['items'], $cat);
-		} else { 
-			$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 		}
 
 		return $feedlist;
