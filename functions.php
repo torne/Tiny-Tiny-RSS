@@ -4622,9 +4622,18 @@
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
 			print "<div class=\"postReply\" id=\"POST-$id\">";
-			print "<div 
-				onclick=\"return postClicked(event, $id)\"
-				class=\"postHeader\">";
+
+			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\" 
+				targetNodeIds=\"POSTHDR-$id\">";
+			print "<div onclick=\"postOpenInNewTab(event, $id)\" 
+				dojoType=\"dijit.MenuItem\">".__('View in a new tab')."</div>";
+			print "<div dojoType=\"dijit.MenuSeparator\"></div>";
+			print "<div onclick=\"openArticleInNewWindow($id)\" 
+				dojoType=\"dijit.MenuItem\">".__('Open original article')."</div>";
+			print "</div>";
+
+			print "<div onclick=\"return postClicked(event, $id)\"
+				class=\"postHeader\" id=\"POSTHDR-$id\">";
 
 			$entry_author = $line["author"];
 
