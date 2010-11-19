@@ -2,6 +2,7 @@ dojo.provide("fox.PrefFeedTree");
 dojo.provide("fox.PrefFeedStore");
 
 dojo.require("lib.CheckBoxTree");
+dojo.require("dojo.data.ItemFileWriteStore");
 
 dojo.declare("fox.PrefFeedStore", dojo.data.ItemFileWriteStore, {
 	

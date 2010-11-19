@@ -1111,7 +1111,7 @@ function init() {
 		dojo.require("dijit.tree.dndSource");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.ColorPalette");
-		dojo.require("dijit.ProgressBar");
+		dojo.require("dijit.ProgressBar"); 
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -1121,15 +1121,15 @@ function init() {
 		dojo.require("fox.PrefFilterTree");
 		dojo.require("fox.PrefLabelTree");
 
-		loading_set_progress(50);
+		dojo.addOnLoad(function() {
+			loading_set_progress(50);
 
-		var query = "?op=rpc&subop=sanityCheck";
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				backend_sanity_check_callback(transport);
-			} });
+			new Ajax.Request("backend.php", {
+				parameters: {op: "rpc", subop: "sanityCheck"},
+					onComplete: function(transport) { 
+					backend_sanity_check_callback(transport);
+				} });
+		});
 
 	} catch (e) {
 		exception_error("init", e);

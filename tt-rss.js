@@ -279,12 +279,10 @@ function init() {
 		if (!genericSanityCheck()) 
 			return;
 
-		var params = "&ua=" + param_escape(navigator.userAgent);
-
 		loading_set_progress(20);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "backend.php?op=rpc&subop=sanityCheck" + params,
+			parameters: {op: "rpc", subop: "sanityCheck"},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
