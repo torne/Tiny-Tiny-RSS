@@ -74,7 +74,8 @@
 				$cat['bare_id'] = 0;
 				$cat['name'] = __("Uncategorized");
 				$cat['items'] = array();
-	
+				$cat['type'] = 'category';
+
 				$feed_result = db_query($link, "SELECT id, title,last_error 
 					FROM ttrss_feeds
 					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
