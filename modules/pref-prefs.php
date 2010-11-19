@@ -158,10 +158,6 @@
 
 		} else {
 
-			if ($_SESSION["profile"]) {
-				print_notice("Some preferences are only available in default profile.");
-			}
-
 			if (!SINGLE_USER_MODE) {
 
 				$result = db_query($link, "SELECT id FROM ttrss_users
@@ -286,6 +282,10 @@
 			}
 
 			print "<div dojoType=\"dijit.layout.AccordionPane\" selected=\"true\" title=\"".__('Preferences')."\">";
+
+			if ($_SESSION["profile"]) {
+				print_notice("Some preferences are only available in default profile.");
+			}
 
 			if ($_SESSION["profile"]) {
 				initialize_user_prefs($link, $_SESSION["uid"], $_SESSION["profile"]);
