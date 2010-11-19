@@ -5172,8 +5172,8 @@
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
-						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"]."</a>
-						$entry_author";
+						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"].
+						" $entry_author</a>";
 
 					print $labels_str;
 
