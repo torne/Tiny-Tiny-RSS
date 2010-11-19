@@ -1164,8 +1164,6 @@
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Feeds')."\">";
 
-		set_pref($link, "_PREFS_ACTIVE_TAB", "feedConfig");
-
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 

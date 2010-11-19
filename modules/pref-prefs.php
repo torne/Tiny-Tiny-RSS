@@ -158,8 +158,6 @@
 
 		} else {
 
-			set_pref($link, "_PREFS_ACTIVE_TAB", "genConfig");
-
 			if ($_SESSION["profile"]) {
 				print_notice("Some preferences are only available in default profile.");
 			}

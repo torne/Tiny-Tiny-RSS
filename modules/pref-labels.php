@@ -242,8 +242,6 @@
 			return;
 		}
 
-		set_pref($link, "_PREFS_ACTIVE_TAB", "labelConfig");
-
 		$sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {

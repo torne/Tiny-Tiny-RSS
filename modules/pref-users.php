@@ -352,8 +352,6 @@
 
 		print "<div id=\"pref-user-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		set_pref($link, "_PREFS_ACTIVE_TAB", "userConfig");
-
 		$user_search = db_escape_string($_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
