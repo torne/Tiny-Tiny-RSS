@@ -35,12 +35,12 @@
 			print "<div class=\"dlgSec\">" . __("Colors") . "</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<table cellspacing=\"5\"><th>";
+			print "<table cellspacing=\"0\">";
 
 			print "<tr><td>".__("Foreground:")."</td><td>".__("Background:").
 				"</td></tr>";
 
-			print "</th><tr><td>";
+			print "<tr><td style='padding-right : 10px'>";
 
 			$fg_color = $line['fg_color'];
 			$bg_color = $line['bg_color'];
