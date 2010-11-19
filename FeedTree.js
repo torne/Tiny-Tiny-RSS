@@ -139,7 +139,6 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 					}
 				}	
 			});
-		console.log(this);
 
 		} else {
 			this.hideReadFeeds(this.model.store._arrayOfTopLevelItems, hide, 
