@@ -82,6 +82,10 @@ create table ttrss_counters_cache (
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 );
 
+create index ttrss_counters_cache_feed_id_idx on ttrss_counters_cache(feed_id);
+create index ttrss_counters_cache_owner_uid_idx on ttrss_counters_cache(owner_uid);
+create index ttrss_counters_cache_value_idx on ttrss_counters_cache(value);
+
 create table ttrss_cat_counters_cache (
 	feed_id integer not null,
 	owner_uid integer not null,
@@ -89,6 +93,8 @@ create table ttrss_cat_counters_cache (
 	updated datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 );
+
+create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
 create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
@@ -143,6 +149,8 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	author varchar(250) not null default '') TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
+create index ttrss_entries_guid_index on ttrss_entries(guid);
+create index ttrss_entries_updated_idx on ttrss_entries(updated);
 
 create table ttrss_user_entries (
 	int_id integer not null primary key auto_increment,
@@ -166,6 +174,8 @@ create table ttrss_user_entries (
 	foreign key (orig_feed_id) references ttrss_archived_feeds(id) ON DELETE SET NULL,
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB DEFAULT CHARSET=UTF8;
+
+create index ttrss_user_entries_unread_idx on ttrss_user_entries(unread);
 
 create table ttrss_entry_comments (id integer not null primary key,
 	ref_id integer not null,
