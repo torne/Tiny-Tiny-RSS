@@ -35,7 +35,7 @@ function headlines_callback2(transport, feed_cur_page) {
 
 		if (!handle_rpc_reply(transport)) return;
 
-		loading_set_progress(100);
+		loading_set_progress(25);
 
 		console.log("headlines_callback2 [page=" + feed_cur_page + "]");
 
@@ -192,8 +192,6 @@ function headlines_callback2(transport, feed_cur_page) {
 		_infscroll_request_sent = 0;
 
 		notify("");
-
-		remove_splash();
 
 	} catch (e) {
 		exception_error("headlines_callback2", e, transport);

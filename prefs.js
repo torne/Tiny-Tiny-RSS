@@ -25,7 +25,6 @@ function feedlist_callback2(transport) {
 			caller_subop = false;
 		}
 		notify("");
-		remove_splash();
 
 	} catch (e) {
 		exception_error("feedlist_callback2", e);
@@ -35,7 +34,6 @@ function feedlist_callback2(transport) {
 function filterlist_callback2(transport) {
 	dijit.byId('filterConfigTab').attr('content', transport.responseText); 
 	notify("");
-	remove_splash();
 }
 
 function labellist_callback2(transport) {
@@ -46,7 +44,6 @@ function labellist_callback2(transport) {
 		closeInfoBox();
 
 		notify("");
-		remove_splash();
 
 	} catch (e) {
 		exception_error("labellist_callback2", e);
@@ -58,7 +55,6 @@ function userlist_callback2(transport) {
 		dijit.byId('userConfigTab').attr('content', transport.responseText); 
 
 		notify("");
-		remove_splash();
 	} catch (e) {
 		exception_error("userlist_callback2", e);
 	}
@@ -69,7 +65,6 @@ function prefslist_callback2(transport) {
 		dijit.byId('genConfigTab').attr('content', transport.responseText); 
 
 		notify("");
-		remove_splash();
 	} catch (e) {
 		exception_error("prefslist_callback2", e);
 	}
@@ -1072,7 +1067,7 @@ function init_second_stage() {
 			caller_subop = caller_subop + ":" + getURLParam("subopparam");
 		}
 
-		loading_set_progress(60);
+		loading_set_progress(50);
 
 		notify("");
 
@@ -1088,7 +1083,6 @@ function init_second_stage() {
 			});
 
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
-		remove_splash();
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
@@ -1117,6 +1111,7 @@ function init() {
 		dojo.require("dijit.tree.dndSource");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.ProgressBar");
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -1126,7 +1121,7 @@ function init() {
 		dojo.require("fox.PrefFilterTree");
 		dojo.require("fox.PrefLabelTree");
 
-		loading_set_progress(30);
+		loading_set_progress(50);
 
 		var query = "?op=rpc&subop=sanityCheck";
 

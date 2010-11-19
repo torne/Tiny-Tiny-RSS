@@ -61,12 +61,10 @@
 
 <div id="overlay" style="display : block">
 	<div id="overlay_inner">
-		<?php echo __("Loading, please wait...") ?>
-
-		<div id="l_progress_o">
-			<div id="l_progress_i"></div>
+		<div class="insensitive"><?php echo __("Loading, please wait...") ?></div>
+		<div dojoType="dijit.ProgressBar" places="0" style="width : 300px" id="loading_bar"
+	     progress="0" maximum="100">
 		</div>
-
 	<noscript>
 		<p>
 		<?php print_error(__("Your browser doesn't support Javascript, which is required

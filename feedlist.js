@@ -191,8 +191,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 function feedlist_init() {
 	try {
-		loading_set_progress(90);
-
 		console.log("in feedlist init");
 		
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
@@ -204,7 +202,6 @@ function feedlist_init() {
 				setTimeout("viewfeed(-3)", 100);
 			} else {
 				setTimeout("viewfeed(-5)", 100);
-				remove_splash();
 			}
 		} 
 

@@ -120,6 +120,7 @@ function updateFeedList() {
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
+			loading_set_progress(25);
 		});
 
 		tree.startup();
@@ -254,6 +255,7 @@ function init() {
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.form.Select");
 		dojo.require("dijit.Toolbar");
+		dojo.require("dijit.ProgressBar");
 		dojo.require("dojo.parser");
 
 		dojo.registerModulePath("fox", "../..");
@@ -279,7 +281,7 @@ function init() {
 
 		var params = "&ua=" + param_escape(navigator.userAgent);
 
-		loading_set_progress(30);
+		loading_set_progress(20);
 
 		new Ajax.Request("backend.php",	{
 			parameters: "backend.php?op=rpc&subop=sanityCheck" + params,
@@ -305,7 +307,7 @@ function init_second_stage() {
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
-		loading_set_progress(60);
+		loading_set_progress(30);
 
 		if (has_local_storage())
 			localStorage.clear();

@@ -1,6 +1,6 @@
 var hotkeys_enabled = true;
 var notify_silent = false;
-var last_progress_point = 0;
+var loading_progress = 0;
 var sanity_check_done = false;
 
 /* add method to remove element from array */
@@ -879,21 +879,13 @@ function displayHelpInfobox(topic_id) {
 
 function loading_set_progress(p) {
 	try {
-		if (p < last_progress_point || !Element.visible("overlay")) return;
+		loading_progress += p;
 
-		console.log("loading_set_progress : " + p + " (" + last_progress_point + ")");
+		if (dijit.byId("loading_bar"))
+			dijit.byId("loading_bar").update({progress: loading_progress});
 
-		var o = $("l_progress_i");
-
-//		o.style.width = (p * 2) + "px";
-
-		new Effect.Scale(o, p, { 
-			scaleY : false,
-			scaleFrom : last_progress_point,
-			scaleMode: { originalWidth : 200 },
-			queue: { position: 'end', scope: 'LSP-Q', limit: 3 } }); 
-
-		last_progress_point = p;
+		if (loading_progress >= 90)
+			remove_splash();
 
 	} catch (e) {
 		exception_error("loading_set_progress", e);
@@ -901,6 +893,7 @@ function loading_set_progress(p) {
 }
 
 function remove_splash() {
+
 	if (Element.visible("overlay")) {
 		console.log("about to remove splash, OMG!");
 		Element.hide("overlay");
