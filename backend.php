@@ -201,6 +201,23 @@
 
 		break; // feeds
 
+		case "la":
+			$id = db_escape_string($_REQUEST['id']);
+
+			$result = db_query($link, "SELECT link FROM ttrss_entries, ttrss_user_entries
+				WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'");
+
+			if (db_num_rows($result) == 1) {
+				$article_url = db_fetch_result($result, 0, 'link');
+
+				header("Location: $article_url");
+				return;
+
+			} else {
+				print_error(__("Article not found."));
+			}
+		break;
+
 		case "view":
 
 			$id = db_escape_string($_REQUEST["id"]);

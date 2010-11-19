@@ -104,6 +104,8 @@ function headlines_callback2(transport, feed_cur_page) {
 					dijit.byId("headlines-toolbar").attr('content',
 						headlines_toolbar.firstChild.nodeValue);
 
+					initHeadlinesMenu();
+
 					var cache_prefix = "";
 
 					if (is_cat) {
@@ -142,6 +144,8 @@ function headlines_callback2(transport, feed_cur_page) {
 						for (var i = 0; i < ids.length; i++) {
 							markHeadline(ids[i]);
 						}
+
+						initHeadlinesMenu();
 
 					} else {
 						console.log("no new headlines received");
@@ -2113,49 +2117,8 @@ function getLastVisibleHeadlineId() {
 }
 
 function openArticleInNewWindow(id) {
-	try {
-		console.log("openArticleInNewWindow: " + id);
-
-		var query = "?op=rpc&subop=getArticleLink&id=" + id;
-		var wname = "ttrss_article_" + id;
-
-		console.log(query + " " + wname);
-
-		var w = window.open("", wname);
-
-		if (!w) notify_error("Failed to open window for the article");
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-
-					var link = transport.responseXML.getElementsByTagName("link")[0];
-					var id = transport.responseXML.getElementsByTagName("id")[0];
-		
-					console.log("open_article received link: " + link);
-		
-					if (link && id) {
-		
-						var wname = "ttrss_article_" + id.firstChild.nodeValue;
-		
-						console.log("link url: " + link.firstChild.nodeValue + ", wname " + wname);
-		
-						var w = window.open(link.firstChild.nodeValue, wname);
-		
-						if (!w) { notify_error("Failed to load article in new window"); }
-		
-						if (id) {
-							id = id.firstChild.nodeValue;
-							window.setTimeout("toggleUnread(" + id + ", 0)", 100);
-						}
-					} else {
-						notify_error("Can't open article: received invalid article link");
-					}
-				} });
-
-	} catch (e) {
-		exception_error("openArticleInNewWindow", e);
-	}
+	toggleUnread(id, 0, false);
+	window.open("backend.php?op=la&id=" + id);
 }
 
 function isCdmMode() {
@@ -2254,5 +2217,60 @@ function closeArticlePanel() {
 		if (dijit.byId("content-insert"))
 			dijit.byId("headlines-wrap-inner").removeChild(
 				dijit.byId("content-insert"));
+	}
+}
+
+function initHeadlinesMenu() {
+	try {
+		if (dijit.byId("headlinesMenu"))
+			dijit.byId("headlinesMenu").destroyRecursive();
+
+		var ids = [];
+		var nodes = $$("#headlines-frame > div[id*=RROW]");
+
+		nodes.each(function(node) {
+			ids.push(node.id);
+		});
+
+		var menu = new dijit.Menu({
+			id: "headlinesMenu",
+			targetNodeIds: ids,
+		});
+
+		var tmph = dojo.connect(menu, '_openMyself', function (event) {
+			var callerNode = event.target, match = null, tries = 0;
+
+			while (match == null && callerNode && tries <= 3) {
+				match = callerNode.id.match("^[A-Z]+[-]([0-9]+)$");
+				callerNode = callerNode.parentNode;
+				++tries;
+			}
+
+			if (match) this.callerRowId = parseInt(match[1]);
+
+		});
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("View article"),
+			onClick: function(event) {
+				view(this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("View in a new tab"),
+			onClick: function(event) {
+				hlOpenInNewTab(event, this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Open original article"),
+			onClick: function(event) {
+				openArticleInNewWindow(this.getParent().callerRowId);
+			}}));
+
+		menu.startup();
+
+	} catch (e) {
+		exception_error("initHeadlinesMenu", e);
 	}
 }
