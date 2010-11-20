@@ -1021,11 +1021,6 @@
 
 			}
 
-			header("Content-Type: text/xml");
-			print "<dlg id=\"$subop\">";
-			print "<title>".__('Category editor')."</title>";
-			print "<content><![CDATA[";
-
 			if ($action == "add") {
 
 				$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
@@ -1045,11 +1040,9 @@
 			}
 
 			print "<div dojoType=\"dijit.Toolbar\">
-				<input id=\"fadd_cat\" 
-					onkeypress=\"return filterCR(event, addFeedCat)\"
-					size=\"40\">
-					<button onclick=\"addFeedCat()\">".
-					__('Create category')."</button></div>";
+				<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"newcat\">
+					<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedCatEditDlg').addCategory()\">".
+						__('Create category')."</button></div>";
 	
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
@@ -1059,13 +1052,9 @@
 
 			if (db_num_rows($result) != 0) {
 
-#				print	__('Select:')." 
-#					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
-#					<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
-#
 				print "<div class=\"prefFeedCatHolder\">";
 
-				print "<form id=\"feed_cat_edit_form\" onsubmit=\"return false\">";
+#				print "<form id=\"feed_cat_edit_form\" onsubmit=\"return false\">";
 
 				print "<table width=\"100%\" class=\"prefFeedCatList\" 
 					cellspacing=\"0\" id=\"prefFeedCatList\">";
@@ -1105,6 +1094,7 @@
 									cid: this.srcNodeRef.getAttribute('cat-id')},
 									load: function(response) {
 										elem.attr('value', response);
+										updateFeedList();
 								}
 							});	
 						</script>
@@ -1117,7 +1107,7 @@
 	
 				print "</table>";
 
-				print "</form>";
+#				print "</form>";
 
 				print "</div>";
 
@@ -1127,14 +1117,12 @@
 
 			print "<div class='dlgButtons'>
 				<div style='float : left'>
-				<button onclick=\"return removeSelectedFeedCats()\">".
-				__('Remove')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedCatEditDlg').removeSelected()\">".
+				__('Remove selected categories')."</button>
 				</div>";
 
-			print "<button onclick=\"selectTab('feedConfig')\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedCatEditDlg').hide()\">".
 				__('Close this window')."</button></div>";
-
-			print "]]></content></dlg>";
 
 			return;
 

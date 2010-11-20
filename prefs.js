@@ -356,10 +356,9 @@ function getSelectedFilters() {
 
 }
 
-function getSelectedFeedCats() {
+/* function getSelectedFeedCats() {
 	return getSelectedTableRowIds("prefFeedCatList");
-}
-
+} */
 
 function removeSelectedLabels() {
 
@@ -578,37 +577,6 @@ function removeSelectedPrefProfiles() {
 
 	} else {
 		alert(__("No profiles selected."));
-	}
-
-	return false;
-}
-
-function removeSelectedFeedCats() {
-
-	var sel_rows = getSelectedFeedCats();
-
-	if (sel_rows.length > 0) {
-
-		var ok = confirm(__("Remove selected categories?"));
-
-		if (ok) {
-			notify_progress("Removing selected categories...");
-	
-			var query = "?op=pref-feeds&subop=editCats&action=remove&ids="+
-				param_escape(sel_rows.toString());
-
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-					infobox_callback2(transport);
-				} });
-
-		}
-
-	} else {
-
-		alert(__("No categories are selected."));
-
 	}
 
 	return false;
@@ -1245,15 +1213,68 @@ function pref_hotkey_handler(e) {
 
 function editFeedCats() {
 	try {
-		var query = "?op=pref-feeds&subop=editCats";
+		var query = "backend.php?op=pref-feeds&subop=editCats";
 
-		notify_progress("Loading, please wait...");
+		if (dijit.byId("feedCatEditDlg"))
+			dijit.byId("feedCatEditDlg").destroyRecursive();
 
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-				infobox_callback2(transport);
-			} });
+		dialog = new dijit.Dialog({
+			id: "feedCatEditDlg",
+			title: __("Feed Categories"),
+			style: "width: 600px",
+			getSelectedCategories: function() {
+				return getSelectedTableRowIds("prefFeedCatList");
+			},
+			removeSelected: function() {
+				var sel_rows = this.getSelectedCategories();
+			
+				if (sel_rows.length > 0) {			
+					var ok = confirm(__("Remove selected categories?"));
+			
+					if (ok) {
+						notify_progress("Removing selected categories...", true);
+				
+						var query = "?op=pref-feeds&subop=editCats&action=remove&ids="+
+							param_escape(sel_rows.toString());
+			
+						new Ajax.Request("backend.php",	{
+							parameters: query,
+							onComplete: function(transport) {
+								notify('');
+								dialog.attr('content', transport.responseText);
+								updateFeedList();
+							} });
+			
+					}
+			
+				} else {	
+					alert(__("No categories are selected."));			
+				}
+			},
+			addCategory: function() {
+				if (this.validate()) {
+					notify_progress("Creating category...");
+
+					var query = "?op=pref-feeds&subop=editCats&action=add&cat=" +
+						param_escape(this.attr('value').newcat);
+
+					new Ajax.Request("backend.php",	{
+						parameters: query,
+						onComplete: function(transport) {
+							notify('');
+							dialog.attr('content', transport.responseText);
+							updateFeedList();
+						} });
+				}
+			},
+			execute: function() {
+				if (this.validate()) {
+				}
+			},
+			href: query});
+
+		dialog.show();
+
 	} catch (e) {
 		exception_error("editFeedCats", e);
 	}
