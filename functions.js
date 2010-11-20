@@ -466,20 +466,15 @@ function infobox_callback2(transport) {
 		var content;
 		var dtitle = "Dialog";
 
-		if (transport.responseXML) {
-			var dlg = transport.responseXML.getElementsByTagName("dlg")[0];
+		var dlg = transport.responseXML.getElementsByTagName("dlg")[0];
 
-			var title = transport.responseXML.getElementsByTagName("title")[0];
-			if (title)
-				title = title.firstChild.nodeValue;
+		var title = transport.responseXML.getElementsByTagName("title")[0];
+		if (title)
+			title = title.firstChild.nodeValue;
 
-			var content = transport.responseXML.getElementsByTagName("content")[0];
-			
-			content = content.firstChild.nodeValue;
-
-		} else {
-			content = transport.responseText;
-		}
+		var content = transport.responseXML.getElementsByTagName("content")[0];
+		
+		content = content.firstChild.nodeValue;
 
 		if (!dialog) {
 			dialog = new dijit.Dialog({
