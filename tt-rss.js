@@ -418,16 +418,18 @@ function quickMenuGo(opid) {
 		}
 	
 		if (opid == "qmcAddFilter") {
-			displayDlg('quickAddFilter', '',
-			   function () {document.forms['filter_add_form'].reg_exp.focus();});
+			quickAddFilter();
+			return;
 		}
 
 		if (opid == "qmcAddLabel") {
 			addLabel();
+			return;
 		}
 
 		if (opid == "qmcRescoreFeed") {
 			rescoreCurrentFeed();
+			return;
 		}
 
 		if (opid == "qmcHKhelp") {
@@ -893,8 +895,7 @@ function hotkey_handler(e) {
 			hotkey_prefix = false;
 
 			if (keycode == 70) { // f
-				displayDlg('quickAddFilter', '',
-				   function () {document.forms['filter_add_form'].reg_exp.focus();});
+				quickAddFilter();
 				return false;
 			}
 
