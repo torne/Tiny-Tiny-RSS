@@ -376,7 +376,11 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcEditFeed") {
-			editFeed(getActiveFeedId());
+			if (activeFeedIsCat())
+				alert(__("You can't edit this kind of feed."));
+			else
+				editFeed(getActiveFeedId());
+			return;
 		}
 	
 		if (opid == "qmcRemoveFeed") {
@@ -843,7 +847,13 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 69) { // e
-				editFeed(getActiveFeedId());
+
+				if (activeFeedIsCat())
+					alert(__("You can't edit this kind of feed."));
+				else
+					editFeed(getActiveFeedId());
+				return;
+
 				return false;
 			}
 

@@ -1564,8 +1564,10 @@ function getSelectedTableRowIds(id) {
 }
 
 function editFeed(feed, event) {
-
 	try {
+		if (feed <= 0)
+			return alert(__("You can't edit this kind of feed."));
+
 		var query = "backend.php?op=pref-feeds&subop=editfeed&id=" +
 			param_escape(feed);
 
