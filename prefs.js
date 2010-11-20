@@ -347,39 +347,6 @@ function editFilter(id, event) {
 	}
 }
 
-function editFeed(feed, event) {
-
-	try {
-
-		if (event && !event.ctrlKey) {
-
-			notify_progress("Loading, please wait...");
-
-//			selectTableRows('prefFeedList', 'none');	
-//			selectTableRowById('FEEDR-'+feed, 'FRCHK-'+feed, true);
-	
-			var query = "?op=pref-feeds&subop=editfeed&id=" +
-				param_escape(feed);
-	
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-						infobox_callback2(transport);
-						document.forms["edit_feed_form"].title.focus();
-					} });
-
-		} else if (event.ctrlKey) {
-//			var cb = $('FRCHK-' + feed);
-//			cb.checked = !cb.checked;
-//			toggleSelectRow(cb);
-		}
-
-
-	} catch (e) {
-		exception_error("editFeed", e);
-	}
-}
-
 function getSelectedLabels() {
 	var tree = dijit.byId("labelTree");
 	var items = tree.model.getCheckedItems();
@@ -677,36 +644,6 @@ function removeSelectedFeedCats() {
 	}
 
 	return false;
-}
-
-function feedEditCancel() {
-	closeInfoBox();
-	return false;
-}
-
-function feedEditSave() {
-
-	try {
-	
-		// FIXME: add parameter validation
-
-		var query = Form.serialize("edit_feed_form");
-
-		notify_progress("Saving feed...");
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				feedlist_callback2(transport); 
-			} });
-
-		closeInfoBox();
-
-		return false;
-
-	} catch (e) {
-		exception_error("feedEditSave", e);
-	} 
 }
 
 function userEditCancel() {
@@ -1080,6 +1017,7 @@ function init() {
 		dojo.require("dijit.form.Select");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.form.RadioButton");
 		dojo.require("dijit.form.Select");

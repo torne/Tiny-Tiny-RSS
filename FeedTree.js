@@ -107,7 +107,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			menu.addChild(new dijit.MenuItem({
 				label: __("Edit feed"),
 				onClick: function() {
-					editFeedDlg(this.getParent().row_id);
+					editFeed(this.getParent().row_id);
 				}}));
 
 			menu.addChild(new dijit.MenuItem({

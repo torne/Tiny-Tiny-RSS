@@ -279,6 +279,7 @@ function init() {
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.Menu");
@@ -375,7 +376,7 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcEditFeed") {
-			editFeedDlg(getActiveFeedId());
+			editFeed(getActiveFeedId());
 		}
 	
 		if (opid == "qmcRemoveFeed") {
@@ -528,77 +529,6 @@ function catchupFeedInGroup(id) {
 	} catch (e) {
 		exception_error("catchupFeedInGroup", e);
 	}
-}
-
-function editFeedDlg(feed) {
-	try {
-
-		if (!feed) {
-			alert(__("Please select some feed first."));
-			return;
-		}
-	
-		if ((feed <= 0) || activeFeedIsCat()) {
-			alert(__("You can't edit this kind of feed."));
-			return;
-		}
-	
-		var query = "";
-	
-		if (feed > 0) {
-			query = "?op=pref-feeds&subop=editfeed&id=" +	param_escape(feed);
-		} else {
-			query = "?op=pref-labels&subop=edit&id=" +	param_escape(-feed-11);
-		}
-
-		disableHotkeys();
-
-		notify_progress("Loading, please wait...", true);
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				infobox_callback2(transport); 
-				document.forms["edit_feed_form"].title.focus();
-			} });
-
-	} catch (e) {
-		exception_error("editFeedDlg", e);
-	}
-}
-
-/* this functions duplicate those of prefs.js feed editor, with
-	some differences because there is no feedlist */
-
-function feedEditCancel() {
-	closeInfoBox();
-	return false;
-}
-
-function feedEditSave() {
-
-	try {
-	
-		// FIXME: add parameter validation
-
-		var query = Form.serialize("edit_feed_form");
-
-		notify_progress("Saving feed...");
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				dlg_frefresh_callback(transport); 
-			} });
-
-		cache_flush();
-		closeInfoBox();
-
-		return false;
-
-	} catch (e) {
-		exception_error("feedEditSave (main)", e);
-	} 
 }
 
 function collapse_feedlist() {
@@ -913,7 +843,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 69) { // e
-				editFeedDlg(getActiveFeedId());
+				editFeed(getActiveFeedId());
 				return false;
 			}
 

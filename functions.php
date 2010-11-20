@@ -2998,7 +2998,7 @@
 					$line["id"], htmlspecialchars($line["title"]));
 		}
 
-		print "<option value=\"ADD_CAT\">" .__("Add category...") . "</option>";
+#		print "<option value=\"ADD_CAT\">" .__("Add category...") . "</option>";
 
 		print "</select>";
 	}

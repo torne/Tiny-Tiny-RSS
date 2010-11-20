@@ -245,11 +245,6 @@
 		}
 
 		if ($subop == "editfeed") {
-			header("Content-Type: text/xml");
-
-			print "<dlg id=\"$subop\">";
-			print "<title>".__('Feed Editor')."</title>";
-			print "<content><![CDATA[";
 
 			$feed_id = db_escape_string($_REQUEST["id"]);
 
@@ -260,28 +255,17 @@
 			$title = htmlspecialchars(db_fetch_result($result,
 				0, "title"));
 
-			$icon_file = ICONS_DIR . "/$feed_id.ico";
-	
-			if (file_exists($icon_file) && filesize($icon_file) > 0) {
-					$feed_icon = "<img width=\"16\" height=\"16\"
-						src=\"" . ICONS_URL . "/$feed_id.ico\">";
-			} else {
-				$feed_icon = "";
-			}
-
-			print "<form id=\"edit_feed_form\" onsubmit=\"return false\">";	
-
-			print "<input type=\"hidden\" name=\"id\" value=\"$feed_id\">";
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$feed_id\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"editSave\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
 			/* Title */
 
-			print "<input style=\"font-size : 16px\" size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
-				            name=\"title\" value=\"$title\">";
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				style=\"font-size : 16px; width: 20em\" name=\"title\" value=\"$title\">";
 
 			/* Feed URL */
 
@@ -292,7 +276,8 @@
 			print "<br/>";
 
 			print __('URL:') . " ";
-			print "<input size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				regExp='^(http|https)://.*' style=\"width : 20em\"
 				name=\"feed_url\" value=\"$feed_url\">";
 
 			/* Category */
@@ -305,7 +290,8 @@
 
 				print __('Place in category:') . " ";
 
-				print_feed_cat_select($link, "cat_id", $cat_id, $disabled);
+				print_feed_cat_select($link, "cat_id", $cat_id, 
+					'dojoType="dijit.form.Select"');
 			}
 
 			print "</div>";
@@ -317,14 +303,17 @@
 
 			$update_interval = db_fetch_result($result, 0, "update_interval");
 
-			print_select_hash("update_interval", $update_interval, $update_intervals);
+			print_select_hash("update_interval", $update_interval, $update_intervals, 
+				'dojoType="dijit.form.Select"');
 
 			/* Update method */
 
-			$update_method = db_fetch_result($result, 0, "update_method");
+			$update_method = db_fetch_result($result, 0, "update_method", 
+				'dojoType="dijit.form.Select"');
 
 			print " " . __('using') . " ";
-			print_select_hash("update_method", $update_method, $update_methods);			
+			print_select_hash("update_method", $update_method, $update_methods,
+				'dojoType="dijit.form.Select"');			
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
@@ -336,7 +325,8 @@
 
 				print __('Article purging:') . " ";
 
-				print_select_hash("purge_interval", $purge_interval, $purge_intervals);
+				print_select_hash("purge_interval", $purge_interval, $purge_intervals, 
+					'dojoType="dijit.form.Select"');
 
 			} else {
 				print "<input type='hidden' name='purge_interval' value='$purge_interval'>";
@@ -353,15 +343,14 @@
 
 			print "<tr><td>" . __('Login:') . "</td><td>";
 
-			print "<input size=\"20\" onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<input dojoType=\"dijit.form.TextBox\" 
 				name=\"auth_login\" value=\"$auth_login\">";
 
 			print "</tr><tr><td>" . __("Password:") . "</td><td>";
 
 			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
-			print "<input size=\"20\" type=\"password\" name=\"auth_pass\" 
-				onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
 				value=\"$auth_pass\">";
 
 			print "</td></tr></table>";
@@ -370,39 +359,39 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<div style=\"line-height : 100%\">";
+#			print "<div style=\"line-height : 100%\">";
 
 			$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
 
 			if ($private) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<input type=\"checkbox\" name=\"private\" id=\"private\" 
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"private\" id=\"private\" 
 				$checked>&nbsp;<label for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 
 			if ($rtl_content) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<br/><input type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
 				$checked>&nbsp;<label for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
 
 			if ($include_in_digest) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<br/><input type=\"checkbox\" id=\"include_in_digest\" 
+			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\"
 				$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
@@ -415,7 +404,7 @@
 				$checked = "";
 			}
 
-			print "<br/><input type=\"checkbox\" id=\"always_display_enclosures\" 
+			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"always_display_enclosures\" 
 				name=\"always_display_enclosures\"
 				$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
@@ -423,21 +412,19 @@
 			$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
 			if ($cache_images) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<br/><input type=\"checkbox\" id=\"cache_images\" 
+			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\"
 				$checked>&nbsp;<label for=\"cache_images\">".
 				__('Cache images locally (SimplePie only)')."</label>";
 
 
+#			print "</div>";
 			print "</div>";
-			print "</div>";
-
-			print "</form>";
 
 			/* Icon */
 
@@ -456,9 +443,9 @@
 				<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">
 				<input type=\"hidden\" name=\"feed_id\" value=\"$feed_id\">
 				<input type=\"hidden\" name=\"subop\" value=\"uploadicon\">
-				<button onclick=\"return uploadFeedIcon();\"
+				<button dojoType=\"dijit.form.Button\" onclick=\"return uploadFeedIcon();\"
 					type=\"submit\">".__('Replace')."</button>
-				<button onclick=\"return removeFeedIcon($feed_id);\"
+				<button dojoType=\"dijit.form.Button\" onclick=\"return removeFeedIcon($feed_id);\"
 					type=\"submit\">".__('Remove')."</button>
 				</form>";
 
@@ -468,14 +455,12 @@
 
 			print "<div class='dlgButtons'>
 				<div style=\"float : left\">
-				<button onclick='return unsubscribeFeed($feed_id, \"$title\")'>".
+				<button dojoType=\"dijit.form.Button\" onclick='return unsubscribeFeed($feed_id, \"$title\")'>".
 					__('Unsubscribe')."</button>
 				</div>
-				<button onclick=\"return feedEditSave()\">".__('Save')."</button>
-				<button onclick=\"return feedEditCancel()\">".__('Cancel')."</button>
-				</div>";
-
-			print "]]></content></dlg>";
+				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedEditDlg').execute()\">".__('Save')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedEditDlg').hide()\">".__('Cancel')."</button>
+			</div>";
 
 			return;
 		}

@@ -1330,7 +1330,7 @@ function has_local_storage() {
 
 function catSelectOnChange(elem) {
 	try {
-		var value = elem[elem.selectedIndex].value;
+/*		var value = elem[elem.selectedIndex].value;
 		var def = elem.getAttribute('default');
 
 		if (value == "ADD_CAT") {
@@ -1341,7 +1341,7 @@ function catSelectOnChange(elem) {
 				elem.selectedIndex = 0;
 
 			quickAddCat(elem);
-		}
+		} */
 
 	} catch (e) {
 		exception_error("catSelectOnChange", e);
@@ -1562,4 +1562,48 @@ function getSelectedTableRowIds(id) {
 
 	return rows;
 }
+
+function editFeed(feed, event) {
+
+	try {
+		var query = "backend.php?op=pref-feeds&subop=editfeed&id=" +
+			param_escape(feed);
+
+		console.log(query);
+
+		if (dijit.byId("feedEditDlg"))
+			dijit.byId("feedEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "feedEditDlg",
+			title: __("Edit Feed"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					console.log(dojo.objectToQuery(this.attr('value')));
+
+					notify_progress("Saving data...", true);
+
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(dialog.attr('value')),
+						onComplete: function(transport) {
+							dialog.hide();
+							if (inPreferences()) {
+								updateFeedList();
+							} else {
+								notify('');
+								dlg_frefresh_callback(transport);
+							}
+					}})
+				}
+			},
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("editFeed", e);
+	}
+}
+
 
