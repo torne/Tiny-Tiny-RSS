@@ -301,12 +301,39 @@ function editFilter(id, event) {
 			style: "width: 600px",
 			execute: function() {
 				if (this.validate()) {
-					this.hide();
-					notify_progress("Savind data...", true);
-					new Ajax.Request("backend.php", {
-						parameters: dojo.objectToQuery(this.attr('value')),
+
+					var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + 
+						param_escape(dialog.attr('value').reg_exp);
+
+					notify_progress("Verifying regular expression...");
+
+					new Ajax.Request("backend.php",	{
+						parameters: query,
 						onComplete: function(transport) {
-							updateFilterList();				
+							handle_rpc_reply(transport);
+							var response = transport.responseXML;
+
+							if (response) {
+								var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
+	
+								notify('');
+
+								if (s == "INVALID") {
+									alert("Match regular expression seems to be invalid.");
+									return;
+								} else {
+									notify_progress("Saving data...", true);
+
+									console.log(dojo.objectToQuery(dialog.attr('value')));
+
+									new Ajax.Request("backend.php", {
+										parameters: dojo.objectToQuery(dialog.attr('value')),
+										onComplete: function(transport) {
+											dialog.hide();
+											updateFilterList();				
+									}})
+								}	
+							}
 					}});
 				}
 			},
@@ -687,11 +714,6 @@ function userEditCancel() {
 	return false;
 }
 
-function filterEditCancel() {
-	closeInfoBox();
-	return false;
-}
-
 function userEditSave() {
 
 	try {
@@ -721,55 +743,6 @@ function userEditSave() {
 
 	return false;
 
-}
-
-
-function filterEditSave() {
-	try {
-		var reg_exp = document.forms["filter_edit_form"].reg_exp.value;
-
-		var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + param_escape(reg_exp);
-
-		notify_progress("Verifying regular expression...");
-
-		new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-					handle_rpc_reply(transport);
-
-					var response = transport.responseXML;
-
-					if (response) {
-						var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
-	
-						notify('');
-
-						if (s == "INVALID") {
-							alert("Match regular expression seems to be invalid.");
-							return;
-						} else {
-
-							var query = "?" + Form.serialize("filter_edit_form");
-					
-							notify_progress("Saving filter...");
-			
-							Form.disable("filter_edit_form");
-
-							new Ajax.Request("backend.php",	{
-									parameters: query,
-									onComplete: function(transport) {
-											closeInfoBox();
-											filterlist_callback2(transport);
-								} });
-						}
-					}
-			} });
-
-	} catch (e) {
-		exception_error("filterEditSave", e);
-	}
-
-	return false;
 }
 
 
@@ -2002,29 +1975,4 @@ function editLabel(id, event) {
 	}
 }
 
-function editLabelSave() {
-	try {
-		var form = document.forms['label_edit_form'];
 
-		var id = form.id.value;
-		var caption = form.caption.value;
-		var fg_color = form.fg_color.value;
-		var bg_color = form.bg_color.value;
-
-		var query = Form.serialize('label_edit_form');
-
-		dijit.byId('labelTree').setNameById(id, caption);
-		setLabelColor(id, fg_color, bg_color);
-
-		closeInfoBox();
-		updateFilterList();
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-			} });
-
-	} catch (e) {
-		exception_error("editLabelSave", e);
-	}
-}

@@ -1184,18 +1184,43 @@ function quickAddFilter() {
 			style: "width: 600px",
 			execute: function() {
 				if (this.validate()) {
-					console.log(dojo.objectToQuery(this.attr('value')));
-					new Ajax.Request("backend.php", {
-						parameters: dojo.objectToQuery(this.attr('value')),
+
+					var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + 
+						param_escape(dialog.attr('value').reg_exp);
+
+					notify_progress("Verifying regular expression...");
+
+					new Ajax.Request("backend.php",	{
+						parameters: query,
 						onComplete: function(transport) {
-							this.hide();
-							notify_progress("Savind data...", true);
-							notify_info(transport.responseText);
-							if (inPreferences()) {
-								updateFilterList();				
+							handle_rpc_reply(transport);
+							var response = transport.responseXML;
+
+							if (response) {
+								var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
+	
+								notify('');
+
+								if (s == "INVALID") {
+									alert("Match regular expression seems to be invalid.");
+									return;
+								} else {
+									notify_progress("Saving data...", true);
+
+									console.log(dojo.objectToQuery(dialog.attr('value')));
+
+									new Ajax.Request("backend.php", {
+										parameters: dojo.objectToQuery(dialog.attr('value')),
+										onComplete: function(transport) {
+											dialog.hide();
+											notify_info(transport.responseText);
+											if (inPreferences()) {
+												updateFilterList();				
+											}
+									}})
+								}	
 							}
 					}});
-
 				}
 			},
 			href: query});
