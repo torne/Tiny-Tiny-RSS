@@ -3048,7 +3048,8 @@
 			if ($id < -10) {
 				return "images/label.png";
 			} else {
-				return ICONS_URL . "/$id.ico";
+				if (file_exists(ICONS_DIR . "/$id.ico")) 
+					return ICONS_URL . "/$id.ico";
 			}
 			break;
 		}
