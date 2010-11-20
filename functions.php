@@ -1508,11 +1508,11 @@
 		print "<select name=\"$id\" id=\"$id\" $attributes>";
 		foreach ($values as $v) {
 			if ($v == $default)
-				$sel = " selected";
+				$sel = "selected=\"1\"";
 			 else
 			 	$sel = "";
 			
-			print "<option$sel>$v</option>";
+			print "<option value=\"$v\" $sel>$v</option>";
 		}
 		print "</select>";
 	}

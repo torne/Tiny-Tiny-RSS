@@ -30,9 +30,9 @@
 
 		if ($subop == "change-password") {
 
-			$old_pw = $_POST["OLD_PASSWORD"];
-			$new_pw = $_POST["NEW_PASSWORD"];
-			$con_pw = $_POST["CONFIRM_PASSWORD"];
+			$old_pw = $_POST["old_password"];
+			$new_pw = $_POST["new_password"];
+			$con_pw = $_POST["confirm_password"];
 
 			if ($old_pw == "") {
 				print "ERROR: ".__("Old password cannot be blank.");
@@ -49,12 +49,9 @@
 				return;
 			}
 
-			$old_pw_hash1 = encrypt_password($_POST["OLD_PASSWORD"]);
-			$old_pw_hash2 = encrypt_password($_POST["OLD_PASSWORD"],
-				$_SESSION["name"]);
-
-			$new_pw_hash = encrypt_password($_POST["NEW_PASSWORD"],
-				$_SESSION["name"]);
+			$old_pw_hash1 = encrypt_password($old_pw);
+			$old_pw_hash2 = encrypt_password($old_pw, $_SESSION["name"]);
+			$new_pw_hash = encrypt_password($new_pw, $_SESSION["name"]);
 
 			$active_uid = $_SESSION["uid"];
 			
@@ -160,15 +157,6 @@
 
 			if (!SINGLE_USER_MODE) {
 
-				$result = db_query($link, "SELECT id FROM ttrss_users
-					WHERE id = ".$_SESSION["uid"]." AND pwd_hash 
-					= 'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'");
-
-				if (db_num_rows($result) != 0) {
-					print format_warning(__("Your password is at default value, 
-						please change it."), "default_pass_warning");
-				}
-
 /*				if ($_SESSION["pwd_change_result"] == "failed") {
 					print format_warning("Could not change the password.");
 				}
@@ -192,8 +180,22 @@
 				print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 				print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data')."\">";
 
-				print "<form onsubmit='return false' id='change_email_form'>";
-	
+				print "<form dojoType=\"dijit.form.Form\" id=\"changeUserdataForm\">";
+
+				print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+				evt.preventDefault();
+				if (this.validate()) {
+					notify_progress('Saving data...', true);
+
+					new Ajax.Request('backend.php', {
+						parameters: dojo.objectToQuery(this.getValues()),
+						onComplete: function(transport) { 
+							notify_callback2(transport); 
+					} });
+
+				}
+				</script>";
+
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 
 				$result = db_query($link, "SELECT email,full_name,
@@ -204,79 +206,103 @@
 				$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
 
 				print "<tr><td width=\"40%\">".__('Full name')."</td>";
-				print "<td class=\"prefValue\"><input class=\"editbox\" name=\"full_name\" 
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" 
+					required=\"1\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
-					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$full_name\"></td></tr>";
 
 				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
-				print "<td class=\"prefValue\"><input class=\"editbox\" name=\"email\" 
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" 
+					required=\"1\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
-					onkeypress=\"return filterCR(event, changeUserEmail)\"
 					value=\"$email\"></td></tr>";
 
 				if (!SINGLE_USER_MODE) {
-
 					$access_level = db_fetch_result($result, 0, "access_level");
-
 					print "<tr><td width=\"40%\">".__('Access level')."</td>";
 					print "<td>" . $access_level_names[$access_level] . "</td></tr>";
-
 				}
 	
 				print "</table>";
 	
-				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-				print "<input type=\"hidden\" name=\"subop\" value=\"change-email\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-email\">";
+
+				print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+					__("Save data")."</button>";
 
 				print "</form>";
-
-				print "<p><button onclick=\"return changeUserEmail()\">".
-					__("Save data")."</button>";
 
 				print "</div>"; # pane
 				print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Authentication')."\">";
 
-				print "<form onsubmit=\"return false\" 
-					name=\"change_pass_form\" id=\"change_pass_form\">";
-	
+				$result = db_query($link, "SELECT id FROM ttrss_users
+					WHERE id = ".$_SESSION["uid"]." AND pwd_hash 
+					= 'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'");
+
+				if (db_num_rows($result) != 0) {
+					print format_warning(__("Your password is at default value, please change it."), "default_pass_warning");
+				}
+
+				print "<form dojoType=\"dijit.form.Form\">";
+
+				print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+				evt.preventDefault();
+				if (this.validate()) {
+					notify_progress('Changing password...', true);
+
+					new Ajax.Request('backend.php', {
+						parameters: dojo.objectToQuery(this.getValues()),
+						onComplete: function(transport) { 
+							notify('');
+							if (transport.responseText.indexOf('ERROR: ') == 0) {
+								notify_error(transport.responseText.replace('ERROR: ', ''));
+							} else {
+								notify_info(transport.responseText);
+								var warn = $('default_pass_warning');
+								if (warn) Element.hide(warn);
+							}
+					}});
+					this.reset();
+				}
+				</script>";
+
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
-				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
+					required=\"1\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
-					onkeypress=\"return filterCR(event, changeUserPassword)\"
-					name=\"OLD_PASSWORD\"></td></tr>";
+					name=\"old_password\"></td></tr>";
 	
 				print "<tr><td width=\"40%\">".__("New password")."</td>";
 				
-				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
+					required=\"1\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
-					onkeypress=\"return filterCR(event, changeUserPassword)\"
-					name=\"NEW_PASSWORD\"></td></tr>";
+					name=\"new_password\"></td></tr>";
 
 				print "<tr><td width=\"40%\">".__("Confirm password")."</td>";
 
-				print "<td class=\"prefValue\"><input class=\"editbox\" type=\"password\"
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
+					required=\"1\"
 					onfocus=\"javascript:disableHotkeys();\" 
 					onblur=\"javascript:enableHotkeys();\"
-					onkeypress=\"return filterCR(event, changeUserPassword)\"
-					name=\"CONFIRM_PASSWORD\"></td></tr>";
+					name=\"confirm_password\"></td></tr>";
 
 				print "</table>";
 	
-				print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
-				print "<input type=\"hidden\" name=\"subop\" value=\"change-password\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-password\">";
 
-				print "</form>";
-
-				print "<p><button	onclick=\"return changeUserPassword()\">".
+				print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
 					__("Change password")."</button>";
 
+				print "</form>";
 
 				print "</div>"; #pane
 			}
@@ -307,8 +333,25 @@
 					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
 
-			print "<form onsubmit='return false' action=\"backend.php\" 
-				method=\"POST\" id=\"pref_prefs_form\">";
+			print "<form dojoType=\"dijit.form.Form\" id=\"changeSettingsForm\">";
+
+			print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+			evt.preventDefault();
+			if (this.validate()) {
+				console.log(dojo.objectToQuery(this.getValues()));
+
+				new Ajax.Request('backend.php', {
+					parameters: dojo.objectToQuery(this.getValues()),
+					onComplete: function(transport) { 
+						var msg = transport.responseText;
+						if (msg.match('PREFS_THEME_CHANGED')) {
+							window.location.reload();
+						} else {
+							notify_info(msg);
+						}
+				} });
+			}
+			</script>";
 
 			$lnum = 0;
 
@@ -343,9 +386,9 @@
 						$user_theme = get_pref($link, "_THEME_ID");
 						$themes = get_all_themes();
 
-						print "<td><select name=\"_THEME_ID\">";
+						print "<td><select name=\"_THEME_ID\" dojoType=\"dijit.form.Select\">";
 						print "<option value='Default'>".__('Default')."</option>";
-						print "<option disabled>--------</option>";				
+						print "<option value='----------------' disabled=\"1\">--------</option>";				
 
 						foreach ($themes as $t) {
 							$base = $t['base'];
@@ -392,13 +435,14 @@
 
 					$timezones = explode("\n", file_get_contents("lib/timezones.txt"));
 
-					print_select($pref_name, $value, $timezones);
+					print_select($pref_name, $value, $timezones, 'dojoType="dijit.form.FilteringSelect"');
 
 				} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 
 					global $update_intervals_nodefault;
 
-					print_select_hash($pref_name, $value, $update_intervals_nodefault);
+					print_select_hash($pref_name, $value, $update_intervals_nodefault, 
+						'dojoType="dijit.form.Select"');
 
 				} else if ($type_name == "bool") {
 //					print_select($pref_name, $value, array("true", "false"));
@@ -410,10 +454,23 @@
 					}
 
 					print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")));
-			
-				} else {
-					print "<input class=\"editbox\"
+
+				} else if (array_search($pref_name, array('FRESH_ARTICLE_MAX_AGE', 'DEFAULT_ARTICLE_LIMIT',
+						'PURGE_OLD_DAYS', 'LONG_DATE_FORMAT', 'SHORT_DATE_FORMAT')) !== false) {
+
+					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';
+
+					print "<input dojoType=\"dijit.form.ValidationTextBox\"
+						required=\"1\" $regexp
 						onfocus=\"javascript:disableHotkeys();\" 
+						onblur=\"javascript:enableHotkeys();\"  
+						name=\"$pref_name\" value=\"$value\">";
+
+				} else {
+					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';
+
+					print "<input dojoType=\"dijit.form.ValidationTextBox\"
+						onfocus=\"javascript:disableHotkeys();\" $regexp
 						onblur=\"javascript:enableHotkeys();\"  
 						name=\"$pref_name\" value=\"$value\">";
 				}
@@ -427,15 +484,16 @@
 
 			print "</table>";
 
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-prefs\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"save-config\">";
 
-			print "<p><button onclick=\"return validatePrefsSave()\">".
+			print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
 				__('Save configuration')."</button> ";
 
-			print "<button onclick=\"return editProfiles()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return editProfiles()\">".
 				__('Manage profiles')."</button> ";
 
-			print "<button onclick=\"return validatePrefsReset()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return validatePrefsReset()\">".
 				__('Reset to defaults')."</button></p>";
 
 			print "</form>";

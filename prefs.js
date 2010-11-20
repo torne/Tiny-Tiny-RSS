@@ -1284,88 +1284,6 @@ function showFeedsWithErrors() {
 	displayDlg('feedUpdateErrors');
 }
 
-function changeUserPassword() {
-
-	try {
-
-		var f = document.forms["change_pass_form"];
-
-		if (f) {
-			if (f.OLD_PASSWORD.value == "") {
-				new Effect.Highlight(f.OLD_PASSWORD);
-				notify_error("Old password cannot be blank.");
-				return false;
-			}
-
-			if (f.NEW_PASSWORD.value == "") {
-				new Effect.Highlight(f.NEW_PASSWORD);
-				notify_error("New password cannot be blank.");
-				return false;
-			}
-
-			if (f.CONFIRM_PASSWORD.value == "") {
-				new Effect.Highlight(f.CONFIRM_PASSWORD);
-				notify_error("Entered passwords do not match.");
-				return false;
-			}
-
-			if (f.CONFIRM_PASSWORD.value != f.NEW_PASSWORD.value) {
-				new Effect.Highlight(f.CONFIRM_PASSWORD);
-				new Effect.Highlight(f.NEW_PASSWORD);
-				notify_error("Entered passwords do not match.");
-				return false;
-			}
-
-		}
-
-		var query = Form.serialize("change_pass_form");
-	
-		notify_progress("Changing password...");
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				if (transport.responseText.indexOf("ERROR: ") == 0) {
-					notify_error(transport.responseText.replace("ERROR: ", ""));
-				} else {
-					notify_info(transport.responseText);
-					var warn = $("default_pass_warning");
-					if (warn) warn.style.display = "none";
-				}
-		
-				document.forms['change_pass_form'].reset();
-			} });
-
-
-	} catch (e) {
-		exception_error("changeUserPassword", e);
-	}
-	
-	return false;
-}
-
-function changeUserEmail() {
-
-	try {
-
-		var query = Form.serialize("change_email_form");
-	
-		notify_progress("Saving...");
-	
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				notify_callback2(transport); 
-			} });
-
-	} catch (e) {
-		exception_error("changeUserPassword", e);
-	}
-	
-	return false;
-
-}
-
 function opmlRegenKey() {
 
 	try {
@@ -1400,36 +1318,6 @@ function opmlRegenKey() {
 	} catch (e) {
 		exception_error("opmlRegenKey", e);
 	}
-	return false;
-}
-function validatePrefsSave() {
-	try {
-
-		var ok = confirm(__("Save current configuration?"));
-
-		if (ok) {
-
-			var query = Form.serialize("pref_prefs_form");
-			query = query + "&subop=save-config";
-			console.log(query);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					var msg = transport.responseText;
-					if (msg.match("PREFS_THEME_CHANGED")) {
-						window.location.reload();
-					} else {
-						notify_info(msg);
-					}
-			} });
-
-		}
-
-	} catch (e) {
-		exception_error("validatePrefsSave", e);
-	}
-
 	return false;
 }
 
