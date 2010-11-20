@@ -35,60 +35,63 @@
 			$cat = false;
 			$cur_action_description = "";
 
-			while ($line = db_fetch_assoc($result)) {
-				if ($cur_action_description != $line['action_description']) {
+			if (db_num_rows($result) > 0) {
 
-					if ($cat)
-						array_push($root['items'], $cat);
-
-					$cat = array();
-					$cat['id'] = 'ACTION:' . $line['action_id'];
-					$cat['name'] = $line['action_description'];
-					$cat['items'] = array();
-
-					$cur_action_description = $line['action_description'];
-				}
-
-				if (array_search($line["action_name"], 
-					array("score", "tag", "label")) === false) {
-
-						$line["action_param"] = '';
-				} else {
-					if ($line['action_name'] == 'label') {
-
-						$tmp_result = db_query($link, "SELECT fg_color, bg_color
-							FROM ttrss_labels2 WHERE caption = '".
-								db_escape_string($line["action_param"])."' AND
-								owner_uid = " . $_SESSION["uid"]);
-
-						if (db_num_rows($tmp_result) != 0) {
-							$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
-							$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
-
-							$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
-
-							$line['action_param'] = $tmp;
+				while ($line = db_fetch_assoc($result)) {
+					if ($cur_action_description != $line['action_description']) {
+	
+						if ($cat)
+							array_push($root['items'], $cat);
+	
+						$cat = array();
+						$cat['id'] = 'ACTION:' . $line['action_id'];
+						$cat['name'] = $line['action_description'];
+						$cat['items'] = array();
+	
+						$cur_action_description = $line['action_description'];
+					}
+	
+					if (array_search($line["action_name"], 
+						array("score", "tag", "label")) === false) {
+	
+							$line["action_param"] = '';
+					} else {
+						if ($line['action_name'] == 'label') {
+	
+							$tmp_result = db_query($link, "SELECT fg_color, bg_color
+								FROM ttrss_labels2 WHERE caption = '".
+									db_escape_string($line["action_param"])."' AND
+									owner_uid = " . $_SESSION["uid"]);
+	
+							if (db_num_rows($tmp_result) != 0) {
+								$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
+								$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
+	
+								$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
+	
+								$line['action_param'] = $tmp;
+							}
 						}
 					}
+	
+					$filter = array();
+					$filter['id'] = 'FILTER:' . $line['id'];
+					$filter['bare_id'] = $line['id'];
+					$filter['name'] = $line['reg_exp'];
+					$filter['type'] = $line['filter_type'];
+					$filter['enabled'] = sql_bool_to_bool($line['enabled']);
+					$filter['param'] = $line['action_param'];
+					$filter['inverse'] = sql_bool_to_bool($line['inverse']);
+					$filter['checkbox'] = false;
+	
+					if ($line['feed_id'])
+						$filter['feed'] = $line['feed_title']; 
+	
+					array_push($cat['items'], $filter);
 				}
-
-				$filter = array();
-				$filter['id'] = 'FILTER:' . $line['id'];
-				$filter['bare_id'] = $line['id'];
-				$filter['name'] = $line['reg_exp'];
-				$filter['type'] = $line['filter_type'];
-				$filter['enabled'] = sql_bool_to_bool($line['enabled']);
-				$filter['param'] = $line['action_param'];
-				$filter['inverse'] = sql_bool_to_bool($line['inverse']);
-				$filter['checkbox'] = false;
-
-				if ($line['feed_id'])
-					$filter['feed'] = $line['feed_title']; 
-
-				array_push($cat['items'], $filter);
+	
+				array_push($root['items'], $cat);
 			}
-
-			array_push($root['items'], $cat);
 
 			$fl = array();
 			$fl['identifier'] = 'id';
