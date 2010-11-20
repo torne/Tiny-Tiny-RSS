@@ -25,7 +25,7 @@
 			$fg_color = $line['fg_color'];
 			$bg_color = $line['bg_color'];
 
-			print "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span>";
+			print "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-bottom : 4px; margin-right : 4px'>&alpha;</span>";
 
 			print "<input style=\"font-size : 16px\" name=\"caption\" 
 				dojoType=\"dijit.form.ValidationTextBox\"
@@ -74,9 +74,9 @@
 #			print "</form>";
 
 			print "<div class=\"dlgButtons\">";
-			print "<button onclick=\"dijit.byId('labelEditDlg').execute()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('labelEditDlg').execute()\">".
 				__('Save')."</button>";
-			print "<button onclick=\"dijit.byId('labelEditDlg').hide()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('labelEditDlg').hide()\">".
 				__('Cancel')."</button>";
 			print "</div>";
 

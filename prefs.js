@@ -302,6 +302,7 @@ function editFilter(id, event) {
 			execute: function() {
 				if (this.validate()) {
 					this.hide();
+					notify_progress("Savind data...", true);
 					new Ajax.Request("backend.php", {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) {
@@ -1652,8 +1653,8 @@ function removeFilter(id, title) {
 		var ok = confirm(msg);
 	
 		if (ok) {
-			closeInfoBox();
-	
+			dijit.byId("filterEditDlg").hide();
+
 			notify_progress("Removing filter...");
 		
 			var query = "?op=pref-filters&subop=remove&ids="+

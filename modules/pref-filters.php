@@ -157,7 +157,7 @@
 					 name=\"reg_exp\" style=\"font-size : 16px;\" value=\"$reg_exp\">";
 
 			print "<span id=\"filterDlg_dateChkBox\" $date_ops_invisible>";			
-			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
+			print "&nbsp;<button dojoType=\"dijit.form.Button\" onclick=\"return filterDlgCheckDate()\">".
 				__('Check it')."</button>";
 			print "</span>";
 
@@ -244,14 +244,14 @@
 			$reg_exp = htmlspecialchars($reg_exp, ENT_QUOTES); // second escaping seems to be needed for javascript
 
 			print "<div style=\"float : left\">";
-			print "<button onclick='return removeFilter($filter_id, \"$reg_exp\")'>".
+			print "<button dojoType=\"dijit.form.Button\" onclick='return removeFilter($filter_id, \"$reg_exp\")'>".
 				__('Remove')."</button>";
 			print "</div>";
 
-			print "<button onclick=\"return dijit.byId('filterEditDlg').execute()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Save')."</button> ";
 
-			print "<button onclick=\"return dijit.byId('filterEditDlg').hide()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').hide()\">".
 				__('Cancel')."</button>";
 
 			print "</div>";

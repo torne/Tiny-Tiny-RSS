@@ -1189,6 +1189,7 @@ function quickAddFilter() {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) {
 							this.hide();
+							notify_progress("Savind data...", true);
 							notify_info(transport.responseText);
 							if (inPreferences()) {
 								updateFilterList();				
