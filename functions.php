@@ -2892,7 +2892,8 @@
 			$auth_login = '', $auth_pass = '') {
 
 		$url = fix_url($url);
-		if (!validate_feed_url($url)) return 2;
+
+		if (!$url || !validate_feed_url($url)) return 2;
 		if (!fetch_file_contents($url)) return 5;
 
 		if (url_is_html($url)) {
@@ -6450,7 +6451,11 @@
 		if (strpos($url, '/', strpos($url, ':') + 3) === false) {
 			$url .= '/';
 		}
-		return $url;
+
+		if ($url != "http:///")
+			return $url;
+		else
+			return '';
 	}
 
 	function validate_feed_url($url) {
