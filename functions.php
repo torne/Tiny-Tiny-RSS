@@ -4068,8 +4068,6 @@
 			$feed_id, $is_cat, $search, $match_on,
 			$search_mode, $view_mode) {
 
-#			print "<div class=\"headlinesSubToolbar\">";
-
 			$page_prev_link = "viewFeedGoPage(-1)";
 			$page_next_link = "viewFeedGoPage(1)";
 			$page_first_link = "viewFeedGoPage(0)";
@@ -4104,16 +4102,13 @@
 				onchange=\"headlineActionsChange(this)\">";
 			print "<option value=\"false\">".__('Actions...')."</option>";
 
-#			print "<optgroup label=\"".__("Selection toggle:")."\">";
+			print "<option value=\"0\" disabled=\"1\">".__('Selection toggle:')."</option>";
 
-			print "<option value=\"$tog_unread_link\">".__('Toggle unread')."</option>
-				<option value=\"$tog_marked_link\">".__('Toggle starred')."</option>
-				<option value=\"$tog_published_link\">".__('Toggle published')."</option>";
+			print "<option value=\"$tog_unread_link\">".__('Unread')."</option>
+				<option value=\"$tog_marked_link\">".__('Starred')."</option>
+				<option value=\"$tog_published_link\">".__('Published')."</option>";
 
-#			print "</optgroup>
-#				<optgroup label=\"".__("Selection:")."\">";
-
-			print "<option>----------</option>";
+			print "<option value=\"0\" disabled=\"1\">".__('Selection:')."</option>";
 
 			print "<option value=\"$catchup_sel_link\">".__('Mark as read')."</option>";
 
@@ -4128,13 +4123,8 @@
 			print "<option value=\"emailArticle(false)\">".__('Forward by email').
 				"</option>";
 
-#			print "<optgroup label=\"".__("Assign label:")."\">";
-			//print "<option>----------</option>";
-			//print_labels_headlines_dropdown($link, $feed_id);
-
-			print "<option>----------</option>";
-
-#			print "</optgroup>";
+			$rss_link = htmlspecialchars(get_self_url_prefix() . 
+				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat$view_mode$search_q");
 
 			print "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
 
@@ -4184,15 +4174,6 @@
 				$view_mode = "";
 			else
 				$view_mode = "&view-mode=$view_mode";
-
-			$rss_link = htmlspecialchars(get_self_url_prefix() . 
-				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat$view_mode$search_q");
-
-			#print "
-			#	<a target=\"_blank\"
-			#		title=\"".__("View as RSS feed")."\"
-			#		href=\"$rss_link\">
-			#		<img class=\"noborder\" src=\"images/feed-icon-12x12.png\"></a>";
 
 			print "
 				<a href=\"#\"
