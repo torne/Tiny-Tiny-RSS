@@ -103,11 +103,6 @@
 
 			$filter_id = db_escape_string($_REQUEST["id"]);
 
-			header("Content-Type: text/xml");
-			print "<dlg id=\"$subop\">";
-			print "<title>".__('Filter Editor')."</title>";
-			print "<content><![CDATA[";
-
 			$result = db_query($link, 
 				"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -123,9 +118,9 @@
 
 			print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
-			print "<input type=\"hidden\" name=\"id\" value=\"$filter_id\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$filter_id\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"editSave\">"; 
 			
 			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
@@ -145,7 +140,7 @@
 				$date_ops_invisible = 'style="display : none"';
 			}
 
-			print "<span id=\"filter_dlg_date_mod_box\" $date_ops_invisible>";
+			print "<span id=\"filterDlg_dateModBox\" $date_ops_invisible>";
 			print __("Date") . " ";
 
 			$filter_params = array(
@@ -153,26 +148,28 @@
 				"after" => __("after"));
 
 			print_select_hash("filter_date_modifier", $filter_param,
-				$filter_params);
+				$filter_params, 'dojoType="dijit.form.Select"');
 
 			print "&nbsp;</span>";
 
-			print "<input onkeypress=\"return filterCR(event, filterEditSave)\"
-					 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
+			print "<input dojoType=\"dijit.form.ValidationTextBox\"
+					 required=\"1\"
+					 name=\"reg_exp\" style=\"font-size : 16px;\" value=\"$reg_exp\">";
 
-			print "<span id=\"filter_dlg_date_chk_box\" $date_ops_invisible>";			
+			print "<span id=\"filterDlg_dateChkBox\" $date_ops_invisible>";			
 			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
 				__('Check it')."</button>";
 			print "</span>";
 
 			print "<br/> " . __("on field") . " ";
 			print_select_hash("filter_type", $filter_type, $filter_types,
-				'onchange="filterDlgCheckType(this)"');
+				'onchange="filterDlgCheckType(this)" dojoType="dijit.form.Select"');
 
 			print "<br/>";
 
 			print __("in") . " ";
-			print_feed_select($link, "feed_id", $feed_id);
+			print_feed_select($link, "feed_id", $feed_id,
+				'dojoType="dijit.form.FilteringSelect"');
 
 			print "</div>";
 
@@ -180,14 +177,14 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<select name=\"action_id\"
+			print "<select name=\"action_id\" dojoType=\"dijit.form.Select\"
 				onchange=\"filterDlgCheckAction(this)\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
 				ORDER BY name");
 
 			while ($line = db_fetch_assoc($result)) {
-				$is_sel = ($line["id"] == $action_id) ? "selected" : "";			
+				$is_sel = ($line["id"] == $action_id) ? "selected=\"1\"" : "";			
 				printf("<option value='%d' $is_sel>%s</option>", $line["id"], __($line["description"]));
 			}
 	
@@ -195,19 +192,20 @@
 
 			$param_hidden = ($action_id == 4 || $action_id == 6 || $action_id == 7) ? "" : "display : none";
 
-			print "<span id=\"filter_dlg_param_box\" style=\"$param_hidden\">";
+			print "<span id=\"filterDlg_paramBox\" style=\"$param_hidden\">";
 			print " " . __("with parameters:") . " ";
 
 			$param_int_hidden = ($action_id != 7) ? "" : "display : none";
 
-			print "<input size=\"20\" style=\"$param_int_hidden\"
-					onkeypress=\"return filterCR(event, filterEditSave)\"		
+			print "<input style=\"$param_int_hidden\"
+					dojoType=\"dijit.form.TextBox\" id=\"filterDlg_actionParam\"
 					name=\"action_param\" value=\"$action_param\">";
 
 			$param_int_hidden = ($action_id == 7) ? "" : "display : none";
 
 			print_label_select($link, "action_param_label", $action_param, 
-				$param_int_hidden);
+			 "style=\"$param_int_hidden\"" . 
+			 'id="filterDlg_actionParamLabel" dojoType="dijit.form.Select"');
 
 			print "</span>";
 
@@ -221,21 +219,21 @@
 			print "<div style=\"line-height : 100%\">";
 
 			if ($enabled) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
 					<label for=\"enabled\">".__('Enabled')."</label><br/>";
 
 			if ($inverse) {
-				$checked = "checked";
+				$checked = "checked=\"1\"";
 			} else {
 				$checked = "";
 			}
 
-			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
 				<label for=\"inverse\">".__('Inverse match')."</label>";
 
 			print "</div>";
@@ -250,13 +248,13 @@
 				__('Remove')."</button>";
 			print "</div>";
 
-			print "<button onclick=\"return filterEditSave()\">".
+			print "<button onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Save')."</button> ";
 
-			print "<button onclick=\"return filterEditCancel()\">".
+			print "<button onclick=\"return dijit.byId('filterEditDlg').hide()\">".
 				__('Cancel')."</button>";
 
-			print "]]></content></dlg>";
+			print "</div>";
 
 			return;
 		}

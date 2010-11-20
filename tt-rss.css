@@ -1259,7 +1259,11 @@ div.dlgSecCont {
 	float : left;
 	font-size : 12px;
 	font-weight : normal;
-	line-height : 200%;
+}
+
+div.dlgSecCont > * {
+	margin-top : 4px;
+	vertical-align : bottom;
 }
 
 div.dlgButtons {
@@ -1603,3 +1607,8 @@ span.labelFixedLength {
 	display : inline-block;
 	width : 70%;
 }
+
+#filter_dlg_date_chk_box {
+	display : inline-block;
+}
+

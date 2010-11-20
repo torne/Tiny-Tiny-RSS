@@ -6794,23 +6794,24 @@
 		return true;
 	}
 
-	function print_label_select($link, $name, $value, $style = "") {
+	function print_label_select($link, $name, $value, $attributes = "") {
 
 		$result = db_query($link, "SELECT caption FROM ttrss_labels2
 			WHERE owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
 
 		print "<select default=\"$value\" name=\"" . htmlspecialchars($name) . 
-			"\" style=\"$style\" onchange=\"labelSelectOnChange(this)\" >";
+			"\" $attributes onchange=\"labelSelectOnChange(this)\" >";
 
 		while ($line = db_fetch_assoc($result)) {
 
 			$issel = ($line["caption"] == $value) ? "selected=\"1\"" : "";
 
-			print "<option $issel>" . htmlspecialchars($line["caption"]) . "</option>";
+			print "<option value=\"".htmlspecialchars($line["caption"])."\"
+				$issel>" . htmlspecialchars($line["caption"]) . "</option>";
 
 		}
 
-		print "<option value=\"ADD_LABEL\">" .__("Add label...") . "</option>";
+#		print "<option value=\"ADD_LABEL\">" .__("Add label...") . "</option>";
 
 		print "</select>";
 

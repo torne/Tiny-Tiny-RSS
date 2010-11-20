@@ -451,14 +451,9 @@
 
 			$active_feed_id = db_escape_string($_REQUEST["param"]);
 
-			print "<title>".__('Create Filter')."</title>";
-			print "<content><![CDATA[";
-
-			print "<form id=\"filter_add_form\" onsubmit='return false'>";
-
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-filters\">";
-			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"add\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"quiet\" value=\"1\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"add\">"; 
 		
 			$result = db_query($link, "SELECT id,description 
 				FROM ttrss_filter_types ORDER BY description");
@@ -474,33 +469,36 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<span id=\"filter_dlg_date_mod_box\" style=\"display : none\">";
-			print __("Date") . " ";
+			print "<span id=\"filterDlg_dateModBox\" style=\"display : none\">";
 
 			$filter_params = array(
 				"before" => __("before"),
 				"after" => __("after"));
 
-			print_select_hash("filter_date_modifier", "before", $filter_params);
+			print_select_hash("filter_date_modifier", "before", 
+				$filter_params, 'dojoType="dijit.form.Select"');
 
 			print "&nbsp;</span>";
 
-			print "<input onkeypress=\"return filterCR(event, createFilter)\"
-				 name=\"reg_exp\" size=\"30\" value=\"$reg_exp\">";
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+				 required=\"true\" id=\"filterDlg_regExp\"
+				 style=\"font-size : 16px\"
+				 name=\"reg_exp\" value=\"$reg_exp\"/>";
 
-			print "<span id=\"filter_dlg_date_chk_box\" style=\"display : none\">";
+			print "<span id=\"filterDlg_dateChkBox\" style=\"display : none\">";
 			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
 				__('Check it')."</button>";
 			print "</span>";
 
-			print "<br/> " . __("on field") . " ";
+			print "<br/>" .  __("on field") . " ";
 			print_select_hash("filter_type", 1, $filter_types,
-				'onchange="filterDlgCheckType(this)"');
+				'onchange="filterDlgCheckType(this)" dojoType="dijit.form.Select"');
 
 			print "<br/>";
 
 			print __("in") . " ";
-			print_feed_select($link, "feed_id", $active_feed_id);
+			print_feed_select($link, "feed_id", $active_feed_id, 
+				'dojoType="dijit.form.FilteringSelect"');
 
 			print "</div>";
 
@@ -508,7 +506,7 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			print "<select name=\"action_id\"
+			print "<select name=\"action_id\" dojoType=\"dijit.form.Select\"
 				onchange=\"filterDlgCheckAction(this)\">";
 	
 			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
@@ -520,13 +518,14 @@
 	
 			print "</select>";
 
-			print "<span id=\"filter_dlg_param_box\" style=\"display : none\">";
+			print "<span id=\"filterDlg_paramBox\" style=\"display : none\">";
 			print " " . __("with parameters:") . " ";
-			print "<input size=\"20\"
-					onkeypress=\"return filterCR(event, createFilter)\"
-					name=\"action_param\">";
+			print "<input dojoType=\"dijit.form.TextBox\"
+				id=\"filterDlg_actionParam\"
+				name=\"action_param\">";
 
-			print_label_select($link, "action_param_label", $action_param);
+			print_label_select($link, "action_param_label", $action_param, 
+			 'id="filterDlg_actionParamLabel" dojoType="dijit.form.Select"');
 
 			print "</span>";
 
@@ -537,30 +536,23 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<div style=\"line-height : 100%\">";
-
-			print "<input type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
 					<label for=\"enabled\">".__('Enabled')."</label><br/>";
 
-			print "<input type=\"checkbox\" name=\"inverse\" id=\"inverse\">
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
 				<label for=\"inverse\">".__('Inverse match')."</label>";
 
 			print "</div>";
-			print "</div>";
-
-			print "</form>";
 
 			print "<div class=\"dlgButtons\">";
 
-			print "<button onclick=\"return createFilter()\">".
+			print "<button onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Create')."</button> ";
 
-			print "<button onclick=\"return closeInfoBox()\">".__('Cancel').
-				"</button>";
+			print "<button onclick=\"return dijit.byId('filterEditDlg').hide()\">".
+				__('Cancel')."</button>";
 
-			print "]]></content>";
-
-//			print "</td></tr></table>"; 
+			print "</div>";
 
 			//return;
 		}

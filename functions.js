@@ -741,26 +741,15 @@ function filterDlgCheckType(sender) {
 
 	try {
 
-		var ftype = sender[sender.selectedIndex].value;
-
-		var form = document.forms["filter_add_form"];
-	
-		if (!form) {
-			form = document.forms["filter_edit_form"];
-		}
-
-		if (!form) {
-			console.log("filterDlgCheckType: can't find form!");
-			return;
-		}
+		var ftype = sender.value;
 
 		// if selected filter type is 5 (Date) enable the modifier dropbox
 		if (ftype == 5) {
-			Element.show("filter_dlg_date_mod_box");
-			Element.show("filter_dlg_date_chk_box");
+			Element.show("filterDlg_dateModBox");
+			Element.show("filterDlg_dateChkBox");
 		} else {
-			Element.hide("filter_dlg_date_mod_box");
-			Element.hide("filter_dlg_date_chk_box");
+			Element.hide("filterDlg_dateModBox");
+			Element.hide("filterDlg_dateChkBox");
 
 		}
 
@@ -774,20 +763,9 @@ function filterDlgCheckAction(sender) {
 
 	try {
 
-		var action = sender[sender.selectedIndex].value;
+		var action = sender.value;
 
-		var form = document.forms["filter_add_form"];
-	
-		if (!form) {
-			form = document.forms["filter_edit_form"];
-		}
-
-		if (!form) {
-			console.log("filterDlgCheckAction: can't find form!");
-			return;
-		}
-
-		var action_param = $("filter_dlg_param_box");
+		var action_param = $("filterDlg_paramBox");
 
 		if (!action_param) {
 			console.log("filterDlgCheckAction: can't find action param box!");
@@ -796,13 +774,13 @@ function filterDlgCheckAction(sender) {
 
 		// if selected action supports parameters, enable params field
 		if (action == 4 || action == 6 || action == 7) {
-			Element.show(action_param);
+			new Effect.Appear(action_param, {duration : 0.5});
 			if (action != 7) {
-				Element.show(form.action_param);
-				Element.hide(form.action_param_label);
+				Element.show(dijit.byId("filterDlg_actionParam").domNode);
+				Element.hide(dijit.byId("filterDlg_actionParamLabel").domNode);
 			} else {
-				Element.show(form.action_param_label);
-				Element.hide(form.action_param);
+				Element.show(dijit.byId("filterDlg_actionParamLabel").domNode);
+				Element.hide(dijit.byId("filterDlg_actionParam").domNode);
 			}
 		} else {
 			Element.hide(action_param);
@@ -816,18 +794,9 @@ function filterDlgCheckAction(sender) {
 
 function filterDlgCheckDate() {
 	try {
-		var form = document.forms["filter_add_form"];
-	
-		if (!form) {
-			form = document.forms["filter_edit_form"];
-		}
+		var dialog = dijit.byId("filterEditDlg");
 
-		if (!form) {
-			console.log("filterDlgCheckAction: can't find form!");
-			return;
-		}
-
-		var reg_exp = form.reg_exp.value;
+		var reg_exp = dialog.attr('value').reg_exp;
 
 		var query = "?op=rpc&subop=checkDate&date=" + reg_exp;
 
@@ -835,26 +804,18 @@ function filterDlgCheckDate() {
 			parameters: query,
 			onComplete: function(transport) { 
 
-				var form = document.forms["filter_add_form"];
-	
-				if (!form) {
-					form = document.forms["filter_edit_form"];
-				}
-
 				if (transport.responseXML) {
 					var result = transport.responseXML.getElementsByTagName("result")[0];
 
 					if (result && result.firstChild) {
 						if (result.firstChild.nodeValue == "1") {
-
-							new Effect.Highlight(form.reg_exp, {startcolor : '#00ff00'});
-
+							alert(__("Date syntax appears to be correct."));
 							return;
 						}
 					}
 				}
 
-				new Effect.Highlight(form.reg_exp, {startcolor : '#ff0000'});
+				alert(__("Date syntax is incorrect."));
 
 			} });
 
@@ -1211,8 +1172,37 @@ function quickAddFeed() {
 }
 
 function quickAddFilter() {
-	displayDlg('quickAddFilter', '',
-	   function () {document.forms['filter_add_form'].reg_exp.focus();});
+	try {
+		var query = "backend.php?op=dlg&id=quickAddFilter";
+
+		if (dijit.byId("filterEditDlg"))
+			dijit.byId("filterEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "filterEditDlg",
+			title: __("Create Filter"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					console.log(dojo.objectToQuery(this.attr('value')));
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) {
+							this.hide();
+							notify_info(transport.responseText);
+							if (inPreferences()) {
+								updateFilterList();				
+							}
+					}});
+
+				}
+			},
+			href: query});
+
+		dialog.show();
+	} catch (e) {
+		exception_error("quickAddFilter", e);
+	}
 }
 
 function unsubscribeFeed(feed_id, title) {
@@ -1408,7 +1398,7 @@ function genUrlChangeKey(feed, is_cat) {
 
 function labelSelectOnChange(elem) {
 	try {
-		var value = elem[elem.selectedIndex].value;
+/*		var value = elem[elem.selectedIndex].value;
 		var def = elem.getAttribute('default');
 
 		if (value == "ADD_LABEL") {
@@ -1433,7 +1423,7 @@ function labelSelectOnChange(elem) {
 						exception_error("addLabel", e);
 					}
 			});
-		}
+		} */
 
 	} catch (e) {
 		exception_error("labelSelectOnChange", e);

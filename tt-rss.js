@@ -276,6 +276,9 @@ function init() {
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.form.Select");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.ValidationTextBox");
+		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.Menu");

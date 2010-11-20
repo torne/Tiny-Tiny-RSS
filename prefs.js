@@ -288,27 +288,31 @@ function editUser(id, event) {
 }
 
 function editFilter(id, event) {
-
 	try {
 
-		if (!event || !event.ctrlKey) {
+		var query = "backend.php?op=pref-filters&subop=edit&id=" + param_escape(id);
 
-			notify_progress("Loading, please wait...", true);
+		if (dijit.byId("filterEditDlg"))
+			dijit.byId("filterEditDlg").destroyRecursive();
 
-			var query = "?op=pref-filters&subop=edit&id=" + 
-				param_escape(id);
-	
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-						infobox_callback2(transport);
-						document.forms['filter_edit_form'].reg_exp.focus();
-					} });
-		} else if (event.ctrlKey) {
-			var cb = $('FICHK-' + id);
-			cb.checked = !cb.checked;
-			toggleSelectRow(cb);
-		}
+		dialog = new dijit.Dialog({
+			id: "filterEditDlg",
+			title: __("Edit Filter"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					this.hide();
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) {
+							updateFilterList();				
+					}});
+				}
+			},
+			href: query});
+
+		dialog.show();
+
 
 	} catch (e) {
 		exception_error("editFilter", e);
@@ -1099,6 +1103,8 @@ function init() {
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.Select");
+		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.form.RadioButton");
