@@ -1100,6 +1100,7 @@ function init() {
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.form.RadioButton");
 		dojo.require("dijit.form.Select");
 		dojo.require("dijit.Toolbar");
@@ -1956,16 +1957,38 @@ function editCat(id, item, event) {
 
 function editLabel(id, event) {
 	try {
-		var query = "?op=pref-labels&subop=edit&id=" +
+		var query = "backend.php?op=pref-labels&subop=edit&id=" +
 			param_escape(id);
 
-		notify_progress("Loading, please wait...", true);
+		if (dijit.byId("labelEditDlg"))
+			dijit.byId("labelEditDlg").destroyRecursive();
 
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				infobox_callback2(transport);
-			} });
+		dialog = new dijit.Dialog({
+			id: "labelEditDlg",
+			title: __("Label Editor"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					var caption = this.attr('value').id;
+					var caption = this.attr('value').caption;
+					var fg_color = this.attr('value').fg_color;
+					var bg_color = this.attr('value').bg_color;
+					var query = dojo.objectToQuery(this.attr('value'));
+
+					dijit.byId('labelTree').setNameById(id, caption);
+					setLabelColor(id, fg_color, bg_color);
+					this.hide();
+
+					new Ajax.Request("backend.php", {
+						parameters: query,
+						onComplete: function(transport) {
+					  		updateFilterList();	
+					} });
+				}
+			},
+			href: query});
+
+		dialog.show();
 
 	} catch (e) {
 		exception_error("editLabel", e);

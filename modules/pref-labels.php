@@ -6,22 +6,17 @@
 		if ($subop == "edit") {
 			$label_id = db_escape_string($_REQUEST['id']);
 
-			header("Content-Type: text/xml");
-			print "<dlg id=\"$subop\">";
-			print "<title>" . __("Label Editor") . "</title>";
-			print "<content><![CDATA[";
-
 			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
 				id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
 
 			$line = db_fetch_assoc($result);
 
-			print "<form id=\"label_edit_form\" name=\"label_edit_form\"
-				onsubmit=\"return false;\">";
+#			print "<form id=\"label_edit_form\" name=\"label_edit_form\"
+#				onsubmit=\"return false;\">";
 
-			print "<input type=\"hidden\" name=\"id\" value=\"$label_id\">";
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-labels\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"save\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$label_id\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-labels\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"save\">";
 
 			print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
@@ -32,8 +27,9 @@
 
 			print "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span>";
 
-			print "<input style=\"font-size : 18px\" name=\"caption\" 
-				onkeypress=\"return filterCR(event, editLabelSave)\"
+			print "<input style=\"font-size : 16px\" name=\"caption\" 
+				dojoType=\"dijit.form.ValidationTextBox\"
+				required=\"true\"
 				value=\"".htmlspecialchars($line['caption'])."\">";
 
 			print "</div>";
@@ -47,12 +43,16 @@
 
 			print "<tr><td style='padding-right : 10px'>";
 
-			print "<input type=\"hidden\" name=\"fg_color\" value=\"$fg_color\">";
-			print "<input type=\"hidden\" name=\"bg_color\" value=\"$bg_color\">";
+			print "<input dojoType=\"dijit.form.TextBox\" 
+				style=\"display : none\" id=\"labelEdit_fgColor\"
+				name=\"fg_color\" value=\"$fg_color\">";
+			print "<input dojoType=\"dijit.form.TextBox\" 
+				style=\"display : none\" id=\"labelEdit_bgColor\"
+				name=\"bg_color\" value=\"$bg_color\">";
 
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"fg_color\">
-					document.forms['label_edit_form'].fg_color.value = fg_color;
+					dijit.byId(\"labelEdit_fgColor\").attr('value', fg_color);
 					$('label-editor-indicator').setStyle({color: fg_color});
 				</script>
 			</div>";
@@ -62,7 +62,7 @@
 
 			print "<div dojoType=\"dijit.ColorPalette\">
 				<script type=\"dojo/method\" event=\"onChange\" args=\"bg_color\">
-					document.forms['label_edit_form'].bg_color.value = bg_color;
+					dijit.byId(\"labelEdit_bgColor\").attr('value', bg_color);
 					$('label-editor-indicator').setStyle({backgroundColor: bg_color});
 				</script>
 			</div>";
@@ -71,16 +71,15 @@
 			print "</td></tr></table>";
 			print "</div>";
 
-			print "</form>";
+#			print "</form>";
 
 			print "<div class=\"dlgButtons\">";
-			print "<button onclick=\"return editLabelSave()\">".
+			print "<button onclick=\"dijit.byId('labelEditDlg').execute()\">".
 				__('Save')."</button>";
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button onclick=\"dijit.byId('labelEditDlg').hide()\">".
 				__('Cancel')."</button>";
 			print "</div>";
 
-			print "]]></content></dlg>";
 			return;
 		}
 
