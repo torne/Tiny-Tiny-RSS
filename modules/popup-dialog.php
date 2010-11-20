@@ -536,10 +536,10 @@
 
 			print "<div class=\"dlgButtons\">";
 
-			print "<button onclick=\"return dijit.byId('filterEditDlg').execute()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Create')."</button> ";
 
-			print "<button onclick=\"return dijit.byId('filterEditDlg').hide()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').hide()\">".
 				__('Cancel')."</button>";
 
 			print "</div>";

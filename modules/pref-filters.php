@@ -403,17 +403,17 @@
 		print "</div></div>";
 		
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return quickAddFilter()\">".
-			__('Create filter')."</button dojoType=\"dijit.form.Button\"> "; 
+			__('Create filter')."</button> "; 
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return editSelectedFilter()\">".
-			__('Edit')."</button dojoType=\"dijit.form.Button\"> ";
+			__('Edit')."</button> ";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return removeSelectedFilters()\">".
-			__('Remove')."</button dojoType=\"dijit.form.Button\"> ";
+			__('Remove')."</button> ";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"rescore_all_feeds()\">".
-				__('Rescore articles')."</button dojoType=\"dijit.form.Button\"> "; 
+				__('Rescore articles')."</button> "; 
 		}
 
 		print "</div>"; # toolbar
