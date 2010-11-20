@@ -1027,6 +1027,8 @@ function validatePrefsReset() {
 function pref_hotkey_handler(e) {
 	try {
 
+		if (dijit.getEnclosingWidget(e.target)) return;
+
 		var keycode;
 		var shift_key = false;
 

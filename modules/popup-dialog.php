@@ -177,10 +177,10 @@
 
 			print "<div align='center'>";
 
-			print "<button onclick=\"return opmlRegenKey()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return opmlRegenKey()\">".
 				__('Generate new URL')."</button> ";
 
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
 			print "</div>";
@@ -638,18 +638,13 @@
 
 		if ($id == "emailArticle") {
 
-			print "<title>".__('Forward article by email')."</title>";
-			print "<content><![CDATA[";
-
-			print "<form id=\"article_email_form\" onsubmit='return false'>";
-
 			$secretkey = sha1(uniqid(rand(), true));
 
 			$_SESSION['email_secretkey'] = $secretkey;
 
-			print "<input type=\"hidden\" name=\"secretkey\" value=\"$secretkey\">";
-			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"sendEmail\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"secretkey\" value=\"$secretkey\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"sendEmail\">"; 
 
 			$result = db_query($link, "SELECT email, full_name FROM ttrss_users WHERE
 				id = " . $_SESSION["uid"]);
@@ -705,8 +700,7 @@
 
 			print "</td><td>";
 
-			print "<input size=\"40\" disabled
-					onkeypress=\"return filterCR(event, false)\"
+			print "<input dojoType=\"dijit.form.TextBox\" disabled=\"1\" style=\"width : 30em;\"
 					value=\"$user_name <$user_email>\">";
 
 			print "</td></tr><tr><td>";
@@ -715,12 +709,12 @@
 
 			print "</td><td>";
 
-			print "<input size=\"40\"
-					onkeypress=\"return filterCR(event, false)\"
-					name=\"destination\" id=\"destination\">";
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"true\"
+					style=\"width : 30em;\"
+					name=\"destination\" id=\"emailArticleDlg_destination\">";
 
-			print "<div class=\"autocomplete\" id=\"destination_choices\" 
-					style=\"display:none\"></div>";	
+			print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\" 
+					style=\"z-index: 30; display : none\"></div>";	
 
 			print "</td></tr><tr><td>";
 
@@ -728,23 +722,21 @@
 
 			print "</td><td>";
 
-			print "<input size=\"60\" class=\"iedit\"
-					onkeypress=\"return filterCR(event, false)\"
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"true\"
+					style=\"width : 30em;\" 
 					name=\"subject\" value=\"$subject\" id=\"subject\">";
+
+			print "</td></tr>";
+
+			print "<tr><td colspan='2'><textarea dojoType=\"dijit.form.SimpleTextarea\" style='font-size : 12px; width : 100%' rows=\"20\"
+				name='content'>$content</textarea>";
 
 			print "</td></tr></table>";
 
-			print "<textarea rows='10' class='iedit' style='font-size : small'
-				name='content'>$content</textarea>";
-
-			print "</form>";
-
 			print "<div class='dlgButtons'>";
-
-			print "<button onclick=\"return emailArticleDo()\">".__('Send e-mail')."</button> ";
-			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
-
-			print "]]></content>";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('emailArticleDlg').execute()\">".__('Send e-mail')."</button> ";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('emailArticleDlg').hide()\">".__('Cancel')."</button>";
+			print "</div>";
 
 			//return;
 		}
@@ -770,10 +762,10 @@
 
 			print "<div align='center'>";
 
-			print "<button onclick=\"return genUrlChangeKey('$feed_id', '$is_cat')\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return genUrlChangeKey('$feed_id', '$is_cat')\">".
 				__('Generate new URL')."</button> ";
 
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
 			print "</div>";

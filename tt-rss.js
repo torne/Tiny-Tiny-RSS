@@ -280,6 +280,7 @@ function init() {
 		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.CheckBox");
+		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.Menu");
@@ -622,6 +623,9 @@ function rescoreCurrentFeed() {
 function hotkey_handler(e) {
 
 	try {
+
+		var widget = dijit.getEnclosingWidget(e.target);
+		if (widget && Element.visible(widget.domNode)) return;
 
 		var keycode;
 		var shift_key = false;
