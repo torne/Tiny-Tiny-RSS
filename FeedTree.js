@@ -237,4 +237,22 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 	
 		return cat_unread;
 	},
+	collapseHiddenCats: function() {
+		if (!this.model.hasCats()) return;
+
+		var cats = this.model.store._arrayOfTopLevelItems;
+		var tree = this;
+
+		dojo.forEach(cats, function(cat) {
+			var hidden = tree.model.store.getValue(cat, 'hidden');
+			var id = tree.model.store.getValue(cat, 'id');
+			var node = tree._itemNodesMap[id][0];
+
+			if (hidden) 
+				tree._collapseNode(node);
+			else
+				tree._expandNode(node);
+
+		});
+	},
 });

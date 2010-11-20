@@ -92,7 +92,7 @@ function updateFeedList() {
 
 			new Ajax.Request("backend.php", 
 				{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
-					param_escape(cat_id) + "&mode=1" } );
+					param_escape(cat_id) + "&mode=0" } );
 	   },
 		onClose: function (item, node) {
 			var id = String(item.id);
@@ -100,7 +100,7 @@ function updateFeedList() {
 
 			new Ajax.Request("backend.php", 
 				{ parameters: "backend.php?op=feeds&subop=collapse&cid=" + 
-					param_escape(cat_id) + "&mode=0" } );
+					param_escape(cat_id) + "&mode=1" } );
 
 	   },
 		onClick: function (item, node) {
@@ -133,6 +133,9 @@ function updateFeedList() {
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
+
+			tree.collapseHiddenCats();
+
 			feedlist_init();
 
 //			var node = dijit.byId("feedTree")._itemNodesMap['FEED:-2'][0].domNode
