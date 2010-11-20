@@ -131,12 +131,14 @@
 
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
-		<button id="collapse_feeds_btn" onclick="collapse_feedlist()"
+		<button dojoType="dijit.form.Button" id="collapse_feeds_btn" 
+			onclick="collapse_feedlist()"
 			title="<?php echo __('Collapse feedlist') ?>" style="display : inline">
 			&lt;&lt;</button>
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
-				onchange="viewModeChanged()">
+			onchange="viewModeChanged()"
+			dojoType="dijit.form.Select" style="width : 100px">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
@@ -146,45 +148,43 @@
 			<option value="updated"><?php echo __('Updated') ?></option>
 		</select>
 
-		<select title="<?php echo __('Sort articles') ?>" 
-				name="order_by" onchange="viewModeChanged()">
+		<select title="<?php echo __('Sort articles') ?>"
+			onchange="viewModeChanged()" 
+			dojoType="dijit.form.Select" name="order_by" style="width : 100px">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date"><?php echo __('Date') ?></option>
 			<option value="title"><?php echo __('Title') ?></option>
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<button name="update" onclick="return scheduleFeedUpdate()">
+		<button dojoType="dijit.form.Button" name="update" 
+			onclick="scheduleFeedUpdate()">
 			<?php echo __('Update') ?></button>
 
-		<button onclick="return catchupCurrentFeed()">
+		<button dojoType="dijit.form.Button" 
+			onclick="catchupCurrentFeed()">
 			<?php echo __('Mark as read') ?></button>
 
 		</form>
 
 		<div class="actionChooser">
-			<select id="quickMenuChooser" onchange="quickMenuChange()">
+			<select onchange="quickMenuChange(this)" dojoType="dijit.form.Select"
+				style="width : 150px">
 					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
 					<option value="qmcSearch"><?php echo __('Search...') ?></option>
-					<optgroup label="<?php echo __('Feed actions:') ?>">
+					<option disabled="1" value="x"><?php echo __('Feed actions:') ?></option>
 					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
 					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
 					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
 					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
-					</optgroup>
-					<optgroup label="<?php echo __('All feeds:') ?>">
+					<option disabled="1" value="x"><?php echo __('All feeds:') ?></option>
 					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
 					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
-					</optgroup>
-
-					<optgroup label="<?php echo __('Other actions:') ?>">
-
+					<option disabled="1" value="x"><?php echo __('Other actions:') ?></option>
 					<option value="qmcTagCloud"><?php echo __('Show tag cloud...') ?></option>
 					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
 					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
 					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts help') ?></option>
-					</optgroup>
-
 			</select>
 		</div>
 

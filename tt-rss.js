@@ -265,7 +265,7 @@ function genericSanityCheck() {
 
 function init() {
 	try {
-		Form.disable("main_toolbar_form");
+		//Form.disable("main_toolbar_form");
 
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.TabContainer");
@@ -328,8 +328,11 @@ function init_second_stage() {
 
 		var toolbar = document.forms["main_toolbar_form"];
 
-		dropboxSelect(toolbar.view_mode, getInitParam("default_view_mode"));
-		dropboxSelect(toolbar.order_by, getInitParam("default_view_order_by"));
+		dijit.getEnclosingWidget(toolbar.view_mode).attr('value', 
+			getInitParam("default_view_mode"));
+
+		dijit.getEnclosingWidget(toolbar.order_by).attr('value', 
+			getInitParam("default_view_order_by"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
@@ -345,12 +348,9 @@ function init_second_stage() {
 	}
 }
 
-function quickMenuChange() {
-	var chooser = $("quickMenuChooser");
-	var opid = chooser[chooser.selectedIndex].value;
-
-	chooser.selectedIndex = 0;
-	quickMenuGo(opid);
+function quickMenuChange(elem) {
+	quickMenuGo(elem.value);
+	elem.attr('value', 'qmcDefault');
 }
 
 function quickMenuGo(opid) {
