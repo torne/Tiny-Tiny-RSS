@@ -115,7 +115,14 @@ function viewfeed(feed, subop, is_cat, offset) {
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 			if (show_next_feed) {
-				// TODO: implement show_next_feed handling
+				var tree = dijit.byId("feedTree");
+				var nuf = tree.model.getNextUnreadFeed(feed, is_cat);
+
+				if (nuf) {
+					var nuf_id = tree.model.store.getValue(nuf, 'bare_id');
+
+					query = query + "&nuf=" + param_escape(nuf_id);
+				}
 			}
 		}
 

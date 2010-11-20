@@ -52,6 +52,42 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		if (treeItem)
 			return this.store.setValue(treeItem, key, value);
 	},
+	getNextUnreadFeed: function (feed, is_cat) {
+		if (is_cat) {
+			treeItem = this.store._itemsByIdentity['CAT:' + feed];
+			items = this.store._arrayOfTopLevelItems;
+		} else {
+			treeItem = this.store._itemsByIdentity['FEED:' + feed];
+			items = this.store._arrayOfAllItems;
+		}
+
+		for (var i = 0; i < items.length; i++) {
+			if (items[i] == treeItem) {
+
+				for (j = i+1; j < items.length; j++) {
+					var unread = this.store.getValue(items[j], 'unread');
+					var id = this.store.getValue(items[j], 'id');
+
+					if (unread > 0 && (is_cat || id.match("FEED:"))) return items[j];
+				}
+
+				for (j = 0; j < i; j++) {
+					var unread = this.store.getValue(items[j], 'unread');
+					var id = this.store.getValue(items[j], 'id');
+
+					if (unread > 0 && (is_cat || id.match("FEED:"))) return items[j];
+				}
+			}
+		}
+		
+		return null;
+	},
+	hasCats: function() {
+		if (this.store && this.store._itemsByIdentity)
+			return this.store._itemsByIdentity['CAT:-1'] != undefined;
+		else
+			return false;
+	},
 });
 
 dojo.declare("fox.FeedTree", dijit.Tree, {
@@ -144,10 +180,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		return false;
 	},
 	hasCats: function() {
-		if (this.model.store && this.model.store._itemsByIdentity)
-			return this.model.store._itemsByIdentity['CAT:-1'] != undefined;
-		else
-			return false;
+		return this.model.hasCats();
 	},
 	hideRead: function (hide, show_special) {
 		if (this.hasCats()) {
