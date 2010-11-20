@@ -2201,7 +2201,7 @@ function correctHeadlinesOffset(id) {
 function headlineActionsChange(elem) {
 	try {
 		eval(elem.value);
-		elem.selectedIndex = 0;
+		elem.attr('value', 'false');
 	} catch (e) {
 		exception_error("headlineActionsChange", e);
 	}

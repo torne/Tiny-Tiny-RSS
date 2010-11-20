@@ -4102,7 +4102,7 @@
 
 			print "<select dojoType=\"dijit.form.Select\" 
 				onchange=\"headlineActionsChange(this)\">";
-			print "<option value=\"\">".__('Actions...')."</option>";
+			print "<option value=\"false\">".__('Actions...')."</option>";
 
 #			print "<optgroup label=\"".__("Selection toggle:")."\">";
 
