@@ -283,6 +283,7 @@ function init() {
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.Menu");
+		dojo.require("dojo.parser");
 
 		dojo.registerModulePath("fox", "../..");
 

@@ -147,38 +147,6 @@ function updateUsersList(sort_key) {
 	}
 }
 
-function addFeed() {
-
-	try {
-
-		var link = $("fadd_link");
-	
-		if (link.value.length == 0) {
-			alert(__("Error: No feed URL given."));
-		} else if (!isValidURL(link.value)) {
-			alert(__("Error: Invalid feed URL."));
-		} else {
-			notify_progress("Adding feed...");
-	
-			var query = "?op=pref-feeds&subop=add&from=tt-rss&feed_url=" +
-				param_escape(link.value);
-	
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-						feedlist_callback2(transport);
-					} });
-	
-			link.value = "";
-	
-		}
-
-	} catch (e) {
-		exception_error("addFeed", e);
-	}
-
-}
-
 function addPrefProfile() {
 
 	var profile = $("fadd_profile");
@@ -1212,7 +1180,7 @@ function pref_hotkey_handler(e) {
 			}
 
 			if (keycode == 84 && shift_key) { // T
-				displayDlg('feedBrowser');
+				feedBrowser();
 				return false;
 			}
 
@@ -1564,7 +1532,9 @@ function removeFilter(id, title) {
 		var ok = confirm(msg);
 	
 		if (ok) {
-			dijit.byId("filterEditDlg").hide();
+
+			if (dijit.byId("filterEditDlg"))
+				dijit.byId("filterEditDlg").hide();
 
 			notify_progress("Removing filter...");
 		

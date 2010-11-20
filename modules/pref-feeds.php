@@ -265,6 +265,7 @@
 			/* Title */
 
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				placeHolder=\"".__("Feed Title")."\"
 				style=\"font-size : 16px; width: 20em\" name=\"title\" value=\"$title\">";
 
 			/* Feed URL */
@@ -277,6 +278,7 @@
 
 			print __('URL:') . " ";
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				placeHolder=\"".__("Feed URL")."\"
 				regExp='^(http|https)://.*' style=\"width : 20em\"
 				name=\"feed_url\" value=\"$feed_url\">";
 
@@ -339,21 +341,23 @@
 
 			$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
 
-			print "<table>";
+#			print "<table>";
 
-			print "<tr><td>" . __('Login:') . "</td><td>";
+#			print "<tr><td>" . __('Login:') . "</td><td>";
 
 			print "<input dojoType=\"dijit.form.TextBox\" 
-				name=\"auth_login\" value=\"$auth_login\">";
+				placeHolder=\"".__("Login")."\"
+				name=\"auth_login\" value=\"$auth_login\"><br/>";
 
-			print "</tr><tr><td>" . __("Password:") . "</td><td>";
+#			print "</tr><tr><td>" . __("Password:") . "</td><td>";
 
 			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
 			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
+				placeHolder=\"".__("Password")."\"
 				value=\"$auth_pass\">";
 
-			print "</td></tr></table>";
+#			print "</td></tr></table>";
 
 			print "</div>";
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
@@ -613,7 +617,7 @@
 				<input type=\"submit\" class=\"button\" 
 				onclick=\"return feedsEditSave()\" value=\"".__('Save')."\">
 				<input type='submit' class='button'			
-				onclick=\"return feedEditCancel()\" value=\"".__('Cancel')."\">
+				onclick=\"return closeInfoBox()\" value=\"".__('Cancel')."\">
 				</div>";
 
 			print "]]></content></dlg>";
@@ -1411,7 +1415,7 @@
 	
 					$check_box = "<input onclick='toggleSelectListRow2(this)' 
 						dojoType=\"dijit.form.CheckBox\"
-						type=\"checkbox\" id=\"FBCHK-" . $details["id"] . "\">";
+						type=\"checkbox\" \">";
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
 	
@@ -1449,8 +1453,8 @@
 						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 					}
 
-					$check_box = "<input onclick='toggleSelectListRow(this)' class='feedBrowseCB' 
-						type=\"checkbox\" id=\"FBCHK-" . $line["id"] . "\">";
+					$check_box = "<input onclick='toggleSelectListRow2(this)' dojoType=\"dijit.form.CheckBox\"
+						type=\"checkbox\">";
 	
 					$class = ($feedctr % 2) ? "even" : "odd";
 

@@ -240,109 +240,101 @@
 
 		if ($id == "quickAddFeed") {
 
-			print "<title>".__('Subscribe to Feed')."</title>";
-			print "<content><![CDATA[";
-
-			print "<form id='feed_add_form' onsubmit='return false'>";
-
-			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"addfeed\">"; 
-			//print "<input type=\"hidden\" name=\"from\" value=\"tt-rss\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"addfeed\">"; 
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print __("URL:") . " ";
-
-			print "<input size=\"40\"
-					onkeypress=\"return filterCR(event, subscribeToFeed)\"
-					name=\"feed\" id=\"feed_url\">";
+			print "<input style=\"font-size : 16px; width : 20em;\"
+				placeHolder=\"".__("Feed URL")."\"
+				dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"feed\" id=\"feedDlg_feedUrl\">";
 
 			print "<br/>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print __('Place in category:') . " ";
-				print_feed_cat_select($link, "cat");			
+				print_feed_cat_select($link, "cat", false, 'dojoType="dijit.form.Select"');			
 			}
 
 			print "</div>";
 
-			print '<div id="fadd_feeds_container" style="display:none">
+			print '<div id="feedDlg_feedsContainer" style="display : none">
 
 					<div class="dlgSec">' . __('Available feeds') . '</div>
-					<div class="dlgSecCont">'
+					<div class="dlgSecCont">'.
+					'<select id="feedDlg_feedContainerSelect"
+						dojoType="dijit.form.Select" size="3">
+						<script type="dojo/method" event="onChange" args="value">
+							dijit.byId("feedDlg_feedUrl").attr("value", value);
+						</script>
+					</select>'.
+					'</div></div>';
 
-					. ' <select name="feed" id="faad_feeds_container_select" size="3"></select>'
-				. '</div></div>';
-
-			print "<div id='fadd_login_container' style='display:none'>
+			print "<div id='feedDlg_loginContainer' style='display : none'>
 	
 					<div class=\"dlgSec\">".__("Authentication")."</div>
 					<div class=\"dlgSecCont\">".
 
-					__('Login:') . " <input name='login' size=\"20\" 
-							onkeypress=\"return filterCR(event, subscribeToFeed)\"> ".
-					__('Password:') . "<input type='password'
-							name='pass' size=\"20\" 
-							onkeypress=\"return filterCR(event, subscribeToFeed)\">
+					" <input dojoType=\"dijit.form.TextBox\" name='login'\" 
+						placeHolder=\"".__("Login")."\"
+						style=\"width : 10em;\"> ".
+					" <input 
+						placeHolder=\"".__("Password")."\"
+						dojoType=\"dijit.form.TextBox\" type='password' 
+						style=\"width : 10em;\" name='pass'\">
 				</div></div>";
 
 
-			print "<div style=\"clear : both\">				
-				<input type=\"checkbox\" id=\"fadd_login_check\" 
-						onclick='checkboxToggleElement(this, \"fadd_login_container\")'>
-					<label for=\"fadd_login_check\">".
+			print "<div style=\"clear : both\">		
+				<input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"feedDlg_loginCheck\" 
+						onclick='checkboxToggleElement(this, \"feedDlg_loginContainer\")'>
+					<label for=\"feedDlg_loginCheck\">".
 					__('This feed requires authentication.')."</div>";
 
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-				<button class=\"button\" id=\"fadd_submit_btn\"
-					onclick=\"return subscribeToFeed()\">".__('Subscribe')."</button>
-				<button onclick=\"return displayDlg('feedBrowser')\">".__('More feeds')."</button>
-				<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button></div>";
-
-			print "]]></content>";
+				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').execute()\">".__('Subscribe')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"return feedBrowser()\">".__('More feeds')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').hide()\">".__('Cancel')."</button>
+				</div>";
 
 			//return;
 		}
 
 		if ($id == "feedBrowser") {
 
-			print "<title>".__('Feed Browser')."</title>";
-			
-			print "<content><![CDATA[";
-
 			$browser_search = db_escape_string($_REQUEST["search"]);
 			
-			print "<form onsubmit='return false;' display='inline' 
-				name='feed_browser' id='feed_browser'>";
+#			print "<form onsubmit='return false;' display='inline' 
+#				name='feed_browser' id='feed_browser'>";
 
-			print "<input type=\"hidden\" name=\"op\" value=\"rpc\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"updateFeedBrowser\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"updateFeedBrowser\">"; 
 
 			print "<div dojoType=\"dijit.Toolbar\">
 				<div style='float : right'>
 				<img style='display : none' 
 					id='feed_browser_spinner' src='".
 					theme_image($link, 'images/indicator_white.gif')."'>
-				<input name=\"search\" size=\"20\" type=\"search\"
-					onchange=\"javascript:updateFeedBrowser()\" value=\"$browser_search\">
-				<button onclick=\"javascript:updateFeedBrowser()\">".__('Search')."</button>
+				<input name=\"search\" dojoType=\"dijit.form.TextBox\" size=\"20\" type=\"search\"
+					onchange=\"dijit.byId('feedBrowserDlg').update()\" value=\"$browser_search\">
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').update()\">".__('Search')."</button>
 			</div>";
 
-			print " <select name=\"mode\" onchange=\"updateFeedBrowser()\">
+			print " <select name=\"mode\" dojoType=\"dijit.form.Select\" onchange=\"dijit.byId('feedBrowserDlg').update()\">
 				<option value='1'>" . __('Popular feeds') . "</option>
 				<option value='2'>" . __('Feed archive') . "</option>
 				</select> ";
 
 			print __("limit:");
 
-			print " <select name=\"limit\" onchange='updateFeedBrowser()'>";
+			print " <select dojoType=\"dijit.form.Select\" name=\"limit\" onchange=\"dijit.byId('feedBrowserDlg').update()\">";
 
 			foreach (array(25, 50, 100, 200) as $l) {
-				$issel = ($l == $limit) ? "selected" : "";
-				print "<option $issel>$l</option>";
+				$issel = ($l == $limit) ? "selected=\"1\"" : "";
+				print "<option $issel value=\"$l\">$l</option>";
 			}
 			
 			print "</select> ";
@@ -356,12 +348,10 @@
 			print "</ul>";
 
 			print "<div align='center'>
-				<button onclick=\"feedBrowserSubscribe()\">".__('Subscribe')."</button>
-				<button style='display : none' id='feed_archive_remove' onclick=\"feedArchiveRemove()\">".__('Remove')."</button>
-				<button onclick=\"closeInfoBox()\" >".__('Cancel')."</button></div>";
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').execute()\">".__('Subscribe')."</button>
+				<button dojoType=\"dijit.form.Button\" style='display : none' id='feed_archive_remove' onclick=\"dijit.byId('feedBrowserDlg').removeFromArchive()\">".__('Remove')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').hide()\" >".__('Cancel')."</button></div>";
 
-			print "]]></content>";
-			//return;
 		}
 
 		if ($id == "search") {

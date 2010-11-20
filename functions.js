@@ -560,109 +560,6 @@ function createFilter() {
 	}
 }
 
-function isValidURL(s) {
-	return s.match("http://") != null || s.match("https://") != null || s.match("feed://") != null;
-}
-
-function subscribeToFeed() {
-
-	try {
-
-	var form = document.forms['feed_add_form'];
-	var feed_url = form.feed_url.value;
-
-	if (feed_url == "") {
-		alert(__("Can't subscribe: no feed URL given."));
-		return false;
-	}
-
-	notify_progress(__("Subscribing to feed..."), true);
-
-	var query = Form.serialize("feed_add_form");
-	
-	console.log("subscribe q: " + query);
-
-	Form.disable("feed_add_form");
-
-	new Ajax.Request("backend.php", {
-		parameters: query,
-		onComplete: function(transport) { 
-			try {
-
-				if (!transport.responseXML) {
-					console.log(transport.responseText);
-					alert(__("Server error while trying to subscribe to specified feed."));
-					return;
-				}
-
-				var result = transport.responseXML.getElementsByTagName('result')[0];
-				var rc = parseInt(result.getAttribute('code'));
-	
-				Form.enable("feed_add_form");
-	
-				notify('');
-	
-				switch (rc) {
-				case 1:
-					closeInfoBox();
-					notify_info(__("Subscribed to %s").replace("%s", feed_url));
-	
-					if (inPreferences()) {
-						updateFeedList();
-					} else {
-						setTimeout('updateFeedList(false, false)', 50);
-					}
-					break;
-				case 2:
-					alert(__("Specified URL seems to be invalid."));
-					break;
-				case 3:
-					alert(__("Specified URL doesn't seem to contain any feeds."));
-					break;
-				case 4:
-					new Ajax.Request("backend.php", {
-						parameters: 'op=rpc&subop=extractfeedurls&url=' + encodeURIComponent(feed_url),
-						onComplete: function(transport) {
-							var result = transport.responseXML.getElementsByTagName('urls')[0];
-							var feeds = JSON.parse(result.firstChild.nodeValue);
-							var select = document.getElementById("faad_feeds_container_select");
-	
-							while (select.hasChildNodes()) {
-								select.removeChild(elem.firstChild);
-							}
-							var count = 0;
-							for (var feedUrl in feeds) {
-								select.insert(new Option(feeds[feedUrl], feedUrl, false));
-								count++;
-							}
-							if (count > 5) count = 5;
-							select.size = count;
-	
-							Effect.Appear('fadd_feeds_container', {duration : 0.5});
-						}
-					});
-					break;
-				case 5:
-					alert(__("Couldn't download the specified URL."));
-					break;
-				case 0:
-					alert(__("You are already subscribed to this feed."));
-					break;
-				}
-
-			} catch (e) {
-				exception_error("subscribeToFeed", e);
-			}
-
-		} });
-
-	} catch (e) {
-		exception_error("subscribeToFeed", e);
-	}
-
-	return false;
-}
-
 function filterCR(e, f)
 {
      var key;
@@ -857,7 +754,7 @@ function remove_splash() {
 	}
 }
 
-function getSelectedFeedsFromBrowser() {
+/* function getSelectedFeedsFromBrowser() {
 
 	var list = $$("#browseFeedList li[id*=FBROW]");
 
@@ -865,52 +762,15 @@ function getSelectedFeedsFromBrowser() {
 
 	list.each(function(child) {	
 		var id = child.id.replace("FBROW-", "");
-		var cb = $("FBCHK-" + id);
 
-		if (cb.checked) {
+		if (child.hasClassName('Selected')) {
 			selected.push(id);
 		}	
 	});
 
 	return selected;
-}
+} */
 
-function updateFeedBrowser() {
-	try {
-
-		var query = Form.serialize("feed_browser");
-
-		Element.show('feed_browser_spinner');
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) { 
-				notify('');
-
-				Element.hide('feed_browser_spinner');
-
-				var c = $("browseFeedList");
-				var r = transport.responseXML.getElementsByTagName("content")[0];
-				var nr = transport.responseXML.getElementsByTagName("num-results")[0];
-				var mode = transport.responseXML.getElementsByTagName("mode")[0];
-
-				if (c && r) {
-					c.innerHTML = r.firstChild.nodeValue;
-				}
-
-				if (parseInt(mode.getAttribute("value")) == 2) {
-					Element.show('feed_archive_remove');
-				} else {
-					Element.hide('feed_archive_remove');
-				}
-	
-			} });
-
-	} catch (e) {
-		exception_error("updateFeedBrowser", e);
-	}
-
-}
 
 function transport_error_check(transport) {
 	try {
@@ -971,78 +831,6 @@ function hideAuxDlg() {
 	}
 }
 
-function feedBrowserSubscribe() {
-	try {
-
-		var selected = getSelectedFeedsFromBrowser();
-
-		var mode = document.forms['feed_browser'].mode;
-
-		mode = mode[mode.selectedIndex].value;
-
-		if (selected.length > 0) {
-			closeInfoBox();
-
-			notify_progress("Loading, please wait...", true);
-
-			var query = "?op=rpc&subop=massSubscribe&ids="+
-				param_escape(selected.toString()) + "&mode=" + param_escape(mode);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-
-					var nf = transport.responseXML.getElementsByTagName('num-feeds')[0];
-					var nf_value = nf.getAttribute("value");
-
-					notify_info(__("Subscribed to %d feed(s).").replace("%d", nf_value));
-
-					if (inPreferences()) {
-						updateFeedList();
-					} else {
-						setTimeout('updateFeedList(false, false)', 50);
-					}
-				} });
-
-		} else {
-			alert(__("No feeds are selected."));
-		}
-
-	} catch (e) {
-		exception_error("feedBrowserSubscribe", e);
-	}
-}
-
-function feedArchiveRemove() {
-	try {
-
-		var selected = getSelectedFeedsFromBrowser();
-
-		if (selected.length > 0) {
-
-			var pr = __("Remove selected feeds from the archive? Feeds with stored articles will not be removed.");
-
-			if (confirm(pr)) {
-				Element.show('feed_browser_spinner');
-
-				var query = "?op=rpc&subop=remarchived&ids=" + 
-					param_escape(selected.toString());;
-
-				new Ajax.Request("backend.php", {
-					parameters: query,
-					onComplete: function(transport) { 
-						updateFeedBrowser();
-					} }); 
-			}
-
-		} else {
-			alert(__("No feeds are selected."));
-		}
-
-	} catch (e) {
-		exception_error("feedArchiveRemove", e);
-	}
-}
 
 function uploadIconHandler(rc) {
 	try {
@@ -1162,8 +950,119 @@ function addLabel(select, callback) {
 }
 
 function quickAddFeed() {
-	displayDlg('quickAddFeed', '',
-	   function () {$('feed_url').focus();});
+	try {
+		var query = "backend.php?op=dlg&id=quickAddFeed";
+
+		if (dijit.byId("feedAddDlg"))
+			dijit.byId("feedAddDlg").destroyRecursive();
+
+		var dialog = new dijit.Dialog({
+			id: "feedAddDlg",
+			title: __("Subscribe to Feed"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					console.log(dojo.objectToQuery(this.attr('value')));
+
+					var feed_url = this.attr('value').feed;
+
+					notify_progress(__("Subscribing to feed..."), true);
+
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) { 
+							try {
+				
+								if (!transport.responseXML) {
+									console.log(transport.responseText);
+									alert(__("Server error while trying to subscribe to specified feed."));
+									return;
+								}
+				
+								var result = transport.responseXML.getElementsByTagName('result')[0];
+								var rc = parseInt(result.getAttribute('code'));
+					
+								notify('');
+
+								console.log("GOT RC: " + rc);
+					
+								switch (rc) {
+								case 1:
+									dialog.hide();
+									notify_info(__("Subscribed to %s").replace("%s", feed_url));
+					
+									if (inPreferences()) {
+										updateFeedList();
+									} else {
+										setTimeout('updateFeedList(false, false)', 50);
+									}
+									break;
+								case 2:
+									alert(__("Specified URL seems to be invalid."));
+									break;
+								case 3:
+									alert(__("Specified URL doesn't seem to contain any feeds."));
+									break;
+								case 4:
+									notify_progress("Searching for feed urls...", true);
+
+									new Ajax.Request("backend.php", {
+										parameters: 'op=rpc&subop=extractfeedurls&url=' + param_escape(feed_url),
+										onComplete: function(transport, dialog, feed_url) {
+
+											if (!transport.responseXML) {
+												console.log(transport.responseText);
+												alert(__("Server error while trying to query feed URLs."));
+												return;
+											}
+	
+											notify('');
+
+											var result = transport.responseXML.getElementsByTagName('urls')[0];
+											var feeds = JSON.parse(result.firstChild.nodeValue);
+
+											console.log(transport.responseText);
+
+											var select = dijit.byId("feedDlg_feedContainerSelect");
+
+											while (select.getOptions().length > 0)
+												select.removeOption(0);
+
+											var count = 0;
+											for (var feedUrl in feeds) {
+												select.addOption({value: feedUrl, label: feeds[feedUrl]});
+												count++;
+											}
+
+//											if (count > 5) count = 5;
+//											select.size = count; 
+					
+											Effect.Appear('feedDlg_feedsContainer', {duration : 0.5}); 
+										}
+									});
+									break;
+								case 5:
+									alert(__("Couldn't download the specified URL."));
+									break;
+								case 0:
+									alert(__("You are already subscribed to this feed."));
+									break;
+								}
+				
+							} catch (e) {
+								exception_error("subscribeToFeed", e);
+							}
+				
+						} });
+
+					}
+			},
+			href: query});
+
+		dialog.show();
+	} catch (e) {
+		exception_error("quickAddFeed", e);
+	}
 }
 
 function quickAddFilter() {
@@ -1239,8 +1138,8 @@ function unsubscribeFeed(feed_id, title) {
 			parameters: query,
 			onComplete: function(transport) {
 
-					closeInfoBox();
-
+					if (dijit.byId("feedEditDlg")) dijit.byId("feedEditDlg").hide();
+		
 					if (inPreferences()) {
 						updateFeedList();				
 					} else {
@@ -1592,6 +1491,135 @@ function editFeed(feed, event) {
 								dlg_frefresh_callback(transport);
 							}
 					}})
+				}
+			},
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("editFeed", e);
+	}
+}
+
+function feedBrowser() {
+	try {
+		var query = "backend.php?op=dlg&id=feedBrowser";
+
+		if (dijit.byId("feedAddDlg"))
+			dijit.byId("feedAddDlg").hide();
+
+		if (dijit.byId("feedBrowserDlg"))
+			dijit.byId("feedBrowserDlg").destroyRecursive();
+
+		var dialog = new dijit.Dialog({
+			id: "feedBrowserDlg",
+			title: __("More Feeds"),
+			style: "width: 600px",
+			getSelectedFeeds: function() {
+				var list = $$("#browseFeedList li[id*=FBROW]");
+				var selected = new Array();
+			
+				list.each(function(child) {	
+					var id = child.id.replace("FBROW-", "");
+			
+					if (child.hasClassName('Selected')) {
+						selected.push(id);
+					}	
+				});
+			
+				return selected;
+			},
+			subscribe: function() {
+				var selected = this.getSelectedFeeds();
+				var mode = this.attr('value').mode;
+		
+				if (selected.length > 0) {
+					dijit.byId("feedBrowserDlg").hide();
+		
+					notify_progress("Loading, please wait...", true);
+		
+					var query = "?op=rpc&subop=massSubscribe&ids="+
+						param_escape(selected.toString()) + "&mode=" + param_escape(mode);
+
+					console.log(query);
+		
+					new Ajax.Request("backend.php", {
+						parameters: query,
+						onComplete: function(transport) { 
+		
+							var nf = transport.responseXML.getElementsByTagName('num-feeds')[0];
+							var nf_value = nf.getAttribute("value");
+		
+							notify_info(__("Subscribed to %d feed(s).").replace("%d", nf_value));
+		
+							if (inPreferences()) {
+								updateFeedList();
+							} else {
+								setTimeout('updateFeedList(false, false)', 50);
+							}
+						} });
+		
+				} else {
+					alert(__("No feeds are selected."));
+				}
+		
+			},
+			update: function() {
+				var query = dojo.objectToQuery(dialog.attr('value'));
+		
+				Element.show('feed_browser_spinner');
+		
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) { 
+						notify('');
+		
+						Element.hide('feed_browser_spinner');
+		
+						var c = $("browseFeedList");
+						var r = transport.responseXML.getElementsByTagName("content")[0];
+						var nr = transport.responseXML.getElementsByTagName("num-results")[0];
+						var mode = transport.responseXML.getElementsByTagName("mode")[0];
+		
+						if (c && r) {
+							c.innerHTML = r.firstChild.nodeValue;
+						}
+		
+						dojo.parser.parse("browseFeedList");
+		
+						if (parseInt(mode.getAttribute("value")) == 2) {
+							Element.show(dijit.byId('feed_archive_remove').domNode);
+						} else {
+							Element.hide(dijit.byId('feed_archive_remove').domNode);
+						}
+			
+					} });
+			},
+			removeFromArchive: function() {
+				var selected = this.getSelectedFeeds();
+		
+				if (selected.length > 0) {
+		
+					var pr = __("Remove selected feeds from the archive? Feeds with stored articles will not be removed.");
+		
+					if (confirm(pr)) {
+						Element.show('feed_browser_spinner');
+		
+						var query = "?op=rpc&subop=remarchived&ids=" + 
+							param_escape(selected.toString());;
+		
+						new Ajax.Request("backend.php", {
+							parameters: query,
+							onComplete: function(transport) { 
+								dialog.update();
+							} }); 
+					}
+				}
+			},
+			execute: function() {
+				if (this.validate()) {
+					this.subscribe();
 				}
 			},
 			href: query});
