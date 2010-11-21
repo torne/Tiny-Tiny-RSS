@@ -636,11 +636,9 @@ function rescoreCurrentFeed() {
 }
 
 function hotkey_handler(e) {
-
 	try {
 
-		var widget = dijit.getEnclosingWidget(e.target);
-		if (widget && Element.visible(widget.domNode)) return;
+		if (e.target.nodeName == "INPUT") return;
 
 		var keycode;
 		var shift_key = false;
@@ -668,17 +666,6 @@ function hotkey_handler(e) {
 			hotkey_prefix = false;
 			closeInfoBox();
 		} 
-
-		var dialog = dijit.byId("infoBox");
-		var dialog_visible = false;
-
-		if (dialog)
-			dialog_visible = Element.visible(dialog.domNode);
-
-		if (dialog_visible || !hotkeys_enabled) {
-			console.log("hotkeys disabled");
-			return;
-		}
 
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl

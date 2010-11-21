@@ -1,4 +1,3 @@
-var hotkeys_enabled = true;
 var notify_silent = false;
 var loading_progress = 0;
 var sanity_check_done = false;
@@ -82,15 +81,6 @@ function format_exception_error(location, e) {
 	console.error("EXCEPTION: " + msg);
 
 	return msg;
-}
-
-
-function disableHotkeys() {
-	hotkeys_enabled = false;
-}
-
-function enableHotkeys() {
-	hotkeys_enabled = true;
 }
 
 function param_escape(arg) {
@@ -398,8 +388,6 @@ function closeErrorBox() {
 	if (Element.visible("errorBoxShadow")) {
 		Element.hide("dialog_overlay");
 		Element.hide("errorBoxShadow");
-
-		enableHotkeys();
 	}
 
 	return false;
@@ -407,8 +395,6 @@ function closeErrorBox() {
 
 function closeInfoBox(cleanup) {
 	try {
-		enableHotkeys();
-
 		dialog = dijit.byId("infoBox");
 
 		if (dialog)	dialog.hide();

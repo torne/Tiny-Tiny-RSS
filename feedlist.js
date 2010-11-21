@@ -82,7 +82,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 			_infscroll_request_sent = timestamp;			
 		}
 
-		enableHotkeys();
 		hideAuxDlg();
 		closeInfoBox();
 

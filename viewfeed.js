@@ -363,7 +363,6 @@ function view(id) {
 
 		console.log("cache check result: " + (cached_article != false));
 	
-		enableHotkeys();
 		hideAuxDlg();
 
 		var query = "?op=view&id=" + param_escape(id);

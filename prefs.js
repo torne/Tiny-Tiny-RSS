@@ -964,8 +964,7 @@ function validatePrefsReset() {
 
 function pref_hotkey_handler(e) {
 	try {
-
-		if (dijit.getEnclosingWidget(e.target)) return;
+		if (e.target.nodeName == "INPUT") return;
 
 		var keycode;
 		var shift_key = false;
@@ -993,17 +992,6 @@ function pref_hotkey_handler(e) {
 			hotkey_prefix = false;
 			closeInfoBox();
 		} 
-
-		var dialog = dijit.byId("infoBox");
-		var dialog_visible = false;
-
-		if (dialog)
-			dialog_visible = Element.visible(dialog.domNode);
-
-		if (dialog_visible || !hotkeys_enabled) {
-			console.log("hotkeys disabled");
-			return;
-		}
 
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
