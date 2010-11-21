@@ -387,8 +387,9 @@
 
 			if (!SPHINX_ENABLE) {
 
-				print "<input onkeypress=\"return filterCR(event, search)\"
-					name=\"query\" size=\"20\" type=\"search\"	value=''>";
+				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+					style=\"font-size : 16px; width : 12em;\"
+					required=\"1\" name=\"query\" type=\"search\" value=''>";
 
 				print " " . __('match on')." ";
 
@@ -397,7 +398,8 @@
 						"content" => __("Content"),
 					"both" => __("Title or content"));
 	
-				print_select_hash("match_on", 3, $search_fields); 
+				print_select_hash("match_on", 3, $search_fields, 
+					'dojoType="dijit.form.Select"'); 
 			} else {
 				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
 					style=\"font-size : 16px; width : 20em;\"
