@@ -262,7 +262,7 @@
 				placeHolder=\"".__("Feed URL")."\"
 				dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"feed\" id=\"feedDlg_feedUrl\">";
 
-			print "<br/>";
+			print "<hr/>";
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print __('Place in category:') . " ";
@@ -399,7 +399,7 @@
 			}
 
 
-			print "<br/>".__('Limit search to:')." ";
+			print "<hr/>".__('Limit search to:')." ";
 			
 			print "<select name=\"search_mode\" dojoType=\"dijit.form.Select\">
 				<option value=\"all_feeds\">".__('All feeds')."</option>";
@@ -481,11 +481,11 @@
 				__('Check it')."</button>";
 			print "</span>";
 
-			print "<br/>" .  __("on field") . " ";
+			print "<hr/>" .  __("on field") . " ";
 			print_select_hash("filter_type", 1, $filter_types,
 				'onchange="filterDlgCheckType(this)" dojoType="dijit.form.Select"');
 
-			print "<br/>";
+			print "<hr/>";
 
 			print __("in") . " ";
 			print_feed_select($link, "feed_id", $active_feed_id, 
@@ -528,7 +528,7 @@
 			print "<div class=\"dlgSecCont\">";
 
 			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
-					<label for=\"enabled\">".__('Enabled')."</label><br/>";
+					<label for=\"enabled\">".__('Enabled')."</label><hr/>";
 
 			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
 				<label for=\"inverse\">".__('Inverse match')."</label>";

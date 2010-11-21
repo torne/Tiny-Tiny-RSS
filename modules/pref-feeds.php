@@ -274,7 +274,7 @@
 			$feed_url = htmlspecialchars(db_fetch_result($result,
 				0, "feed_url"));
 
-			print "<br/>";
+			print "<hr/>";
 
 			print __('URL:') . " ";
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
@@ -288,7 +288,7 @@
 
 				$cat_id = db_fetch_result($result, 0, "cat_id");
 
-				print "<br/>";
+				print "<hr/>";
 
 				print __('Place in category:') . " ";
 
@@ -323,7 +323,7 @@
 
 				/* Purge intl */
 
-				print "<br/>";
+				print "<hr/>";
 
 				print __('Article purging:') . " ";
 
@@ -347,7 +347,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" 
 				placeHolder=\"".__("Login")."\"
-				name=\"auth_login\" value=\"$auth_login\"><br/>";
+				name=\"auth_login\" value=\"$auth_login\"><hr/>";
 
 #			print "</tr><tr><td>" . __("Password:") . "</td><td>";
 
@@ -384,7 +384,7 @@
 				$checked = "";
 			}
 
-			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
 				$checked>&nbsp;<label for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
@@ -395,7 +395,7 @@
 				$checked = "";
 			}
 
-			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"include_in_digest\" 
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\"
 				$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
@@ -408,7 +408,7 @@
 				$checked = "";
 			}
 
-			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"always_display_enclosures\" 
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"always_display_enclosures\" 
 				name=\"always_display_enclosures\"
 				$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
@@ -421,7 +421,7 @@
 				$checked = "";
 			}
 
-			print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\"
 				$checked>&nbsp;<label for=\"cache_images\">".
 				__('Cache images locally (SimplePie only)')."</label>";
@@ -431,8 +431,6 @@
 			print "</div>";
 
 			/* Icon */
-
-			print "<br/>";
 
 			print "<div class=\"dlgSec\">".__("Icon")."</div>";
 			print "<div class=\"dlgSecCont\">";

@@ -164,11 +164,11 @@
 				__('Check it')."</button>";
 			print "</span>";
 
-			print "<br/> " . __("on field") . " ";
+			print "<hr/> " . __("on field") . " ";
 			print_select_hash("filter_type", $filter_type, $filter_types,
 				'onchange="filterDlgCheckType(this)" dojoType="dijit.form.Select"');
 
-			print "<br/>";
+			print "<hr/>";
 
 			print __("in") . " ";
 			print_feed_select($link, "feed_id", $feed_id,
@@ -228,7 +228,7 @@
 			}
 
 			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
-					<label for=\"enabled\">".__('Enabled')."</label><br/>";
+					<label for=\"enabled\">".__('Enabled')."</label><hr/>";
 
 			if ($inverse) {
 				$checked = "checked=\"1\"";
