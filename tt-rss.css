@@ -17,15 +17,6 @@ body#ttrssPrefs #footer, body#ttrssPrefs #header {
 	padding-right : 8px;
 }
 
-blockquote {
-	margin : 0px;
-	border-width : 0px 0px 0px 8px;
-	border-color : #e0e0e0;
-	border-style : solid;
-	padding : 10px;
-	background-color : #f0f0f0;
-}
-
 div.postReply {
 	padding : 0px;
 }
@@ -430,8 +421,24 @@ a.helpLink:hover {
 	color : #4684ff;
 }
 
-pre {
-	margin : 5px;
+#content-insert pre, #headlines-frame pre {
+	margin : 0px 0px 0px 1em;
+	padding : 0px;
+	font-family : monospace;
+	font-size : 12px;
+	background : white;
+	border-width : 0px;
+}
+
+#content-insert blockquote, #headlines-frame blockquote {
+	margin : 0px 0px 0px 1em;
+	border-width : 0px 0px 0px 2px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	font-style : italic;
+	padding : 0px 0px 0px 1em;
+	font-size : 12px;
+	color : gray;
 }
 
 /*
@@ -1288,11 +1295,6 @@ div.dlgSecCont > * {
 div.dlgButtons {
 	text-align : right;
 	clear : both;
-}
-
-pre, code {
-	font-size : 12px;
-	font-family : monospace;
 }
 
 span.prefsLabelEntry {
