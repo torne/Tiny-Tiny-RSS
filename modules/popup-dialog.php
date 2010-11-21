@@ -549,7 +549,7 @@
 
 		if ($id == "feedUpdateErrors") {
 
-			print "<title>".__('Update Errors')."</title>";
+			print "<title>".__('Feeds with update errors')."</title>";
 			print "<content><![CDATA[";
 
 			print __("These feeds have not been updated because of errors:");
@@ -568,7 +568,8 @@
 
 			print "<div align='center'>";
 
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
 			print "]]></content>";
