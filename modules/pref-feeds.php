@@ -1259,25 +1259,22 @@
 		print "<iframe name=\"upload_iframe\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
-		print "<div style='float : left'>";
 		print "<form style='display : block' target=\"upload_iframe\"
 			enctype=\"multipart/form-data\" method=\"POST\" 
 				action=\"backend.php\">
 			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
 			<input type=\"hidden\" name=\"id\" value=\"importOpml\">
-			<button onclick=\"return opmlImport();\"
+			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\"
 				type=\"submit\">".__('Import')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"gotoExportOpml()\">".__('Export OPML')."</button>
 			</form>";
-		print "</div>&nbsp;";
-
-		print "<button onclick=\"gotoExportOpml()\">".__('Export OPML')."</button>";
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
 
 		print "<div class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</div>" . "</p>";
 
-		print "<button onclick=\"return displayDlg('pubOPMLUrl')\">".
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
 			__('Display URL')."</button> ";
 
 
@@ -1312,7 +1309,7 @@
 
 		$bm_url = htmlspecialchars("javascript:{if(confirm('$confirm_str'.replace('%s',window.location.href)))window.location.href='$bm_subscribe_url'+window.location.href}");
 
-		print "<a href=\"$bm_url\" class='visibleLink'>" . __('Subscribe in Tiny Tiny RSS'). "</a>";
+		print "<a href=\"$bm_url\" class='bookmarklet'>" . __('Subscribe in Tiny Tiny RSS'). "</a>";
 
 		print "</div>"; #pane
 
@@ -1323,10 +1320,10 @@
 		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() . 
 				"/backend.php?op=rss&id=-2&view-mode=all_articles");;
 
-		print "<button onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";
                
-		print "<button onclick=\"return clearFeedAccessKeys()\">".
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearFeedAccessKeys()\">".
 			__('Clear all generated URLs')."</button> ";
 
 		print "</div>"; #pane

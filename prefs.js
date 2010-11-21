@@ -809,7 +809,7 @@ function opmlImport() {
 	var opml_file = $("opml_file");
 
 	if (opml_file.value.length == 0) {
-		alert(__("No OPML file to upload."));
+		alert(__("Please choose an OPML file first."));
 		return false;
 	} else {
 		notify_progress("Importing, please wait...", true);
