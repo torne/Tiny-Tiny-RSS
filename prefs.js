@@ -73,33 +73,11 @@ function notify_callback2(transport) {
 }
 
 function updateFeedList(sort_key) {
-
-	try {
-
-	var feed_search = $("feed_search");
-	var search = "";
-	if (feed_search) { search = feed_search.value; }
-
-	var slat = $("show_last_article_times");
-
-	var slat_checked = false;
-	if (slat) {
-		slat_checked = slat.checked;
-	}
-
-	var query = "?op=pref-feeds" +
-		"&sort=" + param_escape(sort_key) + 
-		"&slat=" + param_escape(slat_checked) +
-		"&search=" + param_escape(search);
-
 	new Ajax.Request("backend.php", {
-		parameters: query,
+		parameters: "?op=pref-feeds",
 		onComplete: function(transport) { 
 			feedlist_callback2(transport); 
 		} });
-	} catch (e) {
-		exception_error("updateFeedList", e);
-	}
 }
 
 function updateUsersList(sort_key) {
