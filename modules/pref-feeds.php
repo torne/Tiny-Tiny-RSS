@@ -1145,16 +1145,6 @@
 
 		print "<div dojoType=\"dijit.Toolbar\">";
 
-		/* 
-		print "<div style='float : right'> 
-			<input id=\"feed_search\" size=\"20\" type=\"search\"
-				onfocus=\"disableHotkeys();\" 
-				onblur=\"enableHotkeys();\"
-				onchange=\"updateFeedList()\" value=\"$feed_search\">
-			<button onclick=\"updateFeedList()\">".
-				__('Search')."</button>
-				</div>"; */
-
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";

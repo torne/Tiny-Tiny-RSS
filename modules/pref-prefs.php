@@ -206,18 +206,11 @@
 				$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
 
 				print "<tr><td width=\"40%\">".__('Full name')."</td>";
-				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" 
-					required=\"1\"
-					onfocus=\"javascript:disableHotkeys();\" 
-					onblur=\"javascript:enableHotkeys();\"
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" required=\"1\"
 					value=\"$full_name\"></td></tr>";
 
 				print "<tr><td width=\"40%\">".__('E-mail')."</td>";
-				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" 
-					required=\"1\"
-					onfocus=\"javascript:disableHotkeys();\" 
-					onblur=\"javascript:enableHotkeys();\"
-					value=\"$email\"></td></tr>";
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" required=\"1\" value=\"$email\"></td></tr>";
 
 				if (!SINGLE_USER_MODE) {
 					$access_level = db_fetch_result($result, 0, "access_level");
@@ -272,27 +265,16 @@
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 	
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
-				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
-					required=\"1\"
-					onfocus=\"javascript:disableHotkeys();\" 
-					onblur=\"javascript:enableHotkeys();\"
-					name=\"old_password\"></td></tr>";
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\" name=\"old_password\"></td></tr>";
 	
 				print "<tr><td width=\"40%\">".__("New password")."</td>";
 				
-				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
-					required=\"1\"
-					onfocus=\"javascript:disableHotkeys();\" 
-					onblur=\"javascript:enableHotkeys();\"
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\"
 					name=\"new_password\"></td></tr>";
 
 				print "<tr><td width=\"40%\">".__("Confirm password")."</td>";
 
-				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\"
-					required=\"1\"
-					onfocus=\"javascript:disableHotkeys();\" 
-					onblur=\"javascript:enableHotkeys();\"
-					name=\"confirm_password\"></td></tr>";
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\" name=\"confirm_password\"></td></tr>";
 
 				print "</table>";
 	
@@ -462,16 +444,13 @@
 
 					print "<input dojoType=\"dijit.form.ValidationTextBox\"
 						required=\"1\" $regexp
-						onfocus=\"javascript:disableHotkeys();\" 
-						onblur=\"javascript:enableHotkeys();\"  
 						name=\"$pref_name\" value=\"$value\">";
 
 				} else {
 					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';
 
 					print "<input dojoType=\"dijit.form.ValidationTextBox\"
-						onfocus=\"javascript:disableHotkeys();\" $regexp
-						onblur=\"javascript:enableHotkeys();\"  
+						$regexp
 						name=\"$pref_name\" value=\"$value\">";
 				}
 
