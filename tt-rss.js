@@ -85,6 +85,7 @@ function updateFeedList() {
 		});
 
 		var tree = new fox.FeedTree({
+		persist: false,
 		model: treeModel,
 		onOpen: function (item, node) {
 			var id = String(item.id);
