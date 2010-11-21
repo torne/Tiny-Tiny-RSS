@@ -48,13 +48,5 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 		return (!item.error || item.error == '') ? "dijitTreeRow" : 
 			"dijitTreeRow Error";
 	},
-	onClick: function (item) {
-		var id = String(item.id);
-		var bare_id = id.substr(id.indexOf(':')+1);
-
-		if (id.match('FILTER:')) {
-			editFilter(bare_id, event);
-		}			
-	},
 });
 

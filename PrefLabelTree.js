@@ -39,13 +39,5 @@ dojo.declare("fox.PrefLabelTree", lib.CheckBoxTree, {
 	getIconClass: function (item, opened) {
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "invisible";
 	}, 
-	onClick: function (item) {
-		var id = String(item.id);
-		var bare_id = id.substr(id.indexOf(':')+1);
-
-		if (id.match('LABEL:')) {
-			editLabel(bare_id, event);
-		}			
-	},
 });
 

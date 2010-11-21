@@ -166,7 +166,7 @@ function editUser(id, event) {
 		
 }
 
-function editFilter(id, event) {
+function editFilter(id) {
 	try {
 
 		var query = "backend.php?op=pref-filters&subop=edit&id=" + param_escape(id);

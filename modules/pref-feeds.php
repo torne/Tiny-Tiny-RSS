@@ -1220,9 +1220,9 @@
 			var bare_id = id.substr(id.indexOf(':')+1);
 
 			if (id.match('FEED:')) {
-				editFeed(bare_id, event);
+				editFeed(bare_id);
 			} else if (id.match('CAT:')) {
-				editCat(bare_id, item, event);
+				editCat(bare_id, item);
 			}			
 		</script>
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">

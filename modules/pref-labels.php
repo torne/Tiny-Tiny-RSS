@@ -304,6 +304,14 @@
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
 			Element.hide(\"labellistLoading\");
 		</script>
+		<script type=\"dojo/method\" event=\"onClick\" args=\"item\">
+			var id = String(item.id);
+			var bare_id = id.substr(id.indexOf(':')+1);
+
+			if (id.match('LABEL:')) {
+				editLabel(bare_id);
+			}			
+		</script>
 		</div>";
 
 		print "</div>"; #pane
