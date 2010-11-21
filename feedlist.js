@@ -1,6 +1,7 @@
 var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
+var _search_query = false;
 
 var counter_timeout_id = false;
 
@@ -100,12 +101,10 @@ function viewfeed(feed, subop, is_cat, offset) {
 		var query = "?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 
-		if ($("search_form")) {
-			var search_query = Form.serialize("search_form");
-			query = query + "&" + search_query;
-			$("search_form").query.value = "";
-			closeInfoBox(true);
+		if (_search_query) {
 			force_nocache = true;
+			query = query + "&" + _search_query;
+			_search_query = false;
 		}
 
 //		console.log("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);

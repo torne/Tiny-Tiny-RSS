@@ -376,13 +376,6 @@
 
 		if ($id == "search") {
 
-			print "<title>".__('Search')."</title>";
-			print "<content><![CDATA[";
-
-			print "<form id='search_form'  onsubmit='return false'>";
-
-			#$active_feed_id = db_escape_string($_REQUEST["param"]);
-
 			$params = explode(":", db_escape_string($_REQUEST["param"]), 2);
 
 			$active_feed_id = sprintf("%d", $params[0]);
@@ -406,14 +399,15 @@
 	
 				print_select_hash("match_on", 3, $search_fields); 
 			} else {
-				print "<input onkeypress=\"return filterCR(event, search)\"
-					name=\"query\" size=\"50\" type=\"search\"	value=''>";
+				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+					style=\"font-size : 16px; width : 20em;\"
+					required=\"1\" name=\"query\" type=\"search\" value=''>";
 			}
 
 
 			print "<br/>".__('Limit search to:')." ";
 			
-			print "<select name=\"search_mode\">
+			print "<select name=\"search_mode\" dojoType=\"dijit.form.Select\">
 				<option value=\"all_feeds\">".__('All feeds')."</option>";
 			
 			$feed_title = getFeedTitle($link, $active_feed_id);
@@ -425,13 +419,13 @@
 			}
 			
 			if ($active_feed_id && !$is_cat) {				
-				print "<option selected value=\"this_feed\">$feed_title</option>";
+				print "<option selected=\"1\" value=\"this_feed\">$feed_title</option>";
 			} else {
-				print "<option disabled>".__('This feed')."</option>";
+				print "<option disabled=\"1\" value=\"false\">".__('This feed')."</option>";
 			}
 
 			if ($is_cat) {
-			  	$cat_preselected = "selected";
+			  	$cat_preselected = "selected=\"1\"";
 			}
 
 			if (get_pref($link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
@@ -444,17 +438,10 @@
 
 			print "</div>";
 
-			print "</form>";
-
 			print "<div class=\"dlgButtons\">
-			<button onclick=\"javascript:search()\">".__('Search')."</button>
-			<button onclick=\"javascript:closeInfoBox(true)\">".__('Cancel')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').execute()\">".__('Search')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').hide()\">".__('Cancel')."</button>
 			</div>";
-
-			print "]]></content>";
-
-			//return;
-
 		}
 
 		if ($id == "quickAddFilter") {

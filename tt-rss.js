@@ -231,8 +231,26 @@ function timeout() {
 }
 
 function search() {
-	closeInfoBox();	
-	viewCurrentFeed();
+	var query = "backend.php?op=dlg&id=search&param=" +
+		param_escape(getActiveFeedId() + ":" + activeFeedIsCat());
+
+	if (dijit.byId("searchDlg"))
+		dijit.byId("searchDlg").destroyRecursive();
+
+	dialog = new dijit.Dialog({
+		id: "searchDlg",
+		title: __("Search"),
+		style: "width: 600px",
+		execute: function() {
+			if (this.validate()) {
+				_search_query = dojo.objectToQuery(this.attr('value'));
+				this.hide();
+				viewCurrentFeed();
+			}
+		},
+		href: query});
+
+	dialog.show();
 }
 
 function updateTitle() {
@@ -365,10 +383,7 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcSearch") {
-			displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat(), 
-				function() { 
-					document.forms['search_form'].query.focus();
-				});
+			search();
 			return;
 		}
 	
@@ -704,10 +719,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 191 || keychar == '/') { // /
-				displayDlg("search", getActiveFeedId() + ":" + activeFeedIsCat(), 
-					function() { 
-						document.forms['search_form'].query.focus();
-					});
+				search();
 				return false;
 			}
 
