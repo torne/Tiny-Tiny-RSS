@@ -4220,31 +4220,34 @@
 	
 			$result = db_query($link, "SELECT * FROM
 				ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
+
+			if (db_num_rows($result) > 0) {
+
+				if (get_pref($link, 'ENABLE_FEED_CATS')) {
+					$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
+					$cat = feedlist_init_cat($link, -2, $cat_hidden);
+				} else {
+					$cat['items'] = array();
+				}
+
+				while ($line = db_fetch_assoc($result)) {
 		
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				$cat_hidden = get_pref($link, "_COLLAPSED_LABELS");
-				$cat = feedlist_init_cat($link, -2, $cat_hidden);
-			} else {
-				$cat['items'] = array();
-			}
-
-			while ($line = db_fetch_assoc($result)) {
+					$label_id = -$line['id'] - 11;
+					$count = getFeedUnread($link, $label_id);
 	
-				$label_id = -$line['id'] - 11;
-				$count = getFeedUnread($link, $label_id);
-
-				$feed = feedlist_init_feed($link, $label_id, false, $count);
-
-				$feed['fg_color'] = $line['fg_color'];
-				$feed['bg_color'] = $line['bg_color'];
-
-				array_push($cat['items'], $feed);
-			}
+					$feed = feedlist_init_feed($link, $label_id, false, $count);
 	
-			if ($enable_cats) {
-				array_push($feedlist['items'], $cat);
-			} else {
-				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+					$feed['fg_color'] = $line['fg_color'];
+					$feed['bg_color'] = $line['bg_color'];
+	
+					array_push($cat['items'], $feed);
+				}
+		
+				if ($enable_cats) {
+					array_push($feedlist['items'], $cat);
+				} else {
+					$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+				}
 			}
 		}
 	
