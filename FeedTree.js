@@ -100,6 +100,20 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		var id = args.item.id[0];
 		var bare_id = parseInt(id.substr(id.indexOf(':')+1));
 
+		if (bare_id < -10) {
+			var span = dojo.doc.createElement('span');
+			var fg_color = args.item.fg_color[0];
+			var bg_color = args.item.bg_color[0];
+
+			span.innerHTML = "&alpha;";
+			span.className = 'labelColorIndicator';
+			span.setStyle({
+				color: fg_color,
+				backgroundColor: bg_color});
+
+			dojo.place(span, tnode.iconNode, 'replace');
+		}
+
 		if (id.match("FEED:") && bare_id > 0) {
 			var menu = new dijit.Menu();
 			menu.row_id = bare_id;

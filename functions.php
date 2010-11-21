@@ -4232,9 +4232,13 @@
 	
 				$label_id = -$line['id'] - 11;
 				$count = getFeedUnread($link, $label_id);
-	
-				array_push($cat['items'], feedlist_init_feed($link, $label_id, 
-					false, $count));
+
+				$feed = feedlist_init_feed($link, $label_id, false, $count);
+
+				$feed['fg_color'] = $line['fg_color'];
+				$feed['bg_color'] = $line['bg_color'];
+
+				array_push($cat['items'], $feed);
 			}
 	
 			if ($enable_cats) {
