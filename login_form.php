@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="functions.js"></script>
 </head>
 
-<body>
+<body id="ttrssLogin">
 
 <script type="text/javascript">
 function init() {
