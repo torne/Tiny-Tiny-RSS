@@ -637,7 +637,8 @@
 			print "</div>";
 
 			print "<div align='center'>";
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 			print "</div>";
 
