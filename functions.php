@@ -3690,9 +3690,7 @@
 			}
 
 			if (strtolower($entry->nodeName) == "a") {
-				if (get_pref($link, 'OPEN_LINKS_IN_NEW_WINDOW', $owner)) {
-					$entry->setAttribute("target", "_blank");
-				}
+				$entry->setAttribute("target", "_blank");
 			}
 
 			if (strtolower($entry->nodeName) == "img" && !$br_inserted) {
