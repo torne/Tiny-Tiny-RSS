@@ -601,12 +601,12 @@
 			print "</div>";
 
 			print "<div class='dlgButtons'>
-				<input type=\"submit\" class=\"button\" 
-				onclick=\"return dijit.byId('feedEditDlg').execute()\" 
-					value=\"".__('Save')."\">
-				<input type='submit' class='button'			
-				onclick=\"return dijit.byId('feedEditDlg').hide()\" 
-					value=\"".__('Cancel')."\">
+				<button dojoType=\"dijit.form.Button\" 
+					onclick=\"return dijit.byId('feedEditDlg').execute()\">".
+					__('Save')."</button>
+				<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('feedEditDlg').hide()\">".
+					__('Cancel')."</button>
 				</div>";
 		
 			return;
@@ -1246,7 +1246,8 @@
 
 		print "</p>";
 
-		print "<iframe name=\"upload_iframe\"
+		print "<iframe id=\"upload_iframe\" 
+			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
 		print "<form style='display : block' target=\"upload_iframe\"

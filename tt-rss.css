@@ -408,7 +408,7 @@ table.prefFeedList td.feedSelect {
 	text-align : center;
 }
 
-div.prefFeedCatHolder {
+div.prefFeedCatHolder, div.prefFeedOPMLHolder {
 	height : 300px;
 	overflow : auto;
 	border-width : 0px 1px 1px 1px;
@@ -416,6 +416,10 @@ div.prefFeedCatHolder {
 	border-style : solid;
 	margin : 0px 0px 5px 0px;
 	background-color : #ecf4ff;
+}
+
+div.prefFeedOPMLHolder {
+	border-width : 1px 1px 1px 1px;
 }
 
 a.helpLink {

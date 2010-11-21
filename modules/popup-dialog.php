@@ -6,10 +6,8 @@
 		print "<dlg id=\"$id\">";
 
 		if ($id == "importOpml") {
-			print "<title>".__('OPML Import')."</title>";
-			print "<content><![CDATA[";
-
-			print "<div class=\"prefFeedCatHolder\">";
+			print "<div class=\"prefFeedOPMLHolder\">";
+			header("Content-Type: text/html"); # required for iframe
 
 			$owner_uid = $_SESSION["uid"];
 
@@ -50,18 +48,12 @@
 			print "</div>";
 
 			print "<div align='center'>";
-
-			print "<button onclick=\"return opmlImportDone()\">".
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"dijit.byId('opmlImportDlg').hide()\">".
 				__('Close this window')."</button>";
-
 			print "</div>";
 
-			print "<script type=\"text/javascript\">";
-			print "parent.opmlImportHandler(this)";
-			print "</script>";
-
 			print "</div>";
-			print "]]></content>";
 
 			//return;
 		}

@@ -782,6 +782,33 @@ function piggie(enable) {
 	}
 }
 
+function opmlImportComplete(iframe) {
+	try {
+		if (!iframe.contentDocument.body.innerHTML) return false;
+
+		notify('');
+
+		if (dijit.byId('opmlImportDlg'))
+			dijit.byId('opmlImportDlg').destroyRecursive();
+
+		var content = iframe.contentDocument.body.innerHTML;
+
+		dialog = new dijit.Dialog({
+			id: "opmlImportDlg",
+			title: __("OPML Import"),
+			style: "width: 600px",
+			onCancel: function() {
+				updateFeedList();	
+			},
+			content: content});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("opmlImportComplete", e);
+	}
+}
+
 function opmlImport() {
 	
 	var opml_file = $("opml_file");
@@ -1510,22 +1537,6 @@ function activatePrefProfile() {
 	}
 
 	return false;
-}
-
-function opmlImportDone() {
-	closeInfoBox();
-	updateFeedList();
-}
-
-function opmlImportHandler(iframe) {
-	try {
-		var tmp = new Object();
-		tmp.responseText = iframe.document.body.innerHTML;
-		notify('');
-		infobox_callback2(tmp);
-	} catch (e) {
-		exception_error("opml_import_handler", e);
-	}
 }
 
 function clearFeedAccessKeys() {
