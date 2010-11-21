@@ -1398,18 +1398,22 @@ function labelColorReset() {
 	try {
 		var labels = getSelectedLabels();
 
-		var ok = confirm(__("Reset label colors to default?"));
+		if (labels.length > 0) {
+			var ok = confirm(__("Reset selected labels to default colors?"));
 
-		if (ok) {
+			if (ok) {
+				var query = "?op=pref-labels&subop=color-reset&ids="+
+					param_escape(labels.toString());
 
-			var query = "?op=pref-labels&subop=color-reset&ids="+
-				param_escape(labels.toString());
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) {
 						labellist_callback2(transport);
 					} });
+			}
+
+		} else {
+			alert(__("No labels are selected."));
 		}
 
 	} catch (e) {
