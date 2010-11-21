@@ -1476,7 +1476,7 @@ function editFeed(feed, event) {
 			style: "width: 600px",
 			execute: function() {
 				if (this.validate()) {
-					console.log(dojo.objectToQuery(this.attr('value')));
+//					console.log(dojo.objectToQuery(this.attr('value')));
 
 					notify_progress("Saving data...", true);
 

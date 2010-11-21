@@ -1,5 +1,3 @@
-var active_feed_cat = false;
-
 var init_params = new Array();
 
 var caller_subop = false;
@@ -759,16 +757,78 @@ function editSelectedFeeds() {
 	
 		notify("");
 	
-		notify_progress("Loading, please wait...", true);
-	
-		var query = "?op=pref-feeds&subop=editfeeds&ids=" +
+		var query = "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
 			param_escape(rows.toString());
 
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport);
-				} });
+		if (dijit.byId("feedEditDlg"))
+			dijit.byId("feedEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "feedEditDlg",
+			title: __("Edit Multiple Feeds"),
+			style: "width: 600px",
+			getChildByName: function (name) {
+				var rv = null
+				this.getChildren().each(
+					function(child) { 
+						if (child.name == name) {
+							rv = child;
+							return;
+						}
+					});
+				return rv;
+			},
+			toggleField: function (checkbox, elem, label) {
+				this.getChildByName(elem).attr('disabled', !checkbox.checked);
+
+				if ($(label))
+					if (checkbox.checked)
+						$(label).removeClassName('insensitive');
+					else
+						$(label).addClassName('insensitive');
+
+			},
+			execute: function() {
+				if (this.validate() && confirm(__("Save changes to selected feeds?"))) {
+					var query = dojo.objectToQuery(this.attr('value'));
+
+					/* Form.serialize ignores unchecked checkboxes */
+
+					if (!query.match("&rtl_content=") && 
+							this.getChildByName('rtl_content').attr('disabled') == false) {
+						query = query + "&rtl_content=false";
+					}
+		
+					if (!query.match("&private=") && 
+							this.getChildByName('private').attr('disabled') == false) {
+						query = query + "&private=false";
+					}
+		
+					if (!query.match("&cache_images=") && 
+							this.getChildByName('cache_images').attr('disabled') == false) {
+						query = query + "&cache_images=false";
+					}
+		
+					if (!query.match("&include_in_digest=") && 
+							this.getChildByName('include_in_digest').attr('disabled') == false) {
+						query = query + "&include_in_digest=false";
+					}
+
+					console.log(query);
+		
+					notify_progress("Saving data...", true);
+
+					new Ajax.Request("backend.php", {
+						parameters: query,
+						onComplete: function(transport) {
+							dialog.hide();
+							updateFeedList();
+					}})
+				}
+			},
+			href: query});
+
+		dialog.show();
 
 	} catch (e) {
 		exception_error("editSelectedFeeds", e);
@@ -800,81 +860,35 @@ function opmlImport() {
 	}
 }
 
-function updateFilterList(sort_key) {
-	try {
-
-		var filter_search = $("filter_search");
-		var search = "";
-		if (filter_search) { search = filter_search.value; }
-	
-		var query = "?op=pref-filters&sort=" + 
-			param_escape(sort_key) + 
-			"&search=" + param_escape(search);
-
-		new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-						filterlist_callback2(transport);
-			} });
-
-	} catch (e) {
-		exception_error("updateFilterList", e);
-	}
-
+function updateFilterList() {
+	new Ajax.Request("backend.php",	{
+		parameters: "?op=pref-filters",
+		onComplete: function(transport) {
+			filterlist_callback2(transport);
+		} });
 }
 
-function updateLabelList(sort_key) {
-
-	try {
-
-		var label_search = $("label_search");
-		var search = "";
-		if (label_search) { search = label_search.value; }
-	
-		var query = "?op=pref-labels&sort=" + 
-			param_escape(sort_key) +
-			"&search=" + param_escape(search);
-	
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-				labellist_callback2(transport);
-			} });
-
-	} catch (e) {
-		exception_error("updateLabelList", e);
-	}
+function updateLabelList() {
+	new Ajax.Request("backend.php",	{
+		parameters: "?op=pref-labels",
+		onComplete: function(transport) {
+			labellist_callback2(transport);
+		} });
 }
 
 function updatePrefsList() {
-
-	var query = "?op=pref-prefs";
-
 	new Ajax.Request("backend.php", {
-		parameters: query,
+		parameters: "?op=pref-prefs",
 		onComplete: function(transport) { 
 			prefslist_callback2(transport); 
 		} });
-
 }
 
 function selectTab(id, noupdate, subop) {
 	try {
-
 		if (!noupdate) {
-
-			console.log("selectTab: " + id + "(NU: " + noupdate + ")");
-	
 			notify_progress("Loading, please wait...");
-	
-			// close active infobox if needed
 			closeInfoBox();
-	
-			// clean up all current selections, just in case
-			active_feed_cat = false;
-
-//			Effect.Fade("prefContent", {duration: 1, to: 0.01, 
-//				queue: { position:'end', scope: 'FEED_TAB', limit: 1 } } );
 
 			if (id == "feedConfig") {
 				updateFeedList();
@@ -892,14 +906,6 @@ function selectTab(id, noupdate, subop) {
 			dijit.byId("pref-tabs").selectChild(tab);
 
 		}
-
-		/* clean selection from all tabs */
-	
-		$$("#prefTabs div").invoke('removeClassName', 'Selected');
-
-		/* mark new tab as selected */
-
-		$(id + "Tab").addClassName("Selected");
 	
 	} catch (e) {
 		exception_error("selectTab", e);
@@ -907,7 +913,6 @@ function selectTab(id, noupdate, subop) {
 }
 
 function init_second_stage() {
-
 	try {
 
 		document.onkeydown = pref_hotkey_handler;
@@ -923,15 +928,13 @@ function init_second_stage() {
 		notify("");
 
 		dojo.addOnLoad(function() {
-
 			var tab = getURLParam('tab');
 
 			if (tab) {
 			  	tab = dijit.byId(tab + "Tab");
 				if (tab) dijit.byId("pref-tabs").selectChild(tab);
 			}
-
-			});
+		});
 
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
@@ -1467,85 +1470,6 @@ function removeFilter(id, title) {
 	return false;
 }
 
-function feedsEditSave() {
-	try {
-
-		var ok = confirm(__("Save changes to selected feeds?"));
-
-		if (ok) {
-
-			var f = document.forms["batch_edit_feed_form"];
-
-			var query = Form.serialize("batch_edit_feed_form");
-
-			/* Form.serialize ignores unchecked checkboxes */
-
-			if (!query.match("&rtl_content=") && 
-					f.rtl_content.disabled == false) {
-				query = query + "&rtl_content=false";
-			}
-
-			if (!query.match("&private=") && 
-					f.private.disabled == false) {
-				query = query + "&private=false";
-			}
-
-			if (!query.match("&cache_images=") && 
-					f.cache_images.disabled == false) {
-				query = query + "&cache_images=false";
-			}
-
-			if (!query.match("&include_in_digest=") && 
-					f.include_in_digest.disabled == false) {
-				query = query + "&include_in_digest=false";
-			}
-	
-			closeInfoBox();
-	
-			notify_progress("Saving feeds...");
-	
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					feedlist_callback2(transport); 
-				} });
-
-		}
-
-		return false;
-	} catch (e) {
-		exception_error("feedsEditSave", e);
-	}
-}
-
-function batchFeedsToggleField(cb, elem, label) {
-	try {
-		var f = document.forms["batch_edit_feed_form"];
-		var l = $(label);
-
-		if (cb.checked) {
-			f[elem].disabled = false;
-
-			if (l) {
-				l.className = "";
-			};
-
-//			new Effect.Highlight(f[elem], {duration: 1, startcolor: "#fff7d5",
-//				queue: { position:'end', scope: 'BPEFQ', limit: 1 } } );
-
-		} else {
-			f[elem].disabled = true;
-
-			if (l) {
-				l.className = "insensitive";
-			};
-
-		}
-	} catch (e) {
-		exception_error("batchFeedsToggleField", e);
-	}
-}
-
 function labelColorReset() {
 	try {
 		var labels = getSelectedLabels();
@@ -1569,43 +1493,6 @@ function labelColorReset() {
 	}
 }
 
-function setLabelColor(id, fg, bg) {
-	try {
-
-		var kind = '';
-		var color = '';
-
-		if (fg && bg) {
-			kind = 'both';
-		} else if (fg) {
-			kind = 'fg';
-			color = fg;
-		} else if (bg) {
-			kind = 'bg';
-			color = bg;
-		}
-
-		var query = "?op=pref-labels&subop=color-set&kind="+kind+
-			"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
-			"&bg=" + param_escape(bg) + "&color=" + param_escape(color);
-
-//		console.log(query);
-
-		var e = $("LICID-" + id);
-
-		if (e) {		
-			if (fg) e.style.color = fg;
-			if (bg) e.style.backgroundColor = bg;
-		}
-
-		new Ajax.Request("backend.php", { parameters: query });
-
-		updateFilterList();
-
-	} catch (e) {
-		exception_error("colorPickerDo", e);
-	}
-}
 
 function inPreferences() {
 	return true;
@@ -1766,6 +1653,38 @@ function editLabel(id, event) {
 			id: "labelEditDlg",
 			title: __("Label Editor"),
 			style: "width: 600px",
+			setLabelColor: function(id, fg, bg) {
+
+				var kind = '';
+				var color = '';
+		
+				if (fg && bg) {
+					kind = 'both';
+				} else if (fg) {
+					kind = 'fg';
+					color = fg;
+				} else if (bg) {
+					kind = 'bg';
+					color = bg;
+				}
+		
+				var query = "?op=pref-labels&subop=color-set&kind="+kind+
+					"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) + 
+					"&bg=" + param_escape(bg) + "&color=" + param_escape(color);
+		
+		//		console.log(query);
+		
+				var e = $("LICID-" + id);
+		
+				if (e) {		
+					if (fg) e.style.color = fg;
+					if (bg) e.style.backgroundColor = bg;
+				}
+		
+				new Ajax.Request("backend.php", { parameters: query });
+
+				updateFilterList();
+			},
 			execute: function() {
 				if (this.validate()) {
 					var caption = this.attr('value').id;
@@ -1775,7 +1694,7 @@ function editLabel(id, event) {
 					var query = dojo.objectToQuery(this.attr('value'));
 
 					dijit.byId('labelTree').setNameById(id, caption);
-					setLabelColor(id, fg_color, bg_color);
+					this.setLabelColor(id, fg_color, bg_color);
 					this.hide();
 
 					new Ajax.Request("backend.php", {

@@ -2,7 +2,7 @@
 
 	function batch_edit_cbox($elem, $label = false) {
 		print "<input type=\"checkbox\" title=\"".__("Check to enable field")."\"
-			onchange=\"batchFeedsToggleField(this, '$elem', '$label')\">";
+			onchange=\"dijit.byId('feedEditDlg').toggleField(this, '$elem', '$label')\">";
 	}
 
 	function module_pref_feeds($link) {
@@ -472,25 +472,19 @@
 		if ($subop == "editfeeds") {
 
 			$feed_ids = db_escape_string($_REQUEST["ids"]);
-			
-			header("Content-Type: text/xml");
-			print "<dlg id=\"$subop\">";
-			print "<title>".__('Multiple Feed Editor')."</title>";
-			print "<content><![CDATA[";
 
-			print "<form id=\"batch_edit_feed_form\" onsubmit=\"return false\">";	
-
-			print "<input type=\"hidden\" name=\"ids\" value=\"$feed_ids\">";
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"batchEditSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"ids\" value=\"$feed_ids\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"batchEditSave\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
 			/* Title */
 
-			print "<input disabled style=\"font-size : 16px\" size=\"35\" onkeypress=\"return filterCR(event, feedEditSave)\"
-				            name=\"title\" value=\"$title\">";
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+				disabled=\"1\" style=\"font-size : 16px; width : 20em;\" required=\"1\"
+				name=\"title\" value=\"$title\">";
 
 			batch_edit_cbox("title");
 
@@ -499,7 +493,8 @@
 			print "<br/>";
 
 			print __('URL:') . " ";
-			print "<input disabled size=\"40\" onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" disabled=\"1\"
+				required=\"1\" regExp='^(http|https)://.*' style=\"width : 20em\"
 				name=\"feed_url\" value=\"$feed_url\">";
 
 			batch_edit_cbox("feed_url");
@@ -512,7 +507,8 @@
 
 				print __('Place in category:') . " ";
 
-				print_feed_cat_select($link, "cat_id", $cat_id, "disabled");
+				print_feed_cat_select($link, "cat_id", $cat_id, 
+					'disabled="1" dojoType="dijit.form.Select"');
 
 				batch_edit_cbox("cat_id");
 
@@ -526,7 +522,7 @@
 			/* Update Interval */
 
 			print_select_hash("update_interval", $update_interval, $update_intervals, 
-				"disabled");
+				'disabled="1" dojoType="dijit.form.Select"');
 
 			batch_edit_cbox("update_interval");
 
@@ -534,19 +530,19 @@
 
 			print " " . __('using') . " ";
 			print_select_hash("update_method", $update_method, $update_methods, 
-				"disabled");			
+				'disabled="1" dojoType="dijit.form.Select"');			
 			batch_edit_cbox("update_method");
 
 			/* Purge intl */
 
-			if (FORCE_ARTICLE_PURGE != 0) {
+			if (FORCE_ARTICLE_PURGE == 0) {
 
 				print "<br/>";
 
 				print __('Article purging:') . " ";
 
 				print_select_hash("purge_interval", $purge_interval, $purge_intervals,
-					"disabled");
+					'disabled="1" dojoType="dijit.form.Select"');
 
 				batch_edit_cbox("purge_interval");
 			}
@@ -555,16 +551,14 @@
 			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print __('Login:') . " ";
-			print "<input disabled size=\"15\" onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<input dojoType=\"dijit.form.TextBox\" 
+				placeHolder=\"".__("Login")."\" disabled=\"1\"
 				name=\"auth_login\" value=\"$auth_login\">";
 
 			batch_edit_cbox("auth_login");
 
-			print " " . __("Password:") . " ";
-
-			print "<input disabled size=\"15\" type=\"password\" name=\"auth_pass\" 
-				onkeypress=\"return filterCR(event, feedEditSave)\"
+			print "<br/><input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
+				placeHolder=\"".__("Password")."\" disabled=\"1\"
 				value=\"$auth_pass\">";
 
 			batch_edit_cbox("auth_pass");
@@ -573,55 +567,48 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<div style=\"line-height : 100%\">";
-
-			print "<input disabled type=\"checkbox\" name=\"private\" id=\"private\" 
-				$checked>&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds')."</label>";
+			print "<input disabled=\"1\" type=\"checkbox\" name=\"private\" id=\"private\" 
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("private", "private_l");
 
-			print "<br/><input disabled type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
-				$checked>&nbsp;<label class='insensitive' id=\"rtl_content_l\" for=\"rtl_content\">".__('Right-to-left content')."</label>";
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"rtl_content_l\" for=\"rtl_content\">".__('Right-to-left content')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("rtl_content", "rtl_content_l");
 
-			print "<br/><input disabled type=\"checkbox\" id=\"include_in_digest\" 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"include_in_digest\" 
 				name=\"include_in_digest\" 
-				$checked>&nbsp;<label id=\"include_in_digest_l\" class='insensitive' for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"include_in_digest_l\" class='insensitive' for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("include_in_digest", "include_in_digest_l");
 
-			print "<br/><input disabled type=\"checkbox\" id=\"always_display_enclosures\" 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"always_display_enclosures\" 
 				name=\"always_display_enclosures\" 
-				$checked>&nbsp;<label id=\"always_display_enclosures_l\" class='insensitive' for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"always_display_enclosures_l\" class='insensitive' for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
 
-			print "<br/><input disabled type=\"checkbox\" id=\"cache_images\" 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\" 
-				$checked>&nbsp;<label class='insensitive' id=\"cache_images_l\" 
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\" 
 					for=\"cache_images\">".
 				__('Cache images locally')."</label>";
 
 
-			if (SIMPLEPIE_CACHE_IMAGES) {
-				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
-			}
+			print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
 
 			print "</div>";
-			print "</div>";
-
-			print "</form>";
 
 			print "<div class='dlgButtons'>
 				<input type=\"submit\" class=\"button\" 
-				onclick=\"return feedsEditSave()\" value=\"".__('Save')."\">
+				onclick=\"return dijit.byId('feedEditDlg').execute()\" 
+					value=\"".__('Save')."\">
 				<input type='submit' class='button'			
-				onclick=\"return closeInfoBox()\" value=\"".__('Cancel')."\">
+				onclick=\"return dijit.byId('feedEditDlg').hide()\" 
+					value=\"".__('Cancel')."\">
 				</div>";
-
-			print "]]></content></dlg>";
-
+		
 			return;
 		}
 
@@ -763,7 +750,7 @@
 
 				db_query($link, "COMMIT");
 			}
-
+			return;
 		}
 
 		if ($subop == "remove") {
