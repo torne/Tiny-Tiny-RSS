@@ -265,6 +265,28 @@ function editFilter(id, event) {
 			id: "filterEditDlg",
 			title: __("Edit Filter"),
 			style: "width: 600px",
+			removeFilter: function() {
+				var title = this.attr('value').reg_exp;
+				var msg = __("Remove filter %s?").replace("%s", title);
+		
+				if (confirm(msg)) {
+					this.hide();
+
+					notify_progress("Removing filter...");
+		
+					var id = this.attr('value').id;
+
+					var query = "?op=pref-filters&subop=remove&ids="+
+						param_escape(id);
+
+					new Ajax.Request("backend.php",	{
+						parameters: query,
+						onComplete: function(transport) {
+							updateFilterList();
+						} });
+				}
+			},
+
 			execute: function() {
 				if (this.validate()) {
 
@@ -1435,39 +1457,6 @@ function rescore_all_feeds() {
 					notify_callback2(transport);
 		} });
 	}
-}
-
-function removeFilter(id, title) {
-
-	try {
-
-		var msg = __("Remove filter %s?").replace("%s", title);
-	
-		var ok = confirm(msg);
-	
-		if (ok) {
-
-			if (dijit.byId("filterEditDlg"))
-				dijit.byId("filterEditDlg").hide();
-
-			notify_progress("Removing filter...");
-		
-			var query = "?op=pref-filters&subop=remove&ids="+
-				param_escape(id);
-
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-						filterlist_callback2(transport);
-			} });
-
-		}
-
-	} catch (e) {
-		exception_error("removeFilter", e);
-	}
-
-	return false;
 }
 
 function labelColorReset() {

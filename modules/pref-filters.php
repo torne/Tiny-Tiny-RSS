@@ -244,10 +244,8 @@
 
 			print "<div class=\"dlgButtons\">";
 
-			$reg_exp = htmlspecialchars($reg_exp, ENT_QUOTES); // second escaping seems to be needed for javascript
-
 			print "<div style=\"float : left\">";
-			print "<button dojoType=\"dijit.form.Button\" onclick='return removeFilter($filter_id, \"$reg_exp\")'>".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').removeFilter()\">".
 				__('Remove')."</button>";
 			print "</div>";
 
@@ -316,6 +314,7 @@
 			foreach ($ids as $id) {
 				db_query($link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
 			}
+			return;
 		}
 
 		if ($subop == "add") {
