@@ -67,4 +67,6 @@
 
 	</td></tr></table>
 
+	<p><a target="_blank" href="http://tt-rss.org/wiki/InterfaceTips"><?php echo __("Other interface tips are available in the Tiny Tiny RSS wiki.") ?></a></p>
+
 	<p class="small"><?php echo __("Press any key to close this window.") ?></p>

@@ -209,6 +209,7 @@
 
 			if (db_num_rows($result) == 1) {
 				$article_url = db_fetch_result($result, 0, 'link');
+				$article_url = str_replace("\n", "", $article_url);
 
 				header("Location: $article_url");
 				return;

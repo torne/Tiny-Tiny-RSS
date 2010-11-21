@@ -2090,8 +2090,9 @@ function postOpenInNewTab(event, id) {
 
 function hlClicked(event, id) {
 	try {
-
-		if (!event.ctrlKey) {
+		if (event.altKey) {
+			openArticleInNewWindow(id);
+		} else if (!event.ctrlKey) {
 			view(id);
 			return true;
 		} else {
