@@ -72,26 +72,6 @@ function notify_callback2(transport) {
 	notify_info(transport.responseText);	 
 }
 
-function init_profile_inline_editor() {
-	try {
-
-		if ($("prefFeedCatList")) {
-			var elems = $("prefFeedCatList").getElementsByTagName("SPAN");
-
-			for (var i = 0; i < elems.length; i++) {
-				if (elems[i].id && elems[i].id.match("FCATT-")) {
-					var id = elems[i].id.replace("FCATT-", "");
-						new Ajax.InPlaceEditor(elems[i],
-						'backend.php?op=rpc&subop=saveprofile&id=' + id);
-				}
-			}
-		}
-
-	} catch (e) {
-		exception_error("init_profile_inline_editor", e);
-	}
-}
-
 function updateFeedList(sort_key) {
 
 	try {
@@ -142,51 +122,6 @@ function updateUsersList(sort_key) {
 
 	} catch (e) {
 		exception_error("updateUsersList", e);
-	}
-}
-
-function addPrefProfile() {
-
-	var profile = $("fadd_profile");
-
-	if (profile.value.length == 0) {
-		alert(__("Can't add profile: no name specified."));
-	} else {
-		notify_progress("Adding profile...");
-
-		var query = "?op=rpc&subop=addprofile&title=" +	
-			param_escape(profile.value);
-
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					editProfiles();
-				} });
-
-	}
-}
-
-
-function addFeedCat() {
-
-	var cat = $("fadd_cat");
-
-	if (cat.value.length == 0) {
-		alert(__("Can't add category: no name specified."));
-	} else {
-		notify_progress("Adding feed category...");
-
-		var query = "?op=pref-feeds&subop=editCats&action=add&cat=" +
-			param_escape(cat.value);
-
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport);
-				} });
-
-		cat.value = "";
-
 	}
 }
 
@@ -1488,9 +1423,95 @@ function inPreferences() {
 }
 
 function editProfiles() {
-	displayDlg('editPrefProfiles', false, function() {
-		init_profile_inline_editor();			
-			});
+	try {
+
+		if (dijit.byId("profileEditDlg"))
+			dijit.byId("profileEditDlg").destroyRecursive();
+
+		var query = "backend.php?op=dlg&id=editPrefProfiles";
+
+		dialog = new dijit.Dialog({
+			id: "profileEditDlg",
+			title: __("Settings Profiles"),
+			style: "width: 600px",
+			getSelectedProfiles: function() {
+				return getSelectedTableRowIds("prefFeedProfileList");
+			},
+			removeSelected: function() {
+				var sel_rows = this.getSelectedProfiles();
+			
+				if (sel_rows.length > 0) {			
+					var ok = confirm(__("Remove selected profiles? Active and default profiles will not be removed."));
+			
+					if (ok) {
+						notify_progress("Removing selected profiles...", true);
+				
+						var query = "?op=rpc&subop=remprofiles&ids="+
+							param_escape(sel_rows.toString());
+			
+						new Ajax.Request("backend.php",	{
+							parameters: query,
+							onComplete: function(transport) {
+								notify('');
+								editProfiles();
+							} });
+			
+					}
+			
+				} else {	
+					alert(__("No profiles are selected."));			
+				}
+			},
+			activateProfile: function() {
+				var sel_rows = this.getSelectedProfiles();
+			
+				if (sel_rows.length == 1) {
+			
+					var ok = confirm(__("Activate selected profile?"));
+			
+					if (ok) {
+						notify_progress("Loading, please wait...");
+				
+						var query = "?op=rpc&subop=setprofile&id="+
+							param_escape(sel_rows.toString());
+			
+						new Ajax.Request("backend.php",	{
+							parameters: query,
+							onComplete: function(transport) {
+								window.location.reload();
+							} });
+					}
+			
+				} else {
+					alert(__("Please choose a profile to activate."));
+				}			
+			},									  
+			addProfile: function() {
+				if (this.validate()) {
+					notify_progress("Creating profile...", true);
+
+					var query = "?op=rpc&subop=addprofile&title=" +	
+						param_escape(dialog.attr('value').newprofile);
+
+					new Ajax.Request("backend.php",	{
+						parameters: query,
+						onComplete: function(transport) {
+							notify('');
+							editProfiles();
+						} });
+
+				}
+			},
+			execute: function() {
+				if (this.validate()) {
+				}
+			},
+			href: query});
+
+		dialog.show();
+	} catch (e) {
+		exception_error("editProfiles", e);
+	}
 }
 
 function activatePrefProfile() {

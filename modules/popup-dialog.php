@@ -68,36 +68,44 @@
 
 		if ($id == "editPrefProfiles") {
 
-			print "<title>".__('Settings Profiles')."</title>";
-			print "<content><![CDATA[";
+			print "<div dojoType=\"dijit.Toolbar\">";
 
-			print "<div><input id=\"fadd_profile\" 
-					onkeypress=\"return filterCR(event, addPrefProfile)\"
-					size=\"40\">
-					<button onclick=\"javascript:addPrefProfile()\">".
+#			TODO: depends on selectTableRows() being broken for this list
+#			print "<div dojoType=\"dijit.form.DropDownButton\">".
+#				"<span>" . __('Select')."</span>";
+#			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'all')\" 
+#				dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'none')\" 
+#				dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+#			print "</div></div>";
+
+#			print "<div style='float : right'>";
+			print "<input name=\"newprofile\" dojoType=\"dijit.form.ValidationTextBox\"
+					required=\"1\">
+				<button dojoType=\"dijit.form.Button\" 
+				onclick=\"dijit.byId('profileEditDlg').addProfile()\">".
 					__('Create profile')."</button></div>";
 
-			print "<p>";
+#			print "</div>";
+
 
 			$result = db_query($link, "SELECT title,id FROM ttrss_settings_profiles
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-			print	__('Select:')." 
-				<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'all')\">".__('All')."</a>,
-				<a href=\"#\" onclick=\"selectTableRows('prefFeedCatList', 'none')\">".__('None')."</a>";
 
 			print "<div class=\"prefFeedCatHolder\">";
 
 			print "<form id=\"profile_edit_form\" onsubmit=\"return false\">";
 
-			print "<table width=\"100%\" class=\"prefFeedCatList\" 
-				cellspacing=\"0\" id=\"prefFeedCatList\">";
+			print "<table width=\"100%\" class=\"prefFeedProfileList\" 
+				cellspacing=\"0\" id=\"prefFeedProfileList\">";
 
-			print "<tr class=\"odd\" id=\"FCATR-0\">";
+			print "<tr class=\"\" id=\"FCATR-0\">"; #odd
 
 			print "<td width='5%' align='center'><input 
-				onclick='toggleSelectRow(this);' 
-				type=\"checkbox\" id=\"FCCHK-0\"></td>";
+				onclick='toggleSelectRow2(this);' 
+				dojoType=\"dijit.form.CheckBox\"
+				type=\"checkbox\"></td>";
 
 			if (!$_SESSION["profile"]) {
 				$is_active = __("(active)");
@@ -105,7 +113,7 @@
 				$is_active = "";
 			}
 
-			print "<td><span id=\"FCATT-0\">" . 
+			print "<td><span>" . 
 				__("Default profile") . " $is_active</span></td>";
 				
 			print "</tr>";
@@ -116,16 +124,17 @@
 	
 				$class = ($lnum % 2) ? "even" : "odd";
 	
-				$cat_id = $line["id"];
-				$this_row_id = "id=\"FCATR-$cat_id\"";
+				$profile_id = $line["id"];
+				$this_row_id = "id=\"FCATR-$profile_id\"";
 	
-				print "<tr class=\"$class\" $this_row_id>";
+				print "<tr class=\"\" $this_row_id>";
 	
 				$edit_title = htmlspecialchars($line["title"]);
 	
 				print "<td width='5%' align='center'><input 
-					onclick='toggleSelectRow(this);' 
-					type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
+					onclick='toggleSelectRow2(this);' 
+					dojoType=\"dijit.form.CheckBox\"
+					type=\"checkbox\"></td>";
 
 				if ($_SESSION["profile"] == $line["id"]) {
 					$is_active = __("(active)");
@@ -133,9 +142,23 @@
 					$is_active = "";
 				}
 
-				print "<td><span id=\"FCATT-$cat_id\">" . 
-					$edit_title . "</span> $is_active</td>";
-				
+				print "<td><span dojoType=\"dijit.InlineEditBox\" 
+					width=\"300px\" autoSave=\"false\"
+					profile-id=\"$profile_id\">" . $edit_title .
+					"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
+						var elem = this;
+						dojo.xhrPost({
+							url: 'backend.php',
+							content: {op: 'rpc', subop: 'saveprofile',
+								value: this.value,
+								id: this.srcNodeRef.getAttribute('profile-id')},
+								load: function(response) {
+									elem.attr('value', response);
+							}
+						});	
+					</script>
+				</span> $is_active</td>";
+			
 				print "</tr>";
 	
 				++$lnum;
@@ -147,19 +170,16 @@
 
 			print "<div class='dlgButtons'>
 				<div style='float : left'>
-				<button onclick=\"return removeSelectedPrefProfiles()\">".
-				__('Remove')."</button>
-				<button onclick=\"return activatePrefProfile()\">".
-				__('Activate')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('profileEditDlg').removeSelected()\">".
+				__('Remove selected profiles')."</button>
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('profileEditDlg').activateProfile()\">".
+				__('Activate profile')."</button>
 				</div>";
 
-			print "<button onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('profileEditDlg').hide()\">".
 				__('Close this window')."</button>";
-
 			print "</div>";
-			print "]]></content>";
 
-			//return;
 		}
 
 		if ($id == "pubOPMLUrl") {

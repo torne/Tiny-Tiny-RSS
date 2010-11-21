@@ -1061,7 +1061,7 @@
 		
 					print "<td width='5%' align='center'><input 
 						onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\" 
-						type=\"checkbox\" id=\"FCCHK-$cat_id\"></td>";
+						type=\"checkbox\"></td>";
 	
 					print "<td>";
 					
