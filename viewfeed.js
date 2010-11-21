@@ -1267,7 +1267,7 @@ function cache_inject(id, article, param) {
 			cache_added["TS:" + id] = ts;
 
 			if (has_local_storage()) 
-				localStorage.setItem(id, JSON.stringify(cache_obj));
+				sessionStorage.setItem(id, JSON.stringify(cache_obj));
 			else
 				article_cache.push(cache_obj);
 
@@ -1282,7 +1282,7 @@ function cache_inject(id, article, param) {
 function cache_find(id) {
 
 	if (has_local_storage()) {
-		var cache_obj = localStorage.getItem(id);
+		var cache_obj = sessionStorage.getItem(id);
 
 		if (cache_obj) {
 			cache_obj = JSON.parse(cache_obj);
@@ -1307,7 +1307,7 @@ function cache_find_param(id, param) {
 
 		if (param) id = id + ":" + param;
 
-		var cache_obj = localStorage.getItem(id);
+		var cache_obj = sessionStorage.getItem(id);
 
 		if (cache_obj) {
 			cache_obj = JSON.parse(cache_obj);
@@ -1329,7 +1329,7 @@ function cache_find_param(id, param) {
 
 function cache_check(id) {
 	if (has_local_storage()) {
-		if (localStorage.getItem(id))
+		if (sessionStorage.getItem(id))
 			return true;
 	} else {
 		for (var i = 0; i < article_cache.length; i++) {
@@ -1346,7 +1346,7 @@ function cache_check_param(id, param) {
 
 		if (param) id = id + ":" + param;
 
-		if (localStorage.getItem(id))
+		if (sessionStorage.getItem(id))
 			return true;
 
 	} else {
@@ -1365,12 +1365,12 @@ if (has_local_storage()) {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
-		for (var i = 0; i < localStorage.length; i++) {
+		for (var i = 0; i < sessionStorage.length; i++) {
 
-			var id = localStorage.key(i);
+			var id = sessionStorage.key(i);
 
 			if (timestamp - cache_added["TS:" + id] > 180) {
-				localStorage.removeItem(id);
+				sessionStorage.removeItem(id);
 			}
 		}
 
@@ -1383,7 +1383,7 @@ if (has_local_storage()) {
 
 function cache_flush() {
 	if (has_local_storage()) {
-		localStorage.clear();
+		sessionStorage.clear();
 	} else {
 		article_cache = new Array();
 	}
@@ -1395,13 +1395,13 @@ function cache_invalidate(id) {
 
 			var found = false;
 
-			for (var i = 0; i < localStorage.length; i++) {
-				var key = localStorage.key(i);
+			for (var i = 0; i < sessionStorage.length; i++) {
+				var key = sessionStorage.key(i);
 
 //					console.warn("cache_invalidate: " + key_id + " cmp " + id);
 
 				if (key == id || key.indexOf(id + ":") == 0) {
-					localStorage.removeItem(key);
+					sessionStorage.removeItem(key);
 					found = true;
 					break;
 				}

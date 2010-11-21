@@ -357,7 +357,7 @@ function init_second_stage() {
 		loading_set_progress(30);
 
 		if (has_local_storage())
-			localStorage.clear();
+			sessionStorage.clear();
 
 		console.log("second stage ok");
 
