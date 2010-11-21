@@ -32,7 +32,7 @@
 		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c s</td><td><?php echo __("Collapse sidebar") ?></td></tr>
-		<tr><td class='n'>c m</td><td><?php echo __("Toggle category reordering mode") ?></td></tr>
+		<!-- <tr><td class='n'>c m</td><td><?php echo __("Toggle category reordering mode") ?></td></tr> -->
 		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>
 	</table>
 
@@ -41,7 +41,7 @@
 	<h2><?php echo __("Feed actions") ?></h2>
 
 	<table>
-		<tr><td class='n'>f r</td><td><?php echo __("Update active feed") ?></td></tr>
+		<tr><td class='n'>f r</td><td><?php echo __("Refresh active feed") ?></td></tr>
 		<!-- <tr><td class='n'>R</td><td><?php echo __("Update all feeds") ?></td></tr> -->
 		<tr><td class='n'>f a</td><td><?php echo __("(Un)hide read feeds") ?></td></tr>
 		<tr><td class='n'>f s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
