@@ -104,6 +104,10 @@ function headlines_callback2(transport, feed_cur_page) {
 					dijit.byId("headlines-toolbar").attr('content',
 						headlines_toolbar.firstChild.nodeValue);
 
+					$$("#headlines-frame a.twitter-share-button").each(
+						function(btn) { var tbtn = new twttr.TweetButton(btn); 
+							tbtn.render(); });
+
 					initHeadlinesMenu();
 
 					var cache_prefix = "";
@@ -220,6 +224,9 @@ function render_article(article) {
 
 		correctHeadlinesOffset(getActiveArticleId());		
 
+		$$("#content-insert a.twitter-share-button").each(
+				function(btn) { var tbtn = new twttr.TweetButton(btn); tbtn.render(); });
+		
 	} catch (e) {
 		exception_error("render_article", e);
 	}

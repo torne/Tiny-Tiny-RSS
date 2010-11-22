@@ -4736,6 +4736,14 @@
 			print_article_enclosures($link, $id, $always_display_enclosures, 
 				$article_content);
 
+			$short_title = truncate_string(strip_tags($line['title']), 90);
+
+			print "<a href=\"http://twitter.com/share\" 
+				class=\"twitter-share-button\" 
+				data-text=\"$short_title\"
+				data-url=\"".htmlspecialchars($line["link"])."\" 
+				data-count=\"horizontal\">Tweet</a>";
+
 			print "</div>";
 
 			print "</div>";
@@ -5160,7 +5168,8 @@
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
-						target=\"_blank\" href=\"".$line["link"]."\">".$line["title"].
+						target=\"_blank\" href=\"".
+						htmlspecialchars($line["link"])."\">".$line["title"].
 						" $entry_author</a>";
 
 					print $labels_str;
@@ -5250,6 +5259,15 @@
 
 					print_article_enclosures($link, $id, $always_display_enclosures,
 						$article_content);
+
+					$short_title = truncate_string(
+						strip_tags($line['title']), 90);
+
+					print "<a href=\"http://twitter.com/share\" 
+						class=\"twitter-share-button\" 
+						data-text=\"$short_title\"
+						data-url=\"".htmlspecialchars($line["link"])."\" 
+						data-count=\"horizontal\">Tweet</a>";
 
 					print "</div>";
 
