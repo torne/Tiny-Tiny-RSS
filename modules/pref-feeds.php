@@ -26,6 +26,14 @@
 			return;
 		}
 
+		if ($subop == "remtwitterinfo") {
+
+			db_query($link, "UPDATE ttrss_users SET twitter_oauth = NULL
+				WHERE id = " . $_SESSION['uid']);
+
+			return;
+		}
+
 		if ($subop == "getfeedtree") {
 
 			$root = array();
@@ -345,7 +353,7 @@
 
 #			print "<tr><td>" . __('Login:') . "</td><td>";
 
-			print "<input dojoType=\"dijit.form.TextBox\" 
+			print "<input dojoType=\"dijit.form.TextBox\" id=\"feedEditDlg_login\"
 				placeHolder=\"".__("Login")."\"
 				name=\"auth_login\" value=\"$auth_login\"><hr/>";
 
@@ -356,6 +364,10 @@
 			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
 				placeHolder=\"".__("Password")."\"
 				value=\"$auth_pass\">";
+
+			print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedEditDlg_login\" position=\"below\">
+				".__('<b>Hint:</b> you need to fill in your login information if your feed requires authentication, except for Twitter feeds.')."
+				</div>";
 
 #			print "</td></tr></table>";
 
@@ -1231,7 +1243,7 @@
 		</div>";
 
 		print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedTree\" position=\"below\">
-			<b>Hint:</b> you can drag feeds and categories around.
+			".__('<b>Hint:</b> you can drag feeds and categories around.')."
 			</div>";
 
 		print "</div>"; # feeds pane
@@ -1316,6 +1328,32 @@
 			__('Clear all generated URLs')."</button> ";
 
 		print "</div>"; #pane
+
+		print "<div id=\"pref-feeds-twitter\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Twitter')."\">";
+
+		$result = db_query($link, "SELECT COUNT(*) AS cid FROM ttrss_users
+			WHERE twitter_oauth IS NOT NULL AND twitter_oauth != '' AND
+			id = " . $_SESSION['uid']);
+
+		$is_registered = db_fetch_result($result, 0, "cid") != 0;
+
+		if (!$is_registered) {
+			print_notice(__('Before you can update your Twitter feeds, you must register this instance of Tiny Tiny RSS with Twitter.com.'));
+		} else {
+			print_notice(__('You have been successfully registered with Twitter.com and should be able to access your Twitter feeds.'));
+		}
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"window.location.href = 'twitter.php?op=register'\">".
+			__("Register with Twitter.com")."</button>";
+
+		print " ";
+
+		print "<button dojoType=\"dijit.form.Button\" 
+			onclick=\"return clearTwitterCredentials()\">".
+			__("Clear stored credentials")."</button>";
+
+		print "</div>";
+
 		print "</div>"; #container
 
 	}

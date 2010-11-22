@@ -109,6 +109,7 @@
 
 	require_once 'lib/phpmailer/class.phpmailer.php';
 	require_once 'lib/sphinxapi.php';
+	require_once 'lib/twitteroauth/twitteroauth.php';
 
 	//define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
@@ -558,7 +559,8 @@
 		} else {
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				feed_url,auth_pass,cache_images,update_method,last_updated
+				feed_url,auth_pass,cache_images,update_method,last_updated,
+				owner_uid
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -572,6 +574,7 @@
 
 		$update_method = db_fetch_result($result, 0, "update_method");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
@@ -628,7 +631,10 @@
 
 		} else {
 
-			if (!$use_simplepie) {
+			if (strpos($fetch_url, '://twitter.com') !== false) {
+				$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
+				$use_simplepie = false;
+			} else if (!$use_simplepie) {
 				$rss = @fetch_rss($fetch_url);
 			} else {
 				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
@@ -2894,19 +2900,25 @@
 		$url = fix_url($url);
 
 		if (!$url || !validate_feed_url($url)) return 2;
-		if (!fetch_file_contents($url)) return 5;
 
-		if (url_is_html($url)) {
-			$feedUrls = get_feeds_from_html($url);
-			if (count($feedUrls) == 0) {
-				return 3;
-			} else if (count($feedUrls) > 1) {
-				return 4;
+		if (strpos($url, '://twitter.com') === false) {
+			if (!fetch_file_contents($url)) return 5;
+
+			if (url_is_html($url)) {
+				$feedUrls = get_feeds_from_html($url);
+				if (count($feedUrls) == 0) {
+					return 3;
+				} else if (count($feedUrls) > 1) {
+					return 4;
+				}
+				//use feed url as new URL
+				$url = key($feedUrls);
 			}
-			//use feed url as new URL
-			$url = key($feedUrls);
-		}
 
+			} else {
+				if (!fetch_twitter_rss($link, $url, $_SESSION['uid'])) 
+					return 5;
+			}
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
 		} else {
@@ -7057,6 +7069,29 @@
 		$obj['bare_id'] = $feed_id;
 
 		return $obj;
+	}
+
+	function fetch_twitter_rss($link, $url, $owner_uid) {
+		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users 
+			WHERE id = $owner_uid");
+
+		$access_token = json_decode(db_fetch_result($result, 0, 'twitter_oauth'), true);
+
+		if ($access_token) {
+	
+			/* Create a TwitterOauth object with consumer/user tokens. */
+			$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
+	
+			/* If method is set change API call made. Test is called by default. */
+			$content = $connection->get($url);
+
+			$rss = new MagpieRSS($content, MAGPIE_OUTPUT_ENCODING, 
+				MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+
+			return $rss;
+		} else {
+			return false;
+		}
 	}
 
 ?>

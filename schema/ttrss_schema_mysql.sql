@@ -52,6 +52,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	email_digest bool not null default false,
 	last_digest_sent datetime default null,
 	created datetime default null,
+	twitter_oauth longtext default null,
 	index (theme_id),
 	foreign key (theme_id) references ttrss_themes(id)) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -257,7 +258,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (75);
+insert into ttrss_version values (76);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
