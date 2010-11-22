@@ -1734,6 +1734,9 @@ function zoomToArticle(event, id) {
 	
 			dijit.byId("content-tabs").addChild(article_pane);
 
+			$$("#ATAB-"+id+" a.twitter-share-button").each(
+					function(btn) { var tbtn = new twttr.TweetButton(btn); tbtn.render(); });
+
 			if (!event || !event.shiftKey)
 				dijit.byId("content-tabs").selectChild(article_pane);
 
@@ -1764,6 +1767,10 @@ function zoomToArticle(event, id) {
 							closable: true });
 	
 						dijit.byId("content-tabs").addChild(article_pane);
+
+						$$("#ATAB-"+id+" a.twitter-share-button").each(
+							function(btn) { var tbtn = new twttr.TweetButton(btn); 
+								tbtn.render(); });
 
 						if (!event || !event.shiftKey)
 							dijit.byId("content-tabs").selectChild(article_pane);
