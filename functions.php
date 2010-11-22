@@ -582,17 +582,23 @@
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
-		if (DEFAULT_UPDATE_METHOD == "1") {
-			$use_simplepie = $update_method != 1;
-		} else {
-			$use_simplepie = $update_method == 2;
-		}
+		if ($update_method == 0)
+			$update_method = DEFAULT_UPDATE_METHOD + 1;
+
+		// 1 - Magpie
+		// 2 - SimplePie
+		// 3 - Twitter OAuth
+
+		if ($update_method == 2)
+			$use_simplepie = true;
+		else
+			$use_simplepie = false;
 
 		if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-			_debug("use simplepie: $use_simplepie (feed setting: $update_method)\n");
+			_debug("update method: $update_method (feed setting: $update_method) (use simplepie: $use_simplepie)\n");
 		}
 
-		if (!$use_simplepie) {
+		if ($update_method == 1) {
 			$auth_login = urlencode($auth_login);
 			$auth_pass = urlencode($auth_pass);
 		}
@@ -605,7 +611,7 @@
 
 		$feed = db_escape_string($feed);
 
-		if ($auth_login && $auth_pass) {
+		if ($auth_login && $auth_pass && $updated != 3) {
 			$url_parts = array();
 			preg_match("/(^[^:]*):\/\/(.*)/", $fetch_url, $url_parts);
 
@@ -631,10 +637,9 @@
 
 		} else {
 
-			if (strpos($fetch_url, '://twitter.com') !== false) {
+			if ($update_method == 3) {
 				$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
-				$use_simplepie = false;
-			} else if (!$use_simplepie) {
+					} else if ($update_method == 1) {
 				$rss = @fetch_rss($fetch_url);
 			} else {
 				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
@@ -679,7 +684,7 @@
 
 		$feed = db_escape_string($feed);
 
-		if ($use_simplepie) {
+		if ($update_method == 2) {
 			$fetch_ok = !$rss->error();
 		} else {
 			$fetch_ok = !!$rss;
@@ -2901,6 +2906,8 @@
 
 		if (!$url || !validate_feed_url($url)) return 2;
 
+		$update_method = 0;
+
 		if (strpos($url, '://twitter.com') === false) {
 			if (!fetch_file_contents($url)) return 5;
 
@@ -2918,6 +2925,8 @@
 			} else {
 				if (!fetch_twitter_rss($link, $url, $_SESSION['uid'])) 
 					return 5;
+
+				$update_method = 3;
 			}
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
@@ -2932,9 +2941,9 @@
 		if (db_num_rows($result) == 0) {
 			$result = db_query($link,
 				"INSERT INTO ttrss_feeds 
-					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass) 
+					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass,update_method) 
 				VALUES ('".$_SESSION["uid"]."', '$url', 
-				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass')");
+				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass', '$update_method')");
 	
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE feed_url = '$url' 

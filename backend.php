@@ -131,7 +131,8 @@
 	$update_methods = array(
 		0   => __("Default"),
 		1   => __("Magpie"),
-		2   => __("SimplePie"));
+		2   => __("SimplePie"), 
+		3   => __("Twitter OAuth"));
 
 	if (DEFAULT_UPDATE_METHOD == "1") {
 		$update_methods[0] .= ' (SimplePie)';
