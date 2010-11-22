@@ -90,26 +90,32 @@
 
 <body>
 
-<h1>Register with Twitter</h1>
+<h1><?php echo __('Register with Twitter') ?></h1>
 
 <?php if ($op == 'register') { ?>
 
-<p><?php print_error('Could not connect to Twitter. Refresh the page or try again later.') ?></p>
+<p><?php print_error(__('Could not connect to Twitter. Refresh the page or try again later.')) ?></p>
 
 <?php } else if ($op == 'callback') { ?>
 
-	<?php print_notice('Congratulations! You have successfully registered with Twitter.') ?>
+	<?php print_notice(__('Congratulations! You have successfully registered with Twitter.')) ?>
 		</p>
 
 	<form method="GET" action="prefs.php">
 		<input type="hidden" name="tab" value="feedConfig">
-		<button type="submit">Return to Tiny Tiny RSS</button>
+		<button type="submit"><?php echo __('Return to Tiny Tiny RSS') ?></button>
 	</form>
 
 <?php } else { ?>
-	<form method="GET" action="twitter.php">
+
+	<form method="GET" action="twitter.php" style='display : inline'>
 		<input type="hidden" name="op" value="register">
-		<button type="submit">Register with Twitter</button>
+		<button type="submit"><?php echo __('Register') ?></button>
+	</form>
+
+	<form method="GET" action="prefs.php" style='display : inline'>
+		<input type="hidden" name="tab" value="feedConfig">
+		<button type="submit"><?php echo __('Return to Tiny Tiny RSS') ?></button>
 	</form>
 
 <?php } ?>
