@@ -636,7 +636,7 @@ function rescoreCurrentFeed() {
 function hotkey_handler(e) {
 	try {
 
-		if (e.target.nodeName == "INPUT") return;
+		if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
 
 		var keycode;
 		var shift_key = false;

@@ -35,14 +35,9 @@ function filterlist_callback2(transport) {
 }
 
 function labellist_callback2(transport) {
-
 	try {
-
 		dijit.byId('labelConfigTab').attr('content', transport.responseText); 
-		closeInfoBox();
-
 		notify("");
-
 	} catch (e) {
 		exception_error("labellist_callback2", e);
 	}
@@ -850,7 +845,6 @@ function selectTab(id, noupdate, subop) {
 	try {
 		if (!noupdate) {
 			notify_progress("Loading, please wait...");
-			closeInfoBox();
 
 			if (id == "feedConfig") {
 				updateFeedList();

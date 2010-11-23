@@ -41,10 +41,6 @@ function exception_error(location, e, ext_info) {
 		content += "<div><b>Stack trace:</b></div>" +
 			"<textarea readonly=\"1\">" + e.stack + "</textarea>";
 
-//		content += "<div style='text-align : center'>" +
-//			"<button onclick=\"closeInfoBox()\">" +
-//			"Close this window" + "</button></div>";
-
 		content += "</div>";
 
 		// TODO: add code to automatically report errors to tt-rss.org
@@ -487,62 +483,6 @@ function infobox_callback2(transport) {
 		notify("");
 	} catch (e) {
 		exception_error("infobox_callback2", e);
-	}
-}
-
-function createFilter() {
-
-	try {
-
-		var form = document.forms['filter_add_form'];
-		var reg_exp = form.reg_exp.value;
-	
-		if (reg_exp == "") {
-			alert(__("Can't add filter: nothing to match on."));
-			return false;
-		}
-
-		var query = "?op=rpc&subop=verifyRegexp&reg_exp=" + param_escape(reg_exp);
-
-		notify_progress("Verifying regular expression...");
-
-		new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-					handle_rpc_reply(transport);
-
-					var response = transport.responseXML;
-
-					if (response) {
-						var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
-	
-						notify('');
-
-						if (s == "INVALID") {
-							alert("Match regular expression seems to be invalid.");
-							return;
-						} else {
-
-							var query = Form.serialize("filter_add_form");
-						
-							// we can be called from some other tab in Prefs		
-							if (typeof active_tab != 'undefined' && active_tab) {
-								active_tab = "filterConfig";
-							}
-						
-							new Ajax.Request("backend.php?" + query, {
-								onComplete: function (transport) {
-									infobox_submit_callback2(transport);
-								} });
-							
-							return true;
-						}
-					}
-
-			} });
-
-	} catch (e) {
-		exception_error("createFilter", e);
 	}
 }
 

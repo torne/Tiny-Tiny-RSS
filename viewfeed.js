@@ -1083,84 +1083,70 @@ function catchupSelection() {
 	}
 }
 
-function editArticleTags(id, feed_id, cdm_enabled) {
-	displayDlg('editArticleTags', id,
+function editArticleTags(id) {
+/*	displayDlg('editArticleTags', id,
 			   function () {
 					$("tags_str").focus();
 
 					new Ajax.Autocompleter('tags_str', 'tags_choices',
 					   "backend.php?op=rpc&subop=completeTags",
 					   { tokens: ',', paramName: "search" });
-			   });
-}
+			   }); */
 
-function editTagsSave() {
+		var query = "backend.php?op=dlg&id=editArticleTags&param=" + param_escape(id);
 
-	notify_progress("Saving article tags...");
+		if (dijit.byId("editTagsDlg"))
+			dijit.byId("editTagsDlg").destroyRecursive();
 
-	var form = document.forms["tag_edit_form"];
+		dialog = new dijit.Dialog({
+			id: "editTagsDlg",
+			title: __("Edit article Tags"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					var query = dojo.objectToQuery(this.attr('value'));
 
-	var query = Form.serialize("tag_edit_form");
+					notify_progress("Saving article tags...", true);
 
-	query = "?op=rpc&subop=setArticleTags&" + query;
-
-	console.log(query);
-
-	new Ajax.Request("backend.php",	{
-		parameters: query,
-		onComplete: function(transport) {
-				try {
-					//console.log("tags saved...");
-			
-					closeInfoBox();
-					notify("");
-		
-					if (transport.responseXML) {
-						var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
-						
-						if (tags_str) {
-							var id = tags_str.getAttribute("id");
-			
-							if (id) {
-								var tags = $("ATSTR-" + id);
-								if (tags) {
-									tags.innerHTML = tags_str.firstChild.nodeValue;
+					new Ajax.Request("backend.php",	{
+					parameters: query,
+					onComplete: function(transport) {
+						notify('');
+						dialog.hide();
+	
+						if (transport.responseXML) {
+							var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
+							
+							if (tags_str) {
+								var id = tags_str.getAttribute("id");
+				
+								if (id) {
+									var tags = $("ATSTR-" + id);
+									if (tags) {
+										tags.innerHTML = tags_str.firstChild.nodeValue;
+									}
+	
+									cache_invalidate(id);
 								}
-
-								cache_invalidate(id);
 							}
 						}
-					}
-			
-				} catch (e) {
-					exception_error("editTagsSave", e);
+	
+					}});
 				}
-			} });
-}
+			},
+			href: query,
+		});
 
-function editTagsInsert() {
-	try {
+		var tmph = dojo.connect(dialog, 'onLoad', function() {
+	   	dojo.disconnect(tmph);
 
-		var form = document.forms["tag_edit_form"];
+			new Ajax.Autocompleter('tags_str', 'tags_choices',
+			   "backend.php?op=rpc&subop=completeTags",
+			   { tokens: ',', paramName: "search" });
+		});
 
-		var found_tags = form.found_tags;
-		var tags_str = form.tags_str;
+		dialog.show();
 
-		var tag = found_tags[found_tags.selectedIndex].value;
-
-		if (tags_str.value.length > 0 && 
-				tags_str.value.lastIndexOf(", ") != tags_str.value.length - 2) {
-
-			tags_str.value = tags_str.value + ", ";
-		}
-
-		tags_str.value = tags_str.value + tag + ", ";
-
-		found_tags.selectedIndex = 0;
-		
-	} catch (e) {
-		exception_error("editTagsInsert", e);
-	}
 }
 
 function cdmScrollToArticleId(id) {

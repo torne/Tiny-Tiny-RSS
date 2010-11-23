@@ -569,10 +569,7 @@
 
 		if ($id == "editArticleTags") {
 
-			print "<title>".__('Edit Tags')."</title>";
-			print "<content><![CDATA[";
-
-			print "<form id=\"tag_edit_form\" onsubmit='return false'>";
+#			print "<form id=\"tag_edit_form\" onsubmit='return false'>";
 
 			print __("Tags for this article (separated by commas):")."<br>";
 
@@ -580,28 +577,30 @@
 
 			$tags_str = join(", ", $tags);
 
-			print "<table width='100%'>";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"setArticleTags\">";
 
-			print "<tr><td colspan='2'><input type=\"hidden\" name=\"id\" value=\"$param\"></td></tr>";
+			print "<table width='100%'><tr><td>";
 
-			print "<tr><td colspan='2'><textarea rows='4' class='iedit' id='tags_str' 
+			print "<textarea dojoType=\"dijit.form.SimpleTextarea\" rows='4'
+				style='font-size : 12px; width : 100%' id=\"tags_str\"
 				name='tags_str'>$tags_str</textarea>
 			<div class=\"autocomplete\" id=\"tags_choices\" 
-					style=\"display:none\"></div>	
-			</td></tr>";
+					style=\"display:none\"></div>";	
 
-			print "</table>";
+			print "</td></tr></table>";
 
-			print "</form>";
+#			print "</form>";
 
-			print "<div align='right'>";
+			print "<div class='dlgButtons'>";
 
-			print "<button onclick=\"return editTagsSave()\">".__('Save')."</button> ";
-			print "<button onclick=\"return closeInfoBox()\">".__('Cancel')."</button>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"dijit.byId('editTagsDlg').execute()\">".__('Save')."</button> ";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"dijit.byId('editTagsDlg').hide()\">".__('Cancel')."</button>";
+			print "</div>";
 
-			print "]]></content>";
-
-			//return;
 		}
 
 		if ($id == "printTagCloud") {

@@ -83,7 +83,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 		}
 
 		hideAuxDlg();
-		closeInfoBox();
 
 		Form.enable("main_toolbar_form");
 
