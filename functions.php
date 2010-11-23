@@ -5001,8 +5001,7 @@
 				if ($has_feed_icon) {
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
 				} else {
-					//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
-					$feed_icon_img = "";
+					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/feed-icon-12x12.png\" alt=\"\">";
 				}
 
 				if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) {
