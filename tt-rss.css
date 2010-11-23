@@ -426,7 +426,7 @@ a.helpLink:hover {
 	padding : 0px;
 	font-family : monospace;
 	font-size : 12px;
-	background : white;
+	background : transparent;
 	border-width : 0px;
 }
 
@@ -439,6 +439,15 @@ a.helpLink:hover {
 	padding : 0px 0px 0px 1em;
 	font-size : 12px;
 	color : gray;
+}
+
+#content-insert code, #headlines-frame code {
+	background : transparent;
+	border : 0px solid transparent;
+	margin : 0px;
+	font-family : monospace;
+	padding : 0px;
+	font-size : 12px;
 }
 
 /*
@@ -1654,3 +1663,4 @@ a.bookmarklet {
 	position : relative;
 	top : -1px;
 }
+
