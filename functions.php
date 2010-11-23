@@ -4716,7 +4716,7 @@
 
 			$short_title = truncate_string(strip_tags($line['title']), 90);
 
-			print "<a href=\"http://twitter.com/share\" 
+			print "<br/><a href=\"http://twitter.com/share\" 
 				class=\"twitter-share-button\" 
 				data-text=\"$short_title\"
 				data-url=\"".htmlspecialchars($line["link"])."\" 
@@ -5241,7 +5241,7 @@
 					$short_title = truncate_string(
 						strip_tags($line['title']), 90);
 
-					print "<a href=\"http://twitter.com/share\" 
+					print "<br/><a href=\"http://twitter.com/share\" 
 						class=\"twitter-share-button\" 
 						data-text=\"$short_title\"
 						data-url=\"".htmlspecialchars($line["link"])."\" 
