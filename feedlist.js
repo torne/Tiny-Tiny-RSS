@@ -343,17 +343,6 @@ function parse_counters(reply, scheduled_call) {
 	
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
-		var feeds_stored = number_of_feeds;
-
-		if (feeds_stored != feeds_found) {
-			number_of_feeds = feeds_found;
-
-			if (feeds_stored != 0 && feeds_found != 0) {
-				console.log("Subscribed feed number changed, refreshing feedlist");
-				setTimeout('updateFeedList()', 50);
-			}
-		}
-
 	} catch (e) {
 		exception_error("parse_counters", e);
 	}

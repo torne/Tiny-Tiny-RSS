@@ -3,7 +3,6 @@ var global_unread = -1;
 var firsttime_update = true;
 var _active_feed_id = 0;
 var _active_feed_is_cat = false;
-var number_of_feeds = 0;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 var init_params = {};
@@ -49,15 +48,6 @@ function setActiveFeedId(id, is_cat) {
 	}
 }
 
-
-function dlg_frefresh_callback(transport, deleted_feed) {
-	if (getActiveFeedId() == deleted_feed) {
-		setTimeout("viewfeed(-5)", 100);
-	}
-
-	setTimeout('updateFeedList()', 50);
-	closeInfoBox();
-}
 
 function updateFeedList() {
 	try {
@@ -520,6 +510,13 @@ function parse_runtime_info(elem) {
 		if (k == "daemon_stamp_ok" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(3)\">Update daemon is not updating feeds.</span>", true);
 			return;
+		}
+
+		if (k == "max_feed_id" || k == "num_feeds") {
+			if (init_params[k] != v) {
+				console.log("feed count changed, need to reload feedlist.");
+				updateFeedList();
+			}
 		}
 
 		init_params[k] = v;					

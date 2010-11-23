@@ -3143,12 +3143,15 @@
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
 		$params["offline_enabled"] = (int) get_pref($link, "ENABLE_OFFLINE_READING");
 
-		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
+		$result = db_query($link, "SELECT MAX(id) AS mid, COUNT(*) AS nf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
-		$num_feeds = db_fetch_result($result, 0, "cf");
+		$max_feed_id = db_fetch_result($result, 0, "mid");
+		$num_feeds = db_fetch_result($result, 0, "nf");
 
+		$params["max_feed_id"] = (int) $max_feed_id;
 		$params["num_feeds"] = (int) $num_feeds;
+
 		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
 
 		return $params;
@@ -3161,14 +3164,17 @@
 	}
 
 	function make_runtime_info($link) {
-		$result = db_query($link, "SELECT COUNT(*) AS cf FROM
-			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
-
-		$num_feeds = db_fetch_result($result, 0, "cf");
-
 		$data = array();
 
-		$data['num_feeds'] = (int) $num_feeds;
+		$result = db_query($link, "SELECT MAX(id) AS mid, COUNT(*) AS nf FROM
+			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
+
+		$max_feed_id = db_fetch_result($result, 0, "mid");
+		$num_feeds = db_fetch_result($result, 0, "nf");
+
+		$data["max_feed_id"] = (int) $max_feed_id;
+		$data["num_feeds"] = (int) $num_feeds;
+
 		$data['last_article_id'] = getLastArticleId($link);
 		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
 

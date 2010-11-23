@@ -1129,7 +1129,8 @@ function unsubscribeFeed(feed_id, title) {
 					if (inPreferences()) {
 						updateFeedList();				
 					} else {
-						dlg_frefresh_callback(transport, feed_id);
+						if (feed_id == getActiveFeedId())
+							setTimeout("viewfeed(-5)", 100);
 					}
 
 				} });
@@ -1469,12 +1470,7 @@ function editFeed(feed, event) {
 						parameters: dojo.objectToQuery(dialog.attr('value')),
 						onComplete: function(transport) {
 							dialog.hide();
-							if (inPreferences()) {
-								updateFeedList();
-							} else {
-								notify('');
-								dlg_frefresh_callback(transport);
-							}
+							updateFeedList();
 					}})
 				}
 			},
@@ -1540,8 +1536,6 @@ function feedBrowser() {
 		
 							if (inPreferences()) {
 								updateFeedList();
-							} else {
-								setTimeout('updateFeedList(false, false)', 50);
 							}
 						} });
 		
