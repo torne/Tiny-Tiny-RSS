@@ -143,6 +143,10 @@ function headlines_callback2(transport, feed_cur_page) {
 						c.attr('content', c.attr('content') + 
 							headlines_content.firstChild.nodeValue);
 
+						$$("#headlines-frame a.twitter-share-button").each(
+							function(btn) { var tbtn = new twttr.TweetButton(btn); 
+								tbtn.render(); });
+
 						console.log("restore selected ids: " + ids);
 
 						for (var i = 0; i < ids.length; i++) {
