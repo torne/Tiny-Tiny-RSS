@@ -1107,3 +1107,24 @@ function scheduleFeedUpdate(id, is_cat) {
 		exception_error("scheduleFeedUpdate", e);
 	}
 }
+
+function newVersionDlg() {
+	try {
+		var query = "backend.php?op=dlg&id=newVersion";
+
+		if (dijit.byId("newVersionDlg"))
+			dijit.byId("newVersionDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "newVersionDlg",
+			title: __("New version available!"),
+			style: "width: 600px",
+			href: query,
+		});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("newVersionDlg", e);
+	}
+}

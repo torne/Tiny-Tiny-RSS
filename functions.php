@@ -3199,15 +3199,12 @@
 			}
 		}
 
-		if (CHECK_FOR_NEW_VERSION && $_SESSION["access_level"] >= 10) {
-			
-			if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+		if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
 				$new_version_details = @check_for_update($link);
 
-				$data['new_version_available'] = (int) $new_version_details != "";
+				$data['new_version_available'] = (int) ($new_version_details != false);
 
 				$_SESSION["last_version_check"] = time();
-			}
 		}
 
 		return $data;
@@ -3913,62 +3910,22 @@
 	}
 
 	function check_for_update($link) {
-		$releases_feed = "http://tt-rss.org/releases.rss";
+		if (CHECK_FOR_NEW_VERSION && $_SESSION['access_level'] >= 10) {
+			$version_url = "http://tt-rss.org/version.php?ver=" . VERSION;
 
-		if (!CHECK_FOR_NEW_VERSION || $_SESSION["access_level"] < 10) {
-			return;
-		}
+			$version_data = @fetch_file_contents($version_url);
 
-		if (DEFAULT_UPDATE_METHOD == "1") {
-			$rss = new SimplePie();
-			$rss->set_useragent(SELF_USER_AGENT);
-			$rss->set_feed_url($fetch_url);
-			$rss->set_output_encoding('UTF-8');
-			$rss->init();
-		} else {
-			$rss = fetch_rss($releases_feed);
-		}
+			if ($version_data) {
+				$version_data = json_decode($version_data, true);
+				if ($version_data && $version_data['version']) {	
 
-		if ($rss) {
-
-			if (DEFAULT_UPDATE_METHOD == "1") {
-				$items = $rss->get_items();
-			} else {
-				$items = $rss->items;
-
-				if (!$items || !is_array($items)) $items = $rss->entries;
-				if (!$items || !is_array($items)) $items = $rss;
+					if (version_compare(VERSION, $version_data['version']) == -1) {
+						return $version_data['version'];
+					}
+				}
 			}
-
-			if (!is_array($items) || count($items) == 0) {
-				return;
-			}			
-
-			$latest_item = $items[0];
-
-			if (DEFAULT_UPDATE_METHOD == "1") {
-				$last_title = $latest_item->get_title();
-			} else {
-				$last_title = $latest_item["title"];
-			}
-
-			$latest_version = trim(preg_replace("/(Milestone)|(completed)/", "", $last_title));
-
-			if (DEFAULT_UPDATE_METHOD == "1") {
-				$release_url = sanitize_rss($link, $latest_item->get_link());
-				$content = sanitize_rss($link, $latest_item->get_description());
-			} else {
-				$release_url = sanitize_rss($link, $latest_item["link"]);
-				$content = sanitize_rss($link, $latest_item["description"]);
-			}
-
-			if (version_compare(VERSION, $latest_version) == -1) {
-				return sprintf("New version of Tiny-Tiny RSS (%s) is available:", 
-					$latest_version)."<div class='milestoneDetails'>$content</div>";
-			} else {
-				return false;
-			}	
 		}
+		return false;
 	}
 
 	function markArticlesById($link, $ids, $cmode) {

@@ -107,7 +107,7 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
-	<img id="newVersionIcon" style="display:none;" onclick="javascript:explainError(2)" 
+	<img id="newVersionIcon" style="display:none;" onclick="newVersionDlg()" 
 		width="13" height="13" 
 		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
 		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 

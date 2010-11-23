@@ -217,17 +217,6 @@
 
 			}
 
-			if ($param == 2) {
-				$msg = check_for_update($link);
-
-				if (!$msg) {
-					print __("You are running the latest version of Tiny Tiny RSS. The fact that you are seeing this dialog is probably a bug.");
-				} else {
-					print $msg;
-				}
-
-			}
-
 			if ($param == 3) {
 				print __("Update daemon is taking too long to perform a feed update. This could indicate a problem like crash or a hang. Please check the daemon process or contact instance owner.");
 
@@ -241,7 +230,7 @@
 			
 			print "<div align='center'>";
 
-			print "<button onclick=\"return closeInfoBox()\"".
+			print "<button onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
 			print "</div>";
@@ -775,6 +764,26 @@
 			print "]]></content>";
 
 			//return;
+		}
+
+		if ($id == "newVersion") {
+			$version = check_for_update($link);
+
+			$version_link = "<a class=\"visibleLink\" target=\"_blank\" 
+				href=\"http://tt-rss.org\">http://tt-rss.org</a>";
+
+			print "<div class='tagCloudContainer'>";
+
+			print T_sprintf("New version of Tiny Tiny RSS is available (%s).<br/>Visit %s for more information.", "<b>$version</b>", $version_link);
+
+			print "</div>";
+
+			print "<div style='text-align : center'>";
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"return dijit.byId('newVersionDlg').hide()\">".
+				__('Close this window')."</button>";
+			print "</div>";
+
 		}
 
 		print "</dlg>";	
