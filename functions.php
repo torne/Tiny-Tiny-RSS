@@ -4027,7 +4027,7 @@
 
 	function print_headline_subtoolbar($link, $feed_site_url, $feed_title, 
 			$feed_id, $is_cat, $search, $match_on,
-			$search_mode, $view_mode) {
+			$search_mode, $view_mode, $error) {
 
 			$page_prev_link = "viewFeedGoPage(-1)";
 			$page_next_link = "viewFeedGoPage(1)";
@@ -4099,6 +4099,11 @@
 				$target = "target=\"_blank\"";
 				print "<a title=\"".__("Visit the website")."\" $target href=\"$feed_site_url\">".
 					truncate_string($feed_title,30)."</a>";
+
+				if ($error) {
+					print " (<span class=\"error\" title=\"$error\">Error</span>)";
+				}
+
 			} else {
 				if ($feed_id < -10) {
 					$label_id = -11-$feed_id;
@@ -4847,7 +4852,8 @@
 
 			if (db_num_rows($result) > 0) {
 				print_headline_subtoolbar($link, $feed_site_url, $feed_title,
-					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode);
+					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode, 
+					$last_error);
 
 //				print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
 
