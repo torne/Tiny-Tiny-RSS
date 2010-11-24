@@ -3518,7 +3518,8 @@
 	
 				$feed_kind = "Tags";
 	
-				$result = db_query($link, "SELECT
+				$result = db_query($link, "SELECT DISTINCT
+					date_entered,
 					guid,
 					note,
 					ttrss_entries.id as id,title,
