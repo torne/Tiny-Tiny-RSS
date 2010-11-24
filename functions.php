@@ -2416,28 +2416,6 @@
 			}
 	}
 
-	function update_generic_feed($link, $feed, $cat_view, $force_update = false) {
-			if ($cat_view) {
-
-				if ($feed > 0) {
-					$cat_qpart = "cat_id = '$feed'";
-				} else {
-					$cat_qpart = "cat_id IS NULL";
-				}
-				
-				$tmp_result = db_query($link, "SELECT id FROM ttrss_feeds
-					WHERE $cat_qpart AND owner_uid = " . $_SESSION["uid"]);
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {					
-					$feed_id = $tmp_line["id"];
-					update_rss_feed($link, $feed_id, $force_update);
-				}
-
-			} else {
-				update_rss_feed($link, $feed, $force_update);
-			}
-	}
-
 	function getAllCounters($link, $omode = "flc", $active_feed = false) {
 
 		if (!$omode) $omode = "flc";
@@ -4770,10 +4748,6 @@
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
-		}
-
-		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0 && !$cat_view) {
-			update_generic_feed($link, $feed, $cat_view, true);
 		}
 
 		if ($subop == "MarkAllRead")  {
