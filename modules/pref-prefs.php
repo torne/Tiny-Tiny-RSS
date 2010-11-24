@@ -16,7 +16,7 @@
 		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS",
 			"ENABLE_SEARCH_TOOLBAR", "HIDE_READ_FEEDS", "ENABLE_FEED_ICONS", 
 			"ENABLE_OFFLINE_READING", "EXTENDED_FEEDLIST", "FEEDS_SORT_BY_UNREAD",
-			"OPEN_LINKS_IN_NEW_WINDOW");
+			"OPEN_LINKS_IN_NEW_WINDOW", "USER_STYLESHEET_URL");
 
 		$profile_blacklist = array("ALLOW_DUPLICATE_POSTS", "PURGE_OLD_DAYS", 
 			"PURGE_UNREAD_ARTICLES", "DIGEST_ENABLE", "DIGEST_CATCHUP", 
@@ -419,6 +419,10 @@
 					$timezones = explode("\n", file_get_contents("lib/timezones.txt"));
 
 					print_select($pref_name, $value, $timezones, 'dojoType="dijit.form.FilteringSelect"');
+				} else if ($pref_name == "USER_STYLESHEET") {
+
+					print "<button dojoType=\"dijit.form.Button\"
+						onclick=\"customizeCSS()\">" . __('Customize') . "</button>";
 
 				} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 

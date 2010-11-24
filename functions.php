@@ -7040,4 +7040,15 @@
 		}
 	}
 
+	function print_user_stylesheet($link) {
+		$value = get_pref($link, 'USER_STYLESHEET');
+
+		if ($value) {
+			print "<style type=\"text/css\">";
+			print $value;
+			print "</style>";
+		}
+
+	}
+
 ?>

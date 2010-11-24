@@ -785,6 +785,30 @@
 
 		}
 
+		if ($id == "customizeCSS") {
+
+			$value = get_pref($link, "USER_STYLESHEET");
+
+			print T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css");
+
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"setpref\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"key\" value=\"USER_STYLESHEET\">";
+
+			print "<p><textarea dojoType=\"dijit.form.SimpleTextarea\"
+				style='font-size : 12px; width : 100%; height: 200px;'
+				placeHolder='body#ttrssMain { font-size : 14px; };'
+				name='value'>$value</textarea>";
+
+			print "<div class='dlgButtons'>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"dijit.byId('cssEditDlg').execute()\">".__('Save')."</button> ";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"dijit.byId('cssEditDlg').hide()\">".__('Cancel')."</button>";
+			print "</div>";
+
+		}
+
 		print "</dlg>";	
 	}
 ?>

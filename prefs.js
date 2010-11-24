@@ -926,6 +926,7 @@ function init() {
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.ProgressBar"); 
+		dojo.require("dijit.form.SimpleTextarea");
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -1717,5 +1718,35 @@ function clearTwitterCredentials() {
 
 	} catch (e) {
 		exception_error("clearTwitterCredentials", e);
+	}
+}
+
+function customizeCSS() {
+	try {
+		var query = "backend.php?op=dlg&id=customizeCSS";
+
+		if (dijit.byId("cssEditDlg"))
+			dijit.byId("cssEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "cssEditDlg",
+			title: __("Customize stylesheet"),
+			style: "width: 600px",
+			execute: function() {
+				notify_progress('Saving data...', true);
+				new Ajax.Request("backend.php", {
+					parameters: dojo.objectToQuery(this.attr('value')),
+					onComplete: function(transport) { 
+						notify('');
+						window.location.reload();
+				} });
+
+			},
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("customizeCSS", e);
 	}
 }
