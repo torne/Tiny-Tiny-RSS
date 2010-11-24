@@ -326,7 +326,7 @@ function parse_counters(reply, scheduled_call) {
 			setFeedUnread(id, (kind == "cat"), ctr);
 
 			if (kind != "cat") {
-				//setFeedValue(id, false, 'error', error);
+				setFeedValue(id, false, 'error', error);
 				setFeedValue(id, false, 'updated', updated);
 
 				if (id > 0) {
