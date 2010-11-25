@@ -29,10 +29,7 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
-	<?php if ($user_css_url) { ?>
-		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
-	<?php } ?>
+	<?php print_user_stylesheet($link) ?>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 

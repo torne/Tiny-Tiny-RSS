@@ -24,8 +24,8 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS : Preferences</title>
-	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
+	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 
 	<?php print_theme_includes($link) ?>
 	<?php print_user_stylesheet($link) ?>

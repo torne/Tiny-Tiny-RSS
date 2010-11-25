@@ -24,20 +24,14 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS</title>
-
+	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="cdm.css?<?php echo $dt_add ?>"/>
-
-	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 
 	<?php print_theme_includes($link) ?>
 	<?php print_user_stylesheet($link) ?>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
-
-	<?php if (ENABLE_TWEET_BUTTON) { ?>
-	<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
-	<?php } ?>
 
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>

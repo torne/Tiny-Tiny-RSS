@@ -486,7 +486,9 @@ function redraw_feedlist(feeds) {
 		}
 
 		if (feeds.length == 0) {
-			$('feeds-content').innerHTML = __("No unread feeds.");
+			$('feeds-content').innerHTML = 
+				"<div class='insensitive' style='text-align : center'>" + 
+					__("No unread feeds.") + "</div>";
 		}
 
 	} catch (e) {
