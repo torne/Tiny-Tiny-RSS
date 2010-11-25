@@ -207,7 +207,7 @@ function timeout() {
 			new Ajax.Request("backend.php", {
 				parameters: query_str,
 				onComplete: function(transport) { 
-						handle_rpc_reply(transport, !_force_scheduled_update);
+						handle_rpc_json(transport, !_force_scheduled_update);
 						_force_scheduled_update = false;
 					} });
 
@@ -472,21 +472,14 @@ function toggleDispRead() {
 	}
 }
 
-function parse_runtime_info(elem) {
-
-	if (!elem || !elem.firstChild) {
-		console.warn("parse_runtime_info: invalid node passed");
-		return;
-	}
-
-	var data = JSON.parse(elem.firstChild.nodeValue);
+function parse_runtime_info(data) {
 
 	//console.log("parsing runtime info...");
 
 	for (k in data) {
 		var v = data[k];
 
-		// console.log("RI: " + k + " => " + v);
+//		console.log("RI: " + k + " => " + v);
 
 		if (k == "new_version_available") {
 			var icon = $("newVersionIcon");
@@ -1044,12 +1037,12 @@ function handle_rpc_reply(transport, scheduled_call) {
 			var counters = transport.responseXML.getElementsByTagName("counters")[0];
 	
 			if (counters)
-				parse_counters(counters, scheduled_call);
+				parse_counters(JSON.parse(counters.firstChild.nodeValue), scheduled_call);
 
 			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info")[0];
 
 			if (runtime_info)
-				parse_runtime_info(runtime_info);
+				parse_runtime_info(JSON.parse(runtime_info.firstChild.nodeValue));
 
 			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
@@ -1125,3 +1118,64 @@ function newVersionDlg() {
 		exception_error("newVersionDlg", e);
 	}
 }
+
+function handle_rpc_json(transport, scheduled_call) {
+	try {
+		var reply = JSON.parse(transport.responseText);
+
+		if (reply) {
+
+			var error = reply['error'];
+
+			if (error) {
+				var code = error['code'];
+				var msg = error['msg'];
+				if (code != 0) {
+					fatalError(code, msg);
+					return false;
+				}
+			}
+
+			var seq = reply['seq'];
+
+			if (seq) {
+				if (get_seq() != seq) {
+					console.log("[handle_rpc_json] sequence mismatch: " + seq + 
+						" (want: " + get_seq() + ")");
+					return true;
+				}
+			}
+
+			var message = reply['message'];
+
+			if (message) {
+				if (message == "UPDATE_COUNTERS") {
+					console.log("need to refresh counters...");
+					setInitParam("last_article_id", -1);
+					_force_scheduled_update = true;
+				}
+			}
+
+			var counters = reply['counters'];
+	
+			if (counters)
+				parse_counters(counters, scheduled_call);
+
+			var runtime_info = reply['runtime-info'];;
+
+			if (runtime_info)
+				parse_runtime_info(runtime_info);
+
+			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
+
+		} else {
+			notify_error("Error communicating with server.");
+		}
+
+	} catch (e) {
+		exception_error("handle_rpc_json", e, transport);
+	}
+
+	return true;
+}
+

@@ -232,7 +232,7 @@ function request_counters_real() {
 			parameters: query,
 			onComplete: function(transport) { 
 				try {
-					handle_rpc_reply(transport);
+					handle_rpc_json(transport);
 				} catch (e) {
 					exception_error("viewfeed/getcounters", e);
 				}
@@ -286,12 +286,10 @@ function displayNewContentPrompt(id) {
 	}
 }
 
-function parse_counters(reply, scheduled_call) {
+function parse_counters(elems, scheduled_call) {
 	try {
 
 		var feeds_found = 0;
-
-		var elems = JSON.parse(reply.firstChild.nodeValue);
 
 		for (var l = 0; l < elems.length; l++) {
 
@@ -302,7 +300,7 @@ function parse_counters(reply, scheduled_call) {
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
 			var title = elems[l].title;
-	
+
 			if (id == "global-unread") {
 				global_unread = ctr;
 				updateTitle();

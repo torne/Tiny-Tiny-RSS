@@ -172,10 +172,6 @@ function headlines_callback2(transport, feed_cur_page) {
 			else
 				request_counters();
 
-			if (runtime_info) {
-				parse_runtime_info(runtime_info[0]);
-			} 
-	
 		} else {
 			console.warn("headlines_callback: returned no XML object");
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" + 

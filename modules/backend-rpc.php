@@ -282,29 +282,27 @@
 
 		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
 
+			header("Content-Type: text/plain");
+
 			$last_article_id = (int) $_REQUEST["last_article_id"];	
 
-			print "<rpc-reply>";
+			$reply = array();
 
-			if ($seq)
-				print "<seq>$seq</seq>";
+			if ($seq) $reply['seq'] = $seq;
 
 			if ($last_article_id != getLastArticleId($link)) {
-				print "<counters><![CDATA[";
 				$omode = $_REQUEST["omode"];
 
 				if ($omode != "T") 
-					print json_encode(getAllCounters($link, $omode));
+					$reply['counters'] = getAllCounters($link, $omode);
 				else
-					print json_encode(getGlobalCounters($link));
-
-				print "]]></counters>";
+					$reply['counters'] = getGlobalCounters($link);
 			}
  
-			print_runtime_info($link);
+			$reply['runtime-info'] = make_runtime_info($link);
 
-			print "</rpc-reply>";
 
+			print json_encode($reply);
 			return;
 		}
 
@@ -983,7 +981,7 @@
 		}
 
 		if ($subop == "getTweetInfo") {
-			header("Content-Type: text/html");
+			header("Content-Type: text/plain");
 			$id = db_escape_string($_REQUEST['id']);
 
 			$result = db_query($link, "SELECT title, link 
