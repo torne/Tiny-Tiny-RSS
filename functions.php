@@ -3905,7 +3905,7 @@
 				if ($version_data && $version_data['version']) {	
 
 					if (version_compare(VERSION, $version_data['version']) == -1) {
-						return $version_data['version'];
+						return $version_data;
 					}
 				}
 			}

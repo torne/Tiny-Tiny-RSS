@@ -766,18 +766,25 @@
 		}
 
 		if ($id == "newVersion") {
-			$version = check_for_update($link);
-
-			$version_link = "<a class=\"visibleLink\" target=\"_blank\" 
-				href=\"http://tt-rss.org\">http://tt-rss.org</a>";
+			$version_data = check_for_update($link);
+			$version = $version_data['version'];
+			$id = $version_data['version_id'];
 
 			print "<div class='tagCloudContainer'>";
 
-			print T_sprintf("New version of Tiny Tiny RSS is available (%s).<br/>Visit %s for more information.", "<b>$version</b>", $version_link);
+			print T_sprintf("New version of Tiny Tiny RSS is available (%s).", 
+				"<b>$version</b>");
 
 			print "</div>";
 
+			$details = "http://tt-rss.org/redmine/versions/show/$id";
+			$download = "http://tt-rss.org/#Download";
+
 			print "<div style='text-align : center'>";
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"return window.open('$details')\">".__("Details")."</button>";
+			print "<button dojoType=\"dijit.form.Button\" 
+				onclick=\"return window.open('$download')\">".__("Download")."</button>";
 			print "<button dojoType=\"dijit.form.Button\" 
 				onclick=\"return dijit.byId('newVersionDlg').hide()\">".
 				__('Close this window')."</button>";
