@@ -695,15 +695,18 @@
 		}
 
 		if ($subop == "digest-update") {
+			header("Content-Type: text/plain");
+
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
 			$seq = db_escape_string($_REQUEST['seq']);
 		
 			if (!$feed_id) $feed_id = -4;
 			if (!$offset) $offset = 0;
-			print "<rpc-reply>";
 
-			print "<seq>$seq</seq>";
+			$reply = array();
+
+			$reply['seq'] = $seq;
 
 			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
 				'', ($feed_id == -4), true, false, "unread", "updated DESC");
@@ -711,18 +714,17 @@
 			//function api_get_headlines($link, $feed_id, $limit, $offset,
 			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
 
-			print "<headlines-title><![CDATA[" . getFeedTitle($link, $feed_id) . 
-				"]]></headlines-title>";
+			$reply['headlines'] = array();
+			$reply['headlines']['title'] = getFeedTitle($link, $feed_id);
+			$reply['headlines']['content'] = $headlines;
 
-			print "<headlines><![CDATA[" . json_encode($headlines) . "]]></headlines>";
-
-			print "</rpc-reply>";
+			print json_encode($reply);
 			return;
 		}
 
 		if ($subop == "digest-init") {
-			print "<rpc-reply>";
-		
+			header("Content-Type: text/plain");
+
 			$tmp_feeds = api_get_feeds($link, -3, true, false, 0);
 
 			$feeds = array();
@@ -731,9 +733,8 @@
 				if ($f['id'] > 0 || $f['id'] == -4) array_push($feeds, $f);
 			}
 
-			print "<feeds><![CDATA[" . json_encode($feeds) . "]]></feeds>";
+			print json_encode(array("feeds" => $feeds));
 
-			print "</rpc-reply>";
 			return;
 		}
 

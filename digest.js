@@ -485,6 +485,10 @@ function redraw_feedlist(feeds) {
 				"</a>" + "</li>";
 		}
 
+		if (feeds.length == 0) {
+			$('feeds-content').innerHTML = __("No unread feeds.");
+		}
+
 	} catch (e) {
 		exception_error("redraw_feedlist", e);
 	}
@@ -492,13 +496,13 @@ function redraw_feedlist(feeds) {
 
 function parse_feeds(transport) {
 	try {
+		var reply = JSON.parse(transport.responseText);
 
-		if (!transport.responseXML) return;
+		if (!reply) return;
 
-		var feeds = transport.responseXML.getElementsByTagName('feeds')[0];
+		var feeds = reply['feeds'];
 
 		if (feeds) {
-			feeds = JSON.parse(feeds.firstChild.nodeValue);
 
 			feeds.sort( function (a,b) 
 				{ 
@@ -529,12 +533,12 @@ function parse_feeds(transport) {
 
 function parse_headlines(transport, replace, no_effects) {
 	try {
-		if (!transport.responseXML) return;
+		var reply = JSON.parse(transport.responseText);
+		if (!reply) return;
 
-		var seq = transport.responseXML.getElementsByTagName('seq')[0];
+		var seq = reply['seq'];
 
 		if (seq) {
-			seq = seq.firstChild.nodeValue;
 			if (seq != _update_seq) {
 				console.log("parse_headlines: wrong sequence received.");
 				return;
@@ -543,15 +547,11 @@ function parse_headlines(transport, replace, no_effects) {
 			return;
 		}
 
-		var headlines = transport.responseXML.getElementsByTagName('headlines')[0];
-		var headlines_title = transport.responseXML.getElementsByTagName('headlines-title')[0];
+		var headlines = reply['headlines']['content'];
+		var headlines_title = reply['headlines']['title'];
 
 		if (headlines && headlines_title) {
-			headlines = JSON.parse(headlines.firstChild.nodeValue);
-
-			var title = headlines_title.firstChild.nodeValue;
-
-			$("headlines-title").innerHTML = title;
+			$("headlines-title").innerHTML = headlines_title
 
 			if (replace) {
 				$('headlines-content').innerHTML = '';
