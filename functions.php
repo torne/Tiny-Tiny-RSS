@@ -2002,9 +2002,9 @@
 		}
 	}
 
-	function truncate_string($str, $max_len) {
+	function truncate_string($str, $max_len, $suffix = '&hellip;') {
 		if (mb_strlen($str, "utf-8") > $max_len - 3) {
-			return mb_substr($str, 0, $max_len, "utf-8") . "&hellip;";
+			return mb_substr($str, 0, $max_len, "utf-8") . $suffix;
 		} else {
 			return $str;
 		}
@@ -4577,6 +4577,15 @@
 			print "<div id=\"PTITLE-$id\" style=\"display : none\">" . 
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
+			$tweet_title = htmlspecialchars(
+				truncate_string(strip_tags($line['title']), 100, '...'));
+
+			$tweet_link = htmlspecialchars($line['link']);
+
+			print "<span id=\"TWEETINFO-$id\" style=\"display : none\">";
+			print json_encode(array("title" => $tweet_title, "link" => $tweet_link));
+			print "</span>";
+
 			print "<div class=\"postReply\" id=\"POST-$id\">";
 
 			/* print "<div dojoType=\"dijit.Menu\" style=\"display: none;\" 
@@ -4642,6 +4651,13 @@
 						alt='Zoom' title='".__('Forward by email')."'>";
 				}
 
+				if (ENABLE_TWEET_BUTTON) {
+					print "<img src=\"".theme_image($link, 'images/art-tweet.png')."\" 
+							class='tagsPic' style=\"cursor : pointer\"
+							onclick=\"tweetArticle($id)\"
+							alt='Zoom' title='".__('Share on Twitter')."'>";
+				}
+
 				print "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"closeArticlePanel($id)\"
@@ -4703,14 +4719,6 @@
 
 			print_article_enclosures($link, $id, $always_display_enclosures, 
 				$article_content);
-
-			$short_title = truncate_string(strip_tags($line['title']), 90);
-
-			print "<br/><a href=\"http://twitter.com/share\" 
-				class=\"twitter-share-button\" 
-				data-text=\"$short_title\"
-				data-url=\"".htmlspecialchars($line["link"])."\" 
-				data-count=\"horizontal\">Tweet</a>";
 
 			print "</div>";
 
@@ -5227,11 +5235,14 @@
 					$short_title = truncate_string(
 						strip_tags($line['title']), 90);
 
-					print "<br/><a href=\"http://twitter.com/share\" 
-						class=\"twitter-share-button\" 
-						data-text=\"$short_title\"
-						data-url=\"".htmlspecialchars($line["link"])."\" 
-						data-count=\"horizontal\">Tweet</a>";
+					$tweet_title = htmlspecialchars(
+						truncate_string(strip_tags($line['title']), 100, '...'));
+
+					$tweet_link = htmlspecialchars($line['link']);
+
+					print "<span id=\"TWEETINFO-$id\" style=\"display : none\">";
+					print json_encode(array("title" => $tweet_title, "link" => $tweet_link));
+					print "</span>";
 
 					print "</div>";
 
@@ -5253,6 +5264,13 @@
 						alt='Zoom' 
 						title='".__('Open article in new tab')."'>";
 
+					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+
+					print "<img src=\"images/art-pub-note.png\"
+						style=\"cursor : pointer\" style=\"cursor : pointer\"
+						onclick=\"publishWithNote($id, '$note_escaped')\"
+						alt='PubNote' title='".__('Publish article with a note')."'>";
+
 					if (DIGEST_ENABLE) {
 						print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
 							style=\"cursor : pointer\"
@@ -5260,12 +5278,12 @@
 							alt='Zoom' title='".__('Forward by email')."'>";
 					}
 
-					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
-
-					print "<img src=\"images/art-pub-note.png\"
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"publishWithNote($id, '$note_escaped')\"
-						alt='PubNote' title='".__('Publish article with a note')."'>";
+					if (ENABLE_TWEET_BUTTON) {
+						print "<img src=\"".theme_image($link, 'images/art-tweet.png')."\" 
+							class='tagsPic' style=\"cursor : pointer\"
+							onclick=\"tweetArticle($id)\"
+							alt='Zoom' title='".__('Share on Twitter')."'>";
+					}
 
 					print "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"

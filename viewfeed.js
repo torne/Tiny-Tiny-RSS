@@ -104,10 +104,6 @@ function headlines_callback2(transport, feed_cur_page) {
 					dijit.byId("headlines-toolbar").attr('content',
 						headlines_toolbar.firstChild.nodeValue);
 
-					$$("#headlines-frame a.twitter-share-button").each(
-						function(btn) { var tbtn = new twttr.TweetButton(btn); 
-							tbtn.render(); });
-
 					initHeadlinesMenu();
 
 					var cache_prefix = "";
@@ -142,10 +138,6 @@ function headlines_callback2(transport, feed_cur_page) {
 	
 						c.attr('content', c.attr('content') + 
 							headlines_content.firstChild.nodeValue);
-
-						$$("#headlines-frame a.twitter-share-button").each(
-							function(btn) { var tbtn = new twttr.TweetButton(btn); 
-								tbtn.render(); });
 
 						console.log("restore selected ids: " + ids);
 
@@ -228,9 +220,6 @@ function render_article(article) {
 
 		correctHeadlinesOffset(getActiveArticleId());		
 
-		$$("#content-insert a.twitter-share-button").each(
-				function(btn) { var tbtn = new twttr.TweetButton(btn); tbtn.render(); });
-		
 	} catch (e) {
 		exception_error("render_article", e);
 	}
@@ -1724,9 +1713,6 @@ function zoomToArticle(event, id) {
 	
 			dijit.byId("content-tabs").addChild(article_pane);
 
-			$$("#ATAB-"+id+" a.twitter-share-button").each(
-					function(btn) { var tbtn = new twttr.TweetButton(btn); tbtn.render(); });
-
 			if (!event || !event.shiftKey)
 				dijit.byId("content-tabs").selectChild(article_pane);
 
@@ -1757,10 +1743,6 @@ function zoomToArticle(event, id) {
 							closable: true });
 	
 						dijit.byId("content-tabs").addChild(article_pane);
-
-						$$("#ATAB-"+id+" a.twitter-share-button").each(
-							function(btn) { var tbtn = new twttr.TweetButton(btn); 
-								tbtn.render(); });
 
 						if (!event || !event.shiftKey)
 							dijit.byId("content-tabs").selectChild(article_pane);
@@ -2318,5 +2300,25 @@ function initHeadlinesMenu() {
 
 	} catch (e) {
 		exception_error("initHeadlinesMenu", e);
+	}
+}
+
+function tweetArticle(id) {
+	try {
+		var d = new Date();
+      var ts = d.getTime();
+
+		var ti = JSON.parse($("TWEETINFO-" + id).innerHTML);
+
+		var share_url = "http://twitter.com/share?_=" + ts +
+			"&text=" + param_escape(ti.title) + 
+			"&url=" + param_escape(ti.link);
+
+		window.open(share_url, 'ttrss_tweet',
+			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
+
+
+	} catch (e) {
+		exception_error("tweetArticle", e);
 	}
 }
