@@ -4458,7 +4458,7 @@
                      
 			$entry .= "<object type=\"application/x-shockwave-flash\" 
 				data=\"extras/button/musicplayer.swf?song_url=$url\" 
-				width=\"17\" height=\"17\"> 
+				width=\"17\" height=\"17\" style='float : left'> 
 					<param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";  
 		}
 
