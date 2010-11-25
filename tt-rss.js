@@ -383,6 +383,11 @@ function quickMenuGo(opid) {
 			return;
 		}
 
+		if (opid == "qmcDigest") {
+			window.location.href = "digest.php";
+			return;
+		}
+
 		if (opid == "qmcEditFeed") {
 			if (activeFeedIsCat())
 				alert(__("You can't edit this kind of feed."));

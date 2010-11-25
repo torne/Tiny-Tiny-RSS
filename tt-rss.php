@@ -175,6 +175,7 @@
 					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
 					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
 					<option disabled="1" value="x"><?php echo __('Other actions:') ?></option>
+					<option value="qmcDigest"><?php echo __('Switch to digest...') ?></option>
 					<option value="qmcTagCloud"><?php echo __('Show tag cloud...') ?></option>
 					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
 					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
