@@ -4454,34 +4454,13 @@
 
 		$entry = "";
 
-		if (($ctype == __("audio/mpeg")) &&  (get_pref($link, "ENABLE_FLASH_PLAYER")) ) {  
+		if ($ctype == "audio/mpeg") {  
                      
 			$entry .= "<object type=\"application/x-shockwave-flash\" 
 				data=\"extras/button/musicplayer.swf?song_url=$url\" 
-				width=\"17\" height=\"17\" style='float : left'> 
+				width=\"17\" height=\"17\" style='float : left; margin-right : 5px;'> 
 					<param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";  
 		}
-
-		/*
-
-		if (substr($ctype,0,6)=="audio/" || $ctype=="application/ogg" || $ctype=="application/x-ogg") {
-			$entry .= "<audio controls=\"controls\"><source src=\"$url\" type=\"$ctype\" />";
-			if (($ctype == __("audio/mpeg")) && 
-				(get_pref($link, "ENABLE_FLASH_PLAYER")) ) { 
-				$entry .= "<span><object type=\"application/x-shockwave-flash\" data=\"extras/button/musicplayer.swf?song_url=$url\" width=\"17\" height=\"17\"> <param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object></span>";
-			}
-			$entry .= "</audio> ";
-			if (($ctype == __("audio/mpeg")) && 
-				(get_pref($link, "ENABLE_FLASH_PLAYER")) ) {
-				$entry .= "<a id='switchToFlashLink' href='#' onclick='return switchToFlash(this)'>".__('Switch to Flash Player')."</a>";	
-				$entry .= "<script type='text/javascript'>html5AudioOrFlash('$ctype');</script>"; 
-			}
-		} elseif (substr($ctype,0,6)=="video/") {
-			$entry .= "<video controls=\"controls\"><source src=\"$url\" type=\"$ctype\" />";
-			$entry .= "</video>";
-		} */
-
-
 
 		return $entry;
 	}
