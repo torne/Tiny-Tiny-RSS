@@ -1078,17 +1078,15 @@ function scheduleFeedUpdate(id, is_cat) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) { 
+				handle_rpc_json(transport);
 
-				if (transport.responseXML) {
-					var message = transport.responseXML.getElementsByTagName("message")[0];
+				var reply = JSON.parse(transport.responseText);
+				var message = reply['message'];
 
-					if (message) {
-						notify_info(message.firstChild.nodeValue);
-						return;
-					}
+				if (message) {
+					notify_info(message);
+					return;
 				}
-
-				notify_error("Error communicating with server.");
 
 			} });
 

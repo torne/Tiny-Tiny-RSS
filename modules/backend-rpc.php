@@ -135,18 +135,13 @@
 		}
 
 		if ($subop == "togglepref") {
-			print "<rpc-reply>";
+			header("Content-Type: text/plain");
 
 			$key = db_escape_string($_REQUEST["key"]);
-
 			set_pref($link, $key, !get_pref($link, $key));
-
 			$value = get_pref($link, $key);
 
-			print "<param-set key=\"$key\" value=\"$value\"/>";
-
-			print "</rpc-reply>";
-
+			print json_encode(array("param" =>$key, "value" => $value));
 			return;
 		}
 
@@ -166,6 +161,8 @@
 		}
 
 		if ($subop == "mark") {
+			header("Content-Type: text/plain");
+
 			$mark = $_REQUEST["mark"];
 			$id = db_escape_string($_REQUEST["id"]);
 
@@ -180,51 +177,45 @@
 			$result = db_query($link, "UPDATE ttrss_user_entries SET marked = $mark
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
 		if ($subop == "delete") {
+			header("Content-Type: text/plain");
+
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "DELETE FROM ttrss_user_entries 				
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
 		if ($subop == "unarchive") {
+			header("Content-Type: text/plain");
+
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "UPDATE ttrss_user_entries 
 				SET feed_id = orig_feed_id, orig_feed_id = NULL
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
 		if ($subop == "archive") {
+			header("Content-Type: text/plain");
+
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				archive_article($link, $id, $_SESSION["uid"]);
 			}
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
@@ -268,7 +259,7 @@
 			return;
 		}
 
-		if ($subop == "updateFeed") {
+/*		if ($subop == "updateFeed") {
 			$feed_id = db_escape_string($_REQUEST["feed"]);
 
 			update_rss_feed($link, $feed_id);
@@ -278,7 +269,7 @@
 			print "</rpc-reply>";
 
 			return;
-		}
+		} */
 
 		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
 
@@ -308,44 +299,38 @@
 
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
+			header("Content-Type: text/plain");
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
 		if ($subop == "markSelected") {
+			header("Content-Type: text/plain");
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			markArticlesById($link, $ids, $cmode);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
 		if ($subop == "publishSelected") {
+			header("Content-Type: text/plain");
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			publishArticlesById($link, $ids, $cmode);
 
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
@@ -467,6 +452,7 @@
 		}
 
 		if ($subop == "completeTags") {
+			header("Content-Type: text/plain");
 
 			$search = db_escape_string($_REQUEST["search"]);
 
@@ -488,23 +474,15 @@
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$days = sprintf("%d", $_REQUEST["days"]);
 
-			print "<rpc-reply>";
-
-			print "<message><![CDATA[";
-
 			foreach ($ids as $id) {
 
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 					id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
 				if (db_num_rows($result) == 1) {
-					purge_feed($link, $id, $days, true);
+					purge_feed($link, $id, $days);
 				}
 			}
-
-			print "]]></message>";
-
-			print "</rpc-reply>";
 
 			return;
 		}
@@ -915,6 +893,8 @@
 		}
 
 		if ($subop == "cdmGetArticle") {
+			header("Content-Type: text/plain");
+
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, "SELECT content, 
@@ -934,14 +914,15 @@
 				$article_content = '';
 			}
 
-			print "<rpc-reply><article id=\"$id\"><![CDATA[";
-			print "$article_content";
-			print "]]></article></rpc-reply>";
+			print json_encode(array("article" =>
+				array("id" => $id, "content" => $article_content)));
 
 			return;
 		}
 
 		if ($subop == "scheduleFeedUpdate") {
+			header("Content-Type: text/plain");
+
 			$feed_id = db_escape_string($_REQUEST["id"]);
 			$is_cat =  db_escape_string($_REQUEST['is_cat']) == 'true';
 
@@ -973,10 +954,7 @@
 				$message = __("Can't update this kind of feed.");
 			}
 
-			print "<rpc-reply>";
-			print "<message>$message</message>";
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => $message));
 			return;
 		}
 

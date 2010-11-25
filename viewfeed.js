@@ -17,19 +17,6 @@ var preload_timeout_id = false;
 
 var cache_added = [];
 
-function catchup_callback2(transport, callback) {
-	try {
-		console.log("catchup_callback2 " + transport + ", " + callback);
-		notify("");			
-		handle_rpc_reply(transport);
-		if (callback) {
-			setTimeout(callback, 10);	
-		}
-	} catch (e) {
-		exception_error("catchup_callback2", e, transport);
-	}
-}
-
 function headlines_callback2(transport, feed_cur_page) {
 	try {
 
@@ -454,7 +441,7 @@ function toggleMark(id, client_only) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
+					handle_rpc_json(transport); 
 				} });
 		}
 
@@ -654,7 +641,7 @@ function toggleUnread(id, cmode, effect) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
+					handle_rpc_json(transport); 
 				} });
 
 		}
@@ -740,7 +727,7 @@ function selectionAssignLabel(id, ids) {
 	}
 }
 
-function selectionToggleUnread(set_state, callback_func, no_error) {
+function selectionToggleUnread(set_state, callback, no_error) {
 	try {
 		var rows = getSelectedArticleIds2();
 
@@ -790,7 +777,8 @@ function selectionToggleUnread(set_state, callback_func, no_error) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					catchup_callback2(transport, callback_func); 
+					handle_rpc_json(transport);
+					if (callback) callback(transport);
 				} });
 
 		}
@@ -822,7 +810,7 @@ function selectionToggleMarked() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
+					handle_rpc_json(transport); 
 				} });
 
 		}
@@ -854,7 +842,7 @@ function selectionTogglePublished() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
+					handle_rpc_json(transport); 
 				} });
 
 		}
@@ -982,6 +970,7 @@ function deleteSelection() {
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
+					handle_rpc_json(transport);
 					viewCurrentFeed();
 				} });
 
@@ -1031,6 +1020,7 @@ function archiveSelection() {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
+					handle_rpc_json(transport);
 					viewCurrentFeed();
 				} });
 
@@ -1215,7 +1205,7 @@ function cdmWatchdog() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
-					handle_rpc_reply(transport); 
+					handle_rpc_json(transport); 
 				} });
 
 		}
@@ -1571,7 +1561,7 @@ function catchupRelativeToArticle(below) {
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) { 
-						catchup_callback2(transport); 
+						handle_rpc_json(transport); 
 					} });
 
 			}
@@ -1633,12 +1623,16 @@ function cdmExpandArticle(id) {
 					onComplete: function(transport) { 
 						$("FUPDPIC-" + id).src = 'images/blank_icon.gif';
 	
-						if (transport.responseXML) {
-							var article = transport.responseXML.getElementsByTagName("article")[0];
-							var recv_id = article.getAttribute("id");
+						handle_rpc_json(transport);
+
+						var reply = JSON.parse(transport.responseText);
+
+						if (reply) {
+							var article = reply['article']['content'];
+							var recv_id = reply['article']['id'];
 	
 							if (recv_id == id)
-								$("CWRAP-" + id).innerHTML = article.firstChild.nodeValue;
+								$("CWRAP-" + id).innerHTML = article;
 	
 						} else {
 							$("CWRAP-" + id).innerHTML = __("Unable to load article.");
