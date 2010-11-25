@@ -429,6 +429,7 @@ function add_headline_entry(article, feed, no_effects) {
 			"<div class='digest-check'>" +
 				mark_part +
 				publ_part +
+				"<img title='" + __("Share on Twitter") + "' onclick=\"tweet_article("+article.id+", true)\" src='images/art-tweet.png'>" +
 				"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
 			"</div>" + 
 			"<a target=\"_blank\" href=\""+article.link+"\""+
@@ -497,7 +498,7 @@ function parse_feeds(transport) {
 		var feeds = transport.responseXML.getElementsByTagName('feeds')[0];
 
 		if (feeds) {
-			feeds = eval("(" + feeds.firstChild.nodeValue + ")");
+			feeds = JSON.parse(feeds.firstChild.nodeValue);
 
 			feeds.sort( function (a,b) 
 				{ 
@@ -546,7 +547,7 @@ function parse_headlines(transport, replace, no_effects) {
 		var headlines_title = transport.responseXML.getElementsByTagName('headlines-title')[0];
 
 		if (headlines && headlines_title) {
-			headlines = eval("(" + headlines.firstChild.nodeValue + ")");
+			headlines = JSON.parse(headlines.firstChild.nodeValue);
 
 			var title = headlines_title.firstChild.nodeValue;
 
@@ -578,13 +579,13 @@ function parse_headlines(transport, replace, no_effects) {
 			if (ids.length > 0) {
 				if (pr) {
 					$('headlines-content').appendChild(pr);
-					if (!no_effects) new Effect.ScrollTo(inserted);
+					if (!no_effects && inserted) new Effect.ScrollTo(inserted);
 				} else {
 					$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 						"<div class='body'>" +
-						"<a href=\"javascript:catchup_visible_articles()\">" +
+						"<a href=\"#\" onclick=\"catchup_visible_articles()\">" +
 					  	__("Mark as read") + "</a> | " + 
-						"<a href=\"javascript:load_more()\">" +
+						"<a href=\"#\" onclick=\"load_more()\">" +
 					  	__("Load more...") + "</a>" + 
 						"<img style=\"display : none\" "+
 						"id=\"H-LOADING-IMG\" src='images/indicator_tiny.gif'>" +
@@ -622,6 +623,7 @@ function init_second_stage() {
 
 function init() {
 	try {
+		dojo.require("dijit.Dialog");
 
 		new Ajax.Request("backend.php", {
 			parameters: "?op=rpc&subop=sanityCheck",
@@ -793,3 +795,33 @@ function update_title(unread) {
 	}
 }
 
+function tweet_article(id) {
+	try {
+
+		var query = "?op=rpc&subop=getTweetInfo&id=" + param_escape(id);
+
+		console.log(query);
+
+		var d = new Date();
+      var ts = d.getTime();
+
+		var w = window.open('backend.php?op=loading', 'ttrss_tweet',
+			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
+
+		new Ajax.Request("backend.php",	{
+			parameters: query, 
+			onComplete: function(transport) {
+				var ti = JSON.parse(transport.responseText);
+
+				var share_url = "http://twitter.com/share?_=" + ts +
+					"&text=" + param_escape(ti.title) + 
+					"&url=" + param_escape(ti.link);
+						
+				w.location.href = share_url;
+
+			} });
+
+	} catch (e) {
+		exception_error("tweet_article", e);
+	}
+}

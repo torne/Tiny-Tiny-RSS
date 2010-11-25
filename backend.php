@@ -526,6 +526,10 @@
 			$print_exec_time = false;
 		break; // digestSend
 
+		case "loading":
+			print __("Loading, please wait...") . " " . 
+				"<img src='images/indicator_tiny.gif'>";
+
 		case "getProfiles":
 			$login = db_escape_string($_REQUEST["login"]);
 			$password = db_escape_string($_REQUEST["password"]);
@@ -552,6 +556,7 @@
 		break;
 
 	} // Select action according to $op value.
+
 
 	// We close the connection to database.
 	db_close($link);

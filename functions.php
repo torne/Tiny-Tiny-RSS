@@ -4577,15 +4577,6 @@
 			print "<div id=\"PTITLE-$id\" style=\"display : none\">" . 
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
-			$tweet_title = htmlspecialchars(
-				truncate_string(strip_tags($line['title']), 100, '...'));
-
-			$tweet_link = htmlspecialchars($line['link']);
-
-			print "<span id=\"TWEETINFO-$id\" style=\"display : none\">";
-			print json_encode(array("title" => $tweet_title, "link" => $tweet_link));
-			print "</span>";
-
 			print "<div class=\"postReply\" id=\"POST-$id\">";
 
 			/* print "<div dojoType=\"dijit.Menu\" style=\"display: none;\" 
@@ -5231,18 +5222,6 @@
 
 					print_article_enclosures($link, $id, $always_display_enclosures,
 						$article_content);
-
-					$short_title = truncate_string(
-						strip_tags($line['title']), 90);
-
-					$tweet_title = htmlspecialchars(
-						truncate_string(strip_tags($line['title']), 100, '...'));
-
-					$tweet_link = htmlspecialchars($line['link']);
-
-					print "<span id=\"TWEETINFO-$id\" style=\"display : none\">";
-					print json_encode(array("title" => $tweet_title, "link" => $tweet_link));
-					print "</span>";
 
 					print "</div>";
 
