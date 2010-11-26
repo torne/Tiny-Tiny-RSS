@@ -1901,22 +1901,29 @@
 	}
 
 	function validate_session($link) {
-		if (SINGLE_USER_MODE) { 
-			return true;
-		}
+		if (SINGLE_USER_MODE) return true;
 
-		if (SESSION_CHECK_ADDRESS && $_SESSION["uid"]) {
-			if ($_SESSION["ip_address"]) {
-				if ($_SESSION["ip_address"] != $_SERVER["REMOTE_ADDR"]) {
-					$_SESSION["login_error_msg"] = __("Session failed to validate (incorrect IP)");
-					return false;
-				}
-			}
-		}
+		$check_ip = $_SESSION['ip_address'];
 
-		if ($_SESSION["ref_schema_version"] != get_schema_version($link, true)) {
+		switch (SESSION_CHECK_ADDRESS) {
+		case 0:
+			$check_ip = '';
+			break;
+		case 1:
+			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.')+1);
+			break;
+		case 2:
+			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.'));
+			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.')+1);
+			break;
+		};
+
+		if ($check_ip && strpos($_SERVER['REMOTE_ADDR'], $check_ip) !== 0)
+				$_SESSION["login_error_msg"] = 
+					__("Session failed to validate (incorrect IP)");
+
+		if ($_SESSION["ref_schema_version"] != get_schema_version($link, true))
 			return false;
-		}
 
 		if ($_SESSION["uid"]) {
 

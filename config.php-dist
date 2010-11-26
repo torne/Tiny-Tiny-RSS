@@ -49,8 +49,12 @@
 	// configurations. Doesn't seem to work for everyone, so enable with caution.
 	// tt-rss uses default PHP session storing mechanism if disabled.
 
-	define('SESSION_CHECK_ADDRESS', true);
-	// Bind session to client IP address (recommended)
+	define('SESSION_CHECK_ADDRESS', 1);
+	// Check client IP address when validating session:
+	// 0 - disable checking
+	// 1 - check first 3 octets of an address (recommended)
+	// 2 - check first 2 octets of an address
+	// 3 - check entire address
 
 	define('SESSION_COOKIE_LIFETIME', 0);
 	// Default lifetime of a session (e.g. login) cookie. In seconds, 
