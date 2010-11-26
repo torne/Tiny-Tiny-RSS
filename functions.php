@@ -3671,6 +3671,8 @@
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
 
+		$res = rewrite_urls($res);
+
 		$charset_hack = '<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		</head>';
@@ -7038,6 +7040,17 @@
 			print "</style>";
 		}
 
+	}
+
+	function rewrite_urls($line) {
+		global $url_regex;
+
+		$urls = null;
+
+		$result = preg_replace("/((?<!=.)((http|https|ftp)+):\/\/[^ ,!]+)/i", 
+			"<a target=\"_blank\" href=\"\\1\">\\1</a>", $line);
+
+		return $result;
 	}
 
 ?>
