@@ -419,21 +419,6 @@ function displayDlg(id, param, callback) {
 	return false;
 }
 
-function infobox_submit_callback2(transport) {
-	closeInfoBox();
-
-	try {
-		// called from prefs, reload tab
-		if (typeof active_tab != 'undefined' && active_tab) {
-			selectTab(active_tab, false);
-		}
-	} catch (e) { }
-
-	if (transport.responseText) {
-		notify_info(transport.responseText);
-	}
-}
-
 function infobox_callback2(transport) {
 	try {
 		var dialog = false;
@@ -680,24 +665,6 @@ function remove_splash() {
 	}
 }
 
-/* function getSelectedFeedsFromBrowser() {
-
-	var list = $$("#browseFeedList li[id*=FBROW]");
-
-	var selected = new Array();
-
-	list.each(function(child) {	
-		var id = child.id.replace("FBROW-", "");
-
-		if (child.hasClassName('Selected')) {
-			selected.push(id);
-		}	
-	});
-
-	return selected;
-} */
-
-
 function transport_error_check(transport) {
 	try {
 		if (transport.responseXML) {
@@ -862,7 +829,7 @@ function addLabel(select, callback) {
 					if (callback) {
 						callback(transport);
 					} else if (inPreferences()) {
-						infobox_submit_callback2(transport);
+						updateLabelList();
 					} else {
 						updateFeedList();
 					}
@@ -917,11 +884,7 @@ function quickAddFeed() {
 									dialog.hide();
 									notify_info(__("Subscribed to %s").replace("%s", feed_url));
 					
-									if (inPreferences()) {
-										updateFeedList();
-									} else {
-										setTimeout('updateFeedList(false, false)', 50);
-									}
+									updateFeedList();
 									break;
 								case 2:
 									alert(__("Specified URL seems to be invalid."));

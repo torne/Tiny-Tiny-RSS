@@ -660,7 +660,6 @@ function hotkey_handler(e) {
 				Element.hide("hotkey_help_overlay");
 			}
 			hotkey_prefix = false;
-			closeInfoBox();
 		} 
 
 		if (keycode == 16) return; // ignore lone shift
