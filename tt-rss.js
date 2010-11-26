@@ -1176,7 +1176,9 @@ function handle_rpc_json(transport, scheduled_call) {
 		}
 
 	} catch (e) {
-		exception_error("handle_rpc_json", e, transport);
+		notify_error("Error communicating with server.");
+		console.log(e);
+		//exception_error("handle_rpc_json", e, transport);
 	}
 
 	return true;
