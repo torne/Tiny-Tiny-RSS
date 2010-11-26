@@ -424,6 +424,13 @@
 					print "<button dojoType=\"dijit.form.Button\"
 						onclick=\"customizeCSS()\">" . __('Customize') . "</button>";
 
+				} else if ($pref_name == "DEFAULT_ARTICLE_LIMIT") {
+
+					$limits = array(15, 30, 45, 60);
+
+					print_select($pref_name, $value, $limits, 
+						'dojoType="dijit.form.Select"');
+
 				} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 
 					global $update_intervals_nodefault;
