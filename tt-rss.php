@@ -77,6 +77,7 @@
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
 <div id="auxDlg" style="display : none"></div>
+<div id="headlines-tmp" style="display : none"></div>
 
 <div id="main" dojoType="dijit.layout.BorderContainer">
 

@@ -123,8 +123,14 @@ function headlines_callback2(transport, feed_cur_page) {
 						var c = dijit.byId("headlines-frame");	
 						var ids = getSelectedArticleIds2();
 	
-						c.attr('content', c.attr('content') + 
-							headlines_content.firstChild.nodeValue);
+						//c.attr('content', c.attr('content') + 
+						//	headlines_content.firstChild.nodeValue);
+
+						$("headlines-tmp").innerHTML = headlines_content.firstChild.nodeValue;
+
+						$$("#headlines-tmp > div").each(function(row) {
+							c.domNode.appendChild(row);
+						});
 
 						console.log("restore selected ids: " + ids);
 
