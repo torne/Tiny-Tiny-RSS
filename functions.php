@@ -2601,7 +2601,7 @@
 		} else if ($n_feed == -2) {
 			$match_part = "published = true";
 		} else if ($n_feed == -3) {
-			$match_part = "unread = true";
+			$match_part = "unread = true AND score >= 0";
 
 			$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
@@ -3394,7 +3394,7 @@
 				}
 
 			} else if ($feed == -3) { // fresh virtual feed
-				$query_strategy_part = "unread = true";
+				$query_strategy_part = "unread = true AND score >= 0";
 
 				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
