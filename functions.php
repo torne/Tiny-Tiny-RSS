@@ -4590,9 +4590,12 @@
 			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				print "<div clear='both'><a target='_blank' href=\"" . 
+				print "<div clear='both'><a target='_blank' 
+					title=\"".htmlspecialchars($line['title'])."\"
+					href=\"" . 
 					$line["link"] . "\">" . 
-					$line["title"] . "<span class='author'>$entry_author</span></a></div>";
+					truncate_string($line["title"], 100) . 
+					"<span class='author'>$entry_author</span></a></div>";
 			} else {
 				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
@@ -5118,8 +5121,10 @@
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
+						title=\"".htmlspecialchars($line['title'])."\"
 						target=\"_blank\" href=\"".
-						htmlspecialchars($line["link"])."\">".$line["title"].
+						htmlspecialchars($line["link"])."\">".
+						truncate_string($line["title"], 100) . 
 						" $entry_author</a>";
 
 					print $labels_str;
