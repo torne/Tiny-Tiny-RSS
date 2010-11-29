@@ -121,7 +121,6 @@
 	title="News">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
-
 	<div id="main-toolbar" dojoType="dijit.Toolbar">		
 
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
@@ -163,30 +162,29 @@
 		</form>
 
 		<div class="actionChooser">
-			<select onchange="quickMenuChange(this)" dojoType="dijit.form.Select"
-				style="width : 150px">
-					<option value="qmcDefault" selected="selected"><?php echo __('Actions...') ?></option>
-					<option value="qmcSearch"><?php echo __('Search...') ?></option>
-					<option disabled="1" value="x"><?php echo __('Feed actions:') ?></option>
-					<option value="qmcAddFeed"><?php echo __('Subscribe to feed...') ?></option>
-					<option value="qmcEditFeed"><?php echo __('Edit this feed...') ?></option>
-					<option value="qmcRescoreFeed"><?php echo __('Rescore feed') ?></option>
-					<option value="qmcRemoveFeed"><?php echo __('Unsubscribe') ?></option>
-					<option disabled="1" value="x"><?php echo __('All feeds:') ?></option>
-					<option value="qmcCatchupAll"><?php echo __('Mark as read') ?></option>
-					<option value="qmcShowOnlyUnread"><?php echo __('(Un)hide read feeds') ?></option>
-					<option disabled="1" value="x"><?php echo __('Other actions:') ?></option>
-					<option value="qmcDigest"><?php echo __('Switch to digest...') ?></option>
-					<option value="qmcTagCloud"><?php echo __('Show tag cloud...') ?></option>
-					<option value="qmcAddLabel"><?php echo __('Create label...') ?></option>
-					<option value="qmcAddFilter"><?php echo __('Create filter...') ?></option>
-					<option value="qmcHKhelp"><?php echo __('Keyboard shortcuts help') ?></option>
-			</select>
+			<div dojoType="dijit.form.DropDownButton">
+				<span><?php echo __('Actions...') ?></span>
+				<div dojoType="dijit.Menu" style="display: none">
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcSearch')"><?php echo __('Search...') ?></div>
+					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Feed actions:') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFeed')"><?php echo __('Subscribe to feed...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcEditFeed')"><?php echo __('Edit this feed...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcRescoreFeed')"><?php echo __('Rescore feed') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcRemoveFeed')"><?php echo __('Unsubscribe') ?></div>
+					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('All feeds:') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcCatchupAll')"><?php echo __('Mark as read') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcShowOnlyUnread')"><?php echo __('(Un)hide read feeds') ?></div>
+					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Other actions:') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
+				</div>
+			</div>
 		</div>
-
-		</div>
-
-	</div>
+	</div> <!-- toolbar -->
+</div> <!-- toolbar pane -->
 
 	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
 

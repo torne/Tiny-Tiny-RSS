@@ -357,14 +357,8 @@ function init_second_stage() {
 	}
 }
 
-function quickMenuChange(elem) {
-	quickMenuGo(elem.value);
-	elem.attr('value', 'qmcDefault');
-}
-
 function quickMenuGo(opid) {
 	try {
-
 		if (opid == "qmcPrefs") {
 			gotoPreferences();
 		}
