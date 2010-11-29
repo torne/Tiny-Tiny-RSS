@@ -1065,15 +1065,6 @@ function catchupSelection() {
 }
 
 function editArticleTags(id) {
-/*	displayDlg('editArticleTags', id,
-			   function () {
-					$("tags_str").focus();
-
-					new Ajax.Autocompleter('tags_str', 'tags_choices',
-					   "backend.php?op=rpc&subop=completeTags",
-					   { tokens: ',', paramName: "search" });
-			   }); */
-
 		var query = "backend.php?op=dlg&id=editArticleTags&param=" + param_escape(id);
 
 		if (dijit.byId("editTagsDlg"))
@@ -1095,21 +1086,19 @@ function editArticleTags(id) {
 						notify('');
 						dialog.hide();
 	
-						if (transport.responseXML) {
-							var tags_str = transport.responseXML.getElementsByTagName("tags-str")[0];
-							
-							if (tags_str) {
-								var id = tags_str.getAttribute("id");
-				
-								if (id) {
-									var tags = $("ATSTR-" + id);
-									if (tags) {
-										tags.innerHTML = tags_str.firstChild.nodeValue;
-									}
-	
-									cache_invalidate(id);
-								}
+						var data = JSON.parse(transport.responseText);
+
+						if (data) {
+							var tags_str = data.tags_str;
+							var id = tags_str.id;
+
+							var tags = $("ATSTR-" + id);
+
+							if (tags) {
+								tags.innerHTML = tags_str.content;
 							}
+
+							cache_invalidate(id);
 						}
 	
 					}});

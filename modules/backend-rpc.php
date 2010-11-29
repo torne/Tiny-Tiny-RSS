@@ -364,6 +364,7 @@
 		}
 
 		if ($subop == "setArticleTags") {
+			header("Content-Type: text/plain");
 
 			global $memcache;
 
@@ -425,9 +426,8 @@
 
 			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
-			print "<rpc-reply>
-				<tags-str id=\"$id\"><![CDATA[$tags_str]]></tags-str>
-				</rpc-reply>";
+			print json_encode(array("tags_str" => array("id" => $id,
+				"content" => $tags_str)));
 
 			return;
 		}
