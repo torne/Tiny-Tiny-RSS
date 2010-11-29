@@ -1,12 +1,4 @@
 <?php
-	function prefs_js_redirect() {
-		print "<html><body>
-			<script type=\"text/javascript\">
-				window.location = 'prefs.php';
-			</script>
-			</body></html>";
-	}
-
 	function module_pref_prefs($link) {
 
 		global $access_level_names;
@@ -157,24 +149,6 @@
 		} else {
 
 			if (!SINGLE_USER_MODE) {
-
-/*				if ($_SESSION["pwd_change_result"] == "failed") {
-					print format_warning("Could not change the password.");
-				}
-
-				if ($_SESSION["pwd_change_result"] == "ok") {
-					print format_notice("Password was changed.");
-				}
-
-				$_SESSION["pwd_change_result"] = ""; */
-
-/*				if ($_SESSION["prefs_op_result"] == "reset-to-defaults") {
-					print format_notice(__("The configuration was reset to defaults."));
-} */
-
-#				if ($_SESSION["prefs_op_result"] == "save-config") {
-#					print format_notice(__("The configuration was saved."));
-#				}
 
 				$_SESSION["prefs_op_result"] = "";
 

@@ -3112,7 +3112,7 @@
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
 			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", "DEFAULT_ARTICLE_LIMIT",
-			"HIDE_READ_SHOWS_SPECIAL", "HIDE_FEEDLIST", "COMBINED_DISPLAY_MODE") as $param) {
+			"HIDE_READ_SHOWS_SPECIAL", "COMBINED_DISPLAY_MODE") as $param) {
 
 				 $params[strtolower($param)] = (int) get_pref($link, $param);
 		 }
@@ -3122,10 +3122,7 @@
 		$params["default_view_mode"] = get_pref($link, "_DEFAULT_VIEW_MODE");
 		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
 		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");
-		$params["prefs_active_tab"] = get_pref($link, "_PREFS_ACTIVE_TAB");
-		$params["infobox_disable_overlay"] = get_pref($link, "_INFOBOX_DISABLE_OVERLAY");
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
-		$params["offline_enabled"] = (int) get_pref($link, "ENABLE_OFFLINE_READING");
 
 		$result = db_query($link, "SELECT MAX(id) AS mid, COUNT(*) AS nf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
