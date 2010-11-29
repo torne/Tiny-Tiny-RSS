@@ -683,8 +683,8 @@ function selectionRemoveLabel(id, ids) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
+					handle_rpc_json(transport);
 					show_labels_in_headlines(transport);
-					handle_rpc_reply(transport);
 				} });
 
 //		}
@@ -721,8 +721,8 @@ function selectionAssignLabel(id, ids) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
+					handle_rpc_json(transport);
 					show_labels_in_headlines(transport);
-					handle_rpc_reply(transport);
 				} });
 
 //		}
@@ -1776,29 +1776,17 @@ function scrollArticle(offset) {
 
 function show_labels_in_headlines(transport) {
 	try {
-		if (transport.responseXML) {
-			var info = transport.responseXML.getElementsByTagName("info-for-headlines")[0];
+		var data = JSON.parse(transport.responseText);
 
-			var elems = info.getElementsByTagName("entry");
+		if (data) {
+			data['info-for-headlines'].each(function(elem) {
+				var ctr = $("HLLCTR-" + elem.id);
 
-			for (var l = 0; l < elems.length; l++) {
-				var e_id = elems[l].getAttribute("id");
-
-				if (e_id) {
-
-					var ctr = $("HLLCTR-" + e_id);
-
-					if (ctr) {
-						ctr.innerHTML = elems[l].firstChild.nodeValue;
-					}
-				}
-
-			}
-
+				if (ctr) ctr.innerHTML = elem.labels;
+			});
 		}
 	} catch (e) {
 		exception_error("show_labels_in_headlines", e);
-
 	}
 }
 

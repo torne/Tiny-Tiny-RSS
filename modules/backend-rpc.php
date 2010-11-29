@@ -533,41 +533,10 @@
 			return;
 		}
 
-		if ($subop == "removeFromLabel") {
+		if ($subop == "assignToLabel" || $subop == "removeFromLabel") {
+			header("Content-Type: text/plain");
 
-			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
-			$label_id = db_escape_string($_REQUEST["lid"]);
-
-			$label = db_escape_string(label_find_caption($link, $label_id, 
-				$_SESSION["uid"]));
-
-			print "<rpc-reply>";
-			print "<info-for-headlines>";
-
-			if ($label) {
-
-				foreach ($ids as $id) {
-					label_remove_article($link, $id, $label, $_SESSION["uid"]);
-
-					print "<entry id=\"$id\"><![CDATA[";
-
-					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
-					print format_article_labels($labels, $id);
-
-					print "]]></entry>";
-
-				}
-			}
-
-			print "</info-for-headlines>";
-
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
-			return;
-		}
-
-		if ($subop == "assignToLabel") {
+			$reply = array();
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
@@ -575,29 +544,28 @@
 			$label = db_escape_string(label_find_caption($link, $label_id, 
 				$_SESSION["uid"]));
 
-			print "<rpc-reply>";			
-
-			print "<info-for-headlines>";
+			$reply["info-for-headlines"] = array();
 
 			if ($label) {
 
 				foreach ($ids as $id) {
-					label_add_article($link, $id, $label, $_SESSION["uid"]);
 
-					print "<entry id=\"$id\"><![CDATA[";
+					if ($subop == "assignToLabel")
+						label_add_article($link, $id, $label, $_SESSION["uid"]);
+					else
+						label_remove_article($link, $id, $label, $_SESSION["uid"]);
 
 					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
-					print format_article_labels($labels, $id);
-
-					print "]]></entry>";
+				  
+					array_push($reply["info-for-headlines"],
+					  array("id" => $id, "labels" => format_article_labels($labels, $id)));
 
 				}
 			}
 
-			print "</info-for-headlines>";
+			$reply["message"] = "UPDATE_COUNTERS";
 
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
+			print json_encode($reply);
 
 			return;
 		}
