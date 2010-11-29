@@ -137,17 +137,14 @@
 		}
 
 		if ($subop == "setpref") {
-			print "<rpc-reply>";
+			header("Content-Type: text/plain");
 
 			$key = db_escape_string($_REQUEST["key"]);
 			$value = db_escape_string($_REQUEST["value"]);
 
 			set_pref($link, $key, $value);
 
-			print "<param-set key=\"$key\" value=\"$value\"/>";
-
-			print "</rpc-reply>";
-
+			print json_encode(array("param" =>$key, "value" => $value));
 			return;
 		}
 
@@ -210,7 +207,7 @@
 			return;
 		}
 
-
+		// XML method
 		if ($subop == "publ") {
 			$pub = $_REQUEST["pub"];
 			$id = db_escape_string($_REQUEST["id"]);
@@ -325,6 +322,7 @@
 			return;
 		}
 
+		// XML method
 		if ($subop == "sanityCheck") {
 			print "<rpc-reply>";
 			if (sanity_check($link)) {
@@ -335,24 +333,20 @@
 				print "]]></init-params>";
 
 				print_runtime_info($link);
-
-				# assign client-passed params to session
-				$_SESSION["client.userAgent"] = $_REQUEST["ua"];
-
 			}
 			print "</rpc-reply>";
 
 			return;
 		}		
 
-		if ($subop == "globalPurge") {
+/*		if ($subop == "globalPurge") {
 
 			print "<rpc-reply>";
 			global_purge_old_posts($link, true);
 			print "</rpc-reply>";
 
 			return;
-		}
+		} */
 
 		if ($subop == "setArticleTags") {
 			header("Content-Type: text/plain");
@@ -423,6 +417,7 @@
 			return;
 		}
 
+		// XML method
 		if ($subop == "regenOPMLKey") {
 
 			print "<rpc-reply>";
@@ -436,6 +431,7 @@
 			return;
 		}
 
+		// XML method
 		if ($subop == "logout") {
 			logout_user();
 			print_error_xml(6);
@@ -491,6 +487,7 @@
 
 		} */
 
+		// XML method
 		if ($subop == "getArticles") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -503,24 +500,16 @@
 			}
 			print "</rpc-reply>";
 
-			return;
+			return;		
 		}
 
 		if ($subop == "checkDate") {
+			header("Content-Type: text/plain");
 
 			$date = db_escape_string($_REQUEST["date"]);
 			$date_parsed = strtotime($date);
 
-			print "<rpc-reply>";
-
-			if ($date_parsed) {
-				print "<result>1</result>";
-			} else {
-				print "<result>0</result>";
-			}
-
-			print "</rpc-reply>";
-
+			print json_encode(array("result" => (bool)$date_parsed));
 			return;
 		}
 

@@ -607,18 +607,14 @@ function filterDlgCheckDate() {
 			parameters: query,
 			onComplete: function(transport) { 
 
-				if (transport.responseXML) {
-					var result = transport.responseXML.getElementsByTagName("result")[0];
+				var reply = JSON.parse(transport.responseText);
 
-					if (result && result.firstChild) {
-						if (result.firstChild.nodeValue == "1") {
-							alert(__("Date syntax appears to be correct."));
-							return;
-						}
-					}
+				if (reply['result'] == true) {
+					alert(__("Date syntax appears to be correct."));
+					return;
+				} else {
+					alert(__("Date syntax is incorrect."));
 				}
-
-				alert(__("Date syntax is incorrect."));
 
 			} });
 
