@@ -736,6 +736,7 @@
 		}
 
 		if ($subop == "completeEmails") {
+			header("Content-Type: text/plain");
 
 			$search = db_escape_string($_REQUEST["search"]);
 
@@ -753,7 +754,7 @@
 		}
 
 		if ($subop == "quickAddCat") {
-			print "<rpc-reply>";	
+			header("Content-Type: text/plain");
 
 			$cat = db_escape_string($_REQUEST["cat"]);
 
@@ -770,11 +771,10 @@
 
 			print_feed_cat_select($link, "cat_id", $id);
 
-			print "</rpc-reply>";
-
 			return;
 		}
 
+		// XML method
 		if ($subop == "regenFeedKey") {
 			$feed_id = db_escape_string($_REQUEST['id']);
 			$is_cat = (bool) db_escape_string($_REQUEST['is_cat']);
@@ -791,17 +791,13 @@
 		}
 
 		if ($subop == "clearKeys") {
-
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				owner_uid = " . $_SESSION["uid"]);
-
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
 
 			return;
 		}
 
+		// XML method
 		if ($subop == "verifyRegexp") {
 			$reg_exp = $_REQUEST["reg_exp"];
 
@@ -818,6 +814,7 @@
 			return;
 		}
 
+		// TODO: unify with digest-get-contents?
 		if ($subop == "cdmGetArticle") {
 			header("Content-Type: text/plain");
 
