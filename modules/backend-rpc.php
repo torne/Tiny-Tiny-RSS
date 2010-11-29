@@ -88,8 +88,6 @@
 		if ($subop == "remarchive") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
-			print "<rpc-reply>";
-
 			foreach ($ids as $id) {
 				$result = db_query($link, "DELETE FROM ttrss_archived_feeds WHERE
 					(SELECT COUNT(*) FROM ttrss_user_entries 
@@ -97,17 +95,13 @@
 						id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
 				$rc = db_affected_rows($link, $result);
-
-				print "<feed id='$id' rc='$rc'/>";
-
 			}
-
-			print "</rpc-reply>";
 
 			return;
 		}
 
 		if ($subop == "addfeed") {
+			header("Content-Type: text/plain");
 
 			$feed = db_escape_string($_REQUEST['feed']);
 			$cat = db_escape_string($_REQUEST['cat']);
@@ -116,21 +110,18 @@
 
 			$rc = subscribe_to_feed($link, $feed, $cat, $login, $pass);
 
-			print "<rpc-reply>";
-			print "<result code='$rc'/>";
-			print "</rpc-reply>";
+			print json_encode(array("result" => $rc));
 
 			return;
 
 		}
 
 		if ($subop == "extractfeedurls") {
-			print "<rpc-reply>";
+			header("Content-Type: text/plain");
 
 			$urls = get_feeds_from_html($_REQUEST['url']);
-			print "<urls><![CDATA[" . json_encode($urls) . "]]></urls>";
 
-			print "</rpc-reply>";
+			print json_encode(array("urls" => $urls));
 			return;
 		}
 

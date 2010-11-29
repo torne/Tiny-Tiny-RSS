@@ -865,15 +865,10 @@ function quickAddFeed() {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) { 
 							try {
+
+								var reply = JSON.parse(transport.responseText);
 				
-								if (!transport.responseXML) {
-									console.log(transport.responseText);
-									alert(__("Server error while trying to subscribe to specified feed."));
-									return;
-								}
-				
-								var result = transport.responseXML.getElementsByTagName('result')[0];
-								var rc = parseInt(result.getAttribute('code'));
+								var rc = parseInt(reply['result']);
 					
 								notify('');
 
@@ -899,16 +894,11 @@ function quickAddFeed() {
 										parameters: 'op=rpc&subop=extractfeedurls&url=' + param_escape(feed_url),
 										onComplete: function(transport, dialog, feed_url) {
 
-											if (!transport.responseXML) {
-												console.log(transport.responseText);
-												alert(__("Server error while trying to query feed URLs."));
-												return;
-											}
-	
 											notify('');
 
-											var result = transport.responseXML.getElementsByTagName('urls')[0];
-											var feeds = JSON.parse(result.firstChild.nodeValue);
+											var reply = JSON.parse(transport.responseText);
+
+											var feeds = reply['urls'];
 
 											console.log(transport.responseText);
 
