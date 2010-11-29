@@ -65,11 +65,7 @@
 		<div dojoType="dijit.ProgressBar" places="0" style="width : 300px" id="loading_bar"
 	     progress="0" maximum="100">
 		</div>
-	<noscript>
-		<p><?php print_error(__("Your browser doesn't support Javascript, which is required
-		for this application to function properly. Please check your
-		browser settings.")) ?></p>
-	</noscript>
+		<noscript><br/><?php print_error('Javascript is disabled. Please enable it.') ?></noscript>
 	</div>
 </div> 
 
