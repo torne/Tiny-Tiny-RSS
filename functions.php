@@ -1917,9 +1917,11 @@
 			break;
 		};
 
-		if ($check_ip && strpos($_SERVER['REMOTE_ADDR'], $check_ip) !== 0)
-				$_SESSION["login_error_msg"] = 
-					__("Session failed to validate (incorrect IP)");
+		if ($check_ip && strpos($_SERVER['REMOTE_ADDR'], $check_ip) !== 0) {
+			$_SESSION["login_error_msg"] = 
+				__("Session failed to validate (incorrect IP)");
+			return false;
+		}
 
 		if ($_SESSION["ref_schema_version"] != get_schema_version($link, true))
 			return false;
