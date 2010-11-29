@@ -551,24 +551,17 @@
 		}
 
 		if ($subop == "updateFeedBrowser") {
+			header("Content-Type: text/plain");
 
 			$search = db_escape_string($_REQUEST["search"]);
 			$limit = db_escape_string($_REQUEST["limit"]);
-			$mode = db_escape_string($_REQUEST["mode"]);
+			$mode = (int) db_escape_string($_REQUEST["mode"]);
 
-			print "<rpc-reply>";
-			print "<content>";
-			print "<![CDATA[";
-			$ctr = print_feed_browser($link, $search, $limit, $mode);
-			print "]]>";
-			print "</content>";
-			print "<num-results value=\"$ctr\"/>";
-			print "<mode value=\"$mode\"/>";
-			print "</rpc-reply>";
-
+			print json_encode(array("content" =>
+				make_feed_browser($link, $search, $limit, $mode),
+				"mode" => $mode));
 			return;
 		}
-
 
 		if ($subop == "massSubscribe") {
 
@@ -610,12 +603,6 @@
 					array_push($subscribed, $title_orig);
 				}
 			}
-
-			$num_feeds = count($subscribed);
-
-			print "<rpc-reply>";
-			print "<num-feeds value='$num_feeds'/>";
-			print "</rpc-reply>";
 
 			return;
 		} 

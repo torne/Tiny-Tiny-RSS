@@ -1362,9 +1362,10 @@
 
 	}
 
-	function print_feed_browser($link, $search, $limit, $mode = 1) {
+	function make_feed_browser($link, $search, $limit, $mode = 1) {
 
-			$owner_uid = $_SESSION["uid"];
+		$owner_uid = $_SESSION["uid"];
+		$rv = '';
 
 			if ($search) {
 				$search_qpart = "AND (UPPER(feed_url) LIKE UPPER('%$search%') OR 
@@ -1436,7 +1437,7 @@
 						style='border-width : 0px; vertical-align : middle' 
 						src='images/feed-icon-12x12.png'></a>";
 
-					print "<li title=\"".htmlspecialchars($details["site_url"])."\" 
+					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\" 
 						id=\"FBROW-".$details["id"]."\">$check_box".
 						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) . 
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
@@ -1479,7 +1480,7 @@
 						style='border-width : 0px; vertical-align : middle' 
 						src='images/feed-icon-12x12.png'></a>";
 
-					print "<li title='".$line['site_url']."' class='$class' 
+					$rv .= "<li title='".$line['site_url']."' class='$class' 
 						id=\"FBROW-".$line["id"]."\">".
 						$check_box . "$feed_icon $feed_url " . $title . 
 						$archived . $site_url . "</li>";
@@ -1491,10 +1492,10 @@
 			}
 
 			if ($feedctr == 0) {
-				print "<li style=\"text-align : center\"><p>".__('No feeds found.')."</p></li>";
+				$rv .= "<li style=\"text-align : center\"><p>".__('No feeds found.')."</p></li>";
 			}
 
-		return $feedctr;
+		return $rv;
 
 	}
 

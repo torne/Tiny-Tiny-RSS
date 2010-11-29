@@ -1417,12 +1417,6 @@ function feedBrowser() {
 					new Ajax.Request("backend.php", {
 						parameters: query,
 						onComplete: function(transport) { 
-		
-							var nf = transport.responseXML.getElementsByTagName('num-feeds')[0];
-							var nf_value = nf.getAttribute("value");
-		
-							notify_info(__("Subscribed to %d feed(s).").replace("%d", nf_value));
-		
 							if (inPreferences()) {
 								updateFeedList();
 							}
@@ -1446,17 +1440,19 @@ function feedBrowser() {
 						Element.hide('feed_browser_spinner');
 		
 						var c = $("browseFeedList");
-						var r = transport.responseXML.getElementsByTagName("content")[0];
-						var nr = transport.responseXML.getElementsByTagName("num-results")[0];
-						var mode = transport.responseXML.getElementsByTagName("mode")[0];
+
+						var reply = JSON.parse(transport.responseText);
+
+						var r = reply['content'];
+						var mode = reply['mode'];
 		
 						if (c && r) {
-							c.innerHTML = r.firstChild.nodeValue;
+							c.innerHTML = r;
 						}
 		
 						dojo.parser.parse("browseFeedList");
 		
-						if (parseInt(mode.getAttribute("value")) == 2) {
+						if (mode == 2) {
 							Element.show(dijit.byId('feed_archive_remove').domNode);
 						} else {
 							Element.hide(dijit.byId('feed_archive_remove').domNode);

@@ -345,7 +345,7 @@
 			$owner_uid = $_SESSION["uid"];
 
 			print "<ul class='browseFeedList' id='browseFeedList'>";
-			print_feed_browser($link, $search, 25);
+			print make_feed_browser($link, $search, 25);
 			print "</ul>";
 
 			print "<div align='center'>
