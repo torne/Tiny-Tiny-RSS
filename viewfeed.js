@@ -486,6 +486,14 @@ function togglePub(id, client_only, no_effects, note) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) { 
+					handle_rpc_json(transport); 
+				} });
+		}
+
+/*		if (!client_only) {
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) { 
 					handle_rpc_reply(transport);
 		
 					var note = transport.responseXML.getElementsByTagName("note")[0];
@@ -510,7 +518,7 @@ function togglePub(id, client_only, no_effects, note) {
 					}	
 
 				} });
-		}
+		} */
 
 	} catch (e) {
 		exception_error("togglePub", e);
@@ -1799,7 +1807,7 @@ function toggleHeadlineActions() {
 	}
 }
 
-function publishWithNote(id, def_note) {
+/* function publishWithNote(id, def_note) {
 	try {
 		if (!def_note) def_note = '';
 
@@ -1812,7 +1820,7 @@ function publishWithNote(id, def_note) {
 	} catch (e) {
 		exception_error("publishWithNote", e);
 	}
-}
+} */
 
 function emailArticle(id) {
 	try {
@@ -2306,5 +2314,54 @@ function tweetArticle(id) {
 
 	} catch (e) {
 		exception_error("tweetArticle", e);
+	}
+}
+
+function editArticleNote(id) {
+	try {
+
+		var query = "backend.php?op=dlg&id=editArticleNote&param=" + param_escape(id);
+
+		if (dijit.byId("editNoteDlg"))
+			dijit.byId("editNoteDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "editNoteDlg",
+			title: __("Edit article note"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					var query = dojo.objectToQuery(this.attr('value'));
+
+					notify_progress("Saving article note...", true);
+
+					new Ajax.Request("backend.php",	{
+					parameters: query,
+					onComplete: function(transport) {
+						notify('');
+						dialog.hide();
+					
+						var reply = JSON.parse(transport.responseText);
+
+						cache_invalidate(id);
+
+						var elem = $("POSTNOTE-" + id);
+
+						if (elem) {
+							Element.hide(elem);
+							elem.innerHTML = reply.note;
+							new Effect.Appear(elem);
+						}
+
+					}});
+				}
+			},
+			href: query,
+		});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("editArticleNote", e);
 	}
 }

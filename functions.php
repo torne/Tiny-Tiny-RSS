@@ -4617,12 +4617,12 @@
 						onclick=\"postOpenInNewTab(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
-				$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+				//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
 				print "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\" 
 						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"publishWithNote($id, '$note_escaped')\"
-						alt='PubNote' title='".__('Publish article with a note')."'>";
+						onclick=\"editArticleNote($id)\"
+						alt='PubNote' title='".__('Edit article note')."'>";
 
 				if (DIGEST_ENABLE) {
 					print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
@@ -4684,16 +4684,16 @@
 				href=\"".htmlspecialchars($feed_site_url)."\">".
 				$feed_icon . "</a></div>";
 
-			print "<div class=\"postContent\">";
-
-			$article_content = sanitize_rss($link, $line["content"], false, false,
-				$feed_site_url);
-
 			print "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
 					print format_article_note($id, $line['note']);
 				}
 			print "</div>";
+
+			print "<div class=\"postContent\">";
+
+			$article_content = sanitize_rss($link, $line["content"], false, false,
+				$feed_site_url);
 
 			print $article_content;
 
@@ -5234,12 +5234,12 @@
 						alt='Zoom' 
 						title='".__('Open article in new tab')."'>";
 
-					$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
+					//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
 					print "<img src=\"images/art-pub-note.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"publishWithNote($id, '$note_escaped')\"
-						alt='PubNote' title='".__('Publish article with a note')."'>";
+						onclick=\"editArticleNote($id)\"
+						alt='PubNote' title='".__('Edit article note')."'>";
 
 					if (DIGEST_ENABLE) {
 						print "<img src=\"".theme_image($link, 'images/art-email.png')."\" 
@@ -6209,15 +6209,8 @@
 
 	function format_article_note($id, $note) {
 
-		$note_escaped = htmlspecialchars($note, ENT_QUOTES);
-
-		$str = "<div class='articleNote'>";
-		$str .= $note;
-		$str .= "<div class='articleNoteOps'>";
-		$str .= "<a href=\"javascript:publishWithNote($id, '$note_escaped')\">".
-			__('edit note')."</a>";
-		$str .= "</div>";
-		$str .= "</div>";
+		$str = "<div class='articleNote' title=\"".__('edit note')."\" 
+			onclick=\"editArticleNote($id)\">$note</div>";
 
 		return $str;
 	}

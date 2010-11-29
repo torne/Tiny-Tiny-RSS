@@ -209,8 +209,9 @@
 			return;
 		}
 
-		// XML method
 		if ($subop == "publ") {
+			header("Content-Type: text/plain");
+
 			$pub = $_REQUEST["pub"];
 			$id = db_escape_string($_REQUEST["id"]);
 			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
@@ -221,31 +222,11 @@
 				$pub = "false";
 			}
 
-			if ($note != 'undefined') {
-				$note_qpart = "note = '$note',";
-			}
-
-			// FIXME this needs collision testing
-
 			$result = db_query($link, "UPDATE ttrss_user_entries SET 
-				$note_qpart
 				published = $pub
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-
-			print "<rpc-reply>";
-			
-			if ($note != 'undefined') {
-				$note_size = strlen($note);
-				print "<note id=\"$id\" size=\"$note_size\">";
-				print "<![CDATA[" . format_article_note($id, $note) . "]]>";
-				print "</note>";
-			}
-
-			print "<message>UPDATE_COUNTERS</message>";
-
-			print "</rpc-reply>";
-
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
@@ -890,6 +871,21 @@
 			print json_encode(array("title" => $title, "link" => $article_link,
 				"id" => $id));
 
+			return;
+		}
+
+		if ($subop == "setNote") {
+			header("Content-Type: text/plain");
+
+			$id = db_escape_string($_REQUEST["id"]);
+			$note = strip_tags(db_escape_string($_REQUEST["note"]));
+
+			db_query($link, "UPDATE ttrss_user_entries SET note = '$note'
+				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+			$formatted_note = format_article_note($id, $note);
+
+			print json_encode(array("note" => $formatted_note));
 			return;
 		}
 
