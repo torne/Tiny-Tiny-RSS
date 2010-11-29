@@ -4095,6 +4095,8 @@
 			$rss_link = htmlspecialchars(get_self_url_prefix() . 
 				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat$view_mode$search_q");
 
+			print "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
+
 			print "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
 
 			print "</select>";			
