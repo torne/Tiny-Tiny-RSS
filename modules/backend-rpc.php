@@ -608,24 +608,18 @@
 		} 
 
 		if ($subop == "digest-get-contents") {
+			header("Content-Type: text/plain");
+
 			$article_id = db_escape_string($_REQUEST['article_id']);
 
 			$result = db_query($link, "SELECT content 
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
 
-			print "<rpc-reply>";
-
-			print "<article id=\"$article_id\"><![CDATA[";
-
 			$content = sanitize_rss($link, db_fetch_result($result, 0, "content"));
 
-			print $content;
-
-			print "]]></article>";
-
-			print "</rpc-reply>";
-
+			print json_encode(array("article" =>
+				array("id" => $id, "content" => $content)));
 			return;
 		}
 

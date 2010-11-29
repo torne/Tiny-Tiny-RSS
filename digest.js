@@ -134,9 +134,12 @@ function zoom(elem, article_id) {
 			onComplete: function(transport) {
 				fatal_error_check(transport);
 
-				if (transport.responseXML) {
-					var article = transport.responseXML.getElementsByTagName('article')[0];
-					elem.innerHTML = article.firstChild.nodeValue;
+				var reply = JSON.parse(transport.responseText);
+
+				if (reply) {
+					var article = reply['article'];
+
+					elem.innerHTML = article.content;
 
 					new Effect.BlindDown(elem, {duration : 0.5});
 
