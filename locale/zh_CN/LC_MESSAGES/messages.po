@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-29 13:07+0300\n"
+"POT-Creation-Date: 2010-11-29 19:20+0300\n"
 "PO-Revision-Date: 2007-08-19 19:03+0800\n"
 "Last-Translator: sluke <sluke520@yahoo.com.cn>\n"
 "Language-Team: hicode.org <sluke520@yahoo.com.cn>\n"
@@ -119,11 +119,11 @@ msgstr "未找到Feed."
 
 #: backend.php:530 digest.php:61 prefs.php:64 tt-rss.php:58 tt-rss.php:110
 #: tt-rss.php:192 modules/pref-feeds.php:1217 modules/pref-filters.php:424
-#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1621
+#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1610
 msgid "Loading, please wait..."
 msgstr "读取中，请等待..."
 
-#: backend.php:543 login_form.php:142 modules/backend-rpc.php:62
+#: backend.php:543 login_form.php:142 modules/backend-rpc.php:66
 #: modules/popup-dialog.php:109
 #, fuzzy
 msgid "Default profile"
@@ -324,7 +324,7 @@ msgstr "专用"
 
 #: functions.php:3020 functions.php:3641 prefs.php:109
 #: modules/pref-labels.php:89 help/4.php:12 mobile/functions.php:195
-#: viewfeed.js:2290
+#: viewfeed.js:2269
 msgid "Labels"
 msgstr "标记"
 
@@ -397,7 +397,7 @@ msgid "Selection:"
 msgstr "选择："
 
 #: functions.php:4079 localized_schema.php:10 tt-rss.php:155 tt-rss.php:170
-#: digest.js:362 digest.js:433 digest.js:589
+#: digest.js:365 digest.js:436 digest.js:592
 msgid "Mark as read"
 msgstr "标记为已读"
 
@@ -414,7 +414,7 @@ msgstr ""
 msgid "Delete"
 msgstr "默认"
 
-#: functions.php:4089 functions.php:4631 functions.php:5248
+#: functions.php:4089 functions.php:4641 functions.php:5258
 msgid "Forward by email"
 msgstr ""
 
@@ -427,7 +427,7 @@ msgstr "Feed:"
 msgid "View as RSS"
 msgstr "编辑标签"
 
-#: functions.php:4107 functions.php:4683
+#: functions.php:4107 functions.php:4693
 msgid "Visit the website"
 msgstr ""
 
@@ -436,45 +436,45 @@ msgstr ""
 msgid "View as RSS feed"
 msgstr "隐藏我的Feed列表"
 
-#: functions.php:4583
+#: functions.php:4593
 #, fuzzy
 msgid " - "
 msgstr ", 由 - "
 
-#: functions.php:4612 functions.php:5226
+#: functions.php:4622 functions.php:5236
 msgid "Edit tags for this article"
 msgstr ""
 
-#: functions.php:4618 functions.php:5235
+#: functions.php:4628 functions.php:5245
 #, fuzzy
 msgid "Open article in new tab"
 msgstr "新窗口打开文章连结"
 
-#: functions.php:4625 functions.php:5242
+#: functions.php:4635 functions.php:5252
 #, fuzzy
 msgid "Publish article with a note"
 msgstr "发布文章"
 
-#: functions.php:4638 functions.php:5255 digest.js:432
+#: functions.php:4648 functions.php:5265 digest.js:435
 msgid "Share on Twitter"
 msgstr ""
 
-#: functions.php:4644
+#: functions.php:4654
 #, fuzzy
 msgid "Close this panel"
 msgstr "关闭此窗口"
 
-#: functions.php:4661 functions.php:5157
+#: functions.php:4671 functions.php:5167
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4674 functions.php:5170 modules/popup-dialog.php:251
+#: functions.php:4684 functions.php:5180 modules/popup-dialog.php:251
 #: modules/pref-feeds.php:289
 #, fuzzy
 msgid "Feed URL"
 msgstr "Feed"
 
-#: functions.php:4715 modules/help.php:21 modules/popup-dialog.php:53
+#: functions.php:4725 modules/help.php:21 modules/popup-dialog.php:53
 #: modules/popup-dialog.php:172 modules/popup-dialog.php:196
 #: modules/popup-dialog.php:234 modules/popup-dialog.php:563
 #: modules/popup-dialog.php:622 modules/popup-dialog.php:760
@@ -483,98 +483,98 @@ msgstr "Feed"
 msgid "Close this window"
 msgstr "关闭此窗口"
 
-#: functions.php:4768
+#: functions.php:4778
 msgid "Feed not found."
 msgstr "未找到Feed."
 
-#: functions.php:4837
+#: functions.php:4847
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
 msgstr "无法显示feed(查询失败); 请核对标签匹配语法或本地配置."
 
-#: functions.php:4992 functions.php:5073
+#: functions.php:5002 functions.php:5083
 #, fuzzy
 msgid "mark as read"
 msgstr "标记为已读"
 
-#: functions.php:5261
+#: functions.php:5271
 #, fuzzy
 msgid "Dismiss article"
 msgstr "发布文章"
 
-#: functions.php:5280
+#: functions.php:5290
 #, fuzzy
 msgid "No unread articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5283
+#: functions.php:5293
 #, fuzzy
 msgid "No updated articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5286
+#: functions.php:5296
 #, fuzzy
 msgid "No starred articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5290
+#: functions.php:5300
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: functions.php:5292
+#: functions.php:5302
 #, fuzzy
 msgid "No articles found to display."
 msgstr "未找到文章。"
 
-#: functions.php:5307 functions.php:6620
+#: functions.php:5317 functions.php:6630
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr ""
 
-#: functions.php:5317 functions.php:6630
+#: functions.php:5327 functions.php:6640
 msgid "Some feeds have update errors (click for details)"
 msgstr "有些feed更新错误(点击了解详情) "
 
-#: functions.php:6123 tt-rss.php:175
+#: functions.php:6133 tt-rss.php:175
 #, fuzzy
 msgid "Create label..."
 msgstr "创建标记"
 
-#: functions.php:6137
+#: functions.php:6147
 #, fuzzy
 msgid "Remove:"
 msgstr "移除"
 
-#: functions.php:6141
+#: functions.php:6151
 #, fuzzy
 msgid "Assign:"
 msgstr "指定标签"
 
-#: functions.php:6189
+#: functions.php:6199
 msgid "no tags"
 msgstr "无标签"
 
-#: functions.php:6218
+#: functions.php:6228
 msgid "edit note"
 msgstr ""
 
-#: functions.php:6610
+#: functions.php:6620
 msgid "No feed selected."
 msgstr "无选定feed."
 
-#: functions.php:6798
+#: functions.php:6808
 #, fuzzy
 msgid "unknown type"
 msgstr "未知错误"
 
-#: functions.php:6838
+#: functions.php:6848
 msgid "Attachment:"
 msgstr ""
 
-#: functions.php:6840
+#: functions.php:6850
 msgid "Attachments:"
 msgstr ""
 
@@ -608,7 +608,7 @@ msgstr "过滤文章"
 msgid "Set starred"
 msgstr "设置星级"
 
-#: localized_schema.php:12 digest.js:409 digest.js:691 viewfeed.js:480
+#: localized_schema.php:12 digest.js:412 digest.js:694 viewfeed.js:480
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -809,7 +809,7 @@ msgstr ""
 msgid "Sort headlines by feed date"
 msgstr "以未读文章数量排序feed源"
 
-#: localized_schema.php:57 prefs.js:1733
+#: localized_schema.php:57 prefs.js:1732
 #, fuzzy
 msgid "Customize stylesheet"
 msgstr "用户样式表 URL"
@@ -1072,20 +1072,20 @@ msgstr ""
 msgid "Register"
 msgstr "重置密码"
 
-#: modules/backend-rpc.php:930
+#: modules/backend-rpc.php:844
 msgid "Your request could not be completed."
 msgstr ""
 
-#: modules/backend-rpc.php:934
+#: modules/backend-rpc.php:848
 msgid "Feed update has been scheduled."
 msgstr ""
 
-#: modules/backend-rpc.php:942
+#: modules/backend-rpc.php:856
 #, fuzzy
 msgid "Category update has been scheduled."
 msgstr "密码已更改."
 
-#: modules/backend-rpc.php:955
+#: modules/backend-rpc.php:869
 #, fuzzy
 msgid "Can't update this kind of feed."
 msgstr "您不能编辑本分类feed"
@@ -1326,7 +1326,7 @@ msgstr ""
 msgid "on field"
 msgstr "于:"
 
-#: modules/popup-dialog.php:479 modules/pref-filters.php:173 digest.js:389
+#: modules/popup-dialog.php:479 modules/pref-filters.php:173 digest.js:392
 #, fuzzy
 msgid "in"
 msgstr "链接"
@@ -1714,12 +1714,12 @@ msgstr ""
 msgid "Clear stored credentials"
 msgstr "所有Feed已更新。"
 
-#: modules/pref-feeds.php:1465
+#: modules/pref-feeds.php:1466
 #, fuzzy, php-format
 msgid "%d archived articles"
 msgstr "星级文章"
 
-#: modules/pref-feeds.php:1494
+#: modules/pref-feeds.php:1495
 #, fuzzy
 msgid "No feeds found."
 msgstr "无feed可订阅。"
@@ -2267,46 +2267,46 @@ msgstr "标记  %s 中所有访问过的主题为已读"
 msgid "Mark %d displayed articles as read?"
 msgstr "标记  %s 中所有所选Feed为已读..."
 
-#: digest.js:155
+#: digest.js:158
 #, fuzzy
 msgid "Error: unable to load article."
 msgstr "错误：请上传OPML文件。"
 
-#: digest.js:402 digest.js:651 viewfeed.js:437
+#: digest.js:405 digest.js:654 viewfeed.js:437
 #, fuzzy
 msgid "Unstar article"
 msgstr "星级文章"
 
-#: digest.js:404 digest.js:655 viewfeed.js:442
+#: digest.js:407 digest.js:658 viewfeed.js:442
 #, fuzzy
 msgid "Star article"
 msgstr "星级文章"
 
-#: digest.js:407 digest.js:686 viewfeed.js:475
+#: digest.js:410 digest.js:689 viewfeed.js:475
 #, fuzzy
 msgid "Unpublish article"
 msgstr "发布文章"
 
-#: digest.js:416
+#: digest.js:419
 #, fuzzy
 msgid "Click to expand article."
 msgstr "星级文章"
 
-#: digest.js:439
+#: digest.js:442
 #, fuzzy
 msgid "Click to expand article"
 msgstr "星级文章"
 
-#: digest.js:484
+#: digest.js:487
 msgid "%d more..."
 msgstr ""
 
-#: digest.js:491
+#: digest.js:494
 #, fuzzy
 msgid "No unread feeds."
 msgstr "&nbsp;&nbsp;(显示)隐藏已读feed"
 
-#: digest.js:591
+#: digest.js:594
 #, fuzzy
 msgid "Load more..."
 msgstr "读取帮助..."
@@ -2320,123 +2320,109 @@ msgstr ""
 msgid "Update feed"
 msgstr "星级文章"
 
-#: functions.js:615
+#: functions.js:613
 msgid "Date syntax appears to be correct."
 msgstr ""
 
-#: functions.js:621
+#: functions.js:616
 #, fuzzy
 msgid "Date syntax is incorrect."
 msgstr "原密码错误."
 
-#: functions.js:756
+#: functions.js:752
 #, fuzzy
 msgid "Remove stored feed icon?"
 msgstr "移除选定标记?"
 
-#: functions.js:788
+#: functions.js:784
 #, fuzzy
 msgid "Please select an image file to upload."
 msgstr "请只选择一个feed."
 
-#: functions.js:790
+#: functions.js:786
 msgid "Upload new icon for this feed?"
 msgstr ""
 
-#: functions.js:807
+#: functions.js:803
 #, fuzzy
 msgid "Please enter label caption:"
 msgstr "请输入标签主题"
 
-#: functions.js:812
+#: functions.js:808
 msgid "Can't create label: missing caption."
 msgstr "创建标签失败：缺少标题。"
 
-#: functions.js:854
+#: functions.js:850
 #, fuzzy
 msgid "Subscribe to Feed"
 msgstr "订阅feed"
 
-#: functions.js:862
+#: functions.js:858
 #, fuzzy
 msgid "Subscribing to feed..."
 msgstr "订阅feed"
 
-#: functions.js:871
-msgid "Server error while trying to subscribe to specified feed."
-msgstr ""
-
-#: functions.js:885
+#: functions.js:876
 #, fuzzy
 msgid "Subscribed to %s"
 msgstr "订阅feed:"
 
-#: functions.js:890
+#: functions.js:881
 msgid "Specified URL seems to be invalid."
 msgstr ""
 
-#: functions.js:893
+#: functions.js:884
 msgid "Specified URL doesn't seem to contain any feeds."
 msgstr ""
 
-#: functions.js:904
-#, fuzzy
-msgid "Server error while trying to query feed URLs."
-msgstr "解析文档时发生错误。"
-
-#: functions.js:934
+#: functions.js:920
 #, fuzzy
 msgid "Couldn't download the specified URL."
 msgstr "未能订阅：无 feed URL。"
 
-#: functions.js:937
+#: functions.js:923
 #, fuzzy
 msgid "You are already subscribed to this feed."
 msgstr "您不能从分类中取消订阅。"
 
-#: functions.js:966
+#: functions.js:952
 #, fuzzy
 msgid "Create Filter"
 msgstr "创建过滤器"
 
-#: functions.js:1019 tt-rss.js:408
+#: functions.js:1002 tt-rss.js:408
 msgid "Unsubscribe from %s?"
 msgstr "退订%s?"
 
-#: functions.js:1136
+#: functions.js:1119
 #, fuzzy
 msgid "Please enter category title:"
 msgstr "请输入标签主题"
 
-#: functions.js:1167
+#: functions.js:1150
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: functions.js:1352 tt-rss.js:387 tt-rss.js:849
+#: functions.js:1334 tt-rss.js:387 tt-rss.js:849
 msgid "You can't edit this kind of feed."
 msgstr "您不能编辑本分类feed"
 
-#: functions.js:1364
+#: functions.js:1346
 #, fuzzy
 msgid "Edit Feed"
 msgstr "输入feed"
 
-#: functions.js:1401
+#: functions.js:1383
 #, fuzzy
 msgid "More Feeds"
 msgstr "移除feed中..."
 
-#: functions.js:1438
-#, fuzzy
-msgid "Subscribed to %d feed(s)."
-msgstr "订阅feed:"
-
-#: functions.js:1446 prefs.js:416 prefs.js:446 prefs.js:478 prefs.js:664
-#: prefs.js:684 prefs.js:1363
+#: functions.js:1422 prefs.js:413 prefs.js:443 prefs.js:475 prefs.js:661
+#: prefs.js:681 prefs.js:1362
 msgid "No feeds are selected."
 msgstr "未选择feed."
 
-#: functions.js:1486
+#: functions.js:1464
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
@@ -2467,158 +2453,158 @@ msgstr "标题:"
 msgid "Remove filter %s?"
 msgstr "移除选定的过滤器？"
 
-#: prefs.js:297
+#: prefs.js:294
 msgid "Remove selected labels?"
 msgstr "移除选定标记?"
 
-#: prefs.js:313 prefs.js:1404
+#: prefs.js:310 prefs.js:1403
 msgid "No labels are selected."
 msgstr "未选定标记."
 
-#: prefs.js:327
+#: prefs.js:324
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
-#: prefs.js:344 prefs.js:554 prefs.js:575 prefs.js:614
+#: prefs.js:341 prefs.js:551 prefs.js:572 prefs.js:611
 msgid "No users are selected."
 msgstr "未选定用户."
 
-#: prefs.js:362
+#: prefs.js:359
 msgid "Remove selected filters?"
 msgstr "移除选定的过滤器？"
 
-#: prefs.js:378 prefs.js:644
+#: prefs.js:375 prefs.js:641
 msgid "No filters are selected."
 msgstr "未选定过滤器。"
 
-#: prefs.js:397
+#: prefs.js:394
 msgid "Unsubscribe from selected feeds?"
 msgstr "退订选定feed?"
 
-#: prefs.js:431
+#: prefs.js:428
 msgid "Please select only one feed."
 msgstr "请只选择一个feed."
 
-#: prefs.js:437
+#: prefs.js:434
 #, fuzzy
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "标记  %s 中所有访问过的主题为已读"
 
-#: prefs.js:459
+#: prefs.js:456
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr ""
 
-#: prefs.js:491 prefs.js:1436
+#: prefs.js:488 prefs.js:1435
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: prefs.js:507
+#: prefs.js:504
 #, fuzzy
 msgid "No profiles selected."
 msgstr "无选定文章。"
 
-#: prefs.js:525
+#: prefs.js:522
 msgid "Login field cannot be blank."
 msgstr "登陆框不能留空。"
 
-#: prefs.js:559 prefs.js:580 prefs.js:619
+#: prefs.js:556 prefs.js:577 prefs.js:616
 msgid "Please select only one user."
 msgstr "请只选择一个用户."
 
-#: prefs.js:584
+#: prefs.js:581
 msgid "Reset password of selected user?"
 msgstr "重置选定用户密码?"
 
-#: prefs.js:649
+#: prefs.js:646
 msgid "Please select only one filter."
 msgstr "请只选择一个过滤器."
 
-#: prefs.js:698
+#: prefs.js:695
 #, fuzzy
 msgid "Edit Multiple Feeds"
 msgstr "Feed编辑"
 
-#: prefs.js:722
+#: prefs.js:719
 #, fuzzy
 msgid "Save changes to selected feeds?"
 msgstr "无选定文章。"
 
-#: prefs.js:793
+#: prefs.js:790
 #, fuzzy
 msgid "OPML Import"
 msgstr "导入"
 
-#: prefs.js:812
+#: prefs.js:809
 #, fuzzy
 msgid "Please choose an OPML file first."
 msgstr "请先选择若干feed"
 
-#: prefs.js:956
+#: prefs.js:953
 msgid "Reset to defaults?"
 msgstr "重置默认项？"
 
-#: prefs.js:1173
+#: prefs.js:1170
 #, fuzzy
 msgid "Feed Categories"
 msgstr "分类:"
 
-#: prefs.js:1182
+#: prefs.js:1179
 msgid "Remove selected categories?"
 msgstr "移除选定分类?"
 
-#: prefs.js:1201
+#: prefs.js:1198
 msgid "No categories are selected."
 msgstr "未选定分类。"
 
-#: prefs.js:1240
+#: prefs.js:1237
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "使用新地址替换当前地址？"
 
-#: prefs.js:1347
+#: prefs.js:1346
 #, fuzzy
 msgid "Rescore articles in selected feeds?"
 msgstr "无选定文章。"
 
-#: prefs.js:1370
+#: prefs.js:1369
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 
-#: prefs.js:1390
+#: prefs.js:1389
 #, fuzzy
 msgid "Reset selected labels to default colors?"
 msgstr "重置默认项？"
 
-#: prefs.js:1427
+#: prefs.js:1426
 msgid "Settings Profiles"
 msgstr ""
 
-#: prefs.js:1454
+#: prefs.js:1453
 #, fuzzy
 msgid "No profiles are selected."
 msgstr "无选定文章。"
 
-#: prefs.js:1462 prefs.js:1515
+#: prefs.js:1461 prefs.js:1514
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "移除选定的过滤器？"
 
-#: prefs.js:1478 prefs.js:1531
+#: prefs.js:1477 prefs.js:1530
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: prefs.js:1539
+#: prefs.js:1538
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
-#: prefs.js:1640
+#: prefs.js:1639
 msgid "Label Editor"
 msgstr "标记编辑"
 
-#: prefs.js:1704
+#: prefs.js:1703
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
@@ -2652,7 +2638,7 @@ msgstr ""
 
 #: viewfeed.js:666 viewfeed.js:704 viewfeed.js:741 viewfeed.js:803
 #: viewfeed.js:835 viewfeed.js:951 viewfeed.js:995 viewfeed.js:1045
-#: viewfeed.js:1846
+#: viewfeed.js:1823
 msgid "No articles are selected."
 msgstr "无选定文章。"
 
@@ -2684,59 +2670,67 @@ msgstr ""
 msgid "Mark %d selected articles in %s as read?"
 msgstr "标记  %s 中所有所选Feed为已读..."
 
-#: viewfeed.js:1084
+#: viewfeed.js:1075
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "编辑标签"
 
-#: viewfeed.js:1518
+#: viewfeed.js:1507
 #, fuzzy
 msgid "No article is selected."
 msgstr "无选定文章。"
 
-#: viewfeed.js:1553
+#: viewfeed.js:1542
 #, fuzzy
 msgid "No articles found to mark"
 msgstr "未找到文章。"
 
-#: viewfeed.js:1555
+#: viewfeed.js:1544
 #, fuzzy
 msgid "Mark %d article(s) as read?"
 msgstr "标记  %s 中所有所选Feed为已读..."
 
-#: viewfeed.js:1644
+#: viewfeed.js:1633
 #, fuzzy
 msgid "Unable to load article."
 msgstr "错误：请上传OPML文件。"
 
-#: viewfeed.js:1705
+#: viewfeed.js:1694
 #, fuzzy
 msgid "Loading..."
 msgstr "读取中，请等待..."
 
-#: viewfeed.js:1829
+#: viewfeed.js:1806
 #, fuzzy
 msgid "Please enter a note for this article:"
 msgstr "请输入标签主题"
 
-#: viewfeed.js:1860
+#: viewfeed.js:1837
 msgid "Forward article by email"
 msgstr ""
 
-#: viewfeed.js:2244
+#: viewfeed.js:2223
 #, fuzzy
 msgid "View article"
 msgstr "过滤文章"
 
-#: viewfeed.js:2250
+#: viewfeed.js:2229
 #, fuzzy
 msgid "View in a new tab"
 msgstr "新窗口打开文章连结"
 
-#: viewfeed.js:2258
+#: viewfeed.js:2237
 #, fuzzy
 msgid "Open original article"
 msgstr "显示最近文章时间"
+
+#, fuzzy
+#~ msgid "Server error while trying to query feed URLs."
+#~ msgstr "解析文档时发生错误。"
+
+#, fuzzy
+#~ msgid "Subscribed to %d feed(s)."
+#~ msgstr "订阅feed:"
 
 #, fuzzy
 #~ msgid "Fatal Exception"

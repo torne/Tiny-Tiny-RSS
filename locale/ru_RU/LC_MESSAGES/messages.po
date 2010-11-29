@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-29 13:07+0300\n"
+"POT-Creation-Date: 2010-11-29 19:20+0300\n"
 "PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -125,11 +125,11 @@ msgstr "Канал не найден."
 
 #: backend.php:530 digest.php:61 prefs.php:64 tt-rss.php:58 tt-rss.php:110
 #: tt-rss.php:192 modules/pref-feeds.php:1217 modules/pref-filters.php:424
-#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1621
+#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1610
 msgid "Loading, please wait..."
 msgstr "Идет загрузка..."
 
-#: backend.php:543 login_form.php:142 modules/backend-rpc.php:62
+#: backend.php:543 login_form.php:142 modules/backend-rpc.php:66
 #: modules/popup-dialog.php:109
 #, fuzzy
 msgid "Default profile"
@@ -343,7 +343,7 @@ msgstr "Особые"
 
 #: functions.php:3020 functions.php:3641 prefs.php:109
 #: modules/pref-labels.php:89 help/4.php:12 mobile/functions.php:195
-#: viewfeed.js:2290
+#: viewfeed.js:2269
 msgid "Labels"
 msgstr "Метки"
 
@@ -411,7 +411,7 @@ msgid "Selection:"
 msgstr "Выбрано:"
 
 #: functions.php:4079 localized_schema.php:10 tt-rss.php:155 tt-rss.php:170
-#: digest.js:362 digest.js:433 digest.js:589
+#: digest.js:365 digest.js:436 digest.js:592
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
@@ -429,7 +429,7 @@ msgstr "Идти назад"
 msgid "Delete"
 msgstr "По умолчанию"
 
-#: functions.php:4089 functions.php:4631 functions.php:5248
+#: functions.php:4089 functions.php:4641 functions.php:5258
 msgid "Forward by email"
 msgstr ""
 
@@ -442,7 +442,7 @@ msgstr "Канал:"
 msgid "View as RSS"
 msgstr "Теги"
 
-#: functions.php:4107 functions.php:4683
+#: functions.php:4107 functions.php:4693
 #, fuzzy
 msgid "Visit the website"
 msgstr "Посетить официальный сайт"
@@ -452,43 +452,43 @@ msgstr "Посетить официальный сайт"
 msgid "View as RSS feed"
 msgstr "Каналы"
 
-#: functions.php:4583
+#: functions.php:4593
 msgid " - "
 msgstr " - "
 
-#: functions.php:4612 functions.php:5226
+#: functions.php:4622 functions.php:5236
 msgid "Edit tags for this article"
 msgstr "Редактировать теги статьи"
 
-#: functions.php:4618 functions.php:5235
+#: functions.php:4628 functions.php:5245
 #, fuzzy
 msgid "Open article in new tab"
 msgstr "Открыть статью в новом окне"
 
-#: functions.php:4625 functions.php:5242
+#: functions.php:4635 functions.php:5252
 msgid "Publish article with a note"
 msgstr "Опубликовать статью с заметкой"
 
-#: functions.php:4638 functions.php:5255 digest.js:432
+#: functions.php:4648 functions.php:5265 digest.js:435
 msgid "Share on Twitter"
 msgstr ""
 
-#: functions.php:4644
+#: functions.php:4654
 #, fuzzy
 msgid "Close this panel"
 msgstr "Закрыть это окно"
 
-#: functions.php:4661 functions.php:5157
+#: functions.php:4671 functions.php:5167
 msgid "Originally from:"
 msgstr ""
 
-#: functions.php:4674 functions.php:5170 modules/popup-dialog.php:251
+#: functions.php:4684 functions.php:5180 modules/popup-dialog.php:251
 #: modules/pref-feeds.php:289
 #, fuzzy
 msgid "Feed URL"
 msgstr "Канал"
 
-#: functions.php:4715 modules/help.php:21 modules/popup-dialog.php:53
+#: functions.php:4725 modules/help.php:21 modules/popup-dialog.php:53
 #: modules/popup-dialog.php:172 modules/popup-dialog.php:196
 #: modules/popup-dialog.php:234 modules/popup-dialog.php:563
 #: modules/popup-dialog.php:622 modules/popup-dialog.php:760
@@ -497,11 +497,11 @@ msgstr "Канал"
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
-#: functions.php:4768
+#: functions.php:4778
 msgid "Feed not found."
 msgstr "Канал не найден."
 
-#: functions.php:4837
+#: functions.php:4847
 msgid ""
 "Could not display feed (query failed). Please check label match syntax or "
 "local configuration."
@@ -509,28 +509,28 @@ msgstr ""
 "Не могу показать канал (ошибка в запросе). Пожалуйста проверьте синтаксис "
 "или локальную конфигурацию."
 
-#: functions.php:4992 functions.php:5073
+#: functions.php:5002 functions.php:5083
 msgid "mark as read"
 msgstr "Отметить как прочитанные"
 
-#: functions.php:5261
+#: functions.php:5271
 #, fuzzy
 msgid "Dismiss article"
 msgstr "Опубликовать"
 
-#: functions.php:5280
+#: functions.php:5290
 msgid "No unread articles found to display."
 msgstr "Не найдено не прочитанных статей"
 
-#: functions.php:5283
+#: functions.php:5293
 msgid "No updated articles found to display."
 msgstr "Не найдено не прочитанных статей."
 
-#: functions.php:5286
+#: functions.php:5296
 msgid "No starred articles found to display."
 msgstr "Не найдено отмеченных статей"
 
-#: functions.php:5290
+#: functions.php:5300
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -538,54 +538,54 @@ msgstr ""
 "Нет статей для показа. Вы можете присвоить метку вручную (смотрите выше меню "
 "Действия) или используйте фильтр."
 
-#: functions.php:5292
+#: functions.php:5302
 msgid "No articles found to display."
 msgstr "Статей не найдено."
 
-#: functions.php:5307 functions.php:6620
+#: functions.php:5317 functions.php:6630
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr ""
 
-#: functions.php:5317 functions.php:6630
+#: functions.php:5327 functions.php:6640
 msgid "Some feeds have update errors (click for details)"
 msgstr "Некоторые каналы не могут быть обновлены (щёлкните для подробностей)"
 
-#: functions.php:6123 tt-rss.php:175
+#: functions.php:6133 tt-rss.php:175
 msgid "Create label..."
 msgstr "Создать метку..."
 
-#: functions.php:6137
+#: functions.php:6147
 #, fuzzy
 msgid "Remove:"
 msgstr "Удалить"
 
-#: functions.php:6141
+#: functions.php:6151
 #, fuzzy
 msgid "Assign:"
 msgstr "Применить метку:"
 
-#: functions.php:6189
+#: functions.php:6199
 msgid "no tags"
 msgstr "нет тегов"
 
-#: functions.php:6218
+#: functions.php:6228
 msgid "edit note"
 msgstr "править заметку"
 
-#: functions.php:6610
+#: functions.php:6620
 msgid "No feed selected."
 msgstr "Канал не выбран."
 
-#: functions.php:6798
+#: functions.php:6808
 msgid "unknown type"
 msgstr "Неизвестный тип"
 
-#: functions.php:6838
+#: functions.php:6848
 msgid "Attachment:"
 msgstr "Вложение:"
 
-#: functions.php:6840
+#: functions.php:6850
 msgid "Attachments:"
 msgstr "Вложения:"
 
@@ -618,7 +618,7 @@ msgstr "Очистить статьи"
 msgid "Set starred"
 msgstr "Отметить"
 
-#: localized_schema.php:12 digest.js:409 digest.js:691 viewfeed.js:480
+#: localized_schema.php:12 digest.js:412 digest.js:694 viewfeed.js:480
 msgid "Publish article"
 msgstr "Опубликовать"
 
@@ -827,7 +827,7 @@ msgstr ""
 msgid "Sort headlines by feed date"
 msgstr "Сортировать каналы по количеству непрочитанных статей"
 
-#: localized_schema.php:57 prefs.js:1733
+#: localized_schema.php:57 prefs.js:1732
 #, fuzzy
 msgid "Customize stylesheet"
 msgstr "URL пользовательского файла стилей"
@@ -1076,21 +1076,21 @@ msgstr ""
 msgid "Register"
 msgstr "Зарегистрирован"
 
-#: modules/backend-rpc.php:930
+#: modules/backend-rpc.php:844
 #, fuzzy
 msgid "Your request could not be completed."
 msgstr "Не полностью заполнена ваша регистрационная информация."
 
-#: modules/backend-rpc.php:934
+#: modules/backend-rpc.php:848
 msgid "Feed update has been scheduled."
 msgstr ""
 
-#: modules/backend-rpc.php:942
+#: modules/backend-rpc.php:856
 #, fuzzy
 msgid "Category update has been scheduled."
 msgstr "Пароль был изменен."
 
-#: modules/backend-rpc.php:955
+#: modules/backend-rpc.php:869
 #, fuzzy
 msgid "Can't update this kind of feed."
 msgstr "Вы не можете редактировать этот канал."
@@ -1328,7 +1328,7 @@ msgstr "Проверить"
 msgid "on field"
 msgstr "по полю:"
 
-#: modules/popup-dialog.php:479 modules/pref-filters.php:173 digest.js:389
+#: modules/popup-dialog.php:479 modules/pref-filters.php:173 digest.js:392
 msgid "in"
 msgstr "в"
 
@@ -1716,12 +1716,12 @@ msgstr ""
 msgid "Clear stored credentials"
 msgstr "Очистить данные канала."
 
-#: modules/pref-feeds.php:1465
+#: modules/pref-feeds.php:1466
 #, fuzzy, php-format
 msgid "%d archived articles"
 msgstr "Отмеченные"
 
-#: modules/pref-feeds.php:1494
+#: modules/pref-feeds.php:1495
 msgid "No feeds found."
 msgstr "Каналы не найдены."
 
@@ -2246,42 +2246,42 @@ msgstr "Отметить все статьи в %s как прочитанные
 msgid "Mark %d displayed articles as read?"
 msgstr "Отметить %d статью(ей) как прочитанные?"
 
-#: digest.js:155
+#: digest.js:158
 #, fuzzy
 msgid "Error: unable to load article."
 msgstr "Ошибка: пожалуйста загрузите OPML файл."
 
-#: digest.js:402 digest.js:651 viewfeed.js:437
+#: digest.js:405 digest.js:654 viewfeed.js:437
 msgid "Unstar article"
 msgstr "Не отмеченные"
 
-#: digest.js:404 digest.js:655 viewfeed.js:442
+#: digest.js:407 digest.js:658 viewfeed.js:442
 msgid "Star article"
 msgstr "Отмеченные"
 
-#: digest.js:407 digest.js:686 viewfeed.js:475
+#: digest.js:410 digest.js:689 viewfeed.js:475
 msgid "Unpublish article"
 msgstr "Не публиковать"
 
-#: digest.js:416
+#: digest.js:419
 #, fuzzy
 msgid "Click to expand article."
 msgstr "Щёлкните чтобы развернуть статью"
 
-#: digest.js:439
+#: digest.js:442
 msgid "Click to expand article"
 msgstr "Щёлкните чтобы развернуть статью"
 
-#: digest.js:484
+#: digest.js:487
 msgid "%d more..."
 msgstr ""
 
-#: digest.js:491
+#: digest.js:494
 #, fuzzy
 msgid "No unread feeds."
 msgstr "&nbsp;&nbsp;Показать/скрыть прочитанные"
 
-#: digest.js:591
+#: digest.js:594
 #, fuzzy
 msgid "Load more..."
 msgstr "Идет загрузка помощи..."
@@ -2295,119 +2295,105 @@ msgstr ""
 msgid "Update feed"
 msgstr "Обновить все каналы"
 
-#: functions.js:615
+#: functions.js:613
 msgid "Date syntax appears to be correct."
 msgstr ""
 
-#: functions.js:621
+#: functions.js:616
 #, fuzzy
 msgid "Date syntax is incorrect."
 msgstr "Старый пароль неправилен."
 
-#: functions.js:756
+#: functions.js:752
 #, fuzzy
 msgid "Remove stored feed icon?"
 msgstr "Удалить сохранённые данные"
 
-#: functions.js:788
+#: functions.js:784
 #, fuzzy
 msgid "Please select an image file to upload."
 msgstr "Пожалуйста выберите только один канал."
 
-#: functions.js:790
+#: functions.js:786
 msgid "Upload new icon for this feed?"
 msgstr ""
 
-#: functions.js:807
+#: functions.js:803
 msgid "Please enter label caption:"
 msgstr "Пожалуйста, введите заголовок метки:"
 
-#: functions.js:812
+#: functions.js:808
 msgid "Can't create label: missing caption."
 msgstr "Не могу создать метку: отсутствует заголовок."
 
-#: functions.js:854
+#: functions.js:850
 msgid "Subscribe to Feed"
 msgstr "Подписаться на канал"
 
-#: functions.js:862
+#: functions.js:858
 msgid "Subscribing to feed..."
 msgstr "Подписаться на канал..."
 
-#: functions.js:871
-msgid "Server error while trying to subscribe to specified feed."
-msgstr ""
-
-#: functions.js:885
+#: functions.js:876
 #, fuzzy
 msgid "Subscribed to %s"
 msgstr "Подписаны каналы:"
 
-#: functions.js:890
+#: functions.js:881
 msgid "Specified URL seems to be invalid."
 msgstr ""
 
-#: functions.js:893
+#: functions.js:884
 msgid "Specified URL doesn't seem to contain any feeds."
 msgstr ""
 
-#: functions.js:904
-#, fuzzy
-msgid "Server error while trying to query feed URLs."
-msgstr "Ошибка при попытке загрузить больше заголовков"
-
-#: functions.js:934
+#: functions.js:920
 #, fuzzy
 msgid "Couldn't download the specified URL."
 msgstr "Не могу подписаться: нет URL"
 
-#: functions.js:937
+#: functions.js:923
 #, fuzzy
 msgid "You are already subscribed to this feed."
 msgstr "Нельзя отписаться от категории."
 
-#: functions.js:966
+#: functions.js:952
 msgid "Create Filter"
 msgstr "Создать фильтр"
 
-#: functions.js:1019 tt-rss.js:408
+#: functions.js:1002 tt-rss.js:408
 msgid "Unsubscribe from %s?"
 msgstr "Отписаться от %s?"
 
-#: functions.js:1136
+#: functions.js:1119
 #, fuzzy
 msgid "Please enter category title:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
 
-#: functions.js:1167
+#: functions.js:1150
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: functions.js:1352 tt-rss.js:387 tt-rss.js:849
+#: functions.js:1334 tt-rss.js:387 tt-rss.js:849
 msgid "You can't edit this kind of feed."
 msgstr "Вы не можете редактировать этот канал."
 
-#: functions.js:1364
+#: functions.js:1346
 #, fuzzy
 msgid "Edit Feed"
 msgstr "Редактировать канал"
 
-#: functions.js:1401
+#: functions.js:1383
 #, fuzzy
 msgid "More Feeds"
 msgstr "Больше каналов"
 
-#: functions.js:1438
-#, fuzzy
-msgid "Subscribed to %d feed(s)."
-msgstr "Подписаны каналы:"
-
-#: functions.js:1446 prefs.js:416 prefs.js:446 prefs.js:478 prefs.js:664
-#: prefs.js:684 prefs.js:1363
+#: functions.js:1422 prefs.js:413 prefs.js:443 prefs.js:475 prefs.js:661
+#: prefs.js:681 prefs.js:1362
 msgid "No feeds are selected."
 msgstr "Нет выбранных каналов."
 
-#: functions.js:1486
+#: functions.js:1464
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
@@ -2435,156 +2421,156 @@ msgstr "Фильтры"
 msgid "Remove filter %s?"
 msgstr "Удалить фильтр %s?"
 
-#: prefs.js:297
+#: prefs.js:294
 msgid "Remove selected labels?"
 msgstr "Удалить выбранные метки?"
 
-#: prefs.js:313 prefs.js:1404
+#: prefs.js:310 prefs.js:1403
 msgid "No labels are selected."
 msgstr "Нет выбранных меток."
 
-#: prefs.js:327
+#: prefs.js:324
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
-#: prefs.js:344 prefs.js:554 prefs.js:575 prefs.js:614
+#: prefs.js:341 prefs.js:551 prefs.js:572 prefs.js:611
 msgid "No users are selected."
 msgstr "Нет выбранных пользователей."
 
-#: prefs.js:362
+#: prefs.js:359
 msgid "Remove selected filters?"
 msgstr "Удалить выбранные фильтры?"
 
-#: prefs.js:378 prefs.js:644
+#: prefs.js:375 prefs.js:641
 msgid "No filters are selected."
 msgstr "Нет выбранных фильтров."
 
-#: prefs.js:397
+#: prefs.js:394
 msgid "Unsubscribe from selected feeds?"
 msgstr "Отписаться от выбранных каналов?"
 
-#: prefs.js:431
+#: prefs.js:428
 msgid "Please select only one feed."
 msgstr "Пожалуйста выберите только один канал."
 
-#: prefs.js:437
+#: prefs.js:434
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Стереть все не отмеченные статьи в выбранном канале?"
 
-#: prefs.js:459
+#: prefs.js:456
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Сколько дней хранить статьи (0 - по умолчанию)?"
 
-#: prefs.js:491 prefs.js:1436
+#: prefs.js:488 prefs.js:1435
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: prefs.js:507
+#: prefs.js:504
 #, fuzzy
 msgid "No profiles selected."
 msgstr "Статья не выбрана"
 
-#: prefs.js:525
+#: prefs.js:522
 msgid "Login field cannot be blank."
 msgstr "Поле логина не может быть пустым."
 
-#: prefs.js:559 prefs.js:580 prefs.js:619
+#: prefs.js:556 prefs.js:577 prefs.js:616
 msgid "Please select only one user."
 msgstr "Пожалуйста выберите только одного пользователя."
 
-#: prefs.js:584
+#: prefs.js:581
 msgid "Reset password of selected user?"
 msgstr "Сбросить пароль выбранного пользователя?"
 
-#: prefs.js:649
+#: prefs.js:646
 msgid "Please select only one filter."
 msgstr "Пожалуйста выберите только один фильтр."
 
-#: prefs.js:698
+#: prefs.js:695
 #, fuzzy
 msgid "Edit Multiple Feeds"
 msgstr "Редактор канала"
 
-#: prefs.js:722
+#: prefs.js:719
 msgid "Save changes to selected feeds?"
 msgstr "Сохранить изменения выбранных каналов?"
 
-#: prefs.js:793
+#: prefs.js:790
 #, fuzzy
 msgid "OPML Import"
 msgstr "Импортировать"
 
-#: prefs.js:812
+#: prefs.js:809
 #, fuzzy
 msgid "Please choose an OPML file first."
 msgstr "Пожалуйста выберите какой-нибудь канал."
 
-#: prefs.js:956
+#: prefs.js:953
 msgid "Reset to defaults?"
 msgstr "Сбросить настройки?"
 
-#: prefs.js:1173
+#: prefs.js:1170
 #, fuzzy
 msgid "Feed Categories"
 msgstr "Категория:"
 
-#: prefs.js:1182
+#: prefs.js:1179
 msgid "Remove selected categories?"
 msgstr "Удалить выбранные категории?"
 
-#: prefs.js:1201
+#: prefs.js:1198
 msgid "No categories are selected."
 msgstr "Нет выбранных категорий."
 
-#: prefs.js:1240
+#: prefs.js:1237
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Изменить текущий адрес публикации на новый?"
 
-#: prefs.js:1347
+#: prefs.js:1346
 msgid "Rescore articles in selected feeds?"
 msgstr "Заново оценить статьи в выбранных каналах?"
 
-#: prefs.js:1370
+#: prefs.js:1369
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Оценить заново все статьи? Эта операция может продолжаться длительное время."
 
-#: prefs.js:1390
+#: prefs.js:1389
 #, fuzzy
 msgid "Reset selected labels to default colors?"
 msgstr "Сбросить метку цветов, на цвета по умолчанию?"
 
-#: prefs.js:1427
+#: prefs.js:1426
 msgid "Settings Profiles"
 msgstr ""
 
-#: prefs.js:1454
+#: prefs.js:1453
 #, fuzzy
 msgid "No profiles are selected."
 msgstr "Статья не выбрана"
 
-#: prefs.js:1462 prefs.js:1515
+#: prefs.js:1461 prefs.js:1514
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "Удалить выбранные фильтры?"
 
-#: prefs.js:1478 prefs.js:1531
+#: prefs.js:1477 prefs.js:1530
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: prefs.js:1539
+#: prefs.js:1538
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
-#: prefs.js:1640
+#: prefs.js:1639
 msgid "Label Editor"
 msgstr "Редактор Меток"
 
-#: prefs.js:1704
+#: prefs.js:1703
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
@@ -2616,7 +2602,7 @@ msgstr "Доступная новая версия Tiny Tiny RSS!"
 
 #: viewfeed.js:666 viewfeed.js:704 viewfeed.js:741 viewfeed.js:803
 #: viewfeed.js:835 viewfeed.js:951 viewfeed.js:995 viewfeed.js:1045
-#: viewfeed.js:1846
+#: viewfeed.js:1823
 msgid "No articles are selected."
 msgstr "Нет выбранных статей."
 
@@ -2647,55 +2633,63 @@ msgstr ""
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Отметить %d выбранные статьи в %s как прочитанные?"
 
-#: viewfeed.js:1084
+#: viewfeed.js:1075
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Редактировать теги"
 
-#: viewfeed.js:1518
+#: viewfeed.js:1507
 msgid "No article is selected."
 msgstr "Статья не выбрана"
 
-#: viewfeed.js:1553
+#: viewfeed.js:1542
 msgid "No articles found to mark"
 msgstr "Статей для отметки не найдено."
 
-#: viewfeed.js:1555
+#: viewfeed.js:1544
 msgid "Mark %d article(s) as read?"
 msgstr "Отметить %d статью(ей) как прочитанные?"
 
-#: viewfeed.js:1644
+#: viewfeed.js:1633
 #, fuzzy
 msgid "Unable to load article."
 msgstr "Ошибка: пожалуйста загрузите OPML файл."
 
-#: viewfeed.js:1705
+#: viewfeed.js:1694
 #, fuzzy
 msgid "Loading..."
 msgstr "Загрузка списка каналов..."
 
-#: viewfeed.js:1829
+#: viewfeed.js:1806
 msgid "Please enter a note for this article:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
 
-#: viewfeed.js:1860
+#: viewfeed.js:1837
 msgid "Forward article by email"
 msgstr ""
 
-#: viewfeed.js:2244
+#: viewfeed.js:2223
 #, fuzzy
 msgid "View article"
 msgstr "Отфильтровать статью"
 
-#: viewfeed.js:2250
+#: viewfeed.js:2229
 #, fuzzy
 msgid "View in a new tab"
 msgstr "Открыть статью в новом окне"
 
-#: viewfeed.js:2258
+#: viewfeed.js:2237
 #, fuzzy
 msgid "Open original article"
 msgstr "Показать оригинальное содержимое статьи"
+
+#, fuzzy
+#~ msgid "Server error while trying to query feed URLs."
+#~ msgstr "Ошибка при попытке загрузить больше заголовков"
+
+#, fuzzy
+#~ msgid "Subscribed to %d feed(s)."
+#~ msgstr "Подписаны каналы:"
 
 #, fuzzy
 #~ msgid "Fatal Exception"
