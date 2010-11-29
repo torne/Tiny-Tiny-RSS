@@ -206,15 +206,12 @@ function editFilter(id) {
 					new Ajax.Request("backend.php",	{
 						parameters: query,
 						onComplete: function(transport) {
-							handle_rpc_reply(transport);
-							var response = transport.responseXML;
+							var reply = JSON.parse(transport.responseText);
 
-							if (response) {
-								var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
-	
+							if (reply) {
 								notify('');
 
-								if (s == "INVALID") {
+								if (!reply['status']) {
 									alert("Match regular expression seems to be invalid.");
 									return;
 								} else {
@@ -1248,13 +1245,15 @@ function opmlRegenKey() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-						var new_link = transport.responseXML.getElementsByTagName("link")[0];
+						var reply = JSON.parse(transport.responseText);
+
+						var new_link = reply.link;
 	
 						var e = $('pub_opml_url');
 	
 						if (new_link) {
-							e.href = new_link.firstChild.nodeValue;
-							e.innerHTML = new_link.firstChild.nodeValue;
+							e.href = new_link;
+							e.innerHTML = new_link;
 	
 							new Effect.Highlight(e);
 

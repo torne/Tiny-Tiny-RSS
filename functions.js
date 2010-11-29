@@ -962,15 +962,12 @@ function quickAddFilter() {
 					new Ajax.Request("backend.php",	{
 						parameters: query,
 						onComplete: function(transport) {
-							handle_rpc_reply(transport);
-							var response = transport.responseXML;
+							var reply = JSON.parse(transport.responseText);	
 
-							if (response) {
-								var s = response.getElementsByTagName("status")[0].firstChild.nodeValue;
-	
+							if (reply) {
 								notify('');
 
-								if (s == "INVALID") {
+								if (!reply['status']) {
 									alert("Match regular expression seems to be invalid.");
 									return;
 								} else {
@@ -1162,14 +1159,13 @@ function genUrlChangeKey(feed, is_cat) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-						var new_link = transport.responseXML.getElementsByTagName("link")[0];
+						var reply = JSON.parse(transport.responseText);
+						var new_link = reply.link;
 	
 						var e = $('gen_feed_url');
 	
 						if (new_link) {
 							
-							new_link = new_link.firstChild.nodeValue;
-
 							e.innerHTML = e.innerHTML.replace(/\&amp;key=.*$/, 
 								"&amp;key=" + new_link);
 

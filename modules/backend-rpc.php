@@ -4,6 +4,7 @@
 		$subop = $_REQUEST["subop"];
 		$seq = (int) $_REQUEST["seq"];
 
+		// Silent
 		if ($subop == "setprofile") {
 			$id = db_escape_string($_REQUEST["id"]);
 
@@ -12,6 +13,7 @@
 			return;
 		}
 
+		// Silent
 		if ($subop == "remprofiles") {
 			$ids = split(",", db_escape_string(trim($_REQUEST["ids"])));
 
@@ -24,6 +26,7 @@
 			return;
 		}
 
+		// Silent
 		if ($subop == "addprofile") {
 			$title = db_escape_string(trim($_REQUEST["title"]));
 			if ($title) {
@@ -54,6 +57,7 @@
 			return;
 		}
 
+		// Silent
 		if ($subop == "saveprofile") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$title = db_escape_string(trim($_REQUEST["value"]));
@@ -85,6 +89,7 @@
 			return;
 		}
 
+		// Silent
 		if ($subop == "remarchive") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -96,7 +101,6 @@
 
 				$rc = db_affected_rows($link, $result);
 			}
-
 			return;
 		}
 
@@ -159,8 +163,6 @@
 			} else {
 				$mark = "false";
 			}
-
-			// FIXME this needs collision testing
 
 			$result = db_query($link, "UPDATE ttrss_user_entries SET marked = $mark
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
@@ -417,17 +419,15 @@
 			return;
 		}
 
-		// XML method
 		if ($subop == "regenOPMLKey") {
-
-			print "<rpc-reply>";
+			header("Content-Type: text/plain");
 
 			update_feed_access_key($link, 'OPML:Publish', 
 				false, $_SESSION["uid"]);
 
 			$new_link = opml_publish_url($link);		
-			print "<link><![CDATA[$new_link]]></link>";
-			print "</rpc-reply>";
+
+			print json_encode(array("link" => $new_link));
 			return;
 		}
 
@@ -563,6 +563,7 @@
 			return;
 		}
 
+		// Silent
 		if ($subop == "massSubscribe") {
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
@@ -774,22 +775,19 @@
 			return;
 		}
 
-		// XML method
 		if ($subop == "regenFeedKey") {
+			header("Content-Type: text/plain");
+
 			$feed_id = db_escape_string($_REQUEST['id']);
 			$is_cat = (bool) db_escape_string($_REQUEST['is_cat']);
 
-			print "<rpc-reply>";
-
 			$new_key = update_feed_access_key($link, $feed_id, $is_cat);
 
-			print "<link><![CDATA[$new_key]]></link>";
-
-			print "</rpc-reply>";
-
+			print json_encode(array("link" => $new_key));
 			return;
 		}
 
+		// Silent
 		if ($subop == "clearKeys") {
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				owner_uid = " . $_SESSION["uid"]);
@@ -797,20 +795,14 @@
 			return;
 		}
 
-		// XML method
 		if ($subop == "verifyRegexp") {
+			header("Content-Type: text/plain");
+
 			$reg_exp = $_REQUEST["reg_exp"];
 
-			print "<rpc-reply><status>";
+			$status = @preg_match("/$reg_exp/i", "TEST") !== false;
 
-			if (@preg_match("/$reg_exp/i", "TEST") === false) {
-				print "INVALID";
-			} else {
-				print "OK";
-			}
-
-			print "</status></rpc-reply>";
-
+			print json_encode(array("status" => $status));
 			return;
 		}
 
