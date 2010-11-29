@@ -549,9 +549,11 @@ function collapse_feedlist() {
 
 		if (!Element.visible('feeds-holder')) {
 			Element.show('feeds-holder');
+			Element.show('feeds-holder_splitter');
 			$("collapse_feeds_btn").innerHTML = "&lt;&lt;";
 		} else {
 			Element.hide('feeds-holder');
+			Element.hide('feeds-holder_splitter');
 			$("collapse_feeds_btn").innerHTML = "&gt;&gt;";
 		}
 
