@@ -1842,11 +1842,13 @@ function emailArticle(id) {
 					new Ajax.Request("backend.php", {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) { 
+
+							var reply = JSON.parse(transport.responseText);
 		
-							var error = transport.responseXML.getElementsByTagName('error')[0];
+							var error = reply['error'];
 			
 							if (error) {
-								alert(__('Error sending email:') + ' ' + error.firstChild.nodeValue);
+								alert(__('Error sending email:') + ' ' + error);
 							} else {
 								notify_info('Your message has been sent.');
 								dialog.hide();

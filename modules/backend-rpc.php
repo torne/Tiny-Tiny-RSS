@@ -668,23 +668,20 @@
 		}
 
 		if ($subop == "catchupFeed") {
-
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$is_cat = db_escape_string($_REQUEST['is_cat']);
 
-			print "<rpc-reply>";
-
 			catchup_feed($link, $feed_id, $is_cat);
-
-			print "</rpc-reply>";
 
 			return;
 		}
 
 		if ($subop == "sendEmail") {
+			header("Content-Type: text/plain");
+
 			$secretkey = $_REQUEST['secretkey'];
 
-			print "<rpc-reply>";
+			$reply = array();
 
 			if (DIGEST_ENABLE && $_SESSION['email_secretkey'] && 
 						$secretkey == $_SESSION['email_secretkey']) {
@@ -724,18 +721,17 @@
 				$rc = $mail->Send();
 
 				if (!$rc) {
-					print "<error><![CDATA[" . $mail->ErrorInfo . "]]></error>";
+					$reply['error'] =  $mail->ErrorInfo;
 				} else {
 					save_email_address($link, db_escape_string($destination));
-					print "<message>UPDATE_COUNTERS</message>";
+					$reply['message'] = "UPDATE_COUNTERS";
 				}
 
 			} else {
-				print "<error>Not authorized.</error>";
+				$reply['error'] = "Not authorized.";
 			}
 
-			print "</rpc-reply>";
-
+			print json_encode($reply);
 			return;
 		}
 
