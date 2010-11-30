@@ -318,8 +318,10 @@ function init() {
 
 		loading_set_progress(20);
 
+		var hasAudio = !!((myAudioTag = document.createElement('audio')).canPlayType);
+
 		new Ajax.Request("backend.php",	{
-			parameters: {op: "rpc", subop: "sanityCheck"},
+			parameters: {op: "rpc", subop: "sanityCheck", hasAudio: hasAudio},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });

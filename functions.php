@@ -4463,13 +4463,37 @@
 
 		$entry = "";
 
-		if ($ctype == "audio/mpeg") {  
-                     
-			$entry .= "<object type=\"application/x-shockwave-flash\" 
-				data=\"extras/button/musicplayer.swf?song_url=$url\" 
-				width=\"17\" height=\"17\" style='float : left; margin-right : 5px;'> 
-					<param name=\"movie\" value=\"extras/button/musicplayer.swf?song_url=$url\" /> </object>";  
+		if (strpos($ctype, "audio/") === 0) {  
+
+			if ($_SESSION["hasAudio"] && (strpos($ctype, "ogg") !== false ||
+				strpos($_SERVER['HTTP_USER_AGENT'], "Chrome") !== false ||  
+				strpos($_SERVER['HTTP_USER_AGENT'], "Safari") !== false )) {
+
+				$id = 'AUDIO-' . uniqid();
+
+				$entry .= "<audio id=\"$id\"\">
+					<source src=\"$url\"></source>
+					</audio>";	
+
+				$entry .= "<span onclick=\"player(this)\" 
+					title=\"".__("Click to play")."\" status=\"0\"
+					class=\"player\" audio-id=\"$id\">".__("Play")."</span>";
+
+			} else {
+                    
+				$entry .= "<object type=\"application/x-shockwave-flash\" 
+					data=\"extras/button/musicplayer.swf?song_url=$url\" 
+					width=\"17\" height=\"17\" style='float : left; margin-right : 5px;'> 
+					<param name=\"movie\" 
+						value=\"extras/button/musicplayer.swf?song_url=$url\" />
+					</object>";  
+			}
 		}
+
+		$filename = substr($url, strrpos($url, "/")+1);
+
+		$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+			$filename . " (" . $ctype . ")" . "</a>";
 
 		return $entry;
 	}
@@ -6792,12 +6816,12 @@
 	
 				if (!$ctype) $ctype = __("unknown type");
 	
-				$filename = substr($url, strrpos($url, "/")+1);
+#				$filename = substr($url, strrpos($url, "/")+1);
 	
 				$entry = format_inline_player($link, $url, $ctype);
 	
-				$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-					$filename . " (" . $ctype . ")" . "</a>";
+#				$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
+#					$filename . " (" . $ctype . ")" . "</a>";
 	
 				array_push($entries_html, $entry);
 	

@@ -307,6 +307,9 @@
 
 		// XML method
 		if ($subop == "sanityCheck") {
+
+			$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
+
 			print "<rpc-reply>";
 			if (sanity_check($link)) {
 				print "<error error-code=\"0\"/>";

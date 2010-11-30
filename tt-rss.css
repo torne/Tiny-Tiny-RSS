@@ -1652,4 +1652,25 @@ a.bookmarklet {
 	top : -1px;
 }
 
+.player {
+	display : inline-block;
+	color : gray;
+	font-size : 11px;
+	font-family : sans-serif;
+	border : 1px solid gray;
+	padding : 0px 4px 0px 4px;
+	margin : 0px 2px 0px 2px;
+	width : 50px;
+	text-align : center;
+	background : white;
+}
+.player.playing {
+	color : #00c000;
+	border-color : #00c000;
+}
+
+.player:hover {
+	background : #f0f0f0;
+	cursor : pointer;
+}
 
