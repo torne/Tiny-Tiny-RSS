@@ -3669,7 +3669,8 @@
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
 
-		$res = rewrite_urls($res);
+		if (strpos($res, "href=") === false)
+			$res = rewrite_urls($res);
 
 		$charset_hack = '<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
