@@ -127,7 +127,7 @@
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
 			onchange="viewModeChanged()"
-			dojoType="dijit.form.Select" style="width : 100px">
+			dojoType="dijit.form.Select">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
 			<option value="marked"><?php echo __('Starred') ?></option>
@@ -139,7 +139,7 @@
 
 		<select title="<?php echo __('Sort articles') ?>"
 			onchange="viewModeChanged()" 
-			dojoType="dijit.form.Select" name="order_by" style="width : 100px">
+			dojoType="dijit.form.Select" name="order_by">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date"><?php echo __('Date') ?></option>
 			<option value="title"><?php echo __('Title') ?></option>
