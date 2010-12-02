@@ -63,21 +63,9 @@
 	</div>
 </div> 
 
-<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
-	<?php rounded_table_start("hho"); ?>
-	<?php include "help/3.php" ?>
-	<?php rounded_table_end(); ?>
-</div>
-
-<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
-<div id="cmdline" style="display : none"></div>
-<div id="auxDlg" style="display : none"></div>
-<div id="headlines-tmp" style="display : none"></div>
-
-<div id="main" dojoType="dijit.layout.BorderContainer">
-
-<div id="header" dojoType="dijit.layout.ContentPane" region="top">
-	<div class="topLinks" id="topLinks">
+<div id="header">
+	<img class="logo" src="<?php echo theme_image($link, 'images/logo.png') ?>" 
+		onclick="window.open('http://tt-rss.org')" title="Tiny Tiny RSS"/>
 
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
@@ -93,16 +81,25 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
-	<img id="newVersionIcon" style="display:none;" onclick="newVersionDlg()" 
+	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()" 
 		width="13" height="13" 
 		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
 		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
 		alt="new_version_icon"/>
-
-	</div>
-
-	<img src="<?php echo theme_image($link, 'images/ttrss_logo.png') ?>" alt="Tiny Tiny RSS"/>	
 </div>
+
+<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)">
+	<?php rounded_table_start("hho"); ?>
+	<?php include "help/3.php" ?>
+	<?php rounded_table_end(); ?>
+</div>
+
+<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+<div id="cmdline" style="display : none"></div>
+<div id="auxDlg" style="display : none"></div>
+<div id="headlines-tmp" style="display : none"></div>
+
+<div id="main" dojoType="dijit.layout.BorderContainer">
 
 <div id="feeds-holder" dojoType="dijit.layout.ContentPane" region="leading" style="width : 20%" splitter="true">
 	<div id="feedlistLoading">
@@ -111,9 +108,12 @@
 	<div id="feedTree"></div>
 </div>
 
+<div dojoType="dijit.layout.BorderContainer" region="center" id="header-wrap" gutters="false">
+<div dojoType="dijit.layout.ContentPane" region="top">
+</div>
 <div dojoType="dijit.layout.TabContainer" region="center" id="content-tabs">
 <div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap"
-	title="News">
+	title="<?php echo __("News") ?>">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 	<div id="main-toolbar" dojoType="dijit.Toolbar">		
@@ -199,6 +199,7 @@
 		<?php } ?>
 
 	</div>
+</div>
 </div>
 </div>
 

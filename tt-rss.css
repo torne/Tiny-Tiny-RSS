@@ -1043,7 +1043,21 @@ div.return a:hover {
 	overflow : auto;
 } */
 
-div.topLinks img {
+#header .logo {
+	float : right;
+	margin-left : 10px;
+	border : 1px solid #88b0f0;
+}
+
+#header a {
+	color : #4684ff;	
+}
+
+#header a:hover {
+	color : black;
+}
+
+#header img {
 	vertical-align : middle;
 	cursor : pointer;
 }
@@ -1089,6 +1103,7 @@ div.autocomplete ul li {
 	float : right;
 }
 
+/*
 div.topLinks {
 	float : right;
 	color : gray;
@@ -1102,9 +1117,9 @@ div.topLinks a {
 
 div.topLinks a:hover {
 	color : black;
-}
+} */
 
-div.topLinks a.feedback {
+#header a.feedback {
 	color : #009900;
 }
 
@@ -1489,6 +1504,12 @@ div.fatalError textarea {
 	padding : 0px;
 }
 
+#header-wrap {
+	border-width : 0px;
+	margin : 0px;
+	padding : 0px;
+}
+
 #content-wrap {
 	padding : 0px;
 	border-width : 0px;
@@ -1500,6 +1521,7 @@ div.fatalError textarea {
 	border-color : #88b0f0;
 	border-left-width : 0px;
 	border-bottom-width : 0px;
+	border-top-width : 0px;
 }
 
 #headlines-wrap-inner {
@@ -1541,8 +1563,15 @@ div.fatalError textarea {
 }
 
 #header {
-	padding : 4px 8px 0px 8px;
 	border-width : 0px;
+	text-align : right;
+	color : gray;
+	padding : 5px 5px 0px 0px;
+	margin : 0px;
+	position : absolute;
+	right : 0px;
+	top : 0px;
+	z-index : 5;
 }
 
 #footer {
