@@ -80,18 +80,16 @@
 <div id="main" dojoType="dijit.layout.BorderContainer">
 
 <div id="header" dojoType="dijit.layout.ContentPane" region="top">
-	<div class="topLinks">
-		<?php if (!SINGLE_USER_MODE) { ?>
-			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
-		<?php } ?>
-		<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a> | 
-		<a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})"><?php echo __("Keyboard shortcuts") ?></a>
-		<?php if (!SINGLE_USER_MODE) { ?>
-			| <a href="logout.php"><?php echo __('Logout') ?></a>
-		<?php } ?>
+	<img style="float : left" src="<?php echo theme_image($link, 'images/logo_wide.png') ?>" title="Tiny Tiny RSS"/>	
 
-	</div>
-	<img src="<?php echo theme_image($link, 'images/ttrss_logo.png') ?>" alt="Tiny Tiny RSS"/>	
+	<?php if (!SINGLE_USER_MODE) { ?>
+		<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
+	<?php } ?>
+	<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a> | 
+	<a href='#' onclick="Effect.Appear('hotkey_help_overlay', {duration: 0.3})"><?php echo __("Keyboard shortcuts") ?></a>
+	<?php if (!SINGLE_USER_MODE) { ?>
+		| <a href="logout.php"><?php echo __('Logout') ?></a>
+	<?php } ?>
 </div>
 
 <div dojoType="dijit.layout.TabContainer" region="center" id="pref-tabs">

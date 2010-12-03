@@ -108,7 +108,7 @@ function validateLoginForm(f) {
 <table width="100%" class="loginForm2">
 <tr>
 	<td class="loginTop" valign="bottom" align="left">
-		<img src="images/ttrss_logo_big.png" alt="Logo">
+		<img src="images/logo_wide.png">
 	</td>
 </tr><tr>
 	<td align="center" valign="middle" class="loginMiddle" height="100%">
