@@ -366,7 +366,7 @@
 
 			print "<div class=\"dlgSecCont\">";
 
-			if (!SPHINX_ENABLE) {
+			if (!SPHINX_ENABLED) {
 
 				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
 					style=\"font-size : 16px; width : 12em;\"
