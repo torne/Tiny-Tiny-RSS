@@ -126,7 +126,7 @@
 
 	$config = HTMLPurifier_Config::createDefault();
 
-	$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4";
+	$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4,s";
 
 	$config->set('HTML', 'Allowed', $allowed);
 	$purifier = new HTMLPurifier($config);
