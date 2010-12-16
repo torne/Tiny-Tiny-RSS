@@ -326,7 +326,7 @@
 
 		case "catchupFeed":
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
-			$is_cat = db_escape_string($_REQUEST["category"]);
+			$is_cat = db_escape_string($_REQUEST["is_cat"]);
 
 			catchup_feed($link, $feed_id, $is_cat);
 
@@ -343,7 +343,7 @@
 		
 		/* Method added for ttrss-reader for Android */
 		case "getArticles":
-			$isCategory = (int)db_escape_string($_REQUEST["is_category"]);
+			$isCategory = (int)db_escape_string($_REQUEST["is_cat"]);
 			$id = (int)db_escape_string($_REQUEST["id"]);
 			$displayUnread = (int)db_escape_string($_REQUEST["unread"]);
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
