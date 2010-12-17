@@ -339,7 +339,8 @@
 					'dojoType="dijit.form.Select"');
 
 			} else {
-				print "<input type='hidden' name='purge_interval' value='$purge_interval'>";
+				print "<input style=\"display : none\" name='purge_interval' 
+					dojoType=\"dijit.form.TextBox\" value='$purge_interval'>";
 
 			}
 

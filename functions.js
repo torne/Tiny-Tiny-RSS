@@ -1355,6 +1355,7 @@ function editFeed(feed, event) {
 						parameters: dojo.objectToQuery(dialog.attr('value')),
 						onComplete: function(transport) {
 							dialog.hide();
+							notify('');
 							updateFeedList();
 					}})
 				}
