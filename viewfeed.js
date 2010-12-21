@@ -2017,6 +2017,8 @@ function cdmClicked(event, id) {
 					onComplete: function(transport) { 
 						handle_json_reply(transport); 
 					} });
+
+				return true;
 			}
 
 		} else {
