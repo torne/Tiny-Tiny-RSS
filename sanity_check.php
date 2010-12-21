@@ -16,6 +16,12 @@
 		$err_msg = "config: your config file version is incorrect. See config.php-dist.\n";
 	}
 
+	$purifier_cache_dir = "lib/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer";
+
+	if (!is_writable($purifier_cache_dir)) {
+		$err_msg = "config: HTMLPurifier cache directory should be writable by anyone (chmod -R 777 $purifier_cache_dir)";
+	}
+
 	if (defined('RSS_BACKEND_TYPE')) {
 		print "<b>Fatal error</b>: RSS_BACKEND_TYPE is deprecated. Please remove this
 			option from config.php\n";
