@@ -110,6 +110,34 @@
 		$err_msg = "config: your ICONS_DIR (" . ICONS_DIR . ") is not writable.\n";
 	}
 
+	if (ini_get("open_basedir")) {
+		$err_msg = "php.ini: open_basedir is not supported.";
+	}
+
+	if (!ini_get("allow_url_fopen")) {
+		$err_msg = "php.ini: allow_url_fopen is required.";
+	}
+
+	if (!function_exists("json_encode")) {
+		$err_msg = "PHP: json functions not found.";
+	}
+
+	if (DB_TYPE == "mysql" && !function_exists("mysql_connect")) {
+		$err_msg = "PHP: MySQL functions not found.";
+	}
+
+	if (DB_TYPE == "pgsql" && !function_exists("pg_connect")) {
+		$err_msg = "PHP: PostgreSQL functions not found.";
+	}
+
+	if (!function_exists("mb_strlen")) {
+		$err_msg = "PHP: mbstring functions not found.";
+	}
+
+	if (ini_get("safe_mode")) {
+		$err_msg = "php.ini: Safe mode is not supported. If you wish to continue, remove this test from sanity_check.php and proceeed at your own risk. Please note that your bug reports will not be accepted or reviewed.";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
