@@ -134,7 +134,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
-		//tnode.labelNode.innerHTML = args.label;
+		tnode.labelNode.innerHTML = args.label;
 		return tnode;
 	},
 	getIconClass: function (item, opened) {
@@ -250,6 +250,25 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		});
 	
 		return cat_unread;
+	},
+	collapseCat: function(id) {
+		if (!this.model.hasCats()) return;
+
+		var tree = this;
+
+		var node = tree._itemNodesMap['CAT:' + id][0];
+		var item = tree.model.store._itemsByIdentity['CAT:' + id];
+
+		if (node && item) {
+			var hidden = tree.model.store.getValue(item, 'hidden');
+
+			if (hidden) 
+				tree._expandNode(node);
+			else
+				tree._collapseNode(node);
+
+			tree.model.store.setValue(item, 'hidden', !hidden);
+		}
 	},
 	collapseHiddenCats: function() {
 		if (!this.model.hasCats()) return;
