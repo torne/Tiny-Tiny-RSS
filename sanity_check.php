@@ -41,8 +41,8 @@
 		exit;
 	}
 
-	if (USE_CURL_FOR_ICONS && ! function_exists("curl_init")) {
-		print "<b>Fatal Error</b>: You have enabled USE_CURL_FOR_ICONS, but your PHP 
+	if (USE_CURL && ! function_exists("curl_init")) {
+		print "<b>Fatal Error</b>: You have enabled USE_CURL, but your PHP 
 			doesn't seem to support CURL functions.";
 		exit;
 	} 
@@ -136,6 +136,10 @@
 
 	if (ini_get("safe_mode")) {
 		$err_msg = "php.ini: Safe mode is not supported. If you wish to continue, remove this test from sanity_check.php and proceeed at your own risk. Please note that your bug reports will not be accepted or reviewed.";
+	}
+
+	if (defined('USE_CURL_FOR_ICONS')) {
+		$err_msg = "config: USE_CURL_FOR_ICONS has been renamed to USE_CURL.";
 	}
 
 	if ($err_msg) {

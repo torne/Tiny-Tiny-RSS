@@ -371,7 +371,7 @@
 	}
 
 	function fetch_file_contents($url, $type = false) {
-		if (USE_CURL_FOR_ICONS) {
+		if (USE_CURL) {
 			$ch = curl_init($url);
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
@@ -435,7 +435,7 @@
 			$favicon_url = rewrite_relative_url($url, "/favicon.ico");
 
 		// Run a test to see if what we have attempted to get actually exists.
-		if(USE_CURL_FOR_ICONS || url_validate($favicon_url)) {
+		if(USE_CURL || url_validate($favicon_url)) {
 			return $favicon_url;
 		} else {
 			return false;
@@ -755,7 +755,7 @@
 			$icon_url = substr($icon_url, 0, 250);
 
 			if ($icon_url && $orig_icon_url != $icon_url) { 
-				if (USE_CURL_FOR_ICONS || url_validate($icon_url)) {
+				if (USE_CURL || url_validate($icon_url)) {
 					db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 				}
 			}
