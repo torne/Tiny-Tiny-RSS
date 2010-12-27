@@ -4093,7 +4093,7 @@
 				"</option>";
 
 			$rss_link = htmlspecialchars(get_self_url_prefix() . 
-				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat$view_mode$search_q");
+				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view_mode=$view_mode$search_q");
 
 			print "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
 

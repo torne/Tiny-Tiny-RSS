@@ -474,7 +474,7 @@
 				authenticate_user($link, "admin", null);
 			}
 
-			if ($key && !$_SESSION["uid"]) {
+			if ($key) {
 				$result = db_query($link, "SELECT owner_uid FROM
 					ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
 
