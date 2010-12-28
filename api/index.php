@@ -135,6 +135,8 @@
 			$limit = (int) db_escape_string($_REQUEST["limit"]);
 			$offset = (int) db_escape_string($_REQUEST["offset"]);
 
+			chdir(".."); // so feed_has_icon() would work properly for relative ICONS_DIR
+
 			$feeds = api_get_feeds($link, $cat_id, $unread_only, $limit, $offset);
 
 			print api_wrap_reply(API_STATUS_OK, $seq, $feeds);
