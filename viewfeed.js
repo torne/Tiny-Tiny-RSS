@@ -93,7 +93,7 @@ function headlines_callback2(transport, feed_cur_page) {
 
 					initHeadlinesMenu();
 
-					var cache_prefix = "";
+/*					var cache_prefix = "";
 
 					if (is_cat) {
 						cache_prefix = "C:";
@@ -106,7 +106,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					if (!disable_cache) {
 						cache_inject(cache_prefix + feed_id,
 							$("headlines-frame").innerHTML, headlines_unread);
-					}
+					} */
 
 				} else {
 					console.warn("headlines_callback: returned no data");

@@ -140,7 +140,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		console.log(query);
 
-		var unread_ctr = -1;
+/*		var unread_ctr = -1;
 		
 		if (!is_cat) unread_ctr = getFeedUnread(feed);
 
@@ -170,7 +170,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 			request_counters();
 			remove_splash();
 
-		} else {
+		} else { */
 
 			if (!is_cat) {
 				if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
@@ -185,7 +185,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 					setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
 					headlines_callback2(transport, page_offset); 
 				} });
-		}
+//		}
 
 	} catch (e) {
 		exception_error("viewfeed", e);
