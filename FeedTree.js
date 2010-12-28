@@ -148,10 +148,19 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			"dijitTreeRow Error";
 	},
 	getLabel: function(item) {
+		var name = String(item.name);
+
+		/* Horrible */
+		name = name.replace("&quot;", "\"");
+		name = name.replace("&amp;", "&");
+		name = name.replace("&mdash;", "-");
+		name = name.replace("&lt;", "<");
+		name = name.replace("&gt;", ">");
+
 		if (item.unread > 0) {
-			return item.name + " (" + item.unread + ")";
+			return name + " (" + item.unread + ")";
 		} else {
-			return item.name;
+			return name;
 		}
 	},
 	selectFeed: function(feed, is_cat) {
