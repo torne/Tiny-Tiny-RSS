@@ -55,7 +55,8 @@
 					$cat['items'] = array();
 					$cat['type'] = 'category';
 	
-					$feed_result = db_query($link, "SELECT id, title, last_error 
+					$feed_result = db_query($link, "SELECT id, title, last_error,
+						".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds
 						WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
 						" ORDER BY order_id, title");
@@ -68,6 +69,8 @@
 						$feed['checkbox'] = false;
 						$feed['error'] = $feed_line['last_error'];
 						$feed['icon'] = getFeedIcon($feed_line['id']);
+						$feed['param'] = make_local_datetime($link, 
+							$feed_line['last_updated'], true);
 
 						array_push($cat['items'], $feed);
 					}
@@ -84,7 +87,8 @@
 				$cat['items'] = array();
 				$cat['type'] = 'category';
 
-				$feed_result = db_query($link, "SELECT id, title,last_error 
+				$feed_result = db_query($link, "SELECT id, title,last_error,
+					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds
 					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
@@ -97,13 +101,16 @@
 					$feed['checkbox'] = false;
 					$feed['error'] = $feed_line['last_error'];
 					$feed['icon'] = getFeedIcon($feed_line['id']);
+					$feed['param'] = make_local_datetime($link, 
+						$feed_line['last_updated'], true);
 
 					array_push($cat['items'], $feed);
 				}
 	
 				array_push($root['items'], $cat);
 			} else {
-				$feed_result = db_query($link, "SELECT id, title, last_error 
+				$feed_result = db_query($link, "SELECT id, title, last_error,
+					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds
 					WHERE owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
@@ -116,6 +123,8 @@
 					$feed['checkbox'] = false;
 					$feed['error'] = $feed_line['last_error'];
 					$feed['icon'] = getFeedIcon($feed_line['id']);
+					$feed['param'] = make_local_datetime($link, 
+						$feed_line['last_updated'], true);
 
 					array_push($root['items'], $feed);
 				}

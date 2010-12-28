@@ -26,6 +26,15 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 		if (args.item.icon)
 			tnode.iconNode.src = args.item.icon[0];
 
+		var param = this.model.store.getValue(args.item, 'param');
+
+		if (param) {
+			param = dojo.doc.createElement('span');
+			param.className = 'feedParam';
+			param.innerHTML = args.item.param[0];
+			dojo.place(param, tnode.labelNode, 'after');
+		}
+
 		return tnode;
 	},
 	onDndDrop: function() {
