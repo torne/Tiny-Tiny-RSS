@@ -64,8 +64,8 @@
 </div> 
 
 <div id="header">
-	<img class="logo" src="<?php echo theme_image($link, 'images/logo.png') ?>" 
-		onclick="window.open('http://tt-rss.org')" title="Tiny Tiny RSS"/>
+	<!-- <img class="logo" src="<?php echo theme_image($link, 'images/logo.png') ?>" 
+		onclick="window.open('http://tt-rss.org')" title="Tiny Tiny RSS"/> -->
 
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
