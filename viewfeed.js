@@ -256,17 +256,17 @@ function showArticleInHeadlines(id) {
 
 			cache_invalidate(cache_prefix + getActiveFeedId());
 
-			cache_inject(cache_prefix + getActiveFeedId(),
+			/* cache_inject(cache_prefix + getActiveFeedId(),
 				$("headlines-frame").innerHTML,
-				getFeedUnread(getActiveFeedId()));
+				getFeedUnread(getActiveFeedId())); */
 
 		} else if (article_is_unread && view_mode == "all_articles") {
 
 			cache_invalidate(cache_prefix + getActiveFeedId());
 
-			cache_inject(cache_prefix + getActiveFeedId(),
+			/* cache_inject(cache_prefix + getActiveFeedId(),
 				$("headlines-frame").innerHTML,
-				getFeedUnread(getActiveFeedId())-1);
+				getFeedUnread(getActiveFeedId())-1); */
 
 		} else if (article_is_unread) {
 			cache_invalidate(cache_prefix + getActiveFeedId());
