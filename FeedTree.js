@@ -134,7 +134,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
-		tnode.labelNode.innerHTML = args.label;
+		//tnode.labelNode.innerHTML = args.label;
 		return tnode;
 	},
 	getIconClass: function (item, opened) {
