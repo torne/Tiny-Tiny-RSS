@@ -7059,7 +7059,7 @@
 
 		if ($value) {
 			print "<style type=\"text/css\">";
-			print $value;
+			print str_replace("<br/>", "\n", $value);
 			print "</style>";
 		}
 

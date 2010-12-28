@@ -143,8 +143,10 @@
 		if ($subop == "setpref") {
 			header("Content-Type: text/plain");
 
+			$value = str_replace("\n", "<br/>", $_REQUEST['value']);
+
 			$key = db_escape_string($_REQUEST["key"]);
-			$value = db_escape_string($_REQUEST["value"]);
+			$value = db_escape_string($value);
 
 			set_pref($link, $key, $value);
 
