@@ -89,7 +89,8 @@
 	// Enable support for interface translations
 
 	define('MYSQL_CHARSET', 'UTF8');
-	// Connection charset for MySQL.
+	// Connection charset for MySQL. If you have a legacy database and/or experience
+	// garbage unicode characters with this option, try setting it to a blank string.
 
 	define('DEFAULT_UPDATE_METHOD', 0);
 	// Which feed parsing library to use as default:
