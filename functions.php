@@ -1991,9 +1991,15 @@
 			}
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
-				render_login_form($link, $mobile);
-				//header("Location: login.php");
-				exit;
+				if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH
+					&& $_SERVER["REMOTE_USER"] && defined('AUTO_LOGIN') && AUTO_LOGIN) {
+				    authenticate_user($link,$_SERVER['REMOTE_USER'],null);
+				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
+				} else {
+				    render_login_form($link, $mobile);
+				    //header("Location: login.php");
+				    exit;
+				}
 			} else {
 				/* bump login timestamp */
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " . 

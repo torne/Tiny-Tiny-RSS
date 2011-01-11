@@ -136,6 +136,11 @@
 	// option can be used to integrate tt-rss with Apache's external
 	// authentication modules.
 
+	define('AUTO_LOGIN', false);
+	// Set this to true if you use ALLOW_REMOTE_USER_AUTH and you want
+	// to skip the login form. If set to true, users won't be able to
+	// set application language and settings profile.
+
 	define('LOCK_DIRECTORY', 'lock');
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
@@ -184,7 +189,7 @@
 	// Your OAuth instance authentication information for Twitter, visit
 	// http://twitter.com/oauth_clients to register your instance.
 
-	define('CONFIG_VERSION', 20);
+	define('CONFIG_VERSION', 21);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 
