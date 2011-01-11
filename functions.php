@@ -656,7 +656,7 @@
 						_debug("enabling image cache");
 					}
 	
-					$rss->set_image_handler('./image.php', 'i');
+					$rss->set_image_handler(get_self_url_prefix() . '/image.php', 'i');
 				}
 	
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
