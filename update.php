@@ -2,14 +2,14 @@
 <?php
 	define('DISABLE_SESSIONS', true);
 
-	if (!defined('PHP_EXECUTABLE'))
-		define('PHP_EXECUTABLE', '/usr/bin/php');
-
 	require_once "functions.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
+
+	if (!defined('PHP_EXECUTABLE'))
+		define('PHP_EXECUTABLE', '/usr/bin/php');
 
 	$op = $argv[1];
 
