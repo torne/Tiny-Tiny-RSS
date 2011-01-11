@@ -11,6 +11,7 @@
 	}
 
 	require_once "config.php";
+	require_once "sanity_config.php";
 
 	if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
 		$err_msg = "config: your config file version is incorrect. See config.php-dist.\n";
@@ -20,6 +21,16 @@
 
 	if (!is_writable($purifier_cache_dir)) {
 		$err_msg = "config: HTMLPurifier cache directory should be writable by anyone (chmod -R 777 $purifier_cache_dir)";
+	}
+
+	if (GENERATED_CONFIG_CHECK != EXPECTED_CONFIG_VERSION) {
+		$err_msg = "config: your sanity_config.php is outdated, please recreate it using ./utils/regen_config_checks.sh";
+	}
+
+	foreach ($requred_defines as $d) {
+		if (!defined($d)) {
+			$err_msg = "config: required constant $d is not defined. Please check config.php";
+		}
 	}
 
 	if (defined('RSS_BACKEND_TYPE')) {
