@@ -4436,13 +4436,13 @@
 			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";
 	}
 
-	function format_notice($msg) {
+	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\"> 
 			<img src=\"".theme_image($link, "images/sign_info.png")."\">$msg</div>";
 	}
 
-	function format_error($msg) {
+	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\"> 
 			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";

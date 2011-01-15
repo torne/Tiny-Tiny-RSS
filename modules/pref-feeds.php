@@ -930,19 +930,26 @@
 			case 0:
 				print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
 				break;
+			case 5:
+				print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
+				break;
 			}
 
 			if ($p_from != 'tt-rss') {
+				if (!isset($_SERVER['HTTPS'])) $_SERVER['HTTPS'] = 'off';
 				$tt_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'tt-rss.php', $_SERVER["REQUEST_URI"]);
 
 
 				$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
 
-				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+				if ($rc <= 2){
+					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
-				$feed_id = db_fetch_result($result, 0, "id");
-
+					$feed_id = db_fetch_result($result, 0, "id");
+				} else {
+					$feed_id = 0;
+				}
 				print "<p>";
 
 				if ($feed_id) {
