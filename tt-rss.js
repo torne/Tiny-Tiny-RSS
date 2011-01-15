@@ -704,12 +704,20 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 74) { // j
-				// TODO: move to previous feed
+				var rv = dijit.byId("feedTree").model.getPreviousFeed(
+						getActiveFeedId(), activeFeedIsCat());
+
+				if (rv) viewfeed(rv[0], '', rv[1]);
+
 				return;
 			}
 	
 			if (keycode == 75) { // k
-				// TODO: move to next feed
+				var rv = dijit.byId("feedTree").model.getNextFeed(
+						getActiveFeedId(), activeFeedIsCat());
+
+				if (rv) viewfeed(rv[0], '', rv[1]);
+
 				return;
 			}
 

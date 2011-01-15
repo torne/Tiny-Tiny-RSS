@@ -5,7 +5,7 @@
 	<h2><?php echo __("Navigation") ?></h2>
 
 	<table>
-		<!-- <tr><td class='n'>j/k</td><td><?php echo __("Move between feeds") ?></td></tr> -->
+		<tr><td class='n'>j/k</td><td><?php echo __("Move between feeds") ?></td></tr>
 		<tr><td class='n'>n/p</td><td><?php echo __("Move between articles") ?></td></tr>
 		<tr><td class='n'>/</td><td><?php echo __("Show search dialog") ?></td></tr>
 	</table>
