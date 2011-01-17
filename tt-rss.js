@@ -836,7 +836,7 @@ function hotkey_handler(e) {
 
 			if (keycode == 82) { // r
 				if (getActiveFeedId()) {
-					viewfeed(getActiveFeedId(), "ForceUpdate", activeFeedIsCat());
+					viewfeed(getActiveFeedId(), '', activeFeedIsCat());
 					return;
 				}
 			}
@@ -848,7 +848,7 @@ function hotkey_handler(e) {
 
 			if (keycode == 85) { // u
 				if (getActiveFeedId()) {
-					viewfeed(getActiveFeedId(), "ForceUpdate");
+					viewfeed(getActiveFeedId(), '');
 					return false;
 				}
 			}

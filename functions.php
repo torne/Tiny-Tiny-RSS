@@ -766,6 +766,10 @@
 
 			$filters = load_filters($link, $feed, $owner_uid);
 
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+				print_r($filters);
+			}
+
 			if ($use_simplepie) {
 				$iterator = $rss->get_items();
 			} else {
@@ -4775,6 +4779,10 @@
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
+		}
+
+		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
+			update_rss_feed($link, $feed, true);
 		}
 
 		if ($subop == "MarkAllRead")  {
