@@ -315,9 +315,10 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 					var box = this._itemNodesMap[id];
 
 					if (box) {
-						box = box[0].containerNode.parentNode.parentNode;
+						var row = box[0].rowNode;
+						var cat = box[0].rowNode.parentNode.parentNode;
 
-						if (Element.visible(box)) {
+						if (Element.visible(cat) && Element.visible(row)) {
 							item = items[j];
 							break;
 						}
@@ -352,13 +353,15 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 					var box = this._itemNodesMap[id];
 
 					if (box) {
-						box = box[0].containerNode.parentNode.parentNode;
+						var row = box[0].rowNode;
+						var cat = box[0].rowNode.parentNode.parentNode;
 
-						if (Element.visible(box)) {
+						if (Element.visible(cat) && Element.visible(row)) {
 							item = items[j];
 							break;
 						}
 					}
+
 				}
 				break;
 			}
