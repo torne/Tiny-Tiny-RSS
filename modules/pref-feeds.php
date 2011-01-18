@@ -930,17 +930,42 @@
 			case 0:
 				print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
 				break;
+			case 4:
+				print_notice("Multiple feed URLs found.");
+
+				$feed_urls = get_feeds_from_html($feed_url);
+				break;
 			case 5:
 				print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
 				break;
 			}
 
 			if ($p_from != 'tt-rss') {
-				if (!isset($_SERVER['HTTPS'])) $_SERVER['HTTPS'] = 'off';
-				$tt_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'tt-rss.php', $_SERVER["REQUEST_URI"]);
 
+				if ($feed_urls) {
 
-				$tp_uri = ($_SERVER['HTTPS'] != "on" ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . preg_replace('/backend\.php.*$/', 'prefs.php', $_SERVER["REQUEST_URI"]);
+					print "<form action=\"backend.php\">";
+					print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+					print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
+					print "<input type=\"hidden\" name=\"subop\" value=\"add\">";
+					
+					print "<select name=\"feed_url\">";
+
+					foreach ($feed_urls as $url => $name) {
+						$url = htmlspecialchars($url);
+						$name = htmlspecialchars($name);
+
+						print "<option value=\"$url\">$name</option>";
+					}
+
+					print "<input type=\"submit\" value=\"".__("Subscribe to selected feed").
+						"\">";
+
+					print "</form>";
+				}
+
+				$tp_uri = get_self_url_prefix() . "/prefs.php";
+				$tt_uri = get_self_url_prefix();
 
 				if ($rc <= 2){
 					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
