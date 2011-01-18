@@ -52,55 +52,6 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		if (treeItem)
 			return this.store.setValue(treeItem, key, value);
 	},
-	getNextFeed: function (feed, is_cat) {
-		if (is_cat) {
-			treeItem = this.store._itemsByIdentity['CAT:' + feed];
-		} else {
-			treeItem = this.store._itemsByIdentity['FEED:' + feed];
-		}
-
-		items = this.store._arrayOfAllItems;
-		var item = items[0];
-
-		for (var i = 0; i < items.length; i++) {
-			if (items[i] == treeItem) {
-				item = items[i+1];
-				break;
-			}
-		}
-
-		if (item) {
-			return [this.store.getValue(item, 'bare_id'), 
-					 	!this.store.getValue(item, 'id').match('FEED:')];
-		} else {
-			return false;
-		}
-	},
-	getPreviousFeed: function (feed, is_cat) {
-		if (is_cat) {
-			treeItem = this.store._itemsByIdentity['CAT:' + feed];
-		} else {
-			treeItem = this.store._itemsByIdentity['FEED:' + feed];
-		}
-
-		items = this.store._arrayOfAllItems;
-		var item = items[items.length-1];
-
-		for (var i = 0; i < items.length; i++) {
-			if (items[i] == treeItem) {
-				item = items[i-1];
-				break;
-			}
-		}
-
-		if (item) {
-			return [this.store.getValue(item, 'bare_id'), 
-					 	!this.store.getValue(item, 'id').match('FEED:')];
-		} else {
-			return false;
-		}
-	},
-
 	getNextUnreadFeed: function (feed, is_cat) {
 		if (is_cat) {
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
@@ -346,4 +297,80 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		});
 	},
+	getNextFeed: function (feed, is_cat) {
+		if (is_cat) {
+			treeItem = this.model.store._itemsByIdentity['CAT:' + feed];
+		} else {
+			treeItem = this.model.store._itemsByIdentity['FEED:' + feed];
+		}
+
+		items = this.model.store._arrayOfAllItems;
+		var item = items[0];
+
+		for (var i = 0; i < items.length; i++) {
+			if (items[i] == treeItem) {
+
+				for (j = i+1; j < items.length; j++) {
+					var id = String(items[j].id);	
+					var box = this._itemNodesMap[id];
+
+					if (box) {
+						box = box[0].containerNode.parentNode.parentNode;
+
+						if (Element.visible(box)) {
+							item = items[j];
+							break;
+						}
+					}
+				}
+				break;
+			}
+		}
+
+		if (item) {
+			return [this.model.store.getValue(item, 'bare_id'), 
+					 	!this.model.store.getValue(item, 'id').match('FEED:')];
+		} else {
+			return false;
+		}
+	},
+	getPreviousFeed: function (feed, is_cat) {
+		if (is_cat) {
+			treeItem = this.model.store._itemsByIdentity['CAT:' + feed];
+		} else {
+			treeItem = this.model.store._itemsByIdentity['FEED:' + feed];
+		}
+
+		items = this.model.store._arrayOfAllItems;
+		var item = items[0];
+
+		for (var i = 0; i < items.length; i++) {
+			if (items[i] == treeItem) {
+
+				for (j = i-1; j > 0; j--) {
+					var id = String(items[j].id);	
+					var box = this._itemNodesMap[id];
+
+					if (box) {
+						box = box[0].containerNode.parentNode.parentNode;
+
+						if (Element.visible(box)) {
+							item = items[j];
+							break;
+						}
+					}
+				}
+				break;
+			}
+		}
+
+		if (item) {
+			return [this.model.store.getValue(item, 'bare_id'), 
+					 	!this.model.store.getValue(item, 'id').match('FEED:')];
+		} else {
+			return false;
+		}
+
+	},
+
 });

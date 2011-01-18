@@ -704,7 +704,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 74) { // j
-				var rv = dijit.byId("feedTree").model.getPreviousFeed(
+				var rv = dijit.byId("feedTree").getPreviousFeed(
 						getActiveFeedId(), activeFeedIsCat());
 
 				if (rv) viewfeed(rv[0], '', rv[1]);
@@ -713,7 +713,7 @@ function hotkey_handler(e) {
 			}
 	
 			if (keycode == 75) { // k
-				var rv = dijit.byId("feedTree").model.getNextFeed(
+				var rv = dijit.byId("feedTree").getNextFeed(
 						getActiveFeedId(), activeFeedIsCat());
 
 				if (rv) viewfeed(rv[0], '', rv[1]);
