@@ -743,10 +743,12 @@ function hotkey_handler(e) {
 
 			if (keycode == 68 && shift_key) { // shift-D
 				dismissSelectedArticles();
+				return;
 			}
 
 			if (keycode == 88 && shift_key) { // shift-X
 				dismissReadArticles();
+				return;
 			}
 
 			if (keycode == 78 || keycode == 40) { // n, down
@@ -814,9 +816,10 @@ function hotkey_handler(e) {
 				}
 			}
 
-			if (keycode == 88) { // x
+			if (keycode == 88 && !shift_key) { // x
 				if (activeFeedIsCat()) {
 					dijit.byId("feedTree").collapseCat(getActiveFeedId());
+					return;
 				}
 			}
 		}
