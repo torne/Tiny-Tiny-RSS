@@ -1985,7 +1985,12 @@
 						}
 					}
 
-					header("Location: " . $_SERVER["REQUEST_URI"]);
+					if ($_REQUEST['return']) {
+						header("Location: " . $_REQUEST['return']);
+					} else {
+						header("Location: " . $_SERVER["REQUEST_URI"]);
+					}
+
 					exit;
 
 					return;

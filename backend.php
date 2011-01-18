@@ -82,18 +82,8 @@
 		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
 			print_error_xml(6); die;
 		} else {
-			print "
-			<html><body>
-				<p>Error: Not logged in.</p>
-				<script type=\"text/javascript\">
-					if (parent.window != 'undefined') {
-						parent.window.location = \"tt-rss.php\";		
-					} else {
-						window.location = \"tt-rss.php\";
-					}
-				</script>
-			</body></html>
-			";
+			header("Location: tt-rss.php?return=" . 
+				urlencode($_SERVER['REQUEST_URI']));
 		}
 		exit;
 	}
