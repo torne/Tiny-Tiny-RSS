@@ -1,29 +1,15 @@
 var init_params = new Array();
 
-var caller_subop = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 
 var seq = "";
 
 function feedlist_callback2(transport) {
-
 	try {	
-
 		dijit.byId('feedConfigTab').attr('content', transport.responseText); 
-
 		selectTab("feedConfig", true);
-
-		if (caller_subop) {
-			var tuple = caller_subop.split(":");
-			if (tuple[0] == 'editFeed') {
-				window.setTimeout('editFeed('+tuple[1]+')', 100);
-			}				
-
-			caller_subop = false;
-		}
 		notify("");
-
 	} catch (e) {
 		exception_error("feedlist_callback2", e);
 	}
@@ -869,15 +855,7 @@ function init_second_stage() {
 	try {
 
 		document.onkeydown = pref_hotkey_handler;
-
-		caller_subop = getURLParam('subop');
-
-		if (getURLParam("subopparam")) {
-			caller_subop = caller_subop + ":" + getURLParam("subopparam");
-		}
-
 		loading_set_progress(50);
-
 		notify("");
 
 		dojo.addOnLoad(function() {
@@ -886,6 +864,14 @@ function init_second_stage() {
 			if (tab) {
 			  	tab = dijit.byId(tab + "Tab");
 				if (tab) dijit.byId("pref-tabs").selectChild(tab);
+			}
+
+			var subop = getURLParam('subop');
+
+			if (subop == 'editFeed') {
+				var param = getURLParam('subopparam');
+
+				window.setTimeout('editFeed(' + param + ')', 100);
 			}
 		});
 
