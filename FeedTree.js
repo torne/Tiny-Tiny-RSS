@@ -151,11 +151,11 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		var name = String(item.name);
 
 		/* Horrible */
-		name = name.replace("&quot;", "\"");
-		name = name.replace("&amp;", "&");
-		name = name.replace("&mdash;", "-");
-		name = name.replace("&lt;", "<");
-		name = name.replace("&gt;", ">");
+		name = name.replace(/&quot;/g, "\"");
+		name = name.replace(/&amp;/g, "&");
+		name = name.replace(/&mdash;/g, "-");
+		name = name.replace(/&lt;/g, "<");
+		name = name.replace(/&gt;/g, ">");
 
 		if (item.unread > 0) {
 			return name + " (" + item.unread + ")";
