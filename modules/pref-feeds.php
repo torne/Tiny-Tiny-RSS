@@ -443,11 +443,12 @@
 				$checked = "";
 			}
 
-			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
+			if (SIMPLEPIE_CACHE_IMAGES) {
+				print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
 				name=\"cache_images\"
 				$checked>&nbsp;<label for=\"cache_images\">".
 				__('Cache images locally (SimplePie only)')."</label>";
-
+			}
 
 #			print "</div>";
 			print "</div>";
@@ -609,14 +610,16 @@
 
 			print "&nbsp;"; batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
 
-			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\" 
-				name=\"cache_images\" 
-				dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\" 
+			if (SIMPLEPIE_CACHE_IMAGES) {
+				print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\" 
+					name=\"cache_images\" 
+					dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\" 
 					for=\"cache_images\">".
 				__('Cache images locally')."</label>";
+			
 
-
-			print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
+				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
+			}
 
 			print "</div>";
 
