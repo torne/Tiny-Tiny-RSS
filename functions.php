@@ -652,11 +652,14 @@
 				$rss->set_output_encoding('UTF-8');
 	
 				if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
+
+					$image_handler = get_self_url_prefix() . '/image.php';
+
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-						_debug("enabling image cache");
+						_debug("enabling image cache: $image_handler");
 					}
-	
-					$rss->set_image_handler(get_self_url_prefix() . '/image.php', 'i');
+
+					$rss->set_image_handler($image_handler, 'i');
 				}
 	
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
