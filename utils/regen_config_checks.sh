@@ -10,7 +10,7 @@ echo ");" >> $DESTINATION
 
 echo -n "\$requred_defines = array( " >> $DESTINATION
 
-grep define\( config.php-dist | awk -F\' '{ print "*" $2 "*," }' | xargs echo -n | grep -v DB_PORT | sed -e s/,$// -e s/*/\'/g >> $DESTINATION
+grep define\( config.php-dist | awk -F\' '{ print "*" $2 "*," }' | grep -v DB_PORT | xargs echo -n | sed -e s/,$// -e s/*/\'/g >> $DESTINATION
 
 echo "); ?>" >> $DESTINATION
 
