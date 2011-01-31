@@ -207,7 +207,11 @@ function render_article(article) {
 		
 		c.attr('content', article);
 
-		correctHeadlinesOffset(getActiveArticleId());		
+		correctHeadlinesOffset(getActiveArticleId());
+
+		try {
+			c.focus();
+		} catch (e) { };
 
 	} catch (e) {
 		exception_error("render_article", e);
