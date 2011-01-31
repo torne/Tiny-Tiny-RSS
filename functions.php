@@ -653,13 +653,11 @@
 	
 				if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
 
-					$image_handler = get_self_url_prefix() . '/image.php';
-
 					if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
-						_debug("enabling image cache: $image_handler");
+						_debug("enabling image cache");
 					}
 
-					$rss->set_image_handler($image_handler, 'i');
+					$rss->set_image_handler("image.php", 'i');
 				}
 	
 				if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
@@ -3714,8 +3712,9 @@
 						rewrite_relative_url($site_url, $entry->getAttribute('href')));
 		
 				if ($entry->hasAttribute('src'))
-					$entry->setAttribute('src',
-						rewrite_relative_url($site_url, $entry->getAttribute('src')));
+					if (preg_match('/^image.php\?i=[a-z0-9]+$/', $entry->getAttribute('src')) == 0) 
+						$entry->setAttribute('src',
+							rewrite_relative_url($site_url, $entry->getAttribute('src')));
 			}
 
 			if (strtolower($entry->nodeName) == "a") {
