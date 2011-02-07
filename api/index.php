@@ -70,6 +70,8 @@
 			$password = db_escape_string($_REQUEST["password"]);
 			$password_base64 = db_escape_string(base64_decode($_REQUEST["password"]));
 
+			if (SINGLE_USER_MODE) $login = "admin";
+
 			$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
 
 			if (db_num_rows($result) != 0) {
@@ -77,8 +79,6 @@
 			} else {
 				$uid = 0;
 			}
-
-			if (SINGLE_USER_MODE) $login = "admin";
 
 			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {               // try login with normal password
