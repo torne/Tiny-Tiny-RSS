@@ -78,6 +78,8 @@
 				$uid = 0;
 			}
 
+			if (SINGLE_USER_MODE) $login = "admin";
+
 			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {               // try login with normal password
 					print api_wrap_reply(API_STATUS_OK, $seq, 
