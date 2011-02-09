@@ -2,6 +2,7 @@
 <?php
 	define('DISABLE_SESSIONS', true);
 
+	chdir(dirname($_SERVER['SCRIPT_NAME']));
 	require_once "functions.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
