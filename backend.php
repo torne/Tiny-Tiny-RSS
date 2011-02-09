@@ -465,17 +465,21 @@
 			}
 
 			if ($key) {
+				$_SESSION['uid'] = false; // do not fallback to active session id
+
 				$result = db_query($link, "SELECT owner_uid FROM
 					ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
 
 				if (db_num_rows($result) == 1)
 					$_SESSION["uid"] = db_fetch_result($result, 0, "owner_uid");
-
 			}
 
 			if ($_SESSION["uid"]) {
 				generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
 					$search, $search_mode, $match_on, $view_mode);
+			} else {
+				header('HTTP/1.1 403 Forbidden');
+				print_error_xml(6); die;
 			}
 		break; // rss
 
