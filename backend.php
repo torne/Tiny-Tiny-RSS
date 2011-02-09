@@ -464,17 +464,19 @@
 				authenticate_user($link, "admin", null);
 			}
 
-			if ($key) {
-				$_SESSION['uid'] = false; // do not fallback to active session id
+			$owner_id = false;
 
+			if ($key) {
 				$result = db_query($link, "SELECT owner_uid FROM
 					ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
 
 				if (db_num_rows($result) == 1)
-					$_SESSION["uid"] = db_fetch_result($result, 0, "owner_uid");
+					$owner_id = db_fetch_result($result, 0, "owner_uid");
 			}
 
-			if ($_SESSION["uid"]) {
+			if ($owner_id) {
+				$_SESSION['uid'] = $owner_id;
+
 				generate_syndicated_feed($link, 0, $feed, $is_cat, $limit,
 					$search, $search_mode, $match_on, $view_mode);
 			} else {
