@@ -266,7 +266,7 @@ function genericSanityCheck() {
 	setCookie("ttrss_test", "TEST");
 	
 	if (getCookie("ttrss_test") != "TEST") {
-		fatalError(2);
+		return fatalError(2);
 	}
 
 	return true;
@@ -314,7 +314,7 @@ function init() {
 		});
 
 		if (!genericSanityCheck()) 
-			return;
+			return false;
 
 		loading_set_progress(20);
 

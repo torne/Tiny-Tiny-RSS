@@ -41,6 +41,7 @@
 	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="feedlist.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="viewfeed.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 

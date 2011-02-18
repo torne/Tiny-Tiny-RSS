@@ -503,8 +503,6 @@ function setInitParam(key, value) {
 function fatalError(code, msg, ext_info) {
 	try {	
 
-		if (!ext_info) ext_info = "N/A";
-
 		if (code == 6) {
 			window.location.href = "tt-rss.php";			
 		} else if (code == 5) {
@@ -513,27 +511,35 @@ function fatalError(code, msg, ext_info) {
 	
 			if (msg == "") msg = "Unknown error";
 
-			var ebc = $("xebContent");
-	
-			if (ebc) {
-	
-				Element.show("dialog_overlay");
-				Element.show("errorBoxShadow");
-				Element.hide("xebBtn");
-
-				if (ext_info) {
-					if (ext_info.responseText) {
-						ext_info = ext_info.responseText;
-					}
+			if (ext_info) {
+				if (ext_info.responseText) {
+					ext_info = ext_info.responseText;
 				}
-	
-				ebc.innerHTML = 
-					"<div><b>Error message:</b></div>" +
-					"<pre>" + msg + "</pre>" +
-					"<div><b>Additional information:</b></div>" +
-					"<textarea readonly=\"1\">" + ext_info + "</textarea>";
 			}
+
+			if (ERRORS && ERRORS[code] && !msg) {
+				msg = ERRORS[code];
+			}
+	
+			var content = "<div><b>Error code:</b> " + code + "</div>" +
+				"<p>" + msg + "</p>";
+
+			if (ext_info) {
+				content = content + "<div><b>Additional information:</b></div>" +
+					"<textarea style='width: 100%' readonly=\"1\">" + 
+					ext_info + "</textarea>";
+			}
+
+			var dialog = new dijit.Dialog({
+				title: "Fatal error",
+				style: "width: 600px",
+				content: content});
+
+			dialog.show();
+
 		}
+
+		return false;
 
 	} catch (e) {
 		exception_error("fatalError", e);

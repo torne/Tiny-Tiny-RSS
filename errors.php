@@ -1,4 +1,5 @@
 <?php
+	require_once "functions.php";
 
 	$ERRORS[0] = __("Unknown error");
 
@@ -30,4 +31,18 @@
 	$ERRORS[11] = "[This error is not returned by server]";
 
 	$ERRORS[12] = __("SQL escaping test failed, check your database and PHP configuration");
+
+	if ($_REQUEST['mode'] == 'js') {
+		header("Content-Type: text/plain; charset=UTF-8");
+
+		print "var ERRORS = [];\n";
+
+		foreach ($ERRORS as $id => $error) {
+
+			$error = preg_replace("/\n/", "", $error);
+			$error = preg_replace("/\"/", "\\\"", $error);
+
+			print "ERRORS[$id] = \"$error\";\n";
+		}
+	}
 ?>

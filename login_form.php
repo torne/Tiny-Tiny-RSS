@@ -1,18 +1,29 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS : Login</title>
+	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="lib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
 	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
 </head>
 
-<body id="ttrssLogin">
+<body id="ttrssLogin" class="claro">
 
 <script type="text/javascript">
 function init() {
+
+	dojo.require("dijit.Dialog");
+
+	var test = setCookie("ttrss_test", "TEST");
+
+	if (getCookie("ttrss_test") != "TEST") {
+		return fatalError(2);
+	}
 
 	var limit_set = getCookie("ttrss_bwlimit");
 
