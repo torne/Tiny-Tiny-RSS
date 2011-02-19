@@ -954,7 +954,7 @@
 				$result = db_query($link, "SELECT id FROM	ttrss_entries 
 					WHERE guid = '$entry_guid'");
 
-				$entry_content = db_escape_string($entry_content, true);
+				$entry_content = db_escape_string($entry_content, false);
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
