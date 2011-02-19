@@ -41,7 +41,9 @@ function db_connect($host, $user, $pass, $db) {
 	}
 }
 
-function db_escape_string($s) {
+function db_escape_string($s, $strip_tags = true) {
+	if ($strip_tags) $s = strip_tags($s);
+
 	if (DB_TYPE == "pgsql") {	
 		return pg_escape_string($s);
 	} else {
