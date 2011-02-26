@@ -2910,7 +2910,12 @@
 
 		$update_method = 0;
 
-		if (strpos($url, '://twitter.com') === false) {
+		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users 
+			WHERE id = ".$_SESSION['uid']);
+
+		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth');
+
+		if (!$has_oauth || strpos($url, '://twitter.com') === false) {
 			if (!fetch_file_contents($url)) return 5;
 
 			if (url_is_html($url)) {
