@@ -2019,7 +2019,7 @@ function cdmClicked(event, id) {
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) { 
-						handle_json_reply(transport); 
+						handle_rpc_json(transport); 
 					} });
 
 				return true;
