@@ -100,9 +100,9 @@
 
 	}
 
-	function render_category($link, $cat_id) {
+	function render_category($link, $cat_id, $offset) {
 		$owner_uid = $_SESSION["uid"];
-
+	
 		if ($cat_id >= 0) {
 
 			if ($cat_id != 0) {
@@ -227,10 +227,11 @@
 
 	function render_categories_list($link) {
 		$owner_uid = $_SESSION["uid"];
-  
+
+		$cat_browse = mobile_get_pref($link, "BROWSE_CATS");
+
 		print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
-
 		
 //		print "<li><a href='#searchForm'>Search...</a></li>";
 
@@ -244,7 +245,10 @@
 				$class = 'oldItem';
 			}
 
-			print "<li class='$class'><a href='cat.php?id=$id'>$title</a></li>";
+			if ($cat_browse)
+				print "<li class='$class'><a href='cat.php?id=$id'>$title</a></li>";
+			else
+				print "<li class='$class'><a href='feed.php?id=$id&is_cat=true'>$title</a></li>";
 		}
 
 		$result = db_query($link, "SELECT 
@@ -273,8 +277,13 @@
 				}
 
 				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
-					print "<li class='$class'><a href='cat.php?id=$id'>" . 
-						$line["title"] . "</a></li>";
+
+					if ($cat_browse) 
+						print "<li class='$class'><a href='cat.php?id=$id'>" . 
+							$line["title"] . "</a></li>";
+					else
+						print "<li class='$class'><a href='feed.php?id=$id&is_cat=true'>".
+							$line["title"] . "</a></li>";
 				}
 			}
 		}
@@ -304,12 +313,12 @@
 		print "</ul>";
 	}
 
-	function render_headlines_list($link, $feed_id, $cat_id, $offset, $search) {
+	function render_headlines_list($link, $feed_id, $cat_id, $offset, $search, 
+		$is_cat = false) {
 
 		$feed_id = $feed_id;
 		$limit = 15;
 		$filter = '';
-		$is_cat = false;
 		$view_mode = 'adaptive';
 
 		if ($search) {

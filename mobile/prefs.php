@@ -32,6 +32,12 @@
 </div>
 
 <div class="row">
+	<label><?php echo __('Browse categories like folders') ?></label>
+	<div class="toggle" id="BROWSE_CATS" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "BROWSE_CATS") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
+</div>
+
+
+<div class="row">
 	<label><?php echo __('Show images in posts') ?></label>
 	<div class="toggle" id="SHOW_IMAGES" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "SHOW_IMAGES") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
 </div>

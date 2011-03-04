@@ -229,7 +229,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (78);
+insert into ttrss_version values (79);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -352,6 +352,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SORT_HEADLINES_BY_FEED_DATE', 1, 'true', 'Sort headlines by feed date',3, 'Use feed-specified date to sort headlines instead of local import date.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('USER_STYLESHEET', 2, '', 'Customize stylesheet', 2, 'Customize CSS stylesheet to your liking');
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_BROWSE_CATS', 1, 'true', '', 1);
 
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
