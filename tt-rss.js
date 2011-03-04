@@ -276,7 +276,9 @@ function init() {
 	try {
 		//Form.disable("main_toolbar_form");
 
-		dojo.require("dijit.layout.BorderContainer");
+		// Our layer takes care of Dojo dependencies.
+
+		/* dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
@@ -293,11 +295,13 @@ function init() {
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.Menu");
-		dojo.require("dojo.parser");
+		dojo.require("dojo.parser"); */
 
 		dojo.registerModulePath("fox", "../..");
 
 		dojo.require("fox.FeedTree");
+
+		dojo.parser.parse();
 
 		if (typeof themeBeforeLayout == 'function') {
 			themeBeforeLayout();

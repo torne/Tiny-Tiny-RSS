@@ -886,7 +886,7 @@ function init() {
 
 	try {
 	
-		dojo.require("dijit.layout.TabContainer");
+		/* dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -909,7 +909,7 @@ function init() {
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.ProgressBar"); 
-		dojo.require("dijit.form.SimpleTextarea");
+		dojo.require("dijit.form.SimpleTextarea"); */
 
 		dojo.registerModulePath("lib", "..");
 		dojo.registerModulePath("fox", "../..");
@@ -918,6 +918,8 @@ function init() {
 		dojo.require("fox.PrefFeedTree");
 		dojo.require("fox.PrefFilterTree");
 		dojo.require("fox.PrefLabelTree");
+
+		dojo.parser.parse();
 
 		dojo.addOnLoad(function() {
 			loading_set_progress(50);
