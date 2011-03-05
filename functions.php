@@ -2145,6 +2145,24 @@
 		return $rv;
 	}
 
+	function convert_timestamp($timestamp, $source_tz, $dest_tz) {
+
+		try {
+			$source_tz = new DateTimeZone($source_tz);
+		} catch (Exception $e) {
+			$source_tz = new DateTimeZone('UTC');
+		}
+
+		try {
+			$dest_tz = new DateTimeZone($dest_tz);
+		} catch (Exception $e) {
+			$dest_tz = new DateTimeZone('UTC');
+		}
+
+		$dt = new DateTime(date('Y-m-d H:i:s', $timestamp), $source_tz);
+		return $dt->format('U') + $dest_tz->getOffset($dt);
+	}
+
 	function make_local_datetime($link, $timestamp, $long, $owner_uid = false,
 					$no_smart_dt = false) {
 
@@ -3220,54 +3238,35 @@
 		return $data;
 	}
 
-	function getSearchSql($search, $match_on) {
+	function getSearchSql($link, $search, $match_on) {
 
 		$search_query_part = "";
 
 		$keywords = split(" ", $search);
 		$query_keywords = array();
 
-		if ($match_on == "both") {
+		foreach ($keywords as $k) {
+			if (strpos($k, "-") === 0) {
+				$k = substr($k, 1);
+				$not = "NOT";
+			} else {
+				$not = "";
+			}
 
-			foreach ($keywords as $k) {
-				if (strpos($k, "-") === 0) {
-					$k = substr($k, 1);
-					$not = "NOT";
-				} else {
-					$not = "";
-				}
+			if (strpos($k, "@") === 0) {
 
+				$user_tz_string = get_pref($link, 'USER_TIMEZONE', $_SESSION['uid']);
+				$orig_ts = strtotime(substr($k, 1));
+
+				$k = date("Y-m-d", convert_timestamp($orig_ts, $user_tz_string, 'UTC'));
+	
+				array_push($query_keywords, "(".SUBSTRING_FOR_DATE."(updated,1,LENGTH('$k')) $not = '$k')");
+			} else if ($match_on == "both") {
 				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
-					OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
-			}
-
-			$search_query_part = implode("AND", $query_keywords) . " AND ";
-
-		} else if ($match_on == "title") {
-
-			foreach ($keywords as $k) {
-				if (strpos($k, "-") === 0) {
-					$k = substr($k, 1);
-					$not = "NOT";
-				} else {
-					$not = "";
-				}
-
+						OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+			} else if ($match_on == "title") {
 				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%'))");
-			}
-
-			$search_query_part = implode("AND", $query_keywords) . " AND ";
-
-		} else if ($match_on == "content") {
-
-			foreach ($keywords as $k) {
-				if (strpos($k, "-") === 0) {
-					$k = substr($k, 1);
-					$not = "NOT";
-				} else {
-					$not = "";
-				}
-
+			} else if ($match_on == "content") {
 				array_push($query_keywords, "(UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 			}
 		}
@@ -3294,7 +3293,7 @@
 						$search_query_part = "ref_id = -1 AND ";
 
 				} else {
-					$search_query_part = getSearchSql($search, $match_on);
+					$search_query_part = getSearchSql($link, $search, $match_on);
 					$search_query_part .= " AND ";
 				}				
 
