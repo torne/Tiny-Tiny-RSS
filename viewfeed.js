@@ -1411,7 +1411,7 @@ function headlines_scroll_handler(e) {
 		}
 
 
-		if (isCdmMode() && getInitParam("cdm_auto_catchup") == 1) {
+		if (getInitParam("cdm_auto_catchup") == 1) {
 
 			var ids = [];
 
