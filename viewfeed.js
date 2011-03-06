@@ -2,9 +2,6 @@ var active_post_id = false;
 var last_article_view = false;
 var active_real_feed_id = false;
 
-var _cdm_wd_timeout = false;
-var _cdm_wd_vishist = new Array();
-
 var article_cache = new Array();
 
 var vgroup_last_feed = false;
@@ -172,18 +169,7 @@ function headlines_callback2(transport, feed_cur_page) {
 		}
 	
 
-		if (_cdm_wd_timeout) window.clearTimeout(_cdm_wd_timeout);
 
-		if (isCdmMode() && 
-				getActiveFeedId() != -3 &&
-				getInitParam("cdm_auto_catchup") == 1) {
-			console.log("starting CDM watchdog");
-			_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 5000);
-			_cdm_wd_vishist = new Array();
-		} else {
-			console.log("not in CDM mode or watchdog disabled");
-		}
-	
 		_feed_cur_page = feed_cur_page;
 		_infscroll_request_sent = 0;
 
@@ -1145,87 +1131,6 @@ function cdmScrollToArticleId(id) {
 	}
 }
 
-function cdmWatchdog() {
-
-	try {
-
-		var ctr = $("headlines-frame");
-
-		if (!ctr) return;
-
-		var ids = new Array();
-
-		var e = ctr.firstChild;
-
-		while (e) {
-			if (e.className && e.hasClassName("Unread") && e.id &&
-					e.id.match("RROW-")) {
-
-				// article fits in viewport OR article is longer than viewport and
-				// its bottom is visible
-
-				if (ctr.scrollTop <= e.offsetTop && e.offsetTop + e.offsetHeight <=
-						ctr.scrollTop + ctr.offsetHeight) {
-
-//					console.log(e.id + " is visible " + e.offsetTop + "." + 
-//						(e.offsetTop + e.offsetHeight) + " vs " + ctr.scrollTop + "." +
-//						(ctr.scrollTop + ctr.offsetHeight));
-
-					ids.push(e.id.replace("RROW-", ""));
-
-				} else if (e.offsetHeight > ctr.offsetHeight &&
-						e.offsetTop + e.offsetHeight >= ctr.scrollTop &&
-						e.offsetTop + e.offsetHeight <= ctr.scrollTop + ctr.offsetHeight) {
-
-					ids.push(e.id.replace("RROW-", "")); 
-
-				}
-
-				// method 2: article bottom is visible and is in upper 1/2 of the viewport
-
-/*				if (e.offsetTop + e.offsetHeight >= ctr.scrollTop &&
-						e.offsetTop + e.offsetHeight <= ctr.scrollTop + ctr.offsetHeight/2) {
-
-					ids.push(e.id.replace("RROW-", "")); 
-
-				} */
-
-			}
-
-			e = e.nextSibling;
-		}
-
-		console.log("cdmWatchdog, ids= " + ids.toString());
-
-		if (ids.length > 0) {
-
-			for (var i = 0; i < ids.length; i++) {
-				var e = $("RROW-" + ids[i]);
-				if (e) {
-					e.removeClassName("Unread");
-				}
-			}
-
-			var query = "?op=rpc&subop=catchupSelected" +
-				"&cmode=0" + "&ids=" + param_escape(ids.toString());
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) { 
-					handle_rpc_json(transport); 
-				} });
-
-		}
-
-		_cdm_wd_timeout = window.setTimeout("cdmWatchdog()", 4000);
-
-	} catch (e) {
-		exception_error("cdmWatchdog", e);
-	}
-
-}
-
-
 function cache_inject(id, article, param) {
 
 	try {
@@ -1505,6 +1410,37 @@ function headlines_scroll_handler(e) {
 			}
 		}
 
+
+		if (isCdmMode() && getInitParam("cdm_auto_catchup") == 1) {
+
+			var ids = [];
+
+			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
+				function(child) {
+					if ($("headlines-frame").scrollTop > 
+							(child.offsetTop + child.offsetHeight)) {
+
+						ids.push(child.id.replace("RROW-", ""));
+					}
+				});
+
+			if (ids.length > 0) {
+
+				var query = "?op=rpc&subop=catchupSelected" +
+					"&cmode=0&ids=" + param_escape(ids.toString());
+	
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) { 
+						handle_rpc_json(transport);
+	
+						ids.each(function(id) {
+							var elem = $("RROW-" + id);
+							if (elem) elem.removeClassName("Unread");
+						});
+					} });
+			}
+		}
 	} catch (e) {
 		exception_error("headlines_scroll_handler", e);
 	}
