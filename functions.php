@@ -7095,7 +7095,7 @@
 
 			db_query($link, "UPDATE ttrss_feeds 
 				SET last_error = 'OAuth information not found.'
-				WHERE feed_url = '$url_escaped' AND owner_uid = " . $_SESSION['uid']);
+				WHERE feed_url = '$url_escaped' AND owner_uid = $owner_uid");
 
 			return false;
 		}
