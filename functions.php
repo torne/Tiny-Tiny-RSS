@@ -108,7 +108,7 @@
 
 	require_once 'lib/phpmailer/class.phpmailer.php';
 	require_once 'lib/sphinxapi.php';
-	require_once 'lib/twitteroauth/twitteroauth.php';
+	require_once 'lib/tmhoauth/tmhOAuth.php';
 
 	//define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
@@ -2933,7 +2933,7 @@
 
 		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth');
 
-		if (!$has_oauth || strpos($url, '://twitter.com') === false) {
+		if (!$has_oauth || strpos($url, '://api.twitter.com') === false) {
 			if (!fetch_file_contents($url)) return 5;
 
 			if (url_is_html($url)) {
@@ -7056,25 +7056,47 @@
 		return $obj;
 	}
 
+
 	function fetch_twitter_rss($link, $url, $owner_uid) {
 		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users 
 			WHERE id = $owner_uid");
 
 		$access_token = json_decode(db_fetch_result($result, 0, 'twitter_oauth'), true);
+		$url_escaped = db_escape_string($url);
 
 		if ($access_token) {
-	
-			/* Create a TwitterOauth object with consumer/user tokens. */
-			$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
-	
-			/* If method is set change API call made. Test is called by default. */
-			$content = $connection->get($url);
 
-			$rss = new MagpieRSS($content, MAGPIE_OUTPUT_ENCODING, 
-				MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+			$tmhOAuth = new tmhOAuth(array(
+				'consumer_key'    => CONSUMER_KEY,
+				'consumer_secret' => CONSUMER_SECRET,
+				'user_token' => $access_token['oauth_token'],
+				'user_secret' => $access_token['oauth_token_secret'],
+			));
 
-			return $rss;
+			$code = $tmhOAuth->request('GET', $url);
+
+			if ($code == 200) {
+
+				$content = $tmhOAuth->response['response'];
+
+				$rss = new MagpieRSS($content, MAGPIE_OUTPUT_ENCODING, 
+					MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+
+				return $rss;
+
+			} else {
+
+				db_query($link, "UPDATE ttrss_feeds 
+					SET last_error = 'OAuth authorization failed ($code).'
+					WHERE feed_url = '$url_escaped' AND owner_uid = $owner_uid");
+			}
+
 		} else {
+
+			db_query($link, "UPDATE ttrss_feeds 
+				SET last_error = 'OAuth information not found.'
+				WHERE feed_url = '$url_escaped' AND owner_uid = " . $_SESSION['uid']);
+
 			return false;
 		}
 	}

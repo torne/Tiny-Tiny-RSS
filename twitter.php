@@ -4,8 +4,9 @@
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
-	require_once "lib/twitteroauth/twitteroauth.php";
-	
+	//require_once "lib/twitteroauth/twitteroauth.php";
+	require_once "lib/tmhoauth/tmhOAuth.php";
+
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
 	init_connection($link);	
@@ -21,35 +22,33 @@
 
 	$callback_url = get_self_url_prefix() . "/twitter.php?op=callback";
 
+	$tmhOAuth = new tmhOAuth(array(
+	  'consumer_key'    => CONSUMER_KEY,
+	  'consumer_secret' => CONSUMER_SECRET,
+	));	
+
 	if ($op == 'clear') {
-		/* Remove no longer needed request tokens */
-		unset($_SESSION['oauth_token']);
-		unset($_SESSION['oauth_token_secret']);
-		unset($_SESSION['access_token']);
+		unset($_SESSION['oauth']);
 
 		header("Location: twitter.php");
 		return;
 	}
 
-	if ($op == 'callback') {
-		/* If the oauth_token is old redirect to the connect page. */
-		if (isset($_REQUEST['oauth_token']) && 
-				$_SESSION['oauth_token'] !== $_REQUEST['oauth_token']) {
+	if (isset($_REQUEST['oauth_verifier'])) {
 
-		  $_SESSION['oauth_status'] = 'oldtoken';
-		  header('Location: twitter.php?op=clear');
-		  return;
-		}
+		$op = 'callback';
 
-		/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
-		$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
+		$tmhOAuth->config['user_token']  = $_SESSION['oauth']['oauth_token'];
+		$tmhOAuth->config['user_secret'] = $_SESSION['oauth']['oauth_token_secret'];
 
-		/* Request access tokens from twitter */
-		$access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+		$code = $tmhOAuth->request('POST', $tmhOAuth->url('oauth/access_token', ''), array(
+			'oauth_verifier' => $_REQUEST['oauth_verifier']));
+		
+		if ($code == 200) {
 
-		/* If HTTP response is 200 continue otherwise send to connect page to retry */
-		if ($connection->http_code == 200) {
-			$access_token = db_escape_string(json_encode($access_token));
+			$access_token = json_encode($tmhOAuth->extract_params($tmhOAuth->response['response']));
+
+			unset($_SESSION['oauth']);
 
 			db_query($link, "UPDATE ttrss_users SET twitter_oauth = '$access_token'
 				WHERE id = ".$_SESSION['uid']);
@@ -63,20 +62,23 @@
 
 	if ($op == 'register') {
 
-		/* Build TwitterOAuth object with client credentials. */
-		$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+		$code = $tmhOAuth->request('POST', 
+			$tmhOAuth->url('oauth/request_token', ''), array(
+			    'oauth_callback' => $callback));
 
-		/* Get temporary credentials. */
-		$request_token = $connection->getRequestToken($callback_url);
-		
-		/* Save temporary credentials to session. */
-		$_SESSION['oauth_token'] = $token = $request_token['oauth_token'];
-		$_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+		if ($code == 200) {
+			$_SESSION['oauth'] = $tmhOAuth->extract_params($tmhOAuth->response['response']);
 
-		if ($connection->http_code == 200) {
-		    $url = $connection->getAuthorizeURL($token);
-			 header('Location: ' . $url); 
-			 return;
+			$method = isset($_REQUEST['signin']) ? 'authenticate' : 'authorize';
+			$force  = isset($_REQUEST['force']) ? '&force_login=1' : '';
+			$forcewrite  = isset($_REQUEST['force_write']) ? '&oauth_access_type=write' : '';
+			$forceread  = isset($_REQUEST['force_read']) ? '&oauth_access_type=read' : '';
+			
+			$location = $tmhOAuth->url("oauth/{$method}", '') .  
+				"?oauth_token={$_SESSION['oauth']['oauth_token']}{$force}{$forcewrite}{$forceread}";
+
+			header("Location: $location");
+
 		}
 	}
 ?>
