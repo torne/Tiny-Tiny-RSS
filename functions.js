@@ -43,11 +43,40 @@ function exception_error(location, e, ext_info) {
 
 		content += "</div>";
 
-		// TODO: add code to automatically report errors to tt-rss.org
+		content += "<div class='dlgButtons'>";
+
+		content += "<button dojoType=\"dijit.form.Button\""+
+				"onclick=\"dijit.byId('exceptionDlg').report()\">" +
+				__('Report to tt-rss.org') + "</button> ";
+		content += "<button dojoType=\"dijit.form.Button\" "+
+				"onclick=\"dijit.byId('exceptionDlg').hide()\">" + 
+				__('Close') + "</button>";
+		content += "</div>";
+
 
 		var dialog = new dijit.Dialog({
+			id: "exceptionDlg",
 			title: "Unhandled exception",
 			style: "width: 600px",
+			report: function() {
+				if (confirm(__("Are you sure to report this exception to tt-rss.org? The report will include your browser information. Your IP would be saved in the database."))) {
+
+					var params = $H({
+						message: msg,
+						xinfo: ext_info,
+						stack: e.stack,		
+						browserName: navigator.appName,
+						browserVersion: navigator.appVersion,
+						browserPlatform: navigator.platform,
+						browserCookies: navigator.cookieEnabled,
+					});
+
+					var url = "http://tt-rss.org/report.php?" + params.toQueryString();
+
+					window.open(url);
+
+				}
+			},
 			content: content});
 
 		dialog.show();
