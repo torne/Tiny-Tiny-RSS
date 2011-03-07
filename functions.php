@@ -4118,6 +4118,8 @@
 
 			print "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
 
+			print "<option value=\"catchupPage()\">".__('Mark as read')."</option>";
+
 			print "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
 
 			print "</select>";			
