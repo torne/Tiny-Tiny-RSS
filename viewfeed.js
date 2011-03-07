@@ -2168,20 +2168,12 @@ function initHeadlinesMenu() {
 
 		});
 
-		if (!isCdmMode())
+/*		if (!isCdmMode())
 			menu.addChild(new dijit.MenuItem({
 				label: __("View article"),
 				onClick: function(event) {
 					view(this.getParent().callerRowId);
-				}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("View in a new tab"),
-			onClick: function(event) {
-				hlOpenInNewTab(event, this.getParent().callerRowId);
-				}}));
-
-		menu.addChild(new dijit.MenuSeparator());
+				}})); */
 
 		menu.addChild(new dijit.MenuItem({
 			label: __("Open original article"),
@@ -2189,13 +2181,22 @@ function initHeadlinesMenu() {
 				openArticleInNewWindow(this.getParent().callerRowId);
 			}}));
 
+		menu.addChild(new dijit.MenuItem({
+			label: __("View in a tt-rss tab"),
+			onClick: function(event) {
+				hlOpenInNewTab(event, this.getParent().callerRowId);
+				}}));
+
+//		menu.addChild(new dijit.MenuSeparator());
+
 		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
 
 		if (labels) {
 
 			menu.addChild(new dijit.MenuSeparator());
 
-			var labelsMenu = new dijit.Menu({ownerMenu: menu});
+			var labelAddMenu = new dijit.Menu({ownerMenu: menu});
+			var labelDelMenu = new dijit.Menu({ownerMenu: menu});
 
 			labels.each(function(label) {
 				var id = label.id[0];
@@ -2204,21 +2205,34 @@ function initHeadlinesMenu() {
 
 				bare_id = -11-bare_id;
 
-				labelsMenu.addChild(new dijit.MenuItem({
+				labelAddMenu.addChild(new dijit.MenuItem({
 					label: name,
 					labelId: bare_id,
 					onClick: function(event) {
-						//console.log(this.labelId);
-						//console.log(this.getParent().ownerMenu.callerRowId);
 						selectionAssignLabel(this.labelId, 
 							[this.getParent().ownerMenu.callerRowId]);
 				}}));
+
+				labelDelMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						selectionRemoveLabel(this.labelId, 
+							[this.getParent().ownerMenu.callerRowId]);
+				}}));
+
 			});
 
 			menu.addChild(new dijit.PopupMenuItem({
-				label: __("Labels"),
-				popup: labelsMenu,
+				label: __("Assign label"),
+				popup: labelAddMenu,
 			}));
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Remove label"),
+				popup: labelDelMenu,
+			}));
+
 		}
 
 		menu.startup();
