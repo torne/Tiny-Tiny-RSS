@@ -817,6 +817,7 @@
 					$entry_guid = $item["id"];
 
 					if (!$entry_guid) $entry_guid = $item["guid"];
+					if (!$entry_guid) $entry_guid = $item["about"];
 					if (!$entry_guid) $entry_guid = $item["link"];
 					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
 				}
