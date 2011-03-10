@@ -188,7 +188,7 @@ create table ttrss_filter_actions (id integer not null primary key,
 	description varchar(250) not null unique);
 
 insert into ttrss_filter_actions (id,name,description) values (1, 'filter', 
-	'Filter article');
+	'Delete article');
 
 insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
 	'Mark as read');
@@ -229,7 +229,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (80);
+insert into ttrss_version values (81);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
