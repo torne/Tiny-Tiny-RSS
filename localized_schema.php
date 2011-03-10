@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Mon Nov 29 13:07:29 MSK 2010
+<?php # This file has been generated at:  Thu Mar 10 11:57:12 MSK 2011
 
 __("Title");
 __("Title or Content");
@@ -6,7 +6,7 @@ __("Link");
 __("Content");
 __("Article Date");
 
-__("Filter article");
+__("Delete article");
 __("Mark as read");
 __("Set starred");
 __("Publish article");
@@ -17,7 +17,7 @@ __('This option is useful when you are reading several planet-type aggregators w
 __('Display expanded list of feed articles, instead of separate displays for headlines and article content');
 __('When "Mark as read" button is clicked in toolbar, automatically open next feed with unread articles.');
 __('This option enables sending daily digest of new (and unread) headlines on your configured e-mail address');
-__('This option enables marking articles as read automatically in combined mode (except for Fresh articles feed) while you scroll article list.');
+__('This option enables marking articles as read automatically while you scroll article list.');
 __('Strip all but most common HTML tags when reading articles.');
 __('When auto-detecting tags in articles these tags will not be applied (comma-separated list).');
 __('When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
@@ -41,7 +41,7 @@ __('Set articles as unread on update');
 __('Reverse headline order (oldest first)');
 __('Enable e-mail digest');
 __('Confirm marking feed as read');
-__('Mark articles as read automatically');
+__('Automatically mark articles as read');
 __('Strip unsafe tags from articles');
 __('Blacklisted tags');
 __('Maximum age of fresh articles (in hours)');
