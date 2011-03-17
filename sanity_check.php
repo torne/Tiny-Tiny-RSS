@@ -5,7 +5,7 @@
 	define('SCHEMA_VERSION', 81);
 
 	if (!file_exists("config.php")) {
-		print "<b>Fatal Error</b>: You forgot to copy 
+		print "<b>Fatal Error</b>: You forgot to copy
 		<b>config.php-dist</b> to <b>config.php</b> and edit it.\n";
 		exit;
 	}
@@ -41,7 +41,7 @@
 
 	if (file_exists("xml-export.php") || file_exists("xml-import.php")) {
 		print "<b>Fatal Error</b>: XML Import/Export tools (<b>xml-export.php</b>
-		and <b>xml-import.php</b>) could be used maliciously. Please remove them 
+		and <b>xml-import.php</b>) could be used maliciously. Please remove them
 		from your TT-RSS instance.\n";
 		exit;
 	}
@@ -51,12 +51,6 @@
 			to 0 in single user mode.\n";
 		exit;
 	}
-
-	if (USE_CURL && ! function_exists("curl_init")) {
-		print "<b>Fatal Error</b>: You have enabled USE_CURL, but your PHP 
-			doesn't seem to support CURL functions.";
-		exit;
-	} 
 
 	if (!defined('SESSION_EXPIRE_TIME')) {
 		$err_msg = "config: SESSION_EXPIRE_TIME is undefined";
@@ -89,7 +83,7 @@
 		if ($link) {
 			$result = db_query($link, "SELECT id FROM ttrss_users WHERE id = 1");
 
-			if (db_num_rows($result) != 1) {	
+			if (db_num_rows($result) != 1) {
 				$err_msg = "config: SINGLE_USER_MODE is enabled but default admin account (UID=1) is not found.";
 			}
 		}
@@ -114,7 +108,7 @@
 
 	if (!defined('DEFAULT_UPDATE_METHOD') || (DEFAULT_UPDATE_METHOD != 0 &&
 			DEFAULT_UPDATE_METHOD != 1)) {
-		$err_msg = "config: DEFAULT_UPDATE_METHOD should be either 0 or 1.";		
+		$err_msg = "config: DEFAULT_UPDATE_METHOD should be either 0 or 1.";
 	}
 
 	if (!is_writable(ICONS_DIR)) {
@@ -147,10 +141,6 @@
 
 	if (ini_get("safe_mode")) {
 		$err_msg = "php.ini: Safe mode is not supported. If you wish to continue, remove this test from sanity_check.php and proceeed at your own risk. Please note that your bug reports will not be accepted or reviewed.";
-	}
-
-	if (defined('USE_CURL_FOR_ICONS')) {
-		$err_msg = "config: USE_CURL_FOR_ICONS has been renamed to USE_CURL.";
 	}
 
 	if ($err_msg) {

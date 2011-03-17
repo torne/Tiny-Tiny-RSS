@@ -374,7 +374,7 @@
 		$login = urlencode($login);
 		$pass = urlencode($pass);
 
-		if (USE_CURL) {
+		if (function_exists('curl_init')) {
 			$ch = curl_init($url);
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
@@ -453,61 +453,8 @@
 		if (!$favicon_url)
 			$favicon_url = rewrite_relative_url($url, "/favicon.ico");
 
-		// Run a test to see if what we have attempted to get actually exists.
-		if(USE_CURL || url_validate($favicon_url)) {
-			return $favicon_url;
-		} else {
-			return false;
-		}
+		return $favicon_url;
 	} // function get_favicon_url
-
-	/**
-	 * Check if a link is a valid and working URL.
-	 *
-	 * @param mixed $link A URL to check
-	 * @access public
-	 * @return boolean True if the URL is valid, false otherwise.
-	 */
-	function url_validate($link) {
-
-		$url_parts = @parse_url($link);
-
-		if ( empty( $url_parts["host"] ) )
-				return false;
-
-		if ( !empty( $url_parts["path"] ) ) {
-				$documentpath = $url_parts["path"];
-		} else {
-				$documentpath = "/";
-		}
-
-		if ( !empty( $url_parts["query"] ) )
-				$documentpath .= "?" . $url_parts["query"];
-
-		$host = $url_parts["host"];
-		$port = $url_parts["port"];
-
-		if ( empty($port) )
-				$port = "80";
-
-		$socket = @fsockopen( $host, $port, $errno, $errstr, 30 );
-
-		if ( !$socket )
-				return false;
-
-		fwrite ($socket, "HEAD ".$documentpath." HTTP/1.0\r\nHost: $host\r\n\r\n");
-
-		$http_response = fgets( $socket, 22 );
-
-		$responses = "/(200 OK)|(30[123])/";
-		if ( preg_match($responses, $http_response) ) {
-				fclose($socket);
-				return true;
-		} else {
-				return false;
-		}
-
-	} // function url_validate
 
 	function check_feed_favicon($site_url, $feed, $link) {
 		$favicon_url = get_favicon_url($site_url);
@@ -775,9 +722,7 @@
 			$icon_url = substr($icon_url, 0, 250);
 
 			if ($icon_url && $orig_icon_url != $icon_url) {
-				if (USE_CURL || url_validate($icon_url)) {
-					db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
-				}
+				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
