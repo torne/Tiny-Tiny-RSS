@@ -4019,135 +4019,136 @@
 			mb_strtolower(strip_tags($title), 'utf-8'));
 	}
 
-	function print_headline_subtoolbar($link, $feed_site_url, $feed_title,
+	function format_headline_subtoolbar($link, $feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search, $match_on,
 			$search_mode, $view_mode, $error) {
 
-			$page_prev_link = "viewFeedGoPage(-1)";
-			$page_next_link = "viewFeedGoPage(1)";
-			$page_first_link = "viewFeedGoPage(0)";
+		$page_prev_link = "viewFeedGoPage(-1)";
+		$page_next_link = "viewFeedGoPage(1)";
+		$page_first_link = "viewFeedGoPage(0)";
 
-			$catchup_page_link = "catchupPage()";
-			$catchup_feed_link = "catchupCurrentFeed()";
-			$catchup_sel_link = "catchupSelection()";
+		$catchup_page_link = "catchupPage()";
+		$catchup_feed_link = "catchupCurrentFeed()";
+		$catchup_sel_link = "catchupSelection()";
 
-			$archive_sel_link = "archiveSelection()";
-			$delete_sel_link = "deleteSelection()";
+		$archive_sel_link = "archiveSelection()";
+		$delete_sel_link = "deleteSelection()";
 
-			$sel_all_link = "selectArticles('all')";
-			$sel_unread_link = "selectArticles('unread')";
-			$sel_none_link = "selectArticles('none')";
-			$sel_inv_link = "selectArticles('invert')";
+		$sel_all_link = "selectArticles('all')";
+		$sel_unread_link = "selectArticles('unread')";
+		$sel_none_link = "selectArticles('none')";
+		$sel_inv_link = "selectArticles('invert')";
 
-			$tog_unread_link = "selectionToggleUnread()";
-			$tog_marked_link = "selectionToggleMarked()";
-			$tog_published_link = "selectionTogglePublished()";
+		$tog_unread_link = "selectionToggleUnread()";
+		$tog_marked_link = "selectionToggleMarked()";
+		$tog_published_link = "selectionTogglePublished()";
 
-			print "<div id=\"subtoolbar_main\">";
+		$reply = "<div id=\"subtoolbar_main\">";
 
-			print __('Select:')."
-				<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
-				<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
-				<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
-				<a href=\"#\" onclick=\"$sel_none_link\">".__('None')."</a></li>";
+		$reply .= __('Select:')."
+			<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
+			<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
+			<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
+			<a href=\"#\" onclick=\"$sel_none_link\">".__('None')."</a></li>";
 
-			print " ";
+		$reply .= " ";
 
-			print "<select dojoType=\"dijit.form.Select\"
-				onchange=\"headlineActionsChange(this)\">";
-			print "<option value=\"false\">".__('Actions...')."</option>";
+		$reply .= "<select dojoType=\"dijit.form.Select\"
+			onchange=\"headlineActionsChange(this)\">";
+		$reply .= "<option value=\"false\">".__('Actions...')."</option>";
 
-			print "<option value=\"0\" disabled=\"1\">".__('Selection toggle:')."</option>";
+		$reply .= "<option value=\"0\" disabled=\"1\">".__('Selection toggle:')."</option>";
 
-			print "<option value=\"$tog_unread_link\">".__('Unread')."</option>
-				<option value=\"$tog_marked_link\">".__('Starred')."</option>
-				<option value=\"$tog_published_link\">".__('Published')."</option>";
+		$reply .= "<option value=\"$tog_unread_link\">".__('Unread')."</option>
+			<option value=\"$tog_marked_link\">".__('Starred')."</option>
+			<option value=\"$tog_published_link\">".__('Published')."</option>";
 
-			print "<option value=\"0\" disabled=\"1\">".__('Selection:')."</option>";
+		$reply .= "<option value=\"0\" disabled=\"1\">".__('Selection:')."</option>";
 
-			print "<option value=\"$catchup_sel_link\">".__('Mark as read')."</option>";
+		$reply .= "<option value=\"$catchup_sel_link\">".__('Mark as read')."</option>";
 
-			if ($feed_id != "0") {
-				print "<option value=\"$archive_sel_link\">".__('Archive')."</option>";
-			} else {
-				print "<option value=\"$archive_sel_link\">".__('Move back')."</option>";
-				print "<option value=\"$delete_sel_link\">".__('Delete')."</option>";
-
-			}
-
-			print "<option value=\"emailArticle(false)\">".__('Forward by email').
-				"</option>";
-
-			$rss_link = htmlspecialchars(get_self_url_prefix() .
-				"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view_mode=$view_mode$search_q");
-
-			print "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
-
-			print "<option value=\"catchupPage()\">".__('Mark as read')."</option>";
-
-			print "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
-
-			print "</select>";
-
-			print "</div>";
-
-			print "<div id=\"subtoolbar_ftitle\">";
-
-			if ($feed_site_url) {
-				$target = "target=\"_blank\"";
-				print "<a title=\"".__("Visit the website")."\" $target href=\"$feed_site_url\">".
-					truncate_string($feed_title,30)."</a>";
-
-				if ($error) {
-					print " (<span class=\"error\" title=\"$error\">Error</span>)";
-				}
-
-			} else {
-				if ($feed_id < -10) {
-					$label_id = -11-$feed_id;
-
-					$result = db_query($link, "SELECT fg_color, bg_color
-						FROM ttrss_labels2 WHERE id = '$label_id' AND owner_uid = " .
-						$_SESSION["uid"]);
-
-					if (db_num_rows($result) != 0) {
-						$fg_color = db_fetch_result($result, 0, "fg_color");
-						$bg_color = db_fetch_result($result, 0, "bg_color");
-
-						print "<span style='background : $bg_color; color : $fg_color'>";
-						print $feed_title;
-						print "</span>";
-					} else {
-						print $feed_title;
-					}
-
-				} else {
-					print $feed_title;
-				}
-			}
-
-			if ($search) {
-				$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-			} else {
-				$search_q = "";
-			}
-
-			// Adaptive doesn't really make any sense for generated feeds
-			// All Articles is the default, so no need to insert it either
-			if ($view_mode == "adaptive" || $view_mode == "all_articles")
-				$view_mode = "";
-			else
-				$view_mode = "&view-mode=$view_mode";
-
-			print "
-				<a href=\"#\"
-					title=\"".__("View as RSS feed")."\"
-					onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">
-					<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/feed-icon-12x12.png\"></a>";
-
-			print "</div>";
+		if ($feed_id != "0") {
+			$reply .= "<option value=\"$archive_sel_link\">".__('Archive')."</option>";
+		} else {
+			$reply .= "<option value=\"$archive_sel_link\">".__('Move back')."</option>";
+			$reply .= "<option value=\"$delete_sel_link\">".__('Delete')."</option>";
 
 		}
+
+		$reply .= "<option value=\"emailArticle(false)\">".__('Forward by email').
+			"</option>";
+
+		$rss_link = htmlspecialchars(get_self_url_prefix() .
+			"/backend.php?op=rss&id=$feed_id&is_cat=$is_cat&view_mode=$view_mode$search_q");
+
+		$reply .= "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
+
+		$reply .= "<option value=\"catchupPage()\">".__('Mark as read')."</option>";
+
+		$reply .= "<option value=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">".__('View as RSS')."</option>";
+
+		$reply .= "</select>";
+
+		$reply .= "</div>";
+
+		$reply .= "<div id=\"subtoolbar_ftitle\">";
+
+		if ($feed_site_url) {
+			$target = "target=\"_blank\"";
+			$reply .= "<a title=\"".__("Visit the website")."\" $target href=\"$feed_site_url\">".
+				truncate_string($feed_title,30)."</a>";
+
+			if ($error) {
+				$reply .= " (<span class=\"error\" title=\"$error\">Error</span>)";
+			}
+
+		} else {
+			if ($feed_id < -10) {
+				$label_id = -11-$feed_id;
+
+				$result = db_query($link, "SELECT fg_color, bg_color
+					FROM ttrss_labels2 WHERE id = '$label_id' AND owner_uid = " .
+					$_SESSION["uid"]);
+
+				if (db_num_rows($result) != 0) {
+					$fg_color = db_fetch_result($result, 0, "fg_color");
+					$bg_color = db_fetch_result($result, 0, "bg_color");
+
+					$reply .= "<span style='background : $bg_color; color : $fg_color'>";
+					$reply .= $feed_title;
+					$reply .= "</span>";
+				} else {
+					$reply .= $feed_title;
+				}
+
+			} else {
+				$reply .= $feed_title;
+			}
+		}
+
+		if ($search) {
+			$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+		} else {
+			$search_q = "";
+		}
+
+		// Adaptive doesn't really make any sense for generated feeds
+		// All Articles is the default, so no need to insert it either
+		if ($view_mode == "adaptive" || $view_mode == "all_articles")
+			$view_mode = "";
+		else
+			$view_mode = "&view-mode=$view_mode";
+
+		$reply .= "
+			<a href=\"#\"
+				title=\"".__("View as RSS feed")."\"
+				onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">
+				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/feed-icon-12x12.png\"></a>";
+
+		$reply .= "</div>";
+
+		return $reply;
+	}
 
 	function outputFeedList($link, $special = true) {
 
@@ -4730,11 +4731,13 @@
 
 	}
 
-	function outputHeadlinesList($link, $feed, $subop, $view_mode, $limit, $cat_view,
+	function format_headlines_list($link, $feed, $subop, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
 					$override_order = false) {
 
 		$disable_cache = false;
+
+		$reply = array();
 
 		$timing_info = getmicrotime();
 
@@ -4780,8 +4783,7 @@
 				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 
 			if (db_num_rows($result) == 0) {
-				print "<div align='center'>".__('Feed not found.')."</div>";
-				return;
+				$reply['content'] = "<div align='center'>".__('Feed not found.')."</div>";
 			}
 		}
 
@@ -4837,33 +4839,16 @@
 
 		$vgroup_last_feed = $vgr_last_feed;
 
-/*		if ($feed == -2) {
-			$feed_site_url = article_publish_url($link);
-		} */
-
 		/// STOP //////////////////////////////////////////////////////////////////////////////////
 
-		print "<toolbar><![CDATA[";
-
 		if (!$offset) {
-//			print "<div id=\"headlinesContainer\" $rtl_tag>";
-
-			if (!$result) {
-				print "<div align='center'>".__("Could not display feed (query failed). Please check label match syntax or local configuration.")."</div>";
-				return;
-			}
 
 			if (db_num_rows($result) > 0) {
-				print_headline_subtoolbar($link, $feed_site_url, $feed_title,
+				$reply['toolbar'] = format_headline_subtoolbar($link, $feed_site_url, $feed_title,
 					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
 					$last_error);
-
-//				print "<div id=\"headlinesInnerContainer\" onscroll=\"headlines_scroll_handler()\">";
-
 			}
 		}
-
-		print "]]></toolbar><content><![CDATA[";
 
 		$headlines_count = db_num_rows($result);
 
@@ -5006,7 +4991,7 @@
 
 							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
-							print "<div class='cdmFeedTitle'>".
+							$reply['content'] .= "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
 								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
@@ -5017,36 +5002,36 @@
 					$mouseover_attrs = "onmouseover='postMouseIn($id)'
 						onmouseout='postMouseOut($id)'";
 
-					print "<div class='$class' id='RROW-$id' $mouseover_attrs>";
+					$reply['content'] .= "<div class='$class' id='RROW-$id' $mouseover_attrs>";
 
-					print "<div class='hlUpdPic'>$update_pic</div>";
+					$reply['content'] .= "<div class='hlUpdPic'>$update_pic</div>";
 
-					print "<div class='hlLeft'>";
+					$reply['content'] .= "<div class='hlLeft'>";
 
-					print "<input type=\"checkbox\" onclick=\"tSR(this)\"
+					$reply['content'] .= "<input type=\"checkbox\" onclick=\"tSR(this)\"
 							id=\"RCHK-$id\">";
 
-					print "$marked_pic";
-					print "$published_pic";
+					$reply['content'] .= "$marked_pic";
+					$reply['content'] .= "$published_pic";
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "<div onclick='return hlClicked(event, $id)'
+					$reply['content'] .= "<div onclick='return hlClicked(event, $id)'
 						class=\"hlTitle\"><span class='hlContent$hlc_suffix'>";
-					print "<a id=\"RTITLE-$id\"
+					$reply['content'] .= "<a id=\"RTITLE-$id\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
 						onclick=\"return false;\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 						if ($content_preview) {
-							print "<span class=\"contentPreview\"> - $content_preview</span>";
+							$reply['content'] .= "<span class=\"contentPreview\"> - $content_preview</span>";
 						}
 					}
 
-					print "</a></span>";
+					$reply['content'] .= "</a></span>";
 
-					print $labels_str;
+					$reply['content'] .= $labels_str;
 
 					/* if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {
@@ -5057,23 +5042,21 @@
 						}
 					} */
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-
-
-					print "<div class=\"hlRight\">";
-					print "<span class=\"hlUpdated\">$updated_fmt</span>";
-					print $score_pic;
+					$reply['content'] .= "<div class=\"hlRight\">";
+					$reply['content'] .= "<span class=\"hlUpdated\">$updated_fmt</span>";
+					$reply['content'] .= $score_pic;
 
 					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 
-						print "<span onclick=\"viewfeed($feed_id)\"
+						$reply['content'] .= "<span onclick=\"viewfeed($feed_id)\"
 							title=\"".htmlspecialchars($line['feed_title'])."\">
 							$feed_icon_img<span>";
 					}
 
-					print "</div>";
-					print "</div>";
+					$reply['content'] .= "</div>";
+					$reply['content'] .= "</div>";
 
 				} else {
 
@@ -5095,7 +5078,7 @@
 								//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
 							}
 
-							print "<div class='cdmFeedTitle'>".
+							$reply['content'] .= "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
 								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
@@ -5107,31 +5090,31 @@
 					$mouseover_attrs = "onmouseover='postMouseIn($id)'
 						onmouseout='postMouseOut($id)'";
 
-					print "<div class=\"$class\"
+					$reply['content'] .= "<div class=\"$class\"
 						id=\"RROW-$id\" $mouseover_attrs'>";
 
-					print "<div class=\"cdmHeader\">";
+					$reply['content'] .= "<div class=\"cdmHeader\">";
 
-					print "<div style='float : right'>";
-					print "<span class='updated'>$updated_fmt</span>";
-					print "$score_pic";
+					$reply['content'] .= "<div style='float : right'>";
+					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
+					$reply['content'] .= "$score_pic";
 
 					if (!get_pref($link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
-						print "<span style=\"cursor : pointer\"
+						$reply['content'] .= "<span style=\"cursor : pointer\"
 							title=\"".htmlspecialchars($line["feed_title"])."\"
 							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
-					print "<div class=\"updPic\">$update_pic</div>";
+					$reply['content'] .= "<div class=\"updPic\">$update_pic</div>";
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this,
+					$reply['content'] .= "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this,
 							'RROW-$id')\" id=\"RCHK-$id\"/>";
 
-					print "$marked_pic";
-					print "$published_pic";
+					$reply['content'] .= "$marked_pic";
+					$reply['content'] .= "$published_pic";
 
-					print "<span id=\"RTITLE-$id\"
+					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
@@ -5141,25 +5124,25 @@
 						truncate_string($line["title"], 100) .
 						" $entry_author</a>";
 
-					print $labels_str;
+					$reply['content'] .= $labels_str;
 
 					if (!$expand_cdm)
 						$content_hidden = "style=\"display : none\"";
 					else
 						$excerpt_hidden = "style=\"display : none\"";
 
-					print "<span $excerpt_hidden
+					$reply['content'] .= "<span $excerpt_hidden
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
-					print "</span>";
+					$reply['content'] .= "</span>";
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "<div class=\"cdmContent\" $content_hidden
+					$reply['content'] .= "<div class=\"cdmContent\" $content_hidden
 						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
-					print "<div class=\"cdmContentInner\">";
+					$reply['content'] .= "<div class=\"cdmContentInner\">";
 
 			if ($line["orig_feed_id"]) {
 
@@ -5168,23 +5151,23 @@
 
 						if (db_num_rows($tmp_result) != 0) {
 
-							print "<div clear='both'>";
-							print __("Originally from:");
+							$reply['content'] .= "<div clear='both'>";
+							$reply['content'] .= __("Originally from:");
 
-							print "&nbsp;";
+							$reply['content'] .= "&nbsp;";
 
 							$tmp_line = db_fetch_assoc($tmp_result);
 
-							print "<a target='_blank'
+							$reply['content'] .= "<a target='_blank'
 								href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
 								$tmp_line['title'] . "</a>";
 
-							print "&nbsp;";
+							$reply['content'] .= "&nbsp;";
 
-							print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-							print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+							$reply['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
 
-							print "</div>";
+							$reply['content'] .= "</div>";
 						}
 					}
 
@@ -5210,13 +5193,13 @@
 						$article_content = '';
 					}
 
-					print "<div id=\"POSTNOTE-$id\">";
+					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
-						print format_article_note($id, $line['note']);
+						$reply['content'] .= format_article_note($id, $line['note']);
 					}
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "<span id=\"CWRAP-$id\">$article_content</span>";
+					$reply['content'] .= "<span id=\"CWRAP-$id\">$article_content</span>";
 
 					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
 						ttrss_feeds WHERE id = ".
@@ -5226,24 +5209,24 @@
 					$always_display_enclosures = sql_bool_to_bool(db_fetch_result($tmp_result,
 						0, "always_display_enclosures"));
 
-					print format_article_enclosures($link, $id, $always_display_enclosures,
+					$reply['content'] .= format_article_enclosures($link, $id, $always_display_enclosures,
 						$article_content);
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "<div class=\"cdmFooter\">";
+					$reply['content'] .= "<div class=\"cdmFooter\">";
 
 					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
-					print "<img src='".theme_image($link,
+					$reply['content'] .= "<img src='".theme_image($link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\"
 						href=\"#\" onclick=\"editArticleTags($id, $feed_id, true)\">(+)</a>";
 
-					print "<div style=\"float : right\">";
+					$reply['content'] .= "<div style=\"float : right\">";
 
-					print "<img src=\"images/art-zoom.png\"
+					$reply['content'] .= "<img src=\"images/art-zoom.png\"
 						onclick=\"zoomToArticle(event, $id)\"
 						style=\"cursor : pointer\"
 						alt='Zoom'
@@ -5251,36 +5234,36 @@
 
 					//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
-					print "<img src=\"images/art-pub-note.png\"
+					$reply['content'] .= "<img src=\"images/art-pub-note.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
 					if (DIGEST_ENABLE) {
-						print "<img src=\"".theme_image($link, 'images/art-email.png')."\"
+						$reply['content'] .= "<img src=\"".theme_image($link, 'images/art-email.png')."\"
 							style=\"cursor : pointer\"
 							onclick=\"emailArticle($id)\"
 							alt='Zoom' title='".__('Forward by email')."'>";
 					}
 
 					if (ENABLE_TWEET_BUTTON) {
-						print "<img src=\"".theme_image($link, 'images/art-tweet.png')."\"
+						$reply['content'] .= "<img src=\"".theme_image($link, 'images/art-tweet.png')."\"
 							class='tagsPic' style=\"cursor : pointer\"
 							onclick=\"tweetArticle($id)\"
 							alt='Zoom' title='".__('Share on Twitter')."'>";
 					}
 
-					print "<img src=\"images/digest_checkbox.png\"
+					$reply['content'] .= "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"dismissArticle($id)\"
 						alt='Dismiss' title='".__('Dismiss article')."'>";
 
-					print "</div>";
-					print "</div>";
+					$reply['content'] .= "</div>";
+					$reply['content'] .= "</div>";
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
-					print "</div>";
+					$reply['content'] .= "</div>";
 
 				}
 
@@ -5309,9 +5292,9 @@
 			}
 
 			if (!$offset && $message) {
-				print "<div class='whiteBox'>$message";
+				$reply['content'] .= "<div class='whiteBox'>$message";
 
-				print "<p class=\"small\"><span class=\"insensitive\">";
+				$reply['content'] .= "<p class=\"small\"><span class=\"insensitive\">";
 
 				$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 					WHERE owner_uid = " . $_SESSION['uid']);
@@ -5319,7 +5302,7 @@
 				$last_updated = db_fetch_result($result, 0, "last_updated");
 				$last_updated = make_local_datetime($link, $last_updated, false);
 
-				printf(__("Feeds last updated at %s"), $last_updated);
+				$reply['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 				$result = db_query($link, "SELECT COUNT(id) AS num_errors
 					FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -5327,11 +5310,11 @@
 				$num_errors = db_fetch_result($result, 0, "num_errors");
 
 				if ($num_errors > 0) {
-					print "<br/>";
-					print "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+					$reply['content'] .= "<br/>";
+					$reply['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 						__('Some feeds have update errors (click for details)')."</a>";
 				}
-				print "</span></p></div>";
+				$reply['content'] .= "</span></p></div>";
 			}
 		}
 
@@ -5340,9 +5323,10 @@
 #			print "</div>";
 #		}
 
-		print "]]></content>";
+		#print "]]></content>";
 
-		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache, $vgroup_last_feed);
+		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache,
+			$vgroup_last_feed, $reply['content'], $reply['toolbar']);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html
@@ -6608,16 +6592,34 @@
 			return $headlines;
 	}
 
+	function generate_error_feed($link, $error) {
+		$reply = array();
+
+		$reply['headlines']['id'] = -6;
+		$reply['headlines']['is_cat'] = false;
+
+		$reply['headlines']['toolbar'] = '';
+		$reply['headlines']['content'] = "<div class='whiteBox'>". $error . "</div>";
+
+		$reply['headlines-info'] = array("count" => 0,
+			"vgroup_last_feed" => '',
+			"unread" => 0,
+			"disable_cache" => true);
+
+		return $reply;
+	}
+
+
 	function generate_dashboard_feed($link) {
-		print "<headlines id=\"-5\" is_cat=\"\">";
+		$reply = array();
 
-		print "<toolbar><![CDATA[]]></toolbar>";
+		$reply['headlines']['id'] = -5;
+		$reply['headlines']['is_cat'] = false;
 
-		print '<content><![CDATA[';
+		$reply['headlines']['toolbar'] = '';
+		$reply['headlines']['content'] = "<div class='whiteBox'>".__('No feed selected.');
 
-		print "<div class='whiteBox'>".__('No feed selected.');
-
-		print "<p class=\"small\"><span class=\"insensitive\">";
+		$reply['headlines']['content'] .= "<p class=\"small\"><span class=\"insensitive\">";
 
 		$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 			WHERE owner_uid = " . $_SESSION['uid']);
@@ -6625,7 +6627,7 @@
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$last_updated = make_local_datetime($link, $last_updated, false);
 
-		printf(__("Feeds last updated at %s"), $last_updated);
+		$reply['headlines']['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -6633,26 +6635,18 @@
 		$num_errors = db_fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
-			print "<br/>";
-			print "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+			$reply['headlines']['content'] .= "<br/>";
+			$reply['headlines']['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 				__('Some feeds have update errors (click for details)')."</a>";
 		}
-		print "</span></p>";
+		$reply['headlines']['content'] .= "</span></p>";
 
-		print "]]></content>";
-		print "</headlines>";
-
-		print "<headlines-info><![CDATA[";
-
-		$info = array("count" => 0,
+		$reply['headlines-info'] = array("count" => 0,
 			"vgroup_last_feed" => '',
 			"unread" => 0,
 			"disable_cache" => true);
 
-		print json_encode($info);
-
-		print "]]></headlines-info>";
-
+		return $reply;
 	}
 
 	function save_email_address($link, $email) {

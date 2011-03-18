@@ -50,13 +50,8 @@
 
 	if ((!$op || $op == "rpc" || $op == "rss" ||
 			$op == "digestSend" || $op == "dlg" ||
-			$op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 				header("Content-Type: application/xml; charset=utf-8");
-
-				if (ENABLE_GZIP_OUTPUT) {
-					ob_start("ob_gzhandler");
-				}
 
 		} else {
 		if (!$_REQUEST["noxml"]) {
@@ -64,6 +59,10 @@
 		} else {
 			header("Content-Type: text/plain; charset=utf-8");
 		}
+	}
+
+	if (ENABLE_GZIP_OUTPUT) {
+		ob_start("ob_gzhandler");
 	}
 
 	if (SINGLE_USER_MODE) {
@@ -246,10 +245,9 @@
 
 		case "viewfeed":
 
-			$print_exec_time = true;
 			$timing_info = getmicrotime();
 
-			print "<reply>";
+			$reply = array();
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
@@ -269,8 +267,26 @@
 			 * when there's nothing to load - e.g. no stuff in fresh feed */
 
 			if ($feed == -5) {
-				generate_dashboard_feed($link);
-				print "</reply>";
+				print json_encode(generate_dashboard_feed($link));
+				return;
+			}
+
+			$result = false;
+
+			if ($feed < -10) {
+				$label_feed = -10-$feed;
+				$result = db_query($link, "SELECT id FROM ttrss_labels2 WHERE
+					id = '$label_feed' AND owner_uid = " . $_SESSION['uid']);
+			} else if (!$cat_view && $feed > 0) {
+				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
+			} else if ($cat_view) {
+				$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
+					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
+			}
+
+			if ($result && db_num_rows($result) == 0) {
+				print json_encode(generate_error_feed($link, __("Feed not found.")));
 				return;
 			}
 
@@ -290,11 +306,14 @@
 					WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 			}
 
-			if (!$next_unread_feed) {
-				print "<headlines id=\"$feed\" is_cat=\"$cat_view\">";
-			} else {
-				print "<headlines id=\"$next_unread_feed\" is_cat=\"$cat_view\">";
-			}
+			$reply['headlines'] = array();
+
+			if (!$next_unread_feed)
+				$reply['headlines']['id'] = $feed;
+			else
+				$reply['headlines']['id'] = $next_unread_feed;
+
+			$reply['headlines']['is_cat'] = (bool) $cat_view;
 
 			$override_order = false;
 
@@ -332,7 +351,7 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("04", $timing_info);
 
-			$ret = outputHeadlinesList($link, $feed, $subop,
+			$ret = format_headlines_list($link, $feed, $subop,
 				$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
 				$vgroup_last_feed, $override_order);
 
@@ -342,64 +361,45 @@
 			$disable_cache = $ret[3];
 			$vgroup_last_feed = $ret[4];
 
-			print "</headlines>";
+			$reply['headlines']['content'] = $ret[5];
+			$reply['headlines']['toolbar'] = $ret[6];
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
-
-			//print "<headlines-count value=\"$headlines_count\"/>";
-			//print "<vgroup-last-feed value=\"$vgroup_last_feed\"/>";
 
 			$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"],
 					$cat_view, true);
 
 			if ($headlines_unread == -1) {
 				$headlines_unread = getFeedUnread($link, $returned_feed, $cat_view);
-
 			}
 
-			//print "<headlines-unread value=\"$headlines_unread\"/>";
-			//printf("<disable-cache value=\"%d\"/>", $disable_cache);
-
-			print "<headlines-info><![CDATA[";
-
-			$info = array("count" => (int) $headlines_count,
+			$reply['headlines-info'] = array("count" => (int) $headlines_count,
 				"vgroup_last_feed" => $vgroup_last_feed,
 				"unread" => (int) $headlines_unread,
 				"disable_cache" => (bool) $disable_cache);
 
-			print json_encode($info);
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
-			print "]]></headlines-info>";
-
-			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("10", $timing_info);
-
-/*			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
-
+			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
 				$articles = array();
 
 				foreach ($topmost_article_ids as $id) {
 					array_push($articles, format_article($link, $id, $feed, false));
 				}
 
-				print "<articles><![CDATA[";
-				print json_encode($articles);
-				print "]]></articles>";
-			} */
+				$reply['articles'] = $articles;
+			}
 
-			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
-
-			//if (get_pref($link, 'COMBINED_DISPLAY_MODE') || $subop) {
 			if ($subop) {
-				print "<counters><![CDATA[";
-				print json_encode(getAllCounters($link, $omode, $feed));
-				print "]]></counters>";
+				$reply['counters'] = getAllCounters($link, $omode, $feed);
 			}
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
-			print_runtime_info($link);
+			$reply['runtime-info'] = make_runtime_info($link);
 
-			print "</reply>";
+			print json_encode($reply);
+
 		break; // viewfeed
 
 		case "pref-feeds":

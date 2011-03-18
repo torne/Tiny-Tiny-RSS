@@ -44,7 +44,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 /*		if (getInitParam("theme") == "" || getInitParam("theme") == "compact") {
 			if (getInitParam("hide_feedlist") == 1) {
 				Element.hide("feeds-holder");
-			}		
+			}
 		} */
 
 		dijit.byId("content-tabs").selectChild(
@@ -79,7 +79,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 				return;
 			}
 
-			_infscroll_request_sent = timestamp;			
+			_infscroll_request_sent = timestamp;
 		}
 
 		hideAuxDlg();
@@ -141,7 +141,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 		console.log(query);
 
 /*		var unread_ctr = -1;
-		
+
 		if (!is_cat) unread_ctr = getFeedUnread(feed);
 
 		var cache_check = false;
@@ -149,7 +149,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 		if (unread_ctr != -1 && !page_offset && !force_nocache && !subop) {
 
 			var cache_prefix = "";
-				
+
 			if (is_cat) {
 				cache_prefix = "C:";
 			} else {
@@ -163,8 +163,8 @@ function viewfeed(feed, subop, is_cat, offset) {
 		if (cache_check) {
 
 			setActiveFeedId(feed, is_cat);
-		
-			$("headlines-frame").innerHTML = cache_find_param(cache_prefix + feed, 
+
+			$("headlines-frame").innerHTML = cache_find_param(cache_prefix + feed,
 				unread_ctr);
 
 			request_counters();
@@ -181,34 +181,30 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
-				onComplete: function(transport) { 
+				onComplete: function(transport) {
 					setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
-					headlines_callback2(transport, page_offset); 
+					headlines_callback2(transport, page_offset);
 				} });
 //		}
 
 	} catch (e) {
 		exception_error("viewfeed", e);
-	}		
+	}
 }
 
 function feedlist_init() {
 	try {
 		console.log("in feedlist init");
-		
+
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
 		 if (!getActiveFeedId()) {
-			if (getInitParam("cdm_auto_catchup") != 1) {
-				setTimeout("viewfeed(-3)", 100);
-			} else {
-				setTimeout("viewfeed(-5)", 100);
-			}
-		} 
+			setTimeout("viewfeed(-3)", 100);
+		}
 
-		console.log("T:" + 
+		console.log("T:" +
 				getInitParam("cdm_auto_catchup") + " " + getFeedUnread(-3));
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
@@ -230,7 +226,7 @@ function request_counters_real() {
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
-			onComplete: function(transport) { 
+			onComplete: function(transport) {
 				try {
 					handle_rpc_json(transport);
 				} catch (e) {
@@ -316,7 +312,7 @@ function parse_counters(elems, scheduled_call) {
 
 			// TODO: enable new content notification for categories
 
-			if (!activeFeedIsCat() && id == getActiveFeedId() 
+			if (!activeFeedIsCat() && id == getActiveFeedId()
 					&& ctr > getFeedUnread(id) && scheduled_call) {
 				displayNewContentPrompt(id);
 			}
@@ -329,7 +325,7 @@ function parse_counters(elems, scheduled_call) {
 
 				if (id > 0) {
 					if (has_img) {
-						setFeedIcon(id, false, 
+						setFeedIcon(id, false,
 							getInitParam("icons_url") + "/" + id + ".ico");
 					} else {
 						setFeedIcon(id, false, 'images/blank_icon.gif');
@@ -337,7 +333,7 @@ function parse_counters(elems, scheduled_call) {
 				}
 			}
 		}
-	
+
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 	} catch (e) {
@@ -349,7 +345,7 @@ function getFeedUnread(feed, is_cat) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (tree && tree.model) 
+		if (tree && tree.model)
 			return tree.model.getFeedUnread(feed, is_cat);
 
 	} catch (e) {
@@ -370,20 +366,20 @@ function hideOrShowFeeds(hide) {
 		return tree.hideRead(hide, getInitParam("hide_read_shows_special"));
 }
 
-function getFeedName(feed, is_cat) {	
+function getFeedName(feed, is_cat) {
 	var tree = dijit.byId("feedTree");
 
-	if (tree && tree.model) 
+	if (tree && tree.model)
 		return tree.model.getFeedValue(feed, is_cat, 'name');
 }
 
-function getFeedValue(feed, is_cat, key) {	
+function getFeedValue(feed, is_cat, key) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (tree && tree.model) 
+		if (tree && tree.model)
 			return tree.model.getFeedValue(feed, is_cat, key);
-	
+
 	} catch (e) {
 		//
 	}
@@ -394,7 +390,7 @@ function setFeedUnread(feed, is_cat, unread) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (tree && tree.model) 
+		if (tree && tree.model)
 			return tree.model.setFeedUnread(feed, is_cat, unread);
 
 	} catch (e) {
@@ -406,7 +402,7 @@ function setFeedValue(feed, is_cat, key, value) {
 	try {
 		var tree = dijit.byId("feedTree");
 
-		if (tree && tree.model) 
+		if (tree && tree.model)
 			return tree.model.setFeedValue(feed, is_cat, key, value);
 
 	} catch (e) {

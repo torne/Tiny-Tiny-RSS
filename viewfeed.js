@@ -25,47 +25,35 @@ function headlines_callback2(transport, feed_cur_page) {
 		var is_cat = false;
 		var feed_id = false;
 
-		if (transport.responseXML) {
-			var headlines = transport.responseXML.getElementsByTagName("headlines")[0];
-			if (headlines) {
-				is_cat = headlines.getAttribute("is_cat");
-				feed_id = headlines.getAttribute("id");
-				setActiveFeedId(feed_id, is_cat);
-			}
-		}
-
-		var update_btn = document.forms["main_toolbar_form"].update;
-
-		update_btn.disabled = !(feed_id >= 0 && !is_cat);
+		var reply;
 
 		try {
-			if (feed_cur_page == 0) {
-				$("headlines-frame").scrollTop = 0;
-			}
-		} catch (e) { };
+			reply = JSON.parse(transport.responseText);
+		} catch (e) {
+			console.error(e);
+		}
 
-		if (transport.responseXML) {
-			var response = transport.responseXML;
+		if (reply) {
 
-			var headlines = response.getElementsByTagName("headlines")[0];
+			is_cat = reply['headlines']['is_cat'];
+			feed_id = reply['headlines']['id'];
 
-			var headlines_content = headlines.getElementsByTagName("content")[0];
-			var headlines_toolbar = headlines.getElementsByTagName("toolbar")[0];
+			setActiveFeedId(feed_id, is_cat);
 
-			var headlines_info = response.getElementsByTagName("headlines-info")[0];
+			var update_btn = document.forms["main_toolbar_form"].update;
 
-			if (headlines_info)
-				headlines_info = JSON.parse(headlines_info.firstChild.nodeValue);
-			else {
-				console.error("didn't find headlines-info object in response");
-				return;
-			}
+			update_btn.disabled = !(feed_id >= 0 && !is_cat);
 
-			var headlines_count = headlines_info.count;
-			var headlines_unread = headlines_info.unread;
-			var disable_cache = headlines_info.disable_cache;
+			try {
+				if (feed_cur_page == 0) {
+					$("headlines-frame").scrollTop = 0;
+				}
+			} catch (e) { };
 
-			vgroup_last_feed = headlines_info.vgroup_last_feed;
+			var headlines_count = reply['headlines-info']['count'];
+			var headlines_unread = reply['headlines-info']['unread'];
+
+			vgroup_last_feed = reply['headlines-info']['vgroup_last_feed'];
 
 			if (parseInt(headlines_count) < getInitParam("default_article_limit")) {
 				_infscroll_disable = 1;
@@ -73,82 +61,49 @@ function headlines_callback2(transport, feed_cur_page) {
 				_infscroll_disable = 0;
 			}
 
-			var counters = response.getElementsByTagName("counters")[0];
-			var articles = response.getElementsByTagName("article");
-			var runtime_info = response.getElementsByTagName("runtime-info");
+			var counters = reply['counters'];
+			var articles = reply['articles'];
+			var runtime_info = reply['runtime-info'];
 
 			if (feed_cur_page == 0) {
-				if (headlines) {
-					dijit.byId("headlines-frame").attr('content',
-						headlines_content.firstChild.nodeValue);
+				dijit.byId("headlines-frame").attr('content',
+					reply['headlines']['content']);
 
-					dijit.byId("headlines-toolbar").attr('content',
-						headlines_toolbar.firstChild.nodeValue);
+				dijit.byId("headlines-toolbar").attr('content',
+					reply['headlines']['toolbar']);
+
+				initHeadlinesMenu();
+
+			} else {
+				if (headlines_count > 0) {
+					console.log("adding some more headlines...");
+
+					var c = dijit.byId("headlines-frame");
+					var ids = getSelectedArticleIds2();
+
+					$("headlines-tmp").innerHTML = reply['headlines']['content'];
+
+					$$("#headlines-tmp > div").each(function(row) {
+						c.domNode.appendChild(row);
+					});
+
+					console.log("restore selected ids: " + ids);
+
+					for (var i = 0; i < ids.length; i++) {
+						markHeadline(ids[i]);
+					}
 
 					initHeadlinesMenu();
 
-/*					var cache_prefix = "";
-
-					if (is_cat) {
-						cache_prefix = "C:";
-					} else {
-						cache_prefix = "F:";
-					}
-
-					cache_invalidate(cache_prefix + feed_id);
-
-					if (!disable_cache) {
-						cache_inject(cache_prefix + feed_id,
-							$("headlines-frame").innerHTML, headlines_unread);
-					} */
-
 				} else {
-					console.warn("headlines_callback: returned no data");
-					dijit.byId("headlines-frame").attr('content',
-						"<div class='whiteBox'>" +
-						__('Could not update headlines (missing XML data)') + "</div>");
-
+					console.log("no new headlines received");
 				}
-			} else {
-				if (headlines) {
-					if (headlines_count > 0) {
-						console.log("adding some more headlines...");
-
-						var c = dijit.byId("headlines-frame");
-						var ids = getSelectedArticleIds2();
-
-						//c.attr('content', c.attr('content') +
-						//	headlines_content.firstChild.nodeValue);
-
-						$("headlines-tmp").innerHTML = headlines_content.firstChild.nodeValue;
-
-						$$("#headlines-tmp > div").each(function(row) {
-							c.domNode.appendChild(row);
-						});
-
-						console.log("restore selected ids: " + ids);
-
-						for (var i = 0; i < ids.length; i++) {
-							markHeadline(ids[i]);
-						}
-
-						initHeadlinesMenu();
-
-					} else {
-						console.log("no new headlines received");
-					}
-				} else {
-					console.warn("headlines_callback: returned no data");
-					notify_error("Error while trying to load more headlines");
-				}
-
 			}
 
 			if (articles) {
 				for (var i = 0; i < articles.length; i++) {
-					var a_id = articles[i].getAttribute("id");
-					//console.log("found id: " + a_id);
-					cache_inject(a_id, articles[i].firstChild.nodeValue);
+					var a_id = articles[i]['id'];
+					cache_inject(a_id, articles[i]['content']);
 				}
 			} else {
 				console.log("no cached articles received");
@@ -162,10 +117,8 @@ function headlines_callback2(transport, feed_cur_page) {
 		} else {
 			console.warn("headlines_callback: returned no XML object");
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" +
-					__('Could not update headlines (missing XML object)') + "</div>");
+					__('Could not update headlines (invalid object received)') + "</div>");
 		}
-
-
 
 		_feed_cur_page = feed_cur_page;
 		_infscroll_request_sent = 0;
