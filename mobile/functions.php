@@ -4,7 +4,7 @@
 	/* TODO replace with interface to db-prefs */
 
 	function mobile_pref_toggled($link, $id) {
-		if (get_pref($link, "_MOBILE_$id")) 
+		if (get_pref($link, "_MOBILE_$id"))
 			return "true";
 		else
 			return "";
@@ -51,10 +51,10 @@
 					AND ttrss_user_entries.ref_id = ttrss_entries.id
 					AND owner_uid = '$owner_uid') AS unread
 			FROM ttrss_feeds
-			WHERE 
+			WHERE
 				ttrss_feeds.owner_uid = '$owner_uid'
-			ORDER BY $order_by $limit_qpart"); 
-	
+			ORDER BY $order_by $limit_qpart");
+
 		if (!$offset) print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
 
@@ -68,14 +68,14 @@
 				$unread = $line["unread"];
 
 	//			$unread = rand(0, 100);
-	
+
 				if ($unread > 0) {
 					$line["title"] = $line["title"] . " ($unread)";
 					$class = '';
 				} else {
 					$class = 'oldItem';
 				}
-	
+
 				if (mobile_feed_has_icon($id)) {
 					$icon_url = "../".ICONS_URL."/$id.ico";
 				} else {
@@ -83,8 +83,8 @@
 				}
 
 				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
-					print "<li class='$class'><a href='feed.php?id=$id'>" . 
-						"<img class='tinyIcon' src='$icon_url'/>".				
+					print "<li class='$class'><a href='feed.php?id=$id'>" .
+						"<img class='tinyIcon' src='$icon_url'/>".
 						$line["title"] . "</a></li>";
 				}
 
@@ -93,7 +93,7 @@
 
 /*			$next_offset = $offset + $num_feeds;
 
-			print "<li><a href=\"home.php?skip=$next_offset\" 
+			print "<li><a href=\"home.php?skip=$next_offset\"
 	target=\"_replace\">Show more feeds...</a></li>"; */
 
 			if (!$offset) print "</ul>";
@@ -102,7 +102,7 @@
 
 	function render_category($link, $cat_id, $offset) {
 		$owner_uid = $_SESSION["uid"];
-	
+
 		if ($cat_id >= 0) {
 
 			if ($cat_id != 0) {
@@ -124,31 +124,31 @@
 					AND ttrss_user_entries.ref_id = ttrss_entries.id
 					AND owner_uid = '$owner_uid') as unread
 			FROM ttrss_feeds
-			WHERE 
-				ttrss_feeds.owner_uid = '$owner_uid' AND 
+			WHERE
+				ttrss_feeds.owner_uid = '$owner_uid' AND
 				$cat_query
-			ORDER BY $order_by"); 
-			
+			ORDER BY $order_by");
+
 			$title = getCategoryTitle($link, $cat_id);
-	
+
 			print "<ul id='cat-$cat_id' title='$title' myBackLabel='".__("Home")."'
 				myBackHref='home.php'>";
-	
+
 	//		print "<li><a href='#cat-actions'>".__('Actions...')."</a></li>";
-	
+
 			while ($line = db_fetch_assoc($result)) {
 				$id = $line["id"];
 				$unread = $line["unread"];
 
 	//			$unread = rand(0, 100);
-	
+
 				if ($unread > 0) {
 					$line["title"] = $line["title"] . " ($unread)";
 					$class = '';
 				} else {
 					$class = 'oldItem';
 				}
-	
+
 				if (mobile_feed_has_icon($id)) {
 					$icon_url = "../".ICONS_URL."/$id.ico";
 				} else {
@@ -156,12 +156,12 @@
 				}
 
 				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
-					print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" . 
-						"<img class='tinyIcon' src='$icon_url'/>".				
+					print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" .
+						"<img class='tinyIcon' src='$icon_url'/>".
 						$line["title"] . "</a></li>";
 				}
 			}
-	
+
 			print "</ul>";
 		} else if ($cat_id == -1) {
 
@@ -232,13 +232,13 @@
 
 		print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
-		
+
 //		print "<li><a href='#searchForm'>Search...</a></li>";
 
 		foreach (array(-1, -2) as $id) {
 			$title = getCategoryTitle($link, $id);
 			$unread = getFeedUnread($link, $id, true);
-			if ($unread > 0) { 
+			if ($unread > 0) {
 				$title = $title . " ($unread)";
 				$class = '';
 			} else {
@@ -251,14 +251,14 @@
 				print "<li class='$class'><a href='feed.php?id=$id&is_cat=true'>$title</a></li>";
 		}
 
-		$result = db_query($link, "SELECT 
-				ttrss_feed_categories.id, 
-				ttrss_feed_categories.title, 
-				COUNT(ttrss_feeds.id) AS num_feeds 
+		$result = db_query($link, "SELECT
+				ttrss_feed_categories.id,
+				ttrss_feed_categories.title,
+				COUNT(ttrss_feeds.id) AS num_feeds
 			FROM ttrss_feed_categories, ttrss_feeds
-			WHERE ttrss_feed_categories.owner_uid = $owner_uid 
-				AND ttrss_feed_categories.id = cat_id	
-				GROUP BY ttrss_feed_categories.id, 
+			WHERE ttrss_feed_categories.owner_uid = $owner_uid
+				AND ttrss_feed_categories.id = cat_id
+				GROUP BY ttrss_feed_categories.id,
 					ttrss_feed_categories.title
 				ORDER BY ttrss_feed_categories.title");
 
@@ -278,8 +278,8 @@
 
 				if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
 
-					if ($cat_browse) 
-						print "<li class='$class'><a href='cat.php?id=$id'>" . 
+					if ($cat_browse)
+						print "<li class='$class'><a href='cat.php?id=$id'>" .
 							$line["title"] . "</a></li>";
 					else
 						print "<li class='$class'><a href='feed.php?id=$id&is_cat=true'>".
@@ -306,14 +306,18 @@
 			}
 
 			if ($unread > 0 || !mobile_get_pref($link, "HIDE_READ")) {
-				print "<li class='$class'><a href='cat.php?id=0'>$title</a></li>";
+				if ($cat_browse)
+					print "<li class='$class'><a href='cat.php?id=0'>$title</a></li>";
+				else
+					print "<li class='$class'><a href='feed.php?id=0&is_cat=true'>$title</a></li>";
+
 			}
 		}
 
 		print "</ul>";
 	}
 
-	function render_headlines_list($link, $feed_id, $cat_id, $offset, $search, 
+	function render_headlines_list($link, $feed_id, $cat_id, $offset, $search,
 		$is_cat = false) {
 
 		$feed_id = $feed_id;
@@ -329,7 +333,7 @@
 			$match_on = '';
 		}
 
-		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
+		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 			$view_mode, $is_cat, $search, $search_mode, $match_on, false, $offset);
 
 		$result = $qfh_ret[0];
@@ -337,7 +341,7 @@
 
 		if (!$offset) {
 
-			print "<form id=\"searchForm-$feed_id-$cat_id\" class=\"dialog\" method=\"POST\" 
+			print "<form id=\"searchForm-$feed_id-$cat_id\" class=\"dialog\" method=\"POST\"
 				action=\"feed.php\">
 
 				<input type=\"hidden\" name=\"id\" value=\"$feed_id\">
@@ -351,7 +355,7 @@
 	            <label>Search:</label>
 					<input id=\"search\" type=\"text\" name=\"search\"/>
 	        </fieldset>
-			  </form>"; 
+			  </form>";
 
 			if ($cat_id) {
 				$cat_title = getCategoryTitle($link, $cat_id);
@@ -412,7 +416,7 @@
 			$articles_url = "feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset".
 				"&search=$search";
 
-			print "<li><a href=\"$articles_url\" 
+			print "<li><a href=\"$articles_url\"
 				target=\"_replace\">Get more articles...</a></li>";
 		}
 
@@ -427,7 +431,7 @@
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			author
 			FROM ttrss_entries,ttrss_user_entries
-			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . 
+			WHERE	id = '$id' AND ref_id = id AND owner_uid = " .
 				$_SESSION["uid"] ;
 
 		$result = db_query($link, $query);
@@ -436,8 +440,8 @@
 
 			$line = db_fetch_assoc($result);
 
-			$tmp_result = db_query($link, "UPDATE ttrss_user_entries 
-				SET unread = false,last_read = NOW() 
+			$tmp_result = db_query($link, "UPDATE ttrss_user_entries
+				SET unread = false,last_read = NOW()
 				WHERE ref_id = '$id'
 				AND owner_uid = " . $_SESSION["uid"]);
 
@@ -445,29 +449,29 @@
 
 			$title = $line["title"];
 			$article_link = $line["link"];
-	
+
 			$feed_title = getFeedTitle($link, $feed_id, false);
-	
-			print "<div class=\"panel\" id=\"article-$id\" title=\"$title\" 
+
+			print "<div class=\"panel\" id=\"article-$id\" title=\"$title\"
 				selected=\"true\"
 				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id'>";
-	
+
 			print "<h2><a target='_blank' href='$article_link'>$title</a></h2>";
-	
+
 			print "<fieldset>";
-	
+
 /*			print "<div class=\"row\">";
 			print "<label id='title'><a target='_blank' href='$article_link'>$title</a></label>";
 			print "</div>"; */
-	
+
 			$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
 			$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
-	
+
 			print "<div class=\"row\">";
 			print "<label id='updated'>Updated:</label>";
 			print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
 			print "</div>";
-	
+
 			print "</fieldset>";
 
 			$content = sanitize_rss($link, $line["content"]);
@@ -491,7 +495,7 @@
 	                <label>Starred</label>
 	                <div class=\"toggle\" onclick=\"toggleMarked($id, this)\" toggled=\"$is_starred\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
 	            </div>";
-	
+
 			print "<div class=\"row\">
 	                <label>Published</label>
 	                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
