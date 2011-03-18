@@ -3,7 +3,7 @@
 
 	if (get_magic_quotes_gpc()) {
 		function stripslashes_deep($value) {
-			$value = is_array($value) ? 
+			$value = is_array($value) ?
 				array_map('stripslashes_deep', $value) : stripslashes($value);
 				return $value;
 		}
@@ -24,19 +24,19 @@
 
 	no_cache_incantation();
 
-	if (ENABLE_TRANSLATIONS == true) { 
+	if (ENABLE_TRANSLATIONS == true) {
 		startup_gettext();
 	}
 
 	$script_started = getmicrotime();
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	if (!$link) {
 		if (DB_TYPE == "mysql") {
 			print mysql_error();
 		}
-		// PG seems to display its own errors just fine by default.		
+		// PG seems to display its own errors just fine by default.
 		return;
 	}
 
@@ -48,9 +48,8 @@
 
 	$print_exec_time = false;
 
-	if ((!$op || $op == "rpc" || $op == "rss" || 
-			($op == "view" && $mode != "zoom") || 
-			$op == "digestSend" || $op == "dlg" || 
+	if ((!$op || $op == "rpc" || $op == "rss" ||
+			$op == "digestSend" || $op == "dlg" ||
 			$op == "viewfeed" || $op == "publish" ||
 			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
 				header("Content-Type: application/xml; charset=utf-8");
@@ -58,7 +57,7 @@
 				if (ENABLE_GZIP_OUTPUT) {
 					ob_start("ob_gzhandler");
 				}
-				
+
 		} else {
 		if (!$_REQUEST["noxml"]) {
 			header("Content-Type: text/html; charset=utf-8");
@@ -67,25 +66,28 @@
 		}
 	}
 
-	if (!$op) {
-		header("Content-Type: application/xml");
-		print_error_xml(7); exit;
-	}
-
 	if (SINGLE_USER_MODE) {
 		authenticate_user($link, "admin", null);
 	}
 
-	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" 
+	/* if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds"
 		&& $op != "rss" && $op != "getUnread" && $op != "publish" && $op != "getProfiles") {
 
 		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
-			print_error_xml(6); die;
+			print_error_xml(6); exit;
 		} else {
-			header("Location: tt-rss.php?return=" . 
+			header("Location: tt-rss.php?return=" .
 				urlencode($_SERVER['REQUEST_URI']));
 		}
 		exit;
+	} */
+
+	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
+				$op != "rss" && $op != "getUnread" && $op != "getProfiles") {
+
+		header("Content-Type: text/plain");
+		print json_encode(array("error" => array("code" => 6)));
+		return;
 	}
 
 	$purge_intervals = array(
@@ -121,7 +123,7 @@
 	$update_methods = array(
 		0   => __("Default"),
 		1   => __("Magpie"),
-		2   => __("SimplePie"), 
+		2   => __("SimplePie"),
 		3   => __("Twitter OAuth"));
 
 	if (DEFAULT_UPDATE_METHOD == "1") {
@@ -131,7 +133,7 @@
 	}
 
 	$access_level_names = array(
-		0 => __("User"), 
+		0 => __("User"),
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
@@ -157,7 +159,7 @@
 
 			switch($subop) {
 				case "catchupAll":
-					db_query($link, "UPDATE ttrss_user_entries SET 
+					db_query($link, "UPDATE ttrss_user_entries SET
 						last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
 					ccache_zero_all($link, $_SESSION["uid"]);
 
@@ -217,15 +219,15 @@
 			$mode = db_escape_string($_REQUEST["mode"]);
 			$omode = db_escape_string($_REQUEST["omode"]);
 
-			if ($mode != "zoom") print "<reply>";
-
-			// in prefetch mode we only output requested cids, main article 
+			// in prefetch mode we only output requested cids, main article
 			// just gets marked as read (it already exists in client cache)
 
+			$articles = array();
+
 			if ($mode == "") {
-				outputArticleXML($link, $id, false);
+				array_push($articles, format_article($link, $id, false));
 			} else if ($mode == "zoom") {
-				outputArticleXML($link, $id, false, true, true);
+				array_push($articles, format_article($link, $id, false, true, true));
 			} else {
 				catchupArticleById($link, $id, 0);
 			}
@@ -233,18 +235,13 @@
 			if (!$_SESSION["bw_limit"]) {
 				foreach ($cids as $cid) {
 					if ($cid) {
-						outputArticleXML($link, $cid, false, false);
+						array_push($articles, format_article($link, $cid, false, false));
 					}
 				}
 			}
 
-			/* if ($mode == "prefetch") {
-				print "<counters><![CDATA[";
-				print json_encode(getAllCounters($link, $omode));
-				print "]]></counters>";
-			} */
+			print json_encode($articles);
 
-			if ($mode != "zoom") print "</reply>";
 		break; // view
 
 		case "viewfeed":
@@ -298,7 +295,7 @@
 			} else {
 				print "<headlines id=\"$next_unread_feed\" is_cat=\"$cat_view\">";
 			}
-		
+
 			$override_order = false;
 
 			if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
@@ -311,7 +308,7 @@
 				case "date":
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
 						$override_order = "$date_sort_field";
-					} else {	
+					} else {
 						$override_order = "$date_sort_field DESC";
 					}
 					break;
@@ -335,8 +332,8 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("04", $timing_info);
 
-			$ret = outputHeadlinesList($link, $feed, $subop, 
-				$view_mode, $limit, $cat_view, $next_unread_feed, $offset, 
+			$ret = outputHeadlinesList($link, $feed, $subop,
+				$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
 				$vgroup_last_feed, $override_order);
 
 			$topmost_article_ids = $ret[0];
@@ -376,13 +373,18 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("10", $timing_info);
 
-			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
-				print "<articles>";
+/*			if (is_array($topmost_article_ids) && !get_pref($link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
+
+				$articles = array();
+
 				foreach ($topmost_article_ids as $id) {
-					outputArticleXML($link, $id, $feed, false);
+					array_push($articles, format_article($link, $id, $feed, false));
 				}
-				print "</articles>";
-			}
+
+				print "<articles><![CDATA[";
+				print json_encode($articles);
+				print "]]></articles>";
+			} */
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
 
@@ -391,7 +393,7 @@
 				print "<counters><![CDATA[";
 				print json_encode(getAllCounters($link, $omode, $feed));
 				print "]]></counters>";
-			} 
+			}
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
@@ -481,7 +483,6 @@
 					$search, $search_mode, $match_on, $view_mode);
 			} else {
 				header('HTTP/1.1 403 Forbidden');
-				print_error_xml(6); die;
 			}
 		break; // rss
 
@@ -523,7 +524,7 @@
 		break; // digestSend
 
 		case "loading":
-			print __("Loading, please wait...") . " " . 
+			print __("Loading, please wait...") . " " .
 				"<img src='images/indicator_tiny.gif'>";
 
 		case "getProfiles":

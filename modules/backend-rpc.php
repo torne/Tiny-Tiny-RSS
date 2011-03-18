@@ -39,15 +39,15 @@
 
 					db_query($link, "INSERT INTO ttrss_settings_profiles (title, owner_uid)
 						VALUES ('$title', ".$_SESSION["uid"] .")");
-	
+
 					$result = db_query($link, "SELECT id FROM ttrss_settings_profiles WHERE
 						title = '$title'");
-	
+
 					if (db_num_rows($result) != 0) {
 						$profile_id = db_fetch_result($result, 0, "id");
-	
+
 						if ($profile_id) {
-							initialize_user_prefs($link, $_SESSION["uid"], $profile_id); 
+							initialize_user_prefs($link, $_SESSION["uid"], $profile_id);
 						}
 					}
 				}
@@ -85,7 +85,7 @@
 				}
 
 				db_query($link, "COMMIT");
-			}			
+			}
 			return;
 		}
 
@@ -95,7 +95,7 @@
 
 			foreach ($ids as $id) {
 				$result = db_query($link, "DELETE FROM ttrss_archived_feeds WHERE
-					(SELECT COUNT(*) FROM ttrss_user_entries 
+					(SELECT COUNT(*) FROM ttrss_user_entries
 						WHERE orig_feed_id = '$id') = 0 AND
 						id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
@@ -178,7 +178,7 @@
 
 			$ids = db_escape_string($_REQUEST["ids"]);
 
-			$result = db_query($link, "DELETE FROM ttrss_user_entries 				
+			$result = db_query($link, "DELETE FROM ttrss_user_entries
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 			print json_encode(array("message" => "UPDATE_COUNTERS"));
@@ -190,7 +190,7 @@
 
 			$ids = db_escape_string($_REQUEST["ids"]);
 
-			$result = db_query($link, "UPDATE ttrss_user_entries 
+			$result = db_query($link, "UPDATE ttrss_user_entries
 				SET feed_id = orig_feed_id, orig_feed_id = NULL
 				WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
@@ -224,7 +224,7 @@
 				$pub = "false";
 			}
 
-			$result = db_query($link, "UPDATE ttrss_user_entries SET 
+			$result = db_query($link, "UPDATE ttrss_user_entries SET
 				published = $pub
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -248,7 +248,7 @@
 
 			header("Content-Type: text/plain");
 
-			$last_article_id = (int) $_REQUEST["last_article_id"];	
+			$last_article_id = (int) $_REQUEST["last_article_id"];
 
 			$reply = array();
 
@@ -257,12 +257,12 @@
 			if ($last_article_id != getLastArticleId($link)) {
 				$omode = $_REQUEST["omode"];
 
-				if ($omode != "T") 
+				if ($omode != "T")
 					$reply['counters'] = getAllCounters($link, $omode);
 				else
 					$reply['counters'] = getGlobalCounters($link);
 			}
- 
+
 			$reply['runtime-info'] = make_runtime_info($link);
 
 
@@ -325,7 +325,7 @@
 			print "</rpc-reply>";
 
 			return;
-		}		
+		}
 
 /*		if ($subop == "globalPurge") {
 
@@ -357,11 +357,11 @@
 
 				$int_id = db_fetch_result($result, 0, "int_id");
 
-				db_query($link, "DELETE FROM ttrss_tags WHERE 
+				db_query($link, "DELETE FROM ttrss_tags WHERE
 					post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
 
 				foreach ($tags as $tag) {
-					$tag = sanitize_tag($tag);	
+					$tag = sanitize_tag($tag);
 
 					if (!tag_is_valid($tag)) {
 						continue;
@@ -372,9 +372,9 @@
 					}
 
 //					print "<!-- $id : $int_id : $tag -->";
-					
+
 					if ($tag != '') {
-						db_query($link, "INSERT INTO ttrss_tags 
+						db_query($link, "INSERT INTO ttrss_tags
 							(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
 					}
 
@@ -385,7 +385,7 @@
 
 				$tags_str = join(",", $tags_to_cache);
 
-				db_query($link, "UPDATE ttrss_user_entries 
+				db_query($link, "UPDATE ttrss_user_entries
 					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
 					AND owner_uid = " . $_SESSION["uid"]);
 			}
@@ -408,10 +408,10 @@
 		if ($subop == "regenOPMLKey") {
 			header("Content-Type: text/plain");
 
-			update_feed_access_key($link, 'OPML:Publish', 
+			update_feed_access_key($link, 'OPML:Publish',
 				false, $_SESSION["uid"]);
 
-			$new_link = opml_publish_url($link);		
+			$new_link = opml_publish_url($link);
 
 			print json_encode(array("link" => $new_link));
 			return;
@@ -429,7 +429,7 @@
 
 			$search = db_escape_string($_REQUEST["search"]);
 
-			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags 
+			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags
 				WHERE owner_uid = '".$_SESSION["uid"]."' AND
 			  	tag_name LIKE '$search%' ORDER BY tag_name
 				LIMIT 10");
@@ -473,20 +473,20 @@
 
 		} */
 
-		// XML method
 		if ($subop == "getArticles") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			header("Content-Type: text/plain");
 
-			print "<rpc-reply>";
+			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$articles = array();
 
 			foreach ($ids as $id) {
 				if ($id) {
-					outputArticleXML($link, $id, 0, false);
+					array_push($articles, format_article($link, $id, 0, false));
 				}
 			}
-			print "</rpc-reply>";
 
-			return;		
+			print json_encode($articles);
+			return;
 		}
 
 		if ($subop == "checkDate") {
@@ -507,7 +507,7 @@
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
 
-			$label = db_escape_string(label_find_caption($link, $label_id, 
+			$label = db_escape_string(label_find_caption($link, $label_id,
 				$_SESSION["uid"]));
 
 			$reply["info-for-headlines"] = array();
@@ -522,7 +522,7 @@
 						label_remove_article($link, $id, $label, $_SESSION["uid"]);
 
 					$labels = get_article_labels($link, $id, $_SESSION["uid"]);
-				  
+
 					array_push($reply["info-for-headlines"],
 					  array("id" => $id, "labels" => format_article_labels($labels, $id)));
 
@@ -568,23 +568,23 @@
 					$orig_id = db_escape_string(db_fetch_result($result, 0, "id"));
 					$site_url = db_escape_string(db_fetch_result($result, 0, "site_url"));
 				}
-	
+
 				$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
 				$title = db_escape_string(db_fetch_result($result, 0, "title"));
-	
+
 				$title_orig = db_fetch_result($result, 0, "title");
-	
+
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
-	
-				if (db_num_rows($result) == 0) {			
+
+				if (db_num_rows($result) == 0) {
 					if ($mode == 1) {
 						$result = db_query($link,
-							"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id) 
+							"INSERT INTO ttrss_feeds (owner_uid,feed_url,title,cat_id)
 							VALUES ('".$_SESSION["uid"]."', '$feed_url', '$title', NULL)");
 					} else if ($mode == 2) {
 						$result = db_query($link,
-							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id,site_url) 
+							"INSERT INTO ttrss_feeds (id,owner_uid,feed_url,title,cat_id,site_url)
 							VALUES ('$orig_id','".$_SESSION["uid"]."', '$feed_url', '$title', NULL, '$site_url')");
 					}
 					array_push($subscribed, $title_orig);
@@ -592,14 +592,14 @@
 			}
 
 			return;
-		} 
+		}
 
 		if ($subop == "digest-get-contents") {
 			header("Content-Type: text/plain");
 
 			$article_id = db_escape_string($_REQUEST['article_id']);
 
-			$result = db_query($link, "SELECT content 
+			$result = db_query($link, "SELECT content
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
 
@@ -616,7 +616,7 @@
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
 			$seq = db_escape_string($_REQUEST['seq']);
-		
+
 			if (!$feed_id) $feed_id = -4;
 			if (!$offset) $offset = 0;
 
@@ -670,7 +670,7 @@
 
 			$reply = array();
 
-			if (DIGEST_ENABLE && $_SESSION['email_secretkey'] && 
+			if (DIGEST_ENABLE && $_SESSION['email_secretkey'] &&
 						$secretkey == $_SESSION['email_secretkey']) {
 
 				$_SESSION['email_secretkey'] = '';
@@ -798,19 +798,19 @@
 
 			$id = db_escape_string($_REQUEST["id"]);
 
-			$result = db_query($link, "SELECT content, 
-				ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds, 
+			$result = db_query($link, "SELECT content,
+				ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds,
 				ttrss_entries
-				WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND 
+				WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND
 				ttrss_entries.id = ref_id AND
 				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
 
 			if (db_num_rows($result) != 0) {
 				$line = db_fetch_assoc($result);
 
-				$article_content = sanitize_rss($link, $line["content"], 
+				$article_content = sanitize_rss($link, $line["content"],
 					false, false, $line['site_url']);
-			
+
 			} else {
 				$article_content = '';
 			}
@@ -841,7 +841,7 @@
 				} else {
 					$message = __("Category update has been scheduled.");
 
-					if ($feed_id) 
+					if ($feed_id)
 						$cat_query = "cat_id = '$feed_id'";
 					else
 						$cat_query = "cat_id IS NULL";
@@ -863,7 +863,7 @@
 			header("Content-Type: text/plain");
 			$id = db_escape_string($_REQUEST['id']);
 
-			$result = db_query($link, "SELECT title, link 
+			$result = db_query($link, "SELECT title, link
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
 

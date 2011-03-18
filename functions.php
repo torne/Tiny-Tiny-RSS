@@ -4487,8 +4487,12 @@
 		return $entry;
 	}
 
-	function outputArticleXML($link, $id, $feed_id, $mark_as_read = true,
+	function format_article($link, $id, $feed_id, $mark_as_read = true,
 		$zoom_mode = false) {
+
+		$rv = array();
+
+		$rv['id'] = $id;
 
 		/* we can figure out feed_id from article id anyway, why do we
 		 * pass feed_id here? let's ignore the argument :( */
@@ -4498,7 +4502,9 @@
 
 		$feed_id = (int) db_fetch_result($result, 0, "feed_id");
 
-		if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
+		$rv['feed_id'] = $feed_id;
+
+		//if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
 		$result = db_query($link, "SELECT rtl_content, always_display_enclosures FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -4568,28 +4574,19 @@
 
 			if ($zoom_mode) {
 				header("Content-Type: text/html");
-				print "<html><head>
+				$rv['content'] .= "<html><head>
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
 						<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss.css\">
 					</head><body>";
 			}
 
-			print "<div id=\"PTITLE-$id\" style=\"display : none\">" .
+			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
-			print "<div class=\"postReply\" id=\"POST-$id\">";
+			$rv['content'] .= "<div class=\"postReply\" id=\"POST-$id\">";
 
-			/* print "<div dojoType=\"dijit.Menu\" style=\"display: none;\"
-				targetNodeIds=\"POSTHDR-$id\">";
-			print "<div onclick=\"postOpenInNewTab(event, $id)\"
-				dojoType=\"dijit.MenuItem\">".__('View in a new tab')."</div>";
-			print "<div dojoType=\"dijit.MenuSeparator\"></div>";
-			print "<div onclick=\"openArticleInNewWindow($id)\"
-				dojoType=\"dijit.MenuItem\">".__('Open original article')."</div>";
-			print "</div>"; */
-
-			print "<div onclick=\"return postClicked(event, $id)\"
+			$rv['content'] .= "<div onclick=\"return postClicked(event, $id)\"
 				class=\"postHeader\" id=\"POSTHDR-$id\">";
 
 			$entry_author = $line["author"];
@@ -4601,69 +4598,69 @@
 			$parsed_updated = make_local_datetime($link, $line["updated"], true,
 				false, true);
 
-			print "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
+			$rv['content'] .= "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				print "<div clear='both'><a target='_blank'
+				$rv['content'] .= "<div clear='both'><a target='_blank'
 					title=\"".htmlspecialchars($line['title'])."\"
 					href=\"" .
 					$line["link"] . "\">" .
 					truncate_string($line["title"], 100) .
 					"<span class='author'>$entry_author</span></a></div>";
 			} else {
-				print "<div clear='both'>" . $line["title"] . "$entry_author</div>";
+				$rv['content'] .= "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
 			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
-			print "<div style='float : right'>
+			$rv['content'] .= "<div style='float : right'>
 				<img src='".theme_image($link, 'images/tag.png')."'
 				class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
 			if (!$zoom_mode) {
-				print "<span id=\"ATSTR-$id\">$tags_str</span>
+				$rv['content'] .= "<span id=\"ATSTR-$id\">$tags_str</span>
 					<a title=\"".__('Edit tags for this article')."\"
 					href=\"#\" onclick=\"editArticleTags($id, $feed_id)\">(+)</a>";
 
-				print "<img src=\"".theme_image($link, 'images/art-zoom.png')."\"
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-zoom.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"postOpenInNewTab(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
 				//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
-				print "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\"
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
 				if (DIGEST_ENABLE) {
-					print "<img src=\"".theme_image($link, 'images/art-email.png')."\"
+					$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-email.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"emailArticle($id)\"
 						alt='Zoom' title='".__('Forward by email')."'>";
 				}
 
 				if (ENABLE_TWEET_BUTTON) {
-					print "<img src=\"".theme_image($link, 'images/art-tweet.png')."\"
+					$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-tweet.png')."\"
 							class='tagsPic' style=\"cursor : pointer\"
 							onclick=\"tweetArticle($id)\"
 							alt='Zoom' title='".__('Share on Twitter')."'>";
 				}
 
-				print "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"closeArticlePanel($id)\"
 						alt='Zoom' title='".__('Close this panel')."'>";
 
 			} else {
 				$tags_str = strip_tags($tags_str);
-				print "<span id=\"ATSTR-$id\">$tags_str</span>";
+				$rv['content'] .= "<span id=\"ATSTR-$id\">$tags_str</span>";
 			}
-			print "</div>";
-			print "<div clear='both'>$entry_comments</div>";
+			$rv['content'] .= "</div>";
+			$rv['content'] .= "<div clear='both'>$entry_comments</div>";
 
 			if ($line["orig_feed_id"]) {
 
@@ -4672,65 +4669,64 @@
 
 				if (db_num_rows($tmp_result) != 0) {
 
-					print "<div clear='both'>";
-					print __("Originally from:");
+					$rv['content'] .= "<div clear='both'>";
+					$rv['content'] .= __("Originally from:");
 
-					print "&nbsp;";
+					$rv['content'] .= "&nbsp;";
 
 					$tmp_line = db_fetch_assoc($tmp_result);
 
-					print "<a target='_blank'
+					$rv['content'] .= "<a target='_blank'
 						href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
 						$tmp_line['title'] . "</a>";
 
-					print "&nbsp;";
+					$rv['content'] .= "&nbsp;";
 
-					print "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-					print "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+					$rv['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+					$rv['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
 
-					print "</div>";
+					$rv['content'] .= "</div>";
 				}
 			}
 
-			print "</div>";
+			$rv['content'] .= "</div>";
 
-			print "<div class=\"postIcon\">" .
+			$rv['content'] .= "<div class=\"postIcon\">" .
 				"<a target=\"_blank\" title=\"".__("Visit the website")."\"$
 				href=\"".htmlspecialchars($feed_site_url)."\">".
 				$feed_icon . "</a></div>";
 
-			print "<div id=\"POSTNOTE-$id\">";
+			$rv['content'] .= "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
-					print format_article_note($id, $line['note']);
+					$rv['content'] .= format_article_note($id, $line['note']);
 				}
-			print "</div>";
+			$rv['content'] .= "</div>";
 
-			print "<div class=\"postContent\">";
+			$rv['content'] .= "<div class=\"postContent\">";
 
 			$article_content = sanitize_rss($link, $line["content"], false, false,
 				$feed_site_url);
 
-			print $article_content;
+			$rv['content'] .= $article_content;
 
-			print_article_enclosures($link, $id, $always_display_enclosures,
-				$article_content);
+			$rv['content'] .= format_article_enclosures($link, $id,
+				$always_display_enclosures, $article_content);
 
-			print "</div>";
+			$rv['content'] .= "</div>";
 
-			print "</div>";
+			$rv['content'] .= "</div>";
 
 		}
 
-		if (!$zoom_mode) {
-			print "]]></article>";
-		} else {
-			print "
+		if ($zoom_mode) {
+			$rv['content'] .= "
 				<div style=\"text-align : center\">
 				<button onclick=\"return window.close()\">".
 					__("Close this window")."</button></div>";
-			print "</body></html>";
-
+			$rv['content'] .= "</body></html>";
 		}
+
+		return $rv;
 
 	}
 
@@ -5230,7 +5226,7 @@
 					$always_display_enclosures = sql_bool_to_bool(db_fetch_result($tmp_result,
 						0, "always_display_enclosures"));
 
-					print_article_enclosures($link, $id, $always_display_enclosures,
+					print format_article_enclosures($link, $id, $always_display_enclosures,
 						$article_content);
 
 					print "</div>";
@@ -6795,10 +6791,11 @@
 
 	}
 
-	function print_article_enclosures($link, $id, $always_display_enclosures,
+	function format_article_enclosures($link, $id, $always_display_enclosures,
 					$article_content) {
 
 		$result = get_article_enclosures($link, $id);
+		$rv = '';
 
 		if (count($result) > 0) {
 
@@ -6830,7 +6827,7 @@
 				array_push($entries, $entry);
 			}
 
-			print "<div class=\"postEnclosures\">";
+			$rv .= "<div class=\"postEnclosures\">";
 
 			if (!get_pref($link, "STRIP_IMAGES")) {
 				if ($always_display_enclosures ||
@@ -6841,7 +6838,7 @@
 						if (preg_match("/image/", $entry["type"]) ||
 								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
 
-								print "<p><img
+								$rv .= "<p><img
 								alt=\"".htmlspecialchars($entry["filename"])."\"
 								src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
 						}
@@ -6850,15 +6847,17 @@
 			}
 
 			if (count($entries) == 1) {
-				print __("Attachment:") . " ";
+				$rv .= __("Attachment:") . " ";
 			} else {
-				print __("Attachments:") . " ";
+				$rv .= __("Attachments:") . " ";
 			}
 
-			print join(", ", $entries_html);
+			$rv .= join(", ", $entries_html);
 
-			print "</div>";
+			$rv .= "</div>";
 		}
+
+		return $rv;
 	}
 
 	function getLastArticleId($link) {
