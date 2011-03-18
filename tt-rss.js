@@ -274,29 +274,6 @@ function genericSanityCheck() {
 
 function init() {
 	try {
-		//Form.disable("main_toolbar_form");
-
-		// Our layer takes care of Dojo dependencies.
-
-		/* dojo.require("dijit.layout.BorderContainer");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.Dialog");
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.Menu");
-		dojo.require("dojo.data.ItemFileWriteStore");
-		dojo.require("dijit.Tree");
-		dojo.require("dijit.form.Select");
-		dojo.require("dijit.form.TextBox");
-		dojo.require("dijit.form.ValidationTextBox");
-		dojo.require("dijit.form.FilteringSelect");
-		dojo.require("dijit.form.CheckBox");
-		dojo.require("dijit.form.SimpleTextarea");
-		dojo.require("dijit.Toolbar");
-		dojo.require("dijit.ProgressBar");
-		dojo.require("dijit.Menu");
-		dojo.require("dojo.parser"); */
-
 		dojo.registerModulePath("fox", "../..");
 
 		dojo.require("fox.FeedTree");
