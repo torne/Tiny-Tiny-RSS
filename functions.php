@@ -42,60 +42,47 @@
 		return $tr;
 	}
 
-	if (ENABLE_TRANSLATIONS == true) { // If translations are enabled.
-		require_once "lib/accept-to-gettext.php";
-		require_once "lib/gettext/gettext.inc";
+	require_once "lib/accept-to-gettext.php";
+	require_once "lib/gettext/gettext.inc";
 
-		function startup_gettext() {
+	function startup_gettext() {
 
-			# Get locale from Accept-Language header
-			$lang = al2gt(array_keys(get_translations()), "text/html");
+		# Get locale from Accept-Language header
+		$lang = al2gt(array_keys(get_translations()), "text/html");
 
-			if (defined('_TRANSLATION_OVERRIDE_DEFAULT')) {
-				$lang = _TRANSLATION_OVERRIDE_DEFAULT;
-			}
-
-			if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {
-				$lang = $_COOKIE["ttrss_lang"];
-			}
-
-			/* In login action of mobile version */
-			if ($_POST["language"] && defined('MOBILE_VERSION')) {
-				$lang = $_POST["language"];
-				$_COOKIE["ttrss_lang"] = $lang;
-			}
-
-			if ($lang) {
-				if (defined('LC_MESSAGES')) {
-					_setlocale(LC_MESSAGES, $lang);
-				} else if (defined('LC_ALL')) {
-					_setlocale(LC_ALL, $lang);
-				} else {
-					die("can't setlocale(): please set ENABLE_TRANSLATIONS to false in config.php");
-				}
-
-				if (defined('MOBILE_VERSION')) {
-					_bindtextdomain("messages", "../locale");
-				} else {
-					_bindtextdomain("messages", "locale");
-				}
-
-				_textdomain("messages");
-				_bind_textdomain_codeset("messages", "UTF-8");
-			}
+		if (defined('_TRANSLATION_OVERRIDE_DEFAULT')) {
+			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		startup_gettext();
+		if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {
+			$lang = $_COOKIE["ttrss_lang"];
+		}
 
-	} else { // If translations are enabled.
-		function __($msg) {
-			return $msg;
+		/* In login action of mobile version */
+		if ($_POST["language"] && defined('MOBILE_VERSION')) {
+			$lang = $_POST["language"];
+			$_COOKIE["ttrss_lang"] = $lang;
 		}
-		function startup_gettext() {
-			// no-op
-			return true;
+
+		if ($lang) {
+			if (defined('LC_MESSAGES')) {
+				_setlocale(LC_MESSAGES, $lang);
+			} else if (defined('LC_ALL')) {
+				_setlocale(LC_ALL, $lang);
+			}
+
+			if (defined('MOBILE_VERSION')) {
+				_bindtextdomain("messages", "../locale");
+			} else {
+				_bindtextdomain("messages", "locale");
+			}
+
+			_textdomain("messages");
+			_bind_textdomain_codeset("messages", "UTF-8");
 		}
-	} // If translations are enabled.
+	}
+
+	startup_gettext();
 
 	if (defined('MEMCACHE_SERVER')) {
 		$memcache = new Memcache;

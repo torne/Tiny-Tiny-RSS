@@ -3,7 +3,7 @@
 
 	require "functions.php";
 	header("Content-Type: text/plain; charset=UTF-8");
-	
+
 	function T_js_decl($s1, $s2) {
 		if ($s1 && $s2) {
 			$s1 = preg_replace("/\n/", "", $s1);
@@ -28,17 +28,12 @@ function __(msg) {
 }
 
 <?php
+	$l10n = _get_reader();
 
-	if (ENABLE_TRANSLATIONS) {
+	for ($i = 0; $i < $l10n->total; $i++) {
+		$orig = $l10n->get_original_string($i);
+		$translation = __($orig);
 
-		$l10n = _get_reader();
-
-		for ($i = 0; $i < $l10n->total; $i++) {
-			$orig = $l10n->get_original_string($i);
-			$translation = __($orig);
-	
-			print T_js_decl($orig, $translation);
-		}
+		print T_js_decl($orig, $translation);
 	}
-
 ?>

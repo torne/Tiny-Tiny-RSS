@@ -24,9 +24,7 @@
 
 	no_cache_incantation();
 
-	if (ENABLE_TRANSLATIONS == true) {
-		startup_gettext();
-	}
+	startup_gettext();
 
 	$script_started = getmicrotime();
 
