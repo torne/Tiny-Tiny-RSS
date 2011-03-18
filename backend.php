@@ -274,13 +274,13 @@
 			$result = false;
 
 			if ($feed < -10) {
-				$label_feed = -10-$feed;
+				$label_feed = -11-$feed;
 				$result = db_query($link, "SELECT id FROM ttrss_labels2 WHERE
 					id = '$label_feed' AND owner_uid = " . $_SESSION['uid']);
 			} else if (!$cat_view && $feed > 0) {
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
-			} else if ($cat_view) {
+			} else if ($cat_view && $feed > 0) {
 				$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
 					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
 			}
