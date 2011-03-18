@@ -69,18 +69,6 @@
 		authenticate_user($link, "admin", null);
 	}
 
-	/* if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds"
-		&& $op != "rss" && $op != "getUnread" && $op != "publish" && $op != "getProfiles") {
-
-		if ($op == "rpc" || $op == "viewfeed" || $op == "view") {
-			print_error_xml(6); exit;
-		} else {
-			header("Location: tt-rss.php?return=" .
-				urlencode($_SERVER['REQUEST_URI']));
-		}
-		exit;
-	} */
-
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
 				$op != "rss" && $op != "getUnread" && $op != "getProfiles") {
 
@@ -144,7 +132,12 @@
 	require_once "modules/pref-labels.php";
 	require_once "modules/pref-users.php";
 
-	if (!sanity_check($link)) { return; }
+	$error = sanity_check($link);
+
+	if ($error['code'] != 0) {
+		print json_encode(array("error" => $error));
+		return;
+	}
 
 	switch($op) { // Select action according to $op value.
 		case "rpc":

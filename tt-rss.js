@@ -1022,58 +1022,6 @@ function showFeedsWithErrors() {
 	displayDlg('feedUpdateErrors');
 }
 
-function handle_rpc_reply(transport, scheduled_call) {
-	try {
-		if (transport.responseXML) {
-
-			if (!transport_error_check(transport)) return false;
-
-			var seq = transport.responseXML.getElementsByTagName("seq")[0];
-
-			if (seq) {
-				seq = seq.firstChild.nodeValue;
-
-				if (get_seq() != seq) {
-					//console.log("[handle_rpc_reply] sequence mismatch: " + seq);
-					return true;
-				}
-			}
-
-			var message = transport.responseXML.getElementsByTagName("message")[0];
-
-			if (message) {
-				message = message.firstChild.nodeValue;
-
-				if (message == "UPDATE_COUNTERS") {
-					console.log("need to refresh counters...");
-					setInitParam("last_article_id", -1);
-					_force_scheduled_update = true;
-				}
-			}
-
-			var counters = transport.responseXML.getElementsByTagName("counters")[0];
-
-			if (counters)
-				parse_counters(JSON.parse(counters.firstChild.nodeValue), scheduled_call);
-
-			var runtime_info = transport.responseXML.getElementsByTagName("runtime-info")[0];
-
-			if (runtime_info)
-				parse_runtime_info(JSON.parse(runtime_info.firstChild.nodeValue));
-
-			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
-
-		} else {
-			notify_error("Error communicating with server.");
-		}
-
-	} catch (e) {
-		exception_error("handle_rpc_reply", e, transport);
-	}
-
-	return true;
-}
-
 function scheduleFeedUpdate(id, is_cat) {
 	try {
 		if (!id) {

@@ -307,23 +307,21 @@
 			return;
 		}
 
-		// XML method
 		if ($subop == "sanityCheck") {
+			header("Content-Type: text/plain");
 
 			$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
 
-			print "<rpc-reply>";
-			if (sanity_check($link)) {
-				print "<error error-code=\"0\"/>";
+			$reply = array();
 
-				print "<init-params><![CDATA[";
-				print json_encode(make_init_params($link));
-				print "]]></init-params>";
+			$reply['error'] = sanity_check($link);
 
-				print_runtime_info($link);
+			if ($reply['error']['code'] == 0) {
+				$reply['init-params'] = make_init_params($link);
+				$reply['runtime-info'] = make_runtime_info($link);
 			}
-			print "</rpc-reply>";
 
+			print json_encode($reply);
 			return;
 		}
 

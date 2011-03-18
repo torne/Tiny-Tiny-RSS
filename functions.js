@@ -1055,35 +1055,25 @@ function backend_sanity_check_callback(transport) {
 			return;
 		}
 
-		if (!transport.responseXML) {
-			if (!store) {
-				fatalError(3, "Sanity check: Received reply is not XML",
-					transport.responseText);
-				return;
-			}
-		}
-
-		var reply = transport.responseXML.getElementsByTagName("error")[0];
+		var reply = JSON.parse(transport.responseText);
 
 		if (!reply) {
 			fatalError(3, "Sanity check: invalid RPC reply", transport.responseText);
 			return;
 		}
 
-		var error_code = reply.getAttribute("error-code");
+		var error_code = reply['error']['code'];
 
 		if (error_code && error_code != 0) {
-			return fatalError(error_code, reply.getAttribute("error-msg"));
+			return fatalError(error_code, reply['error']['message']);
 		}
 
 		console.log("sanity check ok");
 
-		var params = transport.responseXML.getElementsByTagName("init-params")[0];
+		var params = reply['init-params'];
 
 		if (params) {
 			console.log('reading init-params...');
-
-			params = JSON.parse(params.firstChild.nodeValue);
 
 			if (params) {
 				for (k in params) {

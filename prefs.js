@@ -1539,23 +1539,6 @@ function clearFeedAccessKeys() {
 	return false;
 }
 
-function handle_rpc_reply(transport, scheduled_call) {
-	try {
-		if (transport.responseXML) {
-
-			if (!transport_error_check(transport)) return false;
-
-		} else {
-			notify_error("Error communicating with server.");
-		}
-
-	} catch (e) {
-		exception_error("handle_rpc_reply", e, transport);
-	}
-
-	return true;
-}
-
 function resetFeedOrder() {
 	try {
 		notify_progress("Loading, please wait...");

@@ -2227,6 +2227,8 @@
 
 	function sanity_check($link) {
 
+		global $ERRORS;
+
 		$error_code = 0;
 		$schema_version = get_schema_version($link);
 
@@ -2245,12 +2247,7 @@
 			$error_code = 12;
 		}
 
-		if ($error_code != 0) {
-			print_error_xml($error_code);
-			return false;
-		} else {
-			return true;
-		}
+		return array("code" => $error_code, "message" => $ERRORS[$error_code]);
 	}
 
 	function file_is_locked($filename) {
@@ -2849,20 +2846,6 @@
 		$result = db_query($link, "SELECT version() AS version");
 		$version = split(" ", db_fetch_result($result, 0, "version"));
 		return $version[1];
-	}
-
-	function print_error_xml($code, $add_msg = "") {
-		global $ERRORS;
-
-		$error_msg = $ERRORS[$code];
-
-		if ($add_msg) {
-			$error_msg = "$error_msg; $add_msg";
-		}
-
-		print "<rpc-reply>";
-		print "<error error-code=\"$code\" error-msg=\"$error_msg\"/>";
-		print "</rpc-reply>";
 	}
 
 	/**

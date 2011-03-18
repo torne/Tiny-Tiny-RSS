@@ -1,7 +1,7 @@
 <?php
 	require_once "functions.php";
 
-	$ERRORS[0] = __("Unknown error");
+	$ERRORS[0] = "";
 
 	$ERRORS[1] = __("This program requires XmlHttpRequest " .
 			"to function properly. Your browser doesn't seem to support it.");
@@ -25,7 +25,7 @@
 
 	$ERRORS[9] = __("Configuration check failed");
 
-	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see 
+	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see
 		official site for more information.");
 
 	$ERRORS[11] = "[This error is not returned by server]";
