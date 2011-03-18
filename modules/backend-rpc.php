@@ -105,8 +105,6 @@
 		}
 
 		if ($subop == "addfeed") {
-			header("Content-Type: text/plain");
-
 			$feed = db_escape_string($_REQUEST['feed']);
 			$cat = db_escape_string($_REQUEST['cat']);
 			$login = db_escape_string($_REQUEST['login']);
@@ -121,7 +119,6 @@
 		}
 
 		if ($subop == "extractfeedurls") {
-			header("Content-Type: text/plain");
 
 			$urls = get_feeds_from_html($_REQUEST['url']);
 
@@ -130,8 +127,6 @@
 		}
 
 		if ($subop == "togglepref") {
-			header("Content-Type: text/plain");
-
 			$key = db_escape_string($_REQUEST["key"]);
 			set_pref($link, $key, !get_pref($link, $key));
 			$value = get_pref($link, $key);
@@ -141,8 +136,6 @@
 		}
 
 		if ($subop == "setpref") {
-			header("Content-Type: text/plain");
-
 			$value = str_replace("\n", "<br/>", $_REQUEST['value']);
 
 			$key = db_escape_string($_REQUEST["key"]);
@@ -155,8 +148,6 @@
 		}
 
 		if ($subop == "mark") {
-			header("Content-Type: text/plain");
-
 			$mark = $_REQUEST["mark"];
 			$id = db_escape_string($_REQUEST["id"]);
 
@@ -174,8 +165,6 @@
 		}
 
 		if ($subop == "delete") {
-			header("Content-Type: text/plain");
-
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "DELETE FROM ttrss_user_entries
@@ -186,8 +175,6 @@
 		}
 
 		if ($subop == "unarchive") {
-			header("Content-Type: text/plain");
-
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "UPDATE ttrss_user_entries
@@ -199,8 +186,6 @@
 		}
 
 		if ($subop == "archive") {
-			header("Content-Type: text/plain");
-
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
@@ -212,8 +197,6 @@
 		}
 
 		if ($subop == "publ") {
-			header("Content-Type: text/plain");
-
 			$pub = $_REQUEST["pub"];
 			$id = db_escape_string($_REQUEST["id"]);
 			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
@@ -245,9 +228,6 @@
 		} */
 
 		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
-
-			header("Content-Type: text/plain");
-
 			$last_article_id = (int) $_REQUEST["last_article_id"];
 
 			$reply = array();
@@ -272,8 +252,6 @@
 
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
-			header("Content-Type: text/plain");
-
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -284,8 +262,6 @@
 		}
 
 		if ($subop == "markSelected") {
-			header("Content-Type: text/plain");
-
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -296,8 +272,6 @@
 		}
 
 		if ($subop == "publishSelected") {
-			header("Content-Type: text/plain");
-
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -308,8 +282,6 @@
 		}
 
 		if ($subop == "sanityCheck") {
-			header("Content-Type: text/plain");
-
 			$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
 
 			$reply = array();
@@ -335,8 +307,6 @@
 		} */
 
 		if ($subop == "setArticleTags") {
-			header("Content-Type: text/plain");
-
 			global $memcache;
 
 			$id = db_escape_string($_REQUEST["id"]);
@@ -404,8 +374,6 @@
 		}
 
 		if ($subop == "regenOPMLKey") {
-			header("Content-Type: text/plain");
-
 			update_feed_access_key($link, 'OPML:Publish',
 				false, $_SESSION["uid"]);
 
@@ -415,16 +383,7 @@
 			return;
 		}
 
-		// XML method
-		if ($subop == "logout") {
-			logout_user();
-			print_error_xml(6);
-			return;
-		}
-
 		if ($subop == "completeTags") {
-			header("Content-Type: text/plain");
-
 			$search = db_escape_string($_REQUEST["search"]);
 
 			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags
@@ -472,8 +431,6 @@
 		} */
 
 		if ($subop == "getArticles") {
-			header("Content-Type: text/plain");
-
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 			$articles = array();
 
@@ -488,8 +445,6 @@
 		}
 
 		if ($subop == "checkDate") {
-			header("Content-Type: text/plain");
-
 			$date = db_escape_string($_REQUEST["date"]);
 			$date_parsed = strtotime($date);
 
@@ -498,8 +453,6 @@
 		}
 
 		if ($subop == "assignToLabel" || $subop == "removeFromLabel") {
-			header("Content-Type: text/plain");
-
 			$reply = array();
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
@@ -535,8 +488,6 @@
 		}
 
 		if ($subop == "updateFeedBrowser") {
-			header("Content-Type: text/plain");
-
 			$search = db_escape_string($_REQUEST["search"]);
 			$limit = db_escape_string($_REQUEST["limit"]);
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
@@ -593,8 +544,6 @@
 		}
 
 		if ($subop == "digest-get-contents") {
-			header("Content-Type: text/plain");
-
 			$article_id = db_escape_string($_REQUEST['article_id']);
 
 			$result = db_query($link, "SELECT content
@@ -609,8 +558,6 @@
 		}
 
 		if ($subop == "digest-update") {
-			header("Content-Type: text/plain");
-
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
 			$seq = db_escape_string($_REQUEST['seq']);
@@ -637,8 +584,6 @@
 		}
 
 		if ($subop == "digest-init") {
-			header("Content-Type: text/plain");
-
 			$tmp_feeds = api_get_feeds($link, -3, true, false, 0);
 
 			$feeds = array();
@@ -662,8 +607,6 @@
 		}
 
 		if ($subop == "sendEmail") {
-			header("Content-Type: text/plain");
-
 			$secretkey = $_REQUEST['secretkey'];
 
 			$reply = array();
@@ -721,8 +664,6 @@
 		}
 
 		if ($subop == "completeEmails") {
-			header("Content-Type: text/plain");
-
 			$search = db_escape_string($_REQUEST["search"]);
 
 			print "<ul>";
@@ -739,8 +680,6 @@
 		}
 
 		if ($subop == "quickAddCat") {
-			header("Content-Type: text/plain");
-
 			$cat = db_escape_string($_REQUEST["cat"]);
 
 			add_feed_category($link, $cat);
@@ -760,8 +699,6 @@
 		}
 
 		if ($subop == "regenFeedKey") {
-			header("Content-Type: text/plain");
-
 			$feed_id = db_escape_string($_REQUEST['id']);
 			$is_cat = (bool) db_escape_string($_REQUEST['is_cat']);
 
@@ -780,8 +717,6 @@
 		}
 
 		if ($subop == "verifyRegexp") {
-			header("Content-Type: text/plain");
-
 			$reg_exp = $_REQUEST["reg_exp"];
 
 			$status = @preg_match("/$reg_exp/i", "TEST") !== false;
@@ -792,8 +727,6 @@
 
 		// TODO: unify with digest-get-contents?
 		if ($subop == "cdmGetArticle") {
-			header("Content-Type: text/plain");
-
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$result = db_query($link, "SELECT content,
@@ -820,8 +753,6 @@
 		}
 
 		if ($subop == "scheduleFeedUpdate") {
-			header("Content-Type: text/plain");
-
 			$feed_id = db_escape_string($_REQUEST["id"]);
 			$is_cat =  db_escape_string($_REQUEST['is_cat']) == 'true';
 
@@ -858,7 +789,6 @@
 		}
 
 		if ($subop == "getTweetInfo") {
-			header("Content-Type: text/plain");
 			$id = db_escape_string($_REQUEST['id']);
 
 			$result = db_query($link, "SELECT title, link
@@ -878,8 +808,6 @@
 		}
 
 		if ($subop == "setNote") {
-			header("Content-Type: text/plain");
-
 			$id = db_escape_string($_REQUEST["id"]);
 			$note = strip_tags(db_escape_string($_REQUEST["note"]));
 
@@ -892,6 +820,7 @@
 			return;
 		}
 
-		print "<rpc-reply><error>Unknown method: $subop</error></rpc-reply>";
+		print json_encode(array("error" => array("code" => 7,
+			"message" => "Unknown method: $subop")));
 	}
 ?>

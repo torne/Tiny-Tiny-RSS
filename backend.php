@@ -48,17 +48,10 @@
 
 	$print_exec_time = false;
 
-	if ((!$op || $op == "rpc" || $op == "rss" ||
-			$op == "digestSend" || $op == "dlg" ||
-			$op == "globalUpdateFeeds") && !$_REQUEST["noxml"]) {
-				header("Content-Type: application/xml; charset=utf-8");
-
-		} else {
-		if (!$_REQUEST["noxml"]) {
-			header("Content-Type: text/html; charset=utf-8");
-		} else {
+	if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {
+			header("Content-Type: application/xml; charset=utf-8");
+	} else {
 			header("Content-Type: text/plain; charset=utf-8");
-		}
 	}
 
 	if (ENABLE_GZIP_OUTPUT) {
@@ -428,16 +421,8 @@
 		break; // pref-pub-items
 
 		case "globalUpdateFeeds":
-			// update feeds of all users, may be used anonymously
-
-			print "<!--";
 			// Update all feeds needing a update.
 			update_daemon_common($link, 0, true, true);
-			print " -->";
-
-			print "<rpc-reply>
-				<message msg=\"All feeds updated\"/>
-			</rpc-reply>";
 		break; // globalUpdateFeeds
 
 		case "pref-feed-browser":
@@ -483,8 +468,6 @@
 			$login = db_escape_string($_REQUEST["login"]);
 			$fresh = $_REQUEST["fresh"] == "1";
 
-			header("Content-Type: text/plain; charset=utf-8");
-
 			$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
 
 			if (db_num_rows($result) == 1) {
@@ -505,13 +488,11 @@
 		break; // getUnread
 
 		case "digestTest":
-			header("Content-Type: text/plain");
 			print_r(prepare_headlines_digest($link, $_SESSION["uid"]));
 			$print_exec_time = false;
 		break; // digestTest
 
 		case "digestSend":
-			header("Content-Type: text/plain");
 			send_headlines_digests($link);
 			$print_exec_time = false;
 		break; // digestSend
