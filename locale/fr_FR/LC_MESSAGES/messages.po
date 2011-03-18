@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-16 15:50+0300\n"
+"POT-Creation-Date: 2011-03-18 18:25+0300\n"
 "PO-Revision-Date: 2007-11-20 23:01+0100\n"
 "Last-Translator: Ploc\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -19,114 +19,118 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: backend.php:92
+#: backend.php:81
 msgid "Use default"
 msgstr "Utiliser la valeur par défaut"
 
-#: backend.php:93
+#: backend.php:82
 msgid "Never purge"
 msgstr "Ne jamais purger"
 
-#: backend.php:94
+#: backend.php:83
 msgid "1 week old"
 msgstr "Au bout d'une semaine"
 
-#: backend.php:95
+#: backend.php:84
 msgid "2 weeks old"
 msgstr "Au bout de 2 semaines"
 
-#: backend.php:96
+#: backend.php:85
 msgid "1 month old"
 msgstr "Au bout d'un mois"
 
-#: backend.php:97
+#: backend.php:86
 msgid "2 months old"
 msgstr "Au bout de 2 mois"
 
-#: backend.php:98
+#: backend.php:87
 msgid "3 months old"
 msgstr "Au bout de 3 mois"
 
-#: backend.php:101
+#: backend.php:90
 msgid "Default interval"
 msgstr "Fréquence de mise à jour par défaut"
 
-#: backend.php:102 backend.php:112
+#: backend.php:91 backend.php:101
 msgid "Disable updates"
 msgstr "Désactiver les mises à jour"
 
-#: backend.php:103 backend.php:113
+#: backend.php:92 backend.php:102
 msgid "Each 15 minutes"
 msgstr "Toutes les 15 minutes"
 
-#: backend.php:104 backend.php:114
+#: backend.php:93 backend.php:103
 msgid "Each 30 minutes"
 msgstr "Toutes les 30 minutes"
 
-#: backend.php:105 backend.php:115
+#: backend.php:94 backend.php:104
 msgid "Hourly"
 msgstr "Toutes les heures"
 
-#: backend.php:106 backend.php:116
+#: backend.php:95 backend.php:105
 msgid "Each 4 hours"
 msgstr "Toutes les 4 heures"
 
-#: backend.php:107 backend.php:117
+#: backend.php:96 backend.php:106
 msgid "Each 12 hours"
 msgstr "Toutes les 12 heures"
 
-#: backend.php:108 backend.php:118
+#: backend.php:97 backend.php:107
 msgid "Daily"
 msgstr "Une fois par jour"
 
-#: backend.php:109 backend.php:119
+#: backend.php:98 backend.php:108
 msgid "Weekly"
 msgstr "Une fois par semaine"
 
-#: backend.php:122 tt-rss.php:147 modules/pref-prefs.php:347
+#: backend.php:111 tt-rss.php:147 modules/pref-prefs.php:347
 msgid "Default"
 msgstr "Utiliser la valeur par défaut"
 
-#: backend.php:123
+#: backend.php:112
 msgid "Magpie"
 msgstr "Magpie"
 
-#: backend.php:124
+#: backend.php:113
 msgid "SimplePie"
 msgstr "SimplePie"
 
-#: backend.php:125
+#: backend.php:114
 msgid "Twitter OAuth"
 msgstr "Twitter OAuth"
 
-#: backend.php:134 modules/pref-users.php:131
+#: backend.php:123 modules/pref-users.php:131
 msgid "User"
 msgstr "Utilisateur"
 
-#: backend.php:135
+#: backend.php:124
 msgid "Power User"
 msgstr "Utilisateur avancé"
 
-#: backend.php:136
+#: backend.php:125
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: backend.php:182 prefs.php:103 modules/pref-feeds.php:41
+#: backend.php:176 prefs.php:103 modules/pref-feeds.php:41
 #: modules/pref-feeds.php:1176 modules/pref-feeds.php:1213
 msgid "Feeds"
 msgstr "Flux"
 
-#: backend.php:209
+#: backend.php:203
 msgid "Article not found."
 msgstr "Article non trouvé."
 
-#: backend.php:526 digest.php:61 prefs.php:66 tt-rss.php:62 tt-rss.php:111
+#: backend.php:282 functions.php:4769
+msgid "Feed not found."
+msgstr "Flux non trouvé."
+
+#: backend.php:520 digest.php:61 prefs.php:66 tt-rss.php:62 tt-rss.php:111
 #: tt-rss.php:196 modules/pref-feeds.php:1262 modules/pref-filters.php:424
-#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1558
+#: modules/pref-labels.php:293 digest.js:129 viewfeed.js:1459
 msgid "Loading, please wait..."
 msgstr "Chargement en cours, veuillez patienter..."
 
-#: backend.php:539 login_form.php:153 modules/backend-rpc.php:66
+#: backend.php:533 login_form.php:153 modules/backend-rpc.php:66
 #: modules/popup-dialog.php:109
 msgid "Default profile"
 msgstr "Profil par défaut"
@@ -239,10 +243,6 @@ msgid "You are viewing the digest page. Click to open full version."
 msgstr ""
 "Vous consultez la page résumée. Cliquez pour ouvrir une version complète."
 
-#: errors.php:4
-msgid "Unknown error"
-msgstr "Erreur inconnue"
-
 #: errors.php:6
 msgid ""
 "This program requires XmlHttpRequest to function properly. Your browser "
@@ -304,8 +304,9 @@ msgid "Configuration check failed"
 msgstr "Échec du test de configuration"
 
 #: errors.php:28
+#, fuzzy
 msgid ""
-"Your version of MySQL is not currently supported. Please see \n"
+"Your version of MySQL is not currently supported. Please see\n"
 "\t\tofficial site for more information."
 msgstr ""
 "Votre version de MySQL n'est pas gérée pour le moment. Reportez-vous au \n"
@@ -317,175 +318,175 @@ msgstr ""
 "Le test d'échappement sql a échoué, vérifier votre base de donnée et votre "
 "configuration de PHP."
 
-#: functions.php:1928
+#: functions.php:1892
 msgid "Session failed to validate (incorrect IP)"
 msgstr "Echec de la validation de la session (adresse ip incorrecte)"
 
-#: functions.php:2000
+#: functions.php:1964
 msgid "Incorrect username or password"
 msgstr "Login ou mot de passe incorrect"
 
-#: functions.php:2995 modules/popup-dialog.php:394
+#: functions.php:2942 modules/popup-dialog.php:394
 msgid "All feeds"
 msgstr "Tous les flux"
 
-#: functions.php:3027 functions.php:3070 functions.php:4317 functions.php:4326
+#: functions.php:2974 functions.php:3017 functions.php:4265 functions.php:4274
 #: modules/pref-feeds.php:86
 msgid "Uncategorized"
 msgstr "Sans catégorie"
 
-#: functions.php:3060 functions.php:3662 mobile/functions.php:168
+#: functions.php:3007 functions.php:3609 mobile/functions.php:168
 msgid "Special"
 msgstr "Spécial"
 
-#: functions.php:3062 functions.php:3664 prefs.php:109
+#: functions.php:3009 functions.php:3611 prefs.php:109
 #: modules/pref-labels.php:89 help/4.php:12 mobile/functions.php:195
 msgid "Labels"
 msgstr "Etiquettes"
 
-#: functions.php:3108 help/3.php:61
+#: functions.php:3055 help/3.php:61
 msgid "Starred articles"
 msgstr "Articles remarquables"
 
-#: functions.php:3110 help/3.php:62
+#: functions.php:3057 help/3.php:62
 msgid "Published articles"
 msgstr "Articles publiés"
 
-#: functions.php:3112 help/3.php:60
+#: functions.php:3059 help/3.php:60
 msgid "Fresh articles"
 msgstr "Nouveaux articles"
 
-#: functions.php:3114 help/3.php:59
+#: functions.php:3061 help/3.php:59
 msgid "All articles"
 msgstr "Tous les articles"
 
-#: functions.php:3116
+#: functions.php:3063
 msgid "Archived articles"
 msgstr "Articles archivés"
 
-#: functions.php:4084
+#: functions.php:4031
 msgid "Select:"
 msgstr "Sélectionner :"
 
-#: functions.php:4085 modules/pref-feeds.php:1207 modules/pref-filters.php:399
+#: functions.php:4032 modules/pref-feeds.php:1207 modules/pref-filters.php:399
 #: modules/pref-labels.php:272 modules/pref-users.php:382
 msgid "All"
 msgstr "Tout"
 
-#: functions.php:4086 functions.php:4098 tt-rss.php:139
+#: functions.php:4033 functions.php:4045 tt-rss.php:139
 msgid "Unread"
 msgstr "Non lus"
 
-#: functions.php:4087
+#: functions.php:4034
 msgid "Invert"
 msgstr "Inverse"
 
-#: functions.php:4088 modules/pref-feeds.php:1209 modules/pref-filters.php:401
+#: functions.php:4035 modules/pref-feeds.php:1209 modules/pref-filters.php:401
 #: modules/pref-labels.php:274 modules/pref-users.php:384
 msgid "None"
 msgstr "Aucun"
 
-#: functions.php:4094 tt-rss.php:165
+#: functions.php:4041 tt-rss.php:165
 msgid "Actions..."
 msgstr "Actions..."
 
-#: functions.php:4096
+#: functions.php:4043
 msgid "Selection toggle:"
 msgstr "Sélectionner :"
 
-#: functions.php:4099 tt-rss.php:137
+#: functions.php:4046 tt-rss.php:137
 msgid "Starred"
 msgstr "Remarquables"
 
-#: functions.php:4100 tt-rss.php:138
+#: functions.php:4047 tt-rss.php:138
 msgid "Published"
 msgstr "Publiés"
 
-#: functions.php:4102
+#: functions.php:4049
 msgid "Selection:"
 msgstr "Sélection :"
 
-#: functions.php:4104 functions.php:4122 localized_schema.php:10
+#: functions.php:4051 functions.php:4069 localized_schema.php:10
 #: tt-rss.php:159 tt-rss.php:174 digest.js:365 digest.js:436 digest.js:592
 msgid "Mark as read"
 msgstr "Marquer comme lu"
 
-#: functions.php:4107
+#: functions.php:4054
 msgid "Archive"
 msgstr "Archive"
 
-#: functions.php:4109
+#: functions.php:4056
 msgid "Move back"
 msgstr "Revenir"
 
-#: functions.php:4110
+#: functions.php:4057
 msgid "Delete"
 msgstr "Supprimer"
 
-#: functions.php:4114 functions.php:4682 functions.php:5303
+#: functions.php:4061 functions.php:4627 functions.php:5229
 msgid "Forward by email"
 msgstr "Transférer par email"
 
-#: functions.php:4120 PrefFilterTree.js:29
+#: functions.php:4067 PrefFilterTree.js:29
 msgid "Feed:"
 msgstr "Flux :"
 
-#: functions.php:4124 modules/popup-dialog.php:737
+#: functions.php:4071 modules/popup-dialog.php:737
 msgid "View as RSS"
 msgstr "Voir comme RSS"
 
-#: functions.php:4134 functions.php:4734
+#: functions.php:4081 functions.php:4679
 msgid "Visit the website"
 msgstr "Visiter le site web"
 
-#: functions.php:4180
+#: functions.php:4127
 msgid "View as RSS feed"
 msgstr "Voir comme flux RSS"
 
-#: functions.php:4504 viewfeed.js:2342
+#: functions.php:4452 viewfeed.js:2243
 #, fuzzy
 msgid "Click to play"
 msgstr "Cliquer pour éditer"
 
-#: functions.php:4505 viewfeed.js:2341
+#: functions.php:4453 viewfeed.js:2242
 msgid "Play"
 msgstr ""
 
-#: functions.php:4634
+#: functions.php:4579
 msgid " - "
 msgstr " - "
 
-#: functions.php:4663 functions.php:5281
+#: functions.php:4608 functions.php:5207
 msgid "Edit tags for this article"
 msgstr "Editer les tags pour cet article"
 
-#: functions.php:4669 functions.php:5290
+#: functions.php:4614 functions.php:5216
 msgid "Open article in new tab"
 msgstr "Ouvrir les articles dans un nouvel onglet"
 
-#: functions.php:4676 functions.php:5297 viewfeed.js:2286
+#: functions.php:4621 functions.php:5223 viewfeed.js:2187
 #, fuzzy
 msgid "Edit article note"
 msgstr "Editer les étiquettes de l'article"
 
-#: functions.php:4689 functions.php:5310 digest.js:435
+#: functions.php:4634 functions.php:5236 digest.js:435
 msgid "Share on Twitter"
 msgstr "Partager sur Twitter"
 
-#: functions.php:4695
+#: functions.php:4640
 msgid "Close this panel"
 msgstr "Fermer ce panel"
 
-#: functions.php:4712 functions.php:5212
+#: functions.php:4657 functions.php:5138
 msgid "Originally from:"
 msgstr "Origine :"
 
-#: functions.php:4725 functions.php:5225 modules/popup-dialog.php:251
+#: functions.php:4670 functions.php:5151 modules/popup-dialog.php:251
 #: modules/pref-feeds.php:298
 msgid "Feed URL"
 msgstr "URL du flux"
 
-#: functions.php:4766 modules/help.php:21 modules/popup-dialog.php:53
+#: functions.php:4709 modules/help.php:21 modules/popup-dialog.php:53
 #: modules/popup-dialog.php:172 modules/popup-dialog.php:196
 #: modules/popup-dialog.php:234 modules/popup-dialog.php:563
 #: modules/popup-dialog.php:622 modules/popup-dialog.php:760
@@ -494,39 +495,27 @@ msgstr "URL du flux"
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
-#: functions.php:4823
-msgid "Feed not found."
-msgstr "Flux non trouvé."
-
-#: functions.php:4892
-msgid ""
-"Could not display feed (query failed). Please check label match syntax or "
-"local configuration."
-msgstr ""
-"Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez vérifier "
-"la syntaxe de l'étiquette de correspondance ou la configuration locale."
-
-#: functions.php:5047 functions.php:5128
+#: functions.php:4975 functions.php:5054
 msgid "mark as read"
 msgstr "marquer comme lu"
 
-#: functions.php:5316
+#: functions.php:5242
 msgid "Dismiss article"
 msgstr "Exclure l'article"
 
-#: functions.php:5335
+#: functions.php:5261
 msgid "No unread articles found to display."
 msgstr "Aucun article non-lu à afficher"
 
-#: functions.php:5338
+#: functions.php:5264
 msgid "No updated articles found to display."
 msgstr "Aucun article mis à jour à afficher"
 
-#: functions.php:5341
+#: functions.php:5267
 msgid "No starred articles found to display."
 msgstr "Aucun article remarquable à afficher"
 
-#: functions.php:5345
+#: functions.php:5271
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -535,54 +524,54 @@ msgstr ""
 "articles manuellement (voir les actions du menu ci-dessus) ou utiliser un "
 "filtre."
 
-#: functions.php:5347
+#: functions.php:5273
 msgid "No articles found to display."
 msgstr "Aucun article à afficher"
 
-#: functions.php:5362 functions.php:6668
+#: functions.php:5288 functions.php:6613
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "Flux mis à jour à %s"
 
-#: functions.php:5372 functions.php:6678
+#: functions.php:5298 functions.php:6623
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 "Des erreurs sont survenues pendant la mise à jour de certains flux (cliquer "
 "ici pour les détails)"
 
-#: functions.php:6178 tt-rss.php:179
+#: functions.php:6105 tt-rss.php:179
 msgid "Create label..."
 msgstr "Créer une étiquette..."
 
-#: functions.php:6192
+#: functions.php:6119
 msgid "Remove:"
 msgstr "Supprimer :"
 
-#: functions.php:6196
+#: functions.php:6123
 msgid "Assign:"
 msgstr "Assigner :"
 
-#: functions.php:6244
+#: functions.php:6171
 msgid "no tags"
 msgstr "aucun tag"
 
-#: functions.php:6267
+#: functions.php:6194
 msgid "edit note"
 msgstr "éditer la note"
 
-#: functions.php:6658
+#: functions.php:6603
 msgid "No feed selected."
 msgstr "Aucun flux sélectionné."
 
-#: functions.php:6846
+#: functions.php:6787
 msgid "unknown type"
 msgstr "type inconnu"
 
-#: functions.php:6886
+#: functions.php:6827
 msgid "Attachment:"
 msgstr "Fichier attaché :"
 
-#: functions.php:6888
+#: functions.php:6829
 msgid "Attachments:"
 msgstr "Fichiers attachés :"
 
@@ -615,7 +604,7 @@ msgstr "Filtrer l'article"
 msgid "Set starred"
 msgstr "Marquer comme remarquable"
 
-#: localized_schema.php:12 digest.js:412 digest.js:694 viewfeed.js:470
+#: localized_schema.php:12 digest.js:412 digest.js:694 viewfeed.js:401
 msgid "Publish article"
 msgstr "Publier l'article"
 
@@ -623,7 +612,7 @@ msgstr "Publier l'article"
 msgid "Assign tags"
 msgstr "Assigner des tags"
 
-#: localized_schema.php:14 viewfeed.js:2227
+#: localized_schema.php:14 viewfeed.js:2128
 msgid "Assign label"
 msgstr "Assigner l'étiquette"
 
@@ -831,7 +820,7 @@ msgstr "Fuseau horaire de l'utilisateur"
 msgid "Sort headlines by feed date"
 msgstr "Trier les en-têtes par date de flux"
 
-#: localized_schema.php:57 prefs.js:1720
+#: localized_schema.php:57 prefs.js:1676
 msgid "Customize stylesheet"
 msgstr "Personnaliser la feuille de style"
 
@@ -1084,19 +1073,19 @@ msgstr "Félicitation ! Vous vous êtes inscrit via Twitter avec succès."
 msgid "Register"
 msgstr "S'inscrire"
 
-#: modules/backend-rpc.php:830
+#: modules/backend-rpc.php:828
 msgid "Your request could not be completed."
 msgstr "Votre requête ne peut être traitée."
 
-#: modules/backend-rpc.php:834
+#: modules/backend-rpc.php:832
 msgid "Feed update has been scheduled."
 msgstr "La mise à jour des flux a été planifiée."
 
-#: modules/backend-rpc.php:842
+#: modules/backend-rpc.php:840
 msgid "Category update has been scheduled."
 msgstr "La mise à jour des catégories a été planifiée."
 
-#: modules/backend-rpc.php:855
+#: modules/backend-rpc.php:853
 msgid "Can't update this kind of feed."
 msgstr "Impossible de mettre à jour ce type de flux."
 
@@ -2186,12 +2175,12 @@ msgstr ""
 "configuration de Tiny Tiny RSS et vos permissions."
 
 #: mobile/functions.php:58 mobile/functions.php:134 mobile/functions.php:170
-#: mobile/functions.php:197 mobile/functions.php:233 mobile/functions.php:363
+#: mobile/functions.php:197 mobile/functions.php:233 mobile/functions.php:367
 #: mobile/prefs.php:25
 msgid "Home"
 msgstr "Accueil"
 
-#: mobile/functions.php:399
+#: mobile/functions.php:403
 msgid "Nothing found (click to reload feed)."
 msgstr "Rien trouvé (cliquez pour recharger le flux)."
 
@@ -2225,7 +2214,7 @@ msgstr "Masquer les flux lus"
 msgid "Sort feeds by unread count"
 msgstr "Trier les flux par nombre d'articles non lus"
 
-#: digest.js:24 tt-rss.js:529 tt-rss.js:542
+#: digest.js:24 tt-rss.js:506 tt-rss.js:519
 msgid "Mark all articles in %s as read?"
 msgstr "Marquer tous les articles de %s comme lus ?"
 
@@ -2237,15 +2226,15 @@ msgstr "Marquer les %d articles affichés comme lus ?"
 msgid "Error: unable to load article."
 msgstr "Erreur : impossible de charger l'article."
 
-#: digest.js:405 digest.js:654 viewfeed.js:427
+#: digest.js:405 digest.js:654 viewfeed.js:358
 msgid "Unstar article"
 msgstr "Ne plus marquer comme remarquable"
 
-#: digest.js:407 digest.js:658 viewfeed.js:432
+#: digest.js:407 digest.js:658 viewfeed.js:363
 msgid "Star article"
 msgstr "Marquer comme remarquable"
 
-#: digest.js:410 digest.js:689 viewfeed.js:465
+#: digest.js:410 digest.js:689 viewfeed.js:396
 msgid "Unpublish article"
 msgstr "Ne plus publier l'article"
 
@@ -2269,7 +2258,7 @@ msgstr "Aucun flux non lu."
 msgid "Load more..."
 msgstr "Charger plus..."
 
-#: feedlist.js:276
+#: feedlist.js:272
 msgid "New articles available in this feed (click to show)"
 msgstr "Nouveaux articles disponible dans ce flux (cliquer pour les afficher)"
 
@@ -2277,102 +2266,102 @@ msgstr "Nouveaux articles disponible dans ce flux (cliquer pour les afficher)"
 msgid "Update feed"
 msgstr "Mettre à jour le flux"
 
-#: functions.js:62
+#: functions.js:70
 msgid ""
 "Are you sure to report this exception to tt-rss.org? The report will include "
 "your browser information. Your IP would be saved in the database."
 msgstr ""
 
-#: functions.js:628
+#: functions.js:631
 msgid "Date syntax appears to be correct."
 msgstr "La syntaxe des dates semble correcte."
 
-#: functions.js:631
+#: functions.js:634
 msgid "Date syntax is incorrect."
 msgstr "La syntaxe des dates est incorrecte."
 
-#: functions.js:767
+#: functions.js:770
 msgid "Remove stored feed icon?"
 msgstr "Supprimer les données stockées ?"
 
-#: functions.js:799
+#: functions.js:802
 msgid "Please select an image file to upload."
 msgstr "Veuillez sélectionner une image à envoyer."
 
-#: functions.js:801
+#: functions.js:804
 msgid "Upload new icon for this feed?"
 msgstr "Envoyer une nouvelle icône pour ce flux ?"
 
-#: functions.js:818
+#: functions.js:821
 msgid "Please enter label caption:"
 msgstr "Veuillez saisir le libellé de l'étiquette :"
 
-#: functions.js:823
+#: functions.js:826
 msgid "Can't create label: missing caption."
 msgstr "Impossible de créer une étiquette : libellé manquant."
 
-#: functions.js:865
+#: functions.js:868
 msgid "Subscribe to Feed"
 msgstr "S'abonner au flux"
 
-#: functions.js:873
+#: functions.js:876
 msgid "Subscribing to feed..."
 msgstr "Abonnement au flux..."
 
-#: functions.js:891
+#: functions.js:894
 msgid "Subscribed to %s"
 msgstr "Abonné à %s"
 
-#: functions.js:896
+#: functions.js:899
 msgid "Specified URL seems to be invalid."
 msgstr "L'URL spécifiée semble invalide."
 
-#: functions.js:899
+#: functions.js:902
 msgid "Specified URL doesn't seem to contain any feeds."
 msgstr "L'URL spécifiée ne semble pas correspondre à un flux."
 
-#: functions.js:935
+#: functions.js:938
 msgid "Couldn't download the specified URL."
 msgstr "Impossible de télécharger l'URL spécifiée."
 
-#: functions.js:938
+#: functions.js:941
 msgid "You are already subscribed to this feed."
 msgstr "Vous êtes déjà abonné à ce flux."
 
-#: functions.js:967
+#: functions.js:970
 msgid "Create Filter"
 msgstr "Créer un filtre"
 
-#: functions.js:1017 tt-rss.js:414
+#: functions.js:1020 tt-rss.js:391
 msgid "Unsubscribe from %s?"
 msgstr "Se désabonner de %s ?"
 
-#: functions.js:1134
+#: functions.js:1127
 msgid "Please enter category title:"
 msgstr "Veuillez saisir un titre pour cette catégorie :"
 
-#: functions.js:1165
+#: functions.js:1158
 msgid "Generate new syndication address for this feed?"
 msgstr "Générer une nouvelle adresse d'abonnement pour ce flux ?"
 
-#: functions.js:1349 tt-rss.js:393 tt-rss.js:866
+#: functions.js:1342 tt-rss.js:370 tt-rss.js:843
 msgid "You can't edit this kind of feed."
 msgstr "Vous ne pouvez pas éditer ce type de flux."
 
-#: functions.js:1361
+#: functions.js:1354
 msgid "Edit Feed"
 msgstr "Editer le flux"
 
-#: functions.js:1399
+#: functions.js:1392
 msgid "More Feeds"
 msgstr "D'autres flux"
 
-#: functions.js:1438 prefs.js:399 prefs.js:429 prefs.js:461 prefs.js:647
-#: prefs.js:667 prefs.js:1350
+#: functions.js:1431 prefs.js:399 prefs.js:429 prefs.js:461 prefs.js:647
+#: prefs.js:667 prefs.js:1323
 msgid "No feeds are selected."
 msgstr "Aucun flux sélectionné."
 
-#: functions.js:1480
+#: functions.js:1473
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
@@ -2404,7 +2393,7 @@ msgstr "Supprimer le filtre %s ?"
 msgid "Remove selected labels?"
 msgstr "Supprimer les étiquettes sélectionnées ?"
 
-#: prefs.js:296 prefs.js:1391
+#: prefs.js:296 prefs.js:1364
 msgid "No labels are selected."
 msgstr "Aucune étiquette sélectionnée."
 
@@ -2447,7 +2436,7 @@ msgstr ""
 "Combien de jour faut-il conserver l'article (entrer 0 pour utiliser la "
 "valeur par défaut)"
 
-#: prefs.js:474 prefs.js:1423
+#: prefs.js:474 prefs.js:1396
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
@@ -2490,67 +2479,67 @@ msgstr "Import OPML"
 msgid "Please choose an OPML file first."
 msgstr "Veuillez d'abord sélectionner un fichier OPML."
 
-#: prefs.js:941
+#: prefs.js:915
 msgid "Reset to defaults?"
 msgstr "Revenir aux valeurs par défaut ?"
 
-#: prefs.js:1158
+#: prefs.js:1131
 msgid "Feed Categories"
 msgstr "Catégories de flux"
 
-#: prefs.js:1167
+#: prefs.js:1140
 msgid "Remove selected categories?"
 msgstr "Supprimer les catégories sélectionnées ?"
 
-#: prefs.js:1186
+#: prefs.js:1159
 msgid "No categories are selected."
 msgstr "Aucune catégorie sélectionnée."
 
-#: prefs.js:1225
+#: prefs.js:1198
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Remplacer l'adresse de publication OPML actuelle par une nouvelle ?"
 
-#: prefs.js:1334
+#: prefs.js:1307
 msgid "Rescore articles in selected feeds?"
 msgstr "Recalculer le score des articles des flux sélectionnés ?"
 
-#: prefs.js:1357
+#: prefs.js:1330
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "Recalculer le score de tous les articles ? Cette opération peut prendre "
 "beaucoup de temps."
 
-#: prefs.js:1377
+#: prefs.js:1350
 msgid "Reset selected labels to default colors?"
 msgstr "Ré-initialiser les couleurs des étiquettes aux couleurs par défaut ?"
 
-#: prefs.js:1414
+#: prefs.js:1387
 msgid "Settings Profiles"
 msgstr "Paramètres des profils"
 
-#: prefs.js:1441
+#: prefs.js:1414
 msgid "No profiles are selected."
 msgstr "Aucun profil sélectionné."
 
-#: prefs.js:1449 prefs.js:1502
+#: prefs.js:1422 prefs.js:1475
 msgid "Activate selected profile?"
 msgstr "Activer le profil selectionné ?"
 
-#: prefs.js:1465 prefs.js:1518
+#: prefs.js:1438 prefs.js:1491
 msgid "Please choose a profile to activate."
 msgstr "Veuillez sélectionner un profil à activer"
 
-#: prefs.js:1526
+#: prefs.js:1499
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 "Cela va invalider toutes les URL de flux générées auparavant. Souhaitez-vous "
 "continuer ?"
 
-#: prefs.js:1627
+#: prefs.js:1583
 msgid "Label Editor"
 msgstr "Editeur d'étiquette"
 
-#: prefs.js:1691
+#: prefs.js:1647
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
@@ -2561,107 +2550,118 @@ msgstr ""
 msgid "Mark all articles as read?"
 msgstr "Marquer tous les articles comme lus ?"
 
-#: tt-rss.js:403
+#: tt-rss.js:380
 msgid "You can't unsubscribe from the category."
 msgstr "Vous ne pouvez pas vous désabonner de la catégorie."
 
-#: tt-rss.js:408 tt-rss.js:616 tt-rss.js:1085
+#: tt-rss.js:385 tt-rss.js:593 tt-rss.js:1010
 msgid "Please select some feed first."
 msgstr "Veuillez d'abord sélectionner un flux."
 
-#: tt-rss.js:611
+#: tt-rss.js:588
 msgid "You can't rescore this kind of feed."
 msgstr "Vous ne pouvez pas recalculer le score de ce type de flux."
 
-#: tt-rss.js:621
+#: tt-rss.js:598
 msgid "Rescore articles in %s?"
 msgstr "Recalculer le score des articles de %s ?"
 
-#: tt-rss.js:1125
+#: tt-rss.js:1050
 msgid "New version available!"
 msgstr "Une nouvelle version est disponible !"
 
-#: viewfeed.js:664 viewfeed.js:702 viewfeed.js:739 viewfeed.js:801
-#: viewfeed.js:833 viewfeed.js:949 viewfeed.js:993 viewfeed.js:1043
-#: viewfeed.js:1771
+#: viewfeed.js:565 viewfeed.js:603 viewfeed.js:640 viewfeed.js:702
+#: viewfeed.js:734 viewfeed.js:850 viewfeed.js:894 viewfeed.js:944
+#: viewfeed.js:1672
 msgid "No articles are selected."
 msgstr "Aucun article sélectionné."
 
-#: viewfeed.js:929
+#: viewfeed.js:830
 msgid "Mark all visible articles in %s as read?"
 msgstr "Marquer tous les articles visibles de %s comme lus ?"
 
-#: viewfeed.js:958
+#: viewfeed.js:859
 msgid "Delete %d selected articles in %s?"
 msgstr "Supprimer les %d articles sélectionnés de %s ?"
 
-#: viewfeed.js:960
+#: viewfeed.js:861
 msgid "Delete %d selected articles?"
 msgstr "Supprimer les %d articles sélectionnés ?"
 
-#: viewfeed.js:1002
+#: viewfeed.js:903
 msgid "Archive %d selected articles in %s?"
 msgstr "Archiver les %d articles sélectionnés de %s ?"
 
-#: viewfeed.js:1005
+#: viewfeed.js:906
 msgid "Move %d archived articles back?"
 msgstr "Restaurer les articles archivés ?"
 
-#: viewfeed.js:1049
+#: viewfeed.js:950
 msgid "Mark %d selected articles in %s as read?"
 msgstr "Marquer %d articles sélectionnés de %s comme lus ?"
 
-#: viewfeed.js:1073
+#: viewfeed.js:974
 msgid "Edit article Tags"
 msgstr "Editer les étiquettes de l'article"
 
-#: viewfeed.js:1455
+#: viewfeed.js:1356
 msgid "No article is selected."
 msgstr "Aucun article sélectionné."
 
-#: viewfeed.js:1490
+#: viewfeed.js:1391
 msgid "No articles found to mark"
 msgstr "Aucun article à marquer"
 
-#: viewfeed.js:1492
+#: viewfeed.js:1393
 msgid "Mark %d article(s) as read?"
 msgstr "Marquer %d article(s) comme lu(s) ?"
 
-#: viewfeed.js:1581
+#: viewfeed.js:1482
 msgid "Unable to load article."
 msgstr "Chargement de l'article impossible."
 
-#: viewfeed.js:1642
+#: viewfeed.js:1543
 msgid "Loading..."
 msgstr "Chargement en cours..."
 
-#: viewfeed.js:1785
+#: viewfeed.js:1686
 msgid "Forward article by email"
 msgstr "Transférer l'article par email"
 
-#: viewfeed.js:2179
+#: viewfeed.js:2080
 msgid "Open original article"
 msgstr "Ouvrir l'article original"
 
-#: viewfeed.js:2185
+#: viewfeed.js:2086
 #, fuzzy
 msgid "View in a tt-rss tab"
 msgstr "Voir dans un nouvel onglet"
 
-#: viewfeed.js:2232
+#: viewfeed.js:2133
 #, fuzzy
 msgid "Remove label"
 msgstr "Supprimer les étiquettes sélectionnées ?"
 
-#: viewfeed.js:2335
+#: viewfeed.js:2236
 #, fuzzy
 msgid "Playing..."
 msgstr "Chargement en cours..."
 
-#: viewfeed.js:2336
+#: viewfeed.js:2237
 #, fuzzy
 msgid "Click to pause"
 msgstr "Cliquer pour éditer"
+
+#~ msgid "Unknown error"
+#~ msgstr "Erreur inconnue"
+
+#~ msgid ""
+#~ "Could not display feed (query failed). Please check label match syntax or "
+#~ "local configuration."
+#~ msgstr ""
+#~ "Impossible d'afficher le flux (la requête l'a pas abouti). Veuillez "
+#~ "vérifier la syntaxe de l'étiquette de correspondance ou la configuration "
+#~ "locale."
 
 #~ msgid "Mark articles as read automatically"
 #~ msgstr "Marquer les articles comme lus automatiquement"
