@@ -21,7 +21,7 @@
 
 			if (db_num_rows($result) == 0) {
 				db_query($link, "INSERT INTO ttrss_feed_categories
-					(title,owner_uid) 
+					(title,owner_uid)
 						VALUES ('Imported feeds', '$owner_uid')");
 			}
 
@@ -48,7 +48,7 @@
 			print "</div>";
 
 			print "<div align='center'>";
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"dijit.byId('opmlImportDlg').hide()\">".
 				__('Close this window')."</button>";
 			print "</div>";
@@ -66,16 +66,16 @@
 #			print "<div dojoType=\"dijit.form.DropDownButton\">".
 #				"<span>" . __('Select')."</span>";
 #			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'all')\" 
+#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'all')\"
 #				dojoType=\"dijit.MenuItem\">".__('All')."</div>";
-#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'none')\" 
+#			print "<div onclick=\"selectTableRows('prefFeedProfileList', 'none')\"
 #				dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 #			print "</div></div>";
 
 #			print "<div style='float : right'>";
 			print "<input name=\"newprofile\" dojoType=\"dijit.form.ValidationTextBox\"
 					required=\"1\">
-				<button dojoType=\"dijit.form.Button\" 
+				<button dojoType=\"dijit.form.Button\"
 				onclick=\"dijit.byId('profileEditDlg').addProfile()\">".
 					__('Create profile')."</button></div>";
 
@@ -89,13 +89,13 @@
 
 			print "<form id=\"profile_edit_form\" onsubmit=\"return false\">";
 
-			print "<table width=\"100%\" class=\"prefFeedProfileList\" 
+			print "<table width=\"100%\" class=\"prefFeedProfileList\"
 				cellspacing=\"0\" id=\"prefFeedProfileList\">";
 
 			print "<tr class=\"\" id=\"FCATR-0\">"; #odd
 
-			print "<td width='5%' align='center'><input 
-				onclick='toggleSelectRow2(this);' 
+			print "<td width='5%' align='center'><input
+				onclick='toggleSelectRow2(this);'
 				dojoType=\"dijit.form.CheckBox\"
 				type=\"checkbox\"></td>";
 
@@ -105,26 +105,26 @@
 				$is_active = "";
 			}
 
-			print "<td><span>" . 
+			print "<td><span>" .
 				__("Default profile") . " $is_active</span></td>";
-				
+
 			print "</tr>";
 
 			$lnum = 1;
-			
+
 			while ($line = db_fetch_assoc($result)) {
-	
+
 				$class = ($lnum % 2) ? "even" : "odd";
-	
+
 				$profile_id = $line["id"];
 				$this_row_id = "id=\"FCATR-$profile_id\"";
-	
+
 				print "<tr class=\"\" $this_row_id>";
-	
+
 				$edit_title = htmlspecialchars($line["title"]);
-	
-				print "<td width='5%' align='center'><input 
-					onclick='toggleSelectRow2(this);' 
+
+				print "<td width='5%' align='center'><input
+					onclick='toggleSelectRow2(this);'
 					dojoType=\"dijit.form.CheckBox\"
 					type=\"checkbox\"></td>";
 
@@ -134,7 +134,7 @@
 					$is_active = "";
 				}
 
-				print "<td><span dojoType=\"dijit.InlineEditBox\" 
+				print "<td><span dojoType=\"dijit.InlineEditBox\"
 					width=\"300px\" autoSave=\"false\"
 					profile-id=\"$profile_id\">" . $edit_title .
 					"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
@@ -147,12 +147,12 @@
 								load: function(response) {
 									elem.attr('value', response);
 							}
-						});	
+						});
 					</script>
 				</span> $is_active</td>";
-			
+
 				print "</tr>";
-	
+
 				++$lnum;
 			}
 
@@ -213,7 +213,7 @@
 
 				$stamp = (int) file_get_contents(LOCK_DIRECTORY . "/update_daemon.stamp");
 
-				print "<p>" . __("Last update:") . " " . date("Y.m.d, G:i", $stamp); 
+				print "<p>" . __("Last update:") . " " . date("Y.m.d, G:i", $stamp);
 
 			}
 
@@ -222,12 +222,12 @@
 
 				$stamp = (int) file_get_contents(LOCK_DIRECTORY . "/update_daemon.stamp");
 
-				print "<p>" . __("Last update:") . " " . date("Y.m.d, G:i", $stamp); 
+				print "<p>" . __("Last update:") . " " . date("Y.m.d, G:i", $stamp);
 
 			}
 
 			print "</div>";
-			
+
 			print "<div align='center'>";
 
 			print "<button onclick=\"return closeInfoBox()\">".
@@ -242,7 +242,7 @@
 		if ($id == "quickAddFeed") {
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"addfeed\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"addfeed\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
@@ -255,7 +255,7 @@
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				print __('Place in category:') . " ";
-				print_feed_cat_select($link, "cat", false, 'dojoType="dijit.form.Select"');			
+				print_feed_cat_select($link, "cat", false, 'dojoType="dijit.form.Select"');
 			}
 
 			print "</div>";
@@ -273,22 +273,22 @@
 					'</div></div>';
 
 			print "<div id='feedDlg_loginContainer' style='display : none'>
-	
+
 					<div class=\"dlgSec\">".__("Authentication")."</div>
 					<div class=\"dlgSecCont\">".
 
-					" <input dojoType=\"dijit.form.TextBox\" name='login'\" 
+					" <input dojoType=\"dijit.form.TextBox\" name='login'\"
 						placeHolder=\"".__("Login")."\"
 						style=\"width : 10em;\"> ".
-					" <input 
+					" <input
 						placeHolder=\"".__("Password")."\"
-						dojoType=\"dijit.form.TextBox\" type='password' 
+						dojoType=\"dijit.form.TextBox\" type='password'
 						style=\"width : 10em;\" name='pass'\">
 				</div></div>";
 
 
-			print "<div style=\"clear : both\">		
-				<input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"feedDlg_loginCheck\" 
+			print "<div style=\"clear : both\">
+				<input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"feedDlg_loginCheck\"
 						onclick='checkboxToggleElement(this, \"feedDlg_loginContainer\")'>
 					<label for=\"feedDlg_loginCheck\">".
 					__('This feed requires authentication.')."</div>";
@@ -307,16 +307,16 @@
 		if ($id == "feedBrowser") {
 
 			$browser_search = db_escape_string($_REQUEST["search"]);
-			
-#			print "<form onsubmit='return false;' display='inline' 
+
+#			print "<form onsubmit='return false;' display='inline'
 #				name='feed_browser' id='feed_browser'>";
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"updateFeedBrowser\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"updateFeedBrowser\">";
 
 			print "<div dojoType=\"dijit.Toolbar\">
 				<div style='float : right'>
-				<img style='display : none' 
+				<img style='display : none'
 					id='feed_browser_spinner' src='".
 					theme_image($link, 'images/indicator_white.gif')."'>
 				<input name=\"search\" dojoType=\"dijit.form.TextBox\" size=\"20\" type=\"search\"
@@ -337,7 +337,7 @@
 				$issel = ($l == $limit) ? "selected=\"1\"" : "";
 				print "<option $issel value=\"$l\">$l</option>";
 			}
-			
+
 			print "</select> ";
 
 			print "</div>";
@@ -360,7 +360,7 @@
 			$params = explode(":", db_escape_string($_REQUEST["param"]), 2);
 
 			$active_feed_id = sprintf("%d", $params[0]);
-			$is_cat = (bool) $params[1];
+			$is_cat = $params[1] != "false";
 
 			print "<div class=\"dlgSec\">".__('Look for')."</div>";
 
@@ -368,7 +368,7 @@
 
 			if (!SPHINX_ENABLED) {
 
-				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+				print "<input dojoType=\"dijit.form.ValidationTextBox\"
 					style=\"font-size : 16px; width : 12em;\"
 					required=\"1\" name=\"query\" type=\"search\" value=''>";
 
@@ -378,21 +378,21 @@
 					"title" => __("Title"),
 						"content" => __("Content"),
 					"both" => __("Title or content"));
-	
-				print_select_hash("match_on", 3, $search_fields, 
-					'dojoType="dijit.form.Select"'); 
+
+				print_select_hash("match_on", 3, $search_fields,
+					'dojoType="dijit.form.Select"');
 			} else {
-				print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+				print "<input dojoType=\"dijit.form.ValidationTextBox\"
 					style=\"font-size : 16px; width : 20em;\"
 					required=\"1\" name=\"query\" type=\"search\" value=''>";
 			}
 
 
 			print "<hr/>".__('Limit search to:')." ";
-			
+
 			print "<select name=\"search_mode\" dojoType=\"dijit.form.Select\">
 				<option value=\"all_feeds\">".__('All feeds')."</option>";
-			
+
 			$feed_title = getFeedTitle($link, $active_feed_id);
 
 			if (!$is_cat) {
@@ -400,8 +400,8 @@
 			} else {
 				$feed_cat_title = getCategoryTitle($link, $active_feed_id);
 			}
-			
-			if ($active_feed_id && !$is_cat) {				
+
+			if ($active_feed_id && !$is_cat) {
 				print "<option selected=\"1\" value=\"this_feed\">$feed_title</option>";
 			} else {
 				print "<option disabled=\"1\" value=\"false\">".__('This feed')."</option>";
@@ -417,7 +417,7 @@
 				//print "<option disabled>".__('This category')."</option>";
 			}
 
-			print "</select>"; 
+			print "</select>";
 
 			print "</div>";
 
@@ -433,13 +433,13 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"quiet\" value=\"1\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"add\">"; 
-		
-			$result = db_query($link, "SELECT id,description 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"add\">";
+
+			$result = db_query($link, "SELECT id,description
 				FROM ttrss_filter_types ORDER BY description");
-	
+
 			$filter_types = array();
-	
+
 			while ($line = db_fetch_assoc($result)) {
 				//array_push($filter_types, $line["description"]);
 				$filter_types[$line["id"]] = __($line["description"]);
@@ -455,12 +455,12 @@
 				"before" => __("before"),
 				"after" => __("after"));
 
-			print_select_hash("filter_date_modifier", "before", 
+			print_select_hash("filter_date_modifier", "before",
 				$filter_params, 'dojoType="dijit.form.Select"');
 
 			print "&nbsp;</span>";
 
-			print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+			print "<input dojoType=\"dijit.form.ValidationTextBox\"
 				 required=\"true\" id=\"filterDlg_regExp\"
 				 style=\"font-size : 16px\"
 				 name=\"reg_exp\" value=\"$reg_exp\"/>";
@@ -477,7 +477,7 @@
 			print "<hr/>";
 
 			print __("in") . " ";
-			print_feed_select($link, "feed_id", $active_feed_id, 
+			print_feed_select($link, "feed_id", $active_feed_id,
 				'dojoType="dijit.form.FilteringSelect"');
 
 			print "</div>";
@@ -488,14 +488,14 @@
 
 			print "<select name=\"action_id\" dojoType=\"dijit.form.Select\"
 				onchange=\"filterDlgCheckAction(this)\">";
-	
-			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions 
+
+			$result = db_query($link, "SELECT id,description FROM ttrss_filter_actions
 				ORDER BY name");
 
 			while ($line = db_fetch_assoc($result)) {
 				printf("<option value='%d'>%s</option>", $line["id"], __($line["description"]));
 			}
-	
+
 			print "</select>";
 
 			print "<span id=\"filterDlg_paramBox\" style=\"display : none\">";
@@ -504,7 +504,7 @@
 				id=\"filterDlg_actionParam\"
 				name=\"action_param\">";
 
-			print_label_select($link, "action_param_label", $action_param, 
+			print_label_select($link, "action_param_label", $action_param,
 			 'id="filterDlg_actionParamLabel" dojoType="dijit.form.Select"');
 
 			print "</span>";
@@ -550,7 +550,7 @@
 			print "<ul class='feedErrorsList'>";
 
 			while ($line = db_fetch_assoc($result)) {
-				print "<li><b>" . $line["title"] . "</b> (" . $line["feed_url"] . "): " . 
+				print "<li><b>" . $line["title"] . "</b> (" . $line["feed_url"] . "): " .
 					"<em>" . $line["last_error"] . "</em>";
 			}
 
@@ -558,7 +558,7 @@
 
 			print "<div align='center'>";
 
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 
@@ -586,8 +586,8 @@
 			print "<textarea dojoType=\"dijit.form.SimpleTextarea\" rows='4'
 				style='font-size : 12px; width : 100%' id=\"tags_str\"
 				name='tags_str'>$tags_str</textarea>
-			<div class=\"autocomplete\" id=\"tags_choices\" 
-					style=\"display:none\"></div>";	
+			<div class=\"autocomplete\" id=\"tags_choices\"
+					style=\"display:none\"></div>";
 
 			print "</td></tr></table>";
 
@@ -607,8 +607,8 @@
 			print "<title>".__('Tag Cloud')."</title>";
 			print "<content><![CDATA[";
 
-#			print __("Showing most popular tags ")." (<a 
-#			href='javascript:toggleTags(true)'>".__('more tags')."</a>):<br/>"; 
+#			print __("Showing most popular tags ")." (<a
+#			href='javascript:toggleTags(true)'>".__('more tags')."</a>):<br/>";
 
 			print "<div class=\"tagCloudContainer\">";
 
@@ -617,7 +617,7 @@
 			print "</div>";
 
 			print "<div align='center'>";
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return closeInfoBox()\">".
 				__('Close this window')."</button>";
 			print "</div>";
@@ -635,7 +635,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"secretkey\" value=\"$secretkey\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"sendEmail\">"; 
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"sendEmail\">";
 
 			$result = db_query($link, "SELECT email, full_name FROM ttrss_users WHERE
 				id = " . $_SESSION["uid"]);
@@ -704,8 +704,8 @@
 					style=\"width : 30em;\"
 					name=\"destination\" id=\"emailArticleDlg_destination\">";
 
-			print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\" 
-					style=\"z-index: 30; display : none\"></div>";	
+			print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\"
+					style=\"z-index: 30; display : none\"></div>";
 
 			print "</td></tr><tr><td>";
 
@@ -714,7 +714,7 @@
 			print "</td><td>";
 
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"true\"
-					style=\"width : 30em;\" 
+					style=\"width : 30em;\"
 					name=\"subject\" value=\"$subject\" id=\"subject\">";
 
 			print "</td></tr>";
@@ -736,7 +736,7 @@
 
 			print "<title>".__('View as RSS')."</title>";
 			print "<content><![CDATA[";
-	
+
 			$params = explode(":", $param, 3);
 			$feed_id = db_escape_string($params[0]);
 			$is_cat = (bool) $params[1];
@@ -772,7 +772,7 @@
 
 			print "<div class='tagCloudContainer'>";
 
-			print T_sprintf("New version of Tiny Tiny RSS is available (%s).", 
+			print T_sprintf("New version of Tiny Tiny RSS is available (%s).",
 				"<b>$version</b>");
 
 			print "</div>";
@@ -781,11 +781,11 @@
 			$download = "http://tt-rss.org/#Download";
 
 			print "<div style='text-align : center'>";
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return window.open('$details')\">".__("Details")."</button>";
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return window.open('$download')\">".__("Download")."</button>";
-			print "<button dojoType=\"dijit.form.Button\" 
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return dijit.byId('newVersionDlg').hide()\">".
 				__('Close this window')."</button>";
 			print "</div>";
@@ -848,6 +848,6 @@
 		}
 
 
-		print "</dlg>";	
+		print "</dlg>";
 	}
 ?>
