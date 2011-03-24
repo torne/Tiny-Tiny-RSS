@@ -427,8 +427,14 @@
 			$doc = new DOMDocument();
 			$doc->loadHTML($html);
 			$xpath = new DOMXPath($doc);
-			$entries = $xpath->query('/html/head/link[@rel="shortcut icon"]');
 
+			$base = $xpath->query('/html/head/base');
+			foreach ($base as $b) {
+				$url = $b->getAttribute("href");
+				break;
+			}
+
+			$entries = $xpath->query('/html/head/link[@rel="shortcut icon" or @rel="icon"]');
 			if (count($entries) > 0) {
 				foreach ($entries as $entry) {
 					$favicon_url = rewrite_relative_url($url, $entry->getAttribute("href"));
@@ -452,7 +458,6 @@
 
 		if ($favicon_url && !file_exists($icon_file)) {
 			$contents = fetch_file_contents($favicon_url, "image");
-
 			if ($contents) {
 				$fp = fopen($icon_file, "w");
 
