@@ -1757,6 +1757,22 @@
 		return true;
 	}
 
+	function get_remote_user() {
+		$remote_user = $_SERVER["REMOTE_USER"];
+
+		if (!$remote_user)
+			$remote_user = $_SERVER["REDIRECT_SSL_CLIENT_S_DN_CN"];
+
+		return db_escape_string($remote_user);
+	}
+
+	function get_remote_fakepass() {
+		if (get_remote_user())
+			return "******";
+		else
+			return "";
+	}
+
 	function authenticate_user($link, $login, $password, $force_auth = false) {
 
 		if (!SINGLE_USER_MODE) {
@@ -1766,9 +1782,9 @@
 			$login = db_escape_string($login);
 
 			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH
-					&& $_SERVER["REMOTE_USER"] && $login != "admin") {
+					&& get_remote_user() && $login != "admin") {
 
-				$login = db_escape_string($_SERVER["REMOTE_USER"]);
+				$login = db_escape_string(get_remote_user());
 
 				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
@@ -1959,8 +1975,8 @@
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 				if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH
-					&& $_SERVER["REMOTE_USER"] && defined('AUTO_LOGIN') && AUTO_LOGIN) {
-				    authenticate_user($link,$_SERVER['REMOTE_USER'],null);
+					&& get_remote_user() && defined('AUTO_LOGIN') && AUTO_LOGIN) {
+				    authenticate_user($link, get_remote_user(), null);
 				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
 				} else {
 				    render_login_form($link, $mobile);

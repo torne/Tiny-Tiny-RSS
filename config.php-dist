@@ -128,10 +128,13 @@
 	// Limits the amount of feeds daemon (or a cronjob) updates on one run
 
 	define('ALLOW_REMOTE_USER_AUTH', false);
-   // Set to 'true' if you trust your web server's REMOTE_USER
-	// environment variable to validate that the user is logged in. This
-	// option can be used to integrate tt-rss with Apache's external
-	// authentication modules.
+	// Set to 'true' if you trust your web server's REMOTE_USER or 
+	// REDIRECT_SSL_CLIENT_S_DN_CN environment variables to validate 
+	// that the user is logged in. This option can be used to integrate 
+	// tt-rss with Apache's external authentication modules or SSL
+	// client certificate authentication.
+	// Please note that REMOTE_USER takes precedence over SSL certificate
+	// information.
 
 	define('AUTO_LOGIN', false);
 	// Set this to true if you use ALLOW_REMOTE_USER_AUTH and you want
