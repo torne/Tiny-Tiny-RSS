@@ -464,34 +464,6 @@ function purgeSelectedFeeds() {
 	return false;
 }
 
-function removeSelectedPrefProfiles() {
-
-	var sel_rows = getSelectedFeedCats();
-
-	if (sel_rows.length > 0) {
-
-		var ok = confirm(__("Remove selected profiles? Active and default profiles will not be removed."));
-
-		if (ok) {
-			notify_progress("Removing selected profiles...");
-
-			var query = "?op=rpc&subop=remprofiles&ids="+
-				param_escape(sel_rows.toString());
-
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-					editProfiles();
-				} });
-		}
-
-	} else {
-		alert(__("No profiles selected."));
-	}
-
-	return false;
-}
-
 function userEditCancel() {
 	closeInfoBox();
 	return false;
