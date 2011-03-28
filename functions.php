@@ -2190,7 +2190,7 @@
 		$dt = new DateTime($timestamp, new DateTimeZone('UTC'));
 		$user_timestamp = $dt->format('U') + $user_tz->getOffset($dt);
 
-		if (!$no_smart_dt && get_pref($link, 'HEADLINES_SMART_DATE', $owner_uid)) {
+		if (!$no_smart_dt) {
 			return smart_date_time($link, $user_timestamp,
 				$user_tz->getOffset($dt), $owner_uid);
 		} else {
