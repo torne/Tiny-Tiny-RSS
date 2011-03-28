@@ -544,14 +544,19 @@
 
 			print __("These feeds have not been updated because of errors:");
 
-			$result = db_query($link, "SELECT id,title,feed_url,last_error
+			$result = db_query($link, "SELECT id,title,feed_url,last_error,site_url
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
 			print "<ul class='feedErrorsList'>";
 
 			while ($line = db_fetch_assoc($result)) {
-				print "<li><b>" . $line["title"] . "</b> (" . $line["feed_url"] . "): " .
-					"<em>" . $line["last_error"] . "</em>";
+				print "<li><a target=\"_blank\" class=\"visibleLink\" href=\"".
+					htmlspecialchars($line["site_url"])."\">".
+					htmlspecialchars($line["title"])."</a> (".
+					"<a target=\"_blank\" class=\"visibleLink\"
+					href=\"".htmlspecialchars($line["feed_url"]).
+					"\">".__("feed")."</a>): ".
+					$line["last_error"]."</li>";
 			}
 
 			print "</ul>";
