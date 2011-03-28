@@ -435,16 +435,20 @@
 				} else if ($pref_name == "SSL_CERT_SERIAL") {
 
 					print "<input dojoType=\"dijit.form.ValidationTextBox\"
-						id=\"SSL_CERT_SERIAL\"
+						id=\"SSL_CERT_SERIAL\" readonly=\"1\"
 						name=\"$pref_name\" value=\"$value\">";
 
-					$cert_serial = htmlspecialchars($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]);
+					$cert_serial = htmlspecialchars(get_ssl_certificate_id());
 
 					if ($cert_serial) {
 						print " <button dojoType=\"dijit.form.Button\"
 							onclick=\"insertSSLserial('$cert_serial')\">" .
-							__('Fill automatically') . "</button>";
+							__('Register') . "</button>";
 					}
+
+					print " <button dojoType=\"dijit.form.Button\"
+						onclick=\"insertSSLserial('')\">" .
+						__('Clear') . "</button>";
 
 				} else {
 					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';

@@ -1757,9 +1757,19 @@
 		return true;
 	}
 
+	function get_ssl_certificate_id() {
+		if ($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]) {
+			return sha1($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"] .
+				$_SERVER["REDIRECT_SSL_CLIENT_V_START"] .
+				$_SERVER["REDIRECT_SSL_CLIENT_V_END"] .
+				$_SERVER["REDIRECT_SSL_CLIENT_S_DN"]);
+		}
+		return "";
+	}
+
 	function get_login_by_ssl_certificate($link) {
 
-		$cert_serial = db_escape_string($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]);
+		$cert_serial = db_escape_string(get_ssl_certificate_id());
 
 		if ($cert_serial) {
 			$result = db_query($link, "SELECT login FROM ttrss_user_prefs, ttrss_users
