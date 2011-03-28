@@ -1,12 +1,12 @@
 <?php
-	require_once "functions.php"; 
+	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
-	require_once "version.php"; 
+	require_once "version.php";
 	require_once "config.php";
 	require_once "db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	init_connection($link);
 
@@ -17,9 +17,9 @@
 	no_cache_incantation();
 
 	header('Content-Type: text/html; charset=utf-8');
-	
+
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -65,12 +65,9 @@
 		</div>
 		<noscript><br/><?php print_error('Javascript is disabled. Please enable it.') ?></noscript>
 	</div>
-</div> 
+</div>
 
 <div id="header">
-	<!-- <img class="logo" src="<?php echo theme_image($link, 'images/logo.png') ?>" 
-		onclick="window.open('http://tt-rss.org')" title="Tiny Tiny RSS"/> -->
-
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
@@ -85,10 +82,10 @@
 			| <a href="logout.php"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
-	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()" 
-		width="13" height="13" 
+	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()"
+		width="13" height="13"
 		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
-		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" 
+		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>"
 		alt="new_version_icon"/>
 </div>
 
@@ -120,16 +117,16 @@
 	title="<?php echo __("News") ?>">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
-	<div id="main-toolbar" dojoType="dijit.Toolbar">		
+	<div id="main-toolbar" dojoType="dijit.Toolbar">
 
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
-		<button dojoType="dijit.form.Button" id="collapse_feeds_btn" 
+		<button dojoType="dijit.form.Button" id="collapse_feeds_btn"
 			onclick="collapse_feedlist()"
 			title="<?php echo __('Collapse feedlist') ?>" style="display : inline">
 			&lt;&lt;</button>
 
-		<select name="view_mode" title="<?php echo __('Show articles') ?>" 
+		<select name="view_mode" title="<?php echo __('Show articles') ?>"
 			onchange="viewModeChanged()"
 			dojoType="dijit.form.Select">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
@@ -142,7 +139,7 @@
 		</select>
 
 		<select title="<?php echo __('Sort articles') ?>"
-			onchange="viewModeChanged()" 
+			onchange="viewModeChanged()"
 			dojoType="dijit.form.Select" name="order_by">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date"><?php echo __('Date') ?></option>
@@ -150,11 +147,11 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<button dojoType="dijit.form.Button" name="update" 
+		<button dojoType="dijit.form.Button" name="update"
 			onclick="scheduleFeedUpdate()">
 			<?php echo __('Update') ?></button>
 
-		<button dojoType="dijit.form.Button" 
+		<button dojoType="dijit.form.Button"
 			onclick="catchupCurrentFeed()">
 			<?php echo __('Mark as read') ?></button>
 
@@ -190,7 +187,7 @@
 		<div id="headlines-toolbar" dojoType="dijit.layout.ContentPane" region="top">
 		</div>
 
-		<div id="headlines-frame" dojoType="dijit.layout.ContentPane" 
+		<div id="headlines-frame" dojoType="dijit.layout.ContentPane"
 				onscroll="headlines_scroll_handler(this)" region="center">
 			<div id="headlinesInnerContainer">
 				<div class="whiteBox"><?php echo __('Loading, please wait...') ?></div>
@@ -206,15 +203,6 @@
 </div>
 </div>
 </div>
-
-<!-- <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">
-	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
-	<?php if (!defined('HIDE_VERSION')) { ?>
-		 v<?php echo VERSION ?> 
-	<?php } ?>
-	&copy; 2005&ndash;<?php echo date('Y') ?> <a href="http://fakecake.org/">Andrew Dolgov</a>
-</div> -->
-
 </div>
 
 <?php db_close($link); ?>
