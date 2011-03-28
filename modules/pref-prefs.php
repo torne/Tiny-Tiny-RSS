@@ -439,12 +439,11 @@
 						name=\"$pref_name\" value=\"$value\">";
 
 					$cert_serial = htmlspecialchars(get_ssl_certificate_id());
+					$has_serial = ($cert_serial) ? "false" : "true";
 
-					if ($cert_serial) {
-						print " <button dojoType=\"dijit.form.Button\"
-							onclick=\"insertSSLserial('$cert_serial')\">" .
-							__('Register') . "</button>";
-					}
+					print " <button dojoType=\"dijit.form.Button\" disabled=\"$has_serial\"
+						onclick=\"insertSSLserial('$cert_serial')\">" .
+						__('Register') . "</button>";
 
 					print " <button dojoType=\"dijit.form.Button\"
 						onclick=\"insertSSLserial('')\">" .
