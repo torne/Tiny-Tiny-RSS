@@ -9,10 +9,8 @@ function themeBeforeLayout() {
 }
 
 function themeAfterLayout() {
-	if ($("content-insert")) {
-		$("headlines-toolbar").setStyle({
-			'border-right-width': '1px',
-			'border-color': '#88b0f0',
-			});
-	}
+	$("headlines-toolbar").setStyle({
+		'border-width': '1px 1px 0px 0px',
+		'border-color': '#88b0f0',
+		});
 }

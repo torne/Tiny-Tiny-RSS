@@ -278,11 +278,11 @@ function init() {
 
 		dojo.require("fox.FeedTree");
 
-		dojo.parser.parse();
-
 		if (typeof themeBeforeLayout == 'function') {
 			themeBeforeLayout();
 		}
+
+		dojo.parser.parse();
 
 		dojo.addOnLoad(function() {
 			updateFeedList();
