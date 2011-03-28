@@ -1784,18 +1784,17 @@
 		return "";
 	}
 
-	function get_remote_user() {
-		$remote_user = "";
+	function get_remote_user($link) {
 
 		if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH) {
-			$remote_user = $_SERVER["REMOTE_USER"];
+			return db_escape_string($_SERVER["REMOTE_USER"]);
 		}
 
-		return db_escape_string($remote_user);
+		return db_escape_string(get_login_by_ssl_certificate($link));
 	}
 
-	function get_remote_fakepass() {
-		if (get_remote_user())
+	function get_remote_fakepass($link) {
+		if (get_remote_user($link))
 			return "******";
 		else
 			return "";
@@ -1809,10 +1808,7 @@
 			$pwd_hash2 = encrypt_password($password, $login);
 			$login = db_escape_string($login);
 
-			$remote_user = get_remote_user();
-
-			if (!$remote_user)
-				$remote_user = get_login_by_ssl_certificate($link);
+			$remote_user = get_remote_user($link);
 
 			if ($remote_user && $login != "admin") {
 
@@ -2006,13 +2002,9 @@
 			}
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
-				$cert_login = get_login_by_ssl_certificate($link);
 
-				if ($cert_login) {
-				    authenticate_user($link, $cert_login, null);
-				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
-				} else if (get_remote_user() && AUTO_LOGIN) {
-				    authenticate_user($link, get_remote_user(), null);
+				if (get_remote_user($link) && AUTO_LOGIN) {
+				    authenticate_user($link, get_remote_user($link), null);
 				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
 				} else {
 				    render_login_form($link, $mobile);

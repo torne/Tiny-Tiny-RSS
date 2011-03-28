@@ -133,9 +133,12 @@
 	// used to integrate tt-rss with Apache's external authentication modules.
 
 	define('AUTO_LOGIN', false);
-	// Set this to true if you use ALLOW_REMOTE_USER_AUTH and you want
-	// to skip the login form. If set to true, users won't be able to
-	// set application language and settings profile.
+	// Set this to true if you use ALLOW_REMOTE_USER_AUTH or client SSL
+	// certificate authentication and you want to skip the login form. 
+	// If set to true, users won't be able to set application language 
+	// and settings profile.
+	// Otherwise users will be redirected to login form with their login
+	// information pre-filled.
 
 	define('LOCK_DIRECTORY', 'lock');
 	// Directory for lockfiles, must be writable to the user you run
