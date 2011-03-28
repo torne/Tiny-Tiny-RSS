@@ -6,12 +6,12 @@
 		$subop = $_REQUEST["subop"];
 
 		$prefs_blacklist = array("HIDE_FEEDLIST", "SYNC_COUNTERS", "ENABLE_LABELS",
-			"ENABLE_SEARCH_TOOLBAR", "HIDE_READ_FEEDS", "ENABLE_FEED_ICONS", 
+			"ENABLE_SEARCH_TOOLBAR", "HIDE_READ_FEEDS", "ENABLE_FEED_ICONS",
 			"ENABLE_OFFLINE_READING", "EXTENDED_FEEDLIST", "FEEDS_SORT_BY_UNREAD",
 			"OPEN_LINKS_IN_NEW_WINDOW", "USER_STYLESHEET_URL", "ENABLE_FLASH_PLAYER");
 
-		$profile_blacklist = array("ALLOW_DUPLICATE_POSTS", "PURGE_OLD_DAYS", 
-			"PURGE_UNREAD_ARTICLES", "DIGEST_ENABLE", "DIGEST_CATCHUP", 
+		$profile_blacklist = array("ALLOW_DUPLICATE_POSTS", "PURGE_OLD_DAYS",
+			"PURGE_UNREAD_ARTICLES", "DIGEST_ENABLE", "DIGEST_CATCHUP",
 			"BLACKLISTED_TAGS", "ENABLE_FEED_ICONS", "ENABLE_API_ACCESS",
 			"UPDATE_POST_ON_CHECKSUM_CHANGE", "DEFAULT_UPDATE_INTERVAL",
 			"MARK_UNREAD_ON_UPDATE", "USER_TIMEZONE", "SORT_HEADLINES_BY_FEED_DATE");
@@ -47,18 +47,18 @@
 			$new_pw_hash = encrypt_password($new_pw, $_SESSION["name"]);
 
 			$active_uid = $_SESSION["uid"];
-			
+
 			if ($old_pw && $new_pw) {
 
 				$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
 
-				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
-					id = '$active_uid' AND (pwd_hash = '$old_pw_hash1' OR 
+				$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+					id = '$active_uid' AND (pwd_hash = '$old_pw_hash1' OR
 						pwd_hash = '$old_pw_hash2')");
 
 				if (db_num_rows($result) == 1) {
-					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash' 
-						WHERE id = '$active_uid'");				
+					db_query($link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash'
+						WHERE id = '$active_uid'");
 
 					$_SESSION["pwd_hash"] = $new_pw_hash;
 
@@ -81,7 +81,7 @@
 			$orig_theme = get_pref($link, "_THEME_ID");
 
 			foreach (array_keys($_POST) as $pref_name) {
-			
+
 				$pref_name = db_escape_string($pref_name);
 				$value = db_escape_string($_POST[$pref_name]);
 
@@ -119,10 +119,10 @@
 			$active_uid = $_SESSION["uid"];
 
 			db_query($link, "UPDATE ttrss_users SET email = '$email',
-				full_name = '$full_name' WHERE id = '$active_uid'");				
-		
+				full_name = '$full_name' WHERE id = '$active_uid'");
+
 			print __("Your personal data has been saved.");
-		
+
 			return;
 
 		} else if ($subop == "reset-config") {
@@ -135,7 +135,7 @@
 				$profile_qpart = "profile IS NULL";
 			}
 
-			db_query($link, "DELETE FROM ttrss_user_prefs 
+			db_query($link, "DELETE FROM ttrss_user_prefs
 				WHERE $profile_qpart AND owner_uid = ".$_SESSION["uid"]);
 
 			initialize_user_prefs($link, $_SESSION["uid"], $_SESSION["profile"]);
@@ -164,8 +164,8 @@
 
 					new Ajax.Request('backend.php', {
 						parameters: dojo.objectToQuery(this.getValues()),
-						onComplete: function(transport) { 
-							notify_callback2(transport); 
+						onComplete: function(transport) {
+							notify_callback2(transport);
 					} });
 
 				}
@@ -176,7 +176,7 @@
 				$result = db_query($link, "SELECT email,full_name,
 					access_level FROM ttrss_users
 					WHERE id = ".$_SESSION["uid"]);
-					
+
 				$email = htmlspecialchars(db_fetch_result($result, 0, "email"));
 				$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
 
@@ -192,9 +192,9 @@
 					print "<tr><td width=\"40%\">".__('Access level')."</td>";
 					print "<td>" . $access_level_names[$access_level] . "</td></tr>";
 				}
-	
+
 				print "</table>";
-	
+
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-email\">";
 
@@ -207,7 +207,7 @@
 				print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Authentication')."\">";
 
 				$result = db_query($link, "SELECT id FROM ttrss_users
-					WHERE id = ".$_SESSION["uid"]." AND pwd_hash 
+					WHERE id = ".$_SESSION["uid"]." AND pwd_hash
 					= 'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'");
 
 				if (db_num_rows($result) != 0) {
@@ -223,7 +223,7 @@
 
 					new Ajax.Request('backend.php', {
 						parameters: dojo.objectToQuery(this.getValues()),
-						onComplete: function(transport) { 
+						onComplete: function(transport) {
 							notify('');
 							if (transport.responseText.indexOf('ERROR: ') == 0) {
 								notify_error(transport.responseText.replace('ERROR: ', ''));
@@ -238,12 +238,12 @@
 				</script>";
 
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
-	
+
 				print "<tr><td width=\"40%\">".__("Old password")."</td>";
 				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\" name=\"old_password\"></td></tr>";
-	
+
 				print "<tr><td width=\"40%\">".__("New password")."</td>";
-				
+
 				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\"
 					name=\"new_password\"></td></tr>";
 
@@ -252,7 +252,7 @@
 				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\" name=\"confirm_password\"></td></tr>";
 
 				print "</table>";
-	
+
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-password\">";
 
@@ -278,11 +278,11 @@
 				$profile_qpart = "profile IS NULL";
 			}
 
-			$result = db_query($link, "SELECT 
+			$result = db_query($link, "SELECT
 				ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
 				section_name,def_value,section_id
 				FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
-				WHERE type_id = ttrss_prefs_types.id AND 
+				WHERE type_id = ttrss_prefs_types.id AND
 					$profile_qpart AND
 					section_id = ttrss_prefs_sections.id AND
 					ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
@@ -299,7 +299,7 @@
 
 				new Ajax.Request('backend.php', {
 					parameters: dojo.objectToQuery(this.getValues()),
-					onComplete: function(transport) { 
+					onComplete: function(transport) {
 						var msg = transport.responseText;
 						if (msg.match('PREFS_THEME_CHANGED')) {
 							window.location.reload();
@@ -313,14 +313,14 @@
 			$lnum = 0;
 
 			$active_section = "";
-	
+
 			while ($line = db_fetch_assoc($result)) {
 
 				if (in_array($line["pref_name"], $prefs_blacklist)) {
 					continue;
 				}
 
-				if ($_SESSION["profile"] && in_array($line["pref_name"], 
+				if ($_SESSION["profile"] && in_array($line["pref_name"],
 						$profile_blacklist)) {
 					continue;
 				}
@@ -333,8 +333,8 @@
 
 					print "<table width=\"100%\" class=\"prefPrefsList\">";
 
-					$active_section = $line["section_name"];				
-					
+					$active_section = $line["section_name"];
+
 					print "<tr><td colspan=\"3\"><h3>".__($active_section)."</h3></td></tr>";
 
 					if ($line["section_id"] == 2) {
@@ -345,7 +345,7 @@
 
 						print "<td><select name=\"_THEME_ID\" dojoType=\"dijit.form.Select\">";
 						print "<option value='Default'>".__('Default')."</option>";
-						print "<option value='----------------' disabled=\"1\">--------</option>";				
+						print "<option value='----------------' disabled=\"1\">--------</option>";
 
 						foreach ($themes as $t) {
 							$base = $t['base'];
@@ -360,7 +360,7 @@
 							print "<option $selected value='$base'>$name</option>";
 
 						}
-			
+
 						print "</select></td></tr>";
 					}
 
@@ -383,7 +383,7 @@
 				print "<td width=\"40%\" class=\"prefName\" id=\"$pref_name\">" . __($line["short_desc"]);
 
 				if ($help_text) print "<div class=\"prefHelp\">".__($help_text)."</div>";
-				
+
 				print "</td>";
 
 				print "<td class=\"prefValue\">";
@@ -402,14 +402,14 @@
 
 					$limits = array(15, 30, 45, 60);
 
-					print_select($pref_name, $value, $limits, 
+					print_select($pref_name, $value, $limits,
 						'dojoType="dijit.form.Select"');
 
 				} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 
 					global $update_intervals_nodefault;
 
-					print_select_hash($pref_name, $value, $update_intervals_nodefault, 
+					print_select_hash($pref_name, $value, $update_intervals_nodefault,
 						'dojoType="dijit.form.Select"');
 
 				} else if ($type_name == "bool") {
@@ -431,6 +431,20 @@
 					print "<input dojoType=\"dijit.form.ValidationTextBox\"
 						required=\"1\" $regexp
 						name=\"$pref_name\" value=\"$value\">";
+
+				} else if ($pref_name == "SSL_CERT_SERIAL") {
+
+					print "<input dojoType=\"dijit.form.ValidationTextBox\"
+						id=\"SSL_CERT_SERIAL\"
+						name=\"$pref_name\" value=\"$value\">";
+
+					$cert_serial = htmlspecialchars($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]);
+
+					if ($cert_serial) {
+						print " <button dojoType=\"dijit.form.Button\"
+							onclick=\"insertSSLserial('$cert_serial')\">" .
+							__('Fill automatically') . "</button>";
+					}
 
 				} else {
 					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';

@@ -1757,11 +1757,29 @@
 		return true;
 	}
 
-	function get_remote_user() {
-		$remote_user = $_SERVER["REMOTE_USER"];
+	function get_login_by_ssl_certificate($link) {
 
-		if (!$remote_user)
-			$remote_user = $_SERVER["REDIRECT_SSL_CLIENT_S_DN_CN"];
+		$cert_serial = db_escape_string($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]);
+
+		if ($cert_serial) {
+			$result = db_query($link, "SELECT login FROM ttrss_user_prefs, ttrss_users
+				WHERE pref_name = 'SSL_CERT_SERIAL' AND value = '$cert_serial' AND
+				owner_uid = ttrss_users.id");
+
+			if (db_num_rows($result) != 0) {
+				return db_escape_string(db_fetch_result($result, 0, "login"));
+			}
+		}
+
+		return "";
+	}
+
+	function get_remote_user() {
+		$remote_user = "";
+
+		if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH) {
+			$remote_user = $_SERVER["REMOTE_USER"];
+		}
 
 		return db_escape_string($remote_user);
 	}
@@ -1781,10 +1799,14 @@
 			$pwd_hash2 = encrypt_password($password, $login);
 			$login = db_escape_string($login);
 
-			if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH
-					&& get_remote_user() && $login != "admin") {
+			$remote_user = get_remote_user();
 
-				$login = db_escape_string(get_remote_user());
+			if (!$remote_user)
+				$remote_user = get_login_by_ssl_certificate($link);
+
+			if ($remote_user && $login != "admin") {
+
+				$login = $remote_user;
 
 				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
@@ -1974,8 +1996,12 @@
 			}
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
-				if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH
-					&& get_remote_user() && defined('AUTO_LOGIN') && AUTO_LOGIN) {
+				$cert_login = get_login_by_ssl_certificate($link);
+
+				if ($cert_login) {
+				    authenticate_user($link, $cert_login, null);
+				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
+				} else if (get_remote_user() && AUTO_LOGIN) {
 				    authenticate_user($link, get_remote_user(), null);
 				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
 				} else {

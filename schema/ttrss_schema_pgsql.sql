@@ -229,7 +229,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (81);
+insert into ttrss_version values (82);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -354,6 +354,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('USER_STYLESHEET', 2, '', 'Customize stylesheet', 2, 'Customize CSS stylesheet to your liking');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_BROWSE_CATS', 1, 'true', '', 1);
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SSL_CERT_SERIAL', 2, '', 'Login with an SSL certificate',3, 'You can login automatically with an active client SSL certificate if you fill in its serial number here.');
 
 create table ttrss_user_prefs (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,

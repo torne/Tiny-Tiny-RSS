@@ -1693,3 +1693,11 @@ function customizeCSS() {
 		exception_error("customizeCSS", e);
 	}
 }
+
+function insertSSLserial(value) {
+	try {
+		dijit.byId("SSL_CERT_SERIAL").attr('value', value);
+	} catch (e) {
+		exception_error("insertSSLcerial", e);
+	}
+}
