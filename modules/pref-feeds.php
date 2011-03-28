@@ -46,7 +46,7 @@
 
 				$result = db_query($link, "SELECT id, title FROM ttrss_feed_categories
 					WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY order_id, title");
-	
+
 				while ($line = db_fetch_assoc($result)) {
 					$cat = array();
 					$cat['id'] = 'CAT:' . $line['id'];
@@ -54,13 +54,13 @@
 					$cat['name'] = $line['title'];
 					$cat['items'] = array();
 					$cat['type'] = 'category';
-	
+
 					$feed_result = db_query($link, "SELECT id, title, last_error,
 						".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds
 						WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
 						" ORDER BY order_id, title");
-	
+
 					while ($feed_line = db_fetch_assoc($feed_result)) {
 						$feed = array();
 						$feed['id'] = 'FEED:' . $feed_line['id'];
@@ -69,17 +69,17 @@
 						$feed['checkbox'] = false;
 						$feed['error'] = $feed_line['last_error'];
 						$feed['icon'] = getFeedIcon($feed_line['id']);
-						$feed['param'] = make_local_datetime($link, 
+						$feed['param'] = make_local_datetime($link,
 							$feed_line['last_updated'], true);
 
 						array_push($cat['items'], $feed);
 					}
-	
+
 					array_push($root['items'], $cat);
 				}
-	
+
 				/* Uncategorized is a special case */
-	
+
 				$cat = array();
 				$cat['id'] = 'CAT:0';
 				$cat['bare_id'] = 0;
@@ -92,7 +92,7 @@
 					FROM ttrss_feeds
 					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
-	
+
 				while ($feed_line = db_fetch_assoc($feed_result)) {
 					$feed = array();
 					$feed['id'] = 'FEED:' . $feed_line['id'];
@@ -101,12 +101,12 @@
 					$feed['checkbox'] = false;
 					$feed['error'] = $feed_line['last_error'];
 					$feed['icon'] = getFeedIcon($feed_line['id']);
-					$feed['param'] = make_local_datetime($link, 
+					$feed['param'] = make_local_datetime($link,
 						$feed_line['last_updated'], true);
 
 					array_push($cat['items'], $feed);
 				}
-	
+
 				array_push($root['items'], $cat);
 			} else {
 				$feed_result = db_query($link, "SELECT id, title, last_error,
@@ -114,7 +114,7 @@
 					FROM ttrss_feeds
 					WHERE owner_uid = ".$_SESSION["uid"].
 					" ORDER BY order_id, title");
-	
+
 				while ($feed_line = db_fetch_assoc($feed_result)) {
 					$feed = array();
 					$feed['id'] = 'FEED:' . $feed_line['id'];
@@ -123,7 +123,7 @@
 					$feed['checkbox'] = false;
 					$feed['error'] = $feed_line['last_error'];
 					$feed['icon'] = getFeedIcon($feed_line['id']);
-					$feed['param'] = make_local_datetime($link, 
+					$feed['param'] = make_local_datetime($link,
 						$feed_line['last_updated'], true);
 
 					array_push($root['items'], $feed);
@@ -140,21 +140,21 @@
 		}
 
 		if ($subop == "catsortreset") {
-			db_query($link, "UPDATE ttrss_feed_categories 
+			db_query($link, "UPDATE ttrss_feed_categories
 					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 			return;
-		}	
+		}
 
 		if ($subop == "feedsortreset") {
-			db_query($link, "UPDATE ttrss_feeds 
+			db_query($link, "UPDATE ttrss_feeds
 					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 			return;
-		}	
+		}
 
 		if ($subop == "savefeedorder") {
 #			if ($_POST['payload']) {
 #				file_put_contents("/tmp/blahblah.txt", $_POST['payload']);
-#				$data = json_decode($_POST['payload'], true);	
+#				$data = json_decode($_POST['payload'], true);
 #			} else {
 #				$data = json_decode(file_get_contents("/tmp/blahblah.txt"), true);
 #			}
@@ -186,7 +186,7 @@
 					++$cat_order_id;
 
 					if ($bare_id > 0) {
-						db_query($link, "UPDATE ttrss_feed_categories 
+						db_query($link, "UPDATE ttrss_feed_categories
 							SET order_id = '$cat_order_id' WHERE id = '$bare_id' AND
 							owner_uid = " . $_SESSION["uid"]);
 					}
@@ -198,7 +198,7 @@
 							$id = $feed['_reference'];
 							$feed_id = substr($id, strpos($id, ':')+1);
 
-							if ($bare_id != 0) 
+							if ($bare_id != 0)
 								$cat_query = "cat_id = '$bare_id'";
 							else
 								$cat_query = "cat_id = NULL";
@@ -208,9 +208,9 @@
 								$cat_query
 								WHERE id = '$feed_id' AND
 									owner_uid = " . $_SESSION["uid"]);
-	
+
 							++$feed_order_id;
-						} 
+						}
 					}
 				}
 			}
@@ -218,7 +218,7 @@
 			return;
 		}
 
-		if ($subop == "removeicon") {			
+		if ($subop == "removeicon") {
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds
@@ -237,7 +237,7 @@
 
 			if (is_file($icon_file) && $feed_id) {
 				if (filesize($icon_file) < 20000) {
-					
+
 					$result = db_query($link, "SELECT id FROM ttrss_feeds
 						WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
 
@@ -265,7 +265,7 @@
 
 			$feed_id = db_escape_string($_REQUEST["id"]);
 
-			$result = db_query($link, 
+			$result = db_query($link,
 				"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
 					owner_uid = " . $_SESSION["uid"]);
 
@@ -309,7 +309,7 @@
 
 				print __('Place in category:') . " ";
 
-				print_feed_cat_select($link, "cat_id", $cat_id, 
+				print_feed_cat_select($link, "cat_id", $cat_id,
 					'dojoType="dijit.form.Select"');
 			}
 
@@ -322,17 +322,17 @@
 
 			$update_interval = db_fetch_result($result, 0, "update_interval");
 
-			print_select_hash("update_interval", $update_interval, $update_intervals, 
+			print_select_hash("update_interval", $update_interval, $update_intervals,
 				'dojoType="dijit.form.Select"');
 
 			/* Update method */
 
-			$update_method = db_fetch_result($result, 0, "update_method", 
+			$update_method = db_fetch_result($result, 0, "update_method",
 				'dojoType="dijit.form.Select"');
 
 			print " " . __('using') . " ";
 			print_select_hash("update_method", $update_method, $update_methods,
-				'dojoType="dijit.form.Select"');			
+				'dojoType="dijit.form.Select"');
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
@@ -344,11 +344,11 @@
 
 				print __('Article purging:') . " ";
 
-				print_select_hash("purge_interval", $purge_interval, $purge_intervals, 
+				print_select_hash("purge_interval", $purge_interval, $purge_intervals,
 					'dojoType="dijit.form.Select"');
 
 			} else {
-				print "<input style=\"display : none\" name='purge_interval' 
+				print "<input style=\"display : none\" name='purge_interval'
 					dojoType=\"dijit.form.TextBox\" value='$purge_interval'>";
 
 			}
@@ -371,7 +371,7 @@
 
 			$auth_pass = htmlspecialchars(db_fetch_result($result, 0, "auth_pass"));
 
-			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
+			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\"
 				placeHolder=\"".__("Password")."\"
 				value=\"$auth_pass\">";
 
@@ -395,7 +395,7 @@
 				$checked = "";
 			}
 
-			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"private\" id=\"private\" 
+			print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"private\" id=\"private\"
 				$checked>&nbsp;<label for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
@@ -417,7 +417,7 @@
 				$checked = "";
 			}
 
-			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"include_in_digest\" 
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"include_in_digest\"
 				name=\"include_in_digest\"
 				$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
@@ -430,7 +430,7 @@
 				$checked = "";
 			}
 
-			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"always_display_enclosures\" 
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"always_display_enclosures\"
 				name=\"always_display_enclosures\"
 				$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
@@ -444,7 +444,7 @@
 			}
 
 			if (SIMPLEPIE_CACHE_IMAGES) {
-				print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\" 
+				print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\"
 				name=\"cache_images\"
 				$checked>&nbsp;<label for=\"cache_images\">".
 				__('Cache images locally (SimplePie only)')."</label>";
@@ -462,7 +462,7 @@
 				style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
 			print "<form style='display : block' target=\"icon_upload_iframe\"
-				enctype=\"multipart/form-data\" method=\"POST\" 
+				enctype=\"multipart/form-data\" method=\"POST\"
 				action=\"backend.php\">
 				<input id=\"icon_file\" size=\"10\" name=\"icon_file\" type=\"file\">
 				<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">
@@ -503,7 +503,7 @@
 
 			/* Title */
 
-			print "<input dojoType=\"dijit.form.ValidationTextBox\" 
+			print "<input dojoType=\"dijit.form.ValidationTextBox\"
 				disabled=\"1\" style=\"font-size : 16px; width : 20em;\" required=\"1\"
 				name=\"title\" value=\"$title\">";
 
@@ -528,7 +528,7 @@
 
 				print __('Place in category:') . " ";
 
-				print_feed_cat_select($link, "cat_id", $cat_id, 
+				print_feed_cat_select($link, "cat_id", $cat_id,
 					'disabled="1" dojoType="dijit.form.Select"');
 
 				batch_edit_cbox("cat_id");
@@ -542,7 +542,7 @@
 
 			/* Update Interval */
 
-			print_select_hash("update_interval", $update_interval, $update_intervals, 
+			print_select_hash("update_interval", $update_interval, $update_intervals,
 				'disabled="1" dojoType="dijit.form.Select"');
 
 			batch_edit_cbox("update_interval");
@@ -550,8 +550,8 @@
 			/* Update method */
 
 			print " " . __('using') . " ";
-			print_select_hash("update_method", $update_method, $update_methods, 
-				'disabled="1" dojoType="dijit.form.Select"');			
+			print_select_hash("update_method", $update_method, $update_methods,
+				'disabled="1" dojoType="dijit.form.Select"');
 			batch_edit_cbox("update_method");
 
 			/* Purge intl */
@@ -572,13 +572,13 @@
 			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input dojoType=\"dijit.form.TextBox\" 
+			print "<input dojoType=\"dijit.form.TextBox\"
 				placeHolder=\"".__("Login")."\" disabled=\"1\"
 				name=\"auth_login\" value=\"$auth_login\">";
 
 			batch_edit_cbox("auth_login");
 
-			print "<br/><input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\" 
+			print "<br/><input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\"
 				placeHolder=\"".__("Password")."\" disabled=\"1\"
 				value=\"$auth_pass\">";
 
@@ -588,7 +588,7 @@
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input disabled=\"1\" type=\"checkbox\" name=\"private\" id=\"private\" 
+			print "<input disabled=\"1\" type=\"checkbox\" name=\"private\" id=\"private\"
 				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"private_l\" class='insensitive' for=\"private\">".__('Hide from Popular feeds')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("private", "private_l");
@@ -598,25 +598,25 @@
 
 			print "&nbsp;"; batch_edit_cbox("rtl_content", "rtl_content_l");
 
-			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"include_in_digest\" 
-				name=\"include_in_digest\" 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"include_in_digest\"
+				name=\"include_in_digest\"
 				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"include_in_digest_l\" class='insensitive' for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("include_in_digest", "include_in_digest_l");
 
-			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"always_display_enclosures\" 
-				name=\"always_display_enclosures\" 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"always_display_enclosures\"
+				name=\"always_display_enclosures\"
 				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"always_display_enclosures_l\" class='insensitive' for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
 			print "&nbsp;"; batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
 
 			if (SIMPLEPIE_CACHE_IMAGES) {
-				print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\" 
-					name=\"cache_images\" 
-					dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\" 
+				print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\"
+					name=\"cache_images\"
+					dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\"
 					for=\"cache_images\">".
 				__('Cache images locally')."</label>";
-			
+
 
 				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
 			}
@@ -624,14 +624,14 @@
 			print "</div>";
 
 			print "<div class='dlgButtons'>
-				<button dojoType=\"dijit.form.Button\" 
+				<button dojoType=\"dijit.form.Button\"
 					onclick=\"return dijit.byId('feedEditDlg').execute()\">".
 					__('Save')."</button>
 				<button dojoType=\"dijit.form.Button\"
 				onclick=\"return dijit.byId('feedEditDlg').hide()\">".
 					__('Cancel')."</button>
 				</div>";
-		
+
 			return;
 		}
 
@@ -657,7 +657,7 @@
 			$always_display_enclosures = checkbox_to_sql_bool(
 				db_escape_string($_POST["always_display_enclosures"]));
 
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {			
+			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id && $cat_id != 0) {
 					$category_qpart = "cat_id = '$cat_id',";
 					$category_qpart_nocomma = "cat_id = '$cat_id'";
@@ -678,7 +678,7 @@
 
 			if ($subop == "editSave") {
 
-				$result = db_query($link, "UPDATE ttrss_feeds SET 
+				$result = db_query($link, "UPDATE ttrss_feeds SET
 					$category_qpart
 					title = '$feed_title', feed_url = '$feed_link',
 					update_interval = '$upd_intl',
@@ -709,7 +709,7 @@
 					$qpart = "";
 
 					switch ($k) {
-						case "title":							
+						case "title":
 							$qpart = "title = '$feed_title'";
 							break;
 
@@ -799,12 +799,12 @@
 
 				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
 
-				$result = db_query($link, "SELECT 
+				$result = db_query($link, "SELECT
 					title, content, link, ref_id, author,".
 					SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
 				  	FROM
-						ttrss_user_entries, ttrss_entries 
-						WHERE ref_id = id AND feed_id = '$id' AND 
+						ttrss_user_entries, ttrss_entries
+						WHERE ref_id = id AND feed_id = '$id' AND
 							owner_uid = " .$_SESSION['uid']."
 						");
 
@@ -814,10 +814,10 @@
 
 					$tags = get_article_tags($link, $line["ref_id"]);
 
-					$article_filters = get_article_filters($filters, $line['title'], 
-						$line['content'], $line['link'], strtotime($line['updated']), 
+					$article_filters = get_article_filters($filters, $line['title'],
+						$line['content'], $line['link'], strtotime($line['updated']),
 						$line['author'], $tags);
-					
+
 					$new_score = calculate_article_score($article_filters);
 
 					if (!$scores[$new_score]) $scores[$new_score] = array();
@@ -827,11 +827,11 @@
 
 				foreach (array_keys($scores) as $s) {
 					if ($s > 1000) {
-						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s',
 							marked = true WHERE
 							ref_id IN (" . join(',', $scores[$s]) . ")");
 					} else if ($s < -500) {
-						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s',
 							unread = false WHERE
 							ref_id IN (" . join(',', $scores[$s]) . ")");
 					} else {
@@ -847,7 +847,7 @@
 
 		if ($subop == "rescoreAll") {
 
-			$result = db_query($link, 
+			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE owner_uid = " . $_SESSION['uid']);
 
 			while ($feed_line = db_fetch_assoc($result)) {
@@ -856,12 +856,12 @@
 
 				$filters = load_filters($link, $id, $_SESSION["uid"], 6);
 
-				$tmp_result = db_query($link, "SELECT 
+				$tmp_result = db_query($link, "SELECT
 					title, content, link, ref_id, author,".
 					  	SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
 						FROM
-						ttrss_user_entries, ttrss_entries 
-						WHERE ref_id = id AND feed_id = '$id' AND 
+						ttrss_user_entries, ttrss_entries
+						WHERE ref_id = id AND feed_id = '$id' AND
 							owner_uid = " .$_SESSION['uid']."
 						");
 
@@ -871,8 +871,8 @@
 
 					$tags = get_article_tags($link, $line["ref_id"]);
 
-					$article_filters = get_article_filters($filters, $line['title'], 
-						$line['content'], $line['link'], strtotime($line['updated']), 
+					$article_filters = get_article_filters($filters, $line['title'],
+						$line['content'], $line['link'], strtotime($line['updated']),
 						$line['author'], $tags);
 
 					$new_score = calculate_article_score($article_filters);
@@ -884,7 +884,7 @@
 
 				foreach (array_keys($scores) as $s) {
 					if ($s > 1000) {
-						db_query($link, "UPDATE ttrss_user_entries SET score = '$s', 
+						db_query($link, "UPDATE ttrss_user_entries SET score = '$s',
 							marked = true WHERE
 							ref_id IN (" . join(',', $scores[$s]) . ")");
 					} else {
@@ -917,14 +917,14 @@
 					</head>
 					<body>
 					<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
-				  		alt=\"Tiny Tiny RSS\"/>	
+				  		alt=\"Tiny Tiny RSS\"/>
 					<h1>Subscribe to feed...</h1>";
 			}
 
 			$rc = subscribe_to_feed($link, $feed_url, $cat_id, $auth_login, $auth_pass);
 
 			switch ($rc) {
-			case 1: 
+			case 1:
 				print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
 				break;
 			case 2:
@@ -951,7 +951,7 @@
 					print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
 					print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
 					print "<input type=\"hidden\" name=\"subop\" value=\"add\">";
-					
+
 					print "<select name=\"feed_url\">";
 
 					foreach ($feed_urls as $url => $name) {
@@ -981,7 +981,7 @@
 				print "<p>";
 
 				if ($feed_id) {
-					print "<form method=\"GET\" style='display: inline' 
+					print "<form method=\"GET\" style='display: inline'
 						action=\"$tp_uri\">
 						<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
 						<input type=\"hidden\" name=\"subop\" value=\"editFeed\">
@@ -1015,7 +1015,7 @@
 			db_query($link, "BEGIN");
 
 			foreach ($ids as $id) {
-			
+
 				db_query($link, "UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
 					WHERE id = '$id'
 				  	AND owner_uid = " . $_SESSION["uid"]);
@@ -1043,10 +1043,10 @@
 				if (db_num_rows($result) == 1) {
 
 					$old_title = db_fetch_result($result, 0, "title");
-					
+
 					if ($cat_title != "") {
 						$result = db_query($link, "UPDATE ttrss_feed_categories SET
-							title = '$cat_title' WHERE id = '$cat_id' AND 
+							title = '$cat_title' WHERE id = '$cat_id' AND
 							owner_uid = ".$_SESSION["uid"]);
 
 						print $cat_title;
@@ -1073,9 +1073,9 @@
 			}
 
 			if ($action == "remove") {
-	
+
 				$ids = split(",", db_escape_string($_REQUEST["ids"]));
-	
+
 				foreach ($ids as $id) {
 					remove_feed_category($link, $id, $_SESSION["uid"]);
 				}
@@ -1085,7 +1085,7 @@
 				<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"newcat\">
 					<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedCatEditDlg').addCategory()\">".
 						__('Create category')."</button></div>";
-	
+
 			$result = db_query($link, "SELECT title,id FROM ttrss_feed_categories
 				WHERE owner_uid = ".$_SESSION["uid"]."
 				ORDER BY title");
@@ -1098,34 +1098,34 @@
 
 #				print "<form id=\"feed_cat_edit_form\" onsubmit=\"return false\">";
 
-				print "<table width=\"100%\" class=\"prefFeedCatList\" 
+				print "<table width=\"100%\" class=\"prefFeedCatList\"
 					cellspacing=\"0\" id=\"prefFeedCatList\">";
-						
+
 				$lnum = 0;
-				
+
 				while ($line = db_fetch_assoc($result)) {
-		
+
 					$class = ($lnum % 2) ? "even" : "odd";
-		
+
 					$cat_id = $line["id"];
 					$this_row_id = "id=\"FCATR-$cat_id\"";
-		
-					print "<tr class=\"\" $this_row_id>";
-		
-					$edit_title = htmlspecialchars($line["title"]);
-		
-					print "<td width='5%' align='center'><input 
-						onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\" 
-						type=\"checkbox\"></td>";
-	
-					print "<td>";
-					
-#					print "<span id=\"FCATT-$cat_id\">" . 
-#						$edit_title . "</span>";		
 
-					print "<span dojoType=\"dijit.InlineEditBox\" 
+					print "<tr class=\"\" $this_row_id>";
+
+					$edit_title = htmlspecialchars($line["title"]);
+
+					print "<td width='5%' align='center'><input
+						onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
+						type=\"checkbox\"></td>";
+
+					print "<td>";
+
+#					print "<span id=\"FCATT-$cat_id\">" .
+#						$edit_title . "</span>";
+
+					print "<span dojoType=\"dijit.InlineEditBox\"
 						width=\"300px\" autoSave=\"false\"
-						cat-id=\"$cat_id\">" . $edit_title . 
+						cat-id=\"$cat_id\">" . $edit_title .
 						"<script type=\"dojo/method\" event=\"onChange\" args=\"item\">
 							var elem = this;
 							dojo.xhrPost({
@@ -1138,15 +1138,15 @@
 										elem.attr('value', response);
 										updateFeedList();
 								}
-							});	
+							});
 						</script>
 					</span>";
 
 					print "</td></tr>";
-		
+
 					++$lnum;
 				}
-	
+
 				print "</table>";
 
 #				print "</form>";
@@ -1183,11 +1183,31 @@
 		if ($num_errors > 0) {
 
 			$error_button = "<button dojoType=\"dijit.form.Button\"
-			  		onclick=\"showFeedsWithErrors\" id=\"errorButton\">" .
+			  		onclick=\"showFeedsWithErrors()\" id=\"errorButton\">" .
 				__("Feeds with errors") . "</button>";
 
 //			print format_notice("<a href=\"javascript:showFeedsWithErrors()\">".
 //				__('Some feeds have update errors (click for details)')."</a>");
+		}
+
+		if (DB_TYPE == "pgsql") {
+			$interval_qpart = "NOW() - INTERVAL '3 months'";
+		} else {
+			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+		}
+
+		$result = db_query($link, "SELECT COUNT(*) AS num_inactive FROM ttrss_feeds WHERE
+					(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
+						ttrss_entries.id = ref_id AND
+							ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart AND
+			ttrss_feeds.owner_uid = ".$_SESSION["uid"]);
+
+		$num_inactive = db_fetch_result($result, 0, "num_inactive");
+
+		if ($num_inactive > 0) {
+			$inactive_button = "<button dojoType=\"dijit.form.Button\"
+			  		onclick=\"showInactiveFeeds()\">" .
+					__("Inactive feeds") . "</button>";
 		}
 
 		$feed_search = db_escape_string($_REQUEST["search"]);
@@ -1203,20 +1223,20 @@
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(true)\" 
+		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(true)\"
 			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
-		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(false)\" 
+		print "<div onclick=\"dijit.byId('feedTree').model.setAllChecked(false)\"
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 		print "</div></div>";
 
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Feeds')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-		print "<div onclick=\"quickAddFeed()\" 
+		print "<div onclick=\"quickAddFeed()\"
 			dojoType=\"dijit.MenuItem\">".__('Subscribe to feed')."</div>";
-		print "<div onclick=\"editSelectedFeed()\" 
+		print "<div onclick=\"editSelectedFeed()\"
 			dojoType=\"dijit.MenuItem\">".__('Edit selected feeds')."</div>";
-		print "<div onclick=\"resetFeedOrder()\" 
+		print "<div onclick=\"resetFeedOrder()\"
 			dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 		print "</div></div>";
 
@@ -1224,15 +1244,16 @@
 			print "<div dojoType=\"dijit.form.DropDownButton\">".
 					"<span>" . __('Categories')."</span>";
 			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-			print "<div onclick=\"editFeedCats()\" 
+			print "<div onclick=\"editFeedCats()\"
 				dojoType=\"dijit.MenuItem\">".__('Edit categories')."</div>";
-			print "<div onclick=\"resetCatOrder()\" 
+			print "<div onclick=\"resetCatOrder()\"
 				dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 			print "</div></div>";
 
 		}
 
 		print $error_button;
+		print $inactive_button;
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedFeeds()\">"
 			.__('Unsubscribe')."</button dojoType=\"dijit.form.Button\"> ";
@@ -1241,16 +1262,16 @@
 
 			print "<select id=\"feedActionChooser\" onchange=\"feedActionChange()\">
 				<option value=\"facDefault\" selected>".__('More actions...')."</option>";
-	
+
 			if (FORCE_ARTICLE_PURGE == 0) {
-				print 
+				print
 					"<option value=\"facPurge\">".__('Manual purge')."</option>";
 			}
-	
+
 			print "
 				<option value=\"facClear\">".__('Clear feed data')."</option>
 				<option value=\"facRescore\">".__('Rescore articles')."</option>";
-	
+
 			print "</select>";
 
 		}
@@ -1261,15 +1282,15 @@
 		<img src='images/indicator_tiny.gif'>".
 		 __("Loading, please wait...")."</div>";
 
-		print "<div dojoType=\"fox.PrefFeedStore\" jsId=\"feedStore\" 
+		print "<div dojoType=\"fox.PrefFeedStore\" jsId=\"feedStore\"
 			url=\"backend.php?op=pref-feeds&subop=getfeedtree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"feedModel\" store=\"feedStore\"
 		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
 			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
 		</div>
-		<div dojoType=\"fox.PrefFeedTree\" id=\"feedTree\" 
-			dndController=\"dijit.tree.dndSource\" 
+		<div dojoType=\"fox.PrefFeedTree\" id=\"feedTree\"
+			dndController=\"dijit.tree.dndSource\"
 			betweenThreshold=\"5\"
 			model=\"feedModel\" openOnClick=\"false\">
 		<script type=\"dojo/method\" event=\"onClick\" args=\"item\">
@@ -1280,7 +1301,7 @@
 				editFeed(bare_id);
 			} else if (id.match('CAT:')) {
 				editCat(bare_id, item);
-			}			
+			}
 		</script>
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
 			Element.hide(\"feedlistLoading\");
@@ -1301,12 +1322,12 @@
 
 		print "</p>";
 
-		print "<iframe id=\"upload_iframe\" 
+		print "<iframe id=\"upload_iframe\"
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
 		print "<form style='display : block' target=\"upload_iframe\"
-			enctype=\"multipart/form-data\" method=\"POST\" 
+			enctype=\"multipart/form-data\" method=\"POST\"
 				action=\"backend.php\">
 			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
@@ -1329,7 +1350,7 @@
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
 
 			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Firefox integration')."\">";
-                
+
 			print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
 
 			print "<p>";
@@ -1337,7 +1358,7 @@
 			print "<button onclick='window.navigator.registerContentHandler(" .
                       "\"application/vnd.mozilla.maybe.feed\", " .
                       "\"" . add_feed_url() . "\", " . " \"Tiny Tiny RSS\")'>" .
-							 __('Click here to register this site as a feed reader.') . 
+							 __('Click here to register this site as a feed reader.') .
 				"</button>";
 
 			print "</p>";
@@ -1346,7 +1367,7 @@
 		}
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Subscribing using bookmarklet')."\">";
-		
+
 		print "<p>" . __("Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it.") . "</p>";
 
 		$bm_subscribe_url = str_replace('%s', '', add_feed_url());
@@ -1363,12 +1384,12 @@
 
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
-		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() . 
+		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() .
 				"/backend.php?op=rss&id=-2&view-mode=all_articles");;
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";
-               
+
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearFeedAccessKeys()\">".
 			__('Clear all generated URLs')."</button> ";
 
@@ -1377,28 +1398,28 @@
 		if (defined('CONSUMER_KEY') && CONSUMER_KEY != '') {
 
 			print "<div id=\"pref-feeds-twitter\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Twitter')."\">";
-	
+
 			$result = db_query($link, "SELECT COUNT(*) AS cid FROM ttrss_users
 				WHERE twitter_oauth IS NOT NULL AND twitter_oauth != '' AND
 				id = " . $_SESSION['uid']);
-	
+
 			$is_registered = db_fetch_result($result, 0, "cid") != 0;
-	
+
 			if (!$is_registered) {
 				print_notice(__('Before you can update your Twitter feeds, you must register this instance of Tiny Tiny RSS with Twitter.com.'));
 			} else {
 				print_notice(__('You have been successfully registered with Twitter.com and should be able to access your Twitter feeds.'));
 			}
-	
+
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"window.location.href = 'twitter.php?op=register'\">".
 				__("Register with Twitter.com")."</button>";
-	
+
 			print " ";
-	
-			print "<button dojoType=\"dijit.form.Button\" 
+
+			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return clearTwitterCredentials()\">".
 				__("Clear stored credentials")."</button>";
-	
+
 			print "</div>"; # pane
 
 		}
@@ -1413,7 +1434,7 @@
 		$rv = '';
 
 			if ($search) {
-				$search_qpart = "AND (UPPER(feed_url) LIKE UPPER('%$search%') OR 
+				$search_qpart = "AND (UPPER(feed_url) LIKE UPPER('%$search%') OR
 					UPPER(title) LIKE UPPER('%$search%'))";
 			} else {
 				$search_qpart = "";
@@ -1423,7 +1444,7 @@
 				$result = db_query($link, "SELECT feed_url, subscribers FROM
 					ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 					WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
-					AND owner_uid = '$owner_uid') $search_qpart 
+					AND owner_uid = '$owner_uid') $search_qpart
 					ORDER BY subscribers DESC LIMIT $limit");
 			} else if ($mode == 2) {
 				$result = db_query($link, "SELECT *,
@@ -1431,16 +1452,16 @@
 				 		orig_feed_id = ttrss_archived_feeds.id) AS articles_archived
 					FROM
 						ttrss_archived_feeds
-					WHERE 
-					(SELECT COUNT(*) FROM ttrss_feeds 
+					WHERE
+					(SELECT COUNT(*) FROM ttrss_feeds
 						WHERE ttrss_feeds.feed_url = ttrss_archived_feeds.feed_url AND
-							owner_uid = '$owner_uid') = 0	AND					
-					owner_uid = '$owner_uid' $search_qpart 
+							owner_uid = '$owner_uid') = 0	AND
+					owner_uid = '$owner_uid' $search_qpart
 					ORDER BY id DESC LIMIT $limit");
 			}
 
 			$feedctr = 0;
-			
+
 			while ($line = db_fetch_assoc($result)) {
 
 				if ($mode == 1) {
@@ -1448,26 +1469,26 @@
 					$feed_url = $line["feed_url"];
 					$subscribers = $line["subscribers"];
 
-					$det_result = db_query($link, "SELECT site_url,title,id 
+					$det_result = db_query($link, "SELECT site_url,title,id
 						FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
-	
+
 					$details = db_fetch_assoc($det_result);
-				
+
 					$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
-	
+
 					if (file_exists($icon_file) && filesize($icon_file) > 0) {
-							$feed_icon = "<img style=\"vertical-align : middle\" class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+							$feed_icon = "<img style=\"vertical-align : middle\" class=\"tinyFeedIcon\"	src=\"" . ICONS_URL .
 								"/".$details["id"].".ico\">";
 					} else {
 						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 					}
-	
-					$check_box = "<input onclick='toggleSelectListRow2(this)' 
+
+					$check_box = "<input onclick='toggleSelectListRow2(this)'
 						dojoType=\"dijit.form.CheckBox\"
 						type=\"checkbox\" \">";
-	
+
 					$class = ($feedctr % 2) ? "even" : "odd";
-	
+
 					$feed_url = htmlspecialchars($line["feed_url"]);
 
 					if ($details["site_url"]) {
@@ -1478,25 +1499,25 @@
 						$site_url = "";
 					}
 
-					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img 
-						style='border-width : 0px; vertical-align : middle' 
+					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img
+						style='border-width : 0px; vertical-align : middle'
 						src='images/feed-icon-12x12.png'></a>";
 
-					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\" 
+					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\"
 						id=\"FBROW-".$details["id"]."\">$check_box".
-						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) . 
+						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) .
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
 						$site_url</li>";
-	
+
 				} else if ($mode == 2) {
 					$feed_url = htmlspecialchars($line["feed_url"]);
-					$site_url = htmlspecialchars($line["site_url"]); 
+					$site_url = htmlspecialchars($line["site_url"]);
 					$title = htmlspecialchars($line["title"]);
 
 					$icon_file = ICONS_DIR . "/" . $line["id"] . ".ico";
-	
+
 					if (file_exists($icon_file) && filesize($icon_file) > 0) {
-							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL . 
+							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL .
 								"/".$line["id"].".ico\">";
 					} else {
 						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
@@ -1504,7 +1525,7 @@
 
 					$check_box = "<input onclick='toggleSelectListRow2(this)' dojoType=\"dijit.form.CheckBox\"
 						type=\"checkbox\">";
-	
+
 					$class = ($feedctr % 2) ? "even" : "odd";
 
 					if ($line['articles_archived'] > 0) {
@@ -1521,13 +1542,13 @@
 						$site_url = "";
 					}
 
-					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img 
-						style='border-width : 0px; vertical-align : middle' 
+					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img
+						style='border-width : 0px; vertical-align : middle'
 						src='images/feed-icon-12x12.png'></a>";
 
-					$rv .= "<li title='".$line['site_url']."' class='$class' 
+					$rv .= "<li title='".$line['site_url']."' class='$class'
 						id=\"FBROW-".$line["id"]."\">".
-						$check_box . "$feed_icon $feed_url " . $title . 
+						$check_box . "$feed_icon $feed_url " . $title .
 						$archived . $site_url . "</li>";
 
 

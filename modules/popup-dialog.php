@@ -537,6 +537,80 @@
 			//return;
 		}
 
+		if ($id == "inactiveFeeds") {
+
+			if (DB_TYPE == "pgsql") {
+				$interval_qpart = "NOW() - INTERVAL '3 months'";
+			} else {
+				$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+			}
+
+			$result = db_query($link, "SELECT ttrss_feeds.title, ttrss_feeds.site_url,
+			  		ttrss_feeds.feed_url, ttrss_feeds.id, MAX(updated) AS last_article
+				FROM ttrss_feeds, ttrss_entries, ttrss_user_entries WHERE
+					(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
+						ttrss_entries.id = ref_id AND
+							ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart
+				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." AND
+					ttrss_user_entries.feed_id = ttrss_feeds.id AND
+					ttrss_entries.id = ref_id
+				GROUP BY ttrss_feeds.title, ttrss_feeds.id, ttrss_feeds.site_url, ttrss_feeds.feed_url
+				ORDER BY last_article");
+
+			print __("These feeds have not been updated with new content for 3 months (oldest first):");
+
+			print "<div class=\"inactiveFeedHolder\">";
+
+			print "<table width=\"100%\" cellspacing=\"0\" id=\"prefInactiveFeedList\">";
+
+			$lnum = 1;
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$class = ($lnum % 2) ? "even" : "odd";
+				$feed_id = $line["id"];
+				$this_row_id = "id=\"FUPDD-$feed_id\"";
+
+				print "<tr class=\"\" $this_row_id>";
+
+				$edit_title = htmlspecialchars($line["title"]);
+
+				print "<td width='5%' align='center'><input
+					onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
+					type=\"checkbox\"></td>";
+				print "<td>";
+
+				print "<a target=\"_blank\" class=\"visibleLink\" href=\"".
+					htmlspecialchars($line["site_url"])."\">".
+					htmlspecialchars($line["title"])."</a> (".
+					"<a target=\"_blank\" class=\"visibleLink\"
+					href=\"".htmlspecialchars($line["feed_url"]).
+					"\">".__("feed")."</a>)";
+
+				print "</td><td class=\"insensitive\" align='right'>";
+				print make_local_datetime($link, $line['last_article']);
+				print "</td>";
+				print "</tr>";
+
+				++$lnum;
+			}
+
+			print "</table>";
+			print "</div>";
+
+			print "<div class='dlgButtons'>";
+			print "<div style='float : left'>";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('inactiveFeedsDlg').removeSelected()\">"
+				.__('Unsubscribe from selected feeds')."</button> ";
+			print "</div>";
+
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('inactiveFeedsDlg').hide()\">".
+				__('Close this window')."</button>";
+
+			print "</div>";
+
+		}
+
 		if ($id == "feedUpdateErrors") {
 
 			print "<title>".__('Feeds with update errors')."</title>";
