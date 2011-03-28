@@ -353,9 +353,8 @@ function removeSelectedFilters() {
 				new Ajax.Request("backend.php",	{
 						parameters: query,
 						onComplete: function(transport) {
-								filterlist_callback2(transport);
-					} });
-
+							updateFilterList();
+						} });
 			}
 		} else {
 			alert(__("No filters are selected."));
