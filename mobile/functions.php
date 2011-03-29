@@ -413,8 +413,13 @@
 
 		if ($num_headlines > 0 && ($num_unread == 0 || $num_unread > $next_offset)) {
 
-			$articles_url = "feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset".
-				"&search=$search";
+			if ($is_cat) {
+				$articles_url = "feed.php?id=$feed_id&skip=$next_offset".
+					"&search=$search&is_cat=true";
+			} else {
+				$articles_url = "feed.php?id=$feed_id&cat=$cat_id&skip=$next_offset".
+					"&search=$search";
+			}
 
 			print "<li><a href=\"$articles_url\"
 				target=\"_replace\">Get more articles...</a></li>";
