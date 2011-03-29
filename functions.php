@@ -517,7 +517,7 @@
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
 				feed_url,auth_pass,cache_images,update_method,last_updated,
-				mark_unread_on_update, owner_uid
+				mark_unread_on_update, owner_uid, update_on_checksum_change
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -533,6 +533,7 @@
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 		$mark_unread_on_update = db_fetch_result($result, 0, "mark_unread_on_update");
+		$update_on_checksum_change = db_fetch_result($result, 0, "update_on_checksum_change");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
@@ -1202,8 +1203,7 @@
 
 					$post_needs_update = false;
 
-					if (get_pref($link, "UPDATE_POST_ON_CHECKSUM_CHANGE", $owner_uid, false) &&
-						($content_hash != $orig_content_hash)) {
+					if ($update_on_checksum_change && $content_hash != $orig_content_hash) {
 //						print "<!-- [$entry_title] $content_hash vs $orig_content_hash -->";
 						$post_needs_update = true;
 					}

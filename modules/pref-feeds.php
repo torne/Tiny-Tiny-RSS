@@ -462,6 +462,18 @@
 				name=\"mark_unread_on_update\"
 				$checked>&nbsp;<label for=\"mark_unread_on_update\">".__('Mark updated articles as unread')."</label>";
 
+			$update_on_checksum_change = sql_bool_to_bool(db_fetch_result($result, 0, "update_on_checksum_change"));
+
+			if ($update_on_checksum_change) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"update_on_checksum_change\"
+				name=\"update_on_checksum_change\"
+				$checked>&nbsp;<label for=\"update_on_checksum_change\">".__('Mark posts as updated on content change')."</label>";
+
 #			print "</div>";
 			print "</div>";
 
@@ -639,6 +651,11 @@
 
 			print "&nbsp;"; batch_edit_cbox("mark_unread_on_update", "mark_unread_on_update_l");
 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"update_on_checksum_change\"
+				name=\"update_on_checksum_change\"
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"update_on_checksum_change_l\" class='insensitive' for=\"update_on_checksum_change\">".__('Mark posts as updated on content change')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("update_on_checksum_change", "update_on_checksum_change_l");
 
 			print "</div>";
 
@@ -679,6 +696,9 @@
 			$mark_unread_on_update = checkbox_to_sql_bool(
 				db_escape_string($_POST["mark_unread_on_update"]));
 
+			$update_on_checksum_change = checkbox_to_sql_bool(
+				db_escape_string($_POST["update_on_checksum_change"]));
+
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id && $cat_id != 0) {
 					$category_qpart = "cat_id = '$cat_id',";
@@ -713,6 +733,7 @@
 					include_in_digest = $include_in_digest,
 					always_display_enclosures = $always_display_enclosures,
 					mark_unread_on_update = $mark_unread_on_update,
+					update_on_checksum_change = $update_on_checksum_change,
 					update_method = '$update_method'
 					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -770,6 +791,10 @@
 
 						case "mark_unread_on_update":
 							$qpart = "mark_unread_on_update = '$mark_unread_on_update'";
+							break;
+
+						case "update_on_checksum_change":
+							$qpart = "update_on_checksum_change = '$update_on_checksum_change'";
 							break;
 
 						case "cache_images":

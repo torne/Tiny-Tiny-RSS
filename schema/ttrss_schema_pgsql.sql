@@ -86,6 +86,7 @@ create table ttrss_feeds (id serial not null primary key,
 	always_display_enclosures boolean not null default false,
 	order_id integer not null default 0,
 	mark_unread_on_update boolean not null default false,
+	update_on_checksum_change boolean not null default false,
 	strip_images boolean not null default false,
 	auth_pass_encrypted boolean not null default false);	
 
@@ -267,7 +268,6 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	def_value text not null);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge old posts after this number of days (0 - disables)',1);
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('UPDATE_POST_ON_CHECKSUM_CHANGE', 1, 'true', 'Update post on checksum change',1);
 	
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates',1);
 
