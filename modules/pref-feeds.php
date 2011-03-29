@@ -962,6 +962,7 @@
 			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 
 			if ($p_from != 'tt-rss') {
+				header("Content-Type: text/html");
 				print "<html>
 					<head>
 						<title>Tiny Tiny RSS</title>
