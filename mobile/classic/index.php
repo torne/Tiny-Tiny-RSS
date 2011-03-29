@@ -5,11 +5,11 @@
 
 	require_once "../../config.php";
 	require_once "functions.php";
-	require_once "../../functions.php"; 
+	require_once "../../functions.php";
 
 	require_once "../../sessions.php";
 
-	require_once "../../version.php"; 
+	require_once "../../version.php";
 	require_once "../../db-prefs.php";
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -24,7 +24,7 @@
 	$go = $_GET["go"];
 
 	if ($subop == "tc" && !$go) {
-		
+
 		$cat_id = db_escape_string($_GET["id"]);
 		toggle_collapse_cat($link, $cat_id);
 
@@ -89,11 +89,7 @@
 	<link rel="stylesheet" type="text/css" href="mobile.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="mobile.js"></script>
-
-	<?php $user_css_url = get_pref($link, 'USER_STYLESHEET_URL'); ?>
-	<?php if ($user_css_url) { ?>
-		<link rel="stylesheet" type="text/css" href="<?php echo $user_css_url ?>"/> 
-	<?php } ?>
+	<?php print_user_stylesheet($link) ?>
 </head>
 <body id="ttrssMobile">
 
@@ -102,7 +98,7 @@
 	if (!$go) {
 		render_feeds_list($link);
 	} else if ($go == "vf") {
-		render_headlines($link);	
+		render_headlines($link);
 	} else if ($go == "view") {
 		render_article($link);
 	} else if ($go == "sform") {
