@@ -85,6 +85,8 @@ create table ttrss_feeds (id serial not null primary key,
 	update_method integer not null default 0,
 	always_display_enclosures boolean not null default false,
 	order_id integer not null default 0,
+	mark_unread_on_update boolean not null default false,
+	strip_images boolean not null default false,
 	auth_pass_encrypted boolean not null default false);	
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
@@ -229,7 +231,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (82);
+insert into ttrss_version values (83);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -281,8 +283,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('LONG_DATE_FORMAT', 2, 'D, M d Y - G:i', 'Long date format',3);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HEADLINES_SMART_DATE', 1, 'true', 'Use more accessible date/time format for headlines',3);
-
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('COMBINED_DISPLAY_MODE', 1, 'false', 'Combined feed display',2, 'Display expanded list of feed articles, instead of separate displays for headlines and article content');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_FEEDS', 1, 'false', 'Hide feeds with no unread messages',2);
@@ -290,8 +290,6 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('ON_CATCHUP_SHOW_NEXT_FEED', 1, 'false', 'On catchup show next feed',2, 'When "Mark as read" button is clicked in toolbar, automatically open next feed with unread articles.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('FEEDS_SORT_BY_UNREAD', 1, 'false', 'Sort feeds by unread articles count',2);
-
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('MARK_UNREAD_ON_UPDATE', 1, 'false', 'Set articles as unread on update',3);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('REVERSE_HEADLINES', 1, 'false', 'Reverse headline order (oldest first)',2);
 

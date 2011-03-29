@@ -450,6 +450,18 @@
 				__('Cache images locally (SimplePie only)')."</label>";
 			}
 
+			$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result, 0, "mark_unread_on_update"));
+
+			if ($mark_unread_on_update) {
+				$checked = "checked";
+			} else {
+				$checked = "";
+			}
+
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"mark_unread_on_update\"
+				name=\"mark_unread_on_update\"
+				$checked>&nbsp;<label for=\"mark_unread_on_update\">".__('Mark updated articles as unread')."</label>";
+
 #			print "</div>";
 			print "</div>";
 
@@ -621,6 +633,13 @@
 				print "&nbsp;"; batch_edit_cbox("cache_images", "cache_images_l");
 			}
 
+			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"mark_unread_on_update\"
+				name=\"mark_unread_on_update\"
+				dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"mark_unread_on_update_l\" class='insensitive' for=\"mark_unread_on_update\">".__('Mark updated articles as unread')."</label>";
+
+			print "&nbsp;"; batch_edit_cbox("mark_unread_on_update", "mark_unread_on_update_l");
+
+
 			print "</div>";
 
 			print "<div class='dlgButtons'>
@@ -657,6 +676,9 @@
 			$always_display_enclosures = checkbox_to_sql_bool(
 				db_escape_string($_POST["always_display_enclosures"]));
 
+			$mark_unread_on_update = checkbox_to_sql_bool(
+				db_escape_string($_POST["mark_unread_on_update"]));
+
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
 				if ($cat_id && $cat_id != 0) {
 					$category_qpart = "cat_id = '$cat_id',";
@@ -690,6 +712,7 @@
 					$cache_images_qpart
 					include_in_digest = $include_in_digest,
 					always_display_enclosures = $always_display_enclosures,
+					mark_unread_on_update = $mark_unread_on_update,
 					update_method = '$update_method'
 					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -743,6 +766,10 @@
 
 						case "always_display_enclosures":
 							$qpart = "always_display_enclosures = '$always_display_enclosures'";
+							break;
+
+						case "mark_unread_on_update":
+							$qpart = "mark_unread_on_update = '$mark_unread_on_update'";
 							break;
 
 						case "cache_images":

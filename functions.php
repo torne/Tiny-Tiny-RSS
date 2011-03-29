@@ -517,7 +517,7 @@
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
 				feed_url,auth_pass,cache_images,update_method,last_updated,
-				owner_uid
+				mark_unread_on_update, owner_uid
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -532,6 +532,7 @@
 		$update_method = db_fetch_result($result, 0, "update_method");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
+		$mark_unread_on_update = db_fetch_result($result, 0, "mark_unread_on_update");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
@@ -1237,7 +1238,7 @@
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
-						if (get_pref($link, "MARK_UNREAD_ON_UPDATE", $owner_uid, false)) {
+						if ($mark_unread_on_update) {
 							db_query($link, "UPDATE ttrss_user_entries
 								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 						} else {
