@@ -532,8 +532,10 @@
 		$update_method = db_fetch_result($result, 0, "update_method");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
-		$mark_unread_on_update = db_fetch_result($result, 0, "mark_unread_on_update");
-		$update_on_checksum_change = db_fetch_result($result, 0, "update_on_checksum_change");
+		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
+			0, "mark_unread_on_update"));
+		$update_on_checksum_change = sql_bool_to_bool(db_fetch_result($result,
+			0, "update_on_checksum_change"));
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
