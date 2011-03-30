@@ -5042,7 +5042,7 @@
 						class=\"hlTitle\"><span class='hlContent$hlc_suffix'>";
 					$reply['content'] .= "<a id=\"RTITLE-$id\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
-						onclick=\"return false;\">" .
+						onclick=\"\">" .
 						$line["title"];
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {

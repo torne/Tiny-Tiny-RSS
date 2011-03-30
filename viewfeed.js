@@ -1902,11 +1902,14 @@ function postOpenInNewTab(event, id) {
 
 function hlClicked(event, id) {
 	try {
-		if (event.altKey) {
+		if (event.which == 2) {
+			view(id);
+			return true;
+		} else if (event.altKey) {
 			openArticleInNewWindow(id);
 		} else if (!event.ctrlKey) {
 			view(id);
-			return true;
+			return false;
 		} else {
 			toggleSelected(id);
 			toggleUnread(id, 0, false);
