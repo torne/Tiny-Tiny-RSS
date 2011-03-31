@@ -1564,11 +1564,12 @@ function zoomToArticle(event, id) {
 				onComplete: function(transport) {
 					notify('');
 
-					if (transport.responseXML) {
+					var reply = JSON.parse(transport.responseText);
+
+					if (reply) {
 						//closeArticlePanel();
 
-						var article = transport.responseXML.getElementsByTagName("article")[0];
-						var content = article.firstChild.nodeValue;
+						var content = reply[0]['content'];
 
 						var article_pane = new dijit.layout.ContentPane({
 							title: "article-" + id , content: content,
