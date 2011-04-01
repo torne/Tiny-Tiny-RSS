@@ -772,9 +772,11 @@
 				if ($use_simplepie) {
 					$links = $rss->get_links('hub');
 
-					foreach ($links as $l) {
-						$feed_hub_url = $l;
-						break;
+					if ($links && is_array($links)) {
+						foreach ($links as $l) {
+							$feed_hub_url = $l;
+							break;
+						}
 					}
 
 				} else {
@@ -789,6 +791,7 @@
 							for ($i = 2; $i <= $atom['link#']; $i++) {
 								if ($atom["link#$i@rel"] == 'hub') {
 									$feed_hub_url = $atom["link#$i@href"];
+									break;
 								}
 							}
 						}
