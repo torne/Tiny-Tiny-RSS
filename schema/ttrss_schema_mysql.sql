@@ -32,15 +32,6 @@ drop table if exists ttrss_sessions;
 
 begin;
 
-create table ttrss_themes(id integer not null primary key auto_increment,
-	theme_name varchar(200) not null,
-	theme_path varchar(200) not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
-
-insert into ttrss_themes (theme_name, theme_path) values ('Old-skool', 'compat');
-insert into ttrss_themes (theme_name, theme_path) values ('Graycube', 'graycube');
-insert into ttrss_themes (theme_name, theme_path) values ('Default (Compact)', 'compact');
-insert into ttrss_themes (theme_name, theme_path) values ('Three-pane', '3pane');
-
 create table ttrss_users (id integer primary key not null auto_increment,
 	login varchar(120) not null unique,
 	pwd_hash varchar(250) not null,
@@ -53,8 +44,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	last_digest_sent datetime default null,
 	created datetime default null,
 	twitter_oauth longtext default null,
-	index (theme_id),
-	foreign key (theme_id) references ttrss_themes(id)) TYPE=InnoDB DEFAULT CHARSET=UTF8;
+	index (theme_id)) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 
 	'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 10);

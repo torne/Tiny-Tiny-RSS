@@ -24,6 +24,9 @@ update ttrss_feeds set pubsub_state = 0;
 alter table ttrss_feeds change pubsub_state pubsub_state integer not null;
 alter table ttrss_feeds alter column pubsub_state set default 0;
 
+alter table ttrss_users drop column theme_id;
+drop table ttrss_themes;
+
 update ttrss_version set schema_version = 83;
 
 commit;
