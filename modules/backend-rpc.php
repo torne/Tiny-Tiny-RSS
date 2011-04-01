@@ -228,15 +228,10 @@
 			return;
 		}
 
-/*		if ($subop == "updateFeed") {
+		// Silent
+		/* if ($subop == "update") {
 			$feed_id = db_escape_string($_REQUEST["feed"]);
-
 			update_rss_feed($link, $feed_id);
-
-			print "<rpc-reply>";
-			print "<message>UPDATE_COUNTERS</message>";
-			print "</rpc-reply>";
-
 			return;
 		} */
 

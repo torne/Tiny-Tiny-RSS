@@ -99,7 +99,6 @@
 
 	//define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
-	define('MAGPIE_CACHE_AGE', 60*15); // 15 minutes
 
 	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
 	define('MAGPIE_USER_AGENT', SELF_USER_AGENT);
@@ -111,6 +110,7 @@
 	require_once 'lib/magpierss/rss_utils.inc';
 	require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
 	require_once 'lib/pubsubhubbub/publisher.php';
+	require_once 'lib/pubsubhubbub/subscriber.php';
 
 	$config = HTMLPurifier_Config::createDefault();
 
@@ -471,7 +471,7 @@
 		}
 	}
 
-	function update_rss_feed($link, $feed, $ignore_daemon = false) {
+	function update_rss_feed($link, $feed, $ignore_daemon = false, $no_cache = false) {
 
 		global $memcache;
 
@@ -483,14 +483,14 @@
 				WHERE	f2.feed_url = f1.feed_url AND f2.id = '$feed'");
 
 			while ($line = db_fetch_assoc($result)) {
-				update_rss_feed_real($link, $line["id"], $ignore_daemon);
+				update_rss_feed_real($link, $line["id"], $ignore_daemon, $no_cache);
 			}
 		} else {
-			update_rss_feed_real($link, $feed, $ignore_daemon);
+			update_rss_feed_real($link, $feed, $ignore_daemon, $no_cache);
 		}
 	}
 
-	function update_rss_feed_real($link, $feed, $ignore_daemon = false) {
+	function update_rss_feed_real($link, $feed, $ignore_daemon = false, $no_cache = false) {
 
 		global $memcache;
 
@@ -518,7 +518,8 @@
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
 				feed_url,auth_pass,cache_images,update_method,last_updated,
-				mark_unread_on_update, owner_uid, update_on_checksum_change
+				mark_unread_on_update, owner_uid, update_on_checksum_change,
+				pubsub_state
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 		}
@@ -537,6 +538,7 @@
 			0, "mark_unread_on_update"));
 		$update_on_checksum_change = sql_bool_to_bool(db_fetch_result($result,
 			0, "update_on_checksum_change"));
+		$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
@@ -601,7 +603,11 @@
 
 			if ($update_method == 3) {
 				$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
-					} else if ($update_method == 1) {
+			} else if ($update_method == 1) {
+
+				define('MAGPIE_CACHE_AGE', get_feed_update_interval($link, $feed) * 60);
+				define('MAGPIE_CACHE_ON', !$no_cache);
+
 				$rss = @fetch_rss($fetch_url);
 			} else {
 				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
@@ -628,7 +634,9 @@
 						get_feed_update_interval($link, $feed)*60);
 				}
 
-				if (is_dir(SIMPLEPIE_CACHE_DIR)) {
+				$rss->enable_cache(!$no_cache);
+
+				if (!$no_cache) {
 					$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
 					$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
 				}
@@ -728,7 +736,7 @@
 
 			$filters = load_filters($link, $feed, $owner_uid);
 
-			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
+			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'] == 2) {
 				print_r($filters);
 			}
 
@@ -756,6 +764,50 @@
 					SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
 				return; // no articles
+			}
+
+			if (PUBSUBHUBBUB_HUB && $pubsub_state != 2) {
+
+				$feed_hub_url = false;
+				if ($use_simplepie) {
+					$links = $rss->get_links('hub');
+
+					foreach ($links as $l) {
+						$feed_hub_url = $l;
+						break;
+					}
+
+				} else {
+					$atom = $rss->channel['atom'];
+
+					if ($atom) {
+						if ($atom['link@rel'] == 'hub') {
+							$feed_hub_url = $atom['link@href'];
+						}
+
+						if (!$feed_hub_url && $atom['link#'] > 1) {
+							for ($i = 2; $i <= $atom['link#']; $i++) {
+								if ($atom["link#$i@rel"] == 'hub') {
+									$feed_hub_url = $atom["link#$i@href"];
+								}
+							}
+						}
+					} else {
+						$feed_hub_url = $rss->channel['link_hub'];
+					}
+				}
+
+				if ($feed_hub_url) {
+					$callback_url = get_self_url_prefix() .
+						"/backend.php?op=pubsub&id=$feed";
+
+					$s = new Subscriber($feed_hub_url, $callback_url);
+
+					$s->subscribe($fetch_url);
+
+					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 1
+						WHERE id = '$feed'");
+				}
 			}
 
 			if (defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug']) {
@@ -7072,6 +7124,8 @@
 			if ($code == 200) {
 
 				$content = $tmhOAuth->response['response'];
+
+				define('MAGPIE_CACHE_ON', false);
 
 				$rss = new MagpieRSS($content, MAGPIE_OUTPUT_ENCODING,
 					MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );

@@ -61,7 +61,8 @@
 	}
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
-				$op != "rss" && $op != "getUnread" && $op != "getProfiles") {
+			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
+			$op != "pubsub") {
 
 		header("Content-Type: text/plain");
 		print json_encode(array("error" => array("code" => 6)));
@@ -524,8 +525,44 @@
 			}
 		break;
 
-	} // Select action according to $op value.
+		case "pubsub":
+			$mode = db_escape_string($_REQUEST['hub_mode']);
+			$feed_id = db_escape_string($_REQUEST['id']);
+			$feed_url = db_escape_string($_REQUEST['hub_topic']);
 
+			// TODO: implement hub_verifytoken checking
+
+			$result = db_query($link, "SELECT feed_url FROM ttrss_feeds
+				WHERE id = '$feed_id'");
+
+			$check_feed_url = db_fetch_result($result, 0, "feed_url");
+
+			if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
+				if ($mode == "subscribe") {
+
+					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 2
+						WHERE id = '$feed_id'");
+
+					echo $_REQUEST['hub_challenge'];
+				} else if ($mode == "unsubscribe") {
+
+					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 0
+						WHERE id = '$feed_id'");
+
+					echo $_REQUEST['hub_challenge'];
+				} else if (!$mode) {
+
+					// Received update ping, schedule feed update.
+
+					update_rss_feed($link, $feed_id, true, true);
+
+				}
+			} else {
+				header('HTTP/1.0 404 Not Found');
+			}
+
+		break;
+	} // Select action according to $op value.
 
 	// We close the connection to database.
 	db_close($link);
