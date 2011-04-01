@@ -143,6 +143,10 @@
 		$err_msg = "php.ini: Safe mode is not supported. If you wish to continue, remove this test from sanity_check.php and proceeed at your own risk. Please note that your bug reports will not be accepted or reviewed.";
 	}
 
+	if (PUBSUBHUBBUB_HUB && !function_exists("curl_init")) {
+		$err_msg = "PUBSUBHUBBUB_HUB is defined, but CURL functions are not found. CURL is required for PubSubHubbub support.";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
