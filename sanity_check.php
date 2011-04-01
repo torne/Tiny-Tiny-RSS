@@ -1,7 +1,7 @@
 <?php
 	require_once "functions.php";
 
-	define('EXPECTED_CONFIG_VERSION', 21);
+	define('EXPECTED_CONFIG_VERSION', 22);
 	define('SCHEMA_VERSION', 83);
 
 	if (!file_exists("config.php")) {

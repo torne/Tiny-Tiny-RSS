@@ -192,7 +192,11 @@
 	// Please set this to true if you have read everything above and
 	// finished setting configuration options.
 
-	define('CONFIG_VERSION', 21);
+	define('PUBSUBHUBBUB_HUB', '');
+	// URL to a PubSubHubbub-compatible hub server. If defined, Published
+	// articles generated feeds would automatically become PUSH-enabled.
+
+	define('CONFIG_VERSION', 22);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

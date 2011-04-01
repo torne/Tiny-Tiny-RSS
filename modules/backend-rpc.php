@@ -211,7 +211,20 @@
 				published = $pub
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			print json_encode(array("message" => "UPDATE_COUNTERS"));
+			$pubsub_result = false;
+
+			if (PUBSUBHUBBUB_HUB) {
+				$rss_link = get_self_url_prefix() .
+					"/backend.php?op=rss&id=-2&key=" .
+					get_feed_access_key($link, -2, false);
+
+				$p = new Publisher(PUBSUBHUBBUB_HUB);
+
+				$pubsub_result = $p->publish_update($rss_link);
+			}
+
+			print json_encode(array("message" => "UPDATE_COUNTERS",
+				"pubsub_result" => $pubsub_result));
 			return;
 		}
 
