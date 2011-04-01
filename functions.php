@@ -1235,6 +1235,16 @@
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
 								$last_read_qpart, $marked, $published, '$score', '', '')");
 
+						if (PUBSUBHUBBUB_HUB && $published == 'true') {
+							$rss_link = get_self_url_prefix() .
+								"/backend.php?op=rss&id=-2&key=" .
+								get_feed_access_key($link, -2, false);
+
+							$p = new Publisher(PUBSUBHUBBUB_HUB);
+
+							$pubsub_result = $p->publish_update($rss_link);
+						}
+
 						$result = db_query($link,
 							"SELECT int_id FROM ttrss_user_entries WHERE
 								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND
@@ -4035,6 +4045,16 @@
 			db_query($link, "UPDATE ttrss_user_entries SET
 			published = NOT published,last_read = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		if (PUBSUBHUBBUB_HUB) {
+			$rss_link = get_self_url_prefix() .
+				"/backend.php?op=rss&id=-2&key=" .
+				get_feed_access_key($link, -2, false);
+
+			$p = new Publisher(PUBSUBHUBBUB_HUB);
+
+			$pubsub_result = $p->publish_update($rss_link);
 		}
 	}
 
