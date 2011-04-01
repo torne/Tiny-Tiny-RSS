@@ -797,7 +797,7 @@
 					}
 				}
 
-				if ($feed_hub_url) {
+				if ($feed_hub_url && function_exists('curl_init')) {
 					$callback_url = get_self_url_prefix() .
 						"/backend.php?op=pubsub&id=$feed";
 
