@@ -44,8 +44,6 @@
 	$subop = $_REQUEST["subop"];
 	$mode = $_REQUEST["mode"];
 
-	$print_exec_time = false;
-
 	if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {
 			header("Content-Type: application/xml; charset=utf-8");
 	} else {
@@ -483,17 +481,14 @@
 				print "-1;User not found";
 			}
 
-			$print_exec_time = false;
 		break; // getUnread
 
 		case "digestTest":
 			print_r(prepare_headlines_digest($link, $_SESSION["uid"]));
-			$print_exec_time = false;
 		break; // digestTest
 
 		case "digestSend":
 			send_headlines_digests($link);
-			$print_exec_time = false;
 		break; // digestSend
 
 		case "loading":
@@ -543,13 +538,17 @@
 					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 2
 						WHERE id = '$feed_id'");
 
-					echo $_REQUEST['hub_challenge'];
+					print $_REQUEST['hub_challenge'];
+					return;
+
 				} else if ($mode == "unsubscribe") {
 
 					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 0
 						WHERE id = '$feed_id'");
 
-					echo $_REQUEST['hub_challenge'];
+					print $_REQUEST['hub_challenge'];
+					return;
+
 				} else if (!$mode) {
 
 					// Received update ping, schedule feed update.
@@ -567,7 +566,3 @@
 	// We close the connection to database.
 	db_close($link);
 ?>
-
-<?php if ($print_exec_time) { ?>
-<!-- <?php echo sprintf("Backend execution time: %.4f seconds", getmicrotime() - $script_started) ?> -->
-<?php } ?>
