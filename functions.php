@@ -766,7 +766,7 @@
 				return; // no articles
 			}
 
-			if (PUBSUBHUBBUB_HUB && $pubsub_state != 2) {
+			if ($pubsub_state != 2) {
 
 				$feed_hub_url = false;
 				if ($use_simplepie) {
@@ -5507,7 +5507,7 @@
 
 	function get_self_url_prefix() {
 
-		$url_path = "";
+		/* $url_path = "";
 
 		if ($_SERVER['HTTPS'] != "on") {
 			$url_path = "http://";
@@ -5517,7 +5517,9 @@
 
 		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
 
-		return $url_path;
+		return $url_path; */
+
+		return SELF_URL_PATH;
 
 	}
 	function opml_publish_url($link){
@@ -5558,8 +5560,10 @@
 	 * @return string The Mozilla Firefox feed adding URL.
 	 */
 	function add_feed_url() {
-		$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-		$url_path .= "?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
+		//$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+		$url_path = get_self_url_prefix() .
+			"/backend.php?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
 		return $url_path;
 	} // function add_feed_url
 
