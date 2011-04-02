@@ -1241,7 +1241,7 @@
 						if (PUBSUBHUBBUB_HUB && $published == 'true') {
 							$rss_link = get_self_url_prefix() .
 								"/backend.php?op=rss&id=-2&key=" .
-								get_feed_access_key($link, -2, false);
+								get_feed_access_key($link, -2, false, $owner_uid);
 
 							$p = new Publisher(PUBSUBHUBBUB_HUB);
 
