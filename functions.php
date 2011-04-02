@@ -4238,13 +4238,6 @@
 			$search_q = "";
 		}
 
-		// Adaptive doesn't really make any sense for generated feeds
-		// All Articles is the default, so no need to insert it either
-		if ($view_mode == "adaptive" || $view_mode == "all_articles")
-			$view_mode = "";
-		else
-			$view_mode = "&view-mode=$view_mode";
-
 		$reply .= "
 			<a href=\"#\"
 				title=\"".__("View as RSS feed")."\"
