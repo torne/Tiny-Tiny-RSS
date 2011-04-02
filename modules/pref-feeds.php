@@ -505,9 +505,22 @@
 			print "<div class='dlgButtons'>
 				<div style=\"float : left\">
 				<button dojoType=\"dijit.form.Button\" onclick='return unsubscribeFeed($feed_id, \"$title\")'>".
-					__('Unsubscribe')."</button>
-				</div>
-				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedEditDlg').execute()\">".__('Save')."</button>
+					__('Unsubscribe')."</button>";
+
+			$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
+
+			$pubsub_btn_disabled = ($pubsub_state == 2) ? "" : "disabled=\"1\"";
+
+			print "<button dojoType=\"dijit.form.Button\" id=\"pubsubReset_Btn\" $pubsub_btn_disabled
+					onclick='return resetPubSub($feed_id, \"$title\")'>".__('Resubscribe to push updates').
+					"</button>";
+
+			print "</div>";
+
+			print "<div dojoType=\"dijit.Tooltip\" connectId=\"pubsubReset_Btn\" position=\"below\">".
+				__('Resets PubSubHubbub subscription status for push-enabled feeds.')."</div>";
+
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedEditDlg').execute()\">".__('Save')."</button>
 				<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedEditDlg').hide()\">".__('Cancel')."</button>
 			</div>";
 
@@ -825,6 +838,16 @@
 
 				db_query($link, "COMMIT");
 			}
+			return;
+		}
+
+		if ($subop == "resetPubSub") {
+
+			$ids = db_escape_string($_REQUEST["ids"]);
+
+			db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 0 WHERE id IN ($ids)
+				AND owner_uid = " . $_SESSION["uid"]);
+
 			return;
 		}
 
