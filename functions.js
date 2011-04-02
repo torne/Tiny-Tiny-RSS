@@ -1177,8 +1177,8 @@ function genUrlChangeKey(feed, is_cat) {
 							e.innerHTML = e.innerHTML.replace(/\&amp;key=.*$/,
 								"&amp;key=" + new_link);
 
-							e.href = e.href.replace(/\&amp;key=.*$/,
-								"&amp;key=" + new_link);
+							e.href = e.href.replace(/\&key=.*$/,
+								"&key=" + new_link);
 
 							new Effect.Highlight(e);
 
