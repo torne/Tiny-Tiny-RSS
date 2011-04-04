@@ -5498,7 +5498,7 @@
 
 		$tag = mb_strtolower($tag, 'utf-8');
 
-		$tag = preg_replace('/[\"\+\>\<]/', "", $tag);
+		$tag = preg_replace('/[\'\"\+\>\<]/', "", $tag);
 
 //		$tag = str_replace('"', "", $tag);
 //		$tag = str_replace("+", " ", $tag);
