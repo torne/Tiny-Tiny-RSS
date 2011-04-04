@@ -3665,7 +3665,7 @@
 		$tpl->setVariable('VERSION', VERSION);
 		$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url));
 
-		if (PUBSUBHUBBUB_HUB) {
+		if (PUBSUBHUBBUB_HUB && $feed == -2) {
 			$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB));
 			$tpl->addBlock('feed_hub');
 		}
