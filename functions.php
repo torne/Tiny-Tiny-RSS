@@ -3678,8 +3678,15 @@
 			$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']));
 			$tpl->setVariable('ARTICLE_EXCERPT',
 				truncate_string(strip_tags($line["content_preview"]), 100, '...'));
-			$tpl->setVariable('ARTICLE_CONTENT',
-				sanitize_rss($link, $line["content_preview"], false, $owner_uid));
+
+			$content = sanitize_rss($link, $line["content_preview"], false, $owner_uid);
+
+			if ($line['note']) {
+				$content = "<div style=\"$note_style\">" . $line['note'] . "</div>" .
+					$content;
+			}
+
+			$tpl->setVariable('ARTICLE_CONTENT', $content);
 
 			$tpl->setVariable('ARTICLE_UPDATED', date('c', strtotime($line["updated"])));
 			$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']));
