@@ -6,7 +6,7 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	init_connection($link);
 
@@ -22,16 +22,16 @@
 		print "<head>
 			<dateCreated>" . date("r", time()) . "</dateCreated>
 			<title>Tiny Tiny RSS Feed Export</title>
-		</head>"; 
+		</head>";
 		print "<body>";
 
 		$cat_mode = false;
-                
+
                 $select = "SELECT * ";
                 $where = "WHERE owner_uid = '$owner_uid'";
                 $orderby = "ORDER BY title";
 		if ($hide_private_feeds){
-			$where = "WHERE owner_uid = '$owner_uid' AND private IS false AND 
+			$where = "WHERE owner_uid = '$owner_uid' AND private IS false AND
 				auth_login = '' AND auth_pass = ''";
 		}
 
@@ -39,7 +39,7 @@
 
 		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid) == true) {
 			$cat_mode = true;
-                        $select = "SELECT 
+                        $select = "SELECT
 				title, feed_url, site_url,
 				(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title";
 			$orderby = "ORDER BY cat_title, title";
@@ -67,7 +67,7 @@
 
 				if ($old_cat_title != $cat_title) {
 					if ($old_cat_title) {
-						print "</outline>\n";	
+						print "</outline>\n";
 					}
 
 					if ($cat_title) {
@@ -88,7 +88,7 @@
 		}
 
 		if ($cat_mode && $old_cat_title) {
-			print "</outline>\n";	
+			print "</outline>\n";
 		}
 
 		# export tt-rss settings
@@ -103,12 +103,12 @@
 
 				$name = $line["pref_name"];
 				$value = htmlspecialchars($line["value"]);
-		
+
 				print "<outline pref-name=\"$name\" value=\"$value\">";
 
 				print "</outline>";
 
-			}		
+			}
 
 			print "</outline>";
 		}
@@ -119,16 +119,16 @@
 	// FIXME there are some brackets issues here
 
 	$op = $_REQUEST["op"];
-	
+
 	if (!$op) $op = "Export";
-	
+
 	if ($op == "Export") {
-	        
+
 		login_sequence($link);
 		$owner_uid = $_SESSION["uid"];
 		return opml_export($link, $owner_uid);
 	}
- 
+
 	if ($op == "publish"){
 		$key = db_escape_string($_REQUEST["key"]);
 
@@ -171,25 +171,15 @@
 
 		if (db_num_rows($result) == 0) {
 				db_query($link, "INSERT INTO ttrss_feed_categories
-					(title,owner_uid) 
+					(title,owner_uid)
 						VALUES ('Imported feeds', '$owner_uid')");
 		}
 
 		db_query($link, "COMMIT");
 
-		/* Handle OPML import by DOMXML/DOMDocument */
-
-		if (function_exists('domxml_open_file')) {
-			print "<p>".__("Importing OPML (using DOMXML extension)...")."</p>";
-			require_once "modules/opml_domxml.php";
-			opml_import_domxml($link, $owner_uid);
-		} else if (PHP_VERSION >= 5) {
-			print "<p>".__("Importing OPML (using DOMDocument extension)...")."</p>";
-			require_once "modules/opml_domdoc.php";
-			opml_import_domdoc($link, $owner_uid);
-		} else {
-			print_error(__("DOMXML extension is not found. It is required for PHP versions below 5."));
-		}
+		print "<p>".__("Importing OPML...")."</p>";
+		require_once "modules/opml_domdoc.php";
+		opml_import_domdoc($link, $owner_uid);
 
 		print "<br><form method=\"GET\" action=\"prefs.php\">
 			<input type=\"submit\" value=\"".__("Return to preferences")."\">
