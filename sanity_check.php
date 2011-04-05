@@ -147,6 +147,10 @@
 		$err_msg = "PUBSUBHUBBUB_HUB is defined, but CURL functions are not found. CURL is required for PubSubHubbub support.";
 	}
 
+	if (!class_exists("DOMDocument")) {
+		$err_msg = "PHP: DOMDocument extension not found.";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
