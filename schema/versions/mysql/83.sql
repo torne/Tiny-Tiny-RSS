@@ -24,7 +24,7 @@ update ttrss_feeds set pubsub_state = 0;
 alter table ttrss_feeds change pubsub_state pubsub_state integer not null;
 alter table ttrss_feeds alter column pubsub_state set default 0;
 
-alter table ttrss_users drop foreign key ttrss_users_ibfk_1
+alter table ttrss_users drop foreign key ttrss_users_ibfk_1;
 alter table ttrss_users drop column theme_id;
 
 drop table ttrss_themes;
