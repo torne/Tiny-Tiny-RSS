@@ -943,7 +943,7 @@ function quickAddFeed() {
 								}
 
 							} catch (e) {
-								exception_error("subscribeToFeed", e);
+								exception_error("subscribeToFeed", e, transport);
 							}
 
 						} });
