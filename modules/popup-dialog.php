@@ -580,15 +580,13 @@
 					type=\"checkbox\"></td>";
 				print "<td>";
 
-				print "<a target=\"_blank\" class=\"visibleLink\" href=\"".
-					htmlspecialchars($line["site_url"])."\">".
-					htmlspecialchars($line["title"])."</a> (".
-					"<a target=\"_blank\" class=\"visibleLink\"
-					href=\"".htmlspecialchars($line["feed_url"]).
-					"\">".__("feed")."</a>)";
+				print "<a class=\"visibleLink\" href=\"#\" ".
+					"title=\"".__("Click to edit feed")."\" ".
+					"onclick=\"editFeed(".$line["id"].")\">".
+					htmlspecialchars($line["title"])."</a>";
 
 				print "</td><td class=\"insensitive\" align='right'>";
-				print make_local_datetime($link, $line['last_article']);
+				print make_local_datetime($link, $line['last_article'], false);
 				print "</td>";
 				print "</tr>";
 
@@ -611,39 +609,65 @@
 
 		}
 
-		if ($id == "feedUpdateErrors") {
+		if ($id == "feedsWithErrors") {
 
-			print "<title>".__('Feeds with update errors')."</title>";
-			print "<content><![CDATA[";
+#			print "<title>".__('Feeds with update errors')."</title>";
+#			print "<content><![CDATA[";
 
 			print __("These feeds have not been updated because of errors:");
 
 			$result = db_query($link, "SELECT id,title,feed_url,last_error,site_url
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-			print "<ul class='feedErrorsList'>";
+			print "<div class=\"inactiveFeedHolder\">";
+
+			print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
+
+			$lnum = 1;
 
 			while ($line = db_fetch_assoc($result)) {
-				print "<li><a target=\"_blank\" class=\"visibleLink\" href=\"".
-					htmlspecialchars($line["site_url"])."\">".
-					htmlspecialchars($line["title"])."</a> (".
-					"<a target=\"_blank\" class=\"visibleLink\"
-					href=\"".htmlspecialchars($line["feed_url"]).
-					"\">".__("feed")."</a>): ".
-					$line["last_error"]."</li>";
+
+				$class = ($lnum % 2) ? "even" : "odd";
+				$feed_id = $line["id"];
+				$this_row_id = "id=\"FUPDD-$feed_id\"";
+
+				print "<tr class=\"\" $this_row_id>";
+
+				$edit_title = htmlspecialchars($line["title"]);
+
+				print "<td width='5%' align='center'><input
+					onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
+					type=\"checkbox\"></td>";
+				print "<td>";
+
+				print "<a class=\"visibleLink\" href=\"#\" ".
+					"title=\"".__("Click to edit feed")."\" ".
+					"onclick=\"editFeed(".$line["id"].")\">".
+					htmlspecialchars($line["title"])."</a>: ";
+
+				print "<span class=\"insensitive\">";
+				print htmlspecialchars($line["last_error"]);
+				print "</span>";
+
+				print "</td>";
+				print "</tr>";
+
+				++$lnum;
 			}
 
-			print "</ul>";
+			print "</table>";
+			print "</div>";
 
-			print "<div align='center'>";
+			print "<div class='dlgButtons'>";
+			print "<div style='float : left'>";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('errorFeedsDlg').removeSelected()\">"
+				.__('Unsubscribe from selected feeds')."</button> ";
+			print "</div>";
 
-			print "<button dojoType=\"dijit.form.Button\"
-				onclick=\"return closeInfoBox()\">".
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('errorFeedsDlg').hide()\">".
 				__('Close this window')."</button>";
 
-			print "]]></content>";
-
-			//return;
+			print "</div>";
 		}
 
 		if ($id == "editArticleTags") {

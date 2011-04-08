@@ -1159,10 +1159,6 @@ function editFeedCats() {
 	}
 }
 
-function showFeedsWithErrors() {
-	displayDlg('feedUpdateErrors');
-}
-
 function showInactiveFeeds() {
 	try {
 		var query = "backend.php?op=dlg&id=inactiveFeeds";

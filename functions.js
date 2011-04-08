@@ -1521,4 +1521,59 @@ function feedBrowser() {
 	}
 }
 
+function showFeedsWithErrors() {
+	try {
+		var query = "backend.php?op=dlg&id=feedsWithErrors";
+
+		if (dijit.byId("errorFeedsDlg"))
+			dijit.byId("errorFeedsDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "errorFeedsDlg",
+			title: __("Feeds with update errors"),
+			style: "width: 600px",
+			getSelectedFeeds: function() {
+				return getSelectedTableRowIds("prefErrorFeedList");
+			},
+			removeSelected: function() {
+				var sel_rows = this.getSelectedFeeds();
+
+				console.log(sel_rows);
+
+				if (sel_rows.length > 0) {
+					var ok = confirm(__("Remove selected feeds?"));
+
+					if (ok) {
+						notify_progress("Removing selected feeds...", true);
+
+						var query = "?op=pref-feeds&subop=remove&ids="+
+							param_escape(sel_rows.toString());
+
+						new Ajax.Request("backend.php",	{
+							parameters: query,
+							onComplete: function(transport) {
+								notify('');
+								dialog.hide();
+								updateFeedList();
+							} });
+					}
+
+				} else {
+					alert(__("No feeds are selected."));
+				}
+			},
+			execute: function() {
+				if (this.validate()) {
+				}
+			},
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("showFeedsWithErrors", e);
+	}
+
+}
+
 

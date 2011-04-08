@@ -995,10 +995,6 @@ function reverseHeadlineOrder() {
 	}
 }
 
-function showFeedsWithErrors() {
-	displayDlg('feedUpdateErrors');
-}
-
 function scheduleFeedUpdate(id, is_cat) {
 	try {
 		if (!id) {
