@@ -299,6 +299,14 @@
 				regExp='^(http|https)://.*' style=\"width : 20em\"
 				name=\"feed_url\" value=\"$feed_url\">";
 
+			$last_error = db_fetch_result($result, 0, "last_error");
+
+			if ($last_error) {
+				print "&nbsp;<span title=\"".htmlspecialchars($last_error)."\"
+					class=\"feed_error\">(error)</span>";
+
+			}
+
 			/* Category */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS')) {
