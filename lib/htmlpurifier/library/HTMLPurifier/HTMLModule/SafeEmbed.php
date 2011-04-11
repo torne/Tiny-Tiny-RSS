@@ -10,7 +10,7 @@ class HTMLPurifier_HTMLModule_SafeEmbed extends HTMLPurifier_HTMLModule
 
     public function setup($config) {
 
-        $max = $config->get('HTML', 'MaxImgLength');
+        $max = $config->get('HTML.MaxImgLength');
         $embed = $this->addElement(
             'embed', 'Inline', 'Empty', 'Common',
             array(
@@ -20,7 +20,8 @@ class HTMLPurifier_HTMLModule_SafeEmbed extends HTMLPurifier_HTMLModule
                 'height' => 'Pixels#' . $max,
                 'allowscriptaccess' => 'Enum#never',
                 'allownetworking' => 'Enum#internal',
-                'wmode' => 'Enum#window',
+                'flashvars' => 'Text',
+                'wmode' => 'Enum#window,transparent,opaque',
                 'name' => 'ID',
             )
         );

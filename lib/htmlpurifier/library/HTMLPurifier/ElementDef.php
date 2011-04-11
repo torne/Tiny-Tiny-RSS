@@ -98,6 +98,13 @@ class HTMLPurifier_ElementDef
     public $autoclose = array();
 
     /**
+     * If a foreign element is found in this element, test if it is
+     * allowed by this sub-element; if it is, instead of closing the
+     * current element, place it inside this element.
+     */
+    public $wrap;
+
+    /**
      * Whether or not this is a formatting element affected by the
      * "Active Formatting Elements" algorithm.
      */
@@ -142,7 +149,8 @@ class HTMLPurifier_ElementDef
         $this->_mergeAssocArray($this->excludes, $def->excludes);
 
         if(!empty($def->content_model)) {
-            $this->content_model .= ' | ' . $def->content_model;
+            $this->content_model =
+                str_replace("#SUPER", $this->content_model, $def->content_model);
             $this->child = false;
         }
         if(!empty($def->content_model_type)) {

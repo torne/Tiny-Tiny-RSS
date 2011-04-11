@@ -2,6 +2,14 @@
 
 /**
  * Takes tokens makes them well-formed (balance end tags, etc.)
+ *
+ * Specification of the armor attributes this strategy uses:
+ *
+ *      - MakeWellFormed_TagClosedError: This armor field is used to
+ *        suppress tag closed errors for certain tokens [TagClosedSuppress],
+ *        in particular, if a tag was generated automatically by HTML
+ *        Purifier, we may rely on our infrastructure to close it for us
+ *        and shouldn't report an error to the user [TagClosedAuto].
  */
 class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
 {
@@ -42,7 +50,13 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
 
         // local variables
         $generator = new HTMLPurifier_Generator($config, $context);
-        $escape_invalid_tags = $config->get('Core', 'EscapeInvalidTags');
+        $escape_invalid_tags = $config->get('Core.EscapeInvalidTags');
+        // used for autoclose early abortion
+        $global_parent_allowed_elements = array();
+        if (isset($definition->info[$definition->info_parent])) {
+            // may be unset under testing circumstances
+            $global_parent_allowed_elements = $definition->info[$definition->info_parent]->child->getAllowedElements($config);
+        }
         $e = $context->get('ErrorCollector', true);
         $t = false; // token index
         $i = false; // injector index
@@ -72,6 +86,8 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
         $custom_injectors = $injectors['Custom'];
         unset($injectors['Custom']); // special case
         foreach ($injectors as $injector => $b) {
+            // XXX: Fix with a legitimate lookup table of enabled filters
+            if (strpos($injector, '.') !== false) continue;
             $injector = "HTMLPurifier_Injector_$injector";
             if (!$b) continue;
             $this->injectors[] = new $injector;
@@ -81,6 +97,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
             $this->injectors[] = $injector;
         }
         foreach ($custom_injectors as $injector) {
+            if (!$injector) continue;
             if (is_string($injector)) {
                 $injector = "HTMLPurifier_Injector_$injector";
                 $injector = new $injector;
@@ -99,7 +116,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
 
         // -- end INJECTOR --
 
-        // a note on punting:
+        // a note on reprocessing:
         //      In order to reduce code duplication, whenever some code needs
         //      to make HTML changes in order to make things "correct", the
         //      new HTML gets sent through the purifier, regardless of its
@@ -146,7 +163,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                 $top_nesting = array_pop($this->stack);
                 $this->stack[] = $top_nesting;
 
-                // send error
+                // send error [TagClosedSuppress]
                 if ($e && !isset($top_nesting->armor['MakeWellFormed_TagClosedError'])) {
                     $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by document end', $top_nesting);
                 }
@@ -162,6 +179,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
             $token = $tokens[$t];
 
             //echo '<br>'; printTokens($tokens, $t); printTokens($this->stack);
+            //flush();
 
             // quick-check: if it's not a tag, no need to process
             if (empty($token->is_tag)) {
@@ -189,12 +207,12 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
             $ok = false;
             if ($type === 'empty' && $token instanceof HTMLPurifier_Token_Start) {
                 // claims to be a start tag but is empty
-                $token = new HTMLPurifier_Token_Empty($token->name, $token->attr);
+                $token = new HTMLPurifier_Token_Empty($token->name, $token->attr, $token->line, $token->col, $token->armor);
                 $ok = true;
             } elseif ($type && $type !== 'empty' && $token instanceof HTMLPurifier_Token_Empty) {
                 // claims to be empty but really is a start tag
                 $this->swap(new HTMLPurifier_Token_End($token->name));
-                $this->insertBefore(new HTMLPurifier_Token_Start($token->name, $token->attr));
+                $this->insertBefore(new HTMLPurifier_Token_Start($token->name, $token->attr, $token->line, $token->col, $token->armor));
                 // punt (since we had to modify the input stream in a non-trivial way)
                 $reprocess = true;
                 continue;
@@ -207,6 +225,19 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                 // ...unless they also have to close their parent
                 if (!empty($this->stack)) {
 
+                    // Performance note: you might think that it's rather
+                    // inefficient, recalculating the autoclose information
+                    // for every tag that a token closes (since when we
+                    // do an autoclose, we push a new token into the
+                    // stream and then /process/ that, before
+                    // re-processing this token.)  But this is
+                    // necessary, because an injector can make an
+                    // arbitrary transformations to the autoclosing
+                    // tokens we introduce, so things may have changed
+                    // in the meantime.  Also, doing the inefficient thing is
+                    // "easy" to reason about (for certain perverse definitions
+                    // of "easy")
+
                     $parent = array_pop($this->stack);
                     $this->stack[] = $parent;
 
@@ -217,29 +248,72 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                         $autoclose = false;
                     }
 
+                    if ($autoclose && $definition->info[$token->name]->wrap) {
+                        // Check if an element can be wrapped by another 
+                        // element to make it valid in a context (for 
+                        // example, <ul><ul> needs a <li> in between)
+                        $wrapname = $definition->info[$token->name]->wrap;
+                        $wrapdef = $definition->info[$wrapname];
+                        $elements = $wrapdef->child->getAllowedElements($config);
+                        $parent_elements = $definition->info[$parent->name]->child->getAllowedElements($config);
+                        if (isset($elements[$token->name]) && isset($parent_elements[$wrapname])) {
+                            $newtoken = new HTMLPurifier_Token_Start($wrapname);
+                            $this->insertBefore($newtoken);
+                            $reprocess = true;
+                            continue;
+                        }
+                    }
+
                     $carryover = false;
                     if ($autoclose && $definition->info[$parent->name]->formatting) {
                         $carryover = true;
                     }
 
                     if ($autoclose) {
-                        // errors need to be updated
-                        $new_token = new HTMLPurifier_Token_End($parent->name);
-                        $new_token->start = $parent;
-                        if ($carryover) {
-                            $element = clone $parent;
-                            $element->armor['MakeWellFormed_TagClosedError'] = true;
-                            $element->carryover = true;
-                            $this->processToken(array($new_token, $token, $element));
-                        } else {
-                            $this->insertBefore($new_token);
-                        }
-                        if ($e && !isset($parent->armor['MakeWellFormed_TagClosedError'])) {
-                            if (!$carryover) {
-                                $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag auto closed', $parent);
-                            } else {
-                                $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag carryover', $parent);
+                        // check if this autoclose is doomed to fail
+                        // (this rechecks $parent, which his harmless)
+                        $autoclose_ok = isset($global_parent_allowed_elements[$token->name]);
+                        if (!$autoclose_ok) {
+                            foreach ($this->stack as $ancestor) {
+                                $elements = $definition->info[$ancestor->name]->child->getAllowedElements($config);
+                                if (isset($elements[$token->name])) {
+                                    $autoclose_ok = true;
+                                    break;
+                                }
+                                if ($definition->info[$token->name]->wrap) {
+                                    $wrapname = $definition->info[$token->name]->wrap;
+                                    $wrapdef = $definition->info[$wrapname];
+                                    $wrap_elements = $wrapdef->child->getAllowedElements($config);
+                                    if (isset($wrap_elements[$token->name]) && isset($elements[$wrapname])) {
+                                        $autoclose_ok = true;
+                                        break;
+                                    }
+                                }
                             }
+                        }
+                        if ($autoclose_ok) {
+                            // errors need to be updated
+                            $new_token = new HTMLPurifier_Token_End($parent->name);
+                            $new_token->start = $parent;
+                            if ($carryover) {
+                                $element = clone $parent;
+                                // [TagClosedAuto]
+                                $element->armor['MakeWellFormed_TagClosedError'] = true;
+                                $element->carryover = true;
+                                $this->processToken(array($new_token, $token, $element));
+                            } else {
+                                $this->insertBefore($new_token);
+                            }
+                            // [TagClosedSuppress]
+                            if ($e && !isset($parent->armor['MakeWellFormed_TagClosedError'])) {
+                                if (!$carryover) {
+                                    $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag auto closed', $parent);
+                                } else {
+                                    $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag carryover', $parent);
+                                }
+                            }
+                        } else {
+                            $this->remove();
                         }
                         $reprocess = true;
                         continue;
@@ -346,7 +420,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
             if ($e) {
                 for ($j = $c - 1; $j > 0; $j--) {
                     // notice we exclude $j == 0, i.e. the current ending tag, from
-                    // the errors...
+                    // the errors... [TagClosedSuppress]
                     if (!isset($skipped_tags[$j]->armor['MakeWellFormed_TagClosedError'])) {
                         $e->send(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by element end', $skipped_tags[$j]);
                     }
@@ -361,6 +435,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                 $new_token->start = $skipped_tags[$j];
                 array_unshift($replace, $new_token);
                 if (isset($definition->info[$new_token->name]) && $definition->info[$new_token->name]->formatting) {
+                    // [TagClosedAuto]
                     $element = clone $skipped_tags[$j];
                     $element->carryover = true;
                     $element->armor['MakeWellFormed_TagClosedError'] = true;
@@ -429,7 +504,8 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
     }
 
     /**
-     * Inserts a token before the current token. Cursor now points to this token
+     * Inserts a token before the current token. Cursor now points to
+     * this token.  You must reprocess after this.
      */
     private function insertBefore($token) {
         array_splice($this->tokens, $this->t, 0, array($token));
@@ -437,14 +513,15 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
 
     /**
      * Removes current token. Cursor now points to new token occupying previously
-     * occupied space.
+     * occupied space.  You must reprocess after this.
      */
     private function remove() {
         array_splice($this->tokens, $this->t, 1);
     }
 
     /**
-     * Swap current token with new token. Cursor points to new token (no change).
+     * Swap current token with new token. Cursor points to new token (no
+     * change).  You must reprocess after this.
      */
     private function swap($token) {
         $this->tokens[$this->t] = $token;

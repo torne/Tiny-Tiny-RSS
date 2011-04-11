@@ -210,6 +210,13 @@
 				array_push($articles, format_article($link, $id, false));
 			} else if ($mode == "zoom") {
 				array_push($articles, format_article($link, $id, false, true, true));
+			} else if ($mode == "raw") {
+				if ($_REQUEST['html']) header("Content-Type: text/html");
+
+				$article = format_article($link, $id, false);
+				print $article['id'] . "\n\n";
+				print $article['content'];
+				return;
 			} else {
 				catchupArticleById($link, $id, 0);
 			}

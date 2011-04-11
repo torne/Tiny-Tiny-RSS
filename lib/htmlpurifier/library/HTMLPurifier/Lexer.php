@@ -73,12 +73,12 @@ class HTMLPurifier_Lexer
               HTMLPurifier_Lexer::create() is deprecated, please instead
               use %Core.LexerImpl", E_USER_WARNING);
         } else {
-            $lexer = $config->get('Core', 'LexerImpl');
+            $lexer = $config->get('Core.LexerImpl');
         }
 
         $needs_tracking =
-            $config->get('Core', 'MaintainLineNumbers') ||
-            $config->get('Core', 'CollectErrors');
+            $config->get('Core.MaintainLineNumbers') ||
+            $config->get('Core.CollectErrors');
 
         $inst = null;
         if (is_object($lexer)) {
@@ -231,6 +231,17 @@ class HTMLPurifier_Lexer
     }
 
     /**
+     * Special Internet Explorer conditional comments should be removed.
+     */
+    protected static function removeIEConditional($string) {
+        return preg_replace(
+            '#<!--\[if [^>]+\]>.*?<!\[endif\]-->#si', // probably should generalize for all strings
+            '',
+            $string
+        );
+    }
+
+    /**
      * Callback function for escapeCDATA() that does the work.
      *
      * @warning Though this is public in order to let the callback happen,
@@ -252,10 +263,12 @@ class HTMLPurifier_Lexer
     public function normalize($html, $config, $context) {
 
         // normalize newlines to \n
-        $html = str_replace("\r\n", "\n", $html);
-        $html = str_replace("\r", "\n", $html);
+        if ($config->get('Core.NormalizeNewlines')) {
+            $html = str_replace("\r\n", "\n", $html);
+            $html = str_replace("\r", "\n", $html);
+        }
 
-        if ($config->get('HTML', 'Trusted')) {
+        if ($config->get('HTML.Trusted')) {
             // escape convoluted CDATA
             $html = $this->escapeCommentedCDATA($html);
         }
@@ -263,9 +276,19 @@ class HTMLPurifier_Lexer
         // escape CDATA
         $html = $this->escapeCDATA($html);
 
+        $html = $this->removeIEConditional($html);
+
         // extract body from document if applicable
-        if ($config->get('Core', 'ConvertDocumentToFragment')) {
-            $html = $this->extractBody($html);
+        if ($config->get('Core.ConvertDocumentToFragment')) {
+            $e = false;
+            if ($config->get('Core.CollectErrors')) {
+                $e =& $context->get('ErrorCollector');
+            }
+            $new_html = $this->extractBody($html);
+            if ($e && $new_html != $html) {
+                $e->send(E_WARNING, 'Lexer: Extracted body');
+            }
+            $html = $new_html;
         }
 
         // expand entities that aren't the big five
@@ -276,6 +299,11 @@ class HTMLPurifier_Lexer
         // represent non-SGML characters (horror, horror!)
         $html = HTMLPurifier_Encoder::cleanUTF8($html);
 
+        // if processing instructions are to removed, remove them now
+        if ($config->get('Core.RemoveProcessingInstructions')) {
+            $html = preg_replace('#<\?.+?\?>#s', '', $html);
+        }
+
         return $html;
     }
 
@@ -285,7 +313,7 @@ class HTMLPurifier_Lexer
      */
     public function extractBody($html) {
         $matches = array();
-        $result = preg_match('!<body[^>]*>(.+?)</body>!is', $html, $matches);
+        $result = preg_match('!<body[^>]*>(.*)</body>!is', $html, $matches);
         if ($result) {
             return $matches[1];
         } else {

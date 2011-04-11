@@ -16,7 +16,7 @@ class HTMLPurifier_HTMLModule_SafeObject extends HTMLPurifier_HTMLModule
         // These definitions are not intrinsically safe: the attribute transforms
         // are a vital part of ensuring safety.
 
-        $max = $config->get('HTML', 'MaxImgLength');
+        $max = $config->get('HTML.MaxImgLength');
         $object = $this->addElement(
             'object',
             'Inline',
@@ -28,7 +28,9 @@ class HTMLPurifier_HTMLModule_SafeObject extends HTMLPurifier_HTMLModule
                 'type'   => 'Enum#application/x-shockwave-flash',
                 'width'  => 'Pixels#' . $max,
                 'height' => 'Pixels#' . $max,
-                'data'   => 'URI#embedded'
+                'data'   => 'URI#embedded',
+                'codebase' => new HTMLPurifier_AttrDef_Enum(array(
+                    'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0')),
             )
         );
         $object->attr_transform_post[] = new HTMLPurifier_AttrTransform_SafeObject();
