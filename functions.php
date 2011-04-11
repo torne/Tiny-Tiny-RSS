@@ -3754,9 +3754,9 @@
 
 		$res = trim($str); if (!$res) return '';
 
-		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
-			$res = $purifier->purify($res);
-		}
+//		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
+		$res = $purifier->purify($res);
+//		}
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
