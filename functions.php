@@ -1303,6 +1303,7 @@
 						db_query($link, "UPDATE ttrss_entries
 							SET title = '$entry_title', content = '$entry_content',
 								content_hash = '$content_hash',
+								updated = '$entry_timestamp_fmt',
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
