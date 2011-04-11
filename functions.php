@@ -1271,7 +1271,7 @@
 
 					$post_needs_update = false;
 
-					if ($update_on_checksum_change && $content_hash != $orig_content_hash) {
+					if ($content_hash != $orig_content_hash) {
 //						print "<!-- [$entry_title] $content_hash vs $orig_content_hash -->";
 						$post_needs_update = true;
 					}
@@ -1309,7 +1309,7 @@
 						if ($mark_unread_on_update) {
 							db_query($link, "UPDATE ttrss_user_entries
 								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
-						} else {
+						} else if ($update_on_checksum_change) {
 							db_query($link, "UPDATE ttrss_user_entries
 								SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
 						}
