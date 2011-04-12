@@ -182,11 +182,6 @@
 		if (!$purge_unread) $query_limit = " unread = false AND ";
 
 		if (DB_TYPE == "pgsql") {
-/*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
-				marked = false AND feed_id = '$feed_id' AND
-				(SELECT date_updated FROM ttrss_entries WHERE
-					id = ref_id) < NOW() - INTERVAL '$purge_interval days'"); */
-
 			$pg_version = get_pgsql_version($link);
 
 			if (preg_match("/^7\./", $pg_version) || preg_match("/^8\.0/", $pg_version)) {
@@ -1520,7 +1515,11 @@
 				catchup_feed($link, $feed, false, $owner_uid);
 			}
 
-			purge_feed($link, $feed, 0);
+			if ($debug_enabled) {
+				_debug("purging feed...");
+			}
+
+			purge_feed($link, $feed, 0, $debug_enabled);
 
 			db_query($link, "UPDATE ttrss_feeds
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
