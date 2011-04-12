@@ -3231,7 +3231,6 @@
 
 		$params["theme"] = get_user_theme($link);
 		$params["theme_options"] = get_user_theme_options($link);
-		$params["daemon_enabled"] = ENABLE_UPDATE_DAEMON;
 
 		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
 		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
@@ -3288,7 +3287,7 @@
 		$data['last_article_id'] = getLastArticleId($link);
 		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
 
-		if (ENABLE_UPDATE_DAEMON) {
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
 			$data['daemon_is_running'] = (int) file_is_locked("update_daemon.lock");
 

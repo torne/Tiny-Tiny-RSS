@@ -41,13 +41,13 @@
 	}
 
 	// Create a database connection.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	if (!$link) {
 		if (DB_TYPE == "mysql") {
 			print mysql_error();
 		}
-		// PG seems to display its own errors just fine by default.		
+		// PG seems to display its own errors just fine by default.
 		return;
 	}
 
@@ -64,9 +64,6 @@
 	}
 
 	if ($op == "-daemon") {
-		if (!ENABLE_UPDATE_DAEMON)
-			die("Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
-
 		while (true) {
 			passthru(PHP_EXECUTABLE . " " . $argv[0] . " -daemon-loop");
 			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
@@ -79,7 +76,7 @@
 			die("error: unable to create stampfile\n");
 		}
 
-		// Call to the feed batch update function 
+		// Call to the feed batch update function
 		// or regenerate feedbrowser cache
 
 		if (rand(0,100) > 30) {
@@ -89,7 +86,7 @@
 			_debug("Feedbrowser updated, $count feeds processed.");
 
 			purge_orphans($link, true);
-	
+
 			$rc = cleanup_tags($link, 14, 50000);
 
 			_debug("Cleaned $rc cached tags.");

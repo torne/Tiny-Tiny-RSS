@@ -2,7 +2,7 @@
 	error_reporting(E_ERROR | E_PARSE);
 
 	require_once "../config.php";
-	
+
 	require_once "../db.php";
 	require_once "../db-prefs.php";
 	require_once "../functions.php";
@@ -14,7 +14,7 @@
 		ob_start("ob_gzhandler");
 	}
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	$session_expire = SESSION_EXPIRE_TIME; //seconds
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid_api" : TTRSS_SESSION_NAME . "_api";
@@ -31,7 +31,7 @@
 		if (DB_TYPE == "mysql") {
 			print mysql_error();
 		}
-		// PG seems to display its own errors just fine by default.		
+		// PG seems to display its own errors just fine by default.
 		return;
 	}
 
@@ -56,15 +56,15 @@
 	if ($_SESSION["uid"] && $op != "logout" && !get_pref($link, 'ENABLE_API_ACCESS')) {
 		print api_wrap_reply(API_STATUS_ERR, $seq, array("error" => 'API_DISABLED'));
 		return;
-	} 
+	}
 
 	switch ($op) {
-	
+
 		case "getVersion":
 			$rv = array("version" => VERSION);
 			print api_wrap_reply(API_STATUS_OK, $seq, $rv);
 			break;
-		
+
 		case "login":
 			$login = db_escape_string($_REQUEST["user"]);
 			$password = db_escape_string($_REQUEST["password"]);
@@ -82,13 +82,13 @@
 
 			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {               // try login with normal password
-					print api_wrap_reply(API_STATUS_OK, $seq, 
+					print api_wrap_reply(API_STATUS_OK, $seq,
 						array("session_id" => session_id()));
 				} else if (authenticate_user($link, $login, $password_base64)) { // else try with base64_decoded password
-					print api_wrap_reply(API_STATUS_OK, $seq, 
+					print api_wrap_reply(API_STATUS_OK, $seq,
 						array("session_id" => session_id()));
 				} else {                                                         // else we are not logged in
-					print api_wrap_reply(API_STATUS_ERR, $seq, 
+					print api_wrap_reply(API_STATUS_ERR, $seq,
 						array("error" => "LOGIN_ERROR"));
 				}
 			} else {
@@ -97,40 +97,40 @@
 			}
 
 			break;
-			
+
 		case "logout":
 			logout_user();
 			print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK"));
 			break;
-			
+
 		case "isLoggedIn":
-			print api_wrap_reply(API_STATUS_OK, $seq, 
+			print api_wrap_reply(API_STATUS_OK, $seq,
 				array("status" => $_SESSION["uid"] != ''));
 			break;
-			
+
 		case "getUnread":
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 			$is_cat = db_escape_string($_REQUEST["is_cat"]);
 
 			if ($feed_id) {
-				print api_wrap_reply(API_STATUS_OK, $seq, 
+				print api_wrap_reply(API_STATUS_OK, $seq,
 					array("unread" => getFeedUnread($link, $feed_id, $is_cat)));
 			} else {
-				print api_wrap_reply(API_STATUS_OK, $seq, 
+				print api_wrap_reply(API_STATUS_OK, $seq,
 					array("unread" => getGlobalUnread($link)));
 			}
 			break;
-			
+
 		/* Method added for ttrss-reader for Android */
 		case "getCounters":
 
 			/* flct (flc is the default) FIXME: document */
 			$output_mode = db_escape_string($_REQUEST["output_mode"]);
 
-			print api_wrap_reply(API_STATUS_OK, $seq, 
+			print api_wrap_reply(API_STATUS_OK, $seq,
 				getAllCounters($link, $output_mode));
 			break;
-			
+
 		case "getFeeds":
 			$cat_id = db_escape_string($_REQUEST["cat_id"]);
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
@@ -144,13 +144,13 @@
 			print api_wrap_reply(API_STATUS_OK, $seq, $feeds);
 
 			break;
-			
+
 		case "getCategories":
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
 
-			$result = db_query($link, "SELECT 
-					id, title FROM ttrss_feed_categories 
-				WHERE owner_uid = " . 
+			$result = db_query($link, "SELECT
+					id, title FROM ttrss_feed_categories
+				WHERE owner_uid = " .
 				$_SESSION["uid"]);
 
 			$cats = array();
@@ -160,14 +160,14 @@
 
 				if ($unread || !$unread_only) {
 					array_push($cats, array("id" => $line["id"],
-						"title" => $line["title"], 
+						"title" => $line["title"],
 						"unread" => $unread));
 				}
 			}
 
 			print api_wrap_reply(API_STATUS_OK, $seq, $cats);
 			break;
-			
+
 		case "getHeadlines":
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
@@ -185,7 +185,7 @@
 			print api_wrap_reply(API_STATUS_OK, $seq, $headlines);
 
 			break;
-			
+
 		case "updateArticle":
 			$article_ids = split(",", db_escape_string($_REQUEST["article_ids"]));
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
@@ -242,11 +242,11 @@
 					}
 				}
 
-				print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK", 
+				print api_wrap_reply(API_STATUS_OK, $seq, array("status" => "OK",
 					"updated" => $num_updated));
 
 			} else {
-				print api_wrap_reply(API_STATUS_ERR, $seq, 
+				print api_wrap_reply(API_STATUS_ERR, $seq,
 					array("error" => 'INCORRECT_USAGE'));
 			}
 
@@ -261,7 +261,7 @@
 				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author
 				FROM ttrss_entries,ttrss_user_entries
-				WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " . 
+				WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " .
 					$_SESSION["uid"] ;
 
 			$result = db_query($link, $query);
@@ -298,15 +298,13 @@
 			print api_wrap_reply(API_STATUS_OK, $seq, $articles);
 
 			break;
-			
+
 		case "getConfig":
 			$config = array(
 				"icons_dir" => ICONS_DIR,
 				"icons_url" => ICONS_URL);
 
-			if (ENABLE_UPDATE_DAEMON) {
-				$config["daemon_is_running"] = file_is_locked("update_daemon.lock");
-			}
+			$config["daemon_is_running"] = file_is_locked("update_daemon.lock");
 
 			$result = db_query($link, "SELECT COUNT(*) AS cf FROM
 				ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
@@ -314,7 +312,7 @@
 			$num_feeds = db_fetch_result($result, 0, "cf");
 
 			$config["num_feeds"] = (int)$num_feeds;
-	
+
 			print api_wrap_reply(API_STATUS_OK, $seq, $config);
 
 			break;
@@ -341,10 +339,10 @@
 		case "getPref":
 			$pref_name = db_escape_string($_REQUEST["pref_name"]);
 
-			print api_wrap_reply(API_STATUS_OK, $seq, 
+			print api_wrap_reply(API_STATUS_OK, $seq,
 				array("value" => get_pref($link, $pref_name)));
 			break;
-		
+
 		/* Method added for ttrss-reader for Android */
 		case "getArticles":
 			$isCategory = (int)db_escape_string($_REQUEST["is_cat"]);
@@ -352,23 +350,23 @@
 			$displayUnread = (int)db_escape_string($_REQUEST["unread"]);
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
 			$feeds = array();
-			
+
 			if ($isCategory > 0) {
 				// Get Feeds of the category
-				
+
 				if ($id == 0) {
 					$category_part = "cat_id is NULL";
 				} else {
 					$category_part = "cat_id = '$id'";
 				}
-				
+
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE ".
-							$category_part." AND owner_uid = '".$_SESSION["uid"]."'");				
-				
+							$category_part." AND owner_uid = '".$_SESSION["uid"]."'");
+
 				while ($line = db_fetch_assoc($result)) {
 					array_push($feeds, $line["id"]);
 				}
-				
+
 				// Virtual feeds
 				$match_part = "";
 				if ($id == -1) {
@@ -384,7 +382,7 @@
 					$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 					if (DB_TYPE == "pgsql") {
-						$match_part .= " AND updated > NOW() - INTERVAL '$intl hour' "; 
+						$match_part .= " AND updated > NOW() - INTERVAL '$intl hour' ";
 					} else {
 						$match_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 					}
@@ -396,9 +394,9 @@
 				// Only add one feed
 				array_push($feeds, $id);
 			}
-			
+
 			$ret = array();
-			
+
 			if (DB_TYPE == "mysql") {
 				$limit_part = " LIMIT 0,".$limit;
 			} else if (DB_TYPE == "pgsql") {
@@ -409,34 +407,34 @@
 
 			// Fetch articles for the feeds
 			foreach ($feeds as $feed) {
-				
+
 				if ($match_part) {
 					$from_qpart = "ttrss_user_entries,ttrss_feeds,ttrss_entries";
 					$feeds_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 
 					$query = "SELECT ttrss_entries.id,ttrss_entries.title,link,content,feed_id,comments,int_id,
-						marked,unread,published,".SUBSTRING_FOR_DATE."(updated,1,16) as updated,author 
+						marked,unread,published,".SUBSTRING_FOR_DATE."(updated,1,16) as updated,author
 						FROM $from_qpart WHERE
-						ttrss_user_entries.ref_id = ttrss_entries.id AND 
+						ttrss_user_entries.ref_id = ttrss_entries.id AND
 						$feeds_qpart ($match_part) AND ttrss_user_entries.owner_uid = ".$_SESSION["uid"]." ORDER BY updated DESC".$limit_part;
-					
+
 					$result = db_query($link, $query);
 				} else {
 					$query = "SELECT ttrss_entries.id,ttrss_entries.title,link,content,feed_id,comments,int_id,
-						marked,unread,published,".SUBSTRING_FOR_DATE."(updated,1,16) as updated,author 
-						FROM ttrss_entries,ttrss_user_entries 
+						marked,unread,published,".SUBSTRING_FOR_DATE."(updated,1,16) as updated,author
+						FROM ttrss_entries,ttrss_user_entries
 						WHERE feed_id = '".$feed."' AND ref_id = id AND owner_uid = ".
 							$_SESSION["uid"]." AND unread >= '".$displayUnread."' ORDER BY updated DESC".$limit_part;
-							
+
 					$result = db_query($link, $query);
 				}
-				
+
 				$articles = array();
 				$i=0;
 				while ($i < mysql_numrows($result)) {
-					
+
 					$article_id = db_fetch_result($result, $i, "id");
-					
+
 					$attachments = get_article_enclosures($link, $article_id);
 
 					$article = array(
@@ -454,22 +452,22 @@
 						"feed_id" => db_fetch_result($result, $i, "feed_id"),
 						"attachments" => $attachments
 					);
-					
+
 					array_push($ret, $article);
-					
+
 					$i++;
 				}
 			}
 
 			print api_wrap_reply(API_STATUS_OK, $seq, $ret);
 			break;
-		
+
 		/* Method added for ttrss-reader for Android */
 		case "getNewArticles":
 			$time = (int) db_escape_string($_REQUEST["time"]);
 			// unread=1 zeigt alle an, unread=0 nur ungelesene
 			$displayUnread = (int) db_escape_string($_REQUEST["unread"]);
-			
+
 			if (DB_TYPE == "mysql") {
 				$db_time_function = " AND last_updated > FROM_UNIXTIME(".$time.")";
 			} else if (DB_TYPE == "pgsql") {
@@ -477,7 +475,7 @@
 			} else {
 				$db_time_function = "";
 			}
-			
+
 			if (DB_TYPE == "mysql") {
 				$db_time_function2 = " AND updated > FROM_UNIXTIME(".$time.")";
 			} else if (DB_TYPE == "pgsql") {
@@ -485,7 +483,7 @@
 			} else {
 				$db_time_function2 = "";
 			}
-			
+
 			$cats = array();
 
 
@@ -496,18 +494,18 @@
 				$result_0 = db_query($link, "SELECT id, feed_url, cat_id, title, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated ".
 						"FROM ttrss_feeds WHERE cat_id IS null AND owner_uid = '".$_SESSION["uid"]."'" . $db_time_function);
-				
+
 				while ($line_feeds = db_fetch_assoc($result_0)) {
 					$unread_feed = getFeedUnread($link, $line_feeds["id"], false);
 					if ($unread || $displayUnread > 0) {
-						
+
 						$result_1 = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 							marked,unread,published,".
 							SUBSTRING_FOR_DATE."(updated,1,16) as updated,author
 							FROM ttrss_entries,ttrss_user_entries
-							WHERE feed_id = '".$line_feeds["id"]."' AND ref_id = id AND owner_uid = " . 
+							WHERE feed_id = '".$line_feeds["id"]."' AND ref_id = id AND owner_uid = " .
 								$_SESSION["uid"]." AND unread >= '".$displayUnread."'" . $db_time_function2);
-						
+
 						$articles = array();
 						while ($line_articles = db_fetch_assoc($result_1)) {
 							$article_id = db_fetch_result($result, $i, "id");
@@ -527,7 +525,7 @@
 								"feed_id" => $line_articles["feed_id"],
 								"attachments" => $attachments));
 						}
-						
+
 						array_push($feeds, array(
 							"feed_url" => $line_feeds["feed_url"],
 							"title" => $line_feeds["title"],
@@ -540,16 +538,16 @@
 						));
 					}
 				}
-				
+
 				array_push($cats,
 					array(
 						"id" => 0,
-						"title" => "Uncategorized Feeds", 
+						"title" => "Uncategorized Feeds",
 						"unread" => $unread,
 						"feeds" => $feeds));
 			}
 
-			
+
 			$result = db_query($link, "SELECT id, title FROM ttrss_feed_categories WHERE owner_uid = " . $_SESSION["uid"]);
 			while ($line = db_fetch_assoc($result)) {
 				$unread = getFeedUnread($link, $line["id"], true);
@@ -560,18 +558,18 @@
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated ".
 						"FROM ttrss_feeds WHERE cat_id = '".
 						$line["id"]."' AND owner_uid = '".$_SESSION["uid"]."'" . $db_time_function);
-					
+
 					while ($line_feeds = db_fetch_assoc($result_0)) {
 						$unread_feed = getFeedUnread($link, $line_feeds["id"], false);
 						if ($unread_feed || $displayUnread > 0) {
-							
+
 							$result_1 = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 								marked,unread,published,".
 								SUBSTRING_FOR_DATE."(updated,1,16) as updated,author
 								FROM ttrss_entries,ttrss_user_entries
-								WHERE feed_id = '".$line_feeds["id"]."' AND ref_id = id AND owner_uid = " . 
+								WHERE feed_id = '".$line_feeds["id"]."' AND ref_id = id AND owner_uid = " .
 									$_SESSION["uid"]." AND unread >= '".$displayUnread."'" . $db_time_function2);
-							
+
 							$articles = array();
 							while ($line_articles = db_fetch_assoc($result_1)) {
 								$article_id = db_fetch_result($result, $i, "id");
@@ -591,7 +589,7 @@
 									"feed_id" => $line_articles["feed_id"],
 									"attachments" => $attachments));
 							}
-							
+
 							array_push($feeds, array(
 								"feed_url" => $line_feeds["feed_url"],
 								"title" => $line_feeds["title"],
@@ -601,28 +599,28 @@
 								"last_updated" => strtotime($line_feeds["last_updated"]),
 								"articles" => $articles
 							));
-						
+
 						}
 					}
-					
+
 					array_push($cats,
 						array(
 							"id" => $line["id"],
-							"title" => $line["title"], 
+							"title" => $line["title"],
 							"unread" => $unread,
 							"feeds" => $feeds));
 				}
 			}
 			print api_wrap_reply(API_STATUS_OK, $seq, $cats);
 			break;
-		
+
 		default:
-			print api_wrap_reply(API_STATUS_ERR, $seq, 
+			print api_wrap_reply(API_STATUS_ERR, $seq,
 				array("error" => 'UNKNOWN_METHOD'));
 			break;
 
 	}
 
 	db_close($link);
-	
+
 ?>

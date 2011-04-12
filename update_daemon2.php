@@ -26,10 +26,6 @@
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
 
-	if (!ENABLE_UPDATE_DAEMON) {
-		die("error: Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
-	}
-	
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
@@ -67,7 +63,7 @@
 
 	function check_ctimes() {
 		global $ctimes;
-		
+
 		foreach (array_keys($ctimes) as $pid) {
 			$started = $ctimes[$pid];
 
@@ -101,12 +97,12 @@
 	function sigint_handler() {
 		shutdown();
 		die("[SIGINT] removing lockfile and exiting.\n");
-	} 
+	}
 
 	function task_sigint_handler() {
 		task_shutdown();
 		die("[SIGINT] removing lockfile and exiting.\n");
-	} 
+	}
 
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
 
@@ -132,13 +128,13 @@
 
 	// Testing database connection.
 	// It is unnecessary to start the fork loop if database is not ok.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	if (!$link) {
 		if (DB_TYPE == "mysql") {
 			print mysql_error();
 		}
-		// PG seems to display its own errors just fine by default.		
+		// PG seems to display its own errors just fine by default.
 		return;
 	}
 
@@ -189,13 +185,13 @@
 
 					$start_timestamp = time();
 
-					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 					if (!$link) {
 						if (DB_TYPE == "mysql") {
 							print mysql_error();
 						}
-						// PG seems to display its own errors just fine by default.		
+						// PG seems to display its own errors just fine by default.
 						return;
 					}
 
@@ -205,9 +201,9 @@
 					// not really, tho for the time being -fox
 					if (!make_stampfile('update_daemon.stamp')) {
 						print "warning: unable to create stampfile";
-					}	
+					}
 
-					// Call to the feed batch update function 
+					// Call to the feed batch update function
 					// or regenerate feedbrowser cache
 
 					if (rand(0,100) > 30) {
@@ -225,7 +221,7 @@
 					}
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
- 
+
 					db_close($link);
 
 					// We are in a fork.
