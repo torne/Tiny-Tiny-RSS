@@ -1892,6 +1892,19 @@
 	            FROM ttrss_users WHERE
 					login = '$login'";
 
+				if (defined('AUTO_CREATE_USER') && AUTO_CREATE_USER
+						&& $_SERVER["REMOTE_USER"]) {
+					$result = db_query($link, $query);
+
+					// First login ?
+					if (db_num_rows($result) == 0) {
+						$query = "INSERT INTO ttrss_users
+								(login,access_level,last_login,created)
+								VALUES ('$login', 0, null, NOW())";
+						db_query($link, $query);
+					}
+				}
+
 			} else {
 				$query = "SELECT id,login,access_level,pwd_hash
 	            FROM ttrss_users WHERE
@@ -1908,6 +1921,23 @@
 
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
+
+
+				// LemonLDAP can send user informations via HTTP HEADER
+				if (defined('AUTO_CREATE_USER') && AUTO_CREATE_USER){
+					// update user name
+					if ($_SERVER['HTTP_USER_NAME']){
+						$fullname = db_escape_string($_SERVER['HTTP_USER_NAME']);
+						db_query($link, "UPDATE ttrss_users SET full_name = '$fullname' WHERE id = " .
+							$_SESSION["uid"]);
+					}
+					// update user mail
+					if ($_SERVER['HTTP_USER_MAIL']){
+						$email = db_escape_string($_SERVER['HTTP_USER_MAIL']);
+						db_query($link, "UPDATE ttrss_users SET email = '$email' WHERE id = " .
+							$_SESSION["uid"]);
+					}
+				}
 
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");

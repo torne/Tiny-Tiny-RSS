@@ -140,6 +140,11 @@
 	// Otherwise users will be redirected to login form with their login
 	// information pre-filled.
 
+	define('AUTO_CREATE_USER', false);
+	// If users are authenticated by your web server, set this to true if
+	// You want new users to be automaticaly created in tt-rss database
+	// on first login
+
 	define('LOCK_DIRECTORY', 'lock');
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
