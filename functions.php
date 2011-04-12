@@ -117,7 +117,7 @@
 	$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4,s,object[classid|type|id|name|width|height|codebase],param[name|value]";
 
 	$config->set('HTML.SafeObject', true);
-	$config->set('HTML', 'Allowed', $allowed);
+	@$config->set('HTML', 'Allowed', $allowed);
 	$config->set('Output.FlashCompat', true);
 	$config->set('Attr.EnableID', true);
 
