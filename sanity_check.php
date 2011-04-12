@@ -151,6 +151,10 @@
 		$err_msg = "PHP: DOMDocument extension not found.";
 	}
 
+	if (!ISCONFIGURED) {
+		$err_msg = "config: please read config.php completely.";
+	}
+
 	if ($err_msg) {
 		print "<b>Fatal Error</b>: $err_msg\n";
 		exit;
