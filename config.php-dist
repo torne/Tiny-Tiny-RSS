@@ -13,14 +13,18 @@
 	// Full URL of your tt-rss installation. You need to set this option
 	// correctly for tt-rss to function properly.
 
-	define('MAGPIE_FETCH_TIME_OUT', 60);
-	// Magpie's default timeout is 5 seconds.  Some RSS feeds,
-	// such as from large Trac installs, can take significantly
-	// longer than 5 seconds to generate.  To prevent failed
-	// updates, increase this.
+	define('SINGLE_USER_MODE', true);
+	// Operate in single user mode, disables all functionality related to
+	// multiple users.
+	
+	define('CACHE_DIR', 'cache');
+	// Local cache directory for RSS feed content.
 
-	define('MAGPIE_CACHE_DIR', 'cache/magpie');
-	// Local cache directory for RSS feeds
+	define('SIMPLEPIE_CACHE_IMAGES', false);
+	// Allow caching feed images when using SimplePie, to bypass hotlink
+	// prevention and such at expense of local disk space and bandwidth.
+	// Note that you (or your users) also have to enable image caching 
+	// in feed editor.
 
 	define('ICONS_DIR', "icons");
 	define('ICONS_URL', "icons");
@@ -31,10 +35,6 @@
 	// need to change this and rename icons/ directory if you install tt-rss
 	// into website root.
 
-	define('SINGLE_USER_MODE', true);
-	// Operate in single user mode, disables all functionality related to
-	// multiple users.
-	
 	define('TMP_DIRECTORY', '/tmp');
 	// Directory for temporary files
 
@@ -88,15 +88,6 @@
 	// 0 - Magpie
 	// 1 - SimplePie
 
-	define('SIMPLEPIE_CACHE_DIR',	'cache/simplepie');
-	// Cache directory for RSS feeds when using SimplePie
-
-	define('SIMPLEPIE_CACHE_IMAGES', false);
-	// Allow caching feed images when using SimplePie, to bypass hotlink
-	// prevention and such at expense of local disk space and bandwidth.
-	// Note that you (or your users) also have to enable image caching 
-	// in feed editor.
-	
 	define('COUNTERS_MAX_AGE', 365);
 	// Hard limit for unread counters calculation. Try tweaking this
 	// parameter to speed up tt-rss when having a huge number of articles
@@ -177,7 +168,8 @@
 	// Please see http://tt-rss.org/wiki/SphinxSearch for more information.
 
 	define('SPHINX_INDEX', 'ttrss');
-	// Index name in Sphinx configuration
+	// Index name in Sphinx configuration. You can specify multiple indexes
+	// as a comma-separated string.
 
 	define('ENABLE_TWEET_BUTTON', false);
 	// Enable 'tweet this' button for articles

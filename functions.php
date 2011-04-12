@@ -611,11 +611,15 @@
 
 				define('MAGPIE_CACHE_AGE', get_feed_update_interval($link, $feed) * 60);
 				define('MAGPIE_CACHE_ON', !$no_cache);
+				define('MAGPIE_FETCH_TIME_OUT', 60);
+				define('MAGPIE_CACHE_DIR', CACHE_DIR . "/magpie");
 
 				$rss = @fetch_rss($fetch_url);
 			} else {
-				if (!is_dir(SIMPLEPIE_CACHE_DIR)) {
-					mkdir(SIMPLEPIE_CACHE_DIR);
+				$simplepie_cache_dir = CACHE_DIR . "/simplepie";
+
+				if (!is_dir($simplepie_cache_dir)) {
+					mkdir($simplepie_cache_dir);
 				}
 
 				$rss = new SimplePie();
@@ -641,7 +645,7 @@
 				$rss->enable_cache(!$no_cache);
 
 				if (!$no_cache) {
-					$rss->set_cache_location(SIMPLEPIE_CACHE_DIR);
+					$rss->set_cache_location($simplepie_cache_dir);
 					$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
 				}
 
