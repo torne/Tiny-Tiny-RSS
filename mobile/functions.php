@@ -388,7 +388,7 @@
 				$icon_url = "../images/blank_icon.gif";
 			}
 
-			print "<li class='$class'><a href='article.php?id=$id&feed=$feed_id&cat=$cat_id'>
+			print "<li class='$class'><a href='article.php?id=$id&feed=$feed_id&cat=$cat_id&is_cat=$is_cat'>
 				<img class='tinyIcon' src='$icon_url'>";
 			print $line["title"];
 			print "</a></li>";
@@ -429,7 +429,7 @@
 
 	}
 
-	function render_article($link, $id, $feed_id, $cat_id) {
+	function render_article($link, $id, $feed_id, $cat_id, $is_cat) {
 
 		$query = "SELECT title,link,content,feed_id,comments,int_id,
 			marked,unread,published,
@@ -455,11 +455,14 @@
 			$title = $line["title"];
 			$article_link = $line["link"];
 
-			$feed_title = getFeedTitle($link, $feed_id, false);
+			if (!$is_cat)
+				$feed_title = getFeedTitle($link, $feed_id);
+			else
+				$feed_title = getCategoryTitle($link, $feed_id);
 
 			print "<div class=\"panel\" id=\"article-$id\" title=\"$title\"
 				selected=\"true\"
-				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id'>";
+				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id&is_cat=$is_cat'>";
 
 			print "<h2><a target='_blank' href='$article_link'>$title</a></h2>";
 
