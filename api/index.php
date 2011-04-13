@@ -80,7 +80,13 @@
 				$uid = 0;
 			}
 
-			if ($uid && get_pref($link, "ENABLE_API_ACCESS", $uid)) {
+			if (!$uid) {
+				print api_wrap_reply(API_STATUS_ERR, $seq,
+					array("error" => "LOGIN_ERROR"));
+				return;
+			}
+
+			if (get_pref($link, "ENABLE_API_ACCESS", $uid)) {
 				if (authenticate_user($link, $login, $password)) {               // try login with normal password
 					print api_wrap_reply(API_STATUS_OK, $seq,
 						array("session_id" => session_id()));
