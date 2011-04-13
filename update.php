@@ -56,6 +56,16 @@
 	if ($op == "-feeds") {
 		// Update all feeds needing a update.
 		update_daemon_common($link);
+
+		// Update feedbrowser
+		$count = update_feedbrowser_cache($link);
+		_debug("Feedbrowser updated, $count feeds processed.");
+
+		// Purge orphans and cleanup tags
+		purge_orphans($link, true);
+
+		$rc = cleanup_tags($link, 14, 50000);
+		_debug("Cleaned $rc cached tags.");
 	}
 
 	if ($op == "-feedbrowser") {
