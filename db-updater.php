@@ -4,15 +4,15 @@
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
-	
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
 
-	init_connection($link);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+	init_connection($link);
 	login_sequence($link);
-	
+
 	$owner_uid = $_SESSION["uid"];
-	
-	if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) { 
+
+	if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
 		$_SESSION["login_error_msg"] = __("Your access level is insufficient to run this script.");
 		render_login_form($link);
 		exit;
@@ -36,7 +36,7 @@ function confirmOP() {
 }
 </script>
 
-<div class="floatingLogo"><img src="images/ttrss_logo.png"></div>
+<div class="floatingLogo"><img src="images/logo.png"></div>
 
 <h1><?php echo __("Database Updater") ?></h1>
 
@@ -45,7 +45,7 @@ function confirmOP() {
 		$result = "";
 		while(!feof($fp)) {
 			$tmp = fgetc($fp);
-	
+
 			if($tmp == $delim) {
 				return $result;
 			}
@@ -53,27 +53,27 @@ function confirmOP() {
 		}
 		return $result;
 	}
-	
+
 	$op = $_POST["op"];
-	
+
 	$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 	$version = db_fetch_result($result, 0, "schema_version");
-	
+
 	$update_files = glob("schema/versions/".DB_TYPE."/*sql");
 	$update_versions = array();
-	
+
 	foreach ($update_files as $f) {
 		$m = array();
 		preg_match_all("/schema\/versions\/".DB_TYPE."\/(\d*)\.sql/", $f, $m,
 			PREG_PATTERN_ORDER);
-	
+
 		if ($m[1][0]) {
 			$update_versions[$m[1][0]] = $f;
 		}
 	}
-	
+
 	ksort($update_versions, SORT_NUMERIC);
-	
+
 	$latest_version = max(array_keys($update_versions));
 
 	if ($version == $latest_version) {
@@ -81,7 +81,7 @@ function confirmOP() {
 		if ($version != SCHEMA_VERSION) {
 			print_error(__("Could not update database"));
 
-			print "<p>" . 
+			print "<p>" .
 				__("Could not find necessary schema file, need version:") .
 				" " . SCHEMA_VERSION . __(", found: ") . $latest_version . "</p>";
 
@@ -94,33 +94,33 @@ function confirmOP() {
 
 		return;
 	}
-	
+
 	if (!$op) {
 		print_warning(__("Please backup your database before proceeding."));
-	
+
 		print "<p>" . T_sprintf("Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>).", $version, $latest_version) . "</p>";
-	
+
 	/*		print "<p>Available incremental updates:";
-	
+
 		foreach (array_keys($update_versions) as $v) {
 			if ($v > $version) {
 				print " <a href='$update_versions[$v]'>$v</a>";
 			}
 		} */
-	
+
 		print "</p>";
-	
+
 		print "<form method='POST'>
 			<input type='hidden' name='op' value='do'>
 			<input type='submit' onclick='return confirmOP()' value='".__("Perform updates")."'>
 			</form>";
-	
+
 	} else if ($op == "do") {
-	
+
 		print "<p>".__("Performing updates...")."</p>";
-	
+
 		$num_updates = 0;
-	
+
 		foreach (array_keys($update_versions) as $v) {
 			if ($v == $version + 1) {
 				print "<p>".T_sprintf("Updating to version %d...", $v)."</p>";
@@ -135,32 +135,32 @@ function confirmOP() {
 					}
 				}
 				fclose($fp);
-	
+
 				print "<p>".__("Checking version... ");
-	
+
 				$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 				$version = db_fetch_result($result, 0, "schema_version");
-	
+
 				if ($version == $v) {
 					print __("OK!");
 				} else {
 					print "<b>".__("ERROR!")."</b>";
 					return;
 				}
-	
+
 				$num_updates++;
 			}
 		}
-	
+
 		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
 			version <b>%d</b>.", $num_updates, $version)."</p>";
-	
+
 		print "<form method=\"GET\" action=\"logout.php\">
 			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 			</form>";
 
 	}
-	
+
 ?>
 
 </body>
