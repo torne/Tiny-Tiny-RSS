@@ -21,6 +21,17 @@
 
 	session_name($session_name);
 
+	$input = file_get_contents("php://input");
+
+	// Override $_REQUEST with JSON-encoded data if available
+	if ($input) {
+		$input = json_decode($input, true);
+
+		if ($input) {
+			$_REQUEST = $input;
+		}
+	}
+
 	if ($_REQUEST["sid"]) {
 		session_id($_REQUEST["sid"]);
 	}
