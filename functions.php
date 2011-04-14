@@ -6694,7 +6694,8 @@
 	}
 
 	function api_get_headlines($link, $feed_id, $limit, $offset,
-					$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order) {
+				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
+				$include_attachments) {
 
 			/* do not rely on params below */
 
@@ -6727,6 +6728,10 @@
 						"feed_id" => $line["feed_id"],
 						"tags" => get_article_tags($link, $line["id"]),
 					);
+
+					if ($include_attachments)
+						$headline_row['attachments'] = get_article_enclosures($link,
+							$line['id']);
 
 				if ($show_excerpt) {
 					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);

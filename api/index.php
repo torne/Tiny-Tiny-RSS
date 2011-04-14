@@ -184,9 +184,11 @@
 			$show_content = (bool)db_escape_string($_REQUEST["show_content"]);
 			/* all_articles, unread, adaptive, marked, updated */
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
+			$include_attachments = (bool)db_escape_string($_REQUEST["include_attachments"]);
 
 			$headlines = api_get_headlines($link, $feed_id, $limit, $offset,
-				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false);
+				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false,
+				$include_attachments);
 
 			print api_wrap_reply(API_STATUS_OK, $seq, $headlines);
 
