@@ -17,7 +17,7 @@
 		$err_msg = "config: your config file version is incorrect. See config.php-dist.\n";
 	}
 
-	$purifier_cache_dir = "lib/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer";
+	$purifier_cache_dir = CACHE_DIR . "/htmlpurifier";
 
 	if (!is_writable($purifier_cache_dir)) {
 		$err_msg = "config: HTMLPurifier cache directory should be writable by anyone (chmod -R 777 $purifier_cache_dir)";
