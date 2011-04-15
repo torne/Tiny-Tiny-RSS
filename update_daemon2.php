@@ -4,6 +4,7 @@
 	// Some configurable variable may be found below.
 
 	declare(ticks = 1);
+	chdir(dirname(__FILE__));
 
 	define('DISABLE_SESSIONS', true);
 
