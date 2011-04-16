@@ -120,7 +120,7 @@
 	@$config->set('HTML', 'Allowed', $allowed);
 	$config->set('Output.FlashCompat', true);
 	$config->set('Attr.EnableID', true);
-	$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
+	@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
 
 	$purifier = new HTMLPurifier($config);
 
