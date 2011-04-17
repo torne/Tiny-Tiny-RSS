@@ -526,6 +526,9 @@
 
 			print "<div class=\"dlgButtons\">";
 
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+				__('Test')."</button> ";
+
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Create')."</button> ";
 

@@ -180,7 +180,24 @@ function editFilter(id) {
 						} });
 				}
 			},
+			test: function() {
+				if (this.validate()) {
 
+					if (dijit.byId("filterTestDlg"))
+						dijit.byId("filterTestDlg").destroyRecursive();
+
+					tdialog = new dijit.Dialog({
+						id: "filterTestDlg",
+						title: __("Filter Test Results"),
+						style: "width: 600px",
+						href: "backend.php?savemode=test&" +
+							dojo.objectToQuery(dialog.attr('value')),
+						});
+
+					tdialog.show();
+
+				}
+			},
 			execute: function() {
 				if (this.validate()) {
 

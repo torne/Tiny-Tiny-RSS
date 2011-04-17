@@ -1,4 +1,98 @@
 <?php
+	function filter_test($link, $filter_type, $reg_exp,
+			$action_id, $action_param, $filter_param, $inverse, $feed_id) {
+
+		$result = db_query($link, "SELECT name FROM ttrss_filter_types WHERE
+			id = " . $filter_type);
+		$type_name = db_fetch_result($result, 0, "name");
+
+		$result = db_query($link, "SELECT name FROM ttrss_filter_actions WHERE
+			id = " . $action_id);
+		$action_name = db_fetch_result($result, 0, "name");
+
+		$filter["reg_exp"] = $reg_exp;
+		$filter["action"] = $action_name;
+
+		$filter["action_param"] = $action_param;
+		$filter["filter_param"] = $filter_param;
+		$filter["inverse"] = sql_bool_to_bool($inverse);
+
+		$filters[$type_name] = array($filter);
+
+		if ($feed_id != "NULL")
+			$feed = $feed_id;
+		else
+			$feed = -4;
+
+		$feed_title = getFeedTitle($line, $feed);
+
+		$qfh_ret = queryFeedHeadlines($link, $feed,
+			300, "", false, false, false,
+			false, "updated DESC", 0, $_SESSION["uid"]);
+
+		$result = $qfh_ret[0];
+
+		$articles = array();
+		$found = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$entry_timestamp = strtotime($line["updated"]);
+			$entry_tags = get_article_tags($link, $line["id"], $_SESSION["uid"]);
+
+			$article_filters = get_article_filters($filters, $line["title"],
+				$line["content_preview"], $line["link"],
+				$entry_timestamp, $line["author"], $entry_tags);
+
+			if (count($article_filters) != 0) {
+
+				$content_preview = truncate_string(
+					strip_tags($line["content_preview"]), 100, '...');
+
+				if ($line["feed_title"])
+					$feed_title = $line["feed_title"];
+
+				array_push($articles, array("title" => $line["title"],
+					"content" => $content_preview, "feed" => $feed_title));
+
+				$found++;
+			}
+
+			if ($found >= 30)
+				break;
+		}
+
+		if ($found == 0) {
+			print __("No recent articles matching this filter has been found.");
+		} else {
+
+			print __("Recent articles matching this filter:");
+
+			print "<div class=\"inactiveFeedHolder\">";
+			print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
+
+			foreach ($articles as $article) {
+				print "<tr>";
+
+				print "<td width='5%' align='center'><input
+					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
+					disabled=\"1\"
+					type=\"checkbox\"></td>";
+				print "<td>";
+
+				print $article["title"];
+				print "&nbsp;(";
+				print "<b>" . $article["feed"] . "</b>";
+				print "):&nbsp;";
+				print "<span class=\"insensitive\">" . $article["content"] . "</span>";
+
+				print "</td></tr>";
+			}
+			print "</table>";
+			print "</div>";
+		}
+	}
+
 	function module_pref_filters($link) {
 		$subop = $_REQUEST["subop"];
 		$quiet = $_REQUEST["quiet"];
@@ -249,6 +343,9 @@
 				__('Remove')."</button>";
 			print "</div>";
 
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+				__('Test')."</button> ";
+
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 				__('Save')."</button> ";
 
@@ -267,6 +364,7 @@
 
 			if ($memcache) $memcache->flush();
 
+			$savemode = db_escape_string($_REQUEST["savemode"]);
 			$reg_exp = db_escape_string(trim($_REQUEST["reg_exp"]));
 			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
 			$filter_id = db_escape_string($_REQUEST["id"]);
@@ -297,7 +395,8 @@
 				$action_param = (int) str_replace("+", "", $action_param);
 			}
 
-			$result = db_query($link, "UPDATE ttrss_filters SET
+			if ($savemode != "test") {
+				$result = db_query($link, "UPDATE ttrss_filters SET
 					reg_exp = '$reg_exp',
 					feed_id = $feed_id,
 					action_id = '$action_id',
@@ -307,6 +406,21 @@
 					action_param = '$action_param',
 					filter_param = '$filter_param'
 					WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
+			} else {
+
+				filter_test($link, $filter_type, $reg_exp,
+					$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
+					$feed_id);
+
+				print "<div align='center'>";
+				print "<button dojoType=\"dijit.form.Button\"
+					onclick=\"return dijit.byId('filterTestDlg').hide()\">".
+					__('Close this window')."</button>";
+				print "</div>";
+
+			}
+
+			return;
 		}
 
 		if ($subop == "remove") {
@@ -325,6 +439,7 @@
 
 			if ($memcache) $memcache->flush();
 
+			$savemode = db_escape_string($_REQUEST["savemode"]);
 			$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));
 			$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
@@ -355,15 +470,31 @@
 				$action_param = (int) str_replace("+", "", $action_param);
 			}
 
-			$result = db_query($link,
-				"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-					action_id, action_param, inverse, filter_param)
-				VALUES
-					('$regexp', '$filter_type','".$_SESSION["uid"]."',
-						$feed_id, '$action_id', '$action_param', $inverse, '$filter_param')");
+			if ($savemode != "test") {
+				$result = db_query($link,
+					"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
+						action_id, action_param, inverse, filter_param)
+					VALUES
+						('$regexp', '$filter_type','".$_SESSION["uid"]."',
+						$feed_id, '$action_id', '$action_param', $inverse,
+						'$filter_param')");
 
-			if (db_affected_rows($link, $result) != 0) {
-				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
+				if (db_affected_rows($link, $result) != 0) {
+					print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
+				}
+
+			} else {
+
+				filter_test($link, $filter_type, $regexp,
+					$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
+					$feed_id);
+
+				print "<div align='center'>";
+				print "<button dojoType=\"dijit.form.Button\"
+					onclick=\"return dijit.byId('filterTestDlg').hide()\">".
+					__('Close this window')."</button>";
+				print "</div>";
+
 			}
 
 			return;
