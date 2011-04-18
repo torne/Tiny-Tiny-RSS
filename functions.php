@@ -4627,10 +4627,10 @@
 			} else {
 
 				$entry .= "<object type=\"application/x-shockwave-flash\"
-					data=\"extras/button/musicplayer.swf?song_url=$url\"
+					data=\"lib/button/musicplayer.swf?song_url=$url\"
 					width=\"17\" height=\"17\" style='float : left; margin-right : 5px;'>
 					<param name=\"movie\"
-						value=\"extras/button/musicplayer.swf?song_url=$url\" />
+						value=\"lib/button/musicplayer.swf?song_url=$url\" />
 					</object>";
 			}
 		}
