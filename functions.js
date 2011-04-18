@@ -628,7 +628,7 @@ function filterDlgCheckDate() {
 				var reply = JSON.parse(transport.responseText);
 
 				if (reply['result'] == true) {
-					alert(__("Date syntax appears to be correct."));
+					alert(__("Date syntax appears to be correct:") + " " + reply['date']);
 					return;
 				} else {
 					alert(__("Date syntax is incorrect."));

@@ -456,7 +456,8 @@
 			$date = db_escape_string($_REQUEST["date"]);
 			$date_parsed = strtotime($date);
 
-			print json_encode(array("result" => (bool)$date_parsed));
+			print json_encode(array("result" => (bool)$date_parsed,
+				"date" => date("c", $date_parsed)));
 			return;
 		}
 

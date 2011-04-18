@@ -466,7 +466,8 @@
 				 name=\"reg_exp\" value=\"$reg_exp\"/>";
 
 			print "<span id=\"filterDlg_dateChkBox\" style=\"display : none\">";
-			print "&nbsp;<button onclick=\"return filterDlgCheckDate()\">".
+			print "&nbsp;<button dojoType=\"dijit.form.Button\"
+				onclick=\"return filterDlgCheckDate()\">".
 				__('Check it')."</button>";
 			print "</span>";
 
