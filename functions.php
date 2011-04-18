@@ -3331,7 +3331,7 @@
 		return $data;
 	}
 
-	function getSearchSql($link, $search, $match_on) {
+	function search_to_sql($link, $search, $match_on) {
 
 		$search_query_part = "";
 
@@ -3386,7 +3386,7 @@
 						$search_query_part = "ref_id = -1 AND ";
 
 				} else {
-					$search_query_part = getSearchSql($link, $search, $match_on);
+					$search_query_part = search_to_sql($link, $search, $match_on);
 					$search_query_part .= " AND ";
 				}
 
