@@ -19,21 +19,26 @@
 
 		$filters[$type_name] = array($filter);
 
-		if ($feed_id != "NULL")
+		if ($feed_id)
 			$feed = $feed_id;
 		else
 			$feed = -4;
 
-		$feed_title = getFeedTitle($line, $feed);
+		$feed_title = getFeedTitle($link, $feed);
 
 		$qfh_ret = queryFeedHeadlines($link, $feed,
 			300, "", false, false, false,
-			false, "updated DESC", 0, $_SESSION["uid"]);
+			false, "date_entered DESC", 0, $_SESSION["uid"]);
 
 		$result = $qfh_ret[0];
 
 		$articles = array();
 		$found = 0;
+
+		print __("Articles matching this filter:");
+
+		print "<div class=\"inactiveFeedHolder\">";
+		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -52,8 +57,20 @@
 				if ($line["feed_title"])
 					$feed_title = $line["feed_title"];
 
-				array_push($articles, array("title" => $line["title"],
-					"content" => $content_preview, "feed" => $feed_title));
+				print "<tr>";
+
+				print "<td width='5%' align='center'><input
+					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
+					disabled=\"1\" type=\"checkbox\"></td>";
+				print "<td>";
+
+				print $line["title"];
+				print "&nbsp;(";
+				print "<b>" . $feed_title . "</b>";
+				print "):&nbsp;";
+				print "<span class=\"insensitive\">" . $content_preview . "</span>";
+
+				print "</td></tr>";
 
 				$found++;
 			}
@@ -63,34 +80,13 @@
 		}
 
 		if ($found == 0) {
-			print __("No recent articles matching this filter has been found.");
-		} else {
-
-			print __("Recent articles matching this filter:");
-
-			print "<div class=\"inactiveFeedHolder\">";
-			print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
-
-			foreach ($articles as $article) {
-				print "<tr>";
-
-				print "<td width='5%' align='center'><input
-					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
-					disabled=\"1\"
-					type=\"checkbox\"></td>";
-				print "<td>";
-
-				print $article["title"];
-				print "&nbsp;(";
-				print "<b>" . $article["feed"] . "</b>";
-				print "):&nbsp;";
-				print "<span class=\"insensitive\">" . $article["content"] . "</span>";
-
-				print "</td></tr>";
-			}
-			print "</table>";
-			print "</div>";
+			print "<tr><td align='center'>" .
+				__("No recent articles matching this filter has been found.") . "</td></tr>";
 		}
+
+		print "</table>";
+		print "</div>";
+
 	}
 
 	function module_pref_filters($link) {
@@ -410,7 +406,7 @@
 
 				filter_test($link, $filter_type, $reg_exp,
 					$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-					$feed_id);
+					(int) $_REQUEST["feed_id"]);
 
 				print "<div align='center'>";
 				print "<button dojoType=\"dijit.form.Button\"
@@ -487,7 +483,7 @@
 
 				filter_test($link, $filter_type, $regexp,
 					$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-					$feed_id);
+					(int) $_REQUEST["feed_id"]);
 
 				print "<div align='center'>";
 				print "<button dojoType=\"dijit.form.Button\"
