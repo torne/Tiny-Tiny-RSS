@@ -2338,7 +2338,7 @@
 	}
 
 	function sql_bool_to_bool($s) {
-		if ($s == "t" || $s == "1") {
+		if ($s == "t" || $s == "1" || $s == "true") {
 			return true;
 		} else {
 			return false;
@@ -3369,7 +3369,7 @@
 		return $search_query_part;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -3392,6 +3392,12 @@
 
 			} else {
 				$search_query_part = "";
+			}
+
+			if ($filter) {
+				$filter_query_part = filter_to_sql($filter);
+			} else {
+				$filter_query_part = "";
 			}
 
 			$view_query_part = "";
@@ -3623,6 +3629,7 @@
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
+					$filter_query_part
 					$view_query_part
 					$query_strategy_part ORDER BY $order_by
 					$limit_query_part $offset_query_part";
@@ -7245,4 +7252,58 @@
 		return $result;
 	}
 
+	function filter_to_sql($filter) {
+		$query = "";
+
+		if (DB_TYPE == "pgsql")
+			$reg_qpart = "~";
+		else
+			$reg_qpart = "REGEXP";
+
+		switch ($filter["type"]) {
+			case "title":
+				$query = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "')";
+				break;
+			case "content":
+				$query = "LOWER(ttrss_entries.content) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "')";
+				break;
+			case "both":
+				$query = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "') OR LOWER(" .
+					"ttrss_entries.content) $reg_qpart LOWER('" . $filter['reg_exp'] . "')";
+				break;
+			case "tag":
+				$query = "LOWER(ttrss_user_entries.tag_cache) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "')";
+				break;
+			case "link":
+				$query = "LOWER(ttrss_entries.link) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "')";
+				break;
+			case "date":
+
+				if ($filter["filter_param"] == "before")
+					$cmp_qpart = "<";
+				else
+					$cmp_qpart = ">=";
+
+				$timestamp = date("Y-m-d H:N:s", strtotime($filter["reg_exp"]));
+				$query = "ttrss_entries.date_entered $cmp_qpart '$timestamp'";
+				break;
+			case "author":
+				$query = "LOWER(ttrss_entries.author) $reg_qpart LOWER('".
+					$filter['reg_exp'] . "')";
+				break;
+		}
+
+		if ($filter["inverse"])
+			$query = "NOT ($query)";
+
+		if ($query)
+			$query .= " AND ";
+
+		return $query;
+	}
 ?>

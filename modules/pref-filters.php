@@ -12,10 +12,10 @@
 
 		$filter["reg_exp"] = $reg_exp;
 		$filter["action"] = $action_name;
-
+		$filter["type"] = $type_name;
 		$filter["action_param"] = $action_param;
 		$filter["filter_param"] = $filter_param;
-		$filter["inverse"] = sql_bool_to_bool($inverse);
+		$filter["inverse"] = $inverse;
 
 		$filters[$type_name] = array($filter);
 
@@ -27,8 +27,8 @@
 		$feed_title = getFeedTitle($link, $feed);
 
 		$qfh_ret = queryFeedHeadlines($link, $feed,
-			300, "", false, false, false,
-			false, "date_entered DESC", 0, $_SESSION["uid"]);
+			30, "", false, false, false,
+			false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
 
 		$result = $qfh_ret[0];
 
@@ -45,43 +45,34 @@
 			$entry_timestamp = strtotime($line["updated"]);
 			$entry_tags = get_article_tags($link, $line["id"], $_SESSION["uid"]);
 
-			$article_filters = get_article_filters($filters, $line["title"],
-				$line["content_preview"], $line["link"],
-				$entry_timestamp, $line["author"], $entry_tags);
+			$content_preview = truncate_string(
+				strip_tags($line["content_preview"]), 100, '...');
 
-			if (count($article_filters) != 0) {
+			if ($line["feed_title"])
+				$feed_title = $line["feed_title"];
 
-				$content_preview = truncate_string(
-					strip_tags($line["content_preview"]), 100, '...');
+			print "<tr>";
 
-				if ($line["feed_title"])
-					$feed_title = $line["feed_title"];
+			print "<td width='5%' align='center'><input
+				dojoType=\"dijit.form.CheckBox\" checked=\"1\"
+				disabled=\"1\" type=\"checkbox\"></td>";
+			print "<td>";
 
-				print "<tr>";
+			print $line["title"];
+			print "&nbsp;(";
+			print "<b>" . $feed_title . "</b>";
+			print "):&nbsp;";
+			print "<span class=\"insensitive\">" . $content_preview . "</span>";
+			print $line["date_entered"];
 
-				print "<td width='5%' align='center'><input
-					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
-					disabled=\"1\" type=\"checkbox\"></td>";
-				print "<td>";
+			print "</td></tr>";
 
-				print $line["title"];
-				print "&nbsp;(";
-				print "<b>" . $feed_title . "</b>";
-				print "):&nbsp;";
-				print "<span class=\"insensitive\">" . $content_preview . "</span>";
-
-				print "</td></tr>";
-
-				$found++;
-			}
-
-			if ($found >= 30)
-				break;
+			$found++;
 		}
 
 		if ($found == 0) {
 			print "<tr><td align='center'>" .
-				__("No recent articles matching this filter has been found.") . "</td></tr>";
+				__("No articles matching this filter has been found.") . "</td></tr>";
 		}
 
 		print "</table>";
