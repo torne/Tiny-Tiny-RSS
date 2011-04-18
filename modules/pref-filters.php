@@ -63,7 +63,7 @@
 			print "<b>" . $feed_title . "</b>";
 			print "):&nbsp;";
 			print "<span class=\"insensitive\">" . $content_preview . "</span>";
-			print $line["date_entered"];
+			print " " . mb_substr($line["date_entered"], 0, 16);
 
 			print "</td></tr>";
 
