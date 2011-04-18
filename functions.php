@@ -7301,8 +7301,14 @@
 		if ($filter["inverse"])
 			$query = "NOT ($query)";
 
-		if ($query)
+		if ($query) {
+			if (DB_TYPE == "pgsql") {
+				$query .= " AND ttrss_entries.date_entered > NOW() - INTERVAL '30 days'";
+			} else {
+				$query .= " AND ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL 30 DAY";
+			}
 			$query .= " AND ";
+		}
 
 		return $query;
 	}
