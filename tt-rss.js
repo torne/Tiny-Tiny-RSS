@@ -427,6 +427,16 @@ function quickMenuGo(opid) {
 			Effect.Appear("hotkey_help_overlay", {duration : 0.3});
 		}
 
+		if (opid == "qmcAbout") {
+			dialog = new dijit.Dialog({
+				title: __("About..."),
+				style: "width: 400px",
+				href: "backend.php?op=dlg&id=about",
+			});
+
+			dialog.show();
+		}
+
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}

@@ -110,8 +110,6 @@
 </div>
 
 <div dojoType="dijit.layout.BorderContainer" region="center" id="header-wrap" gutters="false">
-<!-- <div dojoType="dijit.layout.ContentPane" region="top">
-</div> -->
 <div dojoType="dijit.layout.TabContainer" region="center" id="content-tabs">
 <div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap"
 	title="<?php echo __("News") ?>">
@@ -176,6 +174,7 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAbout')"><?php echo __('About...') ?></div>
 				</div>
 			</div>
 		</div>
