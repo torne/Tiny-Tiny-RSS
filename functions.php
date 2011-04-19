@@ -4771,7 +4771,11 @@
 				$rv['content'] .= "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
+			$tags = get_article_tags($link, $id);
+			$tags_str = format_tags_string($tags, $id);
+			$tags_str_full = join(", ", $tags);
+
+			if (!$tags_str_full) $tags_str_full = __("no tags");
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
@@ -4783,6 +4787,10 @@
 				$rv['content'] .= "<span id=\"ATSTR-$id\">$tags_str</span>
 					<a title=\"".__('Edit tags for this article')."\"
 					href=\"#\" onclick=\"editArticleTags($id, $feed_id)\">(+)</a>";
+
+				$rv['content'] .= "<div dojoType=\"dijit.Tooltip\"
+					id=\"ATSTRTIP-$id\" connectId=\"ATSTR-$id\"
+					position=\"below\">$tags_str_full</div>";
 
 				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-zoom.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"

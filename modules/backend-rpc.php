@@ -359,7 +359,7 @@
 
 				/* update tag cache */
 
-				$tags_str = join(",", $tags_to_cache);
+				$tags_str = asort(join(",", $tags_to_cache));
 
 				db_query($link, "UPDATE ttrss_user_entries
 					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
@@ -373,10 +373,14 @@
 				$memcache->delete($obj_id);
 			}
 
-			$tags_str = format_tags_string(get_article_tags($link, $id), $id);
+			$tags = get_article_tags($link, $id);
+			$tags_str = format_tags_string($tags, $id);
+			$tags_str_full = join(", ", $tags);
+
+			if (!$tags_str_full) $tags_str_full = __("no tags");
 
 			print json_encode(array("tags_str" => array("id" => $id,
-				"content" => $tags_str)));
+				"content" => $tags_str, "content_full" => $tags_str_full)));
 
 			return;
 		}

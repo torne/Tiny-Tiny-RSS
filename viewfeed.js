@@ -992,10 +992,10 @@ function editArticleTags(id) {
 							var id = tags_str.id;
 
 							var tags = $("ATSTR-" + id);
+							var tooltip = dijit.byId("ATSTRTIP-" + id);
 
-							if (tags) {
-								tags.innerHTML = tags_str.content;
-							}
+							if (tags) tags.innerHTML = tags_str.content;
+							if (tooltip) tooltip.attr('label', tags_str.content_full);
 
 							cache_invalidate(id);
 						}
@@ -1535,6 +1535,9 @@ function zoomToArticle(event, id) {
 		if (dijit.byId("ATAB-" + id))
 			if (!event || !event.shiftKey)
 				return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
+
+		if (dijit.byId("ATSTRTIP-" + id))
+			dijit.byId("ATSTRTIP-" + id).destroyRecursive();
 
 		if (cached_article) {
 			//closeArticlePanel();
