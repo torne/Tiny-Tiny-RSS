@@ -60,7 +60,7 @@
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
 			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
-			$op != "pubsub") {
+			$op != "logout" && $op != "pubsub") {
 
 		header("Content-Type: text/plain");
 		print json_encode(array("error" => array("code" => 6)));
@@ -570,6 +570,16 @@
 				header('HTTP/1.0 404 Not Found');
 			}
 
+		break;
+
+		case "logout":
+			logout_user();
+			header("Location: tt-rss.php");
+		break;
+
+		default:
+			header("Content-Type: text/plain");
+			print json_encode(array("error" => array("code" => 7)));
 		break;
 	} // Select action according to $op value.
 

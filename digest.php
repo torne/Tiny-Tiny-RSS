@@ -1,12 +1,12 @@
 <?php
-	require_once "functions.php"; 
+	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
-	require_once "version.php"; 
+	require_once "version.php";
 	require_once "config.php";
 	require_once "db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 	login_sequence($link);
 
@@ -15,9 +15,9 @@
 	no_cache_incantation();
 
 	header('Content-Type: text/html; charset=utf-8');
-	
+
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html>
@@ -60,7 +60,7 @@
 		<img src="images/indicator_white.gif"/>
 			<?php echo __("Loading, please wait...") ?>
 		</div>
-	</div> 
+	</div>
 
 	<div id="header">
 
@@ -71,7 +71,7 @@
 	<?php } ?>
 
 	<?php if (!SINGLE_USER_MODE) { ?>
-			<a href="logout.php"><?php echo __('Logout') ?></a>
+			<a href="backend.php?op=logout"><?php echo __('Logout') ?></a>
 	<?php } ?>
 
 	</div>
@@ -103,7 +103,7 @@
 		</div>
 
 		<div id="headlines">
-			<h1><a href="#" onclick="viewfeed(-4)"><?php echo __('headlines') ?></a>: 
+			<h1><a href="#" onclick="viewfeed(-4)"><?php echo __('headlines') ?></a>:
 				<span id="headlines-title"></span></h1>
 
 			<ul id="headlines-content"> </ul>
@@ -117,11 +117,11 @@
 
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
 	<?php if (!defined('HIDE_VERSION')) { ?>
-		 v<?php echo VERSION ?> 
+		 v<?php echo VERSION ?>
 	<?php } ?>
-	&copy; 2005&ndash;<?php echo date('Y') ?> 
+	&copy; 2005&ndash;<?php echo date('Y') ?>
 	<a href="http://fakecake.org/">Andrew Dolgov</a>
-	
+
 	<br/>
 
 	<a href="tt-rss.php">
