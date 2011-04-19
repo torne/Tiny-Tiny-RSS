@@ -5211,8 +5211,9 @@
 
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<div class=\"hlRight\">";
 					$reply['content'] .= "<span class=\"hlUpdated\">$updated_fmt</span>";
+					$reply['content'] .= "<div class=\"hlRight\">";
+
 					$reply['content'] .= $score_pic;
 
 					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {

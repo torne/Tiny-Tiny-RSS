@@ -1289,8 +1289,14 @@ div.hlRight img {
 span.hlUpdated {
 	color : gray;
 	font-weight : medium;
-	width : 100px;
-	display : inline-block;
+	min-width : 100px;
+	display : table-cell;
+	width : 100%;
+	vertical-align : middle;
+	padding-top : 4px;
+	padding-bottom : 4px;
+	text-align : right;
+
 }
 
 div.hlLeft input {
