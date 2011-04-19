@@ -818,14 +818,15 @@
 
 		if ($subop == "setNote") {
 			$id = db_escape_string($_REQUEST["id"]);
-			$note = strip_tags(db_escape_string($_REQUEST["note"]));
+			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
 
 			db_query($link, "UPDATE ttrss_user_entries SET note = '$note'
 				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 			$formatted_note = format_article_note($id, $note);
 
-			print json_encode(array("note" => $formatted_note));
+			print json_encode(array("note" => $formatted_note,
+				"raw_length" => mb_strlen($note)));
 			return;
 		}
 

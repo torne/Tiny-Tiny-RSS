@@ -76,17 +76,17 @@ div.postReply img.tagsPic {
 
 div.articleNote {
 	background-color : #fff7d5;
-	border-width : 1px;
 	padding : 5px;
-	border-style : dashed;
+	border-style : none none dashed none;
 	border-color : #e7d796;
-	font-size : 11px;
-	margin-left : 5px;
-	margin-top : 5px;
-	float : right;
+	border-width : 1px;
+	background-color : #fff7d5;
 	color : #9a8c59;
-	max-width : 150px;
-	text-align : justify;
+}
+
+div.articleNote div.noteEdit {
+	float : right;
+	cursor : pointer;
 }
 
 div.postReply span.author {
@@ -1172,10 +1172,6 @@ div.dlgButtons {
 	clear : both;
 }
 
-span.prefsLabelEntry {
-	padding : 2px;
-}
-
 span.labelColorIndicator {
 	height : 14px;
 	width : 14px;
@@ -1214,37 +1210,6 @@ div.labelColorIndicator {
 	background-color : #fff7d5;	
 	color : #063064;
 	margin-right : 10px;
-}
-
-div.colorPicker div.colorPickerEntry:hover {
-	border : 1px solid #88b0f0;
-}
-
-div.colorPicker div.ccPrompt:hover {
-	color : black;
-}
-
-div.colorPicker div.colorPickerEntry {
-	height : 15px;
-	width : 15px;
-	line-height : 13px;
-	font-height : 9px;
-	text-align : center;
-	border : 1px solid black;
-	margin : 5px 5px 0px 0px;
-	float : left;
-}
-
-div.colorPicker {
-	border : 1px solid #cccccc;
-	background : #f0f0f0;
-	width : 110px;
-	padding : 0px 0px 5px 5px;
-	position : absolute;
-	left : auto;
-	top : auto;
-	z-index : 3;
-	color : #909090;
 }
 
 optgroup {
@@ -1498,12 +1463,6 @@ div#pref-tabs .dijitContentPane h3 {
 	font-size : 14px;
 	font-weight : bold;
 }
-
-/* div#feedTree {
-	font-size : 11px;
-	font-family : "Lucida Grande", "Segoe UI", Tahoma, Arial, sans-serif;
-} */
-
 
 #pref-filter-wrap, #pref-filter-header, #pref-filter-content, 
 #pref-label-wrap, #pref-label-header, #pref-label-content,

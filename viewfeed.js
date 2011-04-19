@@ -2211,7 +2211,9 @@ function editArticleNote(id) {
 						if (elem) {
 							Element.hide(elem);
 							elem.innerHTML = reply.note;
-							new Effect.Appear(elem);
+
+							if (reply.raw_length != 0)
+								new Effect.Appear(elem);
 						}
 
 					}});

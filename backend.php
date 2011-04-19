@@ -211,10 +211,12 @@
 			} else if ($mode == "zoom") {
 				array_push($articles, format_article($link, $id, false, true, true));
 			} else if ($mode == "raw") {
-				if ($_REQUEST['html']) header("Content-Type: text/html");
+				if ($_REQUEST['html']) {
+					header("Content-Type: text/html");
+					print '<link rel="stylesheet" type="text/css" href="tt-rss.css"/>';
+				}
 
 				$article = format_article($link, $id, false);
-				print $article['id'] . "\n\n";
 				print $article['content'];
 				return;
 			} else {

@@ -2360,15 +2360,18 @@
 			return "even";
 	}
 
+	// Session caching removed due to causing wrong redirects to upgrade
+	// script when get_schema_version() is called on an obsolete session
+	// created on a previous schema version.
 	function get_schema_version($link, $nocache = false) {
-		if (!$_SESSION["schema_version"] || $nocache) {
+//		if (!$_SESSION["schema_version"] || $nocache) {
 			$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 			$version = db_fetch_result($result, 0, "schema_version");
 			$_SESSION["schema_version"] = $version;
 			return $version;
-		} else {
-			return $_SESSION["schema_version"];
-		}
+//		} else {
+//			return $_SESSION["schema_version"];
+//		}
 	}
 
 	function sanity_check($link) {
@@ -3677,7 +3680,8 @@
 
 		require_once "lib/MiniTemplator.class.php";
 
-		$note_style = 	"float : right; background-color : #fff7d5; border-width : 1px; ".
+		$note_style = 	"background-color : #fff7d5;
+			border-width : 1px; ".
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
 			"margin-bottom : 1em; color : #9a8c59;";
 
@@ -3729,7 +3733,7 @@
 			$content = sanitize_rss($link, $line["content_preview"], false, $owner_uid);
 
 			if ($line['note']) {
-				$content = "<div style=\"$note_style\">" . $line['note'] . "</div>" .
+				$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
 					$content;
 			}
 
@@ -4847,16 +4851,16 @@
 
 			$rv['content'] .= "</div>";
 
-			$rv['content'] .= "<div class=\"postIcon\">" .
-				"<a target=\"_blank\" title=\"".__("Visit the website")."\"$
-				href=\"".htmlspecialchars($feed_site_url)."\">".
-				$feed_icon . "</a></div>";
-
 			$rv['content'] .= "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
 					$rv['content'] .= format_article_note($id, $line['note']);
 				}
 			$rv['content'] .= "</div>";
+
+			$rv['content'] .= "<div class=\"postIcon\">" .
+				"<a target=\"_blank\" title=\"".__("Visit the website")."\"$
+				href=\"".htmlspecialchars($feed_site_url)."\">".
+				$feed_icon . "</a></div>";
 
 			$rv['content'] .= "<div class=\"postContent\">";
 
@@ -6367,8 +6371,9 @@
 
 	function format_article_note($id, $note) {
 
-		$str = "<div class='articleNote' title=\"".__('edit note')."\"
-			onclick=\"editArticleNote($id)\">$note</div>";
+		$str = "<div class='articleNote'	onclick=\"editArticleNote($id)\">
+			<div class='noteEdit' onclick=\"editArticleNote($id)\">".
+			__('(edit note)')."</div>$note</div>";
 
 		return $str;
 	}
