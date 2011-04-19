@@ -3349,12 +3349,36 @@
 				$not = "";
 			}
 
-			if (strpos($k, "@") === 0) {
+			$commandpair = split(":", mb_strtolower($k), 2);
+
+			if ($commandpair[0] == "note" && $commandpair[1]) {
+
+				if ($commandpair[1] == "true")
+					array_push($query_keywords, "($not (note IS NOT NULL AND note != ''))");
+				else
+					array_push($query_keywords, "($not (note IS NULL OR note = ''))");
+
+			} else if ($commandpair[0] == "star" && $commandpair[1]) {
+
+				if ($commandpair[1] == "true")
+					array_push($query_keywords, "($not (marked = true))");
+				else
+					array_push($query_keywords, "($not (marked = false))");
+
+			} else if ($commandpair[0] == "pub" && $commandpair[1]) {
+
+				if ($commandpair[1] == "true")
+					array_push($query_keywords, "($not (published = true))");
+				else
+					array_push($query_keywords, "($not (published = false))");
+
+			} else if (strpos($k, "@") === 0) {
 
 				$user_tz_string = get_pref($link, 'USER_TIMEZONE', $_SESSION['uid']);
 				$orig_ts = strtotime(substr($k, 1));
-
 				$k = date("Y-m-d", convert_timestamp($orig_ts, $user_tz_string, 'UTC'));
+
+				//$k = date("Y-m-d", strtotime(substr($k, 1)));
 
 				array_push($query_keywords, "(".SUBSTRING_FOR_DATE."(updated,1,LENGTH('$k')) $not = '$k')");
 			} else if ($match_on == "both") {

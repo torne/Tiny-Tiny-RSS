@@ -421,8 +421,15 @@
 
 			print "</div>";
 
-			print "<div class=\"dlgButtons\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').execute()\">".__('Search')."</button>
+			print "<div class=\"dlgButtons\">";
+
+			if (!SPHINX_ENABLED) {
+				print "<div style=\"float : left\">
+					<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/redmine/wiki/tt-rss/SearchSyntax\">Search syntax</a>
+					</div>";
+			}
+
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').execute()\">".__('Search')."</button>
 			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').hide()\">".__('Cancel')."</button>
 			</div>";
 		}
