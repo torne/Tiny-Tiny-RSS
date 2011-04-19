@@ -960,8 +960,8 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 84 && shift_key) { // T
-				toggleTags();
+			if (keycode == 84) { // t
+				displayDlg("printTagCloud");
 				return false;
 			}
 		}
