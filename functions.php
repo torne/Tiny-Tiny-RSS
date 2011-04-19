@@ -5219,6 +5219,7 @@
 					if ($line["feed_title"] && !get_pref($link, 'VFEED_GROUP_BY_FEED')) {
 
 						$reply['content'] .= "<span onclick=\"viewfeed($feed_id)\"
+							style=\"cursor : pointer\"
 							title=\"".htmlspecialchars($line['feed_title'])."\">
 							$feed_icon_img<span>";
 					}
