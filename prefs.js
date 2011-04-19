@@ -715,6 +715,21 @@ function editSelectedFeeds() {
 						query = query + "&include_in_digest=false";
 					}
 
+					if (!query.match("&always_display_enclosures=") &&
+							this.getChildByName('always_display_enclosures').attr('disabled') == false) {
+						query = query + "&always_display_enclosures=false";
+					}
+
+					if (!query.match("&mark_unread_on_update=") &&
+							this.getChildByName('mark_unread_on_update').attr('disabled') == false) {
+						query = query + "&mark_unread_on_update=false";
+					}
+
+					if (!query.match("&update_on_checksum_change=") &&
+							this.getChildByName('update_on_checksum_change').attr('disabled') == false) {
+						query = query + "&update_on_checksum_change=false";
+					}
+
 					console.log(query);
 
 					notify_progress("Saving data...", true);
