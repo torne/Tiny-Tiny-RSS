@@ -155,7 +155,8 @@ function confirmOP() {
 		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
 			version <b>%d</b>.", $num_updates, $version)."</p>";
 
-		print "<form method=\"GET\" action=\"backend.php?op=logout\">
+		print "<form method=\"GET\" action=\"backend.php\">
+			<input type=\"hidden\" name=\"op\" value=\"logout\">
 			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 			</form>";
 

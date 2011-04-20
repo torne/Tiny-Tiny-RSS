@@ -148,7 +148,8 @@
 		if (!ENABLE_REGISTRATION) {
 			print_error(__("New user registrations are administratively disabled."));
 
-			print "<p><form method=\"GET\" action=\"backend.php?op=logout\">
+			print "<p><form method=\"GET\" action=\"backend.php\">
+				<input type=\"hidden\" name=\"op\" value=\"logout\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
 			return;
