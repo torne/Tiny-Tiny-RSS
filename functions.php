@@ -7371,7 +7371,7 @@
 			$instance_qpart = "";
 
 		if (DB_TYPE == "pgsql") {
-			$date_qpart = "last_connected < NOW() - INTERVAL '1 second'";
+			$date_qpart = "last_connected < NOW() - INTERVAL '6 hours'";
 		} else {
 			$date_qpart = "last_connected < DATE_SUB(NOW(), INTERVAL 6 HOUR";
 		}

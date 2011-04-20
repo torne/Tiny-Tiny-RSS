@@ -1539,11 +1539,21 @@
 			}
 
 			if ($mode == 1) {
-				$result = db_query($link, "SELECT feed_url, subscribers FROM
+				/* $result = db_query($link, "SELECT feed_url, subscribers FROM
 					ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 					WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
 					AND owner_uid = '$owner_uid') $search_qpart
-					ORDER BY subscribers DESC LIMIT $limit");
+					ORDER BY subscribers DESC LIMIT $limit"); */
+
+				$result = db_query($link, "SELECT feed_url, title, SUM(subscribers) AS subscribers FROM
+					(SELECT feed_url, title, subscribers FROM ttrss_feedbrowser_cache UNION ALL
+						SELECT feed_url, title, subscribers FROM ttrss_linked_feeds) AS qqq
+					WHERE
+						(SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
+							WHERE tf.feed_url = qqq.feed_url
+								AND owner_uid = '$owner_uid') $search_qpart
+					GROUP BY feed_url, title ORDER BY subscribers DESC LIMIT $limit");
+
 			} else if ($mode == 2) {
 				$result = db_query($link, "SELECT *,
 					(SELECT COUNT(*) FROM ttrss_user_entries WHERE
