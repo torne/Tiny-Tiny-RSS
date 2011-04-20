@@ -389,6 +389,7 @@ create table ttrss_access_keys (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade);
 
 create table ttrss_linked_instances (id serial not null primary key,
+	last_connected timestamp not null,
 	access_key varchar(250) not null,
 	access_url text not null);
 

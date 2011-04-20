@@ -1,6 +1,7 @@
 begin;
 
 create table ttrss_linked_instances (id serial not null primary key,
+	last_connected datetime not null,
 	access_key varchar(250) not null,
 	access_url text not null);
 

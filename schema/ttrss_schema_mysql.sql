@@ -429,6 +429,7 @@ create table ttrss_access_keys (id integer not null primary key auto_increment,
   	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_linked_instances (id integer not null primary key auto_increment,
+	last_connected datetime not null,
 	access_key varchar(250) not null,
 	access_url text not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
