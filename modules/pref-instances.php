@@ -70,7 +70,7 @@
 			print __("Access key:") . " ";
 
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
-				placeHolder=\"".__("Access key")."\"
+				placeHolder=\"".__("Access key")."\" regExp='\w{40}'
 				style=\"width: 20em\" name=\"access_key\" id=\"instance_edit_key\"
 				value=\"$access_key\">";
 
@@ -143,6 +143,7 @@
 		print "<tr class=\"title\">
 			<td align='center' width=\"5%\">&nbsp;</td>
 			<td width=''><a href=\"#\" onclick=\"updateInstanceList('access_url')\">".__('Instance URL')."</a></td>
+			<td width='20%'><a href=\"#\" onclick=\"updateInstanceList('access_key')\">".__('Access key')."</a></td>
 			<td width='20%'><a href=\"#\" onclick=\"updateUsersList('last_connected')\">".__('Last connected')."</a></td>
 			</tr>";
 
@@ -163,7 +164,11 @@
 
 			$onclick = "onclick='editInstance($id, event)' title='".__('Click to edit')."'";
 
+			$access_key = mb_substr($line['access_key'], 0, 4) . '...' .
+				mb_substr($line['access_key'], -4);
+
 			print "<td $onclick>" . htmlspecialchars($line['access_url']) . "</td>";
+			print "<td $onclick>" . htmlspecialchars($access_key) . "</td>";
 			print "<td $onclick>" . htmlspecialchars($line['last_connected']) . "</td>";
 
 			print "</tr>";

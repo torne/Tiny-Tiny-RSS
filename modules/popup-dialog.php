@@ -1019,7 +1019,7 @@
 			print __("Access key:") . " ";
 
 			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
-				placeHolder=\"".__("Access key")."\"
+				placeHolder=\"".__("Access key")."\" regExp='\w{40}'
 				style=\"width: 20em\" name=\"access_key\" id=\"instance_add_key\"
 				value=\"$access_key\">";
 
