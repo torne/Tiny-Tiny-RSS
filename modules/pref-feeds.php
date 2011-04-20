@@ -1613,7 +1613,7 @@
 
 					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\"
 						id=\"FBROW-".$details["id"]."\">$check_box".
-						"$feed_icon $feed_url " . htmlspecialchars($details["title"]) .
+						"$feed_icon $feed_url " . htmlspecialchars($line["title"]) .
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
 						$site_url</li>";
 
