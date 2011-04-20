@@ -7408,11 +7408,12 @@
 								$feed_url = db_escape_string($feed['feed_url']);
 								$title = db_escape_string($feed['title']);
 								$subscribers = db_escape_string($feed['subscribers']);
+								$site_url = db_escape_string($site['site_url']);
 
 								db_query($link, "INSERT INTO ttrss_linked_feeds
-									(feed_url, title, subscribers, instance_id, created, updated)
+									(feed_url, site_url, title, subscribers, instance_id, created, updated)
 								VALUES
-									('$feed_url', '$title', '$subscribers', '$id', NOW(), NOW())");
+									('$feed_url', '$site_url', '$title', '$subscribers', '$id', NOW(), NOW())");
 							}
 						} else {
 							// received 0 feeds, this might indicate that
