@@ -5,6 +5,16 @@ var hotkey_prefix_pressed = false;
 
 var seq = "";
 
+function instancelist_callback2(transport) {
+	try {
+		dijit.byId('instanceConfigTab').attr('content', transport.responseText);
+		selectTab("instanceConfig", true);
+		notify("");
+	} catch (e) {
+		exception_error("instancelist_callback2", e);
+	}
+}
+
 function feedlist_callback2(transport) {
 	try {
 		dijit.byId('feedConfigTab').attr('content', transport.responseText);
@@ -58,6 +68,14 @@ function updateFeedList(sort_key) {
 		parameters: "?op=pref-feeds",
 		onComplete: function(transport) {
 			feedlist_callback2(transport);
+		} });
+}
+
+function updateInstanceList(sort_key) {
+	new Ajax.Request("backend.php", {
+		parameters: "?op=pref-instances&sort=" + param_escape(sort_key),
+		onComplete: function(transport) {
+			instancelist_callback2(transport);
 		} });
 }
 
@@ -1755,3 +1773,79 @@ function insertSSLserial(value) {
 		exception_error("insertSSLcerial", e);
 	}
 }
+
+function getSelectedInstances() {
+	return getSelectedTableRowIds("prefInstanceList");
+}
+
+function addInstance() {
+	try {
+		alert("TODO: function not implemented.");
+
+
+	} catch (e) {
+		exception_error("addInstance", e);
+	}
+}
+
+function editInstance(id, event) {
+	try {
+		if (!event || !event.ctrlKey) {
+
+		selectTableRows('prefInstanceList', 'none');
+		selectTableRowById('LIRR-'+id, 'LICHK-'+id, true);
+
+		var query = "backend.php?op=pref-instances&subop=edit&id=" +
+			param_escape(id);
+
+		if (dijit.byId("instanceEditDlg"))
+			dijit.byId("instanceEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "instanceEditDlg",
+			title: __("Edit Instance"),
+			style: "width: 600px",
+			href: query,
+		});
+
+		dialog.show();
+
+		} else if (event.ctrlKey) {
+			var cb = $('LICHK-' + id);
+			cb.checked = !cb.checked;
+			toggleSelectRow(cb);
+		}
+
+
+	} catch (e) {
+		exception_error("editInstance", e);
+	}
+}
+
+function removeSelectedInstances() {
+	try {
+		alert("TODO: function not implemented.");
+
+	} catch (e) {
+		exception_error("removeInstance", e);
+	}
+}
+
+function editSelectedInstance() {
+	var rows = getSelectedInstances();
+
+	if (rows.length == 0) {
+		alert(__("No instances are selected."));
+		return;
+	}
+
+	if (rows.length > 1) {
+		alert(__("Please select only one instance."));
+		return;
+	}
+
+	notify("");
+
+	editInstance(rows[0]);
+}
+

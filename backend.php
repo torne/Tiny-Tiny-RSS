@@ -121,6 +121,7 @@
 	require_once "modules/pref-filters.php";
 	require_once "modules/pref-labels.php";
 	require_once "modules/pref-users.php";
+	require_once "modules/pref-instances.php";
 
 	$error = sanity_check($link);
 
@@ -435,6 +436,10 @@
 			module_pref_feed_browser($link);
 		break; // pref-feed-browser
 
+		case "pref-instances":
+			module_pref_instances($link);
+		break; // pref-instances
+
 		case "rss":
 			$feed = db_escape_string($_REQUEST["id"]);
 			$key = db_escape_string($_REQUEST["key"]);
@@ -504,6 +509,7 @@
 			header("Content-type: text/html");
 			print __("Loading, please wait...") . " " .
 				"<img src='images/indicator_tiny.gif'>";
+		break; // loading
 
 		case "getProfiles":
 			$login = db_escape_string($_REQUEST["login"]);
@@ -528,7 +534,7 @@
 
 				$_SESSION = array();
 			}
-		break;
+		break; // getprofiles
 
 		case "pubsub":
 			$mode = db_escape_string($_REQUEST['hub_mode']);
@@ -570,17 +576,17 @@
 				header('HTTP/1.0 404 Not Found');
 			}
 
-		break;
+		break; // pubsub
 
 		case "logout":
 			logout_user();
 			header("Location: tt-rss.php");
-		break;
+		break; // logout
 
 		default:
 			header("Content-Type: text/plain");
 			print json_encode(array("error" => array("code" => 7)));
-		break;
+		break; // fallback
 	} // Select action according to $op value.
 
 	// We close the connection to database.

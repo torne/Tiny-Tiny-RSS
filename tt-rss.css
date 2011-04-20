@@ -350,7 +350,11 @@ table.prefUserList tr.oddSelected,
 table.prefFeedList tr.even,
 table.prefFeedList tr.odd,
 table.prefFeedList tr.evenSelected,
-table.prefFeedList tr.oddSelected
+table.prefFeedList tr.oddSelected,
+table.prefInstanceList tr.even,
+table.prefInstanceList tr.odd,
+table.prefInstanceList tr.evenSelected,
+table.prefInstanceList tr.oddSelected
 {	
 	cursor : pointer;
 }
@@ -370,7 +374,11 @@ table.prefUserList tr.oddSelected:hover td,
 table.prefFeedList tr.even:hover td, 
 table.prefFeedList tr.odd:hover td,
 table.prefFeedList tr.evenSelected:hover td, 
-table.prefFeedList tr.oddSelected:hover td
+table.prefFeedList tr.oddSelected:hover td,
+table.prefInstanceList tr.even:hover td, 
+table.prefInstanceList tr.odd:hover td,
+table.prefInstanceList tr.evenSelected:hover td, 
+table.prefInstanceList tr.oddSelected:hover td
 {
 	color : #88b0f0;
 }
@@ -1472,13 +1480,14 @@ div#pref-tabs .dijitContentPane h3 {
 
 #pref-filter-wrap, #pref-filter-header, #pref-filter-content, 
 #pref-label-wrap, #pref-label-header, #pref-label-content,
-#pref-user-wrap, #pref-user-header, #pref-user-content {
+#pref-user-wrap, #pref-user-header, #pref-user-content, 
+#pref-instance-wrap, #pref-instance-header, #pref-instance-content {
 	margin : 0px;
 	padding : 0px;
 	border-width : 0px;
 }
 
-#userConfigTab, #labelConfigTab, #filterConfigTab, #pref-feeds-feeds { 
+#userConfigTab, #labelConfigTab, #filterConfigTab, #pref-feeds-feeds, #instanceConfigTab { 
 	padding : 0px;
 }
 
