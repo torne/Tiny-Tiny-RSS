@@ -2,6 +2,8 @@ begin;
 
 create table ttrss_linked_instances (id integer not null primary key auto_increment,
 	last_connected timestamp not null,
+	last_status_in integer not null,
+	last_status_out integer not null,
 	access_key varchar(250) not null,
 	access_url text not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
