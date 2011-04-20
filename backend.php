@@ -124,7 +124,7 @@
 
 	$error = sanity_check($link);
 
-	if ($error['code'] != 0) {
+	if ($error['code'] != 0 && $op != "logout") {
 		print json_encode(array("error" => $error));
 		return;
 	}

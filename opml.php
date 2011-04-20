@@ -158,7 +158,7 @@
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head>
 			<body>
-			<div class=\"floatingLogo\"><img src=\"images/logo.png\"></div>
+			<div class=\"floatingLogo\"><img src=\"images/logo_wide.png\"></div>
 			<h1>".__('OPML Utility')."</h1>";
 
 		db_query($link, "BEGIN");

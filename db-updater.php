@@ -36,7 +36,7 @@ function confirmOP() {
 }
 </script>
 
-<div class="floatingLogo"><img src="images/logo.png"></div>
+<div class="floatingLogo"><img src="images/logo_wide.png"></div>
 
 <h1><?php echo __("Database Updater") ?></h1>
 
@@ -92,10 +92,8 @@ function confirmOP() {
 				</form>";
 		}
 
-		return;
-	}
+	} else if ($version <= $latest_version && !$op) {
 
-	if (!$op) {
 		print_warning(__("Please backup your database before proceeding."));
 
 		print "<p>" . T_sprintf("Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>).", $version, $latest_version) . "</p>";
@@ -155,9 +153,24 @@ function confirmOP() {
 		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
 			version <b>%d</b>.", $num_updates, $version)."</p>";
 
-		print "<form method=\"GET\" action=\"backend.php?op=logout\">
+		print "<form method=\"GET\" action=\"backend.php\">
+			<input type=\"hidden\" name=\"op\" value=\"logout\">
 			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 			</form>";
+
+	} else if ($version >= $latest_version) {
+
+		print_error(__("Your database schema is from a newer version of Tiny Tiny RSS."));
+
+		print "<p>" . T_sprintf("Found schema version: <b>%d</b>, required: <b>%d</b>.", $version, $latest_version) . "</p>";
+
+		print "<p>" . __("Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer version and continue.") . "</p>";
+
+		print "<form method=\"GET\" action=\"backend.php\">
+			<input type=\"hidden\" name=\"op\" value=\"logout\">
+			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+			</form>";
+
 
 	}
 
