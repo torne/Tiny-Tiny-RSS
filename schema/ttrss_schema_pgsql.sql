@@ -1,3 +1,5 @@
+drop table ttrss_linked_feeds;
+drop table ttrss_linked_instances;
 drop table ttrss_access_keys;
 drop table ttrss_user_labels2;
 drop table ttrss_labels2;
@@ -10,7 +12,7 @@ drop table ttrss_filter_actions;
 drop table ttrss_user_prefs;
 drop table ttrss_prefs;
 drop table ttrss_prefs_types;
-drop table ttrss_prefs_sections; 
+drop table ttrss_prefs_sections;
 drop table ttrss_tags;
 drop table ttrss_enclosures;
 drop table ttrss_settings_profiles;
@@ -42,7 +44,7 @@ create table ttrss_users (id serial not null primary key,
 	twitter_oauth text default null,
 	created timestamp default null);
 
-insert into ttrss_users (login,pwd_hash,access_level) values ('admin', 
+insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
 	'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 10);
 
 create table ttrss_feed_categories(id serial not null primary key,
@@ -53,9 +55,9 @@ create table ttrss_feed_categories(id serial not null primary key,
 
 create table ttrss_feeds (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	title varchar(200) not null, 
+	title varchar(200) not null,
 	cat_id integer default null references ttrss_feed_categories(id) on delete set null,
-	feed_url text not null, 
+	feed_url text not null,
 	icon_url varchar(250) not null default '',
 	update_interval integer not null default 0,
 	purge_interval integer not null default 0,
@@ -79,21 +81,21 @@ create table ttrss_feeds (id serial not null primary key,
 	update_on_checksum_change boolean not null default false,
 	strip_images boolean not null default false,
 	pubsub_state integer not null default 0,
-	auth_pass_encrypted boolean not null default false);	
+	auth_pass_encrypted boolean not null default false);
 
 create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
 
-insert into ttrss_feeds (owner_uid, title, feed_url) values 
+insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.org/forum/rss.php');
 
 create table ttrss_archived_feeds (id integer not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
-	title varchar(200) not null, 
-	feed_url text not null, 
-	site_url varchar(250) not null default '');	
+	title varchar(200) not null,
+	feed_url text not null,
+	site_url varchar(250) not null default '');
 
 create table ttrss_counters_cache (
 	feed_id integer not null,
@@ -113,11 +115,11 @@ create table ttrss_cat_counters_cache (
 
 create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
-create table ttrss_entries (id serial not null primary key, 
-	title text not null, 
-	guid text not null unique, 
-	link text not null, 
-	updated timestamp not null, 
+create table ttrss_entries (id serial not null primary key,
+	title text not null,
+	guid text not null unique,
+	link text not null,
+	updated timestamp not null,
 	content text not null,
 	content_hash varchar(250) not null,
 	no_orig_date boolean not null default false,
@@ -135,8 +137,8 @@ create index ttrss_entries_updated_idx on ttrss_entries(updated);
 create table ttrss_user_entries (
 	int_id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
-	feed_id int references ttrss_feeds(id) ON DELETE CASCADE, 
-	orig_feed_id integer references ttrss_archived_feeds(id) ON DELETE SET NULL, 
+	feed_id int references ttrss_feeds(id) ON DELETE CASCADE,
+	orig_feed_id integer references ttrss_archived_feeds(id) ON DELETE SET NULL,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	marked boolean not null default false,
 	published boolean not null default false,
@@ -158,54 +160,54 @@ create table ttrss_entry_comments (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	private boolean not null default false,
 	date_entered timestamp not null);
-	
+
 create index ttrss_entry_comments_ref_id_index on ttrss_entry_comments(ref_id);
 -- create index ttrss_entry_comments_owner_uid_index on ttrss_entry_comments(owner_uid);
 
-create table ttrss_filter_types (id integer not null primary key, 
-	name varchar(120) unique not null, 
+create table ttrss_filter_types (id integer not null primary key,
+	name varchar(120) unique not null,
 	description varchar(250) not null unique);
 
 insert into ttrss_filter_types (id,name,description) values (1, 'title', 'Title');
 insert into ttrss_filter_types (id,name,description) values (2, 'content', 'Content');
-insert into ttrss_filter_types (id,name,description) values (3, 'both', 
+insert into ttrss_filter_types (id,name,description) values (3, 'both',
 	'Title or Content');
-insert into ttrss_filter_types (id,name,description) values (4, 'link', 
+insert into ttrss_filter_types (id,name,description) values (4, 'link',
 	'Link');
-insert into ttrss_filter_types (id,name,description) values (5, 'date', 
+insert into ttrss_filter_types (id,name,description) values (5, 'date',
 	'Article Date');
 insert into ttrss_filter_types (id,name,description) values (6, 'author', 'Author');
 insert into ttrss_filter_types (id,name,description) values (7, 'tag', 'Article Tags');
 
-create table ttrss_filter_actions (id integer not null primary key, 
-	name varchar(120) unique not null, 
+create table ttrss_filter_actions (id integer not null primary key,
+	name varchar(120) unique not null,
 	description varchar(250) not null unique);
 
-insert into ttrss_filter_actions (id,name,description) values (1, 'filter', 
+insert into ttrss_filter_actions (id,name,description) values (1, 'filter',
 	'Delete article');
 
-insert into ttrss_filter_actions (id,name,description) values (2, 'catchup', 
+insert into ttrss_filter_actions (id,name,description) values (2, 'catchup',
 	'Mark as read');
 
-insert into ttrss_filter_actions (id,name,description) values (3, 'mark', 
+insert into ttrss_filter_actions (id,name,description) values (3, 'mark',
 	'Set starred');
 
-insert into ttrss_filter_actions (id,name,description) values (4, 'tag', 
+insert into ttrss_filter_actions (id,name,description) values (4, 'tag',
 	'Assign tags');
 
-insert into ttrss_filter_actions (id,name,description) values (5, 'publish', 
+insert into ttrss_filter_actions (id,name,description) values (5, 'publish',
 	'Publish article');
 
-insert into ttrss_filter_actions (id,name,description) values (6, 'score', 
+insert into ttrss_filter_actions (id,name,description) values (6, 'score',
 	'Modify score');
 
-insert into ttrss_filter_actions (id,name,description) values (7, 'label', 
+insert into ttrss_filter_actions (id,name,description) values (7, 'label',
 	'Assign label');
 
-create table ttrss_filters (id serial not null primary key, 	
+create table ttrss_filters (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	feed_id integer references ttrss_feeds(id) on delete cascade default null,
-	filter_type integer not null references ttrss_filter_types(id), 
+	filter_type integer not null references ttrss_filter_types(id),
 	reg_exp varchar(250) not null,
 	filter_param varchar(250) not null default '',
 	enabled boolean not null default true,
@@ -213,7 +215,7 @@ create table ttrss_filters (id serial not null primary key,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(250) not null default '');
 
-create table ttrss_tags (id serial not null primary key, 
+create table ttrss_tags (id serial not null primary key,
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	post_int_id integer references ttrss_user_entries(int_id) ON DELETE CASCADE not null);
@@ -223,7 +225,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (83);
+insert into ttrss_version values (84);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -236,14 +238,14 @@ create table ttrss_settings_profiles(id serial not null primary key,
 	title varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade);
 
-create table ttrss_prefs_types (id integer not null primary key, 
+create table ttrss_prefs_types (id integer not null primary key,
 	type_name varchar(100) not null);
 
 insert into ttrss_prefs_types (id, type_name) values (1, 'bool');
 insert into ttrss_prefs_types (id, type_name) values (2, 'string');
 insert into ttrss_prefs_types (id, type_name) values (3, 'integer');
 
-create table ttrss_prefs_sections (id integer not null primary key, 
+create table ttrss_prefs_sections (id integer not null primary key,
 	section_name varchar(100) not null);
 
 insert into ttrss_prefs_sections (id, section_name) values (1, 'General');
@@ -259,7 +261,7 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	def_value text not null);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge old posts after this number of days (0 - disables)',1);
-	
+
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates',1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_ARTICLE_LIMIT', 3, '30', 'Amount of articles to display at once',2);
@@ -355,13 +357,8 @@ create table ttrss_user_prefs (
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
 -- create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
 
-create table ttrss_scheduled_updates (id serial not null primary key,
-	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
-	feed_id integer default null references ttrss_feeds(id) ON DELETE CASCADE,
-	entered timestamp not null default NOW());
-
 create table ttrss_sessions (id varchar(250) unique not null primary key,
-	data text,	
+	data text,
 	expire integer not null);
 
 create index ttrss_sessions_expire_index on ttrss_sessions(expire);
@@ -371,9 +368,9 @@ create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT 
 create table ttrss_feedbrowser_cache (
 	feed_url text not null primary key,
 	title text not null,
-	subscribers integer not null);	
+	subscribers integer not null);
 
-create table ttrss_labels2 (id serial not null primary key, 
+create table ttrss_labels2 (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	fg_color varchar(15) not null default '',
 	bg_color varchar(15) not null default '',
@@ -390,5 +387,17 @@ create table ttrss_access_keys (id serial not null primary key,
 	feed_id varchar(250) not null,
 	is_cat boolean not null default false,
 	owner_uid integer not null references ttrss_users(id) on delete cascade);
+
+create table ttrss_linked_instances (id serial not null primary key,
+	access_key varchar(250) not null,
+	access_url text not null);
+
+create table ttrss_linked_feeds (
+	feed_url text not null,
+	title text not null,
+	created timestamp not null,
+	updated timestamp not null,
+	instance_id integer not null references ttrss_linked_instances(id) ON DELETE CASCADE,
+	subscribers integer not null);
 
 commit;
