@@ -1023,6 +1023,8 @@
 				style=\"width: 20em\" name=\"access_key\" id=\"instance_add_key\"
 				value=\"$access_key\">";
 
+			print "<p class='insensitive'>" . __("Use one access key for both linked instances.");
+
 			print "</div>";
 
 			print "<div class=\"dlgButtons\">

@@ -24,8 +24,9 @@
 
 			if (db_num_rows($result) == 0) {
 				db_query($link, "INSERT INTO ttrss_linked_instances
-					(access_url, access_key, last_connected) VALUES
-					('$access_url', '$access_key', '1970-01-01')");
+					(access_url, access_key, last_connected, last_status_in, last_status_out)
+					VALUES
+					('$access_url', '$access_key', '1970-01-01', -1, -1)");
 
 			}
 
@@ -73,6 +74,8 @@
 				placeHolder=\"".__("Access key")."\" regExp='\w{40}'
 				style=\"width: 20em\" name=\"access_key\" id=\"instance_edit_key\"
 				value=\"$access_key\">";
+
+			print "<p class='insensitive'>" . __("Use one access key for both linked instances.");
 
 			print "</div>";
 
@@ -131,7 +134,10 @@
 
 		print "</div>"; #toolbar
 
-		$result = db_query($link, "SELECT * FROM ttrss_linked_instances
+		$result = db_query($link, "SELECT *,
+			(SELECT COUNT(*) FROM ttrss_linked_feeds
+				WHERE instance_id = ttrss_linked_instances.id) AS num_feeds
+			FROM ttrss_linked_instances
 			ORDER BY $sort");
 
 		print "<p class=\"insensitive\" style='margin-left : 1em;'>" . __("You can connect other instances of Tiny Tiny RSS to this one to share Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:");
@@ -144,7 +150,8 @@
 			<td align='center' width=\"5%\">&nbsp;</td>
 			<td width=''><a href=\"#\" onclick=\"updateInstanceList('access_url')\">".__('Instance URL')."</a></td>
 			<td width='20%'><a href=\"#\" onclick=\"updateInstanceList('access_key')\">".__('Access key')."</a></td>
-			<td width='20%'><a href=\"#\" onclick=\"updateUsersList('last_connected')\">".__('Last connected')."</a></td>
+			<td width='10%'><a href=\"#\" onclick=\"updateUsersList('last_connected')\">".__('Last connected')."</a></td>
+			<td width='10%'><a href=\"#\" onclick=\"updateUsersList('num_feeds')\">".__('Stored feeds')."</a></td>
 			</tr>";
 
 		$lnum = 0;
@@ -170,6 +177,7 @@
 			print "<td $onclick>" . htmlspecialchars($line['access_url']) . "</td>";
 			print "<td $onclick>" . htmlspecialchars($access_key) . "</td>";
 			print "<td $onclick>" . htmlspecialchars($line['last_connected']) . "</td>";
+			print "<td $onclick>" . htmlspecialchars($line['num_feeds']) . "</td>";
 
 			print "</tr>";
 

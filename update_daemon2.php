@@ -219,6 +219,9 @@
 
 						_debug("Cleaned $rc cached tags.");
 
+						_debug("Updating linked feeds...");
+						get_linked_feeds($link);
+
 					}
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");

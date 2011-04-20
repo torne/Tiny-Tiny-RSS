@@ -22,6 +22,7 @@
 		print "  -feedbrowser   - update feedbrowser\n";
 		print "  -daemon        - start single-process update daemon\n";
 		print "  -cleanup-tags  - perform tags table maintenance\n";
+		print "  -get-feeds     - receive popular feeds from linked instances\n";
 		print "  -help          - show this help\n";
 		return;
 	}
@@ -108,6 +109,10 @@
 	if ($op == "-cleanup-tags") {
 		$rc = cleanup_tags($link, 14, 50000);
 		print "$rc tags deleted.\n";
+	}
+
+	if ($op == "-get-feeds") {
+		get_linked_feeds($link);
 	}
 
 	db_close($link);

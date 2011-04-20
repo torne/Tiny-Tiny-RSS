@@ -60,7 +60,7 @@
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
 			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
-			$op != "logout" && $op != "pubsub") {
+			$op != "fbexport" && $op != "logout" && $op != "pubsub") {
 
 		header("Content-Type: text/plain");
 		print json_encode(array("error" => array("code" => 6)));
@@ -582,6 +582,37 @@
 			logout_user();
 			header("Location: tt-rss.php");
 		break; // logout
+
+		case "fbexport":
+
+			// TODO: change to _POST
+			$access_key = db_escape_string($_REQUEST["key"]);
+
+			// TODO: rate limit checking using last_connected
+			$result = db_query($link, "SELECT id FROM ttrss_linked_instances
+				WHERE access_key = '$access_key'");
+
+			if (db_num_rows($result) == 1) {
+
+				$instance_id = db_fetch_result($result, 0, "id");
+
+				$result = db_query($link, "SELECT feed_url, title, subscribers
+					FROM ttrss_feedbrowser_cache ORDER BY subscribers DESC LIMIT 100");
+
+				$feeds = array();
+
+				while ($line = db_fetch_assoc($result)) {
+					array_push($feeds, $line);
+				}
+
+				db_query($link, "UPDATE ttrss_linked_instances SET last_connected = NOW(),
+					last_status_in = 1 WHERE id = '$instance_id'");
+
+				print json_encode(array("feeds" => $feeds));
+			} else {
+				print json_encode(array("error" => array("code" => 6)));
+			}
+		break; // fbexport
 
 		default:
 			header("Content-Type: text/plain");
