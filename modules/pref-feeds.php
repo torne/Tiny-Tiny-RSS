@@ -1607,13 +1607,16 @@
 						$site_url = "";
 					}
 
-					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img
+					$feed_url = "<a class=\"fb_feedUrl\" target=\"_blank\"
+						href=\"$feed_url\"><img
 						style='border-width : 0px; vertical-align : middle'
 						src='images/feed-icon-12x12.png'></a>";
 
-					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\"
-						id=\"FBROW-".$details["id"]."\">$check_box".
-						"$feed_icon $feed_url " . htmlspecialchars($line["title"]) .
+					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\">
+						$check_box".
+						"$feed_icon $feed_url " .
+						"<span class=\"fb_feedTitle\">".htmlspecialchars($line["title"]).
+						"</span>".
 						"&nbsp;<span class='subscribers'>($subscribers)</span>
 						$site_url</li>";
 

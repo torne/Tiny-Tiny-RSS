@@ -1430,7 +1430,7 @@ function feedBrowser() {
 			id: "feedBrowserDlg",
 			title: __("More Feeds"),
 			style: "width: 600px",
-			getSelectedFeeds: function() {
+			getSelectedFeedIds: function() {
 				var list = $$("#browseFeedList li[id*=FBROW]");
 				var selected = new Array();
 
@@ -1444,26 +1444,48 @@ function feedBrowser() {
 
 				return selected;
 			},
+			getSelectedFeeds: function() {
+				var list = $$("#browseFeedList li.Selected");
+				var selected = new Array();
+
+				list.each(function(child) {
+					var title = child.getElementsBySelector("span.fb_feedTitle")[0].innerHTML;
+					var url = child.getElementsBySelector("a.fb_feedUrl")[0].href;
+
+					selected.push([title,url]);
+
+				});
+
+				return selected;
+			},
+
 			subscribe: function() {
-				var selected = this.getSelectedFeeds();
 				var mode = this.attr('value').mode;
+				var selected = [];
+
+				if (mode == "1")
+					selected = this.getSelectedFeeds();
+				else
+					selected = this.getSelectedFeedIds();
 
 				if (selected.length > 0) {
 					dijit.byId("feedBrowserDlg").hide();
 
 					notify_progress("Loading, please wait...", true);
 
-					var query = "?op=rpc&subop=massSubscribe&ids="+
-						param_escape(selected.toString()) + "&mode=" + param_escape(mode);
+					// we use dojo.toJson instead of JSON.stringify because
+					// it somehow escapes everything TWICE, at least in Chrome 9
+
+					var query = "?op=rpc&subop=massSubscribe&payload="+
+						param_escape(dojo.toJson(selected)) + "&mode=" + param_escape(mode);
 
 					console.log(query);
 
 					new Ajax.Request("backend.php", {
 						parameters: query,
 						onComplete: function(transport) {
-							if (inPreferences()) {
-								updateFeedList();
-							}
+							notify('');
+							updateFeedList();
 						} });
 
 				} else {

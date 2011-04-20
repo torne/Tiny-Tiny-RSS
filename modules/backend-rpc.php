@@ -514,8 +514,52 @@
 		// Silent
 		if ($subop == "massSubscribe") {
 
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$payload = json_decode($_REQUEST["payload"], false);
 			$mode = $_REQUEST["mode"];
+
+			if (!$payload || !is_array($payload)) return;
+
+			if ($mode == 1) {
+				foreach ($payload as $feed) {
+
+					$title = db_escape_string($feed[0]);
+					$feed_url = db_escape_string($feed[1]);
+
+					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+					if (db_num_rows($result) == 0) {
+						$result = db_query($link, "INSERT INTO ttrss_feeds
+								(owner_uid,feed_url,title,cat_id,site_url)
+							VALUES ('".$_SESSION["uid"]."',
+								'$feed_url', '$title', NULL, '')");
+					}
+				}
+			} else if ($mode == 2) {
+				// feed archive
+				foreach ($payload as $id) {
+					$result = db_query($link, "SELECT * FROM ttrss_archived_feeds
+						WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+
+					if (db_num_rows($result) != 0) {
+						$site_url = db_escape_string(db_fetch_result($result, 0, "site_url"));
+						$feed_url = db_escape_string(db_fetch_result($result, 0, "feed_url"));
+						$title = db_escape_string(db_fetch_result($result, 0, "title"));
+
+						$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+							feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+						if (db_num_rows($result) == 0) {
+							$result = db_query($link, "INSERT INTO ttrss_feeds
+									(owner_uid,feed_url,title,cat_id,site_url)
+								VALUES ('$id','".$_SESSION["uid"]."',
+									'$feed_url', '$title', NULL, '$site_url')");
+						}
+					}
+				}
+			}
+
+/*			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			$subscribed = array();
 
@@ -551,7 +595,7 @@
 					}
 					array_push($subscribed, $title_orig);
 				}
-			}
+			} */
 
 			return;
 		}
