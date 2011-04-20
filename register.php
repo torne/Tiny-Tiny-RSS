@@ -140,7 +140,7 @@
 
 <body>
 
-<div class="floatingLogo"><img src="images/logo.png"></div>
+<div class="floatingLogo"><img src="images/logo_wide.png"></div>
 
 <h1><?php echo __("Create new account") ?></h1>
 
