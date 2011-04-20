@@ -225,7 +225,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (84);
+insert into ttrss_version values (85);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -368,6 +368,7 @@ create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT 
 create table ttrss_feedbrowser_cache (
 	feed_url text not null primary key,
 	title text not null,
+	site_url text not null,
 	subscribers integer not null);
 
 create table ttrss_labels2 (id serial not null primary key,
@@ -397,6 +398,7 @@ create table ttrss_linked_instances (id serial not null primary key,
 
 create table ttrss_linked_feeds (
 	feed_url text not null,
+	site_url text not null,
 	title text not null,
 	created timestamp not null,
 	updated timestamp not null,

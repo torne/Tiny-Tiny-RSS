@@ -596,7 +596,7 @@
 
 				$instance_id = db_fetch_result($result, 0, "id");
 
-				$result = db_query($link, "SELECT feed_url, title, subscribers
+				$result = db_query($link, "SELECT feed_url, site_url, title, subscribers
 					FROM ttrss_feedbrowser_cache ORDER BY subscribers DESC LIMIT 100");
 
 				$feeds = array();

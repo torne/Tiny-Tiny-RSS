@@ -254,7 +254,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) TYPE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (84);
+insert into ttrss_version values (85);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -404,6 +404,7 @@ create table ttrss_sessions (id varchar(250) unique not null primary key,
 
 create table ttrss_feedbrowser_cache (
 	feed_url text not null,
+	site_url text not null,
 	title text not null,
 	subscribers integer not null) DEFAULT CHARSET=UTF8;
 
@@ -437,6 +438,7 @@ create table ttrss_linked_instances (id integer not null primary key auto_increm
 
 create table ttrss_linked_feeds (
 	feed_url text not null,
+	site_url text not null,
 	title text not null,
 	created datetime not null,
 	updated datetime not null,
