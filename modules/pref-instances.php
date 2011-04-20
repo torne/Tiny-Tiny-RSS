@@ -1,6 +1,11 @@
 <?php
 	function module_pref_instances($link) {
 
+		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
+			print __("Your access level is insufficient to open this tab.");
+			return;
+		}
+
 		$subop = $_REQUEST['subop'];
 
 		if ($subop == "remove") {
