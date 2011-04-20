@@ -7373,7 +7373,7 @@
 		if (DB_TYPE == "pgsql") {
 			$date_qpart = "last_connected < NOW() - INTERVAL '6 hours'";
 		} else {
-			$date_qpart = "last_connected < DATE_SUB(NOW(), INTERVAL 6 HOUR";
+			$date_qpart = "last_connected < DATE_SUB(NOW(), INTERVAL 6 HOUR)";
 		}
 
 		$result = db_query($link, "SELECT id, access_key, access_url FROM ttrss_linked_instances
