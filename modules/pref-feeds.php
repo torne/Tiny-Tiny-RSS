@@ -36,6 +36,10 @@
 
 		if ($subop == "getfeedtree") {
 
+			$search = $_SESSION["prefs_feed_search"];
+
+			if ($search) $search_qpart = " AND LOWER(title) LIKE LOWER('%$search%')";
+
 			$root = array();
 			$root['id'] = 'root';
 			$root['name'] = __('Feeds');
@@ -59,7 +63,7 @@
 						".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds
 						WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
-						" ORDER BY order_id, title");
+						"$search_qpart ORDER BY order_id, title");
 
 					while ($feed_line = db_fetch_assoc($feed_result)) {
 						$feed = array();
@@ -75,7 +79,8 @@
 						array_push($cat['items'], $feed);
 					}
 
-					array_push($root['items'], $cat);
+					if (count($cat['items']) > 0)
+						array_push($root['items'], $cat);
 				}
 
 				/* Uncategorized is a special case */
@@ -91,7 +96,7 @@
 					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds
 					WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
-					" ORDER BY order_id, title");
+					"$search_qpart ORDER BY order_id, title");
 
 				while ($feed_line = db_fetch_assoc($feed_result)) {
 					$feed = array();
@@ -107,13 +112,15 @@
 					array_push($cat['items'], $feed);
 				}
 
-				array_push($root['items'], $cat);
+				if (count($cat['items']) > 0)
+					array_push($root['items'], $cat);
+
 			} else {
 				$feed_result = db_query($link, "SELECT id, title, last_error,
 					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds
 					WHERE owner_uid = ".$_SESSION["uid"].
-					" ORDER BY order_id, title");
+					"$search_qpart ORDER BY order_id, title");
 
 				while ($feed_line = db_fetch_assoc($feed_result)) {
 					$feed = array();
@@ -1303,6 +1310,13 @@
 		}
 
 		print "<div dojoType=\"dijit.Toolbar\">";
+
+		print "<div style='float : right; padding-right : 4px;'>
+			<input dojoType=\"dijit.form.TextBox\" id=\"feed_search\" size=\"20\" type=\"search\"
+				onchange=\"updateFeedList()\" value=\"$feed_search\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"updateFeedList()\">".
+				__('Search')."</button>
+			</div>";
 
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";

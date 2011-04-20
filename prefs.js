@@ -54,8 +54,13 @@ function notify_callback2(transport) {
 }
 
 function updateFeedList(sort_key) {
+
+	var user_search = $("feed_search");
+	var search = "";
+	if (user_search) { search = user_search.value; }
+
 	new Ajax.Request("backend.php", {
-		parameters: "?op=pref-feeds",
+		parameters: "?op=pref-feeds&search=" + param_escape(search),
 		onComplete: function(transport) {
 			feedlist_callback2(transport);
 		} });
