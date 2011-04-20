@@ -5,8 +5,70 @@
 
 		if ($subop == "edit") {
 
-			print "TODO: function not implemented.";
+			$id = db_escape_string($_REQUEST["id"]);
 
+			$result = db_query($link, "SELECT * FROM ttrss_linked_instances WHERE
+				id = '$id'");
+
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"id\" value=\"$id\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"subop\" value=\"editSave\">";
+
+			print "<div class=\"dlgSec\">".__("Instance")."</div>";
+
+			print "<div class=\"dlgSecCont\">";
+
+			/* URL */
+
+			$access_url = htmlspecialchars(db_fetch_result($result, 0, "access_url"));
+
+			print __("URL:") . " ";
+
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				placeHolder=\"".__("Instance URL")."\"
+				regExp='^(http|https)://.*'
+				style=\"font-size : 16px; width: 20em\" name=\"access_url\"
+				value=\"$access_url\">";
+
+			print "<hr/>";
+
+			$access_key = htmlspecialchars(db_fetch_result($result, 0, "access_key"));
+
+			/* Access key */
+
+			print __("Access key:") . " ";
+
+			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				placeHolder=\"".__("Access key")."\"
+				style=\"width: 20em\" name=\"access_key\" id=\"instance_edit_key\"
+				value=\"$access_key\">";
+
+			print "</div>";
+
+			print "<div class=\"dlgButtons\">
+				<div style='float : left'>
+					<button dojoType=\"dijit.form.Button\"
+						onclick=\"return dijit.byId('instanceEditDlg').regenKey()\">".
+						__('Generate new key')."</button>
+				</div>
+				<button dojoType=\"dijit.form.Button\"
+					onclick=\"return dijit.byId('instanceEditDlg').execute()\">".
+					__('Save')."</button>
+				<button dojoType=\"dijit.form.Button\"
+					onclick=\"return dijit.byId('instanceEditDlg').hide()\"\">".
+					__('Cancel')."</button></div>";
+
+			return;
+		}
+
+		if ($subop == "editSave") {
+			$id = db_escape_string($_REQUEST["id"]);
+			$access_url = db_escape_string($_REQUEST["access_url"]);
+			$access_key = db_escape_string($_REQUEST["access_key"]);
+
+			db_query($link, "UPDATE ttrss_linked_instances SET
+				access_key = '$access_key', access_url = '$access_url'
+				WHERE id = '$id'");
 
 			return;
 		}

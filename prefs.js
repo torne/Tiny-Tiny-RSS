@@ -1810,6 +1810,30 @@ function editInstance(id, event) {
 			id: "instanceEditDlg",
 			title: __("Edit Instance"),
 			style: "width: 600px",
+			regenKey: function() {
+				new Ajax.Request("backend.php", {
+					parameters: "?op=rpc&subop=genHash",
+					onComplete: function(transport) {
+						var reply = JSON.parse(transport.responseText);
+						if (reply)
+							dijit.byId('instance_edit_key').attr('value', reply.hash);
+
+					} });
+			},
+			execute: function() {
+				if (this.validate()) {
+//					console.warn(dojo.objectToQuery(this.attr('value')));
+
+					notify_progress('Saving data...', true);
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) {
+							dialog.hide();
+							notify('');
+							updateInstanceList();
+					} });
+				}
+			},
 			href: query,
 		});
 

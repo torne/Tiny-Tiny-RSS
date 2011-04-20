@@ -866,6 +866,13 @@
 			return;
 		}
 
+		if ($subop == "genHash") {
+			$hash = sha1(uniqid(rand(), true));
+
+			print json_encode(array("hash" => $hash));
+			return;
+		}
+
 		print json_encode(array("error" => array("code" => 7,
 			"message" => "Unknown method: $subop")));
 	}
