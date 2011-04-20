@@ -3,6 +3,37 @@
 
 		$subop = $_REQUEST['subop'];
 
+		if ($subop == "remove") {
+			$ids = db_escape_string($_REQUEST['ids']);
+
+			db_query($link, "DELETE FROM ttrss_linked_instances WHERE
+				id IN ($ids)");
+
+			return;
+		}
+
+		if ($subop == "add") {
+			$id = db_escape_string($_REQUEST["id"]);
+			$access_url = db_escape_string($_REQUEST["access_url"]);
+			$access_key = db_escape_string($_REQUEST["access_key"]);
+
+			db_query($link, "BEGIN");
+
+			$result = db_query($link, "SELECT id FROM ttrss_linked_instances
+				WHERE access_url = '$access_url'");
+
+			if (db_num_rows($result) == 0) {
+				db_query($link, "INSERT INTO ttrss_linked_instances
+					(access_url, access_key, last_connected) VALUES
+					('$access_url', '$access_key', '1970-01-01')");
+
+			}
+
+			db_query($link, "COMMIT");
+
+			return;
+		}
+
 		if ($subop == "edit") {
 
 			$id = db_escape_string($_REQUEST["id"]);
@@ -67,7 +98,8 @@
 			$access_key = db_escape_string($_REQUEST["access_key"]);
 
 			db_query($link, "UPDATE ttrss_linked_instances SET
-				access_key = '$access_key', access_url = '$access_url'
+				access_key = '$access_key', access_url = '$access_url',
+				last_connected = '1970-01-01'
 				WHERE id = '$id'");
 
 			return;

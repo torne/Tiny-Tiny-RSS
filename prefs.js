@@ -1785,8 +1785,43 @@ function getSelectedInstances() {
 
 function addInstance() {
 	try {
-		alert("TODO: function not implemented.");
+		var query = "backend.php?op=dlg&id=addInstance";
 
+		if (dijit.byId("instanceAddDlg"))
+			dijit.byId("instanceAddDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "instanceAddDlg",
+			title: __("Link Instance"),
+			style: "width: 600px",
+			regenKey: function() {
+				new Ajax.Request("backend.php", {
+					parameters: "?op=rpc&subop=genHash",
+					onComplete: function(transport) {
+						var reply = JSON.parse(transport.responseText);
+						if (reply)
+							dijit.byId('instance_add_key').attr('value', reply.hash);
+
+					} });
+			},
+			execute: function() {
+				if (this.validate()) {
+					console.warn(dojo.objectToQuery(this.attr('value')));
+
+					notify_progress('Saving data...', true);
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) {
+							dialog.hide();
+							notify('');
+							updateInstanceList();
+					} });
+				}
+			},
+			href: query,
+		});
+
+		dialog.show();
 
 	} catch (e) {
 		exception_error("addInstance", e);
@@ -1853,7 +1888,29 @@ function editInstance(id, event) {
 
 function removeSelectedInstances() {
 	try {
-		alert("TODO: function not implemented.");
+		var sel_rows = getSelectedInstances();
+
+		if (sel_rows.length > 0) {
+
+			var ok = confirm(__("Remove selected instances?"));
+
+			if (ok) {
+				notify_progress("Removing selected instances...");
+
+				var query = "?op=pref-instances&subop=remove&ids="+
+					param_escape(sel_rows.toString());
+
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) {
+						notify('');
+						updateInstanceList();
+					} });
+			}
+
+		} else {
+			alert(__("No instances are selected."));
+		}
 
 	} catch (e) {
 		exception_error("removeInstance", e);
