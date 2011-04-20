@@ -103,7 +103,11 @@
 	<div id="userConfigTab" dojoType="dijit.layout.ContentPane"
 		href="backend.php?op=pref-users"
 		title="<?php echo __('Users') ?>"></div>
+	<div id="instanceConfigTab" dojoType="dijit.layout.ContentPane"
+		href="backend.php?op=pref-instances"
+		title="<?php echo __('Linked') ?>"></div>
 <?php } ?>
+
 </div>
 
 <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">

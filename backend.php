@@ -60,7 +60,7 @@
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
 			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
-			$op != "logout" && $op != "pubsub") {
+			$op != "fbexport" && $op != "logout" && $op != "pubsub") {
 
 		header("Content-Type: text/plain");
 		print json_encode(array("error" => array("code" => 6)));
@@ -121,6 +121,7 @@
 	require_once "modules/pref-filters.php";
 	require_once "modules/pref-labels.php";
 	require_once "modules/pref-users.php";
+	require_once "modules/pref-instances.php";
 
 	$error = sanity_check($link);
 
@@ -435,6 +436,10 @@
 			module_pref_feed_browser($link);
 		break; // pref-feed-browser
 
+		case "pref-instances":
+			module_pref_instances($link);
+		break; // pref-instances
+
 		case "rss":
 			$feed = db_escape_string($_REQUEST["id"]);
 			$key = db_escape_string($_REQUEST["key"]);
@@ -504,7 +509,7 @@
 			header("Content-type: text/html");
 			print __("Loading, please wait...") . " " .
 				"<img src='images/indicator_tiny.gif'>";
-		break;
+		break; // loading
 
 		case "getProfiles":
 			$login = db_escape_string($_REQUEST["login"]);
@@ -529,7 +534,7 @@
 
 				$_SESSION = array();
 			}
-		break;
+		break; // getprofiles
 
 		case "pubsub":
 			$mode = db_escape_string($_REQUEST['hub_mode']);
@@ -571,17 +576,48 @@
 				header('HTTP/1.0 404 Not Found');
 			}
 
-		break;
+		break; // pubsub
 
 		case "logout":
 			logout_user();
 			header("Location: tt-rss.php");
-		break;
+		break; // logout
+
+		case "fbexport":
+
+			// TODO: change to _POST
+			$access_key = db_escape_string($_REQUEST["key"]);
+
+			// TODO: rate limit checking using last_connected
+			$result = db_query($link, "SELECT id FROM ttrss_linked_instances
+				WHERE access_key = '$access_key'");
+
+			if (db_num_rows($result) == 1) {
+
+				$instance_id = db_fetch_result($result, 0, "id");
+
+				$result = db_query($link, "SELECT feed_url, title, subscribers
+					FROM ttrss_feedbrowser_cache ORDER BY subscribers DESC LIMIT 100");
+
+				$feeds = array();
+
+				while ($line = db_fetch_assoc($result)) {
+					array_push($feeds, $line);
+				}
+
+				db_query($link, "UPDATE ttrss_linked_instances SET last_connected = NOW(),
+					last_status_in = 1 WHERE id = '$instance_id'");
+
+				print json_encode(array("feeds" => $feeds));
+			} else {
+				print json_encode(array("error" => array("code" => 6)));
+			}
+		break; // fbexport
 
 		default:
 			header("Content-Type: text/plain");
 			print json_encode(array("error" => array("code" => 7)));
-		break;
+		break; // fallback
 	} // Select action according to $op value.
 
 	// We close the connection to database.
