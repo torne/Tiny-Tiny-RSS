@@ -605,15 +605,11 @@
 					array_push($feeds, $line);
 				}
 
-				db_query($link, "UPDATE ttrss_linked_instances SET,
+				db_query($link, "UPDATE ttrss_linked_instances SET
 					last_status_in = 1 WHERE id = '$instance_id'");
 
 				print json_encode(array("feeds" => $feeds));
 			} else {
-
-				db_query($link, "UPDATE ttrss_linked_instances SET,
-					last_status_in = 0 WHERE id = '$instance_id'");
-
 				print json_encode(array("error" => array("code" => 6)));
 			}
 		break; // fbexport
