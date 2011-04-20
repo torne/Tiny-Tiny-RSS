@@ -504,6 +504,7 @@
 			header("Content-type: text/html");
 			print __("Loading, please wait...") . " " .
 				"<img src='images/indicator_tiny.gif'>";
+		break;
 
 		case "getProfiles":
 			$login = db_escape_string($_REQUEST["login"]);
