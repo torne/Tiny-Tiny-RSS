@@ -103,6 +103,8 @@
 	<div id="userConfigTab" dojoType="dijit.layout.ContentPane"
 		href="backend.php?op=pref-users"
 		title="<?php echo __('Users') ?>"></div>
+<?php } ?>
+<?php if ($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) { ?>
 	<div id="instanceConfigTab" dojoType="dijit.layout.ContentPane"
 		href="backend.php?op=pref-instances"
 		title="<?php echo __('Linked') ?>"></div>
