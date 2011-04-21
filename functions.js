@@ -61,6 +61,8 @@ function exception_error(location, e, ext_info) {
 				__('Close') + "</button>";
 		content += "</div>";
 
+		if (dijit.byId("exceptionDlg"))
+			dijit.byId("exceptionDlg").destroyRecursive();
 
 		var dialog = new dijit.Dialog({
 			id: "exceptionDlg",
