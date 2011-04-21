@@ -113,6 +113,12 @@
 			return;
 		}
 
+		if (!function_exists('curl_init')) {
+			print "<div style='padding : 1em'>";
+			print_error("This functionality requires CURL functions. Please enable CURL in your PHP configuration and reload this page.");
+			print "</div>";
+		}
+
 		print "<div id=\"pref-instance-wrap\" dojoType=\"dijit.layout.BorderContainer\" gutters=\"false\">";
 		print "<div id=\"pref-instance-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
 
