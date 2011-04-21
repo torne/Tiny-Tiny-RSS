@@ -1545,14 +1545,14 @@
 					AND owner_uid = '$owner_uid') $search_qpart
 					ORDER BY subscribers DESC LIMIT $limit"); */
 
-				$result = db_query($link, "SELECT feed_url, title, SUM(subscribers) AS subscribers FROM
-					(SELECT feed_url, title, subscribers FROM ttrss_feedbrowser_cache UNION ALL
-						SELECT feed_url, title, subscribers FROM ttrss_linked_feeds) AS qqq
+				$result = db_query($link, "SELECT feed_url, site_url, title, SUM(subscribers) AS subscribers FROM
+					(SELECT feed_url, site_url, title, subscribers FROM ttrss_feedbrowser_cache UNION ALL
+						SELECT feed_url, site_url, title, subscribers FROM ttrss_linked_feeds) AS qqq
 					WHERE
 						(SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 							WHERE tf.feed_url = qqq.feed_url
 								AND owner_uid = '$owner_uid') $search_qpart
-					GROUP BY feed_url, title ORDER BY subscribers DESC LIMIT $limit");
+					GROUP BY feed_url, site_url, title ORDER BY subscribers DESC LIMIT $limit");
 
 			} else if ($mode == 2) {
 				$result = db_query($link, "SELECT *,
@@ -1574,22 +1574,9 @@
 
 				if ($mode == 1) {
 
-					$feed_url = $line["feed_url"];
+					$feed_url = htmlspecialchars($line["feed_url"]);
+					$site_url = htmlspecialchars($line["site_url"]);
 					$subscribers = $line["subscribers"];
-
-					$det_result = db_query($link, "SELECT site_url,title,id
-						FROM ttrss_feeds WHERE feed_url = '$feed_url' LIMIT 1");
-
-					$details = db_fetch_assoc($det_result);
-
-					$icon_file = ICONS_DIR . "/" . $details["id"] . ".ico";
-
-					if (file_exists($icon_file) && filesize($icon_file) > 0) {
-							$feed_icon = "<img style=\"vertical-align : middle\" class=\"tinyFeedIcon\"	src=\"" . ICONS_URL .
-								"/".$details["id"].".ico\">";
-					} else {
-						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
-					}
 
 					$check_box = "<input onclick='toggleSelectListRow2(this)'
 						dojoType=\"dijit.form.CheckBox\"
@@ -1597,42 +1584,22 @@
 
 					$class = ($feedctr % 2) ? "even" : "odd";
 
-					$feed_url = htmlspecialchars($line["feed_url"]);
+					$site_url = "<a target=\"_blank\"
+						href=\"$site_url\">
+						<span class=\"fb_feedTitle\">".
+						htmlspecialchars($line["title"])."</span></a>";
 
-					if ($details["site_url"]) {
-						$site_url = "<a target=\"_blank\" href=\"".
-							htmlspecialchars($details["site_url"])."\">
-							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
-					} else {
-						$site_url = "";
-					}
+					$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
+						href=\"$feed_url\"><img src='images/feed-icon-12x12.png'
+						style='vertical-align : middle'></a>";
 
-					$feed_url = "<a class=\"fb_feedUrl\" target=\"_blank\"
-						href=\"$feed_url\"><img
-						style='border-width : 0px; vertical-align : middle'
-						src='images/feed-icon-12x12.png'></a>";
-
-					$rv .= "<li title=\"".htmlspecialchars($details["site_url"])."\">
-						$check_box".
-						"$feed_icon $feed_url " .
-						"<span class=\"fb_feedTitle\">".htmlspecialchars($line["title"]).
-						"</span>".
-						"&nbsp;<span class='subscribers'>($subscribers)</span>
-						$site_url</li>";
+					$rv .= "<li>$check_box $feed_url $site_url".
+						"&nbsp;<span class='subscribers'>($subscribers)</span></li>";
 
 				} else if ($mode == 2) {
 					$feed_url = htmlspecialchars($line["feed_url"]);
 					$site_url = htmlspecialchars($line["site_url"]);
 					$title = htmlspecialchars($line["title"]);
-
-					$icon_file = ICONS_DIR . "/" . $line["id"] . ".ico";
-
-					if (file_exists($icon_file) && filesize($icon_file) > 0) {
-							$feed_icon = "<img class=\"tinyFeedIcon\"	src=\"" . ICONS_URL .
-								"/".$line["id"].".ico\">";
-					} else {
-						$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
-					}
 
 					$check_box = "<input onclick='toggleSelectListRow2(this)' dojoType=\"dijit.form.CheckBox\"
 						type=\"checkbox\">";
@@ -1646,23 +1613,18 @@
 						$archived = '';
 					}
 
-					if ($line["site_url"]) {
-						$site_url = "<a target=\"_blank\" href=\"$site_url\">
-							<img style='border-width : 0px' src='images/www.png' alt='www'></a>";
-					} else {
-						$site_url = "";
-					}
+					$site_url = "<a target=\"_blank\"
+						href=\"$site_url\">
+						<span class=\"fb_feedTitle\">".
+						htmlspecialchars($line["title"])."</span></a>";
 
-					$feed_url = "<a target=\"_blank\" href=\"$feed_url\"><img
-						style='border-width : 0px; vertical-align : middle'
-						src='images/feed-icon-12x12.png'></a>";
-
-					$rv .= "<li title='".$line['site_url']."' class='$class'
-						id=\"FBROW-".$line["id"]."\">".
-						$check_box . "$feed_icon $feed_url " . $title .
-						$archived . $site_url . "</li>";
+					$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
+						href=\"$feed_url\"><img src='images/feed-icon-12x12.png'
+						style='vertical-align : middle'></a>";
 
 
+					$rv .= "<li id=\"FBROW-".$line["id"]."\">".
+						"$check_box $feed_url $site_url $archived</li>";
 				}
 
 				++$feedctr;
