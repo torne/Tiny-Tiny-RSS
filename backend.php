@@ -585,8 +585,7 @@
 
 		case "fbexport":
 
-			// TODO: change to _POST
-			$access_key = db_escape_string($_REQUEST["key"]);
+			$access_key = db_escape_string($_POST["key"]);
 
 			// TODO: rate limit checking using last_connected
 			$result = db_query($link, "SELECT id FROM ttrss_linked_instances
