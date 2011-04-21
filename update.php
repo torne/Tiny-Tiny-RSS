@@ -68,6 +68,8 @@
 
 		$rc = cleanup_tags($link, 14, 50000);
 		_debug("Cleaned $rc cached tags.");
+
+		get_linked_feeds($link);
 	}
 
 	if ($op == "-feedbrowser") {
@@ -102,6 +104,8 @@
 			$rc = cleanup_tags($link, 14, 50000);
 
 			_debug("Cleaned $rc cached tags.");
+
+			get_linked_feeds($link);
 		}
 
 	}
