@@ -779,6 +779,8 @@
 
 			if ($pubsub_state != 2) {
 
+				_debug("update_rss_feed: checking for PUSH hub...");
+
 				$feed_hub_url = false;
 				if ($use_simplepie) {
 					$links = $rss->get_links('hub');
@@ -811,13 +813,18 @@
 					}
 				}
 
+				_debug("update_rss_feed: feed hub url: $feed_hub_url");
+
 				if ($feed_hub_url && function_exists('curl_init')) {
+
 					$callback_url = get_self_url_prefix() .
 						"/backend.php?op=pubsub&id=$feed";
 
 					$s = new Subscriber($feed_hub_url, $callback_url);
 
-					$s->subscribe($fetch_url);
+					$rc = $s->subscribe($fetch_url);
+
+					_debug("update_rss_feed: feed hub url found, subscribe request sent.");
 
 					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 1
 						WHERE id = '$feed'");
