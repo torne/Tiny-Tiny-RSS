@@ -119,8 +119,8 @@
 		$err_msg = "php.ini: open_basedir is not supported.";
 	}
 
-	if (!ini_get("allow_url_fopen")) {
-		$err_msg = "php.ini: allow_url_fopen is required.";
+	if (!function_exists("curl_init") && !ini_get("allow_url_fopen")) {
+		$err_msg = "php.ini: either allow_url_fopen or CURL needs to be enabled.";
 	}
 
 	if (!function_exists("json_encode")) {
