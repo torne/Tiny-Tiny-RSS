@@ -777,7 +777,7 @@
 				return; // no articles
 			}
 
-			if ($pubsub_state != 2) {
+			if ($pubsub_state != 2 && PUBSUBHUBBUB_ENABLED) {
 
 				if ($debug_enabled) _debug("update_rss_feed: checking for PUSH hub...");
 

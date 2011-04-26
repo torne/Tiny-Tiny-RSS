@@ -178,14 +178,18 @@
 	// http://twitter.com/oauth_clients to register your instance.
 
 	define('PUBSUBHUBBUB_HUB', '');
-	// URL to a PubSubHubbub-compatible hub server. If defined, Published
-	// articles generated feeds would automatically become PUSH-enabled.
+	// URL to a PubSubHubbub-compatible hub server. If defined, "Published
+	// articles" generated feed would automatically become PUSH-enabled.
+
+	define('PUBSUBHUBBUB_ENABLED', true);
+	// Enable client PubSubHubbub support in tt-rss. When disabled, tt-rss
+	// won't try to subscribe to PUSH feed updates.
 
 	define('ISCONFIGURED', false);
 	// Please set this to true if you have read everything above and
 	// finished setting configuration options.
 
-	define('CONFIG_VERSION', 22);
+	define('CONFIG_VERSION', 23);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
 

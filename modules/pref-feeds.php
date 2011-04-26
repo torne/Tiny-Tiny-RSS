@@ -522,13 +522,14 @@
 				<button dojoType=\"dijit.form.Button\" onclick='return unsubscribeFeed($feed_id, \"$title\")'>".
 					__('Unsubscribe')."</button>";
 
-			$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
+			if (PUBSUBHUBBUB_ENABLED) {
+				$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
+				$pubsub_btn_disabled = ($pubsub_state == 2) ? "" : "disabled=\"1\"";
 
-			$pubsub_btn_disabled = ($pubsub_state == 2) ? "" : "disabled=\"1\"";
-
-			print "<button dojoType=\"dijit.form.Button\" id=\"pubsubReset_Btn\" $pubsub_btn_disabled
-					onclick='return resetPubSub($feed_id, \"$title\")'>".__('Resubscribe to push updates').
-					"</button>";
+				print "<button dojoType=\"dijit.form.Button\" id=\"pubsubReset_Btn\" $pubsub_btn_disabled
+						onclick='return resetPubSub($feed_id, \"$title\")'>".__('Resubscribe to push updates').
+						"</button>";
+			}
 
 			print "</div>";
 
