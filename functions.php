@@ -1291,25 +1291,20 @@
 					$post_needs_update = false;
 					$update_insignificant = false;
 
-					if ($content_hash != $orig_content_hash) {
-//						print "<!-- [$entry_title] $content_hash vs $orig_content_hash -->";
-						$post_needs_update = true;
-					}
-
-					if (db_escape_string($orig_title) != $entry_title) {
-						$post_needs_update = true;
-					}
-
 					if ($orig_num_comments != $num_comments) {
 						$post_needs_update = true;
 						$update_insignificant = true;
 					}
 
-//					this doesn't seem to be very reliable
-//
-//					if ($orig_timestamp != $entry_timestamp && !$orig_no_orig_date) {
-//						$post_needs_update = true;
-//					}
+					if ($content_hash != $orig_content_hash) {
+						$post_needs_update = true;
+						$update_insignificant = false;
+					}
+
+					if (db_escape_string($orig_title) != $entry_title) {
+						$post_needs_update = true;
+						$update_insignificant = false;
+					}
 
 					// if post needs update, update it and mark all user entries
 					// linking to this post as updated
