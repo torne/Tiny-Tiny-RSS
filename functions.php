@@ -1289,6 +1289,7 @@
 					}
 
 					$post_needs_update = false;
+					$update_insignificant = false;
 
 					if ($content_hash != $orig_content_hash) {
 //						print "<!-- [$entry_title] $content_hash vs $orig_content_hash -->";
@@ -1301,6 +1302,7 @@
 
 					if ($orig_num_comments != $num_comments) {
 						$post_needs_update = true;
+						$update_insignificant = true;
 					}
 
 //					this doesn't seem to be very reliable
@@ -1326,14 +1328,16 @@
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
 
-						if ($mark_unread_on_update) {
-							db_query($link, "UPDATE ttrss_user_entries
-								SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
-						} else if ($update_on_checksum_change) {
-							db_query($link, "UPDATE ttrss_user_entries
-								SET last_read = null WHERE ref_id = '$ref_id' AND unread = false");
+						if (!$update_insignificant) {
+							if ($mark_unread_on_update) {
+								db_query($link, "UPDATE ttrss_user_entries
+									SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
+							} else if ($update_on_checksum_change) {
+								db_query($link, "UPDATE ttrss_user_entries
+									SET last_read = null WHERE ref_id = '$ref_id'
+										AND unread = false");
+							}
 						}
-
 					}
 				}
 
