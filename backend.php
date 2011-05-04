@@ -181,7 +181,8 @@
 			$id = db_escape_string($_REQUEST['id']);
 
 			$result = db_query($link, "SELECT link FROM ttrss_entries, ttrss_user_entries
-				WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'");
+				WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'
+				LIMIT 1");
 
 			if (db_num_rows($result) == 1) {
 				$article_url = db_fetch_result($result, 0, 'link');
