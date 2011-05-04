@@ -2592,11 +2592,7 @@
 		if (strchr($omode, "l")) $data = array_merge($data, getLabelCounters($link));
 		if (strchr($omode, "f")) $data = array_merge($data, getFeedCounters($link, $active_feed));
 		if (strchr($omode, "t")) $data = array_merge($data, getTagCounters($link));
-		if (strchr($omode, "c")) {
-			if (get_pref($link, 'ENABLE_FEED_CATS')) {
-				$data = array_merge($data, getCategoryCounters($link));
-			}
-		}
+		if (strchr($omode, "c")) $data = array_merge($data, getCategoryCounters($link));
 
 		return $data;
 	}
