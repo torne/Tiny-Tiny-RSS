@@ -7353,7 +7353,7 @@
 			if (DB_TYPE == "pgsql") {
 				$query = " ($query) AND ttrss_entries.date_entered > NOW() - INTERVAL '14 days'";
 			} else {
-				$query = " ($query) AND ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL 14 DAY";
+				$query = " ($query) AND ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL 14 DAY)";
 			}
 			$query .= " AND ";
 		}
