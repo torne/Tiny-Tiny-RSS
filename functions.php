@@ -1825,10 +1825,7 @@
 		}
 	}
 
-	function http_authenticate_user($link) {
-
-//		error_log("http_authenticate_user: ".$_SERVER["PHP_AUTH_USER"]."\n", 3, '/tmp/tt-rss.log');
-
+/*	function http_authenticate_user($link) {
 		if (!$_SERVER["PHP_AUTH_USER"]) {
 
 			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS RSSGen"');
@@ -1847,7 +1844,7 @@
 		}
 
 		return true;
-	}
+	} */
 
 	function get_ssl_certificate_id() {
 		if ($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]) {
