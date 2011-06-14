@@ -62,8 +62,14 @@
 			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
 			$op != "fbexport" && $op != "logout" && $op != "pubsub") {
 
-		header("Content-Type: text/plain");
-		print json_encode(array("error" => array("code" => 6)));
+		if ($op == 'pref-feeds' && $_REQUEST['subop'] == 'add') {
+			header("Content-Type: text/html");
+			login_sequence($link);
+			render_login_form($link);
+		} else {
+			header("Content-Type: text/plain");
+			print json_encode(array("error" => array("code" => 6)));
+		}
 		return;
 	}
 
