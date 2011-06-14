@@ -79,8 +79,12 @@
 						array_push($cat['items'], $feed);
 					}
 
+					$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+
 					if (count($cat['items']) > 0)
 						array_push($root['items'], $cat);
+
+					$root['param'] += count($cat['items']);
 				}
 
 				/* Uncategorized is a special case */
@@ -112,8 +116,13 @@
 					array_push($cat['items'], $feed);
 				}
 
+				$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+
 				if (count($cat['items']) > 0)
 					array_push($root['items'], $cat);
+
+				$root['param'] += count($cat['items']);
+				$root['param'] = T_sprintf('(%d feeds)', $root['param']);
 
 			} else {
 				$feed_result = db_query($link, "SELECT id, title, last_error,
@@ -135,6 +144,9 @@
 
 					array_push($root['items'], $feed);
 				}
+
+				$root['param'] = T_sprintf('(%d feeds)', count($root['items']));
+
 			}
 
 			$fl = array();
