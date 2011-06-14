@@ -469,9 +469,18 @@
 				selected=\"true\"
 				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id&is_cat=$is_cat'>";
 
-			print "<h2><a target='_blank' href='$article_link'>$title</a></h2>";
+			if ($line['feed_id'] != $feed_id) {
+				$real_feed_title = getFeedTitle($link, $line['feed_id']);
+				$real_feed_id = $line['feed_id'];
+				$feed_link = "(<a href=\"feed.php?id=$real_feed_id\">$real_feed_title</a>)";
+			}
+//			print "<fieldset>";
 
-			print "<fieldset>";
+			print "<div style='float : right'>($updated_fmt)</div>";
+
+			print "<h2><a target='_blank' href='$article_link'>$title</a> $feed_link</h2>";
+
+			print "<hr>";
 
 /*			print "<div class=\"row\">";
 			print "<label id='title'><a target='_blank' href='$article_link'>$title</a></label>";
@@ -480,12 +489,12 @@
 			$is_starred = (sql_bool_to_bool($line["marked"])) ? "true" : "false";
 			$is_published = (sql_bool_to_bool($line["published"])) ? "true" : "false";
 
-			print "<div class=\"row\">";
-			print "<label id='updated'>Updated:</label>";
-			print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
-			print "</div>";
+			//print "<div class=\"row\">";
+			//print "<label id='updated'>Updated:</label>";
+			//print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
+			//print "</div>";
 
-			print "</fieldset>";
+//			print "</fieldset>";
 
 			$content = sanitize_rss($link, $line["content"]);
 			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
