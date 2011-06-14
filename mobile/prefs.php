@@ -7,11 +7,11 @@
 
 	require_once "../config.php";
 	require_once "functions.php";
-	require_once "../functions.php"; 
+	require_once "../functions.php";
 
 	require_once "../sessions.php";
 
-	require_once "../version.php"; 
+	require_once "../version.php";
 	require_once "../db-prefs.php";
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -43,7 +43,7 @@
 </div>
 
 <div class="row">
-	<label><?php echo __('Hide read feeds') ?></label>
+	<label><?php echo __('Hide read articles and feeds') ?></label>
 	<div class="toggle" id="HIDE_READ" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "HIDE_READ") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
 </div>
 

@@ -323,7 +323,11 @@
 		$feed_id = $feed_id;
 		$limit = 15;
 		$filter = '';
-		$view_mode = 'adaptive';
+
+		if (!mobile_get_pref($link, "HIDE_READ"))
+			$view_mode = "all_articles";
+		else
+			$view_mode = 'adaptive';
 
 		if ($search) {
 			$search_mode = 'this_feed';
@@ -334,7 +338,8 @@
 		}
 
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
-			$view_mode, $is_cat, $search, $search_mode, $match_on, false, $offset);
+			$view_mode, $is_cat, $search, $search_mode, $match_on,
+			"unread DESC, updated, score", $offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
