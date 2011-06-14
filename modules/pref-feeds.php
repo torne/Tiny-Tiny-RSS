@@ -1034,6 +1034,9 @@
 			case 2:
 				print_error(T_sprintf("Could not subscribe to <b>%s</b>.", $feed_url));
 				break;
+			case 3:
+				print_error(T_sprintf("No feeds found in <b>%s</b>.", $feed_url));
+				break;
 			case 0:
 				print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
 				break;
