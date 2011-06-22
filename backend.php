@@ -553,34 +553,41 @@
 			$result = db_query($link, "SELECT feed_url FROM ttrss_feeds
 				WHERE id = '$feed_id'");
 
-			$check_feed_url = db_fetch_result($result, 0, "feed_url");
+			if (db_num_rows($result) != 0) {
 
-			if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
-				if ($mode == "subscribe") {
+				$check_feed_url = db_fetch_result($result, 0, "feed_url");
 
-					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 2
-						WHERE id = '$feed_id'");
+				if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
+					if ($mode == "subscribe") {
 
-					print $_REQUEST['hub_challenge'];
-					return;
+						db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 2
+							WHERE id = '$feed_id'");
 
-				} else if ($mode == "unsubscribe") {
+						print $_REQUEST['hub_challenge'];
+						return;
 
-					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 0
-						WHERE id = '$feed_id'");
+					} else if ($mode == "unsubscribe") {
 
-					print $_REQUEST['hub_challenge'];
-					return;
+						db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 0
+							WHERE id = '$feed_id'");
 
-				} else if (!$mode) {
+						print $_REQUEST['hub_challenge'];
+						return;
 
-					// Received update ping, schedule feed update.
+					} else if (!$mode) {
 
-					update_rss_feed($link, $feed_id, true, true);
+						// Received update ping, schedule feed update.
 
+						update_rss_feed($link, $feed_id, true, true);
+
+					}
+				} else {
+					header('HTTP/1.0 404 Not Found');
+					echo "404 Not found";
 				}
 			} else {
 				header('HTTP/1.0 404 Not Found');
+				echo "404 Not found";
 			}
 
 		break; // pubsub
