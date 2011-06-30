@@ -373,6 +373,7 @@
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
 			if ($post_query) {
 				curl_setopt($ch, CURLOPT_POST, true);
