@@ -362,7 +362,7 @@
 		$login = urlencode($login);
 		$pass = urlencode($pass);
 
-		if (function_exists('curl_init')) {
+		if (function_exists('curl_init') && !ini_get("open_basedir")) {
 			$ch = curl_init($url);
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
@@ -816,7 +816,8 @@
 
 				if ($debug_enabled) _debug("update_rss_feed: feed hub url: $feed_hub_url");
 
-				if ($feed_hub_url && function_exists('curl_init')) {
+				if ($feed_hub_url && function_exists('curl_init') &&
+					!ini_get("open_basedir")) {
 
 					$callback_url = get_self_url_prefix() .
 						"/backend.php?op=pubsub&id=$feed";

@@ -115,9 +115,9 @@
 		$err_msg = "config: your ICONS_DIR (" . ICONS_DIR . ") is not writable.\n";
 	}
 
-	if (ini_get("open_basedir")) {
+/*	if (ini_get("open_basedir")) {
 		$err_msg = "php.ini: open_basedir is not supported.";
-	}
+} */
 
 	if (!function_exists("curl_init") && !ini_get("allow_url_fopen")) {
 		$err_msg = "php.ini: either allow_url_fopen or CURL needs to be enabled.";

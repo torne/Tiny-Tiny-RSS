@@ -113,7 +113,7 @@
 			return;
 		}
 
-		if (!function_exists('curl_init')) {
+		if (!function_exists('curl_init') && !ini_get("open_basedir")) {
 			print "<div style='padding : 1em'>";
 			print_error("This functionality requires CURL functions. Please enable CURL in your PHP configuration and reload this page.");
 			print "</div>";
