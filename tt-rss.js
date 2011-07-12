@@ -654,7 +654,7 @@ function hotkey_handler(e) {
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
 
-		if ((keycode == 70 || keycode == 67 || keycode == 71)
+		if ((keycode == 70 || keycode == 67 || keycode == 71 || keycode == 65)
 				&& !hotkey_prefix) {
 
 			var date = new Date();
@@ -766,7 +766,6 @@ function hotkey_handler(e) {
 				return;
 			}
 
-
 			if (keycode == 85) { // u
 				selectionToggleUnread(undefined, false, true)
 				return;
@@ -813,6 +812,33 @@ function hotkey_handler(e) {
 					return;
 				}
 			}
+		}
+
+		/* Prefix a */
+
+		if (hotkey_prefix == 65) { // a
+			hotkey_prefix = false;
+
+			if (keycode == 65) { // a
+				selectArticles('all');
+				return;
+			}
+
+			if (keycode == 85) { // u
+				selectArticles('unread');
+				return;
+			}
+
+			if (keycode == 73) { // i
+				selectArticles('invert');
+				return;
+			}
+
+			if (keycode == 78) { // n
+				selectArticles('none');
+				return;
+			}
+
 		}
 
 		/* Prefix f */

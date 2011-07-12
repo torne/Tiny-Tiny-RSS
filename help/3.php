@@ -38,6 +38,15 @@
 
 	</td><td valign='top'>
 
+	<h2><?php echo __("Multiple articles actions") ?></h2>
+
+	<table>
+		<tr><td class='n'>a a</td><td><?php echo __("Select all articles") ?></td></tr>
+		<tr><td class='n'>a u</td><td><?php echo __("Select unread articles") ?></td></tr>
+		<tr><td class='n'>a i</td><td><?php echo __("Invert article selection") ?></td></tr>
+		<tr><td class='n'>a n</td><td><?php echo __("Deselect all articles") ?></td></tr>
+	</table>
+
 	<h2><?php echo __("Feed actions") ?></h2>
 
 	<table>
