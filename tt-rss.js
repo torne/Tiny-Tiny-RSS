@@ -680,6 +680,11 @@ function hotkey_handler(e) {
 
 		if (!hotkey_prefix) {
 
+			if (keycode == 69) { // e
+				var id = getActiveArticleId();
+				emailArticle(id);
+			}
+
 			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
 				if (!Element.visible("hotkey_help_overlay")) {
 					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
