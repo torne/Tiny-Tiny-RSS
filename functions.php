@@ -4275,6 +4275,12 @@
 
 		if ($is_cat) $cat_q = "&is_cat=$is_cat";
 
+		if ($search) {
+			$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+		} else {
+			$search_q = "";
+		}
+
 		$rss_link = htmlspecialchars(get_self_url_prefix() .
 			"/backend.php?op=rss&id=$feed_id$cat_q$search_q");
 
@@ -4321,12 +4327,6 @@
 			} else {
 				$reply .= $feed_title;
 			}
-		}
-
-		if ($search) {
-			$search_q = "&q=$search&m=$match_on&smode=$search_mode";
-		} else {
-			$search_q = "";
 		}
 
 		$reply .= "
