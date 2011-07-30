@@ -5231,14 +5231,15 @@
 
 					$reply['content'] .= $labels_str;
 
-					/* if (!get_pref($link, 'VFEED_GROUP_BY_FEED')) {
+					if (!get_pref($link, 'VFEED_GROUP_BY_FEED') &&
+						defined('_SHOW_FEED_TITLE_IN_VFEEDS')) {
 						if (@$line["feed_title"]) {
-							print "<span class=\"hlFeed\">
+							$reply['content'] .= "<span class=\"hlFeed\">
 								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a>)
 							</span>";
 						}
-					} */
+					}
 
 					$reply['content'] .= "</div>";
 
@@ -5325,6 +5326,16 @@
 						" $entry_author</a>";
 
 					$reply['content'] .= $labels_str;
+
+					if (!get_pref($link, 'VFEED_GROUP_BY_FEED') &&
+						defined('_SHOW_FEED_TITLE_IN_VFEEDS')) {
+						if (@$line["feed_title"]) {
+							$reply['content'] .= "<span class=\"hlFeed\">
+								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								$line["feed_title"]."</a>)
+							</span>";
+						}
+					}
 
 					if (!$expand_cdm)
 						$content_hidden = "style=\"display : none\"";
