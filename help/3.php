@@ -22,6 +22,7 @@
 		<tr><td class='n'>o</td><td><?php echo __("Open article in new window") ?></td></tr>
 		<tr><td class='n'>c n/c p</td><td><?php echo __("Mark articles below/above active one as read") ?></td></tr>
 		<tr><td class='n'>N/P</td><td><?php echo __("Scroll article content") ?></td></tr>
+		<tr><td class='n'>e</td><td><?php echo __("Email article") ?></td></tr>
 
 	</table>
 
