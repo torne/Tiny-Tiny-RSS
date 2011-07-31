@@ -15,7 +15,7 @@
 
 		// Silent
 		if ($subop == "remprofiles") {
-			$ids = split(",", db_escape_string(trim($_REQUEST["ids"])));
+			$ids = explode(",", db_escape_string(trim($_REQUEST["ids"])));
 
 			foreach ($ids as $id) {
 				if ($_SESSION["profile"] != $id) {
@@ -91,7 +91,7 @@
 
 		// Silent
 		if ($subop == "remarchive") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				$result = db_query($link, "DELETE FROM ttrss_archived_feeds WHERE
@@ -186,7 +186,7 @@
 		}
 
 		if ($subop == "archive") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				archive_article($link, $id, $_SESSION["uid"]);
@@ -260,7 +260,7 @@
 
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 		if ($subop == "catchupSelected") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
@@ -270,7 +270,7 @@
 		}
 
 		if ($subop == "markSelected") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			markArticlesById($link, $ids, $cmode);
@@ -280,7 +280,7 @@
 		}
 
 		if ($subop == "publishSelected") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			publishArticlesById($link, $ids, $cmode);
@@ -320,7 +320,7 @@
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$tags_str = db_escape_string($_REQUEST["tags_str"]);
-			$tags = array_unique(trim_array(split(",", $tags_str)));
+			$tags = array_unique(trim_array(explode(",", $tags_str)));
 
 			db_query($link, "BEGIN");
 
@@ -359,7 +359,8 @@
 
 				/* update tag cache */
 
-				$tags_str = asort(join(",", $tags_to_cache));
+				sort($tags_to_cache);
+				$tags_str = join(",", $tags_to_cache);
 
 				db_query($link, "UPDATE ttrss_user_entries
 					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
@@ -413,7 +414,7 @@
 		}
 
 		if ($subop == "purge") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$days = sprintf("%d", $_REQUEST["days"]);
 
 			foreach ($ids as $id) {
@@ -443,7 +444,7 @@
 		} */
 
 		if ($subop == "getArticles") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$articles = array();
 
 			foreach ($ids as $id) {
@@ -468,7 +469,7 @@
 		if ($subop == "assignToLabel" || $subop == "removeFromLabel") {
 			$reply = array();
 
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$label_id = db_escape_string($_REQUEST["lid"]);
 
 			$label = db_escape_string(label_find_caption($link, $label_id,
@@ -559,7 +560,7 @@
 				}
 			}
 
-/*			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+/*			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 			$subscribed = array();
 

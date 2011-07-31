@@ -205,7 +205,7 @@
 		case "view":
 
 			$id = db_escape_string($_REQUEST["id"]);
-			$cids = split(",", db_escape_string($_REQUEST["cids"]));
+			$cids = explode(",", db_escape_string($_REQUEST["cids"]));
 			$mode = db_escape_string($_REQUEST["mode"]);
 			$omode = db_escape_string($_REQUEST["omode"]);
 
@@ -217,7 +217,7 @@
 			if ($mode == "") {
 				array_push($articles, format_article($link, $id, false));
 			} else if ($mode == "zoom") {
-				array_push($articles, format_article($link, $id, false, true, true));
+				array_push($articles, format_article($link, $id, true, true));
 			} else if ($mode == "raw") {
 				if ($_REQUEST['html']) {
 					header("Content-Type: text/html");
@@ -384,7 +384,7 @@
 				$articles = array();
 
 				foreach ($topmost_article_ids as $id) {
-					array_push($articles, format_article($link, $id, $feed, false));
+					array_push($articles, format_article($link, $id, false));
 				}
 
 				$reply['articles'] = $articles;

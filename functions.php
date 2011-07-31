@@ -399,7 +399,7 @@
 
 			return $contents;
 		} else {
-			if ($login && $pass && $updated != 3) {
+			if ($login && $pass ){
 				$url_parts = array();
 
 				preg_match("/(^[^:]*):\/\/(.*)/", $url, $url_parts);
@@ -579,11 +579,11 @@
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
-		if ($update_interval < 0) { return; }
+		if ($update_interval < 0) { return false; }
 
 		$feed = db_escape_string($feed);
 
-		if ($auth_login && $auth_pass && $updated != 3) {
+		if ($auth_login && $auth_pass ){
 			$url_parts = array();
 			preg_match("/(^[^:]*):\/\/(.*)/", $fetch_url, $url_parts);
 
@@ -1445,7 +1445,7 @@
 				foreach ($article_filters as $f) {
 					if ($f[0] == "tag") {
 
-						$manual_tags = trim_array(split(",", $f[1]));
+						$manual_tags = trim_array(explode(",", $f[1]));
 
 						foreach ($manual_tags as $tag) {
 							if (tag_is_valid($tag)) {
@@ -1457,7 +1457,7 @@
 
 				// Skip boring tags
 
-				$boring_tags = trim_array(split(",", mb_strtolower(get_pref($link,
+				$boring_tags = trim_array(explode(",", mb_strtolower(get_pref($link,
 					'BLACKLISTED_TAGS', $owner_uid, ''), 'utf-8')));
 
 				$filtered_tags = array();
@@ -1817,8 +1817,7 @@
 
 	function lookup_user_id($link, $user) {
 
-		$result = db_query($link, "SELECT id FROM ttrss_users WHERE
-			login = '$login'");
+		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$user'");
 
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "id");
@@ -3000,7 +2999,7 @@
 
 	function get_pgsql_version($link) {
 		$result = db_query($link, "SELECT version() AS version");
-		$version = split(" ", db_fetch_result($result, 0, "version"));
+		$version = explode(" ", db_fetch_result($result, 0, "version"));
 		return $version[1];
 	}
 
@@ -3345,7 +3344,7 @@
 
 		$search_query_part = "";
 
-		$keywords = split(" ", $search);
+		$keywords = explode(" ", $search);
 		$query_keywords = array();
 
 		foreach ($keywords as $k) {
@@ -3356,7 +3355,7 @@
 				$not = "";
 			}
 
-			$commandpair = split(":", mb_strtolower($k), 2);
+			$commandpair = explode(":", mb_strtolower($k), 2);
 
 			if ($commandpair[0] == "note" && $commandpair[1]) {
 
@@ -4317,7 +4316,7 @@
 					$fg_color = db_fetch_result($result, 0, "fg_color");
 					$bg_color = db_fetch_result($result, 0, "bg_color");
 
-					$reply .= "<span style='background : $bg_color; color : $fg_color'>";
+					$reply .= "<span style=\"background : $bg_color; color : $fg_color\" >";
 					$reply .= $feed_title;
 					$reply .= "</span>";
 				} else {
@@ -4678,8 +4677,7 @@
 		return $entry;
 	}
 
-	function format_article($link, $id, $feed_id, $mark_as_read = true,
-		$zoom_mode = false) {
+	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false) {
 
 		$rv = array();
 
@@ -4947,10 +4945,10 @@
 
 		if ($subop == "undefined") $subop = "";
 
-		$subop_split = split(":", $subop);
+		$subop_split = explode(":", $subop);
 
 		if ($subop == "CatchupSelected") {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
@@ -5555,6 +5553,8 @@
 		while ($line = db_fetch_assoc($result)) {
 			$tags[$line["tag_name"]] = $line["count"];
 		}
+
+        if( count($tags) == 0 ){ return; }
 
 		ksort($tags);
 
