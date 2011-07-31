@@ -10,12 +10,14 @@
 
 	init_connection($link);
 
-	function opml_export($link, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
+	function opml_export($link, $name, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
 		if (!$_REQUEST["debug"]) {
 			header("Content-type: application/xml+opml");
 		} else {
 			header("Content-type: text/xml");
 		}
+        header("Content-Disposition: attachment; filename=" . $name );
+
 		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
 		print "<opml version=\"1.0\">";
@@ -119,14 +121,18 @@
 	// FIXME there are some brackets issues here
 
 	$op = $_REQUEST["op"];
+    if (!$op) $op = "Export";
 
-	if (!$op) $op = "Export";
+    $output_name = $_REQUEST["filename"];
+	if (!$output_name) $output_name = "TinyTinyRSS.opml";
+
+    $show_settings = $_REQUEST["settings"];
 
 	if ($op == "Export") {
 
 		login_sequence($link);
 		$owner_uid = $_SESSION["uid"];
-		return opml_export($link, $owner_uid);
+		return opml_export($link, $output_name, $owner_uid, false, ($show_settings == 1));
 	}
 
 	if ($op == "publish"){
@@ -138,7 +144,7 @@
 
 		if (db_num_rows($result) == 1) {
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
-			return opml_export($link, $owner_uid, true, false);
+			return opml_export($link, "", $owner_uid, true, false);
 		} else {
 			print "<error>User not found</error>";
 		}
