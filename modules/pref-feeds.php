@@ -1430,13 +1430,15 @@
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
 
-		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.");
+		print "<p>" . __("Using OPML you can export and import your feeds and Tiny Tiny RSS settings.") . " ";
 
-		print "<div class=\"insensitive\">" . __("Note: Only main settings profile can be migrated using OPML.") . "</div>";
+		print "<span class=\"insensitive\">" . __("Note: Only main settings profile can be migrated using OPML.") . "</span>";
 
 		print "</p>";
 
-		print "<iframe id=\"upload_iframe\"
+		print "<h3>" . __("Import") . "</h3>";
+
+		print "<br/><iframe id=\"upload_iframe\"
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
@@ -1447,18 +1449,23 @@
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
 			<input type=\"hidden\" name=\"id\" value=\"importOpml\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\" type=\"submit\">" .
-              __('Import') . "</button>" .
-            "<p>" . __('Export Name:&nbsp;') .
-            "<input type=\"text\" id=\"filename\" value=\"TinyTinyRSS.opml\" />&nbsp;" .
-            __('Include Settings?&nbsp;') . "<input type=\"checkbox\" id=\"settings\" CHECKED />" .
+			__('Import') . "</button>";
+
+		print "<h3>" . __("Export") . "</h3>";
+
+		print "<p>" . __('Filename:') .
+            " <input type=\"text\" id=\"filename\" value=\"TinyTinyRSS.opml\" />&nbsp;" .
+            __('Include settings') . "<input type=\"checkbox\" id=\"settings\" CHECKED />" .
 
 			"<button dojoType=\"dijit.form.Button\"
 			onclick=\"gotoExportOpml(document.opml_form.filename.value, document.opml_form.settings.checked)\" >" .
-              __('Export OPML') . "</button></p></form>";
+              __('Export') . "</button></p></form>";
 
-		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
+		print "<h3>" . __("Publish") . "</h3>";
 
-		print "<div class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</div>" . "</p>";
+		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.') . " ";
+
+		print "<span class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</span>" . "</p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
 			__('Display URL')."</button> ";
