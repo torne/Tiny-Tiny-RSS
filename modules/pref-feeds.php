@@ -1440,16 +1440,21 @@
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
-		print "<form style='display : block' target=\"upload_iframe\"
+		print "<form  name=\"opml_form\" style='display : block' target=\"upload_iframe\"
 			enctype=\"multipart/form-data\" method=\"POST\"
 				action=\"backend.php\">
 			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
 			<input type=\"hidden\" name=\"id\" value=\"importOpml\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\"
-				type=\"submit\">".__('Import')."</button>
-			<button dojoType=\"dijit.form.Button\" onclick=\"gotoExportOpml()\">".__('Export OPML')."</button>
-			</form>";
+			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\" type=\"submit\">" .
+              __('Import') . "</button>" .
+            "<p>" . __('Export Name:&nbsp;') .
+            "<input type=\"text\" id=\"filename\" value=\"TinyTinyRSS.opml\" />&nbsp;" .
+            __('Include Settings?&nbsp;') . "<input type=\"checkbox\" id=\"settings\" CHECKED />" .
+
+			"<button dojoType=\"dijit.form.Button\"
+			onclick=\"gotoExportOpml(document.opml_form.filename.value, document.opml_form.settings.checked)\" >" .
+              __('Export OPML') . "</button></p></form>";
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.');
 
