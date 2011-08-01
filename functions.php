@@ -696,6 +696,8 @@
 				$site_url = $rss->channel["link"];
 			}
 
+			$site_url = rewrite_relative_url($fetch_url, $site_url);
+
 			if ($debug_enabled) {
 				_debug("update_rss_feed: checking favicon...");
 			}
@@ -908,8 +910,11 @@
 					if (!$entry_link) $entry_link = $item["link"];
 				}
 
+				$entry_link = rewrite_relative_url($site_url, $entry_link);
+
 				if ($debug_enabled) {
 					_debug("update_rss_feed: title $entry_title");
+					_debug("update_rss_feed: link $entry_link");
 				}
 
 				if (!$entry_title) $entry_title = date("Y-m-d H:i:s", $entry_timestamp);;
