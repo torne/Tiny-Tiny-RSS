@@ -73,9 +73,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					reply['headlines']['toolbar']);
 
 				var hsp = $("headlines-spacer");
-				if (!hsp) hsp = document.createElement("DIV");
-
-				hsp.id = "headlines-spacer";
+				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
 				if (!_infscroll_disable)
 					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
@@ -103,9 +101,7 @@ function headlines_callback2(transport, feed_cur_page) {
 						c.domNode.appendChild(row);
 					});
 
-					if (!hsp) hsp = document.createElement("DIV");
-
-					hsp.id = "headlines-spacer";
+					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
 					if (!_infscroll_disable)
 						hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
