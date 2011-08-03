@@ -1321,7 +1321,7 @@ function headlines_scroll_handler(e) {
 			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 				function(child) {
 					if ($("headlines-frame").scrollTop >
-							(child.offsetTop + child.offsetHeight)) {
+							(child.offsetTop + child.offsetHeight/2)) {
 
 						ids.push(child.id.replace("RROW-", ""));
 					}
