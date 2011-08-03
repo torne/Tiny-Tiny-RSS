@@ -227,9 +227,9 @@
 				$article = format_article($link, $id, false);
 				print $article['content'];
 				return;
-			} else {
-				catchupArticleById($link, $id, 0);
 			}
+
+			catchupArticleById($link, $id, 0);
 
 			if (!$_SESSION["bw_limit"]) {
 				foreach ($cids as $cid) {

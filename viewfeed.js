@@ -324,6 +324,8 @@ function view(id) {
 
 		last_requested_article = id;
 
+		console.log(query);
+
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
