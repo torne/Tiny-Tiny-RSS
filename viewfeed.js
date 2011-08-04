@@ -1375,7 +1375,7 @@ function headlines_scroll_handler(e) {
 					}
 				});
 
-			if (catchup_id_batch.length > 0) {
+			if (catchup_id_batch.length > 0 && !_infscroll_request_sent) {
 				window.clearTimeout(catchup_timeout_id);
 				catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
 						1000);
