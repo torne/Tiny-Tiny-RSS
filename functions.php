@@ -5047,7 +5047,7 @@
 
 		if (db_num_rows($result) > 0) {
 
-			$lnum = $offset+1;
+			$lnum = $offset;
 
 			$num_unread = 0;
 			$cur_feed_title = '';
