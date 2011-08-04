@@ -548,6 +548,12 @@
 			$feed_id = db_escape_string($_REQUEST['id']);
 			$feed_url = db_escape_string($_REQUEST['hub_topic']);
 
+			if (!PUBSUBHUBBUB_ENABLED) {
+				header('HTTP/1.0 404 Not Found');
+				echo "404 Not found";
+				return;
+			}
+
 			// TODO: implement hub_verifytoken checking
 
 			$result = db_query($link, "SELECT feed_url FROM ttrss_feeds
