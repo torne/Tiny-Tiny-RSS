@@ -4944,10 +4944,7 @@
 
 		$topmost_article_ids = array();
 
-		if (!$offset) {
-			$offset = 0;
-		}
-
+		if (!$offset) $offset = 0;
 		if ($subop == "undefined") $subop = "";
 
 		$subop_split = explode(":", $subop);
@@ -5024,12 +5021,12 @@
 			$match_on = "both";
 		}
 
-		$real_offset = $offset * $limit;
+		//$real_offset = $offset * $limit;
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $match_on, $override_order, $real_offset);
+			$search, $search_mode, $match_on, $override_order, $offset);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
@@ -5055,7 +5052,7 @@
 
 		if (db_num_rows($result) > 0) {
 
-			$lnum = $limit*$offset;
+			$lnum = $offset+1;
 
 			$num_unread = 0;
 			$cur_feed_title = '';
@@ -5531,13 +5528,6 @@
 				$reply['content'] .= "</span></p></div>";
 			}
 		}
-
-#		if (!$offset) {
-#			if ($headlines_count > 0) print "</div>";
-#			print "</div>";
-#		}
-
-		#print "]]></content>";
 
 		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache,
 			$vgroup_last_feed, $reply['content'], $reply['toolbar']);

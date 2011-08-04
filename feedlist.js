@@ -1,4 +1,4 @@
-var _feed_cur_page = 0;
+//var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var _search_query = false;
@@ -13,13 +13,34 @@ function viewCategory(cat) {
 	return false;
 }
 
-function viewNextFeedPage() {
+function loadMoreHeadlines() {
 	try {
-		//if (!getActiveFeedId()) return;
+		var offset = 0;
 
-		console.log("viewNextFeedPage: calling viewfeed(), p: " + parseInt(_feed_cur_page+1));
+		var view_mode = document.forms["main_toolbar_form"].view_mode.value;
+		var num_unread = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length;
+		var num_all = $$("#headlines-frame > div[id*=RROW]").length;
 
-		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), parseInt(_feed_cur_page+1));
+		// TODO implement marked & published
+
+		if (view_mode == "marked") {
+			console.warn("loadMoreHeadlines: marked is not implemented, falling back.");
+			offset = num_all;
+		} else if (view_mode == "published") {
+			console.warn("loadMoreHeadlines: published is not implemented, falling back.");
+			offset = num_all;
+		} else if (view_mode == "unread") {
+			offset = num_unread;
+		} else if (view_mode == "adaptive") {
+			if (num_unread > 0)
+				offset = num_unread;
+			else
+				offset = num_all;
+		} else {
+			offset = num_all;
+		}
+
+		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), offset);
 
 	} catch (e) {
 		exception_error("viewNextFeedPage", e);
@@ -31,51 +52,30 @@ function viewfeed(feed, subop, is_cat, offset) {
 	try {
 		if (is_cat == undefined) is_cat = false;
 		if (subop == undefined) subop = '';
-
-//		if (!offset) page_offset = 0;
+		if (offset == undefined) offset = 0;
 
 		last_requested_article = 0;
-		//counters_last_request = 0;
 
 		if (feed == getActiveFeedId()) {
 			cache_invalidate("F:" + feed);
 		}
-
-/*		if (getInitParam("theme") == "" || getInitParam("theme") == "compact") {
-			if (getInitParam("hide_feedlist") == 1) {
-				Element.hide("feeds-holder");
-			}
-		} */
 
 		dijit.byId("content-tabs").selectChild(
 			dijit.byId("content-tabs").getChildren()[0]);
 
 		var force_nocache = false;
 
-		var page_offset = 0;
-
-		if (offset > 0) {
-			page_offset = offset;
-		} else {
-			page_offset = 0;
-			_feed_cur_page = 0;
-			_infscroll_disable = 0;
-		}
-
-		if (getActiveFeedId() != feed) {
-			_feed_cur_page = 0;
+		if (getActiveFeedId() != feed || offset == 0) {
 			active_post_id = 0;
 			_infscroll_disable = 0;
 		}
 
-		if (page_offset != 0 && !subop) {
+		if (offset != 0 && !subop) {
 			var date = new Date();
 			var timestamp = Math.round(date.getTime() / 1000);
 
-			console.log(_infscroll_request_sent + " : " + timestamp);
-
 			if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
-				console.log("infscroll request in progress, aborting");
+				//console.log("infscroll request in progress, aborting");
 				return;
 			}
 
@@ -105,8 +105,6 @@ function viewfeed(feed, subop, is_cat, offset) {
 			_search_query = false;
 		}
 
-//		console.log("IS_CAT_STORED: " + activeFeedIsCat() + ", IS_CAT: " + is_cat);
-
 		if (subop == "MarkAllRead") {
 
 			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
@@ -127,8 +125,8 @@ function viewfeed(feed, subop, is_cat, offset) {
 			query = query + "&cat=1";
 		}
 
-		if (page_offset != 0) {
-			query = query + "&skip=" + page_offset;
+		if (offset != 0) {
+			query = query + "&skip=" + offset;
 
 			// to prevent duplicate feed titles when showing grouped vfeeds
 			if (vgroup_last_feed) {
@@ -140,52 +138,19 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		console.log(query);
 
-/*		var unread_ctr = -1;
-
-		if (!is_cat) unread_ctr = getFeedUnread(feed);
-
-		var cache_check = false;
-
-		if (unread_ctr != -1 && !page_offset && !force_nocache && !subop) {
-
-			var cache_prefix = "";
-
-			if (is_cat) {
-				cache_prefix = "C:";
-			} else {
-				cache_prefix = "F:";
-			}
-
-			cache_check = cache_check_param(cache_prefix + feed, unread_ctr);
-			console.log("headline cache check: " + cache_check);
+		if (!is_cat) {
+			if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
+				notify_progress("Loading, please wait...", true);
+		} else {
+			notify_progress("Loading, please wait...", true);
 		}
 
-		if (cache_check) {
-
-			setActiveFeedId(feed, is_cat);
-
-			$("headlines-frame").innerHTML = cache_find_param(cache_prefix + feed,
-				unread_ctr);
-
-			request_counters();
-			remove_splash();
-
-		} else { */
-
-			if (!is_cat) {
-				if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
-					notify_progress("Loading, please wait...", true);
-			} else {
-				notify_progress("Loading, please wait...", true);
-			}
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-					setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
-					headlines_callback2(transport, page_offset);
-				} });
-//		}
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function(transport) {
+				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
+				headlines_callback2(transport, offset);
+			} });
 
 	} catch (e) {
 		exception_error("viewfeed", e);

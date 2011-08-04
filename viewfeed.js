@@ -17,13 +17,13 @@ var cache_added = [];
 var catchup_id_batch = [];
 var catchup_timeout_id = false;
 
-function headlines_callback2(transport, feed_cur_page) {
+function headlines_callback2(transport, offset) {
 	try {
 		handle_rpc_json(transport);
 
 		loading_set_progress(25);
 
-		console.log("headlines_callback2 [page=" + feed_cur_page + "]");
+		console.log("headlines_callback2 [offset=" + offset + "]");
 
 		var is_cat = false;
 		var feed_id = false;
@@ -48,7 +48,7 @@ function headlines_callback2(transport, feed_cur_page) {
 			update_btn.disabled = !(feed_id >= 0 && !is_cat);
 
 			try {
-				if (feed_cur_page == 0) {
+				if (offset == 0) {
 					$("headlines-frame").scrollTop = 0;
 				}
 			} catch (e) { };
@@ -68,7 +68,7 @@ function headlines_callback2(transport, feed_cur_page) {
 			var articles = reply['articles'];
 			var runtime_info = reply['runtime-info'];
 
-			if (feed_cur_page == 0) {
+			if (offset == 0) {
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
 
@@ -78,9 +78,9 @@ function headlines_callback2(transport, feed_cur_page) {
 				var hsp = $("headlines-spacer");
 				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-				if (!_infscroll_disable)
+/*				if (!_infscroll_disable)
 					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-						__("Loading, please wait...");
+						__("Loading, please wait..."); */
 
 				dijit.byId('headlines-frame').domNode.appendChild(hsp);
 
@@ -107,9 +107,11 @@ function headlines_callback2(transport, feed_cur_page) {
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-					if (!_infscroll_disable)
+/*					if (!_infscroll_disable)
 						hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-							__("Loading, please wait...");
+							__("Loading, please wait..."); */
+
+					fixHeadlinesOrder(getLoadedArticleIds());
 
 					c.domNode.appendChild(hsp);
 
@@ -156,7 +158,7 @@ function headlines_callback2(transport, feed_cur_page) {
 					__('Could not update headlines (invalid object received)') + "</div>");
 		}
 
-		_feed_cur_page = feed_cur_page;
+		//_feed_cur_page = feed_cur_page;
 		_infscroll_request_sent = 0;
 
 		notify("");
@@ -1274,7 +1276,7 @@ function preloadBatchedArticles() {
 					var id = articles[i]['id'];
 					if (!cache_check(id)) {
 						cache_inject(id, articles[i]['content']);
-						console.log("preloaded article: " + id);
+						//console.log("preloaded article: " + id);
 					}
 				}
 		} });
@@ -1290,7 +1292,7 @@ function preloadArticleUnderPointer(id) {
 
 		if (post_under_pointer == id && !cache_check(id)) {
 
-			console.log("trying to preload article " + id);
+			//console.log("trying to preload article " + id);
 
 			var neighbor_ids = getRelativePostIds(id, 1);
 
@@ -1348,7 +1350,12 @@ function headlines_scroll_handler(e) {
 			if (hsp && (e.scrollTop + e.offsetHeight > hsp.offsetTop) ||
 					e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 
-				viewNextFeedPage();
+				hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
+					__("Loading, please wait...");
+
+				loadMoreHeadlines();
+
+				//viewNextFeedPage();
 			}
 		} else {
 			if (hsp) hsp.innerHTML = "";
