@@ -1389,7 +1389,7 @@ function headlines_scroll_handler(e) {
 
 function catchupBatchedArticles() {
 	try {
-		if (catchup_id_batch.length > 0) {
+		if (catchup_id_batch.length > 0 && !_infscroll_request_sent) {
 
 			var query = "?op=rpc&subop=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(catchup_id_batch.toString());
