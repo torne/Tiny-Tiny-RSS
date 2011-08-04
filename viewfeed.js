@@ -101,6 +101,7 @@ function headlines_callback2(transport, feed_cur_page) {
 						c.domNode.removeChild(hsp);
 
 					$$("#headlines-tmp > div").each(function(row) {
+						row.style.display = 'none';
 						c.domNode.appendChild(row);
 					});
 
@@ -119,6 +120,12 @@ function headlines_callback2(transport, feed_cur_page) {
 					}
 
 					initHeadlinesMenu();
+
+					$$("#headlines-frame > div[id*=RROW]").each(
+					function(child) {
+						if (!Element.visible(child))
+							new Effect.Appear(child, { duration : 0.5 });
+					});
 
 				} else {
 					console.log("no new headlines received");
