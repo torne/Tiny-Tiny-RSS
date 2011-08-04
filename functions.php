@@ -124,6 +124,10 @@
 
 	$purifier = new HTMLPurifier($config);
 
+	$tz_offset = -1;
+	$utc_tz = new DateTimeZone('UTC');
+	$schema_version = false;
+
 	/**
 	 * Print a timestamped debug message.
 	 *
@@ -2295,21 +2299,30 @@
 		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 		if (!$timestamp) $timestamp = '1970-01-01 0:00';
 
-		$user_tz_string = get_pref($link, 'USER_TIMEZONE', $owner_uid);
-
-		try {
-			$user_tz = new DateTimeZone($user_tz_string);
-		} catch (Exception $e) {
-			$user_tz = new DateTimeZone('UTC');
-		}
+		global $utc_tz;
+		global $tz_offset;
 
 		# We store date in UTC internally
-		$dt = new DateTime($timestamp, new DateTimeZone('UTC'));
-		$user_timestamp = $dt->format('U') + $user_tz->getOffset($dt);
+		$dt = new DateTime($timestamp, $utc_tz);
+
+		if ($tz_offset == -1) {
+
+			$user_tz_string = get_pref($link, 'USER_TIMEZONE', $owner_uid);
+
+			try {
+				$user_tz = new DateTimeZone($user_tz_string);
+			} catch (Exception $e) {
+				$user_tz = $utc_tz;
+			}
+
+			$tz_offset = $user_tz->getOffset($dt);
+		}
+
+		$user_timestamp = $dt->format('U') + $tz_offset;
 
 		if (!$no_smart_dt) {
 			return smart_date_time($link, $user_timestamp,
-				$user_tz->getOffset($dt), $owner_uid);
+				$tz_offset, $owner_uid);
 		} else {
 			if ($long)
 				$format = get_pref($link, 'LONG_DATE_FORMAT', $owner_uid);
@@ -2379,14 +2392,16 @@
 	// script when get_schema_version() is called on an obsolete session
 	// created on a previous schema version.
 	function get_schema_version($link, $nocache = false) {
-//		if (!$_SESSION["schema_version"] || $nocache) {
+		global $schema_version;
+
+		if (!$schema_version) {
 			$result = db_query($link, "SELECT schema_version FROM ttrss_version");
 			$version = db_fetch_result($result, 0, "schema_version");
-			$_SESSION["schema_version"] = $version;
+			$schema_version = $version;
 			return $version;
-//		} else {
-//			return $_SESSION["schema_version"];
-//		}
+		} else {
+			return $schema_version;
+		}
 	}
 
 	function sanity_check($link) {
@@ -2394,7 +2409,7 @@
 		global $ERRORS;
 
 		$error_code = 0;
-		$schema_version = get_schema_version($link);
+		$schema_version = get_schema_version($link, true);
 
 		if ($schema_version != SCHEMA_VERSION) {
 			$error_code = 5;
@@ -5054,6 +5069,8 @@
 
 			$fresh_intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE") * 60 * 60;
 
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
+
 			while ($line = db_fetch_assoc($result)) {
 
 				$class = ($lnum % 2) ? "even" : "odd";
@@ -5476,6 +5493,8 @@
 				++$lnum;
 			}
 
+			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PE", $timing_info);
+
 		} else {
 			$message = "";
 
@@ -5524,8 +5543,10 @@
 			}
 		}
 
+		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H2", $timing_info);
+
 		return array($topmost_article_ids, $headlines_count, $feed, $disable_cache,
-			$vgroup_last_feed, $reply['content'], $reply['toolbar']);
+			$vgroup_last_feed, $reply);
 	}
 
 // from here: http://www.roscripts.com/Create_tag_cloud-71.html

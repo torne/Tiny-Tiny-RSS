@@ -361,8 +361,10 @@
 			$disable_cache = $ret[3];
 			$vgroup_last_feed = $ret[4];
 
-			$reply['headlines']['content'] = $ret[5];
-			$reply['headlines']['toolbar'] = $ret[6];
+//			if ($_REQUEST["debug"]) print_r($ret);
+
+			$reply['headlines']['content'] =& $ret[5]['content'];
+			$reply['headlines']['toolbar'] =& $ret[5]['toolbar'];
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
 
