@@ -4949,12 +4949,12 @@
 
 		$subop_split = explode(":", $subop);
 
-		if ($subop == "CatchupSelected") {
+/*		if ($subop == "CatchupSelected") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
-		}
+		} */
 
 		if ($subop == "ForceUpdate" && sprintf("%d", $feed) > 0) {
 			update_rss_feed($link, $feed, true);
@@ -5006,8 +5006,6 @@
 			$rtl_content = false;
 		}
 
-		/// START /////////////////////////////////////////////////////////////////////////////////
-
 		@$search = db_escape_string($_REQUEST["query"]);
 
 		if ($search) {
@@ -5020,8 +5018,6 @@
 		if (!$match_on) {
 			$match_on = "both";
 		}
-
-		//$real_offset = $offset * $limit;
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
@@ -5037,12 +5033,11 @@
 
 		$vgroup_last_feed = $vgr_last_feed;
 
-		/// STOP //////////////////////////////////////////////////////////////////////////////////
-
 		if (!$offset) {
 
 			if (db_num_rows($result) > 0) {
-				$reply['toolbar'] = format_headline_subtoolbar($link, $feed_site_url, $feed_title,
+				$reply['toolbar'] = format_headline_subtoolbar($link, $feed_site_url,
+					$feed_title,
 					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
 					$last_error);
 			}
@@ -5606,22 +5601,9 @@
 	}
 
 	function get_self_url_prefix() {
-
-		/* $url_path = "";
-
-		if ($_SERVER['HTTPS'] != "on") {
-			$url_path = "http://";
-		} else {
-			$url_path = "https://";
-		}
-
-		$url_path .= $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-
-		return $url_path; */
-
 		return SELF_URL_PATH;
-
 	}
+
 	function opml_publish_url($link){
 
 		$url_path = get_self_url_prefix();
@@ -6359,12 +6341,6 @@
 		$tags_nolinks_str = "";
 
 		$num_tags = 0;
-
-/*		if (get_user_theme($link) == "3pane") {
-			$tag_limit = 3;
-		} else {
-			$tag_limit = 6;
-		} */
 
 		$tag_limit = 6;
 
