@@ -2149,6 +2149,9 @@
 					setcookie("ttrss_lang", $_SESSION["language"],
 						time() + SESSION_COOKIE_LIFETIME);
 				}
+
+				// try to remove possible duplicates from feed counter cache
+				ccache_cleanup($link, $_SESSION["uid"]);
 			}
 
 		} else {
@@ -6118,6 +6121,19 @@
 		}
 
 		return $unread;
+	}
+
+	function ccache_cleanup($link, $owner_uid) {
+
+		db_query($link, "DELETE FROM ttrss_counters_cache AS c1 WHERE
+			(SELECT count(*) FROM ttrss_counters_cache AS c2
+				WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
+				AND owner_uid = '$owner_uid'");
+
+		db_query($link, "DELETE FROM ttrss_cat_counters_cache AS c1 WHERE
+			(SELECT count(*) FROM ttrss_cat_counters_cache AS c2
+				WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
+					AND owner_uid = '$owner_uid'");
 	}
 
 	function label_find_id($link, $label, $owner_uid) {
