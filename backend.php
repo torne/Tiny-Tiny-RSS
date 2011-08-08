@@ -585,8 +585,12 @@
 					} else if (!$mode) {
 
 						// Received update ping, schedule feed update.
+						//update_rss_feed($link, $feed_id, true, true);
 
-						update_rss_feed($link, $feed_id, true, true);
+						db_query($link, "UPDATE ttrss_feeds SET
+							last_update_started = '1970-01-01',
+							last_updated = '1970-01-01' WHERE id = '$feed_id' AND
+							owner_uid = ".$_SESSION["uid"]);
 
 					}
 				} else {
