@@ -350,6 +350,10 @@ function quickMenuGo(opid) {
 			displayDlg("printTagCloud");
 		}
 
+		if (opid == "qmcTagSelect") {
+			displayDlg("printTagSelect");
+		}
+
 		if (opid == "qmcSearch") {
 			search();
 			return;

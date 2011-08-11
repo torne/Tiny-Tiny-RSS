@@ -3,14 +3,14 @@
 require_once "config.php";
 
 function db_connect($host, $user, $pass, $db) {
-	if (DB_TYPE == "pgsql") {	
-			  
+	if (DB_TYPE == "pgsql") {
+
 		$string = "dbname=$db user=$user";
-	  
+
 		if ($pass) {
-			$string .= " password=$pass";	
+			$string .= " password=$pass";
 		}
-		
+
 		if ($host) {
 			$string .= " host=$host";
 		}
@@ -30,10 +30,10 @@ function db_connect($host, $user, $pass, $db) {
 	} else if (DB_TYPE == "mysql") {
 		$link = mysql_connect($host, $user, $pass);
 		if ($link) {
-			$result = mysql_select_db($db, $link);			
+			$result = mysql_select_db($db, $link);
 			if (!$result) {
 				die("Can't select DB: " . mysql_error($link));
-			}			
+			}
 			return $link;
 		} else {
 			die("Connection failed: " . mysql_error($link));
@@ -44,7 +44,7 @@ function db_connect($host, $user, $pass, $db) {
 function db_escape_string($s, $strip_tags = true) {
 	if ($strip_tags) $s = strip_tags($s);
 
-	if (DB_TYPE == "pgsql") {	
+	if (DB_TYPE == "pgsql") {
 		return pg_escape_string($s);
 	} else {
 		return mysql_real_escape_string($s);
@@ -57,7 +57,7 @@ function db_query($link, $query, $die_on_error = true) {
 		if (!$result) {
 			$query = htmlspecialchars($query); // just in case
 			if ($die_on_error) {
-				die("Query <i>$query</i> failed [$result]: " . pg_last_error($link));			
+				die("Query <i>$query</i> failed [$result]: " . pg_last_error($link));
 			}
 		}
 		return $result;
@@ -129,6 +129,10 @@ function db_last_error($link) {
 	} else if (DB_TYPE == "mysql") {
 		return mysql_error($link);
 	}
+}
+
+function db_quote($str){
+	return("'$str'");
 }
 
 ?>

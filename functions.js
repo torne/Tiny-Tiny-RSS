@@ -1619,4 +1619,54 @@ function showFeedsWithErrors() {
 
 }
 
+/* new support functions for SelectByTag */
 
+function get_all_tags(selObj){
+	try {
+		if( !selObj ) return "";
+
+		var result = "";
+		var len = selObj.options.length;
+
+		for (var i=0; i < len; i++){
+			if (selObj.options[i].selected) {
+				result += selObj[i].value + "%2C";   // is really a comma
+			}
+		}
+
+		if (result.length > 0){
+			result = result.substr(0, result.length-3);  // remove trailing %2C
+		}
+
+		return(result);
+
+	} catch (e) {
+		exception_error("get_all_tags", e);
+	}
+}
+
+function get_radio_checked(radioObj) {
+	try {
+		if (!radioObj) return "";
+
+		var len = radioObj.length;
+
+		if (len == undefined){
+			if(radioObj.checked){
+				return(radioObj.value);
+			} else {
+				return("");
+			}
+		}
+
+		for( var i=0; i < len; i++ ){
+			if( radioObj[i].checked ){
+				return( radioObj[i].value);
+			}
+		}
+
+	} catch (e) {
+		exception_error("get_radio_checked", e);
+	}
+	return("");
+}

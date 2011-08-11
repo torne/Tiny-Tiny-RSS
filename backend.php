@@ -263,6 +263,8 @@
 			@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 			$order_by = db_escape_string($_REQUEST["order_by"]);
 
+			if (is_numeric($feed)) $feed = (int) $feed;
+
 			/* Feed -5 is a special case: it is used to display auxiliary information
 			 * when there's nothing to load - e.g. no stuff in fresh feed */
 
@@ -277,10 +279,10 @@
 				$label_feed = -11-$feed;
 				$result = db_query($link, "SELECT id FROM ttrss_labels2 WHERE
 					id = '$label_feed' AND owner_uid = " . $_SESSION['uid']);
-			} else if (!$cat_view && $feed > 0) {
+			} else if (!$cat_view && is_numeric($feed) && $feed > 0) {
 				$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
 					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
-			} else if ($cat_view && $feed > 0) {
+			} else if ($cat_view && is_numeric($feed) && $feed > 0) {
 				$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
 					id = '$feed' AND owner_uid = " . $_SESSION['uid']);
 			}
