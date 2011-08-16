@@ -151,6 +151,10 @@
 		$err_msg = "PHP: DOMDocument extension not found.";
 	}
 
+	if (SELF_URL_PATH == "http://local.host/tt-rss") {
+		$err_msg = "config: please set SELF_URL_PATH to the correct value";
+	}
+
 	if (!ISCONFIGURED) {
 		$err_msg = "config: please read config.php completely.";
 	}
