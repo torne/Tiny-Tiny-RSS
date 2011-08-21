@@ -6125,15 +6125,34 @@
 
 	function ccache_cleanup($link, $owner_uid) {
 
-		db_query($link, "DELETE FROM ttrss_counters_cache AS c1 WHERE
-			(SELECT count(*) FROM ttrss_counters_cache AS c2
-				WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
-				AND owner_uid = '$owner_uid'");
-
-		db_query($link, "DELETE FROM ttrss_cat_counters_cache AS c1 WHERE
-			(SELECT count(*) FROM ttrss_cat_counters_cache AS c2
-				WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
+		if (DB_TYPE == "pgsql") {
+			db_query($link, "DELETE FROM ttrss_counters_cache AS c1 WHERE
+				(SELECT count(*) FROM ttrss_counters_cache AS c2
+					WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
 					AND owner_uid = '$owner_uid'");
+
+			db_query($link, "DELETE FROM ttrss_cat_counters_cache AS c1 WHERE
+				(SELECT count(*) FROM ttrss_cat_counters_cache AS c2
+					WHERE c1.feed_id = c2.feed_id AND c2.owner_uid = c1.owner_uid) > 1
+					AND owner_uid = '$owner_uid'");
+		} else {
+			db_query($link, "DELETE c1 FROM
+					ttrss_counters_cache AS c1,
+					ttrss_counters_cache AS c2
+				WHERE
+					c1.owner_uid = '$owner_uid' AND
+					c1.owner_uid = c2.owner_uid AND
+					c1.feed_id = c2.feed_id");
+
+			db_query($link, "DELETE c1 FROM
+					ttrss_cat_counters_cache AS c1,
+					ttrss_cat_counters_cache AS c2
+				WHERE
+					c1.owner_uid = '$owner_uid' AND
+					c1.owner_uid = c2.owner_uid AND
+					c1.feed_id = c2.feed_id");
+
+		}
 	}
 
 	function label_find_id($link, $label, $owner_uid) {
