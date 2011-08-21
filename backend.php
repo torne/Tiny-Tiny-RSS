@@ -547,7 +547,7 @@
 
 		case "pubsub":
 			$mode = db_escape_string($_REQUEST['hub_mode']);
-			$feed_id = db_escape_string($_REQUEST['id']);
+			$feed_id = (int) db_escape_string($_REQUEST['id']);
 			$feed_url = db_escape_string($_REQUEST['hub_topic']);
 
 			if (!PUBSUBHUBBUB_ENABLED) {
