@@ -1923,10 +1923,10 @@
 
 					// First login ?
 					if (db_num_rows($result) == 0) {
-						$query = "INSERT INTO ttrss_users
+						$query2 = "INSERT INTO ttrss_users
 								(login,access_level,last_login,created)
 								VALUES ('$login', 0, null, NOW())";
-						db_query($link, $query);
+						db_query($link, $query2);
 					}
 				}
 
