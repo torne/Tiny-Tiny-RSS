@@ -1951,14 +1951,16 @@
 				// LemonLDAP can send user informations via HTTP HEADER
 				if (defined('AUTO_CREATE_USER') && AUTO_CREATE_USER){
 					// update user name
-					if ($_SERVER['HTTP_USER_NAME']){
-						$fullname = db_escape_string($_SERVER['HTTP_USER_NAME']);
+					$fullname = $_SERVER['HTTP_USER_NAME'] ? $_SERVER['HTTP_USER_NAME'] : $_SERVER['AUTHENTICATE_CN'];
+					if ($fullname){
+						$fullname = db_escape_string($fullname);
 						db_query($link, "UPDATE ttrss_users SET full_name = '$fullname' WHERE id = " .
 							$_SESSION["uid"]);
 					}
 					// update user mail
-					if ($_SERVER['HTTP_USER_MAIL']){
-						$email = db_escape_string($_SERVER['HTTP_USER_MAIL']);
+					$email = $_SERVER['HTTP_USER_MAIL'] ? $_SERVER['HTTP_USER_MAIL'] : $_SERVER['AUTHENTICATE_MAIL'];
+					if ($email){
+						$email = db_escape_string($email);
 						db_query($link, "UPDATE ttrss_users SET email = '$email' WHERE id = " .
 							$_SESSION["uid"]);
 					}
