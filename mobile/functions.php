@@ -491,7 +491,7 @@
 
 			//print "<div class=\"row\">";
 			//print "<label id='updated'>Updated:</label>";
-			//print "<input enabled='false' name='updated' disabled value='$updated_fmt'/>";
+			//print "<input type='text' enabled='false' name='updated' disabled value='$updated_fmt'/>";
 			//print "</div>";
 
 //			print "</fieldset>";

@@ -240,7 +240,8 @@ body > .dialog {
     color: #999999;
 }
 
-input:not(input[type|=radio]):not(input[type|=checkbox]) {
+/*input:not(input[type|=radio]):not(input[type|=checkbox]) {*/
+input[type|=text], input[type|=password] {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     width: 100%;
@@ -284,14 +285,15 @@ fieldset > .row:last-child {
     border-bottom: none !important;
 }
 
-.row > input:not(input[type|=radio]):not(input[type|=checkbox]) {
+/*.row > input:not(input[type|=radio]):not(input[type|=checkbox]) {*/
+.row > input[type|=text], .row > input[type|=password] {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     margin: 0;
     border: none;
     padding: 12px 10px 0 110px;
-    height: 42px;
+/*    height: 42px;*/
     background: none;
 }
 .row > input[type|=radio], .row > input[type|=checkbox] {
