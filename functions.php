@@ -500,7 +500,8 @@
 		}
 	}
 
-	function update_rss_feed_real($link, $feed, $ignore_daemon = false, $no_cache = false) {
+	function update_rss_feed_real($link, $feed, $ignore_daemon = false, $no_cache = false,
+		$override_url = false) {
 
 		global $memcache;
 
@@ -596,6 +597,9 @@
 			}
 
 		}
+
+		if ($override_url)
+			$fetch_url = $override_url;
 
 		if ($debug_enabled) {
 			_debug("update_rss_feed: fetching [$fetch_url]...");
