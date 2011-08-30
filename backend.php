@@ -394,9 +394,9 @@
 				$reply['articles'] = $articles;
 			}
 
-			if ($subop) {
-				$reply['counters'] = getAllCounters($link, $omode, $feed);
-			}
+//			if ($subop) {
+//				$reply['counters'] = getAllCounters($link, $omode, $feed);
+//			}
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
