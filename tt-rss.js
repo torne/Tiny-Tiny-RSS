@@ -330,8 +330,7 @@ function init_second_stage() {
 
 		loading_set_progress(30);
 
-		if (has_local_storage())
-			sessionStorage.clear();
+		cache_clear();
 
 		console.log("second stage ok");
 
@@ -565,12 +564,10 @@ function collapse_feedlist() {
 }
 
 function viewModeChanged() {
-	cache_flush();
 	return viewCurrentFeed('')
 }
 
 function viewLimitChanged() {
-	cache_flush();
 	return viewCurrentFeed('')
 }
 

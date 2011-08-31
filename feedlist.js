@@ -50,15 +50,22 @@ function loadMoreHeadlines() {
 
 function viewfeed(feed, subop, is_cat, offset) {
 	try {
-		if (is_cat == undefined) is_cat = false;
+		if (is_cat == undefined)
+			is_cat = false;
+		else
+			is_cat = !!is_cat;
+
 		if (subop == undefined) subop = '';
 		if (offset == undefined) offset = 0;
 
 		last_requested_article = 0;
 
-		if (feed == getActiveFeedId()) {
-			cache_invalidate("F:" + feed);
-		}
+		var cached_headlines = false;
+
+		if (feed == getActiveFeedId())
+			cache_delete("feed:" + feed + ":" + is_cat);
+		else
+			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
 
 		dijit.byId("content-tabs").selectChild(
 			dijit.byId("content-tabs").getChildren()[0]);
@@ -68,6 +75,15 @@ function viewfeed(feed, subop, is_cat, offset) {
 		if (getActiveFeedId() != feed || offset == 0) {
 			active_post_id = 0;
 			_infscroll_disable = 0;
+		}
+
+		if (!offset && !subop && cached_headlines) {
+			try {
+				render_local_headlines(feed, is_cat, JSON.parse(cached_headlines));
+				return;
+			} catch (e) {
+				console.warn("render_local_headlines failed: " + e);
+			}
 		}
 
 		if (offset != 0 && !subop) {
@@ -282,6 +298,9 @@ function parse_counters(elems, scheduled_call) {
 					&& ctr > getFeedUnread(id) && scheduled_call) {
 				displayNewContentPrompt(id);
 			}
+
+			if (getFeedUnread(id, (kind == "cat")) != ctr)
+				cache_delete("feed:" + id + ":" + (kind == "cat"));
 
 			setFeedUnread(id, (kind == "cat"), ctr);
 

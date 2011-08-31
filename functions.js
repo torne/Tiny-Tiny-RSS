@@ -1136,13 +1136,13 @@ function backend_sanity_check_callback(transport) {
 	}
 }
 
-function has_local_storage() {
+/*function has_local_storage() {
 	try {
 		return 'sessionStorage' in window && window['sessionStorage'] != null;
 	} catch (e) {
 		return false;
 	}
-}
+} */
 
 function catSelectOnChange(elem) {
 	try {

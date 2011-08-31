@@ -5098,7 +5098,7 @@
 
 		$vgroup_last_feed = $vgr_last_feed;
 
-		if (!$offset) {
+//		if (!$offset) {
 
 			if (db_num_rows($result) > 0) {
 				$reply['toolbar'] = format_headline_subtoolbar($link, $feed_site_url,
@@ -5106,7 +5106,7 @@
 					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
 					$last_error);
 			}
-		}
+//		}
 
 		$headlines_count = db_num_rows($result);
 
