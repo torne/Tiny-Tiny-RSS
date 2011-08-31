@@ -1305,7 +1305,7 @@ function getArticleUnderPointer() {
 
 function zoomToArticle(event, id) {
 	try {
-		var cached_article = cache_find(id);
+		var cached_article = cache_get("article: " + id);
 
 		if (dijit.byId("ATAB-" + id))
 			if (!event || !event.shiftKey)
