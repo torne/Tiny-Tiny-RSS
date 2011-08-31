@@ -202,6 +202,7 @@ function feedlist_init() {
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 		setTimeout("timeout()", 5000);
+		setTimeout("precache_headlines_idle()", 3000);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);

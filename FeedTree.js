@@ -19,10 +19,10 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 	getItemById: function(id) {
 		return this.store._itemsByIdentity[id];
 	},
-	getFeedValue: function(feed, is_cat, key) {	
+	getFeedValue: function(feed, is_cat, key) {
 		if (!this.store._itemsByIdentity) return undefined;
 
-		if (is_cat) 
+		if (is_cat)
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
 		else
 			treeItem = this.store._itemsByIdentity['FEED:' + feed];
@@ -30,7 +30,7 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		if (treeItem)
 			return this.store.getValue(treeItem, key);
 	},
-	getFeedName: function(feed, is_cat) {	
+	getFeedName: function(feed, is_cat) {
 		return this.getFeedValue(feed, is_cat, 'name');
 	},
 	getFeedUnread: function(feed, is_cat) {
@@ -44,7 +44,7 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		if (!value) value = '';
 		if (!this.store._itemsByIdentity) return undefined;
 
-		if (is_cat) 
+		if (is_cat)
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
 		else
 			treeItem = this.store._itemsByIdentity['FEED:' + feed];
@@ -79,7 +79,7 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 				}
 			}
 		}
-		
+
 		return null;
 	},
 	hasCats: function() {
@@ -93,7 +93,7 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 dojo.declare("fox.FeedTree", dijit.Tree, {
 	_createTreeNode: function(args) {
 		var tnode = new dijit._TreeNode(args);
-		
+
 		if (args.item.icon)
 			tnode.iconNode.src = args.item.icon[0];
 
@@ -144,7 +144,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
 	},
 	getRowClass: function (item, opened) {
-		return (!item.error || item.error == '') ? "dijitTreeRow" : 
+		return (!item.error || item.error == '') ? "dijitTreeRow" :
 			"dijitTreeRow Error";
 	},
 	getLabel: function(item) {
@@ -164,7 +164,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 	},
 	selectFeed: function(feed, is_cat) {
-		if (is_cat) 
+		if (is_cat)
 			treeNode = this._itemNodesMap['CAT:' + feed];
 		else
 			treeNode = this._itemNodesMap['FEED:' + feed];
@@ -176,7 +176,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 	},
 	setFeedIcon: function(feed, is_cat, src) {
-		if (is_cat) 
+		if (is_cat)
 			treeNode = this._itemNodesMap['CAT:' + feed];
 		else
 			treeNode = this._itemNodesMap['FEED:' + feed];
@@ -189,7 +189,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		return false;
 	},
 	setFeedExpandoIcon: function(feed, is_cat, src) {
-		if (is_cat) 
+		if (is_cat)
 			treeNode = this._itemNodesMap['CAT:' + feed];
 		else
 			treeNode = this._itemNodesMap['FEED:' + feed];
@@ -210,29 +210,29 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 			var tree = this;
 			var cats = this.model.store._arrayOfTopLevelItems;
-	
+
 			cats.each(function(cat) {
 				var cat_unread = tree.hideReadFeeds(cat.items, hide, show_special);
-		
+
 				var id = String(cat.id);
 				var node = tree._itemNodesMap[id];
 				var bare_id = parseInt(id.substr(id.indexOf(":")+1));
-		
+
 				if (node) {
 					var check_unread = tree.model.getFeedUnread(bare_id, true);
-	
+
 					if (hide && cat_unread == 0 && check_unread == 0) {
-						Effect.Fade(node[0].rowNode, {duration : 0.3, 
+						Effect.Fade(node[0].rowNode, {duration : 0.3,
 							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 					} else {
 						Element.show(node[0].rowNode);
 						++cat_unread;
 					}
-				}	
+				}
 			});
 
 		} else {
-			this.hideReadFeeds(this.model.store._arrayOfTopLevelItems, hide, 
+			this.hideReadFeeds(this.model.store._arrayOfTopLevelItems, hide,
 				show_special);
 		}
 	},
@@ -243,13 +243,13 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		items.each(function(feed) {
 			var id = String(feed.id);
 			var bare_id = parseInt(feed.bare_id);;
-	
+
 			var unread = feed.unread[0];
 			var node = tree._itemNodesMap[id];
-	
+
 			if (node) {
 				if (hide && unread == 0 && (bare_id > 0 || !show_special)) {
-					Effect.Fade(node[0].rowNode, {duration : 0.3, 
+					Effect.Fade(node[0].rowNode, {duration : 0.3,
 						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 				} else {
 					Element.show(node[0].rowNode);
@@ -257,7 +257,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 				}
 			}
 		});
-	
+
 		return cat_unread;
 	},
 	collapseCat: function(id) {
@@ -271,7 +271,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		if (node && item) {
 			var hidden = tree.model.store.getValue(item, 'hidden');
 
-			if (hidden) 
+			if (hidden)
 				tree._expandNode(node);
 			else
 				tree._collapseNode(node);
@@ -290,12 +290,44 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			var id = tree.model.store.getValue(cat, 'id');
 			var node = tree._itemNodesMap[id][0];
 
-			if (hidden) 
+			if (hidden)
 				tree._collapseNode(node);
 			else
 				tree._expandNode(node);
 
 		});
+	},
+	getVisibleUnreadFeeds: function() {
+		var items = this.model.store._arrayOfAllItems;
+		var rv = [];
+
+		for (var i = 0; i < items.length; i++) {
+			var id = String(items[i].id);
+			var box = this._itemNodesMap[id];
+
+			if (box) {
+				var row = box[0].rowNode;
+				var cat = false;
+
+				try {
+					cat = box[0].rowNode.parentNode.parentNode;
+				} catch (e) { }
+
+				if (row) {
+					if (Element.visible(row) && (!cat || Element.visible(cat))) {
+						var feed_id = String(items[i].bare_id);
+						var is_cat = !id.match('FEED:');
+						var unread = this.model.getFeedUnread(feed_id, is_cat);
+
+						if (unread > 0)
+							rv.push([feed_id, is_cat]);
+
+					}
+				}
+			}
+		}
+
+		return rv;
 	},
 	getNextFeed: function (feed, is_cat) {
 		if (is_cat) {
@@ -311,7 +343,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			if (items[i] == treeItem) {
 
 				for (j = i+1; j < items.length; j++) {
-					var id = String(items[j].id);	
+					var id = String(items[j].id);
 					var box = this._itemNodesMap[id];
 
 					if (box) {
@@ -329,7 +361,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 
 		if (item) {
-			return [this.model.store.getValue(item, 'bare_id'), 
+			return [this.model.store.getValue(item, 'bare_id'),
 					 	!this.model.store.getValue(item, 'id').match('FEED:')];
 		} else {
 			return false;
@@ -349,7 +381,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			if (items[i] == treeItem) {
 
 				for (j = i-1; j > 0; j--) {
-					var id = String(items[j].id);	
+					var id = String(items[j].id);
 					var box = this._itemNodesMap[id];
 
 					if (box) {
@@ -368,7 +400,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 
 		if (item) {
-			return [this.model.store.getValue(item, 'bare_id'), 
+			return [this.model.store.getValue(item, 'bare_id'),
 					 	!this.model.store.getValue(item, 'id').match('FEED:')];
 		} else {
 			return false;

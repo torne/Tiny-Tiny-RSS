@@ -10,6 +10,7 @@ var last_requested_article = false;
 var catchup_id_batch = [];
 var catchup_timeout_id = false;
 var feed_precache_timeout_id = false;
+var precache_idle_timeout_id = false;
 
 var cids_requested = [];
 
@@ -2105,6 +2106,29 @@ function render_local_headlines(feed, is_cat, obj) {
 
 	} catch (e) {
 		exception_error("render_local_headlines", e);
+	}
+}
+
+function precache_headlines_idle() {
+	try {
+		if (!feed_precache_timeout_id) {
+			var feeds = dijit.byId("feedTree").getVisibleUnreadFeeds();
+			var uncached = [];
+
+			feeds.each(function(item) {
+				if (parseInt(item[0]) > 0 && !cache_get("feed:" + item[0] + ":" + item[1]))
+					uncached.push(item);
+			});
+
+			if (uncached.length > 0) {
+				var rf = uncached[Math.floor(Math.random()*uncached.length)];
+				viewfeed(rf[0], '', rf[1], 0, true);
+			}
+		}
+		precache_idle_timeout_id = setTimeout("precache_headlines_idle()", 5000);
+
+	} catch (e) {
+		exception_error("precache_headlines_idle", e);
 	}
 }
 
