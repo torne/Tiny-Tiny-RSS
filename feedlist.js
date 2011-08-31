@@ -1,11 +1,9 @@
-//var _feed_cur_page = 0;
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var _search_query = false;
 
 var counter_timeout_id = false;
 
-var resize_enabled = false;
 var counters_last_request = 0;
 
 function viewCategory(cat) {

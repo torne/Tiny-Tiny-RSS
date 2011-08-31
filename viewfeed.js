@@ -1,6 +1,4 @@
 var active_post_id = false;
-var last_article_view = false;
-var active_real_feed_id = false;
 
 var article_cache = new Array();
 
@@ -142,6 +140,10 @@ function headlines_callback2(transport, offset, background) {
 				console.log("no cached articles received");
 			}
 
+			// do not precache stuff after fresh feed
+			if (feed_id != -3)
+				precache_headlines();
+
 			if (counters)
 				parse_counters(counters);
 			else
@@ -153,7 +155,6 @@ function headlines_callback2(transport, offset, background) {
 					__('Could not update headlines (invalid object received)') + "</div>");
 		}
 
-		//_feed_cur_page = feed_cur_page;
 		_infscroll_request_sent = 0;
 
 		notify("");
@@ -270,9 +271,6 @@ function article_callback2(transport, id) {
 					__('Could not display article (invalid data received)') + "</div>");
 		}
 
-		var date = new Date();
-		last_article_view = date.getTime() / 1000;
-
 		request_counters();
 
 		notify("");
@@ -317,23 +315,7 @@ function view(id) {
 		active_post_id = id;
 		showArticleInHeadlines(id);
 
-		if (!feed_precache_timeout_id) {
-			feed_precache_timeout_id = window.setTimeout(function() {
-				var nuf = getNextUnreadFeed(getActiveFeedId(), activeFeedIsCat());
-				var nf = dijit.byId("feedTree").getNextFeed(getActiveFeedId(), activeFeedIsCat());
-
-				if (nuf && !cache_get("feed:" + nuf + ":" + activeFeedIsCat()))
-					viewfeed(nuf, '', activeFeedIsCat(), 0, true);
-
-				if (nf && !cache_get("feed:" + nf[0] + ":" + nf[1]))
-					viewfeed(nf[0], '', nf[1], 0, true);
-
-				window.setTimeout(function() {
-					feed_precache_timeout_id = false;
-					}, 3000);
-
-			}, 1000);
-		}
+		precache_headlines();
 
 		if (!cached_article) {
 
@@ -404,6 +386,8 @@ function toggleMark(id, client_only) {
 			query = query + "&mark=0";
 		}
 
+		cache_headlines(getActiveFeedId(), activeFeedIsCat(), null, $("headlines-frame").innerHTML);
+
 		if (!client_only) {
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -442,6 +426,8 @@ function togglePub(id, client_only, no_effects, note) {
 
 			query = query + "&pub=0";
 		}
+
+		cache_headlines(getActiveFeedId(), activeFeedIsCat(), null, $("headlines-frame").innerHTML);
 
 		if (!client_only) {
 			new Ajax.Request("backend.php", {
@@ -2082,9 +2068,11 @@ function cache_headlines(feed, is_cat, toolbar_obj, content_obj) {
 			JSON.stringify({toolbar: toolbar_obj, content: content_obj}));
 	} else {
 		try {
-			obj =	JSON.parse(cache_get("feed:" + feed + ":" + is_cat));
+			obj =	cache_get("feed:" + feed + ":" + is_cat);
 
 			if (obj) {
+				obj = JSON.parse(obj);
+
 				if (toolbar_obj) obj.toolbar = toolbar_obj;
 				if (content_obj) obj.content = content_obj;
 
@@ -2112,7 +2100,36 @@ function render_local_headlines(feed, is_cat, obj) {
 		selectArticles('none');
 		setActiveFeedId(feed, is_cat);
 		initHeadlinesMenu();
+
+		precache_headlines();
+
 	} catch (e) {
 		exception_error("render_local_headlines", e);
+	}
+}
+
+function precache_headlines() {
+	try {
+
+		if (!feed_precache_timeout_id) {
+			feed_precache_timeout_id = window.setTimeout(function() {
+				var nuf = getNextUnreadFeed(getActiveFeedId(), activeFeedIsCat());
+				var nf = dijit.byId("feedTree").getNextFeed(getActiveFeedId(), activeFeedIsCat());
+
+				if (nuf && !cache_get("feed:" + nuf + ":" + activeFeedIsCat()))
+					viewfeed(nuf, '', activeFeedIsCat(), 0, true);
+
+				if (nf != nuf && nf && !cache_get("feed:" + nf[0] + ":" + nf[1]))
+					viewfeed(nf[0], '', nf[1], 0, true);
+
+				window.setTimeout(function() {
+					feed_precache_timeout_id = false;
+					}, 3000);
+
+			}, 1000);
+		}
+
+	} catch (e) {
+		exception_error("precache_headlines", e);
 	}
 }
