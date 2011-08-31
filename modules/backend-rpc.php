@@ -786,27 +786,35 @@
 
 		// TODO: unify with digest-get-contents?
 		if ($subop == "cdmGetArticle") {
-			$id = db_escape_string($_REQUEST["id"]);
+			$ids = array(db_escape_string($_REQUEST["id"]));
+			$cids = explode(",", $_REQUEST["cids"]);
 
-			$result = db_query($link, "SELECT content,
-				ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds,
-				ttrss_entries
-				WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND
-				ttrss_entries.id = ref_id AND
-				ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+			$ids = array_merge($ids, $cids);
 
-			if (db_num_rows($result) != 0) {
-				$line = db_fetch_assoc($result);
+			$rv = array();
 
-				$article_content = sanitize_rss($link, $line["content"],
-					false, false, $line['site_url']);
+			foreach ($ids as $id) {
+				$id = (int)$id;
 
-			} else {
-				$article_content = '';
+				$result = db_query($link, "SELECT content,
+					ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds,
+					ttrss_entries
+					WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND
+					ttrss_entries.id = ref_id AND
+					ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) != 0) {
+					$line = db_fetch_assoc($result);
+
+					$article_content = sanitize_rss($link, $line["content"],
+						false, false, $line['site_url']);
+
+					array_push($rv,
+						array("id" => $id, "content" => $article_content));
+				}
 			}
 
-			print json_encode(array("article" =>
-				array("id" => $id, "content" => $article_content)));
+			print json_encode($rv);
 
 			return;
 		}

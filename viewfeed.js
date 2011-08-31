@@ -1235,28 +1235,39 @@ function cdmExpandArticle(id) {
 
 				var query = "?op=rpc&subop=cdmGetArticle&id=" + param_escape(id);
 
-				//console.log(query);
+				var neighbor_ids = getRelativePostIds(id);
+
+				/* only request uncached articles */
+				var cids_to_request = [];
+
+				for (var i = 0; i < neighbor_ids.length; i++) {
+					if (cids_requested.indexOf(neighbor_ids[i]) == -1)
+						if ($("CWRAP-" + neighbor_ids[i]).innerHTML == "") {
+							cids_to_request.push(neighbor_ids[i]);
+							cids_requested.push(neighbor_ids[i]);
+						}
+				}
+
+				console.log("additional ids: " + cids_to_request.toString());
+
+				query = query + "&cids=" + cids_to_request.toString();
+
+				console.log(query);
 
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) {
+
 						$("FUPDPIC-" + id).src = 'images/blank_icon.gif';
 
 						handle_rpc_json(transport);
 
 						var reply = JSON.parse(transport.responseText);
 
-						if (reply) {
-							var article = reply['article']['content'];
-							var recv_id = reply['article']['id'];
-
-							if (recv_id == id)
-								$("CWRAP-" + id).innerHTML = article;
-
-						} else {
-							$("CWRAP-" + id).innerHTML = __("Unable to load article.");
-
-						}
+						reply.each(function(article) {
+							$("CWRAP-" + article['id']).innerHTML = article['content']
+							cids_requested.remove(article['id']);
+						});
 				}});
 
 			}
