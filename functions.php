@@ -2494,8 +2494,9 @@
 
 			if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
-			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+			//if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 
+			if (is_numeric($feed)) {
 				if ($cat_view) {
 
 					if ($feed >= 0) {
@@ -2518,7 +2519,6 @@
 								WHERE feed_id = '$tmp_feed' AND owner_uid = $owner_uid");
 						}
 					} else if ($feed == -2) {
-
 
 						db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW() WHERE (SELECT COUNT(*)

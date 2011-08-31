@@ -657,10 +657,11 @@
 
 		if ($subop == "catchupFeed") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
-			$is_cat = db_escape_string($_REQUEST['is_cat']);
+			$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
 
 			catchup_feed($link, $feed_id, $is_cat);
 
+			print json_encode(array("message" => "UPDATE_COUNTERS"));
 			return;
 		}
 
@@ -758,7 +759,7 @@
 
 		if ($subop == "regenFeedKey") {
 			$feed_id = db_escape_string($_REQUEST['id']);
-			$is_cat = (bool) db_escape_string($_REQUEST['is_cat']);
+			$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
 
 			$new_key = update_feed_access_key($link, $feed_id, $is_cat);
 

@@ -11,16 +11,19 @@ var last_requested_article = false;
 
 var catchup_id_batch = [];
 var catchup_timeout_id = false;
+var feed_precache_timeout_id = false;
+
+var cids_requested = [];
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
-function headlines_callback2(transport, offset) {
+function headlines_callback2(transport, offset, background) {
 	try {
 		handle_rpc_json(transport);
 
 		loading_set_progress(25);
 
-		console.log("headlines_callback2 [offset=" + offset + "]");
+		console.log("headlines_callback2 [offset=" + offset + "] B:" + background);
 
 		var is_cat = false;
 		var feed_id = false;
@@ -38,11 +41,12 @@ function headlines_callback2(transport, offset) {
 			is_cat = reply['headlines']['is_cat'];
 			feed_id = reply['headlines']['id'];
 
+			if (background) {
+				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], reply['headlines']['content']);
+				return;
+			}
+
 			setActiveFeedId(feed_id, is_cat);
-
-			var update_btn = document.forms["main_toolbar_form"].update;
-
-			update_btn.disabled = !(feed_id >= 0 && !is_cat);
 
 			try {
 				if (offset == 0) {
@@ -74,10 +78,6 @@ function headlines_callback2(transport, offset) {
 				var hsp = $("headlines-spacer");
 				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-/*				if (!_infscroll_disable)
-					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-						__("Loading, please wait..."); */
-
 				dijit.byId('headlines-frame').domNode.appendChild(hsp);
 
 				initHeadlinesMenu();
@@ -102,10 +102,6 @@ function headlines_callback2(transport, offset) {
 					});
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
-
-/*					if (!_infscroll_disable)
-						hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-							__("Loading, please wait..."); */
 
 					fixHeadlinesOrder(getLoadedArticleIds());
 
@@ -134,7 +130,8 @@ function headlines_callback2(transport, offset) {
 				}
 			}
 
-			cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], $("headlines-frame").innerHTML);
+			if (headlines_count > 0)
+				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], $("headlines-frame").innerHTML);
 
 			if (articles) {
 				for (var i = 0; i < articles.length; i++) {
@@ -247,21 +244,24 @@ function article_callback2(transport, id) {
 		var reply = JSON.parse(transport.responseText);
 
 		if (reply) {
+
 			var upic = $('FUPDPIC-' + id);
 
 			if (upic) upic.src = 'images/blank_icon.gif';
-
-			if (id != last_requested_article) {
-				console.log("requested article id is out of sequence, aborting");
-				return;
-			}
 
 			reply.each(function(article) {
 				if (active_post_id == article['id']) {
 					render_article(article['content']);
 				}
+				cids_requested.remove(article['id']);
+
 				cache_set("article:" + article['id'], article['content']);
 			});
+
+//			if (id != last_requested_article) {
+//				console.log("requested article id is out of sequence, aborting");
+//				return;
+//			}
 
 		} else {
 			console.warn("article_callback: returned invalid data");
@@ -293,16 +293,18 @@ function view(id) {
 
 		var query = "?op=view&id=" + param_escape(id);
 
-		var neighbor_ids = getRelativePostIds(active_post_id);
+		var neighbor_ids = getRelativePostIds(id);
 
 		/* only request uncached articles */
 
-		var cids_to_request = Array();
+		var cids_to_request = [];
 
 		for (var i = 0; i < neighbor_ids.length; i++) {
-			if (!cache_get("article:" + neighbor_ids[i])) {
-				cids_to_request.push(neighbor_ids[i]);
-			}
+			if (cids_requested.indexOf(neighbor_ids[i]) == -1)
+				if (!cache_get("article:" + neighbor_ids[i])) {
+					cids_to_request.push(neighbor_ids[i]);
+					cids_requested.push(neighbor_ids[i]);
+				}
 		}
 
 		console.log("additional ids: " + cids_to_request.toString());
@@ -314,6 +316,24 @@ function view(id) {
 
 		active_post_id = id;
 		showArticleInHeadlines(id);
+
+		if (!feed_precache_timeout_id) {
+			feed_precache_timeout_id = window.setTimeout(function() {
+				var nuf = getNextUnreadFeed(getActiveFeedId(), activeFeedIsCat());
+				var nf = dijit.byId("feedTree").getNextFeed(getActiveFeedId(), activeFeedIsCat());
+
+				if (nuf && !cache_get("feed:" + nuf + ":" + activeFeedIsCat()))
+					viewfeed(nuf, '', activeFeedIsCat(), 0, true);
+
+				if (nf && !cache_get("feed:" + nf[0] + ":" + nf[1]))
+					viewfeed(nf[0], '', nf[1], 0, true);
+
+				window.setTimeout(function() {
+					feed_precache_timeout_id = false;
+					}, 3000);
+
+			}, 1000);
+		}
 
 		if (!cached_article) {
 
@@ -334,8 +354,10 @@ function view(id) {
 			query = query + "&mode=prefetch_old";
 			render_article(cached_article);
 
-			return; // do not do prefetch_old request
-
+			// if we don't need to request any relative ids, we might as well skip
+			// the server roundtrip altogether
+			if (cids_to_request.length == 0)
+				return;
 		}
 
 		last_requested_article = id;
@@ -1083,7 +1105,7 @@ function headlines_scroll_handler(e) {
 		}
 
 	} catch (e) {
-		exception_error("headlines_scroll_handler", e);
+		console.warn("headlines_scroll_handler: " + e);
 	}
 }
 
@@ -1734,14 +1756,14 @@ function getRelativePostIds(id, limit) {
 
 	try {
 
-		if (!limit) limit = 3;
+		if (!limit) limit = 6; //3
 
 		var ids = getVisibleArticleIds();
 
 		for (var i = 0; i < ids.length; i++) {
 			if (ids[i] == id) {
 				for (var k = 1; k <= limit; k++) {
-					if (i > k-1) tmp.push(ids[i-k]);
+					//if (i > k-1) tmp.push(ids[i-k]);
 					if (i < ids.length-k) tmp.push(ids[i+k]);
 				}
 				break;
@@ -2029,7 +2051,7 @@ function player(elem) {
 }
 
 function cache_set(id, obj) {
-	console.log("cache_set: " + id);
+	//console.log("cache_set: " + id);
 	if (has_storage)
 		try {
 			sessionStorage[id] = obj;

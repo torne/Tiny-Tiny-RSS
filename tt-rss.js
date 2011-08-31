@@ -330,7 +330,9 @@ function init_second_stage() {
 
 		loading_set_progress(30);
 
-		cache_clear();
+		// can't use cache_clear() here because viewfeed might not have initialized yet
+		if ('sessionStorage' in window && window['sessionStorage'] !== null)
+			sessionStorage.clear();
 
 		console.log("second stage ok");
 

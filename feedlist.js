@@ -48,7 +48,7 @@ function loadMoreHeadlines() {
 }
 
 
-function viewfeed(feed, subop, is_cat, offset) {
+function viewfeed(feed, subop, is_cat, offset, background) {
 	try {
 		if (is_cat == undefined)
 			is_cat = false;
@@ -57,6 +57,7 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		if (subop == undefined) subop = '';
 		if (offset == undefined) offset = 0;
+		if (background == undefined) background = false;
 
 		last_requested_article = 0;
 
@@ -72,101 +73,112 @@ function viewfeed(feed, subop, is_cat, offset) {
 
 		var force_nocache = false;
 
-		if (getActiveFeedId() != feed || offset == 0) {
-			active_post_id = 0;
-			_infscroll_disable = 0;
-		}
-
-		if (!offset && !subop && cached_headlines) {
-			try {
-				render_local_headlines(feed, is_cat, JSON.parse(cached_headlines));
-				return;
-			} catch (e) {
-				console.warn("render_local_headlines failed: " + e);
-			}
-		}
-
-		if (offset != 0 && !subop) {
-			var date = new Date();
-			var timestamp = Math.round(date.getTime() / 1000);
-
-			if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
-				//console.log("infscroll request in progress, aborting");
-				return;
+		if (!background) {
+			if (getActiveFeedId() != feed || offset == 0) {
+				active_post_id = 0;
+				_infscroll_disable = 0;
 			}
 
-			_infscroll_request_sent = timestamp;
-		}
+			if (!offset && !subop && cached_headlines && !background) {
+				try {
+					render_local_headlines(feed, is_cat, JSON.parse(cached_headlines));
+					return;
+				} catch (e) {
+					console.warn("render_local_headlines failed: " + e);
+				}
+			}
 
-		hideAuxDlg();
+			if (offset != 0 && !subop) {
+				var date = new Date();
+				var timestamp = Math.round(date.getTime() / 1000);
+
+				if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
+					//console.log("infscroll request in progress, aborting");
+					return;
+				}
+
+				_infscroll_request_sent = timestamp;
+			}
+
+			hideAuxDlg();
+		}
 
 		Form.enable("main_toolbar_form");
 
-		var toolbar_form = document.forms["main_toolbar_form"];
 		var toolbar_query = Form.serialize("main_toolbar_form");
-
-		if (toolbar_form.query) {
-			if (toolbar_form.query.value != "") {
-				force_nocache = true;
-			}
-			toolbar_form.query.value = "";
-		}
 
 		var query = "?op=viewfeed&feed=" + feed + "&" +
 			toolbar_query + "&subop=" + param_escape(subop);
 
-		if (_search_query) {
-			force_nocache = true;
-			query = query + "&" + _search_query;
-			_search_query = false;
-		}
+		if (!background) {
+			if (_search_query) {
+				force_nocache = true;
+				query = query + "&" + _search_query;
+				_search_query = false;
+			}
 
-		if (subop == "MarkAllRead") {
+			if (subop == "MarkAllRead") {
 
-			var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
+				var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
-			if (show_next_feed) {
-				var tree = dijit.byId("feedTree");
-				var nuf = tree.model.getNextUnreadFeed(feed, is_cat);
+				if (show_next_feed) {
+					var nuf = getNextUnreadFeed(feed, is_cat);
 
-				if (nuf) {
-					var nuf_id = tree.model.store.getValue(nuf, 'bare_id');
+					if (nuf) {
+						var cached_nuf = cache_get("feed:" + nuf + ":false");
 
-					query = query + "&nuf=" + param_escape(nuf_id);
+						if (cached_nuf) {
+
+							render_local_headlines(nuf, false, JSON.parse(cached_nuf));
+
+							var catchup_query = "?op=rpc&subop=catchupFeed&feed_id=" +
+								feed + "&is_cat=" + is_cat;
+
+							console.log(catchup_query);
+
+							new Ajax.Request("backend.php",	{
+								parameters: catchup_query,
+								onComplete: function(transport) {
+									handle_rpc_json(transport);
+								} });
+
+							return;
+						} else {
+							query += "&nuf=" + param_escape(nuf);
+						}
+					}
 				}
 			}
-		}
 
-		if (is_cat) {
-			query = query + "&cat=1";
-		}
+			if (offset != 0) {
+				query = query + "&skip=" + offset;
 
-		if (offset != 0) {
-			query = query + "&skip=" + offset;
-
-			// to prevent duplicate feed titles when showing grouped vfeeds
-			if (vgroup_last_feed) {
-				query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
+				// to prevent duplicate feed titles when showing grouped vfeeds
+				if (vgroup_last_feed) {
+					query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
+				}
 			}
+
+			Form.enable("main_toolbar_form");
+
+			if (!offset)
+				if (!is_cat) {
+					if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
+						notify_progress("Loading, please wait...", true);
+				} else {
+					notify_progress("Loading, please wait...", true);
+				}
 		}
 
-		Form.enable("main_toolbar_form");
+		query += "&cat=" + is_cat;
 
 		console.log(query);
-
-		if (!offset)
-			if (!is_cat) {
-				if (!setFeedExpandoIcon(feed, is_cat, 'images/indicator_white.gif'))
-					notify_progress("Loading, please wait...", true);
-			} else {
-				notify_progress("Loading, please wait...", true);
-			}
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
 				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
-				headlines_callback2(transport, offset);
+				headlines_callback2(transport, offset, background);
 			} });
 
 	} catch (e) {
@@ -428,3 +440,17 @@ function setFeedExpandoIcon(feed, is_cat, src) {
 	}
 	return false;
 }
+
+function getNextUnreadFeed(feed, is_cat) {
+	try {
+		var tree = dijit.byId("feedTree");
+		var nuf = tree.model.getNextUnreadFeed(feed, is_cat);
+
+		if (nuf)
+			return tree.model.store.getValue(nuf, 'bare_id');
+
+	} catch (e) {
+		exception_error("getNextUnreadFeed", e);
+	}
+}
+
