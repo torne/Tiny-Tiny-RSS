@@ -51,7 +51,6 @@ function headlines_callback2(transport, offset) {
 			} catch (e) { };
 
 			var headlines_count = reply['headlines-info']['count'];
-			var headlines_unread = reply['headlines-info']['unread'];
 
 			vgroup_last_feed = reply['headlines-info']['vgroup_last_feed'];
 

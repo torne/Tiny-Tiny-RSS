@@ -370,16 +370,8 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
 
-			$headlines_unread = ccache_find($link, $returned_feed, $_SESSION["uid"],
-					$cat_view, true);
-
-			if ($headlines_unread == -1) {
-				$headlines_unread = getFeedUnread($link, $returned_feed, $cat_view);
-			}
-
 			$reply['headlines-info'] = array("count" => (int) $headlines_count,
 				"vgroup_last_feed" => $vgroup_last_feed,
-				"unread" => (int) $headlines_unread,
 				"disable_cache" => (bool) $disable_cache);
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
