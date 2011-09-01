@@ -32,7 +32,8 @@ a:hover {
 }
 
 #header div.links {
-	float : right;
+	position : absolute;
+	right : 1.5em;
 }
 
 #search {
@@ -157,7 +158,7 @@ a:hover {
 #headlines ul#headlines-content div.digest-check img {
 	cursor : pointer;
 	margin-right : 0px;
-	margin-left : 3px;
+	margin-left : 5px;
 }
 
 
@@ -182,26 +183,21 @@ a:hover {
 	clear : left;
 }
 
-#headlines ul#headlines-content li.fresh a.title {
+#headlines ul#headlines-content a.title {
+	font-size : 18px;
 	font-weight : bold;
-	font-size : 16px;
 	display : block;
 	padding-left : 21px;
+}
+
+#headlines ul#headlines-content li.fresh a.title {
 	color : #007FFF;
 }
 
 #headlines ul#headlines-content li.unread a.title {
-	font-weight : bold;
-	font-size : 16px;
-	display : block;
-	padding-left : 21px;
 }
 
 #headlines ul#headlines-content li.read a.title {
-	font-size : 16px;
-	font-weight : bold;
-	display : block;
-	padding-left : 21px;
 	color : #8DB1D6;
 }
 
@@ -216,6 +212,7 @@ a:hover {
 #headlines ul#headlines-content div.excerpt {
 	color : #404040;
 	cursor : pointer;
+	margin-top : 5px;
 }
 
 #headlines ul#headlines-content div.content {
