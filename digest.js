@@ -27,14 +27,14 @@ function catchup_feed(feed_id, callback) {
 
 			if (feed_id < 0) is_cat = "true"; // KLUDGE
 
-			var query = "?op=rpc&subop=catchupFeed&feed_id=" + 
+			var query = "?op=rpc&subop=catchupFeed&feed_id=" +
 				feed_id + "&is_cat=" + is_cat;
 
 			new Ajax.Request("backend.php",	{
-				parameters: query, 
+				parameters: query,
 				onComplete: function(transport) {
 					if (callback) callback(transport);
-	
+
 					update();
 				} });
 		}
@@ -48,7 +48,7 @@ function get_visible_article_ids() {
 	try {
 		var elems = $("headlines-content").getElementsByTagName("LI");
 		var ids = [];
-			
+
 		for (var i = 0; i < elems.length; i++) {
 			if (elems[i].id && elems[i].id.match("A-")) {
 			ids.push(elems[i].id.replace("A-", ""));
@@ -71,15 +71,15 @@ function catchup_visible_articles(callback) {
 
 			var query = "?op=rpc&subop=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(ids);
-	
+
 			new Ajax.Request("backend.php",	{
-				parameters: query, 
+				parameters: query,
 				onComplete: function(transport) {
 					if (callback) callback(transport);
-	
+
 					viewfeed(_active_feed_id, 0);
 				} });
-	
+
 			}
 
 	} catch (e) {
@@ -93,7 +93,7 @@ function catchup_article(article_id, callback) {
 			"&cmode=0&ids=" + article_id;
 
 		new Ajax.Request("backend.php",	{
-			parameters: query, 
+			parameters: query,
 			onComplete: function(transport) {
 				if (callback) callback(transport);
 			} });
@@ -146,8 +146,8 @@ function zoom(elem, article_id) {
 					elem.onclick = false;
 					elem.style.cursor = "auto";
 
-					catchup_article(article_id, 
-						function() { 							
+					catchup_article(article_id,
+						function() {
 							window.clearTimeout(_view_update_timeout);
 							_view_update_timeout = window.setTimeout("view_update()", 500);
 							$("A-" + article_id).className = "read";
@@ -157,7 +157,7 @@ function zoom(elem, article_id) {
 				} else {
 					elem.innerHTML = __("Error: unable to load article.");
 				}
-				
+
 				} });
 
 
@@ -173,10 +173,10 @@ function load_more() {
 		if (pr) Element.show(pr);
 
 		viewfeed(_active_feed_id, _active_feed_offset + 10, false, false, true,
-			function() { 
+			function() {
 				var pr = $("H-LOADING-IMG");
 
-				if (pr) Element.hide(pr);	
+				if (pr) Element.hide(pr);
 			});
 	} catch (e) {
 		exception_error("load_more", e);
@@ -231,8 +231,8 @@ function view(article_id, dismiss_only) {
 	try {
 		remove_headline_entry(article_id);
 
-		catchup_article(article_id, 
-			function() { 
+		catchup_article(article_id,
+			function() {
 				window.clearTimeout(_view_update_timeout);
 				_view_update_timeout = window.setTimeout("view_update()", 500);
 			});
@@ -258,7 +258,7 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		_update_seq = _update_seq + 1;
 
-		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" + 
+		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" +
 				param_escape(feed_id) +	"&offset=" + offset +
 				"&seq=" + _update_seq;
 
@@ -274,13 +274,13 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 		}
 
 		new Ajax.Request("backend.php",	{
-			parameters: query, 
+			parameters: query,
 			onComplete: function(transport) {
 				Element.hide("overlay");
 
 				fatal_error_check(transport);
 				parse_headlines(transport, replace, no_effects);
-				set_selected_feed(feed_id);				
+				set_selected_feed(feed_id);
 				_active_feed_offset = offset;
 
 				if (img && !no_indicator)
@@ -337,10 +337,10 @@ function get_feed_icon(feed) {
 		if (feed.id == -3)
 			return 'images/fresh.png';
 
-		if (feed.id == -4) 
+		if (feed.id == -4)
 			return 'images/tag.png';
 
-		if (feed.id < -10) 
+		if (feed.id < -10)
 			return 'images/label.png';
 
 		return 'images/blank_icon.gif';
@@ -357,15 +357,15 @@ function add_feed_entry(feed) {
 		icon_part = "<img src='" + get_feed_icon(feed) + "'/>";
 
 		var tmp_html = "<li id=\"F-"+feed.id+"\" " +
-				"onmouseover=\"feed_mi(this)\" onmouseout=\"feed_mo(this)\">" + 
+				"onmouseover=\"feed_mi(this)\" onmouseout=\"feed_mo(this)\">" +
 			icon_part +
 			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title + "</a>" +
-			"<div class='unread-ctr'>" + 
-				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"" + 
-					__("Mark as read") + 
+			"<div class='unread-ctr'>" +
+				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"" +
+					__("Mark as read") +
 					"\" class=\"dismiss\" style='display : none' src=\"images/digest_checkbox.png\">" +
-				"<span class=\"unread\">" + feed.unread + "</span>" + 
-			"</div>" +	
+				"<span class=\"unread\">" + feed.unread + "</span>" +
+			"</div>" +
 			"</li>";
 
 		$("feeds-content").innerHTML += tmp_html;
@@ -392,8 +392,8 @@ function add_headline_entry(article, feed, no_effects) {
 			tags_part = " " + __("in") + " ";
 
 			for (var i = 0; i < Math.min(5, article.tags.length); i++) {
-				tags_part += "<a href=\"#\" onclick=\"viewfeed('" + 
-						article.tags[i] + "')\">" + 
+				tags_part += "<a href=\"#\" onclick=\"viewfeed('" +
+						article.tags[i] + "')\">" +
 					article.tags[i] + "</a>, ";
 			}
 
@@ -426,7 +426,7 @@ function add_headline_entry(article, feed, no_effects) {
 		if (d.getTime() / 1000 - article.updated < fresh_max)
 			li_class = "fresh";
 
-		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\""+li_class+"\">" + 
+		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\""+li_class+"\">" +
 			icon_part +
 
 			"<div class='digest-check'>" +
@@ -434,15 +434,15 @@ function add_headline_entry(article, feed, no_effects) {
 				publ_part +
 				"<img title='" + __("Share on Twitter") + "' onclick=\"tweet_article("+article.id+", true)\" src='images/art-tweet.png'>" +
 				"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
-			"</div>" + 
+			"</div>" +
 			"<a target=\"_blank\" href=\""+article.link+"\""+
-		  		"onclick=\"return view("+article.id+")\" class='title'>" + 
+		  		"onclick=\"return view("+article.id+")\" class='title'>" +
 				article.title + "</a>" +
-			"<div class='body'>" + 
-			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom(this, "+article.id+")\" class='excerpt'>" + 
+			"<div class='body'>" +
+			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom(this, "+article.id+")\" class='excerpt'>" +
 				article.excerpt + "</div>" +
-			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" + 
-				feed.title + "</a> " + tags_part + " @ " + 
+			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" +
+				feed.title + "</a> " + tags_part + " @ " +
 				new Date(article.updated * 1000) + "</div>" +
 			"</div></li>";
 
@@ -482,15 +482,15 @@ function redraw_feedlist(feeds) {
 
 		if (feeds.length > limit) {
 			$('feeds-content').innerHTML += "<li id='F-MORE-PROMPT'>" +
-				"<img src='images/blank_icon.gif'>" + 
+				"<img src='images/blank_icon.gif'>" +
 				"<a href=\"#\" onclick=\"expand_feeds()\">" +
-				__("%d more...").replace("%d", feeds.length-10) + 
+				__("%d more...").replace("%d", feeds.length-10) +
 				"</a>" + "</li>";
 		}
 
 		if (feeds.length == 0) {
-			$('feeds-content').innerHTML = 
-				"<div class='insensitive' style='text-align : center'>" + 
+			$('feeds-content').innerHTML =
+				"<div class='insensitive' style='text-align : center'>" +
 					__("No unread feeds.") + "</div>";
 		}
 
@@ -509,17 +509,17 @@ function parse_feeds(transport) {
 
 		if (feeds) {
 
-			feeds.sort( function (a,b) 
-				{ 
+			feeds.sort( function (a,b)
+				{
 					if (b.unread != a.unread)
-						return (b.unread - a.unread) 
+						return (b.unread - a.unread)
 					else
 						if (a.title > b.title)
 							return 1;
 						else if (a.title < b.title)
 							return -1;
 						else
-							return 0;					
+							return 0;
 				});
 
 			var all_articles = find_feed(feeds, -4);
@@ -570,9 +570,9 @@ function parse_headlines(transport, replace, no_effects) {
 			var inserted = false;
 
 			for (var i = 0; i < headlines.length; i++) {
-				
+
 				if (!$('A-' + headlines[i].id)) {
-					add_headline_entry(headlines[i], 
+					add_headline_entry(headlines[i],
 							find_feed(last_feeds, headlines[i].feed_id), !no_effects);
 
 					inserted = $("A-" + headlines[i].id);
@@ -589,9 +589,9 @@ function parse_headlines(transport, replace, no_effects) {
 					$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 						"<div class='body'>" +
 						"<a href=\"#\" onclick=\"catchup_visible_articles()\">" +
-					  	__("Mark as read") + "</a> | " + 
-						"<a href=\"#\" onclick=\"load_more()\">" +
-					  	__("Load more...") + "</a>" + 
+					  	__("Mark as read") + "</a> | " +
+						"<a href=\"javascript:load_more()\">" +
+					  	__("Load more...") + "</a>" +
 						"<img style=\"display : none\" "+
 						"id=\"H-LOADING-IMG\" src='images/indicator_tiny.gif'>" +
 						"</div></li>";
@@ -600,7 +600,7 @@ function parse_headlines(transport, replace, no_effects) {
 				// FIXME : display some kind of "nothing to see here" prompt here
 			}
 
-			if (replace && !no_effects) 
+			if (replace && !no_effects)
 				new Effect.Appear('headlines-content', {duration : 0.3});
 
 			//new Effect.Appear('headlines-content');
@@ -632,7 +632,7 @@ function init() {
 
 		new Ajax.Request("backend.php", {
 			parameters: "?op=rpc&subop=sanityCheck",
-			onComplete: function(transport) { 
+			onComplete: function(transport) {
 				backend_sanity_check_callback(transport);
 			} });
 
@@ -661,7 +661,7 @@ function toggle_mark(img, id) {
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
-			onComplete: function(transport) { 
+			onComplete: function(transport) {
 				update();
 			} });
 
@@ -675,7 +675,7 @@ function toggle_pub(img, id, note) {
 	try {
 
 		var query = "?op=rpc&id=" + id + "&subop=publ";
-	
+
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);
 		} else {
@@ -697,7 +697,7 @@ function toggle_pub(img, id, note) {
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
-			onComplete: function(transport) { 
+			onComplete: function(transport) {
 				update();
 			} });
 
@@ -707,19 +707,19 @@ function toggle_pub(img, id, note) {
 }
 
 function fatal_error(code, msg) {
-	try {	
+	try {
 
 		if (code == 6) {
 			window.location.href = "digest.php";
 		} else if (code == 5) {
 			window.location.href = "db-updater.php";
 		} else {
-	
+
 			if (msg == "") msg = "Unknown error";
 
-			console.error("Fatal error: " + code + "\n" + 
+			console.error("Fatal error: " + code + "\n" +
 				msg);
-			
+
 		}
 
 	} catch (e) {
@@ -814,14 +814,14 @@ function tweet_article(id) {
 			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
 
 		new Ajax.Request("backend.php",	{
-			parameters: query, 
+			parameters: query,
 			onComplete: function(transport) {
 				var ti = JSON.parse(transport.responseText);
 
 				var share_url = "http://twitter.com/share?_=" + ts +
-					"&text=" + param_escape(ti.title) + 
+					"&text=" + param_escape(ti.title) +
 					"&url=" + param_escape(ti.link);
-						
+
 				w.location.href = share_url;
 
 			} });
