@@ -1,8 +1,9 @@
 body#ttrssDigest {
-	background : #f0f0f0;
+	background : #fafafa;
 	color : black;
 	font-family : sans-serif;
 	font-size : 12px;
+	margin : 0px;
 }
 
 a {
@@ -23,12 +24,21 @@ a:hover {
 }
 
 #header {
-	font-weight : bold;
-	font-size : 14px;
+	font-size : 13px;
 	font-family : "Segoe UI", Tahoma, sans-serif;
-	margin-left : 1em;
-	margin-right : 1em;
+	padding : 5px 5px 5px 1.5em;
 	color : gray;
+	position : absolute;
+	top : 0px;
+	height : 30px;
+	left : 0px;
+	right : 0px;
+	color : #a0a0a0;
+}
+
+#header span.title {
+	font-weight : bold;
+	font-style : italic;
 }
 
 #header div.links {
@@ -42,27 +52,6 @@ a:hover {
 
 }
 
-#content {
-	border : 1px solid #e0e0e0;
-	background : white;
-	padding : 0.8em;
-	margin : 0.5em;
-}
-
-#footer {
-	font-size : 12px;
-	text-align : center;
-	color : gray;
-}
-
-#content h1 {
-	margin : 0px 0px 20px 0px;
-	font-family : "Segoe UI", Tahoma, sans-serif;
-	font-size : 18px;
-	letter-spacing : 1px;
-	color : #684C99;
-}
-
 #title {
 }
 
@@ -70,16 +59,104 @@ a:hover {
 	padding : 5px;
 }
 
-#feeds {
-	float : right;
-	width : 30%;
-	min-width : 300px;
-	padding : 5px;
-	font-size : 14px;
+#content {
+	position : absolute;
+	left : 0px;
+	top : 30px;
+	right : 0px;
+	bottom : 0px;
+	-webkit-transition: left 0.2s linear, right 0.2s linear;
+	-moz-transition: left 0.2s linear, right 0.2s linear;
+	transition: left 0.2s linear, right 0.2s linear;
 }
 
-#feeds h1 {
-	text-align : right;
+#article {
+	position : absolute;
+	right : 0px;
+	width : 60%;
+	bottom : 0px;
+	top : 30px;
+	background : white;
+	border-width : 0px 0px 0px 2px;
+	border-color : #e0e0e0;
+	border-style : solid;
+	z-index : -1;
+	opacity : 0;
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+
+#article.visible {
+	opacity : 1;
+}
+
+#article #article-content h1 {
+	margin : 0px 0px 10px 0px;
+	padding : 0px 0px 5px 0px;
+	font-family : "Segoe UI", Tahoma, sans-serif;
+	font-size : 21px;
+	font-weight : bold;
+	border-width : 0px 0px 3px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
+	color : gray;
+}
+
+#article #article-content #toolbar {
+	border-width : 0px 0px 1px 0px;
+	border-color : #e0e0e0;
+	border-style : solid;
+	background : #fafafa;
+	font-size : 14px;
+	font-weight : bold;
+	padding : 5px 10px 5px 10px;
+	margin : 0px 0px 0px 0px;
+}
+
+#article #article-content {
+	padding : 0px;
+	font-height : 16px;
+}
+
+#article #article-content #tags {
+	color : #a0a0a0;
+}
+
+#article #article-content #ops {
+	float : right;
+}
+
+#article #article-content #ops img {
+	cursor : pointer;
+	margin-right : 0px;
+	margin-left : 10px;
+}
+
+#article #article-content #inner {
+	padding : 20px;
+}
+
+#article #article-content img {
+	max-width : 90%;
+}
+
+#content.move {
+	left : -300px;
+	right : 60%
+}
+
+#feeds {
+	position : absolute;
+	left : 0px;
+	width : 300px;
+	top : 0px;
+	bottom : 0px;
+	font-size : 14px;
+	overflow : auto;
+	border-width : 0px 4px 0px 0px;
+	border-color : #e0e0e0;
+	border-style : solid;
 }
 
 #feeds ul#feeds-content img {
@@ -89,85 +166,62 @@ a:hover {
 	margin-right : 5px;
 }
 
-#feeds ul#feeds-content div.unread-ctr img.dismiss {
-	margin-right : 0px;
-	cursor : pointer;
-}
-
 #feeds ul#feeds-content div.unread-ctr {
-	color : gray;
-	float : right;
+	color : #d0d0d0;
+	padding-left : 10px;
+	display : inline;
 }
 
 #feeds ul#feeds-content li {
-	margin : 0px 0px 2px 0px;
-	padding : 2px;
+	padding : 10px;
 	clear : both;
+	cursor : pointer;
+	border-width : 1px 0px 1px 0px;
+	border-color : transparent;
+	border-style : solid;
+	color : gray;
+	white-space : nowrap;
 }
 
 #feeds ul#feeds-content li.selected {
-	background : #f0f0f0;
-}
-
-#feeds ul#feeds-content li.selected a {
-	color : #404040;
-}
-
-#feeds ul#feeds-content li.selected a:hover {
-	color : #659a4c;
+	background : white;
+	border-color : #e0e0e0;
+	border-style : solid;
 }
 
 #feeds ul#feeds-content {
 	list-style-type : none;
 	font-weight : bold;
-	color : #659a4c;
-	margin : 0px;
+	margin : 10px 10px 10px 10px;
 	padding : 0px;
 }
 
-#feeds ul#feeds-content li a {
-	color : #659a4c;
-}
-
-#feeds ul#feeds-content li a:hover {
-	color : gray;
-}
-
 #headlines {
-	padding : 5px;
 	font-size : 14px;
-	max-width : 65%;
+	position : absolute;
+	left : 302px;
+	top : 0px;
+	bottom : 0px;
+	right : 0px;
+	overflow : auto;
 }
 
 #headlines h1 a {
 	color : #684C99;
 }
 
-#headlines h1 a:hover {
-	color : gray;
+#headlines ul#headlines-content .cb {
+	vertical-align : middle;
+	margin-right : 5px;
+	float : left;
 }
-
-#headlines h1 #headlines-title {
-	color : gray;
-}
-
-#headlines ul#headlines-content div.digest-check {
-	float : right;	
-}
-
-#headlines ul#headlines-content div.digest-check img {
-	cursor : pointer;
-	margin-right : 0px;
-	margin-left : 5px;
-}
-
 
 #headlines ul#headlines-content img.icon {
 	width : 16px;
 	height : 16px;
 	vertical-align : middle;
 	margin-right : 5px;
-	float : left;
+	float : right;
 }
 
 #headlines ul#headlines-content {
@@ -178,16 +232,22 @@ a:hover {
 }
 
 #headlines ul#headlines-content li {
-	margin : 0px 0px 10px 0px;
-	color : #909090;
+	margin : 0px 0px 0px 2px;
+	padding : 10px;
+	color : gray;
 	clear : left;
+	background : #eeeeee;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e0e0e0;
 }
 
 #headlines ul#headlines-content a.title {
-	font-size : 18px;
+	font-size : 14px;
 	font-weight : bold;
 	display : block;
-	padding-left : 21px;
+	margin-left : 21px;
+	position : relative;
 }
 
 #headlines ul#headlines-content li.fresh a.title {
@@ -195,14 +255,22 @@ a:hover {
 }
 
 #headlines ul#headlines-content li.unread a.title {
+	color : black;
+	/* color : #8DB1D6; */
 }
 
 #headlines ul#headlines-content li.read a.title {
-	color : #8DB1D6;
+	color : gray;
 }
 
-#headlines ul#headlines-content li.read a.title:hover {
-	color : gray;
+#headlines ul#headlines-content li.unread,
+#headlines ul#headlines-content li.fresh {
+	background-color : white;
+}
+
+#headlines ul#headlines-content li.selected {
+	background-color : #fff7d5;
+	border-color : white white #e0e0e0;
 }
 
 #headlines ul#headlines-content img#H-LOADING-IMG {
@@ -236,20 +304,6 @@ a:hover {
 	color : gray;
 }
 
-#headlines ul#headlines-content span.tags {
-	font-size : 11px;
-	margin-bottom : 2px;
-}
-
-#headlines ul#headlines-content span.tags a {
-	color : #684C99;
-}
-
-#headlines ul#headlines-content div.info a:hover, 
-#headlines ul#headlines-content span.tags a:hover {
-	color : #659a4c;
-}
-
 #overlay {
 	background : white;
 	left : 0;
@@ -281,3 +335,5 @@ div.fatalError textarea {
 div.insensitive {
 	color : gray;
 }
+
+

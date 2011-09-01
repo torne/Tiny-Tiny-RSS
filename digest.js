@@ -2,7 +2,6 @@ var last_feeds = [];
 var init_params = {};
 
 var _active_feed_id = false;
-var _active_feed_offset = false;
 var _update_timeout = false;
 var _view_update_timeout = false;
 var _feedlist_expanded = false;
@@ -103,6 +102,29 @@ function catchup_article(article_id, callback) {
 	}
 }
 
+function set_selected_article(article_id) {
+	try {
+		$$("#headlines-content > li[id*=A-]").each(function(article) {
+				var id = article.id.replace("A-", "");
+
+				var cb = article.getElementsByTagName("INPUT")[0];
+
+				if (id == article_id) {
+					article.addClassName("selected");
+					cb.checked = true;
+				} else {
+					article.removeClassName("selected");
+					cb.checked = false;
+				}
+
+		});
+
+	} catch (e) {
+		exception_error("mark_selected_feed", e);
+	}
+}
+
+
 function set_selected_feed(feed_id) {
 	try {
 		var feeds = $("feeds-content").getElementsByTagName("LI");
@@ -121,58 +143,15 @@ function set_selected_feed(feed_id) {
 	}
 }
 
-function zoom(elem, article_id) {
-	try {
-		//alert(elem + "/" + article_id);
-
-		elem.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-			__("Loading, please wait...");
-
-		new Ajax.Request("backend.php",	{
-			parameters: "?op=rpc&subop=digest-get-contents&article_id=" +
-				article_id,
-			onComplete: function(transport) {
-				fatal_error_check(transport);
-
-				var reply = JSON.parse(transport.responseText);
-
-				if (reply) {
-					var article = reply['article'];
-
-					elem.innerHTML = article.content;
-
-					new Effect.BlindDown(elem, {duration : 0.5});
-
-					elem.onclick = false;
-					elem.style.cursor = "auto";
-
-					catchup_article(article_id,
-						function() {
-							window.clearTimeout(_view_update_timeout);
-							_view_update_timeout = window.setTimeout("view_update()", 500);
-							$("A-" + article_id).className = "read";
-					});
-
-
-				} else {
-					elem.innerHTML = __("Error: unable to load article.");
-				}
-
-				} });
-
-
-	} catch (e) {
-		exception_error("zoom", e);
-	}
-}
-
 function load_more() {
 	try {
 		var pr = $("H-LOADING-IMG");
 
 		if (pr) Element.show(pr);
 
-		viewfeed(_active_feed_id, _active_feed_offset + 10, false, false, true,
+		var offset = $$("#headlines-content > li[id*=A-][class*=fresh],li[id*=A-][class*=unread]").length;
+
+		viewfeed(false, offset, false, false, true,
 			function() {
 				var pr = $("H-LOADING-IMG");
 
@@ -227,36 +206,114 @@ function view_update() {
 	}
 }
 
-function view(article_id, dismiss_only) {
+function view(article_id) {
 	try {
-		remove_headline_entry(article_id);
+		$("content").addClassName("move");
 
-		catchup_article(article_id,
-			function() {
-				window.clearTimeout(_view_update_timeout);
-				_view_update_timeout = window.setTimeout("view_update()", 500);
-			});
+		var a = $("A-" + article_id);
+		var h = $("headlines");
 
-		return dismiss_only != true;
+		setTimeout(function() {
+			// below or above viewport, reposition headline
+			if (a.offsetTop > h.scrollTop + h.offsetHeight || a.offsetTop+a.offsetHeight < h.scrollTop+a.offsetHeight)
+				h.scrollTop = a.offsetTop - (h.offsetHeight/2 - a.offsetHeight/2);
+			}, 500);
+
+		new Ajax.Request("backend.php",	{
+			parameters: "?op=rpc&subop=digest-get-contents&article_id=" +
+				article_id,
+			onComplete: function(transport) {
+				fatal_error_check(transport);
+
+				var reply = JSON.parse(transport.responseText);
+
+				if (reply) {
+					var article = reply['article'];
+
+					var mark_part = "";
+					var publ_part = "";
+
+					var tags_part = "";
+
+					if (article.tags.length > 0) {
+						tags_part = " " + __("in") + " ";
+
+						for (var i = 0; i < Math.min(5, article.tags.length); i++) {
+							//tags_part += "<a href=\"#\" onclick=\"viewfeed('" +
+							//		article.tags[i] + "')\">" +
+							//	article.tags[i] + "</a>, ";
+
+							tags_part += article.tags[i] + ", ";
+						}
+
+						tags_part = tags_part.replace(/, $/, "");
+						tags_part = "<span class=\"tags\">" + tags_part + "</span>";
+
+					}
+
+					if (article.marked)
+						mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.png'>";
+					else
+						mark_part =	"<img title='"+__("Star article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_unset.png'>";
+
+					if (article.published)
+						publ_part = "<img title='"+__("Unpublish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_set.png'>";
+					else
+						publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
+
+					var tmp = "<div id=\"toolbar\">" +
+						"<a target=\"_blank\" href=\""+article.url+"\">" + __("Original article") + "</a>" +
+						"<div style=\"float : right\"><a href=\"#\" onclick=\"close_article()\">" +
+						__("Close this panel") + "</a></div></div>" +
+						"<div id=\"inner\">" +
+						"<div id=\"ops\">" +
+						mark_part +
+						publ_part +
+						"</div>" +
+						"<h1>" + article.title + "</h1>" +
+						"<div id=\"tags\">" +
+						tags_part +
+						"</div>" +
+						article.content + "</div>";
+
+					$("article-content").innerHTML = tmp;
+					$("article").addClassName("visible");
+
+					set_selected_article(article.id);
+
+					catchup_article(article_id,
+						function() {
+							$("A-" + article_id).addClassName("read");
+					});
+
+				} else {
+					elem.innerHTML = __("Error: unable to load article.");
+				}
+			}
+		});
+
+
+		return false;
 	} catch (e) {
 		exception_error("view", e);
 	}
+}
+
+function close_article() {
+	$("content").removeClassName("move");
+	$("article").removeClassName("visible");
 }
 
 function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) {
 	try {
 
 		if (!feed_id) feed_id = _active_feed_id;
-
-		if (!offset) {
-			offset = 0;
-		} else {
-			offset = _active_feed_offset + offset;
-		}
-
+		if (offset == undefined) offset = 0;
 		if (replace == undefined) replace = (offset == 0);
 
 		_update_seq = _update_seq + 1;
+
+		if (!offset) $("headlines").scrollTop = 0;
 
 		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" +
 				param_escape(feed_id) +	"&offset=" + offset +
@@ -356,19 +413,13 @@ function add_feed_entry(feed) {
 
 		icon_part = "<img src='" + get_feed_icon(feed) + "'/>";
 
-		var tmp_html = "<li id=\"F-"+feed.id+"\" " +
-				"onmouseover=\"feed_mi(this)\" onmouseout=\"feed_mo(this)\">" +
-			icon_part +
-			"<a href=\"#\" onclick=\"viewfeed("+feed.id+")\">" + feed.title + "</a>" +
-			"<div class='unread-ctr'>" +
-				"<img onclick=\"catchup_feed("+feed.id+")\" title=\"" +
-					__("Mark as read") +
-					"\" class=\"dismiss\" style='display : none' src=\"images/digest_checkbox.png\">" +
-				"<span class=\"unread\">" + feed.unread + "</span>" +
-			"</div>" +
-			"</li>";
+		var tmp_html = "<li id=\"F-"+feed.id+"\" onclick=\"viewfeed("+feed.id+")\">" +
+			icon_part + feed.title +
+			"<div class='unread-ctr'>" + "<span class=\"unread\">" + feed.unread + "</span>" +
+			"</div>" + "</li>";
 
 		$("feeds-content").innerHTML += tmp_html;
+
 
 	} catch (e) {
 		exception_error("add_feed_entry", e);
@@ -382,38 +433,10 @@ function add_headline_entry(article, feed, no_effects) {
 
 		icon_part = "<img class='icon' src='" + get_feed_icon(feed) + "'/>";
 
-		var mark_part = "";
-		var publ_part = "";
-
-		var tags_part = "";
-
-		if (article.tags.length > 0) {
-
-			tags_part = " " + __("in") + " ";
-
-			for (var i = 0; i < Math.min(5, article.tags.length); i++) {
-				tags_part += "<a href=\"#\" onclick=\"viewfeed('" +
-						article.tags[i] + "')\">" +
-					article.tags[i] + "</a>, ";
-			}
-
-			tags_part = tags_part.replace(/, $/, "");
-			tags_part = "<span class=\"tags\">" + tags_part + "</span>";
-		}
-
-		if (article.marked)
-			mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.png'>";
-		else
-			mark_part =	"<img title='"+__("Star article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_unset.png'>";
-
-		if (article.published)
-			publ_part = "<img title='"+__("Unpublish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_set.png'>";
-		else
-			publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
 
 		var style = "";
 
-		if (!no_effects) style = "style=\"display : none\"";
+		//if (!no_effects) style = "style=\"display : none\"";
 
 		if (article.excerpt.trim() == "")
 			article.excerpt = __("Click to expand article.");
@@ -426,24 +449,31 @@ function add_headline_entry(article, feed, no_effects) {
 		if (d.getTime() / 1000 - article.updated < fresh_max)
 			li_class = "fresh";
 
-		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\""+li_class+"\">" +
-			icon_part +
+		//"<img title='" + __("Share on Twitter") + "' onclick=\"tweet_article("+article.id+", true)\" src='images/art-tweet.png'>" +
 
-			"<div class='digest-check'>" +
-				mark_part +
-				publ_part +
-				"<img title='" + __("Share on Twitter") + "' onclick=\"tweet_article("+article.id+", true)\" src='images/art-tweet.png'>" +
-				"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
-			"</div>" +
+		//"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
+
+		var checkbox_part = "<input type=\"checkbox\" class=\"cb\" onclick=\"toggle_select_article(this)\"/>";
+
+		var date = new Date(article.updated * 1000);
+
+		var date_part = date.toString().substring(0,21);
+
+		var tmp_html = "<li id=\"A-"+article.id+"\" "+style+" class=\""+li_class+"\">" +
+			checkbox_part +
+			icon_part +
 			"<a target=\"_blank\" href=\""+article.link+"\""+
 		  		"onclick=\"return view("+article.id+")\" class='title'>" +
 				article.title + "</a>" +
 			"<div class='body'>" +
-			"<div title=\""+__("Click to expand article")+"\" onclick=\"zoom(this, "+article.id+")\" class='excerpt'>" +
+			"<div onclick=\"view("+article.id+")\" class='excerpt'>" +
 				article.excerpt + "</div>" +
-			"<div class='info'><a href=\#\" onclick=\"viewfeed("+feed.id+")\">" +
-				feed.title + "</a> " + tags_part + " @ " +
-				new Date(article.updated * 1000) + "</div>" +
+			"<div class='info'>";
+
+/*		tmp_html += "<a href=\#\" onclick=\"viewfeed("+feed.id+")\">" +
+					feed.title + "</a> " + " @ "; */
+
+		tmp_html += date_part + "</div>" +
 			"</div></li>";
 
 		$("headlines-content").innerHTML += tmp_html;
@@ -493,6 +523,9 @@ function redraw_feedlist(feeds) {
 				"<div class='insensitive' style='text-align : center'>" +
 					__("No unread feeds.") + "</div>";
 		}
+
+		if (_active_feed_id)
+			set_selected_feed(_active_feed_id);
 
 	} catch (e) {
 		exception_error("redraw_feedlist", e);
@@ -556,11 +589,9 @@ function parse_headlines(transport, replace, no_effects) {
 		var headlines_title = reply['headlines']['title'];
 
 		if (headlines && headlines_title) {
-			$("headlines-title").innerHTML = headlines_title
 
 			if (replace) {
 				$('headlines-content').innerHTML = '';
-				Element.hide('headlines-content');
 			}
 
 			var pr = $('H-MORE-PROMPT');
@@ -575,16 +606,17 @@ function parse_headlines(transport, replace, no_effects) {
 					add_headline_entry(headlines[i],
 							find_feed(last_feeds, headlines[i].feed_id), !no_effects);
 
-					inserted = $("A-" + headlines[i].id);
 				}
 			}
+
+			console.log(inserted.id);
 
 			var ids = get_visible_article_ids();
 
 			if (ids.length > 0) {
 				if (pr) {
 					$('headlines-content').appendChild(pr);
-					if (!no_effects && inserted) new Effect.ScrollTo(inserted);
+
 				} else {
 					$('headlines-content').innerHTML += "<li id='H-MORE-PROMPT'>" +
 						"<div class='body'>" +
@@ -600,8 +632,8 @@ function parse_headlines(transport, replace, no_effects) {
 				// FIXME : display some kind of "nothing to see here" prompt here
 			}
 
-			if (replace && !no_effects)
-				new Effect.Appear('headlines-content', {duration : 0.3});
+//			if (replace && !no_effects)
+//				new Effect.Appear('headlines-content', {duration : 0.3});
 
 			//new Effect.Appear('headlines-content');
 		}
@@ -617,6 +649,8 @@ function init_second_stage() {
 			parameters: "backend.php?op=rpc&subop=digest-init",
 			onComplete: function(transport) {
 				parse_feeds(transport);
+				Element.hide("overlay");
+
 				window.setTimeout('viewfeed(-4)', 100);
 				_update_timeout = window.setTimeout('update()', 5*1000);
 				} });
@@ -747,47 +781,6 @@ function fatal_error_check(transport) {
 	return true;
 }
 
-function feed_mi(elem) {
-	try {
-		var imgs = elem.getElementsByTagName('IMG');
-		var spans = elem.getElementsByTagName('SPAN');
-
-		for (var i = 0; i < imgs.length; i++) {
-			if (imgs[i].className == "dismiss")
-				Element.show(imgs[i]);
-		}
-
-		for (var i = 0; i < spans.length; i++) {
-			if (spans[i].className == "unread")
-				Element.hide(spans[i]);
-		}
-
-
-	} catch (e) {
-		exception_error("feed_mi", e);
-	}
-}
-
-function feed_mo(elem) {
-	try {
-		var imgs = elem.getElementsByTagName('IMG');
-		var spans = elem.getElementsByTagName('SPAN');
-
-		for (var i = 0; i < imgs.length; i++) {
-			if (imgs[i].className == "dismiss")
-				Element.hide(imgs[i]);
-		}
-
-		for (var i = 0; i < spans.length; i++) {
-			if (spans[i].className == "unread")
-				Element.show(spans[i]);
-		}
-
-	} catch (e) {
-		exception_error("feed_mo", e);
-	}
-}
-
 function update_title(unread) {
 	try {
 		document.title = "Tiny Tiny RSS";
@@ -828,5 +821,19 @@ function tweet_article(id) {
 
 	} catch (e) {
 		exception_error("tweet_article", e);
+	}
+}
+
+function toggle_select_article(elem) {
+	try {
+		var article = elem.parentNode;
+
+		if (article.hasClassName("selected"))
+			article.removeClassName("selected");
+		else
+			article.addClassName("selected");
+
+	} catch (e) {
+		exception_error("toggle_select_article", e);
 	}
 }

@@ -604,14 +604,22 @@
 		if ($subop == "digest-get-contents") {
 			$article_id = db_escape_string($_REQUEST['article_id']);
 
-			$result = db_query($link, "SELECT content
+			$result = db_query($link, "SELECT content,title,link,marked,published
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
 
 			$content = sanitize_rss($link, db_fetch_result($result, 0, "content"));
+			$title = strip_tags(db_fetch_result($result, 0, "title"));
+			$article_url = htmlspecialchars(db_fetch_result($result, 0, "link"));
+			$marked = sql_bool_to_bool(db_fetch_result($result, 0, "marked"));
+			$published = sql_bool_to_bool(db_fetch_result($result, 0, "published"));
+
 
 			print json_encode(array("article" =>
-				array("id" => $id, "content" => $content)));
+				array("id" => $article_id, "url" => $article_url,
+					"tags" => get_article_tags($link, $article_id),
+					"marked" => $marked, "published" => $published,
+					"title" => $title, "content" => $content)));
 			return;
 		}
 
@@ -627,7 +635,7 @@
 
 			$reply['seq'] = $seq;
 
-			$headlines = api_get_headlines($link, $feed_id, 10, $offset,
+			$headlines = api_get_headlines($link, $feed_id, 30, $offset,
 				'', ($feed_id == -4), true, false, "unread", "updated DESC");
 
 			//function api_get_headlines($link, $feed_id, $limit, $offset,
@@ -642,7 +650,7 @@
 		}
 
 		if ($subop == "digest-init") {
-			$tmp_feeds = api_get_feeds($link, -3, true, false, 0);
+			$tmp_feeds = api_get_feeds($link, -4, true, false, 0);
 
 			$feeds = array();
 

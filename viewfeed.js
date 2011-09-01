@@ -995,7 +995,7 @@ function editArticleTags(id) {
 						var data = JSON.parse(transport.responseText);
 
 						if (data) {
-							var tags_str = data.tags_str;
+							var tags_str = article.tags;
 							var id = tags_str.id;
 
 							var tags = $("ATSTR-" + id);

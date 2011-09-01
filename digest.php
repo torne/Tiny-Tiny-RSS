@@ -65,68 +65,29 @@
 	<div id="header">
 
 	<div class="links">
-
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
-
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<a href="backend.php?op=logout"><?php echo __('Logout') ?></a>
 	<?php } ?>
+	</div>
+
+	<span class="title">Tiny Tiny RSS</span>
 
 	</div>
 
-	Tiny Tiny RSS
+	<div id="article"><div id="article-content">&nbsp;</div></div>
 
-	</div>
 	<div id="content">
-		<!-- <div id="title">
-			<div id="search">
-				<input name="search" type="search"></input>
-				<button>Search</button>
-			</div>
-
-		</div>
-
-		<div id="latest">
-			<h1>latest articles</h1>
-
-			<em>TODO</em>
-
-			<div id="latest-content"> </div>
-		</div> -->
 
 		<div id="feeds">
-			<h1><?php echo __('feeds') ?></h1>
-
 			<ul id="feeds-content"> </ul>
 		</div>
 
 		<div id="headlines">
-			<h1><a href="#" onclick="viewfeed(-4)"><?php echo __('headlines') ?></a>:
-				<span id="headlines-title"></span></h1>
-
 			<ul id="headlines-content"> </ul>
 		</div>
-
-		<br clear="both">
-
 	</div>
-
-	<div id="footer">
-
-	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
-	<?php if (!defined('HIDE_VERSION')) { ?>
-		 v<?php echo VERSION ?>
-	<?php } ?>
-	&copy; 2005&ndash;<?php echo date('Y') ?>
-	<a href="http://fakecake.org/">Andrew Dolgov</a>
-
-	<br/>
-
-	<a href="tt-rss.php">
-		<?php echo __("You are viewing the digest page. Click to open full version.") ?></a>
-
-</div>
 
 </body>
