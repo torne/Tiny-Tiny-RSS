@@ -53,6 +53,9 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 			return this.store.setValue(treeItem, key, value);
 	},
 	getNextUnreadFeed: function (feed, is_cat) {
+		if (!this.store._itemsByIdentity)
+			return null;
+
 		if (is_cat) {
 			treeItem = this.store._itemsByIdentity['CAT:' + feed];
 			items = this.store._arrayOfTopLevelItems;
