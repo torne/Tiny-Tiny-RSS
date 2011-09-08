@@ -51,7 +51,7 @@
 	$op = db_escape_string($_REQUEST["op"]);
 	$seq = (int) $_REQUEST["seq"];
 
-//	header("Content-Type: application/json");
+	header("Content-Type: text/plain");
 
 	function api_wrap_reply($status, $seq, $reply) {
 		print json_encode(array("seq" => $seq,
