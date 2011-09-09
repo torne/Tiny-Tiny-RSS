@@ -120,7 +120,11 @@
 	@$config->set('HTML', 'Allowed', $allowed);
 	$config->set('Output.FlashCompat', true);
 	$config->set('Attr.EnableID', true);
-	@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
+	if (!defined('MOBILE_VERSION')) {
+		@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
+	} else {
+		@$config->set('Cache', 'SerializerPath', "../" . CACHE_DIR . "/htmlpurifier");
+	}
 
 	$purifier = new HTMLPurifier($config);
 

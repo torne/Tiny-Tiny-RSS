@@ -339,7 +339,7 @@
 
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 			$view_mode, $is_cat, $search, $search_mode, $match_on,
-			"unread DESC, updated, score", $offset);
+			"score DESC, date_entered DESC", $offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
@@ -522,6 +522,12 @@
 	                <label>Published</label>
 	                <div class=\"toggle\" onclick=\"togglePublished($id, this)\" toggled=\"$is_published\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
 	            </div>";
+
+			print "<div class=\"row\">
+	                <label>Unread</label>
+	                <div class=\"toggle\" onclick=\"toggleUnread($id, this)\" toggled=\"$is_unread\"><span class=\"thumb\"></span><span class=\"toggleOn\">ON</span><span class=\"toggleOff\">OFF</span></div>
+	            </div>";
+
 
 			print "</fieldset>";
 
