@@ -3432,7 +3432,7 @@
 	}
 
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -3461,6 +3461,12 @@
 				$filter_query_part = filter_to_sql($filter);
 			} else {
 				$filter_query_part = "";
+			}
+
+			if ($since_id) {
+				$since_id_part = "ttrss_entries.id > $since_id AND ";
+			} else {
+				$since_id_part = "";
 			}
 
 			$view_query_part = "";
@@ -3694,6 +3700,7 @@
 					$search_query_part
 					$filter_query_part
 					$view_query_part
+					$since_id_part
 					$query_strategy_part ORDER BY $order_by
 					$limit_query_part $offset_query_part";
 
@@ -3718,6 +3725,7 @@
 								"link," .
 								"last_read," .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
+								$since_id_part .
 								$vfeed_query_part .
 								$content_query_part .
 								SUBSTRING_FOR_DATE . "(updated,1,19) as updated_noms," .
@@ -6835,7 +6843,7 @@
 
 	function api_get_headlines($link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
-				$include_attachments) {
+				$include_attachments, $since_id) {
 
 			/* do not rely on params below */
 
@@ -6845,7 +6853,7 @@
 
 			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 				$view_mode, $is_cat, $search, $search_mode, $match_on,
-				$order, $offset);
+				$order, $offset, 0, false, $since_id);
 
 			$result = $qfh_ret[0];
 			$feed_title = $qfh_ret[1];

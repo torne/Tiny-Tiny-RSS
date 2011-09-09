@@ -636,7 +636,7 @@
 			$reply['seq'] = $seq;
 
 			$headlines = api_get_headlines($link, $feed_id, 30, $offset,
-				'', ($feed_id == -4), true, false, "unread", "updated DESC");
+				'', ($feed_id == -4), true, false, "unread", "updated DESC", 0, 0);
 
 			//function api_get_headlines($link, $feed_id, $limit, $offset,
 			//		$filter, $is_cat, $show_excerpt, $show_content, $view_mode) {
