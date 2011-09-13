@@ -2054,8 +2054,7 @@ function cache_set(id, obj) {
 		try {
 			sessionStorage[id] = obj;
 		} catch (e) {
-			if (e == QUOTA_EXCEEDED_ERR)
-				sessionStorage.clear();
+			sessionStorage.clear();
 		}
 }
 
