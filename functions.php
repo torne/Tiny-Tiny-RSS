@@ -6588,9 +6588,9 @@
 
 			db_query($link, "COMMIT");
 
-/*			if (file_exists(ICONS_DIR . "/$id.ico")) {
+			if (file_exists(ICONS_DIR . "/$id.ico")) {
 				unlink(ICONS_DIR . "/$id.ico");
-			} */
+			}
 
 			ccache_remove($link, $id, $owner_uid);
 
