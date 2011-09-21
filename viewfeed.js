@@ -349,8 +349,20 @@ function view(id) {
 
 			// if we don't need to request any relative ids, we might as well skip
 			// the server roundtrip altogether
-			if (cids_to_request.length == 0)
+			if (cids_to_request.length == 0) {
+
+				try {
+					if (!_infscroll_disable &&
+						$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
+
+							loadMoreHeadlines();
+					}
+				} catch (e) {
+					console.warn(e);
+				}
+
 				return;
+			}
 		}
 
 		last_requested_article = id;
