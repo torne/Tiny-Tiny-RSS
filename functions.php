@@ -5472,14 +5472,8 @@
 						}
 					}
 
-					if ($expand_cdm) {
-						$article_content = sanitize_rss($link, $line["content_preview"],
+					$article_content = sanitize_rss($link, $line["content_preview"],
 							false, false, $feed_site_url);
-
-						if (!$article_content) $article_content = "&nbsp;";
-					} else {
-						$article_content = '';
-					}
 
 					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
@@ -5487,7 +5481,9 @@
 					}
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<span id=\"CWRAP-$id\">$article_content</span>";
+					$reply['content'] .= "<span id=\"CWRAP-$id\">";
+					$reply['content'] .= $expand_cdm ? $article_content : '';
+					$reply['content'] .= "</span>";
 
 					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
 						ttrss_feeds WHERE id = ".
