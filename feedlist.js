@@ -66,8 +66,9 @@ function viewfeed(feed, subop, is_cat, offset, background) {
 		else
 			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
 
-		dijit.byId("content-tabs").selectChild(
-			dijit.byId("content-tabs").getChildren()[0]);
+		if (offset == 0)
+			dijit.byId("content-tabs").selectChild(
+				dijit.byId("content-tabs").getChildren()[0]);
 
 		var force_nocache = false;
 
