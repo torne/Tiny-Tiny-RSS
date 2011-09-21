@@ -274,6 +274,16 @@ function article_callback2(transport, id) {
 
 		request_counters();
 
+		try {
+			if (!_infscroll_disable &&
+					$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
+
+				loadMoreHeadlines();
+			}
+		} catch (e) {
+			console.warn(e);
+		}
+
 		notify("");
 	} catch (e) {
 		exception_error("article_callback2", e, transport);
