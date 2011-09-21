@@ -465,21 +465,24 @@
 	} // function get_favicon_url
 
 	function check_feed_favicon($site_url, $feed, $link) {
-		$favicon_url = get_favicon_url($site_url);
-
 #		print "FAVICON [$site_url]: $favicon_url\n";
 
 		$icon_file = ICONS_DIR . "/$feed.ico";
 
-		if ($favicon_url && !file_exists($icon_file)) {
-			$contents = fetch_file_contents($favicon_url, "image");
-			if ($contents) {
-				$fp = fopen($icon_file, "w");
+		if (!file_exists($icon_file)) {
+			$favicon_url = get_favicon_url($site_url);
 
-				if ($fp) {
-					fwrite($fp, $contents);
-					fclose($fp);
-					chmod($icon_file, 0644);
+			if ($favicon_url) {
+				$contents = fetch_file_contents($favicon_url, "image");
+
+				if ($contents) {
+					$fp = fopen($icon_file, "w");
+
+					if ($fp) {
+						fwrite($fp, $contents);
+						fclose($fp);
+						chmod($icon_file, 0644);
+					}
 				}
 			}
 		}
