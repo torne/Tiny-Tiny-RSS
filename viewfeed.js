@@ -96,8 +96,10 @@ function headlines_callback2(transport, offset, background) {
 						c.domNode.removeChild(hsp);
 
 					$$("#headlines-tmp > div").each(function(row) {
-						row.style.display = 'none';
-						c.domNode.appendChild(row);
+						if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
+							row.style.display = 'none';
+							c.domNode.appendChild(row);
+						}
 					});
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
