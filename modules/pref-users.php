@@ -3,7 +3,7 @@
 
 		global $access_level_names;
 
-		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) { 
+		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
 			print __("Your access level is insufficient to open this tab.");
 			return;
 		}
@@ -24,17 +24,17 @@
 			$result = db_query($link, "SELECT login,
 				".SUBSTRING_FOR_DATE."(last_login,1,16) AS last_login,
 				access_level,
-				(SELECT COUNT(int_id) FROM ttrss_user_entries 
+				(SELECT COUNT(int_id) FROM ttrss_user_entries
 					WHERE owner_uid = id) AS stored_articles,
 				".SUBSTRING_FOR_DATE."(created,1,16) AS created
-				FROM ttrss_users 
+				FROM ttrss_users
 				WHERE id = '$uid'");
-				
+
 			if (db_num_rows($result) == 0) {
 				print "<h1>".__('User not found')."</h1>";
 				return;
 			}
-			
+
 			// print "<h1>User Details</h1>";
 
 			$login = db_fetch_result($result, 0, "login");
@@ -59,7 +59,7 @@
 			$num_feeds = db_fetch_result($result, 0, "num_feeds");
 
 			print "<tr><td>".__('Subscribed feeds count')."</td><td>$num_feeds</td></tr>";
-	
+
 			print "</table>";
 
 			print "<h1>".__('Subscribed feeds')."</h1>";
@@ -89,10 +89,10 @@
 
 			if (db_num_rows($result) < $num_feeds) {
 				// FIXME - add link to show ALL subscribed feeds here somewhere
-				print "<li><img 
+				print "<li><img
 					class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">&nbsp;...</li>";
 			}
-			
+
 			print "</ul>";
 
 			print "<div align='center'>
@@ -133,11 +133,11 @@
 
 			if ($sel_disabled) {
 				print "<input type=\"hidden\" name=\"login\" value=\"$login\">";
-				print "<input size=\"30\" style=\"font-size : 16px\" 
+				print "<input size=\"30\" style=\"font-size : 16px\"
 					onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
 					value=\"$login\">";
 			} else {
-				print "<input size=\"30\" style=\"font-size : 16px\" 
+				print "<input size=\"30\" style=\"font-size : 16px\"
 					onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
 					name=\"login\" value=\"$login\">";
 			}
@@ -150,10 +150,10 @@
 			print __('Access level: ') . " ";
 
 			if (!$sel_disabled) {
-				print_select_hash("access_level", $access_level, $access_level_names, 
+				print_select_hash("access_level", $access_level, $access_level_names,
 					$sel_disabled);
 			} else {
-				print_select_hash("", $access_level, $access_level_names, 
+				print_select_hash("", $access_level, $access_level_names,
 					$sel_disabled);
 				print "<input type=\"hidden\" name=\"access_level\" value=\"$access_level\">";
 			}
@@ -191,7 +191,7 @@
 		}
 
 		if ($subop == "editSave") {
-	
+
 			if ($_SESSION["access_level"] >= 10) {
 
 				$login = db_escape_string(trim($_REQUEST["login"]));
@@ -202,13 +202,13 @@
 
 				if ($password) {
 					$pwd_hash = encrypt_password($password, $login);
-					$pass_query_part = "pwd_hash = '$pwd_hash', ";					
+					$pass_query_part = "pwd_hash = '$pwd_hash', ";
 					$status_msg = format_notice(T_sprintf('Changed password of user <b>%s</b>.', $login));
 				} else {
 					$pass_query_part = "";
 				}
 
-				db_query($link, "UPDATE ttrss_users SET $pass_query_part login = '$login', 
+				db_query($link, "UPDATE ttrss_users SET $pass_query_part login = '$login',
 					access_level = '$access_level', email = '$email' WHERE id = '$uid'");
 
 			}
@@ -227,51 +227,51 @@
 				}
 			}
 		} else if ($subop == "add") {
-		
+
 			if ($_SESSION["access_level"] >= 10) {
 
 				$login = db_escape_string(trim($_REQUEST["login"]));
 				$tmp_user_pwd = make_password(8);
 				$pwd_hash = encrypt_password($tmp_user_pwd, $login);
 
-				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+				$result = db_query($link, "SELECT id FROM ttrss_users WHERE
 					login = '$login'");
 
 				if (db_num_rows($result) == 0) {
 
-					db_query($link, "INSERT INTO ttrss_users 
+					db_query($link, "INSERT INTO ttrss_users
 						(login,pwd_hash,access_level,last_login,created)
 						VALUES ('$login', '$pwd_hash', 0, null, NOW())");
-	
-	
-					$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+
+
+					$result = db_query($link, "SELECT id FROM ttrss_users WHERE
 						login = '$login' AND pwd_hash = '$pwd_hash'");
-	
+
 					if (db_num_rows($result) == 1) {
-	
+
 						$new_uid = db_fetch_result($result, 0, "id");
-	
-						$status_msg = format_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>", 
+
+						$status_msg = format_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>",
 							$login, $tmp_user_pwd));
-	
+
 						initialize_user($link, $new_uid);
-	
+
 					} else {
-					
+
 						$status_msg = format_warning(T_sprintf("Could not create user <b>%s</b>", $login));
-	
+
 					}
 				} else {
 					$status_msg = format_warning(T_sprintf("User <b>%s</b> already exists.", $login));
 				}
-			} 
+			}
 		} else if ($subop == "resetPass") {
 
 			if ($_SESSION["access_level"] >= 10) {
 
 				$uid = db_escape_string($_REQUEST["id"]);
 
-				$result = db_query($link, "SELECT login,email 
+				$result = db_query($link, "SELECT login,email
 					FROM ttrss_users WHERE id = '$uid'");
 
 				$login = db_fetch_result($result, 0, "login");
@@ -341,8 +341,8 @@
 						"\n".
 						"Sincerely, TT-RSS Mail Daemon.", "From: " . MAIL_FROM); */
 				}
-					
-				print "</div>";				
+
+				print "</div>";
 
 			}
 		}
@@ -362,9 +362,7 @@
 
 		print "<div style='float : right; padding-right : 4px;'>
 			<input dojoType=\"dijit.form.TextBox\" id=\"user_search\" size=\"20\" type=\"search\"
-				onfocus=\"javascript:disableHotkeys();\" 
-				onblur=\"javascript:enableHotkeys();\"
-				onchange=\"javascript:updateUsersList()\" value=\"$user_search\">
+				value=\"$user_search\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateUsersList()\">".
 				__('Search')."</button>
 			</div>";
@@ -378,9 +376,9 @@
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Select')."</span>";
 		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
-		print "<div onclick=\"selectTableRows('prefUserList', 'all')\" 
+		print "<div onclick=\"selectTableRows('prefUserList', 'all')\"
 			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
-		print "<div onclick=\"selectTableRows('prefUserList', 'none')\" 
+		print "<div onclick=\"selectTableRows('prefUserList', 'none')\"
 			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 		print "</div></div>";
 
@@ -406,7 +404,7 @@
 			$user_search = split(" ", $user_search);
 			$tokens = array();
 
-			foreach ($user_search as $token) {			
+			foreach ($user_search as $token) {
 				$token = trim($token);
 				array_push($tokens, "(UPPER(login) LIKE UPPER('%$token%'))");
 			}
@@ -417,11 +415,11 @@
 			$user_search_query = "";
 		}
 
-		$result = db_query($link, "SELECT 
+		$result = db_query($link, "SELECT
 				id,login,access_level,email,
 				".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login,
 				".SUBSTRING_FOR_DATE."(created,1,16) as created
-			FROM 
+			FROM
 				ttrss_users
 			WHERE
 				$user_search_query
@@ -430,7 +428,7 @@
 
 		if (db_num_rows($result) > 0) {
 
-		print "<p><table width=\"100%\" cellspacing=\"0\" 
+		print "<p><table width=\"100%\" cellspacing=\"0\"
 			class=\"prefUserList\" id=\"prefUserList\">";
 
 		print "<tr class=\"title\">
@@ -439,9 +437,9 @@
 					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('access_level')\">".__('Access Level')."</a></td>
 					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('created')\">".__('Registered')."</a></td>
 					<td width='20%'><a href=\"#\" onclick=\"updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
-		
+
 		$lnum = 0;
-		
+
 		while ($line = db_fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
@@ -454,8 +452,8 @@
 				$this_row_id = "";
 			} else {
 				$this_row_id = "id=\"UMRR-$uid\"";
-			}		
-			
+			}
+
 			print "<tr class=\"$class\" $this_row_id>";
 
 			$line["login"] = htmlspecialchars($line["login"]);
@@ -463,19 +461,19 @@
 			$line["created"] = make_local_datetime($link, $line["created"], false);
 			$line["last_login"] = make_local_datetime($link, $line["last_login"], false);
 
-			print "<td align='center'><input onclick='toggleSelectRow(this);' 
+			print "<td align='center'><input onclick='toggleSelectRow(this);'
 				type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
 
 			$onclick = "onclick='editUser($uid, event)' title='".__('Click to edit')."'";
 
-			print "<td $onclick>" . $line["login"] . "</td>";		
+			print "<td $onclick>" . $line["login"] . "</td>";
 
 			if (!$line["email"]) $line["email"] = "&nbsp;";
 
-			print "<td $onclick>" .	$access_level_names[$line["access_level"]] . "</td>";	
-			print "<td $onclick>" . $line["created"] . "</td>";		
-			print "<td $onclick>" . $line["last_login"] . "</td>";		
-		
+			print "<td $onclick>" .	$access_level_names[$line["access_level"]] . "</td>";
+			print "<td $onclick>" . $line["created"] . "</td>";
+			print "<td $onclick>" . $line["last_login"] . "</td>";
+
 			print "</tr>";
 
 			++$lnum;
