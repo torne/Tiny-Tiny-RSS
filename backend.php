@@ -14,8 +14,10 @@
 		$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 	}
 
+	$op = $_REQUEST["op"];
+
 	require_once "functions.php";
-	require_once "sessions.php";
+	if ($op != "share") require_once "sessions.php";
 	require_once "modules/backend-rpc.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
@@ -40,7 +42,6 @@
 
 	init_connection($link);
 
-	$op = $_REQUEST["op"];
 	$subop = $_REQUEST["subop"];
 	$mode = $_REQUEST["mode"];
 
@@ -645,7 +646,9 @@
 				$id = db_fetch_result($result, 0, "ref_id");
 				$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
+				$_SESSION["uid"] = $owner_uid;
 				$article = format_article($link, $id, false, true);
+				$_SESSION["uid"] = "";
 
 				print_r($article['content']);
 
