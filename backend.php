@@ -59,7 +59,7 @@
 	}
 
 	if (!($_SESSION["uid"] && validate_session($link)) && $op != "globalUpdateFeeds" &&
-			$op != "rss" && $op != "getUnread" && $op != "getProfiles" &&
+			$op != "rss" && $op != "getUnread" && $op != "getProfiles" && $op != "share" &&
 			$op != "fbexport" && $op != "logout" && $op != "pubsub") {
 
 		if ($op == 'pref-feeds' && $_REQUEST['subop'] == 'add') {
@@ -632,6 +632,28 @@
 				print json_encode(array("error" => array("code" => 6)));
 			}
 		break; // fbexport
+
+		case "share":
+			$uuid = db_escape_string($_REQUEST["key"]);
+
+			$result = db_query($link, "SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
+				uuid = '$uuid'");
+
+			if (db_num_rows($result) != 0) {
+				header("Content-Type: text/html");
+
+				$id = db_fetch_result($result, 0, "ref_id");
+				$owner_uid = db_fetch_result($result, 0, "owner_uid");
+
+				$article = format_article($link, $id, false, true);
+
+				print_r($article['content']);
+
+			} else {
+				print "Article not found.";
+			}
+
+			break;
 
 		default:
 			header("Content-Type: text/plain");

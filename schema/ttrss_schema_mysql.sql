@@ -152,6 +152,7 @@ create index ttrss_entries_updated_idx on ttrss_entries(updated);
 create table ttrss_user_entries (
 	int_id integer not null primary key auto_increment,
 	ref_id integer not null,
+	uuid varchar(200) not null,
 	feed_id int,
 	orig_feed_id int,
 	owner_uid integer not null,
@@ -254,7 +255,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (85);
+insert into ttrss_version values (86);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

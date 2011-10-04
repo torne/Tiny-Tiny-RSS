@@ -2184,6 +2184,7 @@ function precache_headlines() {
 					feed_precache_timeout_id = false;
 					}, 3000);
 
+				x
 			}, 1000);
 		}
 
@@ -2191,3 +2192,25 @@ function precache_headlines() {
 		exception_error("precache_headlines", e);
 	}
 }
+
+function shareArticle(id) {
+	try {
+		if (dijit.byId("shareArticleDlg"))
+			dijit.byId("shareArticleDlg").destroyRecursive();
+
+		var query = "backend.php?op=dlg&id=shareArticle&param=" + param_escape(id);
+
+		dialog = new dijit.Dialog({
+			id: "shareArticleDlg",
+			title: __("Share article by URL"),
+			style: "width: 600px",
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("emailArticle", e);
+	}
+}
+
+

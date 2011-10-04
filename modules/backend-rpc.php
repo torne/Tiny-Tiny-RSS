@@ -783,6 +783,15 @@
 			return;
 		}
 
+		// Silent
+		if ($subop == "clearArticleKeys") {
+			db_query($link, "UPDATE ttrss_user_entries SET uuid = '' WHERE
+				owner_uid = " . $_SESSION["uid"]);
+
+			return;
+		}
+
+
 		if ($subop == "verifyRegexp") {
 			$reg_exp = $_REQUEST["reg_exp"];
 

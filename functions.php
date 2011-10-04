@@ -1275,9 +1275,9 @@
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries
 								(ref_id, owner_uid, feed_id, unread, last_read, marked,
-									published, score, tag_cache, label_cache)
+									published, score, tag_cache, label_cache, uuid)
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked, $published, '$score', '', '')");
+								$last_read_qpart, $marked, $published, '$score', '', '', '')");
 
 						if (PUBSUBHUBBUB_HUB && $published == 'true') {
 							$rss_link = get_self_url_prefix() .
@@ -4926,6 +4926,11 @@
 							onclick=\"tweetArticle($id)\"
 							alt='Zoom' title='".__('Share on Twitter')."'>";
 				}
+
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-share.png')."\"
+					class='tagsPic' style=\"cursor : pointer\"
+					onclick=\"shareArticle(".$line['int_id'].")\"
+					alt='Zoom' title='".__('Share by URL')."'>";
 
 				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"

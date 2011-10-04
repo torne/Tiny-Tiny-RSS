@@ -1506,7 +1506,9 @@
 
 		print "</div>"; #pane
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published articles and generated feeds')."\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published & shared articles and generated feeds')."\">";
+
+		print "<h3>" . __("Published articles and generated feeds") . "</h3>";
 
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
@@ -1518,6 +1520,13 @@
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearFeedAccessKeys()\">".
 			__('Clear all generated URLs')."</button> ";
+
+		print "<h3>" . __("Articles shared by URL") . "</h3>";
+
+		print "<p>" . __("You can disable all articles shared by unique URLs here.") . "</p>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
+			__('Unshare all articles')."</button> ";
 
 		print "</div>"; #pane
 

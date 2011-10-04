@@ -137,6 +137,7 @@ create index ttrss_entries_updated_idx on ttrss_entries(updated);
 create table ttrss_user_entries (
 	int_id serial not null primary key,
 	ref_id integer not null references ttrss_entries(id) ON DELETE CASCADE,
+	uuid varchar(200) not null,
 	feed_id int references ttrss_feeds(id) ON DELETE CASCADE,
 	orig_feed_id integer references ttrss_archived_feeds(id) ON DELETE SET NULL,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
@@ -225,7 +226,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (85);
+insert into ttrss_version values (86);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
