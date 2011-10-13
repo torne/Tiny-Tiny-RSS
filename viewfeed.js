@@ -82,7 +82,8 @@ function headlines_callback2(transport, offset, background) {
 				initHeadlinesMenu();
 
 			} else {
-				if (headlines_count > 0) {
+
+				if (headlines_count > 0 && feed_id == getActiveFeedId() && is_cat == activeFeedIsCat()) {
 					console.log("adding some more headlines...");
 
 					var c = dijit.byId("headlines-frame");

@@ -13,6 +13,8 @@ function viewCategory(cat) {
 
 function loadMoreHeadlines() {
 	try {
+		console.log("loadMoreHeadlines");
+
 		var offset = 0;
 
 		var view_mode = document.forms["main_toolbar_form"].view_mode.value;
