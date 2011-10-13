@@ -702,7 +702,7 @@ function hotkey_handler(e) {
 				return false;
 			}
 
-			if (keycode == 74) { // j
+			if (keycode == 74 && !shift_key) { // j
 				var rv = dijit.byId("feedTree").getPreviousFeed(
 						getActiveFeedId(), activeFeedIsCat());
 
