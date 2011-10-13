@@ -2183,8 +2183,6 @@ function precache_headlines() {
 				window.setTimeout(function() {
 					feed_precache_timeout_id = false;
 					}, 3000);
-
-				x
 			}, 1000);
 		}
 
