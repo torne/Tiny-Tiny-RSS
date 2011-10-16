@@ -5301,7 +5301,7 @@
 					$reply['content'] .= "<a id=\"RTITLE-$id\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
 						onclick=\"\">" .
-						$line["title"];
+						truncate_string($line["title"], 200);
 
 					if (get_pref($link, 'SHOW_CONTENT_PREVIEW')) {
 						if ($content_preview) {
