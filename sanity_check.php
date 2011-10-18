@@ -139,6 +139,10 @@
 		$err_msg = "PHP: mbstring functions not found.";
 	}
 
+	if (!function_exists("ctype_lower")) {
+		$err_msg = "PHP: ctype functions not found (required for HTMLPurifier).";
+	}
+
 	if (ini_get("safe_mode")) {
 		$err_msg = "php.ini: Safe mode is not supported. If you wish to continue, remove this test from sanity_check.php and proceeed at your own risk. Please note that your bug reports will not be accepted or reviewed.";
 	}
