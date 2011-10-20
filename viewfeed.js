@@ -154,9 +154,10 @@ function headlines_callback2(transport, offset, background) {
 				request_counters();
 
 		} else {
-			console.warn("headlines_callback: returned no XML object");
+			console.error("Invalid object received: " + transport.responseText);
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" +
-					__('Could not update headlines (invalid object received)') + "</div>");
+					__('Could not update headlines (invalid object received - see error console for details)') +
+					"</div>");
 		}
 
 		_infscroll_request_sent = 0;
@@ -246,7 +247,13 @@ function article_callback2(transport, id) {
 
 		handle_rpc_json(transport);
 
-		var reply = JSON.parse(transport.responseText);
+		var reply = false;
+
+		try {
+			reply = JSON.parse(transport.responseText);
+		} catch (e) {
+			console.error(e);
+		}
 
 		if (reply) {
 
@@ -269,10 +276,10 @@ function article_callback2(transport, id) {
 //			}
 
 		} else {
-			console.warn("article_callback: returned invalid data");
+			console.error("Invalid object received: " + transport.responseText);
 
 			render_article("<div class='whiteBox'>" +
-					__('Could not display article (invalid data received)') + "</div>");
+					__('Could not display article (invalid object received - see error console for details)') + "</div>");
 		}
 
 		request_counters();
