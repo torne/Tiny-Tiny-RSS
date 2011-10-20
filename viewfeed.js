@@ -100,6 +100,8 @@ function headlines_callback2(transport, offset, background) {
 						if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
 							row.style.display = 'none';
 							c.domNode.appendChild(row);
+						} else {
+							row.parentNode.removeChild(row);
 						}
 					});
 
