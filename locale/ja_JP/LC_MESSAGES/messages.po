@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-13 10:50+0400\n"
+"POT-Creation-Date: 2011-10-21 13:54+0400\n"
 "PO-Revision-Date: 2009-05-12 03:25+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -124,7 +124,7 @@ msgstr "フィードが見つかりません。"
 
 #: backend.php:514 digest.php:61 prefs.php:66 tt-rss.php:62 tt-rss.php:108
 #: tt-rss.php:193 modules/pref-feeds.php:1397 modules/pref-filters.php:550
-#: modules/pref-labels.php:293 viewfeed.js:1088 viewfeed.js:1259
+#: modules/pref-labels.php:293 viewfeed.js:1097 viewfeed.js:1268
 msgid "Loading, please wait..."
 msgstr "読み込みんでいます。しばらくお待ちください..."
 
@@ -450,12 +450,12 @@ msgstr "オフィシャルサイトに訪問する"
 msgid "View as RSS feed"
 msgstr "フィードを閲覧する"
 
-#: functions.php:4738 viewfeed.js:2066
+#: functions.php:4738 viewfeed.js:2075
 #, fuzzy
 msgid "Click to play"
 msgstr "編集するにはクリック"
 
-#: functions.php:4739 viewfeed.js:2065
+#: functions.php:4739 viewfeed.js:2074
 msgid "Play"
 msgstr ""
 
@@ -476,7 +476,7 @@ msgstr "この記事のタグを編集する"
 msgid "Open article in new tab"
 msgstr "新しいウィンドウで記事を開く"
 
-#: functions.php:4914 functions.php:5529 viewfeed.js:2008
+#: functions.php:4914 functions.php:5529 viewfeed.js:2017
 #, fuzzy
 msgid "Edit article note"
 msgstr "タグを編集する"
@@ -622,7 +622,7 @@ msgstr "記事を消去する"
 msgid "Set starred"
 msgstr "お気に入りに設定する"
 
-#: localized_schema.php:12 digest.js:262 digest.js:728 viewfeed.js:451
+#: localized_schema.php:12 digest.js:262 digest.js:728 viewfeed.js:460
 msgid "Publish article"
 msgstr "公開記事"
 
@@ -630,7 +630,7 @@ msgstr "公開記事"
 msgid "Assign tags"
 msgstr "タグの割り当て"
 
-#: localized_schema.php:14 viewfeed.js:1949
+#: localized_schema.php:14 viewfeed.js:1958
 msgid "Assign label"
 msgstr "ラベルの割り当て"
 
@@ -2440,15 +2440,15 @@ msgstr "「%s」のすべての記事を既読に設定しますか?"
 msgid "Mark %d displayed articles as read?"
 msgstr "%d 件のマークした記事を既読として設定しますか?"
 
-#: digest.js:255 digest.js:688 viewfeed.js:406
+#: digest.js:255 digest.js:688 viewfeed.js:415
 msgid "Unstar article"
 msgstr "記事のお気に入りを解除する"
 
-#: digest.js:257 digest.js:692 viewfeed.js:411
+#: digest.js:257 digest.js:692 viewfeed.js:420
 msgid "Star article"
 msgstr "記事をお気に入りにする"
 
-#: digest.js:260 digest.js:723 viewfeed.js:446
+#: digest.js:260 digest.js:723 viewfeed.js:455
 msgid "Unpublish article"
 msgstr "非公開記事"
 
@@ -2850,91 +2850,91 @@ msgstr "%s の記事のスコアを再計算しますか?"
 msgid "New version available!"
 msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
 
-#: viewfeed.js:617 viewfeed.js:645 viewfeed.js:672 viewfeed.js:734
-#: viewfeed.js:766 viewfeed.js:882 viewfeed.js:926 viewfeed.js:976
-#: viewfeed.js:1490
+#: viewfeed.js:626 viewfeed.js:654 viewfeed.js:681 viewfeed.js:743
+#: viewfeed.js:775 viewfeed.js:891 viewfeed.js:935 viewfeed.js:985
+#: viewfeed.js:1499
 msgid "No articles are selected."
 msgstr "記事は選択されていません。"
 
-#: viewfeed.js:862
+#: viewfeed.js:871
 msgid "Mark all visible articles in %s as read?"
 msgstr "「%s」のすべての可視記事を既読に設定しますか?"
 
-#: viewfeed.js:891
+#: viewfeed.js:900
 #, fuzzy
 msgid "Delete %d selected articles in %s?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: viewfeed.js:893
+#: viewfeed.js:902
 #, fuzzy
 msgid "Delete %d selected articles?"
 msgstr "ラベルから選択した記事を削除しますか?"
 
-#: viewfeed.js:935
+#: viewfeed.js:944
 #, fuzzy
 msgid "Archive %d selected articles in %s?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: viewfeed.js:938
+#: viewfeed.js:947
 msgid "Move %d archived articles back?"
 msgstr ""
 
-#: viewfeed.js:982
+#: viewfeed.js:991
 msgid "Mark %d selected articles in %s as read?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: viewfeed.js:1006
+#: viewfeed.js:1015
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "タグを編集する"
 
-#: viewfeed.js:1156
+#: viewfeed.js:1165
 msgid "No article is selected."
 msgstr "選択された記事はありません。"
 
-#: viewfeed.js:1191
+#: viewfeed.js:1200
 msgid "No articles found to mark"
 msgstr "マークした記事が見つかりません"
 
-#: viewfeed.js:1193
+#: viewfeed.js:1202
 msgid "Mark %d article(s) as read?"
 msgstr "%d 件のマークした記事を既読として設定しますか?"
 
-#: viewfeed.js:1357
+#: viewfeed.js:1366
 #, fuzzy
 msgid "Loading..."
 msgstr "フィード一覧を読み込んでいます..."
 
-#: viewfeed.js:1504
+#: viewfeed.js:1513
 msgid "Forward article by email"
 msgstr ""
 
-#: viewfeed.js:1901
+#: viewfeed.js:1910
 #, fuzzy
 msgid "Open original article"
 msgstr "元の記事内容を表示する"
 
-#: viewfeed.js:1907
+#: viewfeed.js:1916
 #, fuzzy
 msgid "View in a tt-rss tab"
 msgstr "新しいウィンドウで記事を開く"
 
-#: viewfeed.js:1954
+#: viewfeed.js:1963
 #, fuzzy
 msgid "Remove label"
 msgstr "選択したラベルを削除しますか?"
 
-#: viewfeed.js:2059
+#: viewfeed.js:2068
 #, fuzzy
 msgid "Playing..."
 msgstr "フィード一覧を読み込んでいます..."
 
-#: viewfeed.js:2060
+#: viewfeed.js:2069
 #, fuzzy
 msgid "Click to pause"
 msgstr "編集するにはクリック"
 
-#: viewfeed.js:2204
+#: viewfeed.js:2213
 #, fuzzy
 msgid "Share article by URL"
 msgstr "記事をお気に入りにする"

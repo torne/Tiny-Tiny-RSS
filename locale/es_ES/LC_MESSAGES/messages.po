@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-13 10:50+0400\n"
+"POT-Creation-Date: 2011-10-21 13:54+0400\n"
 "PO-Revision-Date: 2009-11-10 00:12+0100\n"
 "Last-Translator: Manuel Gualda Caballero <manuel@utopiaverde.org>\n"
 "Language-Team: Español <manuel@utopiaverde.org>\n"
@@ -122,7 +122,7 @@ msgstr "Fuente no encontrada."
 
 #: backend.php:514 digest.php:61 prefs.php:66 tt-rss.php:62 tt-rss.php:108
 #: tt-rss.php:193 modules/pref-feeds.php:1397 modules/pref-filters.php:550
-#: modules/pref-labels.php:293 viewfeed.js:1088 viewfeed.js:1259
+#: modules/pref-labels.php:293 viewfeed.js:1097 viewfeed.js:1268
 msgid "Loading, please wait..."
 msgstr "Cargando. Por favor, espere..."
 
@@ -455,12 +455,12 @@ msgstr "Visitar el sitio oficial"
 msgid "View as RSS feed"
 msgstr "Ver fuentes"
 
-#: functions.php:4738 viewfeed.js:2066
+#: functions.php:4738 viewfeed.js:2075
 #, fuzzy
 msgid "Click to play"
 msgstr "Pulse aquí para editar"
 
-#: functions.php:4739 viewfeed.js:2065
+#: functions.php:4739 viewfeed.js:2074
 msgid "Play"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgstr "Editar las etiquetas de este artículo"
 msgid "Open article in new tab"
 msgstr "Abrir el artículo en una nueva pestaña o ventana"
 
-#: functions.php:4914 functions.php:5529 viewfeed.js:2008
+#: functions.php:4914 functions.php:5529 viewfeed.js:2017
 #, fuzzy
 msgid "Edit article note"
 msgstr "Editar etiquetas"
@@ -629,7 +629,7 @@ msgstr "Limpiar los artículos"
 msgid "Set starred"
 msgstr "Fijar como favorito"
 
-#: localized_schema.php:12 digest.js:262 digest.js:728 viewfeed.js:451
+#: localized_schema.php:12 digest.js:262 digest.js:728 viewfeed.js:460
 msgid "Publish article"
 msgstr "Publicar artículo"
 
@@ -637,7 +637,7 @@ msgstr "Publicar artículo"
 msgid "Assign tags"
 msgstr "Asignar etiquetas"
 
-#: localized_schema.php:14 viewfeed.js:1949
+#: localized_schema.php:14 viewfeed.js:1958
 msgid "Assign label"
 msgstr "Asignar etiqueta"
 
@@ -2508,15 +2508,15 @@ msgstr "¿Marcar todos los artículos de %s como leídos?"
 msgid "Mark %d displayed articles as read?"
 msgstr "¿Marcar %d artículo(s) como leído(s)?"
 
-#: digest.js:255 digest.js:688 viewfeed.js:406
+#: digest.js:255 digest.js:688 viewfeed.js:415
 msgid "Unstar article"
 msgstr "Quitar el artículo de los favoritos"
 
-#: digest.js:257 digest.js:692 viewfeed.js:411
+#: digest.js:257 digest.js:692 viewfeed.js:420
 msgid "Star article"
 msgstr "Marcar el artículo como favorito"
 
-#: digest.js:260 digest.js:723 viewfeed.js:446
+#: digest.js:260 digest.js:723 viewfeed.js:455
 msgid "Unpublish article"
 msgstr "Anular la publicación del artículo"
 
@@ -2921,91 +2921,91 @@ msgstr "¿Reiniciar la puntuación de los artículos de %s?"
 msgid "New version available!"
 msgstr "¡Nueva versión de Tiny Tiny RSS disponible!"
 
-#: viewfeed.js:617 viewfeed.js:645 viewfeed.js:672 viewfeed.js:734
-#: viewfeed.js:766 viewfeed.js:882 viewfeed.js:926 viewfeed.js:976
-#: viewfeed.js:1490
+#: viewfeed.js:626 viewfeed.js:654 viewfeed.js:681 viewfeed.js:743
+#: viewfeed.js:775 viewfeed.js:891 viewfeed.js:935 viewfeed.js:985
+#: viewfeed.js:1499
 msgid "No articles are selected."
 msgstr "No se han seleccionado artículos."
 
-#: viewfeed.js:862
+#: viewfeed.js:871
 msgid "Mark all visible articles in %s as read?"
 msgstr "¿Marcar todos los artículos visibles de %s como leídos?"
 
-#: viewfeed.js:891
+#: viewfeed.js:900
 #, fuzzy
 msgid "Delete %d selected articles in %s?"
 msgstr "¿Marcar %d artículos seleccionados de %s como leídos?"
 
-#: viewfeed.js:893
+#: viewfeed.js:902
 #, fuzzy
 msgid "Delete %d selected articles?"
 msgstr "¿Eliminar de la etiqueta los artículos seleccionados?"
 
-#: viewfeed.js:935
+#: viewfeed.js:944
 #, fuzzy
 msgid "Archive %d selected articles in %s?"
 msgstr "¿Marcar %d artículos seleccionados de %s como leídos?"
 
-#: viewfeed.js:938
+#: viewfeed.js:947
 msgid "Move %d archived articles back?"
 msgstr ""
 
-#: viewfeed.js:982
+#: viewfeed.js:991
 msgid "Mark %d selected articles in %s as read?"
 msgstr "¿Marcar %d artículos seleccionados de %s como leídos?"
 
-#: viewfeed.js:1006
+#: viewfeed.js:1015
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Editar etiquetas"
 
-#: viewfeed.js:1156
+#: viewfeed.js:1165
 msgid "No article is selected."
 msgstr "No se ha seleccionado ningún artículo."
 
-#: viewfeed.js:1191
+#: viewfeed.js:1200
 msgid "No articles found to mark"
 msgstr "No se han encontrado artículos que marcar"
 
-#: viewfeed.js:1193
+#: viewfeed.js:1202
 msgid "Mark %d article(s) as read?"
 msgstr "¿Marcar %d artículo(s) como leído(s)?"
 
-#: viewfeed.js:1357
+#: viewfeed.js:1366
 #, fuzzy
 msgid "Loading..."
 msgstr "Cargando la lista de la fuente..."
 
-#: viewfeed.js:1504
+#: viewfeed.js:1513
 msgid "Forward article by email"
 msgstr ""
 
-#: viewfeed.js:1901
+#: viewfeed.js:1910
 #, fuzzy
 msgid "Open original article"
 msgstr "Desplegar el contenido original del artículo"
 
-#: viewfeed.js:1907
+#: viewfeed.js:1916
 #, fuzzy
 msgid "View in a tt-rss tab"
 msgstr "Abrir el artículo en una nueva pestaña o ventana"
 
-#: viewfeed.js:1954
+#: viewfeed.js:1963
 #, fuzzy
 msgid "Remove label"
 msgstr "¿Eliminar las etiquetas seleccionadas?"
 
-#: viewfeed.js:2059
+#: viewfeed.js:2068
 #, fuzzy
 msgid "Playing..."
 msgstr "Cargando la lista de la fuente..."
 
-#: viewfeed.js:2060
+#: viewfeed.js:2069
 #, fuzzy
 msgid "Click to pause"
 msgstr "Pulse aquí para editar"
 
-#: viewfeed.js:2204
+#: viewfeed.js:2213
 #, fuzzy
 msgid "Share article by URL"
 msgstr "Marcar el artículo como favorito"
