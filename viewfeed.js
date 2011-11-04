@@ -41,7 +41,7 @@ function headlines_callback2(transport, offset, background) {
 			feed_id = reply['headlines']['id'];
 
 			if (background) {
-				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], reply['headlines']['content']);
+				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], reply['headlines']['content'] + "<div id='headlines-spacer'></div>");
 				return;
 			}
 
