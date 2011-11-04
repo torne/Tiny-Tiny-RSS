@@ -41,7 +41,13 @@ function headlines_callback2(transport, offset, background) {
 			feed_id = reply['headlines']['id'];
 
 			if (background) {
-				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], reply['headlines']['content'] + "<div id='headlines-spacer'></div>");
+				var content = reply['headlines']['content'];
+
+				if (getInitParam("cdm_auto_catchup") == 1) {
+					content = content + "<div id='headlines-spacer'></div>";
+				}
+
+				cache_headlines(feed_id, is_cat, reply['headlines']['toolbar'], content);
 				return;
 			}
 
@@ -74,10 +80,12 @@ function headlines_callback2(transport, offset, background) {
 				dijit.byId("headlines-toolbar").attr('content',
 					reply['headlines']['toolbar']);
 
-				var hsp = $("headlines-spacer");
-				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-				dijit.byId('headlines-frame').domNode.appendChild(hsp);
+				if (getInitParam("cdm_auto_catchup") == 1) {
+					var hsp = $("headlines-spacer");
+					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
+					dijit.byId('headlines-frame').domNode.appendChild(hsp);
+				}
 
 				initHeadlinesMenu();
 
@@ -109,7 +117,9 @@ function headlines_callback2(transport, offset, background) {
 
 					fixHeadlinesOrder(getLoadedArticleIds());
 
-					c.domNode.appendChild(hsp);
+					if (getInitParam("cdm_auto_catchup") == 1) {
+						c.domNode.appendChild(hsp);
+					}
 
 					console.log("restore selected ids: " + ids);
 
@@ -1093,12 +1103,12 @@ function headlines_scroll_handler(e) {
 			if (hsp && (e.scrollTop + e.offsetHeight > hsp.offsetTop) ||
 					e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
 
-				hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-					__("Loading, please wait...");
+				if (hsp)
+					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
+						__("Loading, please wait...");
 
 				loadMoreHeadlines();
 
-				//viewNextFeedPage();
 			}
 		} else {
 			if (hsp) hsp.innerHTML = "";
