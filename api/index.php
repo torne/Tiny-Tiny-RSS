@@ -207,7 +207,7 @@
 			break;
 
 		case "updateArticle":
-			$article_ids = split(",", db_escape_string($_REQUEST["article_ids"]));
+			$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
 			$field_raw = (int)db_escape_string($_REQUEST["field"]);
 
