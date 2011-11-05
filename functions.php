@@ -476,7 +476,7 @@
 				$contents = fetch_file_contents($favicon_url, "image");
 
 				if ($contents) {
-					$fp = fopen($icon_file, "w");
+					$fp = @fopen($icon_file, "w");
 
 					if ($fp) {
 						fwrite($fp, $contents);
