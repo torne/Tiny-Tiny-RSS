@@ -111,6 +111,10 @@
 		$err_msg = "config: DEFAULT_UPDATE_METHOD should be either 0 or 1.";
 	}
 
+	if (SELF_URL_PATH == "http://yourserver/tt-rss/") {
+		$err_msg = "config: please set SELF_URL_PATH to the correct value.";
+	}
+
 	if (!is_writable(ICONS_DIR)) {
 		$err_msg = "config: your ICONS_DIR (" . ICONS_DIR . ") is not writable.\n";
 	}

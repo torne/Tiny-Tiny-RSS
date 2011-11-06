@@ -7,9 +7,11 @@
 	define('DB_PASS', "XXXXXX");
 	//define('DB_PORT', '5432'); // when neeeded, PG-only
 
-	define('SELF_URL_PATH', 'http://local.host/tt-rss');
-	// Full URL of your tt-rss installation. You need to set this option
-	// correctly for tt-rss to function properly.
+	define('SELF_URL_PATH', 'http://yourserver/tt-rss/');
+	// Full URL of your tt-rss installation. This should be set to the
+	// location of tt-rss directory, e.g. http://yourserver/tt-rss/
+	// You need to set this option correctly otherwise several features
+	// including PUSH, bookmarklets and browser integration will not work properly.
 
 	define('SINGLE_USER_MODE', true);
 	// Operate in single user mode, disables all functionality related to
