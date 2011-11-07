@@ -5379,24 +5379,15 @@
 
 					$reply['content'] .= "<div class=\"cdmHeader\">";
 
-					$reply['content'] .= "<div style='float : right'>";
-					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
-					$reply['content'] .= "$score_pic";
-
-					if (!get_pref($link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
-						$reply['content'] .= "<span style=\"cursor : pointer\"
-							title=\"".htmlspecialchars($line["feed_title"])."\"
-							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
-					}
-					$reply['content'] .= "<div class=\"updPic\">$update_pic</div>";
-
-					$reply['content'] .= "</div>";
+					$reply['content'] .= "<div>";
 
 					$reply['content'] .= "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this,
 							'RROW-$id')\" id=\"RCHK-$id\"/>";
 
 					$reply['content'] .= "$marked_pic";
 					$reply['content'] .= "$published_pic";
+
+					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
@@ -5429,6 +5420,18 @@
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
 					$reply['content'] .= "</span>";
+
+					$reply['content'] .= "<div>";
+					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
+					$reply['content'] .= "$score_pic";
+
+					if (!get_pref($link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
+						$reply['content'] .= "<span style=\"cursor : pointer\"
+							title=\"".htmlspecialchars($line["feed_title"])."\"
+							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
+					}
+					$reply['content'] .= "<div class=\"updPic\">$update_pic</div>";
+					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "</div>";
 

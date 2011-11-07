@@ -3,7 +3,20 @@ div.cdmHeader img, div.cdmHeader input, div.cdmFooter img {
 }
 
 div.cdmHeader {
+	display : table;
+}
+
+div.cdmHeader > * {
+	display : table-cell;
 	padding : 5px;
+}
+
+div.cdmHeader > div {
+	white-space : nowrap;
+}
+
+div.cdmHeader > span {
+	width : 100%;
 }
 
 div.cdmHeader span.updated {
