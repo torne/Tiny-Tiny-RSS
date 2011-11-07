@@ -274,7 +274,7 @@
 
 		case "getArticle":
 
-			$article_id = db_escape_string($_REQUEST["article_id"]);
+			$article_id = join(",", array_filter(explode(",", db_escape_string($_REQUEST["article_id"])), is_numeric));
 
 			$query = "SELECT id,title,link,content,feed_id,comments,int_id,
 				marked,unread,published,
