@@ -40,7 +40,7 @@ function loadMoreHeadlines() {
 			offset = num_all;
 		}
 
-		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), offset);
+		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), offset, false, true);
 
 	} catch (e) {
 		exception_error("viewNextFeedPage", e);
@@ -48,7 +48,7 @@ function loadMoreHeadlines() {
 }
 
 
-function viewfeed(feed, subop, is_cat, offset, background) {
+function viewfeed(feed, subop, is_cat, offset, background, infscrol_req) {
 	try {
 		if (is_cat == undefined)
 			is_cat = false;
@@ -58,6 +58,7 @@ function viewfeed(feed, subop, is_cat, offset, background) {
 		if (subop == undefined) subop = '';
 		if (offset == undefined) offset = 0;
 		if (background == undefined) background = false;
+		if (infscrol_req == undefined) infscrol_req = false;
 
 		last_requested_article = 0;
 
@@ -179,7 +180,7 @@ function viewfeed(feed, subop, is_cat, offset, background) {
 			parameters: query,
 			onComplete: function(transport) {
 				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
-				headlines_callback2(transport, offset, background);
+				headlines_callback2(transport, offset, background, infscrol_req);
 			} });
 
 	} catch (e) {

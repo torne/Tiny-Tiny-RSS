@@ -16,13 +16,13 @@ var cids_requested = [];
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
-function headlines_callback2(transport, offset, background) {
+function headlines_callback2(transport, offset, background, infscroll_req) {
 	try {
 		handle_rpc_json(transport);
 
 		loading_set_progress(25);
 
-		console.log("headlines_callback2 [offset=" + offset + "] B:" + background);
+		console.log("headlines_callback2 [offset=" + offset + "] B:" + background + " I:" + infscroll_req);
 
 		var is_cat = false;
 		var feed_id = false;
@@ -54,7 +54,7 @@ function headlines_callback2(transport, offset, background) {
 			setActiveFeedId(feed_id, is_cat);
 
 			try {
-				if (offset == 0) {
+				if (offset == 0 && infscroll_req == false) {
 					$("headlines-frame").scrollTop = 0;
 				}
 			} catch (e) { };
@@ -73,7 +73,7 @@ function headlines_callback2(transport, offset, background) {
 			var articles = reply['articles'];
 			var runtime_info = reply['runtime-info'];
 
-			if (offset == 0) {
+			if (offset == 0 && infscroll_req == false) {
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
 
