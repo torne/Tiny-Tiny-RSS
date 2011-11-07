@@ -16,6 +16,42 @@
 
 	init_connection($link);
 
+	if ($_REQUEST["format"] == "feed") {
+		header("Content-Type: text/xml");
+
+		print '<?xml version="1.0" encoding="utf-8"?>';
+		print "<feed xmlns=\"http://www.w3.org/2005/Atom\">
+			<id>".htmlspecialchars(SELF_URL_PATH . "/register.php")."</id>
+			<title>Tiny Tiny RSS registration slots</title>
+			<link rel=\"self\" href=\"".htmlspecialchars(SELF_URL_PATH . "/register.php?format=feed")."\"/>
+			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH)."\"/>";
+
+		if (ENABLE_REGISTRATION) {
+			$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
+			$num_users = db_fetch_result($result, 0, "cu");
+
+			$num_users -= REG_MAX_USERS;
+			if ($num_users < 0) $num_users = 0;
+			$reg_suffix = "enabled";
+		} else {
+			$num_users = 0;
+			$reg_suffix = "disabled";
+		}
+
+		print "<entry>
+			<id>".htmlspecialchars(SELF_URL_PATH)."/register.php?$num_users"."</id>
+			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH . "/register.php")."\"/>";
+
+		print "<title>$num_users slots are currently available, registration $reg_suffix</title>";
+		print "<summary>$num_users slots are currently available, registration $reg_suffix</summary>";
+
+		print "</entry>";
+
+		print "</feed>";
+
+		return;
+	}
+
 	/* Remove users which didn't login after receiving their registration information */
 
 	if (DB_TYPE == "pgsql") {
