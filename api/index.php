@@ -10,6 +10,8 @@
 	define('API_STATUS_OK', 0);
 	define('API_STATUS_ERR', 1);
 
+	chdir("..");
+
 	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT) {
 		ob_start("ob_gzhandler");
 	}
@@ -153,8 +155,6 @@
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
 			$limit = (int) db_escape_string($_REQUEST["limit"]);
 			$offset = (int) db_escape_string($_REQUEST["offset"]);
-
-			chdir(".."); // so feed_has_icon() would work properly for relative ICONS_DIR
 
 			$feeds = api_get_feeds($link, $cat_id, $unread_only, $limit, $offset);
 
