@@ -175,7 +175,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		if (treeNode) {
 			treeNode = treeNode[0];
 			if (!is_cat) this._expandNode(treeNode);
-			this._selectNode(treeNode);
+			this.set("selectedNodes", [treeNode]);
 		}
 	},
 	setFeedIcon: function(feed, is_cat, src) {

@@ -1,3 +1,8 @@
+/* Dijit widget common icons*/
+
+/*commonIcons_rtl.css is located in dijit/icons
+
+The 16 x 16px icons in these sprites are action and object type images which can be used in the following widgets: accordionContainer, menu, tab, titlepane, tree, and all button widgets and error validation contexts. */
 
 .dijitRtl .dijitIconSave,
 .dijitRtl .dijitIconPrint,
@@ -34,10 +39,11 @@
 .dijitRtl .dijitFolderOpened,
 .dijitRtl .dijitIconFolderOpen,
 .dijitRtl .dijitIconError, .dijitRtl .dijitContentPaneError { 
-	background-image: url('images/commonIconsObjActEnabled_rtl.png'); 
+	background-image: url('images/commonIconsObjActEnabled_rtl.png'); /* Contains both object and action icons in a sprite image for the enabled state.  */
 	width: 16px;
 	height: 16px;
 }
+
 .dj_ie6 .dijitRtl .dijitIconSave,
 .dj_ie6 .dijitRtl .dijitIconPrint,
 .dj_ie6 .dijitRtl .dijitIconCut,
@@ -75,6 +81,7 @@
 .dj_ie6 .dijitRtl .dijitIconError, .dj_ie6 .dijitRtl .dijitContentPaneError {
 	background-image: url('images/commonIconsObjActEnabled8bit_rtl.png');
 }
+
 .dijitRtl .dijitDisabled .dijitIconSave,
 .dijitRtl .dijitDisabled .dijitIconPrint,
 .dijitRtl .dijitDisabled .dijitIconCut,
@@ -110,8 +117,11 @@
 .dijitRtl .dijitDisabled .dijitFolderOpened,
 .dijitRtl .dijitDisabled .dijitIconFolderOpen,
 .dijitRtl .dijitDisabled .dijitIconError, .dijitRtl .dijitDisabled .dijitContentPaneError {
-	background-image: url('images/commonIconsObjActDisabled_rtl.png'); 
+	background-image: url('images/commonIconsObjActDisabled_rtl.png'); /* Contains both object and action icons as a sprite image for the disabled state. These would be used by buttons and menus.   */
 }
+
+
+/*For Claro and future themes.*/
 .dijitRtl .dijitContentPaneLoading {
 	background:url('images/loadingAnimation_rtl.gif') no-repeat;
 }

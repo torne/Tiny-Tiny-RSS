@@ -9,12 +9,13 @@
 
 if [ -d util/buildscripts/ ]; then
 	pushd util/buildscripts
-	./build.sh profileFile=../../profile.js action=clean,release version=1.5.0 releaseName=
+	./build.sh profileFile=../../profile.js action=clean,release version=1.6.1 releaseName=
 	popd
 
 	if [ -d release/dojo ]; then
-		rm -rf ../dojo
+		rm -rf ../dojo ../dijit
 		cp -r release/dojo ..
+		cp -r release/dijit ..
 	else
 		echo $0: ERROR: Dojo build seems to have failed.
 	fi
