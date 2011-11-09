@@ -30,7 +30,7 @@
 			$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
 			$num_users = db_fetch_result($result, 0, "cu");
 
-			$num_users -= REG_MAX_USERS;
+			$num_users = REG_MAX_USERS - $num_users;
 			if ($num_users < 0) $num_users = 0;
 			$reg_suffix = "enabled";
 		} else {
