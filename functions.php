@@ -382,6 +382,7 @@
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
+			curl_setopt($ch, CURLOPT_ENCODING , "gzip");
 
 			if ($post_query) {
 				curl_setopt($ch, CURLOPT_POST, true);
@@ -392,6 +393,7 @@
 				curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 
 			$contents = @curl_exec($ch);
+
 			if ($contents === false) {
 				curl_close($ch);
 				return false;
