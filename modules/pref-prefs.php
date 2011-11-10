@@ -264,6 +264,31 @@
 
 			print "<div dojoType=\"dijit.layout.AccordionPane\" selected=\"true\" title=\"".__('Preferences')."\">";
 
+			print "<form dojoType=\"dijit.form.Form\" id=\"changeSettingsForm\">";
+
+			print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+			evt.preventDefault();
+			if (this.validate()) {
+				console.log(dojo.objectToQuery(this.getValues()));
+
+				new Ajax.Request('backend.php', {
+					parameters: dojo.objectToQuery(this.getValues()),
+					onComplete: function(transport) {
+						var msg = transport.responseText;
+						if (msg.match('PREFS_THEME_CHANGED')) {
+							window.location.reload();
+						} else {
+							notify_info(msg);
+						}
+				} });
+			}
+			</script>";
+
+
+			print '<div dojoType="dijit.layout.BorderContainer" gutters="false">';
+
+			print '<div dojoType="dijit.layout.ContentPane" region="center" style="overflow-y : auto">';
+
 			if ($_SESSION["profile"]) {
 				print_notice("Some preferences are only available in default profile.");
 			}
@@ -287,26 +312,6 @@
 					short_desc != '' AND
 					owner_uid = ".$_SESSION["uid"]."
 				ORDER BY section_id,short_desc");
-
-			print "<form dojoType=\"dijit.form.Form\" id=\"changeSettingsForm\">";
-
-			print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
-			evt.preventDefault();
-			if (this.validate()) {
-				console.log(dojo.objectToQuery(this.getValues()));
-
-				new Ajax.Request('backend.php', {
-					parameters: dojo.objectToQuery(this.getValues()),
-					onComplete: function(transport) {
-						var msg = transport.responseText;
-						if (msg.match('PREFS_THEME_CHANGED')) {
-							window.location.reload();
-						} else {
-							notify_info(msg);
-						}
-				} });
-			}
-			</script>";
 
 			$lnum = 0;
 
@@ -479,17 +484,23 @@
 
 			print "</table>";
 
+			print '</div>'; # inside pane
+			print '<div dojoType="dijit.layout.ContentPane" region="bottom">';
+
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"save-config\">";
 
-			print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+			print "<button dojoType=\"dijit.form.Button\" type=\"submit\">".
 				__('Save configuration')."</button> ";
 
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"return editProfiles()\">".
 				__('Manage profiles')."</button> ";
 
 			print "<button dojoType=\"dijit.form.Button\" onclick=\"return validatePrefsReset()\">".
-				__('Reset to defaults')."</button></p>";
+				__('Reset to defaults')."</button>";
+
+			print '</div>'; # inner pane
+			print '</div>'; # border container
 
 			print "</form>";
 
