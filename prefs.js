@@ -288,7 +288,8 @@ function getSelectedFeeds() {
 	var rv = [];
 
 	items.each(function(item) {
-		rv.push(tree.model.store.getValue(item, 'bare_id'));
+		if (item.id[0].match("FEED:"))
+			rv.push(tree.model.store.getValue(item, 'bare_id'));
 	});
 
 	return rv;

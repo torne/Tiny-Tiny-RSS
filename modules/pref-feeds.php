@@ -57,6 +57,7 @@
 					$cat['bare_id'] = $feed_id;
 					$cat['name'] = $line['title'];
 					$cat['items'] = array();
+					$cat['checkbox'] = false;
 					$cat['type'] = 'category';
 
 					$feed_result = db_query($link, "SELECT id, title, last_error,
