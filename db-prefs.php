@@ -18,7 +18,7 @@
 			@$profile = $_SESSION["profile"];
 		} else {
 			$user_id = sprintf("%d", $user_id);
-			$prefs_cache = false;
+			//$prefs_cache = false;
 		}
 
 		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
@@ -130,7 +130,12 @@
 					$profile_qpart
 					AND owner_uid = " . $_SESSION["uid"]);
 
-			$_SESSION["prefs_cache"] = array();
+			if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
+				if ($user_id = $_SESSION["uid"]) {
+					$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
+					$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
+				}
+			}
 
 		}
 	}

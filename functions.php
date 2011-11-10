@@ -2102,6 +2102,8 @@
 	}
 
 	function login_sequence($link, $mobile = false) {
+		$_SESSION["prefs_cache"] = array();
+
 		if (!SINGLE_USER_MODE) {
 
 			$login_action = $_POST["login_action"];
