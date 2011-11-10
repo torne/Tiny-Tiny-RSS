@@ -1430,8 +1430,6 @@
 			".__('<b>Hint:</b> you can drag feeds and categories around.')."
 			</div>";
 
-		print "TEST";
-
 		print '</div>';
 		print '</div>';
 
