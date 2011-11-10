@@ -96,6 +96,7 @@
 				$cat['name'] = __("Uncategorized");
 				$cat['items'] = array();
 				$cat['type'] = 'category';
+				$cat['checkbox'] = false;
 
 				$feed_result = db_query($link, "SELECT id, title,last_error,
 					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
