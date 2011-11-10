@@ -1277,6 +1277,10 @@
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div id=\"pref-feeds-feeds\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Feeds')."\">";
 
+		/* print "<div dojoType=\"dijit.layout.BorderContainer\">";
+		print "<
+			print "</div>"; */
+
 		$result = db_query($link, "SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
@@ -1320,7 +1324,9 @@
 			$feed_search = $_SESSION["prefs_feed_search"];
 		}
 
-		print "<div dojoType=\"dijit.Toolbar\">";
+		print '<div dojoType="dijit.layout.BorderContainer" gutters="false">';
+
+		print "<div region='top' dojoType=\"dijit.Toolbar\">"; #toolbar
 
 		print "<div style='float : right; padding-right : 4px;'>
 			<input dojoType=\"dijit.form.TextBox\" id=\"feed_search\" size=\"20\" type=\"search\"
@@ -1387,6 +1393,9 @@
 
 		print "</div>"; # toolbar
 
+		//print '</div>';
+		print '<div dojoType="dijit.layout.ContentPane" region="center">';
+
 		print "<div id=\"feedlistLoading\">
 		<img src='images/indicator_tiny.gif'>".
 		 __("Loading, please wait...")."</div>";
@@ -1420,6 +1429,11 @@
 		print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedTree\" position=\"below\">
 			".__('<b>Hint:</b> you can drag feeds and categories around.')."
 			</div>";
+
+		print "TEST";
+
+		print '</div>';
+		print '</div>';
 
 		print "</div>"; # feeds pane
 
