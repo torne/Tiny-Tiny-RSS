@@ -14,10 +14,10 @@
 			"DEFAULT_UPDATE_INTERVAL", "USER_TIMEZONE", "SORT_HEADLINES_BY_FEED_DATE",
 			"SSL_CERT_SERIAL");
 
-		if (FORCE_ARTICLE_PURGE != 0) {
+		/* if (FORCE_ARTICLE_PURGE != 0) {
 			array_push($prefs_blacklist, "PURGE_OLD_DAYS");
 			array_push($prefs_blacklist, "PURGE_UNREAD_ARTICLES");
-		}
+		} */
 
 		if ($subop == "change-password") {
 
@@ -419,15 +419,30 @@
 						$value = __("No");
 					}
 
-					print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")));
+					if ($pref_name == "PURGE_UNREAD_ARTICLES" && FORCE_ARTICLE_PURGE != 0) {
+						$disabled = "disabled=\"1\"";
+						$value = __("Yes");
+					} else {
+						$disabled = "";
+					}
+
+					print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")),
+						$disabled);
 
 				} else if (array_search($pref_name, array('FRESH_ARTICLE_MAX_AGE', 'DEFAULT_ARTICLE_LIMIT',
 						'PURGE_OLD_DAYS', 'LONG_DATE_FORMAT', 'SHORT_DATE_FORMAT')) !== false) {
 
 					$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';
 
+					if ($pref_name == "PURGE_OLD_DAYS" && FORCE_ARTICLE_PURGE != 0) {
+						$disabled = "disabled=\"1\"";
+						$value = FORCE_ARTICLE_PURGE;
+					} else {
+						$disabled = "";
+					}
+
 					print "<input dojoType=\"dijit.form.ValidationTextBox\"
-						required=\"1\" $regexp
+						required=\"1\" $regexp $disabled
 						name=\"$pref_name\" value=\"$value\">";
 
 				} else if ($pref_name == "SSL_CERT_SERIAL") {

@@ -363,22 +363,15 @@
 
 			$purge_interval = db_fetch_result($result, 0, "purge_interval");
 
-			if (FORCE_ARTICLE_PURGE == 0) {
 
 				/* Purge intl */
 
-				print "<hr/>";
+			print "<hr/>";
+			print __('Article purging:') . " ";
 
-				print __('Article purging:') . " ";
-
-				print_select_hash("purge_interval", $purge_interval, $purge_intervals,
-					'dojoType="dijit.form.Select"');
-
-			} else {
-				print "<input style=\"display : none\" name='purge_interval'
-					dojoType=\"dijit.form.TextBox\" value='$purge_interval'>";
-
-			}
+			print_select_hash("purge_interval", $purge_interval, $purge_intervals,
+				'dojoType="dijit.form.Select" ' .
+					((FORCE_ARTICLE_PURGE == 0) ? "" : 'disabled="1"'));
 
 			print "</div>";
 			print "<div class=\"dlgSec\">".__("Authentication")."</div>";
