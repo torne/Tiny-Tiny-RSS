@@ -21,7 +21,7 @@
 			//$prefs_cache = false;
 		}
 
-		if ($prefs_cache && !defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
+		if ($prefs_cache && !defined('DISABLE_SESSIONS')) {
 			if ($_SESSION["prefs_cache"] && @$_SESSION["prefs_cache"][$pref_name]) {
 				$tuple = $_SESSION["prefs_cache"][$pref_name];
 				return convert_pref_type($tuple["value"], $tuple["type"]);
@@ -51,8 +51,8 @@
 			$value = db_fetch_result($result, 0, "value");
 			$type_name = db_fetch_result($result, 0, "type_name");
 
-			if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
-				if ($user_id = $_SESSION["uid"]) {
+			if (!defined('DISABLE_SESSIONS')) {
+				if ($user_id == $_SESSION["uid"]) {
 					$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
 					$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
 				}
@@ -79,8 +79,8 @@
 		}
 	}
 
-	function set_pref($link, $key, $value, $user_id = false) {
-		$key = db_escape_string($key);
+	function set_pref($link, $pref_name, $value, $user_id = false) {
+		$pref_name = db_escape_string($pref_name);
 		$value = db_escape_string($value);
 
 		if (!$user_id) {
@@ -99,14 +99,28 @@
 
 		if (get_schema_version($link) < 63) $profile_qpart = "";
 
-		$result = db_query($link, "SELECT type_name
-			FROM ttrss_prefs,ttrss_prefs_types
-			WHERE pref_name = '$key' AND type_id = ttrss_prefs_types.id");
+		$type_name = "";
+		$current_value = "";
 
-		if (db_num_rows($result) > 0) {
+		if (!defined('DISABLE_SESSIONS')) {
+			if ($_SESSION["prefs_cache"] && @$_SESSION["prefs_cache"][$pref_name]) {
+				$type_name = $_SESSION["prefs_cache"][$pref_name]["type"];
+				$current_value = $_SESSION["prefs_cache"][$pref_name]["value"];
+			}
+		}
 
-			$type_name = db_fetch_result($result, 0, "type_name");
+		if (!$type_name) {
+			$result = db_query($link, "SELECT type_name
+				FROM ttrss_prefs,ttrss_prefs_types
+				WHERE pref_name = '$pref_name' AND type_id = ttrss_prefs_types.id");
 
+			if (db_num_rows($result) > 0)
+				$type_name = db_fetch_result($result, 0, "type_name");
+		} else if ($current_value == $value) {
+			return;
+		}
+
+		if ($type_name) {
 			if ($type_name == "bool") {
 				if ($value == "1" || $value == "true") {
 					$value = "true";
@@ -117,26 +131,25 @@
 				$value = sprintf("%d", $value);
 			}
 
-			if ($key == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
+			if ($pref_name == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
 				$value = 30;
 			}
 
-			if ($key == 'USER_TIMEZONE' && $value == '') {
+			if ($pref_name == 'USER_TIMEZONE' && $value == '') {
 				$value = 'UTC';
 			}
 
 			db_query($link, "UPDATE ttrss_user_prefs SET
-				value = '$value' WHERE pref_name = '$key'
+				value = '$value' WHERE pref_name = '$pref_name'
 					$profile_qpart
 					AND owner_uid = " . $_SESSION["uid"]);
 
-			if (!defined('DISABLE_SESSIONS') && !SINGLE_USER_MODE) {
-				if ($user_id = $_SESSION["uid"]) {
+			if (!defined('DISABLE_SESSIONS')) {
+				if ($user_id == $_SESSION["uid"]) {
 					$_SESSION["prefs_cache"][$pref_name]["type"] = $type_name;
 					$_SESSION["prefs_cache"][$pref_name]["value"] = $value;
 				}
 			}
-
 		}
 	}
 ?>
