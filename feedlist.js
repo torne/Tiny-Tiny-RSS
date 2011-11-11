@@ -457,3 +457,22 @@ function getNextUnreadFeed(feed, is_cat) {
 	}
 }
 
+function catchupFeed(feed, is_cat) {
+	try {
+
+		var catchup_query = "?op=rpc&subop=catchupFeed&feed_id=" +
+			feed + "&is_cat=" + is_cat;
+
+		notify_progress("Loading, please wait...", true);
+
+		new Ajax.Request("backend.php",	{
+			parameters: catchup_query,
+			onComplete: function(transport) {
+					handle_rpc_json(transport);
+					notify("");
+				} });
+
+	} catch (e) {
+		exception_error("catchupFeed", e);
+	}
+}
