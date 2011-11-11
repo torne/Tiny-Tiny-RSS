@@ -729,10 +729,12 @@ function editSelectedFeeds() {
 						query = query + "&private=false";
 					}
 
-					if (!query.match("&cache_images=") &&
-							this.getChildByName('cache_images').attr('disabled') == false) {
-						query = query + "&cache_images=false";
-					}
+					try {
+						if (!query.match("&cache_images=") &&
+								this.getChildByName('cache_images').attr('disabled') == false) {
+							query = query + "&cache_images=false";
+						}
+					} catch (e) { }
 
 					if (!query.match("&include_in_digest=") &&
 							this.getChildByName('include_in_digest').attr('disabled') == false) {
