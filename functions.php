@@ -3696,6 +3696,8 @@
 						guid,
 						ttrss_entries.id,ttrss_entries.title,
 						updated,
+						label_cache,
+						tag_cache,
 						note,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
@@ -4812,6 +4814,7 @@
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
 			num_comments,
+			tag_cache,
 			author,
 			orig_feed_id,
 			note
@@ -4885,7 +4888,13 @@
 				$rv['content'] .= "<div clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			$tags = get_article_tags($link, $id);
+			$tag_cache = $line["tag_cache"];
+
+			if (!$tag_cache)
+				$tags = get_article_tags($link, $id);
+			else
+				$tags = explode(",", $tag_cache);
+
 			$tags_str = format_tags_string($tags, $id);
 			$tags_str_full = join(", ", $tags);
 
@@ -5152,8 +5161,21 @@
 
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
+				$label_cache = $line["label_cache"];
+				$labels = false;
 
-				$labels = get_article_labels($link, $id);
+				if ($label_cache) {
+					$label_cache = json_decode($label_cache, true);
+
+					if ($label_cache) {
+						if ($label_cache["no-labels"] == 1)
+							$labels = array();
+						else
+							$labels = $label_cache;
+					}
+				}
+
+				if (!is_array($labels)) $labels = get_article_labels($link, $id);
 
 				$labels_str = "<span id=\"HLLCTR-$id\">";
 				$labels_str .= format_article_labels($labels, $id);
@@ -5513,7 +5535,12 @@
 
 					$reply['content'] .= "<div class=\"cdmFooter\">";
 
-					$tags_str = format_tags_string(get_article_tags($link, $id), $id);
+					$tag_cache = $line["tag_cache"];
+
+					if ($tag_cache)
+						$tags_str = format_tags_string(explode(",", $tag_cache), $id);
+					else
+						$tags_str = format_tags_string(get_article_tags($link, $id), $id);
 
 					$reply['content'] .= "<img src='".theme_image($link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
