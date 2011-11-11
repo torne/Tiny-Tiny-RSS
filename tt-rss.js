@@ -683,6 +683,11 @@ function hotkey_handler(e) {
 
 		if (!hotkey_prefix) {
 
+			if (keycode == 27) { // escape
+				closeArticlePanel();
+				return;
+			}
+
 			if (keycode == 69) { // e
 				var id = getActiveArticleId();
 				emailArticle(id);
