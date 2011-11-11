@@ -459,6 +459,14 @@ function getNextUnreadFeed(feed, is_cat) {
 
 function catchupFeed(feed, is_cat) {
 	try {
+		var str = __("Mark all articles in %s as read?");
+		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
+
+		str = str.replace("%s", fn);
+
+		if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
+			return;
+		}
 
 		var catchup_query = "?op=rpc&subop=catchupFeed&feed_id=" +
 			feed + "&is_cat=" + is_cat;
