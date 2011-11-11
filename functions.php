@@ -4590,7 +4590,7 @@
 		return $feedlist;
 	}
 
-	function get_article_tags($link, $id, $owner_uid = 0) {
+	function get_article_tags($link, $id, $owner_uid = 0, $tag_cache = false) {
 
 		global $memcache;
 
@@ -4611,10 +4611,12 @@
 		} else {
 			/* check cache first */
 
-			$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
-				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			if ($tag_cache === false) {
+				$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-			$tag_cache = db_fetch_result($result, 0, "tag_cache");
+				$tag_cache = db_fetch_result($result, 0, "tag_cache");
+			}
 
 			if ($tag_cache) {
 				$tags = explode(",", $tag_cache);
@@ -5537,10 +5539,9 @@
 
 					$tag_cache = $line["tag_cache"];
 
-					if ($tag_cache)
-						$tags_str = format_tags_string(explode(",", $tag_cache), $id);
-					else
-						$tags_str = format_tags_string(get_article_tags($link, $id), $id);
+					$tags_str = format_tags_string(
+						get_article_tags($link, $id, $_SESSION["uid"], $tag_cache),
+						$id);
 
 					$reply['content'] .= "<img src='".theme_image($link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
