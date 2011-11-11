@@ -3698,6 +3698,7 @@
 						updated,
 						label_cache,
 						tag_cache,
+						always_display_enclosures,
 						note,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
@@ -3736,6 +3737,8 @@
 								"feed_id," .
 								"orig_feed_id," .
 								"marked," .
+								"tag_cache," .
+								"label_cache," .
 								"link," .
 								"last_read," .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
@@ -5522,13 +5525,15 @@
 					$reply['content'] .= $expand_cdm ? $article_content : '';
 					$reply['content'] .= "</span>";
 
-					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
+/*					$tmp_result = db_query($link, "SELECT always_display_enclosures FROM
 						ttrss_feeds WHERE id = ".
 						(($line['feed_id'] == null) ? $line['orig_feed_id'] :
-								$line['feed_id'])." AND owner_uid = ".$_SESSION["uid"]);
+							$line['feed_id'])." AND owner_uid = ".$_SESSION["uid"]);
 
 					$always_display_enclosures = sql_bool_to_bool(db_fetch_result($tmp_result,
-						0, "always_display_enclosures"));
+						0, "always_display_enclosures")); */
+
+					$always_display_enclosures = sql_bool_to_bool($line["always_display_enclosures"]);
 
 					$reply['content'] .= format_article_enclosures($link, $id, $always_display_enclosures,
 						$article_content);
