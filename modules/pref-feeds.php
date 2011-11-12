@@ -711,11 +711,11 @@
 
 			$feed_title = db_escape_string(trim($_POST["title"]));
 			$feed_link = db_escape_string(trim($_POST["feed_url"]));
-			$upd_intl = db_escape_string($_POST["update_interval"]);
-			$purge_intl = db_escape_string($_POST["purge_interval"]);
-			$feed_id = db_escape_string($_POST["id"]); /* editSave */
+			$upd_intl = (int) db_escape_string($_POST["update_interval"]);
+			$purge_intl = (int) db_escape_string($_POST["purge_interval"]);
+			$feed_id = (int) db_escape_string($_POST["id"]); /* editSave */
 			$feed_ids = db_escape_string($_POST["ids"]); /* batchEditSave */
-			$cat_id = db_escape_string($_POST["cat_id"]);
+			$cat_id = (int) db_escape_string($_POST["cat_id"]);
 			$auth_login = db_escape_string(trim($_POST["auth_login"]));
 			$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 			$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
