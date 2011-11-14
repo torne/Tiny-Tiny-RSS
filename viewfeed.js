@@ -2179,7 +2179,7 @@ function precache_headlines_idle() {
 				viewfeed(rf[0], '', rf[1], 0, true);
 			}
 		}
-		precache_idle_timeout_id = setTimeout("precache_headlines_idle()", 5000);
+		precache_idle_timeout_id = setTimeout("precache_headlines_idle()", 1000*30);
 
 	} catch (e) {
 		exception_error("precache_headlines_idle", e);
