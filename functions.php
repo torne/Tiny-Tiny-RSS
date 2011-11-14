@@ -3700,6 +3700,8 @@
 						tag_cache,
 						always_display_enclosures,
 						note,
+						num_comments,
+						comments,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
@@ -5553,6 +5555,24 @@
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\"
 						href=\"#\" onclick=\"editArticleTags($id, $feed_id, true)\">(+)</a>";
+
+					$num_comments = $line["num_comments"];
+					$entry_comments = "";
+
+					if ($num_comments > 0) {
+						if ($line["comments"]) {
+							$comments_url = $line["comments"];
+						} else {
+							$comments_url = $line["link"];
+						}
+						$entry_comments = "<a target='_blank' href=\"$comments_url\">$num_comments comments</a>";
+					} else {
+						if ($line["comments"] && $line["link"] != $line["comments"]) {
+							$entry_comments = "<a target='_blank' href=\"".$line["comments"]."\">comments</a>";
+						}
+					}
+
+					if ($entry_comments) $reply['content'] .= "&nbsp;($entry_comments)";
 
 					$reply['content'] .= "<div style=\"float : right\">";
 
