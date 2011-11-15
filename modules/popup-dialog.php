@@ -1094,7 +1094,7 @@
 				print __("You can share this article by the following unique URL:");
 
 				$url_path = get_self_url_prefix();
-				$url_path .= "/backend.php?op=share&key=$uuid";
+				$url_path .= "/public.php?op=share&key=$uuid";
 
 				print "<div class=\"tagCloudContainer\">";
 				print "<a id='pub_opml_url' href='$url_path' target='_blank'>$url_path</a>";

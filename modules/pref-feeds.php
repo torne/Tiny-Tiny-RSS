@@ -1520,7 +1520,7 @@
 		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
 
 		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() .
-				"/backend.php?op=rss&id=-2&view-mode=all_articles");;
+				"/public.php?op=rss&id=-2&view-mode=all_articles");;
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";

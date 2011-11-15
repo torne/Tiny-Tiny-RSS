@@ -215,7 +215,7 @@
 
 			if (PUBSUBHUBBUB_HUB) {
 				$rss_link = get_self_url_prefix() .
-					"/backend.php?op=rss&id=-2&key=" .
+					"/public.php?op=rss&id=-2&key=" .
 					get_feed_access_key($link, -2, false);
 
 				$p = new Publisher(PUBSUBHUBBUB_HUB);
