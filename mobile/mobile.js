@@ -29,7 +29,7 @@ function togglePublished(id, elem) {
 		toggled = 0;
 	}
 
-	var query = "?op=togglePublished&id=" + id + "&mark=" + toggled;
+	var query = "?op=togglePublished&id=" + id + "&pub=" + toggled;
 
 	new Ajax.Request(backend, {
 		parameters: query,
