@@ -26,14 +26,11 @@
 	// Note that you (or your users) also have to enable image caching 
 	// in feed editor.
 
-	define('ICONS_DIR', "icons");
-	define('ICONS_URL', "icons");
+	define('ICONS_DIR', "feed-icons");
+	define('ICONS_URL', "feed-icons");
 	// Local and URL path to the directory, where feed favicons are stored.
 	// Unless you really know what you're doing, please keep those relative
 	// to tt-rss main directory.
-	// Please note that Apache may reserve /icons/ URL to itself so you might
-	// need to change this and rename icons/ directory if you install tt-rss
-	// into website root.
 
 	define('TMP_DIRECTORY', '/tmp');
 	// Directory for temporary files

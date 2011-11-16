@@ -13,8 +13,8 @@ case "$1" in
 
 
 	echo "create misc folders"
-	if [ ! -d /usr/share/tt-rss/www/icons/ ]; then
-	install -d -m775 -gwww-data /usr/share/tt-rss/www/icons
+	if [ ! -d /usr/share/tt-rss/www/feed-icons/ ]; then
+	install -d -m775 -gwww-data /usr/share/tt-rss/www/feed-icons
 	fi
 
 	if [ ! -d /var/lock/tt-rss ]; then
