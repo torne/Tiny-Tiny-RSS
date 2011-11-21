@@ -5979,18 +5979,6 @@
 		}
 	}
 
-	function rounded_table_start($classname, $header = "&nbsp;") {
-		print "<table width='100%' class='$classname' cellspacing='0' cellpadding='0'>";
-		print "<tr><td class='c1'>&nbsp;</td><td class='top'>$header</td><td class='c2'>&nbsp;</td></tr>";
-		print "<tr><td class='left'>&nbsp;</td><td class='content'>";
-	}
-
-	function rounded_table_end($footer = "&nbsp;") {
-		print "</td><td class='right'>&nbsp;</td></tr>";
-		print "<tr><td class='c4'>&nbsp;</td><td class='bottom'>$footer</td><td class='c3'>&nbsp;</td></tr>";
-		print "</table>";
-	}
-
 	function feed_has_icon($id) {
 		return is_file(ICONS_DIR . "/$id.ico") && filesize(ICONS_DIR . "/$id.ico") > 0;
 	}

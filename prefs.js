@@ -1049,7 +1049,7 @@ function pref_hotkey_handler(e) {
 			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
 				if (!Element.visible("hotkey_help_overlay")) {
 					//Element.show("hotkey_help_overlay");
-					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
+					Effect.Appear("hotkey_help_overlay", {duration : 0.3, to: 0.9});
 				} else {
 					Element.hide("hotkey_help_overlay");
 				}

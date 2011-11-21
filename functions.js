@@ -394,16 +394,6 @@ function make_timestamp() {
 }
 
 
-function closeErrorBox() {
-
-	if (Element.visible("errorBoxShadow")) {
-		Element.hide("dialog_overlay");
-		Element.hide("errorBoxShadow");
-	}
-
-	return false;
-}
-
 function closeInfoBox(cleanup) {
 	try {
 		dialog = dijit.byId("infoBox");
