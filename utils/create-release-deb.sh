@@ -7,7 +7,7 @@ fi
 
 git clone . dpkg-tmp/tt-rss
 cd dpkg-tmp/tt-rss
-git co $1
+git checkout $1
 
 debuild -i -us -uc
 debuild -i -us -uc -b -aamd64
