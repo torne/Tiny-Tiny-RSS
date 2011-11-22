@@ -80,8 +80,8 @@
 
 		case "login":
 			$login = db_escape_string($_REQUEST["user"]);
-			$password = db_escape_string($_REQUEST["password"]);
-			$password_base64 = db_escape_string(base64_decode($_REQUEST["password"]));
+			$password = $_REQUEST["password"];
+			$password_base64 = base64_decode($_REQUEST["password"]);
 
 			if (SINGLE_USER_MODE) $login = "admin";
 
