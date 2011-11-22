@@ -2110,8 +2110,8 @@
 
 			# try to authenticate user if called from login form
 			if ($login_action == "do_login") {
-				$login = $_POST["login"];
-				$password = $_POST["password"];
+				$login = db_escape_string($_POST["login"]);
+				$password = db_escape_string($_POST["password"]);
 				$remember_me = $_POST["remember_me"];
 
 				if (authenticate_user($link, $login, $password)) {

@@ -21,9 +21,9 @@
 
 		if ($subop == "change-password") {
 
-			$old_pw = $_POST["old_password"];
-			$new_pw = $_POST["new_password"];
-			$con_pw = $_POST["confirm_password"];
+			$old_pw = db_escape_string($_POST["old_password"]);
+			$new_pw = db_escape_string($_POST["new_password"]);
+			$con_pw = db_escape_string($_POST["confirm_password"]);
 
 			if ($old_pw == "") {
 				print "ERROR: ".__("Old password cannot be blank.");
