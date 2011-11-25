@@ -1108,6 +1108,7 @@ function headlines_scroll_handler(e) {
 						__("Loading, please wait...");
 
 				loadMoreHeadlines();
+				return;
 
 			}
 		} else {
@@ -1125,13 +1126,18 @@ function headlines_scroll_handler(e) {
 
 						if (catchup_id_batch.indexOf(id) == -1)
 							catchup_id_batch.push(id);
+
+						//console.log("auto_catchup_batch: " + catchup_id_batch.toString());
 					}
 				});
 
-			if (catchup_id_batch.length > 0 && !_infscroll_request_sent) {
+			if (catchup_id_batch.length > 0) {
 				window.clearTimeout(catchup_timeout_id);
-				catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
-						1000);
+
+				if (!_infscroll_request_sent) {
+					catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
+						2000);
+				}
 			}
 		}
 
