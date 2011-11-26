@@ -64,10 +64,41 @@ function viewfeed(feed, subop, is_cat, offset, background, infscrol_req) {
 
 		var cached_headlines = false;
 
-		if (feed == getActiveFeedId())
+		if (feed == getActiveFeedId()) {
 			cache_delete("feed:" + feed + ":" + is_cat);
-		else
+		} else {
 			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
+
+			// switching to a different feed, we might as well catchup stuff visible
+			// in headlines buffer (if any)
+			if (!background && getInitParam("cdm_auto_catchup") == 1 && parseInt(getActiveFeedId()) > 0) {
+
+				$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
+					function(child) {
+						var hf = $("headlines-frame");
+
+						if (hf.scrollTop + hf.offsetHeight >=
+								child.offsetTop + child.offsetHeight) {
+
+							var id = child.id.replace("RROW-", "");
+
+							if (catchup_id_batch.indexOf(id) == -1)
+								catchup_id_batch.push(id);
+
+						}
+
+						if (catchup_id_batch.length > 0) {
+							window.clearTimeout(catchup_timeout_id);
+
+							if (!_infscroll_request_sent) {
+								catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
+									2000);
+							}
+						}
+
+					});
+			}
+		}
 
 		if (offset == 0)
 			dijit.byId("content-tabs").selectChild(
