@@ -3703,6 +3703,7 @@
 						note,
 						num_comments,
 						comments,
+						int_id,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
@@ -5596,6 +5597,11 @@
 							onclick=\"tweetArticle($id)\"
 							alt='Zoom' title='".__('Share on Twitter')."'>";
 					}
+
+					$reply['content'] .= "<img src=\"".theme_image($link, 'images/art-share.png')."\"
+						class='tagsPic' style=\"cursor : pointer\"
+						onclick=\"shareArticle(".$line['int_id'].")\"
+						alt='Zoom' title='".__('Share by URL')."'>";
 
 					$reply['content'] .= "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
