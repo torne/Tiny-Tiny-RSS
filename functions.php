@@ -6921,6 +6921,12 @@
 				$is_updated = ($line["last_read"] == "" &&
 					($line["unread"] != "t" && $line["unread"] != "1"));
 
+				$tags = explode(",", $line["tag_cache"]);
+				$labels = json_decode($line["label_cache"], true);
+
+				//if (!$tags) $tags = get_article_tags($link, $line["id"]);
+				//if (!$labels) $labels = get_article_labels($link, $line["id"]);
+
 				$headline_row = array(
 						"id" => (int)$line["id"],
 						"unread" => sql_bool_to_bool($line["unread"]),
@@ -6931,7 +6937,7 @@
 						"title" => $line["title"],
 						"link" => $line["link"],
 						"feed_id" => $line["feed_id"],
-						"tags" => get_article_tags($link, $line["id"]),
+						"tags" => $tags,
 					);
 
 					if ($include_attachments)
@@ -6946,6 +6952,11 @@
 				if ($show_content) {
 					$headline_row["content"] = $line["content_preview"];
 				}
+
+				// unify label output to ease parsing
+				if ($labels["no-labels"] == 1) $labels = array();
+
+				$headline_row["labels"] = $labels;
 
 				array_push($headlines, $headline_row);
 			}
