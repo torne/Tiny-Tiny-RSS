@@ -7,6 +7,8 @@
 	require_once "../db-prefs.php";
 	require_once "../functions.php";
 
+	define('API_LEVEL', 1);
+
 	define('API_STATUS_OK', 0);
 	define('API_STATUS_ERR', 1);
 
@@ -75,6 +77,11 @@
 
 		case "getVersion":
 			$rv = array("version" => VERSION);
+			print api_wrap_reply(API_STATUS_OK, $seq, $rv);
+			break;
+
+		case "getApiLevel":
+			$rv = array("level" => API_LEVEL);
 			print api_wrap_reply(API_STATUS_OK, $seq, $rv);
 			break;
 
