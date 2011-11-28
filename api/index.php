@@ -172,6 +172,8 @@
 		case "getCategories":
 			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
 
+			// TODO do not return empty categories, return Uncategorized and standard virtual cats
+
 			$result = db_query($link, "SELECT
 					id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " .
