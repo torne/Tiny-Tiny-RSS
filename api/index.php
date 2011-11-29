@@ -228,6 +228,7 @@
 		case "updateArticle":
 			$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
+			$data = db_escape_string($_REQUEST["data"]);
 			$field_raw = (int)db_escape_string($_REQUEST["field"]);
 
 			$field = "";
@@ -243,6 +244,8 @@
 				case 2:
 					$field = "unread";
 					break;
+				case 3:
+					$field = "note";
 			};
 
 			switch ($mode) {
@@ -256,6 +259,8 @@
 					$set_to = "NOT $field";
 					break;
 			}
+
+			if ($field == "note") $set_to = "'$data'";
 
 			if ($field && $set_to && count($article_ids) > 0) {
 
