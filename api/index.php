@@ -191,6 +191,16 @@
 				}
 			}
 
+			foreach (array(-2,-1,0) as $cat_id) {
+				$unread = getFeedUnread($link, $cat_id, true);
+
+				if ($unread || !$unread_only) {
+					array_push($cats, array("id" => $cat_id,
+						"title" => getCategoryTitle($link, $cat_id),
+						"unread" => $unread));
+				}
+			}
+
 			print api_wrap_reply(API_STATUS_OK, $seq, $cats);
 			break;
 
