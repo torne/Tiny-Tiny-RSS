@@ -120,6 +120,10 @@
 	}
 
 	db_close($link);
+	
+	if ($lock_handle != false) {
+		fclose($lock_handle);
+	}
 
 	unlink(LOCK_DIRECTORY . "/$lock_filename");
 ?>
