@@ -100,7 +100,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscrol_req) {
 			}
 		}
 
-		if (offset == 0)
+		if (offset == 0 && !background)
 			dijit.byId("content-tabs").selectChild(
 				dijit.byId("content-tabs").getChildren()[0]);
 
