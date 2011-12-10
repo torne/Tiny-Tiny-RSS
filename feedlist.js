@@ -378,10 +378,6 @@ function getFeedUnread(feed, is_cat) {
 	return -1;
 }
 
-function resort_feedlist() {
-	console.warn("resort_feedlist: function not implemented");
-}
-
 function hideOrShowFeeds(hide) {
 	var tree = dijit.byId("feedTree");
 

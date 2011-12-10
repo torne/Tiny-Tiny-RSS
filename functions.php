@@ -5077,24 +5077,24 @@
 					$marked_pic = "<img id=\"FMPIC-$id\"
 						src=\"".theme_image($link, 'images/mark_set.png')."\"
 						class=\"markedPic\" alt=\"Unstar article\"
-						onclick='javascript:tMark($id)'>";
+						onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMPIC-$id\"
 						src=\"".theme_image($link, 'images/mark_unset.png')."\"
 						class=\"markedPic\" alt=\"Star article\"
-						onclick='javascript:tMark($id)'>";
+						onclick='javascript:toggleMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link,
 						'images/pub_set.png')."\"
 						class=\"markedPic\"
-						alt=\"Unpublish article\" onclick='javascript:tPub($id)'>";
+						alt=\"Unpublish article\" onclick='javascript:togglePub($id)'>";
 				} else {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link,
 						'images/pub_unset.png')."\"
 						class=\"markedPic\"
-						alt=\"Publish article\" onclick='javascript:tPub($id)'>";
+						alt=\"Publish article\" onclick='javascript:togglePub($id)'>";
 				}
 
 #				$content_link = "<a target=\"_blank\" href=\"".$line["link"]."\">" .

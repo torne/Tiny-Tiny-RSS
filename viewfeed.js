@@ -404,14 +404,6 @@ function view(id) {
 	}
 }
 
-function tMark(id) {
-	return toggleMark(id);
-}
-
-function tPub(id) {
-	return togglePub(id);
-}
-
 function toggleMark(id, client_only) {
 	try {
 		var query = "?op=rpc&id=" + id + "&subop=mark";
