@@ -27,7 +27,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 		var is_cat = false;
 		var feed_id = false;
 
-		var reply;
+		var reply = false;
 
 		try {
 			reply = JSON.parse(transport.responseText);
@@ -71,7 +71,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 			var counters = reply['counters'];
 			var articles = reply['articles'];
-			var runtime_info = reply['runtime-info'];
+			//var runtime_info = reply['runtime-info'];
 
 			if (offset == 0 && infscroll_req == false) {
 				dijit.byId("headlines-frame").attr('content',
@@ -630,7 +630,7 @@ function toggleUnread(id, cmode, effect) {
 function selectionRemoveLabel(id, ids) {
 	try {
 
-		if (!ids) var ids = getSelectedArticleIds2();
+		if (!ids) ids = getSelectedArticleIds2();
 
 		if (ids.length == 0) {
 			alert(__("No articles are selected."));
@@ -692,7 +692,7 @@ function selectionToggleUnread(set_state, callback, no_error) {
 			return;
 		}
 
-		for (i = 0; i < rows.length; i++) {
+		for (var i = 0; i < rows.length; i++) {
 			var row = $("RROW-" + rows[i]);
 			if (row) {
 				if (set_state == undefined) {
@@ -754,7 +754,7 @@ function selectionToggleMarked() {
 			return;
 		}
 
-		for (i = 0; i < rows.length; i++) {
+		for (var i = 0; i < rows.length; i++) {
 			toggleMark(rows[i], true, true);
 		}
 
@@ -786,7 +786,7 @@ function selectionTogglePublished() {
 			return;
 		}
 
-		for (i = 0; i < rows.length; i++) {
+		for (var i = 0; i < rows.length; i++) {
 			togglePub(rows[i], true, true);
 		}
 
@@ -887,7 +887,7 @@ function catchupPage() {
 	}
 
 	selectArticles('all');
-	selectionToggleUnread(false, 'viewCurrentFeed()', true)
+	selectionToggleUnread(false, 'viewCurrentFeed()', true);
 	selectArticles('none');
 }
 
@@ -904,7 +904,6 @@ function deleteSelection() {
 
 		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
 		var str;
-		var op;
 
 		if (getActiveFeedId() != 0) {
 			str = __("Delete %d selected articles in %s?");
@@ -1007,7 +1006,7 @@ function catchupSelection() {
 			return;
 		}
 
-		selectionToggleUnread(false, 'viewCurrentFeed()', true)
+		selectionToggleUnread(false, 'viewCurrentFeed()', true);
 
 	} catch (e) {
 		exception_error("catchupSelection", e);
@@ -1315,7 +1314,7 @@ function cdmExpandArticle(id) {
 						var reply = JSON.parse(transport.responseText);
 
 						reply.each(function(article) {
-							$("CWRAP-" + article['id']).innerHTML = article['content']
+							$("CWRAP-" + article['id']).innerHTML = article['content'];
 							cids_requested.remove(article['id']);
 						});
 				}});
@@ -1665,7 +1664,7 @@ function getVisibleArticleIds() {
 
 function cdmClicked(event, id) {
 	try {
-		var shift_key = event.shiftKey;
+		//var shift_key = event.shiftKey;
 
 		hideAuxDlg();
 

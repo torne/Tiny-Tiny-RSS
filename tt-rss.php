@@ -102,7 +102,7 @@
 
 <div id="feeds-holder" dojoType="dijit.layout.ContentPane" region="leading" style="width : 20%" splitter="true">
 	<div id="feedlistLoading">
-		<img src='images/indicator_tiny.gif'>
+		<img src='images/indicator_tiny.gif'/>
 		<?php echo  __("Loading, please wait..."); ?></div>
 	<div id="feedTree"></div>
 </div>

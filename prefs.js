@@ -250,7 +250,7 @@ function editFilter(id) {
 										onComplete: function(transport) {
 											dialog.hide();
 											updateFilterList();
-									}})
+									}});
 								}
 							}
 					}});
@@ -701,7 +701,7 @@ function editSelectedFeeds() {
 					title: __("Edit Multiple Feeds"),
 					style: "width: 600px",
 					getChildByName: function (name) {
-						var rv = null
+						var rv = null;
 						this.getChildren().each(
 							function(child) {
 								if (child.name == name) {
@@ -773,7 +773,7 @@ function editSelectedFeeds() {
 								onComplete: function(transport) {
 									dialog.hide();
 									updateFeedList();
-							}})
+							}});
 						}
 					},
 					content: transport.responseText});
@@ -985,7 +985,7 @@ function pref_hotkey_handler(e) {
 	try {
 		if (e.target.nodeName == "INPUT") return;
 
-		var keycode;
+		var keycode = false;
 		var shift_key = false;
 
 		var cmdline = $('cmdline');
@@ -1724,7 +1724,6 @@ function editLabel(id, event) {
 			},
 			execute: function() {
 				if (this.validate()) {
-					var caption = this.attr('value').id;
 					var caption = this.attr('value').caption;
 					var fg_color = this.attr('value').fg_color;
 					var bg_color = this.attr('value').bg_color;

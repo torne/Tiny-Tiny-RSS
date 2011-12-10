@@ -490,8 +490,6 @@ function parse_runtime_info(data) {
 			return;
 		}
 
-		var error_flag;
-
 		if (k == "daemon_is_running" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>", true);
 			return;
@@ -521,7 +519,7 @@ function catchupCurrentFeed() {
 	var str = __("Mark all articles in %s as read?").replace("%s", fn);
 
 	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
-		return viewCurrentFeed('MarkAllRead')
+		return viewCurrentFeed('MarkAllRead');
 	}
 }
 
@@ -534,7 +532,7 @@ function catchupFeedInGroup(id) {
 		var str = __("Mark all articles in %s as read?").replace("%s", title);
 
 		if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
-			return viewCurrentFeed('MarkAllReadGR:' + id)
+			return viewCurrentFeed('MarkAllReadGR:' + id);
 		}
 
 	} catch (e) {
@@ -566,11 +564,11 @@ function collapse_feedlist() {
 }
 
 function viewModeChanged() {
-	return viewCurrentFeed('')
+	return viewCurrentFeed('');
 }
 
 function viewLimitChanged() {
-	return viewCurrentFeed('')
+	return viewCurrentFeed('');
 }
 
 /* function adjustArticleScore(id, score) {
@@ -628,7 +626,7 @@ function hotkey_handler(e) {
 
 		if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
 
-		var keycode;
+		var keycode = false;
 		var shift_key = false;
 
 		var cmdline = $('cmdline');
@@ -780,7 +778,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 85) { // u
-				selectionToggleUnread(undefined, false, true)
+				selectionToggleUnread(undefined, false, true);
 				return;
 			}
 

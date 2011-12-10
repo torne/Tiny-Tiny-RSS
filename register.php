@@ -218,10 +218,10 @@
 	</td><td>
 		<input type="submit" value="<?php echo __('Check availability') ?>" onclick='return checkUsername()'>
 	</td></tr>
-	<td><?php echo __('Email:') ?></td><td>
+	<tr><td><?php echo __('Email:') ?></td><td>
 		<input name="email">
 	</td></tr>
-	<td><?php echo __('How much is two plus two:') ?></td><td>
+	<tr><td><?php echo __('How much is two plus two:') ?></td><td>
 		<input name="turing_test"></td></tr>
 	<tr><td colspan="2" align="right">
 	<input type="submit" name="sub_btn" value="<?php echo __('Submit registration') ?>"

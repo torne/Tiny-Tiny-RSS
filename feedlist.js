@@ -104,8 +104,6 @@ function viewfeed(feed, subop, is_cat, offset, background, infscrol_req) {
 			dijit.byId("content-tabs").selectChild(
 				dijit.byId("content-tabs").getChildren()[0]);
 
-		var force_nocache = false;
-
 		if (!background) {
 			if (getActiveFeedId() != feed || offset == 0) {
 				active_post_id = 0;
@@ -312,18 +310,14 @@ function displayNewContentPrompt(id) {
 
 function parse_counters(elems, scheduled_call) {
 	try {
-
-		var feeds_found = 0;
-
 		for (var l = 0; l < elems.length; l++) {
 
-			var id = elems[l].id
+			var id = elems[l].id;
 			var kind = elems[l].kind;
-			var ctr = parseInt(elems[l].counter)
+			var ctr = parseInt(elems[l].counter);
 			var error = elems[l].error;
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
-			var title = elems[l].title;
 
 			if (id == "global-unread") {
 				global_unread = ctr;
@@ -335,8 +329,6 @@ function parse_counters(elems, scheduled_call) {
 				feeds_found = ctr;
 				continue;
 			}
-
-			var treeItem;
 
 			// TODO: enable new content notification for categories
 

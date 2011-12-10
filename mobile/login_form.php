@@ -28,7 +28,7 @@ function do_login() {
         <a class="button blueButton" onclick='do_login()'><?php echo __('Log in') ?></a>
     </div>
 
-	<form target="_self" title="Login" action="index.php" id="login" class="panel" method="POST" name="login" selected="true">
+	<form target="_self" title="Login" action="index.php" id="login" class="panel" method="post" name="login" selected="true">
 
 	<fieldset>
 

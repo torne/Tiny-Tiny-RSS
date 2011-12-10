@@ -321,8 +321,10 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		console.log(query);
 
+		var img = false;
+		
 		if ($("F-" + feed_id)) {
-			var img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
+			img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
 
 			if (img && !no_indicator) {
 				img.setAttribute("orig_src", img.src);
@@ -545,7 +547,7 @@ function parse_feeds(transport) {
 			feeds.sort( function (a,b)
 				{
 					if (b.unread != a.unread)
-						return (b.unread - a.unread)
+						return (b.unread - a.unread);
 					else
 						if (a.title > b.title)
 							return 1;
