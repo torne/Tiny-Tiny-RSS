@@ -1172,12 +1172,13 @@ function catchupBatchedArticles() {
 	}
 }
 
-function catchupRelativeToArticle(below) {
+function catchupRelativeToArticle(below, id) {
 
 	try {
 
+		if (!id) id = getActiveArticleId();
 
-		if (!getActiveArticleId()) {
+		if (!id) {
 			alert(__("No article is selected."));
 			return;
 		}
@@ -1188,7 +1189,7 @@ function catchupRelativeToArticle(below) {
 
 		if (!below) {
 			for (var i = 0; i < visible_ids.length; i++) {
-				if (visible_ids[i] != getActiveArticleId()) {
+				if (visible_ids[i] != id) {
 					var e = $("RROW-" + visible_ids[i]);
 
 					if (e && e.hasClassName("Unread")) {
@@ -1200,7 +1201,7 @@ function catchupRelativeToArticle(below) {
 			}
 		} else {
 			for (var i = visible_ids.length-1; i >= 0; i--) {
-				if (visible_ids[i] != getActiveArticleId()) {
+				if (visible_ids[i] != id) {
 					var e = $("RROW-" + visible_ids[i]);
 
 					if (e && e.hasClassName("Unread")) {
@@ -1934,7 +1935,20 @@ function initHeadlinesMenu() {
 				hlOpenInNewTab(event, this.getParent().callerRowId);
 				}}));
 
-//		menu.addChild(new dijit.MenuSeparator());
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark above as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(0, this.getParent().callerRowId);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark below as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(1, this.getParent().callerRowId);
+				}}));
+
 
 		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
 
