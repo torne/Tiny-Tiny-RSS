@@ -52,7 +52,7 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 		var item = dijit.getEnclosingWidget(target).item;
 
 		// disable copying items
-		source.copyState = function() { return false; }
+		source.copyState = function() { return false; };
 
 		var source_item = false;
 
@@ -61,9 +61,6 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 		});
 
 		if (!source_item || !item) return false;
-
-		var id = String(item.id);
-		var source_id = String(source_item.id);
 
 		var id = this.tree.model.store.getValue(item, 'id');
 		var source_id = source.tree.model.store.getValue(source_item, 'id');

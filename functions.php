@@ -241,59 +241,6 @@
 		}
 	} // function purge_feed
 
-	/**
-	 * Purge old posts from old feeds. Not used anymore, purging is done after feed update.
-	 *
-	 * @param mixed $link A database connection
-	 * @param boolean $do_output Set to true to enable printed output, false by default.
-	 * @param integer $limit The maximal number of removed posts.
-	 * @access public
-	 * @return void
-	 */
-	/* function global_purge_old_posts($link, $do_output = false, $limit = false) {
-
-		$random_qpart = sql_random_function();
-
-		if ($limit) {
-			$limit_qpart = "LIMIT $limit";
-		} else {
-			$limit_qpart = "";
-		}
-
-		$result = db_query($link,
-			"SELECT id,purge_interval,owner_uid FROM ttrss_feeds
-				ORDER BY $random_qpart $limit_qpart");
-
-		while ($line = db_fetch_assoc($result)) {
-
-			$feed_id = $line["id"];
-			$purge_interval = $line["purge_interval"];
-			$owner_uid = $line["owner_uid"];
-
-			if ($purge_interval == 0) {
-
-				$tmp_result = db_query($link,
-					"SELECT value FROM ttrss_user_prefs WHERE
-						pref_name = 'PURGE_OLD_DAYS' AND owner_uid = '$owner_uid'");
-
-				if (db_num_rows($tmp_result) != 0) {
-					$purge_interval = db_fetch_result($tmp_result, 0, "value");
-				}
-			}
-
-			if ($do_output) {
-//				print "Feed $feed_id: purge interval = $purge_interval\n";
-			}
-
-			if ($purge_interval > 0 || FORCE_ARTICLE_PURGE) {
-				purge_feed($link, $feed_id, $purge_interval, $do_output);
-			}
-		}
-
-		purge_orphans($link, $do_output);
-
-	} // function global_purge_old_posts */
-
 	function feed_purge_interval($link, $feed_id) {
 
 		$result = db_query($link, "SELECT purge_interval, owner_uid FROM ttrss_feeds
@@ -311,28 +258,6 @@
 		} else {
 			return -1;
 		}
-	}
-
-	function purge_old_posts($link) {
-
-		$user_id = $_SESSION["uid"];
-
-		$result = db_query($link, "SELECT id,purge_interval FROM ttrss_feeds
-			WHERE owner_uid = '$user_id'");
-
-		while ($line = db_fetch_assoc($result)) {
-
-			$feed_id = $line["id"];
-			$purge_interval = $line["purge_interval"];
-
-			if ($purge_interval == 0) $purge_interval = get_pref($link, 'PURGE_OLD_DAYS');
-
-			if ($purge_interval > 0) {
-				purge_feed($link, $feed_id, $purge_interval);
-			}
-		}
-
-		purge_orphans($link);
 	}
 
 	function purge_orphans($link, $do_output = false) {
@@ -1838,38 +1763,6 @@
 
 	}
 
-	function lookup_user_id($link, $user) {
-
-		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$user'");
-
-		if (db_num_rows($result) == 1) {
-			return db_fetch_result($result, 0, "id");
-		} else {
-			return false;
-		}
-	}
-
-/*	function http_authenticate_user($link) {
-		if (!$_SERVER["PHP_AUTH_USER"]) {
-
-			header('WWW-Authenticate: Basic realm="Tiny Tiny RSS RSSGen"');
-			header('HTTP/1.0 401 Unauthorized');
-			exit;
-
-		} else {
-			$auth_result = authenticate_user($link,
-				$_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]);
-
-			if (!$auth_result) {
-				header('WWW-Authenticate: Basic realm="Tiny Tiny RSS RSSGen"');
-				header('HTTP/1.0 401 Unauthorized');
-				exit;
-			}
-		}
-
-		return true;
-	} */
-
 	function get_ssl_certificate_id() {
 		if ($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]) {
 			return sha1($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"] .
@@ -2044,10 +1937,6 @@
 		if (isset($_COOKIE[session_name()])) {
 		   setcookie(session_name(), '', time()-42000, '/');
 		}
-	}
-
-	function get_script_urlpath() {
-		return preg_replace('/\/[^\/]*$/', "", $_SERVER["REQUEST_URI"]);
 	}
 
 	function validate_session($link) {
@@ -2365,24 +2254,6 @@
 		} else {
 			$format = get_pref($link, 'LONG_DATE_FORMAT', $owner_uid);
 			return date($format, $timestamp);
-		}
-	}
-
-	function smart_date($timestamp) {
-		if (date("Y.m.d", $timestamp) == date("Y.m.d")) {
-			return "Today";
-		} else if (date("Y", $timestamp) == date("Y")) {
-			return date("D m", $timestamp);
-		} else {
-			return date("Y/m/d", $timestamp);
-		}
-	}
-
-	function sql_bool_to_string($s) {
-		if ($s == "t" || $s == "1") {
-			return "true";
-		} else {
-			return "false";
 		}
 	}
 
@@ -2894,13 +2765,6 @@
 		return $ret_arr;
 	}
 
-	function getSubscribedFeeds($link) {
-		$result = db_query($link, "SELECT COUNT(id) AS fn FROM
-			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
-
-		return db_fetch_result($result, 0, "fn");
-	}
-
 	function getTagCounters($link) {
 
 		$ret_arr = array();
@@ -3278,10 +3142,6 @@
 		}
 	}
 
-	function get_session_cookie_name() {
-		return ((!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME);
-	}
-
 	function make_init_params($link) {
 		$params = array();
 
@@ -3320,12 +3180,6 @@
 		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
 
 		return $params;
-	}
-
-	function print_runtime_info($link) {
-		print "<runtime-info><![CDATA[";
-		print json_encode(make_runtime_info($link));
-		print "]]></runtime-info>";
 	}
 
 	function make_runtime_info($link) {
@@ -4656,10 +4510,6 @@
 		return $tags;
 	}
 
-	function trim_value(&$value) {
-		$value = trim($value);
-	}
-
 	function trim_array($array) {
 		$tmp = $array;
 		array_walk($tmp, 'trim_value');
@@ -5227,24 +5077,24 @@
 					$marked_pic = "<img id=\"FMPIC-$id\"
 						src=\"".theme_image($link, 'images/mark_set.png')."\"
 						class=\"markedPic\" alt=\"Unstar article\"
-						onclick='javascript:tMark($id)'>";
+						onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMPIC-$id\"
 						src=\"".theme_image($link, 'images/mark_unset.png')."\"
 						class=\"markedPic\" alt=\"Star article\"
-						onclick='javascript:tMark($id)'>";
+						onclick='javascript:toggleMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link,
 						'images/pub_set.png')."\"
 						class=\"markedPic\"
-						alt=\"Unpublish article\" onclick='javascript:tPub($id)'>";
+						alt=\"Unpublish article\" onclick='javascript:togglePub($id)'>";
 				} else {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($link,
 						'images/pub_unset.png')."\"
 						class=\"markedPic\"
-						alt=\"Publish article\" onclick='javascript:tPub($id)'>";
+						alt=\"Publish article\" onclick='javascript:togglePub($id)'>";
 				}
 
 #				$content_link = "<a target=\"_blank\" href=\"".$line["link"]."\">" .
@@ -6046,11 +5896,11 @@
 
 	}
 
-	function ccache_zero($link, $feed_id, $owner_uid) {
+	/* function ccache_zero($link, $feed_id, $owner_uid) {
 		db_query($link, "UPDATE ttrss_counters_cache SET
 			value = 0, updated = NOW() WHERE
 			feed_id = '$feed_id' AND owner_uid = '$owner_uid'");
-	}
+	} */
 
 	function ccache_zero_all($link, $owner_uid) {
 		db_query($link, "UPDATE ttrss_counters_cache SET
@@ -6235,7 +6085,7 @@
 		return $unread;
 	}
 
-	function ccache_cleanup($link, $owner_uid) {
+	/* function ccache_cleanup($link, $owner_uid) {
 
 		if (DB_TYPE == "pgsql") {
 			db_query($link, "DELETE FROM ttrss_counters_cache AS c1 WHERE
@@ -6265,7 +6115,7 @@
 					c1.feed_id = c2.feed_id");
 
 		}
-	}
+	} */
 
 	function label_find_id($link, $label, $owner_uid) {
 		$result = db_query($link,
@@ -6477,30 +6327,6 @@
 		db_query($link, "COMMIT");
 
 		return $result;
-	}
-
-	function print_labels_headlines_dropdown($link, $feed_id) {
-		print "<option value=\"addLabel()\">".__("Create label...")."</option>";
-
-		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2 WHERE
-			owner_uid = '".$_SESSION["uid"]."' ORDER BY caption");
-
-		while ($line = db_fetch_assoc($result)) {
-
-			$label_id = $line["id"];
-			$label_caption = $line["caption"];
-			$id = $line["id"];
-
-			if ($feed_id < -10 && $feed_id == -11-$label_id) {
-				print "<option id=\"LHDL-$id\"
-					value=\"selectionRemoveLabel($label_id)\">".
-					__('Remove:') . " $label_caption</option>";
-			} else {
-				print "<option id=\"LHDL-$id\"
-					value=\"selectionAssignLabel($label_id)\">".
-					__('Assign:') . " $label_caption</option>";
-			}
-		}
 	}
 
 	function format_tags_string($tags, $id) {
@@ -6723,15 +6549,6 @@
 		} else {
 			return 0;
 		}
-	}
-
-	function make_url_from_parts($parts) {
-		$url = $parts['scheme'] . '://' . $parts['host'];
-
-		if ($parts['path']) $url .= $parts['path'];
-		if ($parts['query']) $url .= '?' . $parts['query'];
-
-		return $url;
 	}
 
 	/**

@@ -100,7 +100,7 @@
 
 <?php } else if ($op == 'callback') { ?>
 
-	<?php print_notice(__('Congratulations! You have successfully registered with Twitter.')) ?>
+	<p><?php print_notice(__('Congratulations! You have successfully registered with Twitter.')) ?>
 		</p>
 
 	<form method="GET" action="prefs.php">

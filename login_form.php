@@ -116,7 +116,7 @@ function validateLoginForm(f) {
 <form action="" method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
 <input type="hidden" name="login_action" value="do_login">
 
-<table width="100%" class="loginForm2">
+<table class="loginForm2">
 <tr>
 	<td class="loginTop" valign="bottom" align="left">
 		<img src="images/logo_wide.png">
@@ -147,7 +147,7 @@ function validateLoginForm(f) {
 
 			<tr><td align="right"><?php echo __("Profile:") ?></td>
 			<td align="right" id="profile_box">
-			<select style='width : 100%' disabled='1'>
+			<select style='width : 100%' disabled='disabled'>
 				<option><?php echo __("Default profile") ?></option></select>
 			</td></tr>
 

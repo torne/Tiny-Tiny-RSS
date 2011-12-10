@@ -133,24 +133,6 @@ a:hover {
 	position : absolute;
 }
 
-textarea.iedit {
-	width : 100%;
-}
-
-input.iedit {
-	width : 100%;
-	padding-left : 2px;
-}
-
-select.iedit {
-	width : 100%;
-}
-
-input.editbox {
-	width : 200px;
-	padding-left : 2px;
-}
-
 #notify {
 	border-width : 0px 1px 1px 1px;
 	border-style : solid;
@@ -196,12 +178,6 @@ input.editbox {
 .notifyError span:hover {
 	color : red;
 	cursor : pointer;
-}
-
-.blankborder, .blankborder td {
-	border-style : solid;
-	border-color : transparent;
-	border-width : 0px 0px 1px 0px;
 }
 
 .Selected, .Selected td {
@@ -640,16 +616,6 @@ a.warning {
 	color : #f04040;
 }
 
-img.closeButton {
-	border-width : 0px;
-	float : right;
-}
-
-span.groupPrompt {
-	font-size : 12px;
-	color : #4684ff;
-}
-
 div.tagCloudContainer {
 	border : 1px solid #c0c0c0;
 	background-color : #ecf4ff;
@@ -733,18 +699,6 @@ ul.compact li {
 	padding : 0px;
 }
 
-div.browserFeedInfo {
-	font-size : 12px;
-/*	border : 1px solid #88b0f0;
-	background-color : #ecf4ff;
-	-moz-border-radius : 5px; */
-	padding : 5px;
-}
-
-div.browserFeedInfo div.detailsPart {
-	margin : 5px 0px 5px 5px;       
-}
-
 .noborder {
 	border-width : 0px;
 }
@@ -764,20 +718,6 @@ div.browserFeedInfo div.detailsPart {
 	margin : 1em;
 }
 
-#noDaemonWarning {	
-	position : absolute;
-	background-color : #ecf4ff;		  
-	border : 1px solid #88b0f0;
-	padding : 10px;
-	margin : 5px;
-	z-index : 2;
-	display : none;
-}
-
-#qafInput {
-	width : 100%;
-}
-
 form {
 	margin : 0px;
 	padding : 0px;
@@ -791,42 +731,9 @@ form {
 	width : 100%;
 }
 
-div.feedExtInfo {
-	margin-left : 2em;
-	font-size : 7pt;
-	color : gray;
-	font-weight : normal;
-}
-
-span.debugTS {
-	color : #4684ff;
-}
-
-#backReqBox {
-	display : none;
-}
-
-/*.scriptWarn:before {
-	content : "Disabled script:";
-}*/
-
-.scriptWarn {
-	color : white;
-	background-color : #903030;
-	border : 1px solid #601010;
-	padding : 3px;
-	font-weight : bold;
-	display : none;
-}
-
-.objectWarn {
-	color : gray;
-	font-style: italic;
-	text-align : center;
-}
-
 table.loginForm2 {
 	padding : 1em;
+	width : 100%;
 }
 
 table.loginForm2 .loginTop {
@@ -865,10 +772,6 @@ table.loginForm2 .loginError {
 
 table.loginForm2 .innerLoginCell {
 	padding-top : 0.5em;
-}
-
-#milestoneDetails {
-	display : none;
 }
 
 div.loadingPrompt {
@@ -942,10 +845,6 @@ div.return a:hover {
 a.helpLinkPic img {
 	border-width : 0px;
 	vertical-align : middle;
-}
-
-table.prefFeedCatList {
-	
 }
 
 div.autocomplete {
@@ -1090,19 +989,6 @@ div#hotkey_help_overlay table.hho td.bottom {
 	font-size : 11px;
 }
 
-div#l_progress_o {
-	width : 200px;
-	border : 1px solid black;
-	background-color : white;
-	margin-top : 10px;
-}
-
-div#l_progress_i {
-	width : 10px;
-	background-color : #88b0f0;
-	height : 10px;
-}
-
 div.dlgSec {
 	font-size : 12px;
 	color : gray;
@@ -1161,29 +1047,6 @@ span.labelColorIndicator2 {
 	text-align : center;
 	margin-right : 2px;
 	vertical-align : bottom;
-}
-
-
-div.labelColorIndicator {
-	height : 14px;
-	width : 14px;
-	line-height : 14px;
-	font-height : 9px;
-	text-align : center;
-	border : 1px solid black;
-	float : left;
-	background-color : #fff7d5;	
-	color : #063064;
-	margin-right : 10px;
-}
-
-optgroup {
-	color : #4684ff;
-	font-style : normal;
-}
-
-option {
-	color : black;
 }
 
 div#cmdline {

@@ -56,10 +56,10 @@
 
 </head>
 
+<body id="ttrssPrefs" class="claro">
+
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
-
-<body id="ttrssPrefs" class="claro">
 
 <div id="overlay">
 	<div id="overlay_inner">

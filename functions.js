@@ -8,7 +8,7 @@ Array.prototype.remove = function(s) {
 	for (var i=0; i < this.length; i++) {
 		if (s == this[i]) this.splice(i, 1);
 	}
-}
+};
 
 /* create console.log if it doesn't exist */
 
@@ -302,7 +302,7 @@ function gotoExportOpml(filename, settings) {
     if(x.length>1) {
       // remove negative sign
       x=Math.abs(x)+"";
-      for(j=0;j<x.length;j++) {
+      for(var j=0;j<x.length;j++) {
         // call isNumeric recursively for each character
         number=isNumeric(x.substring(j,j+1));
         if(!number) return number;
@@ -368,7 +368,7 @@ function checkboxToggleElement(elem, id) {
 }
 
 function dropboxSelect(e, v) {
-	for (i = 0; i < e.length; i++) {
+	for (var i = 0; i < e.length; i++) {
 		if (e[i].value == v) {
 			e.selectedIndex = i;
 			break;
@@ -434,11 +434,6 @@ function infobox_callback2(transport) {
 
 		//console.log("infobox_callback2");
 		notify('');
-
-		var content;
-		var dtitle = "Dialog";
-
-		var dlg = transport.responseXML.getElementsByTagName("dlg")[0];
 
 		var title = transport.responseXML.getElementsByTagName("title")[0];
 		if (title)
@@ -643,7 +638,7 @@ function displayHelpInfobox(topic_id) {
 
 	var url = "backend.php?op=help&tid=" + param_escape(topic_id);
 
-	var w = window.open(url, "ttrss_help",
+	window.open(url, "ttrss_help",
 		"status=0,toolbar=0,location=0,width=450,height=500,scrollbars=1,menubar=0");
 
 }
@@ -1012,7 +1007,7 @@ function quickAddFilter() {
 											if (inPreferences()) {
 												updateFilterList();
 											}
-									}})
+									}});
 								}
 							}
 					}});
@@ -1354,7 +1349,7 @@ function getSelectedTableRowIds(id) {
 	try {
 		var elem_rows = $(id).rows;
 
-		for (i = 0; i < elem_rows.length; i++) {
+		for (var i = 0; i < elem_rows.length; i++) {
 			if (elem_rows[i].hasClassName("Selected")) {
 				var bare_id = elem_rows[i].id.replace(/^[A-Z]*?-/, "");
 				rows.push(bare_id);
@@ -1397,7 +1392,7 @@ function editFeed(feed, event) {
 							dialog.hide();
 							notify('');
 							updateFeedList();
-					}})
+					}});
 				}
 			},
 			href: query});

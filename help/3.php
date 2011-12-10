@@ -1,6 +1,6 @@
 	<h1><?php echo __("Keyboard Shortcuts") ?></h1>
 
-	<table width='100%'><tr><td width='50%' valign='top'>
+	<table style='width : 100%'><tr><td style='width : 50%' valign='top'>
 
 	<h2><?php echo __("Navigation") ?></h2>
 
@@ -33,7 +33,6 @@
 		<tr><td class='n'>c l</td><td><?php echo __("Create label") ?></td></tr>
 		<tr><td class='n'>c f</td><td><?php echo __("Create filter") ?></td></tr>
 		<tr><td class='n'>c s</td><td><?php echo __("Collapse sidebar") ?></td></tr>
-		<!-- <tr><td class='n'>c m</td><td><?php echo __("Toggle category reordering mode") ?></td></tr> -->
 		<tr><td class='n'>?</td><td><?php echo __("Display this help dialog") ?></td></tr>
 	</table>
 
@@ -52,11 +51,9 @@
 
 	<table>
 		<tr><td class='n'>f r</td><td><?php echo __("Refresh active feed") ?></td></tr>
-		<!-- <tr><td class='n'>R</td><td><?php echo __("Update all feeds") ?></td></tr> -->
 		<tr><td class='n'>f a</td><td><?php echo __("(Un)hide read feeds") ?></td></tr>
 		<tr><td class='n'>f s</td><td><?php echo __("Subscribe to feed") ?></td></tr>
 		<tr><td class='n'>f e</td><td><?php echo __("Edit feed") ?></td></tr>
-		<!-- <tr><td class='n'>f w</td><td><?php echo __("Sort by name or unread count") ?></td></tr> -->
 		<tr><td class='n'>f q</td><td><?php echo __("Mark feed as read") ?></td></tr>
 		<tr><td class='n'>f x</td><td><?php echo __("Reverse headlines order") ?></td></tr>
 		<tr><td class='n'>Q</td><td><?php echo __("Mark all feeds as read") ?></td></tr>

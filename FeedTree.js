@@ -67,14 +67,14 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 		for (var i = 0; i < items.length; i++) {
 			if (items[i] == treeItem) {
 
-				for (j = i+1; j < items.length; j++) {
+				for (var j = i+1; j < items.length; j++) {
 					var unread = this.store.getValue(items[j], 'unread');
 					var id = this.store.getValue(items[j], 'id');
 
 					if (unread > 0 && (is_cat || id.match("FEED:"))) return items[j];
 				}
 
-				for (j = 0; j < i; j++) {
+				for (var j = 0; j < i; j++) {
 					var unread = this.store.getValue(items[j], 'unread');
 					var id = this.store.getValue(items[j], 'id');
 
@@ -365,7 +365,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		for (var i = 0; i < items.length; i++) {
 			if (items[i] == treeItem) {
 
-				for (j = i+1; j < items.length; j++) {
+				for (var j = i+1; j < items.length; j++) {
 					var id = String(items[j].id);
 					var box = this._itemNodesMap[id];
 
@@ -403,7 +403,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		for (var i = 0; i < items.length; i++) {
 			if (items[i] == treeItem) {
 
-				for (j = i-1; j > 0; j--) {
+				for (var j = i-1; j > 0; j--) {
 					var id = String(items[j].id);
 					var box = this._itemNodesMap[id];
 
