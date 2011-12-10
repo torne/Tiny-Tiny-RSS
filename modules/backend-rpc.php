@@ -305,15 +305,6 @@
 			return;
 		}
 
-/*		if ($subop == "globalPurge") {
-
-			print "<rpc-reply>";
-			global_purge_old_posts($link, true);
-			print "</rpc-reply>";
-
-			return;
-		} */
-
 		if ($subop == "setArticleTags") {
 			global $memcache;
 
