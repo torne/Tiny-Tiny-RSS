@@ -1,6 +1,6 @@
 	<h1><?php echo __("Keyboard Shortcuts") ?></h1>
 
-	<table width='100%'><tr><td width='50%' valign='top'>
+	<table style='width : 100%'><tr><td style='width : 50%' valign='top'>
 
 	<h2><?php echo __("Navigation") ?></h2>
 
