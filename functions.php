@@ -2273,13 +2273,6 @@
 		}
 	}
 
-	function toggleEvenOdd($a) {
-		if ($a == "even")
-			return "odd";
-		else
-			return "even";
-	}
-
 	// Session caching removed due to causing wrong redirects to upgrade
 	// script when get_schema_version() is called on an obsolete session
 	// created on a previous schema version.
