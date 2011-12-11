@@ -126,14 +126,7 @@
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
-	require_once "modules/pref-prefs.php";
-	require_once "modules/popup-dialog.php";
-	require_once "modules/help.php";
-	require_once "modules/pref-feeds.php";
-	require_once "modules/pref-filters.php";
-	require_once "modules/pref-labels.php";
-	require_once "modules/pref-users.php";
-	require_once "modules/pref-instances.php";
+	
 
 	$error = sanity_check($link);
 
@@ -405,42 +398,42 @@
 		break; // viewfeed
 
 		case "pref-feeds":
+			require_once "modules/pref-feeds.php";
 			module_pref_feeds($link);
 		break; // pref-feeds
 
 		case "pref-filters":
+			require_once "modules/pref-filters.php";
 			module_pref_filters($link);
 		break; // pref-filters
 
 		case "pref-labels":
+			require_once "modules/pref-labels.php";
 			module_pref_labels($link);
 		break; // pref-labels
 
 		case "pref-prefs":
+			require_once "modules/pref-prefs.php";
 			module_pref_prefs($link);
 		break; // pref-prefs
 
 		case "pref-users":
+			require_once "modules/pref-users.php";
 			module_pref_users($link);
 		break; // prefs-users
 
 		case "help":
+			require_once "modules/help.php";
 			module_help($link);
 		break; // help
 
 		case "dlg":
+			require_once "modules/popup-dialog.php";
 			module_popup_dialog($link);
 		break; // dlg
 
-		case "pref-pub-items":
-			module_pref_pub_items($link);
-		break; // pref-pub-items
-
-		case "pref-feed-browser":
-			module_pref_feed_browser($link);
-		break; // pref-feed-browser
-
 		case "pref-instances":
+			require_once "modules/pref-instances.php";
 			module_pref_instances($link);
 		break; // pref-instances
 
