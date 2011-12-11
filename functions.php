@@ -4505,7 +4505,7 @@
 
 	function trim_array($array) {
 		$tmp = $array;
-		array_walk($tmp, 'trim_value');
+		array_walk($tmp, 'trim');
 		return $tmp;
 	}
 
