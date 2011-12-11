@@ -1,4 +1,14 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR .
+		dirname(__FILE__) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . "/include" );
+
+	require_once "include/functions.php";
+	require_once "include/sessions.php";
+	require_once "include/version.php";
+	require_once "include/db-prefs.php";
+
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
 	/* TODO replace with interface to db-prefs */

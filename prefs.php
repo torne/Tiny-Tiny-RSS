@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
@@ -41,10 +43,9 @@
 
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
-	<script type="text/javascript" charset="utf-8" src="functions.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="deprecated.js?<?php echo $dt_add ?>"></script>
-
-	<script type="text/javascript" charset="utf-8" src="prefs.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="js/functions.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="js/deprecated.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="js/prefs.js?<?php echo $dt_add ?>"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 

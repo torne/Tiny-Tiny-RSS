@@ -1,5 +1,7 @@
 #!/usr/bin/php
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	define('DISABLE_SESSIONS', true);
 
 	chdir(dirname(__FILE__));
@@ -120,7 +122,7 @@
 	}
 
 	db_close($link);
-	
+
 	if ($lock_handle != false) {
 		fclose($lock_handle);
 	}

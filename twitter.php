@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
@@ -7,15 +9,15 @@
 	//require_once "lib/twitteroauth/twitteroauth.php";
 	require_once "lib/tmhoauth/tmhOAuth.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	init_connection($link);	
+	init_connection($link);
 	login_sequence($link);
-	
+
 	$owner_uid = $_SESSION["uid"];
 	$op = $_REQUEST['op'];
 
-	if (!SINGLE_USER_MODE && !$_SESSION['uid']) { 
+	if (!SINGLE_USER_MODE && !$_SESSION['uid']) {
 		render_login_form($link);
 		exit;
 	}
@@ -25,7 +27,7 @@
 	$tmhOAuth = new tmhOAuth(array(
 	  'consumer_key'    => CONSUMER_KEY,
 	  'consumer_secret' => CONSUMER_SECRET,
-	));	
+	));
 
 	if ($op == 'clear') {
 		unset($_SESSION['oauth']);
@@ -43,7 +45,7 @@
 
 		$code = $tmhOAuth->request('POST', $tmhOAuth->url('oauth/access_token', ''), array(
 			'oauth_verifier' => $_REQUEST['oauth_verifier']));
-		
+
 		if ($code == 200) {
 
 			$access_token = json_encode($tmhOAuth->extract_params($tmhOAuth->response['response']));
@@ -62,7 +64,7 @@
 
 	if ($op == 'register') {
 
-		$code = $tmhOAuth->request('POST', 
+		$code = $tmhOAuth->request('POST',
 			$tmhOAuth->url('oauth/request_token', ''), array(
 			    'oauth_callback' => $callback));
 
@@ -73,8 +75,8 @@
 			$force  = isset($_REQUEST['force']) ? '&force_login=1' : '';
 			$forcewrite  = isset($_REQUEST['force_write']) ? '&oauth_access_type=write' : '';
 			$forceread  = isset($_REQUEST['force_read']) ? '&oauth_access_type=read' : '';
-			
-			$location = $tmhOAuth->url("oauth/{$method}", '') .  
+
+			$location = $tmhOAuth->url("oauth/{$method}", '') .
 				"?oauth_token={$_SESSION['oauth']['oauth_token']}{$force}{$forcewrite}{$forceread}";
 
 			header("Location: $location");

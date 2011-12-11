@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
@@ -87,7 +89,7 @@ function confirmOP() {
 
 		} else {
 			print_notice(__("Tiny Tiny RSS database is up to date."));
-			print "<form method=\"GET\" action=\"tt-rss.php\">
+			print "<form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
 		}

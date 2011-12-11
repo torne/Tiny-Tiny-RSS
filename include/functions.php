@@ -1,5 +1,4 @@
 <?php
-
 	date_default_timezone_set('UTC');
 	if (defined('E_DEPRECATED')) {
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
@@ -7539,7 +7538,7 @@
 
 		case "logout":
 			logout_user();
-			header("Location: tt-rss.php");
+			header("Location: index.php");
 		break; // logout
 
 		case "fbexport":

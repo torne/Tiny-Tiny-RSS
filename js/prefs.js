@@ -925,7 +925,7 @@ function init() {
 
 	try {
 		dojo.registerModulePath("lib", "..");
-		dojo.registerModulePath("fox", "../..");
+		dojo.registerModulePath("fox", "../../js/");
 
 		dojo.require("lib.CheckBoxTree");
 		dojo.require("fox.PrefFeedTree");

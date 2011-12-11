@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	require_once "config.php";
 	require_once "lib/simplepie/simplepie.inc";
 

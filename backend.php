@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	/* remove ill effects of magic quotes */
 
 	if (get_magic_quotes_gpc()) {

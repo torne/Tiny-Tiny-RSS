@@ -1,7 +1,5 @@
-<?php	
-	require_once "functions.php";
-	require_once "../sessions.php";
-	require_once "../functions.php";
+<?php
+	require_once "mobile-functions.php";
 
 	logout_user();
 

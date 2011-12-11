@@ -274,7 +274,7 @@ function gotoPreferences() {
 }
 
 function gotoMain() {
-	document.location.href = "tt-rss.php";
+	document.location.href = "index.php";
 }
 
 function gotoExportOpml(filename, settings) {
@@ -504,7 +504,7 @@ function fatalError(code, msg, ext_info) {
 	try {
 
 		if (code == 6) {
-			window.location.href = "tt-rss.php";
+			window.location.href = "index.php";
 		} else if (code == 5) {
 			window.location.href = "db-updater.php";
 		} else {
