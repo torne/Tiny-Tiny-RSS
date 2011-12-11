@@ -3,9 +3,14 @@
 
 	require_once "../config.php";
 
-	require_once "../db.php";
-	require_once "../db-prefs.php";
-	require_once "../functions.php";
+	set_include_path(get_include_path() . PATH_SEPARATOR .
+		dirname(__FILE__) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . "/include" );
+
+	require_once "db.php";
+	require_once "db-prefs.php";
+	require_once "functions.php";
 
 	define('API_LEVEL', 1);
 
