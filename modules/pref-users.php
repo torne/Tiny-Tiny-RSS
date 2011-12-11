@@ -83,7 +83,7 @@
 
 				print "<li class=\"$row_class\">$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
 
-				$row_class = toggleEvenOdd($row_class);
+				$row_class = $row_class == "even" ? "odd" : "even";
 
 			}
 
