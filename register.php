@@ -4,6 +4,8 @@
 	// 1) templates/register_notice.txt - displayed above the registration form
 	// 2) register_expire_do.php - contains user expiration queries when necessary
 
+	require_once 'lib/phpmailer/class.phpmailer.php';
+
 	$action = $_REQUEST["action"];
 
 	require_once "functions.php";

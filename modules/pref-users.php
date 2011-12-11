@@ -285,6 +285,8 @@
 				$status_msg = format_notice(T_sprintf("Changed password of user <b>%s</b>
 					 to <b>%s</b>", $login, $tmp_user_pwd));
 
+				require_once 'lib/phpmailer/class.phpmailer.php';
+
 				if ($email) {
 					$status_msg += format_notice(T_sprintf("Notifying <b>%s</b>.", $email));
 

@@ -18,7 +18,6 @@
 
 	require_once "functions.php";
 	if ($op != "share") require_once "sessions.php";
-	require_once "modules/backend-rpc.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
@@ -126,7 +125,7 @@
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
-	
+
 
 	$error = sanity_check($link);
 
@@ -137,7 +136,7 @@
 
 	switch($op) { // Select action according to $op value.
 		case "rpc":
-			// Handle remote procedure calls.
+			require_once "modules/backend-rpc.php";
 			handle_rpc_request($link);
 		break; // rpc
 
@@ -394,7 +393,6 @@
 			$reply['runtime-info'] = make_runtime_info($link);
 
 			print json_encode($reply);
-
 		break; // viewfeed
 
 		case "pref-feeds":

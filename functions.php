@@ -90,14 +90,8 @@
 	}
 
 	require_once 'db-prefs.php';
-	require_once 'errors.php';
 	require_once 'version.php';
 
-	require_once 'lib/phpmailer/class.phpmailer.php';
-	require_once 'lib/sphinxapi.php';
-	require_once 'lib/tmhoauth/tmhOAuth.php';
-
-	//define('MAGPIE_USER_AGENT_EXT', ' (Tiny Tiny RSS/' . VERSION . ')');
 	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
 	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
@@ -105,28 +99,9 @@
 
 	ini_set('user_agent', SELF_USER_AGENT);
 
-	require_once "lib/simplepie/simplepie.inc";
-	require_once "lib/magpierss/rss_fetch.inc";
-	require_once 'lib/magpierss/rss_utils.inc';
-	require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
 	require_once 'lib/pubsubhubbub/publisher.php';
-	require_once 'lib/pubsubhubbub/subscriber.php';
 
-	$config = HTMLPurifier_Config::createDefault();
-
-	$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4,s,object[classid|type|id|name|width|height|codebase],param[name|value],table,tr,td";
-
-	$config->set('HTML.SafeObject', true);
-	@$config->set('HTML', 'Allowed', $allowed);
-	$config->set('Output.FlashCompat', true);
-	$config->set('Attr.EnableID', true);
-	if (!defined('MOBILE_VERSION')) {
-		@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
-	} else {
-		@$config->set('Cache', 'SerializerPath', "../" . CACHE_DIR . "/htmlpurifier");
-	}
-
-	$purifier = new HTMLPurifier($config);
+	$purifier = false;
 
 	$tz_offset = -1;
 	$utc_tz = new DateTimeZone('UTC');
@@ -436,6 +411,10 @@
 
 	function update_rss_feed_real($link, $feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
+
+		require_once "lib/simplepie/simplepie.inc";
+		require_once "lib/magpierss/rss_fetch.inc";
+		require_once 'lib/magpierss/rss_utils.inc';
 
 		global $memcache;
 
@@ -764,6 +743,8 @@
 				if ($feed_hub_url && function_exists('curl_init') &&
 					!ini_get("open_basedir")) {
 
+					require_once 'lib/pubsubhubbub/subscriber.php';
+
 					$callback_url = get_self_url_prefix() .
 						"/public.php?op=pubsub&id=$feed";
 
@@ -873,6 +854,8 @@
 					if (!$entry_content) $entry_content = $item["content:encoded"];
 					if (!$entry_content) $entry_content = $item["content"]["encoded"];
 					if (!$entry_content) $entry_content = $item["content"];
+
+					if (is_array($entry_content)) $entry_content = $entry_content[0];
 
 					// Magpie bugs are getting ridiculous
 					if (trim($entry_content) == "Array") $entry_content = false;
@@ -2290,8 +2273,7 @@
 	}
 
 	function sanity_check($link) {
-
-		global $ERRORS;
+		require_once 'errors.php';
 
 		$error_code = 0;
 		$schema_version = get_schema_version($link, true);
@@ -3775,9 +3757,28 @@
 
 		$res = trim($str); if (!$res) return '';
 
-//		if (get_pref($link, "STRIP_UNSAFE_TAGS", $owner) || $force_strip_tags) {
+		// create global Purifier object if needed
+		if (!$purifier) {
+			require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
+
+			$config = HTMLPurifier_Config::createDefault();
+
+			$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title],ul,ol,li,h1,h2,h3,h4,s,object[classid|type|id|name|width|height|codebase],param[name|value],table,tr,td";
+
+			$config->set('HTML.SafeObject', true);
+			@$config->set('HTML', 'Allowed', $allowed);
+			$config->set('Output.FlashCompat', true);
+			$config->set('Attr.EnableID', true);
+			if (!defined('MOBILE_VERSION')) {
+				@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
+			} else {
+				@$config->set('Cache', 'SerializerPath', "../" . CACHE_DIR . "/htmlpurifier");
+			}
+
+			$purifier = new HTMLPurifier($config);
+		}
+
 		$res = $purifier->purify($res);
-//		}
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
@@ -3843,6 +3844,8 @@
 	 * @return boolean Return false if digests are not enabled.
 	 */
 	function send_headlines_digests($link, $limit = 100) {
+
+		require_once 'lib/phpmailer/class.phpmailer.php';
 
 		if (!DIGEST_ENABLE) return false;
 
@@ -7086,6 +7089,8 @@
 	}
 
 	function sphinx_search($query, $offset = 0, $limit = 30) {
+		require_once 'lib/sphinxapi.php';
+
 		$sphinxClient = new SphinxClient();
 
 		$sphinxClient->SetServer('localhost', 9312);
@@ -7203,6 +7208,9 @@
 
 
 	function fetch_twitter_rss($link, $url, $owner_uid) {
+
+		require_once 'lib/tmhoauth/tmhOAuth.php';
+
 		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users
 			WHERE id = $owner_uid");
 

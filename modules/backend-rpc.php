@@ -667,6 +667,8 @@
 		if ($subop == "sendEmail") {
 			$secretkey = $_REQUEST['secretkey'];
 
+			require_once 'lib/phpmailer/class.phpmailer.php';
+
 			$reply = array();
 
 			if (DIGEST_ENABLE && $_SESSION['email_secretkey'] &&
