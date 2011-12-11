@@ -71,7 +71,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 
 			// switching to a different feed, we might as well catchup stuff visible
 			// in headlines buffer (if any)
-			if (!background && getInitParam("cdm_auto_catchup") == 1 && parseInt(getActiveFeedId()) > 0) {
+			if (!background && isCdmMode() && getInitParam("cdm_auto_catchup") == 1 && parseInt(getActiveFeedId()) > 0) {
 
 				$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 					function(child) {
