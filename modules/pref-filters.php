@@ -81,10 +81,10 @@
 	}
 
 	function module_pref_filters($link) {
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 		$quiet = $_REQUEST["quiet"];
 
-		if ($subop == "getfiltertree") {
+		if ($method == "getfiltertree") {
 			$root = array();
 			$root['id'] = 'root';
 			$root['name'] = __('Filters');
@@ -183,7 +183,7 @@
 			return;
 		}
 
-		if ($subop == "edit") {
+		if ($method == "edit") {
 
 			$filter_id = db_escape_string($_REQUEST["id"]);
 
@@ -204,7 +204,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$filter_id\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"editSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"editSave\">";
 
 			$result = db_query($link, "SELECT id,description
 				FROM ttrss_filter_types ORDER BY description");
@@ -345,7 +345,7 @@
 		}
 
 
-		if ($subop == "editSave") {
+		if ($method == "editSave") {
 
 			global $memcache;
 
@@ -410,7 +410,7 @@
 			return;
 		}
 
-		if ($subop == "remove") {
+		if ($method == "remove") {
 
 			if ($memcache) $memcache->flush();
 
@@ -422,7 +422,7 @@
 			return;
 		}
 
-		if ($subop == "add") {
+		if ($method == "add") {
 
 			if ($memcache) $memcache->flush();
 
@@ -550,7 +550,7 @@
 		 __("Loading, please wait...")."</div>";
 
 		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"filterStore\"
-			url=\"backend.php?op=pref-filters&subop=getfiltertree\">
+			url=\"backend.php?op=pref-filters&method=getfiltertree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"filterModel\" store=\"filterStore\"
 		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"

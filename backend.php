@@ -43,7 +43,7 @@
 
 	init_connection($link);
 
-	$subop = $_REQUEST["subop"];
+	$method = $_REQUEST["method"];
 	$mode = $_REQUEST["mode"];
 
 	if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {
@@ -69,7 +69,7 @@
 		return;
 
 	} else if (!($_SESSION["uid"] && validate_session($link))) {
-		if ($op == 'pref-feeds' && $_REQUEST['subop'] == 'add') {
+		if ($op == 'pref-feeds' && $_REQUEST['method'] == 'add') {
 			header("Content-Type: text/html");
 			login_sequence($link);
 			render_login_form($link);
@@ -143,10 +143,10 @@
 		break; // rpc
 
 		case "feeds":
-			$subop = $_REQUEST["subop"];
+			$method = $_REQUEST["method"];
 			$root = (bool)$_REQUEST["root"];
 
-			switch($subop) {
+			switch($method) {
 				case "catchupAll":
 					db_query($link, "UPDATE ttrss_user_entries SET
 						last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
@@ -254,7 +254,7 @@
 			$omode = db_escape_string($_REQUEST["omode"]);
 
 			$feed = db_escape_string($_REQUEST["feed"]);
-			$subop = db_escape_string($_REQUEST["subop"]);
+			$method = db_escape_string($_REQUEST["method"]);
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 			$limit = (int) get_pref($link, "DEFAULT_ARTICLE_LIMIT");
 			@$cat_view = db_escape_string($_REQUEST["cat"]) == "true";
@@ -353,7 +353,7 @@
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("04", $timing_info);
 
-			$ret = format_headlines_list($link, $feed, $subop,
+			$ret = format_headlines_list($link, $feed, $method,
 				$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
 				$vgroup_last_feed, $override_order);
 
@@ -386,7 +386,7 @@
 				$reply['articles'] = $articles;
 			}
 
-//			if ($subop) {
+//			if ($method) {
 //				$reply['counters'] = getAllCounters($link, $omode, $feed);
 //			}
 

@@ -1,9 +1,9 @@
 <?php
 	function module_pref_labels($link) {
 
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 
-		if ($subop == "edit") {
+		if ($method == "edit") {
 			$label_id = db_escape_string($_REQUEST['id']);
 
 			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
@@ -16,7 +16,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$label_id\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-labels\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"save\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
 
 			print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
@@ -83,7 +83,7 @@
 			return;
 		}
 
-		if ($subop == "getlabeltree") {
+		if ($method == "getlabeltree") {
 			$root = array();
 			$root['id'] = 'root';
 			$root['name'] = __('Labels');
@@ -116,7 +116,7 @@
 			return;
 		}
 
-		if ($subop == "color-set") {
+		if ($method == "color-set") {
 			$kind = db_escape_string($_REQUEST["kind"]);
 			$ids = split(',', db_escape_string($_REQUEST["ids"]));
 			$color = db_escape_string($_REQUEST["color"]);
@@ -147,7 +147,7 @@
 			return;
 		}
 
-		if ($subop == "color-reset") {
+		if ($method == "color-reset") {
 			$ids = split(',', db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
@@ -165,7 +165,7 @@
 
 		}
 
-		if ($subop == "save") {
+		if ($method == "save") {
 
 			$id = db_escape_string($_REQUEST["id"]);
 			$caption = db_escape_string(trim($_REQUEST["caption"]));
@@ -210,7 +210,7 @@
 			return;
 		}
 
-		if ($subop == "remove") {
+		if ($method == "remove") {
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -220,7 +220,7 @@
 
 		}
 
-		if ($subop == "add") {
+		if ($method == "add") {
 			$caption = db_escape_string($_REQUEST["caption"]);
 			$output = db_escape_string($_REQUEST["output"]);
 
@@ -293,7 +293,7 @@
 		 __("Loading, please wait...")."</div>";
 
 		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"labelStore\" 
-			url=\"backend.php?op=pref-labels&subop=getlabeltree\">
+			url=\"backend.php?op=pref-labels&method=getlabeltree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"labelModel\" store=\"labelStore\"
 		query=\"{id:'root'}\" rootId=\"root\"

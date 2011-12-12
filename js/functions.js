@@ -607,7 +607,7 @@ function filterDlgCheckDate() {
 
 		var reg_exp = dialog.attr('value').reg_exp;
 
-		var query = "?op=rpc&subop=checkDate&date=" + reg_exp;
+		var query = "?op=rpc&method=checkDate&date=" + reg_exp;
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -756,7 +756,7 @@ function removeFeedIcon(id) {
 	try {
 
 		if (confirm(__("Remove stored feed icon?"))) {
-			var query = "backend.php?op=pref-feeds&subop=removeicon&feed_id=" + param_escape(id);
+			var query = "backend.php?op=pref-feeds&method=removeicon&feed_id=" + param_escape(id);
 
 			console.log(query);
 
@@ -815,7 +815,7 @@ function addLabel(select, callback) {
 				return false;
 			}
 
-			var query = "?op=pref-labels&subop=add&caption=" +
+			var query = "?op=pref-labels&method=add&caption=" +
 				param_escape(caption);
 
 			if (select)
@@ -893,7 +893,7 @@ function quickAddFeed() {
 									notify_progress("Searching for feed urls...", true);
 
 									new Ajax.Request("backend.php", {
-										parameters: 'op=rpc&subop=extractfeedurls&url=' + param_escape(feed_url),
+										parameters: 'op=rpc&method=extractfeedurls&url=' + param_escape(feed_url),
 										onComplete: function(transport, dialog, feed_url) {
 
 											notify('');
@@ -978,7 +978,7 @@ function quickAddFilter() {
 			execute: function() {
 				if (this.validate()) {
 
-					var query = "?op=rpc&subop=verifyRegexp&reg_exp=" +
+					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
 						param_escape(dialog.attr('value').reg_exp);
 
 					notify_progress("Verifying regular expression...");
@@ -1028,7 +1028,7 @@ function resetPubSub(feed_id, title) {
 	if (title == undefined || confirm(msg)) {
 		notify_progress("Loading, please wait...");
 
-		var query = "?op=pref-feeds&quiet=1&subop=resetPubSub&ids=" + feed_id;
+		var query = "?op=pref-feeds&quiet=1&method=resetPubSub&ids=" + feed_id;
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -1049,7 +1049,7 @@ function unsubscribeFeed(feed_id, title) {
 	if (title == undefined || confirm(msg)) {
 		notify_progress("Removing feed...");
 
-		var query = "?op=pref-feeds&quiet=1&subop=remove&ids=" + feed_id;
+		var query = "?op=pref-feeds&quiet=1&method=remove&ids=" + feed_id;
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -1155,7 +1155,7 @@ function quickAddCat(elem) {
 
 		if (cat) {
 
-			var query = "?op=rpc&subop=quickAddCat&cat=" + param_escape(cat);
+			var query = "?op=rpc&method=quickAddCat&cat=" + param_escape(cat);
 
 			notify_progress("Loading, please wait...", true);
 
@@ -1188,7 +1188,7 @@ function genUrlChangeKey(feed, is_cat) {
 
 			notify_progress("Trying to change address...", true);
 
-			var query = "?op=rpc&subop=regenFeedKey&id=" + param_escape(feed) +
+			var query = "?op=rpc&method=regenFeedKey&id=" + param_escape(feed) +
 				"&is_cat=" + param_escape(is_cat);
 
 			new Ajax.Request("backend.php", {
@@ -1368,7 +1368,7 @@ function editFeed(feed, event) {
 		if (feed <= 0)
 			return alert(__("You can't edit this kind of feed."));
 
-		var query = "backend.php?op=pref-feeds&subop=editfeed&id=" +
+		var query = "backend.php?op=pref-feeds&method=editfeed&id=" +
 			param_escape(feed);
 
 		console.log(query);
@@ -1464,7 +1464,7 @@ function feedBrowser() {
 					// we use dojo.toJson instead of JSON.stringify because
 					// it somehow escapes everything TWICE, at least in Chrome 9
 
-					var query = "?op=rpc&subop=massSubscribe&payload="+
+					var query = "?op=rpc&method=massSubscribe&payload="+
 						param_escape(dojo.toJson(selected)) + "&mode=" + param_escape(mode);
 
 					console.log(query);
@@ -1524,7 +1524,7 @@ function feedBrowser() {
 					if (confirm(pr)) {
 						Element.show('feed_browser_spinner');
 
-						var query = "?op=rpc&subop=remarchived&ids=" +
+						var query = "?op=rpc&method=remarchived&ids=" +
 							param_escape(selected.toString());;
 
 						new Ajax.Request("backend.php", {
@@ -1574,7 +1574,7 @@ function showFeedsWithErrors() {
 					if (ok) {
 						notify_progress("Removing selected feeds...", true);
 
-						var query = "?op=pref-feeds&subop=remove&ids="+
+						var query = "?op=pref-feeds&method=remove&ids="+
 							param_escape(sel_rows.toString());
 
 						new Ajax.Request("backend.php",	{

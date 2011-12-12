@@ -8,12 +8,12 @@
 			return;
 		}
 
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 
-		if ($subop == "user-details") {
+		if ($method == "user-details") {
 
 			header("Content-Type: text/xml");
-			print "<dlg id=\"$subop\">";
+			print "<dlg id=\"$method\">";
 
 			$uid = sprintf("%d", $_REQUEST["id"]);
 
@@ -104,13 +104,13 @@
 			return;
 		}
 
-		if ($subop == "edit") {
+		if ($method == "edit") {
 
 			header("Content-Type: text/xml");
 
 			$id = db_escape_string($_REQUEST["id"]);
 
-			print "<dlg id=\"$subop\">";
+			print "<dlg id=\"$method\">";
 			print "<title>".__('User Editor')."</title>";
 			print "<content><![CDATA[";
 
@@ -118,7 +118,7 @@
 
 			print "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-users\">";
-			print "<input type=\"hidden\" name=\"subop\" value=\"editSave\">";
+			print "<input type=\"hidden\" name=\"method\" value=\"editSave\">";
 
 			$result = db_query($link, "SELECT * FROM ttrss_users WHERE id = '$id'");
 
@@ -190,7 +190,7 @@
 			return;
 		}
 
-		if ($subop == "editSave") {
+		if ($method == "editSave") {
 
 			if ($_SESSION["access_level"] >= 10) {
 
@@ -212,7 +212,7 @@
 					access_level = '$access_level', email = '$email' WHERE id = '$uid'");
 
 			}
-		} else if ($subop == "remove") {
+		} else if ($method == "remove") {
 
 			if ($_SESSION["access_level"] >= 10) {
 
@@ -226,7 +226,7 @@
 					}
 				}
 			}
-		} else if ($subop == "add") {
+		} else if ($method == "add") {
 
 			if ($_SESSION["access_level"] >= 10) {
 
@@ -265,7 +265,7 @@
 					$status_msg = format_warning(T_sprintf("User <b>%s</b> already exists.", $login));
 				}
 			}
-		} else if ($subop == "resetPass") {
+		} else if ($method == "resetPass") {
 
 			if ($_SESSION["access_level"] >= 10) {
 
@@ -449,7 +449,7 @@
 			$uid = $line["id"];
 			$edit_uid = $_REQUEST["id"];
 
-			if ($subop == "edit" && $uid != $edit_uid) {
+			if ($method == "edit" && $uid != $edit_uid) {
 				$class .= " Grayed";
 				$this_row_id = "";
 			} else {

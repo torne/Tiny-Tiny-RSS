@@ -6,9 +6,9 @@
 			return;
 		}
 
-		$subop = $_REQUEST['subop'];
+		$method = $_REQUEST['method'];
 
-		if ($subop == "remove") {
+		if ($method == "remove") {
 			$ids = db_escape_string($_REQUEST['ids']);
 
 			db_query($link, "DELETE FROM ttrss_linked_instances WHERE
@@ -17,7 +17,7 @@
 			return;
 		}
 
-		if ($subop == "add") {
+		if ($method == "add") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$access_url = db_escape_string($_REQUEST["access_url"]);
 			$access_key = db_escape_string($_REQUEST["access_key"]);
@@ -40,7 +40,7 @@
 			return;
 		}
 
-		if ($subop == "edit") {
+		if ($method == "edit") {
 
 			$id = db_escape_string($_REQUEST["id"]);
 
@@ -49,7 +49,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"id\" value=\"$id\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"subop\" value=\"editSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"editSave\">";
 
 			print "<div class=\"dlgSec\">".__("Instance")."</div>";
 
@@ -100,7 +100,7 @@
 			return;
 		}
 
-		if ($subop == "editSave") {
+		if ($method == "editSave") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$access_url = db_escape_string($_REQUEST["access_url"]);
 			$access_key = db_escape_string($_REQUEST["access_key"]);

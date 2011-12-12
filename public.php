@@ -42,7 +42,7 @@
 
 	init_connection($link);
 
-	$subop = $_REQUEST["subop"];
+	$method = $_REQUEST["method"];
 	$mode = $_REQUEST["mode"];
 
 	if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {

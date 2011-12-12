@@ -4884,7 +4884,7 @@
 
 	}
 
-	function format_headlines_list($link, $feed, $subop, $view_mode, $limit, $cat_view,
+	function format_headlines_list($link, $feed, $method, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
 					$override_order = false) {
 
@@ -4897,22 +4897,22 @@
 		$topmost_article_ids = array();
 
 		if (!$offset) $offset = 0;
-		if ($subop == "undefined") $subop = "";
+		if ($method == "undefined") $method = "";
 
-		$subop_split = explode(":", $subop);
+		$method_split = explode(":", $method);
 
-/*		if ($subop == "CatchupSelected") {
+/*		if ($method == "CatchupSelected") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
 			catchupArticlesById($link, $ids, $cmode);
 		} */
 
-		if ($subop == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
+		if ($method == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
 			update_rss_feed($link, $feed, true);
 		}
 
-		if ($subop == "MarkAllRead")  {
+		if ($method == "MarkAllRead")  {
 			catchup_feed($link, $feed, $cat_view);
 
 			if (get_pref($link, 'ON_CATCHUP_SHOW_NEXT_FEED')) {
@@ -4922,8 +4922,8 @@
 			}
 		}
 
-		if ($subop_split[0] == "MarkAllReadGR")  {
-			catchup_feed($link, $subop_split[1], false);
+		if ($method_split[0] == "MarkAllReadGR")  {
+			catchup_feed($link, $method_split[1], false);
 		}
 
 		// FIXME: might break tag display?
@@ -4973,9 +4973,9 @@
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
-//		error_log("format_headlines_list: [" . $feed . "] subop [" . $subop . "]");
-		if( $search_mode == '' && $subop != '' ){
-		    $search_mode = $subop;
+//		error_log("format_headlines_list: [" . $feed . "] method [" . $method . "]");
+		if( $search_mode == '' && $method != '' ){
+		    $search_mode = $method;
 		}
 //		error_log("search_mode: " . $search_mode);
 		$qfh_ret = queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view,
@@ -5638,7 +5638,7 @@
 		//$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 		$url_path = get_self_url_prefix() .
-			"/backend.php?op=pref-feeds&quiet=1&subop=add&feed_url=%s";
+			"/backend.php?op=pref-feeds&quiet=1&method=add&feed_url=%s";
 		return $url_path;
 	} // function add_feed_url
 

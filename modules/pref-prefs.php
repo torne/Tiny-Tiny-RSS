@@ -3,7 +3,7 @@
 
 		global $access_level_names;
 
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 
 		$prefs_blacklist = array("HIDE_READ_FEEDS", "FEEDS_SORT_BY_UNREAD",
 			"STRIP_UNSAFE_TAGS");
@@ -19,7 +19,7 @@
 			array_push($prefs_blacklist, "PURGE_UNREAD_ARTICLES");
 		} */
 
-		if ($subop == "change-password") {
+		if ($method == "change-password") {
 
 			$old_pw = $_POST["old_password"];
 			$new_pw = $_POST["new_password"];
@@ -68,7 +68,7 @@
 
 			return;
 
-		} else if ($subop == "save-config") {
+		} else if ($method == "save-config") {
 
 #			$_SESSION["prefs_op_result"] = "save-config";
 
@@ -95,7 +95,7 @@
 
 			return;
 
-		} else if ($subop == "getHelp") {
+		} else if ($method == "getHelp") {
 
 			$pref_name = db_escape_string($_REQUEST["pn"]);
 
@@ -109,7 +109,7 @@
 				printf(__("Unknown option: %s"), $pref_name);
 			}
 
-		} else if ($subop == "change-email") {
+		} else if ($method == "change-email") {
 
 			$email = db_escape_string($_POST["email"]);
 			$full_name = db_escape_string($_POST["full_name"]);
@@ -123,7 +123,7 @@
 
 			return;
 
-		} else if ($subop == "reset-config") {
+		} else if ($method == "reset-config") {
 
 			$_SESSION["prefs_op_result"] = "reset-to-defaults";
 
@@ -194,7 +194,7 @@
 				print "</table>";
 
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
-				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-email\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"change-email\">";
 
 				print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
 					__("Save data")."</button>";
@@ -252,7 +252,7 @@
 				print "</table>";
 
 				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
-				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"change-password\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"change-password\">";
 
 				print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
 					__("Change password")."</button>";
@@ -488,7 +488,7 @@
 			print '<div dojoType="dijit.layout.ContentPane" region="bottom">';
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"save-config\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save-config\">";
 
 			print "<button dojoType=\"dijit.form.Button\" type=\"submit\">".
 				__('Save configuration')."</button> ";

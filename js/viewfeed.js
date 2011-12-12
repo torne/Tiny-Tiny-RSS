@@ -406,7 +406,7 @@ function view(id) {
 
 function toggleMark(id, client_only) {
 	try {
-		var query = "?op=rpc&id=" + id + "&subop=mark";
+		var query = "?op=rpc&id=" + id + "&method=mark";
 
 		var img = $("FMPIC-" + id);
 
@@ -440,7 +440,7 @@ function toggleMark(id, client_only) {
 
 function togglePub(id, client_only, no_effects, note) {
 	try {
-		var query = "?op=rpc&id=" + id + "&subop=publ";
+		var query = "?op=rpc&id=" + id + "&method=publ";
 
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);
@@ -601,7 +601,7 @@ function toggleUnread(id, cmode, effect) {
 
 			if (cmode == undefined) cmode = 2;
 
-			var query = "?op=rpc&subop=catchupSelected" +
+			var query = "?op=rpc&method=catchupSelected" +
 				"&cmode=" + param_escape(cmode) + "&ids=" + param_escape(id);
 
 //			notify_progress("Loading, please wait...");
@@ -629,7 +629,7 @@ function selectionRemoveLabel(id, ids) {
 			return;
 		}
 
-		var query = "?op=rpc&subop=removeFromLabel&ids=" +
+		var query = "?op=rpc&method=removeFromLabel&ids=" +
 			param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 		console.log(query);
@@ -657,7 +657,7 @@ function selectionAssignLabel(id, ids) {
 			return;
 		}
 
-		var query = "?op=rpc&subop=assignToLabel&ids=" +
+		var query = "?op=rpc&method=assignToLabel&ids=" +
 			param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 		console.log(query);
@@ -717,7 +717,7 @@ function selectionToggleUnread(set_state, callback, no_error) {
 				cmode = "0";
 			}
 
-			var query = "?op=rpc&subop=catchupSelected" +
+			var query = "?op=rpc&method=catchupSelected" +
 				"&cmode=" + cmode + "&ids=" + param_escape(rows.toString());
 
 			notify_progress("Loading, please wait...");
@@ -752,7 +752,7 @@ function selectionToggleMarked() {
 
 		if (rows.length > 0) {
 
-			var query = "?op=rpc&subop=markSelected&ids=" +
+			var query = "?op=rpc&method=markSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
 			new Ajax.Request("backend.php", {
@@ -784,7 +784,7 @@ function selectionTogglePublished() {
 
 		if (rows.length > 0) {
 
-			var query = "?op=rpc&subop=publishSelected&ids=" +
+			var query = "?op=rpc&method=publishSelected&ids=" +
 				param_escape(rows.toString()) + "&cmode=2";
 
 			new Ajax.Request("backend.php", {
@@ -910,7 +910,7 @@ function deleteSelection() {
 			return;
 		}
 
-		query = "?op=rpc&subop=delete&ids=" + param_escape(rows);
+		query = "?op=rpc&method=delete&ids=" + param_escape(rows);
 
 		console.log(query);
 
@@ -956,7 +956,7 @@ function archiveSelection() {
 			return;
 		}
 
-		query = "?op=rpc&subop="+op+"&ids=" + param_escape(rows);
+		query = "?op=rpc&method="+op+"&ids=" + param_escape(rows);
 
 		console.log(query);
 
@@ -1052,7 +1052,7 @@ function editArticleTags(id) {
 	   	dojo.disconnect(tmph);
 
 			new Ajax.Autocompleter('tags_str', 'tags_choices',
-			   "backend.php?op=rpc&subop=completeTags",
+			   "backend.php?op=rpc&method=completeTags",
 			   { tokens: ',', paramName: "search" });
 		});
 
@@ -1141,7 +1141,7 @@ function catchupBatchedArticles() {
 	try {
 		if (catchup_id_batch.length > 0 && !_infscroll_request_sent) {
 
-			var query = "?op=rpc&subop=catchupSelected" +
+			var query = "?op=rpc&method=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(catchup_id_batch.toString());
 
 			new Ajax.Request("backend.php", {
@@ -1216,7 +1216,7 @@ function catchupRelativeToArticle(below, id) {
 					e.removeClassName("Unread");
 				}
 
-				var query = "?op=rpc&subop=catchupSelected" +
+				var query = "?op=rpc&method=catchupSelected" +
 					"&cmode=0" + "&ids=" + param_escape(ids_to_mark.toString());
 
 				new Ajax.Request("backend.php", {
@@ -1275,7 +1275,7 @@ function cdmExpandArticle(id) {
 				$("CWRAP-" + id).innerHTML = "<div class=\"insensitive\">" +
 					__("Loading, please wait...") + "</div>";
 
-				var query = "?op=rpc&subop=cdmGetArticle&id=" + param_escape(id);
+				var query = "?op=rpc&method=cdmGetArticle&id=" + param_escape(id);
 
 				var neighbor_ids = getRelativePostIds(id);
 
@@ -1386,7 +1386,7 @@ function zoomToArticle(event, id) {
 
 		} else {
 
-			var query = "?op=rpc&subop=getArticles&ids=" + param_escape(id);
+			var query = "?op=rpc&method=getArticles&ids=" + param_escape(id);
 
 			notify_progress("Loading, please wait...", true);
 
@@ -1547,7 +1547,7 @@ function emailArticle(id) {
 	   	dojo.disconnect(tmph);
 
 		   new Ajax.Autocompleter('emailArticleDlg_destination', 'emailArticleDlg_dst_choices',
-			   "backend.php?op=rpc&subop=completeEmails",
+			   "backend.php?op=rpc&method=completeEmails",
 			   { tokens: '', paramName: "search" });
 		});
 
@@ -1558,7 +1558,7 @@ function emailArticle(id) {
 				document.forms['article_email_form'].destination.focus();
 
 			   new Ajax.Autocompleter('destination', 'destination_choices',
-				   "backend.php?op=rpc&subop=completeEmails",
+				   "backend.php?op=rpc&method=completeEmails",
 				   { tokens: '', paramName: "search" });
 
 			}); */
@@ -1685,7 +1685,7 @@ function cdmClicked(event, id) {
 
 				active_post_id = id;
 
-				var query = "?op=rpc&subop=catchupSelected" +
+				var query = "?op=rpc&method=catchupSelected" +
 					"&cmode=0&ids=" + param_escape(id);
 
 				new Ajax.Request("backend.php", {
@@ -1996,7 +1996,7 @@ function initHeadlinesMenu() {
 
 function tweetArticle(id) {
 	try {
-		var query = "?op=rpc&subop=getTweetInfo&id=" + param_escape(id);
+		var query = "?op=rpc&method=getTweetInfo&id=" + param_escape(id);
 
 		console.log(query);
 

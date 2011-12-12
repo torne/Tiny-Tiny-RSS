@@ -11,11 +11,11 @@
 		global $purge_intervals;
 		global $update_methods;
 
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 		$quiet = $_REQUEST["quiet"];
 		$mode = $_REQUEST["mode"];
 
-		if ($subop == "renamecat") {
+		if ($method == "renamecat") {
 			$title = db_escape_string($_REQUEST['title']);
 			$id = db_escape_string($_REQUEST['id']);
 
@@ -26,7 +26,7 @@
 			return;
 		}
 
-		if ($subop == "remtwitterinfo") {
+		if ($method == "remtwitterinfo") {
 
 			db_query($link, "UPDATE ttrss_users SET twitter_oauth = NULL
 				WHERE id = " . $_SESSION['uid']);
@@ -34,7 +34,7 @@
 			return;
 		}
 
-		if ($subop == "getfeedtree") {
+		if ($method == "getfeedtree") {
 
 			$search = $_SESSION["prefs_feed_search"];
 
@@ -160,19 +160,19 @@
 			return;
 		}
 
-		if ($subop == "catsortreset") {
+		if ($method == "catsortreset") {
 			db_query($link, "UPDATE ttrss_feed_categories
 					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 			return;
 		}
 
-		if ($subop == "feedsortreset") {
+		if ($method == "feedsortreset") {
 			db_query($link, "UPDATE ttrss_feeds
 					SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 			return;
 		}
 
-		if ($subop == "savefeedorder") {
+		if ($method == "savefeedorder") {
 #			if ($_POST['payload']) {
 #				file_put_contents("/tmp/blahblah.txt", $_POST['payload']);
 #				$data = json_decode($_POST['payload'], true);
@@ -239,7 +239,7 @@
 			return;
 		}
 
-		if ($subop == "removeicon") {
+		if ($method == "removeicon") {
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 
 			$result = db_query($link, "SELECT id FROM ttrss_feeds
@@ -252,7 +252,7 @@
 			return;
 		}
 
-		if ($subop == "uploadicon") {
+		if ($method == "uploadicon") {
 			$icon_file = $_FILES['icon_file']['tmp_name'];
 			$feed_id = db_escape_string($_REQUEST["feed_id"]);
 
@@ -282,7 +282,7 @@
 			return;
 		}
 
-		if ($subop == "editfeed") {
+		if ($method == "editfeed") {
 
 			$feed_id = db_escape_string($_REQUEST["id"]);
 
@@ -295,7 +295,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$feed_id\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"editSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"editSave\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
@@ -513,7 +513,7 @@
 				<input id=\"icon_file\" size=\"10\" name=\"icon_file\" type=\"file\">
 				<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">
 				<input type=\"hidden\" name=\"feed_id\" value=\"$feed_id\">
-				<input type=\"hidden\" name=\"subop\" value=\"uploadicon\">
+				<input type=\"hidden\" name=\"method\" value=\"uploadicon\">
 				<button dojoType=\"dijit.form.Button\" onclick=\"return uploadFeedIcon();\"
 					type=\"submit\">".__('Replace')."</button>
 				<button dojoType=\"dijit.form.Button\" onclick=\"return removeFeedIcon($feed_id);\"
@@ -550,13 +550,13 @@
 			return;
 		}
 
-		if ($subop == "editfeeds") {
+		if ($method == "editfeeds") {
 
 			$feed_ids = db_escape_string($_REQUEST["ids"]);
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"ids\" value=\"$feed_ids\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"batchEditSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"batchEditSave\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
@@ -707,7 +707,7 @@
 			return;
 		}
 
-		if ($subop == "editSave" || $subop == "batchEditSave") {
+		if ($method == "editSave" || $method == "batchEditSave") {
 
 			$feed_title = db_escape_string(trim($_POST["title"]));
 			$feed_link = db_escape_string(trim($_POST["feed_url"]));
@@ -754,7 +754,7 @@
 				$cache_images_qpart = "";
 			}
 
-			if ($subop == "editSave") {
+			if ($method == "editSave") {
 
 				$result = db_query($link, "UPDATE ttrss_feeds SET
 					$category_qpart
@@ -773,11 +773,11 @@
 					update_method = '$update_method'
 					WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-			} else if ($subop == "batchEditSave") {
+			} else if ($method == "batchEditSave") {
 				$feed_data = array();
 
 				foreach (array_keys($_POST) as $k) {
-					if ($k != "op" && $k != "subop" && $k != "ids") {
+					if ($k != "op" && $k != "method" && $k != "ids") {
 						$feed_data[$k] = $_POST[$k];
 					}
 				}
@@ -864,7 +864,7 @@
 			return;
 		}
 
-		if ($subop == "resetPubSub") {
+		if ($method == "resetPubSub") {
 
 			$ids = db_escape_string($_REQUEST["ids"]);
 
@@ -874,7 +874,7 @@
 			return;
 		}
 
-		if ($subop == "remove") {
+		if ($method == "remove") {
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
@@ -885,12 +885,12 @@
 			return;
 		}
 
-		if ($subop == "clear") {
+		if ($method == "clear") {
 			$id = db_escape_string($_REQUEST["id"]);
 			clear_feed_articles($link, $id);
 		}
 
-		if ($subop == "rescore") {
+		if ($method == "rescore") {
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
@@ -943,7 +943,7 @@
 
 		}
 
-		if ($subop == "rescoreAll") {
+		if ($method == "rescoreAll") {
 
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE owner_uid = " . $_SESSION['uid']);
@@ -996,7 +996,7 @@
 
 		}
 
-		if ($subop == "add") {
+		if ($method == "add") {
 
 			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
 			$cat_id = db_escape_string($_REQUEST["cat_id"]);
@@ -1052,7 +1052,7 @@
 					print "<form action=\"backend.php\">";
 					print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
 					print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
-					print "<input type=\"hidden\" name=\"subop\" value=\"add\">";
+					print "<input type=\"hidden\" name=\"method\" value=\"add\">";
 
 					print "<select name=\"feed_url\">";
 
@@ -1086,8 +1086,8 @@
 					print "<form method=\"GET\" style='display: inline'
 						action=\"$tp_uri\">
 						<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
-						<input type=\"hidden\" name=\"subop\" value=\"editFeed\">
-						<input type=\"hidden\" name=\"subopparam\" value=\"$feed_id\">
+						<input type=\"hidden\" name=\"method\" value=\"editFeed\">
+						<input type=\"hidden\" name=\"methodparam\" value=\"$feed_id\">
 						<input type=\"submit\" value=\"".__("Edit subscription options")."\">
 						</form>";
 				}
@@ -1101,7 +1101,7 @@
 			}
 		}
 
-		if ($subop == "categorize") {
+		if ($method == "categorize") {
 
 
 			$ids = split(",", db_escape_string($_REQUEST["ids"]));
@@ -1128,7 +1128,7 @@
 
 		}
 
-		if ($subop == "editCats") {
+		if ($method == "editCats") {
 
 			$action = $_REQUEST["action"];
 
@@ -1232,7 +1232,7 @@
 							var elem = this;
 							dojo.xhrPost({
 								url: 'backend.php',
-								content: {op: 'pref-feeds', subop: 'editCats',
+								content: {op: 'pref-feeds', method: 'editCats',
 									action: 'save',
 									value: this.value,
 									cid: this.srcNodeRef.getAttribute('cat-id')},
@@ -1401,7 +1401,7 @@
 		 __("Loading, please wait...")."</div>";
 
 		print "<div dojoType=\"fox.PrefFeedStore\" jsId=\"feedStore\"
-			url=\"backend.php?op=pref-feeds&subop=getfeedtree\">
+			url=\"backend.php?op=pref-feeds&method=getfeedtree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"feedModel\" store=\"feedStore\"
 		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"

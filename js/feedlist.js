@@ -48,14 +48,14 @@ function loadMoreHeadlines() {
 }
 
 
-function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
+function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 	try {
 		if (is_cat == undefined)
 			is_cat = false;
 		else
 			is_cat = !!is_cat;
 
-		if (subop == undefined) subop = '';
+		if (method == undefined) method = '';
 		if (offset == undefined) offset = 0;
 		if (background == undefined) background = false;
 		if (infscroll_req == undefined) infscroll_req = false;
@@ -110,7 +110,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 				_infscroll_disable = 0;
 			}
 
-			if (!offset && !subop && cached_headlines && !background) {
+			if (!offset && !method && cached_headlines && !background) {
 				try {
 					render_local_headlines(feed, is_cat, JSON.parse(cached_headlines));
 					return;
@@ -119,7 +119,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 				}
 			}
 
-			if (offset != 0 && !subop) {
+			if (offset != 0 && !method) {
 				var date = new Date();
 				var timestamp = Math.round(date.getTime() / 1000);
 
@@ -139,7 +139,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
 		var query = "?op=viewfeed&feed=" + feed + "&" +
-			toolbar_query + "&subop=" + param_escape(subop);
+			toolbar_query + "&method=" + param_escape(method);
 
 		if (!background) {
 			if (_search_query) {
@@ -148,7 +148,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 				_search_query = false;
 			}
 
-			if (subop == "MarkAllRead") {
+			if (method == "MarkAllRead") {
 
 				var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
@@ -162,7 +162,7 @@ function viewfeed(feed, subop, is_cat, offset, background, infscroll_req) {
 
 							render_local_headlines(nuf, false, JSON.parse(cached_nuf));
 
-							var catchup_query = "?op=rpc&subop=catchupFeed&feed_id=" +
+							var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
 								feed + "&is_cat=" + is_cat;
 
 							console.log(catchup_query);
@@ -246,7 +246,7 @@ function request_counters_real() {
 	try {
 		console.log("requesting counters...");
 
-		var query = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
+		var query = "?op=rpc&method=getAllCounters&seq=" + next_seq();
 
 		query = query + "&omode=flc";
 
@@ -487,7 +487,7 @@ function catchupFeed(feed, is_cat) {
 			return;
 		}
 
-		var catchup_query = "?op=rpc&subop=catchupFeed&feed_id=" +
+		var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
 			feed + "&is_cat=" + is_cat;
 
 		notify_progress("Loading, please wait...", true);

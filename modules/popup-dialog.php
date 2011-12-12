@@ -141,7 +141,7 @@
 						var elem = this;
 						dojo.xhrPost({
 							url: 'backend.php',
-							content: {op: 'rpc', subop: 'saveprofile',
+							content: {op: 'rpc', method: 'saveprofile',
 								value: this.value,
 								id: this.srcNodeRef.getAttribute('profile-id')},
 								load: function(response) {
@@ -242,7 +242,7 @@
 		if ($id == "quickAddFeed") {
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"addfeed\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"addfeed\">";
 
 			print "<div class=\"dlgSec\">".__("Feed")."</div>";
 			print "<div class=\"dlgSecCont\">";
@@ -312,7 +312,7 @@
 #				name='feed_browser' id='feed_browser'>";
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"updateFeedBrowser\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"updateFeedBrowser\">";
 
 			print "<div dojoType=\"dijit.Toolbar\">
 				<div style='float : right'>
@@ -440,7 +440,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"quiet\" value=\"1\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"add\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"add\">";
 
 			$result = db_query($link, "SELECT id,description
 				FROM ttrss_filter_types ORDER BY description");
@@ -693,7 +693,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"setArticleTags\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setArticleTags\">";
 
 			print "<table width='100%'><tr><td>";
 
@@ -779,7 +779,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"secretkey\" value=\"$secretkey\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"sendEmail\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"sendEmail\">";
 
 			$result = db_query($link, "SELECT email, full_name FROM ttrss_users WHERE
 				id = " . $_SESSION["uid"]);
@@ -945,7 +945,7 @@
 			print T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css");
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"setpref\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setpref\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"key\" value=\"USER_STYLESHEET\">";
 
 			print "<table width='100%'><tr><td>";
@@ -973,7 +973,7 @@
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"subop\" value=\"setNote\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setNote\">";
 
 			print "<table width='100%'><tr><td>";
 			print "<textarea dojoType=\"dijit.form.SimpleTextarea\"
@@ -1025,7 +1025,7 @@
 		if ($id == "addInstance") {
 
 			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"subop\" value=\"add\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"add\">";
 
 			print "<div class=\"dlgSec\">".__("Instance")."</div>";
 

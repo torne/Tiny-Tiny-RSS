@@ -1,11 +1,11 @@
 <?php
 	function handle_rpc_request($link) {
 
-		$subop = $_REQUEST["subop"];
+		$method = $_REQUEST["method"];
 		$seq = (int) $_REQUEST["seq"];
 
 		// Silent
-		if ($subop == "setprofile") {
+		if ($method == "setprofile") {
 			$id = db_escape_string($_REQUEST["id"]);
 
 			$_SESSION["profile"] = $id;
@@ -14,7 +14,7 @@
 		}
 
 		// Silent
-		if ($subop == "remprofiles") {
+		if ($method == "remprofiles") {
 			$ids = explode(",", db_escape_string(trim($_REQUEST["ids"])));
 
 			foreach ($ids as $id) {
@@ -27,7 +27,7 @@
 		}
 
 		// Silent
-		if ($subop == "addprofile") {
+		if ($method == "addprofile") {
 			$title = db_escape_string(trim($_REQUEST["title"]));
 			if ($title) {
 				db_query($link, "BEGIN");
@@ -58,7 +58,7 @@
 		}
 
 		// Silent
-		if ($subop == "saveprofile") {
+		if ($method == "saveprofile") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$title = db_escape_string(trim($_REQUEST["value"]));
 
@@ -90,7 +90,7 @@
 		}
 
 		// Silent
-		if ($subop == "remarchive") {
+		if ($method == "remarchive") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
@@ -104,7 +104,7 @@
 			return;
 		}
 
-		if ($subop == "addfeed") {
+		if ($method == "addfeed") {
 			$feed = db_escape_string($_REQUEST['feed']);
 			$cat = db_escape_string($_REQUEST['cat']);
 			$login = db_escape_string($_REQUEST['login']);
@@ -118,7 +118,7 @@
 
 		}
 
-		if ($subop == "extractfeedurls") {
+		if ($method == "extractfeedurls") {
 
 			$urls = get_feeds_from_html($_REQUEST['url']);
 
@@ -126,7 +126,7 @@
 			return;
 		}
 
-		if ($subop == "togglepref") {
+		if ($method == "togglepref") {
 			$key = db_escape_string($_REQUEST["key"]);
 			set_pref($link, $key, !get_pref($link, $key));
 			$value = get_pref($link, $key);
@@ -135,7 +135,7 @@
 			return;
 		}
 
-		if ($subop == "setpref") {
+		if ($method == "setpref") {
 			$value = str_replace("\n", "<br/>", $_REQUEST['value']);
 
 			$key = db_escape_string($_REQUEST["key"]);
@@ -147,7 +147,7 @@
 			return;
 		}
 
-		if ($subop == "mark") {
+		if ($method == "mark") {
 			$mark = $_REQUEST["mark"];
 			$id = db_escape_string($_REQUEST["id"]);
 
@@ -164,7 +164,7 @@
 			return;
 		}
 
-		if ($subop == "delete") {
+		if ($method == "delete") {
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "DELETE FROM ttrss_user_entries
@@ -174,7 +174,7 @@
 			return;
 		}
 
-		if ($subop == "unarchive") {
+		if ($method == "unarchive") {
 			$ids = db_escape_string($_REQUEST["ids"]);
 
 			$result = db_query($link, "UPDATE ttrss_user_entries
@@ -185,7 +185,7 @@
 			return;
 		}
 
-		if ($subop == "archive") {
+		if ($method == "archive") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
@@ -196,7 +196,7 @@
 			return;
 		}
 
-		if ($subop == "publ") {
+		if ($method == "publ") {
 			$pub = $_REQUEST["pub"];
 			$id = db_escape_string($_REQUEST["id"]);
 			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
@@ -229,13 +229,13 @@
 		}
 
 		// Silent
-		/* if ($subop == "update") {
+		/* if ($method == "update") {
 			$feed_id = db_escape_string($_REQUEST["feed"]);
 			update_rss_feed($link, $feed_id);
 			return;
 		} */
 
-		if ($subop == "updateAllFeeds" || $subop == "getAllCounters") {
+		if ($method == "updateAllFeeds" || $method == "getAllCounters") {
 			$last_article_id = (int) $_REQUEST["last_article_id"];
 
 			$reply = array();
@@ -259,7 +259,7 @@
 		}
 
 		/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
-		if ($subop == "catchupSelected") {
+		if ($method == "catchupSelected") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -269,7 +269,7 @@
 			return;
 		}
 
-		if ($subop == "markSelected") {
+		if ($method == "markSelected") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -279,7 +279,7 @@
 			return;
 		}
 
-		if ($subop == "publishSelected") {
+		if ($method == "publishSelected") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
@@ -289,7 +289,7 @@
 			return;
 		}
 
-		if ($subop == "sanityCheck") {
+		if ($method == "sanityCheck") {
 			$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
 
 			$reply = array();
@@ -305,7 +305,7 @@
 			return;
 		}
 
-		if ($subop == "setArticleTags") {
+		if ($method == "setArticleTags") {
 			global $memcache;
 
 			$id = db_escape_string($_REQUEST["id"]);
@@ -377,7 +377,7 @@
 			return;
 		}
 
-		if ($subop == "regenOPMLKey") {
+		if ($method == "regenOPMLKey") {
 			update_feed_access_key($link, 'OPML:Publish',
 				false, $_SESSION["uid"]);
 
@@ -387,7 +387,7 @@
 			return;
 		}
 
-		if ($subop == "completeTags") {
+		if ($method == "completeTags") {
 			$search = db_escape_string($_REQUEST["search"]);
 
 			$result = db_query($link, "SELECT DISTINCT tag_name FROM ttrss_tags
@@ -404,7 +404,7 @@
 			return;
 		}
 
-		if ($subop == "purge") {
+		if ($method == "purge") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$days = sprintf("%d", $_REQUEST["days"]);
 
@@ -421,7 +421,7 @@
 			return;
 		}
 
-/*		if ($subop == "setScore") {
+/*		if ($method == "setScore") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$score = sprintf("%d", $_REQUEST["score"]);
 
@@ -434,7 +434,7 @@
 
 		} */
 
-		if ($subop == "getArticles") {
+		if ($method == "getArticles") {
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 			$articles = array();
 
@@ -448,7 +448,7 @@
 			return;
 		}
 
-		if ($subop == "checkDate") {
+		if ($method == "checkDate") {
 			$date = db_escape_string($_REQUEST["date"]);
 			$date_parsed = strtotime($date);
 
@@ -457,7 +457,7 @@
 			return;
 		}
 
-		if ($subop == "assignToLabel" || $subop == "removeFromLabel") {
+		if ($method == "assignToLabel" || $method == "removeFromLabel") {
 			$reply = array();
 
 			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
@@ -472,7 +472,7 @@
 
 				foreach ($ids as $id) {
 
-					if ($subop == "assignToLabel")
+					if ($method == "assignToLabel")
 						label_add_article($link, $id, $label, $_SESSION["uid"]);
 					else
 						label_remove_article($link, $id, $label, $_SESSION["uid"]);
@@ -492,7 +492,7 @@
 			return;
 		}
 
-		if ($subop == "updateFeedBrowser") {
+		if ($method == "updateFeedBrowser") {
 			$search = db_escape_string($_REQUEST["search"]);
 			$limit = db_escape_string($_REQUEST["limit"]);
 			$mode = (int) db_escape_string($_REQUEST["mode"]);
@@ -504,7 +504,7 @@
 		}
 
 		// Silent
-		if ($subop == "massSubscribe") {
+		if ($method == "massSubscribe") {
 
 			$payload = json_decode($_REQUEST["payload"], false);
 			$mode = $_REQUEST["mode"];
@@ -592,7 +592,7 @@
 			return;
 		}
 
-		if ($subop == "digest-get-contents") {
+		if ($method == "digest-get-contents") {
 			$article_id = db_escape_string($_REQUEST['article_id']);
 
 			$result = db_query($link, "SELECT content,title,link,marked,published
@@ -614,7 +614,7 @@
 			return;
 		}
 
-		if ($subop == "digest-update") {
+		if ($method == "digest-update") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$offset = db_escape_string($_REQUEST['offset']);
 			$seq = db_escape_string($_REQUEST['seq']);
@@ -640,7 +640,7 @@
 			return;
 		}
 
-		if ($subop == "digest-init") {
+		if ($method == "digest-init") {
 			$tmp_feeds = api_get_feeds($link, -4, true, false, 0);
 
 			$feeds = array();
@@ -654,7 +654,7 @@
 			return;
 		}
 
-		if ($subop == "catchupFeed") {
+		if ($method == "catchupFeed") {
 			$feed_id = db_escape_string($_REQUEST['feed_id']);
 			$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
 
@@ -664,7 +664,7 @@
 			return;
 		}
 
-		if ($subop == "sendEmail") {
+		if ($method == "sendEmail") {
 			$secretkey = $_REQUEST['secretkey'];
 
 			require_once 'lib/phpmailer/class.phpmailer.php';
@@ -723,7 +723,7 @@
 			return;
 		}
 
-		if ($subop == "completeEmails") {
+		if ($method == "completeEmails") {
 			$search = db_escape_string($_REQUEST["search"]);
 
 			print "<ul>";
@@ -739,7 +739,7 @@
 			return;
 		}
 
-		if ($subop == "quickAddCat") {
+		if ($method == "quickAddCat") {
 			$cat = db_escape_string($_REQUEST["cat"]);
 
 			add_feed_category($link, $cat);
@@ -758,7 +758,7 @@
 			return;
 		}
 
-		if ($subop == "regenFeedKey") {
+		if ($method == "regenFeedKey") {
 			$feed_id = db_escape_string($_REQUEST['id']);
 			$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
 
@@ -769,7 +769,7 @@
 		}
 
 		// Silent
-		if ($subop == "clearKeys") {
+		if ($method == "clearKeys") {
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				owner_uid = " . $_SESSION["uid"]);
 
@@ -777,7 +777,7 @@
 		}
 
 		// Silent
-		if ($subop == "clearArticleKeys") {
+		if ($method == "clearArticleKeys") {
 			db_query($link, "UPDATE ttrss_user_entries SET uuid = '' WHERE
 				owner_uid = " . $_SESSION["uid"]);
 
@@ -785,7 +785,7 @@
 		}
 
 
-		if ($subop == "verifyRegexp") {
+		if ($method == "verifyRegexp") {
 			$reg_exp = $_REQUEST["reg_exp"];
 
 			$status = @preg_match("/$reg_exp/i", "TEST") !== false;
@@ -795,7 +795,7 @@
 		}
 
 		// TODO: unify with digest-get-contents?
-		if ($subop == "cdmGetArticle") {
+		if ($method == "cdmGetArticle") {
 			$ids = array(db_escape_string($_REQUEST["id"]));
 			$cids = explode(",", $_REQUEST["cids"]);
 
@@ -829,7 +829,7 @@
 			return;
 		}
 
-		if ($subop == "scheduleFeedUpdate") {
+		if ($method == "scheduleFeedUpdate") {
 			$feed_id = db_escape_string($_REQUEST["id"]);
 			$is_cat =  db_escape_string($_REQUEST['is_cat']) == 'true';
 
@@ -865,7 +865,7 @@
 			return;
 		}
 
-		if ($subop == "getTweetInfo") {
+		if ($method == "getTweetInfo") {
 			$id = db_escape_string($_REQUEST['id']);
 
 			$result = db_query($link, "SELECT title, link
@@ -884,7 +884,7 @@
 			return;
 		}
 
-		if ($subop == "setNote") {
+		if ($method == "setNote") {
 			$id = db_escape_string($_REQUEST["id"]);
 			$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
 
@@ -898,7 +898,7 @@
 			return;
 		}
 
-		if ($subop == "genHash") {
+		if ($method == "genHash") {
 			$hash = sha1(uniqid(rand(), true));
 
 			print json_encode(array("hash" => $hash));
@@ -906,6 +906,6 @@
 		}
 
 		print json_encode(array("error" => array("code" => 7,
-			"message" => "Unknown method: $subop")));
+			"message" => "Unknown method: $method")));
 	}
 ?>
