@@ -1,4 +1,6 @@
 <?php
+	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+
 	/* remove ill effects of magic quotes */
 
 	if (get_magic_quotes_gpc()) {
@@ -18,7 +20,6 @@
 
 	require_once "functions.php";
 	if ($op != "share") require_once "sessions.php";
-	require_once "modules/backend-rpc.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";

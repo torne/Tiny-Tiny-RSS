@@ -411,7 +411,7 @@ function displayDlg(id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
 
-	var query = "?op=dlg&id=" +
+	var query = "?op=dlg&method=" +
 		param_escape(id) + "&param=" + param_escape(param);
 
 	new Ajax.Request("backend.php", {
@@ -846,7 +846,7 @@ function addLabel(select, callback) {
 
 function quickAddFeed() {
 	try {
-		var query = "backend.php?op=dlg&id=quickAddFeed";
+		var query = "backend.php?op=dlg&method=quickAddFeed";
 
 		if (dijit.byId("feedAddDlg"))
 			dijit.byId("feedAddDlg").destroyRecursive();
@@ -948,7 +948,7 @@ function quickAddFeed() {
 
 function quickAddFilter() {
 	try {
-		var query = "backend.php?op=dlg&id=quickAddFilter";
+		var query = "backend.php?op=dlg&method=quickAddFilter";
 
 		if (dijit.byId("filterEditDlg"))
 			dijit.byId("filterEditDlg").destroyRecursive();
@@ -1406,7 +1406,7 @@ function editFeed(feed, event) {
 
 function feedBrowser() {
 	try {
-		var query = "backend.php?op=dlg&id=feedBrowser";
+		var query = "backend.php?op=dlg&method=feedBrowser";
 
 		if (dijit.byId("feedAddDlg"))
 			dijit.byId("feedAddDlg").hide();
@@ -1551,7 +1551,7 @@ function feedBrowser() {
 
 function showFeedsWithErrors() {
 	try {
-		var query = "backend.php?op=dlg&id=feedsWithErrors";
+		var query = "backend.php?op=dlg&method=feedsWithErrors";
 
 		if (dijit.byId("errorFeedsDlg"))
 			dijit.byId("errorFeedsDlg").destroyRecursive();

@@ -322,7 +322,7 @@ function view(id) {
 
 		hideAuxDlg();
 
-		var query = "?op=view&id=" + param_escape(id);
+		var query = "?op=article&method=view&id=" + param_escape(id);
 
 		var neighbor_ids = getRelativePostIds(id);
 
@@ -1006,7 +1006,7 @@ function catchupSelection() {
 }
 
 function editArticleTags(id) {
-		var query = "backend.php?op=dlg&id=editArticleTags&param=" + param_escape(id);
+		var query = "backend.php?op=dlg&method=editArticleTags&param=" + param_escape(id);
 
 		if (dijit.byId("editTagsDlg"))
 			dijit.byId("editTagsDlg").destroyRecursive();
@@ -1514,7 +1514,7 @@ function emailArticle(id) {
 		if (dijit.byId("emailArticleDlg"))
 			dijit.byId("emailArticleDlg").destroyRecursive();
 
-		var query = "backend.php?op=dlg&id=emailArticle&param=" + param_escape(id);
+		var query = "backend.php?op=dlg&method=emailArticle&param=" + param_escape(id);
 
 		dialog = new dijit.Dialog({
 			id: "emailArticleDlg",
@@ -1770,7 +1770,7 @@ function getLastVisibleHeadlineId() {
 
 function openArticleInNewWindow(id) {
 	toggleUnread(id, 0, false);
-	window.open("backend.php?op=la&id=" + id);
+	window.open("backend.php?op=article&id=" + id);
 }
 
 function isCdmMode() {
@@ -2028,7 +2028,7 @@ function tweetArticle(id) {
 function editArticleNote(id) {
 	try {
 
-		var query = "backend.php?op=dlg&id=editArticleNote&param=" + param_escape(id);
+		var query = "backend.php?op=dlg&method=editArticleNote&param=" + param_escape(id);
 
 		if (dijit.byId("editNoteDlg"))
 			dijit.byId("editNoteDlg").destroyRecursive();
@@ -2227,7 +2227,7 @@ function shareArticle(id) {
 		if (dijit.byId("shareArticleDlg"))
 			dijit.byId("shareArticleDlg").destroyRecursive();
 
-		var query = "backend.php?op=dlg&id=shareArticle&param=" + param_escape(id);
+		var query = "backend.php?op=dlg&method=shareArticle&param=" + param_escape(id);
 
 		dialog = new dijit.Dialog({
 			id: "shareArticleDlg",

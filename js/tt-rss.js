@@ -222,7 +222,7 @@ function timeout() {
 }
 
 function search() {
-	var query = "backend.php?op=dlg&id=search&param=" +
+	var query = "backend.php?op=dlg&method=search&param=" +
 		param_escape(getActiveFeedId() + ":" + activeFeedIsCat());
 
 	if (dijit.byId("searchDlg"))
@@ -436,7 +436,7 @@ function quickMenuGo(opid) {
 			dialog = new dijit.Dialog({
 				title: __("About..."),
 				style: "width: 400px",
-				href: "backend.php?op=dlg&id=about",
+				href: "backend.php?op=dlg&method=about",
 			});
 
 			dialog.show();
@@ -1078,7 +1078,7 @@ function scheduleFeedUpdate(id, is_cat) {
 
 function newVersionDlg() {
 	try {
-		var query = "backend.php?op=dlg&id=newVersion";
+		var query = "backend.php?op=dlg&method=newVersion";
 
 		if (dijit.byId("newVersionDlg"))
 			dijit.byId("newVersionDlg").destroyRecursive();

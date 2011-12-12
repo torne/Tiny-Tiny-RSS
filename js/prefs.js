@@ -1229,7 +1229,7 @@ function editFeedCats() {
 
 function showInactiveFeeds() {
 	try {
-		var query = "backend.php?op=dlg&id=inactiveFeeds";
+		var query = "backend.php?op=dlg&method=inactiveFeeds";
 
 		if (dijit.byId("inactiveFeedsDlg"))
 			dijit.byId("inactiveFeedsDlg").destroyRecursive();
@@ -1470,7 +1470,7 @@ function editProfiles() {
 		if (dijit.byId("profileEditDlg"))
 			dijit.byId("profileEditDlg").destroyRecursive();
 
-		var query = "backend.php?op=dlg&id=editPrefProfiles";
+		var query = "backend.php?op=dlg&method=editPrefProfiles";
 
 		dialog = new dijit.Dialog({
 			id: "profileEditDlg",
@@ -1773,7 +1773,7 @@ function clearTwitterCredentials() {
 
 function customizeCSS() {
 	try {
-		var query = "backend.php?op=dlg&id=customizeCSS";
+		var query = "backend.php?op=dlg&method=customizeCSS";
 
 		if (dijit.byId("cssEditDlg"))
 			dijit.byId("cssEditDlg").destroyRecursive();
@@ -1815,7 +1815,7 @@ function getSelectedInstances() {
 
 function addInstance() {
 	try {
-		var query = "backend.php?op=dlg&id=addInstance";
+		var query = "backend.php?op=dlg&method=addInstance";
 
 		if (dijit.byId("instanceAddDlg"))
 			dijit.byId("instanceAddDlg").destroyRecursive();
