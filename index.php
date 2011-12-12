@@ -1,4 +1,10 @@
 <?php
+	if (!file_exists("config.php")) {
+		print "<b>Fatal Error</b>: You forgot to copy
+		<b>config.php-dist</b> to <b>config.php</b> and edit it.\n";
+		exit;
+	}
+
 	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
 
 	require_once "functions.php";
