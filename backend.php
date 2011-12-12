@@ -16,6 +16,13 @@
 		$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 	}
 
+	function __autoload($class) {
+		$file = "classes/".strtolower(basename($class)).".php";
+		if (file_exists($file)) {
+			require $file;
+		}
+	}
+
 	$op = $_REQUEST["op"];
 
 	require_once "functions.php";
@@ -43,7 +50,7 @@
 
 	init_connection($link);
 
-	$method = $_REQUEST["method"];
+	$method = strtolower($_REQUEST["method"]);
 	$mode = $_REQUEST["mode"];
 
 	if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {
@@ -136,12 +143,19 @@
 		return;
 	}
 
-	switch($op) { // Select action according to $op value.
-		case "rpc":
-			require_once "modules/backend-rpc.php";
-			handle_rpc_request($link);
-		break; // rpc
+	if (class_exists($op)) {
+		$handler = new $op($link, $_REQUEST);
 
+		if ($handler) {
+			if ($handler->before()) {
+				if (method_exists($handler, $method)) {
+					return $handler->$method();
+				}
+			}
+		}
+	}
+
+	switch($op) { // Select action according to $op value.
 		case "feeds":
 			$method = $_REQUEST["method"];
 			$root = (bool)$_REQUEST["root"];
