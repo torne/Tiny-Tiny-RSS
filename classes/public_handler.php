@@ -1,6 +1,105 @@
 <?php
 class Public_Handler extends Handler {
 
+	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
+		$limit, $search, $search_mode, $match_on, $view_mode = false) {
+
+		require_once "lib/MiniTemplator.class.php";
+
+		$note_style = 	"background-color : #fff7d5;
+			border-width : 1px; ".
+			"padding : 5px; border-style : dashed; border-color : #e7d796;".
+			"margin-bottom : 1em; color : #9a8c59;";
+
+		if (!$limit) $limit = 30;
+
+		if (get_pref($this->link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+			$date_sort_field = "updated";
+		} else {
+			$date_sort_field = "date_entered";
+		}
+
+		$qfh_ret = queryFeedHeadlines($this->link, $feed,
+			$limit, $view_mode, $is_cat, $search, $search_mode,
+			$match_on, "$date_sort_field DESC", 0, $owner_uid);
+
+		$result = $qfh_ret[0];
+		$feed_title = htmlspecialchars($qfh_ret[1]);
+		$feed_site_url = $qfh_ret[2];
+		$last_error = $qfh_ret[3];
+
+		$feed_self_url = get_self_url_prefix() .
+			"/public.php?op=rss&id=-2&key=" .
+			get_feed_access_key($this->link, -2, false);
+
+		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
+
+		$tpl = new MiniTemplator;
+
+		$tpl->readTemplateFromFile("templates/generated_feed.txt");
+
+		$tpl->setVariable('FEED_TITLE', $feed_title);
+		$tpl->setVariable('VERSION', VERSION);
+		$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url));
+
+		if (PUBSUBHUBBUB_HUB && $feed == -2) {
+			$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB));
+			$tpl->addBlock('feed_hub');
+		}
+
+		$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()));
+
+ 		while ($line = db_fetch_assoc($result)) {
+			$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']));
+			$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']));
+			$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']));
+			$tpl->setVariable('ARTICLE_EXCERPT',
+				truncate_string(strip_tags($line["content_preview"]), 100, '...'));
+
+			$content = sanitize($this->link, $line["content_preview"], false, $owner_uid);
+
+			if ($line['note']) {
+				$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
+					$content;
+			}
+
+			$tpl->setVariable('ARTICLE_CONTENT', $content);
+
+			$tpl->setVariable('ARTICLE_UPDATED', date('c', strtotime($line["updated"])));
+			$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']));
+
+			$tags = get_article_tags($this->link, $line["id"], $owner_uid);
+
+			foreach ($tags as $tag) {
+				$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag));
+				$tpl->addBlock('category');
+			}
+
+			$enclosures = get_article_enclosures($this->link, $line["id"]);
+
+			foreach ($enclosures as $e) {
+				$type = htmlspecialchars($e['content_type']);
+				$url = htmlspecialchars($e['content_url']);
+				$length = $e['duration'];
+
+				$tpl->setVariable('ARTICLE_ENCLOSURE_URL', $url);
+				$tpl->setVariable('ARTICLE_ENCLOSURE_TYPE', $type);
+				$tpl->setVariable('ARTICLE_ENCLOSURE_LENGTH', $length);
+
+				$tpl->addBlock('enclosure');
+			}
+
+			$tpl->addBlock('entry');
+		}
+
+		$tmp = "";
+
+		$tpl->addBlock('feed');
+		$tpl->generateOutputToString($tmp);
+
+		print $tmp;
+	}
+
 	function getUnread() {
 		$login = db_escape_string($_REQUEST["login"]);
 		$fresh = $_REQUEST["fresh"] == "1";
@@ -195,7 +294,7 @@ class Public_Handler extends Handler {
 		if ($owner_id) {
 			$_SESSION['uid'] = $owner_id;
 
-			generate_syndicated_feed($this->link, 0, $feed, $is_cat, $limit,
+			$this->generate_syndicated_feed(0, $feed, $is_cat, $limit,
 				$search, $search_mode, $match_on, $view_mode);
 		} else {
 			header('HTTP/1.1 403 Forbidden');

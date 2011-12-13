@@ -700,7 +700,56 @@ class Dlg extends Protected_Handler {
 
 		print "<div class=\"tagCloudContainer\">";
 
-		printTagCloud($this->link);
+		// from here: http://www.roscripts.com/Create_tag_cloud-71.html
+
+		$query = "SELECT tag_name, COUNT(post_int_id) AS count
+			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]."
+			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
+
+		$result = db_query($this->link, $query);
+
+		$tags = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$tags[$line["tag_name"]] = $line["count"];
+		}
+
+        if( count($tags) == 0 ){ return; }
+
+		ksort($tags);
+
+		$max_size = 32; // max font size in pixels
+		$min_size = 11; // min font size in pixels
+
+		// largest and smallest array values
+		$max_qty = max(array_values($tags));
+		$min_qty = min(array_values($tags));
+
+		// find the range of values
+		$spread = $max_qty - $min_qty;
+		if ($spread == 0) { // we don't want to divide by zero
+				$spread = 1;
+		}
+
+		// set the font-size increment
+		$step = ($max_size - $min_size) / ($spread);
+
+		// loop through the tag array
+		foreach ($tags as $key => $value) {
+			// calculate font-size
+			// find the $value in excess of $min_qty
+			// multiply by the font-size increment ($size)
+			// and add the $min_size set above
+			$size = round($min_size + (($value - $min_qty) * $step));
+
+			$key_escaped = str_replace("'", "\\'", $key);
+
+			echo "<a href=\"javascript:viewfeed('$key_escaped') \" style=\"font-size: " .
+				$size . "px\" title=\"$value articles tagged with " .
+				$key . '">' . $key . '</a> ';
+		}
+
+
 
 		print "</div>";
 
