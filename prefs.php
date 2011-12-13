@@ -10,7 +10,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	init_connection($link);
+	if (!init_connection($link)) return;
 
 	login_sequence($link);
 

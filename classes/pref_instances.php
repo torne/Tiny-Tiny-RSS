@@ -1,117 +1,116 @@
 <?php
-	function module_pref_instances($link) {
+class Pref_Instances extends Protected_Handler {
 
-		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
-			print __("Your access level is insufficient to open this tab.");
-			return;
-		}
-
-		$subop = $_REQUEST['subop'];
-
-		if ($subop == "remove") {
-			$ids = db_escape_string($_REQUEST['ids']);
-
-			db_query($link, "DELETE FROM ttrss_linked_instances WHERE
-				id IN ($ids)");
-
-			return;
-		}
-
-		if ($subop == "add") {
-			$id = db_escape_string($_REQUEST["id"]);
-			$access_url = db_escape_string($_REQUEST["access_url"]);
-			$access_key = db_escape_string($_REQUEST["access_key"]);
-
-			db_query($link, "BEGIN");
-
-			$result = db_query($link, "SELECT id FROM ttrss_linked_instances
-				WHERE access_url = '$access_url'");
-
-			if (db_num_rows($result) == 0) {
-				db_query($link, "INSERT INTO ttrss_linked_instances
-					(access_url, access_key, last_connected, last_status_in, last_status_out)
-					VALUES
-					('$access_url', '$access_key', '1970-01-01', -1, -1)");
-
+	function before() {
+		if (parent::before()) {
+			if ($_SESSION["access_level"] < 10) {
+				print __("Your access level is insufficient to open this tab.");
+				return false;
 			}
+			return true;
+		}
+		return false;
+	}
 
-			db_query($link, "COMMIT");
+	function remove() {
+		$ids = db_escape_string($_REQUEST['ids']);
 
-			return;
+		db_query($this->link, "DELETE FROM ttrss_linked_instances WHERE
+			id IN ($ids)");
+	}
+
+	function add() {
+		$id = db_escape_string($_REQUEST["id"]);
+		$access_url = db_escape_string($_REQUEST["access_url"]);
+		$access_key = db_escape_string($_REQUEST["access_key"]);
+
+		db_query($this->link, "BEGIN");
+
+		$result = db_query($this->link, "SELECT id FROM ttrss_linked_instances
+			WHERE access_url = '$access_url'");
+
+		if (db_num_rows($result) == 0) {
+			db_query($this->link, "INSERT INTO ttrss_linked_instances
+				(access_url, access_key, last_connected, last_status_in, last_status_out)
+				VALUES
+				('$access_url', '$access_key', '1970-01-01', -1, -1)");
+
 		}
 
-		if ($subop == "edit") {
+		db_query($this->link, "COMMIT");
+	}
 
-			$id = db_escape_string($_REQUEST["id"]);
+	function edit() {
+		$id = db_escape_string($_REQUEST["id"]);
 
-			$result = db_query($link, "SELECT * FROM ttrss_linked_instances WHERE
-				id = '$id'");
+		$result = db_query($this->link, "SELECT * FROM ttrss_linked_instances WHERE
+			id = '$id'");
 
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"id\" value=\"$id\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"subop\" value=\"editSave\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"id\" value=\"$id\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"editSave\">";
 
-			print "<div class=\"dlgSec\">".__("Instance")."</div>";
+		print "<div class=\"dlgSec\">".__("Instance")."</div>";
 
-			print "<div class=\"dlgSecCont\">";
+		print "<div class=\"dlgSecCont\">";
 
-			/* URL */
+		/* URL */
 
-			$access_url = htmlspecialchars(db_fetch_result($result, 0, "access_url"));
+		$access_url = htmlspecialchars(db_fetch_result($result, 0, "access_url"));
 
-			print __("URL:") . " ";
+		print __("URL:") . " ";
 
-			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
-				placeHolder=\"".__("Instance URL")."\"
-				regExp='^(http|https)://.*'
-				style=\"font-size : 16px; width: 20em\" name=\"access_url\"
-				value=\"$access_url\">";
+		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+			placeHolder=\"".__("Instance URL")."\"
+			regExp='^(http|https)://.*'
+			style=\"font-size : 16px; width: 20em\" name=\"access_url\"
+			value=\"$access_url\">";
 
-			print "<hr/>";
+		print "<hr/>";
 
-			$access_key = htmlspecialchars(db_fetch_result($result, 0, "access_key"));
+		$access_key = htmlspecialchars(db_fetch_result($result, 0, "access_key"));
 
-			/* Access key */
+		/* Access key */
 
-			print __("Access key:") . " ";
+		print __("Access key:") . " ";
 
-			print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
-				placeHolder=\"".__("Access key")."\" regExp='\w{40}'
-				style=\"width: 20em\" name=\"access_key\" id=\"instance_edit_key\"
-				value=\"$access_key\">";
+		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+			placeHolder=\"".__("Access key")."\" regExp='\w{40}'
+			style=\"width: 20em\" name=\"access_key\" id=\"instance_edit_key\"
+			value=\"$access_key\">";
 
-			print "<p class='insensitive'>" . __("Use one access key for both linked instances.");
+		print "<p class='insensitive'>" . __("Use one access key for both linked instances.");
 
-			print "</div>";
+		print "</div>";
 
-			print "<div class=\"dlgButtons\">
-				<div style='float : left'>
-					<button dojoType=\"dijit.form.Button\"
-						onclick=\"return dijit.byId('instanceEditDlg').regenKey()\">".
-						__('Generate new key')."</button>
-				</div>
+		print "<div class=\"dlgButtons\">
+			<div style='float : left'>
 				<button dojoType=\"dijit.form.Button\"
-					onclick=\"return dijit.byId('instanceEditDlg').execute()\">".
-					__('Save')."</button>
-				<button dojoType=\"dijit.form.Button\"
-					onclick=\"return dijit.byId('instanceEditDlg').hide()\"\">".
-					__('Cancel')."</button></div>";
+					onclick=\"return dijit.byId('instanceEditDlg').regenKey()\">".
+					__('Generate new key')."</button>
+			</div>
+			<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('instanceEditDlg').execute()\">".
+				__('Save')."</button>
+			<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('instanceEditDlg').hide()\"\">".
+				__('Cancel')."</button></div>";
 
-			return;
-		}
+	}
 
-		if ($subop == "editSave") {
-			$id = db_escape_string($_REQUEST["id"]);
-			$access_url = db_escape_string($_REQUEST["access_url"]);
-			$access_key = db_escape_string($_REQUEST["access_key"]);
+	function editSave() {
+		$id = db_escape_string($_REQUEST["id"]);
+		$access_url = db_escape_string($_REQUEST["access_url"]);
+		$access_key = db_escape_string($_REQUEST["access_key"]);
 
-			db_query($link, "UPDATE ttrss_linked_instances SET
-				access_key = '$access_key', access_url = '$access_url',
-				last_connected = '1970-01-01'
-				WHERE id = '$id'");
+		db_query($this->link, "UPDATE ttrss_linked_instances SET
+			access_key = '$access_key', access_url = '$access_url',
+			last_connected = '1970-01-01'
+			WHERE id = '$id'");
 
-			return;
-		}
+	}
+
+	function index() {
 
 		if (!function_exists('curl_init')) {
 			print "<div style='padding : 1em'>";
@@ -145,7 +144,7 @@
 
 		print "</div>"; #toolbar
 
-		$result = db_query($link, "SELECT *,
+		$result = db_query($this->link, "SELECT *,
 			(SELECT COUNT(*) FROM ttrss_linked_feeds
 				WHERE instance_id = ttrss_linked_instances.id) AS num_feeds
 			FROM ttrss_linked_instances
@@ -173,7 +172,7 @@
 			$id = $line['id'];
 			$this_row_id = "id=\"LIRR-$id\"";
 
-			$line["last_connected"] = make_local_datetime($link, $line["last_connected"], false);
+			$line["last_connected"] = make_local_datetime($this->link, $line["last_connected"], false);
 
 			print "<tr class=\"$class\" $this_row_id>";
 
@@ -201,4 +200,5 @@
 		print "</div>"; #container
 
 	}
+}
 ?>

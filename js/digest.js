@@ -26,7 +26,7 @@ function catchup_feed(feed_id, callback) {
 
 			if (feed_id < 0) is_cat = "true"; // KLUDGE
 
-			var query = "?op=rpc&subop=catchupFeed&feed_id=" +
+			var query = "?op=rpc&method=catchupFeed&feed_id=" +
 				feed_id + "&is_cat=" + is_cat;
 
 			new Ajax.Request("backend.php",	{
@@ -68,7 +68,7 @@ function catchup_visible_articles(callback) {
 
 		if (confirm(__("Mark %d displayed articles as read?").replace("%d", ids.length))) {
 
-			var query = "?op=rpc&subop=catchupSelected" +
+			var query = "?op=rpc&method=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(ids);
 
 			new Ajax.Request("backend.php",	{
@@ -88,7 +88,7 @@ function catchup_visible_articles(callback) {
 
 function catchup_article(article_id, callback) {
 	try {
-		var query = "?op=rpc&subop=catchupSelected" +
+		var query = "?op=rpc&method=catchupSelected" +
 			"&cmode=0&ids=" + article_id;
 
 		new Ajax.Request("backend.php",	{
@@ -169,7 +169,7 @@ function update(callback) {
 		window.clearTimeout(_update_timeout);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=rpc&subop=digest-init",
+			parameters: "?op=rpc&method=digestinit",
 			onComplete: function(transport) {
 				fatal_error_check(transport);
 				parse_feeds(transport);
@@ -220,7 +220,7 @@ function view(article_id) {
 			}, 500);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=rpc&subop=digest-get-contents&article_id=" +
+			parameters: "?op=rpc&method=digestgetcontents&article_id=" +
 				article_id,
 			onComplete: function(transport) {
 				fatal_error_check(transport);
@@ -315,14 +315,14 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		if (!offset) $("headlines").scrollTop = 0;
 
-		var query = "backend.php?op=rpc&subop=digest-update&feed_id=" +
+		var query = "backend.php?op=rpc&method=digestupdate&feed_id=" +
 				param_escape(feed_id) +	"&offset=" + offset +
 				"&seq=" + _update_seq;
 
 		console.log(query);
 
 		var img = false;
-		
+
 		if ($("F-" + feed_id)) {
 			img = $("F-" + feed_id).getElementsByTagName("IMG")[0];
 
@@ -648,7 +648,7 @@ function parse_headlines(transport, replace, no_effects) {
 function init_second_stage() {
 	try {
 		new Ajax.Request("backend.php",	{
-			parameters: "backend.php?op=rpc&subop=digest-init",
+			parameters: "backend.php?op=rpc&method=digestinit",
 			onComplete: function(transport) {
 				parse_feeds(transport);
 				Element.hide("overlay");
@@ -667,7 +667,7 @@ function init() {
 		dojo.require("dijit.Dialog");
 
 		new Ajax.Request("backend.php", {
-			parameters: "?op=rpc&subop=sanityCheck",
+			parameters: "?op=rpc&method=sanityCheck",
 			onComplete: function(transport) {
 				backend_sanity_check_callback(transport);
 			} });
@@ -681,7 +681,7 @@ function toggle_mark(img, id) {
 
 	try {
 
-		var query = "?op=rpc&id=" + id + "&subop=mark";
+		var query = "?op=rpc&id=" + id + "&method=mark";
 
 		if (!img) return;
 
@@ -710,7 +710,7 @@ function toggle_pub(img, id, note) {
 
 	try {
 
-		var query = "?op=rpc&id=" + id + "&subop=publ";
+		var query = "?op=rpc&id=" + id + "&method=publ";
 
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);
@@ -798,14 +798,14 @@ function update_title(unread) {
 function tweet_article(id) {
 	try {
 
-		var query = "?op=rpc&subop=getTweetInfo&id=" + param_escape(id);
+		var query = "?op=rpc&method=getTweetInfo&id=" + param_escape(id);
 
 		console.log(query);
 
 		var d = new Date();
       var ts = d.getTime();
 
-		var w = window.open('backend.php?op=loading', 'ttrss_tweet',
+		var w = window.open('backend.php?op=backend&method=loading', 'ttrss_tweet',
 			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
 
 		new Ajax.Request("backend.php",	{

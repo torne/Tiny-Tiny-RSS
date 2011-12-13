@@ -82,7 +82,7 @@ function updateFeedList() {
 			var cat_id = id.substr(id.indexOf(":")+1);
 
 			new Ajax.Request("backend.php",
-				{ parameters: "backend.php?op=feeds&subop=collapse&cid=" +
+				{ parameters: "backend.php?op=feeds&method=collapse&cid=" +
 					param_escape(cat_id) + "&mode=0" } );
 	   },
 		onClose: function (item, node) {
@@ -90,7 +90,7 @@ function updateFeedList() {
 			var cat_id = id.substr(id.indexOf(":")+1);
 
 			new Ajax.Request("backend.php",
-				{ parameters: "backend.php?op=feeds&subop=collapse&cid=" +
+				{ parameters: "backend.php?op=feeds&method=collapse&cid=" +
 					param_escape(cat_id) + "&mode=1" } );
 
 	   },
@@ -148,7 +148,7 @@ function catchupAllFeeds() {
 
 	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
 
-		var query_str = "backend.php?op=feeds&subop=catchupAll";
+		var query_str = "backend.php?op=feeds&method=catchupAll";
 
 		notify_progress("Marking all feeds as read...");
 
@@ -165,10 +165,10 @@ function catchupAllFeeds() {
 	}
 }
 
-function viewCurrentFeed(subop) {
+function viewCurrentFeed(method) {
 
 	if (getActiveFeedId() != undefined) {
-		viewfeed(getActiveFeedId(), subop, activeFeedIsCat());
+		viewfeed(getActiveFeedId(), method, activeFeedIsCat());
 	}
 	return false; // block unneeded form submits
 }
@@ -186,7 +186,7 @@ function timeout() {
 
 			window.clearTimeout(counter_timeout_id);
 
-			var query_str = "?op=rpc&subop=getAllCounters&seq=" + next_seq();
+			var query_str = "?op=rpc&method=getAllCounters&seq=" + next_seq();
 
 			var omode;
 
@@ -222,7 +222,7 @@ function timeout() {
 }
 
 function search() {
-	var query = "backend.php?op=dlg&id=search&param=" +
+	var query = "backend.php?op=dlg&method=search&param=" +
 		param_escape(getActiveFeedId() + ":" + activeFeedIsCat());
 
 	if (dijit.byId("searchDlg"))
@@ -302,7 +302,7 @@ function init() {
 		var hasAudio = !!((myAudioTag = document.createElement('audio')).canPlayType);
 
 		new Ajax.Request("backend.php",	{
-			parameters: {op: "rpc", subop: "sanityCheck", hasAudio: hasAudio},
+			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
@@ -436,7 +436,7 @@ function quickMenuGo(opid) {
 			dialog = new dijit.Dialog({
 				title: __("About..."),
 				style: "width: 400px",
-				href: "backend.php?op=dlg&id=about",
+				href: "backend.php?op=dlg&method=about",
 			});
 
 			dialog.show();
@@ -454,7 +454,7 @@ function toggleDispRead() {
 
 		hideOrShowFeeds(hide);
 
-		var query = "?op=rpc&subop=setpref&key=HIDE_READ_FEEDS&value=" +
+		var query = "?op=rpc&method=setpref&key=HIDE_READ_FEEDS&value=" +
 			param_escape(hide);
 
 		setInitParam("hide_read_feeds", hide);
@@ -555,7 +555,7 @@ function collapse_feedlist() {
 
 		dijit.byId("main").resize();
 
-		query = "?op=rpc&subop=setpref&key=_COLLAPSED_FEEDLIST&value=true";
+		query = "?op=rpc&method=setpref&key=_COLLAPSED_FEEDLIST&value=true";
 		new Ajax.Request("backend.php", { parameters: query });
 
 	} catch (e) {
@@ -577,7 +577,7 @@ function viewLimitChanged() {
 		var pr = prompt(__("Assign score to article:"), score);
 
 		if (pr != undefined) {
-			var query = "?op=rpc&subop=setScore&id=" + id + "&score=" + pr;
+			var query = "?op=rpc&method=setScore&id=" + id + "&score=" + pr;
 
 			new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -611,7 +611,7 @@ function rescoreCurrentFeed() {
 	if (confirm(pr)) {
 		notify_progress("Rescoring articles...");
 
-		var query = "?op=pref-feeds&subop=rescore&quiet=1&ids=" + actid;
+		var query = "?op=pref-feeds&method=rescore&quiet=1&ids=" + actid;
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -1024,7 +1024,7 @@ function inPreferences() {
 function reverseHeadlineOrder() {
 	try {
 
-		var query_str = "?op=rpc&subop=togglepref&key=REVERSE_HEADLINES";
+		var query_str = "?op=rpc&method=togglepref&key=REVERSE_HEADLINES";
 
 		new Ajax.Request("backend.php", {
 			parameters: query_str,
@@ -1049,7 +1049,7 @@ function scheduleFeedUpdate(id, is_cat) {
 			return;
 		}
 
-		var query = "?op=rpc&subop=scheduleFeedUpdate&id=" +
+		var query = "?op=rpc&method=scheduleFeedUpdate&id=" +
 			param_escape(id) +
 			"&is_cat=" + param_escape(is_cat);
 
@@ -1078,7 +1078,7 @@ function scheduleFeedUpdate(id, is_cat) {
 
 function newVersionDlg() {
 	try {
-		var query = "backend.php?op=dlg&id=newVersion";
+		var query = "backend.php?op=dlg&method=newVersion";
 
 		if (dijit.byId("newVersionDlg"))
 			dijit.byId("newVersionDlg").destroyRecursive();

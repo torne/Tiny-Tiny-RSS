@@ -5,62 +5,8 @@ var hotkey_prefix_pressed = false;
 
 var seq = "";
 
-function instancelist_callback2(transport) {
-	try {
-		dijit.byId('instanceConfigTab').attr('content', transport.responseText);
-		selectTab("instanceConfig", true);
-		notify("");
-	} catch (e) {
-		exception_error("instancelist_callback2", e);
-	}
-}
-
-function feedlist_callback2(transport) {
-	try {
-		dijit.byId('feedConfigTab').attr('content', transport.responseText);
-		selectTab("feedConfig", true);
-		notify("");
-	} catch (e) {
-		exception_error("feedlist_callback2", e);
-	}
-}
-
-function filterlist_callback2(transport) {
-	dijit.byId('filterConfigTab').attr('content', transport.responseText);
-	notify("");
-}
-
-function labellist_callback2(transport) {
-	try {
-		dijit.byId('labelConfigTab').attr('content', transport.responseText);
-		notify("");
-	} catch (e) {
-		exception_error("labellist_callback2", e);
-	}
-}
-
-function userlist_callback2(transport) {
-	try {
-		dijit.byId('userConfigTab').attr('content', transport.responseText);
-
-		notify("");
-	} catch (e) {
-		exception_error("userlist_callback2", e);
-	}
-}
-
-function prefslist_callback2(transport) {
-	try {
-		dijit.byId('genConfigTab').attr('content', transport.responseText);
-
-		notify("");
-	} catch (e) {
-		exception_error("prefslist_callback2", e);
-	}
-}
-
-function notify_callback2(transport) {
-	notify_info(transport.responseText);
+function notify_callback2(transport, sticky) {
+	notify_info(transport.responseText, sticky);
 }
 
 function updateFeedList(sort_key) {
@@ -72,7 +18,9 @@ function updateFeedList(sort_key) {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-feeds&search=" + param_escape(search),
 		onComplete: function(transport) {
-			feedlist_callback2(transport);
+			dijit.byId('feedConfigTab').attr('content', transport.responseText);
+			selectTab("feedConfig", true);
+			notify("");
 		} });
 }
 
@@ -80,14 +28,14 @@ function updateInstanceList(sort_key) {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-instances&sort=" + param_escape(sort_key),
 		onComplete: function(transport) {
-			instancelist_callback2(transport);
+			dijit.byId('instanceConfigTab').attr('content', transport.responseText);
+			selectTab("instanceConfig", true);
+			notify("");
 		} });
 }
 
 function updateUsersList(sort_key) {
-
 	try {
-
 		var user_search = $("user_search");
 		var search = "";
 		if (user_search) { search = user_search.value; }
@@ -99,7 +47,9 @@ function updateUsersList(sort_key) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				dijit.byId('userConfigTab').attr('content', transport.responseText);
+				selectTab("userConfig", true)
+				notify("");
 			} });
 
 	} catch (e) {
@@ -124,13 +74,14 @@ function addUser() {
 
 		notify_progress("Adding user...");
 
-		var query = "?op=pref-users&subop=add&login=" +
+		var query = "?op=pref-users&method=add&login=" +
 			param_escape(login);
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				notify_callback2(transport);
+				updateUsersList();
 			} });
 
 	} catch (e) {
@@ -148,7 +99,7 @@ function editUser(id, event) {
 		selectTableRows('prefUserList', 'none');
 		selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
-		var query = "?op=pref-users&subop=edit&id=" +
+		var query = "?op=pref-users&method=edit&id=" +
 			param_escape(id);
 
 		new Ajax.Request("backend.php",	{
@@ -173,7 +124,7 @@ function editUser(id, event) {
 function editFilter(id) {
 	try {
 
-		var query = "backend.php?op=pref-filters&subop=edit&id=" + param_escape(id);
+		var query = "backend.php?op=pref-filters&method=edit&id=" + param_escape(id);
 
 		if (dijit.byId("filterEditDlg"))
 			dijit.byId("filterEditDlg").destroyRecursive();
@@ -193,7 +144,7 @@ function editFilter(id) {
 
 					var id = this.attr('value').id;
 
-					var query = "?op=pref-filters&subop=remove&ids="+
+					var query = "?op=pref-filters&method=remove&ids="+
 						param_escape(id);
 
 					new Ajax.Request("backend.php",	{
@@ -224,7 +175,7 @@ function editFilter(id) {
 			execute: function() {
 				if (this.validate()) {
 
-					var query = "?op=rpc&subop=verifyRegexp&reg_exp=" +
+					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
 						param_escape(dialog.attr('value').reg_exp);
 
 					notify_progress("Verifying regular expression...");
@@ -323,13 +274,13 @@ function removeSelectedLabels() {
 		if (ok) {
 			notify_progress("Removing selected labels...");
 
-			var query = "?op=pref-labels&subop=remove&ids="+
+			var query = "?op=pref-labels&method=remove&ids="+
 				param_escape(sel_rows.toString());
 
 			new Ajax.Request("backend.php",	{
 				parameters: query,
 				onComplete: function(transport) {
-						labellist_callback2(transport);
+						updateLabelList();
 					} });
 
 		}
@@ -353,13 +304,13 @@ function removeSelectedUsers() {
 			if (ok) {
 				notify_progress("Removing selected users...");
 
-				var query = "?op=pref-users&subop=remove&ids="+
+				var query = "?op=pref-users&method=remove&ids="+
 					param_escape(sel_rows.toString());
 
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) {
-						userlist_callback2(transport);
+						updateUsersList();
 					} });
 
 			}
@@ -388,7 +339,7 @@ function removeSelectedFilters() {
 			if (ok) {
 				notify_progress("Removing selected filters...");
 
-				var query = "?op=pref-filters&subop=remove&ids="+
+				var query = "?op=pref-filters&method=remove&ids="+
 					param_escape(sel_rows.toString());
 
 				new Ajax.Request("backend.php",	{
@@ -423,7 +374,7 @@ function removeSelectedFeeds() {
 
 				notify_progress("Unsubscribing from selected feeds...", true);
 
-				var query = "?op=pref-feeds&subop=remove&ids="+
+				var query = "?op=pref-feeds&method=remove&ids="+
 					param_escape(sel_rows.toString());
 
 				console.log(query);
@@ -484,7 +435,7 @@ function purgeSelectedFeeds() {
 		if (pr != undefined) {
 			notify_progress("Purging selected feed...");
 
-			var query = "?op=rpc&subop=purge&ids="+
+			var query = "?op=rpc&method=purge&ids="+
 				param_escape(sel_rows.toString()) + "&days=" + pr;
 
 			console.log(query);
@@ -530,7 +481,7 @@ function userEditSave() {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				updateUsersList();
 			} });
 
 	} catch (e) {
@@ -583,13 +534,13 @@ function resetSelectedUserPass() {
 
 			var id = rows[0];
 
-			var query = "?op=pref-users&subop=resetPass&id=" +
+			var query = "?op=pref-users&method=resetPass&id=" +
 				param_escape(id);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-					userlist_callback2(transport);
+					notify_info(transport.responseText);
 				} });
 
 		}
@@ -619,7 +570,7 @@ function selectedUserDetails() {
 
 		var id = rows[0];
 
-		var query = "?op=pref-users&subop=user-details&id=" + id;
+		var query = "?op=pref-users&method=userdetails&id=" + id;
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -682,7 +633,7 @@ function editSelectedFeeds() {
 
 		notify_progress("Loading, please wait...");
 
-		var query = "backend.php?op=pref-feeds&subop=editfeeds&ids=" +
+		var query = "backend.php?op=pref-feeds&method=editfeeds&ids=" +
 			param_escape(rows.toString());
 
 		console.log(query);
@@ -843,7 +794,8 @@ function updateFilterList() {
 	new Ajax.Request("backend.php",	{
 		parameters: "?op=pref-filters",
 		onComplete: function(transport) {
-			filterlist_callback2(transport);
+			dijit.byId('filterConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
@@ -851,7 +803,8 @@ function updateLabelList() {
 	new Ajax.Request("backend.php",	{
 		parameters: "?op=pref-labels",
 		onComplete: function(transport) {
-			labellist_callback2(transport);
+			dijit.byId('labelConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
@@ -859,11 +812,12 @@ function updatePrefsList() {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-prefs",
 		onComplete: function(transport) {
-			prefslist_callback2(transport);
+			dijit.byId('genConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
-function selectTab(id, noupdate, subop) {
+function selectTab(id, noupdate, method) {
 	try {
 		if (!noupdate) {
 			notify_progress("Loading, please wait...");
@@ -905,10 +859,10 @@ function init_second_stage() {
 				if (tab) dijit.byId("pref-tabs").selectChild(tab);
 			}
 
-			var subop = getURLParam('subop');
+			var method = getURLParam('method');
 
-			if (subop == 'editFeed') {
-				var param = getURLParam('subopparam');
+			if (method == 'editFeed') {
+				var param = getURLParam('methodparam');
 
 				window.setTimeout('editFeed(' + param + ')', 100);
 			}
@@ -938,7 +892,7 @@ function init() {
 			loading_set_progress(50);
 
 			new Ajax.Request("backend.php", {
-				parameters: {op: "rpc", subop: "sanityCheck"},
+				parameters: {op: "rpc", method: "sanityCheck"},
 					onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
@@ -955,7 +909,7 @@ function validatePrefsReset() {
 
 		if (ok) {
 
-			query = "?op=pref-prefs&subop=reset-config";
+			query = "?op=pref-prefs&method=resetconfig";
 			console.log(query);
 
 			new Ajax.Request("backend.php", {
@@ -1160,7 +1114,7 @@ function pref_hotkey_handler(e) {
 
 function editFeedCats() {
 	try {
-		var query = "backend.php?op=pref-feeds&subop=editCats";
+		var query = "backend.php?op=pref-feeds&method=editCats";
 
 		if (dijit.byId("feedCatEditDlg"))
 			dijit.byId("feedCatEditDlg").destroyRecursive();
@@ -1181,7 +1135,7 @@ function editFeedCats() {
 					if (ok) {
 						notify_progress("Removing selected categories...", true);
 
-						var query = "?op=pref-feeds&subop=editCats&action=remove&ids="+
+						var query = "?op=pref-feeds&method=editCats&action=remove&ids="+
 							param_escape(sel_rows.toString());
 
 						new Ajax.Request("backend.php",	{
@@ -1202,7 +1156,7 @@ function editFeedCats() {
 				if (this.validate()) {
 					notify_progress("Creating category...");
 
-					var query = "?op=pref-feeds&subop=editCats&action=add&cat=" +
+					var query = "?op=pref-feeds&method=editCats&action=add&cat=" +
 						param_escape(this.attr('value').newcat);
 
 					new Ajax.Request("backend.php",	{
@@ -1229,7 +1183,7 @@ function editFeedCats() {
 
 function showInactiveFeeds() {
 	try {
-		var query = "backend.php?op=dlg&id=inactiveFeeds";
+		var query = "backend.php?op=dlg&method=inactiveFeeds";
 
 		if (dijit.byId("inactiveFeedsDlg"))
 			dijit.byId("inactiveFeedsDlg").destroyRecursive();
@@ -1252,7 +1206,7 @@ function showInactiveFeeds() {
 					if (ok) {
 						notify_progress("Removing selected feeds...", true);
 
-						var query = "?op=pref-feeds&subop=remove&ids="+
+						var query = "?op=pref-feeds&method=remove&ids="+
 							param_escape(sel_rows.toString());
 
 						new Ajax.Request("backend.php",	{
@@ -1291,7 +1245,7 @@ function opmlRegenKey() {
 
 			notify_progress("Trying to change address...", true);
 
-			var query = "?op=rpc&subop=regenOPMLKey";
+			var query = "?op=rpc&method=regenOPMLKey";
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -1376,7 +1330,7 @@ function clearFeedArticles(feed_id) {
 
 	notify_progress("Clearing feed...");
 
-	var query = "?op=pref-feeds&quiet=1&subop=clear&id=" + feed_id;
+	var query = "?op=pref-feeds&quiet=1&method=clear&id=" + feed_id;
 
 	new Ajax.Request("backend.php",	{
 		parameters: query,
@@ -1399,7 +1353,7 @@ function rescoreSelectedFeeds() {
 		if (ok) {
 			notify_progress("Rescoring selected feeds...", true);
 
-			var query = "?op=pref-feeds&subop=rescore&quiet=1&ids="+
+			var query = "?op=pref-feeds&method=rescore&quiet=1&ids="+
 				param_escape(sel_rows.toString());
 
 			new Ajax.Request("backend.php",	{
@@ -1422,7 +1376,7 @@ function rescore_all_feeds() {
 	if (ok) {
 		notify_progress("Rescoring feeds...", true);
 
-		var query = "?op=pref-feeds&subop=rescoreAll&quiet=1";
+		var query = "?op=pref-feeds&method=rescoreAll&quiet=1";
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -1440,13 +1394,13 @@ function labelColorReset() {
 			var ok = confirm(__("Reset selected labels to default colors?"));
 
 			if (ok) {
-				var query = "?op=pref-labels&subop=color-reset&ids="+
+				var query = "?op=pref-labels&method=colorreset&ids="+
 					param_escape(labels.toString());
 
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) {
-						labellist_callback2(transport);
+						updateLabelList();
 					} });
 			}
 
@@ -1470,7 +1424,7 @@ function editProfiles() {
 		if (dijit.byId("profileEditDlg"))
 			dijit.byId("profileEditDlg").destroyRecursive();
 
-		var query = "backend.php?op=dlg&id=editPrefProfiles";
+		var query = "backend.php?op=dlg&method=editPrefProfiles";
 
 		dialog = new dijit.Dialog({
 			id: "profileEditDlg",
@@ -1488,7 +1442,7 @@ function editProfiles() {
 					if (ok) {
 						notify_progress("Removing selected profiles...", true);
 
-						var query = "?op=rpc&subop=remprofiles&ids="+
+						var query = "?op=rpc&method=remprofiles&ids="+
 							param_escape(sel_rows.toString());
 
 						new Ajax.Request("backend.php",	{
@@ -1514,7 +1468,7 @@ function editProfiles() {
 					if (ok) {
 						notify_progress("Loading, please wait...");
 
-						var query = "?op=rpc&subop=setprofile&id="+
+						var query = "?op=rpc&method=setprofile&id="+
 							param_escape(sel_rows.toString());
 
 						new Ajax.Request("backend.php",	{
@@ -1532,7 +1486,7 @@ function editProfiles() {
 				if (this.validate()) {
 					notify_progress("Creating profile...", true);
 
-					var query = "?op=rpc&subop=addprofile&title=" +
+					var query = "?op=rpc&method=addprofile&title=" +
 						param_escape(dialog.attr('value').newprofile);
 
 					new Ajax.Request("backend.php",	{
@@ -1567,7 +1521,7 @@ function activatePrefProfile() {
 		if (ok) {
 			notify_progress("Loading, please wait...");
 
-			var query = "?op=rpc&subop=setprofile&id="+
+			var query = "?op=rpc&method=setprofile&id="+
 				param_escape(sel_rows.toString());
 
 			new Ajax.Request("backend.php",	{
@@ -1591,7 +1545,7 @@ function clearFeedAccessKeys() {
 	if (ok) {
 		notify_progress("Clearing URLs...");
 
-		var query = "?op=rpc&subop=clearKeys";
+		var query = "?op=rpc&method=clearKeys";
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -1610,7 +1564,7 @@ function clearArticleAccessKeys() {
 	if (ok) {
 		notify_progress("Clearing URLs...");
 
-		var query = "?op=rpc&subop=clearArticleKeys";
+		var query = "?op=rpc&method=clearArticleKeys";
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
@@ -1626,7 +1580,7 @@ function resetFeedOrder() {
 		notify_progress("Loading, please wait...");
 
 		new Ajax.Request("backend.php", {
-			parameters: "?op=pref-feeds&subop=feedsortreset",
+			parameters: "?op=pref-feeds&method=feedsortreset",
 			onComplete: function(transport) {
 		  		updateFeedList();
 			} });
@@ -1642,7 +1596,7 @@ function resetCatOrder() {
 		notify_progress("Loading, please wait...");
 
 		new Ajax.Request("backend.php", {
-			parameters: "?op=pref-feeds&subop=catsortreset",
+			parameters: "?op=pref-feeds&method=catsortreset",
 			onComplete: function(transport) {
 		  		updateFeedList();
 			} });
@@ -1664,7 +1618,7 @@ function editCat(id, item, event) {
 			new Ajax.Request("backend.php", {
 			parameters: {
 				op: 'pref-feeds',
-				subop: 'renamecat',
+				method: 'renamecat',
 				id: id,
 				title: new_name,
 			},
@@ -1680,7 +1634,7 @@ function editCat(id, item, event) {
 
 function editLabel(id, event) {
 	try {
-		var query = "backend.php?op=pref-labels&subop=edit&id=" +
+		var query = "backend.php?op=pref-labels&method=edit&id=" +
 			param_escape(id);
 
 		if (dijit.byId("labelEditDlg"))
@@ -1705,7 +1659,7 @@ function editLabel(id, event) {
 					color = bg;
 				}
 
-				var query = "?op=pref-labels&subop=color-set&kind="+kind+
+				var query = "?op=pref-labels&method=colorset&kind="+kind+
 					"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) +
 					"&bg=" + param_escape(bg) + "&color=" + param_escape(color);
 
@@ -1756,7 +1710,7 @@ function clearTwitterCredentials() {
 		if (ok) {
 			notify_progress("Clearing credentials...");
 
-			var query = "?op=pref-feeds&subop=remtwitterinfo";
+			var query = "?op=pref-feeds&method=remtwitterinfo";
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -1773,7 +1727,7 @@ function clearTwitterCredentials() {
 
 function customizeCSS() {
 	try {
-		var query = "backend.php?op=dlg&id=customizeCSS";
+		var query = "backend.php?op=dlg&method=customizeCSS";
 
 		if (dijit.byId("cssEditDlg"))
 			dijit.byId("cssEditDlg").destroyRecursive();
@@ -1815,7 +1769,7 @@ function getSelectedInstances() {
 
 function addInstance() {
 	try {
-		var query = "backend.php?op=dlg&id=addInstance";
+		var query = "backend.php?op=dlg&method=addInstance";
 
 		if (dijit.byId("instanceAddDlg"))
 			dijit.byId("instanceAddDlg").destroyRecursive();
@@ -1826,7 +1780,7 @@ function addInstance() {
 			style: "width: 600px",
 			regenKey: function() {
 				new Ajax.Request("backend.php", {
-					parameters: "?op=rpc&subop=genHash",
+					parameters: "?op=rpc&method=genHash",
 					onComplete: function(transport) {
 						var reply = JSON.parse(transport.responseText);
 						if (reply)
@@ -1865,7 +1819,7 @@ function editInstance(id, event) {
 		selectTableRows('prefInstanceList', 'none');
 		selectTableRowById('LIRR-'+id, 'LICHK-'+id, true);
 
-		var query = "backend.php?op=pref-instances&subop=edit&id=" +
+		var query = "backend.php?op=pref-instances&method=edit&id=" +
 			param_escape(id);
 
 		if (dijit.byId("instanceEditDlg"))
@@ -1877,7 +1831,7 @@ function editInstance(id, event) {
 			style: "width: 600px",
 			regenKey: function() {
 				new Ajax.Request("backend.php", {
-					parameters: "?op=rpc&subop=genHash",
+					parameters: "?op=rpc&method=genHash",
 					onComplete: function(transport) {
 						var reply = JSON.parse(transport.responseText);
 						if (reply)
@@ -1927,7 +1881,7 @@ function removeSelectedInstances() {
 			if (ok) {
 				notify_progress("Removing selected instances...");
 
-				var query = "?op=pref-instances&subop=remove&ids="+
+				var query = "?op=pref-instances&method=remove&ids="+
 					param_escape(sel_rows.toString());
 
 				new Ajax.Request("backend.php", {
