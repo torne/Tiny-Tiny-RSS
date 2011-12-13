@@ -10,7 +10,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	init_connection($link);
+	if (!init_connection($link)) return;
 
 	function opml_export($link, $name, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
 		if (!$_REQUEST["debug"]) {

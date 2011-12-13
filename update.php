@@ -47,14 +47,6 @@
 	// Create a database connection.
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
-		}
-		// PG seems to display its own errors just fine by default.
-		return;
-	}
-
 	init_connection($link);
 
 	if ($op == "-feeds") {

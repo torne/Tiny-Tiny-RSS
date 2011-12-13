@@ -16,17 +16,21 @@
 		$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 	}
 
-	function __autoload($class) {
-		$file = "classes/".strtolower(basename($class)).".php";
-		if (file_exists($file)) {
-			require $file;
-		}
+	$op = $_REQUEST["op"];
+	@$method = $_REQUEST['subop'] ? $_REQUEST['subop'] : $_REQUEST["method"];
+
+	/* Public calls compatibility shim */
+
+	$public_calls = array("globalUpdateFeeds", "rss", "getUnread", "getProfiles", "share",
+		"fbexport", "logout", "pubsub");
+
+	if (array_search($op, $public_calls) !== false) {
+		header("Location: public.php?" . $_SERVER['QUERY_STRING']);
+		return;
 	}
 
-	$op = $_REQUEST["op"];
-
 	require_once "functions.php";
-	if ($op != "share") require_once "sessions.php";
+	require_once "sessions.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
@@ -40,17 +44,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
-		}
-		// PG seems to display its own errors just fine by default.
-		return;
-	}
-
-	init_connection($link);
-
-	$method = $_REQUEST['subop'] ? $_REQUEST['subop'] : $_REQUEST["method"];
+	if (!init_connection($link)) return;
 
 	header("Content-Type: text/plain; charset=utf-8");
 
@@ -62,15 +56,9 @@
 		authenticate_user($link, "admin", null);
 	}
 
-	$public_calls = array("globalUpdateFeeds", "rss", "getUnread", "getProfiles", "share",
-		"fbexport", "logout", "pubsub");
+	// TODO remove and handle within Handlers
 
-	if (array_search($op, $public_calls) !== false) {
-
-		handle_public_request($link, $op);
-		return;
-
-	} else if (!($_SESSION["uid"] && validate_session($link))) {
+	if (!($_SESSION["uid"] && validate_session($link))) {
 		if ($op == 'pref-feeds' && $method == 'add') {
 			header("Content-Type: text/html");
 			login_sequence($link);
@@ -136,6 +124,13 @@
 		return;
 	}
 
+	function __autoload($class) {
+		$file = "classes/".strtolower(basename($class)).".php";
+		if (file_exists($file)) {
+			require $file;
+		}
+	}
+
 	$op = str_replace("-", "_", $op);
 
 	if (class_exists($op)) {
@@ -154,17 +149,8 @@
 		}
 	}
 
-	switch($op) { // Select action according to $op value.
-		case "pref_instances":
-			require_once "modules/pref-instances.php";
-			module_pref_instances($link);
-		break; // pref-instances
-
-		default:
-			header("Content-Type: text/plain");
-			print json_encode(array("error" => array("code" => 7)));
-		break; // fallback
-	} // Select action according to $op value.
+	header("Content-Type: text/plain");
+	print json_encode(array("error" => array("code" => 7)));
 
 	// We close the connection to database.
 	db_close($link);
