@@ -15,28 +15,9 @@ function instancelist_callback2(transport) {
 	}
 }
 
-function feedlist_callback2(transport) {
-	try {
-		dijit.byId('feedConfigTab').attr('content', transport.responseText);
-		selectTab("feedConfig", true);
-		notify("");
-	} catch (e) {
-		exception_error("feedlist_callback2", e);
-	}
-}
-
 function filterlist_callback2(transport) {
 	dijit.byId('filterConfigTab').attr('content', transport.responseText);
 	notify("");
-}
-
-function labellist_callback2(transport) {
-	try {
-		dijit.byId('labelConfigTab').attr('content', transport.responseText);
-		notify("");
-	} catch (e) {
-		exception_error("labellist_callback2", e);
-	}
 }
 
 function userlist_callback2(transport) {
@@ -46,16 +27,6 @@ function userlist_callback2(transport) {
 		notify("");
 	} catch (e) {
 		exception_error("userlist_callback2", e);
-	}
-}
-
-function prefslist_callback2(transport) {
-	try {
-		dijit.byId('genConfigTab').attr('content', transport.responseText);
-
-		notify("");
-	} catch (e) {
-		exception_error("prefslist_callback2", e);
 	}
 }
 
@@ -72,7 +43,9 @@ function updateFeedList(sort_key) {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-feeds&search=" + param_escape(search),
 		onComplete: function(transport) {
-			feedlist_callback2(transport);
+			dijit.byId('feedConfigTab').attr('content', transport.responseText);
+			selectTab("feedConfig", true);
+			notify("");
 		} });
 }
 
@@ -329,7 +302,7 @@ function removeSelectedLabels() {
 			new Ajax.Request("backend.php",	{
 				parameters: query,
 				onComplete: function(transport) {
-						labellist_callback2(transport);
+						updateLabelList();
 					} });
 
 		}
@@ -851,7 +824,8 @@ function updateLabelList() {
 	new Ajax.Request("backend.php",	{
 		parameters: "?op=pref-labels",
 		onComplete: function(transport) {
-			labellist_callback2(transport);
+			dijit.byId('labelConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
@@ -859,7 +833,8 @@ function updatePrefsList() {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-prefs",
 		onComplete: function(transport) {
-			prefslist_callback2(transport);
+			dijit.byId('genConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
@@ -1440,13 +1415,13 @@ function labelColorReset() {
 			var ok = confirm(__("Reset selected labels to default colors?"));
 
 			if (ok) {
-				var query = "?op=pref-labels&method=color-reset&ids="+
+				var query = "?op=pref-labels&method=colorreset&ids="+
 					param_escape(labels.toString());
 
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) {
-						labellist_callback2(transport);
+						updateLabelList();
 					} });
 			}
 
@@ -1705,7 +1680,7 @@ function editLabel(id, event) {
 					color = bg;
 				}
 
-				var query = "?op=pref-labels&method=color-set&kind="+kind+
+				var query = "?op=pref-labels&method=colorset&kind="+kind+
 					"&ids=" + param_escape(id) + "&fg=" + param_escape(fg) +
 					"&bg=" + param_escape(bg) + "&color=" + param_escape(color);
 

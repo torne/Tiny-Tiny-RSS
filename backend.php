@@ -161,11 +161,6 @@
 			module_pref_filters($link);
 		break; // pref-filters
 
-		case "pref_labels":
-			require_once "modules/pref-labels.php";
-			module_pref_labels($link);
-		break; // pref-labels
-
 		case "pref_users":
 			require_once "modules/pref-users.php";
 			module_pref_users($link);
