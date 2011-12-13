@@ -143,6 +143,8 @@
 		return;
 	}
 
+	$op = str_replace("-", "_", $op);
+
 	if (class_exists($op)) {
 		$handler = new $op($link, $_REQUEST);
 
@@ -160,11 +162,6 @@
 	}
 
 	switch($op) { // Select action according to $op value.
-
-		case "pref-feeds":
-			require_once "modules/pref-feeds.php";
-			module_pref_feeds($link);
-		break; // pref-feeds
 
 		case "pref-filters":
 			require_once "modules/pref-filters.php";
