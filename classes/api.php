@@ -42,7 +42,7 @@ class API extends Handler {
 	}
 
 	function getApiLevel() {
-		$rv = array("level" => API_LEVEL);
+		$rv = array("level" => self::API_LEVEL);
 		print $this->wrap(self::STATUS_OK, $rv);
 	}
 
