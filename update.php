@@ -7,6 +7,7 @@
 	chdir(dirname(__FILE__));
 
 	require_once "functions.php";
+	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";

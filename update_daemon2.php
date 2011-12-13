@@ -32,6 +32,7 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
+	require_once "rssfuncs.php";
 	require_once "lib/magpierss/rss_fetch.inc";
 
 	$children = array();
