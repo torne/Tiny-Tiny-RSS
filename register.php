@@ -311,15 +311,15 @@
 
 					$mail->CharSet = "UTF-8";
 
-					$mail->From = DIGEST_FROM_ADDRESS;
-					$mail->FromName = DIGEST_FROM_NAME;
+					$mail->From = SMTP_FROM_ADDRESS;
+					$mail->FromName = SMTP_FROM_NAME;
 					$mail->AddAddress($email);
 
-					if (DIGEST_SMTP_HOST) {
-						$mail->Host = DIGEST_SMTP_HOST;
+					if (SMTP_HOST) {
+						$mail->Host = SMTP_HOST;
 						$mail->Mailer = "smtp";
-						$mail->Username = DIGEST_SMTP_LOGIN;
-						$mail->Password = DIGEST_SMTP_PASSWORD;
+						$mail->Username = SMTP_LOGIN;
+						$mail->Password = SMTP_PASSWORD;
 					}
 
 			//		$mail->IsHTML(true);
@@ -345,15 +345,15 @@
 
 					$mail->CharSet = "UTF-8";
 
-					$mail->From = DIGEST_FROM_ADDRESS;
-					$mail->FromName = DIGEST_FROM_NAME;
+					$mail->From = SMTP_FROM_ADDRESS;
+					$mail->FromName = SMTP_FROM_NAME;
 					$mail->AddAddress(REG_NOTIFY_ADDRESS);
 
-					if (DIGEST_SMTP_HOST) {
-						$mail->Host = DIGEST_SMTP_HOST;
+					if (SMTP_HOST) {
+						$mail->Host = SMTP_HOST;
 						$mail->Mailer = "smtp";
-						$mail->Username = DIGEST_SMTP_LOGIN;
-						$mail->Password = DIGEST_SMTP_PASSWORD;
+						$mail->Username = SMTP_LOGIN;
+						$mail->Password = SMTP_PASSWORD;
 					}
 
 			//		$mail->IsHTML(true);

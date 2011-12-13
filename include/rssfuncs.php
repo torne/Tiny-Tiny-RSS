@@ -1,4 +1,8 @@
 <?php
+	define('DAEMON_UPDATE_LOGIN_LIMIT', 30);
+	define('DAEMON_FEED_LIMIT', 100);
+	define('DAEMON_SLEEP_INTERVAL', 120);
+
 	function update_feedbrowser_cache($link) {
 
 		$result = db_query($link, "SELECT feed_url, site_url, title, COUNT(id) AS subscribers
@@ -57,7 +61,7 @@
 		// Process all other feeds using last_updated and interval parameters
 
 		// Test if the user has loggued in recently. If not, it does not update its feeds.
-		if (DAEMON_UPDATE_LOGIN_LIMIT > 0) {
+		if (!SINGLE_USER_MODE && DAEMON_UPDATE_LOGIN_LIMIT > 0) {
 			if (DB_TYPE == "pgsql") {
 				$login_thresh_qpart = "AND ttrss_users.last_login >= NOW() - INTERVAL '".DAEMON_UPDATE_LOGIN_LIMIT." days'";
 			} else {
@@ -143,7 +147,7 @@
 		}
 
 		// Send feed digests by email if needed.
-		if (DAEMON_SENDS_DIGESTS) send_headlines_digests($link);
+		send_headlines_digests($link);
 
 	} // function update_daemon_common
 

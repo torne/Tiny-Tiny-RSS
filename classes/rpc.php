@@ -570,7 +570,7 @@ class RPC extends Protected_Handler {
 
 		$reply = array();
 
-		if (DIGEST_ENABLE && $_SESSION['email_secretkey'] &&
+		if ($_SESSION['email_secretkey'] &&
 		$secretkey == $_SESSION['email_secretkey']) {
 
 			$_SESSION['email_secretkey'] = '';
@@ -593,12 +593,12 @@ class RPC extends Protected_Handler {
 			$mail->FromName = $fromname;
 			$mail->AddAddress($destination);
 
-			if (DIGEST_SMTP_HOST) {
-				$mail->Host = DIGEST_SMTP_HOST;
+			if (SMTP_HOST) {
+				$mail->Host = SMTP_HOST;
 				$mail->Mailer = "smtp";
-				$mail->SMTPAuth = DIGEST_SMTP_LOGIN != '';
-				$mail->Username = DIGEST_SMTP_LOGIN;
-				$mail->Password = DIGEST_SMTP_PASSWORD;
+				$mail->SMTPAuth = SMTP_LOGIN != '';
+				$mail->Username = SMTP_LOGIN;
+				$mail->Password = SMTP_PASSWORD;
 			}
 
 			$mail->IsHTML(false);

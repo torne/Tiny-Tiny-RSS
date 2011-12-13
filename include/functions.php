@@ -2639,9 +2639,7 @@
 
 		require_once 'lib/phpmailer/class.phpmailer.php';
 
-		if (!DIGEST_ENABLE) return false;
-
-		$user_limit = DIGEST_EMAIL_LIMIT;
+		$user_limit = 15; // amount of users to process (e.g. emails to send out)
 		$days = 1;
 
 		print "Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit\n\n";
@@ -2677,16 +2675,16 @@
 
 					$mail->CharSet = "UTF-8";
 
-					$mail->From = DIGEST_FROM_ADDRESS;
-					$mail->FromName = DIGEST_FROM_NAME;
+					$mail->From = SMTP_FROM_ADDRESS;
+					$mail->FromName = SMTP_FROM_NAME;
 					$mail->AddAddress($line["email"], $line["login"]);
 
-					if (DIGEST_SMTP_HOST) {
-						$mail->Host = DIGEST_SMTP_HOST;
+					if (SMTP_HOST) {
+						$mail->Host = SMTP_HOST;
 						$mail->Mailer = "smtp";
-						$mail->SMTPAuth = DIGEST_SMTP_LOGIN != '';
-						$mail->Username = DIGEST_SMTP_LOGIN;
-						$mail->Password = DIGEST_SMTP_PASSWORD;
+						$mail->SMTPAuth = SMTP_LOGIN != '';
+						$mail->Username = SMTP_LOGIN;
+						$mail->Password = SMTP_PASSWORD;
 					}
 
 					$mail->IsHTML(true);
@@ -3288,12 +3286,10 @@
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
-				if (DIGEST_ENABLE) {
-					$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-email.png')."\"
-						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"emailArticle($id)\"
-						alt='Zoom' title='".__('Forward by email')."'>";
-				}
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-email.png')."\"
+					class='tagsPic' style=\"cursor : pointer\"
+					onclick=\"emailArticle($id)\"
+					alt='Zoom' title='".__('Forward by email')."'>";
 
 				if (ENABLE_TWEET_BUTTON) {
 					$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-tweet.png')."\"

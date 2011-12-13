@@ -22,7 +22,7 @@ function db_connect($host, $user, $pass, $db) {
 		$link = pg_connect($string);
 
 		if (!$link) {
-			die("Connection failed: " . pg_last_error($link));
+			die("Unable to connect to database (as $user to $host, database $db):" . pg_last_error());
 		}
 
 		return $link;
@@ -36,7 +36,7 @@ function db_connect($host, $user, $pass, $db) {
 			}
 			return $link;
 		} else {
-			die("Connection failed: " . mysql_error($link));
+			die("Unable to connect to database (as $user to $host, database $db): " . mysql_error());
 		}
 	}
 }

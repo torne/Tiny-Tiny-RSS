@@ -715,12 +715,10 @@ class Feeds extends Protected_Handler {
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
-					if (DIGEST_ENABLE) {
-						$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-email.png')."\"
-							style=\"cursor : pointer\"
-							onclick=\"emailArticle($id)\"
-							alt='Zoom' title='".__('Forward by email')."'>";
-					}
+					$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-email.png')."\"
+						style=\"cursor : pointer\"
+						onclick=\"emailArticle($id)\"
+						alt='Zoom' title='".__('Forward by email')."'>";
 
 					if (ENABLE_TWEET_BUTTON) {
 						$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-tweet.png')."\"
