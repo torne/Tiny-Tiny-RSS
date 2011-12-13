@@ -1,9 +1,9 @@
 <?php
-class RPC extends Handler {
+class RPC extends Protected_Handler {
 
 	function setprofile() {
 		$id = db_escape_string($_REQUEST["id"]);
-		
+
 		$_SESSION["profile"] = $id;
 		$_SESSION["prefs_cache"] = array();
 	}
@@ -215,7 +215,7 @@ class RPC extends Handler {
 
 		 if ($last_article_id != getLastArticleId($this->link)) {
 				$omode = $_REQUEST["omode"];
-	
+
 			if ($omode != "T")
 				$reply['counters'] = getAllCounters($this->link, $omode);
 			else
@@ -403,11 +403,11 @@ class RPC extends Handler {
 	function assigntolabel() {
 		return labelops(true);
 	}
-	
+
 	function removefromlabel() {
 		return labelops(false);
 	}
-	
+
 	function labelops($assign) {
 		$reply = array();
 

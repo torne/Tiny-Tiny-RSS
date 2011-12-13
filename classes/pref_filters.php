@@ -1,5 +1,5 @@
 <?php
-class Pref_Filters extends Handler {
+class Pref_Filters extends Protected_Handler {
 
 	function filter_test($filter_type, $reg_exp,
 			$action_id, $action_param, $filter_param, $inverse, $feed_id) {

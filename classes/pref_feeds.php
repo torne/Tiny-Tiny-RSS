@@ -1,5 +1,5 @@
 <?php
-class Pref_Feeds extends Handler {
+class Pref_Feeds extends Protected_Handler {
 	function batch_edit_cbox($elem, $label = false) {
 		print "<input type=\"checkbox\" title=\"".__("Check to enable field")."\"
 			onchange=\"dijit.byId('feedEditDlg').toggleField(this, '$elem', '$label')\">";
@@ -529,7 +529,7 @@ class Pref_Feeds extends Handler {
 		global $purge_intervals;
 		global $update_intervals;
 		global $update_methods;
-			
+
 		$feed_ids = db_escape_string($_REQUEST["ids"]);
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"ids\" value=\"$feed_ids\">";
@@ -688,13 +688,13 @@ class Pref_Feeds extends Handler {
 	function batchEditSave() {
 		return editsaveops(true);
 	}
-		
+
 	function editSave() {
 		return editsaveops(false);
 	}
-	
-	function editsaveops($batch) {	
-		
+
+	function editsaveops($batch) {
+
 		$feed_title = db_escape_string(trim($_POST["title"]));
 		$feed_link = db_escape_string(trim($_POST["feed_url"]));
 		$upd_intl = (int) db_escape_string($_POST["update_interval"]);

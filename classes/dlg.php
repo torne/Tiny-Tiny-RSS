@@ -1,7 +1,7 @@
 <?php
-class Dlg extends Handler {
+class Dlg extends Protected_Handler {
 	private $param;
-	
+
 	function before() {
 		if (parent::before()) {
 			header("Content-Type: text/xml; charset=utf-8");
@@ -11,14 +11,14 @@ class Dlg extends Handler {
 		}
 		return false;
 	}
-	
+
 	function after() {
 		print "</dlg>";
 	}
 
 	function importOpml() {
 		header("Content-Type: text/html"); # required for iframe
-		
+
 		print "<div class=\"prefFeedOPMLHolder\">";
 		$owner_uid = $_SESSION["uid"];
 
@@ -534,7 +534,7 @@ class Dlg extends Handler {
 	}
 
 	function inactiveFeeds() {
-	
+
 		if (DB_TYPE == "pgsql") {
 			$interval_qpart = "NOW() - INTERVAL '3 months'";
 		} else {
@@ -714,7 +714,7 @@ class Dlg extends Handler {
 	}
 
 	function printTagSelect() {
-	
+
 		print "<title>" . __('Select item(s) by tags') . "</title>";
 		print "<content><![CDATA[";
 
@@ -851,7 +851,7 @@ class Dlg extends Handler {
 	}
 
 	function generatedFeed() {
-	
+
 		print "<title>".__('View as RSS')."</title>";
 		print "<content><![CDATA[";
 
@@ -884,7 +884,7 @@ class Dlg extends Handler {
 	}
 
 	function newVersion() {
-	
+
 		$version_data = check_for_update($this->link);
 		$version = $version_data['version'];
 		$id = $version_data['version_id'];

@@ -1,5 +1,5 @@
 <?php
-class Pref_Users extends Handler {
+class Pref_Users extends Protected_Handler {
 
 		function before() {
 			if (parent::before()) {

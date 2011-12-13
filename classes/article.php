@@ -1,5 +1,5 @@
 <?php
-class Article extends Handler {
+class Article extends Protected_Handler {
 
 	function redirect() {
 		$id = db_escape_string($_REQUEST['id']);

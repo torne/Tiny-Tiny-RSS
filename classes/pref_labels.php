@@ -1,5 +1,5 @@
 <?php
-class Pref_Labels extends Handler {
+class Pref_Labels extends Protected_Handler {
 
 	function edit() {
 		$label_id = db_escape_string($_REQUEST['id']);

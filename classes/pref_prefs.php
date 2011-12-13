@@ -1,5 +1,5 @@
 <?php
-class Pref_Prefs extends Handler {
+class Pref_Prefs extends Protected_Handler {
 
 	function changepassword() {
 
