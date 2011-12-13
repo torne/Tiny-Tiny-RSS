@@ -48,16 +48,14 @@
 
 	$handler = new Public_Handler($link, $_REQUEST);
 
-	if ($handler) {
-		if ($handler->before()) {
-			if ($method && method_exists($handler, $method)) {
-				$handler->$method();
-			} else if (method_exists($handler, 'index')) {
-				$handler->index();
-			}
-			$handler->after();
-			return;
+	if ($handler->before($method)) {
+		if ($method && method_exists($handler, $method)) {
+			$handler->$method();
+		} else if (method_exists($handler, 'index')) {
+			$handler->index();
 		}
+		$handler->after();
+		return;
 	}
 
 	header("Content-Type: text/plain");

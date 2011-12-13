@@ -137,7 +137,7 @@
 		$handler = new $op($link, $_REQUEST);
 
 		if ($handler) {
-			if ($handler->before()) {
+			if ($handler->before($method)) {
 				if ($method && method_exists($handler, $method)) {
 					$handler->$method();
 				} else if (method_exists($handler, 'index')) {
