@@ -171,25 +171,10 @@
 			module_pref_users($link);
 		break; // prefs-users
 
-		case "help":
-			require_once "modules/help.php";
-			module_help($link);
-		break; // help
-
 		case "pref-instances":
 			require_once "modules/pref-instances.php";
 			module_pref_instances($link);
 		break; // pref-instances
-
-		case "digestSend":
-			send_headlines_digests($link);
-		break; // digestSend
-
-		case "loading":
-			header("Content-type: text/html");
-			print __("Loading, please wait...") . " " .
-				"<img src='images/indicator_tiny.gif'>";
-		break; // loading
 
 		default:
 			header("Content-Type: text/plain");
