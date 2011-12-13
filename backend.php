@@ -181,10 +181,6 @@
 			module_pref_instances($link);
 		break; // pref-instances
 
-		case "digestTest":
-			print_r(prepare_headlines_digest($link, $_SESSION["uid"]));
-		break; // digestTest
-
 		case "digestSend":
 			send_headlines_digests($link);
 		break; // digestSend

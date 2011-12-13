@@ -1770,7 +1770,7 @@ function getLastVisibleHeadlineId() {
 
 function openArticleInNewWindow(id) {
 	toggleUnread(id, 0, false);
-	window.open("backend.php?op=article&id=" + id);
+	window.open("backend.php?op=article&method=redirect&id=" + id);
 }
 
 function isCdmMode() {
@@ -2003,7 +2003,7 @@ function tweetArticle(id) {
 		var d = new Date();
       var ts = d.getTime();
 
-		var w = window.open('backend.php?op=loading', 'ttrss_tweet',
+		var w = window.open('backend.php?op=backend&method=loading', 'ttrss_tweet',
 			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
 
 		new Ajax.Request("backend.php",	{
