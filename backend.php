@@ -161,11 +161,6 @@
 			module_pref_filters($link);
 		break; // pref-filters
 
-		case "pref_users":
-			require_once "modules/pref-users.php";
-			module_pref_users($link);
-		break; // prefs-users
-
 		case "pref_instances":
 			require_once "modules/pref-instances.php";
 			module_pref_instances($link);

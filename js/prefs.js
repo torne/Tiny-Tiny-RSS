@@ -5,33 +5,8 @@ var hotkey_prefix_pressed = false;
 
 var seq = "";
 
-function instancelist_callback2(transport) {
-	try {
-		dijit.byId('instanceConfigTab').attr('content', transport.responseText);
-		selectTab("instanceConfig", true);
-		notify("");
-	} catch (e) {
-		exception_error("instancelist_callback2", e);
-	}
-}
-
-function filterlist_callback2(transport) {
-	dijit.byId('filterConfigTab').attr('content', transport.responseText);
-	notify("");
-}
-
-function userlist_callback2(transport) {
-	try {
-		dijit.byId('userConfigTab').attr('content', transport.responseText);
-
-		notify("");
-	} catch (e) {
-		exception_error("userlist_callback2", e);
-	}
-}
-
-function notify_callback2(transport) {
-	notify_info(transport.responseText);
+function notify_callback2(transport, sticky) {
+	notify_info(transport.responseText, sticky);
 }
 
 function updateFeedList(sort_key) {
@@ -53,14 +28,14 @@ function updateInstanceList(sort_key) {
 	new Ajax.Request("backend.php", {
 		parameters: "?op=pref-instances&sort=" + param_escape(sort_key),
 		onComplete: function(transport) {
-			instancelist_callback2(transport);
+			dijit.byId('instanceConfigTab').attr('content', transport.responseText);
+			selectTab("instanceConfig", true);
+			notify("");
 		} });
 }
 
 function updateUsersList(sort_key) {
-
 	try {
-
 		var user_search = $("user_search");
 		var search = "";
 		if (user_search) { search = user_search.value; }
@@ -72,7 +47,9 @@ function updateUsersList(sort_key) {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				dijit.byId('userConfigTab').attr('content', transport.responseText);
+				selectTab("userConfig", true)
+				notify("");
 			} });
 
 	} catch (e) {
@@ -103,7 +80,8 @@ function addUser() {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				notify_callback2(transport);
+				updateUsersList();
 			} });
 
 	} catch (e) {
@@ -332,7 +310,7 @@ function removeSelectedUsers() {
 				new Ajax.Request("backend.php", {
 					parameters: query,
 					onComplete: function(transport) {
-						userlist_callback2(transport);
+						updateUsersList();
 					} });
 
 			}
@@ -503,7 +481,7 @@ function userEditSave() {
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
-				userlist_callback2(transport);
+				updateUsersList();
 			} });
 
 	} catch (e) {
@@ -562,7 +540,7 @@ function resetSelectedUserPass() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-					userlist_callback2(transport);
+					notify_info(transport.responseText);
 				} });
 
 		}
@@ -592,7 +570,7 @@ function selectedUserDetails() {
 
 		var id = rows[0];
 
-		var query = "?op=pref-users&method=user-details&id=" + id;
+		var query = "?op=pref-users&method=userdetails&id=" + id;
 
 		new Ajax.Request("backend.php",	{
 			parameters: query,
@@ -816,7 +794,8 @@ function updateFilterList() {
 	new Ajax.Request("backend.php",	{
 		parameters: "?op=pref-filters",
 		onComplete: function(transport) {
-			filterlist_callback2(transport);
+			dijit.byId('filterConfigTab').attr('content', transport.responseText);
+			notify("");
 		} });
 }
 
