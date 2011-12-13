@@ -40,7 +40,7 @@ case "$1" in
 	dbc_generate_include_perms="0640"
 	dbc_go $PACKAGE $@
 
-	echo "Install ok on http://localhost/tt-rss/tt-rss.php"
+	echo "Install ok on http://localhost/tt-rss/"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

@@ -1,14 +1,14 @@
 <?php
 	require_once "functions.php";
 
-	define('EXPECTED_CONFIG_VERSION', 23);
-	define('SCHEMA_VERSION', 86);
-
 	if (!file_exists("config.php")) {
 		print "<b>Fatal Error</b>: You forgot to copy
 		<b>config.php-dist</b> to <b>config.php</b> and edit it.\n";
 		exit;
 	}
+
+	define('EXPECTED_CONFIG_VERSION', 23);
+	define('SCHEMA_VERSION', 86);
 
 	require_once "config.php";
 	require_once "sanity_config.php";

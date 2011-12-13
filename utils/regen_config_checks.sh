@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DESTINATION="sanity_config.php"
+DESTINATION="include/sanity_config.php"
 
 echo "<?php # This file has been generated at: " `date` > $DESTINATION
 
