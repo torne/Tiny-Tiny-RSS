@@ -507,7 +507,7 @@ class RPC extends Protected_Handler {
 			FROM ttrss_entries, ttrss_user_entries
 			WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
 
-		$content = sanitize_rss($this->link, db_fetch_result($result, 0, "content"));
+		$content = sanitize($this->link, db_fetch_result($result, 0, "content"));
 		$title = strip_tags(db_fetch_result($result, 0, "title"));
 		$article_url = htmlspecialchars(db_fetch_result($result, 0, "link"));
 		$marked = sql_bool_to_bool(db_fetch_result($result, 0, "marked"));
@@ -706,7 +706,7 @@ class RPC extends Protected_Handler {
 			if (db_num_rows($result) != 0) {
 				$line = db_fetch_assoc($result);
 
-				$article_content = sanitize_rss($this->link, $line["content"],
+				$article_content = sanitize($this->link, $line["content"],
 					false, false, $line['site_url']);
 
 				array_push($rv,

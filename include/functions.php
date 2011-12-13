@@ -2577,7 +2577,7 @@
 			$tpl->setVariable('ARTICLE_EXCERPT',
 				truncate_string(strip_tags($line["content_preview"]), 100, '...'));
 
-			$content = sanitize_rss($link, $line["content_preview"], false, $owner_uid);
+			$content = sanitize($link, $line["content_preview"], false, $owner_uid);
 
 			if ($line['note']) {
 				$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
@@ -2640,7 +2640,7 @@
 		}
 	}
 
-	function sanitize_rss($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
+	function sanitize($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
 		global $purifier;
 
 		if (!$owner) $owner = $_SESSION["uid"];
@@ -3749,7 +3749,7 @@
 
 			$rv['content'] .= "<div class=\"postContent\">";
 
-			$article_content = sanitize_rss($link, $line["content"], false, false,
+			$article_content = sanitize($link, $line["content"], false, false,
 				$feed_site_url);
 
 			$rv['content'] .= $article_content;
@@ -4245,7 +4245,7 @@
 
 					$feed_site_url = $line["site_url"];
 
-					$article_content = sanitize_rss($link, $line["content_preview"],
+					$article_content = sanitize($link, $line["content_preview"],
 							false, false, $feed_site_url);
 
 					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";

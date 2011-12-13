@@ -506,7 +506,7 @@
 
 //			print "</fieldset>";
 
-			$content = sanitize_rss($link, $line["content"]);
+			$content = sanitize($link, $line["content"]);
 			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
 
 			if (!mobile_get_pref($link, "SHOW_IMAGES")) {
