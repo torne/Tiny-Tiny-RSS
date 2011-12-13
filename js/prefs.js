@@ -955,7 +955,7 @@ function validatePrefsReset() {
 
 		if (ok) {
 
-			query = "?op=pref-prefs&method=reset-config";
+			query = "?op=pref-prefs&method=resetconfig";
 			console.log(query);
 
 			new Ajax.Request("backend.php", {

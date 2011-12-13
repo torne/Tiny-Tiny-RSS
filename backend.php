@@ -50,14 +50,7 @@
 
 	init_connection($link);
 
-	$method = strtolower($_REQUEST["method"]);
-	$mode = $_REQUEST["mode"];
-
-	/* if ((!$op || $op == "rss" || $op == "dlg") && !$_REQUEST["noxml"]) {
-			header("Content-Type: application/xml; charset=utf-8");
-	} else {
-			header("Content-Type: text/plain; charset=utf-8");
-	} */
+	$method = $_REQUEST['subop'] ? $_REQUEST['subop'] : $_REQUEST["method"];
 
 	header("Content-Type: text/plain; charset=utf-8");
 
@@ -78,7 +71,7 @@
 		return;
 
 	} else if (!($_SESSION["uid"] && validate_session($link))) {
-		if ($op == 'pref-feeds' && $_REQUEST['method'] == 'add') {
+		if ($op == 'pref-feeds' && $method == 'add') {
 			header("Content-Type: text/html");
 			login_sequence($link);
 			render_login_form($link);
@@ -172,11 +165,6 @@
 			require_once "modules/pref-labels.php";
 			module_pref_labels($link);
 		break; // pref-labels
-
-		case "pref-prefs":
-			require_once "modules/pref-prefs.php";
-			module_pref_prefs($link);
-		break; // pref-prefs
 
 		case "pref-users":
 			require_once "modules/pref-users.php";
