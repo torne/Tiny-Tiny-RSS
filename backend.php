@@ -156,22 +156,22 @@
 
 	switch($op) { // Select action according to $op value.
 
-		case "pref-filters":
+		case "pref_filters":
 			require_once "modules/pref-filters.php";
 			module_pref_filters($link);
 		break; // pref-filters
 
-		case "pref-labels":
+		case "pref_labels":
 			require_once "modules/pref-labels.php";
 			module_pref_labels($link);
 		break; // pref-labels
 
-		case "pref-users":
+		case "pref_users":
 			require_once "modules/pref-users.php";
 			module_pref_users($link);
 		break; // prefs-users
 
-		case "pref-instances":
+		case "pref_instances":
 			require_once "modules/pref-instances.php";
 			module_pref_instances($link);
 		break; // pref-instances
