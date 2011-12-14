@@ -63,6 +63,10 @@
 			$err_msg = "ICONS_DIR defined in config.php is not writable (chmod -R 777 ".ICONS_DIR.").\n";
 		}
 
+		if (!is_writable(LOCK_DIRECTORY)) {
+			$err_msg = "LOCK_DIRECTORY defined in config.php is not writable (chmod -R 777 ".LOCK_DIRECTORY.").\n";
+		}
+
 		if (ini_get("open_basedir")) {
 			$err_msg = "PHP configuration option open_basedir is not supported. Please disable this in PHP settings file (php.ini).";
 		}
