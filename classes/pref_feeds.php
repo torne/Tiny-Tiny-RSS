@@ -686,11 +686,11 @@ class Pref_Feeds extends Protected_Handler {
 	}
 
 	function batchEditSave() {
-		return editsaveops(true);
+		return $this->editsaveops(true);
 	}
 
 	function editSave() {
-		return editsaveops(false);
+		return $this->editsaveops(false);
 	}
 
 	function editsaveops($batch) {
@@ -740,7 +740,7 @@ class Pref_Feeds extends Protected_Handler {
 			$cache_images_qpart = "";
 		}
 
-		if ($method == "editSave") {
+		if (!$batch) {
 
 			$result = db_query($this->link, "UPDATE ttrss_feeds SET
 				$category_qpart
@@ -759,7 +759,7 @@ class Pref_Feeds extends Protected_Handler {
 				update_method = '$update_method'
 				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
-		} else if ($batch) {
+		} else {
 			$feed_data = array();
 
 			foreach (array_keys($_POST) as $k) {
