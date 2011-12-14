@@ -14,8 +14,10 @@ debuild -i -us -uc -b -aamd64
 
 cd ..
 
-reprepro -b /var/www/apt include unstable tt-rss*_i386.changes
-reprepro -b /var/www/apt include unstable tt-rss*_amd64.changes
+if [! -z "$DEPLOY_DEBS" ]; then
+	reprepro -b /var/www/apt include unstable tt-rss*_i386.changes
+	reprepro -b /var/www/apt include unstable tt-rss*_amd64.changes
+fi
 
 #cd ..
 #rm -rf dpkg-tmp
