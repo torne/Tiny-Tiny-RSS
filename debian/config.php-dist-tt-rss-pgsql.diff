@@ -1,38 +1,35 @@
---- config.php-dist	2011-11-10 21:25:19.909372305 +0400
-+++ config.php-dist.pgsql	2011-11-10 23:34:36.221705504 +0400
-@@ -1,10 +1,12 @@
- <?php
- 	// Database server configuration
+--- config.php-dist	2011-12-13 19:22:16.820796058 +0400
++++ config.php-dist.pgsql	2011-12-14 12:10:11.203290174 +0400
+@@ -3,12 +3,12 @@
+ 	// *** Database configuration (important!) ***
+ 	// *******************************************
+ 
 -	define('DB_TYPE', "pgsql"); // or mysql
 -	define('DB_HOST', "localhost");
 -	define('DB_USER', "fox");
 -	define('DB_NAME', "fox");
 -	define('DB_PASS', "XXXXXX");
-+	// dbconfig-common
+-	//define('DB_PORT', '5432'); // when neeeded, PG-only
 +	include_once('/etc/tt-rss-pgsql/database.php');
 +	define('DB_TYPE', $dbtype);
 +	define('DB_HOST', $dbserver);
 +	define('DB_USER', $dbuser);
 +	define('DB_NAME', $dbname);
 +	define('DB_PASS', $dbpass);
- 	//define('DB_PORT', '5432'); // when neeeded, PG-only
  
- 	define('SELF_URL_PATH', 'http://yourserver/tt-rss/');
-@@ -17,7 +19,7 @@
- 	// Operate in single user mode, disables all functionality related to
- 	// multiple users.
- 	
--	define('CACHE_DIR', 'cache');
-+	define('CACHE_DIR', '/var/cache/tt-rss');
- 	// Local cache directory for RSS feed content.
- 
- 	define('SIMPLEPIE_CACHE_IMAGES', false);
-@@ -130,7 +132,7 @@
- 	// You want new users to be automaticaly created in tt-rss database
- 	// on first login
+ 	define('MYSQL_CHARSET', 'UTF8');
+ 	// Connection charset for MySQL. If you have a legacy database and/or experience
+@@ -35,11 +35,11 @@
+ 	define('PHP_EXECUTABLE', '/usr/bin/php');
+ 	// Path to PHP executable, used for various command-line tt-rss programs
  
 -	define('LOCK_DIRECTORY', 'lock');
 +	define('LOCK_DIRECTORY', '/var/lock/tt-rss');
  	// Directory for lockfiles, must be writable to the user you run
  	// daemon process or cronjobs under.
  
+-	define('CACHE_DIR', 'cache');
++	define('CACHE_DIR', '/var/cache/tt-rss');
+ 	// Local cache directory for RSS feed content.
+ 
+ 	define('TMP_DIRECTORY', '/tmp');
