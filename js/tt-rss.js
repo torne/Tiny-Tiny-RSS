@@ -436,16 +436,6 @@ function quickMenuGo(opid) {
 				} });
 		}
 
-		if (opid == "qmcAbout") {
-			dialog = new dijit.Dialog({
-				title: __("About..."),
-				style: "width: 400px",
-				href: "backend.php?op=dlg&method=about",
-			});
-
-			dialog.show();
-		}
-
 	} catch (e) {
 		exception_error("quickMenuGo", e);
 	}

@@ -179,7 +179,6 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
-					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAbout')"><?php echo __('About...') ?></div>
 				</div>
 			</div>
 		</div>

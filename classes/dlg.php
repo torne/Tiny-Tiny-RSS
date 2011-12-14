@@ -1013,37 +1013,6 @@ class Dlg extends Protected_Handler {
 
 	}
 
-	function about() {
-		print "<table width='100%'><tr><td align='center'>";
-		print "<img src=\"images/logo_big.png\">";
-		print "</td>";
-		print "<td width='70%'>";
-
-		print "<h1>Tiny Riny RSS</h1>
-			<strong>Version ".VERSION."</strong>
-			<p>Copyright &copy; 2005-".date('Y')."
-			<a target=\"_blank\" class=\"visibleLink\"
-			href=\"http://fakecake.org/\">Andrew Dolgov</a>
-			and other contributors.</p>
-			<p class=\"insensitive\">Licensed under GNU GPL version 2.</p>";
-
-		print "<p class=\"insensitive\">
-			<a class=\"visibleLink\" target=\"_blank\"
-				href=\"http://tt-rss.org/\">Official site</a> &mdash;
-			<a href=\"http://tt-rss.org/redmine/wiki/tt-rss/Donate\"
-			target=\"_blank\" class=\"visibleLink\">
-			Support the project.</a></p>";
-
-		print "</td></tr>";
-		print "</table>";
-
-		print "<div align='center'>";
-		print "<button dojoType=\"dijit.form.Button\"
-			type=\"submit\">".
-			__('Close this window')."</button>";
-		print "</div>";
-	}
-
 	function addInstance() {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"add\">";
