@@ -2479,8 +2479,6 @@
 								"unread," .
 								"feed_id," .
 								"orig_feed_id," .
-								"site_url," .
-								"always_display_enclosures, ".
 								"marked," .
 								"num_comments, " .
 								"comments, " .
