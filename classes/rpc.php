@@ -401,11 +401,11 @@ class RPC extends Protected_Handler {
 	}
 
 	function assigntolabel() {
-		return labelops(true);
+		return $this->labelops(true);
 	}
 
 	function removefromlabel() {
-		return labelops(false);
+		return $this->labelops(false);
 	}
 
 	function labelops($assign) {
