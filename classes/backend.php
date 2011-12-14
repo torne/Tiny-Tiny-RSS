@@ -12,16 +12,16 @@ class Backend extends Handler {
 	}
 
 	function help() {
-		$tid = (int) $_REQUEST["tid"];
+		$topic = basename($_REQUEST["topic"]);
 
-		if (file_exists("help/$tid.php")) {
-			include("help/$tid.php");
+		if (file_exists("help/$topic.php")) {
+			include("help/$topic.php");
 		} else {
 			print "<p>".__("Help topic not found.")."</p>";
 		}
-		print "<div align='center'>
+		/* print "<div align='center'>
 			<button onclick=\"javascript:window.close()\">".
-			__('Close this window')."</button></div>";
+			__('Close this window')."</button></div>"; */
 
 	}
 }

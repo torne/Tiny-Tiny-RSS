@@ -428,8 +428,12 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcHKhelp") {
-			//Element.show("hotkey_help_overlay");
-			Effect.Appear("hotkey_help_overlay", {duration : 0.3});
+			new Ajax.Request("backend.php", {
+				parameters: "?op=backend&method=help&topic=main",
+				onComplete: function(transport) {
+					$("hotkey_help_overlay").innerHTML = transport.responseText;
+					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
+				} });
 		}
 
 		if (opid == "qmcAbout") {
