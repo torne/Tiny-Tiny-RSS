@@ -301,9 +301,10 @@ class Public_Handler extends Handler {
 		}
 	}
 
-	/* function globalUpdateFeeds() {
+	function globalUpdateFeeds() {
+		include "rssfuncs.php";
 		// Update all feeds needing a update.
 		update_daemon_common($this->link, 0, true, true);
-	} */
+	}
 }
 ?>
