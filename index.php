@@ -5,7 +5,8 @@
 		exit;
 	}
 
-	set_include_path(get_include_path() . PATH_SEPARATOR . "include");
+	set_include_path(get_include_path() . PATH_SEPARATOR . 
+		dirname(__FILE__) ."/include");
 
 	require_once "functions.php";
 	require_once "sessions.php";
