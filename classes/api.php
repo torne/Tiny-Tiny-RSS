@@ -157,7 +157,7 @@ class API extends Handler {
 
 	function getHeadlines() {
 		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-		if ($feed_id) {
+		if ($feed_id != "") {
 
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
 			$offset = (int)db_escape_string($_REQUEST["skip"]);
