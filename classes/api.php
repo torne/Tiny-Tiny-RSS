@@ -374,6 +374,36 @@ class API extends Handler {
 		print $this->wrap(self::STATUS_OK, $rv);
 	}
 
+	function setArticleLabel() {
+
+		$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
+		$label_id = (int) db_escape_string($_REQUEST['label_id']);
+		$assign = (bool) db_escape_string($_REQUEST['assign']) == "true";
+
+		$label = db_escape_string(label_find_caption($this->link,
+			$label_id, $_SESSION["uid"]));
+
+		$num_updated = 0;
+
+		if ($label) {
+
+			foreach ($article_ids as $id) {
+
+				if ($assign)
+					label_add_article($this->link, $id, $label, $_SESSION["uid"]);
+				else
+					label_remove_article($this->link, $id, $label, $_SESSION["uid"]);
+
+				++$num_updated;
+
+			}
+		}
+
+		print $this->wrap(self::STATUS_OK, array("status" => "OK",
+			"updated" => $num_updated));
+
+	}
+
 	function index() {
 		print $this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD'));
 	}
