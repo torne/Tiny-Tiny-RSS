@@ -337,6 +337,43 @@ class API extends Handler {
 		print $this->wrap(self::STATUS_OK, array("value" => get_pref($this->link, $pref_name)));
 	}
 
+	function getLabels() {
+		//$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
+
+		$article_id = (int)$_REQUEST['article_id'];
+
+		$rv = array();
+
+		$result = db_query($this->link, "SELECT id, caption, fg_color, bg_color
+			FROM ttrss_labels2
+			WHERE owner_uid = '".$_SESSION['uid']."' ORDER BY caption");
+
+		if ($article_id)
+			$article_labels = get_article_labels($this->link, $article_id);
+		else
+			$article_labels = array();
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$checked = false;
+			foreach ($article_labels as $al) {
+				if ($al[0] == $line['id']) {
+					$checked = true;
+					break;
+				}
+			}
+
+			array_push($rv, array(
+				"id" => (int)$line['id'],
+				"caption" => $line['caption'],
+				"fg_color" => $line['fg_color'],
+				"bg_color" => $line['bg_color'],
+				"checked" => $checked));
+		}
+
+		print $this->wrap(self::STATUS_OK, $rv);
+	}
+
 	function index() {
 		print $this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD'));
 	}
