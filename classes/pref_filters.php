@@ -464,7 +464,7 @@ class Pref_Filters extends Protected_Handler {
 
 		} else {
 
-			filter_test($this->link, $filter_type, $regexp,
+			$this->filter_test($filter_type, $regexp,
 				$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
 				(int) $_REQUEST["feed_id"]);
 
