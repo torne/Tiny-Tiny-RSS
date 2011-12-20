@@ -5,7 +5,7 @@
 		exit;
 	}
 
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) ."/include");
 
 	require_once "functions.php";
@@ -39,6 +39,16 @@
 
 	<?php print_theme_includes($link) ?>
 	<?php print_user_stylesheet($link) ?>
+
+	<script type="text/javascript">
+	<?php foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
+		$jsf = "js/${p}_button.js";
+		if (file_exists($jsf)) {
+			include $jsf;
+			print "</script>";
+		}
+	} ?>
+	</script>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 

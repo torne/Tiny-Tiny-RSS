@@ -175,9 +175,6 @@
 	// *** Twitter integration settings ***
 	// ************************************
 	
-	define('ENABLE_TWEET_BUTTON', false);
-	// Enable 'tweet this' button for articles
-
 	define('CONSUMER_KEY', '');
 	define('CONSUMER_SECRET', '');
 	// Your OAuth instance authentication information for Twitter, visit
@@ -202,7 +199,12 @@
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.
-	
+
+	define('ARTICLE_BUTTON_PLUGINS', 'tweet');
+	// Comma-separated list of additional article action button plugins
+	// to enable, like tweet button, etc.
+	// The following plugins are available: tweet
+
 	define('CONFIG_VERSION', 24);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).

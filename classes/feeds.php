@@ -704,11 +704,15 @@ class Feeds extends Protected_Handler {
 						onclick=\"emailArticle($id)\"
 						alt='Zoom' title='".__('Forward by email')."'>";
 
-					if (ENABLE_TWEET_BUTTON) {
-						$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-tweet.png')."\"
-							class='tagsPic' style=\"cursor : pointer\"
-							onclick=\"tweetArticle($id)\"
-							alt='Zoom' title='".__('Share on Twitter')."'>";
+					$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
+
+					foreach ($button_plugins as $p) {
+						$pclass = "${p}_button";
+
+						if (class_exists($pclass)) {
+							$plugin = new $pclass($link);
+							$rv['content'] .= $plugin->render($id);
+						}
 					}
 
 					$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-share.png')."\"
