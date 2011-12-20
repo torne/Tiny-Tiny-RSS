@@ -502,7 +502,7 @@ td.selectPrompt {
 
 div#headlines-toolbar {
 	border-width : 0px 0px 1px 0px;
-	background-color : #ecf4ff;
+	background-color : #f0f0f0;
 	border-color : #88b0f0 #88b0f0 #ecf4ff #88b0f0;
 	font-size : 11px;
 	font-family : "Segoe UI", Tahoma, sans-serif;
@@ -510,31 +510,66 @@ div#headlines-toolbar {
 	padding : 0px;
 	margin : 0px;
 	overflow : hidden;
-	height : 23px;
+	height : 25px;
+	line-height : 25px;
+	padding-left : 4px;
 }
 
 div#headlines-toolbar .dijitSelect {
 	font-size : 11px;
+	position : relative;
+	top : -2px;
 }
 
-div#headlines-toolbar div#subtoolbar_main {
-	display : table-cell;
-	width : 100%;
-	white-space : nowrap;
-	vertical-align : middle;
-	padding-left : 5px;
-}
-
-div#headlines-toolbar div#subtoolbar_ftitle {
-	display : table-cell;
+div#headlines-toolbar span.r {
+	float: right;
+   position: relative;
+	background : #ecf4ff;
+	border-left: 5px solid white;
+	padding : 0 4px 0px 4px;
 	text-align : right;
-	vertical-align : middle;
-	white-space : nowrap;
-	padding-right : 5px;
+}	
+
+/* http://css-tricks.com/adobe-like-arrow-headers/ */
+
+div#headlines-toolbar span.r:before,
+div#headlines-toolbar span.r:after {
+        content: "";
+        position: absolute;
+        /* Pushed down half way, will get pulled back up half height of triangle
+           ensures centering if font-size or line-height changes */
+        top: 50%;
+        width: 0;
+        height: 0;
+}
+div#headlines-toolbar span.r:before {
+        left: -12px;
+        /* Triangle */
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid white;
+        /* Pull-up */
+        margin-top: -8px;
+}
+div#headlines-toolbar span.r:after {
+        /* Smaller and different position triangle */
+        left: -5px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 6px solid #ecf4ff;
+        margin-top: -6px;
 }
 
-div#subtoolbar_ftitle span.error {
+div#headlines-toolbar span.r span.error {
 	color : red;
+} 
+
+div#headlines-toolbar span.r a {
+	color : gray;
+}
+
+div#headlines-toolbar span.r a:hover {
+	color : black;
 }
 
 span.contentPreview {
