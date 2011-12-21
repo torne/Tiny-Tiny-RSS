@@ -266,6 +266,8 @@ create table ttrss_enclosures (id integer primary key auto_increment,
 	index (post_id),
 	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
+
 create table ttrss_settings_profiles(id integer primary key auto_increment,
 	title varchar(250) not null,
 	owner_uid integer not null,

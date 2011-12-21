@@ -235,6 +235,8 @@ create table ttrss_enclosures (id serial not null primary key,
 	duration text not null,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
 
+create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
+
 create table ttrss_settings_profiles(id serial not null primary key,
 	title varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade);
