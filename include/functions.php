@@ -3291,7 +3291,7 @@
 				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"closeArticlePanel($id)\"
-						alt='Zoom' title='".__('Close this panel')."'>";
+						title='".__('Close article')."'>";
 
 			} else {
 				$tags_str = strip_tags($tags_str);

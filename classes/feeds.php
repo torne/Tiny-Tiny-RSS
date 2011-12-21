@@ -713,7 +713,7 @@ class Feeds extends Protected_Handler {
 					$reply['content'] .= "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
 						onclick=\"dismissArticle($id)\"
-						alt='Dismiss' title='".__('Dismiss article')."'>";
+						title='".__('Close article')."'>";
 
 					$reply['content'] .= "</div>";
 					$reply['content'] .= "</div>";
