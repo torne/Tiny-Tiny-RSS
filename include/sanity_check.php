@@ -5,7 +5,7 @@
 		$err_msg = "Configuration file not found. Looks like you forgot to copy config.php-dist to config.php and edit it.";
 	} else {
 
-		define('EXPECTED_CONFIG_VERSION', 24);
+		define('EXPECTED_CONFIG_VERSION', 25);
 		define('SCHEMA_VERSION', 86);
 
 		require_once "config.php";
