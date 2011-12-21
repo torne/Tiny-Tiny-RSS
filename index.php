@@ -56,7 +56,7 @@
 
 	<script type="text/javascript">
 	<?php
-		require 'jsmin.php';
+		require 'lib/jsmin.php';
 
 		foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
 			$jsf = "js/".trim($p)."_button.js";
