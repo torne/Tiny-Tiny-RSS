@@ -45,7 +45,6 @@
 		$jsf = "js/${p}_button.js";
 		if (file_exists($jsf)) {
 			include $jsf;
-			print "</script>";
 		}
 	} ?>
 	</script>

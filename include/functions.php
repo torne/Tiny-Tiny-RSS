@@ -3284,26 +3284,16 @@
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-email.png')."\"
-					class='tagsPic' style=\"cursor : pointer\"
-					onclick=\"emailArticle($id)\"
-					alt='Zoom' title='".__('Forward by email')."'>";
-
 				$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
 
 				foreach ($button_plugins as $p) {
-					$pclass = "${p}_button";
+					$pclass = trim("${p}_button");
 
 					if (class_exists($pclass)) {
 						$plugin = new $pclass($link);
-						$rv['content'] .= $plugin->render($id);
+						$rv['content'] .= $plugin->render($id, $line);
 					}
 				}
-
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-share.png')."\"
-					class='tagsPic' style=\"cursor : pointer\"
-					onclick=\"shareArticle(".$line['int_id'].")\"
-					alt='Zoom' title='".__('Share by URL')."'>";
 
 				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"

@@ -272,6 +272,18 @@ class Feeds extends Protected_Handler {
 
 		$headlines_count = db_num_rows($result);
 
+		if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
+			$button_plugins = array();
+			foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
+				$pclass = trim("${p}_button");
+
+				if (class_exists($pclass)) {
+					$plugin = new $pclass($link);
+					array_push($button_plugins, $plugin);
+				}
+			}
+		}
+
 		if (db_num_rows($result) > 0) {
 
 			$lnum = $offset;
@@ -699,26 +711,9 @@ class Feeds extends Protected_Handler {
 						onclick=\"editArticleNote($id)\"
 						alt='PubNote' title='".__('Edit article note')."'>";
 
-					$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-email.png')."\"
-						style=\"cursor : pointer\"
-						onclick=\"emailArticle($id)\"
-						alt='Zoom' title='".__('Forward by email')."'>";
-
-					$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
-
 					foreach ($button_plugins as $p) {
-						$pclass = "${p}_button";
-
-						if (class_exists($pclass)) {
-							$plugin = new $pclass($link);
-							$rv['content'] .= $plugin->render($id);
-						}
+						$reply['content'] .= $p->render($id, $line);
 					}
-
-					$reply['content'] .= "<img src=\"".theme_image($this->link, 'images/art-share.png')."\"
-						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"shareArticle(".$line['int_id'].")\"
-						alt='Zoom' title='".__('Share by URL')."'>";
 
 					$reply['content'] .= "<img src=\"images/digest_checkbox.png\"
 						style=\"cursor : pointer\" style=\"cursor : pointer\"
