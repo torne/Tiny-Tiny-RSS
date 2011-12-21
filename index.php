@@ -42,7 +42,7 @@
 
 	<script type="text/javascript">
 	<?php foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
-		$jsf = "js/${p}_button.js";
+		$jsf = "js/".trim($p)."_button.js";
 		if (file_exists($jsf)) {
 			include $jsf;
 		}

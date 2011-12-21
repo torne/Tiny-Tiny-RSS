@@ -706,11 +706,6 @@ class Feeds extends Protected_Handler {
 
 					//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
-					$reply['content'] .= "<img src=\"images/art-pub-note.png\"
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"editArticleNote($id)\"
-						alt='PubNote' title='".__('Edit article note')."'>";
-
 					foreach ($button_plugins as $p) {
 						$reply['content'] .= $p->render($id, $line);
 					}

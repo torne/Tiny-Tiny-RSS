@@ -3277,13 +3277,6 @@
 						onclick=\"postOpenInNewTab(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
-				//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
-
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-pub-note.png')."\"
-						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"editArticleNote($id)\"
-						alt='PubNote' title='".__('Edit article note')."'>";
-
 				$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
 
 				foreach ($button_plugins as $p) {

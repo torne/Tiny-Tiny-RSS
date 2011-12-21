@@ -883,32 +883,6 @@ class Dlg extends Protected_Handler {
 
 	}
 
-	function editArticleNote() {
-		$result = db_query($this->link, "SELECT note FROM ttrss_user_entries WHERE
-			ref_id = '$this->param' AND owner_uid = " . $_SESSION['uid']);
-
-		$note = db_fetch_result($result, 0, "note");
-
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$this->param\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setNote\">";
-
-		print "<table width='100%'><tr><td>";
-		print "<textarea dojoType=\"dijit.form.SimpleTextarea\"
-			style='font-size : 12px; width : 100%; height: 100px;'
-			placeHolder='body#ttrssMain { font-size : 14px; };'
-			name='note'>$note</textarea>";
-		print "</td></tr></table>";
-
-		print "<div class='dlgButtons'>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('editNoteDlg').execute()\">".__('Save')."</button> ";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('editNoteDlg').hide()\">".__('Cancel')."</button>";
-		print "</div>";
-
-	}
-
 	function addInstance() {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"add\">";

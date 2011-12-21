@@ -693,19 +693,6 @@ class RPC extends Protected_Handler {
 		}
 	}
 
-	function setNote() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
-
-		db_query($this->link, "UPDATE ttrss_user_entries SET note = '$note'
-			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
-
-		$formatted_note = format_article_note($id, $note);
-
-		print json_encode(array("note" => $formatted_note,
-				"raw_length" => mb_strlen($note)));
-	}
-
 	function genHash() {
 		$hash = sha1(uniqid(rand(), true));
 
