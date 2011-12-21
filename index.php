@@ -41,12 +41,6 @@
 	<?php print_user_stylesheet($link) ?>
 
 	<script type="text/javascript">
-	<?php foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
-		$jsf = "js/".trim($p)."_button.js";
-		if (file_exists($jsf)) {
-			include $jsf;
-		}
-	} ?>
 	</script>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
@@ -58,11 +52,24 @@
 	<script type="text/javascript" src="lib/dojo/tt-rss-layer.js"></script>
 
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/tt-rss.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/functions.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/feedlist.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/viewfeed.js?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
+
+	<script type="text/javascript">
+	<?php
+		require 'jsmin.php';
+
+		foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
+			$jsf = "js/".trim($p)."_button.js";
+			if (file_exists($jsf)) {
+				echo JSMin::minify(file_get_contents($jsf));
+			}
+		}
+
+		foreach (array("tt-rss", "functions", "feedlist", "viewfeed", "FeedTree") as $js) {
+			echo JSMin::minify(file_get_contents("js/$js.js"));
+		}
+	?>
+	</script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 

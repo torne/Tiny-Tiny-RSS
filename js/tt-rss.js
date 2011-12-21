@@ -274,7 +274,7 @@ function genericSanityCheck() {
 
 function init() {
 	try {
-		dojo.registerModulePath("fox", "../../js/");
+		//dojo.registerModulePath("fox", "../../js/");
 
 		dojo.require("fox.FeedTree");
 
