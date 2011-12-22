@@ -40,22 +40,11 @@ class Dlg extends Protected_Handler {
 
 		/* Handle OPML import by DOMXML/DOMDocument */
 
-		if (function_exists('domxml_open_file')) {
-			print "<ul class='nomarks'>";
-			print "<li>".__("Importing using DOMXML.")."</li>";
-			require_once "opml_domxml.php";
-			opml_import_domxml($this->link, $owner_uid);
-			print "</ul>";
-		} else if (PHP_VERSION >= 5) {
-			print "<ul class='nomarks'>";
-			print "<li>".__("Importing using DOMDocument.")."</li>";
-			require_once "opml_domdoc.php";
-			opml_import_domdoc($this->link, $owner_uid);
-			print "</ul>";
-		} else {
-			print_error(__("DOMXML extension is not found. It is required for PHP versions below 5."));
-		}
-
+		print "<ul class='nomarks'>";
+		print "<li>".__("Importing using DOMDocument.")."</li>";
+		require_once "opml.php";
+		opml_import_domdoc($this->link, $owner_uid);
+		print "</ul>";
 		print "</div>";
 
 		print "<div align='center'>";

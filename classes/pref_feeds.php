@@ -1419,7 +1419,7 @@ class Pref_Feeds extends Protected_Handler {
 				action=\"backend.php\">
 			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
-			<input type=\"hidden\" name=\"id\" value=\"importOpml\">
+			<input type=\"hidden\" name=\"method\" value=\"importOpml\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\" type=\"submit\">" .
 			__('Import') . "</button>";
 
