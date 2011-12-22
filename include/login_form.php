@@ -40,7 +40,7 @@ function fetchProfiles() {
 		var query = "?op=getProfiles&" + params;
 
 		if (query) {
-			new Ajax.Request("backend.php",	{
+			new Ajax.Request("public.php",	{
 				parameters: query,
 					onComplete: function(transport) {
 						if (transport.responseText.match("select")) {
