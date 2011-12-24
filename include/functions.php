@@ -2633,14 +2633,14 @@
 	 * @param integer $limit The maximum number of articles by digest.
 	 * @return boolean Return false if digests are not enabled.
 	 */
-	function send_headlines_digests($link, $limit = 100) {
+	function send_headlines_digests($link, $limit = 100, $debug = true) {
 
 		require_once 'lib/phpmailer/class.phpmailer.php';
 
 		$user_limit = 15; // amount of users to process (e.g. emails to send out)
 		$days = 1;
 
-		print "Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit\n\n";
+		if ($debug) _debug("Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit");
 
 		if (DB_TYPE == "pgsql") {
 			$interval_query = "last_digest_sent < NOW() - INTERVAL '$days days'";
@@ -2709,7 +2709,7 @@
 			}
 		}
 
-		print "All done.\n";
+		if ($debug) _debug("All done.");
 
 	}
 
