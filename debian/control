@@ -7,7 +7,7 @@ Standards-Version: 3.7.3
 Homepage: http://tt-rss.org/
 
 Package: tt-rss-common
-Architecture: any
+Architecture: all
 Depends: php5, ${misc:Depends}
 Suggests: php5-curl
 Description: Tiny Tiny RSS is a web-based news feed (RSS/Atom)
@@ -15,7 +15,7 @@ Description: Tiny Tiny RSS is a web-based news feed (RSS/Atom)
  while feeling as close to a real desktop application as possible.
 
 Package: tt-rss-mysql
-Architecture: any
+Architecture: all
 Depends: tt-rss-common (= ${source:Version}), php5, php5-mysql, apache2, mysql-server, dbconfig-common, ${misc:Depends}
 Suggests: php-apc
 Conflicts: tt-rss-pgsql
@@ -24,7 +24,7 @@ Description: Tiny Tiny RSS is a web-based news feed (RSS/Atom)
  while feeling as close to a real desktop application as possible.
 
 Package: tt-rss-pgsql
-Architecture: any
+Architecture: all
 Depends: tt-rss-common (= ${source:Version}), php5, php5-pgsql, apache2, postgresql, dbconfig-common, ${misc:Depends}
 Suggests: php-apc
 Conflicts: tt-rss-mysql
