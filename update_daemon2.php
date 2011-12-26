@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	// This is an experimental multiprocess update daemon.
@@ -22,6 +22,11 @@
 
 	require_once "sanity_check.php";
 	require_once "config.php";
+	require_once "db.php";
+	require_once "db-prefs.php";
+	require_once "functions.php";
+	require_once "rssfuncs.php";
+	require_once "lib/magpierss/rss_fetch.inc";
 
 	define('MAX_JOBS', 2);
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
@@ -29,12 +34,6 @@
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
-
-	require_once "db.php";
-	require_once "db-prefs.php";
-	require_once "functions.php";
-	require_once "rssfuncs.php";
-	require_once "lib/magpierss/rss_fetch.inc";
 
 	$children = array();
 	$ctimes = array();
