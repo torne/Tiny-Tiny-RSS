@@ -448,12 +448,10 @@ class Pref_Feeds extends Protected_Handler {
 			$checked = "";
 		}
 
-		if (SIMPLEPIE_CACHE_IMAGES) {
-			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\"
-			name=\"cache_images\"
+		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_images\"
+		name=\"cache_images\"
 			$checked>&nbsp;<label for=\"cache_images\">".
-			__('Cache images locally (SimplePie only)')."</label>";
-		}
+		__('Cache images locally')."</label>";
 
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result, 0, "mark_unread_on_update"));
 
@@ -655,16 +653,13 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "&nbsp;"; $this->batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
 
-		if (SIMPLEPIE_CACHE_IMAGES) {
-			print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\"
-				name=\"cache_images\"
-				dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\"
-				for=\"cache_images\">".
-			__('Cache images locally')."</label>";
+		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\"
+			name=\"cache_images\"
+			dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\"
+			for=\"cache_images\">".
+		__('Cache images locally')."</label>";
 
-
-			print "&nbsp;"; $this->batch_edit_cbox("cache_images", "cache_images_l");
-		}
+		print "&nbsp;"; $this->batch_edit_cbox("cache_images", "cache_images_l");
 
 		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"mark_unread_on_update\"
 			name=\"mark_unread_on_update\"
@@ -741,11 +736,7 @@ class Pref_Feeds extends Protected_Handler {
 			$category_qpart_nocomma = "";
 		}
 
-		if (SIMPLEPIE_CACHE_IMAGES) {
-			$cache_images_qpart = "cache_images = $cache_images,";
-		} else {
-			$cache_images_qpart = "";
-		}
+		$cache_images_qpart = "cache_images = $cache_images,";
 
 		if (!$batch) {
 

@@ -184,9 +184,10 @@ class Feeds extends Protected_Handler {
 			catchupArticlesById($this->link, $ids, $cmode);
 		} */
 
-		//if ($method == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
-		//	update_rss_feed($this->link, $feed, true);
-		//}
+		if ($method == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
+			include "rssfuncs.php";
+			update_rss_feed($this->link, $feed, true);
+		}
 
 		if ($method == "MarkAllRead")  {
 			catchup_feed($this->link, $feed, $cat_view);

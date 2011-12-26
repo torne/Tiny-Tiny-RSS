@@ -136,6 +136,8 @@
 				WHERE id IN (%s)", implode(',', $feed_ids)));
 		}
 
+		expire_cached_files($debug);
+
 		// For each feed, we call the feed update function.
 		while ($line = array_pop($feeds_to_update)) {
 
@@ -363,15 +365,6 @@
 				$rss->set_feed_url($fetch_url);
 				$rss->set_output_encoding('UTF-8');
 				$rss->force_feed(true);
-
-				if (SIMPLEPIE_CACHE_IMAGES && $cache_images) {
-
-					if ($debug_enabled) {
-						_debug("enabling image cache");
-					}
-
-					$rss->set_image_handler("image.php", 'i');
-				}
 
 				if ($debug_enabled) {
 					_debug("feed update interval (sec): " .
@@ -685,9 +678,13 @@
 					}
 				}
 
+				if ($cache_images)
+					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
+
 				if ($_REQUEST["xdebug"] == 2) {
 					print "update_rss_feed: content: ";
 					print_r(htmlspecialchars($entry_content));
+					print "\n";
 				}
 
 				$entry_content_unescaped = $entry_content;
@@ -735,7 +732,7 @@
 
 				$entry_content = db_escape_string($entry_content, false);
 
-				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
+				$content_hash = "SHA1:x" . sha1(strip_tags($entry_content));
 
 				$entry_title = db_escape_string($entry_title);
 				$entry_link = db_escape_string($entry_link);
@@ -1311,7 +1308,71 @@
 
 	}
 
+	function cache_images($html, $site_url, $debug) {
+		$cache_dir = CACHE_DIR . "/images";
 
+		libxml_use_internal_errors(true);
 
+		$charset_hack = '<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		</head>';
+
+		$doc = new DOMDocument();
+		$doc->loadHTML($charset_hack . $html);
+		$xpath = new DOMXPath($doc);
+
+		$entries = $xpath->query('(//img[@src])');
+
+		foreach ($entries as $entry) {
+			if ($entry->hasAttribute('src')) {
+				$src = rewrite_relative_url($site_url, $entry->getAttribute('src'));
+
+				$local_filename = CACHE_DIR . "/images/" . sha1($src) . ".png";
+
+				if ($debug) _debug("cache_images: downloading: $src to $local_filename");
+
+				if (!file_exists($local_filename)) {
+					$file_content = fetch_file_contents($src);
+
+					if ($file_content) {
+						file_put_contents($local_filename, $file_content);
+					}
+				}
+
+				if (file_exists($local_filename)) {
+					$entry->setAttribute('src', SELF_URL_PATH . '/image.php?url=' .
+						htmlspecialchars($src));
+				}
+			}
+		}
+
+		$node = $doc->getElementsByTagName('body')->item(0);
+
+		return $doc->saveXML($node);
+	}
+
+	function expire_cached_files($debug) {
+		foreach (array("magpie", "simplepie", "images") as $dir) {
+			$cache_dir = CACHE_DIR . "/$dir";
+
+			if ($debug) _debug("Expiring $cache_dir");
+
+			$num_deleted = 0;
+
+			if (is_writable($cache_dir)) {
+				$files = glob("$cache_dir/*");
+
+				foreach ($files as $file) {
+					if (time() - filemtime($file) > 86400*7) {
+						unlink($file);
+
+						++$num_deleted;
+					}
+				}
+			}
+
+			if ($debug) _debug("Removed $num_deleted files.");
+		}
+	}
 
 ?>
