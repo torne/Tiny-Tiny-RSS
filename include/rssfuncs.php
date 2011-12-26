@@ -678,7 +678,7 @@
 					}
 				}
 
-				if ($cache_images)
+				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
 
 				if ($_REQUEST["xdebug"] == 2) {
