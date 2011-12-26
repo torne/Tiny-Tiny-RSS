@@ -1,6 +1,12 @@
 <?php
 class Pref_Filters extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("index", "getfiltertree", "edit");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function filter_test($filter_type, $reg_exp,
 			$action_id, $action_param, $filter_param, $inverse, $feed_id) {
 

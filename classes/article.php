@@ -1,6 +1,12 @@
 <?php
 class Article extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("redirect");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function redirect() {
 		$id = db_escape_string($_REQUEST['id']);
 

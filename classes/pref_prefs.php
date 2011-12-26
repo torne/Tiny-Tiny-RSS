@@ -1,6 +1,12 @@
 <?php
 class Pref_Prefs extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("index");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function changepassword() {
 
 		$old_pw = $_POST["old_password"];

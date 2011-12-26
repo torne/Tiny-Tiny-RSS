@@ -1,6 +1,5 @@
 <?php
 class Pref_Users extends Protected_Handler {
-
 		function before() {
 			if (parent::before()) {
 				if ($_SESSION["access_level"] < 10) {
@@ -10,6 +9,12 @@ class Pref_Users extends Protected_Handler {
 				return true;
 			}
 			return false;
+		}
+
+		function csrf_ignore($method) {
+			$csrf_ignored = array("index");
+
+			return array_search($method, $csrf_ignored) !== false;
 		}
 
 		function userdetails() {

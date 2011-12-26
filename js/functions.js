@@ -1,6 +1,25 @@
 var notify_silent = false;
 var loading_progress = 0;
 var sanity_check_done = false;
+var init_params = {};
+
+Ajax.Base.prototype.initialize = Ajax.Base.prototype.initialize.wrap(
+	function (callOriginal, options) {
+
+		if (getInitParam("csrf_token") != undefined) {
+			Object.extend(options, options || { });
+
+			if (Object.isString(options.parameters))
+				options.parameters = options.parameters.toQueryParams();
+			else if (Object.isHash(options.parameters))
+				options.parameters = options.parameters.toObject();
+
+			options.parameters["csrf_token"] = getInitParam("csrf_token");
+		}
+
+		return callOriginal(options);
+	}
+);
 
 /* add method to remove element from array */
 

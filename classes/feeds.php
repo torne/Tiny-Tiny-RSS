@@ -1,6 +1,12 @@
 <?php
 class Feeds extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("index");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	private function feedlist_init_cat($cat_id, $hidden = false) {
 		$obj = array();
 		$cat_id = (int) $cat_id;

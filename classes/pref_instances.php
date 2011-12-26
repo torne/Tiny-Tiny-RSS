@@ -1,6 +1,12 @@
 <?php
 class Pref_Instances extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("index", "edit");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function before() {
 		if (parent::before()) {
 			if ($_SESSION["access_level"] < 10) {

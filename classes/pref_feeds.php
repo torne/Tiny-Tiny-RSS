@@ -1,5 +1,12 @@
 <?php
 class Pref_Feeds extends Protected_Handler {
+
+	function csrf_ignore($method) {
+		$csrf_ignored = array("index", "getfeedtree", "add", "editcats", "editfeed");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function batch_edit_cbox($elem, $label = false) {
 		print "<input type=\"checkbox\" title=\"".__("Check to enable field")."\"
 			onchange=\"dijit.byId('feedEditDlg').toggleField(this, '$elem', '$label')\">";

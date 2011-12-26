@@ -8,6 +8,10 @@ class Handler {
 		$this->args = $args;
 	}
 
+	function csrf_ignore($method) {
+		return true;
+	}
+
 	function before() {
 		return true;
 	}

@@ -5,7 +5,6 @@ var _active_feed_id = 0;
 var _active_feed_is_cat = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
-var init_params = {};
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
 

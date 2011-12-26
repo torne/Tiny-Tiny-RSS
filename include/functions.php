@@ -721,6 +721,7 @@
 				$_SESSION["uid"] = db_fetch_result($result, 0, "id");
 				$_SESSION["name"] = db_fetch_result($result, 0, "login");
 				$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
+				$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
 
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
@@ -808,6 +809,10 @@
 		if (isset($_COOKIE[session_name()])) {
 		   setcookie(session_name(), '', time()-42000, '/');
 		}
+	}
+
+	function validate_csrf($csrf_token) {
+		return $csrf_token == $_SESSION['csrf_token'];
 	}
 
 	function validate_session($link) {
@@ -2063,6 +2068,8 @@
 		$params["num_feeds"] = (int) $num_feeds;
 
 		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
+
+		$params["csrf_token"] = $_SESSION["csrf_token"];
 
 		return $params;
 	}

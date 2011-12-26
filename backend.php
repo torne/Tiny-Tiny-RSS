@@ -1,5 +1,5 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	/* remove ill effects of magic quotes */
@@ -20,6 +20,11 @@
 	$op = $_REQUEST["op"];
 	@$method = $_REQUEST['subop'] ? $_REQUEST['subop'] : $_REQUEST["method"];
 
+	if (!$method)
+		$method = 'index';
+	else
+		$method = strtolower($method);
+
 	/* Public calls compatibility shim */
 
 	$public_calls = array("globalUpdateFeeds", "rss", "getUnread", "getProfiles", "share",
@@ -29,6 +34,11 @@
 		header("Location: public.php?" . $_SERVER['QUERY_STRING']);
 		return;
 	}
+
+	$csrf_token = $_REQUEST['csrf_token'];
+
+	if (!$csrf_token)
+		error_log("[$op/$method] CSRF: [$csrf_token]\n", 3, "/tmp/csrf.log");
 
 	require_once "functions.php";
 	require_once "sessions.php";
@@ -138,13 +148,17 @@
 		$handler = new $op($link, $_REQUEST);
 
 		if ($handler) {
-			if ($handler->before($method)) {
-				if ($method && method_exists($handler, $method)) {
-					$handler->$method();
-				} else if (method_exists($handler, 'index')) {
-					$handler->index();
+			if (validate_csrf($csrf_token) || $handler->csrf_ignore($method)) {
+				if ($handler->before($method)) {
+					if ($method && method_exists($handler, $method)) {
+						$handler->$method();
+					}
+					$handler->after();
+					return;
 				}
-				$handler->after();
+			} else {
+				header("Content-Type: text/plain");
+				print json_encode(array("error" => array("code" => 6)));
 				return;
 			}
 		}

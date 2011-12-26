@@ -1,6 +1,12 @@
 <?php
 class RPC extends Protected_Handler {
 
+	function csrf_ignore($method) {
+		$csrf_ignored = array("sanitycheck", "buttonplugin");
+
+		return array_search($method, $csrf_ignored) !== false;
+	}
+
 	function setprofile() {
 		$id = db_escape_string($_REQUEST["id"]);
 
