@@ -37,9 +37,6 @@
 
 	$csrf_token = $_REQUEST['csrf_token'];
 
-	if (!$csrf_token)
-		error_log("[$op/$method] CSRF: [$csrf_token]\n", 3, "/tmp/csrf.log");
-
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
