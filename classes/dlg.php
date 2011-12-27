@@ -19,6 +19,8 @@ class Dlg extends Protected_Handler {
 	function importOpml() {
 		header("Content-Type: text/html"); # required for iframe
 
+		print __("If you have imported labels and/or filters, you might need to reload preferences to see your new data.") . "</p>";
+
 		print "<div class=\"prefFeedOPMLHolder\">";
 		$owner_uid = $_SESSION["uid"];
 
@@ -41,7 +43,6 @@ class Dlg extends Protected_Handler {
 		/* Handle OPML import by DOMXML/DOMDocument */
 
 		print "<ul class='nomarks'>";
-		print "<li>".__("Importing using DOMDocument.")."</li>";
 		require_once "opml.php";
 		opml_import_domdoc($this->link, $owner_uid);
 		print "</ul>";
@@ -49,7 +50,7 @@ class Dlg extends Protected_Handler {
 
 		print "<div align='center'>";
 		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('opmlImportDlg').hide()\">".
+			onclick=\"dijit.byId('opmlImportDlg').execute()\">".
 			__('Close this window')."</button>";
 		print "</div>";
 

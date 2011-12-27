@@ -109,10 +109,11 @@
 								$bg_color = db_escape_string($attributes->getNamedItem('label-bg-color')->nodeValue);
 
 								if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
-									printf("<li>".__("Adding label %s")."</li>", $label_name);
+									printf("<li>".__("Adding label %s")."</li>", htmlspecialchars($label_name));
 									label_create($link, $label_name, $fg_color, $bg_color);
 								} else {
-									printf("<li>".__("Duplicate label: %s")."</li>", $label_name);
+									printf("<li>".__("Duplicate label: %s")."</li>",
+										htmlspecialchars($label_name));
 								}
 							}
 						}
@@ -127,9 +128,63 @@
 								$filter = json_decode($outline->nodeValue, true);
 
 								if ($filter) {
-									/////
+									$reg_exp = db_escape_string($filter['reg_exp']);
+									$filter_type = (int)$filter['filter_type'];
+									$action_id = (int)$filter['action_id'];
 
+									$result = db_query($link, "SELECT id FROM ttrss_filters WHERE
+										reg_exp = '$reg_exp' AND
+										filter_type = '$filter_type' AND
+										action_id = '$action_id' AND
+										owner_uid = " .$_SESSION['uid']);
 
+									if (db_num_rows($result) == 0) {
+										$enabled = bool_to_sql_bool($filter['enabled']);
+										$action_param = db_escape_string($filter['action_param']);
+										$inverse = bool_to_sql_bool($filter['inverse']);
+										$filter_param = db_escape_string($filter['filter_param']);
+										$cat_filter = bool_to_sql_bool($filter['cat_filter']);
+
+										$feed_url = db_escape_string($filter['feed_url']);
+										$cat_title = db_escape_string($filter['cat_title']);
+
+										$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+											feed_url = '$feed_url' AND owner_uid = ".$_SESSION['uid']);
+
+										if (db_num_rows($result) != 0) {
+											$feed_id = db_fetch_result($result, 0, "id");
+										} else {
+											$feed_id = "NULL";
+										}
+
+										$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
+											title = '$cat_title' AND  owner_uid = ".$_SESSION['uid']);
+
+										if (db_num_rows($result) != 0) {
+											$cat_id = db_fetch_result($result, 0, "id");
+										} else {
+											$cat_id = "NULL";
+										}
+
+										printf("<li>".__("Adding filter %s")."</li>", htmlspecialchars($reg_exp));
+
+										$query = "INSERT INTO ttrss_filters (filter_type, action_id,
+												enabled, inverse, action_param, filter_param,
+												cat_filter, feed_id,
+												cat_id, reg_exp,
+												owner_uid)
+											VALUES ($filter_type, $action_id,
+												$enabled, $inverse, '$action_param', '$filter_param',
+												$cat_filter, $feed_id,
+												$cat_id, '$reg_exp', ".
+												$_SESSION['uid'].")";
+
+										db_query($link, $query);
+
+									} else {
+										printf("<li>".__("Duplicate filter %s")."</li>", htmlspecialchars($reg_exp));
+
+									}
 								}
 							}
 						}

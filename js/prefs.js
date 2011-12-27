@@ -767,6 +767,14 @@ function opmlImportComplete(iframe) {
 			style: "width: 600px",
 			onCancel: function() {
 				updateFeedList();
+				updateFilterList();
+				updateLabelList();
+			},
+			execute: function() {
+				updateFeedList();
+				updateFilterList();
+				updateLabelList();
+				this.hide();
 			},
 			content: content});
 
