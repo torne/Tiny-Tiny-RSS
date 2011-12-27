@@ -1408,13 +1408,13 @@ class Pref_Feeds extends Protected_Handler {
 
 		print __("Only main settings profile can be migrated using OPML.") . "</p>";
 
-		print "<br/><iframe id=\"upload_iframe\"
+		print "<iframe id=\"upload_iframe\"
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
 		print "<form  name=\"opml_form\" style='display : block' target=\"upload_iframe\"
 			enctype=\"multipart/form-data\" method=\"POST\"
-				action=\"backend.php\">
+			action=\"backend.php\">
 			<input id=\"opml_file\" name=\"opml_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
 			<input type=\"hidden\" name=\"method\" value=\"importOpml\">
@@ -1441,12 +1441,30 @@ class Pref_Feeds extends Protected_Handler {
 			__('Display URL')."</button> ";
 
 
-		print "<h2>" . __("Data Export") . "</h2>";
+		print "<h2>" . __("Article archive") . "</h2>";
 
-		print "<p>" . __("You can export your Starred and Archived articles using database-neutral format for safekeeping.") . "</p>";
+		print "<p>" . __("You can export your Starred and Archived articles using neutral storage format. Please note that import and export of such data is only supported between same tt-rss versions.") . "</p>";
+
+		print "<h3>" . __("Export") . "</h3>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return exportData()\">".
 			__('Export my data')."</button> ";
+
+		print "<h3>" . __("Import") . "</h3>";
+
+		print "<iframe id=\"data_upload_iframe\"
+			name=\"data_upload_iframe\" onload=\"dataImportComplete(this)\"
+			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
+
+		print "<form  name=\"opml_form\" style='display : block' target=\"data_upload_iframe\"
+			enctype=\"multipart/form-data\" method=\"POST\"
+			action=\"backend.php\">
+			<input id=\"export_file\" name=\"export_file\" type=\"file\">&nbsp;
+			<input type=\"hidden\" name=\"op\" value=\"dlg\">
+			<input type=\"hidden\" name=\"method\" value=\"dataimport\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"return importData();\" type=\"submit\">" .
+			__('Import') . "</button>";
+
 
 		print "</div>"; # pane
 

@@ -5116,4 +5116,163 @@
 		return $rv;
 	}
 
+	function perform_data_import($link, $filename, $owner_uid) {
+
+		$num_imported = 0;
+		$num_processed = 0;
+		$num_feeds_created = 0;
+
+		$doc = DOMDocument::load($filename);
+
+		if ($doc) {
+
+			$xpath = new DOMXpath($doc);
+			$articles = $xpath->query("//article");
+
+			foreach ($articles as $article_node) {
+				if ($article_node->childNodes) {
+
+					$ref_id = 0;
+
+					$article = array();
+
+					foreach ($article_node->childNodes as $child) {
+						$article[$child->nodeName] = db_escape_string($child->nodeValue);
+					}
+
+					//print_r($article);
+
+					if ($article['guid']) {
+
+						++$num_processed;
+
+						//db_query($link, "BEGIN");
+
+						//print 'GUID:' . $article['guid'] . "\n";
+
+						$result = db_query($link, "SELECT id FROM ttrss_entries
+							WHERE guid = '".$article['guid']."'");
+
+						if (db_num_rows($result) == 0) {
+
+							$result = db_query($link,
+								"INSERT INTO ttrss_entries
+									(title,
+									guid,
+									link,
+									updated,
+									content,
+									content_hash,
+									no_orig_date,
+									date_updated,
+									date_entered,
+									comments,
+									num_comments,
+									author)
+								VALUES
+									('".$article['title']."',
+									'".$article['guid']."',
+									'".$article['link']."',
+									'".$article['updated']."',
+									'".$article['content']."',
+									'".sha1($article['content'])."',
+									false,
+									NOW(),
+									NOW(),
+									'',
+									'0',
+									'')");
+
+							$result = db_query($link, "SELECT id FROM ttrss_entries
+								WHERE guid = '".$article['guid']."'");
+
+							if (db_num_rows($result) != 0) {
+								$ref_id = db_fetch_result($result, 0, "id");
+							}
+
+						} else {
+							$ref_id = db_fetch_result($result, 0, "id");
+						}
+
+						//print "Got ref ID: $ref_id\n";
+
+						if ($ref_id) {
+
+							$feed_url = $article['feed_url'];
+							$feed_title = $article['feed_title'];
+
+							$feed = 'NULL';
+
+							if ($feed_url && $feed_title) {
+								$result = db_query($link, "SELECT id FROM ttrss_feeds
+									WHERE feed_url = '$feed_url' AND owner_uid = '$owner_uid'");
+
+								if (db_num_rows($result) != 0) {
+									$feed = db_fetch_result($result, 0, "id");
+								} else {
+									// try autocreating feed in Uncategorized...
+
+									$result = db_query($link, "INSERT INTO ttrss_feeds (owner_uid,
+										feed_url, title) VALUES ($owner_uid, '$feed_url', '$feed_title')");
+
+									$result = db_query($link, "SELECT id FROM ttrss_feeds
+										WHERE feed_url = '$feed_url' AND owner_uid = '$owner_uid'");
+
+									if (db_num_rows($result) != 0) {
+										++$num_feeds_created;
+
+										$feed = db_fetch_result($result, 0, "id");
+									}
+								}
+							}
+
+							if ($feed != 'NULL')
+								$feed_qpart = "feed_id = $feed";
+							else
+								$feed_qpart = "feed_id IS NULL";
+
+							//print "$ref_id / $feed / " . $article['title'] . "\n";
+
+							$result = db_query($link, "SELECT int_id FROM ttrss_user_entries
+								WHERE ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND $feed_qpart");
+
+							if (db_num_rows($result) == 0) {
+
+								$marked = bool_to_sql_bool(sql_bool_to_bool($article['marked']));
+								$published = bool_to_sql_bool(sql_bool_to_bool($article['published']));
+								$score = (int) $article['score'];
+
+								$tag_cache = $article['tag_cache'];
+								$label_cache = $article['label_cache'];
+
+								//print "Importing " . $article['title'] . "<br/>";
+
+								++$num_imported;
+
+								$result = db_query($link,
+									"INSERT INTO ttrss_user_entries
+									(ref_id, owner_uid, feed_id, unread, last_read, marked,
+										published, score, tag_cache, label_cache, uuid)
+									VALUES ($ref_id, $owner_uid, $feed, false,
+										NULL, $marked, $published, $score, '$tag_cache', '$label_cache', '')");
+
+								//db_query($link, "COMMIT");
+							}
+						}
+					}
+				}
+			}
+
+			print "<p>" .
+				T_sprintf("Finished: %d articles processed, %d imported, %d feeds created.",
+					$num_processed, $num_imported, $num_feeds_created) .
+					"</p>";
+
+		} else {
+
+			print "<p>" . __("Could not load XML document.") . "</p>";
+
+		}
+	}
+
 ?>

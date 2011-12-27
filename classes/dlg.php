@@ -954,5 +954,28 @@ class Dlg extends Protected_Handler {
 		return;
 	}
 
+	function dataImport() {
+		header("Content-Type: text/html"); # required for iframe
+
+		print "<div style='text-align : center'>";
+
+		if (is_file($_FILES['export_file']['tmp_name'])) {
+
+			perform_data_import($this->link, $_FILES['export_file']['tmp_name'], $_SESSION['uid']);
+
+		} else {
+			print "<p>" . T_sprintf("Could not upload file. You might need to adjust upload_max_filesize
+				in PHP.ini (current value = %s)", ini_get("upload_max_filesize")) . " or use CLI import tool.</p>";
+
+		}
+
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('dataImportDlg').hide()\">".
+			__('Close this window')."</button>";
+
+		print "</div>";
+
+	}
+
 }
 ?>
