@@ -42,6 +42,7 @@ class RPC extends Protected_Handler {
 					published,
 					score,
 					note,
+					link,
 					tag_cache,
 					label_cache,
 					ttrss_feeds.title AS feed_title,
