@@ -1,7 +1,7 @@
 begin;
 
 alter table ttrss_filters add column cat_filter bool;
-update ttrss_filters set cat_filter = true;
+update ttrss_filters set cat_filter = false;
 alter table ttrss_filters change cat_filter cat_filter bool not null;
 alter table ttrss_filters alter column cat_filter set default false;
 
