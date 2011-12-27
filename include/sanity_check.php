@@ -6,7 +6,7 @@
 	} else {
 
 		define('EXPECTED_CONFIG_VERSION', 25);
-		define('SCHEMA_VERSION', 86);
+		define('SCHEMA_VERSION', 87);
 
 		require_once "config.php";
 		require_once "sanity_config.php";

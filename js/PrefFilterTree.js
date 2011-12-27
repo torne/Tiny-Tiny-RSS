@@ -26,13 +26,13 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 		var inverse = this.model.store.getValue(item, 'inverse');
 
 		if (feed)
-			label += " (" + __("Feed:") + " " + feed + ")";
+			label += " (" + __("in") + " " + feed + ")";
 
 		if (inverse)
 			label += " (" + __("Inverse") + ")";
 
 /*		if (item.param)
-			label = "<span class=\"labelFixedLength\">" + label + 
+			label = "<span class=\"labelFixedLength\">" + label +
 				"</span>" + item.param[0]; */
 
 		return label;
@@ -45,7 +45,7 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 		return (enabled != false) ? "dijitTreeLabel labelFixedLength" : "dijitTreeLabel labelFixedLength Disabled";
 	},
 	getRowClass: function (item, opened) {
-		return (!item.error || item.error == '') ? "dijitTreeRow" : 
+		return (!item.error || item.error == '') ? "dijitTreeRow" :
 			"dijitTreeRow Error";
 	},
 });

@@ -462,8 +462,16 @@ class Dlg extends Protected_Handler {
 		print "<hr/>";
 
 		print __("in") . " ";
+
+		print "<span id='filterDlg_feeds'>";
 		print_feed_select($this->link, "feed_id", $active_feed_id,
 			'dojoType="dijit.form.FilteringSelect"');
+		print "</span>";
+
+		print "<span id='filterDlg_cats' style='display : none'>";
+		print_feed_cat_select($this->link, "cat_id", $active_cat_id,
+			'dojoType="dijit.form.FilteringSelect"');
+		print "</span>";
 
 		print "</div>";
 
@@ -505,7 +513,11 @@ class Dlg extends Protected_Handler {
 				<label for=\"enabled\">".__('Enabled')."</label><hr/>";
 
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
-			<label for=\"inverse\">".__('Inverse match')."</label>";
+			<label for=\"inverse\">".__('Inverse match')."</label><hr/>";
+
+		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\">
+				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
+
 
 		print "</div>";
 

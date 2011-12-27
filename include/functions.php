@@ -3488,15 +3488,23 @@
 				inverse,
 				action_param,
 				filter_param
-				FROM ttrss_filters,ttrss_filter_types,ttrss_filter_actions WHERE
+				FROM ttrss_filters
+					LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = '$feed'),
+					ttrss_filter_types,ttrss_filter_actions
+				WHERE
 					enabled = true AND
 					$ftype_query_part
-					owner_uid = $owner_uid AND
+					ttrss_filters.owner_uid = $owner_uid AND
 					ttrss_filter_types.id = filter_type AND
 					ttrss_filter_actions.id = action_id AND
-					(feed_id IS NULL OR feed_id = '$feed') ORDER BY reg_exp");
+					((cat_filter = true AND ttrss_feeds.cat_id = ttrss_filters.cat_id) OR
+					(cat_filter = true AND ttrss_feeds.cat_id IS NULL AND
+						ttrss_filters.cat_id IS NULL) OR
+					(cat_filter = false AND (feed_id IS NULL OR feed_id = '$feed')))
+				ORDER BY reg_exp");
 
 			while ($line = db_fetch_assoc($result)) {
+
 				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
 					$filter["reg_exp"] = $line["reg_exp"];
 					$filter["action"] = $line["action"];

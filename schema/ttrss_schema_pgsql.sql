@@ -213,6 +213,8 @@ create table ttrss_filters (id serial not null primary key,
 	filter_param varchar(250) not null default '',
 	enabled boolean not null default true,
 	inverse boolean not null default false,
+	cat_filter boolean not null default false,
+	cat_id integer references ttrss_feed_categories(id) on delete cascade default null,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(250) not null default '');
 
@@ -226,7 +228,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (86);
+insert into ttrss_version values (87);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

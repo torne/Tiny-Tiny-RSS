@@ -233,6 +233,8 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	filter_param varchar(250) not null default '',
 	inverse bool not null default false,
 	enabled bool not null default true,
+	cat_filter bool not null default false,
+	cat_id integer default null,
 	action_id integer not null default 1,
 	action_param varchar(250) not null default '',
 	index (filter_type),
@@ -241,6 +243,8 @@ create table ttrss_filters (id integer not null primary key auto_increment,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
+	index (cat_id),
+	foreign key (cat_id) references ttrss_feed_categories(id) ON DELETE CASCADE,
 	index (action_id),
 	foreign key (action_id) references ttrss_filter_actions(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -255,7 +259,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (86);
+insert into ttrss_version values (87);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
