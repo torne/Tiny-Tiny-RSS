@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	define('DISABLE_SESSIONS', true);
@@ -22,12 +22,13 @@
 	if (!$op || $op == "-help") {
 		print "Tiny Tiny RSS data update script.\n\n";
 		print "Options:\n";
-		print "  -feeds         - update feeds\n";
-		print "  -feedbrowser   - update feedbrowser\n";
-		print "  -daemon        - start single-process update daemon\n";
-		print "  -cleanup-tags  - perform tags table maintenance\n";
-		print "  -get-feeds     - receive popular feeds from linked instances\n";
-		print "  -help          - show this help\n";
+		print "  -feeds              - update feeds\n";
+		print "  -feedbrowser        - update feedbrowser\n";
+		print "  -daemon             - start single-process update daemon\n";
+		print "  -cleanup-tags       - perform tags table maintenance\n";
+		print "  -get-feeds          - receive popular feeds from linked instances\n";
+		print "  -import USER FILE   - import articles from XML\n";
+		print "  -help               - show this help\n";
 		return;
 	}
 
@@ -113,6 +114,35 @@
 
 	if ($op == "-get-feeds") {
 		get_linked_feeds($link);
+	}
+
+	if ($op == "-import") {
+		$username = $argv[2];
+		$filename = $argv[3];
+
+		if (!$username) {
+			print "error: please specify username.\n";
+			return;
+		}
+
+		if (!is_file($filename)) {
+			print "error: input filename ($filename) doesn't exist.\n";
+			return;
+		}
+
+		print "importing $filename for user $username...\n";
+
+		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$username'");
+
+		if (db_num_rows($result) == 0) {
+			print "error: could not find user $username.\n";
+			return;
+		}
+
+		$owner_uid = db_fetch_result($result, 0, "id");
+
+		perform_data_import($link, $filename, $owner_uid);
+
 	}
 
 	db_close($link);

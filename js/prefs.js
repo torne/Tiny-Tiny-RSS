@@ -754,6 +754,8 @@ function opmlImportComplete(iframe) {
 	try {
 		if (!iframe.contentDocument.body.innerHTML) return false;
 
+		Element.show(iframe);
+
 		notify('');
 
 		if (dijit.byId('opmlImportDlg'))
@@ -794,9 +796,29 @@ function opmlImport() {
 		return false;
 	} else {
 		notify_progress("Importing, please wait...", true);
+
+		Element.show("upload_iframe");
+
 		return true;
 	}
 }
+
+function importData() {
+
+	var file = $("export_file");
+
+	if (file.value.length == 0) {
+		alert(__("Please choose the file first."));
+		return false;
+	} else {
+		notify_progress("Importing, please wait...", true);
+
+		Element.show("data_upload_iframe");
+
+		return true;
+	}
+}
+
 
 function updateFilterList() {
 	new Ajax.Request("backend.php",	{
@@ -2012,4 +2034,34 @@ function exportData() {
 		exception_error("exportData", e);
 	}
 }
+
+function dataImportComplete(iframe) {
+	try {
+		if (!iframe.contentDocument.body.innerHTML) return false;
+
+		Element.hide(iframe);
+
+		notify('');
+
+		if (dijit.byId('dataImportDlg'))
+			dijit.byId('dataImportDlg').destroyRecursive();
+
+		var content = iframe.contentDocument.body.innerHTML;
+
+		dialog = new dijit.Dialog({
+			id: "dataImportDlg",
+			title: __("Data Import"),
+			style: "width: 600px",
+			onCancel: function() {
+
+			},
+			content: content});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("dataImportComplete", e);
+	}
+}
+
 
