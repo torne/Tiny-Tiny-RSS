@@ -1398,15 +1398,15 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "</div>"; # feeds pane
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Import and export')."\">";
+
+		print "<h2>" . __("OPML") . "</h2>";
+
+		print "<h3>" . __("Import") . "</h3>";
 
 		print "<p>" . __("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . " ";
 
-		print "<span class=\"insensitive\">" . __("Note: Only main settings profile can be migrated using OPML.") . "</span>";
-
-		print "</p>";
-
-		print "<h3>" . __("Import") . "</h3>";
+		print __("Only main settings profile can be migrated using OPML.") . "</p>";
 
 		print "<br/><iframe id=\"upload_iframe\"
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
@@ -1435,11 +1435,18 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.') . " ";
 
-		print "<span class=\"insensitive\">" . __("Note: Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . 			"</span>" . "</p>";
+		print __("Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . "</p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
 			__('Display URL')."</button> ";
 
+
+		print "<h2>" . __("Data Export") . "</h2>";
+
+		print "<p>" . __("You can export your Starred and Archived articles using database-neutral format for safekeeping.") . "</p>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return exportData()\">".
+			__('Export my data')."</button> ";
 
 		print "</div>"; # pane
 

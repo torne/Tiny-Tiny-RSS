@@ -16,6 +16,24 @@ class Dlg extends Protected_Handler {
 		print "</dlg>";
 	}
 
+	function exportData() {
+
+		print "<p style='text-align : center' id='export_status_message'>You need to prepare exported data first by clicking the button below.</p>";
+
+		print "<div align='center'>";
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('dataExportDlg').prepare()\">".
+			__('Prepare data')."</button>";
+
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('dataExportDlg').hide()\">".
+			__('Close this window')."</button>";
+
+		print "</div>";
+
+
+	}
+
 	function importOpml() {
 		header("Content-Type: text/html"); # required for iframe
 

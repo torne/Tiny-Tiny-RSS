@@ -21,6 +21,14 @@
 			$err_msg = "HTMLPurifier cache directory should be writable by anyone (chmod -R 777 $purifier_cache_dir)";
 		}
 
+		if (!is_writable(CACHE_DIR . "/images")) {
+			$err_msg = "Image cache is not writable (chmod -R 777 ".CACHE_DIR."/images)";
+		}
+
+		if (!is_writable(CACHE_DIR . "/export")) {
+			$err_msg = "Data export cache is not writable (chmod -R 777 ".CACHE_DIR."/export)";
+		}
+
 		if (GENERATED_CONFIG_CHECK != EXPECTED_CONFIG_VERSION) {
 			$err_msg = "Configuration option checker sanity_config.php is outdated, please recreate it using ./utils/regen_config_checks.sh";
 		}
