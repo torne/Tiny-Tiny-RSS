@@ -304,6 +304,40 @@
 			}
 
 			print "</outline>";
+
+			print "<outline title=\"tt-rss-filters\">";
+
+			$result = db_query($link, "SELECT filter_type,
+					reg_exp,
+					action_id,
+					enabled,
+					action_param,
+					inverse,
+					filter_param,
+					cat_filter,
+					ttrss_feeds.title AS feed_title,
+					ttrss_feed_categories.title AS cat_title
+					FROM ttrss_filters
+						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)
+						LEFT JOIN ttrss_feed_categories ON (ttrss_filters.cat_id = ttrss_feed_categories.id)
+					WHERE
+						ttrss_filters.owner_uid = " . $_SESSION['uid']);
+
+			while ($line = db_fetch_assoc($result)) {
+				$name = htmlspecialchars($line['reg_exp']);
+
+				foreach (array('enabled', 'inverse', 'cat_filter') as $b) {
+					$line[$b] = sql_bool_to_bool($line[$b]);
+				}
+
+				$filter = json_encode($line);
+
+				print "<outline filter-name=\"$name\">$filter</outline>";
+
+			}
+
+
+			print "</outline>";
 		}
 
 		print "</body></opml>";
