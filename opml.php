@@ -53,10 +53,11 @@
 
 					$pref_name = db_escape_string($attributes->getNamedItem('pref-name')->nodeValue);
 					$label_name = db_escape_string($attributes->getNamedItem('label-name')->nodeValue);
+					$filter_name = db_escape_string($attributes->getNamedItem('filter-name')->nodeValue);
 
 					if ($cat_title && !$feed_url) {
 
-						if ($cat_title != "tt-rss-prefs" && $cat_title != 'tt-rss-labels') {
+						if ($cat_title != "tt-rss-prefs" && $cat_title != 'tt-rss-labels' && $cat_title != 'tt-rss-filters') {
 
 							db_query($link, "BEGIN");
 
@@ -98,14 +99,39 @@
 					}
 
 					if ($label_name) {
-						$fg_color = db_escape_string($attributes->getNamedItem('label-fg-color')->nodeValue);
-						$bg_color = db_escape_string($attributes->getNamedItem('label-bg-color')->nodeValue);
+						$parent_node = $outline->parentNode;
 
-						if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
+						if ($parent_node && $parent_node->nodeName == "outline") {
+							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
+							if ($cat_check == "tt-rss-labels") {
 
-							printf("<li>".__("Adding label %s")."</li>", $label_name);
+								$fg_color = db_escape_string($attributes->getNamedItem('label-fg-color')->nodeValue);
+								$bg_color = db_escape_string($attributes->getNamedItem('label-bg-color')->nodeValue);
 
-							label_create($link, $label_name, $fg_color, $bg_color);
+								if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
+									printf("<li>".__("Adding label %s")."</li>", $label_name);
+									label_create($link, $label_name, $fg_color, $bg_color);
+								} else {
+									printf("<li>".__("Duplicate label: %s")."</li>", $label_name);
+								}
+							}
+						}
+					}
+
+					if ($filter_name) {
+						$parent_node = $outline->parentNode;
+
+						if ($parent_node && $parent_node->nodeName == "outline") {
+							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
+							if ($cat_check == "tt-rss-filters") {
+								$filter = json_decode($outline->nodeValue, true);
+
+								if ($filter) {
+									/////
+
+
+								}
+							}
 						}
 					}
 
