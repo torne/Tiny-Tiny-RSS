@@ -635,7 +635,7 @@ class Feeds extends Protected_Handler {
 							$reply['content'] .= "&nbsp;";
 
 							$reply['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.gif'></a>";
+							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.png'></a>";
 
 							$reply['content'] .= "</div>";
 						}
