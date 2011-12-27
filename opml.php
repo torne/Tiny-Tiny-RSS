@@ -315,7 +315,7 @@
 
 			print "</outline>";
 
-			print "<outline title=\"tt-rss-labels\">";
+			print "<outline title=\"tt-rss-labels\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
 				owner_uid = " . $_SESSION['uid']);
@@ -331,7 +331,7 @@
 
 			print "</outline>";
 
-			print "<outline title=\"tt-rss-filters\">";
+			print "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($link, "SELECT filter_type,
 					reg_exp,
@@ -341,7 +341,7 @@
 					inverse,
 					filter_param,
 					cat_filter,
-					ttrss_feeds.title AS feed_title,
+					ttrss_feeds.feed_url AS feed_url,
 					ttrss_feed_categories.title AS cat_title
 					FROM ttrss_filters
 						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)
