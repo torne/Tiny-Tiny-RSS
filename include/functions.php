@@ -3972,7 +3972,7 @@
 		db_query($link, "COMMIT");
 	}
 
-	function label_create($link, $caption) {
+	function label_create($link, $caption, $fg_color = '', $bg_color = '') {
 
 		db_query($link, "BEGIN");
 
@@ -3983,8 +3983,8 @@
 
 		if (db_num_rows($result) == 0) {
 			$result = db_query($link,
-				"INSERT INTO ttrss_labels2 (caption,owner_uid)
-					VALUES ('$caption', '".$_SESSION["uid"]."')");
+				"INSERT INTO ttrss_labels2 (caption,owner_uid,fg_color,bg_color)
+					VALUES ('$caption', '".$_SESSION["uid"]."', '$fg_color', '$bg_color')");
 
 			$result = db_affected_rows($link, $result) != 0;
 		}

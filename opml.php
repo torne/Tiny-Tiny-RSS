@@ -1,5 +1,5 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	require_once "functions.php";
@@ -38,30 +38,25 @@
 
 				foreach ($outlines as $outline) {
 
-					$feed_title = db_escape_string($outline->attributes->getNamedItem('text')->nodeValue);
+					$attributes = $outline->attributes;
 
-					if (!$feed_title) {
-						$feed_title = db_escape_string($outline->attributes->getNamedItem('title')->nodeValue);
-					}
+					$feed_title = db_escape_string($attributes->getNamedItem('text')->nodeValue);
+					if (!$feed_title) $feed_title = db_escape_string($attributes->getNamedItem('title')->nodeValue);
 
-					$cat_title = db_escape_string($outline->attributes->getNamedItem('title')->nodeValue);
+					$cat_title = db_escape_string($attributes->getNamedItem('title')->nodeValue);
+					if (!$cat_title) $cat_title = db_escape_string($attributes->getNamedItem('text')->nodeValue);
 
-					if (!$cat_title) {
-						$cat_title = db_escape_string($outline->attributes->getNamedItem('text')->nodeValue);
-					}
+					$feed_url = db_escape_string($attributes->getNamedItem('xmlUrl')->nodeValue);
+					if (!$feed_url) $feed_url = db_escape_string($attributes->getNamedItem('xmlURL')->nodeValue);
 
-					$feed_url = db_escape_string($outline->attributes->getNamedItem('xmlUrl')->nodeValue);
+					$site_url = db_escape_string($attributes->getNamedItem('htmlUrl')->nodeValue);
 
-					if (!$feed_url)
-						$feed_url = db_escape_string($outline->attributes->getNamedItem('xmlURL')->nodeValue);
-
-					$site_url = db_escape_string($outline->attributes->getNamedItem('htmlUrl')->nodeValue);
-
-					$pref_name = db_escape_string($outline->attributes->getNamedItem('pref-name')->nodeValue);
+					$pref_name = db_escape_string($attributes->getNamedItem('pref-name')->nodeValue);
+					$label_name = db_escape_string($attributes->getNamedItem('label-name')->nodeValue);
 
 					if ($cat_title && !$feed_url) {
 
-						if ($cat_title != "tt-rss-prefs") {
+						if ($cat_title != "tt-rss-prefs" && $cat_title != 'tt-rss-labels') {
 
 							db_query($link, "BEGIN");
 
@@ -99,6 +94,18 @@
 								set_pref($link, $pref_name, $pref_value);
 
 							}
+						}
+					}
+
+					if ($label_name) {
+						$fg_color = db_escape_string($attributes->getNamedItem('label-fg-color')->nodeValue);
+						$bg_color = db_escape_string($attributes->getNamedItem('label-bg-color')->nodeValue);
+
+						if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
+
+							printf("<li>".__("Adding label %s")."</li>", $label_name);
+
+							label_create($link, $label_name, $fg_color, $bg_color);
 						}
 					}
 
@@ -181,10 +188,10 @@
 	function opml_export($link, $name, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
 		if (!$_REQUEST["debug"]) {
 			header("Content-type: application/xml+opml");
+			header("Content-Disposition: attachment; filename=" . $name );
 		} else {
 			header("Content-type: text/xml");
 		}
-        header("Content-Disposition: attachment; filename=" . $name );
 
 		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
@@ -277,6 +284,22 @@
 				print "<outline pref-name=\"$name\" value=\"$value\">";
 
 				print "</outline>";
+
+			}
+
+			print "</outline>";
+
+			print "<outline title=\"tt-rss-labels\">";
+
+			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
+				owner_uid = " . $_SESSION['uid']);
+
+			while ($line = db_fetch_assoc($result)) {
+				$name = htmlspecialchars($line['caption']);
+				$fg_color = htmlspecialchars($line['fg_color']);
+				$bg_color = htmlspecialchars($line['bg_color']);
+
+				print "<outline label-name=\"$name\" label-fg-color=\"$fg_color\" label-bg-color=\"$bg_color\"/>";
 
 			}
 
