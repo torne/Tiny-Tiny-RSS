@@ -1400,7 +1400,7 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
 
-		print "<p>" . __("Using OPML you can export and import your feeds, labels and Tiny Tiny RSS settings.") . " ";
+		print "<p>" . __("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . " ";
 
 		print "<span class=\"insensitive\">" . __("Note: Only main settings profile can be migrated using OPML.") . "</span>";
 
