@@ -20,9 +20,9 @@ class RPC extends Protected_Handler {
 
 		if (file_exists($exportname)) {
 			header("Content-type: text/xml");
-			header("Content-Disposition: attachment; filename=TinyTinyRSS_exported.xml");
+			header("Content-Disposition: attachment; filename=TinyTinyRSS_exported.xml.gz");
 
-			echo file_get_contents($exportname);
+			echo gzencode(file_get_contents($exportname));
 		} else {
 			echo "File not found.";
 		}
