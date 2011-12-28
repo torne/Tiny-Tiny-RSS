@@ -1400,9 +1400,7 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Import and export')."\">";
 
-		print "<h2>" . __("OPML") . "</h2>";
-
-		print "<h3>" . __("Import") . "</h3>";
+		print "<h3>" . __("OPML") . "</h3>";
 
 		print "<p>" . __("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . " ";
 
@@ -1419,38 +1417,36 @@ class Pref_Feeds extends Protected_Handler {
 			<input type=\"hidden\" name=\"op\" value=\"dlg\">
 			<input type=\"hidden\" name=\"method\" value=\"importOpml\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"return opmlImport();\" type=\"submit\">" .
-			__('Import') . "</button>";
+			__('Import my OPML') . "</button>";
 
-		print "<h3>" . __("Export") . "</h3>";
+		print "<hr>";
 
 		print "<p>" . __('Filename:') .
             " <input type=\"text\" id=\"filename\" value=\"TinyTinyRSS.opml\" />&nbsp;" .
-            __('Include settings') . "<input type=\"checkbox\" id=\"settings\" CHECKED />" .
+				__('Include settings') . "<input type=\"checkbox\" id=\"settings\" checked=\"1\"/>";
 
-			"<button dojoType=\"dijit.form.Button\"
+		print "</p><button dojoType=\"dijit.form.Button\"
 			onclick=\"gotoExportOpml(document.opml_form.filename.value, document.opml_form.settings.checked)\" >" .
-              __('Export') . "</button></p></form>";
+              __('Export OPML') . "</button></p></form>";
 
-		print "<h3>" . __("Publish") . "</h3>";
+		print "<hr>";
 
 		print "<p>".__('Your OPML can be published publicly and can be subscribed by anyone who knows the URL below.') . " ";
 
 		print __("Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds.") . "</p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
-			__('Display URL')."</button> ";
+			__('Display published OPML URL')."</button> ";
 
 
-		print "<h2>" . __("Article archive") . "</h2>";
+		print "<h3>" . __("Article archive") . "</h3>";
 
-		print "<p>" . __("You can export your Starred and Archived articles using neutral storage format. Please note that import and export of such data is only supported between same tt-rss versions.") . "</p>";
-
-		print "<h3>" . __("Export") . "</h3>";
+		print "<p>" . __("You can export and import your Starred and Archived articles for safekeeping or when migrating between tt-rss instances.") . "</p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return exportData()\">".
 			__('Export my data')."</button> ";
 
-		print "<h3>" . __("Import") . "</h3>";
+		print "<hr>";
 
 		print "<iframe id=\"data_upload_iframe\"
 			name=\"data_upload_iframe\" onload=\"dataImportComplete(this)\"
