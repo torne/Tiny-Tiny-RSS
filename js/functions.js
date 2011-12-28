@@ -969,6 +969,9 @@ function quickAddFilter() {
 	try {
 		var query = "backend.php?op=dlg&method=quickAddFilter";
 
+		if (dijit.byId("feedEditDlg"))
+			dijit.byId("feedEditDlg").destroyRecursive();
+
 		if (dijit.byId("filterEditDlg"))
 			dijit.byId("filterEditDlg").destroyRecursive();
 
@@ -1391,6 +1394,9 @@ function editFeed(feed, event) {
 			param_escape(feed);
 
 		console.log(query);
+
+		if (dijit.byId("filterEditDlg"))
+			dijit.byId("filterEditDlg").destroyRecursive();
 
 		if (dijit.byId("feedEditDlg"))
 			dijit.byId("feedEditDlg").destroyRecursive();

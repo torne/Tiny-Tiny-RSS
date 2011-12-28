@@ -126,6 +126,9 @@ function editFilter(id) {
 
 		var query = "backend.php?op=pref-filters&method=edit&id=" + param_escape(id);
 
+		if (dijit.byId("feedEditDlg"))
+			dijit.byId("feedEditDlg").destroyRecursive();
+
 		if (dijit.byId("filterEditDlg"))
 			dijit.byId("filterEditDlg").destroyRecursive();
 
