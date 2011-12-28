@@ -5127,6 +5127,22 @@
 		if ($doc) {
 
 			$xpath = new DOMXpath($doc);
+
+			$container = $doc->firstChild;
+
+			if ($container && $container->hasAttribute('schema-version')) {
+				$schema_version = $container->getAttribute('schema-version');
+
+				if ($schema_version != SCHEMA_VERSION) {
+					print "<p>" .__("Could not import: incorrect schema version.") . "</p>";
+					return;
+				}
+
+			} else {
+				print "<p>" . __("Could not import: unrecognized document format.") . "</p>";
+				return;
+			}
+
 			$articles = $xpath->query("//article");
 
 			foreach ($articles as $article_node) {
