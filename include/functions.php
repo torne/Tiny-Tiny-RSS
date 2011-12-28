@@ -3972,19 +3972,21 @@
 		db_query($link, "COMMIT");
 	}
 
-	function label_create($link, $caption, $fg_color = '', $bg_color = '') {
+	function label_create($link, $caption, $fg_color = '', $bg_color = '', $owner_uid) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
 		db_query($link, "BEGIN");
 
 		$result = false;
 
 		$result = db_query($link, "SELECT id FROM ttrss_labels2
-			WHERE caption = '$caption' AND owner_uid =  ". $_SESSION["uid"]);
+			WHERE caption = '$caption' AND owner_uid = $owner_uid");
 
 		if (db_num_rows($result) == 0) {
 			$result = db_query($link,
 				"INSERT INTO ttrss_labels2 (caption,owner_uid,fg_color,bg_color)
-					VALUES ('$caption', '".$_SESSION["uid"]."', '$fg_color', '$bg_color')");
+					VALUES ('$caption', '$owner_uid', '$fg_color', '$bg_color')");
 
 			$result = db_affected_rows($link, $result) != 0;
 		}
@@ -5175,7 +5177,10 @@
 					$article = array();
 
 					foreach ($article_node->childNodes as $child) {
-						$article[$child->nodeName] = db_escape_string($child->nodeValue);
+						if ($child->nodeName != 'label_cache')
+							$article[$child->nodeName] = db_escape_string($child->nodeValue);
+						else
+							$article[$child->nodeName] = $child->nodeValue;
 					}
 
 					//print_r($article);
@@ -5281,7 +5286,7 @@
 								$score = (int) $article['score'];
 
 								$tag_cache = $article['tag_cache'];
-								$label_cache = $article['label_cache'];
+								$label_cache = db_escape_string($article['label_cache']);
 								$note = $article['note'];
 
 								//print "Importing " . $article['title'] . "<br/>";
@@ -5295,6 +5300,19 @@
 									VALUES ($ref_id, $owner_uid, $feed, false,
 										NULL, $marked, $published, $score, '$tag_cache',
 											'$label_cache', '', '$note')");
+
+								$label_cache = json_decode($label_cache, true);
+
+								if (is_array($label_cache) && $label_cache["no-labels"] != 1) {
+									foreach ($label_cache as $label) {
+
+										label_create($link, $label[1],
+											$label[2], $label[3], $owner_uid);
+
+										label_add_article($link, $ref_id, $label[1], $owner_uid);
+
+									}
+								}
 
 								//db_query($link, "COMMIT");
 							}
