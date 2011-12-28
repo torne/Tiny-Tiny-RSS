@@ -683,7 +683,7 @@
 
 				if ($_REQUEST["xdebug"] == 2) {
 					print "update_rss_feed: content: ";
-					print_r(htmlspecialchars($entry_content));
+					print $entry_content;
 					print "\n";
 				}
 
@@ -732,7 +732,7 @@
 
 				$entry_content = db_escape_string($entry_content, false);
 
-				$content_hash = "SHA1:x" . sha1(strip_tags($entry_content));
+				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
 				$entry_title = db_escape_string($entry_title);
 				$entry_link = db_escape_string($entry_link);
@@ -1341,7 +1341,7 @@
 
 				if (file_exists($local_filename)) {
 					$entry->setAttribute('src', SELF_URL_PATH . '/image.php?url=' .
-						htmlspecialchars($src));
+						base64_encode($src));
 				}
 			}
 		}
