@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Wed Nov 23 10:40:20 MSK 2011
+<?php # This file has been generated at:  Wed Dec 28 13:30:55 MSK 2011
 
 __("Title");
 __("Title or Content");
@@ -12,6 +12,11 @@ __("Set starred");
 __("Publish article");
 __("Assign tags");
 __("Assign label");
+__("Modify score");
+
+__("General");
+__("Interface");
+__("Advanced");
 
 __('This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once.');
 __('Display expanded list of feed articles, instead of separate displays for headlines and article content');

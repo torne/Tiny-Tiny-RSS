@@ -3,9 +3,9 @@ TEMPLATE=messages.pot
 
 ./utils/update-schema-translations.sh
 
-xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php modules/*.php help/*.php mobile/*.php
+xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php help/*.php mobile/*.php classes/*.php include/*.php
 
-xgettext --from-code utf-8 -k__ -L Java -j -o $TEMPLATE *.js
+xgettext --from-code utf-8 -k__ -L Java -j -o $TEMPLATE js/*.js
 
 update_lang() {
 	if [ -f $1.po ]; then
