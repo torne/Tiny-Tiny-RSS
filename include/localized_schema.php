@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Wed Dec 28 13:30:55 MSK 2011
+<?php # This file has been generated at:  Wed Dec 28 13:33:46 MSK 2011
 
 __("Title");
 __("Title or Content");
