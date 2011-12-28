@@ -5116,13 +5116,35 @@
 		return $rv;
 	}
 
+	if (!function_exists('gzdecode')) {
+		function gzdecode($string) { // no support for 2nd argument
+			return file_get_contents('compress.zlib://data:who/cares;base64,'.
+				base64_encode($string));
+		}
+	}
+
 	function perform_data_import($link, $filename, $owner_uid) {
 
 		$num_imported = 0;
 		$num_processed = 0;
 		$num_feeds_created = 0;
 
-		$doc = DOMDocument::load($filename);
+		$doc = @DOMDocument::load($filename);
+
+		if (!$doc) {
+			$contents = file_get_contents($filename);
+
+			if ($contents) {
+				$data = @gzuncompress($contents);
+			}
+
+			if (!$data) {
+				$data = @gzdecode($contents);
+			}
+
+			if ($data)
+				$doc = DOMDocument::loadXML($data);
+		}
 
 		if ($doc) {
 
