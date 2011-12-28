@@ -2064,4 +2064,10 @@ function dataImportComplete(iframe) {
 	}
 }
 
+function gotoExportOpml(filename, settings) {
+	tmp = settings ? 1 : 0;
+	document.location.href = "opml.php?op=Export&filename=" + filename + "&settings=" + tmp;
+}
+
+
 

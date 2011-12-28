@@ -296,12 +296,6 @@ function gotoMain() {
 	document.location.href = "index.php";
 }
 
-function gotoExportOpml(filename, settings) {
-    tmp = settings ? 1 : 0;
-	document.location.href = "opml.php?op=Export&filename=" + filename + "&settings=" + tmp;
-}
-
-
 /** * @(#)isNumeric.js * * Copyright (c) 2000 by Sundar Dorai-Raj
   * * @author Sundar Dorai-Raj
   * * Email: sdoraira@vt.edu

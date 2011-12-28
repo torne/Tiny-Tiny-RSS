@@ -1452,7 +1452,7 @@ class Pref_Feeds extends Protected_Handler {
 			name=\"data_upload_iframe\" onload=\"dataImportComplete(this)\"
 			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
 
-		print "<form  name=\"opml_form\" style='display : block' target=\"data_upload_iframe\"
+		print "<form name=\"import_form\" style='display : block' target=\"data_upload_iframe\"
 			enctype=\"multipart/form-data\" method=\"POST\"
 			action=\"backend.php\">
 			<input id=\"export_file\" name=\"export_file\" type=\"file\">&nbsp;
