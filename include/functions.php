@@ -5260,6 +5260,7 @@
 
 								$tag_cache = $article['tag_cache'];
 								$label_cache = $article['label_cache'];
+								$note = $article['note'];
 
 								//print "Importing " . $article['title'] . "<br/>";
 
@@ -5268,9 +5269,10 @@
 								$result = db_query($link,
 									"INSERT INTO ttrss_user_entries
 									(ref_id, owner_uid, feed_id, unread, last_read, marked,
-										published, score, tag_cache, label_cache, uuid)
+										published, score, tag_cache, label_cache, uuid, note)
 									VALUES ($ref_id, $owner_uid, $feed, false,
-										NULL, $marked, $published, $score, '$tag_cache', '$label_cache', '')");
+										NULL, $marked, $published, $score, '$tag_cache',
+											'$label_cache', '', '$note')");
 
 								//db_query($link, "COMMIT");
 							}
