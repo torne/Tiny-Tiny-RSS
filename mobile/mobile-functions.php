@@ -4,10 +4,10 @@
 		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
 		dirname(dirname(__FILE__)) . "/include" );
 
-	require_once "include/functions.php";
-	require_once "include/sessions.php";
-	require_once "include/version.php";
-	require_once "include/db-prefs.php";
+	require_once "functions.php";
+	require_once "sessions.php";
+	require_once "version.php";
+	require_once "db-prefs.php";
 
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
