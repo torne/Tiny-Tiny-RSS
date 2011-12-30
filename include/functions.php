@@ -701,9 +701,11 @@
 
 					// First login ?
 					if (db_num_rows($result) == 0) {
+						$pwd_hash = encrypt_password(make_password(), $login);
+
 						$query2 = "INSERT INTO ttrss_users
-								(login,access_level,last_login,created)
-								VALUES ('$login', 0, null, NOW())";
+								(login,access_level,last_login,created,pwd_hash)
+								VALUES ('$login', 0, null, NOW(), '$pwd_hash')";
 						db_query($link, $query2);
 					}
 				}
