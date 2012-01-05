@@ -2574,6 +2574,8 @@
 				@$config->set('Cache', 'SerializerPath', "../" . CACHE_DIR . "/htmlpurifier");
 			}
 
+			$config->set('Filter.YouTube', true);
+
 			$purifier = new HTMLPurifier($config);
 		}
 
