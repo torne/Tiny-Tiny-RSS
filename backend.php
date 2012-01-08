@@ -35,7 +35,7 @@
 		return;
 	}
 
-	$csrf_token = $_REQUEST['csrf_token'];
+	@$csrf_token = $_REQUEST['csrf_token'];
 
 	require_once "functions.php";
 	require_once "sessions.php";
