@@ -172,7 +172,8 @@
 				'user_secret' => $access_token['oauth_token_secret'],
 			));
 
-			$code = $tmhOAuth->request('GET', $url);
+			$code = $tmhOAuth->request('GET', $url,
+				convertUrlQuery(parse_url($url, PHP_URL_QUERY)));
 
 			if ($code == 200) {
 
@@ -1375,4 +1376,23 @@
 		}
 	}
 
+	/**
+	* Source: http://www.php.net/manual/en/function.parse-url.php#104527
+	* Returns the url query as associative array
+	*
+	* @param    string    query
+	* @return    array    params
+	*/
+	function convertUrlQuery($query) {
+		$queryParts = explode('&', $query);
+
+		$params = array();
+
+		foreach ($queryParts as $param) {
+			$item = explode('=', $param);
+			$params[$item[0]] = $item[1];
+		}
+
+		return $params;
+	}
 ?>
