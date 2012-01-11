@@ -53,6 +53,8 @@
 					array_push($tmp, $pid);
 				} else {
 					_debug("[reap_children] child $pid seems active but lockfile is unlocked.");
+					unset($ctimes[$pid]);
+
 				}
 			} else {
 				_debug("[reap_children] child $pid reaped.");
