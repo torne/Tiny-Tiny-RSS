@@ -1335,7 +1335,7 @@
 				if (!file_exists($local_filename)) {
 					$file_content = fetch_file_contents($src);
 
-					if ($file_content) {
+					if ($file_content && strlen($file_content) > 1024) {
 						file_put_contents($local_filename, $file_content);
 					}
 				}
