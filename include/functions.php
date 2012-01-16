@@ -4849,7 +4849,7 @@
 
 	}
 
-	function rewrite_urls($line) {
+/*	function rewrite_urls($line) {
 		global $url_regex;
 
 		$urls = null;
@@ -4858,6 +4858,48 @@
 			"<a target=\"_blank\" href=\"\\1\">\\1</a>", $line);
 
 		return $result;
+	} */
+
+	function rewrite_urls($html) {
+		libxml_use_internal_errors(true);
+
+		$charset_hack = '<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		</head>';
+
+		$doc = new DOMDocument();
+		$doc->loadHTML($charset_hack . $html);
+		$xpath = new DOMXPath($doc);
+
+		$entries = $xpath->query('//*/text()');
+
+		foreach ($entries as $entry) {
+			if (strstr($entry->wholeText, "://") !== false) {
+				$text = preg_replace("/((?<!=.)((http|https|ftp)+):\/\/[^ ,!]+)/i",
+					"<a target=\"_blank\" href=\"\\1\">\\1</a>", $entry->wholeText);
+
+				if ($text != $entry->wholeText) {
+					$cdoc = new DOMDocument();
+					$cdoc->loadHTML($charset_hack . $text);
+
+
+					foreach ($cdoc->childNodes as $cnode) {
+						$cnode = $doc->importNode($cnode, true);
+
+						if ($cnode) {
+							$entry->parentNode->insertBefore($cnode);
+						}
+					}
+
+					$entry->parentNode->removeChild($entry);
+
+				}
+			}
+		}
+
+		$node = $doc->getElementsByTagName('body')->item(0);
+
+		return $doc->saveXML($node);
 	}
 
 	function filter_to_sql($filter) {
