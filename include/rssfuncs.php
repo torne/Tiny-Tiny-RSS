@@ -417,12 +417,18 @@
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			if ($use_simplepie) {
-				$site_url = $rss->get_link();
+				$site_url = db_escape_string(trim($rss->get_link()));
 			} else {
-				$site_url = $rss->channel["link"];
+				$site_url = db_escape_string(trim($rss->channel["link"]));
+			}
+
+			// weird, weird Magpie
+			if (!$use_simplepie) {
+				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
 			}
 
 			$site_url = rewrite_relative_url($fetch_url, $site_url);
+			$site_url = substr($site_url, 0, 250);
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: checking favicon...");
@@ -446,12 +452,7 @@
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
-			// weird, weird Magpie
-			if (!$use_simplepie) {
-				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
-			}
-
-			if ($site_url && $orig_site_url != db_escape_string($site_url)) {
+			if ($site_url && $orig_site_url != $site_url) {
 				db_query($link, "UPDATE ttrss_feeds SET
 					site_url = '$site_url' WHERE id = '$feed'");
 			}
@@ -459,11 +460,12 @@
 //			print "I: " . $rss->channel["image"]["url"];
 
 			if (!$use_simplepie) {
-				$icon_url = db_escape_string($rss->image["url"]);
+				$icon_url = db_escape_string(trim($rss->image["url"]));
 			} else {
-				$icon_url = db_escape_string($rss->get_image_url());
+				$icon_url = db_escape_string(trim($rss->get_image_url()));
 			}
 
+			$icon_url = rewrite_relative_url($fetch_url, $icon_url);
 			$icon_url = substr($icon_url, 0, 250);
 
 			if ($icon_url && $orig_icon_url != $icon_url) {
