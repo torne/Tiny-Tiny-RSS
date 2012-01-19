@@ -4388,13 +4388,8 @@
 
 	function api_get_headlines($link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
-				$include_attachments, $since_id) {
-
-			/* do not rely on params below */
-
-			$search = db_escape_string($_REQUEST["search"]);
-			$search_mode = db_escape_string($_REQUEST["search_mode"]);
-			$match_on = db_escape_string($_REQUEST["match_on"]);
+				$include_attachments, $since_id,
+				$search = "", $search_mode = "", $match_on = "") {
 
 			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 				$view_mode, $is_cat, $search, $search_mode, $match_on,
