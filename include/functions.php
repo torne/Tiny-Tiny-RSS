@@ -701,20 +701,59 @@
 
 					// First login ?
 					if (db_num_rows($result) == 0) {
-						$pwd_hash = encrypt_password(make_password(), $login);
+						$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+						$pwd_hash = encrypt_password($password, $salt, true);
 
 						$query2 = "INSERT INTO ttrss_users
-								(login,access_level,last_login,created,pwd_hash)
-								VALUES ('$login', 0, null, NOW(), '$pwd_hash')";
+								(login,access_level,last_login,created,pwd_hash,salt)
+								VALUES ('$login', 0, null, NOW(), '$pwd_hash','$salt')";
 						db_query($link, $query2);
 					}
 				}
 
 			} else {
-				$query = "SELECT id,login,access_level,pwd_hash
-	            FROM ttrss_users WHERE
-					login = '$login' AND (pwd_hash = '$pwd_hash1' OR
+				$result = db_query($link, "SELECT salt FROM ttrss_users WHERE
+					login = '$login'");
+
+				$salt = db_fetch_result($result, 0, "salt");
+
+				if ($salt == "") {
+
+					$query = "SELECT id,login,access_level,pwd_hash
+		            FROM ttrss_users WHERE
+						login = '$login' AND (pwd_hash = '$pwd_hash1' OR
 						pwd_hash = '$pwd_hash2')";
+
+					// verify and upgrade password to new salt base
+
+					$result = db_query($link, $query);
+
+					if (db_num_rows($result) == 1) {
+						// upgrade password to MODE2
+
+						$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+						$pwd_hash = encrypt_password($password, $salt, true);
+
+						db_query($link, "UPDATE ttrss_users SET
+							pwd_hash = '$pwd_hash', salt = '$salt' WHERE login = '$login'");
+
+						$query = "SELECT id,login,access_level,pwd_hash
+			            FROM ttrss_users WHERE
+							login = '$login' AND pwd_hash = '$pwd_hash'";
+
+					} else {
+						return false;
+					}
+
+				} else {
+
+					$pwd_hash = encrypt_password($password, $salt, true);
+
+					$query = "SELECT id,login,access_level,pwd_hash
+			         FROM ttrss_users WHERE
+						login = '$login' AND pwd_hash = '$pwd_hash'";
+
+				}
 			}
 
 			$result = db_query($link, $query);
@@ -774,20 +813,7 @@
 
 	function make_password($length = 8) {
 
-		$password = "";
-		$possible = "0123456789abcdfghjkmnpqrstvwxyzABCDFGHJKMNPQRSTVWXYZ";
-
-   	$i = 0;
-
-		while ($i < $length) {
-			$char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
-
-			if (!strstr($password, $char)) {
-				$password .= $char;
-				$i++;
-			}
-		}
-		return $password;
+		return substr(bin2hex(openssl_random_pseudo_bytes($length / 2)), 0, $length);
 	}
 
 	// this is called after user is created to initialize default feeds, labels
@@ -3448,21 +3474,15 @@
 		return $url_path;
 	} // function add_feed_url
 
-	/**
-	 * Encrypt a password in SHA1.
-	 *
-	 * @param string $pass The password to encrypt.
-	 * @param string $login A optionnal login.
-	 * @return string The encrypted password.
-	 */
-	function encrypt_password($pass, $login = '') {
-		if ($login) {
-			return "SHA1X:" . sha1("$login:$pass");
+	function encrypt_password($pass, $salt = '', $mode2 = false) {
+		if ($salt && $mode2) {
+			return "MODE2:" . hash('sha256', $salt . $pass);
+		} else if ($salt) {
+			return "SHA1X:" . sha1("$salt:$pass");
 		} else {
 			return "SHA1:" . sha1($pass);
 		}
 	} // function encrypt_password
-
 
 	function sanitize_article_content($text) {
 		# we don't support CDATA sections in articles, they break our own escaping
