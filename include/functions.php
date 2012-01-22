@@ -711,7 +711,7 @@
 					}
 				}
 
-			} else {
+			} else if (get_schema_version($link) > 87) {
 				$result = db_query($link, "SELECT salt FROM ttrss_users WHERE
 					login = '$login'");
 
@@ -754,6 +754,11 @@
 						login = '$login' AND pwd_hash = '$pwd_hash'";
 
 				}
+			} else {
+				$query = "SELECT id,login,access_level,pwd_hash
+		         FROM ttrss_users WHERE
+					login = '$login' AND (pwd_hash = '$pwd_hash1' OR
+						pwd_hash = '$pwd_hash2')";
 			}
 
 			$result = db_query($link, $query);
