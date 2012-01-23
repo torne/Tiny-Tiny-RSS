@@ -206,8 +206,9 @@ class Pref_Users extends Protected_Handler {
 			$password = db_escape_string(trim($_REQUEST["password"]));
 
 			if ($password) {
-				$pwd_hash = encrypt_password($password, $login);
-				$pass_query_part = "pwd_hash = '$pwd_hash', ";
+				$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+				$pwd_hash = encrypt_password($password, $salt, true);
+				$pass_query_part = "pwd_hash = '$pwd_hash', salt = '$salt',";
 			} else {
 				$pass_query_part = "";
 			}
@@ -233,7 +234,8 @@ class Pref_Users extends Protected_Handler {
 
 			$login = db_escape_string(trim($_REQUEST["login"]));
 			$tmp_user_pwd = make_password(8);
-			$pwd_hash = encrypt_password($tmp_user_pwd, $login);
+			$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$pwd_hash = encrypt_password($tmp_user_pwd, $salt, true);
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE
 				login = '$login'");
@@ -241,8 +243,8 @@ class Pref_Users extends Protected_Handler {
 			if (db_num_rows($result) == 0) {
 
 				db_query($this->link, "INSERT INTO ttrss_users
-					(login,pwd_hash,access_level,last_login,created)
-					VALUES ('$login', '$pwd_hash', 0, null, NOW())");
+					(login,pwd_hash,access_level,last_login,created, salt)
+					VALUES ('$login', '$pwd_hash', 0, null, NOW(), '$salt')");
 
 
 				$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE
@@ -276,10 +278,14 @@ class Pref_Users extends Protected_Handler {
 
 			$login = db_fetch_result($result, 0, "login");
 			$email = db_fetch_result($result, 0, "email");
-			$tmp_user_pwd = make_password(8);
-			$pwd_hash = encrypt_password($tmp_user_pwd, $login);
+			$salt = db_fetch_result($result, 0, "salt");
 
-			db_query($this->link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash'
+			$new_salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$tmp_user_pwd = make_password(8);
+
+			$pwd_hash = encrypt_password($tmp_user_pwd, $new_salt, true);
+
+			db_query($this->link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
 				WHERE id = '$uid'");
 
 			print T_sprintf("Changed password of user <b>%s</b>

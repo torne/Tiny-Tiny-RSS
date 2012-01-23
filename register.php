@@ -4,7 +4,7 @@
 	// 1) templates/register_notice.txt - displayed above the registration form
 	// 2) register_expire_do.php - contains user expiration queries when necessary
 
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	require_once 'lib/phpmailer/class.phpmailer.php';
@@ -270,11 +270,12 @@
 
 				$password = make_password();
 
-				$pwd_hash = encrypt_password($password, $login);
+				$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+				$pwd_hash = encrypt_password($password, $salt, true);
 
 				db_query($link, "INSERT INTO ttrss_users
-					(login,pwd_hash,access_level,last_login, email, created)
-					VALUES ('$login', '$pwd_hash', 0, null, '$email', NOW())");
+					(login,pwd_hash,access_level,last_login, email, created, salt)
+					VALUES ('$login', '$pwd_hash', 0, null, '$email', NOW(), '$salt')");
 
 				$result = db_query($link, "SELECT id FROM ttrss_users WHERE
 					login = '$login' AND pwd_hash = '$pwd_hash'");

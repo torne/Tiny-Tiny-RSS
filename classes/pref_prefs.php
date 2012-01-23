@@ -28,34 +28,43 @@ class Pref_Prefs extends Protected_Handler {
 			return;
 		}
 
-		$old_pw_hash1 = encrypt_password($old_pw);
-		$old_pw_hash2 = encrypt_password($old_pw, $_SESSION["name"]);
-		$new_pw_hash = encrypt_password($new_pw, $_SESSION["name"]);
+		$result = db_query($this->link, "SELECT salt FROM ttrss_users WHERE
+			id = " . $_SESSION['uid']);
 
-		$active_uid = $_SESSION["uid"];
+		$salt = db_fetch_result($result, 0, "salt");
 
-		if ($old_pw && $new_pw) {
+		if (!$salt) {
+			$old_pw_hash1 = encrypt_password($old_pw);
+			$old_pw_hash2 = encrypt_password($old_pw, $_SESSION["name"]);
 
-			$login = db_escape_string($_SERVER['PHP_AUTH_USER']);
+			$query = "SELECT id FROM ttrss_users WHERE
+				id = ".$_SESSION['uid']." AND (pwd_hash = '$old_pw_hash1' OR
+				pwd_hash = '$old_pw_hash2')";
 
-			$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE
-				id = '$active_uid' AND (pwd_hash = '$old_pw_hash1' OR
-					pwd_hash = '$old_pw_hash2')");
+		} else {
+			$old_pw_hash = encrypt_password($old_pw, $salt, true);
 
-			if (db_num_rows($result) == 1) {
-				db_query($this->link, "UPDATE ttrss_users SET pwd_hash = '$new_pw_hash'
-					WHERE id = '$active_uid'");
-
-				$_SESSION["pwd_hash"] = $new_pw_hash;
-
-				print __("Password has been changed.");
-			} else {
-				print "ERROR: ".__('Old password is incorrect.');
-			}
+			$query = "SELECT id FROM ttrss_users WHERE
+				id = ".$_SESSION['uid']." AND pwd_hash = '$old_pw_hash'";
 		}
 
-		return;
+		$result = db_query($this->link, $query);
 
+		if (db_num_rows($result) == 1) {
+
+			$new_salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$new_pw_hash = encrypt_password($new_pw, $new_salt, true);
+
+			db_query($this->link, "UPDATE ttrss_users SET
+				pwd_hash = '$new_pw_hash', salt = '$new_salt'
+					WHERE id = ".$_SESSION['uid']);
+
+			$_SESSION["pwd_hash"] = $new_pw_hash;
+
+			print __("Password has been changed.");
+		} else {
+			print "ERROR: ".__('Old password is incorrect.');
+		}
 	}
 
 	function saveconfig() {
