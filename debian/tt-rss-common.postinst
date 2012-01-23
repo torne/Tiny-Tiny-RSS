@@ -33,6 +33,14 @@ case "$1" in
 		install -d -m775 -gwww-data /var/cache/tt-rss/simplepie
 	fi
 
+	if [ ! -d /var/cache/tt-rss/export ]; then
+		install -d -m775 -gwww-data /var/cache/tt-rss/export
+	fi
+
+	if [ ! -d /var/cache/tt-rss/images ]; then
+		install -d -m775 -gwww-data /var/cache/tt-rss/images
+	fi
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
