@@ -52,7 +52,7 @@ class Pref_Prefs extends Protected_Handler {
 
 		if (db_num_rows($result) == 1) {
 
-			$new_salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$new_salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$new_pw_hash = encrypt_password($new_pw, $new_salt, true);
 
 			db_query($this->link, "UPDATE ttrss_users SET

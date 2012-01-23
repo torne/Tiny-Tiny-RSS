@@ -270,7 +270,7 @@
 
 				$password = make_password();
 
-				$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 				$pwd_hash = encrypt_password($password, $salt, true);
 
 				db_query($link, "INSERT INTO ttrss_users

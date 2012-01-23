@@ -701,7 +701,7 @@
 
 					// First login ?
 					if (db_num_rows($result) == 0) {
-						$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+						$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 						$pwd_hash = encrypt_password($password, $salt, true);
 
 						$query2 = "INSERT INTO ttrss_users
@@ -731,7 +731,7 @@
 					if (db_num_rows($result) == 1) {
 						// upgrade password to MODE2
 
-						$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+						$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 						$pwd_hash = encrypt_password($password, $salt, true);
 
 						db_query($link, "UPDATE ttrss_users SET
@@ -818,7 +818,7 @@
 
 	function make_password($length = 8) {
 
-		return substr(bin2hex(openssl_random_pseudo_bytes($length / 2)), 0, $length);
+		return substr(bin2hex(get_random_bytes($length / 2)), 0, $length);
 	}
 
 	// this is called after user is created to initialize default feeds, labels
@@ -5396,6 +5396,19 @@
 
 			print "<p>" . __("Could not load XML document.") . "</p>";
 
+		}
+	}
+
+	function get_random_bytes($length) {
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			return openssl_random_pseudo_bytes($length);
+		} else {
+			$output = "";
+
+			for ($i = 0; $i < $length; $i++)
+				$output .= chr(mt_rand(0, 255));
+
+			return $output;
 		}
 	}
 ?>

@@ -206,7 +206,7 @@ class Pref_Users extends Protected_Handler {
 			$password = db_escape_string(trim($_REQUEST["password"]));
 
 			if ($password) {
-				$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 				$pwd_hash = encrypt_password($password, $salt, true);
 				$pass_query_part = "pwd_hash = '$pwd_hash', salt = '$salt',";
 			} else {
@@ -234,7 +234,7 @@ class Pref_Users extends Protected_Handler {
 
 			$login = db_escape_string(trim($_REQUEST["login"]));
 			$tmp_user_pwd = make_password(8);
-			$salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$pwd_hash = encrypt_password($tmp_user_pwd, $salt, true);
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE
@@ -280,7 +280,7 @@ class Pref_Users extends Protected_Handler {
 			$email = db_fetch_result($result, 0, "email");
 			$salt = db_fetch_result($result, 0, "salt");
 
-			$new_salt = substr(bin2hex(openssl_random_pseudo_bytes(125)), 0, 250);
+			$new_salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$tmp_user_pwd = make_password(8);
 
 			$pwd_hash = encrypt_password($tmp_user_pwd, $new_salt, true);
