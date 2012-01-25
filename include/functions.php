@@ -818,7 +818,20 @@
 
 	function make_password($length = 8) {
 
-		return substr(bin2hex(get_random_bytes($length / 2)), 0, $length);
+		$password = "";
+		$possible = "0123456789abcdfghjkmnpqrstvwxyzABCDFGHJKMNPQRSTVWXYZ";
+
+   	$i = 0;
+
+		while ($i < $length) {
+			$char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+
+			if (!strstr($password, $char)) {
+				$password .= $char;
+				$i++;
+			}
+		}
+		return $password;
 	}
 
 	// this is called after user is created to initialize default feeds, labels
