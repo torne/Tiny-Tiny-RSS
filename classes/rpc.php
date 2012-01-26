@@ -188,8 +188,9 @@ class RPC extends Protected_Handler {
 		$cat = db_escape_string($_REQUEST['cat']);
 		$login = db_escape_string($_REQUEST['login']);
 		$pass = db_escape_string($_REQUEST['pass']);
+		$need_auth = db_escape_string($_REQUEST['need_auth']) != "";
 
-		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass);
+		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass, $need_auth);
 
 		print json_encode(array("result" => $rc));
 	}
