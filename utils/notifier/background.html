@@ -18,7 +18,7 @@ function update() {
 
 	if (single_user == "1") login = "admin";
 
-	var requestUrl = localStorage["site_url"] + "/backend.php";
+	var requestUrl = localStorage["site_url"] + "/public.php";
 	var params = "op=getUnread&fresh=1&login=" + param_escape(login);
 
 	var xhr = new XMLHttpRequest();
