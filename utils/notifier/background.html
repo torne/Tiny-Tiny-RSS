@@ -2,6 +2,7 @@
 <script type="text/javascript">
 
 var last_updated = 0;
+var feeds_last_updated = 0;
 var prefs_last_updated = 0;
 
 function param_escape(arg) {
@@ -11,7 +12,24 @@ function param_escape(arg) {
 		return escape(arg);
 }
 
+function update_feeds() {
+
+	console.log("feeds update");
+
+	var requestUrl = localStorage["site_url"] + "/public.php?op=globalUpdateFeeds";
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("POST", requestUrl, true);
+	xhr.send();
+
+	var d = new Date();
+	localStorage["last_feeds_updated"] = d.getTime();
+}
+
 function update() {
+	console.log("update");
+
 	var d = new Date();
 	var login = localStorage["login"];
 	var single_user = localStorage["single_user"];
@@ -22,7 +40,6 @@ function update() {
 	var params = "op=getUnread&fresh=1&login=" + param_escape(login);
 
 	var xhr = new XMLHttpRequest();
-
 
 	xhr.open("POST", requestUrl, true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -109,6 +126,7 @@ function timeout() {
 
 	var update_interval;
 	var prefs_updated;
+	var feeds_update_interval = 30 * 60 * 1000;
 
 	if (localStorage["update_interval"])
 		update_interval = localStorage["update_interval"] * 60 * 1000;
@@ -126,13 +144,26 @@ function timeout() {
 			prefs_updated != prefs_last_updated) {
 
 		last_updated = d.getTime();
-		prefs_last_updated = prefs_updated;
 		try {
 			update();
 		} catch (e) {
-			//
+			console.warn(e);
 		}
 	}
+
+	if (localStorage['update_feeds'] == 1 && (d.getTime() > feeds_last_updated + feeds_update_interval || prefs_updated != prefs_last_updated)) {
+
+		feeds_last_updated = d.getTime();
+	
+		try {
+			update_feeds();
+		} catch (e) {
+			console.warn(e);
+		}
+
+	}
+
+	prefs_last_updated = prefs_updated;
 
 	window.setTimeout("timeout()", 1000);
 }
