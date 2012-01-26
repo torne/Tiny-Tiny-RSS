@@ -156,6 +156,8 @@
 	function fetch_twitter_rss($link, $url, $owner_uid) {
 
 		require_once 'lib/tmhoauth/tmhOAuth.php';
+		require_once "lib/magpierss/rss_fetch.inc";
+		require_once 'lib/magpierss/rss_utils.inc';
 
 		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users
 			WHERE id = $owner_uid");
