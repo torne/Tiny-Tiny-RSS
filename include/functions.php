@@ -715,6 +715,10 @@
 				$result = db_query($link, "SELECT salt FROM ttrss_users WHERE
 					login = '$login'");
 
+				if (db_num_rows($result) != 1) {
+					return false;
+				}
+
 				$salt = db_fetch_result($result, 0, "salt");
 
 				if ($salt == "") {
