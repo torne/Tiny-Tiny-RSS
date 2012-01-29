@@ -2073,4 +2073,35 @@ function gotoExportOpml(filename, settings) {
 }
 
 
+function batchSubscribe() {
+	try {
+		var query = "backend.php?op=dlg&method=batchSubscribe";
+
+		if (dijit.byId("batchSubDlg"))
+			dijit.byId("batchSubDlg").destroyRecursive();
+
+		var dialog = new dijit.Dialog({
+			id: "batchSubDlg",
+			title: __("Batch subscribe"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					console.log(dojo.objectToQuery(this.attr('value')));
+
+					notify_progress(__("Subscribing to feeds..."), true);
+
+					new Ajax.Request("backend.php", {
+						parameters: dojo.objectToQuery(this.attr('value')),
+						onComplete: function(transport) {
+							this.hide();
+						} });
+					}
+			},
+			href: query});
+
+		dialog.show();
+	} catch (e) {
+		exception_error("batchSubscribe", e);
+	}
+}
 

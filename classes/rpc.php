@@ -788,5 +788,54 @@ class RPC extends Protected_Handler {
 
 		print json_encode(array("hash" => $hash));
 	}
+
+	function batchAddFeeds() {
+		$cat_id = db_escape_string($_REQUEST['cat']);
+		$feeds = explode("\n", db_escape_string($_REQUEST['feeds']));
+		$login = db_escape_string($_REQUEST['login']);
+		$pass = db_escape_string($_REQUEST['pass']);
+		$need_auth = db_escape_string($_REQUEST['need_auth']) != "";
+
+		$result = db_query($this->link, "SELECT twitter_oauth FROM ttrss_users
+WHERE id = ".$_SESSION['uid']);
+		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth') != "";
+
+		foreach ($feeds as $feed) {
+			$feed = trim($feed);
+
+			if (validate_feed_url($feed)) {
+
+				db_query($this->link, "BEGIN");
+
+				if (!$need_auth || !$has_oauth || strpos($url, '://api.twitter.com')
+																=== false) {
+					$update_method = 0;
+				} else {
+					$update_method = 3;
+				}
+
+				if ($cat_id == "0" || !$cat_id) {
+					$cat_qpart = "NULL";
+				} else {
+					$cat_qpart = "'$cat_id'";
+				}
+
+				$result = db_query($this->link,
+					"SELECT id FROM ttrss_feeds
+					WHERE feed_url = '$feed' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+					$result = db_query($this->link,
+						"INSERT INTO ttrss_feeds
+							(owner_uid,feed_url,title,cat_id,auth_login,auth_pass,update_method)
+						VALUES ('".$_SESSION["uid"]."', '$feed',
+							'[Unknown]', $cat_qpart, '$login', '$pass', '$update_method')");
+				}
+
+				db_query($this->link, "COMMIT");
+			}
+		}
+	}
+
 }
 ?>

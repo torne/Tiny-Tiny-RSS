@@ -1317,6 +1317,8 @@ class Pref_Feeds extends Protected_Handler {
 			dojoType=\"dijit.MenuItem\">".__('Edit selected feeds')."</div>";
 		print "<div onclick=\"resetFeedOrder()\"
 			dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
+		print "<div onclick=\"batchSubscribe()\"
+			dojoType=\"dijit.MenuItem\">".__('Batch subscribe')."</div>";
 		print "</div></div>";
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
