@@ -60,6 +60,8 @@
 	function update_daemon_common($link, $limit = DAEMON_FEED_LIMIT, $from_http = false, $debug = true) {
 		// Process all other feeds using last_updated and interval parameters
 
+		define('PREFS_NO_CACHE', true);
+
 		// Test if the user has loggued in recently. If not, it does not update its feeds.
 		if (!SINGLE_USER_MODE && DAEMON_UPDATE_LOGIN_LIMIT > 0) {
 			if (DB_TYPE == "pgsql") {

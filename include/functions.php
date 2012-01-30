@@ -2689,14 +2689,13 @@
 		require_once 'lib/phpmailer/class.phpmailer.php';
 
 		$user_limit = 15; // amount of users to process (e.g. emails to send out)
-		$days = 1;
 
-		if ($debug) _debug("Sending digests, batch of max $user_limit users, days = $days, headline limit = $limit");
+		if ($debug) _debug("Sending digests, batch of max $user_limit users, headline limit = $limit");
 
 		if (DB_TYPE == "pgsql") {
-			$interval_query = "last_digest_sent < NOW() - INTERVAL '$days days'";
+			$interval_query = "last_digest_sent < NOW() - INTERVAL '1 days'";
 		} else if (DB_TYPE == "mysql") {
-			$interval_query = "last_digest_sent < DATE_SUB(NOW(), INTERVAL $days DAY)";
+			$interval_query = "last_digest_sent < DATE_SUB(NOW(), INTERVAL 1 DAY)";
 		}
 
 		$result = db_query($link, "SELECT id,email FROM ttrss_users
@@ -2705,58 +2704,64 @@
 		while ($line = db_fetch_assoc($result)) {
 
 			if (get_pref($link, 'DIGEST_ENABLE', $line['id'], false)) {
-				print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
+				$preferred_ts = strtotime(get_pref($link, 'DIGEST_PREFERRED_TIME', $line['id'], '00:00'));
 
-				$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
+				if ($preferred_ts && time() >= $preferred_ts) {
 
-				$tuple = prepare_headlines_digest($link, $line["id"], $days, $limit);
-				$digest = $tuple[0];
-				$headlines_count = $tuple[1];
-				$affected_ids = $tuple[2];
-				$digest_text = $tuple[3];
+					if ($debug) print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
 
-				if ($headlines_count > 0) {
+					$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
 
-					$mail = new PHPMailer();
+					$tuple = prepare_headlines_digest($link, $line["id"], 1, $limit);
+					$digest = $tuple[0];
+					$headlines_count = $tuple[1];
+					$affected_ids = $tuple[2];
+					$digest_text = $tuple[3];
 
-					$mail->PluginDir = "lib/phpmailer/";
-					$mail->SetLanguage("en", "lib/phpmailer/language/");
+					if ($headlines_count > 0) {
 
-					$mail->CharSet = "UTF-8";
+						$mail = new PHPMailer();
 
-					$mail->From = SMTP_FROM_ADDRESS;
-					$mail->FromName = SMTP_FROM_NAME;
-					$mail->AddAddress($line["email"], $line["login"]);
+						$mail->PluginDir = "lib/phpmailer/";
+						$mail->SetLanguage("en", "lib/phpmailer/language/");
 
-					if (SMTP_HOST) {
-						$mail->Host = SMTP_HOST;
-						$mail->Mailer = "smtp";
-						$mail->SMTPAuth = SMTP_LOGIN != '';
-						$mail->Username = SMTP_LOGIN;
-						$mail->Password = SMTP_PASSWORD;
+						$mail->CharSet = "UTF-8";
+
+						$mail->From = SMTP_FROM_ADDRESS;
+						$mail->FromName = SMTP_FROM_NAME;
+						$mail->AddAddress($line["email"], $line["login"]);
+
+						if (SMTP_HOST) {
+							$mail->Host = SMTP_HOST;
+							$mail->Mailer = "smtp";
+							$mail->SMTPAuth = SMTP_LOGIN != '';
+							$mail->Username = SMTP_LOGIN;
+							$mail->Password = SMTP_PASSWORD;
+						}
+
+						$mail->IsHTML(true);
+						$mail->Subject = DIGEST_SUBJECT;
+						$mail->Body = $digest;
+						$mail->AltBody = $digest_text;
+
+						$rc = $mail->Send();
+
+						if (!$rc && $debug) print "ERROR: " . $mail->ErrorInfo;
+
+						if ($debug) print "RC=$rc\n";
+
+						if ($rc && $do_catchup) {
+							if ($debug) print "Marking affected articles as read...\n";
+							catchupArticlesById($link, $affected_ids, 0, $line["id"]);
+						}
+					} else {
+						if ($debug) print "No headlines\n";
 					}
 
-					$mail->IsHTML(true);
-					$mail->Subject = DIGEST_SUBJECT;
-					$mail->Body = $digest;
-					$mail->AltBody = $digest_text;
+					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW()
+						WHERE id = " . $line["id"]);
 
-					$rc = $mail->Send();
-
-					if (!$rc) print "ERROR: " . $mail->ErrorInfo;
-
-					print "RC=$rc\n";
-
-					if ($rc && $do_catchup) {
-						print "Marking affected articles as read...\n";
-						catchupArticlesById($link, $affected_ids, 0, $line["id"]);
-					}
-				} else {
-					print "No headlines\n";
 				}
-
-				db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW()
-					WHERE id = " . $line["id"]);
 			}
 		}
 

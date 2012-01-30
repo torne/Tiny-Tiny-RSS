@@ -8,7 +8,9 @@ class Backend extends Handler {
 	}
 
 	function digestSend() {
-		send_headlines_digests($this->link);
+		define('PREFS_NO_CACHE', true);
+
+		send_headlines_digests($this->link, 100, true);
 	}
 
 	function help() {

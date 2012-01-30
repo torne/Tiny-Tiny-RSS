@@ -260,7 +260,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (88);
+insert into ttrss_version values (89);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -391,6 +391,8 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_BROWSE_CATS', 1, 'true', '', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SSL_CERT_SERIAL', 2, '', 'Login with an SSL certificate',3, 'Click to register your SSL client certificate with tt-rss');
+
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DIGEST_PREFERRED_TIME', 2, '00:00', 'Try to send digests around specified time', 1, 'Uses server timezone');
 
 create table ttrss_user_prefs (
    owner_uid integer not null,
