@@ -156,7 +156,7 @@ class Pref_Prefs extends Protected_Handler {
 			$_SESSION["prefs_op_result"] = "";
 
 			print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
-			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data')."\">";
+			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data / Authentication')."\">";
 
 			print "<form dojoType=\"dijit.form.Form\" id=\"changeUserdataForm\">";
 
@@ -205,9 +205,6 @@ class Pref_Prefs extends Protected_Handler {
 				__("Save data")."</button>";
 
 			print "</form>";
-
-			print "</div>"; # pane
-			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Authentication')."\">";
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash

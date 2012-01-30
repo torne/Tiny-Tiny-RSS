@@ -1500,7 +1500,7 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "</div>"; #pane
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published & shared articles and generated feeds')."\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published & shared articles / Generated feeds')."\">";
 
 		print "<h3>" . __("Published articles and generated feeds") . "</h3>";
 
