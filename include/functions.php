@@ -2706,7 +2706,9 @@
 			if (get_pref($link, 'DIGEST_ENABLE', $line['id'], false)) {
 				$preferred_ts = strtotime(get_pref($link, 'DIGEST_PREFERRED_TIME', $line['id'], '00:00'));
 
-				if ($preferred_ts && time() >= $preferred_ts) {
+				// try to send digests within 2 hours of preferred time
+				if ($preferred_ts && time() >= $preferred_ts &&
+						time() - $preferred_ts <= 7200) {
 
 					if ($debug) print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
 

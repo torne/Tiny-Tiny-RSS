@@ -78,6 +78,15 @@ class Pref_Prefs extends Protected_Handler {
 			$pref_name = db_escape_string($pref_name);
 			$value = db_escape_string($_POST[$pref_name]);
 
+			if ($pref_name == 'DIGEST_PREFERRED_TIME') {
+				if (get_pref($this->link, 'DIGEST_PREFERRED_TIME') != $value) {
+
+					db_query($this->link, "UPDATE ttrss_users SET
+						last_digest_sent = NULL WHERE id = " . $_SESSION['uid']);
+
+				}
+			}
+
 			set_pref($this->link, $pref_name, $value);
 
 		}
