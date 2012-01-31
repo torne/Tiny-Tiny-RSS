@@ -2715,6 +2715,11 @@
 
 					$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
 
+					global $tz_offset;
+
+					// reset tz_offset global to prevent tz cache clash between users
+					$tz_offset = -1;
+
 					$tuple = prepare_headlines_digest($link, $line["id"], 1, $limit);
 					$digest = $tuple[0];
 					$headlines_count = $tuple[1];
@@ -2782,11 +2787,14 @@
 		$tpl->readTemplateFromFile("templates/digest_template_html.txt");
 		$tpl_t->readTemplateFromFile("templates/digest_template.txt");
 
-		$tpl->setVariable('CUR_DATE', date('Y/m/d'));
-		$tpl->setVariable('CUR_TIME', date('G:i'));
+		$user_tz_string = get_pref($link, 'USER_TIMEZONE', $user_id);
+		$local_ts = convert_timestamp(time(), 'UTC', $user_tz_string);
 
-		$tpl_t->setVariable('CUR_DATE', date('Y/m/d'));
-		$tpl_t->setVariable('CUR_TIME', date('G:i'));
+		$tpl->setVariable('CUR_DATE', date('Y/m/d', $local_ts));
+		$tpl->setVariable('CUR_TIME', date('G:i', $local_ts));
+
+		$tpl_t->setVariable('CUR_DATE', date('Y/m/d', $local_ts));
+		$tpl_t->setVariable('CUR_TIME', date('G:i', $local_ts));
 
 		$affected_ids = array();
 
