@@ -151,7 +151,7 @@
 		}
 
 		// Send feed digests by email if needed.
-		send_headlines_digests($link, 100, $debug);
+		send_headlines_digests($link, $debug);
 
 	} // function update_daemon_common
 

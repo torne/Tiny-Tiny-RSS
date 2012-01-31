@@ -10,7 +10,17 @@ class Backend extends Handler {
 	function digestSend() {
 		define('PREFS_NO_CACHE', true);
 
-		send_headlines_digests($this->link, 100, true);
+		send_headlines_digests($this->link);
+	}
+
+	function digestTest() {
+		header("Content-type: text/html");
+
+		$rv = prepare_headlines_digest($this->link, $_SESSION['uid'], 1, 1000);
+
+		$rv[3] = "<pre>" . $rv[3] . "</pre>";
+
+		print_r($rv);
 	}
 
 	function help() {

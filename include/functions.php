@@ -2684,11 +2684,12 @@
 	 * @param integer $limit The maximum number of articles by digest.
 	 * @return boolean Return false if digests are not enabled.
 	 */
-	function send_headlines_digests($link, $limit = 100, $debug = true) {
+	function send_headlines_digests($link, $debug = false) {
 
 		require_once 'lib/phpmailer/class.phpmailer.php';
 
 		$user_limit = 15; // amount of users to process (e.g. emails to send out)
+		$limit = 1000; // maximum amount of headlines to include
 
 		if ($debug) _debug("Sending digests, batch of max $user_limit users, headline limit = $limit");
 
@@ -2771,7 +2772,7 @@
 
 	}
 
-	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 100) {
+	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 1000) {
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -2797,20 +2798,25 @@
 
 		$result = db_query($link, "SELECT ttrss_entries.title,
 				ttrss_feeds.title AS feed_title,
+				ttrss_feed_categories.title AS cat_title,
 				date_updated,
 				ttrss_user_entries.ref_id,
 				link,
-				SUBSTRING(content, 1, 120) AS excerpt,
+				score,
+				content,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 			FROM
 				ttrss_user_entries,ttrss_entries,ttrss_feeds
+			LEFT JOIN
+				ttrss_feed_categories ON (cat_id = ttrss_feed_categories.id)
 			WHERE
 				ref_id = ttrss_entries.id AND feed_id = ttrss_feeds.id
 				AND include_in_digest = true
 				AND $interval_query
 				AND ttrss_user_entries.owner_uid = $user_id
 				AND unread = true
-			ORDER BY ttrss_feeds.title, date_updated DESC
+				AND score >= 0
+			ORDER BY ttrss_feed_categories.title, ttrss_feeds.title, score DESC, date_updated DESC
 			LIMIT $limit");
 
 		$cur_feed_title = "";
@@ -2832,12 +2838,26 @@
 			$updated = make_local_datetime($link, $line['last_updated'], false,
 				$user_id);
 
+/*			if ($line["score"] != 0) {
+				if ($line["score"] > 0) $line["score"] = '+' . $line["score"];
+
+				$line["title"] .= " (".$line['score'].")";
+			} */
+
+			if (get_pref($link, 'ENABLE_FEED_CATS', $user_id)) {
+				if (!$line['cat_title']) $line['cat_title'] = __("Uncategorized");
+
+				$line['feed_title'] = $line['cat_title'] . " / " . $line['feed_title'];
+			}
+
 			$tpl->setVariable('FEED_TITLE', $line["feed_title"]);
 			$tpl->setVariable('ARTICLE_TITLE', $line["title"]);
 			$tpl->setVariable('ARTICLE_LINK', $line["link"]);
 			$tpl->setVariable('ARTICLE_UPDATED', $updated);
 			$tpl->setVariable('ARTICLE_EXCERPT',
-				truncate_string(strip_tags($line["excerpt"]), 100));
+				truncate_string(strip_tags($line["content"]), 300));
+//			$tpl->setVariable('ARTICLE_CONTENT',
+//				strip_tags($article_content));
 
 			$tpl->addBlock('article');
 
