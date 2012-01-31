@@ -283,16 +283,6 @@ function init() {
 
 		dojo.parser.parse();
 
-		dojo.addOnLoad(function() {
-			updateFeedList();
-			closeArticlePanel();
-
-			if (typeof themeAfterLayout == 'function') {
-				themeAfterLayout();
-			}
-
-		});
-
 		if (!genericSanityCheck())
 			return false;
 
@@ -314,6 +304,15 @@ function init() {
 function init_second_stage() {
 
 	try {
+		dojo.addOnLoad(function() {
+			updateFeedList();
+			closeArticlePanel();
+
+			if (typeof themeAfterLayout == 'function') {
+				themeAfterLayout();
+			}
+
+		});
 
 		delCookie("ttrss_test");
 
