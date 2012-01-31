@@ -472,7 +472,7 @@ class Pref_Prefs extends Protected_Handler {
 
 			} else if ($pref_name == 'DIGEST_PREFERRED_TIME') {
 				print "<input dojoType=\"dijit.form.ValidationTextBox\"
-					id=\"$pref_name\" regexp=\"[012]\d:\d\d\" placeHolder=\"12:00\"
+					id=\"$pref_name\" regexp=\"[012]?\d:\d\d\" placeHolder=\"12:00\"
 					name=\"$pref_name\" value=\"$value\"><div class=\"insensitive\">".
 					T_sprintf("Current server time: %s", date("H:i")) . "</div>";
 			} else {
