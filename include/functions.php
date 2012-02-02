@@ -4963,7 +4963,11 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node);
+		// http://tt-rss.org/forum/viewtopic.php?f=1&t=970
+		if ($node)
+			return $doc->saveXML($node);
+		else
+			return $html;
 	}
 
 	function filter_to_sql($filter) {
