@@ -94,6 +94,9 @@ dojo.declare("fox.FeedStoreModel", dijit.tree.ForestStoreModel, {
 });
 
 dojo.declare("fox.FeedTree", dijit.Tree, {
+	_onKeyPress: function(/* Event */ e) {
+		return; // Stop dijit.Tree from interpreting keystrokes
+	},
 	_createTreeNode: function(args) {
 		var tnode = new dijit._TreeNode(args);
 
