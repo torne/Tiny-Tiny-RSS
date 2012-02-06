@@ -160,6 +160,9 @@ class API extends Handler {
 		if ($feed_id != "") {
 
 			$limit = (int)db_escape_string($_REQUEST["limit"]);
+
+			if (!$limit || $limit >= 60) $limit = 60;
+
 			$offset = (int)db_escape_string($_REQUEST["skip"]);
 			$filter = db_escape_string($_REQUEST["filter"]);
 			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
