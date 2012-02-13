@@ -210,9 +210,9 @@ class RPC extends Protected_Handler {
 	}
 
 	function setpref() {
-		$value = str_replace("\n", "<br/>", $_REQUEST['value']);
-
 		// set_pref escapes input, so no need to double escape it here
+		$key = $_REQUEST['key'];
+		$value = str_replace("\n", "<br/>", $_REQUEST['value']);
 
 		set_pref($this->link, $key, $value, $_SESSION['uid'], $key != 'USER_STYLESHEET');
 
