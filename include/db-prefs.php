@@ -79,9 +79,9 @@
 		}
 	}
 
-	function set_pref($link, $pref_name, $value, $user_id = false) {
+	function set_pref($link, $pref_name, $value, $user_id = false, $strip_tags = true) {
 		$pref_name = db_escape_string($pref_name);
-		$value = db_escape_string($value);
+		$value = db_escape_string($value, $strip_tags);
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];

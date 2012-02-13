@@ -212,10 +212,9 @@ class RPC extends Protected_Handler {
 	function setpref() {
 		$value = str_replace("\n", "<br/>", $_REQUEST['value']);
 
-		$key = db_escape_string($_REQUEST["key"]);
-		$value = db_escape_string($value);
+		// set_pref escapes input, so no need to double escape it here
 
-		set_pref($this->link, $key, $value);
+		set_pref($this->link, $key, $value, $_SESSION['uid'], false);
 
 		print json_encode(array("param" =>$key, "value" => $value));
 	}
