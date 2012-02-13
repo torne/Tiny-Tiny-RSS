@@ -214,7 +214,7 @@ class RPC extends Protected_Handler {
 
 		// set_pref escapes input, so no need to double escape it here
 
-		set_pref($this->link, $key, $value, $_SESSION['uid'], false);
+		set_pref($this->link, $key, $value, $_SESSION['uid'], $key != 'USER_STYLESHEET');
 
 		print json_encode(array("param" =>$key, "value" => $value));
 	}
