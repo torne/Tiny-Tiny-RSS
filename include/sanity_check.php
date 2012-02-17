@@ -11,6 +11,10 @@
 		require_once "config.php";
 		require_once "sanity_config.php";
 
+		if (function_exists('posix_getuid') && posix_getuid() == 0) {
+			$err_msg = "Please don't run this script as root.";
+		}
+
 		if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
 			$err_msg = "Configuration file (config.php) has incorrect version. Update it with new options from config.php-dist and set CONFIG_VERSION to the correct value.";
 		}
@@ -116,7 +120,7 @@
 		}
 	}
 
-	if ($err_msg) { ?>
+	if ($err_msg && defined($_SERVER['REQUEST_URI'])) { ?>
 		<html>
 		<head>
 		<title>Fatal error</title>
@@ -142,6 +146,8 @@
 
 	<?php
 		die;
+	} else if ($err_msg) {
+		die("[sanity_check] $err_msg\n");
 	}
 
 ?>
