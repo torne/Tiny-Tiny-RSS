@@ -2674,7 +2674,7 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node);
+		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 	}
 
 	/**
@@ -4965,7 +4965,7 @@
 
 		// http://tt-rss.org/forum/viewtopic.php?f=1&t=970
 		if ($node)
-			return $doc->saveXML($node);
+			return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 		else
 			return $html;
 	}
