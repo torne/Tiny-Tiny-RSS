@@ -982,19 +982,39 @@ function quickAddFilter() {
 			test: function() {
 				if (this.validate()) {
 
-					if (dijit.byId("filterTestDlg"))
-						dijit.byId("filterTestDlg").destroyRecursive();
+					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
+						param_escape(dialog.attr('value').reg_exp);
 
-					tdialog = new dijit.Dialog({
-						id: "filterTestDlg",
-						title: __("Filter Test Results"),
-						style: "width: 600px",
-						href: "backend.php?savemode=test&" +
-							dojo.objectToQuery(dialog.attr('value')),
-						});
+					notify_progress("Verifying regular expression...");
 
-					tdialog.show();
+					new Ajax.Request("backend.php",	{
+						parameters: query,
+						onComplete: function(transport) {
+							var reply = JSON.parse(transport.responseText);
 
+							if (reply) {
+								notify('');
+
+								if (!reply['status']) {
+									alert("Invalid regular expression.");
+									return;
+								} else {
+
+									if (dijit.byId("filterTestDlg"))
+										dijit.byId("filterTestDlg").destroyRecursive();
+
+									tdialog = new dijit.Dialog({
+										id: "filterTestDlg",
+										title: __("Filter Test Results"),
+										style: "width: 600px",
+										href: "backend.php?savemode=test&" +
+										dojo.objectToQuery(dialog.attr('value')),
+									});
+
+									tdialog.show();
+								}
+							}
+					}});
 				}
 			},
 			execute: function() {
@@ -1014,7 +1034,7 @@ function quickAddFilter() {
 								notify('');
 
 								if (!reply['status']) {
-									alert("Match regular expression seems to be invalid.");
+									alert("Invalid regular expression.");
 									return;
 								} else {
 									notify_progress("Saving data...", true);

@@ -33,55 +33,65 @@ class Pref_Filters extends Protected_Handler {
 		else
 			$feed = -4;
 
-		$feed_title = getFeedTitle($this->link, $feed);
-
-		$qfh_ret = queryFeedHeadlines($this->link, $cat_filter ? $cat_id : $feed,
-			30, "", $cat_filter, false, false,
-			false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
-
-		$result = $qfh_ret[0];
-
-		$articles = array();
-		$found = 0;
+		$regexp_valid = preg_match('/' . $filter['reg_exp'] . '/',
+			$filter['reg_exp']) !== FALSE;
 
 		print __("Articles matching this filter:");
 
 		print "<div class=\"inactiveFeedHolder\">";
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
-		while ($line = db_fetch_assoc($result)) {
+		if ($regexp_valid) {
 
-			$entry_timestamp = strtotime($line["updated"]);
-			$entry_tags = get_article_tags($this->link, $line["id"], $_SESSION["uid"]);
+			$feed_title = getFeedTitle($this->link, $feed);
 
-			$content_preview = truncate_string(
-				strip_tags($line["content_preview"]), 100, '...');
+			$qfh_ret = queryFeedHeadlines($this->link, $cat_filter ? $cat_id : $feed,
+				30, "", $cat_filter, false, false,
+				false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
 
-			if ($line["feed_title"])
-				$feed_title = $line["feed_title"];
+			$result = $qfh_ret[0];
 
-			print "<tr>";
+			$articles = array();
+			$found = 0;
 
-			print "<td width='5%' align='center'><input
-				dojoType=\"dijit.form.CheckBox\" checked=\"1\"
-				disabled=\"1\" type=\"checkbox\"></td>";
-			print "<td>";
+			while ($line = db_fetch_assoc($result)) {
 
-			print $line["title"];
-			print "&nbsp;(";
-			print "<b>" . $feed_title . "</b>";
-			print "):&nbsp;";
-			print "<span class=\"insensitive\">" . $content_preview . "</span>";
-			print " " . mb_substr($line["date_entered"], 0, 16);
+				$entry_timestamp = strtotime($line["updated"]);
+				$entry_tags = get_article_tags($this->link, $line["id"], $_SESSION["uid"]);
 
-			print "</td></tr>";
+				$content_preview = truncate_string(
+					strip_tags($line["content_preview"]), 100, '...');
 
-			$found++;
-		}
+				if ($line["feed_title"])
+					$feed_title = $line["feed_title"];
 
-		if ($found == 0) {
-			print "<tr><td align='center'>" .
-				__("No articles matching this filter has been found.") . "</td></tr>";
+				print "<tr>";
+
+				print "<td width='5%' align='center'><input
+					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
+					disabled=\"1\" type=\"checkbox\"></td>";
+				print "<td>";
+
+				print $line["title"];
+				print "&nbsp;(";
+				print "<b>" . $feed_title . "</b>";
+				print "):&nbsp;";
+				print "<span class=\"insensitive\">" . $content_preview . "</span>";
+				print " " . mb_substr($line["date_entered"], 0, 16);
+
+				print "</td></tr>";
+
+				$found++;
+			}
+
+			if ($found == 0) {
+				print "<tr><td align='center'>" .
+					__("No articles matching this filter has been found.") . "</td></tr>";
+			}
+		} else {
+			print "<tr><td align='center' class='error'>" .
+				__("Invalid regular expression.") . "</td></tr>";
+
 		}
 
 		print "</table>";
