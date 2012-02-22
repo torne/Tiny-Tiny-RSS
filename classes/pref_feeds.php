@@ -992,11 +992,12 @@ class Pref_Feeds extends Protected_Handler {
 		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 
 		if ($p_from != 'tt-rss') {
-			header("Content-Type: text/html");
+			header('Content-Type: text/html; charset=utf-8');
 			print "<html>
 				<head>
 					<title>Tiny Tiny RSS</title>
 					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 				</head>
 				<body>
 				<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
