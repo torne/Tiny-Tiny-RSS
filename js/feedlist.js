@@ -479,7 +479,7 @@ function getNextUnreadFeed(feed, is_cat) {
 function catchupFeed(feed, is_cat) {
 	try {
 		var str = __("Mark all articles in %s as read?");
-		var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
+		var fn = getFeedName(feed, is_cat);
 
 		str = str.replace("%s", fn);
 
