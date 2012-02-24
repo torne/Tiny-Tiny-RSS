@@ -1369,14 +1369,15 @@
 			if (is_writable($cache_dir)) {
 				$files = glob("$cache_dir/*");
 
-				foreach ($files as $file) {
-					if (time() - filemtime($file) > 86400*7) {
-						unlink($file);
+				if ($files)
+					foreach ($files as $file) {
+						if (time() - filemtime($file) > 86400*7) {
+							unlink($file);
 
-						++$num_deleted;
+							++$num_deleted;
+						}
 					}
 				}
-			}
 
 			if ($debug) _debug("Removed $num_deleted files.");
 		}
