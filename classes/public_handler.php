@@ -38,23 +38,23 @@ class Public_Handler extends Handler {
 
 		$tpl->readTemplateFromFile("templates/generated_feed.txt");
 
-		$tpl->setVariable('FEED_TITLE', $feed_title);
-		$tpl->setVariable('VERSION', VERSION);
-		$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url));
+		$tpl->setVariable('FEED_TITLE', $feed_title, true);
+		$tpl->setVariable('VERSION', VERSION, true);
+		$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url), true);
 
 		if (PUBSUBHUBBUB_HUB && $feed == -2) {
-			$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB));
+			$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB), true);
 			$tpl->addBlock('feed_hub');
 		}
 
-		$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()));
+		$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
 
  		while ($line = db_fetch_assoc($result)) {
-			$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']));
-			$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']));
-			$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']));
+			$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
+			$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
+			$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
 			$tpl->setVariable('ARTICLE_EXCERPT',
-				truncate_string(strip_tags($line["content_preview"]), 100, '...'));
+				truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
 
 			$content = sanitize($this->link, $line["content_preview"], false, $owner_uid);
 
@@ -63,15 +63,19 @@ class Public_Handler extends Handler {
 					$content;
 			}
 
-			$tpl->setVariable('ARTICLE_CONTENT', $content);
+			$tpl->setVariable('ARTICLE_CONTENT', $content, true);
 
-			$tpl->setVariable('ARTICLE_UPDATED', date('c', strtotime($line["updated"])));
-			$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']));
+			$tpl->setVariable('ARTICLE_UPDATED_ATOM',
+				date('c', strtotime($line["updated"])), true);
+			$tpl->setVariable('ARTICLE_UPDATED_RFC822',
+				date(DATE_RFC822, strtotime($line["updated"])), true);
+
+			$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
 
 			$tags = get_article_tags($this->link, $line["id"], $owner_uid);
 
 			foreach ($tags as $tag) {
-				$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag));
+				$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag), true);
 				$tpl->addBlock('category');
 			}
 
@@ -82,9 +86,9 @@ class Public_Handler extends Handler {
 				$url = htmlspecialchars($e['content_url']);
 				$length = $e['duration'];
 
-				$tpl->setVariable('ARTICLE_ENCLOSURE_URL', $url);
-				$tpl->setVariable('ARTICLE_ENCLOSURE_TYPE', $type);
-				$tpl->setVariable('ARTICLE_ENCLOSURE_LENGTH', $length);
+				$tpl->setVariable('ARTICLE_ENCLOSURE_URL', $url, true);
+				$tpl->setVariable('ARTICLE_ENCLOSURE_TYPE', $type, true);
+				$tpl->setVariable('ARTICLE_ENCLOSURE_LENGTH', $length, true);
 
 				$tpl->addBlock('enclosure');
 			}
