@@ -1021,7 +1021,7 @@ class Pref_Feeds extends Protected_Handler {
 			print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
 			break;
 		case 4:
-			print_notice("Multiple feed URLs found.");
+			print_notice(__("Multiple feed URLs found."));
 
 			$feed_urls = get_feeds_from_html($feed_url);
 			break;
