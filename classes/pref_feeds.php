@@ -45,6 +45,7 @@ class Pref_Feeds extends Protected_Handler {
 		$root['type'] = 'category';
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
+			$show_empty_cats = get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
 			$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY order_id, title");
@@ -80,7 +81,7 @@ class Pref_Feeds extends Protected_Handler {
 
 				$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
 
-				if (count($cat['items']) > 0)
+				if (count($cat['items']) > 0 || $show_empty_cats)
 					array_push($root['items'], $cat);
 
 				$root['param'] += count($cat['items']);
@@ -118,7 +119,7 @@ class Pref_Feeds extends Protected_Handler {
 
 			$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
 
-			if (count($cat['items']) > 0)
+			if (count($cat['items']) > 0 || $show_empty_cats)
 				array_push($root['items'], $cat);
 
 			$root['param'] += count($cat['items']);
@@ -168,6 +169,11 @@ class Pref_Feeds extends Protected_Handler {
 		db_query($this->link, "UPDATE ttrss_feeds
 				SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 		return;
+	}
+
+	function togglehiddenfeedcats() {
+		set_pref($this->link, '_PREFS_SHOW_EMPTY_CATS',
+			(get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS') ? 'false' : 'true'));
 	}
 
 	function savefeedorder() {
@@ -1328,6 +1334,8 @@ class Pref_Feeds extends Protected_Handler {
 			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
 			print "<div onclick=\"editFeedCats()\"
 				dojoType=\"dijit.MenuItem\">".__('Edit categories')."</div>";
+			print "<div onclick=\"toggleHiddenFeedCats()\"
+				dojoType=\"dijit.MenuItem\">".__('(Un)hide empty categories')."</div>";
 			print "<div onclick=\"resetCatOrder()\"
 				dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 			print "</div></div>";
