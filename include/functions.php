@@ -4411,7 +4411,7 @@
 
 			if ($cat_id == -4 || $cat_id == -3) {
 				$result = db_query($link, "SELECT
-					id, feed_url, cat_id, title, ".
+					id, feed_url, cat_id, title, order_id, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] .
 						" ORDER BY cat_id, title " . $limit_qpart);
@@ -4423,7 +4423,7 @@
 					$cat_qpart = "cat_id IS NULL";
 
 				$result = db_query($link, "SELECT
-					id, feed_url, cat_id, title, ".
+					id, feed_url, cat_id, title, order_id, ".
 						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 						FROM ttrss_feeds WHERE
 						$cat_qpart AND owner_uid = " . $_SESSION["uid"] .
@@ -4445,7 +4445,8 @@
 							"unread" => (int)$unread,
 							"has_icon" => $has_icon,
 							"cat_id" => (int)$line["cat_id"],
-							"last_updated" => strtotime($line["last_updated"])
+							"last_updated" => strtotime($line["last_updated"]),
+							"order_id" => (int) $line["order_id"],
 						);
 
 					array_push($feeds, $row);
