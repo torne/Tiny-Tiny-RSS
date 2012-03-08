@@ -4510,6 +4510,8 @@
 
 				$headline_row["labels"] = $labels;
 
+				$headline_row["feed_title"] = $line["feed_title"];
+
 				array_push($headlines, $headline_row);
 			}
 

@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 2;
+	const API_LEVEL  = 3;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -126,7 +126,7 @@ class API extends Handler {
 		// TODO do not return empty categories, return Uncategorized and standard virtual cats
 
 		$result = db_query($this->link, "SELECT
-				id, title FROM ttrss_feed_categories
+				id, title, order_id FROM ttrss_feed_categories
 			WHERE owner_uid = " .
 			$_SESSION["uid"]);
 
@@ -138,7 +138,9 @@ class API extends Handler {
 			if ($unread || !$unread_only) {
 				array_push($cats, array("id" => $line["id"],
 					"title" => $line["title"],
-					"unread" => $unread));
+					"unread" => $unread,
+					"order_id" => (int) $line["order_id"],
+				));
 			}
 		}
 
