@@ -805,31 +805,31 @@ class Pref_Feeds extends Protected_Handler {
 						break;
 
 					case "private":
-						$qpart = "private = '$private'";
+						$qpart = "private = $private";
 						break;
 
 					case "include_in_digest":
-						$qpart = "include_in_digest = '$include_in_digest'";
+						$qpart = "include_in_digest = $include_in_digest";
 						break;
 
 					case "always_display_enclosures":
-						$qpart = "always_display_enclosures = '$always_display_enclosures'";
+						$qpart = "always_display_enclosures = $always_display_enclosures";
 						break;
 
 					case "mark_unread_on_update":
-						$qpart = "mark_unread_on_update = '$mark_unread_on_update'";
+						$qpart = "mark_unread_on_update = $mark_unread_on_update";
 						break;
 
 					case "update_on_checksum_change":
-						$qpart = "update_on_checksum_change = '$update_on_checksum_change'";
+						$qpart = "update_on_checksum_change = $update_on_checksum_change";
 						break;
 
 					case "cache_images":
-						$qpart = "cache_images = '$cache_images'";
+						$qpart = "cache_images = $cache_images";
 						break;
 
 					case "rtl_content":
-						$qpart = "rtl_content = '$rtl_content'";
+						$qpart = "rtl_content = $rtl_content";
 						break;
 
 					case "update_method":
