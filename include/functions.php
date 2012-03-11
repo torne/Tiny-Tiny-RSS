@@ -4805,7 +4805,9 @@
 	 * @return string Absolute URL
 	 */
 	function rewrite_relative_url($url, $rel_url) {
-		if (strpos($rel_url, "://") !== false) {
+		if (strpos($rel_url, "magnet:") === 0) {
+			return $rel_url;
+		} else if (strpos($rel_url, "://") !== false) {
 			return $rel_url;
 		} else if (strpos($rel_url, "/") === 0)
 		{
