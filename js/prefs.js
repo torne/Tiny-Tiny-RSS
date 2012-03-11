@@ -970,7 +970,7 @@ function validatePrefsReset() {
 
 function pref_hotkey_handler(e) {
 	try {
-		if (e.target.nodeName == "INPUT") return;
+		if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
 
 		var keycode = false;
 		var shift_key = false;
