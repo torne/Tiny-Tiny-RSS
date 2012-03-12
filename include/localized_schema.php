@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Mon Jan 30 16:39:34 MSK 2012
+<?php # This file has been generated at:  Mon Mar 12 13:59:27 MSK 2012
 
 __("Title");
 __("Title or Content");
@@ -29,7 +29,7 @@ __('When this option is enabled, headlines in Special feeds and Labels are group
 __('Use feed-specified date to sort headlines instead of local import date.');
 __('Customize CSS stylesheet to your liking');
 __('Click to register your SSL client certificate with tt-rss');
-__('Uses server timezone');
+__('Uses UTC timezone');
 __('Purge old posts after this number of days (0 - disables)');
 __('Default interval between feed updates');
 __('Amount of articles to display at once');
