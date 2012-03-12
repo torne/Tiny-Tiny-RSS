@@ -493,13 +493,22 @@ function moveToPost(mode) {
 		}
 
 		if (active_post_id == false) {
-			next_id = getFirstVisibleHeadlineId();
-			prev_id = getLastVisibleHeadlineId();
+			next_id = rows[0];
+			prev_id = rows[rows.length-1]
 		} else {
 			for (var i = 0; i < rows.length; i++) {
 				if (rows[i] == active_post_id) {
-					prev_id = rows[i-1];
-					next_id = rows[i+1];
+
+					// Account for adjacent identical article ids.
+					if (i > 0) prev_id = rows[i-1];
+
+					for (var j = i+1; j < rows.length; j++) {
+						if (rows[j] != active_post_id) {
+							next_id = rows[j];
+							break;
+						}
+					}
+					break;
 				}
 			}
 		}
