@@ -21,7 +21,9 @@
 
 	chdir("..");
 
-	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT) {
+	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT &&
+			function_exists("ob_gzhandler")) {
+
 		ob_start("ob_gzhandler");
 	}
 

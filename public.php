@@ -1,5 +1,5 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	/* remove ill effects of magic quotes */
@@ -34,7 +34,7 @@
 
 	if (!init_connection($link)) return;
 
-	if (ENABLE_GZIP_OUTPUT) {
+	if (ENABLE_GZIP_OUTPUT && function_exists("ob_gzhandler")) {
 		ob_start("ob_gzhandler");
 	}
 
