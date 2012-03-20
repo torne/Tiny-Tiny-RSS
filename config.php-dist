@@ -186,6 +186,9 @@
 	define('ENABLE_GZIP_OUTPUT', false);
 	// Selectively gzip output to improve wire performance. This requires
 	// PHP Zlib extension on the server.
+	// Enabling this can break tt-rss in several httpd/php configurations,
+	// if you experience weird errors and tt-rss failing to start, blank pages
+	// after login, or content encoding errors, disable it.
 
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding
