@@ -811,6 +811,8 @@
 
 			$_SESSION["uid"] = 1;
 			$_SESSION["name"] = "admin";
+			$_SESSION["access_level"] = 10;
+			$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
 
 			$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 
