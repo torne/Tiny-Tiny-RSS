@@ -274,20 +274,20 @@
 			header("Content-type: text/xml");
 		}
 
-		print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+		$out = "<?xml version=\"1.0\" encoding=\"utf-8\"?".">";
 
-		print "<opml version=\"1.0\">";
-		print "<head>
+		$out .= "<opml version=\"1.0\">";
+		$out .= "<head>
 			<dateCreated>" . date("r", time()) . "</dateCreated>
 			<title>Tiny Tiny RSS Feed Export</title>
 		</head>";
-		print "<body>";
+		$out .= "<body>";
 
 		$cat_mode = false;
 
-                $select = "SELECT * ";
-                $where = "WHERE owner_uid = '$owner_uid'";
-                $orderby = "ORDER BY title";
+		$select = "SELECT * ";
+		$where = "WHERE owner_uid = '$owner_uid'";
+		$orderby = "ORDER BY order_id, title";
 		if ($hide_private_feeds){
 			$where = "WHERE owner_uid = '$owner_uid' AND private IS false AND
 				auth_login = '' AND auth_pass = ''";
@@ -297,21 +297,22 @@
 
 		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid) == true) {
 			$cat_mode = true;
-                        $select = "SELECT
-				title, feed_url, site_url,
+			$select = "SELECT
+				title, feed_url, site_url, order_id,
+				(SELECT order_id FROM ttrss_feed_categories WHERE id = cat_id) AS cat_order_id,
 				(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title";
-			$orderby = "ORDER BY cat_title, title";
+			$orderby = "ORDER BY cat_order_id, cat_title, order_id, title";
 
 		}
 		else{
 			$cat_feed = get_pref($link, 'ENABLE_FEED_CATS');
-			print "<!-- feeding cats is not enabled -->";
-			print "<!-- $cat_feed -->";
+			$out .= "<!-- feeding cats is not enabled -->";
+			$out .= "<!-- $cat_feed -->";
 
 		}
 
 
- 		$result = db_query($link, $select." FROM ttrss_feeds ".$where." ".$orderby);
+		$result = db_query($link, $select." FROM ttrss_feeds ".$where." ".$orderby);
 
 		$old_cat_title = "";
 
@@ -325,11 +326,11 @@
 
 				if ($old_cat_title != $cat_title) {
 					if ($old_cat_title) {
-						print "</outline>\n";
+						$out .= "</outline>\n";
 					}
 
 					if ($cat_title) {
-						print "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
+						$out .= "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
 					}
 
 					$old_cat_title = $cat_title;
@@ -342,35 +343,35 @@
 				$html_url_qpart = "";
 			}
 
-			print "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
 		}
 
 		if ($cat_mode && $old_cat_title) {
-			print "</outline>\n";
+			$out .= "</outline>\n";
 		}
 
 		# export tt-rss settings
 
 		if ($include_settings) {
-			print "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($link, "SELECT pref_name, value FROM ttrss_user_prefs WHERE
-			   profile IS NULL AND owner_uid = " . $_SESSION["uid"]);
+			   profile IS NULL AND owner_uid = " . $_SESSION["uid"] . " ORDER BY pref_name");
 
 			while ($line = db_fetch_assoc($result)) {
 
 				$name = $line["pref_name"];
 				$value = htmlspecialchars($line["value"]);
 
-				print "<outline pref-name=\"$name\" value=\"$value\">";
+				$out .= "<outline pref-name=\"$name\" value=\"$value\">";
 
-				print "</outline>";
+				$out .= "</outline>";
 
 			}
 
-			print "</outline>";
+			$out .= "</outline>";
 
-			print "<outline title=\"tt-rss-labels\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline title=\"tt-rss-labels\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($link, "SELECT * FROM ttrss_labels2 WHERE
 				owner_uid = " . $_SESSION['uid']);
@@ -380,13 +381,13 @@
 				$fg_color = htmlspecialchars($line['fg_color']);
 				$bg_color = htmlspecialchars($line['bg_color']);
 
-				print "<outline label-name=\"$name\" label-fg-color=\"$fg_color\" label-bg-color=\"$bg_color\"/>";
+				$out .= "<outline label-name=\"$name\" label-fg-color=\"$fg_color\" label-bg-color=\"$bg_color\"/>";
 
 			}
 
-			print "</outline>";
+			$out .= "</outline>";
 
-			print "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($link, "SELECT filter_type,
 					reg_exp,
@@ -413,26 +414,42 @@
 
 				$filter = json_encode($line);
 
-				print "<outline filter-name=\"$name\">$filter</outline>";
+				$out .= "<outline filter-name=\"$name\">$filter</outline>";
 
 			}
 
 
-			print "</outline>";
+			$out .= "</outline>";
 		}
 
-		print "</body></opml>";
+		$out .= "</body></opml>";
+
+		// Format output.
+		$doc = new DOMDocument();
+		$doc->formatOutput = true;
+		$doc->preserveWhiteSpace = false;
+		$doc->loadXML($out);
+		$res = $doc->saveXML();
+
+		// saveXML uses a two-space indent.  Change to tabs.
+		$res = preg_replace_callback('/^(?:  )+/mu',
+			create_function(
+				'$matches',
+				'return str_repeat("\t", intval(strlen($matches[0])/2));'),
+			$res);
+
+		print $res;
 	}
 
 	// FIXME there are some brackets issues here
 
 	$op = $_REQUEST["op"];
-    if (!$op) $op = "Export";
+	if (!$op) $op = "Export";
 
-    $output_name = $_REQUEST["filename"];
+	$output_name = $_REQUEST["filename"];
 	if (!$output_name) $output_name = "TinyTinyRSS.opml";
 
-    $show_settings = $_REQUEST["settings"];
+	$show_settings = $_REQUEST["settings"];
 
 	if ($op == "Export") {
 
