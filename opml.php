@@ -28,6 +28,16 @@
 				$default_cat_id = 0;
 			}
 
+			// Keep imported categories in order, after any pre-existing ones.
+			$new_cat_order_id = 0;
+			// Get the highest category order_id in use.
+			$result = db_query($link, "SELECT order_id FROM
+				ttrss_feed_categories WHERE owner_uid = '$owner_uid'
+				ORDER BY order_id DESC LIMIT 1");
+			if (db_num_rows($result) == 1) {
+				$new_cat_order_id = db_fetch_result($result, 0, "order_id");
+			}
+
 			if ($doc) {
 				$body = $doc->getElementsByTagName('body');
 
@@ -66,12 +76,13 @@
 									owner_uid = '$owner_uid' LIMIT 1");
 
 							if (db_num_rows($result) == 0) {
+								$cat_order_id = ++$new_cat_order_id;
 
 								printf(__("<li>Adding category <b>%s</b>.</li>"), $cat_title);
 
 								db_query($link, "INSERT INTO ttrss_feed_categories
-										(title,owner_uid)
-										VALUES ('$cat_title', '$owner_uid')");
+										(title,owner_uid,order_id)
+										VALUES ('$cat_title', '$owner_uid', '$cat_order_id')");
 							}
 
 							db_query($link, "COMMIT");
@@ -229,18 +240,28 @@
 					if (db_num_rows($result) > 0) {
 						print __('is already imported.');
 					} else {
+						// Get max order_id already in use. Increment.
+						$new_feed_order_id = 0;	// these start at zero
+						$cat_id_qpart = $cat_id ? "cat_id = '$cat_id'" : "cat_id = '$default_cat_id'";
+						$result = db_query($link, "SELECT order_id FROM
+							ttrss_feeds WHERE owner_uid = '$owner_uid' AND $cat_id_qpart
+							ORDER BY order_id DESC LIMIT 1");
+						if (db_num_rows($result) == 1) {
+							$new_feed_order_id = db_fetch_result($result, 0, "order_id");
+							$new_feed_order_id++;
+						}
 
 						if ($cat_id) {
 							$add_query = "INSERT INTO ttrss_feeds
-								(title, feed_url, owner_uid, cat_id, site_url) VALUES
+								(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
 								('$feed_title', '$feed_url', '$owner_uid',
-								 '$cat_id', '$site_url')";
+								 '$cat_id', '$site_url', '$new_feed_order_id')";
 
 						} else {
 							$add_query = "INSERT INTO ttrss_feeds
-								(title, feed_url, owner_uid, cat_id, site_url) VALUES
+								(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
 								('$feed_title', '$feed_url', '$owner_uid', '$default_cat_id',
-									'$site_url')";
+									'$site_url', '$new_feed_order_id')";
 
 						}
 
