@@ -177,26 +177,9 @@ class Feeds extends Protected_Handler {
 
 		$method_split = explode(":", $method);
 
-/*		if ($method == "CatchupSelected") {
-			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
-			$cmode = sprintf("%d", $_REQUEST["cmode"]);
-
-			catchupArticlesById($this->link, $ids, $cmode);
-		} */
-
 		if ($method == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
 			include "rssfuncs.php";
 			update_rss_feed($this->link, $feed, true);
-		}
-
-		if ($method == "MarkAllRead")  {
-			catchup_feed($this->link, $feed, $cat_view);
-
-			if (get_pref($this->link, 'ON_CATCHUP_SHOW_NEXT_FEED')) {
-				if ($next_unread_feed) {
-					$feed = $next_unread_feed;
-				}
-			}
 		}
 
 		if ($method_split[0] == "MarkAllReadGR")  {
@@ -443,7 +426,7 @@ class Feeds extends Protected_Handler {
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
+							$vf_catchup_link = "(<a onclick='catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
 							$reply['content'] .= "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".

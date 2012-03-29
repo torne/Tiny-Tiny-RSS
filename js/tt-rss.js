@@ -504,34 +504,6 @@ function parse_runtime_info(data) {
 	}
 }
 
-function catchupCurrentFeed() {
-
-	var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
-
-	var str = __("Mark all articles in %s as read?").replace("%s", fn);
-
-	if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
-		return viewCurrentFeed('MarkAllRead');
-	}
-}
-
-function catchupFeedInGroup(id) {
-
-	try {
-
-		var title = getFeedName(id);
-
-		var str = __("Mark all articles in %s as read?").replace("%s", title);
-
-		if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
-			return viewCurrentFeed('MarkAllReadGR:' + id);
-		}
-
-	} catch (e) {
-		exception_error("catchupFeedInGroup", e);
-	}
-}
-
 function collapse_feedlist() {
 	try {
 

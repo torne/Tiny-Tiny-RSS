@@ -148,39 +148,6 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 				_search_query = false;
 			}
 
-			if (method == "MarkAllRead") {
-
-				var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
-
-				if (show_next_feed) {
-					var nuf = getNextUnreadFeed(feed, is_cat);
-
-					if (nuf) {
-						var cached_nuf = cache_get("feed:" + nuf + ":false");
-
-						if (cached_nuf) {
-
-							render_local_headlines(nuf, false, JSON.parse(cached_nuf));
-
-							var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
-								feed + "&is_cat=" + is_cat;
-
-							console.log(catchup_query);
-
-							new Ajax.Request("backend.php",	{
-								parameters: catchup_query,
-								onComplete: function(transport) {
-									handle_rpc_json(transport);
-								} });
-
-							return;
-						} else {
-							query += "&nuf=" + param_escape(nuf);
-						}
-					}
-				}
-			}
-
 			if (offset != 0) {
 				query = query + "&skip=" + offset;
 
@@ -476,6 +443,26 @@ function getNextUnreadFeed(feed, is_cat) {
 	}
 }
 
+function catchupCurrentFeed() {
+	return catchupFeed(getActiveFeedId(), activeFeedIsCat());
+}
+
+function catchupFeedInGroup(id) {
+	try {
+
+		var title = getFeedName(id);
+
+		var str = __("Mark all articles in %s as read?").replace("%s", title);
+
+		if (getInitParam("confirm_feed_catchup") != 1 || confirm(str)) {
+			return viewCurrentFeed('MarkAllReadGR:' + id);
+		}
+
+	} catch (e) {
+		exception_error("catchupFeedInGroup", e);
+	}
+}
+
 function catchupFeed(feed, is_cat) {
 	try {
 		var str = __("Mark all articles in %s as read?");
@@ -496,6 +483,26 @@ function catchupFeed(feed, is_cat) {
 			parameters: catchup_query,
 			onComplete: function(transport) {
 					handle_rpc_json(transport);
+
+					if (feed == getActiveFeedId() && is_cat == activeFeedIsCat()) {
+
+						$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
+							function(child) {
+								child.removeClassName("Unread");
+							}
+						);
+					}
+
+					var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
+
+					if (show_next_feed) {
+						var nuf = getNextUnreadFeed(feed, is_cat);
+
+						if (nuf) {
+							viewfeed(nuf);
+						}
+					}
+
 					notify("");
 				} });
 
