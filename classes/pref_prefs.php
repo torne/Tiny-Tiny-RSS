@@ -160,60 +160,60 @@ class Pref_Prefs extends Protected_Handler {
 					"SSL_CERT_SERIAL", "DIGEST_PREFERRED_TIME");
 
 
+		$_SESSION["prefs_op_result"] = "";
+
+		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data / Authentication')."\">";
+
+		print "<form dojoType=\"dijit.form.Form\" id=\"changeUserdataForm\">";
+
+		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+		evt.preventDefault();
+		if (this.validate()) {
+			notify_progress('Saving data...', true);
+
+			new Ajax.Request('backend.php', {
+				parameters: dojo.objectToQuery(this.getValues()),
+				onComplete: function(transport) {
+					notify_callback2(transport);
+			} });
+
+		}
+		</script>";
+
+		print "<table width=\"100%\" class=\"prefPrefsList\">";
+
+		$result = db_query($this->link, "SELECT email,full_name,
+			access_level FROM ttrss_users
+			WHERE id = ".$_SESSION["uid"]);
+
+		$email = htmlspecialchars(db_fetch_result($result, 0, "email"));
+		$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
+
+		print "<tr><td width=\"40%\">".__('Full name')."</td>";
+		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" required=\"1\"
+			value=\"$full_name\"></td></tr>";
+
+		print "<tr><td width=\"40%\">".__('E-mail')."</td>";
+		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" required=\"1\" value=\"$email\"></td></tr>";
+
 		if (!SINGLE_USER_MODE) {
+			$access_level = db_fetch_result($result, 0, "access_level");
+			print "<tr><td width=\"40%\">".__('Access level')."</td>";
+			print "<td>" . $access_level_names[$access_level] . "</td></tr>";
+		}
 
-			$_SESSION["prefs_op_result"] = "";
+		print "</table>";
 
-			print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
-			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Personal data / Authentication')."\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"changeemail\">";
 
-			print "<form dojoType=\"dijit.form.Form\" id=\"changeUserdataForm\">";
+		print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+			__("Save data")."</button>";
 
-			print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
-			evt.preventDefault();
-			if (this.validate()) {
-				notify_progress('Saving data...', true);
+		print "</form>";
 
-				new Ajax.Request('backend.php', {
-					parameters: dojo.objectToQuery(this.getValues()),
-					onComplete: function(transport) {
-						notify_callback2(transport);
-				} });
-
-			}
-			</script>";
-
-			print "<table width=\"100%\" class=\"prefPrefsList\">";
-
-			$result = db_query($this->link, "SELECT email,full_name,
-				access_level FROM ttrss_users
-				WHERE id = ".$_SESSION["uid"]);
-
-			$email = htmlspecialchars(db_fetch_result($result, 0, "email"));
-			$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
-
-			print "<tr><td width=\"40%\">".__('Full name')."</td>";
-			print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" required=\"1\"
-				value=\"$full_name\"></td></tr>";
-
-			print "<tr><td width=\"40%\">".__('E-mail')."</td>";
-			print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" required=\"1\" value=\"$email\"></td></tr>";
-
-			if (!SINGLE_USER_MODE) {
-				$access_level = db_fetch_result($result, 0, "access_level");
-				print "<tr><td width=\"40%\">".__('Access level')."</td>";
-				print "<td>" . $access_level_names[$access_level] . "</td></tr>";
-			}
-
-			print "</table>";
-
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
-			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"changeemail\">";
-
-			print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
-				__("Save data")."</button>";
-
-			print "</form>";
+		if (!SINGLE_USER_MODE) {
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash
@@ -270,8 +270,9 @@ class Pref_Prefs extends Protected_Handler {
 
 			print "</form>";
 
-			print "</div>"; #pane
 		}
+
+		print "</div>"; #pane
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" selected=\"true\" title=\"".__('Preferences')."\">";
 
