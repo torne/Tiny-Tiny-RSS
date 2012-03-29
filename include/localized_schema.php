@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Mon Mar 12 13:59:27 MSK 2012
+<?php # This file has been generated at:  Thu Mar 29 15:07:22 MSK 2012
 
 __("Title");
 __("Title or Content");
@@ -20,7 +20,7 @@ __("Advanced");
 
 __('This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once.');
 __('Display expanded list of feed articles, instead of separate displays for headlines and article content');
-__('When "Mark as read" button is clicked in toolbar, automatically open next feed with unread articles.');
+__('Automatically open next feed with unread articles after marking one as read');
 __('This option enables sending daily digest of new (and unread) headlines on your configured e-mail address');
 __('This option enables marking articles as read automatically while you scroll article list.');
 __('Strip all but most common HTML tags when reading articles.');
