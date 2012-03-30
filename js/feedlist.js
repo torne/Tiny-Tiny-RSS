@@ -499,7 +499,7 @@ function catchupFeed(feed, is_cat) {
 						var nuf = getNextUnreadFeed(feed, is_cat);
 
 						if (nuf) {
-							viewfeed(nuf);
+							viewfeed(nuf, '', is_cat);
 						}
 					}
 
