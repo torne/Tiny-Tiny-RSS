@@ -310,11 +310,8 @@
 			$auth_pass = urlencode($auth_pass);
 		}
 
-		$update_interval = db_fetch_result($result, 0, "update_interval");
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
-
-		if ($update_interval < 0) { return false; }
 
 		$feed = db_escape_string($feed);
 

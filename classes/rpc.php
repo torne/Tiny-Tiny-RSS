@@ -746,7 +746,7 @@ class RPC extends Protected_Handler {
 
 				db_query($this->link, "UPDATE ttrss_feeds SET
 					last_update_started = '1970-01-01',
-					last_updated = '1970-01-01' WHERE id = '$feed_id' AND
+					last_updated = NULL WHERE id = '$feed_id' AND
 					owner_uid = ".$_SESSION["uid"]);
 
 			} else {
@@ -759,7 +759,7 @@ class RPC extends Protected_Handler {
 
 				db_query($this->link, "UPDATE ttrss_feeds SET
 						last_update_started = '1970-01-01',
-						last_updated = '1970-01-01' WHERE $cat_query AND
+						last_updated = NULL WHERE $cat_query AND
 						owner_uid = ".$_SESSION["uid"]);
 			}
 		} else {
