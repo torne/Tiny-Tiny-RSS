@@ -345,6 +345,20 @@ function getFeedUnread(feed, is_cat) {
 	return -1;
 }
 
+function getFeedCategory(feed) {
+	try {
+		var tree = dijit.byId("feedTree");
+
+		if (tree && tree.model)
+			return tree.getFeedCategory(feed);
+
+	} catch (e) {
+		//
+	}
+
+	return false;
+}
+
 function hideOrShowFeeds(hide) {
 	var tree = dijit.byId("feedTree");
 

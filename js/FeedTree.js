@@ -433,5 +433,14 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 
 	},
+	getFeedCategory: function(feed) {
+		try {
+			return this.getNodesByItem(this.model.store.
+					_itemsByIdentity["FEED:" + feed])[0].
+					getParent().item.bare_id[0];
 
+		} catch (e) {
+			return false;
+		}
+	},
 });

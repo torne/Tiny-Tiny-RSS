@@ -391,6 +391,24 @@ function view(id) {
 
 		console.log(query);
 
+		if (article_is_unread) {
+			var ctr = getFeedUnread(getActiveFeedId(), activeFeedIsCat());
+
+			if (ctr > 0) {
+				setFeedUnread(getActiveFeedId(), activeFeedIsCat(), ctr - 1);
+
+				var cat = parseInt(getFeedCategory(getActiveFeedId()));
+
+				if (!isNaN(cat)) {
+					ctr = getFeedUnread(cat, true);
+
+					if (ctr > 0) {
+						setFeedUnread(cat, true, ctr - 1);
+					}
+				}
+			}
+		}
+
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
