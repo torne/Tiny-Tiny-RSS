@@ -392,21 +392,7 @@ function view(id) {
 		console.log(query);
 
 		if (article_is_unread) {
-			var ctr = getFeedUnread(getActiveFeedId(), activeFeedIsCat());
-
-			if (ctr > 0) {
-				setFeedUnread(getActiveFeedId(), activeFeedIsCat(), ctr - 1);
-
-				var cat = parseInt(getFeedCategory(getActiveFeedId()));
-
-				if (!isNaN(cat)) {
-					ctr = getFeedUnread(cat, true);
-
-					if (ctr > 0) {
-						setFeedUnread(cat, true, ctr - 1);
-					}
-				}
-			}
+			decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());
 		}
 
 		new Ajax.Request("backend.php", {
@@ -1628,6 +1614,7 @@ function cdmClicked(event, id) {
 				toggleSelected(id);
 
 				var elem = $("RROW-" + id);
+				var article_is_unread = elem.hasClassName("Unread");
 
 				if (elem)
 					elem.removeClassName("Unread");
@@ -1641,6 +1628,10 @@ function cdmClicked(event, id) {
 				}
 
 				active_post_id = id;
+
+				if (article_is_unread) {
+					decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());
+				}
 
 				var query = "?op=rpc&method=catchupSelected" +
 					"&cmode=0&ids=" + param_escape(id);
@@ -1656,6 +1647,14 @@ function cdmClicked(event, id) {
 
 		} else {
 			toggleSelected(id, true);
+
+			var elem = $("RROW-" + id);
+			var article_is_unread = elem.hasClassName("Unread");
+
+			if (article_is_unread) {
+				decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());
+			}
+
 			toggleUnread(id, 0, false);
 			zoomToArticle(event, id);
 		}

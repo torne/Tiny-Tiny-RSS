@@ -524,3 +524,28 @@ function catchupFeed(feed, is_cat) {
 		exception_error("catchupFeed", e);
 	}
 }
+
+function decrementFeedCounter(feed, is_cat) {
+	try {
+		var ctr = getFeedUnread(feed, is_cat);
+
+		if (ctr > 0) {
+			setFeedUnread(feed, is_cat, ctr - 1);
+
+			if (!is_cat) {
+				var cat = parseInt(getFeedCategory(feed));
+
+				if (!isNaN(cat)) {
+					ctr = getFeedUnread(cat, true);
+
+					if (ctr > 0) {
+						setFeedUnread(cat, true, ctr - 1);
+					}
+				}
+			}
+		}
+
+	} catch (e) {
+		exception_error("decrement_feed_counter", e);
+	}
+}
