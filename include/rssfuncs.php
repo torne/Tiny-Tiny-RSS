@@ -254,7 +254,7 @@
 				}
 
 			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method
+				auth_pass,cache_images,update_method,last_updated
 				FROM ttrss_feeds WHERE id = '$feed' AND $updstart_thresh_qpart");
 
 		} else {
@@ -348,7 +348,8 @@
 				$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
 			} else if ($update_method == 1) {
 
-				define('MAGPIE_CACHE_AGE', get_feed_update_interval($link, $feed) * 60);
+				// Ignore cache if manual update.
+				define('MAGPIE_CACHE_AGE', is_null($last_updated) ? -1 : get_feed_update_interval($link, $feed) * 60);
 				define('MAGPIE_CACHE_ON', !$no_cache);
 				define('MAGPIE_FETCH_TIME_OUT', 60);
 				define('MAGPIE_CACHE_DIR', CACHE_DIR . "/magpie");
@@ -376,8 +377,9 @@
 				$rss->enable_cache(!$no_cache);
 
 				if (!$no_cache) {
+					// Ignore cache if manual update.
 					$rss->set_cache_location($simplepie_cache_dir);
-					$rss->set_cache_duration(get_feed_update_interval($link, $feed) * 60);
+					$rss->set_cache_duration(is_null($last_updated) ? -1 : get_feed_update_interval($link, $feed) * 60);
 				}
 
 				$rss->init();
