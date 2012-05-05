@@ -81,7 +81,8 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
-				) OR ttrss_feeds.last_updated IS NULL)";
+				) OR ttrss_feeds.last_updated IS NULL
+				OR last_updated = '1970-01-01 00:00:00')";
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
@@ -89,7 +90,8 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
-				) OR ttrss_feeds.last_updated IS NULL)";
+				) OR ttrss_feeds.last_updated IS NULL
+				OR last_updated = '1970-01-01 00:00:00')";
 		}
 
 		// Test if feed is currently being updated by another process.
@@ -344,12 +346,15 @@
 
 		} else {
 
+			// Ignore cache if new feed or manual update.
+			$cache_age = (is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
+				-1 : get_feed_update_interval($link, $feed) * 60;
+
 			if ($update_method == 3) {
 				$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
 			} else if ($update_method == 1) {
 
-				// Ignore cache if manual update.
-				define('MAGPIE_CACHE_AGE', is_null($last_updated) ? -1 : get_feed_update_interval($link, $feed) * 60);
+				define('MAGPIE_CACHE_AGE', $cache_age);
 				define('MAGPIE_CACHE_ON', !$no_cache);
 				define('MAGPIE_FETCH_TIME_OUT', 60);
 				define('MAGPIE_CACHE_DIR', CACHE_DIR . "/magpie");
@@ -377,9 +382,8 @@
 				$rss->enable_cache(!$no_cache);
 
 				if (!$no_cache) {
-					// Ignore cache if manual update.
 					$rss->set_cache_location($simplepie_cache_dir);
-					$rss->set_cache_duration(is_null($last_updated) ? -1 : get_feed_update_interval($link, $feed) * 60);
+					$rss->set_cache_duration($cache_age);
 				}
 
 				$rss->init();
