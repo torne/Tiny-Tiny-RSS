@@ -795,7 +795,7 @@ function removeFeedIcon(id) {
 
 		return false;
 	} catch (e) {
-		exception_error("uploadFeedIcon", e);
+		exception_error("removeFeedIcon", e);
 	}
 }
 

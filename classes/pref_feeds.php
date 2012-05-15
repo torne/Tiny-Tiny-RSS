@@ -3,7 +3,7 @@ class Pref_Feeds extends Protected_Handler {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "getfeedtree", "add", "editcats", "editfeed",
-			"savefeedorder");
+			"savefeedorder", "uploadicon");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
