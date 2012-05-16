@@ -197,7 +197,8 @@ class Pref_Prefs extends Protected_Handler {
 		print "<tr><td width=\"40%\">".__('E-mail')."</td>";
 		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"email\" required=\"1\" value=\"$email\"></td></tr>";
 
-		if (!SINGLE_USER_MODE) {
+		if (!SINGLE_USER_MODE && !(ALLOW_REMOTE_USER_AUTH && AUTO_LOGIN)) {
+
 			$access_level = db_fetch_result($result, 0, "access_level");
 			print "<tr><td width=\"40%\">".__('Access level')."</td>";
 			print "<td>" . $access_level_names[$access_level] . "</td></tr>";
@@ -213,7 +214,7 @@ class Pref_Prefs extends Protected_Handler {
 
 		print "</form>";
 
-		if (!SINGLE_USER_MODE) {
+		if (!SINGLE_USER_MODE && !(ALLOW_REMOTE_USER_AUTH && AUTO_LOGIN)) {
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash
