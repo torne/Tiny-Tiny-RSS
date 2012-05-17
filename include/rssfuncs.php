@@ -441,14 +441,7 @@
 				_debug("update_rss_feed: checking favicon...");
 			}
 
-			if (!file_exists(ICONS_DIR . "/$feed.ico")) {
-				if ($use_simplepie) {
-					$atom_icon = $rss->get_favicon();
-				} else {
-					$atom_icon = $rss->channel["icon"];
-				}
-					check_feed_favicon($site_url, $feed, $link, $atom_icon);
-			}
+			check_feed_favicon($site_url, $feed, $link);
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
