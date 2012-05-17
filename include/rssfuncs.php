@@ -672,7 +672,7 @@
 					$entry_content = $item["content:escaped"];
 
 					if (!$entry_content) $entry_content = $item["content:encoded"];
-					if (!$entry_content) $entry_content = $item["content"]["encoded"];
+					if (!$entry_content && is_array($entry_content)) $entry_content = $item["content"]["encoded"];
 					if (!$entry_content) $entry_content = $item["content"];
 
 					if (is_array($entry_content)) $entry_content = $entry_content[0];
