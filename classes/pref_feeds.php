@@ -1501,7 +1501,7 @@ class Pref_Feeds extends Protected_Handler {
 
 		$bm_subscribe_url = str_replace('%s', '', add_feed_url());
 
-		$confirm_str = __('Subscribe to %s in Tiny Tiny RSS?');
+		$confirm_str = str_replace("'", "\'", __('Subscribe to %s in Tiny Tiny RSS?'));
 
 		$bm_url = htmlspecialchars("javascript:{if(confirm('$confirm_str'.replace('%s',window.location.href)))window.location.href='$bm_subscribe_url'+window.location.href}");
 
