@@ -451,7 +451,12 @@
 				_debug("update_rss_feed: checking favicon...");
 			}
 
-			if ($favicon_needs_check) check_feed_favicon($site_url, $feed, $link);
+			if ($favicon_needs_check) {
+				check_feed_favicon($site_url, $feed, $link);
+
+				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW()
+					WHERE id = '$feed'");
+			}
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
@@ -1295,9 +1300,7 @@
 			purge_feed($link, $feed, 0, $debug_enabled);
 
 			db_query($link, "UPDATE ttrss_feeds
-				SET last_updated = NOW(),
-					favicon_last_checked = NOW(),
-					last_error = '' WHERE id = '$feed'");
+				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
 //			db_query($link, "COMMIT");
 
