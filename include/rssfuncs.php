@@ -414,12 +414,22 @@
 
 //			db_query($link, "BEGIN");
 
-			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid
+			if (DB_TYPE == "pgsql") {
+				$favicon_interval_qpart = "favicon_last_checked < NOW() - INTERVAL '12 hour'";
+			} else {
+				$favicon_interval_qpart = "favicon_last_checked < DATE_SUB(NOW(), INTERVAL 12 HOUR)";
+			}
+
+			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid,
+				(favicon_last_checked IS NULL OR $favicon_interval_qpart) AS
+						favicon_needs_check
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = db_fetch_result($result, 0, "title");
 			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
 			$orig_site_url = db_fetch_result($result, 0, "site_url");
+			$favicon_needs_check = sql_bool_to_bool(db_fetch_result($result, 0,
+				"favicon_needs_check"));
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
@@ -441,7 +451,7 @@
 				_debug("update_rss_feed: checking favicon...");
 			}
 
-			check_feed_favicon($site_url, $feed, $link);
+			if ($favicon_needs_check) check_feed_favicon($site_url, $feed, $link);
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
@@ -1285,7 +1295,9 @@
 			purge_feed($link, $feed, 0, $debug_enabled);
 
 			db_query($link, "UPDATE ttrss_feeds
-				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
+				SET last_updated = NOW(),
+					favicon_last_checked = NOW(),
+					last_error = '' WHERE id = '$feed'");
 
 //			db_query($link, "COMMIT");
 
