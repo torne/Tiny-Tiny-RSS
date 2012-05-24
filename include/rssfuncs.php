@@ -1374,7 +1374,7 @@
 	}
 
 	function expire_cached_files($debug) {
-		foreach (array("magpie", "simplepie", "images") as $dir) {
+		foreach (array("magpie", "simplepie", "images", "export") as $dir) {
 			$cache_dir = CACHE_DIR . "/$dir";
 
 			if ($debug) _debug("Expiring $cache_dir");
