@@ -2391,7 +2391,7 @@
 			} else if ($feed == 0 && !$cat_view) { // archive virtual feed
 				$query_strategy_part = "feed_id IS NULL";
 			} else if ($feed == 0 && $cat_view) { // uncategorized
-				$query_strategy_part = "cat_id IS NULL";
+				$query_strategy_part = "cat_id IS NULL AND feed_id IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed == -1) { // starred virtual feed
 				$query_strategy_part = "marked = true";
