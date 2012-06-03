@@ -1326,7 +1326,8 @@
 
 			//if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
 
-			$ref_check_qpart = ($max_id) ? "ref_id <= '$max_id'" : "true";
+			$ref_check_qpart = ($max_id &&
+				!get_pref($link, 'REVERSE_HEADLINES')) ? "ref_id <= '$max_id'" : "true";
 
 			if (is_numeric($feed)) {
 				if ($cat_view) {

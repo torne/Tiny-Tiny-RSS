@@ -493,7 +493,7 @@ function catchupFeed(feed, is_cat) {
 
 		var max_id = 0;
 
-		if (feed = getActiveFeedId() && is_cat == activeFeedIsCat()) {
+		if (feed == getActiveFeedId() && is_cat == activeFeedIsCat()) {
 			$$("#headlines-frame > div[id*=RROW]").each(
 				function(child) {
 					var id = parseInt(child.id.replace("RROW-", ""));
