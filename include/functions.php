@@ -1320,11 +1320,13 @@
 		}
 	}
 
-	function catchup_feed($link, $feed, $cat_view, $owner_uid = false) {
+	function catchup_feed($link, $feed, $cat_view, $owner_uid = false, $max_id = false) {
 
 			if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
 			//if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+
+			$ref_check_qpart = ($max_id) ? "ref_id <= '$max_id'" : "true";
 
 			if (is_numeric($feed)) {
 				if ($cat_view) {
@@ -1346,34 +1348,43 @@
 
 							db_query($link, "UPDATE ttrss_user_entries
 								SET unread = false,last_read = NOW()
-								WHERE feed_id = '$tmp_feed' AND owner_uid = $owner_uid");
+								WHERE feed_id = '$tmp_feed'
+								AND $ref_check_qpart
+								AND owner_uid = $owner_uid");
 						}
 					} else if ($feed == -2) {
 
 						db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW() WHERE (SELECT COUNT(*)
 								FROM ttrss_user_labels2 WHERE article_id = ref_id) > 0
-							AND unread = true AND owner_uid = $owner_uid");
+								AND $ref_check_qpart
+								AND unread = true AND owner_uid = $owner_uid");
 					}
 
 				} else if ($feed > 0) {
 
 					db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW()
-							WHERE feed_id = '$feed' AND owner_uid = $owner_uid");
+							WHERE feed_id = '$feed'
+							AND $ref_check_qpart
+							AND owner_uid = $owner_uid");
 
 				} else if ($feed < 0 && $feed > -10) { // special, like starred
 
 					if ($feed == -1) {
 						db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW()
-							WHERE marked = true AND owner_uid = $owner_uid");
+							WHERE marked = true
+							AND $ref_check_qpart
+							AND owner_uid = $owner_uid");
 					}
 
 					if ($feed == -2) {
 						db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW()
-							WHERE published = true AND owner_uid = $owner_uid");
+							WHERE published = true
+							AND $ref_check_qpart
+							AND owner_uid = $owner_uid");
 					}
 
 					if ($feed == -3) {
@@ -1405,7 +1416,7 @@
 					if ($feed == -4) {
 						db_query($link, "UPDATE ttrss_user_entries
 							SET unread = false,last_read = NOW()
-							WHERE owner_uid = $owner_uid");
+							WHERE $ref_check_qpart AND owner_uid = $owner_uid");
 					}
 
 				} else if ($feed < -10) { // label
@@ -1415,6 +1426,7 @@
 					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2
 						SET unread = false, last_read = NOW()
 							WHERE label_id = '$label_id' AND unread = true
+							AND $ref_check_qpart
 							AND owner_uid = '$owner_uid' AND ref_id = article_id");
 
 				}
@@ -1432,7 +1444,7 @@
 				while ($line = db_fetch_assoc($result)) {
 					db_query($link, "UPDATE ttrss_user_entries SET
 						unread = false, last_read = NOW()
-						WHERE int_id = " . $line["post_int_id"]);
+						WHERE $ref_check_qpart AND int_id = " . $line["post_int_id"]);
 				}
 				db_query($link, "COMMIT");
 			}

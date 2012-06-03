@@ -480,6 +480,8 @@ function catchupFeedInGroup(id) {
 
 function catchupFeed(feed, is_cat) {
 	try {
+		if (is_cat == undefined) is_cat = false;
+
 		var str = __("Mark all articles in %s as read?");
 		var fn = getFeedName(feed, is_cat);
 
@@ -489,8 +491,22 @@ function catchupFeed(feed, is_cat) {
 			return;
 		}
 
+		var max_id = 0;
+
+		if (feed = getActiveFeedId() && is_cat == activeFeedIsCat()) {
+			$$("#headlines-frame > div[id*=RROW]").each(
+				function(child) {
+					var id = parseInt(child.id.replace("RROW-", ""));
+
+					if (id > max_id) max_id = id;
+				}
+			);
+		}
+
 		var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
-			feed + "&is_cat=" + is_cat;
+			feed + "&is_cat=" + is_cat + "&max_id=" + max_id;
+
+		console.log(catchup_query);
 
 		notify_progress("Loading, please wait...", true);
 

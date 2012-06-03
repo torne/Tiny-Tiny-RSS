@@ -646,8 +646,9 @@ class RPC extends Protected_Handler {
 	function catchupFeed() {
 		$feed_id = db_escape_string($_REQUEST['feed_id']);
 		$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
+		$max_id = (int) db_escape_string($_REQUEST['max_id']);
 
-		catchup_feed($this->link, $feed_id, $is_cat);
+		catchup_feed($this->link, $feed_id, $is_cat, false, $max_id);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
