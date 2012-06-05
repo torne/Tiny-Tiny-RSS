@@ -100,6 +100,8 @@
 
 	require_once 'lib/pubsubhubbub/publisher.php';
 
+	$purifier = false;
+
 	$tz_offset = -1;
 	$utc_tz = new DateTimeZone('UTC');
 	$schema_version = false;
@@ -2632,17 +2634,36 @@
 	}
 
 	function sanitize($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
+		global $purifier;
+
 		if (!$owner) $owner = $_SESSION["uid"];
 
 		$res = trim($str); if (!$res) return '';
 
-		// TODO implement better HTML tag stripping and XSS protection
+		// create global Purifier object if needed
+		if (!$purifier) {
+			require_once 'lib/htmlpurifier/library/HTMLPurifier.auto.php';
 
-		if (function_exists('filter_var')) {
-			$res = filter_var($res, FILTER_SANITIZE_STRING);
+			$config = HTMLPurifier_Config::createDefault();
+
+			$allowed = "p,a[href],i,em,b,strong,code,pre,blockquote,br,img[src|alt|title|align|hspace],ul,ol,li,h1,h2,h3,h4,s,object[classid|type|id|name|width|height|codebase],param[name|value],table,tr,td,span[class]";
+
+			$config->set('HTML.SafeObject', true);
+			@$config->set('HTML', 'Allowed', $allowed);
+			$config->set('Output.FlashCompat', true);
+			$config->set('Attr.EnableID', true);
+			if (!defined('MOBILE_VERSION')) {
+				@$config->set('Cache', 'SerializerPath', CACHE_DIR . "/htmlpurifier");
+			} else {
+				@$config->set('Cache', 'SerializerPath', "../" . CACHE_DIR . "/htmlpurifier");
+			}
+
+			$config->set('Filter.YouTube', true);
+
+			$purifier = new HTMLPurifier($config);
 		}
 
-		$res = strip_tags($str, "<p><a><i><em><b><strong><code><pre><blockquote><br><img><ul><ol><li><h1><h2><h3><h4><s><object><param><table><tr><td><span>");
+		$res = $purifier->purify($res);
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);

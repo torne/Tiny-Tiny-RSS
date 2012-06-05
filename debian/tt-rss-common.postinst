@@ -21,6 +21,10 @@ case "$1" in
 		install -d -m775 -gwww-data /var/lock/tt-rss
 	fi
 
+	if [ ! -d /var/cache/tt-rss/htmlpurifier ]; then
+		install -d -m775 -gwww-data /var/cache/tt-rss/htmlpurifier
+	fi
+
 	if [ ! -d /var/cache/tt-rss/magpie ]; then
 		install -d -m775 -gwww-data /var/cache/tt-rss/magpie
 	fi
