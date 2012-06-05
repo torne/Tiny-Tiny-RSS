@@ -147,7 +147,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
         return $this->_anonModule;
     }
 
-    private $_anonModule = null;
+    private $_anonModule;
 
 
     // PUBLIC BUT INTERNAL VARIABLES --------------------------------------

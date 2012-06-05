@@ -20,7 +20,7 @@ class HTMLPurifier_Config
     /**
      * HTML Purifier's version
      */
-    public $version = '4.4.0';
+    public $version = '4.3.0';
 
     /**
      * Bool indicator whether or not to automatically finalize
@@ -44,7 +44,7 @@ class HTMLPurifier_Config
     /**
      * Parser for variables
      */
-    protected $parser = null;
+    protected $parser;
 
     /**
      * Reference HTMLPurifier_ConfigSchema for value checking
@@ -668,7 +668,7 @@ class HTMLPurifier_Config
      */
     public function finalize() {
         $this->finalized = true;
-        $this->parser = null;
+        unset($this->parser);
     }
 
     /**
