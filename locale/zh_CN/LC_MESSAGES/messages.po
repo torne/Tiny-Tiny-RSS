@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 13:59+0400\n"
+"POT-Creation-Date: 2012-06-06 12:33+0400\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Sai <lazycai.ffsky@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/"
@@ -83,7 +83,7 @@ msgstr "每天"
 msgid "Weekly"
 msgstr "每周"
 
-#: backend.php:112 index.php:163 classes/pref_prefs.php:360
+#: backend.php:112 index.php:163 classes/pref_prefs.php:362
 msgid "Default"
 msgstr "默认"
 
@@ -214,7 +214,7 @@ msgstr ""
 #: digest.php:64 index.php:87 index.php:129 index.php:213 prefs.php:68
 #: classes/backend.php:6 classes/pref_feeds.php:1376
 #: classes/pref_filters.php:612 classes/pref_labels.php:296
-#: js/viewfeed.js:1108 js/viewfeed.js:1285
+#: js/viewfeed.js:1112 js/viewfeed.js:1289
 msgid "Loading, please wait..."
 msgstr "读取中，请稍候……"
 
@@ -289,7 +289,7 @@ msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 
 #: index.php:99 prefs.php:90 help/main.php:71 help/prefs.php:8
-#: classes/pref_prefs.php:276
+#: classes/pref_prefs.php:278
 msgid "Preferences"
 msgstr "偏好设置"
 
@@ -431,61 +431,61 @@ msgstr "创建过滤器"
 msgid "Keyboard shortcuts help"
 msgstr "快捷键帮助"
 
-#: opml.php:70
+#: opml.php:81
 #, php-format
 msgid "<li>Adding category <b>%s</b>.</li>"
 msgstr "<li>添加类别：<b>%s</b>。</li>"
 
-#: opml.php:92
+#: opml.php:103
 #, php-format
 msgid "Setting preference key %s to %s"
 msgstr "将偏好按键从 %s 设置为 %s"
 
-#: opml.php:112
+#: opml.php:123
 #, php-format
 msgid "Adding label %s"
 msgstr ""
 
-#: opml.php:115
+#: opml.php:126
 #, php-format
 msgid "Duplicate label: %s"
 msgstr ""
 
-#: opml.php:169
+#: opml.php:180
 #, php-format
 msgid "Adding filter %s"
 msgstr ""
 
-#: opml.php:185
+#: opml.php:196
 #, php-format
 msgid "Duplicate filter %s"
 msgstr ""
 
-#: opml.php:230
+#: opml.php:241
 msgid "is already imported."
 msgstr "已经导入过。"
 
-#: opml.php:250
+#: opml.php:271
 msgid "OK"
 msgstr "OK"
 
-#: opml.php:259
+#: opml.php:280
 msgid "Error while parsing document."
 msgstr "解析文档时发生错误。"
 
-#: opml.php:263
+#: opml.php:284
 msgid "Error: please upload OPML file."
 msgstr "错误：请上传 OPML 文件。"
 
-#: opml.php:469 opml.php:474
+#: opml.php:507 opml.php:512
 msgid "OPML Utility"
 msgstr "OPML 工具"
 
-#: opml.php:492
+#: opml.php:530
 msgid "Importing OPML..."
 msgstr "正在导入 OPML ……"
 
-#: opml.php:496
+#: opml.php:534
 msgid "Return to preferences"
 msgstr "返回偏好设置"
 
@@ -497,7 +497,7 @@ msgstr "快捷键"
 msgid "Exit preferences"
 msgstr "退出偏好设置"
 
-#: prefs.php:93 classes/feeds.php:981 classes/pref_feeds.php:43
+#: prefs.php:93 classes/feeds.php:964 classes/pref_feeds.php:43
 #: classes/pref_feeds.php:1256 classes/pref_feeds.php:1319
 msgid "Feeds"
 msgstr "信息源"
@@ -507,8 +507,8 @@ msgid "Filters"
 msgstr "过滤器"
 
 #: prefs.php:99 help/prefs.php:12 mobile/mobile-functions.php:205
-#: classes/pref_labels.php:90 include/functions.php:1433
-#: include/functions.php:2001
+#: classes/pref_labels.php:90 include/functions.php:1477
+#: include/functions.php:2045
 msgid "Labels"
 msgstr "预定义标签"
 
@@ -587,7 +587,7 @@ msgstr "无法连接 Twitter 。请刷新页面或过会儿重试。"
 msgid "Congratulations! You have successfully registered with Twitter."
 msgstr "恭喜！您已经成功通过 Twitter 注册。"
 
-#: twitter.php:118 classes/pref_prefs.php:467
+#: twitter.php:118 classes/pref_prefs.php:469
 msgid "Register"
 msgstr "注册"
 
@@ -735,19 +735,19 @@ msgstr "查看类别时将其折叠/展开"
 msgid "Go to..."
 msgstr "跳转至……"
 
-#: help/main.php:66 include/functions.php:2053
+#: help/main.php:66 include/functions.php:2097
 msgid "All articles"
 msgstr "全部文章"
 
-#: help/main.php:67 include/functions.php:2051
+#: help/main.php:67 include/functions.php:2095
 msgid "Fresh articles"
 msgstr "最新更新的文章"
 
-#: help/main.php:68 include/functions.php:2047
+#: help/main.php:68 include/functions.php:2091
 msgid "Starred articles"
 msgstr "加星标文章"
 
-#: help/main.php:69 include/functions.php:2049
+#: help/main.php:69 include/functions.php:2093
 msgid "Published articles"
 msgstr "已发布文章"
 
@@ -818,8 +818,8 @@ msgstr "密码："
 msgid "Home"
 msgstr "主页"
 
-#: mobile/mobile-functions.php:178 include/functions.php:1431
-#: include/functions.php:1999
+#: mobile/mobile-functions.php:178 include/functions.php:1475
+#: include/functions.php:2043
 msgid "Special"
 msgstr "特殊区域"
 
@@ -875,7 +875,7 @@ msgstr ""
 #: classes/dlg.php:845 classes/dlg.php:876 classes/dlg.php:975
 #: classes/pref_feeds.php:1247 classes/pref_filters.php:463
 #: classes/pref_filters.php:546 classes/pref_users.php:106
-#: classes/share_button.php:47 include/functions.php:3449
+#: classes/share_button.php:47 include/functions.php:3493
 msgid "Close this window"
 msgstr "关闭本窗口"
 
@@ -948,8 +948,8 @@ msgstr ""
 msgid "Feed"
 msgstr "信息源"
 
-#: classes/dlg.php:252 classes/feeds.php:638 classes/pref_feeds.php:319
-#: include/functions.php:3410
+#: classes/dlg.php:252 classes/feeds.php:621 classes/pref_feeds.php:319
+#: include/functions.php:3454
 msgid "Feed URL"
 msgstr "信息源 URL"
 
@@ -1046,7 +1046,7 @@ msgstr "标题或内容"
 msgid "Limit search to:"
 msgstr "限制搜索条件："
 
-#: classes/dlg.php:391 include/functions.php:1934
+#: classes/dlg.php:391 include/functions.php:1978
 msgid "All feeds"
 msgstr "全部信息源"
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Feeds require authentication."
 msgstr ""
 
-#: classes/feeds.php:94 include/functions.php:3425
+#: classes/feeds.php:94 include/functions.php:3469
 msgid "Visit the website"
 msgstr "访问网站"
 
@@ -1302,43 +1302,43 @@ msgstr "通过邮件转发"
 msgid "Feed:"
 msgstr "信息源："
 
-#: classes/feeds.php:213 classes/feeds.php:1037
+#: classes/feeds.php:196 classes/feeds.php:1020
 msgid "Feed not found."
 msgstr "找不到信息源。"
 
-#: classes/feeds.php:446 classes/feeds.php:528
+#: classes/feeds.php:429 classes/feeds.php:511
 msgid "mark as read"
 msgstr "标记为已读"
 
-#: classes/feeds.php:625 include/functions.php:3397
+#: classes/feeds.php:608 include/functions.php:3441
 msgid "Originally from:"
 msgstr "来源："
 
-#: classes/feeds.php:685 include/functions.php:3354
+#: classes/feeds.php:668 include/functions.php:3398
 msgid "Edit tags for this article"
 msgstr "为本文编辑自定义标签"
 
-#: classes/feeds.php:712 include/functions.php:3364
+#: classes/feeds.php:695 include/functions.php:3408
 msgid "Open article in new tab"
 msgstr "在新标签页中打开文章"
 
-#: classes/feeds.php:723 include/functions.php:3380
+#: classes/feeds.php:706 include/functions.php:3424
 msgid "Close article"
 msgstr ""
 
-#: classes/feeds.php:744
+#: classes/feeds.php:727
 msgid "No unread articles found to display."
 msgstr "没有未读文章。"
 
-#: classes/feeds.php:747
+#: classes/feeds.php:730
 msgid "No updated articles found to display."
 msgstr "没有最新更新的文章。"
 
-#: classes/feeds.php:750
+#: classes/feeds.php:733
 msgid "No starred articles found to display."
 msgstr "没有加星标的文章。"
 
-#: classes/feeds.php:754
+#: classes/feeds.php:737
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
@@ -1346,22 +1346,22 @@ msgstr ""
 "本标签下没有文章。你可以通过手动或过滤器的方式为文章添加预定义标签（参考上方"
 "动作菜单）。"
 
-#: classes/feeds.php:756
+#: classes/feeds.php:739
 msgid "No articles found to display."
 msgstr "暂时没有文章。"
 
-#: classes/feeds.php:771 include/functions.php:4557
+#: classes/feeds.php:754 include/functions.php:4601
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "上次信息源更新时间：%s"
 
-#: classes/feeds.php:781 include/functions.php:4567
+#: classes/feeds.php:764 include/functions.php:4611
 msgid "Some feeds have update errors (click for details)"
 msgstr "部分信息源更新错误（点击了解详情）"
 
-#: classes/feeds.php:922 classes/feeds.php:931 classes/pref_feeds.php:95
-#: classes/pref_filters.php:191 include/functions.php:1966
-#: include/functions.php:2009 include/functions.php:2856
+#: classes/feeds.php:905 classes/feeds.php:914 classes/pref_feeds.php:95
+#: classes/pref_filters.php:191 include/functions.php:2010
+#: include/functions.php:2053 include/functions.php:2900
 msgid "Uncategorized"
 msgstr "未分类"
 
@@ -1858,81 +1858,81 @@ msgstr "未知选项： %s"
 msgid "Your personal data has been saved."
 msgstr "您的个人数据已保存。"
 
-#: classes/pref_prefs.php:168
+#: classes/pref_prefs.php:166
 msgid "Personal data / Authentication"
 msgstr ""
 
-#: classes/pref_prefs.php:195
+#: classes/pref_prefs.php:193
 msgid "Full name"
 msgstr "姓名"
 
-#: classes/pref_prefs.php:199
+#: classes/pref_prefs.php:197
 msgid "E-mail"
 msgstr "电子邮件"
 
-#: classes/pref_prefs.php:204
+#: classes/pref_prefs.php:203
 msgid "Access level"
 msgstr "访问级别"
 
-#: classes/pref_prefs.php:214
+#: classes/pref_prefs.php:213
 msgid "Save data"
 msgstr "保存信息"
 
-#: classes/pref_prefs.php:223
+#: classes/pref_prefs.php:224
 msgid "Your password is at default value, please change it."
 msgstr "您还在使用系统默认的密码，请修改。"
 
-#: classes/pref_prefs.php:251
+#: classes/pref_prefs.php:252
 msgid "Old password"
 msgstr "原密码"
 
-#: classes/pref_prefs.php:254
+#: classes/pref_prefs.php:255
 msgid "New password"
 msgstr "新密码"
 
-#: classes/pref_prefs.php:259
+#: classes/pref_prefs.php:260
 msgid "Confirm password"
 msgstr "确认密码"
 
-#: classes/pref_prefs.php:269
+#: classes/pref_prefs.php:270
 msgid "Change password"
 msgstr "更改密码"
 
-#: classes/pref_prefs.php:354
+#: classes/pref_prefs.php:356
 msgid "Select theme"
 msgstr "选择主题"
 
-#: classes/pref_prefs.php:406
+#: classes/pref_prefs.php:408
 msgid "Customize"
 msgstr "自定义"
 
-#: classes/pref_prefs.php:425 classes/pref_prefs.php:432
-#: classes/pref_prefs.php:437
+#: classes/pref_prefs.php:427 classes/pref_prefs.php:434
+#: classes/pref_prefs.php:439
 msgid "Yes"
 msgstr "是"
 
-#: classes/pref_prefs.php:427 classes/pref_prefs.php:437
+#: classes/pref_prefs.php:429 classes/pref_prefs.php:439
 msgid "No"
 msgstr "否"
 
-#: classes/pref_prefs.php:471
+#: classes/pref_prefs.php:473
 msgid "Clear"
 msgstr "清空"
 
-#: classes/pref_prefs.php:477
+#: classes/pref_prefs.php:479
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr ""
 
-#: classes/pref_prefs.php:502
+#: classes/pref_prefs.php:504
 msgid "Save configuration"
 msgstr "保存设置"
 
-#: classes/pref_prefs.php:505
+#: classes/pref_prefs.php:507
 msgid "Manage profiles"
 msgstr "管理偏好文件"
 
-#: classes/pref_prefs.php:508
+#: classes/pref_prefs.php:510
 msgid "Reset to defaults"
 msgstr "恢复到默认"
 
@@ -2027,23 +2027,23 @@ msgstr "没有定义用户。"
 msgid "No matching users found."
 msgstr "没有匹配的用户。"
 
-#: classes/rpc.php:426 include/functions.php:3344 include/functions.php:4109
+#: classes/rpc.php:426 include/functions.php:3388 include/functions.php:4153
 msgid "no tags"
 msgstr "无标签"
 
-#: classes/rpc.php:741
+#: classes/rpc.php:742
 msgid "Your request could not be completed."
 msgstr "您的请求无法完成。"
 
-#: classes/rpc.php:745
+#: classes/rpc.php:746
 msgid "Feed update has been scheduled."
 msgstr "信息源更新的任务计划已制定。"
 
-#: classes/rpc.php:753
+#: classes/rpc.php:754
 msgid "Category update has been scheduled."
 msgstr "分类更新已列入任务计划。"
 
-#: classes/rpc.php:766
+#: classes/rpc.php:767
 msgid "Can't update this kind of feed."
 msgstr "无法更新这种类型的信息源。"
 
@@ -2059,73 +2059,73 @@ msgstr "您可以通过以下唯一 URL 分享本文："
 msgid "Share on Twitter"
 msgstr "在 Twitter 上分享"
 
-#: include/functions.php:888
+#: include/functions.php:919
 msgid "Session failed to validate (incorrect IP)"
 msgstr "无法验证会话（IP 错误）"
 
-#: include/functions.php:962
+#: include/functions.php:993
 msgid "Incorrect username or password"
 msgstr "用户名或密码错误"
 
-#: include/functions.php:2055
+#: include/functions.php:2099
 msgid "Archived articles"
 msgstr "存档的文章"
 
-#: include/functions.php:3188 js/viewfeed.js:1954
+#: include/functions.php:3232 js/viewfeed.js:1971
 msgid "Click to play"
 msgstr "点击播放"
 
-#: include/functions.php:3189 js/viewfeed.js:1953
+#: include/functions.php:3233 js/viewfeed.js:1970
 msgid "Play"
 msgstr "播放"
 
-#: include/functions.php:3315
+#: include/functions.php:3359
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:4134
+#: include/functions.php:4178
 msgid "(edit note)"
 msgstr "（编辑注记）"
 
-#: include/functions.php:4547
+#: include/functions.php:4591
 msgid "No feed selected."
 msgstr "没有选中的信息源。"
 
-#: include/functions.php:4731
+#: include/functions.php:4775
 msgid "unknown type"
 msgstr "未知类型"
 
-#: include/functions.php:4771
+#: include/functions.php:4815
 msgid "Attachment:"
 msgstr "附件："
 
-#: include/functions.php:4773
+#: include/functions.php:4817
 msgid "Attachments:"
 msgstr "附件："
 
-#: include/functions.php:5217
+#: include/functions.php:5261
 #, php-format
 msgid "%d archived articles"
 msgstr "%d 个存档的文章"
 
-#: include/functions.php:5241
+#: include/functions.php:5285
 msgid "No feeds found."
 msgstr "未找到信息源。"
 
-#: include/functions.php:5287
+#: include/functions.php:5331
 msgid "Could not import: incorrect schema version."
 msgstr ""
 
-#: include/functions.php:5292
+#: include/functions.php:5336
 msgid "Could not import: unrecognized document format."
 msgstr ""
 
-#: include/functions.php:5451
+#: include/functions.php:5495
 #, php-format
 msgid "Finished: %d articles processed, %d imported, %d feeds created."
 msgstr ""
 
-#: include/functions.php:5457
+#: include/functions.php:5501
 msgid "Could not load XML document."
 msgstr ""
 
@@ -2150,7 +2150,7 @@ msgid "Set starred"
 msgstr "加星标"
 
 #: include/localized_schema.php:12 js/digest.js:262 js/digest.js:730
-#: js/viewfeed.js:462
+#: js/viewfeed.js:466
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -2158,7 +2158,7 @@ msgstr "发布文章"
 msgid "Assign tags"
 msgstr "添加自定义标签"
 
-#: include/localized_schema.php:14 js/viewfeed.js:1918
+#: include/localized_schema.php:14 js/viewfeed.js:1935
 msgid "Assign label"
 msgstr "添加预定义标签"
 
@@ -2195,10 +2195,8 @@ msgstr "将文章列表展开显示，而不是将标题和内容分别显示"
 
 #: include/localized_schema.php:23
 msgid ""
-"When \"Mark as read\" button is clicked in toolbar, automatically open next "
-"feed with unread articles."
+"Automatically open next feed with unread articles after marking one as read"
 msgstr ""
-"当工具栏上 \"标记为已读 \" 按钮被点击时，自动打开下一个信息源中的未读文章。"
 
 #: include/localized_schema.php:24
 msgid ""
@@ -2381,7 +2379,7 @@ msgstr "偏好："
 msgid "Use less traffic"
 msgstr "使用较少流量"
 
-#: js/digest.js:23 js/feedlist.js:481 js/tt-rss.js:511 js/tt-rss.js:524
+#: js/digest.js:23 js/feedlist.js:470 js/feedlist.js:485
 msgid "Mark all articles in %s as read?"
 msgstr "将 %s 中的全部文章标记为已读？"
 
@@ -2389,15 +2387,15 @@ msgstr "将 %s 中的全部文章标记为已读？"
 msgid "Mark %d displayed articles as read?"
 msgstr "将显示的 %d 篇文章标记为已读？"
 
-#: js/digest.js:255 js/digest.js:690 js/viewfeed.js:417
+#: js/digest.js:255 js/digest.js:690 js/viewfeed.js:421
 msgid "Unstar article"
 msgstr "取消星标"
 
-#: js/digest.js:257 js/digest.js:694 js/viewfeed.js:422
+#: js/digest.js:257 js/digest.js:694 js/viewfeed.js:426
 msgid "Star article"
 msgstr "加星标"
 
-#: js/digest.js:260 js/digest.js:725 js/viewfeed.js:457
+#: js/digest.js:260 js/digest.js:725 js/viewfeed.js:461
 msgid "Unpublish article"
 msgstr "取消发布文章"
 
@@ -2429,7 +2427,7 @@ msgstr "没有未读的信息源。"
 msgid "Load more..."
 msgstr "加载更多……"
 
-#: js/feedlist.js:298
+#: js/feedlist.js:266
 msgid "New articles available in this feed (click to show)"
 msgstr "本信息源中的最新文章（点击显示）"
 
@@ -2528,7 +2526,7 @@ msgstr "请填写类别名称："
 msgid "Generate new syndication address for this feed?"
 msgstr "为本信息源生成新的群地址？"
 
-#: js/functions.js:1411 js/tt-rss.js:373 js/tt-rss.js:884
+#: js/functions.js:1411 js/tt-rss.js:373 js/tt-rss.js:856
 msgid "You can't edit this kind of feed."
 msgstr "您无法编辑这种类型的信息源。"
 
@@ -2560,9 +2558,9 @@ msgstr "更新错误的信息源"
 msgid "Remove selected feeds?"
 msgstr "移除选中的信息源？"
 
-#: js/mail_button.js:7 js/viewfeed.js:637 js/viewfeed.js:665
-#: js/viewfeed.js:692 js/viewfeed.js:754 js/viewfeed.js:786 js/viewfeed.js:902
-#: js/viewfeed.js:945 js/viewfeed.js:995
+#: js/mail_button.js:7 js/viewfeed.js:641 js/viewfeed.js:669
+#: js/viewfeed.js:696 js/viewfeed.js:758 js/viewfeed.js:790 js/viewfeed.js:906
+#: js/viewfeed.js:949 js/viewfeed.js:999
 msgid "No articles are selected."
 msgstr "没有选中任何文章。"
 
@@ -2792,90 +2790,97 @@ msgstr "将所有文章标记为已读？"
 msgid "You can't unsubscribe from the category."
 msgstr "您不能取消订阅一个类别。"
 
-#: js/tt-rss.js:388 js/tt-rss.js:596 js/tt-rss.js:1042
+#: js/tt-rss.js:388 js/tt-rss.js:568 js/tt-rss.js:1014
 msgid "Please select some feed first."
 msgstr "请先选几个信息源吧。"
 
-#: js/tt-rss.js:591
+#: js/tt-rss.js:563
 msgid "You can't rescore this kind of feed."
 msgstr "无法重置本类信息源的评分。"
 
-#: js/tt-rss.js:601
+#: js/tt-rss.js:573
 msgid "Rescore articles in %s?"
 msgstr "重置 %s 中文章的评分？"
 
-#: js/tt-rss.js:1082
+#: js/tt-rss.js:1054
 msgid "New version available!"
 msgstr "有可用的新版本啦！"
 
-#: js/viewfeed.js:882
+#: js/viewfeed.js:886
 msgid "Mark all visible articles in %s as read?"
 msgstr "标记 %s 中所有可见的文章为已读？"
 
-#: js/viewfeed.js:910
+#: js/viewfeed.js:914
 msgid "Delete %d selected articles in %s?"
 msgstr "删除 %s 中选择的 %d 篇文章？"
 
-#: js/viewfeed.js:912
+#: js/viewfeed.js:916
 msgid "Delete %d selected articles?"
 msgstr "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:954
+#: js/viewfeed.js:958
 msgid "Archive %d selected articles in %s?"
 msgstr "将 %s 中的 %d 篇选中的文章存档？"
 
-#: js/viewfeed.js:957
+#: js/viewfeed.js:961
 msgid "Move %d archived articles back?"
 msgstr "将存档的 %d 篇文章移回原处？"
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1005
 msgid "Mark %d selected articles in %s as read?"
 msgstr "将 %s 中选中的 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1025
+#: js/viewfeed.js:1029
 msgid "Edit article Tags"
 msgstr "编辑文章的自定义标签"
 
-#: js/viewfeed.js:1182
+#: js/viewfeed.js:1186
 msgid "No article is selected."
 msgstr "未选中任何文章。"
 
-#: js/viewfeed.js:1217
+#: js/viewfeed.js:1221
 msgid "No articles found to mark"
 msgstr "未找到需要标记的文章"
 
-#: js/viewfeed.js:1219
+#: js/viewfeed.js:1223
 msgid "Mark %d article(s) as read?"
 msgstr "将 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1383
+#: js/viewfeed.js:1387
 msgid "Loading..."
 msgstr "加载中……"
 
-#: js/viewfeed.js:1857
+#: js/viewfeed.js:1874
 msgid "Open original article"
 msgstr "打开原文"
 
-#: js/viewfeed.js:1863
+#: js/viewfeed.js:1880
 msgid "View in a tt-rss tab"
 msgstr "在 tt-rss 舌签中查看"
 
-#: js/viewfeed.js:1871
+#: js/viewfeed.js:1888
 msgid "Mark above as read"
 msgstr ""
 
-#: js/viewfeed.js:1877
+#: js/viewfeed.js:1894
 msgid "Mark below as read"
 msgstr ""
 
-#: js/viewfeed.js:1923
+#: js/viewfeed.js:1940
 msgid "Remove label"
 msgstr "移除预定义标签"
 
-#: js/viewfeed.js:1947
+#: js/viewfeed.js:1964
 msgid "Playing..."
 msgstr "播放中……"
 
-#: js/viewfeed.js:1948
+#: js/viewfeed.js:1965
 msgid "Click to pause"
 msgstr "点击暂停"
+
+#~ msgid ""
+#~ "When \"Mark as read\" button is clicked in toolbar, automatically open "
+#~ "next feed with unread articles."
+#~ msgstr ""
+#~ "当工具栏上 \"标记为已读 \" 按钮被点击时，自动打开下一个信息源中的未读文"
+#~ "章。"
