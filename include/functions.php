@@ -3102,7 +3102,7 @@
 
 			if ($tag_cache === false) {
 				$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
-					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+					WHERE ref_id = '$id' AND owner_uid = $owner_uid");
 
 				$tag_cache = db_fetch_result($result, 0, "tag_cache");
 			}
@@ -3125,7 +3125,7 @@
 
 				db_query($link, "UPDATE ttrss_user_entries
 					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
-					AND owner_uid = " . $_SESSION["uid"]);
+					AND owner_uid = $owner_uid");
 			}
 
 			if ($memcache) $memcache->add($obj_id, $tags, 0, 3600);
@@ -3251,7 +3251,9 @@
 		return $entry;
 	}
 
-	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false) {
+	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false, $owner_uid = false) {
+
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$rv = array();
 
@@ -3270,7 +3272,7 @@
 		//if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
 		$result = db_query($link, "SELECT rtl_content, always_display_enclosures FROM ttrss_feeds
-			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+			WHERE id = '$feed_id' AND owner_uid = $owner_uid");
 
 		if (db_num_rows($result) == 1) {
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
@@ -3291,9 +3293,9 @@
 		if ($mark_as_read) {
 			$result = db_query($link, "UPDATE ttrss_user_entries
 				SET unread = false,last_read = NOW()
-				WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+				WHERE ref_id = '$id' AND owner_uid = $owner_uid");
 
-			ccache_update($link, $feed_id, $_SESSION["uid"]);
+			ccache_update($link, $feed_id, $owner_uid);
 		}
 
 		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
@@ -3306,7 +3308,7 @@
 			orig_feed_id,
 			note
 			FROM ttrss_entries,ttrss_user_entries
-			WHERE	id = '$id' AND ref_id = id AND owner_uid = " . $_SESSION["uid"]);
+			WHERE	id = '$id' AND ref_id = id AND owner_uid = $owner_uid");
 
 		if ($result) {
 
@@ -3360,7 +3362,7 @@
 			}
 
 			$parsed_updated = make_local_datetime($link, $line["updated"], true,
-				false, true);
+				$owner_uid, true);
 
 			$rv['content'] .= "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
@@ -3378,7 +3380,7 @@
 			$tag_cache = $line["tag_cache"];
 
 			if (!$tag_cache)
-				$tags = get_article_tags($link, $id);
+				$tags = get_article_tags($link, $id, $owner_uid);
 			else
 				$tags = explode(",", $tag_cache);
 
@@ -3472,7 +3474,7 @@
 
 			$rv['content'] .= "<div class=\"postContent\">";
 
-			$article_content = sanitize($link, $line["content"], false, false,
+			$article_content = sanitize($link, $line["content"], false, $owner_uid,
 				$feed_site_url);
 
 			$rv['content'] .= $article_content;

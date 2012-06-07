@@ -256,9 +256,7 @@ class Public_Handler extends Handler {
 			$id = db_fetch_result($result, 0, "ref_id");
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$_SESSION["uid"] = $owner_uid;
-			$article = format_article($this->link, $id, false, true);
-			$_SESSION["uid"] = "";
+			$article = format_article($this->link, $id, false, true, $owner_uid);
 
 			print_r($article['content']);
 
