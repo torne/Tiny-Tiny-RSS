@@ -30,7 +30,7 @@ class Public_Handler extends Handler {
 
 		$feed_self_url = get_self_url_prefix() .
 			"/public.php?op=rss&id=-2&key=" .
-			get_feed_access_key($this->link, -2, false);
+			get_feed_access_key($this->link, -2, false, $owner_uid);
 
 		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
 
@@ -294,9 +294,7 @@ class Public_Handler extends Handler {
 		}
 
 		if ($owner_id) {
-			$_SESSION['uid'] = $owner_id;
-
-			$this->generate_syndicated_feed(0, $feed, $is_cat, $limit,
+			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
 				$search, $search_mode, $match_on, $view_mode);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
