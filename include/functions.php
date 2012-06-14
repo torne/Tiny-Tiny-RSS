@@ -3367,14 +3367,14 @@
 			$rv['content'] .= "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				$rv['content'] .= "<div clear='both'><a target='_blank'
+				$rv['content'] .= "<div class='postTitle' clear='both'><a target='_blank'
 					title=\"".htmlspecialchars($line['title'])."\"
 					href=\"" .
 					$line["link"] . "\">" .
 					truncate_string($line["title"], 100) .
 					"<span class='author'>$entry_author</span></a></div>";
 			} else {
-				$rv['content'] .= "<div clear='both'>" . $line["title"] . "$entry_author</div>";
+				$rv['content'] .= "<div class='postTitle' clear='both'>" . $line["title"] . "$entry_author</div>";
 			}
 
 			$tag_cache = $line["tag_cache"];
@@ -3391,7 +3391,7 @@
 
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
-			$rv['content'] .= "<div style='float : right'>
+			$rv['content'] .= "<div class='postTags' style='float : right'>
 				<img src='".theme_image($link, 'images/tag.png')."'
 				class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
