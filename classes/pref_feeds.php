@@ -1171,10 +1171,24 @@ class Pref_Feeds extends Protected_Handler {
 			}
 		}
 
-		print "<div dojoType=\"dijit.Toolbar\">
-			<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"newcat\">
+		print "<div dojoType=\"dijit.Toolbar\">";
+
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefFeedCatList', 'all')\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefFeedCatList', 'none')\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
+		print "<div style='float : right'>";
+
+		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"newcat\">
 				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedCatEditDlg').addCategory()\">".
 					__('Create category')."</button></div>";
+
+		print "</div>";
 
 		$result = db_query($this->link, "SELECT title,id FROM ttrss_feed_categories
 			WHERE owner_uid = ".$_SESSION["uid"]."
@@ -1196,11 +1210,11 @@ class Pref_Feeds extends Protected_Handler {
 				$cat_id = $line["id"];
 				$this_row_id = "id=\"FCATR-$cat_id\"";
 
-				print "<tr class=\"\" $this_row_id>";
+				print "<tr class=\"placeholder\" $this_row_id>";
 
 				$edit_title = htmlspecialchars($line["title"]);
 
-				print "<td width='5%' align='center'><input
+				print "<td width='5%' align='center'><input id=\"FCATC-$cat_id\"
 					onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
 					type=\"checkbox\"></td>";
 

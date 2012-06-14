@@ -313,7 +313,7 @@ class Pref_Prefs extends Protected_Handler {
 			$profile_qpart = "profile IS NULL";
 		}
 
-		$result = db_query($this->link, "SELECT
+		$result = db_query($this->link, "SELECT DISTINCT
 			ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
 			section_name,def_value,section_id
 			FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs

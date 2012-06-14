@@ -1340,6 +1340,7 @@ function selectTableRows(id, mode) {
 		for (var i = 0; i < rows.length; i++) {
 			var row = rows[i];
 			var cb = false;
+			var dcb = false;
 
 			if (row.id && row.className) {
 				var bare_id = row.id.replace(/^[A-Z]*?-/, "");
@@ -1352,27 +1353,33 @@ function selectTableRows(id, mode) {
 							input.id.match(bare_id)) {
 
 						cb = input;
+						dcb = dijit.getEnclosingWidget(cb);
 						break;
 					}
 				}
 
-				if (cb) {
+				if (cb || dcb) {
 					var issel = row.hasClassName("Selected");
 
 					if (mode == "all" && !issel) {
 						row.addClassName("Selected");
 						cb.checked = true;
+						if (dcb) dcb.set("checked", true);
 					} else if (mode == "none" && issel) {
 						row.removeClassName("Selected");
 						cb.checked = false;
+						if (dcb) dcb.set("checked", false);
+
 					} else if (mode == "invert") {
 
 						if (issel) {
 							row.removeClassName("Selected");
 							cb.checked = false;
+							if (dcb) dcb.set("checked", false);
 						} else {
 							row.addClassName("Selected");
 							cb.checked = true;
+							if (dcb) dcb.set("checked", true);
 						}
 					}
 				}
