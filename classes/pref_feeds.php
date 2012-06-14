@@ -544,6 +544,8 @@ class Pref_Feeds extends Protected_Handler {
 
 		$feed_ids = db_escape_string($_REQUEST["ids"]);
 
+		print "<div class=\"dialogNotice\">" . __("Enable the options you wish to apply using checkboxes on the right:") . "</div>";
+
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"ids\" value=\"$feed_ids\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"batchEditSave\">";

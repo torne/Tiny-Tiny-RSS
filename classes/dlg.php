@@ -590,7 +590,7 @@ class Dlg extends Protected_Handler {
 			GROUP BY ttrss_feeds.title, ttrss_feeds.id, ttrss_feeds.site_url, ttrss_feeds.feed_url
 			ORDER BY last_article");
 
-		print __("These feeds have not been updated with new content for 3 months (oldest first):");
+		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated with new content for 3 months (oldest first):") . "</div>";
 
 		print "<div dojoType=\"dijit.Toolbar\">";
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
@@ -656,7 +656,7 @@ class Dlg extends Protected_Handler {
 	}
 
 	function feedsWithErrors() {
-		print __("These feeds have not been updated because of errors:");
+		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated because of errors:") . "</div>";
 
 		$result = db_query($this->link, "SELECT id,title,feed_url,last_error,site_url
 		FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -871,7 +871,7 @@ class Dlg extends Protected_Handler {
 
 		$url_path = htmlspecialchars($this->params[2]) . "&key=" . $key;
 
-		print __("You can view this feed as RSS using the following URL:");
+		print "<div class=\"dialogNotice\">" .	__("You can view this feed as RSS using the following URL:") . "</div>";
 
 		print "<div class=\"tagCloudContainer\">";
 		print "<a id='gen_feed_url' href='$url_path' target='_blank'>$url_path</a>";
@@ -924,7 +924,9 @@ class Dlg extends Protected_Handler {
 
 		$value = str_replace("<br/>", "\n", $value);
 
+		print "<div class=\"dialogNotice\">";
 		print T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css");
+		print "</div>";
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setpref\">";
