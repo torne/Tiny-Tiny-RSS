@@ -1192,9 +1192,11 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "</div>";
 
-		$result = db_query($this->link, "SELECT title,id FROM ttrss_feed_categories
-			WHERE owner_uid = ".$_SESSION["uid"]."
-			ORDER BY title");
+		$result = db_query($this->link, "SELECT c.title, c.id,COUNT(f.*) AS count
+			FROM ttrss_feed_categories AS c LEFT JOIN ttrss_feeds AS f ON
+				(f.cat_id = c.id)
+			WHERE c.owner_uid = ".$_SESSION["uid"]."
+			GROUP BY c.title, c.id ORDER BY title");
 
 		if (db_num_rows($result) != 0) {
 
@@ -1241,6 +1243,8 @@ class Pref_Feeds extends Protected_Handler {
 					</script>
 				</span>";
 
+				print "<td align='right' class='insensitive'>";
+				echo T_sprintf("%d feeds", $line['count']);
 				print "</td></tr>";
 
 				++$lnum;
