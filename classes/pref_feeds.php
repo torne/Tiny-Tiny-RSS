@@ -1224,6 +1224,8 @@ class Pref_Feeds extends Protected_Handler {
 
 				print "<td>";
 
+				if ($line['count'] == 0) print '<em>';
+
 				print "<span dojoType=\"dijit.InlineEditBox\"
 					width=\"300px\" autoSave=\"false\"
 					cat-id=\"$cat_id\">" . $edit_title .
@@ -1242,6 +1244,10 @@ class Pref_Feeds extends Protected_Handler {
 						});
 					</script>
 				</span>";
+
+				if ($line['count'] == 0) print '</em>';
+
+				print "</td>";
 
 				print "<td align='right' class='insensitive'>";
 				echo T_sprintf("%d feeds", $line['count']);
