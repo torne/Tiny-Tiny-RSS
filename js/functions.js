@@ -1058,6 +1058,17 @@ function quickAddFilter() {
 			href: query});
 
 		dialog.show();
+
+		var lh = dojo.connect(dialog, "onLoad",
+				function() {
+					dojo.disconnect(lh);
+					var title = $("PTITLE-FULL-" + active_post_id);
+
+					if (title) {
+						$("filterDlg_regExp").value = title.innerHTML;
+					}
+			});
+
 	} catch (e) {
 		exception_error("quickAddFilter", e);
 	}

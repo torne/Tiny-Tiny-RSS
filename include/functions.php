@@ -3350,6 +3350,9 @@
 			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 
+			$rv['content'] .= "<div id=\"PTITLE-FULL-$id\" style=\"display : none\">" .
+				strip_tags($line['title']) . "</div>";
+
 			$rv['content'] .= "<div class=\"postReply\" id=\"POST-$id\">";
 
 			$rv['content'] .= "<div onclick=\"return postClicked(event, $id)\"
