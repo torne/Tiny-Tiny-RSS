@@ -545,6 +545,9 @@ class Feeds extends Protected_Handler {
 
 					$reply['content'] .= "</div>";
 
+					$reply['content'] .= "<div id=\"PTITLE-FULL-$id\" style=\"display : none\">" .
+						strip_tags($line['title']) . "</div>";
+
 					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
