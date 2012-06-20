@@ -38,7 +38,7 @@ class Pref_Filters extends Protected_Handler {
 
 		print __("Articles matching this filter:");
 
-		print "<div class=\"inactiveFeedHolder\">";
+		print "<div class=\"filterTestHolder\">";
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
 		if ($regexp_valid) {
