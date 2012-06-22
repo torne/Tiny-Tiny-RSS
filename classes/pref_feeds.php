@@ -1192,7 +1192,7 @@ class Pref_Feeds extends Protected_Handler {
 
 		print "</div>";
 
-		$result = db_query($this->link, "SELECT c.title, c.id,COUNT(f.*) AS count
+		$result = db_query($this->link, "SELECT c.title, c.id,COUNT(f.id) AS count
 			FROM ttrss_feed_categories AS c LEFT JOIN ttrss_feeds AS f ON
 				(f.cat_id = c.id)
 			WHERE c.owner_uid = ".$_SESSION["uid"]."
