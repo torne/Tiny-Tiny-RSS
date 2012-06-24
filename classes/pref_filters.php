@@ -527,7 +527,7 @@ class Pref_Filters extends Protected_Handler {
 				VALUES
 					('$regexp', '$filter_type','".$_SESSION["uid"]."',
 					$feed_id, '$action_id', '$action_param', $inverse,
-					'$filter_param', $cat_id, '$cat_filter')");
+					'$filter_param', $cat_id, $cat_filter)");
 
 			if (db_affected_rows($this->link, $result) != 0) {
 				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
