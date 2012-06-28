@@ -14,6 +14,14 @@
 	require_once "version.php";
 	require_once "config.php";
 	require_once "db-prefs.php";
+	require_once "lib/Mobile_Detect.php";
+
+	$mobile = new Mobile_Detect();
+
+	if ($mobile->isMobile() && !$mobile->isTablet() && !$_REQUEST['mobile']) {
+		header('Location: mobile/index.php');
+		exit;
+	}
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
