@@ -45,7 +45,10 @@ function do_login() {
 		</div>
 
 		</fieldset>
-	
+
+		<div align='center'><a target='_self' href='<?php echo get_self_url_prefix() ?>/index.php?mobile=false'>
+			<?php echo __("Open regular version") ?></a>
+
 	</form>
 
 </body>

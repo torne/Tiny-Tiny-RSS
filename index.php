@@ -18,9 +18,14 @@
 
 	$mobile = new Mobile_Detect();
 
-	if ($mobile->isMobile() && !$mobile->isTablet() && !$_REQUEST['mobile']) {
-		header('Location: mobile/index.php');
-		exit;
+	if (!$_REQUEST['mobile']) {
+		if ($mobile->isTablet()) {
+			header('Location: digest.php');
+			exit;
+		} else if ($mobile->isMobile()) {
+			header('Location: mobile/index.php');
+			exit;
+		}
 	}
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);

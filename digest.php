@@ -1,5 +1,5 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	require_once "functions.php";
@@ -72,8 +72,11 @@
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
 	<?php if (!SINGLE_USER_MODE) { ?>
-			<a href="backend.php?op=logout"><?php echo __('Logout') ?></a>
+			<a href="backend.php?op=logout"><?php echo __('Logout') ?></a> |
 	<?php } ?>
+			<a href='<?php echo get_self_url_prefix() ?>/index.php?mobile=false'>
+			<?php echo __("Regular version") ?></a>
+
 	</div>
 
 	<span class="title">Tiny Tiny RSS</span>

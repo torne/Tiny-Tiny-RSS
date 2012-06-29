@@ -824,8 +824,12 @@ function importData() {
 
 
 function updateFilterList() {
+	var user_search = $("filter_search");
+	var search = "";
+	if (user_search) { search = user_search.value; }
+
 	new Ajax.Request("backend.php",	{
-		parameters: "?op=pref-filters",
+		parameters: "?op=pref-filters&search=" + param_escape(search),
 		onComplete: function(transport) {
 			dijit.byId('filterConfigTab').attr('content', transport.responseText);
 			notify("");
