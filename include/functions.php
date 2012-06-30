@@ -2850,7 +2850,7 @@
 
 		$result = db_query($link, "SELECT ttrss_entries.title,
 				ttrss_feeds.title AS feed_title,
-				ttrss_feed_categories.title AS cat_title,
+				COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS cat_title,
 				date_updated,
 				ttrss_user_entries.ref_id,
 				link,
@@ -2897,8 +2897,6 @@
 			} */
 
 			if (get_pref($link, 'ENABLE_FEED_CATS', $user_id)) {
-				if (!$line['cat_title']) $line['cat_title'] = __("Uncategorized");
-
 				$line['feed_title'] = $line['cat_title'] . " / " . $line['feed_title'];
 			}
 

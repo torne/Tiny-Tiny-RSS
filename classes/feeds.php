@@ -869,7 +869,7 @@ class Feeds extends Protected_Handler {
 		$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
 			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 			cat_id,last_error,
-			ttrss_feed_categories.title AS category,
+			COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS category,
 			ttrss_feed_categories.collapsed,
 			value AS unread
 			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
@@ -905,7 +905,6 @@ class Feeds extends Protected_Handler {
 
 				$cat_id = $line["cat_id"];
 				$tmp_category = $line["category"];
-				if (!$tmp_category) $tmp_category = __("Uncategorized");
 
 				if ($category != $tmp_category && $enable_cats) {
 
