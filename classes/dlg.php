@@ -2,8 +2,8 @@
 class Dlg extends Protected_Handler {
 	private $param;
 
-	function before() {
-		if (parent::before()) {
+	function before($method) {
+		if (parent::before($method)) {
 			header("Content-Type: text/xml; charset=utf-8");
 			$this->param = db_escape_string($_REQUEST["param"]);
 			print "<dlg>";

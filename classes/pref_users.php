@@ -1,7 +1,7 @@
 <?php
 class Pref_Users extends Protected_Handler {
-		function before() {
-			if (parent::before()) {
+		function before($method) {
+			if (parent::before($method)) {
 				if ($_SESSION["access_level"] < 10) {
 					print __("Your access level is insufficient to open this tab.");
 					return false;

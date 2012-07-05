@@ -12,7 +12,7 @@ class Handler {
 		return true;
 	}
 
-	function before() {
+	function before($method) {
 		return true;
 	}
 
