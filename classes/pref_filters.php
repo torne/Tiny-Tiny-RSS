@@ -402,10 +402,6 @@ class Pref_Filters extends Protected_Handler {
 
 	function editSave() {
 
-		global $memcache;
-
-		if ($memcache) $memcache->flush();
-
 		$savemode = db_escape_string($_REQUEST["savemode"]);
 		$reg_exp = db_escape_string(trim($_REQUEST["reg_exp"]));
 		$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
@@ -476,8 +472,6 @@ class Pref_Filters extends Protected_Handler {
 
 	function remove() {
 
-		if ($memcache) $memcache->flush();
-
 		$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
@@ -486,8 +480,6 @@ class Pref_Filters extends Protected_Handler {
 	}
 
 	function add() {
-
-		if ($memcache) $memcache->flush();
 
 		$savemode = db_escape_string($_REQUEST["savemode"]);
 		$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));

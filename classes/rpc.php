@@ -360,7 +360,6 @@ class RPC extends Protected_Handler {
 	}
 
 	function setArticleTags() {
-		global $memcache;
 
 		$id = db_escape_string($_REQUEST["id"]);
 
@@ -413,11 +412,6 @@ class RPC extends Protected_Handler {
 		}
 
 		db_query($this->link, "COMMIT");
-
-		if ($memcache) {
-			$obj_id = md5("TAGS:".$_SESSION["uid"].":$id");
-			$memcache->delete($obj_id);
-		}
 
 		$tags = get_article_tags($this->link, $id);
 		$tags_str = format_tags_string($tags, $id);

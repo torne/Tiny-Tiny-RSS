@@ -83,11 +83,6 @@
 
 	startup_gettext();
 
-	if (defined('MEMCACHE_SERVER')) {
-		$memcache = new Memcache;
-		$memcache->connect(MEMCACHE_SERVER, 11211);
-	}
-
 	require_once 'db-prefs.php';
 	require_once 'version.php';
 
@@ -3079,8 +3074,6 @@
 
 	function get_article_tags($link, $id, $owner_uid = 0, $tag_cache = false) {
 
-		global $memcache;
-
 		$a_id = db_escape_string($id);
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
@@ -3093,40 +3086,34 @@
 		$obj_id = md5("TAGS:$owner_uid:$id");
 		$tags = array();
 
-		if ($memcache && $obj = $memcache->get($obj_id)) {
-			$tags = $obj;
+		/* check cache first */
+
+		if ($tag_cache === false) {
+			$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
+				WHERE ref_id = '$id' AND owner_uid = $owner_uid");
+
+			$tag_cache = db_fetch_result($result, 0, "tag_cache");
+		}
+
+		if ($tag_cache) {
+			$tags = explode(",", $tag_cache);
 		} else {
-			/* check cache first */
 
-			if ($tag_cache === false) {
-				$result = db_query($link, "SELECT tag_cache FROM ttrss_user_entries
-					WHERE ref_id = '$id' AND owner_uid = $owner_uid");
+			/* do it the hard way */
 
-				$tag_cache = db_fetch_result($result, 0, "tag_cache");
+			$tmp_result = db_query($link, $query);
+
+			while ($tmp_line = db_fetch_assoc($tmp_result)) {
+				array_push($tags, $tmp_line["tag_name"]);
 			}
 
-			if ($tag_cache) {
-				$tags = explode(",", $tag_cache);
-			} else {
+			/* update the cache */
 
-				/* do it the hard way */
+			$tags_str = db_escape_string(join(",", $tags));
 
-				$tmp_result = db_query($link, $query);
-
-				while ($tmp_line = db_fetch_assoc($tmp_result)) {
-					array_push($tags, $tmp_line["tag_name"]);
-				}
-
-				/* update the cache */
-
-				$tags_str = db_escape_string(join(",", $tags));
-
-				db_query($link, "UPDATE ttrss_user_entries
-					SET tag_cache = '$tags_str' WHERE ref_id = '$id'
-					AND owner_uid = $owner_uid");
-			}
-
-			if ($memcache) $memcache->add($obj_id, $tags, 0, 3600);
+			db_query($link, "UPDATE ttrss_user_entries
+				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
+				AND owner_uid = $owner_uid");
 		}
 
 		return $tags;
@@ -3590,55 +3577,44 @@
 	function load_filters($link, $feed, $owner_uid, $action_id = false) {
 		$filters = array();
 
-		global $memcache;
 
-		$obj_id = md5("FILTER:$feed:$owner_uid:$action_id");
+		if ($action_id) $ftype_query_part = "action_id = '$action_id' AND";
 
-		if ($memcache && $obj = $memcache->get($obj_id)) {
+		$result = db_query($link, "SELECT reg_exp,
+			ttrss_filter_types.name AS name,
+			ttrss_filter_actions.name AS action,
+			inverse,
+			action_param,
+			filter_param
+			FROM ttrss_filters
+				LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = '$feed'),
+				ttrss_filter_types,ttrss_filter_actions
+			WHERE
+				enabled = true AND
+				$ftype_query_part
+				ttrss_filters.owner_uid = $owner_uid AND
+				ttrss_filter_types.id = filter_type AND
+				ttrss_filter_actions.id = action_id AND
+				((cat_filter = true AND ttrss_feeds.cat_id = ttrss_filters.cat_id) OR
+				(cat_filter = true AND ttrss_feeds.cat_id IS NULL AND
+					ttrss_filters.cat_id IS NULL) OR
+				(cat_filter = false AND (feed_id IS NULL OR feed_id = '$feed')))
+			ORDER BY reg_exp");
 
-			return $obj;
+		while ($line = db_fetch_assoc($result)) {
 
-		} else {
+			if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
+				$filter["reg_exp"] = $line["reg_exp"];
+				$filter["action"] = $line["action"];
+				$filter["action_param"] = $line["action_param"];
+				$filter["filter_param"] = $line["filter_param"];
+				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
 
-			if ($action_id) $ftype_query_part = "action_id = '$action_id' AND";
+				array_push($filters[$line["name"]], $filter);
+			}
 
-			$result = db_query($link, "SELECT reg_exp,
-				ttrss_filter_types.name AS name,
-				ttrss_filter_actions.name AS action,
-				inverse,
-				action_param,
-				filter_param
-				FROM ttrss_filters
-					LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = '$feed'),
-					ttrss_filter_types,ttrss_filter_actions
-				WHERE
-					enabled = true AND
-					$ftype_query_part
-					ttrss_filters.owner_uid = $owner_uid AND
-					ttrss_filter_types.id = filter_type AND
-					ttrss_filter_actions.id = action_id AND
-					((cat_filter = true AND ttrss_feeds.cat_id = ttrss_filters.cat_id) OR
-					(cat_filter = true AND ttrss_feeds.cat_id IS NULL AND
-						ttrss_filters.cat_id IS NULL) OR
-					(cat_filter = false AND (feed_id IS NULL OR feed_id = '$feed')))
-				ORDER BY reg_exp");
 
-			while ($line = db_fetch_assoc($result)) {
-
-				if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-					$filter["reg_exp"] = $line["reg_exp"];
-					$filter["action"] = $line["action"];
-					$filter["action_param"] = $line["action_param"];
-					$filter["filter_param"] = $line["filter_param"];
-					$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
-
-					array_push($filters[$line["name"]], $filter);
-				}
-
-			if ($memcache) $memcache->add($obj_id, $filters, 0, 3600*8);
-
-			return $filters;
-		}
+		return $filters;
 	}
 
 	function get_score_pic($score) {
@@ -3915,52 +3891,43 @@
 	}
 
 	function get_article_labels($link, $id) {
-		global $memcache;
-
-		$obj_id = md5("LABELS:$id:" . $_SESSION["uid"]);
-
 		$rv = array();
 
-		if ($memcache && $obj = $memcache->get($obj_id)) {
-			return $obj;
-		} else {
 
-			$result = db_query($link, "SELECT label_cache FROM
-				ttrss_user_entries WHERE ref_id = '$id' AND owner_uid = " .
-				$_SESSION["uid"]);
+		$result = db_query($link, "SELECT label_cache FROM
+			ttrss_user_entries WHERE ref_id = '$id' AND owner_uid = " .
+			$_SESSION["uid"]);
 
-			$label_cache = db_fetch_result($result, 0, "label_cache");
+		$label_cache = db_fetch_result($result, 0, "label_cache");
 
-			if ($label_cache) {
+		if ($label_cache) {
 
-				$label_cache = json_decode($label_cache, true);
+			$label_cache = json_decode($label_cache, true);
 
-				if ($label_cache["no-labels"] == 1)
-					return $rv;
-				else
-					return $label_cache;
-			}
-
-			$result = db_query($link,
-				"SELECT DISTINCT label_id,caption,fg_color,bg_color
-					FROM ttrss_labels2, ttrss_user_labels2
-				WHERE id = label_id
-					AND article_id = '$id'
-					AND owner_uid = ".$_SESSION["uid"] . "
-				ORDER BY caption");
-
-			while ($line = db_fetch_assoc($result)) {
-				$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
-					$line["bg_color"]);
-				array_push($rv, $rk);
-			}
-			if ($memcache) $memcache->add($obj_id, $rv, 0, 3600);
-
-			if (count($rv) > 0)
-				label_update_cache($link, $id, $rv);
+			if ($label_cache["no-labels"] == 1)
+				return $rv;
 			else
-				label_update_cache($link, $id, array("no-labels" => 1));
+				return $label_cache;
 		}
+
+		$result = db_query($link,
+			"SELECT DISTINCT label_id,caption,fg_color,bg_color
+				FROM ttrss_labels2, ttrss_user_labels2
+			WHERE id = label_id
+				AND article_id = '$id'
+				AND owner_uid = ".$_SESSION["uid"] . "
+			ORDER BY caption");
+
+		while ($line = db_fetch_assoc($result)) {
+			$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
+				$line["bg_color"]);
+			array_push($rv, $rk);
+		}
+
+		if (count($rv) > 0)
+			label_update_cache($link, $id, $rv);
+		else
+			label_update_cache($link, $id, array("no-labels" => 1));
 
 		return $rv;
 	}
@@ -4017,13 +3984,6 @@
 
 	function label_add_article($link, $id, $label, $owner_uid) {
 
-		global $memcache;
-
-		if ($memcache) {
-			$obj_id = md5("LABELS:$id:$owner_uid");
-			$memcache->delete($obj_id);
-		}
-
 		$label_id = label_find_id($link, $label, $owner_uid);
 
 		if (!$label_id) return;
@@ -4047,14 +4007,7 @@
 	}
 
 	function label_remove($link, $id, $owner_uid) {
-		global $memcache;
-
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
-
-		if ($memcache) {
-			$obj_id = md5("LABELS:$id:$owner_uid");
-			$memcache->delete($obj_id);
-		}
 
 		db_query($link, "BEGIN");
 
@@ -4375,25 +4328,16 @@
 
 	function get_article_enclosures($link, $id) {
 
-		global $memcache;
-
 		$query = "SELECT * FROM ttrss_enclosures
 			WHERE post_id = '$id' AND content_url != ''";
 
-		$obj_id = md5("ENCLOSURES:$id");
-
 		$rv = array();
 
-		if ($memcache && $obj = $memcache->get($obj_id)) {
-			$rv = $obj;
-		} else {
-			$result = db_query($link, $query);
+		$result = db_query($link, $query);
 
-			if (db_num_rows($result) > 0) {
-				while ($line = db_fetch_assoc($result)) {
-					array_push($rv, $line);
-				}
-				if ($memcache) $memcache->add($obj_id, $rv, 0, 3600);
+		if (db_num_rows($result) > 0) {
+			while ($line = db_fetch_assoc($result)) {
+				array_push($rv, $line);
 			}
 		}
 
