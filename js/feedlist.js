@@ -562,6 +562,9 @@ function decrementFeedCounter(feed, is_cat) {
 			}
 		}
 
+		cache_headlines(feed, is_cat,
+			$("headlines-toolbar").innerHTML, $("headlines-frame").innerHTML);
+
 	} catch (e) {
 		exception_error("decrement_feed_counter", e);
 	}
