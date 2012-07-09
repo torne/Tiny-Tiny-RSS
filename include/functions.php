@@ -3436,12 +3436,12 @@
 
 			// N-grams
 
-			if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
+			if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_RELATED_THRESHOLD')) {
 
 				$ngram_result = db_query($link, "SELECT id,title FROM
 						ttrss_entries,ttrss_user_entries
 					WHERE ref_id = id AND updated >= NOW() - INTERVAL '7 day'
-						AND similarity(title, '$title_escaped') >= "._NGRAM_TITLE_DUPLICATE_THRESHOLD."
+						AND similarity(title, '$title_escaped') >= "._NGRAM_TITLE_RELATED_THRESHOLD."
 						AND title != '$title_escaped'
 						AND owner_uid = $owner_uid");
 
