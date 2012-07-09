@@ -562,8 +562,7 @@ function decrementFeedCounter(feed, is_cat) {
 			}
 		}
 
-		cache_headlines(feed, is_cat,
-			$("headlines-toolbar").innerHTML, $("headlines-frame").innerHTML);
+		cache_delete("feed:" + feed + ":" + is_cat);
 
 	} catch (e) {
 		exception_error("decrement_feed_counter", e);
