@@ -3302,7 +3302,7 @@
 					</head><body>";
 			}
 
-			$rv['title'] = $line['title'];
+			$title_escaped = db_escape_string($line['title']);
 
 			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
@@ -3433,6 +3433,31 @@
 				$feed_icon . "</a></div>";
 
 			$rv['content'] .= "<div class=\"postContent\">";
+
+			// N-grams
+
+			if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
+
+				$ngram_result = db_query($link, "SELECT id,title FROM
+						ttrss_entries,ttrss_user_entries
+					WHERE ref_id = id AND updated >= NOW() - INTERVAL '7 day'
+						AND similarity(title, '$title_escaped') >= "._NGRAM_TITLE_DUPLICATE_THRESHOLD."
+						AND title != '$title_escaped'
+						AND owner_uid = $owner_uid");
+
+				if (db_num_rows($ngram_result) > 0) {
+					$rv['content'] .= "<div dojoType=\"dijit.form.DropDownButton\">".
+						"<span>" . __('Related')."</span>";
+					$rv['content'] .= "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+
+					while ($nline = db_fetch_assoc($ngram_result)) {
+						$rv['content'] .= "<div onclick=\"hlOpenInNewTab(null,".$nline['id'].")\"
+							dojoType=\"dijit.MenuItem\">".$nline['title']."</div>";
+
+					}
+					$rv['content'] .= "</div></div><br/";
+				}
+			}
 
 			$article_content = sanitize($link, $line["content"], false, $owner_uid,
 				$feed_site_url);
