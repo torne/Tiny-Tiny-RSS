@@ -178,11 +178,6 @@
 	define('CHECK_FOR_NEW_VERSION', true);
 	// Check for new versions of tt-rss automatically.
 
-	define('COUNTERS_MAX_AGE', 365);
-	// Hard limit for unread counters calculation. Try tweaking this
-	// parameter to speed up tt-rss when having a huge number of articles
-	// in the database (better yet, enable purging!)
-
 	define('ENABLE_GZIP_OUTPUT', false);
 	// Selectively gzip output to improve wire performance. This requires
 	// PHP Zlib extension on the server.

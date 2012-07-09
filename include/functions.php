@@ -1494,8 +1494,6 @@
 
 		array_push($ret_arr, $cv);
 
-		$age_qpart = getMaxAgeSubquery();
-
 		$result = db_query($link, "SELECT id AS cat_id, value AS unread
 			FROM ttrss_feed_categories, ttrss_cat_counters_cache
 			WHERE ttrss_cat_counters_cache.feed_id = id AND
@@ -1532,8 +1530,6 @@
 				$cat_query = "cat_id IS NULL";
 			}
 
-			$age_qpart = getMaxAgeSubquery();
-
 			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE $cat_query
 					AND owner_uid = " . $owner_uid);
 
@@ -1547,9 +1543,9 @@
 			$match_part = implode(" OR ", $cat_feeds);
 
 			$result = db_query($link, "SELECT COUNT(int_id) AS unread
-				FROM ttrss_user_entries,ttrss_entries
-				WHERE	unread = true AND ($match_part) AND id = ref_id
-				AND $age_qpart AND owner_uid = " . $owner_uid);
+				FROM ttrss_user_entries
+				WHERE	unread = true AND ($match_part)
+				AND owner_uid = " . $owner_uid);
 
 			$unread = 0;
 
@@ -1565,26 +1561,14 @@
 
 			$result = db_query($link, "
 				SELECT COUNT(unread) AS unread FROM
-					ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds
-				WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND
-					ttrss_labels2.owner_uid = '$owner_uid'
-					AND unread = true AND feed_id = ttrss_feeds.id
+					ttrss_user_entries, ttrss_user_labels2
+				WHERE article_id = ref_id AND unread = true
 					AND ttrss_user_entries.owner_uid = '$owner_uid'");
 
 			$unread = db_fetch_result($result, 0, "unread");
 
 			return $unread;
 
-		}
-	}
-
-	function getMaxAgeSubquery($days = COUNTERS_MAX_AGE) {
-		if (DB_TYPE == "pgsql") {
-			return "ttrss_entries.date_updated >
-				NOW() - INTERVAL '$days days'";
-		} else {
-			return "ttrss_entries.date_updated >
-				DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
 	}
 
@@ -1595,13 +1579,8 @@
 	function getLabelUnread($link, $label_id, $owner_uid = false) {
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
-		$result = db_query($link, "
-			SELECT COUNT(unread) AS unread FROM
-				ttrss_user_entries, ttrss_labels2, ttrss_user_labels2, ttrss_feeds
-			WHERE label_id = ttrss_labels2.id AND article_id = ref_id AND
-				ttrss_labels2.owner_uid = '$owner_uid' AND ttrss_labels2.id = '$label_id'
-				AND unread = true AND feed_id = ttrss_feeds.id
-				AND ttrss_user_entries.owner_uid = '$owner_uid'");
+		$result = "SELECT COUNT(ref_id) FROM ttrss_user_entries, ttrss_user_labels2
+			WHERE owner_uid = '$owner_uid' AND unread = true AND label_id = '$label_id' AND article_id = ref_id";
 
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "unread");
@@ -1614,6 +1593,7 @@
 		$owner_uid = false) {
 
 		$n_feed = (int) $feed;
+		$need_entries = false;
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -1623,8 +1603,6 @@
 			$unread_qpart = "true";
 		}
 
-		$age_qpart = getMaxAgeSubquery();
-
 		if ($is_cat) {
 			return getCategoryUnread($link, $n_feed, $owner_uid);
 		} if ($feed != "0" && $n_feed == 0) {
@@ -1633,8 +1611,7 @@
 
 			$result = db_query($link, "SELECT SUM((SELECT COUNT(int_id)
 				FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id
-					AND ref_id = id AND $age_qpart
-					AND $unread_qpart)) AS count FROM ttrss_tags
+					AND ref_id = id AND $unread_qpart)) AS count FROM ttrss_tags
 				WHERE owner_uid = $owner_uid AND tag_name = '$feed'");
 			return db_fetch_result($result, 0, "count");
 
@@ -1652,6 +1629,9 @@
 			} else {
 				$match_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 			}
+
+			$need_entries = true;
+
 		} else if ($n_feed == -4) {
 			$match_part = "true";
 		} else if ($n_feed >= 0) {
@@ -1672,20 +1652,18 @@
 
 		if ($match_part) {
 
-			if ($n_feed != 0) {
-				$from_qpart = "ttrss_user_entries,ttrss_feeds,ttrss_entries";
-				$feeds_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
-			} else {
+			if ($need_entries) {
 				$from_qpart = "ttrss_user_entries,ttrss_entries";
-				$feeds_qpart = '';
+				$from_where = "ttrss_entries.id = ttrss_user_entries.ref_id AND";
+			} else {
+				$from_qpart = "ttrss_user_entries";
 			}
 
 			$query = "SELECT count(int_id) AS unread
 				FROM $from_qpart WHERE
-				ttrss_user_entries.ref_id = ttrss_entries.id AND
-				$age_qpart AND
-				$feeds_qpart
-				$unread_qpart AND ($match_part) AND ttrss_user_entries.owner_uid = $owner_uid";
+				$unread_qpart AND $from_where ($match_part) AND ttrss_user_entries.owner_uid = $owner_uid";
+
+			//echo "[$feed/$query]\n";
 
 			$result = db_query($link, $query);
 
@@ -1694,8 +1672,7 @@
 			$result = db_query($link, "SELECT COUNT(post_int_id) AS unread
 				FROM ttrss_tags,ttrss_user_entries,ttrss_entries
 				WHERE tag_name = '$feed' AND post_int_id = int_id AND ref_id = ttrss_entries.id
-				AND $unread_qpart AND $age_qpart AND
-					ttrss_tags.owner_uid = " . $owner_uid);
+				AND $unread_qpart AND ttrss_tags.owner_uid = " . $owner_uid);
 		}
 
 		$unread = db_fetch_result($result, 0, "unread");
@@ -1746,12 +1723,9 @@
 
 		$ret_arr = array();
 
-		$age_qpart = getMaxAgeSubquery();
-
 		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id)
 			FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id
-				AND ref_id = id AND $age_qpart
-				AND unread = true)) AS count FROM ttrss_tags
+				AND ref_id = id AND unread = true)) AS count FROM ttrss_tags
 				WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name
 				ORDER BY count DESC LIMIT 55");
 
@@ -1799,8 +1773,6 @@
 
 		$ret_arr = array();
 
-		$age_qpart = getMaxAgeSubquery();
-
 		$owner_uid = $_SESSION["uid"];
 
 		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
@@ -1831,8 +1803,6 @@
 	function getFeedCounters($link, $active_feed = false) {
 
 		$ret_arr = array();
-
-		$age_qpart = getMaxAgeSubquery();
 
 		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,

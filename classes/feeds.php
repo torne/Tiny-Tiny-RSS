@@ -864,8 +864,6 @@ class Feeds extends Protected_Handler {
 		else
 			$order_by_qpart = "title";
 
-		$age_qpart = getMaxAgeSubquery();
-
 		$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
 			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
 			cat_id,last_error,
