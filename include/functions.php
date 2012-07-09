@@ -3302,6 +3302,8 @@
 					</head><body>";
 			}
 
+			$rv['title'] = $line['title'];
+
 			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
 

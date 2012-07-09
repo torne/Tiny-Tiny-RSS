@@ -979,6 +979,27 @@
 							$published = 'false';
 						}
 
+						// N-grams
+
+						if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
+
+							$result = db_query($link, "SELECT COUNT(*) AS similar FROM
+									ttrss_entries,ttrss_user_entries
+								WHERE ref_id = id AND updated >= NOW() - INTERVAL '7 day'
+									AND similarity(title, '$entry_title') >= "._NGRAM_TITLE_DUPLICATE_THRESHOLD."
+									AND owner_uid = $owner_uid");
+
+							$ngram_similar = db_fetch_result($result, 0, "similar");
+
+							if ($debug_enabled) {
+								_debug("update_rss_feed: N-gram similar results: $ngram_similar");
+							}
+
+							if ($ngram_similar > 0) {
+								$unread = 'false';
+							}
+						}
+
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries
 								(ref_id, owner_uid, feed_id, unread, last_read, marked,
