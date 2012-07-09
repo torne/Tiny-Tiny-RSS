@@ -1579,8 +1579,8 @@
 	function getLabelUnread($link, $label_id, $owner_uid = false) {
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
-		$result = "SELECT COUNT(ref_id) FROM ttrss_user_entries, ttrss_user_labels2
-			WHERE owner_uid = '$owner_uid' AND unread = true AND label_id = '$label_id' AND article_id = ref_id";
+		$result = db_query($link, "SELECT COUNT(ref_id) AS unread FROM ttrss_user_entries, ttrss_user_labels2
+			WHERE owner_uid = '$owner_uid' AND unread = true AND label_id = '$label_id' AND article_id = ref_id");
 
 		if (db_num_rows($result) != 0) {
 			return db_fetch_result($result, 0, "unread");
