@@ -4718,12 +4718,15 @@
 
 				if (!$ctype) $ctype = __("unknown type");
 
-#				$filename = substr($url, strrpos($url, "/")+1);
+				$filename = substr($url, strrpos($url, "/")+1);
 
-				$entry = format_inline_player($link, $url, $ctype);
+#				$player = format_inline_player($link, $url, $ctype);
 
 #				$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 #					$filename . " (" . $ctype . ")" . "</a>";
+
+				$entry = "<div onclick=\"window.open('".htmlspecialchars($url)."')\"
+					dojoType=\"dijit.MenuItem\">$filename ($ctype)</div>";
 
 				array_push($entries_html, $entry);
 
@@ -4735,8 +4738,6 @@
 
 				array_push($entries, $entry);
 			}
-
-			$rv .= "<div class=\"postEnclosures\">";
 
 			if (!get_pref($link, "STRIP_IMAGES")) {
 				if ($always_display_enclosures ||
@@ -4750,20 +4751,19 @@
 								$rv .= "<p><img
 								alt=\"".htmlspecialchars($entry["filename"])."\"
 								src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+
 						}
 					}
 				}
 			}
 
-			if (count($entries) == 1) {
-				$rv .= __("Attachment:") . " ";
-			} else {
-				$rv .= __("Attachments:") . " ";
-			}
+			$rv .= "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Attachments')."</span>";
+			$rv .= "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
 
-			$rv .= join(", ", $entries_html);
+			foreach ($entries_html as $entry) { $rv .= $entry; };
 
-			$rv .= "</div>";
+			$rv .= "</div></div>";
 		}
 
 		return $rv;
