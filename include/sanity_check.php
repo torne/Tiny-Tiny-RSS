@@ -164,7 +164,7 @@
 				echo " * $error\n";
 			}
 
-			echo "\nYou might want to check tt-rss wik or the forums for more information.\n";
+			echo "\nYou might want to check tt-rss wiki or the forums for more information.\n";
 			echo "Please search the forums before creating new topic for your question.\n";
 
 			exit(-1);
