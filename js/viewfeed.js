@@ -2083,7 +2083,7 @@ function precache_headlines() {
 				if (nuf && !cache_get("feed:" + nuf + ":" + activeFeedIsCat()))
 					viewfeed(nuf, '', activeFeedIsCat(), 0, true);
 
-				if (nf != nuf && nf && !cache_get("feed:" + nf[0] + ":" + nf[1]))
+				if (nf && nf[0] != nuf && !cache_get("feed:" + nf[0] + ":" + nf[1]))
 					viewfeed(nf[0], '', nf[1], 0, true);
 
 				window.setTimeout(function() {
