@@ -175,6 +175,9 @@ create table ttrss_user_entries (
 	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
+create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
+create index ttrss_user_entries_feed_id on ttrss_user_entries(feed_id);
 create index ttrss_user_entries_unread_idx on ttrss_user_entries(unread);
 
 create table ttrss_entry_comments (id integer not null primary key,
