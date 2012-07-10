@@ -39,7 +39,6 @@
 
 	require_once "functions.php";
 	require_once "sessions.php";
-	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
@@ -125,12 +124,12 @@
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
-	$error = sanity_check($link);
+	#$error = sanity_check($link);
 
-	if ($error['code'] != 0 && $op != "logout") {
-		print json_encode(array("error" => $error));
-		return;
-	}
+	#if ($error['code'] != 0 && $op != "logout") {
+	#	print json_encode(array("error" => $error));
+	#	return;
+	#}
 
 	function __autoload($class) {
 		$file = "classes/".strtolower(basename($class)).".php";

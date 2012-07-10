@@ -1,6 +1,4 @@
 <?php
-	require_once "functions.php";
-
 	function initial_sanity_check($link) {
 
 		$errors = array();
@@ -9,10 +7,6 @@
 			array_push($errors, "Configuration file not found. Looks like you forgot to copy config.php-dist to config.php and edit it.");
 		} else {
 
-			define('EXPECTED_CONFIG_VERSION', 25);
-			define('SCHEMA_VERSION', 92);
-
-			require_once "config.php";
 			require_once "sanity_config.php";
 
 			if (function_exists('posix_getuid') && posix_getuid() == 0) {
@@ -20,7 +14,7 @@
 			}
 
 			if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
-				$array_push($errors, "Configuration file (config.php) has incorrect version. Update it with new options from config.php-dist and set CONFIG_VERSION to the correct value.");
+				array_push($errors, "Configuration file (config.php) has incorrect version. Update it with new options from config.php-dist and set CONFIG_VERSION to the correct value.");
 			}
 
 			$purifier_cache_dir = CACHE_DIR . "/htmlpurifier";

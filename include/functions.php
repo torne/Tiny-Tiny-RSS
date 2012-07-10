@@ -1,4 +1,7 @@
 <?php
+	define('EXPECTED_CONFIG_VERSION', 25);
+	define('SCHEMA_VERSION', 92);
+
 	date_default_timezone_set('UTC');
 	if (defined('E_DEPRECATED')) {
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
