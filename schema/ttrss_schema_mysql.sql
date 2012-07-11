@@ -309,6 +309,8 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	index(section_id),
 	foreign key (section_id) references ttrss_prefs_sections(id)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+create index ttrss_prefs_pref_name_idx on ttrss_prefs(pref_name);
+
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge old posts after this number of days (0 - disables)',1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates',1);
@@ -411,6 +413,9 @@ create table ttrss_user_prefs (
  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	index (pref_name),
 	foreign key (pref_name) references ttrss_prefs(pref_name) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
+create index ttrss_user_prefs_pref_name_idx on ttrss_user_prefs(pref_name);
 
 create table ttrss_sessions (id varchar(250) unique not null primary key,
 	data text,
