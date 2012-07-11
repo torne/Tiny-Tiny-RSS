@@ -80,6 +80,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				dijit.byId("headlines-toolbar").attr('content',
 					reply['headlines']['toolbar']);
 
+				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
+					if ($$("#headlines-frame DIV[id="+row.id+"]").length > 1) {
+						row.parentNode.removeChild(row);
+					}
+				});
 
 				if (getInitParam("cdm_auto_catchup") == 1) {
 					var hsp = $("headlines-spacer");
