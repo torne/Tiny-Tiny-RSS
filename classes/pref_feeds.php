@@ -1008,7 +1008,7 @@ class Pref_Feeds extends Protected_Handler {
 					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 				</head>
 				<body>
-				<img class=\"floatingLogo\" src=\"images/ttrss_logo.png\"
+				<img class=\"floatingLogo\" src=\"images/logo_wide.png\"
 			  		alt=\"Tiny Tiny RSS\"/>
 				<h1>Subscribe to feed...</h1>";
 		}
