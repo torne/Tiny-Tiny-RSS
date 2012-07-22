@@ -4800,6 +4800,9 @@
 			return $rel_url;
 		} else if (strpos($rel_url, "://") !== false) {
 			return $rel_url;
+		} else if (strpos($rel_url, "//") === 0) {
+			# protocol-relative URL (rare but they exist)
+			return $rel_url;
 		} else if (strpos($rel_url, "/") === 0)
 		{
 			$parts = parse_url($url);
