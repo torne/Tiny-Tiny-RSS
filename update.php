@@ -17,9 +17,9 @@
 	if (!defined('PHP_EXECUTABLE'))
 		define('PHP_EXECUTABLE', '/usr/bin/php');
 
-	$op = $argv[1];
+	$op = $argv;
 
-	if (!$op || $op == "-help") {
+	if (count($argv) == 1 || in_array("-help", $op) ) {
 		print "Tiny Tiny RSS data update script.\n\n";
 		print "Options:\n";
 		print "  -feeds              - update feeds\n";
@@ -28,11 +28,14 @@
 		print "  -cleanup-tags       - perform tags table maintenance\n";
 		print "  -get-feeds          - receive popular feeds from linked instances\n";
 		print "  -import USER FILE   - import articles from XML\n";
+		print "  -quiet              - don't show messages\n";
 		print "  -help               - show this help\n";
 		return;
 	}
 
-	if ($op != "-daemon") {
+	define('QUIET', in_array("-quiet", $op));
+
+	if (!in_array("-daemon", $op)) {
 		$lock_filename = "update.lock";
 	} else {
 		$lock_filename = "update_daemon.lock";
@@ -52,7 +55,7 @@
 
 	init_connection($link);
 
-	if ($op == "-feeds") {
+	if (in_array("-feeds", $op)) {
 		// Update all feeds needing a update.
 		update_daemon_common($link);
 
@@ -69,20 +72,21 @@
 		get_linked_feeds($link);
 	}
 
-	if ($op == "-feedbrowser") {
+	if (in_array("-feedbrowser", $op)) {
 		$count = update_feedbrowser_cache($link);
 		print "Finished, $count feeds processed.\n";
 	}
 
-	if ($op == "-daemon") {
+	if (in_array("-daemon", $op)) {
+		$op = array_diff($op, array("-daemon"));
 		while (true) {
-			passthru(PHP_EXECUTABLE . " " . $argv[0] . " -daemon-loop");
+			passthru(PHP_EXECUTABLE . " " . implode(' ', $op) . " -daemon-loop");
 			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
 			sleep(DAEMON_SLEEP_INTERVAL);
 		}
 	}
 
-	if ($op == "-daemon-loop") {
+	if (in_array("-daemon-loop", $op)) {
 		if (!make_stampfile('update_daemon.stamp')) {
 			die("error: unable to create stampfile\n");
 		}
@@ -107,18 +111,18 @@
 
 	}
 
-	if ($op == "-cleanup-tags") {
+	if (in_array("-cleanup-tags", $op)) {
 		$rc = cleanup_tags($link, 14, 50000);
-		print "$rc tags deleted.\n";
+		_debug("$rc tags deleted.\n");
 	}
 
-	if ($op == "-get-feeds") {
+	if (in_array("-get-feeds", $op)) {
 		get_linked_feeds($link);
 	}
 
-	if ($op == "-import") {
-		$username = $argv[2];
-		$filename = $argv[3];
+	if (in_array("-import",$op)) {
+		$username = $argv[count($argv) - 2];
+		$filename = $argv[count($argv) - 1];
 
 		if (!$username) {
 			print "error: please specify username.\n";
@@ -130,7 +134,7 @@
 			return;
 		}
 
-		print "importing $filename for user $username...\n";
+		_debug("importing $filename for user $username...\n");
 
 		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$username'");
 

@@ -112,6 +112,9 @@
 	 * @return void
 	 */
 	function _debug($msg) {
+		if (defined('QUIET') && QUIET) {
+			return;
+		}
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
 			$ts = "$ts/" . posix_getpid();
