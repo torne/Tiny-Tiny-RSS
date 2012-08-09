@@ -5469,4 +5469,16 @@
 			return $output;
 		}
 	}
+
+	function read_stdin() {
+		$fp = fopen("php://stdin", "r");
+
+		if ($fp) {
+			$line = trim(fgets($fp));
+			fclose($fp);
+			return $line;
+		}
+
+		return null;
+	}
 ?>
