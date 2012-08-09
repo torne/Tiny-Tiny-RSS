@@ -1718,3 +1718,12 @@ function get_radio_checked(radioObj) {
 	}
 	return("");
 }
+
+function clamp_element(elem, height) {
+	if (elem && elem.offsetHeight > height) {
+		while (elem.offsetHeight > height)
+			elem.innerHTML = cp.innerHTML.substring(0, elem.innerHTML.length - 50);
+
+		elem.innerHTML += "&hellip;";
+	}
+}
