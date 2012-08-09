@@ -116,6 +116,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					$$("#headlines-tmp > div").each(function(row) {
 						if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
 							row.style.display = 'none';
+
 							c.domNode.appendChild(row);
 						} else {
 							row.parentNode.removeChild(row);
@@ -141,10 +142,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					$$("#headlines-frame > div[id*=RROW]").each(
 					function(child) {
 						if (!Element.visible(child)) {
-							new Effect.Appear(child, { duration : 0.5 });
+							//new Effect.Appear(child, { duration : 0.5 });
+							Element.show(child);
 
 							cp = child.getElementsByClassName("contentPreview")[0];
-
 							clamp_element(cp, 50);
 						}
 					});
