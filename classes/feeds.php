@@ -378,7 +378,8 @@ class Feeds extends Protected_Handler {
 				$updated_fmt = make_local_datetime($this->link, $line["updated_noms"], false);
 
 				if (get_pref($this->link, 'SHOW_CONTENT_PREVIEW')) {
-					$content_preview = strip_tags($line["content_preview"]);
+					$content_preview = truncate_string(strip_tags($line["content_preview"]),
+						100);
 				}
 
 				$score = $line["score"];
@@ -457,7 +458,7 @@ class Feeds extends Protected_Handler {
 					$reply['content'] .= "<a id=\"RTITLE-$id\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
 						onclick=\"\">" .
-						$line["title"];
+						truncate_string($line["title"], 200);
 
 					if (get_pref($this->link, 'SHOW_CONTENT_PREVIEW')) {
 						if ($content_preview) {

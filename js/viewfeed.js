@@ -81,10 +81,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					reply['headlines']['toolbar']);
 
 				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
-					cp = row.getElementsByClassName("contentPreview")[0];
-
-					clamp_element(cp, 50);
-
 					if ($$("#headlines-frame DIV[id="+row.id+"]").length > 1) {
 						row.parentNode.removeChild(row);
 					}
@@ -140,13 +136,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					$$("#headlines-frame > div[id*=RROW]").each(
 					function(child) {
-						if (!Element.visible(child)) {
+						if (!Element.visible(child))
 							new Effect.Appear(child, { duration : 0.5 });
-
-							cp = child.getElementsByClassName("contentPreview")[0];
-
-							clamp_element(cp, 50);
-						}
 					});
 
 				} else {
@@ -2055,12 +2046,6 @@ function render_local_headlines(feed, is_cat, obj) {
 		selectArticles('none');
 		setActiveFeedId(feed, is_cat);
 		initHeadlinesMenu();
-
-
-		$$("#headlines-frame > div[id*=RROW]").each(function(row) {
-			cp = row.getElementsByClassName("contentPreview")[0];
-			clamp_element(cp, 50);
-		});
 
 		precache_headlines();
 
