@@ -29,7 +29,7 @@
 		print "  -get-feeds          - receive popular feeds from linked instances\n";
 		print "  -import USER FILE   - import articles from XML\n";
 		print "  -quiet              - don't show messages\n";
-		print "	-indexes            - recreate missing schema indexes\n";
+		print "  -indexes            - recreate missing schema indexes\n";
 		print "  -help               - show this help\n";
 		return;
 	}
