@@ -20,12 +20,12 @@
 	define('PURGE_INTERVAL', 3600); // seconds
 	define('MAX_CHILD_RUNTIME', 600); // seconds
 
+	require_once "functions.php";
+	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "functions.php";
-	require_once "rssfuncs.php";
 	require_once "lib/magpierss/rss_fetch.inc";
 
 	define('MAX_JOBS', 2);
