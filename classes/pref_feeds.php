@@ -50,6 +50,7 @@ class Pref_Feeds extends Protected_Handler {
 			$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 			$cat['type'] = 'category';
 			$cat['unread'] = 0;
+			$cat['child_unread'] = 0;
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
@@ -167,6 +168,7 @@ class Pref_Feeds extends Protected_Handler {
 				$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 				$cat['type'] = 'category';
 				$cat['unread'] = 0;
+				$cat['child_unread'] = 0;
 
 				$cat['items'] = $this->get_category_items($line['id']);
 
@@ -189,6 +191,7 @@ class Pref_Feeds extends Protected_Handler {
 			$cat['type'] = 'category';
 			$cat['checkbox'] = false;
 			$cat['unread'] = 0;
+			$cat['child_unread'] = 0;
 
 			$feed_result = db_query($this->link, "SELECT id, title,last_error,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated

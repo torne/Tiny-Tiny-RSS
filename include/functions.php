@@ -1501,7 +1501,9 @@
 
 		array_push($ret_arr, $cv);
 
-		$result = db_query($link, "SELECT id AS cat_id, value AS unread
+		$result = db_query($link, "SELECT id AS cat_id, value AS unread,
+			(SELECT COUNT(id) FROM ttrss_feed_categories AS c2
+				WHERE c2.parent_cat = ttrss_feed_categories.id) AS num_children
 			FROM ttrss_feed_categories, ttrss_cat_counters_cache
 			WHERE ttrss_cat_counters_cache.feed_id = id AND
 			ttrss_feed_categories.owner_uid = " . $_SESSION["uid"]);
@@ -1509,7 +1511,14 @@
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = (int) $line["cat_id"];
 
+			if ($line["num_children"] > 0) {
+				$child_counter = getCategoryUnreadRecursive($link, $line["cat_id"], $_SESSION["uid"]);
+			} else {
+				$child_counter = 0;
+			}
+
 			$cv = array("id" => $line["cat_id"], "kind" => "cat",
+				"child_counter" => $child_counter,
 				"counter" => $line["unread"]);
 
 			array_push($ret_arr, $cv);
@@ -1523,6 +1532,23 @@
 		array_push($ret_arr, $cv);
 
 		return $ret_arr;
+	}
+
+	// only accepts real cats (>= 0)
+	function getCategoryUnreadRecursive($link, $cat, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE parent_cat = '$cat'
+				AND owner_uid = $owner_uid");
+
+		$unread = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+			$unread += getCategoryUnread($link, $line["id"], $owner_uid);
+			$unread += getCategoryUnreadRecursive($link, $line["id"], $owner_uid);
+		}
+
+		return $unread;
 	}
 
 	function getCategoryUnread($link, $cat, $owner_uid = false) {
