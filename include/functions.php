@@ -2273,6 +2273,19 @@
 		return $search_query_part;
 	}
 
+	function getChildCategories($link, $cat, $owner_uid) {
+		$rv = array();
+
+		$result = db_query($link, "SELECT id FROM ttrss_feed_categories
+			WHERE parent_cat = '$cat' AND owner_uid = $owner_uid");
+
+		while ($line = db_fetch_assoc($result)) {
+			array_push($rv, $line["id"]);
+			$rv = array_merge($rv, getChildCategories($link, $line["id"], $owner_uid));
+		}
+
+		return $rv;
+	}
 
 	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0) {
 
@@ -2318,6 +2331,10 @@
 					$view_query_part = " ";
 				} else if ($feed != -1) {
 					$unread = getFeedUnread($link, $feed, $cat_view);
+
+					if ($cat_view && $feed > 0)
+						$unread = getCategoryUnreadRecursive($link, $feed);
+
 					if ($unread > 0) {
 						$view_query_part = " unread = true AND ";
 					}
@@ -2389,7 +2406,17 @@
 				if ($cat_view) {
 
 					if ($feed > 0) {
-						$query_strategy_part = "cat_id = '$feed'";
+						# sub-cats
+						$subcats = getChildCategories($link, $feed, $owner_uid);
+
+						if (count($subcats) == 0) {
+							$query_strategy_part = "cat_id = '$feed'";
+						} else {
+							array_push($subcats, $feed);
+							$query_strategy_part = "cat_id IN (".
+								implode(",", $subcats).")";
+						}
+
 					} else {
 						$query_strategy_part = "cat_id IS NULL";
 					}
