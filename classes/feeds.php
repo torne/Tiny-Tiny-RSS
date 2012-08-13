@@ -745,29 +745,6 @@ class Feeds extends Protected_Handler {
 		toggle_collapse_cat($this->link, $cat_id, $mode);
 	}
 
-	function index() {
-		$root = (bool)$_REQUEST["root"];
-
-		if (!$root) {
-			print json_encode($this->outputFeedList($this->link));
-		} else {
-
-			$feeds = $this->outputFeedList($this->link, false);
-
-			$root = array();
-			$root['id'] = 'root';
-			$root['name'] = __('Feeds');
-			$root['items'] = $feeds['items'];
-
-			$fl = array();
-			$fl['identifier'] = 'id';
-			$fl['label'] = 'name';
-			$fl['items'] = array($root);
-
-			print json_encode($fl);
-		}
-	}
-
 	function view() {
 		$timing_info = getmicrotime();
 
