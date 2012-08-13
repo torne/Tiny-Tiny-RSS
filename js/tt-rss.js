@@ -42,6 +42,14 @@ function setActiveFeedId(id, is_cat) {
 
 		selectFeed(id, is_cat);
 
+		if (is_cat && id > 0) {
+			document.forms["main_toolbar_form"].include_children.disabled = false;
+			$("include_children_label").removeClassName("insensitive");
+		} else {
+			document.forms["main_toolbar_form"].include_children.disabled = true;
+			$("include_children_label").addClassName("insensitive");
+		}
+
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
 	}

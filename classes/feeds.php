@@ -119,7 +119,7 @@ class Feeds extends Protected_Handler {
 
 	private function format_headlines_list($feed, $method, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
-					$override_order = false) {
+					$override_order = false, $include_children = false) {
 
 		$disable_cache = false;
 
@@ -196,7 +196,8 @@ class Feeds extends Protected_Handler {
 		}
 //		error_log("search_mode: " . $search_mode);
 		$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $match_on, $override_order, $offset);
+			$search, $search_mode, $match_on, $override_order, $offset, 0,
+			false, 0, $include_children);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
@@ -758,11 +759,12 @@ class Feeds extends Protected_Handler {
 		$method = db_escape_string($_REQUEST["m"]);
 		$view_mode = db_escape_string($_REQUEST["view_mode"]);
 		$limit = (int) get_pref($this->link, "DEFAULT_ARTICLE_LIMIT");
-		@$cat_view = db_escape_string($_REQUEST["cat"]) == "true";
+		@$cat_view = $_REQUEST["cat"] == "true";
 		@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
 		@$offset = db_escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 		$order_by = db_escape_string($_REQUEST["order_by"]);
+		$include_children = $_REQUEST["include_children"] == "on";
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -856,7 +858,7 @@ class Feeds extends Protected_Handler {
 
 		$ret = $this->format_headlines_list($feed, $method,
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
-			$vgroup_last_feed, $override_order);
+			$vgroup_last_feed, $override_order, $include_children);
 
 		$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];

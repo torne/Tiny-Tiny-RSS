@@ -2287,7 +2287,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2332,7 +2332,7 @@
 				} else if ($feed != -1) {
 					$unread = getFeedUnread($link, $feed, $cat_view);
 
-					if ($cat_view && $feed > 0)
+					if ($cat_view && $feed > 0 && $include_children)
 						$unread += getCategoryChildrenUnread($link, $feed);
 
 					if ($unread > 0) {
@@ -2406,15 +2406,19 @@
 				if ($cat_view) {
 
 					if ($feed > 0) {
-						# sub-cats
-						$subcats = getChildCategories($link, $feed, $owner_uid);
+						if ($include_children) {
+							# sub-cats
+							$subcats = getChildCategories($link, $feed, $owner_uid);
 
-						if (count($subcats) == 0) {
-							$query_strategy_part = "cat_id = '$feed'";
+							if (count($subcats) == 0) {
+								$query_strategy_part = "cat_id = '$feed'";
+							} else {
+								array_push($subcats, $feed);
+								$query_strategy_part = "cat_id IN (".
+									implode(",", $subcats).")";
+							}
 						} else {
-							array_push($subcats, $feed);
-							$query_strategy_part = "cat_id IN (".
-								implode(",", $subcats).")";
+							$query_strategy_part = "cat_id = '$feed'";
 						}
 
 					} else {

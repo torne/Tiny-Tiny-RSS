@@ -183,6 +183,14 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
+		&nbsp;
+
+		<input dojoType="dijit.form.CheckBox" type="checkbox"
+			onchange="viewCurrentFeed()"
+			name="include_children" id="include_children">
+		<label id="include_children_label" for="include_children">
+			<?php echo __('With subcategories') ?></label>
+
 		<button dojoType="dijit.form.Button" name="update"
 			onclick="scheduleFeedUpdate()">
 			<?php echo __('Update') ?></button>
