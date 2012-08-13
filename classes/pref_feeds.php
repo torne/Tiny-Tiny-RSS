@@ -36,18 +36,20 @@ class Pref_Feeds extends Protected_Handler {
 
 		$items = array();
 
-		$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
+		$result = db_query($this->link, "SELECT id, title, collapsed FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat = '$cat_id' ORDER BY order_id, title");
 
 		while ($line = db_fetch_assoc($result)) {
 
 			$cat = array();
 			$cat['id'] = 'CAT:' . $line['id'];
-			$cat['bare_id'] = $feed_id;
+			$cat['bare_id'] = (int)$line['id'];
 			$cat['name'] = $line['title'];
 			$cat['items'] = array();
 			$cat['checkbox'] = false;
+			$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 			$cat['type'] = 'category';
+			$cat['unread'] = 0;
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
@@ -67,9 +69,10 @@ class Pref_Feeds extends Protected_Handler {
 		while ($feed_line = db_fetch_assoc($feed_result)) {
 			$feed = array();
 			$feed['id'] = 'FEED:' . $feed_line['id'];
-			$feed['bare_id'] = $feed_line['id'];
+			$feed['bare_id'] = (int)$feed_line['id'];
 			$feed['name'] = $feed_line['title'];
 			$feed['checkbox'] = false;
+			$feed['unread'] = 0;
 			$feed['error'] = $feed_line['last_error'];
 			$feed['icon'] = getFeedIcon($feed_line['id']);
 			$feed['param'] = make_local_datetime($this->link,
@@ -93,20 +96,77 @@ class Pref_Feeds extends Protected_Handler {
 		$root['items'] = array();
 		$root['type'] = 'category';
 
-		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
-			$show_empty_cats = get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
+		$enable_cats = get_pref($this->link, 'ENABLE_FEED_CATS');
 
-			$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
+		if ($_REQUEST['mode'] == 2) {
+
+			if ($enable_cats) {
+				$cat_hidden = get_pref($this->link, "_COLLAPSED_SPECIAL");
+				$cat = $this->feedlist_init_cat(-1, $cat_hidden);
+			} else {
+				$cat['items'] = array();
+			}
+
+			foreach (array(-4, -3, -1, -2, 0) as $i) {
+				array_push($cat['items'], $this->feedlist_init_feed($i));
+			}
+
+			if ($enable_cats) {
+				array_push($root['items'], $cat);
+			} else {
+				$root['items'] = array_merge($root['items'], $cat['items']);
+			}
+
+			$result = db_query($this->link, "SELECT * FROM
+				ttrss_labels2 WHERE owner_uid = ".$_SESSION['uid']." ORDER by caption");
+
+			if (db_num_rows($result) > 0) {
+
+				if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
+					$cat_hidden = get_pref($this->link, "_COLLAPSED_LABELS");
+					$cat = $this->feedlist_init_cat(-2, $cat_hidden);
+				} else {
+					$cat['items'] = array();
+				}
+
+				while ($line = db_fetch_assoc($result)) {
+
+					$label_id = -$line['id'] - 11;
+					$count = getFeedUnread($this->link, $label_id);
+
+					$feed = $this->feedlist_init_feed($label_id, false, $count);
+
+					$feed['fg_color'] = $line['fg_color'];
+					$feed['bg_color'] = $line['bg_color'];
+
+					array_push($cat['items'], $feed);
+				}
+
+				if ($enable_cats) {
+					array_push($root['items'], $cat);
+				} else {
+					$root['items'] = array_merge($root['items'], $cat['items']);
+				}
+			}
+		}
+
+		if ($enable_cats) {
+			$show_empty_cats = $_REQUEST['mode'] != 2 &&
+				get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
+
+			$result = db_query($this->link, "SELECT id, title, collapsed FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat IS NULL ORDER BY order_id, title");
 
 			while ($line = db_fetch_assoc($result)) {
 				$cat = array();
 				$cat['id'] = 'CAT:' . $line['id'];
-				$cat['bare_id'] = $feed_id;
+				$cat['bare_id'] = (int)$line['id'];
 				$cat['name'] = $line['title'];
 				$cat['items'] = array();
 				$cat['checkbox'] = false;
+				$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 				$cat['type'] = 'category';
+				$cat['unread'] = 0;
 
 				$cat['items'] = $this->get_category_items($line['id']);
 
@@ -125,8 +185,10 @@ class Pref_Feeds extends Protected_Handler {
 			$cat['bare_id'] = 0;
 			$cat['name'] = __("Uncategorized");
 			$cat['items'] = array();
+			$cat['hidden'] = get_pref($this->link, "_COLLAPSED_UNCAT");
 			$cat['type'] = 'category';
 			$cat['checkbox'] = false;
+			$cat['unread'] = 0;
 
 			$feed_result = db_query($this->link, "SELECT id, title,last_error,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
@@ -137,13 +199,15 @@ class Pref_Feeds extends Protected_Handler {
 			while ($feed_line = db_fetch_assoc($feed_result)) {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
-				$feed['bare_id'] = $feed_line['id'];
+				$feed['bare_id'] = (int)$feed_line['id'];
 				$feed['name'] = $feed_line['title'];
 				$feed['checkbox'] = false;
 				$feed['error'] = $feed_line['last_error'];
 				$feed['icon'] = getFeedIcon($feed_line['id']);
 				$feed['param'] = make_local_datetime($this->link,
 					$feed_line['last_updated'], true);
+				$feed['unread'] = 0;
+				$feed['type'] = 'feed';
 
 				array_push($cat['items'], $feed);
 			}
@@ -166,25 +230,31 @@ class Pref_Feeds extends Protected_Handler {
 			while ($feed_line = db_fetch_assoc($feed_result)) {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
-				$feed['bare_id'] = $feed_line['id'];
+				$feed['bare_id'] = (int)$feed_line['id'];
 				$feed['name'] = $feed_line['title'];
 				$feed['checkbox'] = false;
 				$feed['error'] = $feed_line['last_error'];
 				$feed['icon'] = getFeedIcon($feed_line['id']);
 				$feed['param'] = make_local_datetime($this->link,
 					$feed_line['last_updated'], true);
+				$feed['unread'] = 0;
+				$feed['type'] = 'feed';
 
 				array_push($root['items'], $feed);
 			}
 
 			$root['param'] = T_sprintf('(%d feeds)', count($root['items']));
-
 		}
 
 		$fl = array();
 		$fl['identifier'] = 'id';
 		$fl['label'] = 'name';
-		$fl['items'] = array($root);
+
+		if ($_REQUEST['mode'] != 2) {
+			$fl['items'] = array($root);
+		} else {
+			$fl['items'] =& $root['items'];
+		}
 
 		print json_encode($fl);
 		return;
@@ -1686,5 +1756,49 @@ class Pref_Feeds extends Protected_Handler {
 		print "</div>"; #container
 
 	}
+
+	private function feedlist_init_cat($cat_id, $hidden = false) {
+		$obj = array();
+		$cat_id = (int) $cat_id;
+
+		if ($cat_id > 0) {
+			$cat_unread = ccache_find($this->link, $cat_id, $_SESSION["uid"], true);
+		} else if ($cat_id == 0 || $cat_id == -2) {
+			$cat_unread = getCategoryUnread($this->link, $cat_id);
+		}
+
+		$obj['id'] = 'CAT:' . $cat_id;
+		$obj['items'] = array();
+		$obj['name'] = getCategoryTitle($this->link, $cat_id);
+		$obj['type'] = 'category';
+		$obj['unread'] = (int) $cat_unread;
+		$obj['hidden'] = $hidden;
+		$obj['bare_id'] = $cat_id;
+
+		return $obj;
+	}
+
+	private function feedlist_init_feed($feed_id, $title = false, $unread = false, $error = '', $updated = '') {
+		$obj = array();
+		$feed_id = (int) $feed_id;
+
+		if (!$title)
+			$title = getFeedTitle($this->link, $feed_id, false);
+
+		if ($unread === false)
+			$unread = getFeedUnread($this->link, $feed_id, false);
+
+		$obj['id'] = 'FEED:' . $feed_id;
+		$obj['name'] = $title;
+		$obj['unread'] = (int) $unread;
+		$obj['type'] = 'feed';
+		$obj['error'] = $error;
+		$obj['updated'] = $updated;
+		$obj['icon'] = getFeedIcon($feed_id);
+		$obj['bare_id'] = $feed_id;
+
+		return $obj;
+	}
+
 }
 ?>

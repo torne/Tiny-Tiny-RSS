@@ -61,12 +61,12 @@ function updateFeedList() {
 		}
 
 		var store = new dojo.data.ItemFileWriteStore({
-         url: "backend.php?op=feeds"});
+         url: "backend.php?op=pref_feeds&method=getfeedtree&mode=2"});
 
 		var treeModel = new fox.FeedStoreModel({
 			store: store,
 			query: {
-				"type": "feed"
+				"type": init_params['enable_feed_cats'] == 1 ? "category" : "feed"
 			},
 			rootId: "root",
 			rootLabel: "Feeds",
@@ -104,6 +104,8 @@ function updateFeedList() {
 		showRoot: false,
 		id: "feedTree",
 		}, "feedTree");
+
+		_force_scheduled_update = true;
 
 /*		var menu = new dijit.Menu({id: 'feedMenu'});
 

@@ -79,7 +79,11 @@
 		}
 
 		foreach (array("tt-rss", "functions", "feedlist", "viewfeed", "FeedTree") as $js) {
-			echo JSMin::minify(file_get_contents("js/$js.js"));
+			if (!isset($_GET['debug'])) {
+				echo JSMin::minify(file_get_contents("js/$js.js"));
+			} else {
+				echo file_get_contents("js/$js.js");
+			}
 		}
 	?>
 	</script>
