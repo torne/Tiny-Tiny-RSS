@@ -764,7 +764,7 @@ class Feeds extends Protected_Handler {
 		@$offset = db_escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 		$order_by = db_escape_string($_REQUEST["order_by"]);
-		$include_children = $_REQUEST["include_children"] == "on";
+		$include_children = $_REQUEST["include_children"] == "true";
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -805,6 +805,8 @@ class Feeds extends Protected_Handler {
 		set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
 		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
+
+		$_SESSION["_DEFAULT_INCLUDE_CHILDREN"] = $include_children;
 
 		if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()

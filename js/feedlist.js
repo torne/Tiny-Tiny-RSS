@@ -170,6 +170,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 		}
 
 		query += "&cat=" + is_cat;
+		query += "&include_children=" + dijit.byId("include_children").attr("checked");
 
 		console.log(query);
 

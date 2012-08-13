@@ -42,13 +42,8 @@ function setActiveFeedId(id, is_cat) {
 
 		selectFeed(id, is_cat);
 
-		if (is_cat && id > 0) {
-			document.forms["main_toolbar_form"].include_children.disabled = false;
-			$("include_children_label").removeClassName("insensitive");
-		} else {
-			document.forms["main_toolbar_form"].include_children.disabled = true;
-			$("include_children_label").addClassName("insensitive");
-		}
+		dijit.byId("include_children").attr("disabled", !(is_cat && id > 0));
+
 
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
@@ -74,7 +69,7 @@ function updateFeedList() {
 		var treeModel = new fox.FeedStoreModel({
 			store: store,
 			query: {
-				"type": init_params['enable_feed_cats'] == 1 ? "category" : "feed"
+				"type": getInitParam('enable_feed_cats') == 1 ? "category" : "feed"
 			},
 			rootId: "root",
 			rootLabel: "Feeds",
@@ -333,6 +328,13 @@ function init_second_stage() {
 
 		dijit.getEnclosingWidget(toolbar.order_by).attr('value',
 			getInitParam("default_view_order_by"));
+
+
+		if (getInitParam("enable_feed_cats") == 0)
+			Element.hide(dijit.byId("include_children").domNode);
+
+		dijit.byId("include_children").attr("checked",
+			getInitParam("default_include_children"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 

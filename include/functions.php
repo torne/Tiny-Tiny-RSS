@@ -2137,6 +2137,7 @@
 
 		$params["icons_url"] = ICONS_URL;
 		$params["cookie_lifetime"] = SESSION_COOKIE_LIFETIME;
+		$params["default_include_children"] = $_SESSION["_DEFAULT_INCLUDE_CHILDREN"];
 		$params["default_view_mode"] = get_pref($link, "_DEFAULT_VIEW_MODE");
 		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
 		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");

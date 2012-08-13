@@ -185,11 +185,16 @@
 
 		&nbsp;
 
-		<input dojoType="dijit.form.CheckBox" type="checkbox"
+		<!-- <input dojoType="dijit.form.CheckBox" type="checkbox"
 			onchange="viewCurrentFeed()"
 			name="include_children" id="include_children">
 		<label id="include_children_label" for="include_children">
-			<?php echo __('With subcategories') ?></label>
+			<?php echo __('With subcategories') ?></label> -->
+
+		<button dojoType="dijit.form.ToggleButton" name="include_children"
+			id="include_children"
+			onchange="viewCurrentFeed()">
+			<?php echo __('With subcategories') ?></button>
 
 		<button dojoType="dijit.form.Button" name="update"
 			onclick="scheduleFeedUpdate()">
