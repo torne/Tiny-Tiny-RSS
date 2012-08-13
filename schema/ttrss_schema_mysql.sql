@@ -57,6 +57,9 @@ create table ttrss_feed_categories(id integer not null primary key auto_incremen
 	title varchar(200) not null,
 	collapsed bool not null default false,
 	order_id integer not null default 0,
+	parent_cat integer,
+	index(parent_cat),
+	foreign key (parent_cat) references ttrss_feed_categories(id) ON DELETE SET NULL,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -267,7 +270,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (92);
+insert into ttrss_version values (93);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
