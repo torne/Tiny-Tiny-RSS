@@ -5,7 +5,7 @@ dojo.require("lib.CheckBoxTree");
 dojo.require("dojo.data.ItemFileWriteStore");
 
 dojo.declare("fox.PrefFeedStore", dojo.data.ItemFileWriteStore, {
-	
+
 	_saveEverything: function(saveCompleteCallback, saveFailedCallback,
 								newFileContentString) {
 
@@ -17,7 +17,7 @@ dojo.declare("fox.PrefFeedStore", dojo.data.ItemFileWriteStore, {
 			load: saveCompleteCallback});
 	},
 
-});		
+});
 
 dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 	_createTreeNode: function(args) {
@@ -42,7 +42,7 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 		this.tree.model.store.save();
 	},
 	getRowClass: function (item, opened) {
-		return (!item.error || item.error == '') ? "dijitTreeRow" : 
+		return (!item.error || item.error == '') ? "dijitTreeRow" :
 			"dijitTreeRow Error";
 	},
 	getIconClass: function (item, opened) {
@@ -71,7 +71,7 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 			return ((id.match("CAT:") && position == "over") ||
 				(id.match("FEED:") && position != "over"));
 		} else if (source_id.match("CAT:")) {
-			return ((id.match("CAT:") && position != "over") ||
+			return ((id.match("CAT:") && !id.match("CAT:0")) ||
 				(id.match("root") && position == "over"));
 		}
 	},

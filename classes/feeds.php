@@ -842,6 +842,8 @@ class Feeds extends Protected_Handler {
 			}
 		}
 
+		$this->feedlist_process_category('root', &$feedlist);
+
 /*		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
 			if (get_pref($this->link, "FEEDS_SORT_BY_UNREAD")) {
 				$order_by_qpart = "order_id,category,unread DESC,title";
@@ -858,7 +860,7 @@ class Feeds extends Protected_Handler {
 
 		/* real feeds */
 
-		if ($enable_cats)
+		/* if ($enable_cats)
 			$order_by_qpart = "ttrss_feed_categories.order_id,category,
 				ttrss_feeds.order_id,title";
 		else
@@ -876,7 +878,7 @@ class Feeds extends Protected_Handler {
 				ON
 					(ttrss_feeds.id = feed_id)
 			WHERE
-				ttrss_feeds.owner_uid = '$owner_uid'
+				ttrss_feeds.owner_uid = '$owner_uid' AND parent_cat IS NULL
 			ORDER BY $order_by_qpart";
 
 		$result = db_query($this->link, $query);
@@ -932,9 +934,128 @@ class Feeds extends Protected_Handler {
 				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
 			}
 
-		}
+		} */
 
 		return $feedlist;
+	}
+
+	private function feedlist_process_category($cat_id, &$feedlist) {
+		$owner_uid = $_SESSION['uid'];
+		$enable_cats = get_pref($this->link, 'ENABLE_FEED_CATS');
+
+		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
+			if (get_pref($this->link, "FEEDS_SORT_BY_UNREAD")) {
+				$order_by_qpart = "order_id,category,unread DESC,title";
+			} else {
+				$order_by_qpart = "order_id,category,title";
+			}
+		} else {
+			if (get_pref($this->link, "FEEDS_SORT_BY_UNREAD")) {
+				$order_by_qpart = "unread DESC,title";
+			} else {
+				$order_by_qpart = "title";
+			}
+		}
+
+		if ($enable_cats)
+			$order_by_qpart = "ttrss_feed_categories.order_id,category,
+				ttrss_feeds.order_id,title";
+		else
+			$order_by_qpart = "title";
+
+		/* real feeds */
+
+		if ($enable_cats)
+			$order_by_qpart = "ttrss_feed_categories.order_id,category,
+				ttrss_feeds.order_id,title";
+		else
+			$order_by_qpart = "title";
+
+		if (!$enable_cats) {
+			$parent_qpart = "true";
+		} else if ($cat_id == 'root') {
+			$parent_qpart = 'parent_cat IS NULL';
+		} else {
+			$parent_qpart = 'parent_cat = '.db_escape_string($cat_id);
+		}
+
+		$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
+			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
+			cat_id,last_error,
+			COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS category,
+			ttrss_feed_categories.collapsed,
+			value AS unread
+			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
+				ON (ttrss_feed_categories.id = cat_id)
+			LEFT JOIN ttrss_counters_cache
+				ON
+					(ttrss_feeds.id = feed_id)
+			WHERE
+				ttrss_feeds.owner_uid = '$owner_uid' AND $parent_qpart
+			ORDER BY $order_by_qpart";
+
+		$result = db_query($this->link, $query);
+
+		$actid = $_REQUEST["actid"];
+
+		if (db_num_rows($result) > 0) {
+
+			$category = "";
+
+			if (!$enable_cats)
+				$cat['items'] = array();
+			else
+				$cat = false;
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$feed = htmlspecialchars(trim($line["title"]));
+
+				if (!$feed) $feed = "[Untitled]";
+
+				$feed_id = $line["id"];
+				$unread = $line["unread"];
+
+				$cat_id = $line["cat_id"];
+				$tmp_category = $line["category"];
+
+				if ($category != $tmp_category && $enable_cats) {
+
+					$category = $tmp_category;
+
+					$collapsed = sql_bool_to_bool($line["collapsed"]);
+
+					// workaround for NULL category
+					if ($category == __("Uncategorized")) {
+						$collapsed = get_pref($this->link, "_COLLAPSED_UNCAT");
+					}
+
+					if ($cat) array_push($feedlist['items'], $cat);
+
+					$cat = $this->feedlist_init_cat($cat_id, $collapsed);
+
+					if ($cat_id) {
+						$cat_items = $this->feedlist_process_category($cat_id, &$feedlist);
+						if (count($cat_items) > 0) {
+							array_push($cat['items'], $cat_items);
+						}
+					}
+				}
+
+				$updated = make_local_datetime($this->link, $line["updated_noms"], false);
+
+				array_push($cat['items'], $this->feedlist_init_feed($feed_id,
+					$feed, $unread, $line['last_error'], $updated));
+			}
+
+			if ($enable_cats) {
+				array_push($feedlist['items'], $cat);
+			} else {
+				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
+			}
+
+		}
+
 	}
 
 

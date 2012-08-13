@@ -32,6 +32,55 @@ class Pref_Feeds extends Protected_Handler {
 		return;
 	}
 
+	private function get_category_items($cat_id) {
+
+		$items = array();
+
+		$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
+				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat = '$cat_id' ORDER BY order_id, title");
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$cat = array();
+			$cat['id'] = 'CAT:' . $line['id'];
+			$cat['bare_id'] = $feed_id;
+			$cat['name'] = $line['title'];
+			$cat['items'] = array();
+			$cat['checkbox'] = false;
+			$cat['type'] = 'category';
+
+			$cat['items'] = $this->get_category_items($line['id']);
+
+			$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+
+			if (count($cat['items']) > 0 || $show_empty_cats)
+				array_push($items, $cat);
+
+		}
+
+		$feed_result = db_query($this->link, "SELECT id, title, last_error,
+			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+			FROM ttrss_feeds
+			WHERE cat_id = '$cat_id' AND owner_uid = ".$_SESSION["uid"].
+			"$search_qpart ORDER BY order_id, title");
+
+		while ($feed_line = db_fetch_assoc($feed_result)) {
+			$feed = array();
+			$feed['id'] = 'FEED:' . $feed_line['id'];
+			$feed['bare_id'] = $feed_line['id'];
+			$feed['name'] = $feed_line['title'];
+			$feed['checkbox'] = false;
+			$feed['error'] = $feed_line['last_error'];
+			$feed['icon'] = getFeedIcon($feed_line['id']);
+			$feed['param'] = make_local_datetime($this->link,
+				$feed_line['last_updated'], true);
+
+			array_push($items, $feed);
+		}
+
+		return $items;
+	}
+
 	function getfeedtree() {
 
 		$search = $_SESSION["prefs_feed_search"];
@@ -48,7 +97,7 @@ class Pref_Feeds extends Protected_Handler {
 			$show_empty_cats = get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
 			$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
-				WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY order_id, title");
+				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat IS NULL ORDER BY order_id, title");
 
 			while ($line = db_fetch_assoc($result)) {
 				$cat = array();
@@ -59,25 +108,7 @@ class Pref_Feeds extends Protected_Handler {
 				$cat['checkbox'] = false;
 				$cat['type'] = 'category';
 
-				$feed_result = db_query($this->link, "SELECT id, title, last_error,
-					".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-					FROM ttrss_feeds
-					WHERE cat_id = '".$line['id']."' AND owner_uid = ".$_SESSION["uid"].
-					"$search_qpart ORDER BY order_id, title");
-
-				while ($feed_line = db_fetch_assoc($feed_result)) {
-					$feed = array();
-					$feed['id'] = 'FEED:' . $feed_line['id'];
-					$feed['bare_id'] = $feed_line['id'];
-					$feed['name'] = $feed_line['title'];
-					$feed['checkbox'] = false;
-					$feed['error'] = $feed_line['last_error'];
-					$feed['icon'] = getFeedIcon($feed_line['id']);
-					$feed['param'] = make_local_datetime($this->link,
-						$feed_line['last_updated'], true);
-
-					array_push($cat['items'], $feed);
-				}
+				$cat['items'] = $this->get_category_items($line['id']);
 
 				$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
 
@@ -176,17 +207,77 @@ class Pref_Feeds extends Protected_Handler {
 			(get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS') ? 'false' : 'true'));
 	}
 
+	private function process_category_order($data_map, $item_id, $parent_id = false) {
+#		print "C: $item_id P: $parent_id\n";
+		$bare_id = substr($item_id, strpos($item_id, ':')+1);
+
+		if ($item_id != 'root') {
+			if ($parent_id && $parent_id != 'root') {
+				$parent_bare_id = substr($parent_id, strpos($parent_id, ':')+1);
+				$parent_qpart = db_escape_string($parent_bare_id);
+			} else {
+				$parent_qpart = 'NULL';
+			}
+
+			db_query($this->link, "UPDATE ttrss_feed_categories
+				SET parent_cat = $parent_qpart WHERE id = '$bare_id' AND
+				owner_uid = " . $_SESSION["uid"]);
+		}
+
+		$order_id = 0;
+
+		$cat = $data_map[$item_id];
+
+		if ($cat && is_array($cat)) {
+			foreach ($cat as $item) {
+				$id = $item['_reference'];
+				$bare_id = substr($id, strpos($id, ':')+1);
+
+#				print "[$order_id] $id/$bare_id\n";
+
+				if ($item['_reference']) {
+
+					if (strpos($id, "FEED") === 0) {
+
+						db_query($this->link, "UPDATE ttrss_feeds
+								SET order_id = '$order_id' WHERE id = '$bare_id' AND
+								owner_uid = " . $_SESSION["uid"]);
+
+					} else if (strpos($id, "CAT:") === 0) {
+						$this->process_category_order(&$data_map, $item['_reference'], $item_id);
+
+						if ($item_id != 'root') {
+							$parent_qpart = db_escape_string($bare_id);
+						} else {
+							$parent_qpart = 'NULL';
+						}
+
+						db_query($this->link, "UPDATE ttrss_feed_categories
+								SET order_id = '$order_id' WHERE id = '$bare_id' AND
+								owner_uid = " . $_SESSION["uid"]);
+					}
+				}
+
+				++$order_id;
+			}
+		}
+	}
+
 	function savefeedorder() {
 		$data = json_decode($_POST['payload'], true);
+
+		#file_put_contents("/tmp/saveorder.json", $_POST['payload']);
+		#$data = json_decode(file_get_contents("/tmp/saveorder.json"), true);
 
 		if (is_array($data) && is_array($data['items'])) {
 			$cat_order_id = 0;
 
 			$data_map = array();
+			$root_item = false;
 
 			foreach ($data['items'] as $item) {
 
-				if ($item['id'] != 'root') {
+#				if ($item['id'] != 'root') {
 					if (is_array($item['items'])) {
 						if (isset($item['items']['_reference'])) {
 							$data_map[$item['id']] = array($item['items']);
@@ -194,10 +285,14 @@ class Pref_Feeds extends Protected_Handler {
 							$data_map[$item['id']] =& $item['items'];
 						}
 					}
+				if ($item['id'] == 'root') {
+					$root_item = $item['id'];
 				}
 			}
 
-			foreach ($data['items'][0]['items'] as $item) {
+			$this->process_category_order(&$data_map, $root_item);
+
+			/* foreach ($data['items'][0]['items'] as $item) {
 				$id = $item['_reference'];
 				$bare_id = substr($id, strpos($id, ':')+1);
 
@@ -230,7 +325,7 @@ class Pref_Feeds extends Protected_Handler {
 						++$feed_order_id;
 					}
 				}
-			}
+			} */
 		}
 
 		return;
