@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 25);
-	define('SCHEMA_VERSION', 92);
+	define('SCHEMA_VERSION', 93);
 
 	mb_internal_encoding("UTF-8");
 	date_default_timezone_set('UTC');
