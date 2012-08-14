@@ -342,6 +342,8 @@ class Pref_Feeds extends Protected_Handler {
 		#file_put_contents("/tmp/saveorder.json", $_POST['payload']);
 		#$data = json_decode(file_get_contents("/tmp/saveorder.json"), true);
 
+		$data['items'] = json_decode($data['items'], true);
+
 		if (is_array($data) && is_array($data['items'])) {
 			$cat_order_id = 0;
 
