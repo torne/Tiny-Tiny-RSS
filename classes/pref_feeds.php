@@ -33,6 +33,8 @@ class Pref_Feeds extends Protected_Handler {
 	}
 
 	private function get_category_items($cat_id) {
+		$show_empty_cats = $_REQUEST['mode'] != 2 &&
+			get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
 		$items = array();
 

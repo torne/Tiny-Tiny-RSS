@@ -1999,38 +1999,53 @@
 		print "</select>";
 	}
 
-	function print_feed_cat_select($link, $id, $default_id = "",
-		$attributes = "", $include_all_cats = true) {
+	function print_feed_cat_select($link, $id, $default_id,
+		$attributes, $include_all_cats = true, $root_id = false, $nest_level = 0) {
 
-		print "<select id=\"$id\" name=\"$id\" default=\"$default_id\" onchange=\"catSelectOnChange(this)\" $attributes>";
-
-		if ($include_all_cats) {
-			print "<option value=\"0\">".__('Uncategorized')."</option>";
-		}
-
-		$result = db_query($link, "SELECT id,title FROM ttrss_feed_categories
-			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
-
-		if (db_num_rows($result) > 0 && $include_all_cats) {
-			print "<option disabled=\"1\">--------</option>";
-		}
-
-		while ($line = db_fetch_assoc($result)) {
-			if ($line["id"] == $default_id) {
-				$is_selected = "selected=\"1\"";
-			} else {
-				$is_selected = "";
+			if (!$root_id) {
+					print "<select id=\"$id\" name=\"$id\" default=\"$default_id\" onchange=\"catSelectOnChange(this)\" $attributes>";
 			}
 
-			if ($line["title"])
-				printf("<option $is_selected value='%d'>%s</option>",
-					$line["id"], htmlspecialchars($line["title"]));
+			if ($root_id)
+				$parent_qpart = "parent_cat = '$root_id'";
+			else
+				$parent_qpart = "parent_cat IS NULL";
+
+			$result = db_query($link, "SELECT id,title,
+				(SELECT COUNT(id) FROM ttrss_feed_categories AS c2 WHERE
+					c2.parent_cat = ttrss_feed_categories.id) AS num_children
+				FROM ttrss_feed_categories
+				WHERE owner_uid = ".$_SESSION["uid"]." AND $parent_qpart ORDER BY title");
+
+			while ($line = db_fetch_assoc($result)) {
+				if ($line["id"] == $default_id) {
+					$is_selected = "selected=\"1\"";
+				} else {
+					$is_selected = "";
+				}
+
+				for ($i = 0; $i < $nest_level; $i++)
+					$line["title"] = " - " . $line["title"];
+
+				if ($line["title"])
+					printf("<option $is_selected value='%d'>%s</option>",
+						$line["id"], htmlspecialchars($line["title"]));
+
+				if ($line["num_children"] > 0)
+					print_feed_cat_select($link, $id, $default_id, $attributes,
+						$include_all_cats, $line["id"], $nest_level+1);
+			}
+
+			if (!$root_id) {
+				if ($include_all_cats) {
+					if (db_num_rows($result) > 0) {
+						print "<option disabled=\"1\">--------</option>";
+					}
+						print "<option value=\"0\">".__('Uncategorized')."</option>";
+				}
+				print "</select>";
+			}
 		}
-
-#		print "<option value=\"ADD_CAT\">" .__("Add category...") . "</option>";
-
-		print "</select>";
-	}
 
 	function checkbox_to_sql_bool($val) {
 		return ($val == "on") ? "true" : "false";
