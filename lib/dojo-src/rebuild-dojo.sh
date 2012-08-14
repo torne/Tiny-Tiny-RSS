@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script rebuilds customized layer of Dojo for tt-rss
 # Place unpacked Dojo source release in this directory and run this script.
@@ -8,14 +8,16 @@
 # is available here: http://dojotoolkit.org/reference-guide/build/index.html
 
 if [ -d util/buildscripts/ ]; then
+	rm -rf release/dojo
+
 	pushd util/buildscripts
-	./build.sh profileFile=../../profile.js action=clean,release version=1.6.1 releaseName=
+	./build.sh profile=../../tt-rss action=clean,release optimize=shrinksafe
 	popd
 
 	if [ -d release/dojo ]; then
 		rm -rf ../dojo ../dijit
-		cp -r release/dojo ..
-		cp -r release/dijit ..
+		cp -r release/dojo/dojo ..
+		cp -r release/dojo/dijit ..
 	else
 		echo $0: ERROR: Dojo build seems to have failed.
 	fi

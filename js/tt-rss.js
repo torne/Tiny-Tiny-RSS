@@ -286,6 +286,31 @@ function init() {
 			themeBeforeLayout();
 		}
 
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.CheckBox");
+		dojo.require("dijit.form.DropDownButton");
+		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.Form");
+		dojo.require("dijit.form.RadioButton");
+		dojo.require("dijit.form.Select");
+		dojo.require("dijit.form.SimpleTextarea");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.ValidationTextBox");
+		dojo.require("dijit.InlineEditBox");
+		dojo.require("dijit.layout.AccordionContainer");
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.Menu");
+		dojo.require("dijit.ProgressBar");
+		dojo.require("dijit.ProgressBar");
+		dojo.require("dijit.Toolbar");
+		dojo.require("dijit.Tree");
+		dojo.require("dijit.tree.dndSource");
+		dojo.require("dojo.data.ItemFileWriteStore");
+
 		dojo.parser.parse();
 
 		if (!genericSanityCheck())
