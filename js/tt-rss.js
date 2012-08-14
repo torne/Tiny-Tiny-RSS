@@ -170,6 +170,7 @@ function catchupAllFeeds() {
 }
 
 function viewCurrentFeed(method) {
+	console.log("viewCurrentFeed");
 
 	if (getActiveFeedId() != undefined) {
 		viewfeed(getActiveFeedId(), method, activeFeedIsCat());
@@ -358,8 +359,8 @@ function init_second_stage() {
 		if (getInitParam("enable_feed_cats") == 0)
 			Element.hide(dijit.byId("include_children").domNode);
 
-		dijit.byId("include_children").attr("checked",
-			getInitParam("default_include_children"));
+//		dijit.byId("include_children").attr("checked",
+//			getInitParam("default_include_children"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
