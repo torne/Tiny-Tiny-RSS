@@ -393,20 +393,6 @@ function getURLParam(param){
 	return String(window.location.href).parseQuery()[param];
 }
 
-function leading_zero(p) {
-	var s = String(p);
-	if (s.length == 1) s = "0" + s;
-	return s;
-}
-
-function make_timestamp() {
-	var d = new Date();
-
-  	return leading_zero(d.getHours()) + ":" + leading_zero(d.getMinutes()) +
-			":" + leading_zero(d.getSeconds());
-}
-
-
 function closeInfoBox(cleanup) {
 	try {
 		dialog = dijit.byId("infoBox");
@@ -1717,4 +1703,9 @@ function get_radio_checked(radioObj) {
 		exception_error("get_radio_checked", e);
 	}
 	return("");
+}
+
+function get_timestamp() {
+	var date = new Date();
+	return Math.round(date.getTime() / 1000);
 }

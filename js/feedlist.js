@@ -1,6 +1,7 @@
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var _search_query = false;
+var _viewfeed_last = 0;
 
 var counter_timeout_id = false;
 
@@ -106,6 +107,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 				dijit.byId("content-tabs").getChildren()[0]);
 
 		if (!background) {
+			_viewfeed_last = get_timestamp();
+
 			if (getActiveFeedId() != feed || offset == 0) {
 				active_post_id = 0;
 				_infscroll_disable = 0;
@@ -121,8 +124,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			}
 
 			if (offset != 0 && !method) {
-				var date = new Date();
-				var timestamp = Math.round(date.getTime() / 1000);
+				var timestamp = get_timestamp();
 
 				if (_infscroll_request_sent && _infscroll_request_sent + 30 > timestamp) {
 					//console.log("infscroll request in progress, aborting");

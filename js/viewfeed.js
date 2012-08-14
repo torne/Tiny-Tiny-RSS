@@ -2057,17 +2057,20 @@ function render_local_headlines(feed, is_cat, obj) {
 function precache_headlines_idle() {
 	try {
 		if (!feed_precache_timeout_id) {
-			var feeds = dijit.byId("feedTree").getVisibleUnreadFeeds();
-			var uncached = [];
+			if (get_timestamp() - _viewfeed_last > 120) {
 
-			feeds.each(function(item) {
-				if (parseInt(item[0]) > 0 && !cache_get("feed:" + item[0] + ":" + item[1]))
-					uncached.push(item);
-			});
+				var feeds = dijit.byId("feedTree").getVisibleUnreadFeeds();
+				var uncached = [];
 
-			if (uncached.length > 0) {
-				var rf = uncached[Math.floor(Math.random()*uncached.length)];
-				viewfeed(rf[0], '', rf[1], 0, true);
+				feeds.each(function(item) {
+					if (parseInt(item[0]) > 0 && !cache_get("feed:" + item[0] + ":" + item[1]))
+						uncached.push(item);
+				});
+
+				if (uncached.length > 0) {
+					var rf = uncached[Math.floor(Math.random()*uncached.length)];
+					viewfeed(rf[0], '', rf[1], 0, true);
+				}
 			}
 		}
 		precache_idle_timeout_id = setTimeout("precache_headlines_idle()", 1000*30);
