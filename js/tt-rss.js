@@ -1,7 +1,7 @@
 var total_unread = 0;
 var global_unread = -1;
 var firsttime_update = true;
-var _active_feed_id = 0;
+var _active_feed_id = undefined;
 var _active_feed_is_cat = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
@@ -359,8 +359,8 @@ function init_second_stage() {
 		if (getInitParam("enable_feed_cats") == 0)
 			Element.hide(dijit.byId("include_children").domNode);
 
-//		dijit.byId("include_children").attr("checked",
-//			getInitParam("default_include_children"));
+		dijit.byId("include_children").attr("checked",
+			getInitParam("default_include_children"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 
