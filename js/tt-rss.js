@@ -42,6 +42,9 @@ function setActiveFeedId(id, is_cat) {
 
 		selectFeed(id, is_cat);
 
+		dijit.byId("include_children").attr("disabled", !(is_cat && id > 0));
+
+
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
 	}
@@ -61,12 +64,12 @@ function updateFeedList() {
 		}
 
 		var store = new dojo.data.ItemFileWriteStore({
-         url: "backend.php?op=feeds"});
+         url: "backend.php?op=pref_feeds&method=getfeedtree&mode=2"});
 
 		var treeModel = new fox.FeedStoreModel({
 			store: store,
 			query: {
-				"type": "feed"
+				"type": getInitParam('enable_feed_cats') == 1 ? "category" : "feed"
 			},
 			rootId: "root",
 			rootLabel: "Feeds",
@@ -104,6 +107,8 @@ function updateFeedList() {
 		showRoot: false,
 		id: "feedTree",
 		}, "feedTree");
+
+		_force_scheduled_update = true;
 
 /*		var menu = new dijit.Menu({id: 'feedMenu'});
 
@@ -323,6 +328,13 @@ function init_second_stage() {
 
 		dijit.getEnclosingWidget(toolbar.order_by).attr('value',
 			getInitParam("default_view_order_by"));
+
+
+		if (getInitParam("enable_feed_cats") == 0)
+			Element.hide(dijit.byId("include_children").domNode);
+
+		dijit.byId("include_children").attr("checked",
+			getInitParam("default_include_children"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
 

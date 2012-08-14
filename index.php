@@ -79,7 +79,11 @@
 		}
 
 		foreach (array("tt-rss", "functions", "feedlist", "viewfeed", "FeedTree") as $js) {
-			echo JSMin::minify(file_get_contents("js/$js.js"));
+			if (!isset($_GET['debug'])) {
+				echo JSMin::minify(file_get_contents("js/$js.js"));
+			} else {
+				echo file_get_contents("js/$js.js");
+			}
 		}
 	?>
 	</script>
@@ -178,6 +182,19 @@
 			<option value="title"><?php echo __('Title') ?></option>
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
+
+		&nbsp;
+
+		<!-- <input dojoType="dijit.form.CheckBox" type="checkbox"
+			onchange="viewCurrentFeed()"
+			name="include_children" id="include_children">
+		<label id="include_children_label" for="include_children">
+			<?php echo __('With subcategories') ?></label> -->
+
+		<button dojoType="dijit.form.ToggleButton" name="include_children"
+			id="include_children"
+			onchange="viewCurrentFeed()">
+			<?php echo __('With subcategories') ?></button>
 
 		<button dojoType="dijit.form.Button" name="update"
 			onclick="scheduleFeedUpdate()">

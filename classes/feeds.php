@@ -7,49 +7,6 @@ class Feeds extends Protected_Handler {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
-	private function feedlist_init_cat($cat_id, $hidden = false) {
-		$obj = array();
-		$cat_id = (int) $cat_id;
-
-		if ($cat_id > 0) {
-			$cat_unread = ccache_find($this->link, $cat_id, $_SESSION["uid"], true);
-		} else if ($cat_id == 0 || $cat_id == -2) {
-			$cat_unread = getCategoryUnread($this->link, $cat_id);
-		}
-
-		$obj['id'] = 'CAT:' . $cat_id;
-		$obj['items'] = array();
-		$obj['name'] = getCategoryTitle($this->link, $cat_id);
-		$obj['type'] = 'feed';
-		$obj['unread'] = (int) $cat_unread;
-		$obj['hidden'] = $hidden;
-		$obj['bare_id'] = $cat_id;
-
-		return $obj;
-	}
-
-	private function feedlist_init_feed($feed_id, $title = false, $unread = false, $error = '', $updated = '') {
-		$obj = array();
-		$feed_id = (int) $feed_id;
-
-		if (!$title)
-			$title = getFeedTitle($this->link, $feed_id, false);
-
-		if ($unread === false)
-			$unread = getFeedUnread($this->link, $feed_id, false);
-
-		$obj['id'] = 'FEED:' . $feed_id;
-		$obj['name'] = $title;
-		$obj['unread'] = (int) $unread;
-		$obj['type'] = 'feed';
-		$obj['error'] = $error;
-		$obj['updated'] = $updated;
-		$obj['icon'] = getFeedIcon($feed_id);
-		$obj['bare_id'] = $feed_id;
-
-		return $obj;
-	}
-
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search, $match_on,
 			$search_mode, $view_mode, $error) {
@@ -162,7 +119,7 @@ class Feeds extends Protected_Handler {
 
 	private function format_headlines_list($feed, $method, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
-					$override_order = false) {
+					$override_order = false, $include_children = false) {
 
 		$disable_cache = false;
 
@@ -239,7 +196,8 @@ class Feeds extends Protected_Handler {
 		}
 //		error_log("search_mode: " . $search_mode);
 		$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $match_on, $override_order, $offset);
+			$search, $search_mode, $match_on, $override_order, $offset, 0,
+			false, 0, $include_children);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 
@@ -776,168 +734,6 @@ class Feeds extends Protected_Handler {
 			$vgroup_last_feed, $reply);
 	}
 
-	private function outputFeedList($special = true) {
-
-		$feedlist = array();
-
-		$enable_cats = get_pref($this->link, 'ENABLE_FEED_CATS');
-
-		$feedlist['identifier'] = 'id';
-		$feedlist['label'] = 'name';
-		$feedlist['items'] = array();
-
-		$owner_uid = $_SESSION["uid"];
-
-		/* virtual feeds */
-
-		if ($special) {
-
-			if ($enable_cats) {
-				$cat_hidden = get_pref($this->link, "_COLLAPSED_SPECIAL");
-				$cat = $this->feedlist_init_cat(-1, $cat_hidden);
-			} else {
-				$cat['items'] = array();
-			}
-
-			foreach (array(-4, -3, -1, -2, 0) as $i) {
-				array_push($cat['items'], $this->feedlist_init_feed($i));
-			}
-
-			if ($enable_cats) {
-				array_push($feedlist['items'], $cat);
-			} else {
-				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-			}
-
-			$result = db_query($this->link, "SELECT * FROM
-				ttrss_labels2 WHERE owner_uid = '$owner_uid' ORDER by caption");
-
-			if (db_num_rows($result) > 0) {
-
-				if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
-					$cat_hidden = get_pref($this->link, "_COLLAPSED_LABELS");
-					$cat = $this->feedlist_init_cat(-2, $cat_hidden);
-				} else {
-					$cat['items'] = array();
-				}
-
-				while ($line = db_fetch_assoc($result)) {
-
-					$label_id = -$line['id'] - 11;
-					$count = getFeedUnread($this->link, $label_id);
-
-					$feed = $this->feedlist_init_feed($label_id, false, $count);
-
-					$feed['fg_color'] = $line['fg_color'];
-					$feed['bg_color'] = $line['bg_color'];
-
-					array_push($cat['items'], $feed);
-				}
-
-				if ($enable_cats) {
-					array_push($feedlist['items'], $cat);
-				} else {
-					$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-				}
-			}
-		}
-
-/*		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
-			if (get_pref($this->link, "FEEDS_SORT_BY_UNREAD")) {
-				$order_by_qpart = "order_id,category,unread DESC,title";
-			} else {
-				$order_by_qpart = "order_id,category,title";
-			}
-		} else {
-			if (get_pref($this->link, "FEEDS_SORT_BY_UNREAD")) {
-				$order_by_qpart = "unread DESC,title";
-			} else {
-				$order_by_qpart = "title";
-			}
-		} */
-
-		/* real feeds */
-
-		if ($enable_cats)
-			$order_by_qpart = "ttrss_feed_categories.order_id,category,
-				ttrss_feeds.order_id,title";
-		else
-			$order_by_qpart = "title";
-
-		$query = "SELECT ttrss_feeds.id, ttrss_feeds.title,
-			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated_noms,
-			cat_id,last_error,
-			COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS category,
-			ttrss_feed_categories.collapsed,
-			value AS unread
-			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories
-				ON (ttrss_feed_categories.id = cat_id)
-			LEFT JOIN ttrss_counters_cache
-				ON
-					(ttrss_feeds.id = feed_id)
-			WHERE
-				ttrss_feeds.owner_uid = '$owner_uid'
-			ORDER BY $order_by_qpart";
-
-		$result = db_query($this->link, $query);
-
-		$actid = $_REQUEST["actid"];
-
-		if (db_num_rows($result) > 0) {
-
-			$category = "";
-
-			if (!$enable_cats)
-				$cat['items'] = array();
-			else
-				$cat = false;
-
-			while ($line = db_fetch_assoc($result)) {
-
-				$feed = htmlspecialchars(trim($line["title"]));
-
-				if (!$feed) $feed = "[Untitled]";
-
-				$feed_id = $line["id"];
-				$unread = $line["unread"];
-
-				$cat_id = $line["cat_id"];
-				$tmp_category = $line["category"];
-
-				if ($category != $tmp_category && $enable_cats) {
-
-					$category = $tmp_category;
-
-					$collapsed = sql_bool_to_bool($line["collapsed"]);
-
-					// workaround for NULL category
-					if ($category == __("Uncategorized")) {
-						$collapsed = get_pref($this->link, "_COLLAPSED_UNCAT");
-					}
-
-					if ($cat) array_push($feedlist['items'], $cat);
-
-					$cat = $this->feedlist_init_cat($cat_id, $collapsed);
-				}
-
-				$updated = make_local_datetime($this->link, $line["updated_noms"], false);
-
-				array_push($cat['items'], $this->feedlist_init_feed($feed_id,
-					$feed, $unread, $line['last_error'], $updated));
-			}
-
-			if ($enable_cats) {
-				array_push($feedlist['items'], $cat);
-			} else {
-				$feedlist['items'] = array_merge($feedlist['items'], $cat['items']);
-			}
-
-		}
-
-		return $feedlist;
-	}
-
-
 	function catchupAll() {
 		db_query($this->link, "UPDATE ttrss_user_entries SET
 						last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
@@ -948,29 +744,6 @@ class Feeds extends Protected_Handler {
 		$cat_id = db_escape_string($_REQUEST["cid"]);
 		$mode = (int) db_escape_string($_REQUEST['mode']);
 		toggle_collapse_cat($this->link, $cat_id, $mode);
-	}
-
-	function index() {
-		$root = (bool)$_REQUEST["root"];
-
-		if (!$root) {
-			print json_encode($this->outputFeedList($this->link));
-		} else {
-
-			$feeds = $this->outputFeedList($this->link, false);
-
-			$root = array();
-			$root['id'] = 'root';
-			$root['name'] = __('Feeds');
-			$root['items'] = $feeds['items'];
-
-			$fl = array();
-			$fl['identifier'] = 'id';
-			$fl['label'] = 'name';
-			$fl['items'] = array($root);
-
-			print json_encode($fl);
-		}
 	}
 
 	function view() {
@@ -986,11 +759,12 @@ class Feeds extends Protected_Handler {
 		$method = db_escape_string($_REQUEST["m"]);
 		$view_mode = db_escape_string($_REQUEST["view_mode"]);
 		$limit = (int) get_pref($this->link, "DEFAULT_ARTICLE_LIMIT");
-		@$cat_view = db_escape_string($_REQUEST["cat"]) == "true";
+		@$cat_view = $_REQUEST["cat"] == "true";
 		@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
 		@$offset = db_escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 		$order_by = db_escape_string($_REQUEST["order_by"]);
+		$include_children = $_REQUEST["include_children"] == "true";
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -1031,6 +805,8 @@ class Feeds extends Protected_Handler {
 		set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
 		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
+
+		$_SESSION["_DEFAULT_INCLUDE_CHILDREN"] = $include_children;
 
 		if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()
@@ -1084,7 +860,7 @@ class Feeds extends Protected_Handler {
 
 		$ret = $this->format_headlines_list($feed, $method,
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
-			$vgroup_last_feed, $override_order);
+			$vgroup_last_feed, $override_order, $include_children);
 
 		$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];

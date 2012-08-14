@@ -1501,7 +1501,9 @@
 
 		array_push($ret_arr, $cv);
 
-		$result = db_query($link, "SELECT id AS cat_id, value AS unread
+		$result = db_query($link, "SELECT id AS cat_id, value AS unread,
+			(SELECT COUNT(id) FROM ttrss_feed_categories AS c2
+				WHERE c2.parent_cat = ttrss_feed_categories.id) AS num_children
 			FROM ttrss_feed_categories, ttrss_cat_counters_cache
 			WHERE ttrss_cat_counters_cache.feed_id = id AND
 			ttrss_feed_categories.owner_uid = " . $_SESSION["uid"]);
@@ -1509,7 +1511,14 @@
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = (int) $line["cat_id"];
 
+			if ($line["num_children"] > 0) {
+				$child_counter = getCategoryChildrenUnread($link, $line["cat_id"], $_SESSION["uid"]);
+			} else {
+				$child_counter = 0;
+			}
+
 			$cv = array("id" => $line["cat_id"], "kind" => "cat",
+				"child_counter" => $child_counter,
 				"counter" => $line["unread"]);
 
 			array_push($ret_arr, $cv);
@@ -1523,6 +1532,23 @@
 		array_push($ret_arr, $cv);
 
 		return $ret_arr;
+	}
+
+	// only accepts real cats (>= 0)
+	function getCategoryChildrenUnread($link, $cat, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE parent_cat = '$cat'
+				AND owner_uid = $owner_uid");
+
+		$unread = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+			$unread += getCategoryUnread($link, $line["id"], $owner_uid);
+			$unread += getCategoryChildrenUnread($link, $line["id"], $owner_uid);
+		}
+
+		return $unread;
 	}
 
 	function getCategoryUnread($link, $cat, $owner_uid = false) {
@@ -2111,6 +2137,7 @@
 
 		$params["icons_url"] = ICONS_URL;
 		$params["cookie_lifetime"] = SESSION_COOKIE_LIFETIME;
+		$params["default_include_children"] = $_SESSION["_DEFAULT_INCLUDE_CHILDREN"];
 		$params["default_view_mode"] = get_pref($link, "_DEFAULT_VIEW_MODE");
 		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
 		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");
@@ -2247,8 +2274,21 @@
 		return $search_query_part;
 	}
 
+	function getChildCategories($link, $cat, $owner_uid) {
+		$rv = array();
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0) {
+		$result = db_query($link, "SELECT id FROM ttrss_feed_categories
+			WHERE parent_cat = '$cat' AND owner_uid = $owner_uid");
+
+		while ($line = db_fetch_assoc($result)) {
+			array_push($rv, $line["id"]);
+			$rv = array_merge($rv, getChildCategories($link, $line["id"], $owner_uid));
+		}
+
+		return $rv;
+	}
+
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2292,6 +2332,10 @@
 					$view_query_part = " ";
 				} else if ($feed != -1) {
 					$unread = getFeedUnread($link, $feed, $cat_view);
+
+					if ($cat_view && $feed > 0 && $include_children)
+						$unread += getCategoryChildrenUnread($link, $feed);
+
 					if ($unread > 0) {
 						$view_query_part = " unread = true AND ";
 					}
@@ -2363,7 +2407,21 @@
 				if ($cat_view) {
 
 					if ($feed > 0) {
-						$query_strategy_part = "cat_id = '$feed'";
+						if ($include_children) {
+							# sub-cats
+							$subcats = getChildCategories($link, $feed, $owner_uid);
+
+							if (count($subcats) == 0) {
+								$query_strategy_part = "cat_id = '$feed'";
+							} else {
+								array_push($subcats, $feed);
+								$query_strategy_part = "cat_id IN (".
+									implode(",", $subcats).")";
+							}
+						} else {
+							$query_strategy_part = "cat_id = '$feed'";
+						}
+
 					} else {
 						$query_strategy_part = "cat_id IS NULL";
 					}

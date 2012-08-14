@@ -170,6 +170,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 		}
 
 		query += "&cat=" + is_cat;
+		query += "&include_children=" + dijit.byId("include_children").attr("checked");
 
 		console.log(query);
 
@@ -286,6 +287,7 @@ function parse_counters(elems, scheduled_call) {
 			var error = elems[l].error;
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
+			var child_unread = parseInt(elems[l].child_counter);
 
 			if (id == "global-unread") {
 				global_unread = ctr;
@@ -322,6 +324,8 @@ function parse_counters(elems, scheduled_call) {
 						setFeedIcon(id, false, 'images/blank_icon.gif');
 					}
 				}
+			} else {
+				setCatParam(id, child_unread);
 			}
 		}
 
@@ -410,6 +414,19 @@ function setFeedValue(feed, is_cat, key, value) {
 		//
 	}
 }
+
+function setCatParam(cat, value) {
+	try {
+		var tree = dijit.byId("feedTree");
+
+		if (tree && tree.model)
+			return tree.setCatParam(cat, value);
+
+	} catch (e) {
+		//
+	}
+}
+
 
 function selectFeed(feed, is_cat) {
 	try {
