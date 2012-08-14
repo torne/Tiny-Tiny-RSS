@@ -280,7 +280,7 @@ class Pref_Feeds extends Protected_Handler {
 			(get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS') ? 'false' : 'true'));
 	}
 
-	private function process_category_order($data_map, $item_id, $parent_id = false) {
+	private function process_category_order(&$data_map, $item_id, $parent_id = false) {
 #		print "C: $item_id P: $parent_id\n";
 		$bare_id = substr($item_id, strpos($item_id, ':')+1);
 
@@ -317,7 +317,7 @@ class Pref_Feeds extends Protected_Handler {
 								owner_uid = " . $_SESSION["uid"]);
 
 					} else if (strpos($id, "CAT:") === 0) {
-						$this->process_category_order(&$data_map, $item['_reference'], $item_id);
+						$this->process_category_order($data_map, $item['_reference'], $item_id);
 
 						if ($item_id != 'root') {
 							$parent_qpart = db_escape_string($bare_id);
@@ -363,7 +363,7 @@ class Pref_Feeds extends Protected_Handler {
 				}
 			}
 
-			$this->process_category_order(&$data_map, $root_item);
+			$this->process_category_order($data_map, $root_item);
 
 			/* foreach ($data['items'][0]['items'] as $item) {
 				$id = $item['_reference'];
