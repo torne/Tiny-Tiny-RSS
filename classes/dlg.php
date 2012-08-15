@@ -44,25 +44,12 @@ class Dlg extends Protected_Handler {
 
 		db_query($this->link, "BEGIN");
 
-		/* create Imported feeds category just in case */
-
-		$result = db_query($this->link, "SELECT id FROM
-			ttrss_feed_categories WHERE title = 'Imported feeds' AND
-			owner_uid = '$owner_uid' LIMIT 1");
-
-		if (db_num_rows($result) == 0) {
-			db_query($this->link, "INSERT INTO ttrss_feed_categories
-				(title,owner_uid)
-					VALUES ('Imported feeds', '$owner_uid')");
-		}
-
-		db_query($this->link, "COMMIT");
-
-		/* Handle OPML import by DOMXML/DOMDocument */
-
 		print "<ul class='nomarks'>";
-		require_once "opml.php";
-		opml_import_domdoc($this->link, $owner_uid);
+
+		$opml = new Opml($this->link, $_REQUEST);
+
+		$opml->opml_import($_SESSION["uid"]);
+
 		print "</ul>";
 		print "</div>";
 
