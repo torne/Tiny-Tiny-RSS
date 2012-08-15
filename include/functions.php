@@ -1506,6 +1506,7 @@
 				WHERE c2.parent_cat = ttrss_feed_categories.id) AS num_children
 			FROM ttrss_feed_categories, ttrss_cat_counters_cache
 			WHERE ttrss_cat_counters_cache.feed_id = id AND
+			ttrss_cat_counters_cache.owner_uid = ttrss_feed_categories.owner_uid AND
 			ttrss_feed_categories.owner_uid = " . $_SESSION["uid"]);
 
 		while ($line = db_fetch_assoc($result)) {
@@ -1843,6 +1844,7 @@
 				last_error, value AS count
 			FROM ttrss_feeds, ttrss_counters_cache
 			WHERE ttrss_feeds.owner_uid = ".$_SESSION["uid"]."
+				AND ttrss_counters_cache.owner_uid = ttrss_feeds.owner_uid
 				AND ttrss_counters_cache.feed_id = id";
 
 		$result = db_query($link, $query);
