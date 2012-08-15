@@ -35,6 +35,51 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 			dojo.place(param, tnode.labelNode, 'after');
 		}
 
+		var id = args.item.id[0];
+		var bare_id = parseInt(id.substr(id.indexOf(':')+1));
+
+		if (id.match("CAT:") && bare_id > 0) {
+			var menu = new dijit.Menu();
+			menu.row_id = bare_id;
+			menu.item = args.item;
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Edit category"),
+				onClick: function() {
+					editCat(this.getParent().row_id, this.getParent().item, null);
+				}}));
+
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Remove category"),
+				onClick: function() {
+					removeCategory(this.getParent().row_id, this.getParent().item);
+				}}));
+
+			menu.bindDomNode(tnode.domNode);
+			tnode._menu = menu;
+		} else if (id.match("FEED:")) {
+			var menu = new dijit.Menu();
+			menu.row_id = bare_id;
+			menu.item = args.item;
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Edit feed"),
+				onClick: function() {
+					editFeed(this.getParent().row_id);
+				}}));
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Unsubscribe"),
+				onClick: function() {
+					unsubscribeFeed(this.getParent().row_id, this.getParent().item.name);
+				}}));
+
+			menu.bindDomNode(tnode.domNode);
+			tnode._menu = menu;
+
+		}
+
 		return tnode;
 	},
 	onDndDrop: function() {

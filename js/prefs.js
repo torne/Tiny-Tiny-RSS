@@ -1169,72 +1169,51 @@ function pref_hotkey_handler(e) {
 	}
 }
 
-function editFeedCats() {
+function removeCategory(id, item) {
 	try {
-		var query = "backend.php?op=pref-feeds&method=editCats";
 
-		if (dijit.byId("feedCatEditDlg"))
-			dijit.byId("feedCatEditDlg").destroyRecursive();
+		var ok = confirm(__("Remove category %s? Any nested feeds would be placed into Uncategorized.").replace("%s", item.name));
 
-		dialog = new dijit.Dialog({
-			id: "feedCatEditDlg",
-			title: __("Feed Categories"),
-			style: "width: 600px",
-			getSelectedCategories: function() {
-				return getSelectedTableRowIds("prefFeedCatList");
-			},
-			removeSelected: function() {
-				var sel_rows = this.getSelectedCategories();
+		if (ok) {
+			var query = "?op=pref-feeds&method=editCats&action=remove&ids="+
+				param_escape(id);
 
-				if (sel_rows.length > 0) {
-					var ok = confirm(__("Remove selected categories?"));
+			notify_progress("Removing category...");
 
-					if (ok) {
-						notify_progress("Removing selected categories...", true);
-
-						var query = "?op=pref-feeds&method=editCats&action=remove&ids="+
-							param_escape(sel_rows.toString());
-
-						new Ajax.Request("backend.php",	{
-							parameters: query,
-							onComplete: function(transport) {
-								notify('');
-								dialog.attr('content', transport.responseText);
-								updateFeedList();
-							} });
-
-					}
-
-				} else {
-					alert(__("No categories are selected."));
-				}
-			},
-			addCategory: function() {
-				if (this.validate()) {
-					notify_progress("Creating category...");
-
-					var query = "?op=pref-feeds&method=editCats&action=add&cat=" +
-						param_escape(this.attr('value').newcat);
-
-					new Ajax.Request("backend.php",	{
-						parameters: query,
-						onComplete: function(transport) {
-							notify('');
-							dialog.attr('content', transport.responseText);
-							updateFeedList();
-						} });
-				}
-			},
-			execute: function() {
-				if (this.validate()) {
-				}
-			},
-			href: query});
-
-		dialog.show();
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					notify('');
+					updateFeedList();
+				} });
+			}
 
 	} catch (e) {
-		exception_error("editFeedCats", e);
+		exception_error("removeCategory", e);
+	}
+}
+
+function createCategory() {
+	try {
+		var title = prompt(__("Category title:"));
+
+		if (title) {
+
+			notify_progress("Creating category...");
+
+			var query = "?op=pref-feeds&method=editCats&action=add&cat=" +
+				param_escape(title);
+
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					notify('');
+					updateFeedList();
+				} });
+		}
+
+	} catch (e) {
+		exception_error("createCategory", e);
 	}
 }
 
