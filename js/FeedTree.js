@@ -258,8 +258,9 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 				if (node) {
 					var check_unread = tree.model.getFeedUnread(bare_id, true);
+					var check_param = tree.model.getFeedValue(bare_id, true, "child_unread");
 
-					if (hide && cat_unread == 0 && check_unread == 0) {
+					if (hide && cat_unread == 0 && check_unread == 0 && check_param == 0) {
 						Effect.Fade(node[0].rowNode, {duration : 0.3,
 							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 					} else {
