@@ -269,19 +269,19 @@
 				from ttrss_feeds where $feed_cat_qpart AND owner_uid = '$owner_uid' AND $hide_qpart
 				order by order_id, title");
 
-			while ($fline = db_fetch_assoc($feeds_result)) {
-				$title = htmlspecialchars($fline["title"]);
-				$url = htmlspecialchars($fline["feed_url"]);
-				$site_url = htmlspecialchars($fline["site_url"]);
+		while ($fline = db_fetch_assoc($feeds_result)) {
+			$title = htmlspecialchars($fline["title"]);
+			$url = htmlspecialchars($fline["feed_url"]);
+			$site_url = htmlspecialchars($fline["site_url"]);
 
-				if ($site_url) {
-					$html_url_qpart = "htmlUrl=\"$site_url\"";
-				} else {
-					$html_url_qpart = "";
-				}
-
-				$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+			if ($site_url) {
+				$html_url_qpart = "htmlUrl=\"$site_url\"";
+			} else {
+				$html_url_qpart = "";
 			}
+
+			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+		}
 
 		if ($cat_title) $out .= "</outline>\n";
 
@@ -316,14 +316,10 @@
 			   profile IS NULL AND owner_uid = " . $_SESSION["uid"] . " ORDER BY pref_name");
 
 			while ($line = db_fetch_assoc($result)) {
-
 				$name = $line["pref_name"];
 				$value = htmlspecialchars($line["value"]);
 
-				$out .= "<outline pref-name=\"$name\" value=\"$value\">";
-
-				$out .= "</outline>";
-
+				$out .= "<outline pref-name=\"$name\" value=\"$value\"/>";
 			}
 
 			$out .= "</outline>";
