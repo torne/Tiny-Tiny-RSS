@@ -282,9 +282,16 @@ class Pref_Feeds extends Protected_Handler {
 			(get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS') ? 'false' : 'true'));
 	}
 
-	private function process_category_order(&$data_map, $item_id, $parent_id = false) {
-#		print "C: $item_id P: $parent_id\n";
-		$bare_id = substr($item_id, strpos($item_id, ':')+1);
+	private function process_category_order(&$data_map, $item_id, $parent_id = false, $nest_level = 0) {
+		$debug = isset($_REQUEST["debug"]);
+
+		$prefix = "";
+		for ($i = 0; $i < $nest_level; $i++)
+			$prefix .= "   ";
+
+		if ($debug) _debug("$prefix C: $item_id P: $parent_id");
+
+		$bare_item_id = substr($item_id, strpos($item_id, ':')+1);
 
 		if ($item_id != 'root') {
 			if ($parent_id && $parent_id != 'root') {
@@ -295,7 +302,7 @@ class Pref_Feeds extends Protected_Handler {
 			}
 
 			db_query($this->link, "UPDATE ttrss_feed_categories
-				SET parent_cat = $parent_qpart WHERE id = '$bare_id' AND
+				SET parent_cat = $parent_qpart WHERE id = '$bare_item_id' AND
 				owner_uid = " . $_SESSION["uid"]);
 		}
 
@@ -308,18 +315,23 @@ class Pref_Feeds extends Protected_Handler {
 				$id = $item['_reference'];
 				$bare_id = substr($id, strpos($id, ':')+1);
 
-#				print "[$order_id] $id/$bare_id\n";
+				if ($debug) _debug("$prefix [$order_id] $id/$bare_id");
 
 				if ($item['_reference']) {
 
 					if (strpos($id, "FEED") === 0) {
 
+						$cat_id = ($item_id != "root") ?
+							db_escape_string($bare_item_id) : "NULL";
+
 						db_query($this->link, "UPDATE ttrss_feeds
-								SET order_id = '$order_id' WHERE id = '$bare_id' AND
+							SET order_id = $order_id, cat_id = '$cat_id'
+							WHERE id = '$bare_id' AND
 								owner_uid = " . $_SESSION["uid"]);
 
 					} else if (strpos($id, "CAT:") === 0) {
-						$this->process_category_order($data_map, $item['_reference'], $item_id);
+						$this->process_category_order($data_map, $item['_reference'], $item_id,
+							$nest_level+1);
 
 						if ($item_id != 'root') {
 							$parent_qpart = db_escape_string($bare_id);
@@ -344,7 +356,10 @@ class Pref_Feeds extends Protected_Handler {
 		#file_put_contents("/tmp/saveorder.json", $_POST['payload']);
 		#$data = json_decode(file_get_contents("/tmp/saveorder.json"), true);
 
-		$data['items'] = json_decode($data['items'], true);
+		if (!is_array($data['items']))
+			$data['items'] = json_decode($data['items'], true);
+
+#		print_r($data['items']);
 
 		if (is_array($data) && is_array($data['items'])) {
 			$cat_order_id = 0;
