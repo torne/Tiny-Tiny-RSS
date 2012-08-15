@@ -2116,7 +2116,9 @@ function batchSubscribe() {
 					new Ajax.Request("backend.php", {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) {
-							this.hide();
+							notify("");
+							updateFeedList();
+							dialog.hide();
 						} });
 					}
 			},
