@@ -215,7 +215,7 @@
 		$debug = isset($_REQUEST["debug"]);
 		$doc = false;
 
-		if ($debug) $doc = DOMDocument::load("/tmp/test.opml");
+		#if ($debug) $doc = DOMDocument::load("/tmp/test.opml");
 
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$doc = DOMDocument::load($_FILES['opml_file']['tmp_name']);
