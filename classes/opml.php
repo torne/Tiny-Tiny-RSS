@@ -201,6 +201,16 @@ class Opml extends Protected_Handler {
 		$doc->formatOutput = true;
 		$doc->preserveWhiteSpace = false;
 		$doc->loadXML($out);
+
+		$xpath = new DOMXpath($doc);
+		$outlines = $xpath->query("//outline[@title]");
+
+		// cleanup empty categories
+		foreach ($outlines as $node) {
+			if ($node->getElementsByTagName('outline')->length == 0)
+				$node->parentNode->removeChild($node);
+		}
+
 		$res = $doc->saveXML();
 
 		// saveXML uses a two-space indent.  Change to tabs.
