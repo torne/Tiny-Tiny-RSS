@@ -1469,9 +1469,9 @@ class Pref_Feeds extends Protected_Handler {
 		</script>
 		</div>";
 
-		print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedTree\" position=\"below\">
-			".__('<b>Hint:</b> you can drag feeds and categories around.')."
-			</div>";
+#		print "<div dojoType=\"dijit.Tooltip\" connectId=\"feedTree\" position=\"below\">
+#			".__('<b>Hint:</b> you can drag feeds and categories around.')."
+#			</div>";
 
 		print '</div>';
 		print '</div>';
