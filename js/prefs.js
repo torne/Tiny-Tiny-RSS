@@ -1175,7 +1175,7 @@ function removeCategory(id, item) {
 		var ok = confirm(__("Remove category %s? Any nested feeds would be placed into Uncategorized.").replace("%s", item.name));
 
 		if (ok) {
-			var query = "?op=pref-feeds&method=editCats&action=remove&ids="+
+			var query = "?op=pref-feeds&method=removeCat&ids="+
 				param_escape(id);
 
 			notify_progress("Removing category...");
@@ -1201,7 +1201,7 @@ function createCategory() {
 
 			notify_progress("Creating category...");
 
-			var query = "?op=pref-feeds&method=editCats&action=add&cat=" +
+			var query = "?op=pref-feeds&method=addCat&cat=" +
 				param_escape(title);
 
 			new Ajax.Request("backend.php",	{

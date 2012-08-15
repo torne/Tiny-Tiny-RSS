@@ -1290,6 +1290,19 @@ class Pref_Feeds extends Protected_Handler {
 		db_query($this->link, "COMMIT");
 	}
 
+	function removeCat() {
+		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		foreach ($ids as $id) {
+			remove_feed_category($this->link, $id, $_SESSION["uid"]);
+		}
+	}
+
+	function addCat() {
+		$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
+
+		add_feed_category($this->link, $feed_cat);
+	}
+
 	function index() {
 
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
