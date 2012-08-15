@@ -805,8 +805,7 @@ class Feeds extends Protected_Handler {
 		set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
 		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
-
-		$_SESSION["_DEFAULT_INCLUDE_CHILDREN"] = $include_children;
+		set_pref($this->link, "_DEFAULT_INCLUDE_CHILDREN", $include_children);
 
 		if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()
