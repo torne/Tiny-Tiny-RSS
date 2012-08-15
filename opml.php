@@ -287,8 +287,77 @@
 
 	}
 
+	function opml_export_category($link, $owner_uid, $cat_id, $hide_private_feeds=false) {
+
+		if ($cat_id)
+			$cat_qpart = "parent_cat = '$cat_id'";
+		else
+			$cat_qpart = "parent_cat IS NULL";
+
+		if ($hide_private_feeds)
+			$hide_qpart = "(private IS false AND auth_login = '' AND auth_pass = '')";
+		else
+			$hide_qpart = "true";
+
+		$out = "";
+
+		$query = "SELECT
+			ttrss_feeds.title, feed_url, site_url, ttrss_feeds.order_id,
+				ttrss_feed_categories.id AS cat_id,
+				ttrss_feed_categories.title AS cat_title,
+				ttrss_feed_categories.order_id AS cat_order_id
+			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories ON (ttrss_feed_categories.id = ttrss_feeds.cat_id)
+			WHERE ttrss_feeds.owner_uid = '$owner_uid' AND $hide_qpart AND $cat_qpart
+			ORDER BY cat_order_id, cat_title, ttrss_feeds.order_id, title";
+
+		#$out .= "<!-- $query -->";
+
+		$result = db_query($link, $query);
+
+		$old_cat_title = "";
+
+		while ($line = db_fetch_assoc($result)) {
+			$title = htmlspecialchars($line["title"]);
+			$url = htmlspecialchars($line["feed_url"]);
+			$site_url = htmlspecialchars($line["site_url"]);
+
+			$cat_title = htmlspecialchars($line["cat_title"]);
+
+			if ($old_cat_title != $cat_title) {
+				if ($old_cat_title) {
+					$out .= "</outline>\n";
+				}
+
+				if ($cat_title) {
+					$out .= "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
+				}
+				$old_cat_title = $cat_title;
+
+				$cat_id = (int) $line["cat_id"];
+
+				if ($cat_id > 0)
+					$out .= opml_export_category($link, $owner_uid, $cat_id, $hide_private_feeds);
+			}
+
+			if ($site_url) {
+				$html_url_qpart = "htmlUrl=\"$site_url\"";
+			} else {
+				$html_url_qpart = "";
+			}
+
+			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+
+		}
+
+		if ($old_cat_title) {
+			$out .= "</outline>\n";
+		}
+
+		return $out;
+	}
+
 	function opml_export($link, $name, $owner_uid, $hide_private_feeds=false, $include_settings=true) {
-		if (!$_REQUEST["debug"]) {
+		if (!isset($_REQUEST["debug"])) {
 			header("Content-type: application/xml+opml");
 			header("Content-Disposition: attachment; filename=" . $name );
 		} else {
@@ -304,72 +373,7 @@
 		</head>";
 		$out .= "<body>";
 
-		$cat_mode = false;
-
-		$select = "SELECT * ";
-		$where = "WHERE owner_uid = '$owner_uid'";
-		$orderby = "ORDER BY order_id, title";
-		if ($hide_private_feeds){
-			$where = "WHERE owner_uid = '$owner_uid' AND private IS false AND
-				auth_login = '' AND auth_pass = ''";
-		}
-
-
-
-		if (get_pref($link, 'ENABLE_FEED_CATS', $owner_uid) == true) {
-			$cat_mode = true;
-			$select = "SELECT
-				title, feed_url, site_url, order_id,
-				(SELECT order_id FROM ttrss_feed_categories WHERE id = cat_id) AS cat_order_id,
-				(SELECT title FROM ttrss_feed_categories WHERE id = cat_id) as cat_title";
-			$orderby = "ORDER BY cat_order_id, cat_title, order_id, title";
-
-		}
-		else{
-			$cat_feed = get_pref($link, 'ENABLE_FEED_CATS');
-			$out .= "<!-- feeding cats is not enabled -->";
-			$out .= "<!-- $cat_feed -->";
-
-		}
-
-
-		$result = db_query($link, $select." FROM ttrss_feeds ".$where." ".$orderby);
-
-		$old_cat_title = "";
-
-		while ($line = db_fetch_assoc($result)) {
-			$title = htmlspecialchars($line["title"]);
-			$url = htmlspecialchars($line["feed_url"]);
-			$site_url = htmlspecialchars($line["site_url"]);
-
-			if ($cat_mode) {
-				$cat_title = htmlspecialchars($line["cat_title"]);
-
-				if ($old_cat_title != $cat_title) {
-					if ($old_cat_title) {
-						$out .= "</outline>\n";
-					}
-
-					if ($cat_title) {
-						$out .= "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
-					}
-
-					$old_cat_title = $cat_title;
-				}
-			}
-
-			if ($site_url) {
-				$html_url_qpart = "htmlUrl=\"$site_url\"";
-			} else {
-				$html_url_qpart = "";
-			}
-
-			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
-		}
-
-		if ($cat_mode && $old_cat_title) {
-			$out .= "</outline>\n";
-		}
+		$out .= opml_export_category($link, $owner_uid, false, $hide_private_feeds);
 
 		# export tt-rss settings
 
