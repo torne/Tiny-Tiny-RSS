@@ -13,286 +13,233 @@
 
 	if (!init_connection($link)) return;
 
+	function opml_import_feed($link, $doc, $node, $cat_id, $owner_uid) {
+		$attrs = $node->attributes;
+
+		$feed_title = db_escape_string($attrs->getNamedItem('text')->nodeValue);
+		if (!$feed_title) $feed_title = db_escape_string($attrs->getNamedItem('title')->nodeValue);
+
+		$feed_url = db_escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
+		if (!$feed_url) $feed_url = db_escape_string($attrs->getNamedItem('xmlURL')->nodeValue);
+
+		$site_url = db_escape_string($attrs->getNamedItem('htmlUrl')->nodeValue);
+
+		if ($feed_url && $feed_title) {
+			$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+				feed_url = '$feed_url' AND owner_uid = '$owner_uid'");
+
+			if (db_num_rows($result) == 0) {
+				#opml_notice("[FEED] [$feed_title/$feed_url] dst_CAT=$cat_id");
+				opml_notice(T_sprintf("Adding feed: %s", $feed_title));
+
+				$query = "INSERT INTO ttrss_feeds
+					(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
+					('$feed_title', '$feed_url', '$owner_uid',
+					'$cat_id', '$site_url', 0)";
+				db_query($link, $query);
+
+			} else {
+				opml_notice(T_sprintf("Duplicate feed: %s", $feed_title));
+			}
+		}
+	}
+
+	function opml_import_label($link, $doc, $node, $owner_uid) {
+		$attrs = $node->attributes;
+		$label_name = db_escape_string($attrs->getNamedItem('label-name')->nodeValue);
+
+		if ($label_name) {
+			$fg_color = db_escape_string($attrs->getNamedItem('label-fg-color')->nodeValue);
+			$bg_color = db_escape_string($attrs->getNamedItem('label-bg-color')->nodeValue);
+
+			if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
+				opml_notice(T_sprintf("Adding label %s", htmlspecialchars($label_name)));
+				label_create($link, $label_name, $fg_color, $bg_color);
+			} else {
+				opml_notice(T_sprintf("Duplicate label: %s", htmlspecialchars($label_name)));
+			}
+		}
+	}
+
+	function opml_import_preference($link, $doc, $node, $owner_uid) {
+		$attrs = $node->attributes;
+		$pref_name = db_escape_string($attrs->getNamedItem('pref-name')->nodeValue);
+
+		if ($pref_name) {
+			$pref_value = db_escape_string($attrs->getNamedItem('value')->nodeValue);
+
+			opml_notice(T_sprintf("Setting preference key %s to %s",
+				$pref_name, $pref_value));
+
+			set_pref($link, $pref_name, $pref_value);
+		}
+	}
+
+	function opml_import_filter($link, $doc, $node, $owner_uid) {
+		$attrs = $node->attributes;
+
+		$filter_name = db_escape_string($attrs->getNamedItem('filter-name')->nodeValue);
+
+		if ($filter_name) {
+
+		$filter = json_decode($node->nodeValue, true);
+
+			if ($filter) {
+				$reg_exp = db_escape_string($filter['reg_exp']);
+				$filter_type = (int)$filter['filter_type'];
+				$action_id = (int)$filter['action_id'];
+
+				$result = db_query($link, "SELECT id FROM ttrss_filters WHERE
+					reg_exp = '$reg_exp' AND
+					filter_type = '$filter_type' AND
+					action_id = '$action_id' AND
+					owner_uid = " .$_SESSION['uid']);
+
+				if (db_num_rows($result) == 0) {
+					$enabled = bool_to_sql_bool($filter['enabled']);
+					$action_param = db_escape_string($filter['action_param']);
+					$inverse = bool_to_sql_bool($filter['inverse']);
+					$filter_param = db_escape_string($filter['filter_param']);
+					$cat_filter = bool_to_sql_bool($filter['cat_filter']);
+
+					$feed_url = db_escape_string($filter['feed_url']);
+					$cat_title = db_escape_string($filter['cat_title']);
+
+					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
+						feed_url = '$feed_url' AND owner_uid = ".$_SESSION['uid']);
+
+					if (db_num_rows($result) != 0) {
+						$feed_id = db_fetch_result($result, 0, "id");
+					} else {
+						$feed_id = "NULL";
+					}
+
+					$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
+						title = '$cat_title' AND  owner_uid = ".$_SESSION['uid']);
+
+					if (db_num_rows($result) != 0) {
+						$cat_id = db_fetch_result($result, 0, "id");
+					} else {
+						$cat_id = "NULL";
+					}
+
+					opml_notice(T_sprintf("Adding filter %s", htmlspecialchars($reg_exp)));
+
+					$query = "INSERT INTO ttrss_filters (filter_type, action_id,
+							enabled, inverse, action_param, filter_param,
+							cat_filter, feed_id,
+							cat_id, reg_exp,
+							owner_uid)
+						VALUES ($filter_type, $action_id,
+							$enabled, $inverse, '$action_param', '$filter_param',
+							$cat_filter, $feed_id,
+							$cat_id, '$reg_exp', ".
+							$_SESSION['uid'].")";
+
+					db_query($link, $query);
+
+				} else {
+					opml_notice(T_sprintf("Duplicate filter %s", htmlspecialchars($reg_exp)));
+				}
+			}
+		}
+	}
+
+	function opml_import_category($link, $doc, $root_node, $owner_uid, $parent_id) {
+		$body = $doc->getElementsByTagName('body');
+
+		$default_cat_id = (int) get_feed_category($link, 'Imported feeds', false);
+
+		if ($root_node) {
+			$cat_title = db_escape_string($root_node->attributes->getNamedItem('title')->nodeValue);
+
+			if (!in_array($cat_title, array("tt-rss-filters", "tt-rss-labels", "tt-rss-prefs"))) {
+				$cat_id = get_feed_category($link, $cat_title, $parent_id);
+				db_query($link, "BEGIN");
+				if ($cat_id === false) {
+					add_feed_category($link, $cat_title, $parent_id);
+					$cat_id = get_feed_category($link, $cat_title, $parent_id);
+				}
+				db_query($link, "COMMIT");
+			} else {
+				$cat_id = 0;
+			}
+
+			$outlines = $root_node->childNodes;
+
+		} else {
+			$xpath = new DOMXpath($doc);
+			$outlines = $xpath->query("//opml/body/outline");
+
+			$cat_id = 0;
+		}
+
+		#opml_notice("[CAT] $cat_title id: $cat_id P_id: $parent_id");
+		opml_notice(T_sprintf("Processing category: %s", $cat_title ? $cat_title : __("Uncategorized")));
+
+		foreach ($outlines as $node) {
+			if ($node->hasAttributes() && strtolower($node->tagName) == "outline") {
+				$attrs = $node->attributes;
+				$node_cat_title = db_escape_string($attrs->getNamedItem('title')->nodeValue);
+
+				if ($node->hasChildNodes() && $node_cat_title) {
+					opml_import_category($link, $doc, $node, $owner_uid, $cat_id);
+				} else {
+
+					if (!$cat_id) {
+						$dst_cat_id = $default_cat_id;
+					} else {
+						$dst_cat_id = $cat_id;
+					}
+
+					switch ($cat_title) {
+					case "tt-rss-prefs":
+						opml_import_preference($link, $doc, $node, $owner_uid);
+						break;
+					case "tt-rss-labels":
+						opml_import_label($link, $doc, $node, $owner_uid);
+						break;
+					case "tt-rss-filters":
+						opml_import_filter($link, $doc, $node, $owner_uid);
+						break;
+					default:
+						opml_import_feed($link, $doc, $node, $dst_cat_id, $owner_uid);
+					}
+				}
+			}
+		}
+	}
+
 	function opml_import_domdoc($link, $owner_uid) {
+
+		$debug = isset($_REQUEST["debug"]);
+		$doc = false;
+
+		if ($debug) $doc = DOMDocument::load("/tmp/test.opml");
 
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
 			$doc = DOMDocument::load($_FILES['opml_file']['tmp_name']);
-
-			$result = db_query($link, "SELECT id FROM
-				ttrss_feed_categories WHERE title = 'Imported feeds' AND
-				owner_uid = '$owner_uid' LIMIT 1");
-
-			if (db_num_rows($result) == 1) {
-				$default_cat_id = db_fetch_result($result, 0, "id");
-			} else {
-				$default_cat_id = 0;
-			}
-
-			// Keep imported categories in order, after any pre-existing ones.
-			$new_cat_order_id = 0;
-			// Get the highest category order_id in use.
-			$result = db_query($link, "SELECT order_id FROM
-				ttrss_feed_categories WHERE owner_uid = '$owner_uid'
-				ORDER BY order_id DESC LIMIT 1");
-			if (db_num_rows($result) == 1) {
-				$new_cat_order_id = db_fetch_result($result, 0, "order_id");
-			}
-
-			if ($doc) {
-				$body = $doc->getElementsByTagName('body');
-
-				$xpath = new DOMXpath($doc);
-				$query = "/opml/body//outline";
-
-				$outlines = $xpath->query($query);
-
-				foreach ($outlines as $outline) {
-
-					$attributes = $outline->attributes;
-
-					$feed_title = db_escape_string($attributes->getNamedItem('text')->nodeValue);
-					if (!$feed_title) $feed_title = db_escape_string($attributes->getNamedItem('title')->nodeValue);
-
-					$cat_title = db_escape_string($attributes->getNamedItem('title')->nodeValue);
-					if (!$cat_title) $cat_title = db_escape_string($attributes->getNamedItem('text')->nodeValue);
-
-					$feed_url = db_escape_string($attributes->getNamedItem('xmlUrl')->nodeValue);
-					if (!$feed_url) $feed_url = db_escape_string($attributes->getNamedItem('xmlURL')->nodeValue);
-
-					$site_url = db_escape_string($attributes->getNamedItem('htmlUrl')->nodeValue);
-
-					$pref_name = db_escape_string($attributes->getNamedItem('pref-name')->nodeValue);
-					$label_name = db_escape_string($attributes->getNamedItem('label-name')->nodeValue);
-					$filter_name = db_escape_string($attributes->getNamedItem('filter-name')->nodeValue);
-
-					if ($cat_title && !$feed_url) {
-
-						if ($cat_title != "tt-rss-prefs" && $cat_title != 'tt-rss-labels' && $cat_title != 'tt-rss-filters') {
-
-							db_query($link, "BEGIN");
-
-							$result = db_query($link, "SELECT id FROM
-									ttrss_feed_categories WHERE title = '$cat_title' AND
-									owner_uid = '$owner_uid' LIMIT 1");
-
-							if (db_num_rows($result) == 0) {
-								$cat_order_id = ++$new_cat_order_id;
-
-								printf(__("<li>Adding category <b>%s</b>.</li>"), $cat_title);
-
-								db_query($link, "INSERT INTO ttrss_feed_categories
-										(title,owner_uid,order_id)
-										VALUES ('$cat_title', '$owner_uid', '$cat_order_id')");
-							}
-
-							db_query($link, "COMMIT");
-						}
-					}
-
-					//						print "$active_category : $feed_title : $feed_url<br>";
-
-					if ($pref_name) {
-						$parent_node = $outline->parentNode;
-
-						if ($parent_node && $parent_node->nodeName == "outline") {
-							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
-							if ($cat_check == "tt-rss-prefs") {
-								$pref_value = db_escape_string($outline->attributes->getNamedItem('value')->nodeValue);
-
-								printf("<li>".
-									__("Setting preference key %s to %s")."</li>",
-										$pref_name, $pref_value);
-
-								set_pref($link, $pref_name, $pref_value);
-
-							}
-						}
-					}
-
-					if ($label_name) {
-						$parent_node = $outline->parentNode;
-
-						if ($parent_node && $parent_node->nodeName == "outline") {
-							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
-							if ($cat_check == "tt-rss-labels") {
-
-								$fg_color = db_escape_string($attributes->getNamedItem('label-fg-color')->nodeValue);
-								$bg_color = db_escape_string($attributes->getNamedItem('label-bg-color')->nodeValue);
-
-								if (!label_find_id($link, $label_name, $_SESSION['uid'])) {
-									printf("<li>".__("Adding label %s")."</li>", htmlspecialchars($label_name));
-									label_create($link, $label_name, $fg_color, $bg_color);
-								} else {
-									printf("<li>".__("Duplicate label: %s")."</li>",
-										htmlspecialchars($label_name));
-								}
-							}
-						}
-					}
-
-					if ($filter_name) {
-						$parent_node = $outline->parentNode;
-
-						if ($parent_node && $parent_node->nodeName == "outline") {
-							$cat_check = $parent_node->attributes->getNamedItem('title')->nodeValue;
-							if ($cat_check == "tt-rss-filters") {
-								$filter = json_decode($outline->nodeValue, true);
-
-								if ($filter) {
-									$reg_exp = db_escape_string($filter['reg_exp']);
-									$filter_type = (int)$filter['filter_type'];
-									$action_id = (int)$filter['action_id'];
-
-									$result = db_query($link, "SELECT id FROM ttrss_filters WHERE
-										reg_exp = '$reg_exp' AND
-										filter_type = '$filter_type' AND
-										action_id = '$action_id' AND
-										owner_uid = " .$_SESSION['uid']);
-
-									if (db_num_rows($result) == 0) {
-										$enabled = bool_to_sql_bool($filter['enabled']);
-										$action_param = db_escape_string($filter['action_param']);
-										$inverse = bool_to_sql_bool($filter['inverse']);
-										$filter_param = db_escape_string($filter['filter_param']);
-										$cat_filter = bool_to_sql_bool($filter['cat_filter']);
-
-										$feed_url = db_escape_string($filter['feed_url']);
-										$cat_title = db_escape_string($filter['cat_title']);
-
-										$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-											feed_url = '$feed_url' AND owner_uid = ".$_SESSION['uid']);
-
-										if (db_num_rows($result) != 0) {
-											$feed_id = db_fetch_result($result, 0, "id");
-										} else {
-											$feed_id = "NULL";
-										}
-
-										$result = db_query($link, "SELECT id FROM ttrss_feed_categories WHERE
-											title = '$cat_title' AND  owner_uid = ".$_SESSION['uid']);
-
-										if (db_num_rows($result) != 0) {
-											$cat_id = db_fetch_result($result, 0, "id");
-										} else {
-											$cat_id = "NULL";
-										}
-
-										printf("<li>".__("Adding filter %s")."</li>", htmlspecialchars($reg_exp));
-
-										$query = "INSERT INTO ttrss_filters (filter_type, action_id,
-												enabled, inverse, action_param, filter_param,
-												cat_filter, feed_id,
-												cat_id, reg_exp,
-												owner_uid)
-											VALUES ($filter_type, $action_id,
-												$enabled, $inverse, '$action_param', '$filter_param',
-												$cat_filter, $feed_id,
-												$cat_id, '$reg_exp', ".
-												$_SESSION['uid'].")";
-
-										db_query($link, $query);
-
-									} else {
-										printf("<li>".__("Duplicate filter %s")."</li>", htmlspecialchars($reg_exp));
-
-									}
-								}
-							}
-						}
-					}
-
-					if (!$feed_title || !$feed_url) continue;
-
-					db_query($link, "BEGIN");
-
-					$cat_id = null;
-
-					$parent_node = $outline->parentNode;
-
-					if ($parent_node && $parent_node->nodeName == "outline") {
-						$element_category = $parent_node->attributes->getNamedItem('title')->nodeValue;
-						if (!$element_category) $element_category = $parent_node->attributes->getNamedItem('text')->nodeValue;
-
-					} else {
-						$element_category = '';
-					}
-
-					if ($element_category) {
-
-						$element_category = db_escape_string($element_category);
-
-						$result = db_query($link, "SELECT id FROM
-								ttrss_feed_categories WHERE title = '$element_category' AND
-								owner_uid = '$owner_uid' LIMIT 1");
-
-							if (db_num_rows($result) == 1) {
-								$cat_id = db_fetch_result($result, 0, "id");
-							}
-					}
-
-					$result = db_query($link, "SELECT id FROM ttrss_feeds WHERE
-							feed_url = '$feed_url'
-							AND owner_uid = '$owner_uid'");
-
-					print "<li><a target='_blank' href='$site_url'><b>$feed_title</b></a></b>
-						(<a target='_blank' href=\"$feed_url\">rss</a>)&nbsp;";
-
-					if (db_num_rows($result) > 0) {
-						print __('is already imported.');
-					} else {
-						// Get max order_id already in use. Increment.
-						$new_feed_order_id = 0;	// these start at zero
-						$cat_id_qpart = $cat_id ? "cat_id = '$cat_id'" : "cat_id = '$default_cat_id'";
-						$result = db_query($link, "SELECT order_id FROM
-							ttrss_feeds WHERE owner_uid = '$owner_uid' AND $cat_id_qpart
-							ORDER BY order_id DESC LIMIT 1");
-						if (db_num_rows($result) == 1) {
-							$new_feed_order_id = db_fetch_result($result, 0, "order_id");
-							$new_feed_order_id++;
-						}
-
-						if ($cat_id) {
-							$add_query = "INSERT INTO ttrss_feeds
-								(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
-								('$feed_title', '$feed_url', '$owner_uid',
-								 '$cat_id', '$site_url', '$new_feed_order_id')";
-
-						} else {
-							$add_query = "INSERT INTO ttrss_feeds
-								(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
-								('$feed_title', '$feed_url', '$owner_uid', '$default_cat_id',
-									'$site_url', '$new_feed_order_id')";
-
-						}
-
-						//print $add_query;
-						db_query($link, $add_query);
-
-						print __('OK');
-					}
-
-					print "</li>";
-
-					db_query($link, "COMMIT");
-				}
-
-			} else {
-				print_error(__('Error while parsing document.'));
-			}
-
-		} else {
+		} else if (!$doc) {
 			print_error(__('Error: please upload OPML file.'));
+			return;
 		}
 
-
+		if ($doc) {
+			opml_import_category($link, $doc, false, $owner_uid);
+		} else {
+			print_error(__('Error while parsing document.'));
+		}
 	}
 
 	function opml_export_category($link, $owner_uid, $cat_id, $hide_private_feeds=false) {
 
-		if ($cat_id)
+		if ($cat_id) {
 			$cat_qpart = "parent_cat = '$cat_id'";
-		else
+			$feed_cat_qpart = "cat_id = '$cat_id'";
+		} else {
 			$cat_qpart = "parent_cat IS NULL";
+			$feed_cat_qpart = "cat_id IS NULL";
+		}
 
 		if ($hide_private_feeds)
 			$hide_qpart = "(private IS false AND auth_login = '' AND auth_pass = '')";
@@ -301,57 +248,42 @@
 
 		$out = "";
 
-		$query = "SELECT
-			ttrss_feeds.title, feed_url, site_url, ttrss_feeds.order_id,
-				ttrss_feed_categories.id AS cat_id,
-				ttrss_feed_categories.title AS cat_title,
-				ttrss_feed_categories.order_id AS cat_order_id
-			FROM ttrss_feeds LEFT JOIN ttrss_feed_categories ON (ttrss_feed_categories.id = ttrss_feeds.cat_id)
-			WHERE ttrss_feeds.owner_uid = '$owner_uid' AND $hide_qpart AND $cat_qpart
-			ORDER BY cat_order_id, cat_title, ttrss_feeds.order_id, title";
+		if ($cat_id) {
+			$result = db_query($link, "SELECT title FROM ttrss_feed_categories WHERE id = '$cat_id'
+				AND owner_uid = '$owner_uid'");
+			$cat_title = db_fetch_result($result, 0, "title");
+		}
 
-		#$out .= "<!-- $query -->";
+		if ($cat_title) $out .= "<outline title=\"$cat_title\">\n";
 
-		$result = db_query($link, $query);
-
-		$old_cat_title = "";
+		$result = db_query($link, "SELECT id,title
+			FROM ttrss_feed_categories WHERE
+			$cat_qpart AND owner_uid = '$owner_uid' ORDER BY order_id, title");
 
 		while ($line = db_fetch_assoc($result)) {
 			$title = htmlspecialchars($line["title"]);
-			$url = htmlspecialchars($line["feed_url"]);
-			$site_url = htmlspecialchars($line["site_url"]);
-
-			$cat_title = htmlspecialchars($line["cat_title"]);
-
-			if ($old_cat_title != $cat_title) {
-				if ($old_cat_title) {
-					$out .= "</outline>\n";
-				}
-
-				if ($cat_title) {
-					$out .= "<outline title=\"$cat_title\" text=\"$cat_title\" >\n";
-				}
-				$old_cat_title = $cat_title;
-
-				$cat_id = (int) $line["cat_id"];
-
-				if ($cat_id > 0)
-					$out .= opml_export_category($link, $owner_uid, $cat_id, $hide_private_feeds);
-			}
-
-			if ($site_url) {
-				$html_url_qpart = "htmlUrl=\"$site_url\"";
-			} else {
-				$html_url_qpart = "";
-			}
-
-			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
-
+			$out .= opml_export_category($link, $owner_uid, $line["id"], $hide_private_feeds);
 		}
 
-		if ($old_cat_title) {
-			$out .= "</outline>\n";
-		}
+		$feeds_result = db_query($link, "select title, feed_url, site_url
+				from ttrss_feeds where $feed_cat_qpart AND owner_uid = '$owner_uid' AND $hide_qpart
+				order by order_id, title");
+
+			while ($fline = db_fetch_assoc($feeds_result)) {
+				$title = htmlspecialchars($fline["title"]);
+				$url = htmlspecialchars($fline["feed_url"]);
+				$site_url = htmlspecialchars($fline["site_url"]);
+
+				if ($site_url) {
+					$html_url_qpart = "htmlUrl=\"$site_url\"";
+				} else {
+					$html_url_qpart = "";
+				}
+
+				$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+			}
+
+		if ($cat_title) $out .= "</outline>\n";
 
 		return $out;
 	}
@@ -531,7 +463,8 @@
 
 		db_query($link, "COMMIT");
 
-		print "<p>".__("Importing OPML...")."</p>";
+		opml_notice(__("Importing OPML..."));
+
 		opml_import_domdoc($link, $owner_uid);
 
 		print "<br><form method=\"GET\" action=\"prefs.php\">
@@ -543,5 +476,9 @@
 	}
 
 //	if ($link) db_close($link);
+
+	function opml_notice($msg) {
+		print "$msg<br/>";
+	}
 
 ?>

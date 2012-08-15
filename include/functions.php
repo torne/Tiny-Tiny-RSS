@@ -4293,21 +4293,49 @@
 		}
 	}
 
-	function add_feed_category($link, $feed_cat) {
+	function get_feed_category($link, $feed_cat, $parent_cat_id = false) {
+		if ($parent_cat_id) {
+			$parent_qpart = "parent_cat = '$parent_cat_id'";
+			$parent_insert = "'$parent_cat_id'";
+		} else {
+			$parent_qpart = "parent_cat IS NULL";
+			$parent_insert = "NULL";
+		}
+
+		$result = db_query($link,
+			"SELECT id FROM ttrss_feed_categories
+			WHERE $parent_qpart AND title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+
+		if (db_num_rows($result) == 0) {
+			return false;
+		} else {
+			return db_fetch_result($result, 0, "id");
+		}
+	}
+
+	function add_feed_category($link, $feed_cat, $parent_cat_id = false) {
 
 		if (!$feed_cat) return false;
 
 		db_query($link, "BEGIN");
 
+		if ($parent_cat_id) {
+			$parent_qpart = "parent_cat = '$parent_cat_id'";
+			$parent_insert = "'$parent_cat_id'";
+		} else {
+			$parent_qpart = "parent_cat IS NULL";
+			$parent_insert = "NULL";
+		}
+
 		$result = db_query($link,
 			"SELECT id FROM ttrss_feed_categories
-			WHERE title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
+			WHERE $parent_qpart AND title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
 
 		if (db_num_rows($result) == 0) {
 
 			$result = db_query($link,
-				"INSERT INTO ttrss_feed_categories (owner_uid,title)
-				VALUES ('".$_SESSION["uid"]."', '$feed_cat')");
+				"INSERT INTO ttrss_feed_categories (owner_uid,title,parent_cat)
+				VALUES ('".$_SESSION["uid"]."', '$feed_cat', $parent_insert)");
 
 			db_query($link, "COMMIT");
 
