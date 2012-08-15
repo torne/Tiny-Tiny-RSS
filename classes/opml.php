@@ -393,8 +393,9 @@ class Opml extends Protected_Handler {
 			if ($node->hasAttributes() && strtolower($node->tagName) == "outline") {
 				$attrs = $node->attributes;
 				$node_cat_title = db_escape_string($attrs->getNamedItem('title')->nodeValue);
+				$node_feed_url = db_escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
 
-				if ($node->hasChildNodes() && $node_cat_title) {
+				if ($node_cat_title && !$node_feed_url) {
 					$this->opml_import_category($doc, $node, $owner_uid, $cat_id);
 				} else {
 
