@@ -136,7 +136,7 @@
 	if (class_exists($op)) {
 		$handler = new $op($link, $_REQUEST);
 
-		if ($handler) {
+		if ($handler && is_subclass_of($handler, 'Handler')) {
 			if (validate_csrf($csrf_token) || $handler->csrf_ignore($method)) {
 				if ($handler->before($method)) {
 					if ($method && method_exists($handler, $method)) {
