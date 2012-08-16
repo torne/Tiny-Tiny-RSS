@@ -214,7 +214,7 @@ class Pref_Prefs extends Protected_Handler {
 
 		print "</form>";
 
-		if (!SINGLE_USER_MODE && !$_SESSION["hide_change_password"]) {
+		if (!SINGLE_USER_MODE && $_SESSION["auth_module"] == 'internal') {
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash

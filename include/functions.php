@@ -693,7 +693,10 @@
 
 					$user_id = (int) $authenticator->authenticate($login, $password);
 
-					if ($user_id) break;
+					if ($user_id) {
+						$_SESSION["auth_module"] = $module;
+						break;
+					}
 
 				} else {
 					print T_sprintf("Fatal: authentication module %s not found.", $module);
@@ -734,7 +737,6 @@
 
 			$_SESSION["hide_hello"] = true;
 			$_SESSION["hide_logout"] = true;
-			$_SESSION["hide_change_password"] = true;
 
 			if (!$_SESSION["csrf_token"]) {
 				$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
