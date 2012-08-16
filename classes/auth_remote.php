@@ -31,6 +31,7 @@ class Auth_Remote extends Auth_Base {
 				$_SESSION["fake_password"] = "******";
 				$_SESSION["hide_hello"] = true;
 				$_SESSION["hide_logout"] = true;
+				$_SESSION["hide_change_password"] = true;
 
 				// LemonLDAP can send user informations via HTTP HEADER
 				if (defined('AUTH_AUTO_CREATE') && AUTH_AUTO_CREATE){

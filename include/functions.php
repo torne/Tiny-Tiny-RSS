@@ -734,6 +734,7 @@
 
 			$_SESSION["hide_hello"] = true;
 			$_SESSION["hide_logout"] = true;
+			$_SESSION["hide_change_password"] = true;
 
 			if (!$_SESSION["csrf_token"]) {
 				$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
