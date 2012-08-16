@@ -48,6 +48,28 @@
 	// Unless you really know what you're doing, please keep those relative
 	// to tt-rss main directory.
 
+	// **********************
+	// *** Authentication ***
+	// **********************
+
+	define('AUTH_MODULES', 'internal');
+	// Comma-separated list of authentication modules to use. 
+	// Available modules are:
+	// 1. internal - tt-rss internal user DB
+	// 2. remote - use server REMOTE_USER variable or client SSL certificate if enabled
+	// in preferences
+	//
+
+	define('AUTH_AUTO_CREATE', true);
+	// Allow authentication modules to auto-create users in tt-rss internal
+	// database when authenticated successfully.
+
+	define('AUTH_AUTO_LOGIN', true);
+	// Automatically login user on remote or other kind of externally supplied
+	// authentication, otherwise redirect to login form as normal.
+	// If set to true, users won't be able to set application language
+	// and settings profile.
+
 	// *********************
 	// *** Feed settings ***
 	// *********************
@@ -83,28 +105,6 @@
 	define('SPHINX_INDEX', 'ttrss');
 	// Index name in Sphinx configuration. You can specify multiple indexes
 	// as a comma-separated string.
-
-	// **********************
-	// *** Authentication ***
-	// **********************
-
-	define('ALLOW_REMOTE_USER_AUTH', false);
-	// Set to 'true' if you trust your web server's REMOTE_USER 
-	// environment variable that the user is logged in. This option can be 
-	// used to integrate tt-rss with Apache's external authentication modules.
-
-	define('AUTO_LOGIN', false);
-	// Set this to true if you use ALLOW_REMOTE_USER_AUTH or client SSL
-	// certificate authentication and you want to skip the login form. 
-	// If set to true, users won't be able to set application language 
-	// and settings profile.
-	// Otherwise users will be redirected to login form with their login
-	// information pre-filled.
-
-	define('AUTO_CREATE_USER', false);
-	// If users are authenticated by your web server, set this to true if
-	// You want new users to be automaticaly created in tt-rss database
-	// on first login
 
 	// ***********************************
 	// *** Self-registrations by users ***

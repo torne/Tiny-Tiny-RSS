@@ -110,7 +110,7 @@
 </div>
 
 <div id="header">
-	<?php if (!SINGLE_USER_MODE && !(ALLOW_REMOTE_USER_AUTH && AUTO_LOGIN)) { ?>
+	<?php if (!$_SESSION["hide_hello"]) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
 	<a href="prefs.php"><?php echo __('Preferences') ?></a>
@@ -120,7 +120,7 @@
 				<?php echo __('Comments?') ?></a>
 	<?php } ?>
 
-	<?php if (!SINGLE_USER_MODE && !(ALLOW_REMOTE_USER_AUTH && AUTO_LOGIN)) { ?>
+	<?php if (!$_SESSION["hide_logout"]) { ?>
 			| <a href="backend.php?op=logout"><?php echo __('Logout') ?></a>
 	<?php } ?>
 

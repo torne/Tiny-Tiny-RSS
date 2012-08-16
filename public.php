@@ -38,13 +38,6 @@
 		ob_start("ob_gzhandler");
 	}
 
-	function __autoload($class) {
-		$file = "classes/".strtolower(basename($class)).".php";
-		if (file_exists($file)) {
-			require $file;
-		}
-	}
-
 	$method = $_REQUEST["op"];
 
 	$handler = new Public_Handler($link, $_REQUEST);

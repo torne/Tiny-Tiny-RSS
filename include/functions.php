@@ -2,6 +2,13 @@
 	define('EXPECTED_CONFIG_VERSION', 25);
 	define('SCHEMA_VERSION', 94);
 
+	function __autoload($class) {
+		$file = "classes/".strtolower(basename($class)).".php";
+		if (file_exists($file)) {
+			require $file;
+		}
+	}
+
 	mb_internal_encoding("UTF-8");
 	date_default_timezone_set('UTC');
 	if (defined('E_DEPRECATED')) {
@@ -672,156 +679,40 @@
 		return "";
 	}
 
-	function get_login_by_ssl_certificate($link) {
-
-		$cert_serial = db_escape_string(get_ssl_certificate_id());
-
-		if ($cert_serial) {
-			$result = db_query($link, "SELECT login FROM ttrss_user_prefs, ttrss_users
-				WHERE pref_name = 'SSL_CERT_SERIAL' AND value = '$cert_serial' AND
-				owner_uid = ttrss_users.id");
-
-			if (db_num_rows($result) != 0) {
-				return db_escape_string(db_fetch_result($result, 0, "login"));
-			}
-		}
-
-		return "";
-	}
-
-	function get_remote_user($link) {
-
-		if (defined('ALLOW_REMOTE_USER_AUTH') && ALLOW_REMOTE_USER_AUTH) {
-			return db_escape_string($_SERVER["REMOTE_USER"]);
-		}
-
-		return db_escape_string(get_login_by_ssl_certificate($link));
-	}
-
-	function get_remote_fakepass($link) {
-		if (get_remote_user($link))
-			return "******";
-		else
-			return "";
-	}
-
-	function authenticate_user($link, $login, $password, $force_auth = false) {
+	function authenticate_user($link, $login, $password, $check_only = false) {
 
 		if (!SINGLE_USER_MODE) {
 
-			$pwd_hash1 = encrypt_password($password);
-			$pwd_hash2 = encrypt_password($password, $login);
-			$login = db_escape_string($login);
+			$user_id = false;
+			$modules = explode(",", AUTH_MODULES);
 
-			$remote_user = get_remote_user($link);
+			foreach ($modules as $module) {
+				$module_class = "auth_$module";
+				if (class_exists($module_class)) {
+					$authenticator = new $module_class($link);
 
-			if ($remote_user && $remote_user == $login && $login != "admin") {
+					$user_id = (int) $authenticator->authenticate($login, $password);
 
-				$login = $remote_user;
-
-				$query = "SELECT id,login,access_level,pwd_hash
-	            FROM ttrss_users WHERE
-					login = '$login'";
-
-				if (defined('AUTO_CREATE_USER') && AUTO_CREATE_USER
-						&& $_SERVER["REMOTE_USER"]) {
-					$result = db_query($link, $query);
-
-					// First login ?
-					if (db_num_rows($result) == 0) {
-						$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
-						$pwd_hash = encrypt_password($password, $salt, true);
-
-						$query2 = "INSERT INTO ttrss_users
-								(login,access_level,last_login,created,pwd_hash,salt)
-								VALUES ('$login', 0, null, NOW(), '$pwd_hash','$salt')";
-						db_query($link, $query2);
-					}
-				}
-
-			} else if (get_schema_version($link) > 87) {
-				$result = db_query($link, "SELECT salt FROM ttrss_users WHERE
-					login = '$login'");
-
-				if (db_num_rows($result) != 1) {
-					return false;
-				}
-
-				$salt = db_fetch_result($result, 0, "salt");
-
-				if ($salt == "") {
-
-					$query = "SELECT id,login,access_level,pwd_hash
-		            FROM ttrss_users WHERE
-						login = '$login' AND (pwd_hash = '$pwd_hash1' OR
-						pwd_hash = '$pwd_hash2')";
-
-					// verify and upgrade password to new salt base
-
-					$result = db_query($link, $query);
-
-					if (db_num_rows($result) == 1) {
-						// upgrade password to MODE2
-
-						$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
-						$pwd_hash = encrypt_password($password, $salt, true);
-
-						db_query($link, "UPDATE ttrss_users SET
-							pwd_hash = '$pwd_hash', salt = '$salt' WHERE login = '$login'");
-
-						$query = "SELECT id,login,access_level,pwd_hash
-			            FROM ttrss_users WHERE
-							login = '$login' AND pwd_hash = '$pwd_hash'";
-
-					} else {
-						return false;
-					}
+					if ($user_id) break;
 
 				} else {
-
-					$pwd_hash = encrypt_password($password, $salt, true);
-
-					$query = "SELECT id,login,access_level,pwd_hash
-			         FROM ttrss_users WHERE
-						login = '$login' AND pwd_hash = '$pwd_hash'";
-
+					print T_sprintf("Fatal: authentication module %s not found.", $module);
+					die;
 				}
-			} else {
-				$query = "SELECT id,login,access_level,pwd_hash
-		         FROM ttrss_users WHERE
-					login = '$login' AND (pwd_hash = '$pwd_hash1' OR
-						pwd_hash = '$pwd_hash2')";
 			}
 
-			$result = db_query($link, $query);
+			if ($user_id && !$check_only) {
+				$_SESSION["uid"] = $user_id;
 
-			if (db_num_rows($result) == 1) {
-				$_SESSION["uid"] = db_fetch_result($result, 0, "id");
+				$result = db_query($link, "SELECT login,access_level,pwd_hash FROM ttrss_users
+					WHERE id = '$user_id'");
+
 				$_SESSION["name"] = db_fetch_result($result, 0, "login");
 				$_SESSION["access_level"] = db_fetch_result($result, 0, "access_level");
 				$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
 
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
-
-
-				// LemonLDAP can send user informations via HTTP HEADER
-				if (defined('AUTO_CREATE_USER') && AUTO_CREATE_USER){
-					// update user name
-					$fullname = $_SERVER['HTTP_USER_NAME'] ? $_SERVER['HTTP_USER_NAME'] : $_SERVER['AUTHENTICATE_CN'];
-					if ($fullname){
-						$fullname = db_escape_string($fullname);
-						db_query($link, "UPDATE ttrss_users SET full_name = '$fullname' WHERE id = " .
-							$_SESSION["uid"]);
-					}
-					// update user mail
-					$email = $_SERVER['HTTP_USER_MAIL'] ? $_SERVER['HTTP_USER_MAIL'] : $_SERVER['AUTHENTICATE_MAIL'];
-					if ($email){
-						$email = db_escape_string($email);
-						db_query($link, "UPDATE ttrss_users SET email = '$email' WHERE id = " .
-							$_SESSION["uid"]);
-					}
-				}
 
 				$_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
 				$_SESSION["pwd_hash"] = db_fetch_result($result, 0, "pwd_hash");
@@ -840,6 +731,9 @@
 			$_SESSION["uid"] = 1;
 			$_SESSION["name"] = "admin";
 			$_SESSION["access_level"] = 10;
+
+			$_SESSION["hide_hello"] = true;
+			$_SESSION["hide_logout"] = true;
 
 			if (!$_SESSION["csrf_token"]) {
 				$_SESSION["csrf_token"] = sha1(uniqid(rand(), true));
@@ -998,12 +892,11 @@
 
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 
-				if (get_remote_user($link) && AUTO_LOGIN) {
-				    authenticate_user($link, get_remote_user($link), null);
+				if (AUTH_AUTO_LOGIN && authenticate_user($link, null, null)) {
 				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
 				} else {
+					 authenticate_user($link, null, null, true);
 				    render_login_form($link, $mobile);
-				    //header("Location: login.php");
 				    exit;
 				}
 			} else {

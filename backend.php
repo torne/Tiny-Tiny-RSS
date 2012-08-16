@@ -131,13 +131,6 @@
 	#	return;
 	#}
 
-	function __autoload($class) {
-		$file = "classes/".strtolower(basename($class)).".php";
-		if (file_exists($file)) {
-			require $file;
-		}
-	}
-
 	$op = str_replace("-", "_", $op);
 
 	if (class_exists($op)) {
