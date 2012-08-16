@@ -75,14 +75,15 @@ class Auth_Internal extends Auth_Base {
 	function change_password($owner_uid, $old_password, $new_password) {
 		$owner_uid = db_escape_string($owner_uid);
 
-		$result = db_query($this->link, "SELECT salt FROM ttrss_users WHERE
+		$result = db_query($this->link, "SELECT salt,login FROM ttrss_users WHERE
 			id = '$owner_uid'");
 
 		$salt = db_fetch_result($result, 0, "salt");
+		$login = db_fetch_result($result, 0, "login");
 
 		if (!$salt) {
 			$old_password_hash1 = encrypt_password($old_password);
-			$old_password_hash2 = encrypt_password($old_password, $_SESSION["name"]);
+			$old_password_hash2 = encrypt_password($old_password, $login);
 
 			$query = "SELECT id FROM ttrss_users WHERE
 				id = '$owner_uid' AND (pwd_hash = '$old_password_hash1' OR
