@@ -2043,7 +2043,14 @@
 					if (db_num_rows($result) > 0) {
 						print "<option disabled=\"1\">--------</option>";
 					}
-						print "<option value=\"0\">".__('Uncategorized')."</option>";
+
+					if ($default_id == 0) {
+						$is_selected = "selected=\"1\"";
+					} else {
+						$is_selected = "";
+					}
+
+					print "<option $is_selected value=\"0\">".__('Uncategorized')."</option>";
 				}
 				print "</select>";
 			}
