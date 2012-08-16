@@ -34,7 +34,7 @@ class Auth_Base {
 			}
 		}
 
-		return false;
+		return $this->find_user_by_login($login);
 	}
 
 	function find_user_by_login($login) {
