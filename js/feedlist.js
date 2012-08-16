@@ -19,7 +19,8 @@ function loadMoreHeadlines() {
 		var offset = 0;
 
 		var view_mode = document.forms["main_toolbar_form"].view_mode.value;
-		var num_unread = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length;
+		var num_unread = getFeedUnread(getActiveFeedId(), activeFeedIsCat());
+		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length;
 		var num_all = $$("#headlines-frame > div[id*=RROW]").length;
 
 		// TODO implement marked & published
@@ -34,7 +35,7 @@ function loadMoreHeadlines() {
 			offset = num_unread;
 		} else if (view_mode == "adaptive") {
 			if (num_unread > 0)
-				offset = num_unread;
+				offset = unread_in_buffer;
 			else
 				offset = num_all;
 		} else {
