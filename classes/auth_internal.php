@@ -71,5 +71,47 @@ class Auth_Internal extends Auth_Base {
 
 		return false;
 	}
+
+	function change_password($owner_uid, $old_password, $new_password) {
+		$owner_uid = db_escape_string($owner_uid);
+
+		$result = db_query($this->link, "SELECT salt FROM ttrss_users WHERE
+			id = '$owner_uid'");
+
+		$salt = db_fetch_result($result, 0, "salt");
+
+		if (!$salt) {
+			$old_password_hash1 = encrypt_password($old_password);
+			$old_password_hash2 = encrypt_password($old_password, $_SESSION["name"]);
+
+			$query = "SELECT id FROM ttrss_users WHERE
+				id = '$owner_uid' AND (pwd_hash = '$old_password_hash1' OR
+				pwd_hash = '$old_password_hash2')";
+
+		} else {
+			$old_password_hash = encrypt_password($old_password, $salt, true);
+
+			$query = "SELECT id FROM ttrss_users WHERE
+				id = '$owner_uid' AND pwd_hash = '$old_password_hash'";
+		}
+
+		$result = db_query($this->link, $query);
+
+		if (db_num_rows($result) == 1) {
+
+			$new_salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
+			$new_password_hash = encrypt_password($new_password, $new_salt, true);
+
+			db_query($this->link, "UPDATE ttrss_users SET
+				pwd_hash = '$new_password_hash', salt = '$new_salt'
+					WHERE id = '$owner_uid'");
+
+			$_SESSION["pwd_hash"] = $new_password_hash;
+
+			return __("Password has been changed.");
+		} else {
+			return "ERROR: ".__('Old password is incorrect.');
+		}
+	}
 }
 ?>

@@ -28,42 +28,13 @@ class Pref_Prefs extends Protected_Handler {
 			return;
 		}
 
-		$result = db_query($this->link, "SELECT salt FROM ttrss_users WHERE
-			id = " . $_SESSION['uid']);
+		$module_class = "auth_" . $_SESSION["auth_module"];
+		$authenticator = new $module_class($this->link);
 
-		$salt = db_fetch_result($result, 0, "salt");
-
-		if (!$salt) {
-			$old_pw_hash1 = encrypt_password($old_pw);
-			$old_pw_hash2 = encrypt_password($old_pw, $_SESSION["name"]);
-
-			$query = "SELECT id FROM ttrss_users WHERE
-				id = ".$_SESSION['uid']." AND (pwd_hash = '$old_pw_hash1' OR
-				pwd_hash = '$old_pw_hash2')";
-
+		if (method_exists($authenticator, "change_password")) {
+			print $authenticator->change_password($_SESSION["uid"], $old_pw, $new_pw);
 		} else {
-			$old_pw_hash = encrypt_password($old_pw, $salt, true);
-
-			$query = "SELECT id FROM ttrss_users WHERE
-				id = ".$_SESSION['uid']." AND pwd_hash = '$old_pw_hash'";
-		}
-
-		$result = db_query($this->link, $query);
-
-		if (db_num_rows($result) == 1) {
-
-			$new_salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
-			$new_pw_hash = encrypt_password($new_pw, $new_salt, true);
-
-			db_query($this->link, "UPDATE ttrss_users SET
-				pwd_hash = '$new_pw_hash', salt = '$new_salt'
-					WHERE id = ".$_SESSION['uid']);
-
-			$_SESSION["pwd_hash"] = $new_pw_hash;
-
-			print __("Password has been changed.");
-		} else {
-			print "ERROR: ".__('Old password is incorrect.');
+			print "ERROR: ".__("Function not supported by authentication module.");
 		}
 	}
 
@@ -214,7 +185,14 @@ class Pref_Prefs extends Protected_Handler {
 
 		print "</form>";
 
-		if (!SINGLE_USER_MODE && $_SESSION["auth_module"] == 'internal') {
+		if  ($_SESSION["auth_module"]) {
+			$module_class = "auth_" . $_SESSION["auth_module"];
+			$authenticator = new $module_class($this->link);
+		} else {
+			$authenticator = false;
+		}
+
+		if ($authenticator && method_exists($authenticator, "change_password")) {
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash
