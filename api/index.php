@@ -8,18 +8,11 @@
 		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
 		dirname(dirname(__FILE__)) . "/include" );
 
-	function __autoload($class) {
-		$file = "classes/".strtolower(basename($class)).".php";
-		if (file_exists($file)) {
-			require $file;
-		}
-	}
+	chdir("..");
 
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
-
-	chdir("..");
 
 	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT &&
 			function_exists("ob_gzhandler")) {
