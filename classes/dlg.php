@@ -1,5 +1,5 @@
 <?php
-class Dlg extends Protected_Handler {
+class Dlg extends Handler_Protected {
 	private $param;
 
 	function before($method) {
