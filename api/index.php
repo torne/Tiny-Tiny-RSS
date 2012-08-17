@@ -29,11 +29,17 @@
 
 	$input = file_get_contents("php://input");
 
-	// Override $_REQUEST with JSON-encoded data if available
-	if ($input) {
+	if (defined('_API_DEBUG_HTTP_ENABLED') && _API_DEBUG_HTTP_ENABLED) {
+		// Override $_REQUEST with JSON-encoded data if available
+		// fallback on HTTP parameters
+		if ($input) {
+			$input = json_decode($input, true);
+			if ($input) $_REQUEST = $input;
+		}
+	} else {
+		// Accept JSON only
 		$input = json_decode($input, true);
-
-		if ($input) $_REQUEST = $input;
+		$_REQUEST = $input;
 	}
 
 	if ($_REQUEST["sid"]) {
