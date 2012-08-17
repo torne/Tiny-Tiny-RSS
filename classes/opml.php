@@ -1,5 +1,5 @@
 <?php
-class Opml extends Protected_Handler {
+class Opml extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("export", "import");

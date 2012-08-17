@@ -1,5 +1,5 @@
 <?php
-class Tweet_Button extends Plugin_Button {
+class Button_Tweet extends Button {
 	function render($article_id) {
 		$rv = "<img src=\"".theme_image($this->link, 'images/art-tweet.png')."\"
 			class='tagsPic' style=\"cursor : pointer\"

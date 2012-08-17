@@ -1,5 +1,5 @@
 <?php
-class Pref_Prefs extends Protected_Handler {
+class Pref_Prefs extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index");

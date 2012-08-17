@@ -1,5 +1,5 @@
 <?php
-class Share_Button extends Plugin_Button {
+class Button_Share extends Button {
 	function render($article_id, $line) {
 		return "<img src=\"".theme_image($this->link, 'images/art-share.png')."\"
 			class='tagsPic' style=\"cursor : pointer\"

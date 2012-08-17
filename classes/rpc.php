@@ -1,5 +1,5 @@
 <?php
-class RPC extends Protected_Handler {
+class RPC extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("sanitycheck", "buttonplugin", "exportget");
@@ -766,7 +766,7 @@ class RPC extends Protected_Handler {
 	}
 
 	function buttonPlugin() {
-		$pclass = basename($_REQUEST['plugin']) . "_button";
+		$pclass = "button_" . basename($_REQUEST['plugin']);
 		$method = $_REQUEST['plugin_method'];
 
 		if (class_exists($pclass)) {

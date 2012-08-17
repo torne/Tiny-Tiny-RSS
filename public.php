@@ -40,7 +40,7 @@
 
 	$method = $_REQUEST["op"];
 
-	$handler = new Public_Handler($link, $_REQUEST);
+	$handler = new Handler_Public($link, $_REQUEST);
 
 	if ($handler->before($method)) {
 		if ($method && method_exists($handler, $method)) {

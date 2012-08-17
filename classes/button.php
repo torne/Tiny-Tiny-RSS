@@ -1,5 +1,5 @@
 <?php
-class Plugin_Button {
+class Button {
 
 	protected $link;
 

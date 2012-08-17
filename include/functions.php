@@ -3,7 +3,10 @@
 	define('SCHEMA_VERSION', 94);
 
 	function __autoload($class) {
-		$file = dirname(__FILE__)."/../classes/".strtolower(basename($class)).".php";
+		$class_file = str_replace("_", "/", strtolower(basename($class)));
+
+		$file = dirname(__FILE__)."/../classes/$class_file.php";
+
 		if (file_exists($file)) {
 			require $file;
 		}
@@ -3194,6 +3197,7 @@
 	}
 
 	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false, $owner_uid = false) {
+		global $plugins;
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -3255,6 +3259,8 @@
 		if ($result) {
 
 			$line = db_fetch_assoc($result);
+
+			$plugins->hook('article_before', $line);
 
 			if ($line["icon_url"]) {
 				$feed_icon = "<img src=\"" . $line["icon_url"] . "\">";
@@ -3359,7 +3365,7 @@
 				$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
 
 				foreach ($button_plugins as $p) {
-					$pclass = trim("${p}_button");
+					$pclass = trim("button_${p}");
 
 					if (class_exists($pclass)) {
 						$plugin = new $pclass($link);
@@ -3467,6 +3473,8 @@
 					__("Close this window")."</button></div>";
 			$rv['content'] .= "</body></html>";
 		}
+
+		$plugins->hook('article_after', $rv);
 
 		return $rv;
 

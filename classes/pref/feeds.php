@@ -1,5 +1,5 @@
 <?php
-class Pref_Feeds extends Protected_Handler {
+class Pref_Feeds extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "getfeedtree", "add", "editcats", "editfeed",

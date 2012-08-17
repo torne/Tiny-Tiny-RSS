@@ -1,5 +1,5 @@
 <?php
-class Public_Handler extends Handler {
+class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
 		$limit, $search, $search_mode, $match_on, $view_mode = false) {

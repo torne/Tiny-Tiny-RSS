@@ -189,6 +189,8 @@
 
 					if (!init_connection($link)) return;
 
+					$plugins = new Plugins($link);
+
 					// We disable stamp file, since it is of no use in a multiprocess update.
 					// not really, tho for the time being -fox
 					if (!make_stampfile('update_daemon.stamp')) {

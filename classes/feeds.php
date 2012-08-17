@@ -1,5 +1,5 @@
 <?php
-class Feeds extends Protected_Handler {
+class Feeds extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index");
@@ -121,6 +121,8 @@ class Feeds extends Protected_Handler {
 					$next_unread_feed, $offset, $vgr_last_feed = false,
 					$override_order = false, $include_children = false) {
 
+		global $plugins;
+
 		$disable_cache = false;
 
 		$reply = array();
@@ -220,10 +222,12 @@ class Feeds extends Protected_Handler {
 
 		$headlines_count = db_num_rows($result);
 
+		$plugins->hook('headlines_before', $reply);
+
 		if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 			$button_plugins = array();
 			foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
-				$pclass = trim("${p}_button");
+				$pclass = trim("button_${p}");
 
 				if (class_exists($pclass)) {
 					$plugin = new $pclass($link);
@@ -244,6 +248,12 @@ class Feeds extends Protected_Handler {
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			while ($line = db_fetch_assoc($result)) {
+
+				if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
+					$plugins->hook('cdm_article_before', $line);
+				} else {
+					$plugins->hook('headlines_row', $line);
+				}
 
 				$class = ($lnum % 2) ? "even" : "odd";
 
@@ -673,10 +683,14 @@ class Feeds extends Protected_Handler {
 
 					$reply['content'] .= "</div>";
 
+					$plugins->hook('cdm_article_after', $reply['content']);
+
 				}
 
 				++$lnum;
 			}
+
+			$plugins->hook('headlines_after', $reply);
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PE", $timing_info);
 

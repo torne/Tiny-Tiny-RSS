@@ -1,5 +1,5 @@
 <?php
-class Article extends Protected_Handler {
+class Article extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("redirect");

@@ -56,6 +56,8 @@
 
 	init_connection($link);
 
+	$plugins = new Plugins($link);
+
 	if (in_array("-feeds", $op)) {
 		// Update all feeds needing a update.
 		update_daemon_common($link);

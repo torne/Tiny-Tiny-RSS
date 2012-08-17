@@ -1,5 +1,5 @@
 <?php
-class Note_Button extends Plugin_Button {
+class Button_Note extends Button {
 	function render($article_id) {
 		return "<img src=\"".theme_image($this->link, "images/art-pub-note.png")."\"
 				style=\"cursor : pointer\" style=\"cursor : pointer\"

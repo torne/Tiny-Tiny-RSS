@@ -1,5 +1,5 @@
 <?php
-class Mail_Button extends Plugin_Button {
+class Button_Mail extends Button {
 	function render($article_id) {
 		return "<img src=\"".theme_image($link, 'images/art-email.png')."\"
 					class='tagsPic' style=\"cursor : pointer\"
