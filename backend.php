@@ -77,8 +77,6 @@
 		return;
 	}
 
-	$plugins = new Plugins($link);
-
 	$purge_intervals = array(
 		0  => __("Use default"),
 		-1 => __("Never purge"),

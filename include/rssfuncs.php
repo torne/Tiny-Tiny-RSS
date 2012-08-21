@@ -212,8 +212,6 @@
 	function update_rss_feed($link, $feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
 
-		global $plugins;
-
 		require_once "lib/simplepie/simplepie.inc";
 		require_once "lib/magpierss/rss_fetch.inc";
 		require_once 'lib/magpierss/rss_utils.inc';
@@ -559,10 +557,6 @@
 			}
 
 			foreach ($iterator as $item) {
-				$hook_params = array("item" => &$item, "feed" => $feed);
-
-				$plugins->hook('rss_update_item', $hook_params);
-
 				if ($_REQUEST['xdebug'] == 2) {
 					print_r($item);
 				}

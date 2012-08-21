@@ -3212,8 +3212,6 @@
 	}
 
 	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false, $owner_uid = false) {
-		global $plugins;
-
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$rv = array();
@@ -3274,8 +3272,6 @@
 		if ($result) {
 
 			$line = db_fetch_assoc($result);
-
-			$plugins->hook('article_before', $line);
 
 			if ($line["icon_url"]) {
 				$feed_icon = "<img src=\"" . $line["icon_url"] . "\">";
@@ -3488,8 +3484,6 @@
 					__("Close this window")."</button></div>";
 			$rv['content'] .= "</body></html>";
 		}
-
-		$plugins->hook('article_after', $rv);
 
 		return $rv;
 

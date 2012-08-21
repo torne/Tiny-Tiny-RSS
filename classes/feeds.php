@@ -121,8 +121,6 @@ class Feeds extends Handler_Protected {
 					$next_unread_feed, $offset, $vgr_last_feed = false,
 					$override_order = false, $include_children = false) {
 
-		global $plugins;
-
 		$disable_cache = false;
 
 		$reply = array();
@@ -222,8 +220,6 @@ class Feeds extends Handler_Protected {
 
 		$headlines_count = db_num_rows($result);
 
-		$plugins->hook('headlines_before', $reply);
-
 		if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 			$button_plugins = array();
 			foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
@@ -248,13 +244,6 @@ class Feeds extends Handler_Protected {
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			while ($line = db_fetch_assoc($result)) {
-
-				if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
-					$plugins->hook('cdm_article_before', $line);
-				} else {
-					$plugins->hook('headlines_row', $line);
-				}
-
 				$class = ($lnum % 2) ? "even" : "odd";
 
 				$id = $line["id"];
@@ -683,14 +672,10 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "</div>";
 
-					$plugins->hook('cdm_article_after', $reply['content']);
-
 				}
 
 				++$lnum;
 			}
-
-			$plugins->hook('headlines_after', $reply);
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PE", $timing_info);
 
