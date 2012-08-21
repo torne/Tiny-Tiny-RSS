@@ -250,6 +250,11 @@ class Dlg extends Handler_Protected {
 		print "<div class=\"dlgSec\">".__("Feed")."</div>";
 		print "<div class=\"dlgSecCont\">";
 
+		print "<div style='float : right'>
+			<img style='display : none'
+				id='feed_add_spinner' src='".
+				theme_image($this->link, 'images/indicator_white.gif')."'></div>";
+
 		print "<input style=\"font-size : 16px; width : 20em;\"
 			placeHolder=\"".__("Feed URL")."\"
 			dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"feed\" id=\"feedDlg_feedUrl\">";

@@ -2,6 +2,8 @@
 	define('EXPECTED_CONFIG_VERSION', 25);
 	define('SCHEMA_VERSION', 94);
 
+	$fetch_last_error = false;
+
 	function __autoload($class) {
 		$class_file = str_replace("_", "/", strtolower(basename($class)));
 
@@ -281,6 +283,8 @@
 		$login = urlencode($login);
 		$pass = urlencode($pass);
 
+		global $fetch_last_error;
+
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
 			$ch = curl_init($url);
 
@@ -306,6 +310,7 @@
 			$contents = @curl_exec($ch);
 
 			if ($contents === false) {
+				$fetch_last_error = curl_error($ch);
 				curl_close($ch);
 				return false;
 			}
@@ -330,7 +335,13 @@
 				}
 			}
 
-			return @file_get_contents($url);
+			$data = @file_get_contents($url);
+
+			if (!$data && function_exists('error_get_last')) {
+				$error = error_get_last();
+				$fetch_last_error = $error["message"];
+			}
+			return $data;
 		}
 
 	}
@@ -1792,7 +1803,8 @@
 	}
 
 	/**
-	 * @return integer Status code:
+	 * @return array (code => Status code, message => error message if available)
+	 *
 	 *                 0 - OK, Feed already exists
 	 *                 1 - OK, Feed added
 	 *                 2 - Invalid URL
@@ -1805,11 +1817,13 @@
 	function subscribe_to_feed($link, $url, $cat_id = 0,
 			$auth_login = '', $auth_pass = '', $need_auth = false) {
 
+		global $fetch_last_error;
+
 		require_once "include/rssfuncs.php";
 
 		$url = fix_url($url);
 
-		if (!$url || !validate_feed_url($url)) return 2;
+		if (!$url || !validate_feed_url($url)) return array("code" => 2);
 
 		$update_method = 0;
 
@@ -1819,14 +1833,15 @@
 		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth');
 
 		if (!$need_auth || !$has_oauth || strpos($url, '://api.twitter.com') === false) {
-			if (!fetch_file_contents($url, false, $auth_login, $auth_pass)) return 5;
+			if (!fetch_file_contents($url, false, $auth_login, $auth_pass))
+				return array("code" => 5, "message" => $fetch_last_error);
 
 			if (url_is_html($url, $auth_login, $auth_pass)) {
 				$feedUrls = get_feeds_from_html($url, $auth_login, $auth_pass);
 				if (count($feedUrls) == 0) {
-					return 3;
+					return array("code" => 3);
 				} else if (count($feedUrls) > 1) {
-					return 4;
+					return array("code" => 4);
 				}
 				//use feed url as new URL
 				$url = key($feedUrls);
@@ -1834,7 +1849,7 @@
 
 			} else {
 				if (!fetch_twitter_rss($link, $url, $_SESSION['uid']))
-					return 5;
+					return array("code" => 5);
 
 				$update_method = 3;
 			}
@@ -1865,9 +1880,9 @@
 				update_rss_feed($link, $feed_id, true);
 			}
 
-			return 1;
+			return array("code" => 1);
 		} else {
-			return 0;
+			return array("code" => 0);
 		}
 	}
 

@@ -866,7 +866,7 @@ function quickAddFeed() {
 
 					var feed_url = this.attr('value').feed;
 
-					notify_progress(__("Subscribing to feed..."), true);
+					Element.show("feed_add_spinner");
 
 					new Ajax.Request("backend.php", {
 						parameters: dojo.objectToQuery(this.attr('value')),
@@ -875,13 +875,14 @@ function quickAddFeed() {
 
 								var reply = JSON.parse(transport.responseText);
 
-								var rc = parseInt(reply['result']);
+								var rc = reply['result'];
 
 								notify('');
+								Element.hide("feed_add_spinner");
 
 								console.log("GOT RC: " + rc);
 
-								switch (rc) {
+								switch (parseInt(rc['code'])) {
 								case 1:
 									dialog.hide();
 									notify_info(__("Subscribed to %s").replace("%s", feed_url));
@@ -928,7 +929,8 @@ function quickAddFeed() {
 									});
 									break;
 								case 5:
-									alert(__("Couldn't download the specified URL."));
+									alert(__("Couldn't download the specified URL: %s").
+											replace("%s", rc['message']));
 									break;
 								case 0:
 									alert(__("You are already subscribed to this feed."));
