@@ -524,23 +524,28 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<div class='error'>".__("Do not close this dialog until updating is finished. Backup your tt-rss directory before continuing.")."</div>";
 
-		print "<pre class='selfUpdateList' id='self_update_log'>";
-		print __("Ready to update.")."\n";
-		print "</pre>";
+		print "<ul class='selfUpdateList' id='self_update_log'>";
+		print "<li>" . __("Ready to update.") . "</li>";
+		print "</ul>";
 
 		print "<div class='dlgButtons'>";
 		print "<button id=\"self_update_start_btn\" dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('updateSelfDlg').start()\" >".
 			__("Start update")."</button>";
-		print "<button onclick=\"return dijit.byId('updateSelfDlg').close()\" dojoType=\"dijit.form.Button\">".
+		print "<button id=\"self_update_stop_btn\" onclick=\"return dijit.byId('updateSelfDlg').close()\" dojoType=\"dijit.form.Button\">".
 			__("Close this window")."</button>";
 		print "</div>";
 		print "</form>";
 	}
 
 	function performUpdate() {
+		$step = (int) $_REQUEST["step"];
+		$params = json_decode($_REQUEST["params"], true);
+		$force = (bool) $_REQUEST["force"];
+
 		if (($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) && CHECK_FOR_NEW_VERSION) {
 			include "update_self.php";
-			update_self($this->link, true);
+
+			print	json_encode(update_self_step($this->link, $step, $params, $force));
 		}
 	}
 
