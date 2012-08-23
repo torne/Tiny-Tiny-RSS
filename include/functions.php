@@ -5506,4 +5506,18 @@
 
 		return null;
 	}
+
+	function tmpdirname($path, $prefix) {
+		// Use PHP's tmpfile function to create a temporary
+		// directory name. Delete the file and keep the name.
+		$tempname = tempnam($path,$prefix);
+		if (!$tempname)
+			return false;
+
+		if (!unlink($tempname))
+			return false;
+
+       return $tempname;
+	}
+
 ?>
