@@ -97,10 +97,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			} else {
 
 				if (headlines_count > 0 && feed_id == getActiveFeedId() && is_cat == activeFeedIsCat()) {
-					console.log("adding some more headlines...");
+					console.log("adding some more headlines: " + headlines_count);
 
 					var c = dijit.byId("headlines-frame");
 					var ids = getSelectedArticleIds2();
+					var num_added = 0;
 
 					$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
@@ -113,6 +114,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
 							row.style.display = 'none';
 							c.domNode.appendChild(row);
+							++num_added;
 						} else {
 							row.parentNode.removeChild(row);
 						}
@@ -125,6 +127,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					if (getInitParam("cdm_auto_catchup") == 1) {
 						c.domNode.appendChild(hsp);
 					}
+
+					console.log("added " + num_added + " headlines");
 
 					console.log("restore selected ids: " + ids);
 
@@ -1159,20 +1163,24 @@ function catchupBatchedArticles() {
 	try {
 		if (catchup_id_batch.length > 0 && !_infscroll_request_sent) {
 
+			// make a copy of the array
+			var batch = catchup_id_batch.slice();
 			var query = "?op=rpc&method=catchupSelected" +
-				"&cmode=0&ids=" + param_escape(catchup_id_batch.toString());
+				"&cmode=0&ids=" + param_escape(batch.toString());
+
+			console.log(query);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
 					handle_rpc_json(transport);
 
-					catchup_id_batch.each(function(id) {
+					batch.each(function(id) {
 						var elem = $("RROW-" + id);
 						if (elem) elem.removeClassName("Unread");
+						catchup_id_batch.remove(id);
 					});
 
-					catchup_id_batch = [];
 				} });
 		}
 
