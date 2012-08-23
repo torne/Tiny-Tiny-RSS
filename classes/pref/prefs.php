@@ -510,7 +510,7 @@ class Pref_Prefs extends Handler_Protected {
 					__('Update Tiny Tiny RSS')."</button></p>";
 
 			} else {
-				print_notice(__("You are currently using latest version of Tiny Tiny RSS. Update not required."));
+				print_notice(__("Your Tiny Tiny RSS installation is up to date."));
 			}
 
 			print "</div>"; #pane

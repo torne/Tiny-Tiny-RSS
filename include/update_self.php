@@ -45,7 +45,7 @@
 		_debug("Target version: $target_version");
 
 		if (version_compare(VERSION, $target_version) != -1 && !$force) {
-			_debug("You are on the latest version. Update not needed.");
+			_debug("Your Tiny Tiny RSS installation is up to date.");
 			exit;
 		}
 		if (file_exists($target_dir)) {
