@@ -1,10 +1,16 @@
 <?php
 	function update_self($link, $force = false) {
-		$work_dir = dirname(__FILE__);
+		// __FILE__ is in include/ so we need to go one level up
+		$work_dir = dirname(dirname(__FILE__));
 		$parent_dir = dirname($work_dir);
 
 		if (!is_writable($work_dir) && !is_writable("$parent_dir")) {
 			_debug("Both current and parent directories should be writable as current user.");
+			exit;
+		}
+
+		if (!file_exists("$work_dir/config.php") || !file_exists("$work_dir/include/sanity_check.php")) {
+			_debug("Work directory $work_dir doesn't look like tt-rss installation.");
 			exit;
 		}
 
