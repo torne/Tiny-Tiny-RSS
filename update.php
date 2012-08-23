@@ -272,7 +272,7 @@
 		_debug("Target version: $target_version");
 
 		if (version_compare(VERSION, $target_version) != -1 && !in_array("-force", $op)) {
-			_debug("You are on a latest version. Update not needed.");
+			_debug("You are on the latest version. Update not needed.");
 			exit;
 		}
 		if (file_exists($target_dir)) {
