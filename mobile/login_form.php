@@ -36,7 +36,7 @@ function do_login() {
 
 		<div class="row">
 			<label><?php echo __("Login:") ?></label>
-			<input type="text" name="login">
+			<input type="text" autocapitalize="off" name="login">
 		</div>
 
 		<div class="row">
