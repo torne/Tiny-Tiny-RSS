@@ -305,15 +305,21 @@ class Dlg extends Handler_Protected {
 		print "</form>";
 
 		print "<div class=\"dlgButtons\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').execute()\">".__('Subscribe')."</button>
-			<button dojoType=\"dijit.form.Button\" onclick=\"return feedBrowser()\">".__('More feeds')."</button>
-			<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').hide()\">".__('Cancel')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').execute()\">".__('Subscribe')."</button>";
+
+		if (!(defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER)) {
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return feedBrowser()\">".__('More feeds')."</button>";
+		}
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').hide()\">".__('Cancel')."</button>
 			</div>";
 
 		//return;
 	}
 
 	function feedBrowser() {
+		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
+
 		$browser_search = db_escape_string($_REQUEST["search"]);
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
