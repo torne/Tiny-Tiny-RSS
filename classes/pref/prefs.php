@@ -2,7 +2,7 @@
 class Pref_Prefs extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("index");
+		$csrf_ignored = array("index", "updateself");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -489,11 +489,60 @@ class Pref_Prefs extends Handler_Protected {
 
 		print '</div>'; # inner pane
 		print '</div>'; # border container
-
 		print "</form>";
 
 		print "</div>"; #pane
+
+
+		if (($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) && CHECK_FOR_NEW_VERSION) {
+			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Update Tiny Tiny RSS')."\">";
+
+			if ($_SESSION["pref_last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+				$_SESSION["version_data"] = @check_for_update($this->link);
+				$_SESSION["pref_last_version_check"] = time();
+			}
+
+			if (is_array($_SESSION["version_data"])) {
+				$version = $_SESSION["version_data"]["version"];
+				print_notice(T_sprintf("New version of Tiny Tiny RSS is available (%s).", "<b>$version</b>"));
+
+				print "<p><button dojoType=\"dijit.form.Button\" onclick=\"return updateSelf()\">".
+					__('Update Tiny Tiny RSS')."</button></p>";
+
+			} else {
+				print_notice(__("You are currently using latest version of Tiny Tiny RSS. Update not required."));
+			}
+
+			print "</div>"; #pane
+		}
+
 		print "</div>"; #container
 	}
+
+	function updateSelf() {
+		print "<form style='display : block' name='self_update_form' id='self_update_form'>";
+
+		print "<div class='error'>".__("Do not close this dialog until updating is finished. Backup your tt-rss directory before continuing.")."</div>";
+
+		print "<pre class='selfUpdateList' id='self_update_log'>";
+		print __("Ready to update.")."\n";
+		print "</pre>";
+
+		print "<div class='dlgButtons'>";
+		print "<button id=\"self_update_start_btn\" dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('updateSelfDlg').start()\" >".
+			__("Start update")."</button>";
+		print "<button onclick=\"return dijit.byId('updateSelfDlg').close()\" dojoType=\"dijit.form.Button\">".
+			__("Close this window")."</button>";
+		print "</div>";
+		print "</form>";
+	}
+
+	function performUpdate() {
+		if (($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) && CHECK_FOR_NEW_VERSION) {
+			include "update_self.php";
+			update_self($this->link, true);
+		}
+	}
+
 }
 ?>

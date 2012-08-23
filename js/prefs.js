@@ -2130,3 +2130,50 @@ function batchSubscribe() {
 	}
 }
 
+function updateSelf() {
+	try {
+		var query = "backend.php?op=pref-prefs&method=updateSelf";
+
+		if (dijit.byId("updateSelfDlg"))
+			dijit.byId("updateSelfDlg").destroyRecursive();
+
+		var dialog = new dijit.Dialog({
+			id: "updateSelfDlg",
+			title: __("Update Tiny Tiny RSS"),
+			style: "width: 600px",
+			closable: false,
+			performUpdate: function() {
+				dijit.byId("self_update_start_btn").attr("disabled", true);
+				notify_progress("Loading, please wait...", true);
+				new Ajax.Request("backend.php", {
+				parameters: "?op=pref-prefs&method=performUpdate",
+				onComplete: function(transport) {
+					try {
+						notify('');
+						$("self_update_log").innerHTML = transport.responseText;
+						dialog.attr("updated", true);
+					} catch (e) {
+						exception_error("updateSelf/inner", e);
+					}
+				} });
+			},
+			close: function() {
+				if (dialog.attr("updated")) {
+					window.location.reload();
+				} else {
+					dialog.hide();
+				}
+			},
+			start: function() {
+				if (prompt(__("Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue.")) == 'yes') {
+					dialog.performUpdate();
+				}
+			},
+			href: query});
+
+		dialog.show();
+	} catch (e) {
+		exception_error("batchSubscribe", e);
+	}
+}
+

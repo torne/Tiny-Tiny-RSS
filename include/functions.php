@@ -2147,6 +2147,7 @@
 				$data['new_version_available'] = (int) ($new_version_details != false);
 
 				$_SESSION["last_version_check"] = time();
+				$_SESSION["version_data"] = $new_version_details;
 		}
 
 		return $data;
