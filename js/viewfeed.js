@@ -1930,16 +1930,26 @@ function initHeadlinesMenu() {
 					label: name,
 					labelId: bare_id,
 					onClick: function(event) {
-						selectionAssignLabel(this.labelId,
-							[this.getParent().ownerMenu.callerRowId]);
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = this.getParent().ownerMenu.callerRowId + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionAssignLabel(this.labelId, ids);
 				}}));
 
 				labelDelMenu.addChild(new dijit.MenuItem({
 					label: name,
 					labelId: bare_id,
 					onClick: function(event) {
-						selectionRemoveLabel(this.labelId,
-							[this.getParent().ownerMenu.callerRowId]);
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = this.getParent().ownerMenu.callerRowId + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionRemoveLabel(this.labelId, ids);
 				}}));
 
 			});
