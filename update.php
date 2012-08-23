@@ -14,6 +14,25 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
+	if (!defined('STDIN')) {
+		?> <html>
+		<head>
+		<title>Database Updater</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="utility.css">
+		</head>
+
+		<body>
+		<div class="floatingLogo"><img src="images/logo_wide.png"></div>
+		<h1><?php echo __("Update") ?></h1>
+
+		<?php print_error("Please run this script from the command line."); ?>
+
+		</body></html>
+	<?php
+		exit;
+	}
+
 	if (!defined('PHP_EXECUTABLE'))
 		define('PHP_EXECUTABLE', '/usr/bin/php');
 
