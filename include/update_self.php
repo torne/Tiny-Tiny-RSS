@@ -15,9 +15,12 @@
 
 		switch ($step) {
 		case 0:
+			array_push($log, "Work directory: $work_dir");
 
 			if (!is_writable($work_dir) && !is_writable("$parent_dir")) {
-				array_push($log, "Both current and parent directories should be writable as current user.");
+				$user = posix_getpwuid(posix_geteuid());
+				$user = $user["name"];
+				array_push($log, "Both tt-rss and parent directories should be writable as current user ($user).");
 				$stop = true; break;
 			}
 
