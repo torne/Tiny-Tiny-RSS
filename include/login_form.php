@@ -131,11 +131,11 @@ function validateLoginForm(f) {
 			<tr><td align="right"><?php echo __("Login:") ?></td>
 			<td align="right"><input name="login"
 				onchange="fetchProfiles()" onfocus="fetchProfiles()"
-				value="<? echo $_SESSION["fake_login"] ?>"></td></tr>
+				value="<?php echo $_SESSION["fake_login"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
 			<td align="right"><input type="password" name="password"
 				onchange="fetchProfiles()" onfocus="fetchProfiles()"
-				value="<? echo $_SESSION["fake_password"] ?>"></td></tr>
+				value="<?php echo $_SESSION["fake_password"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
 			<td align="right">
 			<?php
