@@ -272,7 +272,7 @@
 		_debug("Target version: $target_version");
 
 		if (version_compare(VERSION, $target_version) != -1 && !in_array("-force", $op)) {
-			_debug("You are on latest version. Update not needed.");
+			_debug("You are on a latest version. Update not needed.");
 			exit;
 		}
 		if (file_exists($target_dir)) {
@@ -338,9 +338,9 @@
 
 		$old_dir = tmpdirname($parent_dir, "tt-rss-old");
 
-		_debug("Renaming current directory to ".basename($old_dir));
+		_debug("Renaming tt-rss directory to ".basename($old_dir));
 		if (!rename($work_dir, $old_dir)) {
-			_debug("Unable to rename current directory.");
+			_debug("Unable to rename tt-rss directory.");
 			exit;
 		}
 
