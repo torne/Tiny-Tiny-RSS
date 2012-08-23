@@ -13,6 +13,10 @@
 				array_push($errors, "Please don't run this script as root.");
 			}
 
+			if (version_compare("5.2.0", phpversion()) == 1) {
+				array_push($errors, "PHP version 5.2.0 or newer required.");
+			}
+
 			if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
 				array_push($errors, "Configuration file (config.php) has incorrect version. Update it with new options from config.php-dist and set CONFIG_VERSION to the correct value.");
 			}
