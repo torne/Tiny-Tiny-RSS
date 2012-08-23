@@ -899,7 +899,7 @@ class Dlg extends Handler_Protected {
 		$details = "http://tt-rss.org/redmine/versions/show/$id";
 		$download = "http://tt-rss.org/#Download";
 
-		print "<p align='center'>".__("You can try updating automatically using update.php")."</p>";
+		print "<p align='center'>".__("You can update using built-in updater in the Preferences or by using update.php")."</p>";
 
 		print "<div style='text-align : center'>";
 		print "<button dojoType=\"dijit.form.Button\"
