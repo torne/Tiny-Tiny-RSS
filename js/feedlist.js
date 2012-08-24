@@ -310,8 +310,11 @@ function parse_counters(elems, scheduled_call) {
 				displayNewContentPrompt(id);
 			}
 
-			if (getFeedUnread(id, (kind == "cat")) != ctr)
+			if (getFeedUnread(id, (kind == "cat")) != ctr ||
+					(kind == "cat" && getCatParam(id) != child_unread)) {
+
 				cache_delete("feed:" + id + ":" + (kind == "cat"));
+			}
 
 			setFeedUnread(id, (kind == "cat"), ctr);
 
@@ -425,6 +428,14 @@ function setCatParam(cat, value) {
 		if (tree && tree.model)
 			return tree.setCatParam(cat, value);
 
+	} catch (e) {
+		//
+	}
+}
+
+function getCatParam(cat) {
+	try {
+		return getFeedValue(cat, true, "child_unread");
 	} catch (e) {
 		//
 	}
