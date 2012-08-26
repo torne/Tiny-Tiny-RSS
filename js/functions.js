@@ -940,7 +940,14 @@ function quickAddFeed() {
 
 function quickAddFilter() {
 	try {
-		var query = "backend.php?op=dlg&method=quickAddFilter";
+		var query = "";
+		if (!inPreferences()) {
+			query = "backend.php?op=dlg&method=quickAddFilter&feed=" +
+				param_escape(getActiveFeedId()) + "&is_cat=" +
+				param_escape(activeFeedIsCat());
+		} else {
+			query = "backend.php?op=dlg&method=quickAddFilter";
+		}
 
 		if (dijit.byId("feedEditDlg"))
 			dijit.byId("feedEditDlg").destroyRecursive();

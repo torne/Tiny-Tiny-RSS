@@ -445,7 +445,8 @@ class Dlg extends Handler_Protected {
 	}
 
 	function quickAddFilter() {
-		$active_feed_id = db_escape_string($_REQUEST["param"]);
+		$active_feed_id = (int) db_escape_string($_REQUEST["feed"]);
+		$cat_filter = db_escape_string($_REQUEST["is_cat"]) == "true";
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"quiet\" value=\"1\">";
@@ -497,7 +498,8 @@ class Dlg extends Handler_Protected {
 		print __("in") . " ";
 
 		print "<span id='filterDlg_feeds'>";
-		print_feed_select($this->link, "feed_id", $active_feed_id,
+		print_feed_select($this->link, "feed_id",
+			$cat_filter ? "CAT:$active_feed_id" : $active_feed_id,
 			'dojoType="dijit.form.FilteringSelect"');
 		print "</span>";
 
