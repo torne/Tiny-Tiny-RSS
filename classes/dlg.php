@@ -548,8 +548,8 @@ class Dlg extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
 			<label for=\"inverse\">".__('Inverse match')."</label><hr/>";
 
-		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\">
-				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
+#		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\">
+#				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
 
 
 		print "</div>";

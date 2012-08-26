@@ -545,21 +545,6 @@ function fatalError(code, msg, ext_info) {
 	}
 }
 
-function filterDlgCheckCat(sender) {
-	try {
-		if (sender.checked) {
-			Element.show('filterDlg_cats');
-			Element.hide('filterDlg_feeds');
-		} else {
-			Element.show('filterDlg_feeds');
-			Element.hide('filterDlg_cats');
-		}
-
-	} catch (e) {
-		exception_error("filterDlgCheckCat", e);
-	}
-}
-
 function filterDlgCheckType(sender) {
 
 	try {

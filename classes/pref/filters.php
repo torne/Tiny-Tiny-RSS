@@ -225,8 +225,8 @@ class Pref_Filters extends Handler_Protected {
 
 		$reg_exp = htmlspecialchars(db_fetch_result($result, 0, "reg_exp"));
 		$filter_type = db_fetch_result($result, 0, "filter_type");
-		$feed_id = db_fetch_result($result, 0, "feed_id");
-		$cat_id = db_fetch_result($result, 0, "cat_id");
+		$feed_id = (int) db_fetch_result($result, 0, "feed_id");
+		$cat_id = (int) db_fetch_result($result, 0, "cat_id");
 		$action_id = db_fetch_result($result, 0, "action_id");
 		$action_param = db_fetch_result($result, 0, "action_param");
 		$filter_param = db_fetch_result($result, 0, "filter_param");
@@ -289,20 +289,10 @@ class Pref_Filters extends Handler_Protected {
 
 		print __("in") . " ";
 
-		$hidden = $cat_filter ? "style='display:none'" : "";
-
-		print "<span id='filterDlg_feeds' $hidden>";
-		print_feed_select($this->link, "feed_id", $feed_id,
+		print "<span id='filterDlg_feeds'>";
+		print_feed_select($this->link, "feed_id", ($cat_filter) ? "CAT:$cat_id" : $feed_id,
 			'dojoType="dijit.form.FilteringSelect"');
 		print "</span>";
-
-		$hidden = $cat_filter ? "" : "style='display:none'";
-
-		print "<span id='filterDlg_cats' $hidden>";
-		print_feed_cat_select($this->link, "cat_id", $cat_id,
-			'dojoType="dijit.form.FilteringSelect"');
-		print "</span>";
-
 
 		print "</div>";
 
@@ -369,14 +359,14 @@ class Pref_Filters extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
 			<label for=\"inverse\">".__('Inverse match')."</label><hr/>";
 
-		if ($cat_filter) {
-			$checked = "checked=\"1\"";
-		} else {
-			$checked = "";
-		}
+#		if ($cat_filter) {
+#			$checked = "checked=\"1\"";
+#		} else {
+#			$checked = "";
+#		}
 
-		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\" $checked>
-				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
+#		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\" $checked>
+#				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
 
 		print "</div>";
 		print "</div>";
@@ -412,23 +402,25 @@ class Pref_Filters extends Handler_Protected {
 		$action_param_label = db_escape_string($_REQUEST["action_param_label"]);
 		$enabled = checkbox_to_sql_bool(db_escape_string($_REQUEST["enabled"]));
 		$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
-		$cat_filter = checkbox_to_sql_bool(db_escape_string($_REQUEST["cat_filter"]));
-		$cat_id = db_escape_string($_REQUEST['cat_id']);
 
 		# for the time being, no other filters use params anyway...
 		$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
 
-		if (!$feed_id) {
-			$feed_id = 'NULL';
+		if (strpos($feed_id, "CAT:") === 0) {
+			$cat_filter = true;
+			$cat_id = (int) substr($feed_id, 4);
+			$feed_id = "NULL";
 		} else {
-			$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+			$cat_filter = false;
+			$feed_id = (int) $feed_id;
+			$cat_id = "NULL";
 		}
 
-		if (!$cat_id) {
-			$cat_id = 'NULL';
-		} else {
-			$cat_id = sprintf("'%d'", db_escape_string($cat_id));
-		}
+		$raw_feed_id = (int) $feed_id;
+		$raw_cat_id = (int) $cat_id;
+
+		if (!$feed_id) $feed_id = "NULL";
+		if (!$cat_id) $feed_id = "NULL";
 
 		/* When processing 'assign label' filters, action_param_label dropbox
 		 * overrides action_param */
@@ -450,7 +442,7 @@ class Pref_Filters extends Handler_Protected {
 				filter_type = '$filter_type',
 				enabled = $enabled,
 				inverse = $inverse,
-				cat_filter = $cat_filter,
+				cat_filter = ".bool_to_sql_bool($cat_filter).",
 				action_param = '$action_param',
 				filter_param = '$filter_param'
 				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -458,8 +450,7 @@ class Pref_Filters extends Handler_Protected {
 
 			$this->filter_test($filter_type, $reg_exp,
 				$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-				(int) $_REQUEST["feed_id"], (int) $_REQUEST['cat_id'],
-				sql_bool_to_bool($cat_filter));
+				$raw_feed_id, $raw_cat_id, $cat_filter);
 
 			print "<div align='center'>";
 			print "<button dojoType=\"dijit.form.Button\"
@@ -485,29 +476,33 @@ class Pref_Filters extends Handler_Protected {
 		$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));
 		$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
 		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+#		$cat_id = db_escape_string($_REQUEST["cat_id"]);
 		$action_id = db_escape_string($_REQUEST["action_id"]);
 		$action_param = db_escape_string($_REQUEST["action_param"]);
 		$action_param_label = db_escape_string($_REQUEST["action_param_label"]);
 		$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
-		$cat_filter = checkbox_to_sql_bool(db_escape_string($_REQUEST["cat_filter"]));
+#		$cat_filter = checkbox_to_sql_bool(db_escape_string($_REQUEST["cat_filter"]));
 
 		# for the time being, no other filters use params anyway...
 		$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
 
 		if (!$regexp) return;
 
-		if (!$feed_id) {
-			$feed_id = 'NULL';
+		if (strpos($feed_id, "CAT:") === 0) {
+			$cat_filter = true;
+			$cat_id = (int) substr($feed_id, 4);
+			$feed_id = "NULL";
 		} else {
-			$feed_id = sprintf("'%s'", db_escape_string($feed_id));
+			$cat_filter = false;
+			$feed_id = (int) $feed_id;
+			$cat_id = "NULL";
 		}
 
-		if (!$cat_id) {
-			$cat_id = 'NULL';
-		} else {
-			$cat_id = sprintf("'%d'", db_escape_string($cat_id));
-		}
+		$raw_feed_id = (int) $feed_id;
+		$raw_cat_id = (int) $cat_id;
+
+		if (!$feed_id) $feed_id = "NULL";
+		if (!$cat_id) $feed_id = "NULL";
 
 		/* When processing 'assign label' filters, action_param_label dropbox
 		 * overrides action_param */
@@ -527,7 +522,7 @@ class Pref_Filters extends Handler_Protected {
 				VALUES
 					('$regexp', '$filter_type','".$_SESSION["uid"]."',
 					$feed_id, '$action_id', '$action_param', $inverse,
-					'$filter_param', $cat_id, $cat_filter)");
+					'$filter_param', $cat_id, ".bool_to_sql_bool($cat_filter).")");
 
 			if (db_affected_rows($this->link, $result) != 0) {
 				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
@@ -537,8 +532,8 @@ class Pref_Filters extends Handler_Protected {
 
 			$this->filter_test($filter_type, $regexp,
 				$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-				(int) $_REQUEST["feed_id"], (int) $_REQUEST['cat_id'],
-				sql_bool_to_bool($cat_filter));
+				$raw_feed_id, $raw_cat_id,
+				$cat_filter);
 
 			print "<div align='center'>";
 			print "<button dojoType=\"dijit.form.Button\"
