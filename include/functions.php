@@ -2466,7 +2466,7 @@
 
 				}
 			} else if ($feed == -6) { // recently read
-				$query_strategy_part = "unread = false";
+				$query_strategy_part = "unread = false AND last_read IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$override_order = "last_read DESC";
 			} else if ($feed == -3) { // fresh virtual feed
