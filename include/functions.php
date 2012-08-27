@@ -1551,7 +1551,9 @@
 
 		if ($is_cat) {
 			return getCategoryUnread($link, $n_feed, $owner_uid);
-		} if ($feed != "0" && $n_feed == 0) {
+		} else if ($n_feed == -6) {
+			return 0;
+		} else if ($feed != "0" && $n_feed == 0) {
 
 			$feed = db_escape_string($feed);
 
@@ -2077,6 +2079,9 @@
 		case -4:
 			return "images/tag.png";
 			break;
+		case -6:
+			return "images/recently_read.png";
+			break;
 		default:
 			if ($id < -10) {
 				return "images/label.png";
@@ -2099,6 +2104,8 @@
 			return __("All articles");
 		} else if ($id === 0 || $id === "0") {
 			return __("Archived articles");
+		} else if ($id == -6) {
+			return __("Recently read");
 		} else if ($id < -10) {
 			$label_id = -$id - 11;
 			$result = db_query($link, "SELECT caption FROM ttrss_labels2 WHERE id = '$label_id'");
@@ -2458,7 +2465,10 @@
 						ttrss_user_labels2.article_id = ref_id";
 
 				}
-
+			} else if ($feed == -6) { // recently read
+				$query_strategy_part = "unread = false";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				$override_order = "last_read DESC";
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true AND score >= 0";
 
