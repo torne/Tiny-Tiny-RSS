@@ -19,7 +19,6 @@ function loadMoreHeadlines() {
 		var offset = 0;
 
 		var view_mode = document.forms["main_toolbar_form"].view_mode.value;
-		var num_unread = getFeedUnread(getActiveFeedId(), activeFeedIsCat());
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length;
 		var num_all = $$("#headlines-frame > div[id*=RROW]").length;
 
@@ -32,9 +31,9 @@ function loadMoreHeadlines() {
 			console.warn("loadMoreHeadlines: published is not implemented, falling back.");
 			offset = num_all;
 		} else if (view_mode == "unread") {
-			offset = num_unread;
+			offset = unread_in_buffer;
 		} else if (view_mode == "adaptive") {
-			if (num_unread > 0)
+			if (unread_in_buffer > 0)
 				offset = unread_in_buffer;
 			else
 				offset = num_all;
@@ -575,6 +574,11 @@ function catchupFeed(feed, is_cat) {
 
 function decrementFeedCounter(feed, is_cat) {
 	try {
+		// we have subcats, no way to figure out if this article is
+		// actually from this category
+		if (is_cat && getCatParam(feed) > 0)
+			return;
+
 		var ctr = getFeedUnread(feed, is_cat);
 
 		if (ctr > 0) {
