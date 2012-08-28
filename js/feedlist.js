@@ -21,6 +21,7 @@ function loadMoreHeadlines() {
 		var view_mode = document.forms["main_toolbar_form"].view_mode.value;
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length;
 		var num_all = $$("#headlines-frame > div[id*=RROW]").length;
+		var num_unread = getFeedUnread(getActiveFeedId(), activeFeedIsCat());
 
 		// TODO implement marked & published
 
@@ -33,7 +34,7 @@ function loadMoreHeadlines() {
 		} else if (view_mode == "unread") {
 			offset = unread_in_buffer;
 		} else if (view_mode == "adaptive") {
-			if (unread_in_buffer > 0)
+			if (num_unread > 0)
 				offset = unread_in_buffer;
 			else
 				offset = num_all;
