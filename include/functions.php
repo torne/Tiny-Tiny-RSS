@@ -4864,7 +4864,7 @@
 				}
 			}
 
-			$rv .= "<div dojoType=\"dijit.form.DropDownButton\">".
+			$rv .= "<br/><div dojoType=\"dijit.form.DropDownButton\">".
 				"<span>" . __('Attachments')."</span>";
 			$rv .= "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
 
