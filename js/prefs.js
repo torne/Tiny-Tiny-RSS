@@ -136,9 +136,18 @@ function editFilter(id) {
 			id: "filterEditDlg",
 			title: __("Edit Filter"),
 			style: "width: 600px",
+			editRule: function(e) {
+				var li = e.parentNode;
+				var rule = li.getElementsByTagName("INPUT")[1].value;
+				addFilterRule(li, rule);
+			},
+			editAction: function(e) {
+				var li = e.parentNode;
+				var action = li.getElementsByTagName("INPUT")[1].value;
+				addFilterAction(li, action);
+			},
 			removeFilter: function() {
-				var title = this.attr('value').reg_exp;
-				var msg = __("Remove filter %s?").replace("%s", title);
+				var msg = __("Remove filter?");
 
 				if (confirm(msg)) {
 					this.hide();
@@ -157,57 +166,29 @@ function editFilter(id) {
 						} });
 				}
 			},
-			test: function() {
-				if (this.validate()) {
-
-					if (dijit.byId("filterTestDlg"))
-						dijit.byId("filterTestDlg").destroyRecursive();
-
-					tdialog = new dijit.Dialog({
-						id: "filterTestDlg",
-						title: __("Filter Test Results"),
-						style: "width: 600px",
-						href: "backend.php?savemode=test&" +
-							dojo.objectToQuery(dialog.attr('value')),
-						});
-
-					tdialog.show();
-
-				}
+			addAction: function() { addFilterAction(); },
+			addRule: function() { addFilterRule(); },
+			deleteAction: function() {
+				$$("#filterDlg_Actions li.[class*=Selected]").each(function(e) { e.parentNode.removeChild(e) });
+			},
+			deleteRule: function() {
+				$$("#filterDlg_Matches li.[class*=Selected]").each(function(e) { e.parentNode.removeChild(e) });
 			},
 			execute: function() {
 				if (this.validate()) {
 
-					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
-						param_escape(dialog.attr('value').reg_exp);
+					notify_progress("Saving data...", true);
 
-					notify_progress("Verifying regular expression...");
+					var query = dojo.formToQuery("filter_edit_form");
 
-					new Ajax.Request("backend.php",	{
+					console.log(query);
+
+					new Ajax.Request("backend.php", {
 						parameters: query,
 						onComplete: function(transport) {
-							var reply = JSON.parse(transport.responseText);
-
-							if (reply) {
-								notify('');
-
-								if (!reply['status']) {
-									alert("Match regular expression seems to be invalid.");
-									return;
-								} else {
-									notify_progress("Saving data...", true);
-
-									console.log(dojo.objectToQuery(dialog.attr('value')));
-
-									new Ajax.Request("backend.php", {
-										parameters: dojo.objectToQuery(dialog.attr('value')),
-										onComplete: function(transport) {
-											dialog.hide();
-											updateFilterList();
-									}});
-								}
-							}
-					}});
+							dialog.hide();
+							updateFilterList();
+						}});
 				}
 			},
 			href: query});
@@ -605,6 +586,31 @@ function editSelectedFilter() {
 
 }
 
+function joinSelectedFilters() {
+	var rows = getSelectedFilters();
+
+	if (rows.length == 0) {
+		alert(__("No filters are selected."));
+		return;
+	}
+
+	var ok = confirm(__("Combine selected filters?"));
+
+	if (ok) {
+		notify_progress("Joining filters...");
+
+		var query = "?op=pref-filters&method=join&ids="+
+			param_escape(rows.toString());
+
+		console.log(query);
+
+		new Ajax.Request("backend.php",	{
+			parameters: query,
+			onComplete: function(transport) {
+					updateFilterList();
+			} });
+	}
+}
 
 function editSelectedFeed() {
 	var rows = getSelectedFeeds();

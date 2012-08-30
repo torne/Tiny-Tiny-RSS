@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 95);
+	define('SCHEMA_VERSION', 96);
 
 	$fetch_last_error = false;
 
@@ -468,135 +468,88 @@
 	function get_article_filters($filters, $title, $content, $link, $timestamp, $author, $tags) {
 		$matches = array();
 
-		if ($filters["title"]) {
-			foreach ($filters["title"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-				if ((!$inverse && @preg_match("/$reg_exp/i", $title)) ||
-						($inverse && !@preg_match("/$reg_exp/i", $title))) {
+		foreach ($filters as $filter) {
+			$match_any_rule = $filter["match_any_rule"];
+			$filter_match = false;
 
-					array_push($matches, array($filter["action"], $filter["action_param"]));
+			foreach ($filter["rules"] as $rule) {
+				$match = false;
+				$reg_exp = $rule["reg_exp"];
+
+				if (!$reg_exp)
+					continue;
+
+				switch ($rule["type"]) {
+				case "title":
+					$match = @preg_match("/$reg_exp/i", $title);
+					break;
+				case "content":
+					$match = @preg_match("/$reg_exp/i", $content);
+					break;
+				case "both":
+					$match = (@preg_match("/$reg_exp/i", $title) || @preg_match("/$reg_exp/i", $title));
+					break;
+				case "link":
+					$match = @preg_match("/$reg_exp/i", $link);
+					break;
+				case "author":
+					$match = @preg_match("/$reg_exp/i", $author);
+					break;
+				case "tag":
+					$tag_string = join(",", $tags);
+					$match = @preg_match("/$reg_exp/i", $tag_string);
+					break;
 				}
-			}
-		}
 
-		if ($filters["content"]) {
-			foreach ($filters["content"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-
-				if ((!$inverse && @preg_match("/$reg_exp/i", $content)) ||
-						($inverse && !@preg_match("/$reg_exp/i", $content))) {
-
-					array_push($matches, array($filter["action"], $filter["action_param"]));
-				}
-			}
-		}
-
-		if ($filters["both"]) {
-			foreach ($filters["both"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-
-				if ($inverse) {
-					if (!@preg_match("/$reg_exp/i", $title) && !preg_match("/$reg_exp/i", $content)) {
-						array_push($matches, array($filter["action"], $filter["action_param"]));
+				if ($match_any_rule) {
+					if ($match) {
+						$filter_match = true;
+						break;
 					}
 				} else {
-					if (@preg_match("/$reg_exp/i", $title) || preg_match("/$reg_exp/i", $content)) {
-						array_push($matches, array($filter["action"], $filter["action_param"]));
+					$filter_match = $match;
+					if (!$match) {
+						break;
 					}
 				}
 			}
-		}
 
-		if ($filters["link"]) {
-			$reg_exp = $filter["reg_exp"];
-			foreach ($filters["link"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-
-				if ((!$inverse && @preg_match("/$reg_exp/i", $link)) ||
-						($inverse && !@preg_match("/$reg_exp/i", $link))) {
-
-					array_push($matches, array($filter["action"], $filter["action_param"]));
+			if ($filter_match) {
+				foreach ($filter["actions"] AS $action) {
+					array_push($matches, $action);
 				}
 			}
 		}
-
-		if ($filters["date"]) {
-			$reg_exp = $filter["reg_exp"];
-			foreach ($filters["date"] as $filter) {
-				$date_modifier = $filter["filter_param"];
-				$inverse = $filter["inverse"];
-				$check_timestamp = strtotime($filter["reg_exp"]);
-
-				# no-op when timestamp doesn't parse to prevent misfires
-
-				if ($check_timestamp) {
-					$match_ok = false;
-
-					if ($date_modifier == "before" && $timestamp < $check_timestamp ||
-						$date_modifier == "after" && $timestamp > $check_timestamp) {
-							$match_ok = true;
-					}
-
-					if ($inverse) $match_ok = !$match_ok;
-
-					if ($match_ok) {
-						array_push($matches, array($filter["action"], $filter["action_param"]));
-					}
-				}
-			}
-		}
-
-		if ($filters["author"]) {
-			foreach ($filters["author"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-				if ((!$inverse && @preg_match("/$reg_exp/i", $author)) ||
-						($inverse && !@preg_match("/$reg_exp/i", $author))) {
-
-					array_push($matches, array($filter["action"], $filter["action_param"]));
-				}
-			}
-		}
-
-		if ($filters["tag"]) {
-
-			$tag_string = join(",", $tags);
-
-			foreach ($filters["tag"] as $filter) {
-				$reg_exp = $filter["reg_exp"];
-				$inverse = $filter["inverse"];
-
-				if ((!$inverse && @preg_match("/$reg_exp/i", $tag_string)) ||
-						($inverse && !@preg_match("/$reg_exp/i", $tag_string))) {
-
-					array_push($matches, array($filter["action"], $filter["action_param"]));
-				}
-			}
-		}
-
 
 		return $matches;
 	}
 
 	function find_article_filter($filters, $filter_name) {
 		foreach ($filters as $f) {
-			if ($f[0] == $filter_name) {
+			if ($f["type"] == $filter_name) {
 				return $f;
 			};
 		}
 		return false;
 	}
 
+	function find_article_filters($filters, $filter_name) {
+		$results = array();
+
+		foreach ($filters as $f) {
+			if ($f["type"] == $filter_name) {
+				array_push($results, $f);
+			};
+		}
+		return $results;
+	}
+
 	function calculate_article_score($filters) {
 		$score = 0;
 
 		foreach ($filters as $f) {
-			if ($f[0] == "score") {
-				$score += $f[1];
+			if ($f["type"] == "score") {
+				$score += $f["param"];
 			};
 		}
 		return $score;
@@ -604,8 +557,8 @@
 
 	function assign_article_to_labels($link, $id, $filters, $owner_uid) {
 		foreach ($filters as $f) {
-			if ($f[0] == "label") {
-				label_add_article($link, $id, $f[1], $owner_uid);
+			if ($f["type"] == "label") {
+				label_add_article($link, $id, $f["param"], $owner_uid);
 			};
 		}
 	}
@@ -3650,45 +3603,65 @@
 		return $text;
 	}
 
-	function load_filters($link, $feed, $owner_uid, $action_id = false) {
+	function load_filters($link, $feed_id, $owner_uid, $action_id = false) {
 		$filters = array();
 
+		$cat_id = getFeedCategory($link, $feed_id);
 
-		if ($action_id) $ftype_query_part = "action_id = '$action_id' AND";
-
-		$result = db_query($link, "SELECT reg_exp,
-			ttrss_filter_types.name AS name,
-			ttrss_filter_actions.name AS action,
-			inverse,
-			action_param,
-			filter_param
-			FROM ttrss_filters
-				LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = '$feed'),
-				ttrss_filter_types,ttrss_filter_actions
-			WHERE
-				enabled = true AND
-				$ftype_query_part
-				ttrss_filters.owner_uid = $owner_uid AND
-				ttrss_filter_types.id = filter_type AND
-				ttrss_filter_actions.id = action_id AND
-				((cat_filter = true AND ttrss_feeds.cat_id = ttrss_filters.cat_id) OR
-				(cat_filter = true AND ttrss_feeds.cat_id IS NULL AND
-					ttrss_filters.cat_id IS NULL) OR
-				(cat_filter = false AND (feed_id IS NULL OR feed_id = '$feed')))
-			ORDER BY reg_exp");
+		$result = db_query($link, "SELECT * FROM ttrss_filters2 WHERE
+			owner_uid = $owner_uid AND enabled = true");
 
 		while ($line = db_fetch_assoc($result)) {
+			$filter_id = $line["id"];
 
-			if (!$filters[$line["name"]]) $filters[$line["name"]] = array();
-				$filter["reg_exp"] = $line["reg_exp"];
-				$filter["action"] = $line["action"];
-				$filter["action_param"] = $line["action_param"];
-				$filter["filter_param"] = $line["filter_param"];
-				$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
+			$result2 = db_query($link, "SELECT
+				r.reg_exp, r.feed_id, r.cat_id, r.cat_filter, t.name AS type_name
+				FROM ttrss_filters2_rules AS r,
+				ttrss_filter_types AS t
+				WHERE
+					(cat_id IS NULL OR cat_id = '$cat_id') AND
+					(feed_id IS NULL OR feed_id = '$feed_id') AND
+					filter_type = t.id AND filter_id = '$filter_id'");
 
-				array_push($filters[$line["name"]], $filter);
+			$rules = array();
+			$actions = array();
+
+			while ($rule_line = db_fetch_assoc($result2)) {
+#				print_r($rule_line);
+
+				$rule = array();
+				$rule["reg_exp"] = $rule_line["reg_exp"];
+				$rule["type"] = $rule_line["type_name"];
+
+				array_push($rules, $rule);
 			}
 
+			$result2 = db_query($link, "SELECT a.action_param,t.name AS type_name
+				FROM ttrss_filters2_actions AS a,
+				ttrss_filter_actions AS t
+				WHERE
+					action_id = t.id AND filter_id = '$filter_id'");
+
+			while ($action_line = db_fetch_assoc($result2)) {
+#				print_r($action_line);
+
+				$action = array();
+				$action["type"] = $action_line["type_name"];
+				$action["param"] = $action_line["action_param"];
+
+				array_push($actions, $action);
+			}
+
+
+			$filter = array();
+			$filter["match_any_rule"] = sql_bool_to_bool($line["match_any_rule"]);
+			$filter["rules"] = $rules;
+			$filter["actions"] = $actions;
+
+			if (count($rules) > 0 && count($actions) > 0) {
+				array_push($filters, $filter);
+			}
+		}
 
 		return $filters;
 	}
@@ -5593,6 +5566,18 @@
 			return false;
 
        return $tempname;
+	}
+
+	function getFeedCategory($link, $feed) {
+		$result = db_query($link, "SELECT cat_id FROM ttrss_feeds
+			WHERE id = '$feed'");
+
+		if (db_num_rows($result) > 0) {
+			return db_fetch_result($result, 0, "cat_id");
+		} else {
+			return false;
+		}
+
 	}
 
 ?>

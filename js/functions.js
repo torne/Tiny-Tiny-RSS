@@ -545,7 +545,7 @@ function fatalError(code, msg, ext_info) {
 	}
 }
 
-function filterDlgCheckType(sender) {
+/* function filterDlgCheckType(sender) {
 
 	try {
 
@@ -565,7 +565,7 @@ function filterDlgCheckType(sender) {
 		exception_error("filterDlgCheckType", e);
 	}
 
-}
+} */
 
 function filterDlgCheckAction(sender) {
 
@@ -938,16 +938,162 @@ function quickAddFeed() {
 	}
 }
 
+function createNewRuleElement(parentNode, replaceNode) {
+	try {
+		var form = document.forms["filter_new_rule_form"];
+
+		var query = "backend.php?op=pref-filters&method=printrulename&rule="+
+			param_escape(dojo.formToJson(form));
+
+		console.log(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function (transport) {
+				try {
+					var li = dojo.create("li");
+
+					dojo.create("input", { type: "checkbox",
+						onclick: function() { toggleSelectListRow(this) },
+					}, li);
+
+					dojo.create("input", { type: "hidden",
+						name: "rule[]",
+						value: dojo.formToJson(form) }, li);
+
+					dojo.create("span", {
+						onclick: function() {
+							dijit.byId('filterEditDlg').editRule(this);
+						},
+						innerHTML: transport.responseText }, li);
+
+					if (replaceNode) {
+						parentNode.replaceChild(li, replaceNode);
+					} else {
+						parentNode.appendChild(li);
+					}
+				} catch (e) {
+					exception_error("createNewRuleElement", e);
+				}
+		} });
+	} catch (e) {
+		exception_error("createNewRuleElement", e);
+	}
+}
+
+function createNewActionElement(parentNode, replaceNode) {
+	try {
+		var form = document.forms["filter_new_action_form"];
+
+		if (form.action_id.value == 7) {
+			form.action_param.value = form.action_param_label.value;
+		}
+
+		var query = "backend.php?op=pref-filters&method=printactionname&action="+
+			param_escape(dojo.formToJson(form));
+
+		console.log(query);
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function (transport) {
+				try {
+					var li = dojo.create("li");
+
+					dojo.create("input", { type: "checkbox",
+						onclick: function() { toggleSelectListRow(this) },
+					}, li);
+
+					dojo.create("input", { type: "hidden",
+						name: "action[]",
+						value: dojo.formToJson(form) }, li);
+
+					dojo.create("span", {
+						onclick: function() {
+							dijit.byId('filterEditDlg').editAction(this);
+						},
+						innerHTML: transport.responseText }, li);
+
+					if (replaceNode) {
+						parentNode.replaceChild(li, replaceNode);
+					} else {
+						parentNode.appendChild(li);
+					}
+
+				} catch (e) {
+					exception_error("createNewActionElement", e);
+				}
+			} });
+	} catch (e) {
+		exception_error("createNewActionElement", e);
+	}
+}
+
+
+function addFilterRule(replaceNode, ruleStr) {
+	try {
+		if (dijit.byId("filterNewRuleDlg"))
+			dijit.byId("filterNewRuleDlg").destroyRecursive();
+
+		var query = "backend.php?op=pref-filters&method=newrule&rule=" +
+			param_escape(ruleStr);
+
+		var rule_dlg = new dijit.Dialog({
+			id: "filterNewRuleDlg",
+			title: ruleStr ? __("Edit rule") : __("Add rule"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					createNewRuleElement($("filterDlg_Matches"), replaceNode);
+					this.hide();
+				}
+			},
+			href: query});
+
+		rule_dlg.show();
+	} catch (e) {
+		exception_error("addFilterRule", e);
+	}
+}
+
+function addFilterAction(replaceNode, actionStr) {
+	try {
+		if (dijit.byId("filterNewActionDlg"))
+			dijit.byId("filterNewActionDlg").destroyRecursive();
+
+		var query = "backend.php?op=pref-filters&method=newaction&action=" +
+			param_escape(actionStr);
+
+		var rule_dlg = new dijit.Dialog({
+			id: "filterNewActionDlg",
+			title: actionStr ? __("Edit action") : __("Add action"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+					createNewActionElement($("filterDlg_Actions"), replaceNode);
+					this.hide();
+				}
+			},
+			href: query});
+
+		rule_dlg.show();
+	} catch (e) {
+		exception_error("addFilterAction", e);
+	}
+}
+
 function quickAddFilter() {
 	try {
 		var query = "";
 		if (!inPreferences()) {
-			query = "backend.php?op=dlg&method=quickAddFilter&feed=" +
+			query = "backend.php?op=pref-filters&method=newfilter&feed=" +
 				param_escape(getActiveFeedId()) + "&is_cat=" +
 				param_escape(activeFeedIsCat());
 		} else {
-			query = "backend.php?op=dlg&method=quickAddFilter";
+			query = "backend.php?op=pref-filters&method=newfilter";
 		}
+
+		console.log(query);
 
 		if (dijit.byId("feedEditDlg"))
 			dijit.byId("feedEditDlg").destroyRecursive();
@@ -959,95 +1105,45 @@ function quickAddFilter() {
 			id: "filterEditDlg",
 			title: __("Create Filter"),
 			style: "width: 600px",
-			test: function() {
-				if (this.validate()) {
-
-					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
-						param_escape(dialog.attr('value').reg_exp);
-
-					notify_progress("Verifying regular expression...");
-
-					new Ajax.Request("backend.php",	{
-						parameters: query,
-						onComplete: function(transport) {
-							var reply = JSON.parse(transport.responseText);
-
-							if (reply) {
-								notify('');
-
-								if (!reply['status']) {
-									alert("Invalid regular expression.");
-									return;
-								} else {
-
-									if (dijit.byId("filterTestDlg"))
-										dijit.byId("filterTestDlg").destroyRecursive();
-
-									tdialog = new dijit.Dialog({
-										id: "filterTestDlg",
-										title: __("Filter Test Results"),
-										style: "width: 600px",
-										href: "backend.php?savemode=test&" +
-										dojo.objectToQuery(dialog.attr('value')),
-									});
-
-									tdialog.show();
-								}
-							}
-					}});
-				}
+			editRule: function(e) {
+				var li = e.parentNode;
+				var rule = li.getElementsByTagName("INPUT")[1].value;
+				addFilterRule(li, rule);
+			},
+			editAction: function(e) {
+				var li = e.parentNode;
+				var action = li.getElementsByTagName("INPUT")[1].value;
+				addFilterAction(li, action);
+			},
+			addAction: function() { addFilterAction(); },
+			addRule: function() { addFilterRule(); },
+			deleteAction: function() {
+				$$("#filterDlg_Actions li.[class*=Selected]").each(function(e) { e.parentNode.removeChild(e) });
+			},
+			deleteRule: function() {
+				$$("#filterDlg_Matches li.[class*=Selected]").each(function(e) { e.parentNode.removeChild(e) });
 			},
 			execute: function() {
 				if (this.validate()) {
 
-					var query = "?op=rpc&method=verifyRegexp&reg_exp=" +
-						param_escape(dialog.attr('value').reg_exp);
+					var query = dojo.formToQuery("filter_new_form");
 
-					notify_progress("Verifying regular expression...");
+					console.log(query);
 
-					new Ajax.Request("backend.php",	{
+					new Ajax.Request("backend.php", {
 						parameters: query,
-						onComplete: function(transport) {
-							var reply = JSON.parse(transport.responseText);
-
-							if (reply) {
-								notify('');
-
-								if (!reply['status']) {
-									alert("Invalid regular expression.");
-									return;
-								} else {
-									notify_progress("Saving data...", true);
-
-									console.log(dojo.objectToQuery(dialog.attr('value')));
-
-									new Ajax.Request("backend.php", {
-										parameters: dojo.objectToQuery(dialog.attr('value')),
-										onComplete: function(transport) {
-											dialog.hide();
-											notify_info(transport.responseText);
-											if (inPreferences()) {
-												updateFilterList();
-											}
-									}});
-								}
+						onComplete: function (transport) {
+							if (inPreferences()) {
+								updateFilterList();
 							}
-					}});
+
+							dialog.hide();
+					} });
 				}
 			},
 			href: query});
 
 		dialog.show();
-
-		var lh = dojo.connect(dialog, "onLoad",
-				function() {
-					dojo.disconnect(lh);
-					var title = $("PTITLE-FULL-" + active_post_id);
-
-					if (title) {
-						$("filterDlg_regExp").value = title.innerHTML;
-					}
-			});
 
 	} catch (e) {
 		exception_error("quickAddFilter", e);

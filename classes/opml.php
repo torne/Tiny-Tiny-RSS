@@ -159,7 +159,7 @@ class Opml extends Handler_Protected {
 
 			$out .= "</outline>";
 
-			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
+/*			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($this->link, "SELECT filter_type,
 					reg_exp,
@@ -191,7 +191,7 @@ class Opml extends Handler_Protected {
 			}
 
 
-			$out .= "</outline>";
+			$out .= "</outline>"; */
 		}
 
 		$out .= "</body></opml>";
@@ -287,7 +287,7 @@ class Opml extends Handler_Protected {
 		}
 	}
 
-	private function opml_import_filter($doc, $node, $owner_uid) {
+	/* private function opml_import_filter($doc, $node, $owner_uid) {
 		$attrs = $node->attributes;
 
 		$filter_name = db_escape_string($attrs->getNamedItem('filter-name')->nodeValue);
@@ -355,7 +355,7 @@ class Opml extends Handler_Protected {
 				}
 			}
 		}
-	}
+	} */
 
 	private function opml_import_category($doc, $root_node, $owner_uid, $parent_id) {
 		$body = $doc->getElementsByTagName('body');
@@ -413,7 +413,7 @@ class Opml extends Handler_Protected {
 						$this->opml_import_label($doc, $node, $owner_uid);
 						break;
 					case "tt-rss-filters":
-						$this->opml_import_filter($doc, $node, $owner_uid);
+						//$this->opml_import_filter($doc, $node, $owner_uid);
 						break;
 					default:
 						$this->opml_import_feed($doc, $node, $dst_cat_id, $owner_uid);

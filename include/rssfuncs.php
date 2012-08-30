@@ -818,8 +818,8 @@
 					$entry_tags[$i] = mb_strtolower($entry_tags[$i], 'utf-8');
 
 				if ($debug_enabled) {
-					_debug("update_rss_feed: unfiltered tags found:");
-					print_r($entry_tags);
+					//_debug("update_rss_feed: unfiltered tags found:");
+					//print_r($entry_tags);
 				}
 
 				# sanitize content
@@ -1190,9 +1190,9 @@
 				// check for manual tags (we have to do it here since they're loaded from filters)
 
 				foreach ($article_filters as $f) {
-					if ($f[0] == "tag") {
+					if ($f["type"] == "tag") {
 
-						$manual_tags = trim_array(explode(",", $f[1]));
+						$manual_tags = trim_array(explode(",", $f["param"]));
 
 						foreach ($manual_tags as $tag) {
 							if (tag_is_valid($tag)) {

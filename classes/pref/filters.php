@@ -2,12 +2,13 @@
 class Pref_Filters extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("index", "getfiltertree", "edit");
+		$csrf_ignored = array("index", "getfiltertree", "edit", "newfilter", "newrule",
+			"newaction");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
-	function filter_test($filter_type, $reg_exp,
+/*	function filter_test($filter_type, $reg_exp,
 			$action_id, $action_param, $filter_param, $inverse, $feed_id, $cat_id,
 			$cat_filter) {
 
@@ -97,7 +98,7 @@ class Pref_Filters extends Handler_Protected {
 		print "</table>";
 		print "</div>";
 
-	}
+			} */
 
 	function getfiltertree() {
 		$root = array();
@@ -105,106 +106,27 @@ class Pref_Filters extends Handler_Protected {
 		$root['name'] = __('Filters');
 		$root['items'] = array();
 
-		$search = $_SESSION["prefs_filter_search"];
+		$result = db_query($this->link, "SELECT *,
+			(SELECT action_id FROM ttrss_filters2_actions
+				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS action_id,
+			(SELECT reg_exp FROM ttrss_filters2_rules
+				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS reg_exp
+			FROM ttrss_filters2 WHERE
+			owner_uid = ".$_SESSION["uid"]." ORDER BY action_id,reg_exp");
 
-		if ($search) $search_qpart = " (LOWER(reg_exp) LIKE LOWER('%$search%')
-			OR LOWER(ttrss_feeds.title) LIKE LOWER('%$search%')
-			OR LOWER(COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."'))
-				LIKE LOWER('%$search%') AND cat_filter = true) AND ";
+		while ($line = db_fetch_assoc($result)) {
 
-		$result = db_query($this->link, "SELECT
-				ttrss_filters.id AS id,reg_exp,
-				ttrss_filter_types.name AS filter_type_name,
-				ttrss_filter_types.description AS filter_type_descr,
-				enabled,
-				inverse,
-				cat_filter,
-				feed_id,
-				ttrss_filters.cat_id,
-				action_id,
-				filter_param,
-				filter_type,
-				ttrss_filter_actions.description AS action_description,
-				ttrss_feeds.title AS feed_title,
-				COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS cat_title,
-				ttrss_filter_actions.name AS action_name,
-				ttrss_filters.action_param AS action_param
-			FROM
-				ttrss_filter_types,ttrss_filter_actions,ttrss_filters LEFT JOIN
-					ttrss_feeds ON (ttrss_filters.feed_id = ttrss_feeds.id) LEFT JOIN
-					ttrss_feed_categories ON (ttrss_filters.cat_id = ttrss_feed_categories.id)
-			WHERE
-				filter_type = ttrss_filter_types.id AND
-				ttrss_filter_actions.id = action_id AND
-				$search_qpart
-				ttrss_filters.owner_uid = ".$_SESSION["uid"]."
-			ORDER by action_description, reg_exp");
+			$name = $this->getFilterName($line["id"]);
 
-		$cat = false;
-		$cur_action_description = "";
+			$filter = array();
+			$filter['id'] = 'FILTER:' . $line['id'];
+			$filter['bare_id'] = $line['id'];
+			$filter['name'] = $name[0];
+			$filter['param'] = $name[1];
+			$filter['checkbox'] = false;
+			$filter['enabled'] = $line["enabled"];
 
-		if (db_num_rows($result) > 0) {
-
-			while ($line = db_fetch_assoc($result)) {
-				if ($cur_action_description != $line['action_description']) {
-
-					if ($cat)
-						array_push($root['items'], $cat);
-
-					$cat = array();
-					$cat['id'] = 'ACTION:' . $line['action_id'];
-					$cat['name'] = $line['action_description'];
-					$cat['items'] = array();
-
-					$cur_action_description = $line['action_description'];
-				}
-
-				if (array_search($line["action_name"],
-					array("score", "tag", "label")) === false) {
-
-						$line["action_param"] = '';
-				} else {
-					if ($line['action_name'] == 'label') {
-
-						$tmp_result = db_query($this->link, "SELECT fg_color, bg_color
-							FROM ttrss_labels2 WHERE caption = '".
-								db_escape_string($line["action_param"])."' AND
-								owner_uid = " . $_SESSION["uid"]);
-
-						if (db_num_rows($tmp_result) != 0) {
-							$fg_color = db_fetch_result($tmp_result, 0, "fg_color");
-							$bg_color = db_fetch_result($tmp_result, 0, "bg_color");
-
-							$tmp = "<span class=\"labelColorIndicator\" style='color : $fg_color; background-color : $bg_color'>&alpha;</span> " . $line['action_param'];
-
-							$line['action_param'] = $tmp;
-						}
-					}
-				}
-
-				$filter = array();
-				$filter['id'] = 'FILTER:' . $line['id'];
-				$filter['bare_id'] = $line['id'];
-				$filter['name'] = $line['reg_exp'];
-				$filter['type'] = $line['filter_type'];
-				$filter['enabled'] = sql_bool_to_bool($line['enabled']);
-				$filter['param'] = $line['action_param'];
-				$filter['inverse'] = sql_bool_to_bool($line['inverse']);
-				$filter['checkbox'] = false;
-
-				if (sql_bool_to_bool($line['cat_filter']))
-					if ($line['cat_id'] != 0) {
-						$filter['feed'] = $line['cat_title'];
-					} else {
-						$filter['feed'] = __('Uncategorized');
-					}
-				else if ($line['feed_id'])
-					$filter['feed'] = $line['feed_title'];
-
-				array_push($cat['items'], $filter);
-			}
-
-			array_push($root['items'], $cat);
+			array_push($root['items'], $filter);
 		}
 
 		$fl = array();
@@ -221,19 +143,10 @@ class Pref_Filters extends Handler_Protected {
 		$filter_id = db_escape_string($_REQUEST["id"]);
 
 		$result = db_query($this->link,
-			"SELECT * FROM ttrss_filters WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
-
-		$reg_exp = htmlspecialchars(db_fetch_result($result, 0, "reg_exp"));
-		$filter_type = db_fetch_result($result, 0, "filter_type");
-		$feed_id = (int) db_fetch_result($result, 0, "feed_id");
-		$cat_id = (int) db_fetch_result($result, 0, "cat_id");
-		$action_id = db_fetch_result($result, 0, "action_id");
-		$action_param = db_fetch_result($result, 0, "action_param");
-		$filter_param = db_fetch_result($result, 0, "filter_param");
+			"SELECT * FROM ttrss_filters2 WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
-		$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
-		$cat_filter = sql_bool_to_bool(db_fetch_result($result, 0, "cat_filter"));
+		$match_any_rule = sql_bool_to_bool(db_fetch_result($result, 0, "match_any_rule"));
 
 		print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
@@ -242,104 +155,88 @@ class Pref_Filters extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"editSave\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"csrf_token\" value=\"".$_SESSION['csrf_token']."\">";
 
-		$result = db_query($this->link, "SELECT id,description
-			FROM ttrss_filter_types ORDER BY description");
-
-		$filter_types = array();
-
-		while ($line = db_fetch_assoc($result)) {
-			//array_push($filter_types, $line["description"]);
-			$filter_types[$line["id"]] = __($line["description"]);
-		}
-
 		print "<div class=\"dlgSec\">".__("Match")."</div>";
 
-		print "<div class=\"dlgSecCont\">";
+		print "<div dojoType=\"dijit.Toolbar\">";
 
-		if ($filter_type != 5) {
-			$date_ops_invisible = 'style="display : none"';
-		}
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectRules(true)\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectRules(false)\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
 
-		print "<span id=\"filterDlg_dateModBox\" $date_ops_invisible>";
-		print __("Date") . " ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').addRule()\">".
+			__('Add')."</button> ";
 
-		$filter_params = array(
-			"before" => __("before"),
-			"after" => __("after"));
-
-		print_select_hash("filter_date_modifier", $filter_param,
-			$filter_params, 'dojoType="dijit.form.Select"');
-
-		print "&nbsp;</span>";
-
-		print "<input dojoType=\"dijit.form.ValidationTextBox\"
-				 required=\"1\"
-				 name=\"reg_exp\" style=\"font-size : 16px;\" value=\"$reg_exp\">";
-
-		print "<span id=\"filterDlg_dateChkBox\" $date_ops_invisible>";
-		print "&nbsp;<button dojoType=\"dijit.form.Button\" onclick=\"return filterDlgCheckDate()\">".
-			__('Check it')."</button>";
-		print "</span>";
-
-		print "<hr/> " . __("on field") . " ";
-		print_select_hash("filter_type", $filter_type, $filter_types,
-			'onchange="filterDlgCheckType(this)" dojoType="dijit.form.Select"');
-
-		print "<hr/>";
-
-		print __("in") . " ";
-
-		print "<span id='filterDlg_feeds'>";
-		print_feed_select($this->link, "feed_id", ($cat_filter) ? "CAT:$cat_id" : $feed_id,
-			'dojoType="dijit.form.FilteringSelect"');
-		print "</span>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').deleteRule()\">".
+			__('Delete')."</button> ";
 
 		print "</div>";
 
-		print "<div class=\"dlgSec\">".__("Perform Action")."</div>";
+		print "<ul id='filterDlg_Matches'>";
 
-		print "<div class=\"dlgSecCont\">";
+		$rules_result = db_query($this->link, "SELECT * FROM ttrss_filters2_rules
+			WHERE filter_id = '$filter_id' ORDER BY id");
 
-		print "<select name=\"action_id\" dojoType=\"dijit.form.Select\"
-			onchange=\"filterDlgCheckAction(this)\">";
+		while ($line = db_fetch_assoc($rules_result)) {
+			if ($line["cat_filter"]) {
+				unset($line["cat_filter"]);
+				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
+				unset($line["cat_id"]);
+			}
 
-		$result = db_query($this->link, "SELECT id,description FROM ttrss_filter_actions
-			ORDER BY name");
+			$data = htmlspecialchars(json_encode($line));
 
-		while ($line = db_fetch_assoc($result)) {
-			$is_sel = ($line["id"] == $action_id) ? "selected=\"1\"" : "";
-			printf("<option value='%d' $is_sel>%s</option>", $line["id"], __($line["description"]));
+			print "<li><input type='checkbox' onclick='toggleSelectListRow(this)'>".
+				"<span onclick=\"dijit.byId('filterEditDlg').editRule(this)\">".$this->getRuleName($line)."</span>".
+				"<input type='hidden' name='rule[]' value=\"$data\"/></li>";
 		}
 
-		print "</select>";
-
-		$param_hidden = ($action_id == 4 || $action_id == 6 || $action_id == 7) ? "" : "display : none";
-
-		print "<span id=\"filterDlg_paramBox\" style=\"$param_hidden\">";
-		print " " . __("with parameters:") . " ";
-
-		$param_int_hidden = ($action_id != 7) ? "" : "display : none";
-
-		print "<input style=\"$param_int_hidden\"
-				dojoType=\"dijit.form.TextBox\" id=\"filterDlg_actionParam\"
-				name=\"action_param\" value=\"$action_param\">";
-
-		$param_int_hidden = ($action_id == 7) ? "" : "display : none";
-
-		print_label_select($this->link, "action_param_label", $action_param,
-		 "style=\"$param_int_hidden\"" .
-		 'id="filterDlg_actionParamLabel" dojoType="dijit.form.Select"');
-
-		print "</span>";
-
-		print "&nbsp;"; // tiny layout hack
+		print "</ul>";
 
 		print "</div>";
 
-		print "<div class=\"dlgSec\">".__("Options")."</div>";
-		print "<div class=\"dlgSecCont\">";
+		print "<div class=\"dlgSec\">".__("Apply actions")."</div>";
 
-		print "<div style=\"line-height : 100%\">";
+		print "<div dojoType=\"dijit.Toolbar\">";
+
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectActions(true)\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectActions(false)\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').addAction()\">".
+			__('Add')."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').deleteAction()\">".
+			__('Delete')."</button> ";
+
+		print "</div>";
+
+		print "<ul id='filterDlg_Actions'>";
+
+		$actions_result = db_query($this->link, "SELECT * FROM ttrss_filters2_actions
+			WHERE filter_id = '$filter_id' ORDER BY id");
+
+		while ($line = db_fetch_assoc($actions_result)) {
+			$line["action_param_label"] = $line["action_param"];
+			$data = htmlspecialchars(json_encode($line));
+
+			print "<li><input type='checkbox' onclick='toggleSelectListRow(this)'>".
+				"<span onclick=\"dijit.byId('filterEditDlg').editAction(this)\">".$this->getActionName($line)."</span>".
+				"<input type='hidden' name='action[]' value=\"$data\"/></li>";
+		}
+
+		print "</ul>";
+
+		print "</div>";
 
 		if ($enabled) {
 			$checked = "checked=\"1\"";
@@ -348,28 +245,18 @@ class Pref_Filters extends Handler_Protected {
 		}
 
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" $checked>
-				<label for=\"enabled\">".__('Enabled')."</label><hr/>";
+				<label for=\"enabled\">".__('Enabled')."</label>";
 
-		if ($inverse) {
+		if ($match_any_rule) {
 			$checked = "checked=\"1\"";
 		} else {
 			$checked = "";
 		}
 
-		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
-			<label for=\"inverse\">".__('Inverse match')."</label><hr/>";
+		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"match_any_rule\" id=\"match_any_rule\" $checked>
+				<label for=\"match_any_rule\">".__('Match any rule')."</label>";
 
-#		if ($cat_filter) {
-#			$checked = "checked=\"1\"";
-#		} else {
-#			$checked = "";
-#		}
-
-#		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"cat_filter\" id=\"cat_filter\" onchange=\"filterDlgCheckCat(this)\" $checked>
-#				<label for=\"cat_filter\">".__('Apply to category')."</label><hr/>";
-
-		print "</div>";
-		print "</div>";
+		print "<p/>";
 
 		print "<div class=\"dlgButtons\">";
 
@@ -378,8 +265,8 @@ class Pref_Filters extends Handler_Protected {
 			__('Remove')."</button>";
 		print "</div>";
 
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
-			__('Test')."</button> ";
+#		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+#			__('Test')."</button> ";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 			__('Save')."</button> ";
@@ -390,75 +277,66 @@ class Pref_Filters extends Handler_Protected {
 		print "</div>";
 	}
 
-	function editSave() {
+	private function getRuleName($rule) {
+		if (!$rule) $rule = json_decode($_REQUEST["rule"], true);
 
-		$savemode = db_escape_string($_REQUEST["savemode"]);
-		$reg_exp = db_escape_string(trim($_REQUEST["reg_exp"]));
-		$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
-		$filter_id = db_escape_string($_REQUEST["id"]);
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-		$action_id = db_escape_string($_REQUEST["action_id"]);
-		$action_param = db_escape_string($_REQUEST["action_param"]);
-		$action_param_label = db_escape_string($_REQUEST["action_param_label"]);
-		$enabled = checkbox_to_sql_bool(db_escape_string($_REQUEST["enabled"]));
-		$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
-
-		# for the time being, no other filters use params anyway...
-		$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
+		$feed_id = $rule["feed_id"];
 
 		if (strpos($feed_id, "CAT:") === 0) {
-			$cat_filter = true;
-			$cat_id = (int) substr($feed_id, 4);
-			$feed_id = "NULL";
+			$feed_id = (int) substr($feed_id, 4);
+			$feed = getCategoryTitle($this->link, $feed_id);
 		} else {
-			$cat_filter = false;
 			$feed_id = (int) $feed_id;
-			$cat_id = "NULL";
+
+			if ($rule["feed_id"])
+				$feed = getFeedTitle($this->link, (int)$rule["feed_id"]);
+			else
+				$feed = __("All feeds");
 		}
 
-		$raw_feed_id = (int) $feed_id;
-		$raw_cat_id = (int) $cat_id;
+		$result = db_query($this->link, "SELECT description FROM ttrss_filter_types
+			WHERE id = ".(int)$rule["filter_type"]);
+		$match_on = db_fetch_result($result, 0, "description");
 
-		if (!$feed_id) $feed_id = "NULL";
-		if (!$cat_id) $feed_id = "NULL";
+		return T_sprintf("%s on %s in %s", $rule["reg_exp"], $match_on, $feed);
+	}
 
-		/* When processing 'assign label' filters, action_param_label dropbox
-		 * overrides action_param */
+	function printRuleName() {
+		print $this->getRuleName(json_decode($_REQUEST["rule"], true));
+	}
 
-		if ($action_id == 7) {
-			$action_param = $action_param_label;
-		}
+	private function getActionName($action) {
+		$result = db_query($this->link, "SELECT description FROM
+			ttrss_filter_actions WHERE id = " .(int)$action["action_id"]);
 
-		if ($action_id == 6) {
-			$action_param = (int) str_replace("+", "", $action_param);
-		}
+		$title = __(db_fetch_result($result, 0, "description"));
 
-		if ($savemode != "test") {
-			$result = db_query($this->link, "UPDATE ttrss_filters SET
-				reg_exp = '$reg_exp',
-				feed_id = $feed_id,
-				cat_id = $cat_id,
-				action_id = '$action_id',
-				filter_type = '$filter_type',
-				enabled = $enabled,
-				inverse = $inverse,
-				cat_filter = ".bool_to_sql_bool($cat_filter).",
-				action_param = '$action_param',
-				filter_param = '$filter_param'
-				WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
-		} else {
+		if ($action["action_id"] == 4 || $action["action_id"] == 6 ||
+			$action["action_id"] == 7)
+				$title .= ": " . $action["action_param"];
 
-			$this->filter_test($filter_type, $reg_exp,
-				$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-				$raw_feed_id, $raw_cat_id, $cat_filter);
+		return $title;
+	}
 
-			print "<div align='center'>";
-			print "<button dojoType=\"dijit.form.Button\"
-				onclick=\"return dijit.byId('filterTestDlg').hide()\">".
-				__('Close this window')."</button>";
-			print "</div>";
+	function printActionName() {
+		print $this->getActionName(json_decode($_REQUEST["action"], true));
+	}
 
-		}
+	function editSave() {
+
+#		print_r($_REQUEST);
+
+		$filter_id = db_escape_string($_REQUEST["id"]);
+		$enabled = checkbox_to_sql_bool(db_escape_string($_REQUEST["enabled"]));
+		$match_any_rule = checkbox_to_sql_bool(db_escape_string($_REQUEST["match_any_rule"]));
+
+		$result = db_query($this->link, "UPDATE ttrss_filters2 SET enabled = $enabled,
+		  	match_any_rule = $match_any_rule
+			WHERE id = '$filter_id'
+			AND owner_uid = ". $_SESSION["uid"]);
+
+		$this->saveRulesAndActions($filter_id);
+
 	}
 
 	function remove() {
@@ -466,82 +344,117 @@ class Pref_Filters extends Handler_Protected {
 		$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			db_query($this->link, "DELETE FROM ttrss_filters WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
+			db_query($this->link, "DELETE FROM ttrss_filters2 WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
 		}
 	}
 
-	function add() {
+	private function saveRulesAndActions($filter_id) {
 
-		$savemode = db_escape_string($_REQUEST["savemode"]);
-		$regexp = db_escape_string(trim($_REQUEST["reg_exp"]));
-		$filter_type = db_escape_string(trim($_REQUEST["filter_type"]));
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-#		$cat_id = db_escape_string($_REQUEST["cat_id"]);
-		$action_id = db_escape_string($_REQUEST["action_id"]);
-		$action_param = db_escape_string($_REQUEST["action_param"]);
-		$action_param_label = db_escape_string($_REQUEST["action_param_label"]);
-		$inverse = checkbox_to_sql_bool(db_escape_string($_REQUEST["inverse"]));
-#		$cat_filter = checkbox_to_sql_bool(db_escape_string($_REQUEST["cat_filter"]));
+		db_query($this->link, "DELETE FROM ttrss_filters2_rules WHERE filter_id = '$filter_id'");
+		db_query($this->link, "DELETE FROM ttrss_filters2_actions WHERE filter_id = '$filter_id'");
 
-		# for the time being, no other filters use params anyway...
-		$filter_param = db_escape_string($_REQUEST["filter_date_modifier"]);
+		if ($filter_id) {
+			/* create rules */
 
-		if (!$regexp) return;
+			$rules = array();
+			$actions = array();
 
-		if (strpos($feed_id, "CAT:") === 0) {
-			$cat_filter = true;
-			$cat_id = (int) substr($feed_id, 4);
-			$feed_id = "NULL";
-		} else {
-			$cat_filter = false;
-			$feed_id = (int) $feed_id;
-			$cat_id = "NULL";
-		}
+			foreach ($_REQUEST["rule"] as $rule) {
+				$rule = json_decode($rule, true);
+				unset($rule["id"]);
 
-		$raw_feed_id = (int) $feed_id;
-		$raw_cat_id = (int) $cat_id;
-
-		if (!$feed_id) $feed_id = "NULL";
-		if (!$cat_id) $feed_id = "NULL";
-
-		/* When processing 'assign label' filters, action_param_label dropbox
-		 * overrides action_param */
-
-		if ($action_id == 7) {
-			$action_param = $action_param_label;
-		}
-
-		if ($action_id == 6) {
-			$action_param = (int) str_replace("+", "", $action_param);
-		}
-
-		if ($savemode != "test") {
-			$result = db_query($this->link,
-				"INSERT INTO ttrss_filters (reg_exp,filter_type,owner_uid,feed_id,
-					action_id, action_param, inverse, filter_param, cat_id, cat_filter)
-				VALUES
-					('$regexp', '$filter_type','".$_SESSION["uid"]."',
-					$feed_id, '$action_id', '$action_param', $inverse,
-					'$filter_param', $cat_id, ".bool_to_sql_bool($cat_filter).")");
-
-			if (db_affected_rows($this->link, $result) != 0) {
-				print T_sprintf("Created filter <b>%s</b>", htmlspecialchars($regexp));
+				if (array_search($rule, $rules) === false) {
+					array_push($rules, $rule);
+				}
 			}
 
-		} else {
+			foreach ($_REQUEST["action"] as $action) {
+				$action = json_decode($action, true);
+				unset($action["id"]);
 
-			$this->filter_test($filter_type, $regexp,
-				$action_id, $action_param, $filter_param, sql_bool_to_bool($inverse),
-				$raw_feed_id, $raw_cat_id,
-				$cat_filter);
+				if (array_search($action, $actions) === false) {
+					array_push($actions, $action);
+				}
+			}
 
-			print "<div align='center'>";
-			print "<button dojoType=\"dijit.form.Button\"
-				onclick=\"return dijit.byId('filterTestDlg').hide()\">".
-				__('Close this window')."</button>";
-			print "</div>";
+			foreach ($rules as $rule) {
+				if ($rule) {
 
+					$reg_exp = strip_tags(db_escape_string(trim($rule["reg_exp"])));
+					$filter_type = (int) db_escape_string(trim($rule["filter_type"]));
+					$feed_id = db_escape_string(trim($rule["feed_id"]));
+
+					if (strpos($feed_id, "CAT:") === 0) {
+						$cat_filter = bool_to_sql_bool(true);
+						$cat_id = (int) substr($feed_id, 4);
+						$feed_id = "NULL";
+
+						if (!$cat_id) $cat_id = "NULL"; // Uncategorized
+					} else {
+						$cat_filter = bool_to_sql_bool(false);
+						$feed_id = (int) $feed_id;
+						$cat_id = "NULL";
+
+						if (!$feed_id) $feed_id = "NULL"; // Uncategorized
+					}
+
+					$query = "INSERT INTO ttrss_filters2_rules
+						(filter_id, reg_exp,filter_type,feed_id,cat_id,cat_filter) VALUES
+						('$filter_id', '$reg_exp', '$filter_type', $feed_id, $cat_id, $cat_filter)";
+
+					db_query($this->link, $query);
+				}
+			}
+
+			foreach ($actions as $action) {
+				if ($action) {
+
+					$action_id = (int) db_escape_string($action["action_id"]);
+					$action_param = db_escape_string($action["action_param"]);
+					$action_param_label = db_escape_string($action["action_param_label"]);
+
+					if ($action_id == 7) {
+						$action_param = $action_param_label;
+					}
+
+					if ($action_id == 6) {
+						$action_param = (int) str_replace("+", "", $action_param);
+					}
+
+					$query = "INSERT INTO ttrss_filters2_actions
+						(filter_id, action_id, action_param) VALUES
+						('$filter_id', '$action_id', '$action_param')";
+
+					db_query($this->link, $query);
+				}
+			}
 		}
+
+
+	}
+
+	function add() {
+#		print_r($_REQUEST);
+
+		$enabled = checkbox_to_sql_bool($_REQUEST["enabled"]);
+		$match_any_rule = checkbox_to_sql_bool($_REQUEST["match_any_rule"]);
+
+		db_query($this->link, "BEGIN");
+
+		/* create base filter */
+
+		$result = db_query($this->link, "INSERT INTO ttrss_filters2
+			(owner_uid, match_any_rule, enabled) VALUES
+			(".$_SESSION["uid"].",$match_any_rule,$enabled)");
+
+		$result = db_query($this->link, "SELECT MAX(id) AS id FROM ttrss_filters2
+			WHERE owner_uid = ".$_SESSION["uid"]);
+
+		$filter_id = db_fetch_result($result, 0, "id");
+
+		$this->saveRulesAndActions($filter_id);
+
+		db_query($this->link, "COMMIT");
 	}
 
 	function index() {
@@ -602,6 +515,9 @@ class Pref_Filters extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return quickAddFilter()\">".
 			__('Create filter')."</button> ";
 
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return joinSelectedFilters()\">".
+			__('Combine')."</button> ";
+
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return editSelectedFilter()\">".
 			__('Edit')."</button> ";
 
@@ -647,6 +563,355 @@ class Pref_Filters extends Handler_Protected {
 		print "</div>"; #pane
 		print "</div>"; #container
 
+	}
+
+	function newfilter() {
+
+		print "<form name='filter_new_form' id='filter_new_form'>";
+
+		$active_feed_id = (int) db_escape_string($_REQUEST["feed"]);
+		$cat_filter = db_escape_string($_REQUEST["is_cat"]) == "true";
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"add\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"csrf_token\" value=\"".$_SESSION['csrf_token']."\">";
+
+		print "<div class=\"dlgSec\">".__("Match")."</div>";
+
+		print "<div dojoType=\"dijit.Toolbar\">";
+
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectRules(true)\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectRules(false)\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').addRule()\">".
+			__('Add')."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').deleteRule()\">".
+			__('Delete')."</button> ";
+
+		print "</div>";
+
+		print "<ul id='filterDlg_Matches'>";
+#		print "<li>No rules</li>";
+		print "</ul>";
+
+		print "</div>";
+
+		print "<div class=\"dlgSec\">".__("Apply actions")."</div>";
+
+		print "<div dojoType=\"dijit.Toolbar\">";
+
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectActions(true)\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"dijit.byId('filterEditDlg').selectActions(false)\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').addAction()\">".
+			__('Add')."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').deleteAction()\">".
+			__('Delete')."</button> ";
+
+		print "</div>";
+
+		print "<ul id='filterDlg_Actions'>";
+#		print "<li>No actions</li>";
+		print "</ul>";
+
+/*		print "<div class=\"dlgSec\">".__("Options")."</div>";
+		print "<div class=\"dlgSecCont\">"; */
+
+		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"enabled\" id=\"enabled\" checked=\"1\">
+				<label for=\"enabled\">".__('Enabled')."</label>";
+
+		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"match_any_rule\" id=\"match_any_rule\">
+				<label for=\"match_any_rule\">".__('Match any rule')."</label>";
+
+		print "<p/>";
+
+/*		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
+	<label for=\"inverse\">".__('Inverse match')."</label><hr/>"; */
+
+//		print "</div>";
+
+		print "<div class=\"dlgButtons\">";
+
+#		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+#			__('Test')."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
+			__('Create')."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').hide()\">".
+			__('Cancel')."</button>";
+
+		print "</div>";
+
+	}
+
+	function newrule() {
+		$rule = json_decode($_REQUEST["rule"], true);
+
+		if ($rule) {
+			$reg_exp = htmlspecialchars($rule["reg_exp"]);
+			$filter_type = $rule["filter_type"];
+			$feed_id = $rule["feed_id"];
+		} else {
+			$reg_exp = "";
+			$filter_type = 1;
+			$feed_id = 0;
+		}
+
+		if (strpos($feed_id, "CAT:") === 0) {
+			$feed_id = substr($feed_id, 4);
+			$cat_filter = true;
+		} else {
+			$cat_filter = false;
+		}
+
+
+		print "<form name='filter_new_rule_form' id='filter_new_rule_form'>";
+
+		$result = db_query($this->link, "SELECT id,description
+			FROM ttrss_filter_types ORDER BY description");
+
+		$filter_types = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$filter_types[$line["id"]] = __($line["description"]);
+		}
+
+		print "<div class=\"dlgSec\">".__("Match")."</div>";
+
+		print "<div class=\"dlgSecCont\">";
+
+		print "<input dojoType=\"dijit.form.ValidationTextBox\"
+			 required=\"true\" id=\"filterDlg_regExp\"
+			 style=\"font-size : 16px\"
+			 name=\"reg_exp\" value=\"$reg_exp\"/>";
+
+		print "<hr/>" .  __("on field") . " ";
+		print_select_hash("filter_type", $filter_type, $filter_types,
+			'dojoType="dijit.form.Select"');
+
+		print "<hr/>";
+
+		print __("in") . " ";
+
+		print "<span id='filterDlg_feeds'>";
+		print_feed_select($this->link, "feed_id",
+			$cat_filter ? "CAT:$feed_id" : $feed_id,
+			'dojoType="dijit.form.FilteringSelect"');
+		print "</span>";
+
+		print "</div>";
+
+		print "<div class=\"dlgButtons\">";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewRuleDlg').execute()\">".
+			($rule ? __("Save rule") : __('Add rule'))."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewRuleDlg').hide()\">".
+			__('Cancel')."</button>";
+
+		print "</div>";
+
+		print "</form>";
+	}
+
+	function newaction() {
+		$action = json_decode($_REQUEST["action"], true);
+
+		if ($action) {
+			$action_param = db_escape_string($action["action_param"]);
+			$action_id = (int)$action["action_id"];
+		} else {
+			$action_param = "";
+			$action_id = 0;
+		}
+
+		print "<form name='filter_new_action_form' id='filter_new_action_form'>";
+
+		print "<div class=\"dlgSec\">".__("Perform Action")."</div>";
+
+		print "<div class=\"dlgSecCont\">";
+
+		print "<select name=\"action_id\" dojoType=\"dijit.form.Select\"
+			onchange=\"filterDlgCheckAction(this)\">";
+
+		$result = db_query($this->link, "SELECT id,description FROM ttrss_filter_actions
+			ORDER BY name");
+
+		while ($line = db_fetch_assoc($result)) {
+			$is_selected = ($line["id"] == $action_id) ? "selected='1'" : "";
+			printf("<option $is_selected value='%d'>%s</option>", $line["id"], __($line["description"]));
+		}
+
+		print "</select>";
+
+		$param_box_hidden = ($action_id == 7 || $action_id == 4 || $action_id == 6) ?
+			"" : "display : none";
+
+		$param_hidden = ($action_id == 4 || $action_id == 6) ?
+			"" : "display : none";
+
+		$label_param_hidden = ($action_id == 7) ?	"" : "display : none";
+
+		print "<span id=\"filterDlg_paramBox\" style=\"$param_box_hidden\">";
+		print " " . __("with parameters:") . " ";
+		print "<input dojoType=\"dijit.form.TextBox\"
+			id=\"filterDlg_actionParam\" style=\"$param_hidden\"
+			name=\"action_param\" value=\"$action_param\">";
+
+		print_label_select($this->link, "action_param_label", $action_param,
+			"id=\"filterDlg_actionParamLabel\" style=\"$label_param_hidden\"
+			dojoType=\"dijit.form.Select\"");
+
+		print "</span>";
+
+		print "&nbsp;"; // tiny layout hack
+
+		print "</div>";
+
+		print "<div class=\"dlgButtons\">";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewActionDlg').execute()\">".
+			($action ? __("Save action") : __('Add action'))."</button> ";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewActionDlg').hide()\">".
+			__('Cancel')."</button>";
+
+		print "</div>";
+
+		print "</form>";
+	}
+
+	private function getFilterName($id) {
+		$result = db_query($this->link,
+			"SELECT * FROM ttrss_filters2_rules WHERE filter_id = '$id' ORDER BY id
+			LIMIT 3");
+
+		$titles = array();
+		$count = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+
+			if ($line["cat_filter"]) {
+				unset($line["cat_filter"]);
+				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
+				unset($line["cat_id"]);
+			}
+
+			if ($count < 2) {
+				array_push($titles, $this->getRuleName($line));
+			} else {
+				array_push($titles, "...");
+				break;
+			}
+			++$count;
+		}
+
+		$result = db_query($this->link,
+			"SELECT * FROM ttrss_filters2_actions WHERE filter_id = '$id' ORDER BY id LIMIT 3");
+
+		$actions = array();
+		$count = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+			if ($count < 2) {
+				array_push($actions, $this->getActionName($line));
+			} else {
+				array_push($actions, "...");
+				break;
+			}
+			++$count;
+		}
+
+		return array(join(", ", $titles), join(", ", $actions));
+	}
+
+	function join() {
+		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+
+		if (count($ids) > 1) {
+			$base_id = array_shift($ids);
+			$ids_str = join(",", $ids);
+
+			db_query($this->link, "BEGIN");
+			db_query($this->link, "UPDATE ttrss_filters2_rules
+				SET filter_id = '$base_id' WHERE filter_id IN ($ids_str)");
+			db_query($this->link, "UPDATE ttrss_filters2_actions
+				SET filter_id = '$base_id' WHERE filter_id IN ($ids_str)");
+
+			db_query($this->link, "DELETE FROM ttrss_filters2 WHERE id IN ($ids_str)");
+			db_query($this->link, "UPDATE ttrss_filters2 SET match_any_rule = true WHERE id = '$base_id'");
+
+			db_query($this->link, "COMMIT");
+
+			$this->optimizeFilter($base_id);
+
+		}
+	}
+
+	private function optimizeFilter($id) {
+		db_query($this->link, "BEGIN");
+		$result = db_query($this->link, "SELECT * FROM ttrss_filters2_actions
+			WHERE filter_id = '$id'");
+
+		$tmp = array();
+		$dupe_ids = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$id = $line["id"];
+			unset($line["id"]);
+
+			if (array_search($line, $tmp) === false) {
+				array_push($tmp, $line);
+			} else {
+				array_push($dupe_ids, $id);
+			}
+		}
+
+		if (count($dupe_ids) > 0) {
+			$ids_str = join(",", $dupe_ids);
+			db_query($this->link, "DELETE FROM ttrss_filters2_actions
+				WHERE id IN ($ids_str)");
+		}
+
+		$result = db_query($this->link, "SELECT * FROM ttrss_filters2_rules
+			WHERE filter_id = '$id'");
+
+		$tmp = array();
+		$dupe_ids = array();
+
+		while ($line = db_fetch_assoc($result)) {
+			$id = $line["id"];
+			unset($line["id"]);
+
+			if (array_search($line, $tmp) === false) {
+				array_push($tmp, $line);
+			} else {
+				array_push($dupe_ids, $id);
+			}
+		}
+
+		if (count($dupe_ids) > 0) {
+			$ids_str = join(",", $dupe_ids);
+			db_query($this->link, "DELETE FROM ttrss_filters2_rules
+				WHERE id IN ($ids_str)");
+		}
+
+		db_query($this->link, "COMMIT");
 	}
 }
 ?>

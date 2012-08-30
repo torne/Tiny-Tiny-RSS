@@ -6,6 +6,9 @@ drop table if exists ttrss_labels2;
 drop table if exists ttrss_feedbrowser_cache;
 drop table if exists ttrss_version;
 drop table if exists ttrss_labels;
+drop table if exists ttrss_filters2_rules;
+drop table if exists ttrss_filters2_actions;
+drop table if exists ttrss_filters2;
 drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
 drop table if exists ttrss_filter_actions;
@@ -222,6 +225,24 @@ create table ttrss_filters (id serial not null primary key,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(250) not null default '');
 
+create table ttrss_filters2(id serial not null primary key,
+	owner_uid integer not null references ttrss_users(id) on delete cascade,
+	match_any_rule boolean not null default false,
+	enabled boolean not null default true);
+	
+create table ttrss_filters2_rules(id serial not null primary key,
+	filter_id integer not null references ttrss_filters2(id) on delete cascade,
+	reg_exp varchar(250) not null,
+	filter_type integer not null references ttrss_filter_types(id),
+	feed_id integer references ttrss_feeds(id) on delete cascade default null,
+	cat_id integer references ttrss_feed_categories(id) on delete cascade default null,
+	cat_filter boolean not null default false);
+
+create table ttrss_filters2_actions(id serial not null primary key,
+	filter_id integer not null references ttrss_filters2(id) on delete cascade,
+	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
+	action_param varchar(250) not null default '');
+
 create table ttrss_tags (id serial not null primary key,
 	tag_name varchar(250) not null,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
@@ -232,7 +253,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (95);
+insert into ttrss_version values (96);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

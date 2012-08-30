@@ -192,10 +192,10 @@ class Pref_Labels extends Handler_Protected {
 
 					$old_caption = db_escape_string($old_caption);
 
-					db_query($this->link, "UPDATE ttrss_filters SET
+					db_query($this->link, "UPDATE ttrss_filters2_actions SET
 						action_param = '$caption' WHERE action_param = '$old_caption'
 						AND action_id = 7
-						AND owner_uid = " . $_SESSION["uid"]);
+						AND filter_id IN (SELECT id FROM ttrss_filters2 WHERE owner_uid = ".$_SESSION["uid"].")");
 
 					print $_REQUEST["value"];
 				} else {

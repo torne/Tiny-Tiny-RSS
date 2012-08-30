@@ -51,6 +51,7 @@
 		print "  -update-self        - update tt-rss installation to latest version\n";
 		print "  -quiet              - don't show messages\n";
 		print "  -indexes            - recreate missing schema indexes\n";
+		print "  -convert-filters    - convert type1 filters to type2\n";
 		print "  -help               - show this help\n";
 		return;
 	}
@@ -235,6 +236,54 @@
 			exit;
 
 		update_self($link, in_array("-force", $op));
+	}
+
+	if (in_array("-convert-filters", $op)) {
+		_debug("WARNING: this will remove all existing type2 filters.");
+		_debug("Type 'yes' to continue.");
+
+		if (read_stdin() != 'yes')
+			exit;
+
+		_debug("converting filters...");
+
+		db_query($link, "DELETE FROM ttrss_filters2");
+
+		$result = db_query($link, "SELECT * FROM ttrss_filters ORDER BY id");
+
+		while ($line = db_fetch_assoc($result)) {
+			$owner_uid = $line["owner_uid"];
+
+			$filter = array();
+
+			if (sql_bool_to_bool($line["cat_filter"])) {
+				$feed_id = "CAT:" . (int)$line["cat_id"];
+			} else {
+				$feed_id = (int)$line["feed_id"];
+			}
+
+			$filter["enabled"] = $line["enabled"] ? "on" : "off";
+			$filter["rule"] = array(
+				json_encode(array(
+					"reg_exp" => $line["reg_exp"],
+					"feed_id" => $feed_id,
+					"filter_type" => $line["filter_type"])));
+
+			$filter["action"] = array(
+				json_encode(array(
+					"action_id" => $line["action_id"],
+					"action_param_label" => $line["action_param"],
+					"action_param" => $line["action_param"])));
+
+			// Oh god it's full of hacks
+
+			$_REQUEST = $filter;
+			$_SESSION["uid"] = $owner_uid;
+
+			$filters = new Pref_Filters($link, $_REQUEST);
+			$filters->add();
+		}
+
 	}
 
 	db_close($link);
