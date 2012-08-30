@@ -270,7 +270,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (94);
+insert into ttrss_version values (95);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -297,11 +297,13 @@ insert into ttrss_prefs_types (id, type_name) values (2, 'string');
 insert into ttrss_prefs_types (id, type_name) values (3, 'integer');
 
 create table ttrss_prefs_sections (id integer not null primary key,
+	order_id integer not null,
 	section_name varchar(100) not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_prefs_sections (id, section_name) values (1, 'General');
-insert into ttrss_prefs_sections (id, section_name) values (2, 'Interface');
-insert into ttrss_prefs_sections (id, section_name) values (3, 'Advanced');
+insert into ttrss_prefs_sections (id, section_name, order_id) values (1, 'General', 0);
+insert into ttrss_prefs_sections (id, section_name, order_id) values (2, 'Interface', 1);
+insert into ttrss_prefs_sections (id, section_name, order_id) values (3, 'Advanced', 3);
+insert into ttrss_prefs_sections (id, section_name, order_id) values (4, 'Digest', 2);
 
 create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	type_id integer not null,
@@ -317,7 +319,7 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 
 create index ttrss_prefs_pref_name_idx on ttrss_prefs(pref_name);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge old posts after this number of days (0 - disables)',1);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_OLD_DAYS', 3, '60', 'Purge articles after this number of days (0 - disables)',1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 'Default interval between feed updates',1);
 
@@ -342,11 +344,11 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('REVERSE_HEADLINES', 1, 'false', 'Reverse headline order (oldest first)',2);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DIGEST_ENABLE', 1, 'false', 'Enable e-mail digest',1, 'This option enables sending daily digest of new (and unread) headlines on your configured e-mail address');
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DIGEST_ENABLE', 1, 'false', 'Enable e-mail digest',4, 'This option enables sending daily digest of new (and unread) headlines on your configured e-mail address');
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CONFIRM_FEED_CATCHUP', 1, 'true', 'Confirm marking feed as read',3);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CONFIRM_FEED_CATCHUP', 1, 'true', 'Confirm marking feed as read',2);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('CDM_AUTO_CATCHUP', 1, 'false', 'Automatically mark articles as read',3, 'This option enables marking articles as read automatically while you scroll article list.');
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('CDM_AUTO_CATCHUP', 1, 'false', 'Automatically mark articles as read',2, 'This option enables marking articles as read automatically while you scroll article list.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_MODE', 2, 'adaptive', '', 1);
 
@@ -360,13 +362,13 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('FRESH_ARTICLE_MAX_AGE', 3, '24', 'Maximum age of fresh articles (in hours)',2);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DIGEST_CATCHUP', 1, 'false', 'Mark articles in e-mail digest as read',1);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('DIGEST_CATCHUP', 1, 'false', 'Mark articles in e-mail digest as read',4);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CDM_EXPANDED', 1, 'true', 'Automatically expand articles in combined mode',3);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('CDM_EXPANDED', 1, 'true', 'Automatically expand articles in combined mode',2);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('PURGE_UNREAD_ARTICLES', 1, 'true', 'Purge unread articles',3);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_SHOWS_SPECIAL', 1, 'true', 'Show special feeds when hiding read feeds',3);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('HIDE_READ_SHOWS_SPECIAL', 1, 'true', 'Show special feeds when hiding read feeds',2);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('VFEED_GROUP_BY_FEED', 1, 'false', 'Group headlines in virtual feeds',2, 'When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
 
@@ -374,7 +376,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_ORDER_BY', 2, 'default', '', 1);
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_API_ACCESS', 1, 'false', 'Enable external API', 3);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('ENABLE_API_ACCESS', 1, 'false', 'Enable external API', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_COLLAPSED_SPECIAL', 1, 'false', '', 1);
 
@@ -398,17 +400,25 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('USER_STYLESHEET', 2, '', 'Customize stylesheet', 2, 'Customize CSS stylesheet to your liking');
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SORT_HEADLINES_BY_FEED_DATE', 1, 'true', 'Sort headlines by feed date',3, 'Use feed-specified date to sort headlines instead of local import date.');
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SORT_HEADLINES_BY_FEED_DATE', 1, 'true', 'Sort headlines by feed date',2, 'Use feed-specified date to sort headlines instead of local import date.');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_MOBILE_BROWSE_CATS', 1, 'true', '', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('SSL_CERT_SERIAL', 2, '', 'Login with an SSL certificate',3, 'Click to register your SSL client certificate with tt-rss');
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DIGEST_PREFERRED_TIME', 2, '00:00', 'Try to send digests around specified time', 1, 'Uses UTC timezone');
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('DIGEST_PREFERRED_TIME', 2, '00:00', 'Try to send digests around specified time', 4, 'Uses UTC timezone');
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_PREFS_SHOW_EMPTY_CATS', 1, 'false', '', 1);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_INCLUDE_CHILDREN', 1, 'false', '', 1);
+
+update ttrss_prefs set access_level = 1 where pref_name in ('ON_CATCHUP_SHOW_NEXT_FEED',
+	'SORT_HEADLINES_BY_FEED_DATE',
+	'VFEED_GROUP_BY_FEED',
+	'FRESH_ARTICLE_MAX_AGE',
+	'CDM_EXPANDED',
+	'SHOW_CONTENT_PREVIEW',
+	'HIDE_READ_SHOWS_SPECIAL');
 
 create table ttrss_user_prefs (
    owner_uid integer not null,

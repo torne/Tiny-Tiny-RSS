@@ -2199,3 +2199,17 @@ function updateSelf() {
 	}
 }
 
+function toggleAdvancedPrefs() {
+	try {
+		notify_progress("Loading, please wait...");
+
+		new Ajax.Request("backend.php", {
+			parameters: "?op=pref-prefs&method=toggleadvanced",
+			onComplete: function(transport) {
+				updatePrefsList();
+			} });
+
+	} catch (e) {
+		exception_error("toggleAdvancedPrefs", e);
+	}
+}

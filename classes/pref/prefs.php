@@ -291,17 +291,24 @@ class Pref_Prefs extends Handler_Protected {
 			$profile_qpart = "profile IS NULL";
 		}
 
+		if ($_SESSION["prefs_show_advanced"])
+			$access_query = "true";
+		else
+			$access_query = "(access_level = 0 AND section_id != 3)";
+
 		$result = db_query($this->link, "SELECT DISTINCT
 			ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
+			ttrss_prefs_sections.order_id,
 			section_name,def_value,section_id
 			FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
 			WHERE type_id = ttrss_prefs_types.id AND
 				$profile_qpart AND
 				section_id = ttrss_prefs_sections.id AND
 				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
+				$access_query AND
 				short_desc != '' AND
 				owner_uid = ".$_SESSION["uid"]."
-			ORDER BY section_id,short_desc");
+			ORDER BY ttrss_prefs_sections.order_id,short_desc");
 
 		$lnum = 0;
 
@@ -487,6 +494,18 @@ class Pref_Prefs extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return validatePrefsReset()\">".
 			__('Reset to defaults')."</button>";
 
+		print "&nbsp;";
+
+		$checked = $_SESSION["prefs_show_advanced"] ? "checked='1'" : "";
+
+		print "<input onclick='toggleAdvancedPrefs()'
+				id='prefs_show_advanced'
+				dojoType=\"dijit.form.CheckBox\"
+				$checked
+				type=\"checkbox\"></input>
+				<label for='prefs_show_advanced'>" .
+				__("Show additional preferences") . "</label>";
+
 		print '</div>'; # inner pane
 		print '</div>'; # border container
 		print "</form>";
@@ -549,5 +568,8 @@ class Pref_Prefs extends Handler_Protected {
 		}
 	}
 
+	function toggleAdvanced() {
+		$_SESSION["prefs_show_advanced"] = !$_SESSION["prefs_show_advanced"];
+	}
 }
 ?>
