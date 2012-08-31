@@ -1169,6 +1169,27 @@ function quickAddFilter() {
 			},
 			href: query});
 
+		if (!inPreferences()) {
+			var lh = dojo.connect(dialog, "onLoad", function(){
+				dojo.disconnect(lh);
+
+				var title = $("PTITLE-FULL-" + active_post_id);
+
+				if (title || getActiveFeedId() || activeFeedIsCat()) {
+					if (title) title = title.innerHTML;
+
+					console.log(title + " " + getActiveFeedId());
+
+					var feed_id = activeFeedIsCat() ? 'CAT:' + parseInt(getActiveFeedId()) :
+						getActiveFeedId();
+
+					var rule = { reg_exp: title, feed_id: feed_id, filter_type: 1 };
+
+					addFilterRule(null, dojo.toJson(rule));
+				}
+			});
+		}
+
 		dialog.show();
 
 	} catch (e) {

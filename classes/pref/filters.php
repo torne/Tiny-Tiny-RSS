@@ -615,9 +615,6 @@ class Pref_Filters extends Handler_Protected {
 
 		print "<form name='filter_new_form' id='filter_new_form'>";
 
-		$active_feed_id = (int) db_escape_string($_REQUEST["feed"]);
-		$cat_filter = db_escape_string($_REQUEST["is_cat"]) == "true";
-
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"add\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"csrf_token\" value=\"".$_SESSION['csrf_token']."\">";
