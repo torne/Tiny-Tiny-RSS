@@ -1105,6 +1105,26 @@ function quickAddFilter() {
 			id: "filterEditDlg",
 			title: __("Create Filter"),
 			style: "width: 600px",
+			selectRules: function(select) {
+				$$("#filterDlg_Matches input[type=checkbox]").each(function(e) {
+					e.checked = select;
+					if (select)
+						e.parentNode.addClassName("Selected");
+					else
+						e.parentNode.removeClassName("Selected");
+				});
+			},
+			selectActions: function(select) {
+				$$("#filterDlg_Actions input[type=checkbox]").each(function(e) {
+					e.checked = select;
+
+					if (select)
+						e.parentNode.addClassName("Selected");
+					else
+						e.parentNode.removeClassName("Selected");
+
+				});
+			},
 			editRule: function(e) {
 				var li = e.parentNode;
 				var rule = li.getElementsByTagName("INPUT")[1].value;
