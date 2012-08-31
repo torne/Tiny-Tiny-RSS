@@ -109,6 +109,8 @@ class Pref_Filters extends Handler_Protected {
 		$filter_search = $_SESSION["prefs_filter_search"];
 
 		$result = db_query($this->link, "SELECT *,
+			(SELECT action_param FROM ttrss_filters2_actions
+				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS action_param,
 			(SELECT action_id FROM ttrss_filters2_actions
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS action_id,
 			(SELECT description FROM ttrss_filter_actions
@@ -150,6 +152,19 @@ class Pref_Filters extends Handler_Protected {
 						$match_ok = true;
 						break;
 					}
+				}
+			}
+
+			if ($line['action_id'] == 7) {
+				$label_result = db_query($this->link, "SELECT fg_color, bg_color
+					FROM ttrss_labels2 WHERE caption = '".db_escape_string($line['action_param'])."' AND
+						owner_uid = " . $_SESSION["uid"]);
+
+				if (db_num_rows($label_result) > 0) {
+					$fg_color = db_fetch_result($label_result, 0, "fg_color");
+					$bg_color = db_fetch_result($label_result, 0, "bg_color");
+
+					$name[1] = "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-right : 4px'>&alpha;</span>" . $name[1];
 				}
 			}
 
