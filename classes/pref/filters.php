@@ -125,12 +125,12 @@ class Pref_Filters extends Handler_Protected {
 
 			if ($action_id != $line["action_id"]) {
 				if (count($folder['items']) > 0) {
-					$folder['id'] = $line["action_id"];
-					$folder['name'] = $line["action_name"];
-
 					array_push($root['items'], $folder);
 				}
+
 				$folder = array();
+				$folder['id'] = $line["action_id"];
+				$folder['name'] = $line["action_name"];
 				$folder['items'] = array();
 				$action_id = $line["action_id"];
 			}
@@ -146,6 +146,10 @@ class Pref_Filters extends Handler_Protected {
 			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
 
 			array_push($folder['items'], $filter);
+		}
+
+		if (count($folder['items']) > 0) {
+			array_push($root['items'], $folder);
 		}
 
 		$fl = array();
