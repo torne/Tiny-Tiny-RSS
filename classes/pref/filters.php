@@ -124,7 +124,7 @@ class Pref_Filters extends Handler_Protected {
 			$filter['name'] = $name[0];
 			$filter['param'] = $name[1];
 			$filter['checkbox'] = false;
-			$filter['enabled'] = $line["enabled"];
+			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
 
 			array_push($root['items'], $filter);
 		}
