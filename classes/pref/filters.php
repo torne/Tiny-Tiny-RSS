@@ -106,6 +106,8 @@ class Pref_Filters extends Handler_Protected {
 		$root['name'] = __('Filters');
 		$root['items'] = array();
 
+		$filter_search = $_SESSION["prefs_filter_search"];
+
 		$result = db_query($this->link, "SELECT *,
 			(SELECT action_id FROM ttrss_filters2_actions
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS action_id,
@@ -116,6 +118,7 @@ class Pref_Filters extends Handler_Protected {
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS reg_exp
 			FROM ttrss_filters2 WHERE
 			owner_uid = ".$_SESSION["uid"]." ORDER BY action_id,reg_exp");
+
 
 		$action_id = -1;
 		$folder = array();
@@ -137,6 +140,19 @@ class Pref_Filters extends Handler_Protected {
 
 			$name = $this->getFilterName($line["id"]);
 
+			$match_ok = false;
+			if ($filter_search) {
+				$rules_result = db_query($this->link,
+					"SELECT reg_exp FROM ttrss_filters2_rules WHERE filter_id = ".$line["id"]);
+
+				while ($rule_line = db_fetch_assoc($rules_result)) {
+					if (mb_strpos($rule_line['reg_exp'], $filter_search) !== false) {
+						$match_ok = true;
+						break;
+					}
+				}
+			}
+
 			$filter = array();
 			$filter['id'] = 'FILTER:' . $line['id'];
 			$filter['bare_id'] = $line['id'];
@@ -145,7 +161,9 @@ class Pref_Filters extends Handler_Protected {
 			$filter['checkbox'] = false;
 			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
 
-			array_push($folder['items'], $filter);
+			if (!$filter_search || $match_ok) {
+				array_push($folder['items'], $filter);
+			}
 		}
 
 		if (count($folder['items']) > 0) {
