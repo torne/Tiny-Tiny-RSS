@@ -277,6 +277,8 @@
 
 			// Oh god it's full of hacks
 
+##			print_r($filter);
+
 			$_REQUEST = $filter;
 			$_SESSION["uid"] = $owner_uid;
 

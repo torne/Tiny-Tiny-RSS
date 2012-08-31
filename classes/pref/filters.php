@@ -182,7 +182,7 @@ class Pref_Filters extends Handler_Protected {
 			WHERE filter_id = '$filter_id' ORDER BY id");
 
 		while ($line = db_fetch_assoc($rules_result)) {
-			if ($line["cat_filter"]) {
+			if (sql_bool_to_bool($line["cat_filter"])) {
 				unset($line["cat_filter"]);
 				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
 				unset($line["cat_id"]);
@@ -385,6 +385,7 @@ class Pref_Filters extends Handler_Protected {
 					$feed_id = db_escape_string(trim($rule["feed_id"]));
 
 					if (strpos($feed_id, "CAT:") === 0) {
+
 						$cat_filter = bool_to_sql_bool(true);
 						$cat_id = (int) substr($feed_id, 4);
 						$feed_id = "NULL";
@@ -806,7 +807,7 @@ class Pref_Filters extends Handler_Protected {
 
 		while ($line = db_fetch_assoc($result)) {
 
-			if ($line["cat_filter"]) {
+			if (sql_bool_to_bool($line["cat_filter"])) {
 				unset($line["cat_filter"]);
 				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
 				unset($line["cat_id"]);
