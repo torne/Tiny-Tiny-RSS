@@ -953,9 +953,12 @@ function createNewRuleElement(parentNode, replaceNode) {
 				try {
 					var li = dojo.create("li");
 
-					dojo.create("input", { type: "checkbox",
-						onclick: function() { toggleSelectListRow(this) },
-					}, li);
+					var cb = dojo.create("input", { type: "checkbox" }, li);
+
+					new dijit.form.CheckBox({
+						onChange: function() {
+							toggleSelectListRow2(this) },
+					}, cb);
 
 					dojo.create("input", { type: "hidden",
 						name: "rule[]",
@@ -1000,9 +1003,12 @@ function createNewActionElement(parentNode, replaceNode) {
 				try {
 					var li = dojo.create("li");
 
-					dojo.create("input", { type: "checkbox",
-						onclick: function() { toggleSelectListRow(this) },
-					}, li);
+					var cb = dojo.create("input", { type: "checkbox" }, li);
+
+					new dijit.form.CheckBox({
+						onChange: function() {
+							toggleSelectListRow2(this) },
+					}, cb);
 
 					dojo.create("input", { type: "hidden",
 						name: "action[]",

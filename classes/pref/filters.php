@@ -231,7 +231,7 @@ class Pref_Filters extends Handler_Protected {
 
 			$data = htmlspecialchars(json_encode($line));
 
-			print "<li><input type='checkbox' onclick='toggleSelectListRow(this)'>".
+			print "<li><input dojoType='dijit.form.CheckBox' type='checkbox' onclick='toggleSelectListRow2(this)'>".
 				"<span onclick=\"dijit.byId('filterEditDlg').editRule(this)\">".$this->getRuleName($line)."</span>".
 				"<input type='hidden' name='rule[]' value=\"$data\"/></li>";
 		}
@@ -270,7 +270,7 @@ class Pref_Filters extends Handler_Protected {
 			$line["action_param_label"] = $line["action_param"];
 			$data = htmlspecialchars(json_encode($line));
 
-			print "<li><input type='checkbox' onclick='toggleSelectListRow(this)'>".
+			print "<li><input dojoType='dijit.form.CheckBox' type='checkbox' onclick='toggleSelectListRow2(this)'>".
 				"<span onclick=\"dijit.byId('filterEditDlg').editAction(this)\">".$this->getActionName($line)."</span>".
 				"<input type='hidden' name='action[]' value=\"$data\"/></li>";
 		}
