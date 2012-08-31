@@ -109,12 +109,31 @@ class Pref_Filters extends Handler_Protected {
 		$result = db_query($this->link, "SELECT *,
 			(SELECT action_id FROM ttrss_filters2_actions
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS action_id,
+			(SELECT description FROM ttrss_filter_actions
+				WHERE id = (SELECT action_id FROM ttrss_filters2_actions
+					WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1)) AS action_name,
 			(SELECT reg_exp FROM ttrss_filters2_rules
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS reg_exp
 			FROM ttrss_filters2 WHERE
 			owner_uid = ".$_SESSION["uid"]." ORDER BY action_id,reg_exp");
 
+		$action_id = -1;
+		$folder = array();
+		$folder['items'] = array();
+
 		while ($line = db_fetch_assoc($result)) {
+
+			if ($action_id != $line["action_id"]) {
+				if (count($folder['items']) > 0) {
+					$folder['id'] = $line["action_id"];
+					$folder['name'] = $line["action_name"];
+
+					array_push($root['items'], $folder);
+				}
+				$folder = array();
+				$folder['items'] = array();
+				$action_id = $line["action_id"];
+			}
 
 			$name = $this->getFilterName($line["id"]);
 
@@ -126,7 +145,7 @@ class Pref_Filters extends Handler_Protected {
 			$filter['checkbox'] = false;
 			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
 
-			array_push($root['items'], $filter);
+			array_push($folder['items'], $filter);
 		}
 
 		$fl = array();
@@ -466,17 +485,6 @@ class Pref_Filters extends Handler_Protected {
 			$sort = "reg_exp";
 		}
 
-		$result = db_query($this->link, "SELECT id,description
-			FROM ttrss_filter_types ORDER BY description");
-
-		$filter_types = array();
-
-		while ($line = db_fetch_assoc($result)) {
-			//array_push($filter_types, $line["description"]);
-			$filter_types[$line["id"]] = $line["description"];
-		}
-
-
 		$filter_search = db_escape_string($_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
@@ -684,7 +692,7 @@ class Pref_Filters extends Handler_Protected {
 		print "<form name='filter_new_rule_form' id='filter_new_rule_form'>";
 
 		$result = db_query($this->link, "SELECT id,description
-			FROM ttrss_filter_types ORDER BY description");
+			FROM ttrss_filter_types WHERE id != 5 ORDER BY description");
 
 		$filter_types = array();
 

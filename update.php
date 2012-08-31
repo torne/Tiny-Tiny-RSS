@@ -254,36 +254,37 @@
 		while ($line = db_fetch_assoc($result)) {
 			$owner_uid = $line["owner_uid"];
 
-			$filter = array();
+			// date filters are removed
+			if ($line["filter_type"] != 5) {
+				$filter = array();
 
-			if (sql_bool_to_bool($line["cat_filter"])) {
-				$feed_id = "CAT:" . (int)$line["cat_id"];
-			} else {
-				$feed_id = (int)$line["feed_id"];
+				if (sql_bool_to_bool($line["cat_filter"])) {
+					$feed_id = "CAT:" . (int)$line["cat_id"];
+				} else {
+					$feed_id = (int)$line["feed_id"];
+				}
+
+				$filter["enabled"] = $line["enabled"] ? "on" : "off";
+				$filter["rule"] = array(
+					json_encode(array(
+						"reg_exp" => $line["reg_exp"],
+						"feed_id" => $feed_id,
+						"filter_type" => $line["filter_type"])));
+
+				$filter["action"] = array(
+					json_encode(array(
+						"action_id" => $line["action_id"],
+						"action_param_label" => $line["action_param"],
+						"action_param" => $line["action_param"])));
+
+				// Oh god it's full of hacks
+
+				$_REQUEST = $filter;
+				$_SESSION["uid"] = $owner_uid;
+
+				$filters = new Pref_Filters($link, $_REQUEST);
+				$filters->add();
 			}
-
-			$filter["enabled"] = $line["enabled"] ? "on" : "off";
-			$filter["rule"] = array(
-				json_encode(array(
-					"reg_exp" => $line["reg_exp"],
-					"feed_id" => $feed_id,
-					"filter_type" => $line["filter_type"])));
-
-			$filter["action"] = array(
-				json_encode(array(
-					"action_id" => $line["action_id"],
-					"action_param_label" => $line["action_param"],
-					"action_param" => $line["action_param"])));
-
-			// Oh god it's full of hacks
-
-##			print_r($filter);
-
-			$_REQUEST = $filter;
-			$_SESSION["uid"] = $owner_uid;
-
-			$filters = new Pref_Filters($link, $_REQUEST);
-			$filters->add();
 		}
 
 	}
