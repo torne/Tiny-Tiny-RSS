@@ -4,7 +4,7 @@ create table ttrss_filters2(id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	match_any_rule boolean not null default false,
 	enabled boolean not null default true);
-	
+
 create table ttrss_filters2_rules(id serial not null primary key,
 	filter_id integer not null references ttrss_filters2(id) on delete cascade,
 	reg_exp varchar(250) not null,
@@ -18,6 +18,6 @@ create table ttrss_filters2_actions(id serial not null primary key,
 	action_id integer not null default 1 references ttrss_filter_actions(id) on delete cascade,
 	action_param varchar(250) not null default '');
 
-update ttrss_version set schema_version = 95;
+update ttrss_version set schema_version = 96;
 
 commit;
