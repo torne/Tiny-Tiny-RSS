@@ -159,39 +159,62 @@ class Opml extends Handler_Protected {
 
 			$out .= "</outline>";
 
-/*			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
 
-			$result = db_query($this->link, "SELECT filter_type,
-					reg_exp,
-					action_id,
-					enabled,
-					action_param,
-					inverse,
-					filter_param,
-					cat_filter,
-					ttrss_feeds.feed_url AS feed_url,
-					ttrss_feed_categories.title AS cat_title
-					FROM ttrss_filters
-						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)
-						LEFT JOIN ttrss_feed_categories ON (ttrss_filters.cat_id = ttrss_feed_categories.id)
-					WHERE
-						ttrss_filters.owner_uid = " . $_SESSION['uid']);
+			$result = db_query($this->link, "SELECT * FROM ttrss_filters2
+				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY id");
 
 			while ($line = db_fetch_assoc($result)) {
-				$name = htmlspecialchars($line['reg_exp']);
-
 				foreach (array('enabled', 'inverse', 'cat_filter') as $b) {
 					$line[$b] = sql_bool_to_bool($line[$b]);
 				}
 
+				$line["rules"] = array();
+				$line["actions"] = array();
+
+				$tmp_result = db_query($this->link, "SELECT * FROM ttrss_filters2_rules
+					WHERE filter_id = ".$line["id"]);
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					unset($tmp_line["id"]);
+					unset($tmp_line["filter_id"]);
+
+					$cat_filter = sql_bool_to_bool($tmp_line["cat_filter"]);
+
+					if ($cat_filter && $tmp_line["cat_id"] || $tmp_line["feed_id"]) {
+						$tmp_line["feed"] = getFeedTitle($this->link,
+							$cat_filter ? $tmp_line["cat_id"] : $tmp_line["feed_id"],
+							$cat_filter);
+					} else {
+						$tmp_line["feed"] = "";
+					}
+
+					unset($tmp_line["feed_id"]);
+					unset($tmp_line["cat_id"]);
+
+					array_push($line["rules"], $tmp_line);
+				}
+
+				$tmp_result = db_query($this->link, "SELECT * FROM ttrss_filters2_actions
+					WHERE filter_id = ".$line["id"]);
+
+				while ($tmp_line = db_fetch_assoc($tmp_result)) {
+					unset($tmp_line["id"]);
+					unset($tmp_line["filter_id"]);
+
+					array_push($line["actions"], $tmp_line);
+				}
+
+				unset($line["id"]);
+				unset($line["owner_uid"]);
 				$filter = json_encode($line);
 
-				$out .= "<outline filter-name=\"$name\">$filter</outline>";
+				$out .= "<outline filter-type=\"2\">$filter</outline>";
 
 			}
 
 
-			$out .= "</outline>"; */
+			$out .= "</outline>";
 		}
 
 		$out .= "</body></opml>";

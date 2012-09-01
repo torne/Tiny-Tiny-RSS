@@ -2015,7 +2015,7 @@
 
 	}
 
-	function getFeedIcon($id) {
+	function getFeedIcon($id, $cat) {
 		switch ($id) {
 		case 0:
 			return "images/archive.png";
@@ -2046,8 +2046,10 @@
 		}
 	}
 
-	function getFeedTitle($link, $id) {
-		if ($id == -1) {
+	function getFeedTitle($link, $id, $cat = false) {
+		if ($cat) {
+			return getFeedCatTitle($link, $id);
+		} else if ($id == -1) {
 			return __("Starred articles");
 		} else if ($id == -2) {
 			return __("Published articles");
