@@ -154,7 +154,7 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+		if (is_numeric($feed) && $feed > 0) {
 
 			$result = db_query($this->link, "SELECT rtl_content FROM ttrss_feeds
 				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
@@ -806,7 +806,7 @@ class Feeds extends Handler_Protected {
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
 		set_pref($this->link, "_DEFAULT_INCLUDE_CHILDREN", $include_children);
 
-		if (!$cat_view && preg_match("/^[0-9][0-9]*$/", $feed)) {
+		if (!$cat_view && is_numeric($feed) && $feed > 0) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()
 							WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 		}

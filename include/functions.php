@@ -2336,7 +2336,7 @@
 				$query_strategy_part = "ttrss_entries.id > 0";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			/* tags */
-			} else if (preg_match("/^-?[0-9][0-9]*$/", $feed) == false) {
+			} else if (!is_numeric($feed)) {
 				$query_strategy_part = "ttrss_entries.id > 0";
 				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 					id = feed_id) as feed_title,";
@@ -2496,7 +2496,7 @@
 
 			$content_query_part = "content as content_preview,";
 
-			if (preg_match("/^-?[0-9][0-9]*$/", $feed) != false) {
+			if (is_numeric($feed)) {
 
 				if ($feed >= 0) {
 					$feed_kind = "Feeds";
