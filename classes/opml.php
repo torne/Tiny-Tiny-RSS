@@ -189,6 +189,8 @@ class Opml extends Handler_Protected {
 						$tmp_line["feed"] = "";
 					}
 
+					$tmp_line["cat_filter"] = sql_bool_to_bool($tmp_line["cat_filter"]);
+
 					unset($tmp_line["feed_id"]);
 					unset($tmp_line["cat_id"]);
 
