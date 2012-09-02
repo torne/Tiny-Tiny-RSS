@@ -2048,7 +2048,7 @@
 
 	function getFeedTitle($link, $id, $cat = false) {
 		if ($cat) {
-			return getFeedCatTitle($link, $id);
+			return getCategoryTitle($link, $id);
 		} else if ($id == -1) {
 			return __("Starred articles");
 		} else if ($id == -2) {
