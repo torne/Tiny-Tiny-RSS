@@ -165,7 +165,7 @@ class Opml extends Handler_Protected {
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY id");
 
 			while ($line = db_fetch_assoc($result)) {
-				foreach (array('enabled', 'inverse', 'cat_filter') as $b) {
+				foreach (array('enabled', 'match_any_rule') as $b) {
 					$line[$b] = sql_bool_to_bool($line[$b]);
 				}
 
@@ -188,6 +188,8 @@ class Opml extends Handler_Protected {
 					} else {
 						$tmp_line["feed"] = "";
 					}
+
+					$tmp_line["cat_filter"] = sql_bool_to_bool($tmp_line["cat_filter"]);
 
 					unset($tmp_line["feed_id"]);
 					unset($tmp_line["cat_id"]);
