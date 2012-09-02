@@ -165,7 +165,7 @@ class Opml extends Handler_Protected {
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY id");
 
 			while ($line = db_fetch_assoc($result)) {
-				foreach (array('enabled', 'inverse', 'cat_filter') as $b) {
+				foreach (array('enabled', 'match_any_rule') as $b) {
 					$line[$b] = sql_bool_to_bool($line[$b]);
 				}
 
