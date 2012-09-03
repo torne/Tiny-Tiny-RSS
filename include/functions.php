@@ -2015,7 +2015,7 @@
 
 	}
 
-	function getFeedIcon($id, $cat) {
+	function getFeedIcon($id) {
 		switch ($id) {
 		case 0:
 			return "images/archive.png";
