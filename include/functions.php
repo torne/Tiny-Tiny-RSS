@@ -2281,7 +2281,16 @@
 			}
 
 			if ($filter) {
-				$filter_query_part = filter_to_sql($filter);
+
+				if (DB_TYPE == "pgsql") {
+					$query_strategy_part .= " AND updated > NOW() - INTERVAL '14 days' ";
+				} else {
+					$query_strategy_part .= " AND updated > DATE_SUB(NOW(), INTERVAL 14 DAY) ";
+				}
+
+				$override_order = "updated DESC";
+
+				$filter_query_part = filter_to_sql($filter) . " AND";
 			} else {
 				$filter_query_part = "";
 			}
@@ -5049,71 +5058,66 @@
 	}
 
 	function filter_to_sql($filter) {
-		$query = "";
+		$query = array();
 
-		$regexp_valid = preg_match('/' . $filter['reg_exp'] . '/',
-			$filter['reg_exp']) !== FALSE;
+		if (DB_TYPE == "pgsql")
+			$reg_qpart = "~";
+		else
+			$reg_qpart = "REGEXP";
 
-		if ($regexp_valid) {
+		foreach ($filter["rules"] AS $rule) {
+			$regexp_valid = preg_match('/' . $rule['reg_exp'] . '/',
+				$rule['reg_exp']) !== FALSE;
 
-			if (DB_TYPE == "pgsql")
-				$reg_qpart = "~";
-			else
-				$reg_qpart = "REGEXP";
+			if ($regexp_valid) {
 
-			switch ($filter["type"]) {
-				case "title":
-					$query = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "')";
-					break;
-				case "content":
-					$query = "LOWER(ttrss_entries.content) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "')";
-					break;
-				case "both":
-					$query = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "') OR LOWER(" .
-						"ttrss_entries.content) $reg_qpart LOWER('" . $filter['reg_exp'] . "')";
-					break;
-				case "tag":
-					$query = "LOWER(ttrss_user_entries.tag_cache) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "')";
-					break;
-				case "link":
-					$query = "LOWER(ttrss_entries.link) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "')";
-					break;
-				case "date":
+				$rule['reg_exp'] = db_escape_string($rule['reg_exp']);
 
-					if ($filter["filter_param"] == "before")
-						$cmp_qpart = "<";
-					else
-						$cmp_qpart = ">=";
-
-					$timestamp = date("Y-m-d H:N:s", strtotime($filter["reg_exp"]));
-					$query = "ttrss_entries.date_entered $cmp_qpart '$timestamp'";
-					break;
-				case "author":
-					$query = "LOWER(ttrss_entries.author) $reg_qpart LOWER('".
-						$filter['reg_exp'] . "')";
-					break;
-			}
-
-			if ($filter["inverse"])
-				$query = "NOT ($query)";
-
-			if ($query) {
-				if (DB_TYPE == "pgsql") {
-					$query = " ($query) AND ttrss_entries.date_entered > NOW() - INTERVAL '14 days'";
-				} else {
-					$query = " ($query) AND ttrss_entries.date_entered > DATE_SUB(NOW(), INTERVAL 14 DAY)";
+				switch ($rule["type"]) {
+					case "title":
+						$qpart = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "')";
+						break;
+					case "content":
+						$qpart = "LOWER(ttrss_entries.content) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "')";
+						break;
+					case "both":
+						$qpart = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "') OR LOWER(" .
+							"ttrss_entries.content) $reg_qpart LOWER('" . $rule['reg_exp'] . "')";
+						break;
+					case "tag":
+						$qpart = "LOWER(ttrss_user_entries.tag_cache) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "')";
+						break;
+					case "link":
+						$qpart = "LOWER(ttrss_entries.link) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "')";
+						break;
+					case "author":
+						$qpart = "LOWER(ttrss_entries.author) $reg_qpart LOWER('".
+							$rule['reg_exp'] . "')";
+						break;
 				}
-				$query .= " AND ";
-			}
 
-			return $query;
+				if (isset($rule["feed_id"])) {
+					$qpart .= " AND feed_id " . ($rule["feed_id"] ? '= ' . $rule["feed_id"] : 'IS NULL');
+				}
+
+				if (isset($rule["cat_id"])) {
+					$qpart .= " AND cat_id " . ($rule["cat_id"] ? '= ' . $rule["cat_id"] : 'IS NULL');
+				}
+
+				array_push($query, "($qpart)");
+
+			}
+		}
+
+		if (count($query) > 0) {
+			return "(" . join($filter["match_any_rule"] ? "OR" : "AND", $query) . ")";
 		} else {
-			return false;
+			return "(false)";
 		}
 	}
 

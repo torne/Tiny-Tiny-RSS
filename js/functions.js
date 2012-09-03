@@ -1111,6 +1111,20 @@ function quickAddFilter() {
 			id: "filterEditDlg",
 			title: __("Create Filter"),
 			style: "width: 600px",
+			test: function() {
+				var query = "backend.php?" + dojo.formToQuery("filter_new_form") + "&savemode=test";
+
+				if (dijit.byId("filterTestDlg"))
+					dijit.byId("filterTestDlg").destroyRecursive();
+
+				var test_dlg = new dijit.Dialog({
+					id: "filterTestDlg",
+					title: "Test Filter",
+					style: "width: 600px",
+					href: query});
+
+				test_dlg.show();
+			},
 			selectRules: function(select) {
 				$$("#filterDlg_Matches input[type=checkbox]").each(function(e) {
 					e.checked = select;

@@ -8,97 +8,102 @@ class Pref_Filters extends Handler_Protected {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
-/*	function filter_test($filter_type, $reg_exp,
-			$action_id, $action_param, $filter_param, $inverse, $feed_id, $cat_id,
-			$cat_filter) {
+	function testFilter() {
+		$filter = array();
 
-		$result = db_query($this->link, "SELECT name FROM ttrss_filter_types WHERE
-			id = " . $filter_type);
+		$filter["enabled"] = true;
+		$filter["match_any_rule"] = sql_bool_to_bool(
+			checkbox_to_sql_bool(db_escape_string($_REQUEST["match_any_rule"])));
+		$filter["rules"] = array();
+
+		$result = db_query($this->link, "SELECT id,name FROM ttrss_filter_types");
 		$type_name = db_fetch_result($result, 0, "name");
 
-		$result = db_query($this->link, "SELECT name FROM ttrss_filter_actions WHERE
-			id = " . $action_id);
-		$action_name = db_fetch_result($result, 0, "name");
+		$filter_types = array();
+		while ($line = db_fetch_assoc($result)) {
+			$filter_types[$line["id"]] = $line["name"];
+		}
 
-		$filter["reg_exp"] = $reg_exp;
-		$filter["action"] = $action_name;
-		$filter["type"] = $type_name;
-		$filter["action_param"] = $action_param;
-		$filter["filter_param"] = $filter_param;
-		$filter["inverse"] = $inverse;
+		$rctr = 0;
+		foreach ($_REQUEST["rule"] AS $r) {
+			$rule = json_decode($r, true);
 
-		$filters[$type_name] = array($filter);
+			if ($rule && $rctr < 5) {
+				$rule["type"] = $filter_types[$rule["filter_type"]];
+				unset($rule["filter_type"]);
 
-		if ($feed_id)
-			$feed = $feed_id;
-		else
-			$feed = -4;
+				if (strpos($rule["feed_id"], "CAT:") === 0) {
+					$rule["cat_id"] = (int) substr($rule["feed_id"], 4);
+					unset($rule["feed_id"]);
+				}
 
-		$regexp_valid = preg_match('/' . $filter['reg_exp'] . '/',
-			$filter['reg_exp']) !== FALSE;
+				array_push($filter["rules"], $rule);
+
+				++$rctr;
+			} else {
+				break;
+			}
+		}
+
+		$feed_title = getFeedTitle($this->link, $feed);
+
+		$qfh_ret = queryFeedHeadlines($this->link, -4, 30, "", false, false, false,
+			false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
+
+		$result = $qfh_ret[0];
+
+		$articles = array();
+		$found = 0;
 
 		print __("Articles matching this filter:");
 
 		print "<div class=\"filterTestHolder\">";
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
-		if ($regexp_valid) {
+		while ($line = db_fetch_assoc($result)) {
 
-			$feed_title = getFeedTitle($this->link, $feed);
+			$entry_timestamp = strtotime($line["updated"]);
+			$entry_tags = get_article_tags($this->link, $line["id"], $_SESSION["uid"]);
 
-			$qfh_ret = queryFeedHeadlines($this->link, $cat_filter ? $cat_id : $feed,
-				30, "", $cat_filter, false, false,
-				false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
+			$content_preview = truncate_string(
+				strip_tags($line["content_preview"]), 100, '...');
 
-			$result = $qfh_ret[0];
+			if ($line["feed_title"])
+				$feed_title = $line["feed_title"];
 
-			$articles = array();
-			$found = 0;
+			print "<tr>";
 
-			while ($line = db_fetch_assoc($result)) {
+			print "<td width='5%' align='center'><input
+				dojoType=\"dijit.form.CheckBox\" checked=\"1\"
+				disabled=\"1\" type=\"checkbox\"></td>";
+			print "<td>";
 
-				$entry_timestamp = strtotime($line["updated"]);
-				$entry_tags = get_article_tags($this->link, $line["id"], $_SESSION["uid"]);
+			print $line["title"];
+			print "&nbsp;(";
+			print "<b>" . $feed_title . "</b>";
+			print "):&nbsp;";
+			print "<span class=\"insensitive\">" . $content_preview . "</span>";
+			print " " . mb_substr($line["date_entered"], 0, 16);
 
-				$content_preview = truncate_string(
-					strip_tags($line["content_preview"]), 100, '...');
+			print "</td></tr>";
 
-				if ($line["feed_title"])
-					$feed_title = $line["feed_title"];
-
-				print "<tr>";
-
-				print "<td width='5%' align='center'><input
-					dojoType=\"dijit.form.CheckBox\" checked=\"1\"
-					disabled=\"1\" type=\"checkbox\"></td>";
-				print "<td>";
-
-				print $line["title"];
-				print "&nbsp;(";
-				print "<b>" . $feed_title . "</b>";
-				print "):&nbsp;";
-				print "<span class=\"insensitive\">" . $content_preview . "</span>";
-				print " " . mb_substr($line["date_entered"], 0, 16);
-
-				print "</td></tr>";
-
-				$found++;
-			}
-
-			if ($found == 0) {
-				print "<tr><td align='center'>" .
-					__("No articles matching this filter has been found.") . "</td></tr>";
-			}
-		} else {
-			print "<tr><td align='center' class='error'>" .
-				__("Invalid regular expression.") . "</td></tr>";
-
+			$found++;
 		}
 
-		print "</table>";
+		if ($found == 0) {
+			print "<tr><td align='center'>" .
+				__("No recent articles matching this filter have been found.") . "</td></tr>";
+		}
+
+		print "</table></div>";
+
+		print "<div style='text-align : center'>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('filterTestDlg').hide()\">".
+			__('Close this window')."</button>";
 		print "</div>";
 
-			} */
+	}
+
 
 	function getfiltertree() {
 		$root = array();
@@ -239,10 +244,13 @@ class Pref_Filters extends Handler_Protected {
 
 		while ($line = db_fetch_assoc($rules_result)) {
 			if (sql_bool_to_bool($line["cat_filter"])) {
-				unset($line["cat_filter"]);
 				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
-				unset($line["cat_id"]);
 			}
+
+			unset($line["cat_filter"]);
+			unset($line["cat_id"]);
+			unset($line["filter_id"]);
+			unset($line["id"]);
 
 			$data = htmlspecialchars(json_encode($line));
 
@@ -283,6 +291,10 @@ class Pref_Filters extends Handler_Protected {
 
 		while ($line = db_fetch_assoc($actions_result)) {
 			$line["action_param_label"] = $line["action_param"];
+
+			unset($line["filter_id"]);
+			unset($line["id"]);
+
 			$data = htmlspecialchars(json_encode($line));
 
 			print "<li><input dojoType='dijit.form.CheckBox' type='checkbox' onclick='toggleSelectListRow2(this)'>".
@@ -321,8 +333,8 @@ class Pref_Filters extends Handler_Protected {
 			__('Remove')."</button>";
 		print "</div>";
 
-#		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
-#			__('Test')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+			__('Test')."</button> ";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 			__('Save')."</button> ";
@@ -379,6 +391,9 @@ class Pref_Filters extends Handler_Protected {
 	}
 
 	function editSave() {
+		if ($_REQUEST["savemode"] && $_REQUEST["savemode"] == "test") {
+			return $this->testFilter();
+		}
 
 #		print_r($_REQUEST);
 
@@ -491,6 +506,10 @@ class Pref_Filters extends Handler_Protected {
 	}
 
 	function add() {
+		if ($_REQUEST["savemode"] && $_REQUEST["savemode"] == "test") {
+			return $this->testFilter();
+		}
+
 #		print_r($_REQUEST);
 
 		$enabled = checkbox_to_sql_bool($_REQUEST["enabled"]);
@@ -689,8 +708,8 @@ class Pref_Filters extends Handler_Protected {
 
 		print "<div class=\"dlgButtons\">";
 
-#		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
-#			__('Test')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').test()\">".
+			__('Test')."</button> ";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterEditDlg').execute()\">".
 			__('Create')."</button> ";
