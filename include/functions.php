@@ -3608,7 +3608,7 @@
 	function load_filters($link, $feed_id, $owner_uid, $action_id = false) {
 		$filters = array();
 
-		$cat_id = getFeedCategory($link, $feed_id);
+		$cat_id = (int)getFeedCategory($link, $feed_id);
 
 		$result = db_query($link, "SELECT * FROM ttrss_filters2 WHERE
 			owner_uid = $owner_uid AND enabled = true");
