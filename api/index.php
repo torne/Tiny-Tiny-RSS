@@ -14,6 +14,8 @@
 	require_once "db-prefs.php";
 	require_once "functions.php";
 
+	define('AUTH_DISABLE_OTP', true);
+
 	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT &&
 			function_exists("ob_gzhandler")) {
 
