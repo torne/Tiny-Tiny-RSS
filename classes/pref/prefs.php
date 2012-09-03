@@ -154,12 +154,15 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<table width=\"100%\" class=\"prefPrefsList\">";
 
-		$result = db_query($this->link, "SELECT email,full_name,
+		print "<h2>" . __("Personal data") . "</h2>";
+
+		$result = db_query($this->link, "SELECT email,full_name,otp_enabled,
 			access_level FROM ttrss_users
 			WHERE id = ".$_SESSION["uid"]);
 
 		$email = htmlspecialchars(db_fetch_result($result, 0, "email"));
 		$full_name = htmlspecialchars(db_fetch_result($result, 0, "full_name"));
+		$otp_enabled = sql_bool_to_bool(db_fetch_result($result, 0, "otp_enabled"));
 
 		print "<tr><td width=\"40%\">".__('Full name')."</td>";
 		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" name=\"full_name\" required=\"1\"
@@ -193,6 +196,8 @@ class Pref_Prefs extends Handler_Protected {
 		}
 
 		if ($authenticator && method_exists($authenticator, "change_password")) {
+
+			print "<h2>" . __("Password") . "</h2>";
 
 			$result = db_query($this->link, "SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash
@@ -249,6 +254,55 @@ class Pref_Prefs extends Handler_Protected {
 
 			print "</form>";
 
+			if ($_SESSION["auth_module"] == "internal") {
+
+				print "<h2>" . __("One time passwords / Authenticator") . "</h2>";
+
+				if ($otp_enabled) {
+
+					print "<p>".__("One time passwords are currently enabled. Change your current password and refresh this page to reconfigure.") . "</p>";
+
+				} else {
+
+					print "<p>".__("You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP.") . "</p>";
+
+					print "<p>".__("Scan the following code by the Authenticator application:")."</p>";
+
+					$csrf_token = $_SESSION["csrf_token"];
+
+					print "<img src=\"backend.php?op=pref-prefs&method=otpqrcode&csrf_token=$csrf_token\">";
+
+					print "<form dojoType=\"dijit.form.Form\" id=\"changeOtpForm\">";
+
+					print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+					print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"changeotp\">";
+
+					print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+					evt.preventDefault();
+					if (this.validate()) {
+						notify_progress('Saving data...', true);
+
+						new Ajax.Request('backend.php', {
+							parameters: dojo.objectToQuery(this.getValues()),
+							onComplete: function(transport) {
+								window.location.reload();
+						} });
+
+					}
+					</script>";
+
+					print "<input dojoType=\"dijit.form.CheckBox\" required=\"1\"
+						type=\"checkbox\" id=\"enable_otp\" name=\"enable_otp\"/> ";
+					print "<label for=\"enable_otp\">".__("I have scanned the code and would like to enable OTP")."</label>";
+
+					print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+						__("Save OTP setting")."</button>";
+
+					print "</form>";
+
+				}
+
+			}
 		}
 
 		print "</div>"; #pane
@@ -570,6 +624,35 @@ class Pref_Prefs extends Handler_Protected {
 
 	function toggleAdvanced() {
 		$_SESSION["prefs_show_advanced"] = !$_SESSION["prefs_show_advanced"];
+	}
+
+	function otpqrcode() {
+		require_once "lib/otphp/vendor/base32.php";
+		require_once "lib/otphp/lib/otp.php";
+		require_once "lib/otphp/lib/totp.php";
+		require_once "lib/phpqrcode/phpqrcode.php";
+
+		$result = db_query($this->link, "SELECT login,salt
+			FROM ttrss_users
+			WHERE id = ".$_SESSION["uid"]);
+
+		$base32 = new Base32();
+
+		$login = db_fetch_result($result, 0, "login");
+		$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
+
+		$topt = new \OTPHP\TOTP($secret);
+
+		print QRcode::png($topt->provisioning_uri($login));
+	}
+
+	function changeotp() {
+		$enable_otp = $_REQUEST["enable_otp"];
+
+		if ($enable_otp == "on") {
+			db_query($this->link, "UPDATE ttrss_users SET otp_enabled = true WHERE
+				id = " . $_SESSION["uid"]);
+		}
 	}
 }
 ?>

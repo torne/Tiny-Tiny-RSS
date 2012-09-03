@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 96);
+	define('SCHEMA_VERSION', 97);
 
 	$fetch_last_error = false;
 

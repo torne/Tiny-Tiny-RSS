@@ -50,6 +50,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	salt varchar(250) not null default '',
 	created datetime default null,
 	twitter_oauth longtext default null,
+	otp_enabled boolean not null default false,
 	index (theme_id)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
@@ -268,7 +269,7 @@ create table ttrss_filters2(id integer primary key auto_increment,
 	enabled boolean not null default true,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-	
+
 create table ttrss_filters2_rules(id integer primary key auto_increment,
 	filter_id integer not null references ttrss_filters2(id) on delete cascade,
 	reg_exp varchar(250) not null,
@@ -305,7 +306,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (96);
+insert into ttrss_version values (97);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
