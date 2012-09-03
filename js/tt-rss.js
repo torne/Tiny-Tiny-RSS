@@ -566,6 +566,7 @@ function collapse_feedlist() {
 }
 
 function viewModeChanged() {
+	cache_clear();
 	return viewCurrentFeed('');
 }
 
