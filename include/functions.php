@@ -5101,8 +5101,8 @@
 						break;
 				}
 
-				if (isset($rule["feed_id"])) {
-					$qpart .= " AND feed_id " . ($rule["feed_id"] ? '= ' . $rule["feed_id"] : 'IS NULL');
+				if (isset($rule["feed_id"]) && $rule["feed_id"] > 0) {
+					$qpart .= " AND feed_id = " . db_escape_string($rule["feed_id"]);
 				}
 
 				if (isset($rule["cat_id"])) {
