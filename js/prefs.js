@@ -264,6 +264,19 @@ function getSelectedFeeds() {
 	return rv;
 }
 
+function getSelectedCategories() {
+	var tree = dijit.byId("feedTree");
+	var items = tree.model.getCheckedItems();
+	var rv = [];
+
+	items.each(function(item) {
+		if (item.id[0].match("CAT:"))
+			rv.push(tree.model.store.getValue(item, 'bare_id'));
+	});
+
+	return rv;
+}
+
 function getSelectedFilters() {
 	var tree = dijit.byId("filterTree");
 	var items = tree.model.getCheckedItems();
@@ -276,10 +289,6 @@ function getSelectedFilters() {
 	return rv;
 
 }
-
-/* function getSelectedFeedCats() {
-	return getSelectedTableRowIds("prefFeedCatList");
-} */
 
 function removeSelectedLabels() {
 
@@ -1231,6 +1240,34 @@ function removeCategory(id, item) {
 	} catch (e) {
 		exception_error("removeCategory", e);
 	}
+}
+
+function removeSelectedCategories() {
+
+	var sel_rows = getSelectedCategories();
+
+	if (sel_rows.length > 0) {
+
+		var ok = confirm(__("Remove selected categories?"));
+
+		if (ok) {
+			notify_progress("Removing selected categories...");
+
+			var query = "?op=pref-feeds&method=removeCat&ids="+
+				param_escape(sel_rows.toString());
+
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+						updateFeedList();
+					} });
+
+		}
+	} else {
+		alert(__("No categories are selected."));
+	}
+
+	return false;
 }
 
 function createCategory() {

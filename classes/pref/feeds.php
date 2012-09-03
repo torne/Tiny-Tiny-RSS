@@ -1406,6 +1406,8 @@ class Pref_Feeds extends Handler_Protected {
 				dojoType=\"dijit.MenuItem\">".__('(Un)hide empty categories')."</div>";
 			print "<div onclick=\"resetCatOrder()\"
 				dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
+			print "<div onclick=\"removeSelectedCategories()\"
+				dojoType=\"dijit.MenuItem\">".__('Remove selected')."</div>";
 			print "</div></div>";
 
 		}
