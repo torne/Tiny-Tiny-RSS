@@ -632,18 +632,20 @@ class Pref_Prefs extends Handler_Protected {
 		require_once "lib/otphp/lib/totp.php";
 		require_once "lib/phpqrcode/phpqrcode.php";
 
-		$result = db_query($this->link, "SELECT login,salt
+		$result = db_query($this->link, "SELECT login,salt,otp_enabled
 			FROM ttrss_users
 			WHERE id = ".$_SESSION["uid"]);
 
 		$base32 = new Base32();
 
 		$login = db_fetch_result($result, 0, "login");
-		$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
+		$otp_enabled = sql_bool_to_bool(db_fetch_result($result, 0, "otp_enabled"));
 
-		$topt = new \OTPHP\TOTP($secret);
-
-		print QRcode::png($topt->provisioning_uri($login));
+		if (!$otp_enabled) {
+			$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
+			$topt = new \OTPHP\TOTP($secret);
+			print QRcode::png($topt->provisioning_uri($login));
+		}
 	}
 
 	function changeotp() {
