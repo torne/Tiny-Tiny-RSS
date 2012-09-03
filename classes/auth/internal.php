@@ -12,39 +12,41 @@ class Auth_Internal extends Auth_Base {
 			$result = db_query($this->link, "SELECT otp_enabled,salt FROM ttrss_users WHERE
 				login = '$login'");
 
-			require_once "lib/otphp/vendor/base32.php";
-			require_once "lib/otphp/lib/otp.php";
-			require_once "lib/otphp/lib/totp.php";
+			if (db_num_rows($result) > 0) {
+				require_once "lib/otphp/vendor/base32.php";
+				require_once "lib/otphp/lib/otp.php";
+				require_once "lib/otphp/lib/totp.php";
 
-			$base32 = new Base32();
+				$base32 = new Base32();
 
-			$otp_enabled = sql_bool_to_bool(db_fetch_result($result, 0, "otp_enabled"));
-			$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
+				$otp_enabled = sql_bool_to_bool(db_fetch_result($result, 0, "otp_enabled"));
+				$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
 
-			$topt = new \OTPHP\TOTP($secret);
-			$otp_check = $topt->now();
+				$topt = new \OTPHP\TOTP($secret);
+				$otp_check = $topt->now();
 
-			if ($otp_enabled) {
-				if ($otp) {
-					if ($otp != $otp_check) {
-						return false;
+				if ($otp_enabled) {
+					if ($otp) {
+						if ($otp != $otp_check) {
+							return false;
+						}
+					} else {
+						?><html>
+							<head><title>Tiny Tiny RSS</title></head>
+						<body>
+						<form method="POST">
+							<input type="hidden" name="login_action" value="do_login">
+							<input type="hidden" name="login" value="<?php echo htmlspecialchars($login) ?>">
+							<input type="hidden" name="password" value="<?php echo htmlspecialchars($password) ?>">
+
+							<label><?php echo __("Please enter your one time password:") ?></label>
+							<input type="password" size="6" name="otp"/>
+							<input type="submit" value="Continue"/>
+						</form>
+						</form>
+						<?php
+						exit;
 					}
-				} else {
-					?><html>
-						<head><title>Tiny Tiny RSS</title></head>
-					<body>
-					<form method="POST">
-						<input type="hidden" name="login_action" value="do_login">
-						<input type="hidden" name="login" value="<?php echo htmlspecialchars($login) ?>">
-						<input type="hidden" name="password" value="<?php echo htmlspecialchars($password) ?>">
-
-						<label><?php echo __("Please enter your one time password:") ?></label>
-						<input type="password" size="6" name="otp"/>
-						<input type="submit" value="Continue"/>
-					</form>
-					</form>
-					<?php
-					exit;
 				}
 			}
 		}
