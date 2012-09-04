@@ -44,7 +44,9 @@ class Auth_Internal extends Auth_Base {
 								<input type="password" size="6" name="otp"/>
 								<input type="submit" value="Continue"/>
 							</form>
-							</form>
+							<script type="text/javascript">
+								document.forms[0].otp.focus();
+							</script>
 							<?php
 							exit;
 						}
