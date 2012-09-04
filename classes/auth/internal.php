@@ -120,7 +120,7 @@ class Auth_Internal extends Auth_Base {
 		return false;
 	}
 
-	function change_password($owner_uid, $old_password, $new_password) {
+	function check_password($owner_uid, $password) {
 		$owner_uid = db_escape_string($owner_uid);
 
 		$result = db_query($this->link, "SELECT salt,login FROM ttrss_users WHERE
@@ -130,23 +130,29 @@ class Auth_Internal extends Auth_Base {
 		$login = db_fetch_result($result, 0, "login");
 
 		if (!$salt) {
-			$old_password_hash1 = encrypt_password($old_password);
-			$old_password_hash2 = encrypt_password($old_password, $login);
+			$password_hash1 = encrypt_password($password);
+			$password_hash2 = encrypt_password($password, $login);
 
 			$query = "SELECT id FROM ttrss_users WHERE
-				id = '$owner_uid' AND (pwd_hash = '$old_password_hash1' OR
-				pwd_hash = '$old_password_hash2')";
+				id = '$owner_uid' AND (pwd_hash = '$password_hash1' OR
+				pwd_hash = '$password_hash2')";
 
 		} else {
-			$old_password_hash = encrypt_password($old_password, $salt, true);
+			$password_hash = encrypt_password($password, $salt, true);
 
 			$query = "SELECT id FROM ttrss_users WHERE
-				id = '$owner_uid' AND pwd_hash = '$old_password_hash'";
+				id = '$owner_uid' AND pwd_hash = '$password_hash'";
 		}
 
 		$result = db_query($this->link, $query);
 
-		if (db_num_rows($result) == 1) {
+		return db_num_rows($result) != 0;
+	}
+
+	function change_password($owner_uid, $old_password, $new_password) {
+		$owner_uid = db_escape_string($owner_uid);
+
+		if ($this->check_password($owner_uid, $old_password)) {
 
 			$new_salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$new_password_hash = encrypt_password($new_password, $new_salt, true);

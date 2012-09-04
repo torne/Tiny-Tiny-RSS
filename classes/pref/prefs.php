@@ -230,6 +230,10 @@ class Pref_Prefs extends Handler_Protected {
 			}
 			</script>";
 
+			if ($otp_enabled) {
+				print_notice("Changing your current password will disable OTP.");
+			}
+
 			print "<table width=\"100%\" class=\"prefPrefsList\">";
 
 			print "<tr><td width=\"40%\">".__("Old password")."</td>";
@@ -260,7 +264,45 @@ class Pref_Prefs extends Handler_Protected {
 
 				if ($otp_enabled) {
 
-					print "<p>".__("One time passwords are currently enabled. Change your current password and refresh this page to reconfigure.") . "</p>";
+					print_notice("One time passwords are currently enabled. Enter your current password below to disable.");
+
+					print "<form dojoType=\"dijit.form.Form\">";
+
+				print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+				evt.preventDefault();
+				if (this.validate()) {
+					notify_progress('Disabling OTP', true);
+
+					new Ajax.Request('backend.php', {
+						parameters: dojo.objectToQuery(this.getValues()),
+						onComplete: function(transport) {
+							notify('');
+							if (transport.responseText.indexOf('ERROR: ') == 0) {
+								notify_error(transport.responseText.replace('ERROR: ', ''));
+							} else {
+								window.location.reload();
+							}
+					}});
+					this.reset();
+				}
+				</script>";
+
+				print "<table width=\"100%\" class=\"prefPrefsList\">";
+
+				print "<tr><td width=\"40%\">".__("Enter your password")."</td>";
+
+				print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\"
+					name=\"password\"></td></tr>";
+
+				print "</table>";
+
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"otpdisable\">";
+
+				print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+					__("Disable OTP")."</button>";
+
+				print "</form>";
 
 				} else {
 
@@ -275,7 +317,7 @@ class Pref_Prefs extends Handler_Protected {
 					print "<form dojoType=\"dijit.form.Form\" id=\"changeOtpForm\">";
 
 					print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
-					print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"changeotp\">";
+					print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"otpenable\">";
 
 					print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
 					evt.preventDefault();
@@ -285,18 +327,37 @@ class Pref_Prefs extends Handler_Protected {
 						new Ajax.Request('backend.php', {
 							parameters: dojo.objectToQuery(this.getValues()),
 							onComplete: function(transport) {
-								window.location.reload();
+								notify('');
+								if (transport.responseText.indexOf('ERROR: ') == 0) {
+									notify_error(transport.responseText.replace('ERROR: ', ''));
+								} else {
+									window.location.reload();
+								}
 						} });
 
 					}
 					</script>";
 
+					print "<table width=\"100%\" class=\"prefPrefsList\">";
+
+					print "<tr><td width=\"40%\">".__("Enter your password")."</td>";
+
+					print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\"
+						name=\"password\"></td></tr>";
+
+					print "<tr><td colspan=\"2\">";
+
 					print "<input dojoType=\"dijit.form.CheckBox\" required=\"1\"
 						type=\"checkbox\" id=\"enable_otp\" name=\"enable_otp\"/> ";
 					print "<label for=\"enable_otp\">".__("I have scanned the code and would like to enable OTP")."</label>";
 
+					print "</td></tr><tr><td colspan=\"2\">";
+
+					print "</td></tr>";
+					print "</table>";
+
 					print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
-						__("Save OTP setting")."</button>";
+						__("Enable OTP")."</button>";
 
 					print "</form>";
 
@@ -648,13 +709,43 @@ class Pref_Prefs extends Handler_Protected {
 		}
 	}
 
-	function changeotp() {
-		$enable_otp = $_REQUEST["enable_otp"];
+	function otpenable() {
+		$password = db_escape_string($_REQUEST["password"]);
 
-		if ($enable_otp == "on") {
-			db_query($this->link, "UPDATE ttrss_users SET otp_enabled = true WHERE
-				id = " . $_SESSION["uid"]);
+		$module_class = "auth_" . $_SESSION["auth_module"];
+		$authenticator = new $module_class($this->link);
+		$enable_otp = $_REQUEST["enable_otp"] == "on";
+
+		if ($authenticator->check_password($_SESSION["uid"], $password)) {
+
+			if ($enable_otp) {
+				db_query($this->link, "UPDATE ttrss_users SET otp_enabled = true WHERE
+					id = " . $_SESSION["uid"]);
+
+				print "OK";
+			}
+		} else {
+			print "ERROR: ".__("Incorrect password");
 		}
+
+	}
+
+	function otpdisable() {
+		$password = db_escape_string($_REQUEST["password"]);
+
+		$module_class = "auth_" . $_SESSION["auth_module"];
+		$authenticator = new $module_class($this->link);
+
+		if ($authenticator->check_password($_SESSION["uid"], $password)) {
+
+			db_query($this->link, "UPDATE ttrss_users SET otp_enabled = false WHERE
+				id = " . $_SESSION["uid"]);
+
+			print "OK";
+		} else {
+			print "ERROR: ".__("Incorrect password");
+		}
+
 	}
 }
 ?>
