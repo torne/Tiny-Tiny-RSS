@@ -6,6 +6,10 @@ class Auth_Base {
 		$this->link = $link;
 	}
 
+	function check_password($owner_uid, $password) {
+		return false;
+	}
+
 	function authenticate($login, $password) {
 		return false;
 	}
