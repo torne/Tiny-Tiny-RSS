@@ -1793,6 +1793,8 @@ function correctHeadlinesOffset(id) {
 		var container = $("headlines-frame");
 		var row = $("RROW-" + id);
 
+		if (!container || !row) return;
+
 		var viewport = container.offsetHeight;
 
 		var rel_offset_top = row.offsetTop - container.scrollTop;
