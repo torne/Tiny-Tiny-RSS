@@ -790,10 +790,6 @@ class RPC extends Handler_Protected {
 		$pass = db_escape_string($_REQUEST['pass']);
 		$need_auth = db_escape_string($_REQUEST['need_auth']) != "";
 
-		$result = db_query($this->link, "SELECT twitter_oauth FROM ttrss_users
-WHERE id = ".$_SESSION['uid']);
-		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth') != "";
-
 		foreach ($feeds as $feed) {
 			$feed = trim($feed);
 
@@ -801,12 +797,7 @@ WHERE id = ".$_SESSION['uid']);
 
 				db_query($this->link, "BEGIN");
 
-				if (!$need_auth || !$has_oauth || strpos($url, '://api.twitter.com')
-																=== false) {
-					$update_method = 0;
-				} else {
-					$update_method = 3;
-				}
+				$update_method = 0;
 
 				if ($cat_id == "0" || !$cat_id) {
 					$cat_qpart = "NULL";

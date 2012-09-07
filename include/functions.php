@@ -1782,32 +1782,20 @@
 
 		$update_method = 0;
 
-		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users
-			WHERE id = ".$_SESSION['uid']);
+		if (!fetch_file_contents($url, false, $auth_login, $auth_pass))
+			return array("code" => 5, "message" => $fetch_last_error);
 
-		$has_oauth = db_fetch_result($result, 0, 'twitter_oauth');
-
-		if (!$need_auth || !$has_oauth || strpos($url, '://api.twitter.com') === false) {
-			if (!fetch_file_contents($url, false, $auth_login, $auth_pass))
-				return array("code" => 5, "message" => $fetch_last_error);
-
-			if (url_is_html($url, $auth_login, $auth_pass)) {
-				$feedUrls = get_feeds_from_html($url, $auth_login, $auth_pass);
-				if (count($feedUrls) == 0) {
-					return array("code" => 3);
-				} else if (count($feedUrls) > 1) {
-					return array("code" => 4);
-				}
-				//use feed url as new URL
-				$url = key($feedUrls);
+		if (url_is_html($url, $auth_login, $auth_pass)) {
+			$feedUrls = get_feeds_from_html($url, $auth_login, $auth_pass);
+			if (count($feedUrls) == 0) {
+				return array("code" => 3);
+			} else if (count($feedUrls) > 1) {
+				return array("code" => 4);
 			}
+			//use feed url as new URL
+			$url = key($feedUrls);
+		}
 
-			} else {
-				if (!fetch_twitter_rss($link, $url, $_SESSION['uid']))
-					return array("code" => 5);
-
-				$update_method = 3;
-			}
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
 		} else {

@@ -157,58 +157,6 @@
 
 	} // function update_daemon_common
 
-	function fetch_twitter_rss($link, $url, $owner_uid) {
-
-		require_once 'lib/tmhoauth/tmhOAuth.php';
-		require_once "lib/magpierss/rss_fetch.inc";
-		require_once 'lib/magpierss/rss_utils.inc';
-
-		$result = db_query($link, "SELECT twitter_oauth FROM ttrss_users
-			WHERE id = $owner_uid");
-
-		$access_token = json_decode(db_fetch_result($result, 0, 'twitter_oauth'), true);
-		$url_escaped = db_escape_string($url);
-
-		if ($access_token) {
-
-			$tmhOAuth = new tmhOAuth(array(
-				'consumer_key'    => CONSUMER_KEY,
-				'consumer_secret' => CONSUMER_SECRET,
-				'user_token' => $access_token['oauth_token'],
-				'user_secret' => $access_token['oauth_token_secret'],
-			));
-
-			$code = $tmhOAuth->request('GET', $url,
-				convertUrlQuery(parse_url($url, PHP_URL_QUERY)));
-
-			if ($code == 200) {
-
-				$content = $tmhOAuth->response['response'];
-
-				define('MAGPIE_CACHE_ON', false);
-
-				$rss = new MagpieRSS($content, MAGPIE_OUTPUT_ENCODING,
-					MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
-
-				return $rss;
-
-			} else {
-
-				db_query($link, "UPDATE ttrss_feeds
-					SET last_error = 'OAuth authorization failed ($code).'
-					WHERE feed_url = '$url_escaped' AND owner_uid = $owner_uid");
-			}
-
-		} else {
-
-			db_query($link, "UPDATE ttrss_feeds
-				SET last_error = 'OAuth information not found.'
-				WHERE feed_url = '$url_escaped' AND owner_uid = $owner_uid");
-
-			return false;
-		}
-	}
-
 	function update_rss_feed($link, $feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
 
@@ -317,9 +265,7 @@
 		$cache_age = (is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
 			-1 : get_feed_update_interval($link, $feed) * 60;
 
-		if ($update_method == 3) {
-			$rss = fetch_twitter_rss($link, $fetch_url, $owner_uid);
-		} else if ($update_method == 1) {
+		if ($update_method == 1) {
 
 			define('MAGPIE_CACHE_AGE', $cache_age);
 			define('MAGPIE_CACHE_ON', !$no_cache);
