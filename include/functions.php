@@ -2326,6 +2326,8 @@
 				$limit_query_part = "LIMIT " . $limit;
 			}
 
+			$allow_archived = false;
+
 			$vfeed_query_part = "";
 
 			// override query strategy and enable feed display when searching globally
@@ -2397,6 +2399,7 @@
 				}
 			} else if ($feed == 0 && !$cat_view) { // archive virtual feed
 				$query_strategy_part = "feed_id IS NULL";
+				$allow_archived = true;
 			} else if ($feed == 0 && $cat_view) { // uncategorized
 				$query_strategy_part = "cat_id IS NULL AND feed_id IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
@@ -2408,6 +2411,7 @@
 				if (!$cat_view) {
 					$query_strategy_part = "published = true";
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+					$allow_archived = true;
 				} else {
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
@@ -2511,7 +2515,7 @@
 					}
 				}
 
-				if ($feed != "0") {
+				if (!$allow_archived) {
 					$from_qpart = "ttrss_entries,ttrss_user_entries,ttrss_feeds$ext_tables_part";
 					$feed_check_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 
@@ -5572,6 +5576,32 @@
 			return false;
 		}
 
+	}
+
+	function create_published_article($link, $title, $url, $content, $owner_uid) {
+		$guid = 'tt-rss-share:' . uniqid();
+		$content_hash = sha1($content);
+
+		$result = db_query($link, "INSERT INTO ttrss_entries
+			(title, guid, link, updated, content, content_hash, date_entered, date_updated)
+			VALUES
+			('$title', '$guid', '$url', NOW(), '$content', '$content_hash', NOW(), NOW())");
+
+		$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+
+		if (db_num_rows($result) != 0) {
+			$ref_id = db_fetch_result($result, 0, "id");
+
+			db_query($link, "INSERT INTO ttrss_user_entries
+				(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+				VALUES
+				('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+
+			return true;
+
+		}
+
+		return false;
 	}
 
 ?>

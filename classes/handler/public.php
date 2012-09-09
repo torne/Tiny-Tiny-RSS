@@ -306,5 +306,75 @@ class Handler_Public extends Handler {
 		// Update all feeds needing a update.
 		update_daemon_common($this->link, 0, true, false);
 	}
+
+	function sharepopup() {
+		header('Content-Type: text/html; charset=utf-8');
+		print "<html>
+				<head>
+					<title>Tiny Tiny RSS</title>
+					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					<script type=\"text/javascript\" src=\"lib/prototype.js\"></script>
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
+				</head>
+				<body id='sharepopup'>";
+
+		$action = $_REQUEST["action"];
+
+		if ($_SESSION["uid"]) {
+
+			if (!$action) {
+
+				print "<table height='100%' width='100%'><tr><td colspan='2'>";
+				print "<h1>Publish with Tiny Tiny RSS</h1>";
+				print "</td></tr>";
+
+				print "<form id='share_form' name='share_form'>";
+
+				print "<input type=\"hidden\" name=\"op\" value=\"sharepopup\">";
+				print "<input type=\"hidden\" name=\"action\" value=\"share\">";
+
+				$title = htmlspecialchars($_REQUEST["title"]);
+				$url = htmlspecialchars($_REQUEST["url"]);
+
+				print "<tr><td>".__("Title:")."</td><td width='80%'><input name='title' value=\"$title\"></td></tr>";
+				print "<tr><td>".__("URL:")."</td><td><input name='url' value=\"$url\"></td></tr>";
+				print "<tr><td>".__("Content:")."</td><td><input name='content' value=\"\"></td></tr>";
+
+				print "<script type='text/javascript'>";
+				print "document.forms[0].title.focus();";
+				print "</script>";
+
+				print "<tr><td colspan='2'>
+					<button type=\"submit\">".
+						__('Publish')."</button>
+					<button onclick=\"return window.close()\">".
+						__('Cancel')."</button>
+					</div>";
+
+				print "</form>";
+				print "</td></tr></table>";
+
+				print "</body></html>";
+
+			} else {
+
+				$title = db_escape_string(strip_tags($_REQUEST["title"]));
+				$url = db_escape_string(strip_tags($_REQUEST["url"]));
+				$content = db_escape_string(strip_tags($_REQUEST["content"]));
+
+				create_published_article($this->link, $title, $url, $content, $_SESSION["uid"]);
+
+				print "<script type='text/javascript'>";
+				print "window.close();";
+				print "</script>";
+			}
+
+		} else {
+
+			print "<table><tr><td>" . __("Not logged in.") . "</td></tr></table>";
+
+		}
+	}
+
 }
 ?>
