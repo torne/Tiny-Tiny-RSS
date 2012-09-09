@@ -690,8 +690,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 69) { // e
-				var id = getActiveArticleId();
-				emailArticle(id);
+				emailArticle();
 			}
 
 			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
