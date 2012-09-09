@@ -325,7 +325,7 @@ class Handler_Public extends Handler {
 			if (!$action) {
 
 				print "<table height='100%' width='100%'><tr><td colspan='2'>";
-				print "<h1>Publish with Tiny Tiny RSS</h1>";
+				print "<h1>".__("Share with Tiny Tiny RSS")."</h1>";
 				print "</td></tr>";
 
 				print "<form id='share_form' name='share_form'>";
@@ -345,8 +345,10 @@ class Handler_Public extends Handler {
 				print "</script>";
 
 				print "<tr><td colspan='2'>
-					<button type=\"submit\">".
-						__('Publish')."</button>
+					<div style='float : right' class='insensitive-small'>".
+					__("Shared article will appear in the Published feed.").
+					"</div><button type=\"submit\">".
+						__('Share')."</button>
 					<button onclick=\"return window.close()\">".
 						__('Cancel')."</button>
 					</div>";
