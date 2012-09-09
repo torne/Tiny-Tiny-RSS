@@ -5585,6 +5585,8 @@
 		if (!$title) $title = $url;
 		if (!$title && !$url) return false;
 
+		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
+
 		$result = db_query($link, "INSERT INTO ttrss_entries
 			(title, guid, link, updated, content, content_hash, date_entered, date_updated)
 			VALUES
