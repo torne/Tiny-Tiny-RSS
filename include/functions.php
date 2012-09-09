@@ -5582,6 +5582,9 @@
 		$guid = 'tt-rss-share:' . uniqid();
 		$content_hash = sha1($content);
 
+		if (!$title) $title = $url;
+		if (!$title && !$url) return false;
+
 		$result = db_query($link, "INSERT INTO ttrss_entries
 			(title, guid, link, updated, content, content_hash, date_entered, date_updated)
 			VALUES
