@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Wed Jun 6 12:33:28 MSK 2012
+<?php # This file has been generated at:  Sun Sep 9 20:16:54 MSK 2012
 
 __("Title");
 __("Title or Content");
@@ -26,11 +26,11 @@ __('This option enables marking articles as read automatically while you scroll 
 __('Strip all but most common HTML tags when reading articles.');
 __('When auto-detecting tags in articles these tags will not be applied (comma-separated list).');
 __('When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
-__('Use feed-specified date to sort headlines instead of local import date.');
 __('Customize CSS stylesheet to your liking');
+__('Use feed-specified date to sort headlines instead of local import date.');
 __('Click to register your SSL client certificate with tt-rss');
 __('Uses UTC timezone');
-__('Purge old posts after this number of days (0 - disables)');
+__('Purge articles after this number of days (0 - disables)');
 __('Default interval between feed updates');
 __('Amount of articles to display at once');
 __('Allow duplicate posts');
@@ -57,8 +57,8 @@ __('Group headlines in virtual feeds');
 __('Do not show images in articles');
 __('Enable external API');
 __('User timezone');
-__('Sort headlines by feed date');
 __('Customize stylesheet');
+__('Sort headlines by feed date');
 __('Login with an SSL certificate');
 __('Try to send digests around specified time');
 ?>
