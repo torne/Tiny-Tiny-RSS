@@ -214,7 +214,8 @@ class Pref_Users extends Handler_Protected {
 			}
 
 			db_query($this->link, "UPDATE ttrss_users SET $pass_query_part login = '$login',
-				access_level = '$access_level', email = '$email' WHERE id = '$uid'");
+				access_level = '$access_level', email = '$email', otp_enabled = 'false'
+				WHERE id = '$uid'");
 
 		}
 
