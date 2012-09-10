@@ -32,11 +32,13 @@ class Auth_Internal extends Auth_Base {
 								return false;
 							}
 						} else {
+							$return = urlencode($_REQUEST["return"]);
 							?><html>
 								<head><title>Tiny Tiny RSS</title></head>
 							<body>
-							<form method="POST">
-								<input type="hidden" name="login_action" value="do_login">
+							<form action="public.php?return=<?php echo $return ?>"
+									method="POST">
+								<input type="hidden" name="op" value="login">
 								<input type="hidden" name="login" value="<?php echo htmlspecialchars($login) ?>">
 								<input type="hidden" name="password" value="<?php echo htmlspecialchars($password) ?>">
 

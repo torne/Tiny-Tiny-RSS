@@ -480,8 +480,6 @@ class Handler_Public extends Handler {
 
 	function login() {
 
-		print_r($_REQUEST);
-
 		$_SESSION["prefs_cache"] = array();
 
 		if (!SINGLE_USER_MODE) {
