@@ -28,7 +28,11 @@ function do_login() {
         <a class="button blueButton" onclick='do_login()'><?php echo __('Log in') ?></a>
     </div>
 
-	<form target="_self" title="Login" action="index.php" id="login" class="panel" method="post" name="login" selected="true">
+	<form target="_self" title="Login" id="login" class="panel" name="login" selected="true"
+		action="../public.php?return=<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]) ?>"
+		method="post">
+
+	<input type="hidden" name="op" value="login">
 
 	<fieldset>
 

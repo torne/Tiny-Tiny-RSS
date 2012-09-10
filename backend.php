@@ -65,7 +65,7 @@
 
 	// TODO remove and handle within Handlers
 
-	if (!($_SESSION["uid"] && validate_session($link))) {
+	/* if (!($_SESSION["uid"] && validate_session($link))) {
 		if ($op == 'pref-feeds' && $method == 'add') {
 			header("Content-Type: text/html");
 			login_sequence($link);
@@ -75,7 +75,7 @@
 			print json_encode(array("error" => array("code" => 6)));
 		}
 		return;
-	}
+	} */
 
 	$purge_intervals = array(
 		0  => __("Use default"),
@@ -142,6 +142,10 @@
 						$handler->$method();
 					}
 					$handler->after();
+					return;
+				} else {
+					header("Content-Type: text/plain");
+					print json_encode(array("error" => array("code" => 6)));
 					return;
 				}
 			} else {

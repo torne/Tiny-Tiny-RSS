@@ -32,21 +32,22 @@ function init() {
 	}
 
 	document.forms["loginForm"].login.focus();
+
+	fetchProfiles();
 }
 
 function fetchProfiles() {
 	try {
-		var params = Form.serialize('loginForm');
-		var query = "?op=getProfiles&" + params;
+		var query = "?op=getProfiles&login=" + param_escape(document.forms["loginForm"].login.value);
 
 		if (query) {
 			new Ajax.Request("public.php",	{
 				parameters: query,
-					onComplete: function(transport) {
-						if (transport.responseText.match("select")) {
-							$('profile_box').innerHTML = transport.responseText;
-						}
-				} });
+				onComplete: function(transport) {
+					if (transport.responseText.match("select")) {
+						$('profile_box').innerHTML = transport.responseText;
+					}
+			} });
 		}
 
 	} catch (e) {
@@ -113,8 +114,12 @@ function validateLoginForm(f) {
 	});
 </script>
 
-<form action="" method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
-<input type="hidden" name="login_action" value="do_login">
+<?php $return = urlencode($_SERVER["REQUEST_URI"]) ?>
+
+<form action="public.php?return=<?php echo $return ?>"
+	method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
+
+<input type="hidden" name="op" value="login">
 
 <table class="loginForm2">
 <tr>
@@ -130,11 +135,10 @@ function validateLoginForm(f) {
 		<table>
 			<tr><td align="right"><?php echo __("Login:") ?></td>
 			<td align="right"><input name="login"
-				onchange="fetchProfiles()" onfocus="fetchProfiles()"
+				onchange="fetchProfiles()" onfocus="fetchProfiles()" onblur="fetchProfiles()"
 				value="<?php echo $_SESSION["fake_login"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Password:") ?></td>
 			<td align="right"><input type="password" name="password"
-				onchange="fetchProfiles()" onfocus="fetchProfiles()"
 				value="<?php echo $_SESSION["fake_password"] ?>"></td></tr>
 			<tr><td align="right"><?php echo __("Language:") ?></td>
 			<td align="right">
@@ -151,11 +155,6 @@ function validateLoginForm(f) {
 				<option><?php echo __("Default profile") ?></option></select>
 			</td></tr>
 
-			<!-- <tr><td colspan="2">
-				<input type="checkbox" name="remember_me" id="remember_me">
-				<label for="remember_me">Remember me on this computer</label>
-			</td></tr> -->
-
 			<tr><td colspan="2" align="right" class="innerLoginCell">
 
 			<button type="submit" name='click'><?php echo __('Log in') ?></button>
@@ -164,9 +163,6 @@ function validateLoginForm(f) {
 					<?php echo __("Create new account") ?></button>
 			<?php } ?>
 
-				<input type="hidden" name="action" value="login">
-				<input type="hidden" name="rt"
-					value="<?php if ($return_to != 'none') { echo $return_to; } ?>">
 			</td></tr>
 
 			<tr><td colspan="2" align="right" class="innerLoginCell">

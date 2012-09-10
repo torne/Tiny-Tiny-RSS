@@ -19,5 +19,6 @@ class Handler {
 	function after() {
 		return true;
 	}
+
 }
 ?>

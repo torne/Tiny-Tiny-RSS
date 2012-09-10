@@ -815,7 +815,35 @@
 		return true;
 	}
 
-	function login_sequence($link, $mobile = false) {
+	function login_sequence($link, $login_form = 0) {
+		if (SINGLE_USER_MODE) {
+			return authenticate_user($link, "admin", null);
+		} else {
+			if (!$_SESSION["uid"] || !validate_session($link)) {
+
+				if (AUTH_AUTO_LOGIN && authenticate_user($link, null, null)) {
+				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
+				} else {
+					 authenticate_user($link, null, null, true);
+				}
+
+				if (!$_SESSION["uid"]) render_login_form($link, $login_form);
+
+			} else {
+				/* bump login timestamp */
+				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
+					$_SESSION["uid"]);
+
+				if ($_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
+					setcookie("ttrss_lang", $_SESSION["language"],
+						time() + SESSION_COOKIE_LIFETIME);
+				}
+			}
+		}
+	}
+
+
+	/* function login_sequence($link, $mobile = false) {
 		$_SESSION["prefs_cache"] = array();
 
 		if (!SINGLE_USER_MODE) {
@@ -872,7 +900,7 @@
 				    exit;
 				}
 			} else {
-				/* bump login timestamp */
+				// bump login timestamp
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
 
@@ -888,7 +916,7 @@
 		} else {
 			return authenticate_user($link, "admin", null);
 		}
-	}
+	} */
 
 	function truncate_string($str, $max_len, $suffix = '&hellip;') {
 		if (mb_strlen($str, "utf-8") > $max_len - 3) {
@@ -3148,17 +3176,16 @@
 		return true;
 	}
 
-	function render_login_form($link, $mobile = 0) {
-		switch ($mobile) {
+	function render_login_form($link, $form_id = 0) {
+		switch ($form_id) {
 		case 0:
 			require_once "login_form.php";
 			break;
 		case 1:
 			require_once "mobile/login_form.php";
 			break;
-		case 2:
-			require_once "mobile/classic/login_form.php";
 		}
+		exit;
 	}
 
 	// from http://developer.apple.com/internet/safari/faq.html
@@ -3588,7 +3615,7 @@
 		//$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 		$url_path = get_self_url_prefix() .
-			"/backend.php?op=pref-feeds&quiet=1&method=add&feed_url=%s";
+			"/public.php?op=subscribe&feed_url=%s";
 		return $url_path;
 	} // function add_feed_url
 

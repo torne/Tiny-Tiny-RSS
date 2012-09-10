@@ -195,27 +195,22 @@ class Handler_Public extends Handler {
 
 	function getProfiles() {
 		$login = db_escape_string($_REQUEST["login"]);
-		$password = db_escape_string($_REQUEST["password"]);
 
-		if (authenticate_user($this->link, $login, $password)) {
-			$result = db_query($this->link, "SELECT * FROM ttrss_settings_profiles
-				WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY title");
+		$result = db_query($this->link, "SELECT * FROM ttrss_settings_profiles,ttrss_users
+			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
 
-			print "<select style='width: 100%' name='profile'>";
+		print "<select style='width: 100%' name='profile'>";
 
-			print "<option value='0'>" . __("Default profile") . "</option>";
+		print "<option value='0'>" . __("Default profile") . "</option>";
 
-			while ($line = db_fetch_assoc($result)) {
-				$id = $line["id"];
-				$title = $line["title"];
+		while ($line = db_fetch_assoc($result)) {
+			$id = $line["id"];
+			$title = $line["title"];
 
-				print "<option value='$id'>$title</option>";
-			}
-
-			print "</select>";
-
-			$_SESSION = array();
+			print "<option value='$id'>$title</option>";
 		}
+
+		print "</select>";
 	}
 
 	function pubsub() {
@@ -445,6 +440,233 @@ class Handler_Public extends Handler {
 			print "<table><tr><td>" . __("Not logged in.") . "</td></tr></table>";
 
 		}
+	}
+
+	function login() {
+
+		print_r($_REQUEST);
+
+		$_SESSION["prefs_cache"] = array();
+
+		if (!SINGLE_USER_MODE) {
+
+			$login = db_escape_string($_POST["login"]);
+			$password = $_POST["password"];
+			$remember_me = $_POST["remember_me"];
+
+			if (authenticate_user($this->link, $login, $password)) {
+				$_POST["password"] = "";
+
+				$_SESSION["language"] = $_POST["language"];
+				$_SESSION["ref_schema_version"] = get_schema_version($this->link, true);
+				$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
+
+				if ($_POST["profile"]) {
+
+					$profile = db_escape_string($_POST["profile"]);
+
+					$result = db_query($this->link, "SELECT id FROM ttrss_settings_profiles
+						WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
+
+					if (db_num_rows($result) != 0) {
+						$_SESSION["profile"] = $profile;
+						$_SESSION["prefs_cache"] = array();
+					}
+				}
+			} else {
+				$_SESSION["login_error_msg"] = __("Incorrect username or password");
+			}
+
+			if ($_REQUEST['return']) {
+				header("Location: " . $_REQUEST['return']);
+			} else {
+				header("Location: " . SELF_URL_PATH);
+			}
+		}
+	}
+
+	function subscribe() {
+		if ($_SESSION["uid"]) {
+
+			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+
+			header('Content-Type: text/html; charset=utf-8');
+			print "<html>
+				<head>
+					<title>Tiny Tiny RSS</title>
+					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
+				</head>
+				<body>
+				<img class=\"floatingLogo\" src=\"images/logo_wide.png\"
+			  		alt=\"Tiny Tiny RSS\"/>
+					<h1>".__("Subscribe to feed...")."</h1>";
+
+			$rc = subscribe_to_feed($this->link, $feed_url);
+
+			switch ($rc['code']) {
+			case 0:
+				print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
+				break;
+			case 1:
+				print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
+				break;
+			case 2:
+				print_error(T_sprintf("Could not subscribe to <b>%s</b>.", $feed_url));
+				break;
+			case 3:
+				print_error(T_sprintf("No feeds found in <b>%s</b>.", $feed_url));
+				break;
+			case 4:
+				print_notice(__("Multiple feed URLs found."));
+				$feed_urls = get_feeds_from_html($feed_url);
+				break;
+			case 5:
+				print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
+				break;
+			}
+
+			if ($feed_urls) {
+
+				print "<form action=\"public.php\">";
+				print "<input type=\"hidden\" name=\"op\" value=\"subscribe\">";
+
+				print "<select name=\"feed_url\">";
+
+				foreach ($feed_urls as $url => $name) {
+					$url = htmlspecialchars($url);
+					$name = htmlspecialchars($name);
+
+					print "<option value=\"$url\">$name</option>";
+				}
+
+				print "<input type=\"submit\" value=\"".__("Subscribe to selected feed").
+					"\">";
+
+				print "</form>";
+			}
+
+			$tp_uri = get_self_url_prefix() . "/prefs.php";
+			$tt_uri = get_self_url_prefix();
+
+			if ($rc['code'] <= 2){
+				$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+				$feed_id = db_fetch_result($result, 0, "id");
+			} else {
+				$feed_id = 0;
+			}
+			print "<p>";
+
+			if ($feed_id) {
+				print "<form method=\"GET\" style='display: inline'
+					action=\"$tp_uri\">
+					<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
+					<input type=\"hidden\" name=\"method\" value=\"editFeed\">
+					<input type=\"hidden\" name=\"methodparam\" value=\"$feed_id\">
+					<input type=\"submit\" value=\"".__("Edit subscription options")."\">
+					</form>";
+			}
+
+			print "<form style='display: inline' method=\"GET\" action=\"$tt_uri\">
+				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+				</form></p>";
+
+			print "</body></html>";
+
+		} else {
+			render_login_form($this->link);
+		}
+	}
+
+	function subscribe2() {
+		$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+		$from = db_escape_string($_REQUEST["from"]);
+
+		/* only read authentication information from POST */
+
+		$auth_login = db_escape_string(trim($_POST["auth_login"]));
+		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
+
+		$rc = subscribe_to_feed($this->link, $feed_url, $cat_id, $auth_login, $auth_pass);
+
+		switch ($rc) {
+		case 1:
+			print_notice(T_sprintf("Subscribed to <b>%s</b>.", $feed_url));
+			break;
+		case 2:
+			print_error(T_sprintf("Could not subscribe to <b>%s</b>.", $feed_url));
+			break;
+		case 3:
+			print_error(T_sprintf("No feeds found in <b>%s</b>.", $feed_url));
+			break;
+		case 0:
+			print_warning(T_sprintf("Already subscribed to <b>%s</b>.", $feed_url));
+			break;
+		case 4:
+			print_notice(__("Multiple feed URLs found."));
+
+			$feed_urls = get_feeds_from_html($feed_url);
+			break;
+		case 5:
+			print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
+			break;
+		}
+
+		if ($feed_urls) {
+			print "<form action=\"backend.php\">";
+			print "<input type=\"hidden\" name=\"op\" value=\"pref-feeds\">";
+			print "<input type=\"hidden\" name=\"quiet\" value=\"1\">";
+			print "<input type=\"hidden\" name=\"method\" value=\"add\">";
+
+			print "<select name=\"feed_url\">";
+
+			foreach ($feed_urls as $url => $name) {
+				$url = htmlspecialchars($url);
+				$name = htmlspecialchars($name);
+				print "<option value=\"$url\">$name</option>";
+			}
+
+			print "<input type=\"submit\" value=\"".__("Subscribe to selected feed")."\">";
+			print "</form>";
+		}
+
+		$tp_uri = get_self_url_prefix() . "/prefs.php";
+		$tt_uri = get_self_url_prefix();
+
+		if ($rc <= 2){
+			$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+				feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
+
+			$feed_id = db_fetch_result($result, 0, "id");
+		} else {
+			$feed_id = 0;
+		}
+
+		print "<p>";
+
+		if ($feed_id) {
+			print "<form method=\"GET\" style='display: inline'
+				action=\"$tp_uri\">
+				<input type=\"hidden\" name=\"tab\" value=\"feedConfig\">
+				<input type=\"hidden\" name=\"method\" value=\"editFeed\">
+				<input type=\"hidden\" name=\"methodparam\" value=\"$feed_id\">
+				<input type=\"submit\" value=\"".__("Edit subscription options")."\">
+				</form>";
+		}
+
+		print "<form style='display: inline' method=\"GET\" action=\"$tt_uri\">
+			<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+			</form></p>";
+
+		print "</body></html>";
+	}
+
+	function index() {
+		header("Content-Type: text/plain");
+		print json_encode(array("error" => array("code" => 7)));
 	}
 
 }
