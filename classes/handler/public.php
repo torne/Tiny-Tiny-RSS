@@ -2,7 +2,7 @@
 class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
-		$limit, $search, $search_mode, $match_on, $view_mode = false) {
+		$limit, $search, $search_mode, $match_on, $view_mode = false, $format = 'atom') {
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -34,74 +34,141 @@ class Handler_Public extends Handler {
 
 		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
 
-		$tpl = new MiniTemplator;
+		if ($format == 'atom') {
+			$tpl = new MiniTemplator;
 
-		$tpl->readTemplateFromFile("templates/generated_feed.txt");
+			$tpl->readTemplateFromFile("templates/generated_feed.txt");
 
-		$tpl->setVariable('FEED_TITLE', $feed_title, true);
-		$tpl->setVariable('VERSION', VERSION, true);
-		$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url), true);
+			$tpl->setVariable('FEED_TITLE', $feed_title, true);
+			$tpl->setVariable('VERSION', VERSION, true);
+			$tpl->setVariable('FEED_URL', htmlspecialchars($feed_self_url), true);
 
-		if (PUBSUBHUBBUB_HUB && $feed == -2) {
-			$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB), true);
-			$tpl->addBlock('feed_hub');
+			if (PUBSUBHUBBUB_HUB && $feed == -2) {
+				$tpl->setVariable('HUB_URL', htmlspecialchars(PUBSUBHUBBUB_HUB), true);
+				$tpl->addBlock('feed_hub');
+			}
+
+			$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
+
+	 		while ($line = db_fetch_assoc($result)) {
+				$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
+				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
+				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
+				$tpl->setVariable('ARTICLE_EXCERPT',
+					truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
+
+				$content = sanitize($this->link, $line["content_preview"], false, $owner_uid);
+
+				if ($line['note']) {
+					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
+						$content;
+				}
+
+				$tpl->setVariable('ARTICLE_CONTENT', $content, true);
+
+				$tpl->setVariable('ARTICLE_UPDATED_ATOM',
+					date('c', strtotime($line["updated"])), true);
+				$tpl->setVariable('ARTICLE_UPDATED_RFC822',
+					date(DATE_RFC822, strtotime($line["updated"])), true);
+
+				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
+
+				$tags = get_article_tags($this->link, $line["id"], $owner_uid);
+
+				foreach ($tags as $tag) {
+					$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag), true);
+					$tpl->addBlock('category');
+				}
+
+				$enclosures = get_article_enclosures($this->link, $line["id"]);
+
+				foreach ($enclosures as $e) {
+					$type = htmlspecialchars($e['content_type']);
+					$url = htmlspecialchars($e['content_url']);
+					$length = $e['duration'];
+
+					$tpl->setVariable('ARTICLE_ENCLOSURE_URL', $url, true);
+					$tpl->setVariable('ARTICLE_ENCLOSURE_TYPE', $type, true);
+					$tpl->setVariable('ARTICLE_ENCLOSURE_LENGTH', $length, true);
+
+					$tpl->addBlock('enclosure');
+				}
+
+				$tpl->addBlock('entry');
+			}
+
+			$tmp = "";
+
+			$tpl->addBlock('feed');
+			$tpl->generateOutputToString($tmp);
+
+			header("Content-Type: text/xml; charset=utf-8");
+
+			print $tmp;
+		} else if ($format == 'json') {
+
+			$feed = array();
+
+			$feed['title'] = $feed_title;
+			$feed['version'] = VERSION;
+			$feed['feed_url'] = $feed_self_url;
+
+			if (PUBSUBHUBBUB_HUB && $feed == -2) {
+				$feed['hub_url'] = PUBSUBHUBBUB_HUB;
+			}
+
+			$feed['self_url'] = get_self_url_prefix();
+
+			$feed['articles'] = array();
+
+			while ($line = db_fetch_assoc($result)) {
+				$article = array();
+
+				$article['id'] = $line['link'];
+				$article['link']	= $line['link'];
+				$article['title'] = $line['title'];
+				$article['excerpt'] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
+				$article['content'] = sanitize($this->link, $line["content_preview"], false, $owner_uid);
+				$article['updated'] = date('c', strtotime($line["updated"]));
+
+				if ($line['note']) $article['note'] = $line['note'];
+				if ($article['author']) $article['author'] = $line['author'];
+
+				$tags = get_article_tags($this->link, $line["id"], $owner_uid);
+
+				if (count($tags) > 0) {
+					$article['tags'] = array();
+
+					foreach ($tags as $tag) {
+						array_push($article['tags'], $tag);
+					}
+				}
+
+				$enclosures = get_article_enclosures($this->link, $line["id"]);
+
+				if (count($enclosures) > 0) {
+					$article['enclosures'] = array();
+
+					foreach ($enclosures as $e) {
+						$type = $e['content_type'];
+						$url = $e['content_url'];
+						$length = $e['duration'];
+
+						array_push($article['enclosures'], array("url" => $url, "type" => $type, "length" => $length));
+					}
+				}
+
+				array_push($feed['articles'], $article);
+			}
+
+			header("Content-Type: text/plain; charset=utf-8");
+
+			print json_encode($feed);
+
+		} else {
+			header("Content-Type: text/plain; charset=utf-8");
+			print json_encode(array("error" => array("message" => "Unknown format")));
 		}
-
-		$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
-
- 		while ($line = db_fetch_assoc($result)) {
-			$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
-			$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
-			$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
-			$tpl->setVariable('ARTICLE_EXCERPT',
-				truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
-
-			$content = sanitize($this->link, $line["content_preview"], false, $owner_uid);
-
-			if ($line['note']) {
-				$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
-					$content;
-			}
-
-			$tpl->setVariable('ARTICLE_CONTENT', $content, true);
-
-			$tpl->setVariable('ARTICLE_UPDATED_ATOM',
-				date('c', strtotime($line["updated"])), true);
-			$tpl->setVariable('ARTICLE_UPDATED_RFC822',
-				date(DATE_RFC822, strtotime($line["updated"])), true);
-
-			$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
-
-			$tags = get_article_tags($this->link, $line["id"], $owner_uid);
-
-			foreach ($tags as $tag) {
-				$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag), true);
-				$tpl->addBlock('category');
-			}
-
-			$enclosures = get_article_enclosures($this->link, $line["id"]);
-
-			foreach ($enclosures as $e) {
-				$type = htmlspecialchars($e['content_type']);
-				$url = htmlspecialchars($e['content_url']);
-				$length = $e['duration'];
-
-				$tpl->setVariable('ARTICLE_ENCLOSURE_URL', $url, true);
-				$tpl->setVariable('ARTICLE_ENCLOSURE_TYPE', $type, true);
-				$tpl->setVariable('ARTICLE_ENCLOSURE_LENGTH', $length, true);
-
-				$tpl->addBlock('enclosure');
-			}
-
-			$tpl->addBlock('entry');
-		}
-
-		$tmp = "";
-
-		$tpl->addBlock('feed');
-		$tpl->generateOutputToString($tmp);
-
-		print $tmp;
 	}
 
 	function getUnread() {
@@ -267,8 +334,6 @@ class Handler_Public extends Handler {
 	}
 
 	function rss() {
-		header("Content-Type: text/xml; charset=utf-8");
-
 		$feed = db_escape_string($_REQUEST["id"]);
 		$key = db_escape_string($_REQUEST["key"]);
 		$is_cat = $_REQUEST["is_cat"] != false;
@@ -278,6 +343,10 @@ class Handler_Public extends Handler {
 		$match_on = db_escape_string($_REQUEST["m"]);
 		$search_mode = db_escape_string($_REQUEST["smode"]);
 		$view_mode = db_escape_string($_REQUEST["view-mode"]);
+
+		$format = db_escape_string($_REQUEST['format']);
+
+		if (!$format) $format = 'atom';
 
 		if (SINGLE_USER_MODE) {
 			authenticate_user($this->link, "admin", null);
@@ -295,7 +364,7 @@ class Handler_Public extends Handler {
 
 		if ($owner_id) {
 			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
-				$search, $search_mode, $match_on, $view_mode);
+				$search, $search_mode, $match_on, $view_mode, $format);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
 		}
