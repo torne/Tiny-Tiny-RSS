@@ -11,7 +11,7 @@ class Handler_Public extends Handler {
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
 			"margin-bottom : 1em; color : #9a8c59;";
 
-		if (!$limit) $limit = 30;
+		if (!$limit) $limit = 100;
 
 		if (get_pref($this->link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
 			$date_sort_field = "updated";
