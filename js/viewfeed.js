@@ -305,7 +305,9 @@ function article_callback2(transport, id) {
 
 		request_counters();
 
-		try {
+		headlines_scroll_handler($("headlines-frame"));
+
+/*		try {
 			if (!_infscroll_disable &&
 					$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
 
@@ -313,7 +315,7 @@ function article_callback2(transport, id) {
 			}
 		} catch (e) {
 			console.warn(e);
-		}
+		} */
 
 		notify("");
 	} catch (e) {
@@ -382,7 +384,7 @@ function view(id) {
 			// the server roundtrip altogether
 			if (cids_to_request.length == 0) {
 
-				try {
+/*				try {
 					if (!_infscroll_disable &&
 						$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
 
@@ -390,7 +392,9 @@ function view(id) {
 					}
 				} catch (e) {
 					console.warn(e);
-				}
+				} */
+
+				headlines_scroll_handler($("headlines-frame"));
 
 				return;
 			}
@@ -1113,8 +1117,9 @@ function headlines_scroll_handler(e) {
 		var hsp = $("headlines-spacer");
 
 		if (!_infscroll_disable) {
-			if (hsp && (e.scrollTop + e.offsetHeight > hsp.offsetTop) ||
-					e.scrollTop + e.offsetHeight > e.scrollHeight - 100) {
+			if ((hsp && e.scrollTop + e.offsetHeight > hsp.offsetTop) ||
+					(e.scrollHeight != 0 &&
+					 	((e.scrollTop + e.offsetHeight) / e.scrollHeight >= 0.7))) {
 
 				if (hsp)
 					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
