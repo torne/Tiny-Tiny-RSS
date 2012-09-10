@@ -36,8 +36,6 @@ function do_login() {
 
 	<fieldset>
 
-		<input type="hidden" name="login_action" value="do_login">
-
 		<div class="row">
 			<label><?php echo __("Login:") ?></label>
 			<input type="text" autocapitalize="off" name="login">

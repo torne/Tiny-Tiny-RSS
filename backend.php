@@ -63,20 +63,6 @@
 		authenticate_user($link, "admin", null);
 	}
 
-	// TODO remove and handle within Handlers
-
-	/* if (!($_SESSION["uid"] && validate_session($link))) {
-		if ($op == 'pref-feeds' && $method == 'add') {
-			header("Content-Type: text/html");
-			login_sequence($link);
-			render_login_form($link);
-		} else {
-			header("Content-Type: text/plain");
-			print json_encode(array("error" => array("code" => 6)));
-		}
-		return;
-	} */
-
 	$purge_intervals = array(
 		0  => __("Use default"),
 		-1 => __("Never purge"),

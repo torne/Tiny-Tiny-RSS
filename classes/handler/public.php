@@ -199,7 +199,7 @@ class Handler_Public extends Handler {
 		$result = db_query($this->link, "SELECT * FROM ttrss_settings_profiles,ttrss_users
 			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
 
-		print "<select style='width: 100%' name='profile'>";
+		print "<select dojoType='dijit.form.Select' name='profile'>";
 
 		print "<option value='0'>" . __("Default profile") . "</option>";
 

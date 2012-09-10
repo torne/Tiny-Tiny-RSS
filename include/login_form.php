@@ -5,35 +5,88 @@
 	<link rel="stylesheet" type="text/css" href="tt-rss.css">
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script type="text/javascript" src="lib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript" src="lib/dojo/dojo.js"></script>
+	<script type="text/javascript" src="lib/dijit/dijit.js"></script>
+	<script type="text/javascript" src="lib/dojo/tt-rss-layer.js"></script>
 	<script type="text/javascript" src="lib/prototype.js"></script>
-	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
+	<script type="text/javascript">
+		Event.observe(window, 'load', function() {
+			init();
+		});
+	</script>
+	<style type="text/css">
+	body#ttrssLogin {
+		padding : 2em;
+		font-size : 14px;
+	}
+
+	fieldset {
+		margin-left : auto;
+		margin-right : auto;
+		display : block;
+		width : 400px;
+		border-width : 0px;
+	}
+
+	label {
+		width : 120px;
+		margin-right : 20px;
+		display : inline-block;
+		text-align : right;
+		color : gray;
+	}
+
+	div.header {
+		border-width : 0px 0px 1px 0px;
+		border-style : solid;
+		border-color : #88b0f0;
+		margin-bottom : 1em;
+		padding-bottom : 5px;
+	}
+
+	div.footer {
+		margin-top : 1em;
+		padding-top : 5px;
+		border-width : 1px 0px 0px 0px;
+		border-style : solid;
+		border-color : #88b0f0;
+		text-align : center;
+		color : gray;
+		font-size : 12px;
+	}
+
+	div.footer a {
+		color : gray;
+	}
+
+	div.footer a:hover {
+		color : #88b0f0;
+	}
+
+	div.row {
+		padding : 0px 0px 5px 0px;
+	}
+	</style>
 </head>
 
 <body id="ttrssLogin" class="claro">
 
 <script type="text/javascript">
 function init() {
+	dojo.require("dijit.form.Button");
+	dojo.require("dijit.form.CheckBox");
+	dojo.require("dijit.form.Form");
+	dojo.require("dijit.form.Select");
+	dojo.require("dijit.form.TextBox");
+	dojo.require("dijit.form.ValidationTextBox");
 
-	dojo.require("dijit.Dialog");
-
-	var test = setCookie("ttrss_test", "TEST");
-
-	if (getCookie("ttrss_test") != "TEST") {
-		return fatalError(2);
-	}
-
-	var limit_set = getCookie("ttrss_bwlimit");
-
-	if (limit_set == "true") {
-		document.forms["loginForm"].bw_limit.checked = true;
-	}
-
-	document.forms["loginForm"].login.focus();
+	dojo.parser.parse();
 
 	fetchProfiles();
+
+	dijit.byId("bw_limit").attr("checked", getCookie("ttrss_bwlimit") == 'true');
 }
 
 function fetchProfiles() {
@@ -46,6 +99,7 @@ function fetchProfiles() {
 				onComplete: function(transport) {
 					if (transport.responseText.match("select")) {
 						$('profile_box').innerHTML = transport.responseText;
+						dojo.parser.parse('profile_box');
 					}
 			} });
 		}
@@ -55,18 +109,6 @@ function fetchProfiles() {
 	}
 }
 
-
-function languageChange(elem) {
-	try {
-		document.forms['loginForm']['click'].disabled = true;
-
-		var lang = elem[elem.selectedIndex].value;
-		setCookie("ttrss_lang", lang, <?php print SESSION_COOKIE_LIFETIME ?>);
-		window.location.reload();
-	} catch (e) {
-		exception_error("languageChange", e);
-	}
-}
 
 function gotoRegForm() {
 	window.location.href = "register.php";
@@ -84,111 +126,80 @@ function bwLimitChange(elem) {
 		exception_error("bwLimitChange", e);
 	}
 }
-
-function validateLoginForm(f) {
-	try {
-
-		if (f.login.value.length == 0) {
-			new Effect.Highlight(f.login);
-			return false;
-		}
-
-		if (f.password.value.length == 0) {
-			new Effect.Highlight(f.password);
-			return false;
-		}
-
-		document.forms['loginForm']['click'].disabled = true;
-
-		return true;
-	} catch (e) {
-		exception_error("validateLoginForm", e);
-		return true;
-	}
-}
-</script>
-
-<script type="text/javascript">
-	Event.observe(window, 'load', function() {
-		init();
-	});
 </script>
 
 <?php $return = urlencode($_SERVER["REQUEST_URI"]) ?>
 
 <form action="public.php?return=<?php echo $return ?>"
-	method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
+	dojoType="dijit.form.Form" method="POST" id="loginForm" name="loginForm">
 
-<input type="hidden" name="op" value="login">
+<input dojoType="dijit.form.TextBox" style="display : none" name="op" value="login">
 
-<table class="loginForm2">
-<tr>
-	<td class="loginTop" valign="bottom" align="left">
-		<img src="images/logo_wide.png">
-	</td>
-</tr><tr>
-	<td align="center" valign="middle" class="loginMiddle" height="100%">
-		<?php if ($_SESSION['login_error_msg']) { ?>
-			<div class="loginError"><?php echo $_SESSION['login_error_msg'] ?></div>
-			<?php $_SESSION['login_error_msg'] = ""; ?>
-		<?php } ?>
-		<table>
-			<tr><td align="right"><?php echo __("Login:") ?></td>
-			<td align="right"><input name="login"
+<div class='header'>
+	<img src="images/logo_wide.png">
+</div>
+
+<div class='form'>
+
+	<fieldset>
+
+		<div class="row">
+			<label><?php echo __("Login:") ?></label>
+			<input name="login"
 				onchange="fetchProfiles()" onfocus="fetchProfiles()" onblur="fetchProfiles()"
-				value="<?php echo $_SESSION["fake_login"] ?>"></td></tr>
-			<tr><td align="right"><?php echo __("Password:") ?></td>
-			<td align="right"><input type="password" name="password"
-				value="<?php echo $_SESSION["fake_password"] ?>"></td></tr>
-			<tr><td align="right"><?php echo __("Language:") ?></td>
-			<td align="right">
+				dojoType="dijit.form.TextBox" required="1"
+				value="<?php echo $_SESSION["fake_login"] ?>" />
+		</div>
+
+		<div class="row">
+			<label><?php echo __("Password:") ?></label>
+			<input type="password" name="password" dojoType="dijit.form.TextBox" required="1"
+					value="<?php echo $_SESSION["fake_password"] ?>"/>
+		</div>
+
+		<div class="row">
+			<label><?php echo __("Language:") ?></label>
 			<?php
 				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
-					"style='width : 100%' onchange='languageChange(this)'");
-
+					"dojoType='dijit.form.Select'");
 			?>
-			</td></tr>
+		</div>
 
-			<tr><td align="right"><?php echo __("Profile:") ?></td>
-			<td align="right" id="profile_box">
-			<select style='width : 100%' disabled='disabled'>
-				<option><?php echo __("Default profile") ?></option></select>
-			</td></tr>
+		<div class="row">
+			<label><?php echo __("Profile:") ?></label>
 
-			<tr><td colspan="2" align="right" class="innerLoginCell">
+			<span id='profile_box'><select disabled='disabled' dojoType='dijit.form.Select'>
+				<option><?php echo __("Default profile") ?></option></select></span>
 
-			<button type="submit" name='click'><?php echo __('Log in') ?></button>
+		</div>
+
+		<div class="row">
+			<label>&nbsp;</label>
+			<input dojoType="dijit.form.CheckBox" name="bw_limit" id="bw_limit" type="checkbox"
+				onchange="bwLimitChange(this)">
+			<label style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
+		</div>
+
+		<div class="row" style='text-align : right'>
+			<button dojoType="dijit.form.Button" type="submit"><?php echo __('Log in') ?></button>
 			<?php if (defined('ENABLE_REGISTRATION') && ENABLE_REGISTRATION) { ?>
-				<button onclick="return gotoRegForm()">
+				<button onclick="return gotoRegForm()" dojoType="dijit.form.Button">
 					<?php echo __("Create new account") ?></button>
 			<?php } ?>
+		</div>
 
-			</td></tr>
-
-			<tr><td colspan="2" align="right" class="innerLoginCell">
-
-			<div class="small">
-			<input name="bw_limit" id="bw_limit" type="checkbox"
-				onchange="bwLimitChange(this)">
-			<label for="bw_limit">
-			<?php echo __("Use less traffic") ?></label></div>
-
-			</td></tr>
+	</fieldset>
 
 
-		</table>
-	</td>
-</tr><tr>
-	<td align="center" class="loginBottom">
+</div>
+
+<div class='footer'>
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
 	<?php if (!defined('HIDE_VERSION')) { ?>
 		 v<?php echo VERSION ?>
 	<?php } ?>
 	&copy; 2005&ndash;<?php echo date('Y') ?> <a href="http://fakecake.org/">Andrew Dolgov</a>
-	</td>
-</tr>
-
-</table>
+</div>
 
 </form>
 
