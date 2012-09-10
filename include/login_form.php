@@ -68,6 +68,13 @@
 	div.row {
 		padding : 0px 0px 5px 0px;
 	}
+
+	div.row-error {
+		color : red;
+		text-align : center;
+		padding : 0px 0px 5px 0px;
+	}
+
 	</style>
 </head>
 
@@ -142,11 +149,17 @@ function bwLimitChange(elem) {
 <div class='form'>
 
 	<fieldset>
-
+		<?php if ($_SESSION["login_error_msg"]) { ?>
+		<div class="row-error">
+			<?php echo $_SESSION["login_error_msg"] ?>
+		</div>
+			<?php $_SESSION["login_error_msg"] = ""; ?>
+		<?php } ?>
 		<div class="row">
 			<label><?php echo __("Login:") ?></label>
 			<input name="login"
 				onchange="fetchProfiles()" onfocus="fetchProfiles()" onblur="fetchProfiles()"
+				style="width : 220px"
 				dojoType="dijit.form.TextBox" required="1"
 				value="<?php echo $_SESSION["fake_login"] ?>" />
 		</div>
@@ -154,6 +167,7 @@ function bwLimitChange(elem) {
 		<div class="row">
 			<label><?php echo __("Password:") ?></label>
 			<input type="password" name="password" dojoType="dijit.form.TextBox" required="1"
+					style="width : 220px"
 					value="<?php echo $_SESSION["fake_password"] ?>"/>
 		</div>
 
@@ -161,14 +175,15 @@ function bwLimitChange(elem) {
 			<label><?php echo __("Language:") ?></label>
 			<?php
 				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
-					"dojoType='dijit.form.Select'");
+					"style='width : 220px; margin : 0px' dojoType='dijit.form.Select'");
 			?>
 		</div>
 
 		<div class="row">
 			<label><?php echo __("Profile:") ?></label>
 
-			<span id='profile_box'><select disabled='disabled' dojoType='dijit.form.Select'>
+			<span id='profile_box'><select disabled='disabled' dojoType='dijit.form.Select'
+				style='width : 220px; margin : 0px'>
 				<option><?php echo __("Default profile") ?></option></select></span>
 
 		</div>
