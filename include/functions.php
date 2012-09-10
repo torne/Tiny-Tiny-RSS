@@ -2412,6 +2412,8 @@
 					$query_strategy_part = "published = true";
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 					$allow_archived = true;
+
+					if (!$override_order) $override_order = "last_read DESC, updated DESC";
 				} else {
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
@@ -2424,7 +2426,8 @@
 			} else if ($feed == -6) { // recently read
 				$query_strategy_part = "unread = false AND last_read IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-				$override_order = "last_read DESC";
+
+				if (!$override_order) $override_order = "last_read DESC";
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true AND score >= 0";
 
@@ -2997,7 +3000,7 @@
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			published = true
+			published = true,last_read = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else {
 			db_query($link, "UPDATE ttrss_user_entries SET

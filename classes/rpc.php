@@ -276,7 +276,7 @@ class RPC extends Handler_Protected {
 		}
 
 		$result = db_query($this->link, "UPDATE ttrss_user_entries SET
-			published = $pub
+			published = $pub, last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$pubsub_result = false;
