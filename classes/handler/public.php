@@ -386,43 +386,7 @@ class Handler_Public extends Handler {
 
 		if ($_SESSION["uid"]) {
 
-			if (!$action) {
-
-				print "<table height='100%' width='100%'><tr><td colspan='2'>";
-				print "<h1>".__("Share with Tiny Tiny RSS")."</h1>";
-				print "</td></tr>";
-
-				print "<form id='share_form' name='share_form'>";
-
-				print "<input type=\"hidden\" name=\"op\" value=\"sharepopup\">";
-				print "<input type=\"hidden\" name=\"action\" value=\"share\">";
-
-				$title = htmlspecialchars($_REQUEST["title"]);
-				$url = htmlspecialchars($_REQUEST["url"]);
-
-				print "<tr><td>".__("Title:")."</td><td width='80%'><input name='title' value=\"$title\"></td></tr>";
-				print "<tr><td>".__("URL:")."</td><td><input name='url' value=\"$url\"></td></tr>";
-				print "<tr><td>".__("Content:")."</td><td><input name='content' value=\"\"></td></tr>";
-
-				print "<script type='text/javascript'>";
-				print "document.forms[0].title.focus();";
-				print "</script>";
-
-				print "<tr><td colspan='2'>
-					<div style='float : right' class='insensitive-small'>".
-					__("Shared article will appear in the Published feed.").
-					"</div><button type=\"submit\">".
-						__('Share')."</button>
-					<button onclick=\"return window.close()\">".
-						__('Cancel')."</button>
-					</div>";
-
-				print "</form>";
-				print "</td></tr></table>";
-
-				print "</body></html>";
-
-			} else {
+			if ($action == 'share') {
 
 				$title = db_escape_string(strip_tags($_REQUEST["title"]));
 				$url = db_escape_string(strip_tags($_REQUEST["url"]));
@@ -433,12 +397,84 @@ class Handler_Public extends Handler {
 				print "<script type='text/javascript'>";
 				print "window.close();";
 				print "</script>";
+
+			} else {
+				$title = htmlspecialchars($_REQUEST["title"]);
+				$url = htmlspecialchars($_REQUEST["url"]);
+
+				?>
+
+				<table height='100%' width='100%'><tr><td colspan='2'>
+				<h1><?php echo __("Share with Tiny Tiny RSS") ?></h1>
+				</td></tr>
+
+				<form id='share_form' name='share_form'>
+
+				<input type="hidden" name="op" value="sharepopup">
+				<input type="hidden" name="action" value="share">
+
+				<tr><td><?php echo __("Title:") ?></td>
+				<td width='80%'><input name='title' value="<?php echo $title ?>"></td></tr>
+				<tr><td><?php echo __("URL:") ?></td>
+				<td><input name='url' value="<?php echo $url ?>"></td></tr>
+				<tr><td><?php __("Content:") ?></td>
+				<td><input name='content' value=""></td></tr>
+
+				<script type='text/javascript'>document.forms[0].title.focus();</script>
+
+				<tr><td colspan='2'>
+					<div style='float : right' class='insensitive-small'>
+					<?php echo __("Shared article will appear in the Published feed.") ?>
+					</div>
+					<button type="submit"><?php echo __('Share') ?></button>
+					<button onclick="return window.close()"><?php echo __('Cancel') ?></button>
+					</div>
+
+				</form>
+				</td></tr></table>
+				</body></html>
+				<?php
+
 			}
 
 		} else {
 
-			print "<table><tr><td>" . __("Not logged in.") . "</td></tr></table>";
+			$return = urlencode($_SERVER["REQUEST_URI"])
+			?>
 
+			<form action="public.php?return=<?php echo $return ?>"
+				method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
+
+			<input type="hidden" name="op" value="login">
+
+			<table height='100%' width='100%'><tr><td colspan='2'>
+			<tr><td colspan='2'><h1><?php echo __("Not logged in") ?></h1></td></tr>
+
+			<tr><td align="right"><?php echo __("Login:") ?></td>
+			<td align="right"><input name="login"
+				value="<?php echo $_SESSION["fake_login"] ?>"></td></tr>
+				<tr><td align="right"><?php echo __("Password:") ?></td>
+				<td align="right"><input type="password" name="password"
+				value="<?php echo $_SESSION["fake_password"] ?>"></td></tr>
+			<tr><td align="right"><?php echo __("Language:") ?></td>
+			<td align="right">
+			<?php
+				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
+					"style='width : 100%''");
+
+			?>
+			</td></tr>
+			<tr><td colspan='2'>
+				<button type="submit">
+					<?php echo __('Log in') ?></button>
+
+				<button onclick="return window.close()">
+					<?php echo __('Cancel') ?></button>
+			</td></tr>
+			</table>
+
+			</form>
+			<?php
 		}
 	}
 
