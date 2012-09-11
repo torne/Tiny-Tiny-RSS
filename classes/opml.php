@@ -211,7 +211,7 @@ class Opml extends Handler_Protected {
 				unset($line["owner_uid"]);
 				$filter = json_encode($line);
 
-				$out .= "<outline filter-type=\"2\">$filter</outline>";
+				$out .= "<outline filter-type=\"2\"><![CDATA[$filter]]></outline>";
 
 			}
 
@@ -238,12 +238,12 @@ class Opml extends Handler_Protected {
 
 		$res = $doc->saveXML();
 
-		// saveXML uses a two-space indent.  Change to tabs.
+/*		// saveXML uses a two-space indent.  Change to tabs.
 		$res = preg_replace_callback('/^(?:  )+/mu',
 			create_function(
 				'$matches',
 				'return str_repeat("\t", intval(strlen($matches[0])/2));'),
-			$res);
+			$res); */
 
 		print $res;
 	}
@@ -269,10 +269,12 @@ class Opml extends Handler_Protected {
 				#$this->opml_notice("[FEED] [$feed_title/$feed_url] dst_CAT=$cat_id");
 				$this->opml_notice(T_sprintf("Adding feed: %s", $feed_title));
 
+				if (!$cat_id) $cat_id = 'NULL';
+
 				$query = "INSERT INTO ttrss_feeds
 					(title, feed_url, owner_uid, cat_id, site_url, order_id) VALUES
 					('$feed_title', '$feed_url', '$owner_uid',
-					'$cat_id', '$site_url', 0)";
+					$cat_id, '$site_url', 0)";
 				db_query($this->link, $query);
 
 			} else {
@@ -291,7 +293,7 @@ class Opml extends Handler_Protected {
 
 			if (!label_find_id($this->link, $label_name, $_SESSION['uid'])) {
 				$this->opml_notice(T_sprintf("Adding label %s", htmlspecialchars($label_name)));
-				label_create($this->link, $label_name, $fg_color, $bg_color);
+				label_create($this->link, $label_name, $fg_color, $bg_color, $owner_uid);
 			} else {
 				$this->opml_notice(T_sprintf("Duplicate label: %s", htmlspecialchars($label_name)));
 			}
