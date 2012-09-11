@@ -413,11 +413,11 @@ class Handler_Public extends Handler {
 				<input type="hidden" name="op" value="sharepopup">
 				<input type="hidden" name="action" value="share">
 
-				<tr><td><?php echo __("Title:") ?></td>
+				<tr><td align='right'><?php echo __("Title:") ?></td>
 				<td width='80%'><input name='title' value="<?php echo $title ?>"></td></tr>
-				<tr><td><?php echo __("URL:") ?></td>
+				<tr><td align='right'><?php echo __("URL:") ?></td>
 				<td><input name='url' value="<?php echo $url ?>"></td></tr>
-				<tr><td><?php __("Content:") ?></td>
+				<tr><td align='right'><?php echo __("Content:") ?></td>
 				<td><input name='content' value=""></td></tr>
 
 				<script type='text/javascript'>document.forms[0].title.focus();</script>
@@ -443,12 +443,12 @@ class Handler_Public extends Handler {
 			?>
 
 			<form action="public.php?return=<?php echo $return ?>"
-				method="POST" id="loginForm" name="loginForm" onsubmit="return validateLoginForm(this)">
+				method="POST" id="loginForm" name="loginForm">
 
 			<input type="hidden" name="op" value="login">
 
 			<table height='100%' width='100%'><tr><td colspan='2'>
-			<tr><td colspan='2'><h1><?php echo __("Not logged in") ?></h1></td></tr>
+			<h1><?php echo __("Not logged in") ?></h1></td></tr>
 
 			<tr><td align="right"><?php echo __("Login:") ?></td>
 			<td align="right"><input name="login"
