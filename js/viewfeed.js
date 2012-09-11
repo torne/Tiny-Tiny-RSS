@@ -1117,7 +1117,7 @@ function headlines_scroll_handler(e) {
 		var hsp = $("headlines-spacer");
 
 		if (!_infscroll_disable) {
-			if ((hsp && e.scrollTop + e.offsetHeight > hsp.offsetTop) ||
+			if ((hsp && e.scrollTop + e.offsetHeight >= hsp.offsetTop - hsp.offsetHeight) ||
 					(e.scrollHeight != 0 &&
 					 	((e.scrollTop + e.offsetHeight) / e.scrollHeight >= 0.7))) {
 
