@@ -128,7 +128,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._paramNode = param;
 		}
 
-		if (id.match("FEED:") && bare_id > 0) {
+		if (id.match("FEED:")) {
 			var menu = new dijit.Menu();
 			menu.row_id = bare_id;
 
@@ -138,17 +138,19 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 					catchupFeed(this.getParent().row_id);
 				}}));
 
-			menu.addChild(new dijit.MenuItem({
-				label: __("Edit feed"),
-				onClick: function() {
-					editFeed(this.getParent().row_id, false);
-				}}));
+			if (bare_id > 0) {
+				menu.addChild(new dijit.MenuItem({
+					label: __("Edit feed"),
+					onClick: function() {
+						editFeed(this.getParent().row_id, false);
+					}}));
 
-			menu.addChild(new dijit.MenuItem({
-				label: __("Update feed"),
-				onClick: function() {
-					scheduleFeedUpdate(this.getParent().row_id, false);
-				}}));
+				menu.addChild(new dijit.MenuItem({
+					label: __("Update feed"),
+					onClick: function() {
+						scheduleFeedUpdate(this.getParent().row_id, false);
+					}}));
+			}
 
 			menu.bindDomNode(tnode.domNode);
 			tnode._menu = menu;
