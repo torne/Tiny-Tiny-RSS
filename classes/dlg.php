@@ -925,8 +925,7 @@ class Dlg extends Handler_Protected {
 					placeHolder=\"".__("Password")."\"
 					dojoType=\"dijit.form.TextBox\" type='password'
 					style=\"width : 10em;\" name='pass'\">".
-				" <p class='insensitive'>".__("OAuth will be used automatically for Twitter feeds.")."</p>
-				</div>";
+				"</div>";
 
 		print "</td></tr><tr><td colspan='2'>";
 
