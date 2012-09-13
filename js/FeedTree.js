@@ -245,13 +245,17 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 	hasCats: function() {
 		return this.model.hasCats();
 	},
-	hideRead: function (hide, show_special) {
+	hideReadCat: function (cat, hide, show_special) {
 		if (this.hasCats()) {
-
 			var tree = this;
-			var cats = this.model.store._arrayOfTopLevelItems;
 
-			cats.each(function(cat) {
+			if (cat && cat.items) {
+				cat.items.each(function(child) {
+					if (child.items) {
+						tree.hideReadCat(child, hide, show_special);
+					}
+				});
+
 				var cat_unread = tree.hideReadFeeds(cat.items, hide, show_special);
 
 				var id = String(cat.id);
@@ -270,6 +274,17 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 						++cat_unread;
 					}
 				}
+			}
+		}
+	},
+	hideRead: function (hide, show_special) {
+		if (this.hasCats()) {
+
+			var tree = this;
+			var cats = this.model.store._arrayOfTopLevelItems;
+
+			cats.each(function(cat) {
+				tree.hideReadCat(cat, hide, show_special);
 			});
 
 		} else {
