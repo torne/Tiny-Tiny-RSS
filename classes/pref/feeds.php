@@ -29,7 +29,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		if ($search) $search_qpart = " AND LOWER(title) LIKE LOWER('%$search%')";
 
-		$show_empty_cats = $_REQUEST['mode'] != 2 &&
+		$show_empty_cats = $_REQUEST['mode'] != 2 && !$search &&
 			get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
 		$items = array();
@@ -150,7 +150,7 @@ class Pref_Feeds extends Handler_Protected {
 		}
 
 		if ($enable_cats) {
-			$show_empty_cats = $_REQUEST['mode'] != 2 &&
+			$show_empty_cats = $_REQUEST['mode'] != 2 && !$search &&
 				get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
 			$result = db_query($this->link, "SELECT id, title, collapsed FROM ttrss_feed_categories
