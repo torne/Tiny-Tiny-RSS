@@ -25,6 +25,10 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	private function get_category_items($cat_id) {
+		$search = $_SESSION["prefs_feed_search"];
+
+		if ($search) $search_qpart = " AND LOWER(title) LIKE LOWER('%$search%')";
+
 		$show_empty_cats = $_REQUEST['mode'] != 2 &&
 			get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
