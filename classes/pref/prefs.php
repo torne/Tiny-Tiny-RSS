@@ -258,7 +258,7 @@ class Pref_Prefs extends Handler_Protected {
 
 			print "</form>";
 
-			if ($_SESSION["auth_module"] == "internal") {
+			if (version_compare(PHP_VERSION, '5.3.0') >= 0 && $_SESSION["auth_module"] == "internal") {
 
 				print "<h2>" . __("One time passwords / Authenticator") . "</h2>";
 
