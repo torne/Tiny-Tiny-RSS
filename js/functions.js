@@ -1751,7 +1751,7 @@ function feedBrowser() {
 
 function showFeedsWithErrors() {
 	try {
-		var query = "backend.php?op=dlg&method=feedsWithErrors";
+		var query = "backend.php?op=pref-feeds&method=feedsWithErrors";
 
 		if (dijit.byId("errorFeedsDlg"))
 			dijit.byId("errorFeedsDlg").destroyRecursive();

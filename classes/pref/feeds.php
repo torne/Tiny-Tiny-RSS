@@ -3,7 +3,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "getfeedtree", "add", "editcats", "editfeed",
-			"savefeedorder", "uploadicon");
+			"savefeedorder", "uploadicon", "feedswitherrors", "inactivefeeds");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -1545,6 +1545,161 @@ class Pref_Feeds extends Handler_Protected {
 		$obj['bare_id'] = $feed_id;
 
 		return $obj;
+	}
+
+	function inactiveFeeds() {
+
+		if (DB_TYPE == "pgsql") {
+			$interval_qpart = "NOW() - INTERVAL '3 months'";
+		} else {
+			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+		}
+
+		$result = db_query($this->link, "SELECT ttrss_feeds.title, ttrss_feeds.site_url,
+		  		ttrss_feeds.feed_url, ttrss_feeds.id, MAX(updated) AS last_article
+			FROM ttrss_feeds, ttrss_entries, ttrss_user_entries WHERE
+				(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
+					ttrss_entries.id = ref_id AND
+						ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart
+			AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]." AND
+				ttrss_user_entries.feed_id = ttrss_feeds.id AND
+				ttrss_entries.id = ref_id
+			GROUP BY ttrss_feeds.title, ttrss_feeds.id, ttrss_feeds.site_url, ttrss_feeds.feed_url
+			ORDER BY last_article");
+
+		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated with new content for 3 months (oldest first):") . "</div>";
+
+		print "<div dojoType=\"dijit.Toolbar\">";
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefInactiveFeedList', 'all')\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefInactiveFeedList', 'none')\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+		print "</div>"; #toolbar
+
+		print "<div class=\"inactiveFeedHolder\">";
+
+		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefInactiveFeedList\">";
+
+		$lnum = 1;
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+			$feed_id = $line["id"];
+			$this_row_id = "id=\"FUPDD-$feed_id\"";
+
+			# class needed for selectTableRows()
+			print "<tr class=\"placeholder\" $this_row_id>";
+
+			$edit_title = htmlspecialchars($line["title"]);
+
+			# id needed for selectTableRows()
+			print "<td width='5%' align='center'><input
+				onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
+				type=\"checkbox\" id=\"FUPDC-$feed_id\"></td>";
+			print "<td>";
+
+			print "<a class=\"visibleLink\" href=\"#\" ".
+				"title=\"".__("Click to edit feed")."\" ".
+				"onclick=\"editFeed(".$line["id"].")\">".
+				htmlspecialchars($line["title"])."</a>";
+
+			print "</td><td class=\"insensitive\" align='right'>";
+			print make_local_datetime($this->link, $line['last_article'], false);
+			print "</td>";
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		print "</table>";
+		print "</div>";
+
+		print "<div class='dlgButtons'>";
+		print "<div style='float : left'>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('inactiveFeedsDlg').removeSelected()\">"
+			.__('Unsubscribe from selected feeds')."</button> ";
+		print "</div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('inactiveFeedsDlg').hide()\">".
+			__('Close this window')."</button>";
+
+		print "</div>";
+
+	}
+
+	function feedsWithErrors() {
+		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated because of errors:") . "</div>";
+
+		$result = db_query($this->link, "SELECT id,title,feed_url,last_error,site_url
+		FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+
+		print "<div dojoType=\"dijit.Toolbar\">";
+		print "<div dojoType=\"dijit.form.DropDownButton\">".
+				"<span>" . __('Select')."</span>";
+		print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+		print "<div onclick=\"selectTableRows('prefErrorFeedList', 'all')\"
+			dojoType=\"dijit.MenuItem\">".__('All')."</div>";
+		print "<div onclick=\"selectTableRows('prefErrorFeedList', 'none')\"
+			dojoType=\"dijit.MenuItem\">".__('None')."</div>";
+		print "</div></div>";
+		print "</div>"; #toolbar
+
+		print "<div class=\"inactiveFeedHolder\">";
+
+		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
+
+		$lnum = 1;
+
+		while ($line = db_fetch_assoc($result)) {
+
+			$class = ($lnum % 2) ? "even" : "odd";
+			$feed_id = $line["id"];
+			$this_row_id = "id=\"FERDD-$feed_id\"";
+
+			# class needed for selectTableRows()
+			print "<tr class=\"placeholder\" $this_row_id>";
+
+			$edit_title = htmlspecialchars($line["title"]);
+
+			# id needed for selectTableRows()
+			print "<td width='5%' align='center'><input
+				onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
+				type=\"checkbox\" id=\"FERDC-$feed_id\"></td>";
+			print "<td>";
+
+			print "<a class=\"visibleLink\" href=\"#\" ".
+				"title=\"".__("Click to edit feed")."\" ".
+				"onclick=\"editFeed(".$line["id"].")\">".
+				htmlspecialchars($line["title"])."</a>: ";
+
+			print "<span class=\"insensitive\">";
+			print htmlspecialchars($line["last_error"]);
+			print "</span>";
+
+			print "</td>";
+			print "</tr>";
+
+			++$lnum;
+		}
+
+		print "</table>";
+		print "</div>";
+
+		print "<div class='dlgButtons'>";
+		print "<div style='float : left'>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('errorFeedsDlg').removeSelected()\">"
+			.__('Unsubscribe from selected feeds')."</button> ";
+		print "</div>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('errorFeedsDlg').hide()\">".
+			__('Close this window')."</button>";
+
+		print "</div>";
 	}
 
 }

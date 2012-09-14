@@ -1296,7 +1296,7 @@ function createCategory() {
 
 function showInactiveFeeds() {
 	try {
-		var query = "backend.php?op=dlg&method=inactiveFeeds";
+		var query = "backend.php?op=pref-feeds&method=inactiveFeeds";
 
 		if (dijit.byId("inactiveFeedsDlg"))
 			dijit.byId("inactiveFeedsDlg").destroyRecursive();
