@@ -295,11 +295,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 			// it's a subcategory
 			if (feed.items) {
-				feed.items.each(function(child) {
-					if (child.items) {
-						tree.hideReadCat(child, hide, show_special);
-					}
-				});
+				tree.hideReadCat(feed, hide, show_special);
 			} else {	// it's a feed
 				var bare_id = parseInt(feed.bare_id);;
 
