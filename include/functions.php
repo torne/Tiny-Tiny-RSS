@@ -5609,26 +5609,36 @@
 	}
 
 	function create_published_article($link, $title, $url, $content, $owner_uid) {
-		$guid = 'tt-rss-share:' . uniqid();
+		$guid = sha1($url);
 		$content_hash = sha1($content);
+
+		$rc = false;
 
 		if (!$title) $title = $url;
 		if (!$title && !$url) return false;
 
 		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
 
-		$result = db_query($link, "SELECT id FROM ttrss_entries WHERE
-			link = '$url' LIMIT 1");
+		db_query($link, "BEGIN");
+
+		// only check for our user data here, others might have shared this with different content etc
+		$result = db_query($link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
+			link = '$url' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
 
 		if (db_num_rows($result) != 0) {
 			$ref_id = db_fetch_result($result, 0, "id");
 
 			$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
-				ref_id = '$ref_id' AND owner_uid = '$owner_uid'");
+				ref_id = '$ref_id' AND owner_uid = '$owner_uid' LIMIT 1");
 
 			if (db_num_rows($result) != 0) {
+				$int_id = db_fetch_result($result, 0, "int_id");
+
+				db_query($link, "UPDATE ttrss_entries SET
+					content = '$content', content_hash = '$content_hash' WHERE id = '$ref_id'");
+
 				db_query($link, "UPDATE ttrss_user_entries SET published = true WHERE
-					ref_id = '$ref_id' AND owner_uid = '$owner_uid'");
+						int_id = '$int_id' AND owner_uid = '$owner_uid'");
 			} else {
 
 				db_query($link, "INSERT INTO ttrss_user_entries
@@ -5637,7 +5647,7 @@
 					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
 			}
 
-			return true;
+			$rc = true;
 
 		} else {
 			$result = db_query($link, "INSERT INTO ttrss_entries
@@ -5655,10 +5665,13 @@
 					VALUES
 					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
 
-				return true;
+				$rc = true;
 			}
-			return false;
 		}
+
+		db_query($link, "COMMIT");
+
+		return $rc;
 	}
 
 ?>
