@@ -298,18 +298,21 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		items.each(function(feed) {
 			var id = String(feed.id);
-			var bare_id = parseInt(feed.bare_id);;
 
-			var unread = feed.unread[0];
-			var node = tree._itemNodesMap[id];
+			if (!id.match("^CAT:")) {
+				var bare_id = parseInt(feed.bare_id);;
 
-			if (node) {
-				if (hide && unread == 0 && (bare_id > 0 || !show_special)) {
-					Effect.Fade(node[0].rowNode, {duration : 0.3,
-						queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
-				} else {
-					Element.show(node[0].rowNode);
-					++cat_unread;
+				var unread = feed.unread[0];
+				var node = tree._itemNodesMap[id];
+
+				if (node) {
+					if (hide && unread == 0 && (bare_id > 0 || !show_special)) {
+						Effect.Fade(node[0].rowNode, {duration : 0.3,
+							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
+					} else {
+						Element.show(node[0].rowNode);
+						++cat_unread;
+					}
 				}
 			}
 		});
