@@ -9,7 +9,7 @@ class Auth_Internal extends Auth_Base {
 		$otp = db_escape_string($_REQUEST["otp"]);
 
 		if (get_schema_version($this->link) > 96) {
-			if (version_compare(PHP_VERSION, '5.3.0') >= 0 && (!defined('AUTH_DISABLE_OTP') || !AUTH_DISABLE_OTP)) {
+			if (version_compare(PHP_VERSION, '5.3.0') >= 0 && !defined('AUTH_DISABLE_OTP') || !AUTH_DISABLE_OTP) {
 				$result = db_query($this->link, "SELECT otp_enabled,salt FROM ttrss_users WHERE
 					login = '$login'");
 
