@@ -3392,14 +3392,14 @@
 			$rv['content'] .= "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
 
 			if ($line["link"]) {
-				$rv['content'] .= "<div class='postTitle' clear='both'><a target='_blank'
+				$rv['content'] .= "<div class='postTitle'><a target='_blank'
 					title=\"".htmlspecialchars($line['title'])."\"
 					href=\"" .
 					$line["link"] . "\">" .
-					truncate_string($line["title"], 100) .
+					$line["title"] .
 					"<span class='author'>$entry_author</span></a></div>";
 			} else {
-				$rv['content'] .= "<div class='postTitle' clear='both'>" . $line["title"] . "$entry_author</div>";
+				$rv['content'] .= "<div class='postTitle'>" . $line["title"] . "$entry_author</div>";
 			}
 
 			$tag_cache = $line["tag_cache"];
