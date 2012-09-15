@@ -1,7 +1,7 @@
 <?php
 	define('DAEMON_UPDATE_LOGIN_LIMIT', 30);
 	define('DAEMON_FEED_LIMIT', 100);
-	define('DAEMON_SLEEP_INTERVAL', 120);
+	define('DAEMON_SLEEP_INTERVAL', 60);
 
 	function update_feedbrowser_cache($link) {
 
