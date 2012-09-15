@@ -13,8 +13,8 @@
 				array_push($errors, "Please don't run this script as root.");
 			}
 
-			if (version_compare("5.2.0", phpversion()) == 1) {
-				array_push($errors, "PHP version 5.2.0 or newer required.");
+			if (version_compare("5.3.0", phpversion()) == 1) {
+				array_push($errors, "PHP version 5.3.0 or newer required.");
 			}
 
 			if (CONFIG_VERSION != EXPECTED_CONFIG_VERSION) {
