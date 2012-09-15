@@ -250,12 +250,6 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			var tree = this;
 
 			if (cat && cat.items) {
-				cat.items.each(function(child) {
-					if (child.items) {
-						tree.hideReadCat(child, hide, show_special);
-					}
-				});
-
 				var cat_unread = tree.hideReadFeeds(cat.items, hide, show_special);
 
 				var id = String(cat.id);
@@ -299,7 +293,14 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		items.each(function(feed) {
 			var id = String(feed.id);
 
-			if (!id.match("^CAT:")) {
+			// it's a subcategory
+			if (feed.items) {
+				feed.items.each(function(child) {
+					if (child.items) {
+						tree.hideReadCat(child, hide, show_special);
+					}
+				});
+			} else {	// it's a feed
 				var bare_id = parseInt(feed.bare_id);;
 
 				var unread = feed.unread[0];
