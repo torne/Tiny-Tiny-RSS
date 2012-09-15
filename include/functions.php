@@ -5617,26 +5617,48 @@
 
 		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
 
-		$result = db_query($link, "INSERT INTO ttrss_entries
-			(title, guid, link, updated, content, content_hash, date_entered, date_updated)
-			VALUES
-			('$title', '$guid', '$url', NOW(), '$content', '$content_hash', NOW(), NOW())");
-
-		$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+		$result = db_query($link, "SELECT id FROM ttrss_entries WHERE
+			link = '$url' LIMIT 1");
 
 		if (db_num_rows($result) != 0) {
 			$ref_id = db_fetch_result($result, 0, "id");
 
-			db_query($link, "INSERT INTO ttrss_user_entries
-				(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
-				VALUES
-				('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+			$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
+				ref_id = '$ref_id' AND owner_uid = '$owner_uid'");
+
+			if (db_num_rows($result) != 0) {
+				db_query($link, "UPDATE ttrss_user_entries SET published = true WHERE
+					ref_id = '$ref_id' AND owner_uid = '$owner_uid'");
+			} else {
+
+				db_query($link, "INSERT INTO ttrss_user_entries
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					VALUES
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+			}
 
 			return true;
 
-		}
+		} else {
+			$result = db_query($link, "INSERT INTO ttrss_entries
+				(title, guid, link, updated, content, content_hash, date_entered, date_updated)
+				VALUES
+				('$title', '$guid', '$url', NOW(), '$content', '$content_hash', NOW(), NOW())");
 
-		return false;
+			$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+
+			if (db_num_rows($result) != 0) {
+				$ref_id = db_fetch_result($result, 0, "id");
+
+				db_query($link, "INSERT INTO ttrss_user_entries
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					VALUES
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+
+				return true;
+			}
+			return false;
+		}
 	}
 
 ?>
