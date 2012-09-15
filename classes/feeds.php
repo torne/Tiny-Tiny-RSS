@@ -512,7 +512,7 @@ class Feeds extends Handler_Protected {
 						title=\"".htmlspecialchars($line['title'])."\"
 						target=\"_blank\" href=\"".
 						htmlspecialchars($line["link"])."\">".
-						truncate_string($line["title"], 100) .
+						$line["title"] .
 						" $entry_author</a>";
 
 					$reply['content'] .= $labels_str;
