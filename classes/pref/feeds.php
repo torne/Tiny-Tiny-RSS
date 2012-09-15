@@ -25,7 +25,11 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	private function get_category_items($cat_id) {
-		$search = $_SESSION["prefs_feed_search"];
+
+		if ($_REQUEST['mode'] != 2)
+			$search = $_SESSION["prefs_feed_search"];
+		else
+			$search = "";
 
 		if ($search) $search_qpart = " AND LOWER(title) LIKE LOWER('%$search%')";
 
@@ -85,7 +89,10 @@ class Pref_Feeds extends Handler_Protected {
 
 	function getfeedtree() {
 
-		$search = $_SESSION["prefs_feed_search"];
+		if ($_REQUEST['mode'] != 2)
+			$search = $_SESSION["prefs_feed_search"];
+		else
+			$search = "";
 
 		if ($search) $search_qpart = " AND LOWER(title) LIKE LOWER('%$search%')";
 
