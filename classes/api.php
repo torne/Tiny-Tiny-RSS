@@ -114,26 +114,36 @@ class API extends Handler {
 		$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
 		$limit = (int) db_escape_string($_REQUEST["limit"]);
 		$offset = (int) db_escape_string($_REQUEST["offset"]);
+		$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
 
-		$feeds = api_get_feeds($this->link, $cat_id, $unread_only, $limit, $offset);
+		$feeds = api_get_feeds($this->link, $cat_id, $unread_only, $limit, $offset, $include_nested);
 
 		print $this->wrap(self::STATUS_OK, $feeds);
 	}
 
 	function getCategories() {
 		$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
+		$enable_nested = (bool)db_escape_string($_REQUEST["enable_nested"]);
 
 		// TODO do not return empty categories, return Uncategorized and standard virtual cats
 
+		if ($enable_nested)
+			$nested_qpart = "parent_cat IS NULL";
+		else
+			$nested_qpart = "true";
+
 		$result = db_query($this->link, "SELECT
 				id, title, order_id FROM ttrss_feed_categories
-			WHERE owner_uid = " .
+			WHERE $nested_qpart AND owner_uid = " .
 			$_SESSION["uid"]);
 
 		$cats = array();
 
 		while ($line = db_fetch_assoc($result)) {
 			$unread = getFeedUnread($this->link, $line["id"], true);
+
+			if ($enable_nested)
+				$unread += getCategoryChildrenUnread($this->link, $line["id"]);
 
 			if ($unread || !$unread_only) {
 				array_push($cats, array("id" => $line["id"],
@@ -174,6 +184,7 @@ class API extends Handler {
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
 			$include_attachments = (bool)db_escape_string($_REQUEST["include_attachments"]);
 			$since_id = (int)db_escape_string($_REQUEST["since_id"]);
+			$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
 
 			/* do not rely on params below */
 
@@ -183,7 +194,8 @@ class API extends Handler {
 
 			$headlines = api_get_headlines($this->link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false,
-				$include_attachments, $since_id, $search, $search_mode, $match_on);
+				$include_attachments, $since_id, $search, $search_mode, $match_on,
+				$include_nested);
 
 			print $this->wrap(self::STATUS_OK, $headlines);
 		} else {

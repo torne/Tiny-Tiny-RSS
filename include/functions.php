@@ -4454,7 +4454,7 @@
 		return $rv;
 	}
 
-	function api_get_feeds($link, $cat_id, $unread_only, $limit, $offset) {
+	function api_get_feeds($link, $cat_id, $unread_only, $limit, $offset, $include_nested = false) {
 
 			$feeds = array();
 
@@ -4499,6 +4499,30 @@
 						array_push($feeds, $row);
 					}
 
+				}
+			}
+
+			/* Child cats */
+
+			if ($include_nested && $cat_id) {
+				$result = db_query($link, "SELECT
+					id, title FROM ttrss_feed_categories
+					WHERE parent_cat = '$cat_id' AND owner_uid = " . $_SESSION["uid"] .
+					"ORDER BY id, title");
+
+				while ($line = db_fetch_assoc($result)) {
+					$unread = getFeedUnread($link, $line["id"], true) +
+						getCategoryChildrenUnread($link, $line["id"]);
+
+					if ($unread || !$unread_only) {
+						$row = array(
+								"id" => $line["id"],
+								"title" => $line["title"],
+								"unread" => $unread,
+								"is_cat" => true,
+							);
+						array_push($feeds, $row);
+					}
 				}
 			}
 
@@ -4560,11 +4584,11 @@
 	function api_get_headlines($link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
-				$search = "", $search_mode = "", $match_on = "") {
+				$search = "", $search_mode = "", $match_on = "", $include_nested = false) {
 
 			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 				$view_mode, $is_cat, $search, $search_mode, $match_on,
-				$order, $offset, 0, false, $since_id);
+				$order, $offset, 0, false, $since_id, $include_nested);
 
 			$result = $qfh_ret[0];
 			$feed_title = $qfh_ret[1];
