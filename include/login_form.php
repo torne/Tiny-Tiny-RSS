@@ -30,6 +30,14 @@
 		border-width : 0px;
 	}
 
+	input.input {
+		font-family : sans-serif;
+		font-size : medium;
+		border-spacing : 2px;
+		border : 1px solid #b5bcc7;
+		padding : 2px;
+	}
+
 	label {
 		width : 120px;
 		margin-right : 20px;
@@ -157,17 +165,17 @@ function bwLimitChange(elem) {
 		<?php } ?>
 		<div class="row">
 			<label><?php echo __("Login:") ?></label>
-			<input name="login"
+			<input name="login" class="input"
 				onchange="fetchProfiles()" onfocus="fetchProfiles()" onblur="fetchProfiles()"
 				style="width : 220px"
-				dojoType="dijit.form.TextBox" required="1"
+				required="1"
 				value="<?php echo $_SESSION["fake_login"] ?>" />
 		</div>
 
 		<div class="row">
 			<label><?php echo __("Password:") ?></label>
-			<input type="password" name="password" dojoType="dijit.form.TextBox" required="1"
-					style="width : 220px"
+			<input type="password" name="password" required="1"
+					style="width : 220px" class="input"
 					value="<?php echo $_SESSION["fake_password"] ?>"/>
 		</div>
 
