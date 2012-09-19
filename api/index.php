@@ -10,9 +10,12 @@
 
 	chdir("..");
 
+	define('TTRSS_SESSION_NAME', 'ttrss_api_sid');
+
 	require_once "db.php";
 	require_once "db-prefs.php";
 	require_once "functions.php";
+	require_once "sessions.php";
 
 	define('AUTH_DISABLE_OTP', true);
 
