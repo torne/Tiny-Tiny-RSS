@@ -4484,7 +4484,7 @@
 			/* Virtual feeds */
 
 			if ($cat_id == -4 || $cat_id == -1) {
-				foreach (array(-1, -2, -3, -4, 0) as $i) {
+				foreach (array(-1, -2, -3, -4, -6, 0) as $i) {
 					$unread = getFeedUnread($link, $i);
 
 					if ($unread || !$unread_only) {
