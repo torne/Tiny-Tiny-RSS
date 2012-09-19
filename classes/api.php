@@ -11,6 +11,7 @@ class API extends Handler {
 
 	function before($method) {
 		if (parent::before($method)) {
+			header("Content-Type: text/plain");
 
 			if (!$_SESSION["uid"] && $method != "login" && $method != "isloggedin") {
 				print $this->wrap(self::STATUS_ERR, array("error" => 'NOT_LOGGED_IN'));
@@ -24,7 +25,6 @@ class API extends Handler {
 
 			$this->seq = (int) $_REQUEST['seq'];
 
-			header("Content-Type: text/plain");
 			return true;
 		}
 		return false;

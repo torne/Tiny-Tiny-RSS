@@ -23,14 +23,11 @@
 			function_exists("ob_gzhandler")) {
 
 		ob_start("ob_gzhandler");
+	} else {
+		ob_start();
 	}
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	$session_expire = SESSION_EXPIRE_TIME; //seconds
-	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid_api" : TTRSS_SESSION_NAME . "_api";
-
-	session_name($session_name);
 
 	$input = file_get_contents("php://input");
 
@@ -70,4 +67,7 @@
 
 	db_close($link);
 
+	header("Api-Content-Length: " . ob_get_length());
+
+	ob_end_flush();
 ?>
