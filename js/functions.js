@@ -881,7 +881,7 @@ function quickAddFeed() {
 									alert(__("Specified URL doesn't seem to contain any feeds."));
 									break;
 								case 4:
-									notify_progress("Searching for feed urls...", true);
+									/* notify_progress("Searching for feed urls...", true);
 
 									new Ajax.Request("backend.php", {
 										parameters: 'op=rpc&method=extractfeedurls&url=' + param_escape(feed_url),
@@ -912,6 +912,23 @@ function quickAddFeed() {
 											Effect.Appear('feedDlg_feedsContainer', {duration : 0.5});
 										}
 									});
+									break; */
+
+									feeds = rc['feeds'];
+
+									var select = dijit.byId("feedDlg_feedContainerSelect");
+
+									while (select.getOptions().length > 0)
+										select.removeOption(0);
+
+									var count = 0;
+									for (var feedUrl in feeds) {
+										select.addOption({value: feedUrl, label: feeds[feedUrl]});
+										count++;
+									}
+
+									Effect.Appear('feedDlg_feedsContainer', {duration : 0.5});
+
 									break;
 								case 5:
 									alert(__("Couldn't download the specified URL: %s").

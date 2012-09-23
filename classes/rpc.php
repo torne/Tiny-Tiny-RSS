@@ -195,12 +195,6 @@ class RPC extends Handler_Protected {
 		print json_encode(array("result" => $rc));
 	}
 
-	function extractfeedurls() {
-		$urls = get_feeds_from_html($_REQUEST['url']);
-
-		print json_encode(array("urls" => $urls));
-	}
-
 	function togglepref() {
 		$key = db_escape_string($_REQUEST["key"]);
 		set_pref($this->link, $key, !get_pref($this->link, $key));

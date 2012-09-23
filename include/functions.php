@@ -1810,15 +1810,19 @@
 
 		$update_method = 0;
 
-		if (!fetch_file_contents($url, false, $auth_login, $auth_pass))
-			return array("code" => 5, "message" => $fetch_last_error);
+		$contents = @fetch_file_contents($url, false, $auth_login, $auth_pass);
 
-		if (url_is_html($url, $auth_login, $auth_pass)) {
-			$feedUrls = get_feeds_from_html($url, $auth_login, $auth_pass);
+		if (!$contents) {
+			return array("code" => 5, "message" => $fetch_last_error);
+		}
+
+		if (is_html($contents)) {
+			$feedUrls = get_feeds_from_html($url, $contents);
+
 			if (count($feedUrls) == 0) {
 				return array("code" => 3);
 			} else if (count($feedUrls) > 1) {
-				return array("code" => 4);
+				return array("code" => 4, "feeds" => $feedUrls);
 			}
 			//use feed url as new URL
 			$url = key($feedUrls);
@@ -4758,21 +4762,12 @@
 		return false;
 	}
 
-	/**
-	 * Extracts RSS/Atom feed URLs from the given HTML URL.
-	 *
-	 * @param string $url HTML page URL
-	 *
-	 * @return array Array of feeds. Key is the full URL, value the title
-	 */
-	function get_feeds_from_html($url, $login = false, $pass = false)
+	function get_feeds_from_html($url, $content)
 	{
 		$url     = fix_url($url);
 		$baseUrl = substr($url, 0, strrpos($url, '/') + 1);
 
 		libxml_use_internal_errors(true);
-
-		$content = @fetch_file_contents($url, false, $login, $pass);
 
 		$doc = new DOMDocument();
 		$doc->loadHTML($content);
@@ -4794,23 +4789,12 @@
 		return $feedUrls;
 	}
 
-	/**
-	 * Checks if the content behind the given URL is a HTML file
-	 *
-	 * @param string $url URL to check
-	 *
-	 * @return boolean True if the URL contains HTML content
-	 */
+	function is_html($content) {
+		return preg_match("/<html|DOCTYPE html/i", $content) !== 0;
+	}
+
 	function url_is_html($url, $login = false, $pass = false) {
-		$content = substr(fetch_file_contents($url, false, $login, $pass), 0, 1000);
-
-		if (stripos($content, '<html>') === false
-			&& stripos($content, '<html ') === false
-		) {
-			return false;
-		}
-
-		return true;
+		return is_html(fetch_file_contents($url, false, $login, $pass));
 	}
 
 	function print_label_select($link, $name, $value, $attributes = "") {

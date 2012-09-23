@@ -553,7 +553,7 @@ class Handler_Public extends Handler {
 				break;
 			case 4:
 				print_notice(__("Multiple feed URLs found."));
-				$feed_urls = get_feeds_from_html($feed_url);
+				$feed_urls = $rc["feeds"];
 				break;
 			case 5:
 				print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
