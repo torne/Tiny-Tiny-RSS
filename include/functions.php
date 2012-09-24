@@ -2364,40 +2364,29 @@
 
 			// override query strategy and enable feed display when searching globally
 			if ($search && $search_mode == "all_feeds") {
-				$query_strategy_part = "ttrss_entries.id > 0";
+				$query_strategy_part = "true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			/* tags */
 			} else if (!is_numeric($feed)) {
-				$query_strategy_part = "ttrss_entries.id > 0";
+				$query_strategy_part = "true";
 				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 					id = feed_id) as feed_title,";
-			} else if ($feed > 0 && $search && $search_mode == "this_cat") {
-
+			} else if ($search && $search_mode == "this_cat") {
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
-				$tmp_result = false;
-
-				if ($cat_view) {
-					$tmp_result = db_query($link, "SELECT id
-						FROM ttrss_feeds WHERE cat_id = '$feed'");
-				} else {
-					$tmp_result = db_query($link, "SELECT id
-						FROM ttrss_feeds WHERE cat_id = (SELECT cat_id FROM ttrss_feeds
-							WHERE id = '$feed') AND id != '$feed'");
-				}
-
-				$cat_siblings = array();
-
-				if (db_num_rows($tmp_result) > 0) {
-					while ($p = db_fetch_assoc($tmp_result)) {
-						array_push($cat_siblings, "feed_id = " . $p["id"]);
+				if ($feed > 0) {
+					if ($include_children) {
+						$subcats = getChildCategories($link, $feed, $owner_uid);
+						array_push($subcats, $feed);
+						$cats_qpart = join(",", $subcats);
+					} else {
+						$cats_qpart = $feed;
 					}
 
-					$query_strategy_part = sprintf("(feed_id = %d OR %s)",
-						$feed, implode(" OR ", $cat_siblings));
+					$query_strategy_part = "ttrss_feeds.cat_id IN ($cats_qpart)";
 
 				} else {
-					$query_strategy_part = "ttrss_entries.id > 0";
+					$query_strategy_part = "ttrss_feeds.cat_id IS NULL";
 				}
 
 			} else if ($feed > 0) {
@@ -2409,13 +2398,10 @@
 							# sub-cats
 							$subcats = getChildCategories($link, $feed, $owner_uid);
 
-							if (count($subcats) == 0) {
-								$query_strategy_part = "cat_id = '$feed'";
-							} else {
-								array_push($subcats, $feed);
-								$query_strategy_part = "cat_id IN (".
+							array_push($subcats, $feed);
+							$query_strategy_part = "cat_id IN (".
 									implode(",", $subcats).")";
-							}
+
 						} else {
 							$query_strategy_part = "cat_id = '$feed'";
 						}
@@ -2512,7 +2498,7 @@
 			$feed_title = "";
 
 			if ($search) {
-				$feed_title = "Search results";
+				$feed_title = T_sprintf("Search results: %s", $search);
 			} else {
 				if ($cat_view) {
 					$feed_title = getCategoryTitle($link, $feed);
