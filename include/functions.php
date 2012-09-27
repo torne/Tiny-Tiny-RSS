@@ -4498,7 +4498,7 @@
 				$result = db_query($link, "SELECT
 					id, title FROM ttrss_feed_categories
 					WHERE parent_cat = '$cat_id' AND owner_uid = " . $_SESSION["uid"] .
-					"ORDER BY id, title");
+				" ORDER BY id, title");
 
 				while ($line = db_fetch_assoc($result)) {
 					$unread = getFeedUnread($link, $line["id"], true) +
