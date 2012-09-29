@@ -68,9 +68,11 @@ class API extends Handler {
 
 		if (get_pref($this->link, "ENABLE_API_ACCESS", $uid)) {
 			if (authenticate_user($this->link, $login, $password)) {               // try login with normal password
-				print $this->wrap(self::STATUS_OK, array("session_id" => session_id()));
+				print $this->wrap(self::STATUS_OK, array("session_id" => session_id(),
+					"api_level" => self::API_LEVEL));
 			} else if (authenticate_user($this->link, $login, $password_base64)) { // else try with base64_decoded password
-				print $this->wrap(self::STATUS_OK,	array("session_id" => session_id()));
+				print $this->wrap(self::STATUS_OK,	array("session_id" => session_id(),
+					"api_level" => self::API_LEVEL));
 			} else {                                                         // else we are not logged in
 				print $this->wrap(self::STATUS_ERR, array("error" => "LOGIN_ERROR"));
 			}
