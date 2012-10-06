@@ -1378,7 +1378,7 @@
 			if (db_num_rows($result) == 1) {
 				return db_fetch_result($result, 0, "title");
 			} else {
-				return "Uncategorized";
+				return __("Uncategorized");
 			}
 		}
 	}
