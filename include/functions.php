@@ -50,6 +50,7 @@
 					"it_IT" => "Italiano",
 					"ja_JP" => "日本語 (Japanese)",
 					"nb_NO" => "Norwegian bokmål",
+					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese");
