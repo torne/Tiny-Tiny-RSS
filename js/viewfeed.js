@@ -851,7 +851,7 @@ function getLoadedArticleIds() {
 
 }
 
-// mode = all,none,unread,invert
+// mode = all,none,unread,invert,marked,published
 function selectArticles(mode) {
 	try {
 
@@ -872,6 +872,27 @@ function selectArticles(mode) {
 					child.removeClassName("Selected");
 					cb.checked = false;
 				}
+			} else if (mode == "marked") {
+				var img = $("FMPIC-" + child.id.replace("RROW-", ""));
+
+				if (img && img.src.match("mark_set")) {
+					child.addClassName("Selected");
+					cb.checked = true;
+				} else {
+					child.removeClassName("Selected");
+					cb.checked = false;
+				}
+			} else if (mode == "published") {
+				var img = $("FPPIC-" + child.id.replace("RROW-", ""));
+
+				if (img && img.src.match("pub_set")) {
+					child.addClassName("Selected");
+					cb.checked = true;
+				} else {
+					child.removeClassName("Selected");
+					cb.checked = false;
+				}
+
 			} else if (mode == "invert") {
 				if (child.hasClassName("Selected")) {
 					child.removeClassName("Selected");

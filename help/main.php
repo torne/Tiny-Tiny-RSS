@@ -43,6 +43,8 @@
 	<table>
 		<tr><td class='n'>a a</td><td><?php echo __("Select all articles") ?></td></tr>
 		<tr><td class='n'>a u</td><td><?php echo __("Select unread articles") ?></td></tr>
+		<tr><td class='n'>a U</td><td><?php echo __("Select starred articles") ?></td></tr>
+		<tr><td class='n'>a p</td><td><?php echo __("Select published articles") ?></td></tr>
 		<tr><td class='n'>a i</td><td><?php echo __("Invert article selection") ?></td></tr>
 		<tr><td class='n'>a n</td><td><?php echo __("Deselect all articles") ?></td></tr>
 	</table>

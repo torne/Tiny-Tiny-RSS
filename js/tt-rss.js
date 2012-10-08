@@ -839,8 +839,18 @@ function hotkey_handler(e) {
 				return;
 			}
 
-			if (keycode == 85) { // u
+			if (keycode == 85 && !shift_key) { // u
 				selectArticles('unread');
+				return;
+			}
+
+			if (keycode == 80) { // p
+				selectArticles('published');
+				return;
+			}
+
+			if (keycode == 85 && shift_key) { // u
+				selectArticles('marked');
 				return;
 			}
 
