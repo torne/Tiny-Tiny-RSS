@@ -2262,6 +2262,20 @@
 		return $search_query_part;
 	}
 
+	function getParentCategories($link, $cat, $owner_uid) {
+		$rv = array();
+
+		$result = db_query($link, "SELECT parent_cat FROM ttrss_feed_categories
+			WHERE id = '$cat' AND parent_cat IS NOT NULL AND owner_uid = $owner_uid");
+
+		while ($line = db_fetch_assoc($result)) {
+			array_push($rv, $line["parent_cat"]);
+			$rv = array_merge($rv, getParentCategories($link, $line["parent_cat"], $owner_uid));
+		}
+
+		return $rv;
+	}
+
 	function getChildCategories($link, $cat, $owner_uid) {
 		$rv = array();
 
@@ -3635,6 +3649,10 @@
 		$result = db_query($link, "SELECT * FROM ttrss_filters2 WHERE
 			owner_uid = $owner_uid AND enabled = true");
 
+		$check_cats = join(",", array_merge(
+			getParentCategories($link, $cat_id, $owner_uid),
+			array($cat_id)));
+
 		while ($line = db_fetch_assoc($result)) {
 			$filter_id = $line["id"];
 
@@ -3643,7 +3661,7 @@
 				FROM ttrss_filters2_rules AS r,
 				ttrss_filter_types AS t
 				WHERE
-					(cat_id IS NULL OR cat_id = '$cat_id') AND
+					(cat_id IS NULL OR cat_id IN ($check_cats)) AND
 					(feed_id IS NULL OR feed_id = '$feed_id') AND
 					filter_type = t.id AND filter_id = '$filter_id'");
 

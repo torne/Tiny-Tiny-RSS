@@ -410,9 +410,10 @@
 
 			$filters = load_filters($link, $feed, $owner_uid);
 
-//			if ($debug_enabled) {
-//				print_r($filters);
-//			}
+			if ($debug_enabled) {
+				//print_r($filters);
+				_debug("update_rss_feed: " . count($filters) . " filters loaded.");
+			}
 
 			if ($use_simplepie) {
 				$iterator = $rss->get_items();
