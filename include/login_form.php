@@ -102,6 +102,8 @@ function init() {
 	fetchProfiles();
 
 	dijit.byId("bw_limit").attr("checked", getCookie("ttrss_bwlimit") == 'true');
+
+	document.forms.loginForm.login.focus();
 }
 
 function fetchProfiles() {
