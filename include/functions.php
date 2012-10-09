@@ -4647,6 +4647,12 @@
 
 				$headline_row["feed_title"] = $line["feed_title"];
 
+				if (!$line["comments"] && $line["num_comments"] > 0)
+					$line["comments"] = $line["link"];
+
+				$headline_row["comments_count"] = (int)$line["num_comments"];
+				$headline_row["comments_link"] = $line["comments"];
+
 				array_push($headlines, $headline_row);
 			}
 
