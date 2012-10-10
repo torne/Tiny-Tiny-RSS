@@ -4650,6 +4650,8 @@
 				$headline_row["comments_count"] = (int)$line["num_comments"];
 				$headline_row["comments_link"] = $line["comments"];
 
+				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
+
 				array_push($headlines, $headline_row);
 			}
 
