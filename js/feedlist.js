@@ -33,6 +33,8 @@ function loadMoreHeadlines() {
 			offset = num_all;
 		} else if (view_mode == "unread") {
 			offset = unread_in_buffer;
+		} else if (_search_query) {
+			offset = num_all;
 		} else if (view_mode == "adaptive") {
 			if (num_unread > 0)
 				offset = unread_in_buffer;
@@ -41,6 +43,8 @@ function loadMoreHeadlines() {
 		} else {
 			offset = num_all;
 		}
+
+		console.log("offset: " + offset);
 
 		viewfeed(getActiveFeedId(), '', activeFeedIsCat(), offset, false, true);
 
@@ -70,6 +74,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			cache_delete("feed:" + feed + ":" + is_cat);
 		} else {
 			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
+
+			if (_search_query) _search_query = false;
 
 			// switching to a different feed, we might as well catchup stuff visible
 			// in headlines buffer (if any)
@@ -149,7 +155,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			if (_search_query) {
 				force_nocache = true;
 				query = query + "&" + _search_query;
-				_search_query = false;
+				//_search_query = false;
 			}
 
 			if (offset != 0) {

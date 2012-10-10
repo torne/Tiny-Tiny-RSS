@@ -130,6 +130,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					console.log("added " + num_added + " headlines");
 
+					if (num_added == 0)
+						_infscroll_disable = true;
+
 					console.log("restore selected ids: " + ids);
 
 					for (var i = 0; i < ids.length; i++) {
