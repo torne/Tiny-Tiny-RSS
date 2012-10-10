@@ -70,7 +70,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 		var cached_headlines = false;
 
-		if (feed == getActiveFeedId()) {
+		if (feed == getActiveFeedId() && activeFeedIsCat() == is_cat) {
 			cache_delete("feed:" + feed + ":" + is_cat);
 		} else {
 			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
