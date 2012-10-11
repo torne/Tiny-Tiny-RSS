@@ -1413,8 +1413,7 @@
 			}
 
 			$cv = array("id" => $line["cat_id"], "kind" => "cat",
-				"child_counter" => $child_counter,
-				"counter" => $line["unread"]);
+				"counter" => $line["unread"] + $child_counter);
 
 			array_push($ret_arr, $cv);
 		}
@@ -2124,7 +2123,6 @@
 
 		$params["icons_url"] = ICONS_URL;
 		$params["cookie_lifetime"] = SESSION_COOKIE_LIFETIME;
-		$params["default_include_children"] = get_pref($link, "_DEFAULT_INCLUDE_CHILDREN");
 		$params["default_view_mode"] = get_pref($link, "_DEFAULT_VIEW_MODE");
 		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
 		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");

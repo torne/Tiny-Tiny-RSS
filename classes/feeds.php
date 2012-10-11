@@ -763,7 +763,6 @@ class Feeds extends Handler_Protected {
 		@$offset = db_escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
 		$order_by = db_escape_string($_REQUEST["order_by"]);
-		$include_children = $_REQUEST["include_children"] == "true";
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -804,7 +803,6 @@ class Feeds extends Handler_Protected {
 		set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
 		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
-		set_pref($this->link, "_DEFAULT_INCLUDE_CHILDREN", $include_children);
 
 		if (!$cat_view && is_numeric($feed) && $feed > 0) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()
@@ -858,7 +856,7 @@ class Feeds extends Handler_Protected {
 
 		$ret = $this->format_headlines_list($feed, $method,
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
-			$vgroup_last_feed, $override_order, $include_children);
+			$vgroup_last_feed, $override_order, true);
 
 		$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];

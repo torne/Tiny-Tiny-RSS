@@ -183,11 +183,6 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<button dojoType="dijit.form.ToggleButton"
-			id="include_children"
-			onchange="viewCurrentFeed()">
-			<?php echo __('With subcategories') ?></button>
-
 		<button dojoType="dijit.form.Button" name="update"
 			onclick="scheduleFeedUpdate()">
 			<?php echo __('Update') ?></button>
