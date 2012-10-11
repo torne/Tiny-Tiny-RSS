@@ -1421,7 +1421,7 @@
 		/* Special case: NULL category doesn't actually exist in the DB */
 
 		$cv = array("id" => 0, "kind" => "cat",
-			"counter" => ccache_find($link, 0, $_SESSION["uid"], true));
+			"counter" => (int) ccache_find($link, 0, $_SESSION["uid"], true));
 
 		array_push($ret_arr, $cv);
 
@@ -1631,7 +1631,7 @@
 		}
 
 		$cv = array("id" => "global-unread",
-			"counter" => $global_unread);
+			"counter" => (int) $global_unread);
 
 		array_push($ret_arr, $cv);
 
@@ -1641,7 +1641,7 @@
 		$subscribed_feeds = db_fetch_result($result, 0, "fn");
 
 		$cv = array("id" => "subscribed-feeds",
-			"counter" => $subscribed_feeds);
+			"counter" => (int) $subscribed_feeds);
 
 		array_push($ret_arr, $cv);
 
@@ -1687,7 +1687,7 @@
 			$count = getFeedUnread($link, $i);
 
 			$cv = array("id" => $i,
-				"counter" => $count);
+				"counter" => (int) $count);
 
 //			if (get_pref($link, 'EXTENDED_FEEDLIST'))
 //				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
@@ -1715,7 +1715,7 @@
 			$count = getFeedUnread($link, $id);
 
 			$cv = array("id" => $id,
-				"counter" => $count);
+				"counter" => (int) $count);
 
 			if ($descriptions)
 				$cv["description"] = $label_name;
@@ -1760,7 +1760,7 @@
 
 			$cv = array("id" => $id,
 				"updated" => $last_updated,
-				"counter" => $count,
+				"counter" => (int) $count,
 				"has_img" => (int) $has_img);
 
 			if ($last_error)
