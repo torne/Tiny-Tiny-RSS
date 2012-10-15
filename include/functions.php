@@ -2437,6 +2437,8 @@
 			} else if ($feed == -1) { // starred virtual feed
 				$query_strategy_part = "marked = true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				$allow_archived = true;
+
 			} else if ($feed == -2) { // published virtual feed OR labels category
 
 				if (!$cat_view) {
@@ -2457,6 +2459,7 @@
 			} else if ($feed == -6) { // recently read
 				$query_strategy_part = "unread = false AND last_read IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				$allow_archived = true;
 
 				if (!$override_order) $override_order = "last_read DESC";
 			} else if ($feed == -3) { // fresh virtual feed
@@ -2483,9 +2486,10 @@
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$ext_tables_part = ",ttrss_labels2,ttrss_user_labels2";
+				$allow_archived = true;
 
 			} else {
-				$query_strategy_part = "id > 0"; // dumb
+				$query_strategy_part = "true";
 			}
 
 			if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
@@ -2554,7 +2558,7 @@
 					$feed_check_qpart = "ttrss_user_entries.feed_id = ttrss_feeds.id AND";
 
 				} else {
-					$from_qpart = "ttrss_entries,ttrss_user_entries$ext_tables_part
+					$from_qpart = "ttrss_entries$ext_tables_part,ttrss_user_entries
 						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)";
 				}
 
