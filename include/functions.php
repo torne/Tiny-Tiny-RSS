@@ -1233,24 +1233,22 @@
 					if ($feed >= 0) {
 
 						if ($feed > 0) {
-							$cat_qpart = "cat_id = '$feed'";
+							$children = getChildCategories($link, $feed, $owner_uid);
+							array_push($children, $feed);
+
+							$children = join(",", $children);
+
+							$cat_qpart = "cat_id IN ($children)";
 						} else {
 							$cat_qpart = "cat_id IS NULL";
 						}
 
-						$tmp_result = db_query($link, "SELECT id
-							FROM ttrss_feeds WHERE $cat_qpart AND owner_uid = $owner_uid");
+						db_query($link, "UPDATE ttrss_user_entries
+							SET unread = false,last_read = NOW()
+							WHERE feed_id IN (SELECT id FROM ttrss_feeds WHERE $cat_qpart)
+							AND $ref_check_qpart
+							AND owner_uid = $owner_uid");
 
-						while ($tmp_line = db_fetch_assoc($tmp_result)) {
-
-							$tmp_feed = $tmp_line["id"];
-
-							db_query($link, "UPDATE ttrss_user_entries
-								SET unread = false,last_read = NOW()
-								WHERE feed_id = '$tmp_feed'
-								AND $ref_check_qpart
-								AND owner_uid = $owner_uid");
-						}
 					} else if ($feed == -2) {
 
 						db_query($link, "UPDATE ttrss_user_entries
