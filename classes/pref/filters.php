@@ -17,7 +17,6 @@ class Pref_Filters extends Handler_Protected {
 		$filter["rules"] = array();
 
 		$result = db_query($this->link, "SELECT id,name FROM ttrss_filter_types");
-		$type_name = db_fetch_result($result, 0, "name");
 
 		$filter_types = array();
 		while ($line = db_fetch_assoc($result)) {
