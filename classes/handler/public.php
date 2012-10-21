@@ -20,6 +20,9 @@ class Handler_Public extends Handler {
 			$date_sort_field = "date_entered";
 		}
 
+		if ($feed == -2)
+			$date_sort_field = "last_read";
+
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
 			$match_on, "$date_sort_field DESC", $offset, $owner_uid);
