@@ -3352,14 +3352,14 @@
 
 			if ($num_comments > 0) {
 				if ($line["comments"]) {
-					$comments_url = $line["comments"];
+					$comments_url = htmlspecialchars($line["comments"]);
 				} else {
-					$comments_url = $line["link"];
+					$comments_url = htmlspecialchars($line["link"]);
 				}
 				$entry_comments = "<a target='_blank' href=\"$comments_url\">$num_comments comments</a>";
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "<a target='_blank' href=\"".$line["comments"]."\">comments</a>";
+					$entry_comments = "<a target='_blank' href=\"".htmlspecialchars($line["comments"])."\">comments</a>";
 				}
 			}
 
