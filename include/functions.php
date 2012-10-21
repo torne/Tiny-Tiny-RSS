@@ -3372,7 +3372,7 @@
 					</head><body>";
 			}
 
-			$title_escaped = db_escape_string($line['title']);
+			$title_escaped = htmlspecialchars($line['title']);
 
 			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
 				truncate_string(strip_tags($line['title']), 15) . "</div>";
@@ -3400,7 +3400,7 @@
 				$rv['content'] .= "<div class='postTitle'><a target='_blank'
 					title=\"".htmlspecialchars($line['title'])."\"
 					href=\"" .
-					$line["link"] . "\">" .
+					htmlspecialchars($line["link"]) . "\">" .
 					$line["title"] .
 					"<span class='author'>$entry_author</span></a></div>";
 			} else {
