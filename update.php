@@ -18,7 +18,7 @@
 	if (!defined('STDIN')) {
 		?> <html>
 		<head>
-		<title>Database Updater</title>
+		<title>Update Tool</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="utility.css">
 		</head>
