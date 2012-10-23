@@ -15,29 +15,29 @@
 	require_once "db-prefs.php";
 	require_once "update_self.php";
 
-	if (!defined('STDIN')) {
+	if (!defined('PHP_EXECUTABLE'))
+		define('PHP_EXECUTABLE', '/usr/bin/php');
+
+	$op = $argv;
+
+	if (count($argv) == 0 && !defined('STDIN')) {
 		?> <html>
 		<head>
-		<title>Update Tool</title>
+		<title>Tiny Tiny RSS data update script.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="utility.css">
 		</head>
 
 		<body>
 		<div class="floatingLogo"><img src="images/logo_wide.png"></div>
-		<h1><?php echo __("Update") ?></h1>
+		<h1><?php echo __("Tiny Tiny RSS data update script.") ?></h1>
 
-		<?php print_error("Please run this script from the command line."); ?>
+		<?php print_error("Please run this script from the command line. Use option \"-help\" to display command help if this error is displayed erroneously."); ?>
 
 		</body></html>
 	<?php
 		exit;
 	}
-
-	if (!defined('PHP_EXECUTABLE'))
-		define('PHP_EXECUTABLE', '/usr/bin/php');
-
-	$op = $argv;
 
 	if (count($argv) == 1 || in_array("-help", $op) ) {
 		print "Tiny Tiny RSS data update script.\n\n";
