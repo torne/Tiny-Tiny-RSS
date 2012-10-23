@@ -2324,7 +2324,7 @@
 				$filter_query_part = filter_to_sql($filter);
 
 				// Try to check if SQL regexp implementation chokes on a valid regexp
-				$result = db_query($link, "SELECT true FROM ttrss_entries
+				$result = db_query($link, "SELECT true AS true FROM ttrss_entries
 					WHERE $filter_query_part LIMIT 1", false);
 
 				$test = db_fetch_result($result, 0, "true");
