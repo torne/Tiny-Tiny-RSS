@@ -2321,10 +2321,11 @@
 
 				$override_order = "updated DESC";
 
-				$filter_query_part = filter_to_sql($filter);
+				$filter_query_part = filter_to_sql($link, $filter, $owner_uid);
 
 				// Try to check if SQL regexp implementation chokes on a valid regexp
-				$result = db_query($link, "SELECT true AS true FROM ttrss_entries
+				$result = db_query($link, "SELECT true AS true FROM ttrss_entries,
+					ttrss_user_entries, ttrss_feeds, ttrss_feed_categories
 					WHERE $filter_query_part LIMIT 1", false);
 
 				$test = db_fetch_result($result, 0, "true");
@@ -5110,7 +5111,7 @@
 			return $html;
 	}
 
-	function filter_to_sql($filter) {
+	function filter_to_sql($link, $filter, $owner_uid) {
 		$query = array();
 
 		if (DB_TYPE == "pgsql")
@@ -5159,7 +5160,19 @@
 				}
 
 				if (isset($rule["cat_id"])) {
-					$qpart .= " AND cat_id " . ($rule["cat_id"] ? '= ' . $rule["cat_id"] : 'IS NULL');
+
+					if ($rule["cat_id"] > 0) {
+						$children = getChildCategories($link, $rule["cat_id"], $owner_uid);
+						array_push($children, $rule["cat_id"]);
+
+						$children = join(",", $children);
+
+						$cat_qpart = "cat_id IN ($children)";
+					} else {
+						$cat_qpart = "cat_id IS NULL";
+					}
+
+					$qpart .= " AND $cat_qpart";
 				}
 
 				array_push($query, "($qpart)");
