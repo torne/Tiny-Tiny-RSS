@@ -2100,6 +2100,10 @@ function render_local_headlines(feed, is_cat, obj) {
 		setActiveFeedId(feed, is_cat);
 		initHeadlinesMenu();
 
+		dijit.getEnclosingWidget(
+			document.forms["main_toolbar_form"].update).attr('disabled',
+				is_cat || feed <= 0);
+
 		precache_headlines();
 
 	} catch (e) {
