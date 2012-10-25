@@ -134,9 +134,20 @@ class Feeds extends Handler_Protected {
 
 		$method_split = explode(":", $method);
 
-		if ($method == "ForceUpdate" && $feed && is_numeric($feed) > 0) {
-			include "rssfuncs.php";
-			update_rss_feed($this->link, $feed, true);
+		if ($method == "ForceUpdate" && $feed > 0 && is_numeric($feed)) {
+			// Update the feed if required with some basic flood control
+
+			$result = db_query($this->link,
+				"SELECT ".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+					FROM ttrss_feeds WHERE id = '$feed'");
+
+				if (db_num_rows($result) != 0) {
+					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
+					if (time() - $last_updated > 120) {
+						include "rssfuncs.php";
+						update_rss_feed($this->link, $feed, true, true);
+					}
+				}
 		}
 
 		if ($method_split[0] == "MarkAllReadGR")  {

@@ -184,7 +184,7 @@
 		</select>
 
 		<button dojoType="dijit.form.Button" name="update"
-			onclick="scheduleFeedUpdate()">
+			onclick="viewCurrentFeed()">
 			<?php echo __('Update') ?></button>
 
 		<button dojoType="dijit.form.Button"

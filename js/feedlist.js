@@ -149,7 +149,11 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
 		var query = "?op=feeds&method=view&feed=" + feed + "&" +
-			toolbar_query + "&m=" + param_escape(method);
+			toolbar_query;
+
+		if (method) {
+			query = query + "&m=" + param_escape(method);
+		}
 
 		if (!background) {
 			if (_search_query) {
@@ -164,6 +168,10 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 				// to prevent duplicate feed titles when showing grouped vfeeds
 				if (vgroup_last_feed) {
 					query = query + "&vgrlf=" + param_escape(vgroup_last_feed);
+				}
+			} else {
+				if (!method && !is_cat && feed == getActiveFeedId()) {
+					query = query + "&m=ForceUpdate";
 				}
 			}
 

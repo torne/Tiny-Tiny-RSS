@@ -1040,45 +1040,6 @@ function reverseHeadlineOrder() {
 	}
 }
 
-function scheduleFeedUpdate(id, is_cat) {
-	try {
-		if (!id) {
-			id = getActiveFeedId();
-			is_cat = activeFeedIsCat();
-		}
-
-		if (!id) {
-			alert(__("Please select some feed first."));
-			return;
-		}
-
-		var query = "?op=rpc&method=scheduleFeedUpdate&id=" +
-			param_escape(id) +
-			"&is_cat=" + param_escape(is_cat);
-
-		console.log(query);
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				handle_rpc_json(transport);
-
-				var reply = JSON.parse(transport.responseText);
-				var message = reply['message'];
-
-				if (message) {
-					notify_info(message);
-					return;
-				}
-
-			} });
-
-
-	} catch (e) {
-		exception_error("scheduleFeedUpdate", e);
-	}
-}
-
 function newVersionDlg() {
 	try {
 		var query = "backend.php?op=dlg&method=newVersion";

@@ -137,11 +137,11 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 						editFeed(this.getParent().row_id, false);
 					}}));
 
-				menu.addChild(new dijit.MenuItem({
+				/* menu.addChild(new dijit.MenuItem({
 					label: __("Update feed"),
 					onClick: function() {
-						scheduleFeedUpdate(this.getParent().row_id, false);
-					}}));
+						heduleFeedUpdate(this.getParent().row_id, false);
+					}})); */
 			}
 
 			menu.bindDomNode(tnode.domNode);

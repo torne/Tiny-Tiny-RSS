@@ -269,7 +269,7 @@
 
 			define('MAGPIE_CACHE_AGE', $cache_age);
 			define('MAGPIE_CACHE_ON', !$no_cache);
-			define('MAGPIE_FETCH_TIME_OUT', 60);
+			define('MAGPIE_FETCH_TIME_OUT', $no_cache ? 15 : 60);
 			define('MAGPIE_CACHE_DIR', CACHE_DIR . "/magpie");
 
 			$rss = @fetch_rss($fetch_url);
@@ -282,7 +282,7 @@
 
 			$rss = new SimplePie();
 			$rss->set_useragent(SELF_USER_AGENT);
-#			$rss->set_timeout(10);
+			$rss->set_timeout($no_cache ? 15 : 60);
 			$rss->set_feed_url($fetch_url);
 			$rss->set_output_encoding('UTF-8');
 			//$rss->force_feed(true);
