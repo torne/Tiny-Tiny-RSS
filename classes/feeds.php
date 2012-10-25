@@ -9,6 +9,18 @@ class Feeds extends Handler_Protected {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
+	private function make_gradient($end, $class) {
+		$start = $class == "even" ? "#f0f0f0" : "#ffffff";
+
+		return "style='background: linear-gradient(left , $start 6%, $end 100%);
+			background: -o-linear-gradient(left , $start 6%, $end 100%);
+			background: -moz-linear-gradient(left , $start 6%, $end 100%);
+			background: -webkit-linear-gradient(left , $start 6%, $end 100%);
+			background: -ms-linear-gradient(left , $start 6%, $end 100%);
+			background: -webkit-gradient(linear, left top, right top,
+				color-stop(0.06, $start), color-stop(1, $end));'";
+	}
+
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search, $match_on,
 			$search_mode, $view_mode, $error) {
@@ -277,15 +289,11 @@ class Feeds extends Handler_Protected {
 								$bg = rgb2hsl(_color_unpack($labels[0][3]));
 								if ($bg && $bg[1] > 0) {
 
-									$bg[1] = 0.04;
-
-									if ($class == "even")
-										$bg[2] = 0.9;
-									else
-										$bg[2] = 1;
+									$bg[1] = 0.1;
+									$bg[2] = 1;
 
 									$bg = _color_pack(hsl2rgb($bg));
-									$label_row_style = "style='background-color : $bg;'";
+									$label_row_style = $this->make_gradient($bg, $class);;
 								}
 							}
 						}
