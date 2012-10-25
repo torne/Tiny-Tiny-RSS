@@ -1,4 +1,6 @@
 <?php
+require_once "colors.php";
+
 class Feeds extends Handler_Protected {
 
 	function csrf_ignore($method) {
@@ -261,6 +263,7 @@ class Feeds extends Handler_Protected {
 				$feed_id = $line["feed_id"];
 				$label_cache = $line["label_cache"];
 				$labels = false;
+				$label_row_style = "";
 
 				if ($label_cache) {
 					$label_cache = json_decode($label_cache, true);
@@ -268,8 +271,24 @@ class Feeds extends Handler_Protected {
 					if ($label_cache) {
 						if ($label_cache["no-labels"] == 1)
 							$labels = array();
-						else
+						else {
 							$labels = $label_cache;
+							if (count($labels) > 0) {
+								$bg = rgb2hsl(_color_unpack($labels[0][3]));
+								if ($bg && $bg[1] > 0) {
+
+									$bg[1] = 0.04;
+
+									if ($class == "even")
+										$bg[2] = 0.9;
+									else
+										$bg[2] = 1;
+
+									$bg = _color_pack(hsl2rgb($bg));
+									$label_row_style = "style='background-color : $bg;'";
+								}
+							}
+						}
 					}
 				}
 
@@ -407,7 +426,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn($id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class='$class' id='RROW-$id' $mouseover_attrs>";
+					$reply['content'] .= "<div class='$class' id='RROW-$id' $label_row_style $mouseover_attrs>";
 
 					$reply['content'] .= "<div class='hlUpdPic'>$update_pic</div>";
 
@@ -498,7 +517,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn($id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class=\"$class\"
+					$reply['content'] .= "<div class=\"$class\" $label_row_style
 						id=\"RROW-$id\" $mouseover_attrs'>";
 
 					$reply['content'] .= "<div class=\"cdmHeader\">";
