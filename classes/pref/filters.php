@@ -239,7 +239,7 @@ class Pref_Filters extends Handler_Protected {
 		print "<ul id='filterDlg_Matches'>";
 
 		$rules_result = db_query($this->link, "SELECT * FROM ttrss_filters2_rules
-			WHERE filter_id = '$filter_id' ORDER BY id");
+			WHERE filter_id = '$filter_id' ORDER BY reg_exp, id");
 
 		while ($line = db_fetch_assoc($rules_result)) {
 			if (sql_bool_to_bool($line["cat_filter"])) {
