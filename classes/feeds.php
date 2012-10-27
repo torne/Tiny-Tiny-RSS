@@ -283,24 +283,28 @@ class Feeds extends Handler_Protected {
 					if ($label_cache) {
 						if ($label_cache["no-labels"] == 1)
 							$labels = array();
-						else {
+						else
 							$labels = $label_cache;
-							if (count($labels) > 0) {
-								$bg = rgb2hsl(_color_unpack($labels[0][3]));
-								if ($bg && $bg[1] > 0) {
-
-									$bg[1] = 0.1;
-									$bg[2] = 1;
-
-									$bg = _color_pack(hsl2rgb($bg));
-									$label_row_style = $this->make_gradient($bg, $class);;
-								}
-							}
-						}
 					}
 				}
 
 				if (!is_array($labels)) $labels = get_article_labels($this->link, $id);
+
+				if (count($labels) > 0) {
+					for ($i = 0; $i < min(4, count($labels)); $i++) {
+						$bg = rgb2hsl(_color_unpack($labels[$i][3]));
+
+						if ($bg && $bg[1] > 0) {
+							$bg[1] = 0.1;
+							$bg[2] = 1;
+
+							$bg = _color_pack(hsl2rgb($bg));
+							$label_row_style = $this->make_gradient($bg, $class);;
+
+							break;
+						}
+					}
+				}
 
 				$labels_str = "<span id=\"HLLCTR-$id\">";
 				$labels_str .= format_article_labels($labels, $id);
