@@ -2559,9 +2559,12 @@
 					$offset_query_part = "OFFSET $offset";
 				}
 
+				// proper override_order applied above
 				if ($vfeed_query_part && get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
 					if (!$override_order) {
 						$order_by = "ttrss_feeds.title, $order_by";
+					} else {
+						$order_by = "ttrss_feeds.title, $override_order";
 					}
 				}
 

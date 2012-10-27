@@ -115,8 +115,14 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						c.domNode.removeChild(hsp);
 
 					$$("#headlines-tmp > div").each(function(row) {
-						if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
+						if (row.className == 'cdmFeedTitle') {
+							row.addClassName('new');
 							row.style.display = 'none';
+							c.domNode.appendChild(row);
+							++num_added;
+						} else if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
+							row.style.display = 'none';
+							row.addClassName('new');
 							c.domNode.appendChild(row);
 							++num_added;
 						} else {
@@ -145,8 +151,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					initHeadlinesMenu();
 
-					$$("#headlines-frame > div[id*=RROW]").each(
+					$$("#headlines-frame > div[class*=new]").each(
 					function(child) {
+						child.removeClassName('new');
 						if (!Element.visible(child))
 							new Effect.Appear(child, { duration : 0.5 });
 					});
