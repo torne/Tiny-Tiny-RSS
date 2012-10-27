@@ -75,7 +75,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 		} else {
 			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
 
-			if (_search_query) _search_query = false;
+			if (!background && _search_query) _search_query = false;
 
 			// switching to a different feed, we might as well catchup stuff visible
 			// in headlines buffer (if any)
