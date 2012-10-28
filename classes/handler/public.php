@@ -61,7 +61,7 @@ class Handler_Public extends Handler {
 				$tpl->setVariable('ARTICLE_EXCERPT',
 					truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
 
-				$content = sanitize($this->link, $line["content_preview"], false, $owner_uid);
+				$content = $line["content_preview"];
 
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
@@ -132,7 +132,7 @@ class Handler_Public extends Handler {
 				$article['link']	= $line['link'];
 				$article['title'] = $line['title'];
 				$article['excerpt'] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
-				$article['content'] = sanitize($this->link, $line["content_preview"], false, $owner_uid);
+				$article['content'] = $line["content_preview"];
 				$article['updated'] = date('c', strtotime($line["updated"]));
 
 				if ($line['note']) $article['note'] = $line['note'];

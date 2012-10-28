@@ -770,9 +770,8 @@
 				}
 
 				# sanitize content
-
-				$entry_content = sanitize_article_content($entry_content);
-				$entry_title = sanitize_article_content($entry_title);
+				$entry_content = sanitize($link, $entry_content, $owner_uid, $site_url);
+				$entry_title = strip_tags($entry_title);
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
