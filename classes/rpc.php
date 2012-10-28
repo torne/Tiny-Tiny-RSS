@@ -681,83 +681,12 @@ class RPC extends Handler_Protected {
 		return;
 	}
 
-
 	function verifyRegexp() {
 		$reg_exp = $_REQUEST["reg_exp"];
 
 		$status = @preg_match("/$reg_exp/i", "TEST") !== false;
 
 		print json_encode(array("status" => $status));
-	}
-
-	// TODO: unify with digest-get-contents?
-	function cdmGetArticle() {
-		$ids = array(db_escape_string($_REQUEST["id"]));
-		$cids = explode(",", $_REQUEST["cids"]);
-
-		$ids = array_merge($ids, $cids);
-
-		$rv = array();
-
-		foreach ($ids as $id) {
-			$id = (int)$id;
-
-			$result = db_query($this->link, "SELECT content,
-					ttrss_feeds.site_url AS site_url FROM ttrss_user_entries
-					LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = ttrss_user_entries.feed_id),
-					ttrss_entries
-						WHERE ref_id = '$id' AND
-						ttrss_entries.id = ref_id AND
-						ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
-
-			if (db_num_rows($result) != 0) {
-				$line = db_fetch_assoc($result);
-
-				$article_content = sanitize($this->link, $line["content"],
-					false, false, $line['site_url']);
-
-				array_push($rv,
-					array("id" => $id, "content" => $article_content));
-			}
-		}
-
-		print json_encode($rv);
-	}
-
-	function scheduleFeedUpdate() {
-		$feed_id = db_escape_string($_REQUEST["id"]);
-		$is_cat =  db_escape_string($_REQUEST['is_cat']) == 'true';
-
-		$message = __("Your request could not be completed.");
-
-		if ($feed_id >= 0) {
-			if (!$is_cat) {
-				$message = __("Feed update has been scheduled.");
-
-				db_query($this->link, "UPDATE ttrss_feeds SET
-					last_update_started = '1970-01-01',
-					last_updated = '1970-01-01' WHERE id = '$feed_id' AND
-					owner_uid = ".$_SESSION["uid"]);
-
-			} else {
-				$message = __("Category update has been scheduled.");
-
-				if ($feed_id)
-				$cat_query = "cat_id = '$feed_id'";
-				else
-				$cat_query = "cat_id IS NULL";
-
-				db_query($this->link, "UPDATE ttrss_feeds SET
-						last_update_started = '1970-01-01',
-						last_updated = '1970-01-01' WHERE $cat_query AND
-						owner_uid = ".$_SESSION["uid"]);
-			}
-		} else {
-			$message = __("Can't update this kind of feed.");
-		}
-
-		print json_encode(array("message" => $message));
-		return;
 	}
 
 	function buttonPlugin() {
