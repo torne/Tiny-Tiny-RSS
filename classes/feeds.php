@@ -638,7 +638,7 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
-					$reply['content'] .= $expand_cdm ? $article_content : '';
+					$reply['content'] .= $article_content;
 					$reply['content'] .= "</span>";
 
 /*					$tmp_result = db_query($this->link, "SELECT always_display_enclosures FROM
