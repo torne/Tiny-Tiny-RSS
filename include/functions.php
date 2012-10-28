@@ -2691,11 +2691,7 @@
 
 		$res = trim($str); if (!$res) return '';
 
-		# we don't support CDATA sections in articles, they break our own escaping
-		$res = preg_replace("/\[\[CDATA/", "", $res);
-		$res = preg_replace("/\]\]\>/", "", $res);
-
-		$config = array('safe' => 1, 'deny_attribute' => 'style');
+		$config = array('safe' => 1, 'deny_attribute' => 'style', 'comment' => 1, 'cdata' => 1);
 		$res = htmLawed($res, $config);
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
