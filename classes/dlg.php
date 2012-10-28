@@ -247,7 +247,7 @@ class Dlg extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"addfeed\">";
 
-		print "<div class=\"dlgSec\">".__("Feed")."</div>";
+		print "<div class=\"dlgSec\">".__("Feed or site URL")."</div>";
 		print "<div class=\"dlgSecCont\">";
 
 		print "<div style='float : right'>
@@ -256,7 +256,7 @@ class Dlg extends Handler_Protected {
 				theme_image($this->link, 'images/indicator_white.gif')."'></div>";
 
 		print "<input style=\"font-size : 16px; width : 20em;\"
-			placeHolder=\"".__("Feed URL")."\"
+			placeHolder=\"".__("Feed or site URL")."\"
 			dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"feed\" id=\"feedDlg_feedUrl\">";
 
 		print "<hr/>";
@@ -291,8 +291,7 @@ class Dlg extends Handler_Protected {
 				" <input
 					placeHolder=\"".__("Password")."\"
 					dojoType=\"dijit.form.TextBox\" type='password'
-					style=\"width : 10em;\" name='pass'\">".
-				" <p class='insensitive'>".__("OAuth will be used automatically for Twitter feeds.")."</p>
+					style=\"width : 10em;\" name='pass'\">
 			</div></div>";
 
 
