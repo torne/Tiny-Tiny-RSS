@@ -703,11 +703,12 @@ class RPC extends Handler_Protected {
 			$id = (int)$id;
 
 			$result = db_query($this->link, "SELECT content,
-					ttrss_feeds.site_url AS site_url FROM ttrss_user_entries, ttrss_feeds,
+					ttrss_feeds.site_url AS site_url FROM ttrss_user_entries
+					LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = ttrss_user_entries.feed_id),
 					ttrss_entries
-					WHERE feed_id = ttrss_feeds.id AND ref_id = '$id' AND
-					ttrss_entries.id = ref_id AND
-					ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
+						WHERE ref_id = '$id' AND
+						ttrss_entries.id = ref_id AND
+						ttrss_user_entries.owner_uid = ".$_SESSION["uid"]);
 
 			if (db_num_rows($result) != 0) {
 				$line = db_fetch_assoc($result);
