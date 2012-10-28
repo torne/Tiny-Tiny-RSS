@@ -21,12 +21,6 @@
 				array_push($errors, "Configuration file (config.php) has incorrect version. Update it with new options from config.php-dist and set CONFIG_VERSION to the correct value.");
 			}
 
-			$purifier_cache_dir = CACHE_DIR . "/htmlpurifier";
-
-			if (!is_writable($purifier_cache_dir)) {
-				array_push($errors, "HTMLPurifier cache directory should be writable by anyone (chmod -R 777 $purifier_cache_dir)");
-			}
-
 			if (!is_writable(CACHE_DIR . "/images")) {
 				array_push($errors, "Image cache is not writable (chmod -R 777 ".CACHE_DIR."/images)");
 			}
