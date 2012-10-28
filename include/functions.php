@@ -3434,7 +3434,7 @@
 				$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
 
 				foreach ($button_plugins as $p) {
-					$pclass = trim("button_${p}");
+					$pclass = "button_" . trim($p);
 
 					if (class_exists($pclass)) {
 						$plugin = new $pclass($link);

@@ -248,7 +248,7 @@ class Feeds extends Handler_Protected {
 		if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 			$button_plugins = array();
 			foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
-				$pclass = trim("button_${p}");
+				$pclass = "button_" . trim($p);
 
 				if (class_exists($pclass)) {
 					$plugin = new $pclass($link);
