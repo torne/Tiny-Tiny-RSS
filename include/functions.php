@@ -4585,7 +4585,8 @@
 	function api_get_headlines($link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
-				$search = "", $search_mode = "", $match_on = "", $include_nested = false) {
+				$search = "", $search_mode = "", $match_on = "",
+				$include_nested = false, $sanitize_content = true) {
 
 			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 				$view_mode, $is_cat, $search, $search_mode, $match_on,
@@ -4629,7 +4630,12 @@
 				}
 
 				if ($show_content) {
-					$headline_row["content"] = $line["content_preview"];
+					if ($sanitize_content) {
+						$headline_row["content"] = sanitize($link,
+							$line["content_preview"], false, false, $line["site_url"]);
+					} else {
+						$headline_row["content"] = $line["content_preview"];
+					}
 				}
 
 				// unify label output to ease parsing

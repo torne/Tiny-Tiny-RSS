@@ -187,6 +187,7 @@ class API extends Handler {
 			$include_attachments = (bool)db_escape_string($_REQUEST["include_attachments"]);
 			$since_id = (int)db_escape_string($_REQUEST["since_id"]);
 			$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
+			$sanitize_content = true;
 
 			/* do not rely on params below */
 
@@ -197,7 +198,7 @@ class API extends Handler {
 			$headlines = api_get_headlines($this->link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false,
 				$include_attachments, $since_id, $search, $search_mode, $match_on,
-				$include_nested);
+				$include_nested, $sanitize_content);
 
 			print $this->wrap(self::STATUS_OK, $headlines);
 		} else {
