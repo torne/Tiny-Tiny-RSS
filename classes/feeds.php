@@ -152,12 +152,14 @@ class Feeds extends Handler_Protected {
 			// Update the feed if required with some basic flood control
 
 			$result = db_query($this->link,
-				"SELECT ".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+				"SELECT cache_images,".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds WHERE id = '$feed'");
 
 				if (db_num_rows($result) != 0) {
 					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
-					if (time() - $last_updated > 120) {
+					$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+
+					if (!$cache_images && time() - $last_updated > 120) {
 						include "rssfuncs.php";
 						update_rss_feed($this->link, $feed, true, true);
 					}
