@@ -2686,7 +2686,7 @@
 
 	}
 
-	function sanitize($link, $str, $owner = false, $site_url = false) {
+	function sanitize($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
 		if (!$owner) $owner = $_SESSION["uid"];
 
 		$res = trim($str); if (!$res) return '';
@@ -3625,6 +3625,13 @@
 			return "SHA1:" . sha1($pass);
 		}
 	} // function encrypt_password
+
+	function sanitize_article_content($text) {
+		# we don't support CDATA sections in articles, they break our own escaping
+		$text = preg_replace("/\[\[CDATA/", "", $text);
+		$text = preg_replace("/\]\]\>/", "", $text);
+		return db_escape_string($text, false);
+	}
 
 	function load_filters($link, $feed_id, $owner_uid, $action_id = false) {
 		$filters = array();

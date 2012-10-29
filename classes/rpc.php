@@ -584,7 +584,7 @@ class RPC extends Handler_Protected {
 			FROM ttrss_entries, ttrss_user_entries
 			WHERE id = '$article_id' AND ref_id = id AND owner_uid = ".$_SESSION['uid']);
 
-		$content = db_fetch_result($result, 0, "content");
+		$content = sanitize($this->link, db_fetch_result($result, 0, "content"));
 		$title = strip_tags(db_fetch_result($result, 0, "title"));
 		$article_url = htmlspecialchars(db_fetch_result($result, 0, "link"));
 		$marked = sql_bool_to_bool(db_fetch_result($result, 0, "marked"));

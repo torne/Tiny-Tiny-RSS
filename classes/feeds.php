@@ -628,8 +628,10 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-#					$feed_site_url = $line["site_url"];
-					$article_content = $line["content_preview"];
+					$feed_site_url = $line["site_url"];
+
+					$article_content = sanitize($this->link, $line["content_preview"],
+							false, false, $feed_site_url);
 
 					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
