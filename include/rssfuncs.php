@@ -405,10 +405,11 @@
 			}
 
 			if ($debug_enabled) {
-				_debug("update_rss_feed: loading filters...");
+				_debug("update_rss_feed: loading filters & labels...");
 			}
 
 			$filters = load_filters($link, $feed, $owner_uid);
+			$labels = get_all_labels($link, $owner_uid);
 
 			if ($debug_enabled) {
 				//print_r($filters);
@@ -874,6 +875,8 @@
 						}
 					}
 
+					$article_labels = get_article_labels($link, $entry_ref_id);
+
 					if (find_article_filter($article_filters, "filter")) {
 						db_query($link, "COMMIT"); // close transaction in progress
 						continue;
@@ -1034,7 +1037,7 @@
 				}
 
 				assign_article_to_label_filters($link, $entry_ref_id, $article_filters,
-					$owner_uid);
+					$owner_uid, $article_labels);
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: looking for enclosures...");
@@ -1205,6 +1208,22 @@
 						AND owner_uid = $owner_uid");
 
 					db_query($link, "COMMIT");
+				}
+
+				if (get_pref($link, "AUTO_ASSIGN_LABELS", $owner_uid, false)) {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: auto-assigning labels...");
+					}
+
+					foreach ($labels as $label) {
+						$caption = $label["caption"];
+
+						if (preg_match("/\b$caption\b/i", "$tags_str $entry_content $entry_title")) {
+							if (!labels_contains_caption($article_labels, $caption)) {
+								label_add_article($link, $entry_ref_id, $caption, $owner_uid);
+							}
+						}
+					}
 				}
 
 				if ($debug_enabled) {
@@ -1437,11 +1456,23 @@
 		return $score;
 	}
 
-	function assign_article_to_label_filters($link, $id, $filters, $owner_uid) {
+	function labels_contains_caption($labels, $caption) {
+		foreach ($labels as $label) {
+			if ($label[1] == $caption) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function assign_article_to_label_filters($link, $id, $filters, $owner_uid, $article_labels) {
 		foreach ($filters as $f) {
 			if ($f["type"] == "label") {
-				label_add_article($link, $id, $f["param"], $owner_uid);
-			};
+				if (!labels_contains_caption($article_labels, $f["param"])) {
+					label_add_article($link, $id, $f["param"], $owner_uid);
+				}
+			}
 		}
 	}
 ?>

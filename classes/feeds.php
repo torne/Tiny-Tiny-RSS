@@ -162,7 +162,7 @@ class Feeds extends Handler_Protected {
 					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
 					$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
-					if (!$cache_images && time() - $last_updated > 120) {
+					if (!$cache_images && time() - $last_updated > 120 || isset($_REQUEST['DevForceUpdate'])) {
 						include "rssfuncs.php";
 						update_rss_feed($this->link, $feed, true, true);
 					}

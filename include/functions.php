@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 97);
+	define('SCHEMA_VERSION', 98);
 
 	$fetch_last_error = false;
 
@@ -3921,6 +3921,18 @@
 		} else {
 			return "";
 		}
+	}
+
+	function get_all_labels($link, $owner_uid) {
+		$rv = array();
+
+		$result = db_query($link, "SELECT fg_color, bg_color, caption FROM ttrss_labels2 WHERE owner_uid = " . $owner_uid);
+
+		while ($line = db_fetch_assoc($result)) {
+			array_push($rv, $line);
+		}
+
+		return $rv;
 	}
 
 	function label_update_cache($link, $id, $labels = false, $force = false) {

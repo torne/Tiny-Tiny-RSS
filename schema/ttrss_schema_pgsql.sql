@@ -254,7 +254,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (97);
+insert into ttrss_version values (98);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -388,12 +388,15 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_INCLUDE_CHILDREN', 1, 'false', '', 1);
 
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('AUTO_ASSIGN_LABELS', 1, 'true', 'Assign articles to labels automatically', 3);
+
 update ttrss_prefs set access_level = 1 where pref_name in ('ON_CATCHUP_SHOW_NEXT_FEED',
 	'SORT_HEADLINES_BY_FEED_DATE',
 	'VFEED_GROUP_BY_FEED',
 	'FRESH_ARTICLE_MAX_AGE',
 	'CDM_EXPANDED',
 	'SHOW_CONTENT_PREVIEW',
+	'AUTO_ASSIGN_LABELS',
 	'HIDE_READ_SHOWS_SPECIAL');
 
 create table ttrss_user_prefs (
