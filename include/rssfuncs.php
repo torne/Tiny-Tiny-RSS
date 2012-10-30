@@ -811,6 +811,9 @@
 							'$entry_comments',
 							'$num_comments',
 							'$entry_author')");
+
+					$article_labels = array();
+
 				} else {
 					// we keep encountering the entry in feeds, so we need to
 					// update date_updated column so that we don't get horrible
@@ -821,6 +824,8 @@
 
 					db_query($link, "UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
+
+					$article_labels = get_article_labels($link, $base_entry_id, $owner_uid);
 				}
 
 				// now it should exist, if not - bad luck then
@@ -874,8 +879,6 @@
 							print_r($article_filters);
 						}
 					}
-
-					$article_labels = get_article_labels($link, $entry_ref_id, $owner_uid);
 
 					if (find_article_filter($article_filters, "filter")) {
 						db_query($link, "COMMIT"); // close transaction in progress
