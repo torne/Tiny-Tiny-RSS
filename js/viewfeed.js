@@ -98,6 +98,12 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 				initHeadlinesMenu();
 
+				if (_search_query) {
+					$("feed_title").innerHTML += "<span id='cancel_search'>" +
+						" (<a href='#' onclick='cancelSearch()'>" + __("Cancel search") + "</a>)" +
+						"</span>";
+				}
+
 			} else {
 
 				if (headlines_count > 0 && feed_id == getActiveFeedId() && is_cat == activeFeedIsCat()) {
@@ -2123,4 +2129,11 @@ function precache_headlines() {
 	}
 }
 
-
+function cancelSearch() {
+	try {
+		_search_query = "";
+		viewCurrentFeed();
+	} catch (e) {
+		exception_error("cancelSearch", e);
+	}
+}

@@ -59,6 +59,7 @@ class Feeds extends Handler_Protected {
 		// right part
 
 		$reply .= "<span class='r'>";
+		$reply .= "<span id='feed_title'>";
 
 		if ($feed_site_url) {
 			$target = "target=\"_blank\"";
@@ -72,6 +73,8 @@ class Feeds extends Handler_Protected {
 		} else {
 			$reply .= $feed_title;
 		}
+
+		$reply .= "</span>";
 
 		$reply .= "
 			<a href=\"#\"
