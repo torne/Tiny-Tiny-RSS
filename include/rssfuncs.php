@@ -870,7 +870,7 @@
 					/* Collect article tags here so we could filter by them: */
 
 					$article_filters = get_article_filters($filters, $entry_title,
-						strip_tags($entry_content), $entry_link, $entry_timestamp, $entry_author,
+						$entry_content, $entry_link, $entry_timestamp, $entry_author,
 						$entry_tags);
 
 					if ($debug_enabled) {
