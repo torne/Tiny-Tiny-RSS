@@ -2593,7 +2593,7 @@
 
 		$res = trim($str); if (!$res) return '';
 
-		$config = array('safe' => 1, 'deny_attribute' => 'style', 'comment' => 1, 'cdata' => 1);
+		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height', 'comment' => 1, 'cdata' => 1);
 		$res = htmLawed($res, $config);
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
