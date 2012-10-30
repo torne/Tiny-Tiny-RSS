@@ -1074,6 +1074,8 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function rescore() {
+		require_once "rssfuncs.php";
+
 		$ids = split(",", db_escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
