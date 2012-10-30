@@ -865,7 +865,7 @@
 					/* Collect article tags here so we could filter by them: */
 
 					$article_filters = get_article_filters($filters, $entry_title,
-						$entry_content, $entry_link, $entry_timestamp, $entry_author,
+						strip_tags($entry_content), $entry_link, $entry_timestamp, $entry_author,
 						$entry_tags);
 
 					if ($debug_enabled) {
@@ -1218,7 +1218,7 @@
 					foreach ($labels as $label) {
 						$caption = $label["caption"];
 
-						if (preg_match("/\b$caption\b/i", "$tags_str $entry_content $entry_title")) {
+						if (preg_match("/\b$caption\b/i", "$tags_str " . strip_tags($entry_content) . " $entry_title")) {
 							if (!labels_contains_caption($article_labels, $caption)) {
 								label_add_article($link, $entry_ref_id, $caption, $owner_uid);
 							}
