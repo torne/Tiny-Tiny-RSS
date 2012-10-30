@@ -52,6 +52,7 @@
 		print "  -quiet              - don't show messages\n";
 		print "  -indexes            - recreate missing schema indexes\n";
 		print "  -convert-filters    - convert type1 filters to type2\n";
+		print "  -force-update       - force update of all feeds\n";
 		print "  -help               - show this help\n";
 		return;
 	}
@@ -287,6 +288,13 @@
 			}
 		}
 
+	}
+
+	if (in_array("-force-update", $op)) {
+		_debug("marking all feeds as needing update...");
+
+		db_query($link, "UPDATE ttrss_feeds SET last_update_started = '1970-01-01',
+				last_updated = '1970-01-01'");
 	}
 
 	db_close($link);
