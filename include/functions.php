@@ -3868,24 +3868,26 @@
 		}
 	}
 
-	function get_article_labels($link, $id) {
+	function get_article_labels($link, $id, $owner_uid = false) {
 		$rv = array();
 
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$result = db_query($link, "SELECT label_cache FROM
 			ttrss_user_entries WHERE ref_id = '$id' AND owner_uid = " .
-			$_SESSION["uid"]);
+			$owner_uid);
 
-		$label_cache = db_fetch_result($result, 0, "label_cache");
+		if (db_num_rows($result) > 0) {
+			$label_cache = db_fetch_result($result, 0, "label_cache");
 
-		if ($label_cache) {
+			if ($label_cache) {
+				$label_cache = json_decode($label_cache, true);
 
-			$label_cache = json_decode($label_cache, true);
-
-			if ($label_cache["no-labels"] == 1)
-				return $rv;
-			else
-				return $label_cache;
+				if ($label_cache["no-labels"] == 1)
+					return $rv;
+				else
+					return $label_cache;
+			}
 		}
 
 		$result = db_query($link,
@@ -3893,7 +3895,7 @@
 				FROM ttrss_labels2, ttrss_user_labels2
 			WHERE id = label_id
 				AND article_id = '$id'
-				AND owner_uid = ".$_SESSION["uid"] . "
+				AND owner_uid = ". $owner_uid . "
 			ORDER BY caption");
 
 		while ($line = db_fetch_assoc($result)) {

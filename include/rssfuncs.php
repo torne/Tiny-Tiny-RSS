@@ -875,7 +875,7 @@
 						}
 					}
 
-					$article_labels = get_article_labels($link, $entry_ref_id);
+					$article_labels = get_article_labels($link, $entry_ref_id, $owner_uid);
 
 					if (find_article_filter($article_filters, "filter")) {
 						db_query($link, "COMMIT"); // close transaction in progress
