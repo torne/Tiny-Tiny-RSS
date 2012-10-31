@@ -395,7 +395,7 @@ class Feeds extends Handler_Protected {
 				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\"
 					onclick=\"adjustArticleScore($id, $score)\" title=\"$score $score_title\">"; */
 
-				$score_pic = "<img class='hlScorePic' src=\"$score_pic\"
+				$score_pic = "<img class='hlScorePic' score='$score' onclick='changeScore($id, this)' src=\"$score_pic\"
 					title=\"$score\">";
 
 				if ($score > 500) {

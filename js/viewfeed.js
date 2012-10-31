@@ -2137,3 +2137,30 @@ function cancelSearch() {
 		exception_error("cancelSearch", e);
 	}
 }
+
+function changeScore(id, pic) {
+	try {
+		var score = pic.getAttribute("score");
+
+		var new_score = prompt(__("Please enter new score for this article:"), score);
+
+		if (new_score != undefined) {
+
+			var query = "op=rpc&method=setScore&id=" + param_escape(id) +
+				"&score=" + param_escape(new_score);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+					var reply = JSON.parse(transport.responseText);
+
+					if (reply) {
+						pic.src = pic.src.replace(/score_.*?\.png/, reply["score_pic"]);
+						pic.setAttribute("score", new_score);
+					}
+				} });
+		}
+	} catch (e) {
+		exception_error("changeScore", e);
+	}
+}
