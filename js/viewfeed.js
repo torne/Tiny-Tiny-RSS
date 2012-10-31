@@ -13,6 +13,7 @@ var feed_precache_timeout_id = false;
 var precache_idle_timeout_id = false;
 
 var cids_requested = [];
+var loaded_article_ids = [];
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
@@ -78,6 +79,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			//var runtime_info = reply['runtime-info'];
 
 			if (offset == 0 && infscroll_req == false) {
+				loaded_article_ids = [];
+
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
 
@@ -85,8 +88,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					reply['headlines']['toolbar']);
 
 				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
-					if ($$("#headlines-frame DIV[id="+row.id+"]").length > 1) {
+					if (loaded_article_ids.indexOf(row.id) != -1) {
 						row.parentNode.removeChild(row);
+					} else {
+						loaded_article_ids.push(row.id);
 					}
 				});
 
@@ -126,11 +131,12 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 							row.style.display = 'none';
 							c.domNode.appendChild(row);
 							++num_added;
-						} else if ($$("#headlines-frame DIV[id="+row.id+"]").length == 0) {
+						} else if (loaded_article_ids.indexOf(row.id) == -1) {
 							row.style.display = 'none';
 							row.addClassName('new');
 							c.domNode.appendChild(row);
 							++num_added;
+							loaded_article_ids.push(row.id);
 						} else {
 							row.parentNode.removeChild(row);
 						}
