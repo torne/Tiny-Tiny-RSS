@@ -71,7 +71,7 @@ class Opml extends Handler_Protected {
 			$cat_title = db_fetch_result($result, 0, "title");
 		}
 
-		if ($cat_title) $out .= "<outline title=\"$cat_title\">\n";
+		if ($cat_title) $out .= "<outline text=\"$cat_title\">\n";
 
 		$result = db_query($this->link, "SELECT id,title
 			FROM ttrss_feed_categories WHERE
@@ -129,7 +129,7 @@ class Opml extends Handler_Protected {
 		# export tt-rss settings
 
 		if ($include_settings) {
-			$out .= "<outline title=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline text=\"tt-rss-prefs\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($this->link, "SELECT pref_name, value FROM ttrss_user_prefs WHERE
 			   profile IS NULL AND owner_uid = " . $_SESSION["uid"] . " ORDER BY pref_name");
@@ -143,7 +143,7 @@ class Opml extends Handler_Protected {
 
 			$out .= "</outline>";
 
-			$out .= "<outline title=\"tt-rss-labels\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline text=\"tt-rss-labels\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($this->link, "SELECT * FROM ttrss_labels2 WHERE
 				owner_uid = " . $_SESSION['uid']);
@@ -159,7 +159,7 @@ class Opml extends Handler_Protected {
 
 			$out .= "</outline>";
 
-			$out .= "<outline title=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
+			$out .= "<outline text=\"tt-rss-filters\" schema-version=\"".SCHEMA_VERSION."\">";
 
 			$result = db_query($this->link, "SELECT * FROM ttrss_filters2
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY id");
@@ -386,7 +386,7 @@ class Opml extends Handler_Protected {
 		$default_cat_id = (int) get_feed_category($this->link, 'Imported feeds', false);
 
 		if ($root_node) {
-			$cat_title = db_escape_string($root_node->attributes->getNamedItem('title')->nodeValue);
+			$cat_title = db_escape_string($root_node->attributes->getNamedItem('text')->nodeValue);
 
 			if (!in_array($cat_title, array("tt-rss-filters", "tt-rss-labels", "tt-rss-prefs"))) {
 				$cat_id = get_feed_category($this->link, $cat_title, $parent_id);
@@ -415,7 +415,7 @@ class Opml extends Handler_Protected {
 		foreach ($outlines as $node) {
 			if ($node->hasAttributes() && strtolower($node->tagName) == "outline") {
 				$attrs = $node->attributes;
-				$node_cat_title = db_escape_string($attrs->getNamedItem('title')->nodeValue);
+				$node_cat_title = db_escape_string($attrs->getNamedItem('text')->nodeValue);
 				$node_feed_url = db_escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
 
 				if ($node_cat_title && !$node_feed_url) {
