@@ -116,7 +116,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var c = dijit.byId("headlines-frame");
 					var ids = getSelectedArticleIds2();
-					var num_added = 0;
+					var new_elems = [];
 
 					$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
@@ -127,15 +127,13 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					$$("#headlines-tmp > div").each(function(row) {
 						if (row.className == 'cdmFeedTitle') {
-							row.addClassName('new');
 							row.style.display = 'none';
 							c.domNode.appendChild(row);
-							++num_added;
+							new_elems.push(row);
 						} else if (loaded_article_ids.indexOf(row.id) == -1) {
 							row.style.display = 'none';
-							row.addClassName('new');
 							c.domNode.appendChild(row);
-							++num_added;
+							new_elems.push(row);
 							loaded_article_ids.push(row.id);
 						} else {
 							row.parentNode.removeChild(row);
@@ -150,9 +148,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						c.domNode.appendChild(hsp);
 					}
 
-					console.log("added " + num_added + " headlines");
+					console.log("added " + new_elems.size() + " headlines");
 
-					if (num_added == 0)
+					if (new_elems.size() == 0)
 						_infscroll_disable = true;
 
 					console.log("restore selected ids: " + ids);
@@ -163,9 +161,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					initHeadlinesMenu();
 
-					$$("#headlines-frame > div[class*=new]").each(
-					function(child) {
-						child.removeClassName('new');
+					new_elems.each(function(child) {
 						if (!Element.visible(child))
 							new Effect.Appear(child, { duration : 0.5 });
 					});
