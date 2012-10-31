@@ -5124,6 +5124,12 @@
 				if ($feeds) {
 					if ($feeds['error']) {
 						$status = $feeds['error']['code'] + 10;
+
+						// access denied
+						if ($status == 16) {
+							db_query($link, "DELETE FROM ttrss_linked_feeds
+								WHERE instance_id = '$id'");
+						}
 					} else {
 						$status = 1;
 

@@ -1,6 +1,12 @@
 <?php
 class Pref_Instances extends Handler_Protected {
 
+	private $status_codes = array(
+		0 	=> "Connection failed",
+		1 	=> "Success",
+		2 	=> "Invalid object received",
+		16	=> "Access denied" );
+
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "edit");
 
@@ -167,6 +173,7 @@ class Pref_Instances extends Handler_Protected {
 			<td width=''><a href=\"#\" onclick=\"updateInstanceList('access_url')\">".__('Instance URL')."</a></td>
 			<td width='20%'><a href=\"#\" onclick=\"updateInstanceList('access_key')\">".__('Access key')."</a></td>
 			<td width='10%'><a href=\"#\" onclick=\"updateUsersList('last_connected')\">".__('Last connected')."</a></td>
+			<td width='10%'><a href=\"#\" onclick=\"updateUsersList('last_status_out')\">".__('Status')."</a></td>
 			<td width='10%'><a href=\"#\" onclick=\"updateUsersList('num_feeds')\">".__('Stored feeds')."</a></td>
 			</tr>";
 
@@ -193,6 +200,7 @@ class Pref_Instances extends Handler_Protected {
 			print "<td $onclick>" . htmlspecialchars($line['access_url']) . "</td>";
 			print "<td $onclick>" . htmlspecialchars($access_key) . "</td>";
 			print "<td $onclick>" . htmlspecialchars($line['last_connected']) . "</td>";
+			print "<td $onclick>" . $this->status_codes[$line['last_status_out']] . "</td>";
 			print "<td $onclick>" . htmlspecialchars($line['num_feeds']) . "</td>";
 
 			print "</tr>";
