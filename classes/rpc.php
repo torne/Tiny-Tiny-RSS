@@ -764,11 +764,11 @@ class RPC extends Handler_Protected {
 	}
 
 	function setScore() {
-		$id = db_escape_string($_REQUEST['id']);
+		$ids = db_escape_string($_REQUEST['id']);
 		$score = (int)db_escape_string($_REQUEST['score']);
 
 		db_query($this->link, "UPDATE ttrss_user_entries SET
-			score = '$score' WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 		print json_encode(array("id" => $id,
 			"score_pic" => theme_image($link, get_score_pic($score))));

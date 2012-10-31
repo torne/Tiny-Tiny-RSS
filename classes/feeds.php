@@ -45,6 +45,8 @@ class Feeds extends Handler_Protected {
 		$tog_marked_link = "selectionToggleMarked()";
 		$tog_published_link = "selectionTogglePublished()";
 
+		$set_score_link = "setSelectionScore()";
+
 		if ($is_cat) $cat_q = "&is_cat=$is_cat";
 
 		if ($search) {
@@ -107,6 +109,7 @@ class Feeds extends Handler_Protected {
 		$reply .= "<option value=\"0\" disabled=\"1\">".__('Selection:')."</option>";
 
 		$reply .= "<option value=\"$catchup_sel_link\">".__('Mark as read')."</option>";
+		$reply .= "<option value=\"$set_score_link\">".__('Set score')."</option>";
 
 		if ($feed_id != "0") {
 			$reply .= "<option value=\"$archive_sel_link\">".__('Archive')."</option>";

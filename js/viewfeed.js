@@ -2138,6 +2138,51 @@ function cancelSearch() {
 	}
 }
 
+function setSelectionScore() {
+	try {
+		var ids = getSelectedArticleIds2();
+
+		if (ids.length > 0) {
+			console.log(ids);
+
+			var score = prompt(__("Please enter new score for selected articles:"), score);
+
+			if (score != undefined) {
+				var query = "op=rpc&method=setScore&id=" + param_escape(ids.toString()) +
+					"&score=" + param_escape(score);
+
+				new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) {
+						var reply = JSON.parse(transport.responseText);
+						if (reply) {
+							console.log(ids);
+
+							ids.each(function(id) {
+								var row = $("RROW-" + id);
+
+								if (row) {
+									var pic = row.getElementsByClassName("hlScorePic")[0];
+
+									if (pic) {
+										pic.src = pic.src.replace(/score_.*?\.png/,
+											reply["score_pic"]);
+										pic.setAttribute("score", score);
+									}
+								}
+							});
+						}
+					} });
+			}
+
+		} else {
+			alert(__("No articles are selected."));
+		}
+	} catch (e) {
+		exception_error("setSelectionScore", e);
+	}
+}
+
 function changeScore(id, pic) {
 	try {
 		var score = pic.getAttribute("score");
