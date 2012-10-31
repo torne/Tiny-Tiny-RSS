@@ -383,6 +383,7 @@ class Handler_Public extends Handler {
 					<title>Tiny Tiny RSS</title>
 					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
 					<script type=\"text/javascript\" src=\"lib/prototype.js\"></script>
+					<script type=\"text/javascript\" src=\"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls\"></script>
 					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 				</head>
 				<body id='sharepopup'>";
@@ -396,8 +397,10 @@ class Handler_Public extends Handler {
 				$title = db_escape_string(strip_tags($_REQUEST["title"]));
 				$url = db_escape_string(strip_tags($_REQUEST["url"]));
 				$content = db_escape_string(strip_tags($_REQUEST["content"]));
+				$labels = db_escape_string(strip_tags($_REQUEST["labels"]));
 
-				create_published_article($this->link, $title, $url, $content, $_SESSION["uid"]);
+				create_published_article($this->link, $title, $url, $content, $labels,
+					$_SESSION["uid"]);
 
 				print "<script type='text/javascript'>";
 				print "window.close();";
@@ -424,8 +427,22 @@ class Handler_Public extends Handler {
 				<td><input name='url' value="<?php echo $url ?>"></td></tr>
 				<tr><td align='right'><?php echo __("Content:") ?></td>
 				<td><input name='content' value=""></td></tr>
+				<tr><td align='right'><?php echo __("Labels:") ?></td>
+				<td><input name='labels' id="labels_value"
+					placeholder='Alpha, Beta, Gamma' value="">
+				</td></tr>
+
+				<tr><td>
+					<div class="autocomplete" id="labels_choices"
+						style="display : block"></div></td></tr>
 
 				<script type='text/javascript'>document.forms[0].title.focus();</script>
+
+				<script type='text/javascript'>
+					new Ajax.Autocompleter('labels_value', 'labels_choices',
+				   "backend.php?op=rpc&method=completeLabels",
+				   { tokens: ',', paramName: "search" });
+				</script>
 
 				<tr><td colspan='2'>
 					<div style='float : right' class='insensitive-small'>

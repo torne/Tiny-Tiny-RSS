@@ -5545,9 +5545,17 @@
 
 	}
 
-	function create_published_article($link, $title, $url, $content, $owner_uid) {
-		$guid = sha1($url);
+	function create_published_article($link, $title, $url, $content, $labels_str,
+			$owner_uid) {
+
+		$guid = sha1($url . $owner_uid); // include owner_uid to prevent global GUID clash
 		$content_hash = sha1($content);
+
+		if ($labels_str != "") {
+			$labels = explode(",", $labels_str);
+		} else {
+			$labels = array();
+		}
 
 		$rc = false;
 
@@ -5584,6 +5592,12 @@
 					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
 			}
 
+			if (count($labels) != 0) {
+				foreach ($labels as $label) {
+					label_add_article($link, $ref_id, trim($label), $owner_uid);
+				}
+			}
+
 			$rc = true;
 
 		} else {
@@ -5601,6 +5615,12 @@
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
 					VALUES
 					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+
+				if (count($labels) != 0) {
+					foreach ($labels as $label) {
+						label_add_article($link, $ref_id, trim($label), $owner_uid);
+					}
+				}
 
 				$rc = true;
 			}

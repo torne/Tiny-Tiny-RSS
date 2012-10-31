@@ -2,7 +2,7 @@
 class RPC extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("sanitycheck", "buttonplugin", "exportget", "sharepopup");
+		$csrf_ignored = array("sanitycheck", "buttonplugin", "exportget", "completelabels");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -425,6 +425,23 @@ class RPC extends Handler_Protected {
 
 		print json_encode(array("link" => $new_link));
 	}
+
+	function completeLabels() {
+		$search = db_escape_string($_REQUEST["search"]);
+
+		$result = db_query($this->link, "SELECT DISTINCT caption FROM
+				ttrss_labels2
+				WHERE owner_uid = '".$_SESSION["uid"]."' AND
+				LOWER(caption) LIKE LOWER('$search%') ORDER BY caption
+				LIMIT 5");
+
+		print "<ul>";
+		while ($line = db_fetch_assoc($result)) {
+			print "<li>" . $line["caption"] . "</li>";
+		}
+		print "</ul>";
+	}
+
 
 	function completeTags() {
 		$search = db_escape_string($_REQUEST["search"]);
