@@ -434,7 +434,7 @@ class Dlg extends Handler_Protected {
 
 		if (!SPHINX_ENABLED) {
 			print "<div style=\"float : left\">
-				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/redmine/wiki/tt-rss/SearchSyntax\">Search syntax</a>
+				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/SearchSyntax\">Search syntax</a>
 				</div>";
 		}
 
@@ -622,7 +622,7 @@ class Dlg extends Handler_Protected {
 
 		print "</div>";
 
-		$details = "http://tt-rss.org/redmine/versions/show/$id";
+		$details = "http://tt-rss.org/redmine/versions/$id";
 		$download = "http://tt-rss.org/#Download";
 
 		print "<p align='center'>".__("You can update using built-in updater in the Preferences or by using update.php")."</p>";
