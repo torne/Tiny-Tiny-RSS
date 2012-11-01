@@ -215,11 +215,7 @@ class Feeds extends Handler_Protected {
 		}
 
 		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
-		@$match_on = db_escape_string($_REQUEST["match_on"]);
-
-		if (!$match_on) {
-			$match_on = "both";
-		}
+		$match_on = "both"; // deprecated, TODO: remove
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
