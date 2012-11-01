@@ -33,7 +33,10 @@ div.postReply div.postHeader {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #88b0f0;
-	background : #f7faff;
+	background-color : white;
+	background : url("images/toolbar.png");
+	background-position : bottom left;
+	background-repeat : repeat-x;
 	padding : 5px;
 	color : #909090;
 }
@@ -526,7 +529,7 @@ div#headlines-toolbar .dijitSelect {
 div#headlines-toolbar span.r {
 	float: right;
    position: relative;
-	background : #f7faff;
+	background : #ecf4ff;
 	border-left: 5px solid white;
 	padding : 0 4px 0px 4px;
 	text-align : right;
@@ -569,7 +572,7 @@ div#headlines-toolbar span.r span.error {
 } 
 
 div#headlines-toolbar span.r a {
-	color : #4684ff;
+	color : gray;
 }
 
 div#headlines-toolbar span.r a:hover {
