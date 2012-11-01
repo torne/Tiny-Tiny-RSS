@@ -7,12 +7,6 @@ class Backend extends Handler {
 			"<img src='images/indicator_tiny.gif'>";
 	}
 
-	function digestSend() {
-		define('PREFS_NO_CACHE', true);
-
-		send_headlines_digests($this->link);
-	}
-
 	function digestTest() {
 		header("Content-type: text/html");
 
