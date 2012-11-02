@@ -68,7 +68,7 @@ class Opml extends Handler_Protected {
 		if ($cat_id) {
 			$result = db_query($this->link, "SELECT title FROM ttrss_feed_categories WHERE id = '$cat_id'
 				AND owner_uid = '$owner_uid'");
-			$cat_title = db_fetch_result($result, 0, "title");
+			$cat_title = htmlspecialchars(db_fetch_result($result, 0, "title"));
 		}
 
 		if ($cat_title) $out .= "<outline text=\"$cat_title\">\n";
