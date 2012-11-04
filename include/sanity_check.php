@@ -1,4 +1,7 @@
 <?php
+	// WARNING: Don't ask for help on tt-rss.org forums or the bugtracker if you have
+	// modified this file.
+
 	function initial_sanity_check($link) {
 
 		$errors = array();
