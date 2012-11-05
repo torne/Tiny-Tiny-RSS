@@ -3905,9 +3905,9 @@
 		}
 
 		if (count($rv) > 0)
-			label_update_cache($link, $id, $rv);
+			label_update_cache($link, $owner_uid, $id, $rv);
 		else
-			label_update_cache($link, $id, array("no-labels" => 1));
+			label_update_cache($link, $owner_uid, $id, array("no-labels" => 1));
 
 		return $rv;
 	}
@@ -3937,7 +3937,7 @@
 		return $rv;
 	}
 
-	function label_update_cache($link, $id, $labels = false, $force = false) {
+	function label_update_cache($link, $owner_uid, $id, $labels = false, $force = false) {
 
 		if ($force)
 			label_clear_cache($link, $id);
@@ -3948,7 +3948,7 @@
 		$labels = db_escape_string(json_encode($labels));
 
 		db_query($link, "UPDATE ttrss_user_entries SET
-			label_cache = '$labels' WHERE ref_id = '$id'");
+			label_cache = '$labels' WHERE ref_id = '$id' AND  owner_uid = '$owner_uid'");
 
 	}
 
