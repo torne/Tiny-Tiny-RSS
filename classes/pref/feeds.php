@@ -327,8 +327,11 @@ class Pref_Feeds extends Handler_Protected {
 						$cat_id = ($item_id != "root") ?
 							db_escape_string($bare_item_id) : "NULL";
 
+						$cat_qpart = ($cat_id != 0) ? "cat_id = '$cat_id'" :
+							"cat_id = NULL";
+
 						db_query($this->link, "UPDATE ttrss_feeds
-							SET order_id = $order_id, cat_id = '$cat_id'
+							SET order_id = $order_id, $cat_qpart
 							WHERE id = '$bare_id' AND
 								owner_uid = " . $_SESSION["uid"]);
 
