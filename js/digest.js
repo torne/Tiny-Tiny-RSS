@@ -667,7 +667,7 @@ function init() {
 		dojo.require("dijit.Dialog");
 
 		new Ajax.Request("backend.php", {
-			parameters: "?op=rpc&method=sanityCheck",
+			parameters: {op: "rpc", method: "sanityCheck"},
 			onComplete: function(transport) {
 				backend_sanity_check_callback(transport);
 			} });
