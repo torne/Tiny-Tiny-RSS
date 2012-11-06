@@ -862,14 +862,14 @@ function hotkey_handler(e) {
 			hotkey_prefix = false;
 
 			if (keycode == 81) { // q
-				if (getActiveFeedId()) {
+				if (getActiveFeedId() != undefined) {
 					catchupCurrentFeed();
 					return;
 				}
 			}
 
 			if (keycode == 82) { // r
-				if (getActiveFeedId()) {
+				if (getActiveFeedId() != undefined) {
 					viewfeed(getActiveFeedId(), '', activeFeedIsCat());
 					return;
 				}
@@ -881,7 +881,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 85) { // u
-				if (getActiveFeedId()) {
+				if (getActiveFeedId() != undefined) {
 					viewfeed(getActiveFeedId(), '');
 					return false;
 				}
@@ -911,7 +911,7 @@ function hotkey_handler(e) {
 			}
 
 			if (keycode == 67) { // c
-				if (getActiveFeedId()) {
+				if (getActiveFeedId() != undefined) {
 					catchupCurrentFeed();
 					return false;
 				}
