@@ -67,8 +67,11 @@
 	</div>
 
 	<div id="header">
+	<a style="float : left" href="#" onclick="close_article()">
+		<?php echo __("Back to feeds") ?></a>
 
 	<div class="links">
+
 	<?php if (!SINGLE_USER_MODE) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>

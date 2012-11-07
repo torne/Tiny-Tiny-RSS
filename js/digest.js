@@ -270,8 +270,6 @@ function view(article_id) {
 							article.title + "</a>" + "</h1>" +
 						"<div id=\"tags\">" +
 						tags_part +
-						"<div style=\"float : right\"><a href=\"#\" onclick=\"close_article()\">" +
-						__("close") + "</a></div>" +
 						"</div>" +
 						article.content + "</div>";
 
