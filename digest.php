@@ -79,9 +79,6 @@
 			<?php echo __("Regular version") ?></a>
 
 	</div>
-
-	<span class="title">Tiny Tiny RSS</span>
-
 	</div>
 
 	<div id="article"><div id="article-content">&nbsp;</div></div>

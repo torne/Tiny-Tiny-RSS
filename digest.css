@@ -1,9 +1,9 @@
 body#ttrssDigest {
-	background : #fafafa;
 	color : black;
 	font-family : sans-serif;
 	font-size : 12px;
 	margin : 0px;
+	background : url("images/tile.png");
 }
 
 a {
@@ -62,7 +62,7 @@ a:hover {
 #content {
 	position : absolute;
 	left : 0px;
-	top : 30px;
+	top : 0px;
 	right : 0px;
 	bottom : 0px;
 	-webkit-transition: left 0.2s linear, right 0.2s linear;
@@ -78,9 +78,6 @@ a:hover {
 	bottom : 0px;
 	top : 30px;
 	background : white;
-	border-width : 0px 0px 0px 2px;
-	border-color : #e0e0e0;
-	border-style : solid;
 	z-index : -1;
 	opacity : 0;
 	-webkit-transition: opacity 0.2s linear;
@@ -155,9 +152,10 @@ a:hover {
 	bottom : 0px;
 	font-size : 14px;
 	overflow : auto;
-	border-width : 0px 4px 0px 0px;
-	border-color : #e0e0e0;
+	border-width : 0px 3px 0px 0px;
+	border-color : #88b0f0;
 	border-style : solid;
+	background : #eee;
 }
 
 #feeds ul#feeds-content img {
@@ -170,41 +168,39 @@ a:hover {
 #feeds ul#feeds-content div.unread-ctr {
 	color : #d0d0d0;
 	padding-left : 10px;
-	display : inline;
+	float : right;
 }
 
 #feeds ul#feeds-content li {
 	padding : 10px;
 	clear : both;
 	cursor : pointer;
-	border-width : 1px 0px 1px 0px;
-	border-color : transparent;
-	border-style : solid;
-	color : gray;
+	color : #303030;
 	white-space : nowrap;
 }
 
 #feeds ul#feeds-content li.selected {
 	background : white;
-	border-color : #e0e0e0;
-	border-style : solid;
 }
 
 #feeds ul#feeds-content {
 	list-style-type : none;
 	font-weight : bold;
-	margin : 10px 10px 10px 10px;
+	margin : 0px;
 	padding : 0px;
 }
 
 #headlines {
 	font-size : 14px;
 	position : absolute;
-	left : 302px;
-	top : 0px;
+	left : 303px;
+	top : 30px;
 	bottom : 0px;
 	right : 0px;
 	overflow : auto;
+	border-width : 0px 3px 0px 0px;
+	border-style : solid;
+	border-color : #88b0f0;
 }
 
 #headlines h1 a {
@@ -237,10 +233,10 @@ a:hover {
 	padding : 10px;
 	color : gray;
 	clear : left;
-	background : #eeeeee;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #e0e0e0;
+	background : #eee;
 }
 
 #headlines ul#headlines-content a.title {
@@ -299,6 +295,7 @@ a:hover {
 
 #headlines ul#headlines-content div.info {
 	font-size : 11px;
+	margin-top : 5px;
 }
 
 #headlines ul#headlines-content div.info a {

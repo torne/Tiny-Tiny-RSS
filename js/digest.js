@@ -261,18 +261,17 @@ function view(article_id) {
 					else
 						publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
 
-					var tmp = "<div id=\"toolbar\">" +
-						"<a target=\"_blank\" href=\""+article.url+"\">" + __("Original article") + "</a>" +
-						"<div style=\"float : right\"><a href=\"#\" onclick=\"close_article()\">" +
-						__("Close this panel") + "</a></div></div>" +
-						"<div id=\"inner\">" +
+					var tmp = "<div id=\"inner\">" +
 						"<div id=\"ops\">" +
 						mark_part +
 						publ_part +
 						"</div>" +
-						"<h1>" + article.title + "</h1>" +
+						"<h1>" + "<a target=\"_blank\" href=\""+article.url+"\">" +
+							article.title + "</a>" + "</h1>" +
 						"<div id=\"tags\">" +
 						tags_part +
+						"<div style=\"float : right\"><a href=\"#\" onclick=\"close_article()\">" +
+						__("close") + "</a></div>" +
 						"</div>" +
 						article.content + "</div>";
 
@@ -415,8 +414,12 @@ function add_feed_entry(feed) {
 
 		icon_part = "<img src='" + get_feed_icon(feed) + "'/>";
 
+		var title = (feed.title.length > 30) ?
+			feed.title.substring(0, 30) + "&hellip;" :
+			feed.title;
+
 		var tmp_html = "<li id=\"F-"+feed.id+"\" onclick=\"viewfeed("+feed.id+")\">" +
-			icon_part + feed.title +
+			icon_part + title +
 			"<div class='unread-ctr'>" + "<span class=\"unread\">" + feed.unread + "</span>" +
 			"</div>" + "</li>";
 
@@ -470,7 +473,7 @@ function add_headline_entry(article, feed, no_effects) {
 			"<div class='body'>" +
 			"<div onclick=\"view("+article.id+")\" class='excerpt'>" +
 				article.excerpt + "</div>" +
-			"<div class='info'>";
+			"<div onclick=\"view("+article.id+")\" class='info'>";
 
 /*		tmp_html += "<a href=\#\" onclick=\"viewfeed("+feed.id+")\">" +
 					feed.title + "</a> " + " @ "; */
@@ -652,6 +655,8 @@ function init_second_stage() {
 			onComplete: function(transport) {
 				parse_feeds(transport);
 				Element.hide("overlay");
+
+				document.onkeydown = hotkey_handler;
 
 				window.setTimeout('viewfeed(-4)', 100);
 				_update_timeout = window.setTimeout('update()', 5*1000);
@@ -837,5 +842,46 @@ function toggle_select_article(elem) {
 
 	} catch (e) {
 		exception_error("toggle_select_article", e);
+	}
+}
+
+function hotkey_handler(e) {
+	try {
+
+		if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
+
+		var keycode = false;
+		var shift_key = false;
+
+		var cmdline = $('cmdline');
+
+		try {
+			shift_key = e.shiftKey;
+		} catch (e) {
+
+		}
+
+		if (window.event) {
+			keycode = window.event.keyCode;
+		} else if (e) {
+			keycode = e.which;
+		}
+
+		var keychar = String.fromCharCode(keycode);
+
+		if (keycode == 16) return; // ignore lone shift
+		if (keycode == 17) return; // ignore lone ctrl
+
+		switch (keycode) {
+		case 27: // esc
+			close_article();
+			break;
+		default:
+			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
+		}
+
+
+	} catch (e) {
+		exception_error("hotkey_handler", e);
 	}
 }
