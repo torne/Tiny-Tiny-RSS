@@ -452,8 +452,6 @@ function add_headline_entry(article, feed, no_effects) {
 		if (d.getTime() / 1000 - article.updated < fresh_max)
 			li_class = "fresh";
 
-		//"<img title='" + __("Share on Twitter") + "' onclick=\"tweet_article("+article.id+", true)\" src='images/art-tweet.png'>" +
-
 		//"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
 
 		var checkbox_part = "<input type=\"checkbox\" class=\"cb\" onclick=\"toggle_select_article(this)\"/>";
@@ -795,37 +793,6 @@ function update_title(unread) {
 
 	} catch (e) {
 		exception_error("update_title", e);
-	}
-}
-
-function tweet_article(id) {
-	try {
-
-		var query = "?op=rpc&method=getTweetInfo&id=" + param_escape(id);
-
-		console.log(query);
-
-		var d = new Date();
-      var ts = d.getTime();
-
-		var w = window.open('backend.php?op=backend&method=loading', 'ttrss_tweet',
-			"status=0,toolbar=0,location=0,width=500,height=400,scrollbars=1,menubar=0");
-
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-				var ti = JSON.parse(transport.responseText);
-
-				var share_url = "http://twitter.com/share?_=" + ts +
-					"&text=" + param_escape(ti.title) +
-					"&url=" + param_escape(ti.link);
-
-				w.location.href = share_url;
-
-			} });
-
-	} catch (e) {
-		exception_error("tweet_article", e);
 	}
 }
 
