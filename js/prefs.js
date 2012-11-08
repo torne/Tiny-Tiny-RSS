@@ -2177,8 +2177,9 @@ function batchSubscribe() {
 	try {
 		var query = "backend.php?op=dlg&method=batchSubscribe";
 
-		if (dijit.byId("batchSubDlg"))
-			dijit.byId("batchSubDlg").destroyRecursive();
+		// overlapping widgets
+		if (dijit.byId("batchSubDlg")) dijit.byId("batchSubDlg").destroyRecursive();
+		if (dijit.byId("feedAddDlg"))	dijit.byId("feedAddDlg").destroyRecursive();
 
 		var dialog = new dijit.Dialog({
 			id: "batchSubDlg",
