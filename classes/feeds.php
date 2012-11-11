@@ -237,15 +237,10 @@ class Feeds extends Handler_Protected {
 
 		$vgroup_last_feed = $vgr_last_feed;
 
-//		if (!$offset) {
-
-			if (db_num_rows($result) > 0) {
-				$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
-					$feed_title,
-					$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
-					$last_error);
-			}
-//		}
+		$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
+			$feed_title,
+			$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
+			$last_error);
 
 		$headlines_count = db_num_rows($result);
 
