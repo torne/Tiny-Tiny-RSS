@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Thu Oct 18 12:56:32 MSK 2012
+<?php # This file has been generated at:  Mon Nov 12 14:25:49 MSK 2012
 
 __("Title");
 __("Title or Content");
@@ -61,4 +61,5 @@ __('Customize stylesheet');
 __('Sort headlines by feed date');
 __('Login with an SSL certificate');
 __('Try to send digests around specified time');
+__('Assign articles to labels automatically');
 ?>
