@@ -388,6 +388,9 @@ class Opml extends Handler_Protected {
 		if ($root_node) {
 			$cat_title = db_escape_string($root_node->attributes->getNamedItem('text')->nodeValue);
 
+			if (!$cat_title)
+				$cat_title = db_escape_string($root_node->attributes->getNamedItem('title')->nodeValue);
+
 			if (!in_array($cat_title, array("tt-rss-filters", "tt-rss-labels", "tt-rss-prefs"))) {
 				$cat_id = get_feed_category($this->link, $cat_title, $parent_id);
 				db_query($this->link, "BEGIN");
@@ -416,6 +419,10 @@ class Opml extends Handler_Protected {
 			if ($node->hasAttributes() && strtolower($node->tagName) == "outline") {
 				$attrs = $node->attributes;
 				$node_cat_title = db_escape_string($attrs->getNamedItem('text')->nodeValue);
+
+				if (!$node_cat_title)
+					$node_cat_title = db_escape_string($attrs->getNamedItem('title')->nodeValue);
+
 				$node_feed_url = db_escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
 
 				if ($node_cat_title && !$node_feed_url) {
