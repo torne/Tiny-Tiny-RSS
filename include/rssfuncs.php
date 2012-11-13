@@ -1391,7 +1391,7 @@
 					$match = @preg_match("/$reg_exp/i", $content);
 					break;
 				case "both":
-					$match = (@preg_match("/$reg_exp/i", $title) || @preg_match("/$reg_exp/i", $title));
+					$match = (@preg_match("/$reg_exp/i", $title) || @preg_match("/$reg_exp/i", $content));
 					break;
 				case "link":
 					$match = @preg_match("/$reg_exp/i", $link);
