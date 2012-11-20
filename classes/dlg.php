@@ -50,6 +50,8 @@ class Dlg extends Handler_Protected {
 
 		$opml->opml_import($_SESSION["uid"]);
 
+		db_query($this->link, "COMMIT");
+
 		print "</ul>";
 		print "</div>";
 
