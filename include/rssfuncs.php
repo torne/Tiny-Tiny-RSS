@@ -1388,9 +1388,15 @@
 					$match = @preg_match("/$reg_exp/i", $title);
 					break;
 				case "content":
+					// we don't need to deal with multiline regexps
+					$content = preg_replace("/[\r\n\t]/", "", $content);
+
 					$match = @preg_match("/$reg_exp/i", $content);
 					break;
 				case "both":
+					// we don't need to deal with multiline regexps
+					$content = preg_replace("/[\r\n\t]/", "", $content);
+
 					$match = (@preg_match("/$reg_exp/i", $title) || @preg_match("/$reg_exp/i", $content));
 					break;
 				case "link":
