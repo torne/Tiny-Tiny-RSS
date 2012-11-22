@@ -139,7 +139,7 @@ class Pref_Filters extends Handler_Protected {
 
 				$folder = array();
 				$folder['id'] = $line["action_id"];
-				$folder['name'] = $line["action_name"];
+				$folder['name'] = __($line["action_name"]);
 				$folder['items'] = array();
 				$action_id = $line["action_id"];
 			}

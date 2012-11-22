@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-12 14:25+0400\n"
+"POT-Creation-Date: 2012-11-22 16:05+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -283,7 +283,7 @@ msgstr ""
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 
-#: index.php:116 prefs.php:90 help/main.php:73 help/prefs.php:8
+#: index.php:116 prefs.php:29 prefs.php:90 help/main.php:73 help/prefs.php:8
 #: classes/pref/prefs.php:371
 msgid "Preferences"
 msgstr ""
@@ -445,7 +445,7 @@ msgid "Filters"
 msgstr ""
 
 #: prefs.php:99 help/prefs.php:12 mobile/mobile-functions.php:205
-#: include/functions.php:1272 include/functions.php:1921
+#: include/functions.php:1193 include/functions.php:1842
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr ""
@@ -669,19 +669,19 @@ msgstr ""
 msgid "Go to..."
 msgstr ""
 
-#: help/main.php:68 include/functions.php:1978
+#: help/main.php:68 include/functions.php:1899
 msgid "All articles"
 msgstr ""
 
-#: help/main.php:69 include/functions.php:1976
+#: help/main.php:69 include/functions.php:1897
 msgid "Fresh articles"
 msgstr ""
 
-#: help/main.php:70 include/functions.php:1972
+#: help/main.php:70 include/functions.php:1893
 msgid "Starred articles"
 msgstr ""
 
-#: help/main.php:71 include/functions.php:1974
+#: help/main.php:71 include/functions.php:1895
 msgid "Published articles"
 msgstr ""
 
@@ -757,8 +757,8 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: mobile/mobile-functions.php:178 include/functions.php:1270
-#: include/functions.php:1919
+#: mobile/mobile-functions.php:178 include/functions.php:1191
+#: include/functions.php:1840
 msgid "Special"
 msgstr ""
 
@@ -796,140 +796,140 @@ msgstr ""
 msgid "Sort feeds by unread count"
 msgstr ""
 
-#: include/functions.php:571
+#: include/functions.php:568
 #, php-format
 msgid "Fatal: authentication module %s not found."
 msgstr ""
 
-#: include/functions.php:689
+#: include/functions.php:686
 msgid "Session failed to validate (incorrect IP)"
 msgstr ""
 
-#: include/functions.php:1281 include/functions.php:1822
-#: include/functions.php:1907 include/functions.php:1929
-#: include/functions.php:2784 classes/opml.php:413 classes/pref/feeds.php:193
+#: include/functions.php:1202 include/functions.php:1743
+#: include/functions.php:1828 include/functions.php:1850
+#: include/functions.php:2705 classes/opml.php:416 classes/pref/feeds.php:193
 msgid "Uncategorized"
 msgstr ""
 
-#: include/functions.php:1771 classes/dlg.php:385 classes/pref/filters.php:361
+#: include/functions.php:1692 classes/dlg.php:387 classes/pref/filters.php:361
 msgid "All feeds"
 msgstr ""
 
-#: include/functions.php:1980
+#: include/functions.php:1901
 msgid "Archived articles"
 msgstr ""
 
-#: include/functions.php:1982
+#: include/functions.php:1903
 msgid "Recently read"
 msgstr ""
 
-#: include/functions.php:2431
+#: include/functions.php:2352
 #, php-format
 msgid "Search results: %s"
 msgstr ""
 
-#: include/functions.php:3152 js/viewfeed.js:1998
+#: include/functions.php:3073 js/viewfeed.js:1998
 msgid "Click to play"
 msgstr ""
 
-#: include/functions.php:3153 js/viewfeed.js:1997
+#: include/functions.php:3074 js/viewfeed.js:1997
 msgid "Play"
 msgstr ""
 
-#: include/functions.php:3285
+#: include/functions.php:3206
 msgid " - "
 msgstr ""
 
-#: include/functions.php:3314 include/functions.php:4101 classes/rpc.php:414
+#: include/functions.php:3235 include/functions.php:4022 classes/rpc.php:414
 msgid "no tags"
 msgstr ""
 
-#: include/functions.php:3324 classes/feeds.php:669
+#: include/functions.php:3245 classes/feeds.php:669
 msgid "Edit tags for this article"
 msgstr ""
 
-#: include/functions.php:3334 classes/feeds.php:696
+#: include/functions.php:3255 classes/feeds.php:696
 msgid "Open article in new tab"
 msgstr ""
 
-#: include/functions.php:3350 classes/feeds.php:707
+#: include/functions.php:3271 classes/feeds.php:707
 msgid "Close article"
 msgstr ""
 
-#: include/functions.php:3367 classes/feeds.php:609
+#: include/functions.php:3288 classes/feeds.php:609
 msgid "Originally from:"
 msgstr ""
 
-#: include/functions.php:3380 classes/feeds.php:622 classes/pref/feeds.php:512
+#: include/functions.php:3301 classes/feeds.php:622 classes/pref/feeds.php:512
 msgid "Feed URL"
 msgstr ""
 
-#: include/functions.php:3395 classes/feeds.php:68
+#: include/functions.php:3316 classes/feeds.php:68
 msgid "Visit the website"
 msgstr ""
 
-#: include/functions.php:3414
+#: include/functions.php:3335
 msgid "Related"
 msgstr ""
 
-#: include/functions.php:3444 classes/dlg.php:30 classes/dlg.php:59
-#: classes/dlg.php:178 classes/dlg.php:201 classes/dlg.php:238
-#: classes/dlg.php:522 classes/dlg.php:555 classes/dlg.php:586
-#: classes/dlg.php:619 classes/dlg.php:720 classes/button/share.php:47
+#: include/functions.php:3365 classes/dlg.php:30 classes/dlg.php:61
+#: classes/dlg.php:180 classes/dlg.php:203 classes/dlg.php:240
+#: classes/dlg.php:524 classes/dlg.php:559 classes/dlg.php:590
+#: classes/dlg.php:623 classes/dlg.php:724 classes/button/share.php:47
 #: classes/pref/users.php:106 classes/pref/filters.php:101
 #: classes/pref/prefs.php:669 classes/pref/feeds.php:1641
 #: classes/pref/feeds.php:1712
 msgid "Close this window"
 msgstr ""
 
-#: include/functions.php:4126
+#: include/functions.php:4047
 msgid "(edit note)"
 msgstr ""
 
-#: include/functions.php:4593
+#: include/functions.php:4514
 msgid "No feed selected."
 msgstr ""
 
-#: include/functions.php:4603 classes/feeds.php:755
+#: include/functions.php:4524 classes/feeds.php:755
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr ""
 
-#: include/functions.php:4613 classes/feeds.php:765
+#: include/functions.php:4534 classes/feeds.php:765
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 
-#: include/functions.php:4757
+#: include/functions.php:4678
 msgid "unknown type"
 msgstr ""
 
-#: include/functions.php:4799
+#: include/functions.php:4720
 msgid "Attachments"
 msgstr ""
 
-#: include/functions.php:5259
+#: include/functions.php:5180
 #, php-format
 msgid "%d archived articles"
 msgstr ""
 
-#: include/functions.php:5283
+#: include/functions.php:5204
 msgid "No feeds found."
 msgstr ""
 
-#: include/functions.php:5329
+#: include/functions.php:5250
 msgid "Could not import: incorrect schema version."
 msgstr ""
 
-#: include/functions.php:5334
+#: include/functions.php:5255
 msgid "Could not import: unrecognized document format."
 msgstr ""
 
-#: include/functions.php:5493
+#: include/functions.php:5414
 #, php-format
 msgid "Finished: %d articles processed, %d imported, %d feeds created."
 msgstr ""
 
-#: include/functions.php:5499
+#: include/functions.php:5420
 msgid "Could not load XML document."
 msgstr ""
 
@@ -1185,7 +1185,7 @@ msgid "Profile:"
 msgstr ""
 
 #: include/login_form.php:197 classes/handler/public.php:208
-#: classes/rpc.php:147 classes/dlg.php:114
+#: classes/rpc.php:147 classes/dlg.php:116
 msgid "Default profile"
 msgstr ""
 
@@ -1205,7 +1205,7 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: classes/handler/public.php:426 classes/dlg.php:663
+#: classes/handler/public.php:426 classes/dlg.php:667
 #: classes/pref/instances.php:73 classes/pref/feeds.php:510
 #: classes/pref/feeds.php:761
 msgid "URL:"
@@ -1228,9 +1228,9 @@ msgid "Share"
 msgstr ""
 
 #: classes/handler/public.php:452 classes/handler/public.php:494
-#: classes/dlg.php:313 classes/dlg.php:364 classes/dlg.php:424
-#: classes/dlg.php:455 classes/dlg.php:648 classes/dlg.php:698
-#: classes/dlg.php:770 classes/button/note.php:35 classes/button/mail.php:112
+#: classes/dlg.php:315 classes/dlg.php:366 classes/dlg.php:426
+#: classes/dlg.php:457 classes/dlg.php:652 classes/dlg.php:702
+#: classes/dlg.php:774 classes/button/note.php:35 classes/button/mail.php:112
 #: classes/pref/users.php:194 classes/pref/labels.php:81
 #: classes/pref/filters.php:342 classes/pref/filters.php:717
 #: classes/pref/filters.php:786 classes/pref/filters.php:853
@@ -1306,7 +1306,7 @@ msgid ""
 "preferences to see your new data."
 msgstr ""
 
-#: classes/dlg.php:71 classes/pref/users.php:378 classes/pref/labels.php:272
+#: classes/dlg.php:73 classes/pref/users.php:378 classes/pref/labels.php:272
 #: classes/pref/filters.php:223 classes/pref/filters.php:270
 #: classes/pref/filters.php:571 classes/pref/filters.php:645
 #: classes/pref/filters.php:672 classes/pref/instances.php:145
@@ -1315,7 +1315,7 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: classes/dlg.php:74 classes/feeds.php:92 classes/pref/users.php:381
+#: classes/dlg.php:76 classes/feeds.php:92 classes/pref/users.php:381
 #: classes/pref/labels.php:275 classes/pref/filters.php:226
 #: classes/pref/filters.php:273 classes/pref/filters.php:574
 #: classes/pref/filters.php:648 classes/pref/filters.php:675
@@ -1324,7 +1324,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: classes/dlg.php:76 classes/feeds.php:95 classes/pref/users.php:383
+#: classes/dlg.php:78 classes/feeds.php:95 classes/pref/users.php:383
 #: classes/pref/labels.php:277 classes/pref/filters.php:228
 #: classes/pref/filters.php:275 classes/pref/filters.php:576
 #: classes/pref/filters.php:650 classes/pref/filters.php:677
@@ -1333,190 +1333,198 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: classes/dlg.php:85
+#: classes/dlg.php:87
 msgid "Create profile"
 msgstr ""
 
-#: classes/dlg.php:108 classes/dlg.php:138
+#: classes/dlg.php:110 classes/dlg.php:140
 msgid "(active)"
 msgstr ""
 
-#: classes/dlg.php:172
+#: classes/dlg.php:174
 msgid "Remove selected profiles"
 msgstr ""
 
-#: classes/dlg.php:174
+#: classes/dlg.php:176
 msgid "Activate profile"
 msgstr ""
 
-#: classes/dlg.php:184
+#: classes/dlg.php:186
 msgid "Public OPML URL"
 msgstr ""
 
-#: classes/dlg.php:189
+#: classes/dlg.php:191
 msgid "Your Public OPML URL is:"
 msgstr ""
 
-#: classes/dlg.php:198 classes/dlg.php:583
+#: classes/dlg.php:200 classes/dlg.php:587
 msgid "Generate new URL"
 msgstr ""
 
-#: classes/dlg.php:210
+#: classes/dlg.php:212
 msgid "Notice"
 msgstr ""
 
-#: classes/dlg.php:216
+#: classes/dlg.php:218
 msgid ""
 "Update daemon is enabled in configuration, but daemon process is not "
 "running, which prevents all feeds from updating. Please start the daemon "
 "process or contact instance owner."
 msgstr ""
 
-#: classes/dlg.php:220 classes/dlg.php:229
+#: classes/dlg.php:222 classes/dlg.php:231
 msgid "Last update:"
 msgstr ""
 
-#: classes/dlg.php:225
+#: classes/dlg.php:227
 msgid ""
 "Update daemon is taking too long to perform a feed update. This could "
 "indicate a problem like crash or a hang. Please check the daemon process or "
 "contact instance owner."
 msgstr ""
 
-#: classes/dlg.php:250 classes/dlg.php:259
+#: classes/dlg.php:252 classes/dlg.php:261
 msgid "Feed or site URL"
 msgstr ""
 
-#: classes/dlg.php:265 classes/dlg.php:734 classes/pref/feeds.php:532
+#: classes/dlg.php:267 classes/dlg.php:738 classes/pref/feeds.php:532
 #: classes/pref/feeds.php:774
 msgid "Place in category:"
 msgstr ""
 
-#: classes/dlg.php:273
+#: classes/dlg.php:275
 msgid "Available feeds"
 msgstr ""
 
-#: classes/dlg.php:285 classes/pref/users.php:155 classes/pref/feeds.php:572
+#: classes/dlg.php:287 classes/pref/users.php:155 classes/pref/feeds.php:572
 #: classes/pref/feeds.php:817
 msgid "Authentication"
 msgstr ""
 
-#: classes/dlg.php:289 classes/dlg.php:748 classes/pref/users.php:438
+#: classes/dlg.php:291 classes/dlg.php:752 classes/pref/users.php:438
 #: classes/pref/feeds.php:578 classes/pref/feeds.php:821
 msgid "Login"
 msgstr ""
 
-#: classes/dlg.php:292 classes/dlg.php:751 classes/pref/prefs.php:200
+#: classes/dlg.php:294 classes/dlg.php:755 classes/pref/prefs.php:200
 #: classes/pref/feeds.php:584 classes/pref/feeds.php:827
 msgid "Password"
 msgstr ""
 
-#: classes/dlg.php:302
+#: classes/dlg.php:304
 msgid "This feed requires authentication."
 msgstr ""
 
-#: classes/dlg.php:307 classes/dlg.php:362 classes/dlg.php:769
+#: classes/dlg.php:309 classes/dlg.php:364 classes/dlg.php:773
 msgid "Subscribe"
 msgstr ""
 
-#: classes/dlg.php:310
+#: classes/dlg.php:312
 msgid "More feeds"
 msgstr ""
 
-#: classes/dlg.php:334 classes/dlg.php:423 classes/pref/users.php:368
+#: classes/dlg.php:336 classes/dlg.php:425 classes/pref/users.php:368
 #: classes/pref/filters.php:567 classes/pref/feeds.php:1277 js/tt-rss.js:234
 msgid "Search"
 msgstr ""
 
-#: classes/dlg.php:338
+#: classes/dlg.php:340
 msgid "Popular feeds"
 msgstr ""
 
-#: classes/dlg.php:339
+#: classes/dlg.php:341
 msgid "Feed archive"
 msgstr ""
 
-#: classes/dlg.php:342
+#: classes/dlg.php:344
 msgid "limit:"
 msgstr ""
 
-#: classes/dlg.php:363 classes/pref/users.php:394 classes/pref/labels.php:284
+#: classes/dlg.php:365 classes/pref/users.php:394 classes/pref/labels.php:284
 #: classes/pref/filters.php:332 classes/pref/filters.php:589
 #: classes/pref/instances.php:155 classes/pref/feeds.php:700
 msgid "Remove"
 msgstr ""
 
-#: classes/dlg.php:374
+#: classes/dlg.php:376
 msgid "Look for"
 msgstr ""
 
-#: classes/dlg.php:382
+#: classes/dlg.php:384
 msgid "Limit search to:"
 msgstr ""
 
-#: classes/dlg.php:398
+#: classes/dlg.php:400
 msgid "This feed"
 msgstr ""
 
-#: classes/dlg.php:430
+#: classes/dlg.php:432
 msgid "Tags for this article (separated by commas):"
 msgstr ""
 
-#: classes/dlg.php:453 classes/dlg.php:646 classes/button/note.php:33
+#: classes/dlg.php:455 classes/dlg.php:650 classes/button/note.php:33
 #: classes/pref/users.php:192 classes/pref/labels.php:79
 #: classes/pref/filters.php:339 classes/pref/instances.php:106
 #: classes/pref/feeds.php:726 classes/pref/feeds.php:883
 msgid "Save"
 msgstr ""
 
-#: classes/dlg.php:461
+#: classes/dlg.php:463
 msgid "Tag Cloud"
 msgstr ""
 
-#: classes/dlg.php:530
+#: classes/dlg.php:532
 msgid "Select item(s) by tags"
 msgstr ""
 
-#: classes/dlg.php:533
+#: classes/dlg.php:535
 msgid "Match:"
 msgstr ""
 
-#: classes/dlg.php:538
+#: classes/dlg.php:537
+msgid "Any"
+msgstr ""
+
+#: classes/dlg.php:540
+msgid "All tags."
+msgstr ""
+
+#: classes/dlg.php:542
 msgid "Which Tags?"
 msgstr ""
 
-#: classes/dlg.php:551
+#: classes/dlg.php:555
 msgid "Display entries"
 msgstr ""
 
-#: classes/dlg.php:563 classes/feeds.php:129
+#: classes/dlg.php:567 classes/feeds.php:129
 msgid "View as RSS"
 msgstr ""
 
-#: classes/dlg.php:574
+#: classes/dlg.php:578
 msgid "You can view this feed as RSS using the following URL:"
 msgstr ""
 
-#: classes/dlg.php:602 classes/pref/prefs.php:641
+#: classes/dlg.php:606 classes/pref/prefs.php:641
 #, php-format
 msgid "New version of Tiny Tiny RSS is available (%s)."
 msgstr ""
 
-#: classes/dlg.php:610
+#: classes/dlg.php:614
 msgid ""
 "You can update using built-in updater in the Preferences or by using update."
 "php"
 msgstr ""
 
-#: classes/dlg.php:614 classes/pref/users.php:390
+#: classes/dlg.php:618 classes/pref/users.php:390
 msgid "Details"
 msgstr ""
 
-#: classes/dlg.php:616
+#: classes/dlg.php:620
 msgid "Download"
 msgstr ""
 
-#: classes/dlg.php:630
+#: classes/dlg.php:634
 #, php-format
 msgid ""
 "You can override colors, fonts and layout of your currently selected theme "
@@ -1524,52 +1532,52 @@ msgid ""
 "\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr ""
 
-#: classes/dlg.php:657 classes/pref/instances.php:65
+#: classes/dlg.php:661 classes/pref/instances.php:65
 msgid "Instance"
 msgstr ""
 
-#: classes/dlg.php:666 classes/pref/instances.php:76
+#: classes/dlg.php:670 classes/pref/instances.php:76
 #: classes/pref/instances.php:173
 msgid "Instance URL"
 msgstr ""
 
-#: classes/dlg.php:676 classes/pref/instances.php:87
+#: classes/dlg.php:680 classes/pref/instances.php:87
 msgid "Access key:"
 msgstr ""
 
-#: classes/dlg.php:679 classes/pref/instances.php:90
+#: classes/dlg.php:683 classes/pref/instances.php:90
 #: classes/pref/instances.php:174
 msgid "Access key"
 msgstr ""
 
-#: classes/dlg.php:683 classes/pref/instances.php:94
+#: classes/dlg.php:687 classes/pref/instances.php:94
 msgid "Use one access key for both linked instances."
 msgstr ""
 
-#: classes/dlg.php:691 classes/pref/instances.php:102
+#: classes/dlg.php:695 classes/pref/instances.php:102
 msgid "Generate new key"
 msgstr ""
 
-#: classes/dlg.php:695
+#: classes/dlg.php:699
 msgid "Create link"
 msgstr ""
 
-#: classes/dlg.php:713
+#: classes/dlg.php:717
 #, php-format
 msgid ""
 "Could not upload file. You might need to adjust upload_max_filesize\n"
 "\t\t\t\tin PHP.ini (current value = %s)"
 msgstr ""
 
-#: classes/dlg.php:731
+#: classes/dlg.php:735
 msgid "Add one valid RSS feed per line (no feed detection is done)"
 msgstr ""
 
-#: classes/dlg.php:740
+#: classes/dlg.php:744
 msgid "Feeds to subscribe, One per line"
 msgstr ""
 
-#: classes/dlg.php:762
+#: classes/dlg.php:766
 msgid "Feeds require authentication."
 msgstr ""
 
@@ -1734,16 +1742,16 @@ msgstr ""
 msgid "Adding filter..."
 msgstr ""
 
-#: classes/opml.php:413
+#: classes/opml.php:416
 #, php-format
 msgid "Processing category: %s"
 msgstr ""
 
-#: classes/opml.php:460
+#: classes/opml.php:467
 msgid "Error: please upload OPML file."
 msgstr ""
 
-#: classes/opml.php:467
+#: classes/opml.php:474
 msgid "Error while parsing document."
 msgstr ""
 

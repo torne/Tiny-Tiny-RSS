@@ -533,9 +533,11 @@ class Dlg extends Handler_Protected {
 		print "<content><![CDATA[";
 
 		print __("Match:"). "&nbsp;" .
-			  "<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" type=\"radio\" checked value=\"any\" name=\"tag_mode\">&nbsp;Any&nbsp;";
-		print "<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" type=\"radio\" value=\"all\" name=\"tag_mode\">&nbsp;All&nbsp;";
-		print "&nbsp;tags.";
+			"<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" type=\"radio\" checked value=\"any\" name=\"tag_mode\" id=\"tag_mode_any\">";
+		print "<label for=\"tag_mode_any\">".__("Any")."</label>";
+		print "&nbsp;";
+		print "<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" type=\"radio\" value=\"all\" name=\"tag_mode\" id=\"tag_mode_all\">";
+		print "<label for=\"tag_mode_all\">".__("All tags.")."</input>";
 
 		print "<select id=\"all_tags\" name=\"all_tags\" title=\"" . __('Which Tags?') . "\" multiple=\"multiple\" size=\"10\" style=\"width : 100%\">";
 		$result = db_query($this->link, "SELECT DISTINCT tag_name FROM ttrss_tags WHERE owner_uid = ".$_SESSION['uid']."
