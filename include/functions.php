@@ -70,14 +70,11 @@
 			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {
-			$lang = $_COOKIE["ttrss_lang"];
-		}
-
 		/* In login action of mobile version */
 		if ($_POST["language"] && defined('MOBILE_VERSION')) {
 			$lang = $_POST["language"];
-			$_COOKIE["ttrss_lang"] = $lang;
+		} else {
+			$lang = $_SESSION["language"];
 		}
 
 		if ($lang) {
@@ -735,90 +732,14 @@
 				/* bump login timestamp */
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
+			}
 
-				if ($_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
-					setcookie("ttrss_lang", $_SESSION["language"],
-						time() + SESSION_COOKIE_LIFETIME);
-				}
+			if ($_SESSION["uid"] && $_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
+				setcookie("ttrss_lang", $_SESSION["language"],
+					time() + SESSION_COOKIE_LIFETIME);
 			}
 		}
 	}
-
-
-	/* function login_sequence($link, $mobile = false) {
-		$_SESSION["prefs_cache"] = array();
-
-		if (!SINGLE_USER_MODE) {
-
-			$login_action = $_POST["login_action"];
-
-			# try to authenticate user if called from login form
-			if ($login_action == "do_login") {
-				$login = db_escape_string($_POST["login"]);
-				$password = $_POST["password"];
-				$remember_me = $_POST["remember_me"];
-
-				if (authenticate_user($link, $login, $password)) {
-					$_POST["password"] = "";
-
-					$_SESSION["language"] = $_POST["language"];
-					$_SESSION["ref_schema_version"] = get_schema_version($link, true);
-					$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
-
-					if ($_POST["profile"]) {
-
-						$profile = db_escape_string($_POST["profile"]);
-
-						$result = db_query($link, "SELECT id FROM ttrss_settings_profiles
-							WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
-
-						if (db_num_rows($result) != 0) {
-							$_SESSION["profile"] = $profile;
-							$_SESSION["prefs_cache"] = array();
-						}
-					}
-
-					if ($_REQUEST['return']) {
-						header("Location: " . $_REQUEST['return']);
-					} else {
-						header("Location: " . $_SERVER["REQUEST_URI"]);
-					}
-
-					exit;
-
-					return;
-				} else {
-					$_SESSION["login_error_msg"] = __("Incorrect username or password");
-				}
-			}
-
-			if (!$_SESSION["uid"] || !validate_session($link)) {
-
-				if (AUTH_AUTO_LOGIN && authenticate_user($link, null, null)) {
-				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
-				} else {
-					 authenticate_user($link, null, null, true);
-				    render_login_form($link, $mobile);
-				    exit;
-				}
-			} else {
-				// bump login timestamp
-				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
-					$_SESSION["uid"]);
-
-				if ($_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
-					setcookie("ttrss_lang", $_SESSION["language"],
-						time() + SESSION_COOKIE_LIFETIME);
-				}
-
-				// try to remove possible duplicates from feed counter cache
-//				ccache_cleanup($link, $_SESSION["uid"]);
-			}
-
-		} else {
-			return authenticate_user($link, "admin", null);
-		}
-	} */
 
 	function truncate_string($str, $max_len, $suffix = '&hellip;') {
 		if (mb_strlen($str, "utf-8") > $max_len - 3) {
