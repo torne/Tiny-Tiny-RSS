@@ -157,6 +157,7 @@
 
 	} // function update_daemon_common
 
+	// ignore_daemon is not used
 	function update_rss_feed($link, $feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
 
@@ -166,35 +167,15 @@
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
-		if (!$_REQUEST["daemon"] && !$ignore_daemon) {
-			return false;
-		}
-
 		if ($debug_enabled) {
 			_debug("update_rss_feed: start");
 		}
 
-		if (!$ignore_daemon) {
-
-			if (DB_TYPE == "pgsql") {
-					$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '120 seconds')";
-				} else {
-					$updstart_thresh_qpart = "(ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 120 SECOND))";
-				}
-
-			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				auth_pass,cache_images,update_method,last_updated
-				FROM ttrss_feeds WHERE id = '$feed' AND $updstart_thresh_qpart");
-
-		} else {
-
-			$result = db_query($link, "SELECT id,update_interval,auth_login,
-				feed_url,auth_pass,cache_images,update_method,last_updated,
-				mark_unread_on_update, owner_uid, update_on_checksum_change,
-				pubsub_state
-				FROM ttrss_feeds WHERE id = '$feed'");
-
-		}
+		$result = db_query($link, "SELECT id,update_interval,auth_login,
+			feed_url,auth_pass,cache_images,update_method,last_updated,cache_content,
+			mark_unread_on_update, owner_uid, update_on_checksum_change,
+			pubsub_state
+			FROM ttrss_feeds WHERE id = '$feed'");
 
 		if (db_num_rows($result) == 0) {
 			if ($debug_enabled) {
@@ -240,6 +221,7 @@
 		}
 
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+		$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
 		$feed = db_escape_string($feed);
@@ -624,6 +606,7 @@
 				}
 
 				$entry_content_unescaped = $entry_content;
+				$entry_cached_content = "";
 
 				if ($use_simplepie) {
 					$entry_comments = strip_tags($item->data["comments"]);
@@ -782,6 +765,20 @@
 						_debug("update_rss_feed: base guid not found");
 					}
 
+					if ($cache_content) {
+						if ($debug_enabled) {
+							_debug("update_rss_feed: caching content...");
+						}
+
+						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
+
+						if ($cache_images && is_writable(CACHE_DIR . '/images'))
+							$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
+
+						$entry_cached_content = db_escape_string($entry_cached_content, false);
+
+					}
+
 					// base post entry does not exist, create it
 
 					$result = db_query($link,
@@ -792,6 +789,7 @@
 							updated,
 							content,
 							content_hash,
+							cached_content,
 							no_orig_date,
 							date_updated,
 							date_entered,
@@ -804,6 +802,7 @@
 							'$entry_link',
 							'$entry_timestamp_fmt',
 							'$entry_content',
+							'$entry_cached_content',
 							'$content_hash',
 							$no_orig_date,
 							NOW(),
@@ -996,6 +995,19 @@
 					if ($content_hash != $orig_content_hash) {
 						$post_needs_update = true;
 						$update_insignificant = false;
+
+						if ($cache_content) {
+							if ($debug_enabled) {
+								_debug("update_rss_feed: caching content because original checksum changed...");
+							}
+
+							$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
+
+							if ($cache_images && is_writable(CACHE_DIR . '/images'))
+								$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
+
+							$entry_cached_content = db_escape_string($entry_cached_content, false);
+						}
 					}
 
 					if (db_escape_string($orig_title) != $entry_title) {
@@ -1016,6 +1028,7 @@
 						db_query($link, "UPDATE ttrss_entries
 							SET title = '$entry_title', content = '$entry_content',
 								content_hash = '$content_hash',
+								cached_content = '$entry_cached_content',
 								updated = '$entry_timestamp_fmt',
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
@@ -1483,5 +1496,26 @@
 				}
 			}
 		}
+	}
+
+	function cache_content($link, $url, $login, $pass) {
+
+		$content = fetch_file_contents($url, $login, $pass);
+
+		if ($content) {
+			$doc = new DOMDocument();
+			@$doc->loadHTML($content);
+			$xpath = new DOMXPath($doc);
+
+			$node = $doc->getElementsByTagName('body')->item(0);
+
+			if ($node) {
+				$content = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+
+				return $content;
+			}
+		}
+
+		return "";
 	}
 ?>

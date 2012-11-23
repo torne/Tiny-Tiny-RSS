@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 98);
+	define('SCHEMA_VERSION', 99);
 
 	$fetch_last_error = false;
 
@@ -2367,7 +2367,7 @@
 				}
 			}
 
-			$content_query_part = "content as content_preview,";
+			$content_query_part = "content as content_preview, cached_content, ";
 
 			if (is_numeric($feed)) {
 
@@ -3111,15 +3111,17 @@
 
 		//if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
-		$result = db_query($link, "SELECT rtl_content, always_display_enclosures FROM ttrss_feeds
+		$result = db_query($link, "SELECT rtl_content, always_display_enclosures, cache_content FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = $owner_uid");
 
 		if (db_num_rows($result) == 1) {
 			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
 			$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
+			$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 		} else {
 			$rtl_content = false;
 			$always_display_enclosures = false;
+			$cache_content = false;
 		}
 
 		if ($rtl_content) {
@@ -3146,7 +3148,8 @@
 			tag_cache,
 			author,
 			orig_feed_id,
-			note
+			note,
+			cached_content
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = $owner_uid");
 
@@ -3342,6 +3345,10 @@
 					}
 					$rv['content'] .= "</div></div><br/";
 				}
+			}
+
+			if ($cache_content && $line["cached_content"] != "") {
+				$line["content"] =& $line["cached_content"];
 			}
 
 			$article_content = sanitize($link, $line["content"], false, $owner_uid,
@@ -4460,6 +4467,11 @@
 				}
 
 				if ($show_content) {
+
+					if ($line["cached_content"] != "") {
+						$line["content_preview"] =& $line["cached_content"];
+					}
+
 					if ($sanitize_content) {
 						$headline_row["content"] = sanitize($link,
 							$line["content_preview"], false, false, $line["site_url"]);

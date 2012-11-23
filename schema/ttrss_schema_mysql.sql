@@ -116,6 +116,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	hidden bool not null default false,
 	include_in_digest boolean not null default true,
 	cache_images boolean not null default false,
+	cache_content boolean not null default false,
 	auth_pass_encrypted boolean not null default false,
 	last_viewed datetime default null,
 	last_update_started datetime default null,
@@ -150,6 +151,7 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	updated datetime not null,
 	content longtext not null,
 	content_hash varchar(250) not null,
+	cached_content longtext,
 	no_orig_date bool not null default 0,
 	date_entered datetime not null,
 	date_updated datetime not null,
@@ -306,7 +308,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (98);
+insert into ttrss_version values (99);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

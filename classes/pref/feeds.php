@@ -653,6 +653,19 @@ class Pref_Feeds extends Handler_Protected {
 			$checked>&nbsp;<label for=\"cache_images\">".
 		__('Cache images locally')."</label>";
 
+		$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
+
+		if ($cache_content) {
+			$checked = "checked=\"1\"";
+		} else {
+			$checked = "";
+		}
+
+		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_content\"
+		name=\"cache_content\"
+			$checked>&nbsp;<label for=\"cache_content\">".
+		__('Cache content locally')."</label>";
+
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result, 0, "mark_unread_on_update"));
 
 		if ($mark_unread_on_update) {
@@ -914,6 +927,8 @@ class Pref_Feeds extends Handler_Protected {
 			db_escape_string($_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
 			db_escape_string($_POST["cache_images"]));
+		$cache_content = checkbox_to_sql_bool(
+			db_escape_string($_POST["cache_content"]));
 		$update_method = (int) db_escape_string($_POST["update_method"]);
 
 		$always_display_enclosures = checkbox_to_sql_bool(
@@ -938,8 +953,6 @@ class Pref_Feeds extends Handler_Protected {
 			$category_qpart_nocomma = "";
 		}
 
-		$cache_images_qpart = "cache_images = $cache_images,";
-
 		if (!$batch) {
 
 			$result = db_query($this->link, "UPDATE ttrss_feeds SET
@@ -951,7 +964,8 @@ class Pref_Feeds extends Handler_Protected {
 				auth_pass = '$auth_pass',
 				private = $private,
 				rtl_content = $rtl_content,
-				$cache_images_qpart
+				cache_images = $cache_images,
+				cache_content = $cache_content,
 				include_in_digest = $include_in_digest,
 				always_display_enclosures = $always_display_enclosures,
 				mark_unread_on_update = $mark_unread_on_update,
@@ -1021,6 +1035,10 @@ class Pref_Feeds extends Handler_Protected {
 
 					case "cache_images":
 						$qpart = "cache_images = $cache_images";
+						break;
+
+					case "cache_content":
+						$qpart = "cache_content = $cache_content";
 						break;
 
 					case "rtl_content":

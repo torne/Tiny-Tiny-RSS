@@ -280,7 +280,7 @@ class API extends Handler {
 
 		$article_id = join(",", array_filter(explode(",", db_escape_string($_REQUEST["article_id"])), is_numeric));
 
-		$query = "SELECT id,title,link,content,feed_id,comments,int_id,
+		$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
 			marked,unread,published,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			author
@@ -309,7 +309,7 @@ class API extends Handler {
 					"comments" => $line["comments"],
 					"author" => $line["author"],
 					"updated" => strtotime($line["updated"]),
-					"content" => $line["content"],
+					"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
 					"feed_id" => $line["feed_id"],
 					"attachments" => $attachments
 				);

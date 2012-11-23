@@ -78,6 +78,7 @@ create table ttrss_feeds (id serial not null primary key,
 	include_in_digest boolean not null default true,
 	rtl_content boolean not null default false,
 	cache_images boolean not null default false,
+	cache_content boolean not null default false,
 	last_viewed timestamp default null,
 	last_update_started timestamp default null,
 	update_method integer not null default 0,
@@ -130,6 +131,7 @@ create table ttrss_entries (id serial not null primary key,
 	updated timestamp not null,
 	content text not null,
 	content_hash varchar(250) not null,
+	cached_content text,
 	no_orig_date boolean not null default false,
 	date_entered timestamp not null,
 	date_updated timestamp not null,
@@ -254,7 +256,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (98);
+insert into ttrss_version values (99);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

@@ -1,5 +1,5 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
+	set_include_path(get_include_path() . PATH_SEPARATOR .
 		dirname(__FILE__) . "/include");
 
 	require_once "functions.php";
@@ -125,6 +125,7 @@ function confirmOP() {
 		foreach (array_keys($update_versions) as $v) {
 			if ($v == $version + 1) {
 				print "<p>".T_sprintf("Updating to version %d...", $v)."</p>";
+				db_query($link, "BEGIN");
 				$fp = fopen($update_versions[$v], "r");
 				if ($fp) {
 					while (!feof($fp)) {
@@ -136,6 +137,7 @@ function confirmOP() {
 					}
 				}
 				fclose($fp);
+				db_query($link, "COMMIT");
 
 				print "<p>".__("Checking version... ");
 
