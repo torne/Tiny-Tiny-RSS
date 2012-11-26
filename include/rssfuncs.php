@@ -398,6 +398,23 @@
 				_debug("update_rss_feed: " . count($filters) . " filters loaded.");
 			}
 
+			$filter_plugins = array();
+
+			if (defined('_ARTICLE_FILTER_PLUGINS')) {
+				foreach (explode(",", _ARTICLE_FILTER_PLUGINS) as $p) {
+					$pclass = "filter_" . trim($p);
+
+					if (class_exists($pclass)) {
+						$plugin = new $pclass($link);
+						array_push($filter_plugins, $plugin);
+					}
+				}
+			}
+
+			if ($debug_enabled) {
+				_debug("update_rss_feed: " . count($filter_plugins) . " filter plugins loaded.");
+			}
+
 			if ($use_simplepie) {
 				$iterator = $rss->get_items();
 			} else {
@@ -651,8 +668,6 @@
 
 				$entry_content = db_escape_string($entry_content, false);
 
-				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
-
 				$entry_title = db_escape_string($entry_title);
 				$entry_link = db_escape_string($entry_link);
 				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
@@ -756,6 +771,31 @@
 				if ($debug_enabled) {
 					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
 				}
+
+				// TODO: less memory-hungry implementation
+				if (count($filter_plugins) > 0) {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: applying plugin filters...");
+					}
+
+					$article = array("owner_uid" => $owner_uid,
+						"title" => $entry_title,
+						"content" => $entry_content,
+						"link" => $entry_link,
+						"tags" => $entry_tags,
+						"author" => $entry_author);
+
+					foreach ($filter_plugins as $plugin) {
+						$article = $plugin->filter_article($article);
+					}
+
+					$entry_title = $article["title"];
+					$entry_content = $article["content"];
+					$entry_tags = $article["tags"];
+					$entry_author = $article["author"];
+				}
+
+				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
 				db_query($link, "BEGIN");
 
