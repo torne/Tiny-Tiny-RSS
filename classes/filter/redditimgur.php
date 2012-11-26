@@ -15,7 +15,7 @@ class Filter_RedditImgur {
 
 					foreach ($entries as $entry) {
 						if ($entry->hasAttribute("href")) {
-							if (preg_match("/i.imgur.com\/.*?.jpg/", $entry->getAttribute("href"))) {
+							if (preg_match("/\.(jpg|jpeg|gif|png)$/i", $entry->getAttribute("href"))) {
 
 							 	$img = $doc->createElement('img');
 								$img->setAttribute("src", $entry->getAttribute("href"));
