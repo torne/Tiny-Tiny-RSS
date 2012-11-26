@@ -816,7 +816,6 @@
 							$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
 
 						$entry_cached_content = db_escape_string($entry_cached_content, false);
-
 					}
 
 					// base post entry does not exist, create it
@@ -873,7 +872,7 @@
 						id,content_hash,no_orig_date,title,
 						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
-						num_comments
+						num_comments, cached_content
 					FROM
 						ttrss_entries
 					WHERE guid = '$entry_guid'");
@@ -891,6 +890,7 @@
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_title = db_fetch_result($result, 0, "title");
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
+					$orig_cached_content = trim(db_fetch_result($result, 0, "cached_content"));
 					$orig_date_updated = strtotime(db_fetch_result($result,
 						0, "date_updated"));
 
@@ -1026,6 +1026,7 @@
 
 					$post_needs_update = false;
 					$update_insignificant = false;
+					$cached_content_needs_update = false;
 
 					if ($orig_num_comments != $num_comments) {
 						$post_needs_update = true;
@@ -1035,19 +1036,27 @@
 					if ($content_hash != $orig_content_hash) {
 						$post_needs_update = true;
 						$update_insignificant = false;
+						$cached_content_needs_update = true;
+					}
 
-						if ($cache_content) {
-							if ($debug_enabled) {
-								_debug("update_rss_feed: caching content because original checksum changed...");
-							}
+					if ($cache_content) {
+						if ($debug_enabled) {
+							_debug("update_rss_feed: caching content because original checksum changed...");
+						}
 
-							$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
+						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
 
+						if ($entry_cached_content) {
 							if ($cache_images && is_writable(CACHE_DIR . '/images'))
 								$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
 
 							$entry_cached_content = db_escape_string($entry_cached_content, false);
+							$post_needs_update = true;
+						} else {
+							$entry_cached_content = db_escape_string($orig_cached_content);
 						}
+					} else {
+						$entry_cached_content = db_escape_string($orig_cached_content);
 					}
 
 					if (db_escape_string($orig_title) != $entry_title) {
