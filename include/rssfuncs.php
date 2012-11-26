@@ -807,8 +807,11 @@
 
 					if ($cache_content) {
 						if ($debug_enabled) {
-							_debug("update_rss_feed: caching content...");
+							_debug("update_rss_feed: caching content (initial)...");
 						}
+
+						// give the publisher some time to put stuff online
+						sleep(10);
 
 						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
 
