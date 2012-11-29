@@ -524,7 +524,7 @@
 				}
 
 				if ($cache_content) {
-					$entry_guid = "ccache,$owner_uid:$entry_guid";
+					$entry_guid = "ccache:$entry_guid";
 				}
 
 				if ($auth_login || $auth_pass) {
