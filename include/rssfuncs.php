@@ -523,6 +523,14 @@
 					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
 				}
 
+				if ($cache_content) {
+					$entry_guid = "ccache,$owner_uid:$entry_guid";
+				}
+
+				if ($auth_login || $auth_pass) {
+					$entry_guid = "auth,$owner_uid:$entry_guid";
+				}
+
 				if ($debug_enabled) {
 					_debug("update_rss_feed: guid $entry_guid");
 				}
@@ -809,9 +817,6 @@
 						if ($debug_enabled) {
 							_debug("update_rss_feed: caching content (initial)...");
 						}
-
-						// give the publisher some time to put stuff online
-						sleep(10);
 
 						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
 
