@@ -377,6 +377,10 @@ class Handler_Public extends Handler {
 	}
 
 	function sharepopup() {
+		if (SINGLE_USER_MODE) {
+			login_sequence($this->link);
+		}
+
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html>
 				<head>
@@ -542,6 +546,10 @@ class Handler_Public extends Handler {
 	}
 
 	function subscribe() {
+		if (SINGLE_USER_MODE) {
+			login_sequence($this->link);
+		}
+
 		if ($_SESSION["uid"]) {
 
 			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
