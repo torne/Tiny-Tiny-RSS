@@ -1,10 +1,7 @@
 #!/usr/bin/env php
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR .
-		dirname(__FILE__) . "/include");
-
-	// This is an experimental multiprocess update daemon.
-	// Some configurable variable may be found below.
+	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
+		get_include_path());
 
 	declare(ticks = 1);
 	chdir(dirname(__FILE__));

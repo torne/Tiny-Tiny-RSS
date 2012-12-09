@@ -1,8 +1,8 @@
 <?php
-	set_include_path(get_include_path() . PATH_SEPARATOR .
-		dirname(__FILE__) . PATH_SEPARATOR .
+	set_include_path(dirname(__FILE__) . PATH_SEPARATOR .
 		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
-		dirname(dirname(__FILE__)) . "/include" );
+		dirname(dirname(__FILE__)) . "/include" . PATH_SEPARATOR .
+  		get_include_path());
 
 	require_once "functions.php";
 	require_once "sessions.php";
