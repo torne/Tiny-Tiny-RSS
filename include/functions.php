@@ -3405,9 +3405,12 @@
 		return $tag;
 	}
 
-	// we need to placate idiots who don't know any better
 	function get_self_url_prefix() {
-		return preg_replace("/\/$/", "", SELF_URL_PATH);
+		if (strrpos(SELF_URL_PATH, "/") === strlen(SELF_URL_PATH)-1) {
+			return substr(SELF_URL_PATH, 0, strlen(SELF_URL_PATH)-1);
+		} else {
+			return SELF_URL_PATH;
+		}
 	}
 
 	function opml_publish_url($link){
