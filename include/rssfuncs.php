@@ -141,6 +141,7 @@
 		}
 
 		expire_cached_files($debug);
+		expire_lock_files($debug);
 
 		// For each feed, we call the feed update function.
 		while ($line = array_pop($feeds_to_update)) {
@@ -1394,6 +1395,27 @@
 		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 	}
 
+	function expire_lock_files($debug) {
+		if ($debug) _debug("Removing old lock files...");
+
+		$num_deleted = 0;
+
+		if (is_writable(LOCK_DIRECTORY)) {
+			$files = glob(LOCK_DIRECTORY . "/*.lock");
+
+			if ($files) {
+				foreach ($files as $file) {
+					if (!file_is_locked($file) && time() - filemtime($file) > 86400*2) {
+						unlink($file);
+						++$num_deleted;
+					}
+				}
+			}
+		}
+
+		if ($debug) _debug("Removed $num_deleted files.");
+	}
+
 	function expire_cached_files($debug) {
 		foreach (array("magpie", "simplepie", "images", "export") as $dir) {
 			$cache_dir = CACHE_DIR . "/$dir";
@@ -1405,7 +1427,7 @@
 			if (is_writable($cache_dir)) {
 				$files = glob("$cache_dir/*");
 
-				if ($files)
+				if ($files) {
 					foreach ($files as $file) {
 						if (time() - filemtime($file) > 86400*7) {
 							unlink($file);
@@ -1414,6 +1436,7 @@
 						}
 					}
 				}
+			}
 
 			if ($debug) _debug("Removed $num_deleted files.");
 		}
