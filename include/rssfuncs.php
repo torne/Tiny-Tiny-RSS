@@ -631,7 +631,6 @@
 					print "\n";
 				}
 
-				$entry_content_unescaped = $entry_content;
 				$entry_cached_content = "";
 
 				if ($use_simplepie) {
@@ -675,10 +674,6 @@
 				$result = db_query($link, "SELECT id FROM	ttrss_entries
 					WHERE guid = '$entry_guid'");
 
-				$entry_content = db_escape_string($entry_content, false);
-
-				$entry_title = db_escape_string($entry_title);
-				$entry_link = db_escape_string($entry_link);
 				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
 				$entry_author = mb_substr($entry_author, 0, 250);
 
@@ -762,7 +757,7 @@
 				$entry_tags = null;
 
 				preg_match_all("/<a.*?rel=['\"]tag['\"].*?\>([^<]+)<\/a>/i",
-					$entry_content_unescaped, $entry_tags);
+					$entry_content, $entry_tags);
 
 				$entry_tags = $entry_tags[1];
 
@@ -803,6 +798,11 @@
 					$entry_tags = $article["tags"];
 					$entry_author = $article["author"];
 				}
+
+				$entry_content = db_escape_string($entry_content, false);
+				$entry_title = db_escape_string($entry_title);
+				$entry_author = db_escape_string($entry_author);
+				$entry_link = db_escape_string($entry_link);
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
