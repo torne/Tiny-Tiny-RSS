@@ -887,6 +887,16 @@ function hotkey_handler(e) {
 				}
 			}
 
+			if (keycode == 68 && shift_key) { // D
+
+				window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
+						"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
+						activeFeedIsCat() + "&DevForceUpdate=1&debug=2&xdebug=2&csrf_token=" +
+						getInitParam("csrf_token"));
+
+				return false;
+			}
+
 			if (keycode == 69) { // e
 
 				if (activeFeedIsCat())
