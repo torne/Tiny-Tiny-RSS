@@ -678,14 +678,19 @@
 				$entry_author = mb_substr($entry_author, 0, 250);
 
 				if ($use_simplepie) {
-					$num_comments = 0; #FIXME#
+					$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
+
+					if (is_array($num_comments) && is_array($num_comments[0])) {
+						$num_comments = (int) $num_comments[0]["data"];
+					} else {
+						$num_comments = 0;
+					}
 				} else {
-					$num_comments = db_escape_string($item["slash"]["comments"]);
+					$num_comments = (int) $item["slash"]["comments"];
 				}
 
-				if (!$num_comments) $num_comments = 0;
-
 				if ($debug_enabled) {
+					_debug("update_rss_feed: num_comments: $num_comments");
 					_debug("update_rss_feed: looking for tags [1]...");
 				}
 
