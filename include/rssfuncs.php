@@ -634,7 +634,12 @@
 				$entry_cached_content = "";
 
 				if ($use_simplepie) {
-					$entry_comments = strip_tags($item->data["comments"]);
+					$entry_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
+
+					if (is_array($entry_comments) && is_array($entry_comments[0])) {
+						$entry_comments = (int) $entry_comments[0]["data"];
+					}
+
 					if ($item->get_author()) {
 						$entry_author_item = $item->get_author();
 						$entry_author = $entry_author_item->get_name();
@@ -643,7 +648,7 @@
 						$entry_author = db_escape_string($entry_author);
 					}
 				} else {
-					$entry_comments = strip_tags($item["comments"]);
+					$entry_comments = (int) $item["comments"];
 
 					$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
 
