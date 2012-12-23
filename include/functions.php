@@ -7,13 +7,6 @@
 	function __autoload($class) {
 		$class_file = str_replace("_", "/", strtolower(basename($class)));
 
-		$file = dirname(__FILE__)."/../plugins/$class_file.php";
-
-		if (file_exists($file)) {
-			require $file;
-			return;
-		}
-
 		$file = dirname(__FILE__)."/../classes/$class_file.php";
 
 		if (file_exists($file)) {
@@ -3265,15 +3258,10 @@
 						onclick=\"postOpenInNewTab(event, $id)\"
 						alt='Zoom' title='".__('Open article in new tab')."'>";
 
-				$button_plugins = explode(",", ARTICLE_BUTTON_PLUGINS);
+				global $pluginhost;
 
-				foreach ($button_plugins as $p) {
-					$pclass = "button_" . trim($p);
-
-					if (class_exists($pclass)) {
-						$plugin = new $pclass($link);
-						$rv['content'] .= $plugin->render($id, $line);
-					}
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
+					$rv['content'] .= $p->hook_article_button($line);
 				}
 
 				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
@@ -3568,6 +3556,12 @@
 					db_query($link, "SET NAMES " . MYSQL_CHARSET);
 				}
 			}
+
+			global $pluginhost;
+
+			$pluginhost = new PluginHost($link);
+			$pluginhost->load(PLUGINS);
+
 			return true;
 		} else {
 			print "Unable to connect to database:" . db_last_error();

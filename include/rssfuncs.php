@@ -399,23 +399,6 @@
 				_debug("update_rss_feed: " . count($filters) . " filters loaded.");
 			}
 
-			$filter_plugins = array();
-
-			if (defined('_ARTICLE_FILTER_PLUGINS')) {
-				foreach (explode(",", _ARTICLE_FILTER_PLUGINS) as $p) {
-					$pclass = "filter_" . trim($p);
-
-					if (class_exists($pclass)) {
-						$plugin = new $pclass($link);
-						array_push($filter_plugins, $plugin);
-					}
-				}
-			}
-
-			if ($debug_enabled) {
-				_debug("update_rss_feed: " . count($filter_plugins) . " filter plugins loaded.");
-			}
-
 			if ($use_simplepie) {
 				$iterator = $rss->get_items();
 			} else {
@@ -782,7 +765,9 @@
 				}
 
 				// TODO: less memory-hungry implementation
-				if (count($filter_plugins) > 0) {
+				global $pluginhost;
+
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $p) {
 					if ($debug_enabled) {
 						_debug("update_rss_feed: applying plugin filters...");
 					}
@@ -795,7 +780,7 @@
 						"author" => $entry_author);
 
 					foreach ($filter_plugins as $plugin) {
-						$article = $plugin->filter_article($article);
+						$article = $plugin->hook_article_filter($article);
 					}
 
 					$entry_title = $article["title"];

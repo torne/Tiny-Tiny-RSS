@@ -1,7 +1,17 @@
 <?php
-class Filter_RedditImgur {
+class RedditImgur {
 
-	function filter_article($article) {
+	private $link;
+	private $host;
+
+	function __construct($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_ARTICLE_FILTER, $this);
+	}
+
+	function hook_article_filter($article) {
 
 		if (strpos($article["link"], "reddit.com/r/") !== FALSE) {
 			if (strpos($article["content"], "i.imgur.com") !== FALSE) {

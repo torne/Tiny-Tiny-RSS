@@ -1,7 +1,7 @@
 function editArticleNote(id) {
 	try {
 
-		var query = "backend.php?op=rpc&method=buttonPlugin&plugin=note&plugin_method=edit&param=" + param_escape(id);
+		var query = "backend.php?op=pluginhandler&plugin=note&method=edit&param=" + param_escape(id);
 
 		if (dijit.byId("editNoteDlg"))
 			dijit.byId("editNoteDlg").destroyRecursive();

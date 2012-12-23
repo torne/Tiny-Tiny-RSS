@@ -176,15 +176,12 @@
 	// if you experience weird errors and tt-rss failing to start, blank pages
 	// after login, or content encoding errors, disable it.
 
+	define('PLUGINS', '');
+	// Plugins to load. Check plugins/ directory for additional information.
+
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.
-
-	define('ARTICLE_BUTTON_PLUGINS', 'note,tweet,share,mail');
-	// Comma-separated list of additional article action button plugins
-	// to enable, like tweet button, etc.
-	// The following plugins are available: note, tweet, share, mail
-	// More plugins: http://tt-rss.org/wiki/Plugins
 
 	define('CONFIG_VERSION', 26);
 	// Expected config version. Please update this option in config.php

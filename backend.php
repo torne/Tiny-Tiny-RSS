@@ -126,6 +126,10 @@
 				if ($handler->before($method)) {
 					if ($method && method_exists($handler, $method)) {
 						$handler->$method();
+					} else {
+						if (method_exists($handler, "catchall")) {
+							$handler->catchall($method);
+						}
 					}
 					$handler->after();
 					return;

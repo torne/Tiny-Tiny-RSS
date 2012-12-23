@@ -1,6 +1,20 @@
 <?php
-class Button_Share extends Button {
-	function render($article_id, $line) {
+class Share {
+	private $link;
+	private $host;
+
+	function __construct($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+	}
+
+	function get_js() {
+		return file_get_contents(dirname(__FILE__) . "/share.js");
+	}
+
+	function hook_article_button($line) {
 		return "<img src=\"".theme_image($this->link, 'images/art-share.png')."\"
 			class='tagsPic' style=\"cursor : pointer\"
 			onclick=\"shareArticle(".$line['int_id'].")\"

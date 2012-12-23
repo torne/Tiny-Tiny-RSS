@@ -14,7 +14,7 @@ function emailArticle(id) {
 		if (dijit.byId("emailArticleDlg"))
 			dijit.byId("emailArticleDlg").destroyRecursive();
 
-		var query = "backend.php?op=rpc&method=buttonPlugin&plugin=mail&plugin_method=emailArticle&param=" + param_escape(id);
+		var query = "backend.php?op=pluginhandler&plugin=mail&method=emailArticle&param=" + param_escape(id);
 
 		dialog = new dijit.Dialog({
 			id: "emailArticleDlg",
@@ -47,7 +47,7 @@ function emailArticle(id) {
 	   	dojo.disconnect(tmph);
 
 		   new Ajax.Autocompleter('emailArticleDlg_destination', 'emailArticleDlg_dst_choices',
-			   "backend.php?op=rpc&method=buttonPlugin&plugin=mail&plugin_method=completeEmails",
+			   "backend.php?op=pluginhandler&plugin=mail&method=completeEmails",
 			   { tokens: '', paramName: "search" });
 		});
 

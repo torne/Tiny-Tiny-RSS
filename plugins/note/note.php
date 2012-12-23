@@ -1,10 +1,25 @@
 <?php
-class Button_Note extends Button {
-	function render($article_id) {
-		return "<img src=\"".theme_image($this->link, "images/art-pub-note.png")."\"
-				style=\"cursor : pointer\" style=\"cursor : pointer\"
-				onclick=\"editArticleNote($article_id)\"
-				class='tagsPic' title='".__('Edit article note')."'>";
+class Note {
+	private $link;
+	private $host;
+
+	function __construct($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+	}
+
+	function get_js() {
+		return file_get_contents(dirname(__FILE__) . "/note.js");
+	}
+
+
+	function hook_article_button($line) {
+		return "<img src=\"".theme_image($this->link, "plugins/note/note.png")."\"
+			style=\"cursor : pointer\" style=\"cursor : pointer\"
+			onclick=\"editArticleNote(".$line["id"].")\"
+			class='tagsPic' title='".__('Edit article note')."'>";
 	}
 
 	function edit() {
@@ -16,10 +31,9 @@ class Button_Note extends Button {
 		$note = db_fetch_result($result, 0, "note");
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"buttonPlugin\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setNote\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"note\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin_method\" value=\"setNote\">";
 
 		print "<table width='100%'><tr><td>";
 		print "<textarea dojoType=\"dijit.form.SimpleTextarea\"
@@ -49,7 +63,6 @@ class Button_Note extends Button {
 		print json_encode(array("note" => $formatted_note,
 				"raw_length" => mb_strlen($note)));
 	}
-
 
 }
 ?>

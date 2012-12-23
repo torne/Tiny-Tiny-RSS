@@ -249,7 +249,7 @@ class Feeds extends Handler_Protected {
 
 		$headlines_count = db_num_rows($result);
 
-		if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
+		/* if (get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 			$button_plugins = array();
 			foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
 				$pclass = "button_" . trim($p);
@@ -259,7 +259,9 @@ class Feeds extends Handler_Protected {
 					array_push($button_plugins, $plugin);
 				}
 			}
-		}
+		} */
+
+		global $pluginhost;
 
 		if (db_num_rows($result) > 0) {
 
@@ -706,8 +708,8 @@ class Feeds extends Handler_Protected {
 
 					//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
 
-					foreach ($button_plugins as $p) {
-						$reply['content'] .= $p->render($id, $line);
+					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
+						$reply['content'] .= $p->hook_article_button($line);
 					}
 
 					$reply['content'] .= "<img src=\"images/digest_checkbox.png\"

@@ -1,9 +1,24 @@
 <?php
-class Button_Mail extends Button {
-	function render($article_id) {
-		return "<img src=\"".theme_image($link, 'images/art-email.png')."\"
+class Mail {
+
+	private $link;
+	private $host;
+
+	function __construct($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+	}
+
+	function get_js() {
+		return file_get_contents(dirname(__FILE__) . "/mail.js");
+	}
+
+	function hook_article_button($line) {
+		return "<img src=\"".theme_image($link, 'plugins/mail/mail.png')."\"
 					class='tagsPic' style=\"cursor : pointer\"
-					onclick=\"emailArticle($article_id)\"
+					onclick=\"emailArticle(".$line["id"].")\"
 					alt='Zoom' title='".__('Forward by email')."'>";
 	}
 
@@ -16,10 +31,9 @@ class Button_Mail extends Button {
 		$_SESSION['email_secretkey'] = $secretkey;
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"secretkey\" value=\"$secretkey\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"buttonPlugin\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"mail\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin_method\" value=\"sendEmail\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"sendEmail\">";
 
 		$result = db_query($this->link, "SELECT email, full_name FROM ttrss_users WHERE
 			id = " . $_SESSION["uid"]);

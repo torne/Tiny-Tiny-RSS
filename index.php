@@ -71,10 +71,11 @@
 	<?php
 		require 'lib/jsmin.php';
 
-		foreach (explode(",", ARTICLE_BUTTON_PLUGINS) as $p) {
-			$jsf = "js/".trim($p)."_button.js";
-			if (file_exists($jsf)) {
-				echo JSMin::minify(file_get_contents($jsf));
+		global $pluginhost;
+
+		foreach ($pluginhost->get_plugins() as $n => $p) {
+			if (method_exists($p, "get_js")) {
+				echo JSMin::minify($p->get_js());
 			}
 		}
 

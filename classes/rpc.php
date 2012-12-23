@@ -706,7 +706,7 @@ class RPC extends Handler_Protected {
 		print json_encode(array("status" => $status));
 	}
 
-	function buttonPlugin() {
+	/* function buttonPlugin() {
 		$pclass = "button_" . basename($_REQUEST['plugin']);
 		$method = $_REQUEST['plugin_method'];
 
@@ -716,7 +716,7 @@ class RPC extends Handler_Protected {
 				return $plugin->$method();
 			}
 		}
-	}
+	} */
 
 	function genHash() {
 		$hash = sha1(uniqid(rand(), true));
