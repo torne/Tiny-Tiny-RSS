@@ -9,6 +9,7 @@ class PluginHost {
 	const HOOK_ARTICLE_FILTER = 2;
 	const HOOK_PREFS_TAB = 3;
 	const HOOK_PREFS_SECTION = 4;
+	const HOOK_PREFS_TABS = 5;
 
 	function __construct($link) {
 		$this->link = $link;
@@ -77,7 +78,7 @@ class PluginHost {
 	}
 
 	function add_handler($handler, $method, $sender) {
-		$handler = strtolower($handler);
+		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
 		if (!is_array($this->handlers[$handler])) {
@@ -88,18 +89,22 @@ class PluginHost {
 	}
 
 	function del_handler($handler, $method) {
-		$handler = strtolower($handler);
+		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
 		unset($this->handlers[$handler][$method]);
 	}
 
 	function lookup_handler($handler, $method) {
-		$handler = strtolower($handler);
+		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
 		if (is_array($this->handlers[$handler])) {
-			return $this->handlers[$handler][$method];
+			if (isset($this->handlers[$handler]["*"])) {
+				return $this->handlers[$handler]["*"];
+			} else {
+				return $this->handlers[$handler][$method];
+			}
 		}
 
 		return false;

@@ -9,7 +9,8 @@ class Example_Routing extends Plugin implements IHandler {
 	// Plugin class must implelement IHandler interface and has
 	// a public method of same name as being registered.
 	//
-	// Any system method may be masked by plugins.
+	// Any system method may be masked by plugins. You can mask
+	// entire handler by supplying "*" instead of a method name.
 
 	private $link;
 	private $host;

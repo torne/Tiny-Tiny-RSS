@@ -1,11 +1,34 @@
 <?php
-class Pref_Instances extends Handler_Protected {
+class Instances extends Plugin implements IHandler {
+
+	private $link;
+	private $host;
 
 	private $status_codes = array(
 		0 	=> "Connection failed",
 		1 	=> "Success",
 		2 	=> "Invalid object received",
 		16	=> "Access denied" );
+
+	function __construct($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_PREFS_TABS, $this);
+		$host->add_handler("pref-instances", "*", $this);
+	}
+
+	function get_prefs_js() {
+		return file_get_contents(dirname(__FILE__) . "/instances.js");
+	}
+
+	function hook_prefs_tabs($args) {
+		if ($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) {
+			?><div id="instanceConfigTab" dojoType="dijit.layout.ContentPane"
+			href="backend.php?op=pref-instances"
+			title="<?php echo __('Linked') ?>"></div><?php
+		}
+	}
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "edit");
@@ -14,7 +37,7 @@ class Pref_Instances extends Handler_Protected {
 	}
 
 	function before($method) {
-		if (parent::before($method)) {
+		if ($_SESSION["uid"]) {
 			if ($_SESSION["access_level"] < 10) {
 				print __("Your access level is insufficient to open this tab.");
 				return false;
@@ -22,6 +45,10 @@ class Pref_Instances extends Handler_Protected {
 			return true;
 		}
 		return false;
+	}
+
+	function after() {
+		return true;
 	}
 
 	function remove() {
@@ -219,5 +246,7 @@ class Pref_Instances extends Handler_Protected {
 		print "</div>"; #container
 
 	}
+
 }
 ?>
+
