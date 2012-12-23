@@ -625,6 +625,11 @@ class Pref_Filters extends Handler_Protected {
 		</div>";
 
 		print "</div>"; #pane
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+			"hook_prefs_tab", "prefFilters");
+
 		print "</div>"; #container
 
 	}

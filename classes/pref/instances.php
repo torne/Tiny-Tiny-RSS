@@ -211,6 +211,11 @@ class Pref_Instances extends Handler_Protected {
 		print "</table>";
 
 		print "</div>"; #pane
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+			"hook_prefs_tab", "prefInstances");
+
 		print "</div>"; #container
 
 	}

@@ -44,9 +44,27 @@
 
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 
-	<script type="text/javascript" charset="utf-8" src="js/functions.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/deprecated.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="js/prefs.js?<?php echo $dt_add ?>"></script>
+	<script type="text/javascript">
+	<?php
+		require 'lib/jsmin.php';
+
+		global $pluginhost;
+
+		foreach ($pluginhost->get_plugins() as $n => $p) {
+			if (method_exists($p, "get_prefs_js")) {
+				echo JSMin::minify($p->get_prefs_js());
+			}
+		}
+
+		foreach (array("functions", "deprecated", "prefs") as $js) {
+			if (!isset($_GET['debug'])) {
+				echo JSMin::minify(file_get_contents("js/$js.js"));
+			} else {
+				echo file_get_contents("js/$js.js");
+			}
+		}
+	?>
+	</script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 

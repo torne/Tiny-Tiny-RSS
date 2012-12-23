@@ -318,6 +318,11 @@ class Pref_Labels extends Handler_Protected {
 		</div>";
 
 		print "</div>"; #pane
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+			"hook_prefs_tab", "prefLabels");
+
 		print "</div>"; #container
 
 	}

@@ -650,6 +650,10 @@ class Pref_Prefs extends Handler_Protected {
 			print "</div>"; #pane
 		}
 
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+			"hook_prefs_tab", "prefPrefs");
+
 		print "</div>"; #container
 	}
 

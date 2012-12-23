@@ -6,6 +6,8 @@ class PluginHost {
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
+	const HOOK_PREFS_TAB = 3;
+	const HOOK_PREFS_SECTION = 4;
 
 	function __construct($link) {
 		$this->link = $link;
@@ -26,6 +28,12 @@ class PluginHost {
 
 	function get_plugin($name) {
 		return $this->plugins[$name];
+	}
+
+	function run_hooks($type, $method, $args) {
+		foreach ($this->get_hooks($type) as $hook) {
+			$hook->$method($args);
+		}
 	}
 
 	function add_hook($type, $sender) {
