@@ -3141,7 +3141,7 @@
 			ccache_update($link, $feed_id, $owner_uid);
 		}
 
-		$result = db_query($link, "SELECT title,link,content,feed_id,comments,int_id,
+		$result = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
