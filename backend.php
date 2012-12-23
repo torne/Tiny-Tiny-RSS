@@ -118,10 +118,18 @@
 
 	$op = str_replace("-", "_", $op);
 
-	if (class_exists($op)) {
-		$handler = new $op($link, $_REQUEST);
+	global $pluginhost;
+	$override = $pluginhost->lookup_handler($op, $method);
 
-		if ($handler && is_subclass_of($handler, 'Handler')) {
+	if (class_exists($op) || $override) {
+
+		if ($override) {
+			$handler = $override;
+		} else {
+			$handler = new $op($link, $_REQUEST);
+		}
+
+		if ($handler && implements_interface($handler, 'IHandler')) {
 			if (validate_csrf($csrf_token) || $handler->csrf_ignore($method)) {
 				if ($handler->before($method)) {
 					if ($method && method_exists($handler, $method)) {

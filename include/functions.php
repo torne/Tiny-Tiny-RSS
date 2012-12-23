@@ -5576,4 +5576,8 @@
 		return $rc;
 	}
 
+	function implements_interface($class, $interface) {
+		return in_array($interface, class_implements($class));
+	}
+
 ?>

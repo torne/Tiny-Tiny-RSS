@@ -1,5 +1,5 @@
 <?php
-class Handler {
+class Handler implements IHandler {
 	protected $link;
 	protected $args;
 

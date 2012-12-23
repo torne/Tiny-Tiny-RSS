@@ -3,6 +3,7 @@ class PluginHost {
 	private $link;
 	private $hooks = array();
 	private $plugins = array();
+	private $handlers = array();
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -62,7 +63,7 @@ class PluginHost {
 
 		foreach ($plugins as $class) {
 			$class = trim($class);
-			$class_file = str_replace("_", "/", strtolower(basename($class)));
+			$class_file = strtolower(basename($class));
 			$file = dirname(__FILE__)."/../plugins/$class_file/$class_file.php";
 
 			if (file_exists($file)) require_once $file;
@@ -75,5 +76,33 @@ class PluginHost {
 		}
 	}
 
+	function add_handler($handler, $method, $sender) {
+		$handler = strtolower($handler);
+		$method = strtolower($method);
+
+		if (!is_array($this->handlers[$handler])) {
+			$this->handlers[$handler] = array();
+		}
+
+		$this->handlers[$handler][$method] = $sender;
+	}
+
+	function del_handler($handler, $method) {
+		$handler = strtolower($handler);
+		$method = strtolower($method);
+
+		unset($this->handlers[$handler][$method]);
+	}
+
+	function lookup_handler($handler, $method) {
+		$handler = strtolower($handler);
+		$method = strtolower($method);
+
+		if (is_array($this->handlers[$handler])) {
+			return $this->handlers[$handler][$method];
+		}
+
+		return false;
+	}
 }
 ?>

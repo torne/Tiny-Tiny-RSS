@@ -40,9 +40,16 @@
 
 	$method = $_REQUEST["op"];
 
-	$handler = new Handler_Public($link, $_REQUEST);
+	global $pluginhost;
+	$override = $pluginhost->lookup_handler("public", $method);
 
-	if ($handler->before($method)) {
+	if ($override) {
+		$handler = $override;
+	} else {
+		$handler = new Handler_Public($link, $_REQUEST);
+	}
+
+	if (implements_interface($handler, "IHandler") && $handler->before($method)) {
 		if ($method && method_exists($handler, $method)) {
 			$handler->$method();
 		} else if (method_exists($handler, 'index')) {
