@@ -1,5 +1,5 @@
 <?php
-class Share {
+class Share extends Plugin {
 	private $link;
 	private $host;
 

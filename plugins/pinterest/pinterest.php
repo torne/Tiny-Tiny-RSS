@@ -1,5 +1,5 @@
 <?php
-class Pinterest {
+class Pinterest extends Plugin {
 	private $link;
 	private $host;
 

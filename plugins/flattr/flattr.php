@@ -1,5 +1,5 @@
 <?php
-class Flattr {
+class Flattr extends Plugin {
 	private $link;
 	private $host;
 

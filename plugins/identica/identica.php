@@ -1,5 +1,5 @@
 <?php
-class Identica {
+class Identica extends Plugin {
 	private $link;
 	private $host;
 

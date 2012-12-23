@@ -1,5 +1,5 @@
 <?php
-class GooglePlus {
+class GooglePlus extends Plugin {
 	private $link;
 	private $host;
 

@@ -1,5 +1,5 @@
 <?php
-class RedditImgur {
+class RedditImgur extends Plugin {
 
 	private $link;
 	private $host;

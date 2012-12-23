@@ -1,5 +1,5 @@
 <?php
-class Pocket {
+class Pocket extends Plugin {
 
 	private $link;
 	private $host;

@@ -1,5 +1,5 @@
 <?php
-class Mail {
+class Mail extends Plugin {
 
 	private $link;
 	private $host;
