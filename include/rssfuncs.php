@@ -1017,13 +1017,11 @@
 
 		} else {
 
-			$error_msg = mb_substr($rss->error(), 0, 250);
+			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 250));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");
 			}
-
-			$error_msg = db_escape_string($error_msg);
 
 			db_query($link,
 				"UPDATE ttrss_feeds SET last_error = '$error_msg',
