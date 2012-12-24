@@ -1480,11 +1480,11 @@ class Pref_Feeds extends Handler_Protected {
 		print "</div>"; #pane
 
 		global $pluginhost;
+
 		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
 			"hook_prefs_tab", "prefFeeds");
 
 		print "</div>"; #container
-
 	}
 
 	private function feedlist_init_cat($cat_id, $hidden = false) {

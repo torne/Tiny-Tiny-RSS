@@ -621,8 +621,133 @@ class Pref_Prefs extends Handler_Protected {
 				<label for='prefs_show_advanced'>" .
 				__("Show additional preferences") . "</label>";
 
+		print "</form>";
 		print '</div>'; # inner pane
 		print '</div>'; # border container
+
+		print "</div>"; #pane
+
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Plugins')."\">";
+
+		print "<h2>".__("Plugins")."</h2>";
+
+		print_notice("You will need to reload Tiny Tiny RSS for plugin changes to take effect.");
+
+		print "<form dojoType=\"dijit.form.Form\" id=\"changePluginsForm\">";
+
+		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+		evt.preventDefault();
+		if (this.validate()) {
+			notify_progress('Saving data...', true);
+
+			new Ajax.Request('backend.php', {
+				parameters: dojo.objectToQuery(this.getValues()),
+				onComplete: function(transport) {
+					notify('');
+					if (confirm(__('Selected plugins have been enabled. Reload?'))) {
+						window.location.reload();
+					}
+			} });
+
+		}
+		</script>";
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setplugins\">";
+
+		print "<table width='100%'>";
+
+		print "<tr><td colspan='4'><h3>".__("System plugins")."</h3></td></tr>";
+
+		print "<tr class=\"title\">
+				<td width=\"5%\">&nbsp;</td>
+				<td width='10%'>".__('Plugin')."</td>
+				<td width=''>".__('Description')."</td>
+				<td width='5%'>".__('Version')."</td>
+				<td width='10%'>".__('Author')."</td></tr>";
+
+		$system_enabled = array_map("trim", explode(",", PLUGINS));
+		$user_enabled = array_map("trim", explode(",", get_pref($this->link, "_ENABLED_PLUGINS")));
+
+		$tmppluginhost = new PluginHost($link);
+		$tmppluginhost->load_all();
+
+		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
+			$about = $plugin->_about();
+
+			if ($about[3]) {
+				if (in_array($name, $system_enabled)) {
+					$checked = "checked='1'";
+				} else {
+					$checked = "";
+				}
+
+				print "<tr>";
+
+				print "<td align='center'><input disabled='1'
+						dojoType=\"dijit.form.CheckBox\" $checked
+						type=\"checkbox\"></td>";
+
+				print "<td>$name</td>";
+				print "<td>" . htmlspecialchars($about[1]) . "</td>";
+				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
+				print "<td>" . htmlspecialchars($about[2]) . "</td>";
+
+				print "</tr>";
+
+			}
+		}
+
+		print "<tr><td colspan='4'><h3>".__("User plugins")."</h3></td></tr>";
+
+		print "<tr class=\"title\">
+				<td width=\"5%\">&nbsp;</td>
+				<td width='10%'>".__('Plugin')."</td>
+				<td width=''>".__('Description')."</td>
+				<td width='5%'>".__('Version')."</td>
+				<td width='10%'>".__('Author')."</td></tr>";
+
+
+		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
+			$about = $plugin->_about();
+
+			if (!$about[3]) {
+
+				if (in_array($name, $system_enabled)) {
+					$checked = "checked='1'";
+					$disabled = "disabled='1'";
+				} else if (in_array($name, $user_enabled)) {
+					$checked = "checked='1'";
+					$disabled = "";
+				} else {
+					$checked = "";
+					$disabled = "";
+				}
+
+				print "<tr>";
+
+				print "<td align='center'><input id='FPCHK-$name' name='plugins[]' value='$name' onclick='toggleSelectRow2(this);'
+					dojoType=\"dijit.form.CheckBox\" $checked $disabled
+					type=\"checkbox\"></td>";
+
+				print "<td>$name</td>";
+				print "<td>" . htmlspecialchars($about[1]) . "</td>";
+				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
+				print "<td>" . htmlspecialchars($about[2]) . "</td>";
+
+				print "</tr>";
+
+
+
+			}
+
+		}
+
+		print "</table>";
+
+		print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+			__("Enable selected plugins")."</button></p>";
+
 		print "</form>";
 
 		print "</div>"; #pane
@@ -697,6 +822,12 @@ class Pref_Prefs extends Handler_Protected {
 			print "ERROR: ".__("Incorrect password");
 		}
 
+	}
+
+	function setplugins() {
+		$plugins = join(",", $_REQUEST["plugins"]);
+
+		set_pref($this->link, "_ENABLED_PLUGINS", $plugins);
 	}
 }
 ?>

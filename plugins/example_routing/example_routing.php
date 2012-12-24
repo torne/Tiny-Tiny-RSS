@@ -18,7 +18,8 @@ class Example_Routing extends Plugin implements IHandler {
 	function _about() {
 		return array(1.0,
 			"Example routing plugin",
-			"fox");
+			"fox",
+			true);
 	}
 
 	function __construct($host) {

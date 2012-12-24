@@ -13,7 +13,8 @@ class Instances extends Plugin implements IHandler {
 	function _about() {
 		return array(1.0,
 			"Support for linking tt-rss instances together and sharing popular feeds.",
-			"fox");
+			"fox",
+			true);
 	}
 
 	function __construct($host) {

@@ -63,6 +63,10 @@
 		authenticate_user($link, "admin", null);
 	}
 
+	if ($_SESSION["uid"]) {
+		load_user_plugins($link, $_SESSION["uid"]);
+	}
+
 	$purge_intervals = array(
 		0  => __("Use default"),
 		-1 => __("Never purge"),

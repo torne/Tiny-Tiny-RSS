@@ -7,7 +7,8 @@ class Updater extends Plugin {
 	function _about() {
 		return array(1.0,
 			"Updates tt-rss installation to latest version.",
-			"fox");
+			"fox",
+			true);
 	}
 
 	function __construct($host) {

@@ -9,7 +9,8 @@ class Example extends Plugin {
 	function _about() {
 		return array(1.0,
 			"Example plugin #1",
-			"fox");
+			"fox",
+			true);
 	}
 
 	function __construct($host) {

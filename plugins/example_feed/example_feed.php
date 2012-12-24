@@ -10,7 +10,8 @@ class Example_Feed extends Plugin {
 	function _about() {
 		return array(1.0,
 			"Example feed plugin",
-			"fox");
+			"fox",
+			true);
 	}
 
 	function __construct($host) {

@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 99);
+	define('SCHEMA_VERSION', 100);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -711,9 +711,19 @@
 		return true;
 	}
 
+	function load_user_plugins($link, $owner_uid) {
+		if ($owner_uid) {
+			$plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
+
+			global $pluginhost;
+			$pluginhost->load($plugins);
+		}
+	}
+
 	function login_sequence($link, $login_form = 0) {
 		if (SINGLE_USER_MODE) {
-			return authenticate_user($link, "admin", null);
+			authenticate_user($link, "admin", null);
+			load_user_plugins($link, $_SESSION["uid"]);
 		} else {
 			if (!$_SESSION["uid"] || !validate_session($link)) {
 
@@ -734,6 +744,10 @@
 			if ($_SESSION["uid"] && $_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
 				setcookie("ttrss_lang", $_SESSION["language"],
 					time() + SESSION_COOKIE_LIFETIME);
+			}
+
+			if ($_SESSION["uid"]) {
+				load_user_plugins($link, $_SESSION["uid"]);
 			}
 		}
 	}

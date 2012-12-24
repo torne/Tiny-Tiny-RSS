@@ -78,32 +78,45 @@ class PluginHost {
 			$class_file = strtolower(basename($class));
 			$file = dirname(__FILE__)."/../plugins/$class_file/$class_file.php";
 
-			if (file_exists($file)) require_once $file;
+			if (!isset($this->plugins[$class])) {
+				if (file_exists($file)) require_once $file;
 
-			if (class_exists($class) && is_subclass_of($class, "Plugin")) {
-				$plugin = new $class($this);
+				if (class_exists($class) && is_subclass_of($class, "Plugin")) {
+					$plugin = new $class($this);
 
-				$this->register_plugin($class, $plugin);
+					$this->register_plugin($class, $plugin);
+				}
 			}
 		}
 	}
 
+	function is_system($plugin) {
+		$about = $plugin->_about();
+
+		return @$about[3];
+	}
+
+	// only system plugins are allowed to modify routing
 	function add_handler($handler, $method, $sender) {
 		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
-		if (!is_array($this->handlers[$handler])) {
-			$this->handlers[$handler] = array();
-		}
+		if ($this->is_system($sender)) {
+			if (!is_array($this->handlers[$handler])) {
+				$this->handlers[$handler] = array();
+			}
 
-		$this->handlers[$handler][$method] = $sender;
+			$this->handlers[$handler][$method] = $sender;
+		}
 	}
 
 	function del_handler($handler, $method) {
 		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
-		unset($this->handlers[$handler][$method]);
+		if ($this->is_system($sender)) {
+			unset($this->handlers[$handler][$method]);
+		}
 	}
 
 	function lookup_handler($handler, $method) {
@@ -121,17 +134,22 @@ class PluginHost {
 		return false;
 	}
 
+	// only system plugins are allowed to modify commands
 	function add_command($command, $description, $sender) {
 		$command = "-" . str_replace("-", "_", strtolower($command));
 
-		$this->commands[$command] = array("description" => $description,
-			"class" => $sender);
+		if ($this->is_system($sender)) {
+			$this->commands[$command] = array("description" => $description,
+				"class" => $sender);
+		}
 	}
 
 	function del_command($command) {
 		$command = "-" . strtolower($command);
 
-		unset($this->commands[$command]);
+		if ($this->is_system($sender)) {
+			unset($this->commands[$command]);
+		}
 	}
 
 	function lookup_command($command) {
