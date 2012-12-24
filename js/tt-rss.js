@@ -391,7 +391,7 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcDigest") {
-			window.location.href = "digest.php";
+			window.location.href = "backend.php?op=digest";
 			return;
 		}
 

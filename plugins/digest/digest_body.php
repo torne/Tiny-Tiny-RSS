@@ -1,25 +1,5 @@
-<?php
-	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
-		get_include_path());
+<?php global $link; ?>
 
-	require_once "functions.php";
-	require_once "sessions.php";
-	require_once "sanity_check.php";
-	require_once "version.php";
-	require_once "config.php";
-	require_once "db-prefs.php";
-
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	login_sequence($link);
-
-	$dt_add = time();
-
-	no_cache_incantation();
-
-	header('Content-Type: text/html; charset=utf-8');
-
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -28,7 +8,7 @@
 	<title>Tiny Tiny RSS</title>
 
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
-	<link rel="stylesheet" type="text/css" href="digest.css?<?php echo $dt_add ?>"/>
+	<link rel="stylesheet" type="text/css" href="plugins/digest/digest.css?<?php echo $dt_add ?>"/>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -43,7 +23,7 @@
 	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/functions.js?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" src="js/digest.js"></script>
+	<script type="text/javascript" src="plugins/digest/digest.js"></script>
 
 	<script type="text/javascript">
 		Event.observe(window, 'load', function() {

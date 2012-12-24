@@ -169,7 +169,7 @@ function update(callback) {
 		window.clearTimeout(_update_timeout);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=rpc&method=digestinit",
+			parameters: "?op=digest&method=digestinit",
 			onComplete: function(transport) {
 				fatal_error_check(transport);
 				parse_feeds(transport);
@@ -220,7 +220,7 @@ function view(article_id) {
 			}, 500);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=rpc&method=digestgetcontents&article_id=" +
+			parameters: "?op=digest&method=digestgetcontents&article_id=" +
 				article_id,
 			onComplete: function(transport) {
 				fatal_error_check(transport);
@@ -312,7 +312,7 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		if (!offset) $("headlines").scrollTop = 0;
 
-		var query = "backend.php?op=rpc&method=digestupdate&feed_id=" +
+		var query = "backend.php?op=digest&method=digestupdate&feed_id=" +
 				param_escape(feed_id) +	"&offset=" + offset +
 				"&seq=" + _update_seq;
 
@@ -647,7 +647,7 @@ function parse_headlines(transport, replace, no_effects) {
 function init_second_stage() {
 	try {
 		new Ajax.Request("backend.php",	{
-			parameters: "backend.php?op=rpc&method=digestinit",
+			parameters: "backend.php?op=digest&method=digestinit",
 			onComplete: function(transport) {
 				parse_feeds(transport);
 				Element.hide("overlay");

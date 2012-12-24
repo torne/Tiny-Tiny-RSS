@@ -18,9 +18,15 @@
 
 	$mobile = new Mobile_Detect();
 
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+	if (!init_connection($link)) return;
+
+	global $pluginhost;
+
 	if (!$_REQUEST['mobile']) {
-		if ($mobile->isTablet()) {
-			header('Location: digest.php');
+		if ($mobile->isTablet() && $pluginhost->get_plugin("digest")) {
+			header('Location: backend.php?op=digest');
 			exit;
 		} else if ($mobile->isMobile()) {
 			header('Location: mobile/index.php');
@@ -28,9 +34,6 @@
 		}
 	}
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	if (!init_connection($link)) return;
 
 	login_sequence($link);
 
@@ -208,8 +211,10 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcCatchupAll')"><?php echo __('Mark as read') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcShowOnlyUnread')"><?php echo __('(Un)hide read feeds') ?></div>
 					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Other actions:') ?></div>
+					<?php if ($pluginhost->get_plugin("digest")) { ?>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
-					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div>
+					<?php } ?>
+						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
