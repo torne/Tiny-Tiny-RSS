@@ -202,7 +202,6 @@ class Updater extends Plugin {
 
 			$directories = array(
 				CACHE_DIR,
-				CACHE_DIR . "/htmlpurifier",
 				CACHE_DIR . "/export",
 				CACHE_DIR . "/images",
 				CACHE_DIR . "/magpie",
