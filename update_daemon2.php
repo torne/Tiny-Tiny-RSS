@@ -206,9 +206,8 @@
 
 						_debug("Cleaned $rc cached tags.");
 
-						_debug("Updating linked feeds...");
-						get_linked_feeds($link);
-
+						global $pluginhost;
+						$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 					}
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");

@@ -12,6 +12,7 @@ class PluginHost {
 	const HOOK_PREFS_SECTION = 4;
 	const HOOK_PREFS_TABS = 5;
 	const HOOK_FEED_PARSED = 6;
+	const HOOK_UPDATE_TASK = 7;
 
 	function __construct($link) {
 		$this->link = $link;

@@ -51,7 +51,6 @@
 		print "  -feedbrowser        - update feedbrowser\n";
 		print "  -daemon             - start single-process update daemon\n";
 		print "  -cleanup-tags       - perform tags table maintenance\n";
-		print "  -get-feeds          - receive popular feeds from linked instances\n";
 		print "  -import USER FILE   - import articles from XML\n";
 		print "  -quiet              - don't show messages\n";
 		print "  -indexes            - recreate missing schema indexes\n";
@@ -98,7 +97,8 @@
 		$rc = cleanup_tags($link, 14, 50000);
 		_debug("Cleaned $rc cached tags.");
 
-		get_linked_feeds($link);
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
 
 	if (in_array("-feedbrowser", $op)) {
@@ -135,7 +135,8 @@
 
 			_debug("Cleaned $rc cached tags.");
 
-			get_linked_feeds($link);
+			global $pluginhost;
+			$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 		}
 
 	}
@@ -143,10 +144,6 @@
 	if (in_array("-cleanup-tags", $op)) {
 		$rc = cleanup_tags($link, 14, 50000);
 		_debug("$rc tags deleted.\n");
-	}
-
-	if (in_array("-get-feeds", $op)) {
-		get_linked_feeds($link);
 	}
 
 	if (in_array("-import",$op)) {
