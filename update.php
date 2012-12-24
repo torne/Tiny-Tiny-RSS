@@ -51,7 +51,6 @@
 		print "  -feedbrowser        - update feedbrowser\n";
 		print "  -daemon             - start single-process update daemon\n";
 		print "  -cleanup-tags       - perform tags table maintenance\n";
-		print "  -import USER FILE   - import articles from XML\n";
 		print "  -quiet              - don't show messages\n";
 		print "  -indexes            - recreate missing schema indexes\n";
 		print "  -convert-filters    - convert type1 filters to type2\n";
@@ -144,35 +143,6 @@
 	if (in_array("-cleanup-tags", $op)) {
 		$rc = cleanup_tags($link, 14, 50000);
 		_debug("$rc tags deleted.\n");
-	}
-
-	if (in_array("-import",$op)) {
-		$username = $argv[count($argv) - 2];
-		$filename = $argv[count($argv) - 1];
-
-		if (!$username) {
-			print "error: please specify username.\n";
-			return;
-		}
-
-		if (!is_file($filename)) {
-			print "error: input filename ($filename) doesn't exist.\n";
-			return;
-		}
-
-		_debug("importing $filename for user $username...\n");
-
-		$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$username'");
-
-		if (db_num_rows($result) == 0) {
-			print "error: could not find user $username.\n";
-			return;
-		}
-
-		$owner_uid = db_fetch_result($result, 0, "id");
-
-		perform_data_import($link, $filename, $owner_uid);
-
 	}
 
 	if (in_array("-indexes", $op)) {

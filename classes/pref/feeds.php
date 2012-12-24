@@ -1376,9 +1376,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "</div>"; # feeds pane
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Import and export')."\">";
-
-		print "<h3>" . __("OPML") . "</h3>";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
 
 		print "<p>" . __("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . " ";
 
@@ -1415,30 +1413,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
 			__('Display published OPML URL')."</button> ";
-
-
-		print "<h3>" . __("Article archive") . "</h3>";
-
-		print "<p>" . __("You can export and import your Starred and Archived articles for safekeeping or when migrating between tt-rss instances.") . "</p>";
-
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"return exportData()\">".
-			__('Export my data')."</button> ";
-
-		print "<hr>";
-
-		print "<iframe id=\"data_upload_iframe\"
-			name=\"data_upload_iframe\" onload=\"dataImportComplete(this)\"
-			style=\"width: 400px; height: 100px; display: none;\"></iframe>";
-
-		print "<form name=\"import_form\" style='display : block' target=\"data_upload_iframe\"
-			enctype=\"multipart/form-data\" method=\"POST\"
-			action=\"backend.php\">
-			<input id=\"export_file\" name=\"export_file\" type=\"file\">&nbsp;
-			<input type=\"hidden\" name=\"op\" value=\"dlg\">
-			<input type=\"hidden\" name=\"method\" value=\"dataimport\">
-			<button dojoType=\"dijit.form.Button\" onclick=\"return importData();\" type=\"submit\">" .
-			__('Import') . "</button>";
-
 
 		print "</div>"; # pane
 

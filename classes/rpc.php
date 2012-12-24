@@ -2,7 +2,7 @@
 class RPC extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("sanitycheck", "buttonplugin", "exportget", "completelabels");
+		$csrf_ignored = array("sanitycheck", "completelabels");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -12,89 +12,6 @@ class RPC extends Handler_Protected {
 
 		$_SESSION["profile"] = $id;
 		$_SESSION["prefs_cache"] = array();
-	}
-
-	function exportget() {
-		$exportname = CACHE_DIR . "/export/" .
-			sha1($_SESSION['uid'] . $_SESSION['login']) . ".xml";
-
-		if (file_exists($exportname)) {
-			header("Content-type: text/xml");
-
-			if (function_exists('gzencode')) {
-				header("Content-Disposition: attachment; filename=TinyTinyRSS_exported.xml.gz");
-				echo gzencode(file_get_contents($exportname));
-			} else {
-				header("Content-Disposition: attachment; filename=TinyTinyRSS_exported.xml");
-				echo file_get_contents($exportname);
-			}
-		} else {
-			echo "File not found.";
-		}
-	}
-
-	function exportrun() {
-		$offset = (int) db_escape_string($_REQUEST['offset']);
-		$exported = 0;
-		$limit = 250;
-
-		if ($offset < 10000 && is_writable(CACHE_DIR . "/export")) {
-			$result = db_query($this->link, "SELECT
-					ttrss_entries.guid,
-					ttrss_entries.title,
-					content,
-					marked,
-					published,
-					score,
-					note,
-					link,
-					tag_cache,
-					label_cache,
-					ttrss_feeds.title AS feed_title,
-					ttrss_feeds.feed_url AS feed_url,
-					ttrss_entries.updated
-				FROM
-					ttrss_user_entries LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = feed_id),
-					ttrss_entries
-				WHERE
-					(marked = true OR feed_id IS NULL) AND
-					ref_id = ttrss_entries.id AND
-					ttrss_user_entries.owner_uid = " . $_SESSION['uid'] . "
-				ORDER BY ttrss_entries.id LIMIT $limit OFFSET $offset");
-
-			$exportname = sha1($_SESSION['uid'] . $_SESSION['login']);
-
-			if ($offset == 0) {
-				$fp = fopen(CACHE_DIR . "/export/$exportname.xml", "w");
-				fputs($fp, "<articles schema-version=\"".SCHEMA_VERSION."\">");
-			} else {
-				$fp = fopen(CACHE_DIR . "/export/$exportname.xml", "a");
-			}
-
-			if ($fp) {
-
-				while ($line = db_fetch_assoc($result)) {
-					fputs($fp, "<article>");
-
-					foreach ($line as $k => $v) {
-						fputs($fp, "<$k><![CDATA[$v]]></$k>");
-					}
-
-					fputs($fp, "</article>");
-				}
-
-				$exported = db_num_rows($result);
-
-				if ($exported < $limit && $exported > 0) {
-					fputs($fp, "</articles>");
-				}
-
-				fclose($fp);
-			}
-
-		}
-
-		print json_encode(array("exported" => $exported));
 	}
 
 	function remprofiles() {
