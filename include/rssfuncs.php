@@ -153,6 +153,8 @@
 			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
+		require_once "digest.php";
+
 		// Send feed digests by email if needed.
 		send_headlines_digests($link, $debug);
 

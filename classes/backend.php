@@ -1,6 +1,5 @@
 <?php
 class Backend extends Handler {
-
 	function loading() {
 		header("Content-type: text/html");
 		print __("Loading, please wait...") . " " .
@@ -9,6 +8,8 @@ class Backend extends Handler {
 
 	function digestTest() {
 		header("Content-type: text/html");
+
+		require_once "digest.php";
 
 		$rv = prepare_headlines_digest($this->link, $_SESSION['uid'], 1, 1000);
 
