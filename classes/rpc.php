@@ -684,8 +684,6 @@ class RPC extends Handler_Protected {
 
 				db_query($this->link, "BEGIN");
 
-				$update_method = 0;
-
 				if ($cat_id == "0" || !$cat_id) {
 					$cat_qpart = "NULL";
 				} else {
@@ -701,7 +699,7 @@ class RPC extends Handler_Protected {
 						"INSERT INTO ttrss_feeds
 							(owner_uid,feed_url,title,cat_id,auth_login,auth_pass,update_method)
 						VALUES ('".$_SESSION["uid"]."', '$feed',
-							'[Unknown]', $cat_qpart, '$login', '$pass', '$update_method')");
+							'[Unknown]', $cat_qpart, '$login', '$pass', 0)");
 				}
 
 				db_query($this->link, "COMMIT");

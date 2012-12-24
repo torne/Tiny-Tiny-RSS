@@ -23,7 +23,6 @@
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "lib/magpierss/rss_fetch.inc";
 
 	define('MAX_JOBS', 2);
 	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);

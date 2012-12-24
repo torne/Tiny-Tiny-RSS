@@ -93,17 +93,6 @@
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
-	$update_methods = array(
-		0   => __("Default"),
-		1   => __("Magpie"),
-		2   => __("SimplePie"));
-
-	if (DEFAULT_UPDATE_METHOD == "1") {
-		$update_methods[0] .= ' (SimplePie)';
-	} else {
-		$update_methods[0] .= ' (Magpie)';
-	}
-
 	$access_level_names = array(
 		0 => __("User"),
 		5 => __("Power User"),

@@ -163,8 +163,6 @@
 		$override_url = false) {
 
 		require_once "lib/simplepie/simplepie.inc";
-		require_once "lib/magpierss/rss_fetch.inc";
-		require_once 'lib/magpierss/rss_utils.inc';
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
@@ -173,7 +171,7 @@
 		}
 
 		$result = db_query($link, "SELECT id,update_interval,auth_login,
-			feed_url,auth_pass,cache_images,update_method,last_updated,cache_content,
+			feed_url,auth_pass,cache_images,last_updated,cache_content,
 			mark_unread_on_update, owner_uid, update_on_checksum_change,
 			pubsub_state
 			FROM ttrss_feeds WHERE id = '$feed'");
@@ -185,7 +183,6 @@
 			return false;
 		}
 
-		$update_method = db_fetch_result($result, 0, "update_method");
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
@@ -199,27 +196,6 @@
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
-
-		if ($update_method == 0)
-			$update_method = DEFAULT_UPDATE_METHOD + 1;
-
-		// 1 - Magpie
-		// 2 - SimplePie
-		// 3 - Twitter OAuth
-
-		if ($update_method == 2)
-			$use_simplepie = true;
-		else
-			$use_simplepie = false;
-
-		if ($debug_enabled) {
-			_debug("update method: $update_method (feed setting: $update_method) (use simplepie: $use_simplepie)\n");
-		}
-
-		if ($update_method == 1) {
-			$auth_login = urlencode($auth_login);
-			$auth_pass = urlencode($auth_pass);
-		}
 
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
@@ -248,42 +224,32 @@
 		$cache_age = (is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
 			-1 : get_feed_update_interval($link, $feed) * 60;
 
-		if ($update_method == 1) {
+		$simplepie_cache_dir = CACHE_DIR . "/simplepie";
 
-			define('MAGPIE_CACHE_AGE', $cache_age);
-			define('MAGPIE_CACHE_ON', !$no_cache);
-			define('MAGPIE_FETCH_TIME_OUT', $no_cache ? 15 : 60);
-			define('MAGPIE_CACHE_DIR', CACHE_DIR . "/magpie");
-
-			$rss = @fetch_rss($fetch_url);
-		} else {
-			$simplepie_cache_dir = CACHE_DIR . "/simplepie";
-
-			if (!is_dir($simplepie_cache_dir)) {
-				mkdir($simplepie_cache_dir);
-			}
-
-			$rss = new SimplePie();
-			$rss->set_useragent(SELF_USER_AGENT);
-			$rss->set_timeout($no_cache ? 15 : 60);
-			$rss->set_feed_url($fetch_url);
-			$rss->set_output_encoding('UTF-8');
-			//$rss->force_feed(true);
-
-			if ($debug_enabled) {
-				_debug("feed update interval (sec): " .
-					get_feed_update_interval($link, $feed)*60);
-			}
-
-			$rss->enable_cache(!$no_cache);
-
-			if (!$no_cache) {
-				$rss->set_cache_location($simplepie_cache_dir);
-				$rss->set_cache_duration($cache_age);
-			}
-
-			$rss->init();
+		if (!is_dir($simplepie_cache_dir)) {
+			mkdir($simplepie_cache_dir);
 		}
+
+		$rss = new SimplePie();
+		$rss->set_useragent(SELF_USER_AGENT);
+		$rss->set_timeout($no_cache ? 15 : 60);
+		$rss->set_feed_url($fetch_url);
+		$rss->set_output_encoding('UTF-8');
+		//$rss->force_feed(true);
+
+		if ($debug_enabled) {
+			_debug("feed update interval (sec): " .
+				get_feed_update_interval($link, $feed)*60);
+		}
+
+		$rss->enable_cache(!$no_cache);
+
+		if (!$no_cache) {
+			$rss->set_cache_location($simplepie_cache_dir);
+			$rss->set_cache_duration($cache_age);
+		}
+
+		$rss->init();
 
 //		print_r($rss);
 
@@ -293,13 +259,7 @@
 
 		$feed = db_escape_string($feed);
 
-		if ($update_method == 2) {
-			$fetch_ok = !$rss->error();
-		} else {
-			$fetch_ok = !!$rss;
-		}
-
-		if ($fetch_ok) {
+		if (!$rss->error()) {
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: processing feed data...");
@@ -326,19 +286,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			if ($use_simplepie) {
-				$site_url = db_escape_string(trim($rss->get_link()));
-			} else {
-				$site_url = db_escape_string(trim($rss->channel["link"]));
-			}
-
-			// weird, weird Magpie
-			if (!$use_simplepie) {
-				if (!$site_url) $site_url = db_escape_string($rss->channel["link_"]);
-			}
-
-			$site_url = rewrite_relative_url($fetch_url, $site_url);
-			$site_url = substr($site_url, 0, 250);
+			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 250));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: checking favicon...");
@@ -353,11 +301,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				if ($use_simplepie) {
-					$feed_title = db_escape_string($rss->get_title());
-				} else {
-					$feed_title = db_escape_string($rss->channel["title"]);
-				}
+				$feed_title = db_escape_string($rss->get_title());
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: registering title: $feed_title");
@@ -372,16 +316,8 @@
 					site_url = '$site_url' WHERE id = '$feed'");
 			}
 
-//			print "I: " . $rss->channel["image"]["url"];
-
-			if (!$use_simplepie) {
-				$icon_url = db_escape_string(trim($rss->image["url"]));
-			} else {
-				$icon_url = db_escape_string(trim($rss->get_image_url()));
-			}
-
-			$icon_url = rewrite_relative_url($fetch_url, $icon_url);
-			$icon_url = substr($icon_url, 0, 250);
+			$icon_url = db_escape_string(mb_substr(
+				rewrite_relative_url($fetch_url, $rss->get_image_url()), 0, 250));
 
 			if ($icon_url && $orig_icon_url != $icon_url) {
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
@@ -399,24 +335,11 @@
 				_debug("update_rss_feed: " . count($filters) . " filters loaded.");
 			}
 
-			if ($use_simplepie) {
-				$iterator = $rss->get_items();
-			} else {
-				$iterator = $rss->items;
-				if (!$iterator || !is_array($iterator)) $iterator = $rss->entries;
-				if (!$iterator || !is_array($iterator)) $iterator = $rss;
-			}
+			$items = $rss->get_items();
 
-			if (!is_array($iterator)) {
-				/* db_query($link, "UPDATE ttrss_feeds
-					SET last_error = 'Parse error: can\'t find any articles.'
-					WHERE id = '$feed'"); */
-
-				// clear any errors and mark feed as updated if fetched okay
-				// even if it's blank
-
+			if (!is_array($items)) {
 				if ($debug_enabled) {
-					_debug("update_rss_feed: entry iterator is not an array, no articles?");
+					_debug("update_rss_feed: no articles found.");
 				}
 
 				db_query($link, "UPDATE ttrss_feeds
@@ -430,34 +353,13 @@
 				if ($debug_enabled) _debug("update_rss_feed: checking for PUSH hub...");
 
 				$feed_hub_url = false;
-				if ($use_simplepie) {
-					$links = $rss->get_links('hub');
 
-					if ($links && is_array($links)) {
-						foreach ($links as $l) {
-							$feed_hub_url = $l;
-							break;
-						}
-					}
+				$links = $rss->get_links('hub');
 
-				} else {
-					$atom = $rss->channel['atom'];
-
-					if ($atom) {
-						if ($atom['link@rel'] == 'hub') {
-							$feed_hub_url = $atom['link@href'];
-						}
-
-						if (!$feed_hub_url && $atom['link#'] > 1) {
-							for ($i = 2; $i <= $atom['link#']; $i++) {
-								if ($atom["link#$i@rel"] == 'hub') {
-									$feed_hub_url = $atom["link#$i@href"];
-									break;
-								}
-							}
-						}
-					} else {
-						$feed_hub_url = $rss->channel['link_hub'];
+				if ($links && is_array($links)) {
+					foreach ($links as $l) {
+						$feed_hub_url = $l;
+						break;
 					}
 				}
 
@@ -487,25 +389,14 @@
 				_debug("update_rss_feed: processing articles...");
 			}
 
-			foreach ($iterator as $item) {
+			foreach ($items as $item) {
 				if ($_REQUEST['xdebug'] == 2) {
 					print_r($item);
 				}
 
-				if ($use_simplepie) {
-					$entry_guid = $item->get_id();
-					if (!$entry_guid) $entry_guid = $item->get_link();
-					if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
-
-				} else {
-
-					$entry_guid = $item["id"];
-
-					if (!$entry_guid) $entry_guid = $item["guid"];
-					if (!$entry_guid) $entry_guid = $item["about"];
-					if (!$entry_guid) $entry_guid = $item["link"];
-					if (!$entry_guid) $entry_guid = make_guid_from_title($item["title"]);
-				}
+				$entry_guid = $item->get_id();
+				if (!$entry_guid) $entry_guid = $item->get_link();
+				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
 
 				if ($cache_content) {
 					$entry_guid = "ccache:$entry_guid";
@@ -523,21 +414,9 @@
 
 				$entry_timestamp = "";
 
-				if ($use_simplepie) {
-					$entry_timestamp = strtotime($item->get_date());
-				} else {
-					$rss_2_date = $item['pubdate'];
-					$rss_1_date = $item['dc']['date'];
-					$atom_date = $item['issued'];
-					if (!$atom_date) $atom_date = $item['updated'];
+				$entry_timestamp = strtotime($item->get_date());
 
-					if ($atom_date != "") $entry_timestamp = parse_w3cdtf($atom_date);
-					if ($rss_1_date != "") $entry_timestamp = parse_w3cdtf($rss_1_date);
-					if ($rss_2_date != "") $entry_timestamp = strtotime($rss_2_date);
-
-				}
-
-				if ($entry_timestamp == "" || $entry_timestamp == -1 || !$entry_timestamp) {
+				if ($entry_timestamp == -1 || !$entry_timestamp) {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
 				} else {
@@ -550,21 +429,8 @@
 					_debug("update_rss_feed: date $entry_timestamp [$entry_timestamp_fmt]");
 				}
 
-				if ($use_simplepie) {
-					$entry_title = $item->get_title();
-				} else {
-					$entry_title = trim(strip_tags($item["title"]));
-				}
-
-				if ($use_simplepie) {
-					$entry_link = $item->get_link();
-				} else {
-					// strange Magpie workaround
-					$entry_link = $item["link_"];
-					if (!$entry_link) $entry_link = $item["link"];
-				}
-
-				$entry_link = rewrite_relative_url($site_url, $entry_link);
+				$entry_title = $item->get_title();
+				$entry_link = rewrite_relative_url($site_url, $item->get_link());
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: title $entry_title");
@@ -573,37 +439,8 @@
 
 				if (!$entry_title) $entry_title = date("Y-m-d H:i:s", $entry_timestamp);;
 
-				$entry_link = strip_tags($entry_link);
-
-				if ($use_simplepie) {
-					$entry_content = $item->get_content();
-					if (!$entry_content) $entry_content = $item->get_description();
-				} else {
-					$entry_content = $item["content:escaped"];
-
-					if (!$entry_content) $entry_content = $item["content:encoded"];
-					if (!$entry_content && is_array($entry_content)) $entry_content = $item["content"]["encoded"];
-					if (!$entry_content) $entry_content = $item["content"];
-
-					if (is_array($entry_content)) $entry_content = $entry_content[0];
-
-					// Magpie bugs are getting ridiculous
-					if (trim($entry_content) == "Array") $entry_content = false;
-
-					if (!$entry_content) $entry_content = $item["atom_content"];
-					if (!$entry_content) $entry_content = $item["summary"];
-
-					if (!$entry_content ||
-						strlen($entry_content) < strlen($item["description"])) {
-							$entry_content = $item["description"];
-					};
-
-					// WTF
-					if (is_array($entry_content)) {
-						$entry_content = $entry_content["encoded"];
-						if (!$entry_content) $entry_content = $entry_content["escaped"];
-					}
-				}
+				$entry_content = $item->get_content();
+				if (!$entry_content) $entry_content = $item->get_description();
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
@@ -616,60 +453,30 @@
 
 				$entry_cached_content = "";
 
-				if ($use_simplepie) {
-					$entry_comments = strip_tags($item->data["comments"]);
-					if ($item->get_author()) {
-						$entry_author_item = $item->get_author();
-						$entry_author = $entry_author_item->get_name();
-						if (!$entry_author) $entry_author = $entry_author_item->get_email();
+				$entry_comments = $item->data["comments"];
 
-						$entry_author = db_escape_string($entry_author);
-					}
-				} else {
-					$entry_comments = strip_tags($item["comments"]);
+				if ($item->get_author()) {
+					$entry_author_item = $item->get_author();
+					$entry_author = $entry_author_item->get_name();
+					if (!$entry_author) $entry_author = $entry_author_item->get_email();
 
-					$entry_author = db_escape_string(strip_tags($item['dc']['creator']));
-
-					if ($item['author']) {
-
-						if (is_array($item['author'])) {
-
-							if (!$entry_author) {
-								$entry_author = db_escape_string(strip_tags($item['author']['name']));
-							}
-
-							if (!$entry_author) {
-								$entry_author = db_escape_string(strip_tags($item['author']['email']));
-							}
-						}
-
-						if (!$entry_author) {
-							$entry_author = db_escape_string(strip_tags($item['author']));
-						}
-					}
+					$entry_author = db_escape_string($entry_author);
 				}
 
-				if (preg_match('/^[\t\n\r ]*$/', $entry_author)) $entry_author = '';
-
-				$entry_guid = db_escape_string(strip_tags($entry_guid));
-				$entry_guid = mb_substr($entry_guid, 0, 250);
+				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 250));
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries
 					WHERE guid = '$entry_guid'");
 
-				$entry_comments = mb_substr(db_escape_string($entry_comments), 0, 250);
-				$entry_author = mb_substr($entry_author, 0, 250);
+				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 250));
+				$entry_author = db_escape_string(mb_substr($entry_author, 0, 250));
 
-				if ($use_simplepie) {
-					$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
+				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
 
-					if (is_array($num_comments) && is_array($num_comments[0])) {
-						$num_comments = (int) $num_comments[0]["data"];
-					} else {
-						$num_comments = 0;
-					}
+				if (is_array($num_comments) && is_array($num_comments[0])) {
+					$num_comments = (int) $num_comments[0]["data"];
 				} else {
-					$num_comments = (int) $item["slash"]["comments"];
+					$num_comments = 0;
 				}
 
 				if ($debug_enabled) {
@@ -681,58 +488,17 @@
 
 				$additional_tags = array();
 
-				if ($use_simplepie) {
+				$additional_tags_src = $item->get_categories();
 
-					$additional_tags_src = $item->get_categories();
-
-					if (is_array($additional_tags_src)) {
-						foreach ($additional_tags_src as $tobj) {
-							array_push($additional_tags, $tobj->get_term());
-						}
+				if (is_array($additional_tags_src)) {
+					foreach ($additional_tags_src as $tobj) {
+						array_push($additional_tags, $tobj->get_term());
 					}
+				}
 
-					if ($debug_enabled) {
-						_debug("update_rss_feed: category tags:");
-						print_r($additional_tags);
-					}
-
-				} else {
-
-					$t_ctr = $item['category#'];
-
-					if ($t_ctr == 0) {
-						$additional_tags = array();
-					} else if ($t_ctr > 0) {
-						$additional_tags = array($item['category']);
-
-						if ($item['category@term']) {
-							array_push($additional_tags, $item['category@term']);
-						}
-
-						for ($i = 0; $i <= $t_ctr; $i++ ) {
-							if ($item["category#$i"]) {
-								array_push($additional_tags, $item["category#$i"]);
-							}
-
-							if ($item["category#$i@term"]) {
-								array_push($additional_tags, $item["category#$i@term"]);
-							}
-						}
-					}
-
-					// parse <dc:subject> elements
-
-					$t_ctr = $item['dc']['subject#'];
-
-					if ($t_ctr > 0) {
-						array_push($additional_tags, $item['dc']['subject']);
-
-						for ($i = 0; $i <= $t_ctr; $i++ ) {
-							if ($item['dc']["subject#$i"]) {
-								array_push($additional_tags, $item['dc']["subject#$i"]);
-							}
-						}
-					}
+				if ($debug_enabled) {
+					_debug("update_rss_feed: category tags:");
+					print_r($additional_tags);
 				}
 
 				if ($debug_enabled) {
@@ -767,27 +533,25 @@
 				// TODO: less memory-hungry implementation
 				global $pluginhost;
 
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $p) {
-					if ($debug_enabled) {
-						_debug("update_rss_feed: applying plugin filters...");
-					}
-
-					$article = array("owner_uid" => $owner_uid,
-						"title" => $entry_title,
-						"content" => $entry_content,
-						"link" => $entry_link,
-						"tags" => $entry_tags,
-						"author" => $entry_author);
-
-					foreach ($filter_plugins as $plugin) {
-						$article = $plugin->hook_article_filter($article);
-					}
-
-					$entry_title = $article["title"];
-					$entry_content = $article["content"];
-					$entry_tags = $article["tags"];
-					$entry_author = $article["author"];
+				if ($debug_enabled) {
+					_debug("update_rss_feed: applying plugin filters..");
 				}
+
+				$article = array("owner_uid" => $owner_uid,
+					"title" => $entry_title,
+					"content" => $entry_content,
+					"link" => $entry_link,
+					"tags" => $entry_tags,
+					"author" => $entry_author);
+
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
+					$article = $plugin->hook_article_filter($article);
+				}
+
+				$entry_title = $article["title"];
+				$entry_content = $article["content"];
+				$entry_tags = $article["tags"];
+				$entry_author = $article["author"];
 
 				$entry_content = db_escape_string($entry_content, false);
 				$entry_title = db_escape_string($entry_title);
@@ -1111,66 +875,15 @@
 
 				$enclosures = array();
 
-				if ($use_simplepie) {
-					$encs = $item->get_enclosures();
+				$encs = $item->get_enclosures();
 
-					if (is_array($encs)) {
-						foreach ($encs as $e) {
-							$e_item = array(
-								$e->link, $e->type, $e->length);
-
-							array_push($enclosures, $e_item);
-						}
-					}
-
-				} else {
-					// <enclosure>
-
-					$e_ctr = $item['enclosure#'];
-
-					if ($e_ctr > 0) {
-						$e_item = array($item['enclosure@url'],
-							$item['enclosure@type'],
-							$item['enclosure@length']);
-
+				if (is_array($encs)) {
+					foreach ($encs as $e) {
+						$e_item = array(
+							$e->link, $e->type, $e->length);
 						array_push($enclosures, $e_item);
-
-						for ($i = 0; $i <= $e_ctr; $i++ ) {
-
-							if ($item["enclosure#$i@url"]) {
-								$e_item = array($item["enclosure#$i@url"],
-									$item["enclosure#$i@type"],
-									$item["enclosure#$i@length"]);
-								array_push($enclosures, $e_item);
-							}
-						}
-					}
-
-					// <media:content>
-					// can there be many of those? yes -fox
-
-					$m_ctr = $item['media']['content#'];
-
-					if ($m_ctr > 0) {
-						$e_item = array($item['media']['content@url'],
-							$item['media']['content@medium'],
-							$item['media']['content@length']);
-
-						array_push($enclosures, $e_item);
-
-						for ($i = 0; $i <= $m_ctr; $i++ ) {
-
-							if ($item["media"]["content#$i@url"]) {
-								$e_item = array($item["media"]["content#$i@url"],
-									$item["media"]["content#$i@medium"],
-									$item["media"]["content#$i@length"]);
-								array_push($enclosures, $e_item);
-							}
-						}
-
 					}
 				}
-
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: article enclosures:");
@@ -1315,11 +1028,7 @@
 
 		} else {
 
-			if ($use_simplepie) {
-				$error_msg = mb_substr($rss->error(), 0, 250);
-			} else {
-				$error_msg = mb_substr(magpie_error(), 0, 250);
-			}
+			$error_msg = mb_substr($rss->error(), 0, 250);
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");
@@ -1332,9 +1041,7 @@
 					last_updated = NOW() WHERE id = '$feed'");
 		}
 
-		if ($use_simplepie) {
-			unset($rss);
-		}
+		unset($rss);
 
 		if ($debug_enabled) {
 			_debug("update_rss_feed: done");
@@ -1407,7 +1114,7 @@
 	}
 
 	function expire_cached_files($debug) {
-		foreach (array("magpie", "simplepie", "images", "export") as $dir) {
+		foreach (array("simplepie", "images", "export") as $dir) {
 			$cache_dir = CACHE_DIR . "/$dir";
 
 			if ($debug) _debug("Expiring $cache_dir");

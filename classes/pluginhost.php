@@ -57,7 +57,11 @@ class PluginHost {
 	}
 
 	function get_hooks($type) {
-		return $this->hooks[$type];
+		if (isset($this->hooks[$type])) {
+			return $this->hooks[$type];
+		} else {
+			return array();
+		}
 	}
 
 	function load($classlist) {

@@ -3,6 +3,7 @@
 	define('SCHEMA_VERSION', 99);
 
 	$fetch_last_error = false;
+	$pluginhost = false;
 
 	function __autoload($class) {
 		$class_file = str_replace("_", "/", strtolower(basename($class)));
@@ -100,11 +101,6 @@
 
 	require_once 'db-prefs.php';
 	require_once 'version.php';
-
-	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
-
-	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
-	define('MAGPIE_USER_AGENT', SELF_USER_AGENT);
 
 	ini_set('user_agent', SELF_USER_AGENT);
 
@@ -1629,8 +1625,6 @@
 
 		if (!$url || !validate_feed_url($url)) return array("code" => 2);
 
-		$update_method = 0;
-
 		$contents = @fetch_file_contents($url, false, $auth_login, $auth_pass);
 
 		if (!$contents) {
@@ -1664,7 +1658,7 @@
 				"INSERT INTO ttrss_feeds
 					(owner_uid,feed_url,title,cat_id, auth_login,auth_pass,update_method)
 				VALUES ('".$_SESSION["uid"]."', '$url',
-				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass', '$update_method')");
+				'[Unknown]', $cat_qpart, '$auth_login', '$auth_pass', 0)");
 
 			$result = db_query($link,
 				"SELECT id FROM ttrss_feeds WHERE feed_url = '$url'

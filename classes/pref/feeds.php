@@ -475,7 +475,6 @@ class Pref_Feeds extends Handler_Protected {
 	function editfeed() {
 		global $purge_intervals;
 		global $update_intervals;
-		global $update_methods;
 
 		$feed_id = db_escape_string($_REQUEST["id"]);
 
@@ -547,19 +546,9 @@ class Pref_Feeds extends Handler_Protected {
 		print_select_hash("update_interval", $update_interval, $update_intervals,
 			'dojoType="dijit.form.Select"');
 
-		/* Update method */
-
-		$update_method = db_fetch_result($result, 0, "update_method",
-			'dojoType="dijit.form.Select"');
-
-		print " " . __('using') . " ";
-		print_select_hash("update_method", $update_method, $update_methods,
-			'dojoType="dijit.form.Select"');
+		/* Purge intl */
 
 		$purge_interval = db_fetch_result($result, 0, "purge_interval");
-
-
-			/* Purge intl */
 
 		print "<hr/>";
 		print __('Article purging:') . " ";
@@ -746,7 +735,6 @@ class Pref_Feeds extends Handler_Protected {
 	function editfeeds() {
 		global $purge_intervals;
 		global $update_intervals;
-		global $update_methods;
 
 		$feed_ids = db_escape_string($_REQUEST["ids"]);
 
@@ -804,13 +792,6 @@ class Pref_Feeds extends Handler_Protected {
 			'disabled="1" dojoType="dijit.form.Select"');
 
 		$this->batch_edit_cbox("update_interval");
-
-		/* Update method */
-
-		print " " . __('using') . " ";
-		print_select_hash("update_method", $update_method, $update_methods,
-			'disabled="1" dojoType="dijit.form.Select"');
-		$this->batch_edit_cbox("update_method");
 
 		/* Purge intl */
 
@@ -929,7 +910,6 @@ class Pref_Feeds extends Handler_Protected {
 			db_escape_string($_POST["cache_images"]));
 		$cache_content = checkbox_to_sql_bool(
 			db_escape_string($_POST["cache_content"]));
-		$update_method = (int) db_escape_string($_POST["update_method"]);
 
 		$always_display_enclosures = checkbox_to_sql_bool(
 			db_escape_string($_POST["always_display_enclosures"]));
@@ -970,8 +950,7 @@ class Pref_Feeds extends Handler_Protected {
 				always_display_enclosures = $always_display_enclosures,
 				mark_unread_on_update = $mark_unread_on_update,
 				update_on_checksum_change = $update_on_checksum_change,
-				update_method = '$update_method'
-				WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
+			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		} else {
 			$feed_data = array();
@@ -1043,10 +1022,6 @@ class Pref_Feeds extends Handler_Protected {
 
 					case "rtl_content":
 						$qpart = "rtl_content = $rtl_content";
-						break;
-
-					case "update_method":
-						$qpart = "update_method = '$update_method'";
 						break;
 
 					case "cat_id":
