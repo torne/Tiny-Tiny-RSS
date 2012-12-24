@@ -261,6 +261,9 @@
 
 		if (!$rss->error()) {
 
+			global $pluginhost;
+			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
+
 			if ($debug_enabled) {
 				_debug("update_rss_feed: processing feed data...");
 			}
@@ -521,7 +524,6 @@
 				}
 
 				// TODO: less memory-hungry implementation
-				global $pluginhost;
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: applying plugin filters..");
@@ -534,6 +536,7 @@
 					"tags" => $entry_tags,
 					"author" => $entry_author);
 
+				global $pluginhost;
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
 				}
