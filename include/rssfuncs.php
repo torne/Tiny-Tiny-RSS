@@ -430,7 +430,8 @@
 				}
 
 				$entry_title = $item->get_title();
-				$entry_link = rewrite_relative_url($site_url, $item->get_link());
+
+				$entry_link = rewrite_relative_url($site_url, htmlspecialchars_decode($item->get_link()));
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: title $entry_title");
@@ -548,15 +549,11 @@
 					$article = $plugin->hook_article_filter($article);
 				}
 
-				$entry_title = $article["title"];
-				$entry_content = $article["content"];
 				$entry_tags = $article["tags"];
-				$entry_author = $article["author"];
-
-				$entry_content = db_escape_string($entry_content, false);
-				$entry_title = db_escape_string($entry_title);
-				$entry_author = db_escape_string($entry_author);
-				$entry_link = db_escape_string($entry_link);
+				$entry_content = db_escape_string($article["content"], false);
+				$entry_title = db_escape_string($article["title"]);
+				$entry_author = db_escape_string($article["author"]);
+				$entry_link = db_escape_string($article["link"]);
 
 				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
 
