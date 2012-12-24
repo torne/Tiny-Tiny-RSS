@@ -338,6 +338,8 @@ class Dlg extends Handler_Protected {
 
 		$owner_uid = $_SESSION["uid"];
 
+		require_once "feedbrowser.php";
+
 		print "<ul class='browseFeedList' id='browseFeedList'>";
 		print make_feed_browser($this->link, $search, 25);
 		print "</ul>";

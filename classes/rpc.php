@@ -457,6 +457,8 @@ class RPC extends Handler_Protected {
 		$limit = db_escape_string($_REQUEST["limit"]);
 		$mode = (int) db_escape_string($_REQUEST["mode"]);
 
+		require_once "feedbrowser.php";
+
 		print json_encode(array("content" =>
 			make_feed_browser($this->link, $search, $limit, $mode),
 				"mode" => $mode));
