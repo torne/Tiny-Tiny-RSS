@@ -506,18 +506,7 @@
 					_debug("update_rss_feed: looking for tags [2]...");
 				}
 
-				/* taaaags */
-				// <a href="..." rel="tag">Xorg</a>, //
-
-				$entry_tags = null;
-
-				preg_match_all("/<a.*?rel=['\"]tag['\"].*?\>([^<]+)<\/a>/i",
-					$entry_content, $entry_tags);
-
-				$entry_tags = $entry_tags[1];
-
-				$entry_tags = array_merge($entry_tags, $additional_tags);
-				$entry_tags = array_unique($entry_tags);
+				$entry_tags = array_unique($additional_tags);
 
 				for ($i = 0; $i < count($entry_tags); $i++)
 					$entry_tags[$i] = mb_strtolower($entry_tags[$i], 'utf-8');
