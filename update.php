@@ -13,10 +13,15 @@
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "update_self.php";
 
 	if (!defined('PHP_EXECUTABLE'))
 		define('PHP_EXECUTABLE', '/usr/bin/php');
+
+	// Create a database connection.
+	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+	init_connection($link);
+
 
 	$op = $argv;
 
@@ -48,12 +53,17 @@
 		print "  -cleanup-tags       - perform tags table maintenance\n";
 		print "  -get-feeds          - receive popular feeds from linked instances\n";
 		print "  -import USER FILE   - import articles from XML\n";
-		print "  -update-self        - update tt-rss installation to latest version\n";
 		print "  -quiet              - don't show messages\n";
 		print "  -indexes            - recreate missing schema indexes\n";
 		print "  -convert-filters    - convert type1 filters to type2\n";
 		print "  -force-update       - force update of all feeds\n";
 		print "  -help               - show this help\n";
+		print "Plugin options:\n";
+
+		foreach ($pluginhost->get_commands() as $command => $data) {
+			printf("  %-19s - %s\n", "$command", $data["description"]);
+		}
+
 		return;
 	}
 
@@ -73,11 +83,6 @@
 		die("error: Can't create lockfile ($lock_filename). ".
 			"Maybe another update process is already running.\n");
 	}
-
-	// Create a database connection.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	init_connection($link);
 
 	if (in_array("-feeds", $op)) {
 		// Update all feeds needing a update.
@@ -228,17 +233,6 @@
 		_debug("all done.");
 	}
 
-	if (in_array("-update-self", $op)) {
-		_debug("Warning: self-updating is experimental. Use at your own risk.");
-		_debug("Please backup your tt-rss directory before continuing. Your database will not be modified.");
-		_debug("Type 'yes' to continue.");
-
-		if (read_stdin() != 'yes')
-			exit;
-
-		update_self($link, in_array("-force", $op));
-	}
-
 	if (in_array("-convert-filters", $op)) {
 		_debug("WARNING: this will remove all existing type2 filters.");
 		_debug("Type 'yes' to continue.");
@@ -296,6 +290,8 @@
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = '1970-01-01',
 				last_updated = '1970-01-01'");
 	}
+
+	$pluginhost->run_commands($op);
 
 	db_close($link);
 

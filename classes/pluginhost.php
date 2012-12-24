@@ -4,6 +4,7 @@ class PluginHost {
 	private $hooks = array();
 	private $plugins = array();
 	private $handlers = array();
+	private $commands = array();
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -109,5 +110,44 @@ class PluginHost {
 
 		return false;
 	}
+
+	function add_command($command, $description, $sender) {
+		$command = "-" . str_replace("-", "_", strtolower($command));
+
+		$this->commands[$command] = array("description" => $description,
+			"class" => $sender);
+	}
+
+	function del_command($command) {
+		$command = "-" . strtolower($command);
+
+		unset($this->commands[$command]);
+	}
+
+	function lookup_command($command) {
+		$command = "-" . strtolower($command);
+
+		if (is_array($this->commands[$command])) {
+			return $this->commands[$command]["class"];
+		} else {
+			return false;
+		}
+
+		return false;
+	}
+
+	function get_commands() {
+		return $this->commands;
+	}
+
+	function run_commands($args) {
+		foreach ($this->get_commands() as $command => $data) {
+			if (in_array($command, $args)) {
+				$command = str_replace("-", "", $command);
+				$data["class"]->$command($args);
+			}
+		}
+	}
+
 }
 ?>
