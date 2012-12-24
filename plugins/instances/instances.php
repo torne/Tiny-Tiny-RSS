@@ -22,6 +22,7 @@ class Instances extends Plugin implements IHandler {
 
 		$host->add_hook($host::HOOK_PREFS_TABS, $this);
 		$host->add_handler("pref-instances", "*", $this);
+		$host->add_handler("public", "fbexport", $this);
 		$host->add_command("get-feeds", "receive popular feeds from linked instances", $this);
 		$host->add_hook($host::HOOK_UPDATE_TASK, $this);
 	}
@@ -359,6 +360,37 @@ class Instances extends Plugin implements IHandler {
 		print "</div>"; #container
 
 	}
+
+	function fbexport() {
+
+		$access_key = db_escape_string($_POST["key"]);
+
+		// TODO: rate limit checking using last_connected
+		$result = db_query($this->link, "SELECT id FROM ttrss_linked_instances
+			WHERE access_key = '$access_key'");
+
+		if (db_num_rows($result) == 1) {
+
+			$instance_id = db_fetch_result($result, 0, "id");
+
+			$result = db_query($this->link, "SELECT feed_url, site_url, title, subscribers
+				FROM ttrss_feedbrowser_cache ORDER BY subscribers DESC LIMIT 100");
+
+			$feeds = array();
+
+			while ($line = db_fetch_assoc($result)) {
+				array_push($feeds, $line);
+			}
+
+			db_query($this->link, "UPDATE ttrss_linked_instances SET
+				last_status_in = 1 WHERE id = '$instance_id'");
+
+			print json_encode(array("feeds" => $feeds));
+		} else {
+			print json_encode(array("error" => array("code" => 6)));
+		}
+	}
+
 
 }
 ?>
