@@ -10,6 +10,12 @@ class Flattr extends Plugin {
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
 	}
 
+	function _about() {
+		return array(1.0,
+			"Share on Flattr plugin",
+			"Nic Honing");
+	}
+
   function hook_article_button($line) {
 
 	$article_id = $line["id"];

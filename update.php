@@ -22,7 +22,6 @@
 
 	init_connection($link);
 
-
 	$op = $argv;
 
 	if (count($argv) == 0 && !defined('STDIN')) {
@@ -55,6 +54,7 @@
 		print "  -indexes            - recreate missing schema indexes\n";
 		print "  -convert-filters    - convert type1 filters to type2\n";
 		print "  -force-update       - force update of all feeds\n";
+		print "  -list-plugins       - list all available plugins\n";
 		print "  -help               - show this help\n";
 		print "Plugin options:\n";
 
@@ -256,6 +256,17 @@
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = '1970-01-01',
 				last_updated = '1970-01-01'");
+	}
+
+	if (in_array("-list-plugins", $op)) {
+		$tmppluginhost = new PluginHost($link);
+		$tmppluginhost->load_all();
+		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
+			$about = $plugin->_about();
+
+			printf("%-60s - v%.2f (by %s)\n%s\n\n",
+				$name, $about[0], $about[2], $about[1]);
+		}
 	}
 
 	$pluginhost->run_commands($op);

@@ -15,6 +15,12 @@ class Example_Routing extends Plugin implements IHandler {
 	private $link;
 	private $host;
 
+	function _about() {
+		return array(1.0,
+			"Example routing plugin",
+			"fox");
+	}
+
 	function __construct($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;

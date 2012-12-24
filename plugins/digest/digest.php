@@ -4,6 +4,12 @@ class Digest extends Plugin implements IHandler {
 	private $link;
 	private $host;
 
+	function _about() {
+		return array(1.0,
+			"Digest mode for tt-rss (tablet friendly UI)",
+			"fox");
+	}
+
 	function __construct($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;

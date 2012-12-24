@@ -10,6 +10,12 @@ class GooglePlus extends Plugin {
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
 	}
 
+	function _about() {
+		return array(1.0,
+			"Share on Google+ plugin",
+			"homolibere");
+	}
+
 	function get_js() {
 		return file_get_contents(dirname(__FILE__) . "/googleplus.js");
 	}

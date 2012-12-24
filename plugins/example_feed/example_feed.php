@@ -7,6 +7,12 @@ class Example_Feed extends Plugin {
 	private $link;
 	private $host;
 
+	function _about() {
+		return array(1.0,
+			"Example feed plugin",
+			"fox");
+	}
+
 	function __construct($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;

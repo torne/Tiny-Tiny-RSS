@@ -65,6 +65,10 @@ class PluginHost {
 			return array();
 		}
 	}
+	function load_all() {
+		$plugins = array_map("basename", glob("plugins/*"));
+		$this->load(join(",", $plugins));
+	}
 
 	function load($classlist) {
 		$plugins = explode(",", $classlist);

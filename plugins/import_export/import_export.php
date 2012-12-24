@@ -12,6 +12,12 @@ class Import_Export extends Plugin implements IHandler {
 		$host->add_command("xml-import", "USER FILE: import articles from XML", $this);
 	}
 
+	function _about() {
+		return array(1.0,
+			"Imports and exports user data using a neutral XML format",
+			"fox");
+	}
+
 	function xml_import($args) {
 		array_shift($args);
 

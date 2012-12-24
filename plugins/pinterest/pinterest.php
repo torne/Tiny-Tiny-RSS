@@ -3,6 +3,12 @@ class Pinterest extends Plugin {
 	private $link;
 	private $host;
 
+	function _about() {
+		return array(1.0,
+			"Share article via Pinterest",
+			"?");
+	}
+
 	function __construct($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;
