@@ -120,8 +120,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
-					dojo.parser.parse('headlines-tmp');
-
 					var hsp = $("headlines-spacer");
 
 					if (hsp)
@@ -164,6 +162,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					initHeadlinesMenu();
 
 					new_elems.each(function(child) {
+						dojo.parser.parse(child);
+
 						if (!Element.visible(child))
 							new Effect.Appear(child, { duration : 0.5 });
 					});
