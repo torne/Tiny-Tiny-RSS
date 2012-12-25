@@ -162,6 +162,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					initHeadlinesMenu();
 
 					new_elems.each(function(child) {
+						if (dijit.byId("RCHK-" + child.id)) {
+							dijit.byId("RCHK-" + child.id).destroy();
+						}
+
 						dojo.parser.parse(child);
 
 						if (!Element.visible(child))
