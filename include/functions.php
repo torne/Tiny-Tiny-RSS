@@ -1870,10 +1870,10 @@
 			return "images/archive.png";
 			break;
 		case -1:
-			return "images/mark_set.png";
+			return "images/mark_set.svg";
 			break;
 		case -2:
-			return "images/pub_set.png";
+			return "images/pub_set.svg";
 			break;
 		case -3:
 			return "images/fresh.png";
@@ -1939,8 +1939,8 @@
 
 		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
 		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
-		$params["sign_excl"] = theme_image($link, "images/sign_excl.png");
-		$params["sign_info"] = theme_image($link, "images/sign_info.png");
+		$params["sign_excl"] = theme_image($link, "images/sign_excl.svg");
+		$params["sign_info"] = theme_image($link, "images/sign_info.svg");
 
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
@@ -2814,19 +2814,19 @@
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";
+			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
 	}
 
 	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_info.png")."\">$msg</div>";
+			<img src=\"".theme_image($link, "images/sign_info.svg")."\">$msg</div>";
 	}
 
 	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.png")."\">$msg</div>";
+			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
 	}
 
 	function print_notice($msg) {
@@ -3090,7 +3090,7 @@
 					$rv['content'] .= "&nbsp;";
 
 					$rv['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-					$rv['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.png'></a>";
+					$rv['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.svg'></a>";
 
 					$rv['content'] .= "</div>";
 				}

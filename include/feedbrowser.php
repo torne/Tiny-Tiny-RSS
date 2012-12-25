@@ -63,7 +63,7 @@
 				htmlspecialchars($line["title"])."</span></a>";
 
 				$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
-							href=\"$feed_url\"><img src='images/feed-icon-12x12.png'
+							href=\"$feed_url\"><img src='images/pub_set.svg'
 							style='vertical-align : middle'></a>";
 
 				$rv .= "<li>$check_box $feed_url $site_url".
@@ -92,7 +92,7 @@
 				htmlspecialchars($line["title"])."</span></a>";
 
 				$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
-							href=\"$feed_url\"><img src='images/feed-icon-12x12.png'
+							href=\"$feed_url\"><img src='images/pub_set.svg'
 							style='vertical-align : middle'></a>";
 
 

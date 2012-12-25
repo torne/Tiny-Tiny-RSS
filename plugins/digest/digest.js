@@ -252,14 +252,14 @@ function view(article_id) {
 					}
 
 					if (article.marked)
-						mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.png'>";
+						mark_part = "<img title='"+ __("Unstar article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_set.svg'>";
 					else
-						mark_part =	"<img title='"+__("Star article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_unset.png'>";
+						mark_part =	"<img title='"+__("Star article")+"' onclick=\"toggle_mark(this, "+article.id+")\" src='images/mark_unset.svg'>";
 
 					if (article.published)
-						publ_part = "<img title='"+__("Unpublish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_set.png'>";
+						publ_part = "<img title='"+__("Unpublish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_set.svg'>";
 					else
-						publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.png'>";
+						publ_part =	"<img title='"+__("Publish article")+"' onclick=\"toggle_pub(this, "+article.id+")\" src='images/pub_unset.svg'>";
 
 					var tmp = "<div id=\"inner\">" +
 						"<div id=\"ops\">" +
@@ -385,10 +385,10 @@ function get_feed_icon(feed) {
 			return getInitParam('icons_url') + "/" + feed.id + '.ico';
 
 		if (feed.id == -1)
-			return 'images/mark_set.png';
+			return 'images/mark_set.svg';
 
 		if (feed.id == -2)
-			return 'images/pub_set.png';
+			return 'images/pub_set.svg';
 
 		if (feed.id == -3)
 			return 'images/fresh.png';

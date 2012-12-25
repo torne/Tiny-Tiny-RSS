@@ -82,7 +82,7 @@ class Feeds extends Handler_Protected {
 			<a href=\"#\"
 				title=\"".__("View as RSS feed")."\"
 				onclick=\"displayDlg('generatedFeed', '$feed_id:$is_cat:$rss_link')\">
-				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/feed-icon-12x12.png\"></a>";
+				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/pub_set.svg\"></a>";
 
 		$reply .= "</span>";
 
@@ -347,24 +347,24 @@ class Feeds extends Handler_Protected {
 
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
 					$marked_pic = "<img id=\"FMPIC-$id\"
-						src=\"".theme_image($this->link, 'images/mark_set.png')."\"
+						src=\"".theme_image($this->link, 'images/mark_set.svg')."\"
 						class=\"markedPic\" alt=\"Unstar article\"
 						onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMPIC-$id\"
-						src=\"".theme_image($this->link, 'images/mark_unset.png')."\"
+						src=\"".theme_image($this->link, 'images/mark_unset.svg')."\"
 						class=\"markedPic\" alt=\"Star article\"
 						onclick='javascript:toggleMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($this->link,
-						'images/pub_set.png')."\"
+						'images/pub_set.svg')."\"
 						class=\"markedPic\"
 						alt=\"Unpublish article\" onclick='javascript:togglePub($id)'>";
 				} else {
 					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($this->link,
-						'images/pub_unset.png')."\"
+						'images/pub_unset.svg')."\"
 						class=\"markedPic\"
 						alt=\"Publish article\" onclick='javascript:togglePub($id)'>";
 				}
@@ -418,7 +418,7 @@ class Feeds extends Handler_Protected {
 				if ($has_feed_icon) {
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
 				} else {
-					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/feed-icon-12x12.png\" alt=\"\">";
+					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/pub_set.svg\" alt=\"\">";
 				}
 
 				if (!get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
@@ -626,7 +626,7 @@ class Feeds extends Handler_Protected {
 							$reply['content'] .= "&nbsp;";
 
 							$reply['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.png'></a>";
+							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_unset.svg'></a>";
 
 							$reply['content'] .= "</div>";
 						}
