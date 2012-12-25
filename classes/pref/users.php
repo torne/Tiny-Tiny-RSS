@@ -435,8 +435,8 @@ class Pref_Users extends Handler_Protected {
 
 			print "<tr class=\"title\">
 						<td align='center' width=\"5%\">&nbsp;</td>
-						<td width=''><a href=\"#\" onclick=\"updateUsersList('login')\">".__('Login')."</a></td>
-						<td width='20%'><a href=\"#\" onclick=\"updateUsersList('access_level')\">".__('Access Level')."</a></td>
+						<td width='30%'><a href=\"#\" onclick=\"updateUsersList('login')\">".__('Login')."</a></td>
+						<td width='30%'><a href=\"#\" onclick=\"updateUsersList('access_level')\">".__('Access Level')."</a></td>
 						<td width='20%'><a href=\"#\" onclick=\"updateUsersList('created')\">".__('Registered')."</a></td>
 						<td width='20%'><a href=\"#\" onclick=\"updateUsersList('last_login')\">".__('Last login')."</a></td></tr>";
 
@@ -448,15 +448,16 @@ class Pref_Users extends Handler_Protected {
 
 				$uid = $line["id"];
 
-				print "<tr class=\"$class\" id=\"UMRR-$uid\">";
+				print "<tr id=\"UMRR-$uid\">";
 
 				$line["login"] = htmlspecialchars($line["login"]);
 
 				$line["created"] = make_local_datetime($this->link, $line["created"], false);
 				$line["last_login"] = make_local_datetime($this->link, $line["last_login"], false);
 
-				print "<td align='center'><input onclick='toggleSelectRow(this);'
-					type=\"checkbox\" id=\"UMCHK-$uid\"></td>";
+				print "<td align='center'><input onclick='toggleSelectRow2(this);'
+					dojoType=\"dijit.form.CheckBox\" type=\"checkbox\"
+					id=\"UMCHK-$uid\"></td>";
 
 				$onclick = "onclick='editUser($uid, event)' title='".__('Click to edit')."'";
 

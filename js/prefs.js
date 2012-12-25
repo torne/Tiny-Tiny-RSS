@@ -83,12 +83,7 @@ function addUser() {
 function editUser(id, event) {
 
 	try {
-		if (!event || !event.ctrlKey) {
-
 		notify_progress("Loading, please wait...");
-
-		selectTableRows('prefUserList', 'none');
-		selectTableRowById('UMRR-'+id, 'UMCHK-'+id, true);
 
 		var query = "?op=pref-users&method=edit&id=" +
 			param_escape(id);
@@ -99,12 +94,6 @@ function editUser(id, event) {
 					infobox_callback2(transport);
 					document.forms['user_edit_form'].login.focus();
 				} });
-
-		} else if (event.ctrlKey) {
-			var cb = $('UMCHK-' + id);
-			cb.checked = !cb.checked;
-			toggleSelectRow(cb);
-		}
 
 	} catch (e) {
 		exception_error("editUser", e);
