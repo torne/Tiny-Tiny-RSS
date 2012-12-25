@@ -67,6 +67,17 @@ class Updater extends Plugin {
 				$stop = true; break;
 			}
 
+			array_push($log, "Checking for gunzip...");
+
+			$system_rc = 0;
+			system("gunzip --version >/dev/null", $system_rc);
+
+			if ($system_rc != 0) {
+				array_push($log, "Could not run gunzip executable (RC=$system_rc).");
+				$stop = true; break;
+			}
+
+
 			array_push($log, "Checking for latest version...");
 
 			$version_info = json_decode(fetch_file_contents("http://tt-rss.org/version.php"),
