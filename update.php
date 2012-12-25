@@ -261,12 +261,23 @@
 	if (in_array("-list-plugins", $op)) {
 		$tmppluginhost = new PluginHost($link);
 		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
+		$enabled = array_map("trim", explode(",", PLUGINS));
+
+		echo "List of all available plugins:\n";
+
 		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
 			$about = $plugin->about();
 
-			printf("%-60s - v%.2f (by %s)\n%s\n\n",
-				$name, $about[0], $about[2], $about[1]);
+			$status = $about[3] ? "system" : "user";
+
+			if (in_array($name, $enabled)) $name .= "*";
+
+			printf("%-50s %-10s v%.2f (by %s)\n%s\n\n",
+				$name, $status, $about[0], $about[2], $about[1]);
 		}
+
+		echo "Plugins marked by * are currently enabled for all users.\n";
+
 	}
 
 	$pluginhost->run_commands($op);

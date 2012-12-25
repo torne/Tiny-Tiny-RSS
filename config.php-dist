@@ -172,9 +172,11 @@
 	// after login, or content encoding errors, disable it.
 
 	define('PLUGINS', 'note');
-	// Comma-separated list of plugins to load for all users. System plugins have to be specified
-	// here, user plugins may be loaded per-user using Preferences/Plugins.
-
+	// Comma-separated list of plugins to load automatically for all users. 
+	// System plugins have to be specified here.
+	// Users may enable other user plugins from Preferences/Plugins but may not
+	// disable plugins specified in this list.
+	
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.
