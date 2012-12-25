@@ -46,7 +46,6 @@ class OwnCloud extends Plugin {
     if (defined('OWNCLOUD_URL')) {
       $own_url = OWNCLOUD_URL;
     }
-    // $own_url = "https://home.g3la.de/owncloud/";
 
     print json_encode(array("title" => $title, "link" => $article_link,
 			    "id" => $id, "ownurl" => $own_url));
