@@ -320,23 +320,6 @@ class Feeds extends Handler_Protected {
 					array_push($topmost_article_ids, $id);
 				}
 
-				if ($line["last_read"] == "" && !sql_bool_to_bool($line["unread"])) {
-
-					$update_pic = "<img id='FUPDPIC-$id' src=\"".
-						theme_image($this->link, 'images/updated.png')."\"
-						alt=\"Updated\">";
-				} else {
-					$update_pic = "<img id='FUPDPIC-$id' src=\"images/blank_icon.gif\"
-						alt=\"Updated\">";
-				}
-
-				if (sql_bool_to_bool($line["unread"]) &&
-					time() - strtotime($line["updated_noms"]) < $fresh_intl) {
-
-					$update_pic = "<img id='FUPDPIC-$id' src=\"".
-						theme_image($this->link, 'images/fresh_sign.png')."\" alt=\"Fresh\">";
-				}
-
 				if ($line["unread"] == "t" || $line["unread"] == "1") {
 					$class .= " Unread";
 					++$num_unread;
@@ -445,8 +428,6 @@ class Feeds extends Handler_Protected {
 						onmouseout='postMouseOut($id)'";
 
 					$reply['content'] .= "<div class='$class' id='RROW-$id' $label_row_style $mouseover_attrs>";
-
-					$reply['content'] .= "<div class='hlUpdPic'>$update_pic</div>";
 
 					$reply['content'] .= "<div class='hlLeft'>";
 
@@ -595,7 +576,6 @@ class Feeds extends Handler_Protected {
 							title=\"".htmlspecialchars($line["feed_title"])."\"
 							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
-					$reply['content'] .= "<div class=\"updPic\">$update_pic</div>";
 					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "</div>";
