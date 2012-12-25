@@ -655,7 +655,7 @@ class Pref_Prefs extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setplugins\">";
 
-		print "<table width='100%'>";
+		print "<table width='100%' class='prefPluginsList'>";
 
 		print "<tr><td colspan='4'><h3>".__("System plugins")."</h3></td></tr>";
 
@@ -716,22 +716,25 @@ class Pref_Prefs extends Handler_Protected {
 				if (in_array($name, $system_enabled)) {
 					$checked = "checked='1'";
 					$disabled = "disabled='1'";
+					$rowclass = '';
 				} else if (in_array($name, $user_enabled)) {
 					$checked = "checked='1'";
 					$disabled = "";
+					$rowclass = "Selected";
 				} else {
 					$checked = "";
 					$disabled = "";
+					$rowclass = '';
 				}
 
-				print "<tr>";
+				print "<tr class='$rowclass'>";
 
 				print "<td align='center'><input id='FPCHK-$name' name='plugins[]' value='$name' onclick='toggleSelectRow2(this);'
 					dojoType=\"dijit.form.CheckBox\" $checked $disabled
 					type=\"checkbox\"></td>";
 
-				print "<td>$name</td>";
-				print "<td>" . htmlspecialchars($about[1]) . "</td>";
+				print "<td><label for='FPCHK-$name'>$name</label></td>";
+				print "<td><label for='FPCHK-$name'>" . htmlspecialchars($about[1]) . "</label></td>";
 				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
 
