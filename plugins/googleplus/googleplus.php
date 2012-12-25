@@ -12,7 +12,7 @@ class GooglePlus extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share on Google+ plugin",
+			"Share article on Google+",
 			"homolibere");
 	}
 

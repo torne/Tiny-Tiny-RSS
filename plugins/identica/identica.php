@@ -12,7 +12,7 @@ class Identica extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share on Identi.ca",
+			"Share articles on Identi.ca",
 			"fox");
 	}
 

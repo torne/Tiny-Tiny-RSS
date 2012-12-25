@@ -1,1 +1,0 @@
-Shares article by email

@@ -12,7 +12,7 @@ class Flattr extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share on Flattr plugin",
+			"Share articles on Flattr",
 			"Nic Honing");
 	}
 

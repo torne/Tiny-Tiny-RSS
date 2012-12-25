@@ -5,7 +5,7 @@ class Pinterest extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share article via Pinterest",
+			"Share article on Pinterest",
 			"?");
 	}
 

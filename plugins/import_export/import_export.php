@@ -14,7 +14,7 @@ class Import_Export extends Plugin implements IHandler {
 
 	function about() {
 		return array(1.0,
-			"Imports and exports user data using a neutral XML format",
+			"Imports and exports user data using neutral XML format",
 			"fox");
 	}
 

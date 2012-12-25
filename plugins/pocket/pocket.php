@@ -6,7 +6,7 @@ class Pocket extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share article via Pocket (formerly Read It Later)",
+			"Share article on Pocket (formerly Read It Later)",
 			"?");
 	}
 
