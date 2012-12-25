@@ -120,6 +120,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
+					dojo.parser.parse('headlines-tmp');
+
 					var hsp = $("headlines-spacer");
 
 					if (hsp)
