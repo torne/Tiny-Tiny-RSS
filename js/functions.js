@@ -346,10 +346,6 @@ function toggleSelectListRow2(sender) {
 	return toggleSelectRow(sender, row);
 }
 
-function tSR(sender, row) {
-	return toggleSelectRow(sender, row);
-}
-
 /* this is for dijit Checkbox */
 function toggleSelectRow2(sender, row) {
 

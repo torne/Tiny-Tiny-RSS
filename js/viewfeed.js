@@ -586,16 +586,16 @@ function moveToPost(mode) {
 function toggleSelected(id, force_on) {
 	try {
 
-		var cb = $("RCHK-" + id);
+		var cb = dijit.byId("RCHK-" + id);
 		var row = $("RROW-" + id);
 
 		if (row) {
 			if (row.hasClassName('Selected') && !force_on) {
 				row.removeClassName('Selected');
-				if (cb) cb.checked = false;
+				if (cb) cb.attr("checked", false);
 			} else {
 				row.addClassName('Selected');
-				if (cb) cb.checked = true;
+				if (cb) cb.attr("checked", true);
 			}
 		}
 	} catch (e) {
@@ -881,52 +881,52 @@ function selectArticles(mode) {
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
-			var cb = $("RCHK-" + id);
+			var cb = dijit.byId("RCHK-" + id);
 
 			if (mode == "all") {
 				child.addClassName("Selected");
-				cb.checked = true;
+				cb.attr("checked", true);
 			} else if (mode == "unread") {
 				if (child.hasClassName("Unread")) {
 					child.addClassName("Selected");
-					cb.checked = true;
+					cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					cb.checked = false;
+					cb.attr("checked", false);
 				}
 			} else if (mode == "marked") {
 				var img = $("FMPIC-" + child.id.replace("RROW-", ""));
 
 				if (img && img.src.match("mark_set")) {
 					child.addClassName("Selected");
-					cb.checked = true;
+					cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					cb.checked = false;
+					cb.attr("checked", false);
 				}
 			} else if (mode == "published") {
 				var img = $("FPPIC-" + child.id.replace("RROW-", ""));
 
 				if (img && img.src.match("pub_set")) {
 					child.addClassName("Selected");
-					cb.checked = true;
+					cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					cb.checked = false;
+					cb.attr("checked", false);
 				}
 
 			} else if (mode == "invert") {
 				if (child.hasClassName("Selected")) {
 					child.removeClassName("Selected");
-					cb.checked = false;
+					cb.attr("checked", false);
 				} else {
 					child.addClassName("Selected");
-					cb.checked = true;
+					cb.attr("checked", true);
 				}
 
 			} else {
 				child.removeClassName("Selected");
-				cb.checked = false;
+				cb.attr("checked", false);
 			}
 		});
 
@@ -1751,10 +1751,10 @@ function isCdmMode() {
 function markHeadline(id) {
 	var row = $("RROW-" + id);
 	if (row) {
-		var check = $("RCHK-" + id);
+		var check = dijit.byId("RCHK-" + id);
 
 		if (check) {
-			check.checked = true;
+			check.attr("checked", true);
 		}
 
 		row.addClassName("Selected");

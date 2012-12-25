@@ -786,10 +786,10 @@ function hotkey_handler(e) {
 			if (keycode == 9) { // tab
 				var id = getArticleUnderPointer();
 				if (id) {
-					var cb = $("RCHK-" + id);
+					var cb = dijit.byId("RCHK-" + id);
 
 					if (cb) {
-						cb.checked = !cb.checked;
+						cb.attr("checked", !cb.attr("checked"));
 						toggleSelectRowById(cb, "RROW-" + id);
 						return false;
 					}
