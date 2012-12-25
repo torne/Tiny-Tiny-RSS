@@ -716,7 +716,7 @@
 			$plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
 
 			global $pluginhost;
-			$pluginhost->load($plugins);
+			$pluginhost->load($plugins, $pluginhost::KIND_USER);
 		}
 	}
 
@@ -3353,7 +3353,7 @@
 			global $pluginhost;
 
 			$pluginhost = new PluginHost($link);
-			$pluginhost->load(PLUGINS);
+			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
 
 			return true;
 		} else {

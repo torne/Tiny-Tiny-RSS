@@ -172,7 +172,8 @@
 	// after login, or content encoding errors, disable it.
 
 	define('PLUGINS', 'note');
-	// Plugins to load. Check plugins/ directory for additional information.
+	// Comma-separated list of plugins to load for all users. System plugins have to be specified
+	// here, user plugins may be loaded per-user using Preferences/Plugins.
 
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding

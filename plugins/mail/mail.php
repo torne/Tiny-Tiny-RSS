@@ -4,13 +4,13 @@ class Mail extends Plugin {
 	private $link;
 	private $host;
 
-	function _about() {
+	function about() {
 		return array(1.0,
 			"Adds a share article via email button",
 			"fox");
 	}
 
-	function __construct($host) {
+	function init($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;
 

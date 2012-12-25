@@ -10,14 +10,14 @@ class Instances extends Plugin implements IHandler {
 		2 	=> "Invalid object received",
 		16	=> "Access denied" );
 
-	function _about() {
+	function about() {
 		return array(1.0,
 			"Support for linking tt-rss instances together and sharing popular feeds.",
 			"fox",
 			true);
 	}
 
-	function __construct($host) {
+	function init($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;
 

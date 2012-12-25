@@ -670,10 +670,10 @@ class Pref_Prefs extends Handler_Protected {
 		$user_enabled = array_map("trim", explode(",", get_pref($this->link, "_ENABLED_PLUGINS")));
 
 		$tmppluginhost = new PluginHost($link);
-		$tmppluginhost->load_all();
+		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
 
 		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
-			$about = $plugin->_about();
+			$about = $plugin->about();
 
 			if ($about[3]) {
 				if (in_array($name, $system_enabled)) {
@@ -709,7 +709,7 @@ class Pref_Prefs extends Handler_Protected {
 
 
 		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
-			$about = $plugin->_about();
+			$about = $plugin->about();
 
 			if (!$about[3]) {
 

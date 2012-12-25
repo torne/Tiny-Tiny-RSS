@@ -15,14 +15,14 @@ class Example_Routing extends Plugin implements IHandler {
 	private $link;
 	private $host;
 
-	function _about() {
+	function about() {
 		return array(1.0,
 			"Example routing plugin",
 			"fox",
 			true);
 	}
 
-	function __construct($host) {
+	function init($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;
 

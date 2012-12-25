@@ -260,9 +260,9 @@
 
 	if (in_array("-list-plugins", $op)) {
 		$tmppluginhost = new PluginHost($link);
-		$tmppluginhost->load_all();
+		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
 		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
-			$about = $plugin->_about();
+			$about = $plugin->about();
 
 			printf("%-60s - v%.2f (by %s)\n%s\n\n",
 				$name, $about[0], $about[2], $about[1]);

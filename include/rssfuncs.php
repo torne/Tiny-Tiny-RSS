@@ -263,7 +263,14 @@
 
 		if (!$rss->error()) {
 
-			global $pluginhost;
+			// We use local pluginhost here because we need to load different per-user feed plugins
+			$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
+
+			$pluginhost = new PluginHost($link);
+
+			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
+			$pluginhost->load($plugins, $pluginhost::KIND_USER);
+
 			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
 
 			if ($debug_enabled) {
@@ -538,7 +545,6 @@
 					"tags" => $entry_tags,
 					"author" => $entry_author);
 
-				global $pluginhost;
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
 				}

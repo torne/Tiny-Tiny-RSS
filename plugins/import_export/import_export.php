@@ -4,7 +4,7 @@ class Import_Export extends Plugin implements IHandler {
 	private $link;
 	private $host;
 
-	function __construct($host) {
+	function init($host) {
 		$this->link = $host->get_link();
 		$this->host = $host;
 
@@ -12,7 +12,7 @@ class Import_Export extends Plugin implements IHandler {
 		$host->add_command("xml-import", "USER FILE: import articles from XML", $this);
 	}
 
-	function _about() {
+	function about() {
 		return array(1.0,
 			"Imports and exports user data using a neutral XML format",
 			"fox");

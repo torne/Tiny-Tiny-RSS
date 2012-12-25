@@ -14,6 +14,10 @@ class PluginHost {
 	const HOOK_FEED_PARSED = 6;
 	const HOOK_UPDATE_TASK = 7;
 
+	const KIND_ALL = 1;
+	const KIND_SYSTEM = 2;
+	const KIND_USER = 3;
+
 	function __construct($link) {
 		$this->link = $link;
 	}
@@ -65,12 +69,12 @@ class PluginHost {
 			return array();
 		}
 	}
-	function load_all() {
+	function load_all($kind) {
 		$plugins = array_map("basename", glob("plugins/*"));
-		$this->load(join(",", $plugins));
+		$this->load(join(",", $plugins), $kind);
 	}
 
-	function load($classlist) {
+	function load($classlist, $kind) {
 		$plugins = explode(",", $classlist);
 
 		foreach ($plugins as $class) {
@@ -84,14 +88,31 @@ class PluginHost {
 				if (class_exists($class) && is_subclass_of($class, "Plugin")) {
 					$plugin = new $class($this);
 
-					$this->register_plugin($class, $plugin);
+					switch ($kind) {
+					case $this::KIND_SYSTEM:
+						if ($this->is_system($plugin)) {
+							$plugin->init($this);
+							$this->register_plugin($class, $plugin);
+						}
+						break;
+					case $this::KIND_USER:
+						if (!$this->is_system($plugin)) {
+							$plugin->init($this);
+							$this->register_plugin($class, $plugin);
+						}
+						break;
+					case $this::KIND_ALL:
+						$plugin->init($this);
+						$this->register_plugin($class, $plugin);
+						break;
+					}
 				}
 			}
 		}
 	}
 
 	function is_system($plugin) {
-		$about = $plugin->_about();
+		$about = $plugin->about();
 
 		return @$about[3];
 	}
@@ -134,22 +155,17 @@ class PluginHost {
 		return false;
 	}
 
-	// only system plugins are allowed to modify commands
 	function add_command($command, $description, $sender) {
 		$command = "-" . str_replace("-", "_", strtolower($command));
 
-		if ($this->is_system($sender)) {
-			$this->commands[$command] = array("description" => $description,
-				"class" => $sender);
-		}
+		$this->commands[$command] = array("description" => $description,
+			"class" => $sender);
 	}
 
 	function del_command($command) {
 		$command = "-" . strtolower($command);
 
-		if ($this->is_system($sender)) {
-			unset($this->commands[$command]);
-		}
+		unset($this->commands[$command]);
 	}
 
 	function lookup_command($command) {
