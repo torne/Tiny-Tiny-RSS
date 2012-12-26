@@ -1,4 +1,4 @@
-<?
+<?php
 	function make_feed_browser($link, $search, $limit, $mode = 1) {
 
 		$owner_uid = $_SESSION["uid"];
