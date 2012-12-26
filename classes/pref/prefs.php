@@ -366,6 +366,10 @@ class Pref_Prefs extends Handler_Protected {
 			}
 		}
 
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefPrefsAuth");
+
 		print "</div>"; #pane
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" selected=\"true\" title=\"".__('Preferences')."\">";
@@ -594,6 +598,10 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "</table>";
 
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefPrefsPrefsInside");
+
 		print '</div>'; # inside pane
 		print '<div dojoType="dijit.layout.ContentPane" region="bottom">';
 
@@ -620,6 +628,10 @@ class Pref_Prefs extends Handler_Protected {
 				type=\"checkbox\"></input>
 				<label for='prefs_show_advanced'>" .
 				__("Show additional preferences") . "</label>";
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefPrefsPrefsOutside");
 
 		print "</form>";
 		print '</div>'; # inner pane

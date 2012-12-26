@@ -9,7 +9,7 @@ class PluginHost {
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
 	const HOOK_PREFS_TAB = 3;
-	const HOOK_PREFS_SECTION = 4;
+	const HOOK_PREFS_TAB_SECTION = 4;
 	const HOOK_PREFS_TABS = 5;
 	const HOOK_FEED_PARSED = 6;
 	const HOOK_UPDATE_TASK = 7;

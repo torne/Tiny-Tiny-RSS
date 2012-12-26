@@ -1414,6 +1414,10 @@ class Pref_Feeds extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('pubOPMLUrl')\">".
 			__('Display published OPML URL')."</button> ";
 
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefFeedsOPML");
+
 		print "</div>"; # pane
 
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "Firefox") !== false) {
@@ -1453,6 +1457,10 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<a href=\"$bm_url\" class='bookmarklet'>" . __('Share with Tiny Tiny RSS'). "</a>";
 
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefFeedsBookmarklets");
+
 		print "</div>"; #pane
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published & shared articles / Generated feeds')."\">";
@@ -1476,6 +1484,10 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
 			__('Unshare all articles')."</button> ";
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+			"hook_prefs_tab_section", "prefFeedsPublishedGenerated");
 
 		print "</div>"; #pane
 
