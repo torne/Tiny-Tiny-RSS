@@ -202,11 +202,13 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			else
 				request_counters();
 
-		} else {
+		} else if (transport.responseText) {
 			console.error("Invalid object received: " + transport.responseText);
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" +
 					__('Could not update headlines (invalid object received - see error console for details)') +
 					"</div>");
+		} else {
+			notify_error("Error communicating with server.");
 		}
 
 		_infscroll_request_sent = 0;
