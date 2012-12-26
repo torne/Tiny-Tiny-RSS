@@ -298,7 +298,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 250));
+			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: checking favicon...");
@@ -329,7 +329,7 @@
 			}
 
 			$icon_url = db_escape_string(mb_substr(
-				rewrite_relative_url($fetch_url, $rss->get_image_url()), 0, 250));
+				rewrite_relative_url($fetch_url, $rss->get_image_url()), 0, 245));
 
 			if ($icon_url && $orig_icon_url != $icon_url) {
 				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
@@ -476,13 +476,13 @@
 					$entry_author = db_escape_string($entry_author);
 				}
 
-				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 250));
+				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 245));
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries
 					WHERE guid = '$entry_guid'");
 
-				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 250));
-				$entry_author = db_escape_string(mb_substr($entry_author, 0, 250));
+				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 245));
+				$entry_author = db_escape_string(mb_substr($entry_author, 0, 245));
 
 				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
 
@@ -1025,7 +1025,7 @@
 
 		} else {
 
-			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 250));
+			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 245));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");
