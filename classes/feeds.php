@@ -524,8 +524,9 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div>";
 
-					$reply['content'] .= "<input type=\"checkbox\" onclick=\"toggleSelectRowById(this,
-							'RROW-$id')\" id=\"RCHK-$id\"/>";
+					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
+							type=\"checkbox\" onclick=\"toggleSelectRow2(this)\"
+							id=\"RCHK-$id\">";
 
 					$reply['content'] .= "$marked_pic";
 					$reply['content'] .= "$published_pic";
