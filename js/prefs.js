@@ -1925,3 +1925,20 @@ function toggleAdvancedPrefs() {
 		exception_error("toggleAdvancedPrefs", e);
 	}
 }
+
+function clearPluginData(name) {
+	try {
+		if (confirm(__("Clear stored data for this plugin?"))) {
+			notify_progress("Loading, please wait...");
+
+			new Ajax.Request("backend.php", {
+				parameters: "?op=pref-prefs&method=clearplugindata&name=" + param_escape(name),
+				onComplete: function(transport) {
+					notify('');
+					updatePrefsList();
+				} });
+		}
+	} catch (e) {
+		exception_error("clearPluginData", e);
+	}
+}

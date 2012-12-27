@@ -949,7 +949,7 @@ class Pref_Feeds extends Handler_Protected {
 				include_in_digest = $include_in_digest,
 				always_display_enclosures = $always_display_enclosures,
 				mark_unread_on_update = $mark_unread_on_update,
-				update_on_checksum_change = $update_on_checksum_change,
+				update_on_checksum_change = $update_on_checksum_change
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		} else {

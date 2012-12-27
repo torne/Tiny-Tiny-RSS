@@ -12,6 +12,10 @@
 
 			require_once "sanity_config.php";
 
+			if (strpos(PLUGINS, "auth_") === FALSE) {
+				array_push($errors, "Please enable at least one authentication module via PLUGINS constant in config.php");
+			}
+
 			if (function_exists('posix_getuid') && posix_getuid() == 0) {
 				array_push($errors, "Please don't run this script as root.");
 			}
