@@ -55,8 +55,10 @@
 	define('AUTH_MODULES', 'internal');
 	// Comma-separated list of authentication modules to use. 
 	// Available modules are:
-	// 1. internal - tt-rss internal user DB
-	// 2. remote - use server REMOTE_USER variable or client SSL certificate if enabled
+	// internal - tt-rss internal user DB
+	// remote - use server REMOTE_USER variable or client SSL certificate if enabled
+	// imap - authenticates using an IMAP server (check classes/auth/imap.php for some
+	// stuff you need to put into config.php)
 	// in preferences
 	//
 
