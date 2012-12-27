@@ -10,7 +10,7 @@ function toggleMarked(id, elem) {
 		toggled = 0;
 	}
 
-	var query = "?op=toggleMarked&id=" + id + "&mark=" + toggled;
+	var query = "op=toggleMarked&id=" + id + "&mark=" + toggled;
 
 	new Ajax.Request(backend, {
 		parameters: query,
@@ -29,7 +29,7 @@ function togglePublished(id, elem) {
 		toggled = 0;
 	}
 
-	var query = "?op=togglePublished&id=" + id + "&pub=" + toggled;
+	var query = "op=togglePublished&id=" + id + "&pub=" + toggled;
 
 	new Ajax.Request(backend, {
 		parameters: query,
@@ -49,7 +49,7 @@ function toggleUnread(id, elem) {
 		toggled = 0;
 	}
 
-	var query = "?op=toggleUnread&id=" + id + "&unread=" + toggled;
+	var query = "op=toggleUnread&id=" + id + "&unread=" + toggled;
 
 	new Ajax.Request(backend, {
 		parameters: query,
@@ -69,7 +69,7 @@ function setPref(elem) {
 		toggled = 0;
 	}
 
-	var query = "?op=setPref&id=" + id + "&to=" + toggled;
+	var query = "op=setPref&id=" + id + "&to=" + toggled;
 
 	new Ajax.Request(backend, {
 		parameters: query,
