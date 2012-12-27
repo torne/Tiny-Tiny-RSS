@@ -1963,10 +1963,64 @@
 		$params["num_feeds"] = (int) $num_feeds;
 
 		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
+		$params["hotkeys"] = get_hotkeys($link);
 
 		$params["csrf_token"] = $_SESSION["csrf_token"];
 
 		return $params;
+	}
+
+	function get_hotkeys($link) {
+		$hotkeys = array(
+			"navigation" => array(
+				"next_feed" => "k",
+				"prev_feed" => "j",
+				"next_article" => "n",
+				"prev_article" => "p",
+				"search_dialog" => "/"),
+			"article" => array(
+				"toggle_mark" => "s",
+				"toggle_publ" => "S",
+				"toggle_unread" => "u",
+				"edit_tags" => "T",
+				"dismiss_selected" => "D",
+				"dismiss_read" => "X",
+				"open_in_new_window" => "o",
+				"catchup_below" => "c p",
+				"catchup_above" => "c n",
+				"email_article" => "e"),
+			"article_selection" => array(
+				"select_all" => "a a",
+				"select_unread" => "a u",
+				"select_marked" => "a U",
+				"select_published" => "a p",
+				"select_invert" => "a i",
+				"select_none" => "a n"),
+			"feed" => array(
+				"feed_refresh" => "f r",
+				"feed_unhide_read" => "f a",
+				"feed_subscribe" => "f s",
+				"feed_edit" => "f e",
+				"feed_catchup" => "f q",
+				"feed_reverse" => "f x",
+				"catchup_all" => "Q",
+				"cat_toggle_collapse" => "x"),
+			"goto" => array(
+				"goto_all" => "g a",
+				"goto_fresh" => "g f",
+				"goto_marked" => "g s",
+				"goto_published" => "g p",
+				"goto_tagcloud" => "g t",
+				"goto_prefs" => "g P"),
+			"other" => array(
+				"select_article_cursor" => "(9)", // tab
+				"create_label" => "c l",
+				"create_filter" => "c f",
+				"collapse_sidebar" => "c s",
+				"help_dialog" => "(191)")
+			);
+
+		return $hotkeys;
 	}
 
 	function make_runtime_info($link) {

@@ -647,13 +647,134 @@ function hotkey_handler(e) {
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
 
-		if ((keycode == 70 || keycode == 67 || keycode == 71 || keycode == 65)
+		if (!shift_key) keychar = keychar.toLowerCase();
+
+		if (!hotkey_prefix && ["a", "f", "g", "c"].indexOf(keychar) != -1) {
+
+			var date = new Date();
+			var ts = Math.round(date.getTime() / 1000);
+
+			hotkey_prefix = keychar;
+			hotkey_prefix_pressed = ts;
+
+			cmdline.innerHTML = keychar;
+			Element.show(cmdline);
+
+			return true;
+		}
+
+		Element.hide(cmdline);
+
+		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
+		hotkey_prefix = false;
+
+		var hotkey_action = false;
+		var hotkeys = getInitParam("hotkeys");
+
+		for (cat in hotkeys) {
+			for (action in hotkeys[cat]) {
+				if (hotkeys[cat][action] == hotkey) {
+					hotkey_action = action;
+					break;
+				}
+			}
+		}
+
+		switch (hotkey_action) {
+		case "next_feed":
+			return true;
+		case "prev_feed":
+			return true;
+		case "next_article":
+			return true;
+		case "prev_article":
+			return true;
+		case "search_dialog":
+			return true;
+		case "toggle_mark":
+			return true;
+		case "toggle_publ":
+			return true;
+		case "toggle_unread":
+			return true;
+		case "edit_tags":
+			return true;
+		case "dismiss_selected":
+			return true;
+		case "dismiss_read":
+			return true;
+		case "open_in_new_window":
+			return true;
+		case "catchup_below":
+			return true;
+		case "catchup_above":
+			return true;
+		case "email_article":
+			return true;
+		case "select_all":
+			return true;
+		case "select_unread":
+			return true;
+		case "select_marked":
+			return true;
+		case "select_published":
+			return true;
+		case "select_invert":
+			return true;
+		case "select_none":
+			return true;
+		case "feed_refresh":
+			return true;
+		case "feed_unhide_read":
+			return true;
+		case "feed_subscribe":
+			quickAddFeed();
+			return true;
+		case "feed_edit":
+			return true;
+		case "feed_catchup":
+			return true;
+		case "feed_reverse":
+			return true;
+		case "catchup_all":
+			return true;
+		case "cat_toggle_collapse":
+			return true;
+		case "goto_all":
+			return true;
+		case "goto_fresh":
+			return true;
+		case "goto_marked":
+			return true;
+		case "goto_published":
+			return true;
+		case "goto_tagcloud":
+			return true;
+		case "goto_prefs":
+			return true;
+		case "select_article_cursor":
+			return true;
+		case "create_label":
+			return true;
+		case "create_filter":
+			return true;
+		case "collapse_sidebar":
+			return true;
+		case "help_dialog":
+			return true;
+		default:
+			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
+		}
+
+
+/*		if ((keycode == 70 || keycode == 67 || keycode == 71 || keycode == 65)
 				&& !hotkey_prefix) {
 
 			var date = new Date();
 			var ts = Math.round(date.getTime() / 1000);
 
-			hotkey_prefix = keycode;
+			hotkey_prefix = keychar;
 			hotkey_prefix_pressed = ts;
 
 			cmdline.innerHTML = keychar;
@@ -667,9 +788,11 @@ function hotkey_handler(e) {
 			Element.hide("hotkey_help_overlay");
 		}
 
-		/* Global hotkeys */
-
 		Element.hide(cmdline);
+
+
+		/* Global hotkeys */
+		return;
 
 		if (!hotkey_prefix) {
 
