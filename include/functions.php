@@ -4723,6 +4723,7 @@
 		$node = $doc->getElementsByTagName('body')->item(0);
 
 		// http://tt-rss.org/forum/viewtopic.php?f=1&t=970
+		// http://tt-rss.org/redmine/issues/357
 		if ($node)
 			return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 		else
