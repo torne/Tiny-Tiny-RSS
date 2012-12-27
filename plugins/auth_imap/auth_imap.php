@@ -6,9 +6,27 @@
 	define('IMAP_AUTH_OPTIONS', '/tls/novalidate-cert/norsh');
 	// More about options: http://php.net/manual/ru/function.imap-open.php
 
- */
+*/
+class Auth_Imap extends Plugin implements IAuthModule {
 
-class Auth_Imap extends Auth_Base {
+	private $link;
+	private $host;
+	private $base;
+
+	function about() {
+		return array(1.0,
+			"Authenticates against an IMAP server (configured in config.php)",
+			"fox",
+			true);
+	}
+
+	function init($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+		$this->base = new Auth_Base($this->link);
+
+		$host->add_hook($host::HOOK_AUTH_USER, $this);
+	}
 
 	function authenticate($login, $password) {
 
@@ -21,7 +39,7 @@ class Auth_Imap extends Auth_Base {
 			if ($imap) {
 				imap_close($imap);
 
-				return $this->auto_create_user($login);
+				return $this->base->auto_create_user($login);
 			}
 		}
 
@@ -29,4 +47,5 @@ class Auth_Imap extends Auth_Base {
 	}
 
 }
+
 ?>

@@ -52,15 +52,7 @@
 	// *** Authentication ***
 	// **********************
 
-	define('AUTH_MODULES', 'internal');
-	// Comma-separated list of authentication modules to use. 
-	// Available modules are:
-	// internal - tt-rss internal user DB
-	// remote - use server REMOTE_USER variable or client SSL certificate if enabled
-	// imap - authenticates using an IMAP server (check classes/auth/imap.php for some
-	// stuff you need to put into config.php)
-	// in preferences
-	//
+	// Please see PLUGINS below to configure various authentication modules.
 
 	define('AUTH_AUTO_CREATE', true);
 	// Allow authentication modules to auto-create users in tt-rss internal
@@ -173,12 +165,13 @@
 	// if you experience weird errors and tt-rss failing to start, blank pages
 	// after login, or content encoding errors, disable it.
 
-	define('PLUGINS', 'note');
-	// Comma-separated list of plugins to load automatically for all users. 
-	// System plugins have to be specified here.
+	define('PLUGINS', 'auth_remote, auth_internal, note');
+	// Comma-separated list of plugins to load automatically for all users.
+	// System plugins have to be specified here. Please enable at least one
+	// authentication plugin here (auth_*).
 	// Users may enable other user plugins from Preferences/Plugins but may not
 	// disable plugins specified in this list.
-	
+
 	define('FEEDBACK_URL', '');
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.

@@ -1,5 +1,25 @@
 <?php
-class Auth_Remote extends Auth_Base {
+class Auth_Remote extends Plugin implements IAuthModule {
+
+	private $link;
+	private $host;
+	private $base;
+
+	function about() {
+		return array(1.0,
+			"Authenticates against remote password (e.g. supplied by Apache)",
+			"fox",
+			true);
+	}
+
+	function init($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+		$this->base = new Auth_Base($this->link);
+
+		$host->add_hook($host::HOOK_AUTH_USER, $this);
+	}
+
 	function get_login_by_ssl_certificate() {
 		$cert_serial = db_escape_string(get_ssl_certificate_id());
 
@@ -24,7 +44,7 @@ class Auth_Remote extends Auth_Base {
 #	  	if (!$try_login) $try_login = "test_qqq";
 
 		if ($try_login) {
-			$user_id = $this->auto_create_user($try_login);
+			$user_id = $this->base->auto_create_user($try_login);
 
 			if ($user_id) {
 				$_SESSION["fake_login"] = $try_login;

@@ -547,7 +547,7 @@
 		if (!SINGLE_USER_MODE) {
 
 			$user_id = false;
-			$modules = explode(",", AUTH_MODULES);
+			/* $modules = explode(",", AUTH_MODULES);
 
 			foreach ($modules as $module) {
 				$module_class = "auth_$module";
@@ -564,6 +564,17 @@
 				} else {
 					print T_sprintf("Fatal: authentication module %s not found.", $module);
 					die;
+				}
+			} */
+
+			global $pluginhost;
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_AUTH_USER) as $plugin) {
+
+				$user_id = (int) $plugin->authenticate($login, $password);
+
+				if ($user_id) {
+					$_SESSION["auth_module"] = strtolower(get_class($plugin));
+					break;
 				}
 			}
 

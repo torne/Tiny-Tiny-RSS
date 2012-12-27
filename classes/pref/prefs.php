@@ -28,8 +28,8 @@ class Pref_Prefs extends Handler_Protected {
 			return;
 		}
 
-		$module_class = "auth_" . $_SESSION["auth_module"];
-		$authenticator = new $module_class($this->link);
+		global $pluginhost;
+		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
 
 		if (method_exists($authenticator, "change_password")) {
 			print $authenticator->change_password($_SESSION["uid"], $old_pw, $new_pw);
@@ -188,9 +188,11 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "</form>";
 
-		if  ($_SESSION["auth_module"]) {
-			$module_class = "auth_" . $_SESSION["auth_module"];
-			$authenticator = new $module_class($this->link);
+		if ($_SESSION["auth_module"]) {
+			global $pluginhost;
+
+			$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
+
 		} else {
 			$authenticator = false;
 		}
@@ -258,7 +260,7 @@ class Pref_Prefs extends Handler_Protected {
 
 			print "</form>";
 
-			if ($_SESSION["auth_module"] == "internal") {
+			if ($_SESSION["auth_module"] == "auth_internal") {
 
 				print "<h2>" . __("One time passwords / Authenticator") . "</h2>";
 
@@ -802,10 +804,10 @@ class Pref_Prefs extends Handler_Protected {
 
 	function otpenable() {
 		$password = db_escape_string($_REQUEST["password"]);
-
-		$module_class = "auth_" . $_SESSION["auth_module"];
-		$authenticator = new $module_class($this->link);
 		$enable_otp = $_REQUEST["enable_otp"] == "on";
+
+		global $pluginhost;
+		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
 
 		if ($authenticator->check_password($_SESSION["uid"], $password)) {
 
@@ -824,8 +826,8 @@ class Pref_Prefs extends Handler_Protected {
 	function otpdisable() {
 		$password = db_escape_string($_REQUEST["password"]);
 
-		$module_class = "auth_" . $_SESSION["auth_module"];
-		$authenticator = new $module_class($this->link);
+		global $pluginhost;
+		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
 
 		if ($authenticator->check_password($_SESSION["uid"], $password)) {
 

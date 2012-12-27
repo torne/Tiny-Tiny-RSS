@@ -1,5 +1,22 @@
 <?php
-class Auth_Internal extends Auth_Base {
+class Auth_Internal extends Plugin implements IAuthModule {
+
+	private $link;
+	private $host;
+
+	function about() {
+		return array(1.0,
+			"Authenticates against internal tt-rss database",
+			"fox",
+			true);
+	}
+
+	function init($host) {
+		$this->link = $host->get_link();
+		$this->host = $host;
+
+		$host->add_hook($host::HOOK_AUTH_USER, $this);
+	}
 
 	function authenticate($login, $password) {
 
