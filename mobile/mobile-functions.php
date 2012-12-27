@@ -349,7 +349,7 @@
 
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
 			$view_mode, $is_cat, $search, $search_mode, $match_on,
-			"score DESC, date_entered DESC", $offset);
+			"score DESC, date_entered ".(mobile_get_pref($link, 'REVERSE_HEADLINES') ? 'ASC' : 'DESC'), $offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
