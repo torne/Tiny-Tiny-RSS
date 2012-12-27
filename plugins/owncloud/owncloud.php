@@ -38,7 +38,7 @@ class OwnCloud extends Plugin {
   function hook_prefs_tab($args) {
     if ($args != "prefPrefs") return;
 
-    print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Owncloud Pane")."\">";
+    print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Owncloud")."\">";
 
     print "<br/>";
 
@@ -46,9 +46,9 @@ class OwnCloud extends Plugin {
     print "<form dojoType=\"dijit.form.Form\">";
 
     print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
-           evt.prefentDefault();
+           evt.preventDefault();
            if (this.validate()) {
-               console.log(dojo.objectToQuery(this.getValiues()));
+               console.log(dojo.objectToQuery(this.getValues()));
                new Ajax.Request('backend.php', {
                                     parameters: dojo.objectToQuery(this.getValues()),
                                     onComplete: function(transport) {
@@ -60,13 +60,12 @@ class OwnCloud extends Plugin {
     
     print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
     print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
-    print "<input dojoType=\"dijit.from.TextBox\" style=\"display : none\" name=\"plugin\" value=\"owncloud\">";
+    print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"owncloud\">";
     print "<table width=\"100%\" class=\"prefPrefsList\">";
         print "<tr><td width=\"40%\">".__("Owncloud url")."</td>";
 	print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"owncloud_url\" value=\"$value\"></td></tr>";
     print "</table>";
-    print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
-      __("Set value")."</button>";
+    print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Set value")."</button>";
     
     print "</form>";
     
@@ -94,10 +93,7 @@ class OwnCloud extends Plugin {
       $article_link = db_fetch_result($result, 0, 'link');
     }
     
-    $own_url = "";
-    if (defined('OWNCLOUD_URL')) {
-      $own_url = OWNCLOUD_URL;
-    }
+    $own_url = $this->host->get($this, "owncloud");
 
     print json_encode(array("title" => $title, "link" => $article_link,
 			    "id" => $id, "ownurl" => $own_url));
