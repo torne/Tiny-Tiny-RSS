@@ -22,10 +22,56 @@ class OwnCloud extends Plugin {
     $this->host = $host;
 
     $host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+    $host->add_hook($host::HOOK_PREFS_TAB, $this);
+  }
+
+  function save() {
+    $owncloud_url = db_escape_string($_POST["owncloud_url"]);
+    $this->host->set($this, "owncloud", $owncloud_url);
+    echo "Value set to $owncloud_url";
   }
 
   function get_js() {
     return file_get_contents(dirname(__FILE__) . "/owncloud.js");
+  }
+
+  function hook_prefs_tab($args) {
+    if ($args != "prefPrefs") return;
+
+    print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Owncloud Pane")."\">";
+
+    print "<br/>";
+
+    $value = $this->host->get($this, "owncloud");
+    print "<form dojoType=\"dijit.form.Form\">";
+
+    print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+           evt.prefentDefault();
+           if (this.validate()) {
+               console.log(dojo.objectToQuery(this.getValiues()));
+               new Ajax.Request('backend.php', {
+                                    parameters: dojo.objectToQuery(this.getValues()),
+                                    onComplete: function(transport) {
+                                         notify_info(transport.responseText);
+                                    }
+                                });
+           }
+           </script>";
+    
+    print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
+    print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
+    print "<input dojoType=\"dijit.from.TextBox\" style=\"display : none\" name=\"plugin\" value=\"owncloud\">";
+    print "<table width=\"100%\" class=\"prefPrefsList\">";
+        print "<tr><td width=\"40%\">".__("Owncloud url")."</td>";
+	print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"owncloud_url\" value=\"$value\"></td></tr>";
+    print "</table>";
+    print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+      __("Set value")."</button>";
+    
+    print "</form>";
+    
+    print "</div>"; #pane
+
   }
 
   function hook_article_button($line) {
