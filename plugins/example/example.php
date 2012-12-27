@@ -23,7 +23,9 @@ class Example extends Plugin {
 	function save() {
 		$example_value = db_escape_string($_POST["example_value"]);
 
-		echo "Value set to $example_value (not really)";
+		$this->host->set($this, "example", $example_value);
+
+		echo "Value set to $example_value";
 	}
 
 	function get_prefs_js() {
@@ -34,6 +36,13 @@ class Example extends Plugin {
 		if ($args != "prefPrefs") return;
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Example Pane")."\">";
+
+		print "<br/>";
+
+//		print_r($this->host->set($this, "example", rand(0,100)));
+//		print_r($this->host->get_all($this));
+
+		$value = $this->host->get($this, "example");
 
 		print "<form dojoType=\"dijit.form.Form\">";
 
@@ -47,7 +56,7 @@ class Example extends Plugin {
 						notify_info(transport.responseText);
 					}
 				});
-				this.reset();
+				//this.reset();
 			}
 			</script>";
 
@@ -58,7 +67,7 @@ class Example extends Plugin {
 		print "<table width=\"100%\" class=\"prefPrefsList\">";
 
 			print "<tr><td width=\"40%\">".__("Sample value")."</td>";
-			print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"example_value\"></td></tr>";
+			print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"example_value\" value=\"$value\"></td></tr>";
 
 			print "</table>";
 

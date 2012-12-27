@@ -1,10 +1,17 @@
 <?php
+/* create table ttrss_plugin_storage
+	(id serial not null primary key, name varchar(100) not null,
+		owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
+		content text not null) - not in schema yet
+*/
 class PluginHost {
 	private $link;
 	private $hooks = array();
 	private $plugins = array();
 	private $handlers = array();
 	private $commands = array();
+	private $storage = array();
+	private $owner_uid;
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -21,6 +28,10 @@ class PluginHost {
 
 	function __construct($link) {
 		$this->link = $link;
+
+		$this->storage = $_SESSION["plugin_storage"];
+
+		if (!$this->storage) $this->storage = array();
 	}
 
 	private function register_plugin($name, $plugin) {
@@ -75,8 +86,10 @@ class PluginHost {
 		$this->load(join(",", $plugins), $kind);
 	}
 
-	function load($classlist, $kind) {
+	function load($classlist, $kind, $owner_uid = false) {
 		$plugins = explode(",", $classlist);
+
+		$this->owner_uid = (int) $owner_uid;
 
 		foreach ($plugins as $class) {
 			$class = trim($class);
@@ -194,5 +207,76 @@ class PluginHost {
 		}
 	}
 
+	function load_data($force = false) {
+		if ($this->owner_uid && (!$_SESSION["plugin_storage"] || $force))  {
+			$plugin = db_escape_string($plugin);
+
+			$result = db_query($this->link, "SELECT name, content FROM ttrss_plugin_storage
+				WHERE owner_uid = '".$this->owner_uid."'");
+
+			while ($line = db_fetch_assoc($result)) {
+				$this->storage[$line["name"]] = unserialize($line["content"]);
+			}
+
+			$_SESSION["plugin_storage"] = $this->storage;
+		}
+	}
+
+	private function save_data($plugin) {
+		if ($this->owner_uid) {
+			$plugin = db_escape_string($plugin);
+
+			db_query($this->link, "BEGIN");
+
+			$result = db_query($this->link,"SELECT id FROM ttrss_plugin_storage WHERE
+				owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
+
+			if (!isset($this->storage[$plugin]))
+				$this->storage[$plugin] = array();
+
+			$content = db_escape_string(serialize($this->storage[$plugin]));
+
+			if (db_num_rows($result) != 0) {
+				db_query($this->link, "UPDATE ttrss_plugin_storage SET content = '$content'
+					WHERE owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
+
+			} else {
+				db_query($this->link, "INSERT INTO ttrss_plugin_storage
+					(name,owner_uid,content) VALUES
+					('$plugin','".$this->owner_uid."','$content')");
+			}
+
+			db_query($this->link, "COMMIT");
+		}
+	}
+
+	function set($sender, $name, $value, $sync = true) {
+		$idx = get_class($sender);
+
+		if (!isset($this->storage[$idx]))
+			$this->storage[$idx] = array();
+
+		$this->storage[$idx][$name] = $value;
+
+		$_SESSION["plugin_storage"] = $this->storage;
+
+		if ($sync) $this->save_data(get_class($sender));
+	}
+
+	function get($sender, $name, $default_value) {
+		$idx = get_class($sender);
+
+		if (isset($this->storage[$idx][$name])) {
+			return $this->storage[$idx][$name];
+		} else {
+			return $default_value;
+		}
+	}
+
+	function get_all($sender) {
+		$idx = get_class($sender);
+
+		return $this->storage[$idx];
+	}
 }
 ?>

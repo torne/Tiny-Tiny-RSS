@@ -727,7 +727,8 @@
 			$plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
 
 			global $pluginhost;
-			$pluginhost->load($plugins, $pluginhost::KIND_USER);
+			$pluginhost->load($plugins, $pluginhost::KIND_USER, $owner_uid);
+			$pluginhost->load_data();
 		}
 	}
 
