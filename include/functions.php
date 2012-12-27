@@ -2572,7 +2572,7 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node); //LIBXML_NOEMPTYTAG
+		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 	}
 
 	function check_for_update($link) {
