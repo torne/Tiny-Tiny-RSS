@@ -2575,6 +2575,7 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
+		// http://tt-rss.org/redmine/issues/357
 		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 	}
 
@@ -4675,17 +4676,6 @@
 
 	}
 
-/*	function rewrite_urls($line) {
-		global $url_regex;
-
-		$urls = null;
-
-		$result = preg_replace("/((?<!=.)((http|https|ftp)+):\/\/[^ ,!]+)/i",
-			"<a target=\"_blank\" href=\"\\1\">\\1</a>", $line);
-
-		return $result;
-	} */
-
 	function rewrite_urls($html) {
 		libxml_use_internal_errors(true);
 
@@ -4726,7 +4716,6 @@
 		$node = $doc->getElementsByTagName('body')->item(0);
 
 		// http://tt-rss.org/forum/viewtopic.php?f=1&t=970
-		// http://tt-rss.org/redmine/issues/357
 		if ($node)
 			return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 		else
