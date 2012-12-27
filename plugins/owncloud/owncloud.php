@@ -1,4 +1,10 @@
 <?php
+// This plugin creates ReadLater bookmarks in your owncloud.
+// The plugin needs a 
+// define('OWNCLOUD_URL','http(s)://your.serv.er/owncloud'); 
+// in your config.php. The parameter is actually global. user_pref
+// with editable parameter in future versions.
+
 require_once "config.php";
 
 class OwnCloud extends Plugin {
