@@ -162,9 +162,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					initHeadlinesMenu();
 
 					new_elems.each(function(child) {
-						if (dijit.byId("RCHK-" + child.id)) {
-							dijit.byId("RCHK-" + child.id).destroy();
-						}
+						var cb = dijit.byId(child.id.replace("RROW-", "RCHK-"));
+
+						if (cb) cb.destroy();
 
 						dojo.parser.parse(child);
 
