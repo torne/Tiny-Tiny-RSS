@@ -176,6 +176,11 @@
 	// Displays an URL for users to provide feedback or comments regarding
 	// this instance of tt-rss. Can lead to a forum, contact email, etc.
 
+	define('OWNCLOUD_URL', '');
+	// owncloud-plugin:
+	// This is the base url of your owncloud server as called from the browser
+        // Actually this is a server global parameter only
+
 	define('CONFIG_VERSION', 26);
 	// Expected config version. Please update this option in config.php
 	// if necessary (after migrating all new options from this file).
