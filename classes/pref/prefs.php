@@ -683,8 +683,9 @@ class Pref_Prefs extends Handler_Protected {
 		$system_enabled = array_map("trim", explode(",", PLUGINS));
 		$user_enabled = array_map("trim", explode(",", get_pref($this->link, "_ENABLED_PLUGINS")));
 
-		$tmppluginhost = new PluginHost($link);
-		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
+		$tmppluginhost = new PluginHost($this->link);
+		$tmppluginhost->load_all($tmppluginhost::KIND_ALL, $_SESSION["uid"]);
+		$tmppluginhost->load_data(true);
 
 		foreach ($tmppluginhost->get_plugins() as $name => $plugin) {
 			$about = $plugin->about();
@@ -706,6 +707,11 @@ class Pref_Prefs extends Handler_Protected {
 				print "<td>" . htmlspecialchars($about[1]) . "</td>";
 				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
+
+				if (count($tmppluginhost->get_all($plugin)) > 0) {
+					print "<td><a href='#' onclick=\"clearPluginData('$name')\"
+						class='visibleLink'>".__("Clear data")."</a></td>";
+				}
 
 				print "</tr>";
 
@@ -751,6 +757,10 @@ class Pref_Prefs extends Handler_Protected {
 				print "<td><label for='FPCHK-$name'>" . htmlspecialchars($about[1]) . "</label></td>";
 				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
+
+				if (count($tmppluginhost->get_all($plugin)) > 0) {
+					print "<td><a href='#' onclick=\"clearPluginData('$name')\" class='visibleLink'>".__("Clear data")."</a></td>";
+				}
 
 				print "</tr>";
 
@@ -845,6 +855,13 @@ class Pref_Prefs extends Handler_Protected {
 		$plugins = join(",", $_REQUEST["plugins"]);
 
 		set_pref($this->link, "_ENABLED_PLUGINS", $plugins);
+	}
+
+	function clearplugindata() {
+		$name = db_escape_string($_REQUEST["name"]);
+
+		global $pluginhost;
+		$pluginhost->clear_data($pluginhost->get_plugin($name));
 	}
 }
 ?>

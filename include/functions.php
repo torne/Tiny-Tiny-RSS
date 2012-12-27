@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 100);
+	define('SCHEMA_VERSION', 101);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -547,25 +547,6 @@
 		if (!SINGLE_USER_MODE) {
 
 			$user_id = false;
-			/* $modules = explode(",", AUTH_MODULES);
-
-			foreach ($modules as $module) {
-				$module_class = "auth_$module";
-				if (class_exists($module_class)) {
-					$authenticator = new $module_class($link);
-
-					$user_id = (int) $authenticator->authenticate($login, $password);
-
-					if ($user_id) {
-						$_SESSION["auth_module"] = $module;
-						break;
-					}
-
-				} else {
-					print T_sprintf("Fatal: authentication module %s not found.", $module);
-					die;
-				}
-			} */
 
 			global $pluginhost;
 			foreach ($pluginhost->get_hooks($pluginhost::HOOK_AUTH_USER) as $plugin) {

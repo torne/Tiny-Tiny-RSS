@@ -1,9 +1,4 @@
 <?php
-/* create table ttrss_plugin_storage
-	(id serial not null primary key, name varchar(100) not null,
-		owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
-		content text not null) - not in schema yet
-*/
 class PluginHost {
 	private $link;
 	private $hooks = array();
@@ -81,9 +76,9 @@ class PluginHost {
 			return array();
 		}
 	}
-	function load_all($kind) {
+	function load_all($kind, $owner_uid = false) {
 		$plugins = array_map("basename", glob("plugins/*"));
-		$this->load(join(",", $plugins), $kind);
+		$this->load(join(",", $plugins), $kind, $owner_uid);
 	}
 
 	function load($classlist, $kind, $owner_uid = false) {
@@ -263,7 +258,7 @@ class PluginHost {
 		if ($sync) $this->save_data(get_class($sender));
 	}
 
-	function get($sender, $name, $default_value) {
+	function get($sender, $name, $default_value = false) {
 		$idx = get_class($sender);
 
 		if (isset($this->storage[$idx][$name])) {
@@ -277,6 +272,19 @@ class PluginHost {
 		$idx = get_class($sender);
 
 		return $this->storage[$idx];
+	}
+
+	function clear_data($sender) {
+		if ($this->owner_uid) {
+			$idx = get_class($sender);
+
+			unset($this->storage[$idx]);
+
+			db_query($this->link, "DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
+				AND owner_uid = " . $this->owner_uid);
+
+			$_SESSION["plugin_storage"] = $this->storage;
+		}
 	}
 }
 ?>
