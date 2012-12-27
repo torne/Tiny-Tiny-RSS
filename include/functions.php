@@ -709,7 +709,10 @@
 
 			global $pluginhost;
 			$pluginhost->load($plugins, $pluginhost::KIND_USER, $owner_uid);
-			$pluginhost->load_data();
+
+			if (get_schema_version($link) > 100) {
+				$pluginhost->load_data();
+			}
 		}
 	}
 
