@@ -1009,9 +1009,9 @@ function validatePrefsReset() {
 
 }
 
-
 function pref_hotkey_handler(e) {
 	try {
+
 		if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
 
 		var keycode = false;
@@ -1034,151 +1034,65 @@ function pref_hotkey_handler(e) {
 		var keychar = String.fromCharCode(keycode);
 
 		if (keycode == 27) { // escape
-			if (Element.visible("hotkey_help_overlay")) {
-				Element.hide("hotkey_help_overlay");
-			}
 			hotkey_prefix = false;
-			closeInfoBox();
 		}
 
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
 
-		if ((keycode == 67 || keycode == 71) && !hotkey_prefix) {
-			hotkey_prefix = keycode;
+		if (!shift_key) keychar = keychar.toLowerCase();
+
+		var hotkeys = getInitParam("hotkeys");
+
+		if (!hotkey_prefix && hotkeys[0].indexOf(keychar) != -1) {
 
 			var date = new Date();
 			var ts = Math.round(date.getTime() / 1000);
 
+			hotkey_prefix = keychar;
 			hotkey_prefix_pressed = ts;
 
 			cmdline.innerHTML = keychar;
 			Element.show(cmdline);
 
-			console.log("KP: PREFIX=" + keycode + " CHAR=" + keychar);
-			return;
+			return true;
 		}
-
-		if (Element.visible("hotkey_help_overlay")) {
-			Element.hide("hotkey_help_overlay");
-		}
-
-		if (keycode == 13 || keycode == 27) {
-			seq = "";
-		} else {
-			seq = seq + "" + keycode;
-		}
-
-		/* Global hotkeys */
 
 		Element.hide(cmdline);
 
-		if (!hotkey_prefix) {
+		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
+		hotkey_prefix = false;
 
-			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
-				showHelp();
-				return false;
-			}
+		var hotkey_action = false;
+		var hotkeys = getInitParam("hotkeys");
 
-			if (keycode == 191 || keychar == '/') { // /
-				var search_boxes = new Array("label_search",
-					"feed_search", "filter_search", "user_search", "feed_browser_search");
-
-				for (var i = 0; i < search_boxes.length; i++) {
-					var elem = $(search_boxes[i]);
-					if (elem) {
-						$(search_boxes[i]).focus();
-						return false;
-					}
-				}
+		for (sequence in hotkeys[1]) {
+			if (sequence == hotkey) {
+				hotkey_action = hotkeys[1][sequence];
+				break;
 			}
 		}
 
-		/* Prefix c */
-
-		if (hotkey_prefix == 67) { // c
-			hotkey_prefix = false;
-
-			if (keycode == 70) { // f
-				quickAddFilter();
-				return false;
-			}
-
-			if (keycode == 83) { // s
-				quickAddFeed();
-				return false;
-			}
-
-			if (keycode == 85) { // u
-				// no-op
-			}
-
-			if (keycode == 67) { // c
-				editFeedCats();
-				return false;
-			}
-
-			if (keycode == 84 && shift_key) { // T
-				feedBrowser();
-				return false;
-			}
-
-		}
-
-		/* Prefix g */
-
-		if (hotkey_prefix == 71) { // g
-
-			hotkey_prefix = false;
-
-			if (keycode == 49 && $("genConfigTab")) { // 1
-				selectTab("genConfig");
-				return false;
-			}
-
-			if (keycode == 50 && $("feedConfigTab")) { // 2
-				selectTab("feedConfig");
-				return false;
-			}
-
-			if (keycode == 51 && $("filterConfigTab")) { // 4
-				selectTab("filterConfig");
-				return false;
-			}
-
-			if (keycode == 52 && $("labelConfigTab")) { // 5
-				selectTab("labelConfig");
-				return false;
-			}
-
-			if (keycode == 53 && $("userConfigTab")) { // 6
-				selectTab("userConfig");
-				return false;
-			}
-
-			if (keycode == 88) { // x
-				return gotoMain();
-			}
-
-		}
-
-		if ($("piggie")) {
-			if (seq.match("8073717369")) {
-				seq = "";
-				piggie(true);
-			} else {
-				piggie(false);
-			}
-		}
-
-		if (hotkey_prefix) {
-			console.log("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
-		} else {
-			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
+		switch (hotkey_action) {
+		case "feed_subscribe":
+			quickAddFeed();
+			return true;
+		case "create_label":
+			addLabel();
+			return true;
+		case "create_filter":
+			quickAddFilter();
+			return true;
+		case "help_dialog":
+			//helpDialog("prefs");
+			return false;
+		default:
+			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
 		}
 
 	} catch (e) {
-		exception_error("pref_hotkey_handler", e);
+		exception_error("hotkey_handler", e);
 	}
 }
 
@@ -1852,20 +1766,6 @@ function insertSSLserial(value) {
 		dijit.byId("SSL_CERT_SERIAL").attr('value', value);
 	} catch (e) {
 		exception_error("insertSSLcerial", e);
-	}
-}
-
-function showHelp() {
-	try {
-		new Ajax.Request("backend.php", {
-			parameters: "?op=backend&method=help&topic=prefs",
-			onComplete: function(transport) {
-				$("hotkey_help_overlay").innerHTML = transport.responseText;
-				Effect.Appear("hotkey_help_overlay", {duration : 0.3});
-			} });
-
-	} catch (e) {
-		exception_error("showHelp", e);
 	}
 }
 

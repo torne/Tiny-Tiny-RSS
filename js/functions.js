@@ -1874,3 +1874,25 @@ function get_timestamp() {
 	var date = new Date();
 	return Math.round(date.getTime() / 1000);
 }
+
+function helpDialog(topic) {
+	try {
+		var query = "backend.php?op=backend&method=help&topic=" + param_escape(topic);
+
+		if (dijit.byId("helpDlg"))
+			dijit.byId("helpDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "helpDlg",
+			title: __("Help"),
+			style: "width: 600px",
+			href: query,
+		});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("helpDialog", e);
+	}
+}
+

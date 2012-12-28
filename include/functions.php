@@ -1963,14 +1963,70 @@
 		$params["num_feeds"] = (int) $num_feeds;
 
 		$params["collapsed_feedlist"] = (int) get_pref($link, "_COLLAPSED_FEEDLIST");
-		$params["hotkeys"] = get_hotkeys($link);
+		$params["hotkeys"] = get_hotkeys_map($link);
 
 		$params["csrf_token"] = $_SESSION["csrf_token"];
 
 		return $params;
 	}
 
-	function get_hotkeys($link) {
+	function get_hotkeys_info($link) {
+		$hotkeys = array(
+			__("Navigation") => array(
+				"next_feed" => __("Open next feed"),
+				"prev_feed" => __("Open previous feed"),
+				"next_article" => __("Open next article"),
+				"prev_article" => __("Open previous article"),
+				"search_dialog" => __("Show search dialog")),
+			__("Article") => array(
+				"toggle_mark" => __("Toggle starred"),
+				"toggle_publ" => __("Toggle published"),
+				"toggle_unread" => __("Toggle unread"),
+				"edit_tags" => __("Edit tags"),
+				"dismiss_selected" => __("Dismiss selected"),
+				"dismiss_read" => __("Dismiss read"),
+				"open_in_new_window" => __("Open in new window"),
+				"catchup_below" => __("Mark below as read"),
+				"catchup_above" => __("Mark above as read"),
+				"article_scroll_down" => __("Scroll down"),
+				"article_scroll_up" => __("Scroll up"),
+				"select_article_cursor" => __("Select article under cursor"),
+				"email_article" => __("Email article")),
+			__("Article selection") => array(
+				"select_all" => __("Select all articles"),
+				"select_unread" => __("Select unread"),
+				"select_marked" => __("Select starred"),
+				"select_published" => __("Select published"),
+				"select_invert" => __("Invert selection"),
+				"select_none" => __("Deselect everything")),
+			__("Feed") => array(
+				"feed_refresh" => __("Refresh current feed"),
+				"feed_unhide_read" => __("Un/hide read feeds"),
+				"feed_subscribe" => __("Subscribe to feed"),
+				"feed_edit" => __("Edit feed"),
+				"feed_catchup" => __("Mark as read"),
+				"feed_reverse" => __("Reverse headlines"),
+				"feed_debug_update" => __(""),
+				"catchup_all" => __("Mark all feeds as read"),
+				"cat_toggle_collapse" => __("Un/collapse current category")),
+			__("Go to") => array(
+				"goto_all" => __("All articles"),
+				"goto_fresh" => __("Fresh"),
+				"goto_marked" => __("Starred"),
+				"goto_published" => __("Published"),
+				"goto_tagcloud" => __("Tag cloud"),
+				"goto_prefs" => __("Preferences")),
+			__("Other") => array(
+				"create_label" => __("Create label"),
+				"create_filter" => __("Create filter"),
+				"collapse_sidebar" => __("Un/collapse sidebar"),
+				"help_dialog" => __("Show help dialog"))
+			);
+
+		return $hotkeys;
+	}
+
+	function get_hotkeys_map($link) {
 		$hotkeys = array(
 //			"navigation" => array(
 				"k" => "next_feed",

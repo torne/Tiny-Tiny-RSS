@@ -932,74 +932,6 @@ img.hlScorePic {
 	height : 16px;
 }
 
-div#hotkey_help_overlay {
-	position : absolute;
-	left : 30px;
-	right : 30px;
-	top : 30px;
-	z-index : 999;
-	color : white;
-	font-size : 15px;
-	background : black;
-	border-radius : 30px;
-	padding : 10px;
-}
-
-div#hotkey_help_overlay h1 {
-	text-align : center;
-}
-
-div#hotkey_help_overlay ul {
-	list-style-type : none;
-	margin : 0px;
-}
-
-div#hotkey_help_overlay a {
-	color : #88b0f0;
-}
-
-div#hotkey_help_overlay a:hover {
-	color : white;
-}
-
-div#hotkey_help_overlay li {
-	margin : 0px;
-}
-
-div#hotkey_help_overlay p {
-	text-align : center;
-}
-
-div#hotkey_help_overlay td.n {
-	text-align : right;
-	font-weight : bold;
-	width : 6em;
-	color : #a0ffa0;
-	padding-right : 5px;
-}
-
-div#hotkey_help_overlay td {
-	vertical-align : top;
-}
-
-div#hotkey_help_overlay h1 {
-	margin : 0px;
-}
-
-div#hotkey_help_overlay h2 {
-	font-size : 16px;
-	border-width : 0px;
-	margin : 0.3em 0px 0.3em 0px;
-	text-align : center;
-	color : #88b0f0;
-}
-
-div#hotkey_help_overlay table.hho td.top,
-div#hotkey_help_overlay table.hho td.bottom {
-	text-align : center;
-	font-size : 11px;
-}
-
 div.dlgSec {
 	font-size : 12px;
 	color : gray;
@@ -1410,4 +1342,26 @@ ul#filterDlg_Matches li div.dijitCheckBox, ul#filterDlg_Actions li div.dijitChec
 
 table.prefPluginsList td label, table.prefUserList td {
 	cursor : pointer;
+}
+
+ul.helpKbList {
+	max-height : 300px;
+	overflow : auto;
+	list-style-type : none;
+	border : 1px solid #c0c0c0;
+	background-color : #ecf4ff;
+	margin : 0px 0px 5px 0px;
+	padding : 5px;
+}
+
+ul.helpKbList span.hksequence {
+	width : 6em;
+	margin-left : 20px;
+	color : #88b0f0;
+	font-weight : bold;
+	display : inline-block;
+}
+
+ul.helpKbList h2 {
+	margin-top : 0px;
 }

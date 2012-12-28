@@ -90,12 +90,10 @@
 	</div>
 </div>
 
-<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)"></div>
-
 <img id="piggie" src="images/piggie.png" style="display : none" alt="piggie"/>
 
 <div id="header" dojoType="dijit.layout.ContentPane" region="top">
-	<a href='#' onclick="showHelp()"><?php echo __("Keyboard shortcuts") ?></a> |
+	<!-- <a href='#' onclick="showHelp()"><?php echo __("Keyboard shortcuts") ?></a> | -->
 	<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>
 </div>
 

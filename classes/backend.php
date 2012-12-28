@@ -18,14 +18,74 @@ class Backend extends Handler {
 		print_r($rv);
 	}
 
+	private function display_main_help() {
+		$info = get_hotkeys_info($this->link);
+		$imap = get_hotkeys_map($this->link);
+		$omap = array();
+
+		// :(
+		$tinycharmap = array(
+			"(9)" => "{TAB}",
+			"(191)" => "?");
+
+		foreach ($imap[1] as $sequence => $action) {
+			if (!isset($omap[$action])) {
+				$omap[$action] = isset($tinycharmap[$sequence]) ? $tinycharmap[$sequence] :
+					$sequence;
+			}
+		}
+
+		print "<ul class='helpKbList' id='helpKbList'>";
+
+		print "<h2>" . __("Keyboard Shortcuts") . "</h2>";
+
+		foreach ($info as $section => $hotkeys) {
+
+			print "<li><h3>" . $section . "</h3></li>";
+
+			foreach ($hotkeys as $action => $description) {
+				print "<li>";
+				print "<input dojoType=\"dijit.form.CheckBox\"
+					type=\"checkbox\" disabled=\"1\" checked=\"1\">";
+			 	print "<span class='hksequence'>" . $omap[$action] . "</span>";
+			  	print $description;
+				print "</li>";
+			}
+
+		}
+
+		print "</ul>";
+
+		print "<p><a target=\"_blank\" href=\"http://tt-rss.org/wiki/InterfaceTips\">".
+			__("Other interface tips are available in the Tiny Tiny RSS wiki.") .
+			"</a></p>";
+	}
+
 	function help() {
 		$topic = basename($_REQUEST["topic"]);
 
-		if (file_exists("help/$topic.php")) {
+		switch ($topic) {
+		case "main":
+			$this->display_main_help();
+			break;
+		case "prefs":
+			//$this->display_prefs_help();
+			break;
+		default:
+			print "<p>".__("Help topic not found.")."</p>";
+		}
+
+		print "<div align='center'>";
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"return dijit.byId('helpDlg').hide()\">".
+			__('Close this window')."</button>";
+		print "</div>";
+
+		/* if (file_exists("help/$topic.php")) {
 			include("help/$topic.php");
 		} else {
 			print "<p>".__("Help topic not found.")."</p>";
-		}
+		} */
 		/* print "<div align='center'>
 			<button onclick=\"javascript:window.close()\">".
 			__('Close this window')."</button></div>"; */

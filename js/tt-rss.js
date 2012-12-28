@@ -453,12 +453,7 @@ function quickMenuGo(opid) {
 		}
 
 		if (opid == "qmcHKhelp") {
-			new Ajax.Request("backend.php", {
-				parameters: "?op=backend&method=help&topic=main",
-				onComplete: function(transport) {
-					$("hotkey_help_overlay").innerHTML = transport.responseText;
-					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
-				} });
+			helpDialog("main");
 		}
 
 	} catch (e) {
@@ -638,9 +633,6 @@ function hotkey_handler(e) {
 		var keychar = String.fromCharCode(keycode);
 
 		if (keycode == 27) { // escape
-			if (Element.visible("hotkey_help_overlay")) {
-				Element.hide("hotkey_help_overlay");
-			}
 			hotkey_prefix = false;
 		}
 
@@ -844,12 +836,7 @@ function hotkey_handler(e) {
 			collapse_feedlist();
 			return true;
 		case "help_dialog":
-			new Ajax.Request("backend.php", {
-				parameters: "?op=backend&method=help&topic=main",
-				onComplete: function(transport) {
-					$("hotkey_help_overlay").innerHTML = transport.responseText;
-					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
-				} });
+			helpDialog("main");
 			return false;
 		default:
 			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);

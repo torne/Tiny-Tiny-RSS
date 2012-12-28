@@ -135,8 +135,6 @@
 		alt="new_version_icon"/>
 </div>
 
-<div id="hotkey_help_overlay" style="display : none" onclick="Element.hide(this)"></div>
-
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
 <div id="auxDlg" style="display : none"></div>
