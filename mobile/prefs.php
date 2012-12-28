@@ -46,4 +46,9 @@
 	<div class="toggle" id="SORT_FEEDS_UNREAD" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "SORT_FEEDS_UNREAD") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
 </div>
 
+<div class="row">
+	<label><?php echo __('Reverse headline order (oldest first)') ?></label>
+	<div class="toggle" id="REVERSE_HEADLINES" onclick="setPref(this)" toggled="<?php echo mobile_pref_toggled($link, "REVERSE_HEADLINES") ?>"><span class="thumb"></span><span class="toggleOn"><?php echo __('ON') ?></span><span class="toggleOff"><?php echo __('OFF') ?></span></div>
+</div>
+
 </fieldset>
