@@ -735,7 +735,11 @@ function hotkey_handler(e) {
 			scrollArticle(-50);
 			return true;
 		case "email_article":
-			emailArticle();
+			if (typeof emailArticle != "undefined") {
+				emailArticle();
+			} else {
+				alert(__("Please enable mail plugin first."));
+			}
 			return true;
 		case "select_all":
 			selectArticles('all');
