@@ -679,146 +679,146 @@ function hotkey_handler(e) {
 					getActiveFeedId(), activeFeedIsCat());
 
 			if (rv) viewfeed(rv[0], '', rv[1]);
-			return true;
+			return false;
 		case "prev_feed":
 			var rv = dijit.byId("feedTree").getPreviousFeed(
 					getActiveFeedId(), activeFeedIsCat());
 
 			if (rv) viewfeed(rv[0], '', rv[1]);
-			return true;
+			return false;
 		case "next_article":
 			moveToPost('next');
-			return true;
+			return false;
 		case "prev_article":
 			moveToPost('prev');
-			return true;
+			return false;
 		case "search_dialog":
 			search();
 			return ;
 		case "toggle_mark":
 			selectionToggleMarked(undefined, false, true);
-			return true;
+			return false;
 		case "toggle_publ":
 			selectionTogglePublished(undefined, false, true);
-			return true;
+			return false;
 		case "toggle_unread":
 			selectionToggleUnread(undefined, false, true);
-			return true;
+			return false;
 		case "edit_tags":
 			var id = getActiveArticleId();
 			if (id) {
 				editArticleTags(id, getActiveFeedId(), isCdmMode());
 				return;
 			}
-			return true;
+			return false;
 		case "dismiss_selected":
 			dismissSelectedArticles();
-			return true;
+			return false;
 		case "dismiss_read":
-			return true;
+			return false;
 		case "open_in_new_window":
 			if (getActiveArticleId()) {
 				openArticleInNewWindow(getActiveArticleId());
 				return;
 			}
-			return true;
+			return false;
 		case "catchup_below":
 			catchupRelativeToArticle(1);
-			return true;
+			return false;
 		case "catchup_above":
 			catchupRelativeToArticle(0);
-			return true;
+			return false;
 		case "article_scroll_down":
 			scrollArticle(50);
-			return true;
+			return false;
 		case "article_scroll_up":
 			scrollArticle(-50);
-			return true;
+			return false;
 		case "email_article":
 			if (typeof emailArticle != "undefined") {
 				emailArticle();
 			} else {
 				alert(__("Please enable mail plugin first."));
 			}
-			return true;
+			return false;
 		case "select_all":
 			selectArticles('all');
-			return true;
+			return false;
 		case "select_unread":
 			selectArticles('unread');
-			return true;
+			return false;
 		case "select_marked":
 			selectArticles('marked');
-			return true;
+			return false;
 		case "select_published":
 			selectArticles('published');
-			return true;
+			return false;
 		case "select_invert":
 			selectArticles('invert');
-			return true;
+			return false;
 		case "select_none":
 			selectArticles('none');
-			return true;
+			return false;
 		case "feed_refresh":
 			if (getActiveFeedId() != undefined) {
 				viewfeed(getActiveFeedId(), '', activeFeedIsCat());
 				return;
 			}
-			return true;
+			return false;
 		case "feed_unhide_read":
 			toggleDispRead();
-			return true;
+			return false;
 		case "feed_subscribe":
 			quickAddFeed();
-			return true;
+			return false;
 		case "feed_debug_update":
 			window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
 				"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
 				activeFeedIsCat() + "&DevForceUpdate=1&debug=2&xdebug=2&csrf_token=" +
 				getInitParam("csrf_token"));
-			return true;
+			return false;
 		case "feed_edit":
 			if (activeFeedIsCat())
 				alert(__("You can't edit this kind of feed."));
 			else
 				editFeed(getActiveFeedId());
-			return true;
+			return false;
 		case "feed_catchup":
 			if (getActiveFeedId() != undefined) {
 				catchupCurrentFeed();
 				return;
 			}
-			return true;
+			return false;
 		case "feed_reverse":
 			reverseHeadlineOrder();
-			return true;
+			return false;
 		case "catchup_all":
 			catchupAllFeeds();
-			return true;
+			return false;
 		case "cat_toggle_collapse":
 			if (activeFeedIsCat()) {
 				dijit.byId("feedTree").collapseCat(getActiveFeedId());
 				return;
 			}
-			return true;
+			return false;
 		case "goto_all":
 			viewfeed(-4);
-			return true;
+			return false;
 		case "goto_fresh":
 			viewfeed(-3);
-			return true;
+			return false;
 		case "goto_marked":
 			viewfeed(-1);
-			return true;
+			return false;
 		case "goto_published":
 			viewfeed(-2);
-			return true;
+			return false;
 		case "goto_tagcloud":
 			displayDlg("printTagCloud");
-			return true;
+			return false;
 		case "goto_prefs":
 			gotoPreferences();
-			return true;
+			return false;
 		case "select_article_cursor":
 			var id = getArticleUnderPointer();
 			if (id) {
@@ -829,16 +829,16 @@ function hotkey_handler(e) {
 					return false;
 				}
 			}
-			return true;
+			return false;
 		case "create_label":
 			addLabel();
-			return true;
+			return false;
 		case "create_filter":
 			quickAddFilter();
-			return true;
+			return false;
 		case "collapse_sidebar":
 			collapse_feedlist();
-			return true;
+			return false;
 		case "help_dialog":
 			helpDialog("main");
 			return false;

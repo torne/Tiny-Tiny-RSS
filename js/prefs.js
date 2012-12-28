@@ -1077,13 +1077,13 @@ function pref_hotkey_handler(e) {
 		switch (hotkey_action) {
 		case "feed_subscribe":
 			quickAddFeed();
-			return true;
+			return false;
 		case "create_label":
 			addLabel();
-			return true;
+			return false;
 		case "create_filter":
 			quickAddFilter();
-			return true;
+			return false;
 		case "help_dialog":
 			//helpDialog("prefs");
 			return false;
