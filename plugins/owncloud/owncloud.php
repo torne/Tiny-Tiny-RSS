@@ -51,18 +51,18 @@ class OwnCloud extends Plugin {
                                 });
            }
            </script>";
-    
+
     print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
     print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
     print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"owncloud\">";
     print "<table width=\"100%\" class=\"prefPrefsList\">";
         print "<tr><td width=\"40%\">".__("Owncloud url")."</td>";
-	print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"owncloud_url\" value=\"$value\"></td></tr>";
+	print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"owncloud_url\" regExp='^(http|https)://.*' value=\"$value\"></td></tr>";
     print "</table>";
     print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Set value")."</button>";
-    
+
     print "</form>";
-    
+
     print "</div>"; #pane
 
   }
@@ -76,17 +76,17 @@ class OwnCloud extends Plugin {
 
   function getOwnCloud() {
     $id = db_escape_string($_REQUEST['id']);
-    
+
     $result = db_query($this->link, "SELECT title, link
 		      FROM ttrss_entries, ttrss_user_entries
 		      WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
-    
+
     if (db_num_rows($result) != 0) {
       $title = truncate_string(strip_tags(db_fetch_result($result, 0, 'title')),
 			       100, '...');
       $article_link = db_fetch_result($result, 0, 'link');
     }
-    
+
     $own_url = $this->host->get($this, "owncloud");
 
     print json_encode(array("title" => $title, "link" => $article_link,
