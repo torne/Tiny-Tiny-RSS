@@ -649,7 +649,9 @@ function hotkey_handler(e) {
 
 		if (!shift_key) keychar = keychar.toLowerCase();
 
-		if (!hotkey_prefix && ["a", "f", "g", "c"].indexOf(keychar) != -1) {
+		var hotkeys = getInitParam("hotkeys");
+
+		if (!hotkey_prefix && hotkeys[0].indexOf(keychar) != -1) {
 
 			var date = new Date();
 			var ts = Math.round(date.getTime() / 1000);
@@ -672,481 +674,186 @@ function hotkey_handler(e) {
 		var hotkey_action = false;
 		var hotkeys = getInitParam("hotkeys");
 
-		for (cat in hotkeys) {
-			for (action in hotkeys[cat]) {
-				if (hotkeys[cat][action] == hotkey) {
-					hotkey_action = action;
-					break;
-				}
+		for (sequence in hotkeys[1]) {
+			if (sequence == hotkey) {
+				hotkey_action = hotkeys[1][sequence];
+				break;
 			}
 		}
 
 		switch (hotkey_action) {
 		case "next_feed":
+			var rv = dijit.byId("feedTree").getNextFeed(
+					getActiveFeedId(), activeFeedIsCat());
+
+			if (rv) viewfeed(rv[0], '', rv[1]);
 			return true;
 		case "prev_feed":
+			var rv = dijit.byId("feedTree").getPreviousFeed(
+					getActiveFeedId(), activeFeedIsCat());
+
+			if (rv) viewfeed(rv[0], '', rv[1]);
 			return true;
 		case "next_article":
+			moveToPost('next');
 			return true;
 		case "prev_article":
+			moveToPost('prev');
 			return true;
 		case "search_dialog":
-			return true;
+			search();
+			return ;
 		case "toggle_mark":
+			selectionToggleMarked(undefined, false, true);
 			return true;
 		case "toggle_publ":
+			selectionTogglePublished(undefined, false, true);
 			return true;
 		case "toggle_unread":
+			selectionToggleUnread(undefined, false, true);
 			return true;
 		case "edit_tags":
+			var id = getActiveArticleId();
+			if (id) {
+				editArticleTags(id, getActiveFeedId(), isCdmMode());
+				return;
+			}
 			return true;
 		case "dismiss_selected":
+			dismissSelectedArticles();
 			return true;
 		case "dismiss_read":
 			return true;
 		case "open_in_new_window":
+			if (getActiveArticleId()) {
+				openArticleInNewWindow(getActiveArticleId());
+				return;
+			}
 			return true;
 		case "catchup_below":
+			catchupRelativeToArticle(1);
 			return true;
 		case "catchup_above":
+			catchupRelativeToArticle(0);
+			return true;
+		case "article_scroll_down":
+			scrollArticle(50);
+			return true;
+		case "article_scroll_up":
+			scrollArticle(-50);
 			return true;
 		case "email_article":
+			emailArticle();
 			return true;
 		case "select_all":
+			selectArticles('all');
 			return true;
 		case "select_unread":
+			selectArticles('unread');
 			return true;
 		case "select_marked":
+			selectArticles('marked');
 			return true;
 		case "select_published":
+			selectArticles('published');
 			return true;
 		case "select_invert":
+			selectArticles('invert');
 			return true;
 		case "select_none":
+			selectArticles('none');
 			return true;
 		case "feed_refresh":
+			if (getActiveFeedId() != undefined) {
+				viewfeed(getActiveFeedId(), '', activeFeedIsCat());
+				return;
+			}
 			return true;
 		case "feed_unhide_read":
+			toggleDispRead();
 			return true;
 		case "feed_subscribe":
 			quickAddFeed();
 			return true;
+		case "feed_debug_update":
+			window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
+				"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
+				activeFeedIsCat() + "&DevForceUpdate=1&debug=2&xdebug=2&csrf_token=" +
+				getInitParam("csrf_token"));
+			return true;
 		case "feed_edit":
+			if (activeFeedIsCat())
+				alert(__("You can't edit this kind of feed."));
+			else
+				editFeed(getActiveFeedId());
 			return true;
 		case "feed_catchup":
+			if (getActiveFeedId() != undefined) {
+				catchupCurrentFeed();
+				return;
+			}
 			return true;
 		case "feed_reverse":
+			reverseHeadlineOrder();
 			return true;
 		case "catchup_all":
+			catchupAllFeeds();
 			return true;
 		case "cat_toggle_collapse":
+			if (activeFeedIsCat()) {
+				dijit.byId("feedTree").collapseCat(getActiveFeedId());
+				return;
+			}
 			return true;
 		case "goto_all":
+			viewfeed(-4);
 			return true;
 		case "goto_fresh":
+			viewfeed(-3);
 			return true;
 		case "goto_marked":
+			viewfeed(-1);
 			return true;
 		case "goto_published":
+			viewfeed(-2);
 			return true;
 		case "goto_tagcloud":
+			displayDlg("printTagCloud");
 			return true;
 		case "goto_prefs":
+			gotoPreferences();
 			return true;
 		case "select_article_cursor":
+			var id = getArticleUnderPointer();
+			if (id) {
+				var cb = dijit.byId("RCHK-" + id);
+				if (cb) {
+					cb.attr("checked", !cb.attr("checked"));
+					toggleSelectRowById(cb, "RROW-" + id);
+					return false;
+				}
+			}
 			return true;
 		case "create_label":
+			addLabel();
 			return true;
 		case "create_filter":
+			quickAddFilter();
 			return true;
 		case "collapse_sidebar":
+			collapse_feedlist();
 			return true;
 		case "help_dialog":
-			return true;
+			new Ajax.Request("backend.php", {
+				parameters: "?op=backend&method=help&topic=main",
+				onComplete: function(transport) {
+					$("hotkey_help_overlay").innerHTML = transport.responseText;
+					Effect.Appear("hotkey_help_overlay", {duration : 0.3});
+				} });
+			return false;
 		default:
 			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
 		}
-
-
-/*		if ((keycode == 70 || keycode == 67 || keycode == 71 || keycode == 65)
-				&& !hotkey_prefix) {
-
-			var date = new Date();
-			var ts = Math.round(date.getTime() / 1000);
-
-			hotkey_prefix = keychar;
-			hotkey_prefix_pressed = ts;
-
-			cmdline.innerHTML = keychar;
-			Element.show(cmdline);
-
-			console.log("KP: PREFIX=" + keycode + " CHAR=" + keychar + " TS=" + ts);
-			return true;
-		}
-
-		if (Element.visible("hotkey_help_overlay")) {
-			Element.hide("hotkey_help_overlay");
-		}
-
-		Element.hide(cmdline);
-
-
-		/* Global hotkeys */
-		return;
-
-		if (!hotkey_prefix) {
-
-			if (keycode == 27) { // escape
-				closeArticlePanel();
-				return;
-			}
-
-			if (keycode == 69) { // e
-				emailArticle();
-			}
-
-			if ((keycode == 191 || keychar == '?') && shift_key) { // ?
-
-				new Ajax.Request("backend.php", {
-					parameters: "?op=backend&method=help&topic=main",
-					onComplete: function(transport) {
-						$("hotkey_help_overlay").innerHTML = transport.responseText;
-						Effect.Appear("hotkey_help_overlay", {duration : 0.3});
-					} });
-				return false;
-			}
-
-			if (keycode == 191 || keychar == '/') { // /
-				search();
-				return false;
-			}
-
-			if (keycode == 74 && !shift_key) { // j
-				var rv = dijit.byId("feedTree").getPreviousFeed(
-						getActiveFeedId(), activeFeedIsCat());
-
-				if (rv) viewfeed(rv[0], '', rv[1]);
-
-				return;
-			}
-
-			if (keycode == 75) { // k
-				var rv = dijit.byId("feedTree").getNextFeed(
-						getActiveFeedId(), activeFeedIsCat());
-
-				if (rv) viewfeed(rv[0], '', rv[1]);
-
-				return;
-			}
-
-			if (shift_key && keycode == 40) { // shift-down
-				catchupRelativeToArticle(1);
-				return;
-			}
-
-			if (shift_key && keycode == 38) { // shift-up
-				catchupRelativeToArticle(0);
-				return;
-			}
-
-			if (shift_key && keycode == 78) { // N
-				scrollArticle(50);
-				return;
-			}
-
-			if (shift_key && keycode == 80) { // P
-				scrollArticle(-50);
-				return;
-			}
-
-			if (keycode == 68 && shift_key) { // shift-D
-				dismissSelectedArticles();
-				return;
-			}
-
-			if (keycode == 88 && shift_key) { // shift-X
-				dismissReadArticles();
-				return;
-			}
-
-			if (keycode == 78 || keycode == 40) { // n, down
-				if (typeof moveToPost != 'undefined') {
-					moveToPost('next');
-					return false;
-				}
-			}
-
-			if (keycode == 80 || keycode == 38) { // p, up
-				if (typeof moveToPost != 'undefined') {
-					moveToPost('prev');
-					return false;
-				}
-			}
-
-			if (keycode == 83 && shift_key) { // S
-				selectionTogglePublished(undefined, false, true);
-				return;
-			}
-
-			if (keycode == 83) { // s
-				selectionToggleMarked(undefined, false, true);
-				return;
-			}
-
-			if (keycode == 85) { // u
-				selectionToggleUnread(undefined, false, true);
-				return;
-			}
-
-			if (keycode == 84 && shift_key) { // T
-				var id = getActiveArticleId();
-				if (id) {
-					editArticleTags(id, getActiveFeedId(), isCdmMode());
-					return;
-				}
-			}
-
-			if (keycode == 9) { // tab
-				var id = getArticleUnderPointer();
-				if (id) {
-					var cb = dijit.byId("RCHK-" + id);
-
-					if (cb) {
-						cb.attr("checked", !cb.attr("checked"));
-						toggleSelectRowById(cb, "RROW-" + id);
-						return false;
-					}
-				}
-			}
-
-			if (keycode == 79) { // o
-				if (getActiveArticleId()) {
-					openArticleInNewWindow(getActiveArticleId());
-					return;
-				}
-			}
-
-			if (keycode == 81 && shift_key) { // Q
-				if (typeof catchupAllFeeds != 'undefined') {
-					catchupAllFeeds();
-					return;
-				}
-			}
-
-			if (keycode == 88 && !shift_key) { // x
-				if (activeFeedIsCat()) {
-					dijit.byId("feedTree").collapseCat(getActiveFeedId());
-					return;
-				}
-			}
-		}
-
-		/* Prefix a */
-
-		if (hotkey_prefix == 65) { // a
-			hotkey_prefix = false;
-
-			if (keycode == 65) { // a
-				selectArticles('all');
-				return;
-			}
-
-			if (keycode == 85 && !shift_key) { // u
-				selectArticles('unread');
-				return;
-			}
-
-			if (keycode == 80) { // p
-				selectArticles('published');
-				return;
-			}
-
-			if (keycode == 85 && shift_key) { // u
-				selectArticles('marked');
-				return;
-			}
-
-			if (keycode == 73) { // i
-				selectArticles('invert');
-				return;
-			}
-
-			if (keycode == 78) { // n
-				selectArticles('none');
-				return;
-			}
-
-		}
-
-		/* Prefix f */
-
-		if (hotkey_prefix == 70) { // f
-
-			hotkey_prefix = false;
-
-			if (keycode == 81) { // q
-				if (getActiveFeedId() != undefined) {
-					catchupCurrentFeed();
-					return;
-				}
-			}
-
-			if (keycode == 82) { // r
-				if (getActiveFeedId() != undefined) {
-					viewfeed(getActiveFeedId(), '', activeFeedIsCat());
-					return;
-				}
-			}
-
-			if (keycode == 65) { // a
-				toggleDispRead();
-				return false;
-			}
-
-			if (keycode == 85) { // u
-				if (getActiveFeedId() != undefined) {
-					viewfeed(getActiveFeedId(), '');
-					return false;
-				}
-			}
-
-			if (keycode == 68 && shift_key) { // D
-
-				window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
-						"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
-						activeFeedIsCat() + "&DevForceUpdate=1&debug=2&xdebug=2&csrf_token=" +
-						getInitParam("csrf_token"));
-
-				return false;
-			}
-
-			if (keycode == 69) { // e
-
-				if (activeFeedIsCat())
-					alert(__("You can't edit this kind of feed."));
-				else
-					editFeed(getActiveFeedId());
-				return;
-
-				return false;
-			}
-
-			if (keycode == 83) { // s
-				quickAddFeed();
-				return false;
-			}
-
-			if (keycode == 67 && shift_key) { // C
-				if (typeof catchupAllFeeds != 'undefined') {
-					catchupAllFeeds();
-					return false;
-				}
-			}
-
-			if (keycode == 67) { // c
-				if (getActiveFeedId() != undefined) {
-					catchupCurrentFeed();
-					return false;
-				}
-			}
-
-			if (keycode == 88) { // x
-				reverseHeadlineOrder();
-				return;
-			}
-		}
-
-		/* Prefix c */
-
-		if (hotkey_prefix == 67) { // c
-			hotkey_prefix = false;
-
-			if (keycode == 70) { // f
-				quickAddFilter();
-				return false;
-			}
-
-			if (keycode == 76) { // l
-				addLabel();
-				return false;
-			}
-
-			if (keycode == 83) { // s
-				if (typeof collapse_feedlist != 'undefined') {
-					collapse_feedlist();
-					return false;
-				}
-			}
-
-			if (keycode == 77) { // m
-				// TODO: sortable feedlist
-				return;
-			}
-
-			if (keycode == 78) { // n
-				catchupRelativeToArticle(1);
-				return;
-			}
-
-			if (keycode == 80) { // p
-				catchupRelativeToArticle(0);
-				return;
-			}
-
-
-		}
-
-		/* Prefix g */
-
-		if (hotkey_prefix == 71) { // g
-
-			hotkey_prefix = false;
-
-
-			if (keycode == 65) { // a
-				viewfeed(-4);
-				return false;
-			}
-
-			if (keycode == 83) { // s
-				viewfeed(-1);
-				return false;
-			}
-
-			if (keycode == 80 && shift_key) { // P
-				gotoPreferences();
-				return false;
-			}
-
-			if (keycode == 80) { // p
-				viewfeed(-2);
-				return false;
-			}
-
-			if (keycode == 70) { // f
-				viewfeed(-3);
-				return false;
-			}
-
-			if (keycode == 84) { // t
-				displayDlg("printTagCloud");
-				return false;
-			}
-		}
-
-		/* Cmd */
-
-		if (hotkey_prefix == 224 || hotkey_prefix == 91) { // f
-			hotkey_prefix = false;
-			return;
-		}
-
-		if (hotkey_prefix) {
-			console.log("KP: PREFIX=" + hotkey_prefix + " CODE=" + keycode + " CHAR=" + keychar);
-		} else {
-			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
-		}
-
 
 	} catch (e) {
 		exception_error("hotkey_handler", e);

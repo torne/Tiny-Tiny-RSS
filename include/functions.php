@@ -1972,55 +1972,73 @@
 
 	function get_hotkeys($link) {
 		$hotkeys = array(
-			"navigation" => array(
-				"next_feed" => "k",
-				"prev_feed" => "j",
-				"next_article" => "n",
-				"prev_article" => "p",
-				"search_dialog" => "/"),
-			"article" => array(
-				"toggle_mark" => "s",
-				"toggle_publ" => "S",
-				"toggle_unread" => "u",
-				"edit_tags" => "T",
-				"dismiss_selected" => "D",
-				"dismiss_read" => "X",
-				"open_in_new_window" => "o",
-				"catchup_below" => "c p",
-				"catchup_above" => "c n",
-				"email_article" => "e"),
-			"article_selection" => array(
-				"select_all" => "a a",
-				"select_unread" => "a u",
-				"select_marked" => "a U",
-				"select_published" => "a p",
-				"select_invert" => "a i",
-				"select_none" => "a n"),
-			"feed" => array(
-				"feed_refresh" => "f r",
-				"feed_unhide_read" => "f a",
-				"feed_subscribe" => "f s",
-				"feed_edit" => "f e",
-				"feed_catchup" => "f q",
-				"feed_reverse" => "f x",
-				"catchup_all" => "Q",
-				"cat_toggle_collapse" => "x"),
-			"goto" => array(
-				"goto_all" => "g a",
-				"goto_fresh" => "g f",
-				"goto_marked" => "g s",
-				"goto_published" => "g p",
-				"goto_tagcloud" => "g t",
-				"goto_prefs" => "g P"),
-			"other" => array(
-				"select_article_cursor" => "(9)", // tab
-				"create_label" => "c l",
-				"create_filter" => "c f",
-				"collapse_sidebar" => "c s",
-				"help_dialog" => "(191)")
+//			"navigation" => array(
+				"k" => "next_feed",
+				"j" => "prev_feed",
+				"n" => "next_article",
+				"p" => "prev_article",
+				"/" => "search_dialog",
+//			"article" => array(
+				"s" => "toggle_mark",
+				"S" => "toggle_publ",
+				"u" => "toggle_unread",
+				"T" => "edit_tags",
+				"D" => "dismiss_selected",
+				"X" => "dismiss_read",
+				"o" => "open_in_new_window",
+				"c p" => "catchup_below",
+				"c n" => "catchup_above",
+				"N" => "article_scroll_down",
+				"P" => "article_scroll_up",
+				"e" => "email_article",
+//			"article_selection" => array(
+				"a a" => "select_all",
+				"a u" => "select_unread",
+				"a U" => "select_marked",
+				"a p" => "select_published",
+				"a i" => "select_invert",
+				"a n" => "select_none",
+//			"feed" => array(
+				"f r" => "feed_refresh",
+				"f a" => "feed_unhide_read",
+				"f s" => "feed_subscribe",
+				"f e" => "feed_edit",
+				"f q" => "feed_catchup",
+				"f x" => "feed_reverse",
+				"f D" => "feed_debug_update",
+				"Q" => "catchup_all",
+				"x" => "cat_toggle_collapse",
+//			"goto" => array(
+				"g a" => "goto_all",
+				"g f" => "goto_fresh",
+				"g s" => "goto_marked",
+				"g p" => "goto_published",
+				"g t" => "goto_tagcloud",
+				"g P" => "goto_prefs",
+//			"other" => array(
+				"(9)" => "select_article_cursor", // tab
+				"c l" => "create_label",
+				"c f" => "create_filter",
+				"c s" => "collapse_sidebar",
+				"(191)" => "help_dialog",
 			);
 
-		return $hotkeys;
+		global $pluginhost;
+		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_MAP) as $plugin) {
+			$hotkeys = $plugin->hook_hotkey_map($hotkeys);
+		}
+
+		$prefixes = array();
+
+		foreach (array_keys($hotkeys) as $hotkey) {
+			$pair = explode(" ", $hotkey, 2);
+
+			if (count($pair) > 1 && !in_array($pair[0], $prefixes)) {
+				array_push($prefixes, $pair[0]);
+			}
+		}
+
+		return array($prefixes, $hotkeys);
 	}
 
 	function make_runtime_info($link) {

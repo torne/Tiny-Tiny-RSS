@@ -16,6 +16,7 @@ class PluginHost {
 	const HOOK_FEED_PARSED = 6;
 	const HOOK_UPDATE_TASK = 7;
 	const HOOK_AUTH_USER = 8;
+	const HOOK_HOTKEY_MAP = 9;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;
