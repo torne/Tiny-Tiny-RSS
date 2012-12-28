@@ -59,7 +59,7 @@ class OwnCloud extends Plugin {
         print "<tr><td width=\"40%\">".__("Owncloud url")."</td>";
 	print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"owncloud_url\" regExp='^(http|https)://.*' value=\"$value\"></td></tr>";
     print "</table>";
-    print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Set value")."</button>";
+    print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Save")."</button>";
 
     print "</form>";
 
