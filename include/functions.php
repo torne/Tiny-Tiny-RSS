@@ -1977,6 +1977,8 @@
 				"j" => "prev_feed",
 				"n" => "next_article",
 				"p" => "prev_article",
+				"(38)" => "prev_article",
+				"(40)" => "next_article",
 				"/" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",
