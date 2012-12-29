@@ -45,8 +45,6 @@ class Backend extends Handler {
 
 			foreach ($hotkeys as $action => $description) {
 				print "<li>";
-				print "<input dojoType=\"dijit.form.CheckBox\"
-					type=\"checkbox\" disabled=\"1\" checked=\"1\">";
 			 	print "<span class='hksequence'>" . $omap[$action] . "</span>";
 			  	print $description;
 				print "</li>";
