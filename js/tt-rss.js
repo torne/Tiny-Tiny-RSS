@@ -774,7 +774,7 @@ function hotkey_handler(e) {
 		case "feed_debug_update":
 			window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
 				"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
-				activeFeedIsCat() + "&DevForceUpdate=1&debug=2&xdebug=2&csrf_token=" +
+				activeFeedIsCat() + "&DevForceUpdate=1&debug=1&xdebug=1&csrf_token=" +
 				getInitParam("csrf_token"));
 			return false;
 		case "feed_edit":
