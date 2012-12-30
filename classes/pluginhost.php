@@ -90,7 +90,7 @@ class PluginHost {
 		foreach ($plugins as $class) {
 			$class = trim($class);
 			$class_file = strtolower(basename($class));
-			$file = dirname(__FILE__)."/../plugins/$class_file/$class_file.php";
+			$file = dirname(__FILE__)."/../plugins/$class_file/init.php";
 
 			if (!isset($this->plugins[$class])) {
 				if (file_exists($file)) require_once $file;
