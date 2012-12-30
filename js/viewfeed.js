@@ -164,12 +164,14 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					new_elems.each(function(child) {
 						var cb = dijit.byId(child.id.replace("RROW-", "RCHK-"));
 
-						if (cb) cb.destroy();
+						if (!cb) {
+							dojo.parser.parse(child);
 
-						dojo.parser.parse(child);
-
-						if (!Element.visible(child))
-							new Effect.Appear(child, { duration : 0.5 });
+							if (!Element.visible(child))
+								new Effect.Appear(child, { duration : 0.5 });
+						} else {
+							c.domNode.removeChild(child);
+						}
 					});
 
 				} else {
