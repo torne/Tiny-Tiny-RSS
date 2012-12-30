@@ -479,9 +479,6 @@
 
 				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 245));
 
-				$result = db_query($link, "SELECT id FROM	ttrss_entries
-					WHERE guid = '$entry_guid'");
-
 				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 245));
 				$entry_author = db_escape_string(mb_substr($entry_author, 0, 245));
 
@@ -540,7 +537,7 @@
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
-					"guid" => $entry_guid, // read only
+					"guid" => $entry_guid,
 					"title" => $entry_title,
 					"content" => $entry_content,
 					"link" => $entry_link,
@@ -548,24 +545,27 @@
 					"author" => $entry_author);
 
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
-
 					$article = $plugin->hook_article_filter($article);
 				}
 
 				$entry_tags = $article["tags"];
+				$entry_guid = db_escape_string($article["guid"]);
 				$entry_content = db_escape_string($article["content"], false);
 				$entry_title = db_escape_string($article["title"]);
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
 
-				$content_hash = "SHA1:" . sha1(strip_tags($entry_content));
+				$content_hash = "SHA1:" . sha1($entry_content);
 
 				db_query($link, "BEGIN");
+
+				$result = db_query($link, "SELECT id FROM	ttrss_entries
+					WHERE guid = '$entry_guid'");
 
 				if (db_num_rows($result) == 0) {
 
 					if ($debug_enabled) {
-						_debug("update_rss_feed: base guid not found");
+						_debug("update_rss_feed: base guid [$entry_guid] not found");
 					}
 
 					if ($cache_content) {
@@ -646,7 +646,7 @@
 				if (db_num_rows($result) == 1) {
 
 					if ($debug_enabled) {
-						_debug("update_rss_feed: base guid found, checking for user record");
+						_debug("update_rss_feed: base guid [$entry_guid] found, checking for user record");
 					}
 
 					// this will be used below in update handler
