@@ -2006,7 +2006,7 @@
 				"feed_edit" => __("Edit feed"),
 				"feed_catchup" => __("Mark as read"),
 				"feed_reverse" => __("Reverse headlines"),
-				"feed_debug_update" => __(""),
+				"feed_debug_update" => __("Debug feed update"),
 				"catchup_all" => __("Mark all feeds as read"),
 				"cat_toggle_collapse" => __("Un/collapse current category")),
 			__("Go to") => array(
