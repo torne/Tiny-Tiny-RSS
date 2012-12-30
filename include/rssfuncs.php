@@ -269,7 +269,8 @@
 			$pluginhost = new PluginHost($link);
 
 			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
-			$pluginhost->load($plugins, $pluginhost::KIND_USER);
+			$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
+			$pluginhost->load_data();
 
 			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
 
@@ -538,7 +539,8 @@
 					_debug("update_rss_feed: applying plugin filters..");
 				}
 
-				$article = array("owner_uid" => $owner_uid,
+				$article = array("owner_uid" => $owner_uid, // read only
+					"guid" => $entry_guid, // read only
 					"title" => $entry_title,
 					"content" => $entry_content,
 					"link" => $entry_link,
@@ -546,6 +548,7 @@
 					"author" => $entry_author);
 
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
+
 					$article = $plugin->hook_article_filter($article);
 				}
 
