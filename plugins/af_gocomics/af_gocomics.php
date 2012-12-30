@@ -1,12 +1,12 @@
 <?php
-class PennyArcade extends Plugin {
+class Af_GoComics extends Plugin {
 
 	private $link;
 	private $host;
 
 	function about() {
 		return array(1.0,
-			"Strip unnecessary stuff from PA feeds",
+			"Strip unnecessary stuff from gocomics feeds",
 			"fox");
 	}
 
@@ -20,9 +20,7 @@ class PennyArcade extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
-		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "Comic:") !== FALSE &&
-				strpos($article["guid"], "pennyarcade,$owner_uid:") === FALSE) {
-
+		if (strpos($article["guid"], "gocomics.com") !== FALSE && strpos($article["guid"], "gocomics,$owner_uid:") === FALSE) {
 			$doc = new DOMDocument();
 			@$doc->loadHTML(fetch_file_contents($article["link"]));
 
@@ -36,8 +34,9 @@ class PennyArcade extends Plugin {
 
 				foreach ($entries as $entry) {
 
-					if (preg_match("/(http:\/\/art.penny-arcade.com\/.*)/i", $entry->getAttribute("src"), $matches)) {
+					if (preg_match("/(http:\/\/assets.amuniversal.com\/.*)/i", $entry->getAttribute("src"), $matches)) {
 
+						$entry->setAttribute("src", $matches[0]);
 						$basenode = $entry;
 						break;
 					}
@@ -48,7 +47,7 @@ class PennyArcade extends Plugin {
 
 					// we need to update guid with owner_uid because our local article is different from the one
 					// other users with this plugin disabled might get
-					$article["guid"] = "pennyarcade,$owner_uid:" . $article["guid"];
+					$article["guid"] = "gocomics,$owner_uid:" . $article["guid"];
 				}
 			}
 		}
