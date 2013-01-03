@@ -60,7 +60,7 @@ class Updater extends Plugin {
 			array_push($log, "Checking for tar...");
 
 			$system_rc = 0;
-			system("tar --version >/dev/null", $system_rc);
+			system("which tar >/dev/null", $system_rc);
 
 			if ($system_rc != 0) {
 				array_push($log, "Could not run tar executable (RC=$system_rc).");
@@ -70,7 +70,7 @@ class Updater extends Plugin {
 			array_push($log, "Checking for gunzip...");
 
 			$system_rc = 0;
-			system("gunzip --version >/dev/null", $system_rc);
+			system("which gunzip >/dev/null", $system_rc);
 
 			if ($system_rc != 0) {
 				array_push($log, "Could not run gunzip executable (RC=$system_rc).");
