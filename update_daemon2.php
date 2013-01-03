@@ -113,7 +113,7 @@
 			"Maybe another daemon is already running.\n");
 	}
 
-	if (!pcntl_fork()) {
+	/* if (!pcntl_fork()) {
 		pcntl_signal(SIGINT, 'sigint_handler');
 		register_shutdown_function('shutdown');
 
@@ -126,7 +126,7 @@
 		}
 
 		while (true) { sleep(100); }
-	}
+	} */
 
 	// Testing database connection.
 	// It is unnecessary to start the fork loop if database is not ok.
