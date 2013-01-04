@@ -8,8 +8,8 @@
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
-	require_once "functions.php";
 	require_once "sessions.php";
+	require_once "functions.php";
 	require_once "sanity_check.php";
 	require_once "version.php";
 	require_once "config.php";
