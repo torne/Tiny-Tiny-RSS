@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-24 13:34+0400\n"
+"POT-Creation-Date: 2013-01-05 01:27+0400\n"
 "PO-Revision-Date: 2009-05-12 03:25+0900\n"
 "Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
 "Language-Team: Japanese <http://oss.poyo.jp/>\n"
@@ -262,7 +262,7 @@ msgstr ""
 #: index.php:108 index.php:150 index.php:236 prefs.php:86
 #: classes/backend.php:6 classes/pref/labels.php:296
 #: classes/pref/filters.php:602 classes/pref/feeds.php:1342
-#: plugins/digest/digest_body.php:45 js/viewfeed.js:1169
+#: plugins/digest/digest_body.php:45 js/viewfeed.js:1169 js/viewfeed.js:1158
 msgid "Loading, please wait..."
 msgstr "読み込みんでいます。しばらくお待ちください..."
 
@@ -843,12 +843,12 @@ msgstr ""
 msgid "Search results: %s"
 msgstr "検索結果"
 
-#: include/functions.php:3067 js/viewfeed.js:1998
+#: include/functions.php:3067 js/viewfeed.js:1998 js/viewfeed.js:1971
 #, fuzzy
 msgid "Click to play"
 msgstr "編集するにはクリック"
 
-#: include/functions.php:3068 js/viewfeed.js:1997
+#: include/functions.php:3068 js/viewfeed.js:1997 js/viewfeed.js:1970
 msgid "Play"
 msgstr ""
 
@@ -983,7 +983,7 @@ msgstr "記事を消去する"
 msgid "Set starred"
 msgstr "お気に入りに設定する"
 
-#: include/localized_schema.php:12 js/viewfeed.js:501
+#: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
 msgid "Publish article"
 msgstr "公開記事"
 
@@ -991,7 +991,7 @@ msgstr "公開記事"
 msgid "Assign tags"
 msgstr "タグの割り当て"
 
-#: include/localized_schema.php:14 js/viewfeed.js:1962
+#: include/localized_schema.php:14 js/viewfeed.js:1962 js/viewfeed.js:1935
 msgid "Assign label"
 msgstr "ラベルの割り当て"
 
@@ -1185,7 +1185,7 @@ msgstr ""
 msgid "User timezone"
 msgstr ""
 
-#: include/localized_schema.php:60 js/prefs.js:1856
+#: include/localized_schema.php:60 js/prefs.js:1856 js/prefs.js:1743
 #, fuzzy
 msgid "Customize stylesheet"
 msgstr "ユーザースタイルシートの URL"
@@ -2000,7 +2000,7 @@ msgstr ""
 msgid "Save rule"
 msgstr "保存"
 
-#: classes/pref/filters.php:788 js/functions.js:1067
+#: classes/pref/filters.php:788 js/functions.js:1067 js/functions.js:1063
 #, fuzzy
 msgid "Add rule"
 msgstr "フィードカテゴリーを追加しています..."
@@ -2018,7 +2018,7 @@ msgstr "パラメーター:"
 msgid "Save action"
 msgstr "パネル操作"
 
-#: classes/pref/filters.php:855 js/functions.js:1093
+#: classes/pref/filters.php:855 js/functions.js:1093 js/functions.js:1089
 #, fuzzy
 msgid "Add action"
 msgstr "フィード操作"
@@ -2302,7 +2302,7 @@ msgstr "選択したフィードを削除しています..."
 msgid "Reset sort order"
 msgstr "パスワードのリセット"
 
-#: classes/pref/feeds.php:1292 js/prefs.js:2021
+#: classes/pref/feeds.php:1292 js/prefs.js:2021 js/prefs.js:1788
 #, fuzzy
 msgid "Batch subscribe"
 msgstr "購読をやめる"
@@ -2664,11 +2664,11 @@ msgstr "最終更新:"
 msgid "Start update"
 msgstr "最終更新:"
 
-#: js/feedlist.js:283
+#: js/feedlist.js:283 js/feedlist.js:282
 msgid "New articles available in this feed (click to show)"
 msgstr ""
 
-#: js/feedlist.js:490 js/feedlist.js:505
+#: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
 msgid "Mark all articles in %s as read?"
 msgstr "「%s」のすべての記事を既読に設定しますか?"
 
@@ -2678,131 +2678,134 @@ msgid ""
 "your browser information. Your IP would be saved in the database."
 msgstr ""
 
-#: js/functions.js:618
+#: js/functions.js:618 js/functions.js:614
 #, fuzzy
 msgid "Date syntax appears to be correct:"
 msgstr "古いパスワードが不正確です。"
 
-#: js/functions.js:621
+#: js/functions.js:621 js/functions.js:617
 #, fuzzy
 msgid "Date syntax is incorrect."
 msgstr "古いパスワードが不正確です。"
 
-#: js/functions.js:748
+#: js/functions.js:748 js/functions.js:744
 #, fuzzy
 msgid "Remove stored feed icon?"
 msgstr "保存したデータを削除する"
 
-#: js/functions.js:780
+#: js/functions.js:780 js/functions.js:776
 #, fuzzy
 msgid "Please select an image file to upload."
 msgstr "フィードをひとつ選択してください"
 
-#: js/functions.js:782
+#: js/functions.js:782 js/functions.js:778
 msgid "Upload new icon for this feed?"
 msgstr ""
 
-#: js/functions.js:799
+#: js/functions.js:799 js/functions.js:795
 msgid "Please enter label caption:"
 msgstr "ラベルのキャプションを入力してください:"
 
-#: js/functions.js:804
+#: js/functions.js:804 js/functions.js:800
 msgid "Can't create label: missing caption."
 msgstr "ラベルが作成できません: キャプションが見当たりません。"
 
-#: js/functions.js:847
+#: js/functions.js:847 js/functions.js:843
 msgid "Subscribe to Feed"
 msgstr "フィードを購読する"
 
-#: js/functions.js:874
+#: js/functions.js:874 js/functions.js:870
 #, fuzzy
 msgid "Subscribed to %s"
 msgstr "フィードを購読する:"
 
-#: js/functions.js:879
+#: js/functions.js:879 js/functions.js:875
 msgid "Specified URL seems to be invalid."
 msgstr ""
 
-#: js/functions.js:882
+#: js/functions.js:882 js/functions.js:878
 msgid "Specified URL doesn't seem to contain any feeds."
 msgstr ""
 
-#: js/functions.js:935
+#: js/functions.js:935 js/functions.js:931
 #, fuzzy
 msgid "Couldn't download the specified URL: %s"
 msgstr "購読できません: フィード URL が入力されていません。"
 
-#: js/functions.js:939
+#: js/functions.js:939 js/functions.js:935
 #, fuzzy
 msgid "You are already subscribed to this feed."
 msgstr "カテゴリーから購読をやめることができません。"
 
-#: js/functions.js:1067
+#: js/functions.js:1067 js/functions.js:1063
 #, fuzzy
 msgid "Edit rule"
 msgstr "フィルター"
 
-#: js/functions.js:1093
+#: js/functions.js:1093 js/functions.js:1089
 #, fuzzy
 msgid "Edit action"
 msgstr "フィード操作"
 
-#: js/functions.js:1130
+#: js/functions.js:1130 js/functions.js:1126
 msgid "Create Filter"
 msgstr "フィルターを作成する"
 
-#: js/functions.js:1234
+#: js/functions.js:1234 js/functions.js:1230
 msgid ""
 "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
 "hub again on next feed update."
 msgstr ""
 
-#: js/functions.js:1255 js/tt-rss.js:421
+#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251
 msgid "Unsubscribe from %s?"
 msgstr "%s の購読をやめますか?"
 
-#: js/functions.js:1362
+#: js/functions.js:1362 js/functions.js:1358
 #, fuzzy
 msgid "Please enter category title:"
 msgstr "このアーティクルのノートを入力してください:"
 
-#: js/functions.js:1393
+#: js/functions.js:1393 js/functions.js:1389
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903
+#: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
+#: js/tt-rss.js:782
 #, fuzzy
 msgid "You can't edit this kind of feed."
 msgstr "フィードのこの種類を消去できません。"
 
-#: js/functions.js:1599
+#: js/functions.js:1599 js/functions.js:1595
 #, fuzzy
 msgid "Edit Feed"
 msgstr "フィードを編集する"
 
-#: js/functions.js:1637
+#: js/functions.js:1637 js/functions.js:1633
 #, fuzzy
 msgid "More Feeds"
 msgstr "さらなるフィード"
 
 #: js/functions.js:1698 js/functions.js:1808 js/prefs.js:408 js/prefs.js:438
 #: js/prefs.js:470 js/prefs.js:653 js/prefs.js:673 js/prefs.js:1326
-#: js/prefs.js:1471
+#: js/prefs.js:1471 js/functions.js:1694 js/functions.js:1804 js/prefs.js:397
+#: js/prefs.js:427 js/prefs.js:459 js/prefs.js:642 js/prefs.js:662
+#: js/prefs.js:1213 js/prefs.js:1358
 msgid "No feeds are selected."
 msgstr "選択されたフィードはありません。"
 
-#: js/functions.js:1740
+#: js/functions.js:1740 js/functions.js:1736
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
 msgstr ""
 
-#: js/functions.js:1779
+#: js/functions.js:1779 js/functions.js:1775
 #, fuzzy
 msgid "Feeds with update errors"
 msgstr "フィードエディター"
 
-#: js/functions.js:1790 js/prefs.js:1308
+#: js/functions.js:1790 js/prefs.js:1308 js/functions.js:1786 js/prefs.js:1195
 #, fuzzy
 msgid "Remove selected feeds?"
 msgstr "選択されたフィルターを削除しますか?"
@@ -2830,95 +2833,98 @@ msgstr "ログイン名を入力してください:"
 msgid "Can't create user: no login specified."
 msgstr "ユーザーが追加できません: ログイン名が指定されていません。"
 
-#: js/prefs.js:128
+#: js/prefs.js:128 js/prefs.js:117
 #, fuzzy
 msgid "Edit Filter"
 msgstr "フィルター"
 
-#: js/prefs.js:175
+#: js/prefs.js:175 js/prefs.js:164
 #, fuzzy
 msgid "Remove filter?"
 msgstr "フィルター %s を削除しますか?"
 
-#: js/prefs.js:290
+#: js/prefs.js:290 js/prefs.js:279
 msgid "Remove selected labels?"
 msgstr "選択したラベルを削除しますか?"
 
-#: js/prefs.js:306 js/prefs.js:1512
+#: js/prefs.js:306 js/prefs.js:1512 js/prefs.js:295 js/prefs.js:1399
 msgid "No labels are selected."
 msgstr "選択されたラベルはありません。"
 
-#: js/prefs.js:320
+#: js/prefs.js:320 js/prefs.js:309
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
 msgstr ""
 
 #: js/prefs.js:337 js/prefs.js:518 js/prefs.js:539 js/prefs.js:578
+#: js/prefs.js:326 js/prefs.js:507 js/prefs.js:528 js/prefs.js:567
 msgid "No users are selected."
 msgstr "選択されたユーザーはありません。"
 
-#: js/prefs.js:355
+#: js/prefs.js:355 js/prefs.js:344
 msgid "Remove selected filters?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: js/prefs.js:370 js/prefs.js:608 js/prefs.js:627
+#: js/prefs.js:370 js/prefs.js:608 js/prefs.js:627 js/prefs.js:359
+#: js/prefs.js:597 js/prefs.js:616
 msgid "No filters are selected."
 msgstr "選択されたフィルターはありません。"
 
-#: js/prefs.js:389
+#: js/prefs.js:389 js/prefs.js:378
 msgid "Unsubscribe from selected feeds?"
 msgstr "選択されたフィードの購読をやめますか?"
 
-#: js/prefs.js:423
+#: js/prefs.js:423 js/prefs.js:412
 msgid "Please select only one feed."
 msgstr "フィードをひとつだけ選択してください。"
 
-#: js/prefs.js:429
+#: js/prefs.js:429 js/prefs.js:418
 msgid "Erase all non-starred articles in selected feed?"
 msgstr ""
 "選択したフィード内のすべてのお気に入りしていない記事をすべて削除しますか?"
 
-#: js/prefs.js:451
+#: js/prefs.js:451 js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "記事を維持したい日数は? (0: 標準を使う)"
 
-#: js/prefs.js:489
+#: js/prefs.js:489 js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "ログイン名の項目は空にできません。"
 
-#: js/prefs.js:523 js/prefs.js:544 js/prefs.js:583
+#: js/prefs.js:523 js/prefs.js:544 js/prefs.js:583 js/prefs.js:512
+#: js/prefs.js:533 js/prefs.js:572
 msgid "Please select only one user."
 msgstr "ひとつだけユーザーを選択してください。"
 
-#: js/prefs.js:548
+#: js/prefs.js:548 js/prefs.js:537
 msgid "Reset password of selected user?"
 msgstr "選択したユーザーのパスワードをリセットしますか?"
 
-#: js/prefs.js:613
+#: js/prefs.js:613 js/prefs.js:602
 msgid "Please select only one filter."
 msgstr "フィルターをひとつだけ選択してください。"
 
-#: js/prefs.js:631
+#: js/prefs.js:631 js/prefs.js:620
 #, fuzzy
 msgid "Combine selected filters?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: js/prefs.js:695
+#: js/prefs.js:695 js/prefs.js:684
 #, fuzzy
 msgid "Edit Multiple Feeds"
 msgstr "複数フィードエディター"
 
-#: js/prefs.js:719
+#: js/prefs.js:719 js/prefs.js:708
 msgid "Save changes to selected feeds?"
 msgstr "選択したフィードの変更を保存しますか?"
 
-#: js/prefs.js:811
+#: js/prefs.js:811 js/prefs.js:800
 #, fuzzy
 msgid "OPML Import"
 msgstr "インポート"
 
-#: js/prefs.js:838
+#: js/prefs.js:838 js/prefs.js:827
 #, fuzzy
 msgid "Please choose an OPML file first."
 msgstr "はじめにいくつかのフィードを選択してください。"
@@ -2928,88 +2934,88 @@ msgstr "はじめにいくつかのフィードを選択してください。"
 msgid "Please choose the file first."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
-#: js/prefs.js:1010
+#: js/prefs.js:1010 js/prefs.js:983
 msgid "Reset to defaults?"
 msgstr "標準に戻しますか?"
 
-#: js/prefs.js:1215
+#: js/prefs.js:1215 js/prefs.js:1102
 msgid ""
 "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 
-#: js/prefs.js:1242
+#: js/prefs.js:1242 js/prefs.js:1129
 msgid "Remove selected categories?"
 msgstr "選択されたカテゴリーを削除しますか?"
 
-#: js/prefs.js:1258
+#: js/prefs.js:1258 js/prefs.js:1145
 msgid "No categories are selected."
 msgstr "選択されたカテゴリーはありません。"
 
-#: js/prefs.js:1266
+#: js/prefs.js:1266 js/prefs.js:1153
 #, fuzzy
 msgid "Category title:"
 msgstr "カテゴリーエディター"
 
-#: js/prefs.js:1297
+#: js/prefs.js:1297 js/prefs.js:1184
 msgid "Feeds without recent updates"
 msgstr ""
 
-#: js/prefs.js:1346
+#: js/prefs.js:1346 js/prefs.js:1233
 #, fuzzy
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "新しいもので現在の公開アドレスを置き換えますか?"
 
-#: js/prefs.js:1455
+#: js/prefs.js:1455 js/prefs.js:1342
 msgid "Rescore articles in selected feeds?"
 msgstr "選択したフィードの記事のスコアを再計算しますか?"
 
-#: js/prefs.js:1478
+#: js/prefs.js:1478 js/prefs.js:1365
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "すべての記事のスコアを再計算しますか? この操作は大量の時間を使うでしょう。"
 
-#: js/prefs.js:1498
+#: js/prefs.js:1498 js/prefs.js:1385
 #, fuzzy
 msgid "Reset selected labels to default colors?"
 msgstr "ラベルの色を標準にリセットしますか?"
 
-#: js/prefs.js:1535
+#: js/prefs.js:1535 js/prefs.js:1422
 msgid "Settings Profiles"
 msgstr ""
 
-#: js/prefs.js:1544
+#: js/prefs.js:1544 js/prefs.js:1431
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: js/prefs.js:1562
+#: js/prefs.js:1562 js/prefs.js:1449
 #, fuzzy
 msgid "No profiles are selected."
 msgstr "選択された記事はありません。"
 
-#: js/prefs.js:1570 js/prefs.js:1623
+#: js/prefs.js:1570 js/prefs.js:1623 js/prefs.js:1457 js/prefs.js:1510
 #, fuzzy
 msgid "Activate selected profile?"
 msgstr "選択されたフィルターを削除しますか?"
 
-#: js/prefs.js:1586 js/prefs.js:1639
+#: js/prefs.js:1586 js/prefs.js:1639 js/prefs.js:1473 js/prefs.js:1526
 #, fuzzy
 msgid "Please choose a profile to activate."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
-#: js/prefs.js:1647
+#: js/prefs.js:1647 js/prefs.js:1534
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
-#: js/prefs.js:1666
+#: js/prefs.js:1666 js/prefs.js:1553
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr ""
 
-#: js/prefs.js:1764
+#: js/prefs.js:1764 js/prefs.js:1651
 msgid "Label Editor"
 msgstr "ラベルエディター"
 
-#: js/prefs.js:1827
+#: js/prefs.js:1827 js/prefs.js:1714
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
@@ -3030,7 +3036,7 @@ msgstr ""
 msgid "Data Import"
 msgstr "インポート"
 
-#: js/prefs.js:2027
+#: js/prefs.js:2027 js/prefs.js:1794
 #, fuzzy
 msgid "Subscribing to feeds..."
 msgstr "フィードを購読しています..."
@@ -3043,20 +3049,20 @@ msgstr "すべての記事を既読にしますか?"
 msgid "You can't unsubscribe from the category."
 msgstr "カテゴリーから購読をやめることができません。"
 
-#: js/tt-rss.js:415 js/tt-rss.js:596
+#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591
 msgid "Please select some feed first."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
-#: js/tt-rss.js:591
+#: js/tt-rss.js:591 js/tt-rss.js:586
 #, fuzzy
 msgid "You can't rescore this kind of feed."
 msgstr "フィードのこの種類を消去できません。"
 
-#: js/tt-rss.js:601
+#: js/tt-rss.js:601 js/tt-rss.js:596
 msgid "Rescore articles in %s?"
 msgstr "%s の記事のスコアを再計算しますか?"
 
-#: js/tt-rss.js:1062
+#: js/tt-rss.js:1062 js/tt-rss.js:883
 #, fuzzy
 msgid "New version available!"
 msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
@@ -3066,118 +3072,134 @@ msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
 msgid "Cancel search"
 msgstr "取り消し"
 
-#: js/viewfeed.js:456
+#: js/viewfeed.js:456 js/viewfeed.js:445
 msgid "Unstar article"
 msgstr "記事のお気に入りを解除する"
 
-#: js/viewfeed.js:461
+#: js/viewfeed.js:461 js/viewfeed.js:450
 msgid "Star article"
 msgstr "記事をお気に入りにする"
 
-#: js/viewfeed.js:496
+#: js/viewfeed.js:496 js/viewfeed.js:485
 msgid "Unpublish article"
 msgstr "非公開記事"
 
 #: js/viewfeed.js:676 js/viewfeed.js:704 js/viewfeed.js:731 js/viewfeed.js:793
 #: js/viewfeed.js:825 js/viewfeed.js:962 js/viewfeed.js:1005
-#: js/viewfeed.js:1055 js/viewfeed.js:2181
+#: js/viewfeed.js:1055 js/viewfeed.js:2181 js/viewfeed.js:665
+#: js/viewfeed.js:693 js/viewfeed.js:720 js/viewfeed.js:782 js/viewfeed.js:814
+#: js/viewfeed.js:951 js/viewfeed.js:994 js/viewfeed.js:1044
+#: js/viewfeed.js:2154
 msgid "No articles are selected."
 msgstr "記事は選択されていません。"
 
-#: js/viewfeed.js:942
+#: js/viewfeed.js:942 js/viewfeed.js:931
 msgid "Mark all visible articles in %s as read?"
 msgstr "「%s」のすべての可視記事を既読に設定しますか?"
 
-#: js/viewfeed.js:970
+#: js/viewfeed.js:970 js/viewfeed.js:959
 #, fuzzy
 msgid "Delete %d selected articles in %s?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: js/viewfeed.js:972
+#: js/viewfeed.js:972 js/viewfeed.js:961
 #, fuzzy
 msgid "Delete %d selected articles?"
 msgstr "ラベルから選択した記事を削除しますか?"
 
-#: js/viewfeed.js:1014
+#: js/viewfeed.js:1014 js/viewfeed.js:1003
 #, fuzzy
 msgid "Archive %d selected articles in %s?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: js/viewfeed.js:1017
+#: js/viewfeed.js:1017 js/viewfeed.js:1006
 #, fuzzy
 msgid "Move %d archived articles back?"
 msgstr "お気に入りの記事"
 
-#: js/viewfeed.js:1061
+#: js/viewfeed.js:1061 js/viewfeed.js:1050
 msgid "Mark %d selected articles in %s as read?"
 msgstr "選択した %d 件の記事を「%s」に設定しますか?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1085 js/viewfeed.js:1074
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "タグを編集する"
 
-#: js/viewfeed.js:1247
+#: js/viewfeed.js:1247 js/viewfeed.js:1236
 msgid "No article is selected."
 msgstr "選択された記事はありません。"
 
-#: js/viewfeed.js:1282
+#: js/viewfeed.js:1282 js/viewfeed.js:1271
 msgid "No articles found to mark"
 msgstr "マークした記事が見つかりません"
 
-#: js/viewfeed.js:1284
+#: js/viewfeed.js:1284 js/viewfeed.js:1273
 msgid "Mark %d article(s) as read?"
 msgstr "%d 件のマークした記事を既読として設定しますか?"
 
-#: js/viewfeed.js:1402
+#: js/viewfeed.js:1402 js/viewfeed.js:1383
 #, fuzzy
 msgid "Loading..."
 msgstr "フィード一覧を読み込んでいます..."
 
-#: js/viewfeed.js:1891
+#: js/viewfeed.js:1891 js/viewfeed.js:1864
 #, fuzzy
 msgid "Open original article"
 msgstr "元の記事内容を表示する"
 
-#: js/viewfeed.js:1897
+#: js/viewfeed.js:1897 js/viewfeed.js:1870
 #, fuzzy
 msgid "View in a tt-rss tab"
 msgstr "新しいウィンドウで記事を開く"
 
-#: js/viewfeed.js:1905
+#: js/viewfeed.js:1905 js/viewfeed.js:1878
 #, fuzzy
 msgid "Mark above as read"
 msgstr "既読にする"
 
-#: js/viewfeed.js:1911
+#: js/viewfeed.js:1911 js/viewfeed.js:1884
 #, fuzzy
 msgid "Mark below as read"
 msgstr "既読にする"
 
-#: js/viewfeed.js:1967
+#: js/viewfeed.js:1967 js/viewfeed.js:1940
 #, fuzzy
 msgid "Remove label"
 msgstr "選択したラベルを削除しますか?"
 
-#: js/viewfeed.js:1991
+#: js/viewfeed.js:1991 js/viewfeed.js:1964
 #, fuzzy
 msgid "Playing..."
 msgstr "フィード一覧を読み込んでいます..."
 
-#: js/viewfeed.js:1992
+#: js/viewfeed.js:1992 js/viewfeed.js:1965
 #, fuzzy
 msgid "Click to pause"
 msgstr "編集するにはクリック"
 
-#: js/viewfeed.js:2150
+#: js/viewfeed.js:2150 js/viewfeed.js:2123
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "このアーティクルのノートを入力してください:"
 
-#: js/viewfeed.js:2192
+#: js/viewfeed.js:2192 js/viewfeed.js:2165
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "このアーティクルのノートを入力してください:"
+
+#: js/functions.js:1887
+msgid "Help"
+msgstr "ヘルプ"
+
+#: js/prefs.js:1831
+msgid "Clear stored data for this plugin?"
+msgstr ""
+
+#: js/tt-rss.js:741
+#, fuzzy
+msgid "Please enable mail plugin first."
+msgstr "はじめにいくつかのフィードを選択してください。"
 
 #~ msgid "Magpie"
 #~ msgstr "Magpie"
@@ -3334,9 +3356,6 @@ msgstr "このアーティクルのノートを入力してください:"
 #~ msgstr ""
 #~ "ツールバーの「既読に設定する」をクリックしたとき、自動的に次のフィードの未"
 #~ "読記事を開きます。"
-
-#~ msgid "Help"
-#~ msgstr "ヘルプ"
 
 #, fuzzy
 #~ msgid "Importing using DOMXML."

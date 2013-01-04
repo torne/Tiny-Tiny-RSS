@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-24 13:34+0400\n"
+"POT-Creation-Date: 2013-01-05 01:27+0400\n"
 "PO-Revision-Date: 2012-10-25 00:12+0100\n"
 "Last-Translator: DavidM <milarupa@yahoo.es>\n"
 "Language-Team: Español <milarupa@yahoo.es>\n"
@@ -266,7 +266,7 @@ msgstr ""
 #: index.php:108 index.php:150 index.php:236 prefs.php:86
 #: classes/backend.php:6 classes/pref/labels.php:296
 #: classes/pref/filters.php:602 classes/pref/feeds.php:1342
-#: plugins/digest/digest_body.php:45 js/viewfeed.js:1169
+#: plugins/digest/digest_body.php:45 js/viewfeed.js:1169 js/viewfeed.js:1158
 msgid "Loading, please wait..."
 msgstr "Cargando. Por favor, espere..."
 
@@ -831,11 +831,11 @@ msgstr "Leídos recientemente"
 msgid "Search results: %s"
 msgstr "Resultados de búsqueda: %s"
 
-#: include/functions.php:3067 js/viewfeed.js:1998
+#: include/functions.php:3067 js/viewfeed.js:1998 js/viewfeed.js:1971
 msgid "Click to play"
 msgstr "Clic para reproducir"
 
-#: include/functions.php:3068 js/viewfeed.js:1997
+#: include/functions.php:3068 js/viewfeed.js:1997 js/viewfeed.js:1970
 msgid "Play"
 msgstr "Reproducir"
 
@@ -962,7 +962,7 @@ msgstr "Borrar artículo"
 msgid "Set starred"
 msgstr "Marcar como favorito"
 
-#: include/localized_schema.php:12 js/viewfeed.js:501
+#: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
 msgid "Publish article"
 msgstr "Publicar artículo"
 
@@ -970,7 +970,7 @@ msgstr "Publicar artículo"
 msgid "Assign tags"
 msgstr "Asignar etiquetas"
 
-#: include/localized_schema.php:14 js/viewfeed.js:1962
+#: include/localized_schema.php:14 js/viewfeed.js:1962 js/viewfeed.js:1935
 msgid "Assign label"
 msgstr "Asignar marcador"
 
@@ -1181,7 +1181,7 @@ msgstr "Habilitar API externa"
 msgid "User timezone"
 msgstr "Zona horaria del usuario"
 
-#: include/localized_schema.php:60 js/prefs.js:1856
+#: include/localized_schema.php:60 js/prefs.js:1856 js/prefs.js:1743
 msgid "Customize stylesheet"
 msgstr "Personalizar hoja de estilo"
 
@@ -1984,7 +1984,7 @@ msgstr "en"
 msgid "Save rule"
 msgstr "Guardar"
 
-#: classes/pref/filters.php:788 js/functions.js:1067
+#: classes/pref/filters.php:788 js/functions.js:1067 js/functions.js:1063
 msgid "Add rule"
 msgstr "Añadir regla"
 
@@ -2001,7 +2001,7 @@ msgstr "con los parámetros:"
 msgid "Save action"
 msgstr "Acciones del panel"
 
-#: classes/pref/filters.php:855 js/functions.js:1093
+#: classes/pref/filters.php:855 js/functions.js:1093 js/functions.js:1089
 msgid "Add action"
 msgstr "Añadir acción"
 
@@ -2280,7 +2280,7 @@ msgstr "Purgando la fuente seleccionada..."
 msgid "Reset sort order"
 msgstr "Redefinir contraseña"
 
-#: classes/pref/feeds.php:1292 js/prefs.js:2021
+#: classes/pref/feeds.php:1292 js/prefs.js:2021 js/prefs.js:1788
 msgid "Batch subscribe"
 msgstr "Suscripción en lote"
 
@@ -2657,11 +2657,11 @@ msgstr "Última actualización:"
 msgid "Start update"
 msgstr "Última actualización:"
 
-#: js/feedlist.js:283
+#: js/feedlist.js:283 js/feedlist.js:282
 msgid "New articles available in this feed (click to show)"
 msgstr "Nuevos artículos disponibles en esta fuente (clic para mostrar)"
 
-#: js/feedlist.js:490 js/feedlist.js:505
+#: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
 msgid "Mark all articles in %s as read?"
 msgstr "¿Marcar todos los artículos de %s como leídos?"
 
@@ -2673,71 +2673,71 @@ msgstr ""
 "¿Está seguro de que quiere reportar esta excepción a tt-rss.org? El informe "
 "incluirá los datos de su navegador. Su dirección IP quedará guardada."
 
-#: js/functions.js:618
+#: js/functions.js:618 js/functions.js:614
 msgid "Date syntax appears to be correct:"
 msgstr "Sintaxis de fecha parece correcta:"
 
-#: js/functions.js:621
+#: js/functions.js:621 js/functions.js:617
 msgid "Date syntax is incorrect."
 msgstr "Sintaxis de fecha es incorrecta."
 
-#: js/functions.js:748
+#: js/functions.js:748 js/functions.js:744
 msgid "Remove stored feed icon?"
 msgstr "¿Borrar el icono de la fuente?"
 
-#: js/functions.js:780
+#: js/functions.js:780 js/functions.js:776
 msgid "Please select an image file to upload."
 msgstr "Seleccione un archivo de imagen para cargar."
 
-#: js/functions.js:782
+#: js/functions.js:782 js/functions.js:778
 msgid "Upload new icon for this feed?"
 msgstr "¿Cargar un nuevo icono para esta fuente?"
 
-#: js/functions.js:799
+#: js/functions.js:799 js/functions.js:795
 msgid "Please enter label caption:"
 msgstr "Por favor, introduzca el nombre del marcador:"
 
-#: js/functions.js:804
+#: js/functions.js:804 js/functions.js:800
 msgid "Can't create label: missing caption."
 msgstr "No se puede crear el marcador: falta nombre."
 
-#: js/functions.js:847
+#: js/functions.js:847 js/functions.js:843
 msgid "Subscribe to Feed"
 msgstr "Suscribirse a fuente"
 
-#: js/functions.js:874
+#: js/functions.js:874 js/functions.js:870
 msgid "Subscribed to %s"
 msgstr "Se ha suscrito a %s"
 
-#: js/functions.js:879
+#: js/functions.js:879 js/functions.js:875
 msgid "Specified URL seems to be invalid."
 msgstr "La URL especificada parece ser inválida."
 
-#: js/functions.js:882
+#: js/functions.js:882 js/functions.js:878
 msgid "Specified URL doesn't seem to contain any feeds."
 msgstr "La URL especificada no parece contener fuentes."
 
-#: js/functions.js:935
+#: js/functions.js:935 js/functions.js:931
 msgid "Couldn't download the specified URL: %s"
 msgstr "No se pudo cargar la URL especificada: %s"
 
-#: js/functions.js:939
+#: js/functions.js:939 js/functions.js:935
 msgid "You are already subscribed to this feed."
 msgstr "Ya está suscrito a esta fuente."
 
-#: js/functions.js:1067
+#: js/functions.js:1067 js/functions.js:1063
 msgid "Edit rule"
 msgstr "Editar regla"
 
-#: js/functions.js:1093
+#: js/functions.js:1093 js/functions.js:1089
 msgid "Edit action"
 msgstr "Editar acción"
 
-#: js/functions.js:1130
+#: js/functions.js:1130 js/functions.js:1126
 msgid "Create Filter"
 msgstr "Crear filtro"
 
-#: js/functions.js:1234
+#: js/functions.js:1234 js/functions.js:1230
 msgid ""
 "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
 "hub again on next feed update."
@@ -2745,37 +2745,40 @@ msgstr ""
 "¿Restaurar suscripción? Tiny Tiny RSS volverá a intentar suscribirse al hub "
 "de notificaciones en la siguiente actualización de fuentes."
 
-#: js/functions.js:1255 js/tt-rss.js:421
+#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251
 msgid "Unsubscribe from %s?"
 msgstr "¿Cancelar la suscripción a %s?"
 
-#: js/functions.js:1362
+#: js/functions.js:1362 js/functions.js:1358
 msgid "Please enter category title:"
 msgstr "Introduzca el nombre de la categoría:"
 
-#: js/functions.js:1393
+#: js/functions.js:1393 js/functions.js:1389
 msgid "Generate new syndication address for this feed?"
 msgstr "¿Generar nueva dirección de sindicación para esta fuente?"
 
-#: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903
+#: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
+#: js/tt-rss.js:782
 msgid "You can't edit this kind of feed."
 msgstr "No puede editar esta clase de fuente."
 
-#: js/functions.js:1599
+#: js/functions.js:1599 js/functions.js:1595
 msgid "Edit Feed"
 msgstr "Editar fuente"
 
-#: js/functions.js:1637
+#: js/functions.js:1637 js/functions.js:1633
 msgid "More Feeds"
 msgstr "Más fuentes"
 
 #: js/functions.js:1698 js/functions.js:1808 js/prefs.js:408 js/prefs.js:438
 #: js/prefs.js:470 js/prefs.js:653 js/prefs.js:673 js/prefs.js:1326
-#: js/prefs.js:1471
+#: js/prefs.js:1471 js/functions.js:1694 js/functions.js:1804 js/prefs.js:397
+#: js/prefs.js:427 js/prefs.js:459 js/prefs.js:642 js/prefs.js:662
+#: js/prefs.js:1213 js/prefs.js:1358
 msgid "No feeds are selected."
 msgstr "No se han seleccionado fuentes."
 
-#: js/functions.js:1740
+#: js/functions.js:1740 js/functions.js:1736
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
@@ -2783,11 +2786,11 @@ msgstr ""
 "¿Eliminar las fuentes seleccionadas del archivo? Las fuentes con artículos "
 "archivados no serán eliminadas."
 
-#: js/functions.js:1779
+#: js/functions.js:1779 js/functions.js:1775
 msgid "Feeds with update errors"
 msgstr "Fuentes con errores de actualización"
 
-#: js/functions.js:1790 js/prefs.js:1308
+#: js/functions.js:1790 js/prefs.js:1308 js/functions.js:1786 js/prefs.js:1195
 msgid "Remove selected feeds?"
 msgstr "¿Borrar fuentes seleccionadas?"
 
@@ -2812,23 +2815,23 @@ msgid "Can't create user: no login specified."
 msgstr ""
 "No se puede crear el usuario: no se ha especificado el nombre de usuario."
 
-#: js/prefs.js:128
+#: js/prefs.js:128 js/prefs.js:117
 msgid "Edit Filter"
 msgstr "Editar filtro"
 
-#: js/prefs.js:175
+#: js/prefs.js:175 js/prefs.js:164
 msgid "Remove filter?"
 msgstr "¿Borrar el filtro?"
 
-#: js/prefs.js:290
+#: js/prefs.js:290 js/prefs.js:279
 msgid "Remove selected labels?"
 msgstr "¿Borrar los marcadores seleccionados?"
 
-#: js/prefs.js:306 js/prefs.js:1512
+#: js/prefs.js:306 js/prefs.js:1512 js/prefs.js:295 js/prefs.js:1399
 msgid "No labels are selected."
 msgstr "No se han seleccionado marcadores."
 
-#: js/prefs.js:320
+#: js/prefs.js:320 js/prefs.js:309
 msgid ""
 "Remove selected users? Neither default admin nor your account will be "
 "removed."
@@ -2837,67 +2840,70 @@ msgstr ""
 "por defecto no serán borradas."
 
 #: js/prefs.js:337 js/prefs.js:518 js/prefs.js:539 js/prefs.js:578
+#: js/prefs.js:326 js/prefs.js:507 js/prefs.js:528 js/prefs.js:567
 msgid "No users are selected."
 msgstr "No se han seleccionado usuarios."
 
-#: js/prefs.js:355
+#: js/prefs.js:355 js/prefs.js:344
 msgid "Remove selected filters?"
 msgstr "¿Eliminar los filtros seleccionados?"
 
-#: js/prefs.js:370 js/prefs.js:608 js/prefs.js:627
+#: js/prefs.js:370 js/prefs.js:608 js/prefs.js:627 js/prefs.js:359
+#: js/prefs.js:597 js/prefs.js:616
 msgid "No filters are selected."
 msgstr "No se han seleccionado filtros."
 
-#: js/prefs.js:389
+#: js/prefs.js:389 js/prefs.js:378
 msgid "Unsubscribe from selected feeds?"
 msgstr "¿Cancelar la suscripción a las fuentes seleccionadas?"
 
-#: js/prefs.js:423
+#: js/prefs.js:423 js/prefs.js:412
 msgid "Please select only one feed."
 msgstr "Por favor, seleccione una sola fuente."
 
-#: js/prefs.js:429
+#: js/prefs.js:429 js/prefs.js:418
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "¿Borrar todos los artículos no favoritos de la fuente seleccionada?"
 
-#: js/prefs.js:451
+#: js/prefs.js:451 js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr ""
 "¿Cuántos días desea guardar los artículos? (0 = configuración por defecto)"
 
-#: js/prefs.js:489
+#: js/prefs.js:489 js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "El campo de nombre de usuario no puede dejarse en blanco."
 
-#: js/prefs.js:523 js/prefs.js:544 js/prefs.js:583
+#: js/prefs.js:523 js/prefs.js:544 js/prefs.js:583 js/prefs.js:512
+#: js/prefs.js:533 js/prefs.js:572
 msgid "Please select only one user."
 msgstr "Por favor, seleccione un solo usuario."
 
-#: js/prefs.js:548
+#: js/prefs.js:548 js/prefs.js:537
 msgid "Reset password of selected user?"
 msgstr "¿Restaurar la contraseña del usuario seleccionado?"
 
-#: js/prefs.js:613
+#: js/prefs.js:613 js/prefs.js:602
 msgid "Please select only one filter."
 msgstr "Por favor, seleccione un solo filtro."
 
-#: js/prefs.js:631
+#: js/prefs.js:631 js/prefs.js:620
 msgid "Combine selected filters?"
 msgstr "¿Combinar los filtros seleccionados?"
 
-#: js/prefs.js:695
+#: js/prefs.js:695 js/prefs.js:684
 msgid "Edit Multiple Feeds"
 msgstr "Editar múltiples fuentes"
 
-#: js/prefs.js:719
+#: js/prefs.js:719 js/prefs.js:708
 msgid "Save changes to selected feeds?"
 msgstr "¿Guardar los cambios de las fuentes seleccionadas?"
 
-#: js/prefs.js:811
+#: js/prefs.js:811 js/prefs.js:800
 msgid "OPML Import"
 msgstr "Importar OPML"
 
-#: js/prefs.js:838
+#: js/prefs.js:838 js/prefs.js:827
 msgid "Please choose an OPML file first."
 msgstr "Por favor, seleccione un archivo OPML."
 
@@ -2905,89 +2911,89 @@ msgstr "Por favor, seleccione un archivo OPML."
 msgid "Please choose the file first."
 msgstr "Por favor, seleccione un archivo."
 
-#: js/prefs.js:1010
+#: js/prefs.js:1010 js/prefs.js:983
 msgid "Reset to defaults?"
 msgstr "¿Restaurar las opciones por defecto?"
 
-#: js/prefs.js:1215
+#: js/prefs.js:1215 js/prefs.js:1102
 msgid ""
 "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 "¿Borrar la categoría %s? Cualquier subcategoría será movida a Sin Categoría."
 
-#: js/prefs.js:1242
+#: js/prefs.js:1242 js/prefs.js:1129
 msgid "Remove selected categories?"
 msgstr "¿Eliminar las categorías seleccionadas?"
 
-#: js/prefs.js:1258
+#: js/prefs.js:1258 js/prefs.js:1145
 msgid "No categories are selected."
 msgstr "No se han seleccionado categorías."
 
-#: js/prefs.js:1266
+#: js/prefs.js:1266 js/prefs.js:1153
 msgid "Category title:"
 msgstr "Nombre de la categoría:"
 
-#: js/prefs.js:1297
+#: js/prefs.js:1297 js/prefs.js:1184
 msgid "Feeds without recent updates"
 msgstr "Fuentes sin actualizaciones recientes"
 
-#: js/prefs.js:1346
+#: js/prefs.js:1346 js/prefs.js:1233
 msgid "Replace current OPML publishing address with a new one?"
 msgstr ""
 "¿Reemplazar la dirección actual de publicación del OPML por una dirección "
 "nueva?"
 
-#: js/prefs.js:1455
+#: js/prefs.js:1455 js/prefs.js:1342
 msgid "Rescore articles in selected feeds?"
 msgstr ""
 "¿Reiniciar la puntuación de los artículos de las fuentes seleccionadas?"
 
-#: js/prefs.js:1478
+#: js/prefs.js:1478 js/prefs.js:1365
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 "¿Reiniciar la puntuación de todos los artículos? Esta operación puede llevar "
 "cierto tiempo."
 
-#: js/prefs.js:1498
+#: js/prefs.js:1498 js/prefs.js:1385
 msgid "Reset selected labels to default colors?"
 msgstr "¿Restaurar color por defecto en los marcadores seleccionados?"
 
-#: js/prefs.js:1535
+#: js/prefs.js:1535 js/prefs.js:1422
 msgid "Settings Profiles"
 msgstr "Perfiles de preferencias"
 
-#: js/prefs.js:1544
+#: js/prefs.js:1544 js/prefs.js:1431
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 "¿Borrar los perfiles seleccionados? El perfil activo y el perfil por defecto "
 "no serán borrados."
 
-#: js/prefs.js:1562
+#: js/prefs.js:1562 js/prefs.js:1449
 msgid "No profiles are selected."
 msgstr "No se ha seleccionado ningún perfil."
 
-#: js/prefs.js:1570 js/prefs.js:1623
+#: js/prefs.js:1570 js/prefs.js:1623 js/prefs.js:1457 js/prefs.js:1510
 msgid "Activate selected profile?"
 msgstr "¿Activar el perfil seleccionado?"
 
-#: js/prefs.js:1586 js/prefs.js:1639
+#: js/prefs.js:1586 js/prefs.js:1639 js/prefs.js:1473 js/prefs.js:1526
 msgid "Please choose a profile to activate."
 msgstr "Seleccione un perfil para activar."
 
-#: js/prefs.js:1647
+#: js/prefs.js:1647 js/prefs.js:1534
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr "Se invalidarán todas las URLs generadas previamente. ¿Continuar?"
 
-#: js/prefs.js:1666
+#: js/prefs.js:1666 js/prefs.js:1553
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr "Se invalidarán todas las URLs de artículos compartidos. ¿Continuar?"
 
-#: js/prefs.js:1764
+#: js/prefs.js:1764 js/prefs.js:1651
 msgid "Label Editor"
 msgstr "Editor de marcadores"
 
-#: js/prefs.js:1827
+#: js/prefs.js:1827 js/prefs.js:1714
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
@@ -3010,7 +3016,7 @@ msgstr ""
 msgid "Data Import"
 msgstr "Importación de datos"
 
-#: js/prefs.js:2027
+#: js/prefs.js:2027 js/prefs.js:1794
 msgid "Subscribing to feeds..."
 msgstr "Suscribiéndose a las fuentes..."
 
@@ -3022,19 +3028,19 @@ msgstr "¿Marcar todos los artículos como leídos?"
 msgid "You can't unsubscribe from the category."
 msgstr "No puede cancelar la suscripción a la categoría."
 
-#: js/tt-rss.js:415 js/tt-rss.js:596
+#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591
 msgid "Please select some feed first."
 msgstr "Por favor, seleccione primero alguna fuente."
 
-#: js/tt-rss.js:591
+#: js/tt-rss.js:591 js/tt-rss.js:586
 msgid "You can't rescore this kind of feed."
 msgstr "No puede reiniciar la puntuación de esta clase de fuente."
 
-#: js/tt-rss.js:601
+#: js/tt-rss.js:601 js/tt-rss.js:596
 msgid "Rescore articles in %s?"
 msgstr "¿Reiniciar la puntuación de los artículos de %s?"
 
-#: js/tt-rss.js:1062
+#: js/tt-rss.js:1062 js/tt-rss.js:883
 msgid "New version available!"
 msgstr "¡Nueva versión disponible!"
 
@@ -3043,105 +3049,121 @@ msgstr "¡Nueva versión disponible!"
 msgid "Cancel search"
 msgstr "Cancelar"
 
-#: js/viewfeed.js:456
+#: js/viewfeed.js:456 js/viewfeed.js:445
 msgid "Unstar article"
 msgstr "Quitar el artículo de los favoritos"
 
-#: js/viewfeed.js:461
+#: js/viewfeed.js:461 js/viewfeed.js:450
 msgid "Star article"
 msgstr "Marcar el artículo como favorito"
 
-#: js/viewfeed.js:496
+#: js/viewfeed.js:496 js/viewfeed.js:485
 msgid "Unpublish article"
 msgstr "Despublicar artículo"
 
 #: js/viewfeed.js:676 js/viewfeed.js:704 js/viewfeed.js:731 js/viewfeed.js:793
 #: js/viewfeed.js:825 js/viewfeed.js:962 js/viewfeed.js:1005
-#: js/viewfeed.js:1055 js/viewfeed.js:2181
+#: js/viewfeed.js:1055 js/viewfeed.js:2181 js/viewfeed.js:665
+#: js/viewfeed.js:693 js/viewfeed.js:720 js/viewfeed.js:782 js/viewfeed.js:814
+#: js/viewfeed.js:951 js/viewfeed.js:994 js/viewfeed.js:1044
+#: js/viewfeed.js:2154
 msgid "No articles are selected."
 msgstr "No se han seleccionado artículos."
 
-#: js/viewfeed.js:942
+#: js/viewfeed.js:942 js/viewfeed.js:931
 msgid "Mark all visible articles in %s as read?"
 msgstr "¿Marcar todos los artículos visibles de %s como leídos?"
 
-#: js/viewfeed.js:970
+#: js/viewfeed.js:970 js/viewfeed.js:959
 msgid "Delete %d selected articles in %s?"
 msgstr "¿Borrar %d artículos seleccionados en %s?"
 
-#: js/viewfeed.js:972
+#: js/viewfeed.js:972 js/viewfeed.js:961
 msgid "Delete %d selected articles?"
 msgstr "¿Borrar %d artículos seleccionados?"
 
-#: js/viewfeed.js:1014
+#: js/viewfeed.js:1014 js/viewfeed.js:1003
 msgid "Archive %d selected articles in %s?"
 msgstr "¿Archivar %d artículos seleccionados en %s?"
 
-#: js/viewfeed.js:1017
+#: js/viewfeed.js:1017 js/viewfeed.js:1006
 msgid "Move %d archived articles back?"
 msgstr "¿Mover %d artículos archivados a su fuente original?"
 
-#: js/viewfeed.js:1061
+#: js/viewfeed.js:1061 js/viewfeed.js:1050
 msgid "Mark %d selected articles in %s as read?"
 msgstr "¿Marcar %d artículos seleccionados de %s como leídos?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1085 js/viewfeed.js:1074
 msgid "Edit article Tags"
 msgstr "Editar las etiquetas del artículo"
 
-#: js/viewfeed.js:1247
+#: js/viewfeed.js:1247 js/viewfeed.js:1236
 msgid "No article is selected."
 msgstr "No se ha seleccionado ningún artículo."
 
-#: js/viewfeed.js:1282
+#: js/viewfeed.js:1282 js/viewfeed.js:1271
 msgid "No articles found to mark"
 msgstr "No se han encontrado artículos que marcar"
 
-#: js/viewfeed.js:1284
+#: js/viewfeed.js:1284 js/viewfeed.js:1273
 msgid "Mark %d article(s) as read?"
 msgstr "¿Marcar %d artículo(s) como leído(s)?"
 
-#: js/viewfeed.js:1402
+#: js/viewfeed.js:1402 js/viewfeed.js:1383
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: js/viewfeed.js:1891
+#: js/viewfeed.js:1891 js/viewfeed.js:1864
 msgid "Open original article"
 msgstr "Abrir artículo original"
 
-#: js/viewfeed.js:1897
+#: js/viewfeed.js:1897 js/viewfeed.js:1870
 msgid "View in a tt-rss tab"
 msgstr "Ver en una pestaña de tt-rss"
 
-#: js/viewfeed.js:1905
+#: js/viewfeed.js:1905 js/viewfeed.js:1878
 msgid "Mark above as read"
 msgstr "Marcar artículos anteriores como leídos"
 
-#: js/viewfeed.js:1911
+#: js/viewfeed.js:1911 js/viewfeed.js:1884
 msgid "Mark below as read"
 msgstr "Marcar artículos posteriores como leídos"
 
-#: js/viewfeed.js:1967
+#: js/viewfeed.js:1967 js/viewfeed.js:1940
 msgid "Remove label"
 msgstr "Borrar marcador"
 
-#: js/viewfeed.js:1991
+#: js/viewfeed.js:1991 js/viewfeed.js:1964
 msgid "Playing..."
 msgstr "Reproduciendo..."
 
-#: js/viewfeed.js:1992
+#: js/viewfeed.js:1992 js/viewfeed.js:1965
 msgid "Click to pause"
 msgstr "Clic para pausar"
 
-#: js/viewfeed.js:2150
+#: js/viewfeed.js:2150 js/viewfeed.js:2123
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Por favor, introduzca una nota para este artículo:"
 
-#: js/viewfeed.js:2192
+#: js/viewfeed.js:2192 js/viewfeed.js:2165
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Por favor, introduzca una nota para este artículo:"
+
+#: js/functions.js:1887
+msgid "Help"
+msgstr "Ayuda"
+
+#: js/prefs.js:1831
+msgid "Clear stored data for this plugin?"
+msgstr ""
+
+#: js/tt-rss.js:741
+#, fuzzy
+msgid "Please enable mail plugin first."
+msgstr "Por favor, seleccione primero alguna fuente."
 
 #~ msgid "Magpie"
 #~ msgstr "Magpie"
@@ -3296,9 +3318,6 @@ msgstr "Por favor, introduzca una nota para este artículo:"
 #~ "Cuando se pulse el botón \"Marcar como leído\" de la barra de "
 #~ "herramientas, abrir automáticamente la siguiente fuente que tenga "
 #~ "artículos sin leer."
-
-#~ msgid "Help"
-#~ msgstr "Ayuda"
 
 #, fuzzy
 #~ msgid "Importing using DOMXML."
