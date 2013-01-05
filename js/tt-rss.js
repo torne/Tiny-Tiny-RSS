@@ -7,6 +7,7 @@ var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 var _force_scheduled_update = false;
 var last_scheduled_update = false;
+var _widescreen_mode = false;
 
 var _rpc_seq = 0;
 
@@ -452,6 +453,15 @@ function quickMenuGo(opid) {
 			return;
 		}
 
+		if (opid == "qmcToggleWidescreen") {
+			if (!isCdmMode()) {
+				_widescreen_mode = !_widescreen_mode;
+
+				switchPanelMode(_widescreen_mode);
+			}
+			return;
+		}
+
 		if (opid == "qmcHKhelp") {
 			helpDialog("main");
 		}
@@ -839,6 +849,13 @@ function hotkey_handler(e) {
 		case "collapse_sidebar":
 			collapse_feedlist();
 			return false;
+		case "toggle_widescreen":
+			if (!isCdmMode()) {
+				_widescreen_mode = !_widescreen_mode;
+
+				switchPanelMode(_widescreen_mode);
+			}
+			return false;
 		case "help_dialog":
 			helpDialog("main");
 			return false;
@@ -957,3 +974,36 @@ function handle_rpc_json(transport, scheduled_call) {
 	return true;
 }
 
+function switchPanelMode(wide) {
+	try {
+		article_id = getActiveArticleId();
+
+		if (wide) {
+			dijit.byId("headlines-wrap-inner").attr("design", 'sidebar');
+			dijit.byId("content-insert").attr("region", "trailing");
+
+	  		dijit.byId("content-insert").domNode.setStyle({width: '50%',
+				height: 'auto',
+				'border-top-width': '0px' });
+
+			$("headlines-toolbar").setStyle({ 'border-bottom-width': '0px' });
+
+		} else {
+
+			dijit.byId("content-insert").attr("region", "bottom");
+
+	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
+				height: '50%',
+				'border-top-width': '1px'});
+
+			$("headlines-toolbar").setStyle({ 'border-bottom-width': '1px' });
+		}
+
+		closeArticlePanel();
+
+		if (article_id) view(article_id);
+
+	} catch (e) {
+		exception_error("switchPanelMode", e);
+	}
+}

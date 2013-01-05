@@ -213,6 +213,8 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
 					<?php } ?>
 						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div>
+						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
+
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>

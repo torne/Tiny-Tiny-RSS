@@ -1991,7 +1991,8 @@
 				"article_scroll_down" => __("Scroll down"),
 				"article_scroll_up" => __("Scroll up"),
 				"select_article_cursor" => __("Select article under cursor"),
-				"email_article" => __("Email article")),
+				"email_article" => __("Email article"),
+				"toggle_widescreen" => __("Toggle widescreen mode")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),
 				"select_unread" => __("Select unread"),
@@ -2048,6 +2049,7 @@
 				"c n" => "catchup_above",
 				"N" => "article_scroll_down",
 				"P" => "article_scroll_up",
+				"a W" => "toggle_widescreen",
 				"e" => "email_article",
 //			"article_selection" => array(
 				"a a" => "select_all",
