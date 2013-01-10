@@ -45,12 +45,10 @@ class Af_PennyArcade extends Plugin {
 
 				if ($basenode) {
 					$article["content"] = $doc->saveXML($basenode, LIBXML_NOEMPTYTAG);
-
-					// we need to update guid with owner_uid because our local article is different from the one
-					// other users with this plugin disabled might get
-					$article["guid"] = "pennyarcade,$owner_uid:" . $article["guid"];
 				}
 			}
+
+			$article["guid"] = "pennyarcade,$owner_uid:" . $article["guid"];
 		}
 
 		return $article;
