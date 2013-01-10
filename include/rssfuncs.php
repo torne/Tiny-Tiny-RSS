@@ -237,7 +237,7 @@
 		$rss->set_timeout($no_cache ? 15 : 60);
 		$rss->set_feed_url($fetch_url);
 		$rss->set_output_encoding('UTF-8');
-		//$rss->force_feed(true);
+		$rss->force_feed(true);
 
 		if ($debug_enabled) {
 			_debug("feed update interval (sec): " .
