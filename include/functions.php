@@ -2036,7 +2036,7 @@
 				"p" => "prev_article",
 				"(38)" => "prev_article",
 				"(40)" => "next_article",
-				"/" => "search_dialog",
+				"(191)" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",
 				"S" => "toggle_publ",
@@ -2080,7 +2080,6 @@
 				"c l" => "create_label",
 				"c f" => "create_filter",
 				"c s" => "collapse_sidebar",
-				"(191)" => "help_dialog",
 			);
 
 		global $pluginhost;
