@@ -53,7 +53,7 @@
 
 	if (!init_connection($link)) return;
 
-	header("Content-Type: text/plain; charset=utf-8");
+	header("Content-Type: text/json; charset=utf-8");
 
 	if (ENABLE_GZIP_OUTPUT && function_exists("ob_gzhandler")) {
 		ob_start("ob_gzhandler");
@@ -135,19 +135,19 @@
 					$handler->after();
 					return;
 				} else {
-					header("Content-Type: text/plain");
+					header("Content-Type: text/json");
 					print json_encode(array("error" => array("code" => 6)));
 					return;
 				}
 			} else {
-				header("Content-Type: text/plain");
+				header("Content-Type: text/json");
 				print json_encode(array("error" => array("code" => 6)));
 				return;
 			}
 		}
 	}
 
-	header("Content-Type: text/plain");
+	header("Content-Type: text/json");
 	print json_encode(array("error" => array("code" => 7)));
 
 	// We close the connection to database.
