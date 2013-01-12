@@ -141,6 +141,9 @@ class Feeds extends Handler_Protected {
 					$next_unread_feed, $offset, $vgr_last_feed = false,
 					$override_order = false, $include_children = false) {
 
+		if (isset($_REQUEST["DevForceUpdate"]))
+			header("Content-Type: text/plain");
+
 		$disable_cache = false;
 
 		$reply = array();
