@@ -36,7 +36,28 @@ class Af_Unburn extends Plugin {
 
 			$real_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
+			curl_close($ch);
+
 			if ($real_url) {
+				/* remove the rest of it */
+
+				$query = parse_url($real_url, PHP_URL_QUERY);
+
+				if ($query && strpos($query, "utm_source") !== FALSE) {
+					$args = array();
+					parse_str($query, $args);
+
+					foreach (array("utm_source", "utm_medium", "utm_campaign") as $param) {
+						if (isset($args[$param])) unset($args[$param]);
+					}
+
+					$new_query = http_build_query($args);
+
+					if ($new_query != $query) {
+						$real_url = str_replace("?$query", "?$new_query", $real_url);
+					}
+				}
+
 				$article["guid"] = "unburn,$owner_uid:" . $article["guid"];
 				$article["link"] = $real_url;
 			}
