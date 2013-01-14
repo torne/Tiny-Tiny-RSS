@@ -417,9 +417,9 @@ function add_feed_entry(feed) {
 			feed.title;
 
 		var tmp_html = "<li id=\"F-"+feed.id+"\" onclick=\"viewfeed("+feed.id+")\">" +
+			"<div class='unread-ctr'>" + "<span class=\"unread\">" + feed.unread + "</span></div>" +
 			icon_part + title +
-			"<div class='unread-ctr'>" + "<span class=\"unread\">" + feed.unread + "</span>" +
-			"</div>" + "</li>";
+			"</li>";
 
 		$("feeds-content").innerHTML += tmp_html;
 
