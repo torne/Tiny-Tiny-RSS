@@ -210,7 +210,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					__('Could not update headlines (invalid object received - see error console for details)') +
 					"</div>");
 		} else {
-			notify_error("Error communicating with server.");
+			//notify_error("Error communicating with server.");
+			Element.show("net-alert");
 		}
 
 		_infscroll_request_sent = 0;
@@ -315,11 +316,13 @@ function article_callback2(transport, id) {
 //				return;
 //			}
 
-		} else {
+		} else if (transport.responseText) {
 			console.error("Invalid object received: " + transport.responseText);
 
 			render_article("<div class='whiteBox'>" +
 					__('Could not display article (invalid object received - see error console for details)') + "</div>");
+		} else {
+			Element.show("net-alert");
 		}
 
 		request_counters();

@@ -961,12 +961,16 @@ function handle_rpc_json(transport, scheduled_call) {
 
 			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
+			Element.hide("net-alert");
+
 		} else {
-			notify_error("Error communicating with server.");
+			//notify_error("Error communicating with server.");
+			Element.show("net-alert");
 		}
 
 	} catch (e) {
-		notify_error("Error communicating with server.");
+		Element.show("net-alert");
+		//notify_error("Error communicating with server.");
 		console.log(e);
 		//exception_error("handle_rpc_json", e, transport);
 	}

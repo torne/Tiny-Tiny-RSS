@@ -114,6 +114,10 @@
 </div>
 
 <div id="header">
+	<img id="net-alert" style="display : none"
+		title="<?php echo __("Communication problem with server.") ?>"
+		src="<?php echo theme_image($link, 'images/alert.png') ?>"/>
+
 	<?php if (!$_SESSION["hide_hello"]) { ?>
 			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
 	<?php } ?>
