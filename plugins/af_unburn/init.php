@@ -23,7 +23,8 @@ class Af_Unburn extends Plugin {
 		if (!function_exists("curl_init"))
 			return $article;
 
-		if (strpos($article["link"], "feedproxy.google.com") !== FALSE &&
+		if ((strpos($article["link"], "feedproxy.google.com") !== FALSE ||
+		  		strpos($article["link"], "feedsportal.com") !== FALSE)	&&
 			strpos($article["guid"], "unburn,$owner_uid:") === FALSE) {
 
 			$ch = curl_init($article["link"]);
