@@ -2987,8 +2987,8 @@
 
 				$id = 'AUDIO-' . uniqid();
 
-				$entry .= "<audio id=\"$id\"\">
-					<source src=\"$url\"></source>
+				$entry .= "<audio id=\"$id\"\" controls>
+					<source type=\"$ctype\" src=\"$url\"></source>
 					</audio>";
 
 				$entry .= "<span onclick=\"player(this)\"
@@ -3004,14 +3004,20 @@
 						value=\"lib/button/musicplayer.swf?song_url=$url\" />
 					</object>";
 			}
+
+			if ($entry) $entry .= "&nbsp;" . basename($url);
+
+			return $entry;
+
 		}
 
-		$filename = substr($url, strrpos($url, "/")+1);
+		return "";
+
+/*		$filename = substr($url, strrpos($url, "/")+1);
 
 		$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
-			$filename . " (" . $ctype . ")" . "</a>";
+			$filename . " (" . $ctype . ")" . "</a>"; */
 
-		return $entry;
 	}
 
 	function format_article($link, $id, $mark_as_read = true, $zoom_mode = false, $owner_uid = false) {
@@ -4608,6 +4614,7 @@
 
 			$entries_html = array();
 			$entries = array();
+			$entries_inline = array();
 
 			foreach ($result as $line) {
 
@@ -4618,7 +4625,9 @@
 
 				$filename = substr($url, strrpos($url, "/")+1);
 
-#				$player = format_inline_player($link, $url, $ctype);
+				$player = format_inline_player($link, $url, $ctype);
+
+				if ($player) array_push($entries_inline, $player);
 
 #				$entry .= " <a target=\"_blank\" href=\"" . htmlspecialchars($url) . "\">" .
 #					$filename . " (" . $ctype . ")" . "</a>";
@@ -4653,6 +4662,12 @@
 						}
 					}
 				}
+			}
+
+			if (count($entries_inline) > 0) {
+				$rv .= "<hr clear='both'/>";
+				foreach ($entries_inline as $entry) { $rv .= $entry; };
+				$rv .= "<hr clear='both'/>";
 			}
 
 			$rv .= "<br/><div dojoType=\"dijit.form.DropDownButton\">".
