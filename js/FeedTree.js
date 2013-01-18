@@ -148,7 +148,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
-		if (id.match("CAT:") && bare_id > 0) {
+		if (id.match("CAT:") && bare_id >= 0) {
 			var menu = new dijit.Menu();
 			menu.row_id = bare_id;
 
