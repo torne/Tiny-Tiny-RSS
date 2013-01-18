@@ -162,6 +162,21 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
+		if (id.match("CAT:") && bare_id == -1) {
+			var menu = new dijit.Menu();
+			menu.row_id = bare_id;
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Mark all feeds as read"),
+				onClick: function() {
+					catchupAllFeeds();
+				}}));
+
+			menu.bindDomNode(tnode.domNode);
+			tnode._menu = menu;
+		}
+
+
 		//tnode.labelNode.innerHTML = args.label;
 		return tnode;
 	},
