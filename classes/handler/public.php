@@ -66,7 +66,7 @@ class Handler_Public extends Handler {
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
 						$content;
-				}
+}
 
 				$tpl->setVariable('ARTICLE_CONTENT', $content, true);
 
@@ -106,7 +106,11 @@ class Handler_Public extends Handler {
 			$tpl->addBlock('feed');
 			$tpl->generateOutputToString($tmp);
 
-			header("Content-Type: text/xml; charset=utf-8");
+			if (@!$_REQUEST["noxml"]) {
+				header("Content-Type: text/xml; charset=utf-8");
+			} else {
+				header("Content-Type: text/plain; charset=utf-8");
+			}
 
 			print $tmp;
 		} else if ($format == 'json') {
@@ -165,8 +169,7 @@ class Handler_Public extends Handler {
 				array_push($feed['articles'], $article);
 			}
 
-			header("Content-Type: text/plain; charset=utf-8");
-
+			header("Content-Type: text/json; charset=utf-8");
 			print json_encode($feed);
 
 		} else {
