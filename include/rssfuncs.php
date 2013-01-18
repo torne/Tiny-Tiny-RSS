@@ -411,19 +411,13 @@
 				if (!$entry_guid) $entry_guid = $item->get_link();
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
 
-				if ($cache_content) {
-					$entry_guid = "ccache:$entry_guid";
-				}
-
-				if ($auth_login || $auth_pass) {
-					$entry_guid = "auth,$owner_uid:$entry_guid";
-				}
-
 				if ($debug_enabled) {
 					_debug("update_rss_feed: guid $entry_guid");
 				}
 
 				if (!$entry_guid) continue;
+
+				$entry_guid = "$owner_uid,$entry_guid";
 
 				$entry_timestamp = "";
 
