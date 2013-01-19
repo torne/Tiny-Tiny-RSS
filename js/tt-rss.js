@@ -336,6 +336,12 @@ function init_second_stage() {
 			updateFeedList();
 			closeArticlePanel();
 
+			_widescreen_mode = getInitParam("widescreen");
+
+			if (_widescreen_mode) {
+				switchPanelMode(_widescreen_mode);
+			}
+
 			if (typeof themeAfterLayout == 'function') {
 				themeAfterLayout();
 			}
@@ -1006,6 +1012,13 @@ function switchPanelMode(wide) {
 		closeArticlePanel();
 
 		if (article_id) view(article_id);
+
+		new Ajax.Request("backend.php", {
+			parameters: "op=rpc&method=setpanelmode&wide=" + (wide ? 1 : 0),
+			onComplete: function(transport) {
+				console.log(transport.responseText);
+			} });
+
 
 	} catch (e) {
 		exception_error("switchPanelMode", e);

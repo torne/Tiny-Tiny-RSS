@@ -637,5 +637,13 @@ class RPC extends Handler_Protected {
 			"score_pic" => theme_image($link, get_score_pic($score))));
 	}
 
+	function setpanelmode() {
+		$wide = (int) $_REQUEST["wide"];
+
+		$_SESSION["widescreen"] = $wide;
+
+		print json_encode(array("wide" => $wide));
+	}
+
 }
 ?>

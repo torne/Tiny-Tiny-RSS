@@ -1966,6 +1966,7 @@
 		$params["hotkeys"] = get_hotkeys_map($link);
 
 		$params["csrf_token"] = $_SESSION["csrf_token"];
+		$params["widescreen"] = (int) $_SESSION["widescreen"];
 
 		return $params;
 	}
