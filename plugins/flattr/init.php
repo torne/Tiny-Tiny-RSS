@@ -37,7 +37,7 @@ class Flattr extends Plugin {
 
     $rv = null;
     if ($response and array_key_exists('link', $response)) {
-      $rv = "<a id='flattr' href='" . $response['link'] . "'>
+      $rv = "<a id='flattr' target='_blank' href='" . $response['link'] . "'>
         <img src=\"".theme_image($this->link, 'plugins/flattr/flattr.png')."\"
         class='tagsPic' style=\"cursor : pointer\"
         title='".__('Flattr article')."'>
