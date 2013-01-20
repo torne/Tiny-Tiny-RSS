@@ -24,6 +24,7 @@ class Af_Unburn extends Plugin {
 			return $article;
 
 		if ((strpos($article["link"], "feedproxy.google.com") !== FALSE ||
+		  		strpos($article["link"], "/~r/") !== FALSE ||
 		  		strpos($article["link"], "feedsportal.com") !== FALSE)	&&
 			strpos($article["guid"], "unburn,$owner_uid:") === FALSE) {
 
