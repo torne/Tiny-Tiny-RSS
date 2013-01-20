@@ -1,4 +1,5 @@
 <?php
+// TODO: digest should register digest specific hotkey actions within tt-rss
 class Digest extends Plugin implements IHandler {
 
 	private $link;
@@ -90,13 +91,19 @@ class Digest extends Plugin implements IHandler {
 	function digestinit() {
 		$tmp_feeds = api_get_feeds($this->link, -4, true, false, 0);
 
+		$params = array();
 		$feeds = array();
 
 		foreach ($tmp_feeds as $f) {
 			if ($f['id'] > 0 || $f['id'] == -4) array_push($feeds, $f);
 		}
 
-		print json_encode(array("feeds" => $feeds));
+		if ($_REQUEST["init"] == 1) {
+			$params["hotkeys"] = get_hotkeys_map($link);
+		}
+		$params["feeds"] = $feeds;
+
+		print json_encode($params);
 	}
 
 }

@@ -1,5 +1,7 @@
 var last_feeds = [];
 var init_params = {};
+var hotkeys_map = false;
+var hotkey_prefix = false;
 
 var _active_feed_id = false;
 var _update_timeout = false;
@@ -565,8 +567,13 @@ function parse_feeds(transport) {
 			redraw_feedlist(feeds);
 		}
 
+		if (reply['hotkeys']) {
+			hotkeys_map = reply['hotkeys'];
+		}
+
 	} catch (e) {
-		exception_error("parse_feeds", e);
+		console.log(e);
+		//exception_error("parse_feeds", e);
 	}
 }
 
@@ -647,7 +654,7 @@ function parse_headlines(transport, replace, no_effects) {
 function init_second_stage() {
 	try {
 		new Ajax.Request("backend.php",	{
-			parameters: "backend.php?op=digest&method=digestinit",
+			parameters: "backend.php?op=digest&method=digestinit&init=1",
 			onComplete: function(transport) {
 				parse_feeds(transport);
 				Element.hide("overlay");
@@ -834,15 +841,64 @@ function hotkey_handler(e) {
 
 		var keychar = String.fromCharCode(keycode);
 
+		if (!shift_key) keychar = keychar.toLowerCase();
+
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
+
+		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
+		hotkey_prefix = false;
+
+		var hotkey_action = false;
+		var hotkeys = getInitParam("hotkeys");
+
+		for (sequence in hotkeys[1]) {
+			if (sequence == hotkey) {
+				hotkey_action = hotkeys[1][sequence];
+				break;
+			}
+		}
 
 		switch (keycode) {
 		case 27: // esc
 			close_article();
-			break;
+			return false;
+		}
+
+		switch (hotkey_action) {
+		case "next_feed":
+			var feeds = $$("#feeds li");
+			for (var i = 0; i < feeds.length; i++) {
+				var base_id = feeds[i].id.replace("F-", "");
+
+				if (base_id == _active_feed_id) {
+					if (feeds[i+1]) {
+						viewfeed(feeds[i+1].id.replace("F-", ""));
+					}
+					break;
+				}
+			}
+			return false;
+		case "prev_feed":
+			var feeds = $$("#feeds li");
+			for (var i = 0; i < feeds.length; i++) {
+				var base_id = feeds[i].id.replace("F-", "");
+
+				if (base_id == _active_feed_id) {
+					if (feeds[i-1]) {
+						viewfeed(feeds[i-1].id.replace("F-", ""));
+					}
+					break;
+				}
+			}
+			return false;
+		case "next_article":
+			return false;
+		case "prev_article":
+			return false;
 		default:
-			console.log("KP: CODE=" + keycode + " CHAR=" + keychar);
+			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
 		}
 
 
