@@ -6,7 +6,7 @@ class Af_Unburn extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Resolve feedburner URLs (requires CURL)",
+			"Resolves feedburner and similar feed redirector URLs (requires CURL)",
 			"fox");
 	}
 
