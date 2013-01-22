@@ -7,7 +7,7 @@
 	$session_expire = SESSION_EXPIRE_TIME; //seconds
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME;
 
-	if ($_SERVER['HTTPS'] == "on") {
+	if (@$_SERVER['HTTPS'] == "on") {
 		$session_name .= "_ssl";
 		ini_set("session.cookie_secure", true);
 	}
