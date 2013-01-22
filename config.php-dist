@@ -30,8 +30,12 @@
 
 	define('SIMPLE_UPDATE_MODE', false);
 	// Enables fallback update mode where tt-rss tries to update feeds in
-	// background while tt-rss is open in your browser. Not recommended, please
-	// read http://tt-rss.org/wiki/UpdatingFeeds for more information.
+	// background while tt-rss is open in your browser. 
+	// If you don't have a lot of feeds and don't want to or can't run 
+	// background processes while not running tt-rss, this method is generally 
+	// viable to keep your feeds up to date.
+	// Still, there are more robust (and recommended) updating methods 
+	// available, you can read about them here: http://tt-rss.org/wiki/UpdatingFeeds
 
 	// *****************************
 	// *** Files and directories ***
