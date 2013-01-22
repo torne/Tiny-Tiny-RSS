@@ -379,6 +379,11 @@ function init_second_stage() {
 
 		console.log("second stage ok");
 
+		if (getInitParam("simple_update")) {
+			console.log("scheduling simple feed updater...");
+			window.setTimeout("update_random_feed()", 30*1000);
+		}
+
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
@@ -1031,5 +1036,21 @@ function switchPanelMode(wide) {
 
 	} catch (e) {
 		exception_error("switchPanelMode", e);
+	}
+}
+
+function update_random_feed() {
+	try {
+		console.log("in update_random_feed");
+
+		new Ajax.Request("backend.php", {
+			parameters: "op=rpc&method=updateRandomFeed",
+			onComplete: function(transport) {
+				handle_rpc_json(transport, true);
+				window.setTimeout("update_random_feed()", 30*1000);
+			} });
+
+	} catch (e) {
+		exception_error("update_random_feed", e);
 	}
 }

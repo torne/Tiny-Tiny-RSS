@@ -645,5 +645,76 @@ class RPC extends Handler_Protected {
 		print json_encode(array("wide" => $wide));
 	}
 
+	function updaterandomfeed() {
+		// Test if the feed need a update (update interval exceded).
+		if (DB_TYPE == "pgsql") {
+			$update_limit_qpart = "AND ((
+					ttrss_feeds.update_interval = 0
+					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
+				) OR (
+					ttrss_feeds.update_interval > 0
+					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
+				) OR ttrss_feeds.last_updated IS NULL
+				OR last_updated = '1970-01-01 00:00:00')";
+		} else {
+			$update_limit_qpart = "AND ((
+					ttrss_feeds.update_interval = 0
+					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) MINUTE)
+				) OR (
+					ttrss_feeds.update_interval > 0
+					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
+				) OR ttrss_feeds.last_updated IS NULL
+				OR last_updated = '1970-01-01 00:00:00')";
+		}
+
+		// Test if feed is currently being updated by another process.
+		if (DB_TYPE == "pgsql") {
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '5 minutes')";
+		} else {
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 5 MINUTE))";
+		}
+
+		$random_qpart = sql_random_function();
+
+		// We search for feed needing update.
+		$result = db_query($this->link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id
+			FROM
+				ttrss_feeds, ttrss_users, ttrss_user_prefs
+			WHERE
+				ttrss_feeds.owner_uid = ttrss_users.id
+				AND ttrss_users.id = ttrss_user_prefs.owner_uid
+				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
+				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]."
+				$update_limit_qpart $updstart_thresh_qpart
+			ORDER BY $random_qpart LIMIT 30");
+
+		$feed_id = -1;
+
+		require_once "rssfuncs.php";
+
+		$num_updated = 0;
+
+		$tstart = time();
+
+		while ($line = db_fetch_assoc($result)) {
+			$feed_id = $line["id"];
+
+			if (time() - $tstart < 30) {
+				update_rss_feed($this->link, $feed_id, true);
+				++$num_updated;
+			} else {
+				break;
+			}
+		}
+
+		if ($num_updated > 0) {
+			print json_encode(array("message" => "UPDATE_COUNTERS",
+				"num_updated" => $num_updated));
+		} else {
+			print json_encode(array("message" => "NOTHING_TO_UPDATE"));
+		}
+
+	}
+
 }
 ?>

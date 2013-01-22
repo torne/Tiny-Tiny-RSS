@@ -1968,6 +1968,8 @@
 		$params["csrf_token"] = $_SESSION["csrf_token"];
 		$params["widescreen"] = (int) $_SESSION["widescreen"];
 
+		$params['simple_update'] = defined('_SIMPLE_UPDATE_MODE') && _SIMPLE_UPDATE_MODE;
+
 		return $params;
 	}
 
