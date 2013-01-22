@@ -376,7 +376,7 @@ class Handler_Public extends Handler {
 				$content = db_escape_string(strip_tags($_REQUEST["content"]));
 				$labels = db_escape_string(strip_tags($_REQUEST["labels"]));
 
-				create_published_article($this->link, $title, $url, $content, $labels,
+				Article::create_published_article($this->link, $title, $url, $content, $labels,
 					$_SESSION["uid"]);
 
 				print "<script type='text/javascript'>";

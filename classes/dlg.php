@@ -168,7 +168,7 @@ class Dlg extends Handler_Protected {
 		print "<title>".__('Public OPML URL')."</title>";
 		print "<content><![CDATA[";
 
-		$url_path = opml_publish_url($this->link);
+		$url_path = Opml::opml_publish_url($this->link);
 
 		print __("Your Public OPML URL is:");
 

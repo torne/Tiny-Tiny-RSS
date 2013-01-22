@@ -439,7 +439,7 @@ class API extends Handler {
 		$url = db_escape_string(strip_tags($_REQUEST["url"]));
 		$content = db_escape_string(strip_tags($_REQUEST["content"]));
 
-		if (create_published_article($this->link, $title, $url, $content, "", $_SESSION["uid"])) {
+		if (Article::create_published_article($this->link, $title, $url, $content, "", $_SESSION["uid"])) {
 			print $this->wrap(self::STATUS_OK, array("status" => 'OK'));
 		} else {
 			print $this->wrap(self::STATUS_ERR, array("error" => 'Publishing failed'));

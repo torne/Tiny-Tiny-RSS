@@ -370,7 +370,7 @@ class RPC extends Handler_Protected {
 		$this->update_feed_access_key($this->link, 'OPML:Publish',
 		false, $_SESSION["uid"]);
 
-		$new_link = opml_publish_url($this->link);
+		$new_link = Opml::opml_publish_url($this->link);
 
 		print json_encode(array("link" => $new_link));
 	}

@@ -85,5 +85,92 @@ class Article extends Handler_Protected {
 		ccache_update($link, $feed_id, $_SESSION["uid"]);
 	}
 
+	static function create_published_article($link, $title, $url, $content, $labels_str,
+			$owner_uid) {
+
+		$guid = sha1($url . $owner_uid); // include owner_uid to prevent global GUID clash
+		$content_hash = sha1($content);
+
+		if ($labels_str != "") {
+			$labels = explode(",", $labels_str);
+		} else {
+			$labels = array();
+		}
+
+		$rc = false;
+
+		if (!$title) $title = $url;
+		if (!$title && !$url) return false;
+
+		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
+
+		db_query($link, "BEGIN");
+
+		// only check for our user data here, others might have shared this with different content etc
+		$result = db_query($link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
+			link = '$url' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
+
+		if (db_num_rows($result) != 0) {
+			$ref_id = db_fetch_result($result, 0, "id");
+
+			$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
+				ref_id = '$ref_id' AND owner_uid = '$owner_uid' LIMIT 1");
+
+			if (db_num_rows($result) != 0) {
+				$int_id = db_fetch_result($result, 0, "int_id");
+
+				db_query($link, "UPDATE ttrss_entries SET
+					content = '$content', content_hash = '$content_hash' WHERE id = '$ref_id'");
+
+				db_query($link, "UPDATE ttrss_user_entries SET published = true WHERE
+						int_id = '$int_id' AND owner_uid = '$owner_uid'");
+			} else {
+
+				db_query($link, "INSERT INTO ttrss_user_entries
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					VALUES
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+			}
+
+			if (count($labels) != 0) {
+				foreach ($labels as $label) {
+					label_add_article($link, $ref_id, trim($label), $owner_uid);
+				}
+			}
+
+			$rc = true;
+
+		} else {
+			$result = db_query($link, "INSERT INTO ttrss_entries
+				(title, guid, link, updated, content, content_hash, date_entered, date_updated)
+				VALUES
+				('$title', '$guid', '$url', NOW(), '$content', '$content_hash', NOW(), NOW())");
+
+			$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+
+			if (db_num_rows($result) != 0) {
+				$ref_id = db_fetch_result($result, 0, "id");
+
+				db_query($link, "INSERT INTO ttrss_user_entries
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					VALUES
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+
+				if (count($labels) != 0) {
+					foreach ($labels as $label) {
+						label_add_article($link, $ref_id, trim($label), $owner_uid);
+					}
+				}
+
+				$rc = true;
+			}
+		}
+
+		db_query($link, "COMMIT");
+
+		return $rc;
+	}
+
+
 
 }

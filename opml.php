@@ -2,13 +2,6 @@
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
-	function __autoload($class) {
-		$file = "classes/".strtolower(basename($class)).".php";
-		if (file_exists($file)) {
-			require $file;
-		}
-	}
-
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
