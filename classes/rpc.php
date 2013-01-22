@@ -699,7 +699,7 @@ class RPC extends Handler_Protected {
 		while ($line = db_fetch_assoc($result)) {
 			$feed_id = $line["id"];
 
-			if (time() - $tstart < 30) {
+			if (time() - $tstart < ini_get("max_execution_time") * 0.7) {
 				update_rss_feed($this->link, $feed_id, true);
 				++$num_updated;
 			} else {

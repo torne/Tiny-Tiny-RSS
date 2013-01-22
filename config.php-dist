@@ -28,6 +28,11 @@
 	// Operate in single user mode, disables all functionality related to
 	// multiple users.
 
+	define('SIMPLE_UPDATE_MODE', false);
+	// Enables fallback update mode where tt-rss tries to update feeds in
+	// background while tt-rss is open in your browser. Not recommended, please
+	// read http://tt-rss.org/wiki/UpdatingFeeds for more information.
+
 	// *****************************
 	// *** Files and directories ***
 	// *****************************
