@@ -366,6 +366,17 @@ function init_second_stage() {
 		if ('sessionStorage' in window && window['sessionStorage'] !== null)
 			sessionStorage.clear();
 
+		var hotkeys = getInitParam("hotkeys");
+		var tmp = [];
+
+		for (sequence in hotkeys[1]) {
+			filtered = sequence.replace(/\|.*$/, "");
+			tmp[filtered] = hotkeys[1][sequence];
+		}
+
+		hotkeys[1] = tmp;
+		setInitParam("hotkeys", hotkeys);
+
 		console.log("second stage ok");
 
 	} catch (e) {

@@ -44,6 +44,12 @@ class Backend extends Handler {
 			print "<li><h3>" . $section . "</h3></li>";
 
 			foreach ($hotkeys as $action => $description) {
+				if (strpos($omap[$action], "|") !== FALSE) {
+					$omap[$action] = substr($omap[$action],
+						strpos($omap[$action], "|")+1,
+						strlen($omap[$action]));
+				}
+
 				print "<li>";
 			 	print "<span class='hksequence'>" . $omap[$action] . "</span>";
 			  	print $description;

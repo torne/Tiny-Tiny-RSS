@@ -2035,9 +2035,9 @@
 				"j" => "prev_feed",
 				"n" => "next_article",
 				"p" => "prev_article",
-				"(38)" => "prev_article",
-				"(40)" => "next_article",
-				"(191)" => "search_dialog",
+				"(38)|up" => "prev_article",
+				"(40)|down" => "next_article",
+				"(191)|/" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",
 				"S" => "toggle_publ",
@@ -2077,7 +2077,7 @@
 				"g t" => "goto_tagcloud",
 				"g P" => "goto_prefs",
 //			"other" => array(
-				"(9)" => "select_article_cursor", // tab
+				"(9)|tab" => "select_article_cursor", // tab
 				"c l" => "create_label",
 				"c f" => "create_filter",
 				"c s" => "collapse_sidebar",
