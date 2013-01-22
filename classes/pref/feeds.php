@@ -642,18 +642,22 @@ class Pref_Feeds extends Handler_Protected {
 			$checked>&nbsp;<label for=\"cache_images\">".
 		__('Cache images locally')."</label>";
 
-		$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 
-		if ($cache_content) {
-			$checked = "checked=\"1\"";
-		} else {
-			$checked = "";
-		}
+		if (defined('_FEEDS_CONTENT_CACHE') && _FEEDS_CONTENT_CACHE) {
+			$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 
-		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_content\"
+			if ($cache_content) {
+				$checked = "checked=\"1\"";
+			} else {
+				$checked = "";
+			}
+
+			print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"cache_content\"
 		name=\"cache_content\"
-			$checked>&nbsp;<label for=\"cache_content\">".
-		__('Cache content locally')."</label>";
+				$checked>&nbsp;<label for=\"cache_content\">".
+			__('Cache content locally')."</label>";
+
+		}
 
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result, 0, "mark_unread_on_update"));
 
