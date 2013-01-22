@@ -645,11 +645,8 @@ function hotkey_handler(e) {
 
 		var cmdline = $('cmdline');
 
-		try {
-			shift_key = e.shiftKey;
-		} catch (e) {
-
-		}
+		shift_key = e.shiftKey;
+		ctrl_key = e.ctrlKey;
 
 		if (window.event) {
 			keycode = window.event.keyCode;
@@ -687,6 +684,7 @@ function hotkey_handler(e) {
 		Element.hide(cmdline);
 
 		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+		if (ctrl_key) hotkey = "^" + hotkey;
 		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
 		hotkey_prefix = false;
 

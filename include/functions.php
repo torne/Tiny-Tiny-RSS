@@ -2077,10 +2077,11 @@
 				"g t" => "goto_tagcloud",
 				"g P" => "goto_prefs",
 //			"other" => array(
-				"(9)|tab" => "select_article_cursor", // tab
+				"(9)|Tab" => "select_article_cursor", // tab
 				"c l" => "create_label",
 				"c f" => "create_filter",
 				"c s" => "collapse_sidebar",
+				"^(191)|Ctrl+/" => "help_dialog",
 			);
 
 		global $pluginhost;
