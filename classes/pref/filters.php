@@ -91,7 +91,14 @@ class Pref_Filters extends Handler_Protected {
 
 		if ($found == 0) {
 			print "<tr><td align='center'>" .
-				__("No recent articles matching this filter have been found.") . "</td></tr>";
+				__("No recent articles matching this filter have been found.");
+
+			print "</td></tr><tr><td class='insensitive' align='center'>";
+
+			print __("Complex expressions might not give results while testing due to issues with database server regexp implementation.");
+
+			print "</td></tr>";
+
 		}
 
 		print "</table></div>";
