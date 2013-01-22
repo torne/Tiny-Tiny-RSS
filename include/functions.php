@@ -3485,53 +3485,6 @@
 		}
 	}
 
-	function remove_feed($link, $id, $owner_uid) {
-
-		if ($id > 0) {
-
-			/* save starred articles in Archived feed */
-
-			db_query($link, "BEGIN");
-
-			/* prepare feed if necessary */
-
-			$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
-				WHERE id = '$id'");
-
-			if (db_num_rows($result) == 0) {
-				db_query($link, "INSERT INTO ttrss_archived_feeds
-					(id, owner_uid, title, feed_url, site_url)
-				SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
-			  	WHERE id = '$id'");
-			}
-
-			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL,
-				orig_feed_id = '$id' WHERE feed_id = '$id' AND
-					marked = true AND owner_uid = $owner_uid");
-
-			/* Remove access key for the feed */
-
-			db_query($link, "DELETE FROM ttrss_access_keys WHERE
-				feed_id = '$id' AND owner_uid = $owner_uid");
-
-			/* remove the feed */
-
-			db_query($link, "DELETE FROM ttrss_feeds
-					WHERE id = '$id' AND owner_uid = $owner_uid");
-
-			db_query($link, "COMMIT");
-
-			if (file_exists(ICONS_DIR . "/$id.ico")) {
-				unlink(ICONS_DIR . "/$id.ico");
-			}
-
-			ccache_remove($link, $id, $owner_uid);
-
-		} else {
-			label_remove($link, -11-$id, $owner_uid);
-			ccache_remove($link, -11-$id, $owner_uid);
-		}
-	}
 
 	function get_feed_category($link, $feed_cat, $parent_cat_id = false) {
 		if ($parent_cat_id) {
@@ -3583,14 +3536,6 @@
 		}
 
 		return false;
-	}
-
-	function remove_feed_category($link, $id, $owner_uid) {
-
-		db_query($link, "DELETE FROM ttrss_feed_categories
-			WHERE id = '$id' AND owner_uid = $owner_uid");
-
-		ccache_remove($link, $id, $owner_uid, true);
 	}
 
 	function getArticleFeed($link, $id) {
