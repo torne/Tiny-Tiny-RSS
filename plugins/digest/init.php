@@ -78,7 +78,7 @@ class Digest extends Plugin implements IHandler {
 
 		$reply['seq'] = $seq;
 
-		$headlines = api_get_headlines($this->link, $feed_id, 30, $offset,
+		$headlines = API::api_get_headlines($this->link, $feed_id, 30, $offset,
 				'', ($feed_id == -4), true, false, "unread", "updated DESC", 0, 0);
 
 		$reply['headlines'] = array();
@@ -89,7 +89,7 @@ class Digest extends Plugin implements IHandler {
 	}
 
 	function digestinit() {
-		$tmp_feeds = api_get_feeds($this->link, -4, true, false, 0);
+		$tmp_feeds = API::api_get_feeds($this->link, -4, true, false, 0);
 
 		$params = array();
 		$feeds = array();

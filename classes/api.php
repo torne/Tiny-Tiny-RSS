@@ -118,7 +118,7 @@ class API extends Handler {
 		$offset = (int) db_escape_string($_REQUEST["offset"]);
 		$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
 
-		$feeds = api_get_feeds($this->link, $cat_id, $unread_only, $limit, $offset, $include_nested);
+		$feeds = $this->api_get_feeds($this->link, $cat_id, $unread_only, $limit, $offset, $include_nested);
 
 		print $this->wrap(self::STATUS_OK, $feeds);
 	}
@@ -195,7 +195,7 @@ class API extends Handler {
 			$search_mode = db_escape_string($_REQUEST["search_mode"]);
 			$match_on = db_escape_string($_REQUEST["match_on"]);
 
-			$headlines = api_get_headlines($this->link, $feed_id, $limit, $offset,
+			$headlines = $this->api_get_headlines($this->link, $feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false,
 				$include_attachments, $since_id, $search, $search_mode, $match_on,
 				$include_nested, $sanitize_content);
@@ -445,6 +445,213 @@ class API extends Handler {
 			print $this->wrap(self::STATUS_ERR, array("error" => 'Publishing failed'));
 		}
 	}
+
+	static function api_get_feeds($link, $cat_id, $unread_only, $limit, $offset, $include_nested = false) {
+
+			$feeds = array();
+
+			/* Labels */
+
+			if ($cat_id == -4 || $cat_id == -2) {
+				$counters = getLabelCounters($link, true);
+
+				foreach (array_values($counters) as $cv) {
+
+					$unread = $cv["counter"];
+
+					if ($unread || !$unread_only) {
+
+						$row = array(
+								"id" => $cv["id"],
+								"title" => $cv["description"],
+								"unread" => $cv["counter"],
+								"cat_id" => -2,
+							);
+
+						array_push($feeds, $row);
+					}
+				}
+			}
+
+			/* Virtual feeds */
+
+			if ($cat_id == -4 || $cat_id == -1) {
+				foreach (array(-1, -2, -3, -4, -6, 0) as $i) {
+					$unread = getFeedUnread($link, $i);
+
+					if ($unread || !$unread_only) {
+						$title = getFeedTitle($link, $i);
+
+						$row = array(
+								"id" => $i,
+								"title" => $title,
+								"unread" => $unread,
+								"cat_id" => -1,
+							);
+						array_push($feeds, $row);
+					}
+
+				}
+			}
+
+			/* Child cats */
+
+			if ($include_nested && $cat_id) {
+				$result = db_query($link, "SELECT
+					id, title FROM ttrss_feed_categories
+					WHERE parent_cat = '$cat_id' AND owner_uid = " . $_SESSION["uid"] .
+				" ORDER BY id, title");
+
+				while ($line = db_fetch_assoc($result)) {
+					$unread = getFeedUnread($link, $line["id"], true) +
+						getCategoryChildrenUnread($link, $line["id"]);
+
+					if ($unread || !$unread_only) {
+						$row = array(
+								"id" => $line["id"],
+								"title" => $line["title"],
+								"unread" => $unread,
+								"is_cat" => true,
+							);
+						array_push($feeds, $row);
+					}
+				}
+			}
+
+			/* Real feeds */
+
+			if ($limit) {
+				$limit_qpart = "LIMIT $limit OFFSET $offset";
+			} else {
+				$limit_qpart = "";
+			}
+
+			if ($cat_id == -4 || $cat_id == -3) {
+				$result = db_query($link, "SELECT
+					id, feed_url, cat_id, title, order_id, ".
+						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] .
+						" ORDER BY cat_id, title " . $limit_qpart);
+			} else {
+
+				if ($cat_id)
+					$cat_qpart = "cat_id = '$cat_id'";
+				else
+					$cat_qpart = "cat_id IS NULL";
+
+				$result = db_query($link, "SELECT
+					id, feed_url, cat_id, title, order_id, ".
+						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+						FROM ttrss_feeds WHERE
+						$cat_qpart AND owner_uid = " . $_SESSION["uid"] .
+						" ORDER BY cat_id, title " . $limit_qpart);
+			}
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$unread = getFeedUnread($link, $line["id"]);
+
+				$has_icon = feed_has_icon($line['id']);
+
+				if ($unread || !$unread_only) {
+
+					$row = array(
+							"feed_url" => $line["feed_url"],
+							"title" => $line["title"],
+							"id" => (int)$line["id"],
+							"unread" => (int)$unread,
+							"has_icon" => $has_icon,
+							"cat_id" => (int)$line["cat_id"],
+							"last_updated" => strtotime($line["last_updated"]),
+							"order_id" => (int) $line["order_id"],
+						);
+
+					array_push($feeds, $row);
+				}
+			}
+
+		return $feeds;
+	}
+
+	static function api_get_headlines($link, $feed_id, $limit, $offset,
+				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
+				$include_attachments, $since_id,
+				$search = "", $search_mode = "", $match_on = "",
+				$include_nested = false, $sanitize_content = true) {
+
+			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
+				$view_mode, $is_cat, $search, $search_mode, $match_on,
+				$order, $offset, 0, false, $since_id, $include_nested);
+
+			$result = $qfh_ret[0];
+			$feed_title = $qfh_ret[1];
+
+			$headlines = array();
+
+			while ($line = db_fetch_assoc($result)) {
+				$is_updated = ($line["last_read"] == "" &&
+					($line["unread"] != "t" && $line["unread"] != "1"));
+
+				$tags = explode(",", $line["tag_cache"]);
+				$labels = json_decode($line["label_cache"], true);
+
+				//if (!$tags) $tags = get_article_tags($link, $line["id"]);
+				//if (!$labels) $labels = get_article_labels($link, $line["id"]);
+
+				$headline_row = array(
+						"id" => (int)$line["id"],
+						"unread" => sql_bool_to_bool($line["unread"]),
+						"marked" => sql_bool_to_bool($line["marked"]),
+						"published" => sql_bool_to_bool($line["published"]),
+						"updated" => strtotime($line["updated"]),
+						"is_updated" => $is_updated,
+						"title" => $line["title"],
+						"link" => $line["link"],
+						"feed_id" => $line["feed_id"],
+						"tags" => $tags,
+					);
+
+					if ($include_attachments)
+						$headline_row['attachments'] = get_article_enclosures($link,
+							$line['id']);
+
+				if ($show_excerpt) {
+					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
+					$headline_row["excerpt"] = $excerpt;
+				}
+
+				if ($show_content) {
+
+					if ($line["cached_content"] != "") {
+						$line["content_preview"] =& $line["cached_content"];
+					}
+
+					if ($sanitize_content) {
+						$headline_row["content"] = sanitize($link,
+							$line["content_preview"], false, false, $line["site_url"]);
+					} else {
+						$headline_row["content"] = $line["content_preview"];
+					}
+				}
+
+				// unify label output to ease parsing
+				if ($labels["no-labels"] == 1) $labels = array();
+
+				$headline_row["labels"] = $labels;
+
+				$headline_row["feed_title"] = $line["feed_title"];
+
+				$headline_row["comments_count"] = (int)$line["num_comments"];
+				$headline_row["comments_link"] = $line["comments"];
+
+				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
+
+				array_push($headlines, $headline_row);
+			}
+
+			return $headlines;
+	}
+
 }
 
 ?>
