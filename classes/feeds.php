@@ -807,7 +807,7 @@ class Feeds extends Handler_Protected {
 		 * when there's nothing to load - e.g. no stuff in fresh feed */
 
 		if ($feed == -5) {
-			print json_encode(generate_dashboard_feed($this->link));
+			print json_encode($this->generate_dashboard_feed($this->link));
 			return;
 		}
 
@@ -826,7 +826,7 @@ class Feeds extends Handler_Protected {
 		}
 
 		if ($result && db_num_rows($result) == 0) {
-			print json_encode(generate_error_feed($this->link, __("Feed not found.")));
+			print json_encode($this->generate_error_feed($this->link, __("Feed not found.")));
 			return;
 		}
 
@@ -929,5 +929,63 @@ class Feeds extends Handler_Protected {
 		print json_encode($reply);
 
 	}
+
+	private function generate_dashboard_feed($link) {
+		$reply = array();
+
+		$reply['headlines']['id'] = -5;
+		$reply['headlines']['is_cat'] = false;
+
+		$reply['headlines']['toolbar'] = '';
+		$reply['headlines']['content'] = "<div class='whiteBox'>".__('No feed selected.');
+
+		$reply['headlines']['content'] .= "<p class=\"small\"><span class=\"insensitive\">";
+
+		$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
+			WHERE owner_uid = " . $_SESSION['uid']);
+
+		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$last_updated = make_local_datetime($link, $last_updated, false);
+
+		$reply['headlines']['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
+
+		$result = db_query($link, "SELECT COUNT(id) AS num_errors
+			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
+
+		$num_errors = db_fetch_result($result, 0, "num_errors");
+
+		if ($num_errors > 0) {
+			$reply['headlines']['content'] .= "<br/>";
+			$reply['headlines']['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+				__('Some feeds have update errors (click for details)')."</a>";
+		}
+		$reply['headlines']['content'] .= "</span></p>";
+
+		$reply['headlines-info'] = array("count" => 0,
+			"vgroup_last_feed" => '',
+			"unread" => 0,
+			"disable_cache" => true);
+
+		return $reply;
+	}
+
+	private function generate_error_feed($link, $error) {
+		$reply = array();
+
+		$reply['headlines']['id'] = -6;
+		$reply['headlines']['is_cat'] = false;
+
+		$reply['headlines']['toolbar'] = '';
+		$reply['headlines']['content'] = "<div class='whiteBox'>". $error . "</div>";
+
+		$reply['headlines-info'] = array("count" => 0,
+			"vgroup_last_feed" => '',
+			"unread" => 0,
+			"disable_cache" => true);
+
+		return $reply;
+	}
+
+
 }
 ?>

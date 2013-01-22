@@ -1070,7 +1070,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function clear() {
 		$id = db_escape_string($_REQUEST["id"]);
-		clear_feed_articles($this->link, $id);
+		$this->clear_feed_articles($this->link, $id);
 	}
 
 	function rescore() {
@@ -1676,6 +1676,30 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "</div>";
 	}
+
+	/**
+	 * Purge a feed contents, marked articles excepted.
+	 *
+	 * @param mixed $link The database connection.
+	 * @param integer $id The id of the feed to purge.
+	 * @return void
+	 */
+	private function clear_feed_articles($link, $id) {
+
+		if ($id != 0) {
+			$result = db_query($link, "DELETE FROM ttrss_user_entries
+			WHERE feed_id = '$id' AND marked = false AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			$result = db_query($link, "DELETE FROM ttrss_user_entries
+			WHERE feed_id IS NULL AND marked = false AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		$result = db_query($link, "DELETE FROM ttrss_entries WHERE
+			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
+
+		ccache_update($link, $id, $_SESSION['uid']);
+	} // function clear_feed_articles
+
 
 }
 ?>

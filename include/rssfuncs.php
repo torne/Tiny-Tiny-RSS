@@ -1287,4 +1287,11 @@
 
 		return "";
 	}
+
+	function make_guid_from_title($title) {
+		return preg_replace("/[ \"\',.:;]/", "-",
+			mb_strtolower(strip_tags($title), 'utf-8'));
+	}
+
+
 ?>

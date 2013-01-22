@@ -52,7 +52,7 @@ class Article extends Handler_Protected {
 			return;
 		}
 
-		catchupArticleById($this->link, $id, 0);
+		$this->catchupArticleById($this->link, $id, 0);
 
 		if (!$_SESSION["bw_limit"]) {
 			foreach ($cids as $cid) {
@@ -63,7 +63,27 @@ class Article extends Handler_Protected {
 		}
 
 		print json_encode($articles);
-
 	}
+
+	private function catchupArticleById($link, $id, $cmode) {
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			unread = false,last_read = NOW()
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			unread = true
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			unread = NOT unread,last_read = NOW()
+			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		$feed_id = getArticleFeed($link, $id);
+		ccache_update($link, $feed_id, $_SESSION["uid"]);
+	}
+
 
 }

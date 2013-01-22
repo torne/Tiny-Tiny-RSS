@@ -169,10 +169,42 @@ class RPC extends Handler_Protected {
 		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			archive_article($this->link, $id, $_SESSION["uid"]);
+			$this->archive_article($this->link, $id, $_SESSION["uid"]);
 		}
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
+	}
+
+	private function archive_article($link, $id, $owner_uid) {
+		db_query($link, "BEGIN");
+
+		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries
+			WHERE ref_id = '$id' AND owner_uid = $owner_uid");
+
+		if (db_num_rows($result) != 0) {
+
+			/* prepare the archived table */
+
+			$feed_id = (int) db_fetch_result($result, 0, "feed_id");
+
+			if ($feed_id) {
+				$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
+					WHERE id = '$feed_id'");
+
+				if (db_num_rows($result) == 0) {
+					db_query($link, "INSERT INTO ttrss_archived_feeds
+						(id, owner_uid, title, feed_url, site_url)
+					SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
+				  	WHERE id = '$feed_id'");
+				}
+
+				db_query($link, "UPDATE ttrss_user_entries
+					SET orig_feed_id = feed_id, feed_id = NULL
+					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
+			}
+		}
+
+		db_query($link, "COMMIT");
 	}
 
 	function publ() {
@@ -241,7 +273,7 @@ class RPC extends Handler_Protected {
 		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 		$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
-		markArticlesById($this->link, $ids, $cmode);
+		$this->markArticlesById($this->link, $ids, $cmode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
@@ -250,7 +282,7 @@ class RPC extends Handler_Protected {
 		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
 		$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
-		publishArticlesById($this->link, $ids, $cmode);
+		$this->publishArticlesById($this->link, $ids, $cmode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
@@ -335,7 +367,7 @@ class RPC extends Handler_Protected {
 	}
 
 	function regenOPMLKey() {
-		update_feed_access_key($this->link, 'OPML:Publish',
+		$this->update_feed_access_key($this->link, 'OPML:Publish',
 		false, $_SESSION["uid"]);
 
 		$new_link = opml_publish_url($this->link);
@@ -544,7 +576,7 @@ class RPC extends Handler_Protected {
 		$feed_id = db_escape_string($_REQUEST['id']);
 		$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
 
-		$new_key = update_feed_access_key($this->link, $feed_id, $is_cat);
+		$new_key = $this->update_feed_access_key($this->link, $feed_id, $is_cat);
 
 		print json_encode(array("link" => $new_key));
 	}
@@ -714,6 +746,89 @@ class RPC extends Handler_Protected {
 			print json_encode(array("message" => "NOTHING_TO_UPDATE"));
 		}
 
+	}
+
+	function update_feed_access_key($link, $feed_id, $is_cat, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$sql_is_cat = bool_to_sql_bool($is_cat);
+
+		$result = db_query($link, "SELECT access_key FROM ttrss_access_keys
+			WHERE feed_id = '$feed_id'	AND is_cat = $sql_is_cat
+			AND owner_uid = " . $owner_uid);
+
+		if (db_num_rows($result) == 1) {
+			$key = db_escape_string(sha1(uniqid(rand(), true)));
+
+			db_query($link, "UPDATE ttrss_access_keys SET access_key = '$key'
+				WHERE feed_id = '$feed_id' AND is_cat = $sql_is_cat
+				AND owner_uid = " . $owner_uid);
+
+			return $key;
+
+		} else {
+			return get_feed_access_key($link, $feed_id, $is_cat, $owner_uid);
+		}
+	}
+
+	private function markArticlesById($link, $ids, $cmode) {
+
+		$tmp_ids = array();
+
+		foreach ($ids as $id) {
+			array_push($tmp_ids, "ref_id = '$id'");
+		}
+
+		$ids_qpart = join(" OR ", $tmp_ids);
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			marked = false,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			marked = true
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			marked = NOT marked,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		}
+	}
+
+	private function publishArticlesById($link, $ids, $cmode) {
+
+		$tmp_ids = array();
+
+		foreach ($ids as $id) {
+			array_push($tmp_ids, "ref_id = '$id'");
+		}
+
+		$ids_qpart = join(" OR ", $tmp_ids);
+
+		if ($cmode == 0) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			published = false,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else if ($cmode == 1) {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			published = true,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			db_query($link, "UPDATE ttrss_user_entries SET
+			published = NOT published,last_read = NOW()
+			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		if (PUBSUBHUBBUB_HUB) {
+			$rss_link = get_self_url_prefix() .
+				"/public.php?op=rss&id=-2&key=" .
+				get_feed_access_key($link, -2, false);
+
+			$p = new Publisher(PUBSUBHUBBUB_HUB);
+
+			$pubsub_result = $p->publish_update($rss_link);
+		}
 	}
 
 }
