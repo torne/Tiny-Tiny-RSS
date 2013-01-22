@@ -562,7 +562,7 @@
 						_debug("update_rss_feed: base guid [$entry_guid] not found");
 					}
 
-					if ($cache_content) {
+					if (defined('_FEEDS_CONTENT_CACHE') && _FEEDS_CONTENT_CACHE && $cache_content) {
 						if ($debug_enabled) {
 							_debug("update_rss_feed: caching content (initial)...");
 						}
@@ -796,7 +796,7 @@
 						$cached_content_needs_update = true;
 					}
 
-					if ($cache_content) {
+					if (defined('_FEEDS_CONTENT_CACHE') && _FEEDS_CONTENT_CACHE && $cache_content) {
 						if ($debug_enabled) {
 							_debug("update_rss_feed: caching content because original checksum changed...");
 						}
