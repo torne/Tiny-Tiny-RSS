@@ -530,43 +530,9 @@ div#headlines-toolbar .dijitSelect {
 div#headlines-toolbar span.r {
 	float: right;
    position: relative;
-	background : #ecf4ff;
-	border-left: 5px solid white;
 	padding : 0 4px 0px 4px;
 	text-align : right;
 }	
-
-/* http://css-tricks.com/adobe-like-arrow-headers/ */
-
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
-	div#headlines-toolbar span.r:before,
-	div#headlines-toolbar span.r:after {
-		content: "";
-	   position: absolute;
-	    /* Pushed down half way, will get pulled back up half height of triangle
-	       ensures centering if font-size or line-height changes */
-	    top: 50%;
-	    width: 0;
-	    height: 0;
-	}
-	div#headlines-toolbar span.r:before {
-	    left: -12px;
-	    /* Triangle */
-	    border-top: 8px solid transparent;
-	    border-bottom: 8px solid transparent;
-	    border-right: 8px solid white;
-	    /* Pull-up */
-	    margin-top: -8px;
-	}
-	div#headlines-toolbar span.r:after {
-	    /* Smaller and different position triangle */
-	    left: -5px;
-	    border-top: 6px solid transparent;
-	    border-bottom: 6px solid transparent;
-	    border-right: 6px solid #ecf4ff;
-	    margin-top: -6px;
-	}
-}
 
 div#headlines-toolbar span.r span.error {
 	color : red;
