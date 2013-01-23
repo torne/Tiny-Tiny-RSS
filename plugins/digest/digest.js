@@ -454,8 +454,6 @@ function add_headline_entry(article, feed, no_effects) {
 		if (d.getTime() / 1000 - article.updated < fresh_max)
 			li_class = "fresh";
 
-		//"<img title='" + __("Mark as read") + "' onclick=\"view("+article.id+", true)\" src='images/digest_checkbox.png'>" +
-
 		var checkbox_part = "<input type=\"checkbox\" class=\"cb\" onclick=\"toggle_select_article(this)\"/>";
 
 		var date = new Date(article.updated * 1000);

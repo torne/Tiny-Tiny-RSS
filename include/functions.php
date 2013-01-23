@@ -3113,7 +3113,7 @@
 					$rv['content'] .= $p->hook_article_button($line);
 				}
 
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/digest_checkbox.png')."\"
+				$rv['content'] .= "<img src=\"".theme_image($link, 'images/close_article.png')."\"
 						class='tagsPic' style=\"cursor : pointer\"
 						onclick=\"closeArticlePanel($id)\"
 						title='".__('Close article')."'>";
