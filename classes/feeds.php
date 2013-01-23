@@ -697,11 +697,6 @@ class Feeds extends Handler_Protected {
 						$reply['content'] .= $p->hook_article_button($line);
 					}
 
-					$reply['content'] .= "<img src=\"images/close_article.png\"
-						style=\"cursor : pointer\" style=\"cursor : pointer\"
-						onclick=\"dismissArticle($id)\"
-						title='".__('Close article')."'>";
-
 					$reply['content'] .= "</div>";
 					$reply['content'] .= "</div>";
 

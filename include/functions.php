@@ -1998,6 +1998,7 @@
 				"article_scroll_up" => __("Scroll up"),
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
+				"close_article" => __("Close article"),
 				"toggle_widescreen" => __("Toggle widescreen mode")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),
@@ -2057,6 +2058,7 @@
 				"P" => "article_scroll_up",
 				"a W" => "toggle_widescreen",
 				"e" => "email_article",
+				"a q" => "close_article",
 //			"article_selection" => array(
 				"a a" => "select_all",
 				"a u" => "select_unread",
@@ -3113,10 +3115,6 @@
 					$rv['content'] .= $p->hook_article_button($line);
 				}
 
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/close_article.png')."\"
-						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"closeArticlePanel($id)\"
-						title='".__('Close article')."'>";
 
 			} else {
 				$tags_str = strip_tags($tags_str);

@@ -764,6 +764,9 @@ function hotkey_handler(e) {
 		case "article_scroll_up":
 			scrollArticle(-50);
 			return false;
+		case "close_article":
+			closeArticlePanel();
+			return false;
 		case "email_article":
 			if (typeof emailArticle != "undefined") {
 				emailArticle();
