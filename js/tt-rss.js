@@ -1011,9 +1011,9 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: '50%',
 				height: 'auto',
-				'border-top-width': '0px' });
+				borderTopWidth: '0px' });
 
-			$("headlines-toolbar").setStyle({ 'border-bottom-width': '0px' });
+			$("headlines-toolbar").setStyle({ borderBottomWidth: '0px' });
 
 		} else {
 
@@ -1021,9 +1021,9 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
 				height: '50%',
-				'border-top-width': '1px'});
+				borderTopWidthidth: '1px'});
 
-			$("headlines-toolbar").setStyle({ 'border-bottom-width': '1px' });
+			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
 		}
 
 		closeArticlePanel();
