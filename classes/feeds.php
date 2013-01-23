@@ -119,8 +119,12 @@ class Feeds extends Handler_Protected {
 
 		}
 
-		$reply .= "<option value=\"emailArticle(false)\">".__('Forward by email').
-			"</option>";
+		global $pluginhost;
+
+		if ($pluginhost->get_plugin("mail")) {
+			$reply .= "<option value=\"emailArticle(false)\">".__('Forward by email').
+				"</option>";
+		}
 
 		$reply .= "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
 
