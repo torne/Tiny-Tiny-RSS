@@ -3156,7 +3156,7 @@
 
 			$rv['content'] .= "<div id=\"POSTNOTE-$id\">";
 				if ($line['note']) {
-					$rv['content'] .= format_article_note($id, $line['note']);
+					$rv['content'] .= format_article_note($id, $line['note'], !$zoom_mode);
 				}
 			$rv['content'] .= "</div>";
 
@@ -3444,11 +3444,11 @@
 
 	}
 
-	function format_article_note($id, $note) {
+	function format_article_note($id, $note, $allow_edit = true) {
 
 		$str = "<div class='articleNote'	onclick=\"editArticleNote($id)\">
 			<div class='noteEdit' onclick=\"editArticleNote($id)\">".
-			__('(edit note)')."</div>$note</div>";
+			($allow_edit ? __('(edit note)') : "")."</div>$note</div>";
 
 		return $str;
 	}
