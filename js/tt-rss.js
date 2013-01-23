@@ -280,10 +280,6 @@ function init() {
 
 		dojo.require("fox.FeedTree");
 
-		if (typeof themeBeforeLayout == 'function') {
-			themeBeforeLayout();
-		}
-
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
@@ -340,10 +336,6 @@ function init_second_stage() {
 
 			if (_widescreen_mode) {
 				switchPanelMode(_widescreen_mode);
-			}
-
-			if (typeof themeAfterLayout == 'function') {
-				themeAfterLayout();
 			}
 
 		});

@@ -29,7 +29,6 @@
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 
-	<?php print_theme_includes($link) ?>
 	<?php print_user_stylesheet($link) ?>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>

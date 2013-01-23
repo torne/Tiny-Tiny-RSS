@@ -42,8 +42,6 @@ class Pref_Prefs extends Handler_Protected {
 
 		$_SESSION["prefs_cache"] = false;
 
-		$orig_theme = get_pref($this->link, "_THEME_ID");
-
 		foreach (array_keys($_POST) as $pref_name) {
 
 			$pref_name = db_escape_string($pref_name);
@@ -62,11 +60,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		}
 
-		if ($orig_theme != get_pref($this->link, "_THEME_ID")) {
-			print "PREFS_THEME_CHANGED";
-		} else {
-			print __("The configuration was saved.");
-		}
+		print __("The configuration was saved.");
 	}
 
 	function getHelp() {
@@ -458,32 +452,6 @@ class Pref_Prefs extends Handler_Protected {
 
 				print "<tr><td colspan=\"3\"><h3>".__($active_section)."</h3></td></tr>";
 
-				if ($line["section_id"] == 2) {
-					print "<tr><td width=\"40%\">".__("Select theme")."</td>";
-
-					$user_theme = get_pref($this->link, "_THEME_ID");
-					$themes = get_all_themes();
-
-					print "<td><select name=\"_THEME_ID\" dojoType=\"dijit.form.Select\">";
-					print "<option value='Default'>".__('Default')."</option>";
-					print "<option value='----------------' disabled=\"1\">--------</option>";
-
-					foreach ($themes as $t) {
-						$base = $t['base'];
-						$name = $t['name'];
-
-						if ($base == $user_theme) {
-							$selected = "selected=\"1\"";
-						} else {
-							$selected = "";
-						}
-
-						print "<option $selected value='$base'>$name</option>";
-
-					}
-
-					print "</select></td></tr>";
-				}
 				$lnum = 0;
 			}
 

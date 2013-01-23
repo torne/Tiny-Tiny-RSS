@@ -759,115 +759,9 @@
 		}
 	}
 
+	// Deprecated, TODO: remove
 	function theme_image($link, $filename) {
-		if ($link) {
-			$theme_path = get_user_theme_path($link);
-
-			if ($theme_path && is_file($theme_path.$filename)) {
-				return $theme_path.$filename;
-			} else {
-				return $filename;
-			}
-		} else {
-			return $filename;
-		}
-	}
-
-	function get_user_theme($link) {
-
-		if (get_schema_version($link) >= 63 && $_SESSION["uid"]) {
-			$theme_name = get_pref($link, "_THEME_ID");
-			if (is_dir("themes/$theme_name")) {
-				return $theme_name;
-			} else {
-				return '';
-			}
-		} else {
-			return '';
-		}
-
-	}
-
-	function get_user_theme_path($link) {
-		$theme_path = '';
-
-		if (get_schema_version($link) >= 63 && $_SESSION["uid"]) {
-			$theme_name = get_pref($link, "_THEME_ID");
-
-			if ($theme_name && is_dir("themes/$theme_name")) {
-				$theme_path = "themes/$theme_name/";
-			} else {
-				$theme_name = '';
-			}
-		} else {
-			$theme_path = '';
-		}
-
-		if ($theme_path) {
-			if (is_file("$theme_path/theme.ini")) {
-				$ini = parse_ini_file("$theme_path/theme.ini", true);
-				if ($ini['theme']['version'] >= THEME_VERSION_REQUIRED) {
-					return $theme_path;
-				}
-			}
-		}
-		return '';
-	}
-
-	function get_user_theme_options($link) {
-		$t = get_user_theme_path($link);
-
-		if ($t) {
-			if (is_file("$t/theme.ini")) {
-				$ini = parse_ini_file("$t/theme.ini", true);
-				if ($ini['theme']['version']) {
-					return $ini['theme']['options'];
-				}
-			}
-		}
-		return '';
-	}
-
-	function print_theme_includes($link) {
-
-		$t = get_user_theme_path($link);
-		$time = time();
-
-		if ($t) {
-			print "<link rel=\"stylesheet\" type=\"text/css\"
-				href=\"$t/theme.css?$time \">";
-			if (file_exists("$t/theme.js")) {
-				print "<script type=\"text/javascript\" src=\"$t/theme.js?$time\">
-					</script>";
-			}
-		}
-	}
-
-	function get_all_themes() {
-		$themes = glob("themes/*");
-
-		asort($themes);
-
-		$rv = array();
-
-		foreach ($themes as $t) {
-			if (is_file("$t/theme.ini")) {
-				$ini = parse_ini_file("$t/theme.ini", true);
-				if ($ini['theme']['version'] >= THEME_VERSION_REQUIRED &&
-							!$ini['theme']['disabled']) {
-					$entry = array();
-					$entry["path"] = $t;
-					$entry["base"] = basename($t);
-					$entry["name"] = $ini['theme']['name'];
-					$entry["version"] = $ini['theme']['version'];
-					$entry["author"] = $ini['theme']['author'];
-					$entry["options"] = $ini['theme']['options'];
-					array_push($rv, $entry);
-				}
-			}
-		}
-
-		return $rv;
+		return $filename;
 	}
 
 	function convert_timestamp($timestamp, $source_tz, $dest_tz) {
@@ -1932,9 +1826,6 @@
 
 	function make_init_params($link) {
 		$params = array();
-
-		$params["theme"] = get_user_theme($link);
-		$params["theme_options"] = get_user_theme_options($link);
 
 		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
 		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
