@@ -720,6 +720,8 @@
 	}
 
 	function login_sequence($link, $login_form = 0) {
+		$_SESSION["prefs_cache"] = false;
+
 		if (SINGLE_USER_MODE) {
 			authenticate_user($link, "admin", null);
 			load_user_plugins($link, $_SESSION["uid"]);
