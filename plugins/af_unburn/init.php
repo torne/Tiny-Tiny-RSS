@@ -60,6 +60,8 @@ class Af_Unburn extends Plugin {
 					}
 				}
 
+				$real_url = preg_replace("/\?$/", "", $real_url);
+
 				$article["guid"] = "unburn,$owner_uid:" . $article["guid"];
 				$article["link"] = $real_url;
 			}
