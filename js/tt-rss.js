@@ -534,26 +534,6 @@ function viewLimitChanged() {
 	return viewCurrentFeed('');
 }
 
-/* function adjustArticleScore(id, score) {
-	try {
-
-		var pr = prompt(__("Assign score to article:"), score);
-
-		if (pr != undefined) {
-			var query = "?op=rpc&method=setScore&id=" + id + "&score=" + pr;
-
-			new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					viewCurrentFeed();
-				} });
-
-		}
-	} catch (e) {
-		exception_error("adjustArticleScore", e);
-	}
-} */
-
 function rescoreCurrentFeed() {
 
 	var actid = getActiveFeedId();

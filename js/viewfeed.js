@@ -1475,41 +1475,6 @@ function show_labels_in_headlines(transport) {
 	}
 }
 
-/* function toggleHeadlineActions() {
-	try {
-		var e = $("headlineActionsBody");
-		var p = $("headlineActionsDrop");
-
-		if (!Element.visible(e)) {
-			Element.show(e);
-		} else {
-			Element.hide(e);
-		}
-
-		e.scrollTop = 0;
-		e.style.left = (p.offsetLeft + 1) + "px";
-		e.style.top = (p.offsetTop + p.offsetHeight + 2) + "px";
-
-	} catch (e) {
-		exception_error("toggleHeadlineActions", e);
-	}
-} */
-
-/* function publishWithNote(id, def_note) {
-	try {
-		if (!def_note) def_note = '';
-
-		var note = prompt(__("Please enter a note for this article:"), def_note);
-
-		if (note != undefined) {
-			togglePub(id, false, false, note);
-		}
-
-	} catch (e) {
-		exception_error("publishWithNote", e);
-	}
-} */
-
 function dismissArticle(id) {
 	try {
 		var elem = $("RROW-" + id);
