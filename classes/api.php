@@ -104,11 +104,7 @@ class API extends Handler {
 
 	/* Method added for ttrss-reader for Android */
 	function getCounters() {
-
-		/* flct (flc is the default) FIXME: document */
-		$output_mode = db_escape_string($_REQUEST["output_mode"]);
-
-		print $this->wrap(self::STATUS_OK, getAllCounters($this->link, $output_mode));
+		print $this->wrap(self::STATUS_OK, getAllCounters($this->link));
 	}
 
 	function getFeeds() {

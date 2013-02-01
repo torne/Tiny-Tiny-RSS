@@ -1650,6 +1650,8 @@ function cdmClicked(event, id) {
 			zoomToArticle(event, id);
 		}
 
+		request_counters();
+
 	} catch (e) {
 		exception_error("cdmClicked");
 	}
@@ -2058,7 +2060,7 @@ function render_local_headlines(feed, is_cat, obj) {
 
 function precache_headlines_idle() {
 	try {
-		if (!feed_precache_timeout_id) {
+		if (getInitParam("bw_limit") != "1" && !feed_precache_timeout_id) {
 			if (get_timestamp() - _viewfeed_last > 120) {
 
 				var feeds = dijit.byId("feedTree").getVisibleUnreadFeeds();
@@ -2084,8 +2086,8 @@ function precache_headlines_idle() {
 
 function precache_headlines() {
 	try {
+		if (getInitParam("bw_limit") != "1" && !feed_precache_timeout_id) {
 
-		if (!feed_precache_timeout_id) {
 			feed_precache_timeout_id = window.setTimeout(function() {
 				var nuf = getNextUnreadFeed(getActiveFeedId(), activeFeedIsCat());
 				var nf = dijit.byId("feedTree").getNextFeed(getActiveFeedId(), activeFeedIsCat());

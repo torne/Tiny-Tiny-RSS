@@ -243,20 +243,15 @@ class RPC extends Handler_Protected {
 
 		$reply = array();
 
-		 if ($seq) $reply['seq'] = $seq;
+		if ($seq) $reply['seq'] = $seq;
 
-		 if ($last_article_id != getLastArticleId($this->link)) {
-				$omode = $_REQUEST["omode"];
+		if ($last_article_id != getLastArticleId($this->link)) {
+			$reply['counters'] = getAllCounters($this->link);
+		}
 
-			if ($omode != "T")
-				$reply['counters'] = getAllCounters($this->link, $omode);
-			else
-				$reply['counters'] = getGlobalCounters($this->link);
-		 }
+		$reply['runtime-info'] = make_runtime_info($this->link);
 
-		 $reply['runtime-info'] = make_runtime_info($this->link);
-
-		 print json_encode($reply);
+		print json_encode($reply);
 	}
 
 	/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */

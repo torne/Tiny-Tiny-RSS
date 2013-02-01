@@ -1075,18 +1075,13 @@
 			}
 	}
 
-	function getAllCounters($link, $omode = "flc", $active_feed = false) {
-
-		if (!$omode) $omode = "flc";
-
+	function getAllCounters($link) {
 		$data = getGlobalCounters($link);
 
 		$data = array_merge($data, getVirtCounters($link));
-
-		if (strchr($omode, "l")) $data = array_merge($data, getLabelCounters($link));
-		if (strchr($omode, "f")) $data = array_merge($data, getFeedCounters($link, $active_feed));
-		if (strchr($omode, "t")) $data = array_merge($data, getTagCounters($link));
-		if (strchr($omode, "c")) $data = array_merge($data, getCategoryCounters($link));
+		$data = array_merge($data, getLabelCounters($link));
+		$data = array_merge($data, getFeedCounters($link, $active_feed));
+		$data = array_merge($data, getCategoryCounters($link));
 
 		return $data;
 	}
@@ -1370,36 +1365,6 @@
 			"counter" => (int) $subscribed_feeds);
 
 		array_push($ret_arr, $cv);
-
-		return $ret_arr;
-	}
-
-	function getTagCounters($link) {
-
-		$ret_arr = array();
-
-		$result = db_query($link, "SELECT tag_name,SUM((SELECT COUNT(int_id)
-			FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id
-				AND ref_id = id AND unread = true)) AS count FROM ttrss_tags
-				WHERE owner_uid = ".$_SESSION['uid']." GROUP BY tag_name
-				ORDER BY count DESC LIMIT 55");
-
-		$tags = array();
-
-		while ($line = db_fetch_assoc($result)) {
-			$tags[$line["tag_name"]] += $line["count"];
-		}
-
-		foreach (array_keys($tags) as $tag) {
-			$unread = $tags[$tag];
-			$tag = htmlspecialchars($tag);
-
-			$cv = array("id" => $tag,
-				"kind" => "tag",
-				"counter" => $unread);
-
-			array_push($ret_arr, $cv);
-		}
 
 		return $ret_arr;
 	}

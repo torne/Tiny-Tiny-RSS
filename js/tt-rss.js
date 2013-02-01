@@ -1,14 +1,9 @@
-var total_unread = 0;
 var global_unread = -1;
-var firsttime_update = true;
 var _active_feed_id = undefined;
 var _active_feed_is_cat = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
-var _force_scheduled_update = false;
-var last_scheduled_update = false;
 var _widescreen_mode = false;
-
 var _rpc_seq = 0;
 
 function next_seq() {
@@ -105,8 +100,6 @@ function updateFeedList() {
 		id: "feedTree",
 		}, "feedTree");
 
-		_force_scheduled_update = true;
-
 /*		var menu = new dijit.Menu({id: 'feedMenu'});
 
 		menu.addChild(new dijit.MenuItem({
@@ -176,51 +169,10 @@ function viewCurrentFeed(method) {
 }
 
 function timeout() {
-	if (getInitParam("bw_limit") == "1") return;
-
-	try {
-	   var date = new Date();
-      var ts = Math.round(date.getTime() / 1000);
-
-		if (ts - last_scheduled_update > 10 || _force_scheduled_update) {
-
-			//console.log("timeout()");
-
-			window.clearTimeout(counter_timeout_id);
-
-			var query_str = "?op=rpc&method=getAllCounters&seq=" + next_seq();
-
-			var omode;
-
-			if (firsttime_update && !navigator.userAgent.match("Opera")) {
-				firsttime_update = false;
-				omode = "T";
-			} else {
-				omode = "flc";
-			}
-
-			query_str = query_str + "&omode=" + omode;
-
-			if (!_force_scheduled_update)
-				query_str = query_str + "&last_article_id=" + getInitParam("last_article_id");
-
-			//console.log("[timeout]" + query_str);
-
-			new Ajax.Request("backend.php", {
-				parameters: query_str,
-				onComplete: function(transport) {
-						handle_rpc_json(transport, !_force_scheduled_update);
-						_force_scheduled_update = false;
-					} });
-
-			last_scheduled_update = ts;
-		}
-
-	} catch (e) {
-		exception_error("timeout", e);
+	if (getInitParam("bw_limit") != "1") {
+		request_counters();
+		setTimeout("timeout()", 60*1000);
 	}
-
-	setTimeout("timeout()", 3000);
 }
 
 function search() {
@@ -960,7 +912,7 @@ function handle_rpc_json(transport, scheduled_call) {
 				if (message == "UPDATE_COUNTERS") {
 					console.log("need to refresh counters...");
 					setInitParam("last_article_id", -1);
-					_force_scheduled_update = true;
+					request_counters(true);
 				}
 			}
 

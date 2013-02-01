@@ -3,8 +3,6 @@ var _infscroll_request_sent = 0;
 var _search_query = false;
 var _viewfeed_last = 0;
 
-var counter_timeout_id = false;
-
 var counters_last_request = 0;
 
 function viewCategory(cat) {
@@ -218,7 +216,8 @@ function feedlist_init() {
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
-		setTimeout("timeout()", 5000);
+		request_counters(true);
+		timeout();
 		setTimeout("precache_headlines_idle()", 15000);
 
 	} catch (e) {
@@ -226,46 +225,34 @@ function feedlist_init() {
 	}
 }
 
-function request_counters_real() {
+
+function request_counters(force) {
 	try {
-		console.log("requesting counters...");
-
-		var query = "?op=rpc&method=getAllCounters&seq=" + next_seq();
-
-		query = query + "&omode=flc";
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				try {
-					handle_rpc_json(transport);
-				} catch (e) {
-					exception_error("viewfeed/getcounters", e);
-				}
-			} });
-
-	} catch (e) {
-		exception_error("request_counters_real", e);
-	}
-}
-
-
-function request_counters() {
-
-	try {
-
-		//if (getInitParam("bw_limit") == "1") return;
-
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
-		if (timestamp - counters_last_request > 5) {
+		if (force || timestamp - counters_last_request > 15) {
 			console.log("scheduling request of counters...");
 
-			window.clearTimeout(counter_timeout_id);
-			counter_timeout_id = window.setTimeout("request_counters_real()", 1000);
-
 			counters_last_request = timestamp;
+
+			var query = "?op=rpc&method=getAllCounters&seq=" + next_seq();
+
+			if (!force)
+				query = query + "&last_article_id=" + getInitParam("last_article_id");
+
+			console.log(query);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+					try {
+						handle_rpc_json(transport);
+					} catch (e) {
+						exception_error("request_counters", e);
+					}
+				} });
+
 		} else {
 			console.log("request_counters: rate limit reached: " + (timestamp - counters_last_request));
 		}
@@ -567,6 +554,8 @@ function decrementFeedCounter(feed, is_cat) {
 
 		if (ctr > 0) {
 			setFeedUnread(feed, is_cat, ctr - 1);
+			global_unread = global_unread - 1;
+			updateTitle();
 
 			if (!is_cat) {
 				var cat = parseInt(getFeedCategory(feed));
