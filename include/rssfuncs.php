@@ -173,7 +173,7 @@
 		}
 
 		$result = db_query($link, "SELECT id,update_interval,auth_login,
-			feed_url,auth_pass,cache_images,last_updated,cache_content,
+			feed_url,auth_pass,cache_images,last_updated,
 			mark_unread_on_update, owner_uid, update_on_checksum_change,
 			pubsub_state
 			FROM ttrss_feeds WHERE id = '$feed'");
@@ -200,7 +200,6 @@
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
 
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
-		$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
 		$feed = db_escape_string($feed);
@@ -450,16 +449,11 @@
 				$entry_content = $item->get_content();
 				if (!$entry_content) $entry_content = $item->get_description();
 
-				if ($cache_images && is_writable(CACHE_DIR . '/images'))
-					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
-
 				if ($_REQUEST["xdebug"] == 2) {
 					print "update_rss_feed: content: ";
 					print $entry_content;
 					print "\n";
 				}
-
-				$entry_cached_content = "";
 
 				$entry_comments = $item->data["comments"];
 
@@ -549,6 +543,9 @@
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
 
+				if ($cache_images && is_writable(CACHE_DIR . '/images'))
+					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
+
 				$content_hash = "SHA1:" . sha1($entry_content);
 
 				db_query($link, "BEGIN");
@@ -560,19 +557,6 @@
 
 					if ($debug_enabled) {
 						_debug("update_rss_feed: base guid [$entry_guid] not found");
-					}
-
-					if (defined('_FEEDS_CONTENT_CACHE') && _FEEDS_CONTENT_CACHE && $cache_content) {
-						if ($debug_enabled) {
-							_debug("update_rss_feed: caching content (initial)...");
-						}
-
-						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
-
-						if ($cache_images && is_writable(CACHE_DIR . '/images'))
-							$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
-
-						$entry_cached_content = db_escape_string($entry_cached_content, false);
 					}
 
 					// base post entry does not exist, create it
@@ -599,7 +583,7 @@
 							'$entry_timestamp_fmt',
 							'$entry_content',
 							'$content_hash',
-							'$entry_cached_content',
+							'',
 							$no_orig_date,
 							NOW(),
 							NOW(),
@@ -629,7 +613,7 @@
 						id,content_hash,no_orig_date,title,
 						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
-						num_comments, cached_content
+						num_comments
 					FROM
 						ttrss_entries
 					WHERE guid = '$entry_guid'");
@@ -647,7 +631,6 @@
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_title = db_fetch_result($result, 0, "title");
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
-					$orig_cached_content = trim(db_fetch_result($result, 0, "cached_content"));
 					$orig_date_updated = strtotime(db_fetch_result($result,
 						0, "date_updated"));
 
@@ -783,7 +766,6 @@
 
 					$post_needs_update = false;
 					$update_insignificant = false;
-					$cached_content_needs_update = false;
 
 					if ($orig_num_comments != $num_comments) {
 						$post_needs_update = true;
@@ -793,27 +775,6 @@
 					if ($content_hash != $orig_content_hash) {
 						$post_needs_update = true;
 						$update_insignificant = false;
-						$cached_content_needs_update = true;
-					}
-
-					if (defined('_FEEDS_CONTENT_CACHE') && _FEEDS_CONTENT_CACHE && $cache_content) {
-						if ($debug_enabled) {
-							_debug("update_rss_feed: caching content because original checksum changed...");
-						}
-
-						$entry_cached_content = cache_content($link, $entry_link, $auth_login, $auth_pass);
-
-						if ($entry_cached_content) {
-							if ($cache_images && is_writable(CACHE_DIR . '/images'))
-								$entry_cached_content = cache_images($entry_cached_content, $site_url, $debug_enabled);
-
-							$entry_cached_content = db_escape_string($entry_cached_content, false);
-							$post_needs_update = true;
-						} else {
-							$entry_cached_content = db_escape_string($orig_cached_content);
-						}
-					} else {
-						$entry_cached_content = db_escape_string($orig_cached_content);
 					}
 
 					if (db_escape_string($orig_title) != $entry_title) {
@@ -834,7 +795,6 @@
 						db_query($link, "UPDATE ttrss_entries
 							SET title = '$entry_title', content = '$entry_content',
 								content_hash = '$content_hash',
-								cached_content = '$entry_cached_content',
 								updated = '$entry_timestamp_fmt',
 								num_comments = '$num_comments'
 							WHERE id = '$ref_id'");
