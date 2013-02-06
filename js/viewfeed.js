@@ -347,6 +347,10 @@ function article_callback2(transport, id) {
 
 function view(id) {
 	try {
+		var crow = $("RROW-" + id);
+
+		if (!crow) return;
+
 		console.log("loading article: " + id);
 
 		var cached_article = cache_get("article:" + id);
@@ -375,7 +379,6 @@ function view(id) {
 
 		query = query + "&cids=" + cids_to_request.toString();
 
-		var crow = $("RROW-" + id);
 		var article_is_unread = crow.hasClassName("Unread");
 
 		active_post_id = id;
