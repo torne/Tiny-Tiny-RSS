@@ -297,10 +297,7 @@ function parse_counters(elems, scheduled_call) {
 				continue;
 			}
 
-			// TODO: enable new content notification for categories
-
-			if (!activeFeedIsCat() && id == getActiveFeedId()
-					&& ctr > getFeedUnread(id) && scheduled_call) {
+			if (id == getActiveFeedId() && ctr > getFeedUnread(id) && scheduled_call) {
 				displayNewContentPrompt(id);
 			}
 
