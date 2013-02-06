@@ -926,7 +926,7 @@ function switchPanelMode(wide) {
 	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
 				height: '50%',
 				borderLeftWidth: '0px',
-				borderTopWidthidth: '1px'});
+				borderTopWidth: '1px'});
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
 		}
