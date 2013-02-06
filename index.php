@@ -153,9 +153,7 @@
 </div>
 
 <div dojoType="dijit.layout.BorderContainer" region="center" id="header-wrap" gutters="false">
-<div dojoType="dijit.layout.TabContainer" region="center" id="content-tabs">
-<div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap"
-	title="<?php echo __("News") ?>">
+<div dojoType="dijit.layout.BorderContainer" region="center" id="content-wrap">
 
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 	<div id="main-toolbar" dojoType="dijit.Toolbar">
@@ -246,7 +244,6 @@
 		<?php } ?>
 
 	</div>
-</div>
 </div>
 </div>
 </div>

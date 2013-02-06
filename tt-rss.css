@@ -1079,8 +1079,10 @@ div.fatalError textarea {
 
 #content-wrap {
 	padding : 0px;
-	border-width : 0px;
-	margin : 0px;
+	border-width : 1px 0px 1px 1px;
+	border-style : solid;
+  	border-color : #c0c0c0;
+	margin : 25px 0px 0px 0px;
 }
 
 #feeds-holder {
@@ -1109,12 +1111,6 @@ div.fatalError textarea {
 
 #headlines-toolbar_splitter, #toolbar_splitter {
 	display : none;
-}
-
-#content-tabs {
-	margin : 0px;
-	padding : 0px;
-	border-width : 0px;
 }
 
 #toolbar {

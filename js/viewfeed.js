@@ -1372,10 +1372,6 @@ function zoomToArticle(event, id) {
 	try {
 		var cached_article = cache_get("article: " + id);
 
-		if (dijit.byId("ATAB-" + id))
-			if (!event || !event.shiftKey)
-				return dijit.byId("content-tabs").selectChild(dijit.byId("ATAB-" + id));
-
 		if (dijit.byId("ATSTRTIP-" + id))
 			dijit.byId("ATSTRTIP-" + id).destroyRecursive();
 
@@ -1387,11 +1383,6 @@ function zoomToArticle(event, id) {
 				style: 'padding : 0px;',
 				id: 'ATAB-' + id,
 				closable: true });
-
-			dijit.byId("content-tabs").addChild(article_pane);
-
-			if (!event || !event.shiftKey)
-				dijit.byId("content-tabs").selectChild(article_pane);
 
 			if ($("PTITLE-" + id))
 				article_pane.attr('title', $("PTITLE-" + id).innerHTML);
@@ -1419,11 +1410,6 @@ function zoomToArticle(event, id) {
 							style: 'padding : 0px;',
 							id: 'ATAB-' + id,
 							closable: true });
-
-						dijit.byId("content-tabs").addChild(article_pane);
-
-						if (!event || !event.shiftKey)
-							dijit.byId("content-tabs").selectChild(article_pane);
 
 						if ($("PTITLE-" + id))
 							article_pane.attr('title', $("PTITLE-" + id).innerHTML);
@@ -1612,7 +1598,8 @@ function cdmClicked(event, id) {
 			}
 
 			toggleUnread(id, 0, false);
-			zoomToArticle(event, id);
+
+			openArticleInNewWindow(id);
 		}
 
 		request_counters();
@@ -1624,45 +1611,18 @@ function cdmClicked(event, id) {
 	return false;
 }
 
-function postClicked(event, id) {
-	try {
-
-		if (!event.ctrlKey) {
-			return true;
-		} else {
-			postOpenInNewTab(event, id);
-			return false;
-		}
-
-	} catch (e) {
-		exception_error("postClicked");
-	}
-}
-
-function hlOpenInNewTab(event, id) {
-	toggleUnread(id, 0, false);
-	zoomToArticle(event, id);
-}
-
-function postOpenInNewTab(event, id) {
-	closeArticlePanel(id);
-	zoomToArticle(event, id);
-}
-
 function hlClicked(event, id) {
 	try {
 		if (event.which == 2) {
 			view(id);
 			return true;
-		} else if (event.altKey) {
+		} else if (event.ctrlKey) {
+			toggleSelected(id, true);
+			toggleUnread(id, 0, false);
 			openArticleInNewWindow(id);
-		} else if (!event.ctrlKey) {
-			view(id);
 			return false;
 		} else {
-			toggleSelected(id);
-			toggleUnread(id, 0, false);
-			zoomToArticle(event, id);
+			view(id);
 			return false;
 		}
 
@@ -1775,17 +1735,9 @@ function headlineActionsChange(elem) {
 
 function closeArticlePanel() {
 
-	var tabs = dijit.byId("content-tabs");
-	var child = tabs.selectedChildWidget;
-
-	if (child && tabs.getIndexOfChild(child) > 0) {
-		tabs.removeChild(child);
-		child.destroy();
-	} else {
-		if (dijit.byId("content-insert"))
-			dijit.byId("headlines-wrap-inner").removeChild(
-				dijit.byId("content-insert"));
-	}
+	if (dijit.byId("content-insert"))
+		dijit.byId("headlines-wrap-inner").removeChild(
+			dijit.byId("content-insert"));
 }
 
 function initHeadlinesMenu() {
@@ -1835,12 +1787,6 @@ function initHeadlinesMenu() {
 			onClick: function(event) {
 				openArticleInNewWindow(this.getParent().callerRowId);
 			}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("View in a tt-rss tab"),
-			onClick: function(event) {
-				hlOpenInNewTab(event, this.getParent().callerRowId);
-				}}));
 
 		menu.addChild(new dijit.MenuSeparator());
 

@@ -107,10 +107,6 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			} */
 		}
 
-		if (offset == 0 && !background)
-			dijit.byId("content-tabs").selectChild(
-				dijit.byId("content-tabs").getChildren()[0]);
-
 		if (!background) {
 			_viewfeed_last = get_timestamp();
 

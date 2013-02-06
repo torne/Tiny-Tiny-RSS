@@ -2910,7 +2910,7 @@
 
 			$rv['content'] .= "<div class=\"postReply\" id=\"POST-$id\">";
 
-			$rv['content'] .= "<div onclick=\"return postClicked(event, $id)\"
+			$rv['content'] .= "<div onclick=\"return hlClicked(event, $id)\"
 				class=\"postHeader\" id=\"POSTHDR-$id\">";
 
 			$entry_author = $line["author"];
