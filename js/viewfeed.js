@@ -1368,61 +1368,6 @@ function getArticleUnderPointer() {
 	return post_under_pointer;
 }
 
-function zoomToArticle(event, id) {
-	try {
-		var cached_article = cache_get("article: " + id);
-
-		if (dijit.byId("ATSTRTIP-" + id))
-			dijit.byId("ATSTRTIP-" + id).destroyRecursive();
-
-		if (cached_article) {
-			//closeArticlePanel();
-
-			var article_pane = new dijit.layout.ContentPane({
-				title: __("Loading...") , content: cached_article,
-				style: 'padding : 0px;',
-				id: 'ATAB-' + id,
-				closable: true });
-
-			if ($("PTITLE-" + id))
-				article_pane.attr('title', $("PTITLE-" + id).innerHTML);
-
-		} else {
-
-			var query = "?op=rpc&method=getArticles&ids=" + param_escape(id);
-
-			notify_progress("Loading, please wait...", true);
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-					notify('');
-
-					var reply = JSON.parse(transport.responseText);
-
-					if (reply) {
-						//closeArticlePanel();
-
-						var content = reply[0]['content'];
-
-						var article_pane = new dijit.layout.ContentPane({
-							title: "article-" + id , content: content,
-							style: 'padding : 0px;',
-							id: 'ATAB-' + id,
-							closable: true });
-
-						if ($("PTITLE-" + id))
-							article_pane.attr('title', $("PTITLE-" + id).innerHTML);
-					}
-
-				} });
-			}
-
-	} catch (e) {
-		exception_error("zoomToArticle", e);
-	}
-}
-
 function scrollArticle(offset) {
 	try {
 		if (!isCdmMode()) {

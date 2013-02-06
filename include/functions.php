@@ -2902,9 +2902,6 @@
 
 			$title_escaped = htmlspecialchars($line['title']);
 
-			$rv['content'] .= "<div id=\"PTITLE-$id\" style=\"display : none\">" .
-				truncate_string(strip_tags($line['title']), 15) . "</div>";
-
 			$rv['content'] .= "<div id=\"PTITLE-FULL-$id\" style=\"display : none\">" .
 				strip_tags($line['title']) . "</div>";
 
