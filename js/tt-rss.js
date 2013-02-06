@@ -913,6 +913,8 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: '50%',
 				height: 'auto',
+				borderLeftWidth: '1px',
+				borderLeftColor: '#c0c0c0',
 				borderTopWidth: '0px' });
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '0px' });
@@ -923,6 +925,7 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
 				height: '50%',
+				borderLeftWidth: '0px',
 				borderTopWidthidth: '1px'});
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
