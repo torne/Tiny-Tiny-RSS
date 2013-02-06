@@ -585,26 +585,42 @@ class Dlg extends Handler_Protected {
 		$version = $version_data['version'];
 		$id = $version_data['version_id'];
 
-		print "<div class='tagCloudContainer'>";
+		if ($version && $id) {
+			print "<div class='tagCloudContainer'>";
 
-		print T_sprintf("New version of Tiny Tiny RSS is available (%s).",
-			"<b>$version</b>");
+			print T_sprintf("New version of Tiny Tiny RSS is available (%s).",
+				"<b>$version</b>");
 
-		print "</div>";
+			print "</div>";
 
-		$details = "http://tt-rss.org/redmine/versions/$id";
-		$download = "http://tt-rss.org/#Download";
+			$details = "http://tt-rss.org/redmine/versions/$id";
+			$download = "http://tt-rss.org/#Download";
 
-		print "<p align='center'>".__("You can update using built-in updater in the Preferences or by using update.php")."</p>";
+			print "<p align='center'>".__("You can update using built-in updater in the Preferences or by using update.php")."</p>";
 
-		print "<div style='text-align : center'>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"return window.open('$details')\">".__("Details")."</button>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"return window.open('$download')\">".__("Download")."</button>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"return dijit.byId('newVersionDlg').hide()\">".
-			__('Close this window')."</button>";
+			print "<div style='text-align : center'>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"return window.open('$details')\">".__("Details")."</button>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"return window.open('$download')\">".__("Download")."</button>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('newVersionDlg').hide()\">".
+				__('Close this window')."</button>";
+
+		} else {
+			print "<div class='tagCloudContainer'>";
+
+			print "<p align='center'>".__("Error receiving version information or no new version available.")."</p>";
+
+			print "</div>";
+
+			print "<div style='text-align : center'>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('newVersionDlg').hide()\">".
+				__('Close this window')."</button>";
+			print "</div>";
+
+		}
 		print "</div>";
 
 	}
