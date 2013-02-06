@@ -292,6 +292,10 @@ function gotoPreferences() {
 	document.location.href = "prefs.php";
 }
 
+function gotoLogout() {
+	document.location.href = "backend.php?op=logout";
+}
+
 function gotoMain() {
 	document.location.href = "index.php";
 }

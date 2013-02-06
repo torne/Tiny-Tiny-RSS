@@ -117,20 +117,6 @@
 		title="<?php echo __("Communication problem with server.") ?>"
 		src="<?php echo theme_image($link, 'images/alert.png') ?>"/>
 
-	<?php if (!$_SESSION["hide_hello"]) { ?>
-			<?php echo __('Hello,') ?> <b><?php echo $_SESSION["name"] ?></b> |
-	<?php } ?>
-	<a href="prefs.php"><?php echo __('Preferences') ?></a>
-
-	<?php if (defined('FEEDBACK_URL') && FEEDBACK_URL) { ?>
-		| <a target="_blank" class="feedback" href="<?php echo FEEDBACK_URL ?>">
-				<?php echo __('Comments?') ?></a>
-	<?php } ?>
-
-	<?php if (!$_SESSION["hide_logout"]) { ?>
-			| <a href="backend.php?op=logout"><?php echo __('Logout') ?></a>
-	<?php } ?>
-
 	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()"
 		width="13" height="13"
 		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
@@ -197,9 +183,24 @@
 		</form>
 
 		<div class="actionChooser">
+
+			<button id="net-alert" dojoType="dijit.form.Button" style="display : none" disabled="true"
+				title="<?php echo __("Communication problem with server.") ?>">
+			<img
+				src="<?php echo theme_image($link, 'images/alert.png') ?>" />
+			</button>
+
+			<button id="newVersionIcon" dojoType="dijit.form.Button" style="display : none">
+			<img onclick="newVersionDlg()"
+				src="<?php echo theme_image($link, 'images/new_version.png') ?>"
+				title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" />
+			</button>
+
+
 			<div dojoType="dijit.form.DropDownButton">
 				<span><?php echo __('Actions...') ?></span>
 				<div dojoType="dijit.Menu" style="display: none">
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcPrefs')"><?php echo __('Preferences...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcSearch')"><?php echo __('Search...') ?></div>
 					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Feed actions:') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFeed')"><?php echo __('Subscribe to feed...') ?></div>
@@ -220,6 +221,9 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
+					<?php if (!$_SESSION["hide_logout"]) { ?>
+						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcLogout')"><?php echo __('Logout') ?></div>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

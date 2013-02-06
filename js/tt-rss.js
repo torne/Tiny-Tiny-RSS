@@ -335,42 +335,35 @@ function init_second_stage() {
 
 function quickMenuGo(opid) {
 	try {
-		if (opid == "qmcPrefs") {
+		switch (opid) {
+		case "qmcPrefs":
 			gotoPreferences();
-		}
-
-		if (opid == "qmcTagCloud") {
+			break;
+		case "qmcLogout":
+			gotoLogout();
+			break;
+		case "qmcTagCloud":
 			displayDlg("printTagCloud");
-		}
-
-		if (opid == "qmcTagSelect") {
+			break;
+		case "qmcTagSelect":
 			displayDlg("printTagSelect");
-		}
-
-		if (opid == "qmcSearch") {
+			break;
+		case "qmcSearch":
 			search();
-			return;
-		}
-
-		if (opid == "qmcAddFeed") {
+			break;
+		case "qmcAddFeed":
 			quickAddFeed();
-			return;
-		}
-
-		if (opid == "qmcDigest") {
+			break;
+		case "qmcDigest":
 			window.location.href = "backend.php?op=digest";
-			return;
-		}
-
-		if (opid == "qmcEditFeed") {
+			break;
+		case "qmcEditFeed":
 			if (activeFeedIsCat())
 				alert(__("You can't edit this kind of feed."));
 			else
 				editFeed(getActiveFeedId());
-			return;
-		}
-
-		if (opid == "qmcRemoveFeed") {
+			break;
+		case "qmcRemoveFeed":
 			var actid = getActiveFeedId();
 
 			if (activeFeedIsCat()) {
@@ -390,46 +383,34 @@ function quickMenuGo(opid) {
 			if (confirm(pr)) {
 				unsubscribeFeed(actid);
 			}
-
-			return;
-		}
-
-		if (opid == "qmcCatchupAll") {
+			break;
+		case "qmcCatchupAll":
 			catchupAllFeeds();
-			return;
-		}
-
-		if (opid == "qmcShowOnlyUnread") {
+			break;
+		case "qmcShowOnlyUnread":
 			toggleDispRead();
-			return;
-		}
-
-		if (opid == "qmcAddFilter") {
+			break;
+		case "qmcAddFilter":
 			quickAddFilter();
-			return;
-		}
-
-		if (opid == "qmcAddLabel") {
+			break;
+		case "qmcAddLabel":
 			addLabel();
-			return;
-		}
-
-		if (opid == "qmcRescoreFeed") {
+			break;
+		case "qmcRescoreFeed":
 			rescoreCurrentFeed();
-			return;
-		}
-
-		if (opid == "qmcToggleWidescreen") {
+			break;
+		case "qmcToggleWidescreen":
 			if (!isCdmMode()) {
 				_widescreen_mode = !_widescreen_mode;
 
 				switchPanelMode(_widescreen_mode);
 			}
-			return;
-		}
-
-		if (opid == "qmcHKhelp") {
+			break;
+		case "qmcHKhelp":
 			helpDialog("main");
+			break;
+		default:
+			console.log("quickMenuGo: unknown action: " + opid);
 		}
 
 	} catch (e) {
@@ -469,13 +450,10 @@ function parse_runtime_info(data) {
 //		console.log("RI: " + k + " => " + v);
 
 		if (k == "new_version_available") {
-			var icon = $("newVersionIcon");
-			if (icon) {
-				if (v == "1") {
-					icon.style.display = "inline";
-				} else {
-					icon.style.display = "none";
-				}
+			if (v == "1") {
+				Element.show(dijit.byId("newVersionIcon").domNode);
+			} else {
+				Element.hide(dijit.byId("newVersionIcon").domNode);
 			}
 			return;
 		}
@@ -908,15 +886,15 @@ function handle_rpc_json(transport, scheduled_call) {
 
 			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
-			Element.hide("net-alert");
+			Element.hide(dijit.byId("net-alert").domNode);
 
 		} else {
 			//notify_error("Error communicating with server.");
-			Element.show("net-alert");
+			Element.show(dijit.byId("net-alert").domNode);
 		}
 
 	} catch (e) {
-		Element.show("net-alert");
+		Element.show(dijit.byId("net-alert").domNode);
 		//notify_error("Error communicating with server.");
 		console.log(e);
 		//exception_error("handle_rpc_json", e, transport);
