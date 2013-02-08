@@ -285,13 +285,12 @@
 				$favicon_interval_qpart = "favicon_last_checked < DATE_SUB(NOW(), INTERVAL 12 HOUR)";
 			}
 
-			$result = db_query($link, "SELECT title,icon_url,site_url,owner_uid,
+			$result = db_query($link, "SELECT title,site_url,owner_uid,
 				(favicon_last_checked IS NULL OR $favicon_interval_qpart) AS
 						favicon_needs_check
 				FROM ttrss_feeds WHERE id = '$feed'");
 
 			$registered_title = db_fetch_result($result, 0, "title");
-			$orig_icon_url = db_fetch_result($result, 0, "icon_url");
 			$orig_site_url = db_fetch_result($result, 0, "site_url");
 			$favicon_needs_check = sql_bool_to_bool(db_fetch_result($result, 0,
 				"favicon_needs_check"));
@@ -326,13 +325,6 @@
 			if ($site_url && $orig_site_url != $site_url) {
 				db_query($link, "UPDATE ttrss_feeds SET
 					site_url = '$site_url' WHERE id = '$feed'");
-			}
-
-			$icon_url = db_escape_string(mb_substr(
-				rewrite_relative_url($fetch_url, $rss->get_image_url()), 0, 245));
-
-			if ($icon_url && $orig_icon_url != $icon_url) {
-				db_query($link, "UPDATE ttrss_feeds SET icon_url = '$icon_url' WHERE id = '$feed'");
 			}
 
 			if ($debug_enabled) {

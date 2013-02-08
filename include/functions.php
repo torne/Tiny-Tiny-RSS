@@ -2852,7 +2852,6 @@
 
 		$result = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
-			(SELECT icon_url FROM ttrss_feeds WHERE id = feed_id) as icon_url,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
 			num_comments,
 			tag_cache,
@@ -2866,12 +2865,6 @@
 		if ($result) {
 
 			$line = db_fetch_assoc($result);
-
-			if ($line["icon_url"]) {
-				$feed_icon = "<img src=\"" . $line["icon_url"] . "\">";
-			} else {
-				$feed_icon = "&nbsp;";
-			}
 
 			$feed_site_url = $line['site_url'];
 
@@ -3011,11 +3004,6 @@
 					$rv['content'] .= format_article_note($id, $line['note'], !$zoom_mode);
 				}
 			$rv['content'] .= "</div>";
-
-			$rv['content'] .= "<div class=\"postIcon\">" .
-				"<a target=\"_blank\" title=\"".__("Visit the website")."\"$
-				href=\"".htmlspecialchars($feed_site_url)."\">".
-				$feed_icon . "</a></div>";
 
 			$rv['content'] .= "<div class=\"postContent\">";
 
