@@ -131,24 +131,29 @@ class API extends Handler {
 			$nested_qpart = "true";
 
 		$result = db_query($this->link, "SELECT
-				id, title, order_id FROM ttrss_feed_categories
+				id, title, order_id, (SELECT COUNT(id) FROM
+				ttrss_feeds WHERE
+				ttrss_feed_categories.id IS NOT NULL AND cat_id = ttrss_feed_categories.id) AS num_feeds
+			FROM ttrss_feed_categories
 			WHERE $nested_qpart AND owner_uid = " .
 			$_SESSION["uid"]);
 
 		$cats = array();
 
 		while ($line = db_fetch_assoc($result)) {
-			$unread = getFeedUnread($this->link, $line["id"], true);
+			if ($line["num_feeds"] > 0) {
+				$unread = getFeedUnread($this->link, $line["id"], true);
 
-			if ($enable_nested)
-				$unread += getCategoryChildrenUnread($this->link, $line["id"]);
+				if ($enable_nested)
+					$unread += getCategoryChildrenUnread($this->link, $line["id"]);
 
-			if ($unread || !$unread_only) {
-				array_push($cats, array("id" => $line["id"],
-					"title" => $line["title"],
-					"unread" => $unread,
-					"order_id" => (int) $line["order_id"],
-				));
+				if ($unread || !$unread_only) {
+					array_push($cats, array("id" => $line["id"],
+						"title" => $line["title"],
+						"unread" => $unread,
+						"order_id" => (int) $line["order_id"],
+					));
+				}
 			}
 		}
 
