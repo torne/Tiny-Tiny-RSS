@@ -98,7 +98,7 @@ class Feeds extends Handler_Protected {
 
 		$reply .= "<select dojoType=\"dijit.form.Select\"
 			onchange=\"headlineActionsChange(this)\">";
-		$reply .= "<option value=\"false\">".__('Actions...')."</option>";
+		$reply .= "<option value=\"false\">".__('More...')."</option>";
 
 		$reply .= "<option value=\"0\" disabled=\"1\">".__('Selection toggle:')."</option>";
 
