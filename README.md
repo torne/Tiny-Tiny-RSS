@@ -8,7 +8,7 @@ http://tt-rss.org
 
 Licensed under GNU GPL version 2
 
-Copyright (c) 2005-2010 Andrew Dolgov (unless explicitly stated otherwise).
+Copyright (c) 2005 Andrew Dolgov (unless explicitly stated otherwise).
 
 ## Requirements
 
