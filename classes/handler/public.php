@@ -25,7 +25,8 @@ class Handler_Public extends Handler {
 
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
-			$match_on, "$date_sort_field DESC", $offset, $owner_uid);
+			$match_on, "$date_sort_field DESC", $offset, $owner_uid,
+			false, 0, false, true);
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);

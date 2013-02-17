@@ -2111,7 +2111,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2385,7 +2385,7 @@
 				}
 
 				// proper override_order applied above
-				if ($vfeed_query_part && get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
+				if ($vfeed_query_part && !$ignore_vfeed_group && get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
 					if (!$override_order) {
 						$order_by = "ttrss_feeds.title, $order_by";
 					} else {
