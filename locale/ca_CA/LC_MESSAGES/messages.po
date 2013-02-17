@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-05 01:27+0400\n"
+"POT-Creation-Date: 2013-02-17 13:58+0400\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -263,6 +263,7 @@ msgstr ""
 #: classes/backend.php:6 classes/pref/labels.php:296
 #: classes/pref/filters.php:602 classes/pref/feeds.php:1342
 #: plugins/digest/digest_body.php:45 js/viewfeed.js:1169 js/viewfeed.js:1158
+#: js/viewfeed.js:1164
 msgid "Loading, please wait..."
 msgstr "S'està obrint, preneu paciència..."
 
@@ -670,7 +671,7 @@ msgstr "Marca el canal com a llegit"
 msgid "Reverse headlines order"
 msgstr "Inverteix l'ordre de les capçaleres (les més antigues les primeres)"
 
-#: help/main.php:61
+#: help/main.php:61 js/FeedTree.js:170
 msgid "Mark all feeds as read"
 msgstr "Marca tots els canals com a llegits"
 
@@ -850,11 +851,13 @@ msgid "Search results: %s"
 msgstr "Resultats de la cerca"
 
 #: include/functions.php:3067 js/viewfeed.js:1998 js/viewfeed.js:1971
+#: js/viewfeed.js:1835
 #, fuzzy
 msgid "Click to play"
 msgstr "Feu clic per editar"
 
 #: include/functions.php:3068 js/viewfeed.js:1997 js/viewfeed.js:1970
+#: js/viewfeed.js:1834
 msgid "Play"
 msgstr ""
 
@@ -992,6 +995,7 @@ msgid "Set starred"
 msgstr "Marca'l com a destacat"
 
 #: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
+#: js/viewfeed.js:496
 msgid "Publish article"
 msgstr "Publica l'article"
 
@@ -1000,6 +1004,7 @@ msgid "Assign tags"
 msgstr "Assigna etiquetes"
 
 #: include/localized_schema.php:14 js/viewfeed.js:1962 js/viewfeed.js:1935
+#: js/viewfeed.js:1799
 msgid "Assign label"
 msgstr "Assigna-li l'etiqueta"
 
@@ -1514,6 +1519,7 @@ msgstr "Més canals"
 
 #: classes/dlg.php:336 classes/dlg.php:425 classes/pref/users.php:368
 #: classes/pref/filters.php:567 classes/pref/feeds.php:1270 js/tt-rss.js:234
+#: js/tt-rss.js:187
 msgid "Search"
 msgstr "Cerca"
 
@@ -2710,11 +2716,12 @@ msgstr "Última actualització:"
 msgid "Start update"
 msgstr "Última actualització:"
 
-#: js/feedlist.js:283 js/feedlist.js:282
+#: js/feedlist.js:283 js/feedlist.js:282 js/feedlist.js:265
 msgid "New articles available in this feed (click to show)"
 msgstr ""
 
 #: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
+#: js/feedlist.js:469 js/feedlist.js:484
 msgid "Mark all articles in %s as read?"
 msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
 
@@ -2803,7 +2810,7 @@ msgid ""
 "hub again on next feed update."
 msgstr ""
 
-#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251
+#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251 js/tt-rss.js:381
 msgid "Unsubscribe from %s?"
 msgstr "Us voleu donar de baixa de %s ?"
 
@@ -2817,7 +2824,7 @@ msgid "Generate new syndication address for this feed?"
 msgstr ""
 
 #: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
-#: js/tt-rss.js:782
+#: js/tt-rss.js:782 js/tt-rss.js:362 js/tt-rss.js:717
 msgid "You can't edit this kind of feed."
 msgstr "No podeu editar aquest tipus de canal."
 
@@ -3093,27 +3100,28 @@ msgstr "Importeu"
 msgid "Subscribing to feeds..."
 msgstr "S'està subscrivint a un canal..."
 
-#: js/tt-rss.js:147
+#: js/tt-rss.js:147 js/tt-rss.js:141
 msgid "Mark all articles as read?"
 msgstr "Esteu segur que voleu marcar tots els articles com a llegits?"
 
-#: js/tt-rss.js:410
+#: js/tt-rss.js:410 js/tt-rss.js:370
 msgid "You can't unsubscribe from the category."
 msgstr "No us podeu donar de baixa de la categoria."
 
-#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591
+#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591 js/tt-rss.js:375
+#: js/tt-rss.js:525
 msgid "Please select some feed first."
 msgstr "Primerament heu de seleccionar un canal."
 
-#: js/tt-rss.js:591 js/tt-rss.js:586
+#: js/tt-rss.js:591 js/tt-rss.js:586 js/tt-rss.js:520
 msgid "You can't rescore this kind of feed."
 msgstr "No podeu canviar la puntuació d'aquest tipus de canal."
 
-#: js/tt-rss.js:601 js/tt-rss.js:596
+#: js/tt-rss.js:601 js/tt-rss.js:596 js/tt-rss.js:530
 msgid "Rescore articles in %s?"
 msgstr "Esteu segur que voleu canviar la puntuació dels articles a %s?"
 
-#: js/tt-rss.js:1062 js/tt-rss.js:883
+#: js/tt-rss.js:1062 js/tt-rss.js:883 js/tt-rss.js:825
 #, fuzzy
 msgid "New version available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
@@ -3123,15 +3131,15 @@ msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 msgid "Cancel search"
 msgstr "Cancel·la"
 
-#: js/viewfeed.js:456 js/viewfeed.js:445
+#: js/viewfeed.js:456 js/viewfeed.js:445 js/viewfeed.js:451
 msgid "Unstar article"
 msgstr "Treu la marca de l'article"
 
-#: js/viewfeed.js:461 js/viewfeed.js:450
+#: js/viewfeed.js:461 js/viewfeed.js:450 js/viewfeed.js:456
 msgid "Star article"
 msgstr "Marca l'article"
 
-#: js/viewfeed.js:496 js/viewfeed.js:485
+#: js/viewfeed.js:496 js/viewfeed.js:485 js/viewfeed.js:491
 msgid "Unpublish article"
 msgstr "Deixa de publicar l'article"
 
@@ -3140,60 +3148,62 @@ msgstr "Deixa de publicar l'article"
 #: js/viewfeed.js:1055 js/viewfeed.js:2181 js/viewfeed.js:665
 #: js/viewfeed.js:693 js/viewfeed.js:720 js/viewfeed.js:782 js/viewfeed.js:814
 #: js/viewfeed.js:951 js/viewfeed.js:994 js/viewfeed.js:1044
-#: js/viewfeed.js:2154
+#: js/viewfeed.js:2154 js/viewfeed.js:671 js/viewfeed.js:699
+#: js/viewfeed.js:726 js/viewfeed.js:788 js/viewfeed.js:820 js/viewfeed.js:957
+#: js/viewfeed.js:1000 js/viewfeed.js:1050 js/viewfeed.js:2018
 msgid "No articles are selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:942 js/viewfeed.js:931
+#: js/viewfeed.js:942 js/viewfeed.js:931 js/viewfeed.js:937
 msgid "Mark all visible articles in %s as read?"
 msgstr ""
 "Esteu segur que voleu marcar tots els articles visibles de %s com a llegits ?"
 
-#: js/viewfeed.js:970 js/viewfeed.js:959
+#: js/viewfeed.js:970 js/viewfeed.js:959 js/viewfeed.js:965
 #, fuzzy
 msgid "Delete %d selected articles in %s?"
 msgstr ""
 "Esteu segur que voleu marcar els %d articles seleccionats de %s com a "
 "llegits?"
 
-#: js/viewfeed.js:972 js/viewfeed.js:961
+#: js/viewfeed.js:972 js/viewfeed.js:961 js/viewfeed.js:967
 #, fuzzy
 msgid "Delete %d selected articles?"
 msgstr ""
 "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#: js/viewfeed.js:1014 js/viewfeed.js:1003
+#: js/viewfeed.js:1014 js/viewfeed.js:1003 js/viewfeed.js:1009
 #, fuzzy
 msgid "Archive %d selected articles in %s?"
 msgstr ""
 "Esteu segur que voleu marcar els %d articles seleccionats de %s com a "
 "llegits?"
 
-#: js/viewfeed.js:1017 js/viewfeed.js:1006
+#: js/viewfeed.js:1017 js/viewfeed.js:1006 js/viewfeed.js:1012
 #, fuzzy
 msgid "Move %d archived articles back?"
 msgstr "Articles marcats"
 
-#: js/viewfeed.js:1061 js/viewfeed.js:1050
+#: js/viewfeed.js:1061 js/viewfeed.js:1050 js/viewfeed.js:1056
 msgid "Mark %d selected articles in %s as read?"
 msgstr ""
 "Esteu segur que voleu marcar els %d articles seleccionats de %s com a "
 "llegits?"
 
-#: js/viewfeed.js:1085 js/viewfeed.js:1074
+#: js/viewfeed.js:1085 js/viewfeed.js:1074 js/viewfeed.js:1080
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Edita les etiquetes"
 
-#: js/viewfeed.js:1247 js/viewfeed.js:1236
+#: js/viewfeed.js:1247 js/viewfeed.js:1236 js/viewfeed.js:1242
 msgid "No article is selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1282 js/viewfeed.js:1271
+#: js/viewfeed.js:1282 js/viewfeed.js:1271 js/viewfeed.js:1277
 msgid "No articles found to mark"
 msgstr "No s'han trobat articles per a marcar."
 
-#: js/viewfeed.js:1284 js/viewfeed.js:1273
+#: js/viewfeed.js:1284 js/viewfeed.js:1273 js/viewfeed.js:1279
 msgid "Mark %d article(s) as read?"
 msgstr "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 
@@ -3202,7 +3212,7 @@ msgstr "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 msgid "Loading..."
 msgstr "S'està carregant la llista de canals..."
 
-#: js/viewfeed.js:1891 js/viewfeed.js:1864
+#: js/viewfeed.js:1891 js/viewfeed.js:1864 js/viewfeed.js:1734
 #, fuzzy
 msgid "Open original article"
 msgstr "Mostra el contingut original de l'article"
@@ -3212,42 +3222,42 @@ msgstr "Mostra el contingut original de l'article"
 msgid "View in a tt-rss tab"
 msgstr "Obre l'article en una finestra nova"
 
-#: js/viewfeed.js:1905 js/viewfeed.js:1878
+#: js/viewfeed.js:1905 js/viewfeed.js:1878 js/viewfeed.js:1742
 #, fuzzy
 msgid "Mark above as read"
 msgstr "Marca'l com a llegit"
 
-#: js/viewfeed.js:1911 js/viewfeed.js:1884
+#: js/viewfeed.js:1911 js/viewfeed.js:1884 js/viewfeed.js:1748
 #, fuzzy
 msgid "Mark below as read"
 msgstr "Marca'l com a llegit"
 
-#: js/viewfeed.js:1967 js/viewfeed.js:1940
+#: js/viewfeed.js:1967 js/viewfeed.js:1940 js/viewfeed.js:1804
 #, fuzzy
 msgid "Remove label"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: js/viewfeed.js:1991 js/viewfeed.js:1964
+#: js/viewfeed.js:1991 js/viewfeed.js:1964 js/viewfeed.js:1828
 #, fuzzy
 msgid "Playing..."
 msgstr "S'està carregant la llista de canals..."
 
-#: js/viewfeed.js:1992 js/viewfeed.js:1965
+#: js/viewfeed.js:1992 js/viewfeed.js:1965 js/viewfeed.js:1829
 #, fuzzy
 msgid "Click to pause"
 msgstr "Feu clic per editar"
 
-#: js/viewfeed.js:2150 js/viewfeed.js:2123
+#: js/viewfeed.js:2150 js/viewfeed.js:2123 js/viewfeed.js:1987
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2192 js/viewfeed.js:2165
+#: js/viewfeed.js:2192 js/viewfeed.js:2165 js/viewfeed.js:2029
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/functions.js:1887
+#: js/functions.js:1887 js/functions.js:1891
 msgid "Help"
 msgstr "Ajuda"
 
@@ -3255,7 +3265,7 @@ msgstr "Ajuda"
 msgid "Clear stored data for this plugin?"
 msgstr ""
 
-#: js/tt-rss.js:741
+#: js/tt-rss.js:741 js/tt-rss.js:676
 #, fuzzy
 msgid "Please enable mail plugin first."
 msgstr "Primerament heu de seleccionar un canal."

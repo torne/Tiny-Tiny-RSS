@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-05 01:27+0400\n"
+"POT-Creation-Date: 2013-02-17 13:58+0400\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Sai <lazycai.ffsky@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/"
@@ -251,6 +251,7 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 #: classes/backend.php:6 classes/pref/labels.php:296
 #: classes/pref/filters.php:602 classes/pref/feeds.php:1342
 #: plugins/digest/digest_body.php:45 js/viewfeed.js:1169 js/viewfeed.js:1158
+#: js/viewfeed.js:1164
 msgid "Loading, please wait..."
 msgstr "读取中，请稍候……"
 
@@ -640,7 +641,7 @@ msgstr "标记信息源为已读"
 msgid "Reverse headlines order"
 msgstr "反向排序"
 
-#: help/main.php:61
+#: help/main.php:61 js/FeedTree.js:170
 msgid "Mark all feeds as read"
 msgstr "标记所有信息源为已读"
 
@@ -814,10 +815,12 @@ msgid "Search results: %s"
 msgstr ""
 
 #: include/functions.php:3067 js/viewfeed.js:1998 js/viewfeed.js:1971
+#: js/viewfeed.js:1835
 msgid "Click to play"
 msgstr "点击播放"
 
 #: include/functions.php:3068 js/viewfeed.js:1997 js/viewfeed.js:1970
+#: js/viewfeed.js:1834
 msgid "Play"
 msgstr "播放"
 
@@ -944,6 +947,7 @@ msgid "Set starred"
 msgstr "加星标"
 
 #: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
+#: js/viewfeed.js:496
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -952,6 +956,7 @@ msgid "Assign tags"
 msgstr "添加自定义标签"
 
 #: include/localized_schema.php:14 js/viewfeed.js:1962 js/viewfeed.js:1935
+#: js/viewfeed.js:1799
 msgid "Assign label"
 msgstr "添加预定义标签"
 
@@ -1426,6 +1431,7 @@ msgstr "更多信息源"
 
 #: classes/dlg.php:336 classes/dlg.php:425 classes/pref/users.php:368
 #: classes/pref/filters.php:567 classes/pref/feeds.php:1270 js/tt-rss.js:234
+#: js/tt-rss.js:187
 msgid "Search"
 msgstr "搜索"
 
@@ -2555,11 +2561,12 @@ msgstr "上次更新："
 msgid "Start update"
 msgstr "上次更新："
 
-#: js/feedlist.js:283 js/feedlist.js:282
+#: js/feedlist.js:283 js/feedlist.js:282 js/feedlist.js:265
 msgid "New articles available in this feed (click to show)"
 msgstr "本信息源中的最新文章（点击显示）"
 
 #: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
+#: js/feedlist.js:469 js/feedlist.js:484
 msgid "Mark all articles in %s as read?"
 msgstr "将 %s 中的全部文章标记为已读？"
 
@@ -2645,7 +2652,7 @@ msgid ""
 msgstr ""
 "重置订阅？ Tiny Tiny RSS 将会在下次信息源更新的时候尝试再次订阅信息提醒中心。"
 
-#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251
+#: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251 js/tt-rss.js:381
 msgid "Unsubscribe from %s?"
 msgstr "从 %s 取消订阅？"
 
@@ -2658,7 +2665,7 @@ msgid "Generate new syndication address for this feed?"
 msgstr "为本信息源生成新的群地址？"
 
 #: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
-#: js/tt-rss.js:782
+#: js/tt-rss.js:782 js/tt-rss.js:362 js/tt-rss.js:717
 msgid "You can't edit this kind of feed."
 msgstr "您无法编辑这种类型的信息源。"
 
@@ -2907,27 +2914,28 @@ msgstr ""
 msgid "Subscribing to feeds..."
 msgstr ""
 
-#: js/tt-rss.js:147
+#: js/tt-rss.js:147 js/tt-rss.js:141
 msgid "Mark all articles as read?"
 msgstr "将所有文章标记为已读？"
 
-#: js/tt-rss.js:410
+#: js/tt-rss.js:410 js/tt-rss.js:370
 msgid "You can't unsubscribe from the category."
 msgstr "您不能取消订阅一个类别。"
 
-#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591
+#: js/tt-rss.js:415 js/tt-rss.js:596 js/tt-rss.js:591 js/tt-rss.js:375
+#: js/tt-rss.js:525
 msgid "Please select some feed first."
 msgstr "请先选几个信息源吧。"
 
-#: js/tt-rss.js:591 js/tt-rss.js:586
+#: js/tt-rss.js:591 js/tt-rss.js:586 js/tt-rss.js:520
 msgid "You can't rescore this kind of feed."
 msgstr "无法重置本类信息源的评分。"
 
-#: js/tt-rss.js:601 js/tt-rss.js:596
+#: js/tt-rss.js:601 js/tt-rss.js:596 js/tt-rss.js:530
 msgid "Rescore articles in %s?"
 msgstr "重置 %s 中文章的评分？"
 
-#: js/tt-rss.js:1062 js/tt-rss.js:883
+#: js/tt-rss.js:1062 js/tt-rss.js:883 js/tt-rss.js:825
 msgid "New version available!"
 msgstr "有可用的新版本啦！"
 
@@ -2936,15 +2944,15 @@ msgstr "有可用的新版本啦！"
 msgid "Cancel search"
 msgstr "取消"
 
-#: js/viewfeed.js:456 js/viewfeed.js:445
+#: js/viewfeed.js:456 js/viewfeed.js:445 js/viewfeed.js:451
 msgid "Unstar article"
 msgstr "取消星标"
 
-#: js/viewfeed.js:461 js/viewfeed.js:450
+#: js/viewfeed.js:461 js/viewfeed.js:450 js/viewfeed.js:456
 msgid "Star article"
 msgstr "加星标"
 
-#: js/viewfeed.js:496 js/viewfeed.js:485
+#: js/viewfeed.js:496 js/viewfeed.js:485 js/viewfeed.js:491
 msgid "Unpublish article"
 msgstr "取消发布文章"
 
@@ -2953,47 +2961,49 @@ msgstr "取消发布文章"
 #: js/viewfeed.js:1055 js/viewfeed.js:2181 js/viewfeed.js:665
 #: js/viewfeed.js:693 js/viewfeed.js:720 js/viewfeed.js:782 js/viewfeed.js:814
 #: js/viewfeed.js:951 js/viewfeed.js:994 js/viewfeed.js:1044
-#: js/viewfeed.js:2154
+#: js/viewfeed.js:2154 js/viewfeed.js:671 js/viewfeed.js:699
+#: js/viewfeed.js:726 js/viewfeed.js:788 js/viewfeed.js:820 js/viewfeed.js:957
+#: js/viewfeed.js:1000 js/viewfeed.js:1050 js/viewfeed.js:2018
 msgid "No articles are selected."
 msgstr "没有选中任何文章。"
 
-#: js/viewfeed.js:942 js/viewfeed.js:931
+#: js/viewfeed.js:942 js/viewfeed.js:931 js/viewfeed.js:937
 msgid "Mark all visible articles in %s as read?"
 msgstr "标记 %s 中所有可见的文章为已读？"
 
-#: js/viewfeed.js:970 js/viewfeed.js:959
+#: js/viewfeed.js:970 js/viewfeed.js:959 js/viewfeed.js:965
 msgid "Delete %d selected articles in %s?"
 msgstr "删除 %s 中选择的 %d 篇文章？"
 
-#: js/viewfeed.js:972 js/viewfeed.js:961
+#: js/viewfeed.js:972 js/viewfeed.js:961 js/viewfeed.js:967
 msgid "Delete %d selected articles?"
 msgstr "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:1014 js/viewfeed.js:1003
+#: js/viewfeed.js:1014 js/viewfeed.js:1003 js/viewfeed.js:1009
 msgid "Archive %d selected articles in %s?"
 msgstr "将 %s 中的 %d 篇选中的文章存档？"
 
-#: js/viewfeed.js:1017 js/viewfeed.js:1006
+#: js/viewfeed.js:1017 js/viewfeed.js:1006 js/viewfeed.js:1012
 msgid "Move %d archived articles back?"
 msgstr "将存档的 %d 篇文章移回原处？"
 
-#: js/viewfeed.js:1061 js/viewfeed.js:1050
+#: js/viewfeed.js:1061 js/viewfeed.js:1050 js/viewfeed.js:1056
 msgid "Mark %d selected articles in %s as read?"
 msgstr "将 %s 中选中的 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1085 js/viewfeed.js:1074
+#: js/viewfeed.js:1085 js/viewfeed.js:1074 js/viewfeed.js:1080
 msgid "Edit article Tags"
 msgstr "编辑文章的自定义标签"
 
-#: js/viewfeed.js:1247 js/viewfeed.js:1236
+#: js/viewfeed.js:1247 js/viewfeed.js:1236 js/viewfeed.js:1242
 msgid "No article is selected."
 msgstr "未选中任何文章。"
 
-#: js/viewfeed.js:1282 js/viewfeed.js:1271
+#: js/viewfeed.js:1282 js/viewfeed.js:1271 js/viewfeed.js:1277
 msgid "No articles found to mark"
 msgstr "未找到需要标记的文章"
 
-#: js/viewfeed.js:1284 js/viewfeed.js:1273
+#: js/viewfeed.js:1284 js/viewfeed.js:1273 js/viewfeed.js:1279
 msgid "Mark %d article(s) as read?"
 msgstr "将 %d 篇文章标记为已读？"
 
@@ -3001,7 +3011,7 @@ msgstr "将 %d 篇文章标记为已读？"
 msgid "Loading..."
 msgstr "加载中……"
 
-#: js/viewfeed.js:1891 js/viewfeed.js:1864
+#: js/viewfeed.js:1891 js/viewfeed.js:1864 js/viewfeed.js:1734
 msgid "Open original article"
 msgstr "打开原文"
 
@@ -3009,37 +3019,37 @@ msgstr "打开原文"
 msgid "View in a tt-rss tab"
 msgstr "在 tt-rss 舌签中查看"
 
-#: js/viewfeed.js:1905 js/viewfeed.js:1878
+#: js/viewfeed.js:1905 js/viewfeed.js:1878 js/viewfeed.js:1742
 msgid "Mark above as read"
 msgstr ""
 
-#: js/viewfeed.js:1911 js/viewfeed.js:1884
+#: js/viewfeed.js:1911 js/viewfeed.js:1884 js/viewfeed.js:1748
 msgid "Mark below as read"
 msgstr ""
 
-#: js/viewfeed.js:1967 js/viewfeed.js:1940
+#: js/viewfeed.js:1967 js/viewfeed.js:1940 js/viewfeed.js:1804
 msgid "Remove label"
 msgstr "移除预定义标签"
 
-#: js/viewfeed.js:1991 js/viewfeed.js:1964
+#: js/viewfeed.js:1991 js/viewfeed.js:1964 js/viewfeed.js:1828
 msgid "Playing..."
 msgstr "播放中……"
 
-#: js/viewfeed.js:1992 js/viewfeed.js:1965
+#: js/viewfeed.js:1992 js/viewfeed.js:1965 js/viewfeed.js:1829
 msgid "Click to pause"
 msgstr "点击暂停"
 
-#: js/viewfeed.js:2150 js/viewfeed.js:2123
+#: js/viewfeed.js:2150 js/viewfeed.js:2123 js/viewfeed.js:1987
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:2192 js/viewfeed.js:2165
+#: js/viewfeed.js:2192 js/viewfeed.js:2165 js/viewfeed.js:2029
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "请填写类别名称："
 
-#: js/functions.js:1887
+#: js/functions.js:1887 js/functions.js:1891
 msgid "Help"
 msgstr ""
 
@@ -3047,7 +3057,7 @@ msgstr ""
 msgid "Clear stored data for this plugin?"
 msgstr ""
 
-#: js/tt-rss.js:741
+#: js/tt-rss.js:741 js/tt-rss.js:676
 #, fuzzy
 msgid "Please enable mail plugin first."
 msgstr "请先选几个信息源吧。"
