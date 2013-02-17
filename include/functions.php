@@ -76,7 +76,7 @@
 		/* In login action of mobile version */
 		if ($_POST["language"] && defined('MOBILE_VERSION')) {
 			$lang = $_POST["language"];
-		} else {
+		} else if ($_SESSION["language"] && $_SESSION["language"] != "auto") {
 			$lang = $_SESSION["language"];
 		}
 
