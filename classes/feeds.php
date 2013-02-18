@@ -689,14 +689,6 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div style=\"float : right\">";
 
-					$reply['content'] .= "<img src=\"images/art-zoom.png\"
-						onclick=\"zoomToArticle(event, $id)\"
-						style=\"cursor : pointer\"
-						alt='Zoom'
-						title='".__('Open article in new tab')."'>";
-
-					//$note_escaped = htmlspecialchars($line['note'], ENT_QUOTES);
-
 					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
 						$reply['content'] .= $p->hook_article_button($line);
 					}

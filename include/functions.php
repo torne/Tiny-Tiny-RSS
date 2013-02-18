@@ -2951,11 +2951,6 @@
 					id=\"ATSTRTIP-$id\" connectId=\"ATSTR-$id\"
 					position=\"below\">$tags_str_full</div>";
 
-				$rv['content'] .= "<img src=\"".theme_image($link, 'images/art-zoom.png')."\"
-						class='tagsPic' style=\"cursor : pointer\"
-						onclick=\"postOpenInNewTab(event, $id)\"
-						alt='Zoom' title='".__('Open article in new tab')."'>";
-
 				global $pluginhost;
 
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
