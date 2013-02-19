@@ -105,6 +105,6 @@
 	session_set_cookie_params(SESSION_COOKIE_LIFETIME);
 
 	if (!defined('TTRSS_SESSION_NAME') || TTRSS_SESSION_NAME != 'ttrss_api_sid') {
-		session_start();
+		@session_start();
 	}
 ?>

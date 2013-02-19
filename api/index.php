@@ -48,7 +48,7 @@
 		session_id($_REQUEST["sid"]);
 	}
 
-	session_start();
+	@session_start();
 
 	if (!init_connection($link)) return;
 
