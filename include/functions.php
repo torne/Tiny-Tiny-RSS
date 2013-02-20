@@ -2153,12 +2153,16 @@
 					ttrss_user_entries, ttrss_feeds, ttrss_feed_categories
 					WHERE $filter_query_part LIMIT 1", false);
 
-				$test = db_fetch_result($result, 0, "true_val");
+				if ($result) {
+					$test = db_fetch_result($result, 0, "true_val");
 
-				if (!$test) {
-					$filter_query_part = "false AND";
+					if (!$test) {
+						$filter_query_part = "false AND";
+					} else {
+						$filter_query_part .= " AND";
+					}
 				} else {
-					$filter_query_part .= " AND";
+					$filter_query_part = "false AND";
 				}
 
 			} else {
