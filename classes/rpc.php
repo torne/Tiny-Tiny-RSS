@@ -667,7 +667,8 @@ class RPC extends Handler_Protected {
 	function setpanelmode() {
 		$wide = (int) $_REQUEST["wide"];
 
-		$_SESSION["widescreen"] = $wide;
+		setcookie("ttrss_widescreen", $wide,
+			time() + SESSION_COOKIE_LIFETIME);
 
 		print json_encode(array("wide" => $wide));
 	}

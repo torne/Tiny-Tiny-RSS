@@ -1827,7 +1827,7 @@
 		$params["hotkeys"] = get_hotkeys_map($link);
 
 		$params["csrf_token"] = $_SESSION["csrf_token"];
-		$params["widescreen"] = (int) $_SESSION["widescreen"];
+		$params["widescreen"] = (int) $_COOKIE["ttrss_widescreen"];
 
 		$params['simple_update'] = defined('SIMPLE_UPDATE_MODE') && SIMPLE_UPDATE_MODE;
 
