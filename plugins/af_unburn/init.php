@@ -26,7 +26,7 @@ class Af_Unburn extends Plugin {
 		if ((strpos($article["link"], "feedproxy.google.com") !== FALSE ||
 		  		strpos($article["link"], "/~r/") !== FALSE ||
 		  		strpos($article["link"], "feedsportal.com") !== FALSE)	&&
-			strpos($article["guid"], "unburn,$owner_uid:") === FALSE) {
+			strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
 
 			$ch = curl_init($article["link"]);
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -62,7 +62,7 @@ class Af_Unburn extends Plugin {
 
 				$real_url = preg_replace("/\?$/", "", $real_url);
 
-				$article["guid"] = "unburn,$owner_uid:" . $article["guid"];
+				$article["plugin_data"] = "unburn,$owner_uid:" . $article["plugin_data"];
 				$article["link"] = $real_url;
 			}
 		}

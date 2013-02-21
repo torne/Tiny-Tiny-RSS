@@ -20,7 +20,7 @@ class Af_GoComics extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
-		if (strpos($article["guid"], "gocomics.com") !== FALSE && strpos($article["guid"], "gocomics,$owner_uid:") === FALSE) {
+		if (strpos($article["guid"], "gocomics.com") !== FALSE && strpos($article["plugin_data"], "gocomics,$owner_uid:") === FALSE) {
 			$doc = new DOMDocument();
 			@$doc->loadHTML(fetch_file_contents($article["link"]));
 
@@ -47,7 +47,7 @@ class Af_GoComics extends Plugin {
 				}
 			}
 
-			$article["guid"] = "gocomics,$owner_uid:" . $article["guid"];
+			$article["plugin_data"] = "gocomics,$owner_uid:" . $article["plugin_data"];
 		}
 
 		return $article;

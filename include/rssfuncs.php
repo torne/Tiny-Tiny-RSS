@@ -516,12 +516,23 @@
 					_debug("update_rss_feed: applying plugin filters..");
 				}
 
+				// Todo unify with id checking below
+				$result = db_query($link, "SELECT plugin_data FROM ttrss_entries
+					WHERE guid = '".db_escape_string($entry_guid)."'");
+
+				if (db_num_rows($result) != 0) {
+					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
+				} else {
+					$entry_plugin_data = "";
+				}
+
 				$article = array("owner_uid" => $owner_uid, // read only
-					"guid" => $entry_guid,
+					"guid" => $entry_guid, // read only
 					"title" => $entry_title,
 					"content" => $entry_content,
 					"link" => $entry_link,
 					"tags" => $entry_tags,
+					"plugin_data" => $entry_plugin_data,
 					"author" => $entry_author);
 
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
@@ -529,11 +540,16 @@
 				}
 
 				$entry_tags = $article["tags"];
-				$entry_guid = db_escape_string($article["guid"]);
+				$entry_guid = db_escape_string($entry_guid);
 				$entry_content = db_escape_string($article["content"], false);
 				$entry_title = db_escape_string($article["title"]);
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
+				$entry_plugin_data = db_escape_string($article["plugin_data"]);
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: plugin data: $entry_plugin_data");
+				}
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
@@ -567,6 +583,7 @@
 							date_entered,
 							comments,
 							num_comments,
+							plugin_data,
 							author)
 						VALUES
 							('$entry_title',
@@ -581,6 +598,7 @@
 							NOW(),
 							'$entry_comments',
 							'$num_comments',
+							'$entry_plugin_data',
 							'$entry_author')");
 
 					$article_labels = array();
@@ -602,7 +620,7 @@
 				// now it should exist, if not - bad luck then
 
 				$result = db_query($link, "SELECT
-						id,content_hash,no_orig_date,title,
+						id,content_hash,no_orig_date,title,plugin_data,
 						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
 						num_comments
@@ -625,6 +643,7 @@
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
 					$orig_date_updated = strtotime(db_fetch_result($result,
 						0, "date_updated"));
+					$orig_plugin_data = db_fetch_result($result, 0, "plugin_data");
 
 					$ref_id = db_fetch_result($result, 0, "id");
 					$entry_ref_id = $ref_id;
@@ -764,6 +783,11 @@
 						$update_insignificant = true;
 					}
 
+					if ($entry_plugin_data != $orig_plugin_data) {
+						$post_needs_update = true;
+						$update_insignificant = true;
+					}
+
 					if ($content_hash != $orig_content_hash) {
 						$post_needs_update = true;
 						$update_insignificant = false;
@@ -788,7 +812,8 @@
 							SET title = '$entry_title', content = '$entry_content',
 								content_hash = '$content_hash',
 								updated = '$entry_timestamp_fmt',
-								num_comments = '$num_comments'
+								num_comments = '$num_comments',
+								plugin_data = '$entry_plugin_data'
 							WHERE id = '$ref_id'");
 
 						if (!$update_insignificant) {

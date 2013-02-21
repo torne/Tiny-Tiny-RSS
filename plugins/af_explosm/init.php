@@ -21,7 +21,7 @@ class Af_Explosm extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "explosm.net/comics") !== FALSE &&
-				strpos($article["guid"], "explosm,$owner_uid:") === FALSE) {
+				strpos($article["plugin_data"], "explosm,$owner_uid:") === FALSE) {
 
 			$doc = new DOMDocument();
 			@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -48,7 +48,7 @@ class Af_Explosm extends Plugin {
 				}
 			}
 
-			$article["guid"] = "explosm,$owner_uid:" . $article["guid"];
+			$article["plugin_data"] = "explosm,$owner_uid:" . $article["plugin_data"];
 		}
 
 		return $article;

@@ -21,7 +21,7 @@ class Af_PennyArcade extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "Comic:") !== FALSE &&
-				strpos($article["guid"], "pennyarcade,$owner_uid:") === FALSE) {
+				strpos($article["plugin_data"], "pennyarcade,$owner_uid:") === FALSE) {
 
 			$doc = new DOMDocument();
 			@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -48,7 +48,7 @@ class Af_PennyArcade extends Plugin {
 				}
 			}
 
-			$article["guid"] = "pennyarcade,$owner_uid:" . $article["guid"];
+			$article["plugin_data"] = "pennyarcade,$owner_uid:" . $article["plugin_data"];
 		}
 
 		return $article;

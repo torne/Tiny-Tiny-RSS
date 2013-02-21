@@ -21,7 +21,7 @@ class Af_Buttersafe extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["guid"], "buttersafe.com") !== FALSE &&
-				strpos($article["guid"], "buttersafe,$owner_uid:") === FALSE) {
+				strpos($article["plugin_data"], "buttersafe,$owner_uid:") === FALSE) {
 
 			$doc = new DOMDocument();
 			@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -48,7 +48,7 @@ class Af_Buttersafe extends Plugin {
 				}
 			}
 
-			$article["guid"] = "buttersafe,$owner_uid:" . $article["guid"];
+			$article["plugin_data"] = "buttersafe,$owner_uid:" . $article["plugin_data"];
 		}
 
 		return $article;
