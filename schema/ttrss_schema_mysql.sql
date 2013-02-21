@@ -157,6 +157,7 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	date_entered datetime not null,
 	date_updated datetime not null,
 	num_comments integer not null default 0,
+	plugin_data longtext,
 	comments varchar(250) not null default '',
 	author varchar(250) not null default '') ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -309,7 +310,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (102);
+insert into ttrss_version values (103);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

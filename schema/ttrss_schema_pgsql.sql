@@ -138,6 +138,7 @@ create table ttrss_entries (id serial not null primary key,
 	date_updated timestamp not null,
 	num_comments integer not null default 0,
 	comments varchar(250) not null default '',
+	plugin_data text,
 	author varchar(250) not null default '');
 
 create index ttrss_entries_guid_index on ttrss_entries(guid);
@@ -257,7 +258,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (102);
+insert into ttrss_version values (103);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
