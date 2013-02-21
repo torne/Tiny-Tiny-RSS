@@ -1,6 +1,7 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
 	define('SCHEMA_VERSION', 102);
+	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
 
 	$fetch_last_error = false;
 	$pluginhost = false;
