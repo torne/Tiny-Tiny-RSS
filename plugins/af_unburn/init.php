@@ -29,7 +29,7 @@ class Af_Unburn extends Plugin {
 			strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
 
 			$ch = curl_init($article["link"]);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
