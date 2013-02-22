@@ -33,6 +33,7 @@ class Af_Unburn extends Plugin {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
 			$contents = @curl_exec($ch);
 
