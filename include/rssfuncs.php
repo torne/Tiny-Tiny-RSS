@@ -278,7 +278,7 @@
 			$rss->set_cache_duration($cache_age);
 		}
 
-		$rss->init();
+		@$rss->init();
 
 //		print_r($rss);
 
