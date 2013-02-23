@@ -296,7 +296,7 @@
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 			curl_setopt($ch, CURLOPT_ENCODING , "gzip");
-			curl_setopt($fp, CURLOPT_REFERER, $url);
+			curl_setopt($ch, CURLOPT_REFERER, $url);
 
 			if ($post_query) {
 				curl_setopt($ch, CURLOPT_POST, true);
@@ -308,9 +308,9 @@
 
 			$contents = @curl_exec($ch);
 
-			if (curl_errno($fp) === 23 || curl_errno($fp) === 61) {
-				curl_setopt($fp, CURLOPT_ENCODING, 'none');
-				$contents = @curl_exec($fp);
+			if (curl_errno($ch) === 23 || curl_errno($ch) === 61) {
+				curl_setopt($ch, CURLOPT_ENCODING, 'none');
+				$contents = @curl_exec($ch);
 			}
 
 			if ($contents === false) {
