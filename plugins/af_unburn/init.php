@@ -25,46 +25,50 @@ class Af_Unburn extends Plugin {
 
 		if ((strpos($article["link"], "feedproxy.google.com") !== FALSE ||
 		  		strpos($article["link"], "/~r/") !== FALSE ||
-		  		strpos($article["link"], "feedsportal.com") !== FALSE)	&&
-			strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
+				strpos($article["link"], "feedsportal.com") !== FALSE)) {
 
-			$ch = curl_init($article["link"]);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_HEADER, true);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
+			if (strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
 
-			$contents = @curl_exec($ch);
+				$ch = curl_init($article["link"]);
+				curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_HEADER, true);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
-			$real_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+				$contents = @curl_exec($ch);
 
-			curl_close($ch);
+				$real_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
-			if ($real_url) {
-				/* remove the rest of it */
+				curl_close($ch);
 
-				$query = parse_url($real_url, PHP_URL_QUERY);
+				if ($real_url) {
+					/* remove the rest of it */
 
-				if ($query && strpos($query, "utm_source") !== FALSE) {
-					$args = array();
-					parse_str($query, $args);
+					$query = parse_url($real_url, PHP_URL_QUERY);
 
-					foreach (array("utm_source", "utm_medium", "utm_campaign") as $param) {
-						if (isset($args[$param])) unset($args[$param]);
+					if ($query && strpos($query, "utm_source") !== FALSE) {
+						$args = array();
+						parse_str($query, $args);
+
+						foreach (array("utm_source", "utm_medium", "utm_campaign") as $param) {
+							if (isset($args[$param])) unset($args[$param]);
+						}
+
+						$new_query = http_build_query($args);
+
+						if ($new_query != $query) {
+							$real_url = str_replace("?$query", "?$new_query", $real_url);
+						}
 					}
 
-					$new_query = http_build_query($args);
+					$real_url = preg_replace("/\?$/", "", $real_url);
 
-					if ($new_query != $query) {
-						$real_url = str_replace("?$query", "?$new_query", $real_url);
-					}
+					$article["plugin_data"] = "unburn,$owner_uid:" . $article["plugin_data"];
+					$article["link"] = $real_url;
 				}
-
-				$real_url = preg_replace("/\?$/", "", $real_url);
-
-				$article["plugin_data"] = "unburn,$owner_uid:" . $article["plugin_data"];
-				$article["link"] = $real_url;
+			} else if (isset($article["stored"]["link"])) {
+				$article["link"] = $article["stored"]["link"];
 			}
 		}
 

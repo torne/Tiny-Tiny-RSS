@@ -516,14 +516,20 @@
 					_debug("update_rss_feed: applying plugin filters..");
 				}
 
-				// Todo unify with id checking below
-				$result = db_query($link, "SELECT plugin_data FROM ttrss_entries
-					WHERE guid = '".db_escape_string($entry_guid)."'");
+				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
+				$result = db_query($link, "SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
+					WHERE ref_id = id AND guid = '".db_escape_string($entry_guid)."' AND owner_uid = $owner_uid");
 
 				if (db_num_rows($result) != 0) {
 					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
+					$stored_article = array("title" => db_fetch_result($result, 0, "title"),
+						"content" => db_fetch_result($result, 0, "content"),
+						"link" => db_fetch_result($result, 0, "link"),
+						"tags" => explode(",", db_fetch_result($result, 0, "tag_cache")),
+						"author" => db_fetch_result($result, 0, "author"));
 				} else {
 					$entry_plugin_data = "";
+					$stored_article = array();
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
@@ -533,7 +539,8 @@
 					"link" => $entry_link,
 					"tags" => $entry_tags,
 					"plugin_data" => $entry_plugin_data,
-					"author" => $entry_author);
+					"author" => $entry_author,
+					"stored" => $stored_article);
 
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
