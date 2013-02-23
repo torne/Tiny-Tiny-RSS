@@ -248,6 +248,11 @@
 		}
 
 		$pluginhost = new PluginHost($link);
+		$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
+
+		$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
+		$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
+		$pluginhost->load_data();
 
 		foreach ($pluginhost->get_hooks($pluginhost::HOOK_FEED_FETCHED) as $plugin) {
 			$feed_data = $plugin->hook_feed_fetched($feed_data);
@@ -282,12 +287,6 @@
 		if (!$rss->error()) {
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
-			$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
-
-			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
-			$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
-			$pluginhost->load_data();
-
 			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
 
 			if ($debug_enabled) {
