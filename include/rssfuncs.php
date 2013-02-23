@@ -258,6 +258,10 @@
 			$feed_data = $plugin->hook_feed_fetched($feed_data);
 		}
 
+		if ($debug_enabled) {
+			_debug("update_rss_feed: fetch done, parsing...");
+		}
+
 		$rss = new SimplePie();
 		$rss->set_output_encoding('UTF-8');
 		$rss->set_raw_data($feed_data);
@@ -277,10 +281,6 @@
 		$rss->init();
 
 //		print_r($rss);
-
-		if ($debug_enabled) {
-			_debug("update_rss_feed: fetch done, parsing...");
-		}
 
 		$feed = db_escape_string($feed);
 
