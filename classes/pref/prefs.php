@@ -677,8 +677,10 @@ class Pref_Prefs extends Handler_Protected {
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
 
 				if (count($tmppluginhost->get_all($plugin)) > 0) {
-					print "<td><a href='#' onclick=\"clearPluginData('$name')\"
-						class='visibleLink'>".__("Clear data")."</a></td>";
+					if (in_array($name, $system_enabled)) {
+						print "<td><a href='#' onclick=\"clearPluginData('$name')\"
+							class='visibleLink'>".__("Clear data")."</a></td>";
+					}
 				}
 
 				print "</tr>";
@@ -727,7 +729,9 @@ class Pref_Prefs extends Handler_Protected {
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
 
 				if (count($tmppluginhost->get_all($plugin)) > 0) {
-					print "<td><a href='#' onclick=\"clearPluginData('$name')\" class='visibleLink'>".__("Clear data")."</a></td>";
+					if (in_array($name, $system_enabled) || in_array($name, $user_enabled)) {
+						print "<td><a href='#' onclick=\"clearPluginData('$name')\" class='visibleLink'>".__("Clear data")."</a></td>";
+					}
 				}
 
 				print "</tr>";
