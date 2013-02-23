@@ -2871,7 +2871,18 @@
 
 			$line = db_fetch_assoc($result);
 
-			$feed_site_url = $line['site_url'];
+			$tag_cache = $line["tag_cache"];
+
+			$line["tags"] = get_article_tags($link, $id, $owner_uid, $line["tag_cache"]);
+			unset($line["tag_cache"]);
+
+			$line["content"] = sanitize($link, $line["content"], false, $owner_uid,	$line["site_url"]);
+
+			global $pluginhost;
+
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE) as $p) {
+				$line = $p->hook_render_article($line);
+			}
 
 			$num_comments = $line["num_comments"];
 			$entry_comments = "";
@@ -2929,15 +2940,8 @@
 				$rv['content'] .= "<div class='postTitle'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			$tag_cache = $line["tag_cache"];
-
-			if (!$tag_cache)
-				$tags = get_article_tags($link, $id, $owner_uid);
-			else
-				$tags = explode(",", $tag_cache);
-
-			$tags_str = format_tags_string($tags, $id);
-			$tags_str_full = join(", ", $tags);
+			$tags_str = format_tags_string($line["tags"], $id);
+			$tags_str_full = join(", ", $line["tags"]);
 
 			if (!$tags_str_full) $tags_str_full = __("no tags");
 
@@ -3036,13 +3040,10 @@
 				$line["content"] =& $line["cached_content"];
 			}
 
-			$article_content = sanitize($link, $line["content"], false, $owner_uid,
-				$feed_site_url);
-
-			$rv['content'] .= $article_content;
+			$rv['content'] .= $line["content"];
 
 			$rv['content'] .= format_article_enclosures($link, $id,
-				$always_display_enclosures, $article_content);
+				$always_display_enclosures, $line["content"]);
 
 			$rv['content'] .= "</div>";
 

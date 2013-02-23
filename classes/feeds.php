@@ -494,6 +494,16 @@ class Feeds extends Handler_Protected {
 
 				} else {
 
+					$line["tags"] = get_article_tags($this->link, $id, $_SESSION["uid"], $line["tag_cache"]);
+					unset($line["tag_cache"]);
+
+					$line["content"] = sanitize($this->link, $line["content_preview"],
+							false, false, $feed_site_url);
+
+					foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_CDM) as $p) {
+						$line = $p->hook_render_article_cdm($line);
+					}
+
 					if (get_pref($this->link, 'VFEED_GROUP_BY_FEED') && $line["feed_title"]) {
 						if ($feed_id != $vgroup_last_feed) {
 
@@ -627,9 +637,6 @@ class Feeds extends Handler_Protected {
 						$line["content_preview"] =& $line["cached_content"];
 					}
 
-					$article_content = sanitize($this->link, $line["content_preview"],
-							false, false, $feed_site_url);
-
 					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
 						$reply['content'] .= format_article_note($id, $line['note']);
@@ -637,7 +644,7 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
-					$reply['content'] .= $article_content;
+					$reply['content'] .= $line["content"];
 					$reply['content'] .= "</span>";
 
 /*					$tmp_result = db_query($this->link, "SELECT always_display_enclosures FROM
@@ -651,17 +658,13 @@ class Feeds extends Handler_Protected {
 					$always_display_enclosures = sql_bool_to_bool($line["always_display_enclosures"]);
 
 					$reply['content'] .= format_article_enclosures($this->link, $id, $always_display_enclosures,
-						$article_content);
+						$line["content"]);
 
 					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<div class=\"cdmFooter\">";
 
-					$tag_cache = $line["tag_cache"];
-
-					$tags_str = format_tags_string(
-						get_article_tags($this->link, $id, $_SESSION["uid"], $tag_cache),
-						$id);
+					$tags_str = format_tags_string($tags, $id);
 
 					$reply['content'] .= "<img src='".theme_image($this->link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
