@@ -1,7 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
 	define('SCHEMA_VERSION', 103);
-	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -106,6 +105,7 @@
 	require_once 'ccache.php';
 	require_once 'labels.php';
 
+	define('SELF_USER_AGENT', 'Tiny Tiny RSS/' . VERSION . ' (http://tt-rss.org/)');
 	ini_set('user_agent', SELF_USER_AGENT);
 
 	require_once 'lib/pubsubhubbub/publisher.php';
@@ -277,7 +277,7 @@
 		}
 	}
 
-	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false) {
+	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false) {
 		$login = urlencode($login);
 		$pass = urlencode($pass);
 
@@ -286,8 +286,8 @@
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
 			$ch = curl_init($url);
 
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 45);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
+			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
@@ -296,6 +296,7 @@
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 			curl_setopt($ch, CURLOPT_ENCODING , "gzip");
+			curl_setopt($fp, CURLOPT_REFERER, $url);
 
 			if ($post_query) {
 				curl_setopt($ch, CURLOPT_POST, true);
@@ -307,19 +308,31 @@
 
 			$contents = @curl_exec($ch);
 
+			if (curl_errno($fp) === 23 || curl_errno($fp) === 61) {
+				curl_setopt($fp, CURLOPT_ENCODING, 'none');
+				$contents = @curl_exec($fp);
+			}
+
 			if ($contents === false) {
-				$fetch_last_error = curl_error($ch);
+				$fetch_last_error = curl_errno($ch) . " " . curl_error($ch);
 				curl_close($ch);
 				return false;
 			}
 
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-			curl_close($ch);
 
 			if ($http_code != 200 || $type && strpos($content_type, "$type") === false) {
+				if (curl_errno($ch) != 0) {
+					$fetch_last_error = curl_errno($ch) . " " . curl_error($ch);
+				} else {
+					$fetch_last_error = "HTTP Code: $http_code";
+				}
+				curl_close($ch);
 				return false;
 			}
+
+			curl_close($ch);
 
 			return $contents;
 		} else {
