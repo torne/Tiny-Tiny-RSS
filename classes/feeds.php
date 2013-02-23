@@ -664,7 +664,7 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div class=\"cdmFooter\">";
 
-					$tags_str = format_tags_string($tags, $id);
+					$tags_str = format_tags_string($line["tags"], $id);
 
 					$reply['content'] .= "<img src='".theme_image($this->link,
 							'images/tag.png')."' alt='Tags' title='Tags'>
