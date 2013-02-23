@@ -204,15 +204,14 @@
 
 		$feed = db_escape_string($feed);
 
-		if ($auth_login && $auth_pass ){
+		/* if ($auth_login && $auth_pass ){
 			$url_parts = array();
 			preg_match("/(^[^:]*):\/\/(.*)/", $fetch_url, $url_parts);
 
 			if ($url_parts[1] && $url_parts[2]) {
 				$fetch_url = $url_parts[1] . "://$auth_login:$auth_pass@" . $url_parts[2];
 			}
-
-		}
+		} */
 
 		if ($override_url)
 			$fetch_url = $override_url;
@@ -231,12 +230,32 @@
 			mkdir($simplepie_cache_dir);
 		}
 
+		$feed_data = fetch_file_contents($fetch_url, false,
+			$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
+
+		if (!$feed_data) {
+			global $fetch_last_error;
+
+			if ($debug_enabled) {
+				_debug("update_rss_feed: unable to fetch: $fetch_last_error");
+			}
+
+			db_query($link,
+				"UPDATE ttrss_feeds SET last_error = '$fetch_last_error',
+					last_updated = NOW() WHERE id = '$feed'");
+
+			return;
+		}
+
+		$pluginhost = new PluginHost($link);
+
+		foreach ($pluginhost->get_hooks($pluginhost::HOOK_FEED_FETCHED) as $plugin) {
+			$feed_data = $plugin->hook_feed_fetched($feed_data);
+		}
+
 		$rss = new SimplePie();
-		$rss->set_useragent(SELF_USER_AGENT);
-		$rss->set_timeout($no_cache ? 15 : 60);
-		$rss->set_feed_url($fetch_url);
 		$rss->set_output_encoding('UTF-8');
-		$rss->force_feed(true);
+		$rss->set_raw_data($feed_data);
 
 		if ($debug_enabled) {
 			_debug("feed update interval (sec): " .
@@ -264,8 +283,6 @@
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
 			$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
-
-			$pluginhost = new PluginHost($link);
 
 			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
 			$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
