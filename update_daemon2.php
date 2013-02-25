@@ -197,7 +197,7 @@
 					// We disable stamp file, since it is of no use in a multiprocess update.
 					// not really, tho for the time being -fox
 					if (!make_stampfile('update_daemon.stamp')) {
-						print "warning: unable to create stampfile";
+						die("error: unable to create stampfile\n");
 					}
 
 					// Call to the feed batch update function
