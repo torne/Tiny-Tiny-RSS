@@ -86,10 +86,12 @@
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
-	function shutdown() {
-		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
-			_debug("removing lockfile (master)...");
-			unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+	function shutdown($caller_pid) {
+		if ($caller_pid == posix_getpid()) {
+			if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
+				_debug("removing lockfile (master)...");
+				unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+			}
 		}
 	}
 
@@ -104,7 +106,7 @@
 
 	function sigint_handler() {
 		_debug("[MASTER] SIG_INT received.\n");
-		shutdown();
+		shutdown(posix_getpid());
 		die;
 	}
 
@@ -162,7 +164,7 @@
 					if (!$master_handlers_installed) {
 						_debug("[MASTER] installing shutdown handlers");
 						pcntl_signal(SIGINT, 'sigint_handler');
-						register_shutdown_function('shutdown');
+						register_shutdown_function('shutdown', posix_getpid());
 						$master_handlers_installed = true;
 					}
 
