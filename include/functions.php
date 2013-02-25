@@ -929,7 +929,7 @@
 	function make_lockfile($filename) {
 		$fp = fopen(LOCK_DIRECTORY . "/$filename", "w");
 
-		if (flock($fp, LOCK_EX | LOCK_NB)) {
+		if ($fp && flock($fp, LOCK_EX | LOCK_NB)) {
 			if (function_exists('posix_getpid')) {
 				fwrite($fp, posix_getpid() . "\n");
 			}
