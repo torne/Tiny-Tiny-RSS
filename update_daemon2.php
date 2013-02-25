@@ -113,6 +113,14 @@
 			"Maybe another daemon is already running.\n");
 	}
 
+	// Try to lock a file in order to avoid concurrent update.
+	$lock_handle = make_lockfile("update_daemon.lock");
+
+	if (!$lock_handle) {
+		die("error: Can't create lockfile. ".
+			"Maybe another daemon is already running.\n");
+	}
+
 	/* if (!pcntl_fork()) {
 		pcntl_signal(SIGINT, 'sigint_handler');
 		register_shutdown_function('shutdown');
