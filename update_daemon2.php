@@ -31,6 +31,8 @@
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
 
+	$master_handlers_installed = false;
+
 	$children = array();
 	$ctimes = array();
 
@@ -121,21 +123,6 @@
 			"Maybe another daemon is already running.\n");
 	}
 
-	/* if (!pcntl_fork()) {
-		pcntl_signal(SIGINT, 'sigint_handler');
-		register_shutdown_function('shutdown');
-
-		// Try to lock a file in order to avoid concurrent update.
-		$lock_handle = make_lockfile("update_daemon.lock");
-
-		if (!$lock_handle) {
-			die("error: Can't create lockfile. ".
-				"Maybe another daemon is already running.\n");
-		}
-
-		while (true) { sleep(100); }
-	} */
-
 	// Testing database connection.
 	// It is unnecessary to start the fork loop if database is not ok.
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -165,6 +152,14 @@
 				if ($pid == -1) {
 					die("fork failed!\n");
 				} else if ($pid) {
+
+					if (!$master_handlers_installed) {
+						_debug("[MASTER] installing shutdown handlers");
+						pcntl_signal(SIGINT, 'sigint_handler');
+						register_shutdown_function('shutdown');
+						$master_handlers_installed = true;
+					}
+
 					_debug("[MASTER] spawned client $j [PID:$pid]...");
 					array_push($children, $pid);
 					$ctimes[$pid] = time();
