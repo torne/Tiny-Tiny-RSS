@@ -87,25 +87,31 @@
 	}
 
 	function shutdown() {
-		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock"))
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
+			_debug("removing lockfile (master)...");
 			unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+		}
 	}
 
 	function task_shutdown() {
 		$pid = posix_getpid();
 
-		if (file_exists(LOCK_DIRECTORY . "/update_daemon-$pid.lock"))
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon-$pid.lock")) {
+			_debug("removing lockfile ($pid)...");
 			unlink(LOCK_DIRECTORY . "/update_daemon-$pid.lock");
+		}
 	}
 
 	function sigint_handler() {
+		_debug("[MASTER] SIG_INT received.\n");
 		shutdown();
-		die("[SIGINT] removing lockfile and exiting.\n");
+		die;
 	}
 
 	function task_sigint_handler() {
+		_debug("[TASK] SIG_INT received.\n");
 		task_shutdown();
-		die("[SIGINT] removing lockfile and exiting.\n");
+		die;
 	}
 
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
