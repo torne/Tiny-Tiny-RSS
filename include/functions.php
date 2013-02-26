@@ -225,6 +225,8 @@
 		if ($debug) {
 			_debug("Purged feed $feed_id ($purge_interval): deleted $rows articles");
 		}
+
+		return $rows;
 	} // function purge_feed
 
 	function feed_purge_interval($link, $feed_id) {

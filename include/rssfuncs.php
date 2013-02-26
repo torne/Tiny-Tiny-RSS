@@ -158,6 +158,34 @@
 		// Send feed digests by email if needed.
 		send_headlines_digests($link, $debug);
 
+		// Purge feeds with stale data OR not being updated for a while to keep DB size down
+
+		if ($debug) _debug("Purging inactive feeds...");
+
+		if (DB_TYPE == "pgsql") {
+			$interval_qpart = "NOW() - INTERVAL '1 month'";
+		} else {
+			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+		}
+
+		$result = db_query($link, "SELECT id, feed_url FROM ttrss_feeds WHERE
+					(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
+						ttrss_entries.id = ref_id AND
+						ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart OR
+					last_updated < $interval_qpart");
+
+		$feeds_purged = 0;
+		$articles_removed = 0;
+
+		while ($line = db_fetch_assoc($result)) {
+			$articles_removed += purge_feed($link, $line["id"], 0, false);
+			++$feeds_purged;
+		}
+
+		if ($debug && $articles_removed > 0)
+			_debug(sprintf("Purged %d feeds (%d articles).", $feeds_purged,
+				$articles_removed));
+
 	} // function update_daemon_common
 
 	// ignore_daemon is not used
