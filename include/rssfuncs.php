@@ -291,6 +291,10 @@
 		}
 
 		$rss = new SimplePie();
+		$rss->set_sanitize_class("SanitizeDummy");
+		// simplepie ignores the above and creates default sanitizer anyway,
+		// so let's override it...
+		$rss->sanitize = new SanitizeDummy();
 		$rss->set_output_encoding('UTF-8');
 		$rss->set_raw_data($feed_data);
 
@@ -438,7 +442,7 @@
 			}
 
 			foreach ($items as $item) {
-				if ($_REQUEST['xdebug'] == 2) {
+				if ($_REQUEST['xdebug'] == 3) {
 					print_r($item);
 				}
 
@@ -473,7 +477,7 @@
 
 				$entry_title = $item->get_title();
 
-				$entry_link = rewrite_relative_url($site_url, htmlspecialchars_decode($item->get_link()));
+				$entry_link = rewrite_relative_url($site_url, $item->get_link());
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: title $entry_title");
