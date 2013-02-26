@@ -553,7 +553,7 @@
 				}
 
 				if ($debug_enabled) {
-					_debug("update_rss_feed: done collecting data [TITLE:$entry_title]");
+					_debug("update_rss_feed: done collecting data.");
 				}
 
 				// TODO: less memory-hungry implementation
