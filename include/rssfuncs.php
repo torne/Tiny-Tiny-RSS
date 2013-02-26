@@ -274,6 +274,7 @@
 		}
 
 		$pluginhost = new PluginHost($link);
+		$pluginhost->set_debug($debug_enabled);
 		$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
 
 		$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);

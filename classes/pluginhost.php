@@ -7,6 +7,7 @@ class PluginHost {
 	private $commands = array();
 	private $storage = array();
 	private $owner_uid;
+	private $debug;
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -289,6 +290,14 @@ class PluginHost {
 
 			$_SESSION["plugin_storage"] = $this->storage;
 		}
+	}
+
+	function set_debug($debug) {
+		$this->debug = $debug;
+	}
+
+	function get_debug() {
+		return $this->debug;
 	}
 }
 ?>
