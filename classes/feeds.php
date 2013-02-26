@@ -745,7 +745,7 @@ class Feeds extends Handler_Protected {
 
 	function catchupAll() {
 		db_query($this->link, "UPDATE ttrss_user_entries SET
-						last_read = NOW(),unread = false WHERE owner_uid = " . $_SESSION["uid"]);
+						last_read = NOW(), unread = false WHERE unread = true AND owner_uid = " . $_SESSION["uid"]);
 		ccache_zero_all($this->link, $_SESSION["uid"]);
 	}
 
