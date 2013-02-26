@@ -592,17 +592,6 @@ class Pref_Feeds extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"private\" id=\"private\"
 			$checked>&nbsp;<label for=\"private\">".__('Hide from Popular feeds')."</label>";
 
-		$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
-
-		if ($rtl_content) {
-			$checked = "checked=\"1\"";
-		} else {
-			$checked = "";
-		}
-
-		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
-			$checked>&nbsp;<label for=\"rtl_content\">".__('Right-to-left content')."</label>";
-
 		$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
 
 		if ($include_in_digest) {
@@ -653,18 +642,6 @@ class Pref_Feeds extends Handler_Protected {
 		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"mark_unread_on_update\"
 			name=\"mark_unread_on_update\"
 			$checked>&nbsp;<label for=\"mark_unread_on_update\">".__('Mark updated articles as unread')."</label>";
-
-		$update_on_checksum_change = sql_bool_to_bool(db_fetch_result($result, 0, "update_on_checksum_change"));
-
-		if ($update_on_checksum_change) {
-			$checked = "checked";
-		} else {
-			$checked = "";
-		}
-
-		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"update_on_checksum_change\"
-			name=\"update_on_checksum_change\"
-			$checked>&nbsp;<label for=\"update_on_checksum_change\">".__('Mark posts as updated on content change')."</label>";
 
 		print "</div>";
 
@@ -819,11 +796,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "&nbsp;"; $this->batch_edit_cbox("private", "private_l");
 
-		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"rtl_content\" name=\"rtl_content\"
-			dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"rtl_content_l\" for=\"rtl_content\">".__('Right-to-left content')."</label>";
-
-		print "&nbsp;"; $this->batch_edit_cbox("rtl_content", "rtl_content_l");
-
 		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"include_in_digest\"
 			name=\"include_in_digest\"
 			dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"include_in_digest_l\" class='insensitive' for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
@@ -849,12 +821,6 @@ class Pref_Feeds extends Handler_Protected {
 			dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"mark_unread_on_update_l\" class='insensitive' for=\"mark_unread_on_update\">".__('Mark updated articles as unread')."</label>";
 
 		print "&nbsp;"; $this->batch_edit_cbox("mark_unread_on_update", "mark_unread_on_update_l");
-
-		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"update_on_checksum_change\"
-			name=\"update_on_checksum_change\"
-			dojoType=\"dijit.form.CheckBox\">&nbsp;<label id=\"update_on_checksum_change_l\" class='insensitive' for=\"update_on_checksum_change\">".__('Mark posts as updated on content change')."</label>";
-
-		print "&nbsp;"; $this->batch_edit_cbox("update_on_checksum_change", "update_on_checksum_change_l");
 
 		print "</div>";
 
@@ -890,7 +856,6 @@ class Pref_Feeds extends Handler_Protected {
 		$auth_login = db_escape_string(trim($_POST["auth_login"]));
 		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 		$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
-		$rtl_content = checkbox_to_sql_bool(db_escape_string($_POST["rtl_content"]));
 		$include_in_digest = checkbox_to_sql_bool(
 			db_escape_string($_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
@@ -903,9 +868,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		$mark_unread_on_update = checkbox_to_sql_bool(
 			db_escape_string($_POST["mark_unread_on_update"]));
-
-		$update_on_checksum_change = checkbox_to_sql_bool(
-			db_escape_string($_POST["update_on_checksum_change"]));
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
 			if ($cat_id && $cat_id != 0) {
@@ -930,13 +892,11 @@ class Pref_Feeds extends Handler_Protected {
 				auth_login = '$auth_login',
 				auth_pass = '$auth_pass',
 				private = $private,
-				rtl_content = $rtl_content,
 				cache_images = $cache_images,
 				cache_content = $cache_content,
 				include_in_digest = $include_in_digest,
 				always_display_enclosures = $always_display_enclosures,
-				mark_unread_on_update = $mark_unread_on_update,
-				update_on_checksum_change = $update_on_checksum_change
+				mark_unread_on_update = $mark_unread_on_update
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		} else {
@@ -995,20 +955,12 @@ class Pref_Feeds extends Handler_Protected {
 						$qpart = "mark_unread_on_update = $mark_unread_on_update";
 						break;
 
-					case "update_on_checksum_change":
-						$qpart = "update_on_checksum_change = $update_on_checksum_change";
-						break;
-
 					case "cache_images":
 						$qpart = "cache_images = $cache_images";
 						break;
 
 					case "cache_content":
 						$qpart = "cache_content = $cache_content";
-						break;
-
-					case "rtl_content":
-						$qpart = "rtl_content = $rtl_content";
 						break;
 
 					case "cat_id":

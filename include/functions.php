@@ -2841,27 +2841,6 @@
 
 		//if (!$zoom_mode) { print "<article id='$id'><![CDATA["; };
 
-		$result = db_query($link, "SELECT rtl_content, always_display_enclosures, cache_content FROM ttrss_feeds
-			WHERE id = '$feed_id' AND owner_uid = $owner_uid");
-
-		if (db_num_rows($result) == 1) {
-			$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
-			$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
-			$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
-		} else {
-			$rtl_content = false;
-			$always_display_enclosures = false;
-			$cache_content = false;
-		}
-
-		if ($rtl_content) {
-			$rtl_tag = "dir=\"RTL\"";
-			$rtl_class = "RTL";
-		} else {
-			$rtl_tag = "";
-			$rtl_class = "";
-		}
-
 		if ($mark_as_read) {
 			$result = db_query($link, "UPDATE ttrss_user_entries
 				SET unread = false,last_read = NOW()
@@ -2942,7 +2921,7 @@
 			$parsed_updated = make_local_datetime($link, $line["updated"], true,
 				$owner_uid, true);
 
-			$rv['content'] .= "<div class=\"postDate$rtl_class\">$parsed_updated</div>";
+			$rv['content'] .= "<div class=\"postDate\">$parsed_updated</div>";
 
 			if ($line["link"]) {
 				$rv['content'] .= "<div class='postTitle'><a target='_blank'

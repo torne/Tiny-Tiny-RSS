@@ -202,7 +202,7 @@
 
 		$result = db_query($link, "SELECT id,update_interval,auth_login,
 			feed_url,auth_pass,cache_images,last_updated,
-			mark_unread_on_update, owner_uid, update_on_checksum_change,
+			mark_unread_on_update, owner_uid,
 			pubsub_state
 			FROM ttrss_feeds WHERE id = '$feed'");
 
@@ -217,8 +217,6 @@
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
 			0, "mark_unread_on_update"));
-		$update_on_checksum_change = sql_bool_to_bool(db_fetch_result($result,
-			0, "update_on_checksum_change"));
 		$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
@@ -875,10 +873,6 @@
 							if ($mark_unread_on_update) {
 								db_query($link, "UPDATE ttrss_user_entries
 									SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
-							} else if ($update_on_checksum_change) {
-								db_query($link, "UPDATE ttrss_user_entries
-									SET last_read = null WHERE ref_id = '$ref_id'
-										AND unread = false");
 							}
 						}
 					}

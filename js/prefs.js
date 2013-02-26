@@ -710,11 +710,6 @@ function editSelectedFeeds() {
 
 							/* Form.serialize ignores unchecked checkboxes */
 
-							if (!query.match("&rtl_content=") &&
-									this.getChildByName('rtl_content').attr('disabled') == false) {
-								query = query + "&rtl_content=false";
-							}
-
 							if (!query.match("&private=") &&
 									this.getChildByName('private').attr('disabled') == false) {
 								query = query + "&private=false";
@@ -740,11 +735,6 @@ function editSelectedFeeds() {
 							if (!query.match("&mark_unread_on_update=") &&
 									this.getChildByName('mark_unread_on_update').attr('disabled') == false) {
 								query = query + "&mark_unread_on_update=false";
-							}
-
-							if (!query.match("&update_on_checksum_change=") &&
-									this.getChildByName('update_on_checksum_change').attr('disabled') == false) {
-								query = query + "&update_on_checksum_change=false";
 							}
 
 							console.log(query);

@@ -198,27 +198,6 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		if (is_numeric($feed) && $feed > 0) {
-
-			$result = db_query($this->link, "SELECT rtl_content FROM ttrss_feeds
-				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
-
-			if (db_num_rows($result) == 1) {
-				$rtl_content = sql_bool_to_bool(db_fetch_result($result, 0, "rtl_content"));
-			} else {
-				$rtl_content = false;
-			}
-
-			if ($rtl_content) {
-				$rtl_tag = "dir=\"RTL\"";
-			} else {
-				$rtl_tag = "";
-			}
-		} else {
-			$rtl_tag = "";
-			$rtl_content = false;
-		}
-
 		@$search = db_escape_string($_REQUEST["query"]);
 
 		if ($search) {
