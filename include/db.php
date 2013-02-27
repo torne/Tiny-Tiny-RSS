@@ -52,9 +52,11 @@ function db_escape_string($s, $strip_tags = true) {
 }
 
 function db_query($link, $query, $die_on_error = true) {
-	//if ($_REQUEST["qlog"])
-	//	error_log($_SESSION["uid"] . ":" . $_REQUEST["op"] . "/" . $_REQUEST["method"] .
-	//		" $query\n", 3, "/tmp/ttrss-query.log");
+	if ($_REQUEST["qlog"] || defined('QUERY_LOG')) {
+		$query = trim($query);
+		error_log($_SESSION["uid"] . ":" . $_REQUEST["op"] . "/" . $_REQUEST["method"] .
+				" $query\n", 3, "/tmp/ttrss-query.log");
+	}
 
 	if (DB_TYPE == "pgsql") {
 		$result = pg_query($link, $query);
