@@ -549,13 +549,23 @@ function moveToPost(mode) {
 		}
 
 		if (mode == "next") {
-		 	if (next_id) {
+		 	if (next_id || active_post_id) {
 				if (isCdmMode()) {
 
-					cdmExpandArticle(next_id);
-					cdmScrollToArticleId(next_id);
+					var article = $("RROW-" + active_post_id);
+					var ctr = $("headlines-frame");
 
-				} else {
+					if (article && article.offsetTop + article.offsetHeight >
+							ctr.scrollTop + ctr.offsetHeight) {
+
+						scrollArticle(ctr.offsetHeight/2);
+
+					} else if (next_id) {
+						cdmExpandArticle(next_id);
+						cdmScrollToArticleId(next_id);
+					}
+
+				} else if (next_id) {
 					correctHeadlinesOffset(next_id);
 					view(next_id, getActiveFeedId());
 				}
@@ -563,11 +573,23 @@ function moveToPost(mode) {
 		}
 
 		if (mode == "prev") {
-			if (prev_id) {
+			if (prev_id || active_post_id) {
 				if (isCdmMode()) {
-					cdmExpandArticle(prev_id);
-					cdmScrollToArticleId(prev_id);
-				} else {
+
+					var article = $("RROW-" + active_post_id);
+					var prev_article = $("RROW-" + prev_id);
+					var ctr = $("headlines-frame");
+
+					if (article && article.offsetTop < ctr.scrollTop) {
+						scrollArticle(-ctr.offsetHeight/2);
+					} else if (prev_article && prev_article.offsetTop < ctr.scrollTop) {
+						cdmExpandArticle(prev_id);
+						scrollArticle(-ctr.offsetHeight/2);
+					} else if (prev_id) {
+						cdmExpandArticle(prev_id);
+						cdmScrollToArticleId(prev_id);
+					}
+				} else if (prev_id) {
 					correctHeadlinesOffset(prev_id);
 					view(prev_id, getActiveFeedId());
 				}
