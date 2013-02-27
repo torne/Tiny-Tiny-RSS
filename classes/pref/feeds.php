@@ -38,7 +38,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		$items = array();
 
-		$result = db_query($this->link, "SELECT id, title, collapsed FROM ttrss_feed_categories
+		$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat = '$cat_id' ORDER BY order_id, title");
 
 		while ($line = db_fetch_assoc($result)) {
@@ -49,7 +49,6 @@ class Pref_Feeds extends Handler_Protected {
 			$cat['name'] = $line['title'];
 			$cat['items'] = array();
 			$cat['checkbox'] = false;
-			$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 			$cat['type'] = 'category';
 			$cat['unread'] = 0;
 			$cat['child_unread'] = 0;
@@ -107,8 +106,7 @@ class Pref_Feeds extends Handler_Protected {
 		if ($_REQUEST['mode'] == 2) {
 
 			if ($enable_cats) {
-				$cat_hidden = get_pref($this->link, "_COLLAPSED_SPECIAL");
-				$cat = $this->feedlist_init_cat(-1, $cat_hidden);
+				$cat = $this->feedlist_init_cat(-1);
 			} else {
 				$cat['items'] = array();
 			}
@@ -129,8 +127,7 @@ class Pref_Feeds extends Handler_Protected {
 			if (db_num_rows($result) > 0) {
 
 				if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
-					$cat_hidden = get_pref($this->link, "_COLLAPSED_LABELS");
-					$cat = $this->feedlist_init_cat(-2, $cat_hidden);
+					$cat = $this->feedlist_init_cat(-2);
 				} else {
 					$cat['items'] = array();
 				}
@@ -138,9 +135,8 @@ class Pref_Feeds extends Handler_Protected {
 				while ($line = db_fetch_assoc($result)) {
 
 					$label_id = -$line['id'] - 11;
-					$count = getFeedUnread($this->link, $label_id);
 
-					$feed = $this->feedlist_init_feed($label_id, false, $count);
+					$feed = $this->feedlist_init_feed($label_id, false, 0);
 
 					$feed['fg_color'] = $line['fg_color'];
 					$feed['bg_color'] = $line['bg_color'];
@@ -160,7 +156,7 @@ class Pref_Feeds extends Handler_Protected {
 			$show_empty_cats = $_REQUEST['mode'] != 2 && !$search &&
 				get_pref($this->link, '_PREFS_SHOW_EMPTY_CATS');
 
-			$result = db_query($this->link, "SELECT id, title, collapsed FROM ttrss_feed_categories
+			$result = db_query($this->link, "SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat IS NULL ORDER BY order_id, title");
 
 			while ($line = db_fetch_assoc($result)) {
@@ -170,7 +166,6 @@ class Pref_Feeds extends Handler_Protected {
 				$cat['name'] = $line['title'];
 				$cat['items'] = array();
 				$cat['checkbox'] = false;
-				$cat['hidden'] = sql_bool_to_bool($line['collapsed']);
 				$cat['type'] = 'category';
 				$cat['unread'] = 0;
 				$cat['child_unread'] = 0;
@@ -192,7 +187,6 @@ class Pref_Feeds extends Handler_Protected {
 			$cat['bare_id'] = 0;
 			$cat['name'] = __("Uncategorized");
 			$cat['items'] = array();
-			$cat['hidden'] = get_pref($this->link, "_COLLAPSED_UNCAT");
 			$cat['type'] = 'category';
 			$cat['checkbox'] = false;
 			$cat['unread'] = 0;
@@ -1414,7 +1408,7 @@ class Pref_Feeds extends Handler_Protected {
 		print "</div>"; #container
 	}
 
-	private function feedlist_init_cat($cat_id, $hidden = false) {
+	private function feedlist_init_cat($cat_id) {
 		$obj = array();
 		$cat_id = (int) $cat_id;
 
@@ -1429,7 +1423,6 @@ class Pref_Feeds extends Handler_Protected {
 		$obj['name'] = getCategoryTitle($this->link, $cat_id);
 		$obj['type'] = 'category';
 		$obj['unread'] = (int) $cat_unread;
-		$obj['hidden'] = $hidden;
 		$obj['bare_id'] = $cat_id;
 
 		return $obj;

@@ -331,33 +331,12 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		var item = tree.model.store._itemsByIdentity['CAT:' + id];
 
 		if (node && item) {
-			var hidden = tree.model.store.getValue(item, 'hidden');
-
-			if (hidden)
+			if (!node.isExpanded)
 				tree._expandNode(node);
 			else
 				tree._collapseNode(node);
 
-			tree.model.store.setValue(item, 'hidden', !hidden);
 		}
-	},
-	collapseHiddenCats: function() {
-		if (!this.model.hasCats()) return;
-
-		var cats = this.model.store._arrayOfTopLevelItems;
-		var tree = this;
-
-		dojo.forEach(cats, function(cat) {
-			var hidden = tree.model.store.getValue(cat, 'hidden');
-			var id = tree.model.store.getValue(cat, 'id');
-			var node = tree._itemNodesMap[id][0];
-
-			if (hidden)
-				tree._collapseNode(node);
-			else
-				tree._expandNode(node);
-
-		});
 	},
 	getVisibleUnreadFeeds: function() {
 		var items = this.model.store._arrayOfAllItems;

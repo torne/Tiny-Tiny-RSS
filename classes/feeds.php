@@ -749,12 +749,6 @@ class Feeds extends Handler_Protected {
 		ccache_zero_all($this->link, $_SESSION["uid"]);
 	}
 
-	function collapse() {
-		$cat_id = db_escape_string($_REQUEST["cid"]);
-		$mode = (int) db_escape_string($_REQUEST['mode']);
-		toggle_collapse_cat($this->link, $cat_id, $mode);
-	}
-
 	function view() {
 		$timing_info = getmicrotime();
 

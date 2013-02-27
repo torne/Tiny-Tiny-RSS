@@ -3293,38 +3293,6 @@
 		return $str;
 	}
 
-	function toggle_collapse_cat($link, $cat_id, $mode) {
-		if ($cat_id > 0) {
-			$mode = bool_to_sql_bool($mode);
-
-			db_query($link, "UPDATE ttrss_feed_categories SET
-				collapsed = $mode WHERE id = '$cat_id' AND owner_uid = " .
-				$_SESSION["uid"]);
-		} else {
-			$pref_name = '';
-
-			switch ($cat_id) {
-			case -1:
-				$pref_name = '_COLLAPSED_SPECIAL';
-				break;
-			case -2:
-				$pref_name = '_COLLAPSED_LABELS';
-				break;
-			case 0:
-				$pref_name = '_COLLAPSED_UNCAT';
-				break;
-			}
-
-			if ($pref_name) {
-				if ($mode) {
-					set_pref($link, $pref_name, 'true');
-				} else {
-					set_pref($link, $pref_name, 'false');
-				}
-			}
-		}
-	}
-
 
 	function get_feed_category($link, $feed_cat, $parent_cat_id = false) {
 		if ($parent_cat_id) {

@@ -69,25 +69,7 @@ function updateFeedList() {
 		});
 
 		var tree = new fox.FeedTree({
-		persist: false,
 		model: treeModel,
-		onOpen: function (item, node) {
-			var id = String(item.id);
-			var cat_id = id.substr(id.indexOf(":")+1);
-
-			new Ajax.Request("backend.php",
-				{ parameters: "backend.php?op=feeds&method=collapse&cid=" +
-					param_escape(cat_id) + "&mode=0" } );
-	   },
-		onClose: function (item, node) {
-			var id = String(item.id);
-			var cat_id = id.substr(id.indexOf(":")+1);
-
-			new Ajax.Request("backend.php",
-				{ parameters: "backend.php?op=feeds&method=collapse&cid=" +
-					param_escape(cat_id) + "&mode=1" } );
-
-	   },
 		onClick: function (item, node) {
 			var id = String(item.id);
 			var is_cat = id.match("^CAT:");
@@ -118,8 +100,6 @@ function updateFeedList() {
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
-
-			tree.collapseHiddenCats();
 
 			feedlist_init();
 
