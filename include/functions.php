@@ -1859,6 +1859,8 @@
 				"prev_feed" => __("Open previous feed"),
 				"next_article" => __("Open next article"),
 				"prev_article" => __("Open previous article"),
+				"next_article_noscroll" => __("Open next article (don't scroll long articles)"),
+				"prev_article_noscroll" => __("Open previous article (don't scroll long articles)"),
 				"search_dialog" => __("Show search dialog")),
 			__("Article") => array(
 				"toggle_mark" => __("Toggle starred"),
@@ -1919,6 +1921,8 @@
 				"p" => "prev_article",
 				"(38)|up" => "prev_article",
 				"(40)|down" => "next_article",
+				"^(38)|Ctrl-up" => "prev_article_noscroll",
+				"^(40)|Ctrl-down" => "next_article_noscroll",
 				"(191)|/" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",

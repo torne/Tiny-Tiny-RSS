@@ -514,7 +514,7 @@ function togglePub(id, client_only, no_effects, note) {
 	}
 }
 
-function moveToPost(mode) {
+function moveToPost(mode, noscroll) {
 
 	try {
 
@@ -555,7 +555,7 @@ function moveToPost(mode) {
 					var article = $("RROW-" + active_post_id);
 					var ctr = $("headlines-frame");
 
-					if (article && article.offsetTop + article.offsetHeight >
+					if (!noscroll && article && article.offsetTop + article.offsetHeight >
 							ctr.scrollTop + ctr.offsetHeight) {
 
 						scrollArticle(ctr.offsetHeight/2);
@@ -580,9 +580,10 @@ function moveToPost(mode) {
 					var prev_article = $("RROW-" + prev_id);
 					var ctr = $("headlines-frame");
 
-					if (article && article.offsetTop < ctr.scrollTop) {
+					if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
 						scrollArticle(-ctr.offsetHeight/2);
-					} else if (prev_article && prev_article.offsetTop < ctr.scrollTop) {
+					} else if (!noscroll && prev_article &&
+							prev_article.offsetTop < ctr.scrollTop) {
 						cdmExpandArticle(prev_id);
 						scrollArticle(-ctr.offsetHeight/2);
 					} else if (prev_id) {
