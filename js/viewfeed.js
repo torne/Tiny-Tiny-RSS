@@ -1358,12 +1358,12 @@ function cdmExpandArticle(id) {
 			Element.hide("CEXC-" + id);
 		}
 
-		var new_offset = $("RROW-" + id).offsetTop;
+		/* var new_offset = $("RROW-" + id).offsetTop;
 
 		$("headlines-frame").scrollTop += (new_offset-old_offset);
 
 		if ($("RROW-" + id).offsetTop != old_offset)
-			$("headlines-frame").scrollTop = new_offset;
+			$("headlines-frame").scrollTop = new_offset; */
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
