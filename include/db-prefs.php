@@ -7,6 +7,41 @@
 			$_SESSION["prefs_cache"] = array();
 	}
 
+	function cache_prefs($link) {
+		$profile = false;
+
+		$user_id = $_SESSION["uid"];
+		@$profile = $_SESSION["profile"];
+
+		if ($profile) {
+			$profile_qpart = "profile = '$profile' AND";
+		} else {
+			$profile_qpart = "profile IS NULL AND";
+		}
+
+		if (get_schema_version($link) < 63) $profile_qpart = "";
+
+		$result = db_query($link, "SELECT
+			value,ttrss_prefs_types.type_name as type_name,ttrss_prefs.pref_name AS pref_name
+			FROM
+				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
+			WHERE
+				$profile_qpart
+				ttrss_prefs.pref_name NOT LIKE '_MOBILE%' AND
+				ttrss_prefs_types.id = type_id AND
+				owner_uid = '$user_id' AND
+				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name");
+
+		while ($line = db_fetch_assoc($result)) {
+			if ($user_id == $_SESSION["uid"]) {
+				$pref_name = $line["pref_name"];
+
+				$_SESSION["prefs_cache"][$pref_name]["type"] = $line["type_name"];
+				$_SESSION["prefs_cache"][$pref_name]["value"] = $line["value"];
+			}
+		}
+	}
+
 	function get_pref($link, $pref_name, $user_id = false, $die_on_error = false) {
 
 		$pref_name = db_escape_string($pref_name);

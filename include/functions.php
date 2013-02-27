@@ -740,6 +740,7 @@
 
 		if (SINGLE_USER_MODE) {
 			authenticate_user($link, "admin", null);
+			cache_prefs($link);
 			load_user_plugins($link, $_SESSION["uid"]);
 		} else {
 			if (!$_SESSION["uid"] || !validate_session($link)) {
@@ -764,6 +765,7 @@
 			}
 
 			if ($_SESSION["uid"]) {
+				cache_prefs($link);
 				load_user_plugins($link, $_SESSION["uid"]);
 			}
 		}
