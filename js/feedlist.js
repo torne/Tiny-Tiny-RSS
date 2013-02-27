@@ -234,7 +234,7 @@ function request_counters(force) {
 
 			var query = "?op=rpc&method=getAllCounters&seq=" + next_seq();
 
-			if (!force && Math.random() >= 0.5)
+			if (!force)
 				query = query + "&last_article_id=" + getInitParam("last_article_id");
 
 			console.log(query);

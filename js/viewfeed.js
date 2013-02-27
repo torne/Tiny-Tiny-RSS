@@ -325,7 +325,8 @@ function article_callback2(transport, id) {
 			Element.show(dijit.byId("net-alert").domNode);
 		}
 
-		request_counters();
+		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
+		request_counters(unread_in_buffer == 0);
 
 		headlines_scroll_handler($("headlines-frame"));
 
@@ -1550,7 +1551,8 @@ function cdmClicked(event, id) {
 			openArticleInNewWindow(id);
 		}
 
-		request_counters();
+		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
+		request_counters(unread_in_buffer == 0);
 
 	} catch (e) {
 		exception_error("cdmClicked");
