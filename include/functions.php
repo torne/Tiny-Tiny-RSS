@@ -478,11 +478,6 @@
 		print "</select>";
 	}
 
-	function getmicrotime() {
-		list($usec, $sec) = explode(" ",microtime());
-		return ((float)$usec + (float)$sec);
-	}
-
 	function print_radio($id, $default, $true_is, $values, $attributes = "") {
 		foreach ($values as $v) {
 
@@ -3065,7 +3060,7 @@
 	}
 
 	function print_checkpoint($n, $s) {
-		$ts = getmicrotime();
+		$ts = microtime(true);
 		echo sprintf("<!-- CP[$n] %.4f seconds -->", $ts - $s);
 		return $ts;
 	}
