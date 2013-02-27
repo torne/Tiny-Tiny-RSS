@@ -227,7 +227,7 @@ function request_counters(force) {
 		var date = new Date();
 		var timestamp = Math.round(date.getTime() / 1000);
 
-		if (force || timestamp - counters_last_request > 15) {
+		if (force || timestamp - counters_last_request > 5) {
 			console.log("scheduling request of counters...");
 
 			counters_last_request = timestamp;
