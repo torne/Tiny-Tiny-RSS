@@ -28,7 +28,7 @@
 
 	startup_gettext();
 
-	$script_started = getmicrotime();
+	$script_started = microtime(true);
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
