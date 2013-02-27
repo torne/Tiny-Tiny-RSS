@@ -2796,7 +2796,7 @@
 
 				$id = 'AUDIO-' . uniqid();
 
-				$entry .= "<audio id=\"$id\"\" controls>
+				$entry .= "<audio id=\"$id\"\" controls style='display : none'>
 					<source type=\"$ctype\" src=\"$url\"></source>
 					</audio>";
 
