@@ -247,6 +247,8 @@ class RPC extends Handler_Protected {
 
 		if ($last_article_id != getLastArticleId($this->link)) {
 			$reply['counters'] = getAllCounters($this->link);
+		} else {
+			$reply['counters'] = getVirtCounters($this->link);
 		}
 
 		$reply['runtime-info'] = make_runtime_info($this->link);
