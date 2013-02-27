@@ -1413,15 +1413,18 @@
 
 		$owner_uid = $_SESSION["uid"];
 
-		$result = db_query($link, "SELECT id, caption FROM ttrss_labels2
-			WHERE owner_uid = '$owner_uid'");
+		$result = db_query($link, "SELECT id,caption,COUNT(unread) AS unread
+			FROM ttrss_labels2 LEFT JOIN ttrss_user_labels2 ON
+				(ttrss_labels2.id = label_id)
+					LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND unread = true)
+			WHERE ttrss_labels2.owner_uid = $owner_uid GROUP BY ttrss_labels2.id");
 
 		while ($line = db_fetch_assoc($result)) {
 
 			$id = -$line["id"] - 11;
 
 			$label_name = $line["caption"];
-			$count = getFeedUnread($link, $id);
+			$count = $line["unread"];
 
 			$cv = array("id" => $id,
 				"counter" => (int) $count);
