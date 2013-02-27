@@ -23,16 +23,10 @@ class Backend extends Handler {
 		$imap = get_hotkeys_map($this->link);
 		$omap = array();
 
-		// :(
-		$tinycharmap = array(
-			"(9)" => "{TAB}",
-			"(191)" => "?");
-
 		foreach ($imap[1] as $sequence => $action) {
-			if (!isset($omap[$action])) {
-				$omap[$action] = isset($tinycharmap[$sequence]) ? $tinycharmap[$sequence] :
-					$sequence;
-			}
+			if (!isset($omap[$action])) $omap[$action] = array();
+
+			array_push($omap[$action], $sequence);
 		}
 
 		print "<ul class='helpKbList' id='helpKbList'>";
@@ -44,18 +38,21 @@ class Backend extends Handler {
 			print "<li><h3>" . $section . "</h3></li>";
 
 			foreach ($hotkeys as $action => $description) {
-				if (strpos($omap[$action], "|") !== FALSE) {
-					$omap[$action] = substr($omap[$action],
-						strpos($omap[$action], "|")+1,
-						strlen($omap[$action]));
+
+				foreach ($omap[$action] as $sequence) {
+					if (strpos($sequence, "|") !== FALSE) {
+						$sequence = substr($sequence,
+							strpos($sequence, "|")+1,
+							strlen($sequence));
+					}
+
+					print "<li>";
+				 	print "<span class='hksequence'>$sequence</span>";
+				  	print $description;
+					print "</li>";
+
 				}
-
-				print "<li>";
-			 	print "<span class='hksequence'>" . $omap[$action] . "</span>";
-			  	print $description;
-				print "</li>";
 			}
-
 		}
 
 		print "</ul>";
