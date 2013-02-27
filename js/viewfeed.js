@@ -1132,7 +1132,11 @@ function cdmScrollToArticleId(id) {
 
 		if (!e || !ctr) return;
 
-		ctr.scrollTop = e.offsetTop;
+		if (e.offsetTop+e.offsetHeight > (ctr.scrollTop+ctr.offsetHeight) ||
+				e.offsetTop < ctr.scrollTop) {
+
+			ctr.scrollTop = e.offsetTop;
+		}
 
 	} catch (e) {
 		exception_error("cdmScrollToArticleId", e);
