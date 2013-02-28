@@ -1921,8 +1921,8 @@
 				"p" => "prev_article",
 				"(38)|up" => "prev_article",
 				"(40)|down" => "next_article",
-				"^(38)|Ctrl-up" => "prev_article_noscroll",
-				"^(40)|Ctrl-down" => "next_article_noscroll",
+//				"^(38)|Ctrl-up" => "prev_article_noscroll",
+//				"^(40)|Ctrl-down" => "next_article_noscroll",
 				"(191)|/" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",
@@ -1970,6 +1970,11 @@
 				"c s" => "collapse_sidebar",
 				"^(191)|Ctrl+/" => "help_dialog",
 			);
+
+		if (get_pref($link, 'COMBINED_DISPLAY_MODE')) {
+			$hotkeys["^(38)|Ctrl-up"] = "prev_article_noscroll";
+			$hotkeys["^(40)|Ctrl-down"] = "next_article_noscroll";
+		}
 
 		global $pluginhost;
 		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_MAP) as $plugin) {
