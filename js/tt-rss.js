@@ -3,6 +3,8 @@ var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 var _widescreen_mode = false;
 var _rpc_seq = 0;
+var _active_feed_id = 0;
+var _active_feed_is_cat = false;
 
 function next_seq() {
 	_rpc_seq += 1;
@@ -14,12 +16,12 @@ function get_seq() {
 }
 
 function activeFeedIsCat() {
-	return hash_get('c') == "1";
+	return _active_feed_is_cat;
 }
 
 function getActiveFeedId() {
 	try {
-		return hash_get('f');
+		return _active_feed_id;
 	} catch (e) {
 		exception_error("getActiveFeedId", e);
 	}
@@ -29,6 +31,9 @@ function setActiveFeedId(id, is_cat) {
 	try {
 		hash_set('f', id);
 		hash_set('c', is_cat ? 1 : 0);
+
+		_active_feed_id = id;
+		_active_feed_is_cat = is_cat;
 
 		selectFeed(id, is_cat);
 	} catch (e) {
@@ -94,6 +99,13 @@ function updateFeedList() {
 		var tmph = dojo.connect(tree, 'onLoad', function() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
+
+			var hash_feed_id = hash_get('f');
+			var hash_feed_is_cat = hash_get('c') == "1";
+
+			if (hash_feed_id != undefined) {
+				setActiveFeedId(hash_feed_id, hash_feed_is_cat);
+			}
 
 			feedlist_init();
 
