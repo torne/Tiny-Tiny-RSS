@@ -862,7 +862,7 @@ class Feeds extends Handler_Protected {
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
 			$vgroup_last_feed, $override_order, true);
 
-		$topmost_article_ids = $ret[0];
+		//$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];
 		$returned_feed = $ret[2];
 		$disable_cache = $ret[3];
@@ -876,18 +876,6 @@ class Feeds extends Handler_Protected {
 		$reply['headlines-info'] = array("count" => (int) $headlines_count,
 						"vgroup_last_feed" => $vgroup_last_feed,
 						"disable_cache" => (bool) $disable_cache);
-
-		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("20", $timing_info);
-
-		if (is_array($topmost_article_ids) && !get_pref($this->link, 'COMBINED_DISPLAY_MODE') && !$_SESSION["bw_limit"]) {
-			$articles = array();
-
-			foreach ($topmost_article_ids as $id) {
-				array_push($articles, format_article($this->link, $id, false));
-			}
-
-			$reply['articles'] = $articles;
-		}
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("30", $timing_info);
 
