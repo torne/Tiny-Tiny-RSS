@@ -59,7 +59,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					is_cat || feed_id <= 0);
 
 			try {
-				if (offset == 0 && infscroll_req == false) {
+				if (infscroll_req == false) {
 					$("headlines-frame").scrollTop = 0;
 				}
 			} catch (e) { };
@@ -78,7 +78,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			var articles = reply['articles'];
 			//var runtime_info = reply['runtime-info'];
 
-			if (offset == 0 && infscroll_req == false) {
+			if (infscroll_req == false) {
 				loaded_article_ids = [];
 
 				dijit.byId("headlines-frame").attr('content',

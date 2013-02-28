@@ -204,11 +204,11 @@ function feedlist_init() {
 		document.onkeydown = hotkey_handler;
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
-		 if (!getActiveFeedId())
-			 viewfeed(-3);
-
-		console.log("T:" +
-				getInitParam("cdm_auto_catchup") + " " + getFeedUnread(-3));
+		if (!getActiveFeedId()) {
+			viewfeed(-3);
+		} else {
+ 			viewfeed(getActiveFeedId(), '', activeFeedIsCat());
+		}
 
 		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 

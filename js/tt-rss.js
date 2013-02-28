@@ -1,6 +1,4 @@
 var global_unread = -1;
-var _active_feed_id = undefined;
-var _active_feed_is_cat = false;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
 var _widescreen_mode = false;
@@ -16,13 +14,12 @@ function get_seq() {
 }
 
 function activeFeedIsCat() {
-	return _active_feed_is_cat;
+	return hash_get('c') == "1";
 }
 
 function getActiveFeedId() {
 	try {
-		//console.log("gAFID: " + _active_feed_id);
-		return _active_feed_id;
+		return hash_get('f');
 	} catch (e) {
 		exception_error("getActiveFeedId", e);
 	}
@@ -30,11 +27,8 @@ function getActiveFeedId() {
 
 function setActiveFeedId(id, is_cat) {
 	try {
-		_active_feed_id = id;
-
-		if (is_cat != undefined) {
-			_active_feed_is_cat = is_cat;
-		}
+		hash_set('f', id);
+		hash_set('c', is_cat ? 1 : 0);
 
 		selectFeed(id, is_cat);
 	} catch (e) {
@@ -946,5 +940,23 @@ function update_random_feed() {
 
 	} catch (e) {
 		exception_error("update_random_feed", e);
+	}
+}
+
+function hash_get(key) {
+	try {
+		kv = window.location.hash.substring(1).toQueryParams();
+		return kv[key];
+	} catch (e) {
+		exception_error("hash_set", e);
+	}
+}
+function hash_set(key, value) {
+	try {
+		kv = window.location.hash.substring(1).toQueryParams();
+		kv[key] = value;
+		window.location.hash = $H(kv).toQueryString();
+	} catch (e) {
+		exception_error("hash_set", e);
 	}
 }
