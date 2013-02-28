@@ -366,13 +366,9 @@ function toggleSelectRow2(sender, row, is_cdm) {
 }
 
 
-function toggleSelectRow(sender, row, is_cdm) {
+function toggleSelectRow(sender, row) {
 
-	if (!row)
-		if (!is_cdm)
-			row = sender.parentNode.parentNode;
-		else
-			row = sender.parentNode.parentNode.parentNode;
+	if (!row) row = sender.parentNode.parentNode;
 
 	if (sender.checked && !row.hasClassName('Selected'))
 		row.addClassName('Selected');

@@ -162,7 +162,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					initHeadlinesMenu();
 
 					new_elems.each(function(child) {
-						if (!$("RCHK-" + child.id.replace("RROW-", "RCHK-"))) {
+						var cb = dijit.byId(child.id.replace("RROW-", "RCHK-"));
+
+						if (!cb) {
+							dojo.parser.parse(child);
+
 							if (!Element.visible(child))
 								new Effect.Appear(child, { duration : 0.5 });
 						} else {
@@ -211,7 +215,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 		}
 
 		_infscroll_request_sent = 0;
-
 
 		notify("");
 
@@ -602,16 +605,16 @@ function moveToPost(mode, noscroll) {
 function toggleSelected(id, force_on) {
 	try {
 
-		var cb = $("RCHK-" + id);
+		var cb = dijit.byId("RCHK-" + id);
 		var row = $("RROW-" + id);
 
 		if (row) {
 			if (row.hasClassName('Selected') && !force_on) {
 				row.removeClassName('Selected');
-				if (cb) cb.checked = false;
+				if (cb) cb.attr("checked", false);
 			} else {
 				row.addClassName('Selected');
-				if (cb) cb.checked = true;
+				if (cb) cb.attr("checked", true);
 			}
 		}
 	} catch (e) {
@@ -897,52 +900,52 @@ function selectArticles(mode) {
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
-			var cb = $("RCHK-" + id);
+			var cb = dijit.byId("RCHK-" + id);
 
 			if (mode == "all") {
 				child.addClassName("Selected");
-				if (cb) cb.checked= true;
+				if (cb) cb.attr("checked", true);
 			} else if (mode == "unread") {
 				if (child.hasClassName("Unread")) {
 					child.addClassName("Selected");
-					if (cb) cb.checked = true;
+					if (cb) cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					if (cb) cb.checked = false;
+					if (cb) cb.attr("checked", false);
 				}
 			} else if (mode == "marked") {
 				var img = $("FMPIC-" + child.id.replace("RROW-", ""));
 
 				if (img && img.src.match("mark_set")) {
 					child.addClassName("Selected");
-					if (cb) cb.checked = true;
+					if (cb) cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					if (cb) cb.checked = false;
+					if (cb) cb.attr("checked", false);
 				}
 			} else if (mode == "published") {
 				var img = $("FPPIC-" + child.id.replace("RROW-", ""));
 
 				if (img && img.src.match("pub_set")) {
 					child.addClassName("Selected");
-					if (cb) cb.checked = true;
+					if (cb) cb.attr("checked", true);
 				} else {
 					child.removeClassName("Selected");
-					if (cb) cb.checked = false;
+					if (cb) cb.attr("checked", false);
 				}
 
 			} else if (mode == "invert") {
 				if (child.hasClassName("Selected")) {
 					child.removeClassName("Selected");
-					if (cb) cb.checked = false;
+					if (cb) cb.attr("checked", false);
 				} else {
 					child.addClassName("Selected");
-					if (cb) cb.checked = true;
+					if (cb) cb.attr("checked", true);
 				}
 
 			} else {
 				child.removeClassName("Selected");
-				if (cb) cb.checked = false;
+				if (cb) cb.attr("checked", false);
 			}
 		});
 
@@ -1633,10 +1636,10 @@ function isCdmMode() {
 function markHeadline(id) {
 	var row = $("RROW-" + id);
 	if (row) {
-		var check = $("RCHK-" + id);
+		var check = dijit.byId("RCHK-" + id);
 
 		if (check) {
-			check.checked = true;
+			check.attr("checked", true);
 		}
 
 		row.addClassName("Selected");
