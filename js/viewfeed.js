@@ -1,6 +1,6 @@
-var active_post_id = false;
-
 var article_cache = new Array();
+
+var _active_article_id = 0;
 
 var vgroup_last_feed = false;
 var post_under_pointer = false;
@@ -303,7 +303,7 @@ function article_callback2(transport, id) {
 		if (reply) {
 
 			reply.each(function(article) {
-				if (active_post_id == article['id']) {
+				if (getActiveArticleId() == article['id']) {
 					render_article(article['content']);
 				}
 				cids_requested.remove(article['id']);
@@ -382,7 +382,7 @@ function view(id) {
 
 		var article_is_unread = crow.hasClassName("Unread");
 
-		active_post_id = id;
+		setActiveArticleId(id);
 		showArticleInHeadlines(id);
 
 		precache_headlines();
@@ -523,22 +523,22 @@ function moveToPost(mode, noscroll) {
 		var prev_id = false;
 		var next_id = false;
 
-		if (!$('RROW-' + active_post_id)) {
-			active_post_id = false;
+		if (!$('RROW-' + getActiveArticleId())) {
+			setActiveArticleId(0);
 		}
 
-		if (active_post_id == false) {
+		if (!getActiveArticleId()) {
 			next_id = rows[0];
 			prev_id = rows[rows.length-1]
 		} else {
 			for (var i = 0; i < rows.length; i++) {
-				if (rows[i] == active_post_id) {
+				if (rows[i] == getActiveArticleId()) {
 
 					// Account for adjacent identical article ids.
 					if (i > 0) prev_id = rows[i-1];
 
 					for (var j = i+1; j < rows.length; j++) {
-						if (rows[j] != active_post_id) {
+						if (rows[j] != getActiveArticleId()) {
 							next_id = rows[j];
 							break;
 						}
@@ -549,10 +549,10 @@ function moveToPost(mode, noscroll) {
 		}
 
 		if (mode == "next") {
-		 	if (next_id || active_post_id) {
+		 	if (next_id || getActiveArticleId()) {
 				if (isCdmMode()) {
 
-					var article = $("RROW-" + active_post_id);
+					var article = $("RROW-" + getActiveArticleId());
 					var ctr = $("headlines-frame");
 
 					if (!noscroll && article && article.offsetTop + article.offsetHeight >
@@ -562,7 +562,7 @@ function moveToPost(mode, noscroll) {
 
 					} else if (next_id) {
 						cdmExpandArticle(next_id);
-						cdmScrollToArticleId(next_id);
+						cdmScrollToArticleId(next_id, noscroll);
 					}
 
 				} else if (next_id) {
@@ -573,10 +573,10 @@ function moveToPost(mode, noscroll) {
 		}
 
 		if (mode == "prev") {
-			if (prev_id || active_post_id) {
+			if (prev_id || getActiveArticleId()) {
 				if (isCdmMode()) {
 
-					var article = $("RROW-" + active_post_id);
+					var article = $("RROW-" + getActiveArticleId());
 					var prev_article = $("RROW-" + prev_id);
 					var ctr = $("headlines-frame");
 
@@ -588,7 +588,7 @@ function moveToPost(mode, noscroll) {
 						scrollArticle(-ctr.offsetHeight/2);
 					} else if (prev_id) {
 						cdmExpandArticle(prev_id);
-						cdmScrollToArticleId(prev_id);
+						cdmScrollToArticleId(prev_id, noscroll);
 					}
 				} else if (prev_id) {
 					correctHeadlinesOffset(prev_id);
@@ -1148,16 +1148,15 @@ function editArticleTags(id) {
 
 }
 
-function cdmScrollToArticleId(id) {
+function cdmScrollToArticleId(id, force) {
 	try {
 		var ctr = $("headlines-frame");
 		var e = $("RROW-" + id);
 
 		if (!e || !ctr) return;
 
-		if (e.offsetTop+e.offsetHeight > (ctr.scrollTop+ctr.offsetHeight) ||
+		if (force || e.offsetTop+e.offsetHeight > (ctr.scrollTop+ctr.offsetHeight) ||
 				e.offsetTop < ctr.scrollTop) {
-
 			ctr.scrollTop = e.offsetTop;
 		}
 
@@ -1166,8 +1165,12 @@ function cdmScrollToArticleId(id) {
 	}
 }
 
+function setActiveArticleId(id) {
+	_active_article_id = id;
+}
+
 function getActiveArticleId() {
-	return active_post_id;
+	return _active_article_id;
 }
 
 function postMouseIn(id) {
@@ -1335,21 +1338,21 @@ function cdmExpandArticle(id) {
 
 		hideAuxDlg();
 
-		var elem = $("CICD-" + active_post_id);
+		var elem = $("CICD-" + getActiveArticleId());
 
-		if (id == active_post_id && Element.visible(elem))
+		if (id == getActiveArticleId() && Element.visible(elem))
 			return true;
 
 		selectArticles("none");
 
 		var old_offset = $("RROW-" + id).offsetTop;
 
-		if (active_post_id && elem && !getInitParam("cdm_expanded")) {
+		if (getActiveArticleId() && elem && !getInitParam("cdm_expanded")) {
 		  	Element.hide(elem);
-			Element.show("CEXC-" + active_post_id);
+			Element.show("CEXC-" + getActiveArticleId());
 		}
 
-		active_post_id = id;
+		setActiveArticleId(id);
 
 		elem = $("CICD-" + id);
 
@@ -1445,7 +1448,9 @@ function dismissArticle(id) {
 
 		new Effect.Fade(elem, {duration : 0.5});
 
-		active_post_id = false;
+		if (id == getActiveArticleId()) {
+			setActiveArticleId(0);
+		}
 
 	} catch (e) {
 		exception_error("dismissArticle", e);
@@ -1463,7 +1468,7 @@ function dismissSelectedArticles() {
 			var elem = $("RROW-" + ids[i]);
 
 			if (elem.className && elem.hasClassName("Selected") &&
-					ids[i] != active_post_id) {
+					ids[i] != getActiveArticleId()) {
 				new Effect.Fade(elem, {duration : 0.5});
 				sel.push(ids[i]);
 			} else {
@@ -1545,7 +1550,7 @@ function cdmClicked(event, id) {
 				if (elem)
 					elem.removeClassName("Unread");
 
-				active_post_id = id;
+				setActiveArticleId(id);
 
 				if (article_is_unread) {
 					decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());

@@ -1205,7 +1205,7 @@ function quickAddFilter() {
 			var lh = dojo.connect(dialog, "onLoad", function(){
 				dojo.disconnect(lh);
 
-				var title = $("PTITLE-FULL-" + active_post_id);
+				var title = $("PTITLE-FULL-" + getActiveArticleId());
 
 				if (title || getActiveFeedId() || activeFeedIsCat()) {
 					if (title) title = title.innerHTML;

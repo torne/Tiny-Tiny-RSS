@@ -111,7 +111,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			_viewfeed_last = get_timestamp();
 
 			if (getActiveFeedId() != feed || offset == 0) {
-				active_post_id = 0;
+				setActiveArticleId(0);
 				_infscroll_disable = 0;
 			}
 
