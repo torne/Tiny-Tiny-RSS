@@ -604,6 +604,12 @@ function hotkey_handler(e) {
 		case "prev_article":
 			moveToPost('prev');
 			return false;
+		case "next_article_noscroll":
+			moveToPost('next', true);
+			return false;
+		case "prev_article_noscroll":
+			moveToPost('prev', true);
+			return false;
 		case "search_dialog":
 			search();
 			return ;

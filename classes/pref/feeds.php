@@ -437,6 +437,8 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function uploadicon() {
+		header("Content-type: text/html");
+
 		$icon_file = $_FILES['icon_file']['tmp_name'];
 		$feed_id = db_escape_string($_REQUEST["feed_id"]);
 

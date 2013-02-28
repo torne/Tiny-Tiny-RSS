@@ -824,7 +824,10 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function setplugins() {
-		$plugins = join(",", $_REQUEST["plugins"]);
+		if (is_array($_REQUEST["plugins"]))
+			$plugins = join(",", $_REQUEST["plugins"]);
+		else
+			$plugins = "";
 
 		set_pref($this->link, "_ENABLED_PLUGINS", $plugins);
 	}

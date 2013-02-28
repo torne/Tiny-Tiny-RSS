@@ -152,7 +152,7 @@ class Feeds extends Handler_Protected {
 
 		$reply = array();
 
-		$timing_info = getmicrotime();
+		$timing_info = microtime(true);
 
 		$topmost_article_ids = array();
 
@@ -750,7 +750,7 @@ class Feeds extends Handler_Protected {
 	}
 
 	function view() {
-		$timing_info = getmicrotime();
+		$timing_info = microtime(true);
 
 		$reply = array();
 
