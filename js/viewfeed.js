@@ -1541,7 +1541,7 @@ function cdmClicked(event, id) {
 						handle_rpc_json(transport);
 					} });
 
-				return true;
+				return !event.shiftKey;
 			}
 
 		} else {
