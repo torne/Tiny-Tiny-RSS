@@ -100,13 +100,6 @@ function updateFeedList() {
 	   	dojo.disconnect(tmph);
 			Element.hide("feedlistLoading");
 
-			var hash_feed_id = hash_get('f');
-			var hash_feed_is_cat = hash_get('c') == "1";
-
-			if (hash_feed_id != undefined) {
-				setActiveFeedId(hash_feed_id, hash_feed_is_cat);
-			}
-
 			feedlist_init();
 
 //			var node = dijit.byId("feedTree")._itemNodesMap['FEED:-2'][0].domNode
@@ -289,6 +282,13 @@ function init_second_stage() {
 			getInitParam("default_view_order_by"));
 
 		feeds_sort_by_unread = getInitParam("feeds_sort_by_unread") == 1;
+
+		var hash_feed_id = hash_get('f');
+		var hash_feed_is_cat = hash_get('c') == "1";
+
+		if (hash_feed_id != undefined) {
+			setActiveFeedId(hash_feed_id, hash_feed_is_cat);
+		}
 
 		loading_set_progress(30);
 
