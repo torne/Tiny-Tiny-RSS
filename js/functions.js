@@ -1274,6 +1274,8 @@ function unsubscribeFeed(feed_id, title) {
 					} else {
 						if (feed_id == getActiveFeedId())
 							setTimeout("viewfeed(-5)", 100);
+
+						if (feed_id < 0) updateFeedList();
 					}
 
 				} });
