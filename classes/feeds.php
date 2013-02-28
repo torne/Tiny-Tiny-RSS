@@ -581,6 +581,13 @@ class Feeds extends Handler_Protected {
 						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
+					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
+					if ($line['note']) {
+						$reply['content'] .= format_article_note($id, $line['note']);
+					}
+					$reply['content'] .= "</div>";
+
+
 					$reply['content'] .= "<div class=\"cdmContentInner\">";
 
 			if ($line["orig_feed_id"]) {
@@ -615,12 +622,6 @@ class Feeds extends Handler_Protected {
 					if ($cache_content && $line["cached_content"] != "") {
 						$line["content_preview"] =& $line["cached_content"];
 					}
-
-					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
-					if ($line['note']) {
-						$reply['content'] .= format_article_note($id, $line['note']);
-					}
-					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
 					$reply['content'] .= $line["content"];
