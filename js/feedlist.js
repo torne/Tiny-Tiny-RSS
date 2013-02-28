@@ -66,45 +66,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 		last_requested_article = 0;
 
-		var cached_headlines = false;
-
-		if (feed == getActiveFeedId() && activeFeedIsCat() == is_cat) {
-			cache_delete("feed:" + feed + ":" + is_cat);
-		} else {
-			cached_headlines = cache_get("feed:" + feed + ":" + is_cat);
-
+		if (feed != getActiveFeedId() || activeFeedIsCat() != is_cat) {
 			if (!background && _search_query) _search_query = false;
-
-			// switching to a different feed, we might as well catchup stuff visible
-			// in headlines buffer (if any)
-			// disabled for now because this behavior is considered confusing -fox
-			/* if (!background && isCdmMode() && getInitParam("cdm_auto_catchup") == 1 && parseInt(getActiveFeedId()) > 0) {
-
-				$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
-					function(child) {
-						var hf = $("headlines-frame");
-
-						if (hf.scrollTop + hf.offsetHeight >=
-								child.offsetTop + child.offsetHeight) {
-
-							var id = child.id.replace("RROW-", "");
-
-							if (catchup_id_batch.indexOf(id) == -1)
-								catchup_id_batch.push(id);
-
-						}
-
-						if (catchup_id_batch.length > 0) {
-							window.clearTimeout(catchup_timeout_id);
-
-							if (!_infscroll_request_sent) {
-								catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
-									2000);
-							}
-						}
-
-					});
-			} */
 		}
 
 		if (!background) {
@@ -113,15 +76,6 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			if (getActiveFeedId() != feed || offset == 0) {
 				setActiveArticleId(0);
 				_infscroll_disable = 0;
-			}
-
-			if (!offset && !method && cached_headlines && !background) {
-				try {
-					render_local_headlines(feed, is_cat, JSON.parse(cached_headlines));
-					return;
-				} catch (e) {
-					console.warn("render_local_headlines failed: " + e);
-				}
 			}
 
 			if (offset != 0 && !method) {
@@ -214,7 +168,6 @@ function feedlist_init() {
 
 		request_counters(true);
 		timeout();
-		setTimeout("precache_headlines_idle()", 15000);
 
 	} catch (e) {
 		exception_error("feedlist/init", e);
@@ -303,8 +256,6 @@ function parse_counters(elems, scheduled_call) {
 
 			if (getFeedUnread(id, (kind == "cat")) != ctr ||
 					(kind == "cat")) {
-
-				cache_delete("feed:" + id + ":" + (kind == "cat"));
 			}
 
 			setFeedUnread(id, (kind == "cat"), ctr);
@@ -562,8 +513,6 @@ function decrementFeedCounter(feed, is_cat) {
 				}
 			}
 		}
-
-		cache_delete("feed:" + feed + ":" + is_cat);
 
 	} catch (e) {
 		exception_error("decrement_feed_counter", e);
