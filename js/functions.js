@@ -351,9 +351,13 @@ function toggleSelectListRow2(sender) {
 }
 
 /* this is for dijit Checkbox */
-function toggleSelectRow2(sender, row) {
+function toggleSelectRow2(sender, row, is_cdm) {
 
-	if (!row) row = sender.domNode.parentNode.parentNode;
+	if (!row)
+		if (!is_cdm)
+			row = sender.domNode.parentNode.parentNode;
+		else
+			row = sender.domNode.parentNode.parentNode.parentNode; // oh ffs
 
 	if (sender.checked && !row.hasClassName('Selected'))
 		row.addClassName('Selected');
