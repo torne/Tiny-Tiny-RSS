@@ -737,9 +737,9 @@ function hotkey_handler(e) {
 		case "select_article_cursor":
 			var id = getArticleUnderPointer();
 			if (id) {
-				var cb = dijit.byId("RCHK-" + id);
+				var cb = $("RCHK-" + id)
 				if (cb) {
-					cb.attr("checked", !cb.attr("checked"));
+					cb.checked = !cb.checked;
 					toggleSelectRowById(cb, "RROW-" + id);
 					return false;
 				}
