@@ -388,16 +388,6 @@ a.helpLink:hover {
 	color : #4684ff;
 }
 
-#content-insert pre, #headlines-frame pre, .dijitContentPane pre {
-	margin : 0px 0px 0px 1em;
-	padding : 0px;
-	font-family : monospace;
-	font-size : 12px;
-	background : transparent;
-	border-width : 0px;
-	color : gray;
-}
-
 #content-insert blockquote, #headlines-frame blockquote, .dijitContentPane blockquote {
 	margin : 5px 0px 5px 0px;
 	padding : 10px;
@@ -409,13 +399,29 @@ a.helpLink:hover {
 }
 
 #content-insert code, #headlines-frame code, .dijitContentPane code {
-	background : transparent;
-	border : 0px solid transparent;
-	margin : 0px;
+	margin : 5px 0px 5px 0px;
+	padding : 10px;
+	color : #009900;
 	font-family : monospace;
-	padding : 0px;
 	font-size : 12px;
-	color : black;
+	border-width : 0px;
+	border-color : #c0e0c0;
+	border-style : solid;
+	background : #fafafa;
+	display : block;
+}
+
+#content-insert pre, #headlines-frame pre, .dijitContentPane pre {
+	margin : 5px 0px 5px 0px;
+	padding : 10px;
+	color : gray;
+	font-family : monospace;
+	font-size : 12px;
+	border-width : 0px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	background : #fafafa;
+	display : block;
 }
 
 div.notice {
