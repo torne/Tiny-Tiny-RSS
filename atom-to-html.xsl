@@ -21,13 +21,13 @@
 
 		<div class="rss">
 
-		<img class="feedicon" src="images/feed-icon-64x64.png" alt="feed icon"/>
+		<img class="feedicon" src="images/pub_set.svg" style="width : 64px; height : 64px;" 
+			alt="feed icon"/>
 
 		<h1><xsl:value-of select="atom:title"/></h1>
 
 		<p class="description">This feed has been exported from
 			<a target="_new" class="extlink" href="http://tt-rss.org">Tiny Tiny RSS</a>.
-		   You need a news reader software to subscribe to it.
 			It contains the following items:</p>
 
 		<xsl:for-each select="atom:entry">
