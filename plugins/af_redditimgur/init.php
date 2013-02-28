@@ -55,9 +55,9 @@ class Af_RedditImgur extends Plugin {
 						$article["plugin_data"] = "redditimgur,$owner_uid:" . $article["plugin_data"];
 					}
 				}
+			} else if (isset($article["stored"]["content"])) {
+				$article["content"] = $article["stored"]["content"];
 			}
-		} else if (isset($article["stored"]["content"])) {
-			$article["content"] = $article["stored"]["content"];
 		}
 
 		return $article;
