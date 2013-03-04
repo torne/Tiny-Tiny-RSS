@@ -179,6 +179,10 @@
 
 		while ($line = db_fetch_assoc($result)) {
 			$articles_removed += purge_feed($link, $line["id"], 0, false);
+
+			db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE
+				id = " . $line["id"]);
+
 			++$feeds_purged;
 		}
 
