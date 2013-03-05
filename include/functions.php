@@ -1414,7 +1414,8 @@
 			FROM ttrss_labels2 LEFT JOIN ttrss_user_labels2 ON
 				(ttrss_labels2.id = label_id)
 					LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND unread = true)
-			WHERE ttrss_labels2.owner_uid = $owner_uid GROUP BY ttrss_labels2.id");
+				WHERE ttrss_labels2.owner_uid = $owner_uid GROUP BY ttrss_labels2.id,
+					ttrss_labels2.caption");
 
 		while ($line = db_fetch_assoc($result)) {
 
