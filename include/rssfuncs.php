@@ -238,8 +238,10 @@
 				_debug("update_rss_feed: unable to fetch: $fetch_last_error");
 			}
 
+			$error_escaped = db_escape_string($fetch_last_error);
+
 			db_query($link,
-				"UPDATE ttrss_feeds SET last_error = '$fetch_last_error',
+				"UPDATE ttrss_feeds SET last_error = '$error_escaped',
 					last_updated = NOW() WHERE id = '$feed'");
 
 			return;
