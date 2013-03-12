@@ -20,8 +20,10 @@ class Af_RedditImgur extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
+		$force = false;
+
 		if (strpos($article["link"], "reddit.com/r/") !== FALSE) {
-			if (strpos($article["plugin_data"], "redditimgur,$owner_uid:") === FALSE) {
+			if (strpos($article["plugin_data"], "redditimgur,$owner_uid:") === FALSE || $force) {
 				$doc = new DOMDocument();
 				@$doc->loadHTML($article["content"]);
 
@@ -91,6 +93,7 @@ class Af_RedditImgur extends Plugin {
 										foreach ($aentries as $aentry) {
 											$img = $doc->createElement('img');
 											$img->setAttribute("src", $aentry->getAttribute("href"));
+											$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 											$entry->parentNode->insertBefore($img, $entry);
 											$found = true;
 										}
@@ -111,7 +114,7 @@ class Af_RedditImgur extends Plugin {
 
 					if ($node && $found) {
 						$article["content"] = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
-						$article["plugin_data"] = "redditimgur,$owner_uid:" . $article["plugin_data"];
+						if (!$force) $article["plugin_data"] = "redditimgur,$owner_uid:" . $article["plugin_data"];
 					}
 				}
 			} else if (isset($article["stored"]["content"])) {
