@@ -29,6 +29,8 @@ class Af_RedditImgur extends Plugin {
 					$xpath = new DOMXPath($doc);
 					$entries = $xpath->query('(//a[@href]|//img[@src])');
 
+					$found = false;
+
 					foreach ($entries as $entry) {
 						if ($entry->hasAttribute("href")) {
 							if (preg_match("/\.(jpg|jpeg|gif|png)$/i", $entry->getAttribute("href"))) {
@@ -37,6 +39,37 @@ class Af_RedditImgur extends Plugin {
 								$img->setAttribute("src", $entry->getAttribute("href"));
 
 								$entry->parentNode->replaceChild($img, $entry);
+
+								$found = true;
+							}
+
+							// links to imgur pages
+							$matches = array();
+							if (preg_match("/^http:\/\/imgur.com\/([^\.]+$)/", $entry->getAttribute("href"), $matches)) {
+
+								$token = $matches[1];
+
+								$album_content = fetch_file_contents($entry->getAttribute("href"),
+									false, false, false, false, 10);
+
+								if ($album_content && $token) {
+									$adoc = new DOMDocument();
+									@$adoc->loadHTML($album_content);
+
+									if ($adoc) {
+										$axpath = new DOMXPath($adoc);
+										$aentries = $axpath->query('(//img[@src])');
+
+										foreach ($aentries as $aentry) {
+											if (preg_match("/^http:\/\/i.imgur.com\/$token\./", $aentry->getAttribute("src"))) {
+												$img = $doc->createElement('img');
+												$img->setAttribute("src", $aentry->getAttribute("src"));
+												$entry->parentNode->insertBefore($img, $entry);
+												$found = true;
+											}
+										}
+									}
+								}
 							}
 						}
 
@@ -50,7 +83,7 @@ class Af_RedditImgur extends Plugin {
 
 					$node = $doc->getElementsByTagName('body')->item(0);
 
-					if ($node) {
+					if ($node && $found) {
 						$article["content"] = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
 						$article["plugin_data"] = "redditimgur,$owner_uid:" . $article["plugin_data"];
 					}
